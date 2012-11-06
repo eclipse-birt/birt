@@ -15,8 +15,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
@@ -30,7 +31,7 @@ import org.eclipse.swt.widgets.Display;
 /**
  * Provides synchronizing between tree view and graphical views.
  */
-public class NonGEFSynchronizerWithTreeView implements IColleague
+public class NonGEFSynchronizerWithTreeView implements IMediatorColleague
 {
 
 	private AbstractTreeViewer viewer;
@@ -78,7 +79,9 @@ public class NonGEFSynchronizerWithTreeView implements IColleague
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ISelectionProvider#setSelection(org.eclipse.jface.viewers.ISelection)
+	 * @see
+	 * org.eclipse.jface.viewers.ISelectionProvider#setSelection(org.eclipse
+	 * .jface.viewers.ISelection)
 	 */
 	public void setSelection( ISelection selection )
 	{
@@ -92,7 +95,9 @@ public class NonGEFSynchronizerWithTreeView implements IColleague
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+	 * @see
+	 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
+	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
 	public void selectionChanged( SelectionChangedEvent event )
 	{
@@ -171,20 +176,29 @@ public class NonGEFSynchronizerWithTreeView implements IColleague
 		viewer = null;
 	}
 
+	public boolean isInterested( IMediatorRequest request )
+	{
+		return request instanceof ReportRequest;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 * @see
+	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
+	 * (
+	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
+	 * )
 	 */
-	public void performRequest( ReportRequest request )
+	public void performRequest( IMediatorRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
-			handleSelectionChange( request );
+			handleSelectionChange( (ReportRequest) request );
 		}
 		else if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 		{
-			handleCreateElement( request );
+			handleCreateElement( (ReportRequest) request );
 		}
 	}
 
@@ -197,15 +211,15 @@ public class NonGEFSynchronizerWithTreeView implements IColleague
 
 				public void run( )
 				{
-					
-					if (viewer.getControl( ).isDisposed( ))
+
+					if ( viewer.getControl( ).isDisposed( ) )
 					{
 						return;
 					}
 					viewer.refresh( );
 					StructuredSelection selection = new StructuredSelection( list );
 					viewer.setSelection( selection );
-					//fireSelectionChanged( selection );
+					// fireSelectionChanged( selection );
 				}
 
 			} );

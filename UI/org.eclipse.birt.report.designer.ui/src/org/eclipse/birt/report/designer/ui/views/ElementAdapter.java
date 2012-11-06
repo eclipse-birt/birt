@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.designer.ui.views;
 
 import org.eclipse.core.expressions.Expression;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 /**
@@ -45,6 +47,9 @@ public class ElementAdapter
 	 * Target adapter type.
 	 */
 	private Class adapterType;
+
+	private IConfigurationElement adapterConfig;
+
 	/**
 	 * Comment for <code>adapterInstance</code>
 	 */
@@ -60,7 +65,7 @@ public class ElementAdapter
 	/**
 	 * Adatper object instance.
 	 */
-	private Object adapter;
+	private Object cachedAdapter;
 
 	private Expression expression;
 
@@ -146,6 +151,11 @@ public class ElementAdapter
 		this.adapterInstance = adapterInstance;
 	}
 
+	public void setAdapterConfig( IConfigurationElement config )
+	{
+		this.adapterConfig = config;
+	}
+
 	public boolean isSingleton( )
 	{
 		return isSingleton;
@@ -170,14 +180,25 @@ public class ElementAdapter
 	// FIXME singleton, factory
 	public Object getAdater( Object adaptableObject )
 	{
-		if ( this.adapter != null && this.isSingleton )
+		if ( this.cachedAdapter != null && this.isSingleton )
 		{
-			return this.adapter;
+			return this.cachedAdapter;
 		}
 
 		if ( this.adapterInstance != null )
 		{
-			// TODO implement multi instance, now always singleton
+			if ( !isSingleton && adapterConfig != null )
+			{
+				try
+				{
+					return adapterConfig.createExecutableExtension( "class" ); //$NON-NLS-1$
+				}
+				catch ( CoreException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+
 			return this.adapterInstance;
 		}
 
@@ -196,7 +217,7 @@ public class ElementAdapter
 		if ( this.isSingleton )
 		{
 			// only when is singleton, we cache the instance
-			this.adapter = apt;
+			this.cachedAdapter = apt;
 		}
 
 		return apt;

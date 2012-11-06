@@ -108,7 +108,7 @@ public class BirtComp implements IScriptFunctionExecutor
 	 * @throws BirtException
 	 * @throws DataException
 	 */
-	private static int compare( Object obj1, Object obj2 ) throws BirtException
+	private static int compare( Object obj1, Object obj2, Collator collator) throws BirtException
 	{
 		if ( obj1 == null || obj2 == null )
 		{
@@ -138,8 +138,10 @@ public class BirtComp implements IScriptFunctionExecutor
 			{
 				if ( obj1 instanceof String )
 				{
-					return myCollator.compare( obj1, obj2 );
-				}
+					if ( collator == null )
+                        return ( (String)obj1 ).compareTo( (String)obj2 );
+					return compareAsString( obj1, obj2, collator );				
+				}				
 				else
 				{
 					return ( (Comparable) obj1 ).compareTo( obj2 );
@@ -148,7 +150,7 @@ public class BirtComp implements IScriptFunctionExecutor
 			// most judgements should end here
 			else
 			{
-				return myCollator.compare( obj1.toString( ), obj2.toString( ) );
+				return compareAsString( obj1, obj2, collator );
 			}
 		}
 		else if ( obj1 instanceof BigDecimal || obj2 instanceof BigDecimal )
@@ -193,9 +195,18 @@ public class BirtComp implements IScriptFunctionExecutor
 			else
 				object2 = DataTypeUtil.toString(obj2);
 			
-			return compare( object1, object2 );
+			return compare( object1, object2,collator );
 		}
 
+	}
+
+	private static int compareAsString( Object obj1, Object obj2, Collator comp )
+			throws BirtException
+	{
+		return comp == null ? DataTypeUtil.toString( obj1 )
+				.compareTo( DataTypeUtil.toString( obj2 ) )
+				: comp.compare( DataTypeUtil.toString( obj1 ),
+						DataTypeUtil.toString( obj2 ) );
 	}
 
 
@@ -437,6 +448,7 @@ public class BirtComp implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
+			Collator collator = (Collator) context.findProperty( "compare_locale" );
 			if ( args == null || args.length < 2 )
 				throw new IllegalArgumentException( MessageFormat.format( WRONG_ARGUMENT,
 						new Object[]{
@@ -447,7 +459,7 @@ public class BirtComp implements IScriptFunctionExecutor
 			{
 				try
 				{
-					if ( compare( args[0], args[i] ) == 0 )
+					if ( compare( args[0], args[i],collator ) == 0 )
 						return Boolean.TRUE;
 				}
 				catch ( Exception e )
@@ -463,7 +475,7 @@ public class BirtComp implements IScriptFunctionExecutor
 				{
 					try
 					{
-						if ( compare( args[0], objs[i] ) == 0 )
+						if ( compare( args[0], objs[i],collator ) == 0 )
 							return Boolean.TRUE;
 					}
 					catch ( Exception e )
@@ -497,6 +509,7 @@ public class BirtComp implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
+			Collator collator = (Collator) context.findProperty( "compare_locale" );
 			if ( args == null || args.length != 3 )
 				throw new IllegalArgumentException( MessageFormat.format( WRONG_ARGUMENT,
 						new Object[]{
@@ -505,22 +518,11 @@ public class BirtComp implements IScriptFunctionExecutor
 			
 			try
 			{
-				Object min, max;
-				if ( compare( args[1], args[2] ) <= 0 )
-				{
-					min = args[1];
-					max = args[2];
-				}
-				else
-				{
-					min = args[2];
-					max = args[1];
-				}
 				return this.mode
-						? Boolean.valueOf( compare( args[0], min ) >= 0
-								&& compare( args[0], max ) <= 0 )
-						: Boolean.valueOf( !( compare( args[0], min ) >= 0 && compare( args[0],
-								max ) <= 0 ) );
+						? Boolean.valueOf( compare( args[0], args[1],collator ) >= 0
+								&& compare( args[0], args[2],collator ) <= 0 )
+						: Boolean.valueOf( !( compare( args[0], args[1],collator ) >= 0 && compare( args[0],
+								args[2],collator ) <= 0 ) );
 			}
 			catch ( BirtException e )
 			{
@@ -604,6 +606,7 @@ public class BirtComp implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args, IScriptFunctionContext context  ) throws BirtException
 		{
+			Collator collator = (Collator) context.findProperty( "compare_locale" );
 			try
 			{
 				if ( this.mode == MODE_COMPARE_STRING )
@@ -644,11 +647,11 @@ public class BirtComp implements IScriptFunctionExecutor
 				switch ( this.mode )
 				{
 					case MODE_EQUAL :
-						return new Boolean( compare( args[0], args[1] ) == 0 );						
+						return new Boolean( compare( args[0], args[1],collator ) == 0 );						
 					case MODE_NOT_EQUAL :
 						try
 						{
-							return new Boolean( compare( args[0], args[1] ) != 0 );
+							return new Boolean( compare( args[0], args[1],collator ) != 0 );
 						}
 						catch( BirtException e )
 						{
@@ -658,13 +661,13 @@ public class BirtComp implements IScriptFunctionExecutor
 								return Boolean.FALSE;
 						}	
 					case MODE_GREATERTHAN :
-						return new Boolean( compare( args[0], args[1] ) > 0 );
+						return new Boolean( compare( args[0], args[1],collator ) > 0 );
 					case MODE_LESSTHAN :
-						return new Boolean( compare( args[0], args[1] ) < 0 );
+						return new Boolean( compare( args[0], args[1],collator ) < 0 );
 					case MODE_GREATEROREQUAL :
-						return new Boolean( compare( args[0], args[1] ) >= 0 );
+						return new Boolean( compare( args[0], args[1],collator ) >= 0 );
 					case MODE_LESSOREQUAL :
-						return new Boolean( compare( args[0], args[1] ) <= 0 );
+						return new Boolean( compare( args[0], args[1],collator ) <= 0 );
 					case MODE_LIKE :
 						if( args.length == 2 )
 						{

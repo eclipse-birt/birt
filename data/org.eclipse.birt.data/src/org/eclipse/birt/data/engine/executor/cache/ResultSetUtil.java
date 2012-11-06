@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.IPushedDownExpression;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.index.DataSetInMemoryStringIndex;
@@ -241,10 +242,17 @@ public class ResultSetUtil
 			{
 				IBinding binding = iter.next( );
 				dataSetColumnList = null;
+				
 				if( binding != null )
 				{
 					if( binding.getExpression( ) != null )
-						dataSetColumnList = ExpressionCompilerUtil.extractDataSetColumnExpression(  binding.getExpression( ) );
+					{
+						dataSetColumnList = ExpressionCompilerUtil.extractDataSetColumnExpression( binding.getExpression( ) );
+						if ( binding.getExpression( ) instanceof IPushedDownExpression )
+						{
+							dataSetColumnList.addAll( ExpressionCompilerUtil.extractDataSetColumnExpression( ((IPushedDownExpression)binding.getExpression( )).getOriginalExpression( ) ));
+						}
+					}
 					else
 						dataSetColumnList = ExpressionCompilerUtil.extractDataSetColumnExpression( getArgumentExpression( binding ) );
 				}

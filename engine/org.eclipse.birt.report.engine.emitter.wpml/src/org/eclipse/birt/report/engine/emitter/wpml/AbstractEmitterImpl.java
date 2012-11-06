@@ -911,11 +911,13 @@ public abstract class AbstractEmitterImpl
 			if ( tocObj != null )
 			{
 				String toc = tocObj.toString( );
+				String rgbcolor= content.getStyle( ).getBackgroundColor( );
+				String color=EmitterUtil.parseColor( rgbcolor );
 				toc = toc.trim( );
 
 				if ( !"".equals( toc ) )
 				{
-					wordWriter.writeTOC( toc, tocLevel, middleInline );
+					wordWriter.writeTOC( toc, color, tocLevel, middleInline );
 				}
 			}
 		}

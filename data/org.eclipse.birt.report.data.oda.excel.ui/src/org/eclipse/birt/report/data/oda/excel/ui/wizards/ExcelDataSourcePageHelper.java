@@ -43,6 +43,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
@@ -384,7 +385,11 @@ public class ExcelDataSourcePageHelper {
 		} else {
 			columnNameLineCheckBox.setSelection(false);
 			typeLineCheckBox.setSelection(false);
-			typeLineCheckBox.setEnabled(false);
+			Display.getCurrent().asyncExec(new Runnable() {
+	              public void run() {
+	                 typeLineCheckBox.setEnabled(false);
+	              }
+	        });
 		}
 
 		verifyFileLocation();

@@ -40,7 +40,7 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor#createModelEventInfoFactory()
 	 */
-	protected ModelEventInfoFactory createModelEventInfoFactory( )
+	protected IModelEventInfoFactory createModelEventInfoFactory( )
 	{
 		return new OutlineModelEventInfoFactory( );
 	}
@@ -49,7 +49,7 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 	 * OutlineModelEventInfoFactory
 	 */
 	private static class OutlineModelEventInfoFactory implements
-			ModelEventInfoFactory
+			IModelEventInfoFactory
 	{
 
 		/*
@@ -58,7 +58,7 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfoFactory#createModelEventInfo(org.eclipse.birt.report.model.api.DesignElementHandle,
 		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-		public ModelEventInfo createModelEventInfo( DesignElementHandle focus,
+		public IModelEventInfo createModelEventInfo( DesignElementHandle focus,
 				NotificationEvent ev )
 		{
 			switch ( ev.getEventType( ) )
@@ -90,7 +90,7 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 	}
 
 	/**
-	 * Process the content model event. OutlineContentModelEventInfo
+	 * OutlineContentModelEventInfo
 	 */
 	protected static class OutlineContentModelEventInfo extends ModelEventInfo
 	{
@@ -113,7 +113,7 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.eclipse.birt.report.model.api.DesignElementHandle,
 		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-		public boolean canAcceptModelEvent( ModelEventInfo info )
+		public boolean canAcceptModelEvent( IModelEventInfo info )
 		{
 			return false;
 		}
@@ -158,7 +158,7 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.eclipse.birt.report.model.api.DesignElementHandle,
 		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-		public boolean canAcceptModelEvent( ModelEventInfo info )
+		public boolean canAcceptModelEvent( IModelEventInfo info )
 		{
 			return info.getType( ) != NotificationEvent.CONTENT_EVENT;
 		}

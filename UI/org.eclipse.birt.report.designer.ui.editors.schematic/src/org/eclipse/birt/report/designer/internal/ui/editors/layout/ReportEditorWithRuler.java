@@ -13,10 +13,13 @@ package org.eclipse.birt.report.designer.internal.ui.editors.layout;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite;
 import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerProvider;
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.osgi.service.environment.Constants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -73,6 +76,9 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
 //		// bidi_hcg end
 //			rulerComp = new EditorRulerComposite( parent, SWT.NONE );
 		super.createGraphicalViewer( rulerComp );
+		if(Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) )){//Linux and Windows has different color behavior.Add OS judgment to set rulerCompsite background color.
+			rulerComp.setBackground(ColorManager.getColor(240, 240, 240));
+		}
 		rulerComp.setGraphicalViewer( (ScrollingGraphicalViewer) getGraphicalViewer( ), getModel( ) );
 
 		// addAction( new ToggleRulerVisibilityAction( getGraphicalViewer( ) ) {

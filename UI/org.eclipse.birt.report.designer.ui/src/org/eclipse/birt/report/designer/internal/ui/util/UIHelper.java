@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Image;
@@ -152,6 +152,22 @@ public final class UIHelper
 			}
 		}
 		return image;
+	}
+
+	public static ImageDescriptor getImageDescriptor( Bundle bundle, String path )
+	{
+		try
+		{
+			URL url = new URL( bundle.getEntry( "/" ), path ); //$NON-NLS-1$
+
+			return ImageDescriptor.createFromURL( url );
+		}
+		catch ( MalformedURLException e )
+		{
+			// ignore
+		}
+
+		return null;
 	}
 
 }

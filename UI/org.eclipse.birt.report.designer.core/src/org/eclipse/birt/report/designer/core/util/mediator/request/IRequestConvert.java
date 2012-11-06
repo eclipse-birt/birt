@@ -9,18 +9,11 @@
 
 package org.eclipse.birt.report.designer.core.util.mediator.request;
 
-import java.util.List;
-
-
 /**
  * Convert the selection list to model list
  * 
+ * @deprecated use {@link IRequestConverter} instead.
  */
-public interface IRequestConvert
+public interface IRequestConvert extends IRequestConverter
 {
-	 /**Convert the selection list to model list
-	 * @param list
-	 * @return
-	 */
-	List convertSelectionToModelLisr(List list);
 }

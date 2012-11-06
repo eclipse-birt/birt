@@ -157,7 +157,16 @@ public class BorderCanvas extends Canvas
 				continue;
 
 			if ( info.getColor( ) == null )
-				gc.setForeground( getDisplay( ).getSystemColor( SWT.COLOR_BLACK ) );
+			{
+				if ( info.getDefaultColor( ) != null )
+				{
+					gc.setForeground( ColorManager.getColor( info.getDefaultColor( ) ) );
+				}
+				else
+				{
+					gc.setForeground( getDisplay( ).getSystemColor( SWT.COLOR_BLACK ) );
+				}
+			}
 			else
 				gc.setForeground( ColorManager.getColor( info.getColor( ) ) );
 

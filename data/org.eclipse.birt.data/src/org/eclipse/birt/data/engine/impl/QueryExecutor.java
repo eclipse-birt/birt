@@ -26,6 +26,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -309,6 +310,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		// runtime is needed for each execute
 		dataSet = newDataSetRuntime( );
 		assert dataSet != null;	
+		initializeCollator( );
 		
 		//For cached data set, we need not execute any scripts.
 		loadFromCache = loadFromCache( );
@@ -348,6 +350,29 @@ public abstract class QueryExecutor implements IQueryExecutor
 					dataSet.getName( ) );
 		}
 		isPrepared = true;
+	}
+	
+	abstract protected String getDataSetName( );
+	
+	private void initializeCollator( ) throws DataException
+	{
+		if ( session != null )
+		{
+			IBaseDataSetDesign design = ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( getDataSetName( ) );
+			if ( design != null )
+			{
+				String nullOrdering = design.getNullsOrdering( );
+				Collator collator = design.getCompareLocale( ) == null ? null
+						: Collator.getInstance( design.getCompareLocale( ) );
+
+				dataSet.setCompareLocale( collator );
+				dataSet.setNullest( nullOrdering );
+
+				dataSet.getScriptScope( ).put( "compare_locale",
+						dataSet.getScriptScope( ),
+						collator );
+			}
+		}
 	}
 	
 	/**
@@ -564,7 +589,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 						dataType) );
 
 			}
-
+			
 			if ( opt.acceptGroupSorting( ) )
 			{
 				for ( int i = 0; i < groupSpecs.length; i++ )

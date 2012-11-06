@@ -93,6 +93,7 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			info.setStyle( getLocalStringValue( StyleHandle.BORDER_LEFT_STYLE_PROP ) );
 			info.setWidth( getLocalStringValue( StyleHandle.BORDER_LEFT_WIDTH_PROP ) );
 			info.setColor( convertToRGB( getLocalStringValue( StyleHandle.BORDER_LEFT_COLOR_PROP ) ) );
+			info.setDefaultColor( convertToRGB( getDefaultStringValue( StyleHandle.BORDER_LEFT_COLOR_PROP ) ) );
 		}
 		else if ( property.equals( StyleHandle.BORDER_RIGHT_STYLE_PROP ) )
 		{
@@ -100,6 +101,7 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			info.setStyle( getLocalStringValue( StyleHandle.BORDER_RIGHT_STYLE_PROP ) );
 			info.setWidth( getLocalStringValue( StyleHandle.BORDER_RIGHT_WIDTH_PROP ) );
 			info.setColor( convertToRGB( getLocalStringValue( StyleHandle.BORDER_RIGHT_COLOR_PROP ) ) );
+			info.setDefaultColor( convertToRGB( getDefaultStringValue( StyleHandle.BORDER_RIGHT_COLOR_PROP ) ) );
 		}
 		else if ( property.equals( StyleHandle.BORDER_TOP_STYLE_PROP ) )
 		{
@@ -107,6 +109,7 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			info.setStyle( getLocalStringValue( StyleHandle.BORDER_TOP_STYLE_PROP ) );
 			info.setWidth( getLocalStringValue( StyleHandle.BORDER_TOP_WIDTH_PROP ) );
 			info.setColor( convertToRGB( getLocalStringValue( StyleHandle.BORDER_TOP_COLOR_PROP ) ) );
+			info.setDefaultColor( convertToRGB( getDefaultStringValue( StyleHandle.BORDER_TOP_COLOR_PROP ) ) );
 		}
 		else if ( property.equals( StyleHandle.BORDER_BOTTOM_STYLE_PROP ) )
 		{
@@ -114,6 +117,7 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			info.setStyle( getLocalStringValue( StyleHandle.BORDER_BOTTOM_STYLE_PROP ) );
 			info.setWidth( getLocalStringValue( StyleHandle.BORDER_BOTTOM_WIDTH_PROP ) );
 			info.setColor( convertToRGB( getLocalStringValue( StyleHandle.BORDER_BOTTOM_COLOR_PROP ) ) );
+			info.setDefaultColor( convertToRGB( getDefaultStringValue( StyleHandle.BORDER_BOTTOM_COLOR_PROP ) ) );
 		}
 		return info;
 	}
@@ -195,10 +199,8 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 
 	}
 
-	
 	public String getProperty( )
 	{
 		return property;
 	}
-
 }

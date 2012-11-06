@@ -53,7 +53,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.IRelatedFileChangeRe
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
@@ -79,6 +79,7 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
@@ -130,12 +131,16 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -147,6 +152,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -177,6 +183,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.ILayoutExtension;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.osgi.framework.Bundle;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -505,7 +513,7 @@ public class UIUtil
 		}
 		catch ( Exception e )
 		{
-			//do nothing
+			// do nothing
 		}
 		if ( shell == null )
 		{
@@ -1243,8 +1251,9 @@ public class UIUtil
 	public static boolean includeLibrary( ModuleHandle moduleHandle,
 			String libraryPath ) throws DesignFileException, SemanticException
 	{
-		return includeLibrary(moduleHandle,libraryPath,false);
+		return includeLibrary( moduleHandle, libraryPath, false );
 	}
+
 	/**
 	 * Includes the library into within the given module.
 	 * 
@@ -1256,9 +1265,12 @@ public class UIUtil
 	 *         failed.
 	 */
 	public static boolean includeLibrary( ModuleHandle moduleHandle,
-			String libraryPath, boolean isDefault ) throws DesignFileException, SemanticException
+			String libraryPath, boolean isDefault ) throws DesignFileException,
+			SemanticException
 	{
-		String namespace = getLibraryNamespace( moduleHandle, libraryPath, isDefault );
+		String namespace = getLibraryNamespace( moduleHandle,
+				libraryPath,
+				isDefault );
 		if ( namespace != null )
 		{
 			// is a filesystem file.
@@ -1360,10 +1372,10 @@ public class UIUtil
 	 *         operator
 	 */
 	private static String getLibraryNamespace( ModuleHandle handle,
-			String libraryPath,boolean isDefault )
+			String libraryPath, boolean isDefault )
 	{
 		String namespace = getSimpleFileName( libraryPath ).split( "\\." )[0]; //$NON-NLS-1$
-		if (isDefault && handle.getLibrary( namespace ) != null)
+		if ( isDefault && handle.getLibrary( namespace ) != null )
 		{
 			return null;
 		}
@@ -1676,7 +1688,7 @@ public class UIUtil
 		return image;
 	}
 
-	public static ModelEventManager getModelEventManager( )
+	public static IModelEventManager getModelEventManager( )
 	{
 		IEditorPart input = null;
 
@@ -1688,6 +1700,7 @@ public class UIUtil
 				break;
 			}
 		}
+
 		if ( input == null )
 		{
 			IEditorPart part = getActiveEditor( true );
@@ -1698,10 +1711,15 @@ public class UIUtil
 		}
 
 		if ( input == null )
+		{
 			return null;
-		Object adapter = input.getAdapter( ModelEventManager.class );
-		if ( adapter != null && adapter instanceof ModelEventManager )
-			return (ModelEventManager) adapter;
+		}
+
+		Object adapter = input.getAdapter( IModelEventManager.class );
+		if ( adapter instanceof IModelEventManager )
+		{
+			return (IModelEventManager) adapter;
+		}
 		return null;
 	}
 
@@ -1795,8 +1813,8 @@ public class UIUtil
 		}
 		return false;
 	}
-	
-	public static String getClolumnHandleAlignment(ResultSetColumnHandle column)
+
+	public static String getClolumnHandleAlignment( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
@@ -1811,8 +1829,8 @@ public class UIUtil
 		}
 		return null;
 	}
-	
-	public static String getClolumnHandleHelpText(ResultSetColumnHandle column)
+
+	public static String getClolumnHandleHelpText( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
@@ -1849,9 +1867,10 @@ public class UIUtil
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Return the AnalysisColumn
+	 * 
 	 * @param column
 	 * @return
 	 */
@@ -2376,7 +2395,7 @@ public class UIUtil
 						DLG_REFERENCE_FOUND_TITLE,
 						referenceList );
 				dialog.setPreString( Messages.getFormattedString( "DefaultNodeProvider.Tree.Clients", new Object[]{DEUtil.getDisplayLabel( handle )} ) );//$NON-NLS-1$
-				
+
 				dialog.setSufString( Messages.getFormattedString( "DefaultNodeProvider.Dlg.Confirm", new Object[]{DEUtil.getDisplayLabel( handle )} ) );//$NON-NLS-1$
 				return dialog.open( ) != Dialog.CANCEL;
 			}
@@ -2902,17 +2921,20 @@ public class UIUtil
 
 		return dpi;
 	}
-	
-	/**Format the data type parameter display name
+
+	/**
+	 * Format the data type parameter display name
+	 * 
 	 * @param str
 	 * @param param
 	 * @return
 	 */
-	public static String formatData(Object str, AbstractScalarParameterHandle param)
+	public static String formatData( Object str,
+			AbstractScalarParameterHandle param )
 	{
 		DateFormatter formatter = new DateFormatter( );
 		String dataType = param.getDataType( );
-		
+
 		try
 		{
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( dataType ) )
@@ -2965,22 +2987,164 @@ public class UIUtil
 
 		return null;
 	}
-	/**Gets the object from the context through the key.If the value is a Object return null.
+
+	/**
+	 * Gets the object from the context through the key.If the value is a Object
+	 * return null.
+	 * 
 	 * @param context
 	 * @param key
 	 * @return
 	 */
-	public static Object getVariableFromContext(IEvaluationContext context, String key)
+	public static Object getVariableFromContext( IEvaluationContext context,
+			String key )
 	{
 		Object retValue = context.getVariable( key );
-		if (retValue == null)
+		if ( retValue == null )
 		{
 			return null;
 		}
-		if (retValue.getClass( ).getName( ).equals( "java.lang.Object" ))
+		if ( retValue.getClass( ).getName( ).equals( "java.lang.Object" ) )//$NON-NLS-1$
 		{
 			retValue = null;
 		}
 		return retValue;
+	}
+
+	public static TextAttribute getAttributeFor( String preferenceName )
+	{
+		String prefString = PreferenceFactory.getInstance( )
+				.getPreferences( ReportPlugin.getDefault( ) )
+				.getString( preferenceName );
+		String[] stylePrefs = ColorHelper.unpackStylePreferences( prefString );
+
+		Color fDefaultForeground = getEclipseEditorForeground( );
+		Color fDefaultBackground = getEclipseEditorBackground( );
+		TextAttribute ta = new TextAttribute( fDefaultForeground,
+				fDefaultBackground,
+				SWT.NORMAL );
+
+		if ( stylePrefs != null )
+		{
+			RGB foreground = ColorHelper.toRGB( stylePrefs[0] );
+			RGB background = ColorHelper.toRGB( stylePrefs[1] );
+
+			int fontModifier = SWT.NORMAL;
+
+			if ( stylePrefs.length > 2 )
+			{
+				boolean on = Boolean.valueOf( stylePrefs[2] ).booleanValue( );
+				if ( on )
+					fontModifier = fontModifier | SWT.BOLD;
+			}
+			if ( stylePrefs.length > 3 )
+			{
+				boolean on = Boolean.valueOf( stylePrefs[3] ).booleanValue( );
+				if ( on )
+					fontModifier = fontModifier | SWT.ITALIC;
+			}
+			if ( stylePrefs.length > 4 )
+			{
+				boolean on = Boolean.valueOf( stylePrefs[4] ).booleanValue( );
+				if ( on )
+					fontModifier = fontModifier | TextAttribute.STRIKETHROUGH;
+			}
+			if ( stylePrefs.length > 5 )
+			{
+				boolean on = Boolean.valueOf( stylePrefs[5] ).booleanValue( );
+				if ( on )
+					fontModifier = fontModifier | TextAttribute.UNDERLINE;
+			}
+
+			ta = new TextAttribute( ( foreground != null ) ? ColorManager.getColor( foreground )
+					: null,
+					( background != null ) ? ColorManager.getColor( background )
+							: null,
+					fontModifier );
+
+		}
+		return ta;
+	}
+
+	public static Color getEclipseEditorForeground( )
+	{
+		ScopedPreferenceStore preferenceStore = new ScopedPreferenceStore( new InstanceScope( ),
+				"org.eclipse.ui.editors" );//$NON-NLS-1$
+		Color color = null;
+		if ( preferenceStore != null )
+		{
+			color = preferenceStore.getBoolean( AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT ) ? null
+					: createColor( preferenceStore,
+							AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND,
+							Display.getCurrent( ) );
+		}
+		if ( color == null )
+		{
+			color = Display.getDefault( )
+					.getSystemColor( SWT.COLOR_LIST_FOREGROUND );
+		}
+		return color;
+	}
+
+	public static Color getEclipseEditorBackground( )
+	{
+		ScopedPreferenceStore preferenceStore = new ScopedPreferenceStore( new InstanceScope( ),
+				"org.eclipse.ui.editors" );//$NON-NLS-1$
+		Color color = null;
+		if ( preferenceStore != null )
+		{
+			color = preferenceStore.getBoolean( AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND_SYSTEM_DEFAULT ) ? null
+					: createColor( preferenceStore,
+							AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND,
+							Display.getCurrent( ) );
+		}
+		if ( color == null )
+		{
+			color = Display.getDefault( )
+					.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
+		}
+		return color;
+	}
+
+	public static Color createColor( IPreferenceStore store, String key,
+			Display display )
+	{
+		RGB rgb = null;
+		if ( store.contains( key ) )
+		{
+			if ( store.isDefault( key ) )
+			{
+				rgb = PreferenceConverter.getDefaultColor( store, key );
+			}
+			else
+			{
+				rgb = PreferenceConverter.getColor( store, key );
+			}
+			if ( rgb != null )
+			{
+				return new Color( display, rgb );
+			}
+		}
+		return null;
+	}
+	
+	public static String stripMnemonic( String string )
+	{
+		int index = 0;
+		int length = string.length( );
+		do
+		{
+			while ( ( index < length ) && ( string.charAt( index ) != '&' ) )
+				index++;
+			if ( ++index >= length )
+				return string;
+			if ( string.charAt( index ) != '&' )
+			{
+				return string.substring( 0, index - 1 )
+						+ string.substring( index, length );
+			}
+			index++;
+		} while ( index < length );
+		return string;
 	}
 }

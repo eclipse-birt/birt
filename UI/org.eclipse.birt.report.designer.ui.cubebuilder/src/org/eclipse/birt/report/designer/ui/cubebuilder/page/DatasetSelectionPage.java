@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
+import org.eclipse.birt.report.designer.core.mediator.MediatorManager;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -125,8 +127,8 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage
 		filterButton = new Button( container, SWT.PUSH );
 		filterButton.setText( Messages.getString( "DatasetPage.Button.Filter" ) ); //$NON-NLS-1$
 		data = new GridData( );
-		data.widthHint = Math.max( 60, filterButton.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT ).x );
+		data.widthHint = Math.max( 60,
+				filterButton.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x );
 		filterButton.setLayoutData( data );
 		filterButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -173,9 +175,9 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage
 			}
 
 		} );
-		
+
 		primaryKeyLabel = new Label( container, SWT.WRAP );
-		data = new GridData(SWT.FILL, SWT.NONE, false, false);
+		data = new GridData( SWT.FILL, SWT.NONE, false, false );
 		data.horizontalSpan = 2;
 		data.widthHint = 400;
 		primaryKeyLabel.setLayoutData( data );
@@ -194,9 +196,9 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage
 		} );
 
 		new Label( container, SWT.NONE );
-				
+
 		primaryKeyHint = new Label( container, SWT.WRAP );
-		data = new GridData(SWT.FILL, SWT.NONE, false, false);
+		data = new GridData( SWT.FILL, SWT.NONE, false, false );
 		data.horizontalSpan = 3;
 		data.widthHint = 400;
 		primaryKeyHint.setLayoutData( data );
@@ -204,9 +206,10 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage
 		primaryKeyHint.setForeground( ColorManager.getColor( 128, 128, 128 ) );
 
 		FontData fontData = primaryKeyHint.getFont( ).getFontData( )[0];
-		Font font = new Font( parent.getDisplay( ), new FontData( fontData.getName( ),
-				fontData.getHeight( ),
-				SWT.ITALIC ) );
+		Font font = new Font( parent.getDisplay( ),
+				new FontData( fontData.getName( ),
+						fontData.getHeight( ),
+						SWT.ITALIC ) );
 		primaryKeyHint.setFont( font );
 
 		return container;
@@ -322,27 +325,29 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage
 		if ( NEW_DATA_SET.equals( datasetName ) )
 		{
 
-			IColleague colleague = new IColleague( ) {
+			IMediatorColleague colleague = new IMediatorColleague( ) {
 
-				public void performRequest( ReportRequest request )
+				public boolean isInterested( IMediatorRequest request )
 				{
-					handleRequest( request );
+					return request instanceof ReportRequest;
+				}
+
+				public void performRequest( IMediatorRequest request )
+				{
+					handleRequest( (ReportRequest) request );
 				}
 
 			};
 
-			SessionHandleAdapter.getInstance( )
-					.getMediator( )
-					.addGlobalColleague( colleague );
+			MediatorManager.addGlobalColleague( colleague );
 
 			dataSetCombo.removeAll( );
 			refresh( );
 
 			DataService.getInstance( ).createDataSet( );
 
-			SessionHandleAdapter.getInstance( )
-					.getMediator( )
-					.removeGlobalColleague( colleague );
+			MediatorManager.removeGlobalColleague( colleague );
+
 			return;
 		}
 		setDataset( datasetName );

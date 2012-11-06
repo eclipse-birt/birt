@@ -205,11 +205,13 @@ public class Statement implements IQuery
 				logger.log(Level.FINE, "Statement.setQueryTimeout failed", e);
 			}
 		}
-		else if (name.equals(ConnectionProfileProperty.PROFILE_NAME_PROP_KEY)
-				|| name.equals(ConnectionProfileProperty.PROFILE_STORE_FILE_PROP_KEY)
-				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY))
+		else if ( name.equals( ConnectionProfileProperty.PROFILE_NAME_PROP_KEY )
+				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PROP_KEY )
+				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY )
+				|| name.equals( "addListFile" ) )
 		{
 			//do nothing here. These are valid ODA properties. See Eclipse bug 176140
+			// Bypass Hive connection property addListFile.
 		}
 		else
 		{
