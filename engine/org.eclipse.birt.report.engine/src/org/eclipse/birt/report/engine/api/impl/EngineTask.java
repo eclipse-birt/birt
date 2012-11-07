@@ -1894,14 +1894,13 @@ public abstract class EngineTask implements IEngineTask
 			executionContext.loadScript( language, fileName );
 		}
 	}
-
-	protected void loadDesign( )
+	
+	protected void loadScripts( )
 	{
 		IReportRunnable runnable = executionContext.getRunnable( );
 		if ( runnable != null )
 		{
-			ReportDesignHandle reportDesign = executionContext
-					.getReportDesign( );
+			ReportDesignHandle reportDesign = executionContext.getReportDesign( );
 			if ( reportDesign != null )
 			{
 				// execute scripts defined in include-script element of the
@@ -1912,7 +1911,19 @@ public abstract class EngineTask implements IEngineTask
 				// report
 				iter = reportDesign.includeScriptsIterator( );
 				loadScript( iter );
+			}
+		}
+	}
 
+	protected void loadDesign( )
+	{
+		IReportRunnable runnable = executionContext.getRunnable( );
+		if ( runnable != null )
+		{
+			ReportDesignHandle reportDesign = executionContext
+					.getReportDesign( );
+			if ( reportDesign != null )
+			{
 				// Intialize the report
 				ReportScriptExecutor.handleInitialize( reportDesign,
 						executionContext );

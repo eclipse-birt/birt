@@ -90,6 +90,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 
 	void doRun( ) throws EngineException
 	{
+		loadScripts( );
 		// register default parameters and validate
 		doValidateParameters( );
 

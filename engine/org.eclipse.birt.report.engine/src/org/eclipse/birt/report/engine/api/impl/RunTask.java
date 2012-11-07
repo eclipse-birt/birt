@@ -210,6 +210,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			progressMonitor.onProgress( IProgressMonitor.START_TASK, TASK_RUN );
 		}
 		loadDataSource( );
+		loadScripts( );
 		doValidateParameters( );
 		ReportDesignHandle design = executionContext.getReportDesign( );
 		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
