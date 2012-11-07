@@ -199,6 +199,8 @@ public abstract class AbstractEmitterImpl
 
 	protected int reportDpi;
 
+	protected static final String EMPTY_FOOTER = " ";
+
 	public void initialize( IEmitterServices service ) throws EngineException
 	{
 		if ( service != null )
@@ -1226,11 +1228,12 @@ public abstract class AbstractEmitterImpl
 		String backgroundHeight = style.getBackgroundHeight( );
 		String backgroundWidth = style.getBackgroundWidth( );
 
+		SimpleMasterPageDesign master = (SimpleMasterPageDesign) previousPage
+				.getGenerateBy( );
+		
 		if ( previousPage.getPageHeader( ) != null || backgroundHeight != null
 				|| backgroundWidth != null )
 		{
-			SimpleMasterPageDesign master = (SimpleMasterPageDesign) previousPage
-					.getGenerateBy( );
 			wordWriter.startHeader( !master.isShowHeaderOnFirst( ) && previousPage.getPageNumber( ) == 1,
 					headerHeight, contentWidth );
 
@@ -1252,9 +1255,25 @@ public abstract class AbstractEmitterImpl
 		}
 		if ( previousPage.getPageFooter( ) != null )
 		{
-			wordWriter.startFooter( footerHeight, contentWidth );
-			contentVisitor.visitChildren( previousPage.getPageFooter( ), null );
-			wordWriter.endFooter( );
+			if ( !master.isShowFooterOnLast( )
+					&& previousPage.getPageNumber( ) == reportContent
+							.getTotalPage( ) )
+			{
+				IContent footer = previousPage.getPageFooter( );
+				ILabelContent emptyContent = footer.getReportContent( )
+						.createLabelContent( );
+				emptyContent.setText( this.EMPTY_FOOTER );
+				wordWriter.startFooter( footerHeight, contentWidth );
+				contentVisitor.visit( emptyContent, null );
+				wordWriter.endFooter( );
+			}
+			else
+			{
+				wordWriter.startFooter( footerHeight, contentWidth );
+				contentVisitor.visitChildren( previousPage.getPageFooter( ),
+						null );
+				wordWriter.endFooter( );
+			}
 		}
 	}
 
