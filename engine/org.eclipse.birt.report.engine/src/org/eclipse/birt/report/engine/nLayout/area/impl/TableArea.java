@@ -16,7 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
@@ -704,6 +707,34 @@ public class TableArea extends RepeatableArea
 		return new TableLayoutInfo( (ITableContent) content, context,
 				new ColumnWidthResolver( (ITableContent) content )
 						.resolveFixedLayout( parentMaxWidth - marginWidth ) );
+	}
+	
+	protected int getDimensionValue( IContent content, DimensionType d,
+			int referenceLength )
+	{
+		// compatibility process. For old report document render(engine version<=2.3.2), we use 72dpi.
+		ReportContent report = (ReportContent) content.getReportContent( );
+		ExecutionContext executionContext = report.getExecutionContext( );
+		if ( executionContext != null )
+		{
+			if ( executionContext.getTaskType( ) == IEngineTask.TASK_RENDER )
+			{
+				IReportDocument doc = executionContext.getReportDocument( );
+				if ( doc != null )
+				{
+					String version = doc
+							.getProperty( ReportDocumentConstants.BIRT_ENGINE_VERSION_KEY );
+					if ( version != null
+							&& version
+									.compareTo( ReportDocumentConstants.BIRT_ENGINE_VERSION_2_3_2 ) <= 0 )
+					{
+						return getDimensionValue( content, d, 72,
+								referenceLength );
+					}
+				}
+			}
+		}
+		return getDimensionValue( content, d, 0, referenceLength );
 	}
 
 	private class ColumnWidthResolver

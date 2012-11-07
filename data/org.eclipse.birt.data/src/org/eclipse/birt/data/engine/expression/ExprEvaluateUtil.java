@@ -254,7 +254,7 @@ public class ExprEvaluateUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	private static Object doEvaluateRawExpression( IBaseExpression dataExpr,
+	protected static Object doEvaluateRawExpression( IBaseExpression dataExpr,
 			Scriptable scope, boolean javaType, ScriptContext cx )
 			throws BirtException
 	{
@@ -693,7 +693,7 @@ public class ExprEvaluateUtil
 	 * 
 	 * @return
 	 */
-	private static Object[] flatternMultipleValues( Object[] values )
+	public static Object[] flatternMultipleValues( Object[] values )
 	{
 		if ( values == null || values.length == 0 )
 			return new Object[0];

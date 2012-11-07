@@ -144,9 +144,9 @@ public class FolderArchiveReader implements IDocArchiveReader
 	/**
 	 * return a list of strings which are the relative path of streams
 	 */
-	public List listStreams( String relativeStoragePath ) throws IOException
+	public List<String> listStreams( String relativeStoragePath ) throws IOException
 	{
-		ArrayList streamList = new ArrayList( );
+		ArrayList<String> streamList = new ArrayList<String>( );
 		String storagePath = ArchiveUtil.generateFullPath( folderName,
 				relativeStoragePath );
 		File dir = new File( storagePath );
@@ -175,15 +175,15 @@ public class FolderArchiveReader implements IDocArchiveReader
 		return streamList;
 	}
 
-	public List listAllStreams( ) throws IOException
+	public List<String> listAllStreams( ) throws IOException
 	{
-		ArrayList list = new ArrayList( );
+		ArrayList<File> list = new ArrayList<File>( );
 		ArchiveUtil.listAllFiles( new File( folderName ), list );
 
-		ArrayList streams = new ArrayList( );
+		ArrayList<String> streams = new ArrayList<String>( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			File file = (File) list.get( i );
+			File file = list.get( i );
 			String relativePath = ArchiveUtil.generateRelativePath( folderName,
 					file.getPath( ) );
 			if ( !ArchiveUtil.needSkip( relativePath ) )

@@ -72,7 +72,7 @@ public class CssCommand extends AbstractElementCommand
 
 	/**
 	 * Adds new css file to report design.
-	 * 
+	 * @deprecated
 	 * @param fileName
 	 *            css file name
 	 * @throws SemanticException
@@ -87,7 +87,26 @@ public class CssCommand extends AbstractElementCommand
 
 		addCss( cssStruct );
 	}
+	
+	/**
+	 * Adds new css file to report design.
+	 * 
+	 * @param fileName
+	 *            css file name
+	 * @throws SemanticException
+	 *             if failed to add <code>CssStyleSheet</code> structure
+	 */
 
+	public void addCssByProperties( String fileName, String externalCssURI, boolean isUseExternalCss ) throws SemanticException
+	{
+		IncludedCssStyleSheet cssStruct = StructureFactory
+				.createIncludedCssStyleSheet( );
+		cssStruct.setFileName( fileName );
+		cssStruct.setExternalCssURI( externalCssURI );
+		cssStruct.setUseExternalCss( isUseExternalCss );
+		addCss( cssStruct );
+	}
+	
 	/**
 	 * Adds new CSS structure to report design.
 	 * 
@@ -101,16 +120,31 @@ public class CssCommand extends AbstractElementCommand
 			throws SemanticException
 	{
 		String fileName = cssStruct.getFileName( );
-
 		CssStyleSheet sheet = null;
-		try
+		String externalCSSURI = cssStruct.getExternalCssURI( );
+		
+		if ( fileName == null
+				&& ( externalCSSURI != null || cssStruct.isUseExternalCss( ) ) )
 		{
-			sheet = module.loadCss( fileName );
+			sheet = new CssStyleSheet( );
+			if ( externalCSSURI != null )
+			{
+				sheet.setExternalCssURI( externalCSSURI );
+			}
+			sheet.setUseExternalCss( true );
+			sheet.setContainer( module );
 		}
-		catch ( StyleSheetException e )
+		else
 		{
-			throw ModelUtil.convertSheetExceptionToCssException( module,
-					cssStruct, fileName, e );
+			try
+			{
+				sheet = module.loadCss( fileName );
+			}
+			catch ( StyleSheetException e )
+			{
+				throw ModelUtil.convertSheetExceptionToCssException( module,
+						cssStruct, fileName, e );
+			}
 		}
 
 		doAddCssSheet( cssStruct, sheet, APPEND_POS );
@@ -133,15 +167,22 @@ public class CssCommand extends AbstractElementCommand
 		// must be absolute file path.
 
 		String fileName = sheet.getFileName( );
-		if ( getCssStyleSheetByLocation( fileName ) != null )
+		String externalCssURI = sheet.getExternalCssURI( );
+		boolean useExternalCss = sheet.isUseExternalCss( );
+		if ( fileName != null )
 		{
-			throw new CssException( module, new String[]{fileName},
-					CssException.DESIGN_EXCEPTION_DUPLICATE_CSS );
+			if ( getCssStyleSheetByProperties( fileName, externalCssURI, useExternalCss ) != null )
+			{
+				throw new CssException( module, new String[]{fileName},
+						CssException.DESIGN_EXCEPTION_DUPLICATE_CSS );
+			}
 		}
 
 		IncludedCssStyleSheet css = StructureFactory
 				.createIncludedCssStyleSheet( );
 		css.setFileName( sheet.getFileName( ) );
+		css.setExternalCssURI( sheet.getExternalCssURI( ) );
+		css.setUseExternalCss( sheet.isUseExternalCss( ) );
 
 		doAddCssSheet( css, sheet, APPEND_POS );
 	}
@@ -230,13 +271,10 @@ public class CssCommand extends AbstractElementCommand
 			return;
 
 		String fileName = sheet.getFileName( );
-		if ( fileName == null )
-			return;
 
 		// find position in css style sheets, position of include css style
 		// sheet is the same as css style sheet.
-
-		IncludedCssStyleSheet css = getIncludedCssStyleSheetByLocation( fileName );
+		IncludedCssStyleSheet css = getIncludedCssStyleSheetByProperties( sheet.getFileName( ), sheet.getExternalCssURI( ), sheet.isUseExternalCss( ) );
 
 		ICssStyleSheetOperation cssOperation = (ICssStyleSheetOperation) element;
 
@@ -300,7 +338,7 @@ public class CssCommand extends AbstractElementCommand
 
 	/**
 	 * Gets css style sheet
-	 * 
+	 * @deprecated
 	 * @param location
 	 *            file name
 	 * @return css style sheet.
@@ -321,10 +359,42 @@ public class CssCommand extends AbstractElementCommand
 		return CssStyleSheetAdapter.getCssStyleSheetByLocation( module, csses,
 				url );
 	}
+	
+	private CssStyleSheet getCssStyleSheetByProperties( String fileName,
+			String externalCssURI, boolean isUseExternalCss )
+	{
+		ICssStyleSheetOperation sheet = (ICssStyleSheetOperation) element;
+		List<CssStyleSheet> csses = sheet.getCsses( );
+		URL url = null;
+		if ( fileName != null )
+		{
+			url = module.findResource( fileName,
+					IResourceLocator.CASCADING_STYLE_SHEET );
+		}
+		return CssStyleSheetAdapter.getCssStyleSheetByProperties( module,
+				csses, url, externalCssURI, isUseExternalCss );
+	}
+	
+	public IncludedCssStyleSheet getIncludedCssStyleSheetByProperties(String fileName,
+			String externalCssURI, boolean isUseExternalCss)
+	{
+
+		ICssStyleSheetOperation sheet = (ICssStyleSheetOperation) element;
+		List<CssStyleSheet> csses = sheet.getCsses( );
+		int position = CssStyleSheetAdapter.getPositionOfCssStyleSheetByProperties( module,
+				csses, fileName, externalCssURI, isUseExternalCss );
+		if ( position == -1 )
+			return null;
+		String propName = getCssPropertyName( );
+		assert propName != null;
+		List<Object> cssStructs = element.getListProperty( module, propName );
+
+		return (IncludedCssStyleSheet) cssStructs.get( position );
+	}
 
 	/**
 	 * Gets include css style sheet.
-	 * 
+	 * @deprecated
 	 * @param location
 	 *            absolute file name
 	 * @return include css style sheet
@@ -365,11 +435,13 @@ public class CssCommand extends AbstractElementCommand
 		if ( sheet == null )
 			return;
 
-		IncludedCssStyleSheet cssSheet = getIncludedCssStyleSheetByLocation( sheet
-				.getFileName( ) );
+		IncludedCssStyleSheet cssSheet = getIncludedCssStyleSheetByProperties(
+				sheet.getFileName( ), sheet.getExternalCssURI( ),
+				sheet.isUseExternalCss( ) );
 		String fileName = cssSheet.getFileName( );
 		String externalCssURI = cssSheet.getExternalCssURI( );
-
+		boolean useExternalCss = cssSheet.isUseExternalCss( );
+		
 		ActivityStack stack = module.getActivityStack( );
 		stack.startSilentTrans( true );
 
@@ -381,21 +453,32 @@ public class CssCommand extends AbstractElementCommand
 
 			// if exist such css style sheet, but now css file is removed.
 			// should drop such css.
-
-			try
+			if(fileName!=null)
 			{
-				newStyleSheet = module.loadCss( fileName );
-			}
-			catch ( StyleSheetException e )
-			{
-				newStyleSheet = null;
-			}
+				try
+				{
+					newStyleSheet = module.loadCss( fileName );
+					newStyleSheet.setExternalCssURI( externalCssURI );
+					newStyleSheet.setUseExternalCss( useExternalCss );
+				}
+				catch ( StyleSheetException e )
+				{
+					newStyleSheet = null;
+				}
 
+			}
+			else
+			{
+				newStyleSheet = new CssStyleSheet( );
+				newStyleSheet.setExternalCssURI( externalCssURI );
+				newStyleSheet.setUseExternalCss( useExternalCss );
+			}
 			IncludedCssStyleSheet css = StructureFactory
 					.createIncludedCssStyleSheet( );
 			css.setFileName( sheet.getFileName( ) );
 			css.setExternalCssURI( externalCssURI );
-
+			css.setUseExternalCss(useExternalCss  );
+			
 			if ( newStyleSheet == null )
 			{
 				// if failed, just add the structure into the list.
@@ -415,7 +498,7 @@ public class CssCommand extends AbstractElementCommand
 
 		doPostReloadAction( newStyleSheet );
 	}
-
+	
 	/**
 	 * Returns the position that matches file name of the given style sheet.
 	 * 
@@ -424,19 +507,7 @@ public class CssCommand extends AbstractElementCommand
 
 	private int findIncludedCssStyleSheetPosition( CssStyleSheet sheet )
 	{
-		String propName = getCssPropertyName( );
-		assert propName != null;
-		List<Object> includedCss = element.getListProperty( module, propName );
-		for ( int i = 0; i < includedCss.size( ); i++ )
-		{
-			IncludedCssStyleSheet oneCss = (IncludedCssStyleSheet) includedCss
-					.get( i );
-			assert oneCss.getFileName( ) != null;
-			if ( oneCss.getFileName( ).equalsIgnoreCase( sheet.getFileName( ) ) )
-				return i;
-		}
-
-		return APPEND_POS;
+		return findIncludedCssStyleSheetPositionByProperties(sheet.getFileName( ), sheet.getExternalCssURI( ), sheet.isUseExternalCss( ));
 	}
 
 	/**
@@ -458,7 +529,7 @@ public class CssCommand extends AbstractElementCommand
 
 	/**
 	 * Returns the position that matches file name of the given style sheet.
-	 * 
+	 * @deprecated
 	 * @return 0-based integer. If not found, return -1
 	 */
 
@@ -474,6 +545,52 @@ public class CssCommand extends AbstractElementCommand
 			assert oneCss.getFileName( ) != null;
 			if ( oneCss.getFileName( ).equalsIgnoreCase( fileName ) )
 				return i;
+		}
+
+		return APPEND_POS;
+	}
+	
+	/**
+	 * Returns the position that matches file name of the given style sheet.
+	 * 
+	 * @return 0-based integer. If not found, return -1
+	 */
+
+	private int findIncludedCssStyleSheetPositionByProperties(String fileName, String externalCssURI, boolean useExternalCss )
+	{
+		String propName = getCssPropertyName( );
+		assert propName != null;
+		List<Object> includedCss = element.getListProperty( module, propName );
+		for ( int i = 0; i < includedCss.size( ); i++ )
+		{
+			IncludedCssStyleSheet oneCss = (IncludedCssStyleSheet) includedCss
+					.get( i );
+			if ( oneCss.getFileName( ) != null )
+			{
+				if ( oneCss.getFileName( ).equalsIgnoreCase(
+						fileName ) )
+					return i;
+			}
+			else
+			{
+				if ( oneCss.getExternalCssURI( ) != null )
+				{
+					if ( oneCss.getExternalCssURI( ).equals(
+							externalCssURI ) )
+					{
+						return i;
+					}
+				}
+				else
+				{
+					if ( externalCssURI == null
+							&& oneCss.isUseExternalCss( )
+							&& useExternalCss )
+					{
+						return i;
+					}
+				}
+			}
 		}
 
 		return APPEND_POS;
@@ -512,7 +629,7 @@ public class CssCommand extends AbstractElementCommand
 
 	/**
 	 * Checks css style sheet can be renamed or not.
-	 * 
+	 * @deprecated
 	 * @param includedCssSheet
 	 *            the included css style sheet
 	 * @param newFileName
@@ -559,8 +676,57 @@ public class CssCommand extends AbstractElementCommand
 	}
 
 	/**
-	 * Changes the included css style sheet.
+	 * Checks css style sheet can be renamed or not.
 	 * 
+	 * @param includedCssSheet
+	 *            the included css style sheet
+	 * @param uri
+	 *            external css uri
+	 * @return the matched included css style sheet structure with the same
+	 *         location of <code>newFileName</code>
+	 * @throws CssException
+	 * 
+	 */
+	public IncludedCssStyleSheet checkRenameCssByProperties(
+			IncludedCssStyleSheet includedCssSheet, String fileName, String externalCssURI, boolean useExternalCss  )
+			throws CssException
+	{
+
+		if ( !element.canEdit( module ) )
+		{
+			throw new CssException( module, new String[]{fileName},
+					CssException.DESIGN_EXCEPTION_READONLY );
+
+		}
+		
+		URL url = null;
+		if ( fileName != null )
+		{
+			url = module.findResource( fileName,
+					IResourceLocator.CASCADING_STYLE_SHEET );
+		}
+
+		CssStyleSheet sheet = CssStyleSheetAdapter
+				.getCssStyleSheetByProperties( module,
+						( (ICssStyleSheetOperation) element ).getCsses( ), url,
+						externalCssURI, useExternalCss );
+
+		if ( sheet != null )
+		{
+			IncludedCssStyleSheet tmpIncludedCssStyleSheet = findIncludedCssStyleSheet( sheet );
+			if ( includedCssSheet != tmpIncludedCssStyleSheet )
+				throw new CssException( module, new String[]{fileName},
+						CssException.DESIGN_EXCEPTION_DUPLICATE_CSS );
+
+			return tmpIncludedCssStyleSheet;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Changes the included css style sheet.
+	 * @deprecated
 	 * @param includedCssStyleSheet
 	 *            the included css style.
 	 * @param newFileName
@@ -637,6 +803,93 @@ public class CssCommand extends AbstractElementCommand
 
 			// if failed, newStyleSheet == null, this method should do
 			// nothing.
+
+			doAddCssSheet( css, newStyleSheet, posn );
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
+	}
+
+
+
+	/**
+	 * Changes the included css style sheet.
+	 * 
+	 * @param includedCssStyleSheet
+	 *            the included css style.
+	 * @param newUri
+	 *            external css uri
+	 * @throws SemanticException
+	 */
+	public void renameCssByProperties( IncludedCssStyleSheet includedCssStyleSheet,
+			String newFileName, String newExternalCssURI, boolean newUseExternalCss   ) throws SemanticException
+	{
+		if ( includedCssStyleSheet == null)
+			return;
+
+
+		// check the same location
+
+		IncludedCssStyleSheet foundIncludedCssStyleSheet = checkRenameCssByProperties(
+				includedCssStyleSheet, newFileName, newExternalCssURI, newUseExternalCss );
+
+		if ( foundIncludedCssStyleSheet == includedCssStyleSheet )
+			return;
+
+		String externalCssURI = includedCssStyleSheet.getExternalCssURI( );
+		String fileName = includedCssStyleSheet.getFileName( );
+		boolean useExternalCss = includedCssStyleSheet.isUseExternalCss( );
+		CssStyleSheet sheet = getCssStyleSheetByProperties( fileName, externalCssURI, useExternalCss  );
+
+		IncludedCssStyleSheet css = StructureFactory
+				.createIncludedCssStyleSheet( );
+		css.setFileName( newFileName );
+		css.setExternalCssURI( newExternalCssURI );
+		css.setUseExternalCss( newUseExternalCss );
+		int posn = findIncludedCssStyleSheetPositionByProperties( fileName, externalCssURI, useExternalCss );
+		ActivityStack stack = module.getActivityStack( );
+
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.RENAME_CSS_FILE_MESSAGE ) );
+
+		CssStyleSheet newStyleSheet = null;
+
+		try
+		{
+			if ( sheet == null )
+			{
+				removeIncludeCss( includedCssStyleSheet );
+			}
+			else
+			{
+
+				dropCss( sheet );
+			}
+
+			if(newFileName!=null)
+			{
+				try
+				{
+					newStyleSheet = module.loadCss( newFileName );
+				}
+				catch ( StyleSheetException e )
+				{
+					newStyleSheet = null;
+				}
+			}
+			else
+			{
+				newStyleSheet = new CssStyleSheet( );
+				newStyleSheet.setContainer( module );
+			}
+
+			newStyleSheet.setExternalCssURI( newExternalCssURI );
+			newStyleSheet.setUseExternalCss( newUseExternalCss );
 
 			doAddCssSheet( css, newStyleSheet, posn );
 		}

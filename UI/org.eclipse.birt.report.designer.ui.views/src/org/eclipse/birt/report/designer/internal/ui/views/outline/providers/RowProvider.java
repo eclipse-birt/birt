@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -83,17 +84,16 @@ public class RowProvider extends DefaultNodeProvider
 		Assert.isLegal( ReportDesignConstants.ROW_ELEMENT.equals( type ) );
 		TableHandleAdapter adapter = HandleAdapterFactory.getInstance( )
 				.getTableHandleAdapter( getRoot( model ) );
-		if ( position != InsertAction.CURRENT )
+		if ( !StringUtil.isEqual( position, InsertAction.CURRENT ) )
 		{
-
 			int rowNumber = HandleAdapterFactory.getInstance( )
 					.getRowHandleAdapter( model )
 					.getRowNumber( );
-			if ( position == InsertAction.ABOVE )
+			if ( StringUtil.isEqual( position, InsertAction.ABOVE ) )
 			{
 				adapter.insertRow( -1, rowNumber );
 			}
-			else if ( position == InsertAction.BELOW )
+			else if ( StringUtil.isEqual( position, InsertAction.BELOW ) )
 			{
 				adapter.insertRow( 1, rowNumber );
 			}

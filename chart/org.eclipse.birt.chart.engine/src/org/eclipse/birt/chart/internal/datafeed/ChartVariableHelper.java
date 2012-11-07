@@ -41,7 +41,6 @@ public class ChartVariableHelper
 	 * @param currOrthoSeries
 	 * @param baseSD
 	 * @param currOrthoSD
-	 * @return
 	 * @since 2.5
 	 */
 	public static String parseChartVariables( String script,
@@ -67,9 +66,12 @@ public class ChartVariableHelper
 				optionalYExpr = currOrthoSD.getQuery( ).getDefinition( );
 			}
 			
-			String seriesName = ( optionalYExpr != null && optionalYExpr.trim( )
-					.length( ) > 0 ) ? optionalYExpr
-					: "\"" + currOrthoSeries.getSeriesIdentifier( ).toString( ) + "\"";
+			String seriesName = ChartUtil.stringBlankValue( optionalYExpr )
+					.trim( )
+					.length( ) > 0 ? optionalYExpr
+					: "\"" //$NON-NLS-1$
+							+ ChartUtil.stringBlankValue( currOrthoSeries.getSeriesIdentifier( ) )
+							+ "\""; //$NON-NLS-1$
 			return parseChartVariables( script,
 					categoryExpr,
 					seriesExpr,

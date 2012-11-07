@@ -507,7 +507,9 @@ public class ComparatorUtil
 				&& cd.getExportHint( ) == cd2.getExportHint( )
 				&& cd.getSearchHint( ) == cd2.getSearchHint( )
 				&& isEqualString( cd.getAlias( ), cd2.getAlias( ) )
-				&& isEqualString( cd.getColumnName( ), cd2.getColumnName( ) );
+				&& isEqualString( cd.getColumnName( ), cd2.getColumnName( ) )
+				&& isEqualString( cd.getDisplayName( ), cd2.getDisplayName( ));
+			
 	}
 
 	/**

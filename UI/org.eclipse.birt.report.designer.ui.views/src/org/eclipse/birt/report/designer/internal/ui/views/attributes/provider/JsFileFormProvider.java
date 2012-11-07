@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddResourceFileFolderSelectionDialog;
@@ -24,6 +25,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
@@ -97,10 +99,103 @@ public class JsFileFormProvider extends AbstractFormHandleProvider
 		return true;
 	}
 
+	public boolean isDeleteEnable( Object selectedObject )
+	{
+		if ( selectedObject instanceof StructuredSelection
+				&& !( (StructuredSelection) selectedObject ).isEmpty( ) )
+		{
+			IncludeScriptHandle includeScriptHandle = (IncludeScriptHandle) ( (StructuredSelection) selectedObject ).getFirstElement( );
+			if ( includeScriptHandle.getElementHandle( ) != inputElement )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public boolean isUpEnable( Object selectedObject )
+	{
+		if ( selectedObject instanceof StructuredSelection
+				&& !( (StructuredSelection) selectedObject ).isEmpty( ) )
+		{
+			IncludeScriptHandle includeScriptHandle = (IncludeScriptHandle) ( (StructuredSelection) selectedObject ).getFirstElement( );
+			if ( includeScriptHandle.getElementHandle( ) != inputElement )
+			{
+				return false;
+			}
+			else
+			{
+				List handles = Arrays.asList( getElements( inputElement ) );
+				int index = -1;
+				for ( int i = 0; i < handles.size( ); i++ )
+				{
+					IncludeScriptHandle handle = (IncludeScriptHandle) handles.get( i );
+					if ( handle.getFileName( )
+							.equals( includeScriptHandle.getFileName( ) ) )
+					{
+						index = i;
+						break;
+					}
+				}
+				if ( index > 0 )
+				{
+					IncludeScriptHandle nextHandle = (IncludeScriptHandle) handles.get( index - 1 );
+					if ( nextHandle.getElementHandle( ) != inputElement )
+					{
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	public boolean isDownEnable( Object selectedObject )
+	{
+		if ( selectedObject instanceof StructuredSelection
+				&& !( (StructuredSelection) selectedObject ).isEmpty( ) )
+		{
+			IncludeScriptHandle includeScriptHandle = (IncludeScriptHandle) ( (StructuredSelection) selectedObject ).getFirstElement( );
+			if ( includeScriptHandle.getElementHandle( ) != inputElement )
+			{
+				return false;
+			}
+			else
+			{
+				List handles = Arrays.asList( getElements( inputElement ) );
+				int index = -1;
+				for ( int i = 0; i < handles.size( ); i++ )
+				{
+					IncludeScriptHandle handle = (IncludeScriptHandle) handles.get( i );
+					if ( handle.getFileName( )
+							.equals( includeScriptHandle.getFileName( ) ) )
+					{
+						index = i;
+						break;
+					}
+				}
+				if ( handles.size( ) > index + 1 )
+				{
+					IncludeScriptHandle nextHandle = (IncludeScriptHandle) handles.get( index + 1 );
+					if ( nextHandle.getElementHandle( ) != inputElement )
+					{
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
 	public boolean doAddItem( int pos ) throws Exception
 	{
 
-		AddResourceFileFolderSelectionDialog dialog = new AddResourceFileFolderSelectionDialog(new String[]{"*.js"},new String[]{".js"} );
+		AddResourceFileFolderSelectionDialog dialog = new AddResourceFileFolderSelectionDialog( new String[]{
+			"*.js"
+		},
+				new String[]{
+					".js"
+				} );
 		dialog.setHelpDialogId( IHelpContextIds.ADD_JS_FILES_DIALOG_ID );
 		dialog.setExistFiles( getElmentNames( inputElement ) );
 

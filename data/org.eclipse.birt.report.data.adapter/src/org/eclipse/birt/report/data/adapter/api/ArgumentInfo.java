@@ -22,7 +22,7 @@ public class ArgumentInfo implements IArgumentInfo
 	private List<Period_Type> periodType;
 	private String displayName;
 
-	public ArgumentInfo( String name, String displayName, String description, boolean isOptinal )
+	public ArgumentInfo( String name, String displayName, String description, boolean isOptional )
 	{
 		this.name = name;
 		this.displayName = displayName;
@@ -77,5 +77,12 @@ public class ArgumentInfo implements IArgumentInfo
 	public String getDisplayName( )
 	{
 		return this.displayName;
+	}
+	/**
+	 * set display name for argument
+	 */
+	public void setDisplayname( String displayName)
+	{
+		this.displayName = displayName;
 	}
 }

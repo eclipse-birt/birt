@@ -33,7 +33,7 @@ public class RowResultSet implements IRowResultSet
 	// result meta data
 	private IResultClass resultClass;
 
-	// max rows will be fecthed
+	// max rows will be fetched
 	private int maxRows;
 	
 	// current row index
@@ -58,11 +58,16 @@ public class RowResultSet implements IRowResultSet
 	 */
 	public RowResultSet( SmartCacheRequest smartCacheRequest )
 	{
+		this( smartCacheRequest, smartCacheRequest.getMaxRow() );
+	}
+	
+	public RowResultSet( SmartCacheRequest smartCacheRequest, int maxRow )
+	{
 		this.eventList = smartCacheRequest.getEventList( );
 		this.odiAdpater = smartCacheRequest.getOdiAdapter( );
 		this.resultClass = smartCacheRequest.getResultClass( );
 
-		this.maxRows = smartCacheRequest.getMaxRow( );
+		this.maxRows = maxRow;
 		if ( maxRows <= 0 )
 			maxRows = Integer.MAX_VALUE;
 		
@@ -110,7 +115,7 @@ public class RowResultSet implements IRowResultSet
 		IResultObject odaObject = null;
 		while ( true )
 		{
-			odaObject = odiAdpater.fetch( );
+			odaObject = fetch( );
 			if ( odaObject == null )
 			{
 				break;
@@ -134,6 +139,11 @@ public class RowResultSet implements IRowResultSet
 
 		return odaObject;
 	}
+	
+	protected IResultObject fetch( ) throws DataException
+	{
+		return odiAdpater.fetch( );
+	}
 
 	/**
 	 * Process onFetchEvent in such a time window that closely after data gotten
@@ -153,18 +163,38 @@ public class RowResultSet implements IRowResultSet
 		
 		if ( eventList != null )
 		{
-			int size = eventList.size( );
-			for ( int i = 0; i < size; i++ )
+			beforeProcessFetchEvent( resultObject, currentIndex );
+			try
 			{
-				IResultObjectEvent onFetchEvent = (IResultObjectEvent) eventList.get( i );
-				if ( onFetchEvent.process( resultObject, currentIndex ) == false )
+				int size = eventList.size( );
+				for ( int i = 0; i < size; i++ )
 				{
-					return false;
+					IResultObjectEvent onFetchEvent = (IResultObjectEvent) eventList.get( i );
+					if ( onFetchEvent.process( resultObject, currentIndex ) == false )
+					{
+						return false;
+					}
 				}
 			}
+			finally
+			{
+				afterProcessFetchEvent( resultObject, currentIndex );
+			}
 		}
-		
+
 		return true;
+	}
+	
+	protected void beforeProcessFetchEvent( IResultObject resultObject, int currentIndex )
+			throws DataException
+	{
+		// Template method for subclasses
+	}
+
+	protected void afterProcessFetchEvent( IResultObject resultObject, int currentIndex )
+			throws DataException
+	{
+		// Template method for subclasses
 	}
 	
 	/**

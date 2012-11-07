@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.IDropValidator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
@@ -167,6 +168,10 @@ public class DeleteCommand extends Command
 		else if ( source instanceof CssStyleSheetHandle )
 		{
 			dropCssStyleHandle( (CssStyleSheetHandle) source );
+		}
+		else if (source instanceof ScriptObjectNode)
+		{
+			((ScriptObjectNode)source).reset( );
 		}
 	}
 
@@ -417,6 +422,10 @@ public class DeleteCommand extends Command
 				return false;
 			}
 
+		}
+		else if (source instanceof ScriptObjectNode)
+		{
+			return true;
 		}
 		else
 			return false;

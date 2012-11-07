@@ -25,6 +25,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.cubebuilder.BuilderPlugin;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.DateLevelDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupRenameDialog;
@@ -38,6 +42,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
@@ -109,13 +114,17 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 public class CubeGroupContent extends Composite implements Listener
 {
 
 	private TreeItem[] dragSourceItems = new TreeItem[1];
-
+	private boolean[] useSorting = new boolean[]{false};
+	private static final String SORTING_PREFERENCE_KEY = "ExpressionBuilder.preference.enable.sorting"; //$NON-NLS-1$
+	
 	class CustomDragListener implements DragSourceListener
 	{
 
@@ -304,25 +313,66 @@ public class CubeGroupContent extends Composite implements Listener
 
 	};
 
+
+	
+	private void initSorting( )
+	{
+		// read setting from preference
+		useSorting[0] = PreferenceFactory.getInstance( )
+				.getPreferences( BuilderPlugin.getDefault( ) )
+				.getBoolean( SORTING_PREFERENCE_KEY );
+	}
+
+	private void toggleSorting( boolean sorted )
+	{
+		useSorting[0] = sorted;
+
+		// update preference
+		PreferenceFactory.getInstance( )
+				.getPreferences( BuilderPlugin.getDefault( ) )
+				.setValue( SORTING_PREFERENCE_KEY, useSorting[0] );
+
+		groupViewer.refresh( );
+	}
+	
 	private void createGroupField( )
 	{
 		Composite groupField = new Composite( this, SWT.NONE );
 		groupField.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		groupField.setLayout( new GridLayout( ) );
+		GridLayout layout = new GridLayout( );
+		layout.numColumns = 2;
+		groupField.setLayout( layout );
 
 		Label groupLabel = new Label( groupField, SWT.NONE );
 		groupLabel.setText( Messages.getString( "GroupsPage.Label.Group" ) ); //$NON-NLS-1$
+		
+		ToolBar toolBar = new ToolBar( groupField, SWT.FLAT );
+		toolBar.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 
+		final ToolItem sortBtn = new ToolItem( toolBar, SWT.CHECK );
+		sortBtn.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ALPHABETIC_SORT ) );
+		sortBtn.setToolTipText( Messages.getString( "GroupsPage.tooltip.Sort" ) ); //$NON-NLS-1$
+		sortBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			@Override
+			public void widgetSelected( SelectionEvent e )
+			{
+				toggleSorting( sortBtn.getSelection( ) );
+			}
+		} );
+
+		
 		groupViewer = new TreeViewer( groupField, SWT.SINGLE
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.BORDER );
-		groupViewer.getTree( )
-				.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd.horizontalSpan = 2;
+		groupViewer.getTree( ).setLayoutData( gd );
 		( (GridData) groupViewer.getTree( ).getLayoutData( ) ).heightHint = 250;
 		( (GridData) groupViewer.getTree( ).getLayoutData( ) ).widthHint = 200;
 		groupViewer.setLabelProvider( getCubeLabelProvider( ) );
-		groupViewer.setContentProvider( new CubeContentProvider( ) );
+		groupViewer.setContentProvider( new CubeContentProvider( useSorting ) );
 		groupViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
 			public void selectionChanged( SelectionChangedEvent event )
@@ -1152,6 +1202,8 @@ public class CubeGroupContent extends Composite implements Listener
 			}
 		} );
 
+		initSorting( );
+		sortBtn.setSelection( useSorting[0] );
 	}
 
 	private void createMoveButtonsField( )

@@ -51,7 +51,7 @@ public class HTMLStyleProcessor
 	/** the CSS2.0 Parser */
 	private CSSEngine cssEngine;
 
-	private static Pattern pattern = Pattern.compile( "[ ]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );;
+	private static Pattern pattern = Pattern.compile( "[\\s|\t|\r|\n]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );
 
 	/**
 	 * Constructor

@@ -65,7 +65,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 {
 
 	private final static String[] MINMUM_SLICE_ITEMS = new String[]{
-			Messages.getString( "PieBottomAreaComponent.Label.Percentage" ), Messages.getString( "PieBottomAreaComponent.Label.Value" ) //$NON-NLS-1$ //$NON-NLS-2$
+			Messages.getString( "PieBottomAreaComponent.Label.Percentage" ), Messages.getString( "PieSeriesAttributeComposite.InnerRadiusType.Points") //$NON-NLS-1$ //$NON-NLS-2$
 	};
 
 	private Group grpLeaderLine = null;
@@ -254,7 +254,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 			cmbInnerRadiusPercent.setItems( MINMUM_SLICE_ITEMS );
 			cmbInnerRadiusPercent.setItemData( MINMUM_SLICE_ITEMS );
 			cmbInnerRadiusPercent.setSelection( series.isInnerRadiusPercent( ) ? Messages.getString( "PieBottomAreaComponent.Label.Percentage" )//$NON-NLS-1$
-					: Messages.getString( "PieBottomAreaComponent.Label.Value" ) );//$NON-NLS-1$
+					: Messages.getString( "PieSeriesAttributeComposite.InnerRadiusType.Points") ); //$NON-NLS-1$
 			cmbInnerRadiusPercent.addSelectionListener( this );
 		}
 
@@ -328,20 +328,17 @@ public class PieSeriesAttributeComposite extends Composite implements
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
-			sRatio.setRatio( 10 );
 			sRatio.setLayoutData( gridData );
 			sRatio.setValues( (int) ( series.getRatio( ) * 10 ),
 					1,
 					101,
 					1,
 					1,
+					10,
 					10 );
 			sRatio.setToolTipText( String.valueOf( series.getRatio( ) ) );
 			sRatio.setEnabled( true );
 			sRatio.addSelectionListener( this );
-//			sRatio.addListener( SWT.FocusOut, this );
-//			sRatio.addListener( SWT.KeyDown, this );
-//			sRatio.addListener( SWT.Traverse, this );
 		}
 
 		Label lblRotation = new Label( cmpRight, SWT.NONE );
@@ -363,13 +360,11 @@ public class PieSeriesAttributeComposite extends Composite implements
 					360,
 					1,
 					1,
-					10 );
+					10,
+					1 );
 			sRotation.setToolTipText( String.valueOf( series.getRotation( ) ) );
 			sRotation.setEnabled( true );
 			sRotation.addSelectionListener( this );
-//			sRotation.addListener( SWT.FocusOut, this );
-//			sRotation.addListener( SWT.KeyDown, this );
-//			sRotation.addListener( SWT.Traverse, this );
 		}
 
 		btnDirection = context.getUIFactory( )

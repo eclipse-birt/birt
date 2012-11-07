@@ -138,6 +138,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 	public Control createContents( Composite parent )
 	{
 		parameters = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
+		adjustPositions( );
 		return createParameterPageControl( parent );
 	}
 
@@ -352,6 +353,47 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				doEdit( );
 			}
 		} );
+		
+		viewer.getUpButton( ).addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				doUp( );
+			}
+			
+			private void doUp( )
+			{
+				int index = viewer.getViewer( ).getTable( ).getSelectionIndex( );
+				refreshPositions( );
+				viewer.getViewer( ).refresh( );
+				viewer.getViewer( ).getTable( ).setFocus( );
+				viewer.getViewer( ).getTable( ).select( index );
+				viewer.updateButtons( );
+			}
+
+		} );
+		
+		
+
+		viewer.getDownButton( ).addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				doDown( );
+			}
+			
+			private void doDown( )
+			{
+				int index = viewer.getViewer( ).getTable( ).getSelectionIndex( );
+				refreshPositions( );
+				viewer.getViewer( ).refresh( );
+				viewer.getViewer( ).getTable( ).setFocus( );
+				viewer.getViewer( ).getTable( ).select( index );
+				viewer.updateButtons( );
+			}
+
+
+		} );
 
 		viewer.getViewer( ).getTable( ).addMouseListener( new MouseAdapter( ) {
 
@@ -383,6 +425,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 					public void widgetSelected( SelectionEvent e )
 					{
+						int index = viewer.getViewer( ).getTable( ).getSelectionIndex( );
+						refreshPositions( );
+						viewer.getViewer( ).refresh( );
+						viewer.getViewer( ).getTable( ).setFocus( );
+						viewer.getViewer( ).getTable( ).select( index );
 						setPageProperties( );
 						refreshMessage( );
 					}
@@ -398,6 +445,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 					public void widgetSelected( SelectionEvent e )
 					{
+						int index = viewer.getViewer( ).getTable( ).getSelectionIndex( );
+						refreshPositions( );
+						viewer.getViewer( ).refresh( );
+						viewer.getViewer( ).getTable( ).setFocus( );
+						viewer.getViewer( ).getTable( ).select( index );
 						setPageProperties( );
 						refreshMessage( );
 					}
@@ -1006,6 +1058,27 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		}
 	}
 
+	private final void adjustPositions( )
+	{
+		if ( parameters != null )
+		{
+			Iterator iter = parameters.iterator( );
+			if ( iter != null )
+			{
+				while ( iter.hasNext( ) )
+				{
+					DataSetParameterHandle parameter = (DataSetParameterHandle) iter.next( );
+					if ( parameter.getPosition( ) == null
+							|| parameter.getPosition( ).intValue( ) <= 0 )
+					{
+						refreshPositions( );
+						return;
+					}
+				}
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -1067,7 +1140,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		if ( doSaveEmptyParameter( parameters ) )
 		{
 			// selectorImage.dispose();
-			refreshPositions( );
 			if ( this.modelChanged
 					&& this.getContainer( ) != null
 					&& this.getContainer( ) instanceof DataSetEditor )
@@ -1122,6 +1194,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 						paramName = ( (OdaDataSetParameterHandle) parameter ).getParamName( );
 					if ( parameter.isInput( )
 							&& paramName == null
+							&& ( !parameter.isOutput( ) )
 							&& ( parameter.getDefaultValue( ) == null || parameter.getDefaultValue( )
 									.trim( )
 									.length( ) == 0 ) ) //$NON-NLS-1$
@@ -1145,7 +1218,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 	 */
 	public boolean canLeave( )
 	{
-		refreshPositions( );
 		if ( this.modelChanged
 				&& this.getContainer( ) != null
 				&& this.getContainer( ) instanceof DataSetEditor )
@@ -1161,7 +1233,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 	 */
 	public boolean canFinish( )
 	{
-		refreshPositions( );
 		return doSaveEmptyParameter( parameters );
 	}
 
@@ -1297,7 +1368,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 					params.add( iter.next( ) );
 				}
 			}
-			refreshPositions( );
 			return params.toArray( );
 		}
 
@@ -1777,6 +1847,12 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			super( structureOrHandle );
 			this.isOdaDataSetHandle = isOdaDataSetHandle;
 			structureHandle = getStructureHandle( structureOrHandle );
+		}
+		
+		public void create( )
+		{
+			super.create( );
+			validateSyntax( );
 		}
 
 		protected void setSystemHelp( Composite composite )
@@ -2292,12 +2368,28 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			// blankProperty check
 			if ( isBlankProperty( dataSetParamName.getText( ) ) )
 				return getBlankPropertyStatus( ParameterPageUtil.dialogLabels[0] );
-
+			if ( isNull())
+			{
+				return getMiscStatus( IStatus.ERROR,
+						Messages.getString( "dataset.editor.error.nonemptyDefaultvalue" ) );//$NON-NLS-1$ 
+			}
 			return getOKStatus( );
 		}
 
-
-
+		private boolean isNull( )
+		{
+			if ( defaultValueText.isEnabled( )
+					&& defaultValueString.trim( ).length( ) == 0 )
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		
 		/**
 		 * Checks whether the linked report parameter's data type matches the
 		 * current data set parameter's data type.

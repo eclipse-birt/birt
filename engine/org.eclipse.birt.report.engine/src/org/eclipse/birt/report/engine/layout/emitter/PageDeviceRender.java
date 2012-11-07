@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
@@ -42,6 +43,7 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.DiagonalInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
+import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public abstract class PageDeviceRender implements IAreaVisitor
@@ -682,7 +684,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					bi.getImageData( ), getScaledValue( bi.getXOffset( ) ),
 					getScaledValue( bi.getYOffset( ) ) );
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			log( e, Level.WARNING );
 		}
@@ -937,6 +939,27 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			byte[] data = image.getImageData( );
 			String extension = image.getExtension( );
 			String uri = image.getImageUrl( );
+			if ( FlashFile.isFlash( null, null, extension ) )
+			{
+				ContainerArea parent = ((AbstractArea)image).getParent( );
+				int xFromClipParent = getX (image);
+				int yFromClipParent = getY (image);
+				while (parent != null && !parent.needClip( ) )
+				{
+					xFromClipParent += getX (parent);
+					yFromClipParent += getY (parent);
+					parent = parent.getParent( );
+				}
+				
+				if (parent != null )
+				{
+					//found a parent needs to be clipped
+					if ( getHeight (parent) < yFromClipParent || getWidth (parent) < xFromClipParent )
+					{
+						return;
+					}
+				}
+			}
 			pageGraphic.drawImage( uri, data, extension, imageX, imageY,
 					height, width, helpText, image.getParameters( ) );
 		}

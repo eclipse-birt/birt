@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -59,6 +60,10 @@ public class ResultIterator implements IResultIterator
 	private String tempDir;
 
 	private IBaseQueryDefinition qd;
+	
+	protected boolean isFirstNext = true, hasFirstNext = true;
+	
+	protected boolean isSummary = false;
 	
 	/**
 	 * @param context
@@ -95,8 +100,11 @@ public class ResultIterator implements IResultIterator
 		this.subQueryName = subQueryName;
 		this.currParentIndex = currParentIndex;
 		this.qd = qd;
-		
+		if ( qd instanceof QueryDefinition )
+			this.isSummary = ( (QueryDefinition) this.qd ).isSummaryQuery( );
+
 		this.prepare( );
+		this.hasFirstNext = doNext( );
 	}
 
 	/**
@@ -164,9 +172,22 @@ public class ResultIterator implements IResultIterator
 	 */
     public boolean next( ) throws DataException
 	{
-    	return this.exprResultSet.next( );
-	}
+    	if( !this.isFirstNext )
+    	{
+        	return this.doNext( );
+    	}
+    	else
+    	{
+    		this.isFirstNext = false;
+    		return this.hasFirstNext;
+    	}
+    }
 	
+    protected boolean doNext( ) throws DataException
+    {
+       	return this.exprResultSet.next( );    		
+    }
+    
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getValue(java.lang.String)
 	 */
@@ -265,6 +286,10 @@ public class ResultIterator implements IResultIterator
 	 */
 	public void moveTo( int rowIndex ) throws BirtException
 	{
+		if( rowIndex >=0 )
+		{
+			this.isFirstNext = false;
+		}
 		this.exprResultSet.moveTo( rowIndex );		
 	}
 	

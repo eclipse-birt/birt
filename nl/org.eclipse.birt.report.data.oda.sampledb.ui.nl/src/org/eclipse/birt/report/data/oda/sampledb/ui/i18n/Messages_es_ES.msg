@@ -7,3 +7,4 @@ datasource.upgrade.msg.firstLine=La fuente de datos ({0}) utilizada por este con
 datasource.upgrade.msg.secondLine=Es necesario actualizar la definición. \n\nSeleccione Aceptar para actualizar la fuente de datos {0} ahora. 
 datasource.upgrade.msg.thirdLine=Después tendrá que volver a abrir este editor de conjunto de datos.
 datasource.propertyPage.tooltip=Fuente de datos JDBC
+datasource.page.warning=El uso de un perfil de conexión externalizado no es compatible con la base de datos de muestra, el diseño se está modificando para utilizar propiedades locales

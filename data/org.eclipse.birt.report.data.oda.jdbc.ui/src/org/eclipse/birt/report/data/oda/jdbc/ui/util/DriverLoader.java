@@ -48,7 +48,7 @@ public final class DriverLoader
 	
 	public static Connection getConnectionWithExceptionTip(
 			String driverClassName, String connectionString, String userId,
-			String password ) throws SQLException
+			String password, Properties props ) throws SQLException
 	{
 		try
 		{
@@ -56,7 +56,7 @@ public final class DriverLoader
 					.getConnection( driverClassName,
 							connectionString,
 							userId,
-							password, null );
+							password, null, props );
 		}
 		catch ( Exception e )
 		{

@@ -32,6 +32,7 @@ public class ColumnDefinition implements IColumnDefinition
 	private String         analysisColumn;
 	private boolean		indexColumn;
 	private boolean		compressedColumn;
+	private String 		displayName;
 	
 	/**
 	 * Construct a Column definition for a named column
@@ -207,5 +208,15 @@ public class ColumnDefinition implements IColumnDefinition
 	public void setCompressedColumn( boolean compressedColumn )
 	{
 		this.compressedColumn = compressedColumn;
+	}
+
+	public String getDisplayName( )
+	{
+		return this.displayName;
+	}
+	
+	public void setDisplayName( String displayName )
+	{
+		this.displayName = displayName;
 	}
 }

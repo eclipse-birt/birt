@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -36,7 +37,7 @@ public class InsertRowHandler extends SelectionHandler
 		
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
 		
-		Object position = context.getVariable(ICommandParameterNameContants.INSERT_ROW_POSITION);
+		Object position = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_ROW_POSITION);
 		int intPos = -1;
 		if(position != null && position instanceof Integer)
 		{

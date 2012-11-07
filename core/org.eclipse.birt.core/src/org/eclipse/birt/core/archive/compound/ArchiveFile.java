@@ -17,7 +17,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -271,23 +270,15 @@ public class ArchiveFile implements IArchiveFile
 		}
 	}
 
-	/**
-	 * save the
-	 * 
-	 * @param fileName
-	 * @throws IOException
-	 */
 	public void saveAs( String fileName ) throws IOException
 	{
 		ArchiveFileV3 file = new ArchiveFileV3( fileName, "rw" );
 		try
 		{
 			file.setSystemId( systemId );
-			List entries = listEntries( "/" );
-			Iterator iter = entries.listIterator( );
-			while ( iter.hasNext( ) )
+			List<String> entries = listEntries( "/" );
+			for ( String name : entries )
 			{
-				String name = (String) iter.next( );
 				ArchiveEntry tgt = file.createEntry( name );
 				try
 				{
@@ -399,7 +390,7 @@ public class ArchiveFile implements IArchiveFile
 		}
 	}
 
-	synchronized public List listEntries( String namePattern )
+	synchronized public List<String> listEntries( String namePattern )
 	{
 		if ( isArchiveFileAvailable( af ) )
 		{
@@ -407,7 +398,7 @@ public class ArchiveFile implements IArchiveFile
 		}
 		else
 		{
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 	}
 
@@ -468,11 +459,9 @@ public class ArchiveFile implements IArchiveFile
 		{
 			String tempFileName = getTmpFileName( );
 			ArchiveFile writer = new ArchiveFile( tempFileName, "rwt" );
-			List streams = reader.listEntries( "" );
-			Iterator iter = streams.iterator( );
-			while ( iter.hasNext( ) )
+			List<String> streams = reader.listEntries( "" );
+			for ( String name : streams )
 			{
-				String name = (String) iter.next( );
 				ArchiveEntry src = reader.openEntry( name );
 				try
 				{

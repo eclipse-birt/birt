@@ -515,6 +515,7 @@ dataset.editor.dataSource=Datenquelle
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Der neue Spaltenname oder -alias ({0}) wird bereits von der Spalte bei Index {1} verwendet.
 dataset.editor.error.computedColumnNameAlreadyUsed=Der neu berechnete Spaltenname ({0}) wird unter "Ausgabespalten" bereits als Spaltenalias für Spalte ({1}) verwendet.
 dataset.editor.error.duplicateParameterName=Parameternamen doppelt vergeben.
+dataset.editor.error.nonemptyDefaultvalue=Standardwert darf nicht leer sein.
 dataset.editor.error.emptyName=Der Name darf nicht leer sein. 
 dataset.editor.error.missingComputedColumnExpression=Der Ausdruck der berechneten Spalte {0} darf nicht leer oder gleich Null sein.
 dataset.editor.error.missingComputedColumnName=Der berechnete Spaltenname darf nicht leer oder gleich Null sein.
@@ -632,6 +633,7 @@ DerivedDataSet.action.error.message.InvalidNumber.DataSet=Die Anzahl der verfügb
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Geben Sie die berechneten Spalten an. 
 DataSetComputedColumnsPage.description=Berechnete Spalten definieren:
 DataSetComputedColumnsPage.duplicatedName=Doppelter Spaltenname.
+DataSetComputedColumnsPage.numberName=Der Spaltenname darf keine Zahl sein.
 DataSetComputedColumnsPage.toolTipText.Down=Berechnete Spalte nach unten verschieben.
 DataSetComputedColumnsPage.toolTipText.Up=Berechnete Spalte nach oben verschieben.
 DataSetComputedColumnsPage.toolTipText.Remove=Berechnete Spalte entfernen.
@@ -1808,6 +1810,7 @@ FormPage.Button.Up=Nach &oben
 FormPage.Button.Up.Alt1=Nach o&ben
 FormPage.Button.Up.Alt2=Na&ch oben
 FormPage.Button.Binding.Refresh=A&ktualisieren
+FormPage.Button.Binding.Clear=Lös&chen
 FormPage.Menu.ModifyProperty=Eigenschaft modifizieren
 FormPage.toolTipText.Up=Nach oben
 FormPage.toolTipText.Down=Nach unten
@@ -3636,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
 UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der CSS-Datei platziert werden sollen.
+CssStyleSheetNodeProvider.Label.FromServer=Vom Server
 CssStyleSheetNodeProvider.Tooltip.URI=(Übernahme während der Anzeige)
 
 
@@ -4119,6 +4123,7 @@ WizardTemplateChoicePage.label.Description=Beschreibung:
 WizardTemplateChoicePage.label.Preview=Vorschau:
 WizardTemplateChoicePage.label.ReportTemplates=Berichtvorlagen:
 WizardTemplateChoicePage.label.ShowCheatSheets=&Spickzettel für Berichterstellung anzeigen
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=Einen leeren Bericht ohne vordefinierten Inhalt erstellen.
 WizardTemplateChoicePage.message.ChartListing=Einen gruppierten Bericht mit einem Diagramm mit visueller Darstellung der Gruppendaten erstellen.
 WizardTemplateChoicePage.message.DualColumnChartListing=Einen gruppierten Bericht mit zwei Untergruppen des Typs 'Diagramm und Liste' erstellen.
@@ -4304,6 +4309,10 @@ ResourceSelectionValidator.ExtErrorSplitter=\ oder
 #GeneralPage
 GeneralPage.Library.Included=Bibliothek:
 GeneralPage.Library.Modified.Note=HINWEIS: Dieses Berichtobjekt aus der Bibliothek wurde geändert. Klicken Sie zum Wiederherstellen des Objekts aus der Bibliothek auf{0}"Eigenschaften wiederherstellen".
+
+#BookMarkPage
+BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
+BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4612,7 +4621,8 @@ BindingDialogHelper.text.Grid=Raster
 BindingDialogHelper.text.Group=Gr&uppe
 BindingDialogHelper.text.Expression=&Ausdruck:
 BindingDialogHelper.text.displayName=Anzeige&name:
-BindingDialogHelper.text.allowExport=Exp&ort zulassen:
+BindingDialogHelper.text.allowExport=Exp&ort:
+BindingDialogHelper.text.allowExport.button=Allow Export
 BindingDialogHelper.text.displayNameID=Namen-ID an&zeigen:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
@@ -4629,6 +4639,7 @@ BindingDialogHelper.warning.button.no=Nein
 #Scripts Node
 Scripts.Node.DisplayName=Skripte
 ScriptElementNode.Action.Text=Zu Berichtselement &wechseln
+ScriptObjectNode_0=&Reset Script
 
 ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 
@@ -4636,11 +4647,13 @@ ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Alles
 CrosstabBindingDialogHelper.bindngName.timeperiod=Periode
-CrosstabBindingDialogHelper.calculation.labe=Zeit&intervall:
-CrosstabBindingDialogHelper.recentday.description=Jüngstes Datum in zeitlicher Dimension
+CrosstabBindingDialogHelper.calculation.label=Zeit&intervall:
+CrosstabBindingDialogHelper.calculation.group=Zeitintervall
+CrosstabBindingDialogHelper.recentday.description=Last date in the period
 CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
 CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:
-CrosstabBindingDialogHelper.thisdate.example.label=Datumswerte im folgenden Format eingeben: jjjj-MM-tt
+CrosstabBindingDialogHelper.thisdate.example.label=Bitte schließen Sie den angegebenen Datumswert in Anführungszeichen ein.\nBeispiel: "2012-01-23", "1/23/2012".
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Beispiel: 2012-01-23, 1/23/2012.
 CrosstabBindingDialogHelper.timedimension.label=Zeitliche Di&mension:
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Diese Dimension unterstützt das aktuelle Bezugdatum nicht 
 CrosstabBindingDialogHelper.today.label=Heute
@@ -4710,6 +4723,11 @@ PasteFormatAction.text=F&ormat einfügen
 #InsertAggregationAction
 InsertAggregationAction.text=&Aggregat
 
+
+###########################################################
+#InsertRelativeTimePeriodAction
+InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=Aktuelle Ansicht einstellen
@@ -4743,12 +4761,14 @@ GeneralConfigurationBlock.message.general.description=Allgemeine Einstellungen f
 GeneralConfigurationBlock.button.text.enable.gradient=&Verlaufsauswahl aktivieren 
 GeneralConfigurationBlock.button.text.enable.animation=A&nimierte Auswahl aktivieren
 GeneralConfigurationBlock.group.label=Eingabeaufforderung
+GeneralConfigurationBlock.group.defaultThemes=Default themes library
 GeneralConfigurationBlock.button.text.prompt=&Eingabeaufforderung nach Öffnen der Bibliotheksdatei anzeigen
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
 GeneralConfigurationBlock.move.binding.group=Lokale Bindungen für eine verbesserte Leistung zu übergeordnetem Element verschieben
 GeneralConfigurationBlock.move.binding.always=I&mmer
 GeneralConfigurationBlock.move.binding.never=N&ie
 GeneralConfigurationBlock.move.binding.prompt=Auff&ordern
-
 
 ###########################################################
 #ResetImageSizeAction
@@ -4861,6 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=&Standardsyntax:
 ExpressionEditor.Error.EmptyExpression=Ausdruck darf nicht leer sein.
 ExpressionEditor.Label.Expression=&Ausdruck:
 ExpressionEditor.Title=Ausdruck bearbeiten
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
+ExpressionSyntaxColoringPage.Button.Bold=&Bold
+ExpressionSyntaxColoringPage.Button.Enable=Enable
+ExpressionSyntaxColoringPage.Button.Italic=&Italic
+ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Button.Underline=&Unterstrichen
+ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
+ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Element.Default=Standard
+ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.String=Zeichenfolge
+ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
+ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
+ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
 
 ###########################################################
 #VariableDropAdapter

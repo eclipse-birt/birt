@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
-import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
@@ -28,20 +26,38 @@ public class CrosstabComputedMeasureExpressionProvider extends
 		super( handle, null );
 	}
 
-	protected void addFilterToProvider( )
-	{
-		this.addFilter( new ExpressionFilter( ) {
-
-			public boolean select( Object parentElement, Object element )
-			{
-				if ( ExpressionFilter.CATEGORY.equals( parentElement )
-						&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
-				{
-					return false;
-				}
-				return true;
-			}
-		} );
-	}
+//	protected void addFilterToProvider( )
+//	{
+//		this.addFilter( new ExpressionFilter( ) {
+//
+//			public boolean select( Object parentElement, Object element )
+//			{
+//				if ( ExpressionFilter.CATEGORY.equals( parentElement )
+//						&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
+//				{
+//					// return false;
+//				}
+//				if ( CURRENT_CUBE.equals( parentElement ) )
+//				{
+//					PropertyHandle handle = null;
+//					if ( element instanceof PropertyHandle )
+//						handle = (PropertyHandle) element;
+//					else if ( element instanceof IAdaptable
+//							&& ( (IAdaptable) element ).getAdapter( PropertyHandle.class ) instanceof PropertyHandle )
+//						handle = (PropertyHandle) ( (IAdaptable) element ).getAdapter( PropertyHandle.class );
+//
+//					if ( handle != null
+//							&& handle.getPropertyDefn( )
+//									.getName( )
+//									.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+//					{
+//						return true;
+//					}
+//					return false;
+//				}
+//				return true;
+//			}
+//		} );
+//	}
 
 }

@@ -444,7 +444,7 @@ class ContentElementCommand extends AbstractContentCommand
 		else
 		{
 			record = new PropertyListRecord( tmpElement, context
-					.getElementProp( ), list, value );
+					.getElementProp( ), list, posn );
 		}
 		assert record != null;
 		stack.execute( record );

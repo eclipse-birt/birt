@@ -252,7 +252,7 @@ public class ResourceFileContentProvider implements IResourceContentProvider
 		this.showEmptyFolderStatus = showStatus;
 	}
 
-	private ResourceFilter[] getResourceFilters( )
+	public ResourceFilter[] getResourceFilters( )
 	{
 		ResourceFilter[] filters;
 		if ( showEmptyFolderStatus == IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER )

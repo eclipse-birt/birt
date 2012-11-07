@@ -627,7 +627,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 			for ( int i = 0; i < itm.getLineCount( ); i++ )
 			{
 				String oText = itm.getLine( i );
-				dW = gc.textExtent( oText ).x;
+				dW = itm.getWidth( i );
 				if ( bRightAligned )
 				{
 					// TODO this seems to be zero as dFW=dW+insets (see itm.getFullwidth())
@@ -651,7 +651,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 			for ( int i = 0; i < itm.getLineCount( ); i++ )
 			{
 				String oText = itm.getLine( i );
-				dW = gc.textExtent( oText ).x;
+				dW = itm.getWidth( i );
 				if ( bRightAligned )
 				{
 					dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );

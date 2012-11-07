@@ -87,7 +87,7 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 	 */
 	public void load( )
 	{
-		ExpressionPropertyHelper helper = (ExpressionPropertyHelper) exprButton.getExpressionHelper( );
+		ExpressionHelper helper = (ExpressionHelper) exprButton.getExpressionHelper( );
 		helper.setContextObject( DEUtil.getInputFirstElement( this.getInput( ) ) );
 		if ( getDescriptorProvider( ) instanceof ExpressionPropertyDescriptorProvider )
 		{
@@ -175,11 +175,14 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 		{
 			if ( isFormStyle( ) )
 				text = FormWidgetFactory.getInstance( )
-						.createText( containerPane, "", SWT.SINGLE ); //$NON-NLS-1$
+						.createText( containerPane, "", SWT.WRAP ); //$NON-NLS-1$
 			else
-				text = new Text( containerPane, SWT.SINGLE
+				text = new Text( containerPane, SWT.WRAP
 						| SWT.BORDER);
-			text.setLayoutData( new GridData( GridData.FILL_HORIZONTAL) );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL);
+			gd.heightHint = text.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+					- ( isFormStyle( ) ? 0 : ( text.getBorderWidth( ) * 2 ) );
+			text.setLayoutData( gd );
 		}
 		// text.addSelectionListener( new SelectionAdapter( ) {
 		//
@@ -221,7 +224,7 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 					listener,
 					false,
 					isFormStyle( ) ? SWT.FLAT : SWT.PUSH,
-					new ExpressionPropertyHelper( ) );
+					new ExpressionHelper( ) );
 		}
 
 		return containerPane;
@@ -297,17 +300,4 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 		containerPane.setVisible( isVisible );
 	}
 
-	class ExpressionPropertyHelper extends ExpressionHelper
-	{
-
-		public void setContextObject( Object contextObject )
-		{
-			super.setContextObject( contextObject );
-		}
-
-		protected void setProvider( IExpressionProvider provider )
-		{
-			super.setProvider( provider );
-		}
-	}
 }

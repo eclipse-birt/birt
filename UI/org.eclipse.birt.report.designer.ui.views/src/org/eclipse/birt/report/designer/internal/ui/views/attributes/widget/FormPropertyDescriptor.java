@@ -565,17 +565,17 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			if ( provider.isEnable( ) )
 			{
 				if ( btnAdd.isEnabled( ) )
-					btnAdd.setEnabled( provider.isAddEnable( ) );
+					btnAdd.setEnabled( provider.isAddEnable( tableViewer.getSelection( ) ) );
 				if ( btnEdit.isEnabled( ) )
-					btnEdit.setEnabled( provider.isEditEnable( ) );
+					btnEdit.setEnabled( provider.isEditEnable( tableViewer.getSelection( ) ) );
 				if ( btnDel.isEnabled( ) )
-					btnDel.setEnabled( provider.isDeleteEnable( ) );
+					btnDel.setEnabled( provider.isDeleteEnable( tableViewer.getSelection( ) ) );
 				if ( style != NO_UP_DOWN )
 				{
 					if ( btnUp.isEnabled( ) )
-						btnUp.setEnabled( provider.isUpEnable( ) );
+						btnUp.setEnabled( provider.isUpEnable( tableViewer.getSelection( ) ) );
 					if ( btnDown.isEnabled( ) )
-						btnDown.setEnabled( provider.isDownEnable( ) );
+						btnDown.setEnabled( provider.isDownEnable( tableViewer.getSelection( ) ) );
 				}
 			}
 		}
@@ -668,20 +668,17 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		FormData data = new FormData( );
 		data.left = new FormAttachment( 0, ( dataWidth + 15 - layout.spacing )
 				/ 2
-				- Math.max( btnWidth, btnAdd.computeSize( SWT.DEFAULT,
-						SWT.DEFAULT,
-						true ).x ) );
-		data.width = Math.max( btnWidth, btnAdd.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+				- Math.max( btnWidth,
+						btnAdd.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x ) );
+		data.width = Math.max( btnWidth,
+				btnAdd.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.height = Math.max( btnAdd.computeSize( -1, -1 ).y, height );
 		btnAdd.setLayoutData( data );
 
 		data = new FormData( );
 		data.left = new FormAttachment( btnAdd, 0, SWT.RIGHT );
-		data.width = Math.max( btnWidth, btnDel.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnDel.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.height = data.height = Math.max( btnDel.computeSize( -1, -1 ).y,
 		// height );
 		btnDel.setLayoutData( data );
@@ -710,33 +707,29 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		// int height = QUICK_BUTTON_HEIGHT - 2;
 		FormData data = new FormData( );
 		data.right = new FormAttachment( 100 );
-		data.width = Math.max( btnWidth, btnDown.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnDown.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.height = height;
 		btnDown.setLayoutData( data );
 
 		data = new FormData( );
 		data.right = new FormAttachment( btnDown, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnUp.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnUp.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.height = height;
 		btnUp.setLayoutData( data );
 
 		data = new FormData( );
 		data.right = new FormAttachment( btnUp, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnDel.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnDel.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.height = height;
 		btnDel.setLayoutData( data );
 
 		data = new FormData( );
 		data.right = new FormAttachment( btnDel, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnAdd.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnAdd.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.height = height;
 		btnAdd.setLayoutData( data );
 
@@ -760,41 +753,36 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		// int height = QUICK_BUTTON_HEIGHT - 2;
 		FormData data = new FormData( );
 		data.right = new FormAttachment( 100 );
-		data.width = Math.max( btnWidth, btnDown.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnDown.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.height = height;
 		btnDown.setLayoutData( data );
 
 		data = new FormData( );
 		data.right = new FormAttachment( btnDown, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnUp.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnUp.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.height = height;
 		btnUp.setLayoutData( data );
 
 		data = new FormData( );
 		data.right = new FormAttachment( btnUp, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnEdit.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnEdit.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.height = height;
 		btnEdit.setLayoutData( data );
 
 		data = new FormData( );
 		data.right = new FormAttachment( btnEdit, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnDel.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnDel.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.height = height;
 		btnDel.setLayoutData( data );
 
 		data = new FormData( );
 		data.right = new FormAttachment( btnDel, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnAdd.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnAdd.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.height = height;
 		btnAdd.setLayoutData( data );
 
@@ -820,25 +808,22 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		FormData data = new FormData( );
 		data.right = new FormAttachment( 90 );
 		data.top = new FormAttachment( 0, 0 );
-		data.width = Math.max( btnWidth, btnAdd.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnAdd.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		btnAdd.setLayoutData( data );
 
 		data = new FormData( );
 		data.top = new FormAttachment( btnAdd, 0, SWT.BOTTOM );
 		data.left = new FormAttachment( btnAdd, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnEdit.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnEdit.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		btnEdit.setLayoutData( data );
 
 		data = new FormData( );
 		data.top = new FormAttachment( btnEdit, 0, SWT.BOTTOM );
 		data.left = new FormAttachment( btnEdit, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnDel.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnDel.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		btnDel.setLayoutData( data );
 
 		data = new FormData( );
@@ -861,41 +846,36 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		FormData data = new FormData( );
 		data.right = new FormAttachment( 90 );
 		data.top = new FormAttachment( 0, 0 );
-		data.width = Math.max( btnWidth, btnAdd.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnAdd.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		btnAdd.setLayoutData( data );
 
 		data = new FormData( );
 		data.top = new FormAttachment( btnAdd, 0, SWT.BOTTOM );
 		data.left = new FormAttachment( btnAdd, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnEdit.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnEdit.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		btnEdit.setLayoutData( data );
 
 		data = new FormData( );
 		data.top = new FormAttachment( btnEdit, 0, SWT.BOTTOM );
 		data.left = new FormAttachment( btnEdit, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnDel.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnDel.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		btnDel.setLayoutData( data );
 
 		data = new FormData( );
 		data.top = new FormAttachment( btnDel, 0, SWT.BOTTOM );
 		data.left = new FormAttachment( btnDel, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnUp.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnUp.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		btnUp.setLayoutData( data );
 
 		data = new FormData( );
 		data.top = new FormAttachment( btnUp, 0, SWT.BOTTOM );
 		data.left = new FormAttachment( btnUp, 0, SWT.LEFT );
-		data.width = Math.max( btnWidth, btnDown.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( btnWidth,
+				btnDown.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		btnDown.setLayoutData( data );
 
 		data = new FormData( );

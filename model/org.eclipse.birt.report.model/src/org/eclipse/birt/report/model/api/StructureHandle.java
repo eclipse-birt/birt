@@ -401,7 +401,7 @@ public class StructureHandle extends ValueHandle
 	public String getExternalizedValue( String textIDProp, String textProp )
 	{
 		return ModelUtil
-				.getExternalizedStructValue( getElement( ).getRoot( ),
+				.getExternalizedStructValue( getElement( ),
 						getStructure( ), textIDProp, textProp, getModule( )
 								.getLocale( ) );
 	}
@@ -423,7 +423,7 @@ public class StructureHandle extends ValueHandle
 	public String getExternalizedValue( String textIDProp, String textProp,
 			ULocale locale )
 	{
-		return ModelUtil.getExternalizedStructValue( getElement( ).getRoot( ),
+		return ModelUtil.getExternalizedStructValue( getElement( ),
 				getStructure( ), textIDProp, textProp, locale );
 	}
 

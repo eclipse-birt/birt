@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui;
 
-import java.util.List;
-
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
@@ -23,22 +21,23 @@ import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFacto
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.VirtualCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
@@ -66,69 +65,72 @@ public class AggregationDropAdapter implements IDropAdapter
 			String posType = adapter.getPositionType( );
 
 			if ( ICrosstabCellAdapterFactory.CELL_MEASURE_AGGREGATION.equals( posType )
-					|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( posType ) )
+					|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( posType )
+					|| (ICrosstabCellAdapterFactory.CELL_MEASURE_VIRTUAL.equals(posType) 
+							&& transfer.equals( DesignerPaletteFactory.TIMEPERIOD_TEMPLATE )))
 			{
-				if (transfer.equals( DesignerPaletteFactory.TIMEPERIOD_TEMPLATE ))
-				{
-					CrosstabReportItemHandle reportHandle = adapter.getCrosstabCellHandle().getCrosstab();
-					if (DEUtil.isReferenceElement( reportHandle.getCrosstabHandle( ) ))
-					{
-						return DNDService.LOGIC_FALSE;
-					}
-					CubeHandle cube = reportHandle.getCube( );
-					if (cube == null)
-					{
-						return DNDService.LOGIC_FALSE;
-					}
-					if (cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ) == null)		
-					{
-						return DNDService.LOGIC_FALSE;
-					}
-					
-					List list = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ).getContents( );
-					for (int i=0; i<list.size( ); i++)
-					{
-						DimensionHandle dimension = (DimensionHandle)list.get( i );
-						if (CrosstabAdaptUtil.isTimeDimension(dimension))
-						{
-							DimensionViewHandle viewHandle = reportHandle.getDimension(dimension.getName());
-							if (viewHandle == null)
-							{
-								int count = dimension.getDefaultHierarchy().getLevelCount();
-								if (count == 0)
-								{
-									continue;
-								}
-								LevelHandle levelHandle = dimension.getDefaultHierarchy().getLevel(0);
-								if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR
-											.equals(levelHandle.getDateTimeLevelType()))
-								{
-									return DNDService.LOGIC_TRUE;
-								}
-							}
-							else
-							{
-								int count = viewHandle.getLevelCount();
-								if (count == 0)
-								{
-									continue;
-								}
-								LevelViewHandle levelViewHandle = viewHandle.getLevel(0);
-								if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR
-										.equals(levelViewHandle.getCubeLevel().getDateTimeLevelType()))
-								{
-									return DNDService.LOGIC_TRUE;
-								}
-							}
-						}
-					}
-					
-					return DNDService.LOGIC_FALSE;
-				}
-				else
-				{
-					return DNDService.LOGIC_TRUE;
-				}
+//				if (transfer.equals( DesignerPaletteFactory.TIMEPERIOD_TEMPLATE ))
+//				{
+//					CrosstabReportItemHandle reportHandle = adapter.getCrosstabCellHandle().getCrosstab();
+//					if (DEUtil.isReferenceElement( reportHandle.getCrosstabHandle( ) ))
+//					{
+//						return DNDService.LOGIC_FALSE;
+//					}
+//					CubeHandle cube = reportHandle.getCube( );
+//					if (cube == null)
+//					{
+//						return DNDService.LOGIC_FALSE;
+//					}
+//					if (cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ) == null)		
+//					{
+//						return DNDService.LOGIC_FALSE;
+//					}
+//					
+//					List list = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ).getContents( );
+//					for (int i=0; i<list.size( ); i++)
+//					{
+//						DimensionHandle dimension = (DimensionHandle)list.get( i );
+//						if (CrosstabAdaptUtil.isTimeDimension(dimension))
+//						{
+//							DimensionViewHandle viewHandle = reportHandle.getDimension(dimension.getName());
+//							if (viewHandle == null)
+//							{
+//								int count = dimension.getDefaultHierarchy().getLevelCount();
+//								if (count == 0)
+//								{
+//									continue;
+//								}
+//								LevelHandle levelHandle = dimension.getDefaultHierarchy().getLevel(0);
+//								if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR
+//											.equals(levelHandle.getDateTimeLevelType()))
+//								{
+//									return DNDService.LOGIC_TRUE;
+//								}
+//							}
+//							else
+//							{
+//								int count = viewHandle.getLevelCount();
+//								if (count == 0)
+//								{
+//									continue;
+//								}
+//								LevelViewHandle levelViewHandle = viewHandle.getLevel(0);
+//								if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR
+//										.equals(levelViewHandle.getCubeLevel().getDateTimeLevelType()))
+//								{
+//									return DNDService.LOGIC_TRUE;
+//								}
+//							}
+//						}
+//					}
+//					
+//					return DNDService.LOGIC_FALSE;
+//				}
+//				else
+//				{
+//					return DNDService.LOGIC_TRUE;
+//				}
+				return DNDService.LOGIC_TRUE;
 			}
 		}
 		return DNDService.LOGIC_UNKNOW;
@@ -154,13 +156,31 @@ public class AggregationDropAdapter implements IDropAdapter
 
 			DataItemHandle dataHandle = DesignElementFactory.getInstance( ).newDataItem( null );
 
-			CrosstabCellHandle cellHandle = ( (CrosstabCellAdapter) ( (CrosstabCellEditPart) target ).getModel( ) ).getCrosstabCellHandle( );
+			CrosstabCellHandle cellHandle = null;
+			CrosstabReportItemHandle itemHandle = null;
+			if(target instanceof VirtualCellEditPart)
+			{
+				itemHandle = ( (VirtualCrosstabCellAdapter) ( (VirtualCellEditPart) target ).getModel( ) ).getCrosstabReportItemHandle( );
+			}
+			else if (target instanceof CrosstabCellEditPart)
+			{
+				cellHandle = ( (CrosstabCellAdapter) ( (CrosstabCellEditPart) target ).getModel( ) ).getCrosstabCellHandle( );
+			}
+			
 			try
 			{
-				cellHandle.addContent( dataHandle, CellHandle.CONTENT_SLOT );
-
 				DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
-				dialog.setInput( dataHandle, null, cellHandle );
+				
+				if(target instanceof VirtualCellEditPart)
+				{
+					dialog.setInput((ReportItemHandle)itemHandle.getModelHandle());
+				}
+				else if (target instanceof CrosstabCellEditPart)
+				{
+					cellHandle.addContent( dataHandle, CellHandle.CONTENT_SLOT );
+					dialog.setInput(dataHandle, null, cellHandle);
+				}
+
 				dialog.setAggreate( true );
 				if (DesignerPaletteFactory.TIMEPERIOD_TEMPLATE.equals( transfer ))
 				{
@@ -168,25 +188,61 @@ public class AggregationDropAdapter implements IDropAdapter
 				}
 				if ( dialog.open( ) == Window.OK )
 				{
-					CreateRequest request = new CreateRequest( );
-
-					request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, dataHandle );
-					request.setLocation( location.getPoint( ) );
-
-					Command command = editPart.getCommand( request );
-					if ( command != null && command.canExecute( ) )
+					if (target instanceof VirtualCellEditPart)
 					{
-						dataHandle.setResultSetColumn( dialog.getBindingColumn( ).getName( ) );
-
-						editPart.getViewer( ).getEditDomain( ).getCommandStack( ).execute( command );
-
-						stack.commit( );
+						ComputedColumnHandle bindingHandle = dialog.getBindingColumn( );
+						ComputedMeasureViewHandle computedMeasure = itemHandle.insertComputedMeasure( bindingHandle.getName( ), itemHandle.getComputedMeasures().size() );
+						computedMeasure.addHeader( );
+	
+						ExtendedItemHandle crosstabModelHandle = (ExtendedItemHandle) itemHandle.getModelHandle( );
+	
+						if (bindingHandle == null)
+						{
+							stack.rollback();
+						}
+						
+						DataItemHandle dataItemHandle = DesignElementFactory.getInstance( )
+							.newDataItem( bindingHandle.getName( ) );
+						CrosstabAdaptUtil.formatDataItem( computedMeasure.getCubeMeasure( ), dataItemHandle );
+						dataItemHandle.setResultSetColumn( bindingHandle.getName( ) );
+				
+						AggregationCellHandle cell = computedMeasure.getCell( );
+						
+						//There must a set a value to the column
+						if (ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL.equals( itemHandle.getMeasureDirection( ) ))
+						{
+							CrosstabCellHandle crosstabCellHandle = computedMeasure.getHeader( );
+							if (crosstabCellHandle == null)
+							{
+								crosstabCellHandle = cell;
+							}
+							String defaultUnit = itemHandle.getModelHandle( ).getModuleHandle( ).getDefaultUnits( );
+						}
+						cell.addContent( dataItemHandle );
+						
+						stack.commit();
 					}
-					else
+					else if (target instanceof CrosstabCellEditPart)
 					{
-						stack.rollback( );
+						CreateRequest request = new CreateRequest( );
+	
+						request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, dataHandle );
+						request.setLocation( location.getPoint( ) );
+	
+						Command command = editPart.getCommand( request );
+						if ( command != null && command.canExecute( ) )
+						{
+							dataHandle.setResultSetColumn( dialog.getBindingColumn( ).getName( ) );
+	
+							editPart.getViewer( ).getEditDomain( ).getCommandStack( ).execute( command );
+	
+							stack.commit( );
+						}
+						else
+						{
+							stack.rollback( );
+						}
 					}
-
 				}
 				else
 				{

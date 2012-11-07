@@ -24,6 +24,8 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionContextFactoryImpl;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionContextFactory;
@@ -38,6 +40,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.SortingHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -60,9 +63,11 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
@@ -71,7 +76,9 @@ import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.JFaceColors;
@@ -99,6 +106,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -112,6 +120,8 @@ import org.eclipse.swt.widgets.Text;
 
 public class GroupDialog extends BaseDialog implements Listener
 {
+
+	private static final String AC_GROUP_COLLAPSE_LEVEL_PROPERTY = "__ac_group_collapse_level"; //$NON-NLS-1$
 
 	private static final String GROUP_DLG_GROUP_FILTER_SORTING = Messages.getString( "GroupDialog.Label.FilterSorting" ); //$NON-NLS-1$
 
@@ -148,6 +158,11 @@ public class GroupDialog extends BaseDialog implements Listener
 	public static final String GROUP_DLG_TITLE_EDIT = Messages.getString( "GroupDialog.Title.Edit" ); //$NON-NLS-1$
 
 	public static final String GROUP_DLG_HIDE_DETAIL = Messages.getString( "GroupDialog.buttion.HideDetail" ); //$NON-NLS-1$
+
+	public static final String HELPER_KEY_STARTCOLLAPSED = "start collapsed";//$NON-NLS-1$
+
+	public static final String START_COLLAPSED = "START_COLLAPSED";//$NON-NLS-1$
+
 	private List columnList;
 
 	private GroupHandle inputGroup;
@@ -203,6 +218,7 @@ public class GroupDialog extends BaseDialog implements Listener
 	final private static IChoice[] intervalChoicesString = getIntervalChoicesString( );
 	final private static IChoice[] intervalChoicesDate = getIntervalChoicesDate( );
 	final private static IChoice[] intervalChoicesNumeric = getIntervalChoicesNumeric( );
+
 	private static IChoice[] intervalChoices = intervalChoicesAll;
 	private String previoiusKeyExpression = ""; //$NON-NLS-1$
 
@@ -220,6 +236,10 @@ public class GroupDialog extends BaseDialog implements Listener
 			.getSessionHandle( )
 			.getULocale( )
 			.toLocale( ) );
+
+	private IDialogHelper startCollapsedHelper;
+
+	private boolean startCollapsed;
 
 	/**
 	 * Constructor.
@@ -331,15 +351,18 @@ public class GroupDialog extends BaseDialog implements Listener
 		bookmakrComposite.setLayout( layout );
 
 		new Label( bookmakrComposite, SWT.NONE ).setText( Messages.getString( "GroupDialog.Label.Bookmark" ) ); //$NON-NLS-1$
-		bookmarkEditor = new Text( bookmakrComposite, SWT.SINGLE | SWT.BORDER );
+		bookmarkEditor = new Text( bookmakrComposite, SWT.WRAP | SWT.BORDER );
 		gd = new GridData( );
 		gd.widthHint = 180;
+		gd.heightHint = bookmarkEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- bookmarkEditor.getBorderWidth( )
+				* 2;
 		bookmarkEditor.setLayoutData( gd );
 
 		ExpressionButtonUtil.createExpressionButton( bookmakrComposite,
 				bookmarkEditor,
 				new ExpressionProvider( inputGroup ),
-				inputGroup );
+				inputGroup.getContainer( ) );
 	}
 
 	private void createTOCArea( Composite parent )
@@ -360,9 +383,12 @@ public class GroupDialog extends BaseDialog implements Listener
 		tocArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 
 		// Creates expression editor
-		tocEditor = new Text( tocArea, SWT.SINGLE | SWT.BORDER );
+		tocEditor = new Text( tocArea, SWT.WRAP | SWT.BORDER );
 		GridData gd = new GridData( );
 		gd.widthHint = 200;
+		gd.heightHint = tocEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- tocEditor.getBorderWidth( )
+				* 2;
 		tocEditor.setLayoutData( gd );
 		tocEditor.addModifyListener( new ModifyListener( ) {
 
@@ -385,7 +411,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		ExpressionButtonUtil.createExpressionButton( tocArea,
 				tocEditor,
 				new ExpressionProvider( inputGroup ),
-				inputGroup );
+				inputGroup.getContainer( ) );
 
 		new Label( group, SWT.NONE ).setText( Messages.getString( "GroupDialog.Dialog.TOCStyle" ) ); //$NON-NLS-1$
 
@@ -597,7 +623,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		ExpressionButtonUtil.createExpressionButton( keyArea,
 				keyChooser,
 				null,
-				inputGroup,
+				inputGroup.getContainer( ),
 				null,
 				false,
 				SWT.PUSH,
@@ -706,9 +732,55 @@ public class GroupDialog extends BaseDialog implements Listener
 		intervalBaseText = new Text( composite, SWT.SINGLE | SWT.BORDER );
 		intervalBaseText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		hideDetail = new Button( composite, SWT.CHECK );
-		hideDetail.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		Composite buttonContainer = new Composite( composite, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = layout.marginHeight = 0;
+		layout.numColumns = 2;
+		buttonContainer.setLayout( layout );
+		buttonContainer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		hideDetail = new Button( buttonContainer, SWT.CHECK );
 		hideDetail.setText( GROUP_DLG_HIDE_DETAIL );
+
+		createStartCollapsedSection( buttonContainer );
+	}
+
+	private void createStartCollapsedSection( Composite parent )
+	{
+		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( this,
+				IDialogHelperProvider.class );
+
+		if ( helperProvider != null )
+		{
+			startCollapsedHelper = helperProvider.createHelper( this,
+					HELPER_KEY_STARTCOLLAPSED );
+		}
+
+		if ( startCollapsedHelper != null )
+		{
+			List<String> groups = getGroupNames( inputGroup.getContainer( )
+					.getStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY ) );
+			String position = ""
+					+ ( inputGroup.getContainer( )
+							.getSlot( IListingElementModel.GROUP_SLOT )
+							.findPosn( inputGroup ) + 1 );
+			startCollapsed = groups.contains( position );
+			startCollapsedHelper.createContent( parent );
+			startCollapsedHelper.setProperty( START_COLLAPSED, startCollapsed );
+			startCollapsedHelper.update( true );
+			GridData data = new GridData( GridData.FILL_HORIZONTAL );
+			startCollapsedHelper.getControl( ).setLayoutData( data );
+			startCollapsedHelper.addListener( SWT.Modify,
+					new org.eclipse.swt.widgets.Listener( ) {
+
+						public void handleEvent( Event event )
+						{
+							startCollapsedHelper.update( false );
+							startCollapsed = (Boolean) startCollapsedHelper.getProperty( START_COLLAPSED );
+						}
+
+					} );
+		}
 	}
 
 	/**
@@ -736,10 +808,10 @@ public class GroupDialog extends BaseDialog implements Listener
 
 		ascending = new Button( sortingGroupComposite, SWT.RADIO );
 		// ascending.setText( sortByAscending.getDisplayName( ) );
-		ascending.setText( Messages.getString( "GroupDialog.Button.Ascending" ) );
+		ascending.setText( Messages.getString( "GroupDialog.Button.Ascending" ) ); //$NON-NLS-1$
 		descending = new Button( sortingGroupComposite, SWT.RADIO );
 		// descending.setText( sortByDescending.getDisplayName( ) );
-		descending.setText( Messages.getString( "GroupDialog.Button.Descending" ) );
+		descending.setText( Messages.getString( "GroupDialog.Button.Descending" ) ); //$NON-NLS-1$
 
 		Group pagebreakGroup = new Group( composite, SWT.NONE );
 
@@ -1354,7 +1426,7 @@ public class GroupDialog extends BaseDialog implements Listener
 					{
 						inputGroup.setIntervalRange( format.parse( intervalRange.getText( ) )
 								.doubleValue( ) );
-						
+
 					}
 					else
 					{
@@ -1422,6 +1494,60 @@ public class GroupDialog extends BaseDialog implements Listener
 			{
 				inputGroup.setRepeatHeader( repeatHeaderButton.getSelection( ) );
 			}
+			if ( this.startCollapsedHelper != null )
+			{
+				UserPropertyDefnHandle property = inputGroup.getContainer( )
+						.getUserPropertyDefnHandle( AC_GROUP_COLLAPSE_LEVEL_PROPERTY );
+				if ( property != null
+						&& property.getType( ) != PropertyType.STRING_TYPE )
+				{
+					inputGroup.getContainer( )
+							.dropUserPropertyDefn( property.getName( ) );
+				}
+				property = inputGroup.getContainer( )
+						.getUserPropertyDefnHandle( AC_GROUP_COLLAPSE_LEVEL_PROPERTY );
+				if ( property == null )
+				{
+					UserPropertyDefn propertyDefn = new UserPropertyDefn( );
+					propertyDefn.setName( AC_GROUP_COLLAPSE_LEVEL_PROPERTY );
+					propertyDefn.setType( DEUtil.getMetaDataDictionary( )
+							.getPropertyType( PropertyType.STRING_TYPE ) );
+					// propertyDefn.setVisible( false );
+					inputGroup.getContainer( )
+							.addUserPropertyDefn( propertyDefn );
+				}
+
+				List<String> groups = getGroupNames( inputGroup.getContainer( )
+						.getStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY ) );
+				String position = ""
+						+ ( inputGroup.getContainer( )
+								.getSlot( IListingElementModel.GROUP_SLOT )
+								.findPosn( inputGroup ) + 1 );
+				if ( startCollapsed )
+				{
+					if ( !groups.contains( position ) )
+						groups.add( position );
+				}
+				else
+				{
+					groups.remove( position );
+				}
+
+				StringBuffer buffer = new StringBuffer( );
+				for ( int i = 0; i < groups.size( ); i++ )
+				{
+					buffer.append( groups.get( i ) );
+					if ( i < groups.size( ) - 1 )
+						buffer.append( "," ); //$NON-NLS-1$
+				}
+
+				String value = buffer.toString( ).trim( ).length( ) > 0 ? buffer.toString( )
+						.trim( )
+						: null;
+				inputGroup.getContainer( )
+						.setStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY,
+								value );
+			}
 		}
 		catch ( SemanticException e )
 		{
@@ -1430,6 +1556,35 @@ public class GroupDialog extends BaseDialog implements Listener
 		}
 		setResult( inputGroup );
 		super.okPressed( );
+	}
+
+	private List<String> getGroupNames( String s )
+	{
+		List<String> groups = new ArrayList<String>( );
+		if ( s == null )
+			return groups;
+		StringBuffer buffer = new StringBuffer( );
+		for ( int i = 0; i < s.length( ); i++ )
+		{
+			char c = s.charAt( i );
+			if ( c == ',' )
+			{
+				if ( buffer.toString( ).trim( ).length( ) > 0 )
+				{
+					groups.add( buffer.toString( ).trim( ) );
+				}
+				buffer = new StringBuffer( );
+			}
+			else
+			{
+				buffer.append( c );
+			}
+		}
+		if ( buffer.toString( ).trim( ).length( ) > 0 )
+		{
+			groups.add( buffer.toString( ).trim( ) );
+		}
+		return groups;
 	}
 
 	private static ColumnHintHandle findColumnHintHandle(

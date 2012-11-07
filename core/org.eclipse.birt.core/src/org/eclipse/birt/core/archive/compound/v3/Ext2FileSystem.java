@@ -52,25 +52,25 @@ public class Ext2FileSystem
 	/**
 	 * properties saved in the file header
 	 */
-	private HashMap<String, String> properties = new HashMap<String, String>( );
+	private final HashMap<String, String> properties = new HashMap<String, String>( );
 	private boolean propertyDirty = true;
 
-	protected FileCacheManager cacheManager = new FileCacheManager( );
+	protected final FileCacheManager cacheManager = new FileCacheManager( );
 	/**
 	 * nodes define the logical stream
 	 */
-	private NodeTable nodeTable = new NodeTable( this );
+	private final NodeTable nodeTable = new NodeTable( this );
 	/**
 	 * named entries to define the logical stream
 	 */
-	private EntryTable entryTable = new EntryTable( this );
+	private final EntryTable entryTable = new EntryTable( this );
 
-	private FreeBlockTable freeTable = new FreeBlockTable( this );
+	private final FreeBlockTable freeTable = new FreeBlockTable( this );
 
 	/**
 	 * opened streams
 	 */
-	private HashSet<Ext2File> openedFiles = new HashSet<Ext2File>( );
+	private final HashSet<Ext2File> openedFiles = new HashSet<Ext2File>( );
 
 	/**
 	 * mode
@@ -211,7 +211,12 @@ public class Ext2FileSystem
 				cacheManager.touchAllCaches( );
 				writeHeader( );
 			}
+
+			properties.clear( );
+			entryTable.clear( );
+			nodeTable.clear( );
 			cacheManager.clear( );
+			freeTable.clear( );
 		}
 		finally
 		{
@@ -345,9 +350,14 @@ public class Ext2FileSystem
 		return entryTable.getEntry( name ) != null;
 	}
 
-	synchronized public String[] listFiles( )
+	synchronized public Iterable<String> listAllFiles( )
 	{
-		return entryTable.listEntries( );
+		return entryTable.listAllEntries( );
+	}
+
+	synchronized public Iterable<String> listFiles( String fromName )
+	{
+		return entryTable.listEntries( fromName );
 	}
 
 	synchronized public void removeFile( String name ) throws IOException

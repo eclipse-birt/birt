@@ -23,11 +23,6 @@ import org.eclipse.birt.report.engine.internal.index.v2.DocumentIndexReaderV2;
 
 public class DocumentIndexReader implements IDocumentIndexReader
 {
-
-	final static int VERSION_0 = 0;
-	final static int VERSION_1 = 1;
-	final static int VERSION_2 = 2;
-
 	IDocumentIndexReader reader;
 
 	public DocumentIndexReader( int version, HashMap<String, Long> bookmarks,

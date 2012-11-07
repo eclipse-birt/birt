@@ -40,6 +40,8 @@ public final class SwtTextMetrics extends TextAdapter
 
 	private String[] oText = null;
 
+	private double[] faWidth = null;
+	
 	private GC gc = null;
 
 	private Label la = null;
@@ -204,6 +206,7 @@ public final class SwtTextMetrics extends TextAdapter
 			return cachedWidth;
 		}
 
+		faWidth = new double[iLineCount];
 		cachedWidth = 0;
 		gc.setFont( getFont( ) );
 		double dWidth;
@@ -213,6 +216,7 @@ public final class SwtTextMetrics extends TextAdapter
 			for ( int i = 0; i < iLineCount; i++ )
 			{
 				dWidth = gc.textExtent( sa[i] ).x;
+				faWidth[i] = dWidth;
 				if ( dWidth > cachedWidth )
 				{
 					cachedWidth = dWidth;
@@ -222,6 +226,7 @@ public final class SwtTextMetrics extends TextAdapter
 		else
 		{
 			cachedWidth = gc.textExtent( oText[0] ).x;
+			faWidth[0] = cachedWidth;
 		}
 		return cachedWidth;
 	}
@@ -245,6 +250,16 @@ public final class SwtTextMetrics extends TextAdapter
 		return stringWidth( ) + ins.getLeft( ) + ins.getRight( );
 	}
 
+	@Override
+	public double getWidth( int iIndex )
+	{
+		if ( faWidth == null )
+		{
+			stringWidth( );
+		}
+		return faWidth[iIndex];
+	}
+	
 	/**
 	 * 
 	 * @return The number of lines created due to the hard breaks inserted

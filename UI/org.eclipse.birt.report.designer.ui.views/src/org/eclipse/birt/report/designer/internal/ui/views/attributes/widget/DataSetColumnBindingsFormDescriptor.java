@@ -59,11 +59,28 @@ public class DataSetColumnBindingsFormDescriptor extends
 	 */
 
 	protected Button btnRefresh;
+	protected Button btnClear;
 
 	public Control createControl( Composite parent )
 	{
 		Control control = super.createControl( parent );
 		provider.setTableViewer( getTableViewer( ) );
+
+		if ( isFormStyle( ) )
+			btnClear = FormWidgetFactory.getInstance( )
+					.createButton( (Composite) control, "", SWT.PUSH ); //$NON-NLS-1$
+		else
+			btnClear = new Button( (Composite) control, SWT.BORDER );
+
+		btnClear.setText( Messages.getString( "FormPage.Button.Binding.Clear" ) ); //$NON-NLS-1$
+		btnClear.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				handleClearSelectEvent( );
+			}
+		} );
+		btnClear.setEnabled( true );
 
 		if ( isFormStyle( ) )
 			btnRefresh = FormWidgetFactory.getInstance( )
@@ -80,6 +97,7 @@ public class DataSetColumnBindingsFormDescriptor extends
 			}
 		} );
 		btnRefresh.setEnabled( true );
+
 		fullLayout( );
 
 		return control;
@@ -88,6 +106,11 @@ public class DataSetColumnBindingsFormDescriptor extends
 	protected void handleRefreshSelectEvent( )
 	{
 		provider.generateAllBindingColumns( );
+	}
+
+	protected void handleClearSelectEvent( )
+	{
+		provider.clearAllBindingColumns( );
 	}
 
 	/*
@@ -103,20 +126,45 @@ public class DataSetColumnBindingsFormDescriptor extends
 		FormData data = new FormData( );
 		data.top = new FormAttachment( btnEdit, 0, SWT.BOTTOM );
 		data.left = new FormAttachment( btnEdit, 0, SWT.LEFT );
-		data.width = Math.max( 60, btnDel.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.width = Math.max( 60,
+				btnDel.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		btnDel.setLayoutData( data );
 
-		if ( btnRefresh != null )
+		if ( btnClear != null )
 		{
 			data = new FormData( );
 			data.top = new FormAttachment( btnDel, 0, SWT.BOTTOM );
 			data.left = new FormAttachment( btnDel, 0, SWT.LEFT );
-			data.width = Math.max( 60, btnRefresh.computeSize( SWT.DEFAULT,
-					SWT.DEFAULT,
-					true ).x );
+			data.width = Math.max( 60,
+					btnClear.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+			btnClear.setLayoutData( data );
+		}
+
+		if ( btnRefresh != null )
+		{
+			data = new FormData( );
+			data.top = new FormAttachment( btnClear, 0, SWT.BOTTOM );
+			data.left = new FormAttachment( btnClear, 0, SWT.LEFT );
+			data.width = Math.max( 60,
+					btnRefresh.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 			btnRefresh.setLayoutData( data );
+		}
+
+	}
+
+	protected void updateArraw( )
+	{
+		super.updateArraw( );
+		if ( provider.isEnable( ) && provider.isEditable( ) )
+		{
+			if ( table.getItemCount( ) > 0 )
+				btnClear.setEnabled( provider.isClearEnable( ) );
+			else
+				btnClear.setEnabled( false );
+		}
+		else
+		{
+			btnClear.setEnabled( false );
 		}
 	}
 

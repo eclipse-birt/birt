@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.ui.swt.AbstractLineStyleChooserComposite;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.core.ui.swt.custom.ICustomChoice;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -49,7 +52,7 @@ public class LineStyleChooserComposite extends AbstractLineStyleChooserComposite
 			int iLineStyle )
 	{
 		this( parent, style, iLineStyle, new Integer[]{
-				0, SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT
+				SWT.NONE, SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT
 		} );
 	}
 
@@ -84,6 +87,12 @@ public class LineStyleChooserComposite extends AbstractLineStyleChooserComposite
 	public void setLineStyle( int iStyle )
 	{
 		setChoiceValue( Integer.valueOf( iStyle ) );
+	}
+
+	@Override
+	public void setLineStyle( LineStyle style, EObject eParent )
+	{
+		setLineStyle( ChartUIExtensionUtil.getSWTLineStyle( style ) );
 	}
 
 }

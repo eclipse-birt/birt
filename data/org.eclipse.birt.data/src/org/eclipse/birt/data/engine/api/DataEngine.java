@@ -94,6 +94,12 @@ abstract public class DataEngine
 	public static String MEMORY_DATA_SET_CACHE = "org.eclipse.birt.data.cache.memory";
 	
 	/**
+	 * Indicates the session id of which a set of queries will be executed. 
+	 * If the id is set, we will match the cache based on session id and data source/data set name. We will also generate dummy data to avoid. 
+	 */
+	public static String QUERY_EXECUTION_SESSION_ID = "org.eclipse.birt.data.query.session.id";
+	
+	/**
 	 * Indicates data engine memory usage hint level
 	 */
 	public static String MEMORY_USAGE = "org.eclipse.birt.data.memoryusage";
@@ -282,6 +288,14 @@ abstract public class DataEngine
 	 */
 	abstract public void clearCache( IBaseDataSourceDesign dataSource,
 			IBaseDataSetDesign dataSet ) throws BirtException;
+	
+	/**
+	 * Clear the cache base on cacheID
+	 * 
+	 * @param cacheID
+	 * @throws BirtException
+	 */
+	abstract public void clearCache( String cacheID ) throws BirtException;
 	
 	/**
 	 * Verifies the elements of a report query spec

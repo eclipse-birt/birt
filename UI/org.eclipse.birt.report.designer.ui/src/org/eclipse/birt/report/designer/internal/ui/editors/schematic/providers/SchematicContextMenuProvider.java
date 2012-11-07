@@ -82,6 +82,7 @@ import org.eclipse.birt.report.designer.ui.actions.EditStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertPasteColumnAction;
+import org.eclipse.birt.report.designer.ui.actions.InsertRelativeTimePeriodAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
@@ -772,6 +773,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		action = getAction( InsertAggregationAction.ID );
 		action.setText( InsertAggregationAction.TEXT );
 		subMenu.add( action );
+		
+		action = getAction( InsertRelativeTimePeriodAction.ID );
+		action.setText( InsertRelativeTimePeriodAction.TEXT );
+		subMenu.add( action );
 
 		menuManager.appendToGroup( group_name, subMenu );
 	}
@@ -940,6 +945,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					"org.eclipse.birt.report.designer.internal.ui.action.NewThemeAction", //$NON-NLS-1$
 					obj,
 					Messages.getString( "ThemesNodeProvider.action.New" ), ReportDesignConstants.THEME_ITEM ) ); //$NON-NLS-1$
+
 		}
 
 		MenuManager subMenu = new MenuManager( APPLY_THEME_MENU_ITEM_TEXT );

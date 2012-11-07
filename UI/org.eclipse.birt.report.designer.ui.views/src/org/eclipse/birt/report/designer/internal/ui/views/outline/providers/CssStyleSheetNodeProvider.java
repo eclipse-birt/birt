@@ -20,6 +20,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.EditUseCssStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ReloadCssStyleAction;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -60,7 +61,16 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 	public String getNodeDisplayName( Object model )
 	{
 		String fileName = ( (CssStyleSheetHandle) model ).getFileName( );
-		return fileName.substring( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
+		if ( fileName != null )
+		{
+			return fileName.substring( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
+		}
+		String uri = ( (CssStyleSheetHandle) model ).getExternalCssURI( );
+		if ( uri != null )
+		{
+			return uri.replace( '\\', '/' ).substring( uri.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
+		}
+		return Messages.getString("CssStyleSheetNodeProvider.Label.FromServer"); //$NON-NLS-1$
 	}
 
 	/*

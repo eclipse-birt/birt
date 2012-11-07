@@ -73,6 +73,18 @@ public class DateLevelDialog extends TitleAreaDialog
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH,
 				new String[][]{
 						{
+								new DateFormatter( "MM" ).format( defaultDate ), //$NON-NLS-1$
+								"MM" //$NON-NLS-1$
+						},
+						{
+								new DateFormatter( "MM yyyy" ).format( defaultDate ), //$NON-NLS-1$
+								"MM yyyy" //$NON-NLS-1$
+						},
+						{
+								new DateFormatter( "MM yy" ).format( defaultDate ), //$NON-NLS-1$
+								"MM yy" //$NON-NLS-1$
+						},
+						{
 								new DateFormatter( "MMM" ).format( defaultDate ), //$NON-NLS-1$
 								"MMM" //$NON-NLS-1$
 						},
@@ -83,6 +95,18 @@ public class DateLevelDialog extends TitleAreaDialog
 						{
 								new DateFormatter( "MMM yy" ).format( defaultDate ), //$NON-NLS-1$
 								"MMM yy" //$NON-NLS-1$
+						},
+						{
+								new DateFormatter( "MMMM" ).format( defaultDate ), //$NON-NLS-1$
+								"MMMM" //$NON-NLS-1$
+						},
+						{
+								new DateFormatter( "MMMM yyyy" ).format( defaultDate ), //$NON-NLS-1$
+								"MMMM yyyy" //$NON-NLS-1$
+						},
+						{
+								new DateFormatter( "MMMM yy" ).format( defaultDate ), //$NON-NLS-1$
+								"MMMM yy" //$NON-NLS-1$
 						}
 				} );
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR,
@@ -149,9 +173,14 @@ public class DateLevelDialog extends TitleAreaDialog
 		String[] items = new String[formatPattern.length];
 		for ( int i = 0; i < items.length; i++ )
 		{
-			items[i] = formatPattern[i][0];
+			items[i] = getFormatPattenString( formatPattern, i );
 		}
 		return items;
+	}
+
+	private String getFormatPattenString( String[][] formatPattern, int i )
+	{
+		return formatPattern[i][0] + " (" + formatPattern[i][1] + ")";
 	}
 
 	private String[] getFormatPatternItems( String type )
@@ -175,7 +204,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		for ( int i = 0; i < formatPattern.length; i++ )
 		{
 			if ( pattern.equals( formatPattern[i][1] ) )
-				return formatPattern[i][0];
+				return getFormatPattenString( formatPattern, i );
 		}
 		return NONE;
 	}

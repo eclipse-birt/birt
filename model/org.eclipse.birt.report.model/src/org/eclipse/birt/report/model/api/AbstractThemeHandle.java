@@ -215,7 +215,7 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 		return allStyles;
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see
@@ -231,7 +231,7 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 		adapter.addCss( sheetHandle );
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see
@@ -249,12 +249,12 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 				module, getElement( ) );
 		adapter.addCss( cssStruct );
 	}
-
-	/*
+	
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see
-	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#addCss(java.lang
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#addCssByFileName(java.lang
 	 * .String)
 	 */
 	public void addCss( String fileName ) throws SemanticException
@@ -265,6 +265,21 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 	}
 
 	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#addCssByProerties(java.lang
+	 * .String)
+	 */
+	public void addCssByProerties( String fileName, String externalCssURI, boolean isUseExternalCss ) throws SemanticException
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.addCssbyProperties( fileName, externalCssURI, isUseExternalCss );
+	}
+	
+
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see
@@ -280,7 +295,7 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 		adapter.dropCss( sheetHandle );
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see
@@ -294,7 +309,7 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 		return adapter.canDropCssStyleSheet( sheetHandle );
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see
@@ -309,9 +324,9 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 		return adapter.canAddCssStyleSheet( sheetHandle );
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see
 	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#canAddCssStyleSheet
 	 * (java.lang.String)
@@ -322,7 +337,21 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 				module, getElement( ) );
 		return adapter.canAddCssStyleSheet( fileName );
 	}
-
+	
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#canAddCssStyleSheetByProperties
+	 * (java.lang.String)
+	 */
+	public boolean canAddCssStyleSheetByProperties( String fileName, String externalCssURI, boolean useExternalCss )
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.canAddCssStyleSheetByProperties( fileName, externalCssURI, useExternalCss );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -339,9 +368,9 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 		adapter.reloadCss( sheetHandle );
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#
 	 * findCssStyleSheetHandleByName(java.lang.String)
 	 */
@@ -352,10 +381,26 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 		return adapter.findCssStyleSheetHandleByFileName( fileName );
 
 	}
-
-	/*
+	
+	/**
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#
+	 * findCssStyleSheetHandleByProperties(java.lang.String, java.lang.String, java.lang.Boolean)
+	 */
+	public CssStyleSheetHandle findCssStyleSheetHandleByProperties( String fileName,String externalCssURI, boolean useExternalCss )
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.findCssStyleSheetHandleByProperties( fileName, externalCssURI, useExternalCss );
+
+	}
+	
+	
+
+	/**
+	 * (non-Javadoc)
+	 * @deprecated
 	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#
 	 * findIncludedCssStyleSheetHandleByName(java.lang.String)
 	 */
@@ -366,10 +411,25 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 				module, getElement( ) );
 		return adapter.findIncludedCssStyleSheetHandleByFileName( fileName );
 	}
-
-	/*
+	
+	/**
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#
+	 * findIncludedCssStyleSheetHandleByProperties(java.lang.String, java.lang.String, java.lang.Boolean)
+	 */
+	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByProperties(
+			String fileName, String externalCssURI, boolean useExternalCss )
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.findIncludedCssStyleSheetHandleByProperties( fileName, externalCssURI, useExternalCss );
+	}
+	
+
+	/**
+	 * (non-Javadoc)
+	 * @deprecated
 	 * @see
 	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#renameCss(org.eclipse
 	 * .birt.report.model.api.IncludedCssStyleSheetHandle, java.lang.String)
@@ -382,10 +442,26 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 				module, getElement( ) );
 		adapter.renameCss( handle, newFileName );
 	}
-
-	/*
+	
+	/**
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#renameCssByProperties(org.eclipse
+	 * .birt.report.model.api.IncludedCssStyleSheetHandle, java.lang.String, java.lang.String, java.lang.Boolean)
+	 */
+	public void renameCssByProperties( IncludedCssStyleSheetHandle handle,
+			String newFileName, String externalCssURI, boolean useExternalCss ) throws SemanticException
+	{
+
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.renameCssByProperties( handle, newFileName, externalCssURI, useExternalCss );
+	}
+	
+	/**
+	 * (non-Javadoc)
+	 * @deprecated
 	 * @see
 	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#canRenameCss(org
 	 * .eclipse.birt.report.model.api.IncludedCssStyleSheetHandle,
@@ -398,5 +474,23 @@ public abstract class AbstractThemeHandle extends ReportElementHandle
 				module, getElement( ) );
 		return adapter.canRenameCss( handle, newFileName );
 	}
+	
+	/**
+	 * 
+	 * @param handle
+	 * @param newFileName
+	 * @param externalCssURI
+	 * @param useExternalCss
+	 * @return
+	 * @throws SemanticException
+	 */
+	public boolean canRenameCssByProperties( IncludedCssStyleSheetHandle handle,
+			String newFileName, String externalCssURI, boolean useExternalCss ) throws SemanticException
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.canRenameCssByProperties( handle, newFileName, externalCssURI, useExternalCss );
+	}
+	
 
 }

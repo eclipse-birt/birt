@@ -292,4 +292,14 @@ public class ReportItem
 	{
 		// TODO Auto-generated method stub
 	}
+
+	public void handleCompatibilityIssue( )
+	{
+		// TODO Auto-generated method stub
+	}
+
+	public boolean hasFixedSize( )
+	{
+		return false;
+	}
 }

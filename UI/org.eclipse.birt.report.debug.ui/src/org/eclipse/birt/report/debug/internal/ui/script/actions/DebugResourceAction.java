@@ -20,7 +20,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.views.navigator.ResourceNavigator;
 
 /**
  * Add the debug report action in the navigate view
@@ -29,16 +28,14 @@ import org.eclipse.ui.views.navigator.ResourceNavigator;
 public class DebugResourceAction implements IViewActionDelegate
 {
 
-	private ResourceNavigator navigator;
+	private IViewPart navigator;
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IViewActionDelegate#init(org.eclipse.ui.IViewPart)
 	 */
 	public void init( IViewPart view )
 	{
-		if ( view instanceof ResourceNavigator )
-		{
-			navigator = (ResourceNavigator) view;
-		}
+		navigator = view;
 	}
 
 	/* (non-Javadoc)
@@ -64,8 +61,7 @@ public class DebugResourceAction implements IViewActionDelegate
 	{
 		if ( navigator != null )
 		{
-			IStructuredSelection selection = (IStructuredSelection) navigator.getTreeViewer( )
-					.getSelection( );
+			IStructuredSelection selection = (IStructuredSelection) navigator.getViewSite( ).getSelectionProvider( ).getSelection( );
 			if ( selection.size( ) == 1
 					&& selection.getFirstElement( ) instanceof IFile )
 			{

@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.jface.util.Assert;
@@ -319,6 +320,11 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 				cellEditorWindow.toDisplay( 0, 0 ).y
 						- cellEditorWindow.getBounds( ).height );
 		ColorDialog dialog = new ColorDialog( shell, SWT.APPLICATION_MODAL );
+		RGB[] rgbs = ReportPlugin.getDefault( ).getCustomColorsPreference( );
+		if ( rgbs != null )
+		{
+			dialog.setRGBs( rgbs );
+		}
 		Object value = getValue( );
 
 		try
@@ -343,6 +349,8 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 		}
 
 		value = dialog.open( );
+		ReportPlugin.getDefault( )
+				.setCustomColorsPreference( dialog.getRGBs( ) );
 		if ( value != null && dialog.getRGB( ) != null )
 		{
 			deactivate( );

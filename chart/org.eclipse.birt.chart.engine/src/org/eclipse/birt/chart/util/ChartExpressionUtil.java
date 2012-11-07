@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -56,7 +58,10 @@ public class ChartExpressionUtil
 		}
 		if ( hasOperation )
 		{
-			return expr.matches( ".*\\Q" + indicator + "[\"\\E.*\\Q\"]\\E.*" ); //$NON-NLS-1$ //$NON-NLS-2$
+			// The pattern needs to include line terminator characters to
+			// support checking complex script expression.
+			Matcher m = Pattern.compile( ".*\\Q" + indicator + "[\"\\E.*\\Q\"]\\E.*", Pattern.DOTALL ).matcher( expr ); //$NON-NLS-1$ //$NON-NLS-2$
+			return m.matches( );
 		}
 		String regExp = "\\Q" + indicator + "[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$ //$NON-NLS-2$
 		String regExp2 = "\\Q"//$NON-NLS-1$
@@ -426,6 +431,10 @@ public class ChartExpressionUtil
 	{
 
 		public static final String JAVASCRIPT = "javascript"; //$NON-NLS-1$
+		/**
+		 * Same with ExpressionType.CONSTANT
+		 */
+		public static final String CONSTANT = "constant"; //$NON-NLS-1$
 		protected String sType = JAVASCRIPT;
 		protected String sExpr = ""; //$NON-NLS-1$
 
@@ -463,6 +472,42 @@ public class ChartExpressionUtil
 			}
 
 			this.sExpr = sExpr.trim( );
+		}
+		
+		/**
+		 * Returns if expression type is constant.
+		 * 
+		 * @return true means constant
+		 */
+		public boolean isConstant( )
+		{
+			return CONSTANT.equals( getType( ) );
+		}
+		
+		/**
+		 * Converts to the javascript type expression
+		 * 
+		 * @param isRow
+		 *            true means row, false means cube
+		 * 
+		 * @return javascript expression
+		 */
+		public String convertJSExpression( boolean isRow )
+		{
+			return sExpr;
+		}
+
+		/**
+		 * Returns the copied instance.
+		 * 
+		 * @return copied instance
+		 */
+		public ExpressionCodec copy( )
+		{
+			ExpressionCodec instance = new ExpressionCodec( );
+			instance.setType( getType( ) );
+			instance.setExpression( getExpression( ) );
+			return instance;
 		}
 
 		public boolean isCubeBinding( boolean hasOperation )

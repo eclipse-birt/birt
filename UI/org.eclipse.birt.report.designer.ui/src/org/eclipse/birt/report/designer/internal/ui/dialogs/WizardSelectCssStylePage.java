@@ -478,8 +478,8 @@ public class WizardSelectCssStylePage extends WizardPage
 			setMessage( Messages.getString( "WizardSelectCssStylePage.msg.FileNameEmpty" ) ); //$NON-NLS-1$
 			return false;
 		}
-
-		if ( !new File( getFileName( ) ).exists( ) )
+		File file = new File( getFileName( ));
+		if ( !file.exists( ) || !file.isFile( ))
 		{
 			setErrorMessage( Messages.getString( "WizardSelectCssStylePage.errorMsg.FileNotExist" ) ); //$NON-NLS-1$
 			return false;

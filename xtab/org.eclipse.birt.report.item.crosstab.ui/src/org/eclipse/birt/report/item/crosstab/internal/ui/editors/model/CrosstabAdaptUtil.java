@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -41,6 +42,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -232,7 +234,11 @@ public class CrosstabAdaptUtil
 
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelAttrHandle.getName( ) );
-		CrosstabAdaptUtil.formatDataItem( levelHandle, dataHandle );
+		
+		String type = levelHandle.getDataType( );
+		String aliment = levelHandle.getAlignment( );
+		
+		formatDataItem( type, null, aliment, dataHandle );
 		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
 		
 		if ( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME.equals( levelAttrHandle.getName( ) ) )
@@ -573,8 +579,8 @@ public class CrosstabAdaptUtil
 		}
 		return true;
 	}
-	
-	public static void formatDataItem(LevelHandle levelHandle, DataItemHandle dataHandle)
+
+	public static void formatDataItem(LevelHandle levelHandle, DataItemHandle dataHandle )
 	{
 		if (levelHandle == null || dataHandle == null)
 		{
@@ -674,4 +680,5 @@ public class CrosstabAdaptUtil
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
+	
 }

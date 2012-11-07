@@ -110,8 +110,11 @@ public class AddComputedSummaryDialog extends BaseDialog
 		Label expressionLabel = new Label( composite, SWT.NONE );
 		expressionLabel.setText( Messages.getString( "AddComputedSummaryDialog.Label.Expression" ) );
 
-		expressionText = new Text( composite, SWT.BORDER );
+		expressionText = new Text( composite, SWT.BORDER | SWT.WRAP );
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
+		gridData.heightHint = expressionText.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- expressionText.getBorderWidth( )
+				* 2;
 		expressionText.setLayoutData( gridData );
 		expressionText.addModifyListener( modifyListener );
 

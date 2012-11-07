@@ -12,11 +12,13 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -24,6 +26,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
@@ -101,7 +104,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 	{
 
 		AddResourceFileFolderSelectionDialog dialog = new AddResourceFileFolderSelectionDialog( new String[]{
-		"*.jar"	},	new String[]{".jar"	}); //$NON-NLS-1$ //$NON-NLS-2$
+			"*.jar"}, new String[]{".jar"} ); //$NON-NLS-1$ //$NON-NLS-2$
 		dialog.setHelpDialogId( IHelpContextIds.ADD_JAR_FILES_DIALOG_ID );
 
 		dialog.setExistFiles( getElmentNames( inputElement ) );
@@ -125,6 +128,92 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 	public boolean doEditItem( int pos )
 	{
 		return false;
+	}
+
+	public boolean isDeleteEnable( Object selectedObject )
+	{
+		if ( selectedObject instanceof StructuredSelection
+				&& !( (StructuredSelection) selectedObject ).isEmpty( ) )
+		{
+			ScriptLibHandle ScriptLibHandle = (ScriptLibHandle) ( (StructuredSelection) selectedObject ).getFirstElement( );
+			if ( ScriptLibHandle.getElementHandle( ) != inputElement )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public boolean isUpEnable( Object selectedObject )
+	{
+		if ( selectedObject instanceof StructuredSelection
+				&& !( (StructuredSelection) selectedObject ).isEmpty( ) )
+		{
+			ScriptLibHandle ScriptLibHandle = (ScriptLibHandle) ( (StructuredSelection) selectedObject ).getFirstElement( );
+			if ( ScriptLibHandle.getElementHandle( ) != inputElement )
+			{
+				return false;
+			}
+			else
+			{
+				List handles = Arrays.asList( getElements( inputElement ) );
+				int index = -1;
+				for ( int i = 0; i < handles.size( ); i++ )
+				{
+					ScriptLibHandle handle = (ScriptLibHandle) handles.get( i );
+					if ( handle.getName( ).equals( ScriptLibHandle.getName( ) ) )
+					{
+						index = i;
+						break;
+					}
+				}
+				if ( index > 0 )
+				{
+					ScriptLibHandle nextHandle = (ScriptLibHandle) handles.get( index - 1 );
+					if ( nextHandle.getElementHandle( ) != inputElement )
+					{
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	public boolean isDownEnable( Object selectedObject )
+	{
+		if ( selectedObject instanceof StructuredSelection
+				&& !( (StructuredSelection) selectedObject ).isEmpty( ) )
+		{
+			ScriptLibHandle ScriptLibHandle = (ScriptLibHandle) ( (StructuredSelection) selectedObject ).getFirstElement( );
+			if ( ScriptLibHandle.getElementHandle( ) != inputElement )
+			{
+				return false;
+			}
+			else
+			{
+				List handles = Arrays.asList( getElements( inputElement ) );
+				int index = -1;
+				for ( int i = 0; i < handles.size( ); i++ )
+				{
+					ScriptLibHandle handle = (ScriptLibHandle) handles.get( i );
+					if ( handle.getName( ).equals( ScriptLibHandle.getName( ) ) )
+					{
+						index = i;
+						break;
+					}
+				}
+				if ( handles.size( ) > index + 1 )
+				{
+					ScriptLibHandle nextHandle = (ScriptLibHandle) handles.get( index + 1 );
+					if ( nextHandle.getElementHandle( ) != inputElement )
+					{
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	public String getColumnText( Object element, int columnIndex )

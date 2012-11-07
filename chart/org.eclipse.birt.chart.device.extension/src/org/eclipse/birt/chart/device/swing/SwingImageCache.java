@@ -87,7 +87,18 @@ public final class SwingImageCache
 							}, idsSWING.getULocale( ) ) );
 			try
 			{
-				img = ImageIO.read( url );
+				try {
+					img = ImageIO.read( url );
+				} 
+				catch ( IllegalArgumentException e )
+				{
+					// Some special image formats are not supported by standard
+					// sun's JDK, like Microsoft Ico file, it might throw
+					// exception, here catch the exception and return null
+					// image.
+					return null;
+				}
+				
 				final MediaTracker tracker = new MediaTracker( p );
 				tracker.addImage( img, 0 );
 				tracker.waitForAll( );

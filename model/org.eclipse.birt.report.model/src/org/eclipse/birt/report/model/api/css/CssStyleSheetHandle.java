@@ -168,6 +168,16 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 		return styleSheet.getFileName( );
 	}
 
+	public String getExternalCssURI( )
+	{
+		return styleSheet.getExternalCssURI( );
+	}
+
+	public boolean isUseExternalCss( )
+	{
+		return styleSheet.isUseExternalCss( );
+	}
+
 	/**
 	 * Gets container handle.
 	 * 

@@ -8,8 +8,10 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.odf.pkg;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,30 +29,32 @@ import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.report.engine.odf.writer.ManifestWriter;
 
 /**
- * Class representing an ODF package. 
+ * Class representing an ODF package.
  */
 public class Package
 {
+
 	private static Logger logger = Logger.getLogger( Package.class.getName( ) );
-	
+
 	private static final String MANIFEST_URI = "META-INF/manifest.xml"; //$NON-NLS-1$
 	private static final String MIME_URI = "mimetype"; //$NON-NLS-1$
 
 	private static String tempFileName;
-	
-	private Map<String,PackageEntry> entries;
-	
+
+	private Map<String, PackageEntry> entries;
+
 	private ArchiveWriter archiveWriter;
-	
+
 	private ZipOutputStream zipStream;
-	
+
 	private boolean hasEntryWriter;
-	
+
 	private boolean closed = false;
-	
+
 	private String rootMime;
-	
-	public static Package createInstance( OutputStream out, String tempFileDir, String rootMime )
+
+	public static Package createInstance( OutputStream out, String tempFileDir,
+			String rootMime )
 	{
 		String name = "/BIRT_ODF_Temp_" + System.currentTimeMillis( ) //$NON-NLS-1$
 				+ new Random( ).nextInt( 1000 );
@@ -73,81 +77,81 @@ public class Package
 	{
 		this.rootMime = rootMime;
 		this.closed = false;
-		this.archiveWriter = new ArchiveWriter(archive);
-		entries = new HashMap<String,PackageEntry>();
+		this.archiveWriter = new ArchiveWriter( archive );
+		entries = new HashMap<String, PackageEntry>( );
 		zipStream = new ZipOutputStream( out );
-		//zipStream.setLevel( compressionMode );
+		// zipStream.setLevel( compressionMode );
 	}
-	
+
 	OutputStream getCachedOutputStream( String uri ) throws IOException
-	{	
-		assertOpen();
+	{
+		assertOpen( );
 		return archiveWriter.getOutputStream( uri );
 	}
-	
+
 	OutputStream getEntryOutputStream( String uri ) throws IOException
 	{
-		assertOpen();
+		assertOpen( );
 		return new EntryOutputStream( uri );
 	}
-	
+
 	public PackageEntry addEntry( String uri, String contentType )
 	{
 		PackageEntry entry = new PackageEntry( this, uri, contentType, false );
 		entries.put( uri, entry );
 		return entry;
 	}
-	
+
 	void addEntry( PackageEntry entry )
 	{
 		entries.put( entry.getUri( ), entry );
 	}
-	
+
 	public PackageEntry addCachedEntry( String uri, String contentType )
 	{
 		PackageEntry entry = new PackageEntry( this, uri, contentType, true );
 		entries.put( uri, entry );
 		return entry;
 	}
-	
-	public void close() throws IOException
+
+	public void close( ) throws IOException
 	{
 		// save the files from the archive to the zip output
 		try
 		{
-			save();
-			writeMimeFile();
-			writeManifest();
+			save( );
+			writeMimeFile( );
+			writeManifest( );
 		}
 		finally
 		{
 			zipStream.flush( );
 			zipStream.close( );
 		}
-		closed = true;		
+		closed = true;
 	}
-		
-	private void save() throws IOException
+
+	private void save( ) throws IOException
 	{
 		for ( PackageEntry entry : entries.values( ) )
 		{
-			if ( !entry.isCached() )
+			if ( !entry.isCached( ) )
 			{
-				continue;				
+				continue;
 			}
-			
+
 			String uri = entry.getUri( );
 			InputStream input = null;
 			try
 			{
-				if ( uri.startsWith("/") ) //$NON-NLS-1$
+				if ( uri.startsWith( "/" ) ) //$NON-NLS-1$
 				{
-					uri = uri.substring(1);
+					uri = uri.substring( 1 );
 				}
-				
+
 				input = archiveWriter.getInputStream( entry.getUri( ) );
 				zipStream.putNextEntry( new ZipEntry( uri ) );
-				
+
 				int length = -1;
 				byte[] buf = new byte[4096];
 				while ( ( length = input.read( buf ) ) != -1 )
@@ -160,42 +164,49 @@ public class Package
 			{
 				if ( input != null )
 				{
-					input.close();
+					input.close( );
 				}
 			}
 		}
 	}
 
-	private void writeMimeFile() throws IOException
+	private void writeMimeFile( ) throws IOException
 	{
 		zipStream.putNextEntry( new ZipEntry( MIME_URI ) );
 		zipStream.write( rootMime.getBytes( ) );
-		zipStream.closeEntry();
+		zipStream.closeEntry( );
 	}
-	
-	private void writeManifest() throws IOException
+
+	private void writeManifest( ) throws IOException
 	{
 		zipStream.putNextEntry( new ZipEntry( MANIFEST_URI ) );
-		
-		ManifestWriter writer = new ManifestWriter( zipStream );
+		zipStream.write( GetByteArrayFromManifestWriter( ) );
+		zipStream.closeEntry( );
+
+	}
+
+	private byte[] GetByteArrayFromManifestWriter( )
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		ManifestWriter writer = new ManifestWriter( out );
 		writer.start( rootMime );
-		
 		for ( PackageEntry entry : entries.values( ) )
 		{
 			writer.writeEntry( entry );
 		}
 		writer.end( );
-		zipStream.closeEntry( );
+		return out.toByteArray( );
+
 	}
-	
-	private void assertOpen()
+
+	private void assertOpen( )
 	{
 		if ( closed )
 		{
-			throw new IllegalStateException("Package is already closed"); //$NON-NLS-1$
+			throw new IllegalStateException( "Package is already closed" ); //$NON-NLS-1$
 		}
 	}
-	
+
 	private class EntryOutputStream extends FilterOutputStream
 	{
 
@@ -205,10 +216,10 @@ public class Package
 			if ( hasEntryWriter )
 			{
 				throw new RuntimeException(
-				"Can't open more than one entry writers concurrently." ); //$NON-NLS-1$
+						"Can't open more than one entry writers concurrently." ); //$NON-NLS-1$
 			}
 			hasEntryWriter = true;
-			
+
 			zipStream.putNextEntry( new ZipEntry( entry ) );
 		}
 
