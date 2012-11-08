@@ -50,6 +50,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 		super.update( eObj, eRefObj );
 		
 		revise( eObj, eRefObj, true );
+		chart = null;
 	}
 
 	/**
@@ -71,6 +72,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 		}
 		
 		revise( eObj, eRefObj, checkVisible );
+		chart = null;
 	}
 	
 	/**

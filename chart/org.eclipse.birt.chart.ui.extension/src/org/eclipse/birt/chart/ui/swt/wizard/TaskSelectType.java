@@ -98,8 +98,6 @@ public class TaskSelectType extends SimpleTask implements
 		ITaskChangeListener,
 		ITaskPreviewable
 {
-	private static final ChartValueUpdater chartValueUpdater = new ChartValueUpdater( );
-	
 	/**
 	 * 
 	 * TaskSelectTypeUIDescriptor is used to create UI in misc area according to
@@ -1514,7 +1512,7 @@ public class TaskSelectType extends SimpleTask implements
 				this.orientation,
 				this.sDimension,
 				chartModel );
-		chartValueUpdater.update( cm, null, false );
+		new ChartValueUpdater( ).update( cm, null, false );
 		return cm;
 	}
 
