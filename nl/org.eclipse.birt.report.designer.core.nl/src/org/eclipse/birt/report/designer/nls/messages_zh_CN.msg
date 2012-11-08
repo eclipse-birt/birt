@@ -4311,8 +4311,8 @@ GeneralPage.Library.Included=库:
 GeneralPage.Library.Modified.Note=注: 库中的此报表项已被修改。要还原原始库项目，请单击{0}“还原属性”
 
 #BookMarkPage
-BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
-BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
+BookMarkPage.Modified.Note=书签还包含除 \"A-Z a-z 0-9 - _ : .\" 之外的特殊字符，运行时可能会出现问题。
+BookMarkPage.Modified.WithoutQuotes=书签必须加双引号。
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4621,8 +4621,8 @@ BindingDialogHelper.text.Grid=网格
 BindingDialogHelper.text.Group=组(&O)
 BindingDialogHelper.text.Expression=表达式(&E):
 BindingDialogHelper.text.displayName=显示名称(&N):
-BindingDialogHelper.text.allowExport=Exp&ort:
-BindingDialogHelper.text.allowExport.button=Allow Export
+BindingDialogHelper.text.allowExport=导出(&O)：
+BindingDialogHelper.text.allowExport.button=允许导出
 BindingDialogHelper.text.displayNameID=显示名称 ID(&S):
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
@@ -4639,7 +4639,7 @@ BindingDialogHelper.warning.button.no=否
 #Scripts Node
 Scripts.Node.DisplayName=脚本
 ScriptElementNode.Action.Text=转到报表元素(&G)
-ScriptObjectNode_0=&Reset Script
+ScriptObjectNode_0=重置脚本(&R)
 
 ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 
@@ -4649,7 +4649,7 @@ CrosstabBindingDialogHelper.AggOn.All=全部
 CrosstabBindingDialogHelper.bindngName.timeperiod=周期
 CrosstabBindingDialogHelper.calculation.label=时间周期(&P):
 CrosstabBindingDialogHelper.calculation.group=时间周期
-CrosstabBindingDialogHelper.recentday.description=Last date in the period
+CrosstabBindingDialogHelper.recentday.description=期限中的最后日期
 CrosstabBindingDialogHelper.referencedate.label=参考日期(&R):
 CrosstabBindingDialogHelper.thisdate.label=此日期:
 CrosstabBindingDialogHelper.thisdate.example.label=请用引号引起提供的日期值。\n例如："2012-01-23"、"1/23/2012"。
@@ -4726,7 +4726,7 @@ InsertAggregationAction.text=聚合(&A)
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=相对时间期限(&V)
 
 ###########################################################
 #Multiple views
@@ -4761,10 +4761,10 @@ GeneralConfigurationBlock.message.general.description=报表设计器的常规设置
 GeneralConfigurationBlock.button.text.enable.gradient=用渐变选择(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=启用动画选择(&N)
 GeneralConfigurationBlock.group.label=提示
-GeneralConfigurationBlock.group.defaultThemes=Default themes library
+GeneralConfigurationBlock.group.defaultThemes=默认主题库
 GeneralConfigurationBlock.button.text.prompt=打开库文件后显示提示(&P)。
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
-GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
+GeneralConfigurationBlock.button.text.defaultTheme.enable=启用默认主题库(&T)
+GeneralConfigurationBlock.button.text.defaultTheme.include=包含默认主题(&I)
 GeneralConfigurationBlock.move.binding.group=将本地绑定移动到父层以获得更好的性能
 GeneralConfigurationBlock.move.binding.always=始终(&W)
 GeneralConfigurationBlock.move.binding.never=从不(&V)
@@ -4881,24 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=默认语法(&F):
 ExpressionEditor.Error.EmptyExpression=表达式不能为空。
 ExpressionEditor.Label.Expression=表达式(&E):
 ExpressionEditor.Title=编辑表达式
-ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
-ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
-ExpressionSyntaxColoringPage.Button.Bold=&Bold
-ExpressionSyntaxColoringPage.Button.Enable=Enable
-ExpressionSyntaxColoringPage.Button.Italic=&Italic
-ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
-ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Accessible.Name.Background=背景色选择器
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=前景色选择器
+ExpressionSyntaxColoringPage.Button.Bold=粗体(&B)
+ExpressionSyntaxColoringPage.Button.Enable=启用
+ExpressionSyntaxColoringPage.Button.Italic=斜体(&I)
+ExpressionSyntaxColoringPage.Button.Restore=还原默认设置(&R)
+ExpressionSyntaxColoringPage.Button.Strikethrough=删除线(&S)
 ExpressionSyntaxColoringPage.Button.Underline=下划线(&U)
-ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
-ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Decscription=在列表或示例文本区域，通过选择您想要自定义其样式的文本类型来自定义语法突出显示。
+ExpressionSyntaxColoringPage.Element.Comment=注释
 ExpressionSyntaxColoringPage.Element.Default=默认值
-ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.Keyword=关键字
 ExpressionSyntaxColoringPage.Element.String=字符串
-ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
-ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
-ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
-ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
-ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
+ExpressionSyntaxColoringPage.Label.Background=背景(&O):
+ExpressionSyntaxColoringPage.Label.Foreground=前景(&F):
+ExpressionSyntaxColoringPage.Label.SampleText=示例文本(&S):
+ExpressionSyntaxColoringPage.Label.SyntaxElement=语法元素(&Y):
+ExpressionSyntaxColoringPage.Link.ColorAndFont=默认颜色和字体可在 <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">文本编辑器</a> 以及 <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">颜色和字体</a> 首选项页面上配置。
 
 ###########################################################
 #VariableDropAdapter

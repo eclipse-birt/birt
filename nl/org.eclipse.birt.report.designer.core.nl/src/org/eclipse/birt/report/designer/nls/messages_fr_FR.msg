@@ -4311,8 +4311,8 @@ GeneralPage.Library.Included=Bibliothèque :
 GeneralPage.Library.Modified.Note=REMARQUE : cet élément d'état provenant de la bibliothèque a été modifié. Pour restaurer l'élément d'état d'origine, cliquez sur {0} "Restaurer les propriétés"
 
 #BookMarkPage
-BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
-BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
+BookMarkPage.Modified.Note=Le signet contient des caractères spéciaux différents de \"A-Z a-z 0-9 - _ : .\". Cela peut poser problème lors de l'exécution.
+BookMarkPage.Modified.WithoutQuotes=Le signet doit être entouré de guillemets.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4621,8 +4621,8 @@ BindingDialogHelper.text.Grid=Grille
 BindingDialogHelper.text.Group=Gr&oupe
 BindingDialogHelper.text.Expression=&Expression :
 BindingDialogHelper.text.displayName=&Nom d'affichage :
-BindingDialogHelper.text.allowExport=Exp&ort:
-BindingDialogHelper.text.allowExport.button=Allow Export
+BindingDialogHelper.text.allowExport=Exp&orter :
+BindingDialogHelper.text.allowExport.button=Autoriser l'exportation
 BindingDialogHelper.text.displayNameID=ID du nom d'affi&chage :
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
@@ -4639,7 +4639,7 @@ BindingDialogHelper.warning.button.no=Non
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Attein&dre l'élément d'état
-ScriptObjectNode_0=&Reset Script
+ScriptObjectNode_0=&Réinitialiser le script
 
 ReportPage.PreviewImage.Button.ToolTip=Gérer la miniature
 
@@ -4649,7 +4649,7 @@ CrosstabBindingDialogHelper.AggOn.All=Tous
 CrosstabBindingDialogHelper.bindngName.timeperiod=Période
 CrosstabBindingDialogHelper.calculation.label=Intervalle de tem&ps :
 CrosstabBindingDialogHelper.calculation.group=Intervalle de temps
-CrosstabBindingDialogHelper.recentday.description=Last date in the period
+CrosstabBindingDialogHelper.recentday.description=Dernière date de la période
 CrosstabBindingDialogHelper.referencedate.label=Date de &référence :
 CrosstabBindingDialogHelper.thisdate.label=Cette date :
 CrosstabBindingDialogHelper.thisdate.example.label=Veuillez insérer la valeur de date fournie entre guillemets.\nPar exemple : "2012-01-23", "1/23/2012".
@@ -4726,7 +4726,7 @@ InsertAggregationAction.text=&Agrégation
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=Période de temps relati&f
 
 ###########################################################
 #Multiple views
@@ -4761,10 +4761,10 @@ GeneralConfigurationBlock.message.general.description=Paramètres généraux pour l
 GeneralConfigurationBlock.button.text.enable.gradient=Activer la sélection du &dégradé 
 GeneralConfigurationBlock.button.text.enable.animation=Activer la sélection des éléments a&nimés
 GeneralConfigurationBlock.group.label=Invite
-GeneralConfigurationBlock.group.defaultThemes=Default themes library
+GeneralConfigurationBlock.group.defaultThemes=Bibliothèque de thèmes par défaut
 GeneralConfigurationBlock.button.text.prompt=Afficher l'&invite après ouverture du fichier de bibliothèque.
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
-GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Activer la bibliothèque de &thèmes par défaut
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Inclure les thèmes par défaut
 GeneralConfigurationBlock.move.binding.group=Déplacer les liaisons locales vers le parent pour améliorer les performances
 GeneralConfigurationBlock.move.binding.always=&Toujours
 GeneralConfigurationBlock.move.binding.never=Ja&mais
@@ -4881,24 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par déf&aut :
 ExpressionEditor.Error.EmptyExpression=L'expression doit être renseignée.
 ExpressionEditor.Label.Expression=&Expression :
 ExpressionEditor.Title=Modifier l'expression
-ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
-ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
-ExpressionSyntaxColoringPage.Button.Bold=&Bold
-ExpressionSyntaxColoringPage.Button.Enable=Enable
-ExpressionSyntaxColoringPage.Button.Italic=&Italic
-ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
-ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Outil de sélection de la couleur de l'arrière-plan
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Outil de sélection de la couleur du premier plan
+ExpressionSyntaxColoringPage.Button.Bold=&Gras
+ExpressionSyntaxColoringPage.Button.Enable=Activer
+ExpressionSyntaxColoringPage.Button.Italic=&Italique
+ExpressionSyntaxColoringPage.Button.Restore=&Restaurer les paramètres par défaut
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Barré
 ExpressionSyntaxColoringPage.Button.Underline=&Texte souligné
-ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
-ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Decscription=Personnalisez le repérage de la syntaxe en sélectionnant le type de texte correspondant au style que vous souhaitez modifier depuis la liste ou la zone d'exemple de texte, par exemple.
+ExpressionSyntaxColoringPage.Element.Comment=Commentaires
 ExpressionSyntaxColoringPage.Element.Default=Par défaut
-ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.Keyword=Mot-clé
 ExpressionSyntaxColoringPage.Element.String=Chaîne
-ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
-ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
-ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
-ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
-ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
+ExpressionSyntaxColoringPage.Label.Background=Arr&ière-plan :
+ExpressionSyntaxColoringPage.Label.Foreground=&Premier plan :
+ExpressionSyntaxColoringPage.Label.SampleText=&Exemple de texte :
+ExpressionSyntaxColoringPage.Label.SyntaxElement=Eléments de s&yntaxe :
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Les couleurs et la police par défaut peuvent être configurés dans la page <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Editeurs de texte</a> et dans la page de préférences <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Couleurs et polices</a> .
 
 ###########################################################
 #VariableDropAdapter

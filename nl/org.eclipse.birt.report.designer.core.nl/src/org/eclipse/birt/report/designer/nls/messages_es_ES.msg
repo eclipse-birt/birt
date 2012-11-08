@@ -4311,8 +4311,8 @@ GeneralPage.Library.Included=Librería:
 GeneralPage.Library.Modified.Note=NOTA: Se ha modificado el elemento del informe de la librería. Para restaurar el elemento de informe original, haga clic en {0} "Restaurar propiedades"
 
 #BookMarkPage
-BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
-BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
+BookMarkPage.Modified.Note=El marcador contiene caracteres especiales distintos de \"A-Z a-z 0-9 - _ : .\", esto puede provocar problemas de tiempo de ejecución.
+BookMarkPage.Modified.WithoutQuotes=El marcador debe estar rodeado por comillas dobles.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4621,8 +4621,8 @@ BindingDialogHelper.text.Grid=Cuadrícula
 BindingDialogHelper.text.Group=Gr&upo
 BindingDialogHelper.text.Expression=&Expresión:
 BindingDialogHelper.text.displayName=&Nombre en pantalla:
-BindingDialogHelper.text.allowExport=Exp&ort:
-BindingDialogHelper.text.allowExport.button=Allow Export
+BindingDialogHelper.text.allowExport=Exp&ortar:
+BindingDialogHelper.text.allowExport.button=Permitir exportación
 BindingDialogHelper.text.displayNameID=ID de &nombre en pantalla:
 BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
@@ -4639,7 +4639,7 @@ BindingDialogHelper.warning.button.no=No
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=&Ir a Elemento de informe
-ScriptObjectNode_0=&Reset Script
+ScriptObjectNode_0=&Restablecer script
 
 ReportPage.PreviewImage.Button.ToolTip=Administrar miniaturas
 
@@ -4649,7 +4649,7 @@ CrosstabBindingDialogHelper.AggOn.All=Todos
 CrosstabBindingDialogHelper.bindngName.timeperiod=Período
 CrosstabBindingDialogHelper.calculation.label=&Periodo de tiempo:
 CrosstabBindingDialogHelper.calculation.group=Periodo de tiempo
-CrosstabBindingDialogHelper.recentday.description=Last date in the period
+CrosstabBindingDialogHelper.recentday.description=Última fecha del período
 CrosstabBindingDialogHelper.referencedate.label=&Fecha de referencia:
 CrosstabBindingDialogHelper.thisdate.label=Esta fecha:
 CrosstabBindingDialogHelper.thisdate.example.label=Incluya el valor de la fecha proporcionada entre comillas.\nPor ejemplo: "2012-01-23", "1/23/2012".
@@ -4726,7 +4726,7 @@ InsertAggregationAction.text=A&gregación
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=Período de tiempo relati&vo
 
 ###########################################################
 #Multiple views
@@ -4761,10 +4761,10 @@ GeneralConfigurationBlock.message.general.description=Ajustes generales para Rep
 GeneralConfigurationBlock.button.text.enable.gradient=Activar &selección gradiente 
 GeneralConfigurationBlock.button.text.enable.animation=Activar selección a&nimada
 GeneralConfigurationBlock.group.label=Solicitar
-GeneralConfigurationBlock.group.defaultThemes=Default themes library
+GeneralConfigurationBlock.group.defaultThemes=Librería de temas predeterminados
 GeneralConfigurationBlock.button.text.prompt=Mostrar &solicitud después de abrir el archivo de la librería
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
-GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Activar librería de &temas predeterminados.
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Incluir los temas predeterminados.
 GeneralConfigurationBlock.move.binding.group=Mover enlaces locales al principal para disponer de un mejor rendimiento
 GeneralConfigurationBlock.move.binding.always=Sie&mpre
 GeneralConfigurationBlock.move.binding.never=Nu&nca
@@ -4881,24 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Sintaxis &predeterminada:
 ExpressionEditor.Error.EmptyExpression=La expresión no puede estar vacía.
 ExpressionEditor.Label.Expression=&Expresión:
 ExpressionEditor.Title=Editar expresión
-ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
-ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
-ExpressionSyntaxColoringPage.Button.Bold=&Bold
-ExpressionSyntaxColoringPage.Button.Enable=Enable
-ExpressionSyntaxColoringPage.Button.Italic=&Italic
-ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
-ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Selector de color de fondo
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Selector de color de primer plano
+ExpressionSyntaxColoringPage.Button.Bold=&Negrita
+ExpressionSyntaxColoringPage.Button.Enable=Activar
+ExpressionSyntaxColoringPage.Button.Italic=Curs&iva
+ExpressionSyntaxColoringPage.Button.Restore=&Restaurar predeterminado
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Tachado
 ExpressionSyntaxColoringPage.Button.Underline=&Subrayado
-ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
-ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Decscription=Personalice el resaltado de sintaxis seleccionando el tipo de texto cuyo estilo desee personalizar en la lista o en el área de texto de ejemplo.
+ExpressionSyntaxColoringPage.Element.Comment=Comentario
 ExpressionSyntaxColoringPage.Element.Default=Predeterminado
-ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.Keyword=Palabra clave
 ExpressionSyntaxColoringPage.Element.String=String
-ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
-ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
-ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
-ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
-ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
+ExpressionSyntaxColoringPage.Label.Background=Fond&o:
+ExpressionSyntaxColoringPage.Label.Foreground=&Primer plano:
+ExpressionSyntaxColoringPage.Label.SampleText=&Texto de muestra:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=Elemento de s&intaxis:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Los colores y la fuente predeterminados se pueden configurar en las páginas de preferencias <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Editores de texto</a> y <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colores y fuentes</a> .
 
 ###########################################################
 #VariableDropAdapter
