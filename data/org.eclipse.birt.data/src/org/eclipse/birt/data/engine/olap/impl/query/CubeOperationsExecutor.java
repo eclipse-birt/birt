@@ -61,7 +61,7 @@ public class CubeOperationsExecutor
 		IAggregationResultSet[] currentResult = source;
 		for ( IPreparedCubeOperation co : cubeOperations )
 		{
-			currentResult = co.execute( cubeQueryDefinition,
+			currentResult = co.execute(
 					currentResult,
 					scope,
 					cx,

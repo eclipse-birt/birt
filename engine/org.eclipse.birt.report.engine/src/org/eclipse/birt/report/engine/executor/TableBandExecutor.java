@@ -82,6 +82,27 @@ public class TableBandExecutor extends StyledItemExecutor
 					tableExecutor.softBreakBefore = true;
 				}
 			}
+			if ( band.getBandType( ) == BandDesign.GROUP_HEADER )
+			{
+				if ( tableExecutor.softBreakBefore )
+				{
+					IStyle style = content.getStyle( );
+					if ( style != null )
+					{
+						CSSValue pageBreak = style
+								.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
+						if ( pageBreak == null
+								|| IStyle.AUTO_VALUE.equals( pageBreak ) )
+						{
+							style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+									IStyle.SOFT_VALUE );
+						}
+					}
+					tableExecutor.softBreakBefore = false;
+					tableExecutor.addAfterBreak = false;
+					tableExecutor.pageRowCount = 0;
+				}
+			}
 		}
 	}
 

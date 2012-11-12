@@ -198,8 +198,24 @@ public class EngineException extends BirtException {
 		return super.getErrorCode( );
 	}
 
-	@Override
+	//suppose that this message is for end user
 	public String getLocalizedMessage( )
+	{
+		StringBuffer message = new StringBuffer( );
+		if ( birtException != null )
+		{
+			message.append( birtException.getLocalizedMessage( ) );
+		}
+		else
+		{
+			message.append( super.getLocalizedMessage( ) );
+		}
+
+		return message.toString( );
+	}
+
+	//suppose that this message is used for log
+	public String getMessage( )
 	{
 		StringBuffer message = new StringBuffer( );
 		if ( birtException != null )
@@ -222,12 +238,7 @@ public class EngineException extends BirtException {
 		}
 
 		return message.toString( );
-	}
 
-	@Override
-	public String getMessage( )
-	{
-		return getLocalizedMessage( );
 	}
 
 	@Override

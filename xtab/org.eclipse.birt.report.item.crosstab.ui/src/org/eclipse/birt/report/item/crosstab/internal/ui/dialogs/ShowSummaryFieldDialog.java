@@ -27,6 +27,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -114,14 +115,14 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			{
 				element = ( (Item) element ).getData( );
 			}
-			MeasureInfo info = (MeasureInfo) element;
-			MeasureViewHandle measureView = crosstab.getMeasure( info.getMeasureName( ) );
-			if (measureView == null
-					|| measureView instanceof ComputedMeasureViewHandle
-					|| (measureView.getCubeMeasure() != null && measureView.getCubeMeasure().isCalculated()))
-			{
-				return false;
-			}
+//			MeasureInfo info = (MeasureInfo) element;
+//			MeasureViewHandle measureView = crosstab.getMeasure( info.getMeasureName( ) );
+//			if (measureView == null
+//					|| measureView instanceof ComputedMeasureViewHandle
+//					|| (measureView.getCubeMeasure() != null && measureView.getCubeMeasure().isCalculated()))
+//			{
+//				return false;
+//			}
 			
 			if ( Arrays.asList( columnNames ).indexOf( property ) == 1 )
 			{
@@ -475,9 +476,10 @@ public class ShowSummaryFieldDialog extends BaseDialog
 				return false;
 			}
 			MeasureInfo temp = (MeasureInfo) obj;
-			return temp.getMeasureName( ).equals( measureName )
+			return StringUtil.isEqual( temp.getMeasureName( ), measureName )
 					&& temp.isShow( ) == isShow
-					&& temp.getExpectedView( ) == expectedView;
+					&& StringUtil.isEqual( temp.getExpectedView( ),
+							expectedView );
 		}
 		
 		public int hashCode()

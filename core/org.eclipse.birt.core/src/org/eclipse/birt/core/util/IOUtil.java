@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.NotSerializableException;
@@ -798,18 +799,34 @@ public class IOUtil
 	public final static String readString( DataInputStream dis )
 			throws IOException
 	{
-		int type = readInt( dis );
-		if ( type == TYPE_NULL )
+		try 
 		{
-			return null;
+			int type = readInt(dis);
+			if (type == TYPE_NULL) 
+			{
+				return null;
+			} 
+			else if (type == TYPE_STRING) 
+			{
+				return dis.readUTF();
+			}
+			else if (type == TYPE_LONG_STRING) 
+			{
+				return readUTF(dis);
+			}
+			throw new EOFException( );
+		} 
+		catch ( OutOfMemoryError e) 
+		{
+			IOException ie = new IOException( e.getMessage( ) );
+			ie.initCause( e );
+			throw ie;
 		}
-		else if ( type == TYPE_STRING )
+		catch ( NegativeArraySizeException e )
 		{
-			return dis.readUTF( );
-		}
-		else
-		{
-			return readUTF( dis );
+			IOException ie = new IOException( e.getMessage( ) );
+			ie.initCause( e );
+			throw ie;
 		}
 	}
 
@@ -1171,10 +1188,25 @@ public class IOUtil
 	 */
 	private static String readUTF( DataInputStream dis ) throws IOException
 	{
-		int length = dis.readInt( );
-		byte[] ret = new byte[length];
-		dis.read( ret, 0, length );
-		return convertBytes2String( ret );
+		try 
+		{
+			int length = dis.readInt();
+			byte[] ret = new byte[length];
+			dis.read(ret, 0, length);
+			return convertBytes2String(ret);
+		} 
+		catch ( OutOfMemoryError e) 
+		{
+			IOException ie = new IOException( e.getMessage( ) );
+			ie.initCause( e );
+			throw ie;
+		}
+		catch ( NegativeArraySizeException e )
+		{
+			IOException ie = new IOException( e.getMessage( ) );
+			ie.initCause( e );
+			throw ie;
+		}
 	}
 
 	/**

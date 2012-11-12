@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -169,15 +170,21 @@ public class BTree<K, V> implements BTreeConstants
 		while ( nodeId != -1 )
 		{
 			BTreeNode<K, V> node = loadBTreeNode( nodeId );
-			if ( node.getNodeType( ) == NODE_LEAF )
+			try
 			{
-				return ( (LeafNode<K, V>) node ).getFirstEntry( );
+				if ( node.getNodeType( ) == NODE_LEAF )
+				{
+					return ( (LeafNode<K, V>) node ).getFirstEntry( );
+				}
+				else
+				{
+					nodeId = ( (IndexNode<K, V>) node ).getFirstChild( );
+				}
 			}
-			else
+			finally
 			{
-				nodeId = ( (IndexNode<K, V>) node ).getFirstChild( );
+				node.unlock( );
 			}
-			node.unlock( );
 		}
 		return null;
 	}
@@ -188,15 +195,22 @@ public class BTree<K, V> implements BTreeConstants
 		while ( nodeId != -1 )
 		{
 			BTreeNode<K, V> node = loadBTreeNode( nodeId );
-			if ( node.getNodeType( ) == NODE_LEAF )
+			try
 			{
-				return ( (LeafNode<K, V>) node ).getLastEntry( );
+				if ( node.getNodeType( ) == NODE_LEAF )
+				{
+					return ( (LeafNode<K, V>) node ).getLastEntry( );
+				}
+				else
+				{
+					nodeId = ( (IndexNode<K, V>) node ).getLastChild( );
+				}
+				
 			}
-			else
+			finally
 			{
-				nodeId = ( (IndexNode<K, V>) node ).getLastChild( );
+				node.unlock( );
 			}
-			node.unlock( );
 		}
 		return null;
 	}
@@ -503,9 +517,38 @@ public class BTree<K, V> implements BTreeConstants
 			if ( size( ) >= cacheSize )
 			{
 				BTreeNode<K, V> node = arg.getValue( );
-
 				if ( node.isLocked( ) )
 				{
+					Iterator<Map.Entry<Integer, BTreeNode<K, V>>> iter = this
+							.entrySet( ).iterator( );
+					while ( iter.hasNext( ) )
+					{
+						Map.Entry<Integer, BTreeNode<K, V>> entry = iter.next( );
+						BTreeNode<K, V> value = entry.getValue( );
+						if ( !value.isLocked( ) )
+						{
+							// remove this node
+							if ( node.isDirty( ) )
+							{
+								try
+								{
+									writeNode( node );
+								}
+								catch ( IOException ex )
+								{
+									logger.log(
+											Level.WARNING,
+											"failed to write node "
+													+ node.getNodeId( )
+													+ " type "
+													+ node.getNodeType( ), ex );
+									return false;
+								}
+							}
+							remove( entry.getKey( ) );
+							break;
+						}
+					}
 					return false;
 				}
 				if ( node.isDirty( ) )
@@ -516,9 +559,9 @@ public class BTree<K, V> implements BTreeConstants
 					}
 					catch ( IOException ex )
 					{
-						logger.log( Level.WARNING, "failed to write node "
-								+ node.getNodeId( ) + " type "
-								+ node.getNodeType( ), ex );
+						logger.log( Level.WARNING,
+								"failed to write node " + node.getNodeId( )
+										+ " type " + node.getNodeType( ), ex );
 						return false;
 					}
 				}
@@ -696,7 +739,7 @@ public class BTree<K, V> implements BTreeConstants
 
 	BTreeValue<K> createKey( K key ) throws IOException
 	{
-		if ( key == null) 
+		if ( key == null )
 		{
 			assert allowNullKey == true;
 			return NULL_KEY;
@@ -833,7 +876,8 @@ public class BTree<K, V> implements BTreeConstants
 		if ( valueSize != 0 && valueSize != bytes.length )
 		{
 			throw new IOException(
-					CoreMessages.getString( ResourceConstants.MISMATCH_VALUE_LENGTH ) );
+					CoreMessages
+							.getString( ResourceConstants.MISMATCH_VALUE_LENGTH ) );
 		}
 		if ( valueSize == 0 )
 		{

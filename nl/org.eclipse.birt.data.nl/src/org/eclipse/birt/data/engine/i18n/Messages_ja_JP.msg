@@ -7,9 +7,8 @@
 #
 # Contributors:
 #  Actuate Corporation - initial API and implementation
-#  
+#
 #************************************************************************
-# Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
 ###########################################################
@@ -48,7 +47,7 @@ data.engine.InvalidExprHandle=®ƒnƒ“ƒhƒ‹‚ª–³Œø‚Å‚·B
 data.engine.InvalidAggrGroupExpression=WŒvŠÖ”‚ÌƒOƒ‹[ƒv®‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚· : {0}
 data.engine.InvalidSortKeyColumn=ƒ\[ƒgƒL[—ñ‚ª–³Œø‚Å‚· : {0}
 data.engine.InvalidGroupLevel= ‘wŒ`® {0} ‚ÌƒOƒ‹[ƒvƒŒƒxƒ‹‚ª–³Œø‚Å‚·B 
-data.engine.InvalidGroupKeyName=ƒOƒ‹[ƒvƒL[—ñ‚Ì–¼‘O‚ª–³Œø‚Å‚· : {0}
+data.engine.InvalidGroupKeyName=—ñ {0} ‚Å‚ÌƒOƒ‹[ƒv‰»‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‘€ì‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
 data.engine.BadCloseScript=CustomDataSet ‚Ì closeScript ‚ğ•]‰¿‚Å‚«‚Ü‚¹‚ñB
 data.engine.InvalidCustomFieldIdx=ƒJƒXƒ^ƒ€ƒtƒB[ƒ‹ƒh‚ÌƒCƒ“ƒfƒbƒNƒX‚ª–³Œø‚Å‚· : {0}
 data.engine.InvalidGroupName=ƒOƒ‹[ƒv–¼‚ª–³Œø‚Å‚·B
@@ -67,7 +66,7 @@ data.engine.DupColumnName=—ñ–¼‚ªd•¡‚µ‚Ä‚¢‚Ü‚· : {0}
 data.engine.DupAlias=—ñ–¼‚Ü‚½‚ÍƒGƒCƒŠƒAƒX‚ªd•¡‚µ‚Ä‚¢‚Ü‚· : {0}
 data.engine.InvalidFieldIndex=ƒtƒB[ƒ‹ƒh‚ÌƒCƒ“ƒfƒbƒNƒX‚ª–³Œø‚Å‚· : {0}
 data.engine.fail.prepareExecution=ƒf[ƒ^ƒZƒbƒg‚ÉƒNƒGƒŠ‚ÌÀs‚ğ€”õ‚Å‚«‚Ü‚¹‚ñ : {0}
-data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=ƒOƒ‹[ƒv‚ÌXV‚Ìó‘Ô‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñBŒ»İ‚ÌƒOƒ‹[ƒv <{0}> ‚ªƒvƒƒZƒXƒOƒ‹[ƒv <{1}> ‚æ‚è‘½‚­‚È‚Á‚Ä‚¢‚Ü‚·B
 
 data.engine.MatchError=ƒpƒ^[ƒ“‚Ì\•¶‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢B•¶š—ñ‚Æƒpƒ^[ƒ“‚ğÆ‡’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½ : {0}
 
@@ -109,7 +108,7 @@ data.engine.InvalidAggrLevelKeyInSummaryQuery=WŒv {0} ‚Í³‚µ‚­‚È‚¢ƒOƒ‹[ƒv–¼‚ğ
 #computed column value
 data.engine.BadCompColExpr=ŒvZ—ñ "{0}" ‚Ì®‚ª–³Œø‚Å‚·B
 data.engine.CompCol.FailRetrieveValueComputedColumn=ŒvZ—ñ "{0}" ‚Ì’l‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
-data.engine.ScriptResult.WrongSystemComputedColumn=ƒ\[ƒg®AƒOƒ‹[ƒv®A‚Ü‚½‚ÍƒtƒBƒ‹ƒ^®‚Ì’l‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
+data.engine.ScriptResult.WrongSystemComputedColumn=ƒ\[ƒgAƒOƒ‹[ƒv‰»AƒtƒBƒ‹ƒ^A‚Ü‚½‚ÍƒoƒCƒ“ƒh‚Ì®‚ğ•]‰¿‚Å‚«‚Ü‚¹‚ñB ®‚Åg—p‚³‚ê‚Ä‚¢‚éƒf[ƒ^ƒtƒB[ƒ‹ƒh‚ªƒe[ƒ^ƒZƒbƒg‚É‘¶İ‚µ‚Ü‚¹‚ñB
 data.engine.ComputedColumnCycle=ŒvZ—ñ "{0}" ‚ÌˆË‘¶ŠÖŒW‚ªzŠÂQÆ‚É‚È‚Á‚Ä‚¢‚Ü‚·B
 
 data.engine.SortOnAggregation=ƒOƒ‹[ƒv‰»‚³‚ê‚Ä‚¢‚È‚¢WŒv‚ğg—p‚·‚éƒ\[ƒgA‚Ü‚½‚ÍWŒv "{0}" ‚ğQÆ‚·‚éŒvZ®‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
@@ -375,7 +374,7 @@ data.olap.FacttableNullMeasureValue=ƒƒWƒƒ[—ñ‚Ì’l‚ª NULL ‚Å‚·B"{0}"
 data.olap.InvalidDimensionPositionFacttableRow=ƒLƒ…[ƒu "{0}" ‚Ìƒtƒ@ƒNƒgƒe[ƒuƒ‹‚ÉA–³Œø‚Èƒf[ƒ^s‚ª‚ ‚è‚Ü‚·BƒfƒBƒƒ“ƒWƒ‡ƒ“ƒL[ "{1}" ‚Ì’l‚Å‚ ‚é "{2}" ‚ÍAƒfƒBƒƒ“ƒWƒ‡ƒ“ "{3}" ‚É‘¶İ‚µ‚Ü‚¹‚ñB
 data.olap.measureNameNotFound=ƒƒWƒƒ[–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 data.olap.levelNameNotFound=ƒŒƒxƒ‹–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
-data.olap.dimensionNameNotFound=ƒfƒBƒƒ“ƒWƒ‡ƒ“–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+data.olap.dimensionNameNotFound=ƒLƒ…[ƒuƒNƒGƒŠ‚ÉƒfƒBƒƒ“ƒVƒ‡ƒ“ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB‚±‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“‚Í‘¶İ‚µ‚È‚¢‚©A–³Œø‚Å‚·B
 data.olap.ReferencedDimensionNotFound=QÆ‚µ‚½ƒfƒBƒƒ“ƒWƒ‡ƒ“’è‹` {0} ‚Í‘¶İ‚µ‚Ü‚¹‚ñB
 data.olap.ReferencedLevelNotFound=QÆ‚µ‚½ƒŒƒxƒ‹‚Í‘¶İ‚µ‚Ü‚¹‚ñB
 data.olap.cursorPositionError=ƒJ[ƒ\ƒ‹‚Å‚Í–Ú“I‚ÌˆÊ’u‚ÉƒiƒrƒQ[ƒg‚Å‚«‚Ü‚¹‚ñB
@@ -407,7 +406,7 @@ data.olap.UnsupportedFunction=ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ŠÖ” :
 data.olap.UnspecifiedBindingName=ƒoƒCƒ“ƒh–¼‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 data.olap.NotNestAggregationBinding=ƒLƒ…[ƒuƒlƒXƒg‚³‚ê‚½WŒv‚ÌƒoƒCƒ“ƒh‚Å‚Í‚ ‚è‚Ü‚¹‚ñ : {0}
 data.olap.InvalidNestAggregationExpression=ƒLƒ…[ƒuƒlƒXƒg‚³‚ê‚½WŒv‚Ì®‚ª–³Œø‚Å‚·B
-data.olap.InvalidNestAggregationOn=ƒLƒ…[ƒuƒlƒXƒg‚³‚ê‚½WŒv "{1}" ‚Å‚Ì "{0}" WŒv‚ÍAƒx[ƒX‚Æ‚È‚éWŒv‚É‚ ‚è‚Ü‚¹‚ñB
+data.olap.InvalidNestAggregationOn=ƒŒƒxƒ‹‚ÌWŒv‚ªƒx[ƒX‚Æ‚È‚éWŒv‚É‘¶İ‚µ‚È‚¢‚½‚ßAƒlƒXƒg‚³‚ê‚½WŒv "{0}"‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
 data.olap.InvalidAggregationFilterExpr=ƒtƒBƒ‹ƒ^® "{0}" ‚ª–³Œø‚Å‚·B WŒvƒoƒCƒ“ƒh "{1}" ‚Ì aggregationOn ƒŠƒXƒg‚ÉAQÆ‚·‚éƒfƒBƒƒ“ƒWƒ‡ƒ“ƒŒƒxƒ‹ "{2}" ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñB 
 data.olap.sort.exprError=QÆ‚·‚éƒfƒBƒƒ“ƒWƒ‡ƒ“ƒŒƒxƒ‹‚É‚Â‚« 1 ‚Â‚ÌƒŒƒxƒ‹‚µ‚©ŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 data.olap.query.noCubeBinding=ƒLƒ…[ƒu‚ÌƒoƒCƒ“ƒh‚ªg—p‚Å‚«‚È‚¢‚½‚ßAƒLƒ…[ƒuƒNƒGƒŠ‚ğÀs‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
@@ -443,3 +442,7 @@ data.derivedDataSet.invalidQueryText=ƒNƒGƒŠƒeƒLƒXƒg‚ª–³Œø‚Å‚·B
 data.datamart.failLoadDataSet = ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒf[ƒ^ƒZƒbƒg "{0}" ‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB
 data.datamart.originalDataSetNotExist = ‘•ªXV‚Å‚«‚Ü‚¹‚ñB Œ³‚Ìƒf[ƒ^ƒZƒbƒg "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 data.datamart.incrementalDatasetMetaDataError = ‘•ªXV‚Å‚«‚Ü‚¹‚ñB ’Ç‰Á‚Ìƒf[ƒ^ƒZƒbƒg "{0}" ‚Ìƒƒ^ƒf[ƒ^‚ªAŒ³‚Ìƒf[ƒ^ƒZƒbƒg‚Ì‚à‚Ì‚ÆˆÙ‚È‚è‚Ü‚·B 
+data.datamart.collation=ˆÈ‘O‚Ì»•i‚Å‚ÍAÆ‡‚ğİ’è‚µ‚½ê‡‚Å‚àƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒfƒbƒNƒX‚ÅÆ‡‚Íg—p‚³‚ê‚Ü‚¹‚ñB Œ»İ‚ÍÆ‡‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚Ì‚ÅAƒf[ƒ^ƒZƒbƒg‚ÅÆ‡‚ğİ’è‚µ‚½ê‡‚Íƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğÄ¶¬‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B  
+
+
+data.filter.pushDownFail= ODA Šg’£‘¤‚Å‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éƒtƒBƒ‹ƒ^‚ğƒvƒbƒVƒ… (‰º‚Ö) ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B

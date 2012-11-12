@@ -342,7 +342,7 @@ public class GanttLineAttributesComposite extends Composite implements
 		}
 		if ( bEnableStyles )
 		{
-			cmbStyle.setLineStyle( getSWTLineStyle( attributes.getStyle( ) ) );
+			cmbStyle.setLineStyle( attributes.getStyle( ), attributes );
 		}
 		if ( this.bEnableWidths )
 		{

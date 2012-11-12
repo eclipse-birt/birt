@@ -84,7 +84,7 @@ public class ExcelLayoutEngine
 	
 	public final static int MAX_ROW_OFFICE2003 = 65535;
 	
-	public final static int MAX_COLUMN_OFFICE2003 = 255;
+	public final static int MAX_COLUMN_OFFICE2003 = 256;
 	
 	protected int maxRow = MAX_ROW_OFFICE2003;
 
@@ -113,6 +113,7 @@ public class ExcelLayoutEngine
 	protected IExcelWriter writer;
 	protected ContentEmitterVisitor contentVisitor;
 	
+	private HashMap<String, Image> imageCache = new HashMap<String, Image>( );
 	//We only needs to apply page width when first non-auto-extend element is output.
 	protected boolean pageWidthApplied = false;
 
@@ -707,10 +708,25 @@ public class ExcelLayoutEngine
 		byte[] imageData = null;
 		try
 		{
-			Image imageInfo = EmitterUtil
-					.parseImage( image, image.getImageSource( ),
-							image.getURI( ), image.getMIMEType( ), image
-									.getExtension( ) );
+			Image imageInfo = null; 
+			if ( image.getURI( ) != null && image.getURI( ).length( ) != 0)
+			{
+				imageInfo = imageCache.get( image.getURI( ) );
+				if ( imageInfo == null )
+				{
+					//cache the image with URI
+					imageInfo = EmitterUtil.parseImage( image,
+							image.getImageSource( ), image.getURI( ),
+							image.getMIMEType( ), image.getExtension( ) );
+					imageCache.put( image.getURI( ), imageInfo );
+				}
+			}
+			else
+			{
+				imageInfo = EmitterUtil.parseImage( image,
+						image.getImageSource( ), image.getURI( ),
+						image.getMIMEType( ), image.getExtension( ) );
+			}
 			imageData = imageInfo.getData( );
 			int[] imageSize = getImageSize( image, imageInfo, parentSizeInfo,
 					imageWidthDpi, imageHeightDpi );
@@ -725,10 +741,19 @@ public class ExcelLayoutEngine
 					parentSizeInfo.getWidth( ), 0, imageWidthDpi );
 		}
 
-		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( imageWidth );
+		StyleEntry parentStyle = getParentStyle( container );
+		boolean isCenterAligned = false;
+		if ( parentStyle != null
+				&& "center".equalsIgnoreCase( (String) parentStyle
+						.getProperty( StyleConstant.H_ALIGN_PROP ) ) )
+		{
+			isCenterAligned = true;
+		}
+		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( imageWidth, parentSizeInfo.getWidth( ), isCenterAligned );
 		int[] imageCoordinates = splitColumns( imageColumnsInfo, parentSizeInfo );
 		ContainerSizeInfo imageSize = new ContainerSizeInfo(
-				imageCoordinates[0], imageColumnsInfo.getTotalWidth( ) );
+				imageCoordinates[imageCoordinates.length > 2 ? 1 : 0],
+				imageWidth );
 		StyleEntry entry = engine.getStyle( style, imageSize, parentSizeInfo,
 				getParentStyle( container ) );
 		setlinkStyle( entry, link );
@@ -1242,7 +1267,7 @@ public class ExcelLayoutEngine
 		{
 			SheetData[] row = rowIterator.next( );
 			List<SheetData> data = new ArrayList<SheetData>( );
-			int width = Math.min( row.length, maxCol - 1 );
+			int width = Math.min( row.length, maxCol );
 			int rowIndex = 0;
 			for ( int i = 0; i < width; i++ )
 			{

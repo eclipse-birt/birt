@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.eclipse.birt.chart.model.attribute.MenuStylesKeyType;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
@@ -91,6 +93,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.HYPERLINK_OPTIONS );
 		getShell( ).setText( Messages.getString("MenuStylesDialog.title") ); //$NON-NLS-1$
 		Composite c = (Composite) super.createDialogArea( parent );
 		placeComponents( c );

@@ -84,6 +84,8 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.w3c.dom.css.CSSValue;
 
 import com.ibm.icu.util.ULocale;
@@ -102,6 +104,14 @@ public class LocalizedContentVisitor
 	private OnRenderScriptVisitor onRenderVisitor;
     final static char[] HEX = {'0', '1', '2', '3', '4', '5', '6', '7', '8',
 		'9', 'A', 'B', 'C', 'D', 'E', 'F'}; 
+	final static byte[] dummyImageData = {-119, 80, 78, 71, 13, 10, 26, 10, 0,
+			0, 0, 13, 73, 72, 68, 82, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 0, 0, 0,
+			-112, 119, 83, -34, 0, 0, 0, 1, 115, 82, 71, 66, 0, -82, -50, 28,
+			-23, 0, 0, 0, 4, 103, 65, 77, 65, 0, 0, -79, -113, 11, -4, 97, 5,
+			0, 0, 0, 9, 112, 72, 89, 115, 0, 0, 18, 116, 0, 0, 18, 116, 1, -34,
+			102, 31, 120, 0, 0, 0, 12, 73, 68, 65, 84, 24, 87, 99, -8, -1, -1,
+			63, 0, 5, -2, 2, -2, -89, 53, -127, -124, 0, 0, 0, 0, 73, 69, 78,
+			68, -82, 66, 96, -126};
     
 	public LocalizedContentVisitor( ExecutionContext context )
 	{
@@ -884,6 +894,19 @@ public class LocalizedContentVisitor
 				.getHeight( ) );
 	}
 	
+	private IContent processFixedSizeChart( IForeignContent content,
+			DimensionType width, DimensionType height )
+	{
+		IImageContent dummyContent = getReportContent( ).createImageContent(
+				content );
+		dummyContent.setWidth( width );
+		dummyContent.setHeight( height );
+		dummyContent.setImageSource( IImageContent.IMAGE_EXPRESSION );
+		dummyContent.setData( dummyImageData );
+		dummyContent.setParent( content.getParent( ) );
+		return dummyContent;
+	}
+	
 	private IContent processCachedImage( IForeignContent content,
 			CachedImage cachedImage )
 	{
@@ -940,6 +963,29 @@ public class LocalizedContentVisitor
 				if ( cachedImage != null )
 				{
 					return processCachedImage(content, cachedImage);
+				}
+			}
+			
+			if ( context.getFactoryMode( )
+					&& context.getTaskType( ) != IEngineTask.TASK_RUNANDRENDER )
+			{
+				IReportItem item = null;;
+				try
+				{
+					item = handle.getReportItem( );
+				}
+				catch ( ExtendedElementException e )
+				{
+
+				}
+				if ( item != null && item.hasFixedSize( ) )
+				{
+					if ( design.getWidth( ) != null
+							&& design.getHeight( ) != null )
+					{
+						return processFixedSizeChart( content,
+								design.getWidth( ), design.getHeight( ) );
+					}
 				}
 			}
 		}

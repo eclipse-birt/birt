@@ -431,6 +431,10 @@ public class ChartExpressionUtil
 	{
 
 		public static final String JAVASCRIPT = "javascript"; //$NON-NLS-1$
+		/**
+		 * Same with ExpressionType.CONSTANT
+		 */
+		public static final String CONSTANT = "constant"; //$NON-NLS-1$
 		protected String sType = JAVASCRIPT;
 		protected String sExpr = ""; //$NON-NLS-1$
 
@@ -468,6 +472,42 @@ public class ChartExpressionUtil
 			}
 
 			this.sExpr = sExpr.trim( );
+		}
+		
+		/**
+		 * Returns if expression type is constant.
+		 * 
+		 * @return true means constant
+		 */
+		public boolean isConstant( )
+		{
+			return CONSTANT.equals( getType( ) );
+		}
+		
+		/**
+		 * Converts to the javascript type expression
+		 * 
+		 * @param isRow
+		 *            true means row, false means cube
+		 * 
+		 * @return javascript expression
+		 */
+		public String convertJSExpression( boolean isRow )
+		{
+			return sExpr;
+		}
+
+		/**
+		 * Returns the copied instance.
+		 * 
+		 * @return copied instance
+		 */
+		public ExpressionCodec copy( )
+		{
+			ExpressionCodec instance = new ExpressionCodec( );
+			instance.setType( getType( ) );
+			instance.setExpression( getExpression( ) );
+			return instance;
 		}
 
 		public boolean isCubeBinding( boolean hasOperation )

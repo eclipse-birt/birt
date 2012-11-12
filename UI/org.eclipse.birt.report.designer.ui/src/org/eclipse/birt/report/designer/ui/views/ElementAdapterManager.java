@@ -40,13 +40,12 @@ import org.eclipse.core.runtime.Platform;
 public class ElementAdapterManager
 {
 
+	public static final String ADAPTERS_EXTENSION_ID = "org.eclipse.birt.report.designer.ui.elementAdapters"; //$NON-NLS-1$
+
 	protected static final Logger logger = Logger.getLogger( ElementAdapterManager.class.getName( ) );
 
 	private static Map adaptersMap = new HashMap( ) {
 
-		/**
-		 * Comment for <code>serialVersionUID</code>
-		 */
 		private static final long serialVersionUID = 534728316184090251L;
 
 		public Object get( Object key )
@@ -68,7 +67,7 @@ public class ElementAdapterManager
 	{
 		// initial adaptersMap
 		IExtensionRegistry registry = Platform.getExtensionRegistry( );
-		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.report.designer.ui.elementAdapters" ); //$NON-NLS-1$
+		IExtensionPoint extensionPoint = registry.getExtensionPoint( ADAPTERS_EXTENSION_ID );
 		if ( extensionPoint != null )
 		{
 			IConfigurationElement[] elements = extensionPoint.getConfigurationElements( );
@@ -88,14 +87,26 @@ public class ElementAdapterManager
 						ElementAdapter adapter = new ElementAdapter( );
 						adapter.setId( adapters[k].getAttribute( "id" ) ); //$NON-NLS-1$
 
+						adapter.setSingleton( !"false".equals( adapters[k].getAttribute( "singleton" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
+
 						if ( adapters[k].getAttribute( "class" ) != null //$NON-NLS-1$
 								&& !adapters[k].getAttribute( "class" ) //$NON-NLS-1$
 										.equals( "" ) ) //$NON-NLS-1$
+						{
 							adapter.setAdapterInstance( adapters[k].createExecutableExtension( "class" ) ); //$NON-NLS-1$
+
+							if ( !adapter.isSingleton( ) )
+							{
+								// cache the config element to create new instance
+								adapter.setAdapterConfig( adapters[k] );
+							}
+						}
 						else if ( adapters[k].getAttribute( "factory" ) != null //$NON-NLS-1$
 								&& !adapters[k].getAttribute( "factory" ) //$NON-NLS-1$
 										.equals( "" ) ) //$NON-NLS-1$
+						{
 							adapter.setFactory( (IAdapterFactory) adapters[k].createExecutableExtension( "factory" ) ); //$NON-NLS-1$
+						}
 
 						if ( adaptableType == null )
 						{
@@ -114,10 +125,10 @@ public class ElementAdapterManager
 
 						adapter.setAdapterType( adapterType );
 
-						adapter.setSingleton( !"false".equals( adapters[k].getAttribute( "singleton" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
 						if ( adapters[k].getAttribute( "priority" ) != null //$NON-NLS-1$
 								&& !adapters[k].getAttribute( "priority" ) //$NON-NLS-1$
 										.equals( "" ) ) //$NON-NLS-1$
+						{
 							try
 							{
 								adapter.setPriority( Integer.parseInt( adapters[k].getAttribute( "priority" ) ) ); //$NON-NLS-1$
@@ -125,12 +136,15 @@ public class ElementAdapterManager
 							catch ( NumberFormatException e )
 							{
 							}
+						}
 
 						if ( adapters[k].getAttribute( "overwrite" ) != null //$NON-NLS-1$
 								&& !adapters[k].getAttribute( "overwrite" ) //$NON-NLS-1$
 										.equals( "" ) ) //$NON-NLS-1$
+						{
 							adapter.setOverwrite( adapters[k].getAttribute( "overwrite" ) //$NON-NLS-1$
 									.split( ";" ) ); //$NON-NLS-1$
+						}
 						adapter.setIncludeWorkbenchContribute( "true".equals( adapters[k].getAttribute( "includeWorkbenchContribute" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 						IConfigurationElement[] enablements = adapters[k].getChildren( "enablement" ); //$NON-NLS-1$
@@ -331,12 +345,12 @@ public class ElementAdapterManager
 
 }
 
+/**
+ * ElementAdapterSet
+ */
 class ElementAdapterSet extends TreeSet
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = -3451274084543012212L;
 
 	private static Comparator comparator = new Comparator( ) {

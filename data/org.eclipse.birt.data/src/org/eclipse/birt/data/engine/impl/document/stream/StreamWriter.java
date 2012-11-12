@@ -24,7 +24,7 @@ public class StreamWriter
 {
 
 	private StreamID id;
-	private HashMap cachedStreams;
+	private HashMap<Integer, OutputStream> cachedStreams;
 	private DataEngineContext context;
 
 	/**
@@ -35,7 +35,7 @@ public class StreamWriter
 	public StreamWriter( DataEngineContext context, StreamID id )
 	{
 		this.id = id;
-		this.cachedStreams = new HashMap( );
+		this.cachedStreams = new HashMap<Integer, OutputStream>( );
 		this.context = context;
 	}
 

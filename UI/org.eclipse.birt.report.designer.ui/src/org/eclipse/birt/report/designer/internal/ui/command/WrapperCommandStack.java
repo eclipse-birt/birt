@@ -20,10 +20,10 @@ import org.eclipse.gef.commands.CommandStackListener;
 /**
  * @author David Michonneau
  * 
- * This class is a command stack for the GEF framework. It internally access the
- * ActivityStack class of the DE. No commands are pushed to the command stack or
- * ActivityStack here since the Design handles take care of that when executed.
- * Commands are executed as transactions.
+ *         This class is a command stack for the GEF framework. It internally
+ *         access the ActivityStack class of the DE. No commands are pushed to
+ *         the command stack or ActivityStack here since the Design handles take
+ *         care of that when executed. Commands are executed as transactions.
  */
 public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 {
@@ -31,7 +31,7 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 	private CommandStack ar;
 
 	/**
-	 * @deprecated use {@link #WrapperCommandStack(CommandStack)}}
+	 * @deprecated use {@link #WrapperCommandStack(CommandStack)}
 	 */
 	public WrapperCommandStack( )
 	{
@@ -88,7 +88,7 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 			return;
 		}
 
-		if (command.getLabel( ) == null)
+		if ( command.getLabel( ) == null )
 		{
 			command.setLabel( "" ); //$NON-NLS-1$
 		}
@@ -113,9 +113,11 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 		ar.removeListener( listener );
 	}
 
-	/*
-	 * Do not use, use addCommandStackListener(ActivityStackListener) instead
-	 * (non-Javadoc)
+	/**
+	 * @deprecated
+	 * 
+	 *             Do not use, use
+	 *             addCommandStackListener(ActivityStackListener) instead
 	 * 
 	 * @see org.eclipse.gef.commands.CommandStack#addCommandStackListener(org.eclipse.gef.commands.CommandStackListener)
 	 */
@@ -128,9 +130,11 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 		// assert false;
 	}
 
-	/*
-	 * Do not use, use removeCommandStackListener(ActivityStackListener) instead
-	 * (non-Javadoc)
+	/**
+	 * @deprecated
+	 * 
+	 *             Do not use, use
+	 *             removeCommandStackListener(ActivityStackListener) instead
 	 * 
 	 * @see org.eclipse.gef.commands.CommandStack#removeCommandStackListener(org.eclipse.gef.commands.CommandStackListener)
 	 */

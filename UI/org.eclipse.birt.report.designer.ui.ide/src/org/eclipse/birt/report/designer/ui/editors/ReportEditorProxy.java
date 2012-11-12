@@ -72,7 +72,10 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public IEditorInput getEditorInput( )
 	{
-		return instance.getEditorInput( );
+		if( instance != null){
+			return instance.getEditorInput( );
+		}
+		return null;
 	}
 
 	/*
@@ -207,7 +210,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public Object getAdapter( Class adapter )
 	{
-		return instance.getAdapter( adapter );
+		if ( instance != null )
+		{
+			return instance.getAdapter( adapter );
+		}
+		return null;
 	}
 
 	/*

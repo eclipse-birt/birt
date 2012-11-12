@@ -14,9 +14,11 @@ package org.eclipse.birt.chart.device.g2d;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.net.URL;
 import java.text.AttributedCharacterIterator.Attribute;
@@ -50,7 +52,7 @@ public class G2dDisplayServerBase extends DisplayAdapter implements ITextLayoutF
 	protected Graphics2D _g2d;
 	protected int iDpiResolution = 0;
 	private static Map<String, BufferedImage> imageCache = new HashMap<String, BufferedImage>( ); 
-	private static Map<BufferedImage, Size> sizeCache = new HashMap<BufferedImage, Size>( ); 
+	private static Map<Image, Size> sizeCache = new HashMap<Image, Size>( ); 
 
 
 	@Override
@@ -149,13 +151,15 @@ public class G2dDisplayServerBase extends DisplayAdapter implements ITextLayoutF
 	public Size getSize( Object oImage )
 	{
 		Size size = null;
-		if ( oImage instanceof BufferedImage )
+		if ( oImage instanceof Image )
 		{
-			BufferedImage image = (BufferedImage) oImage;
+			Image image = (Image) oImage;
 			size = sizeCache.get( image );
 			if ( size == null )
 			{
-				size = SizeImpl.create( image.getWidth( ), image.getHeight( ) );
+				int newWidth =  image.getWidth( (ImageObserver)getObserver( ) );
+				int newHeight =   image.getHeight( (ImageObserver)getObserver( ) ) ;
+				size = SizeImpl.create( newWidth, newHeight);
 				sizeCache.put( image, size );
 			}
 		}

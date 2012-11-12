@@ -36,11 +36,13 @@ import org.eclipse.swt.widgets.Text;
  */
 public class BookMarkExpressionPage extends AttributePage
 {
+	private static String MESSAGE_GENERAL = Messages.getString( "BookMarkPage.Modified.Note" ); //$NON-NLS-1$
+	private static String MESSAGE_WITHOUT_QUOTES = Messages.getString( "BookMarkPage.Modified.WithoutQuotes" ); //$NON-NLS-1$
 
 	private FormTextSection noteSection;
 	private ExpressionSection bookMarkSection;
 	private ExpressionPropertyDescriptorProvider bookMarkProvider;
-
+	
 	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
@@ -49,9 +51,7 @@ public class BookMarkExpressionPage extends AttributePage
 		noteSection = new FormTextSection( "", container, true ); //$NON-NLS-1$
 		noteSection.setWidth( 450 );
 		noteSection.setFillText( false );
-		noteSection.setText( "<form><p><img href=\"image\"/><span color=\"color\">" + //$NON-NLS-1$
-				Messages.getString( "BookMarkPage.Modified.Note" )
-				+ "</span></p></form>" ); //$NON-NLS-1$
+		noteSection.setText( generateNoteSectionText(MESSAGE_GENERAL) ); 
 		noteSection.setImage( "image", //$NON-NLS-1$
 				JFaceResources.getImage( Dialog.DLG_IMG_MESSAGE_WARNING ) );
 		noteSection.setColor( "color", ColorManager.getColor( 127, 127, 127 ) ); //$NON-NLS-1$
@@ -116,6 +116,17 @@ public class BookMarkExpressionPage extends AttributePage
 
 	private boolean validateBookMark( String text )
 	{
+		boolean result = validateQuotes(text);
+		if(result)
+		{
+			setNoteSectionMessage(MESSAGE_GENERAL);
+			result = validateContents(text);
+		}
+		return result;
+	}
+	
+	private boolean validateContents(String text)
+	{
 		text = DEUtil.removeQuote( text ).trim( );
 		if ( text.length( ) > 0 )
 		{
@@ -124,5 +135,27 @@ public class BookMarkExpressionPage extends AttributePage
 		else
 			return true;
 	}
+	
+	private boolean validateQuotes(String text)
+	{
+		String textTemp = DEUtil.removeQuote( text ).trim( );
+		if(textTemp.length() > 0 && textTemp.equals(text))
+		{
+			setNoteSectionMessage(MESSAGE_WITHOUT_QUOTES);
+			return false;
+		}
+		return true;
+	}
+	
+	private void setNoteSectionMessage(String message)
+	{
+		noteSection.setStringValue(generateNoteSectionText(message));
+	}
 
+	private String generateNoteSectionText(String detailMessage)
+	{
+		return "<form><p><img href=\"image\"/><span color=\"color\">" + //$NON-NLS-1$
+				detailMessage
+				+ "</span></p></form>" ;//$NON-NLS-1$
+	}
 }

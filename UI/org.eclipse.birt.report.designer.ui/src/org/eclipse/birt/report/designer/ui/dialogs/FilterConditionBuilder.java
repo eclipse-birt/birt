@@ -707,6 +707,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 	private Button updateAggrButton;
 
+	private boolean showUpdateAggregationButton = true;
+
 	/**
 	 * @param parentShell
 	 * @param title
@@ -1034,15 +1036,18 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			syncViewProperties( );
 		}
 
-		updateAggrButton = new Button( innerParent, SWT.CHECK );
-		updateAggrButton.setText( Messages.getString( "FilterConditionBuilder.Button.UpdateAggregation" ) ); //$NON-NLS-1$
-		gd = new GridData( );
-		gd.verticalIndent = 5;
-		updateAggrButton.setLayoutData( gd );
-		updateAggrButton.setSelection( true );
-		if ( filterCondition != null )
+		if ( showUpdateAggregationButton )
 		{
-			updateAggrButton.setSelection( filterCondition.updateAggregation( ) );
+			updateAggrButton = new Button( innerParent, SWT.CHECK );
+			updateAggrButton.setText( Messages.getString( "FilterConditionBuilder.Button.UpdateAggregation" ) ); //$NON-NLS-1$
+			gd = new GridData( );
+			gd.verticalIndent = 5;
+			updateAggrButton.setLayoutData( gd );
+			updateAggrButton.setSelection( true );
+			if ( filterCondition != null )
+			{
+				updateAggrButton.setSelection( filterCondition.updateAggregation( ) );
+			}
 		}
 
 		lb = new Label( innerParent, SWT.SEPARATOR | SWT.HORIZONTAL );
@@ -1646,8 +1651,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 						filter,
 						FilterCondition.EXPR_MEMBER );
 
-				filter.setUpdateAggregation( updateAggrButton.getSelection( ) );
-				
+				if ( showUpdateAggregationButton && updateAggrButton != null )
+					filter.setUpdateAggregation( updateAggrButton.getSelection( ) );
+
 				if ( dataSetHandle != null )
 				{
 					PropertyHandle propertyHandle = dataSetHandle.getPropertyHandle( ListingHandle.FILTER_PROP );
@@ -1692,7 +1698,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				ExpressionButtonUtil.saveExpressionButtonControl( expression,
 						filterCondition,
 						FilterCondition.EXPR_MEMBER );
-				filterCondition.setUpdateAggregation( updateAggrButton.getSelection( ) );
+				if ( showUpdateAggregationButton && updateAggrButton != null )
+					filterCondition.setUpdateAggregation( updateAggrButton.getSelection( ) );
 			}
 		}
 		catch ( Exception e )
@@ -1714,6 +1721,11 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		return super.open( );
 	}
 
+	public void showUpdateAggregationButton( boolean show )
+	{
+		showUpdateAggregationButton = show;
+	}
+	
 	protected void operatorChange( )
 	{
 		String value = getValueForOperator( operator.getText( ) );

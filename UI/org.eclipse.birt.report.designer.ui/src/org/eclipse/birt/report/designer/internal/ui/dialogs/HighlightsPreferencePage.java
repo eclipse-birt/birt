@@ -391,33 +391,19 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 
 	private void updateButtons( )
 	{
-		if ( fTableViewer.getTable( ).getSelectionCount( ) == 1 )
-		{
-			fEditButton.setEnabled( fTableViewer.getTable( )
-					.getSelectionIndex( ) >= 0
-					&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-							.getItemCount( ) );
-			fDeleteButton.setEnabled( fEditButton.getEnabled( ) );
-			fDuplicateButton.setEnabled( fEditButton.getEnabled( ) );
+		fEditButton.setEnabled( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
+				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
+						.getItemCount( ) );
+		fDeleteButton.setEnabled( fEditButton.getEnabled( ) );
+		fDuplicateButton.setEnabled( fEditButton.getEnabled( ) );
 
-
-			fMoveUpButton.setEnabled( fTableViewer.getTable( )
-					.getSelectionIndex( ) > 0
-					&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-							.getItemCount( ) );
-
-			fMoveDownButton.setEnabled( fTableViewer.getTable( )
-					.getSelectionIndex( ) >= 0
-					&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-							.getItemCount( ) - 1 );
-		}
-		else
-		{
-			fEditButton.setEnabled( false );
-			fDeleteButton.setEnabled( false );
-			fMoveUpButton.setEnabled( false );
-			fMoveDownButton.setEnabled( false );
-		}
+		fMoveUpButton.setEnabled( fTableViewer.getTable( ).getSelectionIndex( ) > 0
+				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
+						.getItemCount( ) );
+		fMoveDownButton.setEnabled( fTableViewer.getTable( )
+				.getSelectionIndex( ) >= 0
+				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
+						.getItemCount( ) - 1 );
 	}
 
 	private void add( )

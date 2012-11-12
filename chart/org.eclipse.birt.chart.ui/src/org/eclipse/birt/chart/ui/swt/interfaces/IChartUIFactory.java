@@ -216,12 +216,12 @@ public interface IChartUIFactory
 	 * @param wizardContext
 	 * @param fdCurrent
 	 * @param cdCurrent
-	 * @param isAlignmentEnabled
+	 * @param optionalStyle
 	 * @return font definition dialog.
 	 */
 	IFontDefinitionDialog createFontDefinitionDialog( Shell shellParent,
 			ChartWizardContext wizardContext, FontDefinition fdCurrent,
-			ColorDefinition cdCurrent, boolean isAlignmentEnabled );
+			ColorDefinition cdCurrent, int optionalStyle );
 	
 	/**
 	 * Create text editor composite.

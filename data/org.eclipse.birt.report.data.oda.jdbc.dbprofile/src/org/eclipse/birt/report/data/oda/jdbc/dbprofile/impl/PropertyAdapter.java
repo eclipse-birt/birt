@@ -30,7 +30,7 @@ import org.eclipse.datatools.connectivity.drivers.jdbc.IJDBCConnectionProfileCon
 public class PropertyAdapter
 {
     private static final String EMPTY_STRING = ""; //$NON-NLS-1$
-    private static Map<String,String> sm_adaptableNames;
+    private volatile static Map<String,String> sm_adaptableNames;
     
     private PropertyAdapter() {}
     

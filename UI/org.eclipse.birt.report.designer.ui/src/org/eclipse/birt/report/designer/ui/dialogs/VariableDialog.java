@@ -126,9 +126,13 @@ public class VariableDialog extends BaseTitleAreaDialog
 		// new Label( content, SWT.NONE );
 
 		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.DefaultValue" ) ); //$NON-NLS-1$
-		expressionTxt = new Text( content, SWT.BORDER | SWT.WRAP );
-		expressionTxt.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+		expressionTxt = new Text( content, SWT.BORDER );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.heightHint = expressionTxt.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- expressionTxt.getBorderWidth( )
+				* 2;
+		expressionTxt.setLayoutData( gd );
+		
 		ExpressionButtonUtil.createExpressionButton( content,
 				expressionTxt,
 				this.getExpressionProvider( ),
@@ -191,7 +195,7 @@ public class VariableDialog extends BaseTitleAreaDialog
 		if ( this.variable == null )
 		{
 			this.variable = DesignElementFactory.getInstance( this.designHandle )
-					.newVariableElement( this.nameTxt.getText( ) );
+					.newVariableElement( this.nameTxt.getText( ).trim( ) );
 			try
 			{
 				this.designHandle.add( IReportDesignModel.PAGE_VARIABLES_PROP,
@@ -204,7 +208,7 @@ public class VariableDialog extends BaseTitleAreaDialog
 		}
 		try
 		{
-			this.variable.setVariableName( this.nameTxt.getText( ) );
+			this.variable.setVariableName( this.nameTxt.getText( ).trim( ) );
 			if ( this.reportRadio.getSelection( ) )
 				this.variable.setType( DesignChoiceConstants.VARIABLE_TYPE_REPORT );
 			else
@@ -226,16 +230,15 @@ public class VariableDialog extends BaseTitleAreaDialog
 
 	private void validate( )
 	{
-		if ( this.nameTxt.getText( ) == null
-				|| this.nameTxt.getText( ).equals( "" ) ) //$NON-NLS-1$
+		if ( this.nameTxt.getText( ).trim( ).length( ) == 0 )
 		{
 			getOkButton( ).setEnabled( false );
 		}
-		else if ( isNameDuplicated( this.nameTxt.getText( ) ) )
+		else if ( isNameDuplicated( this.nameTxt.getText( ).trim( ) ) )
 		{
 			setErrorMessage( Messages.getFormattedString( "VariableDialog.Error.NameDuplicate",
 					new String[]{
-						this.nameTxt.getText( )
+						this.nameTxt.getText( ).trim( )
 					} ) );
 			getOkButton( ).setEnabled( false );
 		}

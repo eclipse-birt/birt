@@ -204,7 +204,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 
-		request.setRequestConvert( new DeferredGraphicalViewer.EditorReportRequestConvert( ) );
+		request.setRequestConverter( new DeferredGraphicalViewer.EditorReportRequestConvert( ) );
 		// SessionHandleAdapter.getInstance().getMediator().pushState();
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )

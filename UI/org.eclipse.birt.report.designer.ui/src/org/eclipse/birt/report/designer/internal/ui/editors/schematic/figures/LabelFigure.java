@@ -51,7 +51,7 @@ public class LabelFigure extends ReportElementFigure
 	private boolean isFixLayout;
 
 	/**
-	 * Creates a new LabelFigure with a default MarginBorder size 1 and a
+	 * Creates a new LabelFigure with a default MarginBorder size 3 and a
 	 * FlowPage containing a TextFlow with the style WORD_WRAP_SOFT.
 	 */
 	public LabelFigure( )
@@ -364,7 +364,7 @@ public class LabelFigure extends ReportElementFigure
 			{
 				if ( "\r\n".equals( s.substring( i, i + 2 ) ) ) //$NON-NLS-1$
 				{
-					count++;
+					//count++;
 				}
 				else
 				{
@@ -668,12 +668,5 @@ public class LabelFigure extends ReportElementFigure
 	public void setFixLayout( boolean isFixLayout )
 	{
 		this.isFixLayout = isFixLayout;
-	}
-	
-	@Override
-	public void setBounds( Rectangle rect )
-	{
-		// TODO Auto-generated method stub
-		super.setBounds( rect );
 	}
 }

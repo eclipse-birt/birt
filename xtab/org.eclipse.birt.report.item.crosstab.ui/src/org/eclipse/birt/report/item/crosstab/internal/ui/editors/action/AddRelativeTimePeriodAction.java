@@ -68,6 +68,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 	
 	public void run( )
 	{ 
+		CrosstabReportItemHandle reportHandle = measureViewHandle.getCrosstab( );
 		reportHandle.getModuleHandle( ).getCommandStack( ).startTrans(  Messages.getString("AddRelativeTimePeriodAction_trans_label") ); //$NON-NLS-1$
 //		AddRelativeTimePeriodDialog computedSummaryDialog = new AddRelativeTimePeriodDialog(UIUtil.getDefaultShell( ), "Add Relative TimeP eriod");
 //		computedSummaryDialog.setBindingHolder( (ReportItemHandle)reportHandle.getModelHandle( ) );
@@ -130,7 +131,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 	public boolean isEnabled( )
 	{
 		Object selection = getSelection( ); 
-		if ( selection == null && !(selection instanceof DesignElementHandle))
+		if ( selection == null || !(selection instanceof DesignElementHandle))
 		{
 			return false;
 		}

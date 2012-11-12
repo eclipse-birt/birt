@@ -354,6 +354,7 @@ PieBaseSeriesComponent.Text.SpecifyExplodeSlice=쪼개기 조각 지정
 PieBaseSeriesComponent.Tooltip.EnterBooleanExpression=쪼갤 조각을 제어할 부울 식을 입력하십시오. 입력하지 않을 경우 모든 조각에 쪼개기 거리가 적용됩니다.
 PieLeftAreaComponent.Label.SliceSizeDefinition=조각 크기 정의:
 PieSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 PieSeriesAttributeComposite에 대한 잘못된 인수입니다.
+PieSeriesAttributeComposite.InnerRadiusType.Points=포인트
 PieSeriesAttributeComposite.Lbl.Explosion=급증:
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=파이 회전: 첫 파이 조각의 시작 각도
 PieBottomAreaComponent.Label.Rotation=파이 회전(&N):

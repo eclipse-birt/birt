@@ -515,6 +515,7 @@ dataset.editor.dataSource=ƒf[ƒ^ƒ\[ƒX
 dataset.editor.error.columnOrAliasNameAlreadyUsed=V‚µ‚¢—ñ‚Ì–¼‘O‚Ü‚½‚ÍƒGƒCƒŠƒAƒX ({0}) ‚ÍA‚·‚Å‚ÉƒCƒ“ƒfƒbƒNƒX {1} ‚Ì—ñ‚Åg—p‚³‚ê‚Ä‚¢‚Ü‚·B
 dataset.editor.error.computedColumnNameAlreadyUsed=V‚µ‚¢ŒvZ—ñ‚Ì–¼‘O ({0}) ‚ÍA‚·‚Å‚É [o—Í—ñ] ‚Ì—ñ‚ÌƒGƒCƒŠƒAƒX ({1}) ‚Æ‚µ‚Äg—p‚³‚ê‚Ä‚¢‚Ü‚·B
 dataset.editor.error.duplicateParameterName=ƒpƒ‰ƒƒ^–¼‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B
+dataset.editor.error.nonemptyDefaultvalue=ƒfƒtƒHƒ‹ƒg’l‚ğ‚È‚­‚·‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB
 dataset.editor.error.emptyName=–¼‘O‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB 
 dataset.editor.error.missingComputedColumnExpression=ŒvZ—ñ {0} ‚Ì®‚Í null ‚Ü‚½‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 dataset.editor.error.missingComputedColumnName=ŒvZ—ñ–¼‚Í null ‚Ü‚½‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
@@ -632,6 +633,7 @@ DerivedDataSet.action.error.message.InvalidNumber.DataSet=g—p‰Â”\‚Èƒf[ƒ^ƒZƒbƒg
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=ŒvZ—ñ‚Ì’è‹`B
 DataSetComputedColumnsPage.description=ŒvZ—ñ‚Ì’è‹` :
 DataSetComputedColumnsPage.duplicatedName=—ñ–¼‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B
+DataSetComputedColumnsPage.numberName=—ñ–¼‚ğ”š‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB
 DataSetComputedColumnsPage.toolTipText.Down=ŒvZ—ñ‚ğ‰º‚ÉˆÚ“®‚µ‚Ü‚·B
 DataSetComputedColumnsPage.toolTipText.Up=ŒvZ—ñ‚ğã‚ÉˆÚ“®‚µ‚Ü‚·B
 DataSetComputedColumnsPage.toolTipText.Remove=ŒvZ—ñ‚ğíœ‚µ‚Ü‚·B
@@ -1808,6 +1810,7 @@ FormPage.Button.Up=ã‚ÉˆÚ“®(&U)
 FormPage.Button.Up.Alt1=ã‚ÉˆÚ“®(&P)
 FormPage.Button.Up.Alt2=ã‚ÉˆÚ“®(&E)
 FormPage.Button.Binding.Refresh=Ä•\¦(&F)
+FormPage.Button.Binding.Clear=ƒNƒŠƒA(&C)
 FormPage.Menu.ModifyProperty=ƒvƒƒpƒeƒB‚Ì•ÏX
 FormPage.toolTipText.Up=ã‚ÉˆÚ“®
 FormPage.toolTipText.Down=‰º‚ÉˆÚ“®
@@ -2512,7 +2515,7 @@ MapPreferencePage.displayname.Title=ƒ}ƒbƒv
 MapPreferencePage.text.Add=’Ç‰Á(&A)...
 MapPreferencePage.text.Delete=íœ(&R)
 MapPreferencePage.text.Description=ƒ}ƒbƒv‹K‘¥ :
-MapPreferencePage.text.Edit=•ÒW(&D)...
+MapPreferencePage.text.Edit=•ÒW(&E)...
 MapPreferencePage.toolTipText.Up=ƒ}ƒbƒv‚Ì‹K‘¥‚ğã‚ÉˆÚ“®
 MapPreferencePage.toolTipText.Down=ƒ}ƒbƒv‚Ì‹K‘¥‚ğ‰º‚ÉˆÚ“®
 MapPreferencePage.text.Duplicate=•¡»(&D)
@@ -3636,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U) :
 
 UseCssInThemeDialog.TitleArea.Title=ƒŒƒ|[ƒgƒ‰ƒCƒuƒ‰ƒŠ‚Å CSS ƒtƒ@ƒCƒ‹‚ğg—p
 UseCssInThemeDialog.TitleArea.Message=CSS ƒtƒ@ƒCƒ‹‚ÌƒXƒ^ƒCƒ‹‚ğ”z’u‚·‚éƒe[ƒ}‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
+CssStyleSheetNodeProvider.Label.FromServer=ƒT[ƒo‚©‚ç
 CssStyleSheetNodeProvider.Tooltip.URI=(•\¦‚É“K—p)
 
 
@@ -4119,6 +4123,7 @@ WizardTemplateChoicePage.label.Description=à–¾ :
 WizardTemplateChoicePage.label.Preview=ƒvƒŒƒrƒ…[ :
 WizardTemplateChoicePage.label.ReportTemplates=ƒŒƒ|[ƒgƒeƒ“ƒvƒŒ[ƒg :
 WizardTemplateChoicePage.label.ShowCheatSheets=ƒŒƒ|[ƒgì¬ƒKƒCƒh‚Ì•\¦(&S)
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=“à—e‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢‹ó”’‚ÌƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
 WizardTemplateChoicePage.message.ChartListing=ƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·BƒOƒ‰ƒt‚ÍA‚»‚ê‚¼‚ê‚ÌƒOƒ‹[ƒv‚Ìƒf[ƒ^‚ğ‹Šo“I‚É•\‚µ‚Ü‚·B
 WizardTemplateChoicePage.message.DualColumnChartListing=ƒOƒ‰ƒt‚ÆƒŠƒXƒg‚ÌƒTƒuƒOƒ‹[ƒv‚ğ 2 ‚Â‚ÂƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
@@ -4307,6 +4312,7 @@ GeneralPage.Library.Modified.Note=’ : ‚±‚ÌƒŒƒ|[ƒg€–Ú‚Íƒ‰ƒCƒuƒ‰ƒŠ‚Å•ÒW‚³‚ê‚Ä‚
 
 #BookMarkPage
 BookMarkPage.Modified.Note=ƒuƒbƒNƒ}[ƒN‚ÉAA`ZAa`zA0`9A-A_A:A. ˆÈŠO‚Ì“Áê•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¨‚èA‚±‚Ì‚½‚ß‚ÉÀs‚É–â‘è‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B
+BookMarkPage.Modified.WithoutQuotes=ƒuƒbƒNƒ}[ƒN‚Í“ñdˆø—p•„‚ÅˆÍ‚Ş•K—v‚ª‚ ‚è‚Ü‚·B
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4615,7 +4621,8 @@ BindingDialogHelper.text.Grid=ƒOƒŠƒbƒh
 BindingDialogHelper.text.Group=ƒOƒ‹[ƒv(&O)
 BindingDialogHelper.text.Expression=®(&E) :
 BindingDialogHelper.text.displayName=•\¦–¼(&N) :
-BindingDialogHelper.text.allowExport=ƒGƒNƒXƒ|[ƒg‚ğ‹–‰Â‚·‚é(&O) :
+BindingDialogHelper.text.allowExport=ƒGƒNƒXƒ|[ƒg(&O) :
+BindingDialogHelper.text.allowExport.button=ƒGƒNƒXƒ|[ƒg‚ğ‹–‰Â‚·‚é
 BindingDialogHelper.text.displayNameID=•\¦–¼ ID(&S) :
 BindingDialogHelper.bindingName.dataitem=—ñƒoƒCƒ“ƒh :
 BindingDialogHelper.bindingName.aggregation=WŒv
@@ -4645,7 +4652,8 @@ CrosstabBindingDialogHelper.calculation.group=ŠúŠÔ
 CrosstabBindingDialogHelper.recentday.description=ŠúŠÔ“à‚ÌÅŒã‚Ì“ú•t
 CrosstabBindingDialogHelper.referencedate.label=QÆ“ú(&R) :
 CrosstabBindingDialogHelper.thisdate.label=g—p‚·‚é“ú•t :
-CrosstabBindingDialogHelper.thisdate.example.label=“ú•t‚ÍAyyyy-MM-dd ‚ÌŒ`®‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢
+CrosstabBindingDialogHelper.thisdate.example.label=w’è‚³‚ê‚½“ú•t’l‚ğ“ñdˆø—p•„‚ÅˆÍ‚ñ‚Å‚­‚¾‚³‚¢B\n—á : "2012-01-23"A"1/23/2012"B
+CrosstabBindingDialogHelper.thisdate.example.label.constant=—á : 2012-01-23A1/23/2012B
 CrosstabBindingDialogHelper.timedimension.label=ŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“(&M) :
 CrosstabBindingDialogHelper.timeperiod.wrongdate=‚±‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“‚ÍÅ‹ß‚ÌQÆ“ú‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚Ü‚¹‚ñ 
 CrosstabBindingDialogHelper.today.label=¡“ú
@@ -4718,7 +4726,7 @@ InsertAggregationAction.text=WŒv(&A)
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=‘Š‘ÎŠúŠÔ(&V)
 
 ###########################################################
 #Multiple views
@@ -4873,6 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=ƒfƒtƒHƒ‹ƒg‚Ì\•¶(&F) :
 ExpressionEditor.Error.EmptyExpression=®‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 ExpressionEditor.Label.Expression=®(&E) :
 ExpressionEditor.Title=®‚Ì•ÒW
+ExpressionSyntaxColoringPage.Accessible.Name.Background=”wŒiFƒZƒŒƒNƒ^
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=‘OŒiFƒZƒŒƒNƒ^
+ExpressionSyntaxColoringPage.Button.Bold=‘¾š(&B)
+ExpressionSyntaxColoringPage.Button.Enable=—LŒø‰»
+ExpressionSyntaxColoringPage.Button.Italic=Î‘Ì(&I)
+ExpressionSyntaxColoringPage.Button.Restore=ƒfƒtƒHƒ‹ƒg‚É–ß‚·(&R)
+ExpressionSyntaxColoringPage.Button.Strikethrough=æ‚èÁ‚µü(&S)
+ExpressionSyntaxColoringPage.Button.Underline=‰ºü(&U)
+ExpressionSyntaxColoringPage.Decscription=ƒŠƒXƒg‚Ü‚½‚ÍƒeƒLƒXƒg—Ìˆæ‚ÌƒTƒ“ƒvƒ‹‚©‚çAƒXƒ^ƒCƒ‹‚ğƒJƒXƒ^ƒ}ƒCƒY‚µ‚½‚¢ƒeƒLƒXƒg‚Ìí—Ş‚ğ‘I‘ğ‚·‚é‚±‚Æ‚ÅA\•¶‚Ì‹­’²•\¦‚ğƒJƒXƒ^ƒ}ƒCƒY‚µ‚Ü‚·B
+ExpressionSyntaxColoringPage.Element.Comment=ƒRƒƒ“ƒg
+ExpressionSyntaxColoringPage.Element.Default=ƒfƒtƒHƒ‹ƒg
+ExpressionSyntaxColoringPage.Element.Keyword=ƒL[ƒ[ƒh
+ExpressionSyntaxColoringPage.Element.String=•¶š—ñ
+ExpressionSyntaxColoringPage.Label.Background=”wŒi(&O) :
+ExpressionSyntaxColoringPage.Label.Foreground=‘OŒi(&F) :
+ExpressionSyntaxColoringPage.Label.SampleText=ƒTƒ“ƒvƒ‹•¶š—ñ(&S) :
+ExpressionSyntaxColoringPage.Label.SyntaxElement=\•¶‚Ì—v‘f(&Y) :
+ExpressionSyntaxColoringPage.Link.ColorAndFont=ƒfƒtƒHƒ‹ƒg‚ÌƒtƒHƒ“ƒg‚ÆF‚ğ <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">ƒeƒLƒXƒgƒGƒfƒBƒ^</a> ‚¨‚æ‚Ñ <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">ƒtƒHƒ“ƒg‚ÆF</a> ŠÂ‹«İ’èƒy[ƒW‚Åİ’è‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
 
 ###########################################################
 #VariableDropAdapter

@@ -14,11 +14,12 @@ package org.eclipse.birt.report.designer.ui.editors;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.data.IDataViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
@@ -50,7 +51,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 	private Control control;
 
 	private int staleType;
-	
+
 	private boolean alreadyShow = false;
 
 	private ActivityStackListener commandStackListener = new ActivityStackListener( ) {
@@ -180,11 +181,11 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 				.getPreferenceStore( )
 				.getString( ReportPlugin.LIBRARY_WARNING_PREFERENCE );
 
-		if ( !alreadyShow && (prompt == null
-				|| ( !ReportPlugin.getDefault( )
+		if ( !alreadyShow
+				&& ( prompt == null || ( !ReportPlugin.getDefault( )
 						.getPreferenceStore( )
 						.getString( ReportPlugin.LIBRARY_WARNING_PREFERENCE )
-						.equals( MessageDialogWithToggle.NEVER ) ) ))
+						.equals( MessageDialogWithToggle.NEVER ) ) ) )
 		{
 			alreadyShow = true;
 			MessageDialogWithToggle dialog = MessageDialogWithToggle.openInformation( UIUtil.getDefaultShell( ),
@@ -216,7 +217,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		}
 		if ( ( newModel != null && getModel( ) != newModel ) || reload )
 		{
-			Object oldModel = getModel( );
+			ModuleHandle oldModel = getModel( );
 
 			setModel( newModel );
 
@@ -244,7 +245,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 	 * 
 	 * @param oldModel
 	 */
-	protected void rebuildReportDesign( Object oldModel )
+	protected void rebuildReportDesign( ModuleHandle oldModel )
 	{
 		// Initializes command stack
 		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
@@ -259,10 +260,10 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		SessionHandleAdapter.getInstance( ).resetReportDesign( oldModel,
 				getModel( ) );
 
-		SessionHandleAdapter.getInstance( )
-				.setReportDesignHandle( getModel( ) );
-		UIUtil.processSessionResourceFolder( getEditorInput( ), 
-				UIUtil.getProjectFromInput( getEditorInput( ) ), getModel() );
+		SessionHandleAdapter.getInstance( ).setReportDesignHandle( getModel( ) );
+		UIUtil.processSessionResourceFolder( getEditorInput( ),
+				UIUtil.getProjectFromInput( getEditorInput( ) ),
+				getModel( ) );
 
 	}
 
@@ -289,13 +290,13 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 
 	public Object getAdapter( Class adapter )
 	{
-		if ( adapter == DataViewPage.class )
+		if ( adapter == IDataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
 			getModelEventManager( ).addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
 		}
-		if ( adapter == AttributeViewPage.class )
+		else if ( adapter == IAttributeViewPage.class )
 		{
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;

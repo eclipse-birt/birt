@@ -9,10 +9,10 @@ import org.w3c.dom.css.CSSValue;
 
 public abstract class AreaConstants
 {
-	public final static int NO_REPEAT = 10;
-	public final static int REPEAT_X = 11;
-	public final static int REPEAT_Y = 12;
-	public final static int REPEAT = 13;
+	public final static int NO_REPEAT = 0;
+	public final static int REPEAT_X = 1;
+	public final static int REPEAT_Y = 2;
+	public final static int REPEAT = 3;
 	
 	public static HashMap<CSSValue, Integer> repeatMap = new HashMap<CSSValue, Integer>( );
 

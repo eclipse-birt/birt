@@ -125,8 +125,8 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 		localeNames.addAll( FormatAdapter.LOCALE_TABLE.keySet( ) );
 		localeCombo.setItems( localeNames.toArray( new String[]{} ) );
 		localeCombo.select( 0 );
-
 		DataSetHandle dataset = (DataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( );
+		localeCombo.setEnabled( !ExternalUIUtil.disableCollation( dataset ) );
 
 		if ( dataset.getLocale( ) != null )
 		{
@@ -162,6 +162,8 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 			nullOrderingCombo.setText( ChoiceSetFactory.getDisplayNameFromChoiceSet( dataset.getNullsOrdering( ),
 					nullOrderingChoiceSet ) );
 		}
+		
+		nullOrderingCombo.setEnabled( !ExternalUIUtil.disableCollation( dataset )  );
 	}
 
 	/**

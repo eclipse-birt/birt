@@ -27,7 +27,7 @@ public class NodeTable
 	static final int INODE_FREE_TABLE = 2;
 	static final int INODE_ENTRY_TABLE = 3;
 
-	protected Ext2FileSystem fs;
+	protected final Ext2FileSystem fs;
 
 	protected ArrayList<Ext2Node> nodes = new ArrayList<Ext2Node>( 4 );
 	protected LinkedList<Ext2Node> freeNodes = new LinkedList<Ext2Node>( );
@@ -206,5 +206,12 @@ public class NodeTable
 		fs.releaseFreeBlocks( freeNode );
 		node.reset( );
 		freeNodes.add( node );
+	}
+
+	void clear( )
+	{
+		dirty = true;
+		nodes.clear( );
+		freeNodes.clear( );
 	}
 }

@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
@@ -110,6 +111,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	
 	private IBindingValueFetcher fetcher;
 	private CubeQueryExecutor cubeQueryExecutor;
+	
+	private Map appContext;
 	/**
 	 * 
 	 * @param cube
@@ -537,6 +540,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 									+ functions[j].getName(),
 									functions[j].getMeasureName(),
 									functions[j].getFunctionName());
+							if ( functions[j].getTimeFunction( ) != null )
+							{
+								func[0].setTimeFunction( functions[j].getTimeFunction( ) );
+							}
+							if ( functions[j].getTimeFunctionFilter( ) != null )
+							{
+								func[0].setTimeFunctionFilter( functions[j].getTimeFunctionFilter( ) );
+							}
 							aggregations[0] = new AggregationDefinition(rs[i]
 									.getAggregationDefinition().getLevels(),
 									rs[i].getAggregationDefinition()
@@ -808,7 +819,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	private void applyAggrFilters( AggregationDefinition[] aggregations,
+	public void applyAggrFilters( AggregationDefinition[] aggregations,
 			IAggregationResultSet[] resultSet, StopSign stopSign )
 			throws IOException, DataException, BirtException
 	{
@@ -818,6 +829,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		{
 			AggrMeasureFilterHelper filter = new AggrMeasureFilterHelper( cube,
 					resultSet );
+			filter.setQueryExecutor( cubeQueryExecutor );
+			filter.setBindingValueFetcher( fetcher );
 			cubePosFilters = filter.getCubePosFilters( aggrMeasureFilters );
 			if( cubePosFilters == null )
 			{
@@ -865,7 +878,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			IAggregationResultSet[] temp = onePassExecute( aggregations,
 					stopSign );
 			// overwrite result with the second pass aggregation result set
-			System.arraycopy( temp, 0, resultSet, 0, resultSet.length );
+			System.arraycopy( temp, 0, resultSet, 0, temp.length );
 		}
 	}
 
@@ -885,6 +898,42 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	{
 		IDiskArray[] dimPosition = getFilterResult( );
 
+		FactTableRowIterator factTableRowIterator = populateFactTableIterator( stopSign,
+				dimPosition );
+		DimensionResultIterator[] dimensionResultIterators = populateDimensionResultIterator( dimPosition, stopSign );
+
+		IDataSet4Aggregation dataSet4Aggregation = new DataSetFromOriginalCube( factTableRowIterator,
+				dimensionResultIterators,
+				computedMeasureHelper );
+		
+		long memoryCacheSize = this.memoryCacheSize;
+		if( this.appContext != null )
+		{
+			boolean use11SP3CubeQuery = CacheUtil.enableSP3CubeQueryChange( this.appContext );
+			if( use11SP3CubeQuery )
+				memoryCacheSize = -(memoryCacheSize);
+		}
+		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( new CubeDimensionReader( cube ),
+				dataSet4Aggregation,
+				aggregations,
+				memoryCacheSize );
+		
+		aggregationCalculatorExecutor.setMaxDataObjectRows( maxDataObjectRows );
+		
+		return aggregationCalculatorExecutor.execute( stopSign );
+	}
+
+	/**
+	 * 
+	 * @param stopSign
+	 * @param validDimensionName
+	 * @param validDimPosition
+	 * @return
+	 * @throws IOException
+	 */
+	public FactTableRowIterator populateFactTableIterator( StopSign stopSign, IDiskArray[] dimPosition )
+			throws IOException
+	{
 		int count = 0;
 		for ( int i = 0; i < dimPosition.length; i++ )
 		{
@@ -906,6 +955,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				pos++;
 			}
 		}
+		
 		FactTableRowIterator factTableRowIterator = new FactTableRowIterator( cube.getFactTable( ),
 				validDimensionName,
 				validDimPosition,
@@ -925,19 +975,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		{
 			factTableRowIterator.addMeasureFilter( (IJSFacttableFilterEvalHelper)measureFilters.get( i ) );
 		}
-		DimensionResultIterator[] dimensionResultIterators = populateDimensionResultIterator( dimPosition, stopSign );
-
-		IDataSet4Aggregation dataSet4Aggregation = new DataSetFromOriginalCube( factTableRowIterator,
-				dimensionResultIterators,
-				computedMeasureHelper );
-		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( new CubeDimensionReader( cube ),
-				dataSet4Aggregation,
-				aggregations,
-				memoryCacheSize );
-		
-		aggregationCalculatorExecutor.setMaxDataObjectRows( maxDataObjectRows );
-		
-		return aggregationCalculatorExecutor.execute( stopSign );
+		return factTableRowIterator;
 	}
 	
 	
@@ -987,7 +1025,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	private IDiskArray[] getFilterResult( ) throws DataException, IOException
+	public IDiskArray[] getFilterResult( ) throws DataException, IOException
 	{
 		IDimension[] dimensions = cube.getDimesions( );
 		IDiskArray[] dimPosition = new IDiskArray[dimensions.length];
@@ -1094,6 +1132,11 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	public void setMemoryCacheSize( long memoryCacheSize )
 	{
 		this.memoryCacheSize = memoryCacheSize;
+	}
+	
+	public void setAppContext( Map appContext )
+	{
+		this.appContext = appContext;
 	}
 	
 	public long getMemoryCacheSize( )

@@ -79,11 +79,15 @@ public class CubeQueryExecutor
 	private List<IJSFilterHelper> dimensionFilterEvalHelpers;
 	private List<SimpleLevelFilter> dimensionSimpleFilter;
 	private List<IAggrMeasureFilterEvalHelper> aggrMeasureFilterEvalHelpers;
+	private List<IAggrMeasureFilterEvalHelper> aggrFilterEvalHelpersOnCubeOperator;
 	private List<IJSFacttableFilterEvalHelper> advancedFacttableBasedFilterEvalHelper;
+	private boolean populateFilter = false;
 	
 	public static final int DIMENSION_FILTER = 0;
 	public static final int AGGR_MEASURE_FILTER = 1;
 	public static final int FACTTABLE_FILTER = 2;
+	public static final int AGGR_OPERATION_FILTER = 3;
+
 	/**
 	 * 
 	 * @param outResults
@@ -105,6 +109,7 @@ public class CubeQueryExecutor
 		this.dimensionFilterEvalHelpers = new ArrayList<IJSFilterHelper> ();
 		this.dimensionSimpleFilter = new ArrayList<SimpleLevelFilter> ();
 		this.aggrMeasureFilterEvalHelpers = new ArrayList<IAggrMeasureFilterEvalHelper>();
+		this.aggrFilterEvalHelpersOnCubeOperator = new ArrayList<IAggrMeasureFilterEvalHelper>();
 		this.advancedFacttableBasedFilterEvalHelper = new ArrayList<IJSFacttableFilterEvalHelper>();
 		if ( !(context.getMode( ) == DataEngineContext.MODE_PRESENTATION
 				&& defn.getQueryResultsID( ) != null) )
@@ -306,8 +311,10 @@ public class CubeQueryExecutor
 		return filter.updateAggregation();
 	}
 	
-	private void populateFilterHelpers( ) throws DataException
+	public void populateFilterHelpers( ) throws DataException
 	{
+		if( populateFilter )
+			return;
 		List filters = defn.getFilters( );
 		Set<DimLevel> dimLevelInCubeQuery = this.getDimLevelsDefinedInCubeQuery( );
 		validateFilter( filters, defn.getBindings( ) );
@@ -370,6 +377,14 @@ public class CubeQueryExecutor
 							session.getEngineContext( ).getScriptContext( )) );
 					break;
 				}
+				case CubeQueryExecutor.AGGR_OPERATION_FILTER:
+				{
+					this.aggrFilterEvalHelpersOnCubeOperator.add( new AggrMeasureFilterEvalHelper( this.outResults, scope, 
+							defn,
+							filter,
+							session.getEngineContext( ).getScriptContext( )) );
+					break;
+				}
 				case CubeQueryExecutor.FACTTABLE_FILTER:
 				default:
 				{
@@ -378,7 +393,8 @@ public class CubeQueryExecutor
 							filter, this.outResults, this.defn ) );
 				}
 			}
-		}		
+		}
+		populateFilter = true;
 	}
 
 	public int getFilterType( IFilterDefinition filter, Set<DimLevel> dimLevelInCubeQuery ) throws DataException
@@ -422,15 +438,68 @@ public class CubeQueryExecutor
 			List bindingName = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
 			if( bindingName.size( ) > 0 )
 			{
-				if( existAggregationBinding( bindingName, this.defn.getBindings( ) ) )
+				List bindingList = new ArrayList( );
+				bindingList.addAll( this.defn.getBindings( ) );
+				List nestedCubeOperation = new ArrayList( );
+				if ( this.defn instanceof PreparedCubeQueryDefinition )
+				{
+					nestedCubeOperation.addAll( ( (PreparedCubeQueryDefinition) this.defn ).getBindingsForNestAggregation( ) );
+				}
+				if( existAggregationBinding( bindingName, bindingList ) )
 					return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+				if( existAggregationBinding( bindingName, nestedCubeOperation ) )
+					return CubeQueryExecutor.AGGR_OPERATION_FILTER;
 			
 				Set targetDimLevel = OlapExpressionCompiler.getReferencedDimLevel( filter.getExpression( ), this.defn.getBindings( ) );
 				if( !targetDimLevel.isEmpty( )&& targetDimLevel.size() == 1 )
 				{
 					return CubeQueryExecutor.DIMENSION_FILTER;
 				}
+				
+				if ( !filter.updateAggregation( ) )
+				{
+					List derivedBindingNameList = new ArrayList( );
+					for ( int i = 0; i < bindingName.size( ); i++ )
+					{
+						IBinding binding = getBinding( bindingName.get( i )
+								.toString( ), this.defn.getBindings( ) );
+						if ( binding != null )
+						{
+							List temp = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+									ScriptConstants.DATA_BINDING_SCRIPTABLE );
+							if ( temp != null && temp.size( ) > 0 )
+								derivedBindingNameList.addAll( temp );
+						}
+					}
+					if ( derivedBindingNameList.size( ) > 0 )
+					{
+						if ( existAggregationBinding( derivedBindingNameList,
+								this.defn.getBindings( ) ) )
+							return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+					}
+				}
 		
+			
+				List derivedBindingNameList = new ArrayList( );
+				for ( int i = 0; i < bindingName.size( ); i++ )
+				{
+					IBinding binding = getBinding( bindingName.get( i )
+							.toString( ), this.defn.getBindings( ) );
+					if ( binding != null )
+					{
+						List temp = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+								ScriptConstants.DATA_BINDING_SCRIPTABLE );
+						if ( temp != null && temp.size( ) > 0 )
+							derivedBindingNameList.addAll( temp );
+					}
+				}
+				if ( derivedBindingNameList.size( ) > 0 )
+				{
+					if ( existAggregationBinding( derivedBindingNameList,
+							this.defn.getBindings( ) ) )
+						return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+				}
+			
 				return CubeQueryExecutor.FACTTABLE_FILTER;
 			}
 			else
@@ -514,6 +583,17 @@ public class CubeQueryExecutor
 	{
 		return this.aggrMeasureFilterEvalHelpers;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	public List<IAggrMeasureFilterEvalHelper> getNestAggregationFilterEvalHelpers() throws DataException
+	{
+		return this.aggrFilterEvalHelpersOnCubeOperator;
+	}
+	
 	
 	/**
 	 * 

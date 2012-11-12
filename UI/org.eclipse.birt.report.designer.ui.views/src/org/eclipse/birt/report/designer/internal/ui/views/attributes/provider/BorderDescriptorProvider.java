@@ -10,7 +10,8 @@ import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public abstract class BorderDescriptorProvider extends AbstractDescriptorProvider
+public abstract class BorderDescriptorProvider extends
+		AbstractDescriptorProvider
 {
 
 	protected Object input;
@@ -51,7 +52,26 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 		return value;
 	}
 
-
+	protected String getDefaultStringValue( String property )
+	{
+		GroupElementHandle handle = null;
+		if ( input instanceof List )
+			handle = DEUtil.getGroupElementHandle( (List) input );
+		if ( handle == null )
+			return ""; //$NON-NLS-1$
+		if ( getLocalStringValue( property ).equals( "" ) )
+		{
+			String value = handle.getStringProperty( property );
+			if ( value == null )
+			// && multiSelectionHandle.shareSameValue( property ) )
+			{
+				value = ""; //$NON-NLS-1$
+			}
+			return value;
+		}
+		else
+			return ""; //$NON-NLS-1$
+	}
 
 	protected void save( String property, Object value )
 			throws SemanticException
@@ -70,9 +90,9 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 		if ( groupElementHandle != null )
 		{
 			GroupPropertyHandle handle = groupElementHandle.getPropertyHandle( property );
-			if ( handle != null && handle.getValue( ) != null )
+			if ( handle != null && handle.getLocalStringValue( ) != null )
 			{
-				if ( handle.getValue( ).equals( value ) )
+				if ( handle.getLocalStringValue( ).equals( value ) )
 				{
 					return;
 				}

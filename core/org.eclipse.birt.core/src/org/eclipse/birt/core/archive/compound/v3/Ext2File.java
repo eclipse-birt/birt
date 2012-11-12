@@ -39,11 +39,11 @@ public class Ext2File
 	static final int BLOCK_OFFSET_MASK = Ext2FileSystem.BLOCK_OFFSET_MASK;
 
 	/**
-	 * 
+	 * the file system this file belongs to 
 	 */
 	private Ext2FileSystem fs;
 
-	private Ext2Entry entry;
+	private final Ext2Entry entry;
 
 	private Ext2Node node;
 

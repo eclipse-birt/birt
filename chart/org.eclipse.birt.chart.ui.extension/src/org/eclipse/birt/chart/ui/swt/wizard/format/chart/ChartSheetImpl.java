@@ -672,7 +672,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			setToggleButtonEnabled( BUTTON_INTERACTIVITY,
 					state == ChartCheckbox.STATE_SELECTED );
 
-			if ( getToggleButton( BUTTON_INTERACTIVITY ).getSelection( ) )
+			if ( getToggleButtonSelection( BUTTON_INTERACTIVITY ) )
 			{
 				detachPopup( );
 			}

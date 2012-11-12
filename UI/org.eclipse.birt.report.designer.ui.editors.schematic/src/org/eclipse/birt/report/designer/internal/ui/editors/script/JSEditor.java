@@ -25,15 +25,15 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
 import org.eclipse.birt.core.ui.swt.custom.TextCombo;
 import org.eclipse.birt.core.ui.swt.custom.TextComboViewer;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptElementNode;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
 import org.eclipse.birt.report.designer.internal.ui.script.ScriptValidator;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
@@ -46,12 +46,15 @@ import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.data.IDataViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
@@ -127,7 +130,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * 
  */
 
-public class JSEditor extends EditorPart implements IColleague
+public class JSEditor extends EditorPart implements IMediatorColleague
 {
 
 	protected static Logger logger = Logger.getLogger( JSEditor.class.getName( ) );
@@ -368,10 +371,10 @@ public class JSEditor extends EditorPart implements IColleague
 	{
 		// colorManager.dispose( );
 
-		 //remove the mediator listener
-//		 SessionHandleAdapter.getInstance( )
-//		 .getMediator( root )
-//		 .removeColleague( this );
+		// remove the mediator listener
+		// SessionHandleAdapter.getInstance( )
+		// .getMediator( root )
+		// .removeColleague( this );
 		selectionMap.clear( );
 		editingDomainEditor = null;
 
@@ -658,7 +661,8 @@ public class JSEditor extends EditorPart implements IColleague
 		scriptValidator = new ScriptValidator( getViewer( ) );
 
 		// suport the mediator
-		//SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
+		// SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this
+		// );
 
 		disableEditor( );
 
@@ -693,7 +697,7 @@ public class JSEditor extends EditorPart implements IColleague
 				.getMediator( root )
 				.addColleague( this );
 	}
-	
+
 	/**
 	 * DisConnect the root to add the listener
 	 * 
@@ -710,7 +714,7 @@ public class JSEditor extends EditorPart implements IColleague
 				.getMediator( root )
 				.removeColleague( this );
 	}
-	
+
 	/**
 	 * Sets the status of the text listener.
 	 * 
@@ -765,15 +769,15 @@ public class JSEditor extends EditorPart implements IColleague
 	 */
 	public Object getAdapter( Class adapter )
 	{
-		if (adapter.equals( ITextEditor.class ))
+		if ( adapter.equals( ITextEditor.class ) )
 		{
-			if (scriptEditor instanceof ITextEditor)
+			if ( scriptEditor instanceof ITextEditor )
 			{
 				return scriptEditor;
 			}
 			return null;
 		}
-		if ( adapter == ActionRegistry.class )
+		else if ( adapter == ActionRegistry.class )
 		{
 			return scriptEditor.getActionRegistry( );
 		}
@@ -783,14 +787,12 @@ public class JSEditor extends EditorPart implements IColleague
 			{
 				cmbExprListViewer.addSelectionChangedListener( palettePage.getSupport( ) );
 			}
-			
+
 			palettePage.setViewer( getViewer( ) );
 			return palettePage;
 		}
-
-		if ( adapter == IContentOutlinePage.class )
+		else if ( adapter == IContentOutlinePage.class )
 		{
-
 			// ( (NonGEFSynchronizerWithMutiPageEditor)
 			// getSelectionSynchronizer( ) ).add( (NonGEFSynchronizer)
 			// outlinePage.getAdapter( NonGEFSynchronizer.class ) );
@@ -801,31 +803,25 @@ public class JSEditor extends EditorPart implements IColleague
 					.getReportDesignHandle( ) );
 
 			return outlinePage;
-
 		}
-
-		// return the property sheet page
-		if ( adapter == IPropertySheetPage.class )
+		else if ( adapter == IPropertySheetPage.class )
 		{
 			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ) );
 			return sheetPage;
 		}
-
-		if ( adapter == DataViewPage.class )
+		else if ( adapter == IDataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ) );
 			return page;
 		}
-
-		if ( adapter == AttributeViewPage.class )
+		else if ( adapter == IAttributeViewPage.class )
 		{
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
-
-		if ( adapter == ITextEditor.class )
+		else if ( adapter == ITextEditor.class )
 		{
 			return scriptEditor;
 		}
@@ -1345,7 +1341,7 @@ public class JSEditor extends EditorPart implements IColleague
 			return selection;
 		}
 
-		//DesignElementHandle model = (DesignElementHandle) getModel( );
+		// DesignElementHandle model = (DesignElementHandle) getModel( );
 		if ( !( selection instanceof IStructuredSelection ) )
 		{
 			return selection;
@@ -1605,6 +1601,11 @@ public class JSEditor extends EditorPart implements IColleague
 		return (SourceViewer) scriptEditor.getViewer( );
 	}
 
+	public boolean isInterested( IMediatorRequest request )
+	{
+		return request instanceof ReportRequest;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1614,16 +1615,18 @@ public class JSEditor extends EditorPart implements IColleague
 	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 	 * )
 	 */
-	public void performRequest( ReportRequest request )
+	public void performRequest( IMediatorRequest request )
 	{
+		ReportRequest rqt = (ReportRequest) request;
+
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
-			handleSelectionChange( request.getSelectionModelList( ) );
+			handleSelectionChange( rqt.getSelectionModelList( ) );
 		}
-		if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) )
-				&& request.getSelectionModelList( ).get( 0 ) instanceof ScriptDataSourceHandle )
+		else if ( ReportRequest.CREATE_ELEMENT.equals( rqt.getType( ) )
+				&& rqt.getSelectionModelList( ).get( 0 ) instanceof ScriptDataSourceHandle )
 		{
-			handleSelectionChange( request.getSelectionModelList( ) );
+			handleSelectionChange( rqt.getSelectionModelList( ) );
 		}
 		refreshAll( );
 	}
@@ -1882,6 +1885,14 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 		if ( element instanceof IPropertyDefn )
 		{
 			IPropertyDefn eleDef = (IPropertyDefn) element;
+			
+			// XXX start hack, force "onContentUpdate" to be shown as
+			// "clientScripts"
+			if ( "onContentUpdate".equals( eleDef.getName( ) ) ) //$NON-NLS-1$
+			{
+				return "clientScripts"; //$NON-NLS-1$
+			}
+			// XXX end hack
 			return eleDef.getName( );
 		}
 		return NO_TEXT;
@@ -1973,6 +1984,23 @@ class JSSubFunctionListProvider implements
 				}
 			}
 		}
+		// XXX start hack, add a dummy "onContentUpdate" function for report
+		// design handle in list for pseudo context "clientScripts", it's
+		// actually the real context name hacked hereinbefore.
+		else if ( inputElement instanceof ReportDesignHandle )
+		{
+			int selectedIndex = editor.cmbExpList.getSelectionIndex( );
+			if ( selectedIndex >= 0 )
+			{
+				String scriptName = editor.cmbExpList.getItem( editor.cmbExpList.getSelectionIndex( ) );
+
+				if ( "clientScripts".equals( scriptName ) ) //$NON-NLS-1$
+				{
+					elements.add( "onContentUpdate" ); //$NON-NLS-1$
+				}
+			}
+		}
+		// XXX end hack
 
 		return elements.toArray( );
 	}

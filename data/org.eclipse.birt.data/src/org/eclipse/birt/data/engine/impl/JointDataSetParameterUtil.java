@@ -18,7 +18,8 @@ package org.eclipse.birt.data.engine.impl;
 public class JointDataSetParameterUtil
 {
 	private final static String seperator = "::";
-	
+	private final static String PREFIX = "outputParams";
+		
 	/**
 	 * 
 	 * @param dataSetName
@@ -64,5 +65,15 @@ public class JointDataSetParameterUtil
 	{
 		return parameterName.replaceFirst( "\\Q"
 				+ extractDataSetName( parameterName ) + "::\\E", "" );
+	}
+	
+	/**
+	 * 
+	 * @param parameterName
+	 * @return
+	 */
+	public static String buildOutputParamsExpr( String parameterName )
+	{	
+		return PREFIX+"[\"" + parameterName +"\"]";
 	}
 }

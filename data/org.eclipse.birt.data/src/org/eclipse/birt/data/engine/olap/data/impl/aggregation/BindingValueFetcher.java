@@ -269,5 +269,4 @@ public class BindingValueFetcher implements IBindingValueFetcher
 
 		}
 	}
-
 }

@@ -15,17 +15,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor;
 import org.eclipse.birt.report.designer.internal.ui.script.JSEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.schematic.action.TextSaveAction;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceWrapper;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IUndoManager;
 import org.eclipse.jface.text.source.Annotation;
@@ -106,6 +111,17 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 		setSourceViewerConfiguration( this.sourceViewerConfiguration );
 		setDocumentProvider( new ScriptDocumentProvider( parent ) );
 		setScript( script );
+
+		IPreferences preferences = PreferenceFactory.getInstance( )
+				.getPreferences( ReportPlugin.getDefault( ) );
+		if ( preferences instanceof PreferenceWrapper )
+		{
+			IPreferenceStore store = ( (PreferenceWrapper) preferences ).getPrefsStore( );
+			if ( store != null )
+			{
+				setPreferenceStore( store );
+			}
+		}
 	}
 
 	/*
@@ -547,19 +563,14 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	{
 		if ( getSourceViewer( ) != null )
 		{
-			sourceViewerConfiguration.resetScannerColoer( );
+			sourceViewerConfiguration.resetScannerColor( );
 			// reset textwidget text
 			getSourceViewer( ).getTextWidget( )
 					.setText( getSourceViewer( ).getTextWidget( ).getText( ) );
+			sourceViewerConfiguration.getPresentationReconciler( getSourceViewer( ) )
+					.install( getSourceViewer( ) );
 		}
 		super.handlePreferenceStoreChanged( event );
-	}
-
-	@Override
-	public void dispose( )
-	{
-		sourceViewerConfiguration.dispose( );
-		super.dispose( );
 	}
 
 }

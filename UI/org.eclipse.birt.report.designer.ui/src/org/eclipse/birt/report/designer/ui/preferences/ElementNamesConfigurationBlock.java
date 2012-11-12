@@ -23,7 +23,10 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
@@ -112,6 +115,8 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock
 		itemContentList = new ItemContentList( this, getKeys( ) );
 		tableViewer.setInput( itemContentList );
 
+		sortTable(tableViewer.getTable().getColumn(0), true);
+		
 		return pageContent;
 	}
 
@@ -151,6 +156,24 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock
 			column = new TableColumn( table, SWT.NONE, i );
 			column.setText( elementNames[i] );
 			column.setWidth( columnWidth );
+			
+			column.addSelectionListener(new SelectionListener( ) {
+				boolean asc = true;
+				public void widgetSelected( final SelectionEvent e )
+				{
+					TableColumn selectedColumn = (TableColumn)e.widget;
+					if(table.getSortColumn() == selectedColumn)
+					{
+						asc = !asc;
+					}
+					sortTable(selectedColumn, asc);
+				}
+	
+				public void widgetDefaultSelected( SelectionEvent e )
+				{
+					widgetSelected( e );
+				}
+			} );
 		}
 
 	}
@@ -196,6 +219,33 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock
 		tableViewer.setCellModifier( new ElementNamesCellModifier( this ) );
 	}
 
+	private void sortTable(final TableColumn column, final boolean asc)
+	{
+		Table table = tableViewer.getTable();
+		table.setSortColumn(column);
+		table.setSortDirection(asc? SWT.UP : SWT.DOWN);
+		tableViewer.setSorter(new ViewerSorter() {
+			public int compare(Viewer viewer, Object o1, Object o2)
+			{
+				int result;
+				switch(tableViewer.getTable().indexOf(column))
+				{
+					case 0: default:
+						result = ( (ItemContent) o1 ).getDisplayName().compareTo(( (ItemContent) o2 ).getDisplayName());
+						break;
+					case 1:
+						result = ( (ItemContent) o1 ).getCustomName().compareTo(( (ItemContent) o2 ).getCustomName());
+						break;
+					case 2:
+						result = ( (ItemContent) o1 ).getDescription().compareTo(( (ItemContent) o2 ).getDescription());
+						break;
+				}
+				return asc? result : result * -1;
+			}
+		});
+		
+	}
+	
 	/**
 	 * Get the list of elementNames
 	 * 

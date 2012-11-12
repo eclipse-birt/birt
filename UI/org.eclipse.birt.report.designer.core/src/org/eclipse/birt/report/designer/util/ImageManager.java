@@ -36,6 +36,8 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
 
 /**
  * Manages all image resources.
@@ -221,7 +223,27 @@ public class ImageManager
 			{
 				in = new ByteArrayInputStream( embeddedImage.getData( handle.getModule( ) ) );
 			}
-			image = new Image( null, in );
+			ImageData[] datas = new ImageLoader( ).load( in );
+			if (datas != null && datas.length != 0)
+			{
+				ImageData cur = null;
+	//			if (datas.length == 1)
+	//			{
+	//				cur = datas[0];
+	//			}
+				int index = 0;
+				for (int i=0; i<datas.length; i++)
+				{
+					ImageData temp = datas[i];
+					if (temp.width * temp.height > datas[index].width * datas[index].height)
+					{
+						index = i;
+					}
+				}
+				cur = datas[index];
+				image = new Image( null, cur );
+			}
+			//image = new Image( null, in );
 		}
 		catch ( Exception e )
 		{

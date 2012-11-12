@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -105,7 +106,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 public class ReportPropertySheetPage extends Page implements
 		IPropertySheetPage,
 		Listener,
-		IColleague
+		IMediatorColleague
 {
 
 	private static final String COLUMN_TITLE_PROPERTY = Messages.getString( "ReportPropertySheetPage.Column.Title.Property" ); //$NON-NLS-1$
@@ -125,13 +126,28 @@ public class ReportPropertySheetPage extends Page implements
 	private int columnToEdit = 1;
 	private ICellEditorListener editorListener;
 	private Object model;
-	private List list;
+	private List<Object> list;
 	private TabbedPropertyTitle title;
 	private Composite container;
 	private IMemento propertySheetMemento;
 	private IMemento viewerMemento;
 	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID"; //$NON-NLS-1$
 	private boolean updateSorting = false;
+
+	private boolean execMemento = false;
+	private int oldViewMode = -1;
+
+	private boolean changed = false;
+	private ReportPropertySheetContentProvider provider;
+	private TreeListener treeListener;
+
+	public ReportPropertySheetPage( ModuleHandle module )
+	{
+		super( );
+		this.moduleHandle = module;
+		this.provider = new ReportPropertySheetContentProvider( );
+		initSortingType( );
+	}
 
 	public void updateSorting( int sortingType )
 	{
@@ -147,22 +163,16 @@ public class ReportPropertySheetPage extends Page implements
 		{
 			saveSortingType( );
 
-			Object obj = ( (Memento) memento ).getMementoElement( )
+			Object obj = memento.getMementoElement( )
 					.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
 			if ( obj != null )
-				( (Memento) memento ).getMementoElement( )
+			{
+				memento.getMementoElement( )
 						.setAttribute( MementoElement.ATTRIBUTE_SELECTED, null );
+			}
 		}
 		execMemento( );
 		updateSorting = false;
-	}
-
-	public ReportPropertySheetPage( ModuleHandle module )
-	{
-		super( );
-		this.moduleHandle = module;
-		this.provider = new ReportPropertySheetContentProvider( );
-		initSortingType( );
 	}
 
 	/*
@@ -204,12 +214,12 @@ public class ReportPropertySheetPage extends Page implements
 		viewer.setContentProvider( provider );
 
 		TreeViewerColumn tvc1 = new TreeViewerColumn( viewer, SWT.NONE );
-		tvc1.getColumn( ).setText( COLUMN_TITLE_PROPERTY ); //$NON-NLS-1$
+		tvc1.getColumn( ).setText( COLUMN_TITLE_PROPERTY );
 		tvc1.getColumn( ).setWidth( 300 );
 		tvc1.setLabelProvider( new DelegatingStyledCellLabelProvider( new ReportPropertySheetNameLabelProvider( ) ) );
 
 		TreeViewerColumn tvc2 = new TreeViewerColumn( viewer, SWT.NONE );
-		tvc2.getColumn( ).setText( COLUMN_TITLE_VALUE ); //$NON-NLS-1$
+		tvc2.getColumn( ).setText( COLUMN_TITLE_VALUE );
 		tvc2.getColumn( ).setWidth( 400 );
 		tvc2.setLabelProvider( new DelegatingStyledCellLabelProvider( new ReportPropertySheetValueLabelProvider( ) ) );
 
@@ -548,7 +558,7 @@ public class ReportPropertySheetPage extends Page implements
 		{
 			try
 			{
-				GroupPropertyHandle handle = ( (GroupPropertyHandle) ( (GroupPropertyHandleWrapper) model ).getModel( ) );
+				GroupPropertyHandle handle = ( (GroupPropertyHandleWrapper) model ).getModel( );
 
 				if ( cellEditor.getValue( ) instanceof String )
 				{
@@ -732,10 +742,6 @@ public class ReportPropertySheetPage extends Page implements
 
 		changed = false;
 	}
-
-	private boolean execMemento = false;
-
-	private int oldViewMode = -1;
 
 	private void execMemento( )
 	{
@@ -946,9 +952,9 @@ public class ReportPropertySheetPage extends Page implements
 	 * @param selection
 	 * @return
 	 */
-	private List getModelList( ISelection selection )
+	private List<Object> getModelList( ISelection selection )
 	{
-		List list = new ArrayList( );
+		List<Object> list = new ArrayList<Object>( );
 		if ( selection == null )
 			return list;
 		if ( !( selection instanceof StructuredSelection ) )
@@ -975,7 +981,7 @@ public class ReportPropertySheetPage extends Page implements
 			list = structured.toList( );
 			if ( list != null && list.size( ) > 0 )
 			{
-				List modelList = new ArrayList( );
+				List<Object> modelList = new ArrayList<Object>( );
 				for ( int i = 0; i < list.size( ); i++ )
 				{
 					Object obj = list.get( i );
@@ -1030,10 +1036,6 @@ public class ReportPropertySheetPage extends Page implements
 			( (DesignElementHandle) element.getElements( ).get( 0 ) ).addListener( this );
 		}
 	}
-
-	private boolean changed = false;
-	private ReportPropertySheetContentProvider provider;
-	private TreeListener treeListener;
 
 	/*
 	 * (non-Javadoc)
@@ -1102,25 +1104,28 @@ public class ReportPropertySheetPage extends Page implements
 		}
 	}
 
+	public boolean isInterested( IMediatorRequest request )
+	{
+		return request instanceof ReportRequest;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
-	 * (
-	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
-	 * )
+	 * @see org.eclipse.birt.report.designer.core.mediator.IMediatorColleague#
+	 * performRequest
+	 * (org.eclipse.birt.report.designer.core.mediator.IMediatorRequest)
 	 */
-	public void performRequest( ReportRequest request )
+	public void performRequest( IMediatorRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
 			// Remove null from the list. That fix the bug 139422
-			ArrayList selections = new ArrayList( );
+			ArrayList<Object> selections = new ArrayList<Object>( );
 			selections.add( null );
-			selections.addAll( request.getSelectionModelList( ) );
+			selections.addAll( ( (ReportRequest) request ).getSelectionModelList( ) );
 
-			ArrayList nullList = new ArrayList( );
+			ArrayList<Object> nullList = new ArrayList<Object>( );
 			nullList.add( null );
 			selections.removeAll( nullList );
 			// end
@@ -1129,6 +1134,9 @@ public class ReportPropertySheetPage extends Page implements
 		}
 	}
 
+	/**
+	 * CustomTreeViewer
+	 */
 	private static class CustomTreeViewer extends TreeViewer
 	{
 
@@ -1143,6 +1151,9 @@ public class ReportPropertySheetPage extends Page implements
 		}
 	};
 
+	/**
+	 * GroupSortingAction
+	 */
 	class GroupSortingAction extends Action
 	{
 
@@ -1150,7 +1161,7 @@ public class ReportPropertySheetPage extends Page implements
 		{
 			super( null, IAction.AS_CHECK_BOX );
 			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_GROUP_SORT ) );
-			setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Group" ) );
+			setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Group" ) ); //$NON-NLS-1$
 		}
 
 		public void run( )
@@ -1171,6 +1182,9 @@ public class ReportPropertySheetPage extends Page implements
 		}
 	}
 
+	/**
+	 * AlphabeticSortingAction
+	 */
 	class AlphabeticSortingAction extends Action
 	{
 
@@ -1178,7 +1192,7 @@ public class ReportPropertySheetPage extends Page implements
 		{
 			super( null, IAction.AS_CHECK_BOX );
 			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ALPHABETIC_SORT ) );
-			setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Alphabetic" ) );
+			setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Alphabetic" ) ); //$NON-NLS-1$
 		}
 
 		public void run( )
@@ -1199,6 +1213,9 @@ public class ReportPropertySheetPage extends Page implements
 		}
 	}
 
+	/**
+	 * LocalModelAction
+	 */
 	class LocalModelAction extends Action
 	{
 
@@ -1206,7 +1223,7 @@ public class ReportPropertySheetPage extends Page implements
 		{
 			super( null, IAction.AS_CHECK_BOX );
 			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_LOCAL_PROPERTIES ) );
-			setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Local" ) );
+			setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Local" ) ); //$NON-NLS-1$
 		}
 
 		public void run( )

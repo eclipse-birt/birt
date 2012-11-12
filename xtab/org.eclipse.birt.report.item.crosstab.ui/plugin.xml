@@ -226,6 +226,11 @@
                     	forcePluginActivation="true" 
                     	property="CrosstabPropertyHandleWrapper.type"
                     	value="measures" />
+                     <test
+                           forcePluginActivation="true"
+                           property="CrosstabPropertyHandleWrapper.type"
+                           value="crosstabHeader">
+                     </test>
                	</or>
         	</enablement>
       </adapter>	 

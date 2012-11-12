@@ -98,7 +98,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 	/**
 	 * Sets up the thread context class loader to make sure that Derby works with our class loader
 	 */
-	private void initClassLoaders()
+	private synchronized void initClassLoaders()
 	{
 		if ( derbyClassLoader == null )
 		{
@@ -122,7 +122,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 	/**
 	 * Gets a new instance of Derby JDBC Driver
 	 */
-	private Driver getDerbyDriver() throws SQLException
+	private synchronized Driver getDerbyDriver() throws SQLException
 	{
 		if ( derbyDriver == null )
 		{

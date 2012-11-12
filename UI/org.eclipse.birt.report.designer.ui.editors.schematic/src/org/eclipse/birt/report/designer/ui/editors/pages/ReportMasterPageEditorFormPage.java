@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.editors.pages;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
@@ -94,16 +95,16 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		}
 
 		ModuleHandle newModel = getProvider( ).queryReportModuleHandle( );
-		
+
 		if ( newModel != null && getModel( ) != newModel )
 		{
-			Object oldModel = getModel( );
+			ModuleHandle oldModel = getModel( );
 
 			getProvider( ).connect( newModel );
 			setModel( newModel );
 
 			rebuildReportDesign( oldModel );
-			
+
 			if ( getModel( ) != null )
 			{
 				setViewContentsAsMasterPage( );
@@ -135,7 +136,7 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 	 * 
 	 * @param oldModel
 	 */
-	protected void rebuildReportDesign( Object oldModel )
+	protected void rebuildReportDesign( ModuleHandle oldModel )
 	{
 		// Initializes command stack
 		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
@@ -150,8 +151,7 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		SessionHandleAdapter.getInstance( ).resetReportDesign( oldModel,
 				getModel( ) );
 
-		SessionHandleAdapter.getInstance( )
-				.setReportDesignHandle( getModel( ) );
+		SessionHandleAdapter.getInstance( ).setReportDesignHandle( getModel( ) );
 
 		UIUtil.processSessionResourceFolder( getEditorInput( ),
 				UIUtil.getProjectFromInput( getEditorInput( ) ),
@@ -386,15 +386,17 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 	 * #performRequest(org.eclipse.birt.report.designer
 	 * .core.util.mediator.request.ReportRequest)
 	 */
-	public void performRequest( ReportRequest request )
+	public void performRequest( IMediatorRequest request )
 	{
+		ReportRequest rq = (ReportRequest) request;
+
 		if ( ReportRequest.SELECTION.equals( request.getType( ) )
-				&& ( request.getSelectionModelList( ).size( ) == 1 )
-				&& request.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle
-				&& ID.equals( editor.getActivePageInstance( ).getId( ) ) &&
-				request.getSource( ) instanceof DesignerOutlinePage)
+				&& ( rq.getSelectionModelList( ).size( ) == 1 )
+				&& rq.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle
+				&& ID.equals( editor.getActivePageInstance( ).getId( ) )
+				&& request.getSource( ) instanceof DesignerOutlinePage )
 		{
-			handlerLoadMasterPage( request );
+			handlerLoadMasterPage( rq );
 			return;
 		}
 

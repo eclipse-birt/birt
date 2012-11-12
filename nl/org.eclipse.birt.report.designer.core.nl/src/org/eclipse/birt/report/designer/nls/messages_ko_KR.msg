@@ -515,6 +515,7 @@ dataset.editor.dataSource=µ¥ÀÌÅÍ ¿øº»
 dataset.editor.error.columnOrAliasNameAlreadyUsed=»õ ¿­ ÀÌ¸§ ¶Ç´Â º°Äª({0})ÀÌ ÀÎµ¦½º {1}ÀÇ ¿­¿¡¼­ ÀÌ¹Ì »ç¿ëµÇ°í ÀÖ½À´Ï´Ù.
 dataset.editor.error.computedColumnNameAlreadyUsed=»õ °è»ê ¿­ ÀÌ¸§({0})ÀÌ Ãâ·Â ¿­({1})ÀÇ º°ÄªÀ¸·Î ÀÌ¹Ì »ç¿ëµÇ¾ú½À´Ï´Ù.
 dataset.editor.error.duplicateParameterName=Áßº¹µÈ ¸Å°³ º¯¼ö ÀÌ¸§
+dataset.editor.error.nonemptyDefaultvalue=±âº»°ªÀº ¾øÀ» ¼ö ¾ø½À´Ï´Ù.
 dataset.editor.error.emptyName=ÀÌ¸§Àº ºñ¿ö µÑ ¼ö ¾ø½À´Ï´Ù. 
 dataset.editor.error.missingComputedColumnExpression=°è»êµÈ ¿­ {0}ÀÇ ½ÄÀÌ ³Î(null)ÀÌ°Å³ª ºñ¾î ÀÖÀ» ¼ö ¾ø½À´Ï´Ù.
 dataset.editor.error.missingComputedColumnName=°è»êµÈ ¿­ ÀÌ¸§ÀÌ ³Î(null)ÀÌ°Å³ª ºñ¾î ÀÖÀ» ¼ö ¾ø½À´Ï´Ù.
@@ -632,6 +633,7 @@ DerivedDataSet.action.error.message.InvalidNumber.DataSet=»ç¿ë °¡´ÉÇÑ µ¥ÀÌÅÍ ÁýÇ
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=°è»êµÈ ¿­À» Á¤ÀÇÇÕ´Ï´Ù. 
 DataSetComputedColumnsPage.description=°è»êµÈ ¿­ Á¤ÀÇ.
 DataSetComputedColumnsPage.duplicatedName=Áßº¹µÈ ¿­ ÀÌ¸§
+DataSetComputedColumnsPage.numberName=¼ýÀÚ´Â ¿­ ÀÌ¸§ÀÌ µÉ ¼ö ¾ø½À´Ï´Ù.
 DataSetComputedColumnsPage.toolTipText.Down=°è»ê ¿­À» ¾Æ·¡·Î ÀÌµ¿
 DataSetComputedColumnsPage.toolTipText.Up=°è»ê ¿­À» À§·Î ÀÌµ¿
 DataSetComputedColumnsPage.toolTipText.Remove=°è»ê ¿­ Á¦°Å
@@ -1808,6 +1810,7 @@ FormPage.Button.Up=À§·Î ÀÌµ¿(&U)
 FormPage.Button.Up.Alt1=À§·Î ÀÌµ¿(&P)
 FormPage.Button.Up.Alt2=À§·Î ÀÌµ¿(&E)
 FormPage.Button.Binding.Refresh=»õ·Î °íÄ§(&F)
+FormPage.Button.Binding.Clear=Áö¿ì±â(&C)
 FormPage.Menu.ModifyProperty=¼Ó¼º ¼öÁ¤
 FormPage.toolTipText.Up=À§·Î ÀÌµ¿
 FormPage.toolTipText.Down=¾Æ·¡·Î ÀÌµ¿
@@ -2512,7 +2515,7 @@ MapPreferencePage.displayname.Title=¸Ê
 MapPreferencePage.text.Add=Ãß°¡(&A)...
 MapPreferencePage.text.Delete=Á¦°Å(&R)
 MapPreferencePage.text.Description=¸Ê ±ÔÄ¢:
-MapPreferencePage.text.Edit=ÆíÁý(&D)...
+MapPreferencePage.text.Edit=ÆíÁý(&E)...
 MapPreferencePage.toolTipText.Up=¸Ê ±ÔÄ¢ À§·Î ÀÌµ¿
 MapPreferencePage.toolTipText.Down=¸Ê ±ÔÄ¢ ¾Æ·¡·Î ÀÌµ¿
 MapPreferencePage.text.Duplicate=Áßº¹(&D)
@@ -3636,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=º¸°í¼­ ¶óÀÌºê·¯¸®¿¡ ÀÖ´Â CSS ÆÄÀÏ »ç¿ë
 UseCssInThemeDialog.TitleArea.Message=CSS ÆÄÀÏÀÇ ½ºÅ¸ÀÏÀ» ±³Ã¼ÇÒ Å×¸¶¸¦ ¼±ÅÃÇÕ´Ï´Ù.
+CssStyleSheetNodeProvider.Label.FromServer=¼­¹ö¿¡¼­
 CssStyleSheetNodeProvider.Tooltip.URI=(º¼ ¶§ Àû¿ë)
 
 
@@ -4119,6 +4123,7 @@ WizardTemplateChoicePage.label.Description=¼³¸í:
 WizardTemplateChoicePage.label.Preview=¹Ì¸® º¸±â:
 WizardTemplateChoicePage.label.ReportTemplates=º¸°í¼­ ÅÛÇÃ¸´:
 WizardTemplateChoicePage.label.ShowCheatSheets=º¸°í¼­ »ý¼º Ä¡Æ® ½ÃÆ® Ç¥½Ã(&S)
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=¹Ì¸® Á¤ÀÇµÈ ³»¿ëÀÌ ¾ø´Â ºó º¸°í¼­¸¦ »ý¼ºÇÕ´Ï´Ù.
 WizardTemplateChoicePage.message.ChartListing=°¢ ±×·ì µ¥ÀÌÅÍ¿¡ ´ëÇØ ½Ã°¢Àû Ç¥ÇöÀ» Á¦°øÇÏ´Â Â÷Æ®¸¦ »ç¿ëÇÏ¿© ±×·ìÈ­ÇÑ º¸°í¼­¸¦ »ý¼ºÇÕ´Ï´Ù.
 WizardTemplateChoicePage.message.DualColumnChartListing=µÎ °³ÀÇ "Â÷Æ® ¹× ¸ñ·Ï" ÇÏÀ§ ±×·ìÀ» »ç¿ëÇÏ¿© ±×·ìÈ­ÇÑ º¸°í¼­¸¦ »ý¼ºÇÕ´Ï´Ù.
@@ -4307,6 +4312,7 @@ GeneralPage.Library.Modified.Note=Âü°í: ÀÌ º¸°í¼­ Ç×¸ñÀº ¶óÀÌºê·¯¸®¿¡¼­ ¼öÁ¤µÇ¾ú
 
 #BookMarkPage
 BookMarkPage.Modified.Note=Ã¥°¥ÇÇ¿¡ \"A-Z a-z 0-9 - _ : .\" ÀÌ¿ÜÀÇ Æ¯¼ö ¹®ÀÚ°¡ Æ÷ÇÔµÇ¾î ÀÖ¾î ½ÇÇà ½Ã ¹®Á¦°¡ ¹ß»ýÇÒ ¼ö ÀÖ½À´Ï´Ù.
+BookMarkPage.Modified.WithoutQuotes=Ã¥°¥ÇÇ´Â Å«µû¿ÈÇ¥·Î µÑ·¯½Î¾ß ÇÕ´Ï´Ù.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4615,7 +4621,8 @@ BindingDialogHelper.text.Grid=´«±Ý
 BindingDialogHelper.text.Group=±×·ì(&O)
 BindingDialogHelper.text.Expression=½Ä(&E):
 BindingDialogHelper.text.displayName=Ç¥½Ã ÀÌ¸§(&N):
-BindingDialogHelper.text.allowExport=³»º¸³»±â Çã¿ë(&O):
+BindingDialogHelper.text.allowExport=³»º¸³»±â(&O):
+BindingDialogHelper.text.allowExport.button=³»º¸³»±â Çã¿ë
 BindingDialogHelper.text.displayNameID=Ç¥½Ã ÀÌ¸§ ID(&S):
 BindingDialogHelper.bindingName.dataitem=¿­ ¹ÙÀÎµù
 BindingDialogHelper.bindingName.aggregation=Áý°è
@@ -4645,7 +4652,8 @@ CrosstabBindingDialogHelper.calculation.group=½Ã°£
 CrosstabBindingDialogHelper.recentday.description=±â°£ ÃÖÁ¾ÀÏ
 CrosstabBindingDialogHelper.referencedate.label=ÂüÁ¶ ³¯Â¥(&R):
 CrosstabBindingDialogHelper.thisdate.label=³¯Â¥ ÁöÁ¤:
-CrosstabBindingDialogHelper.thisdate.example.label=³¯Â¥ °ªÀ» yyyy-MM-dd Çü½ÄÀ¸·Î ÀÔ·ÂÇÏ½Ê½Ã¿À.
+CrosstabBindingDialogHelper.thisdate.example.label=Á¦°øµÈ ³¯Â¥ °ªÀ» µû¿ÈÇ¥·Î ¹­À¸½Ê½Ã¿À.\n¿¹: "2012-01-23", "1/23/2012".
+CrosstabBindingDialogHelper.thisdate.example.label.constant=¿¹: 2012-01-23, 1/23/2012.
 CrosstabBindingDialogHelper.timedimension.label=½Ã°£ Â÷¿ø(&M):
 CrosstabBindingDialogHelper.timeperiod.wrongdate=ÀÌ Â÷¿øÀº ÃÖ±Ù ÂüÁ¶ ³¯Â¥¸¦ Áö¿øÇÏÁö ¾Ê½À´Ï´Ù. 
 CrosstabBindingDialogHelper.today.label=¿À´Ã
@@ -4718,7 +4726,7 @@ InsertAggregationAction.text=Áý°è(&A)
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=»ó´ë ½Ã°£(&V)
 
 ###########################################################
 #Multiple views
@@ -4873,6 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=±âº» ±¸¹®(&F):
 ExpressionEditor.Error.EmptyExpression=½ÄÀº ºñ¾î ÀÖÀ¸¸é ¾È µË´Ï´Ù.
 ExpressionEditor.Label.Expression=½Ä(&E):
 ExpressionEditor.Title=½Ä ÆíÁý
+ExpressionSyntaxColoringPage.Accessible.Name.Background=¹è°æ »ö»ó ¼±ÅÃ±â
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Àü°æ »ö»ó ¼±ÅÃ±â
+ExpressionSyntaxColoringPage.Button.Bold=±½°Ô(&B)
+ExpressionSyntaxColoringPage.Button.Enable=»ç¿ë
+ExpressionSyntaxColoringPage.Button.Italic=±â¿ïÀÓ²Ã(&I)
+ExpressionSyntaxColoringPage.Button.Restore=±âº»°ª º¹¿ø(&R)
+ExpressionSyntaxColoringPage.Button.Strikethrough=Ãë¼Ò¼±(&S)
+ExpressionSyntaxColoringPage.Button.Underline=¹ØÁÙ(&U)
+ExpressionSyntaxColoringPage.Decscription=¸ñ·Ï ¶Ç´Â ¿¹Á¦ ÅØ½ºÆ® ¿µ¿ª¿¡¼­ »ç¿ëÀÚ ÁöÁ¤ÇÏ·Á´Â ½ºÅ¸ÀÏÀÇ ÅØ½ºÆ® À¯ÇüÀ» ¼±ÅÃÇÏ¿© ±¸¹® °­Á¶¸¦ »ç¿ëÀÚ ÁöÁ¤ÇÕ´Ï´Ù.
+ExpressionSyntaxColoringPage.Element.Comment=ÁÖ¼®
+ExpressionSyntaxColoringPage.Element.Default=±âº»°ª
+ExpressionSyntaxColoringPage.Element.Keyword=Å°¿öµå
+ExpressionSyntaxColoringPage.Element.String=¹®ÀÚ¿­
+ExpressionSyntaxColoringPage.Label.Background=¹è°æ(&O):
+ExpressionSyntaxColoringPage.Label.Foreground=Àü°æ(&F):
+ExpressionSyntaxColoringPage.Label.SampleText=»ùÇÃ ÅØ½ºÆ®(&S):
+ExpressionSyntaxColoringPage.Label.SyntaxElement=±¸¹® ¿ä¼Ò(&Y):
+ExpressionSyntaxColoringPage.Link.ColorAndFont=±âº» »ö»ó ¹× ±Û²ÃÀº  <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">ÅØ½ºÆ® ÆíÁý±â</a> ¿Í  <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">»ö»ó ¹× ±Û²Ã</a>  ±âº» ¼³Á¤ ÆäÀÌÁö¿¡¼­ ±¸¼ºÇÒ ¼ö ÀÖ½À´Ï´Ù.
 
 ###########################################################
 #VariableDropAdapter

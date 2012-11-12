@@ -362,7 +362,7 @@ public class WizardTemplateChoicePage extends WizardPage implements
 					.getString( ReportPlugin.LIBRARY_DEFAULT_THEME_INCLUDE );
 			
 			useDefaultLibraryBox = new Button( composite, SWT.CHECK );
-			useDefaultLibraryBox.setText( "&Include the default themes" ); //$NON-NLS-1$
+			useDefaultLibraryBox.setText( Messages.getString("WizardTemplateChoicePage.label.EnableDefaultThemes") ); //$NON-NLS-1$
 			useDefaultLibraryBox.setSelection( ENABLED.equals(state) );
 		}
 

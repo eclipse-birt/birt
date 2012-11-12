@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoice
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -121,6 +122,10 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 
 		if ( rt )
 		{
+			if(isInValidFilePath())
+			{
+				return false;
+			}
 			String fn = getFileName( );
 
 			if ( !Platform.getOS( ).equals( Platform.OS_WIN32 ) )
@@ -195,6 +200,30 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 		}
 
 		return rt;
+	}
+	
+	private boolean isInValidFilePath() {
+		String fn = getFileName();
+
+		IPath resourcePath;
+		if (!fn.endsWith("." + fileExtension)) //$NON-NLS-1$
+		{
+			resourcePath = getContainerFullPath().append(
+					getFileName() + "." + fileExtension); //$NON-NLS-1$
+		} else
+			resourcePath = getContainerFullPath().append(getFileName());
+
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+
+		IStatus result = workspace.validatePath(resourcePath
+				.removeFileExtension().toString(), IResource.FOLDER);
+
+		if (!result.isOK()) {
+			setErrorMessage(result.getMessage());
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

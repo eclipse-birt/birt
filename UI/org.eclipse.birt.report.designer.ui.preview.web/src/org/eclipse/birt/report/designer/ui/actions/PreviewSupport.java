@@ -42,6 +42,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.ui.forms.editor.IFormPage;
 import org.osgi.framework.Bundle;
 
 /**
@@ -259,8 +260,8 @@ abstract class PreviewSupport
 		System.clearProperty( IPreviewConstants.SID );
 		System.clearProperty( IPreviewConstants.DSID );
 		System.clearProperty( IPreviewConstants.MAX_DATASET_ROWS );
-		System.clearProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS );
-		System.clearProperty( IPreviewConstants.MAX_CUBE_COLUMN_LEVELS );
+//		System.clearProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS );
+//		System.clearProperty( IPreviewConstants.MAX_CUBE_COLUMN_LEVELS );
 
 		return true;
 	}
@@ -285,7 +286,8 @@ abstract class PreviewSupport
 
 		if ( editor != null )
 		{
-			if ( model.needsSave( ) )
+			IFormPage activePageInstance=editor.getActivePageInstance();
+			if ( model.needsSave( ) ||(activePageInstance!=null && activePageInstance.isDirty()))//Do save when current active page is dirty.
 			{
 				editor.doSave( null );
 			}

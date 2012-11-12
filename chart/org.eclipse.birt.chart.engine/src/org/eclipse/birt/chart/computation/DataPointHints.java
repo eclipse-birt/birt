@@ -37,14 +37,14 @@ import com.ibm.icu.text.DecimalFormat;
 /**
  * Holds the information necessary to render a DataPoint Label
  */
-public final class DataPointHints
+public class DataPointHints
 {
 
 	// in the moment 
 	// only datapoint of the mini slice in pie chart is virtual 
 	private boolean isVirtual = false;
 
-	private final RunTimeContext rtc;
+	protected final RunTimeContext rtc;
 
 	private Object oBaseValue;
 
@@ -68,7 +68,7 @@ public final class DataPointHints
 
 	private boolean bOutside = false;
 
-	private final FormatSpecifier fsBase, fsOrthogonal, fsSeries, fsPercentile;
+	protected final FormatSpecifier fsBase, fsOrthogonal, fsSeries, fsPercentile;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
 
@@ -510,7 +510,7 @@ public final class DataPointHints
 	 * 
 	 * @return base value with format
 	 */
-	public final String getBaseDisplayValue( )
+	public String getBaseDisplayValue( )
 	{
 		return getBaseDisplayValue( fsBase );
 	}

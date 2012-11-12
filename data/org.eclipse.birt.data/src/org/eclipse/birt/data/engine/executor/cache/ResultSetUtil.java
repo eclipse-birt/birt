@@ -29,7 +29,9 @@ import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.IPushedDownExpression;
 import org.eclipse.birt.data.engine.impl.StringTable;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.index.DataSetInMemoryStringIndex;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -52,7 +54,7 @@ public class ResultSetUtil
 	 * @throws IOException
 	 */
 	public static int writeResultObject( DataOutputStream dos, IResultObject resultObject, int count, 
-			Set nameSet, Map<String, StringTable> stringTableMap, Map<String, IIndexSerializer> index, int rowIndex)
+			Set nameSet, Map<String, StringTable> stringTableMap, Map<String, IIndexSerializer> index, int rowIndex, int version )
 			throws DataException, IOException
 	{
 		if ( resultObject.getResultClass( ) == null )
@@ -106,7 +108,16 @@ public class ResultSetUtil
 					IOUtil.writeInt( tempDos, stringIndex );
 				}
 				else
-					IOUtil.writeObject( tempDos, resultObject.getFieldValue( i ) );
+				{
+					if( version >= VersionManager.VERSION_3_7_2_1 )
+					{
+						ResultObjectUtil.writeObject( tempDos, resultObject.getFieldValue( i ), resultObject.getResultClass( ).getFieldValueClass( i ) );
+					}
+					else
+					{
+						IOUtil.writeObject( tempDos, resultObject.getFieldValue( i ) );
+					}
+				}
 			}
 		}
 		tempDos.flush( );
@@ -134,7 +145,7 @@ public class ResultSetUtil
 	public static IResultObject readResultObject( DataInputStream dis,
 			IResultClass rsMeta, int count,
 			Map<String, StringTable> stringTableMap,
-			Map<String, DataSetInMemoryStringIndex> index ) throws DataException
+			Map<String, DataSetInMemoryStringIndex> index, int version ) throws DataException
 	{
 		int i = 0;
 		try
@@ -164,12 +175,24 @@ public class ResultSetUtil
 					}
 					else
 					{
-						obs[i] = IOUtil.readObject( dis,
-								DataEngineSession.getCurrentClassLoader( ) );
+						if ( version >= VersionManager.VERSION_3_7_2_1 )
+						{
+							obs[i] = ResultObjectUtil.readObject( dis,rsMeta.getFieldValueClass( i + 1 ),
+									DataEngineSession.getCurrentClassLoader( ) );
+						}
+						else
+							obs[i] = IOUtil.readObject( dis,
+									DataEngineSession.getCurrentClassLoader( ) );
 					}
 				}
 				else
 				{
+					if ( version >= VersionManager.VERSION_3_7_2_1 )
+					{
+						obs[i] = ResultObjectUtil.readObject( dis,rsMeta.getFieldValueClass( i + 1 ),
+								DataEngineSession.getCurrentClassLoader( ) );
+					}
+					else
 					obs[i] = IOUtil.readObject( dis,
 							DataEngineSession.getCurrentClassLoader( ) );
 				}
@@ -219,10 +242,17 @@ public class ResultSetUtil
 			{
 				IBinding binding = iter.next( );
 				dataSetColumnList = null;
+				
 				if( binding != null )
 				{
 					if( binding.getExpression( ) != null )
-						dataSetColumnList = ExpressionCompilerUtil.extractDataSetColumnExpression(  binding.getExpression( ) );
+					{
+						dataSetColumnList = ExpressionCompilerUtil.extractDataSetColumnExpression( binding.getExpression( ) );
+						if ( binding.getExpression( ) instanceof IPushedDownExpression )
+						{
+							dataSetColumnList.addAll( ExpressionCompilerUtil.extractDataSetColumnExpression( ((IPushedDownExpression)binding.getExpression( )).getOriginalExpression( ) ));
+						}
+					}
 					else
 						dataSetColumnList = ExpressionCompilerUtil.extractDataSetColumnExpression( getArgumentExpression( binding ) );
 				}

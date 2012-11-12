@@ -38,6 +38,8 @@ import org.eclipse.birt.report.data.oda.excel.impl.i18n.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.xml.sax.SAXException;
 
+import com.ibm.icu.text.SimpleDateFormat;
+
 public class ExcelFileReader {
 
 	private InputStream fis;
@@ -60,7 +62,7 @@ public class ExcelFileReader {
 	private XlsxRowCallBack callback;
 	private XlsxFileReader xlsxread;
 	Map<String, String> xlsxSheetRidNameMap;
-
+    private SimpleDateFormat sdf;  
 	public void setCurrentRowIndex(int currentRowIndex) {
 		this.currentRowIndex = currentRowIndex;
 	}
@@ -75,6 +77,7 @@ public class ExcelFileReader {
 		this.fileExtension = fileExtension;
 		this.workSheetList = sheetNameList;
 		this.xlsxRowsToRead = rowsToRead;
+		sdf = new SimpleDateFormat( );
 	}
 
 	public boolean checkXlsEndOfRows(){
@@ -87,7 +90,7 @@ public class ExcelFileReader {
 				for (short colIx = 0; colIx < maxColumnIndex; colIx++) {
 					Cell cell = row.getCell(colIx);
 					String cellVal = getCellValue(cell);
-					if( cell != null && cellVal != null && cellVal != ExcelODAConstants.EMPTY_STRING){
+					if( cell != null && cellVal != null &&!ExcelODAConstants.EMPTY_STRING.equals( cellVal ) ){
 						return false;
 					}
 				}
@@ -115,7 +118,7 @@ public class ExcelFileReader {
 				for (short colIx = 0; colIx < maxColumnIndex; colIx++) {
 					Cell cell = row.getCell(colIx);
 					String cellVal = getCellValue(cell);
-					if( cell != null && cellVal != null && cellVal != ExcelODAConstants.EMPTY_STRING){
+					if( cell != null && cellVal != null && !cellVal.equals( ExcelODAConstants.EMPTY_STRING ) ){
 						blankRow = false;
 					}
 					rowData.add(cellVal);
@@ -278,8 +281,7 @@ public class ExcelFileReader {
 		if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 			if(	HSSFDateUtil.isCellDateFormatted(cell) ){		
 				Date myjavadate =  HSSFDateUtil.getJavaDate(cell.getNumericCellValue());
-				long millis = myjavadate.getTime();
-				return Long.toString(millis);
+				return sdf.format( myjavadate );
 			}
 			return ((Double) cell.getNumericCellValue()).toString();
 		}
@@ -290,21 +292,17 @@ public class ExcelFileReader {
 	private String resolveFormula(Cell cell) {
 		if (formulaEvaluator == null)
 			return cell.toString();
-
-		if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell) ){
-			//need to check for nulls
-			//double myexdate = org.apache.poi.ss.usermodel.DateUtil.getExcelDate(cell.getDateCellValue());
-			Date myjavadate = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(cell.getNumericCellValue());
-			long millis = myjavadate.getTime();
-			return Long.toString(millis);
-
-		}
-
 		switch (formulaEvaluator.evaluateFormulaCell(cell)) {
 		case Cell.CELL_TYPE_BOOLEAN:
 			return ((Boolean) cell.getBooleanCellValue()).toString();
 
 		case Cell.CELL_TYPE_NUMERIC:
+			if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell) ){
+				//need to check for nulls
+				//double myexdate = org.apache.poi.ss.usermodel.DateUtil.getExcelDate(cell.getDateCellValue());
+				Date myjavadate = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(cell.getNumericCellValue());
+				return sdf.format( myjavadate );
+			}
 			return ((Double) cell.getNumericCellValue()).toString();
 
 		case Cell.CELL_TYPE_STRING:

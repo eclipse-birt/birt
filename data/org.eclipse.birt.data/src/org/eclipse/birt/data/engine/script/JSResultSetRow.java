@@ -65,6 +65,15 @@ public class JSResultSetRow extends ScriptableObject
 		this.valueCacheMap = new HashMap( );
 	}
 	
+	public JSResultSetRow( IResultIterator odiResult, JSResultSetRow jsResult )
+	{
+		this( odiResult,
+				jsResult.exprManager,
+				jsResult.scope,
+				jsResult.helper,
+				jsResult.cx );
+	}
+	
 	/*
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
@@ -255,5 +264,5 @@ public class JSResultSetRow extends ScriptableObject
 	{
 		return exprManager.getBinding( name );
 	}
-
+	
 }

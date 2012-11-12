@@ -932,8 +932,7 @@ public class DataSetBasePage extends WizardPage
 		{
 			dataSetTypeName = ( (DataSetTypeElement) getSelectedDataSet( ) ).getDataSetTypeName( );
 		}
-        
-		
+
 		return createDataSet( dataSetTypeName );
 	}
 

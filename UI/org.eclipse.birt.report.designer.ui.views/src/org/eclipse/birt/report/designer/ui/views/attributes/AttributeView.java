@@ -59,7 +59,7 @@ public class AttributeView extends PageBookView
 	 */
 	protected PageRec doCreatePage( IWorkbenchPart part )
 	{
-		Object page = part.getAdapter( AttributeViewPage.class );
+		Object page = part.getAdapter( IAttributeViewPage.class );
 		if ( page instanceof IPageBookViewPage )
 		{
 			initPage( (IPageBookViewPage) page );

@@ -818,8 +818,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			String chartAggr = isAggregationExpr ? sbHelper.getChartAggr( aggrName )
 					: null;
 			ChartAdapter.beginIgnoreNotifications( );
-			query.getGrouping( ).setEnabled( isAggregationExpr );
-			query.getGrouping( ).setAggregateExpression( chartAggr );
+			if (query.getGrouping( ) != null)
+			{
+				query.getGrouping( ).setEnabled( isAggregationExpr );
+				query.getGrouping( ).setAggregateExpression( chartAggr );
+			}
 			ChartAdapter.endIgnoreNotifications( );
 
 			if ( isAggregationExpr )

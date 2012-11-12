@@ -169,7 +169,7 @@ public class MemoryCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
-	public void doSave( DataOutputStream outputStream, DataOutputStream rowLensStream, Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMap ) throws DataException
+	public void doSave( DataOutputStream outputStream, DataOutputStream rowLensStream, Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMap, int version ) throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
 		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( cacheRequestMap );
@@ -187,7 +187,7 @@ public class MemoryCache implements ResultSetCache
 				offset += ResultSetUtil.writeResultObject( dos,
 						resultObjects[i],
 						colCount,
-						resultSetNameSet, stringTable, index, i );
+						resultSetNameSet, stringTable, index, i, version );
 			}
 		}
 		catch ( IOException e )
@@ -217,7 +217,7 @@ public class MemoryCache implements ResultSetCache
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
 	public void incrementalUpdate( OutputStream outputStream, OutputStream rowLensStream, int originalRowCount, 
-			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap )
+			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap, int version )
 			throws DataException
 	{
 		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( cacheRequestMap );
@@ -244,7 +244,7 @@ public class MemoryCache implements ResultSetCache
 				offset += ResultSetUtil.writeResultObject( dos,
 						resultObjects[i],
 						colCount,
-						resultSetNameSet, stringTable, map, originalRowCount + i );
+						resultSetNameSet, stringTable, map, originalRowCount + i, version );
 			}
 			
 

@@ -90,6 +90,11 @@ public class ThumbnailBuilder extends BaseDialog
 			".bmp", ".jpg", ".jpeg", ".gif", ".png", ".ico" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 	};
 
+	//this sequence is the same as IMAGE_TYPES
+	private static final int[]  IMAGE_SWT_TYPES = new int[]{
+		   SWT.IMAGE_BMP,SWT.IMAGE_JPEG,SWT.IMAGE_JPEG,SWT.IMAGE_GIF,SWT.IMAGE_PNG,SWT.IMAGE_ICO
+	};
+	
 	private ReportDesignHandle handle;
 
 	/**
@@ -123,6 +128,21 @@ public class ThumbnailBuilder extends BaseDialog
 	public void setImageName( String imageName )
 	{
 		this.imageName = imageName;
+	}
+	
+	public int getImageType()
+	{
+		int imageType = SWT.IMAGE_PNG;
+		
+		for(int i = 0 ;i<IMAGE_TYPES.length;i++)
+		{
+			if ( imageName.toLowerCase( ).endsWith( IMAGE_TYPES[i] ) )
+			{
+				imageType = IMAGE_SWT_TYPES[i];
+				break;
+			}
+		}
+		return imageType;
 	}
 
 	/*

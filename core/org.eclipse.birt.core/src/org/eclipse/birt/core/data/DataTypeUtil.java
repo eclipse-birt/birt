@@ -350,6 +350,11 @@ public final class DataTypeUtil
 		}
 		else if ( source instanceof String )
 		{
+			//if empty string, return null
+			if( ( (String) source ).length( )==0 )
+			{
+				return null;
+			}
 			try
 			{
 				return new BigDecimal( (String) source );
@@ -1121,7 +1126,7 @@ public final class DataTypeUtil
 		}
 		else 
 		{
-		return toLimitedSizeString( source );
+			return toLimitedSizeString( source );
 		}
 	}
 	

@@ -203,11 +203,11 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 						{
 							break;
 						}
+						reader.unloadContent( leftOffset );
 						DocumentExtension docExt = (DocumentExtension) leftContent
 								.getExtension( IContent.DOCUMENT_EXTENSION );
 						assert docExt != null;
 						leftOffset = docExt.getNext( );
-						reader.unloadContent( leftOffset );
 					}
 
 					nextOffset = leftOffset;

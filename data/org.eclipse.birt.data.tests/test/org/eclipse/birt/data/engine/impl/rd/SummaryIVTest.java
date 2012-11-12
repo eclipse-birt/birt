@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.rd;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -346,7 +347,7 @@ public class SummaryIVTest extends RDTestCase
 		binding[2].setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding[2].setExpression( new ScriptExpression("dataSetRow.AMOUNT") );
 		binding[2].addAggregateOn( "cityGroup" );
-		
+		binding[2].setDataType( DataType.DOUBLE_TYPE );
 		qd.addBinding( binding[0] );
 		qd.addBinding( binding[1] );
 		qd.addBinding( binding[2] );

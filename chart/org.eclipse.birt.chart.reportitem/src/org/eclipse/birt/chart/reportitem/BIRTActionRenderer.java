@@ -59,6 +59,8 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	protected IReportContext context;
 	protected IDataRowExpressionEvaluator evaluator;
 
+	protected final static String REPORT_VARIABLE_INDICATOR = "vars"; //$NON-NLS-1$
+	
 	/**
 	 * This map is used to cache evaluated script for reducing evaluation
 	 * overhead
@@ -280,54 +282,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		}
 		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )
 		{
-			TooltipValue tv = (TooltipValue) action.getValue( );
-
-			if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
-			{
-				final DataPointHints dph = (DataPointHints) source.getSource( );
-				if ( !dph.isVirtual( ) )
-				{
-					// Output chart variable values directly
-					if ( ScriptHandler.VARIABLE_CATEGORY.equals( tv.getText( ) ) )
-					{
-						tv.setText( dph.getBaseDisplayValue( ) );
-					}
-					else if ( ScriptHandler.VARIABLE_VALUE.equals( tv.getText( ) ) )
-					{
-						tv.setText( dph.getOrthogonalDisplayValue( ) );
-					}
-					else if ( ScriptHandler.VARIABLE_SERIES.equals( tv.getText( ) ) )
-					{
-						tv.setText( dph.getSeriesDisplayValue( ) );
-					}
-					else
-					{
-						// Get evaluated values in other expressions
-						Object value = dph.getUserValue( tv.getText( ) );
-						if ( value instanceof Number )
-						{
-							tv.setText( ChartUtil.getDefaultNumberFormat( )
-									.format( value ) );
-						}
-						else
-						{
-							tv.setText( ChartUtil.stringValue( value ) );
-						}
-					}
-				}
-				else
-				{
-					tv.setText( null );
-				}
-			}
-			else if ( StructureType.LEGEND_ENTRY.equals( source.getType( ) ) )
-			{
-				LegendItemHints lih = (LegendItemHints) source.getSource( );
-				if ( tv.getText( ) == null || tv.getText( ).equals( "" ) ) //$NON-NLS-1$
-				{
-					tv.setText( lih.getItemText( ) );
-				}
-			}
+			processTooltipAction(action, source);
 		}
 		else if ( ActionType.INVOKE_SCRIPT_LITERAL.equals( action.getType( ) ) )
 		{
@@ -343,6 +298,58 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				cacheScriptEvaluator.put( sv.getScript( ), evaluatResult );
 			}
 			sv.setScript( evaluatResult );
+		}
+	}
+	
+	public static void processTooltipAction ( Action action, StructureSource source )
+	{
+		TooltipValue tv = (TooltipValue) action.getValue( );
+
+		if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
+		{
+			final DataPointHints dph = (DataPointHints) source.getSource( );
+			if ( !dph.isVirtual( ) )
+			{
+				// Output chart variable values directly
+				if ( ScriptHandler.VARIABLE_CATEGORY.equals( tv.getText( ) ) )
+				{
+					tv.setText( dph.getBaseDisplayValue( ) );
+				}
+				else if ( ScriptHandler.VARIABLE_VALUE.equals( tv.getText( ) ) )
+				{
+					tv.setText( dph.getOrthogonalDisplayValue( ) );
+				}
+				else if ( ScriptHandler.VARIABLE_SERIES.equals( tv.getText( ) ) )
+				{
+					tv.setText( dph.getSeriesDisplayValue( ) );
+				}
+				else
+				{
+					// Get evaluated values in other expressions
+					Object value = dph.getUserValue( tv.getText( ) );
+					if ( value instanceof Number )
+					{
+						tv.setText( ChartUtil.getDefaultNumberFormat( )
+								.format( value ) );
+					}
+					else
+					{
+						tv.setText( ChartUtil.stringValue( value ) );
+					}
+				}
+			}
+			else
+			{
+				tv.setText( null );
+			}
+		}
+		else if ( StructureType.LEGEND_ENTRY.equals( source.getType( ) ) )
+		{
+			LegendItemHints lih = (LegendItemHints) source.getSource( );
+			if ( tv.getText( ) == null || tv.getText( ).equals( "" ) ) //$NON-NLS-1$
+			{
+				tv.setText( lih.getItemText( ) );
+			}
 		}
 	}
 
@@ -465,7 +472,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		}
 	}
 
-	private String evaluateExpression( String script )
+	protected String evaluateExpression( String script )
 	{
 		if ( script == null || script.trim( ).length( ) == 0 )
 		{
@@ -485,11 +492,47 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 					.matcher( script )
 					.replaceAll( evaluateResult.toString( ) );
 
+			// Repeat to process all parameter expressions.
 			expression = findParameterExp( script, 0 );
+		}
+		
+		expression = findVariableExp(script, 0 );
+		while ( expression != null )
+		{
+			Object evaluateResult = evaluator.evaluate( expression );
+			// Bugzilla#242667 Add double quotation signs automatically
+			if ( evaluateResult instanceof String )
+			{
+				evaluateResult = "\"" + evaluateResult + "\""; //$NON-NLS-1$//$NON-NLS-2$
+			}
+
+			script = Pattern.compile( expression, Pattern.LITERAL )
+					.matcher( script )
+					.replaceAll( evaluateResult.toString( ) );
+
+			// Repeat to process all parameter expressions.
+			expression = findVariableExp( script, 0 );
 		}
 		return script;
 	}
 
+	private static String findVariableExp( String script, int fromIndex )
+	{
+		int iStart = script.indexOf( REPORT_VARIABLE_INDICATOR + '[',
+				fromIndex );
+		if ( iStart < fromIndex )
+		{
+			return null;
+		}
+		int iEnd = script.indexOf( ']', iStart );
+		if ( iEnd < iStart + REPORT_VARIABLE_INDICATOR.length( ) )
+		{
+			return null;
+		}
+		return script.substring( iStart, iEnd
+				+ 1 );
+	}
+	
 	private static String findParameterExp( String script, int fromIndex )
 	{
 		int iStart = script.indexOf( ExpressionUtil.PARAMETER_INDICATOR + '[',

@@ -16,24 +16,28 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.core.runtime.IAdaptable;
 
 /**
- * Process the model event, When the model event trans is commit, then post the event, and 
- * the processot union and ignore by the filter the event to improve the performance.
+ * Process the model event, When the model event trans is commit, then post the
+ * event, and the processot union and ignore by the filter the event to improve
+ * the performance.
  */
 public interface IModelEventProcessor extends IAdaptable
 {
-	/**Collect the event when the model element change.
+
+	/**
+	 * Collect the event when the model element change.
+	 * 
 	 * @param focus
 	 * @param ev
 	 */
-	void addElementEvent( DesignElementHandle focus, NotificationEvent ev);
-	
+	void addElementEvent( DesignElementHandle focus, NotificationEvent ev );
+
 	/**
 	 * Post the event when the model event trans commit;
 	 */
-	void postElementEvent();
-	
+	void postElementEvent( );
+
 	/**
-	 *Clear the event, when the model event trans roll back; 
+	 * Clear the event, when the model event trans roll back;
 	 */
-	void clear();
+	void clear( );
 }

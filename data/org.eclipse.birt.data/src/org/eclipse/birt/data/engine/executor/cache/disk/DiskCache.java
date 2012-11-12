@@ -425,7 +425,7 @@ public class DiskCache implements ResultSetCache
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
 	public void doSave( DataOutputStream outputStream, DataOutputStream rowLensStream, 
-			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap )
+			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap, int version )
 			throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
@@ -450,7 +450,7 @@ public class DiskCache implements ResultSetCache
 				offset += ResultSetUtil.writeResultObject( dos,
 						ro,
 						colCount,
-						resultSetNameSet, stringTable, map, i );
+						resultSetNameSet, stringTable, map, i, version );
 			}
 			
 			this.reset( );
@@ -467,7 +467,7 @@ public class DiskCache implements ResultSetCache
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
 	public void incrementalUpdate( OutputStream outputStream, OutputStream rowLensStream, int originalRowCount, 
-			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap )
+			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap, int version )
 			throws DataException
 	{
 		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( cacheRequestMap );
@@ -495,7 +495,7 @@ public class DiskCache implements ResultSetCache
 				offset += ResultSetUtil.writeResultObject( dos,
 						this.diskBasedResultSet.nextRow( ),
 						colCount,
-						resultSetNameSet, stringTable, map, i + originalRowCount );
+						resultSetNameSet, stringTable, map, i + originalRowCount, version );
 			}
 			
 			this.reset( );
