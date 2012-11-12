@@ -418,7 +418,7 @@ public abstract class AbstractEmitterImpl
 		styles.push( list.getComputedStyle( ) );
 		writeBookmark( list );
 		Object listToc = list.getTOC( );
-		if ( listToc != null )
+		if ( listToc != null && !hasTocOutputed( list ) )
 		{
 			tableTocs.add( new TocInfo( listToc.toString( ), tocLevel ) );
 		}
@@ -571,7 +571,7 @@ public abstract class AbstractEmitterImpl
 
 		writeBookmark( table );
 		Object tableToc = table.getTOC( );
-		if ( tableToc != null )
+		if ( tableToc != null && !hasTocOutputed( table ) )
 		{
 			tableTocs.add( new TocInfo( tableToc.toString( ), tocLevel ) );
 		}
@@ -627,7 +627,7 @@ public abstract class AbstractEmitterImpl
 			{
 				groupIdList.add( groupId );
 				Object groupToc = group.getTOC( );
-				if ( groupToc != null )
+				if ( groupToc != null && !hasTocOutputed( group ) )
 				{
 					tableTocs
 							.add( new TocInfo( groupToc.toString( ), tocLevel ) );
@@ -943,6 +943,22 @@ public abstract class AbstractEmitterImpl
 			adjustInline( );
 		}
 		return inlineFlag;
+	}
+
+	private Set<String> set = new HashSet<String>( );
+
+	private boolean hasTocOutputed( IContent content )
+	{
+		String bookmark = content.getBookmark( );
+		if ( set.contains( bookmark ) )
+		{
+			return true;
+		}
+		else
+		{
+			set.add( bookmark );
+			return false;
+		}
 	}
 
 	protected void writeBookmark( IContent content )
