@@ -13,6 +13,10 @@
  */ 
 package org.eclipse.birt.core.script;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.CodeSource;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -149,7 +153,7 @@ public class JavascriptEvalUtil
 		Script compiledScript = (Script) compiledScriptCache.get( scriptText );
 		if ( compiledScript == null )
 		{
-			compiledScript = cx.compileString( scriptText, source, lineNo, null );
+			compiledScript = cx.compileString( scriptText, source, lineNo, getSecurityDomain( source ) );
 			compiledScriptCache.put( scriptText, compiledScript );
 		}
 
@@ -424,6 +428,35 @@ public class JavascriptEvalUtil
 			index++;
 		}
 		return buffer.toString( );
+	}
+	
+	private static Object getSecurityDomain( final String file )
+	{
+		if ( file == null )
+		{
+			return null;
+		}
+		if ( System.getSecurityManager( ) == null )
+		{
+			return null;
+		}
+		try
+		{
+			return new CodeSource( new URL( file ),
+					(java.security.cert.Certificate[]) null );
+		}
+		catch ( MalformedURLException ex )
+		{
+			try
+			{
+				return new CodeSource( new File( file ).toURI( ).toURL( ),
+						(java.security.cert.Certificate[]) null );
+			}
+			catch ( MalformedURLException e )
+			{
+				return null;
+			}
+		}
 	}
 	
 }
