@@ -630,10 +630,10 @@ public class PreparedDummyQuery implements IPreparedQuery
 					1024 ) );
 			File file = ResultSetCacheUtil.getDataFile( session.getTempDir( ),
 					queryResults.getID( ) );
-			FileSecurity.fileDeleteOnExit( file );
+//			FileSecurity.fileDeleteOnExit( file );
 			file = ResultSetCacheUtil.getMetaFile( session.getTempDir( ),
 					queryResults.getID( ) );
-			FileSecurity.fileDeleteOnExit( file );
+//			FileSecurity.fileDeleteOnExit( file );
 		}
 		
 		/*
