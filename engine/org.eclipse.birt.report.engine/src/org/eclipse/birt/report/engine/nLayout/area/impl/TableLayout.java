@@ -98,6 +98,10 @@ public class TableLayout
 				columnStyle, cellContentStyle );
 		if ( border != null )
 		{
+			if ( cell.getBoxStyle( ) == BoxStyle.DEFAULT )
+			{
+				cell.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ) );
+			}
 			cell.getBoxStyle( ).setBottomBorder( border );
 			return border.getWidth( );
 		}
@@ -237,6 +241,10 @@ public class TableLayout
 							rowStyle, columnStyle, cellContentStyle );
 					if ( border != null )
 					{
+						if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+						{
+							cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+						}
 						cellArea.getBoxStyle( ).setTopBorder( border );
 					}
 				}
@@ -249,6 +257,10 @@ public class TableLayout
 							null, columnStyle, null );
 					if ( border != null )
 					{
+						if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+						{
+							cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+						}
 						cellArea.getBoxStyle( ).setTopBorder( border );
 					}
 				}
@@ -265,6 +277,10 @@ public class TableLayout
 							rowStyle, columnStyle, cellContentStyle );
 					if ( border != null )
 					{
+						if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+						{
+							cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+						}
 						cellArea.getBoxStyle( ).setLeftBorder( border );
 					}
 				}
@@ -278,6 +294,10 @@ public class TableLayout
 							cellContentStyle );
 					if ( border != null )
 					{
+						if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+						{
+							cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+						}
 						cellArea.getBoxStyle( ).setLeftBorder( border );
 					}
 				}
@@ -295,6 +315,10 @@ public class TableLayout
 									columnStyle, cellContentStyle );
 					if ( border != null )
 					{
+						if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+						{
+							cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+						}
 						cellArea.getBoxStyle( ).setRightBorder( border );
 					}
 				}
@@ -309,6 +333,10 @@ public class TableLayout
 						preColumnStyle, cellContentStyle, leftCellContentStyle );
 				if ( border != null )
 				{
+					if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+					{
+						cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+					}
 					cellArea.getBoxStyle( ).setRightBorder( border );
 				}
 			}
@@ -325,6 +353,10 @@ public class TableLayout
 							rowStyle, topCellStyle, cellContentStyle );
 					if ( border != null )
 					{
+						if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+						{
+							cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+						}
 						cellArea.getBoxStyle( ).setTopBorder( border );
 					}
 				}
@@ -337,6 +369,10 @@ public class TableLayout
 							null, topCellStyle, null );
 					if ( border != null )
 					{
+						if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+						{
+							cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+						}
 						cellArea.getBoxStyle( ).setTopBorder( border );
 					}
 				}
@@ -353,6 +389,10 @@ public class TableLayout
 							rowStyle, columnStyle, cellContentStyle );
 					if ( border != null )
 					{
+						if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+						{
+							cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+						}
 						cellArea.getBoxStyle( ).setLeftBorder( border );
 					}
 				}
@@ -367,6 +407,10 @@ public class TableLayout
 							cellContentStyle );
 					if ( border != null )
 					{
+						if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+						{
+							cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+						}
 						cellArea.getBoxStyle( ).setLeftBorder( border );
 					}
 				}
@@ -383,6 +427,10 @@ public class TableLayout
 									columnStyle, cellContentStyle );
 					if ( border != null )
 					{
+						if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+						{
+							cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+						}
 						cellArea.getBoxStyle( ).setRightBorder( border );
 					}
 				}
@@ -397,6 +445,10 @@ public class TableLayout
 						preColumnStyle, cellContentStyle, leftCellContentStyle );
 				if ( border != null )
 				{
+					if ( cellArea.getBoxStyle( ) == BoxStyle.DEFAULT ) 
+					{
+						cellArea.setBoxStyle( new BoxStyle( BoxStyle.DEFAULT ));
+					}
 					cellArea.getBoxStyle( ).setRightBorder( border );
 				}
 			}
@@ -837,8 +889,13 @@ public class TableLayout
 						if ( unresolvedRow != null )
 						{
 							upperCell = unresolvedRow.getCell( i );
+							cell = createEmptyCell( upperCell, i, rowArea );
 						}
-						cell = createEmptyCell( upperCell, i, rowArea );
+						else
+						{
+							cell = createEmptyCell( null, i, rowArea );
+						}
+						
 					}
 					if ( cell != null )
 					{
@@ -948,8 +1005,7 @@ public class TableLayout
 		emptyCell.isDummy = true;
 		return emptyCell;
 	}
-
-
+	
 	/**
 	 * Creates dummy cell and updates its delta value.
 	 * 
