@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -33,6 +34,7 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 
 	DimensionViewHandle parentVewHandle;
 	DimensionViewHandle childViewHandle;
+	private AggregationCellProviderWrapper providerWrapper;
 	/**
 	 * Trans name
 	 */
@@ -52,7 +54,7 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 		}
 		
 		childViewHandle = CrosstabAdaptUtil.getDimensionViewHandle( CrosstabAdaptUtil.getExtendedItemHandle( child ) );
-		
+		providerWrapper = new AggregationCellProviderWrapper(childViewHandle.getCrosstab( ));
 		setLabel( NAME );
 	}
 	
@@ -84,6 +86,8 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 			{
 				CrosstabAdaptUtil.removeInvalidBindings( reportHandle );
 			}
+			
+			providerWrapper.updateAllAggregationCells( );
 		}
 		catch ( SemanticException e )
 		{
