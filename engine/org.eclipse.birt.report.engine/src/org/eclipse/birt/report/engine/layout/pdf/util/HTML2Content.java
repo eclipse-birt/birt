@@ -354,6 +354,8 @@ public class HTML2Content implements HTMLConstants
 
 	protected static final HashMap textTypeMapping = new HashMap( );
 
+	private static final String LIST_STYLE_TYPE = "list-style-type";
+
 	static
 	{
 		htmlInlineDisplay.add( TAG_I );
@@ -651,14 +653,19 @@ public class HTML2Content implements HTMLConstants
 					nestList = true;
 				}
 			}
-			
+			Object value = cssStyles.get( ele.getParentNode( ) ).getProperty(
+					LIST_STYLE_TYPE );
+			String styleType = "";
+			if ( value != null )
+				styleType = value.toString( );
+			BulletFrame frame = new BulletFrame( styleType );
 			if ( ele.getParentNode( ).getNodeName( ).equals( TAG_OL ) && !nestList ) //$NON-NLS-1$
 			{
-				text.setText( Integer.valueOf( index ).toString( ) + "." ); //$NON-NLS-1$
+				text.setText( frame.paintBullet( index ) + "." ); //$NON-NLS-1$
 			}
 			else if ( ele.getParentNode( ).getNodeName( ).equals( TAG_UL )&& !nestList ) //$NON-NLS-1$
 			{
-				text.setText( new String( new char[]{getListChar( nestCount )} ) );
+				text.setText( frame.paintBullet( index ) );
 			}
 
 			ICellContent childCell = report.createCellContent( );
