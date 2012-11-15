@@ -109,7 +109,7 @@ public class ResultSetUtil
 				}
 				else
 				{
-					if( version >= VersionManager.VERSION_3_7_2_1 )
+					if( version > VersionManager.VERSION_3_7_2_1 )
 					{
 						ResultObjectUtil.writeObject( tempDos, resultObject.getFieldValue( i ), resultObject.getResultClass( ).getFieldValueClass( i ) );
 					}
@@ -175,7 +175,7 @@ public class ResultSetUtil
 					}
 					else
 					{
-						if ( version >= VersionManager.VERSION_3_7_2_1 )
+						if ( version > VersionManager.VERSION_3_7_2_1 )
 						{
 							obs[i] = ResultObjectUtil.readObject( dis,rsMeta.getFieldValueClass( i + 1 ),
 									DataEngineSession.getCurrentClassLoader( ) );
@@ -187,7 +187,7 @@ public class ResultSetUtil
 				}
 				else
 				{
-					if ( version >= VersionManager.VERSION_3_7_2_1 )
+					if ( version > VersionManager.VERSION_3_7_2_1 )
 					{
 						obs[i] = ResultObjectUtil.readObject( dis,rsMeta.getFieldValueClass( i + 1 ),
 								DataEngineSession.getCurrentClassLoader( ) );
