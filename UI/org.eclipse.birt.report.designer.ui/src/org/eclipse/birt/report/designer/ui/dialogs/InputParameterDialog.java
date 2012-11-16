@@ -561,6 +561,7 @@ public class InputParameterDialog extends BaseDialog
 
 		//get the value when initiate the combo
 		Object value = getPreSetValue(listParam);
+		int selectIndex = -1;
 
 		int style = SWT.BORDER;
 		if ( !( listParam instanceof ComboBoxParameter ) )
@@ -617,12 +618,13 @@ public class InputParameterDialog extends BaseDialog
 			}
 			else
 			{
-				if(choice.getValue( ).equals(value) && choice.getLabel() != null && !choice.getLabel().equals(blankValueChoice.getValue()) )
-				{
-					value = choice.getLabel();
-				}
 				combo.add( label );
 				combo.setData( String.valueOf(combo.getItemCount() - 1), choice.getValue( ) );
+				if(choice.getValue( ).equals(value) && choice.getLabel() != null && !choice.getLabel().equals(blankValueChoice.getValue()) )
+				{
+//					value = choice.getLabel();
+					selectIndex = combo.getItemCount() -1 ;
+				}
 			}
 		}
 
@@ -637,7 +639,7 @@ public class InputParameterDialog extends BaseDialog
 		}
 		else
 		{
-			 setSelectValueAfterInitCombo(value, combo, listParam,isCascade,list);
+			 setSelectValueAfterInitCombo(selectIndex,value, combo, listParam,isCascade,list);
 		}
 		combo.addFocusListener( new FocusListener( ) {
 
@@ -729,9 +731,9 @@ public class InputParameterDialog extends BaseDialog
 		}
 	}
 	
-	private void setSelectValueAfterInitCombo(Object value,Combo combo,ListingParameter listParam ,boolean isCascade,List comboDataList)
+	private void setSelectValueAfterInitCombo(int selectIndex,Object value,Combo combo,ListingParameter listParam ,boolean isCascade,List comboDataList)
 	{
-		boolean found = dealWithValueInComboList(value, combo, listParam);
+		boolean found = dealWithValueInComboList(selectIndex,value, combo, listParam);
 		if(!found)
 		{
 //			if ( listParam instanceof ComboBoxParameter )
@@ -774,12 +776,21 @@ public class InputParameterDialog extends BaseDialog
 	
 	//if value in combo data list ,then select it and return true
 	//else do nothing and return false
-	private boolean dealWithValueInComboList(Object value,Combo combo,ListingParameter listParam)
+	private boolean dealWithValueInComboList(int selectIndex,Object value,Combo combo,ListingParameter listParam)
 	{
 		boolean found = false;
+		if(selectIndex > 0)
+		{
+			combo.select(selectIndex);
+			paramValues.put( listParam.getHandle( ).getName( ),
+					combo.getData( String.valueOf(combo.getSelectionIndex( )) ));
+			listParam.setSelectionValue(value == null ? null : value.toString( ) );
+			found = true;
+			return found;
+		}
 		for ( int i = 0; i < combo.getItemCount( ); i++ )
 		{
-			Object data = combo.getItem( i ) ;
+			Object data = combo.getData( String.valueOf(i) );
 			if (value == data || ( value != null && value.equals( data ) ) )
 			{
 				combo.select( i );
@@ -1167,7 +1178,7 @@ public class InputParameterDialog extends BaseDialog
 		{
 			Combo combo = (Combo) control;
 			
-			found = dealWithValueInComboList(value, combo, listParam);
+			found = dealWithValueInComboList(-1,value, combo, listParam);
 			
 			if ( !found )
 			{
