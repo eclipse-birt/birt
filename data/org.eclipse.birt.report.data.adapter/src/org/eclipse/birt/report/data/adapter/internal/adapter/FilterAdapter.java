@@ -110,8 +110,23 @@ public class FilterAdapter extends FilterDefinition
 		String filterExpr = modelFilter.getExpr( );
 		if ( filterExpr != null )
 		{
+			String filterOpr = null;
 			// convert to DtE exprFilter if there is no operator
-			String filterOpr = modelFilter.getOperator( );
+			if ( filterDefn != null )
+			{
+				if ( filterDefn.getBirtFilterExprId( ) != null )
+				{
+					filterOpr = modelFilter.getOperator( );
+				}
+				else if ( filterDefn.getExtFilterExprId( ) != null )
+				{
+					filterOpr = filterDefn.getExtFilterExprId( );
+				}
+			}
+			if( filterOpr == null )
+			{
+				filterOpr = modelFilter.getOperator( );
+			}
 			if ( filterOpr == null || filterOpr.length( ) == 0 )
 			{
 				// Standalone expression; data type must be boolean
