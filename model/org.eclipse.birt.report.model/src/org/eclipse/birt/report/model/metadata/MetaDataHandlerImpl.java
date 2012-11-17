@@ -600,6 +600,32 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 				return new AllowedState( memberDefn );
 			return super.startElement( tagName );
 		}
+
+		public void end( ) throws SAXException
+		{
+			if ( propDefn == null )
+			{
+				return;
+			}
+			// validate the default value. The default value must be validate
+			// here as it needs choice set.
+			if ( propDefn != null && propDefn.getDefault( ) != null )
+			{
+				try
+				{
+					Object value = propDefn.validateXml( null, null,
+							propDefn.getDefault( ) );
+					propDefn.setDefault( value );
+				}
+				catch ( PropertyValueException e )
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_INVALID_DEFAULT ) );
+				}
+			}
+			propDefn = null;
+		}
 	}
 
 	public class ElementDefnState extends InnerParseState
@@ -968,17 +994,14 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 
 				case IPropertyType.CHOICE_TYPE :
 
-					if ( detailName == null )
+					// the user can define the detail type either in detailType
+					// attribute or type element, so valid it at the end of element 
+					if ( detailName != null )
 					{
-						errorHandler
-								.semanticError( new MetaDataParserException(
-										MetaDataParserException.DESIGN_EXCEPTION_CHOICE_TYPE_REQUIRED ) );
-						return;
+						choiceSet = validateChoiceSet( detailName );
+						if ( choiceSet == null )
+							return;
 					}
-					choiceSet = validateChoiceSet( detailName );
-					if ( choiceSet == null )
-						return;
-
 					break;
 
 				case IPropertyType.COLOR_TYPE :
@@ -1151,16 +1174,47 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 
 		public void end( ) throws SAXException
 		{
-			// if property is element type, then set list of allowed type names
-			// to the details
-			if ( propDefn != null && !propertyTypes.isEmpty( ) )
+			if ( propDefn == null )
 			{
-				int typeCode = propDefn.getTypeCode( );
+				return;
+			}
+			// if property is element or choice type, then set list of allowed
+			// type names to the details
+			int typeCode = propDefn.getTypeCode( );
+			if ( !propertyTypes.isEmpty( ) )
+			{
 				if ( typeCode == IPropertyType.ELEMENT_TYPE
 						|| typeCode == IPropertyType.STRUCT_TYPE
 						|| typeCode == IPropertyType.CONTENT_ELEMENT_TYPE )
 				{
 					propDefn.setDetails( propertyTypes );
+				}
+				if ( typeCode == IPropertyType.CHOICE_TYPE
+						&& propDefn.getDetails( ) == null )
+				{
+					IChoiceSet choiceSet = validateChoiceSet( propertyTypes
+							.get( 0 ) );
+					if ( choiceSet != null )
+					{
+						propDefn.setDetails( choiceSet );
+					}
+				}
+			}
+			// validate the default value. The default value must be validate
+			// here as it needs choice set.
+			if ( propDefn.getDefault( ) != null )
+			{
+				try
+				{
+					Object value = propDefn.validateXml( null, null,
+							propDefn.getDefault( ) );
+					propDefn.setDefault( value );
+				}
+				catch ( PropertyValueException e )
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_INVALID_DEFAULT ) );
 				}
 			}
 			propDefn = null;
@@ -1522,18 +1576,9 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 		{
 			if ( this.propertyDefn == null )
 				return;
-			try
-			{
-				Object value = propertyDefn.validateXml( null, null, text
-						.toString( ) );
-				propertyDefn.setDefault( value );
-			}
-			catch ( PropertyValueException e )
-			{
-				errorHandler
-						.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_INVALID_DEFAULT ) );
-			}
+			// validation should be done in property.end or member.end as
+			// the choice set may not defined yet
+			propertyDefn.setDefault( text.toString( ) );
 		}
 	}
 
