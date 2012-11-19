@@ -1347,6 +1347,7 @@ public abstract class EngineTask implements IEngineTask
 		cancelFlag = true;
 		executionContext.cancel( );
 		disposeResourceLocator( );
+		changeStatusToStopped();
 	}
 
 	public void cancel( Object signal )
@@ -1373,6 +1374,7 @@ public abstract class EngineTask implements IEngineTask
 			}
 		} while ( waitingTime < 5000 );
 		disposeResourceLocator( );
+		changeStatusToStopped();
 		return;
 	}
 
