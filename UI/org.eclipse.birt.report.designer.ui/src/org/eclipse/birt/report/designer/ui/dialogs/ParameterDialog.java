@@ -294,6 +294,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private HashMap dirtyProperties = new HashMap( 5 );
 
 	private ArrayList choiceList = new ArrayList( );
+	private Map<SelectionChoice,SelectionChoice> editChoiceMap = new HashMap<SelectionChoice,SelectionChoice>();
 
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
@@ -458,17 +459,19 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		public boolean editItem( final Object element )
 		{
-			final SelectionChoice choice = (SelectionChoice) element;
-			String oldVal = choice.getValue( );
-			boolean isDefault = isDefaultChoice( choice );
+			final SelectionChoice oldChoice = (SelectionChoice) element;
+			final SelectionChoice tempChoice = cloneSelectionChoice(oldChoice);
+			
+			String oldVal = oldChoice.getValue( );
+			boolean isDefault = isDefaultChoice( oldChoice );
 			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString( "ParameterDialog.SelectionDialog.Edit" ), canBeNull( ), canUseEmptyValue( ) ); //$NON-NLS-1$
-			dialog.setInput( choice );
+			dialog.setInput( tempChoice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
 				public String validate( String displayLableKey,
 						String displayLabel, String value )
 				{
-					return validateChoice( choice,
+					return validateChoice( oldChoice,
 							displayLableKey,
 							displayLabel,
 							value );
@@ -479,14 +482,25 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				// choice.setValue( convertToStandardFormat( choice.getValue( )
 				// ) );
-				choice.setValue( choice.getValue( ) );
+//				oldChoice.setValue( tempChoice.getValue( ) );
+				editChoiceMap.put(tempChoice, oldChoice);
+				choiceList.set(choiceList.indexOf(oldChoice), tempChoice);
 				if ( isDefault )
 				{
-					changeDefaultValue( oldVal, choice.getValue( ) );
+					changeDefaultValue( oldVal, tempChoice.getValue( ) );
 				}
 				return true;
 			}
 			return false;
+		}
+		
+		private SelectionChoice cloneSelectionChoice(SelectionChoice choice)
+		{
+			SelectionChoice tempChoice = StructureFactory.createSelectionChoice( );
+			tempChoice.setValue(choice.getValue());
+			tempChoice.setLabel(choice.getLabel());
+			tempChoice.setLabelResourceKey(choice.getLabelResourceKey());
+			return tempChoice;
 		}
 
 		public boolean newItem( )
@@ -3301,9 +3315,18 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				{
 					if ( choiceList != null )
 					{
+						SelectionChoice originalChoice = null;
 						for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 						{
 							SelectionChoice choice = (SelectionChoice) iter.next( );
+							originalChoice = editChoiceMap.get(choice);
+							if(originalChoice != null)
+							{
+								originalChoice.setValue(choice.getValue());
+								originalChoice.setLabel(choice.getLabel());
+								originalChoice.setLabelResourceKey(choice.getLabelResourceKey());
+								choice = originalChoice;
+							}
 							if ( isValidValue( choice.getValue( ) ) == null )
 							{
 								selectionChioceList.addItem( choice );
