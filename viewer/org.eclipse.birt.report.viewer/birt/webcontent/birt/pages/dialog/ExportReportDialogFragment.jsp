@@ -32,6 +32,8 @@
 		<label for="exportFormat"><%=BirtResources.getMessage( "birt.viewer.dialog.export.format" )%></label>
 		<SELECT	ID="exportFormat" NAME="format" CLASS="birtviewer_exportreport_dialog_select">
 			<%
+				ParameterAccessor.sortSupportedFormatsByDisplayName(supportedFormats);
+				
 				for ( int i = 0; i < supportedFormats.length; i++ )
 				{
 					if ( !ParameterAccessor.PARAM_FORMAT_HTML.equalsIgnoreCase( supportedFormats[i] ) )
