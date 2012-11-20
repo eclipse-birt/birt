@@ -552,6 +552,10 @@ public class InsertInLayoutUtil
 					else
 					{
 						DNDUtil.addElementHandle( positions[i], newObj );
+						if ( newObj instanceof DesignElementHandle )
+						{
+							DEUtil.setDefaultTheme( (DesignElementHandle) newObj );
+						}
 					}
 				}
 			}
@@ -1253,8 +1257,9 @@ public class InsertInLayoutUtil
 
 		return dataHandle;
 	}
-	
-	private static void setDataItemAction(ResultSetColumnHandle model, DataItemHandle dataHandle)
+
+	private static void setDataItemAction( ResultSetColumnHandle model,
+			DataItemHandle dataHandle )
 	{
 		ActionHandle actionHandle = UIUtil.getColumnAction( model );
 		if ( actionHandle != null )
@@ -1268,7 +1273,7 @@ public class InsertInLayoutUtil
 			}
 			catch ( SemanticException e )
 			{
-				//Do nothing now
+				// Do nothing now
 			}
 		}
 	}
