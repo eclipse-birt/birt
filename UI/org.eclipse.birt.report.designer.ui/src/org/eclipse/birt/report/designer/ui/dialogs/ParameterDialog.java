@@ -62,15 +62,19 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -2470,7 +2474,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionProvider getExpressionProvider( )
 			{
-				return new ExpressionProvider( inputParameter );
+				return new ParameterDataSetExpressionProvider( inputParameter );
 			}
 
 			public IExpressionContextFactory getExpressionContextFactory( )
@@ -4674,6 +4678,36 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		if ( isStatic( ) )
 		{
 			refreshStaticValueTable( );
+		}
+	}
+	private class ParameterDataSetExpressionProvider extends ExpressionProvider
+	{
+		public ParameterDataSetExpressionProvider( DesignElementHandle handle )
+		{
+			super(handle);
+		}
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getCategoryList()
+		 */
+		protected List getCategoryList( )
+		{
+			ArrayList<Object> categoryList = (ArrayList<Object>)super.getCategoryList();
+			if(categoryList!=null&&!categoryList.contains(DATASETS))
+			{
+				if ( elementHandle.getModuleHandle( ) instanceof ReportDesignHandle
+						&& ( (ReportDesignHandle) elementHandle.getModuleHandle( ) ).getDataSets()!=null )
+				{			
+					if(categoryList.contains(OPERATORS)){
+						categoryList.add(categoryList.indexOf(OPERATORS)+1, DATASETS);
+					}else{
+						categoryList.add( DATASETS );
+					}
+		
+				}
+			}
+			return categoryList;
 		}
 	}
 }
