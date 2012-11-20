@@ -2107,7 +2107,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 								IExpressionConverter.EXPRESSION_CLASS_CUBE );
 			}
 
-			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,designHandle.getModuleHandle() ) );
 
 			DataService.getInstance( ).registerSession( cube, session );
 
