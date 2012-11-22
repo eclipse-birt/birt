@@ -620,7 +620,7 @@ public class InputParameterDialog extends BaseDialog
 			{
 				combo.add( label );
 				combo.setData( String.valueOf(combo.getItemCount() - 1), choice.getValue( ) );
-				if(choice.getValue( ).equals(value) && choice.getLabel() != null && !choice.getLabel().equals(blankValueChoice.getValue()) )
+				if(choice.getValue( ) != null && choice.getValue( ).equals(value) && choice.getLabel() != null && !choice.getLabel().equals(blankValueChoice.getValue()) )
 				{
 //					value = choice.getLabel();
 					selectIndex = combo.getItemCount() -1 ;
