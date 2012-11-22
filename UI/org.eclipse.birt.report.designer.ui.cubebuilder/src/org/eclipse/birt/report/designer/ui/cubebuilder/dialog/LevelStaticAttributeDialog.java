@@ -106,20 +106,20 @@ public class LevelStaticAttributeDialog extends BaseDialog
 		expressionLabel.setLayoutData( new GridData( ) );
 		expressionLabel.setFont( parent.getFont( ) );
 
-		expressionText = new Text( container, SWT.BORDER | SWT.WRAP );
+		expressionText = new Text( container, SWT.BORDER | SWT.MULTI );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.heightHint = expressionText.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT ).y - expressionText.getBorderWidth( ) * 2;
+		gd.heightHint = expressionText.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- expressionText.getBorderWidth( )
+				* 2;
 		expressionText.setLayoutData( gd );
-		
+
 		ExpressionButtonUtil.createExpressionButton( container,
 				expressionText,
 				new CubeExpressionProvider( input ),
 				input );
 
 		errorMessageText = new Text( container, SWT.READ_ONLY | SWT.WRAP );
-		gd = new GridData( GridData.GRAB_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_FILL );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
 		errorMessageText.setLayoutData( gd );
 		errorMessageText.setBackground( errorMessageText.getDisplay( )
@@ -139,7 +139,8 @@ public class LevelStaticAttributeDialog extends BaseDialog
 		if ( rule != null )
 		{
 			nameText.setText( DEUtil.resolveNull( rule.getDisplayExpression( ) ) );
-			ExpressionButtonUtil.initExpressionButtonControl( expressionText, rule.getExpressionProperty( Rule.RULE_EXPRE_MEMBER ) );
+			ExpressionButtonUtil.initExpressionButtonControl( expressionText,
+					rule.getExpressionProperty( Rule.RULE_EXPRE_MEMBER ) );
 		}
 		return super.initDialog( );
 	}
@@ -171,7 +172,6 @@ public class LevelStaticAttributeDialog extends BaseDialog
 			}
 		}
 	}
-
 
 	public void setErrorMessage( String errorMessage )
 	{
