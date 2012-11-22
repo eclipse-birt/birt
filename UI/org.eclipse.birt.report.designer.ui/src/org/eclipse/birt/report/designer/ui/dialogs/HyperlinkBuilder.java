@@ -680,7 +680,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 		new Label( displayArea, SWT.NONE ).setText( REQUIED_MARK
 				+ LABEL_LOCATION );
-		locationEditor = new Text( displayArea, SWT.BORDER | SWT.WRAP );
+		locationEditor = new Text( displayArea, SWT.BORDER | SWT.MULTI );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.heightHint = locationEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
 				- locationEditor.getBorderWidth( )
@@ -954,7 +954,7 @@ public class HyperlinkBuilder extends BaseDialog
 		group.setLayout( layout );
 		new Label( group, SWT.NONE ).setText( Messages.getString( "HyperlinkBuilder.DrillThroughLinkExpression" ) ); //$NON-NLS-1$
 
-		bookmarkEditor = new Text( group, SWT.BORDER | SWT.READ_ONLY | SWT.WRAP );
+		bookmarkEditor = new Text( group, SWT.BORDER | SWT.READ_ONLY | SWT.MULTI );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL ) ;
 		gd.heightHint = bookmarkEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
 				- bookmarkEditor.getBorderWidth( )
@@ -1494,7 +1494,7 @@ public class HyperlinkBuilder extends BaseDialog
 		new Label( displayArea, SWT.NONE ).setText( LABEL_LINKED_EXPRESSION );
 		bookmarkEditor = new Text( displayArea, SWT.BORDER
 				| SWT.READ_ONLY
-				| SWT.WRAP );
+				| SWT.MULTI );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.heightHint = bookmarkEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
 				- bookmarkEditor.getBorderWidth( )
