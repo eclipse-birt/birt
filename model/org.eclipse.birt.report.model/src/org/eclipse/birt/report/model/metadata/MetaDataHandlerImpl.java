@@ -603,19 +603,19 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 
 		public void end( ) throws SAXException
 		{
-			if ( propDefn == null )
+			if ( memberDefn == null )
 			{
 				return;
 			}
 			// validate the default value. The default value must be validate
 			// here as it needs choice set.
-			if ( propDefn != null && propDefn.getDefault( ) != null )
+			if ( memberDefn.getDefault( ) != null )
 			{
 				try
 				{
-					Object value = propDefn.validateXml( null, null,
-							propDefn.getDefault( ) );
-					propDefn.setDefault( value );
+					Object value = memberDefn.validateXml( null, null,
+							memberDefn.getDefault( ) );
+					memberDefn.setDefault( value );
 				}
 				catch ( PropertyValueException e )
 				{
@@ -624,7 +624,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 									MetaDataParserException.DESIGN_EXCEPTION_INVALID_DEFAULT ) );
 				}
 			}
-			propDefn = null;
+			memberDefn = null;
 		}
 	}
 
