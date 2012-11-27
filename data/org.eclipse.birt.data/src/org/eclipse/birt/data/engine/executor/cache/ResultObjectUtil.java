@@ -208,7 +208,7 @@ public class ResultObjectUtil
 		else if ( fieldType.equals( IBlob.class )
 				|| fieldType.equals( Blob.class ) )
 		{
-			if ( version < VersionManager.VERSION_4_2_0 )
+			if ( version < VersionManager.VERSION_4_2_2 )
 			{
 				int len = IOUtil.readInt( dis );
 				if ( len == 0 )
@@ -224,7 +224,6 @@ public class ResultObjectUtil
 			}
 			else
 			{
-<<<<<<< HEAD
 				int byteLength = leadingChar>>1;
 				
 				if( byteLength > 127 )
@@ -233,10 +232,7 @@ public class ResultObjectUtil
 				}
 				byte[] bytes = new byte[byteLength];
 				dis.read( bytes );
-=======
-				byte[] bytes = new byte[len];
-				dis.readFully( bytes );
->>>>>>> master
+
 				obj = bytes;
 			}
 		}
@@ -374,19 +370,15 @@ public class ResultObjectUtil
 		}
 		else if ( fieldType.equals( IClob.class )
 				|| fieldType.equals( Clob.class ) )
-<<<<<<< HEAD
 		{
 			dos.write( leadingChar );
 			IOUtil.writeString( dos, fieldValue.toString( ) );
 		}
-=======
-			IOUtil.writeString( dos,fieldValue.toString( ) );
->>>>>>> master
 		else if ( fieldType.equals( IBlob.class )
 				|| fieldType.equals( Blob.class ) )
 		{
 			byte[] bytes = (byte[]) fieldValue;
-			if ( version < VersionManager.VERSION_4_2_0 )
+			if ( version < VersionManager.VERSION_4_2_2 )
 			{
 				dos.write( leadingChar );
 				if ( bytes == null || bytes.length == 0 )

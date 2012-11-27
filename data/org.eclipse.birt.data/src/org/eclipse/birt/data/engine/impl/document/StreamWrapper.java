@@ -150,14 +150,11 @@ public class StreamWrapper
 			Class dataType = resultClass.getFieldValueClass( i );
 			String fieldName = resultClass.getFieldName( i );
 			long memoryBufferSize = CacheUtil.computeMemoryBufferSize( appContext );
-<<<<<<< HEAD
+
 			IIndexSerializer index = DataSetIndexFactory.createIndex( memoryBufferSize/indexColumnCount, "Index/" + fieldName + "/btreeIndex", manager, dataType );
 			if( index!= null )
 				result.put( fieldName, index );
-=======
-			BTreeIndex btreeIndex =  new BTreeIndex( memoryBufferSize/indexColumnCount, "Index/" + fieldName + "/btreeIndex", manager, dataType, (CompareHints )appContext.get( "org.eclipse.birt.data.engine.expression.compareHints" ) );
-			result.put( fieldName, btreeIndex);
->>>>>>> master
+
 //			if ( dataType == String.class )
 //			{
 //				result.put( fieldName, new SerializableBirtHash( "Index/"

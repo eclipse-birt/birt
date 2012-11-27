@@ -65,15 +65,12 @@ import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-<<<<<<< HEAD
-import org.eclipse.birt.data.engine.storage.DataSetStore;
-import org.eclipse.birt.data.engine.storage.IDataSetWriter;
-import org.mozilla.javascript.Scriptable;
-=======
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.JSResultSetRow;
 import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
->>>>>>> master
+import org.eclipse.birt.data.engine.storage.DataSetStore;
+import org.eclipse.birt.data.engine.storage.IDataSetWriter;
+
 
 /**
  * A Result Set that directly fetch data from ODA w/o using any cache.
@@ -99,11 +96,10 @@ public class SimpleResultSet implements IResultIterator
 	private IProgressiveAggregationHelper aggrHelper;
 	private boolean isClosed;
 	private ICloseable closeable;
-<<<<<<< HEAD
+
 	private IDataSetWriter writer;
-	private DataEngineSession session;
 	private List<IAuxiliaryIndexCreator> auxiliaryIndexCreators;
-=======
+
 	private boolean forceLookForward;
 	private BaseQuery dataSourceQuery;
 	private DataEngineSession session;
@@ -113,7 +109,7 @@ public class SimpleResultSet implements IResultIterator
 	
 	//TODO: refactor me. Add this for emergence -- release.
 	private boolean isFirstNextCall = true;
->>>>>>> master
+
 	
 	/**
 	 * 
@@ -134,11 +130,6 @@ public class SimpleResultSet implements IResultIterator
 				new OdiAdapter( resultSet, resultClass ),
 				resultClass,
 				false );
-<<<<<<< HEAD
-
-		populateRowResultSet( handler, scRequest );
-=======
->>>>>>> master
 
 		this.closeable = new ICloseable( ) {
 
@@ -170,14 +161,6 @@ public class SimpleResultSet implements IResultIterator
 				new OdiAdapter( populator ),
 				resultClass,
 				false );
-<<<<<<< HEAD
-		
-		populateRowResultSet( handler, scRequest );
-	
-		this.closeable = (populator instanceof ICloseable)?(ICloseable)populator:null; 
-		initialize( dataSourceQuery, resultClass, handler, groupSpecs, session, forceLookingForward );
-				
-=======
 
 		this.closeable = ( populator instanceof ICloseable )
 				? (ICloseable) populator : null;
@@ -189,7 +172,7 @@ public class SimpleResultSet implements IResultIterator
 				groupSpecs,
 				session,
 				forceLookingForward );
->>>>>>> master
+
 	}
 
 	public SimpleResultSet( CandidateQuery dataSourceQuery,
@@ -237,7 +220,7 @@ public class SimpleResultSet implements IResultIterator
 
 		populateComputedColumnHelper( baseQuery );
 		populateRowResultSet( handler, scRequest, needLookForward );
-		populateDataSetColumns( handler, this.query, resultMetadata );
+		populateDataSetColumns( handler, this.query, resultMetadata, groupSpecs, forceLookingForward );
 		populateAggregationHelper( handler, session, groupSpecs, needLookForward );
 		populateGroupCalculator( groupSpecs,
 				needLookForward,
@@ -291,10 +274,9 @@ public class SimpleResultSet implements IResultIterator
 
 	@SuppressWarnings("unchecked")
 	private void populateDataSetColumns( IEventHandler handler,
-			IBaseQueryDefinition query, IResultClass resultClass )
+			IBaseQueryDefinition query, IResultClass resultClass, GroupSpec[] groupSpecs, boolean forceLookingForward )
 			throws DataException
 	{
-<<<<<<< HEAD
 		this.query = dataSourceQuery.getQueryDefinition( );
 		this.groupCalculator = needLookingForwardFor1Row( groupSpecs, forceLookingForward )
 				? new SimpleGroupCalculator( session,
@@ -308,8 +290,6 @@ public class SimpleResultSet implements IResultIterator
 		this.initialRowCount = ( this.currResultObj != null ) ? -1 : 0;
 		this.rowCount = ( this.currResultObj != null ) ? 1 : 0;
 		this.handler = handler;
-=======
->>>>>>> master
 		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
 		if ( query instanceof IQueryDefinition
 				&& ( (IQueryDefinition) query ).needAutoBinding( ) )
@@ -465,7 +445,6 @@ public class SimpleResultSet implements IResultIterator
 			}
 			dataSetLenStream = null;
 		}
-<<<<<<< HEAD
 
 		if ( auxiliaryIndexCreators != null )
 		{
@@ -474,7 +453,7 @@ public class SimpleResultSet implements IResultIterator
 				creator.close( );
 			}
 		}
-=======
+
 		this.rowResultSet = null;
 		this.ccHelper = null;
 		this.aggrHelper = null;
@@ -485,7 +464,7 @@ public class SimpleResultSet implements IResultIterator
 		this.resultSetNameSet.clear( );
 		if ( onFetchEvents != null )
 			onFetchEvents.clear( );
->>>>>>> master
+
 		this.isClosed = true;
 	}
 	
@@ -549,15 +528,11 @@ public class SimpleResultSet implements IResultIterator
 		this.streamsWrapper = streamsWrapper;
 		this.auxiliaryIndexCreators = streamsWrapper.getAuxiliaryIndexCreators( );
 		this.groupCalculator.doSave( streamsWrapper.getStreamManager( ) );
-<<<<<<< HEAD
 		this.writer = DataSetStore.createWriter( streamsWrapper.getStreamManager( ),
 				getResultClass( ),
 				handler.getAppContext( ),
 				this.session,
 				auxiliaryIndexCreators );
-=======
-		
->>>>>>> master
 		try
 		{
 			if ( streamsWrapper.getStreamForResultClass( ) != null )
@@ -828,7 +803,6 @@ public class SimpleResultSet implements IResultIterator
 							colCount,
 							resultSetNameSet,
 							streamsWrapper.getOutputStringTable( getResultClass( ) ),
-<<<<<<< HEAD
 							streamsWrapper.getStreamForIndex( getResultClass( ), handler.getAppContext( ) ),
 							this.rowCount-1, streamsWrapper.getStreamManager( ).getVersion( ) );
 
@@ -839,11 +813,6 @@ public class SimpleResultSet implements IResultIterator
 							creator.save( currResultObj, this.rowCount - 1 );
 						}
 					}
-=======
-							streamsWrapper.getStreamForIndex( getResultClass( ),
-									handler.getAppContext( ) ),
-							index, streamsWrapper.getStreamManager( ).getVersion( ) );
->>>>>>> master
 				}
 			}
 			catch ( IOException e )

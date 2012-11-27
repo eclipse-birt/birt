@@ -630,14 +630,11 @@ public class DataEngineImpl extends DataEngine
 			{
 			}
 		}	
-<<<<<<< HEAD
-		
-		System.out.println( "Data Engine consumes:" + (System.currentTimeMillis( ) - this.dataEngineStart ));
-=======
+
 		this.endTime = System.currentTimeMillis( );
 		logger.log( Level.INFO, "Data Engine lifetime: "
 				+ ( this.endTime - this.startTime ) + " ms" );
->>>>>>> master
+
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
 	}
 	
