@@ -11,13 +11,13 @@
 #
 # User messages for the Excel File ODA Designer
 
-wizard.defaultMessage.selectExcelFile=Select or enter an Excel data source file path or URI.
-wizard.defaultMessage.selectDataSet=Select the worksheet and columns for the data set.
+wizard.defaultMessage.selectExcelFile=Sélectionnez ou saisissez le chemin du fichier de la source de données Excel ou son URI.
+wizard.defaultMessage.selectDataSet=Sélectionnez le classeur et les colonnes pour le jeu de données.
 connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Impossible d'ouvrir la source de données Excel dans le dossier sélectionné. 
-ui.ExcelFileNotFound=Impossible de trouver le fichier ou de le dossier de la source de données Excel demandé 
+ui.ExcelFileNotFound=Impossible de trouver le fichier de la source de données Excel demandé 
 label.selectFolder=Sél&ectionnez un dossier : 
 label.selectFile=Sélectionnez un f&ichier :
-label.selectworksheet=Classeur :
+label.selectworksheet=Sélectionnez un &classeur :
 label.includeTypeLine=Utilisez la deuxième ligne comme indicateur du type de &données.
 label.includeColumnNameLine = Utilisez la première ligne en t&ant qu'indicateur de nom de colonne.
 
@@ -49,13 +49,13 @@ tooltip.button.down=Déplacer l'élément sélectionné vers le bas.
 tooltip.button.delete=Supprimer l'élément sélectionné.
 tooltip.trailNull=Colonnes avec valeurs nulles à la fin lors de la lecture des lignes de données. 
 error.selectFolder=Sélectionnez un dossier valide.
-error.selectWorksheet=Please select a worksheet for the data set.
-error.selectColumns=Please select at least one column for this data set.
+error.selectWorksheet=Veuillez sélectionner un classeur pour le jeu de données.
+error.selectColumns=Veuillez sélectionner une colonne minimum pour ce jeu de données.
 error.emptyPath=Entrez un chemin.
 error.unexpectedError=Une erreur inattendue s'est produite.
 error.invalidConnectionFilePath=Le chemin d''accès source au profil de connexion spécifié, "{0}", n'existe pas.
 error.errorExist=Erreur sur la page actuelle.  Souhaitez-vous l'enregistrer quand même ?
-error.noFile=The Excel data source file ({0}) does not exist.
+error.noFile=Le fichier de la source de données Excel ({0}) n'existe pas.
 error.invalidFilePath=Le chemin du fichier est incorrect.  Voulez-vous continuer ?
 error.emptyFilePath=Le chemin du fichier est vide.  Voulez-vous continuer ?
 error.duplicatedNameValueOrEmpty=Valeur de nom dupliquée ou vide

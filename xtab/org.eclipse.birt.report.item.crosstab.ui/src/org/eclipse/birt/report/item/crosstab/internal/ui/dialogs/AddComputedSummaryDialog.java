@@ -112,6 +112,9 @@ public class AddComputedSummaryDialog extends BaseDialog
 
 		expressionText = new Text( composite, SWT.BORDER | SWT.WRAP );
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
+		gridData.heightHint = expressionText.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- expressionText.getBorderWidth( )
+				* 2;
 		expressionText.setLayoutData( gridData );
 		expressionText.addModifyListener( modifyListener );
 

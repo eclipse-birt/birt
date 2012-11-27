@@ -17,15 +17,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorState;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IMediatorState;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
@@ -34,6 +33,7 @@ import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.data.IDataViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -69,7 +69,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	protected IEditorPart jsEditor;
 
 	private ModelEventManager manager = getModelEventManager( );
-	
+
 	private Control control;
 
 	private int staleType;
@@ -143,7 +143,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	public boolean onBroughtToTop( IReportEditorPage prePage )
 	{
 		boolean notify = true;
-		if (prePage == this)
+		if ( prePage == this )
 		{
 			notify = false;
 		}
@@ -157,7 +157,7 @@ public class ReportScriptFormPage extends ReportFormPage
 			doSave( null );
 		}
 		ModuleHandle newModel = getModel( );
-		
+
 		if ( newModel != null && model != null && model != newModel )
 		{
 			hookModelEventManager( newModel );
@@ -167,9 +167,9 @@ public class ReportScriptFormPage extends ReportFormPage
 					newModel );
 
 			unhookModelEventManager( model );
-			
+
 			model = newModel;
-			
+
 			SessionHandleAdapter.getInstance( )
 					.setReportDesignHandle( newModel );
 
@@ -185,7 +185,7 @@ public class ReportScriptFormPage extends ReportFormPage
 
 			IMediatorState state = SessionHandleAdapter.getInstance( )
 					.getMediator( newModel )
-					.getCurrentState( );
+					.getState( );
 			ReportRequest request = new ReportRequest( state.getSource( ) );
 			List list = new ArrayList( );
 			list.add( newModel );
@@ -214,21 +214,32 @@ public class ReportScriptFormPage extends ReportFormPage
 		// .getMediator( )
 		// .getCurrentState( )
 		// .getSelectionObject( ) );
-		if (notify)
+		if ( notify )
 		{
 			IMediatorState state = SessionHandleAdapter.getInstance( )
 					.getMediator( )
-					.getCurrentState( );
+					.getState( );
 			ReportRequest request = new ReportRequest( state.getSource( ) );
-			List list = new ArrayList( state.getSelectionObject( ) );
-	
+			Object data = state.getData( );
+
+			List list = new ArrayList( );
+
+			if ( data instanceof List )
+			{
+				list.addAll( (List) data );
+			}
+			else if ( data != null )
+			{
+				list.add( data );
+			}
+
 			if ( list.isEmpty( ) )
 			{
 				list.add( new Object( ) );
 			}
 			request.setSelectionObject( list );
 			request.setType( ReportRequest.SELECTION );
-	
+
 			// SessionHandleAdapter.getInstance().getMediator().pushState();
 			SessionHandleAdapter.getInstance( )
 					.getMediator( )
@@ -318,9 +329,9 @@ public class ReportScriptFormPage extends ReportFormPage
 			{
 				onBroughtToTop( previouPage );
 			}
-			
+
 			model = getModel( );
-			
+
 			hookModelEventManager( model );
 		}
 		catch ( Exception e )
@@ -508,36 +519,35 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public Object getAdapter( Class adapter )
 	{
-		if (adapter.equals( ITextEditor.class ))
+		if ( adapter.equals( ITextEditor.class ) )
 		{
-			if (jsEditor != null)
+			if ( jsEditor != null )
 			{
 				return jsEditor.getAdapter( adapter );
 			}
 			return null;
 		}
-		if ( adapter == ActionRegistry.class )
+		else if ( adapter == ActionRegistry.class )
 		{
 			return jsEditor.getAdapter( ActionRegistry.class );
 		}
-		if ( adapter == PalettePage.class )
+		else if ( adapter == PalettePage.class )
 		{
 			return jsEditor.getAdapter( PalettePage.class );
 		}
-		if ( adapter == IContentOutlinePage.class )
+		else if ( adapter == IContentOutlinePage.class )
 		{
 			DesignerOutlinePage outlinePage = new DesignerOutlinePage( getModel( ) );
 			getModelEventManager( ).addModelEventProcessor( outlinePage.getModelProcessor( ) );
 			return outlinePage;
 		}
-		if ( adapter == DataViewPage.class )
+		else if ( adapter == IDataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
 			getModelEventManager( ).addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
 		}
-
-		if ( adapter == IPropertySheetPage.class )
+		else if ( adapter == IPropertySheetPage.class )
 		{
 			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel( ) );
 			return sheetPage;

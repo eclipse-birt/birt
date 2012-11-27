@@ -304,6 +304,16 @@ public abstract class PreparedDataSourceQuery
 			return DataSetRuntime.newInstance( dataSetDesign, this, this.getSession( ) );
 		}
 		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#getDataSetName()
+		 */
+		protected String getDataSetName( )
+		{
+			return queryDefn.getDataSetName( );
+		}
+		
 		/**
 		 * 
 		 * @return

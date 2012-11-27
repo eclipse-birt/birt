@@ -123,7 +123,7 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	{
 		if ( isDirty( ) )
 		{
-			if ( propValue != null && propValue.length( ) > 0 )
+			if ( propValue != null )
 			{
 				getPreferenceStore( ).setValue( getPreferenceName( ), propValue );
 			}

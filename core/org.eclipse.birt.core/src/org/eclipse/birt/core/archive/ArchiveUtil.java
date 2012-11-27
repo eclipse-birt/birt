@@ -293,7 +293,7 @@ public class ArchiveUtil
 		{
 			ZipFile zipFile = new ZipFile( zipArchive );
 
-			Enumeration entries = zipFile.entries( );
+			Enumeration<? extends ZipEntry> entries = zipFile.entries( );
 			while ( entries.hasMoreElements( ) )
 			{
 				ZipEntry entry = (ZipEntry) entries.nextElement( );
@@ -379,10 +379,10 @@ public class ArchiveUtil
 	static public void copy( IDocArchiveReader reader, IDocArchiveWriter writer )
 			throws IOException
 	{
-		List streamList = reader.listAllStreams( );
+		List<String> streamList = reader.listAllStreams( );
 		for ( int i = 0; i < streamList.size( ); i++ )
 		{
-			String streamPath = (String) streamList.get( i );
+			String streamPath = streamList.get( i );
 			RAInputStream in = reader.getStream( streamPath );
 			try
 			{
@@ -492,7 +492,7 @@ public class ArchiveUtil
 	 * @param fileList -
 	 *            the fileList to be returned
 	 */
-	public static void listAllFiles( File dir, ArrayList fileList )
+	public static void listAllFiles( File dir, ArrayList<? super File> fileList )
 	{
 		if ( dir.exists( ) && dir.isDirectory( ) )
 		{

@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
+import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 
 /**
@@ -76,8 +77,7 @@ public class AggregationExecutor
 		"MAX",
 		"MIN",
 		"FIRST",
-		"LAST", 
-		"COUNT"
+		"LAST"
 	};
 	
 	/**
@@ -100,9 +100,9 @@ public class AggregationExecutor
 				"AggregationExecutor",
 				params );
 		this.dataSet4Aggregation = dataSet4Aggregation;
-		this.memoryCacheSize = memoryCacheSize;
+		this.memoryCacheSize = memoryCacheSize > 0?memoryCacheSize:(-memoryCacheSize);
 		getParameterColIndex( aggregations );
-		existReferenceDate = existReferenceDate( aggregations );
+		existReferenceDate = memoryCacheSize > 0? true:existReferenceDate( aggregations );
 		simpleFunc = getSimpleFunction( aggregations );
 		this.aggregationCalculators = new AggregationCalculator[aggregations.length];
 		int detailAggregationIndex = -1;
@@ -212,7 +212,32 @@ public class AggregationExecutor
 		}
 		if( func != null && isSimepleFunction( func.getFunctionName() )
 					&& !existReferenceDate )
+		{
+			String mesureName =  func.getMeasureName( );
+			try
+			{
+				MeasureInfo[] infos = dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( );
+				for( MeasureInfo info: infos)
+				{
+					// for Double type, different execution sequence will cause
+					// different precision lost during calculation. So only
+					// for Double type, do not calculate beforehand, need
+					// enhance in future
+					if ( info.getMeasureName( ).equals( mesureName )
+							&& "SUM".equals( func.getFunctionName( ) )
+							&& DataType.DOUBLE_TYPE == info.getDataType( ) )
+					{
+						return null;
+					}
+				}
+			}
+			catch ( Exception e )
+			{
+				//ignore it
+			}
+			
 			return func;
+		}
 		else
 			return null;
 	}
@@ -592,8 +617,11 @@ public class AggregationExecutor
 		{
 			int rowSize = 16 + ( 4 + ( levelSize + measureSize ) - 1 ) / 8 * 8;
 			bufferSize = (int) (this.memoryCacheSize*4/5/rowSize);
-			if( this.simpleFunc == null )
-				bufferSize /= 5;
+			if( !this.existReferenceDate )
+			{
+				if( this.simpleFunc == null )
+					bufferSize /= 5;
+			}
 			for (int i = 0; i < allSortedFactRows.size( ); i++)
 			{
 				DiskSortedStackWrapper diskSortedStackReader = (DiskSortedStackWrapper) allSortedFactRows

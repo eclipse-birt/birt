@@ -98,15 +98,17 @@ public class ExprManagerUtil
 					.toString( ), exprManager, cx ) )
 			{
 				exprManager.setEntryGroupLevel( ExprManager.OVERALL_GROUP );
-				if ( !isColumnBindingExist( entry.getValue( ).toString( ) ) )
+				try 
 				{
-					throw new DataException( ResourceConstants.COLUMN_BINDING_NOT_EXIST,
-							entry.getValue( ).toString( ) );
+					throw new DataException( ResourceConstants.INVALID_GROUP_KEY_COLUMN,
+							new Object[]{
+									ExpressionUtil.getColumnBindingName( entry.getValue( ).toString()), level
+							} );
+				} 
+				catch (BirtException e) 
+				{
+					throw DataException.wrap( e );
 				}
-				throw new DataException( ResourceConstants.INVALID_GROUP_KEY_COLUMN,
-						new Object[]{
-								entry.getValue( ).toString( ), level
-						} );
 			}
 		}
 		exprManager.setEntryGroupLevel( ExprManager.OVERALL_GROUP );

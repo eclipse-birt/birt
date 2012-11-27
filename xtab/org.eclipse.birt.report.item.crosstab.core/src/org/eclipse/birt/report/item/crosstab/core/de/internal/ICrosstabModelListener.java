@@ -11,8 +11,12 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de.internal;
 
+import org.eclipse.birt.report.item.crosstab.core.util.ICrosstabUpdateListener;
+
 /**
  * ICrosstabModelListener
+ * 
+ * @deprecated use {@link ICrosstabUpdateListener} instead
  */
 public interface ICrosstabModelListener
 {

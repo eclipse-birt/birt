@@ -238,7 +238,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 					public Script run( )
 					{
 						return context.compileString( script, id, lineNumber,
-								null );
+								ScriptUtil.getSecurityDomain( id ) );
 					}
 				} );
 		return new CompiledJavascript( id, lineNumber, script, scriptObject );

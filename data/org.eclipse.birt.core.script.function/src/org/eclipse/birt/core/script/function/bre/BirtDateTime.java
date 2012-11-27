@@ -12,7 +12,9 @@
 package org.eclipse.birt.core.script.function.bre;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -36,26 +38,24 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	static private SimpleDateFormat abbrMonthFormat = null;
-	static private SimpleDateFormat monthFormat = null;
-	static private SimpleDateFormat abbrWeekFormat = null;
-	static private SimpleDateFormat weekFormat = null;
+	
+	static private ThreadLocal<List<SimpleDateFormat>> threadSDFArray = new ThreadLocal<List<SimpleDateFormat>>();
+	private static ThreadLocal<ULocale> threadLocale = new ThreadLocal<ULocale>();
 
 	private IScriptFunctionExecutor executor;
 
-	private static IScriptFunctionContext scriptContext;
+	private IScriptFunctionContext scriptContext;
 	private static ULocale defaultLocale = null;
 	private static TimeZone timeZone = null;
 
+	
 	/**
 	 *
 	 * @return
 	 */
 	private static SimpleDateFormat getAbbrMonthFormat( )
 	{
-		if ( abbrMonthFormat == null )
-			abbrMonthFormat = new SimpleDateFormat( "MMM", defaultLocale );
-		return abbrMonthFormat;
+		return threadSDFArray.get( ).get( 0 );
 	}
 
 	/**
@@ -64,9 +64,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static SimpleDateFormat getMonthFormat( )
 	{
-		if ( monthFormat == null )
-			monthFormat = new SimpleDateFormat( "MMMM", defaultLocale );
-		return monthFormat;
+		return threadSDFArray.get( ).get( 1 );
 	}
 
 	/**
@@ -75,9 +73,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static SimpleDateFormat getAbbrWeekFormat( )
 	{
-		if ( abbrWeekFormat == null )
-			abbrWeekFormat = new SimpleDateFormat( "EEE", defaultLocale );
-		return abbrWeekFormat;
+		return threadSDFArray.get( ).get( 2 );
 	}
 
 	/**
@@ -86,9 +82,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static SimpleDateFormat getWeekFormat( )
 	{
-		if ( weekFormat == null )
-			weekFormat = new SimpleDateFormat( "EEEE", defaultLocale );
-		return weekFormat;
+		return threadSDFArray.get( ).get( 3 );
 	}
 
 	/**
@@ -154,6 +148,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			this.executor = new Function_FirstDayOfMonth( );
 		else if( "firstDayOfWeek".equals( functionName ))
 			this.executor = new Function_FirstDayOfWeek( );
+		else if( "date".equals( functionName ))
+			this.executor = new Function_Date( );
 		else
 			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
 					null,
@@ -956,9 +952,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				java.util.TimeZone jTimeZone = java.util.TimeZone.getTimeZone( timeZone.getID( ) );
 				jTimeZone.setRawOffset( timeZone.getRawOffset( ) );
-				if( timeZone != null && jTimeZone.inDaylightTime( d1 ) )
+				if( jTimeZone.inDaylightTime( d1 ) )
 					diff -= jTimeZone.getDSTSavings( );
-				if( timeZone != null && jTimeZone.inDaylightTime( d2 ) )
+				if( jTimeZone.inDaylightTime( d2 ) )
 					diff += jTimeZone.getDSTSavings( );
 			}
 		}
@@ -1357,6 +1353,72 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		}
 	}
 
+	private static class Function_Date extends Function_temp
+	{
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_Date( )
+		{
+			minParamCount = 3;
+			maxParamCount = 6;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			for ( int i = 0; i < args.length; i++ )
+			{
+				if ( args[i] instanceof String )
+				{
+					args[i]=Double.parseDouble((String) args[i]);
+				}
+			}
+			if ( args.length == 3 )
+				return getDate( ( (Number) args[0] ).intValue( ),
+						( (Number) args[1] ).intValue( ),
+						( (Number) args[2] ).intValue( ),
+						0,
+						0,
+						0 );
+			else if ( args.length == 4 )
+				return getDate( ( (Number) args[0] ).intValue( ),
+						( (Number) args[1] ).intValue( ),
+						( (Number) args[2] ).intValue( ),
+						( (Number) args[3] ).intValue( ),
+						0,
+						0 );
+			else if ( args.length == 5 )
+				return getDate( ( (Number) args[0] ).intValue( ),
+						( (Number) args[1] ).intValue( ),
+						( (Number) args[2] ).intValue( ),
+						( (Number) args[3] ).intValue( ),
+						( (Number) args[4] ).intValue( ),
+						0 );
+			else
+				return getDate( ( (Number) args[0] ).intValue( ),
+						( (Number) args[1] ).intValue( ),
+						( (Number) args[2] ).intValue( ),
+						( (Number) args[3] ).intValue( ),
+						( (Number) args[4] ).intValue( ),
+						( (Number) args[5] ).intValue( ) );
+		}
+	}
+
+	private static Date getDate( int year, int month, int day, int hours,
+			int minutes, int seconds )
+	{
+		Date newDate = new Date( );
+		Calendar calendar = getCalendar( newDate );
+		calendar.set( year, month, day, hours, minutes, seconds );
+		return calendar.getTime( );
+	}
 	/**
 	 * Add num seconds
 	 *
@@ -1449,13 +1511,15 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		if ( scriptContext != null )
 		{
 			ULocale locale = (ULocale) scriptContext.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE );
-			if ( defaultLocale != locale )
+			if ( threadLocale.get( ) != locale )
 			{
-				abbrMonthFormat = null;
-				monthFormat = null;
-				abbrWeekFormat = null;
-				weekFormat = null;
-				defaultLocale = locale;
+				threadLocale.set( locale );
+				List<SimpleDateFormat> sdfList = new ArrayList<SimpleDateFormat>();
+				sdfList.add( new SimpleDateFormat( "MMM", threadLocale.get( ) ) );
+				sdfList.add( new SimpleDateFormat( "MMMM", threadLocale.get( ) ) );
+				sdfList.add( new SimpleDateFormat( "EEE", threadLocale.get( ) ) );
+				sdfList.add( new SimpleDateFormat( "EEEE", threadLocale.get( ) ) );
+			    threadSDFArray.set( sdfList );
 			}
 
 			timeZone = (TimeZone) scriptContext.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.TIMEZONE );

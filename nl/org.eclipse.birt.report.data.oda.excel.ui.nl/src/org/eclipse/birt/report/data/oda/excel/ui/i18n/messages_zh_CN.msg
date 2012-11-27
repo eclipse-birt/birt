@@ -11,13 +11,13 @@
 #
 # User messages for the Excel File ODA Designer
 
-wizard.defaultMessage.selectExcelFile=Select or enter an Excel data source file path or URI.
-wizard.defaultMessage.selectDataSet=Select the worksheet and columns for the data set.
+wizard.defaultMessage.selectExcelFile=选择或输入 Excel 数据源文件路径或 URI。
+wizard.defaultMessage.selectDataSet=为数据集选择工作表和列。
 connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=无法在选择的文件夹中打开 Excel 数据源文件。 
-ui.ExcelFileNotFound=无法定位指定的 Excel 数据源文件或文件夹 
+ui.ExcelFileNotFound=无法定位指定的 Excel 数据源文件 
 label.selectFolder=选择文件夹(&E): 
 label.selectFile=选择文件(&I):
-label.selectworksheet=工作表:
+label.selectworksheet=选择工作表(&W):
 label.includeTypeLine=将第二行用作数据类型指示器(&D)。
 label.includeColumnNameLine = 将第一行用作列名称指示器(&A)。
 
@@ -49,13 +49,13 @@ tooltip.button.down=下移选定项目。
 tooltip.button.delete=删除选定项目。
 tooltip.trailNull=读取数据行时出现空后缀列。 
 error.selectFolder=请选择有效文件夹。
-error.selectWorksheet=Please select a worksheet for the data set.
-error.selectColumns=Please select at least one column for this data set.
+error.selectWorksheet=请为该数据集选择工作表。
+error.selectColumns=请至少为此数据集选择一个列。
 error.emptyPath=请输入路径。
 error.unexpectedError=发生意外错误。
 error.invalidConnectionFilePath=指定的连接配置文件源路径“{0}”不存在。
 error.errorExist=当前页存在错误。  是否仍要保存?
-error.noFile=The Excel data source file ({0}) does not exist.
+error.noFile=Excel 数据源文件 ({0}) 不存在。
 error.invalidFilePath=文件路径无效。  是否继续?
 error.emptyFilePath=文件路径为空。  是否继续?
 error.duplicatedNameValueOrEmpty=名称值重复或为空

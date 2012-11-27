@@ -804,7 +804,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		setLabelPosition( Position.ABOVE_LITERAL );
 		final LineAttributes lia = LineAttributesImpl.create( null,
 				LineStyle.SOLID_LITERAL,
-				0 );
+				1 );
 		lia.setVisible( true );
 		setLineAttributes( lia );
 	}
@@ -832,7 +832,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		labelPosition = Position.ABOVE_LITERAL;
 		final LineAttributes lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
-				0, true );
+				1, true );
 		setLineAttributes( lia );
 	}
 	

@@ -1007,15 +1007,14 @@ p.N_sb_ScanBold, div.N_sb_ScanBold
   background-position: left;
   color: #000000;
   font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
-  font-size: 9.0pt;
+  font-size: 14px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  margin-bottom: 0px;
-  margin-left: -40px;
-  margin-right: 0px;
-  margin-top: -23px;
-  position: relative;
+  margin-bottom: 6pt;
+  margin-left: 0pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
   text-align: left;
   text-indent: 0pt;
   text-transform: none;
@@ -1025,9 +1024,9 @@ p.N_sb_ScanBold, div.N_sb_ScanBold
 
 .N_sb_ScanBold_outer
 {
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-top: -23px;
+  margin-bottom: 6pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
 }
 
 .N_sb_ScanBold_inner
@@ -1035,11 +1034,10 @@ p.N_sb_ScanBold, div.N_sb_ScanBold
   background-position: left;
   color: #000000;
   font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
-  font-size: 9.0pt;
+  font-size: 14px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  position: relative;
   text-align: left;
   text-transform: none;
   top: 36px;

@@ -633,6 +633,7 @@ DerivedDataSet.action.error.message.InvalidNumber.DataSet=可用的数据集数少于两个
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=定义计算列。 
 DataSetComputedColumnsPage.description=定义计算列
 DataSetComputedColumnsPage.duplicatedName=重复的列名称。
+DataSetComputedColumnsPage.numberName=列名称不能是数字。
 DataSetComputedColumnsPage.toolTipText.Down=计算列下移。
 DataSetComputedColumnsPage.toolTipText.Up=计算列上移。
 DataSetComputedColumnsPage.toolTipText.Remove=删除计算列。
@@ -1809,6 +1810,7 @@ FormPage.Button.Up=上移(&U)
 FormPage.Button.Up.Alt1=上移(&P)
 FormPage.Button.Up.Alt2=上移(&E)
 FormPage.Button.Binding.Refresh=刷新(&F)
+FormPage.Button.Binding.Clear=清除(&C)
 FormPage.Menu.ModifyProperty=修改属性
 FormPage.toolTipText.Up=上移
 FormPage.toolTipText.Down=下移
@@ -2513,7 +2515,7 @@ MapPreferencePage.displayname.Title=映射
 MapPreferencePage.text.Add=添加(&A)...
 MapPreferencePage.text.Delete=删除(&R)
 MapPreferencePage.text.Description=映射规则:
-MapPreferencePage.text.Edit=编辑(&D)...
+MapPreferencePage.text.Edit=编辑(&E)...
 MapPreferencePage.toolTipText.Up=映射规则上移
 MapPreferencePage.toolTipText.Down=映射规则下移
 MapPreferencePage.text.Duplicate=重复(&D)
@@ -3637,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=在报表库中使用 CSS 文件
 UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的布景主题。
+CssStyleSheetNodeProvider.Label.FromServer=从服务器
 CssStyleSheetNodeProvider.Tooltip.URI=(查看时应用)
 
 
@@ -4309,6 +4312,7 @@ GeneralPage.Library.Modified.Note=注: 库中的此报表项已被修改。要还原原始库项目，
 
 #BookMarkPage
 BookMarkPage.Modified.Note=书签还包含除 \"A-Z a-z 0-9 - _ : .\" 之外的特殊字符，运行时可能会出现问题。
+BookMarkPage.Modified.WithoutQuotes=书签必须加双引号。
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4617,7 +4621,8 @@ BindingDialogHelper.text.Grid=网格
 BindingDialogHelper.text.Group=组(&O)
 BindingDialogHelper.text.Expression=表达式(&E):
 BindingDialogHelper.text.displayName=显示名称(&N):
-BindingDialogHelper.text.allowExport=允许导出(&O):
+BindingDialogHelper.text.allowExport=导出(&O)：
+BindingDialogHelper.text.allowExport.button=允许导出
 BindingDialogHelper.text.displayNameID=显示名称 ID(&S):
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
@@ -4644,11 +4649,11 @@ CrosstabBindingDialogHelper.AggOn.All=全部
 CrosstabBindingDialogHelper.bindngName.timeperiod=周期
 CrosstabBindingDialogHelper.calculation.label=时间周期(&P):
 CrosstabBindingDialogHelper.calculation.group=时间周期
-CrosstabBindingDialogHelper.recentday.description=周期中的最后日期
+CrosstabBindingDialogHelper.recentday.description=期限中的最后日期
 CrosstabBindingDialogHelper.referencedate.label=参考日期(&R):
 CrosstabBindingDialogHelper.thisdate.label=此日期:
-CrosstabBindingDialogHelper.thisdate.example.label=请按以下格式输入日期值: yyyy-MM-dd
-CrosstabBindingDialogHelper.thisdate.example.label.constant=请按以下格式输入日期值: yyyy-MM-dd
+CrosstabBindingDialogHelper.thisdate.example.label=请用引号引起提供的日期值。\n例如："2012-01-23"、"1/23/2012"。
+CrosstabBindingDialogHelper.thisdate.example.label.constant=例如：2012-01-23、1/23/2012。
 CrosstabBindingDialogHelper.timedimension.label=时间维(&M):
 CrosstabBindingDialogHelper.timeperiod.wrongdate=此维不支持最近参考日期 
 CrosstabBindingDialogHelper.today.label=今天
@@ -4721,7 +4726,7 @@ InsertAggregationAction.text=聚合(&A)
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=相对时间期限(&V)
 
 ###########################################################
 #Multiple views
@@ -4876,6 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=默认语法(&F):
 ExpressionEditor.Error.EmptyExpression=表达式不能为空。
 ExpressionEditor.Label.Expression=表达式(&E):
 ExpressionEditor.Title=编辑表达式
+ExpressionSyntaxColoringPage.Accessible.Name.Background=背景色选择器
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=前景色选择器
+ExpressionSyntaxColoringPage.Button.Bold=粗体(&B)
+ExpressionSyntaxColoringPage.Button.Enable=启用
+ExpressionSyntaxColoringPage.Button.Italic=斜体(&I)
+ExpressionSyntaxColoringPage.Button.Restore=还原默认设置(&R)
+ExpressionSyntaxColoringPage.Button.Strikethrough=删除线(&S)
+ExpressionSyntaxColoringPage.Button.Underline=下划线(&U)
+ExpressionSyntaxColoringPage.Decscription=在列表或示例文本区域，通过选择您想要自定义其样式的文本类型来自定义语法突出显示。
+ExpressionSyntaxColoringPage.Element.Comment=注释
+ExpressionSyntaxColoringPage.Element.Default=默认值
+ExpressionSyntaxColoringPage.Element.Keyword=关键字
+ExpressionSyntaxColoringPage.Element.String=字符串
+ExpressionSyntaxColoringPage.Label.Background=背景(&O):
+ExpressionSyntaxColoringPage.Label.Foreground=前景(&F):
+ExpressionSyntaxColoringPage.Label.SampleText=示例文本(&S):
+ExpressionSyntaxColoringPage.Label.SyntaxElement=语法元素(&Y):
+ExpressionSyntaxColoringPage.Link.ColorAndFont=默认颜色和字体可在 <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">文本编辑器</a> 以及 <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">颜色和字体</a> 首选项页面上配置。
 
 ###########################################################
 #VariableDropAdapter

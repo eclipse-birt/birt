@@ -13,12 +13,15 @@ package org.eclipse.birt.data.engine.executor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
@@ -57,7 +60,7 @@ public class DataSetCacheManager
 	private IBaseDataSetDesign dataSetDesign;
 	private Collection parameterHints;
 	private Map appContext;
-
+	private String cacheID;
 	// map manager instance
 	private CacheMapManager jvmLevelCacheMapManager;
 	private CacheMapManager dteLevelCacheMapManager;
@@ -78,6 +81,20 @@ public class DataSetCacheManager
 		this.queryExecutionHints = ((DataEngineImpl)session.getEngine( )).getExecutionHints( );
 		this.jvmLevelCacheMapManager = new CacheMapManager( true );
 		this.dteLevelCacheMapManager = new CacheMapManager( false );
+		
+		session.getEngine( ).addShutdownListener( new IShutdownListener(){
+
+			public void dataEngineShutdown( )
+			{
+				try
+				{
+					dteLevelCacheMapManager.clearCache( );
+				}
+				catch ( Exception e )
+				{
+				}
+
+			}} );
 	}
 
 	/**
@@ -135,7 +152,8 @@ public class DataSetCacheManager
 		this.dataSetDesign = dataSetDesign;
 		this.parameterHints = parameterHints;
 		this.appContext = appContext;
-	}
+		this.cacheID = CacheIDFetcher.getInstance( ).getCacheID( appContext );
+	}	
 
 	/**
 	 * @return
@@ -151,7 +169,7 @@ public class DataSetCacheManager
 		switchCacheMap( dataSetDesign );
 		return cacheMapManager.doesSaveToCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterHints ),
+				this.parameterHints, this.cacheID ),
 				dscc);
 	}
 
@@ -189,7 +207,7 @@ public class DataSetCacheManager
 		switchCacheMap( dataSetDesign );
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				dataSetDesign,
-				parameterHints ),
+				parameterHints, this.cacheID ),
 				dscc.getCacheCapability( ));
 	}
 
@@ -267,23 +285,94 @@ public class DataSetCacheManager
 
 		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( dataSourceDesign,
 				dataSetDesign,
-				null );
+				null, this.cacheID );
 		//switchCacheMap( dataSetDesign );
 		//cacheMapManager.clearCache( ds );
 		jvmLevelCacheMapManager.clearCache( ds );
 		dteLevelCacheMapManager.clearCache( ds );
 	}
 
+	public void clearCache( String cacheID )
+	{
+		Set<String> temp = new HashSet<String>();
+		temp.add( cacheID );
+		jvmLevelCacheMapManager.clearCache( temp );
+	}
+	
 	/**
 	 * @return
 	 * @throws DataException 
 	 */
-	public IDataSetCacheObject getCacheObject( ) throws DataException
+	public IDataSetCacheObject getSavedCacheObject( ) throws DataException
+	{
+		switchCacheMap( dataSetDesign );	
+				
+		IDataSetCacheObject cached = cacheMapManager.getSavedCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterHints, this.cacheID ) ); 
+		if( this.cacheID != null && cached instanceof MemoryDataSetCacheObject && ((MemoryDataSetCacheObject)cached).getSize( ) > 0 )
+		{
+			cached = new DataSetCacheObjectWithDummyData( dataSetDesign, cached );
+		}	
+		return cached;
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException 
+	 */
+	public void saveFinished( IDataSetCacheObject dsco ) throws DataException
+	{
+		switchCacheMap( dataSetDesign );	
+		
+		cacheMapManager.saveFinishOnCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterHints, this.cacheID ), dsco );
+	}
+	
+	/**
+	 * 
+	 * @param dsco
+	 * @throws DataException
+	 */
+	public void loadStart( ) throws DataException
+	{
+		switchCacheMap( dataSetDesign );	
+		
+		cacheMapManager.loadStart( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterHints, this.cacheID ) );
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException 
+	 */
+	public void loadFinished( ) throws DataException
+	{
+		switchCacheMap( dataSetDesign );	
+		
+		cacheMapManager.loadFinishOnCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterHints, this.cacheID ) );
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException 
+	 */
+	public IDataSetCacheObject getLoadedCacheObject( ) throws DataException
 	{
 		switchCacheMap( dataSetDesign );
-		return  cacheMapManager.getCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				
+		IDataSetCacheObject cached = cacheMapManager.getloadedCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterHints ) );
+				this.parameterHints, this.cacheID ) ); 
+		if( this.cacheID != null && cached instanceof MemoryDataSetCacheObject && ((MemoryDataSetCacheObject)cached).getSize( ) > 0 )
+		{
+			cached = new DataSetCacheObjectWithDummyData( dataSetDesign, cached );
+		}	
+		return cached;
 	}
 
 	/**
@@ -302,7 +391,7 @@ public class DataSetCacheManager
 		switchCacheMap( dataSetDesign );
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterHints ),
+				this.parameterHints, this.cacheID ),
 				dscc.getCacheCapability( ));
 	}
 
@@ -335,7 +424,7 @@ public class DataSetCacheManager
 		//meta data is always from jvmLevelCacheMapManager
 		IResultClass resultClass = this.jvmLevelCacheMapManager.getCachedResultClass( DataSourceAndDataSet.newInstance( dataSource,
 				dataSet,
-				null ) );
+				null, this.cacheID ) );
 		if ( resultClass != null )
 			return new ResultMetaData( resultClass );
 		else

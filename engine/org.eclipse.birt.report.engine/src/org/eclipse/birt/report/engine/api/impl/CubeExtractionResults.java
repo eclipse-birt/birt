@@ -16,6 +16,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.ICubeExtractionResults;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
  * 
@@ -75,6 +76,18 @@ public class CubeExtractionResults implements ICubeExtractionResults
 	 * ()
 	 */
 	public IDataIterator nextResultIterator( ) throws BirtException
+	{
+		throw new UnsupportedOperationException( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.IExtractionResults#getHandle
+	 * ()
+	 */
+	public DesignElementHandle getHandle( )
 	{
 		throw new UnsupportedOperationException( );
 	}

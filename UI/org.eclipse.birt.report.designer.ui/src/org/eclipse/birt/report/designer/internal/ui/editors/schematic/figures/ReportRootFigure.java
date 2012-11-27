@@ -105,10 +105,15 @@ public class ReportRootFigure extends ReportElementFigure
 			if ( child.isVisible( ) )
 			{
 				Rectangle bounds = child.getBounds( ).getCopy( );
-				int extend = bounds.x + bounds.width - clip.x - clip.width;
-				if (extend > 0)
+				int extendX = bounds.x + bounds.width - clip.x - clip.width;
+				int extendY = bounds.y + bounds.height - clip.y - clip.height;
+				if ( extendX > 0 )
 				{
-					clip.width = clip.width + extend;
+					clip.width = clip.width + extendX;
+				}
+				if ( extendY > 0 )
+				{
+					clip.height = clip.width + extendY;
 				}
 				
 				if (child.intersects(clip))

@@ -1339,13 +1339,13 @@ public class ReportEngineService
 			BirtUtility.removeTask( request );
 
 			// Append errors
+			List<Exception> errors = (List<Exception>) runTask.getErrors( );
 			if ( ParameterAccessor.isDesigner( ) )
 				BirtUtility.error( request, runTask.getErrors( ) );
 
 			runTask.close( );
 
 			// check for non-fatal errors
-			List<Exception> errors = (List<Exception>) runTask.getErrors( );
 			if ( !errors.isEmpty( ) )
 			{
 				return errors;

@@ -14,7 +14,6 @@ package org.eclipse.birt.core.archive.compound;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 
 /**
@@ -23,7 +22,7 @@ import java.util.Iterator;
 class NameTable implements ArchiveConstants
 {
 
-	protected ArrayList slots;
+	protected ArrayList<NameEntry> slots;
 	protected AllocEntry index;
 	protected ArchiveFileV2 af;
 	protected final int BLOCK_SIZE;
@@ -32,7 +31,7 @@ class NameTable implements ArchiveConstants
 	{
 		this.af = af;
 		BLOCK_SIZE = af.BLOCK_SIZE;
-		slots = new ArrayList( );
+		slots = new ArrayList<NameEntry>( );
 		index = af.allocTbl.loadEntry( ENTRY_TABLE_BLOCK );
 	}
 
@@ -87,10 +86,8 @@ class NameTable implements ArchiveConstants
 	synchronized void flush( ) throws IOException
 	{
 		ensureSlots( slots.size( ) + 1 );
-		Iterator iter = slots.iterator( );
-		while ( iter.hasNext( ) )
+		for ( NameEntry entry : slots )
 		{
-			NameEntry entry = (NameEntry) iter.next( );
 			if ( entry != null )
 			{
 				entry.write( this );
@@ -134,13 +131,11 @@ class NameTable implements ArchiveConstants
 		return entry;
 	}
 
-	synchronized Collection listEntries( )
+	synchronized Collection<NameEntry> listEntries( )
 	{
-		ArrayList entries = new ArrayList( );
-		Iterator iter = slots.iterator( );
-		while ( iter.hasNext( ) )
+		ArrayList<NameEntry> entries = new ArrayList<NameEntry>( );
+		for ( NameEntry entry : slots )
 		{
-			NameEntry entry = (NameEntry) iter.next( );
 			if ( entry != null )
 			{
 				if ( entry.getUsedSlots( ) != 0 )

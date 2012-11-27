@@ -93,6 +93,7 @@ import org.eclipse.birt.report.data.adapter.api.IColumnValueIterator;
 import org.eclipse.birt.report.data.adapter.api.ICubeInterceptor;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
+import org.eclipse.birt.report.data.adapter.api.IFilterUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
@@ -193,6 +194,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			this.setModuleHandleToAppContext();
 		}
+		DataSessionConfig.startup( this );
 	}
 
 	/*
@@ -453,6 +455,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 	}
 
 	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#clearCache(java.lang.String)
+	 */
+	public void clearCache( String cacheID ) throws BirtException
+	{
+		dataEngine.clearCache( cacheID );
+	}
+	/*
 	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#prepare(org.eclipse.birt.data.engine.api.IQueryDefinition,
 	 *      java.util.Map)
 	 */
@@ -511,7 +521,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
 			}
 		}
-		DataSessionFinalizeUtil.finalize( this );
+		DataSessionConfig.finalize( this );
 		if ( dataEngine != null )
 		{
 			dataEngine.shutdown( );
@@ -1044,6 +1054,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throw new AdapterException( ResourceConstants.CUBE_MEASURE_CREATION_ERROR,
 					e );
 		}
+		finally
+		{
+			if( dataForCube!= null )
+				dataForCube.close( );
+		}
 
 		sl.end( );
 
@@ -1432,6 +1447,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			Object originalMemCache = null;
 			Object originalRowLimit = null;
+			IDatasetIterator valueIt = null;
 			try
 			{
 				sl.process( dim );
@@ -1442,7 +1458,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					originalMemCache = appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
 					originalRowLimit = appContext.remove( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
 				}
-				IDatasetIterator valueIt = null;
+				
 				String[] timeType = getTimeLevelType( hierhandle );
 				for( int i = 0; i < timeType.length; i++ )
 				{
@@ -1469,6 +1485,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			finally
 			{
+				if( valueIt!= null )
+				{
+					try
+					{
+						valueIt.close( );
+					}
+					catch ( BirtException e )
+					{
+					}
+				}
 				if ( originalMemCache != null )
 				{
 					appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, originalMemCache );
@@ -1771,6 +1797,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 				MeasureHandle measureHandle = cubeHandle.getMeasure( measureDef.getName( ) );
 				if ( measureHandle != null )
 					measureDef.setDataType( DataAdapterUtil.adaptModelDataType( measureHandle.getDataType( ) ) );
+				//if cube is auto primary key, measure definition should ignore the aggregation function.
+				if( cubeHandle.getBooleanProperty( ITabularCubeModel.AUTO_KEY_PROP ) )
+				{
+					measureDef.setAggrFunction( null );
+				}
 			}
 		}
 	}
@@ -2679,5 +2710,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throws BirtException
 	{
 		return prepare( query, null );
+	}
+
+	@Override
+	public IFilterUtil getFilterUtil( ) throws BirtException
+	{
+		return new FilterUtil( );
 	}
 }

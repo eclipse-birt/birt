@@ -165,7 +165,11 @@ public class HyperlinkParameterBuilder extends BaseDialog
 				valueControl.setLayout( layout );
 
 				text = new Text( valueControl, SWT.BORDER | SWT.WRAP );
-				text.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.heightHint = text.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+						- text.getBorderWidth( )
+						* 2;
+				text.setLayoutData( gd );
 				text.addModifyListener( new ModifyListener( ) {
 
 					public void modifyText( ModifyEvent e )

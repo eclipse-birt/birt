@@ -225,7 +225,7 @@ public class BaseAttributePage extends TabPage
 
 	protected void selectStickyCategory( )
 	{
-		if ( s_lastSelectedKey != null || s_lastSelectedIndex != -1 )
+		if ( s_lastSelectedKey != null && s_lastSelectedIndex != -1 )
 		{
 			categoryList.setSelection( s_lastSelectedKey, s_lastSelectedIndex );
 		}

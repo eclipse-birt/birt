@@ -114,13 +114,8 @@ public class TextFieldEditor extends AbstractFieldEditor
 	 */
 	protected void doLoad( )
 	{
-		if ( text != null )
-		{
-			String value = getPreferenceStore( ).getString( getPreferenceName( ) );
-			if ( value != null )
-				text.setText( value );
-		}
-		markDirty( false );
+		updateTextForValue( getPreferenceStore( ).getString( getPreferenceName( ) ),
+				true );
 	}
 
 	/*
@@ -129,26 +124,19 @@ public class TextFieldEditor extends AbstractFieldEditor
 	 */
 	protected void doLoadDefault( )
 	{
-		if ( text != null )
+		updateTextForValue(getPreferenceStore( ).getDefaultString( getPreferenceName( ) ) , false);
+		if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
 		{
-			String value = getPreferenceStore( ).getDefaultString( getPreferenceName( ) );
-			if ( value != null )
-				text.setText( value );
+			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+			if ( store.hasLocalValue( getPreferenceName( ) ) )
+				markDirty( true );
+			else
+				markDirty( false );
 		}
-		markDirty( false );
+		else
+			markDirty( true );
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on FieldEditor.
-	 */
-	protected void doStore( )
-	{
-		if ( isDirty( ) )
-		{
-			getPreferenceStore( ).setValue( getPreferenceName( ),
-					text.getText( ) );
-		}
-	}
 
 	// /**
 	// *
@@ -174,18 +162,13 @@ public class TextFieldEditor extends AbstractFieldEditor
 	{
 		if ( text == null )
 		{
-			text = new Text( parent, SWT.MULTI
-					| SWT.WRAP
-					| SWT.H_SCROLL
-					| SWT.V_SCROLL
-					| SWT.BORDER );
+			text = new Text( parent, style );
 			text.setFont( parent.getFont( ) );
 			text.addModifyListener( new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
-					String value = text.getText( );
-					valueChanged( value );
+					valueChanged( VALUE );
 				}
 			} );
 			text.addDisposeListener( new DisposeListener( ) {
@@ -270,7 +253,40 @@ public class TextFieldEditor extends AbstractFieldEditor
 	 */
 	protected String getStringValue( )
 	{
-		return null;
+		if ( text != null )
+		{
+			return text.getText( );
+		}
+		return getPreferenceStore( ).getString( getPreferenceName( ) );
+	}
+	
+	protected void updateTextForValue( String value, boolean setOldValue )
+	{
+		if ( setOldValue )
+		{
+			setOldValue( value );
+		}
+		else
+		{
+			setDefaultValue( value );
+		}
+		
+		if ( value == null )
+		{
+			text.setText( "" ); //$NON-NLS-1$
+		}
+		else
+		{
+			text.setText( value );
+		}
+		if ( setOldValue )
+		{
+			setOldValue( getStringValue( ) );
+		}
+		else
+		{
+			setDefaultValue( getStringValue( ) );
+		}
 	}
 
 }

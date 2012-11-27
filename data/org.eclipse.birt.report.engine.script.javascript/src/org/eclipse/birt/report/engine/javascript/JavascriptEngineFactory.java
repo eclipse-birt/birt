@@ -23,6 +23,7 @@ import org.mozilla.javascript.ClassCache;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.SecurityController;
 
 public class JavascriptEngineFactory implements IScriptEngineFactory
 {
@@ -41,6 +42,11 @@ public class JavascriptEngineFactory implements IScriptEngineFactory
 	public static void initMyFactory( )
 	{
 		ContextFactory.initGlobal( new MyFactory( ) );
+		if ( System.getSecurityManager( ) != null )
+		{
+			SecurityController.initGlobal( ScriptUtil
+					.createSecurityController( ) );
+		}
 	}
 
 	static class MyFactory extends ContextFactory
@@ -65,14 +71,6 @@ public class JavascriptEngineFactory implements IScriptEngineFactory
 		Context context = Context.enter( );
 		try
 		{
-			try
-			{
-				context.setSecurityController( ScriptUtil
-						.createSecurityController( ) );
-			}
-			catch ( Throwable throwable )
-			{
-			}
 			ScriptableObject rootScope = context.initStandardObjects( );
 			context
 					.evaluateString(

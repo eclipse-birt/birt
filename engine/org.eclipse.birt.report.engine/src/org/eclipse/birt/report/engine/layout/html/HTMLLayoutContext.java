@@ -60,10 +60,22 @@ public class HTMLLayoutContext
 	
 	protected boolean isPaged = false;
 	
+	protected boolean isHorizontalPageBreak = false;
+	
 
 	public boolean isSoftRowBreak( )
 	{
 		return softRowBreak;
+	}
+	
+	public boolean isHorizontalPageBreak()
+	{
+		return isHorizontalPageBreak;
+	}
+	
+	public void setHorizontalPageBreak(boolean isHorizontalPageBreak)
+	{
+		this.isHorizontalPageBreak = isHorizontalPageBreak;
 	}
 
 	

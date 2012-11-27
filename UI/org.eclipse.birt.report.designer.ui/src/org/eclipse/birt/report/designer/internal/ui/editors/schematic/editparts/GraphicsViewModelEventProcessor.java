@@ -24,9 +24,10 @@ import org.eclipse.birt.report.model.api.command.ViewsContentEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 
 /**
- * Processor the model event for the ReportEditorWithPalette
+ * GraphicsViewModelEventProcessor
  */
-public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor implements IFastConsumerProcessor
+public class GraphicsViewModelEventProcessor extends
+		AbstractModelEventProcessor implements IFastConsumerProcessor
 {
 
 	public static final String CONTENT_EVENTTYPE = "Content event type"; //$NON-NLS-1$
@@ -37,11 +38,12 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 	 */
 	public GraphicsViewModelEventProcessor( IModelEventFactory factory )
 	{
-		super(factory);
+		super( factory );
 	}
 
-
-	/**Filter the event.
+	/**
+	 * Filter the event.
+	 * 
 	 * @param type
 	 * @return
 	 */
@@ -63,164 +65,193 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 				|| type == NotificationEvent.VIEWS_CONTENT_EVENT
 				|| type == NotificationEvent.CSS_RELOADED_EVENT;
 	}
-	/**Process the content model event
+
+	/**
 	 * ContentModelEventInfo
 	 */
 	protected static class ContentModelEventInfo extends ModelEventInfo
 	{
-		//private int contentActionType;
-		private ContentModelEventInfo( DesignElementHandle focus, NotificationEvent ev )
-		{	
-			super(focus, ev);
-			//assert ev instanceof ContentEvent;
+
+		// private int contentActionType;
+		private ContentModelEventInfo( DesignElementHandle focus,
+				NotificationEvent ev )
+		{
+			super( focus, ev );
+			// assert ev instanceof ContentEvent;
 			setTarget( focus );
 			setType( ev.getEventType( ) );
-			if (ev instanceof ContentEvent)
+			if ( ev instanceof ContentEvent )
 			{
-				setContentActionType( ((ContentEvent)ev).getAction( ) );
-			
-				addChangeContents( ((ContentEvent)ev).getContent( ) );
+				setContentActionType( ( (ContentEvent) ev ).getAction( ) );
+
+				addChangeContents( ( (ContentEvent) ev ).getContent( ) );
 			}
-			else if (ev instanceof ViewsContentEvent)
+			else if ( ev instanceof ViewsContentEvent )
 			{
-				setContentActionType( ((ViewsContentEvent)ev).getAction( ) );
-				
-				addChangeContents( ((ViewsContentEvent)ev).getContent( ) );
+				setContentActionType( ( (ViewsContentEvent) ev ).getAction( ) );
+
+				addChangeContents( ( (ViewsContentEvent) ev ).getContent( ) );
 			}
 		}
-		/* (non-Javadoc)
-		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.eclipse.birt.report.model.api.DesignElementHandle, org.eclipse.birt.report.model.api.activity.NotificationEvent)
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+		 * .
+		 * GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org
+		 * .eclipse.birt.report.model.api.DesignElementHandle,
+		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-		public boolean canAcceptModelEvent( ModelEventInfo info )
+		public boolean canAcceptModelEvent( IModelEventInfo info )
 		{
-			if (getContentActionType( ) == ContentEvent.REMOVE && getChangeContents( ).contains( info.getTarget( ) ))
+			if ( getContentActionType( ) == ContentEvent.REMOVE
+					&& getChangeContents( ).contains( info.getTarget( ) ) )
 			{
 				return true;
 			}
-			boolean bool = super.canAcceptModelEvent(info );
-			if (!(info instanceof ContentModelEventInfo))
+			boolean bool = super.canAcceptModelEvent( info );
+			if ( !( info instanceof ContentModelEventInfo ) )
 			{
 				return false;
 			}
-			return bool && ((ContentModelEventInfo)info).getContentActionType( ) == ((ContentModelEventInfo)info).getContentActionType( );
+			return bool
+					&& ( (ContentModelEventInfo) info ).getContentActionType( ) == ( (ContentModelEventInfo) info ).getContentActionType( );
 		}
-		
+
 		/**
 		 * @return
 		 */
 		public int getContentActionType( )
 		{
-			return ((Integer)getOtherInfo( ).get( CONTENT_EVENTTYPE )).intValue( );
+			return ( (Integer) getOtherInfo( ).get( CONTENT_EVENTTYPE ) ).intValue( );
 		}
-		
+
 		/**
 		 * @param contentActionType
 		 */
 		public void setContentActionType( int contentActionType )
 		{
-			getOtherInfo( ).put(CONTENT_EVENTTYPE ,Integer.valueOf(contentActionType));
+			getOtherInfo( ).put( CONTENT_EVENTTYPE,
+					Integer.valueOf( contentActionType ) );
 		}
-		
-		public List getChangeContents()
+
+		public List getChangeContents( )
 		{
-			return  (List)getOtherInfo( ).get( EVENT_CONTENTS );
+			return (List) getOtherInfo( ).get( EVENT_CONTENTS );
 		}
-		
-		public void addChangeContents(Object obj)
+
+		public void addChangeContents( Object obj )
 		{
 			Map map = getOtherInfo( );
-			
-			if (obj instanceof IDesignElement)
+
+			if ( obj instanceof IDesignElement )
 			{
-				obj = ((IDesignElement)obj).getHandle( getTarget( ).getModule( ) );
+				obj = ( (IDesignElement) obj ).getHandle( getTarget( ).getModule( ) );
 			}
-			List list= (List)map.get( EVENT_CONTENTS );
-			if (list == null)
+			List list = (List) map.get( EVENT_CONTENTS );
+			if ( list == null )
 			{
-				list = new ArrayList();
-				map.put(EVENT_CONTENTS, list);
+				list = new ArrayList( );
+				map.put( EVENT_CONTENTS, list );
 			}
-			list.add(obj);
+			list.add( obj );
 		}
 	}
-	
-	/**Creat the factor to ctreat the report runnable.
+
+	/**
+	 * Creat the factor to ctreat the report runnable.
+	 * 
 	 * @return
 	 */
-	protected ModelEventInfoFactory createModelEventInfoFactory()
+	protected IModelEventInfoFactory createModelEventInfoFactory( )
 	{
-		return new GraphicsModelEventInfoFactory();
+		return new GraphicsModelEventInfoFactory( );
 	}
-	
+
 	/**
 	 * ModelEventInfoFactory
 	 */
-	protected static class GraphicsModelEventInfoFactory implements ModelEventInfoFactory
+	protected static class GraphicsModelEventInfoFactory implements
+			IModelEventInfoFactory
 	{
-		/**Creat the report runnable for the ReportEditorWithPalette.
+
+		/**
+		 * Creat the report runnable for the ReportEditorWithPalette.
+		 * 
 		 * @param focus
 		 * @param ev
 		 * @return
 		 */
-		public ModelEventInfo createModelEventInfo(DesignElementHandle focus, NotificationEvent ev)
+		public IModelEventInfo createModelEventInfo( DesignElementHandle focus,
+				NotificationEvent ev )
 		{
 			switch ( ev.getEventType( ) )
 			{
-				case NotificationEvent.VIEWS_CONTENT_EVENT:
+				case NotificationEvent.VIEWS_CONTENT_EVENT :
 				case NotificationEvent.CONTENT_EVENT :
 				{
-					return new ContentModelEventInfo(focus, ev);
+					return new ContentModelEventInfo( focus, ev );
 				}
 				default :
 				{
-					return new GraphicsViewModelEventInfo(focus, ev);
+					return new GraphicsViewModelEventInfo( focus, ev );
 				}
 			}
 		}
 	}
+
+	/**
+	 * GraphicsViewModelEventInfo
+	 */
 	private static class GraphicsViewModelEventInfo extends ModelEventInfo
 	{
 
-		public GraphicsViewModelEventInfo( DesignElementHandle focus, NotificationEvent ev )
+		public GraphicsViewModelEventInfo( DesignElementHandle focus,
+				NotificationEvent ev )
 		{
 			super( focus, ev );
-			if (ev instanceof PropertyEvent)
+			if ( ev instanceof PropertyEvent )
 			{
-				PropertyEvent proEvent = (PropertyEvent)ev;
-				getOtherInfo( ).put(proEvent.getPropertyName( ), focus);
+				PropertyEvent proEvent = (PropertyEvent) ev;
+				getOtherInfo( ).put( proEvent.getPropertyName( ), focus );
 			}
 		}
-		
+
 		@Override
-		public void addModelEvent( ModelEventInfo info )
+		public void addModelEvent( IModelEventInfo info )
 		{
 			getOtherInfo( ).putAll( info.getOtherInfo( ) );
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor#isOverdued()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.
+	 * IFastConsumerProcessor#isOverdued()
 	 */
 	public boolean isOverdued( )
 	{
 		return getFactory( ).isDispose( );
 	}
-	
+
 	public void postElementEvent( )
 	{
 		try
 		{
-			if (getFactory( ) instanceof IAdvanceModelEventFactory)
+			if ( getFactory( ) instanceof IAdvanceModelEventFactory )
 			{
-				((IAdvanceModelEventFactory)getFactory( )).eventDispathStart();
+				( (IAdvanceModelEventFactory) getFactory( ) ).eventDispathStart( );
 			}
 			super.postElementEvent( );
 		}
 		finally
 		{
-			if (getFactory( ) instanceof IAdvanceModelEventFactory)
+			if ( getFactory( ) instanceof IAdvanceModelEventFactory )
 			{
-				((IAdvanceModelEventFactory)getFactory( )).eventDispathEnd();
+				( (IAdvanceModelEventFactory) getFactory( ) ).eventDispathEnd( );
 			}
 		}
 	}

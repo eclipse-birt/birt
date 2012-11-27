@@ -216,27 +216,27 @@ public abstract class AbstractFormHandleProvider extends
 
 	}
 
-	public boolean isAddEnable( )
+	public boolean isAddEnable( Object selectedObject )
 	{
 		return true;
 	}
 
-	public boolean isEditEnable( )
+	public boolean isEditEnable( Object selectedObject )
 	{
 		return true;
 	}
 
-	public boolean isDeleteEnable( )
+	public boolean isDeleteEnable( Object selectedObject )
 	{
 		return true;
 	}
 
-	public boolean isUpEnable( )
+	public boolean isUpEnable( Object selectedObject )
 	{
 		return true;
 	}
 
-	public boolean isDownEnable( )
+	public boolean isDownEnable( Object selectedObject )
 	{
 		return true;
 	}

@@ -13,9 +13,11 @@ package org.eclipse.birt.report.model.adapter.oda.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
@@ -187,7 +189,7 @@ class ResultSetsAdapter
 				: tmpCachedColumnDefn.getAttributes( );
 
 		updateColumnHintFromDataAttrs( columnDefn.getAttributes( ),
-				cachedDataAttrs, newHint );
+				cachedDataAttrs, newHint, resultSetColumn );
 		updateColumnHintFromUsageHints(
 				outputAttrs,
 				tmpCachedColumnDefn == null ? null : tmpCachedColumnDefn
@@ -269,7 +271,8 @@ class ResultSetsAdapter
 
 	private static void updateColumnHintFromDataAttrs(
 			DataElementAttributes dataAttrs,
-			DataElementAttributes cachedDataAttrs, ColumnHint newHint )
+			DataElementAttributes cachedDataAttrs, ColumnHint newHint,
+			OdaResultSetColumn column )
 	{
 		if ( dataAttrs == null )
 			return;
@@ -277,7 +280,15 @@ class ResultSetsAdapter
 		Object oldValue = cachedDataAttrs == null ? null : cachedDataAttrs
 				.getName( );
 		Object newValue = dataAttrs.getName( );
-		if ( !CompareUtil.isEquals( oldValue, newValue ) )
+		// If column name in hint already matches column name in column, don't
+		// update it even if
+		// oda has a new column name. Column name in hint and column has to
+		// match as model use column name
+		// as identifier to relate column and hint
+		if ( !CompareUtil.isEquals(
+				newHint.getProperty( null, ColumnHint.COLUMN_NAME_MEMBER ),
+				column.getColumnName( ) )
+				&& !CompareUtil.isEquals( oldValue, newValue ) )
 			newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, newValue );
 
 		DataElementUIHints dataUIHints = dataAttrs.getUiHints( );
@@ -422,7 +433,8 @@ class ResultSetsAdapter
 		newValue = formatHints.getHorizontalAlignment( );
 		oldValue = cachedFormatHints == null ? null : cachedFormatHints
 				.getHorizontalAlignment( );
-		if ( !CompareUtil.isEquals( oldValue, newValue ) )
+		if ( formatHints.isSetHorizontalAlignment( )
+				&& !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty(
 					ColumnHint.HORIZONTAL_ALIGN_MEMBER,
@@ -548,18 +560,21 @@ class ResultSetsAdapter
 			newHint.setProperty( ColumnHint.ON_COLUMN_LAYOUT_MEMBER, newValue );
 		}
 
-		// ODA does not support analysis column.
-		/*
-		 * newValue = axisAttributes.getRelatedColumns( ); oldValue =
-		 * cachedAxisAttributes == null ? null : cachedAxisAttributes
-		 * .getRelatedColumns( ); if ( !CompareUtil.isEquals( oldValue, newValue
-		 * ) ) { String analysisColumnName = null; DataElementIdentifiers
-		 * columns = ( (ResultSubset) newValue ) .getColumnIdentifiers( ); if (
-		 * columns != null && !columns.getIdentifiers( ).isEmpty( ) )
-		 * analysisColumnName = columns.getIdentifiers( ).get( 0 ) .getName( );
-		 * newHint.setProperty( ColumnHint.ANALYSIS_COLUMN_MEMBER,
-		 * analysisColumnName ); }
-		 */
+		newValue = axisAttributes.getRelatedColumns( );
+		oldValue = cachedAxisAttributes == null ? null : cachedAxisAttributes
+				.getRelatedColumns( );
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
+		{
+			String analysisColumnName = null;
+			DataElementIdentifiers columns = ( (ResultSubset) newValue )
+					.getColumnIdentifiers( );
+			if ( columns != null && !columns.getIdentifiers( ).isEmpty( ) )
+				analysisColumnName = columns.getIdentifiers( ).get( 0 )
+						.getName( );
+			newHint.setProperty( ColumnHint.ANALYSIS_COLUMN_MEMBER,
+					analysisColumnName );
+		}
+		 
 	}
 
 	/**
@@ -737,6 +752,57 @@ class ResultSetsAdapter
 	 */
 
 	static OdaResultSetColumnHandle findOdaResultSetColumn( Iterator columns,
+			String paramName, Integer position, Integer nativeDataType, Boolean duplicate )
+	{
+		if ( position == null || nativeDataType == null )
+			return null;
+
+		while ( columns.hasNext( ) )
+		{
+			OdaResultSetColumnHandle column = (OdaResultSetColumnHandle) columns
+					.next( );
+
+			Integer tmpNativeDataType = column.getNativeDataType( );
+			String nativeName = column.getNativeName( );
+			// if the column name is unique, not necessary to check position
+			if ( duplicate == Boolean.FALSE )
+			{
+				if ( !StringUtil.isBlank( nativeName )
+						&& nativeName.equalsIgnoreCase( paramName )
+						&& ( tmpNativeDataType == null || nativeDataType
+								.equals( tmpNativeDataType ) ) )
+				{
+					return column;
+				}
+			}
+			// if same column name appears in more than one table or oda native name
+			// is missing, column position needs to be checked
+			if ( ( StringUtil.isBlank( nativeName ) || nativeName
+					.equalsIgnoreCase( paramName ) )
+					&& ( position.equals( column.getPosition( ) ) )
+					&& ( tmpNativeDataType == null || nativeDataType
+							.equals( tmpNativeDataType ) ) )
+				return column;
+
+		}
+		return null;
+
+	}
+	
+	/**
+	 * Returns the matched oda result set column with the specified name and
+	 * position.
+	 * 
+	 * @param columns
+	 *            the iterator that includes oda result set columns
+	 * @param paramName
+	 *            the result set column name
+	 * @param position
+	 *            the position
+	 * @return the matched oda result set column
+	 */
+
+	static OdaResultSetColumnHandle findOdaResultSetColumn( Iterator columns,
 			String paramName, Integer position, Integer nativeDataType )
 	{
 		if ( position == null || nativeDataType == null )
@@ -846,6 +912,27 @@ class ResultSetsAdapter
 		List<ResultSetColumnInfo> retList = new ArrayList<ResultSetColumnInfo>( );
 
 		ResultSetColumnInfo setInfo = null;
+		
+		Map<String, Boolean> duplicateColumnName = new HashMap<String, Boolean>();
+		
+		for ( int i = 0; i < odaSetColumns.size( ); i++ )
+		{
+			DataElementAttributes dataAttrs = ( (ColumnDefinition) odaSetColumns
+					.get( i ) ).getAttributes( );
+			if ( dataAttrs != null)
+			{
+				String nativeName = dataAttrs.getName( );
+				Boolean exist = duplicateColumnName.get( nativeName );
+				if ( exist == null)
+				{
+					duplicateColumnName.put( nativeName, Boolean.FALSE );
+				}
+				else
+				{
+					duplicateColumnName.put( nativeName, Boolean.TRUE );
+				}
+			}
+		}
 		for ( int i = 0; i < odaSetColumns.size( ); i++ )
 		{
 
@@ -865,7 +952,8 @@ class ResultSetsAdapter
 
 				oldColumn = findOdaResultSetColumn(
 						setDefinedResults.iterator( ), nativeName, position,
-						Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ) );
+						Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ), 
+						duplicateColumnName.get( nativeName ) );
 			}
 
 			OdaResultSetColumn newColumn = null;
@@ -1293,7 +1381,7 @@ class ResultSetsAdapter
 			axisAttrs = designFactory.createAxisAttributes( );
 			axisAttrs.setAxisType( axisType );
 			axisAttrs.setOnColumnLayout( hint.isOnColumnLayout( ) );
-			String analysisColumnName = hint.getColumnName( );
+			String analysisColumnName = hint.getAnalysisColumn( );
 			if ( !StringUtil.isBlank( analysisColumnName ) )
 			{
 				ResultSubset relatedColumns = designFactory

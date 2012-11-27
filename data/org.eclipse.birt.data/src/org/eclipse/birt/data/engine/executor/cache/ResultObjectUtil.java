@@ -224,6 +224,7 @@ public class ResultObjectUtil
 			}
 			else
 			{
+<<<<<<< HEAD
 				int byteLength = leadingChar>>1;
 				
 				if( byteLength > 127 )
@@ -232,6 +233,10 @@ public class ResultObjectUtil
 				}
 				byte[] bytes = new byte[byteLength];
 				dis.read( bytes );
+=======
+				byte[] bytes = new byte[len];
+				dis.readFully( bytes );
+>>>>>>> master
 				obj = bytes;
 			}
 		}
@@ -369,10 +374,14 @@ public class ResultObjectUtil
 		}
 		else if ( fieldType.equals( IClob.class )
 				|| fieldType.equals( Clob.class ) )
+<<<<<<< HEAD
 		{
 			dos.write( leadingChar );
 			IOUtil.writeString( dos, fieldValue.toString( ) );
 		}
+=======
+			IOUtil.writeString( dos,fieldValue.toString( ) );
+>>>>>>> master
 		else if ( fieldType.equals( IBlob.class )
 				|| fieldType.equals( Blob.class ) )
 		{

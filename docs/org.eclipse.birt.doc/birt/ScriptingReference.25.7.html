@@ -35,12 +35,12 @@
       <h3 class="RH2_Method"><a name="261859">BirtStr.charLength</a></h3>
       <p class="b_Body"><a name="261860">This function returns the length of a given string.</a></p>
       <p class="N_sb_ScanBold"><a name="261861">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="261862">BirtStr.charLength( source )</a></div>
+      <div class="rs_RSyntax"><a name="261862">integer BirtStr.charLength( string source )</a></div>
       <p class="N_sb_ScanBold"><a name="261863">Parameter</a></p>
       <p class="RParameter"><a name="261864">source</a></p>
-      <p class="bn_BodyNoLead"><a name="261865">The string to evaluate.</a></p>
+      <p class="bn_BodyNoLead"><a name="261865">String. The string to evaluate.</a></p>
       <p class="N_sb_ScanBold"><a name="261868">Returns</a></p>
-      <p class="b_Body"><a name="261869">The number of characters in the specified string.</a></p>
+      <p class="b_Body"><a name="261869">Integer. The number of characters in the specified string.</a></p>
       <p class="N_sb_ScanBold"><a name="261870">Examples</a></p>
       <p class="b_Body"><a name="261871">The following example returns the length of a specific string:</a></p>
       <div class="cf_CodeFirst"><a name="261872">BirtStr.charLength( "Julie Murphy" ) // returns 12</a></div>
@@ -49,28 +49,28 @@
       <h3 class="RH2_Method"><a name="263870">BirtStr.concat</a></h3>
       <p class="b_Body"><a name="263871">This function returns the string that results from concatenating specified strings.</a></p>
       <p class="N_sb_ScanBold"><a name="263872">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="263873">BirtStr.concat( source1, ..., sourceN )</a></div>
+      <div class="rs_RSyntax"><a name="263873">string BirtStr.concat( string source1, ..., sourceN )</a></div>
       <p class="N_sb_ScanBold"><a name="263874">Parameter</a></p>
       <p class="RParameter"><a name="263875">source1, ..., sourceN</a></p>
-      <p class="bn_BodyNoLead"><a name="263876">The strings to concatenate.</a></p>
+      <p class="bn_BodyNoLead"><a name="263876">String. The strings to concatenate.</a></p>
       <p class="N_sb_ScanBold"><a name="263877">Returns</a></p>
-      <p class="b_Body"><a name="263878">The string that results from concatenating a series of strings.</a></p>
+      <p class="b_Body"><a name="263878">String. The string that results from concatenating a series of strings.</a></p>
       <p class="N_sb_ScanBold"><a name="263879">Example</a></p>
       <p class="b_Body"><a name="263882">The following example returns a full address by concatenating values from </a>multiple fields:</p>
       <div class="cf_CodeFirst"><a name="263883">BirtStr.concat( row["AddressLine1"], ", ", row["AddressLine2"], ", </a>", row["City"], " ", row["PostalCode"], "row["State"], ", ", row["Country"] )</div>
       <h3 class="RH2_Method"><a name="264323">BirtStr.indexOf</a></h3>
       <p class="b_Body"><a name="264324">This function returns the position of a specified substring in a given string.</a></p>
       <p class="N_sb_ScanBold"><a name="264325">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="264326">BirtStr.indexOf( target, source, start )</a></div>
+      <div class="rs_RSyntax"><a name="264326">integer BirtStr.indexOf( sring target, string source, integer start )</a></div>
       <p class="N_sb_ScanBold"><a name="264327">Parameters</a></p>
       <p class="RParameter"><a name="264328">target</a></p>
-      <p class="bn_BodyNoLead"><a name="264329">The substring to search for. The search is case-sensitive.</a></p>
+      <p class="bn_BodyNoLead"><a name="264329">String. The substring to search for. The search is case-sensitive.</a></p>
       <p class="RParameter"><a name="264373">source</a></p>
-      <p class="bn_BodyNoLead"><a name="264393">The string in which to look for a specified substring.</a></p>
+      <p class="bn_BodyNoLead"><a name="264393">String. The string in which to look for a specified substring.</a></p>
       <p class="RParameter"><a name="264398">start</a></p>
-      <p class="bn_BodyNoLead"><a name="264503">Optional. The position in the source string where the search starts. If you omit </a>this argument, the function starts the search from the first character of the string.</p>
+      <p class="bn_BodyNoLead"><a name="264503">Integer. Optional. The position in the source string where the search starts. If you </a>omit this argument, the function starts the search from the first character of the string.</p>
       <p class="N_sb_ScanBold"><a name="264330">Returns</a></p>
-      <p class="b_Body"><a name="264331">The numerical position of the substring in the string. The first character of a string </a>starts at 0. If the substring is not found, the function returns -1.</p>
+      <p class="b_Body"><a name="264331">Integer. The numerical position of the substring in the string. The first character of </a>a string starts at 0. If the substring is not found, the function returns -1.</p>
       <p class="N_sb_ScanBold"><a name="264332">Examples</a></p>
       <p class="b_Body"><a name="264333">The following example returns the numeric position of specified characters in </a>specific strings:</p>
       <div class="cf_CodeFirst"><a name="264334">BirtStr.indexOf( " ", "Julie Murphy" ) // returns 5</a></div>
@@ -83,14 +83,14 @@
       <h3 class="RH2_Method"><a name="264831">BirtStr.left</a></h3>
       <p class="b_Body"><a name="264832">This function extracts a substring of a specified length from a string, starting from </a>the left-most, or first, character.</p>
       <p class="N_sb_ScanBold"><a name="264833">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="264834">BirtStr.left( source, n )</a></div>
+      <div class="rs_RSyntax"><a name="264834">string BirtStr.left( string source, integer n )</a></div>
       <p class="N_sb_ScanBold"><a name="264835">Parameters</a></p>
       <p class="RParameter"><a name="265142">source</a></p>
-      <p class="bn_BodyNoLead"><a name="265143">The string from which to extract a substring.</a></p>
+      <p class="bn_BodyNoLead"><a name="265143">String. The string from which to extract a substring.</a></p>
       <p class="RParameter"><a name="265144">n</a></p>
-      <p class="bn_BodyNoLead"><a name="264839">The number of characters to extract, starting from the first character.</a></p>
+      <p class="bn_BodyNoLead"><a name="264839">Integer. The number of characters to extract, starting from the first character.</a></p>
       <p class="N_sb_ScanBold"><a name="264842">Returns</a></p>
-      <p class="b_Body"><a name="265267">A substring of a specific length. </a></p>
+      <p class="b_Body"><a name="265267">Sring. A substring of a specific length. </a></p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -144,14 +144,14 @@
       <h3 class="RH2_Method"><a name="265393">BirtStr.right</a></h3>
       <p class="b_Body"><a name="265394">This function extracts a substring of a specified length from a string, starting from </a>the right-most, or last, character.</p>
       <p class="N_sb_ScanBold"><a name="265395">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="265396">BirtStr.right( source, n )</a></div>
+      <div class="rs_RSyntax"><a name="265396">String BirtStr.right( String source, integer n )</a></div>
       <p class="N_sb_ScanBold"><a name="265397">Parameters</a></p>
       <p class="RParameter"><a name="265398">source</a></p>
-      <p class="bn_BodyNoLead"><a name="265399">The string from which to extract a substring.</a></p>
+      <p class="bn_BodyNoLead"><a name="265399">String. The string from which to extract a substring.</a></p>
       <p class="RParameter"><a name="265400">n</a></p>
-      <p class="bn_BodyNoLead"><a name="265401">The number of characters to extract, starting from the last character.</a></p>
+      <p class="bn_BodyNoLead"><a name="265401">Integer. The number of characters to extract, starting from the last character.</a></p>
       <p class="N_sb_ScanBold"><a name="265402">Returns</a></p>
-      <p class="b_Body"><a name="265403">A substring of a specific length. </a></p>
+      <p class="b_Body"><a name="265403">String. A substring of a specific length. </a></p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -205,10 +205,10 @@
       <h3 class="RH2_Method"><a name="265763">BirtStr.search</a></h3>
       <p class="b_Body"><a name="265764">This function returns the position of a specified substring in a given string. The </a>substring can contain wildcard characters.</p>
       <p class="N_sb_ScanBold"><a name="265765">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="265766">BirtStr.search( pattern, source, index )</a></div>
+      <div class="rs_RSyntax"><a name="265766">integer BirtStr.search( string pattern, string source, integer index )</a></div>
       <p class="N_sb_ScanBold"><a name="265767">Parameters</a></p>
       <p class="RParameter"><a name="265768">pattern</a></p>
-      <p class="bn_BodyNoLead"><a name="266046">The string pattern to search for. The search is case-insensitive. You can use the </a>following wildcard characters in a pattern:</p>
+      <p class="bn_BodyNoLead"><a name="266046">String. The string pattern to search for. The search is case-insensitive. You can use </a>the following wildcard characters in a pattern:</p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -240,11 +240,11 @@
       <p class="b_Body"><a name="307053">To match a literal asterisk or question mark in a string, precede those characters </a>with two backslash characters (\\). For example, to find the substring R*10, use the following string pattern:</p>
       <div class="cfb_CodeFirst_Break"><a name="307079">"R\\*10"</a></div>
       <p class="RParameter"><a name="266022">source</a></p>
-      <p class="bn_BodyNoLead"><a name="265769">The string in which to look for a specified substring.</a></p>
+      <p class="bn_BodyNoLead"><a name="265769">String. The string in which to look for a specified substring.</a></p>
       <p class="RParameter"><a name="265770">index</a></p>
-      <p class="bn_BodyNoLead"><a name="266100">Optional. The position in the source string where the search starts. If you omit </a>this argument, the function starts the search from the first character of the string.</p>
+      <p class="bn_BodyNoLead"><a name="266100">Integer. Optional. The position in the source string where the search starts. If you </a>omit this argument, the function starts the search from the first character of the string.</p>
       <p class="N_sb_ScanBold"><a name="266101">Returns</a></p>
-      <p class="b_Body"><a name="266102">The numerical position of the substring in the string. The first character of a string </a>starts at 0. If the substring is not found, the function returns -1.</p>
+      <p class="b_Body"><a name="266102">Integer. The numerical position of the substring in the string. The first character of </a>a string starts at 0. If the substring is not found, the function returns -1.</p>
       <p class="N_sb_ScanBold"><a name="265777">Examples</a></p>
       <p class="b_Body"><a name="266358">The following example returns the numeric position of specified string patterns in </a>specific strings:</p>
       <div class="cf_CodeFirst"><a name="266359">BirtStr.search( "XM?", "XMS-ModelA-1234-567" ) // returns 0</a></div>
@@ -259,60 +259,60 @@
       <h3 class="RH2_Method"><a name="266634">BirtStr.toLower</a></h3>
       <p class="b_Body"><a name="266635">This function converts all letters in a string to lowercase.</a></p>
       <p class="N_sb_ScanBold"><a name="266636">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="266637">BirtStr.toLower( source )</a></div>
+      <div class="rs_RSyntax"><a name="266637">string BirtStr.toLower( string source )</a></div>
       <p class="N_sb_ScanBold"><a name="266638">Parameter</a></p>
       <p class="RParameter"><a name="266639">source</a></p>
-      <p class="bn_BodyNoLead"><a name="266640">The string to convert to lowercase.</a></p>
+      <p class="bn_BodyNoLead"><a name="266640">String. The string to convert to lowercase.</a></p>
       <p class="N_sb_ScanBold"><a name="266641">Returns</a></p>
-      <p class="b_Body"><a name="266642">The specified string in all lowercase letters</a></p>
+      <p class="b_Body"><a name="266642">String. The specified string in all lowercase letters</a></p>
       <p class="N_sb_ScanBold"><a name="266643">Example</a></p>
       <p class="b_Body"><a name="266644">The following example displays all the values in the productLine field in </a>lowercase:</p>
       <div class="cf_CodeFirst"><a name="266645">BirtStr.toLower( row["productLine"] ) </a></div>
       <h3 class="RH2_Method"><a name="266740">BirtStr.toUpper</a></h3>
       <p class="b_Body"><a name="266741">This function converts all letters in a string to uppercase.</a></p>
       <p class="N_sb_ScanBold"><a name="266742">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="266743">BirtStr.toUpper( source )</a></div>
+      <div class="rs_RSyntax"><a name="266743">string BirtStr.toUpper( string source )</a></div>
       <p class="N_sb_ScanBold"><a name="266744">Parameter</a></p>
       <p class="RParameter"><a name="266745">source</a></p>
-      <p class="bn_BodyNoLead"><a name="266746">The string to convert to uppercase.</a></p>
+      <p class="bn_BodyNoLead"><a name="266746">String. The string to convert to uppercase.</a></p>
       <p class="N_sb_ScanBold"><a name="266747">Returns</a></p>
-      <p class="b_Body"><a name="266748">The specified string in all uppercase letters</a></p>
+      <p class="b_Body"><a name="266748">String. The specified string in all uppercase letters</a></p>
       <p class="N_sb_ScanBold"><a name="266749">Example</a></p>
       <p class="b_Body"><a name="266750">The following example displays all the values in the customerName field in </a>uppercase:</p>
       <div class="cf_CodeFirst"><a name="266751">BirtStr.toUpper( row["customerName"] ) </a></div>
       <h3 class="RH2_Method"><a name="267084">BirtStr.trim</a></h3>
       <p class="b_Body"><span style="font-family: &quot;Microsoft Sans Serif&quot;"><a name="267147">This function returns a string with all leading and trailing blank characters </a></span><span style="font-family: &quot;Microsoft Sans Serif&quot;">removed. </span>It does not remove blank characters between words.</p>
       <p class="N_sb_ScanBold"><a name="267148">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="267149">BirtStr.trim( source )</a></div>
+      <div class="rs_RSyntax"><a name="267149">string BirtStr.trim( string source )</a></div>
       <p class="N_sb_ScanBold"><a name="267150">Parameter</a></p>
       <p class="RParameter"><a name="267151">source</a></p>
-      <p class="bn_BodyNoLead"><a name="267152">The string from which to remove leading and trailing blank characters.</a></p>
+      <p class="bn_BodyNoLead"><a name="267152">String. The string from which to remove leading and trailing blank characters.</a></p>
       <p class="N_sb_ScanBold"><a name="267153">Returns</a></p>
-      <p class="b_Body"><a name="267154">A string with all leading and trailing blank characters removed.</a></p>
+      <p class="b_Body"><a name="267154">String. A string with all leading and trailing blank characters removed.</a></p>
       <p class="N_sb_ScanBold"><a name="267155">Example</a></p>
       <p class="b_Body"><a name="267156">The following example uses BirtStr.trim(</a>&nbsp;) to remove all leading and trailing blank characters from values in the FirstName and LastName data fields. </p>
       <div class="cf_CodeFirst"><a name="267157">BirtStr.trim( row["FirstName"]) + " " + </a>BirtStr.trim(row["LastName"] )</div>
       <h3 class="RH2_Method"><a name="267249">BirtStr.trimLeft</a></h3>
       <p class="b_Body"><span style="font-family: &quot;Microsoft Sans Serif&quot;"><a name="267250">This function returns a string with all leading and trailing blank characters </a></span><span style="font-family: &quot;Microsoft Sans Serif&quot;">removed. </span>It does not remove blank characters between words.</p>
       <p class="N_sb_ScanBold"><a name="267251">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="267252">BirtStr.trimLeft( source )</a></div>
+      <div class="rs_RSyntax"><a name="267252">string BirtStr.trimLeft( string source )</a></div>
       <p class="N_sb_ScanBold"><a name="267253">Parameter</a></p>
       <p class="RParameter"><a name="267254">source</a></p>
-      <p class="bn_BodyNoLead"><a name="267255">The string from which to remove leading blank characters.</a></p>
+      <p class="bn_BodyNoLead"><a name="267255">String. The string from which to remove leading blank characters.</a></p>
       <p class="N_sb_ScanBold"><a name="267256">Returns</a></p>
-      <p class="b_Body"><a name="267257">A string with all leading blank characters removed.</a></p>
+      <p class="b_Body"><a name="267257">String. A string with all leading blank characters removed.</a></p>
       <p class="N_sb_ScanBold"><a name="267258">Example</a></p>
       <p class="b_Body"><a name="267307">The following example concatenates a literal string with each value in the </a>customerName field. BirtStr.trimLeft(&nbsp;) removes all blank characters preceding the customerName value so that there are no extra blank characters between the literal string and the customerName value.</p>
       <div class="cf_CodeFirst"><a name="267308">"Customer name: " + BirtStr.trimLeft( row["customerName"] )</a></div>
       <h3 class="RH2_Method"><a name="267327">BirtStr.trimRight</a></h3>
       <p class="b_Body"><span style="font-family: &quot;Microsoft Sans Serif&quot;"><a name="267328">This function returns a string with all trailing blank characters removed. </a></span>It does not remove blank characters between words.</p>
       <p class="N_sb_ScanBold"><a name="267329">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="267330">BirtStr.trimRight( source )</a></div>
+      <div class="rs_RSyntax"><a name="267330">string BirtStr.trimRight( string source )</a></div>
       <p class="N_sb_ScanBold"><a name="267331">Parameter</a></p>
       <p class="RParameter"><a name="267332">source</a></p>
-      <p class="bn_BodyNoLead"><a name="267333">The string from which to remove trailing blank characters.</a></p>
+      <p class="bn_BodyNoLead"><a name="267333">String. The string from which to remove trailing blank characters.</a></p>
       <p class="N_sb_ScanBold"><a name="267334">Returns</a></p>
-      <p class="b_Body"><a name="267335">A string with all trailing blank characters removed.</a></p>
+      <p class="b_Body"><a name="267335">String. A string with all trailing blank characters removed.</a></p>
       <p class="N_sb_ScanBold"><a name="267336">Example</a></p>
       <p class="b_Body"><a name="267541">The following example concatenates each value in the Comment field with a </a>semicolon, then with a value in the Action field. BirtStr.trimRight(&nbsp;) removes all blank characters after the Comment value so that there are no extra blank characters between the Comment string and the semicolon.</p>
       <div class="cf_CodeFirst"><a name="267542">BirtStr.trimRight( row["Comment"]) + "; " + row["Action"] )</a></div>

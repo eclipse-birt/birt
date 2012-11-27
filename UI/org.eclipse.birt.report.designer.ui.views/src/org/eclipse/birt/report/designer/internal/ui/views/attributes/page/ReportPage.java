@@ -113,7 +113,7 @@ public class ReportPage extends ModulePage
 						imageLoader.data = new ImageData[1];
 						imageLoader.data[0] = imageData;
 						ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
-						imageLoader.save( outputStream, SWT.IMAGE_PNG );
+						imageLoader.save( outputStream, dialog.getImageType() );
 						try
 						{
 							handle.setThumbnail( outputStream.toByteArray( ) );

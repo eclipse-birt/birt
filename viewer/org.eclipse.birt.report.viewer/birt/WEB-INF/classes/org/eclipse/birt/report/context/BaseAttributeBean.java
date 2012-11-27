@@ -281,6 +281,14 @@ abstract public class BaseAttributeBean
 	{
 		return locale;
 	}
+	
+	/**
+	 * @return the language code for the current locale
+	 */
+	public String getLanguage()
+	{
+		return locale.getLanguage();
+	}
 
 	/**
 	 * @return returns the time zone.

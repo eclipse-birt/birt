@@ -14,13 +14,16 @@ package org.eclipse.birt.report.designer.ui.preferences;
 import java.text.Collator;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.birt.report.viewer.browsers.custom.CustomBrowser;
@@ -82,6 +85,7 @@ public class PreviewPreferencePage extends PreferencePage implements
 	private Combo bidiCombo;
 
 	private static final String WBROWSER_PAGE_ID = "org.eclipse.ui.browser.preferencePage";//$NON-NLS-1$
+	private static final String PREFERENCE_HELPER_ID = "PreviewPreferencePage";//$NON-NLS-1$
 
 	private static final String BIDI_CHOICE_NAMES[] = new String[]{
 			WebViewer.BIDI_ORIENTATION_AUTO,
@@ -208,81 +212,83 @@ public class PreviewPreferencePage extends PreferencePage implements
 		masterPageContent.setSelection( ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
 				.getBoolean( WebViewer.MASTER_PAGE_CONTENT ) );
-
-		String[] appExtNames = (String[]) AppContextUtil.getAppContextExtensionNames( )
-				.toArray( new String[0] );
-		String appKey = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( WebViewer.APPCONTEXT_EXTENSION_KEY );
-
-		Composite appContextComposite = new Composite( mainComposite, SWT.NONE );
-		appContextComposite.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
-		GridLayout gridLayout = new GridLayout( );
-		gridLayout.numColumns = 2;
-		gridLayout.marginHeight = gridLayout.marginWidth = 0;
-		appContextComposite.setLayout( gridLayout );
-
-		appContextExt = new Button( appContextComposite, SWT.CHECK );
-
-		appContextExt.setSelection( appKey != null && appKey.length( ) > 0 );
-		appContextExt.setEnabled( appExtNames.length != 0 );
-		appContextExt.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				appContextExtCombo.setEnabled( appContextExt.getSelection( ) );
-				if ( appContextExt.getSelection( ) )
+		if(needAddItem( ))
+		{
+			String[] appExtNames = (String[]) AppContextUtil.getAppContextExtensionNames( )
+					.toArray( new String[0] );
+			String appKey = ViewerPlugin.getDefault( )
+					.getPluginPreferences( )
+					.getString( WebViewer.APPCONTEXT_EXTENSION_KEY );
+	
+			Composite appContextComposite = new Composite( mainComposite, SWT.NONE );
+			appContextComposite.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
+			GridLayout gridLayout = new GridLayout( );
+			gridLayout.numColumns = 2;
+			gridLayout.marginHeight = gridLayout.marginWidth = 0;
+			appContextComposite.setLayout( gridLayout );
+	
+			appContextExt = new Button( appContextComposite, SWT.CHECK );
+	
+			appContextExt.setSelection( appKey != null && appKey.length( ) > 0 );
+			appContextExt.setEnabled( appExtNames.length != 0 );
+			appContextExt.addSelectionListener( new SelectionAdapter( ) {
+	
+				public void widgetSelected( SelectionEvent e )
 				{
-					if ( appContextExtCombo.getSelectionIndex( ) != -1 )
+					appContextExtCombo.setEnabled( appContextExt.getSelection( ) );
+					if ( appContextExt.getSelection( ) )
+					{
+						if ( appContextExtCombo.getSelectionIndex( ) != -1 )
+						{
+							ViewerPlugin.getDefault( )
+									.getPluginPreferences( )
+									.setValue( WebViewer.APPCONTEXT_EXTENSION_KEY,
+											appContextExtCombo.getText( ) );
+						}
+					}
+					else
 					{
 						ViewerPlugin.getDefault( )
 								.getPluginPreferences( )
-								.setValue( WebViewer.APPCONTEXT_EXTENSION_KEY,
-										appContextExtCombo.getText( ) );
+								.setValue( WebViewer.APPCONTEXT_EXTENSION_KEY, "" );//$NON-NLS-1$
 					}
 				}
-				else
+	
+			} );
+	
+			Label label = new Label( appContextComposite, SWT.NONE );
+			label.setText( Messages.getString( "designer.preview.preference.appcontextkey" ) );//$NON-NLS-1$
+			label.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
+			new Label( appContextComposite, SWT.NONE );
+			appContextExtCombo = new Combo( appContextComposite, SWT.READ_ONLY
+					| SWT.SINGLE );
+			appContextExtCombo.setVisibleItemCount( 30 );
+			appContextExtCombo.setItems( appExtNames );
+			if ( appContextExt.getSelection( ) )
+			{
+				appContextExtCombo.setEnabled( appContextExt.isEnabled( ) );
+				appContextExtCombo.setText( appKey );
+			}
+			else
+			{
+				appContextExtCombo.setEnabled( false );
+			}
+			GridData extGd = new GridData( );
+			int width = appContextExtCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+			extGd.widthHint = width < 200 ? 200 : width;
+			appContextExtCombo.setLayoutData( extGd );
+			appContextExtCombo.addSelectionListener( new SelectionAdapter( ) {
+	
+				public void widgetSelected( SelectionEvent e )
 				{
 					ViewerPlugin.getDefault( )
 							.getPluginPreferences( )
-							.setValue( WebViewer.APPCONTEXT_EXTENSION_KEY, "" );//$NON-NLS-1$
+							.setValue( WebViewer.APPCONTEXT_EXTENSION_KEY,
+									appContextExtCombo.getText( ) );
 				}
-			}
-
-		} );
-
-		Label label = new Label( appContextComposite, SWT.NONE );
-		label.setText( Messages.getString( "designer.preview.preference.appcontextkey" ) );//$NON-NLS-1$
-		label.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
-		new Label( appContextComposite, SWT.NONE );
-		appContextExtCombo = new Combo( appContextComposite, SWT.READ_ONLY
-				| SWT.SINGLE );
-		appContextExtCombo.setVisibleItemCount( 30 );
-		appContextExtCombo.setItems( appExtNames );
-		if ( appContextExt.getSelection( ) )
-		{
-			appContextExtCombo.setEnabled( appContextExt.isEnabled( ) );
-			appContextExtCombo.setText( appKey );
+	
+			} );
 		}
-		else
-		{
-			appContextExtCombo.setEnabled( false );
-		}
-		GridData extGd = new GridData( );
-		int width = appContextExtCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		extGd.widthHint = width < 200 ? 200 : width;
-		appContextExtCombo.setLayoutData( extGd );
-		appContextExtCombo.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				ViewerPlugin.getDefault( )
-						.getPluginPreferences( )
-						.setValue( WebViewer.APPCONTEXT_EXTENSION_KEY,
-								appContextExtCombo.getText( ) );
-			}
-
-		} );
 
 		createSpacer( mainComposite );
 
@@ -387,6 +393,38 @@ public class PreviewPreferencePage extends PreferencePage implements
 		createSpacer( mainComposite );
 
 		return mainComposite;
+	}
+	
+	private boolean needAddItem()
+	{
+		IDialogHelper helper = getPreviewPrefrence( );
+		if(helper == null)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	private IDialogHelper getPreviewPrefrence()
+	{
+		Object[] helperProviders = ElementAdapterManager.getAdapters(this,
+				IDialogHelperProvider.class );
+		if ( helperProviders != null )
+		{
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
+				if ( helperProvider != null )
+				{
+					final IDialogHelper helper = helperProvider.createHelper( this,PREFERENCE_HELPER_ID);
+					if ( helper != null )
+					{
+						return helper;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	private void createLinkArea( Composite parent )

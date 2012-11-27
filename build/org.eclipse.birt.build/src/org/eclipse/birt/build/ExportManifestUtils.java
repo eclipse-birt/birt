@@ -35,7 +35,8 @@ public class ExportManifestUtils
 		"odadesignapi.jar",
 		"javax.servlet_.*.jar",
 		"chartexamplescoreapi.jar",
-		"javax.servlet.jsp_.*.jar"
+		"javax.servlet.jsp_.*.jar",
+		"org.eclipse.birt.axis.overlay_.*.jar"
 	};
 	
 	static final Boolean[] API_JAR_VERSIONS = new Boolean[]{
@@ -64,6 +65,7 @@ public class ExportManifestUtils
 		false,//"javax.servlet_.*.jar",
 		false,//"chartexamplescoreapi.jar"
 		false,//"javax.servlet.jsp_.*.jar"
+		false,//"org.eclipse.birt.axis.overlay_.*.jar"
 	};
 
 	static public void main( String[] args ) throws IOException
@@ -221,11 +223,13 @@ public class ExportManifestUtils
 			{
 				output = output + prefix + "." + entry.name ;
 			}
+			
 			if (package_count ==0)
 				System.out.println(output);
-			else
+			else if(!output.trim().startsWith("META-INF"))
+			{
 				System.out.println(output+",");
-			
+			}
 			
 		}
 
@@ -251,8 +255,11 @@ public class ExportManifestUtils
 	{
 		if ( entry.isDirectory( ) )
 		{
-			String name = entry.getName( );
+			String name = entry.getName();
+			//System.out.println("crateEntry entry name: "  +  name);
 			String[] names = name.split( "/" );
+			if (names[0].equals("MATA-INF"))
+				return;
 			for ( int i = 0; i < names.length; i++ )
 			{
 				root = createEntry( root, names[i] );
@@ -286,6 +293,7 @@ public class ExportManifestUtils
 		entry.version = parent.version;
 		entry.hasVersion = parent.hasVersion;
 		parent.children.add( entry );
+		//System.out.println("===entry.name: " + entry.name);
 		
 		return entry;
 	}

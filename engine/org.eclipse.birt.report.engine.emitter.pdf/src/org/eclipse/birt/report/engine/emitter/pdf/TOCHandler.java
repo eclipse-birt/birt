@@ -95,7 +95,10 @@ public class TOCHandler
 		{
 			TOCNode node = (TOCNode) i.next( );
 			if ( !bookmarks.contains( node.getBookmark( ) ) )
+			{
+				createTOC( node, outline, bookmarks );
 				continue;
+			}
 			PdfOutline outline = new PdfOutline( pol, PdfAction.gotoLocalPage(
 					node.getBookmark( ), false ), node.getDisplayString( ) );
 			countOutlineSize( node.getBookmark( ).length( ) );

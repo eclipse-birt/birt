@@ -335,7 +335,6 @@ public class TableProcessor implements HTMLConstants
 		private Hashtable<Integer, Integer> records;
 		private int columnCount;
 		private int index;
-		
 		public RowState( Element element,
 				Map<Element, StyleProperties> cssStyles, IContent parent,
 				ActionContent action ,Hashtable<Integer,Integer> records,int index)
@@ -385,8 +384,8 @@ public class TableProcessor implements HTMLConstants
 				}
 				columnCount += cellState.getColSpan( );
 			}
-           		
 		}
+		
 		public int getColumnCount( )
 		{
 			return columnCount;

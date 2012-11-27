@@ -136,6 +136,10 @@ public class QueryResults implements IQueryResults, IQueryService
 			else
 				rootQueryResultID = queryResultID;
 
+			if ( this.subQueryName != null )
+			{
+				rootQueryResultID = baseQueryResultID;
+			}
 			QueryResultInfo queryResultInfo = new QueryResultInfo( rootQueryResultID,
 					parentQueryResultID,
 					null,

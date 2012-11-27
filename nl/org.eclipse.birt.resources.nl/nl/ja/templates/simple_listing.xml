@@ -6,8 +6,9 @@
   </intro>
   <item href="/org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForDatabaseOrOtherJDBCDataSource.html"
   title="データソースの作成" skip="true">
-     <description>- データエクスプローラビューで、データソースを右クリックし、[新規データソース] をクリックします。[新規データソース] に、選択されたデータソースとして、Classic Models Inc. のサンプルデータソースが表示されます。<br/>
-      - [次へ] を選択します。<br/>
+     <description>- データエクスプローラビューで、データソースを右クリックし、[新規データソース] をクリックします。<br/>
+      - Classic Models Inc. サンプルデータベースを選択します。<br/>
+	  - [次へ] を選択します。<br/>
       - [完了] を選択します。
      </description>
      <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSourceAction"

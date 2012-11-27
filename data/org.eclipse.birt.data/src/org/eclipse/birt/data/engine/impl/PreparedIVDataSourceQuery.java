@@ -223,10 +223,16 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		protected DataSetRuntime newDataSetRuntime( ) throws DataException
 		{
 			dsRuntime = new DataSetRuntime( NewInstanceHelper.newIVDataSetDesign( ),
-					this, this.getSession( ) );
-
+					this,
+					this.getSession( ) );
 			return dsRuntime;
 		}
+		
+		protected String getDataSetName( )
+		{
+			return queryDefn.getDataSetName( );
+		}
+
 
 		/*
 		 * @see
@@ -476,6 +482,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						if ( columnDefinition.getColumnName( )
 								.equals( resultFieldMetadata.getName( ) ) )
 						{
+							resultFieldMetadata.setLabel( columnDefinition.getDisplayName( ));
 							resultFieldMetadata.setAlias( columnDefinition.getAlias( ) );
 							resultFieldMetadata.setAnalysisType( columnDefinition.getAnalysisType( ) );
 							resultFieldMetadata.setAnalysisColumn( columnDefinition.getAnalysisColumn( ) );

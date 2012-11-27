@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
 /**
@@ -70,12 +69,10 @@ public class DataSetPreviewer
 		return result.nextResultIterator( ).getResultIterator( );
 	}
 	
-	
 	private static IReportEngine createReportEngine( EngineConfig config ) throws BirtException
 	{
-		return new ReportEngineFactory( ).createReportEngine( config );
+		return ReportEngineCreator.createReportEngine( config );
 	}
-
 	
 	public void close( ) throws BirtException
 	{

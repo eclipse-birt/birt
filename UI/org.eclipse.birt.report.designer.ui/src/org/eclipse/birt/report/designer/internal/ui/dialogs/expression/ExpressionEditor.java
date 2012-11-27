@@ -78,10 +78,13 @@ public class ExpressionEditor extends BaseDialog
 		container.setLayout( layout );
 
 		new Label( container, SWT.NONE ).setText( Messages.getString( "ExpressionEditor.Label.Expression" ) ); //$NON-NLS-1$
-		exprText = new Text( container, SWT.BORDER | SWT.SINGLE );
+		exprText = new Text( container, SWT.BORDER | SWT.WRAP );
 
 		GridData gd = new GridData( );
 		gd.widthHint = 200;
+		gd.heightHint = exprText.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- exprText.getBorderWidth( )
+				* 2;
 		exprText.setLayoutData( gd );
 		exprText.addModifyListener( new ModifyListener( ) {
 

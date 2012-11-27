@@ -91,10 +91,30 @@ public class StyleRecord extends SimpleRecord
 		}
 		else
 		{
-			StyleElement tmpStyle = newStyle == null
-					? null
-					: (StyleElement) newStyle.getElement( );
-			element.setStyle( tmpStyle );
+
+			if ( newStyle == null )
+			{
+				element.setStyle( null );
+			}
+			else
+			{
+				StyleElement tmpStyle = (StyleElement) newStyle.getElement( );
+				if ( tmpStyle != null )
+				{
+					element.setStyle( tmpStyle );
+				}
+				else
+				{
+					if ( newStyle.getName( ) != null )
+					{
+						element.setStyleName( newStyle.getName( ) );
+					}
+					else
+					{
+						element.setStyle( null );
+					}
+				}
+			}
 		}
 	}
 

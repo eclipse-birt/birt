@@ -326,6 +326,23 @@
 	factoryclass="org.eclipse.birt.core.script.function.bre.BirtDateTimeFunctionFactory"
 	name="BirtDateTime" desc="Provide DateTime operation functions.">
 	<Function
+          desc="%FunctionDesc.date"
+          name="date">
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="year">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<Argument name="month">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<Argument name="day">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<Argument name="hours">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<Argument name="minutes">
+			<DataType value="%dataType.Integer"></DataType></Argument>	
+		<Argument name="seconds">
+			<DataType value="%dataType.Integer"></DataType></Argument>		
+	</Function>
+	<Function
           desc="%FunctionDesc.year"
           name="year">
 		<DataType value="%dataType.Integer"></DataType>

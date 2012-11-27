@@ -31,34 +31,33 @@
     <hr align="left" />
     <blockquote>
       <h2 class="RH1_Class">Class  <a name="275951">BirtComp</a></h2>
-      <p class="b_Body"><a name="275952">The BirtComp class provides functions to compare values, for example, to test if a </a>value is equal to, greater than, or less than another value. All the functions return either true or false. This class is static. The application cannot create instances of the class.</p>
+      <p class="b_Body"><a name="275952">The BirtComp class provides functions to compare values, for example, to test if a </a>value is equal to, greater than, or less than another value. All the functions return boolean values. This class is static. The application cannot create instances of the class.</p>
       <h3 class="RH2_Method"><a name="275953">BirtComp.anyOf</a></h3>
-      <p class="b_Body"><a name="275954">This function tests if a value or values is found in a field.</a></p>
+      <p class="b_Body"><a name="275954">This function compares one or more values to the contents of a field,.</a></p>
       <p class="N_sb_ScanBold"><a name="275955">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="275956">BirtComp.anyOf( source, target1, ..., targetN )</a></div>
+      <div class="rs_RSyntax"><a name="275956">boolean BirtComp.anyOf( source, target1, ..., targetN )</a></div>
       <p class="N_sb_ScanBold"><a name="275957">Parameters</a></p>
       <p class="RParameter"><a name="275958">source</a></p>
-      <p class="bn_BodyNoLead"><a name="275959">The field that contains the values to compare to.</a></p>
+      <p class="bn_BodyNoLead"><a name="275959">A field with contents to use for comparison.</a></p>
       <p class="RParameter"><a name="279956">target</a></p>
       <p class="bn_BodyNoLead"><a name="279960">The value or values to find in source.</a></p>
       <p class="N_sb_ScanBold"><a name="275960">Returns</a></p>
-      <p class="b_Body"><a name="275961">True if a target value matches a value in source; returns false otherwise.</a></p>
+      <p class="b_Body"><a name="275961">Boolean. True if a target value matches a value in source; returns false otherwise.</a></p>
       <p class="N_sb_ScanBold"><a name="275962">Examples</a></p>
       <p class="b_Body"><a name="275963">The following example tests if Canada, Mexico, or USA are values in the Country </a>field. If any one of the countries is in the field, the function returns true.</p>
-      <div class="cf_CodeFirst"><a name="275964">BirtComp.anyOf( row["Country"], "Canada", "Mexico", "USA" )</a></div>
+      <div class="cf_CodeFirst"><a name="275964">BirtComp.anyOf(dataSetRow["Country"], "Canada", "Mexico", "USA")</a></div>
       <p class="b_Body"><a name="275965">The following example tests if Jan 15, 2009 or Jan 31, 2009 are values in the </a>payDate field:</p>
-      <div class="cf_CodeFirst"><a name="275966">BirtComp.anyOf( row["payDate"], "2009-01-15", "2009-01-31" )</a></div>
-      <p class="b_Body"><a name="279982">The following example tests if two specific product codes are values in the </a>productCode field. If either value appears in the field, the string Obsolete is displayed; otherwise the productCode value is displayed as it appears in the field.</p>
-      <div class="cf_CodeFirst"><a name="279991">if (BirtComp.anyOf(row["productCode"], "S18_1749", "S18_2248" )){</a></div>
-      <div class="co_Code"><a name="279992">&nbsp;&nbsp;</a>displayString = "Obsolete"</div>
-      <div class="co_Code"><a name="279993">&nbsp;&nbsp;</a>}</div>
-      <div class="co_Code"><a name="279994">else{</a></div>
-      <div class="co_Code"><a name="279995">&nbsp;&nbsp;</a>row["productCode"]</div>
-      <div class="co_Code"><a name="279986">&nbsp;&nbsp;</a>}</div>
-      <h3 class="RH2_Method"><a name="280059">BirtComp.between</a></h3>
+      <div class="cf_CodeFirst"><a name="275966">BirtComp.anyOf(dataSetRow["payDate"], "2009-01-15", "2009-01-31")</a></div>
+      <p class="b_Body"><a name="357420">The following example tests if two specific product codes are values in the </a>productCode field. If either value appears in the field, the string Obsolete is displayed; otherwise the productCode value is displayed as it appears in the field.</p>
+      <div class="cf_CodeFirst"><a name="357493">if (BirtComp.anyOf(dataSetRow["PRODUCTCODE"], "S18_1749", </a>"S18_2248" )){</div>
+      <div class="co_Code"><a name="357494">&nbsp;&nbsp;</a>displayString = "Obsolete"</div>
+      <div class="co_Code"><a name="357495">}else{</a></div>
+      <div class="co_Code"><a name="357496">&nbsp;&nbsp;</a>dataSetRow["PRODUCTCODE"]</div>
+      <div class="co_Code"><a name="357421">}</a></div>
+      <h3 class="RH2_Method"><a name="357427">BirtComp.between</a></h3>
       <p class="b_Body"><a name="280060">This function tests if a value is between two specified values.</a></p>
       <p class="N_sb_ScanBold"><a name="280061">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="280062">BirtComp.between( source, target1, target2 )</a></div>
+      <div class="rs_RSyntax"><a name="280062">boolean BirtComp.between( source, target1, target2 )</a></div>
       <p class="N_sb_ScanBold"><a name="280063">Parameters</a></p>
       <p class="RParameter"><a name="280064">source</a></p>
       <p class="bn_BodyNoLead"><a name="280065">The value to test.</a></p>
@@ -83,7 +82,7 @@
       <h3 class="RH2_Method"><a name="287732">BirtComp.compareString</a></h3>
       <p class="b_Body"><a name="287733">This function tests if a string value matches another string value, given specified </a>conditions.</p>
       <p class="N_sb_ScanBold"><a name="287734">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="287735">BirtComp.compareString( source1, source2, ignoreCase, trim )</a></div>
+      <div class="rs_RSyntax"><a name="287735">boolean BirtComp.compareString( source1, source2, ignoreCase, trim )</a></div>
       <p class="N_sb_ScanBold"><a name="287736">Parameters</a></p>
       <p class="RParameter"><a name="287737">source1</a></p>
       <p class="bn_BodyNoLead"><a name="287738">The first string value to use in the comparison.</a></p>
@@ -105,7 +104,7 @@
       <h3 class="RH2_Method"><a name="280965">BirtComp.equalTo</a></h3>
       <p class="b_Body"><a name="280966">This function tests if a value is equal to another value.</a></p>
       <p class="N_sb_ScanBold"><a name="280967">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="280968">BirtComp.equalTo( source, target )</a></div>
+      <div class="rs_RSyntax"><a name="280968">boolean BirtComp.equalTo( source, target )</a></div>
       <p class="N_sb_ScanBold"><a name="280969">Parameters</a></p>
       <p class="RParameter"><a name="280970">source</a></p>
       <p class="bn_BodyNoLead"><a name="280971">The first value to use in the comparison.</a></p>
@@ -121,7 +120,7 @@
       <h3 class="RH2_Method"><a name="285949">BirtComp.greaterOrEqual</a></h3>
       <p class="b_Body"><a name="285950">This function tests if a value is greater than or equal to another value.</a></p>
       <p class="N_sb_ScanBold"><a name="285951">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="285952">BirtComp.greaterOrEqual( source, target )</a></div>
+      <div class="rs_RSyntax"><a name="285952">boolean BirtComp.greaterOrEqual( source, target )</a></div>
       <p class="N_sb_ScanBold"><a name="285953">Parameters</a></p>
       <p class="RParameter"><a name="285954">source</a></p>
       <p class="bn_BodyNoLead"><a name="285955">The first value to use in the comparison.</a></p>
@@ -137,7 +136,7 @@
       <h3 class="RH2_Method"><a name="286072">BirtComp.greaterThan</a></h3>
       <p class="b_Body"><a name="286073">This function tests if a value is greater than another value.</a></p>
       <p class="N_sb_ScanBold"><a name="286074">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="286075">BirtComp.greaterThan( source, target )</a></div>
+      <div class="rs_RSyntax"><a name="286075">boolean BirtComp.greaterThan( source, target )</a></div>
       <p class="N_sb_ScanBold"><a name="286076">Parameters</a></p>
       <p class="RParameter"><a name="286077">source</a></p>
       <p class="bn_BodyNoLead"><a name="286078">The first value to use in the comparison.</a></p>
@@ -153,7 +152,7 @@
       <h3 class="RH2_Method"><a name="286109">BirtComp.lessOrEqual</a></h3>
       <p class="b_Body"><a name="286110">This function tests if a value is less than or equal to another value.</a></p>
       <p class="N_sb_ScanBold"><a name="286111">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="286112">BirtComp.lessOrEqual( source, target )</a></div>
+      <div class="rs_RSyntax"><a name="286112">boolean BirtComp.lessOrEqual( source, target )</a></div>
       <p class="N_sb_ScanBold"><a name="286113">Parameters</a></p>
       <p class="RParameter"><a name="286114">source</a></p>
       <p class="bn_BodyNoLead"><a name="286115">The first value to use in the comparison.</a></p>
@@ -169,7 +168,7 @@
       <h3 class="RH2_Method"><a name="285537">BirtComp.lessThan</a></h3>
       <p class="b_Body"><a name="285538">This function tests if a value is less than another value.</a></p>
       <p class="N_sb_ScanBold"><a name="285539">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="285540">BirtComp.lessThan( source, target )</a></div>
+      <div class="rs_RSyntax"><a name="285540">boolean BirtComp.lessThan( source, target )</a></div>
       <p class="N_sb_ScanBold"><a name="285541">Parameters</a></p>
       <p class="RParameter"><a name="285542">source</a></p>
       <p class="bn_BodyNoLead"><a name="285543">The first value to use in the comparison.</a></p>
@@ -185,7 +184,7 @@
       <h3 class="RH2_Method"><a name="286184">BirtComp.like</a></h3>
       <p class="b_Body"><a name="286185">This function tests if a string value matches a pattern. The pattern must use SQL </a>pattern-matching syntax.</p>
       <p class="N_sb_ScanBold"><a name="286186">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="286187">BirtComp.like( source, target )</a></div>
+      <div class="rs_RSyntax"><a name="286187">boolean BirtComp.like( source, target )</a></div>
       <p class="N_sb_ScanBold"><a name="286188">Parameters</a></p>
       <p class="RParameter"><a name="286189">source</a></p>
       <p class="bn_BodyNoLead"><a name="286190">The string value to evaluate.</a></p>
@@ -233,7 +232,7 @@
       <h3 class="RH2_Method"><a name="287271">BirtComp.match</a></h3>
       <p class="b_Body"><a name="287272">This function tests if a string value matches a pattern. The pattern must use </a>JavaScript regular expression syntax.</p>
       <p class="N_sb_ScanBold"><a name="287273">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="287274">BirtComp.match( source, target )</a></div>
+      <div class="rs_RSyntax"><a name="287274">boolean BirtComp.match( source, target )</a></div>
       <p class="N_sb_ScanBold"><a name="287275">Parameters</a></p>
       <p class="RParameter"><a name="287276">source</a></p>
       <p class="bn_BodyNoLead"><a name="287277">The string value to evaluate.</a></p>
@@ -321,7 +320,7 @@
       <h3 class="RH2_Method"><a name="280508">BirtComp.notBetween</a></h3>
       <p class="b_Body"><a name="280509">This function tests if a value is not between two specified values.</a></p>
       <p class="N_sb_ScanBold"><a name="280510">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="280511">BirtComp.notBetween( source, target1, target2 )</a></div>
+      <div class="rs_RSyntax"><a name="280511">boolean BirtComp.notBetween( source, target1, target2 )</a></div>
       <p class="N_sb_ScanBold"><a name="280512">Parameters</a></p>
       <p class="RParameter"><a name="280513">source</a></p>
       <p class="bn_BodyNoLead"><a name="280514">The value to test.</a></p>
@@ -346,7 +345,7 @@
       <h3 class="RH2_Method"><a name="285068">BirtComp.notEqual</a></h3>
       <p class="b_Body"><a name="285069">This function tests if a value is not equal to another value.</a></p>
       <p class="N_sb_ScanBold"><a name="285070">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="285071">BirtComp.notEqual( source, target )</a></div>
+      <div class="rs_RSyntax"><a name="285071">boolean BirtComp.notEqual( source, target )</a></div>
       <p class="N_sb_ScanBold"><a name="285072">Parameters</a></p>
       <p class="RParameter"><a name="285073">source</a></p>
       <p class="bn_BodyNoLead"><a name="285074">The first value to use in the comparison.</a></p>
@@ -362,7 +361,7 @@
       <h3 class="RH2_Method"><a name="286853">BirtComp.notLike</a></h3>
       <p class="b_Body"><a name="286854">This function tests if a string value does not match a pattern. The pattern must </a>use SQL pattern-matching syntax.</p>
       <p class="N_sb_ScanBold"><a name="286855">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="286856">BirtComp.notLike( source, target )</a></div>
+      <div class="rs_RSyntax"><a name="286856">boolean BirtComp.notLike( source, target )</a></div>
       <p class="N_sb_ScanBold"><a name="286857">Parameters</a></p>
       <p class="RParameter"><a name="286858">source</a></p>
       <p class="bn_BodyNoLead"><a name="286859">The string value to evaluate.</a></p>

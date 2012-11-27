@@ -97,7 +97,7 @@ public class Finance
 		double depr = 0; /* The depreciation we calculate for current cycle */
 
 		if ( life <= 0 || salvage < 0 || cost <= 0 || period <= 0
-				|| life == Double.NaN || salvage == Double.NaN
+				|| Double.isNaN( life ) || Double.isNaN( salvage )
 				|| Double.isNaN( cost ) || Double.isNaN( period ) )
 		{
 			throw ( new IllegalArgumentException(

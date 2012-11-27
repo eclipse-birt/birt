@@ -40,12 +40,25 @@ abstract public class AbstractRenderImageActionHandler
 		String docName = null;// TODO: Do we need document name?
 		String imageId = request.getParameter( ParameterAccessor.PARAM_IMAGEID );
 		
-		response.setContentType( imageId.endsWith(".svg") ? "image/svg+xml" : "image" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+		response.setContentType( __getContentTypeByID( imageId ));
 		ServletOutputStream out = response.getOutputStream( );
 
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		
 		getReportService( ).getImage( docName, imageId, out, options );
+	}
+	
+	private String __getContentTypeByID (String imageId)
+	{
+		if(imageId.endsWith(".svg")) //$NON-NLS-1$
+		{
+			return "image/svg+xml"; //$NON-NLS-1$
+		}
+		else if (imageId.endsWith(".ico")) //$NON-NLS-1$
+		{
+			return "image/x-icon"; //$NON-NLS-1$
+		}
+		return "image"; //$NON-NLS-1$
 	}
 }

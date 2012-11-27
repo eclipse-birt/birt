@@ -42,7 +42,7 @@ public class DocumentIndexReaderV2
 
 	public int getVersion( )
 	{
-		return VERSION_1;
+		return VERSION_2;
 	}
 
 	public void close( )
@@ -127,6 +127,10 @@ public class DocumentIndexReaderV2
 			BookmarkContent content = pageNumbers.getBookmarkContent( bookmark );
 			if ( content != null )
 				return content.getPageNumber( );
+			
+			// The following is for backward compatibility. 
+			// The old version is a map from bookmark to pageNumber.
+			// The new version should not get here.
 			Long lvalue = pageNumbers.getLong( bookmark );
 			if ( lvalue != null )
 				return lvalue.longValue( );

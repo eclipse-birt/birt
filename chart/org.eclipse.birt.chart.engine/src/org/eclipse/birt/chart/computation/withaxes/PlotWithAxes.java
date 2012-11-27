@@ -846,7 +846,9 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 		// computation.
 		if ( axPV.isShowLabels( ) && axPV.getScale( ).isCategoryScale( ) )
 		{
-			double v = ( dWTotal - dYAxisTitleThickness - 2 * getTickSize( ) ) / 2;
+			double leftTickSize = bTicksLeft ? getTickSize() : 0;
+			double rightTickSize = bTicksRight ? getTickSize() : 0;
+			double v = ( dWTotal - dYAxisTitleThickness - leftTickSize - rightTickSize ) / 2;
 			if ( dYAxisLabelsThickness > v )
 			{
 				axPV.getScale( ).getAxisLabelInfo( ).dActualSize = dYAxisLabelsThickness;
@@ -1346,29 +1348,33 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			AutoScale.AxisLabelInfo ali = axPV.getScale( ).getAxisLabelInfo( );
 			if ( axPV.getLabelPosition( ) == IConstants.LEFT )
 			{
+				double tickSize = ( ( axPV.getCombinedTickStyle( ) & TICK_LEFT ) == TICK_LEFT ) ? getTickSize( )
+						: 0;
 				double labelThickness = dX - dX1
-						- getTickSize( )
+						- tickSize
 						- ( ( iYTitleLocation == LEFT ) ? dYAxisTitleThickness
 								: 0 );
 				labelThickness = ali.getValidSize( labelThickness );
 				ali.dMaxSize = labelThickness;
 				axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dX
 						- 1
-						- getTickSize( )
+						- tickSize
 						- labelThickness
 						- dYAxisTitleThickness : dX2 + 1 - dYAxisTitleThickness );
 			}
 			else if ( axPV.getLabelPosition( ) == IConstants.RIGHT )
 			{
+				double tickSize = ( ( axPV.getCombinedTickStyle( ) & TICK_RIGHT ) == TICK_RIGHT ) ? getTickSize( )
+						: 0;
 				double labelThickness = dX2
 						- dX
-						- getTickSize( )
+						- tickSize
 						- ( ( iYTitleLocation == RIGHT ) ? dYAxisTitleThickness
 								: 0 );
 				labelThickness = ali.getValidSize( labelThickness );
 				ali.dMaxSize = labelThickness;
 				axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dX1 - 1
-						: dX + 1 + labelThickness );
+						: dX + 1 + tickSize + labelThickness );
 			}
 		}
 		else

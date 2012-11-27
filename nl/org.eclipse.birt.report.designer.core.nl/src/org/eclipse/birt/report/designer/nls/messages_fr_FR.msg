@@ -633,6 +633,7 @@ DerivedDataSet.action.error.message.InvalidNumber.DataSet=Le nombre de jeux de d
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Définissez les colonnes de calcul. 
 DataSetComputedColumnsPage.description=Définir des colonnes de calcul :
 DataSetComputedColumnsPage.duplicatedName=Nom de colonne en double.
+DataSetComputedColumnsPage.numberName=Le nom de la colonne ne doit pas être un chiffre.
 DataSetComputedColumnsPage.toolTipText.Down=Déplacer la colonne de calcul vers le bas.
 DataSetComputedColumnsPage.toolTipText.Up=Déplacer la colonne de calcul vers le haut.
 DataSetComputedColumnsPage.toolTipText.Remove=Supprimer la colonne de calcul.
@@ -1809,6 +1810,7 @@ FormPage.Button.Up=Déplacer vers le &haut
 FormPage.Button.Up.Alt1=Déplacer vers le ha&ut
 FormPage.Button.Up.Alt2=Déplacer v&ers le haut
 FormPage.Button.Binding.Refresh=Ac&tualiser
+FormPage.Button.Binding.Clear=Effa&cer
 FormPage.Menu.ModifyProperty=Modifier la propriété
 FormPage.toolTipText.Up=Déplacer vers le haut
 FormPage.toolTipText.Down=Déplacer vers le bas
@@ -2513,7 +2515,7 @@ MapPreferencePage.displayname.Title=Mappage
 MapPreferencePage.text.Add=&Ajouter...
 MapPreferencePage.text.Delete=&Supprimer
 MapPreferencePage.text.Description=Règles de mappage :
-MapPreferencePage.text.Edit=&Modifier...
+MapPreferencePage.text.Edit=Modifi&er...
 MapPreferencePage.toolTipText.Up=Déplacer la règle de mappage vers le haut
 MapPreferencePage.toolTipText.Down=Déplacer la règle de mappage vers le bas
 MapPreferencePage.text.Duplicate=Du&pliquer
@@ -3637,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI :
 
 UseCssInThemeDialog.TitleArea.Title=Utiliser le fichier CSS dans la bibliothèque d'états
 UseCssInThemeDialog.TitleArea.Message=Sélectionnez un thème dans lequel les styles du fichier CSS doivent être placés.
+CssStyleSheetNodeProvider.Label.FromServer=A partir du serveur
 CssStyleSheetNodeProvider.Tooltip.URI=(Appliqué à l'heure d'affichage)
 
 
@@ -4309,6 +4312,7 @@ GeneralPage.Library.Modified.Note=REMARQUE : cet élément d'état provenant de la 
 
 #BookMarkPage
 BookMarkPage.Modified.Note=Le signet contient des caractères spéciaux différents de \"A-Z a-z 0-9 - _ : .\". Cela peut poser problème lors de l'exécution.
+BookMarkPage.Modified.WithoutQuotes=Le signet doit être entouré de guillemets.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4617,7 +4621,8 @@ BindingDialogHelper.text.Grid=Grille
 BindingDialogHelper.text.Group=Gr&oupe
 BindingDialogHelper.text.Expression=&Expression :
 BindingDialogHelper.text.displayName=&Nom d'affichage :
-BindingDialogHelper.text.allowExport=Autoriser l'exp&ortation :
+BindingDialogHelper.text.allowExport=Exp&orter :
+BindingDialogHelper.text.allowExport.button=Autoriser l'exportation
 BindingDialogHelper.text.displayNameID=ID du nom d'affi&chage :
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
@@ -4647,8 +4652,8 @@ CrosstabBindingDialogHelper.calculation.group=Intervalle de temps
 CrosstabBindingDialogHelper.recentday.description=Dernière date de la période
 CrosstabBindingDialogHelper.referencedate.label=Date de &référence :
 CrosstabBindingDialogHelper.thisdate.label=Cette date :
-CrosstabBindingDialogHelper.thisdate.example.label=Saisissez les valeurs de dates selon le modèle suivant : AAAA-MM-JJ
-CrosstabBindingDialogHelper.thisdate.example.label.constant=Saisissez les valeurs de dates selon le modèle suivant : AAAA-MM-JJ
+CrosstabBindingDialogHelper.thisdate.example.label=Veuillez insérer la valeur de date fournie entre guillemets.\nPar exemple : "2012-01-23", "1/23/2012".
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Par exemple : 2012-01-23, 1/23/2012.
 CrosstabBindingDialogHelper.timedimension.label=Dimension de te&mps :
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Cette dimension ne prend pas en charge la date de référence récente 
 CrosstabBindingDialogHelper.today.label=Aujourd'hui
@@ -4721,7 +4726,7 @@ InsertAggregationAction.text=&Agrégation
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=Période de temps relati&f
 
 ###########################################################
 #Multiple views
@@ -4876,6 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par déf&aut :
 ExpressionEditor.Error.EmptyExpression=L'expression doit être renseignée.
 ExpressionEditor.Label.Expression=&Expression :
 ExpressionEditor.Title=Modifier l'expression
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Outil de sélection de la couleur de l'arrière-plan
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Outil de sélection de la couleur du premier plan
+ExpressionSyntaxColoringPage.Button.Bold=&Gras
+ExpressionSyntaxColoringPage.Button.Enable=Activer
+ExpressionSyntaxColoringPage.Button.Italic=&Italique
+ExpressionSyntaxColoringPage.Button.Restore=&Restaurer les paramètres par défaut
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Barré
+ExpressionSyntaxColoringPage.Button.Underline=&Texte souligné
+ExpressionSyntaxColoringPage.Decscription=Personnalisez le repérage de la syntaxe en sélectionnant le type de texte correspondant au style que vous souhaitez modifier depuis la liste ou la zone d'exemple de texte, par exemple.
+ExpressionSyntaxColoringPage.Element.Comment=Commentaires
+ExpressionSyntaxColoringPage.Element.Default=Par défaut
+ExpressionSyntaxColoringPage.Element.Keyword=Mot-clé
+ExpressionSyntaxColoringPage.Element.String=Chaîne
+ExpressionSyntaxColoringPage.Label.Background=Arr&ière-plan :
+ExpressionSyntaxColoringPage.Label.Foreground=&Premier plan :
+ExpressionSyntaxColoringPage.Label.SampleText=&Exemple de texte :
+ExpressionSyntaxColoringPage.Label.SyntaxElement=Eléments de s&yntaxe :
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Les couleurs et la police par défaut peuvent être configurés dans la page <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Editeurs de texte</a> et dans la page de préférences <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Couleurs et polices</a> .
 
 ###########################################################
 #VariableDropAdapter

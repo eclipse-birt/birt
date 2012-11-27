@@ -38,7 +38,9 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTo
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.CopyCrosstabCellContentsAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.MergeCrosstabHeaderCellAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.ShowAsViewMenuAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.SplitCrosstabHeadCellAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
@@ -192,6 +194,24 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 						createMeasureMenu( manager,
 								firstSelectedElement,
 								firstMemuItem );
+						manager.insertBefore( firstMemuItem.getId( ),
+								new Separator( ) );
+					}
+					else if (ICrosstabCellAdapterFactory.CROSSTAB_HEADER.equals( position ))
+					{
+						IAction action = new SplitCrosstabHeadCellAction(firstSelectedElement.getCrosstabCellHandle( ).getModelHandle( ));
+						//if (action.isEnabled( ))
+						{
+							manager.insertBefore( firstMemuItem.getId( ), action );
+							
+						}
+						action = new MergeCrosstabHeaderCellAction(firstSelectedElement.getCrosstabCellHandle( ).getModelHandle( ));
+						//if (action.isEnabled( ))
+						{
+							manager.insertBefore( firstMemuItem.getId( ), action );
+							manager.insertBefore( firstMemuItem.getId( ),
+									new Separator( ) );
+						}
 						manager.insertBefore( firstMemuItem.getId( ),
 								new Separator( ) );
 					}

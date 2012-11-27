@@ -112,6 +112,18 @@ public class DateFormatWrapperFactory
 			return formater.format( date );
 		}
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.chart.internal.factory.IDateFormatWrapper#toLocalizedPattern()
+		 */
+		public String toLocalizedPattern( )
+		{
+			if ( formater instanceof SimpleDateFormat )
+			{
+				return ( (SimpleDateFormat) formater ).toLocalizedPattern( );
+			}
+			return "MMM d, yyyy h:mm:ss a"; //$NON-NLS-1$
+		}
+
 	}
 
 	static class HourDateFormat implements IDateFormatWrapper
@@ -131,6 +143,21 @@ public class DateFormatWrapperFactory
 					.format( date )
 					+ "\n" //$NON-NLS-1$
 					+ new SimpleDateFormat( "HH:mm", locale ).format( date ); //$NON-NLS-1$
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.chart.internal.factory.IDateFormatWrapper#toLocalizedPattern()
+		 */
+		public String toLocalizedPattern( )
+		{
+			DateFormat df = DateFormat.getDateInstance( DateFormat.LONG, locale );
+			if ( df instanceof SimpleDateFormat )
+			{
+				return ( (SimpleDateFormat) df ).toLocalizedPattern( )
+						+ "\n"  //$NON-NLS-1$
+						+ new SimpleDateFormat( "HH:mm", locale ).toLocalizedPattern( );
+			}
+			return "MMMM d, yyyy HH:mm";  //$NON-NLS-1$
 		}
 
 	}
@@ -168,6 +195,21 @@ public class DateFormatWrapperFactory
 			}
 			return str.substring( 0, pos.getBeginIndex( ) )
 					+ str.substring( endIndex );
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.chart.internal.factory.IDateFormatWrapper#toLocalizedPattern()
+		 */
+		public String toLocalizedPattern( )
+		{
+			DateFormat df = DateFormat.getDateInstance( DateFormat.MEDIUM,
+					locale );
+			if ( df instanceof SimpleDateFormat )
+			{
+				String pattern = ( (SimpleDateFormat) df ).toLocalizedPattern( );
+				return pattern.replaceAll( "(-|/)?d+(\\.|,|/|-)?\\s?", "" ).trim( ); //$NON-NLS-1$ //$NON-NLS-2$  
+			}
+			return "MMM yyyy";  //$NON-NLS-1$
 		}
 	}
 }

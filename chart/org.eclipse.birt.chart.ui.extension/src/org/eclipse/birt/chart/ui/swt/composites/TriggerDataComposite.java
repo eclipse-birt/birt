@@ -817,6 +817,11 @@ public class TriggerDataComposite extends Composite implements
 			{
 				cmbCursorType.setText( LiteralHelper.cursorSet.getDisplayNameByName( c.getType( )
 						.getName( ) ) );
+				if ( cmbCursorType.getSelectionIndex( ) < 0 )
+				{
+					cmbCursorType.select( 0 );
+					setMouseCursor( CursorType.getByName( LiteralHelper.cursorSet.getNameByDisplayName( cmbCursorType.getText( ) ) ) );
+				}
 			}
 			else if ( cmbCursorType.getSelectionIndex( ) < 0 )
 			{
@@ -975,23 +980,31 @@ public class TriggerDataComposite extends Composite implements
 				}
 				else
 				{
-					this.slValues.topControl = cmpURL;
-					URLValue urlValue = (URLValue) trigger.getAction( )
-							.getValue( );
-					sBaseURL = urlValue.getBaseUrl( );
-					// txtBaseURL.setText( sBaseURL );
-					// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0
-					// )
-					// ? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
-					txtBaseParm.setText( ( urlValue.getBaseParameterName( )
-							.length( ) > 0 ) ? urlValue.getBaseParameterName( )
-							: "" ); //$NON-NLS-1$
-					txtValueParm.setText( ( urlValue.getValueParameterName( )
-							.length( ) > 0 ) ? urlValue.getValueParameterName( )
-							: "" ); //$NON-NLS-1$
-					txtSeriesParm.setText( ( urlValue.getSeriesParameterName( )
-							.length( ) > 0 ) ? urlValue.getSeriesParameterName( )
-							: "" ); //$NON-NLS-1$	
+					// Null case
+					ChartAdapter.beginIgnoreNotifications( );
+					MultiURLValues urlValues = MultiURLValuesImpl.create( );
+					trigger.getAction( ).setValue( urlValues );
+					urlValues.eAdapters( ).addAll( trigger.eAdapters( ) );
+					multiHyperlinksComposite.populateUIValues( urlValues );
+					ChartAdapter.endIgnoreNotifications( );
+					
+//					this.slValues.topControl = cmpURL;
+//					URLValue urlValue = (URLValue) trigger.getAction( )
+//							.getValue( );
+//					sBaseURL = urlValue.getBaseUrl( );
+//					// txtBaseURL.setText( sBaseURL );
+//					// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0
+//					// )
+//					// ? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
+//					txtBaseParm.setText( ( urlValue.getBaseParameterName( )
+//							.length( ) > 0 ) ? urlValue.getBaseParameterName( )
+//							: "" ); //$NON-NLS-1$
+//					txtValueParm.setText( ( urlValue.getValueParameterName( )
+//							.length( ) > 0 ) ? urlValue.getValueParameterName( )
+//							: "" ); //$NON-NLS-1$
+//					txtSeriesParm.setText( ( urlValue.getSeriesParameterName( )
+//							.length( ) > 0 ) ? urlValue.getSeriesParameterName( )
+//							: "" ); //$NON-NLS-1$	
 				}
 				break;
 			case INDEX_2_TOOLTIP :
@@ -1048,7 +1061,9 @@ public class TriggerDataComposite extends Composite implements
 		switch ( getTriggerIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
-				value = multiHyperlinksComposite.getURLValues( );
+				// Must copy here to avoid chain set
+				MultiURLValues muv = multiHyperlinksComposite.getURLValues( );
+				value = ( muv != null ) ? muv.copyInstance( ) : muv;
 				break;
 			case INDEX_2_TOOLTIP :
 				value = TooltipValueImpl.create( 200, "" ); //$NON-NLS-1$
@@ -1167,6 +1182,12 @@ public class TriggerDataComposite extends Composite implements
 			else
 			{
 				cmbTriggerType.markSelection( triggerType );
+				// #48981 update the trigger when trigger isn't null.
+				Object trigger = triggersMap.get( triggerType );
+				if ( trigger == null )
+				{
+					updateTrigger( triggerType );
+				}
 			}
 			cmbTriggerType.setText( triggerType );
 			switchUI( );
@@ -1367,6 +1388,11 @@ public class TriggerDataComposite extends Composite implements
 		boolean enableCursor = ( this.triggersList.size( ) > 0 )
 				|| ( cmbActionType.getSelectionIndex( ) > 0 );
 		cmbCursorType.setEnabled( enableCursor );
+		if ( !enableCursor )
+		{
+			cmbCursorType.select( 0 );
+			setMouseCursor( null );
+		}
 		btnCursorImage.setEnabled( btnCursorImage.isEnabled( ) && enableCursor );
 	}
 }

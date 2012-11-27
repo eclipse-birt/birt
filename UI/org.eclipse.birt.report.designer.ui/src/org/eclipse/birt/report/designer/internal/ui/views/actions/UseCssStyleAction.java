@@ -97,10 +97,14 @@ public class UseCssStyleAction extends AbstractViewAction
 				ReportDesignHandle moduleHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 						.getReportDesignHandle( );
 
-				IncludedCssStyleSheet css = StructureFactory.createIncludedCssStyleSheet( );
-				css.setFileName( dialog.getFileName( ) );
-				css.setExternalCssURI( dialog.getURI( ) );
-				moduleHandle.addCss( css );
+				
+				{
+					IncludedCssStyleSheet css = StructureFactory.createIncludedCssStyleSheet( );
+					css.setExternalCssURI( dialog.getURI( ) );
+					css.setUseExternalCss( dialog.isUseUri( ) );
+					css.setFileName( dialog.getFileName( ) );
+					moduleHandle.addCss( css );
+				}
 			}
 			catch ( SemanticException e )
 			{
@@ -128,8 +132,9 @@ public class UseCssStyleAction extends AbstractViewAction
 			try
 			{
 				IncludedCssStyleSheet css = StructureFactory.createIncludedCssStyleSheet( );
-				css.setFileName( dialog.getFileName( ) );
+				css.setUseExternalCss( dialog.isUseUri( ) );
 				css.setExternalCssURI( dialog.getURI( ) );
+				css.setFileName( dialog.getFileName( ) );
 				themeHandle.addCss( css );
 			}
 			catch ( SemanticException e )

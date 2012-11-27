@@ -69,6 +69,34 @@ public final class CssStyleSheet
 	 */
 
 	private String fileName = null;
+	
+	private String externalCssURI = null;
+	
+	
+	public String getExternalCssURI( )
+	{
+		return externalCssURI;
+	}
+
+	
+	public void setExternalCssURI( String externalCssURI )
+	{
+		this.externalCssURI = externalCssURI;
+	}
+
+	
+	public boolean isUseExternalCss( )
+	{
+		return useExternalCss;
+	}
+
+	
+	public void setUseExternalCss( boolean useExternalCss )
+	{
+		this.useExternalCss = useExternalCss;
+	}
+
+	private boolean useExternalCss = false;
 
 	/**
 	 * Container of CssStyleSheet

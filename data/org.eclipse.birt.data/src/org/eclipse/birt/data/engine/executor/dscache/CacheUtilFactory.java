@@ -39,6 +39,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.core.security.PropertySecurity;
+import org.eclipse.birt.data.engine.executor.DataSetCacheObjectWithDummyData;
 import org.eclipse.birt.data.engine.executor.DiskDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.IDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.IncreDataSetCacheObject;
@@ -50,7 +51,6 @@ import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.ResultIterator;
-import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -105,6 +105,10 @@ class CacheUtilFactory
 		{
 			return new IncreCacheLoadUtil( (IncreDataSetCacheObject) cacheObject, session );
 		}
+		else if ( cacheObject instanceof DataSetCacheObjectWithDummyData )
+		{
+			return new DummyDataCacheLoadUtil( (DataSetCacheObjectWithDummyData) cacheObject, session );
+		}
 		return null;
 	}
 	
@@ -156,9 +160,9 @@ class CacheUtilFactory
 			assert rsClass != null;
 
 			this.file = cacheObject.getDataFile( );
-			FileSecurity.fileDeleteOnExit( this.file );
+//			FileSecurity.fileDeleteOnExit( this.file );
 			this.metaFile = cacheObject.getMetaFile( );
-			FileSecurity.fileDeleteOnExit( this.metaFile );
+//			FileSecurity.fileDeleteOnExit( this.metaFile );
 			this.rsClass = rsClass;
 			this.rowCount = 0;
 			this.tempFolder = cacheObject.getCacheDir( );

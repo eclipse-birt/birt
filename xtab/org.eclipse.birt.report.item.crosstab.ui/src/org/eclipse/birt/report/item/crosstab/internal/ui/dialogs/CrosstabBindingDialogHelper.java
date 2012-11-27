@@ -420,7 +420,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			}
 		} );
-		dateText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.heightHint = dateText.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- dateText.getBorderWidth( )
+				* 2;
+		dateText.setLayoutData( gd );
 
 		if ( expressionProvider == null )
 		{
@@ -470,7 +475,15 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				false,
 				3,
 				1 ) );
+
+		radioContainer.setTabList( new Control[]{
+				todayButton,
+				dateSelectionButton,
+				dateSelecionContainer,
+				recentButton
+		} );
 	}
+
 	private void dateButtonSelection( boolean isStaticDate )
 	{
 		if ( isStaticDate )
@@ -507,6 +520,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			if ( e.widget instanceof MenuButton )
 			{
 				dateFormatLbl.setText( getDateHintText( ) );
+				composite.getShell( ).pack( true );
 			}
 		}
 
@@ -531,6 +545,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		boolean inUseDimsion = false;
 		CrosstabReportItemHandle crosstab = getCrosstabReportItemHandle( );
+		if ( crosstab.getCube( ) == null )
+		{
+			return false;
+		}
 		int count = crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE );
 		for ( int i = 0; i < count; i++ )
 		{
@@ -560,8 +578,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void initCalculationTypeCombo( String dimensionName )
 	{
-		DimensionHandle handle = getCrosstabReportItemHandle( ).getCube( )
-				.getDimension( dimensionName );
+		CubeHandle cube = getCrosstabReportItemHandle( ).getCube( );
+		if ( cube == null )
+		{
+			return;
+		}
+		DimensionHandle handle = cube.getDimension( dimensionName );
 		String cal = calculationType.getText( );
 		isStatic = true;
 		if ( recentButton.getSelection( ) )
@@ -992,6 +1014,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			GridData gridData = new GridData( SWT.FILL, SWT.FILL, true, false );
 			// gridData.horizontalIndent = 0;
 			// gridData.horizontalSpan = 2;
+			gridData.heightHint = txtParam.computeSize( SWT.DEFAULT,
+					SWT.DEFAULT ).y - txtParam.getBorderWidth( ) * 2;
 			txtParam.setLayoutData( gridData );
 			createExpressionButton( calculationComposite, txtParam );
 			calculationParamsMap.put( name, txtParam );
@@ -1235,6 +1259,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private void initTimeDimension( )
 	{
 		String[] strs = getTimeDimensions( );
+		if ( strs == null )
+		{
+			return;
+		}
 		timeDimension.setItems( strs );
 
 		if ( getBinding( ) == null )
@@ -1344,6 +1372,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		CrosstabReportItemHandle crosstab = getCrosstabReportItemHandle( );
 		CubeHandle cube = crosstab.getCube( );
+		if ( cube == null )
+		{
+			return new String[0];
+		}
 		List list = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP )
 				.getContents( );
 		for ( int i = 0; i < list.size( ); i++ )
@@ -2003,6 +2035,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		txtFilter = new Text( composite, SWT.BORDER | SWT.WRAP );
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalSpan = 2;
+		gridData.heightHint = txtFilter.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- txtFilter.getBorderWidth( )
+				* 2;
 		txtFilter.setLayoutData( gridData );
 		txtFilter.addModifyListener( new ModifyListener( ) {
 
@@ -2071,6 +2106,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		txtExpression = new Text( composite, SWT.BORDER | SWT.WRAP );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
+		gd.heightHint = txtExpression.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- txtExpression.getBorderWidth( )
+				* 2;
 		txtExpression.setLayoutData( gd );
 		createExpressionButton( composite, txtExpression );
 		txtExpression.addModifyListener( new ModifyListener( ) {
@@ -2184,6 +2222,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 						gridData.horizontalIndent = 0;
 						gridData.horizontalSpan = 2;
+						gridData.heightHint = txtParam.computeSize( SWT.DEFAULT,
+								SWT.DEFAULT ).y
+								- txtParam.getBorderWidth( )
+								* 2;
 						txtParam.setLayoutData( gridData );
 						createExpressionButton( paramsComposite, txtParam );
 						paramsMap.put( param.getName( ), txtParam );
@@ -2412,6 +2454,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						dialog.setCanFinish( false );
 						return;
 					}
+				}
+				else
+				{
+					dialog.setCanFinish( false );
+					return;
 				}
 			}
 			dialogCanFinish( );

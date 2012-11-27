@@ -34,6 +34,8 @@ public class TableColumnBandTest extends BaseTestCase
 {
 
 	private String fileName = "TableColumnBandTest.xml"; //$NON-NLS-1$
+	
+	private String shiftFileName1 = "n1.rptdesign"; //$NON-NLS-1$
 
 	private String shiftFileName = "TableShiftColumnBandTest.xml"; //$NON-NLS-1$
 
@@ -1068,6 +1070,21 @@ public class TableColumnBandTest extends BaseTestCase
 		cell = (CellHandle) row.getCells( ).get( 3 );
 		assertEquals( 1, cell.getRowSpan( ) );
 		assertEquals( 1, cell.getContent( ).getCount( ) );
+	}
+	
+	
+	public void testShiftSuccessfullyWithSpan( ) throws Exception
+	{
+		openDesign( shiftFileName1 );
+
+		TableHandle table = (TableHandle) designHandle.findElement( "Table1" ); //$NON-NLS-1$
+		assertNotNull( table );
+
+		table.shiftColumn( 3, 4 );
+
+		save( );
+		assertTrue( compareFile( "n1_golden.xml" ) ); //$NON-NLS-1$
+
 	}
 
 	/**

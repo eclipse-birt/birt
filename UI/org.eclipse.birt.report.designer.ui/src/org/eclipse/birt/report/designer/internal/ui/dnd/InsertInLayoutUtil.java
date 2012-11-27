@@ -552,10 +552,6 @@ public class InsertInLayoutUtil
 					else
 					{
 						DNDUtil.addElementHandle( positions[i], newObj );
-						if (newObj instanceof DesignElementHandle)
-						{
-							DEUtil.setDefaultTheme( (DesignElementHandle)newObj );
-						}
 					}
 				}
 			}
@@ -587,7 +583,14 @@ public class InsertInLayoutUtil
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( paramType ) )
 			paramType = DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
 
-		bindingColumn.setDataType( paramType );
+		if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.endsWith( model.getParamType( ) ) )
+		{
+			bindingColumn.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT );
+		}
+		else
+		{
+			bindingColumn.setDataType( paramType );
+		}
 
 		dataHandle.addColumnBinding( bindingColumn, false );
 		dataHandle.setResultSetColumn( bindingColumn.getName( ) );
@@ -614,16 +617,16 @@ public class InsertInLayoutUtil
 		return dataHandle;
 	}
 
-	private static GroupHandle addGroupHandle(TableHandle tableHandle, ResultSetColumnHandle model, DataItemHandle dataHandle, int index)throws SemanticException
+	private static GroupHandle addGroupHandle( TableHandle tableHandle,
+			ResultSetColumnHandle model, DataItemHandle dataHandle, int index )
+			throws SemanticException
 	{
-		String columnName = model.getColumnName();
+		String columnName = model.getColumnName( );
 		DesignElementFactory factory = DesignElementFactory.getInstance( tableHandle.getModuleHandle( ) );
 		GroupHandle groupHandle = factory.newTableGroup( );
 		int columnCount = tableHandle.getColumnCount( );
-		groupHandle.getHeader( )
-				.add( factory.newTableRow( columnCount ) );
-		groupHandle.getFooter( )
-				.add( factory.newTableRow( columnCount ) );
+		groupHandle.getHeader( ).add( factory.newTableRow( columnCount ) );
+		groupHandle.getFooter( ).add( factory.newTableRow( columnCount ) );
 		groupHandle.setName( columnName );
 
 		groupHandle.setExpressionProperty( IGroupElementModel.KEY_EXPR_PROP,
@@ -639,48 +642,48 @@ public class InsertInLayoutUtil
 
 		groupHandle.addTOC( toc );
 
-		//slotHandle.add( groupHandle, slotHandle.getCount( ) );
+		// slotHandle.add( groupHandle, slotHandle.getCount( ) );
 
-		RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( )
-				.get( 0 ) );
+		RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( ).get( 0 ) );
 		CellHandle cellHandle = null;
-		if (index >= 0 && index <rowHandle.getCells( ).getCount( ) )
+		if ( index >= 0 && index < rowHandle.getCells( ).getCount( ) )
 		{
-			cellHandle = (CellHandle) rowHandle.getCells( )
-			.get( index );
+			cellHandle = (CellHandle) rowHandle.getCells( ).get( index );
 		}
-		if (cellHandle == null)
+		if ( cellHandle == null )
 		{
-			cellHandle = (CellHandle) rowHandle.getCells( )
-				.get( 0 );
+			cellHandle = (CellHandle) rowHandle.getCells( ).get( 0 );
 		}
-		
+
 		cellHandle.getContent( ).add( dataHandle );
 		SlotHandle header = tableHandle.getHeader( );
 		if ( header != null && header.getCount( ) > 0 )
 		{
 			CellHandle newTarget = null;
-			if (index >= 0)
-			{
-				 newTarget = (CellHandle) HandleAdapterFactory.getInstance( )
-				 				.getTableHandleAdapter( tableHandle ).getCell( 1, index + 1, false );
-			}
-			if (newTarget == null)
+			if ( index >= 0 )
 			{
 				newTarget = (CellHandle) HandleAdapterFactory.getInstance( )
- 				.getTableHandleAdapter( tableHandle ).getCell( 1, 1, false );
+						.getTableHandleAdapter( tableHandle )
+						.getCell( 1, index + 1, false );
 			}
-			if (newTarget != null && newTarget.getContent( ).getCount( ) == 0)
+			if ( newTarget == null )
 			{
-				LabelHandle label = DesignElementFactory.getInstance( ).newLabel( null );
+				newTarget = (CellHandle) HandleAdapterFactory.getInstance( )
+						.getTableHandleAdapter( tableHandle )
+						.getCell( 1, 1, false );
+			}
+			if ( newTarget != null && newTarget.getContent( ).getCount( ) == 0 )
+			{
+				LabelHandle label = DesignElementFactory.getInstance( )
+						.newLabel( null );
 				label.setText( UIUtil.getColumnDisplayName( model ) );
-				newTarget.addElement( label,
-						CellHandle.CONTENT_SLOT );
+				newTarget.addElement( label, CellHandle.CONTENT_SLOT );
 			}
 		}
 
 		return groupHandle;
 	}
+
 	/**
 	 * Inserts dataset column into the target. Add label or group key if
 	 * possible
@@ -738,60 +741,64 @@ public class InsertInLayoutUtil
 						GroupHandle group = (GroupHandle) o;
 						if ( group.getName( ).equals( model.getColumnName( ) ) )
 						{
-							if ( target instanceof CellHandle)
+							if ( target instanceof CellHandle )
 							{
-								CellHandle cellTarget = (CellHandle)target;
-								if (cellTarget.getContent( ).getCount( ) == 0)
+								CellHandle cellTarget = (CellHandle) target;
+								if ( cellTarget.getContent( ).getCount( ) == 0 )
 								{
-									return  dataHandle;
+									return dataHandle;
 								}
 							}
 							return null;
 						}
 					}
 					int index = -1;
-					if ( target instanceof CellHandle)
+					if ( target instanceof CellHandle )
 					{
-						CellHandle cellTarget = (CellHandle)target;
-						CellHandleAdapter cellAdapter = HandleAdapterFactory.getInstance( ).getCellHandleAdapter( cellTarget );
+						CellHandle cellTarget = (CellHandle) target;
+						CellHandleAdapter cellAdapter = HandleAdapterFactory.getInstance( )
+								.getCellHandleAdapter( cellTarget );
 						index = cellAdapter.getColumnNumber( );
 					}
-					
-					return addGroupHandle( tableHandle, model, dataHandle, index - 1 );
+
+					return addGroupHandle( tableHandle,
+							model,
+							dataHandle,
+							index - 1 );
 				}
-				else if (DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( UIUtil.getColumnAnalysis( model ) ))
+				else if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( UIUtil.getColumnAnalysis( model ) ) )
 				{
 					DataSetHandle dataset = (DataSetHandle) model.getElementHandle( );
 					String str = UIUtil.getAnalysisColumn( model );
 					String type = ""; //$NON-NLS-1$
-					
+
 					ResultSetColumnHandle newResultColumn = null;
-					if (str != null)
+					if ( str != null )
 					{
 						List columnList = DataUtil.getColumnList( dataset );
-						
+
 						for ( int i = 0; i < columnList.size( ); i++ )
 						{
 							ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
-							if (str.equals( resultSetColumn.getColumnName( ) ))
+							if ( str.equals( resultSetColumn.getColumnName( ) ) )
 							{
-								newResultColumn =  resultSetColumn;
+								newResultColumn = resultSetColumn;
 								break;
 							}
 						}
-						
+
 						for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 								.iterator( ); iter.hasNext( ); )
 						{
 							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
 							if ( element.getColumnName( ).equals( str )
-									||str.equals( element.getAlias( ) ) )
+									|| str.equals( element.getAlias( ) ) )
 							{
 								type = element.getAnalysis( );
 								break;
 							}
 						}
-						if (DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( type ))
+						if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( type ) )
 						{
 							boolean hasGroup = false;
 							SlotHandle slotHandle = tableHandle.getGroups( );
@@ -801,58 +808,66 @@ public class InsertInLayoutUtil
 								if ( group.getName( ).equals( str ) )
 									hasGroup = true;
 							}
-							if (!hasGroup)
+							if ( !hasGroup )
 							{
 								ComputedColumn bindingColumn = StructureFactory.newComputedColumn( tableHandle,
 										model.getColumnName( ) );
-								bindingColumn.setDataType( model.getDataType( ));
+								bindingColumn.setDataType( model.getDataType( ) );
 								ExpressionUtility.setBindingColumnExpression( model,
 										bindingColumn );
 								bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
 								String displayKey = UIUtil.getColumnDisplayNameKey( model );
 								if ( displayKey != null )
 									bindingColumn.setDisplayNameID( displayKey );
-								tableHandle.addColumnBinding( bindingColumn, false );
+								tableHandle.addColumnBinding( bindingColumn,
+										false );
 								dataHandle.setResultSetColumn( model.getColumnName( ) );
-								
+
 								bindingColumn = StructureFactory.newComputedColumn( tableHandle,
 										newResultColumn.getColumnName( ) );
-								bindingColumn.setDataType( newResultColumn.getDataType( ));
+								bindingColumn.setDataType( newResultColumn.getDataType( ) );
 								ExpressionUtility.setBindingColumnExpression( newResultColumn,
 										bindingColumn );
 								bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( newResultColumn ) );
 								displayKey = UIUtil.getColumnDisplayNameKey( newResultColumn );
 								if ( displayKey != null )
 									bindingColumn.setDisplayNameID( displayKey );
-								tableHandle.addColumnBinding( bindingColumn, false );
+								tableHandle.addColumnBinding( bindingColumn,
+										false );
 								int index = -1;
-								if ( target instanceof CellHandle)
+								if ( target instanceof CellHandle )
 								{
-									CellHandle cellTarget = (CellHandle)target;
-									CellHandleAdapter cellAdapter = HandleAdapterFactory.getInstance( ).getCellHandleAdapter( cellTarget );
+									CellHandle cellTarget = (CellHandle) target;
+									CellHandleAdapter cellAdapter = HandleAdapterFactory.getInstance( )
+											.getCellHandleAdapter( cellTarget );
 									index = cellAdapter.getColumnNumber( );
 								}
-								return addGroupHandle( tableHandle, newResultColumn, dataHandle, index - 1 );
+								return addGroupHandle( tableHandle,
+										newResultColumn,
+										dataHandle,
+										index - 1 );
 							}
 						}
 					}
-					if ( target instanceof CellHandle)
+					if ( target instanceof CellHandle )
 					{
 						ComputedColumn column = StructureFactory.newComputedColumn( tableHandle,
 								model.getColumnName( ) );
-						
-						
-						column.setDataType( model.getDataType( ));
-						//binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
 
-						//binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
+						column.setDataType( model.getDataType( ) );
+						// binding.setAggregateFunction(
+						// DesignChoiceConstants.MEASURE_FUNCTION_MAX );
+
+						// binding.setExpression(
+						// ExpressionUtil.createJSRowExpression(
+						// model.getColumnName( ) ) );
 						ExpressionUtility.setBindingColumnExpression( model,
 								column );
-						
+
 						ComputedColumnHandle binding = DEUtil.addColumn( tableHandle,
 								column,
-								false );						
-						dataHandle.setResultSetColumn( binding.getName( ) ); 
+								false );
+						dataHandle.setResultSetColumn( binding.getName( ) );
 						InsertInLayoutRule rule = new LabelAddRule( target );
 						if ( rule.canInsert( ) )
 						{
@@ -874,50 +889,55 @@ public class InsertInLayoutUtil
 						return dataHandle;
 					}
 				}
-				else if (DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( UIUtil.getColumnAnalysis( model )))
+				else if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( UIUtil.getColumnAnalysis( model ) ) )
 				{
 					CellHandle cellHandle = (CellHandle) target;
-					
 
 					ComputedColumn column = StructureFactory.newComputedColumn( tableHandle,
 							model.getColumnName( ) );
 					ExpressionUtility.setBindingColumnExpression( model, column );
-					column.setDataType( model.getDataType( ));
+					column.setDataType( model.getDataType( ) );
 					ComputedColumnHandle binding = DEUtil.addColumn( tableHandle,
 							column,
 							false );
 					DesignElementHandle group = cellHandle.getContainer( )
-						.getContainer( );
-					if (group instanceof GroupHandle)
+							.getContainer( );
+					if ( group instanceof GroupHandle )
 					{
-						binding.setAggregateOn( ((GroupHandle)group).getName( ) );
+						binding.setAggregateOn( ( (GroupHandle) group ).getName( ) );
 					}
 					else
 					{
-						binding.setAggregateOn(null);
+						binding.setAggregateOn( null );
 					}
-					
+
 					if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( model.getDataType( ) )
 							|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( model.getDataType( ) )
 							|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( model.getDataType( ) ) )
 					{
 						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
 					}
-//					else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( model.getDataType( )))
-//					{
-//						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
-//					}
-//					else
-//					{
-//						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
-//					}
+					// else if (
+					// DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals(
+					// model.getDataType( )))
+					// {
+					// binding.setAggregateFunction(
+					// DesignChoiceConstants.MEASURE_FUNCTION_MAX );
+					// }
+					// else
+					// {
+					// binding.setAggregateFunction(
+					// DesignChoiceConstants.MEASURE_FUNCTION_SUM );
+					// }
 					else
 					{
 						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
 					}
 
-					//binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
-					
+					// binding.setExpression(
+					// ExpressionUtil.createJSRowExpression(
+					// model.getColumnName( ) ) );
+
 					dataHandle.setResultSetColumn( binding.getName( ) );
 					InsertInLayoutRule rule = new LabelAddRule( target );
 					if ( rule.canInsert( ) )
@@ -939,56 +959,63 @@ public class InsertInLayoutUtil
 					}
 					return dataHandle;
 				}
-//				else if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( UIUtil.getColumnAnalysis( model ) )
-//						|| DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( UIUtil.getColumnAnalysis( model ) ) )
-//				{
-//					// check target is a group cell
-//					if ( target instanceof CellHandle
-//							&& ( (CellHandle) target ).getContainer( )
-//									.getContainer( ) instanceof GroupHandle )
-//					{
-//						CellHandle cellHandle = (CellHandle) target;
-//						GroupHandle group = (GroupHandle) cellHandle.getContainer( )
-//								.getContainer( );
-//
-//						ComputedColumn column = StructureFactory.newComputedColumn( tableHandle,
-//								model.getColumnName( ) );
-//						ComputedColumnHandle binding = DEUtil.addColumn( tableHandle,
-//								column,
-//								true );
-//						binding.setAggregateOn( group.getName( ) );
-//
-//						if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( UIUtil.getColumnAnalysis( model ) ) )
-//							binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
-//						else
-//							binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
-//
-//						binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
-//						dataHandle.setResultSetColumn( binding.getName( ) );
-//
-//						InsertInLayoutRule rule = new LabelAddRule( target );
-//						if ( rule.canInsert( ) )
-//						{
-//							// LabelHandle label =
-//							// SessionHandleAdapter.getInstance( )
-//							// .getReportDesignHandle( )
-//							// .getElementFactory( )
-//							// .newLabel( null );
-//							LabelHandle label = DesignElementFactory.getInstance( )
-//									.newLabel( null );
-//							label.setText( UIUtil.getColumnDisplayName( model ) );
-//							rule.insert( label );
-//						}
-//
-//						rule = new GroupKeySetRule( target, model );
-//						if ( rule.canInsert( ) )
-//						{
-//							rule.insert( model );
-//						}
-//
-//						return dataHandle;
-//					}
-//				}
+				// else if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals(
+				// UIUtil.getColumnAnalysis( model ) )
+				// || DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals(
+				// UIUtil.getColumnAnalysis( model ) ) )
+				// {
+				// // check target is a group cell
+				// if ( target instanceof CellHandle
+				// && ( (CellHandle) target ).getContainer( )
+				// .getContainer( ) instanceof GroupHandle )
+				// {
+				// CellHandle cellHandle = (CellHandle) target;
+				// GroupHandle group = (GroupHandle) cellHandle.getContainer( )
+				// .getContainer( );
+				//
+				// ComputedColumn column = StructureFactory.newComputedColumn(
+				// tableHandle,
+				// model.getColumnName( ) );
+				// ComputedColumnHandle binding = DEUtil.addColumn( tableHandle,
+				// column,
+				// true );
+				// binding.setAggregateOn( group.getName( ) );
+				//
+				// if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals(
+				// UIUtil.getColumnAnalysis( model ) ) )
+				// binding.setAggregateFunction(
+				// DesignChoiceConstants.MEASURE_FUNCTION_SUM );
+				// else
+				// binding.setAggregateFunction(
+				// DesignChoiceConstants.MEASURE_FUNCTION_MAX );
+				//
+				// binding.setExpression( ExpressionUtil.createJSRowExpression(
+				// model.getColumnName( ) ) );
+				// dataHandle.setResultSetColumn( binding.getName( ) );
+				//
+				// InsertInLayoutRule rule = new LabelAddRule( target );
+				// if ( rule.canInsert( ) )
+				// {
+				// // LabelHandle label =
+				// // SessionHandleAdapter.getInstance( )
+				// // .getReportDesignHandle( )
+				// // .getElementFactory( )
+				// // .newLabel( null );
+				// LabelHandle label = DesignElementFactory.getInstance( )
+				// .newLabel( null );
+				// label.setText( UIUtil.getColumnDisplayName( model ) );
+				// rule.insert( label );
+				// }
+				//
+				// rule = new GroupKeySetRule( target, model );
+				// if ( rule.canInsert( ) )
+				// {
+				// rule.insert( model );
+				// }
+				//
+				// return dataHandle;
+				// }
+				// }
 			}
 		}
 
@@ -1659,76 +1686,82 @@ public class InsertInLayoutUtil
 			{
 				return true;
 			}
-			
+
 			// Validates target's dataset is null or the same with the inserted
 			DesignElementHandle handle = (DesignElementHandle) target.getParent( )
 					.getModel( );
-			if (handle instanceof TableHandle  && target.getModel( ) instanceof CellHandle && ((TableHandle)handle).isSummaryTable( ))
+			if ( handle instanceof TableHandle
+					&& target.getModel( ) instanceof CellHandle
+					&& ( (TableHandle) handle ).isSummaryTable( ) )
 			{
-				TableHandle tableHandle = (TableHandle)handle;
-				CellHandle cellHandle = (CellHandle)target.getModel( );
-				if (DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( UIUtil.getColumnAnalysis( insertObj ) ))
+				TableHandle tableHandle = (TableHandle) handle;
+				CellHandle cellHandle = (CellHandle) target.getModel( );
+				if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( UIUtil.getColumnAnalysis( insertObj ) ) )
 				{
-//					SlotHandle slotHandle = tableHandle.getGroups( );
-//					for ( Object o : slotHandle.getContents( ) )
-//					{
-//						GroupHandle group = (GroupHandle) o;
-//						if ( group.getName( ).equals( insertObj.getColumnName( ) ) )
-//							return false;
-//					}
-					if (cellHandle.getContent( ).getCount( ) == 0)
+					// SlotHandle slotHandle = tableHandle.getGroups( );
+					// for ( Object o : slotHandle.getContents( ) )
+					// {
+					// GroupHandle group = (GroupHandle) o;
+					// if ( group.getName( ).equals( insertObj.getColumnName( )
+					// ) )
+					// return false;
+					// }
+					if ( cellHandle.getContent( ).getCount( ) == 0 )
 					{
 						return true;
 					}
 					return !hasGroup( tableHandle, insertObj.getColumnName( ) );
 				}
-				else if (DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals(UIUtil.getColumnAnalysis( insertObj )  ))
+				else if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( UIUtil.getColumnAnalysis( insertObj ) ) )
 				{
 					String str = UIUtil.getAnalysisColumn( insertObj );
 					DataSetHandle dataset = (DataSetHandle) insertObj.getElementHandle( );
 					String type = "";
-					if (str != null)
+					if ( str != null )
 					{
 						for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 								.iterator( ); iter.hasNext( ); )
 						{
 							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
 							if ( element.getColumnName( ).equals( str )
-									||str.equals( element.getAlias( ) ) )
+									|| str.equals( element.getAlias( ) ) )
 							{
 								type = element.getAnalysis( );
 								break;
 							}
 						}
-						if (DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( type ))
+						if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( type ) )
 						{
 							GroupHandle findGroup = null;
 							SlotHandle slotHandle = tableHandle.getGroups( );
 							for ( Object o : slotHandle.getContents( ) )
 							{
 								GroupHandle group = (GroupHandle) o;
-								if ( group.getName( ).equals(str) )
+								if ( group.getName( ).equals( str ) )
 								{
 									findGroup = group;
 								}
 							}
-							if (findGroup == null)
+							if ( findGroup == null )
 							{
-//								DesignElementHandle container = cellHandle.getContainer( ).getContainer( );
-//								if (container instanceof TableHandle)
-//								{
-//									return true;
-//								}
-//								if (container instanceof GroupHandle && str.equals( ((GroupHandle)container).getName( )))
-//								{
-//									return true;
-//								}
-//								return false;
+								// DesignElementHandle container =
+								// cellHandle.getContainer( ).getContainer( );
+								// if (container instanceof TableHandle)
+								// {
+								// return true;
+								// }
+								// if (container instanceof GroupHandle &&
+								// str.equals( ((GroupHandle)container).getName(
+								// )))
+								// {
+								// return true;
+								// }
+								// return false;
 								return true;
 							}
 							else
 							{
-								if (cellHandle.getContainer( ).getContainer( ) == findGroup)
+								if ( cellHandle.getContainer( ).getContainer( ) == findGroup )
 								{
 									return true;
 								}
@@ -1738,10 +1771,12 @@ public class InsertInLayoutUtil
 								}
 							}
 						}
-						else if (type != null && !type.equals( "" )) //$NON-NLS-1$
+						else if ( type != null && !type.equals( "" ) ) //$NON-NLS-1$
 						{
-							SlotHandle slotHandle = cellHandle.getContainer( ).getContainerSlotHandle( );
-							if (slotHandle.equals( tableHandle.getHeader( )) || slotHandle.equals( tableHandle.getFooter( ) ) )
+							SlotHandle slotHandle = cellHandle.getContainer( )
+									.getContainerSlotHandle( );
+							if ( slotHandle.equals( tableHandle.getHeader( ) )
+									|| slotHandle.equals( tableHandle.getFooter( ) ) )
 							{
 								return true;
 							}
@@ -1753,17 +1788,19 @@ public class InsertInLayoutUtil
 					}
 					else
 					{
-						SlotHandle slotHandle = cellHandle.getContainer( ).getContainerSlotHandle( );
-						if (slotHandle == tableHandle.getHeader( ) || slotHandle == tableHandle.getFooter( ))
+						SlotHandle slotHandle = cellHandle.getContainer( )
+								.getContainerSlotHandle( );
+						if ( slotHandle == tableHandle.getHeader( )
+								|| slotHandle == tableHandle.getFooter( ) )
 						{
 							return true;
 						}
 						return false;
 					}
-					
+
 				}
 			}
-			if ( handle instanceof ReportItemHandle  )
+			if ( handle instanceof ReportItemHandle )
 			{
 				ReportItemHandle bindingHolder = DEUtil.getListingContainer( handle );
 				DataSetHandle itsDataSet = ( (ReportItemHandle) handle ).getDataSet( );
@@ -1778,21 +1815,21 @@ public class InsertInLayoutUtil
 								.iterator( )
 								.hasNext( ) )
 						|| insertObj.getElementHandle( ).equals( dataSet );
-			}			
+			}
 		}
 		return false;
 	}
-	
-	private static boolean hasGroup(TableHandle tableHandle, String groupName)
+
+	private static boolean hasGroup( TableHandle tableHandle, String groupName )
 	{
 		SlotHandle slotHandle = tableHandle.getGroups( );
 		for ( Object o : slotHandle.getContents( ) )
 		{
 			GroupHandle group = (GroupHandle) o;
-			if ( group.getName( ).equals( groupName ))
+			if ( group.getName( ).equals( groupName ) )
 				return true;
 		}
-		
+
 		return true;
 	}
 
@@ -1906,7 +1943,7 @@ public class InsertInLayoutUtil
 						// DesignElementFactory.getInstance( )
 						// .newDataItem( null );
 						dataHandle.setResultSetColumn( columns[j].getColumnName( ) );
-						
+
 						formatDataHandle( dataHandle, columns[j] );
 						cell.addElement( dataHandle, cells.getSlotID( ) );
 
@@ -1921,7 +1958,7 @@ public class InsertInLayoutUtil
 						if ( displayKey != null )
 							bindingColumn.setDisplayNameID( displayKey );
 						tableHandle.addColumnBinding( bindingColumn, false );
-						
+
 						ActionHandle actionHandle = UIUtil.getColumnAction( columns[j] );
 						if ( actionHandle != null )
 						{
@@ -1939,17 +1976,19 @@ public class InsertInLayoutUtil
 			}
 		}
 	}
-	
-	private static void formatDataHandle(DataItemHandle dataHandle, ResultSetColumnHandle column)
+
+	private static void formatDataHandle( DataItemHandle dataHandle,
+			ResultSetColumnHandle column )
 	{
 		try
 		{
 			StyleHandle styleHandle = dataHandle.getPrivateStyle( );
 			ColumnHintHandle hintHandle = findColumnHintHandle( column );
-			if (hintHandle != null && hintHandle.isLocal( ColumnHint.WORD_WRAP_MEMBER ))
+			if ( hintHandle != null
+					&& hintHandle.isLocal( ColumnHint.WORD_WRAP_MEMBER ) )
 			{
 				boolean wordWrap = UIUtil.isWordWrap( column );
-				if (wordWrap)
+				if ( wordWrap )
 				{
 					styleHandle.setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NORMAL );
 				}
@@ -1958,33 +1997,36 @@ public class InsertInLayoutUtil
 					styleHandle.setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NOWRAP );
 				}
 			}
-			
+
 			String aliment = UIUtil.getClolumnHandleAlignment( column );
-			if (aliment != null)
+			if ( aliment != null )
 			{
 				styleHandle.setTextAlign( aliment );
 			}
-			
+
 			String helpText = UIUtil.getClolumnHandleHelpText( column );
-			if (helpText != null)
+			if ( helpText != null )
 			{
 				dataHandle.setHelpText( helpText );
 			}
-			
-			if (hintHandle != null)
+
+			if ( hintHandle != null )
 			{
-				formatDataHandleDataType( column.getDataType( ), hintHandle.getValueFormat( ), styleHandle );
+				formatDataHandleDataType( column.getDataType( ),
+						hintHandle.getValueFormat( ),
+						styleHandle );
 			}
-			
+
 		}
-		catch(SemanticException e)
+		catch ( SemanticException e )
 		{
-			//do nothing now
+			// do nothing now
 		}
-		
+
 	}
 
-	private static ColumnHintHandle findColumnHintHandle(ResultSetColumnHandle column)
+	private static ColumnHintHandle findColumnHintHandle(
+			ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
@@ -1999,46 +2041,48 @@ public class InsertInLayoutUtil
 		}
 		return null;
 	}
-	public static void formatDataHandleDataType(String type, FormatValue formartValue,StyleHandle styleHandle)
+
+	public static void formatDataHandleDataType( String type,
+			FormatValue formartValue, StyleHandle styleHandle )
 	{
-		if (formartValue == null)
+		if ( formartValue == null )
 		{
 			return;
 		}
 		try
 		{
-			if (DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( type )
+			if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( type )
 					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( type )
-					|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( type ))
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( type ) )
 			{
-				if (formartValue.getPattern( ) != null)
+				if ( formartValue.getPattern( ) != null )
 				{
 					styleHandle.setNumberFormat( formartValue.getPattern( ) );
 				}
-				if (formartValue.getCategory( ) != null)
+				if ( formartValue.getCategory( ) != null )
 				{
 					styleHandle.setNumberFormatCategory( formartValue.getCategory( ) );
 				}
 			}
-			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( type )
-					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type ))
+			else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( type )
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type ) )
 			{
-				if (formartValue.getPattern( ) != null)
+				if ( formartValue.getPattern( ) != null )
 				{
 					styleHandle.setDateTimeFormat( formartValue.getPattern( ) );
 				}
-				if (formartValue.getCategory( ) != null)
+				if ( formartValue.getCategory( ) != null )
 				{
 					styleHandle.setDateTimeFormatCategory( formartValue.getCategory( ) );
 				}
 			}
-			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( type ))
+			else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( type ) )
 			{
-				if (formartValue.getPattern( ) != null)
+				if ( formartValue.getPattern( ) != null )
 				{
 					styleHandle.setStringFormat( formartValue.getPattern( ) );
 				}
-				if (formartValue.getCategory( ) != null)
+				if ( formartValue.getCategory( ) != null )
 				{
 					styleHandle.setStringFormatCategory( formartValue.getCategory( ) );
 				}
@@ -2046,9 +2090,10 @@ public class InsertInLayoutUtil
 		}
 		catch ( SemanticException e )
 		{
-			//do nothing now
+			// do nothing now
 		}
 	}
+
 	/**
 	 * Sets initial width to new object
 	 * 

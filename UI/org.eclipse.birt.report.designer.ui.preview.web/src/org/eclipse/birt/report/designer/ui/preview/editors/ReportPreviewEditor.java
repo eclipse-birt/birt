@@ -24,11 +24,13 @@ import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
 import org.eclipse.core.runtime.Preferences.PropertyChangeEvent;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
+import org.eclipse.osgi.service.environment.Constants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.CloseWindowListener;
@@ -289,7 +291,15 @@ public abstract class ReportPreviewEditor extends EditorPart
 				browser.dispose( );
 			}
 
-			browser = new Browser( mainPane, SWT.NONE );
+			//browser = new Browser( mainPane, SWT.NONE );
+			if (Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) ))
+			{
+				browser = new Browser( mainPane, SWT.MOZILLA );
+			}
+			else
+			{
+				browser = new Browser( mainPane, SWT.NONE );
+			}
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			gd.horizontalSpan = 1;
 			browser.setLayoutData( gd );
@@ -321,7 +331,15 @@ public abstract class ReportPreviewEditor extends EditorPart
 				{
 					final Shell shell = UIUtil.createDefaultShell( );
 					shell.setLayout( new FillLayout( ) );
-					Browser browser = new Browser( shell, SWT.NONE );
+					Browser browser;// = new Browser( shell, SWT.NONE );
+					if (Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) ))
+					{
+						browser = new Browser( shell, SWT.MOZILLA );
+					}
+					else
+					{
+						browser = new Browser( shell, SWT.NONE );
+					}
 					initialize( Display.getCurrent( ), browser );
 					event.browser = browser;
 					shell.open( );
@@ -414,7 +432,15 @@ public abstract class ReportPreviewEditor extends EditorPart
 			{
 				final Shell shell = UIUtil.createDefaultShell( );
 				shell.setLayout( new FillLayout( ) );
-				Browser browser = new Browser( shell, SWT.NONE );
+				Browser browser;// = new Browser( shell, SWT.NONE );
+				if (Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) ))
+				{
+					browser = new Browser( shell, SWT.MOZILLA );
+				}
+				else
+				{
+					browser = new Browser( shell, SWT.NONE );
+				}
 				initialize( display, browser );
 				event.browser = browser;
 				shell.open( );

@@ -94,6 +94,8 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -679,7 +681,11 @@ public class HyperlinkBuilder extends BaseDialog
 		new Label( displayArea, SWT.NONE ).setText( REQUIED_MARK
 				+ LABEL_LOCATION );
 		locationEditor = new Text( displayArea, SWT.BORDER | SWT.WRAP );
-		locationEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.heightHint = locationEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- locationEditor.getBorderWidth( )
+				* 2;
+		locationEditor.setLayoutData( gd );
 		locationEditor.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -687,6 +693,16 @@ public class HyperlinkBuilder extends BaseDialog
 				updateButtons( );
 			}
 		} );
+		
+		locationEditor.addTraverseListener(new TraverseListener() {
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_TAB_NEXT
+						|| e.detail == SWT.TRAVERSE_TAB_PREVIOUS) {
+					e.doit = true;
+				}
+			}
+		});
+		
 		Composite buttonArea = new Composite( displayArea, SWT.NONE );
 		buttonArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		buttonArea.setLayoutData( new GridData( ) );
@@ -939,7 +955,11 @@ public class HyperlinkBuilder extends BaseDialog
 		new Label( group, SWT.NONE ).setText( Messages.getString( "HyperlinkBuilder.DrillThroughLinkExpression" ) ); //$NON-NLS-1$
 
 		bookmarkEditor = new Text( group, SWT.BORDER | SWT.READ_ONLY | SWT.WRAP );
-		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL ) ;
+		gd.heightHint = bookmarkEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- bookmarkEditor.getBorderWidth( )
+				* 2;
+		bookmarkEditor.setLayoutData( gd );
 		createExpressionButton( group, bookmarkEditor );
 	}
 
@@ -1475,7 +1495,11 @@ public class HyperlinkBuilder extends BaseDialog
 		bookmarkEditor = new Text( displayArea, SWT.BORDER
 				| SWT.READ_ONLY
 				| SWT.WRAP );
-		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.heightHint = bookmarkEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- bookmarkEditor.getBorderWidth( )
+				* 2;
+		bookmarkEditor.setLayoutData( gd );
 		createExpressionButton( displayArea, bookmarkEditor );
 	}
 

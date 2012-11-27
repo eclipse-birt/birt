@@ -37,7 +37,7 @@ public class EditorRulerProvider extends RulerProvider
 	public static final int UNIT_PT = 5;
 	public static final int UNIT_PC = 6;
 
-	private PropertyChangeListener rulerListener = new PropertyChangeListener( ) {
+	protected PropertyChangeListener rulerListener = new PropertyChangeListener( ) {
 
 		public void propertyChange( PropertyChangeEvent evt )
 		{
@@ -67,7 +67,7 @@ public class EditorRulerProvider extends RulerProvider
 		}
 	};
 
-	private PropertyChangeListener guideListener = new PropertyChangeListener( ) {
+	protected PropertyChangeListener guideListener = new PropertyChangeListener( ) {
 
 		public void propertyChange( PropertyChangeEvent evt )
 		{
@@ -89,8 +89,13 @@ public class EditorRulerProvider extends RulerProvider
 		}
 	};
 
-	private EditorRuler ruler = null;
-	private Rectangle layoutSize = null;
+	protected EditorRuler ruler = null;
+
+	protected Rectangle layoutSize = null;
+
+	protected EditorRulerProvider( )
+	{
+	}
 
 	/**
 	 * The constructor
@@ -141,7 +146,7 @@ public class EditorRulerProvider extends RulerProvider
 		this.layoutSize = rct;
 	}
 
-	private void initLayoutSize( ModuleHandle module )
+	protected void initLayoutSize( ModuleHandle module )
 	{
 		if ( module != null )
 		{
@@ -175,13 +180,13 @@ public class EditorRulerProvider extends RulerProvider
 	public Command getMoveGuideCommand( Object obj, int pDelta )
 	{
 		EditorGuide guide = (EditorGuide) obj;
-		//String propertyName = guide.getPropertyName( );
+		// String propertyName = guide.getPropertyName( );
 		pDelta = getMarginValue( obj, pDelta );
 
 		return new MoveGuideCommand( pDelta, guide.getPropertyName( ) );
 	}
-	
-	public int getMarginValue(Object obj, int pDelta)
+
+	public int getMarginValue( Object obj, int pDelta )
 	{
 		EditorGuide guide = (EditorGuide) obj;
 		String propertyName = guide.getPropertyName( );
@@ -203,11 +208,11 @@ public class EditorRulerProvider extends RulerProvider
 		{
 			pDelta = guide.getPosition( ) + pDelta - getLeftSpace( ).y;
 		}
-		
+
 		return pDelta;
 	}
-	
-	public String getPrefixLabel(Object obj)
+
+	public String getPrefixLabel( Object obj )
 	{
 		EditorGuide guide = (EditorGuide) obj;
 		return guide.getPrefixLabel( );
@@ -256,7 +261,8 @@ public class EditorRulerProvider extends RulerProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePosition(java.lang.Object)
+	 * @see
+	 * org.eclipse.gef.rulers.RulerProvider#getGuidePosition(java.lang.Object)
 	 */
 	public int getGuidePosition( Object guide )
 	{

@@ -66,18 +66,18 @@
         </table>
       </div>
       <p class="N_sb_ScanBold"><a name="188905">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="188906">double ddb( double initialCost, double salvageValue, double assetLifespan, </a>integer singlePeriod )</div>
+      <div class="rs_RSyntax"><a name="188906">double ddb( double cost, double salvage, double life, integer period )</a></div>
       <p class="N_sb_ScanBold"><a name="188907">Parameters</a></p>
-      <p class="RParameter"><a name="188909">initialCost</a></p>
+      <p class="RParameter"><a name="188909">initial</a></p>
       <p class="bn_BodyNoLead"><a name="188910">Double. Numeric expression that specifies the initial cost of the asset.</a></p>
-      <p class="RParameter"><a name="188912">salvageValue</a></p>
+      <p class="RParameter"><a name="188912">salvage</a></p>
       <p class="bn_BodyNoLead"><a name="188913">Double. Numeric expression that specifies the value of the asset at the end of its </a>useful life. </p>
-      <p class="RParameter"><a name="188915">assetLifespan</a></p>
+      <p class="RParameter"><a name="188915">life</a></p>
       <p class="bn_BodyNoLead"><a name="188916">Double. Numeric expression that specifies the length of the useful life of the asset. </a>You must provide this value in the same units of measure as singlePeriod. For example, if singlePeriod represents a month, then assetLifespan must be expressed in months. </p>
-      <p class="RParameter"><a name="188919">singlePeriod</a></p>
+      <p class="RParameter"><a name="188919">period</a></p>
       <p class="bn_BodyNoLead"><a name="188920">Integer. Numeric expression that specifies the period for which you want DDB to </a>calculate the depreciation. You must provide this value in the same units of measure as assetLifespan. For example, if assetLifespan is expressed in months, then singlePeriod must represent a period of one month.</p>
       <p class="N_sb_ScanBold"><a name="349765">Returns</a></p>
-      <p class="b_Body"><a name="349766">Double</a></p>
+      <p class="b_Body"><a name="349766">Double.</a></p>
       <p class="N_sb_ScanBold"><a name="188922">Example</a></p>
       <p class="b_Body"><a name="188923">The following example calculates the depreciation for the first year under the </a>double-declining balance method for a new machine purchased at $1400, with a salvage value of $200, and a useful life estimated at 10 years. The result ($280) is assigned to the variable Year1Deprec: </p>
       <div class="cf_CodeFirst"><a name="188924">Year1Deprec = Finance.ddb(1400, 200, 10, 1) </a></div>
@@ -118,18 +118,20 @@
         </table>
       </div>
       <p class="N_sb_ScanBold"><a name="188945">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="188946">fv( ratePerPeriod, numberPayPeriods, eachPmt, presentValue, whenDue )</a></div>
+      <div class="rs_RSyntax"><a name="188946">double fv( double rate, integer nPer, double pmt, double pvalue, integer due )</a></div>
       <p class="N_sb_ScanBold"><a name="188947">Parameters</a></p>
-      <p class="RParameter"><a name="188949">ratePerPeriod</a></p>
-      <p class="bn_BodyNoLead"><a name="188950">Numeric expression that specifies the interest rate that accrues per period. You </a>must provide this value in the same units of measure as numberPayPeriods. For instance, if numberPayPeriods is expressed in months, then ratePerPeriod must be expressed as a monthly rate. </p>
-      <p class="RParameter"><a name="188952">numberPayPeriods</a></p>
-      <p class="bn_BodyNoLead"><a name="188953">Numeric expression that specifies the total number of payment periods in the </a>annuity. You must provide this value in the same units of measure as ratePerPeriod. For instance, if ratePerPeriod is expressed as a monthly rate, then numberPayPeriods must be expressed in months. </p>
-      <p class="RParameter"><a name="188955">eachPmt</a></p>
-      <p class="bn_BodyNoLead"><a name="188956">Numeric expression that specifies the amount of each payment. You must </a>provide this value in the same units of measure as ratePerPeriod. For instance, if ratePerPeriod is expressed in months, then eachPmt must be expressed as a monthly payment. </p>
-      <p class="RParameter"><a name="188958">presentValue</a></p>
-      <p class="bn_BodyNoLead"><a name="188959">Numeric expression that specifies the value today of a future payment, or stream </a>of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you end up with about $100. The present value of that $100 is approximately $23.94. </p>
-      <p class="RParameter"><a name="188962">whenDue</a></p>
-      <p class="bn_BodyNoLead"><a name="188963">Numeric expression that specifies whether each payment is made at the </a>beginning (1), or at the end (0) of each period. This value must be 0 or 1. </p>
+      <p class="RParameter"><a name="188949">rate</a></p>
+      <p class="bn_BodyNoLead"><a name="188950">Double numeric expression that specifies the interest rate that accrues per period. </a>You must provide this value in the same units of measure as numberPayPeriods. For instance, if numberPayPeriods is expressed in months, then ratePerPeriod must be expressed as a monthly rate. </p>
+      <p class="RParameter"><a name="188952">nPer</a></p>
+      <p class="bn_BodyNoLead"><a name="188953">Integer that specifies the total number of payment periods in the annuity. You </a>must provide this value in the same units of measure as ratePerPeriod. For instance, if ratePerPeriod is expressed as a monthly rate, then numberPayPeriods must be expressed in months. </p>
+      <p class="RParameter"><a name="188955">pmt</a></p>
+      <p class="bn_BodyNoLead"><a name="188956">Double numeric expression that specifies the amount of each payment. You must </a>provide this value in the same units of measure as ratePerPeriod. For instance, if ratePerPeriod is expressed in months, then eachPmt must be expressed as a monthly payment. </p>
+      <p class="RParameter"><a name="188958">pvalue</a></p>
+      <p class="bn_BodyNoLead"><a name="188959">Double numeric expression that specifies the value today of a future payment, or </a>stream of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you end up with about $100. The present value of that $100 is approximately $23.94. </p>
+      <p class="RParameter"><a name="188962">due</a></p>
+      <p class="bn_BodyNoLead"><a name="188963">Integer that specifies whether each payment is made at the beginning (1), or at the </a>end (0) of each period. This value must be 0 or 1. </p>
+      <p class="N_sb_ScanBold"><a name="357994">Returns</a></p>
+      <p class="b_Body"><a name="357995">Double</a></p>
       <p class="N_sb_ScanBold"><a name="188964">Example</a></p>
       <p class="b_Body"><a name="188965">The following example assumes you deposit $10,000 in a savings account for your </a>daughter when she is born. If the account pays 5.7% compounded daily, how much will she have for college in 18 years? The answer, $27,896.60, is assigned to the variable TotalValue: </p>
       <div class="cf_CodeFirst"><a name="188966">TotalValue = Finance.fv(0.057/365, 18*365, 0, -10000, 1) </a></div>
@@ -174,18 +176,18 @@
         </table>
       </div>
       <p class="N_sb_ScanBold"><a name="189003">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189004">ipmt( ratePerPeriod, singlePeriod, numberPayPeriods, presentValue, </a>futureValue, whenDue )</div>
+      <div class="rs_RSyntax"><a name="189004">double ipmt( double rate, integer per, integer nPer, double pmt, double pvalue, </a>double fvalue, integer due )</div>
       <p class="N_sb_ScanBold"><a name="189005">Parameters</a></p>
-      <p class="RParameter"><a name="189007">ratePerPeriod</a></p>
-      <p class="bn_BodyNoLead"><a name="189008">Numeric expression that specifies the interest rate that accrues per period. You </a>must provide this value in the same units of measure as numberPayPeriods. For example, if numberPayPeriods is expressed in months, then ratePerPeriod must be expressed as a monthly rate.</p>
-      <p class="RParameter"><a name="189010">singlePeriod</a></p>
-      <p class="bn_BodyNoLead"><a name="189011">Numeric expression that specifies the particular period for which you want to </a>determine how much of the payment for that period represents interest. You must provide this value in the range 1 through numberPayPeriods.</p>
-      <p class="RParameter"><a name="189013">numberPayPeriods</a></p>
-      <p class="bn_BodyNoLead"><a name="189014">Numeric expression that specifies the total number of payment periods in the </a>annuity. You must provide this value in the same units of measure ratePerPeriod For example, if ratePerPeriod is expressed as a monthly rate, then numberPayPeriods must be expressed in months.</p>
-      <p class="RParameter"><a name="189016">presentValue</a></p>
-      <p class="bn_BodyNoLead"><a name="189017">Numeric expression that specifies the value today of a future payment or stream </a>of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you end up with about $100. In this case, the present value of that $100 is approximately $23.94. </p>
-      <p class="RParameter"><a name="189019">futureValue</a></p>
-      <p class="bn_BodyNoLead"><a name="189020">Numeric expression that specifies the cash balance you want after you have made </a>your final payment. For example: </p>
+      <p class="RParameter"><a name="189007">rate</a></p>
+      <p class="bn_BodyNoLead"><a name="189008">Double numeric expression that specifies the interest rate that accrues per period. </a>You must provide this value in the same units of measure as numberPayPeriods. For example, if numberPayPeriods is expressed in months, then ratePerPeriod must be expressed as a monthly rate.</p>
+      <p class="RParameter"><a name="189010">per</a></p>
+      <p class="bn_BodyNoLead"><a name="189011">Integer that specifies the particular period for which you want to determine how </a>much of the payment for that period represents interest. You must provide this value in the range 1 through numberPayPeriods.</p>
+      <p class="RParameter"><a name="189013">nPer</a></p>
+      <p class="bn_BodyNoLead"><a name="189014">Integer that specifies the total number of payment periods in the annuity. You </a>must provide this value in the same units of measure ratePerPeriod For example, if ratePerPeriod is expressed as a monthly rate, then numberPayPeriods must be expressed in months.</p>
+      <p class="RParameter"><a name="189016">pvalue</a></p>
+      <p class="bn_BodyNoLead"><a name="189017">Double numeric expression that specifies the value today of a future payment or </a>stream of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you end up with about $100. In this case, the present value of that $100 is approximately $23.94. </p>
+      <p class="RParameter"><a name="189019">fvalue</a></p>
+      <p class="bn_BodyNoLead"><a name="189020">Double numeric expression that specifies the cash balance you want after you </a>have made your final payment. For example: </p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -214,8 +216,10 @@
           </tr>
         </table>
       </div>
-      <p class="RParameter"><a name="189025">whenDue  </a></p>
-      <p class="bn_BodyNoLead"><a name="189026">Numeric expression that specifies whether each payment is made at the </a>beginning (1) or at the end (0) of each period. This value must be 0 or 1. </p>
+      <p class="RParameter"><a name="189025">due  </a></p>
+      <p class="bn_BodyNoLead"><a name="189026">Integer that specifies whether each payment is made at the beginning (1) or at the </a>end (0) of each period. This value must be 0 or 1. </p>
+      <p class="N_sb_ScanBold"><a name="358028">Returns</a></p>
+      <p class="b_Body"><a name="358029">Double.</a></p>
       <p class="N_sb_ScanBold"><a name="189027">Example</a></p>
       <p class="b_Body"><a name="189028">The following example assumes you are making monthly payments the first of </a>each month on a loan of $20,000, over 36 months, at an APR of 11.5%. How much of your 5th payment represents interest? The answer, $171.83, is assigned to Interest5: </p>
       <div class="cf_CodeFirst"><a name="189029">Interest5 = Finance.ipmt(.115/12, 5, 36, -20000, 0, 1) </a></div>
@@ -316,12 +320,14 @@
         </table>
       </div>
       <p class="N_sb_ScanBold"><a name="189069">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189070">irr( cashArray, startingGuess )</a></div>
+      <div class="rs_RSyntax"><a name="189070">double irr( double[ ] cash, double intrate)</a></div>
       <p class="N_sb_ScanBold"><a name="189071">Parameters</a></p>
-      <p class="RParameter"><a name="189073">cashArray</a></p>
-      <p class="bn_BodyNoLead"><a name="189074">Specifies the name of an existing array of Doubles representing cash flow values. </a>cashArray must contain at least one positive value, or receipt, and one negative value, or payment. </p>
-      <p class="RParameter"><a name="189076">startingGuess </a></p>
-      <p class="bn_BodyNoLead"><a name="189077">Numeric expression. Specifies the value you estimate IRR will return. In most </a>cases, this is 0.1, or 10 percent. </p>
+      <p class="RParameter"><a name="358900">cash</a></p>
+      <p class="bn_BodyNoLead"><a name="358901">Array of double values that specify the name of an existing array of Doubles </a>representing cash flow values. cashArray must contain at least one positive value, or receipt, and one negative value, or payment. </p>
+      <p class="RParameter"><a name="189076">s</a></p>
+      <p class="bn_BodyNoLead"><a name="189077">Double numeric expression that specifies the value you estimate internal rate of </a>return will be. In most cases, this is 0.1, or 10 percent. </p>
+      <p class="N_sb_ScanBold"><a name="358058">Returns</a></p>
+      <p class="b_Body"><a name="358059">Double</a></p>
       <p class="N_sb_ScanBold"><a name="189078">Example</a></p>
       <p class="b_Body"><a name="189079">The following example assumes you have filled the array myArray with a series </a>of cash flow values. The internal rate of return is assigned to the variable IRRValue: </p>
       <div class="cf_CodeFirst"><a name="189080">IRRValue = Finance.irr( myArray, .1 )</a></div>
@@ -390,21 +396,23 @@
       </div>
       <p class="b_Body"><a name="189105">Because MIRR uses the order of values within the array to interpret the order of </a>payments and receipts, be sure to type payment and receipt values in the correct sequence. </p>
       <p class="N_sb_ScanBold"><a name="189106">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189107">mirr( cashArray, financeRate, reinvestmentRate )</a></div>
+      <div class="rs_RSyntax"><a name="189107">double mirr( double[ ] arptr, double frate, double rrate)</a></div>
       <p class="N_sb_ScanBold"><a name="189108">Parameters</a></p>
-      <p class="RParameter"><a name="189110">cashArray</a></p>
+      <p class="RParameter"><a name="189110">arptr</a></p>
       <p class="bn_BodyNoLead"><a name="189111">Array of Doubles that specifies the name of an existing array of cash flow values. </a>Array must contain at least one positive value, or receipt, and one negative value, or payment. </p>
-      <p class="RParameter"><a name="189113">financeRate</a></p>
-      <p class="bn_BodyNoLead"><a name="189114">Numeric expression that specifies the interest rate paid as the cost of financing. </a>Must be a decimal value that represents a percentage. </p>
-      <p class="RParameter"><a name="189116">reinvestmentRate</a></p>
-      <p class="bn_BodyNoLead"><a name="189117">Numeric expression that specifies the interest rate received on gains from cash </a>reinvestment. Must be a decimal value that represents a percentage. </p>
+      <p class="RParameter"><a name="189113">frate</a></p>
+      <p class="bn_BodyNoLead"><a name="189114">Double numeric expression that specifies the interest rate paid as the cost of </a>financing. Must be a decimal value that represents a percentage. </p>
+      <p class="RParameter"><a name="189116">rrate</a></p>
+      <p class="bn_BodyNoLead"><a name="189117">Double numeric expression that specifies the interest rate received on gains from </a>cash reinvestment. Must be a decimal value that represents a percentage. </p>
+      <p class="N_sb_ScanBold"><a name="358081">Returns</a></p>
+      <p class="b_Body"><a name="358082">Double.</a></p>
       <p class="N_sb_ScanBold"><a name="189118">Example</a></p>
       <p class="b_Body"><a name="189119">The following example assumes you have filled the array myArray with a series </a>of cash flow values. If the interest rate you pay for financing is 12%, and the rate your earn on income is 11.5%, what is the modified internal rate of return? The answer is assigned to the variable MIRRValue: </p>
       <div class="cf_CodeFirst"><a name="189120">MIRRValue = Finance.mirr( myArray, 0.12, 0.115 )  </a></div>
       <p class="N_sb_ScanBold"><a name="189121">See also</a></p>
       <p class="bn_BodyNoLead"><a href="#189056" title="Finance" name="189125">Finance.irr</a> function </p>
       <p class="bn_BodyNoLead"><a href="#189421" title="Finance" name="189129">Finance.rate</a> function </p>
-      <h3 class="RH2_Method"><a name="189131">Finance.nper </a></h3>
+      <h3 class="RH2_Method"><a name="189131">Finance.nper</a></h3>
       <p class="b_Body"><a name="189134">Returns the number of periods for an annuity based on periodic, constant </a>payments, and on an unvarying interest rate. An annuity is a series of cash payments, constant in value, made over a period of time. An annuity can be an investment, such as a monthly savings plan, or a loan, such as a home mortgage. </p>
       <p class="b1i_Bullet1-intro"><a name="189136">The following rules apply:</a></p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
@@ -436,16 +444,16 @@
         </table>
       </div>
       <p class="N_sb_ScanBold"><a name="189139">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189140">nper( ratePerPeriod, eachPmt, presentValue, futureValue, whenDue )</a></div>
+      <div class="rs_RSyntax"><a name="189140">double nper( double rate, double pmt, double pvalue, double fvalue, integer due )</a></div>
       <p class="N_sb_ScanBold"><a name="189141">Parameters</a></p>
-      <p class="RParameter"><a name="189143">ratePerPeriod</a></p>
-      <p class="bn_BodyNoLead"><a name="189144">Numeric expression that specifies the interest rate that accrues per period. You </a>must provide this value in the same units of measure as eachPmt. For instance, if eachPmt is expressed as a monthly payment, then ratePerPeriod must be expressed as the monthly interest rate.</p>
-      <p class="RParameter"><a name="189146">eachPmt</a></p>
-      <p class="bn_BodyNoLead"><a name="189147">Numeric expression that specifies the amount of each payment. You must </a>provide this value in the same units of measure as ratePerPeriod. For instance, if ratePerPeriod is expressed in months, then eachPmt must be expressed as a monthly payment.</p>
-      <p class="RParameter"><a name="189149">presentValue</a></p>
-      <p class="bn_BodyNoLead"><a name="189150">Numeric expression that specifies the value today of a future payment or of a </a>stream of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you will end up with about $100. In this case, the present value of that $100 is approximately $23.94.</p>
-      <p class="RParameter"><a name="189153">futureValue</a></p>
-      <p class="bn_BodyNoLead"><a name="189154">Numeric expression that specifies the cash balance you want after you have made </a>your final payment. For example: </p>
+      <p class="RParameter"><a name="189143">rate</a></p>
+      <p class="bn_BodyNoLead"><a name="189144">Double numeric expression that specifies the interest rate that accrues per period. </a>You must provide this value in the same units of measure as eachPmt. For instance, if eachPmt is expressed as a monthly payment, then ratePerPeriod must be expressed as the monthly interest rate.</p>
+      <p class="RParameter"><a name="189146">pmt</a></p>
+      <p class="bn_BodyNoLead"><a name="189147">Double numeric expression that specifies the amount of each payment. You must </a>provide this value in the same units of measure as ratePerPeriod. For instance, if ratePerPeriod is expressed in months, then eachPmt must be expressed as a monthly payment.</p>
+      <p class="RParameter"><a name="189149">pvalue</a></p>
+      <p class="bn_BodyNoLead"><a name="189150">Double numeric expression that specifies the value today of a future payment or </a>of a stream of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you will end up with about $100. In this case, the present value of that $100 is approximately $23.94.</p>
+      <p class="RParameter"><a name="189153">fvalue</a></p>
+      <p class="bn_BodyNoLead"><a name="189154">Double numeric expression that specifies the cash balance you want after you </a>have made your final payment. For example: </p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -474,8 +482,10 @@
           </tr>
         </table>
       </div>
-      <p class="RParameter"><a name="189159">whenDue</a></p>
-      <p class="bn_BodyNoLead"><a name="189160">Numeric expression that specifies whether each payment is made at the </a>beginning (1), or at the end (0) of each period. This value must be 0 or 1.</p>
+      <p class="RParameter"><a name="189159">due</a></p>
+      <p class="bn_BodyNoLead"><a name="189160">Integerthat specifies whether each payment is made at the beginning (1), or at the </a>end (0) of each period. This value must be 0 or 1.</p>
+      <p class="N_sb_ScanBold"><a name="358100">Returns</a></p>
+      <p class="b_Body"><a name="358101">Double.</a></p>
       <p class="N_sb_ScanBold"><a name="189161">Example</a></p>
       <p class="b_Body"><a name="189162">The following example assumes you are making monthly payments at the first of </a>each month on a loan of $20,000, at an APR of 11.5%. If each payment is $653.26, how many payments will you have to make to finish paying off the loan? The answer, 36, is assigned to the variable NumPeriods. </p>
       <div class="cf_CodeFirst"><a name="189163">NumPeriods = Finance.nper(.115/12, -653.26, 20000, 0, 1)</a></div>
@@ -486,7 +496,7 @@
       <p class="bn_BodyNoLead"><a href="#189296" title="Finance" name="189180">Finance.ppmt</a> function</p>
       <p class="bn_BodyNoLead"><a href="#189358" title="Finance" name="189184">Finance.pv</a> function</p>
       <p class="bn_BodyNoLead"><a href="#189421" title="Finance" name="189188">Finance.rate</a> function</p>
-      <h3 class="RH2_Method"><a name="189190">Finance.npv </a></h3>
+      <h3 class="RH2_Method"><a name="189190">Finance.npv</a></h3>
       <p class="b_Body"><a name="189193">This function returns the net present value of a varying series of periodic cash </a>flows, both positive and negative, at a given interest rate. While PV determines the present value of a series of constant payments, NPV does the same for a series of varying payments. Net present value is the value in today's dollars of all future cash flows associated with an investment minus any initial cost. In other words, it is that lump sum of money that would return the same profit or loss as the series of cash flows in question, if the lump sum were deposited in a bank today and left untouched to accrue interest at the rate given by &lt;rate&gt; for the same period of time contemplated by the cash flow stream. </p>
       <p class="b1i_Bullet1-intro"><a name="189194">The following rules apply:</a></p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
@@ -575,26 +585,28 @@
       </div>
       <p class="b_Body"><a name="189201">Because NPV uses the order of values within the array to interpret the order of </a>payments and receipts, be sure to supply your payment and receipt values in the correct sequence. </p>
       <p class="N_sb_ScanBold"><a name="189202">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189203">npv( rate, cashArray )</a></div>
+      <div class="rs_RSyntax"><a name="189203">double npv( double rate, double[ ] arptr )</a></div>
       <p class="N_sb_ScanBold"><a name="189204">Parameters</a></p>
       <p class="RParameter"><a name="189206">rate</a></p>
-      <p class="bn_BodyNoLead"><a name="189207">Numeric expression that specifies the discount rate over the length of the period. </a>You must express this value as a decimal. </p>
-      <p class="RParameter"><a name="189209">cashArray</a></p>
+      <p class="bn_BodyNoLead"><a name="189207">Double numeric expression that specifies the discount rate over the length of the </a>period. You must express this value as a decimal. </p>
+      <p class="RParameter"><a name="189209">arptr</a></p>
       <p class="bn_BodyNoLead"><a name="189210">Array of doubles that specifies the name of an existing array of cash flow values. </a>Array must contain at least one positive value, receipt, and one negative value, payment. </p>
+      <p class="N_sb_ScanBold"><a name="358115">Returns</a></p>
+      <p class="b_Body"><a name="358116">Double.</a></p>
       <p class="N_sb_ScanBold"><a name="189211">Example</a></p>
       <p class="b_Body"><a name="189212">The following example assumes you have filled the array myArray with a series </a>of cash flow values, and that the interest rate is 11%. What is the net present value? The answer is assigned to the variable NetPValue: </p>
       <div class="cf_CodeFirst"><a name="189213">NetPValue = Finance.npv( .11, MyArray ) </a></div>
       <h3 class="RH2_Method"><a name="189214">Finance.percent </a></h3>
       <p class="b_Body"><a name="189219">This function computes the percentage of two numbers. This function handles the </a>two key housekeeping tasks associated with computing percents: handling zero in the numerator and handling null values.</p>
       <p class="N_sb_ScanBold"><a name="189220">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189221">percent( denom, num, valueIfZero )</a></div>
+      <div class="rs_RSyntax"><a name="189221">double percent( double denom, double num, double valueIfZero )</a></div>
       <p class="N_sb_ScanBold"><a name="189222">Parameters</a></p>
       <p class="RParameter"><a name="189224">denom</a></p>
-      <p class="bn_BodyNoLead"><a name="189225">The denominator. The argument must contain a numeric value.</a></p>
+      <p class="bn_BodyNoLead"><a name="189225">Double. The denominator. The argument must contain a numeric value.</a></p>
       <p class="RParameter"><a name="189227">num</a></p>
-      <p class="bn_BodyNoLead"><a name="189228">The numerator. The argument must contain a numeric value. The value can be </a>zero.</p>
+      <p class="bn_BodyNoLead"><a name="189228">Double. The numerator. The argument must contain a numeric value. The value </a>can be zero.</p>
       <p class="RParameter"><a name="189230">valueIfZero</a></p>
-      <p class="bn_BodyNoLead"><a name="189231">The percent value to return if the numerator is zero. The default is null.</a></p>
+      <p class="bn_BodyNoLead"><a name="189231">Double. The percent value to return if the numerator is zero. The default is null.</a></p>
       <p class="N_sb_ScanBold"><a name="189232">Returns</a></p>
       <p class="b_Body"><a name="189233">The ratio of the two numbers expressed as a percentage. Returns 0 if the </a>numerator is zero. Returns null if either of the two arguments are null.</p>
       <p class="N_sb_ScanBold"><a name="189234">Example</a></p>
@@ -632,16 +644,16 @@
         </table>
       </div>
       <p class="N_sb_ScanBold"><a name="189245">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189246">pmt( ratePerPeriod, numberPayPeriods, presentValue, futureValue, whenDue )</a></div>
+      <div class="rs_RSyntax"><a name="189246">double pmt( double rate, integer nPer, double pvalue, double fvalue, integer due )</a></div>
       <p class="N_sb_ScanBold"><a name="189247">Parameters</a></p>
-      <p class="RParameter"><a name="189249">ratePerPeriod</a></p>
-      <p class="b_Body"><a name="189250">Numeric expression that specifies the interest rate that accrues per period. You </a>must provide this value in the same units of measure as ratePerPeriod. For instance, if numberPayPeriods is expressed in months, then ratePerPeriod must be expressed as a monthly rate. </p>
-      <p class="RParameter"><a name="189252">numberPayPeriods</a></p>
-      <p class="bn_BodyNoLead"><a name="189253">Numeric expression that specifies the total number of payment periods in the </a>annuity. You must provide this value in the same units of measure as ratePerPeriod. For instance, if ratePerPeriod is expressed as a monthly rate, then numberPayPeriods must be expressed in months. </p>
-      <p class="RParameter"><a name="189255">presentValue</a></p>
-      <p class="bn_BodyNoLead"><a name="189256">Numeric expression that specifies the value in today's dollars of a future </a>payment, or stream of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you end up with about $100. In this case, the present value of that $100 is approximately $23.94. </p>
-      <p class="RParameter"><a name="189259">futureValue</a></p>
-      <p class="bn_BodyNoLead"><a name="189260">Numeric expression that specifies the cash balance you want after you have made </a>your final payment. For example: </p>
+      <p class="RParameter"><a name="189249">rate</a></p>
+      <p class="b_Body"><a name="189250">Double numeric expression that specifies the interest rate that accrues per period. </a>You must provide this value in the same units of measure as ratePerPeriod. For instance, if numberPayPeriods is expressed in months, then ratePerPeriod must be expressed as a monthly rate. </p>
+      <p class="RParameter"><a name="189252">nPer</a></p>
+      <p class="bn_BodyNoLead"><a name="189253">Integer that specifies the total number of payment periods in the annuity. You </a>must provide this value in the same units of measure as ratePerPeriod. For instance, if ratePerPeriod is expressed as a monthly rate, then numberPayPeriods must be expressed in months. </p>
+      <p class="RParameter"><a name="189255">pvalue</a></p>
+      <p class="bn_BodyNoLead"><a name="189256">Double numeric expression that specifies the value in today's dollars of a future </a>payment, or stream of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you end up with about $100. In this case, the present value of that $100 is approximately $23.94. </p>
+      <p class="RParameter"><a name="189259">fvalue</a></p>
+      <p class="bn_BodyNoLead"><a name="189260">Double numeric expression that specifies the cash balance you want after you </a>have made your final payment. For example: </p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -670,10 +682,12 @@
           </tr>
         </table>
       </div>
-      <p class="RParameter"><a name="189265">whenDue</a></p>
-      <p class="bn_BodyNoLead"><a name="189266">Numeric expression that specifies whether each payment is made at the </a>beginning (1), or at the end (0) of each period. This value must be a 0 or 1.</p>
-      <p class="N_sb_ScanBold"><a name="189267">Example</a></p>
-      <p class="b_Body"><a name="189268">The following example assumes you are making monthly payments the first of </a>each month on a loan of $20,000, over 36 months, at an APR of 11.5%. How much will each of your payments be? The answer, $653.26, is assigned to PaymentAmt. </p>
+      <p class="RParameter"><a name="189265">due</a></p>
+      <p class="bn_BodyNoLead"><a name="358167">Integer that specifies whether each payment is made at the beginning (1), or at the </a>end (0) of each period. This value must be a 0 or 1.</p>
+      <p class="N_sb_ScanBold"><a name="358199">Returns</a></p>
+      <p class="b_Body"><a name="358200">Double.</a></p>
+      <p class="N_sb_ScanBold"><a name="358168">Example</a></p>
+      <p class="b_Body"><a name="358169">The following example assumes you are making monthly payments the first of </a>each month on a loan of $20,000, over 36 months, at an APR of 11.5%. How much will each of your payments be? The answer, $653.26, is assigned to PaymentAmt. </p>
       <div class="cf_CodeFirst"><a name="189269">PaymentAmt = Finance.pmt(.115/12, 36, -20000, 0, 1) </a></div>
       <p class="N_sb_ScanBold"><a name="189270">See also</a></p>
       <p class="bn_BodyNoLead"><a href="#188935" title="Finance" name="189274">Finance.fv</a> function </p>
@@ -713,19 +727,19 @@
           </tr>
         </table>
       </div>
-      <p class="N_sb_ScanBold"><a name="189304">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189305">ppmt( ratePerPeriod, singlePeriod, numberPayPeriods, presentValue, </a>futureValue, whenDue )</div>
-      <p class="N_sb_ScanBold"><a name="189306">Parameters</a></p>
-      <p class="RParameter"><a name="189308">ratePerPeriod</a></p>
-      <p class="bn_BodyNoLead"><a name="189309">Numeric expression that specifies the interest rate that accrues per period. You </a>must provide this value in the same units of measure as numberPayPeriods. For instance, if numberPayPeriods is expressed in months, then ratePerPeriod must be expressed as a monthly rate. </p>
-      <p class="RParameter"><a name="189311">singlePeriod</a></p>
-      <p class="bn_BodyNoLead"><a name="189312">Numeric expression that specifies the particular period for which you want to </a>determine how much of the payment for that period represents interest. This value must be in the range 1 through numberPayPeriods. </p>
-      <p class="RParameter"><a name="189314">numberPayPeriods</a></p>
-      <p class="bn_BodyNoLead"><a name="189315">Numeric expression that specifies the total number of payment periods in the </a>annuity. You must provide this value in the same units of measure as ratePerPeriod. For instance, if ratePerPeriod is expressed as a monthly rate, then numberPayPeriods must be expressed in months. </p>
-      <p class="RParameter"><a name="189317">presentValue </a></p>
-      <p class="bn_BodyNoLead"><a name="189318">Numeric expression that specifies the value today of a future payment, or stream </a>of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you end up with about $100. In this case, the present value of that $100 is approximately $23.94. </p>
-      <p class="RParameter"><a name="189321">futureValue</a></p>
-      <p class="bn_BodyNoLead"><a name="189322">Numeric expression that specifies the cash balance you want after you have made </a>your final payment. For example: </p>
+      <p class="N_sb_ScanBold"><a name="358834">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="358835">double ppmt( double rate, integer per, integer nPer, double pmt, double pvalue, </a>double fvalue, integer due )</div>
+      <p class="N_sb_ScanBold"><a name="358836">Parameters</a></p>
+      <p class="RParameter"><a name="189308">rate</a></p>
+      <p class="bn_BodyNoLead"><a name="189309">Double numeric expression that specifies the interest rate that accrues per period. </a>You must provide this value in the same units of measure as nPer. For instance, if nPer is expressed in months, then rate must be expressed as a monthly rate. </p>
+      <p class="RParameter"><a name="189311">per</a></p>
+      <p class="bn_BodyNoLead"><a name="189312">Integerthat specifies the particular period for which you want to determine how </a>much of the payment for that period represents interest. This value must be in the range 1 through nPer. </p>
+      <p class="RParameter"><a name="189314">nPer</a></p>
+      <p class="bn_BodyNoLead"><a name="189315">Integer that specifies the total number of payment periods in the annuity. You </a>must provide this value in the same units of measure as rate. For instance, if rate is expressed as a monthly rate, then nPer must be expressed in months. </p>
+      <p class="RParameter"><a name="189317">pvalue </a></p>
+      <p class="bn_BodyNoLead"><a name="189318">Double numeric expression that specifies the value today of a future payment, or </a>stream of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you end up with about $100. In this case, the present value of that $100 is approximately $23.94. </p>
+      <p class="RParameter"><a name="189321">fvalue</a></p>
+      <p class="bn_BodyNoLead"><a name="189322">Double numeric expression that specifies the cash balance you want after you </a>have made your final payment. For example: </p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -754,8 +768,10 @@
           </tr>
         </table>
       </div>
-      <p class="RParameter"><a name="189327">whenDue  </a></p>
-      <p class="bn_BodyNoLead"><a name="189328">Numeric expression that specifies whether each payment is made at the </a>beginning (1), or at the end (0) of each period. This value must be a 0 or 1.</p>
+      <p class="RParameter"><a name="189327">due  </a></p>
+      <p class="bn_BodyNoLead"><a name="189328">Integer that specifies whether each payment is made at the beginning (1), or at the </a>end (0) of each period. This value must be a 0 or 1.</p>
+      <p class="N_sb_ScanBold"><a name="358218">Returns</a></p>
+      <p class="b_Body"><a name="358219">Double.</a></p>
       <p class="N_sb_ScanBold"><a name="189329">Example</a></p>
       <p class="b_Body"><a name="189330">The following example assumes you are making monthly payments at the first of </a>each month on a loan of $20,000, over 36 months, at an APR of 11.5%. How much of your 5th payment represents principal? The answer, $481.43, is assigned to Principal5: </p>
       <div class="cf_CodeFirst"><a name="189331">Principal5 = Finance.ppmt(.115/12, 5, 36, -20000, 0, 1) </a></div>
@@ -799,16 +815,16 @@
         </table>
       </div>
       <p class="N_sb_ScanBold"><a name="189367">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189368">pv( ratePerPeriod, numberPayPeriods, eachPmt, futureValue, whenDue )</a></div>
+      <div class="rs_RSyntax"><a name="189368">double pv( double rate, integer nPer, double pmt, double fvalue, integer due)</a></div>
       <p class="N_sb_ScanBold"><a name="189369">Parameters</a></p>
-      <p class="RParameter"><a name="189371">ratePerPeriod </a></p>
-      <p class="bn_BodyNoLead"><a name="189372">Numeric expression that specifies the interest rate that accrues per period. You </a>must provide this value in the same units of measure as numberPayPeriods. For instance, if numberPayPeriods is expressed in months, then ratePerPeriod must be expressed as a monthly rate. </p>
-      <p class="RParameter"><a name="189374">numberPayPeriods </a></p>
-      <p class="bn_BodyNoLead"><a name="189375">Numeric expression that specifies the total number of payment periods in the </a>annuity. You must provide this value in the same units of measure as ratePerPeriod. For instance, if ratePerPeriod is expressed as a monthly rate, then numberPayPeriods must be expressed in months. </p>
-      <p class="RParameter"><a name="189377">eachPmt</a></p>
-      <p class="bn_BodyNoLead"><a name="189378">Numeric expression that specifies the amount of each payment. You must </a>provide this value in the same units of measure as ratePerPeriod. For instance, if ratePerPeriod is expressed in months, then eachPmt must be expressed as a monthly payment. </p>
-      <p class="RParameter"><a name="189380">futureValue</a></p>
-      <p class="bn_BodyNoLead"><a name="189381">Numeric expression. Specifies the cash balance you want after you have made </a>your final payment. For example: </p>
+      <p class="RParameter"><a name="189371">rate</a></p>
+      <p class="bn_BodyNoLead"><a name="189372">Double numeric expression that specifies the interest rate that accrues per period. </a>You must provide this value in the same units of measure as nPer. For instance, if nPer is expressed in months, then rate must be expressed as a monthly rate. </p>
+      <p class="RParameter"><a name="189374">nPer</a></p>
+      <p class="bn_BodyNoLead"><a name="189375">Integer that specifies the total number of payment periods in the annuity. You </a>must provide this value in the same units of measure as rate. For instance, if rate is expressed as a monthly rate, then nPer must be expressed in months. </p>
+      <p class="RParameter"><a name="189377">pmt</a></p>
+      <p class="bn_BodyNoLead"><a name="359119">Double numeric expression that specifies the amount of each payment. You must </a>provide this value in the same units of measure as rate. For instance, if rate is expressed in months, then pmt must be expressed as a monthly payment. </p>
+      <p class="RParameter"><a name="189380">fvalue</a></p>
+      <p class="bn_BodyNoLead"><a name="189381">Double. Specifies the cash balance you want after you have made your final </a>payment. For example: </p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -837,8 +853,10 @@
           </tr>
         </table>
       </div>
-      <p class="RParameter"><a name="189386">whenDue</a></p>
-      <p class="bn_BodyNoLead"><a name="189387">Numeric expression that specifies whether each payment is made at the </a>beginning or at the end of each period. This value must be a 1 for beginning of period, or 0 (zero) for end of period.</p>
+      <p class="RParameter"><a name="189386">due</a></p>
+      <p class="bn_BodyNoLead"><a name="189387">Integer that specifies whether each payment is made at the beginning or at the </a>end of each period. This value must be a 1 for beginning of period, or 0 (zero) for end of period.</p>
+      <p class="N_sb_ScanBold"><a name="358237">Returns</a></p>
+      <p class="b_Body"><a name="358238">Double</a></p>
       <p class="N_sb_ScanBold"><a name="189388">Example</a></p>
       <p class="b_Body"><a name="189389">The following example assumes you are considering the purchase of a corporate </a>bond with a $1000 face value. The bond pays an annual coupon of $100, matures in 15 years, and the next coupon is paid at the end of one year. The yield to maturity on similar bonds is 12.5%. What is a fair price for this bond, or in other words, what is its present value? The answer, $834.18, is assigned to the variable PresentValue: </p>
       <div class="cf_CodeFirst"><a name="189390">PresentValue = Finance.pv(.125, 15, 100, 1000, 0) </a></div>
@@ -915,16 +933,16 @@
         </table>
       </div>
       <p class="N_sb_ScanBold"><a name="189433">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189434">rate( numberPayPeriods, eachPmt, presentValue, futureValue, whenDue, </a>startingGuess )</div>
+      <div class="rs_RSyntax"><a name="189434">double rate( integer nper, double pmt, double pvalue, double fvalue, integer due, </a>double guess)</div>
       <p class="N_sb_ScanBold"><a name="189435">Parameters</a></p>
-      <p class="RParameter"><a name="189437">numberPayPeriods</a></p>
-      <p class="bn_BodyNoLead"><a name="189438">Numeric expression that specifies the total number of payment periods in the </a>annuity. You must provide this value in the same units of measure as eachPmt. For instance, if eachPmt is expressed as a monthly payment, then numberPayPeriods must be expressed in months. </p>
-      <p class="RParameter"><a name="189440">eachPmt</a></p>
-      <p class="bn_BodyNoLead"><a name="189441">Numeric expression that specifies the amount of each payment. You must </a>provide this value in the same units of measure as numberPayPeriods. For instance, if numberPayPeriods is expressed in months, then eachPmt must be expressed as a monthly payment. </p>
-      <p class="RParameter"><a name="189443">presentValue</a></p>
-      <p class="bn_BodyNoLead"><a name="189444">Numeric expression that specifies the value today of a future payment, or of a </a>stream of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you will end up with about $100. So in this case, the present value of that $100 is approximately $23.94. </p>
-      <p class="RParameter"><a name="189447">futureValue </a></p>
-      <p class="bn_BodyNoLead"><a name="189448">Numeric expression that specifies the cash balance you want after you have made </a>your final payment. For example: </p>
+      <p class="RParameter"><a name="189437">nper</a></p>
+      <p class="bn_BodyNoLead"><a name="189438">Integer that specifies the total number of payment periods in the annuity. You </a>must provide this value in the same units of measure as pmt. For instance, if pmt is expressed as a monthly payment, then nper must be expressed in months. </p>
+      <p class="RParameter"><a name="189440">pmt</a></p>
+      <p class="bn_BodyNoLead"><a name="189441">Double numeric expression that specifies the amount of each payment. You must </a>provide this value in the same units of measure as nper. For instance, if nper is expressed in months, then pmt must be expressed as a monthly payment. </p>
+      <p class="RParameter"><a name="189443">pvalue</a></p>
+      <p class="bn_BodyNoLead"><a name="189444">Double numeric expression that specifies the value today of a future payment, or </a>of a stream of payments. For example, if you put $23.94 in the bank today and leave it there for 15 years at an interest rate of 10% compounded annually, you will end up with about $100. So in this case, the present value of that $100 is approximately $23.94. </p>
+      <p class="RParameter"><a name="189447">fvalue</a></p>
+      <p class="bn_BodyNoLead"><a name="189448">Double numeric expression that specifies the cash balance you want after you </a>have made your final payment. For example: </p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -953,10 +971,12 @@
           </tr>
         </table>
       </div>
-      <p class="RParameter"><a name="189453">whenDue </a></p>
-      <p class="bn_BodyNoLead"><a name="189454">Numeric expression that specifies whether each payment is made at the </a>beginning or at the end of each period. This value must be a 1 for beginning of period or 0 (zero) for end of period.</p>
-      <p class="RParameter"><a name="189456">startingGuess</a></p>
-      <p class="bn_BodyNoLead"><a name="189457">Numeric expression that specifies the value you estimate Rate will return. In most </a>cases, this is 0.1, or 10 percent. </p>
+      <p class="RParameter"><a name="189453">due</a></p>
+      <p class="bn_BodyNoLead"><a name="189454">Integer that specifies whether each payment is made at the beginning or at the </a>end of each period. This value must be a 1 for beginning of period or 0 (zero) for end of period.</p>
+      <p class="RParameter"><a name="189456">guess</a></p>
+      <p class="bn_BodyNoLead"><a name="189457">Double numeric expression that specifies the value you estimate Rate will return. </a>In most cases, this is 0.1, or 10 percent. </p>
+      <p class="N_sb_ScanBold"><a name="358255">Returns</a></p>
+      <p class="b_Body"><a name="358256">Double</a></p>
       <p class="N_sb_ScanBold"><a name="189458">Example</a></p>
       <p class="b_Body"><a name="189459">The following example assumes you have taken out a loan for $20,000, that you </a>are paying off over the course of 3 years. If your payments are $653.26 per month, and you make them at the beginning of each month, what interest rate (APR) are you paying? The answer, .115 or 11.5%, is assigned to the variable InterestRate. Note that the return value of Rate must be multiplied by 12 to yield an annual rate: </p>
       <div class="cf_CodeFirst"><a name="189460">InterestRate = Finance.rate(3*12, -653.26, 20000, 0, 1, .1) * 12 </a></div>
@@ -970,14 +990,16 @@
       <h3 class="RH2_Method"><a name="189487">Finance.sln </a></h3>
       <p class="b_Body"><a name="189490">This function returns the straight-line depreciation of an asset for a single period. </a>Straight-line depreciation is the oldest and simplest method of depreciating a fixed asset. It uses the book value of the asset less its estimated residual value, and allocates the difference equally to each period of the asset's life. Such procedures are used to arrive at a uniform annual depreciation expense that is charged against income before calculating income taxes. All arguments must be positive numbers. </p>
       <p class="N_sb_ScanBold"><a name="189491">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189492">sln( initialCost, salvageValue, assetLifespan )</a></div>
+      <div class="rs_RSyntax"><a name="189492">double sln( double cost, double salvage, double life )</a></div>
       <p class="N_sb_ScanBold"><a name="189493">Parameters</a></p>
-      <p class="RParameter"><a name="189495">initialCost</a></p>
-      <p class="bn_BodyNoLead"><a name="189496">Numeric expression that specifies the initial cost of the asset. </a></p>
-      <p class="RParameter"><a name="189498">salvageValue</a></p>
-      <p class="bn_BodyNoLead"><a name="189499">Numeric expression that specifies the value of the asset at the end of its useful </a>life. You can type a salvage value to view the straight line depreciation offset by the salvage value, or return straight line depreciation without salvage value by supplying 0 (zero) in salvage value. </p>
-      <p class="RParameter"><a name="189501">assetLifespan</a></p>
-      <p class="bn_BodyNoLead"><a name="189502">Numeric expression that specifies the length of the useful life of the asset. You </a>must provide this value in the same units of measure you want the function to return. For example, if you want SLN to determine the annual depreciation of the asset, assetLifespan must be given in years. </p>
+      <p class="RParameter"><a name="189495">cost</a></p>
+      <p class="bn_BodyNoLead"><a name="189496">Double numeric expression that specifies the initial cost of the asset. </a></p>
+      <p class="RParameter"><a name="189498">salvage</a></p>
+      <p class="bn_BodyNoLead"><a name="189499">Double numeric expression that specifies the value of the asset at the end of its </a>useful life. You can type a salvage value to view the straight line depreciation offset by the salvage value, or return straight line depreciation without salvage value by supplying 0 (zero) in salvage value. </p>
+      <p class="RParameter"><a name="189501">life</a></p>
+      <p class="bn_BodyNoLead"><a name="189502">Double numeric expression that specifies the length of the useful life of the asset. </a>You must provide this value in the same units of measure you want the function to return. For example, if you want SLN to determine the annual depreciation of the asset, assetLifespan must be given in years. </p>
+      <p class="N_sb_ScanBold"><a name="358275">Returns</a></p>
+      <p class="b_Body"><a name="358276">Double.</a></p>
       <p class="N_sb_ScanBold"><a name="212887">Example</a></p>
       <p class="b_Body"><a name="212888">The following example calculates the depreciation under the straight-line method </a>for a new machine purchased at $1400, with a salvage value of $200, and a useful life estimated at 10 years. The result, $120 annually, is assigned to AnnualDeprec: </p>
       <div class="cf_CodeFirst"><a name="189505">AnnualDeprec = Finance.sln(1400, 200, 10) </a></div>
@@ -1017,16 +1039,18 @@
         </table>
       </div>
       <p class="N_sb_ScanBold"><a name="189525">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="189526">syd( initialCost, salvageValue, assetLifespan, singlePeriod )</a></div>
+      <div class="rs_RSyntax"><a name="189526">double syd( double cost, double salvage, double life, integer period )</a></div>
       <p class="N_sb_ScanBold"><a name="189527">Parameters</a></p>
-      <p class="RParameter"><a name="189529">initialCost</a></p>
-      <p class="bn_BodyNoLead"><a name="189530">Numeric expression that specifies the initial cost of the asset. </a></p>
-      <p class="RParameter"><a name="189532">salvageValue</a></p>
-      <p class="bn_BodyNoLead"><a name="189533">Numeric expression that specifies the value of the asset at the end of its useful </a>life. </p>
-      <p class="RParameter"><a name="189535">assetLifespan</a></p>
-      <p class="bn_BodyNoLead"><a name="189536">Numeric expression that specifies the length of the useful life of the asset. You </a>must give this value in the same units of measure as singlePeriod. For example, if singlePeriod represents a month, then assetLifespan must be expressed in months. </p>
-      <p class="RParameter"><a name="189538">singlePeriod</a></p>
-      <p class="bn_BodyNoLead"><a name="189539">Numeric expression that specifies the period for which you want syd to calculate </a>the depreciation. You must give this value in the same units of measure as assetLifespan. For example, if assetLifespan is expressed in months, then singlePeriod must represent a period of one month. </p>
+      <p class="RParameter"><a name="189529">cost</a></p>
+      <p class="bn_BodyNoLead"><a name="189530">Double numeric expression that specifies the initial cost of the asset. </a></p>
+      <p class="RParameter"><a name="189532">salvage</a></p>
+      <p class="bn_BodyNoLead"><a name="189533">Double numeric expression that specifies the value of the asset at the end of its </a>useful life. </p>
+      <p class="RParameter"><a name="189535">life</a></p>
+      <p class="bn_BodyNoLead"><a name="189536">Double numeric expression that specifies the length of the useful life of the asset. </a>You must give this value in the same units of measure as period. For example, if period represents a month, then life must be expressed in months. </p>
+      <p class="RParameter"><a name="189538">period</a></p>
+      <p class="bn_BodyNoLead"><a name="189539">Integerthat specifies the period for which you want syd to calculate the </a>depreciation. You must give this value in the same units of measure as life. For example, if life is expressed in months, then period must represent a period of one month. </p>
+      <p class="N_sb_ScanBold"><a name="358293">Returns</a></p>
+      <p class="b_Body"><a name="358294">Double</a></p>
       <p class="N_sb_ScanBold"><a name="189540">Example</a></p>
       <p class="b_Body"><a name="189541">The following example calculates the depreciation for the first year under the </a>sum-of-years'-digits method for a new machine purchased at $1400, with a salvage value of $200, and a useful life estimated at 10 years. The result, $218.18, is assigned to Year1Deprec. </p>
       <div class="cf_CodeFirst"><a name="189542">Year1Deprec = Finance.syd(1400, 200, 10, 1) </a></div>

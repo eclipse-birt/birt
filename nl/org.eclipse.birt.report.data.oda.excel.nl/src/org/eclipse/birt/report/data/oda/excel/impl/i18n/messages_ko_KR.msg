@@ -14,8 +14,8 @@
 
 connection_CONNECTION_PROPERTIES_MISSING=연결 속성이 누락되었습니다.
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=Excel 데이터 원본 폴더 속성이 정의되지 않았습니다. Excel 입력 파일에 대한 홈 폴더 경로 또는 URI가 필요합니다. 
-connection_invalidSource=Excel 데이터 원본 폴더에 대해 지정된 URI가 유효하지 않거나 잘못되었습니다.
+connection_MISSING_FILELOCATION=Excel 데이터 원본 파일 속성이 정의되지 않았습니다. Excel 입력 파일에 대한 파일 경로 또는 URI가 필요합니다. 
+connection_invalidSource=Excel 데이터 원본 파일에 대해 지정된 URI가 유효하지 않거나 잘못되었습니다.
 connection_missingResourceIdentifier=Excel 데이터 원본의 상대 경로를 해결할 리소스 식별자가 없습니다. 
 fileSource_excelFileNotFound=지정된 Excel 데이터 원본 폴더 또는 파일({0})을 찾을 수 없습니다. 
 
@@ -26,7 +26,7 @@ query_ARGUMENT_ERROR=인수는 '이름'이나 형식'이어야 합니다.
 query_IO_EXCEPTION=파일을 읽는 동안 I/O 예외가 발생했습니다.
 query_SOURCE_DATA_ERROR=원본 데이터에 중복된 열 이름이 있습니다.
 query_COLUMN_NAME_ERROR=열 이름 오류
-query_INVALID_EXCEL_FILE=시트에 데이터가 없습니다. 다른 시트를 선택하십시오.
+query_INVALID_EXCEL_FILE=워크시트에 데이터가 없습니다. 다른 시트를 선택하십시오.
 query_text_error=쿼리 텍스트 서식 오류
 query_WORKSHEET_CANNOT_BE_NULL=워크시트 이름은 널(null)이 될 수 없습니다.
 resultSet_COLUMN_NOT_FOUND=열 없음:

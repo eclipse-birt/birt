@@ -291,7 +291,7 @@ public class ReportQueryBuilder
 						{
 							IBaseQueryDefinition baseQuery = (IBaseQueryDefinition) query;
 							ResultMetaData metaData = new ResultMetaData(
-									baseQuery );
+									baseQuery, design.getHandle( ) );
 							resultMetaData.put( baseQuery, metaData );
 						}
 						registerQueryAndElement( query, design );
@@ -335,7 +335,7 @@ public class ReportQueryBuilder
 					if ( query instanceof IBaseQueryDefinition )
 					{
 						IBaseQueryDefinition baseQuery = (IBaseQueryDefinition) query;
-						ResultMetaData metaData = new ResultMetaData( baseQuery );
+						ResultMetaData metaData = new ResultMetaData( baseQuery, design.getHandle( ) );
 						resultMetaData.put( baseQuery, metaData );
 					}
 				}

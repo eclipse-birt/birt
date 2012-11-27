@@ -152,6 +152,11 @@ public class SubqueryResultMetaData implements IResultMetaData
 		return metas.get( index ).columnTypeName;
 	}
 
+	public boolean getAllowExport( int index ) throws BirtException
+	{
+		return true;
+	}
+	
 	private static class MetaData
 	{
 

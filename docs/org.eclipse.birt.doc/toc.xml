@@ -108,7 +108,7 @@
   <topic label="Enabling the User to Filter Data " href="birt/rp-HowToDefineADataSetParameter.html" >
     <topic label="How to create a basic report parameter" href="birt/rp-HowToDefineADataSetParameter.html#258758" />
     <topic label="How to insert a parameter marker in the SQL query" href="birt/rp-HowToDefineADataSetParameter.html#192655" />
-    <topic label="How to define a data set parameter" href="birt/rp-HowToDefineADataSetParameter.html#140491" />
+    <topic label="How to define a data set parameter" href="birt/rp-HowToDefineADataSetParameter.html#511214" />
     <topic label="How to update a filter condition dynamically when the report runs" href="birt/rp-HowToUpdateAFilterConditionDynamicallyWhenTheReportRuns.html" />
     </topic>
   <topic label="Building a Report That Contains Subreports" href="birt/sub-BuildingARptThatContainsSubreportsIntro.html" >
@@ -219,7 +219,7 @@
     <topic label="BIRT JavaScript classes quick reference" href="birt/ScriptingReference.25.2.html" />
     <topic label="Class BirtComp" href="birt/ScriptingReference.25.3.html" >
       <topic label="BirtComp.anyOf" href="birt/ScriptingReference.25.3.html#275953" />
-      <topic label="BirtComp.between" href="birt/ScriptingReference.25.3.html#280059" />
+      <topic label="BirtComp.between" href="birt/ScriptingReference.25.3.html#357427" />
       <topic label="BirtComp.compareString" href="birt/ScriptingReference.25.3.html#287732" />
       <topic label="BirtComp.equalTo" href="birt/ScriptingReference.25.3.html#280965" />
       <topic label="BirtComp.greaterOrEqual" href="birt/ScriptingReference.25.3.html#285949" />
@@ -250,8 +250,13 @@
       <topic label="BirtDateTime.diffSecond" href="birt/ScriptingReference.25.4.html#257251" />
       <topic label="BirtDateTime.diffWeek" href="birt/ScriptingReference.25.4.html#257380" />
       <topic label="BirtDateTime.diffYear" href="birt/ScriptingReference.25.4.html#257633" />
-      <topic label="BirtDateTime.month" href="birt/ScriptingReference.25.4.html#259860" />
-      <topic label="BirtDateTime.now" href="birt/ScriptingReference.25.4.html#261363" />
+      <topic label="BirtDateTime.diffYear" href="birt/ScriptingReference.25.4.html#362480" />
+      <topic label="BirtDateTime.firstDayOfMonth" href="birt/ScriptingReference.25.4.html#259860" />
+      <topic label="BirtDateTime.firstDayOfQuarter" href="birt/ScriptingReference.25.4.html#362973" />
+      <topic label="BirtDateTime.firstDayOfWeek" href="birt/ScriptingReference.25.4.html#363021" />
+      <topic label="BirtDateTime.firstDayOfYear" href="birt/ScriptingReference.25.4.html#363508" />
+      <topic label="BirtDateTime.month" href="birt/ScriptingReference.25.4.html#363063" />
+      <topic label="BirtDateTime.now" href="birt/ScriptingReference.25.4.html#362929" />
       <topic label="BirtDateTime.quarter" href="birt/ScriptingReference.25.4.html#260047" />
       <topic label="BirtDateTime.today" href="birt/ScriptingReference.25.4.html#261571" />
       <topic label="BirtDateTime.week" href="birt/ScriptingReference.25.4.html#260568" />

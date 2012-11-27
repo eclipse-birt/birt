@@ -135,7 +135,8 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 		if ( container == null )
 			return Collections.EMPTY_LIST;
 
-		List styles = new ArrayList( );
+		List<String> styles = new ArrayList<String>( );
+		
 		if ( container instanceof MeasureViewHandle )
 		{
 			// only cells in measure detail and aggregations are looked as
@@ -178,6 +179,10 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 			// all other cells in x-tab is looked as "x-tab-header-cell"
 			styles.add( CROSSTAB_HEADER_SELECTOR );
 		}
+		
+		// all cells apply to the "crosstab-cell" selector
+		styles.add( CROSSTAB_CELL_SELECTOR );
+
 		return styles;
 	}
 

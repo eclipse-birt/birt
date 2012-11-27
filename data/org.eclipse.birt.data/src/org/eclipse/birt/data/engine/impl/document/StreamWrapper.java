@@ -21,6 +21,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
+import org.eclipse.birt.data.engine.expression.CompareHints;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;
@@ -149,9 +150,14 @@ public class StreamWrapper
 			Class dataType = resultClass.getFieldValueClass( i );
 			String fieldName = resultClass.getFieldName( i );
 			long memoryBufferSize = CacheUtil.computeMemoryBufferSize( appContext );
+<<<<<<< HEAD
 			IIndexSerializer index = DataSetIndexFactory.createIndex( memoryBufferSize/indexColumnCount, "Index/" + fieldName + "/btreeIndex", manager, dataType );
 			if( index!= null )
 				result.put( fieldName, index );
+=======
+			BTreeIndex btreeIndex =  new BTreeIndex( memoryBufferSize/indexColumnCount, "Index/" + fieldName + "/btreeIndex", manager, dataType, (CompareHints )appContext.get( "org.eclipse.birt.data.engine.expression.compareHints" ) );
+			result.put( fieldName, btreeIndex);
+>>>>>>> master
 //			if ( dataType == String.class )
 //			{
 //				result.put( fieldName, new SerializableBirtHash( "Index/"

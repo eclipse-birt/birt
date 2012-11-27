@@ -22,6 +22,8 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.variables.IStringVariableManager;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -60,22 +62,42 @@ public class HiveSelectionPageHelper
 	private Label m_driverClass, m_driverURL, m_User;
 	// Text of url, name and password
 	private Text jdbcUrl, userName, password, jndiName, addfile;
-    static final String DEFAULT_MESSAGE = 
-        Messages.getMessage(  "datasource.page.title" ); //$NON-NLS-1$
+    private String DEFAULT_MESSAGE = "";
     
     private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 //	private static final String EXTERNAL_BIDI_FORMAT = "report.data.oda.bidi.jdbc.ui.externalbidiformat";
     
-    HiveSelectionPageHelper( WizardPage page )
+    public HiveSelectionPageHelper( WizardPage page, String odaDesignerID )
     {
         m_wizardPage = page;
+        setDefaultMessage( odaDesignerID );
     }
 
-    HiveSelectionPageHelper( PreferencePage page )
+    public HiveSelectionPageHelper( PreferencePage page, String odaDesignerID )
     {
         m_propertyPage = page;
+        setDefaultMessage( odaDesignerID );
     }
 
+    private void setDefaultMessage( String odaDesignerID )
+	{
+		String msgExpr = Messages.getMessage( "datasource.page.title" );
+		// "Define ${odadesignerid.ds.displayname} Data Source";
+		String dsMsgExpr = msgExpr.replace( "odadesignerid", odaDesignerID ); //$NON-NLS-1$
+
+		IStringVariableManager varMgr = org.eclipse.core.variables.VariablesPlugin.getDefault( )
+				.getStringVariableManager( );
+		try
+		{
+			DEFAULT_MESSAGE = varMgr.performStringSubstitution( dsMsgExpr, false );
+		}
+		catch ( CoreException ex )
+		{
+			// TODO Auto-generated catch block
+		}
+
+	}
+    
     void createCustomControl( Composite parent )
 	{
 

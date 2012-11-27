@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -61,6 +63,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
  */
 class ContentUtil
 {
+
+	private static final Logger logger = Logger.getLogger( ContentUtil.class.getName( ) );
 
 	/**
 	 * Prevent from instantiation
@@ -282,12 +286,20 @@ class ContentUtil
 
 				IConditionalExpression expression = cachedHighlightCondExprs.next( );
 
-				Object value = evaluator.evaluate( expression );
-
-				if ( value instanceof Boolean
-						&& ( (Boolean) value ).booleanValue( ) )
+				try
 				{
-					setupRuleStyle( rule, style );
+					Object value = evaluator.evaluate( expression );
+
+					if ( value instanceof Boolean
+							&& ( (Boolean) value ).booleanValue( ) )
+					{
+						setupRuleStyle( rule, style );
+					}
+				}
+				catch ( BirtException e )
+				{
+					// only log a warning for invalid highlight rule processing
+					logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
 				}
 			}
 
@@ -307,12 +319,20 @@ class ContentUtil
 				IConditionalExpression expression = convertHighlightExpression( rule,
 						modelAdapter );
 
-				Object value = evaluator.evaluate( expression );
-
-				if ( value instanceof Boolean
-						&& ( (Boolean) value ).booleanValue( ) )
+				try
 				{
-					setupRuleStyle( rule, style );
+					Object value = evaluator.evaluate( expression );
+
+					if ( value instanceof Boolean
+							&& ( (Boolean) value ).booleanValue( ) )
+					{
+						setupRuleStyle( rule, style );
+					}
+				}
+				catch ( BirtException e )
+				{
+					// only log a warning for invalid highlight rule processing
+					logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
 				}
 			}
 		}

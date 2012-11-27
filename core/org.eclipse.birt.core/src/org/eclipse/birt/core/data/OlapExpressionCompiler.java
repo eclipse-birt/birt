@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.core.data;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.birt.core.exception.CoreException;
@@ -34,18 +36,21 @@ class OlapExpressionCompiler
 	 * @param objectName
 	 * @return
 	 */
-	public static String getReferencedMeasure( String expr )
+	public static Set<String> getReferencedMeasure( String expr )
 	{
 		if ( expr == null )
-			return null;
+			return Collections.EMPTY_SET;
 		try
 		{
+			Set<String> result = new LinkedHashSet<String>( );
 			Context cx = Context.enter( );
 			CompilerEnvirons ce = new CompilerEnvirons( );
 			Parser p = new Parser( ce, cx.getErrorReporter( ) );
 			ScriptOrFnNode tree = p.parse( expr, null, 0 );
 
-			return getScriptObjectName( tree, "measure" );
+			getScriptObjectName( tree, "measure", result );
+			
+			return result;
 		}
 		finally
 		{
@@ -148,10 +153,10 @@ class OlapExpressionCompiler
 				n.getFirstChild( ),
 				result );
 		populateDimLevels( grandpa,
-				n.getLastChild( ),
+				n.getNext( ),
 				result );
 		populateDimLevels( grandpa,
-				n.getNext( ),
+				n.getLastChild( ),
 				result );
 	}
 
@@ -161,10 +166,10 @@ class OlapExpressionCompiler
 	 * @param objectName
 	 * @return
 	 */
-	private static String getScriptObjectName( Node n, String objectName )
+	private static void getScriptObjectName( Node n, String objectName, Set nameSet )
 	{
 		if ( n == null )
-			return null;
+			return;
 		String result = null;
 		if ( n.getType( ) == Token.NAME )
 		{
@@ -173,16 +178,14 @@ class OlapExpressionCompiler
 				Node dimNameNode = n.getNext( );
 				if ( dimNameNode == null
 						|| dimNameNode.getType( ) != Token.STRING )
-					return null;
+					return;
 
-				return dimNameNode.getString( );
+				nameSet.add( dimNameNode.getString( ) );
 			}
 		}
 
-		result = getScriptObjectName( n.getFirstChild( ), objectName );
-		if ( result == null )
-			result = getScriptObjectName( n.getLastChild( ), objectName );
-
-		return result;
+		getScriptObjectName( n.getFirstChild( ), objectName, nameSet );
+		getScriptObjectName( n.getNext( ), objectName, nameSet );
+		getScriptObjectName( n.getLastChild( ), objectName, nameSet );
 	}
 }

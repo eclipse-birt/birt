@@ -175,10 +175,6 @@ public class ExpressionProvider implements
 			new Operator( ")", Messages.getString( "ExpressionProvider.Operator.RightBracket" ) ),//$NON-NLS-1$ //$NON-NLS-2$
 	};
 
-	private static final Expression rowNum = new Expression( Messages.getString( "ExpressionProvider.Expression.RowNumName" ),//$NON-NLS-1$
-			"row.__rownum", //$NON-NLS-1$
-			Messages.getString( "ExpressionProvider.Expression.RowNumTooltip" ) );//$NON-NLS-1$
-
 	protected static final String DISPLAY_TEXT_ASSIGNMENT = Messages.getString( "ExpressionProvider.Operators.Assignment" ); //$NON-NLS-1$	
 	protected static final String DISPLAY_TEXT_COMPARISON = Messages.getString( "ExpressionProvider.Operators.Comparison" ); //$NON-NLS-1$
 	protected static final String DISPLAY_TEXT_COMPUTATIONAL = Messages.getString( "ExpressionProvider.Operators.Computational" ); //$NON-NLS-1$
@@ -482,7 +478,7 @@ public class ExpressionProvider implements
 					{
 						return 1;
 					}
-					else if ( obj == rowNum )
+					else if ( obj instanceof Expression )
 					{
 						return 2;
 					}
@@ -742,6 +738,10 @@ public class ExpressionProvider implements
 			// add hard code row count expression here
 			if ( DEUtil.enableRowNum( parent ) )
 			{
+				Expression rowNum = new Expression( Messages.getString( "ExpressionProvider.Expression.RowNumName" ),//$NON-NLS-1$
+						DEUtil.getRowNumExpression( elementHandle,
+								(ReportItemHandle) parent ), //$NON-NLS-1$
+						Messages.getString( "ExpressionProvider.Expression.RowNumTooltip" ) );//$NON-NLS-1$
 				childrenList.add( rowNum );
 			}
 			// add edit option

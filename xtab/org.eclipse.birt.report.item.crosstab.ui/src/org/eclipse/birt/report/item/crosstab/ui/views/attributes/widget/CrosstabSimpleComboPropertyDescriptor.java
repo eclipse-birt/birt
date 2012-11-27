@@ -17,6 +17,10 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Pr
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.SimpleComboPropertyDescriptor;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSimpleComboPropertyDescriptorProvider;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 
 /**
  * @author Administrator
@@ -28,7 +32,7 @@ public class CrosstabSimpleComboPropertyDescriptor extends
 	public CrosstabSimpleComboPropertyDescriptor(boolean formStyle) {
 		super(formStyle);
 	}
-
+	
 	protected void refresh(String value) {
 		if (getDescriptorProvider() instanceof CrosstabSimpleComboPropertyDescriptorProvider) {
 
@@ -42,6 +46,9 @@ public class CrosstabSimpleComboPropertyDescriptor extends
 				{
 					combo.setEnabled( false );
 				}
+				
+				boolean isEditable =  ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isEditable( ) ;
+				setComboEditable( isEditable );
 
 				int sindex = Arrays.asList( items ).indexOf( oldValue );
 

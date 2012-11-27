@@ -49,9 +49,6 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
-	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
-			.createExpressionCodec( );
-
 	/**
 	 * Comment for <code>actionHandleCache</code>
 	 */
@@ -121,7 +118,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 
 		return null;
 	}
-
+	
 	/**
 	 * @param expList
 	 * @param uv
@@ -129,87 +126,103 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 	private void getURLValueExpressions( List<String> expList, URLValue uv )
 	{
 		String sa = uv.getBaseUrl( );
-		
+		// Since it costs big time to crate instance of ActionHandle. Here
+		// uses a cache to avoid creating duplicate ActionHandle for same
+		// sa.  
 		try
 		{
-			// Since it costs big time to crate instance of ActionHandle. Here
-			// uses a cache to avoid creating duplicate ActionHandle for same
-			// sa.  
 			ActionHandle handle = actionHandleCache.get( sa );
-			String exp;
-			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-			{
-				ExpressionHandle expHandle = handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.Action.URI_MEMBER );
-				if ( ExpressionType.JAVASCRIPT.equals( expHandle.getType( ) ) )
-				{// only add when type is js.
-					exp = expHandle.getStringExpression( );
+			addURLValueExpressions( expList, handle );
+		}
+		catch ( DesignFileException e )
+		{
+			logger.log( e );
+		}
+	}
 
-					if ( !expList.contains( exp ) )
-					{
-						expList.add( exp );
-					}
-				}
-			}
-			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-			{
-				ExpressionHandle exprHandle = handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.Action.TARGET_BOOKMARK_MEMBER );
-				exprCodec.setExpression( exprHandle.getStringValue( ) );
-				exprCodec.setType( exprHandle.getType( ) );
-				exp = exprCodec.encode( );
+	/**
+	 * Adds all URL value expressions from Action handle to list
+	 * 
+	 * @param expList
+	 *            list to add
+	 * @param handle
+	 *            action handle
+	 */
+	public static void addURLValueExpressions( List<String> expList,
+			ActionHandle handle )
+	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+
+		String exp;
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+		{
+			ExpressionHandle expHandle = handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.Action.URI_MEMBER );
+			if ( ExpressionType.JAVASCRIPT.equals( expHandle.getType( ) ) )
+			{// only add when type is js.
+				exp = expHandle.getStringExpression( );
 
 				if ( !expList.contains( exp ) )
 				{
 					expList.add( exp );
 				}
 			}
-			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
-			{
-				ExpressionHandle exprHandle = handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.Action.TARGET_BOOKMARK_MEMBER );
-				exprCodec.setExpression( exprHandle.getStringValue( ) );
-				exprCodec.setType( exprHandle.getType( ) );
-				exp = exprCodec.encode( );
+		}
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+		{
+			ExpressionHandle exprHandle = handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.Action.TARGET_BOOKMARK_MEMBER );
+			exprCodec.setExpression( exprHandle.getStringValue( ) );
+			exprCodec.setType( exprHandle.getType( ) );
+			exp = exprCodec.encode( );
 
-				if ( exp != null && !expList.contains( exp ) )
+			if ( !expList.contains( exp ) )
+			{
+				expList.add( exp );
+			}
+		}
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
+		{
+			ExpressionHandle exprHandle = handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.Action.TARGET_BOOKMARK_MEMBER );
+			exprCodec.setExpression( exprHandle.getStringValue( ) );
+			exprCodec.setType( exprHandle.getType( ) );
+			exp = exprCodec.encode( );
+
+			if ( exp != null && !expList.contains( exp ) )
+			{
+				expList.add( exp );
+			}
+
+			for ( Iterator<?> itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
+			{
+				SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
+				exp = skh.getExpression( );
+
+				if ( !expList.contains( exp ) )
 				{
 					expList.add( exp );
 				}
+			}
 
-				for ( Iterator<?> itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
+			for ( Iterator<?> itr = handle.getParamBindings( ).iterator( ); itr.hasNext( ); )
+			{
+				ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
+				ExpressionListHandle exprListHandle = pbh.getExpressionListHandle( );
+				List<Expression> listValue = exprListHandle.getListValue( );
+				if ( listValue != null )
 				{
-					SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
-					exp = skh.getExpression( );
-
-					if ( !expList.contains( exp ) )
+					for ( Expression expr : listValue )
 					{
-						expList.add( exp );
-					}
-				}
-
-				for ( Iterator<?> itr = handle.getParamBindings( ).iterator( ); itr.hasNext( ); )
-				{
-					ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
-					ExpressionListHandle exprListHandle = pbh.getExpressionListHandle( );
-					List<Expression> listValue = exprListHandle.getListValue( );
-					if ( listValue != null )
-					{
-						for ( Expression expr : listValue )
+						exprCodec.setExpression( expr.getStringExpression( ) );
+						exprCodec.setType( expr.getType( ) );
+						exp = exprCodec.encode( );
+						if ( !expList.contains( exp ) )
 						{
-							exprCodec.setExpression( expr.getStringExpression( ) );
-							exprCodec.setType( expr.getType( ) );
-							exp = exprCodec.encode( );
-							if ( !expList.contains( exp ) )
-							{
-								expList.add( exp );
-							}
+							expList.add( exp );
 						}
 					}
 				}
-
 			}
-		}
-		catch ( DesignFileException e )
-		{
-			logger.log( e );
+
 		}
 	}
 	

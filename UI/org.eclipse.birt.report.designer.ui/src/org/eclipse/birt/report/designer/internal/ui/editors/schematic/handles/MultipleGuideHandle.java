@@ -46,6 +46,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * The GuideHandle for the multiple EditPart.
@@ -397,6 +399,11 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 					}
 
 				};
+				
+				ISharedImages sharedImages = PlatformUI.getWorkbench()
+						.getSharedImages();
+				action.setImageDescriptor(sharedImages
+						.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
 				manager.add( action );
 			}
 

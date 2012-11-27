@@ -206,6 +206,8 @@ public class StyleUtil
 				StyleConstants.STYLE_BORDER_RIGHT_COLOR );
 		ruleStyleName2Index.put( HighlightRule.BACKGROUND_COLOR_MEMBER,
 				StyleConstants.STYLE_BACKGROUND_COLOR );
+		ruleStyleName2Index.put( HighlightRule.BACKGROUND_IMAGE_MEMBER,
+				StyleConstants.STYLE_BACKGROUND_IMAGE );
 		/*
 		ruleStyleName2Index.put( HighlightRule.DATE_TIME_FORMAT_MEMBER,
 				StyleConstants.STYLE_SQL_DATE_FORMAT );
@@ -252,6 +254,8 @@ public class StyleUtil
 				StyleConstants.STYLE_PADDING_BOTTOM );
 		ruleStyleName2Index.put( HighlightRule.PADDING_RIGHT_MEMBER,
 				StyleConstants.STYLE_PADDING_RIGHT );
+		ruleStyleName2Index.put( HighlightRule.BACKGROUND_REPEAT_MEMBER,
+				StyleConstants.STYLE_BACKGROUND_REPEAT );
 		
 		customName2Index = new HashMap<String, Integer>( );
 		customName2Index.put( BIRTConstants.BIRT_STYLE_DATA_FORMAT,

@@ -633,6 +633,7 @@ DerivedDataSet.action.error.message.InvalidNumber.DataSet=El número de conjuntos
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Definir columnas procesadas. 
 DataSetComputedColumnsPage.description=Definir columnas procesadas:
 DataSetComputedColumnsPage.duplicatedName=Nombre de columna duplicado.
+DataSetComputedColumnsPage.numberName=El nombre de columna no puede ser un número.
 DataSetComputedColumnsPage.toolTipText.Down=Mover columna procesada hacia abajo.
 DataSetComputedColumnsPage.toolTipText.Up=Mover columna procesada hacia arriba.
 DataSetComputedColumnsPage.toolTipText.Remove=Quitar columna procesada.
@@ -1809,6 +1810,7 @@ FormPage.Button.Up=Mover hacia &arriba
 FormPage.Button.Up.Alt1=Mover hacia a&rriba
 FormPage.Button.Up.Alt2=Mov&er hacia arriba
 FormPage.Button.Binding.Refresh=Ac&tualizar
+FormPage.Button.Binding.Clear=&Borrar
 FormPage.Menu.ModifyProperty=Modificar propiedad
 FormPage.toolTipText.Up=Mover hacia arriba
 FormPage.toolTipText.Down=Mover hacia abajo
@@ -2513,7 +2515,7 @@ MapPreferencePage.displayname.Title=Asignar
 MapPreferencePage.text.Add=&Añadir...
 MapPreferencePage.text.Delete=&Quitar
 MapPreferencePage.text.Description=Reglas de asignación:
-MapPreferencePage.text.Edit=E&ditar...
+MapPreferencePage.text.Edit=&Editar...
 MapPreferencePage.toolTipText.Up=Mover regla de asignación hacia arriba
 MapPreferencePage.toolTipText.Down=Mover regla de asignación hacia abajo
 MapPreferencePage.text.Duplicate=&Duplicado
@@ -3637,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=Utilizar el archivo CSS en la librería de informes
 UseCssInThemeDialog.TitleArea.Message=Seleccionar un tema al que aplicar los estilos del archivo CSS.
+CssStyleSheetNodeProvider.Label.FromServer=Del servidor
 CssStyleSheetNodeProvider.Tooltip.URI=(Aplicado en el momento de la visualización)
 
 
@@ -4309,6 +4312,7 @@ GeneralPage.Library.Modified.Note=NOTA: Se ha modificado el elemento del informe
 
 #BookMarkPage
 BookMarkPage.Modified.Note=El marcador contiene caracteres especiales distintos de \"A-Z a-z 0-9 - _ : .\", esto puede provocar problemas de tiempo de ejecución.
+BookMarkPage.Modified.WithoutQuotes=El marcador debe estar rodeado por comillas dobles.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4617,7 +4621,8 @@ BindingDialogHelper.text.Grid=Cuadrícula
 BindingDialogHelper.text.Group=Gr&upo
 BindingDialogHelper.text.Expression=&Expresión:
 BindingDialogHelper.text.displayName=&Nombre en pantalla:
-BindingDialogHelper.text.allowExport=Permitir exp&ortación:
+BindingDialogHelper.text.allowExport=Exp&ortar:
+BindingDialogHelper.text.allowExport.button=Permitir exportación
 BindingDialogHelper.text.displayNameID=ID de &nombre en pantalla:
 BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
@@ -4647,8 +4652,8 @@ CrosstabBindingDialogHelper.calculation.group=Periodo de tiempo
 CrosstabBindingDialogHelper.recentday.description=Última fecha del período
 CrosstabBindingDialogHelper.referencedate.label=&Fecha de referencia:
 CrosstabBindingDialogHelper.thisdate.label=Esta fecha:
-CrosstabBindingDialogHelper.thisdate.example.label=Introduzca los valores de fecha como: aaaa-MM-dd
-CrosstabBindingDialogHelper.thisdate.example.label.constant=Introduzca los valores de fecha como: aaaa-MM-dd
+CrosstabBindingDialogHelper.thisdate.example.label=Incluya el valor de la fecha proporcionada entre comillas.\nPor ejemplo: "2012-01-23", "1/23/2012".
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Por ejemplo: 2012-01-23, 1/23/2012.
 CrosstabBindingDialogHelper.timedimension.label=Di&mensión de tiempo:
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Esta dimensión no es compatible con la fecha de referencia reciente 
 CrosstabBindingDialogHelper.today.label=Hoy
@@ -4721,7 +4726,7 @@ InsertAggregationAction.text=A&gregación
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=Período de tiempo relati&vo
 
 ###########################################################
 #Multiple views
@@ -4758,8 +4763,8 @@ GeneralConfigurationBlock.button.text.enable.animation=Activar selección a&nimad
 GeneralConfigurationBlock.group.label=Solicitar
 GeneralConfigurationBlock.group.defaultThemes=Librería de temas predeterminados
 GeneralConfigurationBlock.button.text.prompt=Mostrar &solicitud después de abrir el archivo de la librería
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Activar librería de &temas predeterminados
-GeneralConfigurationBlock.button.text.defaultTheme.include=&Incluir los temas predeterminados
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Activar librería de &temas predeterminados.
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Incluir los temas predeterminados.
 GeneralConfigurationBlock.move.binding.group=Mover enlaces locales al principal para disponer de un mejor rendimiento
 GeneralConfigurationBlock.move.binding.always=Sie&mpre
 GeneralConfigurationBlock.move.binding.never=Nu&nca
@@ -4876,6 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Sintaxis &predeterminada:
 ExpressionEditor.Error.EmptyExpression=La expresión no puede estar vacía.
 ExpressionEditor.Label.Expression=&Expresión:
 ExpressionEditor.Title=Editar expresión
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Selector de color de fondo
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Selector de color de primer plano
+ExpressionSyntaxColoringPage.Button.Bold=&Negrita
+ExpressionSyntaxColoringPage.Button.Enable=Activar
+ExpressionSyntaxColoringPage.Button.Italic=Curs&iva
+ExpressionSyntaxColoringPage.Button.Restore=&Restaurar predeterminado
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Tachado
+ExpressionSyntaxColoringPage.Button.Underline=&Subrayado
+ExpressionSyntaxColoringPage.Decscription=Personalice el resaltado de sintaxis seleccionando el tipo de texto cuyo estilo desee personalizar en la lista o en el área de texto de ejemplo.
+ExpressionSyntaxColoringPage.Element.Comment=Comentario
+ExpressionSyntaxColoringPage.Element.Default=Predeterminado
+ExpressionSyntaxColoringPage.Element.Keyword=Palabra clave
+ExpressionSyntaxColoringPage.Element.String=String
+ExpressionSyntaxColoringPage.Label.Background=Fond&o:
+ExpressionSyntaxColoringPage.Label.Foreground=&Primer plano:
+ExpressionSyntaxColoringPage.Label.SampleText=&Texto de muestra:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=Elemento de s&intaxis:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Los colores y la fuente predeterminados se pueden configurar en las páginas de preferencias <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Editores de texto</a> y <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colores y fuentes</a> .
 
 ###########################################################
 #VariableDropAdapter

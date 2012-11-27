@@ -635,14 +635,6 @@ public class GetParameterDefinitionTask extends EngineTask
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( dataSet.getQualifiedName( ) );
 		queryDefn.setAutoBinding( true );
-		for ( Iterator itr = dataSet.filtersIterator( ); itr.hasNext( ); )
-		{
-			FilterConditionHandle fh = (FilterConditionHandle) itr.next( );
-			FilterDefinition dataSetFilter;
-			dataSetFilter = getDataSession( ).getModelAdaptor( )
-					.adaptFilter( fh );
-			queryDefn.addFilter( dataSetFilter );
-		}
 		return queryDefn;
 	}
 
@@ -1530,6 +1522,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		public void visitParameterGroup( ParameterGroupHandle handle )
 		{
 			ParameterGroupDefn paramGroup = new ParameterGroupDefn( );
+			paramGroup.setLocale( ulocale.toLocale( ) );
 			paramGroup.setHandle( handle );
 			paramGroup.setParameterType( IParameterDefnBase.PARAMETER_GROUP );
 			paramGroup.setName( handle.getName( ) );

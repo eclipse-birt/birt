@@ -1106,4 +1106,12 @@ Backslash (\) Comma (,) Exclamation point (!) Period (.) Semicolon (;) Slash (/)
 </description>
 </context>
 
+<context id="RelativeTimePeriodDialog_ID" title="Relative Time Period Aggregation Builder">
+<!-- Added dpeh 20120213 -->
+<description>
+Specify the properties of the relative time period measure. Cross tabs support relative time periods, such as current month, previous month, year-to-date, quarter-to-date, trailing 30 days, and so on.
+</description>
+<topic href="/com.actuate.birt.doc/actuatebirt/rtp-HowToAggregateDataBRTP.html" label="How to aggregate data by a relative time period"/>
+</context>
+
 </contexts>

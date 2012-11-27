@@ -29,6 +29,7 @@ public class DataSourceAndDataSet
 	private IBaseDataSourceDesign dataSourceDesign;
 	private IBaseDataSetDesign dataSetDesign;
 	private Collection paramterHints;
+	private String cacheScopeID;
 
 	/**
 	 * @param dataSourceDesign
@@ -37,13 +38,13 @@ public class DataSourceAndDataSet
 	 */
 	public static DataSourceAndDataSet newInstance(
 			IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign, Collection paramterHints )
+			IBaseDataSetDesign dataSetDesign, Collection paramterHints, String cacheScopeID )
 	{
 		DataSourceAndDataSet dataSourceAndSet = new DataSourceAndDataSet( );
 		dataSourceAndSet.dataSourceDesign = dataSourceDesign;
 		dataSourceAndSet.dataSetDesign = dataSetDesign;
 		dataSourceAndSet.paramterHints = paramterHints;
-		
+		dataSourceAndSet.cacheScopeID = cacheScopeID;
 		return dataSourceAndSet;
 	}
 
@@ -52,12 +53,23 @@ public class DataSourceAndDataSet
 	 */
 	public int hashCode( )
 	{
-		int hashCode = 0;
-		if ( dataSourceDesign != null )
-			hashCode += dataSourceDesign.getName( ).hashCode( );
-		if ( dataSetDesign != null )
-			hashCode += dataSetDesign.getName( ).hashCode( );
-		return hashCode;
+		final int prime = 31;
+		int result = 1;
+		
+		result = prime
+				* result
+				+ ( ( dataSourceDesign == null ) ? 0
+						: dataSourceDesign.getName( ).hashCode( ) );
+		result = prime
+				* result
+				+ ( ( dataSetDesign == null ) ? 0
+						: dataSetDesign.getName( ).hashCode( ) );
+		result = prime
+				* result
+				+ ( ( cacheScopeID == null ) ? 0
+						: cacheScopeID.hashCode( ) );
+		
+		return result;
 	}
 
 	/**
@@ -131,7 +143,15 @@ public class DataSourceAndDataSet
 		if ( this == obj )
 			return true;
 		
-		return this.isDataSourceDataSetEqual((DataSourceAndDataSet)obj, true );
+		DataSourceAndDataSet candidate = ( DataSourceAndDataSet )obj;
+		
+		//If not managed by cache scope id
+		if ( this.cacheScopeID == null || candidate.cacheScopeID == null )
+			return this.isDataSourceDataSetEqual((DataSourceAndDataSet)obj, true );
+		//If managed by cache scope id, we only evaluate the cache scope ID.
+		//If a cache has a scope id, then there is one and only one instance of cache for each Data Set exist in
+		//cache map. In that case, the clean of cache is managed by 
+		return this.cacheScopeID.equals( candidate.cacheScopeID );
 	}
 
 
@@ -163,5 +183,10 @@ public class DataSourceAndDataSet
 		return DataSetDesignComparator.isEqualDataSetDesign( dataSetDesign, dataSetDesign2 );
 	}
 
+	
+	public String getCacheScopeID( )
+	{
+		return this.cacheScopeID;
+	}
 
 }
