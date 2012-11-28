@@ -48,6 +48,7 @@ preference.commenttemplates=Plantilla de comentario
 preference.bidiproperties=Propiedades bidireccionales
 preference.layout=Diseño
 preference.expressionsyntax=Sintaxis de expresión
+preference.expressionsyntaxcolor=Systax Coloring
 
 designer.action.undo.label=Deshacer
 designer.action.redo.label=Rehacer
