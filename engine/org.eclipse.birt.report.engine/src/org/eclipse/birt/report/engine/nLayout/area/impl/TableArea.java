@@ -514,7 +514,7 @@ public class TableArea extends RepeatableArea
 	protected boolean resolveRowSpan(RowArea row, RowArea unresolvedRow, int rowCount)
 	{
 		boolean resolved = false;
-		for ( int i = startCol; i <= endCol; i++ )
+		for ( int i = startCol; i <= endCol; )
 		{
 			CellArea cell = row.getCell( i );
 			CellArea uCell = unresolvedRow.getCell( i );
@@ -541,6 +541,10 @@ public class TableArea extends RepeatableArea
 					}
 				}
 				i = i + cell.getColSpan( );
+			}
+			else
+			{
+				i++;
 			}
 		}
 		return resolved;
