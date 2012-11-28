@@ -103,6 +103,8 @@ BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius=외부 반경(&O):
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties=지역 속성
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialLabelProperties=지역 레이블 속성
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=표지 레이블 속성
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveDown=Do&wn
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveUp=&Up
 BaseAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=표지 특성 시트에 대한 인수가 잘못되었습니다. 차트는 ChartWithAxes 형식이어야 합니다.
 
 BaseSeriesDataSheetImpl.Choice.Unsorted=정렬되지 않음
@@ -175,6 +177,8 @@ OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=표지 특성 시트�
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Remove=제거(&R)
 OrthogonalSeriesAttributeSheetImpl.Lbl.Add=추가(&A)
+OrthogonalSeriesAttributeSheetImpl.Lbl.Up=&Up
+OrthogonalSeriesAttributeSheetImpl.Lbl.Down=&Down
 OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix=접두사(&F):
 OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix=접미사(&X):
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesType=계열 형식:

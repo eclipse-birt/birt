@@ -103,6 +103,8 @@ BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius=&Außenradius:
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties=Eigenschaften für Region
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialLabelProperties=Beschriftungseigenschaften für Region
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=Markierungsbeschriftungs-Eigenschaften
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveDown=Do&wn
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveUp=&Up
 BaseAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Ungültiges Argument für Achsenmarkierungs-Attributblatt... Diagrammtyp sollte ein Diagramm mit Achsen sein
 
 BaseSeriesDataSheetImpl.Choice.Unsorted=Unsortiert
@@ -175,6 +177,8 @@ OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Ungültiges Argu
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Remove=&Entfernen
 OrthogonalSeriesAttributeSheetImpl.Lbl.Add=&Hinzufügen
+OrthogonalSeriesAttributeSheetImpl.Lbl.Up=&Up
+OrthogonalSeriesAttributeSheetImpl.Lbl.Down=&Down
 OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix=Prä&fix:
 OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix=Suffi&x:
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesType=Datenreihentyp:

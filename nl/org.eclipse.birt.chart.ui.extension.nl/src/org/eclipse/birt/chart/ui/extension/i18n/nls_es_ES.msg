@@ -103,6 +103,8 @@ BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius=Radio &externo:
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties=Propiedades de región
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialLabelProperties=Propiedades de la etiqueta de región
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=Propiedades de la etiqueta del marcador
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveDown=Do&wn
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveUp=&Up
 BaseAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Argumento no válido para la hoja de atributos de marcador del eje...el diagrama deber ser del tipo ChartWithAxes
 
 BaseSeriesDataSheetImpl.Choice.Unsorted=Sin orden
@@ -175,6 +177,8 @@ OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Argumento no vá
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Remove=&Quitar
 OrthogonalSeriesAttributeSheetImpl.Lbl.Add=&Añadir
+OrthogonalSeriesAttributeSheetImpl.Lbl.Up=&Up
+OrthogonalSeriesAttributeSheetImpl.Lbl.Down=&Down
 OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix=Pre&fijo:
 OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix=Sufi&jo:
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesType=Tipo de serie:
