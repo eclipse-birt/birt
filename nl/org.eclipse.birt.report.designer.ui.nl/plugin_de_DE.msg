@@ -48,7 +48,7 @@ preference.commenttemplates=Kommentarvorlage
 preference.bidiproperties=Bidirektionale Eigenschaften
 preference.layout=Layout
 preference.expressionsyntax=Ausdruckssyntax
-preference.expressionsyntaxcolor=Systax Coloring
+preference.expressionsyntaxcolor=Syntaxfarbe
 
 designer.action.undo.label=Rückgängig
 designer.action.redo.label=Wiederherstellen
