@@ -766,27 +766,19 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 		// Display blank if data empty.
 		boolean bEmpty = false;
+		boolean bEmptyWithUncompletedBindings  = false;
+		boolean bEmptyWithEmptyResultSet = false;
 		
 		// Display alt text if binding is not complete
 		if ( resultSet == null || !ChartItemUtil.checkChartBindingComplete( cm ) )
 		{
-			if ( isAutoHide( ) )
-			{
-				// Null result set
-				return outputNullResultSet( );
-			}
 			bEmpty = true;
+			bEmptyWithUncompletedBindings = true;
 		}
-
 		if ( !bEmpty && ChartReportItemUtil.isEmpty( resultSet ) )
 		{
-			if ( isAutoHide( ) )
-			{
-				// Returns null for engine to display empty when the result set
-				// is empty.
-				return null;
-			}
 			bEmpty = true;
+			bEmptyWithEmptyResultSet = true;
 		}
 
 		// If width and height of chart is set to 0, doesn't process it.
@@ -852,10 +844,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			updateChartModel( );
 
 			// Bind Data to series
-			if ( !bindData( rowAdapter, evaluator ) && isAutoHide( ) )
+			boolean bEmptyData = false;
+			if ( !bindData( rowAdapter, evaluator ) )
 			{
-				// if auto hide and data empty
-				return null;
+				bEmptyData = true;
 			}
 
 			// Render chart
@@ -867,6 +859,27 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			// Close the dataRow evaluator. It needs to stay opened until the
 			// chart is fully rendered.
 			rowAdapter.close( );
+			
+			// Process empty cases.
+			if ( bEmpty )
+			{
+				if ( bEmptyWithUncompletedBindings && isAutoHide( ) )
+				{
+					// Null result set
+					return outputNullResultSet( );
+				}
+				if ( bEmptyWithEmptyResultSet && isAutoHide( ) )
+				{
+					// Returns null for engine to display empty when the result
+					// set is empty.
+					return null;
+				}
+			}
+			if ( bEmptyData && isAutoHide( ) )
+			{
+				return null;
+			}
+			
 			return renderObject;
 		}
 		catch ( RuntimeException ex )

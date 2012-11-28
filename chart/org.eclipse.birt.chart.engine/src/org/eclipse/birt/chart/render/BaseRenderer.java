@@ -3738,45 +3738,39 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		StructureSource oSource = StructureSource.createPlot( p );
 
 		// render text
-		if ( getModel( ).getEmptyMessage( ).isVisible( ) )
-		{
-			Label la = getExternalizedCopy( getModel( ).getEmptyMessage( ) );
-			rendLabelInBounds( ipr, la, oSource, bo );
-		}
+		renderChartMessage( ipr, bo, oSource );
 
 	}
 
-	/**
-	 * Render a label within a bounds.
-	 * 
-	 * @param ipr
-	 * @param la
-	 * @param oSource
-	 * @param bo
-	 * @throws ChartException
-	 *             Note: The label text will be changed.
-	 */
-	protected void rendLabelInBounds( IPrimitiveRenderer ipr, Label la,
-			Object oSource, Bounds bo ) throws ChartException
+	private void renderChartMessage( IPrimitiveRenderer ipr, Bounds bo,
+			StructureSource oSource ) throws ChartException
 	{
-		EventObjectCache eoc = (EventObjectCache) ipr;
-		final TextRenderEvent tre = eoc.getEventObject( oSource,
-				TextRenderEvent.class );
-		tre.setBlockBounds( bo );
-		tre.setLabel( la );
-		if ( rtc.isRightToLeftText( ) )
+		if ( getModel( ).getEmptyMessage( ).isVisible( ) )
 		{
-			tre.setRtlCaption( );
+			Label la = getExternalizedCopy( getModel( ).getEmptyMessage( ) );
+
+			EventObjectCache eoc = (EventObjectCache) ipr;
+			final TextRenderEvent tre = eoc.getEventObject( oSource,
+					TextRenderEvent.class );
+			tre.setBlockBounds( bo );
+			tre.setLabel( la );
+			if ( rtc.isRightToLeftText( ) )
+			{
+				tre.setRtlCaption( );
+			}
+
+			LabelLimiter lbLimiter = new LabelLimiter( bo.getWidth( ),
+					bo.getHeight( ),
+					0 );
+			lbLimiter.computeWrapping( xs, la );
+			lbLimiter.limitLabelSize( cComp, xs, la );
+
+			tre.setBlockAlignment( la.getCaption( ).getFont( ).getAlignment( ) );
+			tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+			
+			// Rendering chart message after other chart elements are rendered
+			// to make sure the chart message displays on top. 
+			fDeferredCacheManager.getLastDeferredCache( ).addLabel( tre );
 		}
-
-		LabelLimiter lbLimiter = new LabelLimiter( bo.getWidth( ),
-				bo.getHeight( ),
-				0 );
-		lbLimiter.computeWrapping( xs, la );
-		lbLimiter.limitLabelSize( cComp, xs, la );
-
-		tre.setBlockAlignment( la.getCaption( ).getFont( ).getAlignment( ) );
-		tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-		ipr.drawText( tre );
 	}
 }

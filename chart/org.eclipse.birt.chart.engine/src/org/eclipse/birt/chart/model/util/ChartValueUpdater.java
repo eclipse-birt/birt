@@ -47,6 +47,9 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 	public void update( Chart eObj, Chart eRefObj )
 	{
 		chart = eObj;
+		
+		beforeUpdate( eObj, eRefObj, true );
+		
 		super.update( eObj, eRefObj );
 		
 		revise( eObj, eRefObj, true );
@@ -63,6 +66,8 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 		chart = eObj;
 		if ( eObj != null )
 		{
+			beforeUpdate( eObj, eRefObj, checkVisible );
+			
 			updateChart( eObj.eClass( ).getName( ),
 					null,
 					eObj,
@@ -73,6 +78,20 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 		
 		revise( eObj, eRefObj, checkVisible );
 		chart = null;
+	}
+	
+	protected void beforeUpdate( Chart eObj, Chart eRefObj, boolean checkVisible )
+	{
+		// If chart message is not set or is blank string, just set it with null
+		// to make sure the default chart message is used while updating chart
+		// model with default chart values.
+		if ( eObj.getEmptyMessage( ) != null
+				&& ChartUtil.isEmpty( eObj.getEmptyMessage( )
+						.getCaption( )
+						.getValue( ) ) )
+		{
+			eObj.getEmptyMessage( ).getCaption( ).setValue( null );
+		}
 	}
 	
 	/**
