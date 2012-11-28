@@ -103,8 +103,8 @@ BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius=ŠO‘¤”¼Œa (&O):
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties=—Ìˆæ‚ÌƒvƒƒpƒeƒB
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialLabelProperties=—Ìˆæƒ‰ƒxƒ‹‚ÌƒvƒƒpƒeƒB
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=ƒ}[ƒJƒ‰ƒxƒ‹‚ÌƒvƒƒpƒeƒB
-BaseAxisMarkerAttributeSheetImpl.Lbl.MoveDown=Do&wn
-BaseAxisMarkerAttributeSheetImpl.Lbl.MoveUp=&Up
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveDown=‰º‚Ö(&W)
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveUp=ã‚Ö(&U)
 BaseAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=²ƒ}[ƒJ‚Ì‘®«ƒV[ƒg‚Ìˆø”‚ª–³Œø‚Å‚·BƒOƒ‰ƒt‚ÍAChartWithAxes Œ^‚Éw’è‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
 
 BaseSeriesDataSheetImpl.Choice.Unsorted=ƒ\[ƒg–¢ˆ—
@@ -177,8 +177,8 @@ OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=²ƒ}[ƒJ‚Ì‘®«ƒ
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Remove=íœ(&R)
 OrthogonalSeriesAttributeSheetImpl.Lbl.Add=’Ç‰Á(&A)
-OrthogonalSeriesAttributeSheetImpl.Lbl.Up=&Up
-OrthogonalSeriesAttributeSheetImpl.Lbl.Down=&Down
+OrthogonalSeriesAttributeSheetImpl.Lbl.Up=ã‚Ö(&U)
+OrthogonalSeriesAttributeSheetImpl.Lbl.Down=‰º‚Ö(&D)
 OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix=Ú“ª« (&F):
 OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix=Ú”ö« (&X):
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesType=Œn—ñ :
