@@ -452,7 +452,10 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		return retValue.toArray( new Object[retValue.size( )] );
 
 	}
-
+	public boolean isAddEnable (Object selectedObject)
+	{
+		return isAddEnable();
+	}
 	public boolean isAddEnable( )
 	{
 		ExtendedItemHandle extend = (ExtendedItemHandle) DEUtil.getInputFirstElement( this.input );
