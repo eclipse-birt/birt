@@ -658,6 +658,8 @@ public class DataSetBasePage extends WizardPage
 	
 	public boolean canFinish( )
 	{
+		this.getControl( ).setFocus( );
+		
 		if( !validStatus( ) )
 			return false;
 		
