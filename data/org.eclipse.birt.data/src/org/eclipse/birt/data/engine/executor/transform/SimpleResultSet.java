@@ -277,19 +277,6 @@ public class SimpleResultSet implements IResultIterator
 			IBaseQueryDefinition query, IResultClass resultClass, GroupSpec[] groupSpecs, boolean forceLookingForward )
 			throws DataException
 	{
-		this.query = dataSourceQuery.getQueryDefinition( );
-		this.groupCalculator = needLookingForwardFor1Row( groupSpecs, forceLookingForward )
-				? new SimpleGroupCalculator( session,
-						groupSpecs,
-						this.rowResultSet.getMetaData( ) )
-				: new DummyGroupCalculator( );
-		this.currResultObj = this.rowResultSet.next( );
-		this.session = session;
-		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
-		this.groupCalculator.registerNextResultObject( this.rowResultSet );
-		this.initialRowCount = ( this.currResultObj != null ) ? -1 : 0;
-		this.rowCount = ( this.currResultObj != null ) ? 1 : 0;
-		this.handler = handler;
 		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
 		if ( query instanceof IQueryDefinition
 				&& ( (IQueryDefinition) query ).needAutoBinding( ) )
