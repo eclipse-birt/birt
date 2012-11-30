@@ -926,7 +926,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					markerSize,
 					getDeferredCache( ),
 					bDeferred,
-					bTransposed );
+					bTransposed,
+					getSeriesDefinition( ).getZOrder( ) );
 			mr.draw( ipr );
 			preCopy = mr.getRenderArea( );
 		}
