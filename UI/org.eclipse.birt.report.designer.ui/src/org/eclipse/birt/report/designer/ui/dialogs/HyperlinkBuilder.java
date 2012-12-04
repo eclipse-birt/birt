@@ -1675,7 +1675,11 @@ public class HyperlinkBuilder extends BaseDialog
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType )
 				&& showBookMark )
 		{
-			bookmarkRadio.setSelection( true );
+			if(bookmarkRadio!=null ){
+				bookmarkRadio.setSelection( true );
+			}else{
+				noneRadio.setSelection( true );
+			}
 		}
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 		{
