@@ -593,6 +593,7 @@ public class ChartUIUtil
 		RunTimeContext context = new RunTimeContext( );
 		context.setULocale( ULocale.getDefault( ) );
 		context.setSharingQuery( isSharingQuery );
+		dataProvider.update( ChartUIConstants.UPDATE_MODEL, cmRunTime );
 		Generator.instance( ).bindData( evaluator, iae, cmRunTime, context );
 
 		if ( evaluator != null )

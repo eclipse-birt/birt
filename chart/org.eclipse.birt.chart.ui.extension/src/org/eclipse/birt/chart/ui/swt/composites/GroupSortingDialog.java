@@ -47,6 +47,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
@@ -197,8 +198,8 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 		initSortKey( );
 
-		populateLists( );
-
+		populateLists( );		
+		
 		return cmpContent;
 	}
 
@@ -589,7 +590,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 				{
 					getSeriesDefinitionForProcessing().setSortStrength( sValue.intValue( ) );
 				}
-			}
+			}			
 		}
 	}
 
@@ -816,5 +817,21 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 		getSeriesDefinitionForProcessing( ).getSortKey( )
 				.setDefinition( sortKey );
+	}
+	
+	@Override
+	protected void okPressed()
+	{
+		if ( !UNSORTED_OPTION.equals( cmbSorting.getText( ) )
+				&& cmbSortExpr.getText( ).isEmpty( ) )
+		{
+			MessageDialog.openWarning( null,
+					Messages.getString( "GroupSortingDialog.Sort.SortOn.Warning.Title" ), //$NON-NLS-1$
+					Messages.getString( "GroupSortingDialog.Sort.SortOn.Warning.Message" ) ); //$NON-NLS-1$
+		}
+		else
+		{
+			super.okPressed( );
+		}
 	}
 }
