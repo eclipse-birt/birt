@@ -1356,6 +1356,10 @@ public final class PluginSettings
 	 * Attempts to walk through the schema tree as defined in an extension point
 	 * schema and instantiate the class associated with the value for a given
 	 * element name.
+	 * <p>
+	 * For first argument, Null extension ID will return all extensions. Blank
+	 * extension ID will return those extensions which don't have unique
+	 * extension ID.
 	 * 
 	 * @param extensionID
 	 * @param sXsdListName
@@ -1382,27 +1386,29 @@ public final class PluginSettings
 					},
 					Messages.getResourceBundle( ) );
 		}
-		IExtension[] iea = null;
-		if ( extensionID != null )
-		{
-			IExtension ext = iep.getExtension( extensionID );
-			if ( ext != null )
-			{
-				iea = new IExtension[]{ext};
-			}
-			else
-			{
-				iea = new IExtension[]{};
-			}
-		}
-		else
-		{
-		    iea = iep.getExtensions( );
-		}
+		IExtension[] iea = iep.getExtensions( );
+		
 		IConfigurationElement[] icea;
 		
-		List<String[]> lst = new ArrayList<String[]>( );
+		if ( extensionID != null )
+		{
+			List<IExtension> validIeas = new ArrayList<IExtension>( );
+			for ( int i = 0; i < iea.length; i++ )
+			{
+				if ( "".equals( extensionID.trim( ) ) && iea[i].getUniqueIdentifier( ) == null ) //$NON-NLS-1$
+				{
+					validIeas.add( iea[i] );
+				}
+				else if ( extensionID.equals( iea[i].getUniqueIdentifier( ) ) )
+				{
+					validIeas.add( iea[i] );
+				}
+			}
 
+			iea = validIeas.toArray( new IExtension[]{} );
+		}
+
+		List<String[]> lst = new ArrayList<String[]>( );
 		for ( int i = 0; i < iea.length; i++ )
 		{
 			icea = iea[i].getConfigurationElements( );
