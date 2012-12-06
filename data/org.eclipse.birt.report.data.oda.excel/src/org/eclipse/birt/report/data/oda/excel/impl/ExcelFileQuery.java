@@ -215,7 +215,7 @@ public class ExcelFileQuery implements IQuery {
 			queryColumnNames = ExcelFileSource.getStringArrayFromList( stripFormatInfoFromQueryColumnNames( getQueryColumnNamesVector( ( preparedColumnNames ) ) ) );
 			validateColumnName( queryColumnNames, allColumnNames );
 			if ( savedSelectedColInfo == null
-					|| savedSelectedColInfo.length( ) == 0 )
+					|| savedSelectedColInfo.length( ) == 0 || hasTypeLine)
 			{
 				queryColumnTypes = this.hasTypeLine
 						? getQueryColumnTypes( allColumnNames,
