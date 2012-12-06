@@ -14,10 +14,14 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshAction;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeMeasureAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
@@ -26,6 +30,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 
@@ -35,6 +41,10 @@ import org.eclipse.ui.PlatformUI;
  */
 public class TabularMeasureNodeProvider extends DefaultNodeProvider
 {
+
+	private static final Image IMG_DERIVED_MEASURE = UIHelper.getImage( BuilderConstants.IMAGE_DERIVED_MEASURE );
+
+	private static final Image IMG_MEASURE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
@@ -119,5 +129,22 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 	public String getIconName( Object model )
 	{
 		return IReportGraphicConstants.ICON_DATA_COLUMN;
+	}
+
+	public Image getNodeIcon( Object model )
+	{
+		if ( model instanceof DesignElementHandle
+				&& ( (DesignElementHandle) model ).getSemanticErrors( ).size( ) > 0 )
+		{
+			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+		}
+
+		if ( model instanceof MeasureHandle )
+		{
+			return ( (MeasureHandle) model ).isCalculated( ) ? IMG_DERIVED_MEASURE
+					: IMG_MEASURE;
+		}
+
+		return super.getNodeIcon( model );
 	}
 }
