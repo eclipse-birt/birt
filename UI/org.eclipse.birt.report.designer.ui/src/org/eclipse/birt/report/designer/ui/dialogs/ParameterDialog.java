@@ -4160,9 +4160,22 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					{
 					}
 				}
-				previewString = new NumberFormatter( ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern
-						: formatCategroy,
-						locale ).format( doulbeValue );
+
+				String realformatPattern = ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern : formatCategroy;
+				NumberFormatter tempFormater = new NumberFormatter( realformatPattern,locale );
+				previewString = tempFormater.format( doulbeValue );
+				if(Double.isInfinite(doulbeValue))
+				{
+					BigDecimal tempDecimal = new BigDecimal(defaultValue);
+					
+					if(realformatPattern  == null ){
+						previewString = tempDecimal.toString();
+					}else
+					{
+						previewString = tempFormater.format(tempDecimal);
+					}
+					
+				}
 			}
 			else
 			{
