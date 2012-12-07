@@ -4,6 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/Tidy.jar" sourcepath="D:/resource/opensource/jtidy-r938/jtidy-r938-sources"/>
+	<classpathentry kind="lib" path="lib/Tidy.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

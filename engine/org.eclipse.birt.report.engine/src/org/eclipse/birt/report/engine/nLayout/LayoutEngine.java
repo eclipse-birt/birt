@@ -574,11 +574,11 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void endListBand( IListBandContent listBand ) throws BirtException
 	{
-		/*while ( !( current instanceof ListArea || current instanceof ListGroupArea ) )
+		while ( !( current instanceof ListArea || current instanceof ListGroupArea ) )
 		{
 			current.close( );
 			current = current.getParent( );
-		}*/
+		}
 		int bandType = listBand.getBandType( );
 		if ( bandType == IBandContent.BAND_HEADER
 				|| bandType == IBandContent.BAND_GROUP_HEADER )

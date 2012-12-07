@@ -131,7 +131,7 @@ public class HTMLTextParser
 	public Document parseHTML( InputStream in )
 	{
 		assert in != null;
-//tidy.setWrapScriptlets( true );
+
 		Document doc = tidy.parseDOM( in, null );
 		try
 		{
