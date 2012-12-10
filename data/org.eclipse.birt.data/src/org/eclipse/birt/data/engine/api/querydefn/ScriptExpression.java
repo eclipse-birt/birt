@@ -21,8 +21,6 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 public class ScriptExpression extends BaseExpression implements IScriptExpression
 {
 	protected String exprText;
-	protected Object constantValue;
-	protected boolean isConstant = false;
 	
 	/**
 	 * Constructs a Javascript expression
@@ -58,37 +56,5 @@ public class ScriptExpression extends BaseExpression implements IScriptExpressio
 	public void setText( String text )
 	{
 	    exprText = text;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IScriptExpression#getConstantValue()
-	 */
-	public Object getConstantValue( )
-	{
-		return constantValue;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IScriptExpression#isConstant()
-	 */
-	public boolean isConstant( )
-	{
-		return isConstant;
-	}
-	
-	public void setConstant( boolean isConstant )
-	{
-		this.isConstant = isConstant;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IScriptExpression#setConstantValue(java.lang.Object)
-	 */
-	public void setConstantValue( Object constantValue )
-	{
-		this.constantValue = constantValue;
 	}
 }

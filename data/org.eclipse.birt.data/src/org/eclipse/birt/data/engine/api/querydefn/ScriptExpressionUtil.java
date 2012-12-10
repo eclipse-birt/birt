@@ -38,8 +38,8 @@ public class ScriptExpressionUtil
 			String constantExpr )
 	{
 		ScriptExpression scriptExpression = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( constantExpr ) );
-		scriptExpression.setConstant( true );
-		scriptExpression.setConstantValue( constantExpr );
+		scriptExpression.setScriptId( BaseExpression.constantId );
+		scriptExpression.setHandle( constantExpr );
 		return scriptExpression;
 	}
 

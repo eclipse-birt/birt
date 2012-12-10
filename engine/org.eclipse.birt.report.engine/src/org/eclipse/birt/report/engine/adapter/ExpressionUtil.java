@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -557,7 +558,8 @@ public final class ExpressionUtil
 				ScriptExpression jsExpr = new ScriptExpression(
 						JavascriptEvalUtil.transformToJsExpression( expr
 								.getScriptText( ) ) );
-				jsExpr.setConstant( true );
+				jsExpr.setScriptId(BaseExpression.constantId);
+				jsExpr.setHandle( expr.getScriptText( ) );
 				return jsExpr;
 			}
 

@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -900,16 +901,16 @@ public class ScriptEvalUtil
 			else
 			{
 				IScriptExpression jsExpr = (IScriptExpression) expr;
-				if( jsExpr.isConstant( ) && jsExpr.getConstantValue( ) != null )
+				if( BaseExpression.constantId.equals( jsExpr.getScriptId( ) ) && jsExpr.getHandle( ) != null )
 				{
-					result = jsExpr.getConstantValue( );
+					result = jsExpr.getHandle( );
 				}
 				else
 				{
-					if( jsExpr.isConstant( ) )
+					if( BaseExpression.constantId.equals( jsExpr.getScriptId( ) ) )
 					{
 						result = JavascriptEvalUtil.evaluateJsConstants( jsExpr.getText( ) );
-						jsExpr.setConstantValue( result );
+						jsExpr.setHandle( result );
 					}
 					else if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )
 					{
