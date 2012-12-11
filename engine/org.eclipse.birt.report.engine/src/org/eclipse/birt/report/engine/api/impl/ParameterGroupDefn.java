@@ -12,9 +12,12 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
+import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
 /**
  * <code>ParameterGroupDefn</code> is an concrete subclass of
@@ -61,8 +64,17 @@ public class ParameterGroupDefn extends ParameterDefnBase implements IParameterG
 		ArrayList newList = new ArrayList();
 		for(int i=0; i<list.size(); i++)
 		{
-			ScalarParameterDefn p = (ScalarParameterDefn)list.get(i);
-			newList.add(p.clone());
+			Object parameterDefn = list.get(i);
+			if( parameterDefn instanceof ScalarParameterDefn )
+			{
+				ScalarParameterDefn p = (ScalarParameterDefn) parameterDefn;
+				newList.add(p.clone());
+			}
+			else 
+			{
+				throw new CloneNotSupportedException(
+						MessageConstants.PARAMETER_IN_GROUP_ISNOT_SCALAR_EXCEPTION);
+			}						
 		}
 		newParam.setContents(newList);
 		return newParam;
