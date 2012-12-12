@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.extension.oda.OdaExtensionLoaderFactory;
+import org.eclipse.birt.report.model.metadata.validators.IValueValidator;
 
 /**
  * Represents the extension manager which is responsible to load all extensions
@@ -130,7 +131,12 @@ class ExtensionManagerImpl
 	{
 		return null;
 	}
-	
+
+	public synchronized IValueValidator getValueValidator( String name )
+	{
+		return null;
+	}
+
 	/**
 	 * Returns the extension list. Each one is the instance of
 	 * {@link IElementDefn}.

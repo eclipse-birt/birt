@@ -897,7 +897,13 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IValueValidator getValueValidator( String name )
 	{
-		return valueValidators.get( name );
+		IValueValidator validator = valueValidators.get( name );
+		if ( validator != null )
+		{
+			return validator;
+		}
+		return ExtensionManager.getInstance( ).getValueValidator( name );
+
 	}
 
 	/**

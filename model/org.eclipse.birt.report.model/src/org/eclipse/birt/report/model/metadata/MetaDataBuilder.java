@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.metadata.validators.IValueValidator;
+
 public class MetaDataBuilder
 {
 
@@ -96,5 +98,16 @@ public class MetaDataBuilder
 			throws MetaDataException
 	{
 		classInfo.addMemberDefn( memberInfo );
+	}
+
+	public Class<?> loadClass( String className ) throws ClassNotFoundException
+	{
+		return Class.forName( className );
+	}
+
+	public void addValueValidator( IValueValidator validator )
+			throws MetaDataException
+	{
+		dictionary.addValueValidator( validator );
 	}
 }

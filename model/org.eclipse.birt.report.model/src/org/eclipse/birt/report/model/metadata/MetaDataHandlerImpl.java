@@ -1468,14 +1468,14 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 
 			try
 			{
-				Class<? extends Object> c = Class.forName( className );
+				Class<? extends Object> c = builder.loadClass( className );
 				SimpleValueValidator validator = (SimpleValueValidator) c
 						.newInstance( );
 				validator.setName( name );
 
 				try
 				{
-					dictionary.addValueValidator( validator );
+					builder.addValueValidator( validator );
 				}
 				catch ( MetaDataException e )
 				{
