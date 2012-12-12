@@ -414,7 +414,7 @@ public class InputParameterDialog extends BaseDialog
 		{
 			list.add( InputParameterDialog.nullValueChoice );
 		}
-
+		List<Button> radioItems = new ArrayList<Button>();
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			if ( i > 0 )
@@ -441,13 +441,16 @@ public class InputParameterDialog extends BaseDialog
 				button.setSelection( true );
 				paramValues.put( radioParameter.getHandle( ).getName( ),
 						button.getData( ) );
+				clearSelectRadio(radioItems);
 			}
 			else if ( value == null && choiceLabel.equals( NULL_VALUE_STR ) )
 			{
 				button.setSelection( true );
 				paramValues.remove( radioParameter.getHandle( ).getName( ) );
+				clearSelectRadio(radioItems);
 			}
-
+			radioItems.add(button);
+			
 			button.addSelectionListener( new SelectionListener( ) {
 
 				public void widgetDefaultSelected( SelectionEvent e )
@@ -461,6 +464,14 @@ public class InputParameterDialog extends BaseDialog
 							button.getData( ) );
 				}
 			} );
+		}
+	}
+	
+	private void clearSelectRadio(List<Button> radioItems)
+	{
+		for(Button b : radioItems)
+		{
+			b.setSelection(false);
 		}
 	}
 	
