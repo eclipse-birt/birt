@@ -113,6 +113,8 @@ public class DataSourceSelectionPage extends WizardPage
 	private boolean useODAV3 = false;
 	private DataSourceSelectionHelper helper;
 	
+	private WizardPage page = null;
+	
 	private static Logger logger = Logger.getLogger( DataSourceSelectionPage.class.getName( ) );
 	
 	/**
@@ -124,6 +126,7 @@ public class DataSourceSelectionPage extends WizardPage
 		setTitle( Messages.getString( "datasource.wizard.title.select" ) );//$NON-NLS-1$
 		this.setMessage( Messages.getString( "datasource.wizard.message.selectType" ) );//$NON-NLS-1$
 		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( "DataSourceBasePage" ) ); //$NON-NLS-1$
+		page = this;
 	}
 
 	/**
@@ -201,7 +204,9 @@ public class DataSourceSelectionPage extends WizardPage
 
 			public void selectionChanged( SelectionChangedEvent event )
 			{
+				validateDataSourceName( );
 				prevSelectedDataSourceType = getSelectedDataSource( );
+				helper.validateDataSourceHandle( page, prevSelectedDataSourceType );
 				setPageComplete( !helper.hasNextPage( prevSelectedDataSourceType )
 						&& getMessageType( ) != ERROR );
 			}
@@ -232,30 +237,7 @@ public class DataSourceSelectionPage extends WizardPage
 
 			public void modifyText( ModifyEvent e )
 			{
-				dsName = dataSourceName.getText( ).trim( );
-
-				if ( StringUtil.isBlank( dataSourceName.getText( ).trim( ) ) )
-				{// name is empty
-					setMessage( EMPTY_NAME, ERROR );
-				}
-				else if ( isDuplicateName( ) )
-				{// name is duplicated
-					setMessage( DUPLICATE_NAME, ERROR );
-				}
-				else if ( containInvalidCharactor( dataSourceName.getText( ) ) )
-				{// name contains invalid "." charactor
-					String msg = Messages.getFormattedString( "error.invalidName", //$NON-NLS-1$
-							new Object[]{
-								dataSourceName.getText( )
-							} );
-					setMessage( msg, ERROR );
-				}
-				else
-				{
-					setMessage( Messages.getString( "datasource.wizard.message.selectType" ) ); //$NON-NLS-1$
-				}
-				setPageComplete( !helper.hasNextPage( getSelectedDataSource( ) )
-						&& getMessageType( ) != ERROR );
+				validateDataSourceName( );
 			}
 		} );
 
@@ -847,6 +829,34 @@ public class DataSourceSelectionPage extends WizardPage
 	private boolean isCPSelected( )
 	{
 		return connectionProfileRadio.getSelection( );
+	}
+
+	private void validateDataSourceName( )
+	{
+		dsName = dataSourceName.getText( ).trim( );
+
+		if ( StringUtil.isBlank( dataSourceName.getText( ).trim( ) ) )
+		{// name is empty
+			setMessage( EMPTY_NAME, ERROR );
+		}
+		else if ( isDuplicateName( ) )
+		{// name is duplicated
+			setMessage( DUPLICATE_NAME, ERROR );
+		}
+		else if ( containInvalidCharactor( dataSourceName.getText( ) ) )
+		{// name contains invalid "." charactor
+			String msg = Messages.getFormattedString( "error.invalidName", //$NON-NLS-1$
+					new Object[]{
+						dataSourceName.getText( )
+					} );
+			setMessage( msg, ERROR );
+		}
+		else
+		{
+			setMessage( Messages.getString( "datasource.wizard.message.selectType" ) ); //$NON-NLS-1$
+		}
+		setPageComplete( !helper.hasNextPage( getSelectedDataSource( ) )
+				&& getMessageType( ) != ERROR );
 	}
 	
 }

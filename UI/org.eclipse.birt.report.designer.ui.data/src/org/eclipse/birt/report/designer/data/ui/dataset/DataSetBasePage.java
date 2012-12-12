@@ -105,9 +105,6 @@ public class DataSetBasePage extends WizardPage
 
 	private Hashtable htDataSetWizards = new Hashtable( 10 );
 	
-	private final static String SCRIPT_DATASET_NAME = Messages.getString( "DataSetBasePage.ScriptedDataSet.name" );//$NON-NLS-1$
-	private final static String SCRIPT_DATASOURCE_NAME =Messages.getString( "DataSetBasePage.ScriptedDataSource.name" ); //$NON-NLS-1$
-
 	// store latest selection data source
 	private ISelection dateSetTypeSelection = null;
 	private transient DataSetDesignSession m_designSession = null;
@@ -486,22 +483,10 @@ public class DataSetBasePage extends WizardPage
 			else if ( handle instanceof ScriptDataSourceHandle )
 			{
 				useODAV3 = false;
-				if ( !sourceTypeMap.containsKey( SCRIPT_DATASOURCE_NAME ) )
-				{
-					DataSetTypeElement[] element = new DataSetTypeElement[1];
-					element[0] = new DataSetTypeElement( SCRIPT_DATASET_NAME );
-					DataSourceType dataSourceType = new DataSourceType( SCRIPT_DATASOURCE_NAME,
-							SCRIPT_DATASOURCE_NAME,
-							element );
-
-					sourceTypeMap.put( SCRIPT_DATASOURCE_NAME, dataSourceType );
-					dataSourceType.addDataSource( handle );
-				}
-				else
-				{
-					DataSourceType sourceType = (DataSourceType)sourceTypeMap.get( SCRIPT_DATASOURCE_NAME );
-					sourceType.addDataSource( handle );
-				}
+				getScriptDataSourceMap( handle,
+						sourceTypeMap,
+						helper.getScriptDataSetName( handle ),
+						helper.getScriptDataSourceName( handle ) );
 			}
 			else
 			{
@@ -513,6 +498,26 @@ public class DataSetBasePage extends WizardPage
 		return sourceTypeMap;
 	}
 	
+	private void getScriptDataSourceMap( DataSourceHandle handle,
+			Map sourceTypeMap, String DataSetName, String DataSourceName )
+	{
+		if ( !sourceTypeMap.containsKey( DataSourceName ) )
+		{
+			DataSetTypeElement[] element = new DataSetTypeElement[1];
+			element[0] = new DataSetTypeElement( DataSetName );
+			DataSourceType dataSourceType = new DataSourceType( DataSourceName,
+					DataSourceName,
+					element );
+			sourceTypeMap.put( DataSourceName, dataSourceType );
+			dataSourceType.addDataSource( handle );
+		}
+		else
+		{
+			DataSourceType sourceType = (DataSourceType) sourceTypeMap.get( DataSourceName );
+			sourceType.addDataSource( handle );
+		}
+	}
+
 	/**
 	 * Create the data set type viewer
 	 * 
@@ -798,15 +803,14 @@ public class DataSetBasePage extends WizardPage
 			dataSetTypeChooser.setInput( types );
 			dateSetTypeSelection = new StructuredSelection( types[0] );
 			dataSetTypeChooser.setSelection( dateSetTypeSelection );
-			if ( SCRIPT_DATASOURCE_NAME.equals( ( (DataSourceType) data ).getDataSourceID( ) ) )
+			String dataSourceID = ( (DataSourceType) data ).getDataSourceID( );
+			if ( helper.isScriptDataSet( dataSourceID ) )
 			{
 				useODAV3 = false;
 			}
 			else
 			{
-				String type = ( (DataSourceType) data ).getDataSourceID( );
-				useODAV3 = DesignSessionUtil.hasValidOdaDesignUIExtension( type );
-
+				useODAV3 = DesignSessionUtil.hasValidOdaDesignUIExtension( dataSourceID );
 			}
 		}
 	}
@@ -844,7 +848,7 @@ public class DataSetBasePage extends WizardPage
 				}
 			}
 		}
-		else if ( SCRIPT_DATASET_NAME.equals( dTypeElement.getDataSetTypeName( ) ) )
+		else if ( helper.isScriptDataSet( dTypeElement.getDataSetTypeName( ) ) )
 		{
 			return true;
 		}

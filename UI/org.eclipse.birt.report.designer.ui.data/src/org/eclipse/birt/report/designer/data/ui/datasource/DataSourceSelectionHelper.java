@@ -22,6 +22,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer.Filter;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.WizardPage;
 
 public class DataSourceSelectionHelper
 {
@@ -74,6 +75,10 @@ public class DataSourceSelectionHelper
 		}
 		// Scripted data source
 		return false;
+	}
+	
+	public void validateDataSourceHandle( WizardPage page, Object prevSelectedDataSourceType )
+	{
 	}
 
 	public IWizardPage getNextPage( Object selectedObject )
