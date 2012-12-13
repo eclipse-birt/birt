@@ -11,11 +11,14 @@
 package org.eclipse.birt.report.designer.data.ui.datasource;
 
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
+import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
@@ -29,6 +32,7 @@ public class DataSourceSelectionHelper
 
 	private static final String DTP_ODA_EXT_POINT = "org.eclipse.datatools.connectivity.oda.dataSource"; //$NON-NLS-1$
 	public static final String SCRIPT_DATA_SOURCE_DISPLAY_NAME = Messages.getString( "DataSourceSelectionPage.ScriptDataSource.DisplayName" ); //$NON-NLS-1$
+	public static final String CASSANDRA_DATA_SOURCE_DISPLAY_NAME = Messages.getString( "CassandraScriptedDataSource.display.name" );
 
 	public Object[] getFilteredDataSourceArray( )
 	{
@@ -42,12 +46,13 @@ public class DataSourceSelectionHelper
 		{
 			dataSources = new ExtensionManifest[0];
 		}
-		Object[] newArray = new Object[dataSources.length + 1];
+		Object[] newArray = new Object[dataSources.length + 2];
 		for ( int i = 0; i < dataSources.length; i++ )
 		{
 			newArray[i] = dataSources[i];
 		}
 		newArray[dataSources.length] = SCRIPT_DATA_SOURCE_DISPLAY_NAME;
+		newArray[dataSources.length+1] = CASSANDRA_DATA_SOURCE_DISPLAY_NAME;
 		return newArray;
 	}
 	
@@ -77,10 +82,6 @@ public class DataSourceSelectionHelper
 		return false;
 	}
 	
-	public void validateDataSourceHandle( WizardPage page, Object prevSelectedDataSourceType )
-	{
-	}
-
 	public IWizardPage getNextPage( Object selectedObject )
 	{
 		return null;
@@ -104,6 +105,19 @@ public class DataSourceSelectionHelper
 		if ( classType == ScriptDataSourceHandle.class )
 		{
 			ScriptDataSourceHandle dsHandle = Utility.newScriptDataSource( dataSourceName );
+			if ( dataSourceType.equals( DataUIConstants.CASSANDRA_DATA_SOURCE_SCRIPT ) )
+			{
+				UserPropertyDefn userProperty = new UserPropertyDefn( );
+				userProperty.setName( DataUIConstants.SCRIPT_TYPE );
+				userProperty.setDefault( DataUIConstants.CASSANDRA_DATA_SOURCE_VALUE );
+				try
+				{
+					dsHandle.addUserPropertyDefn( userProperty );
+				}
+				catch ( SemanticException e )
+				{
+				}
+			}			
 			return dsHandle;
 		}
 		return null;

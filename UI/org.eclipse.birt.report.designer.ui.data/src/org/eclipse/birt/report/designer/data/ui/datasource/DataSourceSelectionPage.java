@@ -16,6 +16,11 @@ import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
@@ -55,6 +60,7 @@ import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DataSource
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DataSourceDesignSession.IDesignNameValidator;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -79,6 +85,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.mozilla.javascript.Context;
 
 /**
  * TODO: Please document
@@ -113,8 +120,10 @@ public class DataSourceSelectionPage extends WizardPage
 	private boolean useODAV3 = false;
 	private DataSourceSelectionHelper helper;
 	
-	private WizardPage page = null;
-	
+	private boolean validated = false;
+	private String errorMessage = null;
+	private static final String CASSANDRA_DATA_SOURCE_DISPLAY_NAME = Messages.getString( "CassandraScriptedDataSource.display.name" );
+
 	private static Logger logger = Logger.getLogger( DataSourceSelectionPage.class.getName( ) );
 	
 	/**
@@ -126,7 +135,6 @@ public class DataSourceSelectionPage extends WizardPage
 		setTitle( Messages.getString( "datasource.wizard.title.select" ) );//$NON-NLS-1$
 		this.setMessage( Messages.getString( "datasource.wizard.message.selectType" ) );//$NON-NLS-1$
 		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( "DataSourceBasePage" ) ); //$NON-NLS-1$
-		page = this;
 	}
 
 	/**
@@ -206,7 +214,7 @@ public class DataSourceSelectionPage extends WizardPage
 			{
 				validateDataSourceName( );
 				prevSelectedDataSourceType = getSelectedDataSource( );
-				helper.validateDataSourceHandle( page, prevSelectedDataSourceType );
+				validateDataSourceHandle( prevSelectedDataSourceType );
 				setPageComplete( !helper.hasNextPage( prevSelectedDataSourceType )
 						&& getMessageType( ) != ERROR );
 			}
@@ -694,6 +702,13 @@ public class DataSourceSelectionPage extends WizardPage
 					dsName,
 					driverName );
 		}
+		if ( CASSANDRA_DATA_SOURCE_DISPLAY_NAME.equals( prevSelectedDataSourceType.toString( ) ) )
+		{
+			Class classType = ScriptDataSourceHandle.class;
+			dsHandle = helper.createDataSource( classType,
+					dsName,
+					DataUIConstants.CASSANDRA_DATA_SOURCE_SCRIPT );
+		}
 		else
 		{
 			dsHandle = helper.createNoneOdaDataSourceHandle( dsName,
@@ -857,6 +872,53 @@ public class DataSourceSelectionPage extends WizardPage
 		}
 		setPageComplete( !helper.hasNextPage( getSelectedDataSource( ) )
 				&& getMessageType( ) != ERROR );
+	}
+	
+	public void validateDataSourceHandle( Object prevSelectedDataSourceType )
+	{
+		if ( !( prevSelectedDataSourceType instanceof String )
+				|| !CASSANDRA_DATA_SOURCE_DISPLAY_NAME.equals( prevSelectedDataSourceType.toString( ) ) )
+		{
+			return;
+		}
+		if( validated )
+		{
+			if( errorMessage!= null )
+			{
+				setMessage( errorMessage, IMessageProvider.ERROR );
+			}
+			return;
+		}
+		
+		DataRequestSession session = null;
+		ScriptContext scriptContext = null;
+		try
+		{
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			scriptContext = session.getDataSessionContext( )
+					.getDataEngineContext( )
+					.getScriptContext( );
+			IDataScriptEngine scriptEngine = (IDataScriptEngine) scriptContext.getScriptEngine( IDataScriptEngine.ENGINE_NAME );
+			Context context = scriptEngine.getJSContext( scriptContext );
+			context.getApplicationClassLoader( )
+						.loadClass( "me.prettyprint.hector.api.factory.HFactory" );
+		}
+		catch ( BirtException e1 )
+		{
+			errorMessage = Messages.getString( "CassandraScriptedDataSource.error.classNotFound" );
+			setMessage( errorMessage, IMessageProvider.ERROR );
+		}
+		catch ( ClassNotFoundException e )
+		{
+			errorMessage = Messages.getString( "CassandraScriptedDataSource.error.classNotFound" );
+			setMessage( errorMessage, IMessageProvider.ERROR );
+		}
+		finally
+		{
+			validated = true;
+			session.shutdown( );
+			scriptContext.close( );
+		}
 	}
 	
 }

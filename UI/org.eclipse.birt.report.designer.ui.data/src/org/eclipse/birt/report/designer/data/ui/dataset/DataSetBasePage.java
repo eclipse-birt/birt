@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
+import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
 import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -116,6 +117,11 @@ public class DataSetBasePage extends WizardPage
 	private DataSetBasePageHelper helper;
 	
 	private IWizardPage nextPage;
+
+	private final static String SCRIPT_DATASET_NAME = Messages.getString( "DataSetBasePage.ScriptedDataSet.name" );//$NON-NLS-1$
+	private final static String SCRIPT_DATASOURCE_NAME =Messages.getString( "DataSetBasePage.ScriptedDataSource.name" ); //$NON-NLS-1$
+	private final static String CASSANDRA_DATASET_NAME = Messages.getString( "DataSetBasePage.CassandraScriptedDataSet.name" );//$NON-NLS-1$
+	private final static String CASSANDRA_DATASOURCE_NAME =Messages.getString( "DataSetBasePage.CassandraScriptedDataSource.name" ); //$NON-NLS-1$
 	
 	/**
 	 * Creates a new data set wizard page
@@ -485,8 +491,8 @@ public class DataSetBasePage extends WizardPage
 				useODAV3 = false;
 				getScriptDataSourceMap( handle,
 						sourceTypeMap,
-						helper.getScriptDataSetName( handle ),
-						helper.getScriptDataSourceName( handle ) );
+						getScriptDataSetName( handle ),
+						getScriptDataSourceName( handle ) );
 			}
 			else
 			{
@@ -804,7 +810,7 @@ public class DataSetBasePage extends WizardPage
 			dateSetTypeSelection = new StructuredSelection( types[0] );
 			dataSetTypeChooser.setSelection( dateSetTypeSelection );
 			String dataSourceID = ( (DataSourceType) data ).getDataSourceID( );
-			if ( helper.isScriptDataSet( dataSourceID ) )
+			if ( isScriptDataSet( dataSourceID ) )
 			{
 				useODAV3 = false;
 			}
@@ -848,7 +854,7 @@ public class DataSetBasePage extends WizardPage
 				}
 			}
 		}
-		else if ( helper.isScriptDataSet( dTypeElement.getDataSetTypeName( ) ) )
+		else if ( isScriptDataSet( dTypeElement.getDataSetTypeName( ) ) )
 		{
 			return true;
 		}
@@ -960,6 +966,48 @@ public class DataSetBasePage extends WizardPage
 		}
 		else
 			return helper.createDataSet( getDataSetName( ).trim( ), dataSetType );
+	}
+	
+	public String getScriptDataSetName( DataSourceHandle dataSourceHandle )
+	{
+		if ( dataSourceHandle instanceof ScriptDataSourceHandle )
+		{
+			if ( dataSourceHandle.getProperty( DataUIConstants.SCRIPT_TYPE ) != null
+					&& dataSourceHandle.getProperty( DataUIConstants.SCRIPT_TYPE )
+							.equals( DataUIConstants.CASSANDRA_DATA_SOURCE_VALUE ) )
+			{
+				return CASSANDRA_DATASET_NAME;
+			}
+			else
+				return SCRIPT_DATASET_NAME;
+		}
+		return null;
+	}
+
+	public String getScriptDataSourceName( DataSourceHandle dataSourceHandle )
+	{
+		if ( dataSourceHandle instanceof ScriptDataSourceHandle )
+		{
+			if ( dataSourceHandle.getProperty( DataUIConstants.SCRIPT_TYPE ) != null
+					&& dataSourceHandle.getProperty( DataUIConstants.SCRIPT_TYPE )
+							.equals( DataUIConstants.CASSANDRA_DATA_SOURCE_VALUE ) )
+			{
+				return CASSANDRA_DATASOURCE_NAME;
+			}
+			else
+				return SCRIPT_DATASOURCE_NAME;
+		}
+		return null;
+	}
+
+	public boolean isScriptDataSet( String dataSourceID )
+	{
+		if ( SCRIPT_DATASOURCE_NAME.equals( dataSourceID )
+				|| CASSANDRA_DATASOURCE_NAME.equals( dataSourceID ) )
+		{
+			return true;
+		}
+		return false;
 	}
 }
 
