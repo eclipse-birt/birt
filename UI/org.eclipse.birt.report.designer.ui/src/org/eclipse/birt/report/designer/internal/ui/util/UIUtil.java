@@ -54,7 +54,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventManager;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
@@ -1612,11 +1611,19 @@ public class UIUtil
 
 	public static IEditorPart getActiveEditor( String id )
 	{
-		IWorkbenchPage tPage = PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( )
-				.getActivePage( );
-		if ( tPage == null )
+		IWorkbenchWindow window = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( );
+		if ( window == null )
+		{
 			return null;
+		}
+
+		IWorkbenchPage tPage = window.getActivePage( );
+		if ( tPage == null )
+		{
+			return null;
+		}
+		
 		IEditorPart activeEditPart = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
 				.getActivePage( )
