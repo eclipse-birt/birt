@@ -244,6 +244,6 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 	
 	private boolean isEmpty( String str )
 	{
-		return str == null || str.isEmpty( );
+		return str == null || str.length( ) == 0;
 	}
 }
