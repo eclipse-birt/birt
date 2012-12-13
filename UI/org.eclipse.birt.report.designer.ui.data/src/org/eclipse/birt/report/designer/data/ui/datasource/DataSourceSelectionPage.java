@@ -905,13 +905,27 @@ public class DataSourceSelectionPage extends WizardPage
 		}
 		catch ( BirtException e1 )
 		{
-			errorMessage = Messages.getString( "CassandraScriptedDataSource.error.classNotFound" );
-			setMessage( errorMessage, IMessageProvider.ERROR );
+			try 
+			{
+				retryCustomClassLoader( );
+			} 
+			catch ( ClassNotFoundException e ) 
+			{
+				errorMessage = Messages.getString( "CassandraScriptedDataSource.error.classNotFound" );
+				setMessage( errorMessage, IMessageProvider.ERROR );
+			}
 		}
 		catch ( ClassNotFoundException e )
 		{
-			errorMessage = Messages.getString( "CassandraScriptedDataSource.error.classNotFound" );
-			setMessage( errorMessage, IMessageProvider.ERROR );
+			try 
+			{
+				retryCustomClassLoader( );
+			}
+			catch ( ClassNotFoundException ex ) 
+			{
+				errorMessage = Messages.getString( "CassandraScriptedDataSource.error.classNotFound" );
+				setMessage( errorMessage, IMessageProvider.ERROR );				
+			}
 		}
 		finally
 		{
@@ -921,4 +935,15 @@ public class DataSourceSelectionPage extends WizardPage
 		}
 	}
 	
+	private void retryCustomClassLoader( ) throws ClassNotFoundException
+	{
+		ModuleHandle sessionHandle = SessionHandleAdapter.getInstance( ).getModule( );
+		ClassLoader parent = Thread.currentThread( ).getContextClassLoader( );
+		if ( parent == null )
+		{
+			parent = this.getClass( ).getClassLoader( );
+		}
+		ClassLoader customClassLoader = DataSetProvider.getCustomScriptClassLoader( parent, sessionHandle );
+		customClassLoader.loadClass( "me.prettyprint.hector.api.factory.HFactory" );
+	}
 }
