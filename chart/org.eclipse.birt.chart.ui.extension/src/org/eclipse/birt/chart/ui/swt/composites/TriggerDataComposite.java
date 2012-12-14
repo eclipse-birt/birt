@@ -1062,7 +1062,8 @@ public class TriggerDataComposite extends Composite implements
 		{
 			case INDEX_1_URL_REDIRECT :
 				// Must copy here to avoid chain set
-				value = multiHyperlinksComposite.getURLValues( ).copyInstance( );
+				MultiURLValues muv = multiHyperlinksComposite.getURLValues( );
+				value = ( muv != null ) ? muv.copyInstance( ) : muv;
 				break;
 			case INDEX_2_TOOLTIP :
 				value = TooltipValueImpl.create( 200, "" ); //$NON-NLS-1$

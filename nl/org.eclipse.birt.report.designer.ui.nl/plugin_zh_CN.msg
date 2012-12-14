@@ -48,6 +48,7 @@ preference.commenttemplates=注释模板
 preference.bidiproperties=双向属性
 preference.layout=布局
 preference.expressionsyntax=表达式语法
+preference.expressionsyntaxcolor=语法色彩
 
 designer.action.undo.label=撤消
 designer.action.redo.label=重复

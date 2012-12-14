@@ -48,6 +48,7 @@ preference.commenttemplates=Modèle de commentaire
 preference.bidiproperties=Propriétés bidirectionnelles
 preference.layout=Mise en page
 preference.expressionsyntax=Syntaxe d'expression
+preference.expressionsyntaxcolor=Couleur de la syntaxe
 
 designer.action.undo.label=Annuler
 designer.action.redo.label=Rétablir

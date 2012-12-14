@@ -48,6 +48,7 @@ preference.commenttemplates=설명 템플릿
 preference.bidiproperties=양방향 속성
 preference.layout=레이아웃
 preference.expressionsyntax=식 구문
+preference.expressionsyntaxcolor=구문 색상 지정
 
 designer.action.undo.label=실행 취소
 designer.action.redo.label=다시 실행
