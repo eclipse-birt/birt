@@ -702,6 +702,7 @@ public class DataSourceSelectionPage extends WizardPage
 					dsName,
 					driverName );
 		}
+		else
 		if ( CASSANDRA_DATA_SOURCE_DISPLAY_NAME.equals( prevSelectedDataSourceType.toString( ) ) )
 		{
 			Class classType = ScriptDataSourceHandle.class;
