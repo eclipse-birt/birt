@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.core.i18n.ThreadResources;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 import com.ibm.icu.util.ULocale;
 
@@ -100,12 +100,21 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	{
 		if ( displayNameKey != null )
 		{
+			String displayName = null;
 			if ( messages == null )
 			{
-				return ModelMessages.getMessage( this.displayNameKey );
+				displayName = ModelMessages.getMessage( this.displayNameKey );
 			}
-			ULocale locale = ThreadResources.getULocale( );
-			return messages.getMessage( displayNameKey, locale );
+			else
+			{
+				ULocale locale = ThreadResources.getLocale( );
+				displayName = messages.getMessage( displayNameKey, locale );
+			}
+			if ( displayName == null )
+			{
+				displayName = name;
+			}
+			return displayName;
 		}
 		return name;
 	}
@@ -128,7 +137,7 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 		}
 		return name;
 	}
-	
+
 	/**
 	 * Returns the display name resource key for the choice.
 	 * 
