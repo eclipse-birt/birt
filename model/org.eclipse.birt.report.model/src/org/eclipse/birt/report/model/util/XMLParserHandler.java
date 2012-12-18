@@ -52,7 +52,7 @@ public abstract class XMLParserHandler extends DefaultHandler
 	 * The error handler of the XML parser.
 	 */
 
-	protected final ErrorHandler errorHandler;
+	protected ErrorHandler errorHandler;
 
 	/**
 	 * 
@@ -109,6 +109,17 @@ public abstract class XMLParserHandler extends DefaultHandler
 	public ErrorHandler getErrorHandler( )
 	{
 		return this.errorHandler;
+	}
+	
+	/**
+	 * Sets the error handler of the parser.
+	 * 
+	 * @param handler
+	 *            the error handler of the parser
+	 */
+	public void setErrorHandler( ErrorHandler handler )
+	{
+		this.errorHandler = handler;
 	}
 
 	/**
