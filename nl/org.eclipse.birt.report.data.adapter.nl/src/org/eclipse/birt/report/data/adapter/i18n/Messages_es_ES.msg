@@ -18,6 +18,7 @@ invalid.cache.option=El valor de opción {0} del contexto del adaptador de datos 
 
 datasource.null.error=Error al buscar la fuente de datos del conjunto de datos "{0}".
 datasource.exid.error=Falta el ID de extensión en la definición de la fuente de datos {0}.
+datasource.cassandra.error=Unable to find Hector client library jars to support Cassandra Scripted Data Source.
 
 datasethandle.null.error=DataSetHandle no puede ser nulo.
 datasethandle.invalidColumnIndex=El índice de columna no es válido.

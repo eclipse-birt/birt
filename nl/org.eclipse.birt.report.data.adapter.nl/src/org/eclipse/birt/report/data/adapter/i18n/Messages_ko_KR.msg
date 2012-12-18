@@ -18,6 +18,7 @@ invalid.cache.option=데이터 어댑터 컨텍스트의 모드 값 {0}이(가) 잘못되었습니다.
 
 datasource.null.error=데이터 집합 "{0}"의 데이터 원본을 찾지 못했습니다.
 datasource.exid.error=데이터 원본 정의에서 확장 ID가 누락되었습니다: {0}.
+datasource.cassandra.error=Unable to find Hector client library jars to support Cassandra Scripted Data Source.
 
 datasethandle.null.error=DataSetHandle은 널(null)이 될 수 없습니다.
 datasethandle.invalidColumnIndex=잘못된 열 인덱스입니다.
