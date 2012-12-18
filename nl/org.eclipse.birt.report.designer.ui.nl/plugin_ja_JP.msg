@@ -48,7 +48,6 @@ preference.commenttemplates=コメントテンプレート
 preference.bidiproperties=双方向プロパティ
 preference.layout=レイアウト
 preference.expressionsyntax=式構文
-preference.expressionsyntaxcolor=構文の色
 
 designer.action.undo.label=元に戻す
 designer.action.redo.label=やり直し
