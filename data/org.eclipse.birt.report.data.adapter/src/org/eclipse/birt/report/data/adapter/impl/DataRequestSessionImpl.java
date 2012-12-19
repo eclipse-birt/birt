@@ -194,6 +194,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			this.setModuleHandleToAppContext();
 		}
+		DataSessionConfig.startup( this );
 	}
 
 	/*
@@ -520,7 +521,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
 			}
 		}
-		DataSessionFinalizeUtil.finalize( this );
+		DataSessionConfig.finalize( this );
 		if ( dataEngine != null )
 		{
 			dataEngine.shutdown( );

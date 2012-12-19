@@ -35,9 +35,11 @@ import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Preferences;
@@ -100,6 +102,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 	private String[] columnBindingNames;
 	private int previousMaxRow = -1;
 	private CLabel promptLabel;
+	private DataSetHandle dataSetHandle;
 
 	/**
 	 * The constructor.
@@ -241,6 +244,32 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		if ( modelChanged )
 		{
 			modelChanged = false;
+			
+			dataSetHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
+			
+			int maxRow = this.getMaxRowPreference( );
+			if( dataSetHandle.getRowFetchLimit( )<=0 || dataSetHandle.getRowFetchLimit( )> maxRow )
+			{
+				ModuleHandle moduleHandle = ( (Module) dataSetHandle.getRoot( )
+						.copy( ) ).getModuleHandle( );
+				SlotHandle dataSets = moduleHandle.getDataSets( );
+				for ( int i = 0; i < dataSets.getCount( ); i++ )
+				{
+					if ( dataSetHandle.getName( ).equals( dataSets.get( i )
+							.getName( ) ) )
+					{
+						dataSetHandle = (DataSetHandle) dataSets.get( i );
+						try
+						{
+							dataSetHandle.setRowFetchLimit( maxRow );
+						}
+						catch ( SemanticException e )
+						{
+						}
+						break;
+					}
+				}
+			}
 
 			new UIJob( "" ) { //$NON-NLS-1$
 
@@ -312,7 +341,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 				if ( resultSetTable != null && !resultSetTable.isDisposed( ) )
 				{
 					ModuleHandle handle = null;
-					DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
+					DataSetHandle dsHandle = dataSetHandle;
 					handle = dsHandle.getModuleHandle( );
 					DataSetPreviewer previewer = new DataSetPreviewer(
 							dsHandle, getMaxRowPreference( ), PreviewType.RESULTSET  );
@@ -354,9 +383,6 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 						{
 							e.printStackTrace( );
 						}
-						resetPropertyBinding(
-								dataSetBindingMap,
-								dataSourceBindingMap );
 					}		
 				}
 			}
@@ -687,10 +713,9 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 
 			public void run( )
 			{
-				DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
 				try
 				{
-					DataSetMetaDataHelper.clearPropertyBindingMap( dsHandle,
+					DataSetMetaDataHelper.clearPropertyBindingMap( dataSetHandle,
 							dataSetBindingMap,
 							dataSourceBindingMap );
 				}

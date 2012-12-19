@@ -151,7 +151,7 @@ public class CacheUtil
 					+ System.currentTimeMillis() + cacheCounter1.intValue() + "_" + x);
 		}
 		FileSecurity.fileMakeDirs( tempDtEDir );
-		FileSecurity.fileDeleteOnExit( tempDtEDir );
+//		FileSecurity.fileDeleteOnExit( tempDtEDir );
 		rootDirStr = getCanonicalPath( tempDtEDir );
 		return rootDirStr;
 	}
@@ -192,7 +192,7 @@ public class CacheUtil
 			throw new DataException(
 					ResourceConstants.FAIL_TO_CREATE_TEMP_DIR, diagnosticMkdirs( sessionFile ) );
 		}
-		FileSecurity.fileDeleteOnExit( sessionFile );
+//		FileSecurity.fileDeleteOnExit( sessionFile );
 		return getCanonicalPath( sessionFile );
 	}
 

@@ -260,7 +260,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 			// childGroupIdx
 			// Does it also start this group?
 			GroupInfo currentGroup = findGroup( level, currentGroupIdx );
-			if ( childGroupIdx == currentGroup.firstChild )
+			if ( currentGroup!=null && childGroupIdx == currentGroup.firstChild )
 			{
 				// Yes it also starts this group; check if it starts parent as
 				// well

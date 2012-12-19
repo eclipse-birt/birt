@@ -282,10 +282,10 @@ public class ResultIterator implements IResultIterator
 				1024 ) );
 		File file = ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
 				id );
-		FileSecurity.fileDeleteOnExit( file );
+//		FileSecurity.fileDeleteOnExit( file );
 		file = ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
 				id );
-		FileSecurity.fileDeleteOnExit( file ); 
+//		FileSecurity.fileDeleteOnExit( file ); 
 	}
 	
 	/**

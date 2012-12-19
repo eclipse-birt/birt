@@ -19,6 +19,4 @@ public interface IBindingValueFetcher
 
 	public abstract Object getValue( String bindingName,
 			AggregationRowAccessor row, int index ) throws DataException;
-	
-	public boolean existBinding( String bindingName ) throws DataException;
 }

@@ -106,6 +106,7 @@
 			<include name="org.eclipse.birt.report.data.oda.jdbc.ui*.jar"/>
 			<include name="org.eclipse.birt.report.data.oda.hive*.jar"/>
 			<include name="org.eclipse.help*.jar"/>
+			<include name="org.eclipse.core.variables*.jar"/>
 		</fileset>
 	</path>
 	

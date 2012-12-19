@@ -69,6 +69,7 @@
       <plugin id="org.apache.xml.resolver"/>
       <plugin id="org.apache.xml.serializer"/>
       <plugin id="org.eclipse.birt"/>
+      <plugin id="org.eclipse.birt.axis.overlay"/>
       <plugin id="org.eclipse.birt.chart.cshelp"/>
       <plugin id="org.eclipse.birt.chart.device.extension"/>
       <plugin id="org.eclipse.birt.chart.device.pdf"/>
@@ -90,6 +91,7 @@
       <plugin id="org.eclipse.birt.data.aggregation"/>
       <plugin id="org.eclipse.birt.doc"/>
       <plugin id="org.eclipse.birt.example"/>
+      <plugin id="org.eclipse.birt.jetty.overlay"/>
       <plugin id="org.eclipse.birt.report.data.adapter"/>
       <plugin id="org.eclipse.birt.report.data.bidi.utils"/>
       <plugin id="org.eclipse.birt.report.data.bidi.utils.ui"/>
@@ -147,8 +149,6 @@
       <plugin id="org.eclipse.birt.report.model"/>
       <plugin id="org.eclipse.birt.report.model.adapter.oda"/>
       <plugin id="org.eclipse.birt.report.viewer"/>
-      <plugin id="org.eclipse.birt.axis.overlay"/>
-      <plugin id="org.eclipse.birt.jetty.overlay"/>
       <plugin id="org.eclipse.birt.resources"/>
       <plugin id="org.eclipse.compare.core"/>
       <plugin id="org.eclipse.core.commands"/>
@@ -255,6 +255,7 @@
       <plugin id="org.eclipse.ui.forms"/>
       <plugin id="org.eclipse.ui.navigator"/>
       <plugin id="org.eclipse.ui.views"/>
+      <plugin id="org.eclipse.ui.win32"/>
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
       <plugin id="org.eclipse.update.configurator"/>

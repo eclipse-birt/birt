@@ -1150,7 +1150,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			}
 
 			// Update the Label attribute fields
-//			lacLabel.setLabel( range.getLabel( ), getChart( ).getUnits( ), range );
+			lacLabel.setLabel( range.getLabel( ), getChart( ).getUnits( ), range );
 		}
 	}
 

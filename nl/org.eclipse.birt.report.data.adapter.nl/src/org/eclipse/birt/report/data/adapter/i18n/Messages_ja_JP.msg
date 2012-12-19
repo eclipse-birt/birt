@@ -18,6 +18,7 @@ invalid.cache.option=データアダプタのオプション値 {0} が無効です。
 
 datasource.null.error=データセット "{0}" のデータソースが見つかりませんでした。
 datasource.exid.error=データソース定義 {0} に拡張 ID がありません。
+datasource.cassandra.error=Unable to find Hector client library jars to support Cassandra Scripted Data Source.
 
 datasethandle.null.error=DataSetHandle は NULL にできません。
 datasethandle.invalidColumnIndex=列のインデックスが無効です。

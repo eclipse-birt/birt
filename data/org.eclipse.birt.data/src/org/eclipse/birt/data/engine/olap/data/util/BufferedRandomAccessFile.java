@@ -94,7 +94,7 @@ public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 			FileSecurity.fileMakeDirs( parent );
 		}
 		delegate = FileSecurity.createRandomAccessFile( file, mode );
-		file.deleteOnExit( );
+//		file.deleteOnExit( );
 		if ( memoryDelegate != null || length > 0 )
 		{
 			delegate.write( memoryDelegate, 0, length );

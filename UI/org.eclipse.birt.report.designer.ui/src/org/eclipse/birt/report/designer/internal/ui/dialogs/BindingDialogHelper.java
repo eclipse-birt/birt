@@ -1325,13 +1325,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					{
 						final Text txtParam = new Text( paramsComposite,
 								SWT.BORDER | SWT.MULTI );
-						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-						gridData.heightHint = txtParam.computeSize( SWT.DEFAULT,
-								SWT.DEFAULT ).y
-								- txtParam.getBorderWidth( )
-								* 2;
-						gridData.horizontalIndent = 0;
-						txtParam.setLayoutData( gridData );
 						txtParam.addModifyListener( new ModifyListener( ) {
 
 							public void modifyText( ModifyEvent e )
@@ -1345,6 +1338,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 										} );
 							}
 						} );
+						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+						gridData.heightHint = txtParam.computeSize( SWT.DEFAULT,
+								SWT.DEFAULT ).y
+								- txtParam.getBorderWidth( )
+								* 2;
+						gridData.horizontalIndent = 0;
+						txtParam.setLayoutData( gridData );
 						createExpressionButton( paramsComposite, txtParam );
 						paramsMap.put( param.getName( ), txtParam );
 						initTextField( txtParam, param );

@@ -48,3 +48,8 @@ Action.PublishLibrary=将库复制到共享资源文件夹...
 Action.AddReportNature=添加报表支持
 Menu.Report=报表
 birtproblemName=报表问题
+
+###############################################################################
+# Preferences
+###############################################################################
+preference.expressionsyntaxcolor=Syntax Coloring

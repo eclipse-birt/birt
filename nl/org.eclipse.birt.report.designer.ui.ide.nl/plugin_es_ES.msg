@@ -48,3 +48,8 @@ Action.PublishLibrary=Copiar Li&brería para compartir carpeta de recursos...
 Action.AddReportNature=Añadir asistencia de informe
 Menu.Report=Informe
 birtproblemName=Problemas del informe
+
+###############################################################################
+# Preferences
+###############################################################################
+preference.expressionsyntaxcolor=Syntax Coloring

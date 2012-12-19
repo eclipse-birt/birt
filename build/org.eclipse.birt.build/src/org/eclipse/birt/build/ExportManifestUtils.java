@@ -223,11 +223,13 @@ public class ExportManifestUtils
 			{
 				output = output + prefix + "." + entry.name ;
 			}
+			
 			if (package_count ==0)
 				System.out.println(output);
-			else
+			else if(!output.trim().startsWith("META-INF"))
+			{
 				System.out.println(output+",");
-			
+			}
 			
 		}
 
@@ -253,8 +255,11 @@ public class ExportManifestUtils
 	{
 		if ( entry.isDirectory( ) )
 		{
-			String name = entry.getName( );
+			String name = entry.getName();
+			//System.out.println("crateEntry entry name: "  +  name);
 			String[] names = name.split( "/" );
+			if (names[0].equals("MATA-INF"))
+				return;
 			for ( int i = 0; i < names.length; i++ )
 			{
 				root = createEntry( root, names[i] );
@@ -288,6 +293,7 @@ public class ExportManifestUtils
 		entry.version = parent.version;
 		entry.hasVersion = parent.hasVersion;
 		parent.children.add( entry );
+		//System.out.println("===entry.name: " + entry.name);
 		
 		return entry;
 	}

@@ -196,17 +196,17 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	{
 		if( objectFile != null )
 		{
-			FileSecurity.fileDeleteOnExit( objectFile );
+//			FileSecurity.fileDeleteOnExit( objectFile );
 			objectFile = null;
 		}
 		if( oatFile != null )
 		{
-			FileSecurity.fileDeleteOnExit( oatFile );
+//			FileSecurity.fileDeleteOnExit( oatFile );
 			oatFile = null;
 		}
 		if( dataFile != null )
 		{
-			FileSecurity.fileDeleteOnExit( dataFile );
+//			FileSecurity.fileDeleteOnExit( dataFile );
 			dataFile = null;
 		}
 	}

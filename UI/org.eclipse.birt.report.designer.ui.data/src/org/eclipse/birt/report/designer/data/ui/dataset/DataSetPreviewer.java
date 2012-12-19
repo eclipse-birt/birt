@@ -65,19 +65,9 @@ public class DataSetPreviewer
 	
 	public IResultIterator preview( ) throws BirtException
 	{
-		int max = dataSetHandle.getIntProperty( DataSetHandle.ROW_FETCH_LIMIT_PROP );
-		try
-		{
-			dataSetHandle.setIntProperty( DataSetHandle.ROW_FETCH_LIMIT_PROP, this.maxRow );
-			result = task.execute( );
-			return result.nextResultIterator( ).getResultIterator( );
-		}
-		finally
-		{
-			dataSetHandle.setIntProperty( DataSetHandle.ROW_FETCH_LIMIT_PROP, max );
-		}
+		result = task.execute( );
+		return result.nextResultIterator( ).getResultIterator( );
 	}
-	
 	
 	private static IReportEngine createReportEngine( EngineConfig config ) throws BirtException
 	{

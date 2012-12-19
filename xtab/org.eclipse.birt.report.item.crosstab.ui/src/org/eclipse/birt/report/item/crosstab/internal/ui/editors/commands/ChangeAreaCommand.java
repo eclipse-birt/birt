@@ -86,7 +86,6 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 			{
 				CrosstabAdaptUtil.removeInvalidBindings( reportHandle );
 			}
-			
 			providerWrapper.updateAllAggregationCells( );
 		}
 		catch ( SemanticException e )

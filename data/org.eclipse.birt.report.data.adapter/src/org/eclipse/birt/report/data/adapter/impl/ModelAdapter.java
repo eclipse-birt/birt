@@ -124,7 +124,7 @@ public class ModelAdapter implements IModelAdapter
 
 		if ( handle instanceof ScriptDataSourceHandle )
 		{
-			return new ScriptDataSourceAdapter( (ScriptDataSourceHandle) handle );
+			return new ScriptDataSourceAdapter( (ScriptDataSourceHandle) handle, context );
 		}
 
 		logger.fine( "handle type: " + ( handle == null ? "" : handle.getClass( ).getName( ) ) ); //$NON-NLS-1$
