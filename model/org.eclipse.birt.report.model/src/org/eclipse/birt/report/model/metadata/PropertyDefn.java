@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.core.i18n.ThreadResources;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -44,6 +43,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
 
 import com.ibm.icu.util.ULocale;
@@ -1006,7 +1006,7 @@ public abstract class PropertyDefn
 			}
 			else
 			{
-				ULocale locale = ThreadResources.getULocale( );
+				ULocale locale = ThreadResources.getLocale( );
 				displayName = messages.getMessage( displayNameID, locale );
 			}
 			if ( displayName != null )

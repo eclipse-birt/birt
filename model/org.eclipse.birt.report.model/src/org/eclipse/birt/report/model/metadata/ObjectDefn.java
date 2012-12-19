@@ -17,12 +17,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.i18n.ThreadResources;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 import com.ibm.icu.util.ULocale;
@@ -125,7 +125,7 @@ public class ObjectDefn implements IObjectDefn
 			}
 			else
 			{
-				ULocale locale = ThreadResources.getULocale( );
+				ULocale locale = ThreadResources.getLocale( );
 				displayName = messages.getMessage( displayNameKey, locale );
 			}
 			if ( displayName != null )

@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.core.i18n.ThreadResources;
+
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.scripts.ScriptableClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 import com.ibm.icu.util.ULocale;
 
@@ -85,7 +86,7 @@ public class ArgumentInfo implements IArgumentInfo
 			}
 			else
 			{
-				ULocale locale = ThreadResources.getULocale( );
+				ULocale locale = ThreadResources.getLocale( );
 				displayName = messages.getMessage( displayNameKey, locale );
 			}
 			if ( displayName != null )
