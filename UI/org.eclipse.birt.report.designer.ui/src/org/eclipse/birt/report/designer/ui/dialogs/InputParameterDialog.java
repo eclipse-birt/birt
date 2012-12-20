@@ -1122,7 +1122,7 @@ public class InputParameterDialog extends BaseDialog
 				String label = getLabelString(choice,listParam);
 				if ( label != null )
 				{
-					addControlItem( control, label );
+					itemIndex = addControlItem( control, label );
 					if(control instanceof Combo)
 					{
 						control.setData(String.valueOf(itemIndex),choice.getValue( ) );
@@ -1181,16 +1181,20 @@ public class InputParameterDialog extends BaseDialog
 		}
 	}
 
-	private void addControlItem( Control control, String item )
+	private int addControlItem( Control control, String item )
 	{
+		int itemIndex = 0;
 		if ( control instanceof Combo )
 		{
 			( (Combo) control ).add( item );
+			itemIndex = ( (Combo) control ).getItemCount() -1;
 		}
 		if ( control instanceof org.eclipse.swt.widgets.List )
 		{
 			( (org.eclipse.swt.widgets.List) control ).add( item );
+			itemIndex = ( (org.eclipse.swt.widgets.List) control ).getItemCount() - 1;
 		}
+		return itemIndex;
 	}
 
 	private void processPostParator( ListingParameter listParam, Control control )
