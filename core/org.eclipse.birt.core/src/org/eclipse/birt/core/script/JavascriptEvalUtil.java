@@ -306,7 +306,7 @@ public class JavascriptEvalUtil
 
         return new CoreException( ResourceConstants.JAVASCRIPT_ERROR,
 				new Object[]{
-        		e.getLocalizedMessage(), source,  new Integer( lineNo ), scriptText 
+        		e.getLocalizedMessage()
 				},
 				e);
 	}
