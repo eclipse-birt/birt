@@ -75,6 +75,7 @@ public class IndexReader implements IndexConstants
 							btree = BTreeMap.openTreeMap( archive, name,
 									valueType );
 						}
+						break;
 					}
 					case VERSION_1 :
 					{
@@ -98,6 +99,7 @@ public class IndexReader implements IndexConstants
 							btree = BTreeMap.openTreeMap( archive, name,
 									valueType );
 						}
+						break;
 					}
 					default :
 					{
