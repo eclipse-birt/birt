@@ -13,9 +13,11 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.command.ContentElementInfo;
 import org.eclipse.birt.report.model.command.NameCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IVariableElementModel;
 
 /**
@@ -150,7 +152,11 @@ public class VariableElementHandle extends ContentElementHandle
 	 */
 	public void setName( String name ) throws NameException
 	{
-		NameCommand cmd = new NameCommand( module, getElement( ) );
+		//use valuecontainer's module so the variable element can make a local copy if its name is changed
+		ContentElementInfo valueContainer = ( (VariableElement)element ).getValueContainer( );
+		NameCommand cmd = new NameCommand(  ( (VariableElement) element ).isLocal( ) ? 
+				module : valueContainer.getElement( ).getRoot( ), 
+				getElement( ) );
 		cmd.setName( name );
 	}
 }
