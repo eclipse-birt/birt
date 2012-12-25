@@ -104,6 +104,18 @@ class NoUpdateFilterCalculator extends FilterCalculator
 
 		super.makeFirstPassToMultiPassFilter( filterPass );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.transform.pass.FilterCalculator#makePreparationPassToMultiPassFilter(org.eclipse.birt.data.engine.script.FilterPassController)
+	 */
+	protected void makePreparationPassToMultiPassFilter( FilterPassController filterPass )
+			throws DataException
+	{
+		( (NoUpdateFilterByRow) filterByRow ).setUpdateGroupInfo( false );
+
+		super.makePreparationPassToMultiPassFilter( filterPass );
+	}
 
 	/*
 	 * (non-Javadoc)

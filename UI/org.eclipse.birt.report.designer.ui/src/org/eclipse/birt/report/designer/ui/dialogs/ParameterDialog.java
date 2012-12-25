@@ -697,7 +697,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		Composite propertiesSection = new Composite( composite, SWT.NONE );
 		propertiesSection.setLayout( new GridLayout( ) );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.minimumWidth = 200;
+		gd.widthHint = 200;
 		propertiesSection.setLayoutData( gd );
 
 		createLabel( propertiesSection, LABEL_NAME );

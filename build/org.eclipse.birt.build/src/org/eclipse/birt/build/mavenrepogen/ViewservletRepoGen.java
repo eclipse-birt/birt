@@ -51,19 +51,21 @@ public class ViewservletRepoGen
 	private final String rootFileName;
 	private final File readmeFile;
 	private final String viewservletsVersion;
+	private final File sourceDir;
 	private final String externalFileName = "./externalRepo-viewservlets.properties";
 	
 	private final Map<String, ExternalDependency> externalDependencies;
 
 	private ViewservletRepoGen(final File libDir, final File repoParentDir, final String groupId,
 			final String passphrase, final boolean snapshot, final boolean release,
-			final boolean clean, final String rootFileName, final String readmeFilePath, final String viewservletsV) throws IOException
+			final boolean clean, final String rootFileName, final String readmeFilePath, final String viewservletsV, final File sourceDir) throws IOException
 	{
 		this.libDir = libDir;
 		this.groupId = groupId;
 		this.passphrase = passphrase;
 		this.readmeFile = new File(readmeFilePath);
 		this.viewservletsVersion = viewservletsV;
+		this.sourceDir = sourceDir;
 		
 		repoDir = new File(repoParentDir, "repository-viewservlets");
 		repoDir.mkdir();
@@ -148,12 +150,13 @@ public class ViewservletRepoGen
 		final String rootFileName = properties.getProperty("viewServletsFile");
 		final String readmeFilePath = properties.getProperty("readmeFile");
 		final String viewservletsV= properties.getProperty("viewServletsVersion");	
+		final String sourceDir = properties.getProperty("sourceDir");
 		System.out.println("libDir: " + libDirName);
 		System.out.println("servlets version: " + viewservletsV);
 		System.out.println("servlets root file: " + rootFileName);
 		
 		final ViewservletRepoGen repoGen = new ViewservletRepoGen(new File(libDirName), new File(repoDirName), groupId,
-				passphrase, genSnapshot, genRelease, clean, rootFileName,readmeFilePath, viewservletsV);
+				passphrase, genSnapshot, genRelease, clean, rootFileName,readmeFilePath, viewservletsV, new File(sourceDir));
 		
 		repoGen.generate();
 	}
@@ -404,15 +407,25 @@ public class ViewservletRepoGen
 		final File jarFile = new File(versionDir, newFileName + ".jar");
 		copy(fileInfo.getFile(), jarFile);
 		final File pomFile = new File(versionDir, newFileName + ".pom");
-		final File sourceFile = new File(versionDir, fileInfo.getArtifactId() + "-" + fileInfo.getVersion(snapshot)+"-sources.jar");
-		final File javadocFile = new File(versionDir, fileInfo.getArtifactId() + "-" + fileInfo.getVersion(snapshot)+"-javadoc.jar");
+		final File sourceFileTarget = new File(versionDir, fileInfo.getArtifactId() + "-" + fileInfo.getVersion(snapshot)+"-sources.jar");
+		final File sourceFileSource = new File(sourceDir, fileInfo.getArtifactId() + "-" + fileInfo.getVersion()+"-sources.jar");
+		final File javadocFileTarget = new File(versionDir, fileInfo.getArtifactId() + "-" + fileInfo.getVersion(snapshot)+"-javadoc.jar");
 		//create fake sources and javadoc jar
-		createJar( sourceFile, new File[]{readmeFile} );
-		createJar( javadocFile, new File[]{readmeFile} );
+		if(sourceFileSource.exists())
+		{			
+			createJar(sourceFileTarget, sourceFileSource);
+		}
+		else
+		{
+			System.out.println("Creating fake source bundles for " + fileInfo.getArtifactId());
+			createJar( sourceFileTarget, new File[]{readmeFile} );
+		}
+		
+		createJar( javadocFileTarget, new File[]{readmeFile} );
 		
 		createPomFile(fileInfo, snapshot, pomFile, dependsOn, externalDependencies);
 		createAntFile(new File(versionDir, "build.xml"), pomFile, fileInfo.getArtifactId(),
-			jarFile, snapshot, sourceFile, javadocFile);
+			jarFile, snapshot, sourceFileTarget, javadocFileTarget);
 		
 		globalScriptFileWriter.println("#");
 		globalScriptFileWriter.print("pushd ");
@@ -432,17 +445,17 @@ public class ViewservletRepoGen
 				jarFile.getName() }, versionDir);
 		exec(
 				new String[] { "/usr/bin/gpg", "-ab", "--batch", "--passphrase", passphrase,
-					sourceFile.getName() }, versionDir);
+					sourceFileTarget.getName() }, versionDir);
 		exec(
 				new String[] { "/usr/bin/gpg", "-ab", "--batch", "--passphrase", passphrase,
-					javadocFile.getName() }, versionDir);
+					javadocFileTarget.getName() }, versionDir);
 		// it would be nice to bundle the entire library in one jar but Sonatype doesn't
 		// seem to want to accept multiple POM's in a single bundle.
-		createJar(new File(versionDir, "bundle.jar"), new File[] { pomFile, jarFile,javadocFile,sourceFile,
+		createJar(new File(versionDir, "bundle.jar"), new File[] { pomFile, jarFile,javadocFileTarget,sourceFileTarget,
 			new File(pomFile.getAbsolutePath() + ".asc"),
 			new File(jarFile.getAbsolutePath() + ".asc"),
-			new File(javadocFile.getAbsolutePath() + ".asc"),
-			new File(sourceFile.getAbsolutePath() + ".asc")});
+			new File(javadocFileTarget.getAbsolutePath() + ".asc"),
+			new File(sourceFileTarget.getAbsolutePath() + ".asc")});
 		
 
 		templatePomFileWriter.println("   <dependency>");
@@ -664,7 +677,16 @@ public class ViewservletRepoGen
 			pw.close();
 		}
 	}
-
+	private void createJar(final File jarTargetFile, final File jarSourceFile) throws IOException
+	{		
+		final FileOutputStream fos = new FileOutputStream(jarTargetFile);
+		final FileInputStream fis = new FileInputStream(jarSourceFile);
+		pipeStream(fis, fos);
+		
+		fis.close();
+		fos.close();
+	}
+	
 	private void createJar(final File jarFile, final File[] files) throws IOException
 	{
 		final Manifest manifest = new Manifest();

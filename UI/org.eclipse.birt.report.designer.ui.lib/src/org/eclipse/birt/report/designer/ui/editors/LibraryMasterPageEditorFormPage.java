@@ -46,9 +46,8 @@ public class LibraryMasterPageEditorFormPage extends ReportMasterPageEditorFormP
 		}
 		if ( (newModel != null && getModel( ) != newModel) || reload )
 		{
-			Object oldModel = getModel( );
+			ModuleHandle oldModel = getModel( );
 
-			
 			getProvider( ).connect( newModel );
 			setModel( newModel );
 

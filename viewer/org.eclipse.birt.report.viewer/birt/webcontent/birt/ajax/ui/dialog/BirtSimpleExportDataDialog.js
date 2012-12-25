@@ -536,6 +536,17 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			hiddenLocaleNeutral.value = "false";
 		hiddenForm.appendChild( hiddenLocaleNeutral );		
 		
+		// Whether exports data with carriage return line break
+		var oCarriageReturn = $( 'exportDataWithCR' );
+		var hiddenCarriageReturn = document.createElement( 'input' );
+		hiddenCarriageReturn.type = 'hidden';
+		hiddenCarriageReturn.name = Constants.PARAM_CARRIAGERETURN;
+		if( oCarriageReturn && oCarriageReturn.checked )
+			hiddenCarriageReturn.value = "true";
+		else
+			hiddenCarriageReturn.value = "false";
+		hiddenForm.appendChild( hiddenCarriageReturn );		
+				
 		var tmpSubmit = document.createElement( 'input' );
 		tmpSubmit.type = 'submit';
 		tmpSubmit.value = 'TmpSubmit';

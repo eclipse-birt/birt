@@ -207,7 +207,17 @@ BirtPrintReportServerDialog.prototype = Object.extend( new AbstractBaseDialog( )
 					return false;
 				}
 				action = action + "&" + Constants.PARAM_PAGERANGE + "=" + pageRange;
-			}			
+			}
+			if(! $( 'printer_copies' ).disabled )
+			{
+				// Set page range setting
+				var copiesNumber = birtUtility.trim( $( 'printer_copies' ).value );
+				if ( copiesNumber  && !copiesNumber.match(/^[0-9]*$/) )
+				{
+					alert( Constants.error.invalidCopiesNumber );
+					return false;
+				}
+			}
 
 			// auto
 			var pageOverflow = 0;

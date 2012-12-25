@@ -48,3 +48,8 @@ Action.PublishLibrary=&Bibliothek in Ordner für gemeinsame Ressourcen kopieren..
 Action.AddReportNature=Berichtunterstützung hinzufügen
 Menu.Report=Bericht
 birtproblemName=Bericht-Problem
+
+###############################################################################
+# Preferences
+###############################################################################
+preference.expressionsyntaxcolor=Syntax Coloring

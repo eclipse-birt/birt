@@ -52,6 +52,8 @@ import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import com.ibm.icu.text.Collator;
+
 /**
  * Encapsulates a runtime data set definition. A data set definition
  * has two parts: design time properties specified in the report design that are
@@ -119,10 +121,32 @@ public class DataSetRuntime implements IDataSetInstanceHandle
      * the value from outsource
      */
     private Map outParamValues = new LinkedHashMap( );
-	private boolean fromCache = false;;
+	private boolean fromCache = false;
+	private Collator comparableLocator;
+	private String nullOrdering;
     
     // Special value tag to indicate that a parameter value has not been set
     public static final Object UNSET_VALUE = Scriptable.NOT_FOUND;
+    
+    public void setCompareLocale ( Collator compareLocale )
+    {
+    	this.comparableLocator = compareLocale;
+    }
+    
+    public Collator getCompareLocator ( )
+    {
+    	return comparableLocator;
+    }
+    
+    public void setNullest ( String nullOrdering )
+    {
+    	this.nullOrdering = nullOrdering;
+    }
+    
+    public String getNullest ( )
+    {
+    	return nullOrdering;
+    }
     
 	protected DataSetRuntime( IBaseDataSetDesign dataSetDesign,
 			IQueryExecutor queryExecutor, DataEngineSession session )

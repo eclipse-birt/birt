@@ -36,7 +36,6 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 public class DataPresentationEngine extends AbstractDataEngine
 {
@@ -62,7 +61,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 		super( factory, context );
 		// create the DteData session.
 		DataSessionContext dteSessionContext = new DataSessionContext(
-				DataSessionContext.MODE_PRESENTATION, null, context
+				DataSessionContext.MODE_PRESENTATION, context.getDesign( ), context
 						.getScriptContext( ), context
 						.getApplicationClassLoader( ) );
 		dteSessionContext.setDocumentReader( reader );

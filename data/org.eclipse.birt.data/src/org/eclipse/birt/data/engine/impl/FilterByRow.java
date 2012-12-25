@@ -323,16 +323,7 @@ public class FilterByRow implements IFilterByRow
 			this.dataSet = dataSet;
 			this.currentFilters = filters;
 			this.mode = mode;
-			if ( mode == Mode.DataSet && this.dataSet.getDesign( )!= null )
-			{
-				String nullOrdering = this.dataSet.getDesign( )
-						.getNullsOrdering( );
-				Collator collator = Collator.getInstance( this.dataSet.getDesign( )
-						.getCompareLocale( ) == null ? dataSet.getSession( )
-						.getEngineContext( )
-						.getLocale( ) : this.dataSet.getDesign( ).getCompareLocale( ) );
-				this.compareHints = new CompareHints( collator, nullOrdering );
-			}
+			this.compareHints = new CompareHints( dataSet.getCompareLocator( ), dataSet.getNullest( ) );
 		}
 
 		public List getFilters( )

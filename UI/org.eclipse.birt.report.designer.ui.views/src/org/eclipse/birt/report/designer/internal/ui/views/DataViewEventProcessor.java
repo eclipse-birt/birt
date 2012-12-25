@@ -44,16 +44,16 @@ public class DataViewEventProcessor extends AbstractModelEventProcessor implemen
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor#createModelEventInfoFactory()
 	 */
-	protected ModelEventInfoFactory createModelEventInfoFactory( )
+	protected IModelEventInfoFactory createModelEventInfoFactory( )
 	{
 		return new DataViewModelEventInfoFactory( );
 	}
 
 	/**
-	 * OutlineModelEventInfoFactory
+	 * DataViewModelEventInfoFactory
 	 */
 	private static class DataViewModelEventInfoFactory implements
-			ModelEventInfoFactory
+			IModelEventInfoFactory
 	{
 
 		/*
@@ -62,7 +62,7 @@ public class DataViewEventProcessor extends AbstractModelEventProcessor implemen
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfoFactory#createModelEventInfo(org.eclipse.birt.report.model.api.DesignElementHandle,
 		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-		public ModelEventInfo createModelEventInfo( DesignElementHandle focus,
+		public IModelEventInfo createModelEventInfo( DesignElementHandle focus,
 				NotificationEvent ev )
 		{
 			switch ( ev.getEventType( ) )
@@ -117,7 +117,7 @@ public class DataViewEventProcessor extends AbstractModelEventProcessor implemen
 	}
 
 	/**
-	 * Process the content model event. OutlineContentModelEventInfo
+	 * DataViewContentModelEventInfo
 	 */
 	protected static class DataViewContentModelEventInfo extends ModelEventInfo
 	{
@@ -140,7 +140,7 @@ public class DataViewEventProcessor extends AbstractModelEventProcessor implemen
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.eclipse.birt.report.model.api.DesignElementHandle,
 		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-		public boolean canAcceptModelEvent( ModelEventInfo info )
+		public boolean canAcceptModelEvent( IModelEventInfo info )
 		{
 			return false;
 		}
@@ -157,6 +157,9 @@ public class DataViewEventProcessor extends AbstractModelEventProcessor implemen
 
 	}
 
+	/**
+	 * DataViewParameterModelEventInfo
+	 */
 	protected static class DataViewParameterModelEventInfo extends
 			ModelEventInfo
 	{
@@ -201,7 +204,7 @@ public class DataViewEventProcessor extends AbstractModelEventProcessor implemen
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.eclipse.birt.report.model.api.DesignElementHandle,
 		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-		public boolean canAcceptModelEvent( ModelEventInfo info )
+		public boolean canAcceptModelEvent( IModelEventInfo info )
 		{
 			return false;
 		}
@@ -241,7 +244,7 @@ public class DataViewEventProcessor extends AbstractModelEventProcessor implemen
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.eclipse.birt.report.model.api.DesignElementHandle,
 		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-		public boolean canAcceptModelEvent( ModelEventInfo info )
+		public boolean canAcceptModelEvent( IModelEventInfo info )
 		{
 			return info.getType( ) != NotificationEvent.CONTENT_EVENT;
 		}

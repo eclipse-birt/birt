@@ -79,12 +79,15 @@ public class CubeQueryExecutor
 	private List<IJSFilterHelper> dimensionFilterEvalHelpers;
 	private List<SimpleLevelFilter> dimensionSimpleFilter;
 	private List<IAggrMeasureFilterEvalHelper> aggrMeasureFilterEvalHelpers;
+	private List<IAggrMeasureFilterEvalHelper> aggrFilterEvalHelpersOnCubeOperator;
 	private List<IJSFacttableFilterEvalHelper> advancedFacttableBasedFilterEvalHelper;
 	private boolean populateFilter = false;
 	
 	public static final int DIMENSION_FILTER = 0;
 	public static final int AGGR_MEASURE_FILTER = 1;
 	public static final int FACTTABLE_FILTER = 2;
+	public static final int AGGR_OPERATION_FILTER = 3;
+
 	/**
 	 * 
 	 * @param outResults
@@ -106,6 +109,7 @@ public class CubeQueryExecutor
 		this.dimensionFilterEvalHelpers = new ArrayList<IJSFilterHelper> ();
 		this.dimensionSimpleFilter = new ArrayList<SimpleLevelFilter> ();
 		this.aggrMeasureFilterEvalHelpers = new ArrayList<IAggrMeasureFilterEvalHelper>();
+		this.aggrFilterEvalHelpersOnCubeOperator = new ArrayList<IAggrMeasureFilterEvalHelper>();
 		this.advancedFacttableBasedFilterEvalHelper = new ArrayList<IJSFacttableFilterEvalHelper>();
 		if ( !(context.getMode( ) == DataEngineContext.MODE_PRESENTATION
 				&& defn.getQueryResultsID( ) != null) )
@@ -373,6 +377,14 @@ public class CubeQueryExecutor
 							session.getEngineContext( ).getScriptContext( )) );
 					break;
 				}
+				case CubeQueryExecutor.AGGR_OPERATION_FILTER:
+				{
+					this.aggrFilterEvalHelpersOnCubeOperator.add( new AggrMeasureFilterEvalHelper( this.outResults, scope, 
+							defn,
+							filter,
+							session.getEngineContext( ).getScriptContext( )) );
+					break;
+				}
 				case CubeQueryExecutor.FACTTABLE_FILTER:
 				default:
 				{
@@ -428,10 +440,15 @@ public class CubeQueryExecutor
 			{
 				List bindingList = new ArrayList( );
 				bindingList.addAll( this.defn.getBindings( ) );
+				List nestedCubeOperation = new ArrayList( );
 				if ( this.defn instanceof PreparedCubeQueryDefinition )
-					bindingList.addAll( ( (PreparedCubeQueryDefinition) this.defn ).getBindingsForNestAggregation( ) );
+				{
+					nestedCubeOperation.addAll( ( (PreparedCubeQueryDefinition) this.defn ).getBindingsForNestAggregation( ) );
+				}
 				if( existAggregationBinding( bindingName, bindingList ) )
 					return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+				if( existAggregationBinding( bindingName, nestedCubeOperation ) )
+					return CubeQueryExecutor.AGGR_OPERATION_FILTER;
 			
 				Set targetDimLevel = OlapExpressionCompiler.getReferencedDimLevel( filter.getExpression( ), this.defn.getBindings( ) );
 				if( !targetDimLevel.isEmpty( )&& targetDimLevel.size() == 1 )
@@ -566,6 +583,17 @@ public class CubeQueryExecutor
 	{
 		return this.aggrMeasureFilterEvalHelpers;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	public List<IAggrMeasureFilterEvalHelper> getNestAggregationFilterEvalHelpers() throws DataException
+	{
+		return this.aggrFilterEvalHelpersOnCubeOperator;
+	}
+	
 	
 	/**
 	 * 

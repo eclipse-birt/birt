@@ -150,6 +150,7 @@ public class QueryExecutor
 		cubeQueryExecutorHelper.setCubeQueryExecutor( executor );
 		
 		cubeQueryExecutorHelper.setMemoryCacheSize( CacheUtil.computeMemoryBufferSize( view.getAppContext( ) ) );
+		cubeQueryExecutorHelper.setAppContext( view.getAppContext( ));
 		cubeQueryExecutorHelper.setMaxDataObjectRows( CacheUtil.getMaxRows( view.getAppContext( ) ) );
 		
 		cubeQueryExecutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
@@ -203,6 +204,11 @@ public class QueryExecutor
 				else
 				{
 					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
+					rs = applyFilterOnOperation( view,
+							stopSign,
+							executor,
+							finalAggregation,
+							rs );
 					rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher, false );
 					
 					//process mirror operation
@@ -236,6 +242,12 @@ public class QueryExecutor
 				{
 					//need to re-execute the query.
 					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
+					rs = applyFilterOnOperation( view,
+							stopSign,
+							executor,
+							finalAggregation,
+							rs );
+					
 					rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher, false );
 					
 					//process mirror operation
@@ -290,6 +302,38 @@ public class QueryExecutor
 		return new CubeResultSet( rs, view, cubeQueryExecutorHelper );
 	}
 	
+	/**
+	 * apply filter on nested aggregation
+	 * @param view
+	 * @param stopSign
+	 * @param executor
+	 * @param finalAggregation
+	 * @param rs
+	 * @return
+	 * @throws DataException
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	private IAggregationResultSet[] applyFilterOnOperation(
+			BirtCubeView view, StopSign stopSign, CubeQueryExecutor executor,
+			AggregationDefinition[] finalAggregation, IAggregationResultSet[] rs )
+			throws DataException, IOException, BirtException
+	{
+		if( !executor.getNestAggregationFilterEvalHelpers( ).isEmpty( ) )
+		{
+			//need to re-execute the query.
+			//process derived measure/nested aggregation
+			CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
+					view.getPreparedCubeOperations( ),
+					view.getCubeQueryExecutor( ).getScope( ),
+					view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ) );
+			rs = coe.execute( rs, stopSign );
+			cubeQueryExecutorHelper.addAggrMeasureFilter( executor.getNestAggregationFilterEvalHelpers( ) );
+			cubeQueryExecutorHelper.applyAggrFilters( finalAggregation, rs, stopSign );
+		}
+		return rs;
+	}
+	
 	private IAggregationResultSet[] applyNoAggrUpdateFilters ( List finalFilters, CubeQueryExecutor executor , IAggregationResultSet[] rs , ICube cube, IBindingValueFetcher fetcher,boolean fromCubeOperation ) throws DataException, IOException
 	{
 		if( !finalFilters.isEmpty( ) )
@@ -309,7 +353,7 @@ public class QueryExecutor
 					{
 						if ( operations[j] instanceof AddingNestAggregations )
 						{
-							AddingNestAggregations aggr = (AddingNestAggregations)operations[i];
+							AddingNestAggregations aggr = (AddingNestAggregations)operations[j];
 							IBinding[] bindings = aggr.getNewBindings( );
 							for(int k = 0 ; k < bindings.length ; k++ )
 							{
@@ -904,6 +948,11 @@ public class QueryExecutor
 		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
 		
 		rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );
+		rs = applyFilterOnOperation( view,
+				executor.getSession( ).getStopSign( ),
+				executor,
+				aggrDefns,
+				rs );
 		rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ),executor, rs, view.getCube( ) , fetcher , false );
 		//process mirror operation
 		MirrorOperationExecutor moe = new MirrorOperationExecutor( );

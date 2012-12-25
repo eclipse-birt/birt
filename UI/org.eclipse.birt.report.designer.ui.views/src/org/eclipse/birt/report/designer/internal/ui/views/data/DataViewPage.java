@@ -15,14 +15,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediator;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
-import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
+import org.eclipse.birt.report.designer.ui.views.data.IDataViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.SafeRunner;
@@ -51,12 +53,13 @@ import org.eclipse.ui.part.Page;
  * 
  */
 public abstract class DataViewPage extends Page implements
+		IDataViewPage,
 		ISelectionProvider,
-		IColleague
+		IMediatorColleague
 {
 
 	private TreeViewer treeViewer;
-	private ModuleHandle reportHandle;
+	private ModuleHandle model;
 
 	private ListenerList selectionChangedListeners = new ListenerList( ListenerList.IDENTITY );
 
@@ -91,7 +94,8 @@ public abstract class DataViewPage extends Page implements
 				{
 					provider = ProviderFactory.createProvider( item.getData( ) );
 				}
-				if ( provider != null && item != null
+				if ( provider != null
+						&& item != null
 						&& provider.isReadOnly( item.getData( ) ) )
 				{
 					Color gray = Display.getCurrent( )
@@ -104,7 +108,7 @@ public abstract class DataViewPage extends Page implements
 				else
 				{
 					Color black = ReportColorConstants.ReportForeground;
-					if (item != null && !black.equals( item.getForeground( ) ) )
+					if ( item != null && !black.equals( item.getForeground( ) ) )
 					{
 						item.setForeground( black );
 					}
@@ -117,9 +121,9 @@ public abstract class DataViewPage extends Page implements
 		initPage( );
 
 		// suport the mediator
-		if ( reportHandle != null )
+		if ( model != null )
 			SessionHandleAdapter.getInstance( )
-					.getMediator( reportHandle )
+					.getMediator( model )
 					.addColleague( this );
 	}
 
@@ -308,20 +312,25 @@ public abstract class DataViewPage extends Page implements
 		treeViewer = null;
 
 		// remove the mediator listener
-		if ( reportHandle != null )
+		if ( model != null )
 		{
-			ReportMediator mediator = SessionHandleAdapter.getInstance( )
-							.getMediator( reportHandle, false );
-			if(mediator != null)
+			IMediator mediator = SessionHandleAdapter.getInstance( )
+					.getMediator( model, false );
+			if ( mediator != null )
 			{
 				mediator.removeColleague( this );
 			}
-//			SessionHandleAdapter.getInstance( )
-//					.getMediator( reportHandle )
-//					.removeColleague( this );
+			// SessionHandleAdapter.getInstance( )
+			// .getMediator( reportHandle )
+			// .removeColleague( this );
 		}
 
 		super.dispose( );
+	}
+
+	public boolean isInterested( IMediatorRequest request )
+	{
+		return request instanceof ReportRequest;
 	}
 
 	/*
@@ -333,11 +342,11 @@ public abstract class DataViewPage extends Page implements
 	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 	 * )
 	 */
-	public void performRequest( final ReportRequest request )
+	public void performRequest( final IMediatorRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
-			handleSelectionChange( request );
+			handleSelectionChange( (ReportRequest) request );
 		}
 		if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 		{
@@ -348,7 +357,7 @@ public abstract class DataViewPage extends Page implements
 					if ( getTreeViewer( ) != null )
 					{
 						getTreeViewer( ).refresh( );
-						handleSelectionChange( request );
+						handleSelectionChange( (ReportRequest) request );
 					}
 				}
 			} );
@@ -393,13 +402,13 @@ public abstract class DataViewPage extends Page implements
 		return false;
 	}
 
-	public ModuleHandle getReportHandle( )
+	public ModuleHandle getRoot( )
 	{
-		return reportHandle;
+		return model;
 	}
 
-	public void setReportHandle( ModuleHandle reportHandle )
+	protected void setRoot( ModuleHandle reportHandle )
 	{
-		this.reportHandle = reportHandle;
+		this.model = reportHandle;
 	}
 }

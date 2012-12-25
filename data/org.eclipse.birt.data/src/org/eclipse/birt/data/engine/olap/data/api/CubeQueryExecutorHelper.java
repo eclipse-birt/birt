@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
@@ -110,6 +111,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	
 	private IBindingValueFetcher fetcher;
 	private CubeQueryExecutor cubeQueryExecutor;
+	
+	private Map appContext;
 	/**
 	 * 
 	 * @param cube
@@ -816,7 +819,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	private void applyAggrFilters( AggregationDefinition[] aggregations,
+	public void applyAggrFilters( AggregationDefinition[] aggregations,
 			IAggregationResultSet[] resultSet, StopSign stopSign )
 			throws IOException, DataException, BirtException
 	{
@@ -875,7 +878,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			IAggregationResultSet[] temp = onePassExecute( aggregations,
 					stopSign );
 			// overwrite result with the second pass aggregation result set
-			System.arraycopy( temp, 0, resultSet, 0, resultSet.length );
+			System.arraycopy( temp, 0, resultSet, 0, temp.length );
 		}
 	}
 
@@ -902,6 +905,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		IDataSet4Aggregation dataSet4Aggregation = new DataSetFromOriginalCube( factTableRowIterator,
 				dimensionResultIterators,
 				computedMeasureHelper );
+		
+		long memoryCacheSize = this.memoryCacheSize;
+		if( this.appContext != null )
+		{
+			boolean use11SP3CubeQuery = CacheUtil.enableSP3CubeQueryChange( this.appContext );
+			if( use11SP3CubeQuery )
+				memoryCacheSize = -(memoryCacheSize);
+		}
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( new CubeDimensionReader( cube ),
 				dataSet4Aggregation,
 				aggregations,
@@ -1121,6 +1132,11 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	public void setMemoryCacheSize( long memoryCacheSize )
 	{
 		this.memoryCacheSize = memoryCacheSize;
+	}
+	
+	public void setAppContext( Map appContext )
+	{
+		this.appContext = appContext;
 	}
 	
 	public long getMemoryCacheSize( )

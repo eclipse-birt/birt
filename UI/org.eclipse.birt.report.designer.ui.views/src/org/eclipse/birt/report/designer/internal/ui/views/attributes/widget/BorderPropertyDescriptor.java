@@ -53,8 +53,6 @@ public class BorderPropertyDescriptor implements
 
 	private BorderInfomation restoreInfo;
 
-	private static final RGB autoColor = DEUtil.getRGBValue( ColorUtil.parsePredefinedColor( "black" ) ); //$NON-NLS-1$
-
 	public BorderPropertyDescriptor( boolean isFormStyle )
 	{
 		this.isFormStyle = isFormStyle;
@@ -108,7 +106,7 @@ public class BorderPropertyDescriptor implements
 
 		builder = new ColorBuilder( choices, SWT.NONE, isFormStyle );
 		builder.setChoiceSet( colorProvider.getElementChoiceSet( ) );
-		colorProvider.setIndex( IColorConstants.BLACK );
+		// colorProvider.setIndex( IColorConstants.BLACK );
 		data = new GridData( );
 		data.widthHint = 200;
 		data.heightHint = builder.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
@@ -190,10 +188,10 @@ public class BorderPropertyDescriptor implements
 							.getCommandStack( );
 					stack.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) ); //$NON-NLS-1$
 					selectedColor = builder.getRGB( );
-					if ( selectedColor == null )
-					{
-						selectedColor = autoColor;
-					}
+					// if ( selectedColor == null )
+					// {
+					// selectedColor = autoColor;
+					// }
 					for ( int i = 0; i < toggleProviders.length; i++ )
 					{
 						BorderInfomation information = new BorderInfomation( );
@@ -226,16 +224,16 @@ public class BorderPropertyDescriptor implements
 						BorderInfomation info = (BorderInfomation) toggleProviders[i].load( );
 						oldColor = info.getColor( );
 						selectedColor = builder.getRGB( );
-						if ( oldColor == null )
-						{
-							oldColor = autoColor;
-						}
-						if ( selectedColor == null )
-						{
-							selectedColor = autoColor;
-						}
+						// if ( oldColor == null )
+						// {
+						// oldColor = autoColor;
+						// }
+						// if ( selectedColor == null )
+						// {
+						// selectedColor = autoColor;
+						// }
 						if ( !( info.getStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
-								|| !( oldColor.equals( selectedColor ) )
+								|| !( ( oldColor == null && selectedColor == null ) || ( oldColor != null && oldColor.equals( selectedColor ) ) )
 								|| !( resolveEmptyWidth( info ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
 						{
 							reset = false;
@@ -272,16 +270,8 @@ public class BorderPropertyDescriptor implements
 						for ( int i = 0; i < toggleProviders.length; i++ )
 						{
 							BorderInfomation information = new BorderInfomation( );
-
 							information.setPosition( toggleProviders[i].getPosition( ) );
-							if ( builder.getRGB( ) == null )
-							{
-								information.setColor( autoColor );
-							}
-							else
-							{
-								information.setColor( builder.getRGB( ) );
-							}
+							information.setColor( builder.getRGB( ) );
 							information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
 							information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
 							previewCanvas.setBorderInfomation( information );
@@ -596,16 +586,16 @@ public class BorderPropertyDescriptor implements
 		BorderInfomation oldInfo = (BorderInfomation) provider.load( );
 		RGB oldColor = oldInfo.getColor( );
 		RGB selectedColor = builder.getRGB( );
-		if ( oldColor == null )
-		{
-			oldColor = autoColor;
-		}
-		if ( selectedColor == null )
-		{
-			selectedColor = autoColor;
-		}
+		// if ( oldColor == null )
+		// {
+		// oldColor = autoColor;
+		// }
+		// if ( selectedColor == null )
+		// {
+		// selectedColor = autoColor;
+		// }
 		if ( !( oldInfo.getStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
-				|| !( oldColor.equals( selectedColor ) )
+				|| !( ( oldColor == null && selectedColor == null ) || ( oldColor != null && oldColor.equals( selectedColor ) ) )
 				|| !( resolveEmptyWidth( oldInfo ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
 		{
 			CommandStack stack = SessionHandleAdapter.getInstance( )
@@ -719,8 +709,8 @@ public class BorderPropertyDescriptor implements
 
 	private String resolveEmptyWidth( BorderInfomation info )
 	{
-		String width =  info.getWidth( );
-		if("".equals( width ))
+		String width = info.getWidth( );
+		if ( "".equals( width ) )
 			return DesignChoiceConstants.LINE_WIDTH_MEDIUM;
 		return width;
 	}

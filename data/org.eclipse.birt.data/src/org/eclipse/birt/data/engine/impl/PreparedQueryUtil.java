@@ -117,22 +117,7 @@ public class PreparedQueryUtil
 		IPreparedQuery preparedQuery;
 		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) , appContext);
 		
-		if( dset!= null )
-		{
-			FilterPrepareUtil.prepareFilters( dset.getFilters( ), dataEngine.getContext( ).getScriptContext( ) );
-			QueryContextVisitorUtil.populateDataSet( contextVisitor, dset );
-			
-			preparedQuery = QueryPrepareUtil.prepareQuery( dataEngine,
-					queryDefn,
-					dset,
-					appContext,
-					contextVisitor );
-			
-			if ( preparedQuery != null ) 
-				return preparedQuery;			
-		}
-		
-		if ( queryDefn.getQueryResultsID( ) != null )
+		if ( queryDefn.getQueryResultsID( ) != null && !dataEngine.getContext( ).isDashBoardEnabled( ) )
 		{
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
 				|| dataEngine.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
@@ -151,6 +136,21 @@ public class PreparedQueryUtil
 			}
 			
 			return newIVInstance( dataEngine, queryDefn, appContext );
+		}
+		
+		if( dset!= null )
+		{
+			FilterPrepareUtil.prepareFilters( dset.getFilters( ), dataEngine.getContext( ).getScriptContext( ) );
+			QueryContextVisitorUtil.populateDataSet( contextVisitor, dset );
+			
+			preparedQuery = QueryPrepareUtil.prepareQuery( dataEngine,
+					queryDefn,
+					dset,
+					appContext,
+					contextVisitor );
+			
+			if ( preparedQuery != null ) 
+				return preparedQuery;			
 		}
 		
 		if ( dset == null )

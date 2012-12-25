@@ -80,11 +80,14 @@ public class VersionManager
 	//Update aggregation flag support
 	public final static int VERSION_2_6_3_2 = 190;
 		
-	//Enhance Data Set storage in BDO/Rptdocument
+	//Enhance Data Set storage in BDO/Rptdocument. Warning:conflict version due to merge issue
 	public final static int VERSION_3_7_2_1 = 200;
 	
-	//Collation supported in BDO data set index 
-	public final static int VERSION_4_2_1_1 = 210;
+	//Collation supported in BDO data set index. Warning:conflict version due to merge issue
+	public final static int VERSION_4_2_1_1 = 200;
+
+	//Updated version after fixing version conflict
+	public final static int VERSION_4_2_1_2 = 210;
 	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
@@ -228,6 +231,6 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_4_2_1_1;
+		return VERSION_4_2_1_2;
 	}
 }

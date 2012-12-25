@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.extension;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.core.expressions.PropertyTester;
 
@@ -35,6 +36,20 @@ public class PropertyHandlePropertyTester extends PropertyTester
 				return propertyName.equals( ( (PropertyHandle) receiver ).getPropertyDefn( )
 						.getName( ) );
 
+			}
+		}
+		else if ( "elementName".equals( property ) ) //$NON-NLS-1$
+		{
+			if ( receiver instanceof PropertyHandle )
+			{
+				try
+				{
+					DesignElementHandle handle = ( (PropertyHandle) receiver ).getElementHandle( );
+					return handle.getDefn( ).getName( ).equals( expectedValue );
+				}
+				catch ( NumberFormatException e )
+				{
+				}
 			}
 		}
 		return false;

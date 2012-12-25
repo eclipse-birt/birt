@@ -4311,8 +4311,8 @@ GeneralPage.Library.Included=ライブラリ :
 GeneralPage.Library.Modified.Note=注 : このレポート項目はライブラリで編集されています。元に戻すには、{0}[プロパティの復元] をクリックしてください。
 
 #BookMarkPage
-BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
-BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
+BookMarkPage.Modified.Note=ブックマークに、A～Z、a～z、0～9、-、_、:、. 以外の特殊文字が含まれており、このために実行時に問題が発生する可能性があります。
+BookMarkPage.Modified.WithoutQuotes=ブックマークは二重引用符で囲む必要があります。
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4621,8 +4621,8 @@ BindingDialogHelper.text.Grid=グリッド
 BindingDialogHelper.text.Group=グループ(&O)
 BindingDialogHelper.text.Expression=式(&E) :
 BindingDialogHelper.text.displayName=表示名(&N) :
-BindingDialogHelper.text.allowExport=Exp&ort:
-BindingDialogHelper.text.allowExport.button=Allow Export
+BindingDialogHelper.text.allowExport=エクスポート(&O) :
+BindingDialogHelper.text.allowExport.button=エクスポートを許可する
 BindingDialogHelper.text.displayNameID=表示名 ID(&S) :
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
@@ -4639,7 +4639,7 @@ BindingDialogHelper.warning.button.no=いいえ
 #Scripts Node
 Scripts.Node.DisplayName=スクリプト
 ScriptElementNode.Action.Text=レポート要素にジャンプ(&G)
-ScriptObjectNode_0=&Reset Script
+ScriptObjectNode_0=スクリプトのリセット(&R)
 
 ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 
@@ -4649,7 +4649,7 @@ CrosstabBindingDialogHelper.AggOn.All=すべて
 CrosstabBindingDialogHelper.bindngName.timeperiod=期間
 CrosstabBindingDialogHelper.calculation.label=期間(&P) :
 CrosstabBindingDialogHelper.calculation.group=期間
-CrosstabBindingDialogHelper.recentday.description=Last date in the period
+CrosstabBindingDialogHelper.recentday.description=期間内の最後の日付
 CrosstabBindingDialogHelper.referencedate.label=参照日(&R) :
 CrosstabBindingDialogHelper.thisdate.label=使用する日付 :
 CrosstabBindingDialogHelper.thisdate.example.label=指定された日付値を二重引用符で囲んでください。\n例 : "2012-01-23"、"1/23/2012"。
@@ -4726,7 +4726,7 @@ InsertAggregationAction.text=集計(&A)
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=相対期間(&V)
 
 ###########################################################
 #Multiple views
@@ -4761,10 +4761,10 @@ GeneralConfigurationBlock.message.general.description=レポートデザイナの一般的な
 GeneralConfigurationBlock.button.text.enable.gradient=グラデーションの選択を有効にする(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=アニメーションの選択を有効にする(&N)
 GeneralConfigurationBlock.group.label=確認する
-GeneralConfigurationBlock.group.defaultThemes=Default themes library
+GeneralConfigurationBlock.group.defaultThemes=デフォルトのテーマライブラリ
 GeneralConfigurationBlock.button.text.prompt=ライブラリのファイルを開いた後に確認メッセージを表示する(&P)
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
-GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
+GeneralConfigurationBlock.button.text.defaultTheme.enable=デフォルトのテーマライブラリを有効にする(&T)
+GeneralConfigurationBlock.button.text.defaultTheme.include=デフォルトのテーマを含める(&I)
 GeneralConfigurationBlock.move.binding.group=パフォーマンスを向上させるためにローカルバインドを親に移動する
 GeneralConfigurationBlock.move.binding.always=常に続行する(&W)
 GeneralConfigurationBlock.move.binding.never=続行しない(&V)
@@ -4881,24 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=デフォルトの構文(&F) :
 ExpressionEditor.Error.EmptyExpression=式は空白にできません。
 ExpressionEditor.Label.Expression=式(&E) :
 ExpressionEditor.Title=式の編集
-ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
-ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
-ExpressionSyntaxColoringPage.Button.Bold=&Bold
-ExpressionSyntaxColoringPage.Button.Enable=Enable
-ExpressionSyntaxColoringPage.Button.Italic=&Italic
-ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
-ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Accessible.Name.Background=背景色セレクタ
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=前景色セレクタ
+ExpressionSyntaxColoringPage.Button.Bold=太字(&B)
+ExpressionSyntaxColoringPage.Button.Enable=有効化
+ExpressionSyntaxColoringPage.Button.Italic=斜体(&I)
+ExpressionSyntaxColoringPage.Button.Restore=デフォルトに戻す(&R)
+ExpressionSyntaxColoringPage.Button.Strikethrough=取り消し線(&S)
 ExpressionSyntaxColoringPage.Button.Underline=下線(&U)
-ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
-ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Decscription=リストまたはテキスト領域のサンプルから、スタイルをカスタマイズしたいテキストの種類を選択することで、構文の強調表示をカスタマイズします。
+ExpressionSyntaxColoringPage.Element.Comment=コメント
 ExpressionSyntaxColoringPage.Element.Default=デフォルト
-ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.Keyword=キーワード
 ExpressionSyntaxColoringPage.Element.String=文字列
-ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
-ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
-ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
-ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
-ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
+ExpressionSyntaxColoringPage.Label.Background=背景(&O) :
+ExpressionSyntaxColoringPage.Label.Foreground=前景(&F) :
+ExpressionSyntaxColoringPage.Label.SampleText=サンプル文字列(&S) :
+ExpressionSyntaxColoringPage.Label.SyntaxElement=構文の要素(&Y) :
+ExpressionSyntaxColoringPage.Link.ColorAndFont=デフォルトのフォントと色を <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">テキストエディタ</a> および <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">フォントと色</a> 環境設定ページで設定することができます。
 
 ###########################################################
 #VariableDropAdapter

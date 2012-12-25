@@ -171,6 +171,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 			wordWriter.startTableRow( -1 );
 			wordWriter
 					.startTableCell( width, foreign.getComputedStyle( ), null );
+			writeBookmark(foreign);
 			writeToc( foreign );
 			contentVisitor.visitChildren( foreign, null );
 

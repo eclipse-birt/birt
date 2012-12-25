@@ -9,6 +9,7 @@
 	Constants.error.parameterNotAllowBlank = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.parameternotallowblank" )%>';
 	Constants.error.parameterNotSelected = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.parameternotselected" )%>';
 	Constants.error.invalidPageNumber = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.navbar.error.blankpagenum" )%>';
+	Constants.error.invalidCopiesNumber = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.copiesnumber" )%>';
 	Constants.error.unknownError = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.unknownerror" )%>';
 	Constants.error.generateReportFirst = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.generatereportfirst" )%>';
 	Constants.error.printPreviewAlreadyOpen = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.dialog.print.printpreviewalreadyopen" )%>';

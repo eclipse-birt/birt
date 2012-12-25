@@ -819,7 +819,7 @@ public class ViewingTest extends RDTestCase
 		QueryExecutionHints hints = new QueryExecutionHints();
 		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
 		query.setQueryExecutionHints( hints );
-		this._preBasicIV( query );
+ 		this._preBasicIV( query );
 		this.closeArchiveReader( );
 
 		this.checkOutputFile( );
@@ -2093,9 +2093,8 @@ public class ViewingTest extends RDTestCase
 		totalBeArray[0].setAggrFunction( "COUNT" );
 		
 		totalBeArray[1] = new Binding( this.totalExprName[1], new ScriptExpression( "dataSetRow.AMOUNT" ));
-		totalBeArray[1].setAggrFunction( "SUM" );
-
-	
+//		totalBeArray[1].setDataType( DataType.DOUBLE_TYPE);
+		totalBeArray[1].setAggrFunction( "SUM" );	
 
 		return totalBeArray;
 	}

@@ -103,6 +103,8 @@ BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius=Rayon &externe :
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties=Propriétés de la zone
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialLabelProperties=Propriétés de l'étiquette de la zone
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=Propriétés de l'étiquette du repère
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveDown=&Vers le bas
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveUp=Vers le ha&ut
 BaseAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Argument non valide pour la feuille d'attribut de repère d'axe... Le graphique doit être de type ChartWithAxes
 
 BaseSeriesDataSheetImpl.Choice.Unsorted=Non trié
@@ -175,6 +177,8 @@ OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Argument non va
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Remove=&Supprimer
 OrthogonalSeriesAttributeSheetImpl.Lbl.Add=&Ajouter
+OrthogonalSeriesAttributeSheetImpl.Lbl.Up=Vers le ha&ut
+OrthogonalSeriesAttributeSheetImpl.Lbl.Down=&Vers le bas
 OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix=Pré&fixe :
 OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix=Suffi&xe :
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesType=Type de séries :
