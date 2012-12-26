@@ -65,15 +65,15 @@ public class ParameterGroupDefn extends ParameterDefnBase implements IParameterG
 		for(int i=0; i<list.size(); i++)
 		{
 			Object parameterDefn = list.get(i);
-			if( parameterDefn instanceof ScalarParameterDefn )
+			if( parameterDefn instanceof ParameterDefn )
 			{
-				ScalarParameterDefn p = (ScalarParameterDefn) parameterDefn;
+				ParameterDefn p = (ParameterDefn) parameterDefn;
 				newList.add(p.clone());
 			}
 			else 
 			{
 				throw new CloneNotSupportedException(
-						MessageConstants.PARAMETER_IN_GROUP_ISNOT_SCALAR_EXCEPTION);
+						MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION);
 			}						
 		}
 		newParam.setContents(newList);
