@@ -42,4 +42,8 @@ public class QueryPrepareUtil
 				context,
 				appContext );
 	}
+	
+	public static void clear( DataEngineSession session )
+	{		
+	}
 }
