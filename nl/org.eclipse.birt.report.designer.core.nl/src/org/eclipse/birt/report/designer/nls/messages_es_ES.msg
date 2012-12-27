@@ -4311,8 +4311,8 @@ GeneralPage.Library.Included=Librería:
 GeneralPage.Library.Modified.Note=NOTA: Se ha modificado el elemento del informe de la librería. Para restaurar el elemento de informe original, haga clic en {0} "Restaurar propiedades"
 
 #BookMarkPage
-BookMarkPage.Modified.Note=El marcador contiene caracteres especiales distintos de \"A-Z a-z 0-9 - _ : .\", esto puede provocar problemas de tiempo de ejecución.
-BookMarkPage.Modified.WithoutQuotes=El marcador debe estar rodeado por comillas dobles.
+BookMarkPage.Modified.Note=El marcador contiene caracteres espaciales distintos a estos: A-Z, a-z, 0-9, '-', '_', ':', '.'. Esto podría causar un problema en el tiempo de ejecución.
+BookMarkPage.Modified.WithoutQuotes=El marcador no está contenido en comillas dobles. Esto podría causar un problema en el tiempo de ejecución.
 
 ###########################################################
 # LOCALE SPECIAL:

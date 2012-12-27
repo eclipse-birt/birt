@@ -4311,8 +4311,8 @@ GeneralPage.Library.Included=库:
 GeneralPage.Library.Modified.Note=注: 库中的此报表项已被修改。要还原原始库项目，请单击{0}“还原属性”
 
 #BookMarkPage
-BookMarkPage.Modified.Note=书签还包含除 \"A-Z a-z 0-9 - _ : .\" 之外的特殊字符，运行时可能会出现问题。
-BookMarkPage.Modified.WithoutQuotes=书签必须加双引号。
+BookMarkPage.Modified.Note=书签包含除这些字符 (A-Z、a-z、0-9、'-'、'_'、':'、'.') 以外的特殊字符，这可能导致在运行时出问题。
+BookMarkPage.Modified.WithoutQuotes=书签没有使用双引号，这可能导致在运行时出问题。
 
 ###########################################################
 # LOCALE SPECIAL:
