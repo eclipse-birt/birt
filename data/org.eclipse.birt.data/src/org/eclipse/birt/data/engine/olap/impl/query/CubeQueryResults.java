@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.QueryPrepareUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
@@ -405,8 +406,7 @@ public class CubeQueryResults implements ICubeQueryResults
 	 */
 	public void close( ) throws BirtException
 	{
-		// TODO Auto-generated method stub
-
+		QueryPrepareUtil.clear( session );
 	}
 
 	/*

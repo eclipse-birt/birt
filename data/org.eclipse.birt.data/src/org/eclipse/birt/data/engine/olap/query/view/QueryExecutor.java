@@ -353,7 +353,7 @@ public class QueryExecutor
 					{
 						if ( operations[j] instanceof AddingNestAggregations )
 						{
-							AddingNestAggregations aggr = (AddingNestAggregations)operations[i];
+							AddingNestAggregations aggr = (AddingNestAggregations)operations[j];
 							IBinding[] bindings = aggr.getNewBindings( );
 							for(int k = 0 ; k < bindings.length ; k++ )
 							{
