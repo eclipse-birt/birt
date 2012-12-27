@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IFilterDefinition.FilterTarget;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -52,6 +53,10 @@ public class FilterDefnUtil
 				ExprUtil.saveBaseExpr( dos, filterDefn.getExpression( ) );
 				if ( version >= VersionManager.VERSION_2_6_3_1 )
 					IOUtil.writeBool( dos, filterDefn.updateAggregation( ) );
+				if( version >= VersionManager.VERSION_4_2_2_1 )
+				{
+					IOUtil.writeString( dos, filterDefn.getFilterTarget( ) == null? null:filterDefn.getFilterTarget( ).toString( ) );					
+				}
 			}
 
 			dos.flush( );
@@ -81,6 +86,18 @@ public class FilterDefnUtil
 				FilterDefinition f = new FilterDefinition( baseExpr );
 				if ( version >= VersionManager.VERSION_2_6_3_1 )
 					f.setUpdateAggregation( IOUtil.readBool( inputStream ) );
+				if( version >= VersionManager.VERSION_4_2_2_1 )
+				{
+					String filterTarget = IOUtil.readString( dis );
+					if( FilterTarget.DATASET.equals( filterTarget ) )
+					{
+						f.setFilterTarget( FilterTarget.DATASET );						
+					}
+					else if( FilterTarget.RESULTSET.equals( filterTarget ) )
+					{
+						f.setFilterTarget( FilterTarget.RESULTSET );
+					}					
+				}
 				filterList.add( f );
 			}
 		}

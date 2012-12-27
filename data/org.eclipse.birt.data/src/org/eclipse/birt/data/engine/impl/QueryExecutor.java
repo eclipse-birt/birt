@@ -40,6 +40,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.IFilterDefinition.FilterTarget;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -93,6 +94,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	private boolean isExecuted = false;
 	
 	protected boolean loadFromCache;
+	protected boolean ignoreDataSetFilter = false;
 	
 	private Map queryAppContext;
 
@@ -820,7 +822,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		List<IFilterDefinition> aggrNoUpdateFilters = new ArrayList<IFilterDefinition>( );
 		List<IFilterDefinition> dataSetAggrFilters = new ArrayList<IFilterDefinition>( );
 		
-		if ( dataSet.getFilters( ) != null )
+		if ( dataSet.getFilters( ) != null && !ignoreDataSetFilter )
 		{
 			Map bindings = createBindingFromComputedColumn( dataSet.getComputedColumns( ));
 			for ( int i = 0; i < dataSet.getFilters( ).size( ); i++ )
@@ -850,6 +852,11 @@ public abstract class QueryExecutor implements IQueryExecutor
 			for ( int i = 0; i < filters.size( ); i++ )
 			{
 				IFilterDefinition filter = filters.get( i );
+				
+				if( ignoreDataSetFilter && FilterTarget.DATASET.equals( filter.getFilterTarget( ) ) )
+				{
+					continue;
+				}
 				
 				if ( !QueryExecutorUtil.isValidFilterExpression( filter.getExpression( ),
 						bindings,

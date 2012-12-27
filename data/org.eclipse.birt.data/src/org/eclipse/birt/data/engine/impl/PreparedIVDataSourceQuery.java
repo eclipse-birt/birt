@@ -196,6 +196,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 					aggrTable,
 					engine.getSession( ),
 					PreparedIVDataSourceQuery.this.contextVisitor );
+			ignoreDataSetFilter = true;
 		}
 
 		/*
