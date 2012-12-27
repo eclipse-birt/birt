@@ -8,7 +8,7 @@ INVALID_EXPRSSION=无效 javascript 表达式：{0}
 CONVERT_FAILS=无法将数值 {0} 转换成类型 {1}。
 
 birt.core.JavascriptCommonError=判定脚本“{0}”时出错: \n{1}
-birt.core.JavascriptError=对 Javascript 表达式求值时出错。 脚本引擎错误: {0}\n 脚本源: {1}，行: {2}，文本:\n{3}
+birt.core.JavascriptError={0}
 birt.core.Javascript.parameterNotExist=报表参数“{0}”不存在。
 birt.core.Javascript.variableNotExist=报表变量“{0}”不存在。
 birt.core.Javascript.nativeNotFound=未找到 {0}。
