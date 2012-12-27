@@ -14,7 +14,7 @@ DeleteDimensionViewHandleAction.DisplayName=削除(&V)
 DeleteMeasureHandleAction.DisplayName=削除(&V)
 DeleteMeasureHandleAction.TransName=メジャーの削除
 
-AddComputedMesureHandleAction.DisplayName=派生メジャーの追加(&S)
+AddComputedMesureHandleAction.DisplayName=派生メジャーの追加(&M)
 AddComputedMesureHandleAction.TransName=派生メジャーの追加
 AddComputedSummaryDialog.Title=派生メジャー
 AddComputedSummaryDialog.Label.Name=名前(&N) :
