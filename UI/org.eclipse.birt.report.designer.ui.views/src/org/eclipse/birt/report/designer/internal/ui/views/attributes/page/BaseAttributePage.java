@@ -17,7 +17,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.Tab;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyList;
-import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyList.ListElement;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTitle;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -30,6 +29,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -157,6 +158,22 @@ public class BaseAttributePage extends TabPage
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		infoPane.setLayout( layout );
+		container.addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				if ( pageMap != null )
+				{
+					for ( Object value : pageMap.values( ) )
+					{
+						TabPage page = (TabPage) value;
+						if ( page != null )
+							page.dispose( );
+					}
+				}
+
+			}
+		} );
 	}
 
 	private void computeSize( )
@@ -194,6 +211,7 @@ public class BaseAttributePage extends TabPage
 		{
 			if ( page instanceof AttributePage )
 			{
+				((AttributePage)page).addPropertyChangeListener(title);
 				Object adapter = ( (AttributePage) page ).getAdapter( IAction.class );
 				if ( adapter instanceof IAction[] )
 					title.setActions( (IAction[]) adapter );

@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
@@ -22,6 +24,7 @@ import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -47,7 +50,7 @@ public abstract class AttributePage extends TabPage implements
 	 * The list kept Property & PropertyDescriptor pair.
 	 */
 	protected HashMap propertiesMap = new HashMap( 7 );
-	
+
 	/**
 	 * The current selection.
 	 */
@@ -94,15 +97,19 @@ public abstract class AttributePage extends TabPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor#isOverdued()
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.
+	 * IFastConsumerProcessor#isOverdued()
 	 */
 	public boolean isOverdued( )
 	{
-		return container == null || container.isDisposed( ) ;
+		return container == null || container.isDisposed( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI#dispose()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI#dispose()
 	 */
 	public void dispose( )
 	{
@@ -110,6 +117,7 @@ public abstract class AttributePage extends TabPage implements
 		{
 			container.dispose( );
 		}
+		listeners.clear( );
 		deRegisterEventManager( );
 	}
 
@@ -263,6 +271,20 @@ public abstract class AttributePage extends TabPage implements
 	public Object getAdapter( Class adapter )
 	{
 		return null;
+	}
+
+	protected List<IPropertyChangeListener> listeners = new ArrayList<IPropertyChangeListener>( );
+
+	public void addPropertyChangeListener( IPropertyChangeListener listener )
+	{
+		if ( !listeners.contains( listener ) )
+			listeners.add( listener );
+	}
+
+	public void removePropertyChangeListener( IPropertyChangeListener listener )
+	{
+		if ( listeners.contains( listener ) )
+			listeners.remove( listener );
 	}
 
 }
