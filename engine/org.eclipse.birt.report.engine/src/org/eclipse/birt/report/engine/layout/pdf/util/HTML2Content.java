@@ -658,16 +658,22 @@ public class HTML2Content implements HTMLConstants
 			String styleType = "";
 			if ( value != null )
 				styleType = value.toString( );
-			BulletFrame frame = new BulletFrame( styleType );
+			BulletFrame frame = new BulletFrame( styleType ); 
 			if ( ele.getParentNode( ).getNodeName( ).equals( TAG_OL ) && !nestList ) //$NON-NLS-1$
 			{
+				//index mean the order in the list 
 				text.setText( frame.paintBullet( index ) + "." ); //$NON-NLS-1$
 			}
 			else if ( ele.getParentNode( ).getNodeName( ).equals( TAG_UL )&& !nestList ) //$NON-NLS-1$
 			{
 				text.setText( frame.paintBullet( index ) );
+				if("".equals( text.getText( ))) //add default list type when tag <ul> attribute is empty. 
+				{
+					text.setText( "\u2022");  // the disc type
+				}
 			}
-
+			
+           
 			ICellContent childCell = report.createCellContent( );
 			childCell.setRowSpan( 1 );
 			childCell.setColumn( 1 );
