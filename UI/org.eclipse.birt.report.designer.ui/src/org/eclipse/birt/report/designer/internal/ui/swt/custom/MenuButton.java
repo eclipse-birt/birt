@@ -188,15 +188,17 @@ public class MenuButton extends Composite
 		layout.marginHeight = layout.marginWidth = 0;
 		this.setLayout( layout );
 
-		button = new Button( this, style | SWT.DOUBLE_BUFFERED ){
+		button = new Button( this, style | SWT.DOUBLE_BUFFERED ) {
+
 			protected void checkSubclass( )
 			{
-				
+
 			}
 
 			public String getText( )
 			{
-				return MenuButton.this.getText( );
+				String text = MenuButton.this.getText( );
+				return text == null ? "" : text;
 			}
 		};
 		GridData gd = new GridData( GridData.FILL_BOTH );
