@@ -1638,7 +1638,7 @@ public abstract class EngineTask implements IEngineTask
 								{
 									if ( value.equals( select.getValue( ) ) )
 									{
-										displayText = select.getValue( );
+										displayText = select.getLabel();
 										break;
 									}
 								}
