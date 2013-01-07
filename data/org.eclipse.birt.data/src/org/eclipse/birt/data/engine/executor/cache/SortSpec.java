@@ -10,8 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.cache;
 
-import java.util.Comparator;
-
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.expression.CompareHints;
 
 /**
@@ -22,15 +21,19 @@ public class SortSpec
 {
 	private int[] sortKeyIndexes;
 	private String[] sortKeyColumns;
-	private boolean[] sortAscending;
+	private int[] sortAscending;
 	private CompareHints[] comparator;
+
+    public static final int SORT_DISABLE = IGroupDefinition.NO_SORT; 
+    public static final int SORT_ASC = IGroupDefinition.SORT_ASC; 
+    public static final int SORT_DESC = IGroupDefinition.SORT_DESC;
 	/**
 	 * @param sortKeyIndexes
 	 * @param sortKeyColumns
 	 * @param sortAscending
 	 */
 	public SortSpec( int[] sortKeyIndexes, String[] sortKeyColumns,
-			boolean[] sortAscending, CompareHints[] comparator )
+			int[] sortAscending, CompareHints[] comparator )
 	{
 		this.setSortKeyIndexes( sortKeyIndexes );
 		this.setSortKeyColumns( sortKeyColumns );
@@ -59,12 +62,12 @@ public class SortSpec
 		return comparator;
 	}
 
-	void setSortAscending( boolean[] sortAscending )
+	void setSortAscending( int[] sortAscending )
 	{
 		this.sortAscending = sortAscending;
 	}
 
-	boolean[] getSortAscending( )
+	int[] getSortAscending( )
 	{
 		return sortAscending;
 	}
