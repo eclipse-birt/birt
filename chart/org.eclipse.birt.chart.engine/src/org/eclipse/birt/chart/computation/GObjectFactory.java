@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -442,6 +443,12 @@ public class GObjectFactory implements IGObjectFactory
 	public TooltipValue createTooltipValue( int iDelay, String sText )
 	{
 		return TooltipValueImpl.create( iDelay, sText );
+	}
+
+	public TooltipValue createTooltipValue( int iDelay, String sText,
+			FormatSpecifier formatSpecifier )
+	{
+		return TooltipValueImpl.create( iDelay, sText, formatSpecifier );
 	}
 
 	public URLValue createURLValue( String sBaseUrl, String sTarget,

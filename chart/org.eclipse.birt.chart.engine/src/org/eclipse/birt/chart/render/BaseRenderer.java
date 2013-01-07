@@ -2767,7 +2767,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		IActionRenderer iar = getRunTimeContext( ).getActionRenderer( );
 		if ( iar != null )
 		{
-			iar.processAction( tg.getAction( ), source );
+			iar.processAction( tg.getAction( ), source, rtc );
 		}
 
 		// internal processing.

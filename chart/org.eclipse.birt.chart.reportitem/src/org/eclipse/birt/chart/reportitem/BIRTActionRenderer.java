@@ -18,12 +18,16 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.LegendItemHints;
+import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.StructureType;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
@@ -244,18 +248,19 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	}
 
 	@Override
-	public void processAction( Action action, StructureSource source )
+	public void processAction( Action action, StructureSource source,
+			RunTimeContext rtc )
 	{
 		if ( action instanceof MultipleActions )
 		{
 			for ( Action subAction : ( (MultipleActions) action ).getActions( ) )
 			{
-				processActionImpl( subAction, source );
+				processActionImpl( subAction, source, rtc );
 			}
 		}
 		else
 		{
-			processActionImpl( action, source );
+			processActionImpl( action, source, rtc );
 		}
 	}
 
@@ -263,7 +268,8 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	 * @param action
 	 * @param source
 	 */
-	private void processActionImpl( Action action, StructureSource source )
+	private void processActionImpl( Action action, StructureSource source,
+			RunTimeContext rtc )
 	{
 		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
 		{
@@ -282,7 +288,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		}
 		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )
 		{
-			processTooltipAction(action, source);
+			processTooltipAction( action, source, rtc );
 		}
 		else if ( ActionType.INVOKE_SCRIPT_LITERAL.equals( action.getType( ) ) )
 		{
@@ -301,10 +307,10 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		}
 	}
 	
-	public static void processTooltipAction ( Action action, StructureSource source )
+	public static void processTooltipAction ( Action action, StructureSource source, RunTimeContext rtc )
 	{
 		TooltipValue tv = (TooltipValue) action.getValue( );
-
+		FormatSpecifier fs = tv.getFormatSpecifier( );
 		if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
 		{
 			final DataPointHints dph = (DataPointHints) source.getSource( );
@@ -313,28 +319,45 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				// Output chart variable values directly
 				if ( ScriptHandler.VARIABLE_CATEGORY.equals( tv.getText( ) ) )
 				{
-					tv.setText( dph.getBaseDisplayValue( ) );
+					tv.setText( dph.getBaseDisplayValue( fs ) );
 				}
 				else if ( ScriptHandler.VARIABLE_VALUE.equals( tv.getText( ) ) )
 				{
-					tv.setText( dph.getOrthogonalDisplayValue( ) );
+					tv.setText( dph.getOrthogonalDisplayValue( fs ) );
 				}
 				else if ( ScriptHandler.VARIABLE_SERIES.equals( tv.getText( ) ) )
 				{
-					tv.setText( dph.getSeriesDisplayValue( ) );
+					tv.setText( dph.getSeriesDisplayValue( fs ) );
 				}
 				else
 				{
 					// Get evaluated values in other expressions
 					Object value = dph.getUserValue( tv.getText( ) );
-					if ( value instanceof Number )
+					if ( fs != null )
 					{
-						tv.setText( ChartUtil.getDefaultNumberFormat( )
-								.format( value ) );
+						try
+						{
+							tv.setText( ValueFormatter.format( value,
+									fs,
+									rtc.getULocale( ),
+									null ) );
+						}
+						catch ( ChartException e )
+						{
+							logger.log( e );
+						}
 					}
 					else
 					{
-						tv.setText( ChartUtil.stringValue( value ) );
+						if ( value instanceof Number )
+						{
+							tv.setText( ChartUtil.getDefaultNumberFormat( )
+									.format( value ) );
+						}
+						else
+						{
+							tv.setText( ChartUtil.stringValue( value ) );
+						}
 					}
 				}
 			}

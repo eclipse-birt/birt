@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
-    nsURI="http://www.birt.eclipse.org/ChartModel" nsPrefix="model">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://www.birt.eclipse.org/ChartModel" nsPrefix="model">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-    <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;Schema file for the chart.model package.&#xD;&#xA;&#x9;&#x9;"/>
+    <details key="documentation" value="&#xA;&#x9;&#x9;Schema file for the chart.model package.&#xA;&#x9;&#x9;"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Chart">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Chart is the basic type from which all charts should be extended. It defines the basic elements that are &#xD;&#xA;expected to be present for all charts. Class Chart is de facto abstract - never instantiate the class Chart, &#xD;&#xA;instantiate one of its extended class ChartWithAxes, ChartWithoutAxes or DialChart instead."/>
+      <details key="documentation" value="Chart is the basic type from which all charts should be extended. It defines the basic elements that are &#xA;expected to be present for all charts. Class Chart is de facto abstract - never instantiate the class Chart, &#xA;instantiate one of its extended class ChartWithAxes, ChartWithoutAxes or DialChart instead."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Chart"/>
@@ -18,7 +16,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String" defaultValueLiteral="1.0.0"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Version&quot; specifies the version number of this chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Version&quot; specifies the version number of this chart.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -27,7 +25,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The String attribute &quot;Type&quot; specifies the type of this chart, it &#xD;&#xA;can be &quot;Bar Chart&quot;,  &quot;Line Chart&quot;, &quot;Pie Chart&quot; ...  etc.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The String attribute &quot;Type&quot; specifies the type of this chart, it &#xA;can be &quot;Bar Chart&quot;,  &quot;Line Chart&quot;, &quot;Pie Chart&quot; ...  etc.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -37,7 +35,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="subType" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;SubType&quot; specifies the sub-type of a chart in respect of &#xD;&#xA;a certain type, e.g. for a chart of type &quot;Bar Chart&quot;, the candidates  &#xD;&#xA;for sub-type are &quot;Side-by-side&quot;, &quot;Staced&quot; and &quot;Percent Stacked&quot;.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;SubType&quot; specifies the sub-type of a chart in respect of &#xA;a certain type, e.g. for a chart of type &quot;Bar Chart&quot;, the candidates  &#xA;for sub-type are &quot;Side-by-side&quot;, &quot;Staced&quot; and &quot;Percent Stacked&quot;.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -47,7 +45,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="description" eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Text"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;Description&quot; holds a descriptive text of the chart, &#xD;&#xA;which could be used as tooltip value for example.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Description&quot; holds a descriptive text of the chart, &#xA;which could be used as tooltip value for example.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -57,7 +55,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="block" lowerBound="1" eType="ecore:EClass org.eclipse.birt.chart.model.layout.ecore#//Block"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;Block&quot; of type Block represents main block of a chart, which &#xD;&#xA;defines a rectangular area to render and to layout its content inside it, &#xD;&#xA;and also holds the graphical properties of the chart's background and &#xD;&#xA;properties for interaction like triggers and cursor.&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Block&quot; of type Block represents main block of a chart, which &#xA;defines a rectangular area to render and to layout its content inside it, &#xA;and also holds the graphical properties of the chart's background and &#xA;properties for interaction like triggers and cursor.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -68,7 +66,7 @@
         eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//ChartDimension"
         defaultValueLiteral="Two_Dimensional" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Dimension&quot; specifies the dimensions of the chart, it &#xD;&#xA;can be &quot;Two Dimensional&quot;, &quot;Two Dimensional With Depth&quot; or &#xD;&#xA;&quot;Three Dimensional&quot;. "/>
+        <details key="documentation" value="Attribute &quot;Dimension&quot; specifies the dimensions of the chart, it &#xA;can be &quot;Two Dimensional&quot;, &quot;Two Dimensional With Depth&quot; or &#xA;&quot;Three Dimensional&quot;. "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -78,7 +76,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="script" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The string attribute &quot;Script&quot; holds the script for the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The string attribute &quot;Script&quot; holds the script for the chart.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -87,7 +85,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="units" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Units&quot; holds the units of measurement for the model, &#xD;&#xA;it can be points, pixels, mm... etc.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Units&quot; holds the units of measurement for the model, &#xA;it can be points, pixels, mm... etc.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -97,7 +95,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="seriesThickness" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         defaultValueLiteral="10" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;SeriesThickness&quot; is used in case of charts with depth (2.5D), it specifies the depth of the wall and &#xD;&#xA;floor in points for chart with axes, and the depth of the pie chart.  By default it's 10.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;SeriesThickness&quot; is used in case of charts with depth (2.5D), it specifies the depth of the wall and &#xA;floor in points for chart with axes, and the depth of the pie chart.  By default it's 10.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -107,7 +105,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridColumnCount" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;GridColumnCount&quot; is mostly used for charts without axes &#xD;&#xA;containing multiple series, in which case the chart's plot area is split &#xD;&#xA;into multiple cells with each cell representing a series, and &#xD;&#xA;&quot;GridColumnCount&quot;  specifies the number of columns to layout the &#xD;&#xA;split cells. By default, it's zero, and means that the column number &#xD;&#xA;will be automatically adjusted due to the aspect ratio of the plot &#xD;&#xA;area.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;GridColumnCount&quot; is mostly used for charts without axes &#xA;containing multiple series, in which case the chart's plot area is split &#xA;into multiple cells with each cell representing a series, and &#xA;&quot;GridColumnCount&quot;  specifies the number of columns to layout the &#xA;split cells. By default, it's zero, and means that the column number &#xA;will be automatically adjusted due to the aspect ratio of the plot &#xA;area.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -128,7 +126,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="sampleData" eType="ecore:EClass org.eclipse.birt.chart.model.data.ecore#//SampleData"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;SampleData&quot; holds a collection of sample values for &#xD;&#xA;use by &#x9;the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;SampleData&quot; holds a collection of sample values for &#xA;use by &#x9;the chart.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -139,7 +137,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//StyleMap"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;Styles&quot; holds a collection of style maps for use by the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Styles&quot; holds a collection of style maps for use by the chart.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -150,7 +148,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Interactivity"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;Interactivity&quot; holds the settings for interactive features.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Interactivity&quot; holds the settings for interactive features.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -160,7 +158,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="emptyMessage" eType="ecore:EClass org.eclipse.birt.chart.model.component.ecore#//Label"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;EmptyMessage&quot; provides the message text to be displayed &#xD;&#xA;in the place of plot area when the chart contains no data. By default,&#xD;&#xA;it's visibility is false, which indicates if the chart contains &#x9;no data, the &#xD;&#xA;whole chart will be hidden, and no label will be shown."/>
+        <details key="documentation" value="Element &quot;EmptyMessage&quot; provides the message text to be displayed &#xA;in the place of plot area when the chart contains no data. By default,&#xA;it's visibility is false, which indicates if the chart contains &#x9;no data, the &#xA;whole chart will be hidden, and no label will be shown."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -191,7 +189,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Fill" containment="true"
         resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;WallFill&quot; specifies how to fill the wall of a chart's graphic &#xD;&#xA;in case of chart with depth.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;WallFill&quot; specifies how to fill the wall of a chart's graphic &#xA;in case of chart with depth.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -202,7 +200,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Fill" containment="true"
         resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;FloorFill&quot; specifies how to fill the floor of a chart's graphic &#xD;&#xA;in case of chart with depth.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;FloorFill&quot; specifies how to fill the floor of a chart's graphic &#xA;in case of chart with depth.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -224,7 +222,7 @@
         eType="ecore:EDataType org.eclipse.birt.chart.model.attribute.ecore#//Percentage"
         defaultValueLiteral="50" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;UnitSpacing&quot; specifies the spacing between the last&#xD;&#xA;series element of one unit and the first series element of the &#xD;&#xA;next unit in the chart. This should be specified as a percentage.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;UnitSpacing&quot; specifies the spacing between the last&#xA;series element of one unit and the first series element of the &#xA;next unit in the chart. This should be specified as a percentage.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -245,7 +243,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="false" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The boolean attribute &quot;ReverseCategory&quot; specifies if the &#xD;&#xA;categories are in reverse order. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The boolean attribute &quot;ReverseCategory&quot; specifies if the &#xA;categories are in reverse order. &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -256,7 +254,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The boolean attribute &quot;StudyLayout&quot; specifies whether multiple Y &#xD;&#xA;axes are laid out as a Study Chart."/>
+        <details key="documentation" value="The boolean attribute &quot;StudyLayout&quot; specifies whether multiple Y &#xA;axes are laid out as a Study Chart."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -286,7 +284,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="minSlice" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The concept &quot;min slice&quot; is used for Pie-like charts, by which &#xD;&#xA;datapoints are displayed as slices of a whole graph, the size &#xD;&#xA;of the slices corresponds the value's percentage of the &#xD;&#xA;summary.  The attribute &quot;MinSlice&quot; of type double specifies &#xD;&#xA;the threshold value of slices. A separate slice will be created &#xD;&#xA;for each datapoint whose value is greater than this threshold, &#xD;&#xA;and all values less than the threshold will be aggregated into &#xD;&#xA;one single slice called &quot;min slice&quot;.&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The concept &quot;min slice&quot; is used for Pie-like charts, by which &#xA;datapoints are displayed as slices of a whole graph, the size &#xA;of the slices corresponds the value's percentage of the &#xA;summary.  The attribute &quot;MinSlice&quot; of type double specifies &#xA;the threshold value of slices. A separate slice will be created &#xA;for each datapoint whose value is greater than this threshold, &#xA;and all values less than the threshold will be aggregated into &#xA;one single slice called &quot;min slice&quot;.&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -297,7 +295,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The boolean attribute indicates whether the MinSlice value is &#xD;&#xA;defined as a percentage.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The boolean attribute indicates whether the MinSlice value is &#xA;defined as a percentage.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -307,7 +305,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="minSliceLabel" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The string attribute &quot;MinSliceLabel&quot; specifies the label text &#xD;&#xA;of the MinSlice.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The string attribute &quot;MinSliceLabel&quot; specifies the label text &#xA;of the MinSlice.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -317,7 +315,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="coverage" lowerBound="1"
         eType="#//CoverageType" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Coverage&quot; specifies the percentage of size that the chart &#xD;&#xA;graphics (pie or dial) takes from the client area of the plot. By default &#xD;&#xA;it's not set, which means the size will be auto adjusted.&#xD;&#xA;                        &#x9;"/>
+        <details key="documentation" value="Attribute &quot;Coverage&quot; specifies the percentage of size that the chart &#xA;graphics (pie or dial) takes from the client area of the plot. By default &#xA;it's not set, which means the size will be auto adjusted.&#xA;                        &#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -350,7 +348,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dialSuperimposition" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="true" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The boolean attribute &quot;DialSuperimposition&quot; specifies whether all &#xD;&#xA;dials are superimposed on one another, or laid out in separate cells."/>
+        <details key="documentation" value="The boolean attribute &quot;DialSuperimposition&quot; specifies whether all &#xA;dials are superimposed on one another, or laid out in separate cells."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>

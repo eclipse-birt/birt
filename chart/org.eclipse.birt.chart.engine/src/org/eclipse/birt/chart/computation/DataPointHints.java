@@ -540,10 +540,14 @@ public class DataPointHints
 	 * Returns the base display value of current DataPointHintes using given
 	 * format specifier.
 	 * 
-	 * @return
+	 * @param formatSpecifier
+	 *            format specifier of value to be displayed
+	 * @return base value with format
 	 */
-	private final String getBaseDisplayValue( FormatSpecifier fs )
+	public final String getBaseDisplayValue( FormatSpecifier formatSpecifier )
 	{
+		FormatSpecifier fs = ( formatSpecifier != null ) ? formatSpecifier
+				: fsBase;
 		if ( oBaseValue == null )
 		{
 			return IConstants.NULL_STRING;
@@ -577,10 +581,14 @@ public class DataPointHints
 	 * Returns the orthogonal display value of current DataPointHintes using
 	 * given format specifier.
 	 * 
-	 * @return
+	 * @param formatSpecifier
+	 *            format specifier of the value to be displayed
+	 * @return orthogonal value with format
 	 */
-	private final String getOrthogonalDisplayValue( FormatSpecifier fs )
+	public final String getOrthogonalDisplayValue( FormatSpecifier formatSpecifier )
 	{
+		FormatSpecifier fs = ( formatSpecifier != null ) ? formatSpecifier
+				: fsOrthogonal;
 		if ( oOrthogonalValue == null )
 		{
 			return IConstants.NULL_STRING;
@@ -608,10 +616,14 @@ public class DataPointHints
 	 * Returns the series display value of current DataPointHintes using given
 	 * format specifier.
 	 * 
-	 * @return
+	 * @param formatSpecifier
+	 *            format specifier of the value to be displayed
+	 * @return series value with format
 	 */
-	private final String getSeriesDisplayValue( FormatSpecifier fs )
+	public final String getSeriesDisplayValue( FormatSpecifier formatSpecifier )
 	{
+		FormatSpecifier fs = ( formatSpecifier != null ) ? formatSpecifier
+				: fsSeries;
 		if ( oSeriesValue == null )
 		{
 			return IConstants.NULL_STRING;
@@ -639,10 +651,14 @@ public class DataPointHints
 	 * Returns the percentile orthogonal display value of current
 	 * DataPointHintes using given format specifier.
 	 * 
-	 * @return
+	 * @param formatSpecifier
+	 *            format specifier of the value to be displayed
+	 * @return percentile orthogonal value with format
 	 */
-	private final String getPercentileOrthogonalDisplayValue( FormatSpecifier fs )
+	private final String getPercentileOrthogonalDisplayValue( FormatSpecifier formatSpecifier )
 	{
+		FormatSpecifier fs = ( formatSpecifier != null ) ? formatSpecifier
+				: fsPercentile;
 		if ( oPercentileOrthogonalValue == null )
 		{
 			return IConstants.NULL_STRING;
@@ -673,12 +689,24 @@ public class DataPointHints
 	 */
 	public final String getDisplayValue( )
 	{
+		return getDisplayValue( null );
+	}
+	
+	/**
+	 * Returns the display value of current DataPointHintes.
+	 * 
+	 * @param fs
+	 *            format specifier of the value to be displayed
+	 * @return display value
+	 */
+	public final String getDisplayValue( FormatSpecifier fs )
+	{
 		final StringBuffer sb = new StringBuffer( );
 
 		if ( dp == null )
 		{
 			// Show orthogonal value by default.
-			sb.append( getOrthogonalDisplayValue( ) );
+			sb.append( getOrthogonalDisplayValue( fs ) );
 		}
 		else
 		{
@@ -697,14 +725,14 @@ public class DataPointHints
 				dpct = dpc.getType( );
 				if ( dpct == DataPointComponentType.BASE_VALUE_LITERAL )
 				{
-					sb.append( getBaseDisplayValue( ) );
+					sb.append( getBaseDisplayValue( fs ) );
 				}
 				else if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL )
 				{
 					String oType = dpc.getOrthogonalType( );
 					if ( oType.length( ) == 0 )
 					{
-						sb.append( getOrthogonalDisplayValue( ) );
+						sb.append( getOrthogonalDisplayValue( fs ) );
 					}
 					else if ( !( oOrthogonalValue instanceof IDataPointEntry ) )
 					{
@@ -713,7 +741,7 @@ public class DataPointHints
 					else
 					{
 						String str = ( (IDataPointEntry) oOrthogonalValue ).getFormattedString( oType,
-								dpc.getFormatSpecifier( ),
+								fs == null ? dpc.getFormatSpecifier( ) : fs,
 								rtc.getULocale( ) );
 						if ( str == null )
 						{
@@ -726,11 +754,11 @@ public class DataPointHints
 				}
 				else if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
 				{
-					sb.append( getSeriesDisplayValue( ) );
+					sb.append( getSeriesDisplayValue( fs ) );
 				}
 				else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
 				{
-					sb.append( getPercentileOrthogonalDisplayValue( ) );
+					sb.append( getPercentileOrthogonalDisplayValue( fs ) );
 				}
 				if ( i < el.size( ) - 1 )
 				{
