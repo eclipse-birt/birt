@@ -1024,7 +1024,7 @@ DesignerPaletteFactory.quicktool.timeperiod.toolTip=TimePeriod 項目の挿入
 
 DimensionBuilderDialog.LabelMeasure=メジャー(&M) :
 DimensionBuilderDialog.LabelUnit=単位(&U) :
-DimensionBuilderDialog.Title=ディメンジョンビルダ
+DimensionBuilderDialog.Title=ディメンションビルダ
 
 ###########################################################
 #DNDUtil properties
