@@ -18,7 +18,7 @@ invalid.cache.option=La valeur de mode {0} pour le contexte de l'adaptateur de d
 
 datasource.null.error=Impossible de trouver les sources de données du jeu de données {0}".
 datasource.exid.error=ID d'extension manquant dans la définition de la source de données {0}.
-datasource.cassandra.error=Unable to find Hector client library jars to support Cassandra Scripted Data Source.
+datasource.cassandra.error=Impossible de trouver les JARS de la bibliothèque client Hector pour prendre en charge la source de données Cassandra nécessitant un script.
 
 datasethandle.null.error=DataSetHandle ne doit pas être nul.
 datasethandle.invalidColumnIndex=L'index de colonne n'est pas valide.
