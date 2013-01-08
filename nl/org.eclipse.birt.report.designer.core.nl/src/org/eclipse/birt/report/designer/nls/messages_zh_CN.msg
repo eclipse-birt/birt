@@ -604,6 +604,11 @@ DataSetBasePage.ScriptedDataSet.name=脚本化数据集
 DataSetBasePage.ScriptedDataSource.name=脚本化数据源
 DataSetBasePage.Group.DataSourceSelection=数据源选择
 
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=无法找到 Hector 客户端库 jar 以支持 Cassandra 脚本化数据源。
+
 ###########################################################
 #JointDataSetPage properties
 

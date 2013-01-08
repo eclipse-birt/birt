@@ -604,6 +604,11 @@ DataSetBasePage.ScriptedDataSet.name=Conjunto de datos de script
 DataSetBasePage.ScriptedDataSource.name=Fuente de datos en script
 DataSetBasePage.Group.DataSourceSelection=Selección de fuente de datos
 
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=No es posible encontrar los archivos de la librería del cliente Hector para admitir la fuente de datos en script Cassandra.
+
 ###########################################################
 #JointDataSetPage properties
 

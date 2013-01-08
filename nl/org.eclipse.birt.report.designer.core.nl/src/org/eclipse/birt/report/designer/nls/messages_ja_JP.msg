@@ -604,6 +604,11 @@ DataSetBasePage.ScriptedDataSet.name=スクリプトデータセット
 DataSetBasePage.ScriptedDataSource.name=スクリプト記述済みのデータソース
 DataSetBasePage.Group.DataSourceSelection=データソースの選択
 
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Cassandra スクリプト記述済みのデータソースをサポートする Hector クライアントライブラリの Jar が見つかりません。.
+
 ###########################################################
 #JointDataSetPage properties
 
