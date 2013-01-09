@@ -58,7 +58,7 @@ public class QueryDefnIOUtil
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	static void saveBaseQueryDefn( OutputStream outputStream,
+	public static void saveBaseQueryDefn( OutputStream outputStream,
 			IBaseQueryDefinition queryDefn, int version, String bundleVersion ) throws DataException
 	{
 		try
