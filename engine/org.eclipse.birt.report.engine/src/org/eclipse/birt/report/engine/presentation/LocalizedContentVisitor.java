@@ -951,18 +951,20 @@ public class LocalizedContentVisitor
 				.getGenerateBy( );
 		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
 		String tagName = handle.getExtensionName( );
-		
+		IReportItemPresentation itemPresentation = context
+				.getExtendedItemManager( ).createPresentation( handle );
 		if ( "Chart".equals( tagName ) )
 		{
 			IHTMLImageHandler imageHandler = context.getImageHandler( );
-			if ( imageHandler != null )
+			// get cached image if support the cache
+			if ( imageHandler != null &&itemPresentation !=null && itemPresentation.isCacheable( ) )
 			{
 				String imageId = getImageCacheID( content );
 				CachedImage cachedImage = imageHandler.getCachedImage( imageId,
 						IImage.CUSTOM_IMAGE, context.getReportContext( ) );
 				if ( cachedImage != null )
 				{
-					return processCachedImage(content, cachedImage);
+					return processCachedImage( content, cachedImage );
 				}
 			}
 			
@@ -990,9 +992,7 @@ public class LocalizedContentVisitor
 			}
 		}
 
-		// call the presentation peer to create the content object
-		IReportItemPresentation itemPresentation = context
-				.getExtendedItemManager( ).createPresentation( handle );
+		// call the presentation peer to create the content object		
 		int resolution = 0;
 		if ( itemPresentation != null )
 		{
@@ -1178,18 +1178,24 @@ public class LocalizedContentVisitor
 				IHTMLImageHandler imageHandler = context.getImageHandler( );
 				if ( imageHandler != null )
 				{
-					Image img = new Image( imageObj );
-					img.setRenderOption( context.getRenderOption( ) );
-					img.setReportRunnable( context.getRunnable( ) );
-					img.setImageSize( processImageSize( size ) );
-					String imageId = getImageCacheID( content );
-					CachedImage cachedImage = imageHandler.addCachedImage(
-							imageId, IImage.CUSTOM_IMAGE, img, context
-									.getReportContext( ) );
-					if ( cachedImage != null )
+					ExtendedItemDesign design = (ExtendedItemDesign) content
+							.getGenerateBy( );
+					ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
+					IReportItemPresentation itemPresentation = context.getExtendedItemManager( ).createPresentation( handle );
+					if( itemPresentation != null && itemPresentation.isCacheable( ) )
 					{
-						return processCachedImage( content, cachedImage );
-					}
+						Image img = new Image( imageObj );
+						img.setRenderOption( context.getRenderOption( ) );
+						img.setReportRunnable( context.getRunnable( ) );
+						img.setImageSize( processImageSize( size ) );
+						String imageId = getImageCacheID( content );
+						CachedImage cachedImage = imageHandler.addCachedImage( imageId, IImage.CUSTOM_IMAGE, img,
+								context.getReportContext( ) );
+						if ( cachedImage != null )
+						{
+							return processCachedImage( content, cachedImage );
+						}
+					}					
 				}
 
 				// don' have image cache, so handle it as a normal image
