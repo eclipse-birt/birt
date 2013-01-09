@@ -52,4 +52,4 @@ birtproblemName=Problemas del informe
 ###############################################################################
 # Preferences
 ###############################################################################
-preference.expressionsyntaxcolor=Syntax Coloring
+preference.expressionsyntaxcolor=Colores de sintaxis

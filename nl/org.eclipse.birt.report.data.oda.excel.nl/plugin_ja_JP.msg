@@ -25,7 +25,7 @@ datasource.property.yes=はい
 ###############################################################################
 #	Date Set Properties
 datasource.property.excelFile=Excel ファイルの選択
-datasource.property.worksheets=ワークシート
+datasource.property.worksheets=ワークシート(&H)
 dataset.property.worksheets.dateFormat=日付形式
 #
 ###############################################################################

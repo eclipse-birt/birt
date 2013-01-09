@@ -604,6 +604,11 @@ DataSetBasePage.ScriptedDataSet.name=Conjunto de datos de script
 DataSetBasePage.ScriptedDataSource.name=Fuente de datos en script
 DataSetBasePage.Group.DataSourceSelection=Selección de fuente de datos
 
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=No es posible encontrar los archivos de la librería del cliente Hector para admitir la fuente de datos en script Cassandra.
+
 ###########################################################
 #JointDataSetPage properties
 
@@ -4311,8 +4316,8 @@ GeneralPage.Library.Included=Librería:
 GeneralPage.Library.Modified.Note=NOTA: Se ha modificado el elemento del informe de la librería. Para restaurar el elemento de informe original, haga clic en {0} "Restaurar propiedades"
 
 #BookMarkPage
-BookMarkPage.Modified.Note=El marcador contiene caracteres especiales distintos de \"A-Z a-z 0-9 - _ : .\", esto puede provocar problemas de tiempo de ejecución.
-BookMarkPage.Modified.WithoutQuotes=El marcador debe estar rodeado por comillas dobles.
+BookMarkPage.Modified.Note=El marcador contiene caracteres espaciales distintos a estos: A-Z, a-z, 0-9, '-', '_', ':', '.'. Esto podría causar un problema en el tiempo de ejecución.
+BookMarkPage.Modified.WithoutQuotes=El marcador no está contenido en comillas dobles. Esto podría causar un problema en el tiempo de ejecución.
 
 ###########################################################
 # LOCALE SPECIAL:

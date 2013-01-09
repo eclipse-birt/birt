@@ -604,6 +604,11 @@ DataSetBasePage.ScriptedDataSet.name=스크립트된 데이터 집합
 DataSetBasePage.ScriptedDataSource.name=스크립트 데이터 원본
 DataSetBasePage.Group.DataSourceSelection=데이터 원본 선택
 
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Cassandra 스크립트 데이터 원본을 지원하는 Hector 클라이언트 라이브러리 jar를 찾을 수 없습니다.
+
 ###########################################################
 #JointDataSetPage properties
 
@@ -4311,8 +4316,8 @@ GeneralPage.Library.Included=라이브러리:
 GeneralPage.Library.Modified.Note=참고: 이 보고서 항목은 라이브러리에서 수정되었습니다. 원래의 라이브러리 항목을 복원하려면 {0}"속성 복원"을 클릭하십시오.
 
 #BookMarkPage
-BookMarkPage.Modified.Note=책갈피에 \"A-Z a-z 0-9 - _ : .\" 이외의 특수 문자가 포함되어 있어 실행 시 문제가 발생할 수 있습니다.
-BookMarkPage.Modified.WithoutQuotes=책갈피는 큰따옴표로 둘러싸야 합니다.
+BookMarkPage.Modified.Note=책갈피에 허용 문자(A-Z, a-z, 0-9, '-', '_', ':', '.') 이외의 특수 문자가 포함되어 있어 실행 시 문제가 발생할 수 있습니다.
+BookMarkPage.Modified.WithoutQuotes=책갈피가 큰따옴표로 둘러싸여 있지 않아 실행 시 문제가 발생할 수 있습니다.
 
 ###########################################################
 # LOCALE SPECIAL:

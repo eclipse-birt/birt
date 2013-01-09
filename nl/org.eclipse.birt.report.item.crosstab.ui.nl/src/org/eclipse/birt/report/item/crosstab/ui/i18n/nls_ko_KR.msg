@@ -14,7 +14,7 @@ DeleteDimensionViewHandleAction.DisplayName=제거(&V)
 DeleteMeasureHandleAction.DisplayName=제거(&V)
 DeleteMeasureHandleAction.TransName=측정값 삭제
 
-AddComputedMesureHandleAction.DisplayName=파생 측정값 추가(&S)
+AddComputedMesureHandleAction.DisplayName=파생 측정값 추가(&M)
 AddComputedMesureHandleAction.TransName=파생 측정값 추가
 AddComputedSummaryDialog.Title=파생 측정값
 AddComputedSummaryDialog.Label.Name=이름(&N):

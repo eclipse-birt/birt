@@ -52,4 +52,4 @@ birtproblemName=报表问题
 ###############################################################################
 # Preferences
 ###############################################################################
-preference.expressionsyntaxcolor=Syntax Coloring
+preference.expressionsyntaxcolor=语法色彩

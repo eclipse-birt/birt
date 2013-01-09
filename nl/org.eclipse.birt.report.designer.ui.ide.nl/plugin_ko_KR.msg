@@ -52,4 +52,4 @@ birtproblemName=보고서 문제
 ###############################################################################
 # Preferences
 ###############################################################################
-preference.expressionsyntaxcolor=Syntax Coloring
+preference.expressionsyntaxcolor=구문 색상 지정
