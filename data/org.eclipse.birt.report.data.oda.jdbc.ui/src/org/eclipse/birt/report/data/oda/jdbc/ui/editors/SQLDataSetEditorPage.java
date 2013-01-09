@@ -726,6 +726,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		identifierQuoteStringCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.dnd" ) ); //$NON-NLS-1$
 		identifierQuoteStringCheckBox.setSelection( false );
 		identifierQuoteStringCheckBox.setLayoutData( layoutData );
+		
+		if ( JdbcMetaDataProvider.getInstance( ).getIdentifierQuoteString( ).equals( "" ) ) 
+		{
+			identifierQuoteStringCheckBox.setEnabled( false );
+		}
 	}
 
 	/**
