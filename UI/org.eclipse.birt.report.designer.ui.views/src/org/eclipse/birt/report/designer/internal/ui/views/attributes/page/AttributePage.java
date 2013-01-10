@@ -30,6 +30,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * The sup-class of all attribute page, provides common register/unregister
@@ -258,13 +259,27 @@ public abstract class AttributePage extends TabPage implements
 
 	}
 
+	private boolean load = false;
+
 	public void postElementEvent( )
 	{
-		Section[] sectionArray = getSections( );
-		for ( int i = 0; i < sectionArray.length; i++ )
+		if ( load == false )
 		{
-			Section section = (Section) sectionArray[i];
-			section.load( );
+			load = true;
+
+			Display.getDefault( ).timerExec( 100, new Runnable( ) {
+
+				public void run( )
+				{
+					Section[] sectionArray = getSections( );
+					for ( int i = 0; i < sectionArray.length; i++ )
+					{
+						Section section = (Section) sectionArray[i];
+						section.load( );
+					}
+					load = false;
+				}
+			} );
 		}
 	}
 
