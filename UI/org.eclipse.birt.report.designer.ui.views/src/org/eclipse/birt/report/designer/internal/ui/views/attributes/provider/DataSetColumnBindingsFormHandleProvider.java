@@ -97,7 +97,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 
 	public boolean isEditable( )
 	{
-		if ( input == null )
+		if ( input == null
+				|| !( DEUtil.getInputFirstElement( input ) instanceof ReportItemHandle ) )
 			return false;
 		else if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			return false;
@@ -567,7 +568,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 								.getItems( )
 								.isEmpty( ) )
 				{
-					( (ReportItemHandle) bindingObject ).getColumnBindings( ).clearValue( );
+					( (ReportItemHandle) bindingObject ).getColumnBindings( )
+							.clearValue( );
 				}
 			}
 			catch ( SemanticException e )
