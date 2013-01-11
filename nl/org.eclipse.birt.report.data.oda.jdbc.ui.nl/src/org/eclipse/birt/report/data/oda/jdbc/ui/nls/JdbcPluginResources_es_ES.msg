@@ -1,5 +1,6 @@
 dataset.editor.page.query=Consulta
 dataset.new.query=Definir un texto de consulta sql con los elementos disponibles.
+dataset.new.query.hive=Define a hql query text using available items.
 dataset.new=Nuevo conjunto de datos
 dataset.editor.page.query.error.schemaNotExisted=El nombre de esquema no existe.
 datasource.new=Nueva fuente de datos
