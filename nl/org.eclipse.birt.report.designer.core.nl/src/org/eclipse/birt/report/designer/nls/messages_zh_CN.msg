@@ -265,6 +265,11 @@ ColumnBindingDialog.Text.AddAggr=添加聚合(&G)...
 BlockPreferencePage.displayname.Title=文本块
 
 ###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Label.Inherited=(Inherited)
+
+###########################################################
 #BorderPreferencePage properties
 
 BorderPreferencePage.displayname.Color=颜色
