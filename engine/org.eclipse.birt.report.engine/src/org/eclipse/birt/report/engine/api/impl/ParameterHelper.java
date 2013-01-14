@@ -160,12 +160,18 @@ public class ParameterHelper
 		{
 			return null;
 		}
+		else if ( labelColumnName == null )
+		{
+			// In UI display text is not set, then apply the formatter.
+			String name = valueColumnName;
+			Object value = getValue( resultIterator );
+			return converter.format( value );
+		}
 		else
 		{
-			String name = labelColumnName != null ? labelColumnName
-					: valueColumnName;
-			Object value = resultIterator.getValue( name );
-			return converter.format( value );
+			// In UI display text is set ,then DON'T apply the formatter.
+			String name = labelColumnName;
+			return resultIterator.getValue( name ).toString( );
 		}
 	}
 	
