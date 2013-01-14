@@ -3,7 +3,6 @@ package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -28,7 +27,7 @@ import org.eclipse.swt.widgets.Listener;
 public class BorderCanvas extends Canvas
 {
 
-	private static final String INHERITED = Messages.getString("BorderCanvas.Label.Inherited"); //$NON-NLS-1$
+	private static final String INHERITED = "(Inherited)";
 	private boolean mouseIn = false;
 	private int mouseInArea = SWT.NONE;
 
@@ -133,7 +132,7 @@ public class BorderCanvas extends Canvas
 	private String resolveEmptyWidth( BorderInfomation info )
 	{
 		String width = info.getWidth( );
-		if ( "".equals( width ) ) //$NON-NLS-1$
+		if ( "".equals( width ) )
 			return DesignChoiceConstants.LINE_WIDTH_MEDIUM;
 		return width;
 	}
@@ -485,7 +484,6 @@ public class BorderCanvas extends Canvas
 			if ( isInheritedInfo( info ) )
 			{
 				FontData fontData = this.getFont( ).getFontData( )[0];
-				// fontData.setStyle( SWT.BOLD );
 				fontData.setHeight( 9 );
 				Font font = new Font( gc.getDevice( ), fontData );
 				gc.setFont( font );
@@ -502,6 +500,7 @@ public class BorderCanvas extends Canvas
 				font.dispose( );
 				transform.dispose( );
 				gc.setTransform( null );
+				gc.setAdvanced( false );
 			}
 		}
 		else if ( info.getPosition( ).equals( BorderInfomation.BORDER_TOP ) )
@@ -514,7 +513,6 @@ public class BorderCanvas extends Canvas
 			if ( isInheritedInfo( info ) )
 			{
 				FontData fontData = this.getFont( ).getFontData( )[0];
-				// fontData.setStyle( SWT.BOLD );
 				fontData.setHeight( 9 );
 				Font font = new Font( gc.getDevice( ), fontData );
 				gc.setFont( font );
@@ -538,7 +536,6 @@ public class BorderCanvas extends Canvas
 			if ( isInheritedInfo( info ) )
 			{
 				FontData fontData = this.getFont( ).getFontData( )[0];
-				// fontData.setStyle( SWT.BOLD );
 				fontData.setHeight( 9 );
 				Font font = new Font( gc.getDevice( ), fontData );
 				gc.setFont( font );
@@ -546,7 +543,7 @@ public class BorderCanvas extends Canvas
 						.getSystemColor( SWT.COLOR_RED ) );
 				Point size = gc.stringExtent( INHERITED );
 				Transform transform = new Transform( gc.getDevice( ) );
-				transform.translate( width + 1, 0 );
+				transform.translate( width + 2, 0 );
 				transform.rotate( 90 );
 				gc.setTransform( transform );
 				gc.drawText( INHERITED, ( width - size.x ) / 2, ( height - 100 )
@@ -555,6 +552,7 @@ public class BorderCanvas extends Canvas
 				font.dispose( );
 				transform.dispose( );
 				gc.setTransform( null );
+				gc.setAdvanced( false );
 			}
 		}
 		else if ( info.getPosition( ).equals( BorderInfomation.BORDER_BOTTOM ) )
@@ -572,7 +570,6 @@ public class BorderCanvas extends Canvas
 			if ( isInheritedInfo( info ) )
 			{
 				FontData fontData = this.getFont( ).getFontData( )[0];
-				// fontData.setStyle( SWT.BOLD );
 				fontData.setHeight( 9 );
 				Font font = new Font( gc.getDevice( ), fontData );
 				gc.setFont( font );
