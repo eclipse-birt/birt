@@ -1001,7 +1001,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					public void getName( AccessibleEvent e )
 					{
 						e.result = UIUtil.stripMnemonic( lblAggOn.getText( ) )
-								+ UIUtil.stripMnemonic( btnTable.getText( ) );
+								+ UIUtil.stripMnemonic( btnGroup.getText( ) );
 					}
 				} );
 
