@@ -265,6 +265,11 @@ ColumnBindingDialog.Text.AddAggr=A&ggregat hinzufügen...
 BlockPreferencePage.displayname.Title=Textblock
 
 ###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Label.Inherited=(Inherited)
+
+###########################################################
 #BorderPreferencePage properties
 
 BorderPreferencePage.displayname.Color=Farbe
@@ -603,6 +608,11 @@ DataSetBasePage.tooltip=Name darf nicht leer sein.
 DataSetBasePage.ScriptedDataSet.name=Geskripteter Datensatz
 DataSetBasePage.ScriptedDataSource.name=Geskriptete Datenquelle
 DataSetBasePage.Group.DataSourceSelection=Datenquellenauswahl
+
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Hector Clientbibliothek JARs zur Unterstützung der geskripteten Datenquelle Cassandra wurden nicht gefunden.
 
 ###########################################################
 #JointDataSetPage properties
@@ -4311,8 +4321,8 @@ GeneralPage.Library.Included=Bibliothek:
 GeneralPage.Library.Modified.Note=HINWEIS: Dieses Berichtobjekt aus der Bibliothek wurde geändert. Klicken Sie zum Wiederherstellen des Objekts aus der Bibliothek auf{0}"Eigenschaften wiederherstellen".
 
 #BookMarkPage
-BookMarkPage.Modified.Note=Das Lesezeichen enthält Sonderzeichen statt der Zeichen \"A-Z a-z 0-9 - _ : .\". Dies kann zu Problemen während der Laufzeit führen.
-BookMarkPage.Modified.WithoutQuotes=Das Lesezeichen muss in doppelten Anführungszeichen stehen.
+BookMarkPage.Modified.Note=Das Lesezeichen enthält Sonderzeichen statt der folgenden Zeichen(A-Z, a-z, 0-9, '-', '_', ':', '.'). Dies kann zu Problemen während der Laufzeit führen.
+BookMarkPage.Modified.WithoutQuotes=Das Lesezeichen steht nicht in doppelten Anführungszeichen. Dies kann zu Problemen während der Laufzeit führen.
 
 ###########################################################
 # LOCALE SPECIAL:

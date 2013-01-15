@@ -164,7 +164,7 @@ public class HyperlinkParameterBuilder extends BaseDialog
 				layout.numColumns = 2;
 				valueControl.setLayout( layout );
 
-				text = new Text( valueControl, SWT.BORDER | SWT.WRAP );
+				text = new Text( valueControl, SWT.BORDER | SWT.MULTI );
 				gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.heightHint = text.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
 						- text.getBorderWidth( )

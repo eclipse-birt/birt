@@ -15,6 +15,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLClassLoader;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -72,6 +75,7 @@ public class FunctionProviderImpl implements IFunctionProvider
 
 	private Map<String, Category> categories;
 	private List<URL> jsLibs = new ArrayList<URL>( );
+	private List<URL> jarLibs = new ArrayList<URL>( );
 
 	/**
 	 * Return all the categories defined by extensions.
@@ -123,6 +127,13 @@ public class FunctionProviderImpl implements IFunctionProvider
 					category );
 		}
 
+		if( !jarLibs.isEmpty( ) )
+		{
+			ClassLoader classLoader = cx.getApplicationClassLoader( );
+			URLClassLoader scriptClassLoader = createScriptClassLoader( jarLibs,
+					classLoader );
+			setApplicationClassLoader( scriptClassLoader, cx );			
+		}
 		for ( URL url : jsLibs )
 		{
 			Script script;
@@ -136,6 +147,73 @@ public class FunctionProviderImpl implements IFunctionProvider
 			}
 			catch ( IOException e )
 			{
+			}
+		}
+	}
+
+	public void setApplicationClassLoader( final ClassLoader appLoader,
+			Context context )
+	{
+		if ( appLoader == null )
+		{
+			return;
+		}
+		ClassLoader loader = appLoader;
+		try
+		{
+			appLoader.loadClass( "org.mozilla.javascript.Context" );
+		}
+		catch ( ClassNotFoundException e )
+		{
+			loader = AccessController.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
+
+				public ClassLoader run( )
+				{
+					return new RhinoClassLoaderDecoration( appLoader,
+							FunctionProviderImpl.class.getClassLoader( ) );
+				}
+			} );
+		}
+		context.setApplicationClassLoader( loader );
+	}
+
+	private synchronized URLClassLoader createScriptClassLoader( List urls,
+			ClassLoader parent )
+	{
+		final URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
+		final ClassLoader parentClassLoader = parent;
+		URLClassLoader scriptClassLoader = AccessController.doPrivileged( new PrivilegedAction<URLClassLoader>( ) {
+
+			public URLClassLoader run( )
+			{
+				return new URLClassLoader( jarUrls, parentClassLoader );
+			}
+		} );
+		return scriptClassLoader;
+	}
+
+	private static class RhinoClassLoaderDecoration extends ClassLoader
+	{
+
+		private ClassLoader applicationClassLoader;
+		private ClassLoader rhinoClassLoader;
+
+		public RhinoClassLoaderDecoration( ClassLoader applicationClassLoader,
+				ClassLoader rhinoClassLoader )
+		{
+			this.applicationClassLoader = applicationClassLoader;
+			this.rhinoClassLoader = rhinoClassLoader;
+		}
+
+		public Class<?> loadClass( String name ) throws ClassNotFoundException
+		{
+			try
+			{
+				return applicationClassLoader.loadClass( name );
+			}
+			catch ( ClassNotFoundException e )
+			{
+				return rhinoClassLoader.loadClass( name );
 			}
 		}
 	}
@@ -225,6 +303,7 @@ public class FunctionProviderImpl implements IFunctionProvider
 					else if ( configElems[i].getName( ).equals( ELEMENT_JSLIB ) )
 					{
 						populateResources( jsLibs, ".js", configElems[i] );
+						populateResources( jarLibs, ".jar", configElems[i] );
 					}
 				}
 			}

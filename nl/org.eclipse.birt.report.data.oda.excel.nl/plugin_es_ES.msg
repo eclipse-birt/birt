@@ -25,7 +25,7 @@ datasource.property.yes=SÍ
 ###############################################################################
 #	Date Set Properties
 datasource.property.excelFile=Seleccionar el archivo de Excel
-datasource.property.worksheets=Hojas de trabajo
+datasource.property.worksheets=&Hojas de trabajo
 dataset.property.worksheets.dateFormat=Formato de fecha
 #
 ###############################################################################

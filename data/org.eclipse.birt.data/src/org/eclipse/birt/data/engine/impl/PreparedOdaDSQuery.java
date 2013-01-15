@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -42,6 +43,7 @@ import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
 import org.mozilla.javascript.Scriptable;
@@ -52,6 +54,12 @@ import org.mozilla.javascript.Scriptable;
 public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		implements	IPreparedQuery
 {
+	private static enum ValidateStatus
+	{ 
+		ok, unknown, fail 
+	};
+	
+	private ValidateStatus validateStatus;
 	/**
 	 * @param dataEngine
 	 * @param queryDefn
@@ -69,6 +77,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		};
 		logger.exiting( PreparedOdaDSQuery.class.getName( ),
 				"PreparedOdaDSQuery", params );
+		validateStatus = ValidateStatus.unknown; 
 	}
 	
 	/*
@@ -297,15 +306,36 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 					rollbackHelper.collectOriginalInfo();
 					try
 					{
-						querySpec = OdaQueryOptimizationUtil.optimizeExecution(
-										((OdaDataSourceRuntime) dataEngine
-												.getDataSourceRuntime(dataSetDesign
-														.getDataSourceName()))
-												.getExtensionID(),
-										validationContext,
-										(IOdaDataSetDesign) dataSetDesign,
-										queryDefn, dataEngine.getSession(),
-										appContext, contextVisitor);
+						if ( validateStatus == ValidateStatus.unknown || validateStatus == ValidateStatus.ok )
+						{
+							querySpec = OdaQueryOptimizationUtil.optimizeExecution(
+									((OdaDataSourceRuntime) dataEngine
+											.getDataSourceRuntime(dataSetDesign
+													.getDataSourceName()))
+											.getExtensionID(),
+									validationContext,
+									(IOdaDataSetDesign) dataSetDesign,
+									queryDefn, dataEngine.getSession(),
+									appContext, contextVisitor);
+						}
+						
+						if( querySpec != null && validateStatus == ValidateStatus.unknown )
+						{
+							try
+							{
+								querySpec.validate( validationContext );
+								validateStatus = validateStatus.ok;
+							}
+							catch ( OdaException ex )
+							{
+								validateStatus = validateStatus.fail;
+								querySpec = null;
+								logger.log( Level.WARNING,
+										ex.getLocalizedMessage( ),
+										ex );
+							}
+
+						}
 					}
 					catch ( DataException e )
 					{

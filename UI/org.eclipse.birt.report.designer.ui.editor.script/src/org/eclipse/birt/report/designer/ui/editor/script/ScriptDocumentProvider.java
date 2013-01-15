@@ -156,7 +156,8 @@ public class ScriptDocumentProvider extends JSDocumentProvider
 					}
 					Position p= getPosition( a );
 					if (p != null && !p.isDeleted( )) {
-						markMap.put( a, p );
+						Position tempCopy = new Position(p.getOffset(),p.getLength());
+						markMap.put( a, tempCopy );
 					}
 				}
 			}

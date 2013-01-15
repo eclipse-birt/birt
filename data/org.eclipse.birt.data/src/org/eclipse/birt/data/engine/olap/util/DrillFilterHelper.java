@@ -145,6 +145,24 @@ public class DrillFilterHelper
 	}
 	
 	/**
+	 * check whether there is drill operation defined in cube query
+	 * @param cubeQueryDefinition
+	 * @return
+	 */
+	public static boolean containsDrillFilter( ICubeQueryDefinition cubeQueryDefinition )
+	{
+		IEdgeDefinition columnEdge = cubeQueryDefinition.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cubeQueryDefinition.getEdge( ICubeQueryDefinition.ROW_EDGE );
+		List<DrillOnDimensionHierarchy> columnDrill = CubeQueryDefinitionUtil.flatternDrillFilter( columnEdge );
+		List<DrillOnDimensionHierarchy> rowDrill = CubeQueryDefinitionUtil.flatternDrillFilter( rowEdge );
+
+		if( columnDrill.isEmpty( ) && rowDrill.isEmpty( ) )
+			return false;
+		else
+			return true;
+	}
+		
+	/**
 	 * populate drilled aggregation for normal aggregation
 	 * @param cubeQueryDefinition
 	 * @param aggrDefns

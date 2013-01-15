@@ -255,4 +255,12 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 	{
 		return info;
 	}
+
+	/**
+	 * Return true by default, the derived class should override this method.
+	 */
+	public boolean isCacheable( )
+	{
+		return true;
+	}
 }

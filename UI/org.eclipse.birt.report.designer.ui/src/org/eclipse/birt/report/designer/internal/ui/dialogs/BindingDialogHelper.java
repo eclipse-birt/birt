@@ -1347,7 +1347,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						txtParam.setLayoutData( gridData );
 						createExpressionButton( paramsComposite, txtParam );
 						paramsMap.put( param.getName( ), txtParam );
-
 						initTextField( txtParam, param );
 
 					}

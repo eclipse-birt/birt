@@ -90,12 +90,14 @@ public class TableProcessor implements HTMLConstants
 				Cell cell = row.getCell( j );
 				CellContent cellContent = null;
 				int status = cell.getStatus( );
-				if ( status == Cell.CELL_EMPTY || status == Cell.CELL_SPANED )
+				if ( status == Cell.CELL_EMPTY )
 				{
 					cellContent = (CellContent) report.createCellContent( );
 					cellContent.setRowSpan( 1 );
 					cellContent.setColSpan( 1 );
 					cellContent.setColumn( j );
+					children.add( cellContent );
+					cellContent.setParent( rowContent );
 				}
 				else if ( status == Cell.CELL_USED )
 				{
@@ -103,9 +105,10 @@ public class TableProcessor implements HTMLConstants
 					cellContent.setColSpan( cell.getColSpan( ) );
 					cellContent.setRowSpan( cell.getRowSpan( ) );
 					cellContent.setColumn( j );
+					children.add( cellContent );
+					cellContent.setParent( rowContent );children.add( cellContent );
+					cellContent.setParent( rowContent );
 				}
-				children.add( cellContent );
-				cellContent.setParent( rowContent );
 			}
 		}
 	}

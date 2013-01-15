@@ -265,6 +265,11 @@ ColumnBindingDialog.Text.AddAggr=WŒv‚Ì’Ç‰Á(&G)...
 BlockPreferencePage.displayname.Title=ƒeƒLƒXƒgƒuƒƒbƒN
 
 ###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Label.Inherited=(Inherited)
+
+###########################################################
 #BorderPreferencePage properties
 
 BorderPreferencePage.displayname.Color=ƒJƒ‰[
@@ -603,6 +608,11 @@ DataSetBasePage.tooltip=–¼‘O‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 DataSetBasePage.ScriptedDataSet.name=ƒXƒNƒŠƒvƒgƒf[ƒ^ƒZƒbƒg
 DataSetBasePage.ScriptedDataSource.name=ƒXƒNƒŠƒvƒg‹LqÏ‚İ‚Ìƒf[ƒ^ƒ\[ƒX
 DataSetBasePage.Group.DataSourceSelection=ƒf[ƒ^ƒ\[ƒX‚Ì‘I‘ğ
+
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Cassandra ƒXƒNƒŠƒvƒg‹LqÏ‚İ‚Ìƒf[ƒ^ƒ\[ƒX‚ğƒTƒ|[ƒg‚·‚é Hector ƒNƒ‰ƒCƒAƒ“ƒgƒ‰ƒCƒuƒ‰ƒŠ‚Ì Jar ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB.
 
 ###########################################################
 #JointDataSetPage properties
@@ -1019,7 +1029,7 @@ DesignerPaletteFactory.quicktool.timeperiod.toolTip=TimePeriod €–Ú‚Ì‘}“ü
 
 DimensionBuilderDialog.LabelMeasure=ƒƒWƒƒ[(&M) :
 DimensionBuilderDialog.LabelUnit=’PˆÊ(&U) :
-DimensionBuilderDialog.Title=ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒrƒ‹ƒ_
+DimensionBuilderDialog.Title=ƒfƒBƒƒ“ƒVƒ‡ƒ“ƒrƒ‹ƒ_
 
 ###########################################################
 #DNDUtil properties
@@ -4312,7 +4322,7 @@ GeneralPage.Library.Modified.Note=’ : ‚±‚ÌƒŒƒ|[ƒg€–Ú‚Íƒ‰ƒCƒuƒ‰ƒŠ‚Å•ÒW‚³‚ê‚Ä‚
 
 #BookMarkPage
 BookMarkPage.Modified.Note=ƒuƒbƒNƒ}[ƒN‚ÉAA`ZAa`zA0`9A-A_A:A. ˆÈŠO‚Ì“Áê•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¨‚èA‚±‚Ì‚½‚ß‚ÉÀs‚É–â‘è‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B
-BookMarkPage.Modified.WithoutQuotes=ƒuƒbƒNƒ}[ƒN‚Í“ñdˆø—p•„‚ÅˆÍ‚Ş•K—v‚ª‚ ‚è‚Ü‚·B
+BookMarkPage.Modified.WithoutQuotes=ƒuƒbƒNƒ}[ƒN‚ª“ñdˆø—p•„‚ÅˆÍ‚Ü‚ê‚Ä‚¢‚È‚¢‚½‚ßAÀs‚É–â‘è‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B
 
 ###########################################################
 # LOCALE SPECIAL:

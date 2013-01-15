@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt;
 
+import java.math.BigInteger;
+
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -175,9 +177,13 @@ public class ChartSpinner extends Composite implements
 		{
 			return value;
 		}
-		if ( "float".equalsIgnoreCase( typeName ) )//$NON-NLS-1$
+		else if ( "float".equalsIgnoreCase( typeName ) )//$NON-NLS-1$
 		{
 			return new Float( value );
+		}
+		else if ( "java.math.BigInteger".equalsIgnoreCase( typeName ) ) //$NON-NLS-1$
+		{
+			return BigInteger.valueOf( (long) value );
 		}
 		return (int) value;
 	}

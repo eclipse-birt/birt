@@ -1,5 +1,6 @@
 dataset.editor.page.query=Requête
 dataset.new.query=Définir le texte de la requête SQL à l'aide des éléments disponibles.
+dataset.new.query.hive=Define a hql query text using available items.
 dataset.new=Nouveau jeu de données
 dataset.editor.page.query.error.schemaNotExisted=Le nom du schéma n'existe pas.
 datasource.new=Nouvelle source de données

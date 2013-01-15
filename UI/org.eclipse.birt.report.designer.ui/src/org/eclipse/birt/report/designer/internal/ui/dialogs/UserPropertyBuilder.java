@@ -181,7 +181,7 @@ public class UserPropertyBuilder extends BaseDialog
 						false ) );
 
 				defaultValueEditor = new Text( subComposite, SWT.BORDER
-						| SWT.WRAP );
+						| SWT.MULTI );
 				gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.heightHint = defaultValueEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
 						- defaultValueEditor.getBorderWidth( )

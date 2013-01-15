@@ -108,7 +108,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		valueComposite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2,
 				false ) );
 		valueComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		valueEditor = new Text( valueComposite, SWT.BORDER | SWT.WRAP );
+		valueEditor = new Text( valueComposite, SWT.BORDER | SWT.MULTI );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.minimumWidth = 250;
 		gd.heightHint = valueEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y

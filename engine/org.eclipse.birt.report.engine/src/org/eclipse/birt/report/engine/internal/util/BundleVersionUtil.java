@@ -46,7 +46,10 @@ public class BundleVersionUtil
 			if ( codeSource != null )
 			{
 				URL jarUrl = codeSource.getLocation( );
-				return jarUrl.getFile( );
+				if( jarUrl != null )
+				{
+					return jarUrl.getFile( );
+				}
 			}
 		}
 		return UNKNOWN_VERSION;

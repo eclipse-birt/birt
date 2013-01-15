@@ -38,8 +38,11 @@ public class ResourceLocatorWrapper
 	
 	public void dispose( )
 	{
-		cache.clear( );
-		cache = null;
+		synchronized ( cache )
+		{
+			cache.clear( );
+			cache = null;
+		}
 	}
 
 	/**
@@ -71,24 +74,33 @@ public class ResourceLocatorWrapper
 		{
 			return DUMMY_BYTES;
 		}
-		byte[] inBytes = cache.get( url );
-		if ( inBytes == null )
+		synchronized ( cache )
 		{
-			try
+			if ( cache == null )
 			{
-				InputStream in = url.openStream( );
-				inBytes = getByteArrayFromInputStream( in );
-				in.close( );
-				cache.put( url, inBytes );
-			}
-			catch ( IOException e )
-			{
-				logger.log( Level.WARNING, MessageConstants.RESOURCE_NOT_ACCESSIBLE, url.toExternalForm( ) );
-				cache.put( url, DUMMY_BYTES );
 				return DUMMY_BYTES;
 			}
+			byte[] inBytes = cache.get( url );
+			if ( inBytes == null )
+			{
+				try
+				{
+					InputStream in = url.openStream( );
+					inBytes = getByteArrayFromInputStream( in );
+					in.close( );
+					cache.put( url, inBytes );
+				}
+				catch ( IOException e )
+				{
+					logger.log( Level.WARNING,
+							MessageConstants.RESOURCE_NOT_ACCESSIBLE,
+							url.toExternalForm( ) );
+					cache.put( url, DUMMY_BYTES );
+					return DUMMY_BYTES;
+				}
+			}
+			return inBytes;
 		}
-		return inBytes;
 	}
 	
 	private byte[] getByteArrayFromInputStream( InputStream in ) throws IOException

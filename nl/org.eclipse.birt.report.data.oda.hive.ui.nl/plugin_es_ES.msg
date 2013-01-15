@@ -13,3 +13,4 @@ wizard.window.title=Nuevo perfil de fuente de datos Hive
 wizard.data.source.page.title=Nueva fuente de datos Hive
 profile.propertypage.name=Propiedades de conexión de fuente de datos de archivo Hive BIRT
 dataset.editor.page.query=Consulta HQL
+org.eclipse.birt.report.data.oda.hive.ui.ds.displayname=Hive
