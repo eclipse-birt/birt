@@ -282,8 +282,13 @@ public class DataSourceSelectionPage extends WizardPage
 				enableNonCP( dsChoiceListRadio.getSelection( ) );
 
 				if ( dsChoiceListRadio.getSelection( ) )
-					setPageComplete( !helper.hasNextPage( getSelectedDataSource( ) )
+				{
+					validateDataSourceName( );
+					prevSelectedDataSourceType = getSelectedDataSource( );
+					validateDataSourceHandle( prevSelectedDataSourceType );
+					setPageComplete( !helper.hasNextPage( prevSelectedDataSourceType )
 							&& getMessageType( ) != ERROR );
+				}
 			}
 
 		} );
@@ -315,6 +320,7 @@ public class DataSourceSelectionPage extends WizardPage
 
 				if ( connectionProfileRadio.getSelection( ) )
 				{
+					setMessage( Messages.getString( "datasource.wizard.message.selectType" ) ); //$NON-NLS-1$
 					setPageComplete( false );
 				}
 			}
