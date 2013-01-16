@@ -83,6 +83,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 	
 	//the flag of render page by page
 	protected boolean PDFRenderPageByPage = true;
+	
+	// the html layout engine
+	private IReportLayoutEngine layoutEngine = null;
 
 	/**
 	 * @param engine
@@ -218,6 +221,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 			{
 			}
 		}
+		dataSource = null;
+		innerRender = null;
+		reportDocument = null;
+		reportRunnable = null;
 		super.close( );
 	}
 
@@ -265,6 +272,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 			if ( !designLoaded )
 			{
+				loadScripts( );
 				// load report design
 				loadDesign( );
 				// synchronize the design ir's version with the document
@@ -381,6 +389,15 @@ public class RenderTask extends EngineTask implements IRenderTask
 					MessageConstants.BOOKMARK_NOT_FOUND_ERROR, bookmark ); //$NON-NLS-1$
 		}
 		innerRender = new PageRangeRender( new long[]{pageNumber, pageNumber} );
+	}
+	
+	public void cancel( )
+	{
+		super.cancel( );
+		if ( layoutEngine != null )
+		{
+			layoutEngine.cancel( );
+		}
 	}
 
 	private interface InnerRender
@@ -549,9 +566,20 @@ public class RenderTask extends EngineTask implements IRenderTask
 			executionContext.setExecutor( executor );
 
 			//prepare the layout engine
-			IReportLayoutEngine layoutEngine = createReportLayoutEngine(
-					pagination, renderOptions );
-
+			synchronized ( this )
+			{
+				if ( !executionContext.isCanceled( ) )
+				{
+					layoutEngine = createReportLayoutEngine( pagination,
+							renderOptions );
+				}
+			}
+			
+			if ( null == layoutEngine )
+			{
+				return;
+			}
+			
 			layoutEngine.setLocale( executionContext.getLocale( ) );
 			LayoutPageHandler layoutPageHandler = new LayoutPageHandler(
 					( (HTMLReportLayoutEngine) layoutEngine ).getContext( ) );
@@ -671,6 +699,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			outputPageCount = layoutEngine.getPageCount( );
 
 			layoutEngine.close( );
+			layoutEngine = null;
 			emitter.end( report );
 			closeRender( );
 			executor.close( );
@@ -710,8 +739,20 @@ public class RenderTask extends EngineTask implements IRenderTask
 			executor = new LocalizedReportExecutor( executionContext, executor );
 			executionContext.setExecutor( executor );
 			initializeContentEmitter( emitter );
-			IReportLayoutEngine layoutEngine = createReportLayoutEngine(
-					pagination, renderOptions );
+
+			synchronized ( this )
+			{
+				if ( !executionContext.isCanceled( ) )
+				{
+					layoutEngine = createReportLayoutEngine( pagination,
+							renderOptions );
+				}
+			}
+			
+			if ( null == layoutEngine )
+			{
+				return;
+			}
 			layoutEngine.setPageHandler( new LayoutPageHandler(
 					( (HTMLReportLayoutEngine) layoutEngine ).getContext( ) ) );
 

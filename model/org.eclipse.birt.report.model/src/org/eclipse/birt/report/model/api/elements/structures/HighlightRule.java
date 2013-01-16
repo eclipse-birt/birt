@@ -51,6 +51,7 @@ public class HighlightRule extends StyleRule
 	public static final String BORDER_RIGHT_WIDTH_MEMBER = Style.BORDER_RIGHT_WIDTH_PROP;
 	public static final String BORDER_RIGHT_COLOR_MEMBER = Style.BORDER_RIGHT_COLOR_PROP;
 	public static final String BACKGROUND_COLOR_MEMBER = Style.BACKGROUND_COLOR_PROP;
+	public static final String BACKGROUND_IMAGE_MEMBER = Style.BACKGROUND_IMAGE_PROP;
 	public static final String DATE_TIME_FORMAT_MEMBER = Style.DATE_TIME_FORMAT_PROP;
 	public static final String NUMBER_FORMAT_MEMBER = Style.NUMBER_FORMAT_PROP;
 	public static final String NUMBER_ALIGN_MEMBER = Style.NUMBER_ALIGN_PROP;
@@ -72,7 +73,7 @@ public class HighlightRule extends StyleRule
 	public static final String PADDING_LEFT_MEMBER = Style.PADDING_LEFT_PROP;
 	public static final String PADDING_BOTTOM_MEMBER = Style.PADDING_BOTTOM_PROP;
 	public static final String PADDING_RIGHT_MEMBER = Style.PADDING_RIGHT_PROP;
-
+	public static final String BACKGROUND_REPEAT_MEMBER = Style.BACKGROUND_REPEAT_PROP;
 	/**
 	 * Name of this structure within the meta-data dictionary.
 	 */

@@ -62,15 +62,19 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -294,6 +298,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private HashMap dirtyProperties = new HashMap( 5 );
 
 	private ArrayList choiceList = new ArrayList( );
+	private Map<SelectionChoice,SelectionChoice> editChoiceMap = new HashMap<SelectionChoice,SelectionChoice>();
 
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
@@ -458,17 +463,19 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		public boolean editItem( final Object element )
 		{
-			final SelectionChoice choice = (SelectionChoice) element;
-			String oldVal = choice.getValue( );
-			boolean isDefault = isDefaultChoice( choice );
+			final SelectionChoice oldChoice = (SelectionChoice) element;
+			final SelectionChoice tempChoice = cloneSelectionChoice(oldChoice);
+			
+			String oldVal = oldChoice.getValue( );
+			boolean isDefault = isDefaultChoice( oldChoice );
 			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString( "ParameterDialog.SelectionDialog.Edit" ), canBeNull( ), canUseEmptyValue( ) ); //$NON-NLS-1$
-			dialog.setInput( choice );
+			dialog.setInput( tempChoice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
 				public String validate( String displayLableKey,
 						String displayLabel, String value )
 				{
-					return validateChoice( choice,
+					return validateChoice( oldChoice,
 							displayLableKey,
 							displayLabel,
 							value );
@@ -479,14 +486,25 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				// choice.setValue( convertToStandardFormat( choice.getValue( )
 				// ) );
-				choice.setValue( choice.getValue( ) );
+//				oldChoice.setValue( tempChoice.getValue( ) );
+				editChoiceMap.put(tempChoice, oldChoice);
+				choiceList.set(choiceList.indexOf(oldChoice), tempChoice);
 				if ( isDefault )
 				{
-					changeDefaultValue( oldVal, choice.getValue( ) );
+					changeDefaultValue( oldVal, tempChoice.getValue( ) );
 				}
 				return true;
 			}
 			return false;
+		}
+		
+		private SelectionChoice cloneSelectionChoice(SelectionChoice choice)
+		{
+			SelectionChoice tempChoice = StructureFactory.createSelectionChoice( );
+			tempChoice.setValue(choice.getValue());
+			tempChoice.setLabel(choice.getLabel());
+			tempChoice.setLabelResourceKey(choice.getLabelResourceKey());
+			return tempChoice;
 		}
 
 		public boolean newItem( )
@@ -2456,7 +2474,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionProvider getExpressionProvider( )
 			{
-				return new ExpressionProvider( inputParameter );
+				return new ParameterDataSetExpressionProvider( inputParameter );
 			}
 
 			public IExpressionContextFactory getExpressionContextFactory( )
@@ -3301,9 +3319,18 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				{
 					if ( choiceList != null )
 					{
+						SelectionChoice originalChoice = null;
 						for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 						{
 							SelectionChoice choice = (SelectionChoice) iter.next( );
+							originalChoice = editChoiceMap.get(choice);
+							if(originalChoice != null)
+							{
+								originalChoice.setValue(choice.getValue());
+								originalChoice.setLabel(choice.getLabel());
+								originalChoice.setLabelResourceKey(choice.getLabelResourceKey());
+								choice = originalChoice;
+							}
 							if ( isValidValue( choice.getValue( ) ) == null )
 							{
 								selectionChioceList.addItem( choice );
@@ -4133,9 +4160,22 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					{
 					}
 				}
-				previewString = new NumberFormatter( ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern
-						: formatCategroy,
-						locale ).format( doulbeValue );
+
+				String realformatPattern = ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern : formatCategroy;
+				NumberFormatter tempFormater = new NumberFormatter( realformatPattern,locale );
+				previewString = tempFormater.format( doulbeValue );
+				if(Double.isInfinite(doulbeValue))
+				{
+					BigDecimal tempDecimal = new BigDecimal(defaultValue);
+					
+					if(realformatPattern  == null ){
+						previewString = tempDecimal.toString();
+					}else
+					{
+						previewString = tempFormater.format(tempDecimal);
+					}
+					
+				}
 			}
 			else
 			{
@@ -4617,24 +4657,70 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		String value = defaultValueChooser.getText( );
 		String type = (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
+
+		if ( !isStatic( ) )
+		{
+			if ( value.equals( EMPTY_VALUE ) )
+				value = ""; //$NON-NLS-1$
+			else if ( value.equals( NULL_VALUE ) || value.equals( "" ) )
+				value = null;
+		}
+
 		// if ( value.equals( CHOICE_NULL_VALUE )
 		// || value.equals( CHOICE_BLANK_VALUE ) )
 		// return;
 		if ( defaultValueList != null )
 			defaultValueList.clear( );
-		String modelValue = UIUtil.convertToModelString( value, false );
-		if ( modelValue != null )
+		if ( "".equals( value ) && canUseEmptyValue( ) )
 		{
-			setFirstDefaultValue( modelValue, type );
+			setFirstDefaultValue( value, type );
 		}
 		else
 		{
-			updateMessageLine( );
-			updateFormatField( );
+			String modelValue = UIUtil.convertToModelString( value, false );
+			if ( modelValue != null )
+			{
+				setFirstDefaultValue( modelValue, type );
+			}
+			else
+			{
+				updateMessageLine( );
+				updateFormatField( );
+			}
 		}
 		if ( isStatic( ) )
 		{
 			refreshStaticValueTable( );
+		}
+	}
+	private class ParameterDataSetExpressionProvider extends ExpressionProvider
+	{
+		public ParameterDataSetExpressionProvider( DesignElementHandle handle )
+		{
+			super(handle);
+		}
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getCategoryList()
+		 */
+		protected List getCategoryList( )
+		{
+			ArrayList<Object> categoryList = (ArrayList<Object>)super.getCategoryList();
+			if(categoryList!=null&&!categoryList.contains(DATASETS))
+			{
+				if ( elementHandle.getModuleHandle( ) instanceof ReportDesignHandle
+						&& ( (ReportDesignHandle) elementHandle.getModuleHandle( ) ).getDataSets()!=null )
+				{			
+					if(categoryList.contains(OPERATORS)){
+						categoryList.add(categoryList.indexOf(OPERATORS)+1, DATASETS);
+					}else{
+						categoryList.add( DATASETS );
+					}
+		
+				}
+			}
+			return categoryList;
 		}
 	}
 }

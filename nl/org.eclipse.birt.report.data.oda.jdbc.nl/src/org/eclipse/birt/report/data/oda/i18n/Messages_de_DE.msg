@@ -60,6 +60,7 @@ odajdbc.CannotGetResultSetMetaDataScale=Skalierung für Ergebnismetadaten kann ni
 odajdbc.CannotDetermineColumnSupportForNull=Unterstützung von Nullwerten für Spalte kann nicht festgestellt werden.
 
 odajdbc.StatementCannotPrepared=Fehler bei der Vorbereitung einer SQL-Anweisung.
+odajdbc.CannotGetMetaData=Ergebnismetadaten können nicht abgerufen werden. 
 odajdbc.CannotClosePreparedStatement=Vorbereitete Anweisung kann nicht geschlossen werden.
 odajdbc.CannotGetPreparedStatementMetadata=Metadaten für vorbereitete Anweisung können nicht abgerufen werden.
 odajdbc.ResultSetCannotReturn=SQL-Anweisung gibt kein Ergebnisobjekt zurück.

@@ -180,11 +180,11 @@ public class DataSetID
 	{
 		if ( parent != null )
 		{
-			buffer.append( "{" );
+			buffer.append( '{' );
 			parent.append( buffer );
 			buffer.append( "}." );
 			buffer.append( rowId );
-			buffer.append( "." );
+			buffer.append( '.' );
 			buffer.append( queryName );
 		}
 		else

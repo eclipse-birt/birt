@@ -44,7 +44,7 @@ abstract class BaseDiskArray implements IDiskArray
 
 	private Object[] buffer = null;
 
-	private List segmentOffsets = null;
+	private List<Long> segmentOffsets = null;
 
 	/**
 	 * @throws IOException
@@ -57,8 +57,8 @@ abstract class BaseDiskArray implements IDiskArray
 		this.size = 0;
 
 		this.buffer = new Object[bufferSize];
-		this.segmentOffsets = new ArrayList( );
-		this.segmentOffsets.add( Integer.valueOf( 0 ) );
+		this.segmentOffsets = new ArrayList<Long>( );
+		this.segmentOffsets.add( Long.valueOf( 0L ) );
 		createRandomAccessFile( );
 		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
@@ -78,7 +78,7 @@ abstract class BaseDiskArray implements IDiskArray
 		size++;
 		if ( size % bufferSize == 0 )
 		{
-			segmentOffsets.add( Integer.valueOf( getOffset( ) ) );
+			segmentOffsets.add( getOffset( ) );
 		}
 		return true;
 	}
@@ -100,9 +100,9 @@ abstract class BaseDiskArray implements IDiskArray
 	 * @return
 	 * @throws IOException
 	 */
-	private int getOffset( ) throws IOException
+	private long getOffset( ) throws IOException
 	{
-		return (int) ( randomAccessFile.getFilePointer( ) );
+		return randomAccessFile.getFilePointer( );
 	}
 
 	/**
@@ -141,9 +141,9 @@ abstract class BaseDiskArray implements IDiskArray
 	 * @param index
 	 * @return
 	 */
-	private int getSegmentOffset( int index )
+	private long getSegmentOffset( int index )
 	{
-		return ( (Integer) ( this.segmentOffsets.get( index / bufferSize ) ) ).intValue( );
+		return this.segmentOffsets.get( index / bufferSize ).longValue( );
 	}
 
 	/**
@@ -154,7 +154,7 @@ abstract class BaseDiskArray implements IDiskArray
 	 * @return
 	 * @throws IOException
 	 */
-	private void readObjects( int offset, int readSize )
+	private void readObjects( long offset, int readSize )
 			throws IOException
 	{
 		this.randomAccessFile.seek( offset );
@@ -265,7 +265,7 @@ abstract class BaseDiskArray implements IDiskArray
 		this.size = 0;
 		clearDiskFile( );
 		this.segmentOffsets.clear( );
-		this.segmentOffsets.add( Integer.valueOf( 0 ) );
+		this.segmentOffsets.add( Long.valueOf( 0L ) );
 		createRandomAccessFile( );
 	}
 }

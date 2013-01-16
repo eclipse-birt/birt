@@ -19,14 +19,17 @@ import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
+import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
@@ -509,4 +512,12 @@ public class DefaultValueProvider
 		return sd;
 	}
 
+	private static JavaNumberFormatSpecifier percentileValueFS = JavaNumberFormatSpecifierImpl.create( "##.##%" ); //$NON-NLS-1$
+	
+	/**
+	 * @return default format specifier for percentile value.
+	 */
+	public static FormatSpecifier defPercentileValueFormatSpecifier() {
+		return percentileValueFS;
+	}
 }

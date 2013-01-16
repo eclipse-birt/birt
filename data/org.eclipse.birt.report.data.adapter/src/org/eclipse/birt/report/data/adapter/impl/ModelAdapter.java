@@ -124,7 +124,7 @@ public class ModelAdapter implements IModelAdapter
 
 		if ( handle instanceof ScriptDataSourceHandle )
 		{
-			return new ScriptDataSourceAdapter( (ScriptDataSourceHandle) handle );
+			return new ScriptDataSourceAdapter( (ScriptDataSourceHandle) handle, context );
 		}
 
 		logger.fine( "handle type: " + ( handle == null ? "" : handle.getClass( ).getName( ) ) ); //$NON-NLS-1$
@@ -410,6 +410,10 @@ public class ModelAdapter implements IModelAdapter
 				binding.setAggrFunction( handle.getAggregateFunction( ) == null
 						? null
 						: DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
+				binding.setDisplayName( handle.getExternalizedValue( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_ID_MEMBER,
+						org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_MEMBER,
+						this.context.getDataEngineContext( ).getLocale( ) ) );
+				
 				binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
 					.getValue( ),
 					ExpressionLocation.CUBE ) );
@@ -463,7 +467,7 @@ public class ModelAdapter implements IModelAdapter
 		{
 			referenceDate = ScriptEvalUtil.evalExpr( new ScriptExpression( "new java.util.Date()" ),
 					this.context.getDataEngineContext( ).getScriptContext( ),
-					"",
+					org.eclipse.birt.core.script.ScriptExpression.defaultID,
 					0 );
 		}
 		else if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE
@@ -472,7 +476,7 @@ public class ModelAdapter implements IModelAdapter
 			IBaseExpression sciptExpr = this.adaptExpression( (Expression) ( handle.getReferenceDateValue( ).getValue( ) ) );
 			referenceDate = ScriptEvalUtil.evalExpr( sciptExpr,
 					this.context.getDataEngineContext( ).getScriptContext( ),
-					"",
+					org.eclipse.birt.core.script.ScriptExpression.defaultID,
 					0 );
 		}
 		timeFunction.setReferenceDate( new ReferenceDate( DataTypeUtil.toDate( referenceDate ) ) );
@@ -830,7 +834,7 @@ public class ModelAdapter implements IModelAdapter
 			}
 			num = (Integer) ScriptEvalUtil.evalExpr( scriptExpression,
 					this.context.getDataEngineContext( ).getScriptContext( ),
-					"",
+					org.eclipse.birt.core.script.ScriptExpression.defaultID,
 					0 );
 		}
 		return num;

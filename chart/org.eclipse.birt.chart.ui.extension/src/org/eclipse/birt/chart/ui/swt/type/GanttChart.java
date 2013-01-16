@@ -390,6 +390,8 @@ public class GanttChart extends DefaultChartTypeImpl
 						.addAll( xAxis.getSeriesDefinitions( )
 								.get( 0 )
 								.getSeriesDefinitions( ) );
+				// Always set datetime type like chart with axes
+				yAxis.setType( AxisType.DATE_TIME_LITERAL );
 
 				// Update the base series
 				Series series = xAxis.getSeriesDefinitions( )

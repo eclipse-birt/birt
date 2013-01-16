@@ -18,6 +18,7 @@ invalid.cache.option=データアダプタのオプション値 {0} が無効です。
 
 datasource.null.error=データセット "{0}" のデータソースが見つかりませんでした。
 datasource.exid.error=データソース定義 {0} に拡張 ID がありません。
+datasource.cassandra.error=Cassandra スクリプト記述済みのデータソースをサポートする Hector クライアントライブラリの Jar が見つかりません。.
 
 datasethandle.null.error=DataSetHandle は NULL にできません。
 datasethandle.invalidColumnIndex=列のインデックスが無効です。
@@ -25,7 +26,7 @@ adapter.invalid.datetimetype=日時型 "{0}" が無効です。
 adapter.invalid.aggregationfunctionname=集計関数 {0} が無効です。
 
 invalid.datetime.value=日時の値 "{0}" が無効です。
-missing.join.condition=キューブ "{2}" のプライマリデータセット "{0}" とディメンジョン "{1}" との間にジョイン条件がありません。
+missing.join.condition=キューブ "{2}" のプライマリデータセット "{0}" とディメンション "{1}" との間にジョイン条件がありません。
 exception.error=処理中に例外が発生しました。詳しくは次のメッセージを参照してください :
 invalid.level.expression=レベル名 "{0}" が見つかりません。
 invalid.measure.expression=メジャー "{0}" の式は null にできません。
@@ -33,7 +34,7 @@ invalid.data.type=データ型が無効です : {0}
 invalid.binding.expression=式が無効です : {0}
 
 cube.error.createhierarchy=階層 {0} の作成中にエラーが発生しました。
-cube.error.createdimension=ディメンジョン {0} の作成中にエラーが発生しました。
+cube.error.createdimension=ディメンション {0} の作成中にエラーが発生しました。
 cube.error.createmeasure=メジャー要素の作成中にエラーが発生しました。
 cube.error.datasetmiss=関連するデータセットが見つからないため、キューブを作成できません。
 cube.jointColumnNotInLevels=結合列 "{0}" はディメンション "{1}" のいずれのレベルのキーフィールドとしても定義されていません。

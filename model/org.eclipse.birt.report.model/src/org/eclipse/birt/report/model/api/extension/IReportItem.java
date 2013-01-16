@@ -257,5 +257,12 @@ public interface IReportItem
 	public StyleHandle[] getReferencedStyle( );
 	
 	public void updateStyleReference( Map<String, String> styleMap );
+	
+	/**
+	 * Indicates whether the report item has fixed size.
+	 *  
+	 * @return
+	 */
+	public boolean hasFixedSize();
 
 }

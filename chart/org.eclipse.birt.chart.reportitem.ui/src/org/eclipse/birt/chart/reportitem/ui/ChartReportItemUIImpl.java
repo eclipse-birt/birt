@@ -83,7 +83,7 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		try
 		{
 			final ChartReportItemImpl iri = (ChartReportItemImpl) eih.getReportItem( );
-			final DesignerRepresentation dr = new DesignerRepresentation( iri );
+			final DesignerRepresentation dr = ChartReportItemUIFactory.instance( ).createFigure( iri );
 			refreshBackgroundImage( eih, dr );
 			iri.setDesignerRepresentation( dr ); // UPDATE LINK
 

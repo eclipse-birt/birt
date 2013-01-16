@@ -167,7 +167,7 @@ public class ResultIterator implements IResultIterator
 		{
 			prepareCurrentRow( );
 		}
-		catch ( DataException ex )
+		catch ( Exception ex )
 		{
 			if ( this.isEmpty( ) )
 			{
@@ -175,7 +175,12 @@ public class ResultIterator implements IResultIterator
 			}
 			else
 			{
-				throw ex;
+				if ( ex instanceof DataException )
+				{
+					throw (DataException) ex;
+				}
+				else
+					throw DataException.wrap( new BirtException( ex.getLocalizedMessage( ) ) );
 			}
 		}
 		this.distinctValue = this.resultService.getQueryDefn( )
@@ -277,10 +282,10 @@ public class ResultIterator implements IResultIterator
 				1024 ) );
 		File file = ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
 				id );
-		FileSecurity.fileDeleteOnExit( file );
+//		FileSecurity.fileDeleteOnExit( file );
 		file = ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
 				id );
-		FileSecurity.fileDeleteOnExit( file ); 
+//		FileSecurity.fileDeleteOnExit( file ); 
 	}
 	
 	/**
@@ -564,6 +569,7 @@ public class ResultIterator implements IResultIterator
 			{
 				IOUtil.writeObject(rowOutputStream, columnList.get(i));
 			}
+			rowOutputStream.flush( );
 		}
 		IOUtil.writeInt(rowOutputStream, getRowIndex( ));
 		IOUtil.writeInt(rowOutputStream, getStartingGroupLevel( ));
@@ -1001,6 +1007,7 @@ public class ResultIterator implements IResultIterator
 		if ( odiResult != null )
 				odiResult.close( );
 
+		QueryPrepareUtil.clear( resultService.getSession( ) );
 		odiResult = null;
 		resultService = null;
 		logger.logp( Level.FINER,
@@ -1227,8 +1234,10 @@ public class ResultIterator implements IResultIterator
 				if ( odiResult.getRowCount( ) == 0
 						&& resultService.getQueryDefn( ).getParentQuery( ) != null
 						&& this.queryDefn instanceof IQueryDefinition )
-
 				{
+					if ( hasOutputParameter( queryDefn ) )
+						return;
+					
 					if ( resultService.getSession( )
 							.getEngineContext( )
 							.getMode( ) == DataEngineContext.MODE_GENERATION )
@@ -1246,6 +1255,20 @@ public class ResultIterator implements IResultIterator
 			catch ( DataException e )
 			{
 			}
+		}
+		
+		boolean hasOutputParameter( IBaseQueryDefinition queryDefn )
+				throws DataException
+		{
+			if ( ResultIterator.this.resultService.getQueryResults( ) instanceof IQueryService )
+			{
+				DataSetRuntime[] runtimes = ( (IQueryService) ResultIterator.this.resultService.getQueryResults( ) ).getDataSetRuntime( 1 );
+				if ( runtimes != null
+						&& runtimes.length > 0 && runtimes[0] != null
+						&& runtimes[0].getOutputParameters( ).size( ) > 0 )
+					return true;
+			}
+			return false;
 		}
 
 		/**

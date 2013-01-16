@@ -604,6 +604,11 @@ DataSetBasePage.ScriptedDataSet.name=Conjunto de datos de script
 DataSetBasePage.ScriptedDataSource.name=Fuente de datos en script
 DataSetBasePage.Group.DataSourceSelection=Selección de fuente de datos
 
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=No es posible encontrar los archivos de la librería del cliente Hector para admitir la fuente de datos en script Cassandra.
+
 ###########################################################
 #JointDataSetPage properties
 
@@ -2515,7 +2520,7 @@ MapPreferencePage.displayname.Title=Asignar
 MapPreferencePage.text.Add=&Añadir...
 MapPreferencePage.text.Delete=&Quitar
 MapPreferencePage.text.Description=Reglas de asignación:
-MapPreferencePage.text.Edit=E&ditar...
+MapPreferencePage.text.Edit=&Editar...
 MapPreferencePage.toolTipText.Up=Mover regla de asignación hacia arriba
 MapPreferencePage.toolTipText.Down=Mover regla de asignación hacia abajo
 MapPreferencePage.text.Duplicate=&Duplicado
@@ -3639,6 +3644,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=Utilizar el archivo CSS en la librería de informes
 UseCssInThemeDialog.TitleArea.Message=Seleccionar un tema al que aplicar los estilos del archivo CSS.
+CssStyleSheetNodeProvider.Label.FromServer=Del servidor
 CssStyleSheetNodeProvider.Tooltip.URI=(Aplicado en el momento de la visualización)
 
 
@@ -4310,7 +4316,8 @@ GeneralPage.Library.Included=Librería:
 GeneralPage.Library.Modified.Note=NOTA: Se ha modificado el elemento del informe de la librería. Para restaurar el elemento de informe original, haga clic en {0} "Restaurar propiedades"
 
 #BookMarkPage
-BookMarkPage.Modified.Note=El marcador contiene caracteres especiales distintos de \"A-Z a-z 0-9 - _ : .\", esto puede provocar problemas de tiempo de ejecución.
+BookMarkPage.Modified.Note=El marcador contiene caracteres espaciales distintos a estos: A-Z, a-z, 0-9, '-', '_', ':', '.'. Esto podría causar un problema en el tiempo de ejecución.
+BookMarkPage.Modified.WithoutQuotes=El marcador no está contenido en comillas dobles. Esto podría causar un problema en el tiempo de ejecución.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4619,7 +4626,8 @@ BindingDialogHelper.text.Grid=Cuadrícula
 BindingDialogHelper.text.Group=Gr&upo
 BindingDialogHelper.text.Expression=&Expresión:
 BindingDialogHelper.text.displayName=&Nombre en pantalla:
-BindingDialogHelper.text.allowExport=Permitir exp&ortación:
+BindingDialogHelper.text.allowExport=Exp&ortar:
+BindingDialogHelper.text.allowExport.button=Permitir exportación
 BindingDialogHelper.text.displayNameID=ID de &nombre en pantalla:
 BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
@@ -4723,7 +4731,7 @@ InsertAggregationAction.text=A&gregación
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=Período de tiempo relati&vo
 
 ###########################################################
 #Multiple views
@@ -4760,8 +4768,8 @@ GeneralConfigurationBlock.button.text.enable.animation=Activar selección a&nimad
 GeneralConfigurationBlock.group.label=Solicitar
 GeneralConfigurationBlock.group.defaultThemes=Librería de temas predeterminados
 GeneralConfigurationBlock.button.text.prompt=Mostrar &solicitud después de abrir el archivo de la librería
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Activar librería de &temas predeterminados
-GeneralConfigurationBlock.button.text.defaultTheme.include=&Incluir los temas predeterminados
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Activar librería de &temas predeterminados.
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Incluir los temas predeterminados.
 GeneralConfigurationBlock.move.binding.group=Mover enlaces locales al principal para disponer de un mejor rendimiento
 GeneralConfigurationBlock.move.binding.always=Sie&mpre
 GeneralConfigurationBlock.move.binding.never=Nu&nca
@@ -4878,6 +4886,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Sintaxis &predeterminada:
 ExpressionEditor.Error.EmptyExpression=La expresión no puede estar vacía.
 ExpressionEditor.Label.Expression=&Expresión:
 ExpressionEditor.Title=Editar expresión
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Selector de color de fondo
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Selector de color de primer plano
+ExpressionSyntaxColoringPage.Button.Bold=&Negrita
+ExpressionSyntaxColoringPage.Button.Enable=Activar
+ExpressionSyntaxColoringPage.Button.Italic=Curs&iva
+ExpressionSyntaxColoringPage.Button.Restore=&Restaurar predeterminado
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Tachado
+ExpressionSyntaxColoringPage.Button.Underline=&Subrayado
+ExpressionSyntaxColoringPage.Decscription=Personalice el resaltado de sintaxis seleccionando el tipo de texto cuyo estilo desee personalizar en la lista o en el área de texto de ejemplo.
+ExpressionSyntaxColoringPage.Element.Comment=Comentario
+ExpressionSyntaxColoringPage.Element.Default=Predeterminado
+ExpressionSyntaxColoringPage.Element.Keyword=Palabra clave
+ExpressionSyntaxColoringPage.Element.String=String
+ExpressionSyntaxColoringPage.Label.Background=Fond&o:
+ExpressionSyntaxColoringPage.Label.Foreground=&Primer plano:
+ExpressionSyntaxColoringPage.Label.SampleText=&Texto de muestra:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=Elemento de s&intaxis:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Los colores y la fuente predeterminados se pueden configurar en las páginas de preferencias <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Editores de texto</a> y <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colores y fuentes</a> .
 
 ###########################################################
 #VariableDropAdapter

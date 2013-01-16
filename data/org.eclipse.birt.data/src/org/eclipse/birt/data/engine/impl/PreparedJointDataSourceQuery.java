@@ -705,7 +705,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 					Object value = JavascriptEvalUtil.evaluateRawScript( Context.getCurrentContext( ),
 							scope,
 							JointDataSetParameterUtil.buildOutputParamsExpr( paramName ),
-							"",
+							org.eclipse.birt.core.script.ScriptExpression.defaultID,
 							1 );
 					dataSet.setOutputParameterValue( joinname, value );
 				}

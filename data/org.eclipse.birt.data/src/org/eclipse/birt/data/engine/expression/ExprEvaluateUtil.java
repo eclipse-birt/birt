@@ -21,6 +21,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -281,7 +282,7 @@ public class ExprEvaluateUtil
 				value = ScriptEvalUtil.evaluateJSAsExpr( cx,
 						scope,
 						( (IScriptExpression) dataExpr ).getText( ),
-						null,
+						ScriptExpression.defaultID,
 						0 );
 			}
 
@@ -693,7 +694,7 @@ public class ExprEvaluateUtil
 	 * 
 	 * @return
 	 */
-	protected static Object[] flatternMultipleValues( Object[] values )
+	public static Object[] flatternMultipleValues( Object[] values )
 	{
 		if ( values == null || values.length == 0 )
 			return new Object[0];

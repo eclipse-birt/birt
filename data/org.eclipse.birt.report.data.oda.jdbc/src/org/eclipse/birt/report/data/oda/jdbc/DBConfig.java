@@ -31,6 +31,8 @@ public class DBConfig
 	public static final int EXEC_QUERY_WITHOUT_CACHE = 2;
 	public static final int DEFAULT_POLICY = -1;
 	public static final int IGNORE_UNIMPORTANT_EXCEPTION = 3;
+	public static final int TRY_COMMIT_THEN_CLOSE = 4;
+	public static final int SET_COMMIT_TO_FALSE = 5;
 	private HashMap<Integer, Set<String>> driverPolicy = null;
 	private volatile static DBConfig config = null;
 

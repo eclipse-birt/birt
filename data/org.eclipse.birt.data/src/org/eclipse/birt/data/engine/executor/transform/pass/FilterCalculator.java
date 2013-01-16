@@ -144,15 +144,21 @@ class FilterCalculator
 		populator.getQuery( ).setMaxRows( 0 );
 		// Cache the current ResultSetCache instance, as after start() is called
 		// the current
-		// ResultSetCache will be overwrite.
-		ResultSetCache sCache = populator.getCache( );
-
+		// ResultSetCache will be overwrite.		
+		//when first pass, apply filter which could be done.
 		makeFirstPassToMultiPassFilter( filterPass );
+		
+		ResultSetCache sCache = populator.getCache( );
+		//preparation pass to calculate TOPN/BottomN filter, we should not clear existing smart cache.
+		populator.setClearCacheResultSet( false );
+
+		makePreparationPassToMultiPassFilter( filterPass );
 
 		populator.setCache( sCache );
 		// Reset the smartCache and make cursor stay in first row.
 		sCache.reset( );
 		sCache.next( );
+		populator.setClearCacheResultSet( true );
 		populator.getGroupProcessorManager( )
 				.getGroupCalculationUtil( )
 				.getGroupInformationUtil( )
@@ -162,6 +168,7 @@ class FilterCalculator
 				.setResultSetCache( sCache );
 
 		populator.getQuery( ).setMaxRows( max );
+		//apply second pass filter
 		makeSecondPassToMultiPassFilter( filterPass );
 
 		// Prepare filter expression for top/bottom(n) evaluation
@@ -201,6 +208,36 @@ class FilterCalculator
 		filterByRow.getFilterList( ).clear( );
 		for ( int i = 0; i < temp.size( ); i++ )
 		{
+			if ( !FilterUtil.isFilterNeedMultiPass( temp.get( i ) ) )
+			{
+				filterByRow.getFilterList( ).add( temp.get( i ) );
+			}
+		}
+		PassUtil.pass( populator,
+				new OdiResultSetWrapper( populator.getResultIterator( ) ),
+				false );
+		filterByRow.getFilterList( ).clear( );
+		filterByRow.getFilterList( ).addAll( temp );
+	}
+	
+	/**
+	 * 
+	 * @param filterPass
+	 * @param stopSign
+	 * @throws DataException
+	 */
+	protected void makePreparationPassToMultiPassFilter( FilterPassController filterPass )
+			throws DataException
+	{
+		filterPass.setForceReset( true );
+		filterPass.setPassLevel( FilterPassController.FIRST_PASS );
+		filterPass.setRowCount( populator.getCache( ).getCount( ) );
+
+		List<IFilterDefinition> temp = new ArrayList<IFilterDefinition>( );
+		temp.addAll( filterByRow.getFilterList( ) );
+		filterByRow.getFilterList( ).clear( );
+		for ( int i = 0; i < temp.size( ); i++ )
+		{
 			if ( FilterUtil.isFilterNeedMultiPass( temp.get( i ) ) )
 			{
 				filterByRow.getFilterList( ).add( temp.get( i ) );
@@ -225,6 +262,16 @@ class FilterCalculator
 		// Set pass level to second
 		filterPass.setPassLevel( FilterPassController.SECOND_PASS );
 
+		List<IFilterDefinition> temp = new ArrayList<IFilterDefinition>( );
+		temp.addAll( filterByRow.getFilterList( ) );
+		filterByRow.getFilterList( ).clear( );
+		for ( int i = 0; i < temp.size( ); i++ )
+		{
+			if ( FilterUtil.isFilterNeedMultiPass( temp.get( i ) ) )
+			{
+				filterByRow.getFilterList( ).add( temp.get( i ) );
+			}
+		}
 		// Grouping is done here.
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
@@ -232,5 +279,7 @@ class FilterCalculator
 
 		filterPass.setPassLevel( FilterPassController.DEFAULT_PASS );
 		filterPass.setRowCount( FilterPassController.DEFAULT_ROW_COUNT );
+		filterByRow.getFilterList( ).clear( );
+		filterByRow.getFilterList( ).addAll( temp );
 	}
 }

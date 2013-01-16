@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.print.PrintTranscoder;
@@ -74,18 +72,6 @@ public class PDFPage extends AbstractPage
 	protected float containerHeight;
 
 	protected PDFPageDevice pageDevice;
-	
-	/**
-	 * The Regular pattern for http/ftp/https pdf;
-	 * */
-	static final Pattern PAGE_LINK_PATTERN_HTML = Pattern
-			.compile( "(http|ftp|https):(\\/\\/)([\\w+.\\/])*[\\w+.]?#page=(\\d+)" );
-
-	/**
-	 * The Regular pattern for local pdf;
-	 * */
-	static final Pattern PAGE_LINK_PATTERN_LOCAL = Pattern
-			.compile( "((([a-zA-Z]:|(\\\\|\\/\\/)(\\w+)*|file:\\/\\/\\/[a-zA-Z]:|file:\\/[a-zA-Z]:)((\\\\|\\/)\\w+)*\\[a-zA-Z0_9]+)?.*)#page=(\\d+)" );// check
 
 	public PDFPage( int pageWidth, int pageHeight, Document document,
 			PdfWriter writer, PDFPageDevice pageDevice )
@@ -142,16 +128,24 @@ public class PDFPage extends AbstractPage
 	}
 
 	protected void drawBackgroundImage( float x, float y, float width,
-			float height, float iWidth, float iHeight, int repeat,
-			String imageUrl, byte[] imageData, float absPosX, float absPosY )
+			float height, float imageWidth, float imageHeight, int repeat,
+			String imageUrl, byte[] imageData, float offsetX, float offsetY )
+			throws Exception
 	{
-		y = transformY( y );
 		contentByte.saveState( );
-		try
+		clip( x, y, width, height );
+		
+		PdfTemplate image = null;
+		if ( imageUrl != null )
+		{
+			if ( pageDevice.getImageCache( ).containsKey( imageUrl ) )
+			{
+				image = pageDevice.getImageCache( ).get( imageUrl );
+			}
+		}
+		if ( image == null )
 		{
 			Image img = Image.getInstance( imageData );
-			float imageWidth = iWidth;
-			float imageHeight = iHeight;
 			if ( imageHeight == 0 || imageWidth == 0 )
 			{
 				int resolutionX = img.getDpiX( );
@@ -165,223 +159,45 @@ public class PDFPage extends AbstractPage
 				imageHeight = img.getPlainHeight( ) / resolutionY * 72;
 			}
 
-			if ( BackgroundImageInfo.NO_REPEAT == repeat ) //$NON-NLS-1$
+			image = contentByte.createTemplate( imageWidth, imageHeight );
+			image.addImage( img, imageWidth, 0, 0, imageHeight, 0, 0 );
+
+			if ( imageUrl != null && image != null )
 			{
-				TplValueTriple triple = computeTplHorizontalValPair( absPosX,
-						x, width, imageWidth );
-				float tplOriginX = triple.getTplOrigin( );
-				float tplWidth = triple.getTplSize( );
-				float translationX = triple.getTranslation( );
-				triple = computeTplVerticalValTriple( absPosY, y, height,
+				pageDevice.getImageCache( ).put( imageUrl, image );
+			}
+		}
+
+		boolean xExtended = ( repeat & BackgroundImageInfo.REPEAT_X ) == BackgroundImageInfo.REPEAT_X;
+		boolean yExtended = ( repeat & BackgroundImageInfo.REPEAT_Y ) == BackgroundImageInfo.REPEAT_Y;
+		imageWidth = image.getWidth( );
+		imageHeight = image.getHeight( );
+
+		float originalX = offsetX;
+		float originalY = offsetY;
+		if ( xExtended )
+		{
+			while ( originalX > 0 )
+				originalX -= imageWidth;
+		}
+		if ( yExtended )
+		{
+			while ( originalY > 0 )
+				originalY -= imageHeight;
+		}
+
+		float startY = originalY;
+		do
+		{
+			float startX = originalX;
+			do
+			{
+				drawImage( image, x + startX, y + startY, imageWidth,
 						imageHeight );
-				float tplOrininY = triple.getTplOrigin( );
-				float tplHeight = triple.getTplSize( );
-				float translationY = triple.getTranslation( );
-
-				PdfTemplate templateWhole = contentByte.createTemplate(
-						tplWidth, tplHeight );
-				templateWhole.addImage( img, imageWidth, 0, 0, imageHeight,
-						translationX, translationY );
-				contentByte.addTemplate( templateWhole, tplOriginX, tplOrininY );
-
-			}
-			// "repeat-x":
-			else if ( BackgroundImageInfo.REPEAT_X == repeat ) //$NON-NLS-1$
-			{
-				float remainX = width;
-				PdfTemplate template = null;
-				// If the width of the container is smaller than the scaled
-				// image width, the repeat will never happen. So it is not
-				// necessary to build a template for further usage.
-				if ( width > imageWidth )
-				{
-					if ( height - absPosY > imageHeight )
-					{
-						template = contentByte.createTemplate( imageWidth,
-								imageHeight );
-						template.addImage( img, imageWidth, 0, 0, imageHeight,
-								0, 0 );
-					}
-					else
-					{
-						template = contentByte.createTemplate( imageWidth,
-								height );
-						template.addImage( img, imageWidth, 0, 0, imageHeight,
-								0, -imageHeight + height );
-					}
-				}
-				while ( remainX > 0 )
-				{
-					if ( remainX <= imageWidth )
-					{
-
-						if ( height - absPosY >= imageHeight )
-						{
-							PdfTemplate templateX = contentByte.createTemplate(
-									remainX, imageHeight );
-							templateX.addImage( img, imageWidth, 0, 0,
-									imageHeight, 0, 0 );
-							contentByte.addTemplate( templateX, x + width
-									- remainX, y - absPosY - imageHeight );
-						}
-						else
-						{
-							PdfTemplate templateX = contentByte.createTemplate(
-									remainX, height );
-							templateX.addImage( img, imageWidth, 0, 0,
-									imageHeight, 0, -imageHeight + height
-											- absPosY );
-							contentByte.addTemplate( templateX, x + width
-									- remainX, y - absPosY - height );
-						}
-						remainX = 0;
-					}
-					else
-					{
-						if ( height - absPosY > imageHeight )
-							contentByte.addTemplate( template, x + width
-									- remainX, y - absPosY - imageHeight );
-						else
-							contentByte.addTemplate( template, x + width
-									- remainX, y - absPosY - height );
-						remainX -= imageWidth;
-					}
-				}
-			}
-			// "repeat-y":
-			else if ( BackgroundImageInfo.REPEAT_Y == repeat ) //$NON-NLS-1$
-			{
-				float remainY = height;
-				// If the height of the container is smaller than the scaled
-				// image height, the repeat will never happen. So it is not
-				// necessary to build a template for further usage.
-				PdfTemplate template = null;
-				if ( height > imageHeight )
-				{
-					template = contentByte.createTemplate(
-							width - absPosX > imageWidth ? imageWidth : width
-									- absPosX, imageHeight );
-					template.addImage( img, imageWidth, 0, 0, imageHeight, 0, 0 );
-				}
-				while ( remainY > 0 )
-				{
-					if ( remainY < imageHeight )
-					{
-						PdfTemplate templateY = contentByte.createTemplate(
-								width - absPosX > imageWidth
-										? imageWidth
-										: width - absPosX, remainY );
-						templateY.addImage( img, width > imageWidth
-								? imageWidth
-								: width - absPosX, 0, 0, imageHeight, 0,
-								-( imageHeight - remainY ) );
-						contentByte.addTemplate( templateY, x + absPosX, y
-								- height );
-						remainY = 0;
-					}
-					else
-					{
-						contentByte.addTemplate( template, x + absPosX, y
-								- height + remainY - imageHeight );
-						remainY -= imageHeight;
-					}
-				}
-			}
-			// "repeat":
-			else if ( BackgroundImageInfo.REPEAT == repeat ) //$NON-NLS-1$
-			{
-				float remainX = width;
-				float remainY = height;
-				PdfTemplate template = null;
-				// If the width of the container is smaller than the scaled
-				// image width, the repeat will never happen. So it is not
-				// necessary to build a template for further usage.
-				if ( width >= imageWidth && height >= imageHeight )
-				{
-					template = contentByte.createTemplate( imageWidth,
-							imageHeight );
-					template.addImage( img, imageWidth, 0, 0, imageHeight, 0, 0 );
-				}
-
-				while ( remainY > 0 )
-				{
-					remainX = width;
-					// the bottom line
-					if ( remainY < imageHeight )
-					{
-						while ( remainX > 0 )
-						{
-							// the right-bottom one
-							if ( remainX < imageWidth )
-							{
-								PdfTemplate templateXY = contentByte
-										.createTemplate( remainX, remainY );
-								templateXY.addImage( img, imageWidth, 0, 0,
-										imageHeight, 0, -imageHeight + remainY );
-								contentByte.addTemplate( templateXY, x + width
-										- remainX, y - height );
-								remainX = 0;
-							}
-							else
-							// non-right bottom line
-							{
-								PdfTemplate templateY = contentByte
-										.createTemplate( imageWidth, remainY );
-								templateY.addImage( img, imageWidth, 0, 0,
-										imageHeight, 0, -imageHeight + remainY );
-								contentByte.addTemplate( templateY, x + width
-										- remainX, y - height );
-								remainX -= imageWidth;
-							}
-						}
-						remainY = 0;
-					}
-					else
-					// non-bottom lines
-					{
-						while ( remainX > 0 )
-						{
-							// the right ones
-							if ( remainX < imageWidth )
-							{
-								PdfTemplate templateX = contentByte
-										.createTemplate( remainX, imageHeight );
-								templateX.addImage( img, imageWidth, 0, 0,
-										imageHeight, 0, 0 );
-								contentByte.addTemplate( templateX, x + width
-										- remainX, y - height + remainY
-										- imageHeight );
-								remainX = 0;
-							}
-							else
-							{
-								contentByte.addTemplate( template, x + width
-										- remainX, y - height + remainY
-										- imageHeight );
-								remainX -= imageWidth;
-							}
-						}
-						remainY -= imageHeight;
-					}
-				}
-			}
-		}
-		catch ( IOException ioe )
-		{
-			logger.log( Level.WARNING, ioe.getMessage( ), ioe );
-		}
-		catch ( BadElementException bee )
-		{
-			logger.log( Level.WARNING, bee.getMessage( ), bee );
-		}
-		catch ( DocumentException de )
-		{
-			logger.log( Level.WARNING, de.getMessage( ), de );
-		}
-		catch ( RuntimeException re )
-		{
-			logger.log( Level.WARNING, re.getMessage( ), re );
-		}
+				startX += imageWidth;
+			} while ( startX < width && xExtended );
+			startY += imageHeight;
+		} while ( startY < height && yExtended );
 		contentByte.restoreState( );
 	}
 
@@ -735,19 +551,6 @@ public class PDFPage extends AbstractPage
 				|| "_self".equalsIgnoreCase( target ) )
 		// Opens the target in a new window.
 		{
-			Matcher matcherHtml = PAGE_LINK_PATTERN_HTML.matcher( hyperlink );
-			if ( matcherHtml.find( ) )
-			{
-				return new PdfAction( hyperlink );
-			}
-			Matcher matcherLocal = PAGE_LINK_PATTERN_LOCAL.matcher( hyperlink );
-			if ( matcherLocal.find( ) )
-			{
-				String fileName = matcherLocal.group( 1 );
-				String pageNumber = matcherLocal.group( matcherLocal
-						.groupCount( ) );
-				return new PdfAction( fileName, Integer.valueOf( pageNumber ) );
-			}
 			return new PdfAction( hyperlink );
 		}
 		else
@@ -825,97 +628,6 @@ public class PDFPage extends AbstractPage
 		cb.setTextMatrix( 1, 0, beta, 1, 0, 0 );
 	}
 
-	private static final class TplValueTriple
-	{
-
-		private final float tplOrigin;
-		private final float tplSize;
-		private final float translation;
-
-		public TplValueTriple( final float val1, final float val2,
-				final float val3 )
-		{
-			tplOrigin = val1;
-			tplSize = val2;
-			translation = val3;
-		}
-
-		float getTplOrigin( )
-		{
-			return tplOrigin;
-		}
-
-		float getTplSize( )
-		{
-			return tplSize;
-		}
-
-		float getTranslation( )
-		{
-			return translation;
-		}
-
-	}
-
-	/**
-	 *
-	 * @param absPos
-	 *            the vertical position relative to its containing box
-	 * @param containerBaseAbsPos
-	 *            the absolute position of the container's top
-	 * @param containerSize
-	 *            container height
-	 * @param ImageSize
-	 *            the height of template which image lies in
-	 * @return a triple(the vertical position of template's left-bottom origin,
-	 *         template height, and image's vertical translation relative to the
-	 *         template )
-	 */
-	private TplValueTriple computeTplVerticalValTriple( float absPos,
-			float containerBaseAbsPos, float containerSize, float ImageSize )
-	{
-		float tplOrigin = 0.0f, tplSize = 0.0f, translation = 0.0f;
-		if ( absPos <= 0 )
-		{
-			if ( ImageSize + absPos > 0 && ImageSize + absPos <= containerSize )
-			{
-				tplOrigin = containerBaseAbsPos - ImageSize - absPos;
-				tplSize = ImageSize + absPos;
-			}
-			else if ( ImageSize + absPos > containerSize )
-			{
-				tplOrigin = containerBaseAbsPos - containerSize;
-				tplSize = containerSize;
-				translation = containerSize - ImageSize - absPos;
-			}
-			else
-			{
-				// never draw
-			}
-		}
-		else if ( absPos >= containerSize )
-		{
-			// never draw
-		}
-		else
-		{
-			if ( ImageSize + absPos <= containerSize )
-			{
-				tplOrigin = containerBaseAbsPos - ImageSize - absPos;
-				tplSize = ImageSize;
-				translation = 0.0f;
-			}
-			else
-			{
-				tplOrigin = containerBaseAbsPos - containerSize;
-				tplSize = containerSize - absPos;
-				translation = containerSize - absPos - ImageSize;
-			}
-
-		}
-		return new TplValueTriple( tplOrigin, tplSize, translation );
-	}
-
 	public void showHelpText( String helpText, float x, float y, float width,
 			float height )
 	{
@@ -935,64 +647,6 @@ public class PDFPage extends AbstractPage
 		writer.addAnnotation( annotation );
 	}
 
-	/**
-	 *
-	 * @param absPos
-	 *            the horizontal position relative to its containing box
-	 * @param containerBaseAbsPos
-	 *            the absolute position of the container's left side
-	 * @param containerSize
-	 *            container width
-	 * @param ImageSize
-	 *            the width of template which image lies in
-	 * @return a triple(the horizontal position of template's left-bottom
-	 *         origin, template width, and image's horizontal translation
-	 *         relative to the template )
-	 */
-	private TplValueTriple computeTplHorizontalValPair( float absPos,
-			float containerBaseAbsPos, float containerSize, float ImageSize )
-	{
-		float tplOrigin = 0.0f, tplSize = 0.0f, translation = 0.0f;
-		if ( absPos <= 0 )
-		{
-			if ( ImageSize + absPos > 0 && ImageSize + absPos <= containerSize )
-			{
-				tplOrigin = containerBaseAbsPos;
-				tplSize = ImageSize + absPos;
-			}
-			else if ( ImageSize + absPos > containerSize )
-			{
-				tplOrigin = containerBaseAbsPos;
-				tplSize = containerSize;
-			}
-			else
-			{
-				// never create template
-			}
-			translation = absPos;
-		}
-		else if ( absPos >= containerSize )
-		{
-			// never create template
-		}
-		else
-		{
-			if ( ImageSize + absPos <= containerSize )
-			{
-				tplOrigin = containerBaseAbsPos + absPos;
-				tplSize = ImageSize;
-			}
-			else
-			{
-				tplOrigin = containerBaseAbsPos + absPos;
-				tplSize = containerSize - absPos;
-			}
-			translation = 0.0f;
-		}
-		return new TplValueTriple( tplOrigin, tplSize, translation );
-
-	}
-
 	protected void drawImage( PdfTemplate image, float imageX, float imageY,
 			float height, float width, String helpText )
 			throws DocumentException
@@ -1009,6 +663,13 @@ public class PDFPage extends AbstractPage
 			showHelpText( imageX, imageY, width, height, helpText );
 		}
 		contentByte.restoreState( );
+	}
+	
+	private void drawImage( PdfTemplate image, float imageX, float imageY,
+			float width, float height )
+			throws DocumentException
+	{
+		drawImage( image, imageX, imageY, height, width, null );
 	}
 
 	protected void drawImage( Image image, float imageX, float imageY,

@@ -16,6 +16,7 @@ package org.eclipse.birt.report.data.oda.hive.ui.profile;
 
 import java.util.Properties;
 
+import org.eclipse.datatools.connectivity.oda.design.ui.manifest.UIManifestExplorer;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage;
 import org.eclipse.swt.widgets.Composite;
 
@@ -30,7 +31,6 @@ public class HiveSelectionWizardPage extends DataSourceWizardPage
     public HiveSelectionWizardPage( String pageName )
     {
         super( pageName );
-        setMessage( HiveSelectionPageHelper.DEFAULT_MESSAGE );
         // page title is specified in extension manifest
     }
 
@@ -40,7 +40,12 @@ public class HiveSelectionWizardPage extends DataSourceWizardPage
     public void createPageCustomControl( Composite parent )
     {
         if( m_pageHelper == null )
-            m_pageHelper = new HiveSelectionPageHelper( this );
+        {
+        	String odaDesignerId = UIManifestExplorer.getInstance( )
+					.getOdaDesignerId( this.getOdaDataSourceId( ) );
+        	m_pageHelper = new HiveSelectionPageHelper( this, odaDesignerId );
+        }
+            
         m_pageHelper.createCustomControl( parent );
         // in case init was called before create 
         m_pageHelper.initCustomControl( m_folderProperties ); 

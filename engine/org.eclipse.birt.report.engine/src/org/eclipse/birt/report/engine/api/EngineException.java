@@ -198,7 +198,7 @@ public class EngineException extends BirtException {
 		return super.getErrorCode( );
 	}
 
-	@Override
+	//suppose that this message is for end user
 	public String getLocalizedMessage( )
 	{
 		StringBuffer message = new StringBuffer( );
@@ -211,7 +211,24 @@ public class EngineException extends BirtException {
 			message.append( super.getLocalizedMessage( ) );
 		}
 
-		if ( message.length( ) > 0 && elementId >= 0 )
+		return message.toString( );
+	}
+
+	//suppose that this message is used for log
+	public String getMessage( )
+	{
+		StringBuffer message = new StringBuffer( );
+		if ( birtException != null )
+		{
+			message.append( birtException.getLocalizedMessage( ) );
+		}
+		else
+		{
+			message.append( super.getLocalizedMessage( ) );
+		}
+       // This "comment out" intend to show friendly message to
+	   // user client ,other than the details.
+	/*	if ( message.length( ) > 0 && elementId >= 0 )
 		{
 			message.append( " (" );
 			message.append( EngineResourceHandle.getInstance( )
@@ -219,15 +236,10 @@ public class EngineException extends BirtException {
 			message.append( ":" );
 			message.append( elementId );
 			message.append( ")" );
-		}
+		}*/
 
 		return message.toString( );
-	}
 
-	@Override
-	public String getMessage( )
-	{
-		return getLocalizedMessage( );
 	}
 
 	@Override

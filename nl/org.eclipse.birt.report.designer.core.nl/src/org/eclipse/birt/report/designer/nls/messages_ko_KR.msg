@@ -604,6 +604,11 @@ DataSetBasePage.ScriptedDataSet.name=스크립트된 데이터 집합
 DataSetBasePage.ScriptedDataSource.name=스크립트 데이터 원본
 DataSetBasePage.Group.DataSourceSelection=데이터 원본 선택
 
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Cassandra 스크립트 데이터 원본을 지원하는 Hector 클라이언트 라이브러리 jar를 찾을 수 없습니다.
+
 ###########################################################
 #JointDataSetPage properties
 
@@ -2515,7 +2520,7 @@ MapPreferencePage.displayname.Title=맵
 MapPreferencePage.text.Add=추가(&A)...
 MapPreferencePage.text.Delete=제거(&R)
 MapPreferencePage.text.Description=맵 규칙:
-MapPreferencePage.text.Edit=편집(&D)...
+MapPreferencePage.text.Edit=편집(&E)...
 MapPreferencePage.toolTipText.Up=맵 규칙 위로 이동
 MapPreferencePage.toolTipText.Down=맵 규칙 아래로 이동
 MapPreferencePage.text.Duplicate=중복(&D)
@@ -3639,6 +3644,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=보고서 라이브러리에 있는 CSS 파일 사용
 UseCssInThemeDialog.TitleArea.Message=CSS 파일의 스타일을 교체할 테마를 선택합니다.
+CssStyleSheetNodeProvider.Label.FromServer=서버에서
 CssStyleSheetNodeProvider.Tooltip.URI=(볼 때 적용)
 
 
@@ -4310,7 +4316,8 @@ GeneralPage.Library.Included=라이브러리:
 GeneralPage.Library.Modified.Note=참고: 이 보고서 항목은 라이브러리에서 수정되었습니다. 원래의 라이브러리 항목을 복원하려면 {0}"속성 복원"을 클릭하십시오.
 
 #BookMarkPage
-BookMarkPage.Modified.Note=책갈피에 \"A-Z a-z 0-9 - _ : .\" 이외의 특수 문자가 포함되어 있어 실행 시 문제가 발생할 수 있습니다.
+BookMarkPage.Modified.Note=책갈피에 허용 문자(A-Z, a-z, 0-9, '-', '_', ':', '.') 이외의 특수 문자가 포함되어 있어 실행 시 문제가 발생할 수 있습니다.
+BookMarkPage.Modified.WithoutQuotes=책갈피가 큰따옴표로 둘러싸여 있지 않아 실행 시 문제가 발생할 수 있습니다.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4619,7 +4626,8 @@ BindingDialogHelper.text.Grid=눈금
 BindingDialogHelper.text.Group=그룹(&O)
 BindingDialogHelper.text.Expression=식(&E):
 BindingDialogHelper.text.displayName=표시 이름(&N):
-BindingDialogHelper.text.allowExport=내보내기 허용(&O):
+BindingDialogHelper.text.allowExport=내보내기(&O):
+BindingDialogHelper.text.allowExport.button=내보내기 허용
 BindingDialogHelper.text.displayNameID=표시 이름 ID(&S):
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
@@ -4723,7 +4731,7 @@ InsertAggregationAction.text=집계(&A)
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=상대 시간(&V)
 
 ###########################################################
 #Multiple views
@@ -4878,6 +4886,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=기본 구문(&F):
 ExpressionEditor.Error.EmptyExpression=식은 비어 있으면 안 됩니다.
 ExpressionEditor.Label.Expression=식(&E):
 ExpressionEditor.Title=식 편집
+ExpressionSyntaxColoringPage.Accessible.Name.Background=배경 색상 선택기
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=전경 색상 선택기
+ExpressionSyntaxColoringPage.Button.Bold=굵게(&B)
+ExpressionSyntaxColoringPage.Button.Enable=사용
+ExpressionSyntaxColoringPage.Button.Italic=기울임꼴(&I)
+ExpressionSyntaxColoringPage.Button.Restore=기본값 복원(&R)
+ExpressionSyntaxColoringPage.Button.Strikethrough=취소선(&S)
+ExpressionSyntaxColoringPage.Button.Underline=밑줄(&U)
+ExpressionSyntaxColoringPage.Decscription=목록 또는 예제 텍스트 영역에서 사용자 지정하려는 스타일의 텍스트 유형을 선택하여 구문 강조를 사용자 지정합니다.
+ExpressionSyntaxColoringPage.Element.Comment=주석
+ExpressionSyntaxColoringPage.Element.Default=기본값
+ExpressionSyntaxColoringPage.Element.Keyword=키워드
+ExpressionSyntaxColoringPage.Element.String=문자열
+ExpressionSyntaxColoringPage.Label.Background=배경(&O):
+ExpressionSyntaxColoringPage.Label.Foreground=전경(&F):
+ExpressionSyntaxColoringPage.Label.SampleText=샘플 텍스트(&S):
+ExpressionSyntaxColoringPage.Label.SyntaxElement=구문 요소(&Y):
+ExpressionSyntaxColoringPage.Link.ColorAndFont=기본 색상 및 글꼴은  <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">텍스트 편집기</a> 와  <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">색상 및 글꼴</a>  기본 설정 페이지에서 구성할 수 있습니다.
 
 ###########################################################
 #VariableDropAdapter

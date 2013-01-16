@@ -215,8 +215,8 @@ public abstract class ModuleReader
 					new String[]{handler.getFileName( )}, e );
 			List exceptionList = new ArrayList( );
 			exceptionList.add( ex );
-
-			logger.log( Level.SEVERE, "Parsed file was not found." ); //$NON-NLS-1$
+			// Ted 50667
+//			logger.log( Level.SEVERE, "Parsed file was not found." ); //$NON-NLS-1$
 
 			throw new DesignFileException( handler.getFileName( ),
 					exceptionList );

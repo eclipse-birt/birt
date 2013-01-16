@@ -179,6 +179,11 @@ public class ResultFieldMetadata
 		m_nativeTypeName = nativeTypeName;
 	}
 	
+	public void setLabel( String label )
+	{
+		this.m_label = label;
+	}
+	
 	public String getLabel()
 	{
 		return m_label;

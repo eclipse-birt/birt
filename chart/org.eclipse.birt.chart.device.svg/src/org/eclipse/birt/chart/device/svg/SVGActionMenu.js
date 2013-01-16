@@ -129,12 +129,72 @@ TM.remove = function () {
 	}
 };
 
-TM.show = function (evt, id, title, tooltipText) {
-	// In IE 9, browser has native tooltip for title element, so do not show
-	// it twice.
-	if (isIE() && getIEVersion() >= 9) {
-		return;
+function detectBrowser() {
+    var userAgent = navigator.userAgent;
+    var browserName = navigator.appName;
+    var fullVersion = '' + parseFloat(navigator.appVersion);
+    var majorVersion = parseInt(navigator.appVersion, 10);
+    var versionOffset;
+
+    
+	// The true version is after the browser name in userAgent
+	// For Safari, it may be after "Safari" or "Version" 
+    if ((versionOffset = userAgent.indexOf("MSIE")) != -1) {
+        browserName = "Microsoft Internet Explorer";
+        fullVersion = userAgent.substring(versionOffset + 5);
+    }
+    else if ((versionOffset = userAgent.indexOf("Chrome")) != -1) {
+        browserName = "Chrome";
+        fullVersion = userAgent.substring(versionOffset + 7);
+    }
+    
+    else if ((versionOffset = userAgent.indexOf("Safari")) != -1) {
+        browserName = "Safari";
+        fullVersion = userAgent.substring(versionOffset + 7);
+        if ((versionOffset = userAgent.indexOf("Version")) != -1) fullVersion = userAgent.substring(versionOffset + 8);
+    }
+    else if ((versionOffset = userAgent.indexOf("Firefox")) != -1) {
+        browserName = "Firefox";
+        fullVersion = userAgent.substring(versionOffset + 8);
+    }
+
+    // Trim the semicolon or space
+	var index;
+    if ((index = fullVersion.indexOf(";")) != -1) fullVersion = fullVersion.substring(0, index);
+    if ((index = fullVersion.indexOf(" ")) != -1) fullVersion = fullVersion.substring(0, index);
+
+    majorVersion = parseInt('' + fullVersion, 10);
+    if (isNaN(majorVersion)) {
+        majorVersion = parseInt(navigator.appVersion, 10);
+    }
+    
+    return {"browserName" : browserName, "majorVersion" : majorVersion};
+};
+
+function isSvgTitleToolTipSupported() {
+	var browserInfo = detectBrowser();
+	var isSupported = false;
+	
+	if(((browserInfo.browserName === "Chrome") && (browserInfo.majorVersion >= 3)) ||
+		((browserInfo.browserName === "Firefox") && (browserInfo.majorVersion >= 4)) ||
+		((browserInfo.browserName === "Safari") && (browserInfo.majorVersion >= 4)) ||
+		((browserInfo.browserName === "Microsoft Internet Explorer") && (browserInfo.majorVersion >= 9))) {
+		
+		isSupported = true;
 	}
+
+	return isSupported;
+};
+
+TM.show = function (evt, id, title, tooltipText) {
+	// If the browser has native tooltip for title element, do not show
+	// it twice.
+	if (evt.type == 'mousemove') {
+		if (isSvgTitleToolTipSupported()) {
+			return;
+		}
+	}
+	
 	if (id != null && typeof id != 'undefined') {
 		var mainSvg = evt.target.ownerDocument;
 		var comp = mainSvg.getElementById(id);
@@ -489,6 +549,7 @@ function getIEVersion() {
 	}
 	return 0;
 }
+
 var xScale = 1;
 var yScale = 1;
 function resizeSVG(e) {
@@ -857,7 +918,11 @@ BirtChartActionsMenu.executeMenuActionImpl = function(evt, menuItemInfo, menuInf
         case BirtChartInteractivityActions.INVOKE_SCRIPTS:
 			var scripts = menuItemInfo.actionValue;
 			if (scripts != undefined) {
-				BirtChartActionsMenu.invokeScripts( scripts, evt, menuInfo.categoryData, menuInfo.valueData, menuInfo.valueSeriesName, menuInfo.legendItemText, menuInfo.legendItemValue, menuInfo.axisLabel, menuInfo );
+				BirtChartActionsMenu.invokeScripts(scripts, evt,
+					menuInfo.categoryData, menuInfo.valueData,
+					menuInfo.valueSeriesName, menuInfo.legendItemData,
+					menuInfo.legendItemText, menuInfo.legendItemValue,
+					menuInfo.axisLabel, menuInfo);
 			}
             break;
         case BirtChartInteractivityActions.HIGHLIGHT:
@@ -897,7 +962,9 @@ BirtChartActionsMenu.redirect = function(url, urlTarget){
     }
 };
 
-BirtChartActionsMenu.invokeScripts = function( scripts, evt, categoryData, valueData, valueSeriesName, legendItemText, legendItemValue, axisLabel, menuInfo  ) {
+BirtChartActionsMenu.invokeScripts = function(scripts, evt, categoryData,
+		valueData, valueSeriesName, legendItemData, legendItemText,
+		legendItemValue, axisLabel, menuInfo) {
 	eval( scripts );
 };
 

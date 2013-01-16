@@ -195,6 +195,14 @@ public class ResultObject implements IResultObject
 		else
 			throw new DataException( ResourceConstants.INVALID_CUSTOM_FIELD_INDEX,
 					Integer.valueOf( fieldIndex ) );
+		
+		if( resultClass.getFieldValueClass( fieldIndex ).getName( ).equals( AnyType.class.getName( ) ) )
+		{
+			if( value!= null)
+			{
+				( ( ResultClass )resultClass ).getFieldMetaData( fieldIndex ).setDataType( value.getClass( ) );
+			}
+		}
 	}
 	
 	/**

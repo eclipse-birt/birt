@@ -6,9 +6,10 @@
   </intro>
   <item href="/org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForDatabaseOrOtherJDBCDataSource.html"
   title="Erstellen einer Datenquelle" skip="true">
-     <description>- Klicken Sie in der Daten-Explorer-Ansicht mit der rechten Maustaste auf 'Datenquellen', und wählen Sie die Option 'Neue Datenquelle'. Unter 'Neue Datenquelle' wird die Beispieldatenbank von Classic Models Inc. als ausgewählte Datenquelle angezeigt.<br/>
-      - Wählen Sie 'Weiter'.<br/>
-      - Wählen Sie 'Fertig stellen'. 
+     <description>Klicken Sie in der Ansicht 'Daten-Explorer' mit der rechten Maustaste auf 'Datenquellen', und wählen Sie die Option 'Neue Datenquelle'.<br/>
+      - Wählen Sie die Beispieldatenbank 'Classic Models Inc.'.<br/>
+	  - Wählen Sie 'Weiter'.<br/>
+      - Wählen Sie 'Fertigstellen'. 
      </description>
      <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSourceAction"
      pluginId="org.eclipse.birt.report.designer.ui.data"/>

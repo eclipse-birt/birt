@@ -604,6 +604,11 @@ DataSetBasePage.ScriptedDataSet.name=Geskripteter Datensatz
 DataSetBasePage.ScriptedDataSource.name=Geskriptete Datenquelle
 DataSetBasePage.Group.DataSourceSelection=Datenquellenauswahl
 
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Hector Clientbibliothek JARs zur Unterstützung der geskripteten Datenquelle Cassandra wurden nicht gefunden.
+
 ###########################################################
 #JointDataSetPage properties
 
@@ -3639,6 +3644,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
 UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der CSS-Datei platziert werden sollen.
+CssStyleSheetNodeProvider.Label.FromServer=Vom Server
 CssStyleSheetNodeProvider.Tooltip.URI=(Übernahme während der Anzeige)
 
 
@@ -4310,7 +4316,8 @@ GeneralPage.Library.Included=Bibliothek:
 GeneralPage.Library.Modified.Note=HINWEIS: Dieses Berichtobjekt aus der Bibliothek wurde geändert. Klicken Sie zum Wiederherstellen des Objekts aus der Bibliothek auf{0}"Eigenschaften wiederherstellen".
 
 #BookMarkPage
-BookMarkPage.Modified.Note=Das Lesezeichen enthält Sonderzeichen statt der Zeichen \"A-Z a-z 0-9 - _ : .\". Dies kann zu Problemen während der Laufzeit führen.
+BookMarkPage.Modified.Note=Das Lesezeichen enthält Sonderzeichen statt der folgenden Zeichen(A-Z, a-z, 0-9, '-', '_', ':', '.'). Dies kann zu Problemen während der Laufzeit führen.
+BookMarkPage.Modified.WithoutQuotes=Das Lesezeichen steht nicht in doppelten Anführungszeichen. Dies kann zu Problemen während der Laufzeit führen.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4619,7 +4626,8 @@ BindingDialogHelper.text.Grid=Raster
 BindingDialogHelper.text.Group=Gr&uppe
 BindingDialogHelper.text.Expression=&Ausdruck:
 BindingDialogHelper.text.displayName=Anzeige&name:
-BindingDialogHelper.text.allowExport=Exp&ort zulassen:
+BindingDialogHelper.text.allowExport=Exp&ortieren:
+BindingDialogHelper.text.allowExport.button=Export zulassen
 BindingDialogHelper.text.displayNameID=Namen-ID an&zeigen:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
@@ -4723,7 +4731,7 @@ InsertAggregationAction.text=&Aggregat
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=Relati&ves Zeitintervall
 
 ###########################################################
 #Multiple views
@@ -4878,6 +4886,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=&Standardsyntax:
 ExpressionEditor.Error.EmptyExpression=Ausdruck darf nicht leer sein.
 ExpressionEditor.Label.Expression=&Ausdruck:
 ExpressionEditor.Title=Ausdruck bearbeiten
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Hintergrundfarbauswahl
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Vordergrundfarbauswahl
+ExpressionSyntaxColoringPage.Button.Bold=&Fett
+ExpressionSyntaxColoringPage.Button.Enable=Aktivieren
+ExpressionSyntaxColoringPage.Button.Italic=&Kursiv
+ExpressionSyntaxColoringPage.Button.Restore=&Standardwert wiederherstellen
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Durchgestrichen
+ExpressionSyntaxColoringPage.Button.Underline=&Unterstrichen
+ExpressionSyntaxColoringPage.Decscription=Um die Kennzeichnung der Syntax anzupassen, wählen Sie den Texttyp aus der Liste oder dem Beispieltextbereich aus, dessen Stil Sie anpassen möchten.
+ExpressionSyntaxColoringPage.Element.Comment=Kommentar
+ExpressionSyntaxColoringPage.Element.Default=Standard
+ExpressionSyntaxColoringPage.Element.Keyword=Schlüsselwort
+ExpressionSyntaxColoringPage.Element.String=Zeichenfolge
+ExpressionSyntaxColoringPage.Label.Background=Hintergr&und:
+ExpressionSyntaxColoringPage.Label.Foreground=&Vordergrund:
+ExpressionSyntaxColoringPage.Label.SampleText=&Beispieltext:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntaxelement:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Standardfarben und -schriftarten können auf der Voreinstellungsseite <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">'Texteditor'</a> und <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">'Schriftarten und Farben'</a> konfiguriert werden.
 
 ###########################################################
 #VariableDropAdapter

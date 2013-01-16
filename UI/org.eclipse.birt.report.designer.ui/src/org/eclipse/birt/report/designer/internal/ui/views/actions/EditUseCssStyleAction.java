@@ -88,13 +88,15 @@ public class EditUseCssStyleAction extends AbstractViewAction
 		}
 	}
 
-	private void editCssInTheme( CssStyleSheetHandle cssStyle, AbstractThemeHandle theme )
+	private void editCssInTheme( CssStyleSheetHandle cssStyle,
+			AbstractThemeHandle theme )
 	{
 		UseCssInThemeDialog dialog = new UseCssInThemeDialog( );
 		dialog.setDialogTitle( Messages.getString( "EditUseCssStyleAction.EditCssTitle" ) );
 		dialog.setTitle( Messages.getString( "EditUseCssStyleAction.EditCssAreaTitle.Libary" ) );
-		String relativeFileName = cssStyle.getFileName( );
-		IncludedCssStyleSheetHandle includedCss = theme.findIncludedCssStyleSheetHandleByName( relativeFileName );
+		IncludedCssStyleSheetHandle includedCss = theme.findIncludedCssStyleSheetHandleByProperties( cssStyle.getFileName( ),
+				cssStyle.getExternalCssURI( ),
+				cssStyle.isUseExternalCss( ) );
 		dialog.setIncludedCssStyleSheetHandle( includedCss );
 		dialog.setTheme( theme );
 		if ( dialog.open( ) == Dialog.OK )
@@ -108,9 +110,10 @@ public class EditUseCssStyleAction extends AbstractViewAction
 			{
 				try
 				{
-					// includedCss.setFileName( dialog.getFileName( ) );
-					includedCss.setExternalCssURI( dialog.getURI( ) );
-					themeHandle.renameCss( includedCss, dialog.getFileName( ) );
+					themeHandle.renameCssByProperties( includedCss,
+							dialog.getFileName( ),
+							dialog.getURI( ),
+							dialog.isUseUri( ) );
 				}
 				catch ( SemanticException e )
 				{
@@ -127,6 +130,7 @@ public class EditUseCssStyleAction extends AbstractViewAction
 					IncludedCssStyleSheet css = StructureFactory.createIncludedCssStyleSheet( );
 					css.setFileName( dialog.getFileName( ) );
 					css.setExternalCssURI( dialog.getURI( ) );
+					css.setUseExternalCss( dialog.isUseUri( ) );
 					themeHandle.addCss( css );
 				}
 				catch ( SemanticException e )
@@ -149,8 +153,10 @@ public class EditUseCssStyleAction extends AbstractViewAction
 		UseCssInReportDialog dialog = new UseCssInReportDialog( );
 		dialog.setDialogTitle( Messages.getString( "EditUseCssStyleAction.EditCssTitle" ) );
 		dialog.setTitle( Messages.getString( "EditUseCssStyleAction.EditCssAreaTitle.Report" ) );
-		String relativeFileName = cssStyle.getFileName( );
-		IncludedCssStyleSheetHandle includedCss = reportDesign.findIncludedCssStyleSheetHandleByFileName( relativeFileName );
+		IncludedCssStyleSheetHandle includedCss = reportDesign.findIncludedCssStyleSheetHandleByProperties( cssStyle.getFileName( ),
+				cssStyle.getExternalCssURI( ),
+				cssStyle.isUseExternalCss( ) );
+
 		dialog.setIncludedCssStyleSheetHandle( includedCss );
 		if ( dialog.open( ) == Dialog.OK )
 		{
@@ -160,9 +166,10 @@ public class EditUseCssStyleAction extends AbstractViewAction
 
 			try
 			{
-				includedCss.setExternalCssURI( dialog.getURI( ) );
-				// reloadAllCssStyle(reportDesign);
-				reportDesign.renameCss( includedCss, dialog.getFileName( ) );
+				reportDesign.renameCssByProperties( includedCss,
+						dialog.getFileName( ),
+						dialog.getURI( ),
+						dialog.isUseUri( ) );
 			}
 			catch ( SemanticException e )
 			{
@@ -172,7 +179,6 @@ public class EditUseCssStyleAction extends AbstractViewAction
 				return;
 			}
 			stack.commit( );
-
 		}
 	}
 

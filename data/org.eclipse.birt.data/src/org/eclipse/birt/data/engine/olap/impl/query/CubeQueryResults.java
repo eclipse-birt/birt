@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.QueryPrepareUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
@@ -78,6 +79,7 @@ public class CubeQueryResults implements ICubeQueryResults
 	protected ICubeCursor cubeCursor;
 	private String name;
 	private PreparedCubeQuery preparedQuery;
+	protected CubeQueryExecutor executor;
 	
 	protected static Logger logger = Logger.getLogger( CubeQueryResults.class.getName( ) );
 	
@@ -272,7 +274,7 @@ public class CubeQueryResults implements ICubeQueryResults
 			OLAPException
 	{
 		ICubeCursor cursor;
-		CubeQueryExecutor executor = new CubeQueryExecutor( this.outResults, cubeQueryDefinition, this.session,
+		executor = new CubeQueryExecutor( this.outResults, cubeQueryDefinition, this.session,
 				this.scope,
 				this.context );
 		executor.getdimensionSimpleFilter( ).addAll( this.preparedQuery.getInternalFilters( ) );
@@ -384,16 +386,6 @@ public class CubeQueryResults implements ICubeQueryResults
 	{
 		if( cubeQuery.getQueryResultsID( )!= null && context.getMode( ) == DataEngineContext.MODE_PRESENTATION  )
 		{
-			List filters = cubeQuery.getFilters( );
-			if ( filters != null && filters.size( ) > 0) 
-			{
-				for ( int i = 0; i < filters.size( ); i++ ) 
-				{
-					IFilterDefinition def = (IFilterDefinition) filters.get( i );
-					if ( !def.updateAggregation( ) )
-						return false;
-				}
-			}
 			return true;
 		}
 		return false;
@@ -414,8 +406,7 @@ public class CubeQueryResults implements ICubeQueryResults
 	 */
 	public void close( ) throws BirtException
 	{
-		// TODO Auto-generated method stub
-
+		QueryPrepareUtil.clear( session );
 	}
 
 	/*

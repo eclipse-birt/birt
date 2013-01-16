@@ -48,10 +48,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	protected boolean softBreakBefore = false;
 	
 	protected boolean addAfterBreak = false;
-	
-	//use this flag to ignore multiple page-break event in horizontal page-break
-	protected boolean ignorePageBreak = true; 
-	
+		
 	/**
 	 * @param context
 	 *            execution context
@@ -172,7 +169,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		pageBreakLevel = -1;
 		softBreakBefore = false;
 		addAfterBreak = false;
-		ignorePageBreak = true;
 		super.close( );
 	}
 	
@@ -181,7 +177,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		if ( pageBreakInterval > 0 )
 		{
 			pageRowCount++;
-			ignorePageBreak = false;
 		}
 	}
 	
@@ -362,9 +357,9 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 	}
 
-	public void onPageBreak( )
+	public void onPageBreak( boolean isHorizontalPageBreak)
 	{
-		if ( !ignorePageBreak )
+		if ( !isHorizontalPageBreak )
 		{
 			pageRowCount = 0;
 			if ( addAfterBreak )
@@ -379,8 +374,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				{
 					softBreakBefore = false;
 				}
+				
 			}
-			ignorePageBreak = true;
 		}
 	}
 }

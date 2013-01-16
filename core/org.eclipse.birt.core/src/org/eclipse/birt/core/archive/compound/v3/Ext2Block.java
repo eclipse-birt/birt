@@ -16,14 +16,12 @@ abstract public class Ext2Block extends Block
 
 	static final int BLOCK_SIZE = Ext2FileSystem.BLOCK_SIZE;
 
-	Ext2FileSystem fs;
+	final Ext2FileSystem fs;
 
 	Ext2Block( Ext2FileSystem fs, int blockId )
 	{
 		super( fs == null ? null : fs.cacheManager, blockId );
 		this.fs = fs;
-		this.blockId = blockId;
-		this.cacheKey = Integer.valueOf( blockId );
 	}
 
 	Ext2FileSystem getFileSystem( )

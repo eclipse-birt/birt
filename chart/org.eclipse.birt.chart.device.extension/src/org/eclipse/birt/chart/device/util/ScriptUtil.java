@@ -53,13 +53,15 @@ public class ScriptUtil
 		if ( lerh != null )
 		{
 			str.append( "," ); //$NON-NLS-1$
+			str.append( addDataValueToScript( lerh.getItemValue( ) ) );
+			str.append( "," ); //$NON-NLS-1$
 			str.append( addDataValueToScript( lerh.getItemText( ) ) );
 			str.append( "," ); //$NON-NLS-1$
 			str.append( addDataValueToScript( lerh.getValueText( ) ) );
 		}
 		else
 		{
-			str.append( ",null,null" ); //$NON-NLS-1$
+			str.append( ",null,null,null" ); //$NON-NLS-1$
 		}
 		// IActionRenderer.AXIS_LABEL
 		if ( axisLabel != null )

@@ -30,11 +30,9 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
-import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
@@ -52,6 +50,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -134,7 +133,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 	private Group grpOutline;
 
-	private ChartWizardContext context;
+	@SuppressWarnings("hiding")
+	protected ChartWizardContext context;
 
 	/** Caches the pairs of datapoint display name and name */
 	protected Map<String, String> mapDataPointNames;
@@ -614,15 +614,17 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		{
 			if ( context.getModel( ) instanceof ChartWithAxes )
 			{
-				ChartWithAxes chart = (ChartWithAxes) context.getModel( );
-				if ( chart.getPrimaryBaseAxes( ).length > 0 )
+				// Get the current axis that holds series
+				Axis ax = ChartUtil.getAxisFromSeries( series );
+				if ( ax == null )
 				{
-					Axis ax = chart.getPrimaryOrthogonalAxis( chart.getPrimaryBaseAxes( )[0] );
-					if ( ax != null )
+					ChartWithAxes chart = (ChartWithAxes) context.getModel( );
+					if ( chart.getPrimaryBaseAxes( ).length > 0 )
 					{
-						return ax.getType( );
+						ax = chart.getPrimaryOrthogonalAxis( chart.getPrimaryBaseAxes( )[0] );
 					}
 				}
+				return ax.getType( );
 			}
 		}
 		else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
@@ -851,12 +853,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		{
 			DataPointComponentType dpct = DataPointComponentType.getByName( LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( lstComponents.getItem( iComponentIndex ) ) );
 			dpc = DataPointComponentImpl.create( dpct, null );
-			// Set a predefined format specifier to percentile type
-			if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
-			{
-				JavaNumberFormatSpecifier fs = JavaNumberFormatSpecifierImpl.create( "##.##%" ); //$NON-NLS-1$
-				dpc.setFormatSpecifier( fs );
-			}
 		}
 		dpc.eAdapters( ).addAll( dp.eAdapters( ) );
 		dp.getComponents( ).add( dpc );

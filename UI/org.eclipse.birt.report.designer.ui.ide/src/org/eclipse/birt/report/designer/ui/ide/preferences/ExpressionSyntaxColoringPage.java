@@ -9,7 +9,7 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.designer.ui.preferences;
+package org.eclipse.birt.report.designer.ui.ide.preferences;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,7 +32,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.preferences.OverlayPreferenceStore;
 import org.eclipse.birt.report.designer.ui.preferences.OverlayPreferenceStore.OverlayKey;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.ColorSelector;

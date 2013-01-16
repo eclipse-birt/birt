@@ -28,7 +28,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * Data Set Editor page for Sample DB Data sets created using builds prior to 2.0M3
@@ -77,18 +77,17 @@ public class SampleDataSetEditor extends DataSetWizardPage
 		content.setLayout( layout );
 		content.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		Label txt = new Label( content, SWT.LEFT );
+		Text txt = new Text( content, SWT.LEFT|SWT.MULTI|SWT.H_SCROLL|SWT.V_SCROLL );
+		txt.setEditable(false);
 		txt.setText( Messages.formatMessage( "datasource.upgrade.msg.firstLine", new Object[]{ //$NON-NLS-1$
 					dataSourceDesign.getName( )
 				} ) );
-
-		Label nextLineLabel = new Label( content, SWT.LEFT );
-		nextLineLabel.setText( Messages.formatMessage( "datasource.upgrade.msg.secondLine", new Object[]{ //$NON-NLS-1$
-					dataSourceDesign.getName( )
-				} ) );
-
-		Label thirdLineLabel = new Label( content, SWT.LEFT );
-		thirdLineLabel.setText( Messages.getMessage( "datasource.upgrade.msg.thirdLine" ) ); //$NON-NLS-1$
+		txt.append( Messages.formatMessage( "datasource.upgrade.msg.secondLine", new Object[]{ //$NON-NLS-1$
+				dataSourceDesign.getName( )
+			} ) );
+		txt.append( Messages.getMessage( "datasource.upgrade.msg.thirdLine" )  );
+		txt.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		
 		return content;
 	}
 

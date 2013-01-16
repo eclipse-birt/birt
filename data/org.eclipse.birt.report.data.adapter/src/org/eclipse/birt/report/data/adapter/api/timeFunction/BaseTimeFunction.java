@@ -188,7 +188,7 @@ public class BaseTimeFunction implements ITimeFunction
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
 			( (ArgumentInfo) period2 ).setPeriodChoices( period_type2 );
-			( (ArgumentInfo) period2 ).setDisplayname(Message.getMessage(ResourceConstants.TIMEFUNCITON_N2_AGO_DISPLAYNAME));
+			( (ArgumentInfo) period2 ).setDisplayname( Message.getMessage( ResourceConstants.TIMEFUNCITON_N2_AGO_DISPLAYNAME ) );
 			arguments.add( period2 );
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO ) )

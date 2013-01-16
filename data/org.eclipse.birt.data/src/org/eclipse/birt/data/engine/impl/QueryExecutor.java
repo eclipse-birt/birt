@@ -26,6 +26,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -39,6 +40,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.IFilterDefinition.FilterTarget;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -48,6 +50,7 @@ import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
+import org.eclipse.birt.data.engine.expression.CompareHints;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -90,7 +93,8 @@ public abstract class QueryExecutor implements IQueryExecutor
 	private boolean isPrepared = false;
 	private boolean isExecuted = false;
 	
-	private boolean loadFromCache;
+	protected boolean loadFromCache;
+	protected boolean ignoreDataSetFilter = false;
 	
 	private Map queryAppContext;
 
@@ -308,6 +312,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		// runtime is needed for each execute
 		dataSet = newDataSetRuntime( );
 		assert dataSet != null;	
+		initializeCollator( );
 		
 		//For cached data set, we need not execute any scripts.
 		loadFromCache = loadFromCache( );
@@ -347,6 +352,29 @@ public abstract class QueryExecutor implements IQueryExecutor
 					dataSet.getName( ) );
 		}
 		isPrepared = true;
+	}
+	
+	abstract protected String getDataSetName( );
+	
+	private void initializeCollator( ) throws DataException
+	{
+		if ( session != null )
+		{
+			IBaseDataSetDesign design = ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( getDataSetName( ) );
+			if ( design != null )
+			{
+				String nullOrdering = design.getNullsOrdering( );
+				Collator collator = design.getCompareLocale( ) == null ? null
+						: Collator.getInstance( design.getCompareLocale( ) );
+
+				dataSet.setCompareLocale( collator );
+				dataSet.setNullest( nullOrdering );
+
+				dataSet.getScriptScope( ).put( "compare_locale",
+						dataSet.getScriptScope( ),
+						collator );
+			}
+		}
 	}
 	
 	/**
@@ -468,45 +496,6 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 	}
 	
-	private boolean needSortingOnGroupKeys( )
-	{
-		if ( this.baseQueryDefn.getQueryExecutionHints( ) == null
-				|| this.baseQueryDefn.getQueryExecutionHints( )
-						.doSortBeforeGrouping( ) )
-			return true;
-		
-		// Now do sorting before group is false.
-		List<IGroupDefinition> groups = this.baseQueryDefn.getGroups( );
-		List<ISortDefinition> sorts = this.baseQueryDefn.getSorts( );
-		
-		if ( sorts == null || sorts.size( ) == 0 )
-			return false;
-
-		int i = 0;
-		for ( ; i < groups.size( ) && i < sorts.size( ); )
-		{
-			String groupKey = groups.get( i ).getKeyColumn( ) != null
-					? getColumnRefExpression( groups.get( i ).getKeyColumn( ) )
-					: groups.get( i ).getKeyExpression( );
-			String sortKey = sorts.get( i ).getColumn( ) != null
-					? getColumnRefExpression( sorts.get( i ).getColumn( ) )
-					: sorts.get( i ).getExpression( ).getText( );
-			if ( groupKey.equals( sortKey ) )
-			{
-				i++;
-			}
-			else
-			{
-				break;
-			}
-		}
-
-		if ( i == groups.size( ) )
-			return false;
-		else
-			return true;
-	}
-	
 	/**
 	 * Populate grouping to the query.
 	 * 
@@ -518,7 +507,6 @@ public abstract class QueryExecutor implements IQueryExecutor
 		List groups = this.baseQueryDefn.getGroups( );
 		if ( groups != null && !groups.isEmpty( ) )
 		{
-			boolean needSortingOnGroupKeys = needSortingOnGroupKeys( );
 			IQuery.GroupSpec[] groupSpecs = new IQuery.GroupSpec[groups.size( )];
 			Iterator it = groups.iterator( );
 			for ( int i = 0; it.hasNext( ); i++ )
@@ -543,7 +531,8 @@ public abstract class QueryExecutor implements IQueryExecutor
 				}
 				else
 				{
-					doGroupSorting = needSortingOnGroupKeys;
+					doGroupSorting = this.baseQueryDefn.getQueryExecutionHints( )
+							.doSortBeforeGrouping( );
 				}
 				IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
 						src,
@@ -794,11 +783,14 @@ public abstract class QueryExecutor implements IQueryExecutor
 		List<IFilterDefinition> aggrNoUpdateFilters = new ArrayList<IFilterDefinition>( );
 		List<IFilterDefinition> dataSetAggrFilters = new ArrayList<IFilterDefinition>( );
 		
-		if ( dataSet.getFilters( ) != null )
+		if ( dataSet.getFilters( ) != null && !ignoreDataSetFilter )
 		{
 			Map bindings = createBindingFromComputedColumn( dataSet.getComputedColumns( ));
 			for ( int i = 0; i < dataSet.getFilters( ).size( ); i++ )
 			{
+				if ( !( (IFilterDefinition) dataSet.getFilters( ).get( i ) ).updateAggregation( ) )
+					continue;
+				
 				if ( QueryExecutorUtil.isAggrFilter( (IFilterDefinition) dataSet.getFilters( )
 						.get( i ),
 						bindings ) )
@@ -821,6 +813,28 @@ public abstract class QueryExecutor implements IQueryExecutor
 			for ( int i = 0; i < filters.size( ); i++ )
 			{
 				IFilterDefinition filter = filters.get( i );
+				
+				if( ignoreDataSetFilter && FilterTarget.DATASET.equals( filter.getFilterTarget( ) ) )
+				{
+					continue;
+				}
+				
+				if ( !QueryExecutorUtil.isValidFilterExpression( filter.getExpression( ),
+						bindings,
+						this.session.getEngineContext( ).getScriptContext( ) ) )
+				{
+					String expression = filter.getExpression( ).toString( );
+					if ( filter.getExpression( ) instanceof IScriptExpression )
+						expression = ( (IScriptExpression) filter.getExpression( ) ).getText( );
+					else if ( filter.getExpression( ) instanceof IConditionalExpression )
+						expression = ( (IConditionalExpression) filter.getExpression( ) ).getExpression( )
+								.getText( );
+					throw new DataException( ResourceConstants.INVALID_DEFINITION_IN_FILTER,
+							new Object[]{
+								expression
+							} );
+				}
+				
 				if ( !filter.updateAggregation( ) )
 				{
 					aggrNoUpdateFilters.add( filter );
@@ -1178,6 +1192,18 @@ public abstract class QueryExecutor implements IQueryExecutor
 		
 		eventHandler.setExecutorHelper( helper );
 
+	   if ( eventHandler.getAppContext( ) != null && this.dataSet.getDesign( ) != null && dataSet.getSession( ) != null)
+		{
+			String nullOrdering = this.dataSet.getDesign( ).getNullsOrdering( );
+			Collator collator = this.dataSet.getDesign( ).getCompareLocale( ) == null
+					? null : Collator.getInstance( this.dataSet.getDesign( )
+							.getCompareLocale( ) );
+
+			eventHandler.getAppContext( )
+					.put( "org.eclipse.birt.data.engine.expression.compareHints",
+							new CompareHints( collator, nullOrdering ) );
+		}
+		    
 		// Execute the query
 		odiResult = executeOdiQuery( eventHandler );
 

@@ -32,6 +32,8 @@
 		<label for="exportFormat"><%=BirtResources.getMessage( "birt.viewer.dialog.export.format" )%></label>
 		<SELECT	ID="exportFormat" NAME="format" CLASS="birtviewer_exportreport_dialog_select">
 			<%
+				ParameterAccessor.sortSupportedFormatsByDisplayName(supportedFormats);
+				
 				for ( int i = 0; i < supportedFormats.length; i++ )
 				{
 					if ( !ParameterAccessor.PARAM_FORMAT_HTML.equalsIgnoreCase( supportedFormats[i] ) )
@@ -46,6 +48,12 @@
 		</TD>
 	</TR>
 	<TR HEIGHT="5px"><TD></TD></TR>
+	<TR HEIGHT="5px"><TD><HR/></TD></TR>
+	<TR>
+		<TD>
+		<label for="exportPages"><%=BirtResources.getMessage( "birt.viewer.dialog.page" )%></label>
+		</TD>
+	</TR>
 	<TR>
 		<TD>
 			<DIV ID="exportPageSetting">
@@ -77,6 +85,11 @@
 		<TD>
 			<DIV ID="exportFitSetting">
 				<TABLE>
+					<TR>
+						<TD>
+							<label for="exportFitToAuto"><%=BirtResources.getHtmlMessage( "birt.viewer.dialog.export.pdf.fitto" )%></label>
+						</TD>
+					</TR>
 					<TR>
 						<TD>
 							<INPUT TYPE="radio" ID="exportFitToAuto" NAME="exportFit" CHECKED/>

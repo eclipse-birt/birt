@@ -624,7 +624,8 @@ public class G2dRendererBase extends DeviceAdapter
 				}
 				_g2d.setClip( ar2 );
 
-				final Size szImage = computeImageSize( img );
+				img = scaleImage( img );
+				final Size szImage = _ids.getSize( img );
 
 				int iXRepeat = (int) ( Math.ceil( r2d.width
 						/ szImage.getWidth( ) ) );
@@ -635,7 +636,6 @@ public class G2dRendererBase extends DeviceAdapter
 				{
 					for ( int j = 0; j < iYRepeat; j++ )
 					{
-						img = scaleImage( img );
 						_g2d.drawImage( img,
 								(int) ( r2d.x + i * szImage.getWidth( ) ),
 								(int) ( r2d.y + j * szImage.getHeight( ) ),
@@ -646,21 +646,6 @@ public class G2dRendererBase extends DeviceAdapter
 				_g2d.setClip( shClip ); // RESTORE
 			}
 		}
-	}
-
-	/**
-	 * Computes the actual output size of image according to output DPI.
-	 * 
-	 * @param img
-	 * @return
-	 */
-	private Size computeImageSize( Image img )
-	{
-		Size size = _ids.getSize( img );
-		double scale = _ids.getDpiResolution( ) / 72d;
-		size.setWidth( size.getWidth( ) * scale );
-		size.setHeight( size.getHeight( ) * scale );
-		return size;
 	}
 
 	@Override
@@ -1352,23 +1337,22 @@ public class G2dRendererBase extends DeviceAdapter
 	}
 
 	/**
-	 * Scales image according to output DPI.
+	 * Scales image according to output DPI. If 96, do not need to scale
 	 * 
 	 * @param img
 	 * @return
 	 */
 	private java.awt.Image scaleImage( java.awt.Image img )
 	{
-		if ( img instanceof BufferedImage )
+		if ( this._ids.getDpiResolution( ) == 96 )
 		{
-			double scale = (int) ( this._ids.getDpiResolution( ) / 72d );
-			int newWidth = (int) ( ( (BufferedImage) img ).getWidth( ) * scale );
-			int newHeight = (int) ( ( (BufferedImage) img ).getHeight( ) * scale );
-			return img.getScaledInstance( newWidth,
-					newHeight,
-					Image.SCALE_DEFAULT );
+			// Do not scale in normal dpi
+			return img;
 		}
-		return img;
+		double scale = this._ids.getDpiResolution( ) / 96d;
+		int newWidth = (int) ( img.getWidth( (ImageObserver) getDisplayServer( ).getObserver( ) ) * scale );
+		int newHeight = (int) ( img.getHeight( (ImageObserver) getDisplayServer( ).getObserver( ) ) * scale );
+		return img.getScaledInstance( newWidth, newHeight, Image.SCALE_DEFAULT );
 	}
 	
 

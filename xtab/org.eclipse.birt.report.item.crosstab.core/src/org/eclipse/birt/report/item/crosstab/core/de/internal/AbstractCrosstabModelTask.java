@@ -13,11 +13,10 @@ package org.eclipse.birt.report.item.crosstab.core.de.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -29,16 +28,11 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.ICrosstabUpdateListener;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
@@ -290,7 +284,8 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 										levelView.getCubeLevelName( ),
 										counterAxisType ) )
 							continue;
-						CrosstabModelUtil.addDataItem( crosstab,
+
+						validateSingleMeasureAggregation( crosstab,
 								measureView,
 								function,
 								rowDimension,
@@ -338,7 +333,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 								counterAxisType ) )
 					continue;
 
-				CrosstabModelUtil.addDataItem( crosstab,
+				validateSingleMeasureAggregation( crosstab,
 						measureView,
 						function,
 						rowDimension,
@@ -437,7 +432,8 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 										levelView.getCubeLevelName( ),
 										counterAxisType ) )
 							continue;
-						CrosstabModelUtil.addDataItem( crosstab,
+
+						validateSingleMeasureAggregation( crosstab,
 								measureView,
 								function,
 								rowDimension,
@@ -476,7 +472,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 								counterAxisType ) )
 					continue;
 
-				CrosstabModelUtil.addDataItem( crosstab,
+				validateSingleMeasureAggregation( crosstab,
 						measureView,
 						function,
 						rowDimension,
@@ -1001,7 +997,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		if ( infor == null )
 			return;
 
-		CrosstabModelUtil.addDataItem( measureView.getCrosstab( ),
+		validateSingleMeasureAggregation( measureView.getCrosstab( ),
 				measureView,
 				function,
 				infor.getRowDimension( ),
@@ -1218,118 +1214,20 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			detailCell.setAggregationOnColumn( colLevelView.getCubeLevel( ) );
 		}
 
-		if ( measureView instanceof ComputedMeasureViewHandle )
-		{
-			// computed measure doesn't need update bindings and cell content
-			return;
-		}
-
-		rowLevel = detailCell.getAggregationOnRow( );
-		colLevel = detailCell.getAggregationOnColumn( );
-
-		String aggregateRowName = rowLevel == null ? null
-				: rowLevel.getQualifiedName( );
-		String aggregateColumnName = colLevel == null ? null
-				: colLevel.getQualifiedName( );
-
-		// update computed column and set some properties
-		String name = CrosstabModelUtil.generateComputedColumnName( measureView,
-				aggregateColumnName,
-				aggregateRowName );
-		ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
-				name );
-		String dataType = measureView.getDataType( );
-		column.setDataType( dataType );
-		column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
-
-		String defaultFunction = CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView );
-		String measureFunc = CrosstabModelUtil.getAggregationFunction( crosstab,
+		String function = CrosstabModelUtil.getAggregationFunction( crosstab,
 				detailCell );
 
-		column.setAggregateFunction( measureFunc != null ? measureFunc
-				: defaultFunction );
+		Map<String, Object> extras = null;
 
-		// When the function is not null,set the column set the correct data
-		// type
-		if ( measureFunc != null && !measureFunc.equals( defaultFunction ) )
+		if ( function != null )
 		{
-			try
-			{
-				// reset the data type to default by the aggregatino
-				// function
-
-				String targetType = DataAdapterUtil.adapterToModelDataType( CrosstabModelUtil.getAggregationManager( )
-						.getAggregation( column.getAggregateFunction( ) )
-						.getDataType( ) );
-
-				if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
-				{
-					column.setDataType( targetType );
-				}
-			}
-			catch ( BirtException e )
-			{
-				// do nothing;
-			}
+			extras = new HashMap<String, Object>( );
+			extras.put( ICrosstabUpdateListener.EXTRA_FUNCTION_HINT, function );
 		}
 
-		if ( aggregateRowName != null )
-		{
-			column.addAggregateOn( aggregateRowName );
-		}
-		if ( aggregateColumnName != null )
-		{
-			column.addAggregateOn( aggregateColumnName );
-		}
-
-		// add the computed column to crosstab
-		ComputedColumnHandle columnHandle = ( (ReportItemHandle) crosstab.getModelHandle( ) ).addColumnBinding( column,
-				false );
-
-		// validate data item binding properties
-		if ( detailCell.getContents( ).size( ) == 0
-				|| ( detailCell.getContents( ).size( ) == 1 && detailCell.getContents( )
-						.get( 0 ) instanceof DataItemHandle ) )
-		{
-
-			DataItemHandle dataItem;
-
-			if ( detailCell.getContents( ).size( ) == 0 )
-			{
-				// set the data-item result set the the name of the column
-				// handle
-				dataItem = crosstab.getModuleHandle( )
-						.getElementFactory( )
-						.newDataItem( null );
-				dataItem.setResultSetColumn( columnHandle.getName( ) );
-				detailCell.addContent( dataItem );
-			}
-			else
-			{
-				dataItem = (DataItemHandle) detailCell.getContents( ).get( 0 );
-				dataItem.setResultSetColumn( columnHandle.getName( ) );
-			}
-
-			CrosstabModelUtil.notifyValidate( ICrosstabModelListener.MEASURE_DETAIL,
-					detailCell );
-		}
-		else
-		{
-			// try reset binding on first data item
-			// TODO should have better logic or move logic out
-			for ( Object item : detailCell.getContents( ) )
-			{
-				if ( item instanceof DataItemHandle )
-				{
-					( (DataItemHandle) item ).setResultSetColumn( columnHandle.getName( ) );
-
-					CrosstabModelUtil.notifyValidate( ICrosstabModelListener.MEASURE_DETAIL,
-							detailCell );
-
-					break;
-				}
-			}
-		}
+		CrosstabModelUtil.notifyValidate( ICrosstabUpdateListener.MEASURE_DETAIL,
+				detailCell,
+				extras );
 	}
 
 	/**
@@ -1404,8 +1302,9 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 
 			mv.getHeaderProperty( ).add( newHeader );
 
-			CrosstabModelUtil.notifyCreation( ICrosstabModelListener.MEASURE_HEADER,
-					CrosstabUtil.getReportItem( newHeader ) );
+			CrosstabModelUtil.notifyCreation( ICrosstabUpdateListener.MEASURE_HEADER,
+					CrosstabUtil.getReportItem( newHeader ),
+					null );
 		}
 		else
 		{
@@ -1425,8 +1324,9 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 
 					mv.getHeaderProperty( ).add( newHeader, i );
 
-					CrosstabModelUtil.notifyCreation( ICrosstabModelListener.MEASURE_HEADER,
-							CrosstabUtil.getReportItem( newHeader ) );
+					CrosstabModelUtil.notifyCreation( ICrosstabUpdateListener.MEASURE_HEADER,
+							CrosstabUtil.getReportItem( newHeader ),
+							null );
 
 					break;
 				}
@@ -1579,8 +1479,9 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				ExtendedItemHandle headerCell = CrosstabExtendedItemFactory.createCrosstabCell( measureView.getModuleHandle( ) );
 				propHandle.add( headerCell );
 
-				CrosstabModelUtil.notifyCreation( ICrosstabModelListener.MEASURE_HEADER,
-						CrosstabUtil.getReportItem( headerCell ) );
+				CrosstabModelUtil.notifyCreation( ICrosstabUpdateListener.MEASURE_HEADER,
+						CrosstabUtil.getReportItem( headerCell ),
+						null );
 			}
 		}
 		else if ( availableHeaders > expectHeaders )
@@ -1594,6 +1495,40 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				( (DesignElementHandle) contents.get( contents.size( ) - i - 1 ) ).drop( );
 			}
 		}
+	}
+
+	protected void validateSingleMeasureAggregation(
+			CrosstabReportItemHandle crosstab, MeasureViewHandle measureView,
+			String function, String rowDimension, String rowLevel,
+			String colDimension, String colLevel ) throws SemanticException
+	{
+		if ( crosstab == null || measureView == null )
+			return;
+
+		AggregationCellHandle cell = measureView.getAggregationCell( rowDimension,
+				rowLevel,
+				colDimension,
+				colLevel );
+
+		if ( cell == null )
+		{
+			cell = measureView.addAggregation( rowDimension,
+					rowLevel,
+					colDimension,
+					colLevel );
+		}
+
+		Map<String, Object> extras = null;
+
+		if ( function != null )
+		{
+			extras = new HashMap<String, Object>( );
+			extras.put( ICrosstabUpdateListener.EXTRA_FUNCTION_HINT, function );
+		}
+
+		CrosstabModelUtil.notifyValidate( ICrosstabUpdateListener.MEASURE_AGGREGATION,
+				cell,
+				extras );
 	}
 
 	/**

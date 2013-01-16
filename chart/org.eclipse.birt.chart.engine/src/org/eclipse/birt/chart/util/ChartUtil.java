@@ -399,6 +399,22 @@ public class ChartUtil
 		}
 		return String.valueOf( value );
 	}
+	
+	/**
+	 * Returns the string representation for given object. Null outputs blank
+	 * string.
+	 * 
+	 * @param value
+	 * @return string value
+	 */
+	public static String stringBlankValue( Object value )
+	{
+		if ( value == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		return stringValue( value );
+	}
 
 	/**
 	 * Converts Fill if possible. If Fill is MultipleFill type, convert to
@@ -2529,5 +2545,29 @@ public class ChartUtil
 	{
 		return Messages.getString( chart.getType( )
 				.replaceAll( " ", "" ) + ".Title" );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+	
+	/**
+	 * Checks if current series is only an instance of specified series type,
+	 * neither super class nor sub class.
+	 * 
+	 * @param series
+	 *            series instance
+	 * @param clazz
+	 *            series type
+	 * @return true means an instance of this direct interface.
+	 */
+	public static boolean isSpecifiedSeriesType( Series series,
+			Class<? extends Series> clazz )
+	{
+		Class<?>[] list = series.getClass( ).getInterfaces( );
+		for ( Class<?> c : list )
+		{
+			if ( c == clazz )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

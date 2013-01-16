@@ -1012,9 +1012,6 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 					try
 					{
 						( (OdaDataSetHandle) ds ).setQueryText( this.savedQueryText );
-						DataSetProvider.getCurrentInstance( )
-								.getDataSetDesign( ds, true, true );
-
 					}
 					catch ( SemanticException e )
 					{
@@ -1025,12 +1022,13 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 						// should not arrive here
 					}
 				}
-
 				DataSetProvider.getCurrentInstance( )
 						.setModelOfDataSetHandle( this.ds, savedItemModel );
 			}
 			//Restore old context loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
+			DataSetProvider.getCurrentInstance( ).clear( ds );
+
 			if ( ds != null )
 				ds.removeListener( this );
 		}

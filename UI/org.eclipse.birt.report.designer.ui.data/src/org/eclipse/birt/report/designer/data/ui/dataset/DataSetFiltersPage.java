@@ -276,6 +276,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 				this.getTitle( structureOrHandle ) );
 		dlg.setDataSetHandle( (DataSetHandle) getContainer( ).getModel( ),
 				new DataSetExpressionProvider( (DataSetHandle) getContainer( ).getModel( ) ) );
+		dlg.showUpdateAggregationButton( false );		
 		dlg.setBindingParams( getParamBindingHandleArray( ) );
 		dlg.setInput( structureOrHandle );
 		if ( dlg.open( ) == Window.OK )

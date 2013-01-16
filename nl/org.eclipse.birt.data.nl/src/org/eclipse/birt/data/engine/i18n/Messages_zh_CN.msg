@@ -7,9 +7,8 @@
 #
 # Contributors:
 #  Actuate Corporation - initial API and implementation
-#  
+#
 #************************************************************************
-# Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
 ###########################################################
@@ -48,7 +47,7 @@ data.engine.InvalidExprHandle=无效的表达式句柄。
 data.engine.InvalidAggrGroupExpression=错误的聚合函数组表达式: {0}。
 data.engine.InvalidSortKeyColumn=无效的排序键列: {1}。
 data.engine.InvalidGroupLevel= 聚合中的组级别: {0} 无效。 
-data.engine.InvalidGroupKeyName=无效的组键列名称: {0}。
+data.engine.InvalidGroupKeyName=在列中分组:“{0}”操作不受支持。
 data.engine.BadCloseScript=对 CustomDataSet 中的 closeScript 求值失败。
 data.engine.InvalidCustomFieldIdx=无效的自定义字段索引: {0}。
 data.engine.InvalidGroupName=组名称无效。
@@ -67,7 +66,7 @@ data.engine.DupColumnName=重复的列名称: {0}。
 data.engine.DupAlias=重复的列名称或别名: {0}。
 data.engine.InvalidFieldIndex=无效的字段索引: {0}。
 data.engine.fail.prepareExecution=无法为数据集准备查询执行: {0}
-data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=非法的组更新状态：当前组 <{0}> 大于处理组 <{1}>。
 
 data.engine.MatchError=检查模式语法。将字符串与模式匹配时出错: {0}。
 
@@ -109,7 +108,7 @@ data.engine.InvalidAggrLevelKeyInSummaryQuery=聚合: {0} 引用了不正确的组名称。
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
 data.engine.CompCol.FailRetrieveValueComputedColumn=未能为已计算的列“{0}”计算值。
-data.engine.ScriptResult.WrongSystemComputedColumn=未能根据排序、组或筛选表达式计算值。
+data.engine.ScriptResult.WrongSystemComputedColumn=无法对排序、分组、筛选或绑定表达式求值。 用于表达式的数据字段在数据集中不存在。
 data.engine.ComputedColumnCycle=计算列“{0}”具有相关性循环。
 
 data.engine.SortOnAggregation=不支持根据非分组聚合或引用聚合“{0}”的计算列排序。
@@ -375,13 +374,13 @@ data.olap.FacttableNullMeasureValue=度量列的值为空。“{0}”。
 data.olap.InvalidDimensionPositionFacttableRow=多维数据集“{0}”的事实表具有无效数据行，该行中维键“{1}”的值为“{2}”，而后者在维“{3}”中不存在。
 data.olap.measureNameNotFound=找不到度量名称“{0}”。
 data.olap.levelNameNotFound=找不到级别名称“{0}”。
-data.olap.dimensionNameNotFound=找不到维名称“{0}”。
+data.olap.dimensionNameNotFound=在多维数据集查询中找不到维“{0}”，该维不存在或无效。
 data.olap.ReferencedDimensionNotFound=引用的维定义 {0} 不存在。
 data.olap.ReferencedLevelNotFound=引用的级别不存在。
 data.olap.cursorPositionError=光标无法定位到目标位置。
 data.olap.cursorSeekError=光标无法定位到查找位置。
 data.olap.CannotGetMeasureValue=无法在多维数据集中找到度量“{0}”定义，该度量不存在或无效。
-data.olap.CannotFindLevel=无法在维“{2}”中的层次结构“{1}”下找到“{0}”级别定义。
+data.olap.CannotFindLevel=无法在维 "{1}" 中找到 "{0}" 级别定义。
 data.olap.tryToAddIdenticalAggrGroup=绑定列表“{1}”上的聚合中已存在值“{0}”；
 data.olap.NoEdgeDefinitionFound=由于查询既未包含行边缘，也未包含列边缘，查询执行失败。要求至少定义一个边缘。
 data.olap.invalidSortDefinition=排序定义无效。 
@@ -407,7 +406,7 @@ data.olap.UnsupportedFunction=不支持的函数:
 data.olap.UnspecifiedBindingName=未指定绑定名称。
 data.olap.NotNestAggregationBinding=未多维数据集嵌套的聚合绑定: {0}
 data.olap.InvalidNestAggregationExpression=多维数据集嵌套聚合的表达式无效。
-data.olap.InvalidNestAggregationOn=多维数据集嵌套聚合“{1}”中的“{0}”聚合条件在基础聚合中不存在。
+data.olap.InvalidNestAggregationOn=无法计算嵌套聚合“{0}”，因为其在各个级别上的聚合不存在于其所基于的聚合中。
 data.olap.InvalidAggregationFilterExpr=筛选器表达式“{0}”无效。 聚合绑定“{1}”的 aggregationOn 列表不包含引用的维级别“{2}”。 
 data.olap.sort.exprError=设置的引用维级别只应包含一个级别!
 data.olap.query.noCubeBinding=由于没有可用的多维数据集绑定，无法执行多维数据集查询!
@@ -443,3 +442,7 @@ data.derivedDataSet.invalidQueryText=无效查询文本。
 data.datamart.failLoadDataSet = 无法加载数据对象数据集“{0}”。
 data.datamart.originalDataSetNotExist = 增量更新失败。 原始数据集“{0}”不存在。
 data.datamart.incrementalDatasetMetaDataError = 增量更新失败。 附加数据集“{0}”的元数据与原始数据集的元数据不同。 
+data.datamart.collation=在以前的产品中，即使设置了整理操作，也不将其用于数据对象索引。 现在，系统支持整理操作，因此您需要在数据集中设置整理操作后重新生成数据对象。  
+
+
+data.filter.pushDownFail= 下推仅支持 ODA 扩展端的筛选器失败。

@@ -98,6 +98,10 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
+import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
@@ -748,6 +752,19 @@ public abstract class EngineTask implements IEngineTask
 					buffer.append( "\n" );
 					return true;
 				}
+				
+				boolean visitDynamicFilterParameter(
+						DynamicFilterParameterHandle param, Object userData )
+				{
+					String paramName = param.getName( );
+					Object paramValue = runValues.get( paramName );
+					buffer.append( paramName );
+					buffer.append( ":" );
+					buffer.append( paramValue );
+					buffer.append( "\n" );
+					return true;
+				}
+
 
 				boolean visitParameterGroup( ParameterGroupHandle group,
 						Object value )
@@ -1228,10 +1245,7 @@ public abstract class EngineTask implements IEngineTask
 				{
 					Object value = evaluateExpression( expr, parameter
 							.getDataType( ) );
-					if ( value != null )
-					{
-						results.add( value );
-					}
+					results.add( value );
 				}
 			}
 			return results.toArray( );
@@ -1337,6 +1351,7 @@ public abstract class EngineTask implements IEngineTask
 		cancelFlag = true;
 		executionContext.cancel( );
 		disposeResourceLocator( );
+		changeStatusToStopped();
 	}
 
 	public void cancel( Object signal )
@@ -1363,6 +1378,7 @@ public abstract class EngineTask implements IEngineTask
 			}
 		} while ( waitingTime < 5000 );
 		disposeResourceLocator( );
+		changeStatusToStopped();
 		return;
 	}
 
@@ -1579,9 +1595,63 @@ public abstract class EngineTask implements IEngineTask
 				if ( !inputValues.containsKey( name ) )
 				{
 					Object value = evaluateDefaultValue( param );
-					executionContext.setParameterValue( name, value );
 					runValues.put( name, value );
 					defaultValues.put( name, value );
+
+					// set Display Text
+					if ( value != null )
+					{
+						ScalarParameter spd = (ScalarParameter) param.getElement( );
+						List<SelectionChoice> selectList = (List<SelectionChoice>) spd.getProperty( param.getModule( ),
+								IAbstractScalarParameterModel.SELECTION_LIST_PROP );
+						String paramType = (String) spd.getFactoryProperty( param.getModule( ),
+								IScalarParameterModel.PARAM_TYPE_PROP );
+						if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( paramType ) )
+						{
+							Object[] values = (Object[]) value;
+							List<String> displayTextList = new ArrayList<String>( );
+							if ( selectList != null && selectList.size( ) > 0 )
+							{
+								for ( Object o : values )
+								{
+									for ( SelectionChoice select : selectList )
+									{
+										if ( o.equals( select.getValue( ) ) )
+										{
+											displayTextList.add( select.getLabel( ) );
+										}
+									}
+
+								}
+							}
+							String[] displayTexts = new String[displayTextList.size( )];
+							executionContext.setParameter( name,
+									value,
+									displayTextList.toArray( displayTexts ) );
+						}
+						else
+						{
+							String displayText = null;
+							if ( selectList != null && selectList.size( ) > 0 )
+							{
+								for ( SelectionChoice select : selectList )
+								{
+									if ( value.equals( select.getValue( ) ) )
+									{
+										displayText = select.getLabel();
+										break;
+									}
+								}
+							}
+							executionContext.setParameter( name,
+									value,
+									displayText );
+						}
+					}
+					else
+					{
+						executionContext.setParameterValue( name, value );
+					}
 				}
 				return true;
 			}
@@ -1824,14 +1894,13 @@ public abstract class EngineTask implements IEngineTask
 			executionContext.loadScript( language, fileName );
 		}
 	}
-
-	protected void loadDesign( )
+	
+	protected void loadScripts( )
 	{
 		IReportRunnable runnable = executionContext.getRunnable( );
 		if ( runnable != null )
 		{
-			ReportDesignHandle reportDesign = executionContext
-					.getReportDesign( );
+			ReportDesignHandle reportDesign = executionContext.getReportDesign( );
 			if ( reportDesign != null )
 			{
 				// execute scripts defined in include-script element of the
@@ -1842,7 +1911,19 @@ public abstract class EngineTask implements IEngineTask
 				// report
 				iter = reportDesign.includeScriptsIterator( );
 				loadScript( iter );
+			}
+		}
+	}
 
+	protected void loadDesign( )
+	{
+		IReportRunnable runnable = executionContext.getRunnable( );
+		if ( runnable != null )
+		{
+			ReportDesignHandle reportDesign = executionContext
+					.getReportDesign( );
+			if ( reportDesign != null )
+			{
 				// Intialize the report
 				ReportScriptExecutor.handleInitialize( reportDesign,
 						executionContext );

@@ -1,10 +1,13 @@
 
 package org.eclipse.birt.report.model.api.util;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -13,6 +16,7 @@ import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -198,5 +202,49 @@ public class StyleUtil
 		DesignSession.addExtensionDefaultStyles( (ReportDesign) designHandle
 				.getModule( ), true );
 	}
+	
+	private static boolean hasExternalCSSURI(
+			Iterator<IncludedCssStyleSheetHandle> iter )
+	{
+		while ( iter != null && iter.hasNext( ) )
+		{
+			IncludedCssStyleSheetHandle includedCssStyleSheet = (IncludedCssStyleSheetHandle) iter
+					.next( );
+			String externalCSSURI = includedCssStyleSheet.getExternalCssURI( );
+			boolean useExternalCSS = includedCssStyleSheet.isUseExternalCss( );
+			if ( externalCSSURI != null || useExternalCSS )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean hasExternalCSSURI( Module module )
+	{
+		if ( module instanceof ReportDesign )
+		{
+			ReportDesignHandle handle = (ReportDesignHandle) module
+					.getHandle( module );
+			Iterator<IncludedCssStyleSheetHandle> iter = handle
+					.includeCssesIterator( );
+			if ( hasExternalCSSURI( iter ) )
+			{
+				return true;
+			}
+		}
+
+		Theme theme = module.getTheme( );
+		if ( theme != null )
+		{
+			ThemeHandle themeHandle = (ThemeHandle) theme.getHandle( module );
+			Iterator<IncludedCssStyleSheetHandle> iter = themeHandle
+					.includeCssesIterator( );
+			return hasExternalCSSURI( iter );
+		}
+		return false;
+	}
+
+
 
 }

@@ -28,12 +28,14 @@ import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
@@ -217,7 +219,7 @@ public class ElementStructureUtil
 			if ( content instanceof ExtendedItem )
 			{
 				if ( !( (ExtendedItem) content )
-						.hasLocalPropertyValuesOnOwnModel( ) )
+						.hasLocalPropertyValues( ) )
 				{
 					( (ExtendedItem) content ).getExtensibilityProvider( )
 							.clearOwnModel( );
@@ -315,6 +317,15 @@ public class ElementStructureUtil
 		}
 
 		// do some special handle for cube and dimension
+
+		if ( target instanceof GroupElement )
+		{
+			GroupElement group = (GroupElement) target;
+			GroupElement sourceGroup = (GroupElement) source;
+			group.setProperty( IGroupElementModel.GROUP_NAME_PROP, sourceGroup
+					.getProperty( sourceGroup.getRoot( ), IGroupElementModel.GROUP_NAME_PROP ) );
+
+		}
 
 		if ( target instanceof TabularCube )
 		{

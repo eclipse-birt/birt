@@ -205,7 +205,7 @@ public class ExcelDataSourcePageHelper {
 		if ( selectionType == SELECT_RELATIVE_PATH )
 		{
 			RelativeFileSelectionDialog dialog = new RelativeFileSelectionDialog( folderLocation.getShell( ),
-					new File( getResourceFolder( ) ) );
+					new File( getResourceFolder( ) ),fileExtensions );
 			dialog.setTitle( Messages.getString( "SelectFile.Title" ) );
 			if ( dialog.open( ) == Window.OK )
 			{
@@ -387,7 +387,11 @@ public class ExcelDataSourcePageHelper {
 			typeLineCheckBox.setSelection(false);
 			Display.getCurrent().asyncExec(new Runnable() {
 	              public void run() {
-	                 typeLineCheckBox.setEnabled(false);
+	            	  if ( !typeLineCheckBox.isDisposed( ) )
+	            	  {
+	            		  typeLineCheckBox.setEnabled( false );
+	            	  }
+	                     
 	              }
 	        });
 		}

@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
@@ -44,6 +45,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 
 /**
@@ -117,7 +119,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		}
 		return function;
 	}
-	
+		
 	private IBinding getSameBindingInQuery( IBinding binding, List bindings ) throws DataException
 	{
 		for ( int i = 0; i < bindings.size( ); i++ )
@@ -212,9 +214,17 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 								+ measureName );
 						newBinding.setDataType( md.getDataType( ) );
 						newBinding.setExpression( new ScriptExpression( ExpressionUtil.createJSMeasureExpression( measureName ) ) );
-						newBinding.setAggrFunction( getRollUpAggregationFunctionName( md.getAggrFunction( ) ) );
 						for ( int a = 0; a < levelNames.size( ); a++ )
 							newBinding.addAggregateOn( levelNames.get( a ) );
+						if ( md.getAggrFunction( ) != null )
+						{
+							newBinding.setAggrFunction( getRollUpAggregationFunctionName( md.getAggrFunction( ) ) );
+						}
+						else
+						{
+							newBinding.setAggrFunction( null );
+							newBinding.getAggregatOns( ).clear( );
+						}
 
 						IBinding b = getSameBindingInQuery( newBinding,
 								bindingsInCubeQuery );

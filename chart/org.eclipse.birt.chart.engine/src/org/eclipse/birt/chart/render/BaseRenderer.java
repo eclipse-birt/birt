@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.LegendLayoutHints;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.PlotComputation;
+import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withaxes.OneAxis;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.Coordinates;
@@ -873,8 +874,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		if ( m == null || !m.isVisible( ) )
 		{
+			// When marker isn't set or is invisible, just get the marker size
+			// or use default size to calculate a valid hot spot area for
+			// interactivity operation.
 			int iSize = 5;
-			if ( m != null )
+			if ( m != null && m.getSize( ) > 0 )
 			{
 				iSize = m.getSize( );
 			}
@@ -922,7 +926,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					markerSize,
 					getDeferredCache( ),
 					bDeferred,
-					bTransposed );
+					bTransposed,
+					getSeriesDefinition( ).getZOrder( ) );
 			mr.draw( ipr );
 			preCopy = mr.getRenderArea( );
 		}
@@ -2892,14 +2897,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			c = '&';
 		}
-		DataPointHints dph = null;
 		
 		if ( valueHints instanceof DataPointHints )
 		{
-			dph = (DataPointHints)valueHints;
-			
-			// It means current is building urls for series data.
+			DataPointHints dph = (DataPointHints) valueHints;
 
+			// It means current is building urls for series data.
 			if ( uv.getBaseParameterName( ) != null
 					&& uv.getBaseParameterName( ).length( ) > 0 )
 			{
@@ -2907,12 +2910,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				c = '&';
 				sb.append( URLValueImpl.encode( uv.getBaseParameterName( ) ) );
 				sb.append( '=' );
-				String urlValue = dph.getBaseDisplayValue( );
-				if ( dph.getBaseValue( ) instanceof Calendar )
-				{
-					// Bugzilla#215442 fix a parse issue to date
-					urlValue = formatDateString( dph.getBaseValue( ) );
-				}
+				String urlValue = formatURLValue( dph.getBaseValue( ) );
 				sb.append( URLValueImpl.encode( urlValue ) );
 			}
 
@@ -2923,12 +2921,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				c = '&';
 				sb.append( URLValueImpl.encode( uv.getValueParameterName( ) ) );
 				sb.append( '=' );
-				String urlValue = dph.getOrthogonalDisplayValue( );
-				if ( dph.getOrthogonalValue( ) instanceof Calendar )
-				{
-					// Bugzilla#215442 fix a parse issue to date
-					urlValue = formatDateString( dph.getOrthogonalValue( ) );
-				}
+				String urlValue = formatURLValue( dph.getOrthogonalValue( ) );
 				sb.append( URLValueImpl.encode( urlValue ) );
 			}
 		}
@@ -2939,14 +2932,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			c = '&';
 			sb.append( URLValueImpl.encode( uv.getSeriesParameterName( ) ) );
 			sb.append( '=' );
-			if ( valueHints instanceof DataPointHints  )
+			String urlValue;
+			if ( valueHints instanceof DataPointHints )
 			{
-				sb.append( URLValueImpl.encode( dph.getSeriesDisplayValue( ) ) );
+				urlValue = formatURLValue( ( (DataPointHints) valueHints ).getSeriesValue( ) );
 			}
 			else
 			{
-				sb.append( URLValueImpl.encode( ((LegendItemHints)valueHints).getItemText( ) ) );
+				urlValue = ( (LegendItemHints) valueHints ).getItemText( );
 			}
+			sb.append( URLValueImpl.encode( urlValue ) );
 		}
 		uv.setBaseUrl( sb.toString( ) );
 	}
@@ -3030,15 +3025,32 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 	
 	/**
+	 * Formats value in URL parameters so that it can be read in server
+	 * 
 	 * @param value
 	 * @return
 	 */
-	private String formatDateString( Object value )
+	private String formatURLValue( Object value )
 	{
-		// Bugzilla#215442 fix a parse issue to date
-		// Bugzilla#245920 Just using default locale to format date string to
-		// avoid passing locale-specific value for drill-through.
-		return DateFormat.getDateInstance( DateFormat.LONG ).format( value );
+		if ( value instanceof Calendar )
+		{
+			// Bugzilla#215442 fix a parse issue to date
+			// Bugzilla#245920 Just using default locale to format date string
+			// to avoid passing locale-specific value for drill-through.
+			return DateFormat.getDateInstance( DateFormat.LONG ).format( value );
+		}
+		if ( value instanceof Number )
+		{
+			// Do not output decimal for integer value, and also avoid double
+			// precision error for double value
+			Number num = (Number) value;
+			if ( ChartUtil.mathEqual( num.doubleValue( ), num.intValue( ) ) )
+			{
+				return String.valueOf( num.intValue( ) );
+			}
+			return String.valueOf( ValueFormatter.normalizeDouble( num.doubleValue( ) ) );
+		}
+		return ChartUtil.stringValue( value );
 	}
 	
 	/**
@@ -3727,45 +3739,39 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		StructureSource oSource = StructureSource.createPlot( p );
 
 		// render text
-		if ( getModel( ).getEmptyMessage( ).isVisible( ) )
-		{
-			Label la = getExternalizedCopy( getModel( ).getEmptyMessage( ) );
-			rendLabelInBounds( ipr, la, oSource, bo );
-		}
+		renderChartMessage( ipr, bo, oSource );
 
 	}
 
-	/**
-	 * Render a label within a bounds.
-	 * 
-	 * @param ipr
-	 * @param la
-	 * @param oSource
-	 * @param bo
-	 * @throws ChartException
-	 *             Note: The label text will be changed.
-	 */
-	protected void rendLabelInBounds( IPrimitiveRenderer ipr, Label la,
-			Object oSource, Bounds bo ) throws ChartException
+	private void renderChartMessage( IPrimitiveRenderer ipr, Bounds bo,
+			StructureSource oSource ) throws ChartException
 	{
-		EventObjectCache eoc = (EventObjectCache) ipr;
-		final TextRenderEvent tre = eoc.getEventObject( oSource,
-				TextRenderEvent.class );
-		tre.setBlockBounds( bo );
-		tre.setLabel( la );
-		if ( rtc.isRightToLeftText( ) )
+		if ( getModel( ).getEmptyMessage( ).isVisible( ) )
 		{
-			tre.setRtlCaption( );
+			Label la = getExternalizedCopy( getModel( ).getEmptyMessage( ) );
+
+			EventObjectCache eoc = (EventObjectCache) ipr;
+			final TextRenderEvent tre = eoc.getEventObject( oSource,
+					TextRenderEvent.class );
+			tre.setBlockBounds( bo );
+			tre.setLabel( la );
+			if ( rtc.isRightToLeftText( ) )
+			{
+				tre.setRtlCaption( );
+			}
+
+			LabelLimiter lbLimiter = new LabelLimiter( bo.getWidth( ),
+					bo.getHeight( ),
+					0 );
+			lbLimiter.computeWrapping( xs, la );
+			lbLimiter.limitLabelSize( cComp, xs, la );
+
+			tre.setBlockAlignment( la.getCaption( ).getFont( ).getAlignment( ) );
+			tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+			
+			// Rendering chart message after other chart elements are rendered
+			// to make sure the chart message displays on top. 
+			fDeferredCacheManager.getLastDeferredCache( ).addLabel( tre );
 		}
-
-		LabelLimiter lbLimiter = new LabelLimiter( bo.getWidth( ),
-				bo.getHeight( ),
-				0 );
-		lbLimiter.computeWrapping( xs, la );
-		lbLimiter.limitLabelSize( cComp, xs, la );
-
-		tre.setBlockAlignment( la.getCaption( ).getFont( ).getAlignment( ) );
-		tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-		ipr.drawText( tre );
 	}
 }

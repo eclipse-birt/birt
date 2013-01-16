@@ -71,6 +71,8 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -290,7 +292,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		Label allowExportLabel = new Label( composite, SWT.NONE );
 		allowExportLabel.setText( ALLOW_EXPORT_LABEL );
 		btnAllowExport = new Button( composite, SWT.CHECK );
-		btnAllowExport.setText(ALLOW_EXPORT_BUTTON);
+		btnAllowExport.setText( ALLOW_EXPORT_BUTTON );
 		btnAllowExport.setSelection( true );
 
 		GridData gd1 = new GridData( GridData.FILL_HORIZONTAL );
@@ -354,10 +356,17 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		// txtDisplayName.setFocus( );
 		// initiate function firstly then data type field.
 		// Expression gets the comment.
-		if(txtExpression!=null&&!txtExpression.isDisposed())//add if/else block to fix TED 52776:NPE thrown
+		if ( txtExpression != null && !txtExpression.isDisposed( ) )// add
+																	// if/else
+																	// block to
+																	// fix TED
+																	// 52776:NPE
+																	// thrown
 		{
 			txtExpression.setFocus( );
-		}else{
+		}
+		else
+		{
 			txtDisplayName.setFocus( );
 		}
 		if ( isAggregate( ) )
@@ -903,8 +912,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		paramsComposite.setLayout( layout );
 
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
-		txtFilter = new Text( composite, SWT.BORDER | SWT.WRAP );
-		gd = new GridData( GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL );
+		txtFilter = new Text( composite, SWT.BORDER | SWT.MULTI );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.heightHint = txtFilter.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
 				- txtFilter.getBorderWidth( )
 				* 2;
@@ -921,7 +930,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 		createExpressionButton( composite, txtFilter );
 
-		Label lblAggOn = new Label( composite, SWT.NONE );
+		final Label lblAggOn = new Label( composite, SWT.NONE );
 		lblAggOn.setText( AGGREGATE_ON );
 		gridData = new GridData( );
 		gridData.verticalAlignment = GridData.BEGINNING;
@@ -959,6 +968,16 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 
+		btnTable.getAccessible( )
+				.addAccessibleListener( new AccessibleAdapter( ) {
+
+					public void getName( AccessibleEvent e )
+					{
+						e.result = UIUtil.stripMnemonic( lblAggOn.getText( ) )
+								+ UIUtil.stripMnemonic( btnTable.getText( ) );
+					}
+				} );
+
 		WidgetUtil.createGridPlaceholder( aggOnComposite, 1, false );
 
 		btnGroup = new Button( aggOnComposite, SWT.RADIO );
@@ -975,6 +994,17 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				cmbGroup.setEnabled( true );
 			}
 		} );
+
+		btnGroup.getAccessible( )
+				.addAccessibleListener( new AccessibleAdapter( ) {
+
+					public void getName( AccessibleEvent e )
+					{
+						e.result = UIUtil.stripMnemonic( lblAggOn.getText( ) )
+								+ UIUtil.stripMnemonic( btnGroup.getText( ) );
+					}
+				} );
+
 		cmbGroup = new Combo( aggOnComposite, SWT.BORDER | SWT.READ_ONLY );
 		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbGroup.setVisibleItemCount( 30 );
@@ -1013,7 +1043,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		new Label( composite, SWT.NONE ).setText( EXPRESSION );
 
-		txtExpression = new Text( composite, SWT.BORDER | SWT.WRAP );
+		txtExpression = new Text( composite, SWT.BORDER | SWT.MULTI );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		gd.heightHint = txtExpression.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
@@ -1235,8 +1265,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 				for ( final IParameterDefn param : params )
 				{
-					Label lblParam = new Label( paramsComposite, SWT.NONE
-							| SWT.WRAP );
+					Label lblParam = new Label( paramsComposite, SWT.NONE );
 					lblParam.setText( param.getDisplayName( )
 							+ Messages.getString( "BindingDialogHelper.text.Colon" ) ); //$NON-NLS-1$
 					GridData gd = new GridData( );
@@ -1295,7 +1324,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					else
 					{
 						final Text txtParam = new Text( paramsComposite,
-								SWT.BORDER | SWT.WRAP );
+								SWT.BORDER | SWT.MULTI );
 						txtParam.addModifyListener( new ModifyListener( ) {
 
 							public void modifyText( ModifyEvent e )
@@ -1310,14 +1339,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 							}
 						} );
 						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-						gd.heightHint = txtParam.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+						gridData.heightHint = txtParam.computeSize( SWT.DEFAULT,
+								SWT.DEFAULT ).y
 								- txtParam.getBorderWidth( )
 								* 2;
 						gridData.horizontalIndent = 0;
 						txtParam.setLayoutData( gridData );
 						createExpressionButton( paramsComposite, txtParam );
 						paramsMap.put( param.getName( ), txtParam );
-
 						initTextField( txtParam, param );
 
 					}
@@ -1933,5 +1962,4 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private boolean hasModified = false;
 	private Button btnAllowExport;
-
 }

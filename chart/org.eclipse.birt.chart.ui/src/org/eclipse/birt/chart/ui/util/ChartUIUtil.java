@@ -951,6 +951,7 @@ public class ChartUIUtil
 		}
 		if ( oldSeries.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
 		{
+			newSeries.getTriggers( ).clear( );
 			newSeries.getTriggers( ).addAll( oldSeries.getTriggers( ) );
 		}
 		if ( oldSeries.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataPoint( ) ) )

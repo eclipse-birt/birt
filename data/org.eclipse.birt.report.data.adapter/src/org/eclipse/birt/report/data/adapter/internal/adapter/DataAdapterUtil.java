@@ -347,6 +347,11 @@ public class DataAdapterUtil
 		dteColumn.setAnalysisColumn( modelColumnHint.getAnalysisColumn( ) );
 		dteColumn.setIndexColumn( modelColumnHint.isIndexColumn( ) );
 		dteColumn.setCompressedColumn( modelColumnHint.isCompressed( ) );
+		
+		String displayName = modelColumnHint.getDisplayName( );
+		if( modelColumnHint.getDisplayNameKey( )!= null )
+			displayName = modelColumnHint.getExternalizedValue( modelColumnHint.getDisplayNameKey( ), displayName );
+		dteColumn.setDisplayName( displayName );
  		String exportConstant = modelColumnHint.getExport( );
 		if ( exportConstant != null )
 		{

@@ -32,8 +32,6 @@ public class ChartSlider extends Composite implements SelectionListener
 	protected Slider slider;
 	
 	protected Vector<SelectionListener> vListeners = new Vector<SelectionListener>( );
-
-	protected double dRatio;
 	
 	public ChartSlider( Composite parent, int style )
 	{
@@ -67,7 +65,8 @@ public class ChartSlider extends Composite implements SelectionListener
             int maximum,
             int thumb,
             int increment,
-            int pageIncrement)
+            int pageIncrement,
+            double dRatio )
 	{
 		slider.setValues( selection, minimum, maximum, thumb, increment, pageIncrement );
 	}
@@ -89,15 +88,16 @@ public class ChartSlider extends Composite implements SelectionListener
 		slider.setEnabled( enabled );
 	}
 	
+	@Override
+	public void setToolTipText( String tooltip )
+	{
+		slider.setToolTipText( tooltip );
+	}
+	
 	public void widgetDefaultSelected( SelectionEvent arg0 )
 	{
 		// TODO Auto-generated method stub
 		
-	}
-	
-	public void setRatio(double ratio )
-	{
-		this.dRatio = ratio;
 	}
 	
 	public void widgetSelected( SelectionEvent event )

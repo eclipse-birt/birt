@@ -97,6 +97,8 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 	private Button viewTimeBtn;
 	private Text uriText;
 
+	private boolean useUri = false;
+
 	public void setDialogTitle( String dlgTitle )
 	{
 		this.dialogTitle = dlgTitle;
@@ -142,6 +144,10 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 		fileName = includedCssHandle.getFileName( );
 		uri = includedCssHandle.getExternalCssURI( );
 
+		useUri = includedCssHandle.isUseExternalCss( );
+		viewTimeBtn.setSelection( useUri );
+		uriText.setEnabled( useUri );
+
 		if ( fileName != null && fileName.trim( ).length( ) > 0 )
 		{
 			fileNameField.setText( fileName.trim( ) );
@@ -149,19 +155,10 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 
 		if ( uri != null && uri.trim( ).length( ) > 0 )
 		{
-			viewTimeBtn.setSelection( true );
-			uriText.setEnabled( true );
 			uriText.setText( uri.trim( ) );
 		}
 
-		if ( uri == null || uri.trim( ).length( ) == 0 )
-		{
-			viewTimeBtn.setSelection( false );
-			uriText.setEnabled( false );
-		}
-
 		refresh( );
-
 	}
 
 	public UseCssInReportDialog( )
@@ -182,7 +179,11 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 
 	public String getFileName( )
 	{
-		return this.fileName;
+		if ( fileName == null )
+			return null;
+		if ( fileName.trim( ).length( ) == 0 )
+			return null;
+		return fileName;
 	}
 
 	/*
@@ -253,7 +254,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 		Label title = new Label( nameComposite, SWT.NULL );
 		title.setText( Messages.getString( "UseCssInReportDialog.Wizard.Filename" ) ); //$NON-NLS-1$
 
-		fileNameField = new Text( nameComposite, SWT.BORDER | SWT.READ_ONLY );
+		fileNameField = new Text( nameComposite, SWT.BORDER );
 		fileNameField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		fileNameField.addListener( SWT.Modify, new Listener( ) {
 
@@ -270,6 +271,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 				{
 					logger.log( Level.SEVERE, e1.getMessage( ), e1 );
 				}
+				updateStyleContent( );
 				refresh( );
 			}
 		} );
@@ -346,6 +348,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 			{
 				boolean selected = viewTimeBtn.getSelection( );
 				uriText.setEnabled( selected );
+				useUri = selected;
 				refresh( );
 			}
 		} );
@@ -377,6 +380,11 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 	}
 
 	private void refresh( )
+	{
+		updateOKbuttons( );
+	}
+
+	private void updateStyleContent( )
 	{
 		styleMap.clear( );
 		styleNames.clear( );
@@ -462,7 +470,6 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 			item.setText( sn );
 			item.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_STYLE ) );
 		}
-		updateOKbuttons( );
 	}
 
 	private void updateOKbuttons( )
@@ -472,17 +479,28 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 
 		if ( getButton( IDialogConstants.OK_ID ) != null )
 		{
-			if ( fileName != null
-					&& ( includedCssHandle == null || ( !fileName.equals( includedCssHandle.getFileName( ) ) ) )
-					&& ( !moduleHandle.canAddCssStyleSheet( fileName ) ) )
-			{
-				getButton( IDialogConstants.OK_ID ).setEnabled( false );
-				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include", //$NON-NLS-1$
-						new String[]{
-							fileName
-						} ) );
-			}
-			else if ( styleNames.size( ) != 0 )
+			// if ( fileName != null
+			// && ( includedCssHandle == null || ( !fileName.equals(
+			// includedCssHandle.getFileName( ) ) ) )
+			// && ( !moduleHandle.canAddCssStyleSheetByProperties( fileName,
+			// null,
+			// false ) ) )
+			// {
+			// getButton( IDialogConstants.OK_ID ).setEnabled( false );
+			//				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include", //$NON-NLS-1$
+			// new String[]{
+			// fileName
+			// } ) );
+			// }
+			// else
+			// if ( styleNames.size( ) != 0 )
+			// {
+			// getButton( IDialogConstants.OK_ID ).setEnabled( true );
+			// setErrorMessage( null );
+			// }
+			// else
+			if ( useUri
+					|| ( fileName != null && fileName.trim( ).length( ) > 0 ) )
 			{
 				getButton( IDialogConstants.OK_ID ).setEnabled( true );
 				setErrorMessage( null );
@@ -523,7 +541,16 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 
 	public String getURI( )
 	{
+		if ( uri == null )
+			return uri;
+		if ( uri.trim( ).length( ) == 0 )
+			return null;
 		return uri;
+	}
+
+	public boolean isUseUri( )
+	{
+		return useUri;
 	}
 
 	protected void okPressed( )

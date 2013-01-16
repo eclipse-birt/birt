@@ -83,6 +83,8 @@ public class DataEngineContext
 	private IDocArchiveReader reader;
 	private IDocArchiveWriter writer;
 	private ULocale currentLocale;
+	
+	private boolean enableDashBoardMode = false;
 
 	/** cacheCount field */
 	private int cacheOption;
@@ -590,6 +592,25 @@ public class DataEngineContext
 	{
 		this.reader = reader;
 	}
+	
+	/**
+	 * 
+	 * @param enabled
+	 */
+	public void enableDashboardMode( boolean enabled )
+	{
+		this.enableDashBoardMode = enabled;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDashBoardEnabled( )
+	{
+		return this.enableDashBoardMode;
+	}
+	
 	/**
 	 * 
 	 * @return

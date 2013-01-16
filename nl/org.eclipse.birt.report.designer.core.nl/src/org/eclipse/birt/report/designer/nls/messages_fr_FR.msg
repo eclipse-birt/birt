@@ -604,6 +604,11 @@ DataSetBasePage.ScriptedDataSet.name=Jeu de données nécessitant un script
 DataSetBasePage.ScriptedDataSource.name=Source de données nécessitant un script
 DataSetBasePage.Group.DataSourceSelection=Sélection de source de données
 
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Impossible de trouver les JARS de la bibliothèque client Hector pour prendre en charge la source de données Cassandra nécessitant un script.
+
 ###########################################################
 #JointDataSetPage properties
 
@@ -2515,7 +2520,7 @@ MapPreferencePage.displayname.Title=Mappage
 MapPreferencePage.text.Add=&Ajouter...
 MapPreferencePage.text.Delete=&Supprimer
 MapPreferencePage.text.Description=Règles de mappage :
-MapPreferencePage.text.Edit=&Modifier...
+MapPreferencePage.text.Edit=Modifi&er...
 MapPreferencePage.toolTipText.Up=Déplacer la règle de mappage vers le haut
 MapPreferencePage.toolTipText.Down=Déplacer la règle de mappage vers le bas
 MapPreferencePage.text.Duplicate=Du&pliquer
@@ -3639,6 +3644,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI :
 
 UseCssInThemeDialog.TitleArea.Title=Utiliser le fichier CSS dans la bibliothèque d'états
 UseCssInThemeDialog.TitleArea.Message=Sélectionnez un thème dans lequel les styles du fichier CSS doivent être placés.
+CssStyleSheetNodeProvider.Label.FromServer=A partir du serveur
 CssStyleSheetNodeProvider.Tooltip.URI=(Appliqué à l'heure d'affichage)
 
 
@@ -4310,7 +4316,8 @@ GeneralPage.Library.Included=Bibliothèque :
 GeneralPage.Library.Modified.Note=REMARQUE : cet élément d'état provenant de la bibliothèque a été modifié. Pour restaurer l'élément d'état d'origine, cliquez sur {0} "Restaurer les propriétés"
 
 #BookMarkPage
-BookMarkPage.Modified.Note=Le signet contient des caractères spéciaux différents de \"A-Z a-z 0-9 - _ : .\". Cela peut poser problème lors de l'exécution.
+BookMarkPage.Modified.Note=Le signet contient des caractères spéciaux différents de (A-Z, a-z, 0-9, '-', '_', ':', '.'). Cela peut poser problème lors de l'exécution.
+BookMarkPage.Modified.WithoutQuotes=Le signet n'est pas entouré de guillemets doubles. Cela peut poser problème lors de l'exécution.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4619,7 +4626,8 @@ BindingDialogHelper.text.Grid=Grille
 BindingDialogHelper.text.Group=Gr&oupe
 BindingDialogHelper.text.Expression=&Expression :
 BindingDialogHelper.text.displayName=&Nom d'affichage :
-BindingDialogHelper.text.allowExport=Autoriser l'exp&ortation :
+BindingDialogHelper.text.allowExport=Exp&orter :
+BindingDialogHelper.text.allowExport.button=Autoriser l'exportation
 BindingDialogHelper.text.displayNameID=ID du nom d'affi&chage :
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
@@ -4723,7 +4731,7 @@ InsertAggregationAction.text=&Agrégation
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=Période de temps relati&f
 
 ###########################################################
 #Multiple views
@@ -4878,6 +4886,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par déf&aut :
 ExpressionEditor.Error.EmptyExpression=L'expression doit être renseignée.
 ExpressionEditor.Label.Expression=&Expression :
 ExpressionEditor.Title=Modifier l'expression
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Outil de sélection de la couleur de l'arrière-plan
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Outil de sélection de la couleur du premier plan
+ExpressionSyntaxColoringPage.Button.Bold=&Gras
+ExpressionSyntaxColoringPage.Button.Enable=Activer
+ExpressionSyntaxColoringPage.Button.Italic=&Italique
+ExpressionSyntaxColoringPage.Button.Restore=&Restaurer les paramètres par défaut
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Barré
+ExpressionSyntaxColoringPage.Button.Underline=&Texte souligné
+ExpressionSyntaxColoringPage.Decscription=Personnalisez le repérage de la syntaxe en sélectionnant le type de texte correspondant au style que vous souhaitez modifier depuis la liste ou la zone d'exemple de texte, par exemple.
+ExpressionSyntaxColoringPage.Element.Comment=Commentaires
+ExpressionSyntaxColoringPage.Element.Default=Par défaut
+ExpressionSyntaxColoringPage.Element.Keyword=Mot-clé
+ExpressionSyntaxColoringPage.Element.String=Chaîne
+ExpressionSyntaxColoringPage.Label.Background=Arr&ière-plan :
+ExpressionSyntaxColoringPage.Label.Foreground=&Premier plan :
+ExpressionSyntaxColoringPage.Label.SampleText=&Exemple de texte :
+ExpressionSyntaxColoringPage.Label.SyntaxElement=Eléments de s&yntaxe :
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Les couleurs et la police par défaut peuvent être configurés dans la page <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Editeurs de texte</a> et dans la page de préférences <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Couleurs et polices</a> .
 
 ###########################################################
 #VariableDropAdapter

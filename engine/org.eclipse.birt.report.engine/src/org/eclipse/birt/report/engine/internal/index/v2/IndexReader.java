@@ -19,6 +19,7 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.btree.BTreeCursor;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 
 public class IndexReader implements IndexConstants
@@ -48,55 +49,63 @@ public class IndexReader implements IndexConstants
 			RAInputStream input = archive.getInputStream( name );
 			try
 			{
-				int version = input.readInt( );
-				if ( version == VERSION_0 )
+				int version = readVersion( input.readInt( ), name );
+
+				switch ( version )
 				{
-					valueType = BTreeMap.LONG_VALUE;
-					int type = input.readInt( );
-					if ( type == INLINE_MAP )
+					case VERSION_0 :
 					{
-						DataInputStream di = new DataInputStream( input );
-						// load it into the memory
-						int entries = IOUtil.readInt( di );
-						map = new HashMap<String, Object>( entries );
-						for ( int i = 0; i < entries; i++ )
+						valueType = BTreeMap.LONG_VALUE;
+						int type = input.readInt( );
+						if ( type == INLINE_MAP )
 						{
-							String key = IOUtil.readString( di );
-							long offset = IOUtil.readLong( di );
-							map.put( key, new Long( offset ) );
+							DataInputStream di = new DataInputStream( input );
+							// load it into the memory
+							int entries = IOUtil.readInt( di );
+							map = new HashMap<String, Object>( entries );
+							for ( int i = 0; i < entries; i++ )
+							{
+								String key = IOUtil.readString( di );
+								long offset = IOUtil.readLong( di );
+								map.put( key, new Long( offset ) );
+							}
 						}
-					}
-					else
-					{
-						btree = BTreeMap.openTreeMap( archive, name, valueType );
-					}
-				}
-				else if ( version == VERSION_1 )
-				{
-					valueType = BTreeMap.BOOKMARK_VALUE;
-					int type = input.readInt( );
-					if ( type == INLINE_MAP )
-					{
-						DataInputStream di = new DataInputStream( input );
-						int entries = IOUtil.readInt( di );
-						map = new HashMap<String, Object>( entries );
-						for ( int index = 0; index < entries; index++ )
+						else
 						{
-							String key = IOUtil.readString( di );
-							BookmarkContent bookmark = new BookmarkContent( );
-							bookmark.readStream( di );
-							map.put( key, bookmark );
+							btree = BTreeMap.openTreeMap( archive, name,
+									valueType );
 						}
+						break;
 					}
-					else
+					case VERSION_1 :
 					{
-						btree = BTreeMap.openTreeMap( archive, name, valueType );
+						valueType = BTreeMap.BOOKMARK_VALUE;
+						int type = input.readInt( );
+						if ( type == INLINE_MAP )
+						{
+							DataInputStream di = new DataInputStream( input );
+							int entries = IOUtil.readInt( di );
+							map = new HashMap<String, Object>( entries );
+							for ( int index = 0; index < entries; index++ )
+							{
+								String key = IOUtil.readString( di );
+								BookmarkContent bookmark = new BookmarkContent( );
+								bookmark.readStream( di );
+								map.put( key, bookmark );
+							}
+						}
+						else
+						{
+							btree = BTreeMap.openTreeMap( archive, name,
+									valueType );
+						}
+						break;
 					}
-				}
-				else
-				{
-					throw new IOException( "unsupported index version "
-							+ version );
+					default :
+					{
+						throw new IOException( "unsupported index version "
+								+ version );
+					}
 				}
 			}
 			finally
@@ -105,6 +114,30 @@ public class IndexReader implements IndexConstants
 			}
 		}
 	}
+	
+	private int readVersion( int versionInDocument, String streamName )
+	{
+		// The "versionInDocument" is originally supposed to be the IndexReader
+		// version. As it is not properly stored, use stream name to return
+		// correct version.
+		if ( versionInDocument == VERSION_0 || versionInDocument == VERSION_1 )
+		{
+			if ( ReportDocumentConstants.REPORTLET_ID_INDEX_STREAM
+					.equals( streamName )
+					|| ReportDocumentConstants.REPORTLET_BOOKMARK_INDEX_STREAM
+							.equals( streamName ) )
+			{
+				return VERSION_0;
+			}
+			else if ( ReportDocumentConstants.BOOKMARK_STREAM
+					.equals( streamName ) )
+			{
+				return VERSION_1;
+			}
+		}
+		return versionInDocument;
+	}
+
 
 	int getValueType( )
 	{

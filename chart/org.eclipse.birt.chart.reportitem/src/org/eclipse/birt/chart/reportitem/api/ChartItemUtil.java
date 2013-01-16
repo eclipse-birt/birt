@@ -1784,16 +1784,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		// error check in many situations.
 		// The ChartReportItemUtil.checkStringInExpression will be refactored.
 
-		boolean complexScripts = false;
-		for ( int i = 0; i < expression.length( ); i++ )
-		{
-			if ( expression.charAt( i ) == '\n'
-					&& i != ( expression.length( ) - 1 ) )
-			{
-				complexScripts = true;
-				break;
-			}
-		}
+		boolean complexScripts = isMultiLineExpression( expression );
 
 		// Checks if expression contains string
 		if ( !complexScripts
@@ -1834,5 +1825,30 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			}
 		}
 		return returnObj;
+	}
+
+	/**
+	 * Check if a expression has multiple lines.
+	 * 
+	 * @param expression
+	 * @return true if a expression has multiple lines.
+	 */
+	public static boolean isMultiLineExpression( String expression )
+	{
+		if ( expression == null )
+		{
+			return false;
+		}
+		boolean complexScripts = false;
+		for ( int i = 0; i < expression.length( ); i++ )
+		{
+			if ( expression.charAt( i ) == '\n'
+					&& i != ( expression.length( ) - 1 ) )
+			{
+				complexScripts = true;
+				break;
+			}
+		}
+		return complexScripts;
 	}
 }

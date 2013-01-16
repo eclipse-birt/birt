@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
 import org.eclipse.birt.chart.ui.swt.interfaces.IFontDefinitionDialog;
@@ -109,7 +110,9 @@ public class FontDefinitionDialog extends TrayDialog implements
 
 	private transient FontCanvas fcPreview = null;
 
-	private transient boolean isAlignmentEnabled = true;
+	private boolean isAlignmentEnabled = true;
+	
+	private boolean isRotationEnabled = true;
 
 	protected transient List<Button> listAlignmentButtons = new ArrayList<Button>( 9 );
 
@@ -120,6 +123,14 @@ public class FontDefinitionDialog extends TrayDialog implements
 			"9", "10", "12", "14", "16", "18", "24", "36" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 	};
 
+	/**
+	 * @param shellParent
+	 * @param wizardContext
+	 * @param fdCurrent
+	 * @param cdCurrent
+	 * @param isAlignmentEnabled
+	 * @deprecated since 4.2
+	 */
 	public FontDefinitionDialog( Shell shellParent,
 			ChartWizardContext wizardContext, FontDefinition fdCurrent,
 			ColorDefinition cdCurrent, boolean isAlignmentEnabled )
@@ -127,6 +138,23 @@ public class FontDefinitionDialog extends TrayDialog implements
 		super( shellParent );
 
 		this.isAlignmentEnabled = isAlignmentEnabled;
+		this.wizardContext = wizardContext;
+		this.fdCurrent = fdCurrent == null ? FontDefinitionImpl.createEmpty( )
+				: fdCurrent.copyInstance( );
+		this.cdCurrent = cdCurrent == null ? null : cdCurrent.copyInstance( );
+		this.fdBackup = fdCurrent == null ? null : fdCurrent.copyInstance( );
+		this.cdBackup = this.cdCurrent == null ? null
+				: cdCurrent.copyInstance( );
+	}
+	
+	public FontDefinitionDialog( Shell shellParent,
+			ChartWizardContext wizardContext, FontDefinition fdCurrent,
+			ColorDefinition cdCurrent, int optionalStyle )
+	{
+		super( shellParent );
+
+		this.isAlignmentEnabled = ( FontDefinitionComposite.ENABLE_ALIGNMENT & optionalStyle ) == FontDefinitionComposite.ENABLE_ALIGNMENT;
+		this.isRotationEnabled = ( FontDefinitionComposite.ENABLE_ROTATION & optionalStyle ) == FontDefinitionComposite.ENABLE_ROTATION;
 		this.wizardContext = wizardContext;
 		this.fdCurrent = fdCurrent == null ? FontDefinitionImpl.createEmpty( )
 				: fdCurrent.copyInstance( );
@@ -224,8 +252,11 @@ public class FontDefinitionDialog extends TrayDialog implements
 			createAlignmentPanel( );
 		}
 
-		createRotationPanel( );
-
+		if ( isRotationEnabled )
+		{
+			createRotationPanel( );
+		}
+		createPreviewPanel( );
 		populateLists( );
 		updatePreview( );
 
@@ -506,9 +537,13 @@ public class FontDefinitionDialog extends TrayDialog implements
 		iscRotation.setMaximum( 90 );
 		iscRotation.setIncrement( 1 );
 		iscRotation.addListener( this );
-		
+
 		ascRotation.setEnabled( iscRotation.isSpinnerEnabled( ) );
-		
+
+	}
+
+	private void createPreviewPanel( )
+	{
 		Label lblPreview = new Label( cmpContent, SWT.NONE );
 		{
 			lblPreview.setText( Messages.getString( "FontDefinitionDialog.Lbl.Preview" ) ); //$NON-NLS-1$
@@ -619,6 +654,16 @@ public class FontDefinitionDialog extends TrayDialog implements
 	protected void updatePreview( )
 	{
 		FontDefinition fd = fdCurrent.copyInstance( );
+		// when Alignment and Rotation are disabled, use default value to
+		// preview.
+		if ( !isAlignmentEnabled )
+		{
+			fd.setAlignment( TextAlignmentImpl.create( ) );
+		}
+		if ( !isRotationEnabled )
+		{
+			fd.unsetRotation( );
+		}
 		ChartUIUtil.getFlippedAlignment( fd.getAlignment( ), isFlippedAxes( ) );
 		fcPreview.setFontDefinition( fd );
 		fcPreview.redraw( );
@@ -661,52 +706,31 @@ public class FontDefinitionDialog extends TrayDialog implements
 			( (Button) oSource ).setSelection( true );
 		}
 		
+		// Chart font UI doesn't support tri-state, set the "bold", "italic"
+		// "underline" and "strikeThru" to false when the button is clicked up
+		// (#51584)
 		if ( oSource.equals( btnBold ) )
 		{
-			if ( btnBold.getSelection( ) )
-			{
-				fdCurrent.setBold( btnBold.getSelection( ) );
-			}
-			else
-			{
-				fdCurrent.unsetBold( );
-			}
+			fdCurrent.setBold( btnBold.getSelection( ) );
+
 			updatePreview( );
 		}
 		else if ( oSource.equals( btnItalic ) )
 		{
-			if ( btnItalic.getSelection( ) )
-			{
-				fdCurrent.setItalic( btnItalic.getSelection( ) );
-			}
-			else
-			{
-				fdCurrent.unsetItalic( );
-			}
+			fdCurrent.setItalic( btnItalic.getSelection( ) );
+
 			updatePreview( );
 		}
 		else if ( oSource.equals( btnUnderline ) )
 		{
-			if ( btnUnderline.getSelection( ) )
-			{
-				fdCurrent.setUnderline( btnUnderline.getSelection( ) );
-			}
-			else
-			{
-				fdCurrent.unsetUnderline( );
-			}
+			fdCurrent.setUnderline( btnUnderline.getSelection( ) );
+
 			updatePreview( );
 		}
 		else if ( oSource.equals( btnStrikethru ) )
 		{
-			if ( btnStrikethru.getSelection( ) )
-			{
-				fdCurrent.setStrikethrough( btnStrikethru.getSelection( ) );
-			}
-			else
-			{
-				fdCurrent.unsetStrikethrough( );
-			}
+			fdCurrent.setStrikethrough( btnStrikethru.getSelection( ) );
+
 			updatePreview( );
 		}
 		else if ( oSource.equals( cmbFontNames ) )

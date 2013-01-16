@@ -98,8 +98,6 @@ public class TaskSelectType extends SimpleTask implements
 		ITaskChangeListener,
 		ITaskPreviewable
 {
-	private static final ChartValueUpdater chartValueUpdater = new ChartValueUpdater( );
-	
 	/**
 	 * 
 	 * TaskSelectTypeUIDescriptor is used to create UI in misc area according to
@@ -1098,7 +1096,7 @@ public class TaskSelectType extends SimpleTask implements
 				cbDimension.add( dimensionArray[i] );
 			}
 		}
-		cbDimension.setDefualtItem( chartType.getDefaultDimension( ) );
+		cbDimension.setDefaultItem( chartType.getDefaultDimension( ) );
 		cbDimension.setItemData( cbDimension.getItems( ) );
 		
 		String cache = ChartCacheManager.getInstance( )
@@ -1300,9 +1298,9 @@ public class TaskSelectType extends SimpleTask implements
 						cbSeriesType.setText( sDisplayName );
 					}
 
-					String seriesName = oseries.getSeriesIdentifier( )
-							.toString( );
-					if ( seriesName.trim( ).length( ) != 0 )
+					String seriesName = ChartUtil.stringValue( oseries.getSeriesIdentifier( ) );
+					if ( seriesName != null
+							&& seriesName.trim( ).length( ) != 0 )
 					{
 						Iterator<Entry<String, Series>> itr = htSeriesNames.entrySet( )
 								.iterator( );
@@ -1514,7 +1512,7 @@ public class TaskSelectType extends SimpleTask implements
 				this.orientation,
 				this.sDimension,
 				chartModel );
-		chartValueUpdater.update( cm, null, false );
+		new ChartValueUpdater( ).update( cm, null, false );
 		return cm;
 	}
 

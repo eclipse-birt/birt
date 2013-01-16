@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
+import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 
 /**
  * Page break handler which notifies the context to fire a page break event;
@@ -28,7 +29,15 @@ public class ContextPageBreakHandler implements ILayoutPageHandler
 
 	public void onPage( long page, Object pageContext )
 	{
-		context.firePageBreakEvent( );
+		if ( pageContext instanceof HTMLLayoutContext )
+		{
+			context.firePageBreakEvent( ( (HTMLLayoutContext) pageContext )
+					.isHorizontalPageBreak( ) );
+		}
+		else
+		{
+			context.firePageBreakEvent( false );
+		}
 	}
 
 }

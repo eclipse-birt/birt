@@ -17,13 +17,13 @@ connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=선택한 폴더의 Excel 데이터 원본 파일을 
 ui.ExcelFileNotFound=지정한 Excel 데이터 원본 파일을 찾을 수 없습니다. 
 label.selectFolder=폴더 선택(&E): 
 label.selectFile=파일 선택(&I):
-label.selectworksheet=워크시트 선택(&W):
+label.selectworksheet=워크시트 선택(&H):
 label.includeTypeLine=데이터 형식 표시기로 두 번째 줄을 사용(&D)
 label.includeColumnNameLine = 열 이름 표시기로 첫 번째 줄 사용(&A)
 
 button.selectFolder.browse=찾아보기(&R)...
 button.moveUp=위로(&U)
-button.moveDown=아래로(&W)
+button.moveDown=아래로(&O)
 button.delete=삭제(&E)
 button.selectFileURI.menuItem.relativePath=상대 경로(&R)
 button.selectFileURI.menuItem.absolutePath=절대 경로(&A)

@@ -139,7 +139,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	// The entry delimiter
 	public static final String PREFERENCE_DELIMITER = ";"; //$NON-NLS-1$
 	public static final String SPACE = " "; //$NON-NLS-1$
-
+	public static final String PREFERENCE_TRUE = "true"; //$NON-NLS-1$
+	
 	public static final String ENABLE_GRADIENT_SELECTION_PREFERENCE = "designer.general.preference.selection.enable.gradient.preferencestore"; //$NON-NLS-1$
 	public static final String ENABLE_ANIMATION_SELECTION_PREFERENCE = "designer.general.preference.selection.enable.animation.preferencestore"; //$NON-NLS-1$
 	public static final String DEFAULT_NAME_PREFERENCE = "designer.preview.preference.elementname.defaultname.preferencestore"; //$NON-NLS-1$
@@ -284,6 +285,16 @@ public class ReportPlugin extends AbstractUIPlugin
 				.setDefault( LIBRARY_MOVE_BINDINGS_PREFERENCE,
 						MessageDialogWithToggle.PROMPT );
 
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+					.setDefault( LIBRARY_DEFAULT_THEME_ENABLE,
+						PREFERENCE_TRUE );
+		
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( LIBRARY_DEFAULT_THEME_INCLUDE,
+						PREFERENCE_TRUE );
+		
 		initCellCursor( );
 
 		setDefaultBiDiSettings( );

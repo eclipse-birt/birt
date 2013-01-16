@@ -127,7 +127,15 @@ public class ChartHelpContextIds
 	/** Used in interactivity popup and dialog */
 	public static final String POPUP_INTERACTIVITY = PREFIX
 			+ "Interactivity_ID"; //$NON-NLS-1$
+	
+	/** Used in hyperlink editor dialog. */
+	public static final String HYPERLINK_EDITOR = PREFIX
+			+ "Hyperlink_Editor_ID"; //$NON-NLS-1$
 
+	/** Used in hyperlink properties dialog. */
+	public static final String HYPERLINK_OPTIONS = PREFIX
+			+ "Hyperlink_Options_ID"; //$NON-NLS-1$
+	
 	/** Used in popup chart-text, axis-text or series(pie)-titles */
 	public static final String POPUP_TEXT_FORMAT = PREFIX + "TextFormat_ID"; //$NON-NLS-1$
 

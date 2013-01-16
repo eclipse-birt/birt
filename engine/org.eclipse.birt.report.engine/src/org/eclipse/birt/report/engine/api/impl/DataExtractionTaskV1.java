@@ -80,6 +80,7 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
@@ -226,9 +227,20 @@ public class DataExtractionTaskV1 extends EngineTask
 			// load the report variables
 			hintsReader = new PageHintReader( reportDocReader );
 			Collection<PageVariable> vars = hintsReader.getPageVariables( );
-			if ( vars != null )
+			if ( vars != null && !vars.isEmpty() )
 			{
 				executionContext.addPageVariables( vars );
+			}
+			//currently always load page variable in the first page. Perhaps we need disable the exporting.
+			IPageHint pageHint = hintsReader.getPageHint( 1 );
+			if ( pageHint != null )
+			{
+				Collection<PageVariable> pageVariables = pageHint
+						.getPageVariables( );
+				if ( pageVariables != null && !pageVariables.isEmpty( ) )
+				{
+					executionContext.addPageVariables( pageVariables );
+				}
 			}
 		}
 		catch ( IOException ex )
@@ -617,6 +629,26 @@ public class DataExtractionTaskV1 extends EngineTask
 		return null;
 	}
 
+	/**
+	 * get a result set.
+	 * 
+	 * @param rsetName
+	 * @return
+	 */
+	protected IResultSetItem getResultSetItem( String rsetName )
+	{
+		Iterator iter = resultMetaList.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			IResultSetItem rsetItem = (IResultSetItem) iter.next( );
+			if ( rsetItem.getResultSetName( ).equals( rsetName ) )
+			{
+				return rsetItem;
+			}
+		}
+		return null;
+	}
+	
 	public void selectColumns( String[] columnNames )
 	{
 		selectedColumns = columnNames;
@@ -767,11 +799,19 @@ public class DataExtractionTaskV1 extends EngineTask
 			results = (IQueryResults)dataSession.execute( preparedQuery, null, scriptContext );
 			if ( null != results )
 			{
-				IResultMetaData metaData = getResultMetaData( rsetName );
+				IResultMetaData metaData = null;
+				IResultSetItem rset= getResultSetItem(rsetName);
+				if (rset != null )
+				{
+					metaData = rset.getResultMetaData( );
+				}
 				if ( metaData != null )
 				{
 					return new ExtractionResults( results, metaData,
-							this.selectedColumns, startRow, maxRows );
+							this.selectedColumns, startRow, maxRows,
+							( rset instanceof ResultSetItem )
+									? ( (ResultSetItem) rset ).getHandle( )
+									: null );
 				}
 			}
 		}
@@ -885,10 +925,11 @@ public class DataExtractionTaskV1 extends EngineTask
 		if ( queryResults != null )
 		{
 			IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
+			DesignElementHandle handle = getReportItemHandleByInstanceID( instanceId );
 			if ( metaData != null )
 			{
 				return new ExtractionResults( queryResults, metaData,
-						this.selectedColumns, startRow, maxRows );
+						this.selectedColumns, startRow, maxRows, handle );
 			}
 		}
 		return null;
@@ -1010,6 +1051,22 @@ public class DataExtractionTaskV1 extends EngineTask
 			iid = iid.getParentID( );
 		}
 		return null;
+	}
+	
+	private DesignElementHandle getReportItemHandleByInstanceID( InstanceID iid )
+			throws BirtException
+	{
+
+		long id = iid.getComponentID( );
+		ReportItemDesign design = (ReportItemDesign) report
+				.getReportItemByID( id );
+
+		if ( design != null )
+		{
+			return design.getHandle( );
+		}
+		return null;
+
 	}
 
 /*

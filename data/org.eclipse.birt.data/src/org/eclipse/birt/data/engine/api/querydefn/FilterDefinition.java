@@ -24,6 +24,8 @@ public class FilterDefinition implements IFilterDefinition
 	IBaseExpression 	expr;
 	
 	boolean updateAggr;
+	
+	private FilterTarget filterTarget;
 
 	/**
 	 * Constructs a new filter using the specified expression. The expression is expected to 
@@ -85,5 +87,23 @@ public class FilterDefinition implements IFilterDefinition
 	public void setUpdateAggregation( boolean flag )
 	{
 		this.updateAggr = flag;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IFilterDefinition#getFilterTarget()
+	 */
+	public FilterTarget getFilterTarget( )
+	{
+		return filterTarget;
+	}
+	
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IFilterDefinition#setFilterTarget(org.eclipse.birt.data.engine.api.IFilterDefinition.FilterTarget)
+	 */
+	public void setFilterTarget( FilterTarget filterTarget )
+	{
+		this.filterTarget = filterTarget;
 	}
 }

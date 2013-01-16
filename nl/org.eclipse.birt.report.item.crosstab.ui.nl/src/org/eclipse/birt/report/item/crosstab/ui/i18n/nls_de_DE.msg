@@ -14,7 +14,7 @@ DeleteDimensionViewHandleAction.DisplayName=Entf&ernen
 DeleteMeasureHandleAction.DisplayName=Entf&ernen
 DeleteMeasureHandleAction.TransName=Maßeinheit löschen
 
-AddComputedMesureHandleAction.DisplayName=Abgeleitete Maß&einheit hinzufügen
+AddComputedMesureHandleAction.DisplayName=Abgeleitete &Maßeinheit hinzufügen
 AddComputedMesureHandleAction.TransName=Abgeleitete Maßeinheit hinzufügen
 AddComputedSummaryDialog.Title=Abgeleitete Maßeinheit
 AddComputedSummaryDialog.Label.Name=&Name:
@@ -28,17 +28,22 @@ ShowAsViewAction.DisplayName=Anzeigen als
 ShowAsViewAction.TransName=Anzeigen als
 
 MeasureComboPropertyDescriptorProvider.TransName=Kreuztabellen-Ausrichtung ändern
+MeasureHandleDropAdapter_trans_name=Maßeinheit hinzufügen
 
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Dimension hinzufügen
 AddMeasureViewHandleCommand.TransName=Maßeinheit hinzufügen
-AddRelativeTimePeriodAction_action_label=Relative Z&eitperiode hinzufügen
+AddRelativeTimePeriodAction_action_label=Re&lative Zeitperiode hinzufügen
 AddRelativeTimePeriodAction_trans_label=Relatives Zeitintervall hinzufügen
 ChangeAreaCommand.TransName=Dimension verwerfen
 ChangeMeasureOrderCommand.TransName=Reihenfolge der Maßeinheiten ändern
 CreateDimensionViewCommand.TransName=Dimension erstellen
 CreateMeasureViewCommand.TransName=Maßeinheit erstellen
+
+MergeCrosstabHeaderCellAction_name=&Kopfzeilen verbinden
+SplitCrosstabHeadCellAction_name=Kopfzeile &teilen
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################

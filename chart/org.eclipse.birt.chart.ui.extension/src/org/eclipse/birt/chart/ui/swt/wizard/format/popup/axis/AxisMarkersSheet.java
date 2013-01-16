@@ -442,20 +442,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		fccRange.setLayoutData( gdFCCRange );
 		fccRange.addListener( this );
 
-		grpMarkerRange = new Group( cmpRange, SWT.NONE );
-		GridData gdGRPMarkerRange = new GridData( GridData.FILL_HORIZONTAL );
-		gdGRPMarkerRange.horizontalSpan = 3;
-		grpMarkerRange.setLayoutData( gdGRPMarkerRange );
-		grpMarkerRange.setLayout( new FillLayout( ) );
-		grpMarkerRange.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.RangeOutline" ) ); //$NON-NLS-1$
-
-		liacMarkerRange = new LineAttributesComposite( grpMarkerRange,
-				SWT.NONE,
-				lineStyles,
-				getContext( ),
-				null,
-				defAxis.getMarkerRanges( ).get( 0 ).getOutline( ) );
-		liacMarkerRange.addListener( this );
+		createRangeGroup( );
 
 		btnRangeTriggers = new Button( cmpRange, SWT.PUSH );
 		{
@@ -491,6 +478,29 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		refreshButtons( );
 
 		return cmpContent;
+	}
+
+	protected void createRangeGroup( )
+	{
+		grpMarkerRange = new Group( cmpRange, SWT.NONE );
+		GridData gdGRPMarkerRange = new GridData( GridData.FILL_HORIZONTAL );
+		gdGRPMarkerRange.horizontalSpan = 3;
+		grpMarkerRange.setLayoutData( gdGRPMarkerRange );
+		grpMarkerRange.setLayout( new FillLayout( ) );
+		grpMarkerRange.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.RangeOutline" ) ); //$NON-NLS-1$
+
+		int lineStyles = LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR;
+
+		liacMarkerRange = new LineAttributesComposite( grpMarkerRange,
+				SWT.NONE,
+				lineStyles,
+				getContext( ),
+				null,
+				defAxis.getMarkerRanges( ).get( 0 ).getOutline( ) );
+		liacMarkerRange.addListener( this );
 	}
 
 	protected LabelAttributesContext getLabelAttributesContext( )
@@ -1133,11 +1143,14 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			// Update the fill
 			fccRange.setFill( range.getFill( ) );
 
-			// Update the Line attribute fields
-			liacMarkerRange.setLineAttributes( range.getOutline( ) );
+			if ( liacMarkerRange != null )
+			{
+				// Update the Line attribute fields
+				liacMarkerRange.setLineAttributes( range.getOutline( ) );
+			}
 
 			// Update the Label attribute fields
-//			lacLabel.setLabel( range.getLabel( ), getChart( ).getUnits( ), range );
+			lacLabel.setLabel( range.getLabel( ), getChart( ).getUnits( ), range );
 		}
 	}
 
@@ -1187,7 +1200,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		txtStartValue.setEnabled( bState );
 		lblEndValue.setEnabled( bState );
 		txtEndValue.setEnabled( bState );
-		liacMarkerRange.setAttributesEnabled( bState );
+		if ( liacMarkerRange != null )
+		{
+			liacMarkerRange.setAttributesEnabled( bState );
+		}
 		lacLabel.setEnabled( bState );
 		lblRangeFill.setEnabled( bState );
 		fccRange.setEnabled( bState );
@@ -1196,7 +1212,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 
 		this.grpGeneral.setEnabled( bState );
 		this.grpMarkerLine.setEnabled( bState );
-		this.grpMarkerRange.setEnabled( bState );
+		if ( grpMarkerRange != null )
+		{
+			this.grpMarkerRange.setEnabled( bState );
+		}	
 	}
 
 	private void resetUI( )
@@ -1211,8 +1230,11 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		txtStartValue.setDataElement( null );
 		txtEndValue.setDataElement( null );
 		fccRange.setFill( null );
-		liacMarkerRange.setLineAttributes( null );
-		liacMarkerRange.layout( );
+		if ( liacMarkerRange != null )
+		{
+			liacMarkerRange.setLineAttributes( null );
+			liacMarkerRange.layout( );
+		}
 		lacLabel.setLabel( LabelImpl.create( ), getChart( ).getUnits( ), null );
 		lacLabel.layout( );
 	}

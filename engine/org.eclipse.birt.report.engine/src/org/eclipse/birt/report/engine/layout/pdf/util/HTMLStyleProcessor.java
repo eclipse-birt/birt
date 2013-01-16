@@ -53,6 +53,8 @@ public class HTMLStyleProcessor
 
 	private static Pattern pattern = Pattern.compile( "[\\s|\t|\r|\n]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );
 
+	private static String LIST_STYLE_TYPE = "list-style-type";
+
 	/**
 	 * Constructor
 	 * 
@@ -179,6 +181,14 @@ public class HTMLStyleProcessor
 							{
 								sp.addProperty( StyleProperties.HEIGHT, d );
 							}
+						}
+					}
+					//support list-style-type
+					if ( LIST_STYLE_TYPE.equals( name ) )
+					{
+						if ( value != null && value.length( ) > 0 )
+						{
+							sp.addProperty( LIST_STYLE_TYPE, value );
 						}
 					}
 					//support text-decoration

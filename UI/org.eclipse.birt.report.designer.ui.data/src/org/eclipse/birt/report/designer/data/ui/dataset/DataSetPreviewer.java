@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
 /**
@@ -66,25 +65,14 @@ public class DataSetPreviewer
 	
 	public IResultIterator preview( ) throws BirtException
 	{
-		int max = dataSetHandle.getIntProperty( DataSetHandle.ROW_FETCH_LIMIT_PROP );
-		try
-		{
-			dataSetHandle.setIntProperty( DataSetHandle.ROW_FETCH_LIMIT_PROP, this.maxRow );
-			result = task.execute( );
-			return result.nextResultIterator( ).getResultIterator( );
-		}
-		finally
-		{
-			dataSetHandle.setIntProperty( DataSetHandle.ROW_FETCH_LIMIT_PROP, max );
-		}
+		result = task.execute( );
+		return result.nextResultIterator( ).getResultIterator( );
 	}
-	
 	
 	private static IReportEngine createReportEngine( EngineConfig config ) throws BirtException
 	{
-		return new ReportEngineFactory( ).createReportEngine( config );
+		return ReportEngineCreator.createReportEngine( config );
 	}
-
 	
 	public void close( ) throws BirtException
 	{
