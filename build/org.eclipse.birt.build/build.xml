@@ -78,6 +78,7 @@
 				<include name="*.jar" />
 				<include name="runMaven.xml" />
 				<include name="*.properties" />
+				<exclude name="build.properties"/>
 			</fileset>
 		</copy>
 	</target>
