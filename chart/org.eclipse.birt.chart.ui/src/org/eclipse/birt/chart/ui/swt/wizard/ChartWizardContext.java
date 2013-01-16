@@ -33,7 +33,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 /**
  * ChartWizardContext
  */
-public class ChartWizardContext implements IChartWizardContext
+public class ChartWizardContext implements IChartWizardContext<Chart>
 {
 
 	protected Chart chartModel = null;
