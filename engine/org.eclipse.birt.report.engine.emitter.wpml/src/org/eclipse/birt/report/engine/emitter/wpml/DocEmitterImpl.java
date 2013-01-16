@@ -66,13 +66,20 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 			{
 				adjustInline( );
 			}
-			if ( !styles.isEmpty( ) )
+			if ( !CSSConstants.CSS_INLINE_VALUE.equalsIgnoreCase( container
+					.getComputedStyle( ).getDisplay( ) ) )
 			{
-				styles.pop( );
+				if ( !styles.isEmpty( ) )
+				{
+					styles.pop( );
+				}
 			}
-			if ( !inlineStyles.isEmpty( ) )
+			else
 			{
-				inlineStyles.pop( );
+				if ( !inlineStyles.isEmpty( ) )
+				{
+					inlineStyles.pop( );
+				}
 			}
 			
 			if ( !CSSConstants.CSS_INLINE_VALUE.equalsIgnoreCase( container
