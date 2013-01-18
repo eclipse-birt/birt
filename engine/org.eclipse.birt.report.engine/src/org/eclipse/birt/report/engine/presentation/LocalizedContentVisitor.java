@@ -953,6 +953,25 @@ public class LocalizedContentVisitor
 		String tagName = handle.getExtensionName( );
 		IReportItemPresentation itemPresentation = context
 				.getExtendedItemManager( ).createPresentation( handle );
+		// call the presentation peer to create the content object		
+		int resolution = 0;
+		
+		IDataQueryDefinition[] queries = design.getQueries( );
+		
+		ReportItemPresentationInfo info = new ReportItemPresentationInfo( );
+		info.setModelObject( handle );
+		info.setApplicationClassLoader( context.getApplicationClassLoader( ) );
+		info.setReportContext( context.getReportContext( ) );
+		info.setReportQueries( queries );
+		resolution = getChartResolution( content );
+		info.setResolution( resolution );
+		info.setExtendedItemContent( content );
+		info.setSupportedImageFormats( getChartFormats( ) );
+		info.setActionHandler( context.getActionHandler( ) );
+		info.setOutputFormat( getOutputFormat( ) );
+
+		itemPresentation.init( info );
+		
 		if ( "Chart".equals( tagName ) )
 		{
 			IHTMLImageHandler imageHandler = context.getImageHandler( );
@@ -991,29 +1010,9 @@ public class LocalizedContentVisitor
 				}
 			}
 		}
-
-		// call the presentation peer to create the content object		
-		int resolution = 0;
+		
 		if ( itemPresentation != null )
 		{
-			IDataQueryDefinition[] queries = design.getQueries( );
-
-			ReportItemPresentationInfo info = new ReportItemPresentationInfo( );
-			info.setModelObject( handle );
-			info
-					.setApplicationClassLoader( context
-							.getApplicationClassLoader( ) );
-			info.setReportContext( context.getReportContext( ) );
-			info.setReportQueries( queries );
-			resolution = getChartResolution( content );
-			info.setResolution( resolution );
-			info.setExtendedItemContent( content );
-			info.setSupportedImageFormats( getChartFormats( ) );
-			info.setActionHandler( context.getActionHandler( ) );
-			info.setOutputFormat( getOutputFormat( ) );
-
-			itemPresentation.init( info );
-
 			Object rawValue = content.getRawValue( );
 			if ( rawValue instanceof byte[] )
 			{
