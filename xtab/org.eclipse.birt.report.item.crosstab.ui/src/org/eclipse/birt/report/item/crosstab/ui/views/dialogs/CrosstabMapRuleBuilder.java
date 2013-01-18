@@ -38,6 +38,7 @@ import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
@@ -46,6 +47,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -53,6 +55,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
+
+import com.actuate.birt.report.model.api.DataMartCubeHandle;
 
 /**
  * 
@@ -148,20 +152,25 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 			}
 
 		}
+		
 		if ( cube == null
-				|| ( !( cube instanceof TabularCubeHandle ) )
+				|| ( !( cube instanceof CubeHandle ) )
 				|| expression.getText( ).length( ) == 0 )
 		{
 			return new ArrayList( );
 		}
-
+		
+		DataSetHandle dataSetHandle=(DataSetHandle)( (CubeHandle) cube ).getElementProperty(ITabularCubeModel.DATA_SET_PROP);
+		if(dataSetHandle==null)
+		{
+			return new ArrayList( );
+		}
 		String expr = null;
 		IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( expression );
 		if ( converter != null )
 		{
 			for ( int i = 0; i < columnList.size( ); i++ )
 			{
-
 				ComputedColumnHandle column = columnList.get( i );
 				if ( column != null )
 				{
@@ -185,9 +194,9 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 		try
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			DataService.getInstance( )
-					.registerSession( ( (TabularCubeHandle) cube ).getDataSet( ),
-							session );
+
+			DataService.getInstance( ).registerSession( dataSetHandle,session );
+
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
 			iter = CubeValueSelector.getMemberValueIterator( session,
 					cube,
