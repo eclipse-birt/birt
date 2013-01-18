@@ -112,30 +112,34 @@ public class PropertyPageWrapper extends AbstractPropertyPage
 	{
 		if ( propertyPage instanceof DataSetEditorPage )
 		{
-			try
+			boolean okToLeave = ( (DataSetEditorPage) propertyPage ).okToLeave( );
+			if ( okToLeave )
 			{
-				DataSetDesign requestDesign = null;
-				DesignSessionResponse response = null;
-				if ( dataSetSession != null )
+				try
 				{
-					requestDesign = dataSetSession.getRequest( )
-							.getDataSetDesign( );
-					response = dataSetSession.flush( ).getResponse( );
-				}
-				else
-					response = ( (DataSetEditorPage) propertyPage ).collectPageResponse( );
+					DataSetDesign requestDesign = null;
+					DesignSessionResponse response = null;
+					if ( dataSetSession != null )
+					{
+						requestDesign = dataSetSession.getRequest( )
+								.getDataSetDesign( );
+						response = dataSetSession.flush( ).getResponse( );
+					}
+					else
+						response = ( (DataSetEditorPage) propertyPage ).collectPageResponse( );
 
-				DTPUtil.getInstance( )
-						.updateDataSetHandle( response,
-								requestDesign,
-								(OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getModel( ),
-								false );
+					DTPUtil.getInstance( )
+							.updateDataSetHandle( response,
+									requestDesign,
+									(OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getModel( ),
+									false );
+				}
+				catch ( OdaException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
-			catch ( OdaException e )
-			{
-				ExceptionHandler.handle( e );
-			}
-			return true;
+			return okToLeave;
 		}
 
 		if ( propertyPage instanceof DataSourceEditorPage )
