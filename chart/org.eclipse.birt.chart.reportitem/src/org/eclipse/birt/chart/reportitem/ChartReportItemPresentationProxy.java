@@ -203,6 +203,6 @@ public class ChartReportItemPresentationProxy implements
 	 */
 	public boolean isCacheable( )
 	{
-		return true;
+		return impl.isCacheable( );
 	}
 }
