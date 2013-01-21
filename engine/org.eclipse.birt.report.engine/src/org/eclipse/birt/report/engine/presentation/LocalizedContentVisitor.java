@@ -1181,6 +1181,25 @@ public class LocalizedContentVisitor
 							.getGenerateBy( );
 					ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
 					IReportItemPresentation itemPresentation = context.getExtendedItemManager( ).createPresentation( handle );
+					// call the presentation peer to create the content object		
+					int resolution = 0;
+					
+					IDataQueryDefinition[] queries = design.getQueries( );
+					
+					ReportItemPresentationInfo info = new ReportItemPresentationInfo( );
+					info.setModelObject( handle );
+					info.setApplicationClassLoader( context.getApplicationClassLoader( ) );
+					info.setReportContext( context.getReportContext( ) );
+					info.setReportQueries( queries );
+					resolution = getChartResolution( content );
+					info.setResolution( resolution );
+					info.setExtendedItemContent( content );
+					info.setSupportedImageFormats( getChartFormats( ) );
+					info.setActionHandler( context.getActionHandler( ) );
+					info.setOutputFormat( getOutputFormat( ) );
+
+					itemPresentation.init( info );
+					
 					if( itemPresentation != null && itemPresentation.isCacheable( ) )
 					{
 						Image img = new Image( imageObj );
