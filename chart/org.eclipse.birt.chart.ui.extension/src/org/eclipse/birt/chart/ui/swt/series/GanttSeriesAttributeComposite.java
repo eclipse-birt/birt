@@ -164,9 +164,7 @@ public class GanttSeriesAttributeComposite extends Composite
 				context,
 				SWT.NONE,
 				series.getConnectionLine( ),
-				true,
-				true,
-				true,
+				getLineOptionalStyles( ),
 				DefaultValueProvider.defGanttSeries().getConnectionLine( ) );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
@@ -197,15 +195,27 @@ public class GanttSeriesAttributeComposite extends Composite
 
 		oliacGantt = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				getOutlineOptionalStyles( ),
 				context,
 				series.getOutline( ),
-				true,
-				true,
-				true,
-				true,
-				true,
 				defSeries.getOutline( ) );
 		oliacGantt.addListener( this );
+	}
+
+	protected int getOutlineOptionalStyles( )
+	{
+		return 	LineAttributesComposite.ENABLE_WIDTH |
+				LineAttributesComposite.ENABLE_STYLES |
+				LineAttributesComposite.ENABLE_VISIBILITY |
+				LineAttributesComposite.ENABLE_COLOR |
+				LineAttributesComposite.ENABLE_AUTO_COLOR;
+	}
+
+	protected int getLineOptionalStyles( )
+	{
+		return GanttLineAttributesComposite.ENABLE_STYLES |
+               GanttLineAttributesComposite.ENABLE_VISIBILITY |
+               GanttLineAttributesComposite.ENABLE_WIDTH;		
 	}
 
 	public Point getPreferredSize( )

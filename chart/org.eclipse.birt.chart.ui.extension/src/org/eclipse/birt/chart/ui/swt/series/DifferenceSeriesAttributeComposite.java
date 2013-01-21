@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
@@ -48,19 +49,21 @@ public class DifferenceSeriesAttributeComposite extends Composite
 			Listener
 {
 
-	private Group grpLine1 = null;
-
-	private LineAttributesComposite liacLine1 = null;
+	protected Group grpLine =  null;
 	
-	private Group grpLine2 = null;
+	protected Group grpLine1 = null;
 
-	private LineAttributesComposite liacLine2 = null;
-
-	private Series series = null;
+	protected LineAttributesComposite liacLine1 = null;
 	
-	private DifferenceSeries defSeries = DefaultValueProvider.defDifferenceSeries( );
+	protected Group grpLine2 = null;
 
-	private ChartWizardContext context;
+	protected LineAttributesComposite liacLine2 = null;
+
+	protected Series series = null;
+	
+	protected DifferenceSeries defSeries = DefaultValueProvider.defDifferenceSeries( );
+
+	protected ChartWizardContext context;
 
 	private ChartCheckbox btnPalette;
 
@@ -120,7 +123,7 @@ public class DifferenceSeriesAttributeComposite extends Composite
 		// Main content composite
 		this.setLayout( glContent );
 		
-		Group grpLine = new Group( this, SWT.NONE );
+		grpLine = new Group( this, SWT.NONE );
 		{
 			GridLayout glGroup = new GridLayout( 2, true );
 			glGroup.horizontalSpacing = 5;
@@ -129,52 +132,22 @@ public class DifferenceSeriesAttributeComposite extends Composite
 			grpLine.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
 		}
 
-		grpLine1 = new Group( grpLine, SWT.NONE );
-		{
-			GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
-			grpLine1.setLayout( new FillLayout( ) );
-			grpLine1.setLayoutData( gdGRPLine );
-			grpLine1.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.PositiveLine" ) ); //$NON-NLS-1$
-		}
 
-		liacLine1 = new LineAttributesComposite( grpLine1,
-				SWT.NONE,
-				context,
-				( (DifferenceSeries) series ).getLineAttributes( ),
-				true,
-				true,
-				true,
-				true,
-				true,
-				defSeries.getLineAttributes( ) );
-		liacLine1.addListener( this );
-		
-		grpLine2 = new Group( grpLine, SWT.NONE );
+		if(isPosivitiveAndNegativeLineAvailable( ))
 		{
-			GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
-			grpLine2.setLayout( new FillLayout( ) );
-			grpLine2.setLayoutData( gdGRPLine );
-			grpLine2.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.NegativeLine" ) ); //$NON-NLS-1$
+			placePositiveAndNegativeLineComponents();
 		}
-
-		liacLine2 = new LineAttributesComposite( grpLine2,
-				SWT.NONE,
-				context,
-				( (DifferenceSeries) series ).getNegativeLineAttributes( ),
-				true,
-				true,
-				true,
-				true,
-				true,
-				defSeries.getNegativeLineAttributes( ) );
-		liacLine2.addListener( this );
+		else
+		{
+			placeOneLineComponents( );
+		}
 		
 		Composite cmpButton = new Composite( grpLine, SWT.NONE );
 		{
-			GridData gd = new GridData( );
-			gd.horizontalSpan = 2;
+			GridData gd = new GridData();
+			gd.horizontalSpan = isPosivitiveAndNegativeLineAvailable( ) ? 2 : 1;
 			cmpButton.setLayoutData( gd );
-			cmpButton.setLayout( new GridLayout( 2, false ) );
+			cmpButton.setLayout( new GridLayout( isPosivitiveAndNegativeLineAvailable( ) ? 2 : 1, false ) );
 		}
 		
 		btnPalette = context.getUIFactory( )
@@ -204,6 +177,70 @@ public class DifferenceSeriesAttributeComposite extends Composite
 		}
 
 		enableLinePaletteSetting( canEnableLinePalette( ) );
+	}
+
+	protected boolean isPosivitiveAndNegativeLineAvailable( )
+	{
+		return true;
+	}
+
+	protected void placePositiveAndNegativeLineComponents( )
+	{
+		grpLine1 = new Group( grpLine, SWT.NONE );
+		{
+			GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
+			grpLine1.setLayout( new FillLayout( ) );
+			grpLine1.setLayoutData( gdGRPLine );
+			grpLine1.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.PositiveLine" ) ); //$NON-NLS-1$
+		}
+
+		liacLine1 = createLineComponent( grpLine1,
+						( (DifferenceSeries) series ).getLineAttributes( ),
+						defSeries.getLineAttributes( ) );
+		
+		grpLine2 = new Group( grpLine, SWT.NONE );
+		{
+			GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
+			grpLine2.setLayout( new FillLayout( ) );
+			grpLine2.setLayoutData( gdGRPLine );
+			grpLine2.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.NegativeLine" ) ); //$NON-NLS-1$
+		}
+
+		liacLine2 = createLineComponent( grpLine2,
+						( (DifferenceSeries) series ).getNegativeLineAttributes( ),
+						defSeries.getNegativeLineAttributes( ));
+		
+	}
+	
+	protected void placeOneLineComponents( )
+	{
+		liacLine1 = createLineComponent( grpLine,
+						( (DifferenceSeries) series ).getLineAttributes( ),
+						defSeries.getLineAttributes( ) );
+		
+		GridData gdLiacLine1 = new GridData( GridData.FILL_HORIZONTAL );
+		liacLine1.setLayoutData( gdLiacLine1 );
+		liacLine1.addListener( this );
+	}
+	
+	protected LineAttributesComposite createLineComponent( Composite parent,
+			LineAttributes lineAttrs, LineAttributes lineAttrsDef )
+	{
+		LineAttributesComposite lineAttrComp =
+			new LineAttributesComposite( parent,
+				SWT.NONE,
+				context,
+				lineAttrs,
+				true,
+				true,
+				true,
+				true,
+				true,
+				lineAttrsDef);
+		
+		lineAttrComp.addListener( this );
+		
+		return lineAttrComp;
 	}
 
 	public Point getPreferredSize( )
