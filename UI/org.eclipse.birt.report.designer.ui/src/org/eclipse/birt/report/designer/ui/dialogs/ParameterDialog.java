@@ -4051,7 +4051,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		else
 		{
-			if ( formatCategroy == null )
+			if ( formatCategroy == null||choiceSet.findChoice( formatCategroy )==null )
 			{
 				return;
 			}
