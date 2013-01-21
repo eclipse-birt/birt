@@ -128,8 +128,8 @@
 
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
-		<property name="javacSource" value="1.5" />
-		<property name="javacTarget" value="1.5" />
+		<property name="javacSource" value="1.6" />
+		<property name="javacTarget" value="1.6" />
 		<property name="javacDebugInfo" value="true" />
 		<property name="javacFailOnError" value="false" />
 		<property name="javacVerbose" value="true" />
