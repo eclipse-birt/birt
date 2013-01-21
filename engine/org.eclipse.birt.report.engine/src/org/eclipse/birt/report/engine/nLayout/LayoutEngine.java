@@ -405,7 +405,8 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			{
 				if ( PropertyUtil.isDisplayNone( content ) )
 				{
-					if ( contentDisplayNone == content )
+					if ( contentDisplayNone.getInstanceID( ) == content
+							.getInstanceID( ) )
 					{
 						context.setDisplayNone( false );
 						contentDisplayNone = null;
