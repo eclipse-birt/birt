@@ -845,7 +845,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 			// Bind Data to series
 			boolean bEmptyData = false;
-			if ( !bindData( rowAdapter, evaluator ) )
+			if ( !bEmptyWithUncompletedBindings && !bindData( rowAdapter, evaluator ) )
 			{
 				bEmptyData = true;
 			}
