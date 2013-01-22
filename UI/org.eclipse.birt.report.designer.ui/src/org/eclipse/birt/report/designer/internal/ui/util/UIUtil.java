@@ -88,6 +88,7 @@ import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -204,9 +205,9 @@ public class UIUtil
 	private static final String MSG_DIALOG_MSG = Messages.getString( "ImportLibraryAction.Message.ImportSuccessfully" ); //$NON-NLS-1$
 
 	private static String[] EDITOR_IDS = {
-			"org.eclipse.birt.report.designer.ui.editors.ReportEditor", //$NON-NLS-1$
-			"org.eclipse.birt.report.designer.ui.editors.LibraryEditor", //$NON-NLS-1$
-			"org.eclipse.birt.report.designer.ui.editors.TemplateEditor" //$NON-NLS-1$
+		"org.eclipse.birt.report.designer.ui.editors.ReportEditor", //$NON-NLS-1$
+		"org.eclipse.birt.report.designer.ui.editors.LibraryEditor", //$NON-NLS-1$
+		"org.eclipse.birt.report.designer.ui.editors.TemplateEditor" //$NON-NLS-1$
 	};
 
 	/**
@@ -574,7 +575,7 @@ public class UIUtil
 
 	private static boolean addGroup( DesignElementHandle parent, int position )
 			throws SemanticException
-	{
+			{
 		GroupHandle groupHandle = null;
 		SlotHandle slotHandle = null;
 		// ElementFactory factory = parent.getElementFactory( );
@@ -610,7 +611,7 @@ public class UIUtil
 			return true;
 		}
 		return false;
-	}
+			}
 
 	/**
 	 * Gets the first selected edit part in layout editor. Whenever the user has
@@ -1144,7 +1145,7 @@ public class UIUtil
 	 */
 	public static void createFolder( IFolder folderHandle,
 			IProgressMonitor monitor ) throws CoreException
-	{
+			{
 		try
 		{
 			// Create the folder resource in the workspace
@@ -1157,7 +1158,7 @@ public class UIUtil
 				int numSegments = path.segmentCount( );
 				if ( numSegments > 2
 						&& !root.getFolder( path.removeLastSegments( 1 ) )
-								.exists( ) )
+						.exists( ) )
 				{
 					// If the direct parent of the path doesn't exist, try
 					// to create the
@@ -1187,7 +1188,7 @@ public class UIUtil
 
 		if ( monitor.isCanceled( ) )
 			throw new OperationCanceledException( );
-	}
+			}
 
 	/**
 	 * @return Report Designer UI plugin installation directory as OS string.
@@ -1250,9 +1251,9 @@ public class UIUtil
 
 	public static boolean includeLibrary( ModuleHandle moduleHandle,
 			String libraryPath ) throws DesignFileException, SemanticException
-	{
+			{
 		return includeLibrary( moduleHandle, libraryPath, false );
-	}
+			}
 
 	/**
 	 * Includes the library into within the given module.
@@ -1267,7 +1268,7 @@ public class UIUtil
 	public static boolean includeLibrary( ModuleHandle moduleHandle,
 			String libraryPath, boolean isDefault ) throws DesignFileException,
 			SemanticException
-	{
+			{
 		String namespace = getLibraryNamespace( moduleHandle,
 				libraryPath,
 				isDefault );
@@ -1293,7 +1294,7 @@ public class UIUtil
 				{
 					ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
 							MessageFormat.format( MSG_DIALOG_MSG, new String[]{
-								libraryPath
+									libraryPath
 							} ),
 							SWT.ICON_INFORMATION );
 				}
@@ -1310,7 +1311,7 @@ public class UIUtil
 			return true;
 		}
 		return false;
-	}
+			}
 
 	/**
 	 * Includes the library into within the given module.
@@ -1325,14 +1326,14 @@ public class UIUtil
 	public static boolean includeLibrary( ModuleHandle moduleHandle,
 			LibraryHandle libraryHandle ) throws DesignFileException,
 			SemanticException
-	{
+			{
 		if ( moduleHandle != libraryHandle
 				&& !moduleHandle.isInclude( libraryHandle ) )
 		{
 			return includeLibrary( moduleHandle, libraryHandle.getFileName( ) );
 		}
 		return true;
-	}
+			}
 
 	/**
 	 * Includes the library into within the current module.
@@ -1344,10 +1345,10 @@ public class UIUtil
 	 */
 	public static boolean includeLibrary( LibraryHandle libraryHandle )
 			throws DesignFileException, SemanticException
-	{
+			{
 		return includeLibrary( SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( ), libraryHandle );
-	}
+			}
 
 	/**
 	 * Returns the name for the file
@@ -1506,7 +1507,7 @@ public class UIUtil
 	public static int[] getExpressionBidiLevel( String message )
 	{
 		java.text.Bidi bidi = new Bidi( message,
-		// Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT );
+				// Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT );
 				Bidi.DIRECTION_LEFT_TO_RIGHT ); // bidi_hcg
 		int[] level = new int[message.length( )];
 		boolean bidiStart = false;
@@ -1981,7 +1982,7 @@ public class UIUtil
 		return PreferenceFactory.getInstance( )
 				.getPreferences( ReportPlugin.getDefault( ),
 						UIUtil.getCurrentProject( ) )
-				.getString( ReportPlugin.DEFAULT_SCRIPT_TYPE );
+						.getString( ReportPlugin.DEFAULT_SCRIPT_TYPE );
 	}
 
 	/**
@@ -2078,10 +2079,17 @@ public class UIUtil
 	 * @param slotHandle
 	 * @return
 	 */
-	public static List<IElementDefn> getUIElementSupportList(
-			SlotHandle slotHandle )
+	public static List<IElementDefn> getUIElementSupportList( ElementDetailHandle slotHandle )
 	{
-		List<IElementDefn> list = DEUtil.getElementSupportList( slotHandle );
+		List<IElementDefn> list = null;
+		if ( slotHandle instanceof SlotHandle )
+		{
+			list = DEUtil.getElementSupportList( (SlotHandle) slotHandle );
+		}
+		else if ( slotHandle instanceof PropertyHandle )
+		{
+			list = DEUtil.getElementSupportList( (PropertyHandle) slotHandle );
+		}
 
 		list.removeAll( getInvisibleExtensionElements( ) );
 
@@ -2096,13 +2104,13 @@ public class UIUtil
 	 */
 	public static List<IElementDefn> getUIElementSupportList(
 			PropertyHandle propertyHandle )
-	{
+			{
 		List<IElementDefn> list = DEUtil.getElementSupportList( propertyHandle );
 
 		list.removeAll( getInvisibleExtensionElements( ) );
 
 		return list;
-	}
+			}
 
 	public static void doFinishSave( ModuleHandle model )
 	{
@@ -2370,8 +2378,8 @@ public class UIUtil
 								if ( cv != null )
 								{
 									parameter.getModuleHandle( )
-											.getPropertyHandle( ReportDesignHandle.CONFIG_VARS_PROP )
-											.removeItem( cv );
+									.getPropertyHandle( ReportDesignHandle.CONFIG_VARS_PROP )
+									.removeItem( cv );
 								}
 							}
 							catch ( SemanticException e )
@@ -2501,8 +2509,8 @@ public class UIUtil
 				resourceFolder );
 
 		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.setResourceFolder( resourceFolder );
+		.getSessionHandle( )
+		.setResourceFolder( resourceFolder );
 	}
 
 	/**
@@ -2584,9 +2592,9 @@ public class UIUtil
 				gc.fillPolygon( points );
 				break;
 
-			/*
-			 * Low efficiency because of Win98 bug.
-			 */
+				/*
+				 * Low efficiency because of Win98 bug.
+				 */
 			case SWT.UP :
 				gc.fillRectangle( new Rectangle( point.x, point.y - 1, 1, 1 ) );
 				gc.fillRectangle( new Rectangle( point.x - 1, point.y, 3, 1 ) );
@@ -2605,9 +2613,9 @@ public class UIUtil
 				gc.fillPolygon( points );
 				break;
 
-			/*
-			 * Low efficiency because of Win98 bug.
-			 */
+				/*
+				 * Low efficiency because of Win98 bug.
+				 */
 			default :
 				gc.fillRectangle( new Rectangle( point.x - 2, point.y - 1, 5, 1 ) );
 				gc.fillRectangle( new Rectangle( point.x - 1, point.y, 3, 1 ) );
@@ -2812,8 +2820,8 @@ public class UIUtil
 		String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
 		String designerVersion = MessageFormat.format( VERSION_MESSAGE,
 				new String[]{
-						ReportPlugin.getVersion( ), ReportPlugin.getBuildInfo( )
-				} );
+				ReportPlugin.getVersion( ), ReportPlugin.getBuildInfo( )
+		} );
 		handle.setCreatedBy( designerVersion );
 	}
 
@@ -2855,7 +2863,7 @@ public class UIUtil
 			return dpi;
 		}
 		final Point[] points = new Point[]{
-			new Point( 0, 0 )
+				new Point( 0, 0 )
 		};
 		final Display tempDisplay = display;
 		display.syncExec( new Runnable( ) {
@@ -3060,7 +3068,7 @@ public class UIUtil
 					: null,
 					( background != null ) ? ColorManager.getColor( background )
 							: null,
-					fontModifier );
+							fontModifier );
 
 		}
 		return ta;
@@ -3127,7 +3135,7 @@ public class UIUtil
 		}
 		return null;
 	}
-	
+
 	public static String stripMnemonic( String string )
 	{
 		int index = 0;

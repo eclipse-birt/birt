@@ -13,14 +13,14 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.gef.Request;
 
 public class ExtendElementAction extends InsertAction
 {
 
-	private INodeProvider provider;
+	private final INodeProvider provider;
 
 	/**
 	 * @param selectedObject
@@ -35,6 +35,13 @@ public class ExtendElementAction extends InsertAction
 		this.provider = provider;
 	}
 
+	public ExtendElementAction( INodeProvider provider, String id, Object selectedObject,
+			PropertyHandle handle, String text, String type )
+	{
+		super( selectedObject, text, handle, type );
+		setId( id );
+		this.provider = provider;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -45,8 +52,16 @@ public class ExtendElementAction extends InsertAction
 	{
 		Request request = new Request( IRequestConstants.REQUEST_TYPE_INSERT );
 		Map extendsData = new HashMap( );
-		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT,
-				getSlotHandle( ) );
+
+		if ( getPropertyHandle( ) != null )
+		{
+			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_PROPERTY, getPropertyHandle( ) );
+		}
+		else if ( getSlotHandle( ) != null )
+		{
+			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT,
+					getSlotHandle( ) );
+		}
 
 		if ( getType( ) != null )
 		{
@@ -68,8 +83,8 @@ public class ExtendElementAction extends InsertAction
 
 			r.setSelectionObject( list );
 			SessionHandleAdapter.getInstance( )
-					.getMediator( )
-					.notifyRequest( r );
+			.getMediator( )
+			.notifyRequest( r );
 
 		}
 		return bool;
