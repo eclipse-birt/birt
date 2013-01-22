@@ -40,8 +40,10 @@ public class CubesNodeProvider extends DefaultNodeProvider
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )
 	{
+		String id = menu.getItems( )[0].getId( );
+
 		NewCubeAction action = new NewCubeAction( Messages.getString( "cube.action.new" ) );//$NON-NLS-1$
-		menu.add( action );
+		menu.insertAfter( id, action );
 		super.createContextMenu( sourceViewer, object, menu );
 
 	}
