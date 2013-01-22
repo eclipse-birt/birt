@@ -265,11 +265,6 @@ ColumnBindingDialog.Text.AddAggr=集計の追加(&G)...
 BlockPreferencePage.displayname.Title=テキストブロック
 
 ###########################################################
-#BorderCanvas properties
-
-BorderCanvas.Label.Inherited=(Inherited)
-
-###########################################################
 #BorderPreferencePage properties
 
 BorderPreferencePage.displayname.Color=カラー
