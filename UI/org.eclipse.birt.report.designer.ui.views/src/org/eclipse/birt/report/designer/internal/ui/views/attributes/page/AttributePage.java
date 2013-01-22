@@ -209,7 +209,7 @@ public abstract class AttributePage extends TabPage implements
 		Section[] sectionArray = new Section[sections.size( )];
 		for ( int i = 0; i < sections.size( ); i++ )
 		{
-			sectionArray[i] = (Section) sections.getValue( i );
+			sectionArray[i] = (Section) sections.get( i );
 		}
 		return sectionArray;
 	}
@@ -220,7 +220,7 @@ public abstract class AttributePage extends TabPage implements
 		{
 			return null;
 		}
-		return (Section) sections.getValue( key );
+		return (Section) sections.get( key );
 	}
 
 	public String getTabDisplayName( )

@@ -13,22 +13,18 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import java.util.HashMap;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.AccordionPropertyList;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.IPropertyList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.Tab;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTitle;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
-import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
@@ -47,7 +43,7 @@ public class BaseAttributePage extends TabPage
 	/**
 	 * The list control contains categories of a DE element attributes.
 	 */
-	private TabbedPropertyList categoryList;
+	private IPropertyList categoryList;
 
 	/**
 	 * Container that material category attribute page will reside in.
@@ -89,6 +85,18 @@ public class BaseAttributePage extends TabPage
 	 */
 	Composite container;
 
+	private int style;
+
+	public BaseAttributePage( )
+	{
+		this.style = SWT.HORIZONTAL;
+	}
+
+	public BaseAttributePage( int style )
+	{
+		this.style = style;
+	}
+
 	public void buildUI( Composite parent )
 	{
 		container = new Composite( parent, SWT.NONE );
@@ -100,64 +108,11 @@ public class BaseAttributePage extends TabPage
 		layout.numColumns = 2;
 		container.setLayout( layout );
 
-		categoryList = new TabbedPropertyList( container );
-		GridData gd = new GridData( GridData.FILL_VERTICAL );
-		gd.verticalSpan = 2;
-		categoryList.setLayoutData( gd );
-		categoryList.addListener( SWT.Selection, new Listener( ) {
+		if ( style == SWT.HORIZONTAL )
+			createHorizontalView( );
+		else
+			createVerticalView( );
 
-			public void handleEvent( Event event )
-			{
-				if ( categoryList.getSelectionIndex( ) > -1 )
-				{
-					BaseAttributePage.s_lastSelectedIndex = categoryList.getSelectionIndex( );
-					BaseAttributePage.s_lastSelectedKey = categoryList.getSelectionKey( );
-				}
-				processListSelected( );
-
-			}
-		} );
-		setCategoryProvider( categoryProvider );
-		title = new TabbedPropertyTitle( container,
-				FormWidgetFactory.getInstance( ) );
-		title.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		title.addListener( SWT.SELECTED, new Listener( ) {
-
-			public void handleEvent( Event event )
-			{
-				if ( currentPage != null
-						&& currentPage instanceof ResetAttributePage )
-				{
-					CommandStack stack = SessionHandleAdapter.getInstance( )
-							.getCommandStack( );
-					stack.startTrans( Messages.getString( "BaseAttributePage.CommandStack.ResetStyle.Message" ) ); //$NON-NLS-1$
-
-					( (ResetAttributePage) currentPage ).reset( );
-
-					stack.commit( );
-				}
-			}
-		} );
-
-		sComposite = new ScrolledComposite( container, SWT.H_SCROLL
-				| SWT.V_SCROLL );
-		sComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		sComposite.setExpandHorizontal( true );
-		sComposite.setExpandVertical( true );
-		sComposite.addControlListener( new ControlAdapter( ) {
-
-			public void controlResized( ControlEvent e )
-			{
-				computeSize( );
-			}
-		} );
-
-		infoPane = new Composite( sComposite, SWT.NONE );
-		sComposite.setContent( infoPane );
-		layout = new GridLayout( );
-		layout.marginWidth = 0;
-		layout.marginHeight = 0;
-		infoPane.setLayout( layout );
 		container.addDisposeListener( new DisposeListener( ) {
 
 			public void widgetDisposed( DisposeEvent e )
@@ -176,10 +131,57 @@ public class BaseAttributePage extends TabPage
 		} );
 	}
 
+	protected void createVerticalView( )
+	{
+		categoryList = new AccordionPropertyList( container );
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		categoryList.getControl( ).setLayoutData( gd );
+		categoryList.addListener( SWT.Selection, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				if ( categoryList.getSelectionIndex( ) > -1 )
+				{
+					BaseAttributePage.s_lastSelectedIndex = categoryList.getSelectionIndex( );
+					BaseAttributePage.s_lastSelectedKey = categoryList.getSelectionKey( );
+				}
+				processListSelected( );
+
+			}
+		} );
+		setCategoryProvider( categoryProvider );
+	}
+
+	protected void createHorizontalView( )
+	{
+		categoryList = new TabbedPropertyList( container );
+		GridData gd = new GridData( GridData.FILL_VERTICAL );
+		gd.verticalSpan = 2;
+		categoryList.getControl( ).setLayoutData( gd );
+		categoryList.addListener( SWT.Selection, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				if ( categoryList.getSelectionIndex( ) > -1 )
+				{
+					BaseAttributePage.s_lastSelectedIndex = categoryList.getSelectionIndex( );
+					BaseAttributePage.s_lastSelectedKey = categoryList.getSelectionKey( );
+				}
+				processListSelected( );
+
+			}
+		} );
+		setCategoryProvider( categoryProvider );
+	}
+
 	private void computeSize( )
 	{
-		sComposite.setMinSize( infoPane.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
-		infoPane.layout( );
+		if ( style == SWT.HORIZONTAL )
+		{
+			sComposite.setMinSize( infoPane.computeSize( SWT.DEFAULT,
+					SWT.DEFAULT ) );
+			infoPane.layout( );
+		}
 	}
 
 	private TabPage oldPage = null;
@@ -199,8 +201,11 @@ public class BaseAttributePage extends TabPage
 		{
 			return;
 		}
-		title.setTitle( getCategoryTitle( categoryList.getSelectionIndex( ) ),
-				null );
+		if ( style == SWT.HORIZONTAL )
+		{
+			title.setTitle( getCategoryTitle( categoryList.getSelectionIndex( ) ),
+					null );
+		}
 		TabPage page = getCategoryPane( categoryList.getSelectionIndex( ) );
 		if ( page == null )
 		{
@@ -209,17 +214,20 @@ public class BaseAttributePage extends TabPage
 
 		if ( oldPage != page )
 		{
-			if ( page instanceof AttributePage )
+			if ( style == SWT.HORIZONTAL )
 			{
-				((AttributePage)page).addPropertyChangeListener(title);
-				Object adapter = ( (AttributePage) page ).getAdapter( IAction.class );
-				if ( adapter instanceof IAction[] )
-					title.setActions( (IAction[]) adapter );
+				if ( page instanceof AttributePage )
+				{
+					( (AttributePage) page ).addPropertyChangeListener( title );
+					Object adapter = ( (AttributePage) page ).getAdapter( IAction.class );
+					if ( adapter instanceof IAction[] )
+						title.setActions( (IAction[]) adapter );
+					else
+						title.setActions( null );
+				}
 				else
 					title.setActions( null );
 			}
-			else
-				title.setActions( null );
 			showPage( page );
 			oldPage = page;
 		}
@@ -293,7 +301,7 @@ public class BaseAttributePage extends TabPage
 				categoryLabels.put( pages[i].getCategoryKey( ), tab );
 			}
 			categoryList.setElements( categoryLabels );
-			if ( categoryList.getTabList( ).length > 0 )
+			if ( ( (Composite) categoryList.getControl( ) ).getTabList( ).length > 0 )
 			{
 				categoryList.setSelection( null, 0 );
 			}
@@ -312,7 +320,20 @@ public class BaseAttributePage extends TabPage
 		{
 			page = categoryProvider.getCategories( )[index].createPage( );
 			page.setInput( input );
-			page.buildUI( infoPane );
+			if ( this.style == SWT.HORIZONTAL )
+			{
+				page.buildUI( infoPane );
+			}
+			else
+			{
+				infoPane = (Composite) categoryList.getItem( index ).getData( );
+				GridLayout layout = new GridLayout( );
+				layout.marginWidth = 0;
+				layout.marginHeight = 0;
+				infoPane.setLayout( layout );
+				page.buildUI( infoPane );
+				infoPane.layout( );
+			}
 		}
 		else
 			page.setInput( input );

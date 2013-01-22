@@ -54,7 +54,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.forms.FormColors;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-public class TabbedPropertyList extends Canvas implements IPropertyList
+public class AccordionPropertyList extends Canvas implements IPropertyList
 {
 
 	private static final ListElement[] ELEMENTS_EMPTY = new ListElement[0];
@@ -69,14 +69,6 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 
 	private int selectedElementIndex = NONE;
 
-	private int topVisibleIndex = NONE;
-
-	private int bottomVisibleIndex = NONE;
-
-	private TopNavigationElement topNavigationElement;
-
-	private BottomNavigationElement bottomNavigationElement;
-
 	private int widestLabelIndex = NONE;
 
 	private int tabsThatFitInComposite = NONE;
@@ -86,8 +78,6 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 	private Color widgetBackground;
 
 	private Color widgetNormalShadow;
-
-	private Color widgetDarkShadow;
 
 	private Color listBackground;
 
@@ -102,12 +92,6 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 	private Color indentedDefaultBackground;
 
 	private Color indentedHoverBackground;
-
-	private Color navigationElementShadowStroke;
-
-	private Color bottomNavigationElementShadowStroke1;
-
-	private Color bottomNavigationElementShadowStroke2;
 
 	private GC textGc;
 
@@ -154,7 +138,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 					{
 						for ( int i = 0; i < children.length; i++ )
 						{
-							if ( children[i] == TabbedPropertyList.this )
+							if ( children[i] == AccordionPropertyList.this )
 							{
 								continue;
 							}
@@ -210,12 +194,13 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 			e.gc.drawLine( 0, 1, bounds.width - 1, 1 );
 
 			/* draw the fill in the tab */
-			if ( selected )
-			{
-				e.gc.setBackground( listBackground );
-				e.gc.fillRectangle( 0, 2, bounds.width, bounds.height - 1 );
-			}
-			else if ( hover && tab.isIndented( ) )
+			// if ( selected )
+			// {
+			// e.gc.setBackground( listBackground );
+			// e.gc.fillRectangle( 0, 2, bounds.width, bounds.height - 1 );
+			// }
+			// else
+			if ( hover && tab.isIndented( ) )
 			{
 				e.gc.setBackground( indentedHoverBackground );
 				e.gc.fillRectangle( 0, 2, bounds.width - 1, bounds.height - 1 );
@@ -246,7 +231,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 						true );
 			}
 
-			if ( !selected )
+			// if ( !selected )
 			{
 				e.gc.setForeground( widgetNormalShadow );
 				e.gc.drawLine( bounds.width - 1,
@@ -291,7 +276,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 			}
 			e.gc.drawText( tab.getText( ), textIndent, textMiddle, true );
 
-			if ( ( (TabbedPropertyList) getParent( ) ).focus
+			if ( ( (AccordionPropertyList) getParent( ) ).focus
 					&& selected
 					&& focus )
 			{
@@ -324,187 +309,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 		}
 	}
 
-	public class TopNavigationElement extends Canvas
-	{
-
-		/**
-		 * @param parent
-		 */
-		public TopNavigationElement( Composite parent )
-		{
-			super( parent, SWT.NO_FOCUS );
-			addPaintListener( new PaintListener( ) {
-
-				public void paintControl( PaintEvent e )
-				{
-					paint( e );
-				}
-			} );
-			addMouseListener( new MouseAdapter( ) {
-
-				public void mouseUp( MouseEvent e )
-				{
-					if ( isUpScrollRequired( ) )
-					{
-						bottomVisibleIndex--;
-						if ( topVisibleIndex != 0 )
-						{
-							topVisibleIndex--;
-						}
-						layoutTabs( );
-						topNavigationElement.redraw( );
-						bottomNavigationElement.redraw( );
-					}
-				}
-			} );
-		}
-
-		/**
-		 * @param e
-		 */
-		private void paint( PaintEvent e )
-		{
-			e.gc.setBackground( widgetBackground );
-			e.gc.setForeground( widgetForeground );
-			Rectangle bounds = getBounds( );
-
-			if ( elements.length != 0 )
-			{
-				e.gc.fillRectangle( 0, 0, bounds.width, bounds.height );
-				e.gc.setForeground( widgetNormalShadow );
-				e.gc.drawLine( bounds.width - 1,
-						0,
-						bounds.width - 1,
-						bounds.height - 1 );
-			}
-			else
-			{
-				e.gc.setBackground( listBackground );
-				e.gc.fillRectangle( 0, 0, bounds.width, bounds.height );
-				int textIndent = INDENT;
-				FontMetrics fm = e.gc.getFontMetrics( );
-				int height = fm.getHeight( );
-				int textMiddle = ( bounds.height - height ) / 2;
-				e.gc.setForeground( widgetForeground );
-				String properties_not_available = Messages.getString( "TabbedPropertyList.properties.not.available" ); //$NON-NLS-1$
-				e.gc.drawText( properties_not_available, textIndent, textMiddle );
-			}
-
-			if ( isUpScrollRequired( ) )
-			{
-				e.gc.setForeground( widgetDarkShadow );
-				int middle = bounds.width / 2;
-				e.gc.drawLine( middle + 1, 3, middle + 5, 7 );
-				e.gc.drawLine( middle, 3, middle - 4, 7 );
-				e.gc.drawLine( middle - 3, 7, middle + 4, 7 );
-
-				e.gc.setForeground( listBackground );
-				e.gc.drawLine( middle, 4, middle + 1, 4 );
-				e.gc.drawLine( middle - 1, 5, middle + 2, 5 );
-				e.gc.drawLine( middle - 2, 6, middle + 3, 6 );
-
-				e.gc.setForeground( widgetNormalShadow );
-				e.gc.drawLine( 0, 0, bounds.width - 2, 0 );
-				e.gc.setForeground( navigationElementShadowStroke );
-				e.gc.drawLine( 0, 1, bounds.width - 2, 1 );
-				e.gc.drawLine( 0,
-						bounds.height - 1,
-						bounds.width - 2,
-						bounds.height - 1 );
-			}
-
-		}
-	}
-
-	public class BottomNavigationElement extends Canvas
-	{
-
-		/**
-		 * @param parent
-		 */
-		public BottomNavigationElement( Composite parent )
-		{
-			super( parent, SWT.NO_FOCUS );
-			addPaintListener( new PaintListener( ) {
-
-				public void paintControl( PaintEvent e )
-				{
-					paint( e );
-				}
-			} );
-			addMouseListener( new MouseAdapter( ) {
-
-				public void mouseUp( MouseEvent e )
-				{
-					if ( isDownScrollRequired( ) )
-					{
-						topVisibleIndex++;
-						if ( bottomVisibleIndex != elements.length - 1 )
-						{
-							bottomVisibleIndex++;
-						}
-						layoutTabs( );
-						topNavigationElement.redraw( );
-						bottomNavigationElement.redraw( );
-					}
-				}
-			} );
-		}
-
-		/**
-		 * @param e
-		 */
-		private void paint( PaintEvent e )
-		{
-			e.gc.setBackground( widgetBackground );
-			e.gc.setForeground( widgetForeground );
-			Rectangle bounds = getBounds( );
-
-			if ( elements.length != 0 )
-			{
-				e.gc.fillRectangle( 0, 0, bounds.width, bounds.height );
-				e.gc.setForeground( widgetNormalShadow );
-				e.gc.drawLine( bounds.width - 1,
-						0,
-						bounds.width - 1,
-						bounds.height - 1 );
-				e.gc.drawLine( 0, 0, bounds.width - 1, 0 );
-
-				e.gc.setForeground( bottomNavigationElementShadowStroke1 );
-				e.gc.drawLine( 0, 1, bounds.width - 2, 1 );
-				e.gc.setForeground( bottomNavigationElementShadowStroke2 );
-				e.gc.drawLine( 0, 2, bounds.width - 2, 2 );
-			}
-			else
-			{
-				e.gc.setBackground( listBackground );
-				e.gc.fillRectangle( 0, 0, bounds.width, bounds.height );
-			}
-
-			if ( isDownScrollRequired( ) )
-			{
-				e.gc.setForeground( widgetDarkShadow );
-				int middle = bounds.width / 2;
-				int bottom = bounds.height - 3;
-				e.gc.drawLine( middle + 1, bottom, middle + 5, bottom - 4 );
-				e.gc.drawLine( middle, bottom, middle - 4, bottom - 4 );
-				e.gc.drawLine( middle - 3, bottom - 4, middle + 4, bottom - 4 );
-
-				e.gc.setForeground( listBackground );
-				e.gc.drawLine( middle, bottom - 1, middle + 1, bottom - 1 );
-				e.gc.drawLine( middle - 1, bottom - 2, middle + 2, bottom - 2 );
-				e.gc.drawLine( middle - 2, bottom - 3, middle + 3, bottom - 3 );
-
-				e.gc.setForeground( widgetNormalShadow );
-				e.gc.drawLine( 0, bottom - 7, bounds.width - 2, bottom - 7 );
-				e.gc.setForeground( navigationElementShadowStroke );
-				e.gc.drawLine( 0, bottom + 2, bounds.width - 2, bottom + 2 );
-				e.gc.drawLine( 0, bottom - 6, bounds.width - 2, bottom - 6 );
-			}
-		}
-	}
-
-	public TabbedPropertyList( Composite parent )
+	public AccordionPropertyList( Composite parent )
 	{
 		super( parent, SWT.NONE );
 		factory = FormWidgetFactory.getInstance( );
@@ -512,8 +317,6 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 		setLayout( new FormLayout( ) );
 		initColours( );
 		initAccessible( );
-		topNavigationElement = new TopNavigationElement( this );
-		bottomNavigationElement = new BottomNavigationElement( this );
 
 		this.addFocusListener( new FocusListener( ) {
 
@@ -546,8 +349,6 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 
 			public void controlResized( ControlEvent e )
 			{
-				topNavigationElement.redraw( );
-				bottomNavigationElement.redraw( );
 				computeTopAndBottomTab( );
 			}
 		} );
@@ -643,8 +444,6 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 		elements = ELEMENTS_EMPTY;
 		selectedElementIndex = NONE;
 		widestLabelIndex = NONE;
-		topVisibleIndex = NONE;
-		bottomVisibleIndex = NONE;
 	}
 
 	/**
@@ -686,6 +485,11 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 						widestLabelIndex = i;
 					}
 				}
+
+				Composite container = new Composite( this, SWT.NONE );
+				container.setVisible( false );
+				container.setLayoutData( null );
+				elements[i].setData( container );
 			}
 		}
 
@@ -712,6 +516,9 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 			if ( lastSelected != NONE )
 			{
 				elements[lastSelected].setSelected( false );
+
+				resetSelectedItem( lastSelected );
+
 				if ( getSelectionIndex( ) != elements.length - 1 )
 				{
 					/*
@@ -719,18 +526,52 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 					 * setSelected()
 					 */
 					elements[getSelectionIndex( ) + 1].setSelected( false );
+
+					resetSelectedItem( getSelectionIndex( ) + 1 );
 				}
 			}
-			topNavigationElement.redraw( );
-			bottomNavigationElement.redraw( );
 
-			if ( selectedElementIndex < topVisibleIndex
-					|| selectedElementIndex > bottomVisibleIndex )
+			FormData formData = new FormData( );
+			formData.height = 200;
+			formData.left = new FormAttachment( 0, 0 );
+			formData.right = new FormAttachment( 100, 0 );
+			formData.top = new FormAttachment( elements[index], 0 );
+
+			Composite container = (Composite) elements[index].getData( );
+			container.setLayoutData( formData );
+			container.setVisible( true );
+
+			formData = new FormData( );
+			formData.height = getTabHeight( );
+			formData.left = new FormAttachment( 0, 0 );
+			formData.right = new FormAttachment( 100, 0 );
+			formData.top = new FormAttachment( container, 0 );
+
+			if ( index + 1 < elements.length )
 			{
-				computeTopAndBottomTab( );
+				elements[index + 1].setLayoutData( formData );
 			}
+
+			container.getParent( ).layout( );
 		}
+		
 		notifyListeners( SWT.Selection, new Event( ) );
+	}
+
+	private void resetSelectedItem( int index )
+	{
+		Composite container = (Composite) elements[index].getData( );
+		container.setLayoutData( null );
+		container.setVisible( false );
+
+		FormData formData = new FormData( );
+		formData.height = getTabHeight( );
+		formData.left = new FormAttachment( 0, 0 );
+		formData.right = new FormAttachment( 100, 0 );
+		formData.top = new FormAttachment( elements[index], 0 );
+
+		if ( index + 1 < elements.length )
+			elements[index + 1].setLayoutData( formData );
 	}
 
 	public void setSelection( String key, int index )
@@ -753,6 +594,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 			if ( lastSelected != NONE )
 			{
 				elements[lastSelected].setSelected( false );
+				resetSelectedItem( lastSelected );
 				if ( getSelectionIndex( ) != elements.length - 1 )
 				{
 					/*
@@ -760,16 +602,32 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 					 * setSelected()
 					 */
 					elements[getSelectionIndex( ) + 1].setSelected( false );
+					resetSelectedItem( getSelectionIndex( ) + 1 );
 				}
 			}
-			topNavigationElement.redraw( );
-			bottomNavigationElement.redraw( );
+			
+			FormData formData = new FormData( );
+			formData.height = 200;
+			formData.left = new FormAttachment( 0, 0 );
+			formData.right = new FormAttachment( 100, 0 );
+			formData.top = new FormAttachment( elements[index], 0 );
 
-			if ( selectedElementIndex < topVisibleIndex
-					|| selectedElementIndex > bottomVisibleIndex )
+			Composite container = (Composite) elements[index].getData( );
+			container.setLayoutData( formData );
+			container.setVisible( true );
+
+			formData = new FormData( );
+			formData.height = getTabHeight( );
+			formData.left = new FormAttachment( 0, 0 );
+			formData.right = new FormAttachment( 100, 0 );
+			formData.top = new FormAttachment( container, 0 );
+
+			if ( index + 1 < elements.length )
 			{
-				computeTopAndBottomTab( );
+				elements[index + 1].setLayoutData( formData );
 			}
+			
+			container.getParent( ).layout( );
 		}
 	};
 
@@ -845,12 +703,6 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 				.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND );
 
 		/*
-		 * Colour 15 COLOR_WIDGET_DARK_SHADOW
-		 */
-		widgetDarkShadow = Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_WIDGET_DARK_SHADOW );
-
-		/*
 		 * Colour 16 COLOR_WIDGET_FOREGROUND
 		 */
 		widgetForeground = Display.getCurrent( )
@@ -867,9 +719,6 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 				.getRGB( );
 		RGB white = Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_WHITE )
-				.getRGB( );
-		RGB black = Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_BLACK )
 				.getRGB( );
 
 		/*
@@ -889,19 +738,6 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 						FormColors.blend( infoBackground,
 								widgetNormalShadow.getRGB( ),
 								40 ) );
-
-		navigationElementShadowStroke = factory.getColors( )
-				.createColor( "TabbedPropertyList.shadowStroke", //$NON-NLS-1$
-						FormColors.blend( white,
-								widgetNormalShadow.getRGB( ),
-								55 ) );
-		bottomNavigationElementShadowStroke1 = factory.getColors( )
-				.createColor( "TabbedPropertyList.tabShadowStroke1", //$NON-NLS-1$
-						FormColors.blend( black, widgetBackground.getRGB( ), 10 ) );
-		bottomNavigationElementShadowStroke2 = factory.getColors( )
-				.createColor( "TabbedPropertyList.tabShadowStroke2", //$NON-NLS-1$
-						FormColors.blend( black, widgetBackground.getRGB( ), 5 ) );
-
 		/*
 		 * gradient in the hover tab: start colour WIDGET_BACKGROUND 100% +
 		 * white 20% end colour WIDGET_BACKGROUND 100% + WIDGET_NORMAL_SHADOW
@@ -958,63 +794,9 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 		return tabHeight;
 	}
 
-	private boolean isDownScrollRequired( )
-	{
-		return elements.length > tabsThatFitInComposite
-				&& bottomVisibleIndex != elements.length - 1;
-	}
-
-	private boolean isUpScrollRequired( )
-	{
-		return elements.length > tabsThatFitInComposite && topVisibleIndex != 0;
-	}
-
 	private void computeTopAndBottomTab( )
 	{
 		computeTabsThatFitInComposite( );
-		if ( elements.length == 0 )
-		{
-			/*
-			 * no tabs to display.
-			 */
-			topVisibleIndex = 0;
-			bottomVisibleIndex = 0;
-		}
-		else if ( tabsThatFitInComposite >= elements.length )
-		{
-			/*
-			 * all the tabs fit.
-			 */
-			topVisibleIndex = 0;
-			bottomVisibleIndex = elements.length - 1;
-		}
-		else if ( getSelectionIndex( ) == NONE )
-		{
-			/*
-			 * there is no selected tab yet, assume that tab one would be
-			 * selected for now.
-			 */
-			topVisibleIndex = 0;
-			bottomVisibleIndex = tabsThatFitInComposite - 1;
-		}
-		else if ( getSelectionIndex( ) + tabsThatFitInComposite > elements.length )
-		{
-			/*
-			 * the selected tab is near the bottom.
-			 */
-			bottomVisibleIndex = elements.length - 1;
-			topVisibleIndex = bottomVisibleIndex - tabsThatFitInComposite + 1;
-		}
-		else
-		{
-			/*
-			 * the selected tab is near the top.
-			 */
-			topVisibleIndex = selectedElementIndex;
-			bottomVisibleIndex = selectedElementIndex
-					+ tabsThatFitInComposite
-					- 1;
-		}
 		layoutTabs( );
 	}
 
@@ -1027,82 +809,55 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 	 */
 	private void layoutTabs( )
 	{
-		// System.out.println("TabFit " + tabsThatFitInComposite + " length "
-		// + elements.length + " top " + topVisibleIndex + " bottom "
-		// + bottomVisibleIndex);
-		if ( tabsThatFitInComposite == NONE || elements.length == 0 )
+		if ( tabsThatFitInComposite != NONE && elements.length > 0 )
 		{
-			FormData formData = new FormData( );
-			formData.left = new FormAttachment( 0, 0 );
-			formData.right = new FormAttachment( 100, 0 );
-			formData.top = new FormAttachment( 0, 0 );
-			formData.height = getTabHeight( );
-			topNavigationElement.setLayoutData( formData );
-
-			formData = new FormData( );
-			formData.left = new FormAttachment( 0, 0 );
-			formData.right = new FormAttachment( 100, 0 );
-			formData.top = new FormAttachment( topNavigationElement, 0 );
-			formData.bottom = new FormAttachment( 100, 0 );
-			bottomNavigationElement.setLayoutData( formData );
-		}
-		else
-		{
-
-			FormData formData = new FormData( );
-			formData.left = new FormAttachment( 0, 0 );
-			formData.right = new FormAttachment( 100, 0 );
-			formData.top = new FormAttachment( 0, 0 );
-			formData.height = 10;
-			topNavigationElement.setLayoutData( formData );
-
-			/*
-			 * use nextElement to attach the layout to the previous canvas
-			 * widget in the list.
-			 */
-			Canvas nextElement = topNavigationElement;
 
 			for ( int i = 0; i < elements.length; i++ )
 			{
 				// System.out.print(i + " [" + elements[i].getText() + "]");
-				if ( i < topVisibleIndex || i > bottomVisibleIndex )
+				FormData formData = new FormData( );
+				formData.height = getTabHeight( );
+				formData.left = new FormAttachment( 0, 0 );
+				formData.right = new FormAttachment( 100, 0 );
+				if ( i == 0 )
 				{
-					/*
-					 * this tab is not visible
-					 */
-					elements[i].setLayoutData( null );
-					elements[i].setVisible( false );
+					formData.top = new FormAttachment( 0, 0 );
 				}
 				else
 				{
-					/*
-					 * this tab is visible.
-					 */
-					// System.out.print(" visible");
+					if ( i == getSelectionIndex( ) + 1 )
+					{
+						formData.top = new FormAttachment( (Composite) elements[i - 1].getData( ),
+								0 );
+					}
+					else
+					{
+						formData.top = new FormAttachment( elements[i - 1], 0 );
+					}
+				}
+				elements[i].setLayoutData( formData );
+				elements[i].setVisible( true );
+
+				if ( i == getSelectionIndex( ) )
+				{
 					formData = new FormData( );
-					formData.height = getTabHeight( );
+					formData.height = 200;
 					formData.left = new FormAttachment( 0, 0 );
 					formData.right = new FormAttachment( 100, 0 );
-					formData.top = new FormAttachment( nextElement, 0 );
-					nextElement = elements[i];
-					elements[i].setLayoutData( formData );
-					elements[i].setVisible( true );
-				}
+					formData.top = new FormAttachment( elements[i], 0 );
 
-				// if (i == selectedElementIndex) {
-				// System.out.print(" selected");
-				// }
-				// System.out.println("");
+					Composite container = (Composite) elements[i].getData( );
+					container.setLayoutData( formData );
+					container.setVisible( true );
+				}
+				else
+				{
+					Composite container = (Composite) elements[i].getData( );
+					container.setLayoutData( null );
+					container.setVisible( false );
+				}
 			}
-			formData = new FormData( );
-			formData.left = new FormAttachment( 0, 0 );
-			formData.right = new FormAttachment( 100, 0 );
-			formData.top = new FormAttachment( nextElement, 0 );
-			formData.bottom = new FormAttachment( 100, 0 );
-			formData.height = 10;
-			bottomNavigationElement.setLayoutData( formData );
 		}
-		// System.out.println("");
 
 		// layout so that we have enough space for the new labels
 		Composite grandparent = getParent( ).getParent( );
@@ -1204,7 +959,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList
 
 	public Control getItem( int index )
 	{
-		if ( index >= 0 && index < elements.length - 1 )
+		if ( index >= 0 && index < elements.length )
 			return elements[index];
 		return null;
 	}
