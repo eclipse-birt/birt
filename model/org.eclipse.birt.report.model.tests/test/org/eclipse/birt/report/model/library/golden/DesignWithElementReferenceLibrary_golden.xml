@@ -98,9 +98,7 @@
         <structure>
             <property name="name">image1.jpg</property>
             <property name="type">image/bmp</property>
-            <property name="data">
-                imagetesAAAAimagetesAAAAimagetesAAAAimagetesAAAAimagetesAAAAimagetesAAAAimagetes
-            </property>
+            <property name="data">imagetesAAA=</property>
         </structure>
     </list-property>
 </report>

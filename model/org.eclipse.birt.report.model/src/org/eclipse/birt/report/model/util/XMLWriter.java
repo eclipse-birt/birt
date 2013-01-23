@@ -682,4 +682,41 @@ public class XMLWriter
 		doPrintLine( );
 	}
 
+	public void writeBase64Text( String text )
+	{
+		assert text != null;
+
+		closeTextTag( );
+
+		if ( !markLineNumber )
+		{
+			out.print( text );
+			return;
+		}
+
+		printLine( );
+
+		int lineStart = 0;
+		int lineEnd = 0;
+		int length = text.length( );
+		while ( lineEnd < length )
+		{
+			char ch = text.charAt( lineEnd );
+			if ( ch == '\r' || ch == '\n' )
+			{
+				if ( lineStart < lineEnd )
+				{
+					out.print( text.substring( lineStart, lineEnd ) );
+					printLine( );
+				}
+				lineStart = lineEnd + 1;
+			}
+			lineEnd++;
+		}
+		if ( lineStart < lineEnd )
+		{
+			out.print( text.substring( lineStart, lineEnd ) );
+			printLine( );
+		}
+	}
 }

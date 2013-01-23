@@ -37,11 +37,9 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
-import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
-import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -244,7 +242,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	 * The base 64 codec for embedded images.
 	 */
 
-	protected final Base64 base = new Base64( );
+	protected final Base64 base = new Base64( 80 );
 
 	/**
 	 * The compatibility to create bound columns.
@@ -690,13 +688,13 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	 *            the text value
 	 */
 
-	protected void writeLongIndentText( String tag, String name, String value )
+	protected void writeBase64Text( String tag, String name, String value )
 	{
 		writer.startElement( tag );
 		if ( name != null )
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB, name );
 
-		writer.indentLongText( value );
+		writer.writeBase64Text( value );
 		writer.endElement( );
 	}
 
@@ -1544,10 +1542,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 						if ( value != null
 								&& value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
 							writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-									EmbeddedImage.DATA_MEMBER, null, value,
-									false );
+									EmbeddedImage.DATA_MEMBER, null,
+									value.trim( ), false );
 						else
-							writeLongIndentText(
+							writeBase64Text(
 									DesignSchemaConstants.PROPERTY_TAG,
 									EmbeddedImage.DATA_MEMBER, value );
 					}
@@ -3761,9 +3759,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 						&& value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
 					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
 							OdaDesignerState.CONTENT_AS_BLOB_MEMBER, null,
-							value, false );
+							value.trim( ), false );
 				else
-					writeLongIndentText( DesignSchemaConstants.PROPERTY_TAG,
+					writeBase64Text( DesignSchemaConstants.PROPERTY_TAG,
 							OdaDesignerState.CONTENT_AS_BLOB_MEMBER, value );
 			}
 		}
