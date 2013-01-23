@@ -44,12 +44,12 @@ public class SlotDefnTest extends BaseTestCase
 	public void testGetterAndSetter( ) throws DesignFileException
 	{
 
-		IElementDefn elementDefn = MetaDataDictionary.getInstance( )
-				.getElement( "ReportDesign" ); //$NON-NLS-1$
+		//IElementDefn elementDefn = MetaDataDictionary.getInstance( )
+		//		.getElement( "ReportDesign" ); //$NON-NLS-1$
 
-		assertNotNull( elementDefn );
+		//assertNotNull( elementDefn );
 
-		slotDefn = (SlotDefn) elementDefn.getSlot( 0 );
+		slotDefn = new SlotDefn() ;
 		MetadataTestUtil.setMultipleCardinality( slotDefn, true );
 		MetadataTestUtil.setDisplayNameKey( slotDefn,
 				"Element.ReportDesign.slot.styles" ); //$NON-NLS-1$
