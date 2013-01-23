@@ -27,6 +27,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -332,6 +333,11 @@ public class BaseAttributePage extends TabPage
 				layout.marginHeight = 0;
 				infoPane.setLayout( layout );
 				page.buildUI( infoPane );
+
+				FormData fd = (FormData) infoPane.getLayoutData( );
+				int height = infoPane.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
+				if ( height > 0 )
+					fd.height = height;
 				infoPane.layout( );
 			}
 		}

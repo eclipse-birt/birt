@@ -774,15 +774,15 @@ public class AccordionLabel extends Canvas
 				.getColors( )
 				.getBorderColor( ) );
 
-		gc.drawLine( rect.x
-				+ rect.width
-				- rightMargin
-				- actionImageWidth
-				- rightMargin, rect.y, rect.x
-				+ rect.width
-				- rightMargin
-				- actionImageWidth
-				- rightMargin, rect.y + rect.height );
+//		gc.drawLine( rect.x
+//				+ rect.width
+//				- rightMargin
+//				- actionImageWidth
+//				- rightMargin, rect.y, rect.x
+//				+ rect.width
+//				- rightMargin
+//				- actionImageWidth
+//				- rightMargin, rect.y + rect.height );
 	}
 
 	/**

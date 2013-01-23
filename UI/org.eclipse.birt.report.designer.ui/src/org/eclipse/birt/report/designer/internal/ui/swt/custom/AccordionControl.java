@@ -33,9 +33,6 @@ import org.eclipse.swt.widgets.ScrollBar;
 public abstract class AccordionControl extends Composite
 {
 
-	/** Pixel spacing between header items */
-	private static final int HEADER_SPACING = 0;
-
 	/** Pixel spacing between items in the content area */
 	private static final int ITEM_SPACING = 0;
 
@@ -376,8 +373,11 @@ public abstract class AccordionControl extends Composite
 		for ( int i = 0; i < getHeaderLabels( ).size( ); i++ )
 		{
 			final AccordionLabel label = getHeaderLabels( ).get( i );
-			label.setText( getHeaderTitle( label.getData( KEY_HEADER ) ).replace( "&",
-					"&&" ) );
+			String text = getHeaderTitle( label.getData( KEY_HEADER ) );
+			if ( text != null && text.trim( ).length( ) > 0 )
+			{
+				label.setText( text.replace( "&", "&&" ) );
+			}
 			updateBackground( label, false );
 		}
 	}
@@ -394,6 +394,8 @@ public abstract class AccordionControl extends Composite
 	/** Returns true if the content area for the given label is open/showing */
 	private boolean isOpen( Control label )
 	{
+		if ( getContentArea( label ) == null )
+			return false;
 		return !( (GridData) getContentArea( label ).getLayoutData( ) ).exclude;
 	}
 

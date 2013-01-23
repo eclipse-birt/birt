@@ -26,9 +26,21 @@ public class CheckSection extends Section
 
 	protected CheckPropertyDescriptor check;
 
+	private boolean showDisplayLabel;
+
+	public boolean isShowDisplayLabel( )
+	{
+		return showDisplayLabel;
+	}
+
+	public void setShowDisplayLabel( boolean showDisplayLabel )
+	{
+		this.showDisplayLabel = showDisplayLabel;
+	}
+
 	public void createSection( )
 	{
-		if ( !getLabelText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
+		if ( !getLabelText( ).trim( ).equals( "" ) || showDisplayLabel ) //$NON-NLS-1$
 			getLabelControl( parent );
 		getCheckControl( parent );
 		getGridPlaceholder( parent );

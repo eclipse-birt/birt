@@ -58,6 +58,17 @@ public class WidgetUtil implements WidgetConstants
 		layout.verticalSpacing = WidgetUtil.SPACING;
 		return layout;
 	}
+	
+	public static GridLayout createGridLayout( int columns, int marginWidth, int marginHeight )
+	{
+		GridLayout layout = new GridLayout( columns, false );
+		layout.marginHeight = WidgetUtil.MARGIN_HEIGHT;;
+		layout.marginWidth = marginWidth;
+		layout.marginHeight = marginHeight;
+		layout.horizontalSpacing = WidgetUtil.SPACING;
+		layout.verticalSpacing = WidgetUtil.SPACING;
+		return layout;
+	}
 
 	public static void setGridData( Control control, int hSpan,
 			boolean grabSpace )

@@ -14,7 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 import java.util.Arrays;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.util.UIHelper;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
@@ -39,6 +42,7 @@ import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
@@ -56,6 +60,18 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class AccordionPropertyList extends Canvas implements IPropertyList
 {
+
+	public static final Image ICON_COLLAPSE = UIHelper.getImage( ReportPlugin.getDefault( )
+			.getBundle( ),
+			ReportPlatformUIImages.ICONS_PATH
+					+ ReportPlatformUIImages.OBJ16_PATH
+					+ "collapse.png" );
+
+	public static final Image ICON_EXPAND = UIHelper.getImage( ReportPlugin.getDefault( )
+			.getBundle( ),
+			ReportPlatformUIImages.ICONS_PATH
+					+ ReportPlatformUIImages.OBJ16_PATH
+					+ "expand.png" );
 
 	private static final ListElement[] ELEMENTS_EMPTY = new ListElement[0];
 
@@ -130,6 +146,7 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 					if ( !selected )
 					{
 						select( getIndex( ListElement.this ), true );
+						computeTopAndBottomTab( );
 					}
 					Composite tabbedPropertyComposite = getParent( );
 					Control[] children = tabbedPropertyComposite.getParent( )
@@ -238,6 +255,7 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 						1,
 						bounds.width - 1,
 						bounds.height + 1 );
+				e.gc.drawLine( 0, 1, 0, bounds.height + 1 );
 			}
 
 			int textIndent = INDENT;
@@ -245,26 +263,20 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 			int height = fm.getHeight( );
 			int textMiddle = ( bounds.height - height ) / 2;
 
-			if ( selected
-					&& tab.getImage( ) != null
-					&& !tab.getImage( ).isDisposed( ) )
-			{
-				/* draw the icon for the selected tab */
-				if ( tab.isIndented( ) )
-				{
-					textIndent = textIndent + INDENT;
-				}
-				else
-				{
-					textIndent = textIndent - 3;
-				}
-				e.gc.drawImage( tab.getImage( ), textIndent, textMiddle - 1 );
-				textIndent = textIndent + 16 + 5;
-			}
-			else if ( tab.isIndented( ) )
+			/* draw the icon for the selected tab */
+			if ( tab.isIndented( ) )
 			{
 				textIndent = textIndent + INDENT;
 			}
+			else
+			{
+				textIndent = textIndent - 3;
+			}
+			if ( selected )
+				e.gc.drawImage( ICON_EXPAND, textIndent, textMiddle - 1 );
+			else
+				e.gc.drawImage( ICON_COLLAPSE, textIndent, textMiddle - 1 );
+			textIndent = textIndent + 16 + 5;
 
 			/* draw the text */
 			e.gc.setForeground( widgetForeground );
@@ -287,12 +299,22 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 			}
 
 			/* draw the bottom line on the tab for selected and default */
-			if ( !hover )
+			if ( !hover && this != elements[getSelectionIndex( )] )
 			{
 				e.gc.setForeground( listBackground );
-				e.gc.drawLine( 0,
+				e.gc.drawLine( 1,
 						bounds.height - 1,
 						bounds.width - 2,
+						bounds.height - 1 );
+			}
+
+			if ( this == elements[getSelectionIndex( )]
+					|| this == elements[elements.length - 1] )
+			{
+				e.gc.setForeground( widgetNormalShadow );
+				e.gc.drawLine( 0,
+						bounds.height - 1,
+						bounds.width,
 						bounds.height - 1 );
 			}
 
@@ -373,6 +395,7 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 						nCurrent = Math.min( nCurrent, nMax );
 					}
 					select( nCurrent, true );
+					computeTopAndBottomTab( );
 					redraw( );
 				}
 				else
@@ -532,7 +555,7 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 			}
 
 			FormData formData = new FormData( );
-			formData.height = 200;
+			formData.height = 0;
 			formData.left = new FormAttachment( 0, 0 );
 			formData.right = new FormAttachment( 100, 0 );
 			formData.top = new FormAttachment( elements[index], 0 );
@@ -554,7 +577,7 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 
 			container.getParent( ).layout( );
 		}
-		
+
 		notifyListeners( SWT.Selection, new Event( ) );
 	}
 
@@ -605,9 +628,9 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 					resetSelectedItem( getSelectionIndex( ) + 1 );
 				}
 			}
-			
+
 			FormData formData = new FormData( );
-			formData.height = 200;
+			formData.height = 0;
 			formData.left = new FormAttachment( 0, 0 );
 			formData.right = new FormAttachment( 100, 0 );
 			formData.top = new FormAttachment( elements[index], 0 );
@@ -626,7 +649,7 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 			{
 				elements[index + 1].setLayoutData( formData );
 			}
-			
+
 			container.getParent( ).layout( );
 		}
 	};
@@ -841,12 +864,18 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 				if ( i == getSelectionIndex( ) )
 				{
 					formData = new FormData( );
-					formData.height = 200;
+					formData.height = 0;
 					formData.left = new FormAttachment( 0, 0 );
 					formData.right = new FormAttachment( 100, 0 );
 					formData.top = new FormAttachment( elements[i], 0 );
 
 					Composite container = (Composite) elements[i].getData( );
+
+					int height = container.computeSize( SWT.DEFAULT,
+							SWT.DEFAULT ).y;
+					if ( formData.height < height )
+						formData.height = height;
+
 					container.setLayoutData( formData );
 					container.setVisible( true );
 				}
