@@ -35,6 +35,7 @@ public class SlotDefnTest extends BaseTestCase
 
 	SlotDefn slotDefn = null;
 
+	
 	/**
 	 * Test getters and setters.
 	 * 
