@@ -285,29 +285,19 @@ public class IndentableXMLWriter extends XMLWriter
 		printLine( );
 
 		String tabs = getCurElementIndent( ).concat( TAB );
-		int lineStart = 0;
-		int lineEnd = 0;
 		int length = text.length( );
-		while ( lineEnd < length )
+		int lineStart = 0;
+		while ( lineStart < length )
 		{
-			char ch = text.charAt( lineEnd );
-			if ( ch == '\r' || ch == '\n' )
+			int lineEnd = lineStart + MAX_CHARS_PER_LINE;
+			if ( lineEnd > length )
 			{
-				if ( lineStart < lineEnd )
-				{
-					out.print( tabs );
-					out.print( text.substring( lineStart, lineEnd ) );
-					printLine( );
-				}
-				lineStart = lineEnd + 1;
+				lineEnd = length;
 			}
-			lineEnd++;
-		}
-		if ( lineStart < lineEnd )
-		{
 			out.print( tabs );
 			out.print( text.substring( lineStart, lineEnd ) );
 			printLine( );
+			lineStart = lineEnd;
 		}
 	}
 }

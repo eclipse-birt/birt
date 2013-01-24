@@ -239,12 +239,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	protected XMLWriter writer = null;
 
 	/**
-	 * The base 64 codec for embedded images.
-	 */
-
-	protected final Base64 base = new Base64( 80 );
-
-	/**
 	 * The compatibility to create bound columns.
 	 */
 
@@ -1533,8 +1527,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 							(PropertyDefn) image.getDefn( ).getMember(
 									EmbeddedImage.DATA_MEMBER ) ) != null )
 					{
-						byte[] data = base
-								.encode( image.getData( getModule( ) ) );
+						byte[] data = Base64.encodeBase64(
+								image.getData( getModule( ) ), false );
 						String value = null;
 						if ( data != null )
 							value = new String( data, EmbeddedImage.CHARSET );
@@ -3750,7 +3744,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		{
 			if ( designerState.getContentAsBlob( ) != null )
 			{
-				byte[] data = base.encode( designerState.getContentAsBlob( ) );
+				byte[] data = Base64.encodeBase64(
+						designerState.getContentAsBlob( ), false );
 				String value = null;
 				if ( data != null )
 					value = new String( data, OdaDesignerState.CHARSET );
