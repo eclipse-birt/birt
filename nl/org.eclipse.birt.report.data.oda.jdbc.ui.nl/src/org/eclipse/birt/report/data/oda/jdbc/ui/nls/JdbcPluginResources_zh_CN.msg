@@ -1,5 +1,6 @@
 dataset.editor.page.query=查询
 dataset.new.query=使用可用项来定义 sql 查询文本。
+dataset.new.query.hive=使用可用数据项定义 hql 查询文本。
 dataset.new=新建数据集
 dataset.editor.page.query.error.schemaNotExisted=架构名称不存在。
 datasource.new=新建数据源
