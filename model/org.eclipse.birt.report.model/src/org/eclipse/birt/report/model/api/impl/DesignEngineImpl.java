@@ -60,8 +60,8 @@ public class DesignEngineImpl implements IDesignEngine
 	public DesignEngineImpl( DesignConfig config )
 	{
 		designConfig = config;
+		ensureInitialized( );
 	}
-
 
 	/**
 	 * Creates a new design session handle. The application uses the handle to

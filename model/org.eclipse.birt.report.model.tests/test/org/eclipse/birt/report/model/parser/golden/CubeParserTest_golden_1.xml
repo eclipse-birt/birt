@@ -71,6 +71,10 @@
                                             <property name="name">var2</property>
                                             <property name="dataType">integer</property>
                                         </structure>
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>                                    
                                     </list-property>
                                     <list-property name="action">
 	           							<structure>                                    
@@ -200,6 +204,10 @@
                                             <property name="name">var2</property>
                                             <property name="dataType">integer</property>
                                         </structure>
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>                                    
                                     </list-property>
                                     <list-property name="action">
 	           							<structure>

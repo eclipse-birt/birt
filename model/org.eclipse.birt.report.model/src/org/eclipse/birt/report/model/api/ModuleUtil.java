@@ -649,9 +649,7 @@ public class ModuleUtil
 		}
 		catch ( DesignFileException e )
 		{
-			if ( data != null
-					&& !e.getErrorCode( ).equals( DesignFileException.DESIGN_EXCEPTION_INVALID_XML )
-					&& !e.getErrorCode( ).equals( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR ) )
+			if ( data != null )
 			{
 				VersionParserHandler handler = new VersionParserHandler( );
 
@@ -665,7 +663,6 @@ public class ModuleUtil
 			}
 			return Collections.emptyList( );
 		}
-
 	}
 
 	private static boolean hasCompatibilities( Module module )

@@ -143,8 +143,6 @@ public abstract class BaseTestCase extends TestCase
 		if ( engine == null )
 		{
 			engine = new DesignEngine( new DesignConfig( ) );
-
-			resetMetadata( );
 		}
 	}
 
@@ -155,6 +153,7 @@ public abstract class BaseTestCase extends TestCase
 	protected void resetMetadata( )
 	{
 		MetaDataDictionary.reset( );
+		MetaDataDictionary.initialize( );
 	}
 
 	/*
