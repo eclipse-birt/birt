@@ -106,7 +106,8 @@ public class AppServerWrapper
 		// Set default host
 		if ( host == null || host.trim( ).length( ) <= 0 )
 		{
-			host = "127.0.0.1"; //$NON-NLS-1$
+			// for all network adapters
+			host = "0.0.0.0"; //$NON-NLS-1$
 		}
 
 		// Set random port
