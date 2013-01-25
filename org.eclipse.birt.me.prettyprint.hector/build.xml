@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!--
+ *************************************************************************
+ * Copyright (c) 2012 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  
+ *************************************************************************
+ *
+ *  Build.xml
+ *
+ *  Created on 03/15/2005
+ *  Build script for project com.actuate.birt.me.prettyprint.hector
+ *
+ * 
+ * The following are public targets callable by external users. 
+ * 
+ * "Clean" - Clean all objects created by this script. Individual project build script can not call this target; 
+ * "Jar" - Compile source code and generate jar for this project.
+ *          The compile dependency on other projects should be defined explicitly.
+ *         eclipse.home should be passed in when Individual project build script  call this target; 
+ *          the property of "failonerror" should be set true(default) when compiling source code
+ * "UnitTest" - Run unit tests. This task must be called after calling Jar task, 
+ *              so it needn't depend on Jar explicitly
+ * "Export" - Export the project, for instance, jar files are copied to a designated folder. 
+ *            this task must be called after calling Jar task, so it needn't depend on Jar explicitly
+ * "JavaDoc" - generate java documents
+ *
+ * Usage:
+ *    ant [any one or more of the public targets] 
+ *        -Declipse.home=<your eclipse home> 
+ *		  -Ddtp.home=<your DTP plugins source home>  [optional]
+ *
+ * Default target is "Jar".
+ *
+ * 
+ * This script may also additional targets. These targets are private to this build script only. 
+ *
+ * 
+ *
+ * Notes:
+ *  1. classpath need to be set for junit.jar
+ *  2. This file now requires Ant 1.6
+ *
+ * Change History:
+ *
+ *    1. 03/15/2005: initial version
+ *
+-->
+
+<project name="Hector client library for Cassandra" default="Jar" basedir=".">
+	<description>Hector client library for Cassandra</description>
+	<!-- set global properties for this build -->
+	<!-- Public properties, used by public targets, top level build script
+		     will pass on the value at runtime. Properties will have there default
+		     value.
+		     eclipse.home
+		     utest.report.dir
+		     javadoc.dir
+		     plugin.version 
+	-->
+	
+	<!-- ===== Default value for public properties ============= -->
+	<property name="export.dir" location="export" />
+ 	<property name="dir.lib" value="lib" />
+	<property name="module.name" value="org.eclipse.birt.me.prettyprint.hector"/>
+
+	<!-- Compile source code and generate jar for this project.
+		 Input parameters:
+		 	eclipse.home
+		 	dtp.home
+
+	-->
+	<target name="Jar">
+	</target>
+	
+	<!-- Export the project, for instance, jar files are copied to a designated folder
+		 the dependency on Jar should implement in top level script by call sequence	
+		 Parameters:
+		 		- ${export.dir} target directory to put the plugin binaries
+		 		- ${plugin.version} the version of plugin exported
+	 -->
+	<target name="Export">
+		<property file="META-INF/MANIFEST.MF" />
+		<xmlproperty file="plugin.xml" collapseAttributes="true"/>
+	  	<copy todir="${export.dir}/${module.name}_${Bundle-Version}">
+	        <fileset dir="." includes="*.jar,plugin.xml,about.html, .options, ${dir.lib}/**, about_files/**, plugin*.properties, META-INF/**"/>
+	    </copy>
+	</target>
+	
+	<!-- Clean all objects created by this script -->
+	<target name="Clean" description="clean up">
+	</target>
+</project>
+
