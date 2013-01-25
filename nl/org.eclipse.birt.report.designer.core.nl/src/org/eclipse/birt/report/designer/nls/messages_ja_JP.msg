@@ -1,13 +1,12 @@
 #/*******************************************************************************
-# * Copyright (c) 2006, 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
 # * Contributors:
-# *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 
 ###########################################################
 #AbstractDataSetWizard properties
@@ -263,6 +262,12 @@ ColumnBindingDialog.Text.AddAggr=集計の追加(&G)...
 #BlockPreferencePage properties
 
 BlockPreferencePage.displayname.Title=テキストブロック
+
+
+###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -4634,6 +4639,7 @@ BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。
 BindingDialogHelper.error.improperexpression=キューブのメジャーに対する集計ではこの型は使用できません : "{0}"
 BindingDialogHelper.error.empty={0} を指定してください。
+BindingDialogHelper.error.text.Name=Column Binding Name
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=現在の関数に推奨されるデータ型は "{0}" です。選択したデータ型を保存しますか ?
 BindingDialogHelper.warning.parameter=式 "{0}" の戻り値のデータ型は、パラメタ "{1}" ではサポートされていません。このデータ型を保存しますか ?
