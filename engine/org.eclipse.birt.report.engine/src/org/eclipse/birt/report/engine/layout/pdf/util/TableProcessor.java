@@ -106,7 +106,6 @@ public class TableProcessor implements HTMLConstants
 					cellContent.setRowSpan( cell.getRowSpan( ) );
 					cellContent.setColumn( j );
 					children.add( cellContent );
-					cellContent.setParent( rowContent );children.add( cellContent );
 					cellContent.setParent( rowContent );
 				}
 			}

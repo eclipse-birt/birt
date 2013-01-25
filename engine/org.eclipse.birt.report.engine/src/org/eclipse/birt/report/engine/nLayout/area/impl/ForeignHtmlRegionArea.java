@@ -37,6 +37,13 @@ public class ForeignHtmlRegionArea extends RegionArea implements IContainerArea
 	{
 		super( area );
 	}
+	
+	public void initialize( ) throws BirtException
+	{
+		calculateSpecifiedWidth( content );
+		calculateSpecifiedHeight( content );
+		buildProperties( content, context );
+	}
 
 	public void close( ) throws BirtException
 	{

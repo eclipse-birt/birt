@@ -119,6 +119,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	protected static final String DEFAULT_ITEM_NAME = Messages.getString( "BindingDialogHelper.bindingName.dataitem" ); //$NON-NLS-1$
 	protected static final String DEFAULT_AGGREGATION_NAME = Messages.getString( "BindingDialogHelper.bindingName.aggregation" ); //$NON-NLS-1$
+	protected static final String NAME_LABEL = Messages.getString( "BindingDialogHelper.error.text.Name" ); //$NON-NLS-1$
 
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
@@ -1001,7 +1002,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					public void getName( AccessibleEvent e )
 					{
 						e.result = UIUtil.stripMnemonic( lblAggOn.getText( ) )
-								+ UIUtil.stripMnemonic( btnTable.getText( ) );
+								+ UIUtil.stripMnemonic( btnGroup.getText( ) );
 					}
 				} );
 
@@ -1112,6 +1113,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						.trim( )
 						.equals( "" ) ) ) //$NON-NLS-1$
 		{
+			setErrorMessage( Messages.getFormattedString( "BindingDialogHelper.error.empty", //$NON-NLS-1$
+					new Object[]{
+					NAME_LABEL
+					} ) );
 			dialog.setCanFinish( false );
 			return;
 		}
