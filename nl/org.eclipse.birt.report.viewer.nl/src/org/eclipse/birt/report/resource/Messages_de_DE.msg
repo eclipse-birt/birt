@@ -36,6 +36,7 @@ birt.viewer.error.noviewingsession=Die Ansichtssitzung ist nicht verfügbar oder 
 birt.viewer.error.viewingsessionexpired=Die Ansichtssitzung ist abgelaufen.
 birt.viewer.error.viewingsessionlocked=Die Ansichtssitzung ist gesperrt und kann nicht beendet werden.
 birt.viewer.error.viewingsessionmaxreached=Die Höchstanzahl an Ansichtssitzungen wurde erreicht.
+birt.viewer.error.columnrequired=No column is selected, please select at least one column for export.
 
 birt.viewer.message.taskcanceled=Der aktuelle Vorgang wurde abgebrochen.
 
