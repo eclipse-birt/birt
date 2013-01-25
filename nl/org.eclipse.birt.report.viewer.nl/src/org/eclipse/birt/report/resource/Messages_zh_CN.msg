@@ -36,7 +36,7 @@ birt.viewer.error.noviewingsession=查看会话不可用或已过期。
 birt.viewer.error.viewingsessionexpired=查看会话已过期。
 birt.viewer.error.viewingsessionlocked=查看会话被锁定，不能终止。
 birt.viewer.error.viewingsessionmaxreached=已达到查看会话最大数量。
-birt.viewer.error.columnrequired=No column is selected, please select at least one column for export.
+birt.viewer.error.columnrequired=尚未选择列，请至少选择一个要导出的列。
 
 birt.viewer.message.taskcanceled=当前操作已取消。
 

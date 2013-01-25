@@ -36,7 +36,7 @@ birt.viewer.error.noviewingsession=La sesión de visualización no está disponible
 birt.viewer.error.viewingsessionexpired=La sesión de visualización ha caducado.
 birt.viewer.error.viewingsessionlocked=La sesión de visualización está bloqueada y no se puede finalizar.
 birt.viewer.error.viewingsessionmaxreached=Se ha alcanzado el máximo de sesiones de visualización.
-birt.viewer.error.columnrequired=No column is selected, please select at least one column for export.
+birt.viewer.error.columnrequired=No se ha seleccionado ninguna columna, seleccione al menos una que desee exportar.
 
 birt.viewer.message.taskcanceled=La operación en proceso se ha cancelado.
 

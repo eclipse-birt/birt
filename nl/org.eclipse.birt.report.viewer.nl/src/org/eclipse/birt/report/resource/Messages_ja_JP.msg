@@ -36,7 +36,7 @@ birt.viewer.error.noviewingsession=•\¦ƒZƒbƒVƒ‡ƒ“‚Íg—p‚Å‚«‚È‚¢‚©A—LŒøŠúŒÀØ‚ê‚
 birt.viewer.error.viewingsessionexpired=•\¦ƒZƒbƒVƒ‡ƒ“‚ª—LŒøŠúŒÀØ‚ê‚É‚È‚Á‚Ä‚¢‚Ü‚·B
 birt.viewer.error.viewingsessionlocked=•\¦ƒZƒbƒVƒ‡ƒ“‚ªƒƒbƒN‚³‚ê‚Ä‚¢‚é‚½‚ß’†~‚Å‚«‚Ü‚¹‚ñB
 birt.viewer.error.viewingsessionmaxreached=•\¦ƒZƒbƒVƒ‡ƒ“‚ÌÅ‘å”‚É“’B‚µ‚Ü‚µ‚½B
-birt.viewer.error.columnrequired=No column is selected, please select at least one column for export.
+birt.viewer.error.columnrequired=—ñ‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñBƒGƒNƒXƒ|[ƒg‚·‚é—ñ‚ğ­‚È‚­‚Æ‚à 1 ‚Â‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 
 birt.viewer.message.taskcanceled=Œ»İ‚Ìˆ—‚ğ’†~‚µ‚Ü‚µ‚½B
 
