@@ -918,6 +918,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 			String subType = getAttrib( attrs, SUB_TYPE_ATTRIB );
 			boolean isList = getBooleanAttrib( attrs, IS_LIST_ATTRIB, false );
 			String detailName = getAttrib( attrs, DETAIL_TYPE_ATTRIB );
+			String namespace = getAttrib( attrs, NAME_SPACE_ATTRIB );
 
 			boolean ok = ( elementDefn != null );
 			if ( name == null )
@@ -1140,17 +1141,14 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 			else if ( detailName != null )
 				propDefn.setDetails( detailName );
 
-			// add it to dictionary
-			try
+			if ( "true".equalsIgnoreCase( namespace ) )
 			{
-				builder.addPropertyDefn( elementDefn, propDefn );
-			}
-			catch ( MetaDataException e )
-			{
-				errorHandler
-						.semanticError( new MetaDataParserException(
-								e,
-								MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+				NameConfig config = new NameConfig( );
+				config.holder = elementDefn;
+				config.nameSpaceID = NameSpaceFactory.getInstance( )
+						.getNameSpaceID( elementDefn.getName( ),
+								propDefn.getName( ) );
+				propDefn.setNameConfig( config );
 			}
 		}
 
@@ -1200,6 +1198,60 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 					}
 				}
 			}
+
+			if ( isValidPropertyDefn( ) )
+			{
+				// add it to dictionary
+				try
+				{
+					builder.addPropertyDefn( elementDefn, propDefn );
+				}
+				catch ( MetaDataException e )
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									e,
+									MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+				}
+			}
+
+			propDefn = null;
+		}
+
+		protected boolean isValidPropertyDefn( )
+		{
+			int typeCode = propDefn.getTypeCode( );
+			// check if the detail type has been set
+			if ( propDefn.getDetails( ) == null )
+			{
+				if ( typeCode == IPropertyType.CHOICE_TYPE )
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_CHOICE_TYPE_REQUIRED ) );
+					return false;
+				}
+				if ( typeCode == IPropertyType.ELEMENT_REF_TYPE )
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED ) );
+					return false;
+
+				}
+//				if ( typeCode == IPropertyType.CONTENT_ELEMENT_TYPE
+//						|| typeCode == IPropertyType.ELEMENT_TYPE )
+//				{
+//					errorHandler
+//							.semanticError( new MetaDataParserException(
+//									MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED );
+//					return false;
+//
+//				}
+			}
+
+			// ----------
+
 			// validate the default value. The default value must be validate
 			// here as it needs choice set.
 			if ( propDefn.getDefault( ) != null )
@@ -1215,9 +1267,10 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 					errorHandler
 							.semanticError( new MetaDataParserException(
 									MetaDataParserException.DESIGN_EXCEPTION_INVALID_DEFAULT ) );
+					return false;
 				}
 			}
-			propDefn = null;
+			return true;
 		}
 	}
 
@@ -1661,6 +1714,7 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 			String multipleCardinality = attrs
 					.getValue( MULTIPLE_CARDINALITY_ATTRIB );
 			String tmpID = attrs.getValue( ID_ATTRIB );
+			String namespace = getAttrib( attrs, NAME_SPACE_ATTRIB );
 
 			boolean ok = ( elementDefn != null );
 			if ( StringUtil.isBlank( name ) )
@@ -1708,6 +1762,15 @@ public class MetaDataHandlerImpl extends XMLParserHandler
 				{
 					// just ignore the error. the slot id is reset later.
 				}
+			}
+			if ( "true".equalsIgnoreCase( namespace ) )
+			{
+				NameConfig nameConfig = new NameConfig( );
+				nameConfig.holder = elementDefn;
+				nameConfig.nameSpaceID = NameSpaceFactory.getInstance( )
+						.getNameSpaceID( elementDefn.getName( ),
+								slotDefn.getName( ) );
+				slotDefn.setNameConfig( nameConfig );
 			}
 
 			elementDefn.addSlot( slotDefn );

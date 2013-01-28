@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -33,8 +32,8 @@ public class StyleNameTest extends BaseTestCase
 		openDesign( fileName );
 
 		// three files in the name space and all name is lower-case
-		NameSpace styleNs = new NameExecutor( design ).getNameHelper( design )
-				.getNameSpace( ReportDesign.STYLE_NAME_SPACE );
+		NameSpace styleNs = design.getNameHelper( ).getNameSpace(
+				ReportDesign.STYLE_NAME_SPACE );
 		assertEquals( 3, styleNs.getCount( ) );
 		assertTrue( styleNs.contains( "my-style-test" ) ); //$NON-NLS-1$
 		assertTrue( styleNs.contains( "my-style-test-1" ) ); //$NON-NLS-1$

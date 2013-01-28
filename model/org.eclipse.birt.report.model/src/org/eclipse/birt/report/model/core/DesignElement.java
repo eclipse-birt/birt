@@ -1128,7 +1128,7 @@ public abstract class DesignElement
 	protected Object getIntrinsicProperty( String propName )
 	{
 		if ( NAME_PROP.equals( propName ) )
-			return name;
+			return getName( );
 		if ( EXTENDS_PROP.equals( propName ) )
 		{
 			if ( extendsRef != null && !extendsRef.isResolved( ) )

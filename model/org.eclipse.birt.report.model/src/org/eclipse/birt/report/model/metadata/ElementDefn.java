@@ -824,12 +824,13 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		if ( !isAbstract( ) )
 		{
-			if ( nameConfig.nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
-				nameConfig.nameOption = MetaDataConstants.NO_NAME;
-			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
-					&& nameConfig.nameOption == MetaDataConstants.NO_NAME )
-				throw new MetaDataException( new String[]{name},
-						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
+			//if namespaceId is null does't mean it sholdn't have name. it may be defined in container
+//			if ( nameConfig.nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
+//				nameConfig.nameOption = MetaDataConstants.NO_NAME;
+//			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
+//					&& nameConfig.nameOption == MetaDataConstants.NO_NAME )
+//				throw new MetaDataException( new String[]{name},
+//						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
 
 			// if name space is set, then holder must be not null
 			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
@@ -850,24 +851,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 //				throw new MetaDataException(
 //						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
 //			}
-
-		// Validate that the name and name space options are consistent.
-		if ( !isAbstract( ) )
-		{
-			if ( nameConfig.nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
-				nameConfig.nameOption = MetaDataConstants.NO_NAME;
-			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
-					&& nameConfig.nameOption == MetaDataConstants.NO_NAME )
-				throw new MetaDataException( new String[]{name},
-						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
-
-			// if name space is set, then holder must be not null
-			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
-					&& nameConfig.holder == null )
-				throw new MetaDataException( new String[]{name},
-						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
-
-		}
 	}
 
 	/**
@@ -2082,74 +2065,5 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	public NameConfig getNameConfig( )
 	{
 		return this.nameConfig;
-	}
-
-	/**
-	 * Configuration information for the name management of the element.
-	 */
-	public static class NameConfig
-	{
-
-		/**
-		 * Indicates the name space in which instances of this element reside.
-		 */
-
-		protected int nameSpaceID = MetaDataConstants.NO_NAME_SPACE;
-
-		/**
-		 * Definition of the element where the name resides.
-		 */
-		protected IElementDefn holder = null;
-
-		/**
-		 * Name option: one of following defined in MetaDataConstants:
-		 * {@link MetaDataConstants#NO_NAME NO_NAME},
-		 * {@link MetaDataConstants#OPTIONAL_NAME OPTIONAL_NAME}, or
-		 * {@link MetaDataConstants#REQUIRED_NAME REQUIRED_NAME}.
-		 */
-
-		protected int nameOption = MetaDataConstants.OPTIONAL_NAME;
-
-		protected IElementPropertyDefn targetProperty = null;
-
-		protected String targetPropertyName = null;
-
-		protected String configString = null;
-
-		/**
-		 * 
-		 */
-
-		NameConfig( )
-		{
-
-		}
-
-		/**
-		 * The ID of the name space defined by the name container.
-		 * 
-		 * @return the name space ID
-		 */
-		public int getNameSpaceID( )
-		{
-			return nameSpaceID;
-		}
-
-		/**
-		 * The definition of the name container. Generally, <code>Module</code>
-		 * is the default name container. However, for some special case,
-		 * <code>Dimension</code>> can also be the container.
-		 * 
-		 * @return definition of the name container
-		 */
-		public IElementDefn getNameContainer( )
-		{
-			return holder;
-		}
-
-		public IElementPropertyDefn getNameProperty( )
-		{
-			return targetProperty;
-		}
 	}
 }

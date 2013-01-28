@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
@@ -233,8 +234,8 @@ public class NameCommand extends AbstractElementCommand
 			// first found the element with the given name. Since the library
 			// has it own namespace -- prefix, the range of name check should be
 			// in the current module.
-			DesignElement existedElement = new NameExecutor( element )
-					.getNameSpace( module ).getElement( name );
+			NameExecutor executor = new NameExecutor( module, element );
+			DesignElement existedElement = executor.getElement( name );
 
 			// if the element is null, then the name is OK. Now, the name of the
 			// element is inserted into the namespace only if the element is in
@@ -301,15 +302,15 @@ public class NameCommand extends AbstractElementCommand
 		// is added to another element through handles but the outermost
 		// compound element is not in the design tree, then do not insert
 		// the element to the name space again.
-		NameExecutor nameExecutor = new NameExecutor( element );
-		INameHelper nameHelper = nameExecutor.getNameHelper( module );
-		assert nameHelper != null;
-		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		DesignElement existedElement = nameHelper.getNameSpace( ns )
-				.getElement( name );
-		assert existedElement == null;
-		getActivityStack( ).execute(
-				new NameSpaceRecord( nameHelper, ns, element, true ) );
+		NameExecutor executor = new NameExecutor( module, element );
+		if ( executor.hasNamespace( ) )
+		{
+			DesignElement existedElement = executor.getElement( name );
+			assert existedElement == null;
+			getActivityStack( ).execute(
+					new NameSpaceRecord( executor.getNameHelper( ), executor
+							.getNameSpaceId( ), element, true ) );
+		}
 	}
 
 	/**
@@ -321,13 +322,17 @@ public class NameCommand extends AbstractElementCommand
 	{
 		if ( element.getName( ) == null || !element.isManagedByNameSpace( ) )
 			return;
-		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		NameExecutor executor = new NameExecutor( element );
-		if ( executor.getNameSpace( module ).getElement( element.getName( ) ) != element )
-			return;
-		getActivityStack( ).execute(
-				new NameSpaceRecord( executor.getNameHelper( module ), ns,
-						element, false ) );
+		NameExecutor executor = new NameExecutor( module, element );
+		INameHelper nameHelper = executor.getNameHelper( );
+		if ( nameHelper != null )
+		{
+			int ns = executor.getNameSpaceId( );
+			NameSpace namespace = executor.getNameSpace( );
+			if ( namespace.getElement( element.getName( ) ) != element )
+				return;
+			getActivityStack( ).execute(
+					new NameSpaceRecord( nameHelper, ns, element, false ) );
+		}
 	}
 
 	/**
@@ -388,20 +393,17 @@ public class NameCommand extends AbstractElementCommand
 					.getSharedDimension( module, element );
 			if ( sharedDimension != null )
 			{
-				String name = (String) element.getLocalProperty( module,
-						IDesignElementModel.NAME_PROP );
+				String name = (String) element.getName( );
 				String sharedName = sharedDimension.getName( );
 
 				if ( !sharedName.equals( name ) )
 				{
-					NameExecutor nameExecutor = new NameExecutor( element );
-					INameHelper nameHelper = nameExecutor
-							.getNameHelper( module );
-					assert nameHelper != null;
-					int ns = ( (ElementDefn) element.getDefn( ) )
-							.getNameSpaceID( );
-					DesignElement existedElement = nameHelper.getNameSpace( ns )
-							.getElement( name );
+					NameExecutor nameExecutor = new NameExecutor( module,
+							element );
+					INameHelper nameHelper = nameExecutor.getNameHelper( );
+					NameSpace namespace = nameExecutor.getNameSpace( );
+					int namespaceId = nameExecutor.getNameSpaceId( );
+					DesignElement existedElement = namespace.getElement( name );
 					if ( existedElement == null )
 					{
 						// the name is not put in name space, then simply rename
@@ -414,8 +416,8 @@ public class NameCommand extends AbstractElementCommand
 						{
 							// remove it from the name space and then rename it
 							getActivityStack( ).execute(
-									new NameSpaceRecord( nameHelper, ns,
-											element, false ) );
+									new NameSpaceRecord( nameHelper, namespaceId, element,
+											false ) );
 							setName( sharedName );
 						}
 						else

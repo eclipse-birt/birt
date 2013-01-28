@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -31,8 +30,8 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
+import org.eclipse.birt.report.model.metadata.NameSpaceFactory;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
  * 
@@ -125,68 +124,18 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		return cachedNameSpaces[id];
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#dropElement(
-	 * org.eclipse.birt.report.model.core.DesignElement)
-	 */
-	public final void dropElement( DesignElement element )
+	public final void dropElement( int namespaceId, DesignElement element )
 	{
 		if ( element == null )
 			return;
 
-		ElementDefn defn = (ElementDefn) element.getDefn( );
-		int id = defn.getNameSpaceID( );
-		NameSpace ns = getCachedNameSpace( id );
+		NameSpace ns = getCachedNameSpace( namespaceId );
 
 		String name = element.getName( );
 		if ( element instanceof StyleElement )
 			name = name == null ? null : name.toLowerCase( );
 		if ( ns.getElement( name ) == element )
 			ns.remove( element );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#rename(org.eclipse
-	 * .birt.report.model.core.DesignElement)
-	 */
-	public final void rename( DesignElement element )
-	{
-		if ( element == null )
-			return;
-
-		ElementDefn defn = (ElementDefn) element.getDefn( );
-
-		if ( defn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME
-				|| element.getRoot( ) instanceof Library
-				|| getElement( ).getRoot( ) instanceof Library
-				|| element.getName( ) != null )
-		{
-			// if element holder is just this
-			if ( getElement( ).getDefn( ).isKindOf(
-					defn.getNameConfig( ).getNameContainer( ) ) )
-				makeUniqueName( element );
-			else
-			{
-				INameHelper nameHelper = new NameExecutor( element )
-						.getNameHelper( getElement( ).getRoot( ) );
-				if ( nameHelper != null )
-					nameHelper.makeUniqueName( element );
-			}
-		}
-
-		LevelContentIterator iter = new LevelContentIterator( getElement( )
-				.getRoot( ), element, 1 );
-		while ( iter.hasNext( ) )
-		{
-			DesignElement innerElement = iter.next( );
-			rename( innerElement );
-		}
 	}
 
 	/*
@@ -201,36 +150,17 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		return getNameContext( nameSpaceID ).getNameSpace( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#makeUniqueName
-	 * (org.eclipse.birt.report.model.core.DesignElement)
-	 */
-	public void makeUniqueName( DesignElement element )
+	public void makeUniqueName( int namespaceId, DesignElement element )
 	{
 		if ( element == null )
 			return;
 
-		ElementDefn eDefn = (ElementDefn) element.getDefn( );
-		if ( !getElement( ).getDefn( ).isKindOf(
-				eDefn.getNameConfig( ).getNameContainer( ) ) )
-		{
-			INameHelper nameHelper = new NameExecutor( element )
-					.getNameHelper( getElement( ).getRoot( ) );
-			if ( nameHelper != null )
-				nameHelper.makeUniqueName( element );
-			return;
-		}
-
-		String name = getUniqueName( element );
+		String name = getUniqueName( namespaceId, element );
 		if ( name == null )
 			return;
 
 		// set the unique name and add the element to the name manager
-
-		NameSpace nameSpace = getCachedNameSpace( eDefn.getNameSpaceID( ) );
+		NameSpace nameSpace = getCachedNameSpace( namespaceId );
 		String validName = name;
 		if ( element instanceof StyleElement )
 			validName = validName.toLowerCase( );
@@ -436,10 +366,14 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 			IElementDefn elementDefn )
 	{
 		assert element != null;
-		INameHelper nameHelper = new NameExecutor( element )
-				.getNameHelper( getElement( ).getRoot( ) );
-		return nameHelper == null ? null : nameHelper.resolve( focus, element,
-				propDefn, elementDefn );
+		NameExecutor executor = new NameExecutor( getElement( ).getRoot( ),
+				element );
+		INameHelper nameHelper = executor.getNameHelper( );
+		if ( nameHelper != null )
+		{
+			return nameHelper.resolve( focus, element, propDefn, elementDefn );
+		}
+		return null;
 	}
 
 	private ElementRefValue resolveNameInNonameHost( DesignElement focus,
@@ -593,34 +527,15 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		}
 	}
 
-	/*
-	 * 
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
-	 * (org.eclipse.birt.report.model.core.DesignElement, java.lang.String)
-	 */
-	public String getUniqueName( DesignElement element, String namePrefix )
+	public String getUniqueName( int namespaceId, DesignElement element,
+			String namePrefix )
 	{
 		if ( element == null )
 			return null;
 
 		ElementDefn eDefn = (ElementDefn) element.getDefn( );
 
-		// if the element does not reside in the dimension, then get namehelper
-		// for the element and get unique name from there
-		if ( !getElement( ).getDefn( ).isKindOf(
-				eDefn.getNameConfig( ).getNameContainer( ) ) )
-		{
-			INameHelper nameHelper = new NameExecutor( element )
-					.getNameHelper( getElement( ).getRoot( ) );
-			return nameHelper == null ? null : nameHelper.getUniqueName(
-					element, namePrefix );
-		}
-
 		String name = element.getName( );
-
 		if ( StringUtil.isBlank( name ) )
 		{
 			// Use the given prefix if the element name is null
@@ -641,9 +556,8 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 			return null;
 
 		// If the element already has a unique name, return it.
-		int id = eDefn.getNameSpaceID( );
-		NameSpace nameSpace = getCachedNameSpace( id );
-		NameSpace moduleNameSpace = nameContexts[id].getNameSpace( );
+		NameSpace nameSpace = getCachedNameSpace( namespaceId );
+		NameSpace moduleNameSpace = nameContexts[namespaceId].getNameSpace( );
 		if ( name != null && isValidInNameSpace( nameSpace, element, name )
 				&& isValidInNameSpace( moduleNameSpace, element, name ) )
 			return name;
@@ -677,9 +591,9 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
 	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public final String getUniqueName( DesignElement element )
+	public final String getUniqueName( int namespaceId, DesignElement element )
 	{
-		return getUniqueName( element, null );
+		return getUniqueName( namespaceId, element, null );
 	}
 
 	protected String getDefaultName( DesignElement element )

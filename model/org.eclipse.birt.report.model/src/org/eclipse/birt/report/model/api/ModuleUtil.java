@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ImageItem;
@@ -855,7 +856,6 @@ public class ModuleUtil
 	public static boolean isValidElementName(
 			DesignElementHandle elementHandle, String propName, String nameValue )
 	{
-		ModuleHandle module = elementHandle.getModuleHandle( );
 		PropertyDefn propDefn = (PropertyDefn) elementHandle
 				.getPropertyDefn( propName );
 
@@ -876,18 +876,18 @@ public class ModuleUtil
 		}
 		try
 		{
-			propType.validateValue( module.getModule( ), elementHandle
-					.getElement( ), propDefn, nameValue );
+			Module module = elementHandle.getModule( );
+			DesignElement element = elementHandle.getElement( );
+			propType.validateValue( module, element, propDefn, nameValue );
 
-			DesignElement existedElement = new NameExecutor( elementHandle
-					.getElement( ) ).getNameSpace( elementHandle.module )
-					.getElement( nameValue );
-
-			if ( existedElement == null )
-				return true;
-
-			return false;
-
+			NameExecutor executor = new NameExecutor( module, element );
+			if ( executor.hasNamespace( ) )
+			{
+				DesignElement existedElement = executor.getElement( nameValue );
+				if ( existedElement != null )
+					return false;
+			}
+			return true;
 		}
 		catch ( PropertyValueException e )
 		{

@@ -119,6 +119,8 @@ public abstract class PropertyDefn
 
 	protected String defaultUnit = DimensionValue.DEFAULT_UNIT;
 
+	protected NameConfig nameConfig;
+
 	/**
 	 * Optional detailed information for the property type. The type of this
 	 * object depends on the property type:
@@ -1972,5 +1974,15 @@ public abstract class PropertyDefn
 	public IMessages getMessages( )
 	{
 		return messages;
+	}
+
+	public void setNameConfig( NameConfig nameConfig )
+	{
+		this.nameConfig = nameConfig;
+	}
+
+	public NameConfig getNameConfig( )
+	{
+		return nameConfig;
 	}
 }

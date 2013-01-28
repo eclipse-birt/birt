@@ -52,7 +52,6 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
@@ -62,6 +61,7 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
@@ -83,7 +83,6 @@ import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
@@ -1315,12 +1314,16 @@ public class ModelUtil extends ModelUtilBase
 				|| !element.isManagedByNameSpace( ) )
 			return;
 
-		module.makeUniqueName( element );
-		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		if ( element.getName( ) != null
-				&& ns != MetaDataConstants.NO_NAME_SPACE )
-			new NameExecutor( element ).getNameSpace( module ).insert( element );
-
+		NameExecutor executor = new NameExecutor( module, element );
+		executor.makeUniqueName( );
+		if ( element.getName( ) != null )
+		{
+			NameSpace namespace = executor.getNameSpace( );
+			if ( namespace != null )
+			{
+				namespace.insert( element );
+			}
+		}
 	}
 
 	/**

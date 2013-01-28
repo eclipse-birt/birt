@@ -216,7 +216,7 @@ public class ContentCommand extends AbstractContentCommand
 			TemplateCommand cmd = new TemplateCommand( module, focus );
 			cmd.checkAdd( content );
 
-			checkEmptyName (element, content);
+			checkEmptyName( content );
 			
 			// add the element
 
@@ -236,17 +236,15 @@ public class ContentCommand extends AbstractContentCommand
 		stack.commit( );
 	}
 
-	protected void checkEmptyName( DesignElement container,
-			DesignElement content )
+	protected void checkEmptyName( DesignElement content )
 	{
 		ElementDefn metaData = (ElementDefn) content.getDefn( );
 		String name = content.getName( );
 		if ( name == null
 				&& metaData.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
 		{
-			NameExecutor executor = new NameExecutor( content );
-			INameHelper nameHelper = executor.getNameHelper( module, container );
-			nameHelper.makeUniqueName( content );
+			NameExecutor executor = new NameExecutor( module, focus, content );
+			executor.makeUniqueName( );
 		}
 	}
 
