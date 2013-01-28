@@ -331,6 +331,14 @@ class NameExecutorImpl
 		return null;
 	}
 
+	public void dropElement( )
+	{
+		if ( nameHelper != null )
+		{
+			nameHelper.dropElement( namespaceId, focus );
+		}
+	}
+
 	private void makeUniqueGroupName( GroupElement group, String prefix )
 	{
 		String name = getUniqueGroupName( group, prefix );

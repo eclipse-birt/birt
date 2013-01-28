@@ -29,7 +29,8 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.namespace.INameHelper;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -111,13 +112,11 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 			Theme theme = new Theme( ReportPlugin.getDefault( )
 					.getCustomName( ReportDesignConstants.THEME_ITEM ) );
 
-			INameHelper nameHelper = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getModule( )
-					.getNameHelper( );
-
-			nameHelper.makeUniqueName( theme );
-			nameHelper.dropElement( theme );
+			Module module = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ).getModule( );
+			NameExecutor executor = new NameExecutor( module, theme );
+			executor.makeUniqueName( );
+			executor.dropElement( );
 
 			RenameInputDialog inputDialog = new RenameInputDialog( Display.getCurrent( )
 					.getActiveShell( ),
