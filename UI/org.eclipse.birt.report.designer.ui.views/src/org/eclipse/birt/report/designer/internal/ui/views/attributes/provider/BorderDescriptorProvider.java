@@ -52,6 +52,43 @@ public abstract class BorderDescriptorProvider extends
 		return value;
 	}
 
+	protected String getStringValue( String property )
+	{
+		GroupElementHandle handle = null;
+		if ( input instanceof List )
+			handle = DEUtil.getGroupElementHandle( (List) input );
+		if ( handle == null )
+			return ""; //$NON-NLS-1$
+		String value = handle.getStringProperty( property );
+		if ( value == null )
+		// && multiSelectionHandle.shareSameValue( property ) )
+		{
+			value = ""; //$NON-NLS-1$
+		}
+		return value;
+	}
+
+	protected String getDisplayValue( String property )
+	{
+		GroupElementHandle handle = null;
+		if ( input instanceof List )
+			handle = DEUtil.getGroupElementHandle( (List) input );
+		if ( handle == null )
+			return ""; //$NON-NLS-1$
+		if ( getLocalStringValue( property ).equals( "" ) )
+		{
+			String value = handle.getPropertyHandle( property )
+					.getStringValue( );
+			if ( value == null )
+			{
+				value = ""; //$NON-NLS-1$
+			}
+			return value;
+		}
+		else
+			return ""; //$NON-NLS-1$
+	}
+
 	protected String getDefaultStringValue( String property )
 	{
 		GroupElementHandle handle = null;

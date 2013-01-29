@@ -1,13 +1,12 @@
 #/*******************************************************************************
-# * Copyright (c) 2006, 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
 # * Contributors:
-# *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 
 ###########################################################
 #AbstractDataSetWizard properties
@@ -263,6 +262,7 @@ ColumnBindingDialog.Text.AddAggr=添加聚合(&G)...
 #BlockPreferencePage properties
 
 BlockPreferencePage.displayname.Title=文本块
+
 
 ###########################################################
 #BorderCanvas properties
@@ -4639,6 +4639,7 @@ BindingDialogHelper.bindingName.aggregation=聚合
 BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。
 BindingDialogHelper.error.improperexpression=多维数据集度量聚合不能为此类型:“{0}”。
 BindingDialogHelper.error.empty={0} 是必需的。
+BindingDialogHelper.error.text.Name=Column Binding Name
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=当前函数的建议数据类型为“{0}”，是否要保留您选择的数据类型?
 BindingDialogHelper.warning.parameter=参数“{1}”不支持表达式“{0}”的返回数据类型，是否要保留?
