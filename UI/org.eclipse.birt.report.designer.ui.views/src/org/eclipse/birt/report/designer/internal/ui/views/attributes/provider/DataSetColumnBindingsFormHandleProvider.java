@@ -58,7 +58,7 @@ import org.eclipse.swt.widgets.Table;
  */
 
 public class DataSetColumnBindingsFormHandleProvider extends
-		AbstractSortingFormHandleProvider
+		AbstractDatasetSortingFormHandleProvider
 {
 
 	private static final String ALL = Messages.getString( "DataSetColumnBindingsFormHandleProvider.ALL" );//$NON-NLS-1$
@@ -134,9 +134,10 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	 *            the bindingObject to set
 	 */
 
-	public void setBindingObject( ReportElementHandle bindingObject )
+	public void setBindingObject( DesignElementHandle bindingObject )
 	{
-		this.bindingObject = bindingObject;
+		if ( bindingObject instanceof ReportElementHandle )
+			this.bindingObject = (ReportElementHandle) bindingObject;
 	}
 
 	public String[] getColumnNames( )

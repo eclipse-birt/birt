@@ -12,11 +12,11 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractDatasetSortingFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -34,7 +34,7 @@ public class DataSetColumnBindingsFormDescriptor extends
 		SortingFormPropertyDescriptor
 {
 
-	private DataSetColumnBindingsFormHandleProvider provider;
+	private AbstractDatasetSortingFormHandleProvider provider;
 
 	public DataSetColumnBindingsFormDescriptor( boolean formStyle )
 	{
@@ -46,8 +46,8 @@ public class DataSetColumnBindingsFormDescriptor extends
 	public void setDescriptorProvider( IDescriptorProvider provider )
 	{
 		super.setDescriptorProvider( provider );
-		if ( provider instanceof DataSetColumnBindingsFormHandleProvider )
-			this.provider = (DataSetColumnBindingsFormHandleProvider) provider;
+		if ( provider instanceof AbstractDatasetSortingFormHandleProvider )
+			this.provider = (AbstractDatasetSortingFormHandleProvider) provider;
 	}
 
 	/*
@@ -228,10 +228,10 @@ public class DataSetColumnBindingsFormDescriptor extends
 	{
 		super.setInput( object );
 		if ( DEUtil.getInputSize( object ) > 0
-				&& DEUtil.getInputFirstElement( object ) instanceof ReportElementHandle )
+				&& DEUtil.getInputFirstElement( object ) instanceof DesignElementHandle )
 		{
 			Object element = DEUtil.getInputFirstElement( object );
-			setBindingObject( (ReportElementHandle) element );
+			setBindingObject( (DesignElementHandle) element );
 		}
 		if ( provider.isEnable( ) && provider.isEditable( ) )
 			btnRefresh.setEnabled( true );
@@ -240,7 +240,7 @@ public class DataSetColumnBindingsFormDescriptor extends
 
 	}
 
-	private void setBindingObject( ReportElementHandle bindingObject )
+	private void setBindingObject( DesignElementHandle bindingObject )
 	{
 		provider.setBindingObject( bindingObject );
 	}
