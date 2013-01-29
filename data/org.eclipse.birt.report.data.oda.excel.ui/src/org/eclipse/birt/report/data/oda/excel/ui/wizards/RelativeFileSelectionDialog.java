@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -52,9 +53,9 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 
 	private File rootFolder;
 
-	public RelativeFileSelectionDialog( Shell parent, File rootFolder )
+	public RelativeFileSelectionDialog( Shell parent, File rootFolder,String[] extensions )
 	{
-		super( parent, new LabelProvider( ), new ContentProvider( ) );
+		super( parent, new LabelProvider( ), new ContentProvider( extensions ) );
 
 		assert rootFolder != null;
 
@@ -94,15 +95,62 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 
 	private static class ContentProvider implements ITreeContentProvider
 	{
+		private String[] exts;	
+		private final String ALL_EXT = "*.*"; //$NON-NLS-1$
 
+		public ContentProvider( String[] extensionFilter )
+		{
+			if ( extensionFilter != null )
+			{
+				ArrayList<String> filters = new ArrayList<String>( );
+				for ( int i = 0; i < extensionFilter.length; i++ )
+				{
+					String ext = extensionFilter[i].toLowerCase( Locale.US );
+					if ( ALL_EXT.equals( ext ) )
+						continue;
+					filters.add( ext.substring( 1 ) );
+				}
+				exts = filters.toArray( new String[]{} );
+			}
+		}
+		
 		public Object[] getChildren( Object arg0 )
 		{
 			if ( arg0 instanceof File )
 			{
 				File f = (File) arg0;
-				return RelativeFileSelectionDialog.getChildren( f );
+				if ( !f.isDirectory( ) )
+				{
+					return new File[0];
+				}
+				File[] result = f.listFiles( new FileFilter( ) {
+
+					public boolean accept( File child )
+					{
+						if ( child.isDirectory( ) )
+						{
+							return true;
+						}
+						return filter( child.getAbsolutePath( ) );
+					}
+				} );
+				if ( result != null )
+				{
+					Arrays.sort( result, new FileComparator( ) );
+				}
+				return result == null ? new File[0] : result;
 			}
 			return null;
+		}
+
+		private boolean filter( String fileName )
+		{
+			for ( int k = 0; exts != null && k < exts.length; k++ )
+			{
+				if ( fileName.toLowerCase( Locale.US ).endsWith( exts[k] ) )
+					return true;
+			}
+			return false;
 		}
 
 		public Object getParent( Object arg0 )
@@ -115,7 +163,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 			if ( arg0 instanceof File )
 			{
 				File f = (File) arg0;
-				return RelativeFileSelectionDialog.getChildren( f ).length > 0;
+				return getChildren( f ).length > 0;
 			}
 			return false;
 		}
@@ -140,6 +188,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 		{
 
 		}
+
 	}
 
 	private static class LabelProvider implements ILabelProvider
@@ -229,29 +278,6 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 
 	}
 
-	private static File[] getChildren( File f )
-	{
-		if ( !f.isDirectory( ) )
-		{
-			return new File[0];
-		}
-		File[] result = f.listFiles( new FileFilter( ) {
-
-			public boolean accept( File child )
-			{
-				if ( child.isDirectory( ) )
-				{
-					return true;
-				}
-				return true;
-			}
-		} );
-		if ( result != null )
-		{
-			Arrays.sort( result, new FileComparator( ) );
-		}
-		return result == null ? new File[0] : result;
-	}
 
 	public String[] getSelectedItems( )
 	{

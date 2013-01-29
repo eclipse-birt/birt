@@ -183,7 +183,7 @@
             	id="ReportDesign.IDEPreferenceFactory"
             	priority="3"
             	singleton="false"
-            	type="org.eclipse.birt.report.designer.ui.ide.preferences.IReportPreferenceFactory">
+            	type="org.eclipse.birt.report.designer.ui.preferences.IReportPreferenceFactory">
       		</adapter>
    		</adaptable>
    		<adaptable
@@ -197,7 +197,7 @@
       		</adapter>
    		</adaptable>
      <adaptable
-           class="org.eclipse.birt.report.designer.ui.ide.preferences.ResourceConfigurationBlock">
+           class="org.eclipse.birt.report.designer.ui.preferences.ResourceConfigurationBlock">
         <adapter
               class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.ResourcePageHelperProvider"
               id="org.eclipse.birt.report.designer.ui.ide.ResourceConfigurationBlock"
@@ -207,7 +207,7 @@
         </adapter>
      </adaptable>
      <adaptable
-           class="org.eclipse.birt.report.designer.ui.ide.preferences.ClassPathPreferencesPage">
+           class="org.eclipse.birt.report.designer.ui.preferences.ClassPathPreferencesPage">
         <adapter
               class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEIClassPathHelperProvider"
               id="org.eclipse.birt.report.designer.ui.ide.classpath"

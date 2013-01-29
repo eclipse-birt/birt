@@ -66,6 +66,7 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
@@ -147,6 +148,10 @@ public class ScriptExecutor
 	        ExecutionContext context )
 	{
 		if ( design == null )
+		{
+			return false;
+		}
+		if ( design instanceof ExtendedItemDesign )
 		{
 			return false;
 		}

@@ -87,7 +87,7 @@ class CubeQueryValidator
 				{
 					throw new DataException( ResourceConstants.CANNOT_FIND_LEVEL,
 							new Object[]{
-									levelName, hierarchyName, dimensionName
+									levelName, dimensionName
 							} );
 				}
 			}

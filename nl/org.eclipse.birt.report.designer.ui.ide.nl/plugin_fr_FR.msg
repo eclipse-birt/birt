@@ -52,4 +52,4 @@ birtproblemName=Problème d'état
 ###############################################################################
 # Preferences
 ###############################################################################
-preference.expressionsyntaxcolor=Syntax Coloring
+preference.expressionsyntaxcolor=Coloration syntaxique

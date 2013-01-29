@@ -225,4 +225,12 @@ public interface IReportItemPresentation
 	public void setExtendedItemContent( IContent content );
 	
 	public IReportItemPresentationInfo getPresentationConfig( );
+	
+	/**
+	 * Check if can support cache in current situation.
+	 * For example, the chart image is can't cached when export to some format 
+	 * and some property of chart is changed(e.g. by script), such as height, width etc.
+	 * @return true if can support cache, otherwise false
+	 */
+	public boolean isCacheable();
 }

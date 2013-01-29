@@ -207,10 +207,22 @@ abstract class ReportDesignImpl extends LayoutModule
 		while ( contents.hasNext( ) )
 		{
 			DesignElement ele = contents.next( );
-			// Use getLocalProperty to avoid mutli-view element delegating
-			Object obj = ele.getLocalProperty( this, propName );
-			if ( obj != null )
-				rtnList.add( obj );
+			if ( ele.getContainer( ) != null
+					&& ele.getContainer( ) instanceof MultiViews )
+			{
+				// Use getLocalProperty to avoid mutli-view element delegating
+				Object obj = ele.getLocalProperty( this, propName );
+				if ( obj != null )
+					rtnList.add( obj );
+			}
+			else
+			{
+				Object obj = ele.getProperty( this, propName );
+				if ( obj != null )
+					rtnList.add( obj );
+			}
+			
+			
 		}
 
 		return rtnList;

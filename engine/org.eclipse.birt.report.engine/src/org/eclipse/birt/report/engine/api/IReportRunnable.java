@@ -55,6 +55,8 @@ public interface IReportRunnable extends IRunnable {
 	 * @param path a simplified XPath that allows access to properties for components in a report
 	 * design. Only downward path is allowed, i.e., no .. in the path. 
 	 * @return the property value for things like report description, title, etc.
+	 * 
+	 * @deprecated this method is never used ,suggest use Model API to access all properties on elements.
 	 */
 	public abstract Object getProperty(String path, String propertyName);
 	

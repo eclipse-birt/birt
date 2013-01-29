@@ -16,12 +16,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +35,10 @@ import org.apache.commons.cli.ParseException;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.core.script.ParameterAttribute;
+import org.eclipse.birt.report.engine.api.impl.ParameterSelectionChoice;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 
 /**
  * Defines a standalone reporting application that uses
@@ -190,10 +195,27 @@ public class ReportRunner
 			IReportRunnable runnable = engine.openReportDesign( source );
 			// validate the input paramter values
 			HashMap inputValues = evaluateParameterValues( runnable );
-			//
+			
 			IRunAndRenderTask task = engine.createRunAndRenderTask( runnable );
-			task.setParameterValues( inputValues );
-
+			Iterator iter = inputValues.entrySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) iter.next( );
+				String paraName = (String) entry.getKey( );
+				ParameterAttribute pa = (ParameterAttribute) entry.getValue( );
+				Object valueObject = pa.getValue( );
+				if(valueObject instanceof Object[])
+				{
+					Object[] valueArray = (Object[])valueObject;
+					String[] displayTextArray = (String[]) pa.getDisplayText( );
+					task.setParameter( paraName, valueArray, displayTextArray );
+				}
+				else
+				{
+					task.setParameter( paraName, pa.getValue( ), (String)pa.getDisplayText( ) );				
+				}
+			}
+			
 			// set report render options
 			IRenderOption options = new RenderOption();
 
@@ -244,7 +266,24 @@ public class ReportRunner
 
 			// set the paramter values
 			HashMap inputValues = evaluateParameterValues( runnable );
-			task.setParameterValues( inputValues );
+			Iterator iter = inputValues.entrySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) iter.next( );
+				String paraName = (String) entry.getKey( );
+				ParameterAttribute pa = (ParameterAttribute) entry.getValue( );
+				Object valueObject = pa.getValue( );
+				if(valueObject instanceof Object[])
+				{
+					Object[] valueArray = (Object[])valueObject;
+					String[] displayTextArray = (String[]) pa.getDisplayText( );
+					task.setParameter( paraName, valueArray, displayTextArray );
+				}
+				else
+				{
+					task.setParameter( paraName, pa.getValue( ), (String)pa.getDisplayText( ) );				
+				}
+			}
 
 			// set the application context
 			task.setAppContext( new HashMap( ) );
@@ -903,13 +942,15 @@ public class ReportRunner
 			IParameterDefnBase pBase = (IParameterDefnBase) iter.next( );
 			if ( pBase instanceof IScalarParameterDefn )
 			{
-
 				IScalarParameterDefn paramDefn = (IScalarParameterDefn) pBase;
 
 				String paramName = paramDefn.getName( );
 				String inputValue = (String) params.get( paramName );
 				int paramDataType = paramDefn.getDataType( );
 				String paramType = paramDefn.getScalarParameterType( );
+				
+				// if allow multiple values
+				boolean isAllowMutipleValues = false;
 				try
 				{
 					Object paramValue = null;
@@ -918,6 +959,7 @@ public class ReportRunner
 					{
 						paramValue = stringToObjectArray( paramDataType,
 								inputValue );
+						isAllowMutipleValues = true;
 					}
 					else
 					{
@@ -925,8 +967,48 @@ public class ReportRunner
 					}
 					if ( paramValue != null )
 					{
-						inputValues.put( paramName, paramValue );
-					}
+						List<ParameterSelectionChoice> selectList = paramDefn.getSelectionList( );
+						ParameterAttribute pa = null;
+						if ( isAllowMutipleValues )
+						{
+							Object[] values = (Object[]) paramValue;
+							List<String> displayTextList = new ArrayList<String>( );
+							if ( selectList != null && selectList.size( ) > 0 )
+							{
+								for ( Object o : values )
+								{
+									for ( ParameterSelectionChoice select : selectList )
+									{
+										if ( o.equals( select.getValue( ) ) )
+										{
+											displayTextList.add( select.getLabel( ) );
+										}
+									}
+								}
+							}
+							String[] displayTexts = new String[displayTextList.size( )];
+							pa = new ParameterAttribute( values,
+									displayTextList.toArray( displayTexts ) );
+						}
+						else
+						{
+							String displayText = null;
+							if ( selectList != null && selectList.size( ) > 0 )
+							{
+								for ( ParameterSelectionChoice select : selectList )
+								{
+									if ( paramValue.equals( select.getValue( ) ) )
+									{
+										displayText = select.getLabel( );
+										break;
+									}
+								}
+							}
+							pa = new ParameterAttribute( paramValue,
+									displayText );
+						}
+						inputValues.put( paramName, pa );
+					}					
 				}
 				catch ( BirtException ex )
 				{

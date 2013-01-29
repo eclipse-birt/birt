@@ -11,8 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
@@ -21,9 +25,11 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Sec
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;

@@ -445,7 +445,7 @@ Choices.exportType.if-realized=ˆê’v‚µ‚½ƒy[ƒW
 Choices.exportType.always=‹­§
 
 #56. analysisType
-Choices.analysisType.dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“
+Choices.analysisType.dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“
 Choices.analysisType.attribute=‘®«
 Choices.analysisType.measure=ƒƒWƒƒ[
 
@@ -1288,13 +1288,13 @@ Class.Color.cssValue.toolTip=F‚ğ CSS ‚Åİ’è‰Â”\‚ÈŒ`® (CSS ƒJƒ‰[–¼‚Ü‚½‚Í RGB ’
 #12. Dimension
 
 Class.Dimension=Dimension ƒNƒ‰ƒX
-Class.Dimension.toolTip=ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒvƒƒpƒeƒBƒIƒuƒWƒFƒNƒg‚É‚æ‚Á‚ÄACSS ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒvƒƒpƒeƒB‚Ì‰ğÍ‚ªˆ—‚³‚ê‚Ü‚·
+Class.Dimension.toolTip=ƒfƒBƒƒ“ƒVƒ‡ƒ“ƒvƒƒpƒeƒBƒIƒuƒWƒFƒNƒg‚É‚æ‚Á‚ÄACSS ƒfƒBƒƒ“ƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚Ì‰ğÍ‚ªˆ—‚³‚ê‚Ü‚·
 Class.Dimension.value=value
-Class.Dimension.value.toolTip=CSS ‚ÆŒİŠ·«‚Ì‚ ‚éƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì’l‚ğ•Ô‚µ‚Ü‚·
+Class.Dimension.value.toolTip=CSS ‚ÆŒİŠ·«‚Ì‚ ‚éƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ì’l‚ğ•Ô‚µ‚Ü‚·
 Class.Dimension.measure=measure
-Class.Dimension.measure.toolTip=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚ÌƒƒWƒƒ[•”•ª‚ğæ“¾‚µ‚Ü‚·BƒfƒBƒƒ“ƒWƒ‡ƒ“‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
+Class.Dimension.measure.toolTip=ƒfƒBƒƒ“ƒVƒ‡ƒ“‚ÌƒƒWƒƒ[•”•ª‚ğæ“¾‚µ‚Ü‚·BƒfƒBƒƒ“ƒVƒ‡ƒ“‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
 Class.Dimension.units=units
-Class.Dimension.units.toolTip=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì’PˆÊ•”•ª‚ğæ“¾‚µ‚Ü‚·BƒfƒBƒƒ“ƒWƒ‡ƒ“‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
+Class.Dimension.units.toolTip=ƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ì’PˆÊ•”•ª‚ğæ“¾‚µ‚Ü‚·BƒfƒBƒƒ“ƒVƒ‡ƒ“‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
 
 #13. PropertyDefn
 
@@ -1495,9 +1495,9 @@ Class.ResultSetColumn.helpText.toolTip=—ñ‚ÌÚ×‚Èà–¾‚ğ’ñ‹Ÿ‚·‚é©—RŒ`®‚Ì•¶š—ñ
 Class.ResultSetColumn.lineage=lineage
 Class.ResultSetColumn.lineage.toolTip=—ñ’l‚ÌŒ³‚Ìƒ\[ƒX‚É–¼‘O‚ğ•t‚¯‚é©—RŒ`®‚Ì•¶š—ñ 
 Class.ResultSetColumn.axis=axis
-Class.ResultSetColumn.axis.toolTip=—ñ‚ªƒ}ƒ‹ƒ`ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒf[ƒ^ƒ\[ƒX‚©‚çæ“¾‚³‚ê‚½ê‡‚É“K—p‚³‚ê‚Ü‚·
+Class.ResultSetColumn.axis.toolTip=—ñ‚ªƒ}ƒ‹ƒ`ƒfƒBƒƒ“ƒVƒ‡ƒ“ƒf[ƒ^ƒ\[ƒX‚©‚çæ“¾‚³‚ê‚½ê‡‚É“K—p‚³‚ê‚Ü‚·
 Class.ResultSetColumn.axisType=axisType
-Class.ResultSetColumn.axisType.toolTip=‚»‚Ì’l‚ÍAƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ìƒƒ“ƒoAƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì‘®«A‚Ü‚½‚ÍƒƒWƒƒ[‚Ì‚¢‚¸‚ê‚©‚Å‚·
+Class.ResultSetColumn.axisType.toolTip=‚»‚Ì’l‚ÍAƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ìƒƒ“ƒoAƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ì‘®«A‚Ü‚½‚ÍƒƒWƒƒ[‚Ì‚¢‚¸‚ê‚©‚Å‚·
 Class.ResultSetColumn.onColumnLayout=onColumnLayout
 Class.ResultSetColumn.onColumnLayout.toolTip=‚±‚Ì—ñ‚ğƒŒƒ|[ƒgo—Í‚É”z’u‚·‚é•û–@‚É‚Â‚¢‚Ä‚Ìƒqƒ“ƒg
 Class.ResultSetColumn.DIMENSION_MEMBER=DIMENSION_MEMBER
@@ -1910,7 +1910,7 @@ Structure.ParameterFormatValue=ƒpƒ‰ƒƒ^‚Ì‘®‚Ì’l
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=ƒXƒNƒŠƒvƒgƒ‰ƒCƒuƒ‰ƒŠ
 Structure.IncludedCssStyleSheet=ƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚Ä‚¢‚é CSS ƒXƒ^ƒCƒ‹ƒV[ƒg
-Structure.DimensionJoinCondition=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚ÌƒWƒ‡ƒCƒ“ğŒ
+Structure.DimensionJoinCondition=ƒfƒBƒƒ“ƒVƒ‡ƒ“‚ÌƒWƒ‡ƒCƒ“ğŒ
 Structure.FormatValue =‘®‚Ì’l
 Structure.CalculationArgument=ŒvZ‚Ìˆø”
 
@@ -2048,7 +2048,7 @@ Structure.ComputedColumn.calculationType=ŒvZ‚Ìí—Ş
 Structure.ComputedColumn.calculationArguments=ŒvZ‚Ìˆø”
 Structure.ComputedColumn.refDateType=QÆ“ú‚Ìí—Ş
 Structure.ComputedColumn.refDateValue=QÆ“ú‚Ì’l
-Structure.ComputedColumn.timeDimension=ŠÔ‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“
+Structure.ComputedColumn.timeDimension=ŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=—ñ–¼
@@ -2253,7 +2253,7 @@ Structure.TOC.text.transform=•¶š—ñ‚ÌˆÊ’u•ÏX
 Structure.TOC.text.direction=•¶š—ñ‚ÌŒü‚«
 
 #29. DimensionCondition
-Structure.DimensionCondition=ƒfƒBƒƒ“ƒWƒ‡ƒ“ğŒ
+Structure.DimensionCondition=ƒfƒBƒƒ“ƒVƒ‡ƒ“ğŒ
 Structure.DimensionCondition.joinConditions=ƒWƒ‡ƒCƒ“‚ÌğŒ
 Structure.DimensionCondition.hierarchy=ŠK‘w
 
@@ -2375,19 +2375,19 @@ Element.TemplateReportItem=ƒeƒ“ƒvƒŒ[ƒg‚ÌƒŒƒ|[ƒg€–Ú
 Element.TemplateDataSet=ƒeƒ“ƒvƒŒ[ƒg‚Ìƒf[ƒ^ƒZƒbƒg
 Element.JointDataSet=ƒWƒ‡ƒCƒ“ƒf[ƒ^ƒZƒbƒg
 Element.Cube=ƒLƒ…[ƒu
-Element.Dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“
+Element.Dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“
 Element.Hierarchy=ŠK‘w
 Element.Level=ƒŒƒxƒ‹
 Element.Measure=ƒƒWƒƒ[
 Element.MeasureGroup=ƒƒWƒƒ[ƒOƒ‹[ƒv
 Element.TabularCube=ƒe[ƒuƒ‹Œ`®‚ÌƒLƒ…[ƒu
-Element.TabularDimension=ƒe[ƒuƒ‹Œ`®‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“
+Element.TabularDimension=ƒe[ƒuƒ‹Œ`®‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“
 Element.TabularHierarchy=ƒe[ƒuƒ‹Œ`®‚ÌŠK‘w
 Element.TabularLevel=ƒe[ƒuƒ‹Œ`®‚ÌƒŒƒxƒ‹
 Element.TabularMeasure=ƒe[ƒuƒ‹Œ`®‚ÌƒƒWƒƒ[
 Element.TabularMeasureGroup=ƒe[ƒuƒ‹Œ`®‚ÌƒƒWƒƒ[ƒOƒ‹[ƒv
 Element.OdaCube=ODA ƒLƒ…[ƒu
-Element.OdaDimension=ODA ƒfƒBƒƒ“ƒWƒ‡ƒ“
+Element.OdaDimension=ODA ƒfƒBƒƒ“ƒVƒ‡ƒ“
 Element.OdaHierarchy=ODA ŠK‘w
 Element.OdaLevel=ODA ƒŒƒxƒ‹
 Element.OdaMeasure=ODA ƒƒWƒƒ[
@@ -2404,7 +2404,7 @@ Element.DataMart=ƒf[ƒ^ƒIƒuƒWƒFƒNƒg
 Element.DataMartDataSource=ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒf[ƒ^ƒ\[ƒX
 Element.DataMartDataSet=ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^ƒZƒbƒg
 Element.DataMartCube=ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒLƒ…[ƒu
-Element.TimeDimension=ŠÔ‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“
+Element.TimeDimension=ŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“
 Element.ReportItemTheme=ƒŒƒ|[ƒg€–Úƒe[ƒ}
 Element.AbstractTheme=’ŠÛƒe[ƒ}
 
@@ -3315,12 +3315,12 @@ Element.MeasureGroup.measures=ƒƒWƒƒ[
 Element.TabularCube.dataSet=ƒf[ƒ^ƒZƒbƒg
 Element.TabularCube.dimensions=ƒTƒCƒY
 Element.TabularCube.measureGroups=ƒƒWƒƒ[ƒOƒ‹[ƒv
-Element.TabularCube.dimensionConditions=ƒfƒBƒƒ“ƒWƒ‡ƒ“ğŒ
+Element.TabularCube.dimensionConditions=ƒfƒBƒƒ“ƒVƒ‡ƒ“ğŒ
 Element.TabularCube.autoKey=©“®ƒvƒ‰ƒCƒ}ƒŠƒL[
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=ŠK‘w
-Element.TabularDimension.internalDimensionRef=“à•”ƒfƒBƒƒ“ƒWƒ‡ƒ“‚ÌQÆ
+Element.TabularDimension.internalDimensionRef=“à•”ƒfƒBƒƒ“ƒVƒ‡ƒ“‚ÌQÆ
 
 #53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=ƒf[ƒ^ƒZƒbƒg
@@ -3432,7 +3432,7 @@ Element.DataMart.slot.dataSources=ƒf[ƒ^ƒ\[ƒX
 Element.DataMart.slot.dataSets=ƒf[ƒ^ƒZƒbƒg
 Element.DataMart.slot.cubes=ƒLƒ…[ƒu
 Element.DataMart.slot.parameters=ƒpƒ‰ƒƒ^
-Element.DataMart.slot.dimensions=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“
+Element.DataMart.slot.dimensions=‹¤—LƒfƒBƒƒ“ƒVƒ‡ƒ“
 Element.DataMart.enableACL=ƒf[ƒ^ƒZƒLƒ…ƒŠƒeƒB‚Ì—LŒø‰»
 Element.DataMart.ACLExpression=ACL ®
 Element.DataMart.enableIncrementalUpdate=‘•ªXV‚ğ—LŒø‚É‚·‚é
@@ -3721,8 +3721,8 @@ New.TabularLevel=V‹Kƒe[ƒuƒ‹Œ`®‚ÌƒŒƒxƒ‹
 New.TabularMeasure=V‹Kƒe[ƒuƒ‹Œ`®‚ÌƒƒWƒƒ[
 New.TabularMeasureGroup=ƒTƒ}ƒŠƒtƒB[ƒ‹ƒh
 New.OdaCube=V‹KODAƒLƒ…[ƒu
-New.OdaDimension=V‹KODAƒfƒBƒƒ“ƒWƒ‡ƒ“
-New.OdaHierarchy=V‹KODAƒfƒBƒƒ“ƒWƒ‡ƒ“
+New.OdaDimension=V‹KODAƒfƒBƒƒ“ƒVƒ‡ƒ“
+New.OdaHierarchy=V‹KODAƒfƒBƒƒ“ƒVƒ‡ƒ“
 New.OdaLevel=V‹KODAƒŒƒxƒ‹
 New.OdaMeasure=V‹KODAƒƒWƒƒ[
 New.OdaMeasureGroup=V‹KODAƒƒWƒƒ[ƒOƒ‹[ƒv
@@ -3760,7 +3760,7 @@ Error.ContentException.GROUPS_CHANGE_FORBIDDEN=—v‘f "{0}" ‚É‚Í‹¤—L‚ÌƒŒƒ|[ƒg€–Ú
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=ƒRƒs[‚Í‚Å‚«‚È‚¢‚½‚ßA{0} ‚ÌƒXƒƒbƒg {1} ‚É“\‚è•t‚¯‚ç‚ê‚Ü‚¹‚ñB
 Error.ContentException.CONTENT_ALREADY_INSERTED=—v‘f "{0}" ‚Í‚·‚Å‚ÉƒfƒUƒCƒ“ƒcƒŠ[‚É‘¶İ‚·‚é‚½‚ß "{1}" ‚Ì ({2}) ‚É’Ç‰Á‚Å‚«‚Ü‚¹‚ñB
 Error.ContentException.INVALID_POSITION=ˆÊ’u‚ª”ÍˆÍŠO‚©–³Œø‚Å‚·B
-Error.ContentException.SHARE_DIMENSION_NOT_EXIST=ƒŒƒ|[ƒg / ƒ‰ƒCƒuƒ‰ƒŠ‚É—v‘f [{0}] ‚ğ‘}“ü‚Å‚«‚Ü‚¹‚ñB‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“ [{1}] ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
+Error.ContentException.SHARE_DIMENSION_NOT_EXIST=ƒŒƒ|[ƒg / ƒ‰ƒCƒuƒ‰ƒŠ‚É—v‘f [{0}] ‚ğ‘}“ü‚Å‚«‚Ü‚¹‚ñB‹¤—LƒfƒBƒƒ“ƒVƒ‡ƒ“ [{1}] ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=•ÏŠ·î•ñ‚ÌƒŠƒ\[ƒXƒL[‚ª•K—v‚Å‚·B

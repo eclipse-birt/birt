@@ -361,7 +361,14 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 */
 	private void initializeControl( )
 	{
-		DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );
+		if ( this.dataSetDesign.getOdaExtensionDataSourceId( ) != null && this.dataSetDesign.getOdaExtensionDataSourceId( ).contains( "hive" ) )
+		{
+			DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query.hive" );
+		}
+		else
+		{
+			DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );
+		}
 		setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
 		viewer.getTextWidget( ).setFocus( );
 	}
@@ -726,6 +733,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		identifierQuoteStringCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.dnd" ) ); //$NON-NLS-1$
 		identifierQuoteStringCheckBox.setSelection( false );
 		identifierQuoteStringCheckBox.setLayoutData( layoutData );
+		
+		if ( JdbcMetaDataProvider.getInstance( ).getIdentifierQuoteString( ).equals( "" ) ) 
+		{
+			identifierQuoteStringCheckBox.setEnabled( false );
+		}
 	}
 
 	/**

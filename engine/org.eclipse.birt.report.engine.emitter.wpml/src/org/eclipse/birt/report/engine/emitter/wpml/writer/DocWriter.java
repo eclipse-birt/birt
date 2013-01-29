@@ -643,4 +643,28 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		writer.attribute( "w:first-line", textIndent );
 		writer.closeTag( "w:ind" );
 	}
+	
+	protected void writeIndent( int leftMargin, int rightMargin, int textIndent )
+	{
+		if ( leftMargin == 0 && rightMargin == 0 && textIndent == 0 )
+		{
+			return;
+		}
+		writer.openTag( "w:ind" );
+		if( leftMargin != 0 )
+		{
+			writer.attribute( "w:left", leftMargin );
+		}
+		
+		if ( rightMargin != 0 )
+		{
+			writer.attribute( "w:right", rightMargin );
+		}
+		
+		if ( textIndent != 0 )
+		{
+			writer.attribute( "w:first-line", textIndent );
+		}
+		writer.closeTag( "w:ind" );
+	}
 }

@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
+import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -405,7 +406,8 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			{
 				if ( PropertyUtil.isDisplayNone( content ) )
 				{
-					if ( contentDisplayNone == content )
+					if ( contentDisplayNone.getInstanceID( ) == content
+							.getInstanceID( ) )
 					{
 						context.setDisplayNone( false );
 						contentDisplayNone = null;
@@ -486,6 +488,26 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		}
 		closeContainer( );
 	}
+	
+	public void endList( IListContent list ) throws BirtException
+	{
+		if ( !unfinishedContents.isEmpty( ) )
+		{
+			IContent content = unfinishedContents.peek( );
+			if ( list == content )
+			{
+				unfinishedContents.poll( );
+				return;
+			}
+		}
+		while ( current != null && !( current instanceof ListArea ) )
+		{
+			closeContainer( );
+		}
+		closeContainer( );
+		checkDisplayNone( list, false );
+	}
+
 	
 	protected void _endCell( ICellContent cell ) throws BirtException
 	{
@@ -574,11 +596,6 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void endListBand( IListBandContent listBand ) throws BirtException
 	{
-		while ( !( current instanceof ListArea || current instanceof ListGroupArea ) )
-		{
-			current.close( );
-			current = current.getParent( );
-		}
 		int bandType = listBand.getBandType( );
 		if ( bandType == IBandContent.BAND_HEADER
 				|| bandType == IBandContent.BAND_GROUP_HEADER )

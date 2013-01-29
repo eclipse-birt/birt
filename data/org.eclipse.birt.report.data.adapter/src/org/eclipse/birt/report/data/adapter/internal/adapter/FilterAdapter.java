@@ -47,6 +47,16 @@ public class FilterAdapter extends FilterDefinition
 	private void adatperBuildInFilter( IModelAdapter adapter, FilterConditionHandle modelFilter ) throws AdapterException
 	{
 		this.adapter = adapter;
+		String filterTarget = modelFilter.getFilterTarget( );
+		if( DesignChoiceConstants.FILTER_TARGET_DATA_SET.equals( filterTarget ) )
+		{
+			setFilterTarget( FilterTarget.DATASET );
+		}
+		else if( DesignChoiceConstants.FILTER_TARGET_RESULT_SET.equals( filterTarget ) )
+		{
+			setFilterTarget( FilterTarget.RESULTSET );
+		}
+		
 		String filterExpr = modelFilter.getExpr( );
 		if ( filterExpr != null )
 		{
@@ -107,11 +117,36 @@ public class FilterAdapter extends FilterDefinition
 		}
 		this.adapter = adapter;
 		
+		String filterTarget = modelFilter.getFilterTarget( );
+		if( DesignChoiceConstants.FILTER_TARGET_DATA_SET.equals( filterTarget ) )
+		{
+			setFilterTarget( FilterTarget.DATASET );
+		}
+		else if( DesignChoiceConstants.FILTER_TARGET_RESULT_SET.equals( filterTarget ) )
+		{
+			setFilterTarget( FilterTarget.RESULTSET );
+		}
+		
 		String filterExpr = modelFilter.getExpr( );
 		if ( filterExpr != null )
 		{
+			String filterOpr = null;
 			// convert to DtE exprFilter if there is no operator
-			String filterOpr = modelFilter.getOperator( );
+			if ( filterDefn != null )
+			{
+				if ( filterDefn.getBirtFilterExprId( ) != null )
+				{
+					filterOpr = modelFilter.getOperator( );
+				}
+				else if ( filterDefn.getExtFilterExprId( ) != null )
+				{
+					filterOpr = filterDefn.getExtFilterExprId( );
+				}
+			}
+			if( filterOpr == null )
+			{
+				filterOpr = modelFilter.getOperator( );
+			}
 			if ( filterOpr == null || filterOpr.length( ) == 0 )
 			{
 				// Standalone expression; data type must be boolean

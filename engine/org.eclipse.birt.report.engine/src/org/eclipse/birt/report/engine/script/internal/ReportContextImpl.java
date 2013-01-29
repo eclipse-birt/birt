@@ -258,4 +258,9 @@ public class ReportContextImpl implements IReportContext
 			task.cancel( );
 		}
 	}
+
+	public boolean isReportDocumentFinished( )
+	{
+		return context.isReportDocumentFinished( );
+	}
 }

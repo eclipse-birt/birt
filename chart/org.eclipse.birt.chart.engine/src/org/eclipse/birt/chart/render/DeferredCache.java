@@ -221,7 +221,7 @@ public final class DeferredCache
 	 * Adds marker rendering event to cache.
 	 */
 	public final void addMarker( PrimitiveRenderEvent pre, int iInstruction,
-			double iMarkerSize )
+			double iMarkerSize, int zOrder )
 	{
 		try
 		{
@@ -230,14 +230,16 @@ public final class DeferredCache
 				al3D.add( new MarkerInstruction( this,
 						pre.copy( ),
 						iInstruction,
-						iMarkerSize ) );
+						iMarkerSize,
+						zOrder ) );
 			}
 			else
 			{
 				alMarkers.add( new MarkerInstruction( this,
 						pre.copy( ),
 						iInstruction,
-						iMarkerSize ) );
+						iMarkerSize,
+						zOrder ) );
 			}
 		}
 		catch ( ChartException ufex )

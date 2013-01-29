@@ -774,7 +774,7 @@ public class QueryExecutor
 			}
 		}
 		
-		if( drillRs.length>0 )
+		if( DrillFilterHelper.containsDrillFilter( view.getCubeQueryDefinition( ) ) )
 		{
 			IPreparedCubeOperation[] ops = view.getPreparedCubeOperations( );
 			

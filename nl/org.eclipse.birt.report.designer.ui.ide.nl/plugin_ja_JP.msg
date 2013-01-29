@@ -52,4 +52,4 @@ birtproblemName=レポートの問題
 ###############################################################################
 # Preferences
 ###############################################################################
-preference.expressionsyntaxcolor=Syntax Coloring
+preference.expressionsyntaxcolor=構文の色

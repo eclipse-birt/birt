@@ -126,13 +126,13 @@ public class VariableDialog extends BaseTitleAreaDialog
 		// new Label( content, SWT.NONE );
 
 		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.DefaultValue" ) ); //$NON-NLS-1$
-		expressionTxt = new Text( content, SWT.BORDER );
+		expressionTxt = new Text( content, SWT.BORDER | SWT.MULTI );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.heightHint = expressionTxt.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
 				- expressionTxt.getBorderWidth( )
 				* 2;
 		expressionTxt.setLayoutData( gd );
-		
+
 		ExpressionButtonUtil.createExpressionButton( content,
 				expressionTxt,
 				this.getExpressionProvider( ),

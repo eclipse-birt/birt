@@ -27,7 +27,7 @@ public class JSExpression
 	private String expr;
 	private int isParsed = -1;
 
-	private Stack codeStack = new Stack( );
+	protected Stack codeStack = new Stack( );
 
 	private JSSyntaxContext context;
 
@@ -175,7 +175,7 @@ public class JSExpression
 	 * @param expression
 	 * @return
 	 */
-	private void parse( String expression )
+	protected void parse( String expression )
 	{
 		Stack bracketStack = new Stack( );
 

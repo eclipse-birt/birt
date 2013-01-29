@@ -1,13 +1,12 @@
 #/*******************************************************************************
-# * Copyright (c) 2006, 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
 # * Contributors:
-# *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 
 ###########################################################
 #AbstractDataSetWizard properties
@@ -263,6 +262,12 @@ ColumnBindingDialog.Text.AddAggr=Ajouter l'a&grégation...
 #BlockPreferencePage properties
 
 BlockPreferencePage.displayname.Title=Bloc de texte
+
+
+###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -603,6 +608,11 @@ DataSetBasePage.tooltip=Le nom doit être renseigné.
 DataSetBasePage.ScriptedDataSet.name=Jeu de données nécessitant un script
 DataSetBasePage.ScriptedDataSource.name=Source de données nécessitant un script
 DataSetBasePage.Group.DataSourceSelection=Sélection de source de données
+
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Impossible de trouver les JARS de la bibliothèque client Hector pour prendre en charge la source de données Cassandra nécessitant un script.
 
 ###########################################################
 #JointDataSetPage properties
@@ -4311,8 +4321,8 @@ GeneralPage.Library.Included=Bibliothèque :
 GeneralPage.Library.Modified.Note=REMARQUE : cet élément d'état provenant de la bibliothèque a été modifié. Pour restaurer l'élément d'état d'origine, cliquez sur {0} "Restaurer les propriétés"
 
 #BookMarkPage
-BookMarkPage.Modified.Note=Le signet contient des caractères spéciaux différents de \"A-Z a-z 0-9 - _ : .\". Cela peut poser problème lors de l'exécution.
-BookMarkPage.Modified.WithoutQuotes=Le signet doit être entouré de guillemets.
+BookMarkPage.Modified.Note=Le signet contient des caractères spéciaux différents de (A-Z, a-z, 0-9, '-', '_', ':', '.'). Cela peut poser problème lors de l'exécution.
+BookMarkPage.Modified.WithoutQuotes=Le signet n'est pas entouré de guillemets doubles. Cela peut poser problème lors de l'exécution.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4629,6 +4639,7 @@ BindingDialogHelper.bindingName.aggregation=Agrégation
 BindingDialogHelper.error.nameduplicate=Une liaison de colonne appelée {0} existe déjà.
 BindingDialogHelper.error.improperexpression=L'agrégation sur la mesure de cube ne peut pas être du type : "{0}".
 BindingDialogHelper.error.empty={0} est requis.
+BindingDialogHelper.error.text.Name=Column Binding Name
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Le type de données requis pour la fonction actuelle est "{0}". Voulez-vous vraiment conserver le type de données sélectionné ?
 BindingDialogHelper.warning.parameter=Le type de données de retour de l'expression "{0}" n'est pas pris en charge pour le paramètre "{1}". Voulez-vous vraiment le conserver ?

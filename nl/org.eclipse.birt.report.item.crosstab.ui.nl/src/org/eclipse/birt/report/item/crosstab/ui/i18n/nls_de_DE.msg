@@ -14,7 +14,7 @@ DeleteDimensionViewHandleAction.DisplayName=Entf&ernen
 DeleteMeasureHandleAction.DisplayName=Entf&ernen
 DeleteMeasureHandleAction.TransName=Maßeinheit löschen
 
-AddComputedMesureHandleAction.DisplayName=Abgeleitete Maß&einheit hinzufügen
+AddComputedMesureHandleAction.DisplayName=Abgeleitete &Maßeinheit hinzufügen
 AddComputedMesureHandleAction.TransName=Abgeleitete Maßeinheit hinzufügen
 AddComputedSummaryDialog.Title=Abgeleitete Maßeinheit
 AddComputedSummaryDialog.Label.Name=&Name:

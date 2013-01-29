@@ -108,8 +108,6 @@ public final class Generator implements IGenerator
 
 	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
-	private static final ChartValueUpdater chartValueUpdater = new ChartValueUpdater( );
-	
 	/**
 	 * A private constructor.
 	 */
@@ -152,7 +150,7 @@ public final class Generator implements IGenerator
 		// value of chart to update current model.
 		if ( !updatedModel )
 		{
-			chartValueUpdater.update( model, null );
+			new ChartValueUpdater( ).update( model, null );
 		}
 		
 		boolean needInheritingStyles = true;

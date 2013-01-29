@@ -156,6 +156,12 @@ public class GetParameterDefinitionTask extends EngineTask
 									.setDesign( designHandle );
 							( (ScalarParameterDefn) p ).setLocale( locale );
 							( (ScalarParameterDefn) p ).evaluateSelectionList( );
+						}						
+						else if ( p instanceof DynamicFilterParameterDefn )
+						{
+							( (DynamicFilterParameterDefn) p )
+									.setDesign( designHandle );
+							( (DynamicFilterParameterDefn) p ).setLocale( locale );
 						}
 					}
 				}
