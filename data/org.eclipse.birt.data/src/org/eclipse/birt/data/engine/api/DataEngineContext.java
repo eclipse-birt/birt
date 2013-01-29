@@ -231,7 +231,7 @@ public class DataEngineContext
 	 * @param writer
 	 * @throws BirtException
 	 */
-	private DataEngineContext( int mode, Scriptable scope,
+	public DataEngineContext( int mode, Scriptable scope,
 			IDocArchiveReader reader, IDocArchiveWriter writer, ClassLoader classLoader, ScriptContext context )
 			throws BirtException
 	{
