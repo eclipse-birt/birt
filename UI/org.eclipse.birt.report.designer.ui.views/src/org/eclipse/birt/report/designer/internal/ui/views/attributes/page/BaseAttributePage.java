@@ -13,18 +13,24 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import java.util.HashMap;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.AccordionPropertyList;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.IPropertyList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.Tab;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTitle;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FormData;
@@ -172,7 +178,64 @@ public class BaseAttributePage extends TabPage
 
 			}
 		} );
+		
 		setCategoryProvider( categoryProvider );
+		title = new TabbedPropertyTitle( container,
+				FormWidgetFactory.getInstance( ) );
+		title.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		title.addListener( SWT.SELECTED, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				if ( currentPage != null
+						&& currentPage instanceof ResetAttributePage )
+				{
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( Messages.getString( "BaseAttributePage.CommandStack.ResetStyle.Message" ) ); //$NON-NLS-1$
+
+					( (ResetAttributePage) currentPage ).reset( );
+
+					stack.commit( );
+				}
+			}
+		} );
+
+		sComposite = new ScrolledComposite( container, SWT.H_SCROLL
+				| SWT.V_SCROLL );
+		sComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		sComposite.setExpandHorizontal( true );
+		sComposite.setExpandVertical( true );
+		sComposite.addControlListener( new ControlAdapter( ) {
+
+			public void controlResized( ControlEvent e )
+			{
+				computeSize( );
+			}
+		} );
+
+		infoPane = new Composite( sComposite, SWT.NONE );
+		sComposite.setContent( infoPane );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		infoPane.setLayout( layout );
+		container.addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				if ( pageMap != null )
+				{
+					for ( Object value : pageMap.values( ) )
+					{
+						TabPage page = (TabPage) value;
+						if ( page != null )
+							page.dispose( );
+					}
+				}
+
+			}
+		} );
 	}
 
 	private void computeSize( )
