@@ -252,7 +252,13 @@ public class AttributeViewPage extends Page implements
 	 */
 	public void setFocus( )
 	{
-		handleSelectionChanged( selection );
+		Display.getDefault( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				handleSelectionChanged( selection );
+			}
+		} );
 	}
 
 	private void setPartName( )
