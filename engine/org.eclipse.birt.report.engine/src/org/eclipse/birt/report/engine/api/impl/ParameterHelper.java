@@ -162,16 +162,19 @@ public class ParameterHelper
 		}
 		else if ( labelColumnName == null )
 		{
-			// In UI display text is not set, then apply the formatter.
+			// if display text is not set, apply the formatter.
 			String name = valueColumnName;
 			Object value = getValue( resultIterator );
 			return converter.format( value );
 		}
 		else
 		{
-			// In UI display text is set ,then DON'T apply the formatter.
+			// if display text is set , DON'T apply the formatter.
 			String name = labelColumnName;
-			return resultIterator.getValue( name ).toString( );
+			Object value = resultIterator.getValue( name );
+			if ( value != null )
+				return value.toString( );
+			return null;
 		}
 	}
 	
