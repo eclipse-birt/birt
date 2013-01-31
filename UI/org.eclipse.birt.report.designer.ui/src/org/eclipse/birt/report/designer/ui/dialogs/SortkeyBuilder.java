@@ -203,7 +203,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		};
 		ExpressionButtonUtil.createExpressionButton( content,
 				comboKey,
-				new ExpressionProvider( handle ),
+				getExpressionProvider( ),
 				handle,
 				listener );
 
@@ -250,6 +250,12 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 
 		return content;
 	}
+
+	protected ExpressionProvider getExpressionProvider( )
+	{
+		return new ExpressionProvider( handle );
+	}
+
 	protected Listener comboKeyModify = new Listener( ) {
 
 		public void handleEvent( Event e )

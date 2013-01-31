@@ -1469,7 +1469,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		return tempDataset;
 	}
 
-	private IExpressionProvider getExpressionProvider( )
+	protected IExpressionProvider getExpressionProvider( )
 	{
 		IExpressionProvider provider = null;
 		if ( dataSetHandle != null )
@@ -1922,7 +1922,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 	}
 
-	private void setProviderForExpressionBuilder(
+	protected void setProviderForExpressionBuilder(
 			ExpressionBuilder expressionBuilder )
 	{
 		if ( dataSetHandle != null )
