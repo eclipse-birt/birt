@@ -329,7 +329,8 @@ public class ExpressionProvider implements
 		{
 			categoryList.add( CURRENT_CUBE );
 		}
-		if ( elementHandle.getModuleHandle( ).getParameters( ).getCount( ) != 0 )
+		if ( elementHandle.getModuleHandle( ).getParameters( ) != null
+				&& elementHandle.getModuleHandle( ).getParameters( ).getCount( ) != 0 )
 		{
 			categoryList.add( PARAMETERS );
 		}
