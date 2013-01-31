@@ -1382,10 +1382,21 @@ public class InsertInLayoutUtil
 		// // .newTableItem( null, columns.length );
 		CachedMetaDataHandle cachedMetadata = DataSetUIUtil.getCachedMetaDataHandle( model );
 		List columList = new ArrayList( );
-		for ( Iterator iter = cachedMetadata.getResultSet( ).iterator( ); iter.hasNext( ); )
+		if (cachedMetadata != null)
 		{
-			ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
-			columList.add( element );
+			for ( Iterator iter = cachedMetadata.getResultSet( ).iterator( ); iter.hasNext( ); )
+			{
+				ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
+				columList.add( element );
+			}
+		}
+		else
+		{
+			for (Iterator iter = model.resultSetIterator( ); iter.hasNext( );)
+			{
+				ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
+				columList.add( element );
+			}
 		}
 		ResultSetColumnHandle[] columns = (ResultSetColumnHandle[]) columList.toArray( new ResultSetColumnHandle[columList.size( )] );
 
@@ -1891,7 +1902,8 @@ public class InsertInLayoutUtil
 		// }
 		if ( insertObj instanceof DataSetHandle )
 		{
-			return DataSetUIUtil.hasMetaData( (DataSetHandle) insertObj );
+			return DataSetUIUtil.hasMetaData( (DataSetHandle) insertObj )
+					|| ( (DataSetHandle) insertObj ).resultSetIterator( ).hasNext( );
 		}
 		return insertObj instanceof ResultSetColumnHandle
 				|| insertObj instanceof ScalarParameterHandle
@@ -2130,6 +2142,7 @@ public class InsertInLayoutUtil
 	{
 		if ( handle instanceof DataSetHandle )
 		{
+			// TODO DataSetHandle.getDataSource()
 			if ( ( !( handle instanceof JointDataSetHandle || handle instanceof DerivedDataSetHandle ) && ( (DataSetHandle) handle ).getDataSource( ) == null )
 					|| !DataSetUIUtil.hasMetaData( (DataSetHandle) handle ) )
 			{
