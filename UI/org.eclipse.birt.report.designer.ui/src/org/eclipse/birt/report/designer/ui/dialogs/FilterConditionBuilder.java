@@ -235,7 +235,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 	protected Label andLable;
 
-	private transient String bindingName;
+	protected transient String bindingName;
 
 	private ParamBindingHandle[] bindingParams = null;
 
@@ -244,7 +244,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	protected List columnList;
 	protected transient ReportElementHandle currentItem = null;
 
-	private DataSetHandle dataset;
+	protected DataSetHandle dataset;
 
 	protected DataSetHandle dataSetHandle;
 
@@ -1545,7 +1545,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		return null;
 	}
 
-	private List getSelectValueList( ) throws BirtException
+	protected List getSelectValueList( ) throws BirtException
 	{
 		List selectValueList = new ArrayList( );
 		ReportItemHandle reportItem = DEUtil.getBindingHolder( currentItem );
@@ -1725,7 +1725,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	{
 		showUpdateAggregationButton = show;
 	}
-	
+
 	protected void operatorChange( )
 	{
 		String value = getValueForOperator( operator.getText( ) );

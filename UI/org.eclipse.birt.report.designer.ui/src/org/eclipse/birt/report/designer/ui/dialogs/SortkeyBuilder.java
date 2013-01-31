@@ -82,7 +82,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 	protected Combo comboDirection;
 	private Combo comboKey;
 
-	private List<ComputedColumnHandle> columnList;
+	protected List<ComputedColumnHandle> columnList;
 
 	/**
 	 * Constant, represents empty String array.
@@ -399,7 +399,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		inilializeColumnList( handle );
 	}
 
-	private void inilializeColumnList( DesignElementHandle handle )
+	protected void inilializeColumnList( DesignElementHandle handle )
 	{
 		columnList = DEUtil.getVisiableColumnBindingsList( handle );
 	}

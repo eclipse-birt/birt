@@ -756,7 +756,9 @@ public class GroupDialog extends BaseDialog implements Listener
 					HELPER_KEY_STARTCOLLAPSED );
 		}
 
-		if ( startCollapsedHelper != null )
+		if ( startCollapsedHelper != null
+				&& inputGroup.getContainer( )
+						.getSlot( IListingElementModel.GROUP_SLOT ) != null )
 		{
 			List<String> groups = getGroupNames( inputGroup.getContainer( )
 					.getStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY ) );
