@@ -238,7 +238,7 @@ public class QueryDefnIOUtil
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	static IQueryDefinition loadQueryDefn( InputStream inputStream, int version, String bundleVersion )
+	public static IQueryDefinition loadQueryDefn( InputStream inputStream, int version, String bundleVersion )
 			throws DataException
 	{
 		QueryDefinition queryDefn = new QueryDefinition( );
