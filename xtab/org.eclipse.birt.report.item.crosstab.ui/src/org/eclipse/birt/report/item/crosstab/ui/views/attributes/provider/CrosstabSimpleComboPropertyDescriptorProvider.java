@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Si
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.CrosstabSimpleComboSection;
@@ -172,7 +173,14 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 						.getReportDesignHandle( )
 						.findCube( value.toString( ) );
 			}
-			getExtendedItemHandle( ).setCube( cubeHandle );
+			if(cubeHandle == null && value != null)
+			{
+				new LinkedDataSetAdapter().setLinkedDataModel(getExtendedItemHandle( ), value.toString( ));
+				
+			}else
+			{
+				getExtendedItemHandle( ).setCube( cubeHandle );
+			}
 			if ( clearHistory )
 			{
 				getExtendedItemHandle( ).getColumnBindings( ).clearValue( );

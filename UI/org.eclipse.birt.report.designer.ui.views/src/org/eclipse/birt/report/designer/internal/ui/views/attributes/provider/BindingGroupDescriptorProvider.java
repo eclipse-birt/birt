@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -322,7 +323,14 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 			{
 				getReportItemHandle( ).setDataBindingReference( null );
 			}
-			getReportItemHandle( ).setDataSet( dataSet );
+			if(dataSet == null && value != null)
+			{
+				new LinkedDataSetAdapter().setLinkedDataModel(getReportItemHandle( ), value.toString( ));
+				
+			}else
+			{
+				getReportItemHandle( ).setDataSet( dataSet );
+			}
 			if ( clearHistory )
 			{
 				getReportItemHandle( ).getColumnBindings( ).clearValue( );
