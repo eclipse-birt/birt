@@ -266,7 +266,24 @@ public class ReportRunner
 
 			// set the paramter values
 			HashMap inputValues = evaluateParameterValues( runnable );
-			task.setParameterValues( inputValues );
+			Iterator iter = inputValues.entrySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) iter.next( );
+				String paraName = (String) entry.getKey( );
+				ParameterAttribute pa = (ParameterAttribute) entry.getValue( );
+				Object valueObject = pa.getValue( );
+				if(valueObject instanceof Object[])
+				{
+					Object[] valueArray = (Object[])valueObject;
+					String[] displayTextArray = (String[]) pa.getDisplayText( );
+					task.setParameter( paraName, valueArray, displayTextArray );
+				}
+				else
+				{
+					task.setParameter( paraName, pa.getValue( ), (String)pa.getDisplayText( ) );				
+				}
+			}
 
 			// set the application context
 			task.setAppContext( new HashMap( ) );

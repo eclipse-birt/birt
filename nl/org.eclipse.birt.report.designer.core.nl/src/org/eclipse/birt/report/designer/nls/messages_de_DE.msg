@@ -1,13 +1,12 @@
 #/*******************************************************************************
-# * Copyright (c) 2006, 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
 # * Contributors:
-# *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 
 ###########################################################
 #AbstractDataSetWizard properties
@@ -263,6 +262,12 @@ ColumnBindingDialog.Text.AddAggr=A&ggregat hinzufügen...
 #BlockPreferencePage properties
 
 BlockPreferencePage.displayname.Title=Textblock
+
+
+###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -4634,6 +4639,7 @@ BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden.
 BindingDialogHelper.error.improperexpression=Ungültiger Typ für Aggregat in Quadereinheit: '{0}'.
 BindingDialogHelper.error.empty={0} ist erforderlich.
+BindingDialogHelper.error.text.Name=Column Binding Name
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Der empfohlene Datentyp für die aktuelle Funktion ist '{0}'. Möchten Sie den ausgewählten Datentypen wirklich beibehalten?
 BindingDialogHelper.warning.parameter=Der Ausgabedatentyp des Ausdrucks '{0}' wird für den Parameter '{1}' nicht unterstützt. Möchten Sie ihn wirklich beibehalten?

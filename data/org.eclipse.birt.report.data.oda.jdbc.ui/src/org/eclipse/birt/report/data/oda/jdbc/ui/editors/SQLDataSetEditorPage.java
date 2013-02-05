@@ -385,6 +385,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		sComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		sComposite.setExpandHorizontal( true );
 		sComposite.setExpandVertical( true );
+		sComposite.setMinHeight( 500 );
+		sComposite.setMinWidth( 250 );
+		
 		sComposite.addControlListener( new ControlAdapter( ) {
 
 			public void controlResized( ControlEvent e )

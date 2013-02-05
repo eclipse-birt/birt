@@ -1,13 +1,12 @@
 #/*******************************************************************************
-# * Copyright (c) 2006, 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
 # * Contributors:
-# *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 
 ###########################################################
 #AbstractDataSetWizard properties
@@ -263,6 +262,12 @@ ColumnBindingDialog.Text.AddAggr=集計の追加(&G)...
 #BlockPreferencePage properties
 
 BlockPreferencePage.displayname.Title=テキストブロック
+
+
+###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -901,8 +906,8 @@ designer.preview.preference.locale.description=ロケールの選択(&C) :
 designer.preview.preference.timezone.description=タイムゾーン(&T) :
 designer.preview.preference.resultset.sqldatasetpage.group.title=クエリページ
 designer.preview.preference.resultset.previewpage.group.title=プレビューページ
-designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=行制限設定のプレビュー
-designer.preview.preference.resultset.NoLimitOfDispalyRow=表示できる行数制限はありません(&N)。
+designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=プレビュー行制限設定
+designer.preview.preference.resultset.NoLimitOfDispalyRow=表示行数制限なし(&N)
 designer.preview.preference.resultset.maxNoOfSchema.description=表示するスキーマの最大数(&S) :
 designer.preview.preference.resultset.maxNoOfTable.description=各スキーマに表示するテーブルの最大数(&T) :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=最大スキーマ数には、0 から {0} までの数を入力してください。
@@ -913,7 +918,7 @@ designer.preview.preference.resultset.maxrowlevelmember.description=各行レベルに
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=行レベルメンバの最大数には、1 から {0} までの数を入力してください。
 designer.preview.preference.resultset.maxcolumnlevelmember.description=各列レベルに表示するメンバ数(&C) :
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=列レベルメンバの最大数には、1 から {0} までの数を入力してください。
-designer.preview.preference.resultset.maxinmemorycubesize.description=メモリ内のキューブサイズ (MB)(&S) :
+designer.preview.preference.resultset.maxinmemorycubesize.description=インメモリキューブのサイズ(MB)(&S) :
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=メモリ内の最大キューブサイズには、1 から {0} までの数を入力してください。
 designer.preview.preference.server.description=内部アプリケーションサーバの設定。サーバは、BIRT Report Designer\nPreview Framework 内部で使用されます。
 designer.preview.preference.server.hostDescription=ローカルマシンのホスト名または IP アドレス(&H)\n自動的に決定するには、空白のままにしてください。
@@ -4634,6 +4639,7 @@ BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。
 BindingDialogHelper.error.improperexpression=キューブのメジャーに対する集計ではこの型は使用できません : "{0}"
 BindingDialogHelper.error.empty={0} を指定してください。
+BindingDialogHelper.error.text.Name=列バインドの名前
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=現在の関数に推奨されるデータ型は "{0}" です。選択したデータ型を保存しますか ?
 BindingDialogHelper.warning.parameter=式 "{0}" の戻り値のデータ型は、パラメタ "{1}" ではサポートされていません。このデータ型を保存しますか ?
