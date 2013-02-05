@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIHelper;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
@@ -737,30 +738,24 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 		widgetNormalShadow = Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW );
 
-		RGB infoBackground = Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_INFO_BACKGROUND )
-				.getRGB( );
 		RGB white = Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_WHITE )
 				.getRGB( );
 
 		/*
-		 * gradient in the default tab: start colour WIDGET_NORMAL_SHADOW 100% +
-		 * white 20% + INFO_BACKGROUND 60% end colour WIDGET_NORMAL_SHADOW 100%
-		 * + INFO_BACKGROUND 40%
+		 * Mimic palette view look and feel.
 		 */
 		defaultGradientStart = factory.getColors( )
 				.createColor( "TabbedPropertyList.defaultTabGradientStart", //$NON-NLS-1$
-						FormColors.blend( infoBackground,
-								FormColors.blend( white,
-										widgetNormalShadow.getRGB( ),
-										20 ),
-								60 ) );
+						FormColors.blend( ColorConstants.button.getRGB( ),
+								ColorConstants.listBackground.getRGB( ),
+								85 ) );
 		defaultGradientEnd = factory.getColors( )
 				.createColor( "TabbedPropertyList.defaultTabGradientEnd", //$NON-NLS-1$
-						FormColors.blend( infoBackground,
-								widgetNormalShadow.getRGB( ),
-								40 ) );
+						FormColors.blend( ColorConstants.button.getRGB( ),
+								ColorConstants.buttonDarker.getRGB( ),
+								45 ) );
+		
 		/*
 		 * gradient in the hover tab: start colour WIDGET_BACKGROUND 100% +
 		 * white 20% end colour WIDGET_BACKGROUND 100% + WIDGET_NORMAL_SHADOW
