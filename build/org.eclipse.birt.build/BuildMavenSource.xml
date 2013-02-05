@@ -1,0 +1,163 @@
+<project name="build maven repo">
+
+	<property name="working.dir" value="/home/dev/xiaoying/4.2.2" />
+	<property name="path" value="${working.dir}/source/plugins"/>
+	<property name="srcFolder" value="runtime.src"/>
+	<property name="bundleName.runtime" value="org.eclipse.birt.runtime"/>
+	<property name="bundleName.viewservlets" value="viewservlets"/>
+	<property name="bundleVersion" value="4.2.2"/>
+	<property name="package.version" value="4_2_2"/>
+	<property name="birt.output.dir" value="BIRT4.2-download/4.2.2"/> 
+	
+	<property name="builder.user" value="adb"/>
+	<property name="builder.passwd" value="buildmaster"/>
+	<property name="builder.host" value="qa-build.actuate.com"/>
+
+	<!--
+	The main target will execute below steps:
+	1. Copy birt packages from build server and unzip into corresponding directory.
+	2. Generate source bundles for birt.runtime and viewservlet bundle.
+	3. Generate maven repo for birt.runtime.
+	4. Generate maven repo for viewservlet.
+	5. Execute the generated sh files manually to upload the maven repo (release/SNAPSHOT version) to Sonatype.
+	-->
+	
+	<target name="main">
+		<antcall target="scpPackages"/>
+		<antcall target="unzipPackages"/>
+		<antcall target="integrateSource"/>
+		<antcall target="zipSourcePlugin"/>
+		<antcall target="createRuntimeRepo"/>
+		<antcall target="createViewsevletRepo"/>
+	</target>
+		
+	<target name="scpPackages">
+        <echo message="Getting monitor.properties file from qa-build..."/>
+        <scp file="${builder.user}:${builder.passwd}@${builder.host}:/home/adb/releng/BIRTOutput/${birt.output.dir}/monitor.properties" 
+        	todir="${working.dir}" trust="true"/>
+		
+		<property file="${working.dir}/monitor.properties"/>
+        <echo message="Getting birt-runtime file from qa-build..."/>
+        <scp file="${builder.user}:${builder.passwd}@${builder.host}:/home/adb/releng/BIRTOutput/${birt.output.dir}/${buildId}/birt-runtime-${package.version}-${currentDay}.zip" 
+        	todir="${working.dir}" trust="true"/>
+		
+		<echo message="Getting birt-source file from qa-build..."/>
+        <scp file="${builder.user}:${builder.passwd}@${builder.host}:/home/adb/releng/BIRTOutput/${birt.output.dir}/${buildId}/birt-source-${package.version}-${currentDay}.zip" 
+        	todir="${working.dir}" trust="true"/> 
+	</target>
+	
+	<target name="unzipPackages">
+		<property file="${working.dir}/monitor.properties"/>
+		<!-- unzip birt-runtime-* packages -->
+        <unzip src="${working.dir}/birt-runtime-${package.version}-${currentDay}.zip" dest="${working.dir}">
+  		  <patternset>
+  		    <include name="**/ReportEngine/lib/**"/>
+  		  	<include name="**/WebViewerExample/WEB-INF/lib/viewservlets.jar"/>
+  		  </patternset>
+		</unzip>
+		
+		<!-- unzip birt-sources-* packages -->	
+		<unzip src="${working.dir}/birt-source-${package.version}-${currentDay}.zip" dest="${working.dir}/source">
+		  <patternset>
+		    <include name="plugins/"/>
+		  	<exclude name="plugins/*.jar"/>
+		  	<exclude name="plugins/*.nl1/**"/>
+		  	<exclude name="plugins/*.source_*/**"/>
+		  	<exclude name="plugins/*_?.?.?.*/**"/>
+		  </patternset>
+		</unzip>
+		
+		<delete file="${working.dir}/birt-runtime-${package.version}-${currentDay}.zip" failonerror="false"/>
+		<delete file="${working.dir}/birt-source-${package.version}-${currentDay}.zip" failonerror="false"/>
+		
+	</target>
+	
+	<target name="integrateSource">
+		<copy todir="${path}/${srcFolder}" overwrite="true">
+			<fileset dir="${path}/org.eclipse.birt.chart.device.extension/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.chart.device.svg/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.chart.engine/src" includes="**"/>
+			<fileset dir="${path}/org.eclipse.birt.chart.engine.extension/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.chart.examples.core/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.chart.reportitem/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.core/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.core.script.function/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.data/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.data.aggregation/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.adapter/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.bidi.utils/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.jdbc/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.hive/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.excel/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.sampledb/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.xml/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.jdbc.dbprofile/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.html/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.pdf/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.postscript/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.ppt/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.prototype.excel/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.wpml/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.odp/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.ods/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.odt/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.odf/src" includes="**"/>
+            <!--<fileset dir="${path}/org.eclipse.birt.report.engine.fonts/src" includes="**"/>-->
+            <fileset dir="${path}/org.eclipse.birt.report.engine.script.javascript/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.item.crosstab.core/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.model/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.model.adapter.oda/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.dataextraction/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.dataextraction.csv/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.excel/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.html/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.pdf/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.postscript/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.ppt/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.wpml/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.odp/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.ods/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.odt/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.axis.overlay/src" includes="**"/>
+		</copy>
+	</target>
+	
+	<target name="zipSourcePlugin">
+		<property file="${working.dir}/monitor.properties"/>
+		<mkdir dir="${working.dir}/birt-runtime-${package.version}/ReportEngine/source"/>
+		<jar destfile="${working.dir}/birt-runtime-${package.version}/ReportEngine/source/${bundleName.runtime}-${bundleVersion}-sources.jar" basedir="${path}/${srcFolder}" /> 
+		<jar destfile="${working.dir}/birt-runtime-${package.version}/ReportEngine/source/${bundleName.viewservlets}-${bundleVersion}-sources.jar" basedir="${path}/org.eclipse.birt.report.viewer/birt/WEB-INF/classes"/>
+	</target>
+	
+	<target name="createRuntimeRepo">
+		<mkdir dir="${working.dir}/mavenrepo" />
+        <java classname="org.eclipse.birt.build.mavenrepogen.RepoGen" fork="true" dir=".">
+            <classpath>
+               <fileset dir="." />
+            </classpath>
+        </java>
+		<chmod perm="755">
+		  <fileset dir="${working.dir}/mavenrepo">
+		    <include name="**/*.sh"/>
+		  </fileset>
+		</chmod>
+	</target>
+		
+	<target name="createViewsevletRepo">
+		<mkdir dir="${working.dir}/mavenrepo" />
+        <java classname="org.eclipse.birt.build.mavenrepogen.ViewservletRepoGen" fork="true" dir=".">
+                <classpath>
+                   <fileset dir="." />
+                </classpath>
+        </java>
+		<chmod perm="755">
+		  <fileset dir="${working.dir}/mavenrepo">
+		    <include name="**/*.sh"/>
+		  </fileset>
+		</chmod>
+	</target>
+	
+</project>

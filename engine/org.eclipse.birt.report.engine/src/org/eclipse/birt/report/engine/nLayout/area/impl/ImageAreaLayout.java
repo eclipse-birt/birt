@@ -39,6 +39,7 @@ import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
+import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.BadElementException;
@@ -537,10 +538,18 @@ public class ImageAreaLayout implements ILayout
 						//a temporary solution. root should set the same dimension with imageArea, but currently can not find a solution to avoid empty page when a large image is put into a grid 
 						if ( maxWidth < cWidth )
 						{
+							// default box style is unmodified.
+							// creates a new instance when style is default style.
+							if ( root.getBoxStyle( ) == BoxStyle.DEFAULT )
+								root.setBoxStyle( new BoxStyle(
+										BoxStyle.DEFAULT ) );
 							root.getBoxStyle( ).setRightBorder( null );
 						}
 						if ( maxHeight < cHeight )
 						{
+							if ( root.getBoxStyle( ) == BoxStyle.DEFAULT )
+								root.setBoxStyle( new BoxStyle(
+										BoxStyle.DEFAULT ) );
 							root.getBoxStyle( ).setBottomBorder( null );
 						}
 					}

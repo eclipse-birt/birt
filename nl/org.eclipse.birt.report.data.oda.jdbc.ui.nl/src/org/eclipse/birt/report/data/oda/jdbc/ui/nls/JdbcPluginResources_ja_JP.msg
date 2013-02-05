@@ -1,6 +1,6 @@
 dataset.editor.page.query=クエリ
 dataset.new.query=選択可能な項目を使用して SQL クエリテキストを定義します。
-dataset.new.query.hive=Define a hql query text using available items.
+dataset.new.query.hive=選択可能な項目を使用して HQL クエリテキストを定義します。
 dataset.new=新規データセット
 dataset.editor.page.query.error.schemaNotExisted=スキーマ名が存在しません。
 datasource.new=新規データソース

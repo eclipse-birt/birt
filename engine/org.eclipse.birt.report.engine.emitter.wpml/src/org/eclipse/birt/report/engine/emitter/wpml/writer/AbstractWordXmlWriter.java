@@ -68,6 +68,8 @@ public abstract class AbstractWordXmlWriter
 
 	protected abstract void writeIndent( int indent );
 
+	protected abstract void writeIndent( int leftMargin, int rightMargin, int textIndent );
+		
 	public void startSectionInParagraph( )
 	{
 		writer.openTag( "w:p" );
@@ -170,12 +172,15 @@ public abstract class AbstractWordXmlWriter
 
 	private void drawImageBorderStyle( String pos, String style, CSSValue width )
 	{
-		String direct = "w10:border" + pos;
-		writer.openTag( direct );
-		writer.attribute( "type", WordUtil.parseImageBorderStyle( style ) );
-		writer.attribute( "width", WordUtil.parseBorderSize( PropertyUtil
-				.getDimensionValue( width ) ) );
-		writer.closeTag( direct );
+		if (  PropertyUtil.getDimensionValue( width ) != 0 )
+		{
+			String direct = "w10:border" + pos;
+			writer.openTag( direct );
+			writer.attribute( "type", WordUtil.parseImageBorderStyle( style ) );
+			writer.attribute( "width", WordUtil.parseBorderSize( PropertyUtil
+					.getDimensionValue( width ) ) );
+			writer.closeTag( direct );
+		}
 	}
 
 	protected void drawImageBordersColor( IStyle style )
@@ -345,8 +350,8 @@ public abstract class AbstractWordXmlWriter
 			CSSValue width, int margin )
 	{
 		writer.attribute( "w:val", WordUtil.parseBorderStyle( style ) );
-		writer.attribute( "w:sz", WordUtil.parseBorderSize( PropertyUtil
-				.getDimensionValue( width ) ) );
+		int borderSize = WordUtil.parseBorderSize( PropertyUtil.getDimensionValue( width ) );
+		writer.attribute( "w:sz", "double".equals(style)? borderSize/3 : borderSize );
 		writer.attribute( "w:space", validateBorderSpace( margin ) );
 		writer.attribute( "w:color", WordUtil.parseColor( color ) );
 	}
@@ -479,10 +484,16 @@ public abstract class AbstractWordXmlWriter
 		int indent = PropertyUtil.getDimensionValue( style
 				.getProperty( StyleConstants.STYLE_TEXT_INDENT ),
 				paragraphWidth ) / 1000 * 20;
-		if ( indent != 0 )
-		{
-			writeIndent( indent );
-		}
+		
+		int leftMargin = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_MARGIN_LEFT ),
+				paragraphWidth ) / 1000 * 20;
+		
+		int rightMargin = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ),
+				paragraphWidth ) / 1000 * 20;
+		writeIndent( leftMargin, rightMargin, indent );
+		
 		if ( !isInline )
 		{
 			writeBackgroundColor( style.getBackgroundColor( ) );
@@ -495,8 +506,11 @@ public abstract class AbstractWordXmlWriter
 	{
 		// unit: twentieths of a point(twips)
 		float spacingValue = PropertyUtil.getDimensionValue( height );
-		int spacing = WordUtil.milliPt2Twips( spacingValue ) / 2;
-		writeSpacing( spacing, spacing );
+		int spacing = WordUtil.milliPt2Twips( spacingValue );
+		writer.openTag( "w:spacing" );
+		writer.attribute( "w:lineRule", "exact" );
+		writer.attribute( "w:line", spacing );
+		writer.closeTag( "w:spacing" );
 	}
 
 	private void writeSpacing( CSSValue top, CSSValue bottom )
@@ -790,8 +804,14 @@ public abstract class AbstractWordXmlWriter
 
 	public void insertEmptyParagraph( )
 	{
-		writer.openTag( "w:p" );
-		writer.closeTag( "w:p" );
+		writer.openTag("w:p");
+		writer.openTag("w:pPr");
+		writer.openTag("w:spacing");
+		writer.attribute("w:line", "1");
+		writer.attribute("w:lineRule", "auto");
+		writer.closeTag("w:spacing");
+		writer.closeTag("w:pPr");
+		writer.closeTag("w:p");
 	}
 
 	public void insertHiddenParagraph( )
