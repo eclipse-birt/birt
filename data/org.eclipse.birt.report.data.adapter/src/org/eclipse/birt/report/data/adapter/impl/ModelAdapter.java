@@ -206,7 +206,7 @@ public class ModelAdapter implements IModelAdapter
 		ScriptExpression jsExpr = new ExpressionAdapter( expr, dataType );
 		if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
 		{
-			jsExpr = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) ) );
+			jsExpr = new ScriptExpression( expr.getStringExpression( ) );
 			jsExpr.setScriptId( BaseExpression.constantId );
 			jsExpr.setHandle( expr.getExpression( ) );
 		}
@@ -943,7 +943,7 @@ public class ModelAdapter implements IModelAdapter
 		ScriptExpression jsExpr = null;
 		if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
 		{
-			jsExpr = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) ) );
+			jsExpr = new ScriptExpression( expr.getStringExpression( ) );
 			jsExpr.setScriptId( BaseExpression.constantId );
 			jsExpr.setHandle( expr.getExpression( ) );
 			return jsExpr;

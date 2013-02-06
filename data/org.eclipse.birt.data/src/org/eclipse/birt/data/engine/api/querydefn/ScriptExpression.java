@@ -23,8 +23,10 @@ public class ScriptExpression extends BaseExpression implements IScriptExpressio
 	protected String exprText;
 	
 	/**
-	 * Constructs a Javascript expression
-	 * @param text Javascript expression text
+	 * Constructs a script expression, it could be a Constant expression or javascript expression with tag of 
+	 * BaseExpression.javaScriptId or BaseExpression.constantId.
+	 * 
+	 * @param text expression text
 	 */
     public ScriptExpression( String text )
     {
@@ -32,8 +34,10 @@ public class ScriptExpression extends BaseExpression implements IScriptExpressio
     }
     
 	/**
-	 * Constructs a Javascript expression
-	 * @param text Javascript expression text
+	 * Constructs a script expression, it could be a Constant expression or javascript expression with tag of 
+	 * BaseExpression.javaScriptId or BaseExpression.constantId.
+	 * 
+	 * @param text  expression text
 	 * @param dataType Return data type of the expression
 	 */
     public ScriptExpression( String text, int dataType )
@@ -51,7 +55,7 @@ public class ScriptExpression extends BaseExpression implements IScriptExpressio
 	}
 	
 	/**
-	 * Sets the Javascript expression text
+	 * Sets the expression text
 	 */
 	public void setText( String text )
 	{

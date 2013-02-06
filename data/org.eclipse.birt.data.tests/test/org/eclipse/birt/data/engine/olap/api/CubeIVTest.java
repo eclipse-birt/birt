@@ -1968,7 +1968,7 @@ public class CubeIVTest extends BaseTestCase
 		cqd.setQueryResultsID( queryResults.getID( ) );
 		ConditionalExpression expression = new ConditionalExpression( "data[\"measure1\"]",
 				IConditionalExpression.OP_GT,
-				"\"18\"" );
+				"18" );
 		( (ScriptExpression) expression.getOperand1( ) ).setHandle( "18" );
 		( (ScriptExpression) expression.getOperand1( ) ).setScriptId( BaseExpression.constantId );
 
@@ -2094,7 +2094,7 @@ public class CubeIVTest extends BaseTestCase
 		cqd.setQueryResultsID( queryResults.getID( ) );
 		ConditionalExpression expression = new ConditionalExpression( "data[\"edge2level1\"]",
 				IConditionalExpression.OP_GT,
-				"\"1999\"" );
+				"1999" );
 		( (ScriptExpression) expression.getOperand1( ) ).setHandle( "1999" );
 		( (ScriptExpression) expression.getOperand1( ) ).setScriptId( BaseExpression.constantId );
 
@@ -2405,7 +2405,7 @@ public class CubeIVTest extends BaseTestCase
 		
 		ConditionalExpression expression = new ConditionalExpression( "data[\"edge2level1\"]",
 				IConditionalExpression.OP_GT,
-				"\"1999\"" );
+				"1999" );
 		( (ScriptExpression) expression.getOperand1( ) ).setHandle( "1999" );
 		( (ScriptExpression) expression.getOperand1( ) ).setScriptId( BaseExpression.constantId );
 

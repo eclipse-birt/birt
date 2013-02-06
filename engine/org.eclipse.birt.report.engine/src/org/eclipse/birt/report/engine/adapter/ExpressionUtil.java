@@ -556,9 +556,8 @@ public final class ExpressionUtil
 			if ( expr.getType( ) == Expression.CONSTANT )
 			{
 				ScriptExpression jsExpr = new ScriptExpression(
-						JavascriptEvalUtil.transformToJsExpression( expr
-								.getScriptText( ) ) );
-				jsExpr.setScriptId(BaseExpression.constantId);
+						expr.getScriptText( ) );
+				jsExpr.setScriptId( BaseExpression.constantId );
 				jsExpr.setHandle( expr.getScriptText( ) );
 				return jsExpr;
 			}

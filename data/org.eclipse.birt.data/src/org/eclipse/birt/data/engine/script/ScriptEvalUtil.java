@@ -909,7 +909,7 @@ public class ScriptEvalUtil
 				{
 					if( BaseExpression.constantId.equals( jsExpr.getScriptId( ) ) )
 					{
-						result = JavascriptEvalUtil.evaluateJsConstants( jsExpr.getText( ) );
+						result = jsExpr.getText( );
 						jsExpr.setHandle( result );
 					}
 					else if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )

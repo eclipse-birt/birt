@@ -273,7 +273,7 @@ public class ExprEvaluateUtil
 				value = ( (IScriptExpression) dataExpr ).getHandle( );
 				if ( value == null )
 				{
-					value = JavascriptEvalUtil.evaluateJsConstants( ( (IScriptExpression) dataExpr ).getText( ) );
+					value = ( (IScriptExpression) dataExpr ).getText( );
 					( (IScriptExpression) dataExpr ).setHandle( value );
 				}
 			}
