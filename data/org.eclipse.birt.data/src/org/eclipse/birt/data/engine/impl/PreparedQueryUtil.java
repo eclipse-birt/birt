@@ -119,6 +119,14 @@ public class PreparedQueryUtil
 		
 		if ( queryDefn.getQueryResultsID( ) != null && !dataEngine.getContext( ).isDashBoardEnabled( ) )
 		{
+			preparedQuery = QueryPrepareUtil.preparePresentationQuery( dataEngine,
+					queryDefn,
+					dset,
+					appContext,
+					contextVisitor );
+			if ( preparedQuery != null )
+				return preparedQuery;
+			
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
 				|| dataEngine.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 			{
