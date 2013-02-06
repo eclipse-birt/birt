@@ -17,10 +17,10 @@ Element.SortDirection=ƒ\[ƒg•ûŒü
 Element.SortType=ƒ\[ƒgŠî€
 Element.LevelView=ƒŒƒxƒ‹ƒrƒ…[
 Element.DisplayField=•\¦ƒtƒB[ƒ‹ƒh
-Element.DimensionView=ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒrƒ…[
+Element.DimensionView=ƒfƒBƒƒ“ƒVƒ‡ƒ“ƒrƒ…[
 Element.CrosstabView=ƒNƒƒXƒ^ƒuƒrƒ…[
 Element.Cube=ƒLƒ…[ƒu
-Element.Dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“
+Element.Dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“
 Element.Level=ƒŒƒxƒ‹
 Element.Measure=ƒƒWƒƒ[
 Element.Caption=ƒLƒƒƒvƒVƒ‡ƒ“
@@ -50,10 +50,10 @@ Method.onPageBreak=‰üƒy[ƒW
 
 ###########################################################
 # Crosstab exception
-Error.CrosstabException.DUPLICATE_DIMENSION=–¼‘O‚ªd•¡‚µ‚Ä‚¢‚é‚½‚ßAƒLƒ…[ƒu‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì—v‘f ''{0}'' ‚ğƒNƒƒXƒ^ƒu‚É“K—p‚Å‚«‚Ü‚¹‚ñB
+Error.CrosstabException.DUPLICATE_DIMENSION=–¼‘O‚ªd•¡‚µ‚Ä‚¢‚é‚½‚ßAƒLƒ…[ƒu‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ì—v‘f ''{0}'' ‚ğƒNƒƒXƒ^ƒu‚É“K—p‚Å‚«‚Ü‚¹‚ñB
 Error.CrosstabException.DUPLICATE_MEASURE=–¼‘O‚ªd•¡‚µ‚Ä‚¢‚é‚½‚ßAƒLƒ…[ƒu‚ÌƒƒWƒƒ[‚Ì—v‘f ''{0}'' ‚ğƒNƒƒXƒ^ƒu‚É“K—p‚Å‚«‚Ü‚¹‚ñB
 Error.CrosstabException.DUPLICATE_LEVEL=–¼‘O‚ªd•¡‚µ‚Ä‚¢‚é‚½‚ßAƒLƒ…[ƒu‚ÌƒŒƒxƒ‹‚Ì—v‘f ''{0}'' ‚ğƒNƒƒXƒ^ƒu‚É“K—p‚Å‚«‚Ü‚¹‚ñB
-Error.CrosstabException.DIMENSION_NOT_FOUND=ƒNƒƒXƒ^ƒu‚ÉƒfƒBƒƒ“ƒWƒ‡ƒ“ƒrƒ…[ ''{0}'' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+Error.CrosstabException.DIMENSION_NOT_FOUND=ƒNƒƒXƒ^ƒu‚ÉƒfƒBƒƒ“ƒVƒ‡ƒ“ƒrƒ…[ ''{0}'' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 Error.CrosstabException.MEASURE_NOT_FOUND=ƒNƒƒXƒ^ƒu‚ÉƒƒWƒƒ[ƒrƒ…[ ''{0}'' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 Error.CrosstabException.LEVEL_NOT_FOUND=ƒNƒƒXƒ^ƒu‚ÉƒŒƒxƒ‹ƒrƒ…[ ''{0}'' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 
@@ -64,9 +64,9 @@ CrosstabReportItemQuery.error.query.building=ƒNƒGƒŠ\’z‚ÌƒNƒƒXƒ^ƒuƒ‚ƒfƒ‹‚ª–³Œø‚
 CrosstabReportItemQuery.error.register.empty.cell.value=‹ó‚ÌƒZƒ‹’l‚Ì“o˜^’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 
 CrosstabQueryHelper.error.invalid.measure=ƒNƒƒXƒ^ƒu‚ÌƒƒWƒƒ[’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒƒWƒƒ[ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
-CrosstabQueryHelper.error.invalid.dimension.row=ƒNƒƒXƒ^ƒu‚Ìs—Ìˆæ‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
+CrosstabQueryHelper.error.invalid.dimension.row=ƒNƒƒXƒ^ƒu‚Ìs—Ìˆæ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 CrosstabQueryHelper.error.invalid.level.row=ƒNƒƒXƒ^ƒu‚Ìs—Ìˆæ‚ÌƒŒƒxƒ‹’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒŒƒxƒ‹ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
-CrosstabQueryHelper.error.invalid.dimension.column=ƒNƒƒXƒ^ƒu‚Ì—ñ—Ìˆæ‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
+CrosstabQueryHelper.error.invalid.dimension.column=ƒNƒƒXƒ^ƒu‚Ì—ñ—Ìˆæ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 CrosstabQueryHelper.error.invalid.level.column=ƒNƒƒXƒ^ƒu‚Ì—ñ—Ìˆæ‚ÌƒŒƒxƒ‹’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒŒƒxƒ‹ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 
 BaseCrosstabExecutor.error.process.visibility=‰Â‹«‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
@@ -131,14 +131,14 @@ DimensionViewTask.msg.insert.level=ƒŒƒxƒ‹‚Ì‘}“ü
 MeasureViewTask.msg.remove.header=ƒƒWƒƒ[‚Ìƒwƒbƒ_‚Ìíœ
 MeasureViewTask.msg.add.header=ƒƒWƒƒ[‚Ìƒwƒbƒ_‚Ì’Ç‰Á
 
-CrosstabViewTask.msg.remove.dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ìíœ
+CrosstabViewTask.msg.remove.dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ìíœ
 CrosstabViewTask.msg.remove.grandtotal=‘Œv‚Ìíœ
 CrosstabViewTask.msg.add.grandtotal=‘Œv‚Ì’Ç‰Á
 
 CrosstabReportItemTask.msg.add.grandtotal=‘Œv‚Ì’Ç‰Á
 CrosstabReportItemTask.msg.set.aggregate.function=WŒvŠÖ”‚Ìİ’è
-CrosstabReportItemTask.msg.pivot.dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì‰ñ“]
-CrosstabReportItemTask.msg.insert.dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì‘}“ü
+CrosstabReportItemTask.msg.pivot.dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ì‰ñ“]
+CrosstabReportItemTask.msg.insert.dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ì‘}“ü
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
 CrosstabReportItemTask.msg.pivot.crosstab=ƒNƒƒXƒ^ƒu‚ğ‰ñ“]‚µ‚Ü‚·B

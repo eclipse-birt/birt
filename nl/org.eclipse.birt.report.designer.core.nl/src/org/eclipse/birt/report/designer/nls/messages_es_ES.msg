@@ -1,13 +1,12 @@
 #/*******************************************************************************
-# * Copyright (c) 2006, 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
 # * Contributors:
-# *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 
 ###########################################################
 #AbstractDataSetWizard properties
@@ -263,6 +262,12 @@ ColumnBindingDialog.Text.AddAggr=Añadir a&gregación...
 #BlockPreferencePage properties
 
 BlockPreferencePage.displayname.Title=Bloque de texto
+
+
+###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -603,6 +608,11 @@ DataSetBasePage.tooltip=El nombre no puede estar vacío.
 DataSetBasePage.ScriptedDataSet.name=Conjunto de datos de script
 DataSetBasePage.ScriptedDataSource.name=Fuente de datos en script
 DataSetBasePage.Group.DataSourceSelection=Selección de fuente de datos
+
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=No es posible encontrar los archivos de la librería del cliente Hector para admitir la fuente de datos en script Cassandra.
 
 ###########################################################
 #JointDataSetPage properties
@@ -4629,6 +4639,7 @@ BindingDialogHelper.bindingName.aggregation=Agregación
 BindingDialogHelper.error.nameduplicate=Ya existe un enlace de columna con el nombre {0}.
 BindingDialogHelper.error.improperexpression=La agregación en medidas de cubo no puede ser de este tipo: "{0}".
 BindingDialogHelper.error.empty=Se requiere {0}.
+BindingDialogHelper.error.text.Name=Column Binding Name
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=El tipo de datos recomendado para la función actual es "{0}". ¿Desea mantener el tipo de datos que ha seleccionado?
 BindingDialogHelper.warning.parameter=El tipo de datos de devolución de la expresión "{0}" no es compatible con el parámetro "{1}". ¿Desea mantenerlo?

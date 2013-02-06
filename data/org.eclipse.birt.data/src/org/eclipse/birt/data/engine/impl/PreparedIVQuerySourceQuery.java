@@ -310,6 +310,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 					preparedQuery.getBaseQueryDefn( ),
 					preparedQuery.getAggrTable( ),
 					dataEngine.getSession( ), PreparedIVQuerySourceQuery.this.contextVisitor );
+			ignoreDataSetFilter = true;
 		}
 
 		/*

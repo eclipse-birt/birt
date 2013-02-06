@@ -18,7 +18,7 @@ invalid.cache.option=数据适配器上下文的选项值 {0} 无效。
 
 datasource.null.error=找不到数据集“{0}”的数据源。
 datasource.exid.error=数据源定义中缺少扩展 ID: {0}。
-datasource.cassandra.error=Unable to find Hector client library jars to support Cassandra Scripted Data Source.
+datasource.cassandra.error=无法找到 Hector 客户端库 jar 以支持 Cassandra 脚本化数据源。
 
 datasethandle.null.error=DataSetHandle 不能为空。
 datasethandle.invalidColumnIndex=列索引无效。

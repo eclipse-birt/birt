@@ -1,5 +1,6 @@
 dataset.editor.page.query=쿼리
 dataset.new.query=사용 가능한 항목을 사용하여 SQL 쿼리 텍스트를 정의합니다.
+dataset.new.query.hive=사용 가능한 항목을 사용하여 HQL 쿼리 텍스트를 정의합니다.
 dataset.new=새 데이터 집합
 dataset.editor.page.query.error.schemaNotExisted=스키마 이름이 없습니다.
 datasource.new=새 데이터 원본 

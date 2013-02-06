@@ -154,9 +154,15 @@ public class VariableElementHandle extends ContentElementHandle
 	{
 		//use valuecontainer's module so the variable element can make a local copy if its name is changed
 		ContentElementInfo valueContainer = ( (VariableElement)element ).getValueContainer( );
-		NameCommand cmd = new NameCommand(  ( (VariableElement) element ).isLocal( ) ? 
-				module : valueContainer.getElement( ).getRoot( ), 
-				getElement( ) );
+		NameCommand cmd = null;
+		if ( ( (VariableElement) element ).isLocal( ) )
+		{
+			cmd = new NameCommand(  module, getElement( ) );
+		}
+		else
+		{
+			cmd = new NameCommand(  valueContainer.getElement( ).getRoot( ), getElement( ) );
+		}
 		cmd.setName( name );
 	}
 }

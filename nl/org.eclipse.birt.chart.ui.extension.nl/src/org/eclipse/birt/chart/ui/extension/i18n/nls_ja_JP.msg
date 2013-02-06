@@ -920,7 +920,7 @@ BaseDataDefinitionComponent.Text.SpecifyDataDefinition=データ定義の指定
 BaseDataDefinitionComponent.Label.EditGroupSorting=グループとソートの編集
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=値式の入力
 BaseDataDefinitionComponent.Text.EditFormat=書式の編集
-BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1 つのディメンジョンの式を選択して、カテゴリ系列と Y 軸のオプション値を同時に設定することはできません。
+BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1 つのディメンションの式を選択して、カテゴリ系列と Y 軸のオプション値を同時に設定することはできません。
 BaseGroupSortingDialog.Label.SortOn=ソート(&O) :
 
 MarkerEditorComposite.Button.Outline=外枠(&O)

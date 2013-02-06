@@ -229,7 +229,7 @@ public class HTMLStyleProcessor
 			{
 				sp.getStyle( ).setProperties(
 						(StyleDeclaration) cssEngine
-								.parseStyleDeclaration( strStyle.toString( ) ) );
+								.parseStyleDeclaration( strStyle.toString( ).toLowerCase( ) ) );
 			}
 		}
 		catch ( Exception e )

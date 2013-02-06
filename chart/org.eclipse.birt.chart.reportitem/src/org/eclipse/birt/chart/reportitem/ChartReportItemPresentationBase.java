@@ -845,7 +845,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 			// Bind Data to series
 			boolean bEmptyData = false;
-			if ( !bindData( rowAdapter, evaluator ) )
+			if ( !bEmptyWithUncompletedBindings && !bindData( rowAdapter, evaluator ) )
 			{
 				bEmptyData = true;
 			}
@@ -1302,5 +1302,23 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 				0
 			}
 		};
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.extension.ReportItemPresentationBase#isCacheable()
+	 */
+	@Override
+	public boolean isCacheable( )
+	{
+		// If chart is set scripts, chart's properties may be changed in
+		// scripts, the cache is not allowed for this case.
+		if ( cm != null
+				&& cm.getScript( ) != null
+				&& cm.getScript( ).trim( ).length( ) > 0 )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }

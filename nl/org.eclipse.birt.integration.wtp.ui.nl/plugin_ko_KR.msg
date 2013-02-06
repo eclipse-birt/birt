@@ -16,4 +16,4 @@ BirtResourcesDefinition= BIRT 웹 응용 프로그램 리소스 정의
 
 birt.action.importruntime.name=BIRT 런타임 구성 요소 가져오기(&B)...
 
-plugin.version=4.2.1
+plugin.version=4.2.2

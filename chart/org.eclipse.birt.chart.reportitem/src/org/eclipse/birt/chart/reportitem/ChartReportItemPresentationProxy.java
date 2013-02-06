@@ -197,4 +197,12 @@ public class ChartReportItemPresentationProxy implements
 		assert false;
 
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#isCacheable()
+	 */
+	public boolean isCacheable( )
+	{
+		return impl.isCacheable( );
+	}
 }

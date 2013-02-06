@@ -47,6 +47,16 @@ public class FilterAdapter extends FilterDefinition
 	private void adatperBuildInFilter( IModelAdapter adapter, FilterConditionHandle modelFilter ) throws AdapterException
 	{
 		this.adapter = adapter;
+		String filterTarget = modelFilter.getFilterTarget( );
+		if( DesignChoiceConstants.FILTER_TARGET_DATA_SET.equals( filterTarget ) )
+		{
+			setFilterTarget( FilterTarget.DATASET );
+		}
+		else if( DesignChoiceConstants.FILTER_TARGET_RESULT_SET.equals( filterTarget ) )
+		{
+			setFilterTarget( FilterTarget.RESULTSET );
+		}
+		
 		String filterExpr = modelFilter.getExpr( );
 		if ( filterExpr != null )
 		{
@@ -106,6 +116,16 @@ public class FilterAdapter extends FilterDefinition
 			return;
 		}
 		this.adapter = adapter;
+		
+		String filterTarget = modelFilter.getFilterTarget( );
+		if( DesignChoiceConstants.FILTER_TARGET_DATA_SET.equals( filterTarget ) )
+		{
+			setFilterTarget( FilterTarget.DATASET );
+		}
+		else if( DesignChoiceConstants.FILTER_TARGET_RESULT_SET.equals( filterTarget ) )
+		{
+			setFilterTarget( FilterTarget.RESULTSET );
+		}
 		
 		String filterExpr = modelFilter.getExpr( );
 		if ( filterExpr != null )

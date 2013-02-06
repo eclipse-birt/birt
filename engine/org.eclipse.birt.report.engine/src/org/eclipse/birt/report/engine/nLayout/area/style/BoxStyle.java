@@ -15,7 +15,21 @@ import java.awt.Color;
 
 public class BoxStyle  extends AreaConstants
 {
-	public final static BoxStyle DEFAULT = new BoxStyle( );
+	
+	/**
+	 *  represents a default box style , it is immutable.
+	 *  <pre>
+	 *  BoxStyle style=BoxStyle.DEFAULT;
+	 *  // this is wrong.
+	 *  style.setBakgroundColor(color);
+	 *  // do like this when you want to use setter().
+	 *  // create a new instance.this is OK.
+	 *  style = new BoxStyle();
+	 *  style.setBakgroundColor(color);
+	 *  </pre>
+	 *  use this code be careful !
+	 */
+	public final static BoxStyle DEFAULT = new ImmutableBoxStyle( );
 
 	protected Color backgroundColor = null;
 
@@ -39,6 +53,45 @@ public class BoxStyle  extends AreaConstants
 		
 	}
 
+	private static class ImmutableBoxStyle extends BoxStyle
+	{
+		@Override
+		public void setBackgroundColor( Color backgroundColor )
+		{
+			throw new  UnsupportedOperationException();
+		}
+
+		@Override
+		public void setBottomBorder( BorderInfo bottomBorder )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		@Override
+		public void setBackgroundImage( BackgroundImageInfo backgroundImage )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		@Override
+		public void setLeftBorder( BorderInfo leftBorder )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		@Override
+		public void setRightBorder( BorderInfo rightBorder )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		@Override
+		public void setTopBorder( BorderInfo topBorder )
+		{
+			throw new UnsupportedOperationException( );
+		}
+	}
+	
 	public BoxStyle( BoxStyle bs )
 	{
 		this.backgroundColor = bs.backgroundColor;

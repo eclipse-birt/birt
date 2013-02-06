@@ -387,7 +387,11 @@ public class ExcelDataSourcePageHelper {
 			typeLineCheckBox.setSelection(false);
 			Display.getCurrent().asyncExec(new Runnable() {
 	              public void run() {
-	                 typeLineCheckBox.setEnabled(false);
+	            	  if ( !typeLineCheckBox.isDisposed( ) )
+	            	  {
+	            		  typeLineCheckBox.setEnabled( false );
+	            	  }
+	                     
 	              }
 	        });
 		}

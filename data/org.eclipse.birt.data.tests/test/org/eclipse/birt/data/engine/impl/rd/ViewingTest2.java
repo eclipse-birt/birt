@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IFilterDefinition.FilterTarget;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -61,6 +62,7 @@ public class ViewingTest2 extends RDTestCase
 	private boolean USE_ROW_IN_AGGREGATION;
 	private boolean USE_DATE_IN_COLUMNBINDING;
 	private boolean GEN_add_filter;
+	private boolean GEN_add_topN_filter;
 	private boolean GEN_add_group;
 	private boolean GEN_add_group1 = false;
 	private boolean GEN_add_subquery;
@@ -1190,6 +1192,38 @@ public class ViewingTest2 extends RDTestCase
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.UPDATE_add_filter = 5;
+		this.updatePreBasicIV( );
+		this.closeArchiveReader( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		this.PRE_execute_query = false;
+		this.preBasicIV( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test filter target usage
+	 * 
+	 * @throws BirtException
+	 */
+	public void testFilters7( ) throws Exception
+	{
+		this.GEN_add_topN_filter = true;
+		this.GEN_print = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.UPDATE_add_filter = 7;
 		this.updatePreBasicIV( );
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
@@ -2784,6 +2818,19 @@ public class ViewingTest2 extends RDTestCase
 
 			this.GEN_filterDefn.add( filterDefn );
 		}
+		
+		// add TopN filter
+		if ( this.GEN_add_topN_filter == true )
+		{
+			ConditionalExpression filterExpr = new ConditionalExpression( "row.AMOUNT_1",
+					IConditionalExpression.OP_TOP_N,
+					"5" );
+			FilterDefinition filterDefn = new FilterDefinition( filterExpr );
+			qd.addFilter( filterDefn );
+			filterDefn.setFilterTarget( FilterTarget.DATASET );
+
+			this.GEN_filterDefn.add( filterDefn );
+		}
 
 		if ( this.TEST_ISEMPTY )
 		{
@@ -3111,12 +3158,21 @@ public class ViewingTest2 extends RDTestCase
 			FilterDefinition fd = new FilterDefinition( filterExpr );
 			qd.addFilter( fd );
 		}
-		
+			
 		if ( filterNeeded == 6 )
 		{
 			// do filtering on column 4
 			ScriptExpression filterExpr = new ScriptExpression( "row.COUNTRY_1 == \"ABC\"" );
 			FilterDefinition fd = new FilterDefinition( filterExpr );
+			qd.addFilter( fd );
+		}
+			
+		//bottom N filter
+		if ( filterNeeded == 7 )
+		{
+			ConditionalExpression filterExpr = new ConditionalExpression( "row.AMOUNT_1", IConditionalExpression.OP_BOTTOM_N,"1" );
+			FilterDefinition fd = new FilterDefinition( filterExpr );
+			fd.setFilterTarget( FilterTarget.RESULTSET );
 			qd.addFilter( fd );
 		}
 		

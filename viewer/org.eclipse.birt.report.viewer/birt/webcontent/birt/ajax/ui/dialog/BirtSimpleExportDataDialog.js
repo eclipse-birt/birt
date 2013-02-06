@@ -409,15 +409,21 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	__okPress : function( )
 	{
 		var oSelects = this.__instance.getElementsByTagName( 'select' );
-		this.__l_hide( );
+		
 		if ( oSelects[2].options.length > 0 )
 		{
+			this.__l_hide( );
+			
 			for( var i = 0; i < oSelects[2].options.length; i++ )
 			{
 				this.selectedColumns[i] = oSelects[2].options[i].value;
 			}
 			
 			this.__constructForm( );
+		}
+		else
+		{
+			alert ( Constants.error.columnRequired );	
 		}
 	},
 	
