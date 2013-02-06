@@ -63,7 +63,6 @@
       <plugin id="org.apache.commons.logging"/>
       <plugin id="org.apache.derby.core"/>
       <plugin id="org.apache.jasper.glassfish"/>
-      <plugin id="org.apache.lucene"/>
       <plugin id="org.apache.lucene.analysis"/>
       <plugin id="org.apache.lucene.core"/>
       <plugin id="org.apache.xerces"/>
