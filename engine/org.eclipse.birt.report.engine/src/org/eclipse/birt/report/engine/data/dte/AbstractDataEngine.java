@@ -45,7 +45,6 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.LinkedDataModelHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
@@ -177,26 +176,6 @@ public abstract class AbstractDataEngine implements IDataEngine
 			}
 		}
 		
-		List linkedDataModelList = rptHandle.getAllLinkedDataModels( );
-		for ( int i = 0; i < linkedDataModelList.size( ); i++ )
-		{
-			LinkedDataModelHandle linkedDataModel = (LinkedDataModelHandle) linkedDataModelList.get( i );
-// TODO ONLY define linked data model while it has report item clients. 
-//			if ( linkedDataModel.clientsIterator( ).hasNext( ) )
-//			{
-				try
-				{
-//					dteSession.defineCube( rptHandle.getElementFactory( ).newLinkedDataModelCubeHandle( linkedDataModel ) );
-					adapter.defineDataSet( rptHandle.getElementFactory( ).newLinkedDataModelDataSetHandle( linkedDataModel ), dteSession );
-				}
-				catch ( BirtException be )
-				{
-					logger.log( Level.SEVERE, be.getMessage( ), be );
-					context.addException( linkedDataModel, be );
-				}
-//			}
-		}
-
 		// build report queries
 		new ReportQueryBuilder( report, context, dteSession ).build( );
 
