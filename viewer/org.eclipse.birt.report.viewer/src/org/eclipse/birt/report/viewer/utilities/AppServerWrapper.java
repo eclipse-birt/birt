@@ -107,7 +107,7 @@ public class AppServerWrapper
 		if ( host == null || host.trim( ).length( ) <= 0 )
 		{
 			// for all network adapters
-			host = "0.0.0.0"; //$NON-NLS-1$
+			host = null;
 		}
 
 		// Set random port
@@ -150,7 +150,7 @@ public class AppServerWrapper
 		dict.put( "http.port", ports.get( webappName ) ); //$NON-NLS-1$
 
 		// configure the host
-		dict.put( "http.host", host ); //$NON-NLS-1$
+		dict.put( "http.host", host == null? "0.0.0.0" : host ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// set the base URL
 		dict.put( "context.path", "/" + webappName ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -197,7 +197,7 @@ public class AppServerWrapper
 	 */
 	String getHost( )
 	{
-		return host;
+		return host == null ? "127.0.0.1" : host; //$NON-NLS-1$
 	}
 
 	/**
