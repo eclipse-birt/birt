@@ -161,6 +161,11 @@ public class NameCommand extends AbstractElementCommand
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
 		if ( name == null )
 		{
+			if ( !element.isManagedByNameSpace( ) )
+			{
+				return;
+			}
+
 			// Cannot clear the name when there are references. It would leave
 			// the dependents with no way to identify this element.
 
