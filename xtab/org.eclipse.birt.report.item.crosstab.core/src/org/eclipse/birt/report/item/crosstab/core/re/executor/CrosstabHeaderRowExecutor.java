@@ -328,6 +328,12 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 		{
 			rgCount++;
 		}
+		else if ( rgCount == 0 )
+		{
+			// even when no row groups, we consider there's always one dummy row
+			// group.
+			rgCount++;
+		}
 
 		int offset = currentGroupIndex * rgCount;
 

@@ -196,6 +196,7 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 			if ( columnGroups.size( ) > 0
 					|| GroupUtil.hasMeasureHeader( crosstabItem,
 							COLUMN_AXIS_TYPE )
+					|| crosstabItem.getHeader( ) != null
 					|| needRowGrandTotal( GRAND_TOTAL_LOCATION_BEFORE ) )
 			{
 				CrosstabHeaderExecutor headerExecutor = new CrosstabHeaderExecutor( this );
