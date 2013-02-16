@@ -317,6 +317,16 @@ public class ElementStructureUtil
 		}
 
 		// do some special handle for cube and dimension
+		
+		if (target instanceof GroupElement) 
+		{
+			GroupElement group = (GroupElement) target;
+			GroupElement sourceGroup = (GroupElement) source;
+			group.setProperty(IGroupElementModel.GROUP_NAME_PROP, sourceGroup
+					.getProperty(sourceGroup.getRoot(),
+							IGroupElementModel.GROUP_NAME_PROP));
+
+		}
 
 		if ( target instanceof GroupElement )
 		{
