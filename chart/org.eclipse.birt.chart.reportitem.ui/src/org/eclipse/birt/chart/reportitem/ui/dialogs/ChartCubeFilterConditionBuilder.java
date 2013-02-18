@@ -61,7 +61,6 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
@@ -277,6 +276,12 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		}
 		for ( MeasureHandle mh : ChartCubeUtil.getAllMeasures( handle.getCube( ) ) )
 		{
+			// Data engine doesn't support derived measure as filter condition now, ignore them.
+			if ( mh.isCalculated( ) )
+			{
+				continue;
+			}
+			
 			exprCodec.setBindingName( ChartCubeUtil.createMeasureBindingName( mh ),
 					true );
 			String expr = adaptExpr( exprCodec );
