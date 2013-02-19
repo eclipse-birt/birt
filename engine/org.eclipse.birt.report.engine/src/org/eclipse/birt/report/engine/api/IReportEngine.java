@@ -450,4 +450,8 @@ public interface IReportEngine
 	 * @return the version of BIRT
 	 */
 	public String getVersion( );
+	
+	public void setDefaultEmitterRenderOption( String emitterId, RenderOptionDefn option );
+	
+	public Map<String, RenderOptionDefn> getDefaultEmitterRenderOption( String emitterId );
 }
