@@ -276,12 +276,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		}
 		for ( MeasureHandle mh : ChartCubeUtil.getAllMeasures( handle.getCube( ) ) )
 		{
-			// Data engine doesn't support derived measure as filter condition now, ignore them.
-			if ( mh.isCalculated( ) )
-			{
-				continue;
-			}
-			
 			exprCodec.setBindingName( ChartCubeUtil.createMeasureBindingName( mh ),
 					true );
 			String expr = adaptExpr( exprCodec );
