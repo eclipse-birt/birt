@@ -451,7 +451,24 @@ public interface IReportEngine
 	 */
 	public String getVersion( );
 	
-	public void setDefaultEmitterRenderOption( String emitterId, RenderOptionDefn option );
-	
-	public Map<String, RenderOptionDefn> getDefaultEmitterRenderOption( String emitterId );
+	/**
+	 * Set the default emitter render option
+	 * 
+	 * @param emitterId
+	 *            the id of the emitter
+	 * @param option
+	 *            the option to set
+	 */
+	public void setDefaultEmitterRenderOption( String emitterId,
+			RenderOptionDefn option );
+
+	/**
+	 * Get the default render option of the emitter
+	 * 
+	 * @param emitterId
+	 *            the id of the emitter
+	 * @return the default render options
+	 */
+	public Map<String, RenderOptionDefn> getDefaultEmitterRenderOption(
+			String emitterId );
 }
