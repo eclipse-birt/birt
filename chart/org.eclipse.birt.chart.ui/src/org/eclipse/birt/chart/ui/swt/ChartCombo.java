@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt;
 
 import java.util.Vector;
 
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -53,6 +54,11 @@ public class ChartCombo extends Composite implements SelectionListener
 		this.sProperty = sProperty;
 		placeComponents( style );
 		this.defaultItem = defaultItem;
+	}
+
+	public void addAccessiblily( final String description )
+	{
+		ChartUIUtil.addAccessbility( cmbItems, description );
 	}
 
 	protected void placeComponents( int style )

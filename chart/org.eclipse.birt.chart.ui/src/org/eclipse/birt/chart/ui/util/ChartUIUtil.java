@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.Generator;
@@ -79,10 +80,13 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -2218,5 +2222,38 @@ public class ChartUIUtil
 				|| PluginSettings.DefaultAggregations.MODE.equals( aggFunc )
 				|| ChartUtil.isMagicAggregate( aggFunc );
 
+	}
+
+	public static void addAccessbility( Composite composite,
+			final String description )
+	{
+		if ( description != null )
+		{
+			composite.getAccessible( )
+					.addAccessibleListener( new AccessibleAdapter( ) {
+
+						public void getName( AccessibleEvent e )
+						{
+							e.result = description.replaceAll( "&", IConstants.EMPTY_STRING ) //$NON-NLS-1$
+									.replaceAll( ":", IConstants.EMPTY_STRING ); //$NON-NLS-1$
+						}
+					} );
+		}
+	}
+
+	public static void addAccessbility( Button button, final String description )
+	{
+		if ( description != null )
+		{
+			button.getAccessible( )
+					.addAccessibleListener( new AccessibleAdapter( ) {
+
+						public void getName( AccessibleEvent e )
+						{
+							e.result = description.replaceAll( "&", IConstants.EMPTY_STRING ) //$NON-NLS-1$
+									.replaceAll( ":", IConstants.EMPTY_STRING ); //$NON-NLS-1$
+						}
+					} );
+		}
 	}
 }
