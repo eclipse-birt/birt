@@ -1609,7 +1609,7 @@ public abstract class EngineTask implements IEngineTask
 					{
 						Object[] values = (Object[]) value;
 						List<String> displayTextList = new ArrayList<String>( );
-						if ( selectList != null && selectList.size( ) > 0 )
+						if ( values != null && selectList != null && selectList.size( ) > 0 )
 						{
 							for ( Object o : values )
 							{
