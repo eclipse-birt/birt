@@ -812,7 +812,7 @@ public class AccordionPropertyList extends Canvas implements IPropertyList
 		return tabHeight;
 	}
 
-	private void computeTopAndBottomTab( )
+	public void computeTopAndBottomTab( )
 	{
 		computeTabsThatFitInComposite( );
 		layoutTabs( );
