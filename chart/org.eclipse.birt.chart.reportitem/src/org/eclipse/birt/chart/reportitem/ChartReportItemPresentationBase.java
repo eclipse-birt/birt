@@ -865,17 +865,19 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			{
 				if ( bEmptyWithUncompletedBindings && isAutoHide( ) )
 				{
-					// Set bounds to null to avoid return wrong chart size to
+					// Set bounds and idr to null to avoid return wrong chart size to
 					// report engine.
 					boundsRuntime = null;
+					idr = null;
 					// Null result set
 					return outputNullResultSet( );
 				}
 				if ( bEmptyWithEmptyResultSet && isAutoHide( ) )
 				{
-					// Set bounds to null to avoid return wrong chart size to
+					// Set bounds and idr to null to avoid return wrong chart size to
 					// report engine.
 					boundsRuntime = null;
+					idr = null;
 					// Returns null for engine to display empty when the result
 					// set is empty.
 					return null;
@@ -883,9 +885,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			}
 			if ( bEmptyData && isAutoHide( ) )
 			{
-				// Set bounds to null to avoid return wrong chart size to
+				// Set bounds and idr to null to avoid return wrong chart size to
 				// report engine.
 				boundsRuntime = null;
+				idr = null;
 				return null;
 			}
 			
