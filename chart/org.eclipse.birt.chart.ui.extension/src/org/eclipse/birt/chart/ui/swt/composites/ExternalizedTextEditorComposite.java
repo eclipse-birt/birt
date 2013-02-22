@@ -77,7 +77,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         placeComponents();
         setText( sText );
         
-        ChartUIUtil.addScreenReaderAccessiblity( this, txtSelection.getTextControl( ) );
+        ChartUIUtil.addScreenReaderAccessibility( this, txtSelection.getTextControl( ) );
     }
 
     private void init()

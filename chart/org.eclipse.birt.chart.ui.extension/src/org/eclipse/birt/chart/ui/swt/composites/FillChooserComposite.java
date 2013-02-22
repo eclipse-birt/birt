@@ -1106,7 +1106,7 @@ public class FillChooserComposite extends Composite implements
 			}
 		} );
 		
-		ChartUIUtil.addScreenReaderAccessiblity( this, cnvSelection );
+		ChartUIUtil.addScreenReaderAccessibility( this, cnvSelection );
 	}
 
 	public void handleEvent( Event event )

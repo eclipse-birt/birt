@@ -42,6 +42,6 @@ public abstract class AbstractHeadStyleChooserComposite extends
 	protected void initAccessible( )
 	{
 		super.initAccessible( );
-		ChartUIUtil.addScreenReaderAccessiblity( this, (Canvas) cnvSelection );
+		ChartUIUtil.addScreenReaderAccessibility( this, (Canvas) cnvSelection );
 	}
 }

@@ -2298,7 +2298,7 @@ public class ChartUIUtil
 	 * @param chartComposite
 	 * @param composite
 	 */
-	public static void addScreenReaderAccessiblity( Control chartComposite, Control composite )
+	public static void addScreenReaderAccessibility( Control chartComposite, Control composite )
 	{
 		Control[] controls = chartComposite.getParent( ).getChildren( );
 		for ( int i = 1; i < controls.length; i++ )

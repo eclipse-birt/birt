@@ -41,6 +41,6 @@ public abstract class AbstractLineStyleChooserComposite extends CustomChooserCom
 	protected void initAccessible( )
 	{
 		super.initAccessible( );
-		ChartUIUtil.addScreenReaderAccessiblity( this, (Canvas) cnvSelection );
+		ChartUIUtil.addScreenReaderAccessibility( this, (Canvas) cnvSelection );
 	}
 }

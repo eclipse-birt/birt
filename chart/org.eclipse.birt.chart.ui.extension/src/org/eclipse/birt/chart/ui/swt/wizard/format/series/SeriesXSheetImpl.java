@@ -115,7 +115,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			cmbMinSlice.setSelection( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) ? Messages.getString( "PieBottomAreaComponent.Label.Percentage" )//$NON-NLS-1$
 					: Messages.getString( "PieBottomAreaComponent.Label.Value" ) );//$NON-NLS-1$
 			cmbMinSlice.addSelectionListener( this );
-			cmbMinSlice.addAccessiblily( lblMinSlice.getText( ) );
+			cmbMinSlice.addScreenReaderAccessibility( lblMinSlice.getText( ) );
 		}
 
 		txtMinSlice = getContext( ).getUIFactory( ).createChartNumberEditor( cmpMinSlice,

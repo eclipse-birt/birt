@@ -427,7 +427,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements
 			}
 		} );
 		
-		ChartUIUtil.addScreenReaderAccessiblity( this, txtValue );
+		ChartUIUtil.addScreenReaderAccessibility( this, txtValue );
 	}
 	
 	/**

@@ -62,7 +62,7 @@ public class ChartSpinner extends Composite implements
 		}
 		else
 		{
-			ChartUIUtil.addScreenReaderAccessiblity( this, spinner );
+			ChartUIUtil.addScreenReaderAccessibility( this, spinner );
 		}
 	}
 
