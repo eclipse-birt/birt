@@ -14,3 +14,5 @@ wizard.data.source.page.title=新建 Hive 数据源
 profile.propertypage.name=BIRT Hive 数据源连接属性
 dataset.editor.page.query=HQL 查询
 org.eclipse.birt.report.data.oda.hive.ui.ds.displayname=Hive
+
+wizard.data.set.title=New Data Set
