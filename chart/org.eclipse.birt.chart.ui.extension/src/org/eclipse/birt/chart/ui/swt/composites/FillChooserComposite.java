@@ -1110,6 +1110,8 @@ public class FillChooserComposite extends Composite implements
 				e.detail = ACC.STATE_NORMAL;
 			}
 		} );
+		
+		ChartUIUtil.addAccessiblily( this, cnvSelection );
 	}
 
 	public void handleEvent( Event event )

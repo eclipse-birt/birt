@@ -2225,7 +2225,7 @@ public class ChartUIUtil
 
 	}
 
-	public static void addAccessbility( Composite composite,
+	public static void addAccessbility( Control composite,
 			final String description )
 	{
 		if ( description != null )
@@ -2258,7 +2258,7 @@ public class ChartUIUtil
 		}
 	}
 
-	public static void addAccessiblily( Control control, Composite composite )
+	public static void addAccessiblily( Control control, Control composite )
 	{
 		Control[] controls = control.getParent( ).getChildren( );
 		for ( int i = 1; i < controls.length; i++ )

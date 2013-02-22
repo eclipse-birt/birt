@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.ui.swt;
 
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
 
@@ -36,4 +38,10 @@ public abstract class AbstractHeadStyleChooserComposite extends
 	abstract public int getHeadStyle( );
 	
 	abstract public void setHeadStyle( int iStyle );
+	
+	protected void initAccessible( )
+	{
+		super.initAccessible( );
+		ChartUIUtil.addAccessiblily( this, (Canvas) cnvSelection );
+	}
 }
