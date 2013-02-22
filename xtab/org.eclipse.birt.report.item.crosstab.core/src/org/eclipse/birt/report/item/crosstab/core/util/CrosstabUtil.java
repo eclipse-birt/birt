@@ -820,7 +820,9 @@ public final class CrosstabUtil implements ICrosstabConstants
 						.getElementFactory( )
 						.newLabel( null );
 				
-				labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
+				labelHandle.setText(levelHandle.getDisplayField( ) == null? 
+						(levelHandle.getCubeLevel() == null? "" : levelHandle.getCubeLevel( ).getName( ))
+						: levelHandle.getDisplayField( ));
 				
 				crosstab.getHeader( count ).addContent( labelHandle );
 			}
