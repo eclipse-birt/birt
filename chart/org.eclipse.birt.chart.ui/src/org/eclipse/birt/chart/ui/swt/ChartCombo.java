@@ -57,6 +57,11 @@ public class ChartCombo extends Composite implements SelectionListener
 		ChartUIUtil.addAccessiblily( this, cmbItems );
 	}
 
+	public void addAccessiblily( String description )
+	{
+		ChartUIUtil.addAccessbility( cmbItems, description );
+	}
+
 	protected void placeComponents( int style )
 	{
 		GridLayout gl = new GridLayout( 1, false );

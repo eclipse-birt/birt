@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.ui.swt.ChartSpinner;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -426,6 +427,8 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				e.detail = ACC.STATE_NORMAL;
 			}
 		} );
+
+		ChartUIUtil.addAccessiblily( this, cnvMarker );
 	}
 	
 	/**

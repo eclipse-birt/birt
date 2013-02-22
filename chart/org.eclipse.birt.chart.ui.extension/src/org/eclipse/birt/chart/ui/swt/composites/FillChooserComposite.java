@@ -314,11 +314,6 @@ public class FillChooserComposite extends Composite implements
 		vListeners = new Vector<Listener>( );
 	}
 
-	public void addAccessibility( String description )
-	{
-		ChartUIUtil.addAccessbility( cnvSelection, description );
-	}
-
 	/**
 	 * 
 	 */
