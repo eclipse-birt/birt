@@ -90,6 +90,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -2254,6 +2255,21 @@ public class ChartUIUtil
 									.replaceAll( ":", IConstants.EMPTY_STRING ); //$NON-NLS-1$
 						}
 					} );
+		}
+	}
+
+	public static void addAccessiblily( Control control, Composite composite )
+	{
+		Control[] controls = control.getParent( ).getChildren( );
+		for ( int i = 1; i < controls.length; i++ )
+		{
+			if ( controls[i] == control
+					&& Label.class.isInstance( controls[i - 1] ) )
+			{
+				ChartUIUtil.addAccessbility( composite,
+						( (Label) controls[i - 1] ).getText( ) );
+				break;
+			}
 		}
 	}
 }
