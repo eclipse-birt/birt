@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt;
 import java.math.BigInteger;
 
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.SWT;
@@ -54,6 +55,15 @@ public class ChartSpinner extends Composite implements
 		this.sProperty = property;
 		placeComponents( styles, enabled, label, endLabel );
 		initListeners();
+		
+		if ( lblLabel != null )
+		{
+			ChartUIUtil.addScreenreaderAccessbility( spinner, lblLabel.getText( ) );
+		}
+		else
+		{
+			ChartUIUtil.addScreenReaderAccessiblity( this, spinner );
+		}
 	}
 
 	protected void placeComponents( int styles, boolean enabled, String label, String endLabel ) 

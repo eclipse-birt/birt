@@ -1444,6 +1444,7 @@ public class FormatSpecifierComposite extends Composite
 				spnNumerator.setSelection( (int) getFormatSpecifier( ).getNumerator( ) );
 				spnNumerator.setToolTipText( Messages.getString( "FormatSpecifierComposite.Tooltip.InputAPositiveInteger" ) ); //$NON-NLS-1$
 				spnNumerator.addListener( SWT.Selection, this );
+				ChartUIUtil.addSpinnerScreenReaderAccessbility( spnNumerator, "Numerator Value" );
 			}
 
 			lblSuffix = new Label( leftComp, SWT.NONE );
@@ -1479,6 +1480,7 @@ public class FormatSpecifierComposite extends Composite
 				spnFractionDigits.setSelection( getFormatSpecifier( ).getFractionDigits( ) );
 				spnFractionDigits.setToolTipText( Messages.getString( "FormatSpecifierComposite.Tooltip.FractionDigits" ) ); //$NON-NLS-1$
 				spnFractionDigits.addListener( SWT.Selection, this );
+				ChartUIUtil.addSpinnerScreenReaderAccessbility( spnFractionDigits, "Denominator Digits" );
 			}
 		}
 

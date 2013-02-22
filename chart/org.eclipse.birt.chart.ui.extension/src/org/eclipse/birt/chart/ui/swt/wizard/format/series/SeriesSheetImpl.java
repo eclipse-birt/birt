@@ -545,6 +545,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				{
 					spnZOrder.setEnabled( false );
 				}
+				ChartUIUtil.addSpinnerScreenReaderAccessbility( spnZOrder,
+						Messages.getString( "SeriesSheetImpl.Label.ZOrder" ) ); //$NON-NLS-1$
 			}
 		}
 

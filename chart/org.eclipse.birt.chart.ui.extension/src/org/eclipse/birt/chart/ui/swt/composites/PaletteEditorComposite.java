@@ -209,6 +209,7 @@ public final class PaletteEditorComposite extends Composite implements
 				ColorDefinitionImpl.WHITE( ) );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		fccNewEntry.setLayoutData( gd );
+		fccNewEntry.addScreenReaderAccessibility( "Edit color" );
 
 		btnRemove = new Button( coControlPanel, SWT.PUSH );
 		gd = new GridData( );

@@ -46,6 +46,6 @@ public abstract class AbstractLineWidthChooserComposite extends
 	protected void initAccessible( )
 	{
 		super.initAccessible( );
-		ChartUIUtil.addAccessiblily( this, (Canvas) cnvSelection );
+		ChartUIUtil.addScreenReaderAccessiblity( this, (Canvas) cnvSelection );
 	}
 }

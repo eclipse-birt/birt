@@ -455,7 +455,7 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor im
 		} );
 		
 		// Set screen reader text.
-		ChartUIUtil.addAccessiblily( this, txtValue );
+		ChartUIUtil.addScreenReaderAccessiblity( this, txtValue );
 	}
 
 	public Text getTextControl( )

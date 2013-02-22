@@ -80,17 +80,22 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlAdapter;
+import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -2225,48 +2230,83 @@ public class ChartUIUtil
 
 	}
 
-	public static void addAccessbility( Control composite,
+	/**
+	 * Add specified description to composite to support Screen Reader tool.
+	 * 
+	 * @param composite composite
+	 * @param description description
+	 */
+	public static void addScreenreaderAccessbility( Control composite,
 			final String description )
 	{
 		if ( description != null )
 		{
-			composite.getAccessible( )
-					.addAccessibleListener( new AccessibleAdapter( ) {
+			if ( composite instanceof Spinner )
+			{
+				addSpinnerScreenReaderAccessbility( (Spinner) composite, description );
+			}
+			else
+			{
+				composite.getAccessible( )
+						.addAccessibleListener( new AccessibleAdapter( ) {
 
-						public void getName( AccessibleEvent e )
-						{
-							e.result = description.replaceAll( "&", IConstants.EMPTY_STRING ) //$NON-NLS-1$
-									.replaceAll( ":", IConstants.EMPTY_STRING ); //$NON-NLS-1$
-						}
-					} );
+							public void getName( AccessibleEvent e )
+							{
+								e.result = description.replaceAll( "&", IConstants.EMPTY_STRING ) //$NON-NLS-1$
+										.replaceAll( ":", IConstants.EMPTY_STRING ); //$NON-NLS-1$
+							}
+						} );
+			}
+			
 		}
 	}
-
-	public static void addAccessbility( Button button, final String description )
+	
+	/**
+	 * Add specified description to spinner to support Screen Reader tool.
+	 * 
+	 * @param composite composite
+	 * @param description description
+	 */
+	public static void addSpinnerScreenReaderAccessbility(final Spinner spinner, final String description)
 	{
-		if ( description != null )
-		{
-			button.getAccessible( )
-					.addAccessibleListener( new AccessibleAdapter( ) {
-
-						public void getName( AccessibleEvent e )
-						{
-							e.result = description.replaceAll( "&", IConstants.EMPTY_STRING ) //$NON-NLS-1$
-									.replaceAll( ":", IConstants.EMPTY_STRING ); //$NON-NLS-1$
-						}
-					} );
-		}
+		spinner.getAccessible().addAccessibleListener(new AccessibleAdapter() {
+			public void getName(AccessibleEvent e) {
+				e.result = description.replaceAll( "&", IConstants.EMPTY_STRING ) //$NON-NLS-1$
+						.replaceAll( ":", IConstants.EMPTY_STRING ); //$NON-NLS-1$;
+			}
+		});
+		spinner.addFocusListener(new FocusAdapter() {
+			public void focusGained(FocusEvent e) {
+				// work around part 1: when the text gets focus, set accessible focus to the spinner
+				spinner.getAccessible().setFocus(ACC.CHILDID_SELF);
+			}
+		});
+		spinner.getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
+			public void getValue(AccessibleControlEvent e) {
+				// work around part 2: propagate the text's value to the spinner
+				e.result = Integer.toString(spinner.getSelection());
+			}
+		});
 	}
+	
 
-	public static void addAccessiblily( Control control, Control composite )
+	/**
+	 * Support Screen Reader for custom chart composites, like ChartCombo,
+	 * ChartCheckBox and so on, it try to find parent composite's left label as
+	 * description of Screen Reader.
+	 * 
+	 * @param chartComposite
+	 * @param composite
+	 */
+	public static void addScreenReaderAccessiblity( Control chartComposite, Control composite )
 	{
-		Control[] controls = control.getParent( ).getChildren( );
+		Control[] controls = chartComposite.getParent( ).getChildren( );
 		for ( int i = 1; i < controls.length; i++ )
 		{
-			if ( controls[i] == control
+			if ( controls[i] == chartComposite
 					&& Label.class.isInstance( controls[i - 1] ) )
 			{
-				ChartUIUtil.addAccessbility( composite,
+				ChartUIUtil.addScreenreaderAccessbility( composite,
 						( (Label) controls[i - 1] ).getText( ) );
 				break;
 			}

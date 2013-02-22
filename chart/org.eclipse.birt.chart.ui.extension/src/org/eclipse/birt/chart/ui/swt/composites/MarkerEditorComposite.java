@@ -428,7 +428,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			}
 		} );
 
-		ChartUIUtil.addAccessiblily( this, cnvMarker );
+		ChartUIUtil.addScreenReaderAccessiblity( this, cnvMarker );
 	}
 	
 	/**

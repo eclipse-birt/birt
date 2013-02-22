@@ -1106,7 +1106,7 @@ public class FillChooserComposite extends Composite implements
 			}
 		} );
 		
-		ChartUIUtil.addAccessiblily( this, cnvSelection );
+		ChartUIUtil.addScreenReaderAccessiblity( this, cnvSelection );
 	}
 
 	public void handleEvent( Event event )
@@ -1418,5 +1418,10 @@ public class FillChooserComposite extends Composite implements
 				redraw( );
 			}
 		}
+	}
+
+	public void addScreenReaderAccessibility( String description )
+	{
+		ChartUIUtil.addScreenreaderAccessbility( cnvSelection, description );
 	}
 }

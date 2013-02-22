@@ -54,12 +54,12 @@ public class ChartCombo extends Composite implements SelectionListener
 		this.sProperty = sProperty;
 		placeComponents( style );
 		this.defaultItem = defaultItem;
-		ChartUIUtil.addAccessiblily( this, cmbItems );
+		ChartUIUtil.addScreenReaderAccessiblity( this, cmbItems );
 	}
 
 	public void addAccessiblily( String description )
 	{
-		ChartUIUtil.addAccessbility( cmbItems, description );
+		ChartUIUtil.addScreenreaderAccessbility( cmbItems, description );
 	}
 
 	protected void placeComponents( int style )
