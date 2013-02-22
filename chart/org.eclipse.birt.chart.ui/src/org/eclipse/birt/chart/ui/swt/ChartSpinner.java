@@ -66,6 +66,11 @@ public class ChartSpinner extends Composite implements
 		}
 	}
 
+	public void addScreenReaderAccessibility( String description )
+	{
+		ChartUIUtil.addScreenreaderAccessbility( spinner, description );
+	}
+
 	protected void placeComponents( int styles, boolean enabled, String label, String endLabel ) 
 	{
 		int colNum = 1;

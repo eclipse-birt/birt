@@ -537,6 +537,10 @@ public class FontDefinitionDialog extends TrayDialog implements
 		iscRotation.setMaximum( 90 );
 		iscRotation.setIncrement( 1 );
 		iscRotation.addListener( this );
+		if ( iscRotation instanceof IntegerSpinControl )
+		{
+			( (IntegerSpinControl) iscRotation ).addScreenreaderAccessbility( lblDegree.getText( ) );
+		}
 
 		ascRotation.setEnabled( iscRotation.isSpinnerEnabled( ) );
 

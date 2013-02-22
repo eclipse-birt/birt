@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.AbstractChartInsets;
 import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
+import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
@@ -172,7 +173,11 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		gd.horizontalSpan = 2;
 		iscVSpacing.setLayoutData( gd );
 		iscVSpacing.addListener( this );
-		
+		if ( iscVSpacing instanceof IntegerSpinControl )
+		{
+			( (IntegerSpinControl) iscVSpacing ).addScreenreaderAccessbility( lblVerticalSpacing.getText( ) );
+		}
+
 		Label lblHorizontalSpacing = new Label( leftComp, SWT.NONE );
 		lblHorizontalSpacing.setLayoutData( new GridData( ) );
 		lblHorizontalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.HorizontalSpacing" ) ); //$NON-NLS-1$
@@ -188,6 +193,10 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		gd.horizontalSpan = 2;
 		iscHSpacing.setLayoutData( gd );
 		iscHSpacing.addListener( this );
+		if ( iscHSpacing instanceof IntegerSpinControl )
+		{
+			( (IntegerSpinControl) iscHSpacing ).addScreenreaderAccessbility( lblHorizontalSpacing.getText( ) );
+		}
 		
 		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.HeightHint" ) ); //$NON-NLS-1$
 

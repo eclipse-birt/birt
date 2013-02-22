@@ -168,6 +168,11 @@ public class TextEditorComposite extends AbstractChartTextEditor implements
 		txtValue.addKeyListener( this );
 	}
 
+	public void addScreenreaderAccessbility( String description )
+	{
+		ChartUIUtil.addScreenreaderAccessbility( txtValue, description );
+	}
+
 	public void setEnabled( boolean bState )
 	{
 		this.txtValue.setEnabled( bState );
