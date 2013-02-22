@@ -14,6 +14,8 @@ package org.eclipse.birt.chart.ui.swt;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -260,4 +262,11 @@ public class ChartCheckbox extends Composite implements
 		button.setEnabled( enabled );
 	}
 
+	public void addScreenReaderAccessiblity( String description )
+	{
+		if ( ChartUtil.isEmpty( button.getText( ) ) )
+		{
+			ChartUIUtil.addScreenreaderAccessbility( button, description );
+		}
+	}
 }
