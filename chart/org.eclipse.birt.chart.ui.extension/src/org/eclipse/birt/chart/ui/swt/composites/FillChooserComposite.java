@@ -1422,6 +1422,6 @@ public class FillChooserComposite extends Composite implements
 
 	public void addScreenReaderAccessibility( String description )
 	{
-		ChartUIUtil.addScreenreaderAccessbility( cnvSelection, description );
+		ChartUIUtil.addScreenReaderAccessbility( cnvSelection, description );
 	}
 }

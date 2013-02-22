@@ -117,7 +117,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         btnDown.setToolTipText(Messages.getString("ExternalizedTextEditorComposite.Lbl.EditText")); //$NON-NLS-1$
         btnDown.setLayoutData(gdBTNDown);
         btnDown.addSelectionListener(this);
-        ChartUIUtil.addScreenreaderAccessbility( btnDown, btnDown.getToolTipText( ) );
+        ChartUIUtil.addScreenReaderAccessbility( btnDown, btnDown.getToolTipText( ) );
     }
 
     public void setEnabled(boolean bState)

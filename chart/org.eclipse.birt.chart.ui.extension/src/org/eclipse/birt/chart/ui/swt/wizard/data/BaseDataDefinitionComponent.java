@@ -310,7 +310,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			gdTXTDefinition.widthHint = 80;
 			gdTXTDefinition.grabExcessHorizontalSpace = true;
 			txtDefinition.setLayoutData( gdTXTDefinition );
-
+			
 			// Initialize content assist.
 			if ( hasContentAssist )
 			{
@@ -381,6 +381,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			btnGroup.setImage( UIHelper.getImage( "icons/obj16/group.gif" ) ); //$NON-NLS-1$
 			btnGroup.addSelectionListener( this );
 			btnGroup.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Label.EditGroupSorting" ) ); //$NON-NLS-1$
+			ChartUIUtil.addScreenReaderAccessbility( btnGroup, btnGroup.getToolTipText( ) );
 		}
 
 		// In shared binding, only support predefined query

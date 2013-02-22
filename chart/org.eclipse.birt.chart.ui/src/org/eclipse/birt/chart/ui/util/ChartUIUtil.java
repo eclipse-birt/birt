@@ -2236,7 +2236,7 @@ public class ChartUIUtil
 	 * @param composite composite
 	 * @param description description
 	 */
-	public static void addScreenreaderAccessbility( Control composite,
+	public static void addScreenReaderAccessbility( Control composite,
 			final String description )
 	{
 		if ( description != null )
@@ -2253,7 +2253,8 @@ public class ChartUIUtil
 							public void getName( AccessibleEvent e )
 							{
 								e.result = description.replaceAll( "&", IConstants.EMPTY_STRING ) //$NON-NLS-1$
-										.replaceAll( ":", IConstants.EMPTY_STRING ); //$NON-NLS-1$
+										.replaceAll( ":", IConstants.EMPTY_STRING ) //$NON-NLS-1$
+										.replaceAll( "\\*", IConstants.EMPTY_STRING ); //$NON-NLS-1$
 							}
 						} );
 			}
@@ -2270,9 +2271,12 @@ public class ChartUIUtil
 	public static void addSpinnerScreenReaderAccessbility(final Spinner spinner, final String description)
 	{
 		spinner.getAccessible().addAccessibleListener(new AccessibleAdapter() {
-			public void getName(AccessibleEvent e) {
-				e.result = description.replaceAll( "&", IConstants.EMPTY_STRING ) //$NON-NLS-1$
-						.replaceAll( ":", IConstants.EMPTY_STRING ); //$NON-NLS-1$;
+
+					public void getName( AccessibleEvent e )
+					{
+						e.result = description.replaceAll( "&", IConstants.EMPTY_STRING ) //$NON-NLS-1$
+								.replaceAll( ":", IConstants.EMPTY_STRING ) //$NON-NLS-1$
+								.replaceAll( "\\*", IConstants.EMPTY_STRING ); //$NON-NLS-1$
 			}
 		});
 		spinner.addFocusListener(new FocusAdapter() {
@@ -2306,7 +2310,7 @@ public class ChartUIUtil
 			if ( controls[i] == chartComposite
 					&& Label.class.isInstance( controls[i - 1] ) )
 			{
-				ChartUIUtil.addScreenreaderAccessbility( composite,
+				ChartUIUtil.addScreenReaderAccessbility( composite,
 						( (Label) controls[i - 1] ).getText( ) );
 				break;
 			}

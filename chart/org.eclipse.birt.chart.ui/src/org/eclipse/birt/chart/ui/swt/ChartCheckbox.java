@@ -266,7 +266,7 @@ public class ChartCheckbox extends Composite implements
 	{
 		if ( ChartUtil.isEmpty( button.getText( ) ) )
 		{
-			ChartUIUtil.addScreenreaderAccessbility( button, description );
+			ChartUIUtil.addScreenReaderAccessbility( button, description );
 		}
 	}
 }

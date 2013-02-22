@@ -307,7 +307,7 @@ public class TriggerDataComposite extends Composite implements
 				lastTriggerType = cmbTriggerType.getText( );
 			}
 		} );
-		ChartUIUtil.addScreenreaderAccessbility( cmbTriggerType,  lblTriggerEvent.getText( ) );
+		ChartUIUtil.addScreenReaderAccessbility( cmbTriggerType,  lblTriggerEvent.getText( ) );
 		
 		Label lblActionType = new Label( this, SWT.NONE );
 		GridData gdLBLActionType = new GridData( );

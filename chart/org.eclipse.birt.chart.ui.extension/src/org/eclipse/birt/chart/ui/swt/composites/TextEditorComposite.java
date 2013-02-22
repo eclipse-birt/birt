@@ -170,7 +170,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements
 
 	public void addScreenreaderAccessbility( String description )
 	{
-		ChartUIUtil.addScreenreaderAccessbility( txtValue, description );
+		ChartUIUtil.addScreenReaderAccessbility( txtValue, description );
 	}
 
 	public void setEnabled( boolean bState )

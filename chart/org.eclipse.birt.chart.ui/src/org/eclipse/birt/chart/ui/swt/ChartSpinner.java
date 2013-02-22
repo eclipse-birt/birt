@@ -58,7 +58,7 @@ public class ChartSpinner extends Composite implements
 		
 		if ( lblLabel != null )
 		{
-			ChartUIUtil.addScreenreaderAccessbility( spinner, lblLabel.getText( ) );
+			ChartUIUtil.addScreenReaderAccessbility( spinner, lblLabel.getText( ) );
 		}
 		else
 		{
@@ -68,7 +68,7 @@ public class ChartSpinner extends Composite implements
 
 	public void addScreenReaderAccessibility( String description )
 	{
-		ChartUIUtil.addScreenreaderAccessbility( spinner, description );
+		ChartUIUtil.addScreenReaderAccessbility( spinner, description );
 	}
 
 	protected void placeComponents( int styles, boolean enabled, String label, String endLabel ) 

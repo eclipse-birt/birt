@@ -408,7 +408,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				txtTitle.setLayoutData( gd );
 				txtTitle.addListener( this );
-				ChartUIUtil.addScreenreaderAccessbility( txtTitle,
+				ChartUIUtil.addScreenReaderAccessbility( txtTitle,
 						Messages.getString( "SeriesSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 			}
 
@@ -422,7 +422,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				{
 					cmbTypes.setEnabled( false );
 				}
-				ChartUIUtil.addScreenreaderAccessbility( cmbTypes,
+				ChartUIUtil.addScreenReaderAccessbility( cmbTypes,
 						Messages.getString( "SeriesSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 			}
 
