@@ -14,8 +14,8 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataXtabAdapter;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataXtabAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataXtabAdapter;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
@@ -199,6 +199,7 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 			}else
 			{
 				getExtendedItemHandle( ).setCube( cubeHandle );
+				new LinkedDataSetAdapter().setLinkedDataModel(getExtendedItemHandle( ), null);
 			}
 			if ( clearHistory )
 			{
