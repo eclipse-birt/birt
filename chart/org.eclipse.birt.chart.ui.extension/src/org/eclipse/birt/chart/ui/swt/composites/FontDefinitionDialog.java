@@ -294,6 +294,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 			btnBold.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.Bold" ) ); //$NON-NLS-1$
 			btnBold.addSelectionListener( this );
 			btnBold.setSelection( fdCurrent.isSetBold( ) && fdCurrent.isBold( ) );
+			ChartUIUtil.addScreenReaderAccessbility( btnBold, btnBold.getToolTipText( ) );
 		}
 
 		btnItalic = new Button( cmpFontStyle, SWT.TOGGLE );
@@ -305,6 +306,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 			btnItalic.addSelectionListener( this );
 			btnItalic.setSelection( fdCurrent.isSetItalic( )
 					&& fdCurrent.isItalic( ) );
+			ChartUIUtil.addScreenReaderAccessbility( btnItalic, btnItalic.getToolTipText( ) );
 		}
 
 		btnUnderline = new Button( cmpFontStyle, SWT.TOGGLE );
@@ -316,6 +318,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 			btnUnderline.addSelectionListener( this );
 			btnUnderline.setSelection( fdCurrent.isSetUnderline( )
 					&& fdCurrent.isUnderline( ) );
+			ChartUIUtil.addScreenReaderAccessbility( btnUnderline, btnUnderline.getToolTipText( ) );
 		}
 
 		btnStrikethru = new Button( cmpFontStyle, SWT.TOGGLE );
@@ -325,6 +328,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 			btnStrikethru.addSelectionListener( this );
 			btnStrikethru.setSelection( fdCurrent.isSetStrikethrough( )
 					&& fdCurrent.isStrikethrough( ) );
+			ChartUIUtil.addScreenReaderAccessbility( btnStrikethru, btnStrikethru.getToolTipText( ) );
 		}
 
 	}
@@ -360,15 +364,18 @@ public class FontDefinitionDialog extends TrayDialog implements
 			btnATopLeft.setImage( UIHelper.getImage( "icons/obj28/alignmentbottomright.gif" ) ); //$NON-NLS-1$
 			btnATopLeft.getImage( )
 					.setBackground( btnATopLeft.getBackground( ) );
+			ChartUIUtil.addScreenReaderAccessbility( btnATopLeft, btnATopLeft.getToolTipText( ) );
 			
 			btnATopCenter.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignCenterRight" ) ); //$NON-NLS-1$
 			btnATopCenter.setImage( UIHelper.getImage( "icons/obj28/alignmentcenterright.gif" ) ); //$NON-NLS-1$
 			btnATopCenter.getImage( )
 					.setBackground( btnATopCenter.getBackground( ) );
-			
+			ChartUIUtil.addScreenReaderAccessbility( btnATopCenter, btnATopCenter.getToolTipText( ) );
+
 			btnATopRight.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignTopRight" ) ); //$NON-NLS-1$
 			btnATopRight.setImage( UIHelper.getImage( "icons/obj28/alignmenttopright.gif" ) ); //$NON-NLS-1$
 			btnATopRight.getImage( ).setBackground( btnATopRight.getBackground( ) );
+			ChartUIUtil.addScreenReaderAccessbility( btnATopRight, btnATopRight.getToolTipText( ) );
 			
 			createSeparator( cmpAlignment );
 			
@@ -376,15 +383,18 @@ public class FontDefinitionDialog extends TrayDialog implements
 			btnACenterLeft.setImage( UIHelper.getImage( "icons/obj28/alignmentbottomcenter.gif" ) ); //$NON-NLS-1$
 			btnACenterLeft.getImage( )
 					.setBackground( btnACenterLeft.getBackground( ) );
-
+			ChartUIUtil.addScreenReaderAccessbility( btnACenterLeft, btnACenterLeft.getToolTipText( ) );
+			
 			btnACenter.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignCenter" ) ); //$NON-NLS-1$
 			btnACenter.setImage( UIHelper.getImage( "icons/obj28/alignmentcenter.gif" ) ); //$NON-NLS-1$
 			btnACenter.getImage( ).setBackground( btnACenter.getBackground( ) );
-
+			ChartUIUtil.addScreenReaderAccessbility( btnACenter, btnACenter.getToolTipText( ) );
+			
 			btnACenterRight.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignTopCenter" ) ); //$NON-NLS-1$
 			btnACenterRight.setImage( UIHelper.getImage( "icons/obj28/alignmenttopcenter.gif" ) ); //$NON-NLS-1$
 			btnACenterRight.getImage( )
 					.setBackground( btnACenterRight.getBackground( ) );
+			ChartUIUtil.addScreenReaderAccessbility( btnACenterRight, btnACenterRight.getToolTipText( ) );
 
 			createSeparator( cmpAlignment );
 
@@ -392,16 +402,19 @@ public class FontDefinitionDialog extends TrayDialog implements
 			btnABottomLeft.setImage( UIHelper.getImage( "icons/obj28/alignmentbottomleft.gif" ) ); //$NON-NLS-1$
 			btnABottomLeft.getImage( )
 					.setBackground( btnABottomLeft.getBackground( ) );
-
+			ChartUIUtil.addScreenReaderAccessbility( btnABottomLeft, btnABottomLeft.getToolTipText( ) );
+			
 			btnABottomCenter.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignCenterLeft" ) ); //$NON-NLS-1$
 			btnABottomCenter.setImage( UIHelper.getImage( "icons/obj28/alignmentcenterleft.gif" ) ); //$NON-NLS-1$
 			btnABottomCenter.getImage( )
 					.setBackground( btnABottomCenter.getBackground( ) );
-
+			ChartUIUtil.addScreenReaderAccessbility( btnABottomCenter, btnABottomCenter.getToolTipText( ) );
+			
 			btnABottomRight.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignTopLeft" ) ); //$NON-NLS-1$
 			btnABottomRight.setImage( UIHelper.getImage( "icons/obj28/alignmenttopleft.gif" ) ); //$NON-NLS-1$
 			btnABottomRight.getImage( )
-					.setBackground( btnABottomRight.getBackground( ) );		
+					.setBackground( btnABottomRight.getBackground( ) );	
+			ChartUIUtil.addScreenReaderAccessbility( btnABottomRight, btnABottomRight.getToolTipText( ) );
 		}
 		else
 		{
@@ -409,15 +422,18 @@ public class FontDefinitionDialog extends TrayDialog implements
 			btnATopLeft.setImage( UIHelper.getImage( "icons/obj28/alignmenttopleft.gif" ) ); //$NON-NLS-1$
 			btnATopLeft.getImage( )
 					.setBackground( btnATopLeft.getBackground( ) );
+			ChartUIUtil.addScreenReaderAccessbility( btnATopLeft, btnATopLeft.getToolTipText( ) );
 			
 			btnATopCenter.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignTopCenter" ) ); //$NON-NLS-1$
 			btnATopCenter.setImage( UIHelper.getImage( "icons/obj28/alignmenttopcenter.gif" ) ); //$NON-NLS-1$
 			btnATopCenter.getImage( )
 					.setBackground( btnATopCenter.getBackground( ) );
+			ChartUIUtil.addScreenReaderAccessbility( btnATopCenter, btnATopCenter.getToolTipText( ) );
 			
 			btnATopRight.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignTopRight" ) ); //$NON-NLS-1$
 			btnATopRight.setImage( UIHelper.getImage( "icons/obj28/alignmenttopright.gif" ) ); //$NON-NLS-1$
 			btnATopRight.getImage( ).setBackground( btnATopRight.getBackground( ) );
+			ChartUIUtil.addScreenReaderAccessbility( btnATopRight, btnATopRight.getToolTipText( ) );
 			
 			createSeparator( cmpAlignment );
 			
@@ -425,32 +441,38 @@ public class FontDefinitionDialog extends TrayDialog implements
 			btnACenterLeft.setImage( UIHelper.getImage( "icons/obj28/alignmentcenterleft.gif" ) ); //$NON-NLS-1$
 			btnACenterLeft.getImage( )
 					.setBackground( btnACenterLeft.getBackground( ) );
-
+			ChartUIUtil.addScreenReaderAccessbility( btnACenterLeft, btnACenterLeft.getToolTipText( ) );
+			
 			btnACenter.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignCenter" ) ); //$NON-NLS-1$
 			btnACenter.setImage( UIHelper.getImage( "icons/obj28/alignmentcenter.gif" ) ); //$NON-NLS-1$
 			btnACenter.getImage( ).setBackground( btnACenter.getBackground( ) );
+			ChartUIUtil.addScreenReaderAccessbility( btnACenter, btnACenter.getToolTipText( ) );
 
 			btnACenterRight.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignCenterRight" ) ); //$NON-NLS-1$
 			btnACenterRight.setImage( UIHelper.getImage( "icons/obj28/alignmentcenterright.gif" ) ); //$NON-NLS-1$
 			btnACenterRight.getImage( )
 					.setBackground( btnACenterRight.getBackground( ) );
-
+			ChartUIUtil.addScreenReaderAccessbility( btnACenterRight, btnACenterRight.getToolTipText( ) );
+			
 			createSeparator( cmpAlignment );
 
 			btnABottomLeft.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignBottomLeft" ) ); //$NON-NLS-1$
 			btnABottomLeft.setImage( UIHelper.getImage( "icons/obj28/alignmentbottomleft.gif" ) ); //$NON-NLS-1$
 			btnABottomLeft.getImage( )
 					.setBackground( btnABottomLeft.getBackground( ) );
-
+			ChartUIUtil.addScreenReaderAccessbility( btnABottomLeft, btnABottomLeft.getToolTipText( ) );
+			
 			btnABottomCenter.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignBottomCenter" ) ); //$NON-NLS-1$
 			btnABottomCenter.setImage( UIHelper.getImage( "icons/obj28/alignmentbottomcenter.gif" ) ); //$NON-NLS-1$
 			btnABottomCenter.getImage( )
 					.setBackground( btnABottomCenter.getBackground( ) );
-
+			ChartUIUtil.addScreenReaderAccessbility( btnABottomCenter, btnABottomCenter.getToolTipText( ) );
+			
 			btnABottomRight.setToolTipText( Messages.getString( "FontDefinitionDialog.Tooltip.AlignBottomRight" ) ); //$NON-NLS-1$
 			btnABottomRight.setImage( UIHelper.getImage( "icons/obj28/alignmentbottomright.gif" ) ); //$NON-NLS-1$
 			btnABottomRight.getImage( )
 					.setBackground( btnABottomRight.getBackground( ) );	
+			ChartUIUtil.addScreenReaderAccessbility( btnABottomRight, btnABottomRight.getToolTipText( ) );
 		}
 	}
 
