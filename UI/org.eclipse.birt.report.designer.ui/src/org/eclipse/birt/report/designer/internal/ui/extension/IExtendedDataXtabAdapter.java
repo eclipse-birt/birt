@@ -12,5 +12,7 @@ public interface IExtendedDataXtabAdapter
 	public String getExtendedDataName(ReportItemHandle element);
 	
 	public boolean contains(Object parent, Object child);
+	
+	public Object[] getSupportedTypes(Object element);
 
 }
