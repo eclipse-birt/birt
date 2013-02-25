@@ -78,10 +78,16 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         setText( sText );
         
         ChartUIUtil.addScreenReaderAccessibility( this, txtSelection.getTextControl( ) );
-    }
+	}
 
-    private void init()
-    {
+	public void addScreenReaderAccessbility( String description )
+	{
+		ChartUIUtil.addScreenReaderAccessbility( txtSelection.getTextControl( ),
+				description );
+	}
+
+	private void init( )
+	{
         this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
         vListeners = new Vector<Listener>( );
     }

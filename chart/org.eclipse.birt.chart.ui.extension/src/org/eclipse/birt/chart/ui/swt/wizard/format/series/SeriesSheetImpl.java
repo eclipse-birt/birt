@@ -408,8 +408,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				txtTitle.setLayoutData( gd );
 				txtTitle.addListener( this );
-				ChartUIUtil.addScreenReaderAccessbility( txtTitle,
-						Messages.getString( "SeriesSheetImpl.Label.Title" ) ); //$NON-NLS-1$
+				txtTitle.addScreenReaderAccessbility( Messages.getString( "SeriesSheetImpl.Label.Title" ) ); //$NON-NLS-1$				
 			}
 
 			cmbTypes = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
