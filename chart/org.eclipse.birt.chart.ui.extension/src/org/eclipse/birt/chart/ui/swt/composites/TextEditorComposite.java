@@ -374,9 +374,67 @@ public class TextEditorComposite extends AbstractChartTextEditor implements
 
 	void initAccessible( )
 	{
+		getAccessible( ).addAccessibleListener( new AccessibleAdapter( ) {
+
+			public void getHelp( AccessibleEvent e )
+			{
+				e.result = getToolTipText( );
+			}
+		} );
+
+		getAccessible( ).addAccessibleTextListener( new AccessibleTextAdapter( ) {
+
+			public void getCaretOffset( AccessibleTextEvent e )
+			{
+				e.offset = txtValue.getCaretPosition( );
+			}
+		} );
+
+		getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
+
+			public void getChildAtPoint( AccessibleControlEvent e )
+			{
+				Point testPoint = toControl( new Point( e.x, e.y ) );
+				if ( getBounds( ).contains( testPoint ) )
+				{
+					e.childID = ACC.CHILDID_SELF;
+				}
+			}
+
+			public void getLocation( AccessibleControlEvent e )
+			{
+				Rectangle location = getBounds( );
+				Point pt = toDisplay( new Point( location.x, location.y ) );
+				e.x = pt.x;
+				e.y = pt.y;
+				e.width = location.width;
+				e.height = location.height;
+			}
+
+			public void getChildCount( AccessibleControlEvent e )
+			{
+				e.detail = 0;
+			}
+
+			public void getRole( AccessibleControlEvent e )
+			{
+				e.detail = ACC.ROLE_TEXT;
+			}
+
+			public void getState( AccessibleControlEvent e )
+			{
+				e.detail = ACC.STATE_NORMAL;
+			}
+
+			public void getValue( AccessibleControlEvent e )
+			{
+				e.result = getText( );
+			}
+		} );
+		
 		ChartUIUtil.addScreenReaderAccessibility( this, txtValue );
 	}
-
+	
 	/**
 	 * Returns text control.
 	 * 
