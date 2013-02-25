@@ -24,6 +24,8 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataXtabAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataXtabAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
@@ -2142,8 +2144,9 @@ public class InsertInLayoutUtil
 	{
 		if ( handle instanceof DataSetHandle )
 		{
-			// TODO DataSetHandle.getDataSource()
-			if ( ( !( handle instanceof JointDataSetHandle || handle instanceof DerivedDataSetHandle ) && ( (DataSetHandle) handle ).getDataSource( ) == null )
+			IExtendedDataXtabAdapter adapter = ExtendedDataXtabAdapterHelper.getInstance( ).getAdapter( );
+			
+			if ( ( !( handle instanceof JointDataSetHandle || handle instanceof DerivedDataSetHandle || (adapter != null ? !adapter.hasDataSource( handle ) : false) ) && ( (DataSetHandle) handle ).getDataSource( ) == null )
 					|| !DataSetUIUtil.hasMetaData( (DataSetHandle) handle ) )
 			{
 				return false;
