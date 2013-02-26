@@ -60,29 +60,26 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 		{
 			EditPart targetPart = (EditPart) target;
 			
-			CubeHandle cubeHandle = null;
-			MeasureHandle measureHandle = null;
-			DimensionHandle dimensionHandle = null;
-			
 			CrosstabReportItemHandle crosstab = getCrosstab( targetPart );
 			if ( crosstab != null )
 			{
-				adapter.setExtendedData( (ReportItemHandle)crosstab.getModelHandle( ), ((ReportElementHandle) transfer).getContainer( ).getContainer( ));
-
-				cubeHandle = ((ReportItemHandle)crosstab.getModelHandle( )).getCube( );
-				measureHandle = cubeHandle.getMeasure( ((ReportElementHandle) transfer).getName( ) );
-				dimensionHandle = cubeHandle.getDimension( ((ReportElementHandle) transfer).getName( ) );
+				if(!adapter.getExtendedDataName( (ReportItemHandle) crosstab.getModelHandle( ) )
+						.equals( ((ReportElementHandle) transfer).getContainer( ).getContainer( ).getName( ) ))
+				{
+					adapter.setExtendedData( (ReportItemHandle)crosstab.getModelHandle( ), 
+							((ReportElementHandle) transfer).getContainer( ).getContainer( ));
+				}
 			}
 			
 			Object element = handleValidate(targetPart, transfer);
 			
 			if (element instanceof MeasureHandle)
 			{
-				return new MeasureHandleDropAdapter().performDrop( measureHandle, targetPart, operation, location );
+				return new MeasureHandleDropAdapter().performDrop( element, targetPart, operation, location );
 			}
 			else if (element instanceof DimensionHandle)
 			{
-				return new DimensionHandleDropAdapter().performDrop( dimensionHandle, targetPart, operation, location );
+				return new DimensionHandleDropAdapter().performDrop( element, targetPart, operation, location );
 			}
 		}
 
