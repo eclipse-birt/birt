@@ -17,12 +17,12 @@ import java.text.ParseException;
 import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
 import org.eclipse.birt.chart.examples.radar.render.Radar;
-import org.eclipse.birt.chart.examples.view.util.UIHelper;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.swt.AbstractChartTextEditor;
 import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartSpinner;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -31,13 +31,11 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
 
 import com.ibm.icu.text.NumberFormat;
 
@@ -56,9 +54,8 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 	private AbstractChartTextEditor webMax = null;
 	private AbstractChartTextEditor webMin = null;
 	private LineAttributesComposite wliacLine = null;
-	private Spinner iscScaleCnt = null;
+	private ChartSpinner iscScaleCnt = null;
 	private ChartCheckbox btnTranslucentBullseye = null;
-	private Button btnScaleCntAuto;
 	private RadarSeries defSeries;
 
 	public RadarLineSheet( String title, ChartWizardContext context,
@@ -186,22 +183,19 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			lblWebStep.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleCountToolTip" ) ); //$NON-NLS-1$
 		}
 
-		iscScaleCnt = new Spinner( cmpMinMax, SWT.BORDER );
-		GridData gdISCLeaderLength = new GridData( );
-		gdISCLeaderLength.widthHint = 100;
+		iscScaleCnt = getContext( ).getUIFactory( )
+				.createChartSpinner( cmpMinMax,
+						SWT.BORDER,
+						series,
+						"plotSteps", //$NON-NLS-1$
+						true );
+		GridData gdISCLeaderLength = new GridData(  GridData.FILL_HORIZONTAL);
 		iscScaleCnt.setLayoutData( gdISCLeaderLength );
-		iscScaleCnt.setMinimum( 1 );
-		iscScaleCnt.setMaximum( MAX_STEPS );
-		iscScaleCnt.setSelection( series.getPlotSteps( ).intValue( ) );
+		iscScaleCnt.getWidget( ).setMinimum( 1 );
+		iscScaleCnt.getWidget( ).setMaximum( MAX_STEPS );
+		iscScaleCnt.getWidget( ).setSelection( series.getPlotSteps( ).intValue( ) );
 		iscScaleCnt.addListener( SWT.Selection, this );
 
-		btnScaleCntAuto = new Button( cmpMinMax, SWT.CHECK );
-		btnScaleCntAuto.setText( UIHelper.getAutoMessage( ) );
-		btnScaleCntAuto.setSelection( !series.isSetPlotSteps( ) );
-		iscScaleCnt.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale )
-				&& !btnScaleCntAuto.getSelection( ) );
-		btnScaleCntAuto.addListener( SWT.Selection, this );
-		
 		if ( getChart( ).getSubType( )
 					.equals( Radar.BULLSEYE_SUBTYPE_LITERAL ) )
 		{
@@ -291,7 +285,7 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		}
 		else if ( event.widget.equals( iscScaleCnt ) )
 		{
-			series.setPlotSteps( BigInteger.valueOf( iscScaleCnt.getSelection( ) ) );
+			series.setPlotSteps( BigInteger.valueOf( iscScaleCnt.getWidget( ).getSelection( ) ) );
 		}
 		else if ( event.widget.equals( btnAutoScale ) )
 		{
@@ -302,15 +296,6 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			
 			boolean enabled = !( btnAutoScale.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			updateScaleUI( enabled );
-		}
-		else if ( event.widget == btnScaleCntAuto )
-		{
-			ChartElementUtil.setEObjectAttribute( series,
-					"plotSteps",//$NON-NLS-1$
-					BigInteger.valueOf( iscScaleCnt.getSelection( ) ),
-					btnScaleCntAuto.getSelection( ) );
-			iscScaleCnt.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale )
-					&& !btnScaleCntAuto.getSelection( ) );
 		}
 	}
 

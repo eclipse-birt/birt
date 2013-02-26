@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.HashMap;
 
@@ -1131,6 +1132,11 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ) )
 		{
 			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
+			if(Double.isInfinite(num))
+			{
+				BigDecimal tempDecimal = new BigDecimal(getPreviewText( ) );
+				fmtStr = new NumberFormatter( patternStr, locale ).format(tempDecimal);				
+			}
 			sPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}

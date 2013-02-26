@@ -503,13 +503,13 @@
                         <include name="javax.xml_*.jar"/>
                         <include name="org.apache.xml.serializer_*.jar"/>
                         <include name="javax.wsdl_*.jar"/>
-			<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+						<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
                 </patternset>
                 <patternset id="oda.runtime.features">
                         <include name="org.eclipse.datatools.connectivity.oda.designer.feature_*/**" />
                         <include name="org.eclipse.datatools.connectivity.oda.feature_*/**" />
-	                <include name="org.eclipse.datatools.enablement.oda.feature_*/**" />
-       		        <include name="org.eclipse.datatools.enablement.oda.designer.feature_*/**" />
+	                	<include name="org.eclipse.datatools.enablement.oda.feature_*/**" />
+       		        	<include name="org.eclipse.datatools.enablement.oda.designer.feature_*/**" />
                         <include name="org.eclipse.datatools.doc.user_*/**"/>
                 </patternset>
                 <patternset id="jee.dtp.plugins">
@@ -518,7 +518,7 @@
                        <include name="javax.wsdl_*.jar"/>
                        <include name="javax.xml_*.jar"/>
                        <include name="org.apache.xml.serializer_*.jar"/>
-		       <include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+		       		   <include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
                        <include name="org.eclipse.datatools.connectivity_*.jar"/>
                        <include name="org.eclipse.datatools.connectivity.apache.derby_*.jar"/>
                        <include name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition_*.jar"/>
@@ -724,9 +724,9 @@
                         <include name="org.apache.xerces_*.jar"/>
                         <include name="org.apache.xml.resolver_*.jar"/>
                         <include name="javax.wsdl_1.4.0*.jar"/>
-                	<include name="javax.xml_*.jar"/>
-                	<include name="org.apache.xml.serializer_*.jar"/>
-		<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+                		<include name="javax.xml_*.jar"/>
+                		<include name="org.apache.xml.serializer_*.jar"/>
+						<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
                 </fileset>
                 <fileset dir="${plugin-dest}/features" >
                         <include name="org.eclipse.datatools.*/**" />
@@ -737,9 +737,9 @@
                         <include name="org.apache.xerces_*.jar"/>
                         <include name="org.apache.xml.resolver_*.jar"/>
                         <include name="javax.wsdl_1.4.0*.jar"/>
-                	<include name="javax.xml_*.jar"/>
-                	<include name="org.apache.xml.serializer_*.jar"/>
-		<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+                		<include name="javax.xml_*.jar"/>
+                		<include name="org.apache.xml.serializer_*.jar"/>
+						<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
                 </fileset>
                 <fileset dir="${package-dest}/dtp/eclipse/features" >
                         <include name="org.eclipse.datatools.*/**" />
@@ -749,8 +749,8 @@
                         <include name="org.apache.xerces_*.jar"/>
                         <include name="org.apache.xml.resolver_*.jar"/>
                         <include name="javax.wsdl_1.4.0*.jar"/>
-                	<include name="javax.xml_*.jar"/>
-                	<include name="org.apache.xml.serializer_*.jar"/>
+                		<include name="javax.xml_*.jar"/>
+                		<include name="org.apache.xml.serializer_*.jar"/>
 		<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
                 </fileset>
                 <fileset dir="${package-dest}/jee/eclipse/features" >
@@ -815,7 +815,7 @@
                <include name="javax.wsdl_*.jar"/>
                <include name="javax.xml_*.jar"/>
                <include name="org.apache.xml.serializer_*.jar"/>
-       <include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
+       		   <include name="net.sourceforge.lpg.lpgjavaruntime_*.jar"/>
                <include name="org.eclipse.datatools.connectivity_*.jar"/>
                <include name="org.eclipse.datatools.connectivity.apache.derby_*.jar"/>
                <include name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition_*.jar"/>
@@ -1183,7 +1183,7 @@
 	
     <target name="InformQA" depends="checkOS">
         <property file="${eclipse.build.configs}/../../config.properties" />
-        <mail mailport="${mail.port}" 
+        <mail failonerror="false" mailport="${mail.port}" 
         	tolist="${QA.members}" 
         	from="${mail.from}" 
         	replyto="${replyto.address}" 
@@ -1218,7 +1218,7 @@ Have a nice day!
 	
 	<target name="InformPerformance" unless="nomail">
 		<property file="${eclipse.build.configs}/../../config.properties" />			
-        <mail mailport="${mail.port}" subject="${BranchVersion} Performance Test Reporting (BuildId: ${buildId} ) " tolist="${QA.PERFORMANCE}">
+        <mail failonerror="false" mailport="${mail.port}" subject="${BranchVersion} Performance Test Reporting (BuildId: ${buildId} ) " tolist="${QA.PERFORMANCE}">
 			<from address="${mail.from}"/>
 			<replyto address="${replyto.address}"/>
 			<message>
@@ -1268,7 +1268,7 @@ Have a nice day!
         
         <target name="informautomation">
 		<property file="${eclipse.build.configs}/../../config.properties" />
-        <mail mailport="${mail.port}" subject="${BranchVersion} Test Suite Projects Reporting (BuildId: ${buildId} ) " tolist="${QA.AUTOMATION}">
+        <mail failonerror="false" mailport="${mail.port}" subject="${BranchVersion} Test Suite Projects Reporting (BuildId: ${buildId} ) " tolist="${QA.AUTOMATION}">
 			<from address="${mail.from}"/>
 			<replyto address="${replyto.address}"/>
 			<message>
@@ -1311,7 +1311,7 @@ Have a nice day!
 	</target>
 	
 	<target name="checkDTPVersion" depends="getDTPVersionProperty" unless="latest.dtp.version">
-		<mail mailport="${mail.port}" subject="WARNING: The installed DTP build is not the latest version" tolist="${build.engineer}">
+		<mail failonerror="false" mailport="${mail.port}" subject="WARNING: The installed DTP build is not the latest version" tolist="${build.engineer}">
 			<from address="${mail.from}"/>
 			<replyto address="${replyto.address}"/>
 			<message>
@@ -1342,7 +1342,7 @@ Have a nice day!
     <target name="checkcompileerror">
                 <property file="${eclipse.build.configs}/../../config.properties" />
 		<property file="${eclipse.build.configs}/../../monitor.properties" />
-		<mail mailport="${mail.port}" subject="Compile errors found on ${mapVersionTag} Branch in Today's Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
+		<mail failonerror="false" mailport="${mail.port}" subject="Compile errors found on ${mapVersionTag} Branch in Today's Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
                     <from address="${mail.from}"/>
                     <replyto address="${replyto.address}"/>
                     <message>
@@ -1388,7 +1388,7 @@ Have a nice day!
         
         <target name="NoDiskSpace">
             <property file="${eclipse.build.configs}/../../config.properties" />
-            <mail mailport="${mail.port}" subject="No enough disk space for build on ${local.hostname}" tolist="${build.engineer},${QA.leaders}">
+            <mail failonerror="false" mailport="${mail.port}" subject="No enough disk space for build on ${local.hostname}" tolist="${build.engineer},${QA.leaders}">
                   <from address="${mail.from}"/>
                   <replyto address="${replyto.address}"/>
                   <message>
@@ -1404,7 +1404,7 @@ Hi All,
 
         <target name="DiskSpaceWarning">
             <property file="${eclipse.build.configs}/../../config.properties" />
-            <mail mailport="${mail.port}" subject="Disk space warning on ${local.hostname}" tolist="${build.engineer}">
+            <mail failonerror="false" mailport="${mail.port}" subject="Disk space warning on ${local.hostname}" tolist="${build.engineer}">
                   <from address="${mail.from}"/>
                   <replyto address="${replyto.address}"/>
                   <message>
@@ -1420,7 +1420,7 @@ Hi All,
       
         <target name="ThirdPartyJarCheckNotification" if="CheckThirdpartylog">
             <property file="${eclipse.build.configs}/../../config.properties" />
-            <mail mailport="${mail.port}" subject="ThirdPartyJars matching failed on ${local.hostname} ${package.version} build (BuildId: ${buildId} )" tolist="${build.engineer}">
+            <mail failonerror="false" mailport="${mail.port}" subject="ThirdPartyJars matching failed on ${local.hostname} ${package.version} build (BuildId: ${buildId} )" tolist="${build.engineer}">
                   <from address="${mail.from}"/>
                   <replyto address="${replyto.address}"/>
                   <message>
@@ -1441,7 +1441,7 @@ Hi All,
 	
     <target name="InformNoSign" if="CompareSignPack2">
         <property file="${eclipse.build.configs}/../../config.properties" />
-        <mail mailport="${mail.port}" subject="No sign in today's ${BranchVersion} build (BuildId: ${buildId} )" tolist="${build.engineer}">
+        <mail failonerror="false" mailport="${mail.port}" subject="No sign in today's ${BranchVersion} build (BuildId: ${buildId} )" tolist="${build.engineer}">
               <from address="${mail.from}"/>
               <replyto address="${replyto.address}"/>
               <message>

@@ -53,6 +53,8 @@ public class HTMLStyleProcessor
 
 	private static Pattern pattern = Pattern.compile( "[\\s|\t|\r|\n]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );
 
+	private static String LIST_STYLE_TYPE = "list-style-type";
+
 	/**
 	 * Constructor
 	 * 
@@ -181,6 +183,14 @@ public class HTMLStyleProcessor
 							}
 						}
 					}
+					//support list-style-type
+					if ( LIST_STYLE_TYPE.equals( name ) )
+					{
+						if ( value != null && value.length( ) > 0 )
+						{
+							sp.addProperty( LIST_STYLE_TYPE, value );
+						}
+					}
 					//support text-decoration
 					if(CSSConstants.CSS_TEXT_DECORATION_PROPERTY.equals( name ))
 					{
@@ -219,7 +229,7 @@ public class HTMLStyleProcessor
 			{
 				sp.getStyle( ).setProperties(
 						(StyleDeclaration) cssEngine
-								.parseStyleDeclaration( strStyle.toString( ) ) );
+								.parseStyleDeclaration( strStyle.toString( ).toLowerCase( ) ) );
 			}
 		}
 		catch ( Exception e )

@@ -86,7 +86,7 @@ public class DefineDataSourceSetUtil
 
 		DataSourceHandle dataSource = dataSet.getDataSource( );
 		if ( dataSource != null
-				&& ( (DataEngineImpl) dataEngine ).getDataSourceRuntime( dataSource.getName( ) ) == null )
+				&& ( (DataEngineImpl) dataEngine ).getDataSourceRuntime( dataSource.getQualifiedName( ) ) == null )
 		{
 			dataEngine.defineDataSource( modelAdaptor.adaptDataSource( dataSource ) );
 		}

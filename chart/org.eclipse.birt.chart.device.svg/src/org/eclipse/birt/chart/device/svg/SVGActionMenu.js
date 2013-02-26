@@ -536,6 +536,16 @@ function redirect(target, url) {
 		}
 	}
 }
+function isIPadIPhone() {
+	var agt = parent.navigator.userAgent.toLowerCase();
+	return agt.match(/iPad/i) || agt.match(/iPhone/i);
+}
+function isAndroid() {
+	var agt = parent.navigator.userAgent.toLowerCase();
+	return (agt.indexOf("android") > -1);
+}
+var isIPadIPhoneAndroid = isIPadIPhone() || isAndroid();
+
 function isIE() {
 	var agt = parent.navigator.userAgent.toLowerCase();
 	return (agt.indexOf("msie") != -1);
@@ -672,6 +682,11 @@ BirtChartActionsMenu.show = function (evt, source, menuInfo ) {
 	if (update)
 		BirtChartActionsMenu.remove();
 
+	// Destory this menu if no action in two seconds.
+	if ( isIPadIPhoneAndroid ) {
+		this.hideTimer = window.setTimeout('BirtChartActionsMenu.remove();', 2000);
+	}
+	    
 	if (typeof this.group == 'undefined') {
 		this.oldX = x;
 		this.oldY = y;
@@ -782,8 +797,8 @@ BirtChartActionsMenu.createMenu = function(evt, group, xOff, yOff, scl) {
 		width : 1,
 		fill : 'white',
 		transform : 'scale(' + (1 / scl) + ',' + (1 / scl) + ')',
-		onmouseover : 'BirtChartActionsMenu.onMouseOver( evt )',
-		onmouseout : 'BirtChartActionsMenu.onMouseOut( evt )'
+		onmouseover : isIPadIPhoneAndroid ? '' : 'BirtChartActionsMenu.onMouseOver( evt )',
+		onmouseout : isIPadIPhoneAndroid ? '' : 'BirtChartActionsMenu.onMouseOut( evt )'
 	});
 
 	rectangle.addToParent(group.element);
@@ -802,8 +817,8 @@ BirtChartActionsMenu.createMenuItem = function(evt, group, xOff, yOff, scl,
 		transform : 'scale(' + (1 / scl) + ',' + (1 / scl) + ')',
 		fill : 'white',
 		stroke : 'none',
-		onmouseover : 'BirtChartActionsMenu.onMouseOver( evt, ' + identify + ');',
-		onmouseout : 'BirtChartActionsMenu.onMouseOut( evt, ' + identify + ');',
+		onmouseover : isIPadIPhoneAndroid ? '' : 'BirtChartActionsMenu.onMouseOver( evt, ' + identify + ');',
+		onmouseout : isIPadIPhoneAndroid ? '' : 'BirtChartActionsMenu.onMouseOut( evt, ' + identify + ');',
 		onclick : 'BirtChartActionsMenu.executeMenuAction( evt, ' + identify + ');'
 	});
 
@@ -822,8 +837,8 @@ BirtChartActionsMenu.createTextItem = function(evt, group, xOff, yOff, scl,
 		y : yOff,
 		transform : 'scale(' + (1 / scl) + ',' + (1 / scl) + ')',
 		style : 'text-anchor:start; fill:black',
-		onmouseover : 'BirtChartActionsMenu.onMouseOver( evt, ' + identify + ');',
-		onmouseout : 'BirtChartActionsMenu.onMouseOut( evt, ' + identify + ');',
+		onmouseover : isIPadIPhoneAndroid ? '' : 'BirtChartActionsMenu.onMouseOver( evt, ' + identify + ');',
+		onmouseout : isIPadIPhoneAndroid ? '' : 'BirtChartActionsMenu.onMouseOut( evt, ' + identify + ');',
 		onclick : 'BirtChartActionsMenu.executeMenuAction( evt, ' + identify + ');'
 	});
 
@@ -844,15 +859,15 @@ BirtChartActionsMenu.setContent = function(evt, textElement, styles, text, toolt
 		if (x == 0) {
 			textObj = new BuildHelper('tspan', {
 				x : 5,
-				onmouseover : 'BirtChartActionsMenu.showTooltip(evt);',
-				onmouseout : 'try{TM.remove();}catch(e){}'
+				onmouseover : isIPadIPhoneAndroid ? '' : 'BirtChartActionsMenu.showTooltip(evt);',
+				onmouseout : isIPadIPhoneAndroid ? '' : 'try{TM.remove();}catch(e){}'
 			}, multiLine[x]);
 		} else {
 			textObj = new BuildHelper('tspan', {
 				x : 5,
 				dy : 17,
-				onmouseover : 'BirtChartActionsMenu.showTooltip(evt);',
-				onmouseout : 'try{TM.remove();}catch(e){}'
+				onmouseover : isIPadIPhoneAndroid ? '' : 'BirtChartActionsMenu.showTooltip(evt);',
+				onmouseout : isIPadIPhoneAndroid ? '' : 'try{TM.remove();}catch(e){}'
 			}, multiLine[x]);
 		}
 		textObj.addToParent(textElement.element);

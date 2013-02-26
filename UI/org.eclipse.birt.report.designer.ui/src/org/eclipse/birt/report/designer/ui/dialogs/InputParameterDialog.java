@@ -414,7 +414,7 @@ public class InputParameterDialog extends BaseDialog
 		{
 			list.add( InputParameterDialog.nullValueChoice );
 		}
-
+		List<Button> radioItems = new ArrayList<Button>();
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			if ( i > 0 )
@@ -427,8 +427,10 @@ public class InputParameterDialog extends BaseDialog
 			String choiceLabel = choice.getLabel( );
 			if ( choiceLabel == null )
 			{
+//				choiceLabel = choice.getValue( ) == null ? NULL_VALUE_STR
+//						: String.valueOf( choice.getValue( ) );
 				choiceLabel = choice.getValue( ) == null ? NULL_VALUE_STR
-						: String.valueOf( choice.getValue( ) );
+						: getLabelString(choice,param);
 			}
 			button.setText( choiceLabel );
 			button.setData( choice.getValue( ) );
@@ -439,13 +441,16 @@ public class InputParameterDialog extends BaseDialog
 				button.setSelection( true );
 				paramValues.put( radioParameter.getHandle( ).getName( ),
 						button.getData( ) );
+				clearSelectRadio(radioItems);
 			}
 			else if ( value == null && choiceLabel.equals( NULL_VALUE_STR ) )
 			{
 				button.setSelection( true );
 				paramValues.remove( radioParameter.getHandle( ).getName( ) );
+				clearSelectRadio(radioItems);
 			}
-
+			radioItems.add(button);
+			
 			button.addSelectionListener( new SelectionListener( ) {
 
 				public void widgetDefaultSelected( SelectionEvent e )
@@ -459,6 +464,14 @@ public class InputParameterDialog extends BaseDialog
 							button.getData( ) );
 				}
 			} );
+		}
+	}
+	
+	private void clearSelectRadio(List<Button> radioItems)
+	{
+		for(Button b : radioItems)
+		{
+			b.setSelection(false);
 		}
 	}
 	
@@ -605,8 +618,9 @@ public class InputParameterDialog extends BaseDialog
 		for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
 		{
 			IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
-			String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
-					: choice.getLabel( ) );
+//			String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
+//					: choice.getLabel( ) );
+			String label = getLabelString(choice,listParam);
 			if ( choice.getValue( ) == null && choice.getLabel( ) == null )
 			{
 				if ( !isRequired && !nullAdded )
@@ -811,6 +825,14 @@ public class InputParameterDialog extends BaseDialog
 		{
 			if ( param.getDefaultValue( ) != null )
 				value = param.converToDataType( param.getDefaultValue( ) );
+			
+			if(param.getDefaultValues().size()>0)
+			{
+				if(param.getDefaultValues().get(0) instanceof Date)
+				{
+					value = param.getDefaultValues().get(0);
+				}
+			}
 		}
 		catch ( BirtException e )
 		{
@@ -964,8 +986,9 @@ public class InputParameterDialog extends BaseDialog
 		for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
 		{
 			IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
-			String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
-					: choice.getLabel( ) );
+//			String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
+//					: choice.getLabel( ) );
+			String label = getLabelString(choice,listParam);
 			if ( label != null )
 			{
 				listViewer.getList( ).add( label );
@@ -1094,11 +1117,12 @@ public class InputParameterDialog extends BaseDialog
 				{
 					continue;
 				}
-				String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
-						: choice.getLabel( ) );
+//				String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
+//						: choice.getLabel( ) );
+				String label = getLabelString(choice,listParam);
 				if ( label != null )
 				{
-					addControlItem( control, label );
+					itemIndex = addControlItem( control, label );
 					if(control instanceof Combo)
 					{
 						control.setData(String.valueOf(itemIndex),choice.getValue( ) );
@@ -1157,16 +1181,20 @@ public class InputParameterDialog extends BaseDialog
 		}
 	}
 
-	private void addControlItem( Control control, String item )
+	private int addControlItem( Control control, String item )
 	{
+		int itemIndex = 0;
 		if ( control instanceof Combo )
 		{
 			( (Combo) control ).add( item );
+			itemIndex = ( (Combo) control ).getItemCount() -1;
 		}
 		if ( control instanceof org.eclipse.swt.widgets.List )
 		{
 			( (org.eclipse.swt.widgets.List) control ).add( item );
+			itemIndex = ( (org.eclipse.swt.widgets.List) control ).getItemCount() - 1;
 		}
+		return itemIndex;
 	}
 
 	private void processPostParator( ListingParameter listParam, Control control )
@@ -1327,5 +1355,27 @@ public class InputParameterDialog extends BaseDialog
 			return true;
 		}
 		return false;
+	}
+	
+	private String getLabelString(IParameterSelectionChoice choice,ScalarParameter para)
+	{
+		Object value = choice.getValue( );
+		String label = choice.getLabel( );
+		if(label == null && value != null)
+		{
+			if(value instanceof Date)
+			{
+				 try {
+					 label = DataTypeUtil.toString( value );
+				} catch (BirtException e) {
+					// TODO Auto-generated catch block
+				}
+			}else
+			{
+				label = String.valueOf( value );
+			}
+		}
+		label = formatString(label, para);
+		return label; 
 	}
 }

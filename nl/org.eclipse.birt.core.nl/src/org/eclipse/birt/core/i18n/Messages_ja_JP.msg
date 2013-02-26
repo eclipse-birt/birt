@@ -8,7 +8,7 @@ INVALID_EXPRSSION=JavaScript 式が無効です : {0}
 CONVERT_FAILS={0} の値を {1} 型に変換できません。
 
 birt.core.JavascriptCommonError=スクリプト "{0}" の評価中にエラーが発生しました : \n{1}
-birt.core.JavascriptError=JavaScript 式の評価エラーが発生しました。 スクリプトエンジンエラー : {0}\n スクリプトのソース : {1}, 行 : {2}, テキスト :\n{3}
+birt.core.JavascriptError={0}
 birt.core.Javascript.parameterNotExist=レポートパラメタ "{0}" は存在しません。
 birt.core.Javascript.variableNotExist=レポート変数 "{0}" は存在しません。
 birt.core.Javascript.nativeNotFound={0} が見つかりません。

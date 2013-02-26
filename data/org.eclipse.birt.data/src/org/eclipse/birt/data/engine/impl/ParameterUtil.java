@@ -25,12 +25,12 @@ import org.eclipse.birt.core.data.DataType.AnyType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -303,7 +303,7 @@ public class ParameterUtil
 					iParamBind.getExpr( ).setHandle( evalContext.compile("javascript",
 							null, 0, ((IScriptExpression) iParamBind.getExpr())
 							.getText()) );
-				evaluateResult = ScriptEvalUtil.evalExpr( iParamBind.getExpr(), evalContext, null, 0 );
+				evaluateResult = ScriptEvalUtil.evalExpr( iParamBind.getExpr(), evalContext, ScriptExpression.defaultID, 0 );
 			}
 		}
 		catch ( BirtException e )

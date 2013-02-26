@@ -1,4 +1,4 @@
-datasource.page.title=新建 Hive 数据源
+datasource.page.title=定义 ${odadesignerid.ds.displayname} 数据源
 datasource.page.msg=连接到 Hive 的 JDBC 数据源。
 datasource.page.driver.class=驱动程序类:
 datasource.page.url=数据库 URL: 

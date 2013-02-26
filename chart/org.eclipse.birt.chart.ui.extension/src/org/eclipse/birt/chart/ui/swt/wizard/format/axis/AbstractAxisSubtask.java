@@ -266,7 +266,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				txtValue = createDataElementComposite( cmpBasic );
 				{
 					GridData gd = new GridData( );
-					gd.widthHint = 245;
+					gd.widthHint = 278;
 					gd.horizontalSpan = 3;
 					gd.horizontalIndent = 5;
 					txtValue.setLayoutData( gd );

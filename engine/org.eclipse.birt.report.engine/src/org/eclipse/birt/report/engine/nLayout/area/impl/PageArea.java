@@ -248,9 +248,20 @@ public class PageArea extends BlockContainerArea
 		layoutHeader( );
 		layoutFooter( );
 		updateBodySize( );
+		
 		context.setMaxHeight( body.getHeight( ) );
 		context.setMaxWidth( body.getWidth( ) );
-		context.setMaxBP( body.getHeight( ) );
+		
+		int overFlowType = context.getPageOverflow( );
+		if ( overFlowType == IPDFRenderOption.FIT_TO_PAGE_SIZE
+				|| overFlowType == IPDFRenderOption.ENLARGE_PAGE_SIZE )
+		{
+			context.setMaxBP( Integer.MAX_VALUE );
+		}
+		else
+		{
+			context.setMaxBP( body.getHeight( ) );
+		}
 		maxAvaWidth = context.getMaxWidth( );
 		context.resetUnresolvedRowHints( );
 	}

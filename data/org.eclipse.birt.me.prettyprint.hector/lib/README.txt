@@ -1,0 +1,1 @@
+Add Cassandra client library jars here.

@@ -37,6 +37,8 @@ import org.eclipse.birt.report.engine.executor.buffermgr.Row;
 import org.eclipse.birt.report.engine.executor.buffermgr.TableContentLayout;
 import org.eclipse.birt.report.engine.internal.content.wrap.CellContentWrapper;
 import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
@@ -575,6 +577,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 					for(int i=lastRowId+1; i<rowId; i++)
 					{
 						IRowContent newRow = (IRowContent)row.cloneContent( false );
+						newRow.setHeight( new DimensionType( 0, EngineIRConstants.UNITS_IN) );
 						newRow.setParent(row.getParent( ));
 						newRow.setRowID( i );
 						startRow(newRow);

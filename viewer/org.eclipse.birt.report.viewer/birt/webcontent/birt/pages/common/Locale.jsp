@@ -12,6 +12,7 @@
 	Constants.error.invalidCopiesNumber = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.copiesnumber" )%>';
 	Constants.error.unknownError = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.unknownerror" )%>';
 	Constants.error.generateReportFirst = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.generatereportfirst" )%>';
+	Constants.error.columnRequired = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.error.columnrequired" )%>';
 	Constants.error.printPreviewAlreadyOpen = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.dialog.print.printpreviewalreadyopen" )%>';
 	Constants.error.confirmCancelTask = '<%= BirtResources.getJavaScriptMessage( "birt.viewer.progressbar.confirmcanceltask" )%>';
 // ]]>

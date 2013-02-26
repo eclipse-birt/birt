@@ -93,7 +93,12 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			info.setStyle( getLocalStringValue( StyleHandle.BORDER_LEFT_STYLE_PROP ) );
 			info.setWidth( getLocalStringValue( StyleHandle.BORDER_LEFT_WIDTH_PROP ) );
 			info.setColor( convertToRGB( getLocalStringValue( StyleHandle.BORDER_LEFT_COLOR_PROP ) ) );
+			info.setDefaultStyle( getDefaultStringValue( StyleHandle.BORDER_LEFT_STYLE_PROP ) );
+			info.setDefaultWidth( getDefaultStringValue( StyleHandle.BORDER_LEFT_WIDTH_PROP ) );
 			info.setDefaultColor( convertToRGB( getDefaultStringValue( StyleHandle.BORDER_LEFT_COLOR_PROP ) ) );
+			info.setInheritedStyle( getDisplayValue( StyleHandle.BORDER_LEFT_STYLE_PROP ) );
+			info.setInheritedWidth( getDisplayValue( StyleHandle.BORDER_LEFT_WIDTH_PROP ) );
+			info.setInheritedColor( convertToRGB( getDisplayValue( StyleHandle.BORDER_LEFT_COLOR_PROP ) ) );
 		}
 		else if ( property.equals( StyleHandle.BORDER_RIGHT_STYLE_PROP ) )
 		{
@@ -101,7 +106,13 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			info.setStyle( getLocalStringValue( StyleHandle.BORDER_RIGHT_STYLE_PROP ) );
 			info.setWidth( getLocalStringValue( StyleHandle.BORDER_RIGHT_WIDTH_PROP ) );
 			info.setColor( convertToRGB( getLocalStringValue( StyleHandle.BORDER_RIGHT_COLOR_PROP ) ) );
+			info.setDefaultStyle( getDefaultStringValue( StyleHandle.BORDER_RIGHT_STYLE_PROP ) );
+			info.setDefaultWidth( getDefaultStringValue( StyleHandle.BORDER_RIGHT_WIDTH_PROP ) );
 			info.setDefaultColor( convertToRGB( getDefaultStringValue( StyleHandle.BORDER_RIGHT_COLOR_PROP ) ) );
+			info.setInheritedStyle( getDisplayValue( StyleHandle.BORDER_RIGHT_STYLE_PROP ) );
+			info.setInheritedWidth( getDisplayValue( StyleHandle.BORDER_RIGHT_WIDTH_PROP ) );
+			info.setInheritedColor( convertToRGB( getDisplayValue( StyleHandle.BORDER_RIGHT_COLOR_PROP ) ) );
+
 		}
 		else if ( property.equals( StyleHandle.BORDER_TOP_STYLE_PROP ) )
 		{
@@ -109,7 +120,12 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			info.setStyle( getLocalStringValue( StyleHandle.BORDER_TOP_STYLE_PROP ) );
 			info.setWidth( getLocalStringValue( StyleHandle.BORDER_TOP_WIDTH_PROP ) );
 			info.setColor( convertToRGB( getLocalStringValue( StyleHandle.BORDER_TOP_COLOR_PROP ) ) );
+			info.setDefaultStyle( getDefaultStringValue( StyleHandle.BORDER_TOP_STYLE_PROP ) );
+			info.setDefaultWidth( getDefaultStringValue( StyleHandle.BORDER_TOP_WIDTH_PROP ) );
 			info.setDefaultColor( convertToRGB( getDefaultStringValue( StyleHandle.BORDER_TOP_COLOR_PROP ) ) );
+			info.setInheritedStyle( getDisplayValue( StyleHandle.BORDER_TOP_STYLE_PROP ) );
+			info.setInheritedWidth( getDisplayValue( StyleHandle.BORDER_TOP_WIDTH_PROP ) );
+			info.setInheritedColor( convertToRGB( getDisplayValue( StyleHandle.BORDER_TOP_COLOR_PROP ) ) );
 		}
 		else if ( property.equals( StyleHandle.BORDER_BOTTOM_STYLE_PROP ) )
 		{
@@ -117,7 +133,12 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			info.setStyle( getLocalStringValue( StyleHandle.BORDER_BOTTOM_STYLE_PROP ) );
 			info.setWidth( getLocalStringValue( StyleHandle.BORDER_BOTTOM_WIDTH_PROP ) );
 			info.setColor( convertToRGB( getLocalStringValue( StyleHandle.BORDER_BOTTOM_COLOR_PROP ) ) );
+			info.setDefaultStyle( getDefaultStringValue( StyleHandle.BORDER_BOTTOM_STYLE_PROP ) );
+			info.setDefaultWidth( getDefaultStringValue( StyleHandle.BORDER_BOTTOM_WIDTH_PROP ) );
 			info.setDefaultColor( convertToRGB( getDefaultStringValue( StyleHandle.BORDER_BOTTOM_COLOR_PROP ) ) );
+			info.setInheritedStyle( getDisplayValue( StyleHandle.BORDER_BOTTOM_STYLE_PROP ) );
+			info.setInheritedWidth( getDisplayValue( StyleHandle.BORDER_BOTTOM_WIDTH_PROP ) );
+			info.setInheritedColor( convertToRGB( getDisplayValue( StyleHandle.BORDER_BOTTOM_COLOR_PROP ) ) );
 		}
 		return info;
 	}
@@ -126,7 +147,7 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 	{
 		BorderInfomation info = (BorderInfomation) value;
 
-		RGB rgb = info.getColor( );
+		RGB rgb = info.getOriginColor( );
 		int colorValue = -1;
 		Object color;
 		if ( rgb != null )
@@ -139,27 +160,27 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 
 		if ( info.getPosition( ).equals( BorderInfomation.BORDER_TOP ) )
 		{
-			save( StyleHandle.BORDER_TOP_STYLE_PROP, info.getStyle( ) );
+			save( StyleHandle.BORDER_TOP_STYLE_PROP, info.getOriginStyle( ) );
 			save( StyleHandle.BORDER_TOP_COLOR_PROP, color );
-			save( StyleHandle.BORDER_TOP_WIDTH_PROP, info.getWidth( ) );
+			save( StyleHandle.BORDER_TOP_WIDTH_PROP, info.getOriginWidth( ) );
 		}
 		else if ( info.getPosition( ).equals( BorderInfomation.BORDER_BOTTOM ) )
 		{
-			save( StyleHandle.BORDER_BOTTOM_STYLE_PROP, info.getStyle( ) );
+			save( StyleHandle.BORDER_BOTTOM_STYLE_PROP, info.getOriginStyle( ) );
 			save( StyleHandle.BORDER_BOTTOM_COLOR_PROP, color );
-			save( StyleHandle.BORDER_BOTTOM_WIDTH_PROP, info.getWidth( ) );
+			save( StyleHandle.BORDER_BOTTOM_WIDTH_PROP, info.getOriginWidth( ) );
 		}
 		else if ( info.getPosition( ).equals( BorderInfomation.BORDER_LEFT ) )
 		{
-			save( StyleHandle.BORDER_LEFT_STYLE_PROP, info.getStyle( ) );
+			save( StyleHandle.BORDER_LEFT_STYLE_PROP, info.getOriginStyle( ) );
 			save( StyleHandle.BORDER_LEFT_COLOR_PROP, color );
-			save( StyleHandle.BORDER_LEFT_WIDTH_PROP, info.getWidth( ) );
+			save( StyleHandle.BORDER_LEFT_WIDTH_PROP, info.getOriginWidth( ) );
 		}
 		else if ( info.getPosition( ).equals( BorderInfomation.BORDER_RIGHT ) )
 		{
-			save( StyleHandle.BORDER_RIGHT_STYLE_PROP, info.getStyle( ) );
+			save( StyleHandle.BORDER_RIGHT_STYLE_PROP, info.getOriginStyle( ) );
 			save( StyleHandle.BORDER_RIGHT_COLOR_PROP, color );
-			save( StyleHandle.BORDER_RIGHT_WIDTH_PROP, info.getWidth( ) );
+			save( StyleHandle.BORDER_RIGHT_WIDTH_PROP, info.getOriginWidth( ) );
 		}
 
 	}
