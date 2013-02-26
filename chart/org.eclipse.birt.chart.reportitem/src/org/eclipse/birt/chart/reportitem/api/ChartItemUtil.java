@@ -1359,12 +1359,6 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			dhWidth = eih.getWidth( );
 		}
 
-		double dOriginalHeight = dhHeight.getMeasure( );
-		String sHeightUnits = dhHeight.getUnits( );
-
-		double dOriginalWidth = dhWidth.getMeasure( );
-		String sWidthUnits = dhWidth.getUnits( );
-
 		Bounds cmBounds = ( cm.getBlock( ) != null ) ? cm.getBlock( )
 				.getBounds( ) : null;
 		Bounds defaultBounds = ChartItemUtil.createDefaultChartBounds( eih, cm );
@@ -1377,7 +1371,18 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			defaultBounds.setHeight( cmBounds.getHeight( ) );
 		}
 
-		// Default size for null dimension
+		return computeBounds( dhWidth, dhHeight, dpi, defaultBounds );
+	}
+	
+	private static Bounds computeBounds( DimensionHandle dhWidth,
+			DimensionHandle dhHeight, int dpi, Bounds defaultBounds )
+	{
+		double dOriginalHeight = dhHeight.getMeasure( );
+		String sHeightUnits = dhHeight.getUnits( );
+
+		double dOriginalWidth = dhWidth.getMeasure( );
+		String sWidthUnits = dhWidth.getUnits( );
+
 		double dHeightInPoints = defaultBounds.getHeight( );
 		double dWidthInPoints = defaultBounds.getWidth( );
 
@@ -1418,6 +1423,15 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		}
 
 		return BoundsImpl.create( 0, 0, dWidthInPoints, dHeightInPoints );
+	}
+
+	public static Bounds computeBounds( ExtendedItemHandle eih, int dpi,
+			Bounds defaultBounds )
+	{
+		return computeBounds( eih.getWidth( ),
+				eih.getHeight( ),
+				dpi,
+				defaultBounds );
 	}
 
 	/**
@@ -1703,7 +1717,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	 * 
 	 * @param expression
 	 * @param itemHandle
-	 * @return
+	 * @return data type
 	 */
 	public static DataType getExpressionDataType( String expression, ReportItemHandle itemHandle )
 	{

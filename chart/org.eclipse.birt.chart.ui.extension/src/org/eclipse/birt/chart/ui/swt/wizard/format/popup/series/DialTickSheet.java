@@ -82,8 +82,15 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 		grpMajor.setText( Messages.getString( "OrthogonalSeriesDataSheetImpl.Lbl.MajorGrid" ) ); //$NON-NLS-1$
 		grpMajor.setLayout( flMajor );
 
+		int gridOptionalStyles = useFullMode( ) ?
+				GridAttributesComposite.ENABLE_COLOR
+					| GridAttributesComposite.ENABLE_STYLES
+					| GridAttributesComposite.ENABLE_VISIBILITY
+			: GridAttributesComposite.ENABLE_COLOR;
+		
 		gacMajor = new GridAttributesComposite( grpMajor,
 				SWT.NONE,
+				gridOptionalStyles,
 				getContext( ),
 				getDialForProcessing( ).getMajorGrid( ),
 				false,
@@ -99,35 +106,39 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 
 		gacMinor = new GridAttributesComposite( grpMinor,
 				SWT.NONE,
+				gridOptionalStyles,
 				getContext( ),
 				getDialForProcessing( ).getMinorGrid( ),
 				false,
 				defSeries.getDial( ).getMinorGrid( ) );
 		gacMinor.addListener( this );
-
-		Composite cmpGridCount = new Composite( cmpContent, SWT.NONE );
+		
+		if (useFullMode())
 		{
-			GridData gdCMPGridCount = new GridData( GridData.FILL_HORIZONTAL );
-			gdCMPGridCount.horizontalSpan = 2;
-			cmpGridCount.setLayoutData( gdCMPGridCount );
-			cmpGridCount.setLayout( new GridLayout( 3, false ) );
-		}
+			Composite cmpGridCount = new Composite( cmpContent, SWT.NONE );
+			{
+				GridData gdCMPGridCount = new GridData( GridData.FILL_HORIZONTAL );
+				gdCMPGridCount.horizontalSpan = 2;
+				cmpGridCount.setLayoutData( gdCMPGridCount );
+				cmpGridCount.setLayout( new GridLayout( 3, false ) );
+			}
 
-		lblGridCount = new Label( cmpGridCount, SWT.NONE );
-		lblGridCount.setText( Messages.getString( "OrthogonalSeriesDataSheetImpl.Lbl.MinorGridCount" ) ); //$NON-NLS-1$
-
-		iscGridCount = getContext( ).getUIFactory( )
-				.createChartIntSpinner( cmpGridCount,
-						SWT.NONE,
-						getDialForProcessing( ).getScale( )
-								.getMinorGridsPerUnit( ),
-						getDialForProcessing( ).getScale( ),
-						"minorGridsPerUnit", //$NON-NLS-1$
-						true );
-		{
-			GridData gdISCGridCount = new GridData( GridData.FILL_HORIZONTAL );
-			iscGridCount.setLayoutData( gdISCGridCount );
-			iscGridCount.addListener( this );
+			lblGridCount = new Label( cmpGridCount, SWT.NONE );
+			lblGridCount.setText( Messages.getString( "OrthogonalSeriesDataSheetImpl.Lbl.MinorGridCount" ) ); //$NON-NLS-1$
+	
+			iscGridCount = getContext( ).getUIFactory( )
+					.createChartIntSpinner( cmpGridCount,
+							SWT.NONE,
+							getDialForProcessing( ).getScale( )
+									.getMinorGridsPerUnit( ),
+							getDialForProcessing( ).getScale( ),
+							"minorGridsPerUnit", //$NON-NLS-1$
+							true );
+			{
+				GridData gdISCGridCount = new GridData( GridData.FILL_HORIZONTAL );
+				iscGridCount.setLayoutData( gdISCGridCount );
+				iscGridCount.addListener( this );
+			}
 		}
 
 		setState( !getContext( ).getUIFactory( )
@@ -135,6 +146,11 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 						.getTickAttributes( ) ) );
 
 		return cmpContent;
+	}
+
+	protected boolean useFullMode( )
+	{
+		return true;
 	}
 
 	public void handleEvent( Event event )
@@ -207,9 +223,12 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 
 	private void setState( boolean enabled )
 	{
-		lblGridCount.setEnabled( enabled );
-		iscGridCount.setEnabled( enabled );
-		iscGridCount.setEnabled( enabled );
+		if ( useFullMode( ) )
+		{
+			lblGridCount.setEnabled( enabled );
+			iscGridCount.setEnabled( enabled );
+			iscGridCount.setEnabled( enabled );
+		}
 	}
 
 }

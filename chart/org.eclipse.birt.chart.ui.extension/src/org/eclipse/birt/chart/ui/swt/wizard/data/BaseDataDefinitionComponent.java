@@ -79,6 +79,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 {
 
 	protected Composite cmpTop;
+	
+	private Label lblDesc;
 
 	private CCombo cmbDefinition;
 
@@ -188,12 +190,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			cmpTop.setLayoutData( gd );
 		}
 
-		Label lblDesc = null;
+		lblDesc = null;
 		if ( description != null && description.length( ) > 0 )
 		{
 			lblDesc = new Label( cmpTop, SWT.NONE );
-			lblDesc.setText( description );
-			lblDesc.setToolTipText( tooltipWhenBlank );
+			updateLabel( );
 		}
 
 		if ( ( style & BUTTON_AGGREGATION ) == BUTTON_AGGREGATION )
@@ -440,11 +441,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 
 		setTooltipForInputControl( );
-		boolean isRequiredField = ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) );
-		if ( lblDesc != null && isRequiredField )
-		{
-			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( lblDesc );
-		}
 		
 		return cmpTop;
 	}
@@ -1038,6 +1034,17 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		if ( btnBuilder != null )
 		{
 			btnBuilder.setExpression( expression );
+		}
+	}
+	
+	public void updateLabel( )
+	{
+		lblDesc.setText( description );
+		lblDesc.setToolTipText( tooltipWhenBlank );
+		boolean isRequiredField = ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) );
+		if ( isRequiredField )
+		{
+			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( lblDesc );
 		}
 	}
 

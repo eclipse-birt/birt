@@ -132,7 +132,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			}
 		}
 
-		if ( isGanttSeries( ) )
+		if ( isShowTaskLabelsAvailable( ) )
 		{
 			btnDecoVisible = getContext( ).getUIFactory( ).createChartCheckbox( cmpBottom, SWT.NONE,  false );
 			{
@@ -160,6 +160,11 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		createButtonGroup( cmpContent );
+	}
+
+	protected boolean isShowTaskLabelsAvailable( )
+	{
+		return isGanttSeries( );
 	}
 
 	protected void createButtonGroup( Composite parent )

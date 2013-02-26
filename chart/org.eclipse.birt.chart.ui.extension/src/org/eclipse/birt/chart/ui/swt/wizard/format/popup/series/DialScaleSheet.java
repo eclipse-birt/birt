@@ -47,8 +47,12 @@ public class DialScaleSheet extends AbstractScaleSheet
 	protected void setState( )
 	{
 		super.setState( );
-		// Hide invalid attributes.
-		btnShowOutside.setVisible( false );
+
+		if(btnShowOutside != null)
+		{
+			// Hide invalid attributes.
+			btnShowOutside.setVisible( false );
+		}
 	}
 
 	@Override

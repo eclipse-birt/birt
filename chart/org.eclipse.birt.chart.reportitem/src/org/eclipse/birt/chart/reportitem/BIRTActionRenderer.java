@@ -81,7 +81,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 		private ActionHandle handle;
 
-		ChartHyperlinkActionBase( ActionHandle handle )
+		protected ChartHyperlinkActionBase( ActionHandle handle )
 		{
 			this.handle = handle;
 		}
@@ -395,7 +395,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	 * @param source
 	 * @param uv
 	 */
-	private void generateURLValue( StructureSource source, URLValue uv )
+	protected void generateURLValue( StructureSource source, URLValue uv )
 	{
 		String sa = uv.getBaseUrl( );
 		String target = null;
@@ -486,7 +486,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	 * @param handle
 	 * @since 2.3
 	 */
-	private void setTooltip( URLValue uv, final ActionHandle handle )
+	protected void setTooltip( URLValue uv, final ActionHandle handle )
 	{
 		if ( handle.getToolTip( ) != null
 				&& handle.getToolTip( ).trim( ).length( ) > 0 )

@@ -72,6 +72,10 @@ public class GanttLineAttributesComposite extends Composite implements
 	public static final int COLOR_CHANGED_EVENT = 3;
 
 	public static final int VISIBILITY_CHANGED_EVENT = 4;
+	
+	public static final int ENABLE_WIDTH = 1;
+	public static final int ENABLE_STYLES = 1 << 1;
+	public static final int ENABLE_VISIBILITY = 1 << 2;
 
 	private transient boolean bEnabled = true;
 
@@ -80,15 +84,14 @@ public class GanttLineAttributesComposite extends Composite implements
 	private transient ChartWizardContext context;
 
 	private LineAttributes defaultLineAttributes;
-
+	
 	/**
 	 * @param parent
 	 * @param style
 	 */
 	public GanttLineAttributesComposite( Composite parent,
 			ChartWizardContext context, int style, LineAttributes laCurrent,
-			boolean bEnableWidths, boolean bEnableStyles,
-			boolean bEnableVisibility, LineAttributes defaultLineAttributes )
+			int optionalStyles, LineAttributes defaultLineAttributes )
 	{
 		super( parent, style );
 		this.context = context;
@@ -98,30 +101,10 @@ public class GanttLineAttributesComposite extends Composite implements
 			// Create a default line attributes instance
 			this.laCurrent = AttributeFactory.eINSTANCE.createLineAttributes( );
 		}
-		this.bEnableStyles = bEnableStyles;
-		this.bEnableWidths = bEnableWidths;
-		this.bEnableVisibility = bEnableVisibility;
+		this.bEnableStyles = ( ENABLE_STYLES == ( optionalStyles & ENABLE_STYLES ) );
+		this.bEnableWidths = ( ENABLE_WIDTH == ( optionalStyles & ENABLE_WIDTH ) );
+		this.bEnableVisibility = ( ENABLE_VISIBILITY == ( optionalStyles & ENABLE_VISIBILITY ) );
 		this.defaultLineAttributes = defaultLineAttributes;
-		init( );
-		placeComponents( );
-	}
-
-	public GanttLineAttributesComposite( Composite parent, int style,
-			LineAttributes laCurrent, boolean bEnableWidths,
-			boolean bEnableStyles, boolean bEnableVisibility,
-			boolean bEnableColor, LineAttributes defaultLineAttributes )
-	{
-		super( parent, style );
-		this.laCurrent = laCurrent;
-		if ( laCurrent == null )
-		{
-			// Create a default line attributes instance
-			this.laCurrent = AttributeFactory.eINSTANCE.createLineAttributes( );
-		}
-		this.bEnableStyles = bEnableStyles;
-		this.bEnableWidths = bEnableWidths;
-		this.bEnableVisibility = bEnableVisibility;
-		this.bEnableColor = bEnableColor;
 		init( );
 		placeComponents( );
 	}
