@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
@@ -274,6 +277,84 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
+	
+	public void testRowFilter6( ) throws Exception
+	{
+		QueryDefinition query = createQuery( );
+		
+		IBinding e5 = new Binding( "CountG1" );
+		e5.setAggrFunction( "COUNT" );
+		e5.addAggregateOn( "G1" );
+		query.addBinding( e5 );
+
+		IBinding e6 = new Binding( "CountG2");
+		e6.setAggrFunction( "COUNT" );
+		e6.addAggregateOn( "G2" );
+		query.addBinding( e6 );
+
+		IBinding e7 = new Binding( "CountG3" );
+		e7.setAggrFunction( "COUNT" );
+		e7.addAggregateOn( "G3" );
+		query.addBinding( e7 );
+		
+		IBinding e81 = new Binding( "SumCity", new ScriptExpression("dataSetRow[\"AMOUNT\"]"));
+		e81.setAggrFunction( "SUM" );
+		e81.addAggregateOn( "G3" );
+		
+		query.addBinding( e81 );
+		FilterDefinition f1 = new FilterDefinition( new ConditionalExpression( "row[\"AMOUNT\"]" , IConditionalExpression.OP_TOP_N, "1" ), false );
+		query.addFilter( f1 );
+		
+		String[] exprs = new String[]{
+				"ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumCity"
+		};
+		
+		outputQueryResult( executeQuery( query ), exprs );
+		checkOutputFile();
+	}
+	
+	public void testRowFilter7( ) throws Exception
+	{
+		QueryDefinition query = createQuery( );
+		
+		IBinding e5 = new Binding( "CountG1" );
+		e5.setAggrFunction( "COUNT" );
+		e5.addAggregateOn( "G1" );
+		query.addBinding( e5 );
+
+		IBinding e6 = new Binding( "CountG2");
+		e6.setAggrFunction( "COUNT" );
+		e6.addAggregateOn( "G2" );
+		query.addBinding( e6 );
+
+		IBinding e7 = new Binding( "CountG3" );
+		e7.setAggrFunction( "COUNT" );
+		e7.addAggregateOn( "G3" );
+		query.addBinding( e7 );
+		
+		IBinding e81 = new Binding( "SumCity", new ScriptExpression("dataSetRow[\"AMOUNT\"]"));
+		e81.setAggrFunction( "SUM" );
+		e81.addAggregateOn( "G3" );
+		
+		query.addBinding( e81 );
+		FilterDefinition f1 = new FilterDefinition( new ConditionalExpression( "row[\"AMOUNT\"]" , IConditionalExpression.OP_TOP_N, "1" ), false );
+		query.addFilter( f1 );
+		
+		List operandList = new ArrayList<String>( );
+		operandList.add( "\"China\"" );
+		
+		
+		FilterDefinition f2 = new FilterDefinition( new ConditionalExpression( "row[\"COUNTRY\"]" , IConditionalExpression.OP_IN, operandList ), false );
+		query.addFilter( f2 );
+		
+		String[] exprs = new String[]{
+				"ID", "COUNTRY", "STATE", "CITY", "AMOUNT", "CountG1", "CountG2", "CountG3", "SumCity"
+		};
+		
+		outputQueryResult( executeQuery( query ), exprs );
+		checkOutputFile();
+	}
+	
 	
 	public void testGroupFilter1( ) throws Exception
 	{
