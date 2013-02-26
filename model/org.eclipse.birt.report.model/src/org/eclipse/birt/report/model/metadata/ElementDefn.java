@@ -716,7 +716,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * @see org.eclipse.birt.report.model.metadata.ObjectDefn#buildDefn()
 	 */
 
-	protected final void buildDefn( ) throws MetaDataException
+	protected void buildDefn( ) throws MetaDataException
 	{
 		// Handle parent-specific tasks.
 
