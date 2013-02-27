@@ -733,7 +733,7 @@ public class PreparedQueryUtil
 	 * @throws DataException 
 	 * 
 	 */
-	static void mappingParentColumnBinding( IBaseQueryDefinition baseQueryDefn ) throws DataException
+	public static void mappingParentColumnBinding( IBaseQueryDefinition baseQueryDefn ) throws DataException
 	{
 		IBaseQueryDefinition queryDef =  baseQueryDefn;
 		while( queryDef instanceof ISubqueryDefinition )
