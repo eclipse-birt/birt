@@ -19,7 +19,7 @@ import org.eclipse.jface.window.Window;
 
 public class TableDropAdapter implements IDropAdapter {
 
-	@Override
+
 	public int canDrop(Object transfer, Object target, int operation,
 			DNDLocation location) {
 		// TODO Auto-generated method stub
@@ -29,17 +29,18 @@ public class TableDropAdapter implements IDropAdapter {
 			
 			CellHandle cellHandle = (CellHandle) ((TableCellEditPart) target).getModel();
 			if (DEUtil.getBindingHolder(cellHandle) instanceof TableHandle) {
-				TableHandle tableHandle = (TableHandle)(DEUtil.getBindingHolder(cellHandle));
-				if(tableHandle.getLinkedDataModel() != null)
-				{
+//				TableHandle tableHandle = (TableHandle)(DEUtil.getBindingHolder(cellHandle));
+//				
+//				if(tableHandle.getLinkedDataModel() != null)
+//				{
 					result =  DNDService.LOGIC_TRUE;
-				}
+//				}
 			}
 		}
 		return result;
 	}
 
-	@Override
+
 	public boolean performDrop(Object transfer, Object target, int operation,
 			DNDLocation location) {
 		if ( target instanceof TableCellEditPart )
