@@ -9,6 +9,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -29,12 +30,12 @@ public class TableDropAdapter implements IDropAdapter {
 			
 			CellHandle cellHandle = (CellHandle) ((TableCellEditPart) target).getModel();
 			if (DEUtil.getBindingHolder(cellHandle) instanceof TableHandle) {
-//				TableHandle tableHandle = (TableHandle)(DEUtil.getBindingHolder(cellHandle));
-//				
-//				if(tableHandle.getLinkedDataModel() != null)
-//				{
+				TableHandle tableHandle = (TableHandle)(DEUtil.getBindingHolder(cellHandle));
+				LinkedDataSetAdapter adapter = new LinkedDataSetAdapter();
+				if(adapter.isLinkedDataModel(tableHandle))
+				{
 					result =  DNDService.LOGIC_TRUE;
-//				}
+				}
 			}
 		}
 		return result;
@@ -45,7 +46,6 @@ public class TableDropAdapter implements IDropAdapter {
 			DNDLocation location) {
 		if ( target instanceof TableCellEditPart )
 		{
-			TableCellEditPart editPart = (TableCellEditPart) target;
 
 			CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
 			if (DesignerPaletteFactory.TIMEPERIOD_TEMPLATE.equals( transfer ))
@@ -73,29 +73,6 @@ public class TableDropAdapter implements IDropAdapter {
 				
 				if ( dialog.open( ) == Window.OK )
 				{
-//					dataHandle.setResultSetColumn( dialog.getBindingColumn( )
-//							.getName( ) );
-//					stack.commit( );
-					
-//					CreateRequest request = new CreateRequest( );
-//					
-//					request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, dataHandle );
-//					request.setLocation( location.getPoint( ) );
-//
-//					Command command = editPart.getCommand( request );
-//					if ( command != null && command.canExecute( ) )
-//					{
-//						dataHandle.setResultSetColumn( dialog.getBindingColumn( ).getName( ) );
-//
-//						editPart.getViewer( ).getEditDomain( ).getCommandStack( ).execute( command );
-//
-//						stack.commit( );
-//					}
-//					else
-//					{
-//						stack.rollback( );
-//					}
-					
 					dataHandle.setResultSetColumn( dialog.getBindingColumn( )
 							.getName( ) );
 					stack.commit( );
