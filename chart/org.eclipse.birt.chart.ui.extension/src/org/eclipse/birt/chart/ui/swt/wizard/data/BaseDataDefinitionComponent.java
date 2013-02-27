@@ -1195,4 +1195,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 
 	}
+
+	@Override
+	public void bindAssociatedName( String name )
+	{
+		if ( getInputControl( ) != null )
+		{
+			ChartUIUtil.addScreenReaderAccessbility( getInputControl( ), name );
+		}
+	}
 }
