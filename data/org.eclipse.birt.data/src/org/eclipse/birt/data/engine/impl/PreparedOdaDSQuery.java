@@ -374,8 +374,10 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		 */
 		protected boolean fromCache( ) throws DataException
 		{
-			if( queryDefn.isSummaryQuery( )&& queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			if( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
+				// When there is pushdown occur, clear data set cache, due to cached data may have been obsolete.
+				//TODO enhance me. For some cases, data set cache should be considered to be reused, need to compare query spec is same or not.
 				if( querySpec!= null && querySpec.getResultSetSpecification( )!= null && !querySpec.getResultSetSpecification( ).isEmpty( ) )
 				{
 					if( appContext.get( DataEngine.QUERY_EXECUTION_SESSION_ID ) == null )
