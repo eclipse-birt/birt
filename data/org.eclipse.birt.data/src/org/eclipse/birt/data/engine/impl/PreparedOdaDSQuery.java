@@ -24,6 +24,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -367,6 +368,26 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			return odiQuery;
 	 	}
 		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery.DSQueryExecutor#fromCache()
+		 */
+		protected boolean fromCache( ) throws DataException
+		{
+			if( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			{
+				// When there is pushdown occur, clear data set cache, due to cached data may have been obsolete.
+				//TODO enhance me. For some cases, data set cache should be considered to be reused, need to compare query spec is same or not.
+				if( querySpec!= null && querySpec.getResultSetSpecification( )!= null && !querySpec.getResultSetSpecification( ).isEmpty( ) )
+				{
+					if( appContext.get( DataEngine.QUERY_EXECUTION_SESSION_ID ) == null )
+					{
+						dataEngine.getSession( ).getDataSetCacheManager( ).clearCache( dataEngine.getDataSourceDesign( this.dataSet.getDesign( ).getDataSourceName( ) ), this.dataSet.getDesign( ) );						
+					}
+				}
+			}
+			return super.fromCache( );
+		}
 		
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#populateOdiQuery()

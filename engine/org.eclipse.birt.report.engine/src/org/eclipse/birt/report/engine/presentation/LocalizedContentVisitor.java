@@ -88,6 +88,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.w3c.dom.css.CSSValue;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 
@@ -99,6 +100,7 @@ public class LocalizedContentVisitor
 	
 	private ExecutionContext context;
 	private Locale locale;
+	private TimeZone timeZone;
 	private String outputFormat;
 	protected HashMap templates = new HashMap( );
 	private OnRenderScriptVisitor onRenderVisitor;
@@ -117,6 +119,7 @@ public class LocalizedContentVisitor
 	{
 		this.context = context;
 		this.locale = context.getLocale( );
+		this.timeZone = context.getTimeZone( );
 		this.outputFormat = context.getOutputFormat( );
 		this.onRenderVisitor = new OnRenderScriptVisitor( context );
 	}
@@ -882,6 +885,10 @@ public class LocalizedContentVisitor
 		buffer.append( getChartResolution( content ) );
 		buffer.append( getChartFormats( ) );
 		buffer.append( locale );
+		if ( timeZone != null )
+		{
+			buffer.append( timeZone.getID( ) );
+		}
 		return buffer.toString( );
 	}
 	

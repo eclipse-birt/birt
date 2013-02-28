@@ -940,6 +940,18 @@ public class CubeQueryDefinitionIOUtil
 			{
 				fd.setUpdateAggregation( IOUtil.readBool( dis ) );		
 			}
+			if( version >= VersionManager.VERSION_4_2_2_1 )
+			{
+				String filterTarget = IOUtil.readString( dis );
+				if( FilterTarget.DATASET.equals( filterTarget ) )
+				{
+					fd.setFilterTarget( FilterTarget.DATASET );						
+				}
+				else if( FilterTarget.RESULTSET.equals( filterTarget ) )
+				{
+					fd.setFilterTarget( FilterTarget.RESULTSET );
+				}					
+			}
 			return fd;
 		}
 		assert type == FILTER_DEFN_FLAG_CUBE;
