@@ -409,15 +409,21 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	__okPress : function( )
 	{
 		var oSelects = this.__instance.getElementsByTagName( 'select' );
-		this.__l_hide( );
+		
 		if ( oSelects[2].options.length > 0 )
 		{
+			this.__l_hide( );
+			
 			for( var i = 0; i < oSelects[2].options.length; i++ )
 			{
 				this.selectedColumns[i] = oSelects[2].options[i].value;
 			}
 			
 			this.__constructForm( );
+		}
+		else
+		{
+			alert ( Constants.error.columnRequired );	
 		}
 	},
 	
@@ -536,6 +542,17 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			hiddenLocaleNeutral.value = "false";
 		hiddenForm.appendChild( hiddenLocaleNeutral );		
 		
+		// Whether exports data with carriage return line break
+		var oCarriageReturn = $( 'exportDataWithCR' );
+		var hiddenCarriageReturn = document.createElement( 'input' );
+		hiddenCarriageReturn.type = 'hidden';
+		hiddenCarriageReturn.name = Constants.PARAM_CARRIAGERETURN;
+		if( oCarriageReturn && oCarriageReturn.checked )
+			hiddenCarriageReturn.value = "true";
+		else
+			hiddenCarriageReturn.value = "false";
+		hiddenForm.appendChild( hiddenCarriageReturn );		
+				
 		var tmpSubmit = document.createElement( 'input' );
 		tmpSubmit.type = 'submit';
 		tmpSubmit.value = 'TmpSubmit';

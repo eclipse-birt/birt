@@ -77,8 +77,7 @@ public class AggregationExecutor
 		"MAX",
 		"MIN",
 		"FIRST",
-		"LAST", 
-		"COUNT"
+		"LAST"
 	};
 	
 	/**
@@ -101,9 +100,9 @@ public class AggregationExecutor
 				"AggregationExecutor",
 				params );
 		this.dataSet4Aggregation = dataSet4Aggregation;
-		this.memoryCacheSize = memoryCacheSize;
+		this.memoryCacheSize = memoryCacheSize > 0?memoryCacheSize:(-memoryCacheSize);
 		getParameterColIndex( aggregations );
-		existReferenceDate = existReferenceDate( aggregations );
+		existReferenceDate = memoryCacheSize > 0? true:existReferenceDate( aggregations );
 		simpleFunc = getSimpleFunction( aggregations );
 		this.aggregationCalculators = new AggregationCalculator[aggregations.length];
 		int detailAggregationIndex = -1;
@@ -618,8 +617,11 @@ public class AggregationExecutor
 		{
 			int rowSize = 16 + ( 4 + ( levelSize + measureSize ) - 1 ) / 8 * 8;
 			bufferSize = (int) (this.memoryCacheSize*4/5/rowSize);
-			if( this.simpleFunc == null )
-				bufferSize /= 5;
+			if( !this.existReferenceDate )
+			{
+				if( this.simpleFunc == null )
+					bufferSize /= 5;
+			}
 			for (int i = 0; i < allSortedFactRows.size( ); i++)
 			{
 				DiskSortedStackWrapper diskSortedStackReader = (DiskSortedStackWrapper) allSortedFactRows

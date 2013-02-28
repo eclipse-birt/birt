@@ -91,6 +91,10 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 	private Button btnRemoveComponent = null;
 
+	private Button btnUp = null;
+	
+	private Button btnDown = null;
+	
 	private Button btnFormatSpecifier = null;
 
 	private TextEditorComposite txtPrefix = null;
@@ -456,7 +460,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 			GridData gdCMPDataPoint = new GridData( GridData.FILL_BOTH );
 			grpDataPoint.setLayoutData( gdCMPDataPoint );
 			GridLayout glCMPDataPoint = new GridLayout( );
-			glCMPDataPoint.numColumns = 4;
+			glCMPDataPoint.numColumns = 6;
 			glCMPDataPoint.horizontalSpacing = 4;
 			glCMPDataPoint.marginHeight = 2;
 			glCMPDataPoint.marginWidth = 2;
@@ -469,7 +473,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				| SWT.SINGLE
 				| SWT.V_SCROLL );
 		GridData gdLSTComponents = new GridData( GridData.FILL_BOTH );
-		gdLSTComponents.horizontalSpan = 4;
+		gdLSTComponents.horizontalSpan = 6;
 		gdLSTComponents.heightHint = 100;
 		lstComponents.setLayoutData( gdLSTComponents );
 		lstComponents.addSelectionListener( this );
@@ -507,6 +511,18 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		gdCMBComponentTypes.grabExcessHorizontalSpace = true;
 		cmbComponentTypes.setLayoutData( gdCMBComponentTypes );
 
+		btnUp = new Button( grpDataPoint, SWT.PUSH );
+		GridData gdBTNUp = new GridData( );
+		btnUp.setLayoutData( gdBTNUp );
+		btnUp.setText( Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.Up" ) ); //$NON-NLS-1$
+		btnUp.addSelectionListener( this );
+
+		btnDown = new Button( grpDataPoint, SWT.PUSH );
+		GridData gdBTNDown = new GridData( );
+		btnDown.setLayoutData( gdBTNDown );
+		btnDown.setText( Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.Down" ) ); //$NON-NLS-1$
+		btnDown.addSelectionListener( this );
+
 		// Format prefix composite
 		lblPrefix = new Label( grpDataPoint, SWT.NONE );
 		GridData gdLBLPrefix = new GridData( );
@@ -516,7 +532,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		txtPrefix = new TextEditorComposite( grpDataPoint, SWT.BORDER
 				| SWT.SINGLE );
 		GridData gdTXTPrefix = new GridData( GridData.FILL_HORIZONTAL );
-		gdTXTPrefix.horizontalSpan = 3;
+		gdTXTPrefix.horizontalSpan = 5;
 		txtPrefix.setLayoutData( gdTXTPrefix );
 		txtPrefix.addListener( this );
 
@@ -529,7 +545,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		txtSuffix = new TextEditorComposite( grpDataPoint, SWT.BORDER
 				| SWT.SINGLE );
 		GridData gdTXTSuffix = new GridData( GridData.FILL_HORIZONTAL );
-		gdTXTSuffix.horizontalSpan = 3;
+		gdTXTSuffix.horizontalSpan = 5;
 		txtSuffix.setLayoutData( gdTXTSuffix );
 		txtSuffix.addListener( this );
 
@@ -542,7 +558,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		txtSeparator = new TextEditorComposite( grpDataPoint, SWT.BORDER
 				| SWT.SINGLE );
 		GridData gdTXTSeparator = new GridData( GridData.FILL_HORIZONTAL );
-		gdTXTSeparator.horizontalSpan = 3;
+		gdTXTSeparator.horizontalSpan = 5;
 		txtSeparator.setLayoutData( gdTXTSeparator );
 		txtSeparator.addListener( this );
 
@@ -765,6 +781,38 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		{
 			refreshDataPointButtons( );
 		}
+		else if ( e.getSource( ).equals( btnUp ) )
+		{
+			int index = lstComponents.getSelectionIndex( );
+			if ( index > 0 )
+			{
+				EList<DataPointComponent> edpc = getSeriesForProcessing( ).getDataPoint( )
+						.getComponents( );
+				edpc.add( index - 1, edpc.remove( index ) );
+
+				String item = lstComponents.getItem( index );
+				lstComponents.remove( index );
+				lstComponents.add( item, index - 1 );
+				lstComponents.setSelection( index - 1 );
+			}
+			refreshDataPointButtons( );
+		}
+		else if ( e.getSource( ).equals( btnDown ) )
+		{
+			int index = lstComponents.getSelectionIndex( );
+			if ( index < ( lstComponents.getItemCount( ) - 1 ) )
+			{
+				EList<DataPointComponent> edpc = getSeriesForProcessing( ).getDataPoint( )
+						.getComponents( );
+				edpc.add( index + 1, edpc.remove( index ) );
+
+				String item = lstComponents.getItem( index );
+				lstComponents.remove( index );
+				lstComponents.add( item, index + 1 );
+				lstComponents.setSelection( index + 1 );
+			}
+			refreshDataPointButtons( );
+		}
 	}
 
 	/*
@@ -780,8 +828,13 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 	private void refreshDataPointButtons( )
 	{
-		btnRemoveComponent.setEnabled( lstComponents.getSelectionIndex( ) != -1 );
-		btnFormatSpecifier.setEnabled( lstComponents.getSelectionIndex( ) != -1 );
+		int index = lstComponents.getSelectionIndex( );
+		boolean enabled = ( index >= 0 );
+		btnRemoveComponent.setEnabled( enabled );
+		btnFormatSpecifier.setEnabled( enabled );
+		btnUp.setEnabled( enabled && index > 0 );
+		btnDown.setEnabled( enabled
+				&& index < ( lstComponents.getItemCount( ) - 1 ) );
 	}
 
 	private void addDataPointComponent( int iComponentIndex )

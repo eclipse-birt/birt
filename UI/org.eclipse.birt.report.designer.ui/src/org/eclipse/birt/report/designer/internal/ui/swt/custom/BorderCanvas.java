@@ -11,17 +11,23 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
+import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 public class BorderCanvas extends Canvas
 {
 
+	private static final String INHERITED = "(Inherited)";
 	private boolean mouseIn = false;
 	private int mouseInArea = SWT.NONE;
 
@@ -157,21 +163,24 @@ public class BorderCanvas extends Canvas
 				continue;
 
 			if ( info.getColor( ) == null )
+			{
 				gc.setForeground( getDisplay( ).getSystemColor( SWT.COLOR_BLACK ) );
+			}
 			else
 				gc.setForeground( ColorManager.getColor( info.getColor( ) ) );
 
 			if ( !( info.getStyle( ).equals( DesignChoiceConstants.LINE_STYLE_DOUBLE ) ) )
 			{
-				if ( DesignChoiceConstants.LINE_STYLE_DOTTED.equals( info.style ) )
+				if ( DesignChoiceConstants.LINE_STYLE_DOTTED.equals( info.getStyle( ) ) )
 					gc.setLineStyle( SWT.LINE_DOT );
-				else if ( DesignChoiceConstants.LINE_STYLE_DASHED.equals( info.style ) )
+				else if ( DesignChoiceConstants.LINE_STYLE_DASHED.equals( info.getStyle( ) ) )
 					gc.setLineStyle( SWT.LINE_DASH );
-				else if ( DesignChoiceConstants.LINE_STYLE_SOLID.equals( info.style )
-						|| DesignChoiceConstants.LINE_STYLE_DOUBLE.equals( info.style ) )
+				else if ( DesignChoiceConstants.LINE_STYLE_SOLID.equals( info.getStyle( ) ) )
 					gc.setLineStyle( SWT.LINE_SOLID );
-
-				drawLine( gc, width, height, info );
+				if ( !DesignChoiceConstants.LINE_STYLE_NONE.equals( info.getStyle( ) ) )
+					drawLine( gc, width, height, info, true );
+				else
+					drawLine( gc, width, height, info, false );
 			}
 			else
 			{
@@ -220,7 +229,8 @@ public class BorderCanvas extends Canvas
 				if ( customWidth > 3 )
 				{
 					gc.setLineWidth( gcWidth );
-					if ( info.position.equals( BorderInfomation.BORDER_LEFT ) )
+					if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_LEFT ) )
 					{
 						gc.drawLine( ( width - 100 )
 								/ 2
@@ -231,7 +241,8 @@ public class BorderCanvas extends Canvas
 								/ 2, ( height - 100 ) / 2 + 100 + 1 );
 
 					}
-					else if ( info.position.equals( BorderInfomation.BORDER_TOP ) )
+					else if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_TOP ) )
 					{
 						gc.drawLine( ( width - 100 ) / 2,
 								( height - 100 ) / 2 + gc.getLineWidth( ) / 2,
@@ -239,7 +250,8 @@ public class BorderCanvas extends Canvas
 								( height - 100 ) / 2 + gc.getLineWidth( ) / 2 );
 
 					}
-					else if ( info.position.equals( BorderInfomation.BORDER_RIGHT ) )
+					else if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_RIGHT ) )
 					{
 						gc.drawLine( ( width - 100 )
 								/ 2
@@ -257,7 +269,8 @@ public class BorderCanvas extends Canvas
 								( height - 100 ) / 2 + 100 + 1 );
 
 					}
-					else if ( info.position.equals( BorderInfomation.BORDER_BOTTOM ) )
+					else if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_BOTTOM ) )
 					{
 						gc.drawLine( ( width - 100 ) / 2,
 								( height - 100 )
@@ -277,7 +290,8 @@ public class BorderCanvas extends Canvas
 					}
 
 					gc.setLineWidth( gcInnerWidth );
-					if ( info.position.equals( BorderInfomation.BORDER_LEFT ) )
+					if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_LEFT ) )
 					{
 						gc.drawLine( ( width - 100 )
 								/ 2
@@ -295,7 +309,8 @@ public class BorderCanvas extends Canvas
 								- ( gcWidth + gcSeperator ) );
 
 					}
-					else if ( info.position.equals( BorderInfomation.BORDER_TOP ) )
+					else if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_TOP ) )
 					{
 						gc.drawLine( ( width - 100 )
 								/ 2
@@ -313,7 +328,8 @@ public class BorderCanvas extends Canvas
 								/ 2 );
 
 					}
-					else if ( info.position.equals( BorderInfomation.BORDER_RIGHT ) )
+					else if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_RIGHT ) )
 					{
 						gc.drawLine( ( width - 100 )
 								/ 2
@@ -333,7 +349,8 @@ public class BorderCanvas extends Canvas
 								- ( gcWidth + gcSeperator ) );
 
 					}
-					else if ( info.position.equals( BorderInfomation.BORDER_BOTTOM ) )
+					else if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_BOTTOM ) )
 					{
 						gc.drawLine( ( width - 100 )
 								/ 2
@@ -356,11 +373,12 @@ public class BorderCanvas extends Canvas
 
 				}
 				else if ( customWidth == 3
-						|| DesignChoiceConstants.LINE_WIDTH_THICK.equals( info.width ) )
+						|| DesignChoiceConstants.LINE_WIDTH_THICK.equals( info.getWidth( ) ) )
 				{
 					gc.setLineWidth( 1 );
 
-					if ( info.position.equals( BorderInfomation.BORDER_LEFT ) )
+					if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_LEFT ) )
 					{
 						gc.drawLine( ( width - 100 ) / 2,
 								( height - 100 ) / 2,
@@ -373,7 +391,8 @@ public class BorderCanvas extends Canvas
 								( height - 100 ) / 2 + 100 - 2 );
 
 					}
-					else if ( info.position.equals( BorderInfomation.BORDER_TOP ) )
+					else if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_TOP ) )
 					{
 						gc.drawLine( ( width - 100 ) / 2,
 								( height - 100 ) / 2,
@@ -386,7 +405,8 @@ public class BorderCanvas extends Canvas
 								( height - 100 ) / 2 + 2 );
 
 					}
-					else if ( info.position.equals( BorderInfomation.BORDER_RIGHT ) )
+					else if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_RIGHT ) )
 					{
 						gc.drawLine( ( width - 100 ) / 2 + 100,
 								( height - 100 ) / 2,
@@ -399,7 +419,8 @@ public class BorderCanvas extends Canvas
 								( height - 100 ) / 2 + 100 - 2 );
 
 					}
-					else if ( info.position.equals( BorderInfomation.BORDER_BOTTOM ) )
+					else if ( info.getPosition( )
+							.equals( BorderInfomation.BORDER_BOTTOM ) )
 					{
 						gc.drawLine( ( width - 100 ) / 2,
 								( height - 100 ) / 2 + 100,
@@ -417,13 +438,14 @@ public class BorderCanvas extends Canvas
 				{
 					gc.setLineStyle( SWT.LINE_SOLID );
 					gc.setLineWidth( 1 );
-					drawLine( gc, width, height, info );
+					drawLine( gc, width, height, info, true );
 				}
 			}
 		}
 	}
 
-	private void drawLine( GC gc, int width, int height, BorderInfomation info )
+	private void drawLine( GC gc, int width, int height, BorderInfomation info,
+			boolean drawLine )
 	{
 		String infoWidth = resolveEmptyWidth( info );
 		if ( DesignChoiceConstants.LINE_WIDTH_THIN.equals( infoWidth ) )
@@ -452,34 +474,121 @@ public class BorderCanvas extends Canvas
 			}
 		}
 
-		if ( info.position.equals( BorderInfomation.BORDER_LEFT ) )
+		if ( info.getPosition( ).equals( BorderInfomation.BORDER_LEFT ) )
 		{
-			gc.drawLine( ( width - 100 ) / 2 + gc.getLineWidth( ) / 2,
-					( height - 100 ) / 2,
-					( width - 100 ) / 2 + gc.getLineWidth( ) / 2,
-					( height - 100 ) / 2 + 100 );
+			if ( drawLine )
+				gc.drawLine( ( width - 100 ) / 2 + gc.getLineWidth( ) / 2,
+						( height - 100 ) / 2,
+						( width - 100 ) / 2 + gc.getLineWidth( ) / 2,
+						( height - 100 ) / 2 + 100 );
+			if ( isInheritedInfo( info ) )
+			{
+				FontData fontData = this.getFont( ).getFontData( )[0];
+				fontData.setHeight( 9 );
+				Font font = new Font( gc.getDevice( ), fontData );
+				gc.setFont( font );
+				gc.setForeground( Display.getDefault( )
+						.getSystemColor( SWT.COLOR_RED ) );
+				Point size = gc.stringExtent( INHERITED );
+				Transform transform = new Transform( gc.getDevice( ) );
+				transform.translate( -1, height + ( height - 100 ) / 2 - size.y );
+				transform.rotate( -90 );
+				gc.setTransform( transform );
+				gc.drawText( INHERITED, ( width - size.x ) / 2, ( height - 100 )
+						/ 2
+						- size.y );
+				font.dispose( );
+				transform.dispose( );
+				gc.setTransform( null );
+				gc.setAdvanced( false );
+			}
 		}
-		else if ( info.position.equals( BorderInfomation.BORDER_TOP ) )
+		else if ( info.getPosition( ).equals( BorderInfomation.BORDER_TOP ) )
 		{
-			gc.drawLine( ( width - 100 ) / 2,
-					( height - 100 ) / 2 + gc.getLineWidth( ) / 2,
-					( width - 100 ) / 2 + 100,
-					( height - 100 ) / 2 + gc.getLineWidth( ) / 2 );
+			if ( drawLine )
+				gc.drawLine( ( width - 100 ) / 2,
+						( height - 100 ) / 2 + gc.getLineWidth( ) / 2,
+						( width - 100 ) / 2 + 100,
+						( height - 100 ) / 2 + gc.getLineWidth( ) / 2 );
+			if ( isInheritedInfo( info ) )
+			{
+				FontData fontData = this.getFont( ).getFontData( )[0];
+				fontData.setHeight( 9 );
+				Font font = new Font( gc.getDevice( ), fontData );
+				gc.setFont( font );
+				gc.setForeground( Display.getDefault( )
+						.getSystemColor( SWT.COLOR_RED ) );
+				Point size = gc.stringExtent( INHERITED );
+				gc.drawText( INHERITED, ( width - size.x ) / 2, ( height - 100 )
+						/ 2
+						- size.y
+						- 1 );
+				font.dispose( );
+			}
 		}
-		else if ( info.position.equals( BorderInfomation.BORDER_RIGHT ) )
+		else if ( info.getPosition( ).equals( BorderInfomation.BORDER_RIGHT ) )
 		{
-			gc.drawLine( ( width - 100 ) / 2 + 100 - gc.getLineWidth( ) / 2,
-					( height - 100 ) / 2,
-					( width - 100 ) / 2 + 100 - gc.getLineWidth( ) / 2,
-					( height - 100 ) / 2 + 100 );
+			if ( drawLine )
+				gc.drawLine( ( width - 100 ) / 2 + 100 - gc.getLineWidth( ) / 2,
+						( height - 100 ) / 2,
+						( width - 100 ) / 2 + 100 - gc.getLineWidth( ) / 2,
+						( height - 100 ) / 2 + 100 );
+			if ( isInheritedInfo( info ) )
+			{
+				FontData fontData = this.getFont( ).getFontData( )[0];
+				fontData.setHeight( 9 );
+				Font font = new Font( gc.getDevice( ), fontData );
+				gc.setFont( font );
+				gc.setForeground( Display.getDefault( )
+						.getSystemColor( SWT.COLOR_RED ) );
+				Point size = gc.stringExtent( INHERITED );
+				Transform transform = new Transform( gc.getDevice( ) );
+				transform.translate( width + 2, 0 );
+				transform.rotate( 90 );
+				gc.setTransform( transform );
+				gc.drawText( INHERITED, ( width - size.x ) / 2, ( height - 100 )
+						/ 2
+						- size.y );
+				font.dispose( );
+				transform.dispose( );
+				gc.setTransform( null );
+				gc.setAdvanced( false );
+			}
 		}
-		else if ( info.position.equals( BorderInfomation.BORDER_BOTTOM ) )
+		else if ( info.getPosition( ).equals( BorderInfomation.BORDER_BOTTOM ) )
 		{
-			gc.drawLine( ( width - 100 ) / 2,
-					( height - 100 ) / 2 + 100 - gc.getLineWidth( ) / 2,
-					( width - 100 ) / 2 + 100,
-					( height - 100 ) / 2 + 100 - gc.getLineWidth( ) / 2 );
+			if ( drawLine )
+				gc.drawLine( ( width - 100 ) / 2, ( height - 100 )
+						/ 2
+						+ 100
+						- gc.getLineWidth( )
+						/ 2, ( width - 100 ) / 2 + 100, ( height - 100 )
+						/ 2
+						+ 100
+						- gc.getLineWidth( )
+						/ 2 );
+			if ( isInheritedInfo( info ) )
+			{
+				FontData fontData = this.getFont( ).getFontData( )[0];
+				fontData.setHeight( 9 );
+				Font font = new Font( gc.getDevice( ), fontData );
+				gc.setFont( font );
+				gc.setForeground( Display.getDefault( )
+						.getSystemColor( SWT.COLOR_RED ) );
+				Point size = gc.stringExtent( INHERITED );
+				gc.drawText( INHERITED,
+						( width - size.x ) / 2,
+						( height - 100 ) / 2 + 100 + 1 );
+				font.dispose( );
+			}
 		}
+	}
+
+	protected boolean isInheritedInfo( BorderInfomation info )
+	{
+		return info.isInheritedColor( )
+				&& info.isInheritedStyle( )
+				&& info.isInheritedWidth( );
 	}
 
 	public void removeBorderInfomation( String position )

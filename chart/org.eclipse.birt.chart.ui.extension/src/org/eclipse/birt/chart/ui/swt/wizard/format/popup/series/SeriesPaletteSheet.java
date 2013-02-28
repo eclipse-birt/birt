@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
@@ -129,18 +130,34 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 
 		grpPalette = new Group( cmpContent, SWT.NONE );
 		GridData gdGRPPalette = new GridData( GridData.FILL_BOTH );
-		if ( isAutoPalette )
-		{
-			gdGRPPalette.heightHint = 50;
-		}
-		else
-		{
-			gdGRPPalette.heightHint = 300;
-		}
+		gdGRPPalette.heightHint = 300;
+
 		grpPalette.setLayoutData( gdGRPPalette );
 		grpPalette.setLayout( slPalette );
 		grpPalette.setText( Messages.getString( "BaseSeriesAttributeSheetImpl.Lbl.Palette" ) ); //$NON-NLS-1$
+		/*
+		 * To let group palettee show out, otherwise the patette will disapper
+		 * after modifying the value of 'auto' checkbox.
+		 */
+		if ( cmpContent.isVisible( ) )
+		{
+			grpPalette.getShell( ).pack( );
+		}
 		
+		/*
+		 * If Auto selected, show default series palette with action disabled
+		 * TED - 47366
+		 */
+		Chart chart = getChart( );
+		if ( isAutoPalette )
+		{
+			chart = getChart( ).copyInstance( );
+			ChartDefaultValueUtil.updateSeriesPalettes( chart,
+					chart.eAdapters( ) );
+			vSeriesDefns = ChartUtil.getValueSeriesDefinitions( chart );
+			cSeriesDefn = ChartUtil.getCategorySeriesDefinition( chart );
+		}
+
 		cmpPE = new PaletteEditorComposite( grpPalette,
 				getContext( ),
 				cSeriesDefn.getSeriesPalette( ),
@@ -184,9 +201,9 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 			if ( isMultiAxes( ) && isColoredByValue( ) )
 			{
 
-				for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( context.getModel( ) ); i++ )
+				for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( chart ); i++ )
 				{
-					SeriesDefinition[] seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( context.getModel( ),
+					SeriesDefinition[] seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
 							i )
 							.toArray( new SeriesDefinition[]{} ) ;
 					TabItem ti = new TabItem( tf, SWT.NONE );
@@ -289,6 +306,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 			grpPalette.dispose( );
 		}
 		createPaletteUI( cmpContent );
+		updateUIStatus();
 		cmpContent.getShell( ).layout( );
 		cmpContent.getShell( ).pack( );
 	}

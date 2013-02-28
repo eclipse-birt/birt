@@ -79,6 +79,25 @@ public class ApplicationClassLoader extends ClassLoader
 		return designClassLoader.loadClass( className );
 	}
 
+	protected synchronized Class<?> loadClass( String name, boolean resolve )
+			throws ClassNotFoundException
+	{
+		if ( designClassLoader == null )
+		{
+			createDesignClassLoader( );
+		}
+
+		Class clazz = designClassLoader.loadClass( name );
+		{
+			if ( resolve && clazz != null )
+			{
+				resolveClass( clazz );
+			}
+
+		}
+		return clazz;
+	}
+
 	public URL getResource( String name )
 	{
 		if ( designClassLoader == null )

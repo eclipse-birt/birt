@@ -1,8 +1,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -12,6 +15,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ID
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.OutputPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
+import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.Expression;
@@ -178,7 +183,27 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 		container.setLayout( layout );
 
 		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
-		String[] typeInfo = engine.getSupportedFormats( );
+		String[] typeInfo = null;
+		
+		EmitterInfo[] emitters = engine.getEmitterInfo( );
+		if (emitters == null || emitters.length == 0)
+		{
+			typeInfo = new String[]{};
+		}
+		else
+		{
+			List<String> temp = new ArrayList<String>();
+			for (int i=0; i<emitters.length; i++)
+			{
+				EmitterInfo info = emitters[i];
+				if (!info.isHidden( ))
+				{
+					temp.add( info.getFormat( ) );
+				}
+			}
+			Collections.sort(temp, new AlphabeticallyComparator());
+			typeInfo = temp.toArray(new String[temp.size( )] );
+		}
 		specCheckButtons = new HashMap( );
 		specExpressions = new HashMap( );
 		for ( int i = 0; i < typeInfo.length; i++ )

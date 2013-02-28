@@ -243,11 +243,6 @@ public class AggrMeasureFilterHelper
 					for ( int j = 0 ; j < bindingName.size( ) ; j++)
 					{
 						IBinding b = getBinding( bindingName.get( j ).toString( ), bindingList );
-						if( this.fetcher!= null && this.fetcher.existBinding( bindingName.get( j ).toString( ) ) )
-						{
-							referencedNames.addAll( ExpressionCompilerUtil.extractColumnExpression( b.getExpression( ),
-									ScriptConstants.DATA_BINDING_SCRIPTABLE ) );							
-						}
 						if( b != null && b.getAggregatOns( ).size( ) == 0 && b.getAggrFunction( ) == null )
 						{
 							referencedNames.addAll( ExpressionCompilerUtil.extractColumnExpression( b.getExpression( ),

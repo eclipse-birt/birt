@@ -4355,7 +4355,8 @@ public class PreparedStatement extends ExceptionHandler
 		
 		try
 		{
-			getStatement().setBigDecimal( paramIndex, decimal );
+			getStatement( ).setBigDecimal( paramIndex,
+					getScaleValue( decimal, paramIndex ) );
 		}
 		catch( OdaException ex )
 		{
@@ -4377,7 +4378,8 @@ public class PreparedStatement extends ExceptionHandler
         String effectiveParamName = paramName.getEffectiveName();
 		try
 		{
-			getStatement().setBigDecimal( effectiveParamName, decimal );
+			getStatement( ).setBigDecimal( effectiveParamName,
+					getScaleValue( decimal, paramName ) );
 		}
 		catch( OdaException ex )
 		{
@@ -4395,6 +4397,49 @@ public class PreparedStatement extends ExceptionHandler
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 * check the passed bigDecimal scale, make sure the scale <= data base scale.
+	 * @param value
+	 * @param parameterId
+	 * @return
+	 */
+	private BigDecimal getScaleValue( BigDecimal value, int parameterId )
+	{
+		int scale = 0;
+		try
+		{
+			scale = this.getParameterMetaData( parameterId ).getScale( );
+			if ( scale == 0 )
+			{
+				return value;
+			}
+		}
+		catch (Exception ignore)
+		{
+			return value;
+		}
+		return value.setScale( scale, BigDecimal.ROUND_HALF_UP );
+	} 
+	
+	private BigDecimal getScaleValue( BigDecimal value, ParameterName parameterName )
+	{
+		int scale = 0;
+		try
+		{
+			scale = this.getParameterMetaData( parameterName ).getScale( );
+			if ( scale == 0 )
+			{
+				return value;
+			}
+		}
+		catch (Exception ignore)
+		{
+			return value;
+		}
+		return value.setScale( scale, BigDecimal.ROUND_HALF_UP );
+	} 
 	
 	private void doSetDate( int paramIndex, Date date ) throws DataException
 	{

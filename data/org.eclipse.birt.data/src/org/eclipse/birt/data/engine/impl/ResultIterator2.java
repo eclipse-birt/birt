@@ -65,6 +65,8 @@ class ResultIterator2 extends ResultIterator
 	private long rowCountOffset = 0;
 	private boolean saveToDoc = false;
 	private List<IBinding> bindings = null;
+	
+	private DataEngineContext dtContext;
 
 	/**
 	 * @param context
@@ -89,6 +91,7 @@ class ResultIterator2 extends ResultIterator
 		this.lowestGroupLevel = rService.getQueryDefn( ).getGroups( ).size( );
 		this.currRowIndex = -1;
 		this.cachedRowId = 0;
+		this.dtContext = rService.getSession( ).getEngineContext( );
 		
 		this.isSummary = ( rService.getQueryDefn( ) instanceof IQueryDefinition )
 				? ( (IQueryDefinition) rService.getQueryDefn( ) ).isSummaryQuery( )
@@ -372,7 +375,9 @@ class ResultIterator2 extends ResultIterator
 
 		for ( IBinding binding : bindings )
 		{
-			if ( this.streamManager.getVersion( ) >= VersionManager.VERSION_3_7_2_1 )
+			if ( this.streamManager.getVersion( ) > VersionManager.VERSION_3_7_2_1
+					|| "4.2.0.v20120611".equals( this.dtContext.getBundleVersion( ) )
+					|| "4.2.1.v20120820".equals( this.dtContext.getBundleVersion( ) ) )
 			{
 				ResultObjectUtil.writeObject( tempDos,
 						valueMap.get( binding.getBindingName( ) ),

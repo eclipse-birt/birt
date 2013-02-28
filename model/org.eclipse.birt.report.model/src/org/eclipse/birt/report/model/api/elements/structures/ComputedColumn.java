@@ -267,7 +267,22 @@ public class ComputedColumn extends PropertyStructure
 
 	public String getExpression( )
 	{
-		return getStringProperty( null, EXPRESSION_MEMBER );
+		String expression = getStringProperty( null, EXPRESSION_MEMBER );
+		if ( expression == null )
+		{
+			List arguments = (List) getProperty( null, ARGUMENTS_MEMBER );
+			if ( arguments != null )
+			{
+				for ( int i = 0; i < arguments.size(); i++ )
+				{
+					if( EXPRESSION_MEMBER.equalsIgnoreCase( ( ( AggregationArgument )arguments.get( i ) ).getName( ) ) ) 
+					{
+						return ( ( AggregationArgument )arguments.get( i ) ).getValue( );
+					}
+				}
+			}
+		}
+		return expression;
 	}
 
 	/**

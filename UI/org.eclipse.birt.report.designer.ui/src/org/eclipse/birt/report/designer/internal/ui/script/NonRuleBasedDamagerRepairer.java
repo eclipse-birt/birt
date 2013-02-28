@@ -21,6 +21,7 @@ import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.TextPresentation;
 import org.eclipse.jface.text.presentation.IPresentationDamager;
 import org.eclipse.jface.text.presentation.IPresentationRepairer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 
 /**
@@ -169,11 +170,17 @@ public class NonRuleBasedDamagerRepairer implements
 	{
 		if ( attr != null )
 		{
-			presentation.addStyleRange( new StyleRange( offset,
+			int style= attr.getStyle();
+			int fontStyle= style & (SWT.ITALIC | SWT.BOLD | SWT.NORMAL);
+			StyleRange range = new StyleRange( offset,
 					length,
 					attr.getForeground( ),
 					attr.getBackground( ),
-					attr.getStyle( ) ) );
+					fontStyle );
+			range.strikeout = ( attr.getStyle( ) & TextAttribute.STRIKETHROUGH ) != 0;
+			range.underline = ( attr.getStyle( ) & TextAttribute.UNDERLINE ) != 0;
+			range.font= attr.getFont();
+			presentation.addStyleRange( range );
 		}
 	}
 }

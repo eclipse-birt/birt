@@ -15,16 +15,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -59,6 +65,15 @@ public abstract class AttributePage extends TabPage implements
 
 	public void refresh( )
 	{
+		Object element = DEUtil.getInputFirstElement( input );
+		if ( element == null )
+			return;
+		if ( element instanceof DesignElementHandle
+				&& getTopContainer( (DesignElementHandle) element ) == null )
+		{
+			return;
+		}
+
 		Section[] sectionArray = getSections( );
 		for ( int i = 0; i < sectionArray.length; i++ )
 		{
@@ -281,6 +296,19 @@ public abstract class AttributePage extends TabPage implements
 				}
 			} );
 		}
+	}
+
+	protected ModuleHandle getTopContainer( DesignElementHandle element )
+	{
+		if(element instanceof ModuleHandle)
+			return (ModuleHandle) element;
+		while ( !( element.getContainer( ) instanceof ModuleHandle ) )
+		{
+			element = element.getContainer( );
+			if ( element == null )
+				return null;
+		}
+		return (ModuleHandle) element.getContainer( );
 	}
 
 	public Object getAdapter( Class adapter )

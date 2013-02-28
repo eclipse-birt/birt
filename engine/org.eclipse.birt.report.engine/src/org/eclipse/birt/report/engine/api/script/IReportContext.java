@@ -278,4 +278,11 @@ public interface IReportContext
 	 * cancel the current engine task
 	 */
 	void cancel();
+	
+	/**
+	 * check if the report document generation is finished. It should be used at render time.
+	 * The default value is false
+	 * @return
+	 */
+	boolean isReportDocumentFinished( );
 }

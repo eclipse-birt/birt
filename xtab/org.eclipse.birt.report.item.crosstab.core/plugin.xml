@@ -249,6 +249,11 @@
                name="columnPageBreakInterval"
                type="integer">
          </property>
+         <style
+               displayNameID="Element.CrosstabCell"
+               name="crosstab-cell"
+               type="Crosstab">
+         </style>
          <!--method
                context="presentation"
                displayNameID="Method.onPageBreak"
@@ -579,7 +584,6 @@
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
-            defaultStyle="crosstab-cell"
             displayNameID="Element.CrosstabCell"
             extendsFrom="Cell"
             extensionName="CrosstabCell"
@@ -622,10 +626,6 @@
                   name="ExtendedItem">
             </elementType>
          </property>
-         <style
-               displayNameID="Element.CrosstabCell"
-               name="crosstab-cell">
-         </style>
          <propertyVisibility
                name="content"
                visibility="hide">
@@ -685,7 +685,6 @@
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
-            defaultStyle="crosstab-cell"
             displayNameID="Element.CrosstabAggregationCell"
             extendsFrom="CrosstabCell"
             extensionName="AggregationCell"

@@ -43,6 +43,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
@@ -204,7 +205,7 @@ public class ExcelDataSourcePageHelper {
 		if ( selectionType == SELECT_RELATIVE_PATH )
 		{
 			RelativeFileSelectionDialog dialog = new RelativeFileSelectionDialog( folderLocation.getShell( ),
-					new File( getResourceFolder( ) ) );
+					new File( getResourceFolder( ) ),fileExtensions );
 			dialog.setTitle( Messages.getString( "SelectFile.Title" ) );
 			if ( dialog.open( ) == Window.OK )
 			{
@@ -384,7 +385,15 @@ public class ExcelDataSourcePageHelper {
 		} else {
 			columnNameLineCheckBox.setSelection(false);
 			typeLineCheckBox.setSelection(false);
-			typeLineCheckBox.setEnabled(false);
+			Display.getCurrent().asyncExec(new Runnable() {
+	              public void run() {
+	            	  if ( !typeLineCheckBox.isDisposed( ) )
+	            	  {
+	            		  typeLineCheckBox.setEnabled( false );
+	            	  }
+	                     
+	              }
+	        });
 		}
 
 		verifyFileLocation();

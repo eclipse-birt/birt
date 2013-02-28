@@ -68,6 +68,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ExtendElementAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.IExtendElementActionFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
@@ -946,6 +947,14 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					obj,
 					Messages.getString( "ThemesNodeProvider.action.New" ), ReportDesignConstants.THEME_ITEM ) ); //$NON-NLS-1$
 
+			Object adapter = ElementAdapterManager.getAdapter( selectedObject,
+					IExtendElementActionFactory.class );
+
+			if ( adapter instanceof IExtendElementActionFactory )
+			{
+				SlotHandle slot = ( (LibraryHandle) selectedObject ).getSlot( LibraryHandle.THEMES_SLOT );
+				menu.add( ( (IExtendElementActionFactory) adapter ).getAction( slot ) );
+			}
 		}
 
 		MenuManager subMenu = new MenuManager( APPLY_THEME_MENU_ITEM_TEXT );

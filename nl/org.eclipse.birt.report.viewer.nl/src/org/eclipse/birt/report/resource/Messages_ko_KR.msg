@@ -36,6 +36,7 @@ birt.viewer.error.noviewingsession=보기 세션을 사용할 수 없거나 세션이 만료되었�
 birt.viewer.error.viewingsessionexpired=보기 세션이 만료되었습니다.
 birt.viewer.error.viewingsessionlocked=보기 세션이 잠겨 있어 종료할 수 없습니다.
 birt.viewer.error.viewingsessionmaxreached=최대 보기 세션 수에 도달했습니다.
+birt.viewer.error.columnrequired=열이 선택되지 않았습니다. 내보낼 열을 한 개 이상 선택하십시오.
 
 birt.viewer.message.taskcanceled=현재 작업이 취소되었습니다.
 

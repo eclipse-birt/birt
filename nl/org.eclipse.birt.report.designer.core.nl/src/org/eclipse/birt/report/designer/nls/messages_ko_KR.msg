@@ -1,13 +1,12 @@
 #/*******************************************************************************
-# * Copyright (c) 2006, 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
 # * Contributors:
-# *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 
 ###########################################################
 #AbstractDataSetWizard properties
@@ -263,6 +262,12 @@ ColumnBindingDialog.Text.AddAggr=집계 추가(&G)...
 #BlockPreferencePage properties
 
 BlockPreferencePage.displayname.Title=텍스트 블록
+
+
+###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -603,6 +608,11 @@ DataSetBasePage.tooltip=이름은 비어 있으면 안 됩니다.
 DataSetBasePage.ScriptedDataSet.name=스크립트된 데이터 집합
 DataSetBasePage.ScriptedDataSource.name=스크립트 데이터 원본
 DataSetBasePage.Group.DataSourceSelection=데이터 원본 선택
+
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Cassandra 스크립트 데이터 원본을 지원하는 Hector 클라이언트 라이브러리 jar를 찾을 수 없습니다.
 
 ###########################################################
 #JointDataSetPage properties
@@ -4311,8 +4321,8 @@ GeneralPage.Library.Included=라이브러리:
 GeneralPage.Library.Modified.Note=참고: 이 보고서 항목은 라이브러리에서 수정되었습니다. 원래의 라이브러리 항목을 복원하려면 {0}"속성 복원"을 클릭하십시오.
 
 #BookMarkPage
-BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
-BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
+BookMarkPage.Modified.Note=책갈피에 허용 문자(A-Z, a-z, 0-9, '-', '_', ':', '.') 이외의 특수 문자가 포함되어 있어 실행 시 문제가 발생할 수 있습니다.
+BookMarkPage.Modified.WithoutQuotes=책갈피가 큰따옴표로 둘러싸여 있지 않아 실행 시 문제가 발생할 수 있습니다.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4621,14 +4631,15 @@ BindingDialogHelper.text.Grid=눈금
 BindingDialogHelper.text.Group=그룹(&O)
 BindingDialogHelper.text.Expression=식(&E):
 BindingDialogHelper.text.displayName=표시 이름(&N):
-BindingDialogHelper.text.allowExport=Exp&ort:
-BindingDialogHelper.text.allowExport.button=Allow Export
+BindingDialogHelper.text.allowExport=내보내기(&O):
+BindingDialogHelper.text.allowExport.button=내보내기 허용
 BindingDialogHelper.text.displayNameID=표시 이름 ID(&S):
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=이름이 {0}인 열 바인딩이 이미 있습니다.
 BindingDialogHelper.error.improperexpression=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습니다.
 BindingDialogHelper.error.empty={0}이(가) 필요합니다.
+BindingDialogHelper.error.text.Name=Column Binding Name
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=현재 함수에 대해 권장되는 날짜 형식은 "{0}"입니다. 선택한 데이터 형식을 그대로 유지하시겠습니까?
 BindingDialogHelper.warning.parameter=식 "{0}"의 반환 데이터 형식이 매개 변수 "{1}"에서 지원되지 않습니다. 그대로 유지하시겠습니까?
@@ -4639,7 +4650,7 @@ BindingDialogHelper.warning.button.no=아니오
 #Scripts Node
 Scripts.Node.DisplayName=스크립트
 ScriptElementNode.Action.Text=보고서 요소로 이동(&G)
-ScriptObjectNode_0=&Reset Script
+ScriptObjectNode_0=스크립트 재설정(&R)
 
 ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 
@@ -4649,7 +4660,7 @@ CrosstabBindingDialogHelper.AggOn.All=모두
 CrosstabBindingDialogHelper.bindngName.timeperiod=기간
 CrosstabBindingDialogHelper.calculation.label=시간(&P):
 CrosstabBindingDialogHelper.calculation.group=시간
-CrosstabBindingDialogHelper.recentday.description=Last date in the period
+CrosstabBindingDialogHelper.recentday.description=기간 최종일
 CrosstabBindingDialogHelper.referencedate.label=참조 날짜(&R):
 CrosstabBindingDialogHelper.thisdate.label=날짜 지정:
 CrosstabBindingDialogHelper.thisdate.example.label=제공된 날짜 값을 따옴표로 묶으십시오.\n예: "2012-01-23", "1/23/2012".
@@ -4726,7 +4737,7 @@ InsertAggregationAction.text=집계(&A)
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=상대 시간(&V)
 
 ###########################################################
 #Multiple views
@@ -4761,10 +4772,10 @@ GeneralConfigurationBlock.message.general.description=보고서 디자이너에 대한 일�
 GeneralConfigurationBlock.button.text.enable.gradient=그라데이션 사용 선택(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택(&N)
 GeneralConfigurationBlock.group.label=묻기
-GeneralConfigurationBlock.group.defaultThemes=Default themes library
+GeneralConfigurationBlock.group.defaultThemes=기본 테마 라이브러리
 GeneralConfigurationBlock.button.text.prompt=라이브러리 파일을 연 후 프롬프트 표시(&P)
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
-GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
+GeneralConfigurationBlock.button.text.defaultTheme.enable=기본 테마 라이브러리 사용(&T)
+GeneralConfigurationBlock.button.text.defaultTheme.include=기본 테마 포함(&I)
 GeneralConfigurationBlock.move.binding.group=성능 향상을 위해 로컬 바인딩을 상위로 이동
 GeneralConfigurationBlock.move.binding.always=항상(&W)
 GeneralConfigurationBlock.move.binding.never=안 함(&V)
@@ -4881,24 +4892,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=기본 구문(&F):
 ExpressionEditor.Error.EmptyExpression=식은 비어 있으면 안 됩니다.
 ExpressionEditor.Label.Expression=식(&E):
 ExpressionEditor.Title=식 편집
-ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
-ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
-ExpressionSyntaxColoringPage.Button.Bold=&Bold
-ExpressionSyntaxColoringPage.Button.Enable=Enable
-ExpressionSyntaxColoringPage.Button.Italic=&Italic
-ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
-ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Accessible.Name.Background=배경 색상 선택기
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=전경 색상 선택기
+ExpressionSyntaxColoringPage.Button.Bold=굵게(&B)
+ExpressionSyntaxColoringPage.Button.Enable=사용
+ExpressionSyntaxColoringPage.Button.Italic=기울임꼴(&I)
+ExpressionSyntaxColoringPage.Button.Restore=기본값 복원(&R)
+ExpressionSyntaxColoringPage.Button.Strikethrough=취소선(&S)
 ExpressionSyntaxColoringPage.Button.Underline=밑줄(&U)
-ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
-ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Decscription=목록 또는 예제 텍스트 영역에서 사용자 지정하려는 스타일의 텍스트 유형을 선택하여 구문 강조를 사용자 지정합니다.
+ExpressionSyntaxColoringPage.Element.Comment=주석
 ExpressionSyntaxColoringPage.Element.Default=기본값
-ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.Keyword=키워드
 ExpressionSyntaxColoringPage.Element.String=문자열
-ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
-ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
-ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
-ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
-ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
+ExpressionSyntaxColoringPage.Label.Background=배경(&O):
+ExpressionSyntaxColoringPage.Label.Foreground=전경(&F):
+ExpressionSyntaxColoringPage.Label.SampleText=샘플 텍스트(&S):
+ExpressionSyntaxColoringPage.Label.SyntaxElement=구문 요소(&Y):
+ExpressionSyntaxColoringPage.Link.ColorAndFont=기본 색상 및 글꼴은  <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">텍스트 편집기</a> 와  <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">색상 및 글꼴</a>  기본 설정 페이지에서 구성할 수 있습니다.
 
 ###########################################################
 #VariableDropAdapter

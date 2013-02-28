@@ -50,13 +50,13 @@ public class CommentsPreferencePage extends BaseStylePreferencePage
 	 */
 	protected void createFieldEditors( )
 	{
-		//super.createFieldEditors( );
+		// super.createFieldEditors( );
 
 		comments = new TextFieldEditor( StyleHandle.COMMENTS_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.COMMENTS_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
-				SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER,
+				SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER,
 				getFieldEditorParent( ) );
 		addField( comments );
 		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),
@@ -68,6 +68,8 @@ public class CommentsPreferencePage extends BaseStylePreferencePage
 	{
 		super.adjustGridLayout( );
 		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd.widthHint = 300;
+		gd.heightHint = 200;
 		comments.getTextControl( getFieldEditorParent( ) ).setLayoutData( gd );
 	}
 

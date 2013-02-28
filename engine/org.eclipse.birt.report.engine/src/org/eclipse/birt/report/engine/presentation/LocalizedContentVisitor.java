@@ -88,6 +88,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.w3c.dom.css.CSSValue;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 
@@ -99,6 +100,7 @@ public class LocalizedContentVisitor
 	
 	private ExecutionContext context;
 	private Locale locale;
+	private TimeZone timeZone;
 	private String outputFormat;
 	protected HashMap templates = new HashMap( );
 	private OnRenderScriptVisitor onRenderVisitor;
@@ -117,6 +119,7 @@ public class LocalizedContentVisitor
 	{
 		this.context = context;
 		this.locale = context.getLocale( );
+		this.timeZone = context.getTimeZone( );
 		this.outputFormat = context.getOutputFormat( );
 		this.onRenderVisitor = new OnRenderScriptVisitor( context );
 	}
@@ -882,6 +885,10 @@ public class LocalizedContentVisitor
 		buffer.append( getChartResolution( content ) );
 		buffer.append( getChartFormats( ) );
 		buffer.append( locale );
+		if ( timeZone != null )
+		{
+			buffer.append( timeZone.getID( ) );
+		}
 		return buffer.toString( );
 	}
 	
@@ -951,18 +958,39 @@ public class LocalizedContentVisitor
 				.getGenerateBy( );
 		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
 		String tagName = handle.getExtensionName( );
+		IReportItemPresentation itemPresentation = context
+				.getExtendedItemManager( ).createPresentation( handle );
+		// call the presentation peer to create the content object		
+		int resolution = 0;
+		
+		IDataQueryDefinition[] queries = design.getQueries( );
+		
+		ReportItemPresentationInfo info = new ReportItemPresentationInfo( );
+		info.setModelObject( handle );
+		info.setApplicationClassLoader( context.getApplicationClassLoader( ) );
+		info.setReportContext( context.getReportContext( ) );
+		info.setReportQueries( queries );
+		resolution = getChartResolution( content );
+		info.setResolution( resolution );
+		info.setExtendedItemContent( content );
+		info.setSupportedImageFormats( getChartFormats( ) );
+		info.setActionHandler( context.getActionHandler( ) );
+		info.setOutputFormat( getOutputFormat( ) );
+
+		itemPresentation.init( info );
 		
 		if ( "Chart".equals( tagName ) )
 		{
 			IHTMLImageHandler imageHandler = context.getImageHandler( );
-			if ( imageHandler != null )
+			// get cached image if support the cache
+			if ( imageHandler != null &&itemPresentation !=null && itemPresentation.isCacheable( ) )
 			{
 				String imageId = getImageCacheID( content );
 				CachedImage cachedImage = imageHandler.getCachedImage( imageId,
 						IImage.CUSTOM_IMAGE, context.getReportContext( ) );
 				if ( cachedImage != null )
 				{
-					return processCachedImage(content, cachedImage);
+					return processCachedImage( content, cachedImage );
 				}
 			}
 			
@@ -989,31 +1017,9 @@ public class LocalizedContentVisitor
 				}
 			}
 		}
-
-		// call the presentation peer to create the content object
-		IReportItemPresentation itemPresentation = context
-				.getExtendedItemManager( ).createPresentation( handle );
-		int resolution = 0;
+		
 		if ( itemPresentation != null )
 		{
-			IDataQueryDefinition[] queries = design.getQueries( );
-
-			ReportItemPresentationInfo info = new ReportItemPresentationInfo( );
-			info.setModelObject( handle );
-			info
-					.setApplicationClassLoader( context
-							.getApplicationClassLoader( ) );
-			info.setReportContext( context.getReportContext( ) );
-			info.setReportQueries( queries );
-			resolution = getChartResolution( content );
-			info.setResolution( resolution );
-			info.setExtendedItemContent( content );
-			info.setSupportedImageFormats( getChartFormats( ) );
-			info.setActionHandler( context.getActionHandler( ) );
-			info.setOutputFormat( getOutputFormat( ) );
-
-			itemPresentation.init( info );
-
 			Object rawValue = content.getRawValue( );
 			if ( rawValue instanceof byte[] )
 			{
@@ -1178,18 +1184,43 @@ public class LocalizedContentVisitor
 				IHTMLImageHandler imageHandler = context.getImageHandler( );
 				if ( imageHandler != null )
 				{
-					Image img = new Image( imageObj );
-					img.setRenderOption( context.getRenderOption( ) );
-					img.setReportRunnable( context.getRunnable( ) );
-					img.setImageSize( processImageSize( size ) );
-					String imageId = getImageCacheID( content );
-					CachedImage cachedImage = imageHandler.addCachedImage(
-							imageId, IImage.CUSTOM_IMAGE, img, context
-									.getReportContext( ) );
-					if ( cachedImage != null )
+					ExtendedItemDesign design = (ExtendedItemDesign) content
+							.getGenerateBy( );
+					ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
+					IReportItemPresentation itemPresentation = context.getExtendedItemManager( ).createPresentation( handle );
+					// call the presentation peer to create the content object		
+					int resolution = 0;
+					
+					IDataQueryDefinition[] queries = design.getQueries( );
+					
+					ReportItemPresentationInfo info = new ReportItemPresentationInfo( );
+					info.setModelObject( handle );
+					info.setApplicationClassLoader( context.getApplicationClassLoader( ) );
+					info.setReportContext( context.getReportContext( ) );
+					info.setReportQueries( queries );
+					resolution = getChartResolution( content );
+					info.setResolution( resolution );
+					info.setExtendedItemContent( content );
+					info.setSupportedImageFormats( getChartFormats( ) );
+					info.setActionHandler( context.getActionHandler( ) );
+					info.setOutputFormat( getOutputFormat( ) );
+
+					itemPresentation.init( info );
+					
+					if( itemPresentation != null && itemPresentation.isCacheable( ) )
 					{
-						return processCachedImage( content, cachedImage );
-					}
+						Image img = new Image( imageObj );
+						img.setRenderOption( context.getRenderOption( ) );
+						img.setReportRunnable( context.getRunnable( ) );
+						img.setImageSize( processImageSize( size ) );
+						String imageId = getImageCacheID( content );
+						CachedImage cachedImage = imageHandler.addCachedImage( imageId, IImage.CUSTOM_IMAGE, img,
+								context.getReportContext( ) );
+						if ( cachedImage != null )
+						{
+							return processCachedImage( content, cachedImage );
+						}
+					}					
 				}
 
 				// don' have image cache, so handle it as a normal image

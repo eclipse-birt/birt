@@ -1,13 +1,12 @@
 #/*******************************************************************************
-# * Copyright (c) 2006, 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
 # * Contributors:
-# *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 
 ###########################################################
 #AbstractDataSetWizard properties
@@ -263,6 +262,12 @@ ColumnBindingDialog.Text.AddAggr=A&ggregat hinzufügen...
 #BlockPreferencePage properties
 
 BlockPreferencePage.displayname.Title=Textblock
+
+
+###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -603,6 +608,11 @@ DataSetBasePage.tooltip=Name darf nicht leer sein.
 DataSetBasePage.ScriptedDataSet.name=Geskripteter Datensatz
 DataSetBasePage.ScriptedDataSource.name=Geskriptete Datenquelle
 DataSetBasePage.Group.DataSourceSelection=Datenquellenauswahl
+
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Hector Clientbibliothek JARs zur Unterstützung der geskripteten Datenquelle Cassandra wurden nicht gefunden.
 
 ###########################################################
 #JointDataSetPage properties
@@ -4311,8 +4321,8 @@ GeneralPage.Library.Included=Bibliothek:
 GeneralPage.Library.Modified.Note=HINWEIS: Dieses Berichtobjekt aus der Bibliothek wurde geändert. Klicken Sie zum Wiederherstellen des Objekts aus der Bibliothek auf{0}"Eigenschaften wiederherstellen".
 
 #BookMarkPage
-BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
-BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
+BookMarkPage.Modified.Note=Das Lesezeichen enthält Sonderzeichen statt der folgenden Zeichen(A-Z, a-z, 0-9, '-', '_', ':', '.'). Dies kann zu Problemen während der Laufzeit führen.
+BookMarkPage.Modified.WithoutQuotes=Das Lesezeichen steht nicht in doppelten Anführungszeichen. Dies kann zu Problemen während der Laufzeit führen.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4621,14 +4631,15 @@ BindingDialogHelper.text.Grid=Raster
 BindingDialogHelper.text.Group=Gr&uppe
 BindingDialogHelper.text.Expression=&Ausdruck:
 BindingDialogHelper.text.displayName=Anzeige&name:
-BindingDialogHelper.text.allowExport=Exp&ort:
-BindingDialogHelper.text.allowExport.button=Allow Export
+BindingDialogHelper.text.allowExport=Exp&ortieren:
+BindingDialogHelper.text.allowExport.button=Export zulassen
 BindingDialogHelper.text.displayNameID=Namen-ID an&zeigen:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden.
 BindingDialogHelper.error.improperexpression=Ungültiger Typ für Aggregat in Quadereinheit: '{0}'.
 BindingDialogHelper.error.empty={0} ist erforderlich.
+BindingDialogHelper.error.text.Name=Column Binding Name
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Der empfohlene Datentyp für die aktuelle Funktion ist '{0}'. Möchten Sie den ausgewählten Datentypen wirklich beibehalten?
 BindingDialogHelper.warning.parameter=Der Ausgabedatentyp des Ausdrucks '{0}' wird für den Parameter '{1}' nicht unterstützt. Möchten Sie ihn wirklich beibehalten?
@@ -4639,7 +4650,7 @@ BindingDialogHelper.warning.button.no=Nein
 #Scripts Node
 Scripts.Node.DisplayName=Skripte
 ScriptElementNode.Action.Text=Zu Berichtselement &wechseln
-ScriptObjectNode_0=&Reset Script
+ScriptObjectNode_0=&Skript zurücksetzen
 
 ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 
@@ -4649,7 +4660,7 @@ CrosstabBindingDialogHelper.AggOn.All=Alles
 CrosstabBindingDialogHelper.bindngName.timeperiod=Periode
 CrosstabBindingDialogHelper.calculation.label=Zeit&intervall:
 CrosstabBindingDialogHelper.calculation.group=Zeitintervall
-CrosstabBindingDialogHelper.recentday.description=Last date in the period
+CrosstabBindingDialogHelper.recentday.description=Letztes Datum im Zeitintervall
 CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
 CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:
 CrosstabBindingDialogHelper.thisdate.example.label=Bitte schließen Sie den angegebenen Datumswert in Anführungszeichen ein.\nBeispiel: "2012-01-23", "1/23/2012".
@@ -4726,7 +4737,7 @@ InsertAggregationAction.text=&Aggregat
 
 ###########################################################
 #InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+InsertRelativeTimePeriodAction.text=Relati&ves Zeitintervall
 
 ###########################################################
 #Multiple views
@@ -4761,10 +4772,10 @@ GeneralConfigurationBlock.message.general.description=Allgemeine Einstellungen f
 GeneralConfigurationBlock.button.text.enable.gradient=&Verlaufsauswahl aktivieren 
 GeneralConfigurationBlock.button.text.enable.animation=A&nimierte Auswahl aktivieren
 GeneralConfigurationBlock.group.label=Eingabeaufforderung
-GeneralConfigurationBlock.group.defaultThemes=Default themes library
+GeneralConfigurationBlock.group.defaultThemes=Bibliothek der Standardthemen
 GeneralConfigurationBlock.button.text.prompt=&Eingabeaufforderung nach Öffnen der Bibliotheksdatei anzeigen
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
-GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Bibliothek der Standard&themen aktivieren
+GeneralConfigurationBlock.button.text.defaultTheme.include=Standardthemen e&inschließen
 GeneralConfigurationBlock.move.binding.group=Lokale Bindungen für eine verbesserte Leistung zu übergeordnetem Element verschieben
 GeneralConfigurationBlock.move.binding.always=I&mmer
 GeneralConfigurationBlock.move.binding.never=N&ie
@@ -4881,24 +4892,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=&Standardsyntax:
 ExpressionEditor.Error.EmptyExpression=Ausdruck darf nicht leer sein.
 ExpressionEditor.Label.Expression=&Ausdruck:
 ExpressionEditor.Title=Ausdruck bearbeiten
-ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
-ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
-ExpressionSyntaxColoringPage.Button.Bold=&Bold
-ExpressionSyntaxColoringPage.Button.Enable=Enable
-ExpressionSyntaxColoringPage.Button.Italic=&Italic
-ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
-ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Hintergrundfarbauswahl
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Vordergrundfarbauswahl
+ExpressionSyntaxColoringPage.Button.Bold=&Fett
+ExpressionSyntaxColoringPage.Button.Enable=Aktivieren
+ExpressionSyntaxColoringPage.Button.Italic=&Kursiv
+ExpressionSyntaxColoringPage.Button.Restore=&Standardwert wiederherstellen
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Durchgestrichen
 ExpressionSyntaxColoringPage.Button.Underline=&Unterstrichen
-ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
-ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Decscription=Um die Kennzeichnung der Syntax anzupassen, wählen Sie den Texttyp aus der Liste oder dem Beispieltextbereich aus, dessen Stil Sie anpassen möchten.
+ExpressionSyntaxColoringPage.Element.Comment=Kommentar
 ExpressionSyntaxColoringPage.Element.Default=Standard
-ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.Keyword=Schlüsselwort
 ExpressionSyntaxColoringPage.Element.String=Zeichenfolge
-ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
-ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
-ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
-ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
-ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
+ExpressionSyntaxColoringPage.Label.Background=Hintergr&und:
+ExpressionSyntaxColoringPage.Label.Foreground=&Vordergrund:
+ExpressionSyntaxColoringPage.Label.SampleText=&Beispieltext:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntaxelement:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Standardfarben und -schriftarten können auf der Voreinstellungsseite <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">'Texteditor'</a> und <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">'Schriftarten und Farben'</a> konfiguriert werden.
 
 ###########################################################
 #VariableDropAdapter

@@ -14,7 +14,7 @@ DeleteDimensionViewHandleAction.DisplayName=Suppri&mer
 DeleteMeasureHandleAction.DisplayName=Suppri&mer
 DeleteMeasureHandleAction.TransName=Supprimer la mesure
 
-AddComputedMesureHandleAction.DisplayName=Ajouter une me&sure dérivée
+AddComputedMesureHandleAction.DisplayName=Ajouter une &mesure dérivée
 AddComputedMesureHandleAction.TransName=Ajouter une mesure dérivée
 AddComputedSummaryDialog.Title=Mesure dérivée
 AddComputedSummaryDialog.Label.Name=&Nom :

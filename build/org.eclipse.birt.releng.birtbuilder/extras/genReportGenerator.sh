@@ -79,7 +79,7 @@ echo 'for i in `ls $BIRT_HOME/ReportEngine/lib/*.jar`;do export BIRTCLASSPATH=$i
 echo "" >> $2/genReport.sh
 echo JAVACMD=\'java\'\; >> $2/genReport.sh
 
-echo  \$JAVACMD -cp \"\$BIRTCLASSPATH\" -DBIRT_HOME=\"\$BIRT_HOME/ReportEngine\" -Dorg.eclipse.datatools_workspacepath=\"\$org_eclipse_datatools_workspacepath\" org.eclipse.birt.report.engine.api.ReportRunner \${1+\"\$@\"} >> $2/genReport.sh
+echo  \$JAVACMD -Djava.awt.headless=true -cp \"\$BIRTCLASSPATH\" -DBIRT_HOME=\"\$BIRT_HOME/ReportEngine\" -Dorg.eclipse.datatools_workspacepath=\"\$org_eclipse_datatools_workspacepath\" org.eclipse.birt.report.engine.api.ReportRunner \${1+\"\$@\"} >> $2/genReport.sh
 echo "" >> $2/genReport.sh
 echo fi >> $2/genReport.sh
 

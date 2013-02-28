@@ -747,7 +747,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	protected void createGraphicalViewer( Composite parent )
 	{
 		DeferredGraphicalViewer viewer = new DeferredGraphicalViewer( );
-
 		viewer.createControl( parent );
 		setGraphicalViewer( viewer );
 		configureGraphicalViewer( );

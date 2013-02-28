@@ -1,4 +1,4 @@
-datasource.page.title=Nouvelle source de données Hive
+datasource.page.title=Définir la source de données ${odadesignerid.ds.displayname}
 datasource.page.msg=Une source de données JDBC se connectant à Hive.
 datasource.page.driver.class=Classe de pilote :
 datasource.page.url=URL de la base de données : 

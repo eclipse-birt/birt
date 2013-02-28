@@ -69,7 +69,6 @@ public class DataSetPreviewer
 		return result.nextResultIterator( ).getResultIterator( );
 	}
 	
-	
 	private static IReportEngine createReportEngine( EngineConfig config ) throws BirtException
 	{
 		return ReportEngineCreator.createReportEngine( config );

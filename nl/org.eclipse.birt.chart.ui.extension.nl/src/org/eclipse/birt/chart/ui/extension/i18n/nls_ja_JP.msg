@@ -103,6 +103,8 @@ BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius=ŠO‘¤”¼Œa (&O):
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties=—Ìˆæ‚ÌƒvƒƒpƒeƒB
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialLabelProperties=—Ìˆæƒ‰ƒxƒ‹‚ÌƒvƒƒpƒeƒB
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=ƒ}[ƒJƒ‰ƒxƒ‹‚ÌƒvƒƒpƒeƒB
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveDown=‰º‚Ö(&W)
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveUp=ã‚Ö(&U)
 BaseAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=²ƒ}[ƒJ‚Ì‘®«ƒV[ƒg‚Ìˆø”‚ª–³Œø‚Å‚·BƒOƒ‰ƒt‚ÍAChartWithAxes Œ^‚Éw’è‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
 
 BaseSeriesDataSheetImpl.Choice.Unsorted=ƒ\[ƒg–¢ˆ—
@@ -175,6 +177,8 @@ OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=²ƒ}[ƒJ‚Ì‘®«ƒ
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Remove=íœ(&R)
 OrthogonalSeriesAttributeSheetImpl.Lbl.Add=’Ç‰Á(&A)
+OrthogonalSeriesAttributeSheetImpl.Lbl.Up=ã‚Ö(&U)
+OrthogonalSeriesAttributeSheetImpl.Lbl.Down=‰º‚Ö(&D)
 OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix=Ú“ª« (&F):
 OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix=Ú”ö« (&X):
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesType=Œn—ñ :
@@ -724,8 +728,8 @@ TaskSelectType.Label.SeriesType=Œn—ñ(&S) :
 TaskSelectType.Task.Description=ƒOƒ‰ƒt‚Ìí—Ş‚Æo—ÍŒ`®‚ğ‘I‘ğ‚µ‚Ü‚·B
 TaskSelectType.Label.OutputFormat=o—ÍŒ`®(&O) :
 TaskSelectType.Selection.MoreAxes=‚»‚Ì‘¼‚Ì²
-TaskSelectType.Label.SelectChartType=ƒOƒ‰ƒt‚Ìí—Ş‚Ì‘I‘ğ
-TaskSelectType.Label.SelectSubtype=ƒTƒuƒ^ƒCƒv‚Ì‘I‘ğ
+TaskSelectType.Label.SelectChartType=ƒOƒ‰ƒt‚Ìí—Ş‚Ì‘I‘ğ(&T)
+TaskSelectType.Label.SelectSubtype=ƒTƒuƒ^ƒCƒv‚Ì‘I‘ğ(&U)
 TaskSelectType.Exception.CannotSupportAxes=ChartWithoutAxes ‚Å‚Í²‚ğg—p‚Å‚«‚Ü‚¹‚ñB
 TaskSelectType.Exception.NotSupportedForMultipleAxes=\ ‚ÍA•¡”²‚É‚Íg—p‚Å‚«‚Ü‚¹‚ñB\!
 TaskSelectType.Label.ChartTypes=ƒOƒ‰ƒt‚Ìí—Ş
@@ -916,7 +920,7 @@ BaseDataDefinitionComponent.Text.SpecifyDataDefinition=ƒf[ƒ^’è‹`‚Ìw’è
 BaseDataDefinitionComponent.Label.EditGroupSorting=ƒOƒ‹[ƒv‚Æƒ\[ƒg‚Ì•ÒW
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=’l®‚Ì“ü—Í
 BaseDataDefinitionComponent.Text.EditFormat=‘®‚Ì•ÒW
-BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1 ‚Â‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì®‚ğ‘I‘ğ‚µ‚ÄAƒJƒeƒSƒŠŒn—ñ‚Æ Y ²‚ÌƒIƒvƒVƒ‡ƒ“’l‚ğ“¯‚Éİ’è‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB
+BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1 ‚Â‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ì®‚ğ‘I‘ğ‚µ‚ÄAƒJƒeƒSƒŠŒn—ñ‚Æ Y ²‚ÌƒIƒvƒVƒ‡ƒ“’l‚ğ“¯‚Éİ’è‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB
 BaseGroupSortingDialog.Label.SortOn=ƒ\[ƒg(&O) :
 
 MarkerEditorComposite.Button.Outline=ŠO˜g(&O)

@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.ReportClasspathResolver;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SelectionBorder;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
@@ -39,6 +40,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Palet
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ExtendedResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
+import org.eclipse.birt.report.designer.internal.ui.util.ColorHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceSynchronizer;
@@ -70,10 +72,12 @@ import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -135,7 +139,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	// The entry delimiter
 	public static final String PREFERENCE_DELIMITER = ";"; //$NON-NLS-1$
 	public static final String SPACE = " "; //$NON-NLS-1$
-
+	public static final String PREFERENCE_TRUE = "true"; //$NON-NLS-1$
+	
 	public static final String ENABLE_GRADIENT_SELECTION_PREFERENCE = "designer.general.preference.selection.enable.gradient.preferencestore"; //$NON-NLS-1$
 	public static final String ENABLE_ANIMATION_SELECTION_PREFERENCE = "designer.general.preference.selection.enable.animation.preferencestore"; //$NON-NLS-1$
 	public static final String DEFAULT_NAME_PREFERENCE = "designer.preview.preference.elementname.defaultname.preferencestore"; //$NON-NLS-1$
@@ -152,6 +157,10 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.comment.description.preferencestore"; //$NON-NLS-1$
 	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore"; //$NON-NLS-1$
 	public static final String CUSTOM_COLORS_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.custom.colors.preferencestore"; //$NON-NLS-1$
+	public static final String EXPRESSION_CONTENT_COLOR_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.expression.content.color.preferencestore"; //$NON-NLS-1$
+	public static final String EXPRESSION_KEYWORD_COLOR_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.expression.keyword.color.preferencestore"; //$NON-NLS-1$
+	public static final String EXPRESSION_COMMENT_COLOR_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.expression.comment.color.preferencestore"; //$NON-NLS-1$
+	public static final String EXPRESSION_STRING_COLOR_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.expression.string.color.preferencestore"; //$NON-NLS-1$
 	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
 
 	private static final List<String> elementToFilter = Arrays.asList( new String[]{
@@ -276,6 +285,16 @@ public class ReportPlugin extends AbstractUIPlugin
 				.setDefault( LIBRARY_MOVE_BINDINGS_PREFERENCE,
 						MessageDialogWithToggle.PROMPT );
 
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+					.setDefault( LIBRARY_DEFAULT_THEME_ENABLE,
+						PREFERENCE_TRUE );
+		
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( LIBRARY_DEFAULT_THEME_INCLUDE,
+						PREFERENCE_TRUE );
+		
 		initCellCursor( );
 
 		setDefaultBiDiSettings( );
@@ -304,6 +323,8 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		// set default enable comment preference
 		setDefaultEnableCommentPreference( );
+
+		setDefaultExpressionSyntaxColorPreference( );
 
 		// Biding default short cut services
 		// Using 3.0 compatible api
@@ -1271,6 +1292,36 @@ public class ReportPlugin extends AbstractUIPlugin
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
 				.setDefault( ENABLE_COMMENT_PREFERENCE, false );
+	}
+
+	/**
+	 * set expression syntax color preference
+	 * 
+	 */
+	public void setDefaultExpressionSyntaxColorPreference( )
+	{
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( EXPRESSION_CONTENT_COLOR_PREFERENCE,
+						ColorHelper.toRGBString( Display.getDefault( )
+								.getSystemColor( SWT.COLOR_LIST_FOREGROUND )
+								.getRGB( ) )
+								+ " | null | false | false | false | false" );//$NON-NLS-1$
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( EXPRESSION_COMMENT_COLOR_PREFERENCE,
+						ColorHelper.toRGBString( ReportColorConstants.JSCOMMENTCOLOR.getRGB( ) )
+								+ " | null | false | false | false | false" );//$NON-NLS-1$
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( EXPRESSION_KEYWORD_COLOR_PREFERENCE,
+						ColorHelper.toRGBString( ReportColorConstants.JSKEYWORDCOLOR.getRGB( ) )
+								+ " | null | true | false | false | false" );//$NON-NLS-1$
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( EXPRESSION_STRING_COLOR_PREFERENCE,
+						ColorHelper.toRGBString( ReportColorConstants.JSSTRINGCOLOR.getRGB( ) )
+								+ " | null | false | false | false | false" );//$NON-NLS-1$
 	}
 
 	/**

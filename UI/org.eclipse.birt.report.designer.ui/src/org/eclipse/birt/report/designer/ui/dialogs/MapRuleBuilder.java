@@ -1791,35 +1791,9 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 		btnBrowse.setEnabled( true );
 		btnReset.setEnabled( true );
 
-		String baseName = getBaseName( );
-		if ( baseName == null )
-		{
+		if(getAvailableResourceUrls( ) == null
+				|| getAvailableResourceUrls( ).length < 1){
 			btnBrowse.setEnabled( false );
-		}
-		else
-		{
-			URL resource = getResourceURL( );
-			String path = null;
-			try
-			{
-				if ( resource != null )
-				{
-					path = DEUtil.getFilePathFormURL( resource );
-				}
-
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
-			}
-			if ( resource == null || path == null || !new File( path ).exists( ) )
-			{
-				btnBrowse.setEnabled( false );
-			}
-			else
-			{
-				btnBrowse.setEnabled( true );
-			}
 		}
 		if ( handle != null )
 		{

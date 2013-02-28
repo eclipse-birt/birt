@@ -84,7 +84,7 @@ public class ExcelLayoutEngine
 	
 	public final static int MAX_ROW_OFFICE2003 = 65535;
 	
-	public final static int MAX_COLUMN_OFFICE2003 = 255;
+	public final static int MAX_COLUMN_OFFICE2003 = 256;
 	
 	protected int maxRow = MAX_ROW_OFFICE2003;
 
@@ -1267,7 +1267,7 @@ public class ExcelLayoutEngine
 		{
 			SheetData[] row = rowIterator.next( );
 			List<SheetData> data = new ArrayList<SheetData>( );
-			int width = Math.min( row.length, maxCol - 1 );
+			int width = Math.min( row.length, maxCol );
 			int rowIndex = 0;
 			for ( int i = 0; i < width; i++ )
 			{

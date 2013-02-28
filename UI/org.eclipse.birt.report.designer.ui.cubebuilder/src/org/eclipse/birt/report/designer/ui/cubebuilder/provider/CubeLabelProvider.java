@@ -307,7 +307,7 @@ public class CubeLabelProvider extends LabelProvider
 		return dimensions;
 	}
 
-	private Map<String, List<String>> getColumnMap( )
+	protected Map<String, List<String>> getColumnMap( )
 	{
 		Map<String, List<String>> columnMap = new HashMap<String, List<String>>( );
 

@@ -48,3 +48,8 @@ Action.PublishLibrary=共有リソースフォルダへのライブラリのコピー(&B)...
 Action.AddReportNature=レポートサポートの追加
 Menu.Report=レポート
 birtproblemName=レポートの問題
+
+###############################################################################
+# Preferences
+###############################################################################
+preference.expressionsyntaxcolor=構文の色
