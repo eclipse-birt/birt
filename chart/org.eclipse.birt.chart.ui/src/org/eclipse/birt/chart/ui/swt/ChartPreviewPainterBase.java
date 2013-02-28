@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 
 /**
@@ -27,9 +28,9 @@ public abstract class ChartPreviewPainterBase extends
 		super( wizardContext );
 	}
 
-	protected void doRenderModel( Chart chart )
+	protected void doRenderModel( IChartObject object )
 	{
-		super.doRenderModel( chart );
+		Chart chart = (Chart) object;
 		// If not use live preview, use sample data to create runtime series
 		if ( !( isLivePreviewActive( ) && isLivePreviewEnabled( ) ) )
 		{
