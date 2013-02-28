@@ -11,22 +11,31 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataXtabAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataXtabAdapter;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.requests.CreateRequest;
 
 public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 {
@@ -35,7 +44,8 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 	public int canDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-		if (adapter == null || !adapter.isExtendedDataColumn( transfer ))
+		if ( !(transfer instanceof ReportElementHandle) 
+				|| adapter == null || !adapter.isExtendedDataItem( (ReportElementHandle) transfer ))
 		{
 			return DNDService.LOGIC_UNKNOW;
 		}
@@ -61,13 +71,25 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 			EditPart targetPart = (EditPart) target;
 			
 			CrosstabReportItemHandle crosstab = getCrosstab( targetPart );
-			if ( crosstab != null )
+			
+			if (crosstab == null)
 			{
-				if(!adapter.getExtendedDataName( (ReportItemHandle) crosstab.getModelHandle( ) )
-						.equals( ((ReportElementHandle) transfer).getContainer( ).getContainer( ).getName( ) ))
+				return false;
+			}
+			
+			CommandStack cmdStack = crosstab.getModuleHandle( ).getCommandStack( );
+			cmdStack.startTrans( Messages.getFormattedString( "ExtendedDataColumnXtabDropAdapter.trans.add", //$NON-NLS-1$
+					new String[]{ ((ReportElementHandle) transfer).getName( )} ) );
+
+			ReportElementHandle extendedData = adapter.getExtendedData( (ReportItemHandle) crosstab.getModelHandle( ) );
+			
+			if(extendedData == null || !extendedData.equals( adapter.resolveExtendedData( (ReportElementHandle) transfer)))
+			{
+				if(! adapter.setExtendedData( (ReportItemHandle)crosstab.getModelHandle( ), 
+						adapter.resolveExtendedData( (ReportElementHandle) transfer)))
 				{
-					adapter.setExtendedData( (ReportItemHandle)crosstab.getModelHandle( ), 
-							((ReportElementHandle) transfer).getContainer( ).getContainer( ));
+					cmdStack.rollback( );
+					return false;
 				}
 			}
 			
@@ -75,14 +97,56 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 			
 			if (element instanceof MeasureHandle)
 			{
-				return new MeasureHandleDropAdapter().performDrop( element, targetPart, operation, location );
+				CreateRequest request = new CreateRequest( );
+				request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, element );
+				request.setLocation( location.getPoint( ) );
+				
+				Command command = targetPart.getCommand( request );
+				if ( command != null && command.canExecute( ) )
+				{
+					targetPart.getViewer( )
+							.getEditDomain( )
+							.getCommandStack( )
+							.execute( command );
+					
+					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
+					providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
+					
+					if (crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ) != 0)
+					{
+						DimensionViewHandle viewHnadle = crosstab.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE, 
+								crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ) - 1 );
+						CrosstabUtil.addLabelToHeader( viewHnadle.getLevel( viewHnadle.getLevelCount( ) - 1 ) );
+					}
+						
+					cmdStack.commit( );
+					
+					return true;
+				}
 			}
 			else if (element instanceof DimensionHandle)
 			{
-				return new DimensionHandleDropAdapter().performDrop( element, targetPart, operation, location );
+				CreateRequest request = new CreateRequest( );
+				request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, element );
+				request.setLocation( location.getPoint( ) );
+				
+				Command command = targetPart.getCommand( request );
+				if ( command != null && command.canExecute( ) )
+				{
+					targetPart.getViewer( )
+							.getEditDomain( )
+							.getCommandStack( )
+							.execute( command );
+
+					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
+					providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
+					
+					cmdStack.commit( );
+
+					return true;
+				}
 			}
 		}
-
 		return false;
 	}
 
@@ -111,9 +175,14 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 	
 	private Object handleValidate(EditPart editPart, Object transfer)
 	{
-		Object[] supportedTypes = adapter.getSupportedTypes( transfer, getCrosstab( editPart ).getCube( ) );
+		if (!( transfer instanceof ReportElementHandle ))
+		{
+			return null;
+		}
 		
-		for (Object type : supportedTypes)
+		ReportElementHandle[] supportedTypes = adapter.getSupportedTypes( (ReportElementHandle) transfer, getCrosstab( editPart ).getCube( ) );
+		
+		for (ReportElementHandle type : supportedTypes)
 		{
 			if (( (IVirtualValidator) editPart.getModel( ) ).handleValidate( type ))
 			{

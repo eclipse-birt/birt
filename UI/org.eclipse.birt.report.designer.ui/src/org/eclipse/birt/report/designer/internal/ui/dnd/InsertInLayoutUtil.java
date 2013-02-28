@@ -2145,8 +2145,10 @@ public class InsertInLayoutUtil
 		if ( handle instanceof DataSetHandle )
 		{
 			IExtendedDataXtabAdapter adapter = ExtendedDataXtabAdapterHelper.getInstance( ).getAdapter( );
+			boolean needsDataSource = adapter == null ? true : adapter.needsDataSource( (DataSetHandle) handle );
 			
-			if ( ( !( handle instanceof JointDataSetHandle || handle instanceof DerivedDataSetHandle || (adapter != null ? !adapter.hasDataSource( handle ) : false) ) && ( (DataSetHandle) handle ).getDataSource( ) == null )
+			if ( ( !( handle instanceof JointDataSetHandle || handle instanceof DerivedDataSetHandle || !needsDataSource ) 
+							&& ( (DataSetHandle) handle ).getDataSource( ) == null )
 					|| !DataSetUIUtil.hasMetaData( (DataSetHandle) handle ) )
 			{
 				return false;
