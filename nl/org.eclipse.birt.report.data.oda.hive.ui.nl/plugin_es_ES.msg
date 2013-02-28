@@ -15,4 +15,4 @@ profile.propertypage.name=Propiedades de conexión de fuente de datos de archivo 
 dataset.editor.page.query=Consulta HQL
 org.eclipse.birt.report.data.oda.hive.ui.ds.displayname=Hive
 
-wizard.data.set.title=New Data Set
+wizard.data.set.title=Nuevo conjunto de datos

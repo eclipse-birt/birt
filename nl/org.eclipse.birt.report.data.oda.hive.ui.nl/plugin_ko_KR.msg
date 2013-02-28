@@ -15,4 +15,4 @@ profile.propertypage.name=BIRT Hive 데이터 원본 연결 속성
 dataset.editor.page.query=HQL 쿼리
 org.eclipse.birt.report.data.oda.hive.ui.ds.displayname=Hive
 
-wizard.data.set.title=New Data Set
+wizard.data.set.title=새 데이터 집합
