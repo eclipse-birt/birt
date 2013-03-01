@@ -831,7 +831,9 @@ public final class CrosstabUtil implements ICrosstabConstants
 				if ( crosstab.getHeader( count ).getContents( ).get( 0 ) instanceof LabelHandle)
 				{
 					LabelHandle labelHandle = (LabelHandle)crosstab.getHeader( count ).getContents( ).get( 0 );
-					labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
+					labelHandle.setText(levelHandle.getDisplayField( ) == null?
+							(levelHandle.getCubeLevel() == null? "" : levelHandle.getCubeLevel( ).getName( ))
+							: levelHandle.getDisplayField( ));
 				}
 			}
 		}
