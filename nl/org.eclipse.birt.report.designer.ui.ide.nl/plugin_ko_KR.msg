@@ -48,3 +48,8 @@ Action.PublishLibrary=공유 리소스 폴더로 라이브러리 복사(&B)...
 Action.AddReportNature=보고서 추가 지원
 Menu.Report=보고서
 birtproblemName=보고서 문제
+
+###############################################################################
+# Preferences
+###############################################################################
+preference.expressionsyntaxcolor=구문 색상 지정

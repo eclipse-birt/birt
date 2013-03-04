@@ -160,12 +160,21 @@ public class ParameterHelper
 		{
 			return null;
 		}
+		else if ( labelColumnName == null )
+		{
+			// if display text is not set, apply the formatter.
+			String name = valueColumnName;
+			Object value = getValue( resultIterator );
+			return converter.format( value );
+		}
 		else
 		{
-			String name = labelColumnName != null ? labelColumnName
-					: valueColumnName;
+			// if display text is set , DON'T apply the formatter.
+			String name = labelColumnName;
 			Object value = resultIterator.getValue( name );
-			return converter.format( value );
+			if ( value != null )
+				return value.toString( );
+			return null;
 		}
 	}
 	

@@ -48,3 +48,8 @@ Action.PublishLibrary=Copier la bi&bliothèque dans le dossier de ressources part
 Action.AddReportNature=Ajouter Assistance rapport
 Menu.Report=Rapport
 birtproblemName=Problème d'état
+
+###############################################################################
+# Preferences
+###############################################################################
+preference.expressionsyntaxcolor=Coloration syntaxique

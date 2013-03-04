@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.cache.CachedList;
@@ -328,12 +329,12 @@ public class GroupCalculationUtil
 			}
 		}
 		
-		if( !doGroupSort )
+		if( !doGroupSort && !needSortingOnGroupKeys( ) )
 			groupCount = 0;
 		
 		int[] sortKeyIndexes = new int[groupCount + sortCount];
 		String[] sortKeyColumns = new String[groupCount + sortCount];
-		boolean[] sortAscending = new boolean[groupCount + sortCount];
+		int[] sortAscending = new int[groupCount + sortCount];
 		CompareHints[] comparator = new CompareHints[groupCount + sortCount];
 		for ( int i = 0; i < groupCount; i++ )
 		{
@@ -343,7 +344,7 @@ public class GroupCalculationUtil
 				sortKeyIndexes[i] = groupDefs[i].getColumnIndex( );
 				sortKeyColumns[i] = groupDefs[i].getColumnName( );
 				sortAscending[i] = groupDefs[i].getGroupSpec( )
-						.getSortDirection( ) != IGroupDefinition.SORT_DESC;
+						.getSortDirection( );
 				//TODO:support collation sort in grouping. At current stage
 				//we only support collation sort in sort definition.
 				comparator[i] = null;
@@ -365,11 +366,45 @@ public class GroupCalculationUtil
 //						keyName );
 			sortKeyIndexes[groupCount + i] = keyIndex;
 			sortKeyColumns[groupCount + i] = keyName;
-			sortAscending[groupCount + i] = query.getOrdering( )[i].isAscendingOrder( );
+			sortAscending[groupCount + i] = query.getOrdering( )[i].isAscendingOrder( )? SortSpec.SORT_ASC:SortSpec.SORT_DESC;
 			comparator[groupCount + i] = new CompareHints( query.getOrdering( )[i].getComparator( ), null );
 		}
 
 		return new SortSpec( sortKeyIndexes, sortKeyColumns, sortAscending, comparator );
+	}
+	
+	private boolean needSortingOnGroupKeys( )
+	{	
+		// Now do sorting before group is false.
+		List<IGroupDefinition> groups = this.query.getQueryDefinition().getGroups( );
+		List<ISortDefinition> sorts = this.query.getQueryDefinition().getSorts( );
+		
+		if ( sorts == null || sorts.size( ) == 0 )
+			return false;
+
+		int i = 0;
+		for ( ; i < groups.size( ) && i < sorts.size( ); )
+		{
+			String groupKey = groups.get( i ).getKeyColumn( ) != null
+					?  ExpressionUtil.createJSRowExpression( groups.get( i ).getKeyColumn( ) )
+					: groups.get( i ).getKeyExpression( );
+			String sortKey = sorts.get( i ).getColumn( ) != null
+					?  ExpressionUtil.createJSRowExpression( sorts.get( i ).getColumn( ) )
+					: sorts.get( i ).getExpression( ).getText( );
+			if ( groupKey.equals( sortKey ) )
+			{
+				i++;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		if ( i == groups.size( ) )
+			return false;
+		else
+			return true;
 	}
 }
 

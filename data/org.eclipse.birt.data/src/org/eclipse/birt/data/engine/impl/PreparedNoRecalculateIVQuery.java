@@ -127,6 +127,7 @@ public class PreparedNoRecalculateIVQuery extends PreparedIVQuerySourceQuery
 		NoUpdateAggrFilterIVQuerySourceExecutor( Scriptable sharedScope )
 		{
 			super( sharedScope );
+			ignoreDataSetFilter = true;
 		}
 
 		protected IResultIterator executeOdiQuery( IEventHandler eventHandler )

@@ -19,7 +19,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -3468,5 +3470,21 @@ public class ParameterAccessor
 		}
 
 		return fileName;
+	}
+
+	public static String[] sortSupportedFormatsByDisplayName( String[] values )
+	{
+		Arrays.sort( values, new Comparator<String>( )
+		{
+			public int compare( String o1, String o2 )
+			{
+				if(getOutputFormatLabel(o1) != null)
+				{
+					return getOutputFormatLabel(o1).compareToIgnoreCase( getOutputFormatLabel(o2));
+				}
+				return o1.compareToIgnoreCase( o2 );
+			}
+		} );
+		return values;
 	}
 }

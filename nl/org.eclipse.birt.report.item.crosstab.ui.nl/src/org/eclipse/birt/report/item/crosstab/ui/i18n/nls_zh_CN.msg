@@ -14,7 +14,7 @@ DeleteDimensionViewHandleAction.DisplayName=删除(&V)
 DeleteMeasureHandleAction.DisplayName=删除(&V)
 DeleteMeasureHandleAction.TransName=删除度量
 
-AddComputedMesureHandleAction.DisplayName=添加衍生度量(&S)
+AddComputedMesureHandleAction.DisplayName=添加衍生度量(&M)
 AddComputedMesureHandleAction.TransName=添加衍生度量
 AddComputedSummaryDialog.Title=衍生度量
 AddComputedSummaryDialog.Label.Name=名称(&N):

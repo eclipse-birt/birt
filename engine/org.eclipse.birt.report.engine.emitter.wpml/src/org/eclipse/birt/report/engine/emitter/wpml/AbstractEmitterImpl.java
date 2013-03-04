@@ -199,6 +199,8 @@ public abstract class AbstractEmitterImpl
 
 	protected int reportDpi;
 
+	protected static final String EMPTY_FOOTER = " ";
+
 	public void initialize( IEmitterServices service ) throws EngineException
 	{
 		if ( service != null )
@@ -416,7 +418,7 @@ public abstract class AbstractEmitterImpl
 		styles.push( list.getComputedStyle( ) );
 		writeBookmark( list );
 		Object listToc = list.getTOC( );
-		if ( listToc != null )
+		if ( listToc != null && !hasTocOutputed( list ) )
 		{
 			tableTocs.add( new TocInfo( listToc.toString( ), tocLevel ) );
 		}
@@ -569,7 +571,7 @@ public abstract class AbstractEmitterImpl
 
 		writeBookmark( table );
 		Object tableToc = table.getTOC( );
-		if ( tableToc != null )
+		if ( tableToc != null && !hasTocOutputed( table ) )
 		{
 			tableTocs.add( new TocInfo( tableToc.toString( ), tocLevel ) );
 		}
@@ -625,7 +627,7 @@ public abstract class AbstractEmitterImpl
 			{
 				groupIdList.add( groupId );
 				Object groupToc = group.getTOC( );
-				if ( groupToc != null )
+				if ( groupToc != null && !hasTocOutputed( group ) )
 				{
 					tableTocs
 							.add( new TocInfo( groupToc.toString( ), tocLevel ) );
@@ -943,6 +945,22 @@ public abstract class AbstractEmitterImpl
 		return inlineFlag;
 	}
 
+	private Set<String> set = new HashSet<String>( );
+
+	private boolean hasTocOutputed( IContent content )
+	{
+		String bookmark = content.getBookmark( );
+		if ( set.contains( bookmark ) )
+		{
+			return true;
+		}
+		else
+		{
+			set.add( bookmark );
+			return false;
+		}
+	}
+
 	protected void writeBookmark( IContent content )
 	{
 		String bookmark = content.getBookmark( );
@@ -1226,11 +1244,12 @@ public abstract class AbstractEmitterImpl
 		String backgroundHeight = style.getBackgroundHeight( );
 		String backgroundWidth = style.getBackgroundWidth( );
 
+		SimpleMasterPageDesign master = (SimpleMasterPageDesign) previousPage
+				.getGenerateBy( );
+		
 		if ( previousPage.getPageHeader( ) != null || backgroundHeight != null
 				|| backgroundWidth != null )
 		{
-			SimpleMasterPageDesign master = (SimpleMasterPageDesign) previousPage
-					.getGenerateBy( );
 			wordWriter.startHeader( !master.isShowHeaderOnFirst( ) && previousPage.getPageNumber( ) == 1,
 					headerHeight, contentWidth );
 
@@ -1252,9 +1271,25 @@ public abstract class AbstractEmitterImpl
 		}
 		if ( previousPage.getPageFooter( ) != null )
 		{
-			wordWriter.startFooter( footerHeight, contentWidth );
-			contentVisitor.visitChildren( previousPage.getPageFooter( ), null );
-			wordWriter.endFooter( );
+			if ( !master.isShowFooterOnLast( )
+					&& previousPage.getPageNumber( ) == reportContent
+							.getTotalPage( ) )
+			{
+				IContent footer = previousPage.getPageFooter( );
+				ILabelContent emptyContent = footer.getReportContent( )
+						.createLabelContent( );
+				emptyContent.setText( this.EMPTY_FOOTER );
+				wordWriter.startFooter( footerHeight, contentWidth );
+				contentVisitor.visit( emptyContent, null );
+				wordWriter.endFooter( );
+			}
+			else
+			{
+				wordWriter.startFooter( footerHeight, contentWidth );
+				contentVisitor.visitChildren( previousPage.getPageFooter( ),
+						null );
+				wordWriter.endFooter( );
+			}
 		}
 	}
 

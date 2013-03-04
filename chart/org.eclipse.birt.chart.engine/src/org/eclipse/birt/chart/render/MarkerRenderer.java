@@ -68,6 +68,8 @@ public final class MarkerRenderer
 
 	private double iSize;
 
+	private int zOrder;
+
 	private final Object oSource;
 
 	private final boolean bRendering3D;
@@ -100,7 +102,7 @@ public final class MarkerRenderer
 	public MarkerRenderer( IDeviceRenderer _render, Object _oSource,
 			Location _lo, LineAttributes _la, Fill _paletteEntry, Marker _m,
 			Integer _markerSize, DeferredCache _dc, boolean _bDeferred,
-			boolean _bTransposed )
+			boolean _bTransposed, int _zOrder )
 	{
 		this.iRender = _render;
 		la = goFactory.copyOf( _la );
@@ -109,7 +111,8 @@ public final class MarkerRenderer
 		oSource = _oSource;
 		m = _m;
 		bTransposed = _bTransposed;
-		
+		zOrder = _zOrder;
+
 		// Update visible state according to the outline value.
 		if ( _m.getOutline( ) != null )
 		{
@@ -139,6 +142,24 @@ public final class MarkerRenderer
 		{
 			lo = _lo;
 		}
+	}
+
+	public MarkerRenderer( IDeviceRenderer _render, Object _oSource,
+			Location _lo, LineAttributes _la, Fill _paletteEntry, Marker _m,
+			Integer _markerSize, DeferredCache _dc, boolean _bDeferred,
+			boolean _bTransposed )
+	{
+		this( _render,
+				_oSource,
+				_lo,
+				_la,
+				_paletteEntry,
+				_m,
+				_markerSize,
+				_dc,
+				_bDeferred,
+				_bTransposed,
+				1 );
 	}
 
 	/**
@@ -299,7 +320,7 @@ public final class MarkerRenderer
 		{
 			if ( bDeferred )
 			{
-				dc.addMarker( lre, PrimitiveRenderEvent.DRAW, iSize );
+				dc.addMarker( lre, PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -313,7 +334,7 @@ public final class MarkerRenderer
 
 			if ( bDeferred )
 			{
-				dc.addMarker( lre, PrimitiveRenderEvent.DRAW, iSize );
+				dc.addMarker( lre, PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -389,7 +410,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -450,7 +471,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -501,7 +522,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( ore, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -587,7 +608,7 @@ public final class MarkerRenderer
 
 			if ( bDeferred )
 			{
-				dc.addMarker( ire, PrimitiveRenderEvent.FILL, iSize );
+				dc.addMarker( ire, PrimitiveRenderEvent.FILL, iSize, zOrder );
 			}
 			else
 			{
@@ -663,7 +684,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -722,7 +743,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -915,16 +936,16 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre1, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 				pre1.setPoints( loa2 );
 				dc.addMarker( pre1, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 				pre1.setPoints( loa3 );
 				dc.addMarker( pre1, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 				pre1.setPoints( loa4 );
 				dc.addMarker( pre1, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 
 			}
 			else
@@ -1033,7 +1054,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -1089,7 +1110,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( ore, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -1151,7 +1172,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( are, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -1222,7 +1243,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -1284,7 +1305,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -1510,7 +1531,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( area, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{
@@ -1572,7 +1593,7 @@ public final class MarkerRenderer
 			if ( bDeferred )
 			{
 				dc.addMarker( pre, PrimitiveRenderEvent.FILL
-						| PrimitiveRenderEvent.DRAW, iSize );
+						| PrimitiveRenderEvent.DRAW, iSize, zOrder );
 			}
 			else
 			{

@@ -226,8 +226,9 @@ public class EngineException extends BirtException {
 		{
 			message.append( super.getLocalizedMessage( ) );
 		}
-
-		if ( message.length( ) > 0 && elementId >= 0 )
+       // This "comment out" intend to show friendly message to
+	   // user client ,other than the details.
+	/*	if ( message.length( ) > 0 && elementId >= 0 )
 		{
 			message.append( " (" );
 			message.append( EngineResourceHandle.getInstance( )
@@ -235,7 +236,7 @@ public class EngineException extends BirtException {
 			message.append( ":" );
 			message.append( elementId );
 			message.append( ")" );
-		}
+		}*/
 
 		return message.toString( );
 

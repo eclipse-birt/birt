@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.IFilterDefinition.FilterTarget;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -920,6 +921,8 @@ public class CubeQueryDefinitionIOUtil
 		}
 		if( version >= VersionManager.VERSION_2_6_3_2 )
 			IOUtil.writeBool( dos,fd.updateAggregation( ) );
+		if( version >= VersionManager.VERSION_4_2_2_1 )
+			IOUtil.writeString( dos, fd.getFilterTarget( ) == null? null:fd.getFilterTarget( ).toString( ) );					
 	}
 	
 	private static IFilterDefinition loadFilterDefn( DataInputStream dis, int version ) throws IOException
@@ -936,6 +939,18 @@ public class CubeQueryDefinitionIOUtil
 			if( version >= VersionManager.VERSION_2_6_3_2 )
 			{
 				fd.setUpdateAggregation( IOUtil.readBool( dis ) );		
+			}
+			if( version >= VersionManager.VERSION_4_2_2_1 )
+			{
+				String filterTarget = IOUtil.readString( dis );
+				if( FilterTarget.DATASET.equals( filterTarget ) )
+				{
+					fd.setFilterTarget( FilterTarget.DATASET );						
+				}
+				else if( FilterTarget.RESULTSET.equals( filterTarget ) )
+				{
+					fd.setFilterTarget( FilterTarget.RESULTSET );
+				}					
 			}
 			return fd;
 		}
@@ -961,6 +976,18 @@ public class CubeQueryDefinitionIOUtil
 		if( version >= VersionManager.VERSION_2_6_3_2 )
 		{
 			cfd.setUpdateAggregation( IOUtil.readBool( dis ) );		
+		}
+		if( version >= VersionManager.VERSION_4_2_2_1 )
+		{
+			String filterTarget = IOUtil.readString( dis );
+			if( FilterTarget.DATASET.equals( filterTarget ) )
+			{
+				cfd.setFilterTarget( FilterTarget.DATASET );						
+			}
+			else if( FilterTarget.RESULTSET.equals( filterTarget ) )
+			{
+				cfd.setFilterTarget( FilterTarget.RESULTSET );
+			}					
 		}
 		return cfd;
 	}

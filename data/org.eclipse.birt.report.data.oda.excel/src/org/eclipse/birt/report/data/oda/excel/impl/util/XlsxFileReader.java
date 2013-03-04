@@ -164,8 +164,7 @@ public class XlsxFileReader {
 		                   formatString = BuiltinFormats.getBuiltinFormat(formatIndex);
 
 					if (org.apache.poi.ss.usermodel.DateUtil.isADateFormat(
-							formatIndex, formatString)
-							|| isDateFormat( lastContents ) ) {
+							formatIndex, formatString) ) {
 		            	cellDataType =  cDataType.DATETIME;
 		            }else{
 		            	cellDataType = cDataType.NUMBER;
@@ -202,19 +201,6 @@ public class XlsxFileReader {
 			lastContents = ExcelODAConstants.EMPTY_STRING;
 		}
 
-		private boolean isDateFormat( String formatString )
-		{
-			try
-			{
-				return org.apache.poi.ss.usermodel.DateUtil.isValidExcelDate( Double.valueOf( formatString ) );
-			}
-			catch ( Exception e )
-			{
-				return false;
-			}
-			
-		}
-		
 		public void endElement(String uri, String localName, String name)
 				throws SAXException {
 			if (name.equals("row")) {

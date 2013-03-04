@@ -116,12 +116,12 @@ class SmartCacheHelper
 		int fieldCount = rsMeta.getFieldCount( );
 		int[] sortKeyIndexs = new int[fieldCount];
 		String[] sortKeyNames = new String[fieldCount];
-		boolean[] ascending = new boolean[fieldCount];
+		int[] ascending = new int[fieldCount];
 		CompareHints[] comparator = new CompareHints[fieldCount];
 		for ( int i = 0; i < fieldCount; i++ )
 		{
 			sortKeyIndexs[i] = i + 1; // 1-based
-			ascending[i] = true;
+			ascending[i] = SortSpec.SORT_ASC;
 		}
 		return new SortSpec( sortKeyIndexs, sortKeyNames, ascending, comparator );
 	}
@@ -401,7 +401,7 @@ class SmartCacheHelper
 		if ( sortKeyIndexes == null || sortKeyIndexes.length == 0 )
 			return null;
 
-		final boolean[] sortAscending = sortSpec.getSortAscending();
+		final int[] sortAscending = sortSpec.getSortAscending();
 		final CompareHints[] comparators = sortSpec.getComparator( );
 		Comparator comparator = new Comparator( ) {
 
@@ -442,7 +442,11 @@ class SmartCacheHelper
 						int result = ScriptEvalUtil.compare( colObj1, colObj2, comparators[i] );
 						if ( result != 0 )
 						{
-							return sortAscending[i] ? result : -result;
+							if( sortAscending[i] == SortSpec.SORT_DISABLE )
+							{
+								return 0;
+							}
+							return sortAscending[i] == SortSpec.SORT_ASC ? result : -result;
 						}
 					}
 					catch ( DataException e )

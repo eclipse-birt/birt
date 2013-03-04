@@ -3156,8 +3156,19 @@ public class CascadingParametersDialog extends BaseDialog
 						value.setItems( getDataSetColumns( parameter, true ) );
 						displayText.setItems( getDataSetColumns( parameter,
 								false ) );
+						displayText.add( DISPLAY_TEXT_NONE, 0 );
 						value.setEnabled( true );
 						displayText.setEnabled( true );
+						
+						String temp = getColumnName( parameter, COLUMN_DISPLAY_TEXT );
+						if ( temp != null )
+						{
+							displayText.select( displayText.indexOf( temp ) );
+						}
+						else
+						{
+							displayText.select( 0 );
+						}
 					}
 					catch ( SemanticException e )
 					{

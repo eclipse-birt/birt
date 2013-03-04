@@ -186,7 +186,7 @@ public final class PaletteEditorComposite extends Composite implements
 		coPaletteEntries = new Composite( this, SWT.V_SCROLL );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		coPaletteEntries.setLayoutData( gd );
-		elPaletteEntries1 = pa1.getEntries( );
+		elPaletteEntries1 = pa1.copyInstance().getEntries( );
 		sb = coPaletteEntries.getVerticalBar( );
 		sb.addSelectionListener( this );
 

@@ -270,9 +270,12 @@ public class DataSetBasePage extends WizardPage
 				{// everything is OK
 					setMessage( CREATE_PROMPT );
 				}
+				
 				setPageComplete( !hasWizard( )
 						&& ( getMessageType( ) != ERROR )
 						&& getSelectedDataSource( ) != null );
+				
+				nameEditor.setFocus( );
 			}
 		} );
 		setControl( composite );
@@ -669,6 +672,8 @@ public class DataSetBasePage extends WizardPage
 	
 	public boolean canFinish( )
 	{
+		this.getControl( ).setFocus( );
+		
 		if( !validStatus( ) )
 			return false;
 		

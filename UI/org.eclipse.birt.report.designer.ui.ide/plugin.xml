@@ -332,6 +332,13 @@
           type="org.eclipse.core.resources.problemmarker">
     </super>
  </extension>
- 
-
+<extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="%preference.expressionsyntaxcolor"
+            category="org.eclipse.birt.report.designer.ui.preferences.ExpressionBuilderPreferencePage"
+            class="org.eclipse.birt.report.designer.ui.ide.preferences.ExpressionSyntaxColoringPage"
+            id="org.eclipse.birt.report.designer.ui.preferences.ExpressionSyntaxColoringPreferencePage">
+      </page>
+   </extension>
 </plugin>

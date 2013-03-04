@@ -89,6 +89,9 @@ public class VersionManager
 	//Updated version after fixing version conflict
 	public final static int VERSION_4_2_1_2 = 210;
 	
+	//filter target support
+	public final static int VERSION_4_2_2_1 = 220;
+	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -231,6 +234,6 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_4_2_1_2;
+		return VERSION_4_2_2_1;
 	}
 }

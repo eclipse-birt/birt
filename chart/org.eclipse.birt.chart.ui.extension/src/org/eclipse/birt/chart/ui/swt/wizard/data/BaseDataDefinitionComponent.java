@@ -1094,8 +1094,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 							case ColumnBindingInfo.GROUP_COLUMN :
 							case ColumnBindingInfo.AGGREGATE_COLUMN :
 								String bindingName = exprCodec.getBindingName( cbi.getExpression( ) );
-								mapBindingName.put( cbi.getName( ), bindingName );
-								mapBinding.put( cbi.getName( ), cbi );
+								// Bugzilla 368070, T52858
+								if ( bindingName != null )
+								{
+									mapBindingName.put( cbi.getName( ),
+											bindingName );
+									mapBinding.put( cbi.getName( ), cbi );
+								}
 								break;
 						}
 					}

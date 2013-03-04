@@ -88,6 +88,12 @@ public class ChartSlider extends Composite implements SelectionListener
 		slider.setEnabled( enabled );
 	}
 	
+	@Override
+	public void setToolTipText( String tooltip )
+	{
+		slider.setToolTipText( tooltip );
+	}
+	
 	public void widgetDefaultSelected( SelectionEvent arg0 )
 	{
 		// TODO Auto-generated method stub

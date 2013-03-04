@@ -2448,5 +2448,14 @@ public class ExecutionContext
 		}
 	}
 	
+	public boolean isReportDocumentFinished( )
+	{
+		if ( this.reportDoc != null )
+		{
+			return reportDoc.isComplete( );
+		}
+		return false;
+	}
+	
 	
 }
