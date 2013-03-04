@@ -43,4 +43,15 @@ public class LinkedDataSetAdapter {
 		return false;
 		
 	}
+	
+	public boolean isLinkedDataModel( ReportItemHandle bindingObject)
+	{
+		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
+				ILinkedDataSetHelper.class );
+		if(helper != null)
+		{
+			return helper.isLinkedDataModel(bindingObject);
+		}
+		return false;
+	}
 }

@@ -39,6 +39,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
@@ -523,7 +524,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void initFilter( )
 	{
-		if ( binding != null )
+		if ( binding != null && txtFilter != null)
 		{
 			ExpressionHandle expressionHandle = binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER );
 			initExpressionButton( expressionHandle, txtFilter );
@@ -911,24 +912,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
 		paramsComposite.setLayout( layout );
 
-		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
-		txtFilter = new Text( composite, SWT.BORDER | SWT.MULTI );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.heightHint = txtFilter.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
-				- txtFilter.getBorderWidth( )
-				* 2;
-		gd.horizontalSpan = 2;
-		txtFilter.setLayoutData( gd );
-
-		txtFilter.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent arg0 )
-			{
-				modifyDialogContent( );
-				validate( );
-			}
-		} );
-		createExpressionButton( composite, txtFilter );
+		createFilterCondition(composite, gd);
 
 		final Label lblAggOn = new Label( composite, SWT.NONE );
 		lblAggOn.setText( AGGREGATE_ON );
@@ -1031,12 +1015,47 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			cmbType.setEnabled( false );
 			cmbFunction.setEnabled( false );
 			// cmbDataField.setEnabled( false );
-			txtFilter.setEnabled( false );
+			if(txtFilter != null)
+			{
+				txtFilter.setEnabled( false );
+			}
 			paramsComposite.setEnabled( false );
 			cmbGroup.setEnabled( false );
 			btnTable.setEnabled( false );
 			btnGroup.setEnabled( false );
 		}
+	}
+	
+	private void createFilterCondition( Composite composite,GridData gd)
+	{
+		if(!isExtendsDataSet())
+		{
+			new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
+			txtFilter = new Text( composite, SWT.BORDER | SWT.MULTI );
+			gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.heightHint = txtFilter.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+					- txtFilter.getBorderWidth( )
+					* 2;
+			gd.horizontalSpan = 2;
+			txtFilter.setLayoutData( gd );
+			
+			txtFilter.addModifyListener( new ModifyListener( ) {
+				
+				public void modifyText( ModifyEvent arg0 )
+				{
+					modifyDialogContent( );
+					validate( );
+				}
+			} );
+			createExpressionButton( composite, txtFilter );
+		}
+	}
+	
+	
+	private boolean isExtendsDataSet()
+	{
+		LinkedDataSetAdapter adapter = new LinkedDataSetAdapter();
+		return adapter.isLinkedDataModel(getBindingHolder());
 	}
 
 	private void createCommonSection( Composite composite )
@@ -1495,8 +1514,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			catch ( AdapterException e )
 			{
 			}
-			if ( !expressionEquals( binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER ),
-					txtFilter ) )
+			
+			if (txtFilter != null &&  !expressionEquals( binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER ),
+				txtFilter ) )
 				return true;
 			if ( btnTable.getSelection( ) == ( binding.getAggregateOn( ) != null ) )
 				return true;
@@ -1668,9 +1688,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			// binding.setExpression( cmbDataField.getText( ) );
 			binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
 
-			ExpressionButtonUtil.saveExpressionButtonControl( txtFilter,
-					binding,
-					ComputedColumn.FILTER_MEMBER );
+			if(txtFilter != null){
+				ExpressionButtonUtil.saveExpressionButtonControl( txtFilter,
+						binding,
+						ComputedColumn.FILTER_MEMBER );
+			}
 
 			if ( btnTable.getSelection( ) )
 			{

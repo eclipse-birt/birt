@@ -12,4 +12,6 @@ public interface ILinkedDataSetHelper {
 	public boolean setLinkedDataModel(ReportItemHandle handle, Object value);
 	
 	public boolean isLinkedDataModel(TableHandle tableHandle);
+	
+	public boolean isLinkedDataModel( ReportItemHandle bindingObject);
 }
