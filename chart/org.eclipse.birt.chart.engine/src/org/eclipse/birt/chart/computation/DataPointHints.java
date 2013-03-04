@@ -563,6 +563,12 @@ public class DataPointHints
 		
 		try
 		{
+			if ( oBaseValue instanceof CDateTime
+					&& ( (CDateTime) oBaseValue ).isFullDateTime( )
+					&& rtc.getTimeZone( ) != null )
+			{
+				( (CDateTime) oBaseValue ).setTimeZone( rtc.getTimeZone( ) );
+			}
 			return ValueFormatter.format( oBaseValue, fs, rtc.getULocale( ), df );
 		}
 		catch ( Exception ex )
@@ -595,6 +601,12 @@ public class DataPointHints
 		}
 		try
 		{
+			if ( oOrthogonalValue instanceof CDateTime
+					&& ( (CDateTime) oOrthogonalValue ).isFullDateTime( )
+					&& rtc.getTimeZone( ) != null )
+			{
+				( (CDateTime) oOrthogonalValue ).setTimeZone( rtc.getTimeZone( ) );
+			}
 			return ValueFormatter.format( oOrthogonalValue,
 					fs,
 					rtc.getULocale( ),
@@ -630,6 +642,12 @@ public class DataPointHints
 		}
 		try
 		{
+			if ( oSeriesValue instanceof CDateTime
+					&& ( (CDateTime) oSeriesValue ).isFullDateTime( )
+					&& rtc.getTimeZone( ) != null )
+			{
+				( (CDateTime) oSeriesValue ).setTimeZone( rtc.getTimeZone( ) );
+			}
 			return ValueFormatter.format( oSeriesValue,
 					fs,
 					rtc.getULocale( ),
