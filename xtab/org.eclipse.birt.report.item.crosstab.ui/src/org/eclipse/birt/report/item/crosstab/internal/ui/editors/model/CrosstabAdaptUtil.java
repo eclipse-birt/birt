@@ -23,12 +23,13 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ITimeDimensionCheck;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataXtabAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataXtabAdapter;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -42,7 +43,6 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -145,7 +145,15 @@ public class CrosstabAdaptUtil
 		else
 		{
 			bindingColumn.setDataType( levelHandle.getDataType( ) );
-			bindingColumn.setExpression( DEUtil.getExpression( levelHandle ) );
+			IExtendedDataXtabAdapter adapter = ExtendedDataXtabAdapterHelper.getInstance( ).getAdapter( );
+			if(adapter != null && adapter.getExtendedData( owner ) != null)
+			{
+				bindingColumn.setExpression( adapter.createExtendedDataItemExpression( levelHandle ));
+			}
+			else
+			{
+				bindingColumn.setExpression( DEUtil.getExpression( levelHandle ) );
+			}
 		}
 
 		return bindingColumn;
