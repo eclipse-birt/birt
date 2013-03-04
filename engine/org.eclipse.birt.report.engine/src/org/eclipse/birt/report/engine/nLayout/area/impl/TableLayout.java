@@ -955,6 +955,8 @@ public class TableLayout
 		
 		//clear border
 		BoxStyle bs = emptyCell.getBoxStyle( );
+		if ( bs == BoxStyle.DEFAULT )
+			bs = new BoxStyle( BoxStyle.DEFAULT );
 		bs.setRightBorder( null );
 		bs.setBottomBorder( null );
 		

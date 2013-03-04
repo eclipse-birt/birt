@@ -1,4 +1,4 @@
-plugin@org.eclipse.birt.report.engine=GIT,tag=v201301241429,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine
+plugin@org.eclipse.birt.report.engine=GIT,tag=v201302051125,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine
 plugin@org.eclipse.birt.report.engine.emitter.config=GIT,tag=v201212131704,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.config
 plugin@org.eclipse.birt.report.engine.emitter.config.excel=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.config.excel
 plugin@org.eclipse.birt.report.engine.emitter.config.html=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.config.html

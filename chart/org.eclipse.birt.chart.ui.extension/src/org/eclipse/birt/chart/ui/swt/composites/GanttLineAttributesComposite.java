@@ -228,6 +228,10 @@ public class GanttLineAttributesComposite extends Composite implements
 			iscWidth.setMinimum( 1 );
 			iscWidth.setMaximum( 100 );
 			iscWidth.addListener( this );
+			if ( iscWidth instanceof IntegerSpinControl )
+			{
+				( (IntegerSpinControl) iscWidth ).addScreenreaderAccessbility( lblWidth.getText( ) );
+			}
 		}
 
 		if ( bEnableColor )

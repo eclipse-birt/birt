@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Listener;
  * 
  */
 
-public interface ISelectDataComponent
+public interface ISelectDataComponent extends IChartUIAccessible
 {
 
 	Composite createArea( Composite parent );

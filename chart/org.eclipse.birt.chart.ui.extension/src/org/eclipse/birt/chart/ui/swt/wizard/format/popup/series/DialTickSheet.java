@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
 import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -128,6 +129,10 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 			GridData gdISCGridCount = new GridData( GridData.FILL_HORIZONTAL );
 			iscGridCount.setLayoutData( gdISCGridCount );
 			iscGridCount.addListener( this );
+			if ( iscGridCount instanceof IntegerSpinControl )
+			{
+				( (IntegerSpinControl) iscGridCount ).addScreenreaderAccessbility( lblGridCount.getText( ) );
+			}
 		}
 
 		setState( !getContext( ).getUIFactory( )
