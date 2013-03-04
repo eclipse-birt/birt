@@ -323,13 +323,13 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 			{
 				getReportItemHandle( ).setDataBindingReference( null );
 			}
-			boolean isExtendDataset = false;
+			boolean isExtendedDataSet = false;
 			if(dataSet == null && value != null)
 			{
-				new LinkedDataSetAdapter().setLinkedDataModel(getReportItemHandle( ), value.toString( ));
-				isExtendDataset = true;
-				
-			}else
+				getReportItemHandle( ).setDataSet( null );
+				isExtendedDataSet = new LinkedDataSetAdapter().setLinkedDataModel(getReportItemHandle( ), value.toString( ));
+			}
+			else
 			{
 				new LinkedDataSetAdapter().setLinkedDataModel(getReportItemHandle( ), null);
 				getReportItemHandle( ).setDataSet( dataSet );
@@ -340,7 +340,8 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
 						.clearValue( );
 			}
-			if(!isExtendDataset){
+			if(!isExtendedDataSet)
+			{
 				dataSetProvider.generateAllBindingColumns( );
 			}
 

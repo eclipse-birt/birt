@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -1530,14 +1531,28 @@ public class ColumnBindingDialog extends BaseDialog
 			{
 				inputElement.setDataBindingReference( null );
 			}
-			inputElement.setDataSet( dataSet );
+			boolean isExtendedDataModel = false;
+			if (dataSet == null && value != null)
+			{
+				inputElement.setDataSet( null );
+				isExtendedDataModel = new LinkedDataSetAdapter().setLinkedDataModel(inputElement, value.toString( ));
+			}
+			else
+			{
+				new LinkedDataSetAdapter().setLinkedDataModel( inputElement, null );
+				inputElement.setDataSet( dataSet );
+			}
+			
 			if ( clearHistory )
 			{
 				inputElement.getColumnBindings( ).clearValue( );
 				inputElement.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
 						.clearValue( );
 			}
-			generateBindingColumns( );
+			if(!isExtendedDataModel)
+			{
+				generateBindingColumns( );
+			}
 
 			selectedColumnName = null;
 			commit( );
