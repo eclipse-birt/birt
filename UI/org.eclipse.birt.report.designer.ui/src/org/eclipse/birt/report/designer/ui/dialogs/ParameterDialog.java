@@ -1493,6 +1493,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
 			dataSetList.add( DataSetHandle.getQualifiedName( ) );
 		}
+		for (Iterator itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).iterator( ); itr.hasNext( );)
+		{
+			dataSetList.add( itr.next( ).toString( ) );
+		}
 		if ( inputParameter.getDataSetName( ) != null
 				&& !dataSetList.contains( inputParameter.getDataSetName( ) ) )
 		{
@@ -1539,8 +1543,15 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private DataSetHandle getDataSetHandle( )
 	{
-		return inputParameter.getModuleHandle( )
+		DataSetHandle dataSet = inputParameter.getModuleHandle( )
 				.findDataSet( dataSetChooser.getText( ) );
+		
+		if (dataSet == null)
+		{
+			dataSet = DataUtil.findExtendedDataSet( dataSetChooser.getText( ) );
+		}
+		
+		return dataSet;
 	}
 
 	private void refreshColumns( boolean onlyFilter )

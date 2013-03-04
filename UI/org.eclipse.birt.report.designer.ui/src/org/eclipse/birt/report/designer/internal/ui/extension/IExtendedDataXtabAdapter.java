@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.extension;
 
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
@@ -77,5 +78,25 @@ public interface IExtendedDataXtabAdapter
 	 * @return true if succeeded, of false if not
 	 */
 	public boolean setExtendedData(ReportItemHandle target, ReportElementHandle element);
+	
+	/**
+	 * Finds the extended data by the given name.
+	 * @param name the name
+	 * @return the extended data if found, or null if not
+	 */
+	public ReportElementHandle findExtendedDataByName(String name);
+	
+	/**
+	 * Gets the data set wrapper of the extended data.
+	 * @param element the extended data
+	 * @return the data set handle returned by the extended data, or null if it cannot be a DataSetHandle instance
+	 */
+	public DataSetHandle getDataSet(ReportElementHandle element);
 
+	/**
+	 * Create an expression by the given element.
+	 * @param element the report element
+	 * @return the expression
+	 */
+	public String createExtendedDataItemExpression( ReportElementHandle element);
 }
