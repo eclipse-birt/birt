@@ -151,9 +151,16 @@ class FilterCalculator
 		ResultSetCache sCache = populator.getCache( );
 		//preparation pass to calculate TOPN/BottomN filter, we should not clear existing smart cache.
 		populator.setClearCacheResultSet( false );
-
+		
+		populator.getGroupProcessorManager( )
+			.getGroupCalculationUtil( )
+			.getGroupInformationUtil( )
+			.setLeaveGroupIndex( 0 );
+		sCache.reset( );
+		sCache.next( );
+		
 		makePreparationPassToMultiPassFilter( filterPass );
-
+		
 		populator.setCache( sCache );
 		// Reset the smartCache and make cursor stay in first row.
 		sCache.reset( );

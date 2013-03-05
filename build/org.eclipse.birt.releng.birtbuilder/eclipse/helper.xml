@@ -424,7 +424,6 @@
         	<fileset dir="${plugin-dest}/plugins" >
             	<include name="*.datatools.*.jar" />
                 <include name="org.eclipse.datatools.*/**" />
-        		<include name="org.apache.lucene_*.jar"/>
                 <include name="org.apache.xerces_*.jar"/>
                 <include name="org.apache.xml.resolver_*.jar"/>
                 <include name="javax.wsdl_1.4.0*.jar"/>
@@ -438,7 +437,6 @@
             <fileset dir="${package-dest}/dtp/eclipse/plugins" >
             	<include name="*.datatools.*.jar" />
                 <include name="org.eclipse.datatools.*/**" />
-            	<include name="org.apache.lucene_*.jar"/>
                 <include name="org.apache.xerces_*.jar"/>
                 <include name="org.apache.xml.resolver_*.jar"/>
                 <include name="javax.wsdl_1.4.0*.jar"/>
@@ -451,7 +449,6 @@
             </fileset>
             <fileset dir="${package-dest}/jee/eclipse/plugins" >
                 <include name="*.datatools.*.jar" />
-            	<include name="org.apache.lucene_*.jar"/>
                 <include name="org.apache.xerces_*.jar"/>
                 <include name="org.apache.xml.resolver_*.jar"/>
                 <include name="javax.wsdl_1.4.0*.jar"/>
@@ -464,7 +461,6 @@
             </fileset>
             <fileset dir="${package-dest}/jee-linux/eclipse/plugins" >
                 <include name="*.datatools.*.jar" />
-            	<include name="org.apache.lucene_*.jar"/>
                 <include name="org.apache.xerces_*.jar"/>
                 <include name="org.apache.xml.resolver_*.jar"/>
                 <include name="javax.wsdl_1.4.0*.jar"/>
@@ -502,7 +498,6 @@
                         <include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
                         <include name="org.eclipse.datatools.help_*.jar"/>
                         <include name="org.eclipse.datatools.doc.isv_*.jar"/>
-                		<include name="org.apache.lucene_*.jar"/>
                         <include name="org.apache.xerces_*.jar"/>
                         <include name="org.apache.xml.resolver_*.jar"/>
                         <include name="javax.xml_*.jar"/>
@@ -518,7 +513,6 @@
                         <include name="org.eclipse.datatools.doc.user_*/**"/>
                 </patternset>
                 <patternset id="jee.dtp.plugins">
-                	   <include name="org.apache.lucene_*.jar"/>
                        <include name="org.apache.xerces_*.jar"/>
                        <include name="org.apache.xml.resolver_*.jar"/>
                        <include name="javax.wsdl_*.jar"/>
@@ -727,7 +721,6 @@
                 <fileset dir="${plugin-dest}/plugins" >
                         <include name="*.datatools.*.jar" />
                         <include name="org.eclipse.datatools.*/**" />
-                		<include name="org.apache.lucene_*.jar"/>
                         <include name="org.apache.xerces_*.jar"/>
                         <include name="org.apache.xml.resolver_*.jar"/>
                         <include name="javax.wsdl_1.4.0*.jar"/>
@@ -741,7 +734,6 @@
                 <fileset dir="${package-dest}/dtp/eclipse/plugins" >
                         <include name="*.datatools.*.jar" />
                         <include name="org.eclipse.datatools.*/**" />
-                		<include name="org.apache.lucene_*.jar"/>
                         <include name="org.apache.xerces_*.jar"/>
                         <include name="org.apache.xml.resolver_*.jar"/>
                         <include name="javax.wsdl_1.4.0*.jar"/>
@@ -754,7 +746,6 @@
                 </fileset>
                 <fileset dir="${package-dest}/jee/eclipse/plugins" >
                         <include name="*.datatools.*.jar" />
-                		<include name="org.apache.lucene_*.jar"/>
                         <include name="org.apache.xerces_*.jar"/>
                         <include name="org.apache.xml.resolver_*.jar"/>
                         <include name="javax.wsdl_1.4.0*.jar"/>
@@ -767,7 +758,6 @@
                 </fileset>
                 <fileset dir="${package-dest}/jee-linux/eclipse/plugins" >
                         <include name="*.datatools.*.jar" />
-                		<include name="org.apache.lucene_*.jar"/>
                         <include name="org.apache.xerces_*.jar"/>
                         <include name="org.apache.xml.resolver_*.jar"/>
                         <include name="javax.wsdl_1.4.0*.jar"/>
@@ -805,7 +795,6 @@
                 <include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
                 <include name="org.eclipse.datatools.help_*.jar"/>
                 <include name="org.eclipse.datatools.doc.isv_*.jar"/>
-        		<include name="org.apache.lucene_*.jar"/>
                 <include name="org.apache.xerces_*.jar"/>
                 <include name="org.apache.xml.resolver_*.jar"/>
                 <include name="javax.xml_*.jar"/>
@@ -821,7 +810,6 @@
                 <include name="org.eclipse.datatools.doc.user_*/**"/>
         </patternset>
         <patternset id="jee.dtp.plugins">
-        	   <include name="org.apache.lucene_*.jar"/>
                <include name="org.apache.xerces_*.jar"/>
                <include name="org.apache.xml.resolver_*.jar"/>
                <include name="javax.wsdl_*.jar"/>

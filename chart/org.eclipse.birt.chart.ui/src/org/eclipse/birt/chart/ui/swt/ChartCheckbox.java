@@ -14,12 +14,20 @@ package org.eclipse.birt.chart.ui.swt;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -29,7 +37,7 @@ import org.eclipse.swt.widgets.Listener;
  * 
  */
 
-public class ChartCheckbox extends Composite implements
+public class ChartCheckbox extends Canvas implements
 		Listener,
 		SelectionListener
 {
@@ -43,6 +51,32 @@ public class ChartCheckbox extends Composite implements
 	protected List<SelectionListener> selectListenerList = new ArrayList<SelectionListener>(2);
 	
 	protected boolean bDefaultSelection = false;
+	
+	protected FocusListener btnFocusLinster = new FocusListener( ) {
+
+		public void focusLost( FocusEvent e )
+		{
+			ChartCheckbox.this.redraw( );
+		}
+
+		public void focusGained( FocusEvent e )
+		{
+			ChartCheckbox.this.redraw( );
+		}
+	};
+
+	protected PaintListener checkBoxPaintListener = new PaintListener( ) {
+
+		public void paintControl( PaintEvent e )
+		{
+			// Do some drawing
+			if ( button.isFocusControl( ) )
+			{
+				Rectangle rect = ( (Canvas) e.widget ).getBounds( );
+				e.gc.drawFocus( 0, 0, rect.width, rect.height );
+			}
+		}
+	};
 	
 	/**
 	 * Constructor.
@@ -75,24 +109,38 @@ public class ChartCheckbox extends Composite implements
 	 */
 	protected void initListeners( )
 	{
-		// Default do nothing.
+		// Create a paint handler for the canvas
+		if ( ChartUtil.isEmpty( button.getText( ) ) )
+		{
+			registerFocusPaintListener( );
+		}
 	}
 
+	protected void registerFocusPaintListener() {
+		button.addFocusListener( btnFocusLinster );
+		this.addPaintListener( checkBoxPaintListener );
+	}
+	
+	protected void unregisterFocusPaintListener() {
+		button.removeFocusListener( btnFocusLinster );
+		this.removePaintListener( checkBoxPaintListener );
+	}
+	
 	protected void placeComponents( int styles )
 	{
 		GridLayout gl = new GridLayout( );
 		gl.marginHeight = 0;
 		gl.marginWidth = 0;
-		gl.marginLeft = 0;
-		gl.marginRight = 0;
-		gl.marginTop = 0;
-		gl.marginBottom = 0;
+		gl.marginLeft = 2;
+		gl.marginRight = 2;
+		gl.marginTop = 2;
+		gl.marginBottom = 2;
 		setLayout( gl );
 		button = new Button( this, SWT.CHECK | styles );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		button.setLayoutData( gd );
 	}
-	
+
 	/**
 	 * Set if default state is selection for this button.
 	 * 
@@ -111,6 +159,15 @@ public class ChartCheckbox extends Composite implements
 	public void setText( String text )
 	{
 		button.setText( text );
+		// Create a paint handler for the canvas
+		if ( ChartUtil.isEmpty( button.getText( ) ) )
+		{
+			registerFocusPaintListener( );
+		}
+		else
+		{
+			unregisterFocusPaintListener( );
+		}
 	}
 
 	/**
@@ -260,4 +317,11 @@ public class ChartCheckbox extends Composite implements
 		button.setEnabled( enabled );
 	}
 
+	public void addScreenReaderAccessiblity( String description )
+	{
+		if ( ChartUtil.isEmpty( button.getText( ) ) )
+		{
+			ChartUIUtil.addScreenReaderAccessbility( button, description );
+		}
+	}
 }

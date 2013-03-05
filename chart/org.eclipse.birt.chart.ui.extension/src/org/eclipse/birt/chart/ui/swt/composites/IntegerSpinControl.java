@@ -86,6 +86,11 @@ public class IntegerSpinControl extends AbstractChartIntSpinner
 		initAccessible( );
 	}
 
+	public void addScreenreaderAccessbility( String description )
+	{
+		txtValue.addScreenreaderAccessbility( description );
+	}
+
 	/**
 	 * 
 	 */

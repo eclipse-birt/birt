@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.exception.ViewerException;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 import org.eclipse.birt.report.viewer.util.BaseTestCase;
 
@@ -235,7 +236,9 @@ public class ParameterAccessorTest extends BaseTestCase
 		String root_folder = root.getAbsolutePath( );
 		assertEquals( root_folder + File.separator
 				+ IBirtConstants.DEFAULT_DOCUMENT_FOLDER,
-				ParameterAccessor.documentFolder );
+				ParameterAccessor
+				.getResourceFolder( request )+File.separator
+				+ IBirtConstants.DEFAULT_DOCUMENT_FOLDER);
 		assertEquals( root_folder, ParameterAccessor
 				.getResourceFolder( request ) );
 
@@ -809,7 +812,7 @@ public class ParameterAccessorTest extends BaseTestCase
 		String reportFile = "C:\\reports\\report1.rptdesign"; //$NON-NLS-1$
 
 		// INIT_PARAM_DOCUMENT_FOLDER_ACCESS_ONLY is false
-		assertTrue( ParameterAccessor.isValidFilePath( reportFile ) );
+		assertTrue( ParameterAccessor.isValidFilePath(request, reportFile ) );
 
 		// INIT_PARAM_DOCUMENT_FOLDER_ACCESS_ONLY is true
 		ParameterAccessor.reset( );
@@ -818,10 +821,10 @@ public class ParameterAccessorTest extends BaseTestCase
 						ParameterAccessor.INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY,
 						"true" ); //$NON-NLS-1$
 		ParameterAccessor.initParameters( context );
-		assertFalse( ParameterAccessor.isValidFilePath( reportFile ) );
+		assertFalse( ParameterAccessor.isValidFilePath(request, reportFile ) );
 
 		reportFile = new File( root, "report1.rptdesign" ).getAbsolutePath( ); //$NON-NLS-1$
-		assertTrue( ParameterAccessor.isValidFilePath( reportFile ) );
+		assertTrue( ParameterAccessor.isValidFilePath(request, reportFile ) );
 	}
 
 	/**
@@ -869,22 +872,37 @@ public class ParameterAccessorTest extends BaseTestCase
 		String documentFile = "C:\\reports\\report1.rptdocument"; //$NON-NLS-1$
 		request.addParameter( ParameterAccessor.PARAM_REPORT_DOCUMENT,
 				documentFile );
-		assertEquals( documentFile, ParameterAccessor.getReportDocument(
-				request, null, false ) );
+		try {
+			assertEquals( documentFile, ParameterAccessor.getReportDocument(
+					request, null, false ) );
+		} catch (ViewerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// Relative path
 		request.addParameter( ParameterAccessor.PARAM_REPORT_DOCUMENT,
 				"report1.rptdocument" ); //$NON-NLS-1$
 		documentFile = new File( root, "report1.rptdocument" ).getAbsolutePath( ); //$NON-NLS-1$
-		assertEquals( documentFile, ParameterAccessor.getReportDocument(
-				request, null, false ) );
+		try {
+			assertEquals( documentFile, ParameterAccessor.getReportDocument(
+					request, null, false ) );
+		} catch (ViewerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// Don't exist document file in request
 		request.removeParameter( ParameterAccessor.PARAM_REPORT_DOCUMENT );
 		String reportFile = "myproject\\report1.rptdesign"; //$NON-NLS-1$
 		request.addParameter( ParameterAccessor.PARAM_REPORT, reportFile );
-		documentFile = ParameterAccessor
-				.getReportDocument( request, null, true );
+		try {
+			documentFile = ParameterAccessor
+					.getReportDocument( request, null, true );
+		} catch (ViewerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertNotNull( documentFile );
 		assertTrue( documentFile.indexOf( session.getId( ) ) > 0 );
 		assertTrue( documentFile.indexOf( "report1.rptdocument" ) > 0 ); //$NON-NLS-1$

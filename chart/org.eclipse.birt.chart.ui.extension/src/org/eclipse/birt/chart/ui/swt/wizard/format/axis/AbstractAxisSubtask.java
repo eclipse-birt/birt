@@ -417,6 +417,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 			lneLabelSpan = new LocalizedNumberEditorComposite( cmpEditorWithUnit,
 					SWT.BORDER );
+			ChartUIUtil.addScreenReaderAccessbility( lneLabelSpan.getTextControl( ), l.getText( ) );
 			new TextNumberEditorAssistField( lneLabelSpan.getTextControl( ),
 					null );
 			{

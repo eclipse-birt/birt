@@ -275,7 +275,7 @@ Use <b>Labels</b>, <b>Markers</b>, <b>Curve Fitting Line</b>, and <b>Interactivi
 <description>
 The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.
 Use this page to format the line in the chart.
-To join the line when there are no values, for example, for a day in a category series of dates, select Connect Missing Values. 
+To join the line when there are no values, for example, for a day in a category series of dates, select Connect Missing Values.
 You can add labels, markers, and a curve-fitting line to value series for this chart type.
 Use <b>Labels</b>, <b>Markers</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
 </description>
@@ -310,7 +310,7 @@ Use the <b>Dial Labels</b>, <b>Needles</b>, <b>Regions</b>, <b>Ticks</b>, <b>Sca
 <description>
 The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.
 Use this page to format the markers in the chart.
-If you select Visible, in Line, a scatter chart behaves similarly to a line chart. 
+If you select Visible, in Line, a scatter chart behaves similarly to a line chart.
 You can add labels, markers, and a curve-fitting line to value series for this chart type.
 Use <b>Labels</b>, <b>Markers</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
 </description>
@@ -335,7 +335,7 @@ Use <b>Labels</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine
 <description>
 The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.
 Use this page to format the markers in the chart.
-If you select Visible, in Line, a bubble chart behaves similarly to a line chart. 
+If you select Visible, in Line, a bubble chart behaves similarly to a line chart.
 You can add labels, markers, and a curve-fitting line to value series for this chart type.
 Use <b>Labels</b>, <b>Markers</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
 </description>
@@ -389,7 +389,7 @@ You can hide, display, or customize the selected axis line and grid lines.
 <context id="Hyperlink_Editor_ID" title="Hyperlink Editor">
 <!-- SEQUENCE: On chart wizard, Format Chart, select X-Axis, and choose Interactivity. In Action, select Hyperlink, then Add. JAHT 20130201 -->
 <description>
-In Name, type a name, then choose Edit base URL to set the URL properties. 
+In Name, type a name, then choose Edit base URL to set the URL properties.
 </description>
 <!-- link updated JAHT 20130201 No available topic -->
 </context>
@@ -397,7 +397,7 @@ In Name, type a name, then choose Edit base URL to set the URL properties.
 <context id="Hyperlink_Options_ID" title="Hyperlink Options">
 <!-- SEQUENCE: On chart wizard, Format Chart, select X-Axis, and choose Interactivity. In Action, select Hyperlink, then Add two hyperlinks. Then choose properties. JAHT 20130201 -->
 <description>
-Use Hyperlink Menu Properties to provide the user with the option to select from multiple hyperlinks. 
+Use Hyperlink Menu Properties to provide the user with the option to select from multiple hyperlinks.
 </description>
 <!-- link updated JAHT 20130201 No available topic -->
 </context>
