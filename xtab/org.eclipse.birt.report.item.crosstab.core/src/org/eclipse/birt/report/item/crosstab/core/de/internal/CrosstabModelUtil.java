@@ -53,6 +53,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * Provide all util methods for Model part of x-tab.
@@ -406,7 +407,6 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					colDimension,
 					colLevel );
 		}
-
 		if ( cell != null )
 		{
 			// create a computed column and set some properties
@@ -417,7 +417,15 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					name );
 			String dataType = measureView.getDataType( );
 			column.setDataType( dataType );
-			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+			// TODO replace this with DtE API
+			if(crosstab.getModelHandle( ).getProperty( IReportItemModel.LINKED_DATA_MODEL_PROP ) != null)
+			{
+				column.setExpression( ExpressionUtil.createDataSetRowExpression( measureView.getCubeMeasureName( ) ) );
+			}
+			else
+			{
+				column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+			}
 			String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
 			column.setAggregateFunction( function != null ? function
 					: defaultFunction );
