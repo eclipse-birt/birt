@@ -1888,6 +1888,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 							CrosstabUtil.addHierachyAggregateOn( module,
 									binding,
+									column.getExpression( ),
 									baseLevel,
 									rowLevelNameList,
 									columnLevelNameList,
