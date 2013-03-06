@@ -1054,8 +1054,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	
 	private boolean isExtendsDataSet()
 	{
-		LinkedDataSetAdapter adapter = new LinkedDataSetAdapter();
-		return adapter.isLinkedDataModel(getBindingHolder());
+		return LinkedDataSetAdapter.bindToLinkedDataSet(getBindingHolder());
 	}
 
 	private void createCommonSection( Composite composite )

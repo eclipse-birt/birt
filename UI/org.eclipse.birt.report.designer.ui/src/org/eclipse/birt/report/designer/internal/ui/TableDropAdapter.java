@@ -31,8 +31,7 @@ public class TableDropAdapter implements IDropAdapter {
 			CellHandle cellHandle = (CellHandle) ((TableCellEditPart) target).getModel();
 			if (DEUtil.getBindingHolder(cellHandle) instanceof TableHandle) {
 				TableHandle tableHandle = (TableHandle)(DEUtil.getBindingHolder(cellHandle));
-				LinkedDataSetAdapter adapter = new LinkedDataSetAdapter();
-				if(adapter.isLinkedDataModel(tableHandle))
+				if(LinkedDataSetAdapter.bindToLinkedDataSet(tableHandle))
 				{
 					result =  DNDService.LOGIC_TRUE;
 				}

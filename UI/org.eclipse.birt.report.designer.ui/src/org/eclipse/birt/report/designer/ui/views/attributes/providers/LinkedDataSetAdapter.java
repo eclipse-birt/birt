@@ -3,9 +3,10 @@ package org.eclipse.birt.report.designer.ui.views.attributes.providers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 
 public class LinkedDataSetAdapter {
 	
@@ -32,26 +33,15 @@ public class LinkedDataSetAdapter {
 		return false;
 	}
 	
-	public boolean isLinkedDataModel(TableHandle tableHandle)
+	public static boolean bindToLinkedDataSet( ReportItemHandle reportItemHandle )
 	{
-		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
-				ILinkedDataSetHelper.class );
-		if(helper != null)
-		{
-			return helper.isLinkedDataModel(tableHandle);
-		}
-		return false;
-		
+		boolean result = false;
+		try {
+			result = LinkedDataSetUtil.bindToLinkedDataSet(reportItemHandle);
+		} catch (Exception e) {
+			ExceptionHandler.handle( e );
+		} 
+		return result;
 	}
 	
-	public boolean isLinkedDataModel( ReportItemHandle bindingObject)
-	{
-		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
-				ILinkedDataSetHelper.class );
-		if(helper != null)
-		{
-			return helper.isLinkedDataModel(bindingObject);
-		}
-		return false;
-	}
 }
