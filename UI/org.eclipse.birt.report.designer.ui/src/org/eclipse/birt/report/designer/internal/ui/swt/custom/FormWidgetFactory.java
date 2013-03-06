@@ -428,6 +428,12 @@ public class FormWidgetFactory extends FormToolkit
 	{
 		if ( composite instanceof TabbedPropertyTitle )
 			return;
+		if ( composite instanceof Table )
+		{
+			adapt( composite );
+			return;
+		}
+
 		Control[] children = composite.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
