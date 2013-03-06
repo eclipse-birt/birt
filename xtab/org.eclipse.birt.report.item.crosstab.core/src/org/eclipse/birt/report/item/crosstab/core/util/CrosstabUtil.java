@@ -449,6 +449,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 							addHierachyAggregateOn( module,
 									binding,
+									column.getExpression( ),
 									baseLevel,
 									rowLevelNameList,
 									columnLevelNameList,
@@ -468,8 +469,20 @@ public final class CrosstabUtil implements ICrosstabConstants
 		return bindingList;
 	}
 
+	private static boolean isDataSetFieldReferred( String expression )
+	{
+		if( expression != null 
+				&& ( expression.contains( ExpressionUtil.DATASET_ROW_INDICATOR )
+						|| expression.contains( "[DATASET]" ) ) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static void addHierachyAggregateOn( ModuleHandle module,
-			IBinding binding, String baseLevel, List<String> rowLevelList,
+			IBinding binding, String expression, String baseLevel, List<String> rowLevelList,
 			List<String> columnLevelList, Map<String, String> cache )
 			throws BirtException
 	{
@@ -478,6 +491,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 			return;
 		}
 
+		boolean isDataSetField = isDataSetFieldReferred( expression );
 		int sindex = rowLevelList.indexOf( baseLevel );
 
 		if ( sindex != -1 )
@@ -489,7 +503,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 				if ( cachedExpression == null )
 				{
-					cachedExpression = createAggregateLevelExpression( levelName );
+					cachedExpression = createAggregateLevelExpression( levelName, isDataSetField );
 					cache.put( levelName, cachedExpression );
 				}
 
@@ -514,7 +528,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 				if ( cachedExpression == null )
 				{
-					cachedExpression = createAggregateLevelExpression( levelName );
+					cachedExpression = createAggregateLevelExpression( levelName, isDataSetField );
 					cache.put( levelName, cachedExpression );
 				}
 
@@ -534,7 +548,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 		if ( cachedExpression == null )
 		{
-			cachedExpression = createAggregateLevelExpression( baseLevel );
+			cachedExpression = createAggregateLevelExpression( baseLevel, isDataSetField );
 			cache.put( baseLevel, cachedExpression );
 		}
 
@@ -544,11 +558,12 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 	}
 
-	private static String createAggregateLevelExpression( String levelFullName )
+	private static String createAggregateLevelExpression( String levelFullName, boolean isDataSetField )
 	{
 		String[] names = CubeUtil.splitLevelName( levelFullName );
 
-		return ExpressionUtil.createJSDimensionExpression( names[0], names[1] );
+		return (isDataSetField) ? ExpressionUtil.createJSDataSetRowExpression( names[1] ) 
+				: ExpressionUtil.createJSDimensionExpression( names[0], names[1] );
 	}
 
 	private static List<String> getLevelExpressionList(
@@ -820,9 +835,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 						.getElementFactory( )
 						.newLabel( null );
 				
-				labelHandle.setText(levelHandle.getDisplayField( ) == null? 
-						(levelHandle.getCubeLevel() == null? "" : levelHandle.getCubeLevel( ).getName( ))
-						: levelHandle.getDisplayField( ));
+				labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
 				
 				crosstab.getHeader( count ).addContent( labelHandle );
 			}
@@ -831,9 +844,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 				if ( crosstab.getHeader( count ).getContents( ).get( 0 ) instanceof LabelHandle)
 				{
 					LabelHandle labelHandle = (LabelHandle)crosstab.getHeader( count ).getContents( ).get( 0 );
-					labelHandle.setText(levelHandle.getDisplayField( ) == null?
-							(levelHandle.getCubeLevel() == null? "" : levelHandle.getCubeLevel( ).getName( ))
-							: levelHandle.getDisplayField( ));
+					labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
 				}
 			}
 		}

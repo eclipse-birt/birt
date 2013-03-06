@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -63,7 +64,18 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public MeasureHandle getCubeMeasure( )
 	{
-		return (MeasureHandle) handle.getElementProperty( MEASURE_PROP );
+		MeasureHandle cubeMeasure = (MeasureHandle) handle.getElementProperty( MEASURE_PROP );
+		if( cubeMeasure == null )
+		{
+			String measureName = this.getCubeMeasureName( );
+			CubeHandle cube = this.getCrosstab( ).getCube( );
+			if( measureName != null && cube != null )
+			{
+				cubeMeasure = cube.getMeasure( measureName );
+			}
+		}
+		
+		return cubeMeasure;
 	}
 
 	/**

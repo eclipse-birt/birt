@@ -268,6 +268,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 							CrosstabUtil.addHierachyAggregateOn( module,
 									binding,
+									column.getExpression( ),
 									baseLevel,
 									rowLevelNameList,
 									columnLevelNameList,

@@ -612,9 +612,15 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 */
 	public String getCubeName( )
 	{
-		return handle.getStringProperty( ReportItemHandle.CUBE_PROP );
+		String cubeName = handle.getStringProperty( ReportItemHandle.CUBE_PROP );
+		if( cubeName == null && this.getCube( ) != null )
+		{
+			cubeName = this.getCube( ).getName( );
+		}
+		
+		return cubeName;
 	}
-
+	
 	/**
 	 * Finds a dimension view that refers a cube dimension element with the
 	 * given name.

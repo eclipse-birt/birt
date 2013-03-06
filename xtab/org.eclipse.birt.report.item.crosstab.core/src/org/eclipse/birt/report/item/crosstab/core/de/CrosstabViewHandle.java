@@ -55,7 +55,14 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public LevelHandle getMirroredStartingLevel( )
 	{
-		return (LevelHandle) handle.getElementProperty( MIRROR_STARTING_LEVEL_PROP );
+		LevelHandle levelHandle =  (LevelHandle) handle.getElementProperty( MIRROR_STARTING_LEVEL_PROP );
+		if( levelHandle == null )
+		{
+			String fullLevelName = handle.getStringProperty( MIRROR_STARTING_LEVEL_PROP );
+			levelHandle = findLevelHandle( fullLevelName );
+		}
+		
+		return levelHandle;
 	}
 
 	/**
