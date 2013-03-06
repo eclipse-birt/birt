@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de.internal;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
 import org.eclipse.birt.report.item.crosstab.core.IAggregationCellConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -53,7 +55,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * Provide all util methods for Model part of x-tab.
@@ -417,8 +418,23 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					name );
 			String dataType = measureView.getDataType( );
 			column.setDataType( dataType );
-			// TODO replace this with DtE API
-			if(crosstab.getModelHandle( ).getProperty( IReportItemModel.LINKED_DATA_MODEL_PROP ) != null)
+			
+			boolean isBoundToLinkedDataSet = false;
+			try
+			{
+				isBoundToLinkedDataSet = LinkedDataSetUtil.bindToLinkedDataSet( (ReportItemHandle) crosstab.getModelHandle( ));
+			}
+			catch ( IllegalArgumentException e1 )
+			{
+			}
+			catch ( IllegalAccessException e1 )
+			{
+			}
+			catch ( InvocationTargetException e1 )
+			{
+			}
+			
+			if(isBoundToLinkedDataSet)
 			{
 				column.setExpression( ExpressionUtil.createDataSetRowExpression( measureView.getCubeMeasureName( ) ) );
 			}
@@ -426,6 +442,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			{
 				column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
 			}
+			
 			String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
 			column.setAggregateFunction( function != null ? function
 					: defaultFunction );
