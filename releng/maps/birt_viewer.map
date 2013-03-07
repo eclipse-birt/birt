@@ -1,5 +1,5 @@
-plugin@org.eclipse.birt.report.viewer=GIT,tag=v201301281649,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.report.viewer
-plugin@org.eclipse.birt.integration.wtp.ui=GIT,tag=v201210270340,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.integration.wtp.ui
+plugin@org.eclipse.birt.report.viewer=GIT,tag=v201302041142,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.report.viewer
+plugin@org.eclipse.birt.integration.wtp.ui=GIT,tag=v201302041142,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.integration.wtp.ui
 plugin@org.eclipse.birt.axis.overlay=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.axis.overlay
 plugin@org.eclipse.birt.jetty.overlay=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.jetty.overlay
 

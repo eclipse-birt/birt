@@ -172,26 +172,26 @@ public class BorderPropertyDescriptor implements
 			} );
 			button.setData( provider );
 			button.getAccessible( ).addAccessibleListener(new AccessibleAdapter() {
-			public void getName(AccessibleEvent e) {
-					Accessible accessible = (Accessible) e.getSource();
-					Button item = (Button) accessible.getControl();
-					if (item != null) {
-						e.result = item.getToolTipText();
-					}
-			}
-		});
+				public void getName(AccessibleEvent e) {
+						Accessible accessible = (Accessible) e.getSource();
+						Button item = (Button) accessible.getControl();
+						if (item != null) {
+							e.result = item.getToolTipText();
+						}
+				}
+			});
 		}
 
 		allButton = new Button( composite, SWT.TOGGLE );
 		allButton.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_FRAME ) );
 		allButton.setToolTipText( Messages.getString( "BordersPage.Tooltip.All" ) ); //$NON-NLS-1$
 		allButton.getAccessible( ).addAccessibleListener(new AccessibleAdapter() {
-				public void getName(AccessibleEvent e) {
-					Accessible accessible = (Accessible) e.getSource();
-					Button item = (Button) accessible.getControl();
-					if (item != null) {
-						e.result = item.getToolTipText();
-					}
+			public void getName(AccessibleEvent e) {
+				Accessible accessible = (Accessible) e.getSource();
+				Button item = (Button) accessible.getControl();
+				if (item != null) {
+					e.result = item.getToolTipText();
+				}
 			}
 		});
 		allButton.setLayoutData( new GridData( ) );
@@ -332,12 +332,12 @@ public class BorderPropertyDescriptor implements
 		noneButton.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_NONE ) );
 		noneButton.setToolTipText( Messages.getString( "BordersPage.Tooltip.None" ) ); //$NON-NLS-1$
 		noneButton.getAccessible( ).addAccessibleListener(new AccessibleAdapter() {
-				public void getName(AccessibleEvent e) {
-					Accessible accessible = (Accessible) e.getSource();
-					Button item = (Button) accessible.getControl();
-					if (item != null) {
-						e.result = item.getToolTipText();
-					}
+			public void getName(AccessibleEvent e) {
+				Accessible accessible = (Accessible) e.getSource();
+				Button item = (Button) accessible.getControl();
+				if (item != null) {
+					e.result = item.getToolTipText();
+				}
 			}
 		});
 		noneButton.setLayoutData( new GridData( ) );

@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDerivedExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -321,6 +322,126 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 		stack.commit( );
 
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#clearLocalPropertiesIncludeSubElement
+	 * ()
+	 */
+	public void clearLocalPropertiesIncludeSubElement( ) throws SemanticException
+	{
+		ActivityStack stack = module.getActivityStack( );
+		stack.startTrans( CommandLabelFactory.getCommandLabel( MessageConstants.CLEAR_PROPERTIES_MESSAGE ) );
+		try
+		{
+			Iterator iter = propertyIterator( );
+			while ( iter.hasNext( ) )
+			{
+				GroupPropertyHandle propHandle = (GroupPropertyHandle) iter.next( );
+				DesignElementHandle elementHandle = null;
+				if ( elements != null && !elements.isEmpty( ) )
+				{
+					elementHandle = (DesignElementHandle) elements.get( 0 );
+				}
+				String propName = propHandle.getPropertyDefn( ).getName( );
+				Iterator iterator = elementHandle.getPropertyIterator( );
+				if ( IDesignElementModel.EXTENDS_PROP.equals( propName )
+						|| IDesignElementModel.NAME_PROP.equals( propName )
+						|| ( IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName ) && elementHandle instanceof IExtendedItemModel )
+						|| propHandle.isExtensionModelProperty( )
+						|| ( elementHandle instanceof IDerivedExtendableElementModel && IDerivedExtendableElementModel.EXTENSION_ID_PROP.equals( propName ) )
+						|| ( elementHandle instanceof IOdaExtendableElementModel && IOdaExtendableElementModel.EXTENSION_ID_PROP.equals( propName ) ) )
+				{
+					// ignore name, extends, extension id property.
+					continue;
+				}
+				if ( propHandle.getPropertyDefn( ).getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+				{
+					Object object = propHandle.getValue( );
+					if ( object != null )
+					{
+						if ( object instanceof DesignElementHandle )
+						{
+							DesignElementHandle designElementHandle = (DesignElementHandle) object;
+							clearLocalPropertiesIncludeSubElement( designElementHandle );
+						}
+						else if ( object instanceof List && ( (List) object ).size( ) > 0 )
+						{
+							for ( int i = 0; i < ( (List) object ).size( ); i++ )
+							{
+								DesignElementHandle designElementHandle = (DesignElementHandle) ( (List) object ).get( i );
+								clearLocalPropertiesIncludeSubElement( designElementHandle );
+							}
+						}
+					}
+					continue;
+				}
+				Object localValue = propHandle.getLocalValue( );
+
+				if ( localValue != null )
+				{
+					propHandle.clearValue( );
+				}
+
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+		stack.commit( );
+	}	
+	
+	/** 
+	 * Clear local values of elementHandle include sub element.
+	 * @param elementHandle
+	 * @throws SemanticException
+	 */
+	private void clearLocalPropertiesIncludeSubElement( DesignElementHandle elementHandle ) throws SemanticException
+	{
+		if ( !hasLocalPropertiesIncludeSubElement( elementHandle ) )
+		{
+			return;
+		}
+		Iterator iterator = elementHandle.getPropertyIterator( );
+		while ( iterator.hasNext( ) )
+		{
+			PropertyHandle propertyHandler = (PropertyHandle) iterator.next( );
+			String propertyName = propertyHandler.getPropertyDefn( ).getName( );
+			if ( IDesignElementModel.EXTENDS_PROP.equals( propertyName )
+					|| IDesignElementModel.NAME_PROP.equals( propertyName )
+					|| ( IExtendedItemModel.EXTENSION_NAME_PROP.equals( propertyName ) && elementHandle instanceof IExtendedItemModel )
+					|| ( elementHandle instanceof ExtendedItemHandle && ( (ExtendedItem) elementHandle.getElement( ) ).isExtensionModelProperty( propertyName ) )
+					|| ( elementHandle instanceof IDerivedExtendableElementModel && IDerivedExtendableElementModel.EXTENSION_ID_PROP.equals( propertyName ) )
+					|| ( elementHandle instanceof IOdaExtendableElementModel && IOdaExtendableElementModel.EXTENSION_ID_PROP.equals( propertyName ) ) )
+			{
+				continue;
+			}
+			if ( propertyHandler.getPropertyDefn( ).getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+			{
+				List list = propertyHandler.getContents( );
+				if ( list != null && list.size( ) > 0 )
+				{
+					for ( int i = 0; i < list.size( ); i++ )
+					{
+						DesignElementHandle handle = (DesignElementHandle) list.get( i );
+						clearLocalPropertiesIncludeSubElement( handle );
+					}
+				}
+			}
+			else
+			{
+				Object localValue = elementHandle.getElement( ).getLocalProperty( elementHandle.getModule( ), propertyName );
+				if ( localValue != null )
+				{
+					elementHandle.setProperty( propertyName, null );
+				}
+			}
+		}
 	}
 
 	/*
