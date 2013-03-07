@@ -171,7 +171,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private Map<String, String> calculationParamsValueMap = new HashMap<String, String>( );
 	private boolean isStatic = true;
 	private ExpressionButton button;
-
+	
 	public void createContent( Composite parent )
 	{
 		composite = parent;
@@ -1843,13 +1843,14 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		ModuleHandle module = ( (ExtendedItemHandle) xtabHandle.getModelHandle( ) ).getModuleHandle( );
 
 		List<IBinding> bindingList = new ArrayList<IBinding>( );
+		boolean isBoundToLinkedDataSet = CrosstabUtil.isBoundToLinkedDataSet( xtabHandle ) ;
 
 		if ( bindingItr != null )
 		{
-			Map cache = new HashMap( );
+			Map<String, String> cache = new HashMap<String, String>( );
 
-			List rowLevelNameList = new ArrayList( );
-			List columnLevelNameList = new ArrayList( );
+			List<String> rowLevelNameList = new ArrayList<String>( );
+			List<String> columnLevelNameList = new ArrayList<String>( );
 
 			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 
@@ -1888,11 +1889,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 							CrosstabUtil.addHierachyAggregateOn( module,
 									binding,
-									column.getExpression( ),
 									baseLevel,
 									rowLevelNameList,
 									columnLevelNameList,
-									cache );
+									cache,
+									isBoundToLinkedDataSet);
 						}
 					}
 					bindingList.add( binding );
