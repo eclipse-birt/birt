@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.core.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,9 +28,11 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
+import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -43,6 +46,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -336,6 +340,29 @@ public final class CrosstabUtil implements ICrosstabConstants
 		return Collections.EMPTY_LIST;
 	}
 
+	public static boolean isBoundToLinkedDataSet( AbstractCrosstabItemHandle crosstabItem )
+	{
+		boolean isBoundToLinkedDataSet = false;
+		try
+		{
+			if( crosstabItem != null )
+			{
+				isBoundToLinkedDataSet = LinkedDataSetUtil.bindToLinkedDataSet( (ReportItemHandle) crosstabItem.getCrosstabHandle( ));
+			}
+		}
+		catch ( IllegalArgumentException e )
+		{			
+		}
+		catch ( IllegalAccessException e )
+		{
+		}
+		catch ( InvocationTargetException e )
+		{
+		}
+		
+		return isBoundToLinkedDataSet;
+	}
+	
 	private static List<IBinding> getQueryBindings(
 			CrosstabReportItemHandle crosstabItem ) throws BirtException
 	{
@@ -423,7 +450,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 		if ( bindingItr != null )
 		{
 			Map<String, String> cache = new HashMap<String, String>( );
-
+			boolean isBoundToLinkedDataSet = isBoundToLinkedDataSet( crosstabItem );
 			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 
 			try
@@ -449,11 +476,11 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 							addHierachyAggregateOn( module,
 									binding,
-									column.getExpression( ),
 									baseLevel,
 									rowLevelNameList,
 									columnLevelNameList,
-									cache );
+									cache,
+									isBoundToLinkedDataSet );
 						}
 					}
 
@@ -468,22 +495,10 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 		return bindingList;
 	}
-
-	private static boolean isDataSetFieldReferred( String expression )
-	{
-		if( expression != null 
-				&& ( expression.contains( ExpressionUtil.DATASET_ROW_INDICATOR )
-						|| expression.contains( "[DATASET]" ) ) )
-		{
-			return true;
-		}
-		
-		return false;
-	}
 	
 	public static void addHierachyAggregateOn( ModuleHandle module,
-			IBinding binding, String expression, String baseLevel, List<String> rowLevelList,
-			List<String> columnLevelList, Map<String, String> cache )
+			IBinding binding, String baseLevel, List<String> rowLevelList,
+			List<String> columnLevelList, Map<String, String> cache, boolean isBoundToLinkedDataSet )
 			throws BirtException
 	{
 		if ( binding == null || baseLevel == null || module == null )
@@ -491,7 +506,6 @@ public final class CrosstabUtil implements ICrosstabConstants
 			return;
 		}
 
-		boolean isDataSetField = isDataSetFieldReferred( expression );
 		int sindex = rowLevelList.indexOf( baseLevel );
 
 		if ( sindex != -1 )
@@ -503,7 +517,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 				if ( cachedExpression == null )
 				{
-					cachedExpression = createAggregateLevelExpression( levelName, isDataSetField );
+					cachedExpression = createAggregateLevelExpression( levelName, isBoundToLinkedDataSet );
 					cache.put( levelName, cachedExpression );
 				}
 
@@ -528,7 +542,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 				if ( cachedExpression == null )
 				{
-					cachedExpression = createAggregateLevelExpression( levelName, isDataSetField );
+					cachedExpression = createAggregateLevelExpression( levelName, isBoundToLinkedDataSet );
 					cache.put( levelName, cachedExpression );
 				}
 
@@ -548,7 +562,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 		if ( cachedExpression == null )
 		{
-			cachedExpression = createAggregateLevelExpression( baseLevel, isDataSetField );
+			cachedExpression = createAggregateLevelExpression( baseLevel, isBoundToLinkedDataSet );
 			cache.put( baseLevel, cachedExpression );
 		}
 
@@ -558,11 +572,11 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 	}
 
-	private static String createAggregateLevelExpression( String levelFullName, boolean isDataSetField )
+	private static String createAggregateLevelExpression( String levelFullName, boolean isBoundToLinkedDataSet )
 	{
 		String[] names = CubeUtil.splitLevelName( levelFullName );
 
-		return (isDataSetField) ? ExpressionUtil.createJSDataSetRowExpression( names[1] ) 
+		return (isBoundToLinkedDataSet) ? ExpressionUtil.createJSDataSetRowExpression( names[1] ) 
 				: ExpressionUtil.createJSDimensionExpression( names[0], names[1] );
 	}
 

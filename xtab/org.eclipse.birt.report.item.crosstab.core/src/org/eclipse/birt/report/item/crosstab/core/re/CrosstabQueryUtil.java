@@ -142,7 +142,9 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 			boolean needSorting, boolean needFilter ) throws BirtException
 	{
 		ICubeQueryDefinition cubeQuery = getCubeElementFactory( ).createCubeQuery( crosstabItem.getCubeName( ) );
-
+		
+		boolean isBoundToLinkedDataSet = CrosstabUtil.isBoundToLinkedDataSet( crosstabItem ) ;
+		
 		List<String> rowLevelNameList = new ArrayList<String>( );
 		List<String> columnLevelNameList = new ArrayList<String>( );
 
@@ -267,12 +269,12 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 							String baseLevel = (String) aggrItr.next( );
 
 							CrosstabUtil.addHierachyAggregateOn( module,
-									binding,
-									column.getExpression( ),
+									binding,									
 									baseLevel,
 									rowLevelNameList,
 									columnLevelNameList,
-									cache );
+									cache,
+									isBoundToLinkedDataSet);
 						}
 					}
 

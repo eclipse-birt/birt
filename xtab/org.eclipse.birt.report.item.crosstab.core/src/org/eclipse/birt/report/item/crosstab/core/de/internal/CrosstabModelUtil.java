@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de.internal;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +23,6 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
 import org.eclipse.birt.report.item.crosstab.core.IAggregationCellConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -419,22 +417,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			String dataType = measureView.getDataType( );
 			column.setDataType( dataType );
 			
-			boolean isBoundToLinkedDataSet = false;
-			try
-			{
-				isBoundToLinkedDataSet = LinkedDataSetUtil.bindToLinkedDataSet( (ReportItemHandle) crosstab.getModelHandle( ));
-			}
-			catch ( IllegalArgumentException e1 )
-			{
-			}
-			catch ( IllegalAccessException e1 )
-			{
-			}
-			catch ( InvocationTargetException e1 )
-			{
-			}
-			
-			if(isBoundToLinkedDataSet)
+			if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
 			{
 				column.setExpression( ExpressionUtil.createDataSetRowExpression( measureView.getCubeMeasureName( ) ) );
 			}
