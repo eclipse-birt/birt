@@ -39,6 +39,7 @@
 	
 	<target name="init">
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+		<property name="junit-stylesheet" value="${eclipse-home}/plugins/org.eclipse.birt.tests_2.2.0/JUNIT.XSL"/>
 	</target>
 	
 	<target name="cleanModelTestPlugin">
