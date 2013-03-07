@@ -14,8 +14,11 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.AbstractBandContent;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 
@@ -142,7 +145,7 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 		return null;
 	}
 	
-	
+
 	private void updateTextContent( )
 	{
 		if( context.isInHtmlRender( ))
@@ -203,5 +206,35 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 			// current line will go next page.
 			return SplitResult.SUCCEED_WITH_NULL;
 		}
+	}
+
+	@Override
+	protected void doReset( )
+	{
+		// reset the extension information when the inline text is in a header.
+		// this prevents inline text page hint being carried over to the next repeated header.
+		if ( isHeader( ) )
+		{
+			content.setExtension( IContent.LAYOUT_EXTENSION, null );
+		}
+	}
+	
+	private boolean isHeader( )
+	{
+		IElement parent = content.getParent( );
+		while ( parent != null )
+		{
+			if ( parent instanceof AbstractBandContent )
+			{
+				AbstractBandContent band = (AbstractBandContent) parent;
+				if ( band.getBandType( ) == IBandContent.BAND_HEADER
+						|| band.getBandType( ) == IBandContent.BAND_GROUP_HEADER )
+				{
+					return true;
+				}
+			}
+			parent = parent.getParent( );
+		}
+		return false;
 	}
 }
