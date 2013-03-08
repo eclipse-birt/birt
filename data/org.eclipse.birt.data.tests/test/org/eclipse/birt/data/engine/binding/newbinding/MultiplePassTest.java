@@ -963,6 +963,73 @@ public class MultiplePassTest extends APITestCase
 		checkOutputFile();
 	}
 	
+	
+	/**
+	 * This test is to test simple filter and multipass filter.
+	 * For bug 54826, we change the logic of filters in group, 
+	 * now we first execute the simple filter then execute the multipass filter(topN, bottom N)
+	 */
+	public void testGroupFilteringSorting5( ) throws Exception
+	{
+		// --- begin binding
+		String[] bindingNameGroup = new String[1];
+		bindingNameGroup[0] = "GROUP_GROUP0";
+		
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.CITY");
+		
+		String[] bindingNameSort = new String[0];
+		
+		IBaseExpression[] bindingExprSort = new IBaseExpression[0];
+		String[] bindingNameFilter = null;
+		
+		IBaseExpression[] bindingExprFilter = null;
+			
+		String[] bindingNameRow = new String[4];
+		bindingNameRow[0] = "ROW_COUNTRY";
+		bindingNameRow[1] = "ROW_CITY";
+		bindingNameRow[2] = "ROW_SALE_DATE";
+		bindingNameRow[3] = "ROW_AMOUNT";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[4];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		// --- end binding
+		
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" )
+		};
+		groupDefn[0].setKeyExpression( "row.GROUP_GROUP0" );
+	
+		groupDefn[0].addFilter(new FilterDefinition(new ConditionalExpression(
+				"Total.sum(dataSetRow.AMOUNT,null,1)",
+				IConditionalExpression.OP_LT, "5000")));
+		groupDefn[0].addFilter(new FilterDefinition(new ConditionalExpression(
+				"Total.sum(dataSetRow.AMOUNT,null,1)",
+				IConditionalExpression.OP_TOP_N, "1")));
+		
+		SortDefinition sortDefn = new SortDefinition( );
+		sortDefn.setExpression( "Total.sum(dataSetRow.AMOUNT,null,1)" );
+		sortDefn.setSortDirection( 0 );
+		groupDefn[0].addSort( sortDefn );
+			
+		QueryDefinition queryDefn = createQueryDefn(bindingNameRow,bindingExprRow, groupDefn,
+				null, null);
+
+		//		 --- begin binding use
+		populateBindings(bindingNameGroup, bindingExprGroup, bindingNameSort,
+				bindingExprSort, bindingNameFilter, bindingExprFilter,
+				bindingNameRow, bindingExprRow, queryDefn);
+		// --- end binding use
+		
+		executeQuery( queryDefn, bindingNameRow );
+		
+		
+		checkOutputFile();
+	}
+	
+	
 	/**
 	 * Test filterings including group filters and multi-pass row filters
 	 * 
