@@ -345,6 +345,7 @@ public interface MessageConstants
 	public static final String VERSION_INFO_INVALID_DESIGN_FILE = "Info.VersionInfo.INVALID_DESIGN_FILE"; //$NON-NLS-1$
 	public static final String VERSION_INFO_CONVERT_INFO = "Info.VersionInfo.CONVERT_INFO"; //$NON-NLS-1$	
 	public static final String VERSION_INFO_INVALID_VERSION = "Info.VersionInfo.INVALID_VERSION"; //$NON-NLS-1$	
+	public static final String VERSION_INFO_LATER_VERSION = "Info.VersionInfo.LATER_VERSION"; //$NON-NLS-1$	
 	public static final String VERSION_INFO_EXTENSION_COMPATIBILITY = "Info.VersionInfo.EXTENSION_COMPATIBILITY"; //$NON-NLS-1$
 
 	// EncryptionException

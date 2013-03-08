@@ -103,13 +103,21 @@ public abstract class ModuleState extends DesignParseState
 						DesignParserException.DESIGN_EXCEPTION_INVALID_VERSION );
 				throw new XMLParserException( e );
 			}
-
+			// ignore the version is later than current version if the variable of isSupportedUnknownVersion is true
+			// Ted 57417,57401			
 			if ( result < 0 )
 			{
-				DesignParserException e = new DesignParserException(
-						new String[]{version},
-						DesignParserException.DESIGN_EXCEPTION_UNSUPPORTED_VERSION );
-				throw new XMLParserException( e );
+				handler.setLaterVersion( true );
+
+				if ( !( module.getOptions( ) == null || module.getOptions( ).isSupportedUnknownVersion( ) ) )
+				{
+					DesignParserException e = new DesignParserException( new String[]{
+						version
+					},
+							DesignParserException.DESIGN_EXCEPTION_UNSUPPORTED_VERSION );
+					throw new XMLParserException( e );
+				}
+
 			}
 
 			if ( result == 0 )
