@@ -605,7 +605,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 					
 					int groupLevel = 0;
 					
-					int groupLevelInAggr = getGroupLevel( aggrRefs, aggrDefn );
+					int groupLevelInAggr = getGroupLevel( aggrRefs );
 					
 					if ( !use0AggrLevel )
 						groupLevel = groupLevelInAggr;
@@ -630,17 +630,15 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			}
 		}
 
-		private int getGroupLevel( Set aggrRefs, IAggrInfo aggrInfo ) throws DataException
+		private int getGroupLevel( Set aggrRefs ) throws DataException
 		{
 			Iterator it = aggrRefs.iterator( );
 			int groupLevel = -1;
 			while( it.hasNext( ) )
 			{
 				IAggrInfo aggr = (IAggrInfo) it.next( );
-				if ( groupLevel == -1 )
+				if ( groupLevel < aggr.getGroupLevel( ) )
 					groupLevel = aggr.getGroupLevel( );
-				if( groupLevel!= aggr.getGroupLevel( ))
-					throw new DataException( ResourceConstants.INVALID_NESTED_AGGR_GROUP, aggrInfo.getName( ) );
 			}
 			return groupLevel;
 		}
