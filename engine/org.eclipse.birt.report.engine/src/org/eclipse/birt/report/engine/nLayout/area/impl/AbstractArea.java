@@ -286,16 +286,6 @@ public abstract class AbstractArea implements IArea
 	{
 		this.ignoreReordering = ignoreReordering;
 	}
-	
-	public void reset( )
-	{
-		doReset( );
-	}
-	
-	protected void doReset( )
-	{
-		
-	}
 
 	public static void debugPrint( IArea area )
 	{

@@ -1302,19 +1302,6 @@ public abstract class ContainerArea extends AbstractArea
 		}
 		return null;
 	}
-	
-	@Override
-	public void reset( )
-	{
-		super.reset( );
-		if(children != null)
-		{
-			for(IArea area : children)
-			{
-				((AbstractArea)area).reset( );
-			}
-		}
-	}
 
 	/**
 	 * 	Reposition the table for RTL preserving margins.

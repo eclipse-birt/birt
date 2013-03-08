@@ -239,7 +239,6 @@ public class RootArea extends BlockContainerArea
 	{
 			page.setBody( this );
 			page.close( );
-			page.reset( );
 			finished = true;
 	}
 }
