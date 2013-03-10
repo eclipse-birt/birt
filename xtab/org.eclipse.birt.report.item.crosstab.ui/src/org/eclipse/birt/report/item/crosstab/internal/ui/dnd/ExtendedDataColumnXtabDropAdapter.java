@@ -15,8 +15,8 @@ import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
-import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataXtabAdapterHelper;
-import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataXtabAdapter;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -39,7 +39,7 @@ import org.eclipse.gef.requests.CreateRequest;
 
 public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 {
-	private IExtendedDataXtabAdapter adapter = ExtendedDataXtabAdapterHelper.getInstance( ).getAdapter( );
+	private IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
 
 	public int canDrop( Object transfer, Object target, int operation,
 			DNDLocation location )

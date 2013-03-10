@@ -23,8 +23,8 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ITimeDimensionCheck;
-import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataXtabAdapterHelper;
-import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataXtabAdapter;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
@@ -145,7 +145,7 @@ public class CrosstabAdaptUtil
 		else
 		{
 			bindingColumn.setDataType( levelHandle.getDataType( ) );
-			IExtendedDataXtabAdapter adapter = ExtendedDataXtabAdapterHelper.getInstance( ).getAdapter( );
+			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
 			if(adapter != null && adapter.getExtendedData( owner ) != null)
 			{
 				bindingColumn.setExpression( adapter.createExtendedDataItemExpression( levelHandle ));

@@ -12,13 +12,14 @@
 package org.eclipse.birt.report.designer.internal.ui.extension;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
  * The extended data adapter for extended report item
  */
-public interface IExtendedDataXtabAdapter
+public interface IExtendedDataModelUIAdapter
 {
 	/**
 	 * Checks whether the data item is a child of the extended data.
@@ -69,7 +70,7 @@ public interface IExtendedDataXtabAdapter
 	 * @param element the element to be resolved
 	 * @return the extended data
 	 */
-	public ReportElementHandle resolveExtendedData(ReportElementHandle element);
+	public ReportElementHandle resolveExtendedData(DesignElementHandle element);
 	
 	/**
 	 * Sets the extended data to the report item.

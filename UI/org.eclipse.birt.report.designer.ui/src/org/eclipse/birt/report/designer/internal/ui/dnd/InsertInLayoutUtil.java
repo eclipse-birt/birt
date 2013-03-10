@@ -24,8 +24,8 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
-import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataXtabAdapterHelper;
-import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataXtabAdapter;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
@@ -90,6 +90,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 public class InsertInLayoutUtil
 {
 
+	private static IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+	
 	/**
 	 * Rule interface for defining insertion rule
 	 */
@@ -1384,21 +1386,11 @@ public class InsertInLayoutUtil
 		// // .newTableItem( null, columns.length );
 		CachedMetaDataHandle cachedMetadata = DataSetUIUtil.getCachedMetaDataHandle( model );
 		List columList = new ArrayList( );
-		if (cachedMetadata != null)
+
+		for ( Iterator iter = cachedMetadata.getResultSet( ).iterator( ); iter.hasNext( ); )
 		{
-			for ( Iterator iter = cachedMetadata.getResultSet( ).iterator( ); iter.hasNext( ); )
-			{
-				ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
-				columList.add( element );
-			}
-		}
-		else
-		{
-			for (Iterator iter = model.resultSetIterator( ); iter.hasNext( );)
-			{
-				ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
-				columList.add( element );
-			}
+			ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
+			columList.add( element );
 		}
 		ResultSetColumnHandle[] columns = (ResultSetColumnHandle[]) columList.toArray( new ResultSetColumnHandle[columList.size( )] );
 
@@ -1823,11 +1815,22 @@ public class InsertInLayoutUtil
 				{
 					dataSet = bindingRoot.getDataSet( );
 				}
-				return itsDataSet == null
+				if( itsDataSet == null
 						&& ( bindingHolder == null || !bindingHolder.getColumnBindings( )
 								.iterator( )
 								.hasNext( ) )
-						|| insertObj.getElementHandle( ).equals( dataSet );
+						|| insertObj.getElementHandle( ).equals( dataSet ))
+				{
+					return true;
+				}
+				else
+				{
+					if(ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( bindingRoot ))
+					{
+						return adapter != null && adapter.getExtendedData( bindingRoot ).equals( 
+								adapter.resolveExtendedData( insertObj.getElementHandle( ) ));
+					}
+				}
 			}
 		}
 		return false;
@@ -1904,8 +1907,7 @@ public class InsertInLayoutUtil
 		// }
 		if ( insertObj instanceof DataSetHandle )
 		{
-			return DataSetUIUtil.hasMetaData( (DataSetHandle) insertObj )
-					|| ( (DataSetHandle) insertObj ).resultSetIterator( ).hasNext( );
+			return DataSetUIUtil.hasMetaData( (DataSetHandle) insertObj );
 		}
 		return insertObj instanceof ResultSetColumnHandle
 				|| insertObj instanceof ScalarParameterHandle
@@ -2144,7 +2146,6 @@ public class InsertInLayoutUtil
 	{
 		if ( handle instanceof DataSetHandle )
 		{
-			IExtendedDataXtabAdapter adapter = ExtendedDataXtabAdapterHelper.getInstance( ).getAdapter( );
 			boolean needsDataSource = adapter == null ? true : adapter.needsDataSource( (DataSetHandle) handle );
 			
 			if ( ( !( handle instanceof JointDataSetHandle || handle instanceof DerivedDataSetHandle || !needsDataSource ) 

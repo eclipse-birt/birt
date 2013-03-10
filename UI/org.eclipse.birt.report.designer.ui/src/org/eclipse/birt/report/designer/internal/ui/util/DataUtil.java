@@ -31,8 +31,8 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
-import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataXtabAdapterHelper;
-import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataXtabAdapter;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -384,7 +384,7 @@ public class DataUtil
 	 */
 	public static DataSetHandle findExtendedDataSet(String name)
 	{
-		IExtendedDataXtabAdapter adapter = ExtendedDataXtabAdapterHelper.getInstance( ).getAdapter( );
+		IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
 		if (adapter != null)
 		{
 			ReportElementHandle extData = adapter.findExtendedDataByName( name );
