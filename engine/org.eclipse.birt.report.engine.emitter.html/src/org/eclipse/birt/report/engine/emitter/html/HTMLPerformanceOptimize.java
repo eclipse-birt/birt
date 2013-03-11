@@ -90,6 +90,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		AttributeBuilder.buildText( styleBuffer, style );
 		AttributeBuilder.buildVisual( styleBuffer, style );
 		AttributeBuilder.buildTextDecoration( styleBuffer, style );
+		AttributeBuilder.buildSize( styleBuffer, style );
 	}
 	
 	/**

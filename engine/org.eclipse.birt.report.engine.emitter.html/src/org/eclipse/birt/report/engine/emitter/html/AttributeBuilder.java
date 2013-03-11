@@ -550,6 +550,20 @@ public class AttributeBuilder
 			}
 		}
 	}
+	
+	/**
+	 * Build size style, set height and width
+	 * 
+	 * @param styleBuffer
+	 *            The <code>StringBuffer</code> to which the result is output.
+	 * @param style
+	 *            The style object.            
+	 */
+	public static void buildSize( StringBuffer styleBuffer, IStyle style)
+	{
+		buildProperty( styleBuffer, HTMLTags.ATTR_HEIGHT, style.getHeight( ) );
+		buildProperty( styleBuffer, HTMLTags.ATTR_WIDTH, style.getWidth( ) );
+	}
 
 	/**
 	 * Build the style property.

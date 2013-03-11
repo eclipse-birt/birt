@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
 
@@ -1297,6 +1298,45 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 					.putAll( (Map<? extends String, ? extends IElementPropertyDefn>) tmpDefn.properties );
 			tmpDefn = tmpDefn.parent;
 		}
+		// if hasStyle = true
+		// cachedProperties has height( IStyleModel.HEIGHT_PROP ) or width ( IStyleModel.WIDTH_PROP )
+		// meanwhile Element.Style has the two properties
+		// and the two properties isn't styleProperty, need do: 
+		// remove the two properties from cachedProperties, add Style's the two properties to cachedProperties
+		// Ted 43511
+		if ( hasStyle( ) )
+		{
+			if ( cachedProperties.get( IStyleModel.HEIGHT_PROP ) != null )
+			{
+				IPropertyDefn sourcePropertyDefn = cachedProperties.get( IStyleModel.HEIGHT_PROP );
+				if ( sourcePropertyDefn instanceof IElementPropertyDefn
+						&& !( (IElementPropertyDefn) sourcePropertyDefn ).isStyleProperty( ) )
+				{
+					ElementDefn style = (ElementDefn) MetaDataDictionary.getInstance( )
+							.getStyle( );
+					if ( style.getProperty( IStyleModel.HEIGHT_PROP ) != null )
+					{
+						cachedProperties.put( IStyleModel.HEIGHT_PROP,
+								style.getProperty( IStyleModel.HEIGHT_PROP ) );
+					}
+				}
+			}
+			if ( cachedProperties.get( IStyleModel.WIDTH_PROP ) != null )
+			{			
+				IPropertyDefn sourcePropertyDefn = cachedProperties.get( IStyleModel.WIDTH_PROP );
+				if ( sourcePropertyDefn instanceof IElementPropertyDefn
+						&& !( (IElementPropertyDefn) sourcePropertyDefn ).isStyleProperty( ) )
+				{
+					ElementDefn style = (ElementDefn) MetaDataDictionary.getInstance( )
+							.getStyle( );
+					if ( style.getProperty( IStyleModel.WIDTH_PROP ) != null )
+					{
+						cachedProperties.put( IStyleModel.WIDTH_PROP,
+								style.getProperty( IStyleModel.WIDTH_PROP ) );
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -1327,8 +1367,23 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			for ( int i = 0; i < styleProperties.size( ); i++ )
 			{
 				PropertyDefn prop = (PropertyDefn) styleProperties.get( i );
-
-				properties.put( prop.getName( ), prop );
+				// if current element is Row(ReportDesignConstants.ROW_ELEMENT), the width property is not allowed
+				if( ReportDesignConstants.ROW_ELEMENT.equals( this.getName( ) ) && IStyleModel.WIDTH_PROP.equalsIgnoreCase( prop.getName( ) ) )
+				{
+					// do nothing
+					;
+				}
+				// if current element is Column(ReportDesignConstants.COLUMN_ELEMENT), the height property is not allowed
+				else if( ReportDesignConstants.COLUMN_ELEMENT.equals( this.getName( ) ) && IStyleModel.HEIGHT_PROP.equalsIgnoreCase( prop.getName( ) ) )
+				{
+					// do nothing
+					;
+				}
+				else
+				{
+					properties.put( prop.getName( ), prop );
+				}
+		
 			}
 		}
 		else
@@ -1889,9 +1944,18 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 			if ( styleDefn.properties.containsKey( property.getName( ) ) )
 			{
-				throw new MetaDataException( new String[]{property.getName( ),
-						this.name},
-						MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY );
+				// Ted 43511
+				if( IStyleModel.HEIGHT_PROP.equals( property.getName( ) ) || IStyleModel.WIDTH_PROP.equals( property.getName( )))
+				{
+					// do nothing
+					;
+				}
+				else
+				{
+					throw new MetaDataException( new String[]{property.getName( ),
+							this.name},
+							MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY );
+				}
 			}
 
 		}
