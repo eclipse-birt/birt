@@ -130,7 +130,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		try
 		{
 			String[][] formats = PluginSettings.instance( )
-					.getRegisteredOutputFormats( );
+					.getRegisteredOutputFormats( "" ); //$NON-NLS-1$
 			for ( int i = 0; i < formats.length; i++ )
 			{
 				registeredDevices.add( formats[i][0] );
@@ -792,6 +792,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 		try
 		{
+			rtc.setTimeZone( context.getTimeZone( ) );
+			
 			// Create and set shared scale if needed
 			if ( rtc.getSharedScale( ) == null
 					&& ChartReportItemUtil.canScaleShared( modelHandle, cm ) )

@@ -10,19 +10,12 @@ xhost +$HOSTNAME
 DISPLAY=:0.0
 export DISPLAY
 
-CVSROOT=:ext:xgu@dev.eclipse.org:/cvsroot/birt
-CVS_RSH=ssh
 ulimit -c unlimited
 export CVSROOT CVS_RSH USERNAME BASH_ENV LD_LIBRARY_PATH DISPLAY
 
-#cvs update -r HEAD -C -d buildAll.xml eclipse extras
-#chmod -R +x buildAll.xml eclipse extras
-
-export GitRepo=ssh://xgu@git.eclipse.org/gitroot/birt/org.eclipse.birt.git
-git archive --format=tar --remote=$GitRepo master build/org.eclipse.birt.releng.birtbuilder | tar -xf -
-cp -f build/org.eclipse.birt.releng.birtbuilder/buildAll.xml ./
-cp -rf build/org.eclipse.birt.releng.birtbuilder/eclipse ./
-cp -rf build/org.eclipse.birt.releng.birtbuilder/extras ./
+GitRepo=ssh://git@192.168.218.226/gitroot/birt/org.eclipse.birt.git
+BranchName=master
+dtp_BranchName=master
 
 if [ "x"$ANT_HOME = "x" ]; then export ANT_HOME=/usr/local/apache-ant-1.7.0; fi
 if [ "x"$JAVA_HOME = "x" ]; then export JAVA_HOME=/usr/local/jdk1.5.0_09; fi
@@ -69,17 +62,17 @@ buildLabel=""
 mapVersionTag=HEAD
 
 # directory in which to export builder projects
-builderDir=/home/adb/releng.370/org.eclipse.birt.releng.birtbuilder
+builderDir=$HOME/releng.420/org.eclipse.birt.releng.birtbuilder
 export builderDir
 
 #check disk space usage
-source /home/adb/releng.370/org.eclipse.birt.releng.birtbuilder/extras/DiskSpaceCheck.sh
+source $HOME/releng.420/org.eclipse.birt.releng.birtbuilder/extras/DiskSpaceCheck.sh
 
 # buildtype determines whether map file tags are used as entered or are replaced with HEAD
 buildType=I
 
 # directory where to copy build
-postingDirectory=/home/adb/releng/BIRTOutput/BIRT3.7-download/3.7.1
+postingDirectory=$HOME/releng/BIRTOutput/BIRT4.2-download/4.2.2
 
 # flag to indicate if test build
 testBuild=""
@@ -96,9 +89,9 @@ buildinfounivDate=`date +%c%z`
 
 timestamp=$builddate$buildtime
 
-echo "======[builddate]: $builddate " > adb.log
-echo "======[buildtime]: $buildtime " >> adb.log
-echo "======[timestamp]: $timestamp " >> adb.log
+echo "======[builddate]: $builddate " > $USER.log
+echo "======[buildtime]: $buildtime " >> $USER.log
+echo "======[timestamp]: $timestamp " >> $USER.log
 
 # process command line arguments
 usage="usage: $0 [-notify emailaddresses][-test][-buildDirectory directory][-buildId name][-buildLabel directory name][-tagMapFiles][-mapVersionTag tag][-builderTag tag][-bootclasspath path][-compareMaps][-skipPerf] [-skipTest][-updateSite site][-sign][-noUnitTest][CheckNewJars][-test] M|N|I|S|R"
@@ -112,6 +105,7 @@ fi
 while [ $# -gt 0 ]
 do
 		 case "$1" in
+		 		 -BranchName) BranchName="$2"; shift;;
 		 		 -buildId) buildId="$2"; shift;;
 		 		 -buildLabel) buildLabel="$2"; shift;;
 		 		 -mapVersionTag) mapVersionTag="$2"; shift;;
@@ -123,15 +117,15 @@ do
 		 		 -buildDirectory) builderDir="$2"; shift;;
 		 		 -notify) recipients="$2"; shift;;
 		 		 -test) testBuild="-Dnomail=true";;
-                                 -javadoc) javadoc="-DgenJavaDoc=true";;
+                 -javadoc) javadoc="-DgenJavaDoc=true";;
 		 		 -builderTag) buildProjectTags="$2"; shift;;
 		 		 -noUnitTest) unitTest="-Dskip.unit.test=true";;
 		 		 -compareMaps) compareMaps="-DcompareMaps=true";;
 		 		 -updateSite) updateSite="-DupdateSite=$2";shift;;
 		 		 -sign) sign="-Dsign=true";;
 		 		 -prepareSrc) prepareSrc="-Dprepare.src.flag=true";;
-                                 -CheckNewJars) CheckNewJars="-DCheckNewJars=true";;
-                                 -skipNL) skipNL="-Dskip.build.NL=true";;
+                 -CheckNewJars) CheckNewJars="-DCheckNewJars=true";;
+                 -skipNL) skipNL="-Dskip.build.NL=true";;
 		 		 -*)
 		 		 		 echo >&2 $usage
 		 		 		 exit 1;;
@@ -140,9 +134,22 @@ do
 		 shift
 done
 
+echo "======[BranchName]: $BranchName " >> $USER.log
+echo "======[dtp_BranchName]: $dtp_BranchName " >> $USER.log
+echo "======[GitRepo]: $GitRepo " >> $USER.log
+
+#sync build script
+rm -rf build
+git archive --format=tar --remote=$GitRepo $BranchName build/org.eclipse.birt.releng.birtbuilder | tar -xf -
+cp -f build/org.eclipse.birt.releng.birtbuilder/buildAll.xml ./
+cp -f build/org.eclipse.birt.releng.birtbuilder/build.xml ./
+cp -rf build/org.eclipse.birt.releng.birtbuilder/eclipse ./
+cp -rf build/org.eclipse.birt.releng.birtbuilder/extras ./
+chmod -R +x buildAll.xml eclipse extras
+
 # After the above the build type is left in $1.
 buildType=$1
-echo "======[buildType]: $buildType " >> adb.log 
+echo "======[buildType]: $buildType " >> $USER.log
 # Set default buildId and buildLabel if none explicitly set
 if [ "$buildId" = "" ]
 then
@@ -154,46 +161,40 @@ if [ "$buildLabel" = "" ]
 then
 		 buildLabel=$buildId
 fi
-echo "======[buildId]: $buildId " >> adb.log
+echo "======[buildId]: $buildId " >> $USER.log
 
 #Set the tag to HEAD for Nightly builds
 if [ "$buildType" = "N" ]
 then
-        tag="-DfetchTag=CVS=HEAD,GIT=master"
+        tag="-DfetchTag=CVS=HEAD,GIT=$BranchName"
         versionQualifier="-DforceContextQualifier=$buildId"
 fi
 
-echo "======[tag]: $tag" >> adb.log
-echo "======[versionQualifier]: $versionQualifier" >> adb.log
+echo "======[tag]: $tag" >> $USER.log
+echo "======[versionQualifier]: $versionQualifier" >> $USER.log
 
 # tag for eclipseInternalBuildTools on ottcvs1
 internalToolsTag=$buildProjectTags
-echo "======[internalToolsTag]: $internalToolsTag" >> adb.log
+echo "======[internalToolsTag]: $internalToolsTag" >> $USER.log
 
 # tag for exporting org.eclipse.releng.basebuilder
 baseBuilderTag=$buildProjectTags
-echo "======[baseBuilderTag]: $baseBuilderTag" >> adb.log
+echo "======[baseBuilderTag]: $baseBuilderTag" >> $USER.log
 
 # tag for exporting the custom builder
 customBuilderTag=$buildProjectTags
-echo "======[customBuilderTag]: $customBuilderTag" >> adb.log
-
-#if [ -e $builderDir ]
-#then
-#	 builderDir=$builderDir$timestamp
-#fi
+echo "======[customBuilderTag]: $customBuilderTag" >> $USER.log
 
 # directory where features and plugins will be compiled
-buildDirectory=/home/adb/farrah/BIRT_Build_Dir
+buildDirectory=$HOME/farrah/BIRT_Build_Dir
 
-echo "======[buildDirectory]: $buildDirectory" >> adb.log
+echo "======[buildDirectory]: $buildDirectory" >> $USER.log
 
 mkdir $builderDir
 cd $builderDir
 
 #Pull or clone a branch from a repository
 #Usage: pull repositoryURL  branch
-
 pull() {
         mkdir -p $builderDir/gitClones
         pushd $builderDir/gitClones
@@ -204,10 +205,12 @@ pull() {
         fi
         popd
         pushd $builderDir/gitClones/$directory
+	echo git fetch
+        git fetch
         echo git checkout $2
         git checkout $2
-        echo git pull
-        git pull
+        echo git pull origin $2
+        git pull origin $2
         popd
 }
 
@@ -218,14 +221,15 @@ else
 
         #remove comments
         rm -f repos-clean.txt clones.txt
-        GitRoot=ssh://git@git.eclipse.org/gitroot/birt
+        GitRoot=ssh://git@192.168.218.226/gitroot/birt
         echo "$GitRoot/org.eclipse.birt.git $BranchName" > repos-clean.txt
-		#clone or pull each repository and checkout the appropriate branch
+
+	#clone or pull each repository and checkout the appropriate branch
         while read line; do
                 #each line is of the form <repository> <branch>
                 set -- $line
                 pull $1 $2
-                echo $1 | sed 's/ssh:.*@git.eclipse.org/git:\/\/git.eclipse.org/g' >> clones.txt
+                echo $1 | sed 's/ssh:.*@192.168.218.226/git:\/\/git.eclipse.org/g' >> clones.txt
         done < repos-clean.txt
 
         cat clones.txt| xargs /bin/bash extras/git-map.sh $builderDir/gitClones \
@@ -248,7 +252,7 @@ else
 fi
 
 mkdir -p $postingDirectory/$buildLabel
-chmod -R 755 $builderDir
+#chmod -R 755 $builderDir
 
 #default value of the bootclasspath attribute used in ant javac calls.  
 bootclasspath="/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_13/jre/lib/jsse.jar"
@@ -256,7 +260,7 @@ bootclasspath_15="/usr/local/jdk1.5.0_09/jre/lib/rt.jar:/usr/local/jdk1.5.0_09/j
 bootclasspath_16="/usr/local/jdk1.6.0/jre/lib/rt.jar:/usr/local/jdk1.6.0/jre/lib/jsse.jar"
 jvm15_home="/usr/local/jdk1.5.0_09"
 
-cd /home/adb/releng.370/org.eclipse.birt.releng.birtbuilder
+cd $HOME/releng.420/org.eclipse.birt.releng.birtbuilder
 
 echo buildId=$buildId >> monitor.properties 
 echo timestamp=$timestamp >> monitor.properties 
@@ -266,47 +270,52 @@ echo recipients=$recipients >> monitor.properties
 echo log=$postingDirectory/$buildLabel/index.php >> monitor.properties
 
 #the base command used to run AntRunner headless
-antRunner="/usr/local/jdk1.5.0_09/bin/java -Xmx512m -jar ../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
+#antRunner="/usr/local/jdk1.5.0_09/bin/java -Xmx512m -jar ../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
+antRunner="/usr/local/jdk1.6.0/bin/java -Xmx512m -jar ../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
 
-echo "==========[antRunner]: $antRunner" >> adb.log
+echo "==========[antRunner]: $antRunner" >> $USER.log
 
 
-/home/adb/releng.370/org.eclipse.birt.releng.birtbuilder/replaceBuildInfo.sh $buildinfoDate $buildinfounivDate
+$HOME/releng.420/org.eclipse.birt.releng.birtbuilder/replaceBuildInfo.sh $buildinfoDate $buildinfounivDate
 
 #clean drop directories
-#ant -buildfile eclipse/helper.xml cleanBuild -propertyfile build.properties>> adb.log
-#ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties>> adb.log
-#ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
+#ant -buildfile eclipse/helper.xml cleanBuild -propertyfile build.properties>> $USER.log
+#ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties>> $USER.log
+#ant -buildfile eclipse/helper.xml CheckoutFromP4 >> $USER.log
 
 #full command with args
 #buildId=v20110523-2201
-echo "tagMaps flag:" $tagMaps >> adb.log
-echo $compareMaps >> adb.log
-echo $sign >> adb.log
+echo "tagMaps flag:" $tagMaps >> $USER.log
+echo $compareMaps >> $USER.log
+echo $sign >> $USER.log
 
-cp /home/adb/releng.dtp.191/dtpURLmonitor.properties /home/adb/releng.370/src/
+cp $HOME/releng.dtp.1102/dtpURLmonitor.properties $HOME/releng.420/src/
 
 buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps $unitTest $CheckNewJars $skipNL \
+-Dbuild.runtimeOSGI=true \
 -DpostingDirectory=$postingDirectory \
 -Dbootclasspath=$bootclasspath_15 -DbuildType=$buildType -D$buildType=true \
 -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps \
 -DJ2SE-1.5=$bootclasspath_15 -DJavaSE-1.6=$bootclasspath_16 -DlogExtension=.xml $javadoc $updateSite $sign  $prepareSrc \
--Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng.370/src \
--DbaseLocation=/home/adb/releng.370/baseLocation -DbaseLocation.emf=/home/adb/releng.370/baseLocation \
+-Djava15-home=$bootclasspath_15 -DbuildDirectory=$HOME/releng.420/src \
+-DbaseLocation=$HOME/releng.420/baseLocation -DbaseLocation.emf=$HOME/releng.420/baseLocation \
 -DgroupConfiguration=true -DjavacVerbose=true \
--Dbasebuilder=/home/adb/releng.370/org.eclipse.releng.basebuilder -DpostPackage=BIRTOutput  \
--Dtest.dir=/home/adb/releng.370/unittest -Dp4.home=/home/adb/releng.370/P4 \
--Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng.370/org.eclipse.birt.releng.birtbuilder/mapTag.properties \
--Dbuild.date=$builddate -Dpackage.version=3_7_1 \
--DmapVersionTag=master -DBranchVersion=3.7.1 -Dant.dir=$ANT_HOME/bin \
+-Dbasebuilder=$HOME/releng.420/org.eclipse.releng.basebuilder -DpostPackage=BIRTOutput  \
+-Dtest.dir=$HOME/releng.420/unittest -Dp4.home=$HOME/releng.420/P4 \
+-Djvm15_home=$jvm15_home  -DmapTag.properties=$HOME/releng.420/org.eclipse.birt.releng.birtbuilder/mapTag.properties \
+-Dbuild.date=$builddate -Dpackage.version=4_2_2 -DBranchVersion=4.2.2 -Dant.dir=$ANT_HOME/bin \
+-DmapVersionTag=$BranchName \
+-Ddtp.mapVersionTag=$dtp_BranchName \
 -Dusername.sign= -Dpassword.sign= -Dhostname.sign=build.eclipse.org \
--Dhome.dir=/home/data/users/slee -Dsign.dir=/home/data/httpd/download-staging.priv/birt \
+-Dhome.dir=/home/data/users/xgu -Dsign.dir=/home/data/httpd/download-staging.priv/birt \
 -Dbuilder.dir=$builderDir -DupdateSiteConfig=gtk.linux.x86 \
--DmapGitRoot=ssh://xgu@git.eclipse.org/gitroot/birt \
+-DmapGitRoot=ssh://git@192.168.218.226/gitroot/birt \
+-Ddtp.mapGitRoot=ssh://git@192.168.218.226/gitroot/datatools \
 -Dbirt.url.token=git://git.eclipse.org \
--Dbirt.url.newvalue=git://git.eclipse.org \
+-Dbirt.url.newvalue=git://192.168.218.226 \
 -Ddtp.url.token=git://git.eclipse.org \
--Ddtp.url.newvalue=git://git.eclipse.org"
+-Ddtp.url.newvalue=git://192.168.218.226 \
+-DBirtRepoCache=git___192_168_218_226_gitroot_birt_org_eclipse_birt_git"
 
 #skipPreBuild
 
@@ -314,7 +323,7 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMap
 echo $buildCommand>command.txt
 
 #run the build
-$buildCommand >> adb.log
+$buildCommand >> $USER.log
 
 #retCode=$?
 #
@@ -326,6 +335,6 @@ $buildCommand >> adb.log
 
 #clean up
 #rm -rf $builderDir
-#rm -rf /home/adb/releng.370/src/$buildId
+#rm -rf $HOME/releng.420/src/$buildId
 
 

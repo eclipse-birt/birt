@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.render;
 
 import org.eclipse.birt.chart.event.StructureSource;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.data.Action;
 
 /**
@@ -26,7 +27,8 @@ public class ActionRendererAdapter implements IActionRenderer
 	 * @see org.eclipse.birt.chart.render.IActionRenderer#processAction(org.eclipse.birt.chart.model.data.Action,
 	 *      org.eclipse.birt.chart.event.StructureSource)
 	 */
-	public void processAction( Action action, StructureSource source )
+	public void processAction( Action action, StructureSource source,
+			RunTimeContext rtc )
 	{
 		// Doing nothing.
 	}

@@ -1235,6 +1235,11 @@ public final class DialRenderer
 	private double[] getMinMaxValue( ) throws ChartException
 	{
 		double[] values = srh.asPrimitiveDoubleValues( );
+		return getMinMaxValue( values );
+	}
+	
+	public static double[] getMinMaxValue( double values[] ) throws ChartException
+	{
 		if ( values == null || values.length == 0 )
 		{
 			throw new ChartException( ChartEngineExtensionPlugin.ID,

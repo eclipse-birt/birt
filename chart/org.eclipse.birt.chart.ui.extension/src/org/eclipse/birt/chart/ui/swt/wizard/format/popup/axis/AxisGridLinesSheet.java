@@ -241,6 +241,9 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				&& ( getContext( ).getModel( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL );
 		gacMajor = new GridAttributesComposite( grpMajor,
 				SWT.NONE,
+				( GridAttributesComposite.ENABLE_COLOR |
+						GridAttributesComposite.ENABLE_STYLES |
+						GridAttributesComposite.ENABLE_VISIBILITY ),
 				getContext( ),
 				axis.getMajorGrid( ),
 				axis.getOrientation( ).getValue( ),
@@ -259,6 +262,9 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 		gacMinor = new GridAttributesComposite( grpMinor,
 				SWT.NONE,
+				( GridAttributesComposite.ENABLE_COLOR |
+						GridAttributesComposite.ENABLE_STYLES |
+						GridAttributesComposite.ENABLE_VISIBILITY ),
 				getContext( ),
 				axis.getMinorGrid( ),
 				axis.getOrientation( ).getValue( ),

@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.internal.factory;
 
 import java.util.Date;
 
+import org.eclipse.birt.chart.util.CDateTime;
+
 /**
  * This interface defines a DateFormat wrapper. Note this interface is only
  * intended to be used internally.
@@ -21,7 +23,9 @@ public interface IDateFormatWrapper
 {
 
 	String format( Date date );
-	
+
+	String format( CDateTime date );
+
 	/** Returns localized pattern of this format. */
 	String toLocalizedPattern( );
 }
