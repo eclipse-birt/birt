@@ -3252,7 +3252,7 @@
     <PropertyVisibility name="viewAction" visibility="hide"/> 
     <PropertyVisibility name="repeat" visibility="hide"/>      
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Row" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableRow" name="Row" nameSpace="none" since="1.0" xmlName="row">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Row" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableRow" name="Row" nameSpace="none" since="1.0" xmlName="row" selector="row">
     <Property detailType="HideRule" displayNameID="Element.Row.visibility" isList="true" name="visibility" since="1.0" type="structure"/>
     <Property displayNameID="Element.Row.height" name="height" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Row.bookmark" name="bookmark" returnType="string" since="2.0" type="expression">
@@ -3290,7 +3290,7 @@
       <Trigger validator="CellOverlappingValidator"/>
     </Slot>
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Cell" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Cell" name="Cell" nameSpace="none" since="1.0" xmlName="cell">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Cell" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Cell" name="Cell" nameSpace="none" since="1.0" xmlName="cell" selector="row-cell">
     <Property displayNameID="Element.Cell.column" name="column" runtimeSettable="false" since="1.0" type="integer" validator="NonNegativeValueValidator">
       <Default>0</Default>
       <Trigger targetElement="Row" validator="CellOverlappingValidator"/>
@@ -3482,7 +3482,7 @@
       <Type name="Column"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
-    <Slot displayNameID="Element.Grid.slot.rows" multipleCardinality="true" name="rows" since="1.0">
+    <Slot displayNameID="Element.Grid.slot.rows" multipleCardinality="true" name="rows" selector="grid-rows" since="1.0">
       <Type name="Row"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
@@ -3925,6 +3925,8 @@
   <Style displayNameID="Style.Label" name="label" reference="Label item" type="Label"/>
   <Style displayNameID="Style.Text" name="text" reference="Text item" type="Text"/>
   <Style displayNameID="Style.Grid" name="grid" reference="Grid item" type="Grid" />
+  <Style displayNameID="Style.GridRow" name="grid-rows" reference="Grid Row" type="Grid" />
+  <Style displayNameID="Style.GridRowCell" name="grid-rows-cell" reference="Grid Row Cell" type="Grid" />
   <Style displayNameID="Style.Data" name="data" reference="Data item" type="Data"/>
   <Style displayNameID="Style.Image" name="image" reference="Image item" type="Image"/>
   <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" type="TextData"/>
@@ -3977,7 +3979,8 @@
   <Style displayNameID="Style.Toc8" name="TOC-level-8" reference="Table-of-contents level 8" />
   <Style displayNameID="Style.Toc9" name="TOC-level-9" reference="Table-of-contents level 9" />
   <Style displayNameID="Style.Page" name="page" reference="Master page" />
-   
+  <Style displayNameID="Style.Row" name="row" reference="Row"/>
+  <Style displayNameID="Style.RowCell" name="row-cell" reference="Row Cell"/>
   <!--
   <Style displayNameID="Style.Chart" name="chart" reference="Chart" />
   <Style displayNameID="Style.ChartTitle" name="chart-title" reference="Chart Title" />

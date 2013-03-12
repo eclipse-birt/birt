@@ -194,11 +194,19 @@ public class Cell extends StyledElement implements ICellModel
 							row.getContainerInfo( ).getSlotID( ) ).getName( )
 					+ "-cell"; //$NON-NLS-1$
 		}
+		else if ( rowContainer instanceof GridItem )
+		{
+			cellSelector = "grid-" //$NON-NLS-1$
+					+ rowContainer.getDefn( ).getSlot(
+							row.getContainerInfo( ).getSlotID( ) ).getName( )
+					+ "-cell"; //$NON-NLS-1$
+		}
 
 		if ( cellSelector != null )
 		{
 			List<String> list = new ArrayList<String>( );
 			list.add( cellSelector );
+			list.addAll( super.getElementSelectors( ) );
 			return list;
 		}
 
