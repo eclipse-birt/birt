@@ -14,7 +14,6 @@
 
 package org.eclipse.birt.data.engine.api.querydefn;
 
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 
 /**
@@ -37,9 +36,9 @@ public class ScriptExpressionUtil
 	public static IScriptExpression createConstantExpression(
 			String constantExpr )
 	{
-		ScriptExpression scriptExpression = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( constantExpr ) );
-		scriptExpression.setConstant( true );
-		scriptExpression.setConstantValue( constantExpr );
+		ScriptExpression scriptExpression = new ScriptExpression( constantExpr );
+		scriptExpression.setScriptId( BaseExpression.constantId );
+		scriptExpression.setHandle( constantExpr );
 		return scriptExpression;
 	}
 
@@ -53,6 +52,7 @@ public class ScriptExpressionUtil
 			String jsExppression )
 	{
 		ScriptExpression scriptExpression = new ScriptExpression( jsExppression );
+		scriptExpression.setScriptId( BaseExpression.javaScriptId );
 		return scriptExpression;
 	}
 }

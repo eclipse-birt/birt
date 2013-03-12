@@ -104,7 +104,8 @@ public class JointDataSetParseTest extends BaseTestCase
 				.findJointDataSet( "JointDataSet" ); //$NON-NLS-1$
 		assertNotNull( dataSet );
 		assertEquals( 0, dataSet.getRowFetchLimit( ) );
-		assertFalse( dataSet.needsCache( ) );
+		//[T46404] default valut to true
+		assertTrue( dataSet.needsCache( ) );
 
 		// get the sub data sets by element level
 		List dataSets = dataSet.getElement( ).getListProperty( design,

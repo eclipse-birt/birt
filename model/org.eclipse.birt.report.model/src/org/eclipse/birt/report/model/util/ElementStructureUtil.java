@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
@@ -520,11 +521,12 @@ public class ElementStructureUtil
 			if ( virtualElement.getName( ) == null )
 				continue;
 
-			module.makeUniqueName( virtualElement );
-			NameSpace ns = new NameExecutor( virtualElement )
-					.getNameSpace( module );
-			if ( ns != null )
+			NameExecutor executor = new NameExecutor( module, virtualElement );
+			executor.makeUniqueName( );
+			NameSpace ns = executor.getNameSpace( );
+			if (ns != null) {
 				ns.insert( virtualElement );
+			}
 		}
 	}
 

@@ -39,6 +39,20 @@ public class CategoryProvider implements ICategoryProvider
 		} );
 	}
 
+	public CategoryProvider( String categoryKey, String category,
+			String categoryTitle, Class pageClass )
+	{
+		this( new String[]{
+			categoryKey
+		}, new String[]{
+			category
+		}, new String[]{
+			categoryTitle
+		}, new Class[]{
+			pageClass
+		} );
+	}
+
 	public CategoryProvider( String[] categoryKeys, String[] categories,
 			Class[] pageClasses )
 	{
@@ -49,6 +63,21 @@ public class CategoryProvider implements ICategoryProvider
 		{
 			this.categories[i] = new CategoryPage( categoryKeys[i],
 					categories[i],
+					pageClasses[i] );
+		}
+	}
+
+	public CategoryProvider( String[] categoryKeys, String[] categories,
+			String[] categorieTitles, Class[] pageClasses )
+	{
+		assert categories.length == pageClasses.length;
+
+		this.categories = new ICategoryPage[categories.length];
+		for ( int i = 0; i < categories.length; i++ )
+		{
+			this.categories[i] = new CategoryPage( categoryKeys[i],
+					categories[i],
+					categorieTitles[i],
 					pageClasses[i] );
 		}
 	}

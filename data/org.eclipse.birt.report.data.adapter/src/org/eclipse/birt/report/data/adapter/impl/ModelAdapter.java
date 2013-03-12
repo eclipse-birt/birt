@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
@@ -205,9 +206,9 @@ public class ModelAdapter implements IModelAdapter
 		ScriptExpression jsExpr = new ExpressionAdapter( expr, dataType );
 		if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
 		{
-			jsExpr = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) ) );
-			jsExpr.setConstant( true );
-			jsExpr.setConstantValue( expr.getExpression( ) );
+			jsExpr = new ScriptExpression( expr.getStringExpression( ) );
+			jsExpr.setScriptId( BaseExpression.constantId );
+			jsExpr.setHandle( expr.getExpression( ) );
 		}
 		return jsExpr;
 	}
@@ -942,9 +943,9 @@ public class ModelAdapter implements IModelAdapter
 		ScriptExpression jsExpr = null;
 		if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
 		{
-			jsExpr = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) ) );
-			jsExpr.setConstant( true );
-			jsExpr.setConstantValue( expr.getExpression( ) );
+			jsExpr = new ScriptExpression( expr.getStringExpression( ) );
+			jsExpr.setScriptId( BaseExpression.constantId );
+			jsExpr.setHandle( expr.getExpression( ) );
 			return jsExpr;
 		}
 		else if ( "bre".equals( expr.getType( ) ) )

@@ -17,11 +17,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.ModelUtil;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Base class for attributes common to elements and structures. This base class
@@ -32,6 +36,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 public class ObjectDefn implements IObjectDefn
 {
 
+	protected IMessages messages;
 	/**
 	 * The internal name for the object. This is separate from the display name
 	 * shown to users. It is usually the same as the element used to describe
@@ -87,7 +92,7 @@ public class ObjectDefn implements IObjectDefn
 	 *            The display name ID to set.
 	 */
 
-	void setDisplayNameKey( String id )
+	public void setDisplayNameKey( String id )
 	{
 		displayNameKey = id;
 	}
@@ -111,8 +116,24 @@ public class ObjectDefn implements IObjectDefn
 
 	public String getDisplayName( )
 	{
-		assert displayNameKey != null;
-		return ModelMessages.getMessage( this.displayNameKey );
+		if ( displayNameKey != null )
+		{
+			String displayName = null;
+			if ( messages == null )
+			{
+				displayName = ModelMessages.getMessage( this.displayNameKey );
+			}
+			else
+			{
+				ULocale locale = ThreadResources.getLocale( );
+				displayName = messages.getMessage( displayNameKey, locale );
+			}
+			if ( displayName != null )
+			{
+				return displayName;
+			}
+		}
+		return name;
 	}
 
 	/**
@@ -134,7 +155,7 @@ public class ObjectDefn implements IObjectDefn
 	 *            The name to set.
 	 */
 
-	void setName( String theName )
+	public void setName( String theName )
 	{
 		name = theName;
 	}
@@ -150,7 +171,7 @@ public class ObjectDefn implements IObjectDefn
 	 *             if property name duplicates within the object definition.
 	 */
 
-	void addProperty( PropertyDefn property ) throws MetaDataException
+	public void addProperty( PropertyDefn property ) throws MetaDataException
 	{
 		if ( property == null )
 			return;
@@ -254,5 +275,15 @@ public class ObjectDefn implements IObjectDefn
 		if ( !StringUtil.isBlank( getName( ) ) )
 			return getName( );
 		return super.toString( );
+	}
+
+	public void setMessages( IMessages messages )
+	{
+		this.messages = messages;
+	}
+
+	public IMessages getMessages( )
+	{
+		return messages;
 	}
 }

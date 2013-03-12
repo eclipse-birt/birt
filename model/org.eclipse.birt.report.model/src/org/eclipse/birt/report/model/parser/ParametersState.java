@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
@@ -145,8 +146,14 @@ public class ParametersState extends SlotState
 				DesignElement param = params.get( i );
 				String oldName = param.getName( );
 
-				NameSpace ns = new NameExecutor( param )
-						.getNameSpace( (Module) container );
+				NameExecutor executor = new NameExecutor( (Module) container,
+						param );
+				INameHelper nameHelper = executor.getNameHelper( );
+				if ( nameHelper == null )
+				{
+					continue;
+				}
+				NameSpace ns = executor.getNameSpace( );
 
 				// check the unique
 				String paramName = param.getName( );

@@ -54,7 +54,7 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 	private boolean hasError = false;
 
 	private boolean dirty = false;
-	
+
 	/**
 	 * constructor
 	 * 
@@ -75,7 +75,9 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor#resetUIData()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor
+	 * #resetUIData()
 	 */
 	public void load( )
 	{
@@ -99,7 +101,11 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 				text.setText( deMeasureValue );
 			}
 			String[] items = ( (UnitPropertyDescriptorProvider) getDescriptorProvider( ) ).getUnitItems( );
-			combo.setItems( items );
+
+			if ( !Arrays.equals( combo.getItems( ), items ) )
+			{
+				combo.setItems( items );
+			}
 			String deUnitValue;
 			try
 			{
@@ -122,7 +128,9 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
 	 */
 	public Control getControl( )
 	{
@@ -132,7 +140,8 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public Control createControl( Composite parent )
 	{
@@ -244,8 +253,7 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 		if ( !validateDimensionValue( ) )
 		{
 			setError( );
-			ExceptionUtil.openError( ERROR_BOX_TITLE,
-					ERROR_MESSAGE );
+			ExceptionUtil.openError( ERROR_BOX_TITLE, ERROR_MESSAGE );
 			load( );
 			clearError( );
 			return;

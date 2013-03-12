@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.SimpleListValidator;
@@ -644,7 +645,7 @@ public abstract class DesignElement
 
 	public DesignElement( )
 	{
-		this( null );
+		this( (String) null );
 	}
 
 	/**
@@ -660,6 +661,12 @@ public abstract class DesignElement
 		cachedDefn = MetaDataDictionary.getInstance( ).getElement(
 				getElementName( ) );
 
+		cachedPropStrategy = PropertySearchStrategy.getInstance( );
+	}
+
+	public DesignElement( IElementDefn elementDefn )
+	{
+		cachedDefn = elementDefn;
 		cachedPropStrategy = PropertySearchStrategy.getInstance( );
 	}
 
@@ -1121,7 +1128,7 @@ public abstract class DesignElement
 	protected Object getIntrinsicProperty( String propName )
 	{
 		if ( NAME_PROP.equals( propName ) )
-			return name;
+			return getName( );
 		if ( EXTENDS_PROP.equals( propName ) )
 		{
 			if ( extendsRef != null && !extendsRef.isResolved( ) )
@@ -2123,10 +2130,14 @@ public abstract class DesignElement
 		errors = executor.perform( this, validatorList );
 
 		List<SemanticException> list = new ArrayList<SemanticException>( errors );
-		int count = cachedDefn.getSlotCount( );
-		for ( int i = 0; i < count; i++ )
+		
+		Iterator<ISlotDefn> slotIter = ( (ElementDefn) cachedDefn )
+				.slotsIterator( );;
+		while ( slotIter.hasNext( ) )
 		{
-			Iterator<DesignElement> iter = getSlot( i ).iterator( );
+			ISlotDefn slotDefn = slotIter.next( );
+			int slotId = slotDefn.getSlotID( );
+			Iterator<DesignElement> iter = getSlot( slotId ).iterator( );
 			while ( iter.hasNext( ) )
 			{
 				list.addAll( iter.next( ).validateWithContents( module ) );
@@ -3125,6 +3136,12 @@ public abstract class DesignElement
 
 	public boolean isManagedByNameSpace( )
 	{
+		int nameOption = getDefn( ).getNameOption( );
+		if ( nameOption == MetaDataConstants.NO_NAME )
+		{
+			return false;
+		}
+
 		ContainerContext infor = getContainerInfo( );
 		if ( infor == null )
 			return false;

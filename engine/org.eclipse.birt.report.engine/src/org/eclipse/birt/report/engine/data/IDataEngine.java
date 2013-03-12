@@ -59,6 +59,8 @@ public interface IDataEngine
 	 */
 	void prepare( Report report, Map appContext );
 
+	void prepare( IDataQueryDefinition query ) throws BirtException;
+
 	/**
 	 * Executes the prepared (data) execution plan of a report item. Returns an
 	 * IResultSet object
