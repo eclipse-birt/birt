@@ -30,11 +30,11 @@ public interface IExtendedDataModelUIAdapter
 	public boolean contains(ReportElementHandle parent, ReportElementHandle child);
 	
 	/**
-	 * Gets the extended data from the report item.
+	 * Gets the bound extended data from the report item.
 	 * @param element the report item
-	 * @return the extended data
+	 * @return the bound extended data, or null if not found
 	 */
-	public ReportElementHandle getExtendedData(ReportItemHandle element);
+	public ReportElementHandle getBoundExtendedData(ReportItemHandle element);
 	
 	/**
 	 * Gets the name of the extended data from the report item.

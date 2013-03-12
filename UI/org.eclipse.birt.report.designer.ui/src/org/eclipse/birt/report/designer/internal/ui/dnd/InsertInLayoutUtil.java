@@ -1825,7 +1825,7 @@ public class InsertInLayoutUtil
 				{
 					if(ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( bindingRoot ))
 					{
-						return getAdapter() != null && getAdapter().getExtendedData( bindingRoot ).equals( 
+						return getAdapter() != null && getAdapter().getBoundExtendedData( bindingRoot ).equals( 
 								getAdapter().resolveExtendedData( insertObj.getElementHandle( ) ));
 					}
 				}

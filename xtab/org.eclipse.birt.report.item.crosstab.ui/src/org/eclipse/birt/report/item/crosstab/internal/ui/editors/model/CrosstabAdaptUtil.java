@@ -146,7 +146,7 @@ public class CrosstabAdaptUtil
 		{
 			bindingColumn.setDataType( levelHandle.getDataType( ) );
 			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
-			if(adapter != null && adapter.getExtendedData( owner ) != null)
+			if(adapter != null && adapter.getBoundExtendedData( owner ) != null)
 			{
 				bindingColumn.setExpression( adapter.createExtendedDataItemExpression( levelHandle ));
 			}

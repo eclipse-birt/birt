@@ -81,7 +81,7 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 			cmdStack.startTrans( Messages.getFormattedString( "ExtendedDataColumnXtabDropAdapter.trans.add", //$NON-NLS-1$
 					new String[]{ ((ReportElementHandle) transfer).getName( )} ) );
 
-			ReportElementHandle extendedData = adapter.getExtendedData( (ReportItemHandle) crosstab.getModelHandle( ) );
+			ReportElementHandle extendedData = adapter.getBoundExtendedData( (ReportItemHandle) crosstab.getModelHandle( ) );
 			
 			if(extendedData == null || !extendedData.equals( adapter.resolveExtendedData( (ReportElementHandle) transfer)))
 			{
