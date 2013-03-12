@@ -566,16 +566,26 @@ enabled, by default it's true.</xsd:documentation>
 				<xsd:sequence>
 					<xsd:element name="Text" type="xsd:string">
 						<xsd:annotation>
-							<xsd:documentation xml:lang="en">Attribute "Text" specifies the tooltip text.
+							<xsd:documentation xml:lang="en">
+								Attribute "Text" specifies the tooltip
+								text.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 					<xsd:element name="Delay" type="xsd:int">
 						<xsd:annotation>
-							<xsd:documentation xml:lang="en">Attribute "Delay" specifies the delay in milliseconds afer which the tooltip is to be shown.
+							<xsd:documentation xml:lang="en">
+								Attribute "Delay" specifies the delay in
+								milliseconds afer which the tooltip is
+								to be shown.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="FormatSpecifier" type="FormatSpecifier">
+						<xsd:annotation>
+							<xsd:documentation>
+								Attribute "FormatSpecifier" specifies the tooltip format.</xsd:documentation>
+						</xsd:annotation></xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

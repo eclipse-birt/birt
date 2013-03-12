@@ -151,16 +151,19 @@ public class RadarSeriesAttributeComposite extends Composite implements
 			btnPalette.addListener( SWT.Selection, this );
 		}
 		
-		btnConnectEndPoints = context.getUIFactory( )
-				.createChartCheckbox( cmp,
-						SWT.NONE,
-						defSeries.isConnectEndpoints( ) );
+		if ( isConnectEndPointsAvailable( ) )
 		{
-			btnConnectEndPoints.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ConnectPoints" ) ); //$NON-NLS-1$	
-			btnConnectEndPoints.setSelectionState( series.isSetConnectEndpoints( ) ? ( series.isConnectEndpoints( ) ? ChartCheckbox.STATE_SELECTED
-					: ChartCheckbox.STATE_UNSELECTED )
-					: ChartCheckbox.STATE_GRAYED );
-			btnConnectEndPoints.addListener( SWT.Selection, this );
+			btnConnectEndPoints = context.getUIFactory( )
+					.createChartCheckbox( cmp,
+							SWT.NONE,
+							defSeries.isConnectEndpoints( ) );
+			{
+				btnConnectEndPoints.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ConnectPoints" ) ); //$NON-NLS-1$	
+				btnConnectEndPoints.setSelectionState( series.isSetConnectEndpoints( ) ? ( series.isConnectEndpoints( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
+				btnConnectEndPoints.addListener( SWT.Selection, this );
+			}
 		}
 		
 		btnFillPoly = context.getUIFactory( ).createChartCheckbox( cmp,
@@ -172,7 +175,13 @@ public class RadarSeriesAttributeComposite extends Composite implements
 					: ChartCheckbox.STATE_UNSELECTED )
 					: ChartCheckbox.STATE_GRAYED );
 			btnFillPoly.addListener( SWT.Selection, this );
-			btnFillPoly.setEnabled( context.getUIFactory( ).canEnableUI( btnConnectEndPoints ) );
+			
+			// if the "ConnectEndPoints" option is not available, always show the "EnableFillPoly" option,
+			// as normally, the end points of radar chart are connected.
+			boolean bEnableBtnFillPoly =
+					isConnectEndPointsAvailable( ) ? context.getUIFactory( ).canEnableUI( btnConnectEndPoints )
+					: true;
+			btnFillPoly.setEnabled( bEnableBtnFillPoly );
 		}
 
 		Group grpMarker = new Group( cmp, SWT.NONE );
@@ -266,10 +275,15 @@ public class RadarSeriesAttributeComposite extends Composite implements
 
 	private void enableLineSettings( boolean isEnabled )
 	{
-		if ( btnPalette != null )
+		if ( btnPalette != null && btnConnectEndPoints != null )
 		{
 			btnPalette.setEnabled( isEnabled );
 			btnConnectEndPoints.setEnabled( isEnabled );
 		}
+	}
+
+	protected boolean isConnectEndPointsAvailable( )
+	{
+		return true;
 	}
 }

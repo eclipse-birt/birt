@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -361,6 +362,12 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 				df = DateFormat.getDateTimeInstance( getJavaType( ),
 						getJavaType( ),
 						lcl );
+				// Only Datetime supports TimeZone
+				if ( c instanceof CDateTime
+						&& ( (CDateTime) c ).isFullDateTime( ) )
+				{
+					df.setTimeZone( c.getTimeZone( ) );
+				}
 			}
 			catch ( ChartException uex )
 			{
@@ -386,6 +393,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		return df.format( c.getTime( ) );
 	}
 
+	@SuppressWarnings("deprecation")
 	public String format( Calendar c, Locale lcl )
 	{
 		return format( c, ULocale.forLocale( lcl ) );

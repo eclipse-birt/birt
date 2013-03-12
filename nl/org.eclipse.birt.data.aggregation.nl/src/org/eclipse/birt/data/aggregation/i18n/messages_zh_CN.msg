@@ -1,3 +1,11 @@
+#########################################################################
+# Bidi RTL Language Resolution:
+# If the display text is all English, it should insert the RLM character 
+# '\u200f' before the string.  
+# Phone(Count) : (Phone(Count
+# Phone(\u200fCount) : (Count)Phone
+#########################################################################
+
 #Aggregation function UI information
 Constants.Expression=表达式(&E)
 TotalAve.description=函数 Total.AVE()

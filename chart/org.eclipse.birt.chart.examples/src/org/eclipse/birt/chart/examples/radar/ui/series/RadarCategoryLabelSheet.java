@@ -96,10 +96,7 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 			btnCatLabels.addListener( SWT.Selection, this );
 		}
 
-		LabelAttributesContext clattributesContext = new LabelAttributesContext( );
-		clattributesContext.isPositionEnabled = false;
-		clattributesContext.isFontAlignmentEnabled = false;
-		clattributesContext.isVisibilityEnabled = false;
+		LabelAttributesContext clattributesContext = getLabelAttributeContext( );
 		if ( series.getCatLabel( ) == null )
 		{
 			org.eclipse.birt.chart.model.component.Label lab = LabelImpl.create( );
@@ -233,5 +230,14 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 		boolean enabled = !( series.isSetShowCatLabels( ) && !series.isShowCatLabels( ) );
 		catLabelAttr.setEnabled( enabled );
 		btnCLFormatSpecifier.setEnabled( enabled );
+	}
+
+	protected LabelAttributesContext getLabelAttributeContext( )
+	{
+		LabelAttributesContext clattributesContext = new LabelAttributesContext( );
+		clattributesContext.isPositionEnabled = false;
+		clattributesContext.isFontAlignmentEnabled = false;
+		clattributesContext.isVisibilityEnabled = false;
+		return clattributesContext;
 	}
 }
