@@ -643,6 +643,7 @@ TriggerDataComposite.Lbl.Script=스크립트(&P):
 TriggerDataComposite.Lbl.Target=대상:
 TriggerEditorComposite.Lbl.Update=<< 업데이트(&U)
 TriggerDataComposite.Lbl.TooltipText=도구 설명 텍스트(&X):
+TriggerDataComposite.Btn.Format=&Format
 TriggerDataComposite.Lbl.BaseURL=기본 URL 편집:
 TriggerDataComposite.Lbl.Image=이미지(&I)
 
