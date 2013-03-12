@@ -643,6 +643,7 @@ TriggerDataComposite.Lbl.Script=スクリプト (&P):
 TriggerDataComposite.Lbl.Target=ターゲット :
 TriggerEditorComposite.Lbl.Update=<< 更新(&U)
 TriggerDataComposite.Lbl.TooltipText=ツールチップのテキスト (&X):
+TriggerDataComposite.Btn.Format=&Format
 TriggerDataComposite.Lbl.BaseURL=ベース URL の編集 :
 TriggerDataComposite.Lbl.Image=イメージ(&I)
 

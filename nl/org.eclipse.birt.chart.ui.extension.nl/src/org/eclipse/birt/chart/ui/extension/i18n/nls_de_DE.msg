@@ -643,6 +643,7 @@ TriggerDataComposite.Lbl.Script=Skri&pt:
 TriggerDataComposite.Lbl.Target=Ziel:
 TriggerEditorComposite.Lbl.Update=<< &Aktualisieren
 TriggerDataComposite.Lbl.TooltipText=QuickInfo-Te&xt:
+TriggerDataComposite.Btn.Format=&Format
 TriggerDataComposite.Lbl.BaseURL=Basis-URL bearbeiten:
 TriggerDataComposite.Lbl.Image=B&ild
 
