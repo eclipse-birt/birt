@@ -84,7 +84,15 @@ public class OutputPropertyDescriptorProvider extends
 				{
 					try
 					{
-						getVisibilityPropertyHandle( element ).removeItem( handle.getStructure( ) );
+						if (DEUtil.getMultiSelectionHandle((List) input)
+								.isExtendedElements()) {
+							PropertyHandle propertyHandle=getVisibilityPropertyHandle( element );
+							propertyHandle.getItems().clear();
+
+						} else{
+							getVisibilityPropertyHandle( element ).removeItem( handle.getStructure( ) );
+						}
+
 					}
 					catch ( PropertyValueException e )
 					{
