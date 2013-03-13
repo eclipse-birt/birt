@@ -667,8 +667,8 @@
 			token="${dtp.url.token}">
 			<include name="**/*.map" />
 		</replace>
-		<replace dir="${buildDirectory}/maps" value="${orbit.url.token}"
-			token="${orbit.url.newvalue}">
+		<replace dir="${buildDirectory}/maps" value="${orbit.url.newvalue}"
+			token="${orbit.url.token}">
 			<include name="**/*.map" />
 		</replace>
 
