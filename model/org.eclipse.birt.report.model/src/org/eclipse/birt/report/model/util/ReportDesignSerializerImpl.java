@@ -207,14 +207,16 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 */
 	protected Map<String, ReportItemTheme> reportItemThemes = new LinkedHashMap<String, ReportItemTheme>(
 			ModelUtil.MAP_CAPACITY_MEDIUM );
-	
+
 	/**
-	 * this map maintain the mapping of created ReportItemTheme and the created report items which should use the ReportItemTheme.
-	 * This map is used to update the ReportItemTheme name in report item after referred  ReportItemTheme is renamed.
+	 * this map maintain the mapping of created ReportItemTheme and the created
+	 * report items which should use the ReportItemTheme. This map is used to
+	 * update the ReportItemTheme name in report item after referred
+	 * ReportItemTheme is renamed.
 	 */
 	protected Map<ReportItemTheme, List<ReportItem>> ReportItemThemeMapping = new LinkedHashMap<ReportItemTheme, List<ReportItem>>(
 			ModelUtil.MAP_CAPACITY_MEDIUM );
-	
+
 	protected Map<ExtendedItem, StyleHandle[]> referencedStyleMap = new LinkedHashMap<ExtendedItem, StyleHandle[]>(
 			ModelUtil.MAP_CAPACITY_LOW );
 
@@ -276,7 +278,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		// add report item themes to design tree
 		addReportItemThemes( );
-		
+
 		// add referenced style into report, also update the theme
 		processAllReferencedStyle( );
 
@@ -338,7 +340,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		currentNewElement = newElement;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -353,7 +355,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		assert ( currentNewElement instanceof ExtendedItem );
 		IReportItem extItem = obj.getExtendedElement( );
-		if (extItem != null)
+		if ( extItem != null )
 		{
 			StyleHandle[] styles = extItem.getReferencedStyle( );
 			if ( styles != null && styles.length > 0 )
@@ -463,7 +465,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		}
 	}
 
-
 	/**
 	 * Adds structure values to the target. Currently only has cases with
 	 * embedded image.
@@ -513,8 +514,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			// caused by the renaming action, for not all the cube need do this
 			if ( needUpdateBinding( tmpElement ) )
 			{
-				tmpOLAPNames.put( tmpElement, collectOLAPNames( sourceDesign,
-						tmpElement ) );
+				tmpOLAPNames.put( tmpElement,
+						collectOLAPNames( sourceDesign, tmpElement ) );
 			}
 		}
 
@@ -606,20 +607,37 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		if ( context == null && originalContainer instanceof Library )
 		{
 			context = originalElement.getContainerInfo( );
-			int newId = DesignElement.NO_SLOT;
-			switch ( context.getSlotID( ) )
+			if ( !context.isROMSlot( ) )
 			{
-				case ILibraryModel.THEMES_SLOT :
-					newId = IDesignElementModel.NO_SLOT;
-					assert false;
-					break;
-				case ILibraryModel.CUBE_SLOT :
-					newId = IReportDesignModel.CUBE_SLOT;
-					break;
-				default :
-					newId = context.getSlotID( );
+				String propName = context.getPropertyName( );
+				if ( null != propName )
+				{
+					context = new ContainerContext( tmpContainer,
+							context.getPropertyName( ) );
+				}
+				else
+				{
+					context = new ContainerContext( tmpContainer,
+							DesignElement.NO_SLOT );
+				}
 			}
-			context = new ContainerContext( tmpContainer, newId );
+			else
+			{
+				int newId = DesignElement.NO_SLOT;
+				switch ( context.getSlotID( ) )
+				{
+					case ILibraryModel.THEMES_SLOT :
+						newId = IDesignElementModel.NO_SLOT;
+						assert false;
+						break;
+					case ILibraryModel.CUBE_SLOT :
+						newId = IReportDesignModel.CUBE_SLOT;
+						break;
+					default :
+						newId = context.getSlotID( );
+				}
+				context = new ContainerContext( tmpContainer, newId );
+			}
 		}
 
 		assert context != null;
@@ -757,7 +775,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			binding.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
 					newExpr );
 	}
-	
+
 	private Expression getUpdatedExpression( Expression old,
 			Map<String, String> nameMap )
 	{
@@ -881,7 +899,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			aggreOnList.set( i, newName );
 		}
 	}
-	
+
 	private void updateAggregationArguments( ComputedColumn binding,
 			Map<String, String> nameMap )
 	{
@@ -905,7 +923,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			}
 		}
 	}
-	
+
 	private void updateCalculationArguments( ComputedColumn binding,
 			Map<String, String> nameMap )
 	{
@@ -921,7 +939,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 				if ( objExpr == null )
 					return;
-				
+
 				Expression newExpr = getUpdatedExpression( objExpr, nameMap );
 				if ( newExpr != null )
 					calArg.setExpressionProperty(
@@ -930,7 +948,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			}
 		}
 	}
-	
+
 	private void updateDerivedMeasure( Module module, Cube cube,
 			Map<String, String> nameMap )
 	{
@@ -965,7 +983,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			}
 		}
 	}
-	
+
 	private void updateTimeDimension( ComputedColumn binding,
 			Map<String, String> nameMap )
 	{
@@ -1204,8 +1222,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private void addReportItemThemeMap( ReportItem targetItem,
 			ReportItemTheme targetTheme )
 	{
-		List<ReportItem> reportItems = ReportItemThemeMapping
-				.get( targetTheme );
+		List<ReportItem> reportItems = ReportItemThemeMapping.get( targetTheme );
 		{
 			if ( reportItems == null )
 			{
@@ -1386,15 +1403,15 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			switch ( targetProp.getTypeCode( ) )
 			{
 				case IPropertyType.LIST_TYPE :
-					target.setProperty( targetProp, ModelUtil.copyValue(
-							targetProp, value ) );
+					target.setProperty( targetProp,
+							ModelUtil.copyValue( targetProp, value ) );
 					break;
 				case IPropertyType.STRUCT_TYPE :
 					handleStructureValue( target, targetProp, value );
 					break;
 				default :
-					target.setProperty( targetProp, ModelUtil.copyValue(
-							targetProp, value ) );
+					target.setProperty( targetProp,
+							ModelUtil.copyValue( targetProp, value ) );
 			}
 
 			notEmptyProperties.add( propName );
@@ -1557,8 +1574,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
 			PropertyDefn propDefn = (PropertyDefn) properties.get( i );
-			visitContents( sourceDesign, new ContainerContext( obj, propDefn
-					.getName( ) ) );
+			visitContents( sourceDesign,
+					new ContainerContext( obj, propDefn.getName( ) ) );
 		}
 		elements.pop( );
 	}
@@ -1582,8 +1599,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		if ( containmentProp != null )
 			containment = new ContainerContext( container, containmentProp );
 		else
-			containment = new ContainerContext( container, sourceContainment
-					.getSlotID( ) );
+			containment = new ContainerContext( container,
+					sourceContainment.getSlotID( ) );
 		DesignElement newElement = newElement( element.getDefn( ).getName( ),
 				element.getName( ), containment ).getElement( );
 
@@ -1729,7 +1746,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		localizeIncludeResourceValues( source, targetDesign );
 
 		localizeScriptLibValues( source, targetDesign );
-		
+
 		localizeIncludeScriptValues( source, targetDesign );
 
 		// css style sheet must be treated here. It is different from other
@@ -1807,11 +1824,11 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		while ( themeIter.hasNext( ) )
 		{
 			ReportItemTheme newTheme = themeIter.next( );
-			
+
 			// for original design theme, do nothing
 			if ( newTheme.getContainer( ) != null )
 				continue;
-			
+
 			// add external library theme
 			ContainerContext context = new ContainerContext( targetDesign,
 					IReportDesignModel.THEMES_SLOT );
@@ -1949,9 +1966,10 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 	void localizeIncludeResourceValues( ReportDesign source, ReportDesign target )
 	{
-		localizeIncludeValues(source, target, IModuleModel.INCLUDE_RESOURCE_PROP);
+		localizeIncludeValues( source, target,
+				IModuleModel.INCLUDE_RESOURCE_PROP );
 	}
-	
+
 	/**
 	 * Flattens the included scripts of the library to the report design.
 	 * 
@@ -1960,25 +1978,28 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 * @param target
 	 *            the target element
 	 */
-	private void localizeIncludeScriptValues(ReportDesign source, ReportDesign target)
+	private void localizeIncludeScriptValues( ReportDesign source,
+			ReportDesign target )
 	{
-		localizeIncludeValues(source, target, IModuleModel.INCLUDE_SCRIPTS_PROP);
+		localizeIncludeValues( source, target,
+				IModuleModel.INCLUDE_SCRIPTS_PROP );
 	}
-	
+
 	/**
-	 * Flattens the included values (resources and scripts) of the library to the report design.
+	 * Flattens the included values (resources and scripts) of the library to
+	 * the report design.
 	 * 
 	 * @param source
 	 *            the source element
 	 * @param target
 	 *            the target element
 	 * @param propName
-	 * 				the property name of the value
+	 *            the property name of the value
 	 */
-	private void localizeIncludeValues(ReportDesign source, ReportDesign target, String propName)
+	private void localizeIncludeValues( ReportDesign source,
+			ReportDesign target, String propName )
 	{
-		ElementPropertyDefn propDefn = source
-				.getPropertyDefn( propName );
+		ElementPropertyDefn propDefn = source.getPropertyDefn( propName );
 
 		Object obj = source.getProperty( source, propDefn );
 		List<Object> newValues = new ArrayList<Object>( );
@@ -2016,7 +2037,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 	private void visitCssStyleSheets( ReportDesign source, ReportDesign target )
 	{
-		List<CssStyleSheet> allSheet = new ArrayList<CssStyleSheet>();
+		List<CssStyleSheet> allSheet = new ArrayList<CssStyleSheet>( );
 		List<CssStyleSheet> sheets = source.getCsses( );
 		for ( int i = 0; i < sheets.size( ); i++ )
 		{
@@ -2039,11 +2060,11 @@ class ReportDesignSerializerImpl extends ElementVisitor
 				allSheet.add( newSheet );
 			}
 		}
-		
-		if(!allSheet.isEmpty( ))
+
+		if ( !allSheet.isEmpty( ) )
 		{
-			ArrayList value = new ArrayList();
-			for(CssStyleSheet sheet: sheets)
+			ArrayList value = new ArrayList( );
+			for ( CssStyleSheet sheet : sheets )
 			{
 				IncludedCssStyleSheet css = StructureFactory
 						.createIncludedCssStyleSheet( );
@@ -2092,8 +2113,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private CssStyle visitCssStyle( CssStyle style )
 	{
 		CssStyle newStyle = new CssStyle( style.getName( ) );
-		localizePrivateStyleProperties( newStyle, style, (Module) style
-				.getRoot(), new HashSet<String>( ) );
+		localizePrivateStyleProperties( newStyle, style,
+				(Module) style.getRoot( ), new HashSet<String>( ) );
 
 		return newStyle;
 	}
@@ -2485,27 +2506,30 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 			// style properties are handled in styledElement.
 
-			if  ( propDefn.isStyleProperty( ) && !( element instanceof Style ) )
+			if ( propDefn.isStyleProperty( ) && !( element instanceof Style ) )
 			{
 				continue;
 			}
-			
+
 			Object value = getLocalizablePropertyValue( root, element, propDefn );
-			
-			if( IStyledElementModel.STYLE_PROP.equals( propName ) )
+
+			if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
 			{
-				//handle unresolved style name. If using external css style, then style name may be unresolved
+				// handle unresolved style name. If using external css style,
+				// then style name may be unresolved
 				if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 				{
 					if ( value != null
-							&& !( (ElementRefValue) value ).isResolved( ) && element instanceof StyledElement )
+							&& !( (ElementRefValue) value ).isResolved( )
+							&& element instanceof StyledElement )
 					{
-						((StyledElement)newElement).setStyleName( ( (ElementRefValue) value ).getName( ) );
+						( (StyledElement) newElement )
+								.setStyleName( ( (ElementRefValue) value )
+										.getName( ) );
 					}
 					continue;
 				}
 			}
-			
 
 			if ( value == null )
 				continue;
@@ -2535,8 +2559,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 								(List) value );
 					}
 					else if ( newElement.getLocalProperty( null, propDefn ) == null )
-						newElement.setProperty( propDefn, ModelUtil.copyValue(
-								propDefn, value ) );
+						newElement.setProperty( propDefn,
+								ModelUtil.copyValue( propDefn, value ) );
 					break;
 				case IPropertyType.STRUCT_TYPE :
 
@@ -2827,8 +2851,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		}
 		else
 		{
-			newElement.setProperty( propDefn, createNewStructureValue(
-					propDefn, valueList ) );
+			newElement.setProperty( propDefn,
+					createNewStructureValue( propDefn, valueList ) );
 		}
 	}
 
@@ -2900,12 +2924,12 @@ class ReportDesignSerializerImpl extends ElementVisitor
 							(ElementRefValue) value );
 					break;
 				case IPropertyType.STRUCT_TYPE :
-					newStruct.setProperty( memberDefn, createNewStructureValue(
-							memberDefn, value ) );
+					newStruct.setProperty( memberDefn,
+							createNewStructureValue( memberDefn, value ) );
 					break;
 				default :
-					newStruct.setProperty( memberDefn, ModelUtil.copyValue(
-							memberDefn, value ) );
+					newStruct.setProperty( memberDefn,
+							ModelUtil.copyValue( memberDefn, value ) );
 			}
 		}
 
@@ -2945,8 +2969,10 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					newRefEelement ) );
 		}
 		else
-			structure.setProperty( propDefn, new ElementRefValue( value
-					.getLibraryNamespace( ), value.getName( ) ) );
+			structure.setProperty(
+					propDefn,
+					new ElementRefValue( value.getLibraryNamespace( ), value
+							.getName( ) ) );
 	}
 
 	/**
@@ -3014,8 +3040,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					newEmbeddedIamge ) );
 		}
 		else
-			newElement.setProperty( propDefn, ModelUtil.copyValue( propDefn,
-					value ) );
+			newElement.setProperty( propDefn,
+					ModelUtil.copyValue( propDefn, value ) );
 	}
 
 	/**
@@ -3068,10 +3094,9 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			setElementRefProperty( newElement, propDefn, value );
 		}
 	}
-	
-	protected void setElementRefProperty( 
-			DesignElement newElement, PropertyDefn propDefn,
-			ElementRefValue value )
+
+	protected void setElementRefProperty( DesignElement newElement,
+			PropertyDefn propDefn, ElementRefValue value )
 	{
 		boolean isDynamicLinkerChildren = false;
 		DesignElement e = value.getElement( );
