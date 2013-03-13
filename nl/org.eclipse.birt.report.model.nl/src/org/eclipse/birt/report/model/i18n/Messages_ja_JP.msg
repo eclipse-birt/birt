@@ -1943,6 +1943,8 @@ Structure.HighlightRule.border.right.style=種類
 Structure.HighlightRule.border.right.width=幅
 Structure.HighlightRule.border.right.color=カラー
 Structure.HighlightRule.background.color=背景色
+Structure.HighlightRule.background.image=背景イメージ
+Structure.HighlightRule.backgroundRepeat=背景を繰り返す
 Structure.HighlightRule.format.dateTime=日付/時間の書式
 Structure.HighlightRule.format.number=数値の書式
 Structure.HighlightRule.format.number.align=数値の配置  
@@ -1956,6 +1958,10 @@ Structure.HighlightRule.font.color=カラー
 Structure.HighlightRule.font.textUnderline=下線
 Structure.HighlightRule.font.textOverline=上線
 Structure.HighlightRule.font.textLineThrough=取り消し線
+Structure.HighlightRule.padding.top=パディング (上)
+Structure.HighlightRule.padding.left=パディング (左)
+Structure.HighlightRule.padding.bottom=パディング (下)
+Structure.HighlightRule.padding.right=パディング (右)
 Structure.HighlightRule.text.align=文字列の位置揃え
 Structure.HighlightRule.text.indent=文字列のインデント
 Structure.HighlightRule.text.transform=文字列の位置変更
@@ -2091,6 +2097,7 @@ Structure.IncludedLibrary.namespace=名前空間
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=ファイル名
 Structure.IncludedCssStyleSheet.externalCssURI=外部の CSS URI
+Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
 
 #15. DataSetParam
 Structure.DataSetParam.name=名前
@@ -2315,7 +2322,6 @@ Structure.FormatValue.locale=ロケール
 #40. CalculationArgument
 Structure.CalculationArgument.name=計算の引数名
 Structure.CalculationArgument.value=計算の引数値
-
 
 ###########################################################
 # Element names
@@ -3052,7 +3058,7 @@ Element.Image.onPageBreak.this=イメージインスタンス
 Element.Image.onPageBreak.reportContext=レポートのコンテキスト
 Element.Image.fitToContainer=コンテナに合わせる
 Element.Image.proportionalScale=プロポーショナルスケール
-
+  
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=列
 Element.Grid.slot.rows=行
@@ -3375,6 +3381,7 @@ Element.FilterConditionElement.pushDown=プッシュ (下へ)
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=種類
 Element.FilterConditionElement.updateAggregation=集計の更新
+
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
