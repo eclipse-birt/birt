@@ -1,3 +1,18 @@
+#########################################################################################################################
+# Top-Level script to trigger the nightly build of BIRT 
+#########################################################################################################################
+#
+# Example 1: Start a N-build from master branch, signing jars from build.eclipse.org(committer user/passwd required),
+#            create update site under /local/home/birtbld/UpdateSite/4_2_2-N directory and skip unit test
+#   ./bootstrap.sh -BranchName master -sign -updateSite /local/home/birtbld/UpdateSite/4_2_2-N -noUnitTest N 
+# 
+# Example 2: Start a I-build from master branch, no signing, no unit test, plugins will be tagged automatically based on 
+#            content change. Map files will tagged accordingly. With prepareSrc argument, build script will clone the repo
+#             before build starts and copy bundles into ${buildDirectory}, which will speed up the build process.
+#   ./bootstrap.sh -BranchName master -prepareSrc -updateSite /local/home/birtbld/UpdateSite/4_2_2-N -noUnitTest I 
+#
+#########################################################################################################################
+
 ########################################################
 # User specific environment and startup programs
 ########################################################
@@ -259,7 +274,7 @@ echo recipients=$recipients >> $MONITOR_FILE
 #the base command used to run AntRunner headless
 antRunner="/usr/local/jdk1.6.0/bin/java -Xmx512m -jar ../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
 
-echo "==========[antRunner]: $antRunner" >> $LOG_FILE
+echo "======[antRunner]: $antRunner" >> $LOG_FILE
 
 #########################################################################
 # Update the build info for build uploading. Please comment out this step
