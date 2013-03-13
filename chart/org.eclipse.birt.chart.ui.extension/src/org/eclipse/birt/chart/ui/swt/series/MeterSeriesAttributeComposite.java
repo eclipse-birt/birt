@@ -97,6 +97,14 @@ public class MeterSeriesAttributeComposite extends Composite implements
 				getParent( ).getClientArea( ).height );
 	}
 
+	protected int getFillStyles( )
+	{
+		return FillChooserComposite.ENABLE_GRADIENT
+				| FillChooserComposite.ENABLE_IMAGE
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+	}
+
 	private void placeComponents( )
 	{
 		// Layout for the content composite
@@ -144,10 +152,7 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		lblFill.setLayoutData( gdFill );
 		lblFill.setText( Messages.getString( "MeterSeriesAttributeSheetImpl.Lbl.Fill" ) ); //$NON-NLS-1$
 
-		int fillStyles = FillChooserComposite.ENABLE_GRADIENT
-				| FillChooserComposite.ENABLE_IMAGE
-				| FillChooserComposite.ENABLE_TRANSPARENT
-				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+		int fillStyles = getFillStyles( );
 		fillStyles |= wizardContext.getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
 				: fillStyles;
 		fcc = new FillChooserComposite( cmpLeft,
