@@ -136,27 +136,30 @@ function detectBrowser() {
     var majorVersion = parseInt(navigator.appVersion, 10);
     var versionOffset;
 
-    
-	// The true version is after the browser name in userAgent
-	// For Safari, it may be after "Safari" or "Version" 
-    if ((versionOffset = userAgent.indexOf("MSIE")) != -1) {
-        browserName = "Microsoft Internet Explorer";
-        fullVersion = userAgent.substring(versionOffset + 5);
-    }
-    else if ((versionOffset = userAgent.indexOf("Chrome")) != -1) {
-        browserName = "Chrome";
-        fullVersion = userAgent.substring(versionOffset + 7);
-    }
-    
-    else if ((versionOffset = userAgent.indexOf("Safari")) != -1) {
-        browserName = "Safari";
-        fullVersion = userAgent.substring(versionOffset + 7);
-        if ((versionOffset = userAgent.indexOf("Version")) != -1) fullVersion = userAgent.substring(versionOffset + 8);
-    }
-    else if ((versionOffset = userAgent.indexOf("Firefox")) != -1) {
-        browserName = "Firefox";
-        fullVersion = userAgent.substring(versionOffset + 8);
-    }
+    // UserAgent property is null in some cases. such as Adobe SVG Viewer etc.
+    // browserName and fullVersion will remain as navigator.appName and navigator.appVersion by default
+	if(userAgent != undefined){
+		// The true version is after the browser name in userAgent
+		// For Safari, it may be after "Safari" or "Version" 
+		if ((versionOffset = userAgent.indexOf("MSIE")) != -1) {
+	        browserName = "Microsoft Internet Explorer";
+	        fullVersion = userAgent.substring(versionOffset + 5);
+	    }
+	    else if ((versionOffset = userAgent.indexOf("Chrome")) != -1) {
+	        browserName = "Chrome";
+	        fullVersion = userAgent.substring(versionOffset + 7);
+	    }
+	    
+	    else if ((versionOffset = userAgent.indexOf("Safari")) != -1) {
+	        browserName = "Safari";
+	        fullVersion = userAgent.substring(versionOffset + 7);
+	        if ((versionOffset = userAgent.indexOf("Version")) != -1) fullVersion = userAgent.substring(versionOffset + 8);
+	    }
+	    else if ((versionOffset = userAgent.indexOf("Firefox")) != -1) {
+	        browserName = "Firefox";
+	        fullVersion = userAgent.substring(versionOffset + 8);
+	    }
+	}
 
     // Trim the semicolon or space
 	var index;
