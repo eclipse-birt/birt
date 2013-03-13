@@ -180,12 +180,14 @@ public class Cell extends StyledElement implements ICellModel
 			return Collections.emptyList( );
 
 		String cellSelector = null;
+		String tableCellSelector = null;
 		if ( rowContainer instanceof TableItem )
 		{
 			cellSelector = "table-" //$NON-NLS-1$
 					+ rowContainer.getDefn( ).getSlot(
 							row.getContainerInfo( ).getSlotID( ) ).getName( )
 					+ "-cell"; //$NON-NLS-1$
+			tableCellSelector = "table-cell";
 		}
 		else if ( rowContainer instanceof TableGroup )
 		{
@@ -196,21 +198,22 @@ public class Cell extends StyledElement implements ICellModel
 		}
 		else if ( rowContainer instanceof GridItem )
 		{
-			cellSelector = "grid-" //$NON-NLS-1$
-					+ rowContainer.getDefn( ).getSlot(
-							row.getContainerInfo( ).getSlotID( ) ).getName( )
-					+ "-cell"; //$NON-NLS-1$
+			cellSelector = "grid-cell"; //$NON-NLS-1$
 		}
 
-		if ( cellSelector != null )
+		if ( cellSelector == null && tableCellSelector == null )
+		{
+			return Collections.emptyList( );
+		}
+		else
 		{
 			List<String> list = new ArrayList<String>( );
-			list.add( cellSelector );
-			list.addAll( super.getElementSelectors( ) );
-			return list;
+			// the order matters because header/detail/footer selector always overwrites table row selector
+			if( cellSelector != null )
+				list.add( cellSelector );
+			if( tableCellSelector != null )
+				list.add( tableCellSelector );
+			return list;			
 		}
-
-		return Collections.emptyList( );
-
 	}
 }
