@@ -704,7 +704,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		DimensionViewHandle dv = getDimension( slices[0] );
 		if( dv != null )
 		{
-			return dv.getLevel( slices[1] );
+			return dv.getLevel( fullLevelName );
 		}
 		return null;
 	}
