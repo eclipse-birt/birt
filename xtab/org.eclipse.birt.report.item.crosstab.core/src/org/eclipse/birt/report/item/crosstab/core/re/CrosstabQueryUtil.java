@@ -284,8 +284,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 									baseLevel,
 									rowLevelNameList,
 									columnLevelNameList,
-									cache,
-									isBoundToLinkedDataSet);
+									cache );
 						}
 					}
 

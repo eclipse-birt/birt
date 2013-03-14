@@ -483,8 +483,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 									baseLevel,
 									rowLevelNameList,
 									columnLevelNameList,
-									cache,
-									isBoundToLinkedDataSet );
+									cache );
 						}
 					}
 
@@ -502,7 +501,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 	
 	public static void addHierachyAggregateOn( CrosstabReportItemHandle crosstabItem,
 			IBinding binding, String baseLevel, List<String> rowLevelList,
-			List<String> columnLevelList, Map<String, String> cache, boolean isBoundToLinkedDataSet )
+			List<String> columnLevelList, Map<String, String> cache )
 			throws BirtException
 	{
 		if ( binding == null || baseLevel == null || crosstabItem == null )
@@ -521,7 +520,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 				if ( cachedExpression == null )
 				{
-					cachedExpression = createAggregateLevelExpression( crosstabItem, levelName, isBoundToLinkedDataSet );
+					cachedExpression = createAggregateLevelExpression( crosstabItem, levelName );
 					cache.put( levelName, cachedExpression );
 				}
 
@@ -546,7 +545,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 				if ( cachedExpression == null )
 				{
-					cachedExpression = createAggregateLevelExpression( crosstabItem, levelName, isBoundToLinkedDataSet );
+					cachedExpression = createAggregateLevelExpression( crosstabItem, levelName );
 					cache.put( levelName, cachedExpression );
 				}
 
@@ -566,7 +565,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 		if ( cachedExpression == null )
 		{
-			cachedExpression = createAggregateLevelExpression( crosstabItem, baseLevel, isBoundToLinkedDataSet );
+			cachedExpression = createAggregateLevelExpression( crosstabItem, baseLevel );
 			cache.put( baseLevel, cachedExpression );
 		}
 
@@ -576,10 +575,10 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 	}
 
-	private static String createAggregateLevelExpression( CrosstabReportItemHandle crosstabItem, String levelFullName, boolean isBoundToLinkedDataSet )
+	private static String createAggregateLevelExpression( CrosstabReportItemHandle crosstabItem, String levelFullName )
 	{
 		String[] names = CubeUtil.splitLevelName( levelFullName );
-		if( isBoundToLinkedDataSet )
+		if( isBoundToLinkedDataSet( crosstabItem ) )
 		{
 			String levelBindingName = getLevelBindingName( crosstabItem, crosstabItem.getLevel( levelFullName ) );
 			if( levelBindingName != null )
