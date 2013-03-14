@@ -1887,13 +1887,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						{
 							String baseLevel = (String) aggrItr.next( );
 
-							CrosstabUtil.addHierachyAggregateOn( module,
+							CrosstabUtil.addHierachyAggregateOn( xtabHandle,
 									binding,
 									baseLevel,
 									rowLevelNameList,
 									columnLevelNameList,
-									cache,
-									isBoundToLinkedDataSet);
+									cache);
 						}
 					}
 					bindingList.add( binding );
