@@ -580,15 +580,8 @@ public final class CrosstabUtil implements ICrosstabConstants
 		String[] names = CubeUtil.splitLevelName( levelFullName );
 		if( isBoundToLinkedDataSet( crosstabItem ) )
 		{
-			String levelBindingName = getLevelBindingName( crosstabItem, crosstabItem.getLevel( levelFullName ) );
-			if( levelBindingName != null )
-			{
-				return ExpressionUtil.createJSDataExpression( levelBindingName );
-			}
-			else
-			{
-				return ExpressionUtil.createJSDataSetRowExpression( names[1] );
-			}
+			// Returns level binding name for linked data set case.
+			return getLevelBindingName( crosstabItem, crosstabItem.getLevel( levelFullName ) );
 		}
 		else
 		{
