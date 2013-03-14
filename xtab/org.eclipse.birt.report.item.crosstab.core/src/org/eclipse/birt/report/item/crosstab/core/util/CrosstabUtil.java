@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -41,13 +43,16 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -445,7 +450,6 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 		// add column binding
 		Iterator bindingItr = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).columnBindingsIterator( );
-		ModuleHandle module = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).getModuleHandle( );
 
 		if ( bindingItr != null )
 		{
@@ -474,7 +478,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 						{
 							String baseLevel = (String) aggrItr.next( );
 
-							addHierachyAggregateOn( module,
+							addHierachyAggregateOn( crosstabItem,
 									binding,
 									baseLevel,
 									rowLevelNameList,
@@ -496,12 +500,12 @@ public final class CrosstabUtil implements ICrosstabConstants
 		return bindingList;
 	}
 	
-	public static void addHierachyAggregateOn( ModuleHandle module,
+	public static void addHierachyAggregateOn( CrosstabReportItemHandle crosstabItem,
 			IBinding binding, String baseLevel, List<String> rowLevelList,
 			List<String> columnLevelList, Map<String, String> cache, boolean isBoundToLinkedDataSet )
 			throws BirtException
 	{
-		if ( binding == null || baseLevel == null || module == null )
+		if ( binding == null || baseLevel == null || crosstabItem == null )
 		{
 			return;
 		}
@@ -517,7 +521,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 				if ( cachedExpression == null )
 				{
-					cachedExpression = createAggregateLevelExpression( levelName, isBoundToLinkedDataSet );
+					cachedExpression = createAggregateLevelExpression( crosstabItem, levelName, isBoundToLinkedDataSet );
 					cache.put( levelName, cachedExpression );
 				}
 
@@ -542,7 +546,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 				if ( cachedExpression == null )
 				{
-					cachedExpression = createAggregateLevelExpression( levelName, isBoundToLinkedDataSet );
+					cachedExpression = createAggregateLevelExpression( crosstabItem, levelName, isBoundToLinkedDataSet );
 					cache.put( levelName, cachedExpression );
 				}
 
@@ -562,7 +566,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 		if ( cachedExpression == null )
 		{
-			cachedExpression = createAggregateLevelExpression( baseLevel, isBoundToLinkedDataSet );
+			cachedExpression = createAggregateLevelExpression( crosstabItem, baseLevel, isBoundToLinkedDataSet );
 			cache.put( baseLevel, cachedExpression );
 		}
 
@@ -572,12 +576,25 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 	}
 
-	private static String createAggregateLevelExpression( String levelFullName, boolean isBoundToLinkedDataSet )
+	private static String createAggregateLevelExpression( CrosstabReportItemHandle crosstabItem, String levelFullName, boolean isBoundToLinkedDataSet )
 	{
 		String[] names = CubeUtil.splitLevelName( levelFullName );
-
-		return (isBoundToLinkedDataSet) ? ExpressionUtil.createJSDataSetRowExpression( names[1] ) 
-				: ExpressionUtil.createJSDimensionExpression( names[0], names[1] );
+		if( isBoundToLinkedDataSet )
+		{
+			String levelBindingName = getLevelBindingName( crosstabItem, crosstabItem.getLevel( levelFullName ) );
+			if( levelBindingName != null )
+			{
+				return ExpressionUtil.createJSDataExpression( levelBindingName );
+			}
+			else
+			{
+				return ExpressionUtil.createJSDataSetRowExpression( names[1] );
+			}
+		}
+		else
+		{
+			return ExpressionUtil.createJSDimensionExpression( names[0], names[1] ); 
+		}
 	}
 
 	private static List<String> getLevelExpressionList(
@@ -882,5 +899,82 @@ public final class CrosstabUtil implements ICrosstabConstants
 		
 		viewHandle = handle.getCrosstab( ).getDimension( viewHandle.getAxisType( ), viewHandle.getIndex( ) - 1);
 		return viewHandle.getLevel( viewHandle.getLevelCount( ) - 1 );
+	}
+
+	public static ComputedColumnHandle getColumnHandle( CrosstabReportItemHandle crosstabItem, String bindingName )
+	{
+		if( crosstabItem == null || bindingName == null )
+		{
+			return null;
+		}
+		
+		Iterator it = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).columnBindingsIterator( );
+		while( it.hasNext( ) )
+		{
+			ComputedColumnHandle column = (ComputedColumnHandle) it.next( );
+			if( bindingName.equals( column.getName( ) ) )
+			{
+				return column;
+			}
+		}
+		
+		return null;
+	}
+	
+	public static boolean validateBinding( ComputedColumnHandle column, String columnName )
+	{
+		if( column == null || columnName == null )
+		{
+			return false;
+			
+		}
+		ExpressionHandle expr = column
+				.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );		
+		String expression = expr.getStringExpression( );
+		if( expression != null )
+		{
+			if( ExpressionType.JAVASCRIPT.equalsIgnoreCase( expr.getType( ) ) )
+			{
+				Pattern p = Pattern.compile( "\\[\\s*\\\"" + columnName + "\\\"\\s*\\]" );
+				return p.matcher( expression ).find( );
+			}
+			else
+			{
+				Pattern p = Pattern.compile( "\\[\\s*" + columnName + "\\s*\\]" );
+				return p.matcher( expression ).find( );
+			}
+		}
+		
+		return false;
+	}
+	
+	public static String getLevelBindingName( CrosstabReportItemHandle crosstabItem, LevelViewHandle lv )
+	{	
+		if( crosstabItem == null || lv == null )
+		{
+			return null;
+		}
+		
+		String levelName = CubeUtil.splitLevelName( lv.getCubeLevelName( ) )[1]; 
+		CrosstabCellHandle cell = lv.getCell( );
+		String levelBindingName = null;		
+		if( cell != null )
+		{
+			List contents = cell.getContents( );
+			for( Object obj : contents )
+			{
+				if( obj != null && obj instanceof DataItemHandle )
+				{
+					levelBindingName = ((DataItemHandle)obj).getResultSetColumn( );
+					ComputedColumnHandle column = getColumnHandle( crosstabItem, levelBindingName );
+					if( validateBinding( column, levelName ) )
+					{
+						break;
+					}
+				}
+			}
+		}
+		
+		return levelBindingName;
 	}
 }

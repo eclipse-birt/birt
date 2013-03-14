@@ -56,16 +56,12 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionHandle;
-import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.SortElementHandle;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -261,7 +257,6 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		{
 			// add column binding
 			Iterator bindingItr = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).columnBindingsIterator( );
-			ModuleHandle module = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).getModuleHandle( );
 
 			if ( bindingItr != null )
 			{
@@ -284,7 +279,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 						{
 							String baseLevel = (String) aggrItr.next( );
 
-							CrosstabUtil.addHierachyAggregateOn( module,
+							CrosstabUtil.addHierachyAggregateOn( crosstabItem,
 									binding,									
 									baseLevel,
 									rowLevelNameList,
@@ -318,9 +313,9 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				if( obj != null && obj instanceof DataItemHandle )
 				{
 					measureBindingName = ((DataItemHandle)obj).getResultSetColumn( );
-					ComputedColumnHandle column = getColumnHandle( crosstabItem, measureBindingName );
+					ComputedColumnHandle column = CrosstabUtil.getColumnHandle( crosstabItem, measureBindingName );
 					aggrFunc = column.getAggregateFunction( );
-					if( validateBinding( column, linkedColumnName ) )
+					if( CrosstabUtil.validateBinding( column, linkedColumnName ) )
 					{
 						break;
 					}
@@ -335,62 +330,13 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		}
 	}
 	
-	private static ComputedColumnHandle getColumnHandle( CrosstabReportItemHandle crosstabItem, String bindingName )
-	{
-		Iterator it = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).columnBindingsIterator( );
-		while( it.hasNext( ) )
-		{
-			ComputedColumnHandle column = (ComputedColumnHandle) it.next( );
-			if( bindingName.equals( column.getName( ) ) )
-			{
-				return column;
-			}
-		}
-		
-		return null;
-	}
-	
-	private static boolean validateBinding( ComputedColumnHandle column, String linkedColumnName )
-	{
-		ExpressionHandle expr = column
-				.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );		
-		String expression = expr.getStringExpression( );
-		if( expression != null )
-		{
-			if( ExpressionType.JAVASCRIPT.equalsIgnoreCase( expr.getType( ) ) )
-			{
-				return expression.startsWith( ExpressionUtil.createJSDataSetRowExpression( linkedColumnName ) );
-			}
-			else
-			{
-				return expression.startsWith( "[DATASET].[" + linkedColumnName + "]" );
-			}
-		}
-		
-		return false;
-	}
-	
 	private static ILevelDefinition createLinkedDataModelLevelDefinition( IHierarchyDefinition hieDef, CrosstabReportItemHandle crosstabItem, 
 			LevelViewHandle lv )
 	{
-		String linkedColumnName = CubeUtil.splitLevelName( lv.getCubeLevelName( ) )[1]; 
-		CrosstabCellHandle cell = lv.getCell( );
-		String levelBindingName = linkedColumnName;		
-		if( cell != null )
+		String levelBindingName = CrosstabUtil.getLevelBindingName( crosstabItem, lv );
+		if( levelBindingName == null )
 		{
-			List contents = cell.getContents( );
-			for( Object obj : contents )
-			{
-				if( obj != null && obj instanceof DataItemHandle )
-				{
-					levelBindingName = ((DataItemHandle)obj).getResultSetColumn( );
-					ComputedColumnHandle column = getColumnHandle( crosstabItem, levelBindingName );
-					if( validateBinding( column, linkedColumnName ) )
-					{
-						break;
-					}
-				}
-			}
+			levelBindingName = CubeUtil.splitLevelName( lv.getCubeLevelName( ) )[1];
 		}
 		
 		if( levelBindingName != null )
