@@ -23,6 +23,12 @@ plugin@org.eclipse.birt.report.engine.emitter.ppt=GIT,tag=v201212191626,repo=git
 plugin@org.eclipse.birt.report.engine.dataextraction=GIT,tag=v201212171413,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.dataextraction
 plugin@org.eclipse.birt.report.engine.dataextraction.csv=GIT,tag=v201210111858,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.dataextraction.csv
 
+plugin@org.eclipse.birt.report.engine.ooxml=GIT,tag=v201210111858,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.ooxml
+plugin@org.eclipse.birt.report.engine.emitter.config.docx=GIT,tag=v201210111858,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.config.docx
+plugin@org.eclipse.birt.report.engine.emitter.config.pptx=GIT,tag=v201210111858,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.config.pptx
+plugin@org.eclipse.birt.report.engine.emitter.docx=GIT,tag=v201210111858,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.docx
+plugin@org.eclipse.birt.report.engine.emitter.pptx=GIT,tag=v201210111858,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.pptx
+
 plugin@org.eclipse.birt.report.engine.tests=GIT,tag=v201210270645,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.tests
 plugin@org.eclipse.birt.report.engine.emitter.html.tests=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.html.tests
 plugin@org.eclipse.birt.report.engine.emitter.pdf.tests=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.pdf.tests
