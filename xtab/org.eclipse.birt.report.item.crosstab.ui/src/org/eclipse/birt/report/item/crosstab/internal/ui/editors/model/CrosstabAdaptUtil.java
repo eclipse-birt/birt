@@ -114,8 +114,18 @@ public class CrosstabAdaptUtil
 	public static ComputedColumn createLevelDisplayComputedColumn(
 			ReportItemHandle owner, LevelHandle levelHandle )
 	{
+		String bindingName;
+		if(getAdapter() != null && getAdapter().getBoundExtendedData( owner ) != null )
+		{
+			bindingName = getAdapter().createBindingName( levelHandle );
+		}
+		else
+		{
+			bindingName = levelHandle.getName( );
+		}
+		
 		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( owner,
-				levelHandle.getName( ) );
+				bindingName );
 
 		if ( levelHandle instanceof TabularLevelHandle
 				&& ( (TabularLevelHandle) levelHandle ).getDisplayColumnName( ) != null
@@ -123,17 +133,7 @@ public class CrosstabAdaptUtil
 						.trim( )
 						.length( ) > 0 )
 		{
-			DesignElementHandle temp = levelHandle.getContainer( );
-			String dimensionName = ""; //$NON-NLS-1$
-			while ( temp != null )
-			{
-				if ( temp instanceof org.eclipse.birt.report.model.api.olap.DimensionHandle )
-				{
-					dimensionName = ( (org.eclipse.birt.report.model.api.olap.DimensionHandle) temp ).getName( );
-					break;
-				}
-				temp = temp.getContainer( );
-			}
+			String dimensionName = getDimension(levelHandle).getName( );
 
 			String expr = ExpressionUtil.createJSDimensionExpression( dimensionName,
 					levelHandle.getName( ),
@@ -145,10 +145,9 @@ public class CrosstabAdaptUtil
 		else
 		{
 			bindingColumn.setDataType( levelHandle.getDataType( ) );
-			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
-			if(adapter != null && adapter.getBoundExtendedData( owner ) != null)
+			if(getAdapter() != null && getAdapter().getBoundExtendedData( owner ) != null)
 			{
-				bindingColumn.setExpression( adapter.createExtendedDataItemExpression( levelHandle ));
+				bindingColumn.setExpression( getAdapter().createExtendedDataItemExpression( levelHandle ));
 			}
 			else
 			{
@@ -170,9 +169,15 @@ public class CrosstabAdaptUtil
 		{
 			bindingColumn.setDataType(DesignChoiceConstants.COLUMN_DATA_TYPE_STRING  );
 		}
-		ComputedColumnHandle bindingHandle = owner.addColumnBinding( bindingColumn,
-				false );
-
+		ComputedColumnHandle bindingHandle;
+		if(getAdapter() != null && getAdapter().getBoundExtendedData( owner ) != null)
+		{
+			bindingHandle = owner.addColumnBinding( bindingColumn, true );
+		}
+		else
+		{
+			bindingHandle = owner.addColumnBinding( bindingColumn, false );
+		}
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelHandle.getName( ) );
 		CrosstabAdaptUtil.formatDataItem( levelHandle, dataHandle );
@@ -227,8 +232,15 @@ public class CrosstabAdaptUtil
 		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( owner,
 				levelAttrHandle.getName( ) );
 
-		ComputedColumnHandle bindingHandle = owner.addColumnBinding( bindingColumn,
-				false );
+		ComputedColumnHandle bindingHandle;
+		if(getAdapter() != null && getAdapter().getBoundExtendedData( owner ) != null)
+		{
+			bindingHandle = owner.addColumnBinding( bindingColumn, true );
+		}
+		else
+		{
+			bindingHandle = owner.addColumnBinding( bindingColumn, false );
+		}
 
 		LevelHandle levelHandle = (LevelHandle) levelAttrHandle.getElementHandle( );
 
@@ -689,4 +701,23 @@ public class CrosstabAdaptUtil
 		}
 	}
 	
+	private static DimensionHandle getDimension(LevelHandle levelHandle)
+	{
+		DesignElementHandle element = levelHandle.getContainer( );
+		while ( element != null )
+		{
+			if ( element instanceof DimensionHandle )
+			{
+				return (DimensionHandle) element;
+			}
+			element = element.getContainer( );
+		}
+		
+		return null;
+	}
+	
+	private static IExtendedDataModelUIAdapter getAdapter()
+	{
+		return ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+	}
 }

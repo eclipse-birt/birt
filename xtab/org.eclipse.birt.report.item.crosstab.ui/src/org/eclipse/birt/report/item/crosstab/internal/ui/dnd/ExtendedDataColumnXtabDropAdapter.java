@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
+import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupDialog;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -33,9 +34,11 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.jface.window.Window;
 
 public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 {
@@ -126,6 +129,22 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 			}
 			else if (element instanceof DimensionHandle)
 			{
+				if( ((DimensionHandle) element).isTimeType( ) )
+				{
+					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ((DimensionHandle) element).getDefaultHierarchy( );
+					
+					GroupDialog dialog = new GroupDialog( true );
+					dialog.setInput( hierarchy, adapter.getResultSetColumn( (ReportElementHandle) transfer ) );
+					
+					if ( dialog.open( ) != Window.OK )
+					{
+						cmdStack.rollback( );
+						return false;
+					}
+					
+					element = (DimensionHandle) dialog.getResult( );
+				}
+				
 				CreateRequest request = new CreateRequest( );
 				request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, element );
 				request.setLocation( location.getPoint( ) );

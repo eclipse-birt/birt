@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 
 /**
  * The extended data adapter for extended report item
@@ -88,16 +89,31 @@ public interface IExtendedDataModelUIAdapter
 	public ReportElementHandle findExtendedDataByName(String name);
 	
 	/**
-	 * Gets the data set wrapper of the extended data.
+	 * Gets the data set instance of the extended data.
 	 * @param element the extended data
 	 * @return the data set handle returned by the extended data, or null if it cannot be a DataSetHandle instance
 	 */
 	public DataSetHandle getDataSet(ReportElementHandle element);
 
 	/**
-	 * Create an expression by the given element.
+	 * Gets the result set column instance of the extended data item.
+	 * @param element the extended data item
+	 * @return the result set column handle returned by the extended data model item, or null if it cannot be a ResultSetColumnHandle instance
+	 */
+	public ResultSetColumnHandle getResultSetColumn (ReportElementHandle element);
+	
+	/**
+	 * Creates an expression by the given element.
 	 * @param element the report element
 	 * @return the expression
 	 */
-	public String createExtendedDataItemExpression( ReportElementHandle element);
+	public String createExtendedDataItemExpression( DesignElementHandle element);
+	
+	/**
+	 * Creates the binding name b the given element.
+	 * @param element the report element
+	 * @return the binding name
+	 */
+	public String createBindingName(DesignElementHandle element);
+	
 }
