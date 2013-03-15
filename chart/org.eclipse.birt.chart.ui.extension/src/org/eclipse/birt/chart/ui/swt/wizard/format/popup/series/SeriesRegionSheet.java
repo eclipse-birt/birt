@@ -741,8 +741,10 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	{
 		txtStartValue.setText( "" ); //$NON-NLS-1$
 		txtEndValue.setText( "" ); //$NON-NLS-1$
-		txtInnerRadius.unsetValue( );
-		txtOuterRadius.unsetValue( );
+		if ( supportRadius( ) ) {
+			txtInnerRadius.unsetValue( );
+			txtOuterRadius.unsetValue( );
+		}
 		fccRange.setFill( null );
 		liacMarkerRange.setLineAttributes( null );
 		liacMarkerRange.layout( );
