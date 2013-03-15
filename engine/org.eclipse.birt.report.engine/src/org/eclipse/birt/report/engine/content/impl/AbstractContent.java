@@ -421,7 +421,7 @@ abstract public class AbstractContent extends AbstractElement
 	public void setGenerateBy( Object generateBy )
 	{
 		this.generateBy = generateBy;
-		addConstant(userProperties);
+		addConstant( userProperties );
 	}
 
 	/**
@@ -698,13 +698,16 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			ReportElementDesign design = (ReportElementDesign) object;
 			Map<String, Expression> exprs = design.getUserProperties( );
-			for ( Map.Entry<String, Expression> entry : exprs.entrySet( ) )
+			if ( exprs != null )
 			{
-				String name = entry.getKey( );
-				Expression expr = entry.getValue( );
-				if ( expr != null && expr.getType( ) == Expression.CONSTANT )
+				for ( Map.Entry<String, Expression> entry : exprs.entrySet( ) )
 				{
-					userProperties.remove( name );
+					String name = entry.getKey( );
+					Expression expr = entry.getValue( );
+					if ( expr != null && expr.getType( ) == Expression.CONSTANT )
+					{
+						userProperties.remove( name );
+					}
 				}
 			}
 		}
@@ -783,7 +786,9 @@ abstract public class AbstractContent extends AbstractElement
 
 	/**
 	 * Add report element design's constant of user properties
-	 * @param userProperties  read from the document
+	 * 
+	 * @param userProperties
+	 *            read from the document
 	 */
 	private void addConstant( Map<String, Object> userProperties )
 	{
@@ -792,14 +797,19 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			ReportElementDesign design = (ReportElementDesign) object;
 			Map<String, Expression> exprs = design.getUserProperties( );
-			for ( Map.Entry<String, Expression> entry : exprs.entrySet( ) )
+			if ( exprs != null )
 			{
-				String name = entry.getKey( );
-				Expression expr = entry.getValue( );
-				if ( expr != null && expr.getType( ) == Expression.CONSTANT )
+				for ( Map.Entry<String, Expression> entry : exprs.entrySet( ) )
 				{
-					Expression.Constant cs = (Expression.Constant) expr;
-					userProperties.put( name, cs.getValue( ) );
+					String name = entry.getKey( );
+					Expression expr = entry.getValue( );
+					if ( expr != null && expr.getType( ) == Expression.CONSTANT )
+					{
+						Expression.Constant cs = (Expression.Constant) expr;
+						if ( userProperties == null )
+							userProperties = new HashMap<String, Object>( );
+						userProperties.put( name, cs.getValue( ) );
+					}
 				}
 			}
 		}
