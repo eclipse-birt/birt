@@ -62,8 +62,10 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
@@ -1755,7 +1757,7 @@ public class UIUtil
 	 */
 	public static String getColumnDisplayName( ResultSetColumnHandle column )
 	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		DataSetHandle dataset = getDataSet(column);
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
@@ -1785,7 +1787,7 @@ public class UIUtil
 	 */
 	public static String getColumnDisplayNameKey( ResultSetColumnHandle column )
 	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		DataSetHandle dataset = getDataSet( column );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
@@ -1801,7 +1803,7 @@ public class UIUtil
 
 	public static boolean isWordWrap( ResultSetColumnHandle column )
 	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		DataSetHandle dataset = getDataSet( column );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
@@ -1817,7 +1819,7 @@ public class UIUtil
 
 	public static String getClolumnHandleAlignment( ResultSetColumnHandle column )
 	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		DataSetHandle dataset = getDataSet( column );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
@@ -1833,7 +1835,7 @@ public class UIUtil
 
 	public static String getClolumnHandleHelpText( ResultSetColumnHandle column )
 	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		DataSetHandle dataset = getDataSet(column );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
@@ -1855,7 +1857,7 @@ public class UIUtil
 	 */
 	public static String getColumnAnalysis( ResultSetColumnHandle column )
 	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		DataSetHandle dataset = getDataSet( column );
 		for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
@@ -1876,7 +1878,7 @@ public class UIUtil
 	 */
 	public static String getAnalysisColumn( ResultSetColumnHandle column )
 	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		DataSetHandle dataset = getDataSet( column );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
@@ -1898,7 +1900,7 @@ public class UIUtil
 	 */
 	public static ActionHandle getColumnAction( ResultSetColumnHandle column )
 	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		DataSetHandle dataset = getDataSet( column);
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
@@ -3153,5 +3155,23 @@ public class UIUtil
 			index++;
 		} while ( index < length );
 		return string;
+	}
+	
+	private static DataSetHandle getDataSet(ResultSetColumnHandle column)
+	{
+		IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+		
+		DataSetHandle dataSet;
+		
+		if(adapter != null && adapter.getDataSet( column ) != null)
+		{
+			dataSet = adapter.getDataSet( column );
+		}
+		else
+		{
+			dataSet = (DataSetHandle) column.getElementHandle( );
+		}
+		
+		return dataSet;
 	}
 }

@@ -89,6 +89,13 @@ public interface IExtendedDataModelUIAdapter
 	public ReportElementHandle findExtendedDataByName(String name);
 	
 	/**
+	 * Gets the data set element of the column.
+	 * @param column the result set column
+	 * @return the data set handle resolved by the result set column, or null if cannot
+	 */
+	public DataSetHandle getDataSet( ResultSetColumnHandle column );
+	
+	/**
 	 * Gets the data set instance of the extended data.
 	 * @param element the extended data
 	 * @return the data set handle returned by the extended data, or null if it cannot be a DataSetHandle instance
