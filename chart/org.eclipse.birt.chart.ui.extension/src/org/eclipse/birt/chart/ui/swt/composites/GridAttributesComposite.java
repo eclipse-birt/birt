@@ -43,6 +43,10 @@ public class GridAttributesComposite extends Composite implements
 	private transient LineAttributesComposite liacLines = null;
 
 	private transient LineAttributesComposite liacTicks = null;
+	
+	protected String lineVisibleLabel = Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ); //$NON-NLS-1$
+
+	protected String tickVisibleLabel = Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ); //$NON-NLS-1$
 
 	private transient Composite cmpContent = null;
 
@@ -137,7 +141,7 @@ public class GridAttributesComposite extends Composite implements
 	/**
 	 * 
 	 */
-	private void init( Grid grid )
+	protected void init( Grid grid )
 	{
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
@@ -199,12 +203,20 @@ public class GridAttributesComposite extends Composite implements
 					| LineAttributesComposite.ENABLE_COLOR;
 			lineStyels |= context.getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
 					: lineStyels;
+			
+			final String lineVisibleLabel=this.lineVisibleLabel;
 			liacLines = new LineAttributesComposite( cmpLines,
 					SWT.NONE,
 					lineStyels,
 					context,
 					grid.getLineAttributes( ),
-					defGrid.getLineAttributes( ) );
+					defGrid.getLineAttributes( ) ){
+				protected void placeComponents( )
+				{
+					super.placeComponents( );
+					btnVisible.setText(lineVisibleLabel);
+				}			
+			};
 			liacLines.addListener( this );
 			liacLines.setAttributesEnabled( ChartUIUtil.is3DWallFloorSet( context.getModel( ) ) );
 		}
@@ -236,12 +248,20 @@ public class GridAttributesComposite extends Composite implements
 						: lineStyles;
 			}
 
+			final String tickVisibleLabel=this.tickVisibleLabel;
 			liacTicks = new LineAttributesComposite( grpTicks,
 					SWT.NONE,
 					lineStyles,
 					context,
 					grid.getTickAttributes( ),
-					defGrid.getTickAttributes( ) );
+					defGrid.getTickAttributes( ) ){
+				protected void placeComponents( )
+				{
+					super.placeComponents( );
+					btnVisible.setText(tickVisibleLabel);
+				}
+				
+			};
 			{
 				GridData gdLIACTicks = new GridData( GridData.FILL_HORIZONTAL );
 				gdLIACTicks.horizontalSpan = 2;
