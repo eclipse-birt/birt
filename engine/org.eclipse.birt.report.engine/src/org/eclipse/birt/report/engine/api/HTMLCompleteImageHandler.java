@@ -11,6 +11,7 @@ package org.eclipse.birt.report.engine.api;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -192,9 +193,20 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		{
 			imageDirectory = ".";
 		}
-		String outputFile = (String) image.getRenderOption( )
-				.getOutputSetting( ).get( RenderOptionBase.OUTPUT_FILE_NAME );
-
+		
+		String outputFile = null;
+		IRenderOption renderOption = image.getRenderOption( );
+		if ( renderOption != null )
+		{
+			Map outputSetting = renderOption.getOutputSetting( );
+			if ( outputSetting != null )
+			{
+				outputFile = (String) image.getRenderOption( )
+						.getOutputSetting( )
+						.get( RenderOptionBase.OUTPUT_FILE_NAME );
+			}
+		}
+		
 		boolean returnRelativePath = needRelativePath( outputFile,
 				imageDirectory );
 		String imageOutputDirectory = getImageOutputDirectory( outputFile,
