@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.content.impl;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
@@ -419,6 +421,7 @@ abstract public class AbstractContent extends AbstractElement
 	public void setGenerateBy( Object generateBy )
 	{
 		this.generateBy = generateBy;
+		addConstant(userProperties);
 	}
 
 	/**
@@ -667,13 +670,43 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( userProperties != null && userProperties.size( ) > 0 )
 		{
-			IOUtil.writeShort( out, FIELD_USER_PROPERTIES );
-			IOUtil.writeMap( out, userProperties );
+			Map<String, Object> copy = new HashMap<String, Object>( );
+			copy.putAll( userProperties );
+			removeConstant( copy );
+			if ( copy.size( ) > 0 )
+			{
+				IOUtil.writeShort( out, FIELD_USER_PROPERTIES );
+				IOUtil.writeMap( out, copy );
+			}
 		}
 		if ( extProperties != null && !extProperties.isEmpty( ) )
 		{
 			IOUtil.writeShort( out, FIELD_EXTENSIONS );
 			IOUtil.writeMap( out, extProperties );
+		}
+	}
+
+	/**
+	 * remove the constant in userProperties
+	 * 
+	 * @param userProperties
+	 */
+	private void removeConstant( Map<String, Object> userProperties )
+	{
+		Object object = getGenerateBy( );
+		if ( object instanceof ReportElementDesign )
+		{
+			ReportElementDesign design = (ReportElementDesign) object;
+			Map<String, Expression> exprs = design.getUserProperties( );
+			for ( Map.Entry<String, Expression> entry : exprs.entrySet( ) )
+			{
+				String name = entry.getKey( );
+				Expression expr = entry.getValue( );
+				if ( expr != null && expr.getType( ) == Expression.CONSTANT )
+				{
+					userProperties.remove( name );
+				}
+			}
 		}
 	}
 
@@ -745,6 +778,30 @@ abstract public class AbstractContent extends AbstractElement
 				break;
 			case FIELD_EXTENSIONS :
 				extProperties = (Map<String, Object>) IOUtil.readMap( in );
+		}
+	}
+
+	/**
+	 * Add report element design's constant of user properties
+	 * @param userProperties  read from the document
+	 */
+	private void addConstant( Map<String, Object> userProperties )
+	{
+		Object object = getGenerateBy( );
+		if ( object instanceof ReportElementDesign )
+		{
+			ReportElementDesign design = (ReportElementDesign) object;
+			Map<String, Expression> exprs = design.getUserProperties( );
+			for ( Map.Entry<String, Expression> entry : exprs.entrySet( ) )
+			{
+				String name = entry.getKey( );
+				Expression expr = entry.getValue( );
+				if ( expr != null && expr.getType( ) == Expression.CONSTANT )
+				{
+					Expression.Constant cs = (Expression.Constant) expr;
+					userProperties.put( name, cs.getValue( ) );
+				}
+			}
 		}
 	}
 

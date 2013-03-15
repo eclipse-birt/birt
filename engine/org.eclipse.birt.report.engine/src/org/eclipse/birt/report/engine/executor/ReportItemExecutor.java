@@ -604,7 +604,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			{
 				String name = entry.getKey( );
 				Expression expr = entry.getValue( );
-				if ( expr != null && expr.getType( ) != Expression.CONSTANT )
+				if ( expr != null )
 				{
 					try
 					{
