@@ -581,7 +581,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 		if( isBoundToLinkedDataSet( crosstabItem ) )
 		{
 			// Returns level binding name for linked data set case.
-			return getLevelBindingName( crosstabItem, crosstabItem.getLevel( levelFullName ) );
+			return getLevelBindingName( crosstabItem, crosstabItem.getLevel( levelFullName ), names[0], names[1] );
 		}
 		else
 		{
@@ -940,33 +940,92 @@ public final class CrosstabUtil implements ICrosstabConstants
 		return false;
 	}
 	
-	public static String getLevelBindingName( CrosstabReportItemHandle crosstabItem, LevelViewHandle lv )
+	public static boolean validateLevelBinding( ComputedColumnHandle column, String dimensionName, String levelName )
+	{
+		if( column == null || dimensionName == null || levelName == null )
+		{
+			return false;
+			
+		}
+		
+		if( column.getAggregateFunction( ) != null
+				|| column.getCalculationType( ) != null 
+				|| column.argumentsIterator( ).hasNext( ) )
+		{
+			return false;
+		}
+		
+		ExpressionHandle expr = column
+				.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );		
+		String expression = expr.getStringExpression( );
+		if( expression != null )
+		{
+			if( ExpressionType.JAVASCRIPT.equalsIgnoreCase( expr.getType( ) ) )
+			{
+				Pattern p = Pattern.compile( "\\[\\s*\\\"" + dimensionName + "\\\"\\s*\\]" );
+				if( !dimensionName.equals( levelName ) )
+				{
+					p = Pattern.compile( "\\[\\s*\\\"" + dimensionName + "\\\"\\s*\\]\\[\\s*\\\"" + levelName + "\\\"\\s*\\]" );
+				}
+				return p.matcher( expression ).find( );
+			}
+			else
+			{
+				Pattern p = Pattern.compile( "\\[\\s*" + dimensionName + "\\s*\\]" );
+				if( !dimensionName.equals( levelName ) )
+				{
+					p = Pattern.compile( "\\[\\s*" + dimensionName + "\\s*\\]\\[\\s*" + levelName + "\\s*\\]" );
+				}
+				return p.matcher( expression ).find( );
+			}
+		}
+		
+		return false;
+	}
+	
+	public static String getLevelBindingName( CrosstabReportItemHandle crosstabItem, LevelViewHandle lv, String dimensionName, String levelName )
 	{	
-		if( crosstabItem == null || lv == null )
+		if( crosstabItem == null )
 		{
 			return null;
 		}
-		
-		String levelName = CubeUtil.splitLevelName( lv.getCubeLevelName( ) )[1]; 
-		CrosstabCellHandle cell = lv.getCell( );
-		String levelBindingName = null;		
-		if( cell != null )
-		{
-			List contents = cell.getContents( );
-			for( Object obj : contents )
+		String levelBindingName = null;
+		if( lv != null )
+		{			
+			CrosstabCellHandle cell = lv.getCell( );				
+			if( cell != null )
 			{
-				if( obj != null && obj instanceof DataItemHandle )
+				List contents = cell.getContents( );
+				for( Object obj : contents )
 				{
-					levelBindingName = ((DataItemHandle)obj).getResultSetColumn( );
-					ComputedColumnHandle column = getColumnHandle( crosstabItem, levelBindingName );
-					if( validateBinding( column, levelName ) )
+					if( obj != null && obj instanceof DataItemHandle )
 					{
+						levelBindingName = ((DataItemHandle)obj).getResultSetColumn( );
+						ComputedColumnHandle column = getColumnHandle( crosstabItem, levelBindingName );
+						if( validateBinding( column, levelName ) )
+						{
+							break;
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			if( dimensionName != null && levelName != null )
+			{
+				Iterator it = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).columnBindingsIterator( );
+				while( it.hasNext( ) )
+				{
+					ComputedColumnHandle column = (ComputedColumnHandle) it.next( );					
+					if( validateLevelBinding( column, dimensionName, levelName ) )
+					{
+						levelBindingName = column.getName( );
 						break;
 					}
 				}
 			}
 		}
-		
 		return levelBindingName;
 	}
 }

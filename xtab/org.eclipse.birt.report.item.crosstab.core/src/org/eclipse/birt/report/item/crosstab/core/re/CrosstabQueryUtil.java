@@ -332,7 +332,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 	private static ILevelDefinition createLinkedDataModelLevelDefinition( IHierarchyDefinition hieDef, CrosstabReportItemHandle crosstabItem, 
 			LevelViewHandle lv )
 	{
-		String levelBindingName = CrosstabUtil.getLevelBindingName( crosstabItem, lv );
+		String levelBindingName = CrosstabUtil.getLevelBindingName( crosstabItem, lv, null, null );
 		if( levelBindingName == null )
 		{
 			levelBindingName = CubeUtil.splitLevelName( lv.getCubeLevelName( ) )[1];
