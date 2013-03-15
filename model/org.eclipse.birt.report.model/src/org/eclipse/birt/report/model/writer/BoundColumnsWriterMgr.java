@@ -726,7 +726,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		{
 			GroupElement group = (GroupElement) groups.getContent( i );
 
-			module.getNameHelper( ).makeUniqueName( group );
+			module.makeUniqueName( group );
 
 			String groupName = (String) group.getLocalProperty( module,
 					IGroupElementModel.GROUP_NAME_PROP );

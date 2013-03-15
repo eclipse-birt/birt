@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.model.core.namespace;
 
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * 
@@ -19,12 +21,21 @@ import org.eclipse.birt.report.model.core.DesignElement;
 public class NameExecutor extends NameExecutorImpl
 {
 
-	/**
-	 * 
-	 * @param element
-	 */
-	public NameExecutor( DesignElement element )
+	public NameExecutor( Module module, DesignElement element )
 	{
-		super( element );
+		super( module, (DesignElement)null, element );
 	}
+
+	public NameExecutor( Module module, ContainerContext container,
+			DesignElement element )
+	{
+		super( module, container, element );
+	}
+
+	public NameExecutor( Module module, DesignElement container,
+			DesignElement element )
+	{
+		super( module, container, element );
+	}
+
 }

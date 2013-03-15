@@ -643,6 +643,7 @@ TriggerDataComposite.Lbl.Script=Scri&pt:
 TriggerDataComposite.Lbl.Target=Destino:
 TriggerEditorComposite.Lbl.Update=<< &Actualizar
 TriggerDataComposite.Lbl.TooltipText=Te&xto de información sobre herramientas:
+TriggerDataComposite.Btn.Format=&Formato
 TriggerDataComposite.Lbl.BaseURL=Editar URL base:
 TriggerDataComposite.Lbl.Image=&Imagen
 

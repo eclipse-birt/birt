@@ -80,8 +80,8 @@ public abstract class Level extends ReferenceableElement implements ILevelModel
 	{
 		if ( StringUtil.isBlank( getName( ) ) )
 			return getName( );
-		INameHelper nameHelper = new NameExecutor( this )
-				.getNameHelper( getRoot( ) );
+		INameHelper nameHelper = new NameExecutor( getRoot( ), this )
+				.getNameHelper( );
 		String parentName = nameHelper == null ? null : nameHelper.getElement( )
 				.getFullName( );
 		return StringUtil.isBlank( parentName ) ? getName( ) : parentName

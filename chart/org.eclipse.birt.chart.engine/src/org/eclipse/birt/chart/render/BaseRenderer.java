@@ -1450,7 +1450,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				}
 			}
 
-			if ( !customed )
+			if ( !customed && se != null )
 			{
 				Action action = goFactory.createAction( actionType,
 						goFactory.createSeriesValue( String.valueOf( se.getSeriesIdentifier( ) ) ) );
@@ -3678,7 +3678,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected final void renderInteractivity( IPrimitiveRenderer ipr,
 			DataPointHints dph, PrimitiveRenderEvent pre ) throws ChartException
 	{
-		if ( isInteractivityEnabled( ) && dph != null )
+		if ( isInteractivityEnabled( ) && dph != null  && getSeries( ) != null )
 		{
 			// PROCESS 'SERIES LEVEL' TRIGGERS USING SOURCE='bs'
 			final EList<Trigger> elTriggers = getSeries( ).getTriggers( );

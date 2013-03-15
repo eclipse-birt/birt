@@ -41,8 +41,6 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataParserException;
-import org.eclipse.birt.report.model.metadata.MetaDataReader;
 import org.eclipse.birt.report.model.writer.DesignWriter;
 import org.eclipse.birt.report.model.writer.DesignWriterUtil;
 
@@ -145,8 +143,6 @@ public abstract class BaseTestCase extends TestCase
 		if ( engine == null )
 		{
 			engine = new DesignEngine( new DesignConfig( ) );
-
-			resetMetadata( );
 		}
 	}
 
@@ -156,20 +152,8 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void resetMetadata( )
 	{
-		if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
-			return;
-
-		try
-		{
-			MetaDataReader.read( ReportDesign.class
-					.getResourceAsStream( ROM_DEF_NAME ) );
-		}
-		catch ( MetaDataParserException e )
-		{
-			assert false;
-		}
-
-		MetaDataDictionary.getInstance( ).intializeExtension( );
+		MetaDataDictionary.reset( );
+		MetaDataDictionary.initialize( );
 	}
 
 	/*

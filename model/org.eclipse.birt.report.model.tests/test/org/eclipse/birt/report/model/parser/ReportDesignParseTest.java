@@ -394,7 +394,7 @@ public class ReportDesignParseTest extends BaseTestCase
 	{
 		openDesign( "ReportDesignParseTest_BadCss.xml" );//$NON-NLS-1$
 		List errorList = design.getAllErrors( );
-		assertEquals( 1, errorList.size( ) );
+		assertTrue( !errorList.isEmpty( ) );
 
 		String errorCode = ( (ErrorDetail) errorList.get( 0 ) ).getErrorCode( );
 		assertEquals( errorCode, CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );

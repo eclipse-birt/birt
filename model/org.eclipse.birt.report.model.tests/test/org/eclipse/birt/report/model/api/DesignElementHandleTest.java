@@ -857,19 +857,10 @@ public class DesignElementHandleTest extends BaseTestCase
 
 		StyleHandle style = factory.newStyle( "Foo" ); //$NON-NLS-1$
 		style.getElement( ).setName( null );
-		try
-		{
-			designHandle.getStyles( ).add( style );
-			fail( );
-		}
-		catch ( NameException e )
-		{
-			assertEquals( style.getElement( ), e.getElement( ) );
-			assertNull( e.getName( ) );
-			assertEquals( e.getErrorCode( ),
-					NameException.DESIGN_EXCEPTION_NAME_REQUIRED );
-		}
-
+		designHandle.getStyles( ).add( style );
+		//create a unique name
+		assertTrue(style.getName( ) != null);
+		
 		style = factory.newStyle( "My_Style" );//$NON-NLS-1$
 		designHandle.getStyles( ).add( style );
 	}

@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 /**
  * Record for renaming element in name space.
@@ -51,11 +50,11 @@ class RenameInNameSpaceRecord extends SimpleRecord
 			String oldName, String newName )
 	{
 		this.element = element;
-		this.nameHelper = new NameExecutor( element ).getNameHelper( module );
 		this.oldName = oldName;
 		this.newName = newName;
-		this.nameSpaceID = ( (ElementDefn) element.getDefn( ) )
-				.getNameSpaceID( );
+		NameExecutor executor = new NameExecutor( module, element );
+		this.nameHelper = executor.getNameHelper( );
+		this.nameSpaceID = executor.getNameSpaceId( );
 	}
 
 	/*

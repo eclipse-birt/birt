@@ -18,11 +18,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.extension.oda.OdaExtensionLoaderFactory;
+import org.eclipse.birt.report.model.metadata.validators.IValueValidator;
 
 /**
  * Represents the extension manager which is responsible to load all extensions
@@ -117,6 +120,21 @@ class ExtensionManagerImpl
 	{
 		IElementDefn defn = peerExtensionNameMap.get( name );
 		return defn == null ? odaExtensionNameMap.get( name ) : defn;
+	}
+
+	public synchronized IChoiceSet getChoiceSet( String name )
+	{
+		return null;
+	}
+
+	public synchronized IClassInfo getClassInfo( String name )
+	{
+		return null;
+	}
+
+	public synchronized IValueValidator getValueValidator( String name )
+	{
+		return null;
 	}
 
 	/**

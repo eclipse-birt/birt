@@ -21,12 +21,12 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 public class ScriptExpression extends BaseExpression implements IScriptExpression
 {
 	protected String exprText;
-	protected Object constantValue;
-	protected boolean isConstant = false;
 	
 	/**
-	 * Constructs a Javascript expression
-	 * @param text Javascript expression text
+	 * Constructs a script expression, it could be a Constant expression or javascript expression with tag of 
+	 * BaseExpression.javaScriptId or BaseExpression.constantId.
+	 * 
+	 * @param text expression text
 	 */
     public ScriptExpression( String text )
     {
@@ -34,8 +34,10 @@ public class ScriptExpression extends BaseExpression implements IScriptExpressio
     }
     
 	/**
-	 * Constructs a Javascript expression
-	 * @param text Javascript expression text
+	 * Constructs a script expression, it could be a Constant expression or javascript expression with tag of 
+	 * BaseExpression.javaScriptId or BaseExpression.constantId.
+	 * 
+	 * @param text  expression text
 	 * @param dataType Return data type of the expression
 	 */
     public ScriptExpression( String text, int dataType )
@@ -53,42 +55,10 @@ public class ScriptExpression extends BaseExpression implements IScriptExpressio
 	}
 	
 	/**
-	 * Sets the Javascript expression text
+	 * Sets the expression text
 	 */
 	public void setText( String text )
 	{
 	    exprText = text;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IScriptExpression#getConstantValue()
-	 */
-	public Object getConstantValue( )
-	{
-		return constantValue;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IScriptExpression#isConstant()
-	 */
-	public boolean isConstant( )
-	{
-		return isConstant;
-	}
-	
-	public void setConstant( boolean isConstant )
-	{
-		this.isConstant = isConstant;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IScriptExpression#setConstantValue(java.lang.Object)
-	 */
-	public void setConstantValue( Object constantValue )
-	{
-		this.constantValue = constantValue;
 	}
 }
