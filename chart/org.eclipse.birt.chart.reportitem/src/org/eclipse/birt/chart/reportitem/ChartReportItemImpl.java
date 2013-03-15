@@ -788,8 +788,9 @@ public class ChartReportItemImpl extends ReportItem implements
 		
 		if ( cm != null )
 		{
-			if ( ChartItemUtil.getBindingDataSet( handle ) == null
-					&& ChartCubeUtil.getBindingCube( handle ) == null )
+			ChartReportItemHelper itemHelper = ChartReportItemHelper.instance( );
+			if ( itemHelper.getBindingDataSetHandle( handle ) == null
+					&& itemHelper.getBindingCubeHandle( handle ) == null )
 			{
 				list.add( new SemanticError( handle.getElement( ),
 						SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );

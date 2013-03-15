@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -58,8 +59,8 @@ public class ChartBindingGroupDescriptorProvider extends
 		switch ( type )
 		{
 			case ReportItemHandle.DATABINDING_TYPE_DATA :
-				DataSetHandle dataset = element.getDataSet( );
-				CubeHandle cube = element.getCube( );
+				DataSetHandle dataset = ChartReportItemHelper.instance( ).getBindingDataSetHandle( element );
+				CubeHandle cube = ChartReportItemHelper.instance( ).getBindingCubeHandle( element );
 				if ( dataset == null && cube == null )
 					value = NONE;
 				else if ( dataset != null )

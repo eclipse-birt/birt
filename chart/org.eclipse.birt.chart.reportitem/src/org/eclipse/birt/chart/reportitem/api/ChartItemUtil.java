@@ -73,6 +73,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -119,6 +120,10 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 				}
 			}
 
+			return getBindingHolder( handle.getContainer( ) );
+		}
+		else if ( handle instanceof MultiViewsHandle )
+		{
 			return getBindingHolder( handle.getContainer( ) );
 		}
 		return null;
@@ -219,6 +224,11 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		{
 			return itemHandle.columnBindingsIterator( );
 		}
+		else if ( itemHandle.getContainer( ) instanceof MultiViewsHandle )
+		{
+			return itemHandle.columnBindingsIterator( );
+		}
+		
 		ReportItemHandle handle = getBindingHolder( itemHandle );
 		if ( handle == null )
 		{
@@ -1199,6 +1209,22 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return false;
 	}
 
+	public static TableHandle getInheritedTableHandle( ReportItemHandle itemHandle )
+	{
+		if ( isContainerInheritable( itemHandle ) )
+		{
+			DesignElementHandle handle = itemHandle.getContainer( );
+			while ( !( handle instanceof TableHandle ) )
+			{
+				handle = handle.getContainer( );
+			}
+			if ( handle instanceof TableHandle )
+			{
+				return (TableHandle) handle;
+			}
+		}
+		return null;
+	}
 	/**
 	 * Returns report item handle that is a chart handle and is referred by
 	 * other chart recursively.
@@ -1664,6 +1690,19 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return getReportItemReference( itemHandle ) != null;
 	}
 
+	
+	/**
+	 * Checks if chart is in multiple view.
+	 * 
+	 * @param itemHandle
+	 * @return true if chart is in multiple view.
+	 * @since 4.2.2
+	 */
+	public static boolean isInMultiViews( ReportItemHandle itemHandle )
+	{
+		return itemHandle.getContainer( ) instanceof MultiViewsHandle;
+	}
+	
 	/**
 	 * Checks if current bindings of chart's refer to the data set or cube
 	 * directly.
@@ -1703,7 +1742,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	 * 
 	 * @param expression
 	 * @param itemHandle
-	 * @return
+	 * @return data type of specified expression.
 	 */
 	public static DataType getExpressionDataType( String expression, ReportItemHandle itemHandle )
 	{

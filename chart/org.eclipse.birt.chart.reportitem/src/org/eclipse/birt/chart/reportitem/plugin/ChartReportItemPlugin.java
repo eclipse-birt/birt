@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.device.ImageWriterFactory;
 import org.eclipse.birt.chart.device.ScriptMenuHelper;
 import org.eclipse.birt.chart.model.IChartModelHelper;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.core.runtime.Plugin;
@@ -66,6 +67,7 @@ public class ChartReportItemPlugin extends Plugin
 		initImageWriterFactory( this );
 		initChartModelHelper( this );
 		initChartScriptMenuHelper( this );
+		initChartReportItemHelper( this );
 	}
 
 	/*
@@ -120,4 +122,14 @@ public class ChartReportItemPlugin extends Plugin
 		}
 	}
 
+	private static void initChartReportItemHelper(
+			ChartReportItemPlugin plugin )
+	{
+		ChartReportItemHelper factory = ChartReportItemUtil.getAdapter( plugin,
+				ChartReportItemHelper.class );
+		if ( factory != null )
+		{
+			ChartReportItemHelper.initInstance( factory );
+		}
+	}
 }

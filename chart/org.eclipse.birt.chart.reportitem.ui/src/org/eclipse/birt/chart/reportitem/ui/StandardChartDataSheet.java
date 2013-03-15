@@ -347,19 +347,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		( (GridData) cubeTreeViewer.getTree( ).getLayoutData( ) ).heightHint = 120;
 
-		ViewsTreeProvider provider = new ViewsTreeProvider( ) {
-
-			@Override
-			public Color getBackground( Object element )
-			{
-				if ( element instanceof ReportElementHandle )
-				{
-					String key = getBindingNameFrom( (ReportElementHandle) element );
-					return ColorPalette.getInstance( ).getColor( key );
-				}
-				return super.getBackground( element );
-			}
-		};
+		ViewsTreeProvider provider = createCubeViewProvider( );
 		cubeTreeViewer.setLabelProvider( provider );
 		cubeTreeViewer.setContentProvider( provider );
 		cubeTreeViewer.setInput( getCube( ) );
@@ -453,6 +441,24 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		updateDragDataSource( );
 		return cmpStack;
+	}
+
+	protected ViewsTreeProvider createCubeViewProvider( )
+	{
+		ViewsTreeProvider provider = new ViewsTreeProvider( ) {
+
+			@Override
+			public Color getBackground( Object element )
+			{
+				if ( element instanceof ReportElementHandle )
+				{
+					String key = getBindingNameFrom( (ReportElementHandle) element );
+					return ColorPalette.getInstance( ).getColor( key );
+				}
+				return super.getBackground( element );
+			}
+		};
+		return provider;
 	}
 
 	/**
@@ -783,6 +789,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			else
 			{
 				stackLayout.topControl = cmpCubeTree;
+				ViewsTreeProvider provider = createCubeViewProvider( );
+				cubeTreeViewer.setLabelProvider( provider );
+				cubeTreeViewer.setContentProvider( provider );
 				cubeTreeViewer.setInput( getCube( ) );
 
 			}
@@ -859,7 +868,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	 */
 	private boolean isDirectCubeReference( )
 	{
-		boolean bCube = ChartCubeUtil.getBindingCube( itemHandle ) != null;
+		boolean bCube = this.getDataServiceProvider( ).getBindingCubeHandle( ) != null;
 		if ( bCube )
 		{
 			int selectedIndex = cmbDataItems.getSelectionIndex( );
@@ -2530,9 +2539,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return Messages.getString( "StandardChartDataSheet.Label.UseToGroupValueSeries" ); //$NON-NLS-1$
 	}
 
-	private boolean isCubeMode( )
+	protected boolean isCubeMode( )
 	{
-		boolean bCube = ChartCubeUtil.getBindingCube( itemHandle ) != null;
+		boolean bCube = this.getDataServiceProvider( ).getBindingCubeHandle( ) != null;
 		if ( bCube )
 		{
 			// If current item doesn't support cube, referenced cube should be
@@ -2544,7 +2553,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private CubeHandle getCube( )
 	{
-		return ChartCubeUtil.getBindingCube( itemHandle );
+		return getDataServiceProvider( ).getBindingCubeHandle( );
 	}
 
 	private String getBindingNameFrom( ReportElementHandle handle )
