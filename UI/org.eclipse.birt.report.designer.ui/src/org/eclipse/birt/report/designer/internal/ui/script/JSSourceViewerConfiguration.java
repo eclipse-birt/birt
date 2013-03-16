@@ -12,11 +12,9 @@
 package org.eclipse.birt.report.designer.internal.ui.script;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
-import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
@@ -26,12 +24,7 @@ import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.preferences.ScopedPreferenceStore;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 /**
  * Sets JS configuration the editor needs
@@ -42,32 +35,15 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 
 	private RuleBasedScanner scanner;
 	protected JSSyntaxContext context;
-	private IPreferenceStore preferenceStore;
-	private Color foregroundColor;
 
 	public JSSourceViewerConfiguration( )
 	{
-		this( new JSSyntaxContext( ),
-				new ScopedPreferenceStore( new InstanceScope( ),
-						"org.eclipse.ui.editors" ) );
-	}
-
-	public JSSourceViewerConfiguration( IPreferenceStore preferenceStore )
-	{
-		this( new JSSyntaxContext( ), preferenceStore );
+		this( new JSSyntaxContext( ) );
 	}
 
 	public JSSourceViewerConfiguration( JSSyntaxContext context )
 	{
-		this( context, new ScopedPreferenceStore( new InstanceScope( ),
-				"org.eclipse.ui.editors" ) );
-	}
-
-	public JSSourceViewerConfiguration( JSSyntaxContext context,
-			IPreferenceStore preferenceStore )
-	{
 		this.context = context;
-		this.preferenceStore = preferenceStore;
 	}
 
 	/**
@@ -78,15 +54,7 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 	 */
 	public static Color getColorByCategory( String categoryColor )
 	{
-		// String rgbString = getRgbString( categoryColor );
-		// if ( rgbString.length( ) <= 0 )
-		// {
-		//			rgbString = "0,0,0"; //$NON-NLS-1$
-		// }
-		// RGB rgbVal = StringConverter.asRGB( rgbString );
-		// return ColorManager.getColor( rgbVal );
 		return getRgbString( categoryColor );
-
 	}
 
 	/**
@@ -112,7 +80,7 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 		if ( scanner == null )
 		{
 			scanner = new JSScanner( );
-			scanner.setDefaultReturnToken( new Token( new TextAttribute( getForegroundColor( preferenceStore ) ) ) );
+			scanner.setDefaultReturnToken( new Token( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE ) ) );
 		}
 		return scanner;
 	}
@@ -129,17 +97,15 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 		reconciler.setDamager( dr, IDocument.DEFAULT_CONTENT_TYPE );
 		reconciler.setRepairer( dr, IDocument.DEFAULT_CONTENT_TYPE );
 
-		NonRuleBasedDamagerRepairer commentRepairer = new NonRuleBasedDamagerRepairer( new TextAttribute( getColorByCategory( PreferenceNames.P_COMMENT_COLOR ) ) );
+		NonRuleBasedDamagerRepairer commentRepairer = new NonRuleBasedDamagerRepairer( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_COMMENT_COLOR_PREFERENCE ) );
 		reconciler.setDamager( commentRepairer, JSPartitionScanner.JS_COMMENT );
 		reconciler.setRepairer( commentRepairer, JSPartitionScanner.JS_COMMENT );
 
-		NonRuleBasedDamagerRepairer stringRepairer = new NonRuleBasedDamagerRepairer( new TextAttribute( getColorByCategory( PreferenceNames.P_STRING_COLOR ) ) );
+		NonRuleBasedDamagerRepairer stringRepairer = new NonRuleBasedDamagerRepairer( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE ) );
 		reconciler.setDamager( stringRepairer, JSPartitionScanner.JS_STRING );
 		reconciler.setRepairer( stringRepairer, JSPartitionScanner.JS_STRING );
 
-		NonRuleBasedDamagerRepairer keywordRepairer = new NonRuleBasedDamagerRepairer( new TextAttribute( getColorByCategory( PreferenceNames.P_KEYWORD_COLOR ),
-				null,
-				SWT.BOLD ) );
+		NonRuleBasedDamagerRepairer keywordRepairer = new NonRuleBasedDamagerRepairer( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_KEYWORD_COLOR_PREFERENCE ) );
 		reconciler.setDamager( keywordRepairer, JSPartitionScanner.JS_KEYWORD );
 		reconciler.setRepairer( keywordRepairer, JSPartitionScanner.JS_KEYWORD );
 
@@ -148,7 +114,6 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 
 	private static Color getRgbString( String name )
 	{
-		String rgbStr = null;
 		if ( PreferenceNames.P_COMMENT_COLOR.equals( name ) )
 		{
 			//rgbStr = "63,127,95"; //$NON-NLS-1$
@@ -172,13 +137,6 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 		return ReportColorConstants.ReportForeground;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.text.source.SourceViewerConfiguration#getContentAssistant
-	 * (org.eclipse.jface.text.source.ISourceViewer)
-	 */
 	public IContentAssistant getContentAssistant( ISourceViewer sourceViewer )
 	{
 		ContentAssistant assistant = new ContentAssistant( );
@@ -190,60 +148,11 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 		return assistant;
 	}
 
-	public void resetScannerColoer( )
+	public void resetScannerColor( )
 	{
-		if ( scanner != null && preferenceStore != null )
+		if ( scanner != null )
 		{
-			scanner.setDefaultReturnToken( new Token( new TextAttribute( getForegroundColor( preferenceStore ) ) ) );
-		}
-	}
-
-	private Color getForegroundColor( IPreferenceStore preferenceStore )
-	{
-		Color color = preferenceStore.getBoolean( AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT ) ? null
-				: createColor( preferenceStore,
-						AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND,
-						Display.getCurrent( ) );
-		if ( foregroundColor != null )
-		{
-			foregroundColor.dispose( );
-		}
-		foregroundColor = color;
-		return color;
-	}
-
-	/**
-	 * Creates a color from the information stored in the given preference
-	 * store. Returns <code>null</code> if there is no such information
-	 * available.
-	 */
-	private Color createColor( IPreferenceStore store, String key,
-			Display display )
-	{
-		RGB rgb = null;
-		if ( store.contains( key ) )
-		{
-			if ( store.isDefault( key ) )
-			{
-				rgb = PreferenceConverter.getDefaultColor( store, key );
-			}
-			else
-			{
-				rgb = PreferenceConverter.getColor( store, key );
-			}
-			if ( rgb != null )
-			{
-				return new Color( display, rgb );
-			}
-		}
-		return null;
-	}
-
-	public void dispose( )
-	{
-		if ( foregroundColor != null )
-		{
-			foregroundColor.dispose( );
+			scanner.setDefaultReturnToken( new Token( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE ) ) );
 		}
 	}
 }

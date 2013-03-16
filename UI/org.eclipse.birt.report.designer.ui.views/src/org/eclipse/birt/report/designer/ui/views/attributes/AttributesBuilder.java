@@ -61,14 +61,14 @@ public class AttributesBuilder
 	/**
 	 * The current attribute page generator
 	 */
-	private IPageGenerator pageGenerator;
+	protected IPageGenerator pageGenerator;
 
-	private String selectedTabText;
+	protected String selectedTabText;
 
 	/**
 	 * The type information of current selection.
 	 */
-	private String typeInfo = Messages.getString( "AttributesBuilder.Label.None" ); //$NON-NLS-1$;
+	protected String typeInfo = Messages.getString( "AttributesBuilder.Label.None" ); //$NON-NLS-1$;
 
 	/**
 	 * Gets attribute pages generator correspond to the current selection.
@@ -189,7 +189,7 @@ public class AttributesBuilder
 	 *            The DE element type
 	 * @return The class of the IPageGenerator
 	 */
-	private Class getGeneratorClass( Object obj )
+	protected Class getGeneratorClass( Object obj )
 	{
 		Class type = obj.getClass( );
 
@@ -208,13 +208,11 @@ public class AttributesBuilder
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Text" ); //$NON-NLS-1$
 			return TextPageGenerator.class;
 		}
-
 		else if ( type == TextDataHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.TextData" ); //$NON-NLS-1$
 			return TextPageGenerator.class;
 		}
-
 		else if ( type == ColumnHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Column" ); //$NON-NLS-1$
@@ -248,78 +246,91 @@ public class AttributesBuilder
 		else if ( CubeHandle.class.isAssignableFrom( type ) )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Cube" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( type == DynamicFilterParameterHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.DynamicFilterParameter" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( type == ModelClassWrapper.class )
 		{
+			// this is to populate the wrapped type info
 			getGeneratorClass( ( (ModelClassWrapper) obj ).getElement( ) );
+			
 			return MessagePageGenerator.class;
 		}
-
 		else if ( type == LabelHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Label" ); //$NON-NLS-1$		
 			return LabelPageGenerator.class;
 		}
-
 		else if ( type == SimpleMasterPageHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.MasterPage" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( DataSourceHandle.class.isAssignableFrom( type ) )
 		{
-			typeInfo = Messages.getString( "AttributesBuilder.Label.DataSourceHandle" ); //$NON-NLS-1$			
+			typeInfo = Messages.getString( "AttributesBuilder.Label.DataSourceHandle" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( VariableElementHandle.class.isAssignableFrom( type ) )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.VariableElementHandle" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( DataSetHandle.class.isAssignableFrom( type ) )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.DataSetHandle" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( type == ScalarParameterHandle.class )
 		{
-			typeInfo = Messages.getString( "AttributesBuilder.Label.ScalarParameterHandle" ); //$NON-NLS-1$		
+			typeInfo = Messages.getString( "AttributesBuilder.Label.ScalarParameterHandle" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( type == TemplateReportItemHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.TemplateReportItemHandle" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( type == ReportDesignHandle.class )
 		{
-			typeInfo = Messages.getString( "AttributesBuilder.Label.Report" ); //$NON-NLS-1$			
+			typeInfo = Messages.getString( "AttributesBuilder.Label.Report" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( type == LibraryHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Library" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( type == AutoTextHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.AutoText" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( type == ParameterGroupHandle.class )
 		{
-			typeInfo = Messages.getString( "AttributesBuilder.Label.ParameterGroup" );
+			typeInfo = Messages.getString( "AttributesBuilder.Label.ParameterGroup" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
 		else if ( type == CascadingParameterGroupHandle.class )
 		{
-			typeInfo = Messages.getString( "AttributesBuilder.Label.CascadingParameterGroup" );
+			typeInfo = Messages.getString( "AttributesBuilder.Label.CascadingParameterGroup" ); //$NON-NLS-1$
+			return CategoryPageGenerator.class;
 		}
-		else if(obj instanceof ModuleHandle)
+		else if ( obj instanceof ModuleHandle )
 		{
-			typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{ ( (DesignElementHandle) obj ).getDefn( )
-					.getDisplayName( )} ); //$NON-NLS-1$
+			typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{ ( (DesignElementHandle) obj ).getDefn( ) //$NON-NLS-1$
+					.getDisplayName( )} );
+			return CategoryPageGenerator.class;
 		}
 		else
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.None" ); //$NON-NLS-1$
 			return TabPageGenerator.class;
 		}
-		return CategoryPageGenerator.class;
 	}
 
 	/**
@@ -341,7 +352,7 @@ public class AttributesBuilder
 	 *         return false. if the list is null or has no element then return
 	 *         false.
 	 */
-	private boolean isSameType( List selection )
+	protected boolean isSameType( List selection )
 	{
 		if ( selection == null || selection.size( ) == 0 )
 			return false;

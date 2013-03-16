@@ -17,16 +17,18 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.ReportViewerKeyHandler;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
@@ -75,7 +77,6 @@ import org.eclipse.birt.report.designer.internal.ui.palette.ReportFlyoutPaletteP
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportTemplateTransferDropTargetListener;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
@@ -93,6 +94,8 @@ import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.data.IDataViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -141,7 +144,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * 
  */
 abstract public class ReportEditorWithPalette extends
-		GraphicalEditorWithFlyoutPalette implements IColleague
+		GraphicalEditorWithFlyoutPalette implements IMediatorColleague
 {
 
 	protected PaletteRoot paletteRoot;
@@ -649,17 +652,22 @@ abstract public class ReportEditorWithPalette extends
 
 	private Object fLastSentPostElement = null;
 
-	public void performRequest( ReportRequest request )
+	public boolean isInterested( IMediatorRequest request )
+	{
+		return request instanceof ReportRequest;
+	}
+
+	public void performRequest( IMediatorRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
-			handleSelectionChange( request );
-			performBreadcrumbRequest( request );
+			handleSelectionChange( (ReportRequest) request );
+			performBreadcrumbRequest( (ReportRequest) request );
 		}
 		else if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 		{
-			handleCreateElement( request );
-			performBreadcrumbRequest( request );
+			handleCreateElement( (ReportRequest) request );
+			performBreadcrumbRequest( (ReportRequest) request );
 		}
 	}
 
@@ -1297,7 +1305,6 @@ abstract public class ReportEditorWithPalette extends
 	// }
 	public Object getAdapter( Class type )
 	{
-
 		if ( type == IContentOutlinePage.class )
 		{
 
@@ -1311,28 +1318,23 @@ abstract public class ReportEditorWithPalette extends
 			manager.addModelEventProcessor( outlinePage.getModelProcessor( ) );
 			return outlinePage;
 		}
-
-		// return the property sheet page
-		if ( type == IPropertySheetPage.class )
+		else if ( type == IPropertySheetPage.class )
 		{
 			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel( ) );
 			return sheetPage;
 		}
-
-		if ( type == DataViewPage.class )
+		else if ( type == IDataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
 			manager.addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
 		}
-
-		if ( type == AttributeViewPage.class )
+		else if ( type == IAttributeViewPage.class )
 		{
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
-
-		if ( type == ModelEventManager.class )
+		else if ( type == IModelEventManager.class )
 		{
 			return manager;
 		}

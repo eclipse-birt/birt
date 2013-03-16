@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.api.ChartEngine;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.RectangleRenderEvent;
@@ -19,7 +20,9 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
@@ -309,12 +312,15 @@ public final class PaletteEditorComposite extends Composite implements
 
 		for ( int i = iStartIndex; i < iStartIndex + iAvailableItems; i++ )
 		{
-			fi = (Fill) elPaletteEntries1.get( i );
+			fi = elPaletteEntries1.get( i );
+			if ( !super.isEnabled( ) && fi instanceof ColorDefinition )
+			{
+				( (ColorDefinitionImpl) fi ).setTransparency( 128 );	// set half transparency when using 'auto' color palette
+			}
 
 			if ( fi instanceof MultipleFill )
 			{
-				rre.setBackground( (Fill) ( (MultipleFill) fi ).getFills( )
-						.get( 0 ) );
+				rre.setBackground( ( (MultipleFill) fi ).getFills( ).get( 0 ) );
 				bo.set( 3, iY + 3, ( rCA.width - 6 ) / 2.0, ITEM_HEIGHT - 6 );
 				try
 				{
@@ -356,8 +362,24 @@ public final class PaletteEditorComposite extends Composite implements
 				bo.set( 3, iY + 3, rCA.width - 6, ITEM_HEIGHT - 6 );
 				try
 				{
+					if ( !super.isEnabled( ) )
+					{
+						rre.getLineAttributes( )
+								.getColor( )
+								.set( 171, 173, 179 );
+					}
 					idrSWT.fillRectangle( rre );
 					idrSWT.drawRectangle( rre );
+					if ( !super.isEnabled( ) )
+					{
+						rre.getLineAttributes( )
+								.getColor( )
+								.set( 255, 255, 255 );
+						Insets ins = GObjectFactory.instance( )
+								.createInsets( 1, 1, 1, 1 );
+						rre.getBounds( ).adjust( ins );
+						idrSWT.drawRectangle( rre );
+					}
 				}
 				catch ( ChartException rex )
 				{
@@ -365,7 +387,7 @@ public final class PaletteEditorComposite extends Composite implements
 				}
 			}
 
-			if ( i == iSelectedIndex )
+			if ( i == iSelectedIndex && super.isEnabled( ))
 			{
 				// WITHIN RANGE; SHOW EDITOR AND UPDATE POSITION
 				if ( !coEditor.isVisible( ) )
@@ -380,7 +402,8 @@ public final class PaletteEditorComposite extends Composite implements
 
 		// OUT OF RANGE; HIDE EDITOR
 		if ( iSelectedIndex < iStartIndex
-				|| iSelectedIndex >= iStartIndex + iAvailableItems )
+				|| iSelectedIndex >= iStartIndex + iAvailableItems
+				|| !super.isEnabled( ) )
 		{
 			if ( coEditor.isVisible( ) )
 			{
@@ -599,7 +622,10 @@ public final class PaletteEditorComposite extends Composite implements
 						.getEntries( );
 				if ( ( iIndex - i ) >= 0 )
 				{
-					el.remove( iIndex - i );
+					if ( elPaletteEntries1 != el )
+					{
+						el.remove( iIndex - i );
+					}
 				}
 				else
 				{
@@ -608,7 +634,10 @@ public final class PaletteEditorComposite extends Composite implements
 					{
 						index += size;
 					}
-					el.remove( index );
+					if ( elPaletteEntries1 != el )
+					{
+						el.remove( index );
+					}
 					if ( el.size( ) > 1 )
 					{
 						final Fill o = el.get( 0 );
@@ -704,10 +733,13 @@ public final class PaletteEditorComposite extends Composite implements
 			{
 				if ( i < size )
 				{
-					vSeriesDefns[i].getSeriesPalette( ).getEntries( ).add( size
-							- i
-							- 1,
-							fi.copyInstance( ) );
+					if ( elPaletteEntries1 != vSeriesDefns[i].getSeriesPalette( )
+							.getEntries( ) )
+					{
+						vSeriesDefns[i].getSeriesPalette( )
+								.getEntries( )
+								.add( size - i - 1, fi.copyInstance( ) );
+					}
 				}
 				else
 				{
@@ -715,9 +747,13 @@ public final class PaletteEditorComposite extends Composite implements
 							.getEntries( );
 					for ( int j = 0; j < el.size( ); j++ )
 					{
-						vSeriesDefns[i].getSeriesPalette( )
-								.getEntries( )
-								.add( j, el.get( j ).copyInstance( ) );
+						if ( elPaletteEntries1 != vSeriesDefns[i].getSeriesPalette( )
+								.getEntries( ) )
+						{
+							vSeriesDefns[i].getSeriesPalette( )
+									.getEntries( )
+									.add( j, el.get( j ).copyInstance( ) );
+						}
 					}
 					for ( int j = el.size( ); j < vSeriesDefns[i].getSeriesPalette( )
 							.getEntries( )

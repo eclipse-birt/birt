@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.widget.WidgetConstants;
 import org.eclipse.swt.SWT;
@@ -48,6 +49,27 @@ public class WidgetUtil implements WidgetConstants
 		return layout;
 	}
 
+	public static GridLayout createGridLayout( int columns, int marginWidth )
+	{
+		GridLayout layout = new GridLayout( columns, false );
+		layout.marginHeight = WidgetUtil.MARGIN_HEIGHT;;
+		layout.marginWidth = marginWidth;
+		layout.horizontalSpacing = WidgetUtil.SPACING;
+		layout.verticalSpacing = WidgetUtil.SPACING;
+		return layout;
+	}
+	
+	public static GridLayout createGridLayout( int columns, int marginWidth, int marginHeight )
+	{
+		GridLayout layout = new GridLayout( columns, false );
+		layout.marginHeight = WidgetUtil.MARGIN_HEIGHT;;
+		layout.marginWidth = marginWidth;
+		layout.marginHeight = marginHeight;
+		layout.horizontalSpacing = WidgetUtil.SPACING;
+		layout.verticalSpacing = WidgetUtil.SPACING;
+		return layout;
+	}
+
 	public static void setGridData( Control control, int hSpan,
 			boolean grabSpace )
 	{
@@ -81,6 +103,19 @@ public class WidgetUtil implements WidgetConstants
 	 */
 	public static GridLayout createSpaceGridLayout( int columns, int space )
 	{
+		GridLayout layout = new GridLayout( columns, false );
+		layout.marginHeight = space;
+		layout.marginWidth = space;
+		layout.horizontalSpacing = space;
+		layout.verticalSpacing = space;
+		return layout;
+	}
+
+	public static GridLayout createSpaceGridLayout( int columns, int space,
+			boolean isFormStyle )
+	{
+		if ( isFormStyle )
+			space += 2;
 		GridLayout layout = new GridLayout( columns, false );
 		layout.marginHeight = space;
 		layout.marginWidth = space;
@@ -148,7 +183,14 @@ public class WidgetUtil implements WidgetConstants
 	public static Label createGridPlaceholder( Composite parent, int hSpan,
 			boolean grabSpace )
 	{
-		Label label = new Label( parent, SWT.NONE );
+		return createGridPlaceholder( parent, hSpan, grabSpace, false );
+	}
+
+	public static Label createGridPlaceholder( Composite parent, int hSpan,
+			boolean grabSpace, boolean isFormStyle )
+	{
+		Label label = isFormStyle ? FormWidgetFactory.getInstance( )
+				.createLabel( parent, true ) : new Label( parent, SWT.NONE );
 		GridData data = new GridData( );
 		data.horizontalSpan = hSpan;
 		data.grabExcessHorizontalSpace = grabSpace;
@@ -166,9 +208,13 @@ public class WidgetUtil implements WidgetConstants
 	 *            The number of column cells that operable-control will take up.
 	 * @return The Label control.
 	 */
-	public static Label createHorizontalLine( Composite parent, int hSpan )
+	public static Label createHorizontalLine( Composite parent, int hSpan,
+			boolean isFormStyle )
 	{
-		Label label = new Label( parent, SWT.SEPARATOR | SWT.HORIZONTAL );
+		Label label = isFormStyle ? FormWidgetFactory.getInstance( )
+				.createLabel( parent, "", //$NON-NLS-1$
+						SWT.SEPARATOR | SWT.HORIZONTAL ) : new Label( parent,
+				SWT.SEPARATOR | SWT.HORIZONTAL );
 		GridData data = new GridData( );
 		data.horizontalSpan = hSpan;
 		data.horizontalAlignment = GridData.FILL;

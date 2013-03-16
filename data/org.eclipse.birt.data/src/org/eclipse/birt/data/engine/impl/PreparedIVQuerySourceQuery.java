@@ -55,7 +55,6 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.mozilla.javascript.Scriptable;
-
 /**
  * When query is applied with a different group from the original group, this
  * instance will be used to regenerate the query result.
@@ -311,6 +310,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 					preparedQuery.getBaseQueryDefn( ),
 					preparedQuery.getAggrTable( ),
 					dataEngine.getSession( ), PreparedIVQuerySourceQuery.this.contextVisitor );
+			ignoreDataSetFilter = true;
 		}
 
 		/*
@@ -340,6 +340,11 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 					this, this.getSession( ) );
 
 			return dsRuntime;
+		}
+		
+		protected String getDataSetName( )
+		{
+			return queryDefn.getDataSetName( );
 		}
 
 		/*

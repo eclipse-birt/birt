@@ -229,4 +229,12 @@ public abstract class DesignParseState extends AbstractParseState
 		}
 		return true;
 	}
+
+	protected void markLineNumber( DesignElement element )
+	{
+		if ( handler.markLineNumber )
+			handler.tempLineNumbers.put( element,
+					Integer.valueOf( handler.getCurrentLineNo( ) ) );
+
+	}
 }

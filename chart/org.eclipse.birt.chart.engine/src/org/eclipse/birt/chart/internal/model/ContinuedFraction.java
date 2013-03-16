@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.ValueFormatter;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 public class ContinuedFraction
 {
@@ -73,6 +74,10 @@ public class ContinuedFraction
 		}
 		long dividend = (long) Math.pow( 10, decimalDigits );
 		long start = (long) decimalTemp;
+		if ( ChartUtil.mathEqual( decimalTemp, Math.ceil( decimalTemp ) ) )
+		{
+			start = (long) Math.ceil( decimalTemp );
+		}
 
 		long quotient = 0;
 		long oldDividend = 0;

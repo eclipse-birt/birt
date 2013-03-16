@@ -20,24 +20,14 @@ import org.eclipse.birt.report.data.oda.excel.ExcelODAConstants;
 
 public class XlsxRowCallBack implements RowCallBack {
 	private ArrayList<String[]> xlsxRowData = new ArrayList<String[]>();
-	private int rowNum;
 
 	public void handleRow(List<Object> values) {
-		++rowNum;
 
 		if (values == null || values.size() == 0) {
 			return;
 		}
 		String[] valArray = new String[values.size()];
 		values.toArray(valArray);
-		if( rowNum == 1 ){
-			for( int i=0; i<valArray.length; i++ ){
-				if(valArray[i].length() == 0){
-					valArray[i] = "column_"+i;
-				}
-			}
-		}
-
 		xlsxRowData.add(valArray);
 	}
 

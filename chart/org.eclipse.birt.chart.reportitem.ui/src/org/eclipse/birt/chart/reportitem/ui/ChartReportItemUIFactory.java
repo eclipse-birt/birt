@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.reportitem.ui;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.ui.swt.ChartUIFactory;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -93,5 +94,18 @@ public class ChartReportItemUIFactory extends ChartUIFactory
 	public ISectionHelper updateChartPageSectionHelper( ISectionHelper sectionHelper )
 	{
 		return sectionHelper;
+	}
+	
+	/**
+	 * Creates Figure used for edit part in layout editor.
+	 * 
+	 * @param crii
+	 *            report item
+	 * @return figure instance
+	 * @since 3.7
+	 */
+	public DesignerRepresentation createFigure( ChartReportItemImpl crii )
+	{
+		return new DesignerRepresentation( crii );
 	}
 }

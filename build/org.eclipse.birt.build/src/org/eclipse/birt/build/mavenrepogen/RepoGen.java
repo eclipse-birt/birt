@@ -50,18 +50,20 @@ public class RepoGen
 	private final File templateReleasePomFile;
 	private final String rootFileName;
 	private final File readmeFile;
+	private final File sourceDir;
 	private final String externalFileName = "./externalRepo.properties";
 	
 	private final Map<String, ExternalDependency> externalDependencies;
 
 	private RepoGen(final File libDir, final File repoParentDir, final String groupId,
 			final String passphrase, final boolean snapshot, final boolean release,
-			final boolean clean, final String rootFileName, final String readmeFilePath ) throws IOException
+			final boolean clean, final String rootFileName, final String readmeFilePath , final File sourceDir) throws IOException
 	{
 		this.libDir = libDir;
 		this.groupId = groupId;
 		this.passphrase = passphrase;
 		this.readmeFile = new File(readmeFilePath);
+		this.sourceDir = sourceDir;
 		
 		repoDir = new File(repoParentDir, "repository");
 		repoDir.mkdir();
@@ -146,9 +148,10 @@ public class RepoGen
 		final boolean genRelease = "true".equalsIgnoreCase(properties.getProperty("release"));
 		final String rootFileName = properties.getProperty("rootFile");
 		final String readmeFilePath = properties.getProperty("readmeFile");
+		final String sourceDir = properties.getProperty("sourceDir");
 		
 		final RepoGen repoGen = new RepoGen(new File(libDirName), new File(repoDirName), groupId,
-				passphrase, genSnapshot, genRelease, clean, rootFileName,readmeFilePath);
+				passphrase, genSnapshot, genRelease, clean, rootFileName, readmeFilePath, new File(sourceDir));
 		repoGen.generate();
 	}
 
@@ -362,11 +365,11 @@ public class RepoGen
 				if (indexofsemicolon >= 0)
 					artifactId = artifactId.substring(0, indexofsemicolon);
 				version = mainAttributes.getValue("Bundle-Version");
-				//System.out.println( rootFileName + "," + file.getName());
+				
 				
 				if (file.getName().equals(rootFileName))
 				{
-					
+					//System.out.println( rootFileName + "," + file.getName() + version);
 					version = trimVersion(version);
 					System.out.println("root file found: " + rootFileName + ", version: " + version);
 				}
@@ -409,15 +412,27 @@ public class RepoGen
 		final File jarFile = new File(versionDir, newFileName + ".jar");
 		copy(fileInfo.getFile(), jarFile);
 		final File pomFile = new File(versionDir, newFileName + ".pom");
-		final File sourceFile = new File(versionDir, fileInfo.getArtifactId() + "-" + fileInfo.getVersion(snapshot)+"-sources.jar");
+		final File sourceFileTarget = new File(versionDir, fileInfo.getArtifactId() + "-" + fileInfo.getVersion(snapshot)+"-sources.jar");
+		final File sourceFileSource = new File(sourceDir, fileInfo.getArtifactId() + "-" + fileInfo.getVersion()+"-sources.jar");
 		final File javadocFile = new File(versionDir, fileInfo.getArtifactId() + "-" + fileInfo.getVersion(snapshot)+"-javadoc.jar");
+		
 		//create fake sources and javadoc jar
-		createJar( sourceFile, new File[]{readmeFile} );
+		
+		if(sourceFileSource.exists())
+		{			
+			createJar(sourceFileTarget, sourceFileSource);
+		}
+		else
+		{
+			System.out.println("Creating fake source bundles for " + fileInfo.getArtifactId());
+			createJar( sourceFileTarget, new File[]{readmeFile} );
+		}
+		
 		createJar( javadocFile, new File[]{readmeFile} );
 		
 		createPomFile(fileInfo, snapshot, pomFile, dependsOn, externalDependencies);
 		createAntFile(new File(versionDir, "build.xml"), pomFile, fileInfo.getArtifactId(),
-			jarFile, snapshot, sourceFile, javadocFile);
+			jarFile, snapshot, sourceFileTarget, javadocFile);
 		
 		globalScriptFileWriter.println("#");
 		globalScriptFileWriter.print("pushd ");
@@ -437,18 +452,17 @@ public class RepoGen
 				jarFile.getName() }, versionDir);
 		exec(
 				new String[] { "/usr/bin/gpg", "-ab", "--batch", "--passphrase", passphrase,
-					sourceFile.getName() }, versionDir);
+				sourceFileTarget.getName() }, versionDir);
 		exec(
 				new String[] { "/usr/bin/gpg", "-ab", "--batch", "--passphrase", passphrase,
 					javadocFile.getName() }, versionDir);
 		// it would be nice to bundle the entire library in one jar but Sonatype doesn't
 		// seem to want to accept multiple POM's in a single bundle.
-		createJar(new File(versionDir, "bundle.jar"), new File[] { pomFile, jarFile,javadocFile,sourceFile,
+		createJar(new File(versionDir, "bundle.jar"), new File[] { pomFile, jarFile,javadocFile,sourceFileTarget,
 			new File(pomFile.getAbsolutePath() + ".asc"),
 			new File(jarFile.getAbsolutePath() + ".asc"),
 			new File(javadocFile.getAbsolutePath() + ".asc"),
-			new File(sourceFile.getAbsolutePath() + ".asc")});
-		
+			new File(sourceFileTarget.getAbsolutePath() + ".asc")});
 
 		templatePomFileWriter.println("   <dependency>");
 		templatePomFileWriter.print("    <groupId>");
@@ -689,6 +703,16 @@ public class RepoGen
 		jos.close();
 	}
 
+	private void createJar(final File jarTargetFile, final File jarSourceFile) throws IOException
+	{		
+		final FileOutputStream fos = new FileOutputStream(jarTargetFile);
+		final FileInputStream fis = new FileInputStream(jarSourceFile);
+		pipeStream(fis, fos);
+		
+		fis.close();
+		fos.close();
+	}
+	
 	private void exec(final String[] command, final File dir) throws IOException
 	{
 		final Process process = Runtime.getRuntime().exec(command, null, dir);

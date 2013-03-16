@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.views.data;
 
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -82,7 +81,7 @@ public class DataView extends PageBookView
 	 */
 	protected PageRec doCreatePage( IWorkbenchPart part )
 	{
-		 Object page = part.getAdapter( DataViewPage.class );
+		 Object page = part.getAdapter( IDataViewPage.class );
 		 if ( page instanceof IPageBookViewPage )
 		 {
 		 initPage( (IPageBookViewPage) page );

@@ -92,7 +92,7 @@ public class FontStylePropertyDescriptor extends PropertyDescriptor
 			}
 		} );
 
-		WidgetUtil.createGridPlaceholder( composite, 1, true );
+		WidgetUtil.createGridPlaceholder( composite, 1, true, true );
 
 		return composite;
 	}

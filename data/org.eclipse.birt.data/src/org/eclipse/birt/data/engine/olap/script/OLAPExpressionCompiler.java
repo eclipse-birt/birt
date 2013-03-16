@@ -17,6 +17,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -64,7 +65,7 @@ public class OLAPExpressionCompiler
 		{
 				String exprText = ( (IScriptExpression) expr1 ).getText( );
 				if ( expr1.getHandle( ) == null
-						&& !( (IScriptExpression) expr1 ).isConstant( ) )
+						&& !( BaseExpression.constantId.equals( expr1.getScriptId( ) ) ) )
 					expr1.setHandle( new OLAPExpressionHandler( cx.compile( expr1.getScriptId( ),
 							null,
 							0,

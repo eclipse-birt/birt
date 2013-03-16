@@ -66,6 +66,8 @@ public class DataExtractionParameterUtil
 	 * URL Parameter name to indicate whether exports locale neutral value.
 	 */
 	public static final String PARAM_LOCALENEUTRAL = "__localeneutral"; //$NON-NLS-1$
+	
+	public static final String PARAM_CARRIAGERETURN = "__carriagereturn"; //$NON-NLS-1$
 
 	/**
 	 * Known export extension names.
@@ -201,6 +203,18 @@ public class DataExtractionParameterUtil
 
 		return false;
 	}
+	
+	public static boolean isWithCarriageReturn (Map options )
+	{
+		if (options == null)
+			return false;
+		
+		String flag = (String) options.get( PARAM_CARRIAGERETURN );
+		if ("true".equalsIgnoreCase(flag)) //$NON-NLS-1$
+			return true;
+		
+		return false;
+	}
 
 	/**
 	 * Create a CommonDataExtractionOption configured using the common-specific
@@ -250,6 +264,7 @@ public class DataExtractionParameterUtil
 
 		// CSV separator
 		extractOption.setSeparator( getSep( options ) );
+		extractOption.setAddCR(isWithCarriageReturn(options));
 		return extractOption;
 	}
 

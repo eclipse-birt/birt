@@ -175,9 +175,9 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 		{
 			if ( isFormStyle( ) )
 				text = FormWidgetFactory.getInstance( )
-						.createText( containerPane, "", SWT.WRAP ); //$NON-NLS-1$
+						.createText( containerPane, "", SWT.MULTI ); //$NON-NLS-1$
 			else
-				text = new Text( containerPane, SWT.WRAP
+				text = new Text( containerPane, SWT.MULTI
 						| SWT.BORDER);
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL);
 			gd.heightHint = text.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y

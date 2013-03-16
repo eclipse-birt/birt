@@ -160,9 +160,9 @@ class CacheUtilFactory
 			assert rsClass != null;
 
 			this.file = cacheObject.getDataFile( );
-			FileSecurity.fileDeleteOnExit( this.file );
+//			FileSecurity.fileDeleteOnExit( this.file );
 			this.metaFile = cacheObject.getMetaFile( );
-			FileSecurity.fileDeleteOnExit( this.metaFile );
+//			FileSecurity.fileDeleteOnExit( this.metaFile );
 			this.rsClass = rsClass;
 			this.rowCount = 0;
 			this.tempFolder = cacheObject.getCacheDir( );

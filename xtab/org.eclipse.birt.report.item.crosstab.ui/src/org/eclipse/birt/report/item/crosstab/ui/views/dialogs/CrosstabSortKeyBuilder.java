@@ -562,7 +562,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		return content;
 	}
 
-	private ExpressionProvider getExpressionProvider( )
+	protected ExpressionProvider getExpressionProvider( )
 	{
 
 		ExpressionProvider expressionProvider = new ExpressionProvider( handle );

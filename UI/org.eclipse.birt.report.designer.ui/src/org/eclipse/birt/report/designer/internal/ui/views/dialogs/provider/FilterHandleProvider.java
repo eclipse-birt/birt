@@ -211,11 +211,17 @@ public class FilterHandleProvider implements IFormHandleProvider
 			}
 			else if ( item instanceof GroupHandle )
 			{
-				dialog.setReportElement( (ReportItemHandle) ( (GroupHandle) item ).getContainer( ) );
+				if ( ( (GroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
+				{
+					dialog.setReportElement( (ReportItemHandle) ( (GroupHandle) item ).getContainer( ) );
+				}
 			}
 			else if ( item instanceof DataGroupHandle )
 			{
-				dialog.setReportElement( (ReportItemHandle) ( (DataGroupHandle) item ).getContainer( ) );
+				if ( ( (DataGroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
+				{
+					dialog.setReportElement( (ReportItemHandle) ( (DataGroupHandle) item ).getContainer( ) );
+				}
 			}
 			if ( dialog.open( ) == Dialog.CANCEL )
 			{
@@ -258,7 +264,10 @@ public class FilterHandleProvider implements IFormHandleProvider
 			}
 			else if ( item instanceof GroupHandle )
 			{
-				dialog.setReportElement( (ReportItemHandle) ( (GroupHandle) item ).getContainer( ) );
+				if ( ( (GroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
+				{
+					dialog.setReportElement( (ReportItemHandle) ( (GroupHandle) item ).getContainer( ) );
+				}
 			}
 			if ( dialog.open( ) == Dialog.CANCEL )
 			{
@@ -291,7 +300,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 	{
 		return null;
 	}
-	
+
 	public Image getImage( Object element, int columnIndex )
 	{
 		return null;

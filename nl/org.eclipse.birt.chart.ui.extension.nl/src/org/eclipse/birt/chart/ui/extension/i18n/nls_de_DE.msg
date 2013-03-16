@@ -103,6 +103,8 @@ BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius=&Außenradius:
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties=Eigenschaften für Region
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialLabelProperties=Beschriftungseigenschaften für Region
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=Markierungsbeschriftungs-Eigenschaften
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveDown=Nach &unten
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveUp=Nach &oben
 BaseAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Ungültiges Argument für Achsenmarkierungs-Attributblatt... Diagrammtyp sollte ein Diagramm mit Achsen sein
 
 BaseSeriesDataSheetImpl.Choice.Unsorted=Unsortiert
@@ -175,6 +177,8 @@ OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Ungültiges Argu
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Remove=&Entfernen
 OrthogonalSeriesAttributeSheetImpl.Lbl.Add=&Hinzufügen
+OrthogonalSeriesAttributeSheetImpl.Lbl.Up=Nach &oben
+OrthogonalSeriesAttributeSheetImpl.Lbl.Down=&Nach unten
 OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix=Prä&fix:
 OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix=Suffi&x:
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesType=Datenreihentyp:
@@ -639,6 +643,7 @@ TriggerDataComposite.Lbl.Script=Skri&pt:
 TriggerDataComposite.Lbl.Target=Ziel:
 TriggerEditorComposite.Lbl.Update=<< &Aktualisieren
 TriggerDataComposite.Lbl.TooltipText=QuickInfo-Te&xt:
+TriggerDataComposite.Btn.Format=&Format
 TriggerDataComposite.Lbl.BaseURL=Basis-URL bearbeiten:
 TriggerDataComposite.Lbl.Image=B&ild
 
@@ -724,8 +729,8 @@ TaskSelectType.Label.SeriesType=&Datenreihentyp:
 TaskSelectType.Task.Description=Wählen Sie den Diagrammtyp, und legen Sie das Ausgabeformat fest.
 TaskSelectType.Label.OutputFormat=&Ausgabeformat:
 TaskSelectType.Selection.MoreAxes=Weitere Achsen
-TaskSelectType.Label.SelectChartType=Diagrammtyp auswählen
-TaskSelectType.Label.SelectSubtype=Untertyp auswählen
+TaskSelectType.Label.SelectChartType=Diagramm&typ auswählen
+TaskSelectType.Label.SelectSubtype=Untertyp a&uswählen
 TaskSelectType.Exception.CannotSupportAxes=In achsenlosen Diagrammen werden keine Achsen unterstützt\!
 TaskSelectType.Exception.NotSupportedForMultipleAxes=\ wird für mehrere Achsen nicht unterstützt\!
 TaskSelectType.Label.ChartTypes=Diagrammtypen

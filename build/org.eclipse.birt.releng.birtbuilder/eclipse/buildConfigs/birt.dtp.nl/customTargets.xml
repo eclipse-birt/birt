@@ -1,38 +1,40 @@
-<project name="Build specific targets and properties" default="noDefault" basedir=".">
+<project name="Build specific targets and properties" default="noDefault"
+	basedir=".">
 
 	<property name="postingDirectory" value="${buildDirectory}" />
 	<property name="package.version" value="2_2_0" />
-	<property name="archiveName" value="birt-dtp-nl-${package.version}.zip"/>
+	<property name="archiveName" value="birt-dtp-nl-${package.version}.zip" />
 
-	
+
 	<!-- ===================================================================== -->
 	<!-- Run a given ${target} on all elements being built -->
 	<!-- ===================================================================== -->
 	<target name="allElements">
-		<ant antfile="${genericTargets}" target="${target}" >
+		<ant antfile="${genericTargets}" target="${target}">
 			<property name="type" value="feature" />
 			<property name="id" value="org.eclipse.birt.dtp.nl" />
 		</ant>
 	</target>
 
 	<!-- ===================================================================== -->
-	<!-- Targets to assemble the built elements for particular configurations  -->
+	<!-- Targets to assemble the built elements for particular configurations -->
 	<!-- These generally call the generated assemble scripts (named in -->
 	<!-- ${assembleScriptName}) but may also add pre and post processing -->
 	<!-- Add one target for each root element and each configuration -->
 	<!-- ===================================================================== -->
-	
+
 	<target name="assemble.org.eclipse.birt.dtp.nl">
-		<property name="archiveName" value="birt-dtp-nl-${package.version}.zip"/>
+		<property name="archiveName" value="birt-dtp-nl-${package.version}.zip" />
 		<antcall target="assemble" />
 	</target>
 
 
 	<target name="assemble">
-		<property name="archiveFullPath" value="${buildDirectory}/${buildLabel}/${archiveName}" />
+		<property name="archiveFullPath"
+			value="${buildDirectory}/${buildLabel}/${archiveName}" />
 		<ant antfile="${assembleScriptName}" />
 	</target>
-	
+
 	<target name="postPackage">
 	</target>
 	<!-- ===================================================================== -->
@@ -42,19 +44,17 @@
 	<target name="checkLocal">
 		<available property="mapsLocal" file="${buildDirectory}/maps/releng/maps" />
 	</target>
-	
+
 	<target name="getMapFiles" depends="checkLocal" unless="mapsLocal">
 
-		<!-- ***  change the repo info -->
-		<property name="mapCvsRoot" value=":pserver:anonymous@dev.eclipse.org:/cvsroot/birt" />
+		<!-- *** change the repo info -->
+		<property name="mapCvsRoot"
+			value=":pserver:anonymous@dev.eclipse.org:/cvsroot/birt" />
 		<property name="mapVersionTag" value="HEAD" />
-		<cvs cvsRoot="${mapCvsRoot}"
-			package="source/org.eclipse.birt.releng"
-			dest="${buildDirectory}/maps"
-			tag="${mapVersionTag}"
-		/>
+		<cvs cvsRoot="${mapCvsRoot}" package="source/org.eclipse.birt.releng"
+			dest="${buildDirectory}/maps" tag="${mapVersionTag}" />
 	</target>
-	
+
 	<!-- ===================================================================== -->
 	<!-- Steps to do before setup -->
 	<!-- ===================================================================== -->
@@ -71,8 +71,8 @@
 	<!-- Steps to do before fetching the build elements -->
 	<!-- ===================================================================== -->
 	<target name="preFetch">
-  		<antcall target="logger">
-			<param name="message" value="Finish fetching DTP nl feature source"/>
+		<antcall target="logger">
+			<param name="message" value="Finish fetching DTP nl feature source" />
 		</antcall>
 	</target>
 
@@ -80,11 +80,11 @@
 	<!-- Steps to do after the fetch -->
 	<!-- ===================================================================== -->
 	<target name="postFetch">
-  		<antcall target="logger">
-			<param name="message" value="Finish fetching DTP nl feature source"/>
+		<antcall target="logger">
+			<param name="message" value="Finish fetching DTP nl feature source" />
 		</antcall>
 	</target>
-	
+
 	<!-- ===================================================================== -->
 	<!-- Steps to do before generating build scripts -->
 	<!-- ===================================================================== -->
@@ -103,11 +103,11 @@
 	<!-- Steps to do before assembling -->
 	<!-- ===================================================================== -->
 	<target name="preAssemble">
-	
+
 	</target>
 
 	<!-- ===================================================================== -->
-	<!-- Steps to do after assembling-->
+	<!-- Steps to do after assembling -->
 	<!-- ===================================================================== -->
 	<target name="postAssemble">
 	</target>
@@ -123,13 +123,13 @@
 	<!-- ===================================================================== -->
 	<target name="postProcess">
 		<condition property="logsAvailable">
-			<istrue value="${javacVerbose}"/> 
+			<istrue value="${javacVerbose}" />
 		</condition>
 		<antcall target="gatherLogs" />
 	</target>
 
 	<target name="prePackage" />
-	
+
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do after everything is built and assembled -->
@@ -146,33 +146,35 @@
 		<antcall target="allElements">
 			<param name="target" value="gatherLogs" />
 		</antcall>
-	
-		<unzip dest="${postingDirectory}/${buildLabel}/compilelogs" overwrite="true">
+
+		<unzip dest="${postingDirectory}/${buildLabel}/compilelogs"
+			overwrite="true">
 			<fileset dir="${buildDirectory}/features/org.eclipse.birt.dtp.nl">
 				<include name="*.log.zip" />
 			</fileset>
 		</unzip>
 	</target>
-	
+
 	<target name="clean" unless="noclean">
 		<antcall target="allElements">
 			<param name="target" value="cleanElement" />
 		</antcall>
 	</target>
 	<!-- ===================================================================== -->
-	<!-- Default target                                                        -->
+	<!-- Default target -->
 	<!-- ===================================================================== -->
 	<target name="noDefault">
 		<echo message="You must specify a target when invoking this file" />
 	</target>
-	
+
 	<!-- ===================================================================== -->
-	<!-- Custom target for logging build time                                                       -->
+	<!-- Custom target for logging build time -->
 	<!-- ===================================================================== -->
-    <target name="logger">
-    	<tstamp prefix="timestamp">
-        	<format property="birt" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-        <echo message="[${timestamp.birt}] ${message}${line.separator}" file="${builder.dir}/monitor.log" append="true"/>
-    </target>
+	<target name="logger">
+		<tstamp prefix="timestamp">
+			<format property="birt" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+		</tstamp>
+		<echo message="[${timestamp.birt}] ${message}${line.separator}"
+			file="${builder.dir}/monitor.log" append="true" />
+	</target>
 </project>

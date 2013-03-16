@@ -26,14 +26,17 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
@@ -315,6 +318,25 @@ public class ElementStructureUtil
 		}
 
 		// do some special handle for cube and dimension
+		
+		if (target instanceof GroupElement) 
+		{
+			GroupElement group = (GroupElement) target;
+			GroupElement sourceGroup = (GroupElement) source;
+			group.setProperty(IGroupElementModel.GROUP_NAME_PROP, sourceGroup
+					.getProperty(sourceGroup.getRoot(),
+							IGroupElementModel.GROUP_NAME_PROP));
+
+		}
+
+		if ( target instanceof GroupElement )
+		{
+			GroupElement group = (GroupElement) target;
+			GroupElement sourceGroup = (GroupElement) source;
+			group.setProperty( IGroupElementModel.GROUP_NAME_PROP, sourceGroup
+					.getProperty( sourceGroup.getRoot( ), IGroupElementModel.GROUP_NAME_PROP ) );
+
+		}
 
 		if ( target instanceof TabularCube )
 		{
@@ -499,11 +521,12 @@ public class ElementStructureUtil
 			if ( virtualElement.getName( ) == null )
 				continue;
 
-			module.makeUniqueName( virtualElement );
-			NameSpace ns = new NameExecutor( virtualElement )
-					.getNameSpace( module );
-			if ( ns != null )
+			NameExecutor executor = new NameExecutor( module, virtualElement );
+			executor.makeUniqueName( );
+			NameSpace ns = executor.getNameSpace( );
+			if (ns != null) {
 				ns.insert( virtualElement );
+			}
 		}
 	}
 

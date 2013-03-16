@@ -205,11 +205,13 @@ public class Statement implements IQuery
 				logger.log(Level.FINE, "Statement.setQueryTimeout failed", e);
 			}
 		}
-		else if (name.equals(ConnectionProfileProperty.PROFILE_NAME_PROP_KEY)
-				|| name.equals(ConnectionProfileProperty.PROFILE_STORE_FILE_PROP_KEY)
-				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY))
+		else if ( name.equals( ConnectionProfileProperty.PROFILE_NAME_PROP_KEY )
+				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PROP_KEY )
+				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY )
+				|| name.equals( "addListFile" ) )
 		{
 			//do nothing here. These are valid ODA properties. See Eclipse bug 176140
+			// Bypass Hive connection property addListFile.
 		}
 		else
 		{
@@ -303,7 +305,7 @@ public class Statement implements IQuery
 			return this.cachedResultMetaData;
 		DBConfig config = DBConfig.getInstance();
 		try {
-			String driverName = preStat.getConnection().getMetaData().getDriverName();
+			String driverName = this.conn.getMetaData().getDriverName();
 
 			if( config.qualifyPolicy(driverName, DBConfig.NORMAL))
 			{
@@ -314,6 +316,10 @@ public class Statement implements IQuery
 				getMetaUsingPolicy1();
 			}	
 			else if( config.qualifyPolicy(driverName, DBConfig.EXEC_QUERY_WITHOUT_CACHE))
+			{
+				getMetaUsingPolicy2();
+			}
+			else if ( config.qualifyPolicy(driverName, DBConfig.IGNORE_UNIMPORTANT_EXCEPTION) )
 			{
 				getMetaUsingPolicy2();
 			}
@@ -416,14 +422,14 @@ public class Statement implements IQuery
 			cachedResultMetaData = this.cachedResultSet.getMetaData( );
 	}
 
-	private void getMetaUsingPolicy2( )
+	private void getMetaUsingPolicy2( ) throws OdaException
 	{
 		try
 		{
 			int max = this.preStat.getMaxRows( );
 			this.preStat.setMaxRows( 1 );
-			this.preStat.execute( );
-			this.getMetaUsingPolicy0( );
+			java.sql.ResultSet rs = this.preStat.executeQuery();
+			cachedResultMetaData = new ResultSetMetaData( rs.getMetaData( ) );
 			this.preStat.setMaxRows( max );
 			
 		}
@@ -431,7 +437,7 @@ public class Statement implements IQuery
 		{
 		}
 	}
-
+	
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#executeQuery()
 	 */

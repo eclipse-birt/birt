@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="author">Report Author</property>
     <property name="comments">New comments</property>
     <property name="createdBy">Report Creator</property>
@@ -49,6 +49,7 @@
             <list-property name="cssStyleSheets">
 		    	<structure>
     				<property name="fileName">base.css</property>
+                    <property name="useExternalCss">false</property>
 		    	</structure>
 		    </list-property>
             <styles>
@@ -71,9 +72,7 @@
         <structure>
             <property name="name">image1</property>
             <property name="type">image/bmp</property>
-            <property name="data">
-                imagetesAAAAimagetesAAAAimagetesAAAAimagetesAAAAimagetesAAAAimagetesAAAAimagetes
-            </property>
+            <property name="data">imagetesAAA=</property>
         </structure>
         <structure>
             <property name="name">image2</property>

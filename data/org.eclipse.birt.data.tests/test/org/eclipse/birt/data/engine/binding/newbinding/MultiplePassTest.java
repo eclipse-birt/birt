@@ -248,7 +248,7 @@ public class MultiplePassTest extends APITestCase
 				new FilterDefinition( new ConditionalExpression("row.FILTER_AMOUNT",IConditionalExpression.OP_GT,"100")),
 				new FilterDefinition( new ConditionalExpression("row.FILTER_AMOUNT",IConditionalExpression.OP_GT,"400")),
 				new FilterDefinition( new ConditionalExpression("row.FILTER_AMOUNT",IConditionalExpression.OP_BOTTOM_N,"16")),
-			 	new FilterDefinition( new ConditionalExpression("row.FILTER_COUNTRY",IConditionalExpression.OP_BOTTOM_N,"3"))};
+			 	new FilterDefinition( new ConditionalExpression("row.FILTER_COUNTRY",IConditionalExpression.OP_BOTTOM_N,"1"))};
 		
 		createAndRunQuery(bindingNameGroup, bindingExprGroup, bindingNameSort,
 				bindingExprSort, bindingNameFilter, bindingExprFilter,

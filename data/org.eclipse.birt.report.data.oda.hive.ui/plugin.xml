@@ -61,4 +61,13 @@
        </dataSetUI>
    </extension>
    
+   <extension
+         id="org.eclipse.birt.report.data.oda.hive.ui.valueVariables"
+         point="org.eclipse.core.variables.valueVariables">
+      <variable
+	   name="org.eclipse.birt.report.data.oda.hive.ui.ds.displayname"
+	   initialValue="%org.eclipse.birt.report.data.oda.hive.ui.ds.displayname">
+	  </variable>
+   </extension>
+   
 </plugin>

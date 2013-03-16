@@ -1,5 +1,6 @@
 dataset.editor.page.query=Abfrage
 dataset.new.query=Definieren Sie mithilfe verfügbarer Elemente einen SQL-Abfragetext.
+dataset.new.query.hive=Definieren Sie mithilfe verfügbarer Elemente einen HQL-Abfragetext.
 dataset.new=Neuer Datensatz
 dataset.editor.page.query.error.schemaNotExisted=Der Schemaname ist nicht vorhanden.
 datasource.new=Neue Datenquelle

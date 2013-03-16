@@ -62,6 +62,7 @@ var Constants = {
 	PARAM_SEP : '__sep',
 	PARAM_EXPORT_DATATYPE : '__exportdatatype',
 	PARAM_LOCALENEUTRAL : '__localeneutral',
+	PARAM_CARRIAGERETURN : '__carriagereturn',
 	PARAM_DATA_EXTRACT_FORMAT : '__extractformat',
 	PARAM_DATA_EXTRACT_EXTENSION : '__extractextension',
 	PARAM_ISNULL : '__isnull',

@@ -268,8 +268,10 @@ public class RDLoad
 				StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE );
 		
+		int adjustedVersion = resolveVersionConflict( );
+		
 		DataSetResultSet populator = new DataSetResultSet( stream, lensStream, 
-				this.loadResultClass( ), preFilteredRowIds, stringTableMap, index, version );
+				this.loadResultClass( ), preFilteredRowIds, stringTableMap, index, adjustedVersion );
 
 		return populator;
 	}
@@ -295,12 +297,23 @@ public class RDLoad
 				StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE );
 		
+		int adjustedVersion = resolveVersionConflict( );
+		
 		DataSetResultSet populator = new DataSetResultSet( stream, lensStream, 
-				this.loadResultClass( ), preFilteredRowIds, stringTableMap, index, version, includeInnerID );
+				this.loadResultClass( ), preFilteredRowIds, stringTableMap, index, adjustedVersion, includeInnerID );
 
 		return populator;
 	}
 	
+	private int resolveVersionConflict( )
+	{
+		if ( version == VersionManager.VERSION_3_7_2_1
+				&& ( "4.2.0.v20120611".equals( this.context.getBundleVersion( ) ) || "4.2.1.v20120820".equals( this.context.getBundleVersion( ) ) ) )
+			return VersionManager.VERSION_4_2_1_2;
+		else
+			return version;
+	}
+
 	/**
 	 * @param streamPos
 	 * @param streamScope

@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
@@ -337,7 +338,7 @@ public class ImageDialog extends TrayDialog
 
 		initURIEditor( );
 
-		if ( fCurrent instanceof EmbeddedImage )
+		if ( bEmbeddedImageEnabled && fCurrent instanceof EmbeddedImage )
 		{
 			embedded.setSelection( true );
 			selectedType = EMBEDDED_TYPE;
@@ -346,6 +347,10 @@ public class ImageDialog extends TrayDialog
 		{// initialize as URI mode by default
 			uri.setSelection( true );
 			selectedType = URI_TYPE;
+			if ( fCurrent instanceof EmbeddedImage )
+			{
+				uriEditor.setText( IConstants.EMPTY_STRING );
+			}
 		}
 
 		if ( selectedType == EMBEDDED_TYPE )
@@ -358,8 +363,9 @@ public class ImageDialog extends TrayDialog
 		}
 
 		getButton( IDialogConstants.OK_ID ).setEnabled( false );
-		browseButton.setVisible( embedded.getSelection( ) );
-		
+		browseButton.setVisible( bEmbeddedImageEnabled
+				&& embedded.getSelection( ) );
+
 		initPreview( );
 
 		return true;

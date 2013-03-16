@@ -2700,19 +2700,20 @@ public class DEUtil
 		exp += "[\"" + DEUtil.escape( column.getName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 		return exp;
 	}
-	
-	public static String getRowNumExpression( DesignElementHandle baseElement, DesignElementHandle elementHandle )
+
+	public static String getRowNumExpression( DesignElementHandle baseElement,
+			DesignElementHandle elementHandle )
 	{
 		return getRowNumExpression( baseElement, elementHandle, true );
 	}
 
-	public static String getRowNumExpression( DesignElementHandle baseElement, DesignElementHandle elementHandle, boolean checkOutLevel )
+	public static String getRowNumExpression( DesignElementHandle baseElement,
+			DesignElementHandle elementHandle, boolean checkOutLevel )
 	{
 		String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
 		if ( checkOutLevel )
 		{
-			for ( int i = 0; i < getBindingLevel( elementHandle,
-					baseElement ); i++ )
+			for ( int i = 0; i < getBindingLevel( elementHandle, baseElement ); i++ )
 			{
 				exp += IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX;
 			}
@@ -2770,6 +2771,8 @@ public class DEUtil
 			{
 				return level;
 			}
+			if ( bindingHolder == null )
+				return level;
 		}
 		return -1;
 	}
@@ -3310,7 +3313,7 @@ public class DEUtil
 				{
 					try
 					{
-						if( propertyHandle.getValue() == null )
+						if ( propertyHandle.getValue( ) == null )
 							propertyHandle.setValue( itemHandle.getQualifiedName( ) );
 						break;
 					}

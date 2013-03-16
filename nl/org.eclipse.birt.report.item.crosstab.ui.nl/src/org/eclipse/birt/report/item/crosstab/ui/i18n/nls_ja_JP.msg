@@ -9,12 +9,12 @@ AddSubTotalAction.TransName=合計の編集
 AddSubTotalAction.DisplayName=合計(&L)
 AddSubTotalAction.TotalName=合計
 CrosstabMenuBuilder.EditCubeAction.DisplayName=データキューブの編集(&E)
-DeleteDimensionViewHandleAction.TransName=ディメンジョンの削除
+DeleteDimensionViewHandleAction.TransName=ディメンションの削除
 DeleteDimensionViewHandleAction.DisplayName=削除(&V)
 DeleteMeasureHandleAction.DisplayName=削除(&V)
 DeleteMeasureHandleAction.TransName=メジャーの削除
 
-AddComputedMesureHandleAction.DisplayName=派生メジャーの追加(&S)
+AddComputedMesureHandleAction.DisplayName=派生メジャーの追加(&M)
 AddComputedMesureHandleAction.TransName=派生メジャーの追加
 AddComputedSummaryDialog.Title=派生メジャー
 AddComputedSummaryDialog.Label.Name=名前(&N) :
@@ -32,13 +32,13 @@ MeasureHandleDropAdapter_trans_name=メジャーの追加
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=ディメンジョンの追加
+AddDimensionViewHandleCommand.TransName=ディメンションの追加
 AddMeasureViewHandleCommand.TransName=メジャーの追加
 AddRelativeTimePeriodAction_action_label=相対期間の追加(&L)
 AddRelativeTimePeriodAction_trans_label=相対期間の追加
-ChangeAreaCommand.TransName=ディメンジョンの削除
+ChangeAreaCommand.TransName=ディメンションの削除
 ChangeMeasureOrderCommand.TransName=メジャー順の変更
-CreateDimensionViewCommand.TransName=ディメンジョンの作成
+CreateDimensionViewCommand.TransName=ディメンションの作成
 CreateMeasureViewCommand.TransName=メジャーの作成
 
 MergeCrosstabHeaderCellAction_name=ヘッダセルの結合(&M)
@@ -194,7 +194,7 @@ CrosstabFilterConditionBuilder.Button.Measure=メジャー(&U)
 CrosstabFilterConditionBuilder.Button.Cube=キューブ(&C)
 
 FilterbyTree.Bindings.Catogory.Measures=メジャー
-FilterbyTree.Bindings.Catogory.Dimension=ディメンジョン
+FilterbyTree.Bindings.Catogory.Dimension=ディメンション
 FilterbyTree.Bindings.Catogory.GrandTotal=総計
 FilterbyTree.Bindings.Catogory.SubTotal=小計
 FilterbyTree.Bindings.Catogory.OtherType=その他の種類
@@ -332,7 +332,7 @@ InsertCubeInLayoutAction.action.message=キューブからクロスタブを作成
 MapRuleBuilderDialog.MsgDlg.Title=警告
 MapRuleBuilderDialog.MsgDlg.Msg=値は空にできません。
 
-LevelHandleDropAdapter.ActionText=ディメンジョンの追加
+LevelHandleDropAdapter.ActionText=ディメンションの追加
 LevelPropertyDialog.MSG.CreateNew=
 
 

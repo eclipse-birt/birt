@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -24,13 +25,17 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
+import org.eclipse.birt.report.model.command.ContentElementInfo.Step;
 import org.eclipse.birt.report.model.core.BackRef;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.AbstractTheme;
+import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
@@ -40,7 +45,9 @@ import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.elements.strategy.TabularDimensionPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Renames a design element.
@@ -61,6 +68,7 @@ public class NameCommand extends AbstractElementCommand
 	public static final Pattern styleNamePattern = Pattern.compile(
 			STYLE_NAME_PATTERN, Pattern.CASE_INSENSITIVE );
 
+	private ContentElementInfo eventTarget;
 	/**
 	 * Constructor.
 	 * 
@@ -104,10 +112,18 @@ public class NameCommand extends AbstractElementCommand
 
 		checkName( name );
 
+		DesignElement tmpElement = element;
+		// if a contentElement is not local, need to make a local copy before changing the name
+		if ( tmpElement instanceof ContentElement && !( (ContentElement) tmpElement).isLocal( ) )
+		{
+			eventTarget = ( ( ContentElement ) tmpElement ).getValueContainer( );
+			tmpElement = copyTopCompositeValue( );
+		}
+		
 		// Record the change.
 
 		ActivityStack stack = getActivityStack( );
-		NameRecord rename = new NameRecord( element, name );
+		NameRecord rename = new NameRecord( tmpElement, name );
 		stack.startTrans( rename.getLabel( ) );
 
 		// Drop the old name from the name space.
@@ -160,6 +176,11 @@ public class NameCommand extends AbstractElementCommand
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
 		if ( name == null )
 		{
+			if ( !element.isManagedByNameSpace( ) )
+			{
+				return;
+			}
+
 			// Cannot clear the name when there are references. It would leave
 			// the dependents with no way to identify this element.
 
@@ -217,8 +238,10 @@ public class NameCommand extends AbstractElementCommand
 			// Cannot set the name of an element when the name is not allowed.
 
 			if ( metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
-				throw new NameException( element, name,
-						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
+				//the element has name without namespace
+				return;
+//				throw new NameException( element, name,
+//						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
 
 			// if the element is a pending node and not in any module, or it is
 			// in a slot that is not managed by namespace, then we need not
@@ -231,8 +254,8 @@ public class NameCommand extends AbstractElementCommand
 			// first found the element with the given name. Since the library
 			// has it own namespace -- prefix, the range of name check should be
 			// in the current module.
-			DesignElement existedElement = new NameExecutor( element )
-					.getNameSpace( module ).getElement( name );
+			NameExecutor executor = new NameExecutor( module, element );
+			DesignElement existedElement = executor.getElement( name );
 
 			// if the element is null, then the name is OK. Now, the name of the
 			// element is inserted into the namespace only if the element is in
@@ -299,15 +322,15 @@ public class NameCommand extends AbstractElementCommand
 		// is added to another element through handles but the outermost
 		// compound element is not in the design tree, then do not insert
 		// the element to the name space again.
-		NameExecutor nameExecutor = new NameExecutor( element );
-		INameHelper nameHelper = nameExecutor.getNameHelper( module );
-		assert nameHelper != null;
-		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		DesignElement existedElement = nameHelper.getNameSpace( ns )
-				.getElement( name );
-		assert existedElement == null;
-		getActivityStack( ).execute(
-				new NameSpaceRecord( nameHelper, ns, element, true ) );
+		NameExecutor executor = new NameExecutor( module, element );
+		if ( executor.hasNamespace( ) )
+		{
+			DesignElement existedElement = executor.getElement( name );
+			assert existedElement == null;
+			getActivityStack( ).execute(
+					new NameSpaceRecord( executor.getNameHelper( ), executor
+							.getNameSpaceId( ), element, true ) );
+		}
 	}
 
 	/**
@@ -319,13 +342,17 @@ public class NameCommand extends AbstractElementCommand
 	{
 		if ( element.getName( ) == null || !element.isManagedByNameSpace( ) )
 			return;
-		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		NameExecutor executor = new NameExecutor( element );
-		if ( executor.getNameSpace( module ).getElement( element.getName( ) ) != element )
-			return;
-		getActivityStack( ).execute(
-				new NameSpaceRecord( executor.getNameHelper( module ), ns,
-						element, false ) );
+		NameExecutor executor = new NameExecutor( module, element );
+		INameHelper nameHelper = executor.getNameHelper( );
+		if ( nameHelper != null )
+		{
+			int ns = executor.getNameSpaceId( );
+			NameSpace namespace = executor.getNameSpace( );
+			if ( namespace.getElement( element.getName( ) ) != element )
+				return;
+			getActivityStack( ).execute(
+					new NameSpaceRecord( nameHelper, ns, element, false ) );
+		}
 	}
 
 	/**
@@ -386,20 +413,17 @@ public class NameCommand extends AbstractElementCommand
 					.getSharedDimension( module, element );
 			if ( sharedDimension != null )
 			{
-				String name = (String) element.getLocalProperty( module,
-						IDesignElementModel.NAME_PROP );
+				String name = (String) element.getName( );
 				String sharedName = sharedDimension.getName( );
 
 				if ( !sharedName.equals( name ) )
 				{
-					NameExecutor nameExecutor = new NameExecutor( element );
-					INameHelper nameHelper = nameExecutor
-							.getNameHelper( module );
-					assert nameHelper != null;
-					int ns = ( (ElementDefn) element.getDefn( ) )
-							.getNameSpaceID( );
-					DesignElement existedElement = nameHelper.getNameSpace( ns )
-							.getElement( name );
+					NameExecutor nameExecutor = new NameExecutor( module,
+							element );
+					INameHelper nameHelper = nameExecutor.getNameHelper( );
+					NameSpace namespace = nameExecutor.getNameSpace( );
+					int namespaceId = nameExecutor.getNameSpaceId( );
+					DesignElement existedElement = namespace.getElement( name );
 					if ( existedElement == null )
 					{
 						// the name is not put in name space, then simply rename
@@ -412,8 +436,8 @@ public class NameCommand extends AbstractElementCommand
 						{
 							// remove it from the name space and then rename it
 							getActivityStack( ).execute(
-									new NameSpaceRecord( nameHelper, ns,
-											element, false ) );
+									new NameSpaceRecord( nameHelper, namespaceId, element,
+											false ) );
 							setName( sharedName );
 						}
 						else
@@ -426,5 +450,139 @@ public class NameCommand extends AbstractElementCommand
 				}
 			}
 		}
+	}
+	
+	/**
+	 * The property is a simple value list. If property is a list property, the
+	 * method will check to see if the current element has the local list value,
+	 * if it has, the method returns, otherwise, a copy of the list value
+	 * inherited from container or parent will be set locally on the element
+	 * itself.
+	 * <p>
+	 * This method is supposed to be used when we need to change the value of a
+	 * composite property( a simple list property ). These kind of property is
+	 * inherited as a whole, so when the value changed from a child element.
+	 * This method will be called to ensure that a local copy will be made, so
+	 * change to the child won't affect the original value in the parent.
+	 * 
+	 * @param ref
+	 *            a reference to a list property or member.
+	 */
+
+	private DesignElement makeLocalCompositeValue( DesignElement topElement,
+			ElementPropertyDefn prop, DesignElement content )
+	{
+		// Top level property is a list.
+
+		Object localValue = topElement.getLocalProperty( module, prop );
+
+		if ( localValue != null )
+			return content;
+
+		// Make a local copy of the inherited list value.
+
+		Object inherited = topElement.getProperty( module, prop );
+
+		// if the action is add, the inherited can be null.
+
+		if ( inherited == null )
+			return null;
+
+		int index = -1;
+
+		if ( content != null && inherited instanceof List )
+			index = ( (List) inherited ).indexOf( content );
+
+		Object newValue = ModelUtil.copyValue( prop, inherited );
+		ActivityStack activityStack = module.getActivityStack( );
+
+		ContainerContext context = new ContainerContext( topElement, prop
+				.getName( ) );
+
+		if ( newValue instanceof List )
+		{
+			List list = new ArrayList( );
+			PropertyRecord propRecord = new PropertyRecord( topElement, prop,
+					list );
+			activityStack.execute( propRecord );
+
+			list = (List) newValue;
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				DesignElement tmpContent = (DesignElement) list.get( i );
+				ContentRecord addRecord = new ContentRecord( module, context,
+						tmpContent, i );
+				activityStack.execute( addRecord );
+			}
+		}
+		else
+		{
+			PropertyRecord propRecord = new PropertyRecord( topElement, prop,
+					newValue );
+			activityStack.execute( propRecord );
+		}
+
+		if ( index != -1 )
+			return (DesignElement) ( (List) newValue ).get( index );
+
+		return content;
+	}
+	
+	/**
+	 * The property is a simple value list. If property is a list property, the
+	 * method will check to see if the current element has the local list value,
+	 * if it has, the method returns, otherwise, a copy of the list value
+	 * inherited from container or parent will be set locally on the element
+	 * itself.
+	 * <p>
+	 * This method is supposed to be used when we need to change the value of a
+	 * composite property( a simple list property ). These kind of property is
+	 * inherited as a whole, so when the value changed from a child element.
+	 * This method will be called to ensure that a local copy will be made, so
+	 * change to the child won't affect the original value in the parent.
+	 * 
+	 * @param ref
+	 *            a reference to a list property or member.
+	 */
+
+	private DesignElement copyTopCompositeValue( )
+	{
+		if ( !( element instanceof ContentElement ) )
+		{
+			return null;
+		}
+
+		DesignElement topElement = eventTarget.getElement( );
+		String propName = eventTarget.getPropName( );
+		ElementPropertyDefn prop = topElement.getPropertyDefn( propName );
+
+		makeLocalCompositeValue( topElement, prop, null );
+
+		return matchElement( topElement );
+	}
+
+	private DesignElement matchElement( DesignElement topElement )
+	{
+		List<Step> steps = eventTarget.stepIterator( );
+
+		DesignElement tmpElement = topElement;
+		for ( int i = steps.size( ) - 1; i >= 0; i-- )
+		{
+			Step step = steps.get( i );
+			PropertyDefn stepPropDefn = step.stepPropDefn;
+			int index = step.index;
+
+			Object stepValue = tmpElement.getLocalProperty( module,
+					(ElementPropertyDefn) stepPropDefn );
+
+			if ( stepPropDefn.isListType( ) )
+			{
+				tmpElement = (DesignElement) ( (List) stepValue ).get( index );
+			}
+			else
+				tmpElement = (DesignElement) stepValue;
+		}
+
+		return tmpElement;
 	}
 }

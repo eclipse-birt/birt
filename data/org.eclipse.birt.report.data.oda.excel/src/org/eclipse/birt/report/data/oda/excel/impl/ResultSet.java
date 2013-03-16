@@ -17,8 +17,10 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.data.oda.excel.impl.i18n.Messages;
+import org.eclipse.birt.report.data.oda.excel.impl.util.DateUtil;
 import org.eclipse.birt.report.data.oda.excel.impl.util.ExcelFileSource;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
@@ -51,6 +53,10 @@ public class ResultSet implements IResultSet {
 
 	private static ULocale JRE_DEFAULT_LOCALE = ULocale.getDefault();
 
+	private static Pattern pattern1 = Pattern.compile( "\\QT\\E" ); //$NON-NLS-1$
+   
+	private static Pattern pattern2 = Pattern.compile( "\\QZ\\E" ); //$NON-NLS-1$
+	    
 	/**
 	 * Constructor
 	 *
@@ -224,7 +230,7 @@ public class ResultSet implements IResultSet {
 	public Time getTime( int index ) throws OdaException
 	{
 		try{
-			return new Time(Long.parseLong( getString( index ) ));
+			return stringToTime( getString( index ) );
 		}catch (Exception e){
 			return null;
 		}
@@ -236,7 +242,7 @@ public class ResultSet implements IResultSet {
 	public Time getTime( String columnName ) throws OdaException
 	{
 		try{
-			return new Time(Long.parseLong( getString( columnName ) ));
+			return stringToTime( getString( columnName ) );
 		}catch (Exception e){
 			return null;
 		}
@@ -248,7 +254,7 @@ public class ResultSet implements IResultSet {
 	public Timestamp getTimestamp( int index ) throws OdaException
 	{
 		try{
-			return new Timestamp(Long.parseLong( getString( index ) ));
+			return stringToTimestamp( getString( index ) );
 		}catch (Exception e){
 			return null;
 		}
@@ -260,7 +266,7 @@ public class ResultSet implements IResultSet {
 	public Timestamp getTimestamp( String columnName ) throws OdaException
 	{
 		try{
-			return new Timestamp(Long.parseLong( getString( columnName ) ));
+			return stringToTimestamp( getString( columnName ) );
 		}catch (Exception e){
 			return null;
 		}
@@ -455,10 +461,10 @@ public class ResultSet implements IResultSet {
 	 */
 
 	private Date stringToDate(String stringValue) throws OdaException {
-		if (stringValue != null && stringValue.length() > 0) {
+		if (stringValue != null && stringValue.trim().length() > 0) {
 			try{
 				//return new Date (excelDateToDate(Double.parseDouble(stringValue)).getTime());
-				return new Date( Long.parseLong(stringValue) );
+				return DateUtil.toSqlDate( stringValue );
 			} catch( Exception ex){
 
 				throw new OdaException(Messages.getFormattedString(
@@ -470,6 +476,72 @@ public class ResultSet implements IResultSet {
 		return null;
 	}
 
+	 /**
+     * Transform a String value to a Time value
+     * @param stringValue String value
+     * @return Corresponding Time value
+     * @throws OdaException 
+     */
+    private Time stringToTime( String stringValue ) throws OdaException
+    {
+    	if ( stringValue != null && stringValue.trim().length() > 0 )
+		{
+			try
+			{
+				return DateUtil.toSqlTime( stringValue );
+			}
+			catch ( OdaException oe )
+			{
+				throw new OdaException(Messages.getFormattedString(
+						"invalid_date_value", new String[] { stringValue })); //$NON-NLS-1$
+			}
+		}
+		this.wasNull = true;
+		return null;
+    }
+    
+    /**
+     * Transform a String value to a Timestamp value
+     * @param stringValue String value
+     * @return Corresponding Timestamp value
+     * @throws OdaException 
+     */
+    private Timestamp stringToTimestamp( String stringValue ) throws OdaException
+    {
+    	if( stringValue != null && stringValue.trim().length() > 0 )
+        {
+            try
+            {
+            	String value = pattern1.matcher( stringValue).replaceAll(" "); //$NON-NLS-1$
+            	value = pattern2.split( value )[0];
+            	return Timestamp.valueOf( value );
+			}
+			catch ( IllegalArgumentException e )
+			{
+				try
+				{
+					long timeMills = Long.valueOf( stringValue ).longValue( );
+					return new Timestamp( timeMills );
+				}
+				catch ( NumberFormatException e1 )
+				{
+					try
+					{
+						java.util.Date date = DateUtil.toDate( stringValue );
+						Timestamp timeStamp = new Timestamp( date.getTime( ) );
+						return timeStamp;
+					}
+					catch ( OdaException ex )
+					{
+						//ignore
+					}
+				}
+			}
+		}
+    	this.wasNull = true;
+        return null;
+    }
+	
 	/**
 	 * Transform a string to boolean value
 	 *

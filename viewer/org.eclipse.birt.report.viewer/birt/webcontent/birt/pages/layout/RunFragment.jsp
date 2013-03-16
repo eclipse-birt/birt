@@ -38,7 +38,7 @@
 	Viewer run fragment
 -----------------------------------------------------------------------------%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-<HTML>
+<HTML lang="<%= attributeBean.getLanguage() %>">
 	<HEAD>
 		<TITLE><%= attributeBean.getReportTitle( ) %></TITLE>
 		<BASE href="<%= baseHref %>" >

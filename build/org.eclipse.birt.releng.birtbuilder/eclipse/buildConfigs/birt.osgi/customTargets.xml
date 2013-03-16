@@ -1,22 +1,23 @@
-<project name="Build specific targets and properties" default="noDefault" >
+<project name="Build specific targets and properties" default="noDefault">
 
-	<property name="package.version" value="2_5_1"/>
-	<property name="archiveName" value="birt-osgi-${package.version}.zip"/>
-	<property name="archiveFullPath" value="${buildDirectory}/${buildLabel}/${archiveName}" />
+	<property name="package.version" value="2_5_1" />
+	<property name="archiveName" value="birt-osgi-${package.version}.zip" />
+	<property name="archiveFullPath"
+		value="${buildDirectory}/${buildLabel}/${archiveName}" />
 
 	<!-- ===================================================================== -->
 	<!-- Run a given ${target} on all elements being built -->
 	<!-- ===================================================================== -->
 
 	<target name="allElements">
-		<ant antfile="${genericTargets}" target="${target}" >
+		<ant antfile="${genericTargets}" target="${target}">
 			<property name="type" value="feature" />
 			<property name="id" value="org.eclipse.birt.osgi.runtime.sdk" />
 		</ant>
 	</target>
 
 	<!-- ===================================================================== -->
-	<!-- Targets to assemble the built elements for particular configurations  -->
+	<!-- Targets to assemble the built elements for particular configurations -->
 	<!-- ===================================================================== -->
 	<target name="assemble.org.eclipse.birt.osgi.runtime.sdk">
 		<antcall target="assemble" />
@@ -36,38 +37,38 @@
 
 	<target name="getMapFiles" depends="checkLocal" unless="mapsLocal">
 
-		<!-- ***  change the repo info -->
-		<property name="mapCvsRoot" value=":pserver:anonymous@dev.eclipse.org:/cvsroot/birt" />
+		<!-- *** change the repo info -->
+		<property name="mapCvsRoot"
+			value=":pserver:anonymous@dev.eclipse.org:/cvsroot/birt" />
 		<property name="mapVersionTag" value="HEAD" />
 
-		<cvs cvsRoot="${mapCvsRoot}"
-			package="source/org.eclipse.birt.releng"
-			dest="${buildDirectory}/maps"
-			tag="${mapVersionTag}"
-		/>
-		
-		<!--compare the map files project-->
+		<cvs cvsRoot="${mapCvsRoot}" package="source/org.eclipse.birt.releng"
+			dest="${buildDirectory}/maps" tag="${mapVersionTag}" />
+
+		<!--compare the map files project -->
 		<antcall target="compareMapFiles" />
-		<!--tag the map files project-->
+		<!--tag the map files project -->
 		<antcall target="tagMapFiles" />
-		
+
 	</target>
-	
+
 	<target name="compareMapFiles" if="compareMaps">
-		<property file="${mapTag.properties}"/>
+		<property file="${mapTag.properties}" />
 		<property name="cvsDiffFile" value="${buildDirectory}/cvsDiff.txt" />
-		<cvs cvsRoot="${mapCvsRoot}" dest="${buildDirectory}/maps" command="diff -w -r ${lastMapTag}" output="${cvsDiffFile}" />
-		<!--modifiedMaps mapDiffFile="${cvsDiffFile}" /-->
+		<cvs cvsRoot="${mapCvsRoot}" dest="${buildDirectory}/maps"
+			command="diff -w -r ${lastMapTag}" output="${cvsDiffFile}" />
+		<!--modifiedMaps mapDiffFile="${cvsDiffFile}" / -->
 	</target>
 
 	<target name="tagMapFiles" if="tagMaps">
 		<!-- Stores tag on the filesystem so map files can be compared -->
 		<echo file="${mapTag.properties}">
-		lastMapTag=${buildId}
+			lastMapTag=${buildId}
 		</echo>
-		<cvs dest="${buildDirectory}/maps/source/org.eclipse.birt.releng" command="tag v${package.version}_${buildId}" />
+		<cvs dest="${buildDirectory}/maps/source/org.eclipse.birt.releng"
+			command="tag v${package.version}_${buildId}" />
 	</target>
-	
+
 	<!-- ===================================================================== -->
 	<!-- Steps to do before setup -->
 	<!-- ===================================================================== -->
@@ -77,15 +78,15 @@
 	<!-- ===================================================================== -->
 	<!-- Steps to do after setup but before starting the build proper -->
 	<!-- ===================================================================== -->
-	<target name="postSetup" >
+	<target name="postSetup">
 	</target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do before fetching the build elements -->
 	<!-- ===================================================================== -->
 	<target name="preFetch">
-  		<antcall target="logger">
-			<param name="message" value="Start to fetch BIRT OSGi feature source"/>
+		<antcall target="logger">
+			<param name="message" value="Start to fetch BIRT OSGi feature source" />
 		</antcall>
 	</target>
 
@@ -93,11 +94,11 @@
 	<!-- Steps to do after the fetch -->
 	<!-- ===================================================================== -->
 	<target name="postFetch">
-  		<antcall target="logger">
-			<param name="message" value="Finish fetching BIRT OSGi feature source"/>
+		<antcall target="logger">
+			<param name="message" value="Finish fetching BIRT OSGi feature source" />
 		</antcall>
 	</target>
-	
+
 	<!-- ===================================================================== -->
 	<!-- Steps to do before generating build scripts -->
 	<!-- ===================================================================== -->
@@ -122,14 +123,14 @@
 	</target>
 
 	<!-- ===================================================================== -->
-	<!-- Steps to do after assembling-->
+	<!-- Steps to do after assembling -->
 	<!-- ===================================================================== -->
 	<target name="postPackage">
 	</target>
 
 	<target name="prePackage">
 	</target>
-	
+
 	<target name="postAssemble" />
 
 
@@ -144,7 +145,7 @@
 	<!-- ===================================================================== -->
 	<target name="postProcess">
 		<condition property="logsAvailable">
-			<istrue value="${javacVerbose}"/> 
+			<istrue value="${javacVerbose}" />
 		</condition>
 		<antcall target="gatherLogs" />
 	</target>
@@ -171,21 +172,22 @@
 	</target>
 
 	<!-- ===================================================================== -->
-	<!-- Default target                                                        -->
+	<!-- Default target -->
 	<!-- ===================================================================== -->
 	<target name="noDefault">
 		<echo message="You must specify a target when invoking this file" />
 	</target>
 
 	<!-- ===================================================================== -->
-	<!-- Custom target for logging build time                                                       -->
+	<!-- Custom target for logging build time -->
 	<!-- ===================================================================== -->
-    <target name="logger">
-    	<tstamp prefix="timestamp">
-        	<format property="birt" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
-        </tstamp>
-        <echo message="[${timestamp.birt}] ${message}${line.separator}" file="${builder.dir}/monitor.log" append="true"/>
-    </target>
-	
+	<target name="logger">
+		<tstamp prefix="timestamp">
+			<format property="birt" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+		</tstamp>
+		<echo message="[${timestamp.birt}] ${message}${line.separator}"
+			file="${builder.dir}/monitor.log" append="true" />
+	</target>
+
 </project>
 

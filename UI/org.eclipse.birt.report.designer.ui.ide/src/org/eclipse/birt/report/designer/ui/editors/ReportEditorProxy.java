@@ -72,7 +72,8 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public IEditorInput getEditorInput( )
 	{
-		if( instance != null){
+		if ( instance != null )
+		{
 			return instance.getEditorInput( );
 		}
 		return null;
@@ -96,7 +97,7 @@ public class ReportEditorProxy extends EditorPart implements
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
-	 *      org.eclipse.ui.IEditorInput)
+	 * org.eclipse.ui.IEditorInput)
 	 */
 	public void init( IEditorSite site, IEditorInput input )
 			throws PartInitException
@@ -134,7 +135,9 @@ public class ReportEditorProxy extends EditorPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createPartControl( Composite parent )
 	{
@@ -210,18 +213,26 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public Object getAdapter( Class adapter )
 	{
-		return instance.getAdapter( adapter );
+		if ( instance != null )
+		{
+			return instance.getAdapter( adapter );
+		}
+		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
+	 * IProgressMonitor)
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
-		instance.doSave( monitor );
-		firePropertyChange( PROP_DIRTY );
+		if ( instance != null )
+		{
+			instance.doSave( monitor );
+			firePropertyChange( PROP_DIRTY );
+		}
 	}
 
 	/*
@@ -231,9 +242,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public void doSaveAs( )
 	{
-		instance.doSaveAs( );
-
-		firePropertyChange( PROP_DIRTY );
+		if ( instance != null )
+		{
+			instance.doSaveAs( );
+			firePropertyChange( PROP_DIRTY );
+		}
 	}
 
 	/*
@@ -243,7 +256,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public boolean isDirty( )
 	{
-		return instance.isDirty( );
+		if ( instance != null )
+		{
+			return instance.isDirty( );
+		}
+		return false;
 	}
 
 	/*
@@ -253,7 +270,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public boolean isSaveAsAllowed( )
 	{
-		return instance.isSaveAsAllowed( );
+		if ( instance != null )
+		{
+			return instance.isSaveAsAllowed( );
+		}
+		return false;
 	}
 
 	/*
@@ -263,7 +284,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public boolean isSaveOnCloseNeeded( )
 	{
-		return instance.isSaveOnCloseNeeded( );
+		if ( instance != null )
+		{
+			return instance.isSaveOnCloseNeeded( );
+		}
+		return false;
 	}
 
 	/*
@@ -290,7 +315,8 @@ public class ReportEditorProxy extends EditorPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
+	 * @see
+	 * org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partActivated( IWorkbenchPart part )
 	{
@@ -383,7 +409,9 @@ public class ReportEditorProxy extends EditorPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart)
+	 * @see
+	 * org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart
+	 * )
 	 */
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
@@ -400,7 +428,8 @@ public class ReportEditorProxy extends EditorPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
+	 * @see
+	 * org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partClosed( IWorkbenchPart part )
 	{
@@ -417,9 +446,10 @@ public class ReportEditorProxy extends EditorPart implements
 		if ( part == this )
 		{
 			SessionHandleAdapter.getInstance( ).clear( instance.getModel( ) );
-			if (instance.getModel( ) != null)
+			if ( instance.getModel( ) != null )
 			{
-				GlobalActionFactory.removeStackActions( instance.getModel( ).getCommandStack( ) );
+				GlobalActionFactory.removeStackActions( instance.getModel( )
+						.getCommandStack( ) );
 			}
 		}
 	}
@@ -427,7 +457,9 @@ public class ReportEditorProxy extends EditorPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart)
+	 * @see
+	 * org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart
+	 * )
 	 */
 	public void partDeactivated( IWorkbenchPart part )
 	{
@@ -444,7 +476,8 @@ public class ReportEditorProxy extends EditorPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
+	 * @see
+	 * org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partOpened( IWorkbenchPart part )
 	{
@@ -462,7 +495,7 @@ public class ReportEditorProxy extends EditorPart implements
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.IPropertyListener#propertyChanged(java.lang.Object,
-	 *      int)
+	 * int)
 	 */
 	public void propertyChanged( Object source, int propId )
 	{
@@ -477,7 +510,8 @@ public class ReportEditorProxy extends EditorPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor#getEditorPart()
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor#
+	 * getEditorPart()
 	 */
 	public IEditorPart getEditorPart( )
 	{

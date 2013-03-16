@@ -17,12 +17,12 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.jface.wizard.IWizardPage;
 
 public class DataSetBasePageHelper
-{
+{	
 	public void addExternalDataSource( Map dataSourceMap,
 			DataSourceHandle handle )
 	{
 	}
-
+	
 	public IWizardPage getNextPage( DataSourceHandle dataSourceHandle, DataSetTypeElement dataSetElement )
 	{
 		return null;

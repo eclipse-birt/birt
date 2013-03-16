@@ -103,6 +103,8 @@ BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius=Íâ¾¶(&O):
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties=ÇøÓòÊôĞÔ
 BaseAxisMarkerAttributeSheetImpl.Lbl.DialLabelProperties=ÇøÓò±êÇ©ÊôĞÔ
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=±ê¼Ç±êÇ©ÊôĞÔ
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveDown=ÏÂÒÆ(&W)
+BaseAxisMarkerAttributeSheetImpl.Lbl.MoveUp=ÉÏÒÆ(&U)
 BaseAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Öá±ê¼ÇÊôĞÔ±íµÄ²ÎÊıÎŞĞ§...Í¼±íµÄÀàĞÍÓ¦Îª ChartWithAxes
 
 BaseSeriesDataSheetImpl.Choice.Unsorted=Î´ÅÅĞò
@@ -175,6 +177,8 @@ OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Öá±ê¼ÇÊôĞÔ±íµÄ²
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Remove=É¾³ı(&R)
 OrthogonalSeriesAttributeSheetImpl.Lbl.Add=Ìí¼Ó(&A)
+OrthogonalSeriesAttributeSheetImpl.Lbl.Up=ÉÏÒÆ(&U)
+OrthogonalSeriesAttributeSheetImpl.Lbl.Down=ÏÂÒÆ(&D)
 OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix=Ç°×º(&F):
 OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix=ºó×º(&X):
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesType=ÏµÁĞÀàĞÍ:
@@ -639,6 +643,7 @@ TriggerDataComposite.Lbl.Script=½Å±¾(&P):
 TriggerDataComposite.Lbl.Target=Ä¿±ê:
 TriggerEditorComposite.Lbl.Update=<< ¸üĞÂ(&U)
 TriggerDataComposite.Lbl.TooltipText=¹¤¾ßÌáÊ¾ÎÄ±¾(&X):
+TriggerDataComposite.Btn.Format=¸ñÊ½(&F)
 TriggerDataComposite.Lbl.BaseURL=±à¼­»ù±¾ URL:
 TriggerDataComposite.Lbl.Image=Í¼Ïñ(&I)
 
@@ -724,8 +729,8 @@ TaskSelectType.Label.SeriesType=ÏµÁĞÀàĞÍ(&S):
 TaskSelectType.Task.Description=Ñ¡ÔñÍ¼±íÀàĞÍ²¢Ñ¡ÔñÊä³ö¸ñÊ½¡£
 TaskSelectType.Label.OutputFormat=Êä³ö¸ñÊ½(&O):
 TaskSelectType.Selection.MoreAxes=¸ü¶à×ø±êÖá
-TaskSelectType.Label.SelectChartType=Ñ¡ÔñÍ¼±íÀàĞÍ
-TaskSelectType.Label.SelectSubtype=Ñ¡Ôñ×ÓÀàĞÍ
+TaskSelectType.Label.SelectChartType=Ñ¡ÔñÍ¼±íÀàĞÍ(&T)
+TaskSelectType.Label.SelectSubtype=Ñ¡Ôñ×ÓÀàĞÍ(&U)
 TaskSelectType.Exception.CannotSupportAxes=ChartWithoutAxes ÎŞ·¨Ö§³Ö×ø±êÖá\!
 TaskSelectType.Exception.NotSupportedForMultipleAxes=\ ¶ÔÓÚ¶à¸öÖá²»ÊÜÖ§³Ö\!
 TaskSelectType.Label.ChartTypes=Í¼±íÀàĞÍ

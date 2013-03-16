@@ -113,6 +113,10 @@ public class DeleteWarningDialog extends BaseDialog
 		getButton( IDialogConstants.OK_ID ).setText( IDialogConstants.YES_LABEL );
 		Button no = getButton( IDialogConstants.CANCEL_ID );
 		no.setText( IDialogConstants.NO_LABEL );
+		/**
+		 * Set cancel button on focus when initial.
+		 */
+		no.setFocus();
 		getShell( ).setDefaultButton( no );
 		return true;
 	}

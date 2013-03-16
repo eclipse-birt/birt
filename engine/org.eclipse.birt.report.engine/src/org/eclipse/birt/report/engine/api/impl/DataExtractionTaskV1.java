@@ -210,12 +210,14 @@ public class DataExtractionTaskV1 extends EngineTask
 
 		// load the information from the report document
 		ClassLoader classLoader = executionContext.getApplicationClassLoader( );
+		
+		loadDesign( );
 		setParameters( reportDocReaderImpl.loadParameters( classLoader ) );
 		usingParameterValues( );
 		executionContext.registerGlobalBeans( reportDocReaderImpl
 				.loadVariables( classLoader ) );
 		loadReportVariable( );
-
+		
 	}
 	
 	protected void loadReportVariable( )

@@ -2196,7 +2196,7 @@ public class CascadingParametersDialog extends BaseDialog
 		isRequired.setSelection( selectedParameter.isRequired( ) );
 
 		if ( selectedParameter == inputParameterGroup.getParameters( )
-				.get( inputParameterGroup.getParameters( ).getCount( ) - 1 ) )
+				.get( inputParameterGroup.getParameters( ).getCount( ) - 1 ) && selectedParameter.isMustMatch() )//Add isMustMatch expression to control isMultiple disable if display type is combo box when parameter selected.
 		{
 			isMultiple.setEnabled( true );
 			isMultiple.setSelection( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( selectedParameter.getParamType( ) ) );
@@ -3156,8 +3156,19 @@ public class CascadingParametersDialog extends BaseDialog
 						value.setItems( getDataSetColumns( parameter, true ) );
 						displayText.setItems( getDataSetColumns( parameter,
 								false ) );
+						displayText.add( DISPLAY_TEXT_NONE, 0 );
 						value.setEnabled( true );
 						displayText.setEnabled( true );
+						
+						String temp = getColumnName( parameter, COLUMN_DISPLAY_TEXT );
+						if ( temp != null )
+						{
+							displayText.select( displayText.indexOf( temp ) );
+						}
+						else
+						{
+							displayText.select( 0 );
+						}
 					}
 					catch ( SemanticException e )
 					{

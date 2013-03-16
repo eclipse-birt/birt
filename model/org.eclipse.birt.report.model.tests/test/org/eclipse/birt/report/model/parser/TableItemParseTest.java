@@ -686,7 +686,7 @@ public class TableItemParseTest extends ParserTestCase
 		openDesign( "TableItemParseTest_3.xml" ); //$NON-NLS-1$
 
 		List<ErrorDetail> errors = design.getAllErrors( );
-		assertEquals( 1, errors.size( ) );
+		assertTrue( !errors.isEmpty( ) );
 		assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				errors.get( 0 ).getErrorCode( ) );
 

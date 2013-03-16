@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -37,6 +38,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
@@ -213,6 +216,8 @@ public class ContentCommand extends AbstractContentCommand
 			TemplateCommand cmd = new TemplateCommand( module, focus );
 			cmd.checkAdd( content );
 
+			checkEmptyName( content );
+			
 			// add the element
 
 			super.doAdd( newPos, content );
@@ -229,6 +234,18 @@ public class ContentCommand extends AbstractContentCommand
 		}
 
 		stack.commit( );
+	}
+
+	protected void checkEmptyName( DesignElement content )
+	{
+		ElementDefn metaData = (ElementDefn) content.getDefn( );
+		String name = content.getName( );
+		if ( name == null
+				&& metaData.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
+		{
+			NameExecutor executor = new NameExecutor( module, focus, content );
+			executor.makeUniqueName( );
+		}
 	}
 
 	/**

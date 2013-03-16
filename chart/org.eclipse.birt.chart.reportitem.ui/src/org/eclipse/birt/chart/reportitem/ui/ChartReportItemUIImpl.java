@@ -30,17 +30,14 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemFigureProvider;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.draw2d.IFigure;
@@ -83,7 +80,7 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		try
 		{
 			final ChartReportItemImpl iri = (ChartReportItemImpl) eih.getReportItem( );
-			final DesignerRepresentation dr = new DesignerRepresentation( iri );
+			final DesignerRepresentation dr = ChartReportItemUIFactory.instance( ).createFigure( iri );
 			refreshBackgroundImage( eih, dr );
 			iri.setDesignerRepresentation( dr ); // UPDATE LINK
 
@@ -260,14 +257,14 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		listenerMap.put( handleTarget, listener );
 		return listener;
 	}
-	
+
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
 	 * 
 	 */
 	private void refreshBackgroundImage( DesignElementHandle handle, ReportElementFigure figure )
 	{
-		String backGroundImage = getBackgroundImage( handle );
+		String backGroundImage = ChartReportItemUIUtil.getBackgroundImage( handle );
 
 		if ( backGroundImage == null )
 		{
@@ -296,8 +293,8 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 
 			figure.setImage( image );
 
-			Object[] backGroundPosition = getBackgroundPosition( handle );
-			int backGroundRepeat = getBackgroundRepeat( handle );
+			Object[] backGroundPosition = ChartReportItemUIUtil.getBackgroundPosition( handle );
+			int backGroundRepeat = ChartReportItemUIUtil.getBackgroundRepeat( handle );
 
 			figure.setRepeat( backGroundRepeat );
 
@@ -343,109 +340,4 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		}
 	}
 	
-	/**
-	 * Get background image.
-	 * 
-	 * @param handle
-	 *            The handle of design element.
-	 * @return background image
-	 */
-	private String getBackgroundImage( DesignElementHandle handle )
-	{
-		return handle.getStringProperty( StyleHandle.BACKGROUND_IMAGE_PROP );
-	}
-
-	/**
-	 * Get background position.
-	 * 
-	 * @param handle
-	 *            The handle of design element.
-	 * @return background position
-	 */
-	private Object[] getBackgroundPosition( DesignElementHandle handle )
-	{
-		Object x = null;
-		Object y = null;
-
-		if ( handle != null )
-		{
-			Object px = handle.getProperty( StyleHandle.BACKGROUND_POSITION_X_PROP );
-			Object py = handle.getProperty( StyleHandle.BACKGROUND_POSITION_Y_PROP );
-
-			if ( px instanceof String )
-			{
-				x = px;
-			}
-			else if ( px instanceof DimensionValue )
-			{
-				// {0%,0%}
-				if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( ( (DimensionValue) px ).getUnits( ) ) )
-				{
-					x = px;
-				}
-				else
-				{
-					// {1cm,1cm}
-					x = Integer.valueOf( (int) DEUtil.convertoToPixel( px ) );
-				}
-			}
-
-			if ( py instanceof String )
-			{
-				y = py;
-			}
-			else if ( py instanceof DimensionValue )
-			{
-				// {0%,0%}
-				if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( ( (DimensionValue) py ).getUnits( ) ) )
-				{
-					y = py;
-				}
-				else
-				{
-					// {1cm,1cm}
-					y = Integer.valueOf( (int) DEUtil.convertoToPixel( py ) );
-				}
-			}
-		}
-		return new Object[]{
-				x, y
-		};
-	}
-
-	/**
-	 * Get background repeat property.
-	 * 
-	 * @param handle
-	 *            The handle of design element.
-	 * @return background repeat property
-	 */
-	private int getBackgroundRepeat( DesignElementHandle handle )
-	{
-		return getRepeat( handle.getStringProperty( StyleHandle.BACKGROUND_REPEAT_PROP ) );
-	}
-	
-	/**
-	 *  Get reppeat value
-	 * @param repeat
-	 * 	Given string
-	 * @return
-	 * 	The repeat value
-	 */
-	private int getRepeat( String repeat )
-	{
-		if ( DesignChoiceConstants.BACKGROUND_REPEAT_REPEAT_X.equals( repeat ) )
-		{
-			return 1;
-		}
-		else if ( DesignChoiceConstants.BACKGROUND_REPEAT_REPEAT_Y.equals( repeat ) )
-		{
-			return 2;
-		}
-		else if ( DesignChoiceConstants.BACKGROUND_REPEAT_REPEAT.equals( repeat ) )
-		{
-			return 3;
-		}
-		return 0;
-	}
 }

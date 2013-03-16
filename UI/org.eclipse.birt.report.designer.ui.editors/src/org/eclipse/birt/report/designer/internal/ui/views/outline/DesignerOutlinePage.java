@@ -16,9 +16,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
-import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
+import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConverter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
@@ -96,7 +96,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	/**
 	 * the root report design of outline tree
 	 */
-	private ModuleHandle reportHandle;
+	private ModuleHandle model;
 
 	private NonGEFSynchronizerWithTreeView synchronizer;
 
@@ -108,9 +108,9 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	 * Instantiates DesignerOutlinePage, and sets the IR Model's root report
 	 * design object
 	 */
-	public DesignerOutlinePage( ModuleHandle reportHandle )
+	public DesignerOutlinePage( ModuleHandle model )
 	{
-		this.reportHandle = reportHandle;
+		this.model = model;
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 
 		addDragAndDropListener( );
 
-		init( reportHandle );
+		init( model );
 
 		getTreeViewer( ).expandToLevel( 2 );
 
@@ -256,7 +256,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 
 					ReportRequest r = new ReportRequest( );
 					r.setType( ReportRequest.OPEN_EDITOR );
-					r.setRequestConvert( new IRequestConvert( ) {
+					r.setRequestConverter( new IRequestConverter( ) {
 
 						/*
 						 * (non-Javadoc)
@@ -284,7 +284,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 
 					r.setSelectionObject( list );
 					SessionHandleAdapter.getInstance( )
-							.getMediator( )
+							.getMediator( model )
 							.notifyRequest( r );
 
 					try
@@ -337,7 +337,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 
 		// suport the mediator
 		SessionHandleAdapter.getInstance( )
-				.getMediator( reportHandle )
+				.getMediator( model )
 				.addColleague( getSelectionSynchronizer( ) );
 
 		if ( backup != null )
@@ -452,11 +452,11 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 		// visitor.dispose( );
 		// visitor = null;
 		// }
-		reportHandle.removeValidationListener( this );
+		model.removeValidationListener( this );
 		// remove the mediator listener
-		ReportMediator mediator = SessionHandleAdapter.getInstance( )
-				.getMediator( reportHandle, false );
-		if(mediator != null)
+		IMediator mediator = SessionHandleAdapter.getInstance( )
+				.getMediator( model, false );
+		if ( mediator != null )
 		{
 			mediator.removeColleague( getSelectionSynchronizer( ) );
 		}
@@ -497,7 +497,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	// }
 	public ModuleHandle getRoot( )
 	{
-		return reportHandle;
+		return model;
 	}
 
 	// public void setRoot( ModuleHandle reportHandle )
@@ -544,7 +544,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	/**
 	 * Handles all global actions
 	 */
-	private void handleGlobalAction( )
+	protected void handleGlobalAction( )
 	{
 		for ( int i = 0; i < GlobalActionFactory.GLOBAL_SELECTION_ACTIONS.length; i++ )
 		{
