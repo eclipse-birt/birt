@@ -643,6 +643,7 @@ TriggerDataComposite.Lbl.Script=脚本(&P):
 TriggerDataComposite.Lbl.Target=目标:
 TriggerEditorComposite.Lbl.Update=<< 更新(&U)
 TriggerDataComposite.Lbl.TooltipText=工具提示文本(&X):
+TriggerDataComposite.Btn.Format=格式(&F)
 TriggerDataComposite.Lbl.BaseURL=编辑基本 URL:
 TriggerDataComposite.Lbl.Image=图像(&I)
 

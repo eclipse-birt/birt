@@ -123,6 +123,10 @@ abstract public class LevelState extends ReportElementState
 				if ( attributesPropertyDefn != null && struct != null )
 				{
 					ArrayList list = new ArrayList( );
+					if ( attrs != null )
+					{
+						list.addAll( attrs );
+					}
 					list.add( struct );
 					getElement( ).setProperty( attributesPropertyDefn,
 							list );

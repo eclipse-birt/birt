@@ -428,6 +428,12 @@ public class FormWidgetFactory extends FormToolkit
 	{
 		if ( composite instanceof TabbedPropertyTitle )
 			return;
+		if ( composite instanceof Table )
+		{
+			adapt( composite );
+			return;
+		}
+
 		Control[] children = composite.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
@@ -524,7 +530,8 @@ public class FormWidgetFactory extends FormToolkit
 						|| c instanceof Table
 						|| c instanceof Tree
 						|| c instanceof Canvas
-						|| c instanceof List )
+						|| c instanceof List
+						|| c instanceof AccordionSubComposite )
 				{
 					Rectangle b = c.getBounds( );
 					GC gc = event.gc;

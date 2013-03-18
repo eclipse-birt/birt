@@ -15,8 +15,8 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
+import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -213,6 +213,11 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	{
 		// ATTN: LOCALE IS UNUSED WHEN THE FORMAT PATTERN IS SPECIFIED
 		final SimpleDateFormat sdf = new SimpleDateFormat( getPattern( ), lcl );
+		// Only Datetime supports TimeZone
+		if ( c instanceof CDateTime && ( (CDateTime) c ).isFullDateTime( ) )
+		{
+			sdf.setTimeZone( c.getTimeZone( ) );
+		}
 		return sdf.format( c.getTime( ) );
 	}
 

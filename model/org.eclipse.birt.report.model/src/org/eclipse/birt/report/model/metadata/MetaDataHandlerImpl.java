@@ -39,7 +39,7 @@ import org.xml.sax.SAXException;
  * SAX handler for reading the XML meta data definition file.
  */
 
-class MetaDataHandlerImpl extends XMLParserHandler
+public class MetaDataHandlerImpl extends XMLParserHandler
 {
 
 	/**
@@ -150,12 +150,18 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	private static final String TRIM_EMPTY_TO_NULL = "trimEmptyToNull"; //$NON-NLS-1$
 
 	/**
+	 * if the display ID could be empty
+	 */
+	protected boolean checkDisplayNameID = true;
+
+	protected MetaDataBuilder builder;
+	/**
 	 * Constructor.
 	 */
 
-	MetaDataHandlerImpl( )
+	public MetaDataHandlerImpl( )
 	{
-		super( new MetaDataErrorHandler( ) );
+		this( new MetaDataErrorHandler( ), new MetaDataBuilder( ) );
 	}
 
 	/**
@@ -163,10 +169,13 @@ class MetaDataHandlerImpl extends XMLParserHandler
 	 * handler.
 	 * 
 	 * @param errorHandler
+	 * @param builder
 	 */
-	MetaDataHandlerImpl( ErrorHandler errorHandler )
+	public MetaDataHandlerImpl( ErrorHandler errorHandler,
+			MetaDataBuilder builder )
 	{
 		super( errorHandler );
+		this.builder = builder;
 	}
 
 	public AbstractParseState createStartState( )
@@ -220,7 +229,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		}
 	}
 
-	class ChoiceTypeState extends InnerParseState
+	public class ChoiceTypeState extends InnerParseState
 	{
 
 		ChoiceSet choiceSet = null;
@@ -235,10 +244,11 @@ class MetaDataHandlerImpl extends XMLParserHandler
 								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			else
 			{
-				choiceSet = new ChoiceSet( name );
+				choiceSet = builder.createChoiceSet( );
+				choiceSet.setName( name );;
 				try
 				{
-					dictionary.addChoiceSet( choiceSet );
+					builder.addChoiceSet( choiceSet );
 				}
 				catch ( MetaDataException e )
 				{
@@ -262,7 +272,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		}
 	}
 
-	class StyleState extends InnerParseState
+	protected class StyleState extends InnerParseState
 	{
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -304,7 +314,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		}
 	}
 
-	class StructDefnState extends InnerParseState
+	protected class StructDefnState extends InnerParseState
 	{
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -365,7 +375,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		}
 	}
 
-	class MemberState extends InnerParseState
+	protected class MemberState extends InnerParseState
 	{
 
 		StructPropertyDefn memberDefn = null;
@@ -590,10 +600,41 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				return new AllowedState( memberDefn );
 			return super.startElement( tagName );
 		}
+
+		public void end( ) throws SAXException
+		{
+			if ( memberDefn == null )
+			{
+				return;
+			}
+			// validate the default value. The default value must be validate
+			// here as it needs choice set.
+			if ( memberDefn.getDefault( ) != null )
+			{
+				try
+				{
+					Object value = memberDefn.validateXml( null, null,
+							memberDefn.getDefault( ) );
+					memberDefn.setDefault( value );
+				}
+				catch ( PropertyValueException e )
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_INVALID_DEFAULT ) );
+				}
+			}
+			memberDefn = null;
+		}
 	}
 
-	class ElementDefnState extends InnerParseState
+	public class ElementDefnState extends InnerParseState
 	{
+
+		protected ElementDefn createElementDefn( )
+		{
+			return builder.createElementDefn( );
+		}
 
 		public void parseAttrs( Attributes attrs )
 		{
@@ -608,7 +649,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				ok = false;
 			}
-			if ( StringUtil.isBlank( displayNameID ) )
+			if ( checkDisplayNameID && StringUtil.isBlank( displayNameID ) )
 			{
 				errorHandler
 						.semanticError( new MetaDataParserException(
@@ -622,7 +663,9 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			// use this method to create element definition instance and handle
 			// the name, this will help to override and change the behavior for
 			// different requirements
-			createElementDefn( name );
+
+			elementDefn = createElementDefn( );
+			elementDefn.setName( name );
 			elementDefn.setAbstract( getBooleanAttrib( attrs,
 					IS_ABSTRACT_ATTRIB, false ) );
 			elementDefn.setDisplayNameKey( displayNameID );
@@ -724,6 +767,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				else
 				{
 					int length = splitStrings.length;
+					
 					assert length == 2 || length == 3;
 					String holderName = StringUtil.trimString( splitStrings[0] );
 					String nameSpace = StringUtil.trimString( splitStrings[1] );
@@ -737,47 +781,16 @@ class MetaDataHandlerImpl extends XMLParserHandler
 					}
 					else
 					{
-						if ( length == 2 )
+						// the name holder must be existing and name
+						// required element or the module type
+						elementDefn.nameConfig.holder = holderDefn;
+						elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
+								.getInstance( ).getNameSpaceID( holderName,
+										nameSpace );
+						if ( length == 3 )
 						{
-
-							// the name holder must be existing and name
-							// required element or the module type
-							elementDefn.nameConfig.holder = holderDefn;
-							elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
-									.getInstance( ).getNameSpaceID( holderName,
-											nameSpace );
-						}
-						else if ( length == 3 )
-						{
-							String targetProperty = StringUtil
+							elementDefn.nameConfig.targetPropertyName = StringUtil
 									.trimString( splitStrings[2] );
-							ElementPropertyDefn propDefn = (ElementPropertyDefn) dictionary
-									.getElement(
-											ReportDesignConstants.REPORT_DESIGN_ELEMENT )
-									.getProperty( targetProperty );
-							if ( propDefn == null )
-							{
-								elementDefn.nameConfig.holder = holderDefn;
-								elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
-										.getInstance( ).getNameSpaceID(
-												holderName, nameSpace );
-								elementDefn.nameConfig.targetPropertyName = targetProperty;
-							}
-							else
-							{
-								elementDefn.nameConfig.holder = holderDefn;
-								elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
-										.getInstance( ).getNameSpaceID(
-												holderName, nameSpace );
-								elementDefn.nameConfig.targetProperty = propDefn;
-							}
-						}
-						else
-						{
-							assert false;
-							errorHandler
-									.semanticError( new MetaDataParserException(
-											MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
 						}
 					}
 				}
@@ -787,14 +800,9 @@ class MetaDataHandlerImpl extends XMLParserHandler
 						.semanticError( new MetaDataParserException(
 								MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
 
-			addElementDefn( );
-		}
-
-		protected void addElementDefn( )
-		{
 			try
 			{
-				dictionary.addElementDefn( elementDefn );
+				builder.addElementDefn( elementDefn );
 			}
 			catch ( MetaDataException e )
 			{
@@ -803,12 +811,6 @@ class MetaDataHandlerImpl extends XMLParserHandler
 								e,
 								MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 			}
-		}
-
-		protected void createElementDefn( String name )
-		{
-			elementDefn = new ElementDefn( );
-			elementDefn.setName( name );
 		}
 
 		public AbstractParseState startElement( String tagName )
@@ -900,7 +902,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		}
 	}
 
-	class PropertyState extends InnerParseState
+	protected class PropertyState extends InnerParseState
 	{
 
 		List<String> propertyTypes = new ArrayList<String>( );
@@ -914,6 +916,9 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			String type = getAttrib( attrs, TYPE_ATTRIB );
 			String validator = getAttrib( attrs, VALIDATOR_ATTRIB );
 			String subType = getAttrib( attrs, SUB_TYPE_ATTRIB );
+			boolean isList = getBooleanAttrib( attrs, IS_LIST_ATTRIB, false );
+			String detailName = getAttrib( attrs, DETAIL_TYPE_ATTRIB );
+			String namespace = getAttrib( attrs, NAME_SPACE_ATTRIB );
 
 			boolean ok = ( elementDefn != null );
 			if ( name == null )
@@ -924,7 +929,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				ok = false;
 			}
 
-			if ( displayNameID == null )
+			if ( checkDisplayNameID && StringUtil.isBlank( displayNameID ) )
 			{
 				errorHandler
 						.semanticError( new MetaDataParserException(
@@ -953,7 +958,18 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				return;
 			}
 
-			String detailName = getAttrib( attrs, DETAIL_TYPE_ATTRIB );
+			//list type only support types in supportedSubTypes
+			//isList only support element/content/structure
+			//here we convert isList to listType for simple properties
+			int typeCode = typeDefn.getTypeCode( );
+			if ( isList && typeCode != IPropertyType.LIST_TYPE )
+			{
+				if ( PropertyDefn.isSupportedSubType( typeDefn ) )
+				{
+					subType = type;
+				}
+			}
+
 			ChoiceSet choiceSet = null;
 			StructureDefn struct = null;
 			PropertyType subTypeDefn = null;
@@ -979,17 +995,14 @@ class MetaDataHandlerImpl extends XMLParserHandler
 
 				case IPropertyType.CHOICE_TYPE :
 
-					if ( detailName == null )
+					// the user can define the detail type either in detailType
+					// attribute or type element, so valid it at the end of element 
+					if ( detailName != null )
 					{
-						errorHandler
-								.semanticError( new MetaDataParserException(
-										MetaDataParserException.DESIGN_EXCEPTION_CHOICE_TYPE_REQUIRED ) );
-						return;
+						choiceSet = validateChoiceSet( detailName );
+						if ( choiceSet == null )
+							return;
 					}
-					choiceSet = validateChoiceSet( detailName );
-					if ( choiceSet == null )
-						return;
-
 					break;
 
 				case IPropertyType.COLOR_TYPE :
@@ -1020,16 +1033,14 @@ class MetaDataHandlerImpl extends XMLParserHandler
 					}
 					break;
 
+				case IPropertyType.ELEMENT_TYPE :
+				case IPropertyType.CONTENT_ELEMENT_TYPE :
 				case IPropertyType.ELEMENT_REF_TYPE :
-					if ( detailName == null )
+					// the user can define the detail type either in detailType attribute or type element.
+					if ( THIS_KEYWORD.equals( detailName ) )
 					{
-						errorHandler
-								.semanticError( new MetaDataParserException(
-										MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED ) );
-						return;
-					}
-					if ( detailName.equals( THIS_KEYWORD ) )
 						detailName = elementDefn.getName( );
+					}
 					break;
 				case IPropertyType.LIST_TYPE :
 					if ( subType == null )
@@ -1072,7 +1083,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			// call the method to create property definition rather than create
 			// it using constructor directly to satisfy different requirements
 			// in different use-cases
-			createPropertyDefn( );
+			propDefn = builder.createPropertyDefn( );
 
 			propDefn.setName( name );
 			propDefn.setDisplayNameID( displayNameID );
@@ -1119,11 +1130,9 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				propDefn.setValueValidator( validator );
 			}
 
-			int typeCode = typeDefn.getTypeCode( );
 			if ( typeCode == IPropertyType.STRUCT_TYPE
 					|| propDefn.isElementType( ) )
-				propDefn.setIsList( getBooleanAttrib( attrs, IS_LIST_ATTRIB,
-						false ) );
+				propDefn.setIsList( isList );
 
 			if ( choiceSet != null )
 				propDefn.setDetails( choiceSet );
@@ -1132,28 +1141,14 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			else if ( detailName != null )
 				propDefn.setDetails( detailName );
 
-			// add it to dictionary
-			addPropertyDefn( );
-
-		}
-
-		protected void createPropertyDefn( )
-		{
-			propDefn = new SystemPropertyDefn( );
-		}
-
-		protected void addPropertyDefn( )
-		{
-			try
+			if ( "true".equalsIgnoreCase( namespace ) )
 			{
-				elementDefn.addProperty( propDefn );
-			}
-			catch ( MetaDataException e )
-			{
-				errorHandler
-						.semanticError( new MetaDataParserException(
-								e,
-								MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+				NameConfig config = new NameConfig( );
+				config.holder = elementDefn;
+				config.nameSpaceID = NameSpaceFactory.getInstance( )
+						.getNameSpaceID( elementDefn.getName( ),
+								propDefn.getName( ) );
+				propDefn.setNameConfig( config );
 			}
 		}
 
@@ -1177,14 +1172,105 @@ class MetaDataHandlerImpl extends XMLParserHandler
 
 		public void end( ) throws SAXException
 		{
-			// if property is element type, then set list of allowed type names
-			// to the details
-
-			if ( propDefn != null && propDefn.isElementType( ) )
+			if ( propDefn == null )
 			{
-				propDefn.setDetails( propertyTypes );
+				return;
 			}
+			// if property is element or choice type, then set list of allowed
+			// type names to the details
+			int typeCode = propDefn.getTypeCode( );
+			if ( !propertyTypes.isEmpty( ) )
+			{
+				if ( typeCode == IPropertyType.ELEMENT_TYPE
+						|| typeCode == IPropertyType.STRUCT_TYPE
+						|| typeCode == IPropertyType.CONTENT_ELEMENT_TYPE )
+				{
+					propDefn.setDetails( propertyTypes );
+				}
+				if ( typeCode == IPropertyType.CHOICE_TYPE
+						&& propDefn.getDetails( ) == null )
+				{
+					IChoiceSet choiceSet = validateChoiceSet( propertyTypes
+							.get( 0 ) );
+					if ( choiceSet != null )
+					{
+						propDefn.setDetails( choiceSet );
+					}
+				}
+			}
+
+			if ( isValidPropertyDefn( ) )
+			{
+				// add it to dictionary
+				try
+				{
+					builder.addPropertyDefn( elementDefn, propDefn );
+				}
+				catch ( MetaDataException e )
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									e,
+									MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+				}
+			}
+
 			propDefn = null;
+		}
+
+		protected boolean isValidPropertyDefn( )
+		{
+			int typeCode = propDefn.getTypeCode( );
+			// check if the detail type has been set
+			if ( propDefn.getDetails( ) == null )
+			{
+				if ( typeCode == IPropertyType.CHOICE_TYPE )
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_CHOICE_TYPE_REQUIRED ) );
+					return false;
+				}
+				if ( typeCode == IPropertyType.ELEMENT_REF_TYPE )
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED ) );
+					return false;
+
+				}
+//				if ( typeCode == IPropertyType.CONTENT_ELEMENT_TYPE
+//						|| typeCode == IPropertyType.ELEMENT_TYPE )
+//				{
+//					errorHandler
+//							.semanticError( new MetaDataParserException(
+//									MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED );
+//					return false;
+//
+//				}
+			}
+
+			// ----------
+
+			// validate the default value. The default value must be validate
+			// here as it needs choice set.
+			if ( propDefn.getDefault( ) != null )
+			{
+				try
+				{
+					Object value = propDefn.validateXml( null, null,
+							propDefn.getDefault( ) );
+					propDefn.setDefault( value );
+				}
+				catch ( PropertyValueException e )
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_INVALID_DEFAULT ) );
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 
@@ -1237,7 +1323,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				return;
 			}
 
-			ChoiceSet allowedChoices = new ChoiceSet( );
+			ChoiceSet allowedChoices = builder.createChoiceSet( );
 			ArrayList<IChoice> allowedList = new ArrayList<IChoice>( );
 
 			String choicesStr = StringUtil.trimString( text.toString( ) );
@@ -1302,7 +1388,8 @@ class MetaDataHandlerImpl extends XMLParserHandler
 
 			}
 
-			allowedChoices.setChoices( allowedList.toArray( new Choice[0] ) );
+			allowedChoices.setChoices( allowedList
+					.toArray( new Choice[allowedList.size( )] ) );
 
 			tmpPropDefn.setAllowedChoices( allowedChoices );
 		}
@@ -1336,7 +1423,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				return;
 			}
 
-			ChoiceSet allowedChoices = new ChoiceSet( );
+			ChoiceSet allowedChoices = builder.createChoiceSet( );
 			ArrayList<IChoice> allowedList = new ArrayList<IChoice>( );
 
 			String choicesStr = StringUtil.trimString( text.toString( ) );
@@ -1373,7 +1460,8 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				}
 			}
 
-			allowedChoices.setChoices( allowedList.toArray( new Choice[0] ) );
+			allowedChoices.setChoices( allowedList
+					.toArray( new Choice[allowedList.size( )] ) );
 
 			tmpPropDefn.setAllowedUnits( allowedChoices );
 		}
@@ -1433,14 +1521,14 @@ class MetaDataHandlerImpl extends XMLParserHandler
 
 			try
 			{
-				Class<? extends Object> c = Class.forName( className );
+				Class<? extends Object> c = builder.loadClass( className );
 				SimpleValueValidator validator = (SimpleValueValidator) c
 						.newInstance( );
 				validator.setName( name );
 
 				try
 				{
-					dictionary.addValueValidator( validator );
+					builder.addValueValidator( validator );
 				}
 				catch ( MetaDataException e )
 				{
@@ -1541,18 +1629,9 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		{
 			if ( this.propertyDefn == null )
 				return;
-			try
-			{
-				Object value = propertyDefn.validateXml( null, null, text
-						.toString( ) );
-				propertyDefn.setDefault( value );
-			}
-			catch ( PropertyValueException e )
-			{
-				errorHandler
-						.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_INVALID_DEFAULT ) );
-			}
+			// validation should be done in property.end or member.end as
+			// the choice set may not defined yet
+			propertyDefn.setDefault( text.toString( ) );
 		}
 	}
 
@@ -1563,7 +1642,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		{
 			String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
 			String xmlName = attrs.getValue( NAME_ATTRIB );
-			if ( StringUtil.isBlank( displayNameID ) )
+			if ( checkDisplayNameID && StringUtil.isBlank( displayNameID ) )
 			{
 				errorHandler
 						.semanticError( new MetaDataParserException(
@@ -1577,7 +1656,9 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			}
 			else
 			{
-				Choice choice = new Choice( xmlName, displayNameID );
+				Choice choice = builder.createChoice( );
+				choice.setName( xmlName );
+				choice.setDisplayNameKey( displayNameID );
 
 				boolean found = false;
 				Iterator<Choice> iter = choices.iterator( );
@@ -1633,6 +1714,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			String multipleCardinality = attrs
 					.getValue( MULTIPLE_CARDINALITY_ATTRIB );
 			String tmpID = attrs.getValue( ID_ATTRIB );
+			String namespace = getAttrib( attrs, NAME_SPACE_ATTRIB );
 
 			boolean ok = ( elementDefn != null );
 			if ( StringUtil.isBlank( name ) )
@@ -1680,6 +1762,15 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				{
 					// just ignore the error. the slot id is reset later.
 				}
+			}
+			if ( "true".equalsIgnoreCase( namespace ) )
+			{
+				NameConfig nameConfig = new NameConfig( );
+				nameConfig.holder = elementDefn;
+				nameConfig.nameSpaceID = NameSpaceFactory.getInstance( )
+						.getNameSpaceID( elementDefn.getName( ),
+								slotDefn.getName( ) );
+				slotDefn.setNameConfig( nameConfig );
 			}
 
 			elementDefn.addSlot( slotDefn );
@@ -1795,7 +1886,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			}
 
 			if ( methodInfo == null )
-				methodInfo = new MethodInfo( isConstructor );
+				methodInfo = builder.createMethodInfo( isConstructor );
 
 			return methodInfo;
 		}
@@ -1814,16 +1905,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			ClassInfo classInfo = (ClassInfo) owner;
 			try
 			{
-				if ( isConstructor )
-				{
-					if ( classInfo.getConstructor( ) == null )
-						classInfo.setConstructor( methodInfo );
-				}
-				else
-				{
-					if ( classInfo.findMethod( methodInfo.getName( ) ) == null )
-						classInfo.addMethod( methodInfo );
-				}
+				builder.addMethodInfo( classInfo, methodInfo );
 			}
 			catch ( MetaDataException e )
 			{
@@ -1860,13 +1942,9 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		ElementMethodState( Object obj )
 		{
 			super( obj );
-			createLocalPropertyDefn( );
+			localPropDefn = builder.createPropertyDefn( );
 		}
 
-		protected void createLocalPropertyDefn( )
-		{
-			localPropDefn = new SystemPropertyDefn( );;
-		}
 
 		/*
 		 * (non-Javadoc)
@@ -1911,14 +1989,9 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			localPropDefn.setStyleProperty( false );
 			localPropDefn.setDetails( methodInfo );
 
-			addPropertyDefn( );
-		}
-
-		protected void addPropertyDefn( )
-		{
 			try
 			{
-				( (ElementDefn) owner ).addProperty( localPropDefn );
+				builder.addPropertyDefn( (ElementDefn) owner, localPropDefn );
 			}
 			catch ( MetaDataException e )
 			{
@@ -1994,14 +2067,14 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			boolean isStatic = getBooleanAttrib( attrs, IS_STATIC_ATTRIB, false );
 
 			boolean ok = true;
-			if ( name == null )
+			if ( StringUtil.isBlank( name ) )
 			{
 				errorHandler
 						.semanticError( new MetaDataParserException(
 								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				ok = false;
 			}
-			if ( displayNameID == null )
+			if ( checkDisplayNameID && StringUtil.isBlank( displayNameID ) )
 			{
 				errorHandler
 						.semanticError( new MetaDataParserException(
@@ -2052,11 +2125,16 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				String name = attrs.getValue( NAME_ATTRIB );
 				String tagID = attrs.getValue( TAG_ID_ATTRIB );
 				String type = attrs.getValue( TYPE_ATTRIB );
+				// for class member, we use data type, support dataType to make it consistent
+				if ( type == null )
+				{
+					type = attrs.getValue( DATA_TYPE_ATTRIB );
+				}
 
 				if ( name == null )
 					return;
 
-				ArgumentInfo argument = new ArgumentInfo( );
+				ArgumentInfo argument = builder.createArgumentInfo( );
 				argument.setName( name );
 				argument.setType( type );
 				argument.setDisplayNameKey( tagID );
@@ -2079,10 +2157,10 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		}
 	}
 
-	class ClassState extends InnerParseState
+	protected class ClassState extends InnerParseState
 	{
 
-		ClassInfo classInfo = null;
+		protected ClassInfo classInfo = null;
 
 		public void parseAttrs( Attributes attrs )
 		{
@@ -2092,14 +2170,14 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			String isNative = attrs.getValue( NATIVE_ATTRIB );
 
 			boolean ok = true;
-			if ( name == null )
+			if ( StringUtil.isBlank( name ) )
 			{
 				errorHandler
 						.semanticError( new MetaDataParserException(
 								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				ok = false;
 			}
-			if ( displayNameID == null )
+			if ( checkDisplayNameID && StringUtil.isBlank( displayNameID) )
 			{
 				errorHandler
 						.semanticError( new MetaDataParserException(
@@ -2110,7 +2188,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			if ( !ok )
 				return;
 
-			classInfo = new ClassInfo( );
+			classInfo = builder.createClassInfo( );
 			classInfo.setName( name );
 			classInfo.setDisplayNameKey( displayNameID );
 			classInfo.setToolTipKey( toolTipID );
@@ -2122,7 +2200,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 
 			try
 			{
-				dictionary.addClass( classInfo );
+				builder.addClassInfo(classInfo );
 			}
 			catch ( MetaDataException e )
 			{
@@ -2156,7 +2234,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			classInfo = null;
 		}
 
-		private class MemberState extends InnerParseState
+		protected class MemberState extends InnerParseState
 		{
 
 			public void parseAttrs( Attributes attrs )
@@ -2167,14 +2245,14 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				String dataType = attrs.getValue( DATA_TYPE_ATTRIB );
 
 				boolean ok = true;
-				if ( name == null )
+				if ( StringUtil.isBlank( name ))
 				{
 					errorHandler
 							.semanticError( new MetaDataParserException(
 									MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 					ok = false;
 				}
-				if ( displayNameID == null )
+				if ( checkDisplayNameID && StringUtil.isBlank( displayNameID) )
 				{
 					errorHandler
 							.semanticError( new MetaDataParserException(
@@ -2192,7 +2270,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				if ( !ok )
 					return;
 
-				MemberInfo memberDefn = new MemberInfo( );
+				MemberInfo memberDefn = builder.createMemberInfo( );
 				memberDefn.setName( name );
 				memberDefn.setDisplayNameKey( displayNameID );
 				memberDefn.setToolTipKey( toolTipID );
@@ -2202,7 +2280,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 
 				try
 				{
-					classInfo.addMemberDefn( memberDefn );
+					builder.addMemberInfo( classInfo, memberDefn);
 				}
 				catch ( MetaDataException e )
 				{

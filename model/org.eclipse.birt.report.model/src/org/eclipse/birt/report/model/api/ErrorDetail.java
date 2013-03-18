@@ -208,14 +208,9 @@ public final class ErrorDetail implements ErrorCodes
 		{
 			translate( (ExtendedElementException) e );
 		}
-		else if ( e instanceof ParserConfigurationException
-				|| e instanceof IOException )
-		{
-			assert false;
-		}
 		else
 		{
-			assert false;
+			translate( (Exception) e );
 		}
 	}
 
@@ -464,6 +459,32 @@ public final class ErrorDetail implements ErrorCodes
 				lineNo = -1;
 			}
 		}
+
+		message = e.getLocalizedMessage( );
+		exceptionName = e.getClass( ).getName( );
+
+		description.append( "display in " );//$NON-NLS-1$
+		description.append( subEditor );
+		description.append( " ( line = " ); //$NON-NLS-1$
+		description.append( lineNo );
+		description.append( ") " ); //$NON-NLS-1$
+		description.append( exceptionName );
+		description.append( " (" ); //$NON-NLS-1$
+		description.append( "message : " ); //$NON-NLS-1$
+		description.append( message );
+		description.append( ")" ); //$NON-NLS-1$
+
+		if ( e.getCause( ) != null && e.getCause( ) instanceof RuntimeException )
+		{
+			translateCausedException( e.getCause( ) );
+		}
+	}
+
+	private void translate( Exception e )
+	{
+		subEditor = null;
+
+		lineNo = -1;
 
 		message = e.getLocalizedMessage( );
 		exceptionName = e.getClass( ).getName( );

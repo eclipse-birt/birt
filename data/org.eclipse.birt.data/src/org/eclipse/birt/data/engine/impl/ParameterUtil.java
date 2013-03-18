@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
@@ -299,7 +300,10 @@ public class ParameterUtil
 			if (iParamBind.getExpr() instanceof IScriptExpression) {
 
 				ScriptContext evalContext = this.outerScope == null ? context : context.newContext( this.outerScope );
-				if( iParamBind.getExpr( ).getHandle( ) == null )
+				//for java script, need to set its compiled handle
+				if ( iParamBind.getExpr( ).getHandle( ) == null
+						&& !( BaseExpression.constantId.equals(iParamBind
+								.getExpr().getScriptId( ) ) ) )
 					iParamBind.getExpr( ).setHandle( evalContext.compile("javascript",
 							null, 0, ((IScriptExpression) iParamBind.getExpr())
 							.getText()) );

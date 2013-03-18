@@ -1623,11 +1623,19 @@ public class UIUtil
 
 	public static IEditorPart getActiveEditor( String id )
 	{
-		IWorkbenchPage tPage = PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( )
-				.getActivePage( );
-		if ( tPage == null )
+		IWorkbenchWindow window = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( );
+		if ( window == null )
+		{
 			return null;
+		}
+
+		IWorkbenchPage tPage = window.getActivePage( );
+		if ( tPage == null )
+		{
+			return null;
+		}
+		
 		IEditorPart activeEditPart = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
 				.getActivePage( )
@@ -1714,6 +1722,7 @@ public class UIUtil
 		{
 			return null;
 		}
+		
 
 		Object adapter = input.getAdapter( IModelEventManager.class );
 		if ( adapter instanceof IModelEventManager )

@@ -157,7 +157,7 @@ public class BorderCanvas extends Canvas
 		gc.drawLine( x + 100 + 1, y + 100 + 1, x + 100 + 1, y + 100 + 10 + 1 );
 		for ( int i = 0; i < borderInfoMap.size( ); i++ )
 		{
-			BorderInfomation info = (BorderInfomation) borderInfoMap.getValue( i );
+			BorderInfomation info = (BorderInfomation) borderInfoMap.get( i );
 
 			if ( info.getStyle( ) == null || info.getStyle( ).equals( "" ) ) //$NON-NLS-1$
 				continue;

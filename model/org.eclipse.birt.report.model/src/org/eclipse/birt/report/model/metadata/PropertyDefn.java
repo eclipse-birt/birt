@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -42,7 +43,10 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Base class for both element property and structure member definitions.
@@ -66,6 +70,8 @@ public abstract class PropertyDefn
 	 */
 
 	private static final List<IPropertyType> supportedSubTypes;
+
+	protected IMessages messages;
 
 	/**
 	 * Where the property is defined.
@@ -112,6 +118,8 @@ public abstract class PropertyDefn
 	 */
 
 	protected String defaultUnit = DimensionValue.DEFAULT_UNIT;
+
+	protected NameConfig nameConfig;
 
 	/**
 	 * Optional detailed information for the property type. The type of this
@@ -260,6 +268,11 @@ public abstract class PropertyDefn
 					break;
 			}
 		}
+	}
+
+	public static boolean isSupportedSubType( IPropertyType type )
+	{
+		return supportedSubTypes.contains( type );
 	}
 
 	/**
@@ -986,8 +999,24 @@ public abstract class PropertyDefn
 
 	public String getDisplayName( )
 	{
-		assert displayNameID != null;
-		return ModelMessages.getMessage( this.displayNameID );
+		if ( displayNameID != null )
+		{
+			String displayName = null;
+			if ( messages == null )
+			{
+				displayName = ModelMessages.getMessage( this.displayNameID );
+			}
+			else
+			{
+				ULocale locale = ThreadResources.getLocale( );
+				displayName = messages.getMessage( displayNameID, locale );
+			}
+			if ( displayName != null )
+			{
+				return displayName;
+			}
+		}
+		return name;
 	}
 
 	/**
@@ -1057,6 +1086,11 @@ public abstract class PropertyDefn
 	public void setDetails( Object obj )
 	{
 		details = obj;
+	}
+
+	public Object getDetails( )
+	{
+		return details;
 	}
 
 	/**
@@ -1930,5 +1964,25 @@ public abstract class PropertyDefn
 		}
 
 		return retValue;
+	}
+
+	public void setMessages( IMessages messages )
+	{
+		this.messages = messages;
+	}
+
+	public IMessages getMessages( )
+	{
+		return messages;
+	}
+
+	public void setNameConfig( NameConfig nameConfig )
+	{
+		this.nameConfig = nameConfig;
+	}
+
+	public NameConfig getNameConfig( )
+	{
+		return nameConfig;
 	}
 }

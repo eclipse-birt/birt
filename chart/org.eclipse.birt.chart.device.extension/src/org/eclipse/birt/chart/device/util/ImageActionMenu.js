@@ -36,6 +36,14 @@ ImageChartUtil.createElement = function(docObj, tagName, id, text, cssClass) {
 	if (text) e.innerHTML = text;
 	return e;
 };
+ImageChartUtil.isIPadIPhone= (function() {
+	var userAgent = navigator.userAgent.toLowerCase();
+	return userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
+})();
+ImageChartUtil.isAndroid = (function() {
+	var userAgent = navigator.userAgent.toLowerCase();
+	return (userAgent.indexOf("android") > -1);
+})();
 
 BirtChartCSSHelper = function() { };
 BirtChartCSSHelper.prototype = new Object();
@@ -236,8 +244,10 @@ BirtChartMenuItem = function(parent, index, menuItemInfo) {
 			cssClass);
 	this.widget[BirtChartConstants.MENU_OBJ] = this;
 	this.widget.onclick = BirtChartMenuHelper.dispatchEvent;
-	this.widget.onmouseover = BirtChartMenuHelper.dispatchEvent;
-	this.widget.onmouseout = BirtChartMenuHelper.dispatchEvent;
+	if( !ImageChartUtil.isIPadIPhone && !ImageChartUtil.isAndroid ) { // Avoid to register mouse over and mouse out events for mobile browser.
+		this.widget.onmouseover = BirtChartMenuHelper.dispatchEvent;
+		this.widget.onmouseout = BirtChartMenuHelper.dispatchEvent;
+	}
 	if (typeof this.itemInfo.tooltip != 'undefined')
 		this.setTooltip(this.itemInfo.tooltip);
 	this.setStyles(this.parent.menuInfo.menuItemStyles);
@@ -264,8 +274,10 @@ BirtChartMenu = function(menuInfo) {
 	this.widget = ImageChartUtil.createElement(document, 'Div', menuInfo.id,
 			menuInfo.text, menuInfo.cssClass);
 	this.widget[BirtChartConstants.MENU_OBJ] = this;
-	this.widget.onmouseover = BirtChartMenuHelper.dispatchEvent;
-	this.widget.onmouseout = BirtChartMenuHelper.dispatchEvent;
+	if( !ImageChartUtil.isIPadIPhone && !ImageChartUtil.isAndroid ) { // Avoid to register mouse over and mouse out events for mobile browser.
+		this.widget.onmouseover = BirtChartMenuHelper.dispatchEvent;
+		this.widget.onmouseout = BirtChartMenuHelper.dispatchEvent;
+	}
 	this.styles = undefined;
 	this.setMenuStyles(this.menuInfo.menuStyles);
 

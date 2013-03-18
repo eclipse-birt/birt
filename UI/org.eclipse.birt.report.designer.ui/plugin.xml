@@ -132,7 +132,7 @@
       </page>
       <page
             class="org.eclipse.birt.report.designer.ui.preferences.ResourcePreferencePage"
-            id="org.eclipse.birt.report.designer.ui.preferences.ResourcePreferencePage"
+            id="org.eclipse.birt.report.designer.ui.preferences.ResourcePropertyPage"
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.resource">
          <enabledWhen>

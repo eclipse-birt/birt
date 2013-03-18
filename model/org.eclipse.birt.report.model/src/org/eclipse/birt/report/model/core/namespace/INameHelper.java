@@ -55,8 +55,8 @@ public interface INameHelper
 	 * @return unique name of element.
 	 * 
 	 */
-	public String getUniqueName( DesignElement element );
-
+	public String getUniqueName( int namespaceId, DesignElement element );
+	
 	/**
 	 * 
 	 * Returns unique name of element with the given name prefix.
@@ -84,21 +84,17 @@ public interface INameHelper
 	 * @return unique name of element.
 	 * 
 	 */
-	public String getUniqueName( DesignElement element, String namePrefix );
+	public String getUniqueName( int namespaceId, DesignElement element, String namePrefix );
 
+	public void makeUniqueName( int namespaceId, DesignElement element );
+	
 	/**
-	 * Makes a unique name for this element.
+	 * remove a element from cached namespace
 	 * 
+	 * @param namespace
 	 * @param element
 	 */
-	public void makeUniqueName( DesignElement element );
-
-	/**
-	 * Gets a unique name for this element.
-	 * 
-	 * @param element
-	 */
-	public void dropElement( DesignElement element );
+	public void dropElement( int namespaceId, DesignElement element );
 
 	/**
 	 * Adds a content name to this help. Generally, this content is not
@@ -108,22 +104,7 @@ public interface INameHelper
 	 * @param id
 	 * @param name
 	 */
-	public void addContentName( int id, String name );
-
-	/**
-	 * Checks the element name in this name container.
-	 * 
-	 * <ul>
-	 * <li>If the element name is required and duplicate name is found in name
-	 * space, rename the element with a new unique name.
-	 * <li>If the element name is not required, clear the name.
-	 * </ul>
-	 * 
-	 * @param element
-	 *            the element handle whose name is need to check.
-	 */
-
-	public void rename( DesignElement element );
+	public void addContentName( int namespaceId, String name );
 
 	/**
 	 * Gets the holder element of this name helper.

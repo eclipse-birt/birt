@@ -840,17 +840,17 @@ public abstract class ModuleImpl extends DesignElement
 		// Disallow duplicate names.
 
 		assert element.getContainer( ) != null;
-		int id = defn.getNameSpaceID( );
-		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
-				&& element.isManagedByNameSpace( ) )
+		if ( name != null && element.isManagedByNameSpace( ) )
 		{
-			// most element name resides in module, however not all; for
-			// example, level resides in dimension. Therefore, we will get name
-			// space where the element should reside
-			NameSpace ns = new NameExecutor( element ).getNameSpace( module );
-
-			assert !ns.contains( name );
-			ns.insert( element );
+			NameExecutor executor = new NameExecutor( module, element );
+			if (executor.hasNamespace( )) {
+				// most element name resides in module, however not all; for
+				// example, level resides in dimension. Therefore, we will get name
+				// space where the element should reside
+				NameSpace ns = executor.getNameSpace( );
+				assert !ns.contains( name );
+				ns.insert( element );
+			}
 		}
 
 		if ( element.isContainer( ) )
@@ -1663,11 +1663,11 @@ public abstract class ModuleImpl extends DesignElement
 	 *            the element handle whose name is need to check.
 	 */
 
-	public final void rename( DesignElement element )
+	public void rename( DesignElement element )
 	{
-		nameHelper.rename( element );
+		new NameExecutor( getModule( ), element ).rename( );
 	}
-
+	
 	/**
 	 * Recursively changes the element name in the context of the container.
 	 * 
@@ -1685,13 +1685,9 @@ public abstract class ModuleImpl extends DesignElement
 
 	public final void rename( DesignElement container, DesignElement element )
 	{
-		NameExecutor executor = new NameExecutor( element );
-		INameHelper nameHelper = executor.getNameHelper( getModule( ),
-				container );
-		if ( nameHelper != null )
-		{
-			nameHelper.makeUniqueName( element );
-		}
+		NameExecutor executor = new NameExecutor( getModule( ), container,
+				element );
+		executor.makeUniqueName( );
 
 		LevelContentIterator iter = new LevelContentIterator( getModule( ),
 				element, 1 );
@@ -1701,17 +1697,12 @@ public abstract class ModuleImpl extends DesignElement
 			rename( element, innerElement );
 		}
 	}
+	
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContainer#makeUniqueName
-	 * (org.eclipse.birt.report.model.core.DesignElement)
-	 */
-	public final void makeUniqueName( DesignElement element )
+
+	public void makeUniqueName( DesignElement element )
 	{
-		nameHelper.makeUniqueName( element );
+		new NameExecutor( getModule( ), element ).makeUniqueName( );
 	}
 
 	/**

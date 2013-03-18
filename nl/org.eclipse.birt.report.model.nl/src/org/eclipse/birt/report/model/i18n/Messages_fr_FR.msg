@@ -1943,6 +1943,8 @@ Structure.HighlightRule.border.right.style=Style
 Structure.HighlightRule.border.right.width=Largeur
 Structure.HighlightRule.border.right.color=Couleur
 Structure.HighlightRule.background.color=Couleur d'arrière-plan
+Structure.HighlightRule.background.image=Image d'arrière-plan
+Structure.HighlightRule.backgroundRepeat=Répétition de l'arrière-plan
 Structure.HighlightRule.format.dateTime=Format Date/Heure
 Structure.HighlightRule.format.number=Format des nombres
 Structure.HighlightRule.format.number.align=Alignement des nombres  
@@ -1956,6 +1958,10 @@ Structure.HighlightRule.font.color=Couleur
 Structure.HighlightRule.font.textUnderline=Texte souligné
 Structure.HighlightRule.font.textOverline=Texte surligné
 Structure.HighlightRule.font.textLineThrough=Texte barré
+Structure.HighlightRule.padding.top=Remplissage supérieur
+Structure.HighlightRule.padding.left=Remplissage de gauche
+Structure.HighlightRule.padding.bottom=Remplissage inférieur
+Structure.HighlightRule.padding.right=Remplissage de droite
 Structure.HighlightRule.text.align=Alignement du texte
 Structure.HighlightRule.text.indent=Retrait du texte
 Structure.HighlightRule.text.transform=Transformation du texte
@@ -2091,6 +2097,7 @@ Structure.IncludedLibrary.namespace=Espace nom
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=Nom du fichier
 Structure.IncludedCssStyleSheet.externalCssURI=URI de CSS externe.
+Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
 
 #15. DataSetParam
 Structure.DataSetParam.name=Nom
@@ -2315,7 +2322,6 @@ Structure.FormatValue.locale=Informations locales
 #40. CalculationArgument
 Structure.CalculationArgument.name=Nom de l'argument de calcul
 Structure.CalculationArgument.value=Valeur de l'argument de calcul
-
 
 ###########################################################
 # Element names
@@ -3052,7 +3058,7 @@ Element.Image.onPageBreak.this=Instance d'image
 Element.Image.onPageBreak.reportContext=Contexte d'état
 Element.Image.fitToContainer=Ajuster au conteneur
 Element.Image.proportionalScale=Echelle proportionnelle
-
+  
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=Colonnes
 Element.Grid.slot.rows=Lignes
@@ -3375,6 +3381,7 @@ Element.FilterConditionElement.pushDown=Pousser vers le bas
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=Type
 Element.FilterConditionElement.updateAggregation=Mettre à jour l'agrégation
+
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

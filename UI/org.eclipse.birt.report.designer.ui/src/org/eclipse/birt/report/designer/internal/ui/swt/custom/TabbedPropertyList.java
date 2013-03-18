@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
-import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
+import java.util.Arrays;
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -52,7 +54,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.forms.FormColors;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-public class TabbedPropertyList extends Canvas
+public class TabbedPropertyList extends Canvas implements IPropertyList
 {
 
 	private static final ListElement[] ELEMENTS_EMPTY = new ListElement[0];
@@ -623,7 +625,7 @@ public class TabbedPropertyList extends Canvas
 
 	public String getSelectionKey( )
 	{
-		return elementMap.getKeyList( ).get( selectedElementIndex ).toString( );
+		return elementMap.keySet( ).toArray( )[selectedElementIndex].toString( );
 	}
 
 	/**
@@ -649,9 +651,9 @@ public class TabbedPropertyList extends Canvas
 	 * Sets the new list elements.
 	 */
 
-	private SortMap elementMap = null;
+	private Map elementMap = null;
 
-	public void setElements( SortMap children )
+	public void setElements( Map children )
 	{
 		elementMap = children;
 		if ( elements != ELEMENTS_EMPTY )
@@ -669,15 +671,17 @@ public class TabbedPropertyList extends Canvas
 			for ( int i = 0; i < children.size( ); i++ )
 			{
 				elements[i] = new ListElement( this,
-						(Tab) children.getValue( i ),
+						(Tab) children.get( children.keySet( ).toArray( )[i] ),
 						i );
 				elements[i].setVisible( false );
 				elements[i].setLayoutData( null );
 
 				if ( i != widestLabelIndex )
 				{
-					String label = ( (Tab) children.getValue( i ) ).getText( );
-					if ( getTextDimension( label ).x > getTextDimension( ( (Tab) children.getValue( widestLabelIndex ) ).getText( ) ).x )
+					String label = ( (Tab) children.get( children.keySet( )
+							.toArray( )[i] ) ).getText( );
+					if ( getTextDimension( label ).x > getTextDimension( ( (Tab) children.get( children.keySet( )
+							.toArray( )[widestLabelIndex] ) ).getText( ) ).x )
 					{
 						widestLabelIndex = i;
 					}
@@ -731,8 +735,9 @@ public class TabbedPropertyList extends Canvas
 
 	public void setSelection( String key, int index )
 	{
-		if ( elementMap.containKey( key ) )
-			index = elementMap.getIndexOf( key );
+		if ( elementMap.containsKey( key ) )
+			index = Arrays.asList( elementMap.keySet( ).toArray( ) )
+					.indexOf( key );
 		if ( getSelectionIndex( ) == index )
 		{
 			/*
@@ -1190,5 +1195,17 @@ public class TabbedPropertyList extends Canvas
 				accessible.setFocus( ACC.CHILDID_SELF );
 			}
 		} );
+	}
+
+	public Control getControl( )
+	{
+		return this;
+	}
+
+	public Control getItem( int index )
+	{
+		if ( index >= 0 && index < elements.length - 1 )
+			return elements[index];
+		return null;
 	}
 }

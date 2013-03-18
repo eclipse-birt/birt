@@ -396,32 +396,52 @@ public class AttributesUtil
 	static class ExtendedCategoryProvider implements ICategoryProvider
 	{
 
-		private LinkedHashMap<String, String> categories;
+		private LinkedHashMap<String, String> categorieLabels;
+		private LinkedHashMap<String, String> categorieTitles;
 		private Object[] paneObjects;
 
-		ExtendedCategoryProvider( LinkedHashMap<String, String> categories,
+		ExtendedCategoryProvider(
+				LinkedHashMap<String, String> categorieLabels,
+				LinkedHashMap<String, String> categorieTitles,
 				Object[] paneObjects )
 		{
-			assert categories != null;
+			assert categorieLabels != null;
 			assert paneObjects != null;
-			assert categories.size( ) == paneObjects.length;
+			assert categorieLabels.size( ) == paneObjects.length;
+			assert categorieTitles.size( ) == paneObjects.length;
+			this.categorieLabels = categorieLabels;
+			this.categorieTitles = categorieTitles;
+			this.paneObjects = paneObjects;
+		}
 
-			this.categories = categories;
+		ExtendedCategoryProvider(
+				LinkedHashMap<String, String> categorieLabels,
+				Object[] paneObjects )
+		{
+			assert categorieLabels != null;
+			assert paneObjects != null;
+			assert categorieLabels.size( ) == paneObjects.length;
+			this.categorieLabels = categorieLabels;
+			this.categorieTitles = categorieLabels;
 			this.paneObjects = paneObjects;
 		}
 
 		public ICategoryPage[] getCategories( )
 		{
-			List<ICategoryPage> pageList = new ArrayList<ICategoryPage>( categories.size( ) );
+			List<ICategoryPage> pageList = new ArrayList<ICategoryPage>( paneObjects.length );
 
 			int i = 0;
-			for ( Iterator<Entry<String, String>> itr = categories.entrySet( )
+			for ( Iterator<Entry<String, String>> itr = categorieLabels.entrySet( )
 					.iterator( ); itr.hasNext( ); i++ )
 			{
 				Entry<String, String> entry = itr.next( );
-
-				final String displayLabel = entry.getValue( );
 				final String categoryKey = entry.getKey( );
+				final String displayLabel = entry.getValue( );
+				String displayTitle = categorieTitles.get( categoryKey );
+				if ( displayTitle == null )
+				{
+					displayTitle = displayLabel;
+				}
 
 				Object pane = paneObjects[i];
 
@@ -443,6 +463,7 @@ public class AttributesUtil
 				{
 					pageList.add( new CategoryPage( categoryKey,
 							displayLabel,
+							displayTitle,
 							(Class) pane ) );
 				}
 				else if ( pane instanceof PageWrapper )
@@ -627,19 +648,36 @@ public class AttributesUtil
 			String[] categories, String[] customKeys, String[] customLabels,
 			Class<?>[] customPageClasses )
 	{
-		LinkedHashMap<String, String> categorys = new LinkedHashMap<String, String>( );
+		return createCategoryProvider( categories,
+				customKeys,
+				customLabels,
+				null,
+				customPageClasses );
+	}
+
+	public static ICategoryProvider createCategoryProvider(
+			String[] categories, String[] customKeys, String[] customLabels,
+			String[] customTitles, Class<?>[] customPageClasses )
+	{
+		LinkedHashMap<String, String> categoryLabels = new LinkedHashMap<String, String>( );
+		LinkedHashMap<String, String> categoryTitles = new LinkedHashMap<String, String>( );
 		List<Class<?>> paneClassList = new ArrayList<Class<?>>( );
 
 		if ( categories == null )
 		{
 			// use only custom categories
-			if ( customKeys != null
-					&& customLabels != null
-					&& customPageClasses != null )
+			if ( customKeys != null && customPageClasses != null )
 			{
 				for ( int i = 0; i < customKeys.length; i++ )
 				{
-					categorys.put( customKeys[i], customLabels[i] );
+					if ( customLabels != null )
+					{
+						categoryLabels.put( customKeys[i], customLabels[i] );
+					}
+					if ( customTitles != null )
+					{
+						categoryTitles.put( customKeys[i], customTitles[i] );
+					}
 					paneClassList.add( customPageClasses[i] );
 				}
 			}
@@ -656,8 +694,16 @@ public class AttributesUtil
 							&& customPageClasses != null
 							&& customKeys.length > currentCustomIndex )
 					{
-						categorys.put( customKeys[currentCustomIndex],
-								customLabels[currentCustomIndex] );
+						if ( customLabels != null )
+						{
+							categoryLabels.put( customKeys[currentCustomIndex],
+									customLabels[currentCustomIndex] );
+						}
+						if ( customTitles != null )
+						{
+							categoryTitles.put( customKeys[currentCustomIndex],
+									customTitles[currentCustomIndex] );
+						}
 						paneClassList.add( customPageClasses[currentCustomIndex] );
 						currentCustomIndex++;
 					}
@@ -668,7 +714,8 @@ public class AttributesUtil
 
 					if ( cat instanceof String )
 					{
-						categorys.put( categories[i], (String) cat );
+						categoryLabels.put( categories[i], (String) cat );
+						categoryTitles.put( categories[i], (String) cat );
 						paneClassList.add( paneClassMap.get( categories[i] ) );
 					}
 				}
@@ -680,13 +727,21 @@ public class AttributesUtil
 			{
 				for ( int i = currentCustomIndex; i < customKeys.length; i++ )
 				{
-					categorys.put( customKeys[i], customLabels[i] );
+					if ( customLabels != null )
+					{
+						categoryLabels.put( customKeys[i], customLabels[i] );
+					}
+					if ( customTitles != null )
+					{
+						categoryTitles.put( customKeys[i], customTitles[i] );
+					}
 					paneClassList.add( customPageClasses[i] );
 				}
 			}
 		}
 
-		return new ExtendedCategoryProvider( categorys,
+		return new ExtendedCategoryProvider( categoryLabels,
+				categoryTitles,
 				paneClassList.toArray( new Object[paneClassList.size( )] ) );
 	}
 

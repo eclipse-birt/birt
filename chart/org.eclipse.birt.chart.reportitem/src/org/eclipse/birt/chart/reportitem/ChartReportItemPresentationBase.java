@@ -130,7 +130,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		try
 		{
 			String[][] formats = PluginSettings.instance( )
-					.getRegisteredOutputFormats( );
+					.getRegisteredOutputFormats( "" ); //$NON-NLS-1$
 			for ( int i = 0; i < formats.length; i++ )
 			{
 				registeredDevices.add( formats[i][0] );
@@ -792,6 +792,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 		try
 		{
+			rtc.setTimeZone( context.getTimeZone( ) );
+			
 			// Create and set shared scale if needed
 			if ( rtc.getSharedScale( ) == null
 					&& ChartReportItemUtil.canScaleShared( modelHandle, cm ) )
@@ -865,11 +867,19 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			{
 				if ( bEmptyWithUncompletedBindings && isAutoHide( ) )
 				{
+					// Set bounds and idr to null to avoid return wrong chart size to
+					// report engine.
+					boundsRuntime = null;
+					idr = null;
 					// Null result set
 					return outputNullResultSet( );
 				}
 				if ( bEmptyWithEmptyResultSet && isAutoHide( ) )
 				{
+					// Set bounds and idr to null to avoid return wrong chart size to
+					// report engine.
+					boundsRuntime = null;
+					idr = null;
 					// Returns null for engine to display empty when the result
 					// set is empty.
 					return null;
@@ -877,6 +887,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			}
 			if ( bEmptyData && isAutoHide( ) )
 			{
+				// Set bounds and idr to null to avoid return wrong chart size to
+				// report engine.
+				boundsRuntime = null;
+				idr = null;
 				return null;
 			}
 			

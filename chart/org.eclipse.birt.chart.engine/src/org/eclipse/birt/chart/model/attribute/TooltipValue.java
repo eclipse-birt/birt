@@ -40,7 +40,9 @@ public interface TooltipValue extends ActionValue
 	 * Returns the value of the '<em><b>Text</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Attribute "Text" specifies the tooltip text.
+	 * 
+	 * 								Attribute "Text" specifies the tooltip
+	 * 								text.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Text</em>' attribute.
@@ -65,7 +67,10 @@ public interface TooltipValue extends ActionValue
 	 * Returns the value of the '<em><b>Delay</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Attribute "Delay" specifies the delay in milliseconds afer which the tooltip is to be shown.
+	 * 
+	 * 								Attribute "Delay" specifies the delay in
+	 * 								milliseconds afer which the tooltip is
+	 * 								to be shown.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Delay</em>' attribute.
@@ -112,6 +117,33 @@ public interface TooltipValue extends ActionValue
 	 * @generated
 	 */
 	boolean isSetDelay( );
+
+	/**
+	 * Returns the value of the '<em><b>Format Specifier</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 								Attribute "FormatSpecifier" specifies the tooltip format.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Format Specifier</em>' containment reference.
+	 * @see #setFormatSpecifier(FormatSpecifier)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getTooltipValue_FormatSpecifier()
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='FormatSpecifier'"
+	 * @generated
+	 */
+	FormatSpecifier getFormatSpecifier( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.TooltipValue#getFormatSpecifier <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Format Specifier</em>' containment reference.
+	 * @see #getFormatSpecifier()
+	 * @generated
+	 */
+	void setFormatSpecifier( FormatSpecifier value );
 
 	/**
 	 * @generated

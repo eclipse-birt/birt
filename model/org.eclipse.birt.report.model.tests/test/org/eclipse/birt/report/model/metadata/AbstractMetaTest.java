@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * The test cases to for custom-load ROM cases.
  */
 
-public class AbstractMetaTest extends BaseTestCase
+abstract public class AbstractMetaTest extends BaseTestCase
 {
 
 	/*

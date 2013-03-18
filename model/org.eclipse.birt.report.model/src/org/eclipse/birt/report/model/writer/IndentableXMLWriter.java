@@ -270,4 +270,34 @@ public class IndentableXMLWriter extends XMLWriter
 		literal( LINE_SEPARATOR + getCurElementIndent( ) );
 
 	}
+	
+	public void writeBase64Text( String text )
+	{
+		assert ( text != null );
+
+		closeTextTag( );
+		if ( !markLineNumber )
+		{
+			out.print( text );
+			return;
+		}
+
+		printLine( );
+
+		String tabs = getCurElementIndent( ).concat( TAB );
+		int length = text.length( );
+		int lineStart = 0;
+		while ( lineStart < length )
+		{
+			int lineEnd = lineStart + MAX_CHARS_PER_LINE;
+			if ( lineEnd > length )
+			{
+				lineEnd = length;
+			}
+			out.print( tabs );
+			out.print( text.substring( lineStart, lineEnd ) );
+			printLine( );
+			lineStart = lineEnd;
+		}
+	}
 }

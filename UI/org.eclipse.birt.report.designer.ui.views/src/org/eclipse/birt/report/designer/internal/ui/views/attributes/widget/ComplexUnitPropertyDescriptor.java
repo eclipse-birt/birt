@@ -131,8 +131,7 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor
 	{
 		if ( !validateDimensionValue( value, unit ) )
 		{
-			ExceptionUtil.openError( ERROR_BOX_TITLE,
-					ERROR_MESSAGE );
+			ExceptionUtil.openError( ERROR_BOX_TITLE, ERROR_MESSAGE );
 			load( );
 			return;
 		}
@@ -183,7 +182,10 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor
 				}
 			}
 			String[] items = ( (UnitPropertyDescriptorProvider) getDescriptorProvider( ) ).getUnitItems( );
-			complexUnit.setUnits( items );
+			if ( !Arrays.equals( complexUnit.getUnits( ), items ) )
+			{
+				complexUnit.setUnits( items );
+			}
 			try
 			{
 				deUnitValue = ( (UnitPropertyDescriptorProvider) getDescriptorProvider( ) ).getUnitDisplayName( ( (UnitPropertyDescriptorProvider) getDescriptorProvider( ) ).getUnit( ) );

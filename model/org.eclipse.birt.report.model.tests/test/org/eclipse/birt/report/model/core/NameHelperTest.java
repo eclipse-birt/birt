@@ -107,12 +107,12 @@ public class NameHelperTest extends BaseTestCase
 		// test new getUniqueName method
 		level = new TabularLevel( null );
 		hierarchy.add( design, level, IHierarchyModel.LEVELS_PROP );
-		INameHelper nameHelper = new NameExecutor( level )
-				.getNameHelper( design );
-		String name = nameHelper.getUniqueName( level, "testLevel" ); //$NON-NLS-1$
+		NameExecutor executor = new NameExecutor( design, level );
+		assertTrue(executor.hasNamespace( ));
+		String name = executor.getUniqueName( "testLevel" ); //$NON-NLS-1$
 		assertEquals( "testLevel2", name ); //$NON-NLS-1$
 		level.setName( name );
-		assertEquals( name, nameHelper.getUniqueName( level, "NewTestLevel" ) ); //$NON-NLS-1$ 		
+		assertEquals( name, executor.getUniqueName("NewTestLevel" ) ); //$NON-NLS-1$ 		
 	}
 
 	/**
