@@ -222,9 +222,10 @@ public class DataSetPropertiesWizardPage extends DataSetWizardPage
 			{
 				String name= txtPojoDataSetClass.getText( ).trim( );
 				setMessage( Messages.getString( "DataSet.PropertyPageMsg" ) ); //$NON-NLS-1$
-				if ( name.isEmpty( ) )
+				if ( name.trim( ).length( ) == 0 )
 				{
-					setMessage( Messages.getString( "error.PojoDataSet.emptyClassName" ), ERROR );	
+					setMessage( Messages.getString( "error.PojoDataSet.emptyClassName" ),
+							ERROR );
 					setPageComplete( false );
 				}
 				setPageComplete( true );
