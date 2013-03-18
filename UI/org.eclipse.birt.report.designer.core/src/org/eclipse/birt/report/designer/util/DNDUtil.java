@@ -1007,6 +1007,10 @@ public final class DNDUtil
 		{
 			( (SlotHandle) container ).add( handle );
 		}
+		else if (container instanceof PropertyHandle )
+		{
+			((PropertyHandle) container ).add( handle );
+		}
 	}
 
 	public static void addEmbeddedImageHandle( Object container,

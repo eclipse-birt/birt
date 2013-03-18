@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.extension;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ElementDetailHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -122,5 +124,12 @@ public interface IExtendedDataModelUIAdapter
 	 * @return the binding name
 	 */
 	public String createBindingName(DesignElementHandle element);
+	
+	/**
+	 * Gets the detail handle about this extended data model
+	 * @param module the module handle, might be a report design handle or a library handle
+	 * @return the detail handle, might be a slot handle, a property handle or a structure handle
+	 */
+	public ElementDetailHandle getDetailHandle (ModuleHandle module);
 	
 }
