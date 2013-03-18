@@ -173,7 +173,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 			return new ChartBaseQueryHelper( handle, cm, modelAdapter ).createBaseQuery( parent );
 		}
 		else if ( ChartReportItemHelper.instance( )
-				.getBindingDataSetHandle( handle ) != null
+				.getBindingCubeHandle( handle ) != null
 				|| parent instanceof ICubeQueryDefinition )
 		{
 			// Fixed ED 28
