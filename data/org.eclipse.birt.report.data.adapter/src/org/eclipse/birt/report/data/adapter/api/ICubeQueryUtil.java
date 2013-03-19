@@ -267,5 +267,7 @@ public interface ICubeQueryUtil
 	 */
 	public boolean isValidDimensionName( String name );
 
-
+	public List getInvalidBindingsForLinkedDataSetCube( ICubeQueryDefinition queryDefn )
+			throws AdapterException;	
+	
 }

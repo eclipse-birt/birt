@@ -1010,6 +1010,12 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		}
 	}
 	
+	public List getInvalidBindingsForLinkedDataSetCube( ICubeQueryDefinition queryDefn )
+			throws AdapterException
+	{
+		return getInvalidBindings( queryDefn );
+	}
+	
 	/**
 	 * 
 	 *
