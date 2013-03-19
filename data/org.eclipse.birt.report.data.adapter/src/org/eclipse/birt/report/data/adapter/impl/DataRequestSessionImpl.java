@@ -705,6 +705,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		if ( cubeInterceptor == null || cubeInterceptor.needDefineCube( ))
 		{
+			if( ! (cubeHandle instanceof TabularCubeHandle) )
+				return;
 			Set involvedDataSets = getInvolvedDataSets((TabularCubeHandle)cubeHandle);
 			Iterator itr = involvedDataSets.iterator( );
 			while (itr.hasNext( ))
