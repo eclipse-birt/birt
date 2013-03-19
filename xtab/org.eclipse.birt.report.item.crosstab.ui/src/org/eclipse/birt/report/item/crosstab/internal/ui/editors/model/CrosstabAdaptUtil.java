@@ -520,8 +520,15 @@ public class CrosstabAdaptUtil
 					false,
 					false );
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			List list = session.getCubeQueryUtil( )
-					.getInvalidBindings( definition );
+			List list = null;
+			if (CrosstabUtil.isBoundToLinkedDataSet( handle ))
+			{
+				list = session.getCubeQueryUtil( ).getInvalidBindingsForLinkedDataSetCube( definition );
+			}
+			else
+			{
+				list = session.getCubeQueryUtil( ).getInvalidBindings( definition );
+			}
 			// for (int i=0; i<list.size( ); i++)
 			// {
 			// Object obj = list.get( i );
