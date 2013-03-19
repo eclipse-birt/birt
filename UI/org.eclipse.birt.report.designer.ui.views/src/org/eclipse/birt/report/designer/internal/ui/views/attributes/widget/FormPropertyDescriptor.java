@@ -265,7 +265,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 	{
 		assert getDescriptorProvider( ) != null;
 		assert getDescriptorProvider( ) instanceof IFormProvider;
-		formPanel = new Composite( parent, SWT.NONE );
+		formPanel = FormWidgetFactory.getInstance( ).createComposite( parent );
 
 		if ( isFormStyle( ) )
 			table = FormWidgetFactory.getInstance( ).createTable( formPanel,

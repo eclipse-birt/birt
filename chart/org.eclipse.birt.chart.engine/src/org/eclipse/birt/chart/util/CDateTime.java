@@ -71,7 +71,7 @@ public class CDateTime extends GregorianCalendar
 	
 	private boolean bTimeOnly = false;
 
-	private boolean isSqlDate = false;
+	private boolean bDateOnly = false;
 
 	/**
 	 * A zero-arg default constructor
@@ -83,7 +83,10 @@ public class CDateTime extends GregorianCalendar
 	
 	/**
 	 * A constructor that creates an instance from a given
-	 * <code>java.util.Date</code> value
+	 * <code>java.util.Date</code> value. If it's an instance of
+	 * <code>java.sql.Date</code>, it's Date only data. If it's an instance of
+	 * <code>java.sql.Time</code>, it's Time only data. Otherwise, it means full
+	 * date time value.
 	 * 
 	 * @param d
 	 *            A previously defined Date instance
@@ -92,11 +95,7 @@ public class CDateTime extends GregorianCalendar
 	{
 		super( );
 		setTime( d );
-		checkSqlDateType( d );
-		if ( d instanceof Time )
-		{
-			setTimeOnly( true );
-		}
+		checkDateType( d );
 	}
 
 	/**
@@ -114,8 +113,11 @@ public class CDateTime extends GregorianCalendar
 			setTime( c.getTime( ) );
 			if ( c instanceof CDateTime )
 			{
-				checkSqlDateType( ( (CDateTime) c ).getDateTime( ) );
-				setTimeOnly( ( (CDateTime) c ).isTimeOnly( ) );
+				checkDateType( ( (CDateTime) c ).getDateTime( ) );
+				if ( ( (CDateTime) c ).isFullDateTime( ) )
+				{
+					setTimeZone( c.getTimeZone( ) );
+				}
 			}
 		}
 	}
@@ -266,7 +268,7 @@ public class CDateTime extends GregorianCalendar
 	 * @param iUnit
 	 * @param iStep
 	 * 
-	 * @return
+	 * @return new instance
 	 */
 	public CDateTime backward( int iUnit, int iStep )
 	{
@@ -289,7 +291,7 @@ public class CDateTime extends GregorianCalendar
 	 * 
 	 * @param iUnit
 	 * @param iStep
-	 * @return
+	 * @return new instance
 	 */
 	public CDateTime forward( int iUnit, int iStep )
 	{
@@ -752,7 +754,7 @@ public class CDateTime extends GregorianCalendar
 	 *            The month (0-11) for which the day count is to be retrieved
 	 * @param iYear
 	 *            The year for which the day count is to be retrieved
-	 * @return
+	 * @return number of days
 	 */
 	public static final int getMaximumDaysIn( int iMonth, int iYear )
 	{
@@ -824,6 +826,11 @@ public class CDateTime extends GregorianCalendar
 	 */
 	public final void clearBelow( int iUnit )
 	{
+		if ( isFullDateTime( ) )
+		{
+			// Do not clear below because of timezone issue
+			return;
+		}
 		if ( iUnit == YEAR )
 		{
 			set( Calendar.MILLISECOND, 0 );
@@ -892,7 +899,7 @@ public class CDateTime extends GregorianCalendar
 	 * instance
 	 * 
 	 * @param iUnit
-	 * @return
+	 * @return new instance
 	 */
 	public CDateTime getUnitStart( int iUnit )
 	{
@@ -954,11 +961,22 @@ public class CDateTime extends GregorianCalendar
 	 * The property timeOnly indicates that this instance of CDateTime only
 	 * represents a Time value, the Date value will be ignored.
 	 * 
-	 * @return Returns the bTimeOnly.
+	 * @return true if time only.
 	 */
 	public boolean isTimeOnly( )
 	{
 		return bTimeOnly;
+	}
+
+	/**
+	 * Represents if current value has both Date and Time. If yes, Timezone will
+	 * be considered during formatting.
+	 * 
+	 * @return true if current value has both Date and Time
+	 */
+	public boolean isFullDateTime( )
+	{
+		return !bTimeOnly && !bDateOnly;
 	}
 
 	/**
@@ -991,17 +1009,20 @@ public class CDateTime extends GregorianCalendar
 	 * 
 	 * @param d
 	 */
-	private void checkSqlDateType( Date d )
+	private void checkDateType( Date d )
 	{
-		isSqlDate = ( d instanceof java.sql.Date );
+		// If it's SQL Date, it's Date only
+		bDateOnly = ( d instanceof java.sql.Date );
+		// If it's SQL Time, it's Time only
+		if ( d instanceof Time )
+		{
+			setTimeOnly( true );
+		}
 	}
 
-	/**
-	 * @return
-	 */
 	public Date getDateTime( )
 	{
-		if ( isSqlDate )
+		if ( bDateOnly )
 		{
 			return new java.sql.Date( getTime( ).getTime( ) );
 		}

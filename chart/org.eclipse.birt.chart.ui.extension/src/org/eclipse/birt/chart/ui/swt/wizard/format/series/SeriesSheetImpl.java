@@ -280,6 +280,13 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 	}
 
+	protected int getSeriesFillStyles( )
+	{
+		return FillChooserComposite.ENABLE_GRADIENT
+				| FillChooserComposite.ENABLE_IMAGE
+				| FillChooserComposite.ENABLE_POSITIVE_NEGATIVE;
+	}
+
 	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
@@ -297,9 +304,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				getCategorySeriesDefinition( ),
 				getValueSeriesDefinitions( ),
 				isGroupedSeries( ),
-				FillChooserComposite.ENABLE_GRADIENT
-						| FillChooserComposite.ENABLE_IMAGE
-						| FillChooserComposite.ENABLE_POSITIVE_NEGATIVE );
+				getSeriesFillStyles() );
 
 		Button btnSeriesPals = createToggleButton( cmp,
 				BUTTON_PALETTE,

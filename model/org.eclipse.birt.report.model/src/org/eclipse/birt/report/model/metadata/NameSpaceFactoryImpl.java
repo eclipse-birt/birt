@@ -82,6 +82,13 @@ class NameSpaceFactoryImpl
 				return MetaDataConstants.NO_NAME_SPACE;
 			else if ( namespaceName.equalsIgnoreCase( VARIABLE_ELEMENT_NAME ) )
 				return Module.VARIABLE_ELEMENT_NAME_SPACE;
+			else if ( namespaceName.equalsIgnoreCase( CUBE_NS_NAME ) )
+				return Module.CUBE_NAME_SPACE;
+			else if ( namespaceName
+					.equalsIgnoreCase( TEMPLATE_PARAMETER_DEFINITION_NS_NAME ) )
+				return Module.TEMPLATE_PARAMETER_NAME_SPACE;
+			else if ( namespaceName.equalsIgnoreCase( DIMENSION_NS_NAME ) )
+				return Module.DIMENSION_NAME_SPACE;
 		}
 		return MetaDataConstants.NO_NAME_SPACE;
 	}

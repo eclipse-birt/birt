@@ -269,41 +269,44 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		txtEndValue.addListener( this );
 
 		// Radius
-		lblInnerRadius = new Label( cmpRangeValue, SWT.NONE );
-		GridData gdLBLInnerRadius = new GridData( );
-		gdLBLInnerRadius.horizontalIndent = 5;
-		lblInnerRadius.setLayoutData( gdLBLInnerRadius );
-		lblInnerRadius.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.InnerRadius" ) ); //$NON-NLS-1$
-
-		txtInnerRadius = getContext( ).getUIFactory( )
-				.createChartNumberEditor( cmpRangeValue,
-						SWT.BORDER | SWT.SINGLE,
-						null,
-						null,
-						"innerRadius" );//$NON-NLS-1$
-		new TextNumberEditorAssistField( txtInnerRadius.getTextControl( ), null );
-		GridData gdTXTInnerRadius = new GridData( GridData.FILL_HORIZONTAL );
-		gdTXTInnerRadius.horizontalSpan = 2;
-		txtInnerRadius.setLayoutData( gdTXTInnerRadius );
-		txtInnerRadius.addModifyListener( this );
-
-		lblOuterRadius = new Label( cmpRangeValue, SWT.NONE );
-		GridData gdLBLOuterRadius = new GridData( );
-		gdLBLOuterRadius.horizontalIndent = 5;
-		lblOuterRadius.setLayoutData( gdLBLOuterRadius );
-		lblOuterRadius.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius" ) ); //$NON-NLS-1$
-
-		txtOuterRadius = getContext( ).getUIFactory( )
-				.createChartNumberEditor( cmpRangeValue,
-						SWT.BORDER | SWT.SINGLE,
-						null,
-						null,
-						"outerRadius" );//$NON-NLS-1$
-		new TextNumberEditorAssistField( txtOuterRadius.getTextControl( ), null );
-		GridData gdTXTOuterRadius = new GridData( GridData.FILL_HORIZONTAL );
-		gdTXTOuterRadius.horizontalSpan = 2;
-		txtOuterRadius.setLayoutData( gdTXTOuterRadius );
-		txtOuterRadius.addModifyListener( this );
+		if ( supportRadius() )
+		{
+			lblInnerRadius = new Label( cmpRangeValue, SWT.NONE );
+			GridData gdLBLInnerRadius = new GridData( );
+			gdLBLInnerRadius.horizontalIndent = 5;
+			lblInnerRadius.setLayoutData( gdLBLInnerRadius );
+			lblInnerRadius.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.InnerRadius" ) ); //$NON-NLS-1$
+	
+			txtInnerRadius = getContext( ).getUIFactory( )
+					.createChartNumberEditor( cmpRangeValue,
+							SWT.BORDER | SWT.SINGLE,
+							null,
+							null,
+							"innerRadius" );//$NON-NLS-1$
+			new TextNumberEditorAssistField( txtInnerRadius.getTextControl( ), null );
+			GridData gdTXTInnerRadius = new GridData( GridData.FILL_HORIZONTAL );
+			gdTXTInnerRadius.horizontalSpan = 2;
+			txtInnerRadius.setLayoutData( gdTXTInnerRadius );
+			txtInnerRadius.addModifyListener( this );
+	
+			lblOuterRadius = new Label( cmpRangeValue, SWT.NONE );
+			GridData gdLBLOuterRadius = new GridData( );
+			gdLBLOuterRadius.horizontalIndent = 5;
+			lblOuterRadius.setLayoutData( gdLBLOuterRadius );
+			lblOuterRadius.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius" ) ); //$NON-NLS-1$
+	
+			txtOuterRadius = getContext( ).getUIFactory( )
+					.createChartNumberEditor( cmpRangeValue,
+							SWT.BORDER | SWT.SINGLE,
+							null,
+							null,
+							"outerRadius" );//$NON-NLS-1$
+			new TextNumberEditorAssistField( txtOuterRadius.getTextControl( ), null );
+			GridData gdTXTOuterRadius = new GridData( GridData.FILL_HORIZONTAL );
+			gdTXTOuterRadius.horizontalSpan = 2;
+			txtOuterRadius.setLayoutData( gdTXTOuterRadius );
+			txtOuterRadius.addModifyListener( this );
+		}
 		
 		// Fill
 		lblRangeFill = new Label( cmpRange, SWT.NONE );
@@ -376,6 +379,11 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		refreshButtons( );
 
 		return cmpContent;
+	}
+
+	protected boolean supportRadius( )
+	{
+		return true;
 	}
 
 	/*
@@ -655,25 +663,28 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		txtEndValue.setText( getValueAsString( range.getEndValue( ) ) );
 		
 		// Update the radius fields
-		txtInnerRadius.setEObjectParent( range );
-		if ( range.isSetInnerRadius( ) )
+		if ( supportRadius() )
 		{
-			txtInnerRadius.setValue( range.getInnerRadius( ) );
-		}
-		else
-		{
-			txtInnerRadius.unsetValue( );
-		}
-		
-		
-		txtOuterRadius.setEObjectParent( range );
-		if ( range.isSetOuterRadius( ) )
-		{
-			txtOuterRadius.setValue( range.getOuterRadius( ) );
-		}
-		else
-		{
-			txtOuterRadius.unsetValue( );
+			txtInnerRadius.setEObjectParent( range );
+			if ( range.isSetInnerRadius( ) )
+			{
+				txtInnerRadius.setValue( range.getInnerRadius( ) );
+			}
+			else
+			{
+				txtInnerRadius.unsetValue( );
+			}
+			
+			
+			txtOuterRadius.setEObjectParent( range );
+			if ( range.isSetOuterRadius( ) )
+			{
+				txtOuterRadius.setValue( range.getOuterRadius( ) );
+			}
+			else
+			{
+				txtOuterRadius.unsetValue( );
+			}
 		}
 
 		// Update the fill
@@ -708,10 +719,14 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		txtStartValue.setEnabled( bState );
 		lblEndValue.setEnabled( bState );
 		txtEndValue.setEnabled( bState );
-		lblInnerRadius.setEnabled( bState );
-		txtInnerRadius.setEnabled( bState );
-		lblOuterRadius.setEnabled( bState );
-		txtOuterRadius.setEnabled( bState );
+
+		if ( supportRadius( ) )
+		{
+			lblInnerRadius.setEnabled( bState );
+			txtInnerRadius.setEnabled( bState );
+			lblOuterRadius.setEnabled( bState );
+			txtOuterRadius.setEnabled( bState );
+		}
 		
 		liacMarkerRange.setAttributesEnabled( bState );
 		// lacLabel.setEnabled( bState );
@@ -726,8 +741,10 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	{
 		txtStartValue.setText( "" ); //$NON-NLS-1$
 		txtEndValue.setText( "" ); //$NON-NLS-1$
-		txtInnerRadius.unsetValue( );
-		txtOuterRadius.unsetValue( );
+		if ( supportRadius( ) ) {
+			txtInnerRadius.unsetValue( );
+			txtOuterRadius.unsetValue( );
+		}
 		fccRange.setFill( null );
 		liacMarkerRange.setLineAttributes( null );
 		liacMarkerRange.layout( );
@@ -765,5 +782,4 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 			return NumberDataElementImpl.create( 0.0 );
 		}
 	}
-
 }

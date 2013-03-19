@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.logging.Level;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -48,6 +50,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	protected boolean softBreakBefore = false;
 	
 	protected boolean addAfterBreak = false;
+	
+	private static int MAX_PAGE_BREAK_INTERVAL = 10000;
 		
 	/**
 	 * @param context
@@ -66,6 +70,15 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		super.initializeContent( design, content );
 		pageBreakInterval = ( (ListingDesign) design )
 				.getPageBreakInterval( );
+		if ( pageBreakInterval <= 0 || pageBreakInterval > 10000)
+		{
+			getLogger()
+					.log(Level.WARNING,
+							"Page Break Intervel for listing element "
+									+ this.getInstanceID().toString()
+									+ " is 0 or greater than 10000. Reset it to 10000 to prevent OOM");
+			pageBreakInterval = MAX_PAGE_BREAK_INTERVAL;
+		}
 		pageBreakLevel = getPageBreakIntervalGroup();
 		breakOnDetailBand = pageBreakIntervalOnDetail( );
 		if ( pageBreakInterval > 0 )

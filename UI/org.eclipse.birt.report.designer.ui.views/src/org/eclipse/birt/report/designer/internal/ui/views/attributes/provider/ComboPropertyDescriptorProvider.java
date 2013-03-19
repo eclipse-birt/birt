@@ -12,7 +12,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 
-public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
+public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider implements IComboDescriptorProvider
 {
 
 	public ComboPropertyDescriptorProvider( String property, String element )

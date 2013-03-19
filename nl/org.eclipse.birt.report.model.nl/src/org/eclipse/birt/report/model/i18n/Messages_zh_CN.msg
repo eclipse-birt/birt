@@ -1943,6 +1943,8 @@ Structure.HighlightRule.border.right.style=样式
 Structure.HighlightRule.border.right.width=宽度
 Structure.HighlightRule.border.right.color=颜色
 Structure.HighlightRule.background.color=背景色
+Structure.HighlightRule.background.image=背景图像
+Structure.HighlightRule.backgroundRepeat=背景重复
 Structure.HighlightRule.format.dateTime=日期时间格式
 Structure.HighlightRule.format.number=数值格式
 Structure.HighlightRule.format.number.align=数值对齐  
@@ -1956,6 +1958,10 @@ Structure.HighlightRule.font.color=颜色
 Structure.HighlightRule.font.textUnderline=下划线
 Structure.HighlightRule.font.textOverline=上划线
 Structure.HighlightRule.font.textLineThrough=删除线
+Structure.HighlightRule.padding.top=顶部间隙
+Structure.HighlightRule.padding.left=左侧间隙
+Structure.HighlightRule.padding.bottom=底部间隙
+Structure.HighlightRule.padding.right=右侧间隙
 Structure.HighlightRule.text.align=文本对齐
 Structure.HighlightRule.text.indent=文本缩进
 Structure.HighlightRule.text.transform=文本转换
@@ -2091,6 +2097,7 @@ Structure.IncludedLibrary.namespace=名称空间
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=文件名
 Structure.IncludedCssStyleSheet.externalCssURI=外部 CSS URI
+Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
 
 #15. DataSetParam
 Structure.DataSetParam.name=名称
@@ -2315,7 +2322,6 @@ Structure.FormatValue.locale=区域设置
 #40. CalculationArgument
 Structure.CalculationArgument.name=计算参数名称
 Structure.CalculationArgument.value=计算参数值
-
 
 ###########################################################
 # Element names
@@ -3052,7 +3058,7 @@ Element.Image.onPageBreak.this=图像实例
 Element.Image.onPageBreak.reportContext=报表上下文
 Element.Image.fitToContainer=适合容器
 Element.Image.proportionalScale=比例尺
-
+  
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=列
 Element.Grid.slot.rows=行
@@ -3375,6 +3381,7 @@ Element.FilterConditionElement.pushDown=下推
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=类型
 Element.FilterConditionElement.updateAggregation=更新聚合
+
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

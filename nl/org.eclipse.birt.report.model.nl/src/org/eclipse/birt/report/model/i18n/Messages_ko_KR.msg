@@ -1943,6 +1943,8 @@ Structure.HighlightRule.border.right.style=스타일
 Structure.HighlightRule.border.right.width=너비
 Structure.HighlightRule.border.right.color=색상
 Structure.HighlightRule.background.color=배경색
+Structure.HighlightRule.background.image=배경 이미지
+Structure.HighlightRule.backgroundRepeat=배경 반복
 Structure.HighlightRule.format.dateTime=날짜 시간 형식
 Structure.HighlightRule.format.number=숫자 형식
 Structure.HighlightRule.format.number.align=숫자 맞춤  
@@ -1956,6 +1958,10 @@ Structure.HighlightRule.font.color=색상
 Structure.HighlightRule.font.textUnderline=밑줄
 Structure.HighlightRule.font.textOverline=윗줄
 Structure.HighlightRule.font.textLineThrough=가운데 줄
+Structure.HighlightRule.padding.top=안쪽 여백 위쪽
+Structure.HighlightRule.padding.left=안쪽 여백 왼쪽
+Structure.HighlightRule.padding.bottom=안쪽 여백 아래쪽
+Structure.HighlightRule.padding.right=안쪽 여백 오른쪽
 Structure.HighlightRule.text.align=텍스트 맞춤
 Structure.HighlightRule.text.indent=텍스트 들여쓰기
 Structure.HighlightRule.text.transform=텍스트 변환
@@ -2091,6 +2097,7 @@ Structure.IncludedLibrary.namespace=네임스페이스
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=파일 이름
 Structure.IncludedCssStyleSheet.externalCssURI=외부 CSS URI
+Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
 
 #15. DataSetParam
 Structure.DataSetParam.name=이름
@@ -2315,7 +2322,6 @@ Structure.FormatValue.locale=로케일
 #40. CalculationArgument
 Structure.CalculationArgument.name=계산 인수 이름
 Structure.CalculationArgument.value=계산 인수 값
-
 
 ###########################################################
 # Element names
@@ -3052,7 +3058,7 @@ Element.Image.onPageBreak.this=이미지 인스턴스
 Element.Image.onPageBreak.reportContext=보고서 컨텍스트
 Element.Image.fitToContainer=컨테이너에 맞추기
 Element.Image.proportionalScale=비례 배율
-
+  
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=열
 Element.Grid.slot.rows=행
@@ -3375,6 +3381,7 @@ Element.FilterConditionElement.pushDown=아래로 밀어내기
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=형식
 Element.FilterConditionElement.updateAggregation=집계 업데이트
+
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

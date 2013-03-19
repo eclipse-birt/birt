@@ -60,6 +60,18 @@ public class SortingHandleProvider implements IFormHandleProvider
 	 */
 	private SortingModelProvider modelAdapter = new SortingModelProvider( );
 
+	
+	public SortingModelProvider getModelAdapter( )
+	{
+		return modelAdapter;
+	}
+
+	
+	public void setModelAdapter( SortingModelProvider modelAdapter )
+	{
+		this.modelAdapter = modelAdapter;
+	}
+
 	/**
 	 * The display name of columns.
 	 */

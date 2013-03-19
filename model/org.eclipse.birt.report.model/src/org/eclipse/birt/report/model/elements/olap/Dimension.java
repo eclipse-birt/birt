@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.namespace.DimensionNameHelper;
 import org.eclipse.birt.report.model.core.namespace.INameContainer;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
@@ -227,28 +228,14 @@ public abstract class Dimension extends ReferenceableElement
 		return this.nameHelper;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContainer#makeUniqueName
-	 * (org.eclipse.birt.report.model.core.DesignElement)
-	 */
 	public void makeUniqueName( DesignElement element )
 	{
-		nameHelper.makeUniqueName( element );
+		new NameExecutor( getRoot( ), this, element ).makeUniqueName( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContainer#rename(org
-	 * .eclipse.birt.report.model.core.DesignElement)
-	 */
 	public void rename( DesignElement element )
 	{
-		nameHelper.rename( element );
+		new NameExecutor( getRoot( ), this, element ).rename( );
 	}
 
 	/**

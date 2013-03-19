@@ -18,8 +18,10 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.CursorType;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;
@@ -50,6 +52,7 @@ import org.eclipse.birt.core.ui.swt.custom.TextCombo;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.StyleRange;
@@ -87,6 +90,8 @@ public class TriggerDataComposite extends Composite implements
 
 	public static final int ENABLE_SHOW_TOOLTIP_VALUE = 1 << 4;
 
+	public static final int ENABLE_TOOLTIP_FORMATTER = 1 << 5;
+
 	private Group grpValue = null;
 
 	private Composite cmpURL = null;
@@ -121,6 +126,8 @@ public class TriggerDataComposite extends Composite implements
 
 	private Text txtTooltipText = null;
 
+	private Button btnFormat = null;
+
 	private IExpressionButton btnTooltipExpBuilder = null;
 
 	private Composite cmpVisiblity = null;
@@ -154,6 +161,8 @@ public class TriggerDataComposite extends Composite implements
 	private Map<String, Trigger> triggersMap;
 
 	private String lastTriggerType;
+
+	private FormatSpecifier formatSpecifier = null;
 
 	// Indicates whether the trigger will be saved when UI is disposed
 	private boolean needSaveWhenDisposing = false;
@@ -245,6 +254,29 @@ public class TriggerDataComposite extends Composite implements
 			triggersMap.put( LiteralHelper.triggerConditionSet.getDisplayNameByName( trigger.getCondition( )
 					.getName( ) ),
 					trigger );
+		}
+	}
+
+	private void addFormatButtonListener( )
+	{
+		if ( btnFormat != null )
+		{
+			btnFormat.addListener( SWT.Selection, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					FormatSpecifierDialog editor = new FormatSpecifierDialog( btnFormat.getShell( ),
+							formatSpecifier,
+							AxisType.values( ),
+							"" ); //$NON-NLS-1$
+					if ( editor.open( ) == Window.OK )
+					{
+						formatSpecifier = editor.getFormatSpecifier( );
+						updateTrigger( cmbTriggerType.getText( ) );
+					}
+					
+				}
+			} );
 		}
 	}
 
@@ -550,6 +582,12 @@ public class TriggerDataComposite extends Composite implements
 					Messages.getString( "TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries" ) ); //$NON-NLS-1$
 		}
 
+		if ( ( optionalStyle & ENABLE_TOOLTIP_FORMATTER ) == ENABLE_TOOLTIP_FORMATTER )
+		{
+			btnFormat = new Button( cmpTooltip, SWT.PUSH );
+			btnFormat.setText( Messages.getString( "TriggerDataComposite.Btn.Format" ) ); //$NON-NLS-1$
+		}
+
 		// Composite for url value
 		createURLComposite( glURL, glParameter );
 
@@ -772,6 +810,19 @@ public class TriggerDataComposite extends Composite implements
 			slValues.topControl = cmpDefault;
 		}
 
+		if ( btnFormat != null )
+		{
+			if ( firstTrigger != null
+					&& firstTrigger.getAction( ) != null
+					&& firstTrigger.getAction( ).getType( ) == ActionType.SHOW_TOOLTIP_LITERAL )
+			{
+				TooltipValue tv = (TooltipValue) firstTrigger.getAction( )
+						.getValue( );
+				formatSpecifier = tv.getFormatSpecifier( );
+			}
+			addFormatButtonListener( );
+		}
+
 		// Initializes the cursor type list.
 		updateCursorTypeItems( );
 		updateImageButtonState( );
@@ -937,6 +988,7 @@ public class TriggerDataComposite extends Composite implements
 		txtTooltipText.setText( BLANK_STRING );
 		// case INDEX_4_SCRIPT :
 		txtScript.setText( BLANK_STRING );
+		formatSpecifier = null;
 	}
 
 	/**
@@ -1015,6 +1067,7 @@ public class TriggerDataComposite extends Composite implements
 						.getValue( );
 				// iscDelay.setSelection( tooltipValue.getDelay( ) );
 				btnTooltipExpBuilder.setExpression( tooltipValue.getText( ) );
+				formatSpecifier = tooltipValue.getFormatSpecifier( );
 				break;
 			case INDEX_3_TOOGLE_VISABILITY :
 				this.slValues.topControl = cmpVisiblity;
@@ -1070,6 +1123,7 @@ public class TriggerDataComposite extends Composite implements
 			case INDEX_2_TOOLTIP :
 				value = TooltipValueImpl.create( 200, "" ); //$NON-NLS-1$
 				( (TooltipValue) value ).setText( btnTooltipExpBuilder.getExpression( ) );
+				( (TooltipValue) value ).setFormatSpecifier( formatSpecifier );
 				break;
 			case INDEX_3_TOOGLE_VISABILITY :
 				value = AttributeFactory.eINSTANCE.createSeriesValue( );

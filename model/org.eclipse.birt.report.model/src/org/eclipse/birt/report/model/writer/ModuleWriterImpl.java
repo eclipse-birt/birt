@@ -240,12 +240,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	protected XMLWriter writer = null;
 
 	/**
-	 * The base 64 codec for embedded images.
-	 */
-
-	protected final Base64 base = new Base64( );
-
-	/**
 	 * The compatibility to create bound columns.
 	 */
 
@@ -689,13 +683,13 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	 *            the text value
 	 */
 
-	protected void writeLongIndentText( String tag, String name, String value )
+	protected void writeBase64Text( String tag, String name, String value )
 	{
 		writer.startElement( tag );
 		if ( name != null )
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB, name );
 
-		writer.indentLongText( value );
+		writer.writeBase64Text( value );
 		writer.endElement( );
 	}
 
@@ -1534,8 +1528,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 							(PropertyDefn) image.getDefn( ).getMember(
 									EmbeddedImage.DATA_MEMBER ) ) != null )
 					{
-						byte[] data = base
-								.encode( image.getData( getModule( ) ) );
+						byte[] data = Base64.encodeBase64(
+								image.getData( getModule( ) ), false );
 						String value = null;
 						if ( data != null )
 							value = new String( data, EmbeddedImage.CHARSET );
@@ -1543,10 +1537,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 						if ( value != null
 								&& value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
 							writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-									EmbeddedImage.DATA_MEMBER, null, value,
-									false );
+									EmbeddedImage.DATA_MEMBER, null,
+									value.trim( ), false );
 						else
-							writeLongIndentText(
+							writeBase64Text(
 									DesignSchemaConstants.PROPERTY_TAG,
 									EmbeddedImage.DATA_MEMBER, value );
 					}
@@ -3761,7 +3755,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		{
 			if ( designerState.getContentAsBlob( ) != null )
 			{
-				byte[] data = base.encode( designerState.getContentAsBlob( ) );
+				byte[] data = Base64.encodeBase64(
+						designerState.getContentAsBlob( ), false );
 				String value = null;
 				if ( data != null )
 					value = new String( data, OdaDesignerState.CHARSET );
@@ -3770,9 +3765,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 						&& value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
 					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
 							OdaDesignerState.CONTENT_AS_BLOB_MEMBER, null,
-							value, false );
+							value.trim( ), false );
 				else
-					writeLongIndentText( DesignSchemaConstants.PROPERTY_TAG,
+					writeBase64Text( DesignSchemaConstants.PROPERTY_TAG,
 							OdaDesignerState.CONTENT_AS_BLOB_MEMBER, value );
 			}
 		}

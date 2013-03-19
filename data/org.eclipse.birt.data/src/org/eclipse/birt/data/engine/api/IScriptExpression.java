@@ -22,23 +22,4 @@ public interface IScriptExpression extends IBaseExpression
      * @return the Javascript expression text
      */
     public String getText();
-    
-    /**
-     * 
-     * @return
-     * return true, if this expression is a constant expression;
-     */
-    public boolean isConstant( );
-    
-    /**
-     * This method return the constant value if this expression is a constant expression
-     * @return
-     */
-    public Object getConstantValue( );
-    
-    /**
-     * Set the constant value for constant expression
-     * @param constantValue
-     */
-    public void setConstantValue( Object constantValue );
 }

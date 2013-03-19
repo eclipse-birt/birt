@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <data-sources>
         <oda-data-source name="myDataSource" id="2"/>
         <oda-data-source name="myDataSource2" id="3"/>
@@ -18,7 +18,12 @@
     </page-setup>
     <body>
         <extended-item extensionName="TestingMatrix" name="right extended item" id="7">
+            <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
             <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">value1</property>
+                    <expression name="expression">dataSetRow["value1"]</expression>
+                </structure>
                 <structure>
                     <property name="name">value2</property>
                     <expression name="expression">dataSetRow["value2"]</expression>
@@ -32,7 +37,6 @@
                     <expression name="expression">dataSetRow["tmpValue"]</expression>
                 </structure>
             </list-property>
-            <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
         </extended-item>
     </body>
 </report>

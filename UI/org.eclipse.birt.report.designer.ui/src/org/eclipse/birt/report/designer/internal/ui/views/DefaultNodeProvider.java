@@ -149,7 +149,7 @@ public class DefaultNodeProvider implements INodeProvider
 
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
 		// Rename action
-		if (sourceViewer != null)
+		if ( sourceViewer != null )
 		{
 			RenameAction renameAction = new RenameAction( sourceViewer );
 			if ( renameAction.isEnabled( ) )
@@ -174,7 +174,7 @@ public class DefaultNodeProvider implements INodeProvider
 
 		if ( !( object instanceof ResultSetColumnHandle )
 				&& !( object instanceof CssStyleSheetHandle )
-				&& !( object instanceof CssSharedStyleHandle ) 
+				&& !( object instanceof CssSharedStyleHandle )
 				&& !( object instanceof DataSetParameterHandle ) )
 		{
 			menu.add( new PasteAction( object ) );
@@ -183,7 +183,7 @@ public class DefaultNodeProvider implements INodeProvider
 		// Insert point for refresh action
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
 				+ "-refresh" ) );//$NON-NLS-1$
-		
+
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
 				+ "-export" ) );//$NON-NLS-1$
 
@@ -322,12 +322,12 @@ public class DefaultNodeProvider implements INodeProvider
 				icon = ReportPlatformUIImages.getImage( model );
 			}
 		}
-		
+
 		return decorateImage( icon, model );
-		//return icon;
+		// return icon;
 	}
-	
-	protected Image decorateImage(Image image, Object model)
+
+	protected Image decorateImage( Image image, Object model )
 	{
 		IReportImageDecorator decorator = new LibraryElementImageDecorator( );
 		return decorator.decorateImage( image, model );
@@ -448,6 +448,10 @@ public class DefaultNodeProvider implements INodeProvider
 			else if ( model instanceof ContentElementHandle )
 			{
 				return performEdit( (ContentElementHandle) model );
+			}
+			else if ( model instanceof DesignElementHandle )
+			{
+				return performEdit( (DesignElementHandle) model );
 			}
 
 		}
@@ -715,7 +719,7 @@ public class DefaultNodeProvider implements INodeProvider
 					DNDUtil.handleValidateTargetCanContain( model,
 							elementHandle,
 							true ) );
-			if ( pos > 0 && position.equals( InsertAction.ABOVE ))
+			if ( pos > 0 && position.equals( InsertAction.ABOVE ) )
 			{
 				pos--;
 			}
@@ -741,12 +745,11 @@ public class DefaultNodeProvider implements INodeProvider
 				return false;
 			}
 		}
-		//add the code to add the defaultTheme
-		DEUtil.setDefaultTheme(elementHandle);
+		// add the code to add the defaultTheme
+		DEUtil.setDefaultTheme( elementHandle );
 		return true;
 	}
 
-	
 	protected DesignElementHandle createElement( PropertyHandle propertyHandle,
 			String type ) throws Exception
 	{
@@ -777,7 +780,7 @@ public class DefaultNodeProvider implements INodeProvider
 					DNDUtil.handleValidateTargetCanContain( model,
 							elementHandle,
 							true ) );
-			if ( pos > 0 && position.equals( InsertAction.ABOVE ))
+			if ( pos > 0 && position.equals( InsertAction.ABOVE ) )
 			{
 				pos--;
 			}
@@ -806,6 +809,11 @@ public class DefaultNodeProvider implements INodeProvider
 	}
 
 	protected boolean performEdit( ContentElementHandle handle )
+	{
+		return false;
+	}
+
+	protected boolean performEdit( DesignElementHandle handle )
 	{
 		return false;
 	}

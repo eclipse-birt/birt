@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ISimpleComboDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -185,9 +186,9 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 
 	protected void refresh( String value )
 	{
-		if ( getDescriptorProvider( ) instanceof SimpleComboPropertyDescriptorProvider )
+		if ( getDescriptorProvider( ) instanceof ISimpleComboDescriptorProvider )
 		{
-			String[] items = ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).getItems( );
+			String[] items = ( (ISimpleComboDescriptorProvider) getDescriptorProvider( ) ).getItems( );
 			combo.setItems( items );
 			boolean stateFlag = ( ( value == null ) == combo.getEnabled( ) );
 			if ( stateFlag )
@@ -198,12 +199,12 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 				combo.setEnabled( false );
 			}
 
-			boolean isEditable =  ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isEditable( ) ;
+			boolean isEditable = ( (ISimpleComboDescriptorProvider) getDescriptorProvider( ) ).isEditable( );
 			setComboEditable( isEditable );
 
 			int sindex = Arrays.asList( items ).indexOf( oldValue );
 
-			if ( ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isSpecialProperty( )
+			if ( ( (ISimpleComboDescriptorProvider) getDescriptorProvider( ) ).isSpecialProperty( )
 					&& sindex < 0 )
 			{
 				if ( value != null && value.length( ) > 0 )
@@ -225,7 +226,7 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 
 	protected void setComboEditable( boolean isEditable )
 	{
-		combo.setEditable(isEditable);
+		combo.setEditable( isEditable );
 		if ( focusListener != null )
 		{
 			combo.removeFocusListener( focusListener );

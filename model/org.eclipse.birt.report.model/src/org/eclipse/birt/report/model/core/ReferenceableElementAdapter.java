@@ -51,7 +51,7 @@ public class ReferenceableElementAdapter
 	 *            the element
 	 */
 
-	public ReferenceableElementAdapter( ReferenceableElement element )
+	public ReferenceableElementAdapter( DesignElement element )
 	{
 		this.element = element;
 	}

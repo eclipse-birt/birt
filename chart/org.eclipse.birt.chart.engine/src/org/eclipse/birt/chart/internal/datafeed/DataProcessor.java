@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.internal.datafeed;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1412,7 +1411,6 @@ public class DataProcessor
 	 * @return the evaluated results.
 	 * @since 2.3
 	 */
-	@SuppressWarnings("deprecation")
 	public List<Object[]> evaluateRowSet( IDataRowExpressionEvaluator idre,
 			final Object[] columns ) throws ChartException
 	{
@@ -1437,18 +1435,26 @@ public class DataProcessor
 				for ( int i = 0; i < columns.length; i++ )
 				{
 					Object value = idre.evaluate( (String) columns[i] );
-					if ( value instanceof Time )
+					// Time only will be handled in CDatetime internally
+					// if ( value instanceof Time )
+					// {
+					// // Normalizing Time by resetting Year, Month and Date.
+					// Time time = (Time) value;
+					// Time newTime = new Time( time.getHours( ),
+					// time.getMinutes( ),
+					// time.getSeconds( ) );
+					// value = new CDateTime( newTime );
+					// }
+					if ( value instanceof Date )
 					{
-						// Normalizing Time by resetting Year, Month and Date.
-						Time time = (Time) value;
-						Time newTime = new Time( time.getHours( ),
-								time.getMinutes( ),
-								time.getSeconds( ) );
-						value = new CDateTime( newTime );
-					}
-					else if ( value instanceof Date )
-					{
-						value = new CDateTime( (Date) value );
+						CDateTime newValue = new CDateTime( (Date) value );
+						if ( newValue.isFullDateTime( )
+								&& rtc.getTimeZone( ) != null )
+						{
+							// Only Datetime value needs TimeZone
+							newValue.setTimeZone( rtc.getTimeZone( ) );
+						}
+						value = newValue;
 					}
 					else if ( value instanceof Calendar )
 					{

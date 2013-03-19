@@ -83,4 +83,6 @@ public interface IContainerDefn
 	 *         element-type, otherwise return empty list
 	 */
 	public List<IElementDefn> getAllowedElements( boolean extractExtensions );
+
+	public NameConfig getNameConfig( );
 }

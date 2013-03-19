@@ -20,18 +20,19 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.css.CssNameManager;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.ExtendedItem.StatusInfo;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
@@ -39,11 +40,9 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.VariableElement;
-import org.eclipse.birt.report.model.elements.ExtendedItem.StatusInfo;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.elements.olap.TabularDimension;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -570,11 +569,13 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 					continue;
 
 				tmpElement.setName( newName );
-				int ns = ( (ElementDefn) tmpElement.getDefn( ) )
-						.getNameSpaceID( );
-				if ( ns != MetaDataConstants.NO_NAME_SPACE )
-					new NameExecutor( tmpElement ).getNameSpace( module )
-							.rename( tmpElement, oldName, newName );
+				NameExecutor executor = new NameExecutor( module, tmpElement );
+				INameHelper nameHelper = executor.getNameHelper( );
+				if ( nameHelper != null )
+				{
+					NameSpace ns = executor.getNameSpace( );
+					ns.rename( tmpElement, oldName, newName );
+				}
 
 				processElements.add( tmpElement );
 				handledExceptions.add( tmpObj );
@@ -773,9 +774,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 					String styleName = designStyle.getName( );
 					String lowerCaseName = styleName.toLowerCase( );
 
-					NameSpace ns = new NameExecutor( designStyle )
-							.getNameHelper( module ).getNameSpace(
-									ReportDesign.STYLE_NAME_SPACE );
+					NameSpace ns = new NameExecutor( module, designStyle )
+							.getNameSpace( );
+
 					if ( styleMap.containsKey( lowerCaseName ) )
 					{
 						DesignElement existedStyle = styleMap

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -127,15 +129,20 @@ public class FormatSpecifierDialog extends TrayDialog
 		}
 		else
 		{
-			String[] supportedTypes = new String[axisTypes.length];
+			List<String> supportedList = new ArrayList<String>( );
 			for ( int i = 0; i < axisTypes.length; i++ )
 			{
-				supportedTypes[i] = getSupportedType( axisTypes[i] );
+				// If NOT exist, append it into supported types.
+				String type = getSupportedType( axisTypes[i] );
+				if ( !supportedList.contains( type ) )
+				{
+					supportedList.add( type );
+				}
 			}
 			editor = new FormatSpecifierComposite( parent,
 					SWT.NONE,
 					formatspecifier,
-					supportedTypes );
+					supportedList.toArray( new String[supportedList.size( )]) );
 		}
 		GridData gdEditor = new GridData( GridData.FILL_BOTH );
 		editor.setLayoutData( gdEditor );

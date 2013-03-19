@@ -121,8 +121,7 @@ public class DesignWriterTest extends BaseTestCase
 		{
 			List list = e.getErrorList( );
 			ErrorDetail tmp = (ErrorDetail) list.get( 0 );
-			assertEquals( tmp.getErrorCode( ),
-					XMLParserException.DESIGN_EXCEPTION_SAX_ERROR );
+			assertEquals( tmp.getMessage( ), "Invalid byte 1 of 1-byte UTF-8 sequence.");
 		}
 
 		createDesign( );

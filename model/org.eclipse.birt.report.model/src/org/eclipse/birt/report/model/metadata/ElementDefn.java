@@ -425,7 +425,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            the Java class to set
 	 */
 
-	void setJavaClass( String theClass )
+	public void setJavaClass( String theClass )
 	{
 		assert !isBuilt;
 		javaClass = theClass;
@@ -438,7 +438,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            The predefined style name.
 	 */
 
-	void setSelector( String value )
+	public void setSelector( String value )
 	{
 		selector = value;
 	}
@@ -450,7 +450,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            The name of the element type which this element extends.
 	 */
 
-	void setExtends( String base )
+	public void setExtends( String base )
 	{
 		assert !isBuilt;
 		extendsFrom = base;
@@ -464,7 +464,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            otherwise.
 	 */
 
-	void setSupportsUserProperties( boolean flag )
+	public void setSupportsUserProperties( boolean flag )
 	{
 		assert !isBuilt;
 		supportsUserProperties = flag;
@@ -511,7 +511,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            True if this element supports style properties, false if not.
 	 */
 
-	void setHasStyle( boolean flag )
+	public void setHasStyle( boolean flag )
 	{
 		assert !isBuilt;
 		hasStyle = flag;
@@ -717,7 +717,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * @see org.eclipse.birt.report.model.metadata.ObjectDefn#buildDefn()
 	 */
 
-	protected final void buildDefn( ) throws MetaDataException
+	protected void buildDefn( ) throws MetaDataException
 	{
 		// Handle parent-specific tasks.
 
@@ -792,49 +792,13 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 */
 	private void buildNameConfig( ) throws MetaDataException
 	{
-		// Cascade the name space ID.
-
-		if ( parent != null )
+		
+		if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE )
 		{
-			if ( nameConfig.nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
-			{
-				// this element has no setting about name space for its parent
-				// is set
-				nameConfig.nameSpaceID = parent.getNameSpaceID( );
-				nameConfig.holder = parent.nameConfig.holder;
-			}
-			else if ( !isExtendedElement( )
-					&& parent.getNameSpaceID( ) != MetaDataConstants.NO_NAME_SPACE )
-				throw new MetaDataException( new String[]{name},
-						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
-			else
-			{
-				// this element has its own name space set
-				if ( nameConfig.holder == null )
-					nameConfig.holder = MetaDataDictionary.getInstance( )
-							.getElement( ReportDesignConstants.MODULE_ELEMENT );
-				if ( nameConfig.targetPropertyName != null )
-				{
-					nameConfig.targetProperty = (ElementPropertyDefn) MetaDataDictionary
-							.getInstance( )
-							.getElement(
-									ReportDesignConstants.REPORT_DESIGN_ELEMENT )
-							.getProperty( nameConfig.targetPropertyName );
-					if ( nameConfig.targetProperty == null )
-						throw new MetaDataException(
-								MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
-				}
-			}
-		}
-		else
-		{
-			// the name holder must be existing and name
-			// required element or the module type
+			// this element has its own name space set
 			if ( nameConfig.holder == null )
-			{
 				nameConfig.holder = MetaDataDictionary.getInstance( )
 						.getElement( ReportDesignConstants.MODULE_ELEMENT );
-			}
 			if ( nameConfig.targetPropertyName != null )
 			{
 				nameConfig.targetProperty = (ElementPropertyDefn) MetaDataDictionary
@@ -846,29 +810,28 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 					throw new MetaDataException(
 							MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
 			}
-			if ( nameConfig.targetProperty == null
-					&& nameConfig.holder != null
-					&& !( nameConfig.holder.getNameOption( ) == MetaDataConstants.REQUIRED_NAME || nameConfig.holder
-							.isKindOf( MetaDataDictionary
-									.getInstance( )
-									.getElement(
-											ReportDesignConstants.MODULE_ELEMENT ) ) ) )
+		}
+		else
+		{
+			if ( parent != null )
 			{
-				throw new MetaDataException(
-						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
+				//inherited from it's parent
+				nameConfig.nameSpaceID = parent.getNameSpaceID( );
+				nameConfig.holder = parent.nameConfig.holder;
+				nameConfig.targetProperty = parent.nameConfig.targetProperty;
 			}
 		}
-
-		// Validate that the name and name space options are consistent.
+	 	// Validate that the name and name space options are consistent.
 
 		if ( !isAbstract( ) )
 		{
-			if ( nameConfig.nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
-				nameConfig.nameOption = MetaDataConstants.NO_NAME;
-			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
-					&& nameConfig.nameOption == MetaDataConstants.NO_NAME )
-				throw new MetaDataException( new String[]{name},
-						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
+			//if namespaceId is null does't mean it sholdn't have name. it may be defined in container
+//			if ( nameConfig.nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
+//				nameConfig.nameOption = MetaDataConstants.NO_NAME;
+//			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
+//					&& nameConfig.nameOption == MetaDataConstants.NO_NAME )
+//				throw new MetaDataException( new String[]{name},
+//						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
 
 			// if name space is set, then holder must be not null
 			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
@@ -877,6 +840,18 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
 
 		}
+		
+//			if ( nameConfig.targetProperty == null
+//					&& nameConfig.holder != null
+//					&& !( nameConfig.holder.getNameOption( ) == MetaDataConstants.REQUIRED_NAME || nameConfig.holder
+//							.isKindOf( MetaDataDictionary
+//									.getInstance( )
+//									.getElement(
+//											ReportDesignConstants.MODULE_ELEMENT ) ) ) )
+//			{
+//				throw new MetaDataException(
+//						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
+//			}
 	}
 
 	/**
@@ -1553,7 +1528,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            Whether this element supports user-defined properties.
 	 */
 
-	void setAllowsUserProperties( boolean flag )
+	public void setAllowsUserProperties( boolean flag )
 	{
 		assert !isBuilt;
 		supportsUserProperties = flag;
@@ -1594,6 +1569,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	public IElementDefn getParent( )
 	{
 		return parent;
+	}
+
+	public void setParent( ElementDefn parent )
+	{
+		this.parent = parent;
 	}
 
 	/**
@@ -1842,7 +1822,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            element cannot be extended.
 	 */
 
-	void setCanExtend( boolean flag )
+	public void setCanExtend( boolean flag )
 	{
 		allowExtend = flag;
 	}
@@ -1876,7 +1856,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            concrete (user-visible)
 	 */
 
-	void setAbstract( boolean flag )
+	public void setAbstract( boolean flag )
 	{
 		abstractElement = flag;
 	}
@@ -2149,74 +2129,5 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	public NameConfig getNameConfig( )
 	{
 		return this.nameConfig;
-	}
-
-	/**
-	 * Configuration information for the name management of the element.
-	 */
-	public static class NameConfig
-	{
-
-		/**
-		 * Indicates the name space in which instances of this element reside.
-		 */
-
-		protected int nameSpaceID = MetaDataConstants.NO_NAME_SPACE;
-
-		/**
-		 * Definition of the element where the name resides.
-		 */
-		protected IElementDefn holder = null;
-
-		/**
-		 * Name option: one of following defined in MetaDataConstants:
-		 * {@link MetaDataConstants#NO_NAME NO_NAME},
-		 * {@link MetaDataConstants#OPTIONAL_NAME OPTIONAL_NAME}, or
-		 * {@link MetaDataConstants#REQUIRED_NAME REQUIRED_NAME}.
-		 */
-
-		protected int nameOption = MetaDataConstants.OPTIONAL_NAME;
-
-		protected IElementPropertyDefn targetProperty = null;
-
-		protected String targetPropertyName = null;
-
-		protected String configString = null;
-
-		/**
-		 * 
-		 */
-
-		NameConfig( )
-		{
-
-		}
-
-		/**
-		 * The ID of the name space defined by the name container.
-		 * 
-		 * @return the name space ID
-		 */
-		public int getNameSpaceID( )
-		{
-			return nameSpaceID;
-		}
-
-		/**
-		 * The definition of the name container. Generally, <code>Module</code>
-		 * is the default name container. However, for some special case,
-		 * <code>Dimension</code>> can also be the container.
-		 * 
-		 * @return definition of the name container
-		 */
-		public IElementDefn getNameContainer( )
-		{
-			return holder;
-		}
-
-		public IElementPropertyDefn getNameProperty( )
-		{
-			return targetProperty;
-		}
 	}
 }

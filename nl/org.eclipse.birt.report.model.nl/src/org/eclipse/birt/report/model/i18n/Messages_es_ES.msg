@@ -1943,6 +1943,8 @@ Structure.HighlightRule.border.right.style=Estilo
 Structure.HighlightRule.border.right.width=Ancho
 Structure.HighlightRule.border.right.color=Color
 Structure.HighlightRule.background.color=Color de fondo
+Structure.HighlightRule.background.image=Imagen de fondo
+Structure.HighlightRule.backgroundRepeat=Repetición de fondo
 Structure.HighlightRule.format.dateTime=Formato de fecha/hora
 Structure.HighlightRule.format.number=Formato de número
 Structure.HighlightRule.format.number.align=Alineación de número  
@@ -1956,6 +1958,10 @@ Structure.HighlightRule.font.color=Color
 Structure.HighlightRule.font.textUnderline=Subrayado
 Structure.HighlightRule.font.textOverline=Línea superior
 Structure.HighlightRule.font.textLineThrough=Tachado
+Structure.HighlightRule.padding.top=Relleno superior
+Structure.HighlightRule.padding.left=Relleno izquierdo
+Structure.HighlightRule.padding.bottom=Relleno inferior
+Structure.HighlightRule.padding.right=Relleno derecho
 Structure.HighlightRule.text.align=Alineación de texto
 Structure.HighlightRule.text.indent=Sangrado de texto
 Structure.HighlightRule.text.transform=Transformación de texto
@@ -2091,6 +2097,7 @@ Structure.IncludedLibrary.namespace=Espacio de nombres
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=Nombre de archivo:
 Structure.IncludedCssStyleSheet.externalCssURI=URI con CSS externo
+Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
 
 #15. DataSetParam
 Structure.DataSetParam.name=Nombre
@@ -2315,7 +2322,6 @@ Structure.FormatValue.locale=Configuración regional
 #40. CalculationArgument
 Structure.CalculationArgument.name=Nombre de argumento de cálculo
 Structure.CalculationArgument.value=Valor de argumento de cálculo
-
 
 ###########################################################
 # Element names
@@ -3052,7 +3058,7 @@ Element.Image.onPageBreak.this=Instancia de imagen
 Element.Image.onPageBreak.reportContext=Contexto de informe
 Element.Image.fitToContainer=Ajusta a contenedor
 Element.Image.proportionalScale=Escala proporcional
-
+  
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=Columnas
 Element.Grid.slot.rows=Filas
@@ -3375,6 +3381,7 @@ Element.FilterConditionElement.pushDown=Oprimir
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=Tipo
 Element.FilterConditionElement.updateAggregation=Actualizar agregación
+
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
