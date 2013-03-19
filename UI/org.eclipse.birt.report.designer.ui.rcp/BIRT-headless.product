@@ -295,6 +295,13 @@
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
       <plugin id="org.w3c.sac"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.docx"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.pptx"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.pptx"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.docx"/>
+      <plugin id="org.eclipse.birt.report.engine.ooxml"/>
+      <plugin id="org.eclipse.birt.data.oda.pojo"/>
+      <plugin id="org.eclipse.birt.data.oda.pojo.ui"/>
    </plugins>
 
 

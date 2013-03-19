@@ -692,12 +692,12 @@
 			<include name="org.eclipse.birt.report.model_*.jar" />
 			<include name="org.eclipse.birt.report.model.adapter.oda_*.jar" />
 			<include name="org.eclipse.birt.report.item.crosstab.core_*.jar" />
-			<include name="org.eclipse.birt.report.engine.ooxml"/>
-			<include name="org.eclipse.birt.report.engine.emitter.config.docx"/>
-			<include name="org.eclipse.birt.report.engine.emitter.config.pptx"/>
-			<include name="org.eclipse.birt.report.engine.emitter.docx"/>
-			<include name="org.eclipse.birt.report.engine.emitter.pptx"/>
-			<include name="org.eclipse.birt.data.oda.pojo"/>
+			<include name="org.eclipse.birt.report.engine.ooxml_*.jar"/>
+			<include name="org.eclipse.birt.report.engine.emitter.config.docx_*.jar"/>
+			<include name="org.eclipse.birt.report.engine.emitter.config.pptx_*.jar"/>
+			<include name="org.eclipse.birt.report.engine.emitter.docx_*.jar"/>
+			<include name="org.eclipse.birt.report.engine.emitter.pptx_*.jar"/>
+			<include name="org.eclipse.birt.data.oda.pojo_*.jar"/>
 		</fileset>
 		</copy>
 
