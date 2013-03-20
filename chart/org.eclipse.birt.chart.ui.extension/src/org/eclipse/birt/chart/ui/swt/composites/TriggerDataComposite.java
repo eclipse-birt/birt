@@ -579,6 +579,14 @@ public class TriggerDataComposite extends Composite implements
 					3,
 					Messages.getString( "TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries" ) ); //$NON-NLS-1$
 		}
+		txtTooltipText.addListener( SWT.FocusOut, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				updateTrigger( cmbTriggerType.getText( ) );
+				
+			}
+		} );
 
 		if ( ( optionalStyle & ENABLE_TOOLTIP_FORMATTER ) == ENABLE_TOOLTIP_FORMATTER )
 		{
