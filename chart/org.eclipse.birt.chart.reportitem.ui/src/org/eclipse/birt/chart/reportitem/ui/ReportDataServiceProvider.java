@@ -947,22 +947,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					clearBindings( );
 					generateBindings( generateComputedColumns( dataset ) );
 
-					// enable default category grouping
-					List<SeriesDefinition> sds = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) );
-					if ( sds != null && sds.size( ) > 0 )
-					{
-						SeriesDefinition base = sds.get( 0 );
-
-						if ( !ChartUIConstants.TYPE_GANTT.equals( context.getModel( )
-								.getType( ) ) )
-						{
-							if ( base.getGrouping( ) == null )
-							{
-								base.setGrouping( SeriesGroupingImpl.create( ) );
-							}
-							base.getGrouping( ).setEnabled( true );
-						}
-					}
+					enableCategoryGroup( );
 				}
 			}
 			ChartWizard.removeException( ChartWizard.RepDSProvider_Set_ID );
@@ -971,6 +956,26 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			ChartWizard.showException( ChartWizard.RepDSProvider_Set_ID,
 					e.getLocalizedMessage( ) );
+		}
+	}
+
+	protected void enableCategoryGroup( )
+	{
+		// enable default category grouping
+		List<SeriesDefinition> sds = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) );
+		if ( sds != null && sds.size( ) > 0 )
+		{
+			SeriesDefinition base = sds.get( 0 );
+
+			if ( !ChartUIConstants.TYPE_GANTT.equals( context.getModel( )
+					.getType( ) ) )
+			{
+				if ( base.getGrouping( ) == null )
+				{
+					base.setGrouping( SeriesGroupingImpl.create( ) );
+				}
+				base.getGrouping( ).setEnabled( true );
+			}
 		}
 	}
 
