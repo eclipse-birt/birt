@@ -1097,11 +1097,15 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			@Override
 			public boolean skipSelection( int index )
 			{
-				int selectState = selectDataTypes.get( index ).intValue( );
-				if ( selectState == SELECT_NEXT )
-				{
-					return true;
+				//skip out of boundary selection
+				if(index>=0){
+					int selectState = selectDataTypes.get( index ).intValue( );
+					if ( selectState == SELECT_NEXT )
+					{
+						return true;
+					}
 				}
+					
 				return false;
 			}
 		};
