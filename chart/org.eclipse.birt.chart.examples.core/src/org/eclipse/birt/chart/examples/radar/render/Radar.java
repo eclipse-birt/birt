@@ -84,7 +84,6 @@ public class Radar extends BaseRenderer
 
 	static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.examples/render" ); //$NON-NLS-1$
 
-	private int scaleCount = 6;
 	private double percentReduce = 0.2;
 
 	private double dSafeSpacing = 10;
@@ -422,7 +421,7 @@ public class Radar extends BaseRenderer
 			ore.setBackground( lia.getColor( ) );
 			ore.setOutline( lia );
 			Bounds bo = goFactory.createBounds( 0, 0, 0, 0 );
-			for ( int sc = 1; sc <= scaleCount; sc++ )
+			for ( int sc = 1; sc <= scaleHelper.getScaleCount( ); sc++ )
 			{
 				double spiderMag = magnitude * sc / scaleHelper.getScaleCount( );
 				ore.setBounds( pc.computeBounds( bo, spiderMag ) );
