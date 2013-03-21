@@ -2097,7 +2097,7 @@ Structure.IncludedLibrary.namespace=名称空间
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=文件名
 Structure.IncludedCssStyleSheet.externalCssURI=外部 CSS URI
-Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
+Structure.IncludedCssStyleSheet.useExternalCss=使用外部 CSS
 
 #15. DataSetParam
 Structure.DataSetParam.name=名称

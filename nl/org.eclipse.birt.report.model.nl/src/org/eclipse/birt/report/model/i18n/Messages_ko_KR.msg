@@ -2097,7 +2097,7 @@ Structure.IncludedLibrary.namespace=네임스페이스
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=파일 이름
 Structure.IncludedCssStyleSheet.externalCssURI=외부 CSS URI
-Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
+Structure.IncludedCssStyleSheet.useExternalCss=외부 CSS 사용
 
 #15. DataSetParam
 Structure.DataSetParam.name=이름
