@@ -139,7 +139,6 @@ import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -189,14 +188,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private Object dataSetReference = null;
 	private Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
 
-	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
-			.createExpressionCodec( );
+	protected ExpressionCodec exprCodec = null;
 
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle )
 	{
 		super( );
 		this.itemHandle = itemHandle;
 		project = UIUtil.getCurrentProject( );
+		exprCodec = ChartReportItemHelper.instance( ).createExpressionCodec( itemHandle );
 	}
 
 	private String[] getDesignWorkspaceClasspath( )
@@ -889,7 +888,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @since 2.3
 	 */
-	boolean isInMultiView( )
+	protected boolean isInMultiView( )
 	{
 		return itemHandle.getContainer( ) instanceof MultiViewsHandle;
 	}
@@ -1063,20 +1062,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			return itemHandle.getDataSet( );
 		}
 		// TODO HENG 2013.03.14
-		else if ( itemHandle.getDataBindingReference( ) != null
-				&& itemHandle.getDataBindingReference( ).getDataSet( ) != null )
-		{
-			return itemHandle.getDataBindingReference( ).getDataSet( );
-		}
-		else if ( itemHandle.getContainer( ) instanceof MultiViewsHandle )
-		{
-			DesignElementHandle handle = ((MultiViewsHandle)itemHandle.getContainer( )).getContainer( );
-			if ( handle instanceof TableHandle && ((TableHandle)handle).getDataSet( ) != null )
-			{
-				return ((TableHandle)handle).getDataSet( );
-			}
-		}
-		// End of TODO
+//		else if ( itemHandle.getDataBindingReference( ) != null
+//				&& itemHandle.getDataBindingReference( ).getDataSet( ) != null )
+//		{
+//			return itemHandle.getDataBindingReference( ).getDataSet( );
+//		}
+//		else if ( itemHandle.getContainer( ) instanceof MultiViewsHandle )
+//		{
+//			DesignElementHandle handle = ((MultiViewsHandle)itemHandle.getContainer( )).getContainer( );
+//			if ( handle instanceof TableHandle && ((TableHandle)handle).getDataSet( ) != null )
+//			{
+//				return ((TableHandle)handle).getDataSet( );
+//			}
+//		}
+//		// End of TODO
 		List<DataSetHandle> datasetList = DEUtil.getDataSetList( itemHandle.getContainer( ) );
 		if ( datasetList.size( ) > 0 )
 		{
@@ -2302,7 +2301,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#isSharedBinding
 	 * ()
 	 */
-	boolean isSharedBinding( )
+	protected boolean isSharedBinding( )
 	{
 		return ( itemHandle.getDataBindingReference( ) != null || isInMultiView( ) );
 	}
@@ -3141,10 +3140,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( aggOnList.size( ) > 0 )
 			{
 				String[] levelNames = CubeUtil.splitLevelName( aggOnList.get( 0 ) );
-				ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
+				ComputedColumnHandle cch = ChartReportItemHelper.instance( ).findDimensionBinding( exprCodec,
 						levelNames[0],
 						levelNames[1],
-						bindingMap.values( ) );
+						bindingMap.values( ),
+						itemHandle );
 				// Set category.
 				if ( cch != null )
 				{
@@ -3155,10 +3155,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( aggOnList.size( ) > 1 )
 			{
 				String[] levelNames = CubeUtil.splitLevelName( aggOnList.get( 1 ) );
-				ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
+				ComputedColumnHandle cch = ChartReportItemHelper.instance( ).findDimensionBinding( exprCodec,
 						levelNames[0],
 						levelNames[1],
-						bindingMap.values( ) );
+						bindingMap.values( ),
+						itemHandle );
 				// Set optional Y.
 				if ( cch != null )
 				{

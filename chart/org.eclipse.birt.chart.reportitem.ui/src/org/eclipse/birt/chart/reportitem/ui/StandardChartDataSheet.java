@@ -25,12 +25,12 @@ import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
@@ -190,8 +190,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private TableViewer tableViewerColumns;
 	private Label columnListDescription;
 	private Label dataPreviewDescription;
-	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
-			.createExpressionCodec( );
+	protected ExpressionCodec exprCodec = null;
+	protected ChartReportItemHelper chartItemHelper = ChartReportItemHelper.instance( );
 
 	private static final String HEAD_INFO = "HeaderInfo"; //$NON-NLS-1$
 
@@ -205,6 +205,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		this.itemHandle = itemHandle;
 		this.dataProvider = dataProvider;
 		this.iSupportedDataItems = iSupportedDataItems;
+		this.exprCodec = chartItemHelper.createExpressionCodec( itemHandle );
+		
 		addListener( this );
 	}
 
@@ -918,7 +920,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					// Get header and data in other thread.
 					headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
 					// Only when live preview is enabled, it retrieves data.
-					if ( dataProvider.isLivePreviewEnabled( ) )
+					if ( !isCubeMode( ) && dataProvider.isLivePreviewEnabled( ) )
 					{
 						dataList = getPreviewData( );
 					}
@@ -2809,7 +2811,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			ComputedColumnHandle cch = iter.next( );
 			// String dataExpr = ExpressionUtil.createJSDataExpression(
 			// cch.getName( ) );
-			ChartItemUtil.loadExpression( exprCodec, cch );
+			chartItemHelper.loadExpression( exprCodec, cch );
 			if ( exprCodec.isDimensionExpresion( ) )
 			{
 				dimensionExprs.add( cch.getName( ) );
@@ -3071,7 +3073,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private void checkColBindingForCube( )
 	{
 		if ( getCube( ) != null
-				&& !ChartCubeUtil.checkColumnbindingForCube( DEUtil.getBindingColumnIterator( DEUtil.getBindingHolder( itemHandle ) ) ) )
+				&& !chartItemHelper
+						.checkCubeBindings( itemHandle,
+								DEUtil.getBindingColumnIterator( DEUtil.getBindingHolder( itemHandle ) ) ) )
 		{
 			ChartWizard.showException( ChartWizard.StaChartDSh_checCube_ID,
 					Messages.getString( "StandardChartDataSheet.CheckCubeWarning" ) ); //$NON-NLS-1$

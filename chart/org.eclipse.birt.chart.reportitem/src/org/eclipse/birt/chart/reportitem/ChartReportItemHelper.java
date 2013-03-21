@@ -11,8 +11,17 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import java.util.Collection;
+import java.util.Iterator;
+
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
@@ -47,5 +56,40 @@ public class ChartReportItemHelper
 	public DataSetHandle getBindingDataSetHandle(ReportItemHandle itemHandle )
 	{
 		return ChartCubeUtil.getBindingDataSet( itemHandle );
+	}
+	
+	public boolean checkCubeBindings( ExtendedItemHandle handle, Iterator<ComputedColumnHandle> columnBindings )
+	{
+		return ChartCubeUtil.checkColumnbindingForCube( columnBindings );
+	}
+	
+	public ChartExpressionUtil.ExpressionCodec createExpressionCodec(
+			ExtendedItemHandle handle )
+	{
+		return ChartModelHelper.instance( ).createExpressionCodec( );
+	}
+	
+	public boolean loadExpression( ExpressionCodec exprCodec,
+			ComputedColumnHandle cch )
+	{
+		return ChartItemUtil.loadExpression( exprCodec, cch );
+	}
+	
+	public ComputedColumnHandle findDimensionBinding(
+			ExpressionCodec exprCodec, String dimName, String levelName,
+			Collection<ComputedColumnHandle> bindings, ReportItemHandle itemHandle )
+	{
+		for ( ComputedColumnHandle cch : bindings )
+		{
+			ChartReportItemHelper.instance( ).loadExpression( exprCodec, cch );
+			String[] levelNames = exprCodec.getLevelNames( );
+			if ( levelNames != null
+					&& levelNames[0].equals( dimName )
+					&& levelNames[1].equals( levelName ) )
+			{
+				return cch;
+			}
+		}
+		return null;
 	}
 }
