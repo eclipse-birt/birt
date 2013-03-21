@@ -21,7 +21,7 @@ import org.eclipse.ui.PlatformUI;
 public class HelpUtil
 {
 
-	public static final String PREFIX = "org.eclipse.datatools.oda.cshelp" + "."; //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String PREFIX = "org.eclipse.birt.cshelp" + "."; //$NON-NLS-1$ //$NON-NLS-2$
 
 	public static final String CONEXT_ID_DATASOURCE_POJO = PREFIX
 			+ "Wizard_POJO_Datasource_ID";//$NON-NLS-1$
