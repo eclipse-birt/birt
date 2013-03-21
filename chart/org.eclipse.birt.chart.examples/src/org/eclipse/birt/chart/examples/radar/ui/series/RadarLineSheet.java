@@ -177,24 +177,27 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		boolean enabled = !( btnAutoScale.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 		updateScaleUI( enabled );
 
-		Label lblWebStep = new Label( cmpMinMax, SWT.NONE );
+		if ( supportNumberOfStep ( ) )
 		{
-			lblWebStep.setText( Messages.getString( "Radar.Composite.Label.ScaleCount" ) ); //$NON-NLS-1$
-			lblWebStep.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleCountToolTip" ) ); //$NON-NLS-1$
+			Label lblWebStep = new Label( cmpMinMax, SWT.NONE );
+			{
+				lblWebStep.setText( Messages.getString( "Radar.Composite.Label.ScaleCount" ) ); //$NON-NLS-1$
+				lblWebStep.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleCountToolTip" ) ); //$NON-NLS-1$
+			}
+	
+			iscScaleCnt = getContext( ).getUIFactory( )
+					.createChartSpinner( cmpMinMax,
+							SWT.BORDER,
+							series,
+							"plotSteps", //$NON-NLS-1$
+							true );
+			GridData gdISCLeaderLength = new GridData(  GridData.FILL_HORIZONTAL);
+			iscScaleCnt.setLayoutData( gdISCLeaderLength );
+			iscScaleCnt.getWidget( ).setMinimum( 1 );
+			iscScaleCnt.getWidget( ).setMaximum( MAX_STEPS );
+			iscScaleCnt.getWidget( ).setSelection( series.getPlotSteps( ).intValue( ) );
+			iscScaleCnt.addListener( SWT.Selection, this );
 		}
-
-		iscScaleCnt = getContext( ).getUIFactory( )
-				.createChartSpinner( cmpMinMax,
-						SWT.BORDER,
-						series,
-						"plotSteps", //$NON-NLS-1$
-						true );
-		GridData gdISCLeaderLength = new GridData(  GridData.FILL_HORIZONTAL);
-		iscScaleCnt.setLayoutData( gdISCLeaderLength );
-		iscScaleCnt.getWidget( ).setMinimum( 1 );
-		iscScaleCnt.getWidget( ).setMaximum( MAX_STEPS );
-		iscScaleCnt.getWidget( ).setSelection( series.getPlotSteps( ).intValue( ) );
-		iscScaleCnt.addListener( SWT.Selection, this );
 
 		if ( getChart( ).getSubType( )
 					.equals( Radar.BULLSEYE_SUBTYPE_LITERAL ) )
@@ -214,6 +217,11 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			btnTranslucentBullseye.addListener( SWT.Selection, this );
 		}
 		return cmpContent;
+	}
+
+	protected boolean supportNumberOfStep( )
+	{
+		return true;
 	}
 
 	public void handleEvent( Event event )
@@ -285,7 +293,10 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		}
 		else if ( event.widget.equals( iscScaleCnt ) )
 		{
-			series.setPlotSteps( BigInteger.valueOf( iscScaleCnt.getWidget( ).getSelection( ) ) );
+			if ( supportNumberOfStep( ) )
+			{
+				series.setPlotSteps( BigInteger.valueOf( iscScaleCnt.getWidget( ).getSelection( ) ) );
+			}
 		}
 		else if ( event.widget.equals( btnAutoScale ) )
 		{
