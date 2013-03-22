@@ -13,6 +13,7 @@ package org.eclipse.birt.core.archive;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,11 +35,15 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import org.eclipse.birt.core.archive.compound.ArchiveFileFactory;
+import org.eclipse.birt.core.archive.compound.ArchiveFileV3;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.archive.compound.IArchiveFile;
+import org.eclipse.birt.core.archive.compound.IArchiveFileFactory;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
+import org.eclipse.birt.core.util.IOUtil;
 
 public class ArchiveUtil
 {
@@ -420,6 +426,56 @@ public class ArchiveUtil
 	{
 		archive( folder, null, file );
 	}
+	
+	static public void converFolderArchive(String folder, String file)  throws IOException
+	{
+		FolderArchiveReader reader = null;
+		InputStream inputStream = null;
+		DataInputStream dataInput = null;
+		try
+		{
+			archive( folder, null, file );
+			String folderName = new File( folder ).getCanonicalPath( );
+			reader = new FolderArchiveReader( folderName );
+			if ( reader.exists( FolderArchiveFile.METEDATA ) )
+			{
+				inputStream = reader.getInputStream( FolderArchiveFile.METEDATA );
+				dataInput = new DataInputStream( inputStream );
+				Map properties = IOUtil.readMap( dataInput );
+				IArchiveFileFactory factory = new ArchiveFileFactory( );
+				ArchiveFileV3 archive = new ArchiveFileV3( file, "rw+" );
+				if ( properties.containsKey( ArchiveFileV3.PROPERTY_DEPEND_ID ) )
+				{
+					archive.setDependId( properties.get(
+							ArchiveFileV3.PROPERTY_DEPEND_ID ).toString( ) );
+				}
+				if ( properties.containsKey( ArchiveFileV3.PROPERTY_SYSTEM_ID ) )
+				{
+					archive.setDependId( properties.get(
+							ArchiveFileV3.PROPERTY_SYSTEM_ID ).toString( ) );
+				}
+				archive.removeEntry( FolderArchiveFile.METEDATA );
+				archive.close( );
+			}
+		}
+		finally
+		{
+			if(reader!=null)
+			{
+				reader.close( );
+			}
+			if(inputStream!=null)
+			{
+				inputStream.close( );
+			}
+			if(dataInput!=null)
+			{
+				dataInput.close( );
+			}
+		}
+		
+		
+	}
 
 	/**
 	 * Compound File Format: <br>
@@ -444,7 +500,14 @@ public class ArchiveUtil
 		try
 		{
 			reader.open( );
-			ArchiveUtil.deleteAllFiles( new File( fileName ) );
+			File file = new File( fileName );
+			if ( file.exists( ) )
+			{
+				if ( file.isFile( ) )
+				{
+					file.delete( );
+				}
+			}
 			FileArchiveWriter writer = new FileArchiveWriter( fileName );
 			try
 			{
@@ -620,6 +683,27 @@ public class ArchiveUtil
 		b[off++] = (byte) ( ( v >>> 16 ) & 0xFF );
 		b[off++] = (byte) ( ( v >>> 8 ) & 0xFF );
 		b[off] = (byte) ( ( v >>> 0 ) & 0xFF );
+	}
+	
+	public static boolean removeFileAndFolder( File file )
+	{
+		assert ( file != null );
+		if ( file.isDirectory( ) )
+		{
+			File[] children = file.listFiles( );
+			if ( children != null )
+			{
+				for ( int i = 0; i < children.length; i++ )
+				{
+					removeFileAndFolder( children[i] );
+				}
+			}
+		}
+		if ( file.exists( ) )
+		{
+			return file.delete( );
+		}
+		return true;
 	}
 	
 }
