@@ -42,6 +42,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -1106,7 +1107,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	{
 		try
 		{
-			if ( expr == null || expr.getText( ) == null )
+			if ( expr == null || expr.getText( ) == null || BaseExpression.constantId.equals( expr.getScriptId( ) ) )
 				return false;
 			if ( expr.getText( ).matches( ".*\\Qrow.__rownum\\E.*" ) )
 				return true;

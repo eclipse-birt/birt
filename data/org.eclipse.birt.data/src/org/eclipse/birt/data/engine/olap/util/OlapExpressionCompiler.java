@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -58,6 +59,8 @@ public class OlapExpressionCompiler
 	public static String getReferencedScriptObject( IBaseExpression expr,
 			String objectName )
 	{
+		if( expr == null || BaseExpression.constantId.equals( expr.getScriptId( ) ) )
+			return null;
 		if ( expr instanceof IScriptExpression )
 		{
 			return getReferencedScriptObject( ( (IScriptExpression) expr ),
@@ -142,6 +145,10 @@ public class OlapExpressionCompiler
 			ScriptOrFnNode tree = p.parse( expr, null, 0 );
 
 			return getScriptObjectName( tree, objectName );
+		}
+		catch( Exception ex )
+		{
+			return null;
 		}
 		finally
 		{
@@ -232,7 +239,7 @@ public class OlapExpressionCompiler
 			List bindings, boolean onlyFromDirectReferenceExpr )
 			throws DataException
 	{
-		if ( expr == null || expr.getText( ) == null || expr.getText( ).length( ) == 0 )
+		if ( expr == null || expr.getText( ) == null || expr.getText( ).length( ) == 0 || BaseExpression.constantId.equals( expr.getScriptId( ) ) )
 			return new HashSet( );
 		try
 		{

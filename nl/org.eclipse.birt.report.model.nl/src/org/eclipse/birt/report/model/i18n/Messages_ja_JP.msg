@@ -2097,7 +2097,7 @@ Structure.IncludedLibrary.namespace=名前空間
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=ファイル名
 Structure.IncludedCssStyleSheet.externalCssURI=外部の CSS URI
-Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
+Structure.IncludedCssStyleSheet.useExternalCss=外部 CSS を使用
 
 #15. DataSetParam
 Structure.DataSetParam.name=名前
