@@ -50,7 +50,6 @@ public class FolderArchiveFile implements IArchiveFile
 		return folderName;
 	}
 
-	@Override
 	public void close( ) throws IOException
 	{
 		RAFolderOutputStream outputStream = null;
