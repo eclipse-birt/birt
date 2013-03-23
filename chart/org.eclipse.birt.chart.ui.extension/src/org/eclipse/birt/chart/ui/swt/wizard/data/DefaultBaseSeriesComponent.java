@@ -86,6 +86,7 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 			( (BaseDataDefinitionComponent) comData ).setTooltipWhenBlank( tooltipWhenBlank );
 		}
 		comData.createArea( cmpBottom );
+		( (BaseDataDefinitionComponent) comData ).bindAssociatedName( labelText );
 
 		Label rightAngle = new Label( cmpBottom, SWT.NONE );
 		rightAngle.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_RA_RIGHTUP ) );

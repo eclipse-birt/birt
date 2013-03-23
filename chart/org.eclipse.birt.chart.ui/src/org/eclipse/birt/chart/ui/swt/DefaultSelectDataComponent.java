@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
@@ -65,6 +66,18 @@ public class DefaultSelectDataComponent implements ISelectDataComponent
 				( (Listener) vListeners.get( i ) ).handleEvent( e );
 			}
 		}
+	}
+
+	public void bindAssociatedLabel( Label label )
+	{
+		// do nothing 
+		
+	}
+
+	public void bindAssociatedName( String name )
+	{
+		// do nothing
+		
 	}
 
 }

@@ -3468,6 +3468,11 @@ public abstract class DesignElement
 		ElementPropertyDefn defn = getPropertyDefn( propName );
 		if ( defn != null )
 		{
+			// if the content is not contained by module, do nothing
+			if ( module != content.getRoot( ) )
+			{
+				return;
+			}
 			if ( defn.isList( ) )
 			{
 				List<DesignElement> values = (List<DesignElement>) getLocalProperty(
@@ -3475,6 +3480,10 @@ public abstract class DesignElement
 				if ( values != null )
 				{
 					values.remove( content );
+					if ( values.size( ) == 0 )
+					{
+						clearProperty( propName );
+					}
 					content.containerInfo = null;
 				}
 			}

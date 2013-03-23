@@ -209,7 +209,8 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 					case DataType.DECIMAL_TYPE :
 					case DataType.DOUBLE_TYPE :
 					case DataType.INTEGER_TYPE :
-						valueFormatters[i] = new NumberFormatter( patterns[i],
+						String numberPattern = patterns[i] == null ? "Unformatted" : patterns[i];
+						valueFormatters[i] = new NumberFormatter( numberPattern,
 								this.locale );
 						break;
 					case DataType.STRING_TYPE :

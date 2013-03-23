@@ -2097,7 +2097,7 @@ Structure.IncludedLibrary.namespace=Namespace
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=Dateiname
 Structure.IncludedCssStyleSheet.externalCssURI=Externer CSS-URI
-Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
+Structure.IncludedCssStyleSheet.useExternalCss=Externes CSS verwenden
 
 #15. DataSetParam
 Structure.DataSetParam.name=Name

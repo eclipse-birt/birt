@@ -366,6 +366,12 @@ public class ExecutionContext
 		if ( locale != null )
 		{
 			scriptContext.setLocale( locale );
+		}	
+		
+		TimeZone timeZone = getTimeZone( );
+		if ( timeZone != null )
+		{
+			scriptContext.setTimeZone( timeZone );
 		}
 
 		// create script context used to execute the script statements

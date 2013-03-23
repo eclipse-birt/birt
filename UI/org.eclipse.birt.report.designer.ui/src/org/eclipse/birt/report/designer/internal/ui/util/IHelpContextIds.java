@@ -64,6 +64,9 @@ public interface IHelpContextIds
 	public static final String STYLE_BUILDER_FONT_ID = PREFIX
 			+ "StyleBuilderFont_ID"; //$NON-NLS-1$
 
+	public static final String STYLE_BUILDER_SIZE_ID = PREFIX
+			+ "StyleBuilderSize_ID"; //$NON-NLS-1$;
+	
 	public static final String STYLE_BUILDER_BACKGROUND_ID = PREFIX
 			+ "StyleBuilderBackground_ID"; //$NON-NLS-1$
 
@@ -391,4 +394,6 @@ public interface IHelpContextIds
 
 	public static final String INPUT_PARAMETERS_DIALOG_ID = PREFIX
 			+ "InputParametersDialog_ID"; //$NON-NLS-1$
+
+
 }

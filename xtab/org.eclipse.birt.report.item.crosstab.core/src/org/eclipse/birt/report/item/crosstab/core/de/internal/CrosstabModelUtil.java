@@ -13,6 +13,7 @@ package org.eclipse.birt.report.item.crosstab.core.de.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -87,7 +88,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 
 				MeasureViewHandle measureView = (MeasureViewHandle) cell.getContainer( );
 
-				if ( measureView instanceof ComputedMeasureViewHandle )
+				if ( !needUpdateMeasure( measureView ) )
 				{
 					// computed measure doesn't need update bindings and cell
 					// content
@@ -373,7 +374,71 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 
 		return null;
 	}
-
+	public static Iterator getBindingColumnIterator( DesignElementHandle handle )
+	{
+		if ( handle instanceof ReportItemHandle )
+		{
+			return ( (ReportItemHandle) handle ).columnBindingsIterator( );
+		}
+		return Collections.EMPTY_LIST.iterator( );
+	}
+	public static List getVisiableColumnBindingsList(
+			DesignElementHandle handle, boolean includeSelf )
+	{
+		List bindingList = new ArrayList( );
+		if ( includeSelf )
+		{
+			Iterator iterator = getBindingColumnIterator( handle );
+			while ( iterator.hasNext( ) )
+			{
+				bindingList.add( iterator.next( ) );
+			}
+		}
+		
+		return bindingList;
+	}
+	public static ComputedColumnHandle getInputBinding( ReportItemHandle input,
+			String bindingName )
+	{
+		List elementsList = getVisiableColumnBindingsList( input, true );
+		if ( elementsList != null && elementsList.size( ) > 0 )
+		{
+			for ( int i = 0; i < elementsList.size( ); i++ )
+			{
+				if ( ( (ComputedColumnHandle) elementsList.get( i ) ).getName( )
+						.equals( bindingName ) )
+					return (ComputedColumnHandle) elementsList.get( i );
+			}
+		}
+		return null;
+	}
+	private static boolean needUpdateMeasure(MeasureViewHandle measureView)
+	{
+		if (measureView == null)
+		{
+			return false;
+		}
+		if (!(measureView instanceof ComputedMeasureViewHandle))
+		{
+			return true;
+		}
+		
+		AggregationCellHandle cell = measureView.getCell( );
+		List list = cell.getContents( );
+		if (list.size( ) == 0 || !(list.get( 0 ) instanceof DataItemHandle))
+		{
+			return false;
+		}
+	
+		DataItemHandle handle = (DataItemHandle )list.get( 0 );
+		String binding = handle.getResultSetColumn( );
+		ComputedColumnHandle computedHnadle = getInputBinding( (ReportItemHandle)measureView.getCrosstab( ).getModelHandle( ), binding );
+		if (computedHnadle != null && computedHnadle.getTimeDimension( ) != null)
+		{
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * @param crosstab
 	 * @param measureView
@@ -392,8 +457,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			String colDimension, String colLevel ) throws SemanticException
 	{
 		if ( crosstab == null
-				|| measureView == null
-				|| measureView instanceof ComputedMeasureViewHandle )
+				|| !needUpdateMeasure( measureView ) )
 		{
 			return;
 		}

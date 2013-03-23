@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.util;
 import java.util.Date;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.parser.ModuleParserHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -100,9 +101,31 @@ public abstract class AbstractParseState
 
 	public AbstractParseState startElement( String tagName )
 	{
-		getHandler( ).getErrorHandler( ).semanticError(
-				new XMLParserException(
-						XMLParserException.DESIGN_EXCEPTION_UNKNOWN_TAG ) );
+		XMLParserHandler handler = getHandler( );
+		boolean isSetWarning = false;
+
+		if ( handler instanceof ModuleParserHandler )
+		{
+			ModuleParserHandler moduleHandler = (ModuleParserHandler) handler;
+			if ( moduleHandler.isLaterVersion( )
+					&& ( moduleHandler.getModule( ).getOptions( ) == null 
+					     || moduleHandler.getModule( ).getOptions( ).isSupportedUnknownVersion( ) ) )
+			{
+				isSetWarning = true;
+			}
+		}
+
+		if ( isSetWarning )
+		{
+			getHandler( ).getErrorHandler( )
+					.semanticWarning( new XMLParserException( XMLParserException.DESIGN_EXCEPTION_UNKNOWN_TAG ) );
+		}
+		else
+		{
+			getHandler( ).getErrorHandler( )
+					.semanticError( new XMLParserException( XMLParserException.DESIGN_EXCEPTION_UNKNOWN_TAG ) );
+		}
+
 		return new AnyElementState( getHandler( ) );
 	}
 

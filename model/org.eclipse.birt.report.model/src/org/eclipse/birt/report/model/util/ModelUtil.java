@@ -1118,8 +1118,8 @@ public class ModelUtil extends ModelUtilBase
 	 * @param version
 	 *            the design file version
 	 * @return a list containing <code>IVersionInfo</code>
+	 * @deprecated using checkVersion( String version, boolean isSupportedUnknownVersion ) for replacing
 	 */
-
 	public static List<IVersionInfo> checkVersion( String version )
 	{
 		List<IVersionInfo> rtnList = new ArrayList<IVersionInfo>( );
@@ -1141,6 +1141,60 @@ public class ModelUtil extends ModelUtilBase
 		if ( versionNo < 0
 				|| versionNo > DesignSchemaConstants.REPORT_VERSION_NUMBER )
 			rtnList.add( new VersionInfo( version, VersionInfo.INVALID_VERSION ) );
+
+		if ( versionNo <= VersionInfo.COLUMN_BINDING_FROM_VERSION
+				&& DesignSchemaConstants.REPORT_VERSION_NUMBER > VersionInfo.COLUMN_BINDING_FROM_VERSION )
+			rtnList.add( new VersionInfo( version,
+					VersionInfo.CONVERT_FOR_COLUMN_BINDING ) );
+
+		return rtnList;
+	}
+
+	/**
+	 * Returns a list whose entry is of <code>IVersionInfo</code> type. Each
+	 * kind of automatical conversion information is stored in one instance of
+	 * <code>IVersionInfo</code>. If the size of the return list is 0, there is
+	 * no conversion information.
+	 * 
+	 * @param version
+	 *            the design file version
+	 * @param isSupportedUnknownVersion whether support unknown version
+	 * @return a list containing <code>IVersionInfo</code>
+	 *
+	 */
+	public static List<IVersionInfo> checkVersion( String version, boolean isSupportedUnknownVersion )
+	{
+		List<IVersionInfo> rtnList = new ArrayList<IVersionInfo>( );
+
+		int versionNo = -1;
+
+		try
+		{
+			versionNo = VersionUtil.parseVersion( version );
+		}
+		catch ( NumberFormatException e )
+		{
+		}
+		catch ( IllegalArgumentException e )
+		{
+
+		}
+
+		if( versionNo < 0 )
+		{
+			rtnList.add( new VersionInfo( version, VersionInfo.INVALID_VERSION ) );
+		}
+		else if( versionNo > DesignSchemaConstants.REPORT_VERSION_NUMBER )
+		{
+			if( isSupportedUnknownVersion )
+			{
+				rtnList.add( new VersionInfo( version, VersionInfo.LATER_VERSION ) );		
+			}
+			else
+			{
+				rtnList.add( new VersionInfo( version, VersionInfo.INVALID_VERSION ) );				
+			}
+		}
 
 		if ( versionNo <= VersionInfo.COLUMN_BINDING_FROM_VERSION
 				&& DesignSchemaConstants.REPORT_VERSION_NUMBER > VersionInfo.COLUMN_BINDING_FROM_VERSION )

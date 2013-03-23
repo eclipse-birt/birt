@@ -12,8 +12,10 @@
 package org.eclipse.birt.core.internal.function.impl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.AccessController;
@@ -328,6 +330,7 @@ public class FunctionProviderImpl implements IFunctionProvider
 		IExtension extension = confElement.getDeclaringExtension( );
 		String namespace = extension.getNamespace( );
 		Bundle bundle = org.eclipse.core.runtime.Platform.getBundle( namespace );
+		//available on OSGi platform
 		if ( bundle != null )
 		{
 			Enumeration<String> files = bundle.getEntryPaths( source );
@@ -361,6 +364,57 @@ public class FunctionProviderImpl implements IFunctionProvider
 				}
 			}
 		}
+		//if in non-osgi mode, take it as absolute path
+		if( bundle == null || libs.isEmpty( ) )
+		{
+			File file = new File( source );
+			if( file.exists( )&& file.isDirectory( ) )
+			{
+				libs.addAll( findFileList( file, suffix ) );
+			}
+			else
+			{
+				if ( source.toLowerCase( ).endsWith( suffix ) )
+					try
+					{
+						libs.add( new URL( source ) );
+					}
+					catch ( MalformedURLException e )
+					{
+						//ignore it
+					}				
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 * @param suffix
+	 * @return
+	 */
+	private static List<URL> findFileList( File file, String suffix )
+	{
+		List<URL> fileList = new ArrayList<URL>( );
+		for ( File f : file.listFiles( ) )
+		{
+			if ( f.isFile( ) && f.getName( ).endsWith( suffix ) )
+			{
+				try
+				{
+					fileList.add( f.toURI( ).toURL( ) );
+				}
+				catch ( MalformedURLException e )
+				{
+					//ignore it
+				}
+			}
+			else if ( f.isDirectory( ) )
+			{
+				fileList.addAll( findFileList( f, suffix ) );
+			}
+		}
+		return fileList;
 	}
 
 	/**

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
@@ -268,6 +270,8 @@ public final class QueryExecutorUtil
 	private static Set<String> getBindingNamesFromScriptExpr( IScriptExpression expr )
 			throws DataException
 	{
+		if( BaseExpression.constantId.equals( expr.getScriptId( ) ) )
+			return Collections.EMPTY_SET;
 		try
 		{
 			List<IColumnBinding> referedList = ExpressionUtil.extractColumnExpressions( expr.getText( ) );

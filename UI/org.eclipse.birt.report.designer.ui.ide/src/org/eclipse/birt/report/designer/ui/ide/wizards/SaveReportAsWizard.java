@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.designer.ui.ide.wizards;
 
+import org.eclipse.birt.report.designer.internal.ui.ide.adapters.ISaveAsWizardApadter;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -26,7 +28,7 @@ import org.eclipse.jface.wizard.Wizard;
  * a Save as wizard with a page set basic report properties.
  */
 
-public class SaveReportAsWizard extends Wizard
+public class SaveReportAsWizard extends Wizard 
 {
 
 	private ModuleHandle model;
@@ -61,6 +63,11 @@ public class SaveReportAsWizard extends Wizard
 		else if ( model instanceof LibraryHandle )
 		{
 			saveAsPage.setDescription( Messages.getString( "SaveReportAsWizard.SaveAsLibraryMessage" ) ); //$NON-NLS-1$
+		}else{
+			ISaveAsWizardApadter saveAsWizard=(ISaveAsWizardApadter) ElementAdapterManager.getAdapter(model, ISaveAsWizardApadter.class);
+			if(saveAsWizard!=null){
+				saveAsPage.setDescription(saveAsWizard.getDescription());
+			}
 		}
 		// saveAsPage.setImageDescriptor(
 		// IDEInternalWorkbenchImages.getImageDescriptor(

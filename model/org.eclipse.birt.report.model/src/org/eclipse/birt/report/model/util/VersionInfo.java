@@ -77,6 +77,12 @@ public class VersionInfo implements IVersionInfo
 	 */
 
 	public final static int INVALID_VERSION = 0x02;
+	
+	/**
+	 * Code for the later design version.
+	 */
+	
+	public final static int LATER_VERSION = 0x03;
 
 	/**
 	 * Code for indication that there is one or more included libraries should
@@ -90,6 +96,11 @@ public class VersionInfo implements IVersionInfo
 	 */
 
 	private final static String INVALID_VERSION_MSG = MessageConstants.VERSION_INFO_INVALID_VERSION;
+	
+	/**
+	 * The version of opening design file is later than current version.
+	 */
+	private final static String LATER_VERSION_MSG = MessageConstants.VERSION_INFO_LATER_VERSION;
 
 	/**
 	 * BIRT version from which BIRT began to support column binding feature.
@@ -133,6 +144,8 @@ public class VersionInfo implements IVersionInfo
 			case INVALID_VERSION :
 				return ModelMessages.getMessage( INVALID_VERSION_MSG,
 						new String[]{version} );
+			case LATER_VERSION :
+				return ModelMessages.getMessage( LATER_VERSION_MSG );
 			case EXTENSION_COMPATIBILITY :
 				return ModelMessages.getMessage( EXTENSION_COMPATIBILITY_MSG );
 

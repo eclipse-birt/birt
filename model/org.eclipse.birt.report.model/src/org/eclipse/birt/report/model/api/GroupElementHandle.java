@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
@@ -161,11 +162,23 @@ abstract public class GroupElementHandle
 	 * set for the property on this element. After this, the element will now
 	 * inherit the property from its parent element, style, or from the default
 	 * value for the property.
-	 * 
+	 * Note: this method clear the values of local properties ( not include sub element)
 	 * @throws SemanticException
 	 *             if the property is not defined on this element
 	 */
 	abstract public void clearLocalProperties( ) throws SemanticException;
+	
+	/**
+	 * Clears values of all common properties(except the extends property) for
+	 * the given collection of elements. Clearing a property removes any value
+	 * set for the property on this element. After this, the element will now
+	 * inherit the property from its parent element, style, or from the default
+	 * value for the property.
+	 * Note: this method clear all the values of local properties (include sub element)
+	 * @throws SemanticException
+	 *             if the property is not defined on this element
+	 */
+	abstract public void clearLocalPropertiesIncludeSubElement( ) throws SemanticException;
 
 	/**
 	 * Returns <code>true</code> if each of the given collection of element
@@ -212,6 +225,79 @@ abstract public class GroupElementHandle
 			continue;
 		}
 
+		return false;
+	}
+
+	/**
+	 * This method returnt <code>true</code> in following condition:
+	 * <p>
+	 * 1. The multi selected elements are same type.
+	 * <p>
+	 * 2. And the multi selected elements have extends.
+	 * <p>
+	 * 3. If any of the given elements or their subElement has local properties.
+	 * <p>
+	 * 
+	 * @return <code>true</code> if the conditions is met.
+	 */
+	public final boolean hasLocalPropertiesIncludeSubElement( )
+	{
+		if ( !isSameType( ) )
+			return false;
+
+		if ( !allExtendedElements( ) )
+			return false;
+
+		List elements = getElements( );
+		for ( Iterator iter = elements.iterator( ); iter.hasNext( ); )
+		{
+			DesignElementHandle elementHandle = (DesignElementHandle) iter.next( );
+			boolean hasLocalProperties = hasLocalPropertiesIncludeSubElement( elementHandle );
+			if ( hasLocalProperties )
+				return true;
+
+			continue;
+		}
+		return false;
+	}
+	
+	/**
+	 * return true if the Element or subElement has local properties
+	 * @param elementHandle 
+	 * @return true if the Element or his subElement has local properties
+	 */
+	protected boolean hasLocalPropertiesIncludeSubElement( DesignElementHandle elementHandle )
+	{
+		boolean hasLocalProperties = elementHandle.hasLocalProperties( );
+		if ( hasLocalProperties )
+		{
+			return true;
+		}
+		else
+		{
+			Iterator iterator = elementHandle.getPropertyIterator( );
+			while ( iterator.hasNext( ) )
+			{
+				PropertyHandle propertyHandler = (PropertyHandle) iterator.next( );
+				if ( propertyHandler.getPropertyDefn( ).getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+				{
+					List list = propertyHandler.getContents( );
+					if ( list != null && list.size( ) > 0 )
+					{
+						for ( int i = 0; i < list.size( ); i++ )
+						{
+							DesignElementHandle handle = (DesignElementHandle) list.get( i );
+							boolean hasProperties = hasLocalPropertiesIncludeSubElement( handle );
+							if ( hasProperties )
+							{
+								return true;
+							}
+							continue;
+						}
+					}
+				}
+			}
+		}
 		return false;
 	}
 
