@@ -2742,6 +2742,8 @@ Element.Style.widows=弧行
 Element.Style.orphans=孤行
 Element.Style.wordSpacing=字间距
 Element.Style.overflow=溢出
+Element.Style.height=高度
+Element.Style.width=宽度
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=书签
@@ -4011,6 +4013,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=模板元素在库中不受支持。
 Info.VersionInfo.INVALID_DESIGN_FILE=正在打开的设计文件不是有效的设计文件，或者该文件不存在。
 Info.VersionInfo.CONVERT_INFO=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
 Info.VersionInfo.INVALID_VERSION=不支持版本“{0}”的报表文件。
+Info.VersionInfo.LATER_VERSION=The design file was created by an later version of BIRT. Click OK to convert it to a format supported by the current version of the product.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =设计/库可能已被更改，因为对正在打开的设计/库或其包含的库应用了后向兼容性。
 
 #EncryptionException
