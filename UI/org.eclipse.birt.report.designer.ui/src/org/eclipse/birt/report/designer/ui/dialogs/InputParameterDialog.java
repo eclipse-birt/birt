@@ -798,7 +798,7 @@ public class InputParameterDialog extends BaseDialog
 			combo.select(selectIndex);
 			paramValues.put( listParam.getHandle( ).getName( ),
 					combo.getData( String.valueOf(combo.getSelectionIndex( )) ));
-			listParam.setSelectionValue(value == null ? null : value.toString( ) );
+			listParam.setSelectionValue(value == null ? null : value);
 			found = true;
 			return found;
 		}
@@ -810,7 +810,7 @@ public class InputParameterDialog extends BaseDialog
 				combo.select( i );
 				paramValues.put( listParam.getHandle( ).getName( ),
 						combo.getData( String.valueOf(combo.getSelectionIndex( )) ));
-				listParam.setSelectionValue(value == null ? null : value.toString( ) );
+				listParam.setSelectionValue(value == null ? null : value);
 				found = true;
 				break;
 			}
