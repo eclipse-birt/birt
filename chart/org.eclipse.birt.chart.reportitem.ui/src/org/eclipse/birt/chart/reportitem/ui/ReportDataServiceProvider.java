@@ -1882,7 +1882,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		ReportItemHandle referredHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
 		boolean isCrosstabReference = referredHandle != null
 				&& ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( ( (ExtendedItemHandle) referredHandle ).getExtensionName( ) );
-		if ( referredHandle != null && isCrosstabReference )
+		boolean isSharingXtab = ( referredHandle != null && isCrosstabReference );
+		if ( isSharingXtab )
 		{
 			// If it is 'sharing' case, include sharing crosstab and multiple
 			// view, we just invokes referred crosstab handle to create
@@ -1955,19 +1956,25 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		resetCubeQuery( qd );
 
-		if ( needDefineCube( cube ) )
-		{
-			DataService.getInstance( ).registerSession( cube, session );
-			session.defineCube( cube );
-		}
+		registerCubeHandleToDataSession( cube, isSharingXtab );
 
+		BIRTCubeResultSetEvaluator bcrse = executeCubeQuery( qd,
+				isSharingXtab,
+				cm );
+		return bcrse;
+	}
+
+	protected BIRTCubeResultSetEvaluator executeCubeQuery(
+			IBaseCubeQueryDefinition qd, boolean isSharingXtab, final Chart cm )
+			throws BirtException
+	{
 		// Always cube query returned
 		ICubeQueryResults cqr = dteAdapter.executeQuery( session,
 				(ICubeQueryDefinition) qd );
 		
 		// Sharing case
 		BIRTCubeResultSetEvaluator bcrse = null;
-		if ( referredHandle != null && isCrosstabReference )
+		if ( isSharingXtab )
 		{
 			bcrse = new SharedCubeResultSetEvaluator( cqr, qd, cm );
 		}
@@ -1977,6 +1984,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		bcrse.setSizeLimit( getMaxRow( ) );
 		return bcrse;
+	}
+
+	protected void registerCubeHandleToDataSession( CubeHandle cube,
+			boolean isCrosstabReference ) throws BirtException,
+			AdapterException
+	{
+		if ( needDefineCube( cube ) )
+		{
+			DataService.getInstance( ).registerSession( cube, session );
+			session.defineCube( cube );
+		}
 	}
 
 	/**
