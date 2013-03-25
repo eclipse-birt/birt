@@ -281,7 +281,7 @@ class NameExecutorImpl
 
 		if ( nameHelper != null )
 		{
-			nameHelper.makeUniqueName( namespaceId, focus );
+			nameHelper.makeUniqueName( namespaceId, focus, prefix);
 		}
 	}
 
