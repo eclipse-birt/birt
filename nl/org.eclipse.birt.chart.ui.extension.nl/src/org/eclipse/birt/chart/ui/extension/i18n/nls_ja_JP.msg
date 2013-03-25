@@ -342,7 +342,7 @@ PieChart.SubType.Standard=標準パイグラフ
 PieSeriesUIProvider.Lbl.OrthogonalPrefix=値 
 PieSeriesUIProvider.Lbl.SeriesDefinition=系列の定義
 PieBottomAreaComponent.Label.Percentage=割合 (%)
-PieSeriesAttributeComposite.Button.Direction=時計回り方向
+PieSeriesAttributeComposite.Button.Direction=時計回り方向(&C)
 PieSeriesAttributeComposite.Button.Direction.ToolTipText=パイスライスを時計回り方向にレンダリングするかどうかを指定します。
 PieSeriesAttributeComposite.Button.InnerRadius=内側半径 :
 PieSeriesAttributeComposite.Grp.Slice=スライス
@@ -520,7 +520,7 @@ ExternalizedTextEditorDialog.Lbl.ExternalizedValue=外部化された値 :
 ExternalizedTextEditorDialog.Warn.KeyNotFound=キーがプロパティファイルにないか、プロパティファイルが存在しません。
 ExternalizedTextEditorDialog.Lbl.Value=<キーの値 ''{0}''>
 
-Format.Button.Label=書式
+Format.Button.Label=書式(&F)
 Format.Button.Lbl&=書式(&M)
 FormatSpecifierComposite.error.Title=書式指定子のエラー
 FormatSpecifierComposite.error.Message=無効な書式指定子のパラメタ値 : "{0}"
