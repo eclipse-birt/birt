@@ -17,12 +17,11 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ag
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SortingFormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.AggregateOnBindingsFormDescriptor;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabBindingsFormHandleProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.CrosstabSimpleComboSection;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 
 /**
  * 
@@ -43,17 +42,9 @@ public class CrosstabBindingPage extends AggregateOnBindingPage
 		cubeSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.BINDING_GROUP, cubeSection );
 
-		AggregateOnBindingsFormHandleProvider dataSetFormProvider = new AggregateOnBindingsFormHandleProvider( );
-		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) {
-
-			public Control createControl( Composite parent )
-			{
-				Control control = super.createControl( parent );
-				btnRefresh.setVisible( false );
-				return control;
-			}
-		} );
-		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( dataSetFormProvider );
+		AggregateOnBindingsFormHandleProvider crosstabFormProvider = new CrosstabBindingsFormHandleProvider( );
+		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) );
+		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( crosstabFormProvider );
 
 		if ( ( (CrosstabSimpleComboSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( ) != null )
 		{

@@ -158,9 +158,9 @@ public class CrosstabAdaptUtil
 		ComputedColumn bindingColumn = createLevelDisplayComputedColumn( owner,
 				levelHandle );
 
-		if (DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( bindingColumn.getDataType( )))
+		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( bindingColumn.getDataType( ) ) )
 		{
-			bindingColumn.setDataType(DesignChoiceConstants.COLUMN_DATA_TYPE_STRING  );
+			bindingColumn.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
 		}
 		ComputedColumnHandle bindingHandle = owner.addColumnBinding( bindingColumn,
 				false );
@@ -212,6 +212,20 @@ public class CrosstabAdaptUtil
 		return dataHandle;
 	}
 
+	public static void createColumnBinding( ReportItemHandle owner,
+			LevelHandle levelHandle ) throws SemanticException
+	{
+		ComputedColumn bindingColumn = createLevelDisplayComputedColumn( owner,
+				levelHandle );
+
+		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( bindingColumn.getDataType( ) ) )
+		{
+			bindingColumn.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
+		}
+		ComputedColumnHandle bindingHandle = owner.addColumnBinding( bindingColumn,
+				false );
+	}
+
 	public static DataItemHandle createColumnBindingAndDataItem(
 			ReportItemHandle owner, LevelAttributeHandle levelAttrHandle )
 			throws SemanticException
@@ -234,13 +248,13 @@ public class CrosstabAdaptUtil
 
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelAttrHandle.getName( ) );
-		
+
 		String type = levelHandle.getDataType( );
 		String aliment = levelHandle.getAlignment( );
-		
+
 		formatDataItem( type, null, aliment, dataHandle );
 		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
-		
+
 		if ( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME.equals( levelAttrHandle.getName( ) ) )
 		{
 			bindingHandle.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
@@ -363,27 +377,27 @@ public class CrosstabAdaptUtil
 		}
 		return null;
 	}
-	
-	public static boolean isTimeDimension(DimensionHandle dim)
+
+	public static boolean isTimeDimension( DimensionHandle dim )
 	{
-		if (dim == null)
+		if ( dim == null )
 		{
 			return false;
 		}
-		if (dim.isTimeType( ))
+		if ( dim.isTimeType( ) )
 		{
 			return true;
 		}
 		Object[] objs = ElementAdapterManager.getAdapters( dim,
-					ITimeDimensionCheck.class );
-		if (objs == null)
+				ITimeDimensionCheck.class );
+		if ( objs == null )
 		{
 			return false;
 		}
-		for (int i=0; i<objs.length; i++)
+		for ( int i = 0; i < objs.length; i++ )
 		{
-			ITimeDimensionCheck check = (ITimeDimensionCheck)objs[i];
-			if (check.isTimeDimension( dim ))
+			ITimeDimensionCheck check = (ITimeDimensionCheck) objs[i];
+			if ( check.isTimeDimension( dim ) )
 			{
 				return true;
 			}
@@ -526,7 +540,7 @@ public class CrosstabAdaptUtil
 		}
 		finally
 		{
-			if (session != null)
+			if ( session != null )
 			{
 				session.shutdown( );
 			}
@@ -580,34 +594,37 @@ public class CrosstabAdaptUtil
 		return true;
 	}
 
-	public static void formatDataItem(LevelHandle levelHandle, DataItemHandle dataHandle )
+	public static void formatDataItem( LevelHandle levelHandle,
+			DataItemHandle dataHandle )
 	{
-		if (levelHandle == null || dataHandle == null)
+		if ( levelHandle == null || dataHandle == null )
 		{
 			return;
 		}
 		String type = levelHandle.getDataType( );
 		Object value = levelHandle.getProperty( org.eclipse.birt.report.model.elements.olap.Level.FORMAT_PROP );
 		String aliment = levelHandle.getAlignment( );
-		formatDataItem(type, value, aliment, dataHandle);
+		formatDataItem( type, value, aliment, dataHandle );
 	}
-	
-	public static void formatDataItem(MeasureHandle measureHandle, DataItemHandle dataHandle)
+
+	public static void formatDataItem( MeasureHandle measureHandle,
+			DataItemHandle dataHandle )
 	{
-		if (measureHandle == null || dataHandle == null)
+		if ( measureHandle == null || dataHandle == null )
 		{
 			return;
 		}
 		String type = measureHandle.getDataType( );
 		Object value = measureHandle.getProperty( org.eclipse.birt.report.model.elements.olap.Level.FORMAT_PROP );
 		String aliment = measureHandle.getAlignment( );
-		formatDataItem(type, value, aliment, dataHandle);
+		formatDataItem( type, value, aliment, dataHandle );
 	}
-	
-	private static void formatDataItem(String type,Object value,String aliment, DataItemHandle dataHandle)
+
+	private static void formatDataItem( String type, Object value,
+			String aliment, DataItemHandle dataHandle )
 	{
 		StyleHandle styleHandle = dataHandle.getPrivateStyle( );
-		if (aliment != null)
+		if ( aliment != null )
 		{
 			try
 			{
@@ -615,70 +632,71 @@ public class CrosstabAdaptUtil
 			}
 			catch ( SemanticException e )
 			{
-				//do nothing now
+				// do nothing now
 			}
 		}
-		if (value == null || !(value instanceof FormatValue))
+		if ( value == null || !( value instanceof FormatValue ) )
 		{
 			return;
 		}
-		
-		FormatValue formartValue = (FormatValue)value;
+
+		FormatValue formartValue = (FormatValue) value;
 		try
 		{
-			if (DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( type )
+			if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( type )
 					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( type )
-					|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( type ))
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( type ) )
 			{
-				if (formartValue.getPattern( ) != null)
+				if ( formartValue.getPattern( ) != null )
 				{
 					styleHandle.setNumberFormat( formartValue.getPattern( ) );
 				}
-				if (formartValue.getCategory( ) != null)
+				if ( formartValue.getCategory( ) != null )
 				{
 					styleHandle.setNumberFormatCategory( formartValue.getCategory( ) );
 				}
 			}
-//			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type ))
-//			{
-//				if (formartValue.getPattern( ) != null)
-//				{
-//					styleHanlde.setDateFormat(  formartValue.getPattern( ) );
-//				}
-//				if (formartValue.getCategory( ) != null)
-//				{
-//					styleHanlde.setDateFormatCategory( formartValue.getCategory( ) );
-//				}
-//			}
-			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( type )
-					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type ))
+			// else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type
+			// ))
+			// {
+			// if (formartValue.getPattern( ) != null)
+			// {
+			// styleHanlde.setDateFormat( formartValue.getPattern( ) );
+			// }
+			// if (formartValue.getCategory( ) != null)
+			// {
+			// styleHanlde.setDateFormatCategory( formartValue.getCategory( ) );
+			// }
+			// }
+			else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( type )
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type ) )
 			{
-				if (formartValue.getPattern( ) != null)
+				if ( formartValue.getPattern( ) != null )
 				{
 					styleHandle.setDateTimeFormat( formartValue.getPattern( ) );
 				}
-				if (formartValue.getCategory( ) != null)
+				if ( formartValue.getCategory( ) != null )
 				{
 					styleHandle.setDateTimeFormatCategory( formartValue.getCategory( ) );
 				}
 			}
-			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( type ))
+			else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( type ) )
 			{
-				if (formartValue.getPattern( ) != null)
+				if ( formartValue.getPattern( ) != null )
 				{
 					styleHandle.setStringFormat( formartValue.getPattern( ) );
 				}
-				if (formartValue.getCategory( ) != null)
+				if ( formartValue.getCategory( ) != null )
 				{
 					styleHandle.setStringFormatCategory( formartValue.getCategory( ) );
 				}
 			}
-			
+
 		}
 		catch ( SemanticException e )
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
-	
+
 }
