@@ -263,10 +263,14 @@ ColumnBindingDialog.Text.AddAggr=Ajouter l'a&grégation...
 
 BlockPreferencePage.displayname.Title=Bloc de texte
 
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Size
 
 ###########################################################
 #BorderCanvas properties
 
+BorderCanvas.Inherited0=(Inherited)
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -1401,6 +1405,8 @@ Element.Style.pageBreakInside=&A l'intérieur :
 Element.Style.section=Section :
 Element.Style.showIfBlank=&Afficher si vierge :
 Element.Style.text.align=A&lignement du texte :
+Element.Style.width=&Width:
+Element.Style.height=&Height:
 #bidi_hcg
 Element.Style.text.direction=Direction du texte &Bidi :
 Element.Style.text.indent=Retrait du te&xte :

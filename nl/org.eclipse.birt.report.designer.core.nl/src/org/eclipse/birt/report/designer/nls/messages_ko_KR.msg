@@ -263,10 +263,14 @@ ColumnBindingDialog.Text.AddAggr=집계 추가(&G)...
 
 BlockPreferencePage.displayname.Title=텍스트 블록
 
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Size
 
 ###########################################################
 #BorderCanvas properties
 
+BorderCanvas.Inherited0=(Inherited)
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -1401,6 +1405,8 @@ Element.Style.pageBreakInside=안쪽(&I):
 Element.Style.section=섹션:
 Element.Style.showIfBlank=비어있는 경우 표시(&W)
 Element.Style.text.align=텍스트 맞춤(&L):
+Element.Style.width=&Width:
+Element.Style.height=&Height:
 #bidi_hcg
 Element.Style.text.direction=양방향 텍스트 방향(&B):
 Element.Style.text.indent=텍스트 들여쓰기(&X):
