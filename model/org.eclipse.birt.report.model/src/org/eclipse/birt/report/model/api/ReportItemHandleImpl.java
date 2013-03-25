@@ -928,7 +928,7 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 *            .
 	 * @return a list containing report item
 	 */
-	private List getAvailableDataBindingReferenceList(String propName) {
+	protected List getAvailableDataBindingReferenceList(String propName) {
 		List rtnList = new ArrayList( );
 	
 		int slotID = DesignElement.NO_SLOT;
