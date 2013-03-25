@@ -300,6 +300,14 @@ public class ModuleOption implements IModuleOption
 			return;
 		this.options.putAll( options );
 	}
+	
+	public void removeOption( String key )
+	{
+		synchronized(options)
+		{
+			options.remove( key );
+		}
+	}
 
 	/**
 	 * return whether support unknown version

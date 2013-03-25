@@ -2742,6 +2742,8 @@ Element.Style.widows=Veuves
 Element.Style.orphans=Orphelins
 Element.Style.wordSpacing=Espacement des mots
 Element.Style.overflow=Dépassement
+Element.Style.height=Hauteur
+Element.Style.width=Largeur
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Signet
@@ -4011,6 +4013,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Les éléments de modèle ne
 Info.VersionInfo.INVALID_DESIGN_FILE=Le fichier modèle d'ouverture n'est pas un fichier modèle valide ou le fichier n'existe pas.
 Info.VersionInfo.CONVERT_INFO=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
 Info.VersionInfo.INVALID_VERSION=Le fichier d''état de la version "{0}" n''est pas pris en charge.
+Info.VersionInfo.LATER_VERSION=The design file was created by an later version of BIRT. Click OK to convert it to a format supported by the current version of the product.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =Il est possible de modifier la bibliothèque de modèles, la compatibilité descendante étant appliquée à la bibliothèque de modèles en cours d'ouverture ou aux bibliothèques qui lui sont associées.
 
 #EncryptionException
