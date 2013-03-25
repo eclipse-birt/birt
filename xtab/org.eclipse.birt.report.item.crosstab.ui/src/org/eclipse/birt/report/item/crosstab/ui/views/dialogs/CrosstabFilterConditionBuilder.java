@@ -1630,46 +1630,13 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			{
 				ExceptionUtil.handle( ex );
 			}
-			ICubeQueryDefinition cubeQueryDefn = null;
 			DataRequestSession session = null;
 			List retList = null;
 			try
 			{
 				session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-				if(CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
-				{
-					cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab, true );
-					if ( groupBtn.getSelection( ) )
-					{
-						retList = session.getCubeQueryUtil( )
-								.getReferableBindingsForLinkedDataSetCube( targetString,
-										cubeQueryDefn,
-										false );
-					}
-					else if ( measureBtn.getSelection( ) )
-					{
-						retList = session.getCubeQueryUtil( )
-								.getReferableMeasureBindingsForLinkedDataSetCube( targetString,
-										cubeQueryDefn );
-					}
-				}
-				else
-				{
-					cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
-					if ( groupBtn.getSelection( ) )
-					{
-						retList = session.getCubeQueryUtil( )
-								.getReferableBindings( targetString,
-										cubeQueryDefn,
-										false );
-					}
-					else if ( measureBtn.getSelection( ) )
-					{
-						retList = session.getCubeQueryUtil( )
-								.getReferableMeasureBindings( targetString,
-										cubeQueryDefn );
-					}
-				}			
+				retList = getReferableBindings(session, crosstab, null, targetString);
+				
 				if ( retList != null && retList.size( ) > 0 )
 				{
 					IBindingMetaInfo meta = (IBindingMetaInfo) retList.get( 0 );
@@ -2718,25 +2685,12 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		}
 
 		// get cubeQueryDefn
-		ICubeQueryDefinition cubeQueryDefn = null;
 		DataRequestSession session = null;
 		try
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
-			if ( target instanceof LevelViewHandle || target instanceof String )
-			{
-				retList = session.getCubeQueryUtil( )
-						.getReferableBindings( targetString,
-								cubeQueryDefn,
-								false );
-			}
-			else if ( target instanceof MeasureViewHandle )
-			{
-				retList = session.getCubeQueryUtil( )
-						.getReferableMeasureBindings( targetString,
-								cubeQueryDefn );
-			}
+			
+			retList = getReferableBindings(session, crosstab, target, targetString);
 
 		}
 		catch ( Exception e )
@@ -3318,4 +3272,44 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		return false;
 	}
 
+	private List getReferableBindings( DataRequestSession session, CrosstabReportItemHandle crosstab, Object target, String targetString) throws Exception
+	{
+		ICubeQueryDefinition cubeQueryDefn;
+		List retList = new ArrayList();
+		if(CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+		{
+			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab, true );
+			if ( groupBtn.getSelection( ) || target instanceof LevelViewHandle || target instanceof String )
+			{
+				retList = session.getCubeQueryUtil( )
+						.getReferableBindingsForLinkedDataSetCube( targetString,
+								cubeQueryDefn,
+								false );
+			}
+			else if ( measureBtn.getSelection( ) || target instanceof MeasureViewHandle )
+			{
+				retList = session.getCubeQueryUtil( )
+						.getReferableMeasureBindingsForLinkedDataSetCube( targetString,
+								cubeQueryDefn );
+			}
+		}
+		else
+		{
+			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
+			if ( groupBtn.getSelection( ) || target instanceof LevelViewHandle || target instanceof String)
+			{
+				retList = session.getCubeQueryUtil( )
+						.getReferableBindings( targetString,
+								cubeQueryDefn,
+								false );
+			}
+			else if ( measureBtn.getSelection( ) || target instanceof MeasureViewHandle )
+			{
+				retList = session.getCubeQueryUtil( )
+						.getReferableMeasureBindings( targetString,
+								cubeQueryDefn );
+			}
+		}
+		return retList;
+	}
 }
