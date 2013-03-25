@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.extension;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementDetailHandle;
@@ -132,4 +134,11 @@ public interface IExtendedDataModelUIAdapter
 	 */
 	public ElementDetailHandle getDetailHandle (ModuleHandle module);
 	
+	/**
+	 * Gets the available binding reference list of the extended data model.
+	 * @param handle the report item handle
+	 * @return the available binding reference list
+	 */
+	public List getAvailableBindingReferenceList(ReportItemHandle handle);
+
 }

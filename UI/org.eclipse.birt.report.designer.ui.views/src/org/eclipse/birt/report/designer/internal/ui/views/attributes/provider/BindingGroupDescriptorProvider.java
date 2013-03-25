@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ParameterBindingDialog;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BindingGroupSection;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -43,7 +45,15 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 	protected List getAvailableDataBindingReferenceList(
 			ReportItemHandle element )
 	{
-		return element.getAvailableDataSetBindingReferenceList( );
+		List bindingRef = new ArrayList();
+		bindingRef.addAll( element.getAvailableDataSetBindingReferenceList( ));
+		
+		if( ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null )
+		{
+			bindingRef.addAll( ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( )
+					.getAvailableBindingReferenceList( element ));
+		}
+		return bindingRef;
 	}
 
 	private Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
