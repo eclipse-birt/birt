@@ -182,6 +182,8 @@ public class AttributeViewPage extends Page implements
 
 			DEUtil.getGroupElementHandle( getModelList( selection ) )
 					.clearLocalProperties( );
+			DEUtil.getGroupElementHandle( getModelList( selection ) )
+					.clearLocalPropertiesIncludeSubElement( );
 		}
 		catch ( SemanticException e )
 		{
@@ -189,7 +191,6 @@ public class AttributeViewPage extends Page implements
 		}
 		return;
 	}
-
 	/**
 	 * Creates the SWT controls for this workbench part.
 	 * <p>
@@ -278,7 +279,8 @@ public class AttributeViewPage extends Page implements
 	{
 		GroupElementHandle groupHandle = DEUtil.getGroupElementHandle( modelList );
 
-		return groupHandle.hasLocalPropertiesForExtendedElements( );
+		return groupHandle.hasLocalPropertiesForExtendedElements( )
+				|| groupHandle.hasLocalPropertiesIncludeSubElement( );
 	}
 
 	public void resetRestorePropertiesAction( List modelList )
