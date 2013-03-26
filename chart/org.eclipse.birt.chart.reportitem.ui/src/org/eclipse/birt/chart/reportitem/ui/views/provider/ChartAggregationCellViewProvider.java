@@ -581,6 +581,13 @@ public class ChartAggregationCellViewProvider extends
 			}
 		}
 		CrosstabReportItemHandle xtab = info.getCrosstab( );
+		// Do not allow switching to Chart if neither row or column is defined
+		if ( xtab.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ) == 0
+				&& xtab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ) == 0 )
+		{
+			return false;
+		}
+		
 		if ( info.getType( ) == SwitchCellInfo.GRAND_TOTAL
 				|| info.getType( ) == SwitchCellInfo.SUB_TOTAL )
 		{
