@@ -2271,7 +2271,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			if ( isAggregate( ) )
 				expressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder,
 						this.binding );
-			else if(ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null)
+			else if(ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null
+					&& ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ).getBoundExtendedData( this.bindingHolder ) != null)
 			{
 				expressionProvider = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( )
 						.getBindingExpressionProvider( this.bindingHolder, this.binding );
