@@ -43,6 +43,7 @@ import org.eclipse.birt.report.designer.internal.ui.data.function.layout.IArgume
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CLabel;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MenuButton;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
@@ -2270,6 +2271,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			if ( isAggregate( ) )
 				expressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder,
 						this.binding );
+			else if(ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null)
+			{
+				expressionProvider = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( )
+						.getBindingExpressionProvider( this.bindingHolder, this.binding );
+			}
 			else
 				expressionProvider = new CrosstabBindingExpressionProvider( this.bindingHolder,
 						this.binding );

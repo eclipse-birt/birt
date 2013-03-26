@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.extension;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementDetailHandle;
@@ -140,5 +142,13 @@ public interface IExtendedDataModelUIAdapter
 	 * @return the available binding reference list
 	 */
 	public List getAvailableBindingReferenceList(ReportItemHandle handle);
+	
+	/**
+	 * Gets the binding expression provider for the extended data model
+	 * @param handle the binding holder
+	 * @param computedColumnHandle the binding item
+	 * @return the expression provider
+	 */
+	public ExpressionProvider getBindingExpressionProvider( DesignElementHandle handle, ComputedColumnHandle computedColumnHandle );
 
 }
