@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
@@ -91,5 +92,10 @@ public class ChartReportItemHelper
 			}
 		}
 		return null;
+	}
+	
+	public Iterator<?> getAllUsedBindings( Chart cm, ReportItemHandle handle )
+	{
+		return handle.columnBindingsIterator( );
 	}
 }

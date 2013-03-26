@@ -367,6 +367,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			return null;
 		}
+		if ( getBindingCubeHandle( ) == null )
+		{
+			return null;
+		}
+		
 		return cube.getQualifiedName( );
 	}
 
@@ -904,6 +909,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		List<DataSetHandle> list = DEUtil.getDataSetList( itemHandle.getContainer( ) );
 		if ( list.size( ) > 0 )
 		{
+			if ( getBindingDataSetHandle() == null )
+			{
+				return null;
+			}
+			
 			return list.get( 0 ).getQualifiedName( );
 		}
 		return null;
