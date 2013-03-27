@@ -582,6 +582,8 @@ public class CubeQueryUtil
 		{
 			throw new AdapterException( ResourceConstants.INVALID_LEVEL_EXPRESSION, expr );
 		}
+		if( target[0] == null )
+			target[0] = target[1];
 		return new DimensionLevel( target[0], target[1] );
 	}
 }
