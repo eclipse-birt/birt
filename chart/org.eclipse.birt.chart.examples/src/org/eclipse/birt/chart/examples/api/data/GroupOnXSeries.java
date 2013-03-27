@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -51,7 +50,7 @@ public class GroupOnXSeries
 	 * Get the chart instance from the design file and group X series of the
 	 * chart.
 	 * 
-	 * @return An instance of the simulated runtime chart model (containing
+	 * return An instance of the simulated runtime chart model (containing
 	 *         filled datasets)
 	 */
 	void groupSeries( )
@@ -75,8 +74,8 @@ public class GroupOnXSeries
 					.getCaption( )
 					.setValue( "Group On X Series" );//$NON-NLS-1$
 
-			SeriesDefinition sdX = (SeriesDefinition) ( (Axis) ( (ChartWithAxes) cm ).getAxes( )
-					.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
+			SeriesDefinition sdX = ( ( (ChartWithAxes) cm ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
+					.get( 0 );
 
 			sdX.setSorting( SortOption.ASCENDING_LITERAL );
 			sdX.getGrouping( ).setEnabled( true );

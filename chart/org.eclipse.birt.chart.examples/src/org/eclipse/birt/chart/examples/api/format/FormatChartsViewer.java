@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 /**
  * The selector of interactivity charts in Swing JPanel.
@@ -104,8 +105,9 @@ public final class FormatChartsViewer extends JPanel implements
 	 */
 	FormatChartsViewer( )
 	{
-		
-		final PluginSettings ps = PluginSettings.instance( );
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		final PluginSettings ps = PluginSettings.instance( config );
 		try
 		{
 			idr = ps.getDevice( "dv.SWING" );//$NON-NLS-1$
@@ -353,7 +355,7 @@ public final class FormatChartsViewer extends JPanel implements
 
 		private static final long serialVersionUID = 1L;
 
-		private JComboBox jcbModels = null;
+		private JComboBox<String> jcbModels = null;
 
 		private JButton jbUpdate = null;
 
@@ -368,8 +370,10 @@ public final class FormatChartsViewer extends JPanel implements
 			JPanel jp = new JPanel( );
 			jp.setLayout( new FlowLayout( FlowLayout.LEFT, 3, 3 ) );
 
-			jp.add( new JLabel( "Choose:" ) );//$NON-NLS-1$
-			jcbModels = new JComboBox( );
+			JLabel choose=new JLabel( "Choose:" );//$NON-NLS-1$
+			choose.setDisplayedMnemonic( 'c' );
+			jp.add( choose );
+			jcbModels = new JComboBox<String>( );
 
 			jcbModels.addItem( "Axis Format" );//$NON-NLS-1$
 			jcbModels.addItem( "Colored By Category" );//$NON-NLS-1$
@@ -378,10 +382,13 @@ public final class FormatChartsViewer extends JPanel implements
 			jcbModels.addItem( "Plot Format" );//$NON-NLS-1$
 			jcbModels.addItem( "Series Format" );//$NON-NLS-1$
 
+			choose.setLabelFor( jcbModels );
 			jcbModels.setSelectedIndex( 0 );
 			jp.add( jcbModels );
 
 			jbUpdate = new JButton( "Update" );//$NON-NLS-1$
+			jbUpdate.setMnemonic( 'u' );
+			jbUpdate.setToolTipText( "Update" );//$NON-NLS-1$
 			jbUpdate.addActionListener( this );
 			jp.add( jbUpdate );
 

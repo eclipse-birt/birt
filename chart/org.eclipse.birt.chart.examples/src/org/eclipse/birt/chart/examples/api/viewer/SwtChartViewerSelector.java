@@ -112,7 +112,7 @@ public final class SwtChartViewerSelector extends Composite
 
 		Label la = new Label( cBottom, SWT.NONE );
 
-		la.setText( "Choose: " );//$NON-NLS-1$
+		la.setText( "&Choose: " );//$NON-NLS-1$
 		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
 		String[] models = PrimitiveCharts.getAvailableModelList( );
 		for ( int i = 0; i < models.length; i++ )
@@ -155,17 +155,18 @@ public final class SwtChartViewerSelector extends Composite
 		cbDimension.select( 0 );
 
 		cbTransposed = new Button( cBottom, SWT.CHECK );
-		cbTransposed.setText( "Transposed" );//$NON-NLS-1$
+		cbTransposed.setText( "&Transposed" );//$NON-NLS-1$
 
 		cbPercent = new Button( cBottom, SWT.CHECK );
-		cbPercent.setText( "Percent" );//$NON-NLS-1$
+		cbPercent.setText( "&Percent" );//$NON-NLS-1$
 
 		cbLogarithmic = new Button( cBottom, SWT.CHECK );
-		cbLogarithmic.setText( "Logarithmic" );//$NON-NLS-1$
+		cbLogarithmic.setText( "&Logarithmic" );//$NON-NLS-1$
 
 		btn = new Button( cBottom, SWT.NONE );
-		btn.setText( "Update" );//$NON-NLS-1$
+		btn.setText( "&Update" );//$NON-NLS-1$
 		btn.addSelectionListener( scv );
+		btn.setToolTipText( "Update" );//$NON-NLS-1$
 
 		shell.setText( scv.getClass( ).getName( ) + " [device=" //$NON-NLS-1$
 				+ scv.idr.getClass( ).getName( ) + "]" );//$NON-NLS-1$

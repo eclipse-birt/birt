@@ -362,11 +362,11 @@ public final class SwingChartViewerSelector extends JPanel implements
 
 		private static final long serialVersionUID = 1L;
 		
-		private JComboBox jcbModels = null;
+		private JComboBox<String> jcbModels = null;
 
 		private JButton jbUpdate = null;
 
-		private JComboBox jcbDimensions = null;
+		private JComboBox<String> jcbDimensions = null;
 
 		private JCheckBox jcbTransposed = null;
 
@@ -385,8 +385,10 @@ public final class SwingChartViewerSelector extends JPanel implements
 			JPanel jp1 = new JPanel( );
 			jp1.setLayout( new FlowLayout( FlowLayout.LEFT, 5, 5 ) );
 
-			jp1.add( new JLabel( "Choose:" ) );//$NON-NLS-1$
-			jcbModels = new JComboBox( );
+			JLabel choose=new JLabel( "Choose:" );//$NON-NLS-1$
+			choose.setDisplayedMnemonic( 'c' );
+			jp1.add( choose );
+			jcbModels = new JComboBox<String>( );
 
 			String[] models = PrimitiveCharts.getAvailableModelList( );
 			for ( int i = 0; i < models.length; i++ )
@@ -394,6 +396,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 				jcbModels.addItem( models[i] );
 			}
 			jcbModels.setSelectedIndex( 0 );
+			choose.setLabelFor( jcbModels );
 			jp1.add( jcbModels );
 			
 			jcbModels.addActionListener( new ActionListener( ) {
@@ -424,22 +427,27 @@ public final class SwingChartViewerSelector extends JPanel implements
 				}
 			} );
 
-			jcbDimensions = new JComboBox( );
+			jcbDimensions = new JComboBox<String>( );
 			jcbDimensions.addItem( "2D" );//$NON-NLS-1$
 			jcbDimensions.addItem( "2D with Depth" );//$NON-NLS-1$
 			jp1.add( jcbDimensions );
 
 			jcbTransposed = new JCheckBox( "Transposed", false );//$NON-NLS-1$
+			jcbTransposed.setMnemonic( 't' );
 			jp1.add( jcbTransposed );
 
 			jcbPercent = new JCheckBox( "Percent", false );//$NON-NLS-1$
+			jcbPercent.setMnemonic( 'p' );
 			jp1.add( jcbPercent );
 
 			jcbLogarithmic = new JCheckBox( "Logarithmic", false );//$NON-NLS-1$
+			jcbLogarithmic.setMnemonic( 'l' );
 			jp1.add( jcbLogarithmic );
 
 			jbUpdate = new JButton( "Update" );//$NON-NLS-1$
+			jbUpdate.setMnemonic( 'u' );
 			jbUpdate.addActionListener( this );
+			jbUpdate.setToolTipText( "Update" );//$NON-NLS-1$
 			jp1.add( jbUpdate );
 
 			add( jp1 );
