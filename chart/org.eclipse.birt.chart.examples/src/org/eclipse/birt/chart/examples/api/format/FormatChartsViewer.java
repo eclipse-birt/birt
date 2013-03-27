@@ -355,7 +355,7 @@ public final class FormatChartsViewer extends JPanel implements
 
 		private static final long serialVersionUID = 1L;
 
-		private JComboBox<String> jcbModels = null;
+		private JComboBox jcbModels = null;
 
 		private JButton jbUpdate = null;
 
@@ -373,7 +373,7 @@ public final class FormatChartsViewer extends JPanel implements
 			JLabel choose=new JLabel( "Choose:" );//$NON-NLS-1$
 			choose.setDisplayedMnemonic( 'c' );
 			jp.add( choose );
-			jcbModels = new JComboBox<String>( );
+			jcbModels = new JComboBox( );
 
 			jcbModels.addItem( "Axis Format" );//$NON-NLS-1$
 			jcbModels.addItem( "Colored By Category" );//$NON-NLS-1$

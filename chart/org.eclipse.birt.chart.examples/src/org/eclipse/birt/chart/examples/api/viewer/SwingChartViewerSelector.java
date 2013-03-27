@@ -362,11 +362,11 @@ public final class SwingChartViewerSelector extends JPanel implements
 
 		private static final long serialVersionUID = 1L;
 		
-		private JComboBox<String> jcbModels = null;
+		private JComboBox jcbModels = null;
 
 		private JButton jbUpdate = null;
 
-		private JComboBox<String> jcbDimensions = null;
+		private JComboBox jcbDimensions = null;
 
 		private JCheckBox jcbTransposed = null;
 
@@ -388,7 +388,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 			JLabel choose=new JLabel( "Choose:" );//$NON-NLS-1$
 			choose.setDisplayedMnemonic( 'c' );
 			jp1.add( choose );
-			jcbModels = new JComboBox<String>( );
+			jcbModels = new JComboBox( );
 
 			String[] models = PrimitiveCharts.getAvailableModelList( );
 			for ( int i = 0; i < models.length; i++ )
@@ -427,7 +427,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 				}
 			} );
 
-			jcbDimensions = new JComboBox<String>( );
+			jcbDimensions = new JComboBox( );
 			jcbDimensions.addItem( "2D" );//$NON-NLS-1$
 			jcbDimensions.addItem( "2D with Depth" );//$NON-NLS-1$
 			jp1.add( jcbDimensions );

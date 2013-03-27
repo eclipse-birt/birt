@@ -163,14 +163,14 @@ public abstract class BaseTestCase extends TestCase {
 		super.setUp();
 
 		ThreadResources.setLocale(ULocale.ENGLISH);
-		MetaDataDictionary.reset();
-
-		try {
-			MetaDataReader.read(ReportDesign.class
-					.getResourceAsStream(ROM_DEF_NAME));
-		} catch (MetaDataParserException e) {
-			super.fail();
-		}
+//		MetaDataDictionary.reset();
+//
+//		try {
+//			MetaDataReader.read(ReportDesign.class
+//					.getResourceAsStream(ROM_DEF_NAME));
+//		} catch (MetaDataParserException e) {
+//			super.fail();
+//		}
 	}
 
 	/*
