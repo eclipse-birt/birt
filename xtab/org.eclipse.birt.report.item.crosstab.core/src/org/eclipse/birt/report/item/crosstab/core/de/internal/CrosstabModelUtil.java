@@ -419,6 +419,10 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	private static List<DataItemHandle> getDataItems(AggregationCellHandle cell)
 	{
 		List<DataItemHandle> items = new ArrayList<DataItemHandle>();
+		if (cell == null)
+		{
+			return items;
+		}
 		List list = cell.getContents( );
 		for (int i=0; i<list.size( ); i++)
 		{
