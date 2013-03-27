@@ -409,7 +409,7 @@ public final class SwingInteractivityViewer extends JPanel implements
 
 		private static final long serialVersionUID = 1L;
 		
-		private JComboBox<String> jcbModels = null;
+		private JComboBox jcbModels = null;
 
 		private JButton jbUpdate = null;
 
@@ -428,7 +428,7 @@ public final class SwingInteractivityViewer extends JPanel implements
 			choose.setDisplayedMnemonic( 'c' );
 			jp.add( choose );
 
-			jcbModels = new JComboBox<String>( );
+			jcbModels = new JComboBox( );
 			choose.setLabelFor( jcbModels );
 			jcbModels.addItem( "Highlight Series" );//$NON-NLS-1$
 			jcbModels.addItem( "Show Tooltip" );//$NON-NLS-1$
