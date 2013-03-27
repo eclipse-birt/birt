@@ -16,12 +16,7 @@ package org.eclipse.birt.data.oda.pojo.api;
  * Constants defined
  */
 public class Constants
-{
-	private Constants( )
-	{
-		
-	}
-	
+{	
 	//Element/Attribute names in XML formatted POJO query text 
 	public static final String ELEMENT_ROOT = "PojoQuery"; //$NON-NLS-1$
 	public static final String ATTR_POJOQUERY_VERSION = "version"; //$NON-NLS-1$
