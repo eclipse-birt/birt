@@ -416,6 +416,58 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		return null;
 	}
 
+	private static List<DataItemHandle> getDataItems(AggregationCellHandle cell)
+	{
+		List<DataItemHandle> items = new ArrayList<DataItemHandle>();
+		List list = cell.getContents( );
+		for (int i=0; i<list.size( ); i++)
+		{
+			if (list.get( i ) instanceof DataItemHandle)
+			{
+				DataItemHandle handle = (DataItemHandle) list.get( i );
+				String binding = handle.getResultSetColumn( );
+				ComputedColumnHandle computedHnadle = getInputBinding( (ReportItemHandle) cell.getCrosstab( )
+						.getModelHandle( ),
+						binding );
+				if ( computedHnadle != null
+						&& computedHnadle.getTimeDimension( ) != null )
+				{
+					items.add( handle );
+				}
+			}
+		}
+		
+		return items;
+	}
+	
+	private static void updateRPTAggregateOn(CrosstabReportItemHandle crosstab, DataItemHandle dataHandle)
+	{
+		String binding = dataHandle.getResultSetColumn( );
+		ComputedColumnHandle computedHnadle = getInputBinding( (ReportItemHandle)crosstab.getModelHandle( ),
+				binding );
+		
+		try
+		{
+			computedHnadle.clearAggregateOnList( );
+		
+		
+			LevelViewHandle levelHandle = getInnerMostLevel( crosstab, ICrosstabConstants.ROW_AXIS_TYPE );
+			if (levelHandle != null)
+			{
+				computedHnadle.addAggregateOn( levelHandle.getCubeLevelName( ) );
+			}
+			
+			levelHandle = getInnerMostLevel( crosstab, ICrosstabConstants.COLUMN_AXIS_TYPE );
+			if (levelHandle != null)
+			{
+				computedHnadle.addAggregateOn( levelHandle.getCubeLevelName( ) );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			//do nothing now
+		}
+	}
 	private static boolean needUpdateMeasure( MeasureViewHandle measureView )
 	{
 		if ( measureView == null )
@@ -428,23 +480,9 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		}
 
 		AggregationCellHandle cell = measureView.getCell( );
-		List list = cell.getContents( );
-		if ( list.size( ) == 0 || !( list.get( 0 ) instanceof DataItemHandle ) )
-		{
-			return false;
-		}
-
-		DataItemHandle handle = (DataItemHandle) list.get( 0 );
-		String binding = handle.getResultSetColumn( );
-		ComputedColumnHandle computedHnadle = getInputBinding( (ReportItemHandle) measureView.getCrosstab( )
-				.getModelHandle( ),
-				binding );
-		if ( computedHnadle != null
-				&& computedHnadle.getTimeDimension( ) != null )
-		{
-			return true;
-		}
-		return false;
+		List<DataItemHandle> items = getDataItems(cell);
+		
+		return items.size( ) > 0;
 	}
 
 	/**
@@ -478,6 +516,15 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					colLevel );
 		}
 
+		if ( measureView instanceof ComputedMeasureViewHandle )
+		{
+			List<DataItemHandle> items = getDataItems(cell);
+			for (int i=0; i<items.size( ); i++)
+			{
+				updateRPTAggregateOn( crosstab, items.get( i ) );
+			}
+			return;
+		}
 		if ( cell != null )
 		{
 
