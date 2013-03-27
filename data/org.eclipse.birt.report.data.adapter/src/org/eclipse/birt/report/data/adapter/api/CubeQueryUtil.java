@@ -126,6 +126,95 @@ public class CubeQueryUtil
 		}
 	}
 
+	/**
+	 * 
+	 * @param targetLevel
+	 * @param bindingExpr
+	 * @param bindings
+	 * @param rowEdgeExprList
+	 * @param columnEdgeExprList
+	 * @return
+	 * @throws AdapterException
+	 */
+	public static List getReferencedLevelsForLinkedCube( String targetLevel,
+			String bindingExpr, List bindings, List rowEdgeExprList,
+			List columnEdgeExprList ) throws AdapterException
+	{
+		try
+		{
+			List result = new ArrayList( );
+			DimensionLevel target = getTargetDimLevel( targetLevel );
+			String bindingName = getReferencedScriptObject( bindingExpr, "data" );
+			if ( bindingName == null )
+				return result;
+			IBinding binding = null;
+			for ( int i = 0; i < bindings.size( ); i++ )
+			{
+				IBinding bd = (IBinding) bindings.get( i );
+				if ( bd.getBindingName( ).equals( bindingName ) )
+				{
+					binding = bd;
+					break;
+				}
+			}
+
+			if ( binding == null )
+			{
+				return result;
+			}
+
+			List aggrOns = binding.getAggregatOns( );
+			boolean isMeasure = false;
+			if ( aggrOns.size( ) == 0 )
+			{
+				isMeasure = getReferencedScriptObject( binding.getExpression( ),
+						"measure" ) != null;
+				if ( !isMeasure )
+				{
+					// is derived measure?
+					isMeasure = getReferencedScriptObject( binding.getExpression( ),
+							"data" ) != null;
+				}
+			}
+
+			int candidateEdge = getAxisQualifierEdgeType( rowEdgeExprList,
+					columnEdgeExprList,
+					target );
+
+			if ( candidateEdge == -1 )
+				return result;
+
+			if ( isMeasure )
+			{
+				switch ( candidateEdge )
+				{
+					case ICubeQueryDefinition.ROW_EDGE :
+						populateLevels( rowEdgeExprList, result );
+						break;
+					case ICubeQueryDefinition.COLUMN_EDGE :
+						populateLevels( columnEdgeExprList, result );
+						break;
+				}
+			}
+			else
+			{
+				switch ( candidateEdge )
+				{
+					case ICubeQueryDefinition.ROW_EDGE :
+						populateAxisLevels( aggrOns, rowEdgeExprList, result );
+						break;
+					case ICubeQueryDefinition.COLUMN_EDGE :
+						populateAxisLevels( aggrOns, columnEdgeExprList, result );
+						break;
+				}
+			}
+			return result;
+		}
+		catch ( DataException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ), e );
+		}
+	}
 	
 	/**
 	 * Get all aggregation binding from <code>bindings</code> 
