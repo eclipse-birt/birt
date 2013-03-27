@@ -299,7 +299,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 				colDimension,
 				colLevel );
 	}
-
+	
 	public static List<IDimensionLevel> getReferencedLevels(
 			LevelViewHandle level, String bindingExpr )
 	{
@@ -318,24 +318,42 @@ public final class CrosstabUtil implements ICrosstabConstants
 			return Collections.EMPTY_LIST;
 		}
 
-		String targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
-				levelHandle.getName( ) );
-
-		CrosstabReportItemHandle crosstab = level.getCrosstab( );
+		CrosstabReportItemHandle crosstab = level.getCrosstab( );		
+		boolean isLinkedDataModel = isBoundToLinkedDataSet( crosstab );
 
 		try
 		{
 			List<IBinding> bindings = getQueryBindings( crosstab );
-			List<String> rowExpList = getLevelExpressionList( crosstab,
-					ICrosstabConstants.ROW_AXIS_TYPE );
-			List<String> colExpList = getLevelExpressionList( crosstab,
-					ICrosstabConstants.COLUMN_AXIS_TYPE );
-
-			return CubeQueryUtil.getReferencedLevels( targetLevel,
-					bindingExpr,
-					bindings,
-					rowExpList,
-					colExpList );
+			if( isLinkedDataModel )
+			{
+				// Linked Data Model case
+				String targetLevel = CubeUtil.getFullLevelName( dimensionHandle.getName( ),
+						levelHandle.getName( ) );
+				List<String> rowLevelList = getLevelNameList( crosstab,
+						ICrosstabConstants.ROW_AXIS_TYPE );
+				List<String> colLevelList = getLevelNameList( crosstab,
+						ICrosstabConstants.COLUMN_AXIS_TYPE );
+				return CubeQueryUtil.getReferencedLevelsForLinkedCube( targetLevel, 
+						bindingExpr,
+						bindings,
+						rowLevelList,
+						colLevelList );
+			}
+			else
+			{
+				String targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
+						levelHandle.getName( ) );						
+				List<String> rowExpList = getLevelExpressionList( crosstab,
+						ICrosstabConstants.ROW_AXIS_TYPE );
+				List<String> colExpList = getLevelExpressionList( crosstab,
+						ICrosstabConstants.COLUMN_AXIS_TYPE );
+	
+				return CubeQueryUtil.getReferencedLevels( targetLevel,
+						bindingExpr,
+						bindings,
+						rowExpList,
+						colExpList );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -454,7 +472,6 @@ public final class CrosstabUtil implements ICrosstabConstants
 		if ( bindingItr != null )
 		{
 			Map<String, String> cache = new HashMap<String, String>( );
-			boolean isBoundToLinkedDataSet = isBoundToLinkedDataSet( crosstabItem );
 			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 
 			try
@@ -589,6 +606,44 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 	}
 
+	private static List<String> getLevelNameList(
+			CrosstabReportItemHandle crosstab, int axis )
+			throws CrosstabException
+	{
+		List<String> lvList = new ArrayList<String>( );
+
+		int count = crosstab.getDimensionCount( axis );
+
+		for ( int i = 0; i < count; i++ )
+		{
+			DimensionViewHandle dv = crosstab.getDimension( axis, i );
+			if ( dv.getCubeDimension( ) == null )
+			{
+				throw new CrosstabException( dv.getModelHandle( ).getElement( ),
+						Messages.getString( "CrosstabQueryHelper.error.invalid.dimension.row", //$NON-NLS-1$
+								dv.getCubeDimensionName( ) ) );
+			}
+
+			for ( int j = 0; j < dv.getLevelCount( ); j++ )
+			{
+				LevelViewHandle lv = dv.getLevel( j );
+
+				if ( lv.getCubeLevel( ) == null )
+				{
+					throw new CrosstabException( lv.getModelHandle( )
+							.getElement( ),
+							Messages.getString( "CrosstabQueryHelper.error.invalid.level.row", //$NON-NLS-1$
+									lv.getCubeLevelName( ) ) );
+				}
+
+				lvList.add( CubeUtil.getFullLevelName( dv.getCubeDimension( ).getName( ),
+						lv.getCubeLevel( ).getName( ) ) );
+			}
+		}
+
+		return lvList;
+	}
+	
 	private static List<String> getLevelExpressionList(
 			CrosstabReportItemHandle crosstab, int axis )
 			throws CrosstabException
