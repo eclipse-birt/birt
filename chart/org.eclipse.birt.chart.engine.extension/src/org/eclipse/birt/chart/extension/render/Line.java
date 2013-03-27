@@ -1987,6 +1987,8 @@ public class Line extends AxesRenderer
 		{
 			subDeferredCache = dc.deriveNewDeferredCache( );
 			dc = subDeferredCache;
+			// Line 3D chart needs antialiasing.
+			subDeferredCache.setAntialiasing( true );
 		}
 	}
 }
