@@ -2239,6 +2239,11 @@ public class ChartUIUtil
 	public static void addScreenReaderAccessbility( Control composite,
 			final String description )
 	{
+		if ( composite == null )
+		{
+			// if control component is null, do nothing.
+			return;
+		}
 		if ( description != null )
 		{
 			if ( composite instanceof Spinner )
