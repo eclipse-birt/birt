@@ -27,3 +27,5 @@ plugin@org.eclipse.birt.report.data.oda.jdbc.tests=GIT,tag=v201210101433,repo=gi
 plugin@org.eclipse.birt.data.oda.pojo=GIT,tag=v201303191320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.data.oda.pojo
 plugin@org.eclipse.birt.data.oda.pojo.test=GIT,tag=v201303191320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.data.oda.pojo.test
 plugin@org.eclipse.birt.data.oda.pojo.ui=GIT,tag=v201303191320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.data.oda.pojo.ui
+plugin@org.eclipse.birt.data.oda.mongodb=GIT,tag=v201303191320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.data.oda.mongodb
+plugin@org.eclipse.birt.data.oda.mongodb.ui=GIT,tag=v201303191320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.data.oda.mongodb.ui

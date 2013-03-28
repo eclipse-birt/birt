@@ -90,6 +90,8 @@
       <plugin id="org.eclipse.birt.cshelp"/>
       <plugin id="org.eclipse.birt.data"/>
       <plugin id="org.eclipse.birt.data.aggregation"/>
+      <plugin id="org.eclipse.birt.data.oda.mongodb"/>
+      <plugin id="org.eclipse.birt.data.oda.mongodb.ui"/>
       <plugin id="org.eclipse.birt.doc"/>
       <plugin id="org.eclipse.birt.example"/>
       <plugin id="org.eclipse.birt.jetty.overlay" fragment="true"/>
