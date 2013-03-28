@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.DialChartImpl;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -44,7 +45,6 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 
 import com.ibm.icu.util.ULocale;
 
@@ -66,7 +66,7 @@ public class MeterChartExample
 	void createReport( ) throws SemanticException, IOException
 	{
 		// A session handle for all open reports
-		SessionHandle session = new DesignEngine( null ).newSessionHandle( (ULocale) null );
+		SessionHandle session = new DesignEngine( new DesignConfig() ).newSessionHandle( (ULocale) null );
 
 		// Create a new report
 		reportDesignHandle = session.createDesign( );
