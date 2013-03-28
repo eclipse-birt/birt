@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediator;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -122,20 +123,31 @@ public class NonGEFSynchronizerWithTreeView implements IMediatorColleague
 	 */
 	protected void fireSelectionChanged( ISelection selection )
 	{
-		ReportRequest request = new ReportRequest( getSource( ) );
+	ReportRequest request = new ReportRequest( getSource( ) );
 		List list = new ArrayList( );
 		if ( selection instanceof IStructuredSelection )
 		{
 			list = ( (IStructuredSelection) selection ).toList( );
 		}
+		/**
+		 * There is no object selected after delete an element not displayed in layout, such as data set.
+		 * Then the request has no object to perform.
+		 * So add a root element (ReportDesignHandle) as the object for the request to perform if the select element objects list is empty.
+		 */
+		if(list.size()<1){
+			list=new ArrayList( );
+			list.add(SessionHandleAdapter.getInstance().getModule());
+		}
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
-		// no convert
-		// request.setRequestConvert(new EditorReportRequestConvert());
+			// no convert
+			// request.setRequestConvert(new EditorReportRequestConvert());
 
 		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.notifyRequest( request );
+					.getMediator( )
+					.notifyRequest( request );
+//		}
+
 	}
 
 	/**
