@@ -53,6 +53,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -1565,9 +1566,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void initFilter( )
 	{
-		ExpressionButtonUtil.initExpressionButtonControl( txtFilter,
-				binding,
-				ComputedColumn.FILTER_MEMBER );
+		if( binding != null  && txtFilter != null)
+		{
+			ExpressionButtonUtil.initExpressionButtonControl( txtFilter,
+					binding,
+					ComputedColumn.FILTER_MEMBER );
+		}
 	}
 
 	private void initFunction( )
@@ -2032,7 +2036,39 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		if ( parentLayout instanceof GridLayout )
 			layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
 		paramsComposite.setLayout( layout );
+		
+		createFilterCondition(composite, gridData);
 
+		// if (!isTimePeriod( ))
+		{
+			Label lblAggOn = new Label( composite, SWT.NONE );
+			lblAggOn.setText( AGGREGATE_ON );
+			gridData = new GridData( );
+			gridData.verticalAlignment = GridData.BEGINNING;
+			lblAggOn.setLayoutData( gridData );
+
+			cmbAggOn = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
+			gridData = new GridData( GridData.FILL_HORIZONTAL );
+			gridData.horizontalSpan = 3;
+			cmbAggOn.setLayoutData( gridData );
+			cmbAggOn.setVisibleItemCount( 30 );
+			cmbAggOn.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					modifyDialogContent( );
+				}
+			} );
+		}
+	}
+	
+	private void createFilterCondition(Composite composite,GridData gridData)
+	{
+		//if use link data set , not create the filter expression
+ 		if(isExtendsDataSet())
+		{
+			return ;
+		}
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER | SWT.WRAP );
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
@@ -2078,29 +2114,13 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				txtFilter,
 				filterExpressionProvider,
 				this.bindingHolder );
-
-		// if (!isTimePeriod( ))
-		{
-			Label lblAggOn = new Label( composite, SWT.NONE );
-			lblAggOn.setText( AGGREGATE_ON );
-			gridData = new GridData( );
-			gridData.verticalAlignment = GridData.BEGINNING;
-			lblAggOn.setLayoutData( gridData );
-
-			cmbAggOn = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-			gridData = new GridData( GridData.FILL_HORIZONTAL );
-			gridData.horizontalSpan = 3;
-			cmbAggOn.setLayoutData( gridData );
-			cmbAggOn.setVisibleItemCount( 30 );
-			cmbAggOn.addSelectionListener( new SelectionAdapter( ) {
-
-				public void widgetSelected( SelectionEvent e )
-				{
-					modifyDialogContent( );
-				}
-			} );
-		}
 	}
+	
+	private boolean isExtendsDataSet()
+	{
+		return LinkedDataSetAdapter.bindToLinkedDataSet(getBindingHolder());
+	}
+			
 
 	private void createCommonSection( Composite composite )
 	{
@@ -2505,7 +2525,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			catch ( AdapterException e )
 			{
 			}
-			if ( !exprEquals( (Expression) binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
+			if (txtFilter != null && !exprEquals( (Expression) binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
 					.getValue( ),
 					ExpressionButtonUtil.getExpression( txtFilter ) ) )
 				return true;
@@ -2644,9 +2664,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 
 			binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
-			ExpressionButtonUtil.saveExpressionButtonControl( txtFilter,
-					binding,
-					ComputedColumn.FILTER_MEMBER );
+			if(txtFilter != null){
+				ExpressionButtonUtil.saveExpressionButtonControl( txtFilter,
+						binding,
+						ComputedColumn.FILTER_MEMBER );
+			}
 
 			binding.clearAggregateOnList( );
 			// if (!isTimePeriod( ))
