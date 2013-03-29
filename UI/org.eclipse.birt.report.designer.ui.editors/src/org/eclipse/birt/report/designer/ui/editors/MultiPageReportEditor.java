@@ -875,7 +875,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	{
 		if ( getActivePageInstance( ) != null
 				&& getActivePageInstance( ).getPartControl( ) != null
-				&& containsFocusControl( getActivePageInstance( ).getPartControl( ) ) )
+				&& UIUtil.containsFocusControl( getActivePageInstance( ).getPartControl( ) ) )
 			return;
 		super.setFocus( );
 		if ( pages == null
@@ -885,20 +885,6 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			return;
 		}
 		bingdingKey( getCurrentPage( ) );
-	}
-
-	private boolean containsFocusControl( Control container )
-	{
-		Control control = container.getDisplay( ).getFocusControl( );
-
-		while ( control != null )
-		{
-			control = control.getParent( );
-			if ( control == container )
-				return true;
-		}
-
-		return false;
 	}
 
 	// this is a bug because the getActiveEditor() return null, we should change
