@@ -169,17 +169,18 @@ public final class CrosstabUtil implements ICrosstabConstants
 			return false;
 
 		if ( crosstab != null && dimension != null )
-		{
+		{			 
 			CubeHandle currentCube = crosstab.getCube( );
-
 			if ( currentCube == null )
 			{
 				return true;
 			}
 
+			boolean isLinkedDataModel = isBoundToLinkedDataSet( crosstab );
+			
 			// check containment consistence
-			if ( dimension.getElement( )
-					.isContentOf( currentCube.getElement( ) ) )
+			if ( isLinkedDataModel || 
+					dimension.getElement( ).isContentOf( currentCube.getElement( ) ) )
 			{
 				for ( int i = 0; i < crosstab.getDimensionCount( ROW_AXIS_TYPE ); i++ )
 				{
@@ -205,7 +206,6 @@ public final class CrosstabUtil implements ICrosstabConstants
 
 				return true;
 			}
-
 		}
 
 		return false;
@@ -228,14 +228,16 @@ public final class CrosstabUtil implements ICrosstabConstants
 		if ( crosstab != null && measure != null )
 		{
 			CubeHandle currentCube = crosstab.getCube( );
-
 			if ( currentCube == null )
 			{
 				return true;
 			}
 
+			boolean isLinkedDataModel = isBoundToLinkedDataSet( crosstab );
+			
 			// check containment consistence
-			if ( measure.getElement( ).isContentOf( currentCube.getElement( ) ) )
+			if ( isLinkedDataModel 
+					|| measure.getElement( ).isContentOf( currentCube.getElement( ) ) )
 			{
 				for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
 				{
