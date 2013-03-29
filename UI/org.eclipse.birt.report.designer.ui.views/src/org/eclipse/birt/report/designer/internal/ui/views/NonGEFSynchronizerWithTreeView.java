@@ -128,8 +128,6 @@ public class NonGEFSynchronizerWithTreeView implements IMediatorColleague
 		{
 			list = ( (IStructuredSelection) selection ).toList( );
 		}
-		request.setSelectionObject( list );
-		request.setType( ReportRequest.SELECTION );
 		/**
 		 * There is no object selected after delete an element not displayed in layout, such as data set.
 		 * Then the request has no object to perform.
@@ -139,6 +137,9 @@ public class NonGEFSynchronizerWithTreeView implements IMediatorColleague
 			list=new ArrayList( );
 			list.add(SessionHandleAdapter.getInstance().getModule());
 		}
+		request.setSelectionObject( list );
+		request.setType( ReportRequest.SELECTION );
+
 
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
