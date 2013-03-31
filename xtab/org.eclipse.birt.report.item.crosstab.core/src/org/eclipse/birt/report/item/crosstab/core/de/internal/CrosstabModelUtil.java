@@ -412,6 +412,28 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		}
 		return null;
 	}
+	
+	public static void updateRPTMeasureAggregation(CrosstabReportItemHandle crosstab)
+	{
+		if (crosstab == null)
+		{
+			return;
+		}
+		int count = crosstab.getMeasureCount( );
+		for (int i=0; i<count; i++)
+		{
+			MeasureViewHandle measureHandle = crosstab.getMeasure( i );
+			
+			if (measureHandle.getCell( ) != null)
+			{
+				List<DataItemHandle> items = getDataItems(measureHandle.getCell( ));
+				for (int j=0; j<items.size( ); j++)
+				{
+					updateRPTAggregateOn( crosstab, items.get( j ) );
+				}
+			}
+		}
+	}
 	private static List<DataItemHandle> getDataItems(AggregationCellHandle cell)
 	{
 		List<DataItemHandle> items = new ArrayList<DataItemHandle>();
