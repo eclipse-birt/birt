@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CLabel;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
@@ -39,7 +40,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
@@ -1054,7 +1054,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	
 	private boolean isExtendsDataSet()
 	{
-		return LinkedDataSetAdapter.bindToLinkedDataSet(getBindingHolder());
+		return ExtendedDataModelUIAdapterHelper.isBoundToExtendedData(getBindingHolder());
 	}
 
 	private void createCommonSection( Composite composite )

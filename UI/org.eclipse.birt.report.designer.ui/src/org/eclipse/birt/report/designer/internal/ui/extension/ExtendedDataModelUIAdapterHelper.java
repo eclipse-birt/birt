@@ -2,7 +2,6 @@
 package org.eclipse.birt.report.designer.internal.ui.extension;
 
 import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
@@ -28,17 +27,12 @@ public class ExtendedDataModelUIAdapterHelper
 
 	public static boolean isBoundToExtendedData( ReportItemHandle reportItemHandle )
 	{
-		boolean result = false;
-		try
+		if(reportItemHandle == null)
 		{
-			result = LinkedDataSetUtil.bindToLinkedDataSet( reportItemHandle );
+			return false;
 		}
-		catch ( Exception e )
-		{
-			ExceptionHandler.handle( e );
-		}
-
-		return result;
+		
+		return LinkedDataSetUtil.bindToLinkedDataSet( reportItemHandle );
 	}
 
 }

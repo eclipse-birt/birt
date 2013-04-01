@@ -53,7 +53,6 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -2065,9 +2064,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private void createFilterCondition(Composite composite,GridData gridData)
 	{
 		//if use link data set , not create the filter expression
- 		if(isExtendsDataSet())
+ 		if(ExtendedDataModelUIAdapterHelper.isBoundToExtendedData(getBindingHolder()))
 		{
-			return ;
+			return;
 		}
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER | SWT.WRAP );
@@ -2116,12 +2115,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				this.bindingHolder );
 	}
 	
-	private boolean isExtendsDataSet()
-	{
-		return LinkedDataSetAdapter.bindToLinkedDataSet(getBindingHolder());
-	}
-			
-
 	private void createCommonSection( Composite composite )
 	{
 		new Label( composite, SWT.NONE ).setText( EXPRESSION );

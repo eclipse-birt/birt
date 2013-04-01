@@ -6,10 +6,10 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -31,7 +31,7 @@ public class TableDropAdapter implements IDropAdapter {
 			CellHandle cellHandle = (CellHandle) ((TableCellEditPart) target).getModel();
 			if (DEUtil.getBindingHolder(cellHandle) instanceof TableHandle) {
 				TableHandle tableHandle = (TableHandle)(DEUtil.getBindingHolder(cellHandle));
-				if(LinkedDataSetAdapter.bindToLinkedDataSet(tableHandle))
+				if(ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( tableHandle))
 				{
 					result =  DNDService.LOGIC_TRUE;
 				}
