@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.item.crosstab.core.util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -359,7 +358,6 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( );
 		}
 
 		return Collections.EMPTY_LIST;
@@ -375,13 +373,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 				isBoundToLinkedDataSet = LinkedDataSetUtil.bindToLinkedDataSet( (ReportItemHandle) crosstabItem.getCrosstabHandle( ));
 			}
 		}
-		catch ( IllegalArgumentException e )
-		{			
-		}
-		catch ( IllegalAccessException e )
-		{
-		}
-		catch ( InvocationTargetException e )
+		catch( Exception e )
 		{
 		}
 		
