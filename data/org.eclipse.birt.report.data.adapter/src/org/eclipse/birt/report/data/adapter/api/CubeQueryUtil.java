@@ -141,80 +141,11 @@ public class CubeQueryUtil
 			String bindingExpr, List bindings, List rowEdgeExprList,
 			List columnEdgeExprList ) throws AdapterException
 	{
-		try
-		{
-			List result = new ArrayList( );
-			DimensionLevel target = getTargetDimLevelForLinkedCube( targetLevel );
-			String bindingName = getReferencedScriptObject( bindingExpr, "data" );
-			if ( bindingName == null )
-				return result;
-			IBinding binding = null;
-			for ( int i = 0; i < bindings.size( ); i++ )
-			{
-				IBinding bd = (IBinding) bindings.get( i );
-				if ( bd.getBindingName( ).equals( bindingName ) )
-				{
-					binding = bd;
-					break;
-				}
-			}
-
-			if ( binding == null )
-			{
-				return result;
-			}
-
-			List aggrOns = binding.getAggregatOns( );
-			boolean isMeasure = false;
-			if ( aggrOns.size( ) == 0 )
-			{
-				isMeasure = getReferencedScriptObject( binding.getExpression( ),
-						"measure" ) != null;
-				if ( !isMeasure )
-				{
-					// is derived measure?
-					isMeasure = getReferencedScriptObject( binding.getExpression( ),
-							"data" ) != null;
-				}
-			}
-
-			int candidateEdge = getAxisQualifierEdgeTypeForLinkedCube( rowEdgeExprList,
-					columnEdgeExprList,
-					target );
-
-			if ( candidateEdge == -1 )
-				return result;
-
-			if ( isMeasure )
-			{
-				switch ( candidateEdge )
-				{
-					case ICubeQueryDefinition.ROW_EDGE :
-						populateLevelsForLinkedCube( rowEdgeExprList, result );
-						break;
-					case ICubeQueryDefinition.COLUMN_EDGE :
-						populateLevelsForLinkedCube( columnEdgeExprList, result );
-						break;
-				}
-			}
-			else
-			{
-				switch ( candidateEdge )
-				{
-					case ICubeQueryDefinition.ROW_EDGE :
-						populateAxisLevelsForLinkedCube( aggrOns, rowEdgeExprList, result );
-						break;
-					case ICubeQueryDefinition.COLUMN_EDGE :
-						populateAxisLevelsForLinkedCube( aggrOns, columnEdgeExprList, result );
-						break;
-				}
-			}
-			return result;
-		}
-		catch ( DataException e )
-		{
-			throw new AdapterException( e.getLocalizedMessage( ), e );
-		}
+		return getReferencedLevels( targetLevel,
+				bindingExpr,
+				bindings,
+				rowEdgeExprList,
+				columnEdgeExprList );
 	}
 	
 	/**
@@ -265,28 +196,6 @@ public class CubeQueryUtil
 			}
 		}
 	}
-	
-	/**
-	 * Populate axis levels to the <code>result</code> for the aggregate on
-	 * levels only if they are on the specified level.
-	 * 
-	 * @param aggrOns
-	 * @param edgeExprList
-	 * @param result
-	 * @throws AdapterException
-	 */
-	private static void populateAxisLevelsForLinkedCube( List aggrOns, List edgeExprList,
-			List result ) throws AdapterException
-	{
-		for ( int i = 0; i < aggrOns.size( ); i++ )
-		{
-			final String levelExpr = aggrOns.get( i ).toString( );
-			if ( isAxisQualifierLevelForLinkedCube( levelExpr, edgeExprList ) )
-			{
-				result.add( getTargetDimLevelForLinkedCube( levelExpr ) );
-			}
-		}
-	}
 
 	/**
 	 * 
@@ -305,19 +214,6 @@ public class CubeQueryUtil
 		}
 		return false;
 	}
-	
-	private static boolean isAxisQualifierLevelForLinkedCube( String levelExpr,
-			List rowEdgeExprList )
-	{
-		for ( Iterator i = rowEdgeExprList.iterator( ); i.hasNext( ); )
-		{
-			String expr = (String) i.next( );
-			String[] target = CubeUtil.splitLevelName( expr );
-			if ( target[0].equals( levelExpr ) )
-				return true;
-		}
-		return false;
-	}
 
 	/**
 	 * 
@@ -332,22 +228,6 @@ public class CubeQueryUtil
 		{
 			String levelExpr = (String) i.next( );
 			result.add( getTargetDimLevel( levelExpr ) );
-		}
-	}
-	
-	/**
-	 * 
-	 * @param levelExprList
-	 * @param result
-	 * @throws AdapterException 
-	 */
-	private static void populateLevelsForLinkedCube( List levelExprList, List result )
-			throws AdapterException
-	{
-		for ( Iterator i = levelExprList.iterator( ); i.hasNext( ); )
-		{
-			String levelExpr = (String) i.next( );
-			result.add( getTargetDimLevelForLinkedCube( levelExpr ) );
 		}
 	}
 
@@ -391,46 +271,6 @@ public class CubeQueryUtil
 		return -1;
 	}
 	
-	/**
-	 * 
-	 * @param rowEdgeList
-	 * @param columnEdgeList
-	 * @param target
-	 * @return
-	 * @throws AdapterException
-	 */
-	private static int getAxisQualifierEdgeTypeForLinkedCube( List rowEdgeList,
-			List columnEdgeList, DimensionLevel target ) throws AdapterException
-	{
-		if ( rowEdgeList != null )
-		{
-			for ( Iterator i = rowEdgeList.iterator( ); i.hasNext( ); )
-			{
-				String levelExpr = (String) i.next( );
-				DimensionLevel level = getTargetDimLevelForLinkedCube( levelExpr );
-				if ( target.getDimensionName( )
-						.equals( level.getDimensionName( ) ) )
-				{
-					return ICubeQueryDefinition.COLUMN_EDGE;
-				}
-			}
-		}
-		if ( columnEdgeList != null )
-		{
-			for ( Iterator i = columnEdgeList.iterator( ); i.hasNext( ); )
-			{
-				String levelExpr = (String) i.next( );
-				DimensionLevel level = getTargetDimLevelForLinkedCube( levelExpr );
-				if ( target.getDimensionName( )
-						.equals( level.getDimensionName( ) ) )
-				{
-					return ICubeQueryDefinition.ROW_EDGE;
-				}
-			}
-		}
-		return -1;
-	}
-
 	/**
 	 * Get referenced Script Object (dimension, data, measure, etc) according to
 	 * given object name.
@@ -572,18 +412,6 @@ public class CubeQueryUtil
 		{
 			throw new AdapterException( ResourceConstants.INVALID_LEVEL_EXPRESSION, expr );
 		}
-		return new DimensionLevel( target[0], target[1] );
-	}
-	
-	private static DimensionLevel getTargetDimLevelForLinkedCube( String expr ) throws AdapterException
-	{
-		final String[] target = CubeUtil.splitLevelName( expr );
-		if ( target == null || target.length < 2 )
-		{
-			throw new AdapterException( ResourceConstants.INVALID_LEVEL_EXPRESSION, expr );
-		}
-		if( target[0] == null )
-			target[0] = target[1];
 		return new DimensionLevel( target[0], target[1] );
 	}
 }
