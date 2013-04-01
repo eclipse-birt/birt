@@ -331,9 +331,9 @@ public final class CrosstabUtil implements ICrosstabConstants
 				// Linked Data Model case
 				String targetLevel = CubeUtil.getFullLevelName( dimensionHandle.getName( ),
 						levelHandle.getName( ) );
-				List<String> rowLevelList = getLevelNameList( crosstab,
+				List<String> rowLevelList = getLevelBindingNameList( crosstab,
 						ICrosstabConstants.ROW_AXIS_TYPE );
-				List<String> colLevelList = getLevelNameList( crosstab,
+				List<String> colLevelList = getLevelBindingNameList( crosstab,
 						ICrosstabConstants.COLUMN_AXIS_TYPE );
 				return CubeQueryUtil.getReferencedLevelsForLinkedCube( targetLevel, 
 						bindingExpr,
@@ -608,7 +608,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 	}
 
-	private static List<String> getLevelNameList(
+	private static List<String> getLevelBindingNameList(
 			CrosstabReportItemHandle crosstab, int axis )
 			throws CrosstabException
 	{
@@ -629,7 +629,6 @@ public final class CrosstabUtil implements ICrosstabConstants
 			for ( int j = 0; j < dv.getLevelCount( ); j++ )
 			{
 				LevelViewHandle lv = dv.getLevel( j );
-
 				if ( lv.getCubeLevel( ) == null )
 				{
 					throw new CrosstabException( lv.getModelHandle( )
@@ -638,8 +637,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 									lv.getCubeLevelName( ) ) );
 				}
 
-				lvList.add( CubeUtil.getFullLevelName( dv.getCubeDimension( ).getName( ),
-						lv.getCubeLevel( ).getName( ) ) );
+				lvList.add( getLevelBindingName( crosstab, lv, null, null ) );
 			}
 		}
 
@@ -667,7 +665,6 @@ public final class CrosstabUtil implements ICrosstabConstants
 			for ( int j = 0; j < dv.getLevelCount( ); j++ )
 			{
 				LevelViewHandle lv = dv.getLevel( j );
-
 				if ( lv.getCubeLevel( ) == null )
 				{
 					throw new CrosstabException( lv.getModelHandle( )
