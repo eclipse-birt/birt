@@ -2421,8 +2421,8 @@
     <Property canInherit="false" detailType="overflow" displayNameID="Element.Style.overflow" isStyleProperty="true" name="overflow" since="2.5.2" type="choice">
         <Default>hidden</Default>
     </Property>
-    <Property displayNameID="Element.Style.height" name="height" isStyleProperty="true" since="4.3" type="dimension" validator="NonNegativeValueValidator" />
-    <Property displayNameID="Element.Style.width" name="width" isStyleProperty="true" since="4.3" type="dimension" validator="NonNegativeValueValidator" />
+    <Property canInherit="false" displayNameID="Element.Style.height" name="height" isStyleProperty="true" since="4.3" type="dimension" validator="NonNegativeValueValidator" />
+    <Property canInherit="false" displayNameID="Element.Style.width" name="width" isStyleProperty="true" since="4.3" type="dimension" validator="NonNegativeValueValidator" />
     
     <PropertyVisibility name="backgroundAttachment" visibility="hide"/>          
     <PropertyVisibility name="backgroundImage" visibility="hide"/>      
