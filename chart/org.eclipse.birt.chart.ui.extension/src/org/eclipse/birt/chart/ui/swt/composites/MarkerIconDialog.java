@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -59,9 +60,9 @@ public class MarkerIconDialog extends TrayDialog
 			ModifyListener
 {
 
-	private transient Button btnURL;
+	protected transient Button btnURL;
 
-	private transient Button btnLocal;
+	protected transient Button btnLocal;
 
 	private transient Button btnPreview;
 
@@ -83,11 +84,14 @@ public class MarkerIconDialog extends TrayDialog
 
 	private transient Fill icon;
 
-	private Button btnEmbeddedImage;
+	protected Button btnEmbeddedImage;
 
 	private boolean validateURL = false;
 
 	private Label lblException;
+
+	protected ChartWizardContext context;
+
 	/**
 	 * Constructor
 	 * 
@@ -96,7 +100,7 @@ public class MarkerIconDialog extends TrayDialog
 	 * @param iconPalette
 	 *            retrieved from LineSeries
 	 */
-	public MarkerIconDialog( Shell parent, Fill fill )
+	public MarkerIconDialog( Shell parent, Fill fill, ChartWizardContext context )
 	{
 		super( parent );
 		
@@ -106,6 +110,8 @@ public class MarkerIconDialog extends TrayDialog
 		{
 			icon = fill.copyInstance( );
 		}
+
+		this.context = context;
 	}
 
 	protected Control createContents( Composite parent )
@@ -116,7 +122,7 @@ public class MarkerIconDialog extends TrayDialog
 		Control c = super.createContents( parent );
 		
 		// Check icon type and set UI status.
-		if ( icon instanceof EmbeddedImage )
+		if ( btnEmbeddedImage != null && icon instanceof EmbeddedImage )
 		{
 			btnEmbeddedImage.setSelection( true );
 			switchTo( EMBEDDED_TYPE );
@@ -125,7 +131,8 @@ public class MarkerIconDialog extends TrayDialog
 		{
 			try
 			{
-				if ( "file".equals( new URL( ( (Image) icon ).getURL( ) ).getProtocol( ) ) ) //$NON-NLS-1$
+				if ( btnLocal != null
+						&& "file".equals( new URL( ( (Image) icon ).getURL( ) ).getProtocol( ) ) ) //$NON-NLS-1$
 				{
 					btnLocal.setSelection( true );
 					switchTo( LOCAL_TYPE );
@@ -177,7 +184,7 @@ public class MarkerIconDialog extends TrayDialog
 	 * @param parent
 	 *            dialog composite
 	 */
-	private void createSelectionArea( Composite parent )
+	protected void createSelectionArea( Composite parent )
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
 		composite.setLayout( new GridLayout( 2, false ) );
