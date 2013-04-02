@@ -764,7 +764,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			return null;
 
 		String expr = old.getStringExpression( );
-		String type = old.getUserDefinedType( );
+		String type = old.getType( );
 		Map<String, String> updateMap = getUpdateBindingMap( expr, nameMap,
 				type );
 
@@ -778,7 +778,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 				newExpr = newExpr.replaceAll( "(\\W)" + oldName + "(\\W)", //$NON-NLS-1$ //$NON-NLS-2$ 
 						"$1" + newName + "$2" ); //$NON-NLS-1$  //$NON-NLS-2$
 			}
-			return new Expression( newExpr, type );
+			return new Expression( newExpr, old.getUserDefinedType( ) );
 		}
 		return null;
 	}
