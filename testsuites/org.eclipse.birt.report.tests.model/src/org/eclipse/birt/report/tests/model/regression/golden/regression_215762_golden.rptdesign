@@ -454,7 +454,7 @@ from OFFICES]]></xml-property>
         <label name="location" id="6">
             <text-property name="text">label1</text-property>
         </label>
-        <extended-item extensionName="Crosstab" extensionVersion="2.5.0" name="NewCross Tab"
+        <extended-item extensionName="Crosstab" extensionVersion="3.7.0" name="NewCross Tab"
  id="13">
             <property name="cube">Data Cube1</property>
             <property name="measures">
@@ -510,12 +510,12 @@ from OFFICES]]></xml-property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">COUNTRY</property>
-                    <expression name="expression">dimension["location1"]["COUNTRY"]</expression>
+                    <expression name="expression">dimension["location"]["COUNTRY"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">OFFICECODE_location/COUNTRY</property>
-                    <expression name="expression">measure["OFFICECODE1"]</expression>
+                    <expression name="expression">measure["OFFICECODE"]</expression>
                     <property name="dataType">integer</property>
                     <simple-property-list name="aggregateOn">
                         <value>location1/COUNTRY</value>

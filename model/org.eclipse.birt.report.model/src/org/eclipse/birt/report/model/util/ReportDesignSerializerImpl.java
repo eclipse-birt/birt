@@ -764,7 +764,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			return null;
 
 		String expr = old.getStringExpression( );
-		String type = old.getType( );
+		String type = old.getUserDefinedType( );
 		Map<String, String> updateMap = getUpdateBindingMap( expr, nameMap,
 				type );
 
