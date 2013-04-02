@@ -214,7 +214,10 @@ public class GridAttributesComposite extends Composite implements
 				protected void placeComponents( )
 				{
 					super.placeComponents( );
-					btnVisible.setText(lineVisibleLabel);
+					if ( btnVisible != null )
+					{
+						btnVisible.setText(lineVisibleLabel);
+					}
 				}			
 			};
 			liacLines.addListener( this );
@@ -258,7 +261,10 @@ public class GridAttributesComposite extends Composite implements
 				protected void placeComponents( )
 				{
 					super.placeComponents( );
-					btnVisible.setText(tickVisibleLabel);
+					if ( btnVisible != null )
+					{
+						btnVisible.setText(tickVisibleLabel);
+					}
 				}
 				
 			};
