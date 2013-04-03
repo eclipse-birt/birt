@@ -1,5 +1,6 @@
 dataset.editor.page.query=查询
 dataset.new.query=使用可用项来定义 sql 查询文本。
+dataset.new.query.hive=使用可用数据项定义 hql 查询文本。
 dataset.new=新建数据集
 dataset.editor.page.query.error.schemaNotExisted=架构名称不存在。
 datasource.new=新建数据源
@@ -31,7 +32,7 @@ tablepage.label.queryText=查询文本(&U):
 tablepage.button.filter=应用筛选器(&A)
 tablepage.button.dnd=引用全部标识符(&Q)
 tablepage.button.showSystemTables=显示系统表(&H)
-tablepage.button.showAlias=显示别名
+tablepage.button.showAlias=显示别名(&S)
 tablepage.button.includeSchemaInfo=在项目名称中包括架构(&I)
 tablepage.label.filterNote=（使用 '%' 匹配不含字符或含有多个字符的任何字符串，使用 '-' 匹配一个字符）
 tablepage.title=选择要在数据集内显示的表。

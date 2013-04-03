@@ -24,6 +24,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -492,7 +493,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 									else
 										value = ScriptEvalUtil.evalExpr( expr,
 												cx,
-												null,
+												ScriptExpression.defaultID,
 												0 );
 								}
 							}

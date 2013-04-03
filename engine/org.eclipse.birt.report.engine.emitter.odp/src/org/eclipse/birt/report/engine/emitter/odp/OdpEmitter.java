@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
 import org.eclipse.birt.report.engine.layout.emitter.PageEmitter;
 import org.eclipse.birt.report.engine.odf.OdfConstants;
 import org.eclipse.birt.report.engine.odf.pkg.Package;
+import org.eclipse.birt.report.engine.odf.style.StyleConstant;
 import org.eclipse.birt.report.engine.odf.writer.ContentWriter;
 import org.eclipse.birt.report.engine.odf.writer.StylesWriter;
 
@@ -74,7 +75,7 @@ public class OdpEmitter extends PageEmitter implements OdfConstants
 			docContentWriter.write( context.getStyleManager( ).getStyles( ),
 					new ByteArrayInputStream( bodyOut.toByteArray( ) ) );
 
-			StylesWriter stylesWriter = new StylesWriter( pkg.addEntry(
+			StylesWriter stylesWriter = new OdpStylesWriter( pkg.addEntry(
 					FILE_STYLES, CONTENT_TYPE_XML ).getOutputStream( ), context.getReportDpi( ) );
 			
 			// write the styles.xml file
@@ -92,5 +93,51 @@ public class OdpEmitter extends PageEmitter implements OdfConstants
 		}
 	}
 
-	
+	private class OdpStylesWriter extends StylesWriter
+	{
+		public OdpStylesWriter( OutputStream out, int reportDpi )
+		{
+			super(out,reportDpi);
+		}
+		
+		public void writeDefaultStyles( )
+		{
+			// TODO: also write "style:default-style" entries?
+
+			// imported from an ODF file saved by OpenOffice 3.2
+			writer.openTag( "style:style" );
+			writer.attribute( "style:name", "Standard" );
+			writer.attribute( "style:family", "paragraph" );
+			writer.attribute( "style:class", "text" );
+			writer.closeTag( "style:style" );
+
+			writer.openTag( "style:style" );
+			writer.attribute( "style:name", "Graphics" );
+			writer.attribute( "style:family", "graphic" );
+
+			writer.openTag( "style:graphic-properties" );
+			writer.attribute( "text:anchor-type", "paragraph" );
+			writer.attribute( "svg:x", "0in" );
+			writer.attribute( "svg:y", "0in" );
+			writer.attribute( "style:wrap", "dynamic" );
+			writer.attribute( "style:number-wrapped-paragraphs", "no-limit" );
+			writer.attribute( "style:wrap-contour", "false" );
+			writer.attribute( "style:vertical-pos", "top" );
+			writer.attribute( "style:vertical-rel", "paragraph" );
+			writer.attribute( "style:horizontal-pos", "center" );
+			writer.attribute( "style:horizontal-rel", "paragraph" );
+			writer.attribute( "draw:auto-grow-height", "false" );
+			writer.attribute( "draw:auto-grow-width", "true" );
+			writer.closeTag( "style:graphic-properties" );
+			writer.closeTag( "style:style" );
+
+			writer.openTag( "style:style" );
+			writer.attribute( "style:name", StyleConstant.HIDDEN_STYLE_NAME );
+			writer.attribute( "style:family", "paragraph" );
+			writer.openTag( "style:paragraph-properties" );
+			writer.attribute( "text:display", "none" );
+			writer.closeTag( "style:paragraph-properties" );
+			writer.closeTag( "style:style" );
+		}
+	}
 }

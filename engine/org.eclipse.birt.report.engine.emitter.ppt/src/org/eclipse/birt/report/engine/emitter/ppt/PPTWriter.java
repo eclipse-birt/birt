@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.lang.UCharacter.UnicodeBlock;
@@ -286,22 +287,34 @@ public class PPTWriter
 	 * @param text
 	 *            the textArea to be drawn.
 	 * @param textX
-	 *            the X position of the textArea relative to current page.
+	 * 			  the X position of the textArea relative to current page.
 	 * @param textY
-	 *            the Y position of the textArea relative to current page.
-	 * @param contentByte
-	 *            the content byte to draw the text.
-	 * @param contentByteHeight
-	 *            the height of the content byte.
+	 * 			  the Y position of the textArea relative to current page.
+	 * @param width
+	 * 			  the Width of the textArea
+	 * @param height
+	 * 	          the height of the textArea
+	 * @param textStyle
+	 *            the style of the textArea
+	 * @param link
+	 * 			  the hyperlink of the textArea
 	 */
 	public void drawText( String text, float textX, float textY, float width,
-			float height, FontInfo fontInfo, Color color, boolean rtl,
-			HyperlinkDef link )
+			float height, TextStyle textStyle, HyperlinkDef link )
 	{
+		FontInfo fontInfo = textStyle.getFontInfo(); 
+		Color color = textStyle.getColor(); 
+		boolean rtl = textStyle.isRtl();
+		
 		if ( fontInfo == null )
 		{
 			return;
 		}
+		
+		float descend = fontInfo.getBaseFont( ).getFontDescriptor(
+				BaseFont.DESCENT, fontInfo.getFontSize( ) );
+		height = height + descend * 0.6f;
+		
 		BaseFont baseFont = fontInfo.getBaseFont( );
 		String fontName = getFontName( baseFont );
 
@@ -325,6 +338,9 @@ public class PPTWriter
 				&& ( fontInfo.getFontStyle( ) & Font.ITALIC ) != 0;
 		boolean isBold = fontInfo != null
 				&& ( fontInfo.getFontStyle( ) & Font.BOLD ) != 0;
+						
+		boolean isUnderline = textStyle.isUnderline();
+		
 		if ( isItalic )
 		{
 			print( "<i>" );
@@ -332,6 +348,10 @@ public class PPTWriter
 		if ( isBold )
 		{
 			print( "<b>" );
+		}
+		if ( isUnderline )
+		{
+			print( "<u>" );
 		}
 		if ( link != null )
 		{
@@ -356,6 +376,10 @@ public class PPTWriter
 		if ( link != null )
 		{
 			print("</a>");
+		}
+		if ( isUnderline )
+		{
+			print( "</u>" );
 		}
 		if ( isBold )
 		{

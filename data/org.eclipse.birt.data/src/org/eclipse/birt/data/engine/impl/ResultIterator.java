@@ -1007,6 +1007,7 @@ public class ResultIterator implements IResultIterator
 		if ( odiResult != null )
 				odiResult.close( );
 
+		QueryPrepareUtil.clear( resultService.getSession( ) );
 		odiResult = null;
 		resultService = null;
 		logger.logp( Level.FINER,

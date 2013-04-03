@@ -366,6 +366,12 @@ public class ExecutionContext
 		if ( locale != null )
 		{
 			scriptContext.setLocale( locale );
+		}	
+		
+		TimeZone timeZone = getTimeZone( );
+		if ( timeZone != null )
+		{
+			scriptContext.setTimeZone( timeZone );
 		}
 
 		// create script context used to execute the script statements
@@ -2446,6 +2452,15 @@ public class ExecutionContext
 		{
 			return reportletBookmarkMap.values( ).contains( bookmark );
 		}
+	}
+	
+	public boolean isReportDocumentFinished( )
+	{
+		if ( this.reportDoc != null )
+		{
+			return reportDoc.isComplete( );
+		}
+		return false;
 	}
 	
 	

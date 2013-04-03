@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -73,10 +74,10 @@ import org.eclipse.swt.widgets.Display;
 /**
  * 
  */
-public final class DesignerRepresentation extends ReportElementFigure
+public class DesignerRepresentation extends ReportElementFigure
 {
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	private final static String ERROR_MSG = Messages.getString( "DesignerRepresentation.error.Error" ); //$NON-NLS-1$
 
@@ -88,14 +89,14 @@ public final class DesignerRepresentation extends ReportElementFigure
 	/**
 	 * 
 	 */
-	private final ChartReportItemImpl crii;
+	protected final ChartReportItemImpl crii;
 
-	private transient Chart cm;
+	protected transient Chart cm;
 
 	/**
 	 * 
 	 */
-	private Image imgChart = null;
+	protected Image imgChart = null;
 
 	/**
 	 * 
@@ -123,7 +124,7 @@ public final class DesignerRepresentation extends ReportElementFigure
 	 * 
 	 * @param crii
 	 */
-	DesignerRepresentation( ChartReportItemImpl crii )
+	protected DesignerRepresentation( ChartReportItemImpl crii )
 	{
 		this.crii = crii;
 		updateChartModel( );
@@ -355,73 +356,81 @@ public final class DesignerRepresentation extends ReportElementFigure
 		}
 		bPainting = true;
 
-		Color backgroundColor = Display.getDefault( )
-				.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
 		if ( bDirty )
 		{
 			bDirty = false;
-
-			final Display d = Display.getCurrent( );
-			Dimension dSize = r.getSize( );
-
-			// OFFSCREEN IMAGE CREATION STRATEGY
-			if ( imgChart == null
-					|| imgChart.getImageData( ).width != dSize.width
-					|| imgChart.getImageData( ).height != dSize.height )
-			{
-				if ( gc != null )
-				{
-					gc.dispose( );
-				}
-				if ( imgChart != null )
-				{
-					imgChart.dispose( );
-				}
-				bDirty = true;
-
-				// FILL IMAGE WITH TRANSPARENCY
-				final ImageData ida = new ImageData( dSize.width,
-						dSize.height,
-						32,
-						PALETTE_DATA );
-				ida.transparentPixel = ida.palette.getPixel( backgroundColor.getRGB( ) );
-
-				imgChart = new Image( d, ida );
-				gc = new GC( imgChart );
-			}
-
-			// bug 288169
-			if ( Platform.OS_MACOSX.equals( Platform.getOS( ) )
-					&& gc != null
-					&& !gc.isDisposed( ) )
-			{
-				gc.dispose( );
-				gc = new GC( imgChart );
-			}
-
-			final Color clrPreviousBG = gc.getBackground( );
-			gc.setBackground( backgroundColor );
-			gc.fillRectangle( 0,
-					0,
-					imgChart.getImageData( ).width,
-					imgChart.getImageData( ).height );
-			gc.setBackground( clrPreviousBG ); // RESTORE
-
-			if ( cm == null )
-			{
-				showNullChart( dSize );
-			}
-			else
-			{
-				showChart( dSize );
-			}
+			imgChart = paintChart( g, r.getSize( ) );
 		}
 
 		if ( imgChart != null )
 		{
 			g.drawImage( imgChart, r.x, r.y );
 		}
+
 		bPainting = false;
+	}
+
+	protected Image paintChart( Graphics g, Dimension dSize )
+	{
+		Color backgroundColor = Display.getDefault( )
+				.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
+
+		final Display d = Display.getCurrent( );
+
+		// OFFSCREEN IMAGE CREATION STRATEGY
+		if ( imgChart == null
+				|| imgChart.getImageData( ).width != dSize.width
+				|| imgChart.getImageData( ).height != dSize.height
+				|| gc == null
+				|| gc.isDisposed( ) )
+		{
+			if ( gc != null )
+			{
+				gc.dispose( );
+			}
+			if ( imgChart != null )
+			{
+				imgChart.dispose( );
+			}
+
+			// FILL IMAGE WITH TRANSPARENCY
+			final ImageData ida = new ImageData( dSize.width,
+					dSize.height,
+					32,
+					PALETTE_DATA );
+			ida.transparentPixel = ida.palette.getPixel( backgroundColor.getRGB( ) );
+
+			imgChart = new Image( d, ida );
+			gc = new GC( imgChart );
+		}
+
+		// bug 288169
+		if ( Platform.OS_MACOSX.equals( Platform.getOS( ) )
+				&& gc != null
+				&& !gc.isDisposed( ) )
+		{
+			gc.dispose( );
+			gc = new GC( imgChart );
+		}
+
+		final Color clrPreviousBG = gc.getBackground( );
+		gc.setBackground( backgroundColor );
+		gc.fillRectangle( 0,
+				0,
+				imgChart.getImageData( ).width,
+				imgChart.getImageData( ).height );
+		gc.setBackground( clrPreviousBG ); // RESTORE
+
+		if ( cm == null )
+		{
+			showNullChart( dSize );
+		}
+		else
+		{
+			showChart( dSize );
+		}
+
+		return imgChart;
 	}
 
 	private void showNullChart( Dimension dSize )
@@ -513,72 +522,12 @@ public final class DesignerRepresentation extends ReportElementFigure
 			gr.setDefaultBackground( cd );
 		}
 
-		ChartAdapter.beginIgnoreNotifications( );
-		cm.clearSections( IConstants.RUN_TIME ); // REMOVE OLD TRANSIENT
-		// RUNTIME SERIES
-		cm.createSampleRuntimeSeries( ); // USING SAMPLE DATA STORED IN
-		ChartAdapter.endIgnoreNotifications( );
-
 		// MODEL
 		try
 		{
-			Chart cmRunTime = cm.copyInstance( );
-			// Update auto title
-			ChartReportItemUIFactory.instance( )
-					.createUIHelper( )
-					.updateDefaultTitle( cmRunTime, crii.getHandle( ) );
-			removeScaleInfoForSample( cmRunTime );
-
-			RunTimeContext rtc = new RunTimeContext( );
-			rtc.setScriptingEnabled( false );
-			rtc.setMessageLookup( new BIRTDesignerMessageLookup( crii.getHandle( ) ) );
-
-			// Set direction from model to chart runtime context
-			rtc.setRightToLeft( crii.isLayoutDirectionRTL( ) );
-			// Set text direction from StyleHandle to chart runtime context
-			rtc.setRightToLeftText( crii.getHandle( ).isDirectionRTL( ) );
-
-			rtc.setResourceFinder( crii );
-			rtc.setExternalizer( crii );
-
-			// Create shared scale if needed
-			boolean bPlotChart = ChartCubeUtil.isPlotChart( crii.getHandle( ) );
-			if ( bPlotChart )
-			{
-				rtc.setSharedScale( createSharedScaleFromSampleData( ) );
-			}
-			
-			// Here we override updateChart method to force updating chart with
-			// default value to ensure we can get a chart figure.
-			ChartReportStyleProcessor crsp = new ChartReportStyleProcessor( crii.getHandle( ),
-					true ) {
-
-				/* (non-Javadoc)
-				 * @see org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor#updateChart(org.eclipse.birt.chart.model.Chart, java.lang.Object)
-				 */
-				@Override
-				public boolean updateChart( Chart model, Object obj )
-				{
-					if ( styleProcessorProxy != null )
-					{
-						// Enforce update chart with default value for image chart.
-						styleProcessorProxy.updateChart( model, true );
-						return true;
-					}
-					return false;
-				}
-				
-				/* (non-Javadoc)
-				 * @see org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor#needChartBasicStyles()
-				 */
-				public boolean needInheritingStyles( )
-				{
-					// Since the designer presentation is still rendering chart
-					// with SWT, it is image chart, it still returns true for
-					// updating chart with necessary styles.
-					return true;
-				}
-			};
+			Chart cmRunTime = constructRuntimeModel( );
+			RunTimeContext rtc = constructRuntimeContext( );
+			ChartReportStyleProcessor crsp = constructStyleProcessor( );
 			gr.render( idr, gr.build( idr.getDisplayServer( ),
 					cmRunTime,
 					bo,
@@ -590,6 +539,78 @@ public final class DesignerRepresentation extends ReportElementFigure
 		{
 			showException( gc, gex );
 		}
+	}
+
+	protected final Chart constructRuntimeModel( )
+	{
+		ChartAdapter.beginIgnoreNotifications( );
+		cm.clearSections( IConstants.RUN_TIME ); // REMOVE OLD TRANSIENT
+		// RUNTIME SERIES
+		cm.createSampleRuntimeSeries( ); // USING SAMPLE DATA STORED IN
+		ChartAdapter.endIgnoreNotifications( );
+
+		Chart cmRunTime = cm.copyInstance( );
+
+		// Update auto title
+		ChartReportItemUIFactory.instance( )
+				.createUIHelper( )
+				.updateDefaultTitle( cmRunTime, crii.getHandle( ) );
+		removeScaleInfoForSample( cmRunTime );
+
+		return cmRunTime;
+	}
+
+	protected final RunTimeContext constructRuntimeContext( )
+	{
+		RunTimeContext rtc = new RunTimeContext( );
+		rtc.setScriptingEnabled( false );
+		rtc.setScriptHandler( new ScriptHandler( ) );
+		rtc.setMessageLookup( new BIRTDesignerMessageLookup( crii.getHandle( ) ) );
+
+		// Set direction from model to chart runtime context
+		rtc.setRightToLeft( crii.isLayoutDirectionRTL( ) );
+		// Set text direction from StyleHandle to chart runtime context
+		rtc.setRightToLeftText( crii.getHandle( ).isDirectionRTL( ) );
+
+		rtc.setResourceFinder( crii );
+		rtc.setExternalizer( crii );
+
+		// Create shared scale if needed
+		boolean bPlotChart = ChartCubeUtil.isPlotChart( crii.getHandle( ) );
+		if ( bPlotChart )
+		{
+			rtc.setSharedScale( createSharedScaleFromSampleData( ) );
+		}
+
+		return rtc;
+	}
+
+	protected final ChartReportStyleProcessor constructStyleProcessor( )
+	{
+		// Here we override updateChart method to force updating chart with
+		// default value to ensure we can get a chart figure.
+		return new ChartReportStyleProcessor( crii.getHandle( ), true ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor
+			 * #updateChart(org.eclipse.birt.chart.model.Chart,
+			 * java.lang.Object)
+			 */
+			@Override
+			public boolean updateChart( Chart model, Object obj )
+			{
+				if ( styleProcessorProxy != null )
+				{
+					// Enforce update chart with default value for image
+					// chart.
+					styleProcessorProxy.updateChart( model, false );
+					return true;
+				}
+				return false;
+			}
+		};
 	}
 
 	/**
@@ -657,16 +678,22 @@ public final class DesignerRepresentation extends ReportElementFigure
 	 */
 	public final void dispose( )
 	{
-		if ( imgChart != null )
+		if ( gc != null )
 		{
 			gc.dispose( );
-			imgChart.dispose( );
-			idr.dispose( );
 			gc = null;
-			imgChart = null;
-			bDirty = true;
+		}
+		if ( idr != null )
+		{
+			idr.dispose( );
 			idr = null;
 		}
+		if ( imgChart != null )
+		{
+			imgChart.dispose( );
+			imgChart = null;
+		}
+		bDirty = true;
 	}
 
 	private static String[] splitOnBreaks( String s, Font font, double maxSize )

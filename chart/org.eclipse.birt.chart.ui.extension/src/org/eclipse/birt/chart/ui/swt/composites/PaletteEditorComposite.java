@@ -186,7 +186,7 @@ public final class PaletteEditorComposite extends Composite implements
 		coPaletteEntries = new Composite( this, SWT.V_SCROLL );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		coPaletteEntries.setLayoutData( gd );
-		elPaletteEntries1 = pa1.getEntries( );
+		elPaletteEntries1 = pa1.copyInstance().getEntries( );
 		sb = coPaletteEntries.getVerticalBar( );
 		sb.addSelectionListener( this );
 
@@ -209,6 +209,7 @@ public final class PaletteEditorComposite extends Composite implements
 				ColorDefinitionImpl.WHITE( ) );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		fccNewEntry.setLayoutData( gd );
+		fccNewEntry.addScreenReaderAccessibility( Messages.getString("PaletteEditorComposite.Label.EditColor") ); //$NON-NLS-1$
 
 		btnRemove = new Button( coControlPanel, SWT.PUSH );
 		gd = new GridData( );
@@ -622,7 +623,10 @@ public final class PaletteEditorComposite extends Composite implements
 						.getEntries( );
 				if ( ( iIndex - i ) >= 0 )
 				{
-					el.remove( iIndex - i );
+					if ( elPaletteEntries1 != el )
+					{
+						el.remove( iIndex - i );
+					}
 				}
 				else
 				{
@@ -631,7 +635,10 @@ public final class PaletteEditorComposite extends Composite implements
 					{
 						index += size;
 					}
-					el.remove( index );
+					if ( elPaletteEntries1 != el )
+					{
+						el.remove( index );
+					}
 					if ( el.size( ) > 1 )
 					{
 						final Fill o = el.get( 0 );
@@ -727,10 +734,13 @@ public final class PaletteEditorComposite extends Composite implements
 			{
 				if ( i < size )
 				{
-					vSeriesDefns[i].getSeriesPalette( ).getEntries( ).add( size
-							- i
-							- 1,
-							fi.copyInstance( ) );
+					if ( elPaletteEntries1 != vSeriesDefns[i].getSeriesPalette( )
+							.getEntries( ) )
+					{
+						vSeriesDefns[i].getSeriesPalette( )
+								.getEntries( )
+								.add( size - i - 1, fi.copyInstance( ) );
+					}
 				}
 				else
 				{
@@ -738,9 +748,13 @@ public final class PaletteEditorComposite extends Composite implements
 							.getEntries( );
 					for ( int j = 0; j < el.size( ); j++ )
 					{
-						vSeriesDefns[i].getSeriesPalette( )
-								.getEntries( )
-								.add( j, el.get( j ).copyInstance( ) );
+						if ( elPaletteEntries1 != vSeriesDefns[i].getSeriesPalette( )
+								.getEntries( ) )
+						{
+							vSeriesDefns[i].getSeriesPalette( )
+									.getEntries( )
+									.add( j, el.get( j ).copyInstance( ) );
+						}
 					}
 					for ( int j = el.size( ); j < vSeriesDefns[i].getSeriesPalette( )
 							.getEntries( )

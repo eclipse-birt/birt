@@ -59,7 +59,7 @@ import org.eclipse.swt.widgets.Table;
  */
 
 public class DataSetColumnBindingsFormHandleProvider extends
-		AbstractSortingFormHandleProvider
+		AbstractDatasetSortingFormHandleProvider
 {
 
 	private static final String ALL = Messages.getString( "DataSetColumnBindingsFormHandleProvider.ALL" );//$NON-NLS-1$
@@ -98,7 +98,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 
 	public boolean isEditable( )
 	{
-		if ( input == null )
+		if ( input == null
+				|| !( DEUtil.getInputFirstElement( input ) instanceof ReportItemHandle ) )
 			return false;
 		else if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			return false;
@@ -134,9 +135,10 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	 *            the bindingObject to set
 	 */
 
-	public void setBindingObject( ReportElementHandle bindingObject )
+	public void setBindingObject( DesignElementHandle bindingObject )
 	{
-		this.bindingObject = bindingObject;
+		if ( bindingObject instanceof ReportElementHandle )
+			this.bindingObject = (ReportElementHandle) bindingObject;
 	}
 
 	public String[] getColumnNames( )
@@ -587,7 +589,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 								.getItems( )
 								.isEmpty( ) )
 				{
-					( (ReportItemHandle) bindingObject ).getColumnBindings( ).clearValue( );
+					( (ReportItemHandle) bindingObject ).getColumnBindings( )
+							.clearValue( );
 				}
 			}
 			catch ( SemanticException e )

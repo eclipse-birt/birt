@@ -89,6 +89,9 @@ public class VersionManager
 	//Updated version after fixing version conflict
 	public final static int VERSION_4_2_1_2 = 210;
 
+	//filter target support
+        public final static int VERSION_4_2_2_1 = 220;
+
 	//Add Columnized Storage Support
 	public final static int VERSION_4_2_2 = 300;
 

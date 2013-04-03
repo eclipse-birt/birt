@@ -263,6 +263,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				cmbTypes.setItemData( ns.getNames( ) );
 				cmbTypes.setSelection( axis.getType( ).getName( ) );
 				cmbTypes.addSelectionListener( this );
+				cmbTypes.addScreenReaderAccessibility( Messages.getString( "AxisSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 			}
 
 			ColorDefinition clrCurrent = null;
@@ -282,6 +283,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				cmbColor.setLayoutData( gd );
 				cmbColor.addListener( this );
+				cmbColor.addScreenReaderAccessibility( Messages.getString( "AxisSheetImpl.Label.Color" ) ); //$NON-NLS-1$
 			}
 
 			btnVisible = getContext( ).getUIFactory( )
@@ -298,6 +300,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 						: ChartCheckbox.STATE_UNSELECTED )
 						: ChartCheckbox.STATE_GRAYED );
 				btnVisible.addSelectionListener( this );
+				btnVisible.addScreenReaderAccessiblity( Messages.getString( "AxisSheetImpl.Label.Visible" ) ); //$NON-NLS-1$ 
 			}
 
 			btnAligned = getContext( ).getUIFactory( )
@@ -312,6 +315,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 						: ChartCheckbox.STATE_UNSELECTED )
 						: ChartCheckbox.STATE_GRAYED );
 				btnAligned.addSelectionListener( this );
+				btnAligned.addScreenReaderAccessiblity(  Messages.getString("AxisSheetImpl.Label.Aligned") ); //$NON-NLS-1$
 				
 				updateBtnAlignedStatus( );
 			}
@@ -328,6 +332,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 						: ChartCheckbox.STATE_UNSELECTED )
 						: ChartCheckbox.STATE_GRAYED );
 				btnSideBySide.addSelectionListener( this );
+				btnSideBySide.addScreenReaderAccessiblity( Messages.getString("AxisSheetImpl.Label.SideBySide") ); //$NON-NLS-1$
+				
 				updateBtnSideBySidStatus( );
 			}
 

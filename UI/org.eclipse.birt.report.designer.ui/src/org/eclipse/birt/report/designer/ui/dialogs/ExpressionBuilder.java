@@ -87,6 +87,10 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.ACC;
+import org.eclipse.swt.accessibility.Accessible;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.custom.BidiSegmentEvent;
 import org.eclipse.swt.custom.BidiSegmentListener;
 import org.eclipse.swt.custom.StyledText;
@@ -572,6 +576,23 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 	{
 		final ToolBar toolBar = new ToolBar( parent, SWT.FLAT );
 		toolBar.setLayoutData( new GridData( ) );
+		
+		toolBar.getAccessible().addAccessibleListener(new AccessibleAdapter() {
+
+			public void getName( AccessibleEvent e )
+			{
+				if ( e.childID != ACC.CHILDID_SELF )
+				{
+					Accessible accessible = (Accessible) e.getSource( );
+					ToolBar tb = (ToolBar) accessible.getControl( );
+					ToolItem item = tb.getItem( e.childID );
+					if ( item != null )
+					{
+						e.result = item.getToolTipText( );
+					}
+				}
+			}
+		} );
 
 		ToolItem copy = createToolItem( toolBar, ITextOperationTarget.COPY );
 		copy.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_COPY ) );

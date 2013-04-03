@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.eclipse.birt.report.model.command.NameCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -105,8 +105,11 @@ public class StylesState extends SlotState
 
 				NameSpace ns = null;
 				if ( style.getContainer( ) instanceof ReportDesign )
-					ns = new NameExecutor( style )
-							.getNameSpace( (ReportDesign) style.getContainer( ) );
+				{
+					NameExecutor executor = new NameExecutor(
+							(ReportDesign) style.getContainer( ), style );
+					ns = executor.getNameSpace( );
+				}
 
 				// check the unique
 				String styleName = style.getName( );

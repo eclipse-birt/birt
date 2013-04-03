@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.jface.window.Window;
@@ -1104,6 +1105,8 @@ public class FillChooserComposite extends Composite implements
 				e.detail = ACC.STATE_NORMAL;
 			}
 		} );
+		
+		ChartUIUtil.addScreenReaderAccessibility( this, cnvSelection );
 	}
 
 	public void handleEvent( Event event )
@@ -1415,5 +1418,10 @@ public class FillChooserComposite extends Composite implements
 				redraw( );
 			}
 		}
+	}
+
+	public void addScreenReaderAccessibility( String description )
+	{
+		ChartUIUtil.addScreenReaderAccessbility( cnvSelection, description );
 	}
 }

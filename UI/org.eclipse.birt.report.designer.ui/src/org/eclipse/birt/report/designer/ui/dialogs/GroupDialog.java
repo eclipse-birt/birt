@@ -351,7 +351,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		bookmakrComposite.setLayout( layout );
 
 		new Label( bookmakrComposite, SWT.NONE ).setText( Messages.getString( "GroupDialog.Label.Bookmark" ) ); //$NON-NLS-1$
-		bookmarkEditor = new Text( bookmakrComposite, SWT.WRAP | SWT.BORDER );
+		bookmarkEditor = new Text( bookmakrComposite, SWT.MULTI | SWT.BORDER );
 		gd = new GridData( );
 		gd.widthHint = 180;
 		gd.heightHint = bookmarkEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
@@ -383,7 +383,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		tocArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 
 		// Creates expression editor
-		tocEditor = new Text( tocArea, SWT.WRAP | SWT.BORDER );
+		tocEditor = new Text( tocArea, SWT.MULTI | SWT.BORDER );
 		GridData gd = new GridData( );
 		gd.widthHint = 200;
 		gd.heightHint = tocEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
@@ -756,7 +756,9 @@ public class GroupDialog extends BaseDialog implements Listener
 					HELPER_KEY_STARTCOLLAPSED );
 		}
 
-		if ( startCollapsedHelper != null )
+		if ( startCollapsedHelper != null
+				&& inputGroup.getContainer( )
+						.getSlot( IListingElementModel.GROUP_SLOT ) != null )
 		{
 			List<String> groups = getGroupNames( inputGroup.getContainer( )
 					.getStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY ) );

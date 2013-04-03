@@ -43,6 +43,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.datatools.help.HelpUtil;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -94,12 +96,19 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 
 		int size = propList.size( );
 
-		Composite composite = new Composite( parent, SWT.NONE );
-		composite.setLayout( new GridLayout( 3, false ) );
+		ScrolledComposite sComposite = new ScrolledComposite( parent,
+				SWT.H_SCROLL | SWT.V_SCROLL );
+		sComposite.setLayout( new GridLayout( ) );
+		sComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		sComposite.setMinWidth( 600 );
+		sComposite.setExpandHorizontal( true );
+
+		Composite mainComposite = new Composite( sComposite, SWT.NONE );
+		mainComposite.setLayout( new GridLayout( 3, false ) );
 		GridData gridData = new GridData( GridData.HORIZONTAL_ALIGN_FILL
 				| GridData.VERTICAL_ALIGN_FILL );
 
-		composite.setLayoutData( gridData );
+		mainComposite.setLayoutData( gridData );
 
 		Label nameLabel;
 		Text propertyText = null;
@@ -108,7 +117,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		// label,text,button group list to composite
 		for ( int i = 0; i < size; i++ )
 		{
-			nameLabel = new Label( composite, SWT.NONE );
+			nameLabel = new Label( mainComposite, SWT.NONE );
 			String bindingName = ""; //$NON-NLS-1$
 			boolean isEncryptable = false;
 			if ( propList.get( i ) instanceof String[] )
@@ -130,20 +139,20 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			GridData data = new GridData( GridData.FILL_HORIZONTAL );
 			if ( QUERYTEXT.equals( bindingName ) )
 			{
-				propertyText = new Text( composite, SWT.BORDER
+				propertyText = new Text( mainComposite, SWT.BORDER
 						| SWT.V_SCROLL | SWT.H_SCROLL );
 				data.heightHint = 100;
 			}
 			else if ( isEncryptable )
 			{
-				propertyText = new Text( composite, SWT.BORDER );
+				propertyText = new Text( mainComposite, SWT.BORDER );
 				if ( ds instanceof DesignElementHandle )
 				{
 					Expression expr = ( (DesignElementHandle) ds ).getPropertyBindingExpression( bindingName );
 					if ( expr != null
 							&& ExpressionType.CONSTANT.equals( expr.getType( ) ) )
 					{
-						Text dummy = new Text( composite, SWT.BORDER
+						Text dummy = new Text( mainComposite, SWT.BORDER
 								| SWT.PASSWORD );
 						propertyText.setEchoChar( dummy.getEchoChar( ) );
 						dummy.dispose( );
@@ -151,7 +160,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				}
 			}
 			else
-				propertyText = new Text( composite, SWT.BORDER );
+				propertyText = new Text( mainComposite, SWT.BORDER );
 			propertyText.setLayoutData( data );
 			propertyText.setText( (String) bindingValue.get( i ) == null ? "" //$NON-NLS-1$
 					: (String) bindingValue.get( i ) );
@@ -166,12 +175,12 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				if ( contextId != null )
 				{
 					//contextId is provided thru o.e.datatools.help extension point
-					Utility.setSystemHelp( composite, contextId );
+					Utility.setSystemHelp( mainComposite, contextId );
 				}
 				else
 				{
 					// '.' char will interrupt help system
-					Utility.setSystemHelp( composite, IHelpConstants.PREFIX
+					Utility.setSystemHelp( mainComposite, IHelpConstants.PREFIX
 						+ "Wizard_DataSourcePropertyBinding" + "(" //$NON-NLS-1$ //$NON-NLS-2$
 						+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //$NON-NLS-1$
 						+ "_ID" ); //$NON-NLS-1$
@@ -187,18 +196,18 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				if ( contextId != null )
 				{
 					//contextId is provided thru o.e.datatools.help extension point
-					Utility.setSystemHelp( composite, contextId );
+					Utility.setSystemHelp( mainComposite, contextId );
 				}
 				else
 				{
 					// '.' char will interrupt help system
-					Utility.setSystemHelp( composite, IHelpConstants.PREFIX
+					Utility.setSystemHelp( mainComposite, IHelpConstants.PREFIX
 						+ "Wizard_DataSetPropertyBinding" + "(" //$NON-NLS-1$ //$NON-NLS-2$
 						+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //$NON-NLS-1$
 						+ "_ID" ); //$NON-NLS-1$
 				}
 			}
-			createExpressionButton( composite,
+			createExpressionButton( mainComposite,
 					propertyText,
 					bindingName,
 					isEncryptable );
@@ -211,9 +220,13 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 
 		}
 		if ( size <= 0 )
-			setEmptyPropertyMessages( composite );
+			setEmptyPropertyMessages( mainComposite );
 		
-		return composite;
+		Point compositeSize = mainComposite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		mainComposite.setSize( compositeSize.x, compositeSize.y );
+		sComposite.setContent( mainComposite );
+
+		return sComposite;
 	}
 	
 	private static String getDynamicContextId( String helpKeyPrefix, String helpPlugin )

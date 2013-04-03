@@ -708,10 +708,12 @@ public final class AxesRenderHelper
 				Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 	}
 
-	void renderVerticalAxisByType( ComputationContext context, double dXEnd,
-			double dZEnd, double dZ, double dStaggeredLabelOffset )
+	private List<TextRenderEvent> renderVerticalAxisTickLabels( ComputationContext context, double dXEnd,
+			double dZEnd, double dZ, double dStaggeredLabelOffset, boolean deferredAxisLabel )
 			throws ChartException
 	{
+		List<TextRenderEvent> deferfedRenderList = new ArrayList<TextRenderEvent>();
+		
 		// The vertical axis direction, -1 means bottom->top, 1 means
 		// top->bottom.
 		final int iDirection = sc.getDirection( ) != IConstants.FORWARD ? -1
@@ -748,6 +750,7 @@ public final class AxesRenderHelper
 			{
 				context.y3d = (int) da3D.getCoordinate( i );
 			}
+			
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 			{
 				double dXMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? ( context.dX - pwa.getTickSize( ) )
@@ -847,6 +850,7 @@ public final class AxesRenderHelper
 				}
 			}
 
+			// Render axis labels
 			if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
 			{
 				double sx = x;
@@ -925,7 +929,14 @@ public final class AxesRenderHelper
 							tre.setRtlCaption( );
 						}
 						// bidi_acgc added end
-						ipr.drawText( tre );
+						if ( deferredAxisLabel )
+						{
+							deferfedRenderList.add( (TextRenderEvent) tre.copy( ) );
+						}
+						else
+						{
+							ipr.drawText( tre );
+						}
 					}
 				}
 
@@ -944,6 +955,8 @@ public final class AxesRenderHelper
 		}
 
 		computation.close( );
+		
+		return deferfedRenderList; 
 	}
 
 	private void addAxisLabelIA( double x, double y ) throws ChartException
@@ -990,10 +1003,12 @@ public final class AxesRenderHelper
 
 	}
 
-	void renderHorizontalAxisByType( ComputationContext context, double dXEnd,
-			double dZEnd, double dZ, double dStaggeredLabelOffset )
+	private List<TextRenderEvent>  renderHorizontalAxisTickLabels( ComputationContext context, double dXEnd,
+			double dZEnd, double dZ, double dStaggeredLabelOffset, boolean deferredAxisLabel  )
 			throws ChartException
 	{
+		List<TextRenderEvent> deferfedRenderList = new ArrayList<TextRenderEvent>();
+		
 		// The horizontal axis direction. -1 means right->left, 1 means
 		// left->right.
 		final int iDirection = sc.getDirection( ) == IConstants.BACKWARD ? -1
@@ -1216,7 +1231,14 @@ public final class AxesRenderHelper
 							tre.setRtlCaption( );
 						}
 						// bidi_acgc added end
-						ipr.drawText( tre );
+						if ( deferredAxisLabel )
+						{
+							deferfedRenderList.add( (TextRenderEvent) tre.copy( ) );
+						}
+						else
+						{
+							ipr.drawText( tre );
+						}
 					}
 				}
 
@@ -1235,6 +1257,8 @@ public final class AxesRenderHelper
 		}
 
 		computation.close( );
+		
+		return deferfedRenderList; 
 	}
 
 	/**
@@ -1290,338 +1314,749 @@ public final class AxesRenderHelper
 
 		if ( iOrientation == IConstants.VERTICAL )
 		{
-			final ComputationContext context = new ComputationContext( true );
+			renderVerticalAxis( dXStart,
+					dXEnd,
+					dZStart,
+					dZEnd,
+					dStaggeredLabelOffset );
+		}
+		else if ( iOrientation == IConstants.HORIZONTAL )
+		{
+			renderHorizontalAxis( dXEnd, dZEnd, dStaggeredLabelOffset );
+		}
+	}
 
-			context.y3d = 0;
-			context.dX = dLocation;
-			double dZ = 0;
+	private void renderHorizontalAxis( double dXEnd, double dZEnd,
+			final double dStaggeredLabelOffset ) throws ChartException
+	{
+		final ComputationContext context = new ComputationContext( false );
 
-			if ( bRendering3D )
+		context.x3d = 0;
+		context.z3d = 0;
+		context.dY = dLocation;
+		double dX = 0;
+		double dZ = 0;
+
+		if ( bRendering3D )
+		{
+			Location3D l3d = ax.getAxisCoordinate3D( );
+
+			dX = l3d.getX( );
+			context.dY = l3d.getY( );
+			dZ = l3d.getZ( );
+		}
+
+		context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? context.dY
+				+ pwa.getTickSize( )
+				: context.dY - pwa.getTickSize( ) )
+				: context.dY;
+		context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? context.dY
+				- pwa.getTickSize( )
+				: context.dY + pwa.getTickSize( ) )
+				: context.dY;
+
+		if ( iv != null
+				&& iDimension == IConstants.TWO_5_D
+				&& ( ( bTransposed && renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MIN ) || ( !renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MAX ) ) )
+		{
+			trae.setTransform( TransformationEvent.TRANSLATE );
+			trae.setTranslation( dSeriesThickness, -dSeriesThickness );
+			ipr.applyTransformation( trae );
+		}
+
+		// First render ticks.
+		List<TextRenderEvent> deferredEvents = renderHorizontalAxisTickLabels( context,
+				dXEnd,
+				dZEnd,
+				dZ,
+				dStaggeredLabelOffset,
+				true );
+		
+		// Next render axis line.
+		if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS
+				&& lia.isVisible( ) )
+		{
+			renderHorizontalAxisLine( context, dX, dZ );
+		}
+		
+		// Then render axis labels.
+		if ( deferredEvents != null && deferredEvents.size() > 0 )
+		{
+			for(TextRenderEvent evt : deferredEvents )
 			{
-				Location3D l3d = ax.getAxisCoordinate3D( );
-				context.dX = l3d.getX( );
-				dZ = l3d.getZ( );
+				ipr.drawText( evt );
 			}
+		}
 
-			if ( iv != null
-					&& iv.getType( ) == IConstants.MAX
-					&& iDimension == IConstants.TWO_5_D )
+		// Last render axis title
+		renderHorizontalAxisTitle( context, dXEnd, dZEnd, dZ );
+
+		if ( iv != null
+				&& iDimension == IConstants.TWO_5_D
+				&& ( ( bTransposed && renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MIN ) || ( !renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MAX ) ) )
+		{
+			trae.setTranslation( -dSeriesThickness, dSeriesThickness );
+			ipr.applyTransformation( trae );
+		}
+	}
+
+	private void renderHorizontalAxisTitle( final ComputationContext context,
+			double dXEnd, double dZEnd, double dZ ) throws ChartException
+	{
+		la = goFactory.copyOf( ax.getTitle( ) ); // TEMPORARILY USE
+		// FOR AXIS TITLE
+		if ( la.isVisible( ) && bRenderAxisTitle )
+		{
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.BEFORE_DRAW_AXIS_TITLE,
+					axModel,
+					la,
+					getRunTimeContext( ).getScriptContext( ) );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_TITLE,
+					la );
+			final String sRestoreValue = la.getCaption( ).getValue( );
+			la.getCaption( )
+					.setValue( getRunTimeContext( ).externalizedMessage( sRestoreValue ) ); // EXTERNALIZE
+			la.getCaption( )
+					.getFont( )
+					.setAlignment( renderer.switchTextAlignment( la.getCaption( )
+							.getFont( )
+							.getAlignment( ) ) );
+
+			if ( ax.getTitle( ).isVisible( ) && la.isVisible( ) )
 			{
-				trae.setTransform( TransformationEvent.TRANSLATE );
-				trae.setTranslation( dSeriesThickness, -dSeriesThickness );
-				ipr.applyTransformation( trae );
-			}
-
-			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? context.dX
-					- pwa.getTickSize( )
-					: context.dX;
-			context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? context.dX
-					+ pwa.getTickSize( )
-					: context.dX;
-
-			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS
-					&& lia.isVisible( ) )
-			{
-				if ( bRenderOrthogonal3DAxis )
+				if ( bRendering3D )
 				{
-					final double dStart = daEndPoints3D[0];
-					final double dEnd = daEndPoints3D[1];
-					l3dre.setLineAttributes( lia );
+					BoundingBox bb = cComp.computeLabelSize( xs,
+							la,
+							Math.abs( daEndPoints[1] - daEndPoints[0] ),
+							null );
 
-					// center
-					l3dre.setStart3D( context.dX, dStart, dZ );
-					l3dre.setEnd3D( context.dX, dEnd, dZ );
-					addLine3DEvent( l3dre, renderer.getRightWallEvent( ), dc );
+					Angle3D a3D = ( (ChartWithAxes) renderer.cm ).getRotation( )
+							.getAngles( )
+							.get( 0 );
 
-					// left
-					l3dre.setStart3D( context.dX, dStart, dZEnd );
-					l3dre.setEnd3D( context.dX, dEnd, dZEnd );
-					addLine3DEvent( l3dre, renderer.getLeftWallEvent( ), dc );
-
-					// right
-					l3dre.setStart3D( dXEnd, dStart, dZ );
-					l3dre.setEnd3D( dXEnd, dEnd, dZ );
-					addLine3DEvent( l3dre, renderer.getRightWallEvent( ), dc );
-
-					if ( renderer.isInteractivityEnabled( ) )
+					if ( axisType == IConstants.BASE_AXIS )
 					{
-						Trigger tg;
-						EList<Trigger> elTriggers = axModel.getTriggers( );
+						t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								Text3DRenderEvent.class );
 
-						if ( !elTriggers.isEmpty( ) )
+						IAxisTypeComputation computation = createAxisTypeComputation( context );
+						computation.initialize( );
+						final int length = computation instanceof TextAxisTypeComputation ? da.size( ) - 1
+								: da.size( );
+
+						OneAxis axxPB = pwa.getAxes( ).getPrimaryBase( );
+						double xLabelThickness = cComp.computeHeight( xs,
+								axxPB.getLabel( ) );
+
+						int xStart = (int) da3D.getCoordinate( 0 );
+						int xEnd = (int) da3D.getCoordinate( length - 1 );
+						int x = xStart + ( xEnd - xStart ) / 2;
+						Location3D location = goFactory.createLocation3D( x,
+								context.dY
+										- xLabelThickness
+										- ( dZEnd - dZ ),
+								dZEnd
+										+ pwa.getHorizontalSpacingInPixels( )
+										+ xLabelThickness );
+						t3dre.setLocation3D( location );
+						t3dre.setLabel( la );
+						double yAngle = a3D.getYAngle( ) % 360;
+						if ( yAngle > 0 && yAngle <= 180 )
 						{
-							ArrayList<Trigger> cachedTriggers = null;
-							Location3D[] loaHotspot = new Location3D[4];
-							Polygon3DRenderEvent pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-									Polygon3DRenderEvent.class );
-
-							// process center y-axis.
-							loaHotspot[0] = goFactory.createLocation3D( context.dX
-									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dStart,
-									dZ + IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[1] = goFactory.createLocation3D( context.dX
-									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dStart,
-									dZ - IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[2] = goFactory.createLocation3D( context.dX
-									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dEnd,
-									dZ - IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[3] = goFactory.createLocation3D( context.dX
-									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dEnd,
-									dZ + IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							pre3d.setPoints3D( loaHotspot );
-							pre3d.setDoubleSided( true );
-
-							if ( renderer.get3DEngine( ).processEvent( pre3d,
-									panningOffset.getX( ),
-									panningOffset.getY( ) ) != null )
-							{
-								final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-										InteractionEvent.class );
-								iev.setCursor( axModel.getCursor( )  );
-								cachedTriggers = new ArrayList<Trigger>( );
-								for ( int t = 0; t < elTriggers.size( ); t++ )
-								{
-									tg = goFactory.copyOf( elTriggers.get( t ) );
-									processTrigger( tg,
-											StructureSource.createAxis( axModel ) );
-									cachedTriggers.add( tg );
-									iev.addTrigger( goFactory.copyOf( tg ) );
-								}
-
-								iev.setHotSpot( pre3d );
-								ipr.enableInteraction( iev );
-							}
-
-							// process left y-axis.
-							pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-									Polygon3DRenderEvent.class );
-							loaHotspot = new Location3D[4];
-
-							loaHotspot[0] = goFactory.createLocation3D( dXStart
-									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dStart,
-									dZEnd + IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[1] = goFactory.createLocation3D( dXStart
-									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dStart,
-									dZEnd - IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[2] = goFactory.createLocation3D( dXStart
-									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dEnd,
-									dZEnd - IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[3] = goFactory.createLocation3D( dXStart
-									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dEnd,
-									dZEnd + IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							pre3d.setPoints3D( loaHotspot );
-							pre3d.setDoubleSided( true );
-
-							if ( renderer.get3DEngine( ).processEvent( pre3d,
-									panningOffset.getX( ),
-									panningOffset.getY( ) ) != null )
-							{
-								final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-										InteractionEvent.class );
-								iev.setCursor( axModel.getCursor( ) );
-								
-								if ( cachedTriggers == null )
-								{
-									cachedTriggers = new ArrayList<Trigger>( );
-									for ( int t = 0; t < elTriggers.size( ); t++ )
-									{
-										tg = goFactory.copyOf( elTriggers.get( t ) );
-										processTrigger( tg,
-												StructureSource.createAxis( axModel ) );
-										cachedTriggers.add( tg );
-										iev.addTrigger( goFactory.copyOf( tg ) );
-									}
-
-								}
-								else
-								{
-									for ( int t = 0; t < cachedTriggers.size( ); t++ )
-									{
-										iev.addTrigger( goFactory.copyOf( cachedTriggers.get( t ) ) );
-									}
-								}
-
-								iev.setHotSpot( pre3d );
-								ipr.enableInteraction( iev );
-							}
-
-							// process right y-axis.
-							pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-									Polygon3DRenderEvent.class );
-							loaHotspot = new Location3D[4];
-
-							loaHotspot[0] = goFactory.createLocation3D( dXEnd
-									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dStart,
-									dZStart
-											+ IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[1] = goFactory.createLocation3D( dXEnd
-									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dStart,
-									dZStart
-											- IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[2] = goFactory.createLocation3D( dXEnd
-									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dEnd,
-									dZStart
-											- IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[3] = goFactory.createLocation3D( dXEnd
-									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dEnd,
-									dZStart
-											+ IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							pre3d.setPoints3D( loaHotspot );
-							pre3d.setDoubleSided( true );
-
-							if ( renderer.get3DEngine( ).processEvent( pre3d,
-									panningOffset.getX( ),
-									panningOffset.getY( ) ) != null )
-							{
-								final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-										InteractionEvent.class );
-								iev.setCursor( axModel.getCursor( ) );
-								
-								if ( cachedTriggers == null )
-								{
-									for ( int t = 0; t < elTriggers.size( ); t++ )
-									{
-										tg = goFactory.copyOf( elTriggers.get( t ) );
-										processTrigger( tg,
-												StructureSource.createAxis( axModel ) );
-										iev.addTrigger( tg );
-									}
-								}
-								else
-								{
-									for ( int t = 0; t < cachedTriggers.size( ); t++ )
-									{
-										iev.addTrigger( cachedTriggers.get( t ) );
-									}
-								}
-
-								iev.setHotSpot( pre3d );
-								ipr.enableInteraction( iev );
-							}
+							t3dre.setTextPosition( TextRenderEvent.LEFT );
 						}
+						else
+						{
+							t3dre.setTextPosition( TextRenderEvent.RIGHT );
+						}
+
+						t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+					}
+					else
+					{
+						double yAngle = a3D.getYAngle( );
+						Location3D location = goFactory.createLocation3D( dXEnd
+								+ ( dZEnd - dZ ),
+								context.dY
+										- ( dZEnd - dZ )
+										/ 2
+										- bb.getHeight( )
+										* ( 1 + Math.sin( Math.abs( yAngle ) ) ),
+								dZ + ( dZEnd - dZ ) / 2 );
+						t3dre.setLocation3D( location );
+						t3dre.setLabel( la );
+						double angle = a3D.getZAngle( ) % 360;
+						if ( angle >= 0 && angle < 180 )
+						{
+							t3dre.setTextPosition( TextRenderEvent.RIGHT );
+						}
+						else
+						{
+							t3dre.setTextPosition( TextRenderEvent.LEFT );
+						}
+
+						t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 					}
 
+					renderAxisTitleWith3DTextevent( bb );
 				}
 				else
 				{
-					double dStart = daEndPoints[0] + insCA.getBottom( ), dEnd = daEndPoints[1]
-							- insCA.getTop( );
-
-					if ( sc.getDirection( ) == IConstants.FORWARD )
+					LabelLimiter lbLimit = pwa.getLabellLimiter( ax.getModelAxis( )
+							.getTitle( ) );
+					double dWidthWithinAxis = Math.abs( daEndPoints[1]
+							- daEndPoints[0] );
+					if ( lbLimit.getMaxWidth( ) > dWidthWithinAxis )
 					{
-						dStart = daEndPoints[1] + insCA.getBottom( );
-						dEnd = daEndPoints[0] - insCA.getTop( );
+						lbLimit.setMaxWidth( dWidthWithinAxis );
 					}
+					lbLimit.computeWrapping( xs, la );
+					lbLimit = lbLimit.limitLabelSize( cComp, xs, la );
 
-					if ( iv != null
-							&& iv.getType( ) == IConstants.VALUE
-							&& iDimension == IConstants.TWO_5_D )
+					if ( lbLimit.isSuccessed( ) )
 					{
-						final Location[] loa = new Location[4];
-						loa[0] = goFactory.createLocation( context.dX, dStart );
-						loa[1] = goFactory.createLocation( context.dX
-								+ dSeriesThickness, dStart - dSeriesThickness );
-						loa[2] = goFactory.createLocation( context.dX
-								+ dSeriesThickness, dEnd - dSeriesThickness );
-						loa[3] = goFactory.createLocation( context.dX, dEnd );
+						BoundingBox bb = lbLimit.getBounding( null );
 
-						final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-								PolygonRenderEvent.class );
-						pre.setPoints( loa );
-						pre.setBackground( goFactory.createColorDefinition( 255,
-								255,
-								255,
-								127 ) );
-						pre.setOutline( lia );
-						ipr.fillPolygon( pre );
-					}
-					lre.setLineAttributes( lia );
-					lre.getStart( ).set( context.dX, dStart );
-					lre.getEnd( ).set( context.dX, dEnd );
-					ipr.drawLine( lre );
+						final Bounds bo = goFactory.createBounds( daEndPoints[0],
+								ax.getTitleCoordinate( ),
+								daEndPoints[1] - daEndPoints[0],
+								bb.getHeight( ) );
 
-					if ( renderer.isInteractivityEnabled( ) )
-					{
-						Trigger tg;
-						EList<Trigger> elTriggers = axModel.getTriggers( );
+						tre.setBlockBounds( bo );
+						tre.setLabel( la );
+						TextAlignment ta = goFactory.copyOf( la.getCaption( )
+								.getFont( )
+								.getAlignment( ) );
 
-						if ( !elTriggers.isEmpty( ) )
+						if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
 						{
-							final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-									InteractionEvent.class );
-							iev.setCursor( axModel.getCursor( ) );
-							
-							for ( int t = 0; t < elTriggers.size( ); t++ )
-							{
-								tg = goFactory.copyOf( elTriggers.get( t ) );
-								processTrigger( tg,
-										StructureSource.createAxis( axModel ) );
-								iev.addTrigger( tg );
-							}
-
-							Location[] loaHotspot = new Location[4];
-
-							loaHotspot[0] = goFactory.createLocation( context.dX
-									- IConstants.LINE_EXPAND_SIZE, dStart );
-							loaHotspot[1] = goFactory.createLocation( context.dX
-									+ IConstants.LINE_EXPAND_SIZE, dStart );
-							loaHotspot[2] = goFactory.createLocation( context.dX
-									+ IConstants.LINE_EXPAND_SIZE, dEnd );
-							loaHotspot[3] = goFactory.createLocation( context.dX
-									- IConstants.LINE_EXPAND_SIZE, dEnd );
-
-							final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-									PolygonRenderEvent.class );
-							pre.setPoints( loaHotspot );
-							iev.setHotSpot( pre );
-							ipr.enableInteraction( iev );
+							tre.setBlockAlignment( ta );
 						}
+						else
+						{
+							tre.setBlockAlignment( ChartUtil.transposeAlignment( ta ) );
+						}
+						la.getCaption( )
+								.getFont( )
+								.getAlignment( )
+								.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
+						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+						// bidi_acgc added start
+						if ( this.renderer.rtc.isRightToLeftText( ) )
+						{
+							tre.setRtlCaption( );
+						}
+						// bidi_acgc added end
+						ipr.drawText( tre );
 					}
-
 				}
 			}
 
-			// Render by axis type
-			renderVerticalAxisByType( context,
-					dXEnd,
-					dZEnd,
-					dZ,
-					dStaggeredLabelOffset );
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.AFTER_DRAW_AXIS_TITLE,
+					axModel,
+					la,
+					getRunTimeContext( ).getScriptContext( ) );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
+					la );
+		}
+		la = goFactory.copyOf( ax.getLabel( ) ); // RESTORE BACK TO
+	}
 
-			la = goFactory.copyOf( ax.getTitle( ) ); // TEMPORARILY USE
-			// FOR AXIS TITLE
-			if ( la.isVisible( ) && bRenderAxisTitle )
+	private void renderHorizontalAxisLine( final ComputationContext context,
+			double dX, double dZ ) throws ChartException
+	{
+		if ( bRenderBase3DAxis )
+		{
+			final double dStart = daEndPoints3D[0];
+			final double dEnd = daEndPoints3D[1];
+			l3dre.setLineAttributes( lia );
+			l3dre.setStart3D( dStart, context.dY, dZ );
+			l3dre.setEnd3D( dEnd, context.dY, dZ );
+			addLine3DEvent( l3dre, renderer.getRightWallEvent( ), dc );
+
+			if ( renderer.isInteractivityEnabled( ) )
 			{
-				ScriptHandler.callFunction( sh,
-						ScriptHandler.BEFORE_DRAW_AXIS_TITLE,
-						axModel,
-						la,
-						getRunTimeContext( ).getScriptContext( ) );
-				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_TITLE,
-						la );
+				Trigger tg;
+				EList<Trigger> elTriggers = axModel.getTriggers( );
 
-				final String sRestoreValue = la.getCaption( ).getValue( );
-				la.getCaption( )
-						.setValue( getRunTimeContext( ).externalizedMessage( sRestoreValue ) );
-
-				if ( ax.getTitle( ).isVisible( ) && la.isVisible( ) )
+				if ( !elTriggers.isEmpty( ) )
 				{
-					if ( bRendering3D )
+					final Polygon3DRenderEvent pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							Polygon3DRenderEvent.class );
+
+					Location3D[] loaHotspot = new Location3D[4];
+					loaHotspot[0] = goFactory.createLocation3D( dStart,
+							context.dY
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dZ );
+					loaHotspot[1] = goFactory.createLocation3D( dStart,
+							context.dY
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dZ );
+					loaHotspot[2] = goFactory.createLocation3D( dEnd,
+							context.dY
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dZ );
+					loaHotspot[3] = goFactory.createLocation3D( dEnd,
+							context.dY
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dZ );
+					pre3d.setPoints3D( loaHotspot );
+					pre3d.setDoubleSided( true );
+
+					if ( renderer.get3DEngine( ).processEvent( pre3d,
+							panningOffset.getX( ),
+							panningOffset.getY( ) ) != null )
 					{
-						BoundingBox bb = null;
-						// Buzilla#206093: Indicates if the axis title is within
+						final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								InteractionEvent.class );
+						iev.setCursor( axModel.getCursor( ) );
+						
+						for ( int t = 0; t < elTriggers.size( ); t++ )
+						{
+							tg = goFactory.copyOf( elTriggers.get( t ) );
+							processTrigger( tg,
+									StructureSource.createAxis( axModel ) );
+							iev.addTrigger( tg );
+						}
+
+						iev.setHotSpot( pre3d );
+						ipr.enableInteraction( iev );
+					}
+				}
+			}
+
+		}
+		else if ( bRenderAncillary3DAxis )
+		{
+			final double dStart = daEndPoints3D[0];
+			final double dEnd = daEndPoints3D[1];
+			l3dre.setLineAttributes( lia );
+			l3dre.setStart3D( dX, context.dY, dStart );
+			l3dre.setEnd3D( dX, context.dY, dEnd );
+			addLine3DEvent( l3dre, renderer.getLeftWallEvent( ), dc );
+
+			if ( renderer.isInteractivityEnabled( ) )
+			{
+				Trigger tg;
+				EList<Trigger> elTriggers = axModel.getTriggers( );
+
+				if ( !elTriggers.isEmpty( ) )
+				{
+					final Polygon3DRenderEvent pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							Polygon3DRenderEvent.class );
+
+					Location3D[] loaHotspot = new Location3D[4];
+					loaHotspot[0] = goFactory.createLocation3D( dX,
+							context.dY
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dStart );
+					loaHotspot[1] = goFactory.createLocation3D( dX,
+							context.dY
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dStart );
+					loaHotspot[2] = goFactory.createLocation3D( dX,
+							context.dY
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dEnd );
+					loaHotspot[3] = goFactory.createLocation3D( dX,
+							context.dY
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dEnd );
+					pre3d.setPoints3D( loaHotspot );
+					pre3d.setDoubleSided( true );
+
+					if ( renderer.get3DEngine( ).processEvent( pre3d,
+							panningOffset.getX( ),
+							panningOffset.getY( ) ) != null )
+					{
+						final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								InteractionEvent.class );
+						iev.setCursor( axModel.getCursor( ) );
+						
+						for ( int t = 0; t < elTriggers.size( ); t++ )
+						{
+							tg = goFactory.copyOf( elTriggers.get( t ) );
+							processTrigger( tg,
+									StructureSource.createAxis( axModel ) );
+							iev.addTrigger( tg );
+						}
+
+						iev.setHotSpot( pre3d );
+						ipr.enableInteraction( iev );
+					}
+				}
+			}
+
+		}
+		else
+		{
+			double dStart = daEndPoints[0] - insCA.getLeft( ), dEnd = daEndPoints[1]
+					+ insCA.getRight( );
+
+			if ( sc.getDirection( ) == IConstants.BACKWARD )
+			{
+				dStart = daEndPoints[1] - insCA.getLeft( );
+				dEnd = daEndPoints[0] + insCA.getRight( );
+			}
+
+			if ( iv != null
+					&& iv.getType( ) == IConstants.VALUE
+					&& iDimension == IConstants.TWO_5_D )
+			{
+				// Zero plane.
+				final Location[] loa = new Location[4];
+				loa[0] = goFactory.createLocation( dStart, context.dY );
+				loa[1] = goFactory.createLocation( dStart
+						+ dSeriesThickness,
+						context.dY - dSeriesThickness );
+				loa[2] = goFactory.createLocation( dEnd
+						+ dSeriesThickness,
+						context.dY - dSeriesThickness );
+				loa[3] = goFactory.createLocation( dEnd, context.dY );
+
+				final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+						PolygonRenderEvent.class );
+				pre.setPoints( loa );
+				pre.setBackground( goFactory.createColorDefinition( 255,
+						255,
+						255,
+						127 ) );
+				pre.setOutline( lia );
+				ipr.fillPolygon( pre );
+			}
+			lre.setLineAttributes( lia );
+			lre.getStart( ).set( dStart, context.dY );
+			lre.getEnd( ).set( dEnd, context.dY );
+			ipr.drawLine( lre );
+
+			if ( renderer.isInteractivityEnabled( ) )
+			{
+				Trigger tg;
+				EList<Trigger> elTriggers = axModel.getTriggers( );
+
+				if ( !elTriggers.isEmpty( ) )
+				{
+					final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							InteractionEvent.class );
+					iev.setCursor( axModel.getCursor( ) );
+					
+					for ( int t = 0; t < elTriggers.size( ); t++ )
+					{
+						tg = goFactory.copyOf( elTriggers.get( t ) );
+						processTrigger( tg,
+								StructureSource.createAxis( axModel ) );
+						iev.addTrigger( tg );
+					}
+
+					Location[] loaHotspot = new Location[4];
+
+					loaHotspot[0] = goFactory.createLocation( dStart,
+							context.dY - IConstants.LINE_EXPAND_SIZE );
+					loaHotspot[1] = goFactory.createLocation( dEnd,
+							context.dY - IConstants.LINE_EXPAND_SIZE );
+					loaHotspot[2] = goFactory.createLocation( dEnd,
+							context.dY + IConstants.LINE_EXPAND_SIZE );
+					loaHotspot[3] = goFactory.createLocation( dStart,
+							context.dY + IConstants.LINE_EXPAND_SIZE );
+
+					final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							PolygonRenderEvent.class );
+					pre.setPoints( loaHotspot );
+					iev.setHotSpot( pre );
+					ipr.enableInteraction( iev );
+				}
+			}
+
+		}
+	}
+
+	private void renderVerticalAxis( double dXStart, double dXEnd,
+			double dZStart, double dZEnd, final double dStaggeredLabelOffset )
+			throws ChartException
+	{
+		final ComputationContext context = new ComputationContext( true );
+
+		context.y3d = 0;
+		context.dX = dLocation;
+		double dZ = 0;
+
+		if ( bRendering3D )
+		{
+			Location3D l3d = ax.getAxisCoordinate3D( );
+			context.dX = l3d.getX( );
+			dZ = l3d.getZ( );
+		}
+
+		if ( iv != null
+				&& iv.getType( ) == IConstants.MAX
+				&& iDimension == IConstants.TWO_5_D )
+		{
+			trae.setTransform( TransformationEvent.TRANSLATE );
+			trae.setTranslation( dSeriesThickness, -dSeriesThickness );
+			ipr.applyTransformation( trae );
+		}
+
+		context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? context.dX
+				- pwa.getTickSize( )
+				: context.dX;
+		context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? context.dX
+				+ pwa.getTickSize( )
+				: context.dX;
+
+		// First render axis ticks.
+		List<TextRenderEvent> deferredEvents = renderVerticalAxisTickLabels( context,
+				dXEnd,
+				dZEnd,
+				dZ,
+				dStaggeredLabelOffset,
+				true );
+
+		// Next render axis line.
+		if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS
+				&& lia.isVisible( ) )
+		{
+			renderVerticalAxisLine( context, dXStart, dXEnd, dZStart, dZEnd, dZ );
+		}
+		
+		// Then render axis labels.
+		if ( deferredEvents != null && deferredEvents.size() > 0 )
+		{
+			for(TextRenderEvent evt : deferredEvents )
+			{
+				ipr.drawText( evt );
+			}
+		}
+		
+		// Last render axis title.
+		renderVerticalAxisTitle( context,
+				dXEnd,
+				dZEnd,
+				dZ,
+				dStaggeredLabelOffset );
+
+		if ( iv != null
+				&& iv.getType( ) == IConstants.MAX
+				&& iDimension == IConstants.TWO_5_D )
+		{
+			trae.setTranslation( -dSeriesThickness, dSeriesThickness );
+			ipr.applyTransformation( trae );
+		}
+	}
+
+	private void renderVerticalAxisTitle( final ComputationContext context,
+			double dXEnd, double dZEnd, double dZ,
+			final double dStaggeredLabelOffset ) throws ChartException
+	{
+		la = goFactory.copyOf( ax.getTitle( ) ); // TEMPORARILY USE
+		// FOR AXIS TITLE
+		if ( la.isVisible( ) && bRenderAxisTitle )
+		{
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.BEFORE_DRAW_AXIS_TITLE,
+					axModel,
+					la,
+					getRunTimeContext( ).getScriptContext( ) );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_TITLE,
+					la );
+
+			final String sRestoreValue = la.getCaption( ).getValue( );
+			la.getCaption( )
+					.setValue( getRunTimeContext( ).externalizedMessage( sRestoreValue ) );
+
+			if ( ax.getTitle( ).isVisible( ) && la.isVisible( ) )
+			{
+				if ( bRendering3D )
+				{
+					BoundingBox bb = null;
+					// Buzilla#206093: Indicates if the axis title is within
+					// axis,
+					// otherwise it uses Y axis plus the axis corner to
+					// display
+					boolean bWithinAxis = false;
+					// Indicates the axis title is horizontal
+					final boolean bTitleHorizontal = Math.abs( la.getCaption( )
+							.getFont( )
+							.getRotation( ) ) <= 30;
+					final double dYAxisHeightPC = ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
+							xs );
+
+					if ( bTitleHorizontal )
+					{
+						// Horizontal title always starts with axis and
+						// within
+						// axis. It shouldn't display outside axis.
+						bWithinAxis = true;
+					}
+					else
+					{
+						final BoundingBox bbWoWrap = cComp.computeLabelSize( xs,
+								la,
+								dYAxisHeightPC,
+								null );
+						bWithinAxis = bbWoWrap.getHeight( ) < daEndPoints[0]
+								- daEndPoints[1];
+					}
+					// Keep the same behavior with PlotWithAxes. If
+					// title is
+					// horizontal, only wrap if title exceeds height
+					// plus
+					// corner.
+					bb = cComp.computeLabelSize( xs, la, bWithinAxis
+							&& !bTitleHorizontal ? daEndPoints[0]
+							- daEndPoints[1] : dYAxisHeightPC, null );
+
+					// Bounds cbo = renderer.getPlotBounds( );
+					//
+					// tre.setBlockBounds( goFactory.createBounds(
+					// cbo.getLeft( )
+					// + ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
+					// / 2d,
+					// cbo.getTop( ) + 30,
+					// bb.getWidth( ),
+					// bb.getHeight( ) ) );
+					//
+					// tre.setLabel( la );
+					// tre.setBlockAlignment( la.getCaption( )
+					// .getFont( )
+					// .getAlignment( ) );
+					// tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK
+					// );
+					// ipr.drawText( tre );
+					//
+					// tre.setBlockBounds( goFactory.createBounds(
+					// cbo.getLeft( )
+					// + cbo.getWidth( )
+					// - bb.getWidth( ),
+					// cbo.getTop( ) + 30 * 2,
+					// bb.getWidth( ),
+					// bb.getHeight( ) ) );
+					//
+					// ipr.drawText( tre );
+
+					// Comment above code and add following code to partial
+					// fix bugzilla bug 192833. This fix only made that the
+					// axis title position is decided by its axis location.
+					// Create 3D text location for axis title.
+
+					// Get position values.
+					Angle3D a3D = ( (ChartWithAxes) renderer.cm ).getRotation( )
+							.getAngles( )
+							.get( 0 );
+					double yAxisAngle = a3D.getYAngle( ) * Math.PI / 180;
+					double yCenter = daEndPoints3D[0]
+							+ ( ( daEndPoints3D[1] - daEndPoints3D[0] ) / 2 );
+					double leftYAxisTitlePosition = context.dX;
+					double rightYAxisTitlePosition = dXEnd;
+
+					if ( bAxisLabelStaggered )
+					{
+						if ( iLabelLocation == IConstants.LEFT )
+						{
+							leftYAxisTitlePosition -= dStaggeredLabelOffset;
+							rightYAxisTitlePosition += dStaggeredLabelOffset;
+						}
+						else
+						{
+							leftYAxisTitlePosition += dStaggeredLabelOffset;
+							rightYAxisTitlePosition -= dStaggeredLabelOffset;
+						}
+					}
+
+					OneAxis axxPV = pwa.getAxes( ).getPrimaryOrthogonal( );
+					double yLabelThickness = axxPV.getScale( )
+							.computeAxisLabelThickness( xs,
+									axxPV.getLabel( ),
+									IConstants.VERTICAL );
+
+					// Render left and right Y axis titles.
+					double offset = pwa.getVerticalSpacingInPixels( );
+					double minAngle = 35 * Math.PI / 180;;
+
+					double angle = yAxisAngle;
+					if ( Math.abs( yAxisAngle ) < minAngle )
+					{
+						angle = minAngle;
+					}
+					double leftTitleYDelta = ( pwa.getVerticalSpacingInPixels( )
+							+ yLabelThickness
+							+ bb.getWidth( ) + offset )
+							* ( 1 + Math.abs( Math.sin( angle ) ) );
+
+					double leftTitleZDelta = ( pwa.getVerticalSpacingInPixels( )
+							+ bb.getWidth( ) + offset )
+							* ( 1 + Math.sin( Math.abs( yAxisAngle ) ) );
+					double zPosition = dZ;
+					if ( yAxisAngle >= 0 )
+					{
+						zPosition = dZEnd
+								+ leftTitleZDelta
+								+ ( dZEnd - dZ )
+								* ( 1 + Math.sin( Math.abs( yAxisAngle ) ) );
+					}
+					else
+					{
+						zPosition = dZ - leftTitleZDelta;
+					}
+					t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							Text3DRenderEvent.class );
+					t3dre.setLocation3D( goFactory.createLocation3D( leftYAxisTitlePosition
+							- leftTitleYDelta,
+							yCenter,
+							zPosition ) );
+
+					t3dre.setLabel( la );
+					t3dre.setTextPosition( TextRenderEvent.LEFT );
+					t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+					renderAxisTitleWith3DTextevent( bb );
+
+					t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							Text3DRenderEvent.class );
+					angle = yAxisAngle;
+					if ( Math.abs( yAxisAngle ) < minAngle )
+					{
+						angle = minAngle;
+					}
+					double rightTitleYDelta = ( pwa.getVerticalSpacingInPixels( )
+							+ yLabelThickness + offset )
+							* ( 1 + Math.abs( Math.sin( angle ) ) );
+					double rightTitleZDelta = ( pwa.getVerticalSpacingInPixels( )
+							+ yLabelThickness + offset )
+							* Math.abs( Math.sin( angle ) );
+					zPosition = dZ;
+					if ( yAxisAngle <= 0 )
+					{
+						zPosition = dZEnd + rightTitleZDelta;
+					}
+					else
+					{
+						zPosition = dZ - rightTitleZDelta;
+					}
+					t3dre.setLocation3D( goFactory.createLocation3D( rightYAxisTitlePosition
+							+ rightTitleYDelta,
+							yCenter,
+							zPosition ) );
+					t3dre.setLabel( la );
+					t3dre.setTextPosition( TextRenderEvent.RIGHT );
+					t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+					renderAxisTitleWith3DTextevent( bb );
+				}
+				else
+				{
+					LabelLimiter lbLimit = pwa.getLabellLimiter( ax.getModelAxis( )
+							.getTitle( ) );
+					lbLimit.computeWrapping( xs, la );
+					lbLimit = lbLimit.limitLabelSize( cComp, xs, la );
+
+					if ( lbLimit.isSuccessed( ) )
+					{
+						BoundingBox bb = lbLimit.getBounding( null );
+
+						// Buzilla#206093: Indicates if the axis title is
+						// within
 						// axis,
 						// otherwise it uses Y axis plus the axis corner to
 						// display
@@ -1630,666 +2065,58 @@ public final class AxesRenderHelper
 						final boolean bTitleHorizontal = Math.abs( la.getCaption( )
 								.getFont( )
 								.getRotation( ) ) <= 30;
-						final double dYAxisHeightPC = ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
+						double dYAxisHeightPC = ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
 								xs );
-
-						if ( bTitleHorizontal )
+						double dHeightWithinAxis = daEndPoints[0]
+								- daEndPoints[1];
+						
+						if ( ChartUtil.isStudyLayout( renderer.cm ))
 						{
-							// Horizontal title always starts with axis and
-							// within
-							// axis. It shouldn't display outside axis.
-							bWithinAxis = true;
+							// If it is study layout, the axis title height should use the orthogonal axis scale range as height. 
+							dYAxisHeightPC = dHeightWithinAxis;
 						}
-						else
+						
+						bWithinAxis = bTitleHorizontal
+								|| ( lbLimit.getMaxHeight( ) < dHeightWithinAxis );
+
+						// #190266 Axis title layout adjustment
+						// final Bounds boundsTitle = ( (ChartWithAxes)
+						// this.renderer.cm ).getTitle( )
+						// .getBounds( );
+						double dTop = computeTopOfOrthogonalAxisTitle( );
+						
+						if ( ChartUtil.isStudyLayout( renderer.cm ))
 						{
-							final BoundingBox bbWoWrap = cComp.computeLabelSize( xs,
-									la,
-									dYAxisHeightPC,
-									null );
-							bWithinAxis = bbWoWrap.getHeight( ) < daEndPoints[0]
-									- daEndPoints[1];
+							// If it is study layout, the axis title top should use the scale end of orthogonal axis scale as top.
+							dTop = daEndPoints[1];
 						}
-						// Keep the same behavior with PlotWithAxes. If
-						// title is
-						// horizontal, only wrap if title exceeds height
-						// plus
-						// corner.
-						bb = cComp.computeLabelSize( xs, la, bWithinAxis
-								&& !bTitleHorizontal ? daEndPoints[0]
-								- daEndPoints[1] : dYAxisHeightPC, null );
+						
+						final Bounds bo = goFactory.createBounds( ax.getTitleCoordinate( ),
+								bWithinAxis ? daEndPoints[1] : dTop,
+								bb.getWidth( ),
+								bWithinAxis ? dHeightWithinAxis
+										: dYAxisHeightPC );
 
-						// Bounds cbo = renderer.getPlotBounds( );
-						//
-						// tre.setBlockBounds( goFactory.createBounds(
-						// cbo.getLeft( )
-						// + ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
-						// / 2d,
-						// cbo.getTop( ) + 30,
-						// bb.getWidth( ),
-						// bb.getHeight( ) ) );
-						//
-						// tre.setLabel( la );
-						// tre.setBlockAlignment( la.getCaption( )
-						// .getFont( )
-						// .getAlignment( ) );
-						// tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK
-						// );
-						// ipr.drawText( tre );
-						//
-						// tre.setBlockBounds( goFactory.createBounds(
-						// cbo.getLeft( )
-						// + cbo.getWidth( )
-						// - bb.getWidth( ),
-						// cbo.getTop( ) + 30 * 2,
-						// bb.getWidth( ),
-						// bb.getHeight( ) ) );
-						//
-						// ipr.drawText( tre );
-
-						// Comment above code and add following code to partial
-						// fix bugzilla bug 192833. This fix only made that the
-						// axis title position is decided by its axis location.
-						// Create 3D text location for axis title.
-
-						// Get position values.
-						Angle3D a3D = ( (ChartWithAxes) renderer.cm ).getRotation( )
-								.getAngles( )
-								.get( 0 );
-						double yAxisAngle = a3D.getYAngle( ) * Math.PI / 180;
-						double yCenter = daEndPoints3D[0]
-								+ ( ( daEndPoints3D[1] - daEndPoints3D[0] ) / 2 );
-						double leftYAxisTitlePosition = context.dX;
-						double rightYAxisTitlePosition = dXEnd;
-
-						if ( bAxisLabelStaggered )
-						{
-							if ( iLabelLocation == IConstants.LEFT )
-							{
-								leftYAxisTitlePosition -= dStaggeredLabelOffset;
-								rightYAxisTitlePosition += dStaggeredLabelOffset;
-							}
-							else
-							{
-								leftYAxisTitlePosition += dStaggeredLabelOffset;
-								rightYAxisTitlePosition -= dStaggeredLabelOffset;
-							}
-						}
-
-						OneAxis axxPV = pwa.getAxes( ).getPrimaryOrthogonal( );
-						double yLabelThickness = axxPV.getScale( )
-								.computeAxisLabelThickness( xs,
-										axxPV.getLabel( ),
-										IConstants.VERTICAL );
-
-						// Render left and right Y axis titles.
-						double offset = pwa.getVerticalSpacingInPixels( );
-						double minAngle = 35 * Math.PI / 180;;
-
-						double angle = yAxisAngle;
-						if ( Math.abs( yAxisAngle ) < minAngle )
-						{
-							angle = minAngle;
-						}
-						double leftTitleYDelta = ( pwa.getVerticalSpacingInPixels( )
-								+ yLabelThickness
-								+ bb.getWidth( ) + offset )
-								* ( 1 + Math.abs( Math.sin( angle ) ) );
-
-						double leftTitleZDelta = ( pwa.getVerticalSpacingInPixels( )
-								+ bb.getWidth( ) + offset )
-								* ( 1 + Math.sin( Math.abs( yAxisAngle ) ) );
-						double zPosition = dZ;
-						if ( yAxisAngle >= 0 )
-						{
-							zPosition = dZEnd
-									+ leftTitleZDelta
-									+ ( dZEnd - dZ )
-									* ( 1 + Math.sin( Math.abs( yAxisAngle ) ) );
-						}
-						else
-						{
-							zPosition = dZ - leftTitleZDelta;
-						}
-						t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-								Text3DRenderEvent.class );
-						t3dre.setLocation3D( goFactory.createLocation3D( leftYAxisTitlePosition
-								- leftTitleYDelta,
-								yCenter,
-								zPosition ) );
-
-						t3dre.setLabel( la );
-						t3dre.setTextPosition( TextRenderEvent.LEFT );
-						t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-						renderAxisTitleWith3DTextevent( bb );
-
-						t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-								Text3DRenderEvent.class );
-						angle = yAxisAngle;
-						if ( Math.abs( yAxisAngle ) < minAngle )
-						{
-							angle = minAngle;
-						}
-						double rightTitleYDelta = ( pwa.getVerticalSpacingInPixels( )
-								+ yLabelThickness + offset )
-								* ( 1 + Math.abs( Math.sin( angle ) ) );
-						double rightTitleZDelta = ( pwa.getVerticalSpacingInPixels( )
-								+ yLabelThickness + offset )
-								* Math.abs( Math.sin( angle ) );
-						zPosition = dZ;
-						if ( yAxisAngle <= 0 )
-						{
-							zPosition = dZEnd + rightTitleZDelta;
-						}
-						else
-						{
-							zPosition = dZ - rightTitleZDelta;
-						}
-						t3dre.setLocation3D( goFactory.createLocation3D( rightYAxisTitlePosition
-								+ rightTitleYDelta,
-								yCenter,
-								zPosition ) );
-						t3dre.setLabel( la );
-						t3dre.setTextPosition( TextRenderEvent.RIGHT );
-						t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-						renderAxisTitleWith3DTextevent( bb );
-					}
-					else
-					{
-						LabelLimiter lbLimit = pwa.getLabellLimiter( ax.getModelAxis( )
-								.getTitle( ) );
-						lbLimit.computeWrapping( xs, la );
-						lbLimit = lbLimit.limitLabelSize( cComp, xs, la );
-
-						if ( lbLimit.isSuccessed( ) )
-						{
-							BoundingBox bb = lbLimit.getBounding( null );
-
-							// Buzilla#206093: Indicates if the axis title is
-							// within
-							// axis,
-							// otherwise it uses Y axis plus the axis corner to
-							// display
-							boolean bWithinAxis = false;
-							// Indicates the axis title is horizontal
-							final boolean bTitleHorizontal = Math.abs( la.getCaption( )
-									.getFont( )
-									.getRotation( ) ) <= 30;
-							double dYAxisHeightPC = ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
-									xs );
-							double dHeightWithinAxis = daEndPoints[0]
-									- daEndPoints[1];
-							
-							if ( ChartUtil.isStudyLayout( renderer.cm ))
-							{
-								// If it is study layout, the axis title height should use the orthogonal axis scale range as height. 
-								dYAxisHeightPC = dHeightWithinAxis;
-							}
-							
-							bWithinAxis = bTitleHorizontal
-									|| ( lbLimit.getMaxHeight( ) < dHeightWithinAxis );
-
-							// #190266 Axis title layout adjustment
-							// final Bounds boundsTitle = ( (ChartWithAxes)
-							// this.renderer.cm ).getTitle( )
-							// .getBounds( );
-							double dTop = computeTopOfOrthogonalAxisTitle( );
-							
-							if ( ChartUtil.isStudyLayout( renderer.cm ))
-							{
-								// If it is study layout, the axis title top should use the scale end of orthogonal axis scale as top.
-								dTop = daEndPoints[1];
-							}
-							
-							final Bounds bo = goFactory.createBounds( ax.getTitleCoordinate( ),
-									bWithinAxis ? daEndPoints[1] : dTop,
-									bb.getWidth( ),
-									bWithinAxis ? dHeightWithinAxis
-											: dYAxisHeightPC );
-
-							tre.setBlockBounds( bo );
-							tre.setLabel( la );
-							TextAlignment ta = goFactory.copyOf( la.getCaption( )
-									.getFont( )
-									.getAlignment( ) );
-							if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
-							{
-								tre.setBlockAlignment( ChartUtil.transposeAlignment( ta ) );
-							}
-							else
-							{
-								tre.setBlockAlignment( ta );
-							}
-							la.getCaption( )
-									.getFont( )
-									.getAlignment( )
-									.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
-							tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-							if ( ax.getTitle( ).isVisible( ) )
-							{
-								// bidi_acgc added start
-								if ( this.renderer.rtc.isRightToLeftText( ) )
-								{
-									tre.setRtlCaption( );
-								}
-								// bidi_acgc added end
-								ipr.drawText( tre );
-							}
-						}
-					}
-				}
-
-				la.getCaption( ).setValue( sRestoreValue );
-				ScriptHandler.callFunction( sh,
-						ScriptHandler.AFTER_DRAW_AXIS_TITLE,
-						axModel,
-						la,
-						getRunTimeContext( ).getScriptContext( ) );
-				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
-						la );
-			}
-			la = goFactory.copyOf( ax.getLabel( ) );
-
-			if ( iv != null
-					&& iv.getType( ) == IConstants.MAX
-					&& iDimension == IConstants.TWO_5_D )
-			{
-				trae.setTranslation( -dSeriesThickness, dSeriesThickness );
-				ipr.applyTransformation( trae );
-			}
-		}
-		else if ( iOrientation == IConstants.HORIZONTAL )
-		{
-			final ComputationContext context = new ComputationContext( false );
-
-			context.x3d = 0;
-			context.z3d = 0;
-			context.dY = dLocation;
-			double dX = 0;
-			double dZ = 0;
-
-			if ( bRendering3D )
-			{
-				Location3D l3d = ax.getAxisCoordinate3D( );
-
-				dX = l3d.getX( );
-				context.dY = l3d.getY( );
-				dZ = l3d.getZ( );
-			}
-
-			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? context.dY
-					+ pwa.getTickSize( )
-					: context.dY - pwa.getTickSize( ) )
-					: context.dY;
-			context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? context.dY
-					- pwa.getTickSize( )
-					: context.dY + pwa.getTickSize( ) )
-					: context.dY;
-
-			if ( iv != null
-					&& iDimension == IConstants.TWO_5_D
-					&& ( ( bTransposed && renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MIN ) || ( !renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MAX ) ) )
-			{
-				trae.setTransform( TransformationEvent.TRANSLATE );
-				trae.setTranslation( dSeriesThickness, -dSeriesThickness );
-				ipr.applyTransformation( trae );
-			}
-
-			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS
-					&& lia.isVisible( ) )
-			{
-				if ( bRenderBase3DAxis )
-				{
-					final double dStart = daEndPoints3D[0];
-					final double dEnd = daEndPoints3D[1];
-					l3dre.setLineAttributes( lia );
-					l3dre.setStart3D( dStart, context.dY, dZ );
-					l3dre.setEnd3D( dEnd, context.dY, dZ );
-					addLine3DEvent( l3dre, renderer.getRightWallEvent( ), dc );
-
-					if ( renderer.isInteractivityEnabled( ) )
-					{
-						Trigger tg;
-						EList<Trigger> elTriggers = axModel.getTriggers( );
-
-						if ( !elTriggers.isEmpty( ) )
-						{
-							final Polygon3DRenderEvent pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-									Polygon3DRenderEvent.class );
-
-							Location3D[] loaHotspot = new Location3D[4];
-							loaHotspot[0] = goFactory.createLocation3D( dStart,
-									context.dY
-											- IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dZ );
-							loaHotspot[1] = goFactory.createLocation3D( dStart,
-									context.dY
-											+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dZ );
-							loaHotspot[2] = goFactory.createLocation3D( dEnd,
-									context.dY
-											+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dZ );
-							loaHotspot[3] = goFactory.createLocation3D( dEnd,
-									context.dY
-											- IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dZ );
-							pre3d.setPoints3D( loaHotspot );
-							pre3d.setDoubleSided( true );
-
-							if ( renderer.get3DEngine( ).processEvent( pre3d,
-									panningOffset.getX( ),
-									panningOffset.getY( ) ) != null )
-							{
-								final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-										InteractionEvent.class );
-								iev.setCursor( axModel.getCursor( ) );
-								
-								for ( int t = 0; t < elTriggers.size( ); t++ )
-								{
-									tg = goFactory.copyOf( elTriggers.get( t ) );
-									processTrigger( tg,
-											StructureSource.createAxis( axModel ) );
-									iev.addTrigger( tg );
-								}
-
-								iev.setHotSpot( pre3d );
-								ipr.enableInteraction( iev );
-							}
-						}
-					}
-
-				}
-				else if ( bRenderAncillary3DAxis )
-				{
-					final double dStart = daEndPoints3D[0];
-					final double dEnd = daEndPoints3D[1];
-					l3dre.setLineAttributes( lia );
-					l3dre.setStart3D( dX, context.dY, dStart );
-					l3dre.setEnd3D( dX, context.dY, dEnd );
-					addLine3DEvent( l3dre, renderer.getLeftWallEvent( ), dc );
-
-					if ( renderer.isInteractivityEnabled( ) )
-					{
-						Trigger tg;
-						EList<Trigger> elTriggers = axModel.getTriggers( );
-
-						if ( !elTriggers.isEmpty( ) )
-						{
-							final Polygon3DRenderEvent pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-									Polygon3DRenderEvent.class );
-
-							Location3D[] loaHotspot = new Location3D[4];
-							loaHotspot[0] = goFactory.createLocation3D( dX,
-									context.dY
-											- IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dStart );
-							loaHotspot[1] = goFactory.createLocation3D( dX,
-									context.dY
-											+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dStart );
-							loaHotspot[2] = goFactory.createLocation3D( dX,
-									context.dY
-											+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dEnd );
-							loaHotspot[3] = goFactory.createLocation3D( dX,
-									context.dY
-											- IConstants.LINE_EXPAND_DOUBLE_SIZE,
-									dEnd );
-							pre3d.setPoints3D( loaHotspot );
-							pre3d.setDoubleSided( true );
-
-							if ( renderer.get3DEngine( ).processEvent( pre3d,
-									panningOffset.getX( ),
-									panningOffset.getY( ) ) != null )
-							{
-								final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-										InteractionEvent.class );
-								iev.setCursor( axModel.getCursor( ) );
-								
-								for ( int t = 0; t < elTriggers.size( ); t++ )
-								{
-									tg = goFactory.copyOf( elTriggers.get( t ) );
-									processTrigger( tg,
-											StructureSource.createAxis( axModel ) );
-									iev.addTrigger( tg );
-								}
-
-								iev.setHotSpot( pre3d );
-								ipr.enableInteraction( iev );
-							}
-						}
-					}
-
-				}
-				else
-				{
-					double dStart = daEndPoints[0] - insCA.getLeft( ), dEnd = daEndPoints[1]
-							+ insCA.getRight( );
-
-					if ( sc.getDirection( ) == IConstants.BACKWARD )
-					{
-						dStart = daEndPoints[1] - insCA.getLeft( );
-						dEnd = daEndPoints[0] + insCA.getRight( );
-					}
-
-					if ( iv != null
-							&& iv.getType( ) == IConstants.VALUE
-							&& iDimension == IConstants.TWO_5_D )
-					{
-						// Zero plane.
-						final Location[] loa = new Location[4];
-						loa[0] = goFactory.createLocation( dStart, context.dY );
-						loa[1] = goFactory.createLocation( dStart
-								+ dSeriesThickness,
-								context.dY - dSeriesThickness );
-						loa[2] = goFactory.createLocation( dEnd
-								+ dSeriesThickness,
-								context.dY - dSeriesThickness );
-						loa[3] = goFactory.createLocation( dEnd, context.dY );
-
-						final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-								PolygonRenderEvent.class );
-						pre.setPoints( loa );
-						pre.setBackground( goFactory.createColorDefinition( 255,
-								255,
-								255,
-								127 ) );
-						pre.setOutline( lia );
-						ipr.fillPolygon( pre );
-					}
-					lre.setLineAttributes( lia );
-					lre.getStart( ).set( dStart, context.dY );
-					lre.getEnd( ).set( dEnd, context.dY );
-					ipr.drawLine( lre );
-
-					if ( renderer.isInteractivityEnabled( ) )
-					{
-						Trigger tg;
-						EList<Trigger> elTriggers = axModel.getTriggers( );
-
-						if ( !elTriggers.isEmpty( ) )
-						{
-							final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-									InteractionEvent.class );
-							iev.setCursor( axModel.getCursor( ) );
-							
-							for ( int t = 0; t < elTriggers.size( ); t++ )
-							{
-								tg = goFactory.copyOf( elTriggers.get( t ) );
-								processTrigger( tg,
-										StructureSource.createAxis( axModel ) );
-								iev.addTrigger( tg );
-							}
-
-							Location[] loaHotspot = new Location[4];
-
-							loaHotspot[0] = goFactory.createLocation( dStart,
-									context.dY - IConstants.LINE_EXPAND_SIZE );
-							loaHotspot[1] = goFactory.createLocation( dEnd,
-									context.dY - IConstants.LINE_EXPAND_SIZE );
-							loaHotspot[2] = goFactory.createLocation( dEnd,
-									context.dY + IConstants.LINE_EXPAND_SIZE );
-							loaHotspot[3] = goFactory.createLocation( dStart,
-									context.dY + IConstants.LINE_EXPAND_SIZE );
-
-							final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-									PolygonRenderEvent.class );
-							pre.setPoints( loaHotspot );
-							iev.setHotSpot( pre );
-							ipr.enableInteraction( iev );
-						}
-					}
-
-				}
-			}
-
-			renderHorizontalAxisByType( context,
-					dXEnd,
-					dZEnd,
-					dZ,
-					dStaggeredLabelOffset );
-
-			// RENDER THE AXIS TITLE
-			la = goFactory.copyOf( ax.getTitle( ) ); // TEMPORARILY USE
-			// FOR AXIS TITLE
-			if ( la.isVisible( ) && bRenderAxisTitle )
-			{
-				ScriptHandler.callFunction( sh,
-						ScriptHandler.BEFORE_DRAW_AXIS_TITLE,
-						axModel,
-						la,
-						getRunTimeContext( ).getScriptContext( ) );
-				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_TITLE,
-						la );
-				final String sRestoreValue = la.getCaption( ).getValue( );
-				la.getCaption( )
-						.setValue( getRunTimeContext( ).externalizedMessage( sRestoreValue ) ); // EXTERNALIZE
-				la.getCaption( )
-						.getFont( )
-						.setAlignment( renderer.switchTextAlignment( la.getCaption( )
+						tre.setBlockBounds( bo );
+						tre.setLabel( la );
+						TextAlignment ta = goFactory.copyOf( la.getCaption( )
 								.getFont( )
-								.getAlignment( ) ) );
-
-				if ( ax.getTitle( ).isVisible( ) && la.isVisible( ) )
-				{
-					if ( bRendering3D )
-					{
-						BoundingBox bb = cComp.computeLabelSize( xs,
-								la,
-								Math.abs( daEndPoints[1] - daEndPoints[0] ),
-								null );
-
-						Angle3D a3D = ( (ChartWithAxes) renderer.cm ).getRotation( )
-								.getAngles( )
-								.get( 0 );
-
-						if ( axisType == IConstants.BASE_AXIS )
+								.getAlignment( ) );
+						if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
 						{
-							t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
-									Text3DRenderEvent.class );
-
-							IAxisTypeComputation computation = createAxisTypeComputation( context );
-							computation.initialize( );
-							final int length = computation instanceof TextAxisTypeComputation ? da.size( ) - 1
-									: da.size( );
-
-							OneAxis axxPB = pwa.getAxes( ).getPrimaryBase( );
-							double xLabelThickness = cComp.computeHeight( xs,
-									axxPB.getLabel( ) );
-
-							int xStart = (int) da3D.getCoordinate( 0 );
-							int xEnd = (int) da3D.getCoordinate( length - 1 );
-							int x = xStart + ( xEnd - xStart ) / 2;
-							Location3D location = goFactory.createLocation3D( x,
-									context.dY
-											- xLabelThickness
-											- ( dZEnd - dZ ),
-									dZEnd
-											+ pwa.getHorizontalSpacingInPixels( )
-											+ xLabelThickness );
-							t3dre.setLocation3D( location );
-							t3dre.setLabel( la );
-							double yAngle = a3D.getYAngle( ) % 360;
-							if ( yAngle > 0 && yAngle <= 180 )
-							{
-								t3dre.setTextPosition( TextRenderEvent.LEFT );
-							}
-							else
-							{
-								t3dre.setTextPosition( TextRenderEvent.RIGHT );
-							}
-
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+							tre.setBlockAlignment( ChartUtil.transposeAlignment( ta ) );
 						}
 						else
 						{
-							double yAngle = a3D.getYAngle( );
-							Location3D location = goFactory.createLocation3D( dXEnd
-									+ ( dZEnd - dZ ),
-									context.dY
-											- ( dZEnd - dZ )
-											/ 2
-											- bb.getHeight( )
-											* ( 1 + Math.sin( Math.abs( yAngle ) ) ),
-									dZ + ( dZEnd - dZ ) / 2 );
-							t3dre.setLocation3D( location );
-							t3dre.setLabel( la );
-							double angle = a3D.getZAngle( ) % 360;
-							if ( angle >= 0 && angle < 180 )
-							{
-								t3dre.setTextPosition( TextRenderEvent.RIGHT );
-							}
-							else
-							{
-								t3dre.setTextPosition( TextRenderEvent.LEFT );
-							}
-
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+							tre.setBlockAlignment( ta );
 						}
-
-						renderAxisTitleWith3DTextevent( bb );
-					}
-					else
-					{
-						LabelLimiter lbLimit = pwa.getLabellLimiter( ax.getModelAxis( )
-								.getTitle( ) );
-						double dWidthWithinAxis = Math.abs( daEndPoints[1]
-								- daEndPoints[0] );
-						if ( lbLimit.getMaxWidth( ) > dWidthWithinAxis )
+						la.getCaption( )
+								.getFont( )
+								.getAlignment( )
+								.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
+						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+						if ( ax.getTitle( ).isVisible( ) )
 						{
-							lbLimit.setMaxWidth( dWidthWithinAxis );
-						}
-						lbLimit.computeWrapping( xs, la );
-						lbLimit = lbLimit.limitLabelSize( cComp, xs, la );
-
-						if ( lbLimit.isSuccessed( ) )
-						{
-							BoundingBox bb = lbLimit.getBounding( null );
-
-							final Bounds bo = goFactory.createBounds( daEndPoints[0],
-									ax.getTitleCoordinate( ),
-									daEndPoints[1] - daEndPoints[0],
-									bb.getHeight( ) );
-
-							tre.setBlockBounds( bo );
-							tre.setLabel( la );
-							TextAlignment ta = goFactory.copyOf( la.getCaption( )
-									.getFont( )
-									.getAlignment( ) );
-
-							if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
-							{
-								tre.setBlockAlignment( ta );
-							}
-							else
-							{
-								tre.setBlockAlignment( ChartUtil.transposeAlignment( ta ) );
-							}
-							la.getCaption( )
-									.getFont( )
-									.getAlignment( )
-									.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
-							tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 							// bidi_acgc added start
 							if ( this.renderer.rtc.isRightToLeftText( ) )
 							{
@@ -2300,25 +2127,292 @@ public final class AxesRenderHelper
 						}
 					}
 				}
-
-				ScriptHandler.callFunction( sh,
-						ScriptHandler.AFTER_DRAW_AXIS_TITLE,
-						axModel,
-						la,
-						getRunTimeContext( ).getScriptContext( ) );
-				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
-						la );
 			}
-			la = goFactory.copyOf( ax.getLabel( ) ); // RESTORE BACK TO
-			// AXIS LABEL
+
+			la.getCaption( ).setValue( sRestoreValue );
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.AFTER_DRAW_AXIS_TITLE,
+					axModel,
+					la,
+					getRunTimeContext( ).getScriptContext( ) );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
+					la );
+		}
+		la = goFactory.copyOf( ax.getLabel( ) );
+	}
+
+	private void renderVerticalAxisLine( final ComputationContext context,
+			double dXStart, double dXEnd, double dZStart, double dZEnd,
+			double dZ ) throws ChartException
+	{
+		if ( bRenderOrthogonal3DAxis )
+		{
+			final double dStart = daEndPoints3D[0];
+			final double dEnd = daEndPoints3D[1];
+			l3dre.setLineAttributes( lia );
+
+			// center
+			l3dre.setStart3D( context.dX, dStart, dZ );
+			l3dre.setEnd3D( context.dX, dEnd, dZ );
+			addLine3DEvent( l3dre, renderer.getRightWallEvent( ), dc );
+
+			// left
+			l3dre.setStart3D( context.dX, dStart, dZEnd );
+			l3dre.setEnd3D( context.dX, dEnd, dZEnd );
+			addLine3DEvent( l3dre, renderer.getLeftWallEvent( ), dc );
+
+			// right
+			l3dre.setStart3D( dXEnd, dStart, dZ );
+			l3dre.setEnd3D( dXEnd, dEnd, dZ );
+			addLine3DEvent( l3dre, renderer.getRightWallEvent( ), dc );
+
+			if ( renderer.isInteractivityEnabled( ) )
+			{
+				Trigger tg;
+				EList<Trigger> elTriggers = axModel.getTriggers( );
+
+				if ( !elTriggers.isEmpty( ) )
+				{
+					ArrayList<Trigger> cachedTriggers = null;
+					Location3D[] loaHotspot = new Location3D[4];
+					Polygon3DRenderEvent pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							Polygon3DRenderEvent.class );
+
+					// process center y-axis.
+					loaHotspot[0] = goFactory.createLocation3D( context.dX
+							- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dStart,
+							dZ + IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					loaHotspot[1] = goFactory.createLocation3D( context.dX
+							+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dStart,
+							dZ - IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					loaHotspot[2] = goFactory.createLocation3D( context.dX
+							+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dEnd,
+							dZ - IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					loaHotspot[3] = goFactory.createLocation3D( context.dX
+							- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dEnd,
+							dZ + IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					pre3d.setPoints3D( loaHotspot );
+					pre3d.setDoubleSided( true );
+
+					if ( renderer.get3DEngine( ).processEvent( pre3d,
+							panningOffset.getX( ),
+							panningOffset.getY( ) ) != null )
+					{
+						final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								InteractionEvent.class );
+						iev.setCursor( axModel.getCursor( )  );
+						cachedTriggers = new ArrayList<Trigger>( );
+						for ( int t = 0; t < elTriggers.size( ); t++ )
+						{
+							tg = goFactory.copyOf( elTriggers.get( t ) );
+							processTrigger( tg,
+									StructureSource.createAxis( axModel ) );
+							cachedTriggers.add( tg );
+							iev.addTrigger( goFactory.copyOf( tg ) );
+						}
+
+						iev.setHotSpot( pre3d );
+						ipr.enableInteraction( iev );
+					}
+
+					// process left y-axis.
+					pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							Polygon3DRenderEvent.class );
+					loaHotspot = new Location3D[4];
+
+					loaHotspot[0] = goFactory.createLocation3D( dXStart
+							- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dStart,
+							dZEnd + IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					loaHotspot[1] = goFactory.createLocation3D( dXStart
+							+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dStart,
+							dZEnd - IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					loaHotspot[2] = goFactory.createLocation3D( dXStart
+							+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dEnd,
+							dZEnd - IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					loaHotspot[3] = goFactory.createLocation3D( dXStart
+							- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dEnd,
+							dZEnd + IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					pre3d.setPoints3D( loaHotspot );
+					pre3d.setDoubleSided( true );
+
+					if ( renderer.get3DEngine( ).processEvent( pre3d,
+							panningOffset.getX( ),
+							panningOffset.getY( ) ) != null )
+					{
+						final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								InteractionEvent.class );
+						iev.setCursor( axModel.getCursor( ) );
+						
+						if ( cachedTriggers == null )
+						{
+							cachedTriggers = new ArrayList<Trigger>( );
+							for ( int t = 0; t < elTriggers.size( ); t++ )
+							{
+								tg = goFactory.copyOf( elTriggers.get( t ) );
+								processTrigger( tg,
+										StructureSource.createAxis( axModel ) );
+								cachedTriggers.add( tg );
+								iev.addTrigger( goFactory.copyOf( tg ) );
+							}
+
+						}
+						else
+						{
+							for ( int t = 0; t < cachedTriggers.size( ); t++ )
+							{
+								iev.addTrigger( goFactory.copyOf( cachedTriggers.get( t ) ) );
+							}
+						}
+
+						iev.setHotSpot( pre3d );
+						ipr.enableInteraction( iev );
+					}
+
+					// process right y-axis.
+					pre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							Polygon3DRenderEvent.class );
+					loaHotspot = new Location3D[4];
+
+					loaHotspot[0] = goFactory.createLocation3D( dXEnd
+							- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dStart,
+							dZStart
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					loaHotspot[1] = goFactory.createLocation3D( dXEnd
+							+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dStart,
+							dZStart
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					loaHotspot[2] = goFactory.createLocation3D( dXEnd
+							+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dEnd,
+							dZStart
+									- IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					loaHotspot[3] = goFactory.createLocation3D( dXEnd
+							- IConstants.LINE_EXPAND_DOUBLE_SIZE,
+							dEnd,
+							dZStart
+									+ IConstants.LINE_EXPAND_DOUBLE_SIZE );
+					pre3d.setPoints3D( loaHotspot );
+					pre3d.setDoubleSided( true );
+
+					if ( renderer.get3DEngine( ).processEvent( pre3d,
+							panningOffset.getX( ),
+							panningOffset.getY( ) ) != null )
+					{
+						final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								InteractionEvent.class );
+						iev.setCursor( axModel.getCursor( ) );
+						
+						if ( cachedTriggers == null )
+						{
+							for ( int t = 0; t < elTriggers.size( ); t++ )
+							{
+								tg = goFactory.copyOf( elTriggers.get( t ) );
+								processTrigger( tg,
+										StructureSource.createAxis( axModel ) );
+								iev.addTrigger( tg );
+							}
+						}
+						else
+						{
+							for ( int t = 0; t < cachedTriggers.size( ); t++ )
+							{
+								iev.addTrigger( cachedTriggers.get( t ) );
+							}
+						}
+
+						iev.setHotSpot( pre3d );
+						ipr.enableInteraction( iev );
+					}
+				}
+			}
+
+		}
+		else
+		{
+			double dStart = daEndPoints[0] + insCA.getBottom( ), dEnd = daEndPoints[1]
+					- insCA.getTop( );
+
+			if ( sc.getDirection( ) == IConstants.FORWARD )
+			{
+				dStart = daEndPoints[1] + insCA.getBottom( );
+				dEnd = daEndPoints[0] - insCA.getTop( );
+			}
 
 			if ( iv != null
-					&& iDimension == IConstants.TWO_5_D
-					&& ( ( bTransposed && renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MIN ) || ( !renderer.isRightToLeft( ) && iv.getType( ) == IConstants.MAX ) ) )
+					&& iv.getType( ) == IConstants.VALUE
+					&& iDimension == IConstants.TWO_5_D )
 			{
-				trae.setTranslation( -dSeriesThickness, dSeriesThickness );
-				ipr.applyTransformation( trae );
+				final Location[] loa = new Location[4];
+				loa[0] = goFactory.createLocation( context.dX, dStart );
+				loa[1] = goFactory.createLocation( context.dX
+						+ dSeriesThickness, dStart - dSeriesThickness );
+				loa[2] = goFactory.createLocation( context.dX
+						+ dSeriesThickness, dEnd - dSeriesThickness );
+				loa[3] = goFactory.createLocation( context.dX, dEnd );
+
+				final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+						PolygonRenderEvent.class );
+				pre.setPoints( loa );
+				pre.setBackground( goFactory.createColorDefinition( 255,
+						255,
+						255,
+						127 ) );
+				pre.setOutline( lia );
+				ipr.fillPolygon( pre );
 			}
+			lre.setLineAttributes( lia );
+			lre.getStart( ).set( context.dX, dStart );
+			lre.getEnd( ).set( context.dX, dEnd );
+			ipr.drawLine( lre );
+
+			if ( renderer.isInteractivityEnabled( ) )
+			{
+				Trigger tg;
+				EList<Trigger> elTriggers = axModel.getTriggers( );
+
+				if ( !elTriggers.isEmpty( ) )
+				{
+					final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							InteractionEvent.class );
+					iev.setCursor( axModel.getCursor( ) );
+					
+					for ( int t = 0; t < elTriggers.size( ); t++ )
+					{
+						tg = goFactory.copyOf( elTriggers.get( t ) );
+						processTrigger( tg,
+								StructureSource.createAxis( axModel ) );
+						iev.addTrigger( tg );
+					}
+
+					Location[] loaHotspot = new Location[4];
+
+					loaHotspot[0] = goFactory.createLocation( context.dX
+							- IConstants.LINE_EXPAND_SIZE, dStart );
+					loaHotspot[1] = goFactory.createLocation( context.dX
+							+ IConstants.LINE_EXPAND_SIZE, dStart );
+					loaHotspot[2] = goFactory.createLocation( context.dX
+							+ IConstants.LINE_EXPAND_SIZE, dEnd );
+					loaHotspot[3] = goFactory.createLocation( context.dX
+							- IConstants.LINE_EXPAND_SIZE, dEnd );
+
+					final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+							PolygonRenderEvent.class );
+					pre.setPoints( loaHotspot );
+					iev.setHotSpot( pre );
+					ipr.enableInteraction( iev );
+				}
+			}
+
 		}
 	}
 

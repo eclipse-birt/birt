@@ -119,13 +119,7 @@ public class DesignSessionImpl
 	 * The list of open designs for the user.
 	 */
 
-	protected List<ReportDesign> designs = new ArrayList<ReportDesign>( );
-
-	/**
-	 * The list of open libraries for the user.
-	 */
-
-	protected List<Library> libraries = new ArrayList<Library>( );
+	protected List<Module> modules = new ArrayList<Module>( );
 
 	/**
 	 * The user's locale.
@@ -241,7 +235,7 @@ public class DesignSessionImpl
 		initializeOptions( options );
 		ReportDesign design = DesignReader.getInstance( ).read( this, fileName,
 				options );
-		designs.add( design );
+		modules.add( design );
 		return design;
 	}
 
@@ -314,7 +308,7 @@ public class DesignSessionImpl
 		initializeOptions( options );
 		ReportDesign design = DesignReader.getInstance( ).read( this, fileName,
 				is, options );
-		designs.add( design );
+		modules.add( design );
 		return design;
 	}
 
@@ -362,7 +356,7 @@ public class DesignSessionImpl
 
 		ReportDesign design = DesignReader.getInstance( ).read( this, systemId,
 				is, options );
-		designs.add( design );
+		modules.add( design );
 		return design;
 	}
 
@@ -411,10 +405,7 @@ public class DesignSessionImpl
 		Module module = GenericModuleReader.getInstance( ).read( this,
 				fileName, is, options );
 
-		if ( module instanceof ReportDesign )
-			designs.add( (ReportDesign) module );
-		else if ( module instanceof Library )
-			libraries.add( (Library) module );
+		modules.add(module );
 
 		return module;
 	}
@@ -457,12 +448,9 @@ public class DesignSessionImpl
 		initializeOptions( options );
 		Module module = GenericModuleReader.getInstance( ).read( this,
 				fileName, options );
-		assert module instanceof Library || module instanceof ReportDesign;
+		//assert module instanceof Library || module instanceof ReportDesign;
 
-		if ( module instanceof ReportDesign )
-			designs.add( (ReportDesign) module );
-		else if ( module instanceof Library )
-			libraries.add( (Library) module );
+		modules.add( module );
 
 		return module;
 	}
@@ -507,7 +495,7 @@ public class DesignSessionImpl
 		initializeOptions( options );
 		Library library = LibraryReader.getInstance( ).read( this, fileName,
 				options );
-		libraries.add( library );
+		modules.add( library );
 		return library;
 	}
 
@@ -561,7 +549,7 @@ public class DesignSessionImpl
 		initializeOptions( options );
 		Library design = LibraryReader.getInstance( ).read( this, fileName, is,
 				options );
-		libraries.add( design );
+		modules.add( design );
 		return design;
 	}
 
@@ -611,7 +599,7 @@ public class DesignSessionImpl
 		initializeOptions( options );
 		Library library = LibraryReader.getInstance( ).read( this, systemId,
 				is, options );
-		libraries.add( library );
+		modules.add( library );
 		return library;
 	}
 
@@ -655,7 +643,7 @@ public class DesignSessionImpl
 					DesignSchemaConstants.REPORT_VERSION );
 		}
 		design.setValid( true );
-		designs.add( design );
+		modules.add( design );
 		return design;
 	}
 
@@ -872,7 +860,7 @@ public class DesignSessionImpl
 		handleDefaultTheme( library );
 
 		library.setValid( true );
-		libraries.add( library );
+		modules.add( library );
 		return library;
 	}
 
@@ -916,6 +904,12 @@ public class DesignSessionImpl
 
 	public final Iterator<ReportDesign> getDesignIterator( )
 	{
+		ArrayList<ReportDesign> designs = new ArrayList<ReportDesign>(modules.size());
+		for (Module module : modules) {
+			if (module instanceof ReportDesign) {
+				designs.add((ReportDesign)module);
+			}
+		}
 		return designs.iterator( );
 	}
 
@@ -927,6 +921,12 @@ public class DesignSessionImpl
 
 	public final Iterator<Library> getLibraryIterator( )
 	{
+		ArrayList<Library> libraries = new ArrayList<Library>(modules.size());
+		for (Module module : modules) {
+			if (module instanceof Library) {
+				libraries.add((Library)module);
+			}
+		}
 		return libraries.iterator( );
 	}
 
@@ -938,11 +938,7 @@ public class DesignSessionImpl
 
 	public Iterator<Module> getModuleIterator( )
 	{
-		List<Module> roots = new ArrayList<Module>( );
-
-		roots.addAll( designs );
-		roots.addAll( libraries );
-
+		List<Module> roots = new ArrayList<Module>( modules );
 		return roots.iterator( );
 	}
 
@@ -955,16 +951,7 @@ public class DesignSessionImpl
 
 	public void drop( Module module )
 	{
-		if ( module instanceof ReportDesign )
-		{
-			assert designs.contains( module );
-			designs.remove( module );
-		}
-		else if ( module instanceof Library )
-		{
-			assert libraries.contains( module );
-			libraries.remove( module );
-		}
+		modules.remove(module);
 	}
 
 	/**

@@ -90,6 +90,11 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 
 	public boolean isEnabled( )
 	{
+		boolean result = (levelHandle == null) || (levelHandle.getCrosstab() == null ) || (levelHandle.getCrosstab().getCube() == null);
+		if(result)
+		{
+			return false;
+		}
 		return !DEUtil.isReferenceElement( levelHandle.getCrosstabHandle( ) );
 	}
 

@@ -296,7 +296,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/**
 	 * Sets the deferred cache used by current renderer.
 	 */
-	public final void set( DeferredCache _dc )
+	public void set( DeferredCache _dc )
 	{
 		dc = _dc;
 	}
@@ -926,7 +926,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					markerSize,
 					getDeferredCache( ),
 					bDeferred,
-					bTransposed );
+					bTransposed,
+					getSeriesDefinition( ).getZOrder( ) );
 			mr.draw( ipr );
 			preCopy = mr.getRenderArea( );
 		}
@@ -1449,7 +1450,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				}
 			}
 
-			if ( !customed )
+			if ( !customed && se != null )
 			{
 				Action action = goFactory.createAction( actionType,
 						goFactory.createSeriesValue( String.valueOf( se.getSeriesIdentifier( ) ) ) );
@@ -2767,7 +2768,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		IActionRenderer iar = getRunTimeContext( ).getActionRenderer( );
 		if ( iar != null )
 		{
-			iar.processAction( tg.getAction( ), source );
+			iar.processAction( tg.getAction( ), source, rtc );
 		}
 
 		// internal processing.
@@ -3677,7 +3678,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected final void renderInteractivity( IPrimitiveRenderer ipr,
 			DataPointHints dph, PrimitiveRenderEvent pre ) throws ChartException
 	{
-		if ( isInteractivityEnabled( ) && dph != null )
+		if ( isInteractivityEnabled( ) && dph != null  && getSeries( ) != null )
 		{
 			// PROCESS 'SERIES LEVEL' TRIGGERS USING SOURCE='bs'
 			final EList<Trigger> elTriggers = getSeries( ).getTriggers( );
@@ -3738,45 +3739,39 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		StructureSource oSource = StructureSource.createPlot( p );
 
 		// render text
-		if ( getModel( ).getEmptyMessage( ).isVisible( ) )
-		{
-			Label la = getExternalizedCopy( getModel( ).getEmptyMessage( ) );
-			rendLabelInBounds( ipr, la, oSource, bo );
-		}
+		renderChartMessage( ipr, bo, oSource );
 
 	}
 
-	/**
-	 * Render a label within a bounds.
-	 * 
-	 * @param ipr
-	 * @param la
-	 * @param oSource
-	 * @param bo
-	 * @throws ChartException
-	 *             Note: The label text will be changed.
-	 */
-	protected void rendLabelInBounds( IPrimitiveRenderer ipr, Label la,
-			Object oSource, Bounds bo ) throws ChartException
+	private void renderChartMessage( IPrimitiveRenderer ipr, Bounds bo,
+			StructureSource oSource ) throws ChartException
 	{
-		EventObjectCache eoc = (EventObjectCache) ipr;
-		final TextRenderEvent tre = eoc.getEventObject( oSource,
-				TextRenderEvent.class );
-		tre.setBlockBounds( bo );
-		tre.setLabel( la );
-		if ( rtc.isRightToLeftText( ) )
+		if ( getModel( ).getEmptyMessage( ).isVisible( ) )
 		{
-			tre.setRtlCaption( );
+			Label la = getExternalizedCopy( getModel( ).getEmptyMessage( ) );
+
+			EventObjectCache eoc = (EventObjectCache) ipr;
+			final TextRenderEvent tre = eoc.getEventObject( oSource,
+					TextRenderEvent.class );
+			tre.setBlockBounds( bo );
+			tre.setLabel( la );
+			if ( rtc.isRightToLeftText( ) )
+			{
+				tre.setRtlCaption( );
+			}
+
+			LabelLimiter lbLimiter = new LabelLimiter( bo.getWidth( ),
+					bo.getHeight( ),
+					0 );
+			lbLimiter.computeWrapping( xs, la );
+			lbLimiter.limitLabelSize( cComp, xs, la );
+
+			tre.setBlockAlignment( la.getCaption( ).getFont( ).getAlignment( ) );
+			tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+			
+			// Rendering chart message after other chart elements are rendered
+			// to make sure the chart message displays on top. 
+			fDeferredCacheManager.getLastDeferredCache( ).addLabel( tre );
 		}
-
-		LabelLimiter lbLimiter = new LabelLimiter( bo.getWidth( ),
-				bo.getHeight( ),
-				0 );
-		lbLimiter.computeWrapping( xs, la );
-		lbLimiter.limitLabelSize( cComp, xs, la );
-
-		tre.setBlockAlignment( la.getCaption( ).getFont( ).getAlignment( ) );
-		tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-		ipr.drawText( tre );
 	}
 }

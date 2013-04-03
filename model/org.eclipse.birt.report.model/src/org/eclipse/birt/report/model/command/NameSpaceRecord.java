@@ -28,7 +28,6 @@ import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
@@ -112,7 +111,6 @@ public class NameSpaceRecord extends SimpleRecord
 
 	protected void perform( boolean undo )
 	{
-		int nameSpaceID = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
 		Module root = nameHelper.getElement( ).getRoot( );
 		NameSpace ns = nameHelper.getNameSpace( nameSpaceID );
 		assert root != null;
@@ -127,7 +125,7 @@ public class NameSpaceRecord extends SimpleRecord
 
 				// drop the element from the cached name manager
 
-				nameHelper.dropElement( element );
+				nameHelper.dropElement( nameSpaceID, element );
 				if ( originalElement != null )
 					updateAllElementReferences( root, originalElement );
 			}
@@ -137,7 +135,7 @@ public class NameSpaceRecord extends SimpleRecord
 
 				// drop the element from the cached name manager
 
-				nameHelper.dropElement( element );
+				nameHelper.dropElement( nameSpaceID, element );
 			}
 		}
 		else

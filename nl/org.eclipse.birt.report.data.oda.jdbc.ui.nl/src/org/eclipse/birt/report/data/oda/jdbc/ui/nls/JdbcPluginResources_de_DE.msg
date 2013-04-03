@@ -1,5 +1,6 @@
 dataset.editor.page.query=Abfrage
 dataset.new.query=Definieren Sie mithilfe verfügbarer Elemente einen SQL-Abfragetext.
+dataset.new.query.hive=Definieren Sie mithilfe verfügbarer Elemente einen HQL-Abfragetext.
 dataset.new=Neuer Datensatz
 dataset.editor.page.query.error.schemaNotExisted=Der Schemaname ist nicht vorhanden.
 datasource.new=Neue Datenquelle
@@ -31,7 +32,7 @@ tablepage.label.queryText=&Abfragetext:
 tablepage.button.filter=&Filter anwenden
 tablepage.button.dnd=Alle Bezeichner in &Anführungszeichen setzen
 tablepage.button.showSystemTables=&Systemtabellen anzeigen
-tablepage.button.showAlias=Alias anzeigen
+tablepage.button.showAlias=Alia&s anzeigen
 tablepage.button.includeSchemaInfo=Schema in Objektnamen &einbeziehen
 tablepage.label.filterNote=(Sie können "%" als Platzhalter für mehrere Zeichen und "-" als Platzhalter für genau ein Zeichen verwenden.)
 tablepage.title=Wählen Sie die Tabellen aus, die der Datensatz umfassen soll.

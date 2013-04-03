@@ -62,9 +62,9 @@ public class ExpressionComposite extends Composite
 		setLayout( layout );
 		if ( isFormStyle )
 			text = FormWidgetFactory.getInstance( ).createText( this, "", //$NON-NLS-1$
-					SWT.READ_ONLY | SWT.WRAP );
+					SWT.READ_ONLY | SWT.MULTI );
 		else
-			text = new Text( this, SWT.READ_ONLY | SWT.WRAP | SWT.BORDER );
+			text = new Text( this, SWT.READ_ONLY | SWT.MULTI | SWT.BORDER );
 		GridData data = new GridData( );
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = GridData.FILL;

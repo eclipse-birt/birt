@@ -168,6 +168,11 @@ public class TextEditorComposite extends AbstractChartTextEditor implements
 		txtValue.addKeyListener( this );
 	}
 
+	public void addScreenreaderAccessbility( String description )
+	{
+		ChartUIUtil.addScreenReaderAccessbility( txtValue, description );
+	}
+
 	public void setEnabled( boolean bState )
 	{
 		this.txtValue.setEnabled( bState );
@@ -426,6 +431,8 @@ public class TextEditorComposite extends AbstractChartTextEditor implements
 				e.result = getText( );
 			}
 		} );
+		
+		ChartUIUtil.addScreenReaderAccessibility( this, txtValue );
 	}
 	
 	/**

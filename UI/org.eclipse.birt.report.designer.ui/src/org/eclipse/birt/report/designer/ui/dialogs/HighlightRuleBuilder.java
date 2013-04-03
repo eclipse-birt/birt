@@ -422,7 +422,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		}
 		else
 		{
-			expressionText = new Text( condition, SWT.BORDER | SWT.WRAP );
+			expressionText = new Text( condition, SWT.BORDER | SWT.MULTI );
 			gdata.heightHint = expressionText.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
 					- expressionText.getBorderWidth( )
 					* 2;

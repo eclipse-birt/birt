@@ -128,7 +128,7 @@ public abstract class ListingItemState extends ReportItemState
 			String groupName = (String) group.getLocalProperty( handler.module,
 					IGroupElementModel.GROUP_NAME_PROP );
 			if ( StringUtil.isBlank( groupName ) )
-				handler.getModule( ).getNameHelper( ).makeUniqueName( group );
+				handler.getModule( ).makeUniqueName( group );
 
 			groupName = (String) group.getLocalProperty( handler.getModule( ),
 					IGroupElementModel.GROUP_NAME_PROP );

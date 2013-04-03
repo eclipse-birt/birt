@@ -1,5 +1,6 @@
 dataset.editor.page.query=Consulta
 dataset.new.query=Definir un texto de consulta sql con los elementos disponibles.
+dataset.new.query.hive=Definir un texto de consulta hql con los elementos disponibles.
 dataset.new=Nuevo conjunto de datos
 dataset.editor.page.query.error.schemaNotExisted=El nombre de esquema no existe.
 datasource.new=Nueva fuente de datos
@@ -31,7 +32,7 @@ tablepage.label.queryText=Texto de cons&ulta:
 tablepage.button.filter=&Aplicar filtro
 tablepage.button.dnd=&Entrecomillar todos los identificadores
 tablepage.button.showSystemTables=M&ostrar las tablas del sistema
-tablepage.button.showAlias=Mostrar alias
+tablepage.button.showAlias=Mostrar alia&s
 tablepage.button.includeSchemaInfo=&Incluir esquema en nombre de elemento
 tablepage.label.filterNote=(Utilice '%' para que coincida con cualquier string que tenga varios caracteres o ninguno y '-' para que coincida con un carácter)
 tablepage.title=Seleccione las tablas que aparecerán en el conjunto de datos.

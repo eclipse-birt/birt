@@ -748,11 +748,11 @@ public class CubeQueryDefinitionUtil
 			ICubeQueryDefinition queryDefn, IBaseExpression expression, ScriptContext cx )
 			throws DataException
 	{
-		List measures = new ArrayList( );
-		List exprTextList = getExprTextList( expression );
+		List<IMeasureDefinition> measures = new ArrayList<IMeasureDefinition>( );
+		List<IScriptExpression> exprTextList = getExprTextList( expression );
 		for ( int i = 0; i < exprTextList.size( ); i++ )
 		{
-			String exprText = (String) exprTextList.get( i );
+			IScriptExpression exprText = (IScriptExpression) exprTextList.get( i );
 			String measureName = OlapExpressionCompiler.getReferencedScriptObject( exprText,
 					ScriptConstants.MEASURE_SCRIPTABLE  );
 			if ( measureName != null && measureName.trim( ).length( ) > 0 )
@@ -784,12 +784,12 @@ public class CubeQueryDefinitionUtil
 	 * @param queryDefn, expression
 	 * @return List
 	 */
-	private static List getExprTextList( IBaseExpression expression )
+	private static List<IScriptExpression> getExprTextList( IBaseExpression expression )
 	{
-		List textList = new ArrayList( );
+		List<IScriptExpression> textList = new ArrayList<IScriptExpression>( );
 		if ( expression instanceof IScriptExpression )
 		{
-			textList.add( ( (IScriptExpression) expression ).getText( ) );
+			textList.add( (IScriptExpression) expression );
 		}
 		else if ( expression instanceof IExpressionCollection )
 		{
@@ -802,7 +802,7 @@ public class CubeQueryDefinitionUtil
 		}
 		else if ( expression instanceof IConditionalExpression )
 		{
-			textList.add( ( (IScriptExpression) ( (IConditionalExpression) expression ).getExpression( ) ).getText( ) );
+			textList.add( ( (IScriptExpression) ( (IConditionalExpression) expression ).getExpression( ) ) );
 			textList.addAll( getExprTextList( ( (IConditionalExpression) expression ).getOperand1( ) ) );
 			textList.addAll( getExprTextList( ( (IConditionalExpression) expression ).getOperand2( ) ) );
 		}

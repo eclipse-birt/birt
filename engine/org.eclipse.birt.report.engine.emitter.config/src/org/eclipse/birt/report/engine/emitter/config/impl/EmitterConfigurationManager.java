@@ -153,37 +153,27 @@ public class EmitterConfigurationManager implements
 		{
 			return null;
 		}
-
-		IEmitterDescriptor desc = descriptorCache.get( emitterID );
-
-		if ( desc == null )
+		synchronized ( this )
 		{
-			synchronized ( descriptorCache )
+			IEmitterDescriptor desc = descriptorCache.get( emitterID );
+			if ( desc == null )
 			{
-				desc = descriptorCache.get( emitterID );
-
-				if ( desc == null )
+				IConfigurationElement element = configCache.get( emitterID );
+				if ( element != null )
 				{
-					IConfigurationElement element = configCache.get( emitterID );
-
-					if ( element != null )
+					try
 					{
-						try
-						{
-							desc = (IEmitterDescriptor) element.createExecutableExtension( "class" ); //$NON-NLS-1$
-
-							descriptorCache.put( emitterID, desc );
-						}
-						catch ( FrameworkException e )
-						{
-							e.printStackTrace( );
-						}
+						desc = (IEmitterDescriptor) element.createExecutableExtension( "class" ); //$NON-NLS-1$
+						registerEmitterDescriptor( desc );
+					}
+					catch ( FrameworkException e )
+					{
+						e.printStackTrace( );
 					}
 				}
 			}
+			return desc;
 		}
-
-		return desc;
 	}
 
 	public IEmitterDescriptor getEmitterDescriptor( String emitterID, Locale locale )
@@ -192,27 +182,11 @@ public class EmitterConfigurationManager implements
 		{
 			return null;
 		}
-
-		IEmitterDescriptor desc = null;
-
-		IConfigurationElement element = configCache.get( emitterID );
-		if ( element != null )
+		IEmitterDescriptor desc = getEmitterDescriptor( emitterID );
+		if ( desc != null && locale != null )
 		{
-			try
-			{
-				desc = (IEmitterDescriptor) element.createExecutableExtension( "class" ); //$NON-NLS-1$
-				if ( desc != null )
-				{
-					desc.setLocale( locale );
-				}
-			}
-			catch ( FrameworkException e )
-			{
-				e.printStackTrace( );
-			}
-		
+			desc.setLocale( locale );
 		}
-
 		return desc;
 	}
 	

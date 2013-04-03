@@ -52,12 +52,14 @@
              initialPageId="org.eclipse.birt.report.data.oda.jdbc.ui.dataset"
              supportsInParameters="true"
              supportsOutParameters="false">
-		    <dataSetWizard class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizard"/>
+		    <dataSetWizard
+            class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizard"
+            windowTitle="%wizard.data.set.title"/>
             <dataSetPage
                   id="org.eclipse.birt.report.data.oda.jdbc.ui.dataset"
                   wizardPageClass="org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage"
-                  path="/"
-                  displayName="%dataset.editor.page.query"/>
+                  displayName="%dataset.editor.page.query"
+                  path="/"/>
        </dataSetUI>
    </extension>
    

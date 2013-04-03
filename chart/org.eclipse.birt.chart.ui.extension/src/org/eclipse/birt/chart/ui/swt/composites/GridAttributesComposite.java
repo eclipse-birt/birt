@@ -66,6 +66,12 @@ public class GridAttributesComposite extends Composite implements
 
 	private Grid defGrid;
 
+	private boolean bEnableStyles;
+
+	private boolean bEnableVisibility;
+
+	private boolean bEnableColor;
+
 	// Grid Attribute Change Events
 	public static final int LINE_STYLE_CHANGED_EVENT = 1;
 
@@ -80,12 +86,20 @@ public class GridAttributesComposite extends Composite implements
 	public static final int TICK_COLOR_CHANGED_EVENT = 6;
 
 	public static final int TICK_VISIBILITY_CHANGED_EVENT = 7;
+	
+	
+	// Optional Styles
+	public static final int ENABLE_STYLES = 1 << 1;
+	
+	public static final int ENABLE_VISIBILITY = 1 << 2;
+	
+	public static final int ENABLE_COLOR = 1 << 3;
 
 	/**
 	 * @param parent
 	 * @param style
 	 */
-	public GridAttributesComposite( Composite parent, int style,
+	public GridAttributesComposite( Composite parent, int style, int optionalStyles,
 			ChartWizardContext context, Grid grid, int orientation, boolean bTicksVisible, Grid defGrid )
 	{
 		super( parent, style );
@@ -93,19 +107,31 @@ public class GridAttributesComposite extends Composite implements
 		this.context = context;
 		this.bTicksVisible = bTicksVisible;
 		this.defGrid = defGrid;
+		setOptionalStyles( optionalStyles );
 		init( grid );
 		placeComponents( );
 	}
 
-	public GridAttributesComposite( Composite parent, int style,
+	public GridAttributesComposite( Composite parent, int style, int optionalStyles,
 			ChartWizardContext context, Grid grid, boolean bLineGroupEnabled, Grid defGrid )
 	{
 		super( parent, style );
 		this.bLineGroupEnabled = bLineGroupEnabled;
 		this.context = context;
 		this.defGrid = defGrid;
+		setOptionalStyles( optionalStyles );
 		init( grid );
 		placeComponents( );
+	}
+
+	/**
+	 * 
+	 */	
+	private void setOptionalStyles( int optionalStyles )
+	{
+		this.bEnableStyles = ( ENABLE_STYLES == ( optionalStyles & ENABLE_STYLES ) );
+		this.bEnableVisibility = ( ENABLE_VISIBILITY == ( optionalStyles & ENABLE_VISIBILITY ) );
+		this.bEnableColor = ( ENABLE_COLOR == ( optionalStyles & ENABLE_COLOR ) );
 	}
 
 	/**
@@ -196,13 +222,23 @@ public class GridAttributesComposite extends Composite implements
 			}
 
 			// Line Attributes for Ticks
-			int lineStyels = LineAttributesComposite.ENABLE_VISIBILITY
-					| LineAttributesComposite.ENABLE_COLOR;
-			lineStyels |= context.getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
-					: lineStyels;
+			int lineStyles = 0;
+			
+			if (bEnableVisibility)
+			{
+				lineStyles |= LineAttributesComposite.ENABLE_VISIBILITY;
+			}
+			
+			if (bEnableColor)
+			{
+				lineStyles |= LineAttributesComposite.ENABLE_COLOR;
+				lineStyles |= context.getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+						: lineStyles;
+			}
+
 			liacTicks = new LineAttributesComposite( grpTicks,
 					SWT.NONE,
-					lineStyels,
+					lineStyles,
 					context,
 					grid.getTickAttributes( ),
 					defGrid.getTickAttributes( ) );
@@ -212,29 +248,32 @@ public class GridAttributesComposite extends Composite implements
 				liacTicks.setLayoutData( gdLIACTicks );
 				liacTicks.addListener( this );
 			}
-
-			// Tick Styles
-			boolean tickUIEnabled = !context.getUIFactory( )
-					.isSetInvisible( grid.getTickAttributes( ) );
-			lblStyle = new Label( grpTicks, SWT.NONE );
+			
+			if(bEnableStyles)
 			{
-				GridData gdLBLStyle = new GridData( );
-				gdLBLStyle.horizontalIndent = 4;
-				lblStyle.setLayoutData( gdLBLStyle );
-				lblStyle.setText( Messages.getString( "GridAttributesComposite.Lbl.Style" ) ); //$NON-NLS-1$
-				lblStyle.setEnabled( tickUIEnabled );
-			}
-
-			cmbTickStyle = context.getUIFactory( ).createChartCombo( grpTicks,
-					SWT.DROP_DOWN | SWT.READ_ONLY,
-					grid,
-					"tickStyle", //$NON-NLS-1$
-					defGrid.getTickStyle( ).getName( ) );
-			{
-				GridData gdCMBTickStyle = new GridData( GridData.FILL_HORIZONTAL );
-				cmbTickStyle.setLayoutData( gdCMBTickStyle );
-				cmbTickStyle.addSelectionListener( this );
-				cmbTickStyle.setEnabled( tickUIEnabled );
+				// Tick Styles
+				boolean tickUIEnabled = !context.getUIFactory( )
+						.isSetInvisible( grid.getTickAttributes( ) );
+				lblStyle = new Label( grpTicks, SWT.NONE );
+				{
+					GridData gdLBLStyle = new GridData( );
+					gdLBLStyle.horizontalIndent = 4;
+					lblStyle.setLayoutData( gdLBLStyle );
+					lblStyle.setText( Messages.getString( "GridAttributesComposite.Lbl.Style" ) ); //$NON-NLS-1$
+					lblStyle.setEnabled( tickUIEnabled );
+				}
+	
+				cmbTickStyle = context.getUIFactory( ).createChartCombo( grpTicks,
+						SWT.DROP_DOWN | SWT.READ_ONLY,
+						grid,
+						"tickStyle", //$NON-NLS-1$
+						defGrid.getTickStyle( ).getName( ) );
+				{
+					GridData gdCMBTickStyle = new GridData( GridData.FILL_HORIZONTAL );
+					cmbTickStyle.setLayoutData( gdCMBTickStyle );
+					cmbTickStyle.addSelectionListener( this );
+					cmbTickStyle.setEnabled( tickUIEnabled );
+				}
 			}
 
 			populateLists( );
@@ -245,21 +284,27 @@ public class GridAttributesComposite extends Composite implements
 
 	private void populateLists( )
 	{
-		if ( orientation == Orientation.HORIZONTAL )
+		if (bEnableStyles)
 		{
-			cmbTickStyle.setItems( LiteralHelper.horizontalTickStyleSet.getDisplayNames( ) );
-			cmbTickStyle.setItemData( LiteralHelper.horizontalTickStyleSet.getNames( ) );
-		}
-		else if ( orientation == Orientation.VERTICAL )
-		{
-			cmbTickStyle.setItems( LiteralHelper.verticalTickStyleSet.getDisplayNames( ) );
-			cmbTickStyle.setItemData( LiteralHelper.verticalTickStyleSet.getNames( ) );
+			if ( orientation == Orientation.HORIZONTAL )
+			{
+				cmbTickStyle.setItems( LiteralHelper.horizontalTickStyleSet.getDisplayNames( ) );
+				cmbTickStyle.setItemData( LiteralHelper.horizontalTickStyleSet.getNames( ) );
+			}
+			else if ( orientation == Orientation.VERTICAL )
+			{
+				cmbTickStyle.setItems( LiteralHelper.verticalTickStyleSet.getDisplayNames( ) );
+				cmbTickStyle.setItemData( LiteralHelper.verticalTickStyleSet.getNames( ) );
+			}
 		}
 	}
 
 	private void setDefaultSelections( )
 	{
-		cmbTickStyle.setSelection( grid.getTickStyle( ).getName( ) );
+		if (bEnableStyles)
+		{
+			cmbTickStyle.setSelection( grid.getTickStyle( ).getName( ) );
+		}
 	}
 
 	public void addListener( Listener listener )

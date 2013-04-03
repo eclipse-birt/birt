@@ -130,7 +130,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		try
 		{
 			String[][] formats = PluginSettings.instance( )
-					.getRegisteredOutputFormats( );
+					.getRegisteredOutputFormats( "" ); //$NON-NLS-1$
 			for ( int i = 0; i < formats.length; i++ )
 			{
 				registeredDevices.add( formats[i][0] );
@@ -772,27 +772,19 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 		// Display blank if data empty.
 		boolean bEmpty = false;
+		boolean bEmptyWithUncompletedBindings  = false;
+		boolean bEmptyWithEmptyResultSet = false;
 		
 		// Display alt text if binding is not complete
 		if ( resultSet == null || !ChartItemUtil.checkChartBindingComplete( cm ) )
 		{
-			if ( isAutoHide( ) )
-			{
-				// Null result set
-				return outputNullResultSet( );
-			}
 			bEmpty = true;
+			bEmptyWithUncompletedBindings = true;
 		}
-
 		if ( !bEmpty && ChartReportItemUtil.isEmpty( resultSet ) )
 		{
-			if ( isAutoHide( ) )
-			{
-				// Returns null for engine to display empty when the result set
-				// is empty.
-				return null;
-			}
 			bEmpty = true;
+			bEmptyWithEmptyResultSet = true;
 		}
 
 		// If width and height of chart is set to 0, doesn't process it.
@@ -806,6 +798,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 		try
 		{
+			rtc.setTimeZone( context.getTimeZone( ) );
+			
 			// Create and set shared scale if needed
 			if ( rtc.getSharedScale( ) == null
 					&& ChartReportItemUtil.canScaleShared( modelHandle, cm ) )
@@ -858,10 +852,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			updateChartModel( );
 
 			// Bind Data to series
-			if ( !bindData( rowAdapter, evaluator ) && isAutoHide( ) )
+			boolean bEmptyData = false;
+			if ( !bEmptyWithUncompletedBindings && !bindData( rowAdapter, evaluator ) )
 			{
-				// if auto hide and data empty
-				return null;
+				bEmptyData = true;
 			}
 
 			// Render chart
@@ -873,6 +867,39 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			// Close the dataRow evaluator. It needs to stay opened until the
 			// chart is fully rendered.
 			rowAdapter.close( );
+			
+			// Process empty cases.
+			if ( bEmpty )
+			{
+				if ( bEmptyWithUncompletedBindings && isAutoHide( ) )
+				{
+					// Set bounds and idr to null to avoid return wrong chart size to
+					// report engine.
+					boundsRuntime = null;
+					idr = null;
+					// Null result set
+					return outputNullResultSet( );
+				}
+				if ( bEmptyWithEmptyResultSet && isAutoHide( ) )
+				{
+					// Set bounds and idr to null to avoid return wrong chart size to
+					// report engine.
+					boundsRuntime = null;
+					idr = null;
+					// Returns null for engine to display empty when the result
+					// set is empty.
+					return null;
+				}
+			}
+			if ( bEmptyData && isAutoHide( ) )
+			{
+				// Set bounds and idr to null to avoid return wrong chart size to
+				// report engine.
+				boundsRuntime = null;
+				idr = null;
+				return null;
+			}
+			
 			return renderObject;
 		}
 		catch ( RuntimeException ex )
@@ -1295,5 +1322,23 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 				0
 			}
 		};
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.extension.ReportItemPresentationBase#isCacheable()
+	 */
+	@Override
+	public boolean isCacheable( )
+	{
+		// If chart is set scripts, chart's properties may be changed in
+		// scripts, the cache is not allowed for this case.
+		if ( cm != null
+				&& cm.getScript( ) != null
+				&& cm.getScript( ).trim( ).length( ) > 0 )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }

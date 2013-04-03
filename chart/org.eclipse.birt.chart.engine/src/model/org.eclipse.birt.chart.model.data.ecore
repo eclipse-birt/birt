@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="data"
-    nsURI="http://www.birt.eclipse.org/ChartModelData" nsPrefix="data">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="data" nsURI="http://www.birt.eclipse.org/ChartModelData" nsPrefix="data">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-    <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;Schema file for the chart.model package.&#xD;&#xA;&#x9;&#x9;"/>
+    <details key="documentation" value="&#xA;&#x9;&#x9;Schema file for the chart.model package.&#xA;&#x9;&#x9;"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Action">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines an Action. An action is a property defining interactivity for an element. It is associated in a trigger with a trigger condition that defines when the action is to be processed.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type defines an Action. An action is a property defining interactivity for an element. It is associated in a trigger with a trigger condition that defines when the action is to be processed.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Action"/>
@@ -17,7 +15,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//ActionType"
         defaultValueLiteral="URL_Redirect" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the type of Action. This value determines the way the Action Value is processed.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the type of Action. This value determines the way the Action Value is processed.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -27,7 +25,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//ActionValue"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the value of the Action.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the value of the Action.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -37,7 +35,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BaseSampleData">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type sample data for a base series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type sample data for a base series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="BaseSampleData"/>
@@ -46,7 +44,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataSetRepresentation"
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the sample data for a single data set as a string in the form expected by the DataSetProcessor for the series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the sample data for a single data set as a string in the form expected by the DataSetProcessor for the series.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -71,7 +69,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BubbleDataSet" eSuperTypes="#//DataSet">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the bubble data associated with a series.&#xD;&#xA;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type holds the bubble data associated with a series.&#xA;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="BubbleDataSet"/>
@@ -85,7 +83,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DataElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a single element of data to be plotted in a chart. A data element can hold a scalar or a multi-dimensional value.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type defines a single element of data to be plotted in a chart. A data element can hold a scalar or a multi-dimensional value.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DataElement"/>
@@ -94,7 +92,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DataSet">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the data associated with a series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type holds the data associated with a series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DataSet"/>
@@ -103,7 +101,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" lowerBound="1"
         eType="#//Data">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds data values for the series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds data values for the series.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -113,7 +111,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DateTimeDataElement" eSuperTypes="#//DataElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a single element of date/time data.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type defines a single element of date/time data.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DateTimeDataElement"/>
@@ -122,7 +120,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Long"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds a single date value as a long.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds a single date value as a long.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -132,7 +130,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DateTimeDataSet" eSuperTypes="#//DataSet">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the date/time data associated with a series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type holds the date/time data associated with a series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DateTimeDataSet"/>
@@ -141,7 +139,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DifferenceDataSet" eSuperTypes="#//DataSet">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the difference data associated with a series.&#xD;&#xA;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type holds the difference data associated with a series.&#xA;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DifferenceDataSet"/>
@@ -150,7 +148,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GanttDataSet" eSuperTypes="#//DataSet">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the gantt data associated with a series.&#xD;&#xA;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type holds the gantt data associated with a series.&#xA;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="GanttDataSet"/>
@@ -180,7 +178,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NullDataSet" eSuperTypes="#//DataSet">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the null data associated with a series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type holds the null data associated with a series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="NullDataSet"/>
@@ -189,7 +187,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NumberDataElement" eSuperTypes="#//DataElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a single element of numerical data.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type defines a single element of numerical data.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="NumberDataElement"/>
@@ -198,7 +196,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds a single numeric value as a double.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds a single numeric value as a double.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -208,7 +206,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NumberDataSet" eSuperTypes="#//DataSet">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the numeric data associated with a series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type holds the numeric data associated with a series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="NumberDataSet"/>
@@ -217,7 +215,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OrthogonalSampleData">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type sample data for an orthogonal series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type sample data for an orthogonal series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="OrthogonalSampleData"/>
@@ -226,7 +224,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataSetRepresentation"
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the sample data for a single data set as a string in the form expected by the DataSetProcessor for the series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the sample data for a single data set as a string in the form expected by the DataSetProcessor for the series.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -237,7 +235,7 @@
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the index for the series definition for which this sample data is applicable.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the index for the series definition for which this sample data is applicable.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -247,7 +245,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Query">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type represents design-time definition for the dataset in a series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type represents design-time definition for the dataset in a series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Query"/>
@@ -277,7 +275,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rule">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type represents a rule to process a query expression.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type represents a rule to process a query expression.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Rule"/>
@@ -299,7 +297,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SampleData">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type sample data that will be used to display the chart at design-time.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type sample data that will be used to display the chart at design-time.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="SampleData"/>
@@ -308,7 +306,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="baseSampleData" lowerBound="1"
         upperBound="-1" eType="#//BaseSampleData" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the sample data for base series in the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the sample data for base series in the chart.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -318,7 +316,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="orthogonalSampleData" lowerBound="1"
         upperBound="-1" eType="#//OrthogonalSampleData" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the sample data for orthogonal series in the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the sample data for orthogonal series in the chart.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -335,7 +333,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SeriesDefinition">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type represents design-time definition for a&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;This type represents design-time definition for a&#xA;&#x9;&#x9;&#x9;&#x9;series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="SeriesDefinition"/>
@@ -375,7 +373,7 @@
         upperBound="-1" eType="ecore:EClass org.eclipse.birt.chart.model.component.ecore#//Series"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds all the series for the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds all the series for the chart.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -385,7 +383,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="grouping" eType="#//SeriesGrouping"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines if and how the series data is to be&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;grouped for display. This should only be applied&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;to Base Series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines if and how the series data is to be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;grouped for display. This should only be applied&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;to Base Series.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -395,7 +393,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sorting" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//SortOption"
         defaultValueLiteral="Ascending" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines if and how the series data is to be&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;sorted for display. This should only be applied&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;to Base Series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines if and how the series data is to be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;sorted for display. This should only be applied&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;to Base Series.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -442,7 +440,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SeriesGrouping">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds all grouping-related information for a series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type holds all grouping-related information for a series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="SeriesGrouping"/>
@@ -452,7 +450,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether grouping is enabled for the&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether grouping is enabled for the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;series.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -463,7 +461,7 @@
         eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType"
         defaultValueLiteral="Days" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the unit of grouping.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the unit of grouping.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -473,7 +471,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="groupingOrigin" lowerBound="1"
         eType="#//DataElement" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;A data element that specifies the starting point&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for grouping. This does not apply to grouping of&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Text values. If undefined, grouping starts at&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the minimum value.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;A data element that specifies the starting point&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for grouping. This does not apply to grouping of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Text values. If undefined, grouping starts at&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the minimum value.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -484,7 +482,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" defaultValueLiteral="1"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the interval of grouping, by&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;default it's 1.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the interval of grouping, by&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;default it's 1.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -495,7 +493,7 @@
         eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//DataType"
         defaultValueLiteral="Text" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the type of data to be grouped.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the type of data to be grouped.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -506,7 +504,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String" defaultValueLiteral="Sum"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the aggregate function to be applied&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;on orthogonal values for each grouped unit.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the aggregate function to be applied&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;on orthogonal values for each grouped unit.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -523,7 +521,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StockDataSet" eSuperTypes="#//DataSet">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the stock data associated with a series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type holds the stock data associated with a series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StockDataSet"/>
@@ -532,7 +530,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TextDataSet" eSuperTypes="#//DataSet">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the text data associated with a series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type holds the text data associated with a series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TextDataSet"/>
@@ -541,7 +539,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Trigger">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a Trigger. A trigger defines interactivity for a chart component.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;This type defines a Trigger. A trigger defines interactivity for a chart component.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Trigger"/>
@@ -551,7 +549,7 @@
         eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition"
         defaultValueLiteral="Mouse_Hover" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the condition for the Trigger. This value determines when the Action is processed.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the condition for the Trigger. This value determines when the Action is processed.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -561,7 +559,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="action" lowerBound="1"
         eType="#//Action" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the Action for the Trigger. This value describes the interactivity of the trigger.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the Action for the Trigger. This value describes the interactivity of the trigger.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>

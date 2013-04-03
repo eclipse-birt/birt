@@ -1,5 +1,6 @@
 dataset.editor.page.query=쿼리
 dataset.new.query=사용 가능한 항목을 사용하여 SQL 쿼리 텍스트를 정의합니다.
+dataset.new.query.hive=사용 가능한 항목을 사용하여 HQL 쿼리 텍스트를 정의합니다.
 dataset.new=새 데이터 집합
 dataset.editor.page.query.error.schemaNotExisted=스키마 이름이 없습니다.
 datasource.new=새 데이터 원본 
@@ -31,7 +32,7 @@ tablepage.label.queryText=쿼리 텍스트(&U):
 tablepage.button.filter=필터 적용(&A)
 tablepage.button.dnd=모든 식별자 인용(&Q)
 tablepage.button.showSystemTables=시스템 테이블 표시(&H)
-tablepage.button.showAlias=별칭 표시
+tablepage.button.showAlias=별칭 표시(&S)
 tablepage.button.includeSchemaInfo=항목 이름에 스키마 포함(&I)
 tablepage.label.filterNote=(영(0) 개나 여러 문자의 문자열을 일치시키려면 '%'를 사용하고 하나의 문자를 일치시키려면 '-'를 사용하십시오.)
 tablepage.title=데이터 집합에 표시할 테이블을 선택하십시오.

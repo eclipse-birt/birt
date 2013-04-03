@@ -1,5 +1,6 @@
 dataset.editor.page.query=Requête
 dataset.new.query=Définir le texte de la requête SQL à l'aide des éléments disponibles.
+dataset.new.query.hive=Définir le texte de la requête hql à l'aide des éléments disponibles.
 dataset.new=Nouveau jeu de données
 dataset.editor.page.query.error.schemaNotExisted=Le nom du schéma n'existe pas.
 datasource.new=Nouvelle source de données
@@ -31,7 +32,7 @@ tablepage.label.queryText=Texte de la re&quête :
 tablepage.button.filter=&Appliquer le filtre
 tablepage.button.dnd=Indi&quer tous les identificateurs
 tablepage.button.showSystemTables=Affic&her les tables systèmes
-tablepage.button.showAlias=Afficher l'alias
+tablepage.button.showAlias=Afficher l'alia&s
 tablepage.button.includeSchemaInfo=&Inclure le schéma dans le nom
 tablepage.label.filterNote=(Utilisez '%' pour faire correspondre toutes les chaînes contenant zéro caractère ou plus, utilisez '-' pour faire correspondre un caractère)
 tablepage.title=Sélectionnez les tables à faire apparaître dans le jeu de données.

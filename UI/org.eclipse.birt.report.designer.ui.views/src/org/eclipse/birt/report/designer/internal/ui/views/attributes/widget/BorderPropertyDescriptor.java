@@ -21,16 +21,17 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.Accessible;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.RGB;
@@ -137,7 +138,7 @@ public class BorderPropertyDescriptor implements
 		Composite composite = new Composite( choices, SWT.NONE );
 		layout = new GridLayout( );
 		layout.horizontalSpacing = 7;
-		layout.numColumns = toggleProviders.length + 1;
+		layout.numColumns = toggleProviders.length + 2;
 		composite.setLayout( layout );
 		data = new GridData( );
 		data.horizontalSpan = 2;
@@ -170,11 +171,29 @@ public class BorderPropertyDescriptor implements
 
 			} );
 			button.setData( provider );
+			button.getAccessible( ).addAccessibleListener(new AccessibleAdapter() {
+				public void getName(AccessibleEvent e) {
+						Accessible accessible = (Accessible) e.getSource();
+						Button item = (Button) accessible.getControl();
+						if (item != null) {
+							e.result = item.getToolTipText();
+						}
+				}
+			});
 		}
 
 		allButton = new Button( composite, SWT.TOGGLE );
 		allButton.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_FRAME ) );
 		allButton.setToolTipText( Messages.getString( "BordersPage.Tooltip.All" ) ); //$NON-NLS-1$
+		allButton.getAccessible( ).addAccessibleListener(new AccessibleAdapter() {
+			public void getName(AccessibleEvent e) {
+				Accessible accessible = (Accessible) e.getSource();
+				Button item = (Button) accessible.getControl();
+				if (item != null) {
+					e.result = item.getToolTipText();
+				}
+			}
+		});
 		allButton.setLayoutData( new GridData( ) );
 		allButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -194,11 +213,19 @@ public class BorderPropertyDescriptor implements
 					// }
 					for ( int i = 0; i < toggleProviders.length; i++ )
 					{
+						BorderInfomation oldInfo = (BorderInfomation) toggleProviders[i].load( );
 						BorderInfomation information = new BorderInfomation( );
 						information.setPosition( toggleProviders[i].getPosition( ) );
 						information.setColor( selectedColor );
 						information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
 						information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
+						information.setInheritedColor( oldInfo.getInheritedColor( ) );
+						information.setInheritedStyle( oldInfo.getInheritedStyle( ) );
+						information.setInheritedWidth( oldInfo.getInheritedWidth( ) );
+						information.setDefaultColor( oldInfo.getDefaultColor( ) );
+						information.setDefaultStyle( oldInfo.getDefaultStyle( ) );
+						information.setDefaultWidth( oldInfo.getDefaultWidth( ) );
+
 						toggles[i].setSelection( true );
 						previewCanvas.setBorderInfomation( information );
 						restoreInfo = information;
@@ -222,7 +249,7 @@ public class BorderPropertyDescriptor implements
 					for ( int i = 0; i < toggleProviders.length; i++ )
 					{
 						BorderInfomation info = (BorderInfomation) toggleProviders[i].load( );
-						oldColor = info.getColor( );
+						oldColor = info.getOriginColor( );
 						selectedColor = builder.getRGB( );
 						// if ( oldColor == null )
 						// {
@@ -232,7 +259,7 @@ public class BorderPropertyDescriptor implements
 						// {
 						// selectedColor = autoColor;
 						// }
-						if ( !( info.getStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
+						if ( !( info.getOriginStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
 								|| !( ( oldColor == null && selectedColor == null ) || ( oldColor != null && oldColor.equals( selectedColor ) ) )
 								|| !( resolveEmptyWidth( info ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
 						{
@@ -269,11 +296,19 @@ public class BorderPropertyDescriptor implements
 
 						for ( int i = 0; i < toggleProviders.length; i++ )
 						{
+							BorderInfomation oldInfo = (BorderInfomation) toggleProviders[i].load( );
 							BorderInfomation information = new BorderInfomation( );
 							information.setPosition( toggleProviders[i].getPosition( ) );
 							information.setColor( builder.getRGB( ) );
 							information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
 							information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
+							information.setInheritedColor( oldInfo.getInheritedColor( ) );
+							information.setInheritedStyle( oldInfo.getInheritedStyle( ) );
+							information.setInheritedWidth( oldInfo.getInheritedWidth( ) );
+							information.setDefaultColor( oldInfo.getDefaultColor( ) );
+							information.setDefaultStyle( oldInfo.getDefaultStyle( ) );
+							information.setDefaultWidth( oldInfo.getDefaultWidth( ) );
+
 							previewCanvas.setBorderInfomation( information );
 							restoreInfo = information;
 							try
@@ -289,6 +324,60 @@ public class BorderPropertyDescriptor implements
 						stack.commit( );
 					}
 				}
+				previewCanvas.redraw( );
+			}
+		} );
+
+		Button noneButton = new Button( composite, SWT.PUSH );
+		noneButton.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_NONE ) );
+		noneButton.setToolTipText( Messages.getString( "BordersPage.Tooltip.None" ) ); //$NON-NLS-1$
+		noneButton.getAccessible( ).addAccessibleListener(new AccessibleAdapter() {
+			public void getName(AccessibleEvent e) {
+				Accessible accessible = (Accessible) e.getSource();
+				Button item = (Button) accessible.getControl();
+				if (item != null) {
+					e.result = item.getToolTipText();
+				}
+			}
+		});
+		noneButton.setLayoutData( new GridData( ) );
+		noneButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				CommandStack stack = SessionHandleAdapter.getInstance( )
+						.getCommandStack( );
+				stack.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) ); //$NON-NLS-1$
+				for ( int i = 0; i < toggleProviders.length; i++ )
+				{
+					BorderInfomation oldInfo = (BorderInfomation) toggleProviders[i].load( );
+					BorderInfomation information = new BorderInfomation( );
+					information.setPosition( toggleProviders[i].getPosition( ) );
+					information.setStyle( DesignChoiceConstants.LINE_STYLE_NONE );
+					information.setInheritedColor( oldInfo.getInheritedColor( ) );
+					information.setInheritedStyle( oldInfo.getInheritedStyle( ) );
+					information.setInheritedWidth( oldInfo.getInheritedWidth( ) );
+					information.setDefaultColor( oldInfo.getDefaultColor( ) );
+					information.setDefaultStyle( oldInfo.getDefaultStyle( ) );
+					information.setDefaultWidth( oldInfo.getDefaultWidth( ) );
+
+					toggles[i].setSelection( true );
+					previewCanvas.setBorderInfomation( information );
+					restoreInfo = information;
+					try
+					{
+						toggleProviders[i].save( information );
+					}
+					catch ( Exception e1 )
+					{
+						ExceptionUtil.handle( e1 );
+					}
+				}
+				// restoreInfo = (BorderInfomation)
+				// toggleProviders[toggleProviders.length - 1].load( );
+				// restoreInfo.setColor( selectedColor );
+				stack.commit( );
+
 				previewCanvas.redraw( );
 			}
 		} );
@@ -365,7 +454,7 @@ public class BorderPropertyDescriptor implements
 		{
 			BorderInfomation info = (BorderInfomation) toggleProviders[i].load( );
 			previewCanvas.setBorderInfomation( info );
-			if ( !info.getStyle( ).equals( "" ) ) //$NON-NLS-1$
+			if ( !info.getStyle( ).equals( "" ) && !DesignChoiceConstants.LINE_STYLE_NONE.equals( info.getStyle( ) ) ) //$NON-NLS-1$
 			{
 				toggles[i].setSelection( true );
 			}
@@ -397,7 +486,10 @@ public class BorderPropertyDescriptor implements
 		{
 			refreshStyle( restoreInfo.getStyle( ) );
 			refreshWidth( restoreInfo.getWidth( ) );
-			refreshColor( restoreInfo.getColor( ) );
+			if ( restoreInfo.getOriginColor( ) == null )
+				refreshColor( (RGB) null );
+			else
+				refreshColor( restoreInfo.getColor( ) );
 		}
 		checkToggleButtons( );
 	}
@@ -559,12 +651,19 @@ public class BorderPropertyDescriptor implements
 				.getCommandStack( );
 		stack.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
 
+		BorderInfomation oldInfo = (BorderInfomation) provider.load( );
 		BorderInfomation information = new BorderInfomation( );
-
 		information.setPosition( provider.getPosition( ) );
 		information.setColor( builder.getRGB( ) );
 		information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
 		information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
+		information.setInheritedColor( oldInfo.getInheritedColor( ) );
+		information.setInheritedStyle( oldInfo.getInheritedStyle( ) );
+		information.setInheritedWidth( oldInfo.getInheritedWidth( ) );
+		information.setDefaultColor( oldInfo.getDefaultColor( ) );
+		information.setDefaultStyle( oldInfo.getDefaultStyle( ) );
+		information.setDefaultWidth( oldInfo.getDefaultWidth( ) );
+
 		previewCanvas.setBorderInfomation( information );
 		restoreInfo = information;
 		try
@@ -584,7 +683,7 @@ public class BorderPropertyDescriptor implements
 			final BorderToggleDescriptorProvider provider, Button button )
 	{
 		BorderInfomation oldInfo = (BorderInfomation) provider.load( );
-		RGB oldColor = oldInfo.getColor( );
+		RGB oldColor = oldInfo.getOriginColor( );
 		RGB selectedColor = builder.getRGB( );
 		// if ( oldColor == null )
 		// {
@@ -594,7 +693,7 @@ public class BorderPropertyDescriptor implements
 		// {
 		// selectedColor = autoColor;
 		// }
-		if ( !( oldInfo.getStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
+		if ( !( oldInfo.getOriginStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
 				|| !( ( oldColor == null && selectedColor == null ) || ( oldColor != null && oldColor.equals( selectedColor ) ) )
 				|| !( resolveEmptyWidth( oldInfo ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
 		{
@@ -603,11 +702,17 @@ public class BorderPropertyDescriptor implements
 			stack.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
 
 			BorderInfomation information = new BorderInfomation( );
-
 			information.setPosition( provider.getPosition( ) );
 			information.setColor( selectedColor );
 			information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
 			information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
+			information.setInheritedColor( oldInfo.getInheritedColor( ) );
+			information.setInheritedStyle( oldInfo.getInheritedStyle( ) );
+			information.setInheritedWidth( oldInfo.getInheritedWidth( ) );
+			information.setDefaultColor( oldInfo.getDefaultColor( ) );
+			information.setDefaultStyle( oldInfo.getDefaultStyle( ) );
+			information.setDefaultWidth( oldInfo.getDefaultWidth( ) );
+
 			previewCanvas.setBorderInfomation( information );
 			restoreInfo = information;
 			try
@@ -709,7 +814,7 @@ public class BorderPropertyDescriptor implements
 
 	private String resolveEmptyWidth( BorderInfomation info )
 	{
-		String width = info.getWidth( );
+		String width = info.getOriginWidth( );
 		if ( "".equals( width ) )
 			return DesignChoiceConstants.LINE_WIDTH_MEDIUM;
 		return width;

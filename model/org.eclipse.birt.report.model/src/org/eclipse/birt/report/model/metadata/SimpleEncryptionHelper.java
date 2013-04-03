@@ -61,7 +61,7 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 			byte[] data = codec.encode( string.getBytes( CHARSET ) );
 			if ( data == null )
 				return null;
-			return new String( data, CHARSET );
+			return new String( data, CHARSET ).trim( );
 		}
 		catch ( UnsupportedEncodingException e )
 		{

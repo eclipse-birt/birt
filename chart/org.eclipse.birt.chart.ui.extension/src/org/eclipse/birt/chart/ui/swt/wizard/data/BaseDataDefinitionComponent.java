@@ -79,6 +79,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 {
 
 	protected Composite cmpTop;
+	
+	private Label lblDesc;
 
 	private CCombo cmbDefinition;
 
@@ -188,12 +190,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			cmpTop.setLayoutData( gd );
 		}
 
-		Label lblDesc = null;
+		lblDesc = null;
 		if ( description != null && description.length( ) > 0 )
 		{
 			lblDesc = new Label( cmpTop, SWT.NONE );
-			lblDesc.setText( description );
-			lblDesc.setToolTipText( tooltipWhenBlank );
+			updateLabel( );
 		}
 
 		if ( ( style & BUTTON_AGGREGATION ) == BUTTON_AGGREGATION )
@@ -310,7 +311,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			gdTXTDefinition.widthHint = 80;
 			gdTXTDefinition.grabExcessHorizontalSpace = true;
 			txtDefinition.setLayoutData( gdTXTDefinition );
-
+			
 			// Initialize content assist.
 			if ( hasContentAssist )
 			{
@@ -381,6 +382,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			btnGroup.setImage( UIHelper.getImage( "icons/obj16/group.gif" ) ); //$NON-NLS-1$
 			btnGroup.addSelectionListener( this );
 			btnGroup.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Label.EditGroupSorting" ) ); //$NON-NLS-1$
+			ChartUIUtil.addScreenReaderAccessbility( btnGroup, btnGroup.getToolTipText( ) );
 		}
 
 		// In shared binding, only support predefined query
@@ -440,11 +442,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 
 		setTooltipForInputControl( );
-		boolean isRequiredField = ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) );
-		if ( lblDesc != null && isRequiredField )
-		{
-			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( lblDesc );
-		}
 		
 		return cmpTop;
 	}
@@ -1040,6 +1037,17 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			btnBuilder.setExpression( expression );
 		}
 	}
+	
+	public void updateLabel( )
+	{
+		lblDesc.setText( description );
+		lblDesc.setToolTipText( tooltipWhenBlank );
+		boolean isRequiredField = ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) );
+		if ( isRequiredField )
+		{
+			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( lblDesc );
+		}
+	}
 
 	public String getExpressionType( )
 	{
@@ -1094,8 +1102,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 							case ColumnBindingInfo.GROUP_COLUMN :
 							case ColumnBindingInfo.AGGREGATE_COLUMN :
 								String bindingName = exprCodec.getBindingName( cbi.getExpression( ) );
-								mapBindingName.put( cbi.getName( ), bindingName );
-								mapBinding.put( cbi.getName( ), cbi );
+								// Bugzilla 368070, T52858
+								if ( bindingName != null )
+								{
+									mapBindingName.put( cbi.getName( ),
+											bindingName );
+									mapBinding.put( cbi.getName( ), cbi );
+								}
 								break;
 						}
 					}
@@ -1188,5 +1201,14 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			return expr;
 		}
 
+	}
+
+	@Override
+	public void bindAssociatedName( String name )
+	{
+		if ( getInputControl( ) != null )
+		{
+			ChartUIUtil.addScreenReaderAccessbility( getInputControl( ), name );
+		}
 	}
 }

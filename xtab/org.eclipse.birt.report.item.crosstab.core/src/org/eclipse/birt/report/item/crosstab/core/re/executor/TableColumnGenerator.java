@@ -231,11 +231,19 @@ public class TableColumnGenerator implements ICrosstabConstants
 					col.setColumnHeaderState( true );
 					col.setRepeated( repeatRowHeader );
 
-					// use row level cell
-					handle = crosstabItem.getColumnWidth( crosstabItem.getDimension( ROW_AXIS_TYPE,
-							event.dimensionIndex )
-							.getLevel( event.levelIndex )
-							.getCell( ) );
+					if ( event.dimensionIndex == -1 && event.levelIndex == -1 )
+					{
+						// this is a dummy row edge event, we use header cell
+						handle = crosstabItem.getColumnWidth( crosstabItem.getHeader( ) );
+					}
+					else
+					{
+						// use row level cell
+						handle = crosstabItem.getColumnWidth( crosstabItem.getDimension( ROW_AXIS_TYPE,
+								event.dimensionIndex )
+								.getLevel( event.levelIndex )
+								.getCell( ) );
+					}
 					break;
 				case ColumnEvent.MEASURE_HEADER_CHANGE :
 

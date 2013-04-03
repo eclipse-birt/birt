@@ -17,13 +17,13 @@ connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=无法在选择的文件夹中打开 Excel 数据源文
 ui.ExcelFileNotFound=无法定位指定的 Excel 数据源文件 
 label.selectFolder=选择文件夹(&E): 
 label.selectFile=选择文件(&I):
-label.selectworksheet=选择工作表(&W):
+label.selectworksheet=选择工作表(&H):
 label.includeTypeLine=将第二行用作数据类型指示器(&D)。
 label.includeColumnNameLine = 将第一行用作列名称指示器(&A)。
 
 button.selectFolder.browse=浏览(&R)...
 button.moveUp=上移(&U)
-button.moveDown=下移(&W)
+button.moveDown=下移(&O)
 button.delete=删除(&E)
 button.selectFileURI.menuItem.relativePath=相对路径(&R)
 button.selectFileURI.menuItem.absolutePath=绝对路径(&A)

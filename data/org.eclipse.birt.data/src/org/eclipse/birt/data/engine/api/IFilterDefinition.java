@@ -20,6 +20,12 @@ package org.eclipse.birt.data.engine.api;
  */
 public interface IFilterDefinition
 {
+	
+	public enum FilterTarget {
+		DATASET,
+		RESULTSET
+	}
+	
 	/**
 	 * Gets the Boolean expression used to define this filter.
 	 */
@@ -43,4 +49,16 @@ public interface IFilterDefinition
 	 * @param update
 	 */
 	public void setUpdateAggregation( boolean flag );
+
+	/**
+	 * get the filter target
+	 * @return
+	 */
+	public FilterTarget getFilterTarget( );
+	
+	/**
+	 * set filter target
+	 * @param filterTarget
+	 */
+	public void setFilterTarget( FilterTarget filterTarget );
 }

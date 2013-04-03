@@ -11,8 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
@@ -21,14 +25,18 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Sec
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * The sup-class of all attribute page, provides common register/unregister
@@ -125,6 +133,7 @@ public abstract class AttributePage extends TabPage implements
 		{
 			container.dispose( );
 		}
+		listeners.clear( );
 		deRegisterEventManager( );
 	}
 
@@ -215,7 +224,7 @@ public abstract class AttributePage extends TabPage implements
 		Section[] sectionArray = new Section[sections.size( )];
 		for ( int i = 0; i < sections.size( ); i++ )
 		{
-			sectionArray[i] = (Section) sections.getValue( i );
+			sectionArray[i] = (Section) sections.get( i );
 		}
 		return sectionArray;
 	}
@@ -226,7 +235,7 @@ public abstract class AttributePage extends TabPage implements
 		{
 			return null;
 		}
-		return (Section) sections.getValue( key );
+		return (Section) sections.get( key );
 	}
 
 	public String getTabDisplayName( )
@@ -265,6 +274,8 @@ public abstract class AttributePage extends TabPage implements
 
 	}
 
+	private boolean load = false;
+
 	public void postElementEvent( )
 	{
 		Object element = DEUtil.getInputFirstElement( input );
@@ -278,9 +289,23 @@ public abstract class AttributePage extends TabPage implements
 
 		Section[] sectionArray = getSections( );
 		for ( int i = 0; i < sectionArray.length; i++ )
+		if ( load == false )
 		{
-			Section section = (Section) sectionArray[i];
-			section.load( );
+			load = true;
+
+			Display.getDefault( ).timerExec( 100, new Runnable( ) {
+
+				public void run( )
+				{
+					Section[] sectionArray = getSections( );
+					for ( int i = 0; i < sectionArray.length; i++ )
+					{
+						Section section = (Section) sectionArray[i];
+						section.load( );
+					}
+					load = false;
+				}
+			} );
 		}
 	}
 
@@ -300,6 +325,20 @@ public abstract class AttributePage extends TabPage implements
 	public Object getAdapter( Class adapter )
 	{
 		return null;
+	}
+
+	protected List<IPropertyChangeListener> listeners = new ArrayList<IPropertyChangeListener>( );
+
+	public void addPropertyChangeListener( IPropertyChangeListener listener )
+	{
+		if ( !listeners.contains( listener ) )
+			listeners.add( listener );
+	}
+
+	public void removePropertyChangeListener( IPropertyChangeListener listener )
+	{
+		if ( listeners.contains( listener ) )
+			listeners.remove( listener );
 	}
 
 }

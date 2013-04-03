@@ -12,8 +12,10 @@
 package org.eclipse.birt.chart.ui.swt;
 
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
 
@@ -35,4 +37,10 @@ public abstract class AbstractLineStyleChooserComposite extends CustomChooserCom
 	abstract public void setLineStyle( int iStyle );
 	
 	abstract public void setLineStyle( LineStyle style, EObject eParent );
+	
+	protected void initAccessible( )
+	{
+		super.initAccessible( );
+		ChartUIUtil.addScreenReaderAccessibility( this, (Canvas) cnvSelection );
+	}
 }

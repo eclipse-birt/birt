@@ -66,7 +66,12 @@ public class ElementFactoryUtil
 		// try extension first
 		if ( elemDefn != null )
 		{
-			return newExtensionElement( module, elementTypeName, name, reName );
+			DesignElementHandle extension = newExtensionElement( module,
+					elementTypeName, name, reName );
+			if ( extension != null )
+			{
+				return extension;
+			}
 		}
 
 		// try other system definitions
@@ -148,6 +153,7 @@ public class ElementFactoryUtil
 			catch ( NoSuchMethodException e1 )
 			{
 				element = (DesignElement) c.newInstance( );
+				element.setName( name );
 				return element;
 			}
 

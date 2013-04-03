@@ -182,6 +182,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			spnStepNumber.setMaximum( 100 );
 			spnStepNumber.setSelection( getScale( ).getStepNumber( ) );
 			spnStepNumber.addListener( SWT.Selection, this );
+			ChartUIUtil.addScreenReaderAccessbility( spnStepNumber, btnStepNumber.getText( ) );
 		}
 
 		new Label( grpScale, SWT.NONE );

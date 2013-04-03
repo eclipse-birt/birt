@@ -134,6 +134,12 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 		this.style = style;
 	}
 
+	
+	public int getStyle( )
+	{
+		return style;
+	}
+
 	public void setButtonWithDialog( boolean withDialog )
 	{
 		this.bAddWithDialog = withDialog;
@@ -332,7 +338,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 					"", //$NON-NLS-1$
 					SWT.PUSH );
 		else
-			btnDel = new Button( formPanel, SWT.BORDER );
+			btnDel = new Button( formPanel, SWT.PUSH );
 
 		btnDel.setText( Messages.getString( "FormPage.Button.Delete" ) ); //$NON-NLS-1$
 
@@ -349,7 +355,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 					"", //$NON-NLS-1$
 					SWT.PUSH );
 		else
-			btnAdd = new Button( formPanel, SWT.BORDER );
+			btnAdd = new Button( formPanel, SWT.PUSH );
 		if ( bAddWithDialog == true )
 		{
 			btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog" ) ); //$NON-NLS-1$
@@ -374,7 +380,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 				btnEdit = FormWidgetFactory.getInstance( )
 						.createButton( formPanel, "", SWT.PUSH ); //$NON-NLS-1$
 			else
-				btnEdit = new Button( formPanel, SWT.BORDER );
+				btnEdit = new Button( formPanel, SWT.PUSH );
 			if ( bAddWithDialog == true )
 			{
 				btnEdit.setText( Messages.getString( "FormPage.Button.EditWithDialog" ) ); //$NON-NLS-1$

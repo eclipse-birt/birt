@@ -549,6 +549,10 @@ public class InsertInLayoutUtil
 					else
 					{
 						DNDUtil.addElementHandle( positions[i], newObj );
+						if ( newObj instanceof DesignElementHandle )
+						{
+							DEUtil.setDefaultTheme( (DesignElementHandle) newObj );
+						}
 					}
 				}
 			}
@@ -1235,7 +1239,11 @@ public class InsertInLayoutUtil
 			LabelHandle label = DesignElementFactory.getInstance( )
 					.newLabel( null );
 			label.setText( UIUtil.getColumnDisplayName( model ) );
-			String displayKey = UIUtil.getColumnDisplayNameKey( model );
+			String displayKey = UIUtil.getColumnHeaderDisplayNameKey( model );
+			if (displayKey == null)
+			{
+				displayKey = UIUtil.getColumnDisplayNameKey( model );
+			}
 			if ( displayKey != null )
 			{
 				label.setTextKey( displayKey );
@@ -1251,8 +1259,9 @@ public class InsertInLayoutUtil
 
 		return dataHandle;
 	}
-	
-	private static void setDataItemAction(ResultSetColumnHandle model, DataItemHandle dataHandle)
+
+	private static void setDataItemAction( ResultSetColumnHandle model,
+			DataItemHandle dataHandle )
 	{
 		ActionHandle actionHandle = UIUtil.getColumnAction( model );
 		if ( actionHandle != null )
@@ -1266,7 +1275,7 @@ public class InsertInLayoutUtil
 			}
 			catch ( SemanticException e )
 			{
-				//Do nothing now
+				// Do nothing now
 			}
 		}
 	}
@@ -1935,7 +1944,11 @@ public class InsertInLayoutUtil
 						{
 							labelItemHandle.setText( labelText );
 						}
-						String displayKey = UIUtil.getColumnDisplayNameKey( columns[j] );
+						String displayKey = UIUtil.getColumnHeaderDisplayNameKey( columns[j] );
+						if (displayKey == null)
+						{
+							displayKey = UIUtil.getColumnDisplayNameKey( columns[j] );
+						}
 						if ( displayKey != null )
 						{
 							labelItemHandle.setTextKey( displayKey );

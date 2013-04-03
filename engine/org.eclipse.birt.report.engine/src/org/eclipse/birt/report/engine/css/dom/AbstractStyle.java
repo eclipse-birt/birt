@@ -1437,12 +1437,12 @@ abstract public class AbstractStyle implements IStyle
 
 	public String getHeight( )
 	{
-		throw createUnsupportedPropertyException( "text-decoration" );
+		return getCssText( STYLE_HEIGHT );
 	}
 
 	public void setHeight( String height ) throws DOMException
 	{
-		throw createUnsupportedPropertyException( "text-decoration" );
+		setCssText( STYLE_HEIGHT, height );
 	}
 
 	public String getLeft( )
@@ -1889,12 +1889,12 @@ abstract public class AbstractStyle implements IStyle
 
 	public String getWidth( )
 	{
-		throw createUnsupportedPropertyException( "width" );
+		return getCssText( STYLE_WIDTH );
 	}
 
 	public void setWidth( String width ) throws DOMException
 	{
-		throw createUnsupportedPropertyException( "width" );
+		setCssText( STYLE_WIDTH, width );
 	}
 
 	public String getZIndex( )

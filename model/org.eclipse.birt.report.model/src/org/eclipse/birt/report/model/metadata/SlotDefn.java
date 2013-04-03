@@ -122,6 +122,9 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 */
 
 	protected boolean isManagedByNameSpace = true;
+	
+	protected NameConfig nameConfig;
+	
 
 	/**
 	 * Returns the slot cardinality.
@@ -552,6 +555,16 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 		if ( extractExtensions )
 			return getContentExtendedElements( );
 		return getContentElements( );
+	}
+
+	public NameConfig getNameConfig( )
+	{
+		return nameConfig;
+	}
+
+	public void setNameConfig( NameConfig nameConfig )
+	{
+		this.nameConfig = nameConfig;
 	}
 
 }

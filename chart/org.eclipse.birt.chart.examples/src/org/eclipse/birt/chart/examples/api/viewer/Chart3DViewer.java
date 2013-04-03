@@ -126,6 +126,12 @@ public class Chart3DViewer extends Composite implements
 		cm = PrimitiveCharts.create3DBarChart( );
 	}
 
+	private boolean clientAreaSizeChanged( Bounds bo )
+	{
+		Bounds bounds = cm.getBlock( ).getBounds( );
+		return ( bounds.getWidth( ) != bo.getWidth( ) || bounds.getHeight( ) != bo.getHeight( ) );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -142,7 +148,7 @@ public class Chart3DViewer extends Composite implements
 		bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) );
 
 		Generator gr = Generator.instance( );
-		if ( bNeedsGeneration )
+		if ( bNeedsGeneration || clientAreaSizeChanged( bo ) )
 		{
 			bNeedsGeneration = false;
 			try

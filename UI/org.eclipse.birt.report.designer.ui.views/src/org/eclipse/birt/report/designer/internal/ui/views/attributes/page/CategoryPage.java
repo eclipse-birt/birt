@@ -22,6 +22,7 @@ public class CategoryPage implements ICategoryPage
 {
 
 	private String displayLabel;
+	private String displayTitle;
 	private Class pageClass;
 	private String categoryKey;
 
@@ -30,7 +31,18 @@ public class CategoryPage implements ICategoryPage
 	{
 		this.categoryKey = categoryKey;
 		this.displayLabel = displayLabel;
+		this.displayTitle = displayLabel;
+		assert TabPage.class.isAssignableFrom( pageClass );
 
+		this.pageClass = pageClass;
+	}
+
+	public CategoryPage( String categoryKey, String displayLabel,
+			String displayTitle, Class pageClass )
+	{
+		this.categoryKey = categoryKey;
+		this.displayLabel = displayLabel;
+		this.displayTitle = displayTitle;
 		assert TabPage.class.isAssignableFrom( pageClass );
 
 		this.pageClass = pageClass;
@@ -42,6 +54,14 @@ public class CategoryPage implements ICategoryPage
 	public String getDisplayLabel( )
 	{
 		return displayLabel;
+	}
+	
+	/**
+	 * @see org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage#getDisplayLabel()
+	 */
+	public String getDisplayTitle( )
+	{
+		return displayTitle;
 	}
 
 	/**

@@ -69,6 +69,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -872,6 +873,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	public void setFocus( )
 	{
+		if ( getActivePageInstance( ) != null
+				&& getActivePageInstance( ).getPartControl( ) != null
+				&& UIUtil.containsFocusControl( getActivePageInstance( ).getPartControl( ) ) )
+			return;
 		super.setFocus( );
 		if ( pages == null
 				|| getCurrentPage( ) < 0

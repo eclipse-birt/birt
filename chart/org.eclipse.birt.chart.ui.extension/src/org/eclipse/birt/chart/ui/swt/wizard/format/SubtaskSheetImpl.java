@@ -24,18 +24,12 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.CompoundTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
@@ -50,30 +44,16 @@ import org.eclipse.swt.widgets.Widget;
  * UI constants for chart builder
  * 
  */
-public class SubtaskSheetImpl implements
-		ISubtaskSheet,
+public class SubtaskSheetImpl extends
+		SubtaskSheetBase<Chart, ChartWizardContext> implements
 		ShellListener,
 		ChartUIConstants,
 		ITaskPreviewable
 {
 
-	private String sNodePath = ""; //$NON-NLS-1$
-
-	private String sTitle = ""; //$NON-NLS-1$
-
-	private int subtaskIndex = 0;
-
-	protected Composite cmpContent = null;
-
-	private ChartWizardContext context = null;
-
-	private WizardBase wizard;
-
 	private Shell popupShell;
 
 	private ITaskPopupSheet popupSheet;
-
-	private ITask parentTask;
 
 	private static boolean POPUP_ATTACHING = false;
 
@@ -88,13 +68,6 @@ public class SubtaskSheetImpl implements
 		super( );
 	}
 
-	public void createControl( Composite parent )
-	{
-		cmpContent = new Composite( parent, SWT.NONE );
-		FillLayout fillLayout = new FillLayout( );
-		cmpContent.setLayout( fillLayout );
-	}
-
 	public Object onHide( )
 	{
 		// No need to clear popup selection because it's closed automatically
@@ -102,39 +75,9 @@ public class SubtaskSheetImpl implements
 		detachPopup( );
 		ChartWizard.POPUP_CLOSING_BY_USER = true;
 
-		if ( cmpContent != null )
-		{
-			cmpContent.dispose( );
-		}
 		popupButtonRegistry.clear( );
 		popupSheetRegistry.clear( );
-		return getContext( );
-	}
-
-	public void onShow( Object context, Object container )
-	{
-		this.context = (ChartWizardContext) context;
-		this.wizard = (WizardBase) container;
-	}
-
-	protected Chart getChart( )
-	{
-		return context.getModel( );
-	}
-
-	protected ChartWizardContext getContext( )
-	{
-		return context;
-	}
-
-	protected WizardBase getWizard( )
-	{
-		return wizard;
-	}
-
-	protected void setWizard( WizardBase wizard )
-	{
-		this.wizard = wizard;
+		return super.onHide( );
 	}
 
 	/**
@@ -245,16 +188,6 @@ public class SubtaskSheetImpl implements
 		{
 			popupSheet.refreshComponent( popupShell );
 		}
-	}
-
-	public void setIndex( int index )
-	{
-		subtaskIndex = index;
-	}
-
-	protected int getIndex( )
-	{
-		return subtaskIndex;
 	}
 
 	/**
@@ -403,35 +336,6 @@ public class SubtaskSheetImpl implements
 		}
 	}
 
-	public void setParentTask( ITask parentTask )
-	{
-		assert parentTask instanceof TreeCompoundTask;
-		this.parentTask = parentTask;
-	}
-
-	protected TreeCompoundTask getParentTask( )
-	{
-		return (TreeCompoundTask) parentTask;
-	}
-
-	protected void switchTo( String subtaskPath )
-	{
-		if ( parentTask instanceof CompoundTask )
-		{
-			( (CompoundTask) parentTask ).switchTo( subtaskPath );
-		}
-	}
-
-	public void setNodePath( String nodePath )
-	{
-		this.sNodePath = nodePath;
-	}
-
-	public String getNodePath( )
-	{
-		return sNodePath;
-	}
-
 	public void shellActivated( ShellEvent e )
 	{
 		// TODO Auto-generated method stub
@@ -539,94 +443,6 @@ public class SubtaskSheetImpl implements
 		lastPopupRegistry.put( getContext( ).getWizardID( ), lastPopup );
 	}
 
-	public void dispose( )
-	{
-		// To be overridden
-	}
-
-	public Control getControl( )
-	{
-		return cmpContent;
-	}
-
-	/**
-	 * @deprecated For later use
-	 */
-	public String getDescription( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * @deprecated For later use
-	 */
-	public String getErrorMessage( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * @deprecated For later use
-	 */
-	public Image getImage( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * @deprecated For later use
-	 */
-	public String getMessage( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String getTitle( )
-	{
-		return this.sTitle;
-	}
-
-	/**
-	 * @deprecated For later use
-	 */
-	public void performHelp( )
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * @deprecated For later use
-	 */
-	public void setDescription( String description )
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * @deprecated For later use
-	 */
-	public void setImageDescriptor( ImageDescriptor image )
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setTitle( String title )
-	{
-		this.sTitle = title;
-	}
-
-	public void setVisible( boolean visible )
-	{
-		getControl( ).setVisible( visible );
-	}
-
 	public boolean isPreviewable( )
 	{
 		// Doesn't support preview by default
@@ -646,5 +462,16 @@ public class SubtaskSheetImpl implements
 	public Canvas getPreviewCanvas( )
 	{
 		return null;
+	}
+	
+	public void setParentTask( ITask parentTask )
+	{
+		assert parentTask instanceof TreeCompoundTask;
+		super.setParentTask( parentTask );
+	}
+
+	protected TreeCompoundTask getParentTask( )
+	{
+		return (TreeCompoundTask) super.getParentTask( );
 	}
 }

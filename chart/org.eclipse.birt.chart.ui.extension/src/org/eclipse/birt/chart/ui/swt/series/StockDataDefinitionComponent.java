@@ -90,6 +90,7 @@ public class StockDataDefinitionComponent extends DefaultSelectDataComponent
 			labelArray[i].setText( ChartUIUtil.getStockTitle( i ) + "*" ); //$NON-NLS-1$
 			Composite cmpData = dataComArray[i].createArea( cmpSeries );
 			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			( (BaseDataDefinitionComponent) dataComArray[i] ).bindAssociatedName( ChartUIUtil.getStockTitle( i ) );
 		}
 		return cmpSeries;
 	}

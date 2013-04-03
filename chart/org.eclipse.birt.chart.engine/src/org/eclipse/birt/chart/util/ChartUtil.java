@@ -596,7 +596,7 @@ public class ChartUtil
 	public static String[] getSupportedOutputFormats( ) throws ChartException
 	{
 		String[][] outputFormatArray = PluginSettings.instance( )
-				.getRegisteredOutputFormats( );
+				.getRegisteredOutputFormats( "" ); //$NON-NLS-1$
 		String[] formats = new String[outputFormatArray.length];
 		for ( int i = 0; i < formats.length; i++ )
 		{
@@ -615,7 +615,7 @@ public class ChartUtil
 			throws ChartException
 	{
 		String[][] outputFormatArray = PluginSettings.instance( )
-				.getRegisteredOutputFormats( );
+				.getRegisteredOutputFormats( "" ); //$NON-NLS-1$
 		String[] formats = new String[outputFormatArray.length];
 		for ( int i = 0; i < formats.length; i++ )
 		{
@@ -2543,7 +2543,35 @@ public class ChartUtil
 	 */
 	public static String getDefaultChartTitle( Chart chart )
 	{
+		if ( chart.getType( ) == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
 		return Messages.getString( chart.getType( )
 				.replaceAll( " ", "" ) + ".Title" );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+	
+	/**
+	 * Checks if current series is only an instance of specified series type,
+	 * neither super class nor sub class.
+	 * 
+	 * @param series
+	 *            series instance
+	 * @param clazz
+	 *            series type
+	 * @return true means an instance of this direct interface.
+	 */
+	public static boolean isSpecifiedSeriesType( Series series,
+			Class<? extends Series> clazz )
+	{
+		Class<?>[] list = series.getClass( ).getInterfaces( );
+		for ( Class<?> c : list )
+		{
+			if ( c == clazz )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

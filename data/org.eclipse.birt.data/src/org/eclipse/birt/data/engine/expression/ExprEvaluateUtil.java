@@ -21,11 +21,13 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -264,16 +266,16 @@ public class ExprEvaluateUtil
 		if ( dataExpr instanceof IScriptExpression )
 		{
 			if ( ( (IScriptExpression) dataExpr ).getText( ) == null
-					&& !( (IScriptExpression) dataExpr ).isConstant( ) )
+					&& !( BaseExpression.constantId.equals( dataExpr.getScriptId( ) ) ) )
 				throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
 			Object value = null;
-			if ( ( (IScriptExpression) dataExpr ).isConstant( ) )
+			if ( BaseExpression.constantId.equals( dataExpr.getScriptId( ) ) )
 			{
-				value = ( (IScriptExpression) dataExpr ).getConstantValue( );
+				value = ( (IScriptExpression) dataExpr ).getHandle( );
 				if ( value == null )
 				{
-					value = JavascriptEvalUtil.evaluateJsConstants( ( (IScriptExpression) dataExpr ).getText( ) );
-					( (IScriptExpression) dataExpr ).setConstantValue( value );
+					value = ( (IScriptExpression) dataExpr ).getText( );
+					( (IScriptExpression) dataExpr ).setHandle( value );
 				}
 			}
 			else
@@ -281,7 +283,7 @@ public class ExprEvaluateUtil
 				value = ScriptEvalUtil.evaluateJSAsExpr( cx,
 						scope,
 						( (IScriptExpression) dataExpr ).getText( ),
-						null,
+						ScriptExpression.defaultID,
 						0 );
 			}
 

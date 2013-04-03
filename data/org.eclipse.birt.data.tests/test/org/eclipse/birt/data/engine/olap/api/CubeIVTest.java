@@ -45,6 +45,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -1967,9 +1968,9 @@ public class CubeIVTest extends BaseTestCase
 		cqd.setQueryResultsID( queryResults.getID( ) );
 		ConditionalExpression expression = new ConditionalExpression( "data[\"measure1\"]",
 				IConditionalExpression.OP_GT,
-				"\"18\"" );
-		( (ScriptExpression) expression.getOperand1( ) ).setConstantValue( "18" );
-		( (ScriptExpression) expression.getOperand1( ) ).setConstant( true );
+				"18" );
+		( (ScriptExpression) expression.getOperand1( ) ).setHandle( "18" );
+		( (ScriptExpression) expression.getOperand1( ) ).setScriptId( BaseExpression.constantId );
 
 		FilterDefinition fd = new CubeFilterDefinition(expression );
 		fd.setUpdateAggregation(false);
@@ -2093,9 +2094,9 @@ public class CubeIVTest extends BaseTestCase
 		cqd.setQueryResultsID( queryResults.getID( ) );
 		ConditionalExpression expression = new ConditionalExpression( "data[\"edge2level1\"]",
 				IConditionalExpression.OP_GT,
-				"\"1999\"" );
-		( (ScriptExpression) expression.getOperand1( ) ).setConstantValue( "1999" );
-		( (ScriptExpression) expression.getOperand1( ) ).setConstant( true );
+				"1999" );
+		( (ScriptExpression) expression.getOperand1( ) ).setHandle( "1999" );
+		( (ScriptExpression) expression.getOperand1( ) ).setScriptId( BaseExpression.constantId );
 
 		FilterDefinition fd = new CubeFilterDefinition(expression );
 		fd.setUpdateAggregation(false);
@@ -2404,9 +2405,9 @@ public class CubeIVTest extends BaseTestCase
 		
 		ConditionalExpression expression = new ConditionalExpression( "data[\"edge2level1\"]",
 				IConditionalExpression.OP_GT,
-				"\"1999\"" );
-		( (ScriptExpression) expression.getOperand1( ) ).setConstantValue( "1999" );
-		( (ScriptExpression) expression.getOperand1( ) ).setConstant( true );
+				"1999" );
+		( (ScriptExpression) expression.getOperand1( ) ).setHandle( "1999" );
+		( (ScriptExpression) expression.getOperand1( ) ).setScriptId( BaseExpression.constantId );
 
 		FilterDefinition fd = new CubeFilterDefinition(expression );
 		((CubeFilterDefinition)fd).setTargetLevel(cqd.getEdge(ICubeQueryDefinition.ROW_EDGE).getDimensions().get(0).getHierarchy().get(0).getLevels().get(0));

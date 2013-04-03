@@ -31,21 +31,28 @@ public class MarkerInstruction implements IRenderInstruction
 
 	private final double iMarkerSize;
 
+	private final int zOrder;
+
 	private final PrimitiveRenderEvent pre;
 
 	public MarkerInstruction( DeferredCache dc, PrimitiveRenderEvent pre,
-			int iInstruction, double iMarkerSize )
+			int iInstruction, double iMarkerSize, int zOrder )
 	{
 		this.dc = dc;
 		this.pre = pre;
 		this.iInstruction = iInstruction;
 		this.iMarkerSize = iMarkerSize;
+		this.zOrder = zOrder;
 	}
 
 	public int compareTo( Object o )
 	{
 		if ( o instanceof MarkerInstruction )
 		{
+			if (( (MarkerInstruction) o ).zOrder != zOrder)
+			{
+				return ( zOrder - ( (MarkerInstruction) o ).zOrder );
+			}
 			// Descending order
 			return (int) ( ( (MarkerInstruction) o ).getMarkerSize( ) - iMarkerSize );
 		}
@@ -77,7 +84,7 @@ public class MarkerInstruction implements IRenderInstruction
 	/**
 	 * Returns the associated event.
 	 * 
-	 * @return
+	 * @return Render Event
 	 */
 	public final PrimitiveRenderEvent getEvent( )
 	{
@@ -124,6 +131,7 @@ public class MarkerInstruction implements IRenderInstruction
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public List getModel( )
 	{
 		return Collections.EMPTY_LIST;

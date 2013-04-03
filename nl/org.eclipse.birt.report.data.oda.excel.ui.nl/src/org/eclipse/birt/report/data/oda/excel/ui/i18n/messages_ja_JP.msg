@@ -17,13 +17,13 @@ connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=選択したフォルダ内の Excel データソース
 ui.ExcelFileNotFound=指定された Excel データソースファイルが見つかりません。 
 label.selectFolder=フォルダの選択(&E) : 
 label.selectFile=ファイルの選択(&I) :
-label.selectworksheet=ワークシートの選択(&W) :
+label.selectworksheet=ワークシートの選践(&H) :
 label.includeTypeLine=2 行目をデータ型のインジケータとして使用します。(&D)
 label.includeColumnNameLine = 1 行目を列名のインジケータとして使用します。(&A)
 
 button.selectFolder.browse=参照(&R)...
 button.moveUp=上へ(&U)
-button.moveDown=下へ(&W)
+button.moveDown=下へ(&O)
 button.delete=削除(&E)
 button.selectFileURI.menuItem.relativePath=相対パス(&R)
 button.selectFileURI.menuItem.absolutePath=絶対パス(&A)

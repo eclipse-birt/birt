@@ -12,11 +12,11 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractDatasetSortingFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -34,7 +34,7 @@ public class DataSetColumnBindingsFormDescriptor extends
 		SortingFormPropertyDescriptor
 {
 
-	private DataSetColumnBindingsFormHandleProvider provider;
+	private AbstractDatasetSortingFormHandleProvider provider;
 
 	public DataSetColumnBindingsFormDescriptor( boolean formStyle )
 	{
@@ -46,8 +46,8 @@ public class DataSetColumnBindingsFormDescriptor extends
 	public void setDescriptorProvider( IDescriptorProvider provider )
 	{
 		super.setDescriptorProvider( provider );
-		if ( provider instanceof DataSetColumnBindingsFormHandleProvider )
-			this.provider = (DataSetColumnBindingsFormHandleProvider) provider;
+		if ( provider instanceof AbstractDatasetSortingFormHandleProvider )
+			this.provider = (AbstractDatasetSortingFormHandleProvider) provider;
 	}
 
 	/*
@@ -70,7 +70,7 @@ public class DataSetColumnBindingsFormDescriptor extends
 			btnClear = FormWidgetFactory.getInstance( )
 					.createButton( (Composite) control, "", SWT.PUSH ); //$NON-NLS-1$
 		else
-			btnClear = new Button( (Composite) control, SWT.BORDER );
+			btnClear = new Button( (Composite) control, SWT.PUSH );
 
 		btnClear.setText( Messages.getString( "FormPage.Button.Binding.Clear" ) ); //$NON-NLS-1$
 		btnClear.addSelectionListener( new SelectionAdapter( ) {
@@ -86,7 +86,7 @@ public class DataSetColumnBindingsFormDescriptor extends
 			btnRefresh = FormWidgetFactory.getInstance( )
 					.createButton( (Composite) control, "", SWT.PUSH ); //$NON-NLS-1$
 		else
-			btnRefresh = new Button( (Composite) control, SWT.BORDER );
+			btnRefresh = new Button( (Composite) control, SWT.PUSH );
 
 		btnRefresh.setText( Messages.getString( "FormPage.Button.Binding.Refresh" ) ); //$NON-NLS-1$
 		btnRefresh.addSelectionListener( new SelectionAdapter( ) {
@@ -98,7 +98,10 @@ public class DataSetColumnBindingsFormDescriptor extends
 		} );
 		btnRefresh.setEnabled( true );
 
-		fullLayout( );
+		if ( getStyle( ) == FULL_FUNCTION_HORIZONTAL )
+			fullLayoutHorizontal( );
+		else
+			fullLayout( );
 
 		return control;
 	}
@@ -120,6 +123,59 @@ public class DataSetColumnBindingsFormDescriptor extends
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage
 	 * #fullLayout()
 	 */
+	protected void fullLayoutHorizontal( )
+	{
+		super.fullLayoutHorizontal( );
+
+		Button rightButton = null;
+
+		if ( btnRefresh != null )
+		{
+			FormData data = new FormData( );
+			data.right = new FormAttachment( 100 );
+			data.width = Math.max( btnWidth,
+					btnRefresh.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+			// data.height = height;
+			btnRefresh.setLayoutData( data );
+			rightButton = btnRefresh;
+		}
+
+		if ( btnClear != null )
+		{
+			if ( btnRefresh == null )
+			{
+				FormData data = new FormData( );
+				data.right = new FormAttachment( 100 );
+				data.width = Math.max( btnWidth,
+						btnClear.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+				// data.height = height;
+				btnClear.setLayoutData( data );
+
+			}
+			else
+			{
+				FormData data = new FormData( );
+				data.right = new FormAttachment( btnRefresh, 0, SWT.LEFT );
+				data.width = Math.max( btnWidth,
+						btnClear.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+				// data.height = height;
+				btnClear.setLayoutData( data );
+			}
+			rightButton = btnClear;
+		}
+
+		if ( rightButton != null )
+		{
+			FormData data = new FormData( );
+			data.right = new FormAttachment( rightButton, 0, SWT.LEFT );
+			data.width = Math.max( btnWidth,
+					btnEdit.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+			// data.height = height;
+			btnEdit.setLayoutData( data );
+		}
+
+	}
+
 	protected void fullLayout( )
 	{
 		super.fullLayout( );
@@ -171,10 +227,11 @@ public class DataSetColumnBindingsFormDescriptor extends
 	public void setInput( Object object )
 	{
 		super.setInput( object );
-		if ( DEUtil.getInputSize( object ) > 0 )
+		if ( DEUtil.getInputSize( object ) > 0
+				&& DEUtil.getInputFirstElement( object ) instanceof DesignElementHandle )
 		{
 			Object element = DEUtil.getInputFirstElement( object );
-			setBindingObject( (ReportElementHandle) element );
+			setBindingObject( (DesignElementHandle) element );
 		}
 		if ( provider.isEnable( ) && provider.isEditable( ) )
 			btnRefresh.setEnabled( true );
@@ -183,7 +240,7 @@ public class DataSetColumnBindingsFormDescriptor extends
 
 	}
 
-	private void setBindingObject( ReportElementHandle bindingObject )
+	private void setBindingObject( DesignElementHandle bindingObject )
 	{
 		provider.setBindingObject( bindingObject );
 	}

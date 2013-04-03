@@ -66,7 +66,6 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
-import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.swt.graphics.Image;
 
@@ -329,7 +328,8 @@ public class ExpressionProvider implements
 		{
 			categoryList.add( CURRENT_CUBE );
 		}
-		if ( elementHandle.getModuleHandle( ).getParameters( ).getCount( ) != 0 )
+		if ( elementHandle.getModuleHandle( ).getParameters( ) != null
+				&& elementHandle.getModuleHandle( ).getParameters( ).getCount( ) != 0 )
 		{
 			categoryList.add( PARAMETERS );
 		}
@@ -756,19 +756,19 @@ public class ExpressionProvider implements
 			{
 				List children = new ArrayList( );
 				children.addAll( Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( parent ) ) );
-				if ( parent instanceof MeasureGroupHandle )
-				{
-					for ( int i = 0; i < children.size( ); i++ )
-					{
-						Object measure = children.get( i );
-						if ( measure instanceof TabularMeasureHandle
-								&& ( (TabularMeasureHandle) measure ).isCalculated( ) )
-						{
-							children.remove( i );
-							i--;
-						}
-					}
-				}
+//				if ( parent instanceof MeasureGroupHandle )
+//				{
+//					for ( int i = 0; i < children.size( ); i++ )
+//					{
+//						Object measure = children.get( i );
+//						if ( measure instanceof TabularMeasureHandle
+//								&& ( (TabularMeasureHandle) measure ).isCalculated( ) )
+//						{
+//							children.remove( i );
+//							i--;
+//						}
+//					}
+//				}
 				return children;
 			}
 		}

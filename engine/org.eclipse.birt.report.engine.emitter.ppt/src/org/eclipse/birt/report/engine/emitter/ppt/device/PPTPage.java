@@ -121,11 +121,31 @@ public class PPTPage extends AbstractPage
 		// width of text is enlarged by 1 point because in ppt the text will be
 		// automatically wrapped if the width of textbox equals to the width of
 		// text exactly.
+		writer.drawText( text, textX, textY, width, height, textStyle, link );
+	}
+	
+	public void drawText( String text, int textX, int textY, int textWidth,
+			int textHeight, TextStyle textStyle )
+	{
+		float x = convertToPoint( textX );
+		float y = convertToPoint( textY );
+		float width = convertToPoint( textWidth );
+		float height = convertToPoint( textHeight );
 		FontInfo fontInfo = textStyle.getFontInfo( );
-		float descend = fontInfo.getBaseFont( ).getFontDescriptor(
-				BaseFont.DESCENT, fontInfo.getFontSize( ) );
-		writer.drawText( text, textX, textY, width, height + descend * 0.6f,
-				fontInfo, textStyle.getColor( ), textStyle.isRtl( ), link );
+		float baseline = convertToPoint( fontInfo.getBaseline( ) );
+		drawText( text, x, y, baseline , width, height, textStyle );
+		float lineWidth = fontInfo.getLineWidth( );
+		Color color = textStyle.getColor( );
+		if ( textStyle.isLinethrough( ) )
+		{
+			drawDecorationLine( x, y, width, lineWidth,
+					convertToPoint( fontInfo.getLineThroughPosition( ) ), color );
+		}
+		if ( textStyle.isOverline( ) )
+		{
+			drawDecorationLine( x, y, width, lineWidth,
+					convertToPoint( fontInfo.getOverlinePosition( ) ), color );
+		}
 	}
 
 	public void setLink( HyperlinkDef link )

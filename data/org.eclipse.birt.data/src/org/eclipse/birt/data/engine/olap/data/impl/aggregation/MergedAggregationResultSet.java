@@ -259,7 +259,8 @@ public class MergedAggregationResultSet implements IAggregationResultSet
 	public void seek( int index ) throws IOException
 	{
 		rs1.seek( index );
-		rs2.seek( index );
+		if( index < rs2.length( ) )
+			rs2.seek( index );
 	}
 
 	public int[] getAggregationDataType( )

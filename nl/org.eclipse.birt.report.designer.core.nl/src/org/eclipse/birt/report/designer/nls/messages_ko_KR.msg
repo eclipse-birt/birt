@@ -1,13 +1,12 @@
 #/*******************************************************************************
-# * Copyright (c) 2006, 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
 # * Contributors:
-# *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 
 ###########################################################
 #AbstractDataSetWizard properties
@@ -263,6 +262,16 @@ ColumnBindingDialog.Text.AddAggr=집계 추가(&G)...
 #BlockPreferencePage properties
 
 BlockPreferencePage.displayname.Title=텍스트 블록
+
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Size
+
+###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Inherited0=(Inherited)
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -603,6 +612,11 @@ DataSetBasePage.tooltip=이름은 비어 있으면 안 됩니다.
 DataSetBasePage.ScriptedDataSet.name=스크립트된 데이터 집합
 DataSetBasePage.ScriptedDataSource.name=스크립트 데이터 원본
 DataSetBasePage.Group.DataSourceSelection=데이터 원본 선택
+
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Cassandra 스크립트 데이터 원본을 지원하는 Hector 클라이언트 라이브러리 jar를 찾을 수 없습니다.
 
 ###########################################################
 #JointDataSetPage properties
@@ -1391,6 +1405,8 @@ Element.Style.pageBreakInside=안쪽(&I):
 Element.Style.section=섹션:
 Element.Style.showIfBlank=비어있는 경우 표시(&W)
 Element.Style.text.align=텍스트 맞춤(&L):
+Element.Style.width=&Width:
+Element.Style.height=&Height:
 #bidi_hcg
 Element.Style.text.direction=양방향 텍스트 방향(&B):
 Element.Style.text.indent=텍스트 들여쓰기(&X):
@@ -4123,7 +4139,7 @@ WizardTemplateChoicePage.label.Description=설명:
 WizardTemplateChoicePage.label.Preview=미리 보기:
 WizardTemplateChoicePage.label.ReportTemplates=보고서 템플릿:
 WizardTemplateChoicePage.label.ShowCheatSheets=보고서 생성 치트 시트 표시(&S)
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=기본 테마 포함(&I)
 WizardTemplateChoicePage.message.BlankReport=미리 정의된 내용이 없는 빈 보고서를 생성합니다.
 WizardTemplateChoicePage.message.ChartListing=각 그룹 데이터에 대해 시각적 표현을 제공하는 차트를 사용하여 그룹화한 보고서를 생성합니다.
 WizardTemplateChoicePage.message.DualColumnChartListing=두 개의 "차트 및 목록" 하위 그룹을 사용하여 그룹화한 보고서를 생성합니다.
@@ -4311,8 +4327,8 @@ GeneralPage.Library.Included=라이브러리:
 GeneralPage.Library.Modified.Note=참고: 이 보고서 항목은 라이브러리에서 수정되었습니다. 원래의 라이브러리 항목을 복원하려면 {0}"속성 복원"을 클릭하십시오.
 
 #BookMarkPage
-BookMarkPage.Modified.Note=책갈피에 \"A-Z a-z 0-9 - _ : .\" 이외의 특수 문자가 포함되어 있어 실행 시 문제가 발생할 수 있습니다.
-BookMarkPage.Modified.WithoutQuotes=책갈피는 큰따옴표로 둘러싸야 합니다.
+BookMarkPage.Modified.Note=책갈피에 허용 문자(A-Z, a-z, 0-9, '-', '_', ':', '.') 이외의 특수 문자가 포함되어 있어 실행 시 문제가 발생할 수 있습니다.
+BookMarkPage.Modified.WithoutQuotes=책갈피가 큰따옴표로 둘러싸여 있지 않아 실행 시 문제가 발생할 수 있습니다.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4629,6 +4645,7 @@ BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=이름이 {0}인 열 바인딩이 이미 있습니다.
 BindingDialogHelper.error.improperexpression=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습니다.
 BindingDialogHelper.error.empty={0}이(가) 필요합니다.
+BindingDialogHelper.error.text.Name=Column Binding Name
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=현재 함수에 대해 권장되는 날짜 형식은 "{0}"입니다. 선택한 데이터 형식을 그대로 유지하시겠습니까?
 BindingDialogHelper.warning.parameter=식 "{0}"의 반환 데이터 형식이 매개 변수 "{1}"에서 지원되지 않습니다. 그대로 유지하시겠습니까?

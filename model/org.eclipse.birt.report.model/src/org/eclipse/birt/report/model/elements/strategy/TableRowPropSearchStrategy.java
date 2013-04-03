@@ -85,4 +85,26 @@ public class TableRowPropSearchStrategy extends PropertySearchStrategy
 
 		return super.getNonIntrinsicPropertyFromElement( module, element, prop );
 	}
+	
+	public Object getPropertyFromSlotSelector( Module module,
+			DesignElement element, ElementPropertyDefn prop,
+			PropertyValueInfo valueInfo )
+	{
+		// 1. try to get predefined value from slot selector
+		Object value = super.getPropertyFromSlotSelector( module, element, prop, valueInfo );
+		if ( value != null )
+			return value;
+		
+		// 2. try to get the predefined value for all table rows
+		DesignElement rowContainer = element.getContainer( );
+		if ( rowContainer == null )
+			return null;
+		String selector = null;
+		if ( rowContainer instanceof TableItem )
+		{
+			selector = "table-row";
+		}
+		return super.getPropertyFromSelector( module, element, prop, selector, valueInfo );
+	}
+
 }

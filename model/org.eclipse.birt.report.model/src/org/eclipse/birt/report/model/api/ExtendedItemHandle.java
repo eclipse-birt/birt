@@ -407,8 +407,9 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public void makeUniqueName( String namePrefix ) throws NameException
 	{
-		String name = new NameExecutor( element ).getNameHelper( module )
-				.getUniqueName( element, namePrefix );
-		setName( name );
+		NameExecutor executor = new NameExecutor( module, element );
+		if (executor.hasNamespace( )) {
+			executor.makeUniqueName( namePrefix );
+		}
 	}
 }

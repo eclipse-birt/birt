@@ -1529,6 +1529,7 @@ class DataSetParameterAdapter
 		if ( !propertyHandle.isLocal( ) )
 		{
 			propertyHandle.setValue( new ArrayList( ) );
+			nameList.clear();
 		}
 
 		// for others, should add them.

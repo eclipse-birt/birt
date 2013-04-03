@@ -1,13 +1,12 @@
 #/*******************************************************************************
-# * Copyright (c) 2006, 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
 # * Contributors:
-# *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 
 ###########################################################
 #AbstractDataSetWizard properties
@@ -263,6 +262,16 @@ ColumnBindingDialog.Text.AddAggr=WŒv‚Ì’Ç‰Á(&G)...
 #BlockPreferencePage properties
 
 BlockPreferencePage.displayname.Title=ƒeƒLƒXƒgƒuƒƒbƒN
+
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Size
+
+###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Inherited0=(Inherited)
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -604,6 +613,11 @@ DataSetBasePage.ScriptedDataSet.name=ƒXƒNƒŠƒvƒgƒf[ƒ^ƒZƒbƒg
 DataSetBasePage.ScriptedDataSource.name=ƒXƒNƒŠƒvƒg‹LqÏ‚İ‚Ìƒf[ƒ^ƒ\[ƒX
 DataSetBasePage.Group.DataSourceSelection=ƒf[ƒ^ƒ\[ƒX‚Ì‘I‘ğ
 
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=Cassandra ƒXƒNƒŠƒvƒg‹LqÏ‚İ‚Ìƒf[ƒ^ƒ\[ƒX‚ğƒTƒ|[ƒg‚·‚é Hector ƒNƒ‰ƒCƒAƒ“ƒgƒ‰ƒCƒuƒ‰ƒŠ‚Ì Jar ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB.
+
 ###########################################################
 #JointDataSetPage properties
 
@@ -896,8 +910,8 @@ designer.preview.preference.locale.description=ƒƒP[ƒ‹‚Ì‘I‘ğ(&C) :
 designer.preview.preference.timezone.description=ƒ^ƒCƒ€ƒ][ƒ“(&T) :
 designer.preview.preference.resultset.sqldatasetpage.group.title=ƒNƒGƒŠƒy[ƒW
 designer.preview.preference.resultset.previewpage.group.title=ƒvƒŒƒrƒ…[ƒy[ƒW
-designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=s§ŒÀİ’è‚ÌƒvƒŒƒrƒ…[
-designer.preview.preference.resultset.NoLimitOfDispalyRow=•\¦‚Å‚«‚és”§ŒÀ‚Í‚ ‚è‚Ü‚¹‚ñ(&N)B
+designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=ƒvƒŒƒrƒ…[s§ŒÀİ’è
+designer.preview.preference.resultset.NoLimitOfDispalyRow=•\¦s”§ŒÀ‚È‚µ(&N)
 designer.preview.preference.resultset.maxNoOfSchema.description=•\¦‚·‚éƒXƒL[ƒ}‚ÌÅ‘å”(&S) :
 designer.preview.preference.resultset.maxNoOfTable.description=ŠeƒXƒL[ƒ}‚É•\¦‚·‚éƒe[ƒuƒ‹‚ÌÅ‘å”(&T) :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Å‘åƒXƒL[ƒ}”‚É‚ÍA0 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
@@ -908,7 +922,7 @@ designer.preview.preference.resultset.maxrowlevelmember.description=ŠesƒŒƒxƒ‹‚É
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=sƒŒƒxƒ‹ƒƒ“ƒo‚ÌÅ‘å”‚É‚ÍA1 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 designer.preview.preference.resultset.maxcolumnlevelmember.description=Še—ñƒŒƒxƒ‹‚É•\¦‚·‚éƒƒ“ƒo”(&C) :
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=—ñƒŒƒxƒ‹ƒƒ“ƒo‚ÌÅ‘å”‚É‚ÍA1 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
-designer.preview.preference.resultset.maxinmemorycubesize.description=ƒƒ‚ƒŠ“à‚ÌƒLƒ…[ƒuƒTƒCƒY (MB)(&S) :
+designer.preview.preference.resultset.maxinmemorycubesize.description=ƒCƒ“ƒƒ‚ƒŠƒLƒ…[ƒu‚ÌƒTƒCƒY(MB)(&S) :
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=ƒƒ‚ƒŠ“à‚ÌÅ‘åƒLƒ…[ƒuƒTƒCƒY‚É‚ÍA1 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 designer.preview.preference.server.description=“à•”ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒT[ƒo‚Ìİ’èBƒT[ƒo‚ÍABIRT Report Designer\nPreview Framework “à•”‚Åg—p‚³‚ê‚Ü‚·B
 designer.preview.preference.server.hostDescription=ƒ[ƒJƒ‹ƒ}ƒVƒ“‚ÌƒzƒXƒg–¼‚Ü‚½‚Í IP ƒAƒhƒŒƒX(&H)\n©“®“I‚ÉŒˆ’è‚·‚é‚É‚ÍA‹ó”’‚Ì‚Ü‚Ü‚É‚µ‚Ä‚­‚¾‚³‚¢B
@@ -1019,7 +1033,7 @@ DesignerPaletteFactory.quicktool.timeperiod.toolTip=TimePeriod €–Ú‚Ì‘}“ü
 
 DimensionBuilderDialog.LabelMeasure=ƒƒWƒƒ[(&M) :
 DimensionBuilderDialog.LabelUnit=’PˆÊ(&U) :
-DimensionBuilderDialog.Title=ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒrƒ‹ƒ_
+DimensionBuilderDialog.Title=ƒfƒBƒƒ“ƒVƒ‡ƒ“ƒrƒ‹ƒ_
 
 ###########################################################
 #DNDUtil properties
@@ -1391,6 +1405,8 @@ Element.Style.pageBreakInside=—v‘f“à(&I) :
 Element.Style.section=ƒZƒNƒVƒ‡ƒ“ :
 Element.Style.showIfBlank=‹ó”’‚Å‚à•\¦(&W)
 Element.Style.text.align=•¶š—ñ‚ÌˆÊ’u‘µ‚¦(&L) :
+Element.Style.width=&Width:
+Element.Style.height=&Height:
 #bidi_hcg
 Element.Style.text.direction=‘o•ûŒüƒeƒLƒXƒg(&B) :
 Element.Style.text.indent=•¶š—ñ‚ÌƒCƒ“ƒfƒ“ƒg(&X) :
@@ -4123,7 +4139,7 @@ WizardTemplateChoicePage.label.Description=à–¾ :
 WizardTemplateChoicePage.label.Preview=ƒvƒŒƒrƒ…[ :
 WizardTemplateChoicePage.label.ReportTemplates=ƒŒƒ|[ƒgƒeƒ“ƒvƒŒ[ƒg :
 WizardTemplateChoicePage.label.ShowCheatSheets=ƒŒƒ|[ƒgì¬ƒKƒCƒh‚Ì•\¦(&S)
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=ƒfƒtƒHƒ‹ƒg‚Ìƒe[ƒ}‚ğŠÜ‚ß‚é(&I)
 WizardTemplateChoicePage.message.BlankReport=“à—e‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢‹ó”’‚ÌƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
 WizardTemplateChoicePage.message.ChartListing=ƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·BƒOƒ‰ƒt‚ÍA‚»‚ê‚¼‚ê‚ÌƒOƒ‹[ƒv‚Ìƒf[ƒ^‚ğ‹Šo“I‚É•\‚µ‚Ü‚·B
 WizardTemplateChoicePage.message.DualColumnChartListing=ƒOƒ‰ƒt‚ÆƒŠƒXƒg‚ÌƒTƒuƒOƒ‹[ƒv‚ğ 2 ‚Â‚ÂƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
@@ -4312,7 +4328,7 @@ GeneralPage.Library.Modified.Note=’ : ‚±‚ÌƒŒƒ|[ƒg€–Ú‚Íƒ‰ƒCƒuƒ‰ƒŠ‚Å•ÒW‚³‚ê‚Ä‚
 
 #BookMarkPage
 BookMarkPage.Modified.Note=ƒuƒbƒNƒ}[ƒN‚ÉAA`ZAa`zA0`9A-A_A:A. ˆÈŠO‚Ì“Áê•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¨‚èA‚±‚Ì‚½‚ß‚ÉÀs‚É–â‘è‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B
-BookMarkPage.Modified.WithoutQuotes=ƒuƒbƒNƒ}[ƒN‚Í“ñdˆø—p•„‚ÅˆÍ‚Ş•K—v‚ª‚ ‚è‚Ü‚·B
+BookMarkPage.Modified.WithoutQuotes=ƒuƒbƒNƒ}[ƒN‚ª“ñdˆø—p•„‚ÅˆÍ‚Ü‚ê‚Ä‚¢‚È‚¢‚½‚ßAÀs‚É–â‘è‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4629,6 +4645,7 @@ BindingDialogHelper.bindingName.aggregation=WŒv
 BindingDialogHelper.error.nameduplicate={0} ‚Æ‚¢‚¤–¼‘O‚Ì—ñƒoƒCƒ“ƒh‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B
 BindingDialogHelper.error.improperexpression=ƒLƒ…[ƒu‚ÌƒƒWƒƒ[‚É‘Î‚·‚éWŒv‚Å‚Í‚±‚ÌŒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ : "{0}"
 BindingDialogHelper.error.empty={0} ‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
+BindingDialogHelper.error.text.Name=—ñƒoƒCƒ“ƒh‚Ì–¼‘O
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Œ»İ‚ÌŠÖ”‚É„§‚³‚ê‚éƒf[ƒ^Œ^‚Í "{0}" ‚Å‚·B‘I‘ğ‚µ‚½ƒf[ƒ^Œ^‚ğ•Û‘¶‚µ‚Ü‚·‚© ?
 BindingDialogHelper.warning.parameter=® "{0}" ‚Ì–ß‚è’l‚Ìƒf[ƒ^Œ^‚ÍAƒpƒ‰ƒƒ^ "{1}" ‚Å‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB‚±‚Ìƒf[ƒ^Œ^‚ğ•Û‘¶‚µ‚Ü‚·‚© ?

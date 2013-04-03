@@ -97,10 +97,12 @@ public class GanttDataDefinitionComponent extends DefaultSelectDataComponent
 			labelArray.setText( ChartUIUtil.getGanttTitle( i ) + "*" ); //$NON-NLS-1$
 			Composite cmpData = dataComArray[i].createArea( cmpSeries );
 			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			( (BaseDataDefinitionComponent) dataComArray[i] ).bindAssociatedName( ChartUIUtil.getGanttTitle( i ) );
 		}
 
 		( (BaseDataDefinitionComponent) dataComArray[2] ).setDescription( ChartUIUtil.getGanttTitle( 2 ) );
 		Composite cmpData = dataComArray[2].createArea( cmpSeries );
+		( (BaseDataDefinitionComponent) dataComArray[2] ).bindAssociatedName( ChartUIUtil.getGanttTitle( 2 ) );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		cmpData.setLayoutData( gd );

@@ -1,13 +1,12 @@
 #/*******************************************************************************
-# * Copyright (c) 2006, 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
 # * http://www.eclipse.org/legal/epl-v10.html
 # *
 # * Contributors:
-# *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 
 ###########################################################
 #AbstractDataSetWizard properties
@@ -263,6 +262,16 @@ ColumnBindingDialog.Text.AddAggr=添加聚合(&G)...
 #BlockPreferencePage properties
 
 BlockPreferencePage.displayname.Title=文本块
+
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Size
+
+###########################################################
+#BorderCanvas properties
+
+BorderCanvas.Inherited0=(Inherited)
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -603,6 +612,11 @@ DataSetBasePage.tooltip=名称不能为空。
 DataSetBasePage.ScriptedDataSet.name=脚本化数据集
 DataSetBasePage.ScriptedDataSource.name=脚本化数据源
 DataSetBasePage.Group.DataSourceSelection=数据源选择
+
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+CassandraScriptedDataSource.error.classNotFound=无法找到 Hector 客户端库 jar 以支持 Cassandra 脚本化数据源。
 
 ###########################################################
 #JointDataSetPage properties
@@ -1391,6 +1405,8 @@ Element.Style.pageBreakInside=内部(&I):
 Element.Style.section=区域:
 Element.Style.showIfBlank=如果为空白则显示(&W)
 Element.Style.text.align=文本对齐(&L):
+Element.Style.width=&Width:
+Element.Style.height=&Height:
 #bidi_hcg
 Element.Style.text.direction=双向文本方向(&B):
 Element.Style.text.indent=文本缩进(&X):
@@ -4123,7 +4139,7 @@ WizardTemplateChoicePage.label.Description=描述:
 WizardTemplateChoicePage.label.Preview=预览:
 WizardTemplateChoicePage.label.ReportTemplates=报表模板:
 WizardTemplateChoicePage.label.ShowCheatSheets=显示报表创建备忘单(&S)
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=包含默认主题(&I)
 WizardTemplateChoicePage.message.BlankReport=创建无预定义内容的空报表。
 WizardTemplateChoicePage.message.ChartListing=创建分组报表，并附带直观表示每个组数据的图表。
 WizardTemplateChoicePage.message.DualColumnChartListing=创建带两个“图表和列表”子组的分组报表。
@@ -4311,8 +4327,8 @@ GeneralPage.Library.Included=库:
 GeneralPage.Library.Modified.Note=注: 库中的此报表项已被修改。要还原原始库项目，请单击{0}“还原属性”
 
 #BookMarkPage
-BookMarkPage.Modified.Note=书签还包含除 \"A-Z a-z 0-9 - _ : .\" 之外的特殊字符，运行时可能会出现问题。
-BookMarkPage.Modified.WithoutQuotes=书签必须加双引号。
+BookMarkPage.Modified.Note=书签包含除这些字符 (A-Z、a-z、0-9、'-'、'_'、':'、'.') 以外的特殊字符，这可能导致在运行时出问题。
+BookMarkPage.Modified.WithoutQuotes=书签没有使用双引号，这可能导致在运行时出问题。
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4629,6 +4645,7 @@ BindingDialogHelper.bindingName.aggregation=聚合
 BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。
 BindingDialogHelper.error.improperexpression=多维数据集度量聚合不能为此类型:“{0}”。
 BindingDialogHelper.error.empty={0} 是必需的。
+BindingDialogHelper.error.text.Name=Column Binding Name
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=当前函数的建议数据类型为“{0}”，是否要保留您选择的数据类型?
 BindingDialogHelper.warning.parameter=参数“{1}”不支持表达式“{0}”的返回数据类型，是否要保留?

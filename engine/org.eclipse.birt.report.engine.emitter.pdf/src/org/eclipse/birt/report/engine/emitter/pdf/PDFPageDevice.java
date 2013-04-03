@@ -68,8 +68,7 @@ public class PDFPageDevice implements IPageDevice
 	 */
 	protected static String[] versionInfo = new String[]{
 			BundleVersionUtil
-					.getBundleVersion( "org.eclipse.birt.report.engine" ),
-			BundleVersionUtil.getBundleVersion( "com.lowagie.itext" )};
+					.getBundleVersion( "org.eclipse.birt.report.engine" )};
 
 	protected final static int MAX_PAGE_WIDTH = 14400000; // 200 inch
 	protected final static int MAX_PAGE_HEIGHT = 14400000; // 200 inch

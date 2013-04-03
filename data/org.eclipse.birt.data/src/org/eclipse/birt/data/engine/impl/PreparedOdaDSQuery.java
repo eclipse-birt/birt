@@ -22,7 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
 
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -42,6 +44,7 @@ import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
 import org.mozilla.javascript.Scriptable;
@@ -52,6 +55,12 @@ import org.mozilla.javascript.Scriptable;
 public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		implements	IPreparedQuery
 {
+	private static enum ValidateStatus
+	{ 
+		ok, unknown, fail 
+	};
+	
+	private ValidateStatus validateStatus;
 	/**
 	 * @param dataEngine
 	 * @param queryDefn
@@ -69,6 +78,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		};
 		logger.exiting( PreparedOdaDSQuery.class.getName( ),
 				"PreparedOdaDSQuery", params );
+		validateStatus = ValidateStatus.unknown; 
 	}
 	
 	/*
@@ -297,15 +307,36 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 					rollbackHelper.collectOriginalInfo();
 					try
 					{
-						querySpec = OdaQueryOptimizationUtil.optimizeExecution(
-										((OdaDataSourceRuntime) dataEngine
-												.getDataSourceRuntime(dataSetDesign
-														.getDataSourceName()))
-												.getExtensionID(),
-										validationContext,
-										(IOdaDataSetDesign) dataSetDesign,
-										queryDefn, dataEngine.getSession(),
-										appContext, contextVisitor);
+						if ( validateStatus == ValidateStatus.unknown || validateStatus == ValidateStatus.ok )
+						{
+							querySpec = OdaQueryOptimizationUtil.optimizeExecution(
+									((OdaDataSourceRuntime) dataEngine
+											.getDataSourceRuntime(dataSetDesign
+													.getDataSourceName()))
+											.getExtensionID(),
+									validationContext,
+									(IOdaDataSetDesign) dataSetDesign,
+									queryDefn, dataEngine.getSession(),
+									appContext, contextVisitor);
+						}
+						
+						if( querySpec != null && validateStatus == ValidateStatus.unknown )
+						{
+							try
+							{
+								querySpec.validate( validationContext );
+								validateStatus = validateStatus.ok;
+							}
+							catch ( OdaException ex )
+							{
+								validateStatus = validateStatus.fail;
+								querySpec = null;
+								logger.log( Level.WARNING,
+										ex.getLocalizedMessage( ),
+										ex );
+							}
+
+						}
 					}
 					catch ( DataException e )
 					{
@@ -337,6 +368,26 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			return odiQuery;
 	 	}
 		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery.DSQueryExecutor#fromCache()
+		 */
+		protected boolean fromCache( ) throws DataException
+		{
+			if( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			{
+				// When there is pushdown occur, clear data set cache, due to cached data may have been obsolete.
+				//TODO enhance me. For some cases, data set cache should be considered to be reused, need to compare query spec is same or not.
+				if( querySpec!= null && querySpec.getResultSetSpecification( )!= null && !querySpec.getResultSetSpecification( ).isEmpty( ) )
+				{
+					if( appContext.get( DataEngine.QUERY_EXECUTION_SESSION_ID ) == null )
+					{
+						dataEngine.getSession( ).getDataSetCacheManager( ).clearCache( dataEngine.getDataSourceDesign( this.dataSet.getDesign( ).getDataSourceName( ) ), this.dataSet.getDesign( ) );						
+					}
+				}
+			}
+			return super.fromCache( );
+		}
 		
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#populateOdiQuery()

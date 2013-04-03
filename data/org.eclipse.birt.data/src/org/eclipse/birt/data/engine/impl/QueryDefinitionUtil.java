@@ -19,8 +19,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -45,38 +46,48 @@ public class QueryDefinitionUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static Map<String, IBinding> getAccessibleBindings( IBaseQueryDefinition qd ) throws DataException
-	{
-		if ( qd == null )
-		{
-			return null;
-		}
-		Map<String, IBinding> result = new HashMap<String, IBinding>( qd.getBindings( ) );
-		IBaseQueryDefinition parent = qd.getParentQuery();
-		while ( parent != null )
-		{
-			Map parentBindings = parent.getBindings( );
-			Map<String, Boolean> aggrInfo = parseAggregations( parentBindings );
-			Iterator it = parentBindings.keySet( ).iterator( );
-			while ( it.hasNext( ) )
-			{
-				String name = (String)it.next( );
-				
-				if ( !aggrInfo.get( name ))
-				{
-					//not an aggregation
-					IBinding b = (IBinding)parentBindings.get( name );
-					if ( !result.containsKey( name ) )
-					{
-						result.put( name, b );
-					}
-				}
-			}
-			parent = parent.getParentQuery( );
-		}
-		return result;
-	}
-	
+    public static Map<String, IBinding> getAccessibleBindings( IBaseQueryDefinition qd ) throws DataException
+    {
+        if ( qd == null )
+        {
+            return null;
+        }
+        Map<String, IBinding> result = new HashMap<String, IBinding>( qd.getBindings( ) );
+        IBaseQueryDefinition parent = null;
+        if( qd instanceof SubqueryDefinition )
+        {
+            parent = qd.getParentQuery();           
+        }
+        while ( parent != null )
+        {
+            Map parentBindings = parent.getBindings( );
+            Map<String, Boolean> aggrInfo = parseAggregations( parentBindings );
+            Iterator it = parentBindings.keySet( ).iterator( );
+            while ( it.hasNext( ) )
+            {
+                String name = (String)it.next( );
+                
+                if ( !aggrInfo.get( name ))
+                {
+                    //not an aggregation
+                    IBinding b = (IBinding)parentBindings.get( name );
+                    if ( !result.containsKey( name ) )
+                    {
+                        result.put( name, b );
+                    }
+                }
+            }           
+            if( parent instanceof SubqueryDefinition )
+            {
+                parent = parent.getParentQuery( );          
+            }
+            else
+            {
+            	break;
+            }
+        }
+        return result;
+    }
 	/**
 	 * Each binding is parsed to see if it's an aggregation.
 	 * The parsed result saved in a Map<String, Boolean> map

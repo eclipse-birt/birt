@@ -140,10 +140,34 @@ class GroupInstanceFilter
 
 			if ( FilterUtil.hasMutipassFilters( filters ) )
 			{
+				List singlePassFilter = new ArrayList<IFilterDefinition>();
+				List multiPassFilter = new ArrayList<IFilterDefinition>();
+				
+				for ( Object filter : filters )
+				{
+					if ( FilterUtil.isFilterNeedMultiPass( ( ( IFilterDefinition ) filter ) ) )
+					{
+						multiPassFilter.add( filter );
+					}
+					else
+					{
+						singlePassFilter.add( filter );
+					}
+				}
+				
+				if ( singlePassFilter.size( ) > 0 )
+				{
+					populateGroupBoundaryInfoFilters( cx,
+							groupBoundaryInfos[i - 1],
+							singlePassFilter,
+							i,
+							true );
+				}
+				
 				populateGroupBoundaryInfoFilterValues( cx,
 						groupBoundaryInfos,
 						i,
-						filters );
+						multiPassFilter );
 			}
 			else
 			{
@@ -280,6 +304,12 @@ class GroupInstanceFilter
 		{
 			GroupBoundaryInfo currentGBI = (GroupBoundaryInfo) currentGroupArray.get( m );
 			this.populator.getResultIterator( ).last( groupLevel );
+			if ( !currentGBI.isAccpted( ) )
+			{
+				this.populator.getResultIterator( ).next( );
+				continue;
+			}
+			
 			boolean accept = evaluateFilters( cx, filters );
 			if ( setUpValue )
 				currentGBI.setAccepted( currentGBI.isAccpted( ) && accept );

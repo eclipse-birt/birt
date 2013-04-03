@@ -55,7 +55,6 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
@@ -1064,12 +1063,10 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		if ( element == null || !element.isManagedByNameSpace( ) )
 			return;
 
-		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		if ( element.getName( ) != null
-				&& ns != MetaDataConstants.NO_NAME_SPACE )
+		if ( element.getName( ) != null )
 		{
-			NameSpace namespace = new NameExecutor( element )
-					.getNameSpace( targetDesign );
+			NameExecutor executor = new NameExecutor( targetDesign, element );
+			NameSpace namespace = executor.getNameSpace( );
 			if ( namespace != null )
 			{
 				if ( namespace.contains( element.getName( ) ) )

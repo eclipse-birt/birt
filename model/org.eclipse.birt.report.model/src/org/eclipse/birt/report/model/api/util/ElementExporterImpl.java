@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.namespace.AbstractNameHelper;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
@@ -399,20 +400,25 @@ class ElementExporterImpl
 			throws SemanticException
 	{
 
-		int nameSpaceID = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
 		Module targetModule = targetModuleHandle.getModule( );
-		NameSpace nameSpace = targetModule.getNameHelper( ).getNameSpace(
-				nameSpaceID );
+		NameExecutor executor = new NameExecutor( targetModule, element );
+		if ( !executor.hasNamespace( ) )
+		{
+			return true;
+		}
 
-		DesignElement duplicateElement = nameSpace.getElement( element
+		DesignElement duplicateElement = executor.getElement( element
 				.getName( ) );
 
 		if ( duplicateElement == null )
 		{
 			if ( isOLAPElement( element ) )
 			{
-				nameSpace = ( (AbstractNameHelper) targetModule.getNameHelper( ) )
-						.getCachedNameSpace( nameSpaceID );
+				AbstractNameHelper nameHelper = (AbstractNameHelper) executor
+						.getNameHelper( );
+				int namespaceId = executor.getNameSpaceId( );
+				NameSpace nameSpace = nameHelper
+						.getCachedNameSpace( namespaceId );
 				duplicateElement = nameSpace.getElement( element.getName( ) );
 			}
 			else
@@ -426,7 +432,7 @@ class ElementExporterImpl
 		// for OLAP element, rename it
 		if ( isOLAPElement( targetElement ) )
 		{
-			targetModule.makeUniqueName( element );
+			executor.makeUniqueName( );
 
 			// handle default hierarchy property
 			if ( element instanceof Hierarchy )
@@ -447,8 +453,8 @@ class ElementExporterImpl
 		// check this element with duplicate name can be dropped or not
 		if ( !canDropInContext( targetElement ) )
 		{
-			throw new SemanticException( element, new String[]{element
-					.getName( )},
+			throw new SemanticException( element,
+					new String[]{element.getName( )},
 					SemanticException.DESIGN_EXCEPTION__EXPORT_ELEMENT_FAIL );
 		}
 

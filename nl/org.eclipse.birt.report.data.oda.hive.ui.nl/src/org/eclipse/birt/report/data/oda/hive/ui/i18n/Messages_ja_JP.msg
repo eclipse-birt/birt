@@ -1,4 +1,4 @@
-datasource.page.title=Hive データソースの新規作成
+datasource.page.title=${odadesignerid.ds.displayname} データソースの定義
 datasource.page.msg=Hive に接続する JDBC データソースです。
 datasource.page.driver.class=ドライバクラス :
 datasource.page.url=データベースの URL : 
