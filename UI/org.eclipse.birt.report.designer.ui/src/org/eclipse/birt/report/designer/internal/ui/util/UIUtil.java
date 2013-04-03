@@ -3198,6 +3198,7 @@ public class UIUtil
 		}
 		
 		return dataSet;
+	}
 
 	public static boolean containsFocusControl( Control container )
 	{
