@@ -105,7 +105,7 @@ public class ChartReportItemUIFactory extends ChartUIFactory
 			ExtendedItemHandle extendedHandle )
 	{
 		return new ReportDataServiceProvider( extendedHandle );
-	
+	}
 	/**
 	 * Creates Figure used for edit part in layout editor.
 	 * 
