@@ -110,6 +110,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 	{
 		Label maxResObjLabel = new Label( parent, SWT.NONE );
 		maxResObjLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.MaxResultObjects" ) ); //$NON-NLS-1$
+		maxResObjLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.MaxResultObjects" ) ); //$NON-NLS-1$
 
 		batchSizeText = new Text( parent, SWT.BORDER );
 		batchSizeText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -126,6 +127,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 		Label maxSearchDocLabel = new Label( parent, SWT.NONE );
 		maxSearchDocLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSearch" ) ); //$NON-NLS-1$
+		maxSearchDocLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSearch" ) ); //$NON-NLS-1$
 
 		docSearchLimitText = new Text( parent, SWT.BORDER );
 		docSearchLimitText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -142,6 +144,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 		Label maxSkipDocLabel = new Label( parent, SWT.NONE );
 		maxSkipDocLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSkip" ) ); //$NON-NLS-1$
+		maxSkipDocLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSkip" ) ); //$NON-NLS-1$
 
 		maxSkipDocText = new Text( parent, SWT.BORDER );
 		maxSkipDocText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -158,6 +161,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 		Label indexExprLabel = new Label( parent, SWT.NONE );
 		indexExprLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.IndexHintExpression" ) ); //$NON-NLS-1$
+		indexExprLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.IndexHintExpression" ) ); //$NON-NLS-1$
 
 		indexExprText = new Text( parent, SWT.BORDER );
 		indexExprText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -174,6 +178,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 		Label queryCursorPrefLabel = new Label( parent, SWT.NONE );
 		queryCursorPrefLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference" ) ); //$NON-NLS-1$
+		queryCursorPrefLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference" ) ); //$NON-NLS-1$
 
 		queryPreferenceCombo = new Combo( parent, SWT.BORDER | SWT.READ_ONLY );
 		queryPreferenceCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
