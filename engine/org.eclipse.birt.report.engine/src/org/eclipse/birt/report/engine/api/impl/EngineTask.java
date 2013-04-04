@@ -2016,7 +2016,7 @@ public abstract class EngineTask implements IEngineTask
 			handle.setOptions( newOptions );
 		}
 	}
-
+	
 	protected void startFactory( )
 	{
 		ReportDesignHandle reportDesign = executionContext.getReportDesign( );

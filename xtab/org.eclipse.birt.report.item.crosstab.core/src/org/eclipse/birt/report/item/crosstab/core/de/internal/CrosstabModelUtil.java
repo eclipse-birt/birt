@@ -415,6 +415,28 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		}
 		return null;
 	}
+	
+	public static void updateRPTMeasureAggregation(CrosstabReportItemHandle crosstab)
+	{
+		if (crosstab == null)
+		{
+			return;
+		}
+		int count = crosstab.getMeasureCount( );
+		for (int i=0; i<count; i++)
+		{
+			MeasureViewHandle measureHandle = crosstab.getMeasure( i );
+			
+			if (measureHandle.getCell( ) != null)
+			{
+				List<DataItemHandle> items = getDataItems(measureHandle.getCell( ));
+				for (int j=0; j<items.size( ); j++)
+				{
+					updateRPTAggregateOn( crosstab, items.get( j ) );
+				}
+			}
+		}
+	}
 
 	private static List<DataItemHandle> getDataItems(AggregationCellHandle cell)
 	{
@@ -472,6 +494,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			//do nothing now
 		}
 	}
+	
 	private static boolean needUpdateMeasure( MeasureViewHandle measureView )
 	{
 		if ( measureView == null )
@@ -510,7 +533,15 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		{
 			return;
 		}
-
+		if ( measureView instanceof ComputedMeasureViewHandle )
+		{
+			List<DataItemHandle> items = getDataItems(cell);
+			for (int i=0; i<items.size( ); i++)
+			{
+				updateRPTAggregateOn( crosstab, items.get( i ) );
+			}
+			return;
+		}
 		if ( cell == null )
 		{
 			// add a data-item to the measure aggregations

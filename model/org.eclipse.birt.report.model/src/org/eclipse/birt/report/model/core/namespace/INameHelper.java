@@ -107,7 +107,7 @@ public interface INameHelper
 	 * @param element
 	 */
 	public void dropElement( int namespaceId, DesignElement element );
-
+	
 	/**
 	 * Adds a content name to this help. Generally, this content is not
 	 * generated when the extension is not found. However, its name is reserved

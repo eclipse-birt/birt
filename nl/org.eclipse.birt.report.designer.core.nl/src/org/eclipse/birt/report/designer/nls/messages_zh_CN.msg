@@ -263,10 +263,14 @@ ColumnBindingDialog.Text.AddAggr=添加聚合(&G)...
 
 BlockPreferencePage.displayname.Title=文本块
 
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Size
 
 ###########################################################
 #BorderCanvas properties
 
+BorderCanvas.Inherited0=(Inherited)
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -1401,6 +1405,8 @@ Element.Style.pageBreakInside=内部(&I):
 Element.Style.section=区域:
 Element.Style.showIfBlank=如果为空白则显示(&W)
 Element.Style.text.align=文本对齐(&L):
+Element.Style.width=&Width:
+Element.Style.height=&Height:
 #bidi_hcg
 Element.Style.text.direction=双向文本方向(&B):
 Element.Style.text.indent=文本缩进(&X):

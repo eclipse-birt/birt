@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.mediator.IMediator;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -140,14 +139,10 @@ public class NonGEFSynchronizerWithTreeView implements IMediatorColleague
 		}
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
-			// no convert
-			// request.setRequestConvert(new EditorReportRequestConvert());
 
 		SessionHandleAdapter.getInstance( )
 					.getMediator( )
 					.notifyRequest( request );
-//		}
-
 	}
 
 	/**

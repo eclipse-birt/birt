@@ -220,6 +220,7 @@ public abstract class DataViewPage extends Page implements
 			list=new ArrayList( );
 			list.add(SessionHandleAdapter.getInstance().getModule());
 		}
+		
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 		// no convert

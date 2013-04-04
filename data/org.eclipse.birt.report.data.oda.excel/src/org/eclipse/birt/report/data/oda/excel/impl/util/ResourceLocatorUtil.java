@@ -71,7 +71,7 @@ public class ResourceLocatorUtil
 			}
 			else if ( !uri.isAbsolute( ) && resourceIdentifiers != null )
 			{
-				uri = ResourceIdentifiers.resolveDesignResource( resourceIdentifiers, uri );
+				uri = ResourceIdentifiers.resolveApplResource( resourceIdentifiers, uri );
 				logger.log( Level.FINER, "Relative URI resolved as the absolute path: " + uri );
 				return uri;
 			}

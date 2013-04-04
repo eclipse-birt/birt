@@ -794,26 +794,13 @@ public class AttributeViewPage extends Page implements
 
 	}
 
-	private boolean refreah = false;
-
 	public void postElementEvent( )
 	{
-		if ( refreah == false )
-		{
-			refreah = true;
-			Display.getDefault( ).timerExec( 100, new Runnable( ) {
-
-				public void run( )
-				{
-					restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( selection ) );
-					if ( pageGenerator != null
-							&& pageGenerator.getControl( ) != null
-							&& !pageGenerator.getControl( ).isDisposed( ) )
-						pageGenerator.refresh( );
-					refreah = false;
-				}
-			} );
-		}
+		restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( selection ) );
+		if ( pageGenerator != null
+				&& pageGenerator.getControl( ) != null
+				&& !pageGenerator.getControl( ).isDisposed( ) )
+			pageGenerator.refresh( );
 	}
 
 	public Object getAdapter( Class adapter )

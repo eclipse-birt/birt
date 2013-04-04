@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -55,7 +56,7 @@ public class GroupOnXSeries
 	 */
 	void groupSeries( )
 	{
-		SessionHandle sessionHandle = new DesignEngine( null ).newSessionHandle( (ULocale) null );
+		SessionHandle sessionHandle = new DesignEngine( new DesignConfig() ).newSessionHandle( (ULocale) null );
 		ReportDesignHandle designHandle = null;
 
 		String path = "src/org/eclipse/birt/chart/examples/api/data/";//$NON-NLS-1$
