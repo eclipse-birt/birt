@@ -1,6 +1,0 @@
-The class org/bson/io/UTF8Encoding.java has been replaced with a
-clean-room implementation that just delegates to the JDR method.
-The original file was copied from PostgreSQL which has
-provenance issues.
-
-https://dev.eclipse.org/ipzilla/show_bug.cgi?id=4889#c10
