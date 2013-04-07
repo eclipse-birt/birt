@@ -101,6 +101,9 @@ public class AggregateEditorComposite extends Composite implements
 
 	/** Holds the width of each marker UI block */
 	private final static int BLOCK_HEIGHT = 120;
+	
+	/** Holds the width of default button_width */
+	private final static int DEFAULT_BUTTON_WIDTH= 50;
 
 	/**
 	 * 
@@ -383,19 +386,21 @@ public class AggregateEditorComposite extends Composite implements
 			btnComposite.setLayout( glBtn );
 
 			fBtnOK = new Button( btnComposite, SWT.NONE );
+			fBtnOK.setText( Messages.getString( "AggregateEditorComposite.Button.OK" ) ); //$NON-NLS-1$
 			GridData gd = new GridData( );
-			gd.widthHint = 50;
+			gd.grabExcessHorizontalSpace = true;
+			gd.minimumWidth = DEFAULT_BUTTON_WIDTH;
 			fBtnOK.setLayoutData( gd );
 			fBtnOK.addSelectionListener( this );
-			fBtnOK.setText( Messages.getString( "AggregateEditorComposite.Button.OK" ) ); //$NON-NLS-1$
-
+			
 			fBtnCancel = new Button( btnComposite, SWT.NONE );
+			fBtnCancel.setText( Messages.getString( "AggregateEditorComposite.Button.Cancel" ) ); //$NON-NLS-1$
 			gd = new GridData( );
-			gd.widthHint = 50;
+			gd.grabExcessHorizontalSpace = true;
+			gd.minimumWidth = DEFAULT_BUTTON_WIDTH;
 			fBtnCancel.setLayoutData( gd );
 			fBtnCancel.addSelectionListener( this );
-			fBtnCancel.setText( Messages.getString( "AggregateEditorComposite.Button.Cancel" ) ); //$NON-NLS-1$
-
+			
 			getShell( ).pack( );
 			
 			populateAggFuncNames( );
