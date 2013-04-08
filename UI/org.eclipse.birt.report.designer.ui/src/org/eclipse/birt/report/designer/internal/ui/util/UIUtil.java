@@ -1812,7 +1812,7 @@ public class UIUtil
 	public static String getColumnHeaderDisplayNameKey(
 			ResultSetColumnHandle column )
 	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		DataSetHandle dataset = getDataSet( column );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
