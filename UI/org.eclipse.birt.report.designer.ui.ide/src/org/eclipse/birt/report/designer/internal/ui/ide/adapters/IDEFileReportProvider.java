@@ -452,6 +452,8 @@ public class IDEFileReportProvider implements IReportProvider
 		{
 			//return new Path( ( (IURIEditorInput) input ).getURI( ).getPath( ) );
 			URI uri = ( (IURIEditorInput) input ).getURI( );
+			if(uri == null && input instanceof IFileEditorInput)
+				return ((IFileEditorInput)input).getFile( ).getFullPath( );
 			IPath localPath = URIUtil.toPath( uri );
 			String host = uri.getHost( );
 			if ( host != null && localPath == null )
