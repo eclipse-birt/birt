@@ -26,7 +26,10 @@ public abstract class BaseExpression implements IBaseExpression
     private String groupName = GROUP_OVERALL;
     
     //default script id 
-    private String scriptId = "javascript";
+    public final static String javaScriptId = "javascript";
+    public final static String constantId = "constant";
+    
+    private String scriptId = javaScriptId;
     /**
      * Constructs an instance with unknown data type
      */

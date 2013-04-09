@@ -144,6 +144,10 @@ public final class ValueFormatter
 							: ( (DateTimeDataElement) oValue ).getValueAsCalendar( );
 					if ( oCachedJavaFormatter instanceof IDateFormatWrapper )
 					{
+						if ( calendar instanceof CDateTime )
+						{
+							return ( (IDateFormatWrapper) oCachedJavaFormatter ).format( (CDateTime) calendar );
+						}
 						return ( (IDateFormatWrapper) oCachedJavaFormatter ).format( calendar.getTime( ) );
 					}
 					else if ( oCachedJavaFormatter instanceof DateFormat )
@@ -153,6 +157,11 @@ public final class ValueFormatter
 					else if ( oCachedJavaFormatter instanceof DateFormatSpecifier )
 					{
 						return ( (DateFormatSpecifier) oCachedJavaFormatter ).format( calendar,
+								lcl );
+					}
+					else if ( oCachedJavaFormatter instanceof JavaDateFormatSpecifier )
+					{
+						return ( (JavaDateFormatSpecifier) oCachedJavaFormatter ).format( calendar,
 								lcl );
 					}
 				}
@@ -193,11 +202,18 @@ public final class ValueFormatter
 				}
 				else if ( oValue instanceof CDateTime )
 				{
-					int dateStyle = ( (CDateTime) oValue ).isTimeOnly( ) ? DateFormat.NONE
+					CDateTime cd = (CDateTime) oValue;
+					int dateStyle = cd.isTimeOnly( ) ? DateFormat.NONE
 							: DateFormat.DEFAULT;
-					return DateFormat.getDateTimeInstance( dateStyle,
+					DateFormat df = DateFormat.getDateTimeInstance( dateStyle,
 							DateFormat.DEFAULT,
-							lcl ).format( oValue );
+							lcl );
+					// Only Datetime supports TimeZone
+					if ( cd.isFullDateTime( ) )
+					{
+						df.setTimeZone( cd.getTimeZone( ) );
+					}
+					return df.format( oValue );
 				}
 				else if ( oValue instanceof Calendar )
 				{

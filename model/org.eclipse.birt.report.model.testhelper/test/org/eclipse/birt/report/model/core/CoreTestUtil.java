@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.model.core;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 
 import com.ibm.icu.util.ULocale;
 
@@ -68,7 +71,7 @@ public class CoreTestUtil
 			return;
 		parent.addDerived( child );
 	}
-	
+
 	/**
 	 * Gets the session locale.
 	 * 
@@ -94,7 +97,7 @@ public class CoreTestUtil
 	{
 		if ( module == null )
 			return null;
-		return (DesignSession)module.session;
+		return (DesignSession) module.session;
 	}
 
 	/**
@@ -108,7 +111,13 @@ public class CoreTestUtil
 	{
 		if ( session == null )
 			return null;
-		return session.designs;
+		Iterator<ReportDesign> iter = session.getDesignIterator( );
+		List<ReportDesign> designs = new ArrayList<ReportDesign>( );
+		while ( iter.hasNext( ) )
+		{
+			designs.add( iter.next( ) );
+		}
+		return designs;
 	}
 
 	/**

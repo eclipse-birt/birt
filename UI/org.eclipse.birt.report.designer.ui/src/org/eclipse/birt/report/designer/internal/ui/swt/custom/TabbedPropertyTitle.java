@@ -192,8 +192,7 @@ public class TabbedPropertyTitle extends Composite implements
 		 * setImage(PlatformUI.getWorkbench().getSharedImages().getImage(
 		 * ISharedImages.IMG_OBJ_ELEMENT));
 		 */
-		
-		
+
 		new ToolBar( this, SWT.FLAT );
 	}
 
@@ -475,12 +474,8 @@ public class TabbedPropertyTitle extends Composite implements
 				if ( action != null )
 				{
 					ImageDescriptor image = null;
-					if ( action.isEnabled( )
-							&& action.getImageDescriptor( ) != null )
+					if ( action.getImageDescriptor( ) != null )
 						image = action.getImageDescriptor( );
-					else if ( action.isEnabled( )
-							&& action.getImageDescriptor( ) != null )
-						image = action.getDisabledImageDescriptor( );
 					if ( image != null )
 						item.setImage( localManager.createImageWithDefault( image ) );
 
@@ -489,6 +484,8 @@ public class TabbedPropertyTitle extends Composite implements
 					{
 						item.setSelection( action.isChecked( ) );
 					}
+
+					item.setEnabled( action.isEnabled( ) );
 				}
 			}
 

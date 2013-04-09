@@ -645,8 +645,9 @@ public class ExcelFileQuery implements IQuery {
 		if( masterExcelFileSource == null){
 			return new ResultSet(new ExcelFileSource(this.connProperties,
 					this.currentTableName, worksheetNames,
-					this.maxRows, this.resultSetMetaData,
-					this.resultSetMetaDataHelper, appContext), this.resultSetMetaData);			
+					this.maxRows, this.getMetaData( ),
+					this.resultSetMetaDataHelper,
+					appContext ), (ResultSetMetaData) this.getMetaData( ) );			
 			
 		}
 		if( this.resultSetMetaData != null)

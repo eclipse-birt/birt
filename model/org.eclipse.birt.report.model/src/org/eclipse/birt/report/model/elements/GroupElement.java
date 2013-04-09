@@ -175,4 +175,9 @@ public abstract class GroupElement extends DesignElement
 
 		return tmpContainer.isDataBindingReferring( module );
 	}
+
+	public void setName( String name )
+	{
+		this.setProperty( GROUP_NAME_PROP, name );
+	}
 }

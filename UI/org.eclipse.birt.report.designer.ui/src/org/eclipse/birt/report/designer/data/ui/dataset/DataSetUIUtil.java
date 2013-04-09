@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
@@ -213,7 +214,25 @@ public final class DataSetUIUtil
 			if ( iter.hasNext( ) )
 				return true;
 			else
+			{
+				if ( dataSetHandle instanceof OdaDataSetHandle )
+				{
+					Iterator parametersIterator = ( (OdaDataSetHandle) dataSetHandle ).parametersIterator( );
+					while ( parametersIterator.hasNext( ) )
+					{
+						Object parameter = parametersIterator.next( );
+						if ( parameter instanceof OdaDataSetParameterHandle )
+						{
+							if ( ( (OdaDataSetParameterHandle) parameter ).isOutput( ) )
+							{
+								return true;
+							}
+						}
+					}
+				}
 				return false;
+			}
+				
 		}
 	}
 	

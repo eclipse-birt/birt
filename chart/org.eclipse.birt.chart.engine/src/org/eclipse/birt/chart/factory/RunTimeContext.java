@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.script.IScriptClassLoader;
 import org.eclipse.birt.chart.script.IScriptContext;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -58,8 +59,7 @@ public final class RunTimeContext implements Serializable
 	/**
 	 * A script handler associated with a chart model.
 	 */
-	@SuppressWarnings("unchecked")
-	private transient AbstractScriptHandler sh = null;
+	private transient AbstractScriptHandler<?> sh = null;
 
 	/**
 	 * A resource handle capable of retrieving externalized messages.
@@ -133,6 +133,8 @@ public final class RunTimeContext implements Serializable
 	private transient IExternalizer externalizer = null;
 	
 	private transient Chart defaultValueChart;
+	
+	private TimeZone timeZone = null;
 	
 	/**
 	 * A default zero-arg public constructor used for object creation.
@@ -751,5 +753,21 @@ public final class RunTimeContext implements Serializable
 	public Chart getDefaultValueChart( )
 	{
 		return this.defaultValueChart;
+	}
+
+	/**
+	 * @return Returns the timeZone.
+	 */
+	public TimeZone getTimeZone( )
+	{
+		return timeZone;
+	}
+
+	/**
+	 * @param timeZone The timeZone to set.
+	 */
+	public void setTimeZone( TimeZone timeZone )
+	{
+		this.timeZone = timeZone;
 	}
 }

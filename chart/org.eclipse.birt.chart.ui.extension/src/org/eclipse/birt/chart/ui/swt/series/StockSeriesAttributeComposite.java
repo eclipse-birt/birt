@@ -117,14 +117,11 @@ public class StockSeriesAttributeComposite extends Composite implements
 		// Line Attributes composite
 		liacStock = new LineAttributesComposite( grpLine,
 				SWT.NONE,
+				getLineOptionalStyles(),
 				context,
 				series.getLineAttributes( ),
-				true,
-				true,
-				false,
-				true,
-				true,
 				defSeries.getLineAttributes( ) );
+
 		GridData gdLIACStock = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACStock.verticalSpan = 3;
 		liacStock.setLayoutData( gdLIACStock );
@@ -215,4 +212,11 @@ public class StockSeriesAttributeComposite extends Composite implements
 		}
 	}
 
+	protected int getLineOptionalStyles( )
+	{	
+		return	LineAttributesComposite.ENABLE_WIDTH |
+				LineAttributesComposite.ENABLE_STYLES |
+				LineAttributesComposite.ENABLE_COLOR |
+				LineAttributesComposite.ENABLE_AUTO_COLOR;
+	}
 }

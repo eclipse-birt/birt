@@ -30,12 +30,12 @@
 #endif
 
 
-#define TOTAL_KEYWORDS 59
+#define TOTAL_KEYWORDS 61
 #define MIN_WORD_LENGTH 5
 #define MAX_WORD_LENGTH 21
-#define MIN_HASH_VALUE 11
-#define MAX_HASH_VALUE 121
-/* maximum key range = 111, duplicates = 0 */
+#define MIN_HASH_VALUE 10
+#define MAX_HASH_VALUE 111
+/* maximum key range = 102, duplicates = 0 */
 
 class Perfect_Hash
 {
@@ -50,19 +50,19 @@ Perfect_Hash::hash (register const char *str, register unsigned int len)
 {
   static unsigned char asso_values[] =
     {
-      122, 122, 122, 122, 122, 122, 122, 122, 122, 122,
-      122, 122, 122, 122, 122, 122, 122, 122, 122, 122,
-      122, 122, 122, 122, 122, 122, 122, 122, 122, 122,
-      122, 122, 122, 122, 122, 122, 122, 122, 122, 122,
-      122, 122, 122, 122, 122,  35, 122, 122, 122, 122,
-      122, 122, 122, 122, 122, 122, 122, 122, 122, 122,
-      122, 122, 122, 122, 122, 122, 122, 122, 122, 122,
-      122, 122, 122, 122, 122, 122, 122, 122, 122, 122,
-      122, 122, 122, 122, 122, 122, 122, 122, 122, 122,
-      122, 122, 122, 122, 122, 122, 122,  60,   0,  15,
-        5,  20,  45,  40,   5,  35, 122,   0,  27,   0,
-        5,  20,   5, 122,   0,  45,   0, 122,  15,   0,
-       30,  50, 122, 122, 122, 122, 122, 122
+      112, 112, 112, 112, 112, 112, 112, 112, 112, 112,
+      112, 112, 112, 112, 112, 112, 112, 112, 112, 112,
+      112, 112, 112, 112, 112, 112, 112, 112, 112, 112,
+      112, 112, 112, 112, 112, 112, 112, 112, 112, 112,
+      112, 112, 112, 112, 112,  45, 112, 112, 112, 112,
+      112, 112, 112, 112, 112, 112, 112, 112, 112, 112,
+      112, 112, 112, 112, 112, 112, 112, 112, 112, 112,
+      112, 112, 112, 112, 112, 112, 112, 112, 112, 112,
+      112, 112, 112, 112, 112, 112, 112, 112, 112, 112,
+      112, 112, 112, 112, 112, 112, 112,  52,   5,   0,
+        0,  15,  40,  20,   0,  40, 112,  15,   0,  20,
+        5,   0,   5, 112,   5,  40,   0, 112,  15,  45,
+       30,  36, 112, 112, 112, 112, 112, 112
     };
   register int hval = len;
 
@@ -95,86 +95,87 @@ Perfect_Hash::in_word_set (register const char *str, register unsigned int len)
 {
   static unsigned char lengthtable[] =
     {
-      11, 12, 10, 11, 18,  9, 16, 12, 18, 14, 11, 12, 13, 10,
-      16, 17, 13, 16, 17, 18, 19, 11, 11, 19, 10, 16,  5,  8,
-      16, 17,  6, 17, 19, 11, 12, 14, 11, 13, 14, 21, 17, 14,
-      11,  7,  9, 10, 16, 17, 13, 16, 21, 12, 21, 14,  7, 11,
-      14, 17, 16
+       5, 11, 11, 12, 13,  9, 11, 17, 16, 17, 18, 19, 10, 16,
+      18, 19, 11, 12, 14, 10, 11, 18, 19, 10,  6, 12,  5, 16,
+       7, 11, 12, 13, 21, 17, 13, 14, 16, 21,  8,  9, 10, 16,
+      17, 13, 14, 16, 17, 21, 14, 16,  7, 11, 17, 14,  6, 11,
+      17, 16, 14, 12, 11
     };
   static const char * wordlist[] =
     {
-      "margin-left" /* hash value = 11, index = 0 */,
-      "margin-right" /* hash value = 12, index = 1 */,
-      "margin-top" /* hash value = 15, index = 2 */,
-      "data-format" /* hash value = 16, index = 3 */,
-      "border-right-color" /* hash value = 18, index = 4 */,
+      "color" /* hash value = 10, index = 0 */,
+      "data-format" /* hash value = 11, index = 1 */,
+      "line-height" /* hash value = 16, index = 2 */,
+      "padding-left" /* hash value = 17, index = 3 */,
+      "padding-right" /* hash value = 18, index = 4 */,
       "direction" /* hash value = 19, index = 5 */,
-      "border-top-width" /* hash value = 21, index = 6 */,
-      "padding-left" /* hash value = 22, index = 7 */,
-      "border-right-width" /* hash value = 23, index = 8 */,
-      "padding-bottom" /* hash value = 24, index = 9 */,
-      "padding-top" /* hash value = 26, index = 10 */,
-      "number-align" /* hash value = 27, index = 11 */,
-      "padding-right" /* hash value = 28, index = 12 */,
-      "can-shrink" /* hash value = 30, index = 13 */,
-      "border-top-color" /* hash value = 31, index = 14 */,
-      "background-repeat" /* hash value = 32, index = 15 */,
-      "margin-bottom" /* hash value = 33, index = 16 */,
-      "background-width" /* hash value = 36, index = 17 */,
-      "background-height" /* hash value = 37, index = 18 */,
-      "border-right-style" /* hash value = 38, index = 19 */,
-      "border-bottom-color" /* hash value = 39, index = 20 */,
-      "text-indent" /* hash value = 41, index = 21 */,
-      "line-height" /* hash value = 43, index = 22 */,
-      "border-bottom-width" /* hash value = 44, index = 23 */,
-      "text-align" /* hash value = 45, index = 24 */,
-      "background-color" /* hash value = 46, index = 25 */,
-      "color" /* hash value = 47, index = 26 */,
-      "overflow" /* hash value = 48, index = 27 */,
-      "text-linethrough" /* hash value = 51, index = 28 */,
-      "border-left-color" /* hash value = 52, index = 29 */,
-      "widows" /* hash value = 56, index = 30 */,
-      "border-left-width" /* hash value = 57, index = 31 */,
-      "border-bottom-style" /* hash value = 59, index = 32 */,
-      "font-weight" /* hash value = 61, index = 33 */,
-      "font-variant" /* hash value = 62, index = 34 */,
+      "padding-top" /* hash value = 21, index = 6 */,
+      "background-height" /* hash value = 22, index = 7 */,
+      "background-color" /* hash value = 26, index = 8 */,
+      "background-repeat" /* hash value = 27, index = 9 */,
+      "border-right-width" /* hash value = 28, index = 10 */,
+      "border-bottom-width" /* hash value = 29, index = 11 */,
+      "can-shrink" /* hash value = 30, index = 12 */,
+      "border-top-color" /* hash value = 31, index = 13 */,
+      "border-right-color" /* hash value = 33, index = 14 */,
+      "border-bottom-color" /* hash value = 34, index = 15 */,
+      "margin-left" /* hash value = 36, index = 16 */,
+      "margin-right" /* hash value = 37, index = 17 */,
+      "padding-bottom" /* hash value = 39, index = 18 */,
+      "margin-top" /* hash value = 40, index = 19 */,
+      "text-indent" /* hash value = 41, index = 20 */,
+      "border-right-style" /* hash value = 43, index = 21 */,
+      "border-bottom-style" /* hash value = 44, index = 22 */,
+      "text-align" /* hash value = 45, index = 23 */,
+      "height" /* hash value = 46, index = 24 */,
+      "number-align" /* hash value = 47, index = 25 */,
+      "width" /* hash value = 50, index = 26 */,
+      "text-linethrough" /* hash value = 51, index = 27 */,
+      "orphans" /* hash value = 52, index = 28 */,
+      "font-weight" /* hash value = 56, index = 29 */,
+      "font-variant" /* hash value = 57, index = 30 */,
+      "margin-bottom" /* hash value = 58, index = 31 */,
+      "background-position-x" /* hash value = 61, index = 32 */,
+      "page-break-before" /* hash value = 62, index = 33 */,
+      "text-overline" /* hash value = 63, index = 34 */,
       "text-transform" /* hash value = 64, index = 35 */,
-      "white-space" /* hash value = 66, index = 36 */,
-      "text-overline" /* hash value = 68, index = 37 */,
-      "vertical-align" /* hash value = 69, index = 38 */,
-      "background-position-x" /* hash value = 71, index = 39 */,
-      "border-left-style" /* hash value = 72, index = 40 */,
-      "visible-format" /* hash value = 74, index = 41 */,
-      "master-page" /* hash value = 76, index = 42 */,
-      "orphans" /* hash value = 77, index = 43 */,
-      "font-size" /* hash value = 79, index = 44 */,
-      "font-style" /* hash value = 80, index = 45 */,
-      "border-top-style" /* hash value = 81, index = 46 */,
-      "page-break-before" /* hash value = 82, index = 47 */,
-      "show-if-blank" /* hash value = 83, index = 48 */,
-      "background-image" /* hash value = 86, index = 49 */,
-      "background-position-y" /* hash value = 91, index = 50 */,
-      "word-spacing" /* hash value = 92, index = 51 */,
-      "background-attachment" /* hash value = 96, index = 52 */,
-      "text-underline" /* hash value = 99, index = 53 */,
-      "display" /* hash value = 107, index = 54 */,
-      "font-family" /* hash value = 111, index = 55 */,
-      "letter-spacing" /* hash value = 116, index = 56 */,
-      "page-break-inside" /* hash value = 117, index = 57 */,
-      "page-break-after" /* hash value = 121, index = 58 */
+      "background-width" /* hash value = 66, index = 36 */,
+      "background-position-y" /* hash value = 67, index = 37 */,
+      "overflow" /* hash value = 68, index = 38 */,
+      "font-size" /* hash value = 69, index = 39 */,
+      "font-style" /* hash value = 70, index = 40 */,
+      "border-top-width" /* hash value = 71, index = 41 */,
+      "border-left-width" /* hash value = 72, index = 42 */,
+      "show-if-blank" /* hash value = 73, index = 43 */,
+      "letter-spacing" /* hash value = 74, index = 44 */,
+      "background-image" /* hash value = 76, index = 45 */,
+      "border-left-color" /* hash value = 77, index = 46 */,
+      "background-attachment" /* hash value = 78, index = 47 */,
+      "vertical-align" /* hash value = 79, index = 48 */,
+      "border-top-style" /* hash value = 81, index = 49 */,
+      "display" /* hash value = 83, index = 50 */,
+      "master-page" /* hash value = 86, index = 51 */,
+      "border-left-style" /* hash value = 87, index = 52 */,
+      "visible-format" /* hash value = 89, index = 53 */,
+      "widows" /* hash value = 91, index = 54 */,
+      "font-family" /* hash value = 92, index = 55 */,
+      "page-break-inside" /* hash value = 97, index = 56 */,
+      "page-break-after" /* hash value = 98, index = 57 */,
+      "text-underline" /* hash value = 99, index = 58 */,
+      "word-spacing" /* hash value = 102, index = 59 */,
+      "white-space" /* hash value = 111, index = 60 */
     };
 
   static signed char lookup[] =
     {
-      -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  1, -1,
-      -1,  2,  3, -1,  4,  5, -1,  6,  7,  8,  9, -1, 10, 11,
-      12, -1, 13, 14, 15, 16, -1, -1, 17, 18, 19, 20, -1, 21,
-      -1, 22, 23, 24, 25, 26, 27, -1, -1, 28, 29, -1, -1, -1,
-      30, 31, -1, 32, -1, 33, 34, -1, 35, -1, 36, -1, 37, 38,
-      -1, 39, 40, -1, 41, -1, 42, 43, -1, 44, 45, 46, 47, 48,
-      -1, -1, 49, -1, -1, -1, -1, 50, 51, -1, -1, -1, 52, -1,
-      -1, 53, -1, -1, -1, -1, -1, -1, -1, 54, -1, -1, -1, 55,
-      -1, -1, -1, -1, 56, 57, -1, -1, -1, 58
+      -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0,  1, -1, -1,
+      -1, -1,  2,  3,  4,  5, -1,  6,  7, -1, -1, -1,  8,  9,
+      10, 11, 12, 13, -1, 14, 15, -1, 16, 17, -1, 18, 19, 20,
+      -1, 21, 22, 23, 24, 25, -1, -1, 26, 27, 28, -1, -1, -1,
+      29, 30, 31, -1, -1, 32, 33, 34, 35, -1, 36, 37, 38, 39,
+      40, 41, 42, 43, 44, -1, 45, 46, 47, 48, -1, 49, -1, 50,
+      -1, -1, 51, 52, -1, 53, -1, 54, 55, -1, -1, -1, -1, 56,
+      57, 58, -1, -1, 59, -1, -1, -1, -1, -1, -1, -1, -1, 60
     };
 
   if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)

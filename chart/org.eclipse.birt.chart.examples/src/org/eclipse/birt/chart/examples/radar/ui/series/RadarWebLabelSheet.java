@@ -94,10 +94,8 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 			btnWebLabels.addListener( SWT.Selection, this );
 		}
 		// Web Label Configuration
-		LabelAttributesContext attributesContext = new LabelAttributesContext( );
-		attributesContext.isPositionEnabled = false;
-		attributesContext.isFontAlignmentEnabled = false;
-		attributesContext.isVisibilityEnabled = false;
+		LabelAttributesContext attributesContext = getLabelAttributeContext( );
+
 		if ( series.getWebLabel( ) == null )
 		{
 			org.eclipse.birt.chart.model.component.Label lab = LabelImpl.create( );
@@ -136,6 +134,16 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 		btnWLFormatSpecifier.setEnabled( !( series.isSetShowCatLabels( ) && !series.isShowWebLabels( ) ) );
 
 		return cmpContent;
+	}
+
+	protected LabelAttributesContext getLabelAttributeContext( )
+	{
+		LabelAttributesContext labelAttrs = new LabelAttributesContext( );
+		labelAttrs.isPositionEnabled = false;
+		labelAttrs.isFontAlignmentEnabled = false;
+		labelAttrs.isVisibilityEnabled = false;
+
+		return labelAttrs;
 	}
 
 	public void handleEvent( Event event )

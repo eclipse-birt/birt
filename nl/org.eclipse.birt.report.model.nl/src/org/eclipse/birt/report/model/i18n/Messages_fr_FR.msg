@@ -1943,6 +1943,8 @@ Structure.HighlightRule.border.right.style=Style
 Structure.HighlightRule.border.right.width=Largeur
 Structure.HighlightRule.border.right.color=Couleur
 Structure.HighlightRule.background.color=Couleur d'arrière-plan
+Structure.HighlightRule.background.image=Image d'arrière-plan
+Structure.HighlightRule.backgroundRepeat=Répétition de l'arrière-plan
 Structure.HighlightRule.format.dateTime=Format Date/Heure
 Structure.HighlightRule.format.number=Format des nombres
 Structure.HighlightRule.format.number.align=Alignement des nombres  
@@ -1956,6 +1958,10 @@ Structure.HighlightRule.font.color=Couleur
 Structure.HighlightRule.font.textUnderline=Texte souligné
 Structure.HighlightRule.font.textOverline=Texte surligné
 Structure.HighlightRule.font.textLineThrough=Texte barré
+Structure.HighlightRule.padding.top=Remplissage supérieur
+Structure.HighlightRule.padding.left=Remplissage de gauche
+Structure.HighlightRule.padding.bottom=Remplissage inférieur
+Structure.HighlightRule.padding.right=Remplissage de droite
 Structure.HighlightRule.text.align=Alignement du texte
 Structure.HighlightRule.text.indent=Retrait du texte
 Structure.HighlightRule.text.transform=Transformation du texte
@@ -2091,6 +2097,7 @@ Structure.IncludedLibrary.namespace=Espace nom
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=Nom du fichier
 Structure.IncludedCssStyleSheet.externalCssURI=URI de CSS externe.
+Structure.IncludedCssStyleSheet.useExternalCss=Utiliser CSS externe
 
 #15. DataSetParam
 Structure.DataSetParam.name=Nom
@@ -2315,7 +2322,6 @@ Structure.FormatValue.locale=Informations locales
 #40. CalculationArgument
 Structure.CalculationArgument.name=Nom de l'argument de calcul
 Structure.CalculationArgument.value=Valeur de l'argument de calcul
-
 
 ###########################################################
 # Element names
@@ -2736,6 +2742,8 @@ Element.Style.widows=Veuves
 Element.Style.orphans=Orphelins
 Element.Style.wordSpacing=Espacement des mots
 Element.Style.overflow=Dépassement
+Element.Style.height=Hauteur
+Element.Style.width=Largeur
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Signet
@@ -3052,7 +3060,7 @@ Element.Image.onPageBreak.this=Instance d'image
 Element.Image.onPageBreak.reportContext=Contexte d'état
 Element.Image.fitToContainer=Ajuster au conteneur
 Element.Image.proportionalScale=Echelle proportionnelle
-
+  
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=Colonnes
 Element.Grid.slot.rows=Lignes
@@ -3375,6 +3383,7 @@ Element.FilterConditionElement.pushDown=Pousser vers le bas
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=Type
 Element.FilterConditionElement.updateAggregation=Mettre à jour l'agrégation
+
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
@@ -4004,6 +4013,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Les éléments de modèle ne
 Info.VersionInfo.INVALID_DESIGN_FILE=Le fichier modèle d'ouverture n'est pas un fichier modèle valide ou le fichier n'existe pas.
 Info.VersionInfo.CONVERT_INFO=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
 Info.VersionInfo.INVALID_VERSION=Le fichier d''état de la version "{0}" n''est pas pris en charge.
+Info.VersionInfo.LATER_VERSION=The design file was created by an later version of BIRT. Click OK to convert it to a format supported by the current version of the product.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =Il est possible de modifier la bibliothèque de modèles, la compatibilité descendante étant appliquée à la bibliothèque de modèles en cours d'ouverture ou aux bibliothèques qui lui sont associées.
 
 #EncryptionException

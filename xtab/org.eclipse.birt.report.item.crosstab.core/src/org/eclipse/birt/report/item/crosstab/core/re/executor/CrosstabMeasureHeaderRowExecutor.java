@@ -148,6 +148,13 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 			int cgCount = columnGroups.size( );
 			int rgCount = rowGroups == null ? 0 : rowGroups.size( );
 
+			// even when no row groups, we consider there's always one dummy row
+			// group.
+			if ( rgCount == 0 )
+			{
+				rgCount++;
+			}
+
 			offset = cgCount * rgCount;
 		}
 

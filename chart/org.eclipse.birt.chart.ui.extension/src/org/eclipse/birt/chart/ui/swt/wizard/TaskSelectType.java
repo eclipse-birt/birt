@@ -660,6 +660,7 @@ public class TaskSelectType extends SimpleTask implements
 			IChartSubType subType = vSubTypes.get( iC );
 			vSubTypeNames.add( subType.getName( ) );
 			Button btnType = new Button( cmpTypeButtons, SWT.TOGGLE | SWT.FLAT );
+			ChartUIUtil.addScreenReaderAccessbility( btnType, subType.getName( ) );
 			btnType.setData( subType.getName( ) );
 			btnType.setImage( subType.getImage( ) );
 			GridData gd = new GridData( );

@@ -93,26 +93,22 @@
 			<%= ( !parameterBean.allowNewValues( ) && parameterBean.isRequired( ) ) ? "aria-required='true'" : "" %>
 		    >
 <%
+    boolean selectFirst = false;
 	if ( parameterBean.getSelectionList( ) != null )
 	{
 		//TED 50195
 		if( !parameterBean.isRequired( ) || ( (parameterBean.getValueList(  ) == null || parameterBean.getValueList(  ).size(  ) == 0) &&  DataUtil.trimString( defaultValue ).length( )<=0 ) )
 		{
-			if( allowMultiValue && DataUtil.contain( values, "", true ) )
-			{
-%>
-		<OPTION SELECTED></OPTION>
-<%				
-			}
-			else
-			{
-%>
-		<OPTION></OPTION>
-<%
+			if(parameterBean.isRequired( )){
+				if(parameterBean.getSelectionList( )!=null && !parameterBean.getSelectionList( ).isEmpty(  )){
+					ParameterSelectionChoice selectionItem = ( ParameterSelectionChoice )parameterBean.getSelectionList( ).get( 0 );						
+					String label = selectionItem.getLabel( );
+					String value = ( String ) selectionItem.getValue( );
+					defaultValue = 	value;
+				}
 			}
 		}
-		
-		if ( DataUtil.trimString( defaultValue ).length( ) > 0 && !parameterBean.isDefaultValueInList( ) ) // Add default value in Combo Box
+		else if ( DataUtil.trimString( defaultValue ).length( ) > 0 && !parameterBean.isDefaultValueInList( ) ) // Add default value in Combo Box
 		{
 			boolean flag = false;
 			if( allowMultiValue )

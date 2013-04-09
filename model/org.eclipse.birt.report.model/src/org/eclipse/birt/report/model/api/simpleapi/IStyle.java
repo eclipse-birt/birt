@@ -494,7 +494,7 @@ public interface IStyle
 	 * Sets the master page name on which to start this section. If blank, the
 	 * normal page sequence is used. If defined, the section starts on a new
 	 * page, and the master page is the one defined here. The subsequent pages
-	 * are those defined by the report¡¯s page sequence.
+	 * are those defined by the reportï¿½ï¿½s page sequence.
 	 * 
 	 * @param value
 	 *            the new master page name
@@ -911,7 +911,7 @@ public interface IStyle
 	String getWidows( );
 
 	/**
-	 * Sets the widows property. A ¡°widow¡± occurs when the last line of a
+	 * Sets the widows property. A ï¿½ï¿½widowï¿½ï¿½ occurs when the last line of a
 	 * multi-line paragraph appears on its own at the top of a page due to a
 	 * page break. The input value is either an integer as as string or one of
 	 * constants defined in <code>DesignChoiceConstants</code>:
@@ -1475,4 +1475,36 @@ public interface IStyle
 	 * @throws SemanticException
 	 */
 	public void setOverflow( String value ) throws SemanticException;
+	
+	/**
+	 * Returns the value of height property. 
+	 * 
+	 * @return the value of height property.
+	 */
+	public String getHeight( );
+
+	/**
+	 * Sets the value of height property.
+	 * 
+	 * @param value
+	 *            the new height value
+	 * @throws SemanticException
+	 */
+	public void setHeight( String height ) throws SemanticException;
+	
+	/**
+	 * Returns the value of width property. 
+	 * 
+	 * @return the value of width property.
+	 */
+	public String getWidth( );
+
+	/**
+	 * Sets the value of width property.
+	 * 
+	 * @param value
+	 *            the new width value
+	 * @throws SemanticException
+	 */
+	public void setWidth( String width ) throws SemanticException;
 }

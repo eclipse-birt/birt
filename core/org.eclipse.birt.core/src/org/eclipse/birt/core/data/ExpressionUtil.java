@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -279,9 +280,16 @@ public final class ExpressionUtil
 		if ( oldExpression == null || oldExpression.trim( ).length( ) == 0 )
 			return new ArrayList( );
 
-		return ExpressionParserUtility.compileColumnExpression( new ExpressionParserUtility( ),
-				oldExpression,
-				indicator );
+		try
+		{
+			return ExpressionParserUtility.compileColumnExpression( new ExpressionParserUtility( ),
+					oldExpression,
+					indicator );			
+		}
+		catch( Exception e )
+		{
+			return Collections.EMPTY_LIST;
+		}
 	}
 
 	/**

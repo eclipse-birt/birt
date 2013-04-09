@@ -77,7 +77,8 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 							.getTriggers( ),
 					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
 					TriggerSupportMatrix.TYPE_DATAPOINT,
-					TriggerDataComposite.ENABLE_URL_PARAMETERS );
+					TriggerDataComposite.ENABLE_URL_PARAMETERS
+							| TriggerDataComposite.ENABLE_TOOLTIP_FORMATTER );
 			Button btnInteractivity = createToggleButton( cmp,
 					BUTTON_INTERACTIVITY,
 					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$

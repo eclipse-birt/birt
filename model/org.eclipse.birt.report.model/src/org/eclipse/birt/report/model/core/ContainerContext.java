@@ -85,12 +85,15 @@ public final class ContainerContext
 
 		this.container = theContainer;
 		this.containerSlotID = slotID;
-
 		IElementDefn tmpDefn = container.getDefn( );
-		assert tmpDefn != null;
-
-		this.slotDefn = (SlotDefn) tmpDefn.getSlot( containerSlotID );
-
+		if ( tmpDefn != null )
+		{
+			this.slotDefn = (SlotDefn) tmpDefn.getSlot( containerSlotID );
+		}
+		else
+		{
+			this.slotDefn = null;
+		}
 		this.isSlot = true;
 		this.containerProp = null;
 	}

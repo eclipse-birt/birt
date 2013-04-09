@@ -125,21 +125,6 @@ public class Line extends AxesRenderer
 		}
 
 		boolean bRendering3D = isDimension3D( );
-		
-		// In order to simplify the polygon rendering order computation, here
-		// creates a sub deferred cache instead of default deferred
-		// cache to stores all shape events of current series for 3D chart, just
-		// a polygon of current series is stored in default deferred cache to
-		// take part in the computation of series rendering order.
-		if ( bRendering3D ) {
-			if ( subDeferredCache == null )
-			{
-				subDeferredCache = dc.deriveNewDeferredCache( );
-				dc = subDeferredCache;
-				// Line 3D chart needs antialiasing.
-				subDeferredCache.setAntialiasing( true );
-			}
-		}
 
 		// SCALE VALIDATION
 		SeriesRenderingHints srh = null;
@@ -1987,5 +1972,23 @@ public class Line extends AxesRenderer
 		// Restore the default value.
 		pre3d.setDoubleSided( false );
 		pre3d.setEnable( true );
+	}
+
+	@Override
+	public void set( DeferredCache _dc )
+	{
+		super.set( _dc );
+		// In order to simplify the polygon rendering order computation, here
+		// creates a sub deferred cache instead of default deferred
+		// cache to stores all shape events of current series for 3D chart, just
+		// a polygon of current series is stored in default deferred cache to
+		// take part in the computation of series rendering order.
+		if ( isDimension3D( ) )
+		{
+			subDeferredCache = dc.deriveNewDeferredCache( );
+			dc = subDeferredCache;
+			// Line 3D chart needs antialiasing.
+			subDeferredCache.setAntialiasing( true );
+		}
 	}
 }

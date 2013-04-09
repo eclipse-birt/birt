@@ -46,7 +46,7 @@ public class CategoryPageGenerator extends TabPageGenerator
 
 	protected ICategoryProviderFactory factory = null;
 
-	private ICategoryProvider customProvider;
+	protected ICategoryProvider customProvider;
 
 	public CategoryPageGenerator( )
 	{
@@ -91,11 +91,16 @@ public class CategoryPageGenerator extends TabPageGenerator
 	 */
 	public void createTabItems( List input )
 	{
+		createTabItems( input, SWT.HORIZONTAL );
+	}
+
+	protected void createTabItems( List input, int style )
+	{
 		if ( basicPage == null || basicPage.getControl( ).isDisposed( ) )
 		{
 			super.createTabItems( input );
 			tabFolder.setLayout( new FillLayout( ) );
-			basicPage = new BaseAttributePage( );
+			basicPage = new BaseAttributePage( style );
 			basicPage.buildUI( tabFolder );
 			CTabItem tabItem = new CTabItem( tabFolder, SWT.NONE );
 			tabItem.setText( ATTRIBUTESTITLE );

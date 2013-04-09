@@ -272,8 +272,6 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 	private ScriptExpression cloneExpression( ScriptExpression expr )
 	{
 		ScriptExpression nExpr = new ScriptExpression( expr.getText( ), expr.getDataType( ) );
-		nExpr.setConstant( expr.isConstant( ) );
-		nExpr.setConstantValue( expr.getConstantValue( ) );
 		nExpr.setGroupName( expr.getGroupName( ) );
 		nExpr.setHandle( expr.getHandle( ) );
 		nExpr.setScriptId( expr.getScriptId( ) );

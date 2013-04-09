@@ -263,10 +263,14 @@ ColumnBindingDialog.Text.AddAggr=집계 추가(&G)...
 
 BlockPreferencePage.displayname.Title=텍스트 블록
 
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Size
 
 ###########################################################
 #BorderCanvas properties
 
+BorderCanvas.Inherited0=(Inherited)
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -1401,6 +1405,8 @@ Element.Style.pageBreakInside=안쪽(&I):
 Element.Style.section=섹션:
 Element.Style.showIfBlank=비어있는 경우 표시(&W)
 Element.Style.text.align=텍스트 맞춤(&L):
+Element.Style.width=&Width:
+Element.Style.height=&Height:
 #bidi_hcg
 Element.Style.text.direction=양방향 텍스트 방향(&B):
 Element.Style.text.indent=텍스트 들여쓰기(&X):
@@ -4133,7 +4139,7 @@ WizardTemplateChoicePage.label.Description=설명:
 WizardTemplateChoicePage.label.Preview=미리 보기:
 WizardTemplateChoicePage.label.ReportTemplates=보고서 템플릿:
 WizardTemplateChoicePage.label.ShowCheatSheets=보고서 생성 치트 시트 표시(&S)
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=기본 테마 포함(&I)
 WizardTemplateChoicePage.message.BlankReport=미리 정의된 내용이 없는 빈 보고서를 생성합니다.
 WizardTemplateChoicePage.message.ChartListing=각 그룹 데이터에 대해 시각적 표현을 제공하는 차트를 사용하여 그룹화한 보고서를 생성합니다.
 WizardTemplateChoicePage.message.DualColumnChartListing=두 개의 "차트 및 목록" 하위 그룹을 사용하여 그룹화한 보고서를 생성합니다.

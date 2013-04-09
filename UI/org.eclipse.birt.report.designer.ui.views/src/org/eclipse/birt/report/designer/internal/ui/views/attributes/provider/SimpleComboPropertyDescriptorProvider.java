@@ -38,7 +38,7 @@ import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 
 public class SimpleComboPropertyDescriptorProvider extends
-		PropertyDescriptorProvider
+		PropertyDescriptorProvider implements ISimpleComboDescriptorProvider
 {
 
 	public SimpleComboPropertyDescriptorProvider( String property,

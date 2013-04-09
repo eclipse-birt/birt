@@ -682,4 +682,19 @@ public class XMLWriter
 		doPrintLine( );
 	}
 
+	public void writeBase64Text( String text )
+	{
+		assert text != null;
+
+		closeTextTag( );
+
+		if ( !markLineNumber )
+		{
+			out.print( text );
+			return;
+		}
+		printLine( );
+		out.print( text );
+		printLine( );
+	}
 }

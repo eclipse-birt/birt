@@ -340,5 +340,8 @@ public interface CSSConstants {
 
 	// overflow property: auto, visible, scroll, hidden
 	String CSS_OVERFLOW_PROPERTY = "overflow";
+		
+	String CSS_HEIGHT_PROPERTY = "height";
+	String CSS_WIDTH_PROPERTY = "width";
 
 }

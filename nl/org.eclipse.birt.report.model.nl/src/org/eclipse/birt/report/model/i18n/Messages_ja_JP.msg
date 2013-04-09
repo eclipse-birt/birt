@@ -1943,6 +1943,8 @@ Structure.HighlightRule.border.right.style=í—Ş
 Structure.HighlightRule.border.right.width=•
 Structure.HighlightRule.border.right.color=ƒJƒ‰[
 Structure.HighlightRule.background.color=”wŒiF
+Structure.HighlightRule.background.image=”wŒiƒCƒ[ƒW
+Structure.HighlightRule.backgroundRepeat=”wŒi‚ğŒJ‚è•Ô‚·
 Structure.HighlightRule.format.dateTime=“ú•t/ŠÔ‚Ì‘®
 Structure.HighlightRule.format.number=”’l‚Ì‘®
 Structure.HighlightRule.format.number.align=”’l‚Ì”z’u  
@@ -1956,6 +1958,10 @@ Structure.HighlightRule.font.color=ƒJƒ‰[
 Structure.HighlightRule.font.textUnderline=‰ºü
 Structure.HighlightRule.font.textOverline=ãü
 Structure.HighlightRule.font.textLineThrough=æ‚èÁ‚µü
+Structure.HighlightRule.padding.top=ƒpƒfƒBƒ“ƒO (ã)
+Structure.HighlightRule.padding.left=ƒpƒfƒBƒ“ƒO (¶)
+Structure.HighlightRule.padding.bottom=ƒpƒfƒBƒ“ƒO (‰º)
+Structure.HighlightRule.padding.right=ƒpƒfƒBƒ“ƒO (‰E)
 Structure.HighlightRule.text.align=•¶š—ñ‚ÌˆÊ’u‘µ‚¦
 Structure.HighlightRule.text.indent=•¶š—ñ‚ÌƒCƒ“ƒfƒ“ƒg
 Structure.HighlightRule.text.transform=•¶š—ñ‚ÌˆÊ’u•ÏX
@@ -2091,6 +2097,7 @@ Structure.IncludedLibrary.namespace=–¼‘O‹óŠÔ
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=ƒtƒ@ƒCƒ‹–¼
 Structure.IncludedCssStyleSheet.externalCssURI=ŠO•”‚Ì CSS URI
+Structure.IncludedCssStyleSheet.useExternalCss=ŠO•” CSS ‚ğg—p
 
 #15. DataSetParam
 Structure.DataSetParam.name=–¼‘O
@@ -2315,7 +2322,6 @@ Structure.FormatValue.locale=ƒƒP[ƒ‹
 #40. CalculationArgument
 Structure.CalculationArgument.name=ŒvZ‚Ìˆø”–¼
 Structure.CalculationArgument.value=ŒvZ‚Ìˆø”’l
-
 
 ###########################################################
 # Element names
@@ -2736,6 +2742,8 @@ Element.Style.widows=ƒEƒBƒhƒE
 Element.Style.orphans=ƒI[ƒtƒ@ƒ“
 Element.Style.wordSpacing=’PŒêŠÔ‚ÌŠÔŠu
 Element.Style.overflow=ƒI[ƒo[ƒtƒ[
+Element.Style.height=‚‚³
+Element.Style.width=•
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=ƒuƒbƒNƒ}[ƒN
@@ -3052,7 +3060,7 @@ Element.Image.onPageBreak.this=ƒCƒ[ƒWƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Image.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Image.fitToContainer=ƒRƒ“ƒeƒi‚É‡‚í‚¹‚é
 Element.Image.proportionalScale=ƒvƒƒ|[ƒVƒ‡ƒiƒ‹ƒXƒP[ƒ‹
-
+  
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=—ñ
 Element.Grid.slot.rows=s
@@ -3375,6 +3383,7 @@ Element.FilterConditionElement.pushDown=ƒvƒbƒVƒ… (‰º‚Ö)
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=í—Ş
 Element.FilterConditionElement.updateAggregation=WŒv‚ÌXV
+
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
@@ -4004,6 +4013,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=ƒ‰ƒCƒuƒ‰ƒŠ‚Å‚ÍA‚±‚ê‚ç‚Ìƒ
 Info.VersionInfo.INVALID_DESIGN_FILE=ŠJ‚±‚¤‚Æ‚µ‚½ƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍA—LŒø‚ÈƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚Å‚Í‚È‚¢‚©Aƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 Info.VersionInfo.CONVERT_INFO=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Info.VersionInfo.INVALID_VERSION=ƒo[ƒWƒ‡ƒ“ "{0}" ‚ÌƒŒƒ|[ƒgƒtƒ@ƒCƒ‹‚Íg—p‚Å‚«‚Ü‚¹‚ñB
+Info.VersionInfo.LATER_VERSION=The design file was created by an later version of BIRT. Click OK to convert it to a format supported by the current version of the product.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =ŠJ‚¢‚Ä‚¢‚éƒfƒUƒCƒ“‚âƒ‰ƒCƒuƒ‰ƒŠ‚Ü‚½‚Í‚»‚ê‚ç‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰ºˆÊŒİŠ·‚ª“K—p‚³‚ê‚½‚ ‚Æ‚ÅA‚»‚ÌƒfƒUƒCƒ“‚Ü‚½‚Íƒ‰ƒCƒuƒ‰ƒŠ‚É•ÏX‚ª‰Á‚¦‚ç‚ê‚½‰Â”\«‚ª‚ ‚è‚Ü‚·B
 
 #EncryptionException

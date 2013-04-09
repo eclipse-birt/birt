@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic;
 
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -131,7 +132,9 @@ public class ReportMultiBookPage extends Page implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+	 * @see
+	 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
+	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
 	public void selectionChanged( SelectionChangedEvent event )
 	{
@@ -170,7 +173,12 @@ public class ReportMultiBookPage extends Page implements
 	public void setFocus( )
 	{
 		if ( currentPage != null )
-			currentPage.setFocus( );
+		{
+			if ( !UIUtil.containsFocusControl( currentPage.getControl( ) ) )
+			{
+				currentPage.setFocus( );
+			}
+		}
 	}
 
 	private IPageBookViewPage getEmptyPage( )
@@ -193,11 +201,11 @@ public class ReportMultiBookPage extends Page implements
 			page = getEmptyPage( );
 		}
 
-//		if ( previousPage instanceof IReportPageBookViewPage )
-//		{
-//			( (IReportPageBookViewPage) previousPage ).getSelectionProvider( )
-//					.removeSelectionChangedListener( selectionChangedListener );
-//		}
+		// if ( previousPage instanceof IReportPageBookViewPage )
+		// {
+		// ( (IReportPageBookViewPage) previousPage ).getSelectionProvider( )
+		// .removeSelectionChangedListener( selectionChangedListener );
+		// }
 
 		if ( currentPage != null
 				&& currentPage != getEmptyPage( )
@@ -255,8 +263,10 @@ public class ReportMultiBookPage extends Page implements
 				&& !previousPage.getControl( ).isDisposed( ) )
 		{
 			final IPageBookViewPage disposePage = previousPage;
-			Display.getDefault( ).asyncExec( new Runnable(){
-				public void run(){
+			Display.getDefault( ).asyncExec( new Runnable( ) {
+
+				public void run( )
+				{
 					disposePage.getControl( ).dispose( );
 					disposePage.dispose( );
 				}
@@ -298,7 +308,9 @@ public class ReportMultiBookPage extends Page implements
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite)
+		 * @see
+		 * org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite
+		 * )
 		 */
 		public void createControl( Composite parent )
 		{

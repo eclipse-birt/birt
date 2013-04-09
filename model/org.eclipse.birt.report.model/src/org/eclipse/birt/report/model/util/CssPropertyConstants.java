@@ -116,5 +116,8 @@ public interface CssPropertyConstants
 	// bidi_hcg: direction
 
 	public static final String DIRECTION = "direction"; //$NON-NLS-1$
+	
+	public static final String HEIGHT = "height"; //$NON-NLS-1$
+	public static final String WIDTH = "width"; //$NON-NLS-1$
 
 }

@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Represents the abstract definition which can be localized. This definition
@@ -22,6 +26,8 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 public abstract class LocalizableInfo implements ILocalizableInfo
 {
+	
+	protected IMessages messages;
 
 	/**
 	 * The name of the definition.
@@ -120,9 +126,24 @@ public abstract class LocalizableInfo implements ILocalizableInfo
 	public String getDisplayName( )
 	{
 		if ( displayNameKey != null )
-			return ModelMessages.getMessage( displayNameKey );
+		{
+			String displayName = null;
+			if ( messages == null )
+			{
+				displayName = ModelMessages.getMessage( displayNameKey );
+			}
+			else
+			{
+				ULocale locale = ThreadResources.getLocale( );
+				displayName = messages.getMessage( displayNameKey, locale );
+			}
+			if ( displayName != null )
+			{
+				return displayName;
+			}
+		}
 
-		return ""; //$NON-NLS-1$
+		return name; //$NON-NLS-1$
 	}
 	
 	/**
@@ -135,7 +156,14 @@ public abstract class LocalizableInfo implements ILocalizableInfo
 	public String getToolTip( )
 	{
 		if ( toolTipKey != null )
-			return ModelMessages.getMessage( toolTipKey );
+		{
+			if ( messages == null )
+			{
+				return ModelMessages.getMessage( toolTipKey );
+			}
+			ULocale locale = ThreadResources.getLocale( );
+			return messages.getMessage( toolTipKey, locale );
+		}
 		
 		return ""; //$NON-NLS-1$
 	}
@@ -149,5 +177,15 @@ public abstract class LocalizableInfo implements ILocalizableInfo
 		if ( !StringUtil.isBlank( getName( ) ) )
 			return getName( );
 		return super.toString( );
+	}
+
+	public void setMessages( IMessages messages )
+	{
+		this.messages = messages;
+	}
+
+	public IMessages getMessages( )
+	{
+		return messages;
 	}
 }

@@ -3,6 +3,7 @@ package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -27,7 +28,7 @@ import org.eclipse.swt.widgets.Listener;
 public class BorderCanvas extends Canvas
 {
 
-	private static final String INHERITED = "(Inherited)";
+	private static final String INHERITED = Messages.getString("BorderCanvas.Inherited0"); //$NON-NLS-1$
 	private boolean mouseIn = false;
 	private int mouseInArea = SWT.NONE;
 
@@ -132,7 +133,7 @@ public class BorderCanvas extends Canvas
 	private String resolveEmptyWidth( BorderInfomation info )
 	{
 		String width = info.getWidth( );
-		if ( "".equals( width ) )
+		if ( "".equals( width ) ) //$NON-NLS-1$
 			return DesignChoiceConstants.LINE_WIDTH_MEDIUM;
 		return width;
 	}
@@ -157,7 +158,7 @@ public class BorderCanvas extends Canvas
 		gc.drawLine( x + 100 + 1, y + 100 + 1, x + 100 + 1, y + 100 + 10 + 1 );
 		for ( int i = 0; i < borderInfoMap.size( ); i++ )
 		{
-			BorderInfomation info = (BorderInfomation) borderInfoMap.getValue( i );
+			BorderInfomation info = (BorderInfomation) borderInfoMap.get( i );
 
 			if ( info.getStyle( ) == null || info.getStyle( ).equals( "" ) ) //$NON-NLS-1$
 				continue;
@@ -483,6 +484,7 @@ public class BorderCanvas extends Canvas
 						( height - 100 ) / 2 + 100 );
 			if ( isInheritedInfo( info ) )
 			{
+				gc.setAdvanced( true );
 				FontData fontData = this.getFont( ).getFontData( )[0];
 				fontData.setHeight( 9 );
 				Font font = new Font( gc.getDevice( ), fontData );
@@ -535,6 +537,7 @@ public class BorderCanvas extends Canvas
 						( height - 100 ) / 2 + 100 );
 			if ( isInheritedInfo( info ) )
 			{
+				gc.setAdvanced( true );
 				FontData fontData = this.getFont( ).getFontData( )[0];
 				fontData.setHeight( 9 );
 				Font font = new Font( gc.getDevice( ), fontData );

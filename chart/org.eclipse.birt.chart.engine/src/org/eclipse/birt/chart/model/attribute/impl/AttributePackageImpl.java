@@ -119,8 +119,9 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * end-user-doc -->
  * @generated
  */
-public class AttributePackageImpl extends EPackageImpl implements
-		AttributePackage
+public class AttributePackageImpl extends EPackageImpl
+		implements
+			AttributePackage
 {
 
 	/**
@@ -919,7 +920,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 			return (AttributePackage) EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI );
 
 		// Obtain or create and register package
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.get( eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.get( eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.get( eNS_URI ) instanceof AttributePackageImpl
+				? EPackage.Registry.INSTANCE.get( eNS_URI )
 				: new AttributePackageImpl( ) );
 
 		isInited = true;
@@ -928,15 +930,20 @@ public class AttributePackageImpl extends EPackageImpl implements
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
 				: ComponentPackage.eINSTANCE );
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
 				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
@@ -2473,6 +2480,17 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTooltipValue_FormatSpecifier( )
+	{
+		return (EReference) tooltipValueEClass.getEStructuralFeatures( )
+				.get( 2 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -3490,6 +3508,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		tooltipValueEClass = createEClass( TOOLTIP_VALUE );
 		createEAttribute( tooltipValueEClass, TOOLTIP_VALUE__TEXT );
 		createEAttribute( tooltipValueEClass, TOOLTIP_VALUE__DELAY );
+		createEReference( tooltipValueEClass, TOOLTIP_VALUE__FORMAT_SPECIFIER );
 
 		urlValueEClass = createEClass( URL_VALUE );
 		createEAttribute( urlValueEClass, URL_VALUE__BASE_URL );
@@ -4174,6 +4193,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEAttribute( getTooltipValue_Delay( ),
 				theXMLTypePackage.getInt( ),
 				"delay", null, 1, 1, TooltipValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getTooltipValue_FormatSpecifier( ),
+				this.getFormatSpecifier( ),
+				null,
+				"formatSpecifier", null, 1, 1, TooltipValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( urlValueEClass,
 				URLValue.class,
@@ -5595,6 +5618,12 @@ public class AttributePackageImpl extends EPackageImpl implements
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Delay" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( getTooltipValue_FormatSpecifier( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( triggerConditionEEnum, source, new String[]{
 				"name", "TriggerCondition" //$NON-NLS-1$ //$NON-NLS-2$
 		} );

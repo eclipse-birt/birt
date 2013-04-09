@@ -32,6 +32,25 @@
                style="push"/>
       </actionSet>
    </extension>
+    <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+          locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="undoredo.toolbar">
+            <command
+                  commandId="org.eclipse.ui.edit.undo"
+                  id="undoredo.undo"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.edit.redo"
+                  id="undoredo.redo"
+                  style="push">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
    
    <!-- Popup menu -->
 
@@ -132,7 +151,7 @@
       </page>
       <page
             class="org.eclipse.birt.report.designer.ui.preferences.ResourcePreferencePage"
-            id="org.eclipse.birt.report.designer.ui.preferences.ResourcePreferencePage"
+            id="org.eclipse.birt.report.designer.ui.preferences.ResourcePropertyPage"
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.resource">
          <enabledWhen>

@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -149,7 +150,7 @@ public class ExprEvaluator
 	private String extractDirectColumn( IBaseExpression dataExpr,
 			ScriptContext cx, boolean isRow ) throws BirtException
 	{
-		if ( dataExpr instanceof IScriptExpression )
+		if ( dataExpr instanceof IScriptExpression && !BaseExpression.constantId.equals( dataExpr.getScriptId( ) ) )
 		{
 			String exprText = ( (IScriptExpression) dataExpr ).getText( );
 			if ( isRow )

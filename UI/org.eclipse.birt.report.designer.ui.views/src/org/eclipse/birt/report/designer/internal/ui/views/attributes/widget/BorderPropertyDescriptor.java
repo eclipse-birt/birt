@@ -29,6 +29,9 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.Accessible;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.RGB;
@@ -168,11 +171,29 @@ public class BorderPropertyDescriptor implements
 
 			} );
 			button.setData( provider );
+			button.getAccessible( ).addAccessibleListener(new AccessibleAdapter() {
+				public void getName(AccessibleEvent e) {
+						Accessible accessible = (Accessible) e.getSource();
+						Button item = (Button) accessible.getControl();
+						if (item != null) {
+							e.result = item.getToolTipText();
+						}
+				}
+			});
 		}
 
 		allButton = new Button( composite, SWT.TOGGLE );
 		allButton.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_FRAME ) );
 		allButton.setToolTipText( Messages.getString( "BordersPage.Tooltip.All" ) ); //$NON-NLS-1$
+		allButton.getAccessible( ).addAccessibleListener(new AccessibleAdapter() {
+			public void getName(AccessibleEvent e) {
+				Accessible accessible = (Accessible) e.getSource();
+				Button item = (Button) accessible.getControl();
+				if (item != null) {
+					e.result = item.getToolTipText();
+				}
+			}
+		});
 		allButton.setLayoutData( new GridData( ) );
 		allButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -310,6 +331,15 @@ public class BorderPropertyDescriptor implements
 		Button noneButton = new Button( composite, SWT.PUSH );
 		noneButton.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_NONE ) );
 		noneButton.setToolTipText( Messages.getString( "BordersPage.Tooltip.None" ) ); //$NON-NLS-1$
+		noneButton.getAccessible( ).addAccessibleListener(new AccessibleAdapter() {
+			public void getName(AccessibleEvent e) {
+				Accessible accessible = (Accessible) e.getSource();
+				Button item = (Button) accessible.getControl();
+				if (item != null) {
+					e.result = item.getToolTipText();
+				}
+			}
+		});
 		noneButton.setLayoutData( new GridData( ) );
 		noneButton.addSelectionListener( new SelectionAdapter( ) {
 

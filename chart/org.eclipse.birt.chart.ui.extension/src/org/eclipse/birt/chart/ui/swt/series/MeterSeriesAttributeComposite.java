@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
 import org.eclipse.birt.chart.ui.swt.AbstractChartNumberEditor;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -185,7 +186,11 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		iscStartAngle.setMinimum( -360 );
 		iscStartAngle.setMaximum( 360 );
 		iscStartAngle.addListener( this );
-		
+		if ( iscStartAngle instanceof IntegerSpinControl )
+		{
+			( (IntegerSpinControl) iscStartAngle ).addScreenreaderAccessbility( lblStartAngle.getText( ) );
+		}
+
 		Label lblStopAngle = new Label( cmpRight, SWT.NONE );
 		GridData gdLBLStopAngle = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		lblStopAngle.setLayoutData( gdLBLStopAngle );
@@ -205,6 +210,10 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		iscStopAngle.setMinimum( -360 );
 		iscStopAngle.setMaximum( 360 );
 		iscStopAngle.addListener( this );
+		if ( iscStopAngle instanceof IntegerSpinControl )
+		{
+			( (IntegerSpinControl) iscStopAngle ).addScreenreaderAccessbility( lblStopAngle.getText( ) );
+		}
 	}
 
 	/*

@@ -188,6 +188,7 @@ public class AggregateEditorComposite extends Composite implements
 		setLayout( layout );
 
 		fBtnDropDown = new ToolBar( this, SWT.FLAT );
+		ChartUIUtil.addScreenReaderAccessbility( fBtnDropDown, "Aggregation");
 		if( fEnabled && this.isEnabled( ) )
 		{
 			fBtnDropDown.setToolTipText( Messages.getString("AggregateEditorComposite.Tooltip.SetAggregateFunction") ); //$NON-NLS-1$

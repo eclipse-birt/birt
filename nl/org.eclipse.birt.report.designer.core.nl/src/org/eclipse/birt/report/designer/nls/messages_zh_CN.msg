@@ -263,10 +263,14 @@ ColumnBindingDialog.Text.AddAggr=添加聚合(&G)...
 
 BlockPreferencePage.displayname.Title=文本块
 
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Size
 
 ###########################################################
 #BorderCanvas properties
 
+BorderCanvas.Inherited0=(Inherited)
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -1401,6 +1405,8 @@ Element.Style.pageBreakInside=内部(&I):
 Element.Style.section=区域:
 Element.Style.showIfBlank=如果为空白则显示(&W)
 Element.Style.text.align=文本对齐(&L):
+Element.Style.width=&Width:
+Element.Style.height=&Height:
 #bidi_hcg
 Element.Style.text.direction=双向文本方向(&B):
 Element.Style.text.indent=文本缩进(&X):
@@ -4133,7 +4139,7 @@ WizardTemplateChoicePage.label.Description=描述:
 WizardTemplateChoicePage.label.Preview=预览:
 WizardTemplateChoicePage.label.ReportTemplates=报表模板:
 WizardTemplateChoicePage.label.ShowCheatSheets=显示报表创建备忘单(&S)
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=包含默认主题(&I)
 WizardTemplateChoicePage.message.BlankReport=创建无预定义内容的空报表。
 WizardTemplateChoicePage.message.ChartListing=创建分组报表，并附带直观表示每个组数据的图表。
 WizardTemplateChoicePage.message.DualColumnChartListing=创建带两个“图表和列表”子组的分组报表。

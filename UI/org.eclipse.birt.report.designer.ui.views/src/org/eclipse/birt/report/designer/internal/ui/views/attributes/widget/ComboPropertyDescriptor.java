@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IComboDescriptorProvider;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.swt.SWT;
@@ -60,22 +60,22 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 	void refresh( String value )
 	{
 
-		if ( getDescriptorProvider( ) instanceof ComboPropertyDescriptorProvider )
+		if ( getDescriptorProvider( ) instanceof IComboDescriptorProvider )
 		{
-			String[] items = ( (ComboPropertyDescriptorProvider) getDescriptorProvider( ) ).getItems( );
+			String[] items = ( (IComboDescriptorProvider) getDescriptorProvider( ) ).getItems( );
 			combo.setItems( items );
 			
-			oldValue = ( (ComboPropertyDescriptorProvider) getDescriptorProvider( ) ).load( )
+			oldValue = ( (IComboDescriptorProvider) getDescriptorProvider( ) ).load( )
 					.toString( );
 			
 			boolean stateFlag = ( ( oldValue == null ) == combo.getEnabled( ) );
 			if ( stateFlag )
 				combo.setEnabled( oldValue != null );
-			if ( ( (ComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isReadOnly( ) )
+			if ( ( (IComboDescriptorProvider) getDescriptorProvider( ) ).isReadOnly( ) )
 			{
 				combo.setEnabled( false );
 			}
-			String displayName = ( (ComboPropertyDescriptorProvider) getDescriptorProvider( ) ).getDisplayName( oldValue );
+			String displayName = ( (IComboDescriptorProvider) getDescriptorProvider( ) ).getDisplayName( oldValue );
 			if ( displayName == null )
 			{
 				combo.deselectAll( );

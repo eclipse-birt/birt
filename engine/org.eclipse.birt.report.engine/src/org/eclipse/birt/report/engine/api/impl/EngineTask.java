@@ -1484,52 +1484,58 @@ public abstract class EngineTask implements IEngineTask
 
 		boolean visit( ModuleHandle report, Object value, ExecutionContext executionContext )
 		{
-			executionContext.clearExceptions();
+			executionContext.clearExceptions( );
 			SlotHandle parameters = report.getParameters( );
-			Iterator iter = parameters.iterator( );
-			while ( iter.hasNext( ) )
+			if ( parameters != null )
 			{
-				Object param = iter.next( );
-				if ( param instanceof CascadingParameterGroupHandle )
+				Iterator iter = parameters.iterator( );
+
+				while ( iter.hasNext( ) )
 				{
-					if (!visitCascadingParamterGroup(
-							(CascadingParameterGroupHandle) param, value))
+					Object param = iter.next( );
+					if ( param instanceof CascadingParameterGroupHandle )
 					{
-						executionContext.addException(
-								(CascadingParameterGroupHandle) param,
-								engineException);
+						if ( !visitCascadingParamterGroup(
+								(CascadingParameterGroupHandle) param, value ) )
+						{
+							executionContext.addException(
+									(CascadingParameterGroupHandle) param,
+									engineException );
+						}
 					}
-				}
-				else if ( param instanceof ParameterGroupHandle )
-				{
-					if (!visitParameterGroup((ParameterGroupHandle) param,
-							value))
+					else if ( param instanceof ParameterGroupHandle )
 					{
-						executionContext.addException(
-								(ParameterGroupHandle) param, engineException);
+						if ( !visitParameterGroup(
+								(ParameterGroupHandle) param, value ) )
+						{
+							executionContext.addException(
+									(ParameterGroupHandle) param,
+									engineException );
+						}
 					}
-				}
-				else if ( param instanceof ScalarParameterHandle )
-				{
-					if (!visitScalarParameter((ScalarParameterHandle) param,
-							value))
+					else if ( param instanceof ScalarParameterHandle )
 					{
-						executionContext.addException(
-								(ScalarParameterHandle) param, engineException);
+						if ( !visitScalarParameter(
+								(ScalarParameterHandle) param, value ) )
+						{
+							executionContext.addException(
+									(ScalarParameterHandle) param,
+									engineException );
+						}
 					}
-				}
-				else if ( param instanceof DynamicFilterParameterHandle )
-				{
-					if (!visitDynamicFilterParameter(
-							(DynamicFilterParameterHandle) param, value))
+					else if ( param instanceof DynamicFilterParameterHandle )
 					{
-						executionContext.addException(
-								(DynamicFilterParameterHandle) param,
-								engineException);
+						if ( !visitDynamicFilterParameter(
+								(DynamicFilterParameterHandle) param, value ) )
+						{
+							executionContext.addException(
+									(DynamicFilterParameterHandle) param,
+									engineException );
+						}
 					}
 				}
 			}
-			if (executionContext.hasErrors())
+			if ( executionContext.hasErrors( ) )
 			{
 				return false;
 			}
@@ -1599,42 +1605,61 @@ public abstract class EngineTask implements IEngineTask
 					defaultValues.put( name, value );
 
 					// set Display Text
-					if ( value != null )
+				
+					ScalarParameter spd = (ScalarParameter) param.getElement( );
+					List<SelectionChoice> selectList = (List<SelectionChoice>) spd.getProperty( param.getModule( ),
+							IAbstractScalarParameterModel.SELECTION_LIST_PROP );
+					String paramType = (String) spd.getFactoryProperty( param.getModule( ),
+							IScalarParameterModel.PARAM_TYPE_PROP );
+					if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( paramType ) )
 					{
-						ScalarParameter spd = (ScalarParameter) param.getElement( );
-						List<SelectionChoice> selectList = (List<SelectionChoice>) spd.getProperty( param.getModule( ),
-								IAbstractScalarParameterModel.SELECTION_LIST_PROP );
-						String paramType = (String) spd.getFactoryProperty( param.getModule( ),
-								IScalarParameterModel.PARAM_TYPE_PROP );
-						if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( paramType ) )
+						Object[] values = (Object[]) value;
+						List<String> displayTextList = new ArrayList<String>( );
+						if ( values != null && selectList != null && selectList.size( ) > 0 )
 						{
-							Object[] values = (Object[]) value;
-							List<String> displayTextList = new ArrayList<String>( );
-							if ( selectList != null && selectList.size( ) > 0 )
+							for ( Object o : values )
 							{
-								for ( Object o : values )
+								for ( SelectionChoice select : selectList )
 								{
-									for ( SelectionChoice select : selectList )
+									if ( o == null )
+									{
+										if ( select.getValue( ) == null )
+										{
+											displayTextList.add( select.getLabel( ) );
+										}
+									}
+									else
 									{
 										if ( o.equals( select.getValue( ) ) )
 										{
 											displayTextList.add( select.getLabel( ) );
 										}
 									}
-
 								}
+
 							}
-							String[] displayTexts = new String[displayTextList.size( )];
-							executionContext.setParameter( name,
-									value,
-									displayTextList.toArray( displayTexts ) );
 						}
-						else
+						String[] displayTexts = new String[displayTextList.size( )];
+						executionContext.setParameter( name,
+								value,
+								displayTextList.toArray( displayTexts ) );
+					}
+					else
+					{
+						String displayText = null;
+						if ( selectList != null && selectList.size( ) > 0 )
 						{
-							String displayText = null;
-							if ( selectList != null && selectList.size( ) > 0 )
+							for ( SelectionChoice select : selectList )
 							{
-								for ( SelectionChoice select : selectList )
+								if ( value == null )
+								{
+									if ( select.getValue() == null )
+									{
+										displayText = select.getLabel();
+										break;
+									}
+								}
+								else
 								{
 									if ( value.equals( select.getValue( ) ) )
 									{
@@ -1643,14 +1668,10 @@ public abstract class EngineTask implements IEngineTask
 									}
 								}
 							}
-							executionContext.setParameter( name,
-									value,
-									displayText );
 						}
-					}
-					else
-					{
-						executionContext.setParameterValue( name, value );
+						executionContext.setParameter( name,
+								value,
+								displayText );
 					}
 				}
 				return true;
@@ -1987,7 +2008,7 @@ public abstract class EngineTask implements IEngineTask
 			handle.setOptions( newOptions );
 		}
 	}
-
+	
 	protected void startFactory( )
 	{
 		ReportDesignHandle reportDesign = executionContext.getReportDesign( );

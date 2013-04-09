@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -85,7 +86,7 @@ public class StockReport
 	void createReport( ) throws SemanticException, IOException
 	{
 		// A session handle for all open reports
-		SessionHandle session = new DesignEngine( null ).newSessionHandle( (ULocale) null );
+		SessionHandle session = new DesignEngine( new DesignConfig() ).newSessionHandle( (ULocale) null );
 
 		// Create a new report
 		reportDesignHandle = session.createDesign( );

@@ -975,14 +975,15 @@ public final class PluginSettings
 	 * Returns a list of registered device renderer output formats and display
 	 * names.
 	 * 
+	 * @param extensionID
 	 * @return all registered output formats and display names
 	 * @throws ChartException
 	 */
-	public final String[][] getRegisteredOutputFormats( ) throws ChartException
+	public final String[][] getRegisteredOutputFormats( String extensionID ) throws ChartException
 	{
 		if ( inEclipseEnv( ) )
 		{
-			String[][] formats = getPluginXmlStrings( "devicerenderers", //$NON-NLS-1$
+			String[][] formats = getPluginXmlStrings( extensionID, "devicerenderers", //$NON-NLS-1$
 					"deviceRenderer", //$NON-NLS-1$
 					"format", //$NON-NLS-1$
 					"displayName" ); //$NON-NLS-1$
@@ -1011,6 +1012,18 @@ public final class PluginSettings
 			}
 			return al.toArray( new String[0][0] );
 		}
+	}
+	
+	/**
+	 * Returns a list of registered device renderer output formats and display
+	 * names.
+	 * 
+	 * @return all registered output formats and display names
+	 * @throws ChartException
+	 */
+	public final String[][] getRegisteredOutputFormats( ) throws ChartException
+	{
+		return getRegisteredOutputFormats( null );
 	}
 
 	/**
@@ -1332,6 +1345,35 @@ public final class PluginSettings
 			String sXsdComplexName, String sXsdElementName,
 			String sXsdElementValue ) throws ChartException
 	{
+		return getPluginXmlStrings( null,
+				sXsdListName,
+				sXsdComplexName,
+				sXsdElementName,
+				sXsdElementValue );
+	}
+	
+	/**
+	 * Attempts to walk through the schema tree as defined in an extension point
+	 * schema and instantiate the class associated with the value for a given
+	 * element name.
+	 * <p>
+	 * For first argument, Null extension ID will return all extensions. Blank
+	 * extension ID will return those extensions which don't have unique
+	 * extension ID.
+	 * 
+	 * @param extensionID
+	 * @param sXsdListName
+	 * @param sXsdComplexName
+	 * @param sXsdElementName
+	 * @param sXsdElementValue
+	 * @param sLookupName
+	 * 
+	 * @return An array of the text value via the extension framework
+	 */
+	private static final String[][] getPluginXmlStrings( String extensionID, String sXsdListName,
+			String sXsdComplexName, String sXsdElementName,
+			String sXsdElementValue ) throws ChartException
+	{
 		final IExtensionRegistry ier = Platform.getExtensionRegistry( );
 		final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName );
 		if ( iep == null )
@@ -1344,11 +1386,29 @@ public final class PluginSettings
 					},
 					Messages.getResourceBundle( ) );
 		}
-		final IExtension[] iea = iep.getExtensions( );
+		IExtension[] iea = iep.getExtensions( );
+		
 		IConfigurationElement[] icea;
+		
+		if ( extensionID != null )
+		{
+			List<IExtension> validIeas = new ArrayList<IExtension>( );
+			for ( int i = 0; i < iea.length; i++ )
+			{
+				if ( "".equals( extensionID.trim( ) ) && iea[i].getUniqueIdentifier( ) == null ) //$NON-NLS-1$
+				{
+					validIeas.add( iea[i] );
+				}
+				else if ( extensionID.equals( iea[i].getUniqueIdentifier( ) ) )
+				{
+					validIeas.add( iea[i] );
+				}
+			}
+
+			iea = validIeas.toArray( new IExtension[]{} );
+		}
 
 		List<String[]> lst = new ArrayList<String[]>( );
-
 		for ( int i = 0; i < iea.length; i++ )
 		{
 			icea = iea[i].getConfigurationElements( );

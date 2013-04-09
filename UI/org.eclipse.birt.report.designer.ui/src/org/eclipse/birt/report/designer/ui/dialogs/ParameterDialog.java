@@ -1111,7 +1111,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				: expression.getStringExpression( );
 		String expressionType = expression == null ? null
 				: expression.getType( );
-
+		if(defaultValue != null)
+		{
+			defaultValue = defaultValue.trim();
+		}
 		if ( isStatic( ) )
 		{
 			if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( controlType ) )
@@ -4071,6 +4074,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				: expression.getStringExpression( );
 		String exprType = expression == null ? ExpressionType.CONSTANT
 				: expression.getType( );
+		if(defaultValue != null)
+		{
+			defaultValue = defaultValue.trim();
+		}
 		if ( ExpressionType.JAVASCRIPT.equals( exprType ) )
 			defaultValue = null;
 

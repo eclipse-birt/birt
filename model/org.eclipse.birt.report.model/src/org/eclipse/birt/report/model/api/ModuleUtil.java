@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ImageItem;
@@ -616,6 +617,7 @@ public class ModuleUtil
 		DesignSession session = new DesignSession( ThreadResources.getLocale( ) );
 		byte[] buf = new byte[512];
 		int len;
+		boolean isSupportedUnknownVersion = true;
 
 		ByteArrayOutputStream bySteam = new ByteArrayOutputStream( );
 		byte[] data = null;
@@ -641,7 +643,9 @@ public class ModuleUtil
 			Module module = session.openModule( filename, inputStreamToParse );
 
 			String version = module.getVersionManager( ).getVersion( );
-			List<IVersionInfo> retList = ModelUtil.checkVersion( version );
+			isSupportedUnknownVersion = module.getOptions( ) == null
+					|| module.getOptions( ).isSupportedUnknownVersion( );
+			List<IVersionInfo> retList = ModelUtil.checkVersion( version, isSupportedUnknownVersion );
 			if ( hasCompatibilities( module ) )
 				retList.add( new VersionInfo( version,
 						VersionInfo.EXTENSION_COMPATIBILITY ) );
@@ -649,9 +653,7 @@ public class ModuleUtil
 		}
 		catch ( DesignFileException e )
 		{
-			if ( data != null
-					&& !e.getErrorCode( ).equals( DesignFileException.DESIGN_EXCEPTION_INVALID_XML )
-					&& !e.getErrorCode( ).equals( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR ) )
+			if ( data != null )
 			{
 				VersionParserHandler handler = new VersionParserHandler( );
 
@@ -660,12 +662,11 @@ public class ModuleUtil
 					inputStreamToParse = new BufferedInputStream( streamData );
 
 				parse( handler, inputStreamToParse, filename );
-
-				return ModelUtil.checkVersion( handler.version );
+				
+				return ModelUtil.checkVersion( handler.version, isSupportedUnknownVersion );
 			}
 			return Collections.emptyList( );
 		}
-
 	}
 
 	private static boolean hasCompatibilities( Module module )
@@ -858,7 +859,6 @@ public class ModuleUtil
 	public static boolean isValidElementName(
 			DesignElementHandle elementHandle, String propName, String nameValue )
 	{
-		ModuleHandle module = elementHandle.getModuleHandle( );
 		PropertyDefn propDefn = (PropertyDefn) elementHandle
 				.getPropertyDefn( propName );
 
@@ -879,18 +879,18 @@ public class ModuleUtil
 		}
 		try
 		{
-			propType.validateValue( module.getModule( ), elementHandle
-					.getElement( ), propDefn, nameValue );
+			Module module = elementHandle.getModule( );
+			DesignElement element = elementHandle.getElement( );
+			propType.validateValue( module, element, propDefn, nameValue );
 
-			DesignElement existedElement = new NameExecutor( elementHandle
-					.getElement( ) ).getNameSpace( elementHandle.module )
-					.getElement( nameValue );
-
-			if ( existedElement == null )
-				return true;
-
-			return false;
-
+			NameExecutor executor = new NameExecutor( module, element );
+			if ( executor.hasNamespace( ) )
+			{
+				DesignElement existedElement = executor.getElement( nameValue );
+				if ( existedElement != null )
+					return false;
+			}
+			return true;
 		}
 		catch ( PropertyValueException e )
 		{

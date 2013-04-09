@@ -29,6 +29,8 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ContentViewer;
+import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -38,6 +40,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -128,115 +131,115 @@ public class ResourceEditDialog extends BaseDialog
 		}
 	}
 
-//	/**
-//	 * ResourceSorter
-//	 */
-//	static class ResourceSorter extends ViewerSorter
-//	{
-//
-//		private boolean descent;
-//		private boolean second;
-//
-//		/**
-//		 * The constructor.
-//		 *
-//		 * @param descent
-//		 *            sorting order.
-//		 * @param second
-//		 *            if it's the second column.
-//		 */
-//		public ResourceSorter( boolean descent, boolean second )
-//		{
-//			super( );
-//
-//			this.descent = descent;
-//			this.second = second;
-//		}
-//
-//		/*
-//		 * (non-Javadoc)
-//		 *
-//		 * @see
-//		 * org.eclipse.jface.viewers.ViewerSorter#compare(org.eclipse.jface.
-//		 * viewers.Viewer, java.lang.Object, java.lang.Object)
-//		 */
-//		public int compare( Viewer viewer, Object e1, Object e2 )
-//		{
-//			String name1;
-//			String name2;
-//
-//			if ( viewer == null || !( viewer instanceof ContentViewer ) )
-//			{
-//				if ( descent )
-//				{
-//					name1 = e2.toString( );
-//					name2 = e1.toString( );
-//				}
-//				else
-//				{
-//					name1 = e1.toString( );
-//					name2 = e2.toString( );
-//				}
-//			}
-//			else
-//			{
-//				IBaseLabelProvider prov = ( (ContentViewer) viewer ).getLabelProvider( );
-//				if ( prov instanceof ITableLabelProvider )
-//				{
-//					ITableLabelProvider lprov = (ITableLabelProvider) prov;
-//					if ( second )
-//					{
-//						if ( descent )
-//						{
-//							name1 = lprov.getColumnText( e2, 1 );
-//							name2 = lprov.getColumnText( e1, 1 );
-//						}
-//						else
-//						{
-//							name1 = lprov.getColumnText( e1, 1 );
-//							name2 = lprov.getColumnText( e2, 1 );
-//						}
-//					}
-//					else
-//					{
-//						if ( descent )
-//						{
-//							name1 = lprov.getColumnText( e2, 0 );
-//							name2 = lprov.getColumnText( e1, 0 );
-//						}
-//						else
-//						{
-//							name1 = lprov.getColumnText( e1, 0 );
-//							name2 = lprov.getColumnText( e2, 0 );
-//						}
-//					}
-//				}
-//				else
-//				{
-//					if ( descent )
-//					{
-//						name1 = e2.toString( );
-//						name2 = e1.toString( );
-//					}
-//					else
-//					{
-//						name1 = e1.toString( );
-//						name2 = e2.toString( );
-//					}
-//				}
-//			}
-//			if ( name1 == null )
-//			{
-//				name1 = ""; //$NON-NLS-1$
-//			}
-//			if ( name2 == null )
-//			{
-//				name2 = ""; //$NON-NLS-1$
-//			}
-//
-//			return collator.compare( name1, name2 );
-//		}
-//	}
+	/**
+	 * ResourceSorter
+	 */
+	static class ResourceSorter extends ViewerSorter
+	{
+
+		private boolean descent;
+		private boolean second;
+
+		/**
+		 * The constructor.
+		 *
+		 * @param descent
+		 *            sorting order.
+		 * @param second
+		 *            if it's the second column.
+		 */
+		public ResourceSorter( boolean descent, boolean second )
+		{
+			super( );
+
+			this.descent = descent;
+			this.second = second;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 *
+		 * @see
+		 * org.eclipse.jface.viewers.ViewerSorter#compare(org.eclipse.jface.
+		 * viewers.Viewer, java.lang.Object, java.lang.Object)
+		 */
+		public int compare( Viewer viewer, Object e1, Object e2 )
+		{
+			String name1;
+			String name2;
+
+			if ( viewer == null || !( viewer instanceof ContentViewer ) )
+			{
+				if ( descent )
+				{
+					name1 = e2.toString( );
+					name2 = e1.toString( );
+				}
+				else
+				{
+					name1 = e1.toString( );
+					name2 = e2.toString( );
+				}
+			}
+			else
+			{
+				IBaseLabelProvider prov = ( (ContentViewer) viewer ).getLabelProvider( );
+				if ( prov instanceof ITableLabelProvider )
+				{
+					ITableLabelProvider lprov = (ITableLabelProvider) prov;
+					if ( second )
+					{
+						if ( descent )
+						{
+							name1 = lprov.getColumnText( e2, 1 );
+							name2 = lprov.getColumnText( e1, 1 );
+						}
+						else
+						{
+							name1 = lprov.getColumnText( e1, 1 );
+							name2 = lprov.getColumnText( e2, 1 );
+						}
+					}
+					else
+					{
+						if ( descent )
+						{
+							name1 = lprov.getColumnText( e2, 0 );
+							name2 = lprov.getColumnText( e1, 0 );
+						}
+						else
+						{
+							name1 = lprov.getColumnText( e1, 0 );
+							name2 = lprov.getColumnText( e2, 0 );
+						}
+					}
+				}
+				else
+				{
+					if ( descent )
+					{
+						name1 = e2.toString( );
+						name2 = e1.toString( );
+					}
+					else
+					{
+						name1 = e1.toString( );
+						name2 = e2.toString( );
+					}
+				}
+			}
+			if ( name1 == null )
+			{
+				name1 = ""; //$NON-NLS-1$
+			}
+			if ( name2 == null )
+			{
+				name2 = ""; //$NON-NLS-1$
+			}
+
+			return collator.compare( name1, name2 );
+		}
+	}
 
 	/**
 	 * The constructor.
@@ -486,31 +489,31 @@ public class ResourceEditDialog extends BaseDialog
 
 		final TableColumn column1 = new TableColumn( table, SWT.NONE );
 		column1.setText( Messages.getString( "ResourceEditDialog.text.Key.TableColumn" ) ); //$NON-NLS-1$
-//		column1.addSelectionListener( new SelectionAdapter( ) {
-//
-//			public void widgetSelected( SelectionEvent e )
-//			{
-//				table.setSortColumn( column1 );
-//				viewer.setSorter( new ResourceSorter( table.getSortDirection( ) == SWT.UP,
-//						false ) );
-//				table.setSortDirection( table.getSortDirection( ) == SWT.UP ? SWT.DOWN
-//						: SWT.UP );
-//			}
-//		} );
+		column1.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				table.setSortColumn( column1 );
+				viewer.setSorter( new ResourceSorter( table.getSortDirection( ) == SWT.UP,
+						false ) );
+				table.setSortDirection( table.getSortDirection( ) == SWT.UP ? SWT.DOWN
+						: SWT.UP );
+			}
+		} );
 
 		final TableColumn column2 = new TableColumn( table, SWT.NONE );
 		column2.setText( Messages.getString( "ResourceEditDialog.text.Value.TableColumn" ) ); //$NON-NLS-1$
-//		column2.addSelectionListener( new SelectionAdapter( ) {
-//
-//			public void widgetSelected( SelectionEvent e )
-//			{
-//				table.setSortColumn( column2 );
-//				viewer.setSorter( new ResourceSorter( table.getSortDirection( ) == SWT.UP,
-//						true ) );
-//				table.setSortDirection( table.getSortDirection( ) == SWT.UP ? SWT.DOWN
-//						: SWT.UP );
-//			}
-//		} );
+		column2.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				table.setSortColumn( column2 );
+				viewer.setSorter( new ResourceSorter( table.getSortDirection( ) == SWT.UP,
+						true ) );
+				table.setSortDirection( table.getSortDirection( ) == SWT.UP ? SWT.DOWN
+						: SWT.UP );
+			}
+		} );
 
 		viewer = new TableViewer( table );
 		viewer.setContentProvider( new IStructuredContentProvider( ) {
@@ -583,9 +586,9 @@ public class ResourceEditDialog extends BaseDialog
 			}
 		} );
 
-		// table.setSortColumn( column1 );
-		// table.setSortDirection( SWT.UP );
-		// viewer.setSorter( new ResourceSorter( false, false ) );
+//		 table.setSortColumn( column1 );
+//		 table.setSortDirection( SWT.UP );
+//		 viewer.setSorter( new ResourceSorter( false, false ) );
 
 		Group gp = new Group( innerParent, SWT.NONE );
 		gp.setText( Messages.getString( "ResourceEditDialog.text.QuickAdd" ) ); //$NON-NLS-1$

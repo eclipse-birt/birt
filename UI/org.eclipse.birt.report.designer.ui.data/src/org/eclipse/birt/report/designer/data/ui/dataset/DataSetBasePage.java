@@ -223,6 +223,7 @@ public class DataSetBasePage extends WizardPage
 					dataSetTypeChooser.getCombo( ).setEnabled( false );
 					setPageComplete( false );
 				}
+				dataSourceFilteredTree.getViewer( ).getTree( ).setFocus( );
 			}
 		};
 		dataSourceFilteredTree.getViewer( ).getTree( ).addSelectionListener( listener );
@@ -270,9 +271,12 @@ public class DataSetBasePage extends WizardPage
 				{// everything is OK
 					setMessage( CREATE_PROMPT );
 				}
+				
 				setPageComplete( !hasWizard( )
 						&& ( getMessageType( ) != ERROR )
 						&& getSelectedDataSource( ) != null );
+				
+				nameEditor.setFocus( );
 			}
 		} );
 		setControl( composite );

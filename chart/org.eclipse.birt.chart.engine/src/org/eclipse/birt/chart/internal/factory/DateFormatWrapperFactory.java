@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.util.CDateTime;
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -111,6 +112,15 @@ public class DateFormatWrapperFactory
 		{
 			return formater.format( date );
 		}
+		
+		public String format( CDateTime calendar )
+		{
+			if ( calendar.isFullDateTime( ) )
+			{
+				formater.setTimeZone( calendar.getTimeZone( ) );
+			}
+			return format( calendar.getTime( ) );
+		}
 
 		/* (non-Javadoc)
 		 * @see org.eclipse.birt.chart.internal.factory.IDateFormatWrapper#toLocalizedPattern()
@@ -130,6 +140,7 @@ public class DateFormatWrapperFactory
 	{
 
 		private ULocale locale;
+		private TimeZone tz;
 
 		public HourDateFormat( ULocale locale )
 		{
@@ -139,10 +150,30 @@ public class DateFormatWrapperFactory
 
 		public String format( Date date )
 		{
-			return DateFormat.getDateInstance( DateFormat.LONG, locale )
-					.format( date )
-					+ "\n" //$NON-NLS-1$
-					+ new SimpleDateFormat( "HH:mm", locale ).format( date ); //$NON-NLS-1$
+			StringBuffer sb = new StringBuffer( );
+			DateFormat df = DateFormat.getDateInstance( DateFormat.LONG, locale );
+			if ( tz != null )
+			{
+				df.setTimeZone( tz );
+			}
+			sb.append( df.format( date ) );
+			sb.append( "\n" );//$NON-NLS-1$
+			df = new SimpleDateFormat( "HH:mm", locale );//$NON-NLS-1$
+			if ( tz != null )
+			{
+				df.setTimeZone( tz );
+			}
+			sb.append( df.format( date ) );
+			return sb.toString( );
+		}
+		
+		public String format( CDateTime calendar )
+		{
+			if ( calendar.isFullDateTime( ) )
+			{
+				tz = calendar.getTimeZone( );
+			}
+			return format( calendar.getTime( ) );
 		}
 
 		/* (non-Javadoc)
@@ -155,7 +186,7 @@ public class DateFormatWrapperFactory
 			{
 				return ( (SimpleDateFormat) df ).toLocalizedPattern( )
 						+ "\n"  //$NON-NLS-1$
-						+ new SimpleDateFormat( "HH:mm", locale ).toLocalizedPattern( );
+						+ new SimpleDateFormat( "HH:mm", locale ).toLocalizedPattern( ); //$NON-NLS-1$
 			}
 			return "MMMM d, yyyy HH:mm";  //$NON-NLS-1$
 		}
@@ -166,6 +197,7 @@ public class DateFormatWrapperFactory
 	{
 
 		private ULocale locale;
+		private TimeZone tz;
 
 		public MonthDateFormat( ULocale locale )
 		{
@@ -178,6 +210,10 @@ public class DateFormatWrapperFactory
 			StringBuffer str = new StringBuffer( );
 			FieldPosition pos = new FieldPosition( DateFormat.DATE_FIELD );
 			DateFormat df = DateFormat.getDateInstance( DateFormat.MEDIUM, locale );
+			if ( tz != null )
+			{
+				df.setTimeZone( tz );
+			}
 			df.format( date, str, pos );
 			int endIndex;
 			if ( pos.getEndIndex( ) >= str.length( ) )
@@ -195,6 +231,15 @@ public class DateFormatWrapperFactory
 			}
 			return str.substring( 0, pos.getBeginIndex( ) )
 					+ str.substring( endIndex );
+		}
+		
+		public String format( CDateTime calendar )
+		{
+			if ( calendar.isFullDateTime( ) )
+			{
+				tz = calendar.getTimeZone( );
+			}
+			return format( calendar.getTime( ) );
 		}
 
 		/* (non-Javadoc)

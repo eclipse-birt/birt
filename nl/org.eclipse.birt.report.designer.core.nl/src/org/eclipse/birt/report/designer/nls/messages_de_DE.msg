@@ -263,10 +263,14 @@ ColumnBindingDialog.Text.AddAggr=A&ggregat hinzufügen...
 
 BlockPreferencePage.displayname.Title=Textblock
 
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Size
 
 ###########################################################
 #BorderCanvas properties
 
+BorderCanvas.Inherited0=(Inherited)
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -1401,6 +1405,8 @@ Element.Style.pageBreakInside=&Innen:
 Element.Style.section=Abschnitt:
 Element.Style.showIfBlank=&Anzeigen, wenn leer
 Element.Style.text.align=Texta&usrichtung:
+Element.Style.width=&Width:
+Element.Style.height=&Height:
 #bidi_hcg
 Element.Style.text.direction=&Bidirektionale Textrichtung:
 Element.Style.text.indent=&Texteinzug:
@@ -4133,7 +4139,7 @@ WizardTemplateChoicePage.label.Description=Beschreibung:
 WizardTemplateChoicePage.label.Preview=Vorschau:
 WizardTemplateChoicePage.label.ReportTemplates=Berichtvorlagen:
 WizardTemplateChoicePage.label.ShowCheatSheets=&Spickzettel für Berichterstellung anzeigen
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=Standardthemen e&inschließen
 WizardTemplateChoicePage.message.BlankReport=Einen leeren Bericht ohne vordefinierten Inhalt erstellen.
 WizardTemplateChoicePage.message.ChartListing=Einen gruppierten Bericht mit einem Diagramm mit visueller Darstellung der Gruppendaten erstellen.
 WizardTemplateChoicePage.message.DualColumnChartListing=Einen gruppierten Bericht mit zwei Untergruppen des Typs 'Diagramm und Liste' erstellen.

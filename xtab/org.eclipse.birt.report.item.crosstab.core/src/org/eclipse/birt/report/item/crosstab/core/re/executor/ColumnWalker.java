@@ -147,6 +147,19 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 						}
 					}
 				}
+				else if ( rowGroups.size( ) == 0
+						&& groupIndex == 0
+						&& crosstabItem.getHeader( ) != null )
+				{
+					// in case it also has no row edge, we produce a dummy row
+					// edge event to output the crosstab header.
+					groupIndex++;
+					
+					dimensionIndex = -1;
+					levelIndex = -1;
+					currentState = STATE_ROW_EDGE;
+					return;
+				}
 
 			case STATE_MEASURE_HEADER :
 

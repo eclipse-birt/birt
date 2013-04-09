@@ -14,9 +14,12 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -27,6 +30,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <ul>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getText <em>Text</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getDelay <em>Delay</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
  * </ul>
  * </p>
  *
@@ -79,6 +83,16 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	 * @ordered
 	 */
 	protected boolean delayESet;
+
+	/**
+	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFormatSpecifier()
+	 * @generated
+	 * @ordered
+	 */
+	protected FormatSpecifier formatSpecifier;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -185,6 +199,92 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public FormatSpecifier getFormatSpecifier( )
+	{
+		return formatSpecifier;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetFormatSpecifier(
+			FormatSpecifier newFormatSpecifier, NotificationChain msgs )
+	{
+		FormatSpecifier oldFormatSpecifier = formatSpecifier;
+		formatSpecifier = newFormatSpecifier;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER,
+					oldFormatSpecifier,
+					newFormatSpecifier );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFormatSpecifier( FormatSpecifier newFormatSpecifier )
+	{
+		if ( newFormatSpecifier != formatSpecifier )
+		{
+			NotificationChain msgs = null;
+			if ( formatSpecifier != null )
+				msgs = ( (InternalEObject) formatSpecifier ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER,
+						null,
+						msgs );
+			if ( newFormatSpecifier != null )
+				msgs = ( (InternalEObject) newFormatSpecifier ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER,
+						null,
+						msgs );
+			msgs = basicSetFormatSpecifier( newFormatSpecifier, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER,
+					newFormatSpecifier,
+					newFormatSpecifier ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove( InternalEObject otherEnd,
+			int featureID, NotificationChain msgs )
+	{
+		switch ( featureID )
+		{
+			case AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER :
+				return basicSetFormatSpecifier( null, msgs );
+		}
+		return super.eInverseRemove( otherEnd, featureID, msgs );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
@@ -194,6 +294,8 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 				return getText( );
 			case AttributePackage.TOOLTIP_VALUE__DELAY :
 				return getDelay( );
+			case AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER :
+				return getFormatSpecifier( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -213,6 +315,9 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 				return;
 			case AttributePackage.TOOLTIP_VALUE__DELAY :
 				setDelay( (Integer) newValue );
+				return;
+			case AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER :
+				setFormatSpecifier( (FormatSpecifier) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -234,6 +339,9 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 			case AttributePackage.TOOLTIP_VALUE__DELAY :
 				unsetDelay( );
 				return;
+			case AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER :
+				setFormatSpecifier( (FormatSpecifier) null );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -253,6 +361,8 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 						: !TEXT_EDEFAULT.equals( text );
 			case AttributePackage.TOOLTIP_VALUE__DELAY :
 				return isSetDelay( );
+			case AttributePackage.TOOLTIP_VALUE__FORMAT_SPECIFIER :
+				return formatSpecifier != null;
 		}
 		return super.eIsSet( featureID );
 	}
@@ -290,11 +400,31 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	 */
 	public static final TooltipValue create( int iDelay, String sText )
 	{
+		return create( iDelay, sText, null );
+	}
+
+	/**
+	 * A convenience method provided to build a tooltip action value when needed
+	 * 
+	 * NOTE: Manually written
+	 * 
+	 * @param iDelay
+	 * @param sText
+	 * @param formatSpecifier
+	 * @return
+	 */
+	public static final TooltipValue create( int iDelay, String sText,
+			FormatSpecifier formatSpecifier )
+	{
 		final TooltipValue tv = AttributeFactory.eINSTANCE.createTooltipValue( );
 		tv.setDelay( iDelay );
 		if ( sText != null )
 		{
 			tv.setText( sText );
+		}
+		if ( formatSpecifier != null )
+		{
+			tv.setFormatSpecifier( formatSpecifier );
 		}
 		return tv;
 	}
@@ -316,6 +446,7 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 		text = src.getText( );
 		delay = src.getDelay( );
 		delayESet = src.isSetDelay( );
+		formatSpecifier = src.getFormatSpecifier( );
 	}
 
 } // TooltipValueImpl

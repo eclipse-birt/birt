@@ -1623,11 +1623,19 @@ public class UIUtil
 
 	public static IEditorPart getActiveEditor( String id )
 	{
-		IWorkbenchPage tPage = PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( )
-				.getActivePage( );
-		if ( tPage == null )
+		IWorkbenchWindow window = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( );
+		if ( window == null )
+		{
 			return null;
+		}
+
+		IWorkbenchPage tPage = window.getActivePage( );
+		if ( tPage == null )
+		{
+			return null;
+		}
+
 		IEditorPart activeEditPart = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
 				.getActivePage( )
@@ -1797,8 +1805,9 @@ public class UIUtil
 		}
 		return null;
 	}
-	
-	public static String getColumnHeaderDisplayNameKey( ResultSetColumnHandle column )
+
+	public static String getColumnHeaderDisplayNameKey(
+			ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
@@ -3143,7 +3152,7 @@ public class UIUtil
 		}
 		return null;
 	}
-	
+
 	public static String stripMnemonic( String string )
 	{
 		int index = 0;
@@ -3162,5 +3171,22 @@ public class UIUtil
 			index++;
 		} while ( index < length );
 		return string;
+	}
+
+	public static boolean containsFocusControl( Control container )
+	{
+		Control control = container.getDisplay( ).getFocusControl( );
+
+		if ( control == container )
+			return true;
+
+		while ( control != null )
+		{
+			control = control.getParent( );
+			if ( control == container )
+				return true;
+		}
+
+		return false;
 	}
 }
