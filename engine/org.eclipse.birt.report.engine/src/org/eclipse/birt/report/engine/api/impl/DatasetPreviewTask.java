@@ -43,6 +43,8 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected IRunnable runnable;
 	
 	protected DataSetHandle dataset;
+	
+	protected QueryDefinition query;
 
 	protected int maxRow = -1;
 	
@@ -347,6 +349,8 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected QueryDefinition constructQuery( DataSetHandle dataset )
 			throws DataException
 	{
+		if ( this.query != null )
+			return this.query;
 		QueryDefinition query = new QueryDefinition( );
 		query.setDataSetName( dataset.getQualifiedName( ) );
 		query.setAutoBinding( true );
@@ -427,6 +431,11 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			}
 		}
 
+	}
+
+	public void setQuery( QueryDefinition query )
+	{
+		this.query = query;
 	}
 
 
