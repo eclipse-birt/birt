@@ -71,6 +71,7 @@ public class DataEngineSession
 	private RAOutputStream emtpryIDStream;
 	
 	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
+	private static ThreadLocal<Map<String,Integer>> versionForQuRsHolder = new ThreadLocal<Map<String,Integer>>();
 	
 	private static Logger logger = Logger.getLogger( DataEngineSession.class.getName( ) );
 	
@@ -116,11 +117,13 @@ public class DataEngineSession
 		{
 			classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );			
 		}
+		versionForQuRsHolder.set( new HashMap<String, Integer>( ) );
 		engine.addShutdownListener( new IShutdownListener( ) {
 
 			public void dataEngineShutdown( )
 			{
 				classLoaderHolder.set( null );
+				versionForQuRsHolder.set( null );
 				houseKeepCancelManager( );
 				saveGeneralACL( );
 				if ( emtpryIDStream != null )
@@ -365,6 +368,14 @@ public class DataEngineSession
 	{
 		return classLoaderHolder.get( );
 	}
+	
+	/**
+	 * @return the map of version/queryid pair for one session.
+	 */
+	public static Map<String,Integer> getVersionForQuRsMap( )
+	{
+		return versionForQuRsHolder.get( );
+	}	
 	
 	/**
 	 * @return the temp dir path used by this session, ended with File.Separator
