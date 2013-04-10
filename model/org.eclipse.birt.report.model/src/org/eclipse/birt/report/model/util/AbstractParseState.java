@@ -108,8 +108,8 @@ public abstract class AbstractParseState
 		{
 			ModuleParserHandler moduleHandler = (ModuleParserHandler) handler;
 			if ( moduleHandler.isLaterVersion( )
-					&& ( moduleHandler.getModule( ).getOptions( ) == null 
-					     || moduleHandler.getModule( ).getOptions( ).isSupportedUnknownVersion( ) ) )
+					&& ( moduleHandler.getModule( ).getOptions( ) != null 
+					     && moduleHandler.getModule( ).getOptions( ).isSupportedUnknownVersion( ) ) )
 			{
 				isSetWarning = true;
 			}

@@ -37,9 +37,9 @@ public class ModuleOption implements IModuleOption
 	 * 1, allow run unknown version design/document.
 	 * 2, ignore all the errors related with unknown tag/unknown property and log out a warning.
 	 * 3, if a design contains warnings for unknown version, ignore the waring and continue run/render.
-	 * default value is "true"
+	 * default value is "false"
 	 */
-	private boolean isSupportedUnknownVersion = true;
+	private boolean isSupportedUnknownVersion = false;
 
 	/**
 	 * Default constructor.
