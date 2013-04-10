@@ -372,8 +372,13 @@ public class DataEngineSession
 	/**
 	 * @return the map of version/queryid pair for one session.
 	 */
+	//TODO refactor on me. Unsafe for multiple data session.
 	public static Map<String,Integer> getVersionForQuRsMap( )
 	{
+		if( versionForQuRsHolder.get( ) == null )
+		{
+			versionForQuRsHolder.set( new HashMap<String, Integer>( ) );
+		}
 		return versionForQuRsHolder.get( );
 	}	
 	
