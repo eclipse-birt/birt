@@ -301,6 +301,11 @@ public class RDLoad
 			Map<String, StringTable> stringTableMap, Map index,
 			boolean includeInnerID, Map appContext ) throws DataException
 	{
+		if( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE ) )
+			return null;
+		
 		if ( targetResultClass == null )
 			targetResultClass = this.loadResultClass( includeInnerID );
 
@@ -328,16 +333,27 @@ public class RDLoad
 					StreamManager.ROOT_STREAM,
 					StreamManager.BASE_SCOPE );
 
+		int adjustedVersion = resolveVersionConflict( );
+		
 		return new DataSetResultSet( stream,
 				lensStream,
 				this.loadResultClass( ),
 				preFilteredRowIds,
 				stringTableMap,
 				index,
-				version,
+				adjustedVersion,
 				includeInnerID );
 	}
 	
+	
+	private int resolveVersionConflict( )
+	{
+		if ( version == VersionManager.VERSION_3_7_2_1
+				&& ( "4.2.0.v20120611".equals( this.context.getBundleVersion( ) ) || "4.2.1.v20120820".equals( this.context.getBundleVersion( ) ) ) )
+			return VersionManager.VERSION_4_2_1_2;
+		else
+			return version;
+	}
 	/**
 	 * @param streamPos
 	 * @param streamScope
