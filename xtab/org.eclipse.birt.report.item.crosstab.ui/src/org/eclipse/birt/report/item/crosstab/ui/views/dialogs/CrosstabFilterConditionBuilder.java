@@ -83,6 +83,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.util.CubeUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -1794,6 +1795,10 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				if ( level != null )
 				{
 					return DEUtil.resolveNull( level.getName( ) );
+				}
+				else if (( (MemberValueHandle) element ).getCubeLevelName( ) != null)
+				{
+					return CubeUtil.splitLevelName( ( (MemberValueHandle) element ).getCubeLevelName( ) )[1];
 				}
 				else
 				{
