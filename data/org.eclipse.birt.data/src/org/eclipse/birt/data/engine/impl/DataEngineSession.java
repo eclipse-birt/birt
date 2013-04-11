@@ -117,13 +117,16 @@ public class DataEngineSession
 		{
 			classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );			
 		}
-		versionForQuRsHolder.set( new HashMap<String, Integer>( ) );
+		
+		final int mode = engine.getContext( ).getMode( );
 		engine.addShutdownListener( new IShutdownListener( ) {
 
 			public void dataEngineShutdown( )
 			{
 				classLoaderHolder.set( null );
-				versionForQuRsHolder.set( null );
+				//TODO refactor me
+				if( mode != DataEngineContext.DIRECT_PRESENTATION )
+					versionForQuRsHolder.set( null );
 				houseKeepCancelManager( );
 				saveGeneralACL( );
 				if ( emtpryIDStream != null )
