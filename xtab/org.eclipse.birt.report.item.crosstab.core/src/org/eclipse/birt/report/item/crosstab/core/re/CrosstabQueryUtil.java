@@ -313,7 +313,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				{
 					measureBindingName = ((DataItemHandle)obj).getResultSetColumn( );
 					ComputedColumnHandle column = CrosstabUtil.getColumnHandle( crosstabItem, measureBindingName );
-					aggrFunc = column.getAggregateFunction( );
+					aggrFunc = (column != null) ? column.getAggregateFunction( ) : null;
 					if( CrosstabUtil.validateBinding( column, linkedColumnName ) )
 					{
 						break;
