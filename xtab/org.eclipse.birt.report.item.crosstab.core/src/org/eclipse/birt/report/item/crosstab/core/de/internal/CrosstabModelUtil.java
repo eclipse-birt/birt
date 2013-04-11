@@ -749,17 +749,38 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	{
 		if ( mv != null && mv.getCubeMeasure( ) != null )
 		{
-			String func = mv.getCubeMeasure( ).getFunction( );
-
-			if ( func != null )
+			if ( CrosstabUtil.isBoundToLinkedDataSet( mv.getCrosstab( ) ) )
+			{				
+				if ( !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+				{
+					return DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
+				}
+			}
+			else
 			{
-				return DataAdapterUtil.getRollUpAggregationName( func );
+				String func = mv.getCubeMeasure( ).getFunction( );
+				if ( func != null )
+				{
+					return DataAdapterUtil.getRollUpAggregationName( func );
+				}
 			}
 		}
 
 		return DEFAULT_MEASURE_FUNCTION;
 	}
 
+	/**
+	 * Whether it is numeric data type.
+	 * @param dataType
+	 * @return
+	 */
+	public static boolean isNumeric( String dataType )
+	{
+		return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType );
+	}
+	
 	/**
 	 * Gets the aggregation function for this cell.
 	 * 
