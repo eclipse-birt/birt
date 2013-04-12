@@ -85,6 +85,11 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 	private static Logger logger = Logger.getLogger( PropertyBindingPage.class.getName( ) );
 	
 	private ReportElementHandle handle;
+	
+	private int count = 0;
+	
+	private static String LEFT_PARENTHESIS = Messages.getString( "PropertyBindingPage.label.LeftParenthesis" );  //$NON-NLS-1$
+	private static String RIGHT_PARENTHESIS = Messages.getString( "PropertyBindingPage.label.RightParenthesis" );  //$NON-NLS-1$
 
 	/**
 	 * the content
@@ -123,15 +128,13 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			if ( propList.get( i ) instanceof String[] )
 			{
 				bindingName = ( (String[]) propList.get( i ) )[0];
-				nameLabel.setText( ( (String[]) propList.get( i ) )[1]
-						+ Messages.getString( "PropertyBindingPage.label.colon" ) ); //$NON-NLS-1$
+				nameLabel.setText( getLabelText( ( (String[]) propList.get( i ) )[1] ) ); //$NON-NLS-1$
 			}
 			else if ( propList.get( i ) instanceof IPropertyDefn )
 			{
 				IPropertyDefn propDefn = (IPropertyDefn) propList.get( i );
 				bindingName = propDefn.getName( );
-				nameLabel.setText( propDefn.getDisplayName( )
-						+ Messages.getString( "PropertyBindingPage.label.colon" ) ); //$NON-NLS-1$
+				nameLabel.setText( getLabelText( propDefn.getDisplayName( ) ) ); //$NON-NLS-1$
 				isEncryptable = propDefn.isEncryptable( );
 			}
 			nameLabelList.add( nameLabel );
@@ -228,7 +231,30 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 
 		return sComposite;
 	}
-	
+
+	private String getLabelText( String displayName )
+	{
+		return handleShortCutKey( displayName )
+				+ Messages.getString( "PropertyBindingPage.label.colon" ); //$NON-NLS-1$
+	}
+
+	private String handleShortCutKey( String displayName )
+	{
+		assert displayName != null;
+		if ( displayName.contains( "&" ) )
+		{
+			return displayName;
+		}
+		char[] chars = Character.toChars( 'A' + count );
+		if ( chars == null || chars.length == 0 )
+		{
+			return displayName;
+		}
+		char shortCutKey = chars[0];
+		count++;
+		return displayName + LEFT_PARENTHESIS + "&" + shortCutKey + RIGHT_PARENTHESIS;
+	}
+
 	private static String getDynamicContextId( String helpKeyPrefix, String helpPlugin )
 	{
 		return HelpUtil.getContextId( helpKeyPrefix + ".properties.helpKey", helpPlugin ); //$NON-NLS-1$
