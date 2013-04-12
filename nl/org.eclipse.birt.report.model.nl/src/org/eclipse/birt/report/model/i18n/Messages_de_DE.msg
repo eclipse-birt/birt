@@ -4013,7 +4013,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Die Elemente der Vorlage 
 Info.VersionInfo.INVALID_DESIGN_FILE=Die zu öffnende Designdatei ist keine gültige Designdatei oder nicht vorhanden.
 Info.VersionInfo.CONVERT_INFO=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
 Info.VersionInfo.INVALID_VERSION=Die Berichtdatei für Version {0} wird nicht unterstützt.
-Info.VersionInfo.LATER_VERSION=The design file was created by an later version of BIRT. Click OK to convert it to a format supported by the current version of the product.
+Info.VersionInfo.LATER_VERSION=Die Design-Datei wurde mit einer höheren Version von BIRT erstellt. Klicken Sie auf 'OK', um sie in ein Format zu konvertieren, das von der aktuell verwendeten Produktversion unterstützt wird.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =Das Design/die Bibliothek kann geändert werden, da auf das zu öffnende Design/die zu öffnende Bibliothek oder deren enthaltene Bibliotheken Rückwärtskompatibilität angewendet wird.
 
 #EncryptionException

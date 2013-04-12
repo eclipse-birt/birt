@@ -29,7 +29,7 @@ connection.profile.name=XML データソース接続プロファイル
 newwizard.name=BIRT 2.1.x XML の旧データソース
 newwizard.description=BIRT 2.1.x XML データソース接続プロファイルの作成
 wizard.window.title=XML データソースプロファイルの新規作成
-wizard.data.source.page.title=XML ファイルとスキーマ情報への ULR を定義してください。
+wizard.data.source.page.title=XML ファイルとスキーマ情報への URL を定義してください。
 profile.propertypage.name=XML データソースの接続プロパティ
 preference.datasetpreview=XML データセット
 #

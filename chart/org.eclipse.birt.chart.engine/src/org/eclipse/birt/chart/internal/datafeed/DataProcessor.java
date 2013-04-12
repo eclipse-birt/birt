@@ -1541,7 +1541,8 @@ public class DataProcessor
 				if ( obj instanceof CDateTime )
 				{
 					baseReference = (CDateTime) obj;
-					baseReference.clearBelow( cunit );
+					// Always trimmed for category grouping
+					baseReference.clearBelow( cunit, true );
 					oaTuple[iBaseColumnIndex] = baseReference;
 				}
 			}

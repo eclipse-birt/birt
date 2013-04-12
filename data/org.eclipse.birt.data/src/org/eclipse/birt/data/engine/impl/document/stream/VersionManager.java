@@ -23,6 +23,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 
 /**
  * Manager the version of report document.
@@ -174,6 +175,7 @@ public class VersionManager
 		
 		Map<String, Integer> idVersionMap = this.getQueryIdVersionMap();
 		idVersionMap.put( queryResultId, version );
+		DataEngineSession.getVersionForQuRsMap( ).put( queryResultId, version );
 		this.dataEngineContext.dropStream( null, null, DataEngineContext.QUERY_ID_BASED_VERSIONING_STREAM );
 		
 		OutputStream versionOs = this.dataEngineContext.getOutputStream( null,
@@ -198,8 +200,7 @@ public class VersionManager
 		Map<String, Integer> result = new HashMap<String, Integer>( );
 
 		if( !dataEngineContext.hasInStream( null, null, DataEngineContext.QUERY_ID_BASED_VERSIONING_STREAM ))
-			return result;
-		
+			return result;		
 		
 		try
 		{
@@ -214,9 +215,9 @@ public class VersionManager
 		catch ( IOException e )
 		{
 			logger.log( Level.FINE, e.getMessage( ), e );
-		}
-	
-		return result;
+		}		
+		DataEngineSession.getVersionForQuRsMap( ).putAll( result );
+		return DataEngineSession.getVersionForQuRsMap( );
 	}
 	
 	public int getVersion( String queryResultId ) throws DataException
