@@ -151,7 +151,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		List<String> columnLevelNameList = new ArrayList<String>( );
 
 		List<LevelViewHandle> levelViewList = new ArrayList<LevelViewHandle>( );
-		Map<LevelHandle, ILevelDefinition> levelMapping = new HashMap<LevelHandle, ILevelDefinition>( );
+		Map<String, ILevelDefinition> levelMapping = new HashMap<String, ILevelDefinition>( );
 
 		if ( needMeasure )
 		{
@@ -349,7 +349,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 	private static void addEdgeDefinition( ICubeQueryDefinition cubeQuery,
 			CrosstabReportItemHandle crosstabItem, int axis,
 			List<String> levelNameList, List<LevelViewHandle> levelViewList,
-			Map<LevelHandle, ILevelDefinition> levelMapping,
+			Map<String, ILevelDefinition> levelMapping,
 			IModelAdapter modelAdapter, boolean isBoundToLinkedDataSet ) throws BirtException
 	{
 		// TODO check visibility?
@@ -423,7 +423,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				}
 
 				levelViewList.add( lv );
-				levelMapping.put( lv.getCubeLevel( ), levelDef );
+				levelMapping.put( lv.getCubeLevel( ).getFullName( ), levelDef );
 			}
 		}
 
@@ -439,14 +439,25 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				for ( int i = 0; i < members.size( ); i++ )
 				{
 					MemberValueHandle mvh = (MemberValueHandle) members.get( i );
-
-					if ( mvh != null && mvh.getLevel( ) != null )
+					if( mvh == null )
 					{
-						addDrillDefinition( edge, mvh, levelMapping );
+						continue;
+					}
+					
+					LevelHandle lv = mvh.getLevel( );
+					if( lv == null )
+					{
+						lv = crosstabItem.findLevelHandle( mvh.getCubeLevelName( ) );	
+					}
+					
+					if ( lv != null )
+					{
+						addDrillDefinition( crosstabItem, edge, mvh, levelMapping );
 					}
 				}
 
 				addEdgeMemberFilter( cubeQuery,
+						crosstabItem,
 						modelAdapter,
 						members,
 						levelMapping );
@@ -454,9 +465,9 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		}
 	}
 
-	private static void addEdgeMemberFilter( ICubeQueryDefinition cubeQuery,
+	private static void addEdgeMemberFilter( ICubeQueryDefinition cubeQuery, CrosstabReportItemHandle crosstabItem,
 			IModelAdapter modelAdapter, List<MemberValueHandle> members,
-			Map<LevelHandle, ILevelDefinition> levelMapping )
+			Map<String, ILevelDefinition> levelMapping )
 			throws BirtException
 	{
 		List<List<IScriptExpression>> allTargetLevels = new ArrayList<List<IScriptExpression>>( );
@@ -472,13 +483,25 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 		for ( MemberValueHandle mvh : members )
 		{
-			if ( mvh != null && mvh.getLevel( ) == null )
+			if( mvh == null )
+			{
+				continue;
+			}
+			
+			LevelHandle lv = mvh.getLevel( );
+			if( lv == null )
+			{
+				lv = crosstabItem.findLevelHandle( mvh.getCubeLevelName( ) );	
+			}
+			
+			if ( lv == null )
 			{
 				List<IScriptExpression> targetLevels = new ArrayList<IScriptExpression>( );
 				List<List<IScriptExpression>> memberValues = new ArrayList<List<IScriptExpression>>( );
 				List<List<Boolean>> memberFlags = new ArrayList<List<Boolean>>( );
 
-				traverseMemberFilter( targetLevels,
+				traverseMemberFilter( crosstabItem,
+						targetLevels,
 						op,
 						updateAggFlag,
 						memberValues,
@@ -606,17 +629,21 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 	/**
 	 * !!!Note depth and pos is 1-based for this method.
 	 */
-	private static void traverseMemberFilter(
+	private static void traverseMemberFilter(CrosstabReportItemHandle crosstabItem,
 			List<IScriptExpression> targetLevels, int[] op,
 			Boolean[] updateAggFlag,
 			List<List<IScriptExpression>> memberValues,
 			List<List<Boolean>> memberFlags, MemberValueHandle member,
-			Map<LevelHandle, ILevelDefinition> levelMapping,
+			Map<String, ILevelDefinition> levelMapping,
 			IModelAdapter modelAdapter, int depth, int[] pos )
 			throws BirtException
 	{
 		LevelHandle targetLevel = member.getLevel( );
-
+		if( targetLevel == null )
+		{
+			targetLevel = crosstabItem.findLevelHandle( member.getCubeLevelName( ) );
+		}
+		
 		if ( targetLevel == null )
 		{
 			// this must be the pseudo root level, which only denotes a filter.
@@ -631,7 +658,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 			if ( depth > targetLevels.size( ) )
 			{
-				ILevelDefinition targetLevelDef = levelMapping.get( targetLevel );
+				ILevelDefinition targetLevelDef = levelMapping.get( targetLevel.getFullName( ) );
 
 				IDimensionDefinition targetDimDef = targetLevelDef.getHierarchy( )
 						.getDimension( );
@@ -725,7 +752,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 				if ( child != null )
 				{
-					traverseMemberFilter( targetLevels,
+					traverseMemberFilter( crosstabItem,
+							targetLevels,
 							op,
 							updateAggFlag,
 							memberValues,
@@ -789,9 +817,9 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		}
 	}
 
-	private static void addDrillDefinition( IEdgeDefinition edge,
+	private static void addDrillDefinition( CrosstabReportItemHandle crosstabItem, IEdgeDefinition edge,
 			MemberValueHandle member,
-			Map<LevelHandle, ILevelDefinition> levelMapping )
+			Map<String, ILevelDefinition> levelMapping )
 	{
 		IHierarchyDefinition targetHierarchy = null;
 		String targetLevelName = null;
@@ -802,7 +830,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				targetLevelName, targetHierarchy
 		};
 
-		traverseDrillMember( output, member, levelMapping, values, 0 );
+		traverseDrillMember( crosstabItem, output, member, levelMapping, values, 0 );
 
 		targetLevelName = (String) output[0];
 		targetHierarchy = (IHierarchyDefinition) output[1];
@@ -833,13 +861,17 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 	/**
 	 * !!!Note depth is 0-based for this method.
 	 */
-	private static void traverseDrillMember( Object[] output,
+	private static void traverseDrillMember( CrosstabReportItemHandle crosstabItem, Object[] output,
 			MemberValueHandle member,
-			Map<LevelHandle, ILevelDefinition> levelMapping,
+			Map<String, ILevelDefinition> levelMapping,
 			List<List<Object>> values, int depth )
 	{
 		LevelHandle targetLevel = member.getLevel( );
-
+		if( targetLevel == null )
+		{
+			targetLevel = crosstabItem.findLevelHandle( member.getCubeLevelName( ) );
+		}
+		
 		if ( targetLevel == null )
 		{
 			return;
@@ -861,7 +893,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 			vals.add( val );
 		}
 
-		ILevelDefinition targetLevelDef = levelMapping.get( targetLevel );
+		ILevelDefinition targetLevelDef = levelMapping.get( targetLevel.getFullName( ) );
 
 		// update the target level name
 		output[0] = targetLevel.getName( );
@@ -883,7 +915,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 				if ( child != null )
 				{
-					traverseDrillMember( output,
+					traverseDrillMember( crosstabItem,
+							output,
 							child,
 							levelMapping,
 							values,
@@ -897,15 +930,13 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 	 * Recursively add all member values and associated levels to the given
 	 * list.
 	 */
-	private static void addMembers(
-			Map<LevelHandle, ILevelDefinition> levelMapping,
+	private static void addMembers( Map<String, ILevelDefinition> levelMapping,
 			List<ILevelDefinition> levels, List<Object> values,
 			MemberValueHandle member )
 	{
 		if ( member != null )
-		{
-			ILevelDefinition levelDef = levelMapping.get( member.getLevel( ) );
-
+		{			
+			ILevelDefinition levelDef = levelMapping.get( member.getCubeLevelName( ) );
 			if ( levelDef != null )
 			{
 				levels.add( levelDef );
@@ -925,7 +956,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 	}
 
 	private static void addLevelSorting( List<LevelViewHandle> levelViews,
-			Map<LevelHandle, ILevelDefinition> levelMapping,
+			Map<String, ILevelDefinition> levelMapping,
 			ICubeQueryDefinition cubeQuery, IModelAdapter modelAdapter )
 			throws BirtException
 	{
@@ -965,7 +996,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					ICubeSortDefinition sortDef = getCubeElementFactory( ).createCubeSortDefinition( modelAdapter.adaptExpression( (Expression) sortKey.getExpressionProperty( ISortElementModel.KEY_PROP )
 							.getValue( ),
 							ExpressionLocation.CUBE ),
-							levelMapping.get( lv.getCubeLevel( ) ),
+							levelMapping.get( lv.getCubeLevel( ).getFullName( ) ),
 							qualifyLevels,
 							qualifyValues,
 							DataAdapterUtil.adaptModelSortDirection( sortKey.getDirection( ) ) );
@@ -980,7 +1011,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 	}
 
 	private static void addLevelFilter( List<LevelViewHandle> levelViews,
-			Map<LevelHandle, ILevelDefinition> levelMapping,
+			Map<String, ILevelDefinition> levelMapping,
 			ICubeQueryDefinition cubeQuery, IModelAdapter modelAdapter )
 			throws BirtException
 	{
@@ -1067,7 +1098,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					}
 
 					ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
-							levelMapping.get( lv.getCubeLevel( ) ),
+							levelMapping.get( lv.getCubeLevel( ).getFullName( ) ),
 							qualifyLevels,
 							qualifyValues,
 							filterCon.updateAggregation( ) );
