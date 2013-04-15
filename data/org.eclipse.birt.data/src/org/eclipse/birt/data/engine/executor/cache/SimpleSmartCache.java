@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.executor.cache.disk.SimpleDiskCache;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StringTable;
+import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -237,7 +238,9 @@ public class SimpleSmartCache implements ResultSetCache
 	public void doSave( DataOutputStream outputStream,
 			DataOutputStream rowLensStream,
 			Map<String, StringTable> stringTable,
-			Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMap, int version )
+			Map<String, IIndexSerializer> index,
+			List<IBinding> cacheRequestMap, int version,
+			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
 			throws DataException
 	{
 		open( );
@@ -246,7 +249,7 @@ public class SimpleSmartCache implements ResultSetCache
 				rowLensStream,
 				stringTable,
 				index,
-				cacheRequestMap, version );
+				cacheRequestMap, version, auxiliaryIndexCreators );
 	}
 
 	/*
@@ -257,7 +260,8 @@ public class SimpleSmartCache implements ResultSetCache
 	public void incrementalUpdate( OutputStream outputStream,
 			OutputStream rowLensStream, int originalRowCount,
 			Map<String, StringTable> stringTable,
-			Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap, int version)
+			Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
+			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
 			throws DataException
 	{
 		open( );
@@ -267,7 +271,7 @@ public class SimpleSmartCache implements ResultSetCache
 				originalRowCount,
 				stringTable,
 				map,
-				cacheRequestMap, version );
+				cacheRequestMap, version, auxiliaryIndexCreators );
 	}
 
 	/*

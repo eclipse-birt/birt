@@ -270,6 +270,19 @@ public class CrosstabUIHelper
 				false );
 	}
 	
+	public static ICubeQueryDefinition createBindingQuery(
+			CrosstabReportItemHandle crosstabItem, boolean needMeasure) throws BirtException
+	{
+		return CrosstabQueryUtil.createCubeQuery( crosstabItem,
+				null,
+				needMeasure,
+				true,
+				true,
+				true,
+				false,
+				false );
+	}
+	
 	public static void validateFixedColumnWidth(ExtendedItemHandle handle)
 	{
 		EditPartViewer viewer = UIUtil.getLayoutEditPartViewer( );

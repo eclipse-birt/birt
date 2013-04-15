@@ -1,6 +1,6 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -10,6 +10,10 @@
  ************************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
@@ -25,8 +29,8 @@ public class DataSetsNodeProvider extends DefaultNodeProvider
 {
 
 	/**
-	 * Creates the context menu for the given object. Gets the action from the
-	 * actionRegistry and adds the action to the given menu.
+	 * Creates the context menu for the given object. Gets the action from the actionRegistry and
+	 * adds the action to the given menu.
 	 * 
 	 * @param menu
 	 *            the menu
@@ -42,10 +46,22 @@ public class DataSetsNodeProvider extends DefaultNodeProvider
 
 	public Object[] getChildren( Object model )
 	{
-		return ( (SlotHandle) model ).getElementHandle( )
+		SlotHandle dataSetSlot = ( (SlotHandle) model ).getElementHandle( )
 				.getModuleHandle( )
-				.getVisibleDataSets( )
-				.toArray( );
+				.getDataSets( );
+		List dataSets = new ArrayList( dataSetSlot.getCount( ) );
+
+		Iterator itr = dataSetSlot.iterator( );
+		while ( itr.hasNext( ) )
+		{
+			dataSets.add( itr.next( ) );
+		}
+
+		return dataSets.toArray( );
+		// return ( (SlotHandle) model ).getElementHandle( )
+		// .getModuleHandle( )
+		// .getVisibleDataSets( )
+		// .toArray( );
 	}
 
 	/**
@@ -62,7 +78,9 @@ public class DataSetsNodeProvider extends DefaultNodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(java.lang.Object
+	 * )
 	 */
 	public String getIconName( Object model )
 	{

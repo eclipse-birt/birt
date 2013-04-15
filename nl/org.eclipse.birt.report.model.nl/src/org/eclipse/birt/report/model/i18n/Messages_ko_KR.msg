@@ -4013,7 +4013,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=템플릿 요소가 라이브러리�
 Info.VersionInfo.INVALID_DESIGN_FILE=열린 디자인 파일이 올바른 디자인 파일이 아니거나 해당 파일이 없습니다.
 Info.VersionInfo.CONVERT_INFO=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
 Info.VersionInfo.INVALID_VERSION=버전 {0}의 보고서 파일이 지원되지 않습니다.
-Info.VersionInfo.LATER_VERSION=The design file was created by an later version of BIRT. Click OK to convert it to a format supported by the current version of the product.
+Info.VersionInfo.LATER_VERSION=최신 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =열린 디자인/라이브러리 또는 포함된 라이브러리는 이전 버전과 호환되므로 디자인/라이브러리가 변경될 수 있습니다.
 
 #EncryptionException

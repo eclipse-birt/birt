@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ElementDetailHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 
 /**
@@ -27,7 +29,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 public class ListBandProxy
 {
 
-	private SlotHandle handle;
+	private ElementDetailHandle handle;
 
 	private String displayName = ""; //$NON-NLS-1$
 
@@ -64,6 +66,11 @@ public class ListBandProxy
 		this.handle = handle;
 	}
 
+	public ListBandProxy( PropertyHandle handle )
+	{
+		super( );
+		this.handle = handle;
+	}
 	/**
 	 * constructor
 	 * 
@@ -104,7 +111,7 @@ public class ListBandProxy
 	 *  Get slot handle which is corresponding model of list band
 	 * @return slot handle which is corresponding model of list band
 	 */
-	public SlotHandle getSlotHandle( )
+	public ElementDetailHandle getSlotHandle( )
 	{
 		return handle;
 	}
@@ -136,7 +143,15 @@ public class ListBandProxy
 	public List getChildren( )
 	{
 		List list = new ArrayList( );
-		Iterator iterator = handle.iterator( );
+		Iterator iterator = null;
+		if ( handle instanceof SlotHandle )
+		{
+			iterator = ((SlotHandle)handle).iterator( );
+		}
+		else
+		{
+			iterator = ((PropertyHandle)handle).iterator();
+		}
 		for ( Iterator it = iterator; it.hasNext( ); )
 		{
 			//list.add( ( (DesignElementHandle) it.next( ) ).getElement( ) );
@@ -159,7 +174,11 @@ public class ListBandProxy
 	 */
 	public int getSlotId( )
 	{
-		return handle.getSlotID( );
+		if ( handle instanceof SlotHandle )
+		{
+			return ((SlotHandle)handle).getSlotID( );
+		}
+		return -1;
 	}
 
 	/** 

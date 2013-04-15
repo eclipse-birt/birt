@@ -238,7 +238,8 @@ public class ChartCubeQueryHelper
 		if ( cubeHandle == null )
 		{
 			// Create sub query for chart in xtab
-			cubeHandle = ChartCubeUtil.getBindingCube( handle );
+			cubeHandle = ChartReportItemHelper.instance( )
+					.getBindingCubeHandle( handle );
 			if ( cubeHandle == null )
 			{
 				throw new ChartException( ChartReportItemConstants.ID,
@@ -556,7 +557,7 @@ public class ChartCubeQueryHelper
 					&& !lstAggOn.isEmpty( ) )
 			{
 				// Add aggregate on in binding
-				addAggregateOn( binding, lstAggOn, cubeQuery, cube );
+				addAggregateOn( binding, lstAggOn );
 			}
 
 			// Add binding query expression here
@@ -569,8 +570,7 @@ public class ChartCubeQueryHelper
 		}
 	}
 
-	private void addAggregateOn( IBinding binding, List<String> lstAggOn,
-			ICubeQueryDefinition cubeQuery, CubeHandle cube )
+	private void addAggregateOn( IBinding binding, List<String> lstAggOn )
 			throws BirtException
 	{
 		for ( Iterator<String> iAggs = lstAggOn.iterator( ); iAggs.hasNext( ); )

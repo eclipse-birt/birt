@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
+import org.eclipse.birt.report.designer.core.model.IMixedHandle;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -70,6 +71,10 @@ public class DeleteAction extends AbstractElementAction
 	{
 
 		Object selection = getSelection( );
+		if (selection instanceof IMixedHandle)
+		{
+			selection = ((IMixedHandle) selection).getChildren( ).toArray( );
+		}
 		if ( selection != null && selection instanceof StructuredSelection )
 		{
 			Object element = ( (StructuredSelection) selection ).getFirstElement( );
@@ -105,7 +110,11 @@ public class DeleteAction extends AbstractElementAction
 	public boolean isEnabled( )
 	{
 		Object selection = getSelection( );
-		if ( selection != null && selection instanceof StructuredSelection )
+		if (selection instanceof IMixedHandle)
+		{
+			selection = ((IMixedHandle) selection).getChildren( ).toArray( );
+		}
+		else if ( selection != null && selection instanceof StructuredSelection )
 		{
 			Object element = ( (StructuredSelection) selection ).getFirstElement( );
 			if ( element != null && element instanceof LibraryHandle )
@@ -116,7 +125,7 @@ public class DeleteAction extends AbstractElementAction
 				}
 			}
 		}
-		Command cmd = createDeleteCommand( getSelection( ) );
+		Command cmd = createDeleteCommand( selection );
 		if ( cmd == null )
 			return false;
 		return cmd.canExecute( );

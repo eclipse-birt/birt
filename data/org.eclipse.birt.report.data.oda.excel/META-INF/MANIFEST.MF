@@ -11,7 +11,7 @@ Bundle-ClassPath: .,
  lib/poi-3.7/ooxml-lib/dom4j-1.6.1.jar,
  lib/poi-3.7/ooxml-lib/xmlbeans-2.3.0.jar
 Bundle-Activator: org.eclipse.birt.report.data.oda.excel.Activator
-Bundle-Vendor: Megha Nidhi Dahal
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.data.oda.excel,
  org.eclipse.birt.report.data.oda.excel.impl;version="1.0.0.qualifier",

@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
+import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -169,7 +170,13 @@ public class MemoryCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
-	public void doSave( DataOutputStream outputStream, DataOutputStream rowLensStream, Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMap, int version ) throws DataException
+	public void doSave( DataOutputStream outputStream,
+			DataOutputStream rowLensStream,
+			Map<String, StringTable> stringTable,
+			Map<String, IIndexSerializer> index,
+			List<IBinding> cacheRequestMap, int version,
+			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
+			throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
 		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( cacheRequestMap );
@@ -188,6 +195,13 @@ public class MemoryCache implements ResultSetCache
 						resultObjects[i],
 						colCount,
 						resultSetNameSet, stringTable, index, i, version );
+				if ( auxiliaryIndexCreators != null )
+				{
+					for ( IAuxiliaryIndexCreator creator : auxiliaryIndexCreators )
+					{
+						creator.save( resultObjects[i], i );
+					}
+				}
 			}
 		}
 		catch ( IOException e )
@@ -216,8 +230,11 @@ public class MemoryCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
-	public void incrementalUpdate( OutputStream outputStream, OutputStream rowLensStream, int originalRowCount, 
-			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap, int version )
+	public void incrementalUpdate( OutputStream outputStream,
+			OutputStream rowLensStream, int originalRowCount,
+			Map<String, StringTable> stringTable,
+			Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
+			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
 			throws DataException
 	{
 		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( cacheRequestMap );
@@ -245,9 +262,14 @@ public class MemoryCache implements ResultSetCache
 						resultObjects[i],
 						colCount,
 						resultSetNameSet, stringTable, map, originalRowCount + i, version );
+				if ( auxiliaryIndexCreators != null )
+				{
+					for ( IAuxiliaryIndexCreator creator : auxiliaryIndexCreators )
+					{
+						creator.save( resultObjects[i], originalRowCount + i );
+					}
+				}
 			}
-			
-
 		}
 		catch ( IOException e )
 		{

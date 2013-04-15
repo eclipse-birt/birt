@@ -138,7 +138,7 @@ class NameExecutorImpl
 				}
 				else
 				{
-					if ( module == focus.getRoot( ) )
+					if ( module == focus.getRoot( ) || focus.getRoot( ) == null )
 					{
 						nsParent = focus.getContainer( );
 					}

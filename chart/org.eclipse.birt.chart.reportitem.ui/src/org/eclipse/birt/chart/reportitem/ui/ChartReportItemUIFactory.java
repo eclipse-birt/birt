@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.ui.swt.ChartUIFactory;
@@ -28,9 +30,12 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 public class ChartReportItemUIFactory extends ChartUIFactory
 {
-
+	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	
 	private static ChartReportItemUIFactory instance = new ChartReportItemUIFactory( );
 
+	protected ReportDataServiceProvider reportDataProvider = null;
+	
 	protected ChartReportItemUIFactory( )
 	{
 
@@ -95,7 +100,12 @@ public class ChartReportItemUIFactory extends ChartUIFactory
 	{
 		return sectionHelper;
 	}
-	
+
+	public ReportDataServiceProvider createReportDataServiceProvider(
+			ExtendedItemHandle extendedHandle )
+	{
+		return new ReportDataServiceProvider( extendedHandle );
+	}
 	/**
 	 * Creates Figure used for edit part in layout editor.
 	 * 

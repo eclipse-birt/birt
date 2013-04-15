@@ -14,11 +14,16 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTotalAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.action.IAction;
@@ -66,8 +71,11 @@ public class LevelCrosstabPopMenuProvider extends ContextMenuProvider
 		if (element != null)
 		{
 			IAction action = new AddLevelHandleAction( element );
-			menu.add( action );
-
+			if (!CrosstabUtil.isBoundToLinkedDataSet( getCrosstab(element) ) )
+			{
+				menu.add( action );
+			}
+			
 			action = new AddSubTotalAction( element );
 			menu.add( action );
 		
@@ -125,5 +133,30 @@ public class LevelCrosstabPopMenuProvider extends ContextMenuProvider
 			return array[0];
 		}
 		return null;
+	}
+	
+	private CrosstabReportItemHandle getCrosstab(DesignElementHandle handle)
+	{
+		if (handle == null)
+		{
+			return null;
+		}
+		
+		IReportItem item = null;
+		try
+		{
+			item = ((ExtendedItemHandle)handle).getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			return null;
+		}
+		
+		if (item instanceof CrosstabReportItemHandle)
+		{
+			return (CrosstabReportItemHandle) item;
+		}
+		
+		return getCrosstab(handle.getContainer( ));
 	}
 }

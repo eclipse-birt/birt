@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.designer.core.model.IMixedHandle;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -124,10 +125,12 @@ public class PasteAction extends AbstractViewAction
 
 	private boolean canPaste( List info)
 	{
-		return DNDUtil.handleValidateTargetCanContain( getSelection( ),
-				getClipBoardContents( ), info )
-				&& DNDUtil.handleValidateTargetCanContainMore( getSelection( ),
-						DNDUtil.getObjectLength( getClipBoardContents( ) ) );
+		if(getSelection() instanceof IMixedHandle)
+		{
+			return validateCanPaste( ((IMixedHandle)getSelection( )).getSlotHandle( ), getClipBoardContents( ), info )
+					|| validateCanPaste( ((IMixedHandle)getSelection( )).getPropertyHandle( ), getClipBoardContents( ), info );
+		}
+		return validateCanPaste( getSelection( ), getClipBoardContents( ), info );
 	}
 
 	protected Object getClipBoardContents( )
@@ -143,6 +146,14 @@ public class PasteAction extends AbstractViewAction
 			selection = ( (StructuredSelection) selection ).getFirstElement( );
 		}
 		return selection;
+	}
+	
+	public static boolean validateCanPaste(Object targetObj, Object transferData, List infoList)
+	{
+		return (infoList == null? (DNDUtil.handleValidateTargetCanContain( targetObj, transferData ))
+						: DNDUtil.handleValidateTargetCanContain( targetObj, transferData, infoList ))
+				&& DNDUtil.handleValidateTargetCanContainMore( targetObj,
+						DNDUtil.getObjectLength( transferData ) );
 	}
 
 }

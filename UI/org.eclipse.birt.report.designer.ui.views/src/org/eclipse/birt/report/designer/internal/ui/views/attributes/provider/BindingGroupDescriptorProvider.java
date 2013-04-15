@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +19,13 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ParameterBindingDialog;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BindingGroupSection;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -42,7 +45,15 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 	protected List getAvailableDataBindingReferenceList(
 			ReportItemHandle element )
 	{
-		return element.getAvailableDataSetBindingReferenceList( );
+		List bindingRef = new ArrayList();
+		bindingRef.addAll( element.getAvailableDataSetBindingReferenceList( ));
+		
+		if( ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null )
+		{
+			bindingRef.addAll( ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( )
+					.getAvailableBindingReferenceList( element ));
+		}
+		return bindingRef;
 	}
 
 	private Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
@@ -322,14 +333,27 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 			{
 				getReportItemHandle( ).setDataBindingReference( null );
 			}
-			getReportItemHandle( ).setDataSet( dataSet );
+			boolean isExtendedDataSet = false;
+			if(dataSet == null && value != null)
+			{
+				getReportItemHandle( ).setDataSet( null );
+				isExtendedDataSet = new LinkedDataSetAdapter().setLinkedDataModel(getReportItemHandle( ), value.toString( ));
+			}
+			else
+			{
+				new LinkedDataSetAdapter().setLinkedDataModel(getReportItemHandle( ), null);
+				getReportItemHandle( ).setDataSet( dataSet );
+			}
 			if ( clearHistory )
 			{
 				getReportItemHandle( ).getColumnBindings( ).clearValue( );
 				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
 						.clearValue( );
 			}
-			dataSetProvider.generateAllBindingColumns( );
+			if(!isExtendedDataSet)
+			{
+				dataSetProvider.generateAllBindingColumns( );
+			}
 
 			commit( );
 		}
