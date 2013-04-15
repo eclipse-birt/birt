@@ -2413,6 +2413,7 @@ Element.DataMartCube=データオブジェクトキューブ
 Element.TimeDimension=時間のディメンション
 Element.ReportItemTheme=レポート項目テーマ
 Element.AbstractTheme=抽象テーマ
+Element.DataMartLinkedDataModel=Data Object Linked Data Set
 
 ###########################################################
 # Element property names
@@ -3465,6 +3466,10 @@ Element.DataMartCube.dataObject=データオブジェクト
 Element.TimeDimension.startTimePoint=開始時刻ポイント
 Element.TimeDimension.endTimePoint=終了時刻ポイント
 Element.TimeDimension.hierarchies=階層
+
+#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
+Element.DataMartLinkedDataModel.dataSource=データソース
+Element.DataMartLinkedDataModel.dataObject=データオブジェクト
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=種類
