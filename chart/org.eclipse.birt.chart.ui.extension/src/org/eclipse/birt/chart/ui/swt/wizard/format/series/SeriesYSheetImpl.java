@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
@@ -240,8 +241,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		createSeriesSpecificButton( cmp );
 
 		// Markers for Line/Area/Scatter series
-		if ( getCurrentDesignTimeSeries( ) instanceof LineSeries
-				&& !isDifferenceSeries( ) )
+		if ( isMarkerAvailable( ) )
 		{
 			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.Markers" ), //$NON-NLS-1$
 					getContext( ),
@@ -654,4 +654,9 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		return getCurrentDesignTimeSeries( ) instanceof PieSeries;
 	}
 
+	protected boolean isMarkerAvailable( )
+	{
+		return getCurrentDesignTimeSeries( ) instanceof LineSeries
+				&& !isDifferenceSeries( );
+	}
 }
