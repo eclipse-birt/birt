@@ -2413,6 +2413,7 @@ Element.DataMartCube=Cubo de objeto de datos
 Element.TimeDimension=Dimensión de tiempo
 Element.ReportItemTheme=Tema de elemento de informe
 Element.AbstractTheme=Tema abstracto
+Element.DataMartLinkedDataModel=Data Object Linked Data Set
 
 ###########################################################
 # Element property names
@@ -3466,6 +3467,10 @@ Element.TimeDimension.startTimePoint=Punto de inicio
 Element.TimeDimension.endTimePoint=Punto de finalización
 Element.TimeDimension.hierarchies=Jerarquías
 
+#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
+Element.DataMartLinkedDataModel.dataSource=Fuente de datos
+Element.DataMartLinkedDataModel.dataObject=Objeto de datos
+
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=Estilos
 Element.ReportItemTheme.type=Tipo
@@ -4013,7 +4018,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Los elementos de plantill
 Info.VersionInfo.INVALID_DESIGN_FILE=El archivo de diseño de apertura no es un archivo de diseño válido o el archivo no existe.
 Info.VersionInfo.CONVERT_INFO=El archivo de diseño fue creado por una versión anterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
 Info.VersionInfo.INVALID_VERSION=La versión del archivo de informe "{0}" no es compatible.
-Info.VersionInfo.LATER_VERSION=The design file was created by an later version of BIRT. Click OK to convert it to a format supported by the current version of the product.
+Info.VersionInfo.LATER_VERSION=El archivo de diseño fue creado con una versión posterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =Puede que diseño/librería hayan cambiado ya que la compatibilidad retroactiva se aplica al diseño de apertura/librería o las librerías incluidas.
 
 #EncryptionException

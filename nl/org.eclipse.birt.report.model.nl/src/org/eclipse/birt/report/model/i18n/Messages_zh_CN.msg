@@ -2413,6 +2413,7 @@ Element.DataMartCube=数据对象多维数据集
 Element.TimeDimension=时间维
 Element.ReportItemTheme=报表项布景主题
 Element.AbstractTheme=抽象布景主题
+Element.DataMartLinkedDataModel=Data Object Linked Data Set
 
 ###########################################################
 # Element property names
@@ -3466,6 +3467,10 @@ Element.TimeDimension.startTimePoint=开始时间
 Element.TimeDimension.endTimePoint=结束时间
 Element.TimeDimension.hierarchies=层次结构
 
+#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
+Element.DataMartLinkedDataModel.dataSource=数据源
+Element.DataMartLinkedDataModel.dataObject=数据对象
+
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=样式
 Element.ReportItemTheme.type=类型
@@ -4013,7 +4018,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=模板元素在库中不受支持。
 Info.VersionInfo.INVALID_DESIGN_FILE=正在打开的设计文件不是有效的设计文件，或者该文件不存在。
 Info.VersionInfo.CONVERT_INFO=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
 Info.VersionInfo.INVALID_VERSION=不支持版本“{0}”的报表文件。
-Info.VersionInfo.LATER_VERSION=The design file was created by an later version of BIRT. Click OK to convert it to a format supported by the current version of the product.
+Info.VersionInfo.LATER_VERSION=设计文件由较高版本的 BIRT 创建。 单击“确定”将其转换为该产品当前版本支持的格式。
 Info.VersionInfo.EXTENSION_COMPATIBILITY =设计/库可能已被更改，因为对正在打开的设计/库或其包含的库应用了后向兼容性。
 
 #EncryptionException

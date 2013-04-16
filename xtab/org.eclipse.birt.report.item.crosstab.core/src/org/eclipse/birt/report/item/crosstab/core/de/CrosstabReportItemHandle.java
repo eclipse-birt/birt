@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
+import org.eclipse.birt.report.model.api.util.CubeUtil;
 
 /**
  * CrosstabReportItemHandle.
@@ -612,9 +613,15 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 */
 	public String getCubeName( )
 	{
-		return handle.getStringProperty( ReportItemHandle.CUBE_PROP );
+		String cubeName = handle.getStringProperty( ReportItemHandle.CUBE_PROP );
+		if( cubeName == null && this.getCube( ) != null )
+		{
+			cubeName = this.getCube( ).getName( );
+		}
+		
+		return cubeName;
 	}
-
+	
 	/**
 	 * Finds a dimension view that refers a cube dimension element with the
 	 * given name.
@@ -685,6 +692,23 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		return crosstabView == null ? 0 : crosstabView.getDimensionCount( );
 	}
 
+	/**
+	 * Gets the level by full level name.
+	 * 
+	 * @param fullLevelName
+	 * @return
+	 */
+	public LevelViewHandle getLevel( String fullLevelName )
+	{
+		String[] slices = CubeUtil.splitLevelName( fullLevelName );
+		DimensionViewHandle dv = getDimension( slices[0] );
+		if( dv != null )
+		{
+			return dv.getLevel( fullLevelName );
+		}
+		return null;
+	}
+	
 	/**
 	 * Finds a measure view that refers a cube measure element with the given
 	 * name.

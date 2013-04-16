@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
+import org.eclipse.birt.report.model.api.util.CubeUtil;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Node;
@@ -126,6 +127,26 @@ public class CubeQueryUtil
 		}
 	}
 
+	/**
+	 * 
+	 * @param targetLevel
+	 * @param bindingExpr
+	 * @param bindings
+	 * @param rowEdgeExprList
+	 * @param columnEdgeExprList
+	 * @return
+	 * @throws AdapterException
+	 */
+	public static List getReferencedLevelsForLinkedCube( String targetLevel,
+			String bindingExpr, List bindings, List rowEdgeExprList,
+			List columnEdgeExprList ) throws AdapterException
+	{
+		return getReferencedLevels( targetLevel,
+				bindingExpr,
+				bindings,
+				rowEdgeExprList,
+				columnEdgeExprList );
+	}
 	
 	/**
 	 * Get all aggregation binding from <code>bindings</code> 
@@ -249,7 +270,7 @@ public class CubeQueryUtil
 		}
 		return -1;
 	}
-
+	
 	/**
 	 * Get referenced Script Object (dimension, data, measure, etc) according to
 	 * given object name.

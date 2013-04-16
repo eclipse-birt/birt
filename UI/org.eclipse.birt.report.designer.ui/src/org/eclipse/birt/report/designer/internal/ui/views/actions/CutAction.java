@@ -14,9 +14,12 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
@@ -67,8 +70,19 @@ public class CutAction extends AbstractViewAction
 	 */
 	public boolean isEnabled( )
 	{
-		return DNDUtil.handleValidateDragInOutline( getSelection( ) )
-				&& createDeleteAction( getSelection( ) ).isEnabled( );
+		Object selection = getSelection();
+		
+		if(selection instanceof IStructuredSelection 
+				&& ((IStructuredSelection)selection).getFirstElement( ) instanceof DesignElementHandle)
+		{
+			if( getAdapter() != null && getAdapter().resolveExtendedData( 
+					(DesignElementHandle) ((IStructuredSelection)selection).getFirstElement( ) ) != null)
+			{
+				return createDeleteAction( selection ).isEnabled( );
+			}
+		}
+		return DNDUtil.handleValidateDragInOutline( selection )
+				&& createDeleteAction( selection ).isEnabled( );
 	}
 
 	/*
@@ -107,5 +121,10 @@ public class CutAction extends AbstractViewAction
 				return DEFAULT_TEXT + " " + DEUtil.getDisplayLabel( objects ); //$NON-NLS-1$
 			}
 		};
+	}
+	
+	private IExtendedDataModelUIAdapter getAdapter()
+	{
+		return ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
 	}
 }

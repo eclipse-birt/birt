@@ -560,8 +560,75 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			}
 			return;
 		}
+
 		if ( cell != null )
 		{
+			// create a computed column and set some properties
+			String name = CrosstabModelUtil.generateComputedColumnName( measureView,
+					colLevel,
+					rowLevel );
+			ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
+					name );
+			String dataType = measureView.getDataType( );
+			column.setDataType( dataType );
+			
+			if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+			{
+				column.setExpression( ExpressionUtil.createDataSetRowExpression( measureView.getCubeMeasureName( ) ) );
+			}
+			else
+			{
+				column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+			}
+			
+			String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
+			column.setAggregateFunction( function != null ? function
+					: defaultFunction );
+
+			// When the function is not null,set the column set the correct data
+			// type
+			if ( function != null && !function.equals( defaultFunction ) )
+			{
+				try
+				{
+					// reset the data type to default by the aggregatino
+					// function
+
+					IAggrFunction aggFunc = getAggregationManager( ).getAggregation( column.getAggregateFunction( ) );
+
+					if ( aggFunc.getType( ) == IAggrFunction.RUNNING_AGGR )
+					{
+						// for running aggregation functions, it does not
+						// support
+						// direct calculation on measure, so we reset the func
+						// to default func.
+						column.setAggregateFunction( defaultFunction );
+					}
+					else
+					{
+						String targetType = DataAdapterUtil.adapterToModelDataType( aggFunc.getDataType( ) );
+
+						if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+						{
+							column.setDataType( targetType );
+						}
+					}
+				}
+				catch ( BirtException e )
+				{
+					// do nothing;
+				}
+			}
+
+			if ( rowLevel != null )
+			{
+				column.addAggregateOn( rowLevel );
+			}
+
+			if ( colLevel != null )
+			{
+				column.addAggregateOn( colLevel );
+			}
 
 			// add the computed column to crosstab
 			ComputedColumnHandle columnHandle = generateAggregation( crosstab,
@@ -772,17 +839,38 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	{
 		if ( mv != null && mv.getCubeMeasure( ) != null )
 		{
-			String func = mv.getCubeMeasure( ).getFunction( );
-
-			if ( func != null )
+			if ( CrosstabUtil.isBoundToLinkedDataSet( mv.getCrosstab( ) ) )
+			{				
+				if ( !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+				{
+					return DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
+				}
+			}
+			else
 			{
-				return DataAdapterUtil.getRollUpAggregationName( func );
+				String func = mv.getCubeMeasure( ).getFunction( );
+				if ( func != null )
+				{
+					return DataAdapterUtil.getRollUpAggregationName( func );
+				}
 			}
 		}
 
 		return DEFAULT_MEASURE_FUNCTION;
 	}
 
+	/**
+	 * Whether it is numeric data type.
+	 * @param dataType
+	 * @return
+	 */
+	public static boolean isNumeric( String dataType )
+	{
+		return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType );
+	}
+	
 	/**
 	 * Gets the aggregation function for this cell.
 	 * 

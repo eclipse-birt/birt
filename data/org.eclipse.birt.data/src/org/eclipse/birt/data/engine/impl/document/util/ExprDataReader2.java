@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.document.RowSaveUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
+import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.RowIndexUtil;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -61,7 +62,7 @@ class ExprDataReader2 implements IExprDataReader
 	private List exprKeys;
 	private int metaOffset;
 	private Map dataSetExprKeys;
-	private DataSetResultSet dataSetResultSet;
+	private IDataSetResultSet dataSetResultSet;
 	private Map bindingNameTypeMap;
 	private ClassLoader currentClassLoader;
 
@@ -72,7 +73,7 @@ class ExprDataReader2 implements IExprDataReader
 	 * @throws DataException
 	 */
 	ExprDataReader2( String tempDir, RAInputStream rowExprsIs, RAInputStream rowLenIs,
-			RAInputStream rowInfoIs, int version, DataSetResultSet dataSetResultSet ) throws DataException
+			RAInputStream rowInfoIs, int version, IDataSetResultSet dataSetResultSet ) throws DataException
 	{
 		this.version = version;
 		this.rowIndexUtil = new RowIndexUtil( rowInfoIs );
@@ -96,7 +97,7 @@ class ExprDataReader2 implements IExprDataReader
 	 * @param rowLenIs
 	 * @throws DataException
 	 */
-	private void initialize( String tempDir, RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount, DataSetResultSet dataSetResultSet ) throws DataException
+	private void initialize( String tempDir, RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount, IDataSetResultSet dataSetResultSet ) throws DataException
 	{
 		try
 		{

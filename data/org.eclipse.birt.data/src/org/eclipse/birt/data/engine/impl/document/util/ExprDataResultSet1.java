@@ -15,8 +15,8 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
+import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
 
 /**
  * The raw result set which will retrieve the raw data of expression value from
@@ -35,7 +35,7 @@ public class ExprDataResultSet1 extends BaseExprDataResultSet
 	 *            the expression meta data
 	 * @throws DataException 
 	 */
-	public ExprDataResultSet1( RAInputStream rowRAIs, ExprMetaInfo[] inExprMetas, int version, DataSetResultSet dsRSet )
+	public ExprDataResultSet1( RAInputStream rowRAIs, ExprMetaInfo[] inExprMetas, int version, IDataSetResultSet dsRSet )
 			throws DataException
 	{
 		this.rowRAIs = rowRAIs;

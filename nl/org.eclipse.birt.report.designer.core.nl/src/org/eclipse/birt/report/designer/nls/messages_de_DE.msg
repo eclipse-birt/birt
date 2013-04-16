@@ -265,12 +265,12 @@ BlockPreferencePage.displayname.Title=Textblock
 
 ###########################################################
 #BlockPreferencePage properties
-SizePreferencePage.displayname.Title=Size
+SizePreferencePage.displayname.Title=Größe
 
 ###########################################################
 #BorderCanvas properties
 
-BorderCanvas.Inherited0=(Inherited)
+BorderCanvas.Inherited0=(Übernommen)
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -1405,8 +1405,8 @@ Element.Style.pageBreakInside=&Innen:
 Element.Style.section=Abschnitt:
 Element.Style.showIfBlank=&Anzeigen, wenn leer
 Element.Style.text.align=Texta&usrichtung:
-Element.Style.width=&Width:
-Element.Style.height=&Height:
+Element.Style.width=&Breite:
+Element.Style.height=&Höhe:
 #bidi_hcg
 Element.Style.text.direction=&Bidirektionale Textrichtung:
 Element.Style.text.indent=&Texteinzug:

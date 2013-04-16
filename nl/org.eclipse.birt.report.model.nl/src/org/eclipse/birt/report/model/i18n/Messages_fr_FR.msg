@@ -2413,6 +2413,7 @@ Element.DataMartCube=Cube de l'objet de données
 Element.TimeDimension=Dimension de temps
 Element.ReportItemTheme=Thème d'élément d'état
 Element.AbstractTheme=Thème abstrait
+Element.DataMartLinkedDataModel=Data Object Linked Data Set
 
 ###########################################################
 # Element property names
@@ -3466,6 +3467,10 @@ Element.TimeDimension.startTimePoint=Limite pour l'heure de début
 Element.TimeDimension.endTimePoint=Limite pour l'heure de fin
 Element.TimeDimension.hierarchies=Hiérarchies
 
+#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
+Element.DataMartLinkedDataModel.dataSource=Source de données
+Element.DataMartLinkedDataModel.dataObject=Objet de données :
+
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=Styles
 Element.ReportItemTheme.type=Type
@@ -4013,7 +4018,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Les éléments de modèle ne
 Info.VersionInfo.INVALID_DESIGN_FILE=Le fichier modèle d'ouverture n'est pas un fichier modèle valide ou le fichier n'existe pas.
 Info.VersionInfo.CONVERT_INFO=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
 Info.VersionInfo.INVALID_VERSION=Le fichier d''état de la version "{0}" n''est pas pris en charge.
-Info.VersionInfo.LATER_VERSION=The design file was created by an later version of BIRT. Click OK to convert it to a format supported by the current version of the product.
+Info.VersionInfo.LATER_VERSION=Le fichier de modèle a été créé à l'aide d'une version ultérieure de BIRT. Cliquez sur OK pour le convertir dans un format compatible avec la version actuelle du produit.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =Il est possible de modifier la bibliothèque de modèles, la compatibilité descendante étant appliquée à la bibliothèque de modèles en cours d'ouverture ou aux bibliothèques qui lui sont associées.
 
 #EncryptionException

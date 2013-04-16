@@ -286,6 +286,23 @@ public class FilterByRow implements IFilterByRow
 		}
 	}
 
+	public void deleteFilter( List filter )
+	{
+		this.deleteFilter( this.aggrFilters, filter );
+		this.deleteFilter( this.allRowFilters, filter );
+		this.deleteFilter( this.currentFilters, filter );
+		this.deleteFilter( this.dataSetAggrFilters, filter );
+		this.deleteFilter( this.dataSetFilters, filter );
+		this.deleteFilter( this.groupFilters, filter );
+		this.deleteFilter( this.noUpdateRowFilters, filter );
+		this.deleteFilter( this.queryFilters, filter );
+	}
+	
+	private void deleteFilter( FilterByRowHelper helper, List filter )
+	{
+		if( helper!= null )
+			helper.getFilters( ).removeAll( filter );
+	}
 	/**
 	 * 
 	 * @param filterSetType

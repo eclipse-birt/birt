@@ -612,8 +612,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 					|| xtabCell != null
 					&& !( xtabCell instanceof AggregationCellHandle ) )
 			{
-				return new SharedCubeResultSetEvaluator( (ICubeResultSet) set,
-						cm );
+				return createSharedCubeRSEvaluator( set );
 			}
 
 			return ChartReportItemUtil.instanceCubeEvaluator( modelHandle,
@@ -622,6 +621,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		}
 		// Use empty evaluator if result set is null
 		return EMPTY_CHART_EVALUATOR;
+	}
+
+	protected IDataRowExpressionEvaluator createSharedCubeRSEvaluator(
+			IBaseResultSet set )
+	{
+		return new SharedCubeResultSetEvaluator( (ICubeResultSet) set,
+				cm );
 	}
 
 	private boolean isSubQuery( )

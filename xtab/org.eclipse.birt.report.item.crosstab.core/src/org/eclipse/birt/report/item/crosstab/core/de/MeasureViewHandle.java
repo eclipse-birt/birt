@@ -28,12 +28,15 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -63,7 +66,18 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public MeasureHandle getCubeMeasure( )
 	{
-		return (MeasureHandle) handle.getElementProperty( MEASURE_PROP );
+		MeasureHandle cubeMeasure = (MeasureHandle) handle.getElementProperty( MEASURE_PROP );
+		if( cubeMeasure == null )
+		{
+			String measureName = this.getCubeMeasureName( );
+			CubeHandle cube = this.getCrosstab( ).getCube( );
+			if( measureName != null && cube != null )
+			{
+				cubeMeasure = cube.getMeasure( measureName );
+			}
+		}
+		
+		return cubeMeasure;
 	}
 
 	/**
@@ -79,13 +93,44 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	/**
 	 * Gets the data type of this measure view. It is identical with the data
 	 * type set in the referred cube measure element.
+	 * If linked data set, should get data type from binding.
 	 * 
 	 * @return
 	 */
 	public String getDataType( )
 	{
-		MeasureHandle cubeMeasure = getCubeMeasure( );
-		return cubeMeasure == null ? null : cubeMeasure.getDataType( );
+		String dataType = null;
+		CrosstabReportItemHandle crosstabItem = getCrosstab();
+		if( CrosstabUtil.isBoundToLinkedDataSet( getCrosstab() ) )
+		{
+			String linkedColumnName = getCubeMeasureName( );
+			CrosstabCellHandle cell = getCell( );
+			if( cell != null )
+			{
+				List contents = cell.getContents( );
+				for( Object obj : contents )
+				{
+					if( obj != null && obj instanceof DataItemHandle )
+					{
+						String bindingName = ((DataItemHandle)obj).getResultSetColumn( );
+						ComputedColumnHandle column = CrosstabUtil.getColumnHandle( crosstabItem, bindingName );
+						dataType = (column!= null) ? column.getDataType( ) : null;
+						if( CrosstabUtil.validateBinding( column, linkedColumnName ) )
+						{
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		if( dataType == null )
+		{
+			MeasureHandle cubeMeasure = getCubeMeasure( );
+			dataType = cubeMeasure == null ? null : cubeMeasure.getDataType( );
+		}
+		
+		return dataType;
 	}
 
 	/**
