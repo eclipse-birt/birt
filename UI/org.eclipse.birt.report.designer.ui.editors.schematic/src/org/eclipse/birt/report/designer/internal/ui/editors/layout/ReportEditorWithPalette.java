@@ -155,7 +155,7 @@ abstract public class ReportEditorWithPalette extends
 
 	private ModuleHandle model;
 
-	private ModelEventManager manager = createModelEventManager( );
+	private IModelEventManager manager = createModelEventManager( );
 
 	private static final String DLG_ERROR_OPEN_ERROR_MSG = "Can't open file"; //$NON-NLS-1$
 
@@ -178,7 +178,7 @@ abstract public class ReportEditorWithPalette extends
 	/**
 	 * @return
 	 */
-	protected ModelEventManager createModelEventManager( )
+	protected IModelEventManager createModelEventManager( )
 	{
 		return new ModelEventManager( );
 	}
@@ -186,7 +186,7 @@ abstract public class ReportEditorWithPalette extends
 	/**
 	 * @return
 	 */
-	protected ModelEventManager getModelEventManager( )
+	protected IModelEventManager getModelEventManager( )
 	{
 		return manager;
 	}
