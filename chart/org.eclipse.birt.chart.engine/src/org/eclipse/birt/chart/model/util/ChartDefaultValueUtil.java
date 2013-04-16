@@ -13,7 +13,10 @@ package org.eclipse.birt.chart.model.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -326,6 +329,26 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 		{
 			seriesList.add( DefaultValueProvider.defDialSeries( ).copyInstance( ) );
 			seriesList.add( DefaultValueProvider.defPieSeries( ).copyInstance( ) );
+		}
+		
+		// Get remaining default series objects.
+		Set<String> seriesNameSet = new HashSet<String>( );
+		for ( Series s : seriesList )
+		{
+			seriesNameSet.add( s.getClass( ).getName( ) );
+		}
+		Set<Series> dtSeries = new HashSet<Series>( );
+		for ( SeriesDefinition sdef : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
+		{
+			dtSeries.add( sdef.getDesignTimeSeries( ) );
+		}
+		for ( Iterator<Series> iter = dtSeries.iterator( ); iter.hasNext( ); )
+		{
+			Series s = iter.next( );
+			if ( !seriesNameSet.contains( s.getClass( ).getName( ) ) )
+			{
+				seriesList.add( getDefaultSeries( s ) );
+			}
 		}
 		
 		// Set default chart title according to chart type.

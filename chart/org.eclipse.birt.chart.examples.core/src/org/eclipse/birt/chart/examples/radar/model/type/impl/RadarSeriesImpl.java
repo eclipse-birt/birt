@@ -16,7 +16,6 @@ import java.math.BigInteger;
 import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage;
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
@@ -30,7 +29,6 @@ import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.notify.Notification;
@@ -2169,11 +2167,8 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries
 		setMarker( m );
 
 		final Label lab = LabelImpl.create( );
-		lab.getCaption( ).getFont( ).setSize( 10 );
 		setWebLabel( lab );
-
 		final Label clab = LabelImpl.create( );
-		clab.getCaption( ).getFont( ).setSize( 10 );
 		setCatLabel( clab );
 
 		setPaletteLineColor( true );
@@ -2194,24 +2189,10 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries
 		m.setOutline( la );
 		setMarker( m );
 
-		try
-		{
-			final Label lab = LabelImpl.create( );			
-			ChartElementUtil.setDefaultValue( lab.getCaption( ).getFont( ),
-					"size", 10 ); //$NON-NLS-1$
-			
-			setWebLabel( lab );
-			
-			final Label clab = LabelImpl.create( );
-			ChartElementUtil.setDefaultValue( clab.getCaption( ).getFont( ),
-					"size", 10 ); //$NON-NLS-1$
-			
-			setCatLabel( clab );
-		}
-		catch ( ChartException e )
-		{
-			// Do nothing.
-		}
+		final Label lab = LabelImpl.createDefault( );
+		setWebLabel( lab );
+		final Label clab = LabelImpl.createDefault( );
+		setCatLabel( clab );
 
 		paletteLineColor = true;
 	}
