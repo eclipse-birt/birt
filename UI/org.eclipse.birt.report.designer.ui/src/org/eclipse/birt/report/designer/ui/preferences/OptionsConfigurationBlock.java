@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.preferences;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.util.PixelConverter;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.dialogs.ControlEnableState;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -176,6 +178,7 @@ public abstract class OptionsConfigurationBlock
 	protected IStatusChangeListener fContext;
 	protected IProject fProject; // project or null
 	protected Key[] fAllKeys;
+	protected Key[] ignoreKeys;
 	protected AbstractUIPlugin fPlugin;
 
 	protected IPreferences fPref;
@@ -222,6 +225,11 @@ public abstract class OptionsConfigurationBlock
 			}
 		}
 		settingsUpdated( );
+	}
+
+	public void setIngoreProjectSettingKeys( Key[] keys )
+	{
+		ignoreKeys = keys;
 	}
 
 	protected void settingsUpdated( )
@@ -377,6 +385,8 @@ public abstract class OptionsConfigurationBlock
 		composite.setSelection( data.getSelection( currValue ) );
 		fRadioButtons.add( composite );
 
+		updateRadioComposite( composite );
+
 		return composite;
 	}
 
@@ -400,6 +410,8 @@ public abstract class OptionsConfigurationBlock
 		checkBox.setSelection( data.getSelection( currValue ) == 0 );
 
 		fCheckBoxes.add( checkBox );
+
+		updateCheckBox( checkBox );
 
 		return checkBox;
 	}
@@ -447,6 +459,8 @@ public abstract class OptionsConfigurationBlock
 
 		fCheckBoxes.add( checkBox );
 
+		updateCheckBox( checkBox );
+
 		return checkBox;
 	}
 
@@ -467,6 +481,8 @@ public abstract class OptionsConfigurationBlock
 		comboBox.setLayoutData( gd );
 
 		fLabels.put( comboBox, labelControl );
+
+		updateCombo( comboBox );
 
 		return comboBox;
 	}
@@ -495,6 +511,9 @@ public abstract class OptionsConfigurationBlock
 		labelControl.setLayoutData( new GridData( ) );
 
 		fLabels.put( comboBox, labelControl );
+
+		updateCombo( comboBox );
+
 		return comboBox;
 	}
 
@@ -514,6 +533,7 @@ public abstract class OptionsConfigurationBlock
 		comboBox.select( data.getSelection( currValue ) );
 
 		fComboBoxes.add( comboBox );
+
 		return comboBox;
 	}
 
@@ -564,6 +584,9 @@ public abstract class OptionsConfigurationBlock
 		textBox.setLayoutData( data );
 
 		fTextBoxes.add( textBox );
+
+		updateText( textBox );
+
 		return textBox;
 	}
 
@@ -755,6 +778,15 @@ public abstract class OptionsConfigurationBlock
 		{
 			for ( int i = 0; i < fAllKeys.length; i++ )
 			{
+				if ( fProject != null )
+				{
+					if ( ignoreKeys != null
+							&& Arrays.asList( ignoreKeys )
+									.contains( fAllKeys[i] ) )
+					{
+						continue;
+					}
+				}
 				fAllKeys[i].setToDefault( fPref );
 			}
 		}
@@ -763,6 +795,15 @@ public abstract class OptionsConfigurationBlock
 
 			for ( int i = 0; i < fAllKeys.length; i++ )
 			{
+				if ( fProject != null )
+				{
+					if ( ignoreKeys != null
+							&& Arrays.asList( ignoreKeys )
+									.contains( fAllKeys[i] ) )
+					{
+						continue;
+					}
+				}
 				fAllKeys[i].apply( fPref );
 			}
 		}
@@ -823,6 +864,18 @@ public abstract class OptionsConfigurationBlock
 
 		String currValue = getValue( data.getKey( ) );
 		curr.select( data.getSelection( currValue ) );
+
+		if ( fProject != null )
+		{
+			if ( ignoreKeys != null
+					&& Arrays.asList( ignoreKeys ).contains( data.getKey( ) ) )
+			{
+				ControlEnableState.disable( curr );
+				Control label = (Control) fLabels.get( curr );
+				if ( label != null )
+					ControlEnableState.disable( label );
+			}
+		}
 	}
 
 	protected void updateCheckBox( Button curr )
@@ -831,6 +884,15 @@ public abstract class OptionsConfigurationBlock
 
 		String currValue = getValue( data.getKey( ) );
 		curr.setSelection( data.getSelection( currValue ) == 0 );
+
+		if ( fProject != null )
+		{
+			if ( ignoreKeys != null
+					&& Arrays.asList( ignoreKeys ).contains( data.getKey( ) ) )
+			{
+				ControlEnableState.disable( curr );
+			}
+		}
 	}
 
 	protected void updateRadioComposite( RadioComposite curr )
@@ -839,6 +901,15 @@ public abstract class OptionsConfigurationBlock
 
 		String currValue = getValue( data.getKey( ) );
 		curr.setSelection( data.getSelection( currValue ) );
+
+		if ( fProject != null )
+		{
+			if ( ignoreKeys != null
+					&& Arrays.asList( ignoreKeys ).contains( data.getKey( ) ) )
+			{
+				ControlEnableState.disable( curr );
+			}
+		}
 	}
 
 	protected void updateText( Text curr )
@@ -849,6 +920,18 @@ public abstract class OptionsConfigurationBlock
 		if ( currValue != null )
 		{
 			curr.setText( currValue );
+		}
+
+		if ( fProject != null )
+		{
+			if ( ignoreKeys != null
+					&& Arrays.asList( ignoreKeys ).contains( key ) )
+			{
+				ControlEnableState.disable( curr );
+				Control label = (Control) fLabels.get( curr );
+				if ( label != null )
+					ControlEnableState.disable( label );
+			}
 		}
 	}
 
