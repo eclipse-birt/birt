@@ -2413,6 +2413,7 @@ Element.DataMartCube=데이터 개체 큐브
 Element.TimeDimension=시간 차원
 Element.ReportItemTheme=보고서 항목 테마
 Element.AbstractTheme=추상적 테마
+Element.DataMartLinkedDataModel=Data Object Linked Data Set
 
 ###########################################################
 # Element property names
@@ -3465,6 +3466,10 @@ Element.DataMartCube.dataObject=데이터 개체
 Element.TimeDimension.startTimePoint=시작 시점
 Element.TimeDimension.endTimePoint=종료 시점
 Element.TimeDimension.hierarchies=계층
+
+#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
+Element.DataMartLinkedDataModel.dataSource=데이터 원본
+Element.DataMartLinkedDataModel.dataObject=데이터 개체
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=스타일

@@ -237,6 +237,12 @@ public class RDLoad
 	
 	public IResultClass loadResultClass( boolean includeInnerID ) throws DataException
 	{
+		
+		if( !streamManager.hasInStream( DataEngineContext.DATASET_META_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE ) )
+			return null;
+		
 		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_META_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE );
@@ -301,11 +307,6 @@ public class RDLoad
 			Map<String, StringTable> stringTableMap, Map index,
 			boolean includeInnerID, Map appContext ) throws DataException
 	{
-		if( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
-				StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE ) )
-			return null;
-		
 		if ( targetResultClass == null )
 			targetResultClass = this.loadResultClass( includeInnerID );
 

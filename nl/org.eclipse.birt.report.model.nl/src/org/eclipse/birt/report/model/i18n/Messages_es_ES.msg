@@ -2413,6 +2413,7 @@ Element.DataMartCube=Cubo de objeto de datos
 Element.TimeDimension=Dimensión de tiempo
 Element.ReportItemTheme=Tema de elemento de informe
 Element.AbstractTheme=Tema abstracto
+Element.DataMartLinkedDataModel=Data Object Linked Data Set
 
 ###########################################################
 # Element property names
@@ -3465,6 +3466,10 @@ Element.DataMartCube.dataObject=Objeto de datos
 Element.TimeDimension.startTimePoint=Punto de inicio
 Element.TimeDimension.endTimePoint=Punto de finalización
 Element.TimeDimension.hierarchies=Jerarquías
+
+#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
+Element.DataMartLinkedDataModel.dataSource=Fuente de datos
+Element.DataMartLinkedDataModel.dataObject=Objeto de datos
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=Estilos

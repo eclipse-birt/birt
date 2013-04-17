@@ -686,6 +686,12 @@ public class DefaultNodeProvider implements INodeProvider
 		return createElement( type );
 			}
 
+	protected boolean performInsert( Object model, SlotHandle slotHandle,
+			String type, String position, Map extendData ) throws Exception
+	{
+		return performInsert(model, (ElementDetailHandle) slotHandle, type, position, extendData);
+	}
+	
 	protected boolean performInsert( Object model, ElementDetailHandle slotHandle,
 			String type, String position, Map extendData ) throws Exception
 			{
