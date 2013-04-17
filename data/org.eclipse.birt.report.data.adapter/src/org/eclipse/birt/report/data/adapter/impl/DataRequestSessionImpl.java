@@ -1903,7 +1903,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				{
 				  public URI run()
 				  {
-				    return new File(handle.getResourceFolder()).toURI();
+				    return new File( handle.getModule( ).getSession( ).getResourceFolder( ) ).toURI( );
 				  }
 				});
 
