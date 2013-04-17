@@ -73,7 +73,6 @@ import org.eclipse.birt.report.designer.ui.IPreferenceConstants;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
@@ -136,8 +135,6 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -2044,7 +2041,6 @@ public class UIUtil
 			ExtendedElementUIPoint point )
 	{
 		String preference = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
-		preference = "org.eclipse.birt.chart.reportitem.ui/enable_live";
 		if ( preference != null )
 		{
 			String[] splits = preference.split( "/" );
