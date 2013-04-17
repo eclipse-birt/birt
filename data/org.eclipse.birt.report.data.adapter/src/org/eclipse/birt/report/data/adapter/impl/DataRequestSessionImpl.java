@@ -211,14 +211,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void defineDataSet( IBaseDataSetDesign design ) throws BirtException
 	{
-		IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
-		if ( dataSetInterceptor != null )
-		{
-			dataSetInterceptor.preDefineDataSet( sessionContext,
-					dataEngine.getDataSourceDesign( design.getDataSourceName( )),
-					design,
-					getDataSessionContext().getModuleHandle() );
-		}
 		dataEngine.defineDataSet( design );
 	}
 
@@ -1911,7 +1903,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				{
 				  public URI run()
 				  {
-				    return new File(handle.getResourceFolder()).toURI();
+				    return new File( handle.getModule( ).getSession( ).getResourceFolder( ) ).toURI( );
 				  }
 				});
 
@@ -2076,6 +2068,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 				}
 			}
 			DefineDataSourceSetUtil.defineDataSourceAndDataSet( handle, dataEngine, this.modelAdaptor, null );
+			
+			DefineDataSourceSetUtil.prepareForTransientQuery( sessionContext,
+					dataEngine,
+					handle,
+					queryDefn );
 		}
 	}
 
