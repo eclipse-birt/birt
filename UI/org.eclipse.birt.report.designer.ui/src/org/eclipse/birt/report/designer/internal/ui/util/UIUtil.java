@@ -38,6 +38,7 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 
 import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
@@ -72,6 +73,7 @@ import org.eclipse.birt.report.designer.ui.IPreferenceConstants;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
@@ -134,6 +136,8 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -1635,7 +1639,7 @@ public class UIUtil
 		{
 			return null;
 		}
-		
+
 		IEditorPart activeEditPart = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
 				.getActivePage( )
@@ -1722,7 +1726,6 @@ public class UIUtil
 		{
 			return null;
 		}
-		
 
 		Object adapter = input.getAdapter( IModelEventManager.class );
 		if ( adapter instanceof IModelEventManager )
@@ -1806,8 +1809,9 @@ public class UIUtil
 		}
 		return null;
 	}
-	
-	public static String getColumnHeaderDisplayNameKey( ResultSetColumnHandle column )
+
+	public static String getColumnHeaderDisplayNameKey(
+			ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
@@ -2023,7 +2027,8 @@ public class UIUtil
 				.getExtendedElementPoints( );
 		for ( ExtendedElementUIPoint point : points )
 		{
-			list.remove( DEUtil.getElementDefn( point.getExtensionName( ) ) );
+			if ( isVisibleExtensionElement( point ) )
+				list.remove( DEUtil.getElementDefn( point.getExtensionName( ) ) );
 		}
 
 		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
@@ -2033,6 +2038,32 @@ public class UIUtil
 		}
 
 		return list;
+	}
+
+	public static boolean isVisibleExtensionElement(
+			ExtendedElementUIPoint point )
+	{
+		String preference = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
+		preference = "org.eclipse.birt.chart.reportitem.ui/enable_live";
+		if ( preference != null )
+		{
+			String[] splits = preference.split( "/" );
+			if ( splits.length == 2 )
+			{
+				IPreferences wrapper = PreferenceFactory.getInstance( )
+						.getPluginPreferences( splits[0], null );
+				if ( wrapper != null )
+				{
+					Boolean bool = wrapper.getBoolean( splits[1] );
+					return bool;
+				}
+			}
+		}
+		else
+		{
+			return ( (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER ) ).booleanValue( );
+		}
+		return true;
 	}
 
 	/**
@@ -3152,7 +3183,7 @@ public class UIUtil
 		}
 		return null;
 	}
-	
+
 	public static String stripMnemonic( String string )
 	{
 		int index = 0;

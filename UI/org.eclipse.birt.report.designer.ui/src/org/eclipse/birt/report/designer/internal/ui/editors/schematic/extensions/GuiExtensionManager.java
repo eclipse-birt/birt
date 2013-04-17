@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
@@ -30,9 +31,11 @@ import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory;
 import org.eclipse.birt.report.designer.internal.ui.palette.PaletteCategory;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
@@ -191,11 +194,8 @@ public class GuiExtensionManager
 
 			if ( PALETTE_DESIGNER.equals( type ) )
 			{
-				Boolean bool = (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER );
-				if ( !bool.booleanValue( ) )
-				{
+				if(!UIUtil.isVisibleExtensionElement( point ))
 					continue;
-				}
 			}
 			else if ( PALETTE_MASTERPAGE.equals( type ) )
 			{
@@ -302,5 +302,4 @@ public class GuiExtensionManager
 		}
 		return null;
 	}
-
 }

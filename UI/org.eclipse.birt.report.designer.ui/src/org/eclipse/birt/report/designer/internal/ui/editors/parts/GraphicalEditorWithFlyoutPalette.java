@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.preference.IPreferenceChangeListener;
+import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.EditorBreadcrumb;
 import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.ReportLayoutEditorBreadcrumb;
@@ -23,9 +25,13 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers.SchematicContextMenuProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditDomain;
@@ -101,7 +107,8 @@ import com.ibm.icu.text.MessageFormat;
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
-		IPropertyChangeListener
+		IPropertyChangeListener,
+		IPreferenceChangeListener
 {
 
 	private static final String VIEW_CONTEXT_ID = "org.eclipse.birt.report.designer.internal.ui.editors.parts.graphicaleditorwithflyoutpalette.context"; //$NON-NLS-1$
@@ -586,8 +593,9 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			showBreadcrumb( );
 
 		getPreferenceStore( ).addPropertyChangeListener( this );
-
+		registerExtensionPreference( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
 		activateDesignerEditPart( );
+
 	}
 
 	private void activateDesignerEditPart( )
@@ -609,8 +617,11 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		{
 			fBreadcrumb.dispose( );
 		}
-		
+
+		deregisterExtensionPreference( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
+
 		getPreferenceStore( ).removePropertyChangeListener( this );
+
 		getSite( ).getWorkbenchWindow( )
 				.getSelectionService( )
 				.removeSelectionListener( getSelectionListener( ) );
@@ -636,7 +647,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		// ( (ReportMultiPageEditorSite)getSite()).dispose();
 		deActivateDesignerEditPart( );
 
-		
 	}
 
 	private void deActivateDesignerEditPart( )
@@ -877,6 +887,12 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		editPartActionIDs.add( action.getId( ) );
 	}
 
+	protected void removeEditPartAction( SelectionAction action )
+	{
+		getActionRegistry( ).removeAction( action );
+		editPartActionIDs.remove( action.getId( ) );
+	}
+
 	/**
 	 * Adds an <code>CommandStack</code> action to this editor.
 	 * 
@@ -1004,4 +1020,56 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		fBreadcrumbComposite.getParent( ).layout( true, true );
 	}
 
+	protected void registerExtensionPreference( String extension )
+	{
+		List exts = ExtensionPointManager.getInstance( )
+				.getExtendedElementPoints( );
+
+		for ( Iterator itor = exts.iterator( ); itor.hasNext( ); )
+		{
+			ExtendedElementUIPoint point = (ExtendedElementUIPoint) itor.next( );
+			String preference = (String) point.getAttribute( extension );
+			if ( preference != null )
+			{
+				String[] splits = preference.split( "/" );
+				if ( splits.length == 2 )
+				{
+					IPreferences wrapper = PreferenceFactory.getInstance( )
+							.getPluginPreferences( splits[0], null );
+					if ( wrapper != null )
+					{
+						wrapper.removePreferenceChangeListener( this );
+						wrapper.addPreferenceChangeListener( this );
+						ExtensionPointManager.getInstance( )
+								.addPreference( extension, splits[1] );
+					}
+				}
+			}
+		}
+	}
+
+	protected void deregisterExtensionPreference( String extension )
+	{
+		List exts = ExtensionPointManager.getInstance( )
+				.getExtendedElementPoints( );
+
+		for ( Iterator itor = exts.iterator( ); itor.hasNext( ); )
+		{
+			ExtendedElementUIPoint point = (ExtendedElementUIPoint) itor.next( );
+			String preference = (String) point.getAttribute( extension );
+			if ( preference != null )
+			{
+				String[] splits = preference.split( "/" );
+				if ( splits.length == 2 )
+				{
+					IPreferences wrapper = PreferenceFactory.getInstance( )
+							.getPluginPreferences( splits[0], null );
+					if ( wrapper != null )
+					{
+						wrapper.removePreferenceChangeListener( this );
+					}
+				}
+			}
+		}
+	}
 }
