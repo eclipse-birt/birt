@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver;
 import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver.ReadPreferenceChoice;
@@ -28,6 +29,7 @@ import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData
 import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.ReadPreference;
@@ -50,6 +52,7 @@ public class QueryProperties
 
     // advanced runtime properties
     private static final String QUERY_READ_PREF_PROP = MONGO_PROP_PREFIX.concat( "queryReadPreference" ); //$NON-NLS-1$
+    private static final String QUERY_READ_PREF_TAGS_PROP = MONGO_PROP_PREFIX.concat( "queryReadPreferenceTags" ); //$NON-NLS-1$
     private static final String RT_META_DATA_SEARCH_LIMIT = MONGO_PROP_PREFIX.concat( "rtMDSearchLimit" ); //$NON-NLS-1$
     private static final String CURSOR_BATCH_SIZE_PROP = MONGO_PROP_PREFIX.concat( "batchSize" ); //$NON-NLS-1$
     private static final String SKIP_NUM_DOCS_PROP = MONGO_PROP_PREFIX.concat( "numSkipDocuments" ); //$NON-NLS-1$
@@ -59,7 +62,7 @@ public class QueryProperties
     private static final String PARTIAL_RESULTS_PROP = MONGO_PROP_PREFIX.concat( "allowsPartialResults" ); //$NON-NLS-1$
     
     public static final int DEFAULT_RUNTIME_METADATA_SEARCH_LIMIT = 10;
-    public static final int DEFAULT_CURSOR_BATCH_SIZE = 100;    // TODO - good default value?
+    public static final int DEFAULT_CURSOR_BATCH_SIZE = 101;    // default used by Mongo
 
     private static final String DOC_ID_FIELD_NAME = QueryModel.DOC_ID_FIELD_NAME;
     private static final String ARRAY_BEGIN_MARKER = "["; //$NON-NLS-1$
@@ -144,7 +147,7 @@ public class QueryProperties
         Exception caughtEx = null;
         try
         {
-            DBObject parsedObj = QueryModel.parseExprToDBObject( serializedContent );
+            DBObject parsedObj = parseExprToDBObject( serializedContent );
             if( parsedObj instanceof Map<?,?>)
                 return new QueryProperties( (Map<String,Object>)parsedObj );
         }
@@ -381,7 +384,7 @@ public class QueryProperties
         if( addArrayMarkers )
             cmdOpExprText = addArrayMarkers( cmdOpExprText );
         
-        return QueryModel.parseExprToDBObject( cmdOpExprText );
+        return parseExprToDBObject( cmdOpExprText );
     }
 
     static String addArrayMarkers( String expr )
@@ -397,6 +400,61 @@ public class QueryProperties
         }
 
         return expr;
+    }
+
+    static DBObject getFirstObjectSet( DBObject exprObj )
+    {
+        if( exprObj == null )
+            return null;
+        
+        DBObject firstObj = null;
+        if( exprObj instanceof BasicDBList )
+        {
+            BasicDBList objList = (BasicDBList)exprObj;
+            if( objList.size() >= 1 )
+            {
+                Object value = objList.get(0);
+                if( value instanceof DBObject )
+                    firstObj = (DBObject)value;
+                else    // log and ignore
+                    logInvalidTagValue( value );
+            }
+        }
+        else
+            firstObj = exprObj;
+        
+        return firstObj;
+    }
+
+    static DBObject[] getSecondaryObjectSets( DBObject exprObj )
+    {
+        if( !(exprObj instanceof BasicDBList) )
+            return null;    // no secondary element(s)
+
+        BasicDBList objList = (BasicDBList)exprObj;
+        if( objList.size() <= 1 )
+            return null;
+        
+        // return the second and remaining DBObject(s) from the list
+        List<DBObject> secondaryObjList = new ArrayList<DBObject>(objList.size()-1);
+        for( int i=1; i < objList.size(); i++ )
+        {
+            Object value = objList.get(i);
+            if( value instanceof DBObject )
+                secondaryObjList.add( (DBObject)value );
+            else // ignore elements that are not DBObject
+                logInvalidTagValue( value );
+        }
+
+        if( secondaryObjList.isEmpty() )
+            return null;
+        return (DBObject[])secondaryObjList.toArray( new DBObject[secondaryObjList.size()] );
+    }
+
+    private static final void logInvalidTagValue( Object tagValue )
+    {
+        getLogger().info( 
+                Messages.bind( "Ignoring the tag value ({0}).  A Read Preference Tag Set must be specified as a document.", tagValue ) ); //$NON-NLS-1$
     }
 
     public void setSelectedFields( List<FieldMetaData> selectedFields )
@@ -430,12 +488,12 @@ public class QueryProperties
             DBObject projectionKeys = null;
             try
             {
-                projectionKeys = QueryModel.parseExprToDBObject( (String)propValue );
+                projectionKeys = parseExprToDBObject( (String)propValue );
             }
             catch( OdaException ex )
             {
                 // log and ignore
-                DriverUtil.getLogger().log( Level.INFO, 
+                getLogger().log( Level.INFO, 
                         Messages.bind( "Unable to parse the Selected Fields expression: {0}", propValue ), ex ); //$NON-NLS-1$
                 return Collections.emptyList();
             }
@@ -483,12 +541,12 @@ public class QueryProperties
         if( propValue instanceof String )
         {
             // user-defined projection expression
-            return QueryModel.parseExprToDBObject( (String)propValue );
+            return parseExprToDBObject( (String)propValue );
         }
 
         // non-recognized data type; log and ignore
         if( propValue != null )
-            DriverUtil.getLogger().log( Level.INFO, 
+            getLogger().log( Level.INFO, 
                 Messages.bind( "Unexpected data type ({0}) in Selected Fields property value.", propValue.getClass().getName() )); //$NON-NLS-1$
 
         return new BasicDBObject();
@@ -511,17 +569,71 @@ public class QueryProperties
         if( propValue instanceof String )
             propValue = toReadPreference( ((String)propValue) );
         if( propValue instanceof ReadPreference )
-        {            
-            if( (ReadPreference)propValue == ReadPreferenceChoice.DEFAULT_PREFERENCE )
-                return null;    // let MongoDB server determines default
+        {
+            // return explicit read preference mode to prevent confusion
             return (ReadPreference)propValue;
         }
-        return null;    // non-recognized data type; default has null preference
+        return ReadPreferenceChoice.DEFAULT_PREFERENCE;    // non-recognized data type; use default
     }
 
     private static ReadPreference toReadPreference( String readPrefChoiceLiteral )
     {
         return MongoDBDriver.ReadPreferenceChoice.getMongoReadPreference( readPrefChoiceLiteral );
+    }
+
+    public void setQueryReadPreferenceTags( String tagsExpr )
+    {
+        getPropertiesMap().put( QUERY_READ_PREF_TAGS_PROP, tagsExpr );
+    }
+
+    public String getQueryReadPreferenceTags()
+    {
+        return getStringPropOrEmptyValue( QUERY_READ_PREF_TAGS_PROP );
+    }
+    
+    DBObject getReadPreferenceTagsAsParsedObject()
+    {
+        String tagsExpr = getQueryReadPreferenceTags();
+        if( tagsExpr.isEmpty() )
+            return null;
+        try
+        {
+            return parseExprToDBObject( tagsExpr );
+        }
+        catch( OdaException ex )
+        {
+            // log and ignore
+            getLogger().log( Level.INFO, 
+                    Messages.bind( "Unable to parse the Read Preference Tags expression: {0}", tagsExpr ), ex ); //$NON-NLS-1$
+        }
+        return null;
+    }
+
+    ReadPreference getTaggableReadPreference()
+    {
+        ReadPreference readPref = getQueryReadPreference();
+        if( readPref == ReadPreference.primary() )
+            return readPref;    // primary read preference mode does not apply tags
+        
+        DBObject tagSets = getReadPreferenceTagsAsParsedObject();
+        DBObject firstTagSet = getFirstObjectSet( tagSets );
+        if( firstTagSet == null )
+            return readPref;    // no tags in read preference
+
+        DBObject[] remainingTagSets = getSecondaryObjectSets( tagSets );        
+        
+        try
+        {
+            return ( remainingTagSets != null ) ?
+                ReadPreference.valueOf( readPref.getName(), firstTagSet, remainingTagSets ) :
+                ReadPreference.valueOf( readPref.getName(), firstTagSet );
+        }
+        catch( RuntimeException ex )
+        {
+            // log and ignore tags
+            getLogger().info( ex.getLocalizedMessage() );
+        }
+        return readPref;
     }
 
     public void setRuntimeMetaDataSearchLimit( Integer searchLimit )
@@ -596,12 +708,12 @@ public class QueryProperties
             return null;
         try
         {
-            return QueryModel.parseExprToDBObject( hintValue );
+            return parseExprToDBObject( hintValue );
         }
         catch( OdaException ex )
         {
             // log and ignore
-            DriverUtil.getLogger().log( Level.INFO, 
+            getLogger().log( Level.INFO, 
                     Messages.bind( "Unable to parse the Index Hint expression: {0}", hintValue ), ex ); //$NON-NLS-1$
         }
         return null;
@@ -643,7 +755,7 @@ public class QueryProperties
         if( queryExprText.isEmpty() )
             return null;
         
-        return QueryModel.parseExprToDBObject( queryExprText );
+        return parseExprToDBObject( queryExprText );
     }
 
     public void setSortExpr( String sortExpr )
@@ -662,7 +774,7 @@ public class QueryProperties
         if( sortExprText.isEmpty() )
             return null;
         
-        return QueryModel.parseExprToDBObject( sortExprText );
+        return parseExprToDBObject( sortExprText );
     }
 
     // Utility methods
@@ -719,7 +831,7 @@ public class QueryProperties
         catch( NumberFormatException ex )
         {
             // log and ignore
-            DriverUtil.getLogger().log( Level.INFO, 
+            getLogger().log( Level.INFO, 
                     Messages.bind( "Invalid integer value ({0}) found in the {1} property.", propValue, propertyName ), ex ); //$NON-NLS-1$
         }
         return null;
@@ -728,6 +840,16 @@ public class QueryProperties
     private static boolean hasIntPropertyValue( Map<String,Object> propertiesMap, String propertyName )
     {
         return getIntPropertyValue( propertiesMap, propertyName ) != null;
+    }
+
+    private static final DBObject parseExprToDBObject( String jsonExpr ) throws OdaException
+    {
+        return DriverUtil.parseExprToDBObject( jsonExpr );
+    }
+    
+    private static final Logger getLogger()
+    {
+        return DriverUtil.getLogger();
     }
 
 }

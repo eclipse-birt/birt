@@ -14,6 +14,9 @@
 
 package org.eclipse.birt.data.oda.mongodb.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -121,7 +124,7 @@ public class MongoDBDriver implements IDriver
     
     static Mongo getMongoNode( Properties connProperties )
         throws OdaException
-    {                
+    {
         ServerNodeKey nodeKey = createServerNodeKey( connProperties );
         return getMongoNodeInstance( nodeKey );
     }
@@ -191,6 +194,10 @@ public class MongoDBDriver implements IDriver
         return Messages.mDbDriver_nonDefinedDataType; 
     }
 
+    /**
+     * An enum of MongoDB ReadPreference that supports
+     * localization of its display names.
+     */
     public enum ReadPreferenceChoice
     {
         PRIMARY,
@@ -220,9 +227,27 @@ public class MongoDBDriver implements IDriver
             return DEFAULT_PREFERENCE;  // default
         }
 
+        public static ReadPreferenceChoice getReadPreferenceChoice( ReadPreference readPref )
+        {
+            if( readPref == null )
+                return PRIMARY;     // default
+           String readPrefName = readPref.getName();
+            if( readPrefName == ReadPreference.primary().getName() )
+                return PRIMARY;
+            if( readPrefName == ReadPreference.primaryPreferred().getName() )
+                return PRIMARY_PREFERRED;
+            if( readPrefName == ReadPreference.secondary().getName() )
+                return SECONDARY;
+            if( readPrefName == ReadPreference.secondaryPreferred().getName() )
+                return SECONDARY_PREFERRED;
+            if( readPrefName == ReadPreference.nearest().getName() )
+                return NEAREST;
+            return PRIMARY;     // default
+        }
+
         public String displayName()
         {
-            // externalizes name, which is not provided by MongoDB SDK
+            // externalizes name, which is not provided by Mongo Java driver
             if( this == PRIMARY )
                 return Messages.mDbDriver_readPrefPrimary; // ReadPreference.primary().getName();
             if( this == PRIMARY_PREFERRED )
@@ -244,7 +269,9 @@ public class MongoDBDriver implements IDriver
          *  as their public methods, as of 2.10.1, do not allow merging options of
          *  MongoClientURL and MongoClientOptions
          */
-        String host = serverNodeKey.getServerHost();
+        List<String> hosts = serverNodeKey.getServerHosts();
+        String standaloneHost = hosts.size() == 1 ? 
+                            hosts.get(0) : null;
         Integer port = serverNodeKey.getServerPort();
         MongoOptions options = serverNodeKey.getOptions();
         if( options == null )
@@ -252,17 +279,27 @@ public class MongoDBDriver implements IDriver
 
         try
         {
-            ServerAddress serverAddr = port != null ?
-                    new ServerAddress( host, port ) :
-                    new ServerAddress( host );
-            return new Mongo( serverAddr, options );
+            if( standaloneHost != null )
+            {
+                ServerAddress serverAddr = port != null ?
+                        new ServerAddress( standaloneHost, port ) :
+                        new ServerAddress( standaloneHost );
+                return new Mongo( serverAddr, options );
+            }
+            else
+            {
+                List<ServerAddress> serverSeeds = new ArrayList<ServerAddress>( hosts.size() );
+                for( String host : hosts )
+                    serverSeeds.add( new ServerAddress( host ) );
+                return new Mongo( serverSeeds, options );
+            }
         }
         catch( Exception ex )
         {
             throw new OdaException( ex );
         }
     }
-
+ 
     private static ServerNodeKey createServerNodeKey( Properties connProperties )
     {
         return sm_factory.new ServerNodeKey( connProperties );
@@ -270,7 +307,7 @@ public class MongoDBDriver implements IDriver
 
     private class ServerNodeKey
     {
-        private String m_serverHost;
+        private List<String> m_serverHosts;
         private Integer m_serverPort;
         private String m_userName;
         private MongoOptions m_options;
@@ -280,26 +317,23 @@ public class MongoDBDriver implements IDriver
             // first check if user-defined URL exists, which takes precedence 
             // if not flagged to ignore by the ignoreURI property
             MongoURI mongoUri = getMongoURI( connProperties );
+            MongoOptions nodeOptions = getMongoOptions( mongoUri, connProperties );
+
             if( mongoUri != null )  // has user-defined MongoURI
             {
-                // check if additinal options exists in connection properties 
-                // that are not covered by the mongoURI
-                MongoOptions nodeOptions = getURIOptions( mongoUri );                
-                nodeOptions = addSupplementalOptions( nodeOptions, connProperties );
-
                 init( mongoUri, nodeOptions );
                 return;
             }
             
-            // no/invalid user-defined URL, initialize from individual properties
-            MongoOptions nodeOptions = addSupplementalOptions( null, connProperties );
+            // none or invalid user-defined URL, initialize from individual properties
             init( connProperties, nodeOptions );
         }
         
         private void init( MongoURI mongoUri, MongoOptions options )
         {
-            if( mongoUri.getHosts().size() >= 1 )   // at least one host
-                m_serverHost = mongoUri.getHosts().get( 0 ); // may contain optional :port
+            m_serverHosts = new ArrayList<String>(mongoUri.getHosts().size());
+            for( String host : mongoUri.getHosts() )
+                m_serverHosts.add( host );   // may contain optional ":<port>"
             m_serverPort = ServerAddress.defaultPort();
             m_userName = mongoUri.getUsername();            
             m_options = options;
@@ -310,7 +344,8 @@ public class MongoDBDriver implements IDriver
 
         private void init( Properties connProperties, MongoOptions options )
         {
-            m_serverHost = getStringPropValue( connProperties, SERVER_HOST_PROP );
+            m_serverHosts = new ArrayList<String>(1);
+            m_serverHosts.add( getStringPropValue( connProperties, SERVER_HOST_PROP ) );
             m_serverPort = getIntegerPropValue( connProperties, SERVER_PORT_PROP );
             m_userName = getUserName( connProperties );            
             m_options = options;
@@ -322,8 +357,8 @@ public class MongoDBDriver implements IDriver
         private void logInitializedValues( String methodName )
         {
             if( getLogger().isLoggable( Level.FINEST ) )
-                getLogger().finest( Messages.bind( "{0}: host= {1}, port= {2}, user= {3}, options= {4}", //$NON-NLS-1$
-                        new Object[]{ methodName, m_serverHost, m_serverPort, m_userName, m_options} ));          
+                getLogger().finest( Messages.bind( "{0}: hosts= {1}, port= {2}, user= {3}, options= {4}", //$NON-NLS-1$
+                        new Object[]{ methodName, m_serverHosts, m_serverPort, m_userName, m_options} ));          
         }
 
         @Override
@@ -336,10 +371,10 @@ public class MongoDBDriver implements IDriver
             
             // compare the attribute values
             ServerNodeKey thatKey = (ServerNodeKey)obj;
-            if( this.m_serverHost == null && thatKey.m_serverHost != null )
+            if( this.m_serverHosts == null && thatKey.m_serverHosts != null )
                 return false;
-            if( this.m_serverHost != null && 
-                    ! this.m_serverHost.equals( thatKey.m_serverHost ) )
+            if( this.m_serverHosts != null && 
+                    ! this.m_serverHosts.equals( thatKey.m_serverHosts ) )
                 return false;
 
             if( this.m_serverPort == null && thatKey.m_serverPort != null )
@@ -368,8 +403,8 @@ public class MongoDBDriver implements IDriver
         {
             // use its attributes for hashcode if exists
             int hashCode = 0;
-            if( m_serverHost != null )
-                hashCode = m_serverHost.hashCode();
+            if( m_serverHosts != null )
+                hashCode = m_serverHosts.hashCode();
             
             if( m_serverPort != null )
                 hashCode = hashCode ^ m_serverPort.hashCode();
@@ -383,9 +418,11 @@ public class MongoDBDriver implements IDriver
             return hashCode == 0 ? super.hashCode() : hashCode;
         }
 
-        private String getServerHost()
+        private List<String> getServerHosts()
         {
-            return m_serverHost;
+            if( m_serverHosts == null )
+                return Collections.emptyList();
+            return m_serverHosts;
         }
 
         private Integer getServerPort()
@@ -408,9 +445,17 @@ public class MongoDBDriver implements IDriver
     /*
      * Utility methods to handle mongo options, adopting the defaults set by 
      * the MongoClientOptions.
-     * NOTE: Not able to use MongoClientOptions directly, as its public API does not
-     * allow merging option values from a MongoClientURI.
+     * NOTE: Not able to use MongoClientOptions directly, 
+     * as its public API, as of 2.10.1, does not allow merging option values from a MongoClientURI.
      */
+    
+    private static MongoOptions getMongoOptions( MongoURI mongoUri, Properties connProperties )
+    {
+        // check if additinal options exists in connection properties 
+        // that are not covered by the mongoURI
+        MongoOptions nodeOptions = mongoUri != null ? getURIOptions( mongoUri ) : null;                
+        return addSupplementalOptions( nodeOptions, connProperties );
+    }
 
     private static MongoOptions createDefaultClientOptions()
     {
@@ -476,15 +521,15 @@ public class MongoDBDriver implements IDriver
 
     private static MongoURI getMongoURI( Properties connProps )
     {
-        String uri = getStringPropValue( connProps, MONGO_URI_PROP );
-        if( uri == null || uri.isEmpty() )
-            return null;
-
         // check if explicitly indicated not to use URI, even if URI value exists
         Boolean ignoreURI = getBooleanPropValue( connProps, IGNORE_URI_PROP );
         if( ignoreURI != null && ignoreURI )
             return null;
 
+        String uri = getStringPropValue( connProps, MONGO_URI_PROP );
+        if( uri == null || uri.isEmpty() )
+            return null;
+        
         try
         {
             return new MongoURI( uri );
@@ -540,7 +585,7 @@ public class MongoDBDriver implements IDriver
             buf.append( dbName );
         }
 
-        //  comment out inclusion of all options in the generated URI text cuz
+        //  comment out inclusion of all options in the generated URI text, cuz
         //  the MongoURI parser does not yet support all the options allowed in MongoOptions
 /*
         MongoOptions options = createMongoOptions( connProps );

@@ -251,6 +251,14 @@
                <property
                      allowsEmptyValueAsNull="true"
                      canInherit="true"
+                     defaultDisplayName="%dataset.property.queryReadPreferenceTags"
+                     isEncryptable="false"
+                     name="queryReadPreferenceTags"
+                     type="string">
+               </property>
+               <property
+                     allowsEmptyValueAsNull="true"
+                     canInherit="true"
                      defaultDisplayName="%dataset.property.noTimeOut"
                      isEncryptable="false"
                      name="noTimeOut"

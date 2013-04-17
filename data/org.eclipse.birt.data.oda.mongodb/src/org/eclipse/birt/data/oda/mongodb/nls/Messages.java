@@ -41,6 +41,9 @@ public class Messages extends NLS
     public static String mDbQuery_invalidQueryExecQuery;
     public static String mDbQuery_invalidQueryGetMD;
 
+    public static String driverUtil_invalidExpr;
+    public static String driverUtil_parsingError;
+
     public static String mDbOp_aggrCmdFailed;
     public static String mDbOp_dbCmdFailed;
     public static String mDbOp_invalidQueryExpr;
@@ -48,13 +51,10 @@ public class Messages extends NLS
     public static String mDbOp_noCmdResults;
 
     public static String queryModel_emptyExprErrorMsg;
-
     public static String queryModel_invalidCollectionName;
     public static String queryModel_invalidDbCmdKeyValue;
-    public static String queryModel_invalidExpr;
     public static String queryModel_invalidModelToExec;
     public static String queryModel_invalidModelToPrepare;
-
     public static String queryModel_invalidPipelineOp;
     public static String queryModel_invalidQuerySortExpr;
     public static String queryModel_invalidSortAggrValue;
@@ -64,7 +64,6 @@ public class Messages extends NLS
     public static String queryModel_missingMapReduceValue;
     public static String queryModel_missingQueryProps;
     public static String queryModel_nonSupportedDbCmd;
-    public static String queryModel_parsingError;
 
     public static String queryProperties_aggrCmdName;
     public static String queryProperties_dbCmdName;

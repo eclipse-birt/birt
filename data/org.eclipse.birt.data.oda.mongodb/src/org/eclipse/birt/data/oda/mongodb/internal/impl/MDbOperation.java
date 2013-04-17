@@ -14,7 +14,6 @@
 
 package org.eclipse.birt.data.oda.mongodb.internal.impl;
 
-import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.data.oda.mongodb.impl.MDbResultSet;
@@ -196,7 +195,7 @@ public class MDbOperation
                 rowsCursor.sort( sortExprObj );
         }
 
-        ReadPreference readPref = queryProps.getQueryReadPreference();
+        ReadPreference readPref = queryProps.getTaggableReadPreference();
         if( readPref != null )
             rowsCursor.setReadPreference( readPref );
   
@@ -335,33 +334,18 @@ public class MDbOperation
             return null;
         
         // convert user-specified operation expression to operation pipeline
-        DBObject firstOp = null;
-        DBObject[] addlOps = null;
-        if( operationExprObj instanceof BasicDBList )
-        {
-            BasicDBList aggregateOps = (BasicDBList)operationExprObj;
-            if( aggregateOps.size() >= 1 )
-            {
-                firstOp = (DBObject)aggregateOps.get(0);
-                if( aggregateOps.size() > 1 )
-                {
-                    List<Object> addlOpsList = aggregateOps.subList( 1, aggregateOps.size() );
-                    addlOps = (DBObject[])addlOpsList.toArray( new DBObject[addlOpsList.size()] );
-                }
-            }
-        }
-        else if( operationExprObj instanceof DBObject )
-            firstOp = operationExprObj;
-
+        DBObject firstOp = QueryProperties.getFirstObjectSet( operationExprObj );
         if( firstOp == null )
             return null;     // no valid DBObject operation
+
+        DBObject[] addlOps = QueryProperties.getSecondaryObjectSets( operationExprObj );
 
         // aggregation $limit and $skip operators applies to the number 
         // of documents in the *input* pipeline, and thus cannot be used to apply
         // the searchLimit and numSkipDocuments properties defined for data set
         
         // $match and $sort pipeline operators are built in an aggregate command
-                
+
         // execute the aggregate command
         AggregationOutput output;
         try

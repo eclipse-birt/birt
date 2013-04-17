@@ -17,7 +17,6 @@ package org.eclipse.birt.data.oda.mongodb.internal.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.eclipse.birt.data.oda.mongodb.impl.MDbResultSet;
 import org.eclipse.birt.data.oda.mongodb.impl.MDbResultSetMetaData;
@@ -31,8 +30,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
-import com.mongodb.util.JSONParseException;
 
 /**
  * Represents the model of a MongoDB query.
@@ -174,7 +171,7 @@ public class QueryModel
         // local setting (that may be set by the designer at design time)
         Integer searchLimit = queryProps.getRuntimeMetaDataSearchLimit();
         if( searchLimit == null || 
-            searchLimit < 0 || searchLimit == DEFAULT_RUNTIME_METADATA_SEARCH_LIMIT )
+                searchLimit < 0 || searchLimit == DEFAULT_RUNTIME_METADATA_SEARCH_LIMIT )
             searchLimit = getMetaDataSearchLimit();
         return searchLimit;
     }
@@ -193,30 +190,9 @@ public class QueryModel
         return effectiveProps != null ? effectiveProps.serialize() : DriverUtil.EMPTY_STRING;
     }
 
-    static Object parseJSONExpr( String jsonExpr ) throws OdaException
+    private static final DBObject parseExprToDBObject( String jsonExpr ) throws OdaException
     {
-        try
-        {
-            return JSON.parse( jsonExpr );
-        }
-        catch( JSONParseException ex )
-        {
-            String errMsg = Messages.bind( Messages.queryModel_parsingError,
-                    jsonExpr );
-            DriverUtil.getLogger().log( Level.INFO, errMsg, ex ); // caller may choose to ignore it; log at INFO level
-
-            OdaException newEx = new OdaException( errMsg );
-            newEx.initCause( ex );
-            throw newEx;
-        }
-    }
-
-    static DBObject parseExprToDBObject( String jsonExpr ) throws OdaException
-    {
-        Object parsedObj = parseJSONExpr( jsonExpr );
-        if( parsedObj instanceof DBObject )
-            return (DBObject)parsedObj;            
-        throw new OdaException( Messages.bind( Messages.queryModel_invalidExpr, parsedObj.getClass().getSimpleName() ));
+        return DriverUtil.parseExprToDBObject( jsonExpr );
     }
 
     /**
