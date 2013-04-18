@@ -703,7 +703,6 @@ public final class DeferredCache implements Comparable<DeferredCache>
 		this.bAntialiasing = antialiasing;
 	}
 	
-	@Override
 	public int compareTo( DeferredCache other )
 	{
 		MarkerInstruction markerA = null;
