@@ -14,6 +14,11 @@
 
 package org.eclipse.birt.data.oda.mongodb.ui.impl;
 
+import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver.ReadPreferenceChoice;
+import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties;
+import org.eclipse.birt.data.oda.mongodb.ui.i18n.Messages;
+import org.eclipse.birt.data.oda.mongodb.ui.util.IHelpConstants;
+import org.eclipse.birt.data.oda.mongodb.ui.util.UIHelper;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.StatusDialog;
@@ -29,16 +34,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-
-import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver.ReadPreferenceChoice;
-import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties;
-import org.eclipse.birt.data.oda.mongodb.ui.i18n.Messages;
-import org.eclipse.birt.data.oda.mongodb.ui.util.IHelpConstants;
-import org.eclipse.birt.data.oda.mongodb.ui.util.UIHelper;
 
 public class MongoDBAdvancedSettingsDialog extends StatusDialog
 {
@@ -46,11 +46,11 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 	private static String DIALOG_TITLE = Messages.getString( "MongoDBAdvancedSettingsDialog.dialogTitle" ); //$NON-NLS-1$
 
 	private String batchSizeValue, docSearchLimitValue, maxSkipDocValue,
-			indexExpr, queryPreferenceValue;
+			indexExpr, queryPreferenceMode, tagSetValue;
 
-	private Combo queryPreferenceCombo;
+	private Combo queryPreferenceModeCombo;
 	private Text batchSizeText, docSearchLimitText, maxSkipDocText,
-			indexExprText;
+			indexExprText, tagSetText;
 	private Button noTimeOutCheckbox, allowPartialResultsCheckbox,
 			flattenNestedDocCheckbox;
 	private boolean noTimeOut, allowsPartialResults, flattenNestedDocument;
@@ -176,27 +176,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 		} );
 
-		Label queryCursorPrefLabel = new Label( parent, SWT.NONE );
-		queryCursorPrefLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference" ) ); //$NON-NLS-1$
-		queryCursorPrefLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference" ) ); //$NON-NLS-1$
-
-		queryPreferenceCombo = new Combo( parent, SWT.BORDER | SWT.READ_ONLY );
-		queryPreferenceCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		queryPreferenceCombo.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				queryPreferenceValue = queryPreferenceCombo.getText( ).trim( );
-			}
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-
-			}
-
-		} );
-
-		initQueryCursorPreferenceSelection( );
+		createQueryPreferenceGroup(parent);
 
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
@@ -261,15 +241,69 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 	}
 
+	private void createQueryPreferenceGroup( Composite parent )
+	{
+		Group group = new Group( parent, SWT.NONE );
+		group.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Group.text.QueryCursorPreference" ) ); //$NON-NLS-1$
+		group.setLayout( new GridLayout( 2, false ) );
+		GridData groupGd = new GridData( GridData.FILL_HORIZONTAL );
+		groupGd.horizontalSpan = 2;
+		group.setLayoutData( groupGd );
+		
+		Label modeLabel = new Label( group, SWT.NONE );
+		modeLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.Mode" ) ); //$NON-NLS-1$
+		modeLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.Mode" ) ); //$NON-NLS-1$
+
+		queryPreferenceModeCombo = new Combo( group, SWT.BORDER | SWT.READ_ONLY );
+		queryPreferenceModeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		queryPreferenceModeCombo.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				queryPreferenceMode = queryPreferenceModeCombo.getText( ).trim( );
+				updateTagSetTextStatus( );
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+
+			}
+
+		} );
+		
+		Label tagSetLabel = new Label( group, SWT.NONE );
+		tagSetLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.TagSet" ) ); //$NON-NLS-1$
+		tagSetLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.TagSet" ) ); //$NON-NLS-1$
+
+		tagSetText = new Text( group, SWT.BORDER );
+		tagSetText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		tagSetText.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent arg0 )
+			{
+				tagSetValue = tagSetText.getText( ).trim( );
+			}
+
+		} );
+		
+		initQueryCursorPreferenceSelection( );
+	}
+
 	private void initQueryCursorPreferenceSelection( )
 	{
-		queryPreferenceCombo.add( ReadPreferenceChoice.PRIMARY.displayName( ) );
-		queryPreferenceCombo.add( ReadPreferenceChoice.PRIMARY_PREFERRED.displayName( ) );
-		queryPreferenceCombo.add( ReadPreferenceChoice.SECONDARY.displayName( ) );
-		queryPreferenceCombo.add( ReadPreferenceChoice.SECONDARY_PREFERRED.displayName( ) );
-		queryPreferenceCombo.add( ReadPreferenceChoice.NEAREST.displayName( ) );
+		queryPreferenceModeCombo.add( ReadPreferenceChoice.PRIMARY.displayName( ) );
+		queryPreferenceModeCombo.add( ReadPreferenceChoice.PRIMARY_PREFERRED.displayName( ) );
+		queryPreferenceModeCombo.add( ReadPreferenceChoice.SECONDARY.displayName( ) );
+		queryPreferenceModeCombo.add( ReadPreferenceChoice.SECONDARY_PREFERRED.displayName( ) );
+		queryPreferenceModeCombo.add( ReadPreferenceChoice.NEAREST.displayName( ) );
 
-		queryPreferenceCombo.select( 0 );
+		queryPreferenceModeCombo.select( 0 );			
+	}
+	
+	private void updateTagSetTextStatus( )
+	{
+		tagSetText.setEnabled( !ReadPreferenceChoice.PRIMARY.displayName( )
+				.equals( queryPreferenceModeCombo.getText( ).trim( ) ) );
 	}
 
 	private void validatePageStatus( )
@@ -341,10 +375,16 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 			indexExprText.setText( indexExpr );
 		}
 
-		if ( queryPreferenceValue != null )
+		if ( queryPreferenceMode != null )
 		{
-			queryPreferenceCombo.setText( queryPreferenceValue );
+			queryPreferenceModeCombo.setText( queryPreferenceMode );
 		}
+		
+		if ( tagSetValue != null )
+		{
+			tagSetText.setText( tagSetValue );
+		}
+		updateTagSetTextStatus( );
 
 		if ( docSearchLimitValue != null )
 		{
@@ -377,15 +417,20 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 		}
 		if ( queryProps.getQueryReadPreference( ) != null )
 		{
-			this.queryPreferenceValue = String.valueOf( queryProps.getQueryReadPreference( ) );
+			this.queryPreferenceMode = String.valueOf( queryProps.getQueryReadPreference( ) );
 		}
 		else
 		{
-			this.queryPreferenceValue = ReadPreferenceChoice.DEFAULT.displayName( );
+			this.queryPreferenceMode = ReadPreferenceChoice.DEFAULT.displayName( );
 		}
 
+		tagSetValue = queryProps.getQueryReadPreferenceTags( );
+		if ( tagSetValue == null )
+		{
+			tagSetValue = ""; //$NON-NLS-1$
+		}
+		
 		this.indexExpr = String.valueOf( queryProps.getIndexHints( ) );
-
 		this.noTimeOut = queryProps.hasNoTimeOut( );
 		this.flattenNestedDocument = queryProps.isAutoFlattening( );
 		this.allowsPartialResults = queryProps.isPartialResultsOk( );
@@ -393,11 +438,6 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 	protected void updateQueryProperties( QueryProperties queryProps )
 	{
-		if ( queryPreferenceValue != null )
-		{
-			queryProps.setQueryReadPreference( queryPreferenceValue );
-		}
-
 		if ( hasMaxDocumentToSkip( ) )
 		{
 			queryProps.setNumDocsToSkip( getMaxDocumentToSkip( ) );
@@ -424,6 +464,16 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 		if ( indexExpr != null )
 		{
 			queryProps.setIndexHints( indexExpr );
+		}
+
+		if ( queryPreferenceMode != null )
+		{
+			queryProps.setQueryReadPreference( queryPreferenceMode );
+		}
+		
+		if ( tagSetValue != null )
+		{
+			queryProps.setQueryReadPreferenceTags( tagSetValue );
 		}
 
 		queryProps.setNoTimeOut( noTimeOut );
