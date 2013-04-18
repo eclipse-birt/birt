@@ -211,6 +211,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void defineDataSet( IBaseDataSetDesign design ) throws BirtException
 	{
+		IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
+		if ( dataSetInterceptor != null )
+		{
+			dataSetInterceptor.preDefineDataSet( sessionContext,
+					dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
+					design,
+					null );
+		}
 		dataEngine.defineDataSet( design );
 	}
 
