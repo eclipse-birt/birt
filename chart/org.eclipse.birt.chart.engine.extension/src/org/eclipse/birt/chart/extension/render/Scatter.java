@@ -339,7 +339,7 @@ public class Scatter extends Line
 					LineAttributes liaShadow = goFactory.copyOf( lia );
 					liaShadow.setColor( cLineShadow );
 					lre.setLineAttributes( liaShadow );
-					ipr.drawLine( lre );
+					dc.addConnectionLine( lre );
 				}
 			}
 
@@ -398,7 +398,7 @@ public class Scatter extends Line
 						
 						lre.setStart( loa[0] );
 						lre.setEnd( loa[1] );
-						ipr.drawLine( lre );
+						dc.addConnectionLine( lre );
 					}
 					/*
 					 * else // TBD: BSP HIDDEN SURFACE REMOVAL FOR INTERSECTING

@@ -34,7 +34,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 /**
  * This class implements deferred rendering capability for chart.
  */
-public final class DeferredCache
+public final class DeferredCache implements Comparable<DeferredCache>
 {
 	
 	public static final int FLUSH_PLANE = 1;
@@ -43,7 +43,8 @@ public final class DeferredCache
 	public static final int FLUSH_LABLE = 2 << 2;
 	public static final int FLUSH_3D = 2 << 3;
 	public static final int FLUSH_PLANE_SHADOW = 2 << 4;
-	public static final int FLUSH_ALL = ( 2 << 5 ) - 1;
+	public static final int FLUSH_CONNECTION_LINE = 2 << 5;
+	public static final int FLUSH_ALL = ( 2 << 6 ) - 1;
 
 	private final IDeviceRenderer idr;
 
@@ -52,6 +53,8 @@ public final class DeferredCache
 	private Comparator<?> cpPlanes = null;
 
 	private final ArrayList<LineRenderEvent> alLines = new ArrayList<LineRenderEvent>( 16 );
+
+	private final ArrayList<LineRenderEvent> alConnectionLines = new ArrayList<LineRenderEvent>( 16 );
 
 	private final ArrayList<MarkerInstruction> alMarkers = new ArrayList<MarkerInstruction>( 16 );
 
@@ -203,6 +206,14 @@ public final class DeferredCache
 	}
 
 	/**
+	 * Adds marker connection line rendering event to cache.
+	 */
+	public final void addConnectionLine( LineRenderEvent lre )
+	{
+		alConnectionLines.add( (LineRenderEvent) lre.copy( ) );
+	}
+	
+	/**
 	 * Adds text rendering event to cache.
 	 */
 	public final void addLabel( TextRenderEvent tre )
@@ -286,6 +297,11 @@ public final class DeferredCache
 		if ( ( options & FLUSH_LINE ) == FLUSH_LINE )
 		{
 			flushLines( idr, alLines );
+		}
+
+		if ( ( options & FLUSH_CONNECTION_LINE ) == FLUSH_CONNECTION_LINE )
+		{
+			flushLines( idr, alConnectionLines );
 		}
 
 		// FLUSH MARKERS (WITHOUT SORTING)
@@ -609,6 +625,16 @@ public final class DeferredCache
 	}
 
 	/**
+	 * Returns all cached connection lines.
+	 * 
+	 * @return all cached connection lines.
+	 */
+	public List<LineRenderEvent> getAllConnectionLines( )
+	{
+		return alConnectionLines;
+	}
+
+	/**
 	 * Returns all cached markers.
 	 * 
 	 * @return all cached markers.
@@ -676,4 +702,56 @@ public final class DeferredCache
 	{
 		this.bAntialiasing = antialiasing;
 	}
+	
+	@Override
+	public int compareTo( DeferredCache other )
+	{
+		MarkerInstruction markerA = null;
+		MarkerInstruction markerB = null;		
+		if ( getAllMarkers( ).size( ) == 0 )
+		{
+			return 1;
+		}
+
+		for ( MarkerInstruction marker : getAllMarkers( ) )
+		{
+			if ( marker != null )
+			{
+				markerA = marker;
+				break;
+			}
+		}
+		if ( markerA == null )
+		{
+			return 1;
+		}
+		for ( MarkerInstruction marker : other.getAllMarkers( ) )
+		{
+			if ( marker != null )
+			{
+				markerB = marker;
+				break;
+			}
+		}
+		if ( markerB == null )
+		{
+			return -1;
+		}
+		if ( markerA.getMarkerZOrder( ) != markerB.getMarkerZOrder( ) )
+		{
+			return ( markerA.getMarkerZOrder( ) - markerB.getMarkerZOrder( ) );
+		}
+		else
+		{
+			if ( markerA.getMarkerSize( ) - markerB.getMarkerSize( ) > 0 )
+			{
+				return -1;
+			}
+			else
+			{
+				return 1;
+			}
+		}
+	}
+	
 }

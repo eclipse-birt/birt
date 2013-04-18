@@ -142,5 +142,15 @@ public class MarkerInstruction implements IRenderInstruction
 		// Always single event
 		return false;
 	}
+	
+	/**
+	 * Returns the zOrder of marker
+	 * 
+	 * @return marker zOrder
+	 */
+	public final int getMarkerZOrder( )
+	{
+		return zOrder;
+	}
 
 }
