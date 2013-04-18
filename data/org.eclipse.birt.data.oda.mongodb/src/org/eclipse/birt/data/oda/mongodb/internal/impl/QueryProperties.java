@@ -494,7 +494,7 @@ public class QueryProperties
             {
                 // log and ignore
                 getLogger().log( Level.INFO, 
-                        Messages.bind( "Unable to parse the Selected Fields expression: {0}", propValue ), ex ); //$NON-NLS-1$
+                        Messages.bind( "Ignoring invalid Selected Fields expression: {0}", propValue ), ex ); //$NON-NLS-1$
                 return Collections.emptyList();
             }
             
@@ -604,7 +604,7 @@ public class QueryProperties
         {
             // log and ignore
             getLogger().log( Level.INFO, 
-                    Messages.bind( "Unable to parse the Read Preference Tags expression: {0}", tagsExpr ), ex ); //$NON-NLS-1$
+                    Messages.bind( "Ignoring invalid Read Preference Tags expression: {0}", tagsExpr ), ex ); //$NON-NLS-1$
         }
         return null;
     }
@@ -714,7 +714,7 @@ public class QueryProperties
         {
             // log and ignore
             getLogger().log( Level.INFO, 
-                    Messages.bind( "Unable to parse the Index Hint expression: {0}", hintValue ), ex ); //$NON-NLS-1$
+                    Messages.bind( "Ignoring invalid Index Hint expression: {0}", hintValue ), ex ); //$NON-NLS-1$
         }
         return null;
     }
