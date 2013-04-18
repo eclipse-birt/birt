@@ -226,7 +226,7 @@ public class ResultObjectUtil
 			{
 				int byteLength = leadingChar>>1;
 				
-				if( byteLength > 127 )
+				if( byteLength >= 127 )
 				{
 					byteLength = IOUtil.readInt( dis );
 				}
