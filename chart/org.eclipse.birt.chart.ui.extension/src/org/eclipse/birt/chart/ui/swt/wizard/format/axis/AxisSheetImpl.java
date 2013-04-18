@@ -255,7 +255,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 					"type",//$NON-NLS-1$
 					defAxis.getType( ).getName( ) );
 			{
-				GridData gd = new GridData( SWT.FILL,SWT.CENTER,true,false );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalAlignment = SWT.CENTER;
 				cmbTypes.setLayoutData( gd );
 				NameSet ns = ChartUIUtil.getCompatibleAxisType( getDesignTimeSeries( axis ) );
 				cmbTypes.setItems( ns.getDisplayNames( ) );
