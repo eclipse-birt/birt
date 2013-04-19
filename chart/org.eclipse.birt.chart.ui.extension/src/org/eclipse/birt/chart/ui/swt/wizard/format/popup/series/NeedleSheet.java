@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.ui.swt.composites.NeedleComposite;
+import org.eclipse.birt.chart.ui.swt.composites.NeedleComposite.NeedleAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -61,17 +62,16 @@ public class NeedleSheet extends AbstractPopupSheet
 			cmpContent.setLayout( glContent );
 		}
 
-		if ( series != null )
-		{
-			new NeedleComposite( cmpContent, getContext( ), (DialSeries) series );
-		}
-		else
-		{
-			new NeedleComposite( cmpContent,
-					getContext( ),
-					(DialSeries) seriesDefn.getDesignTimeSeries( ) );
-		}
+		DialSeries dialSeries = ( series != null ) ? (DialSeries) series
+				: (DialSeries) seriesDefn.getDesignTimeSeries( );
+		
+		new NeedleComposite( cmpContent, getContext( ), dialSeries, getNeedleAttributesContext( ) );
 		
 		return cmpContent;
+	}
+
+	protected NeedleAttributesContext getNeedleAttributesContext( )
+	{
+		return new NeedleAttributesContext( );
 	}
 }
