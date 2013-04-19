@@ -83,6 +83,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.util.CubeUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -1630,26 +1631,13 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			{
 				ExceptionUtil.handle( ex );
 			}
-			ICubeQueryDefinition cubeQueryDefn = null;
 			DataRequestSession session = null;
+			List retList = null;
 			try
 			{
 				session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-				cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
-				List retList = null;
-				if ( groupBtn.getSelection( ) )
-				{
-					retList = session.getCubeQueryUtil( )
-							.getReferableBindings( targetString,
-									cubeQueryDefn,
-									false );
-				}
-				else if ( measureBtn.getSelection( ) )
-				{
-					retList = session.getCubeQueryUtil( )
-							.getReferableMeasureBindings( targetString,
-									cubeQueryDefn );
-				}
+				retList = getReferableBindings(session, crosstab, null, targetString);
+				
 				if ( retList != null && retList.size( ) > 0 )
 				{
 					IBindingMetaInfo meta = (IBindingMetaInfo) retList.get( 0 );
@@ -1807,6 +1795,10 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				if ( level != null )
 				{
 					return DEUtil.resolveNull( level.getName( ) );
+				}
+				else if (( (MemberValueHandle) element ).getCubeLevelName( ) != null)
+				{
+					return CubeUtil.splitLevelName( ( (MemberValueHandle) element ).getCubeLevelName( ) )[1];
 				}
 				else
 				{
@@ -2111,7 +2103,14 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 			DataService.getInstance( ).registerSession( cube, session );
 
-			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
+			if (CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+			{
+				cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab, true );
+			}
+			else
+			{
+				cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
+			}
 
 			Map context = session.getDataSessionContext( ).getAppContext( );
 
@@ -2691,25 +2690,12 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		}
 
 		// get cubeQueryDefn
-		ICubeQueryDefinition cubeQueryDefn = null;
 		DataRequestSession session = null;
 		try
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
-			if ( target instanceof LevelViewHandle || target instanceof String )
-			{
-				retList = session.getCubeQueryUtil( )
-						.getReferableBindings( targetString,
-								cubeQueryDefn,
-								false );
-			}
-			else if ( target instanceof MeasureViewHandle )
-			{
-				retList = session.getCubeQueryUtil( )
-						.getReferableMeasureBindings( targetString,
-								cubeQueryDefn );
-			}
+			
+			retList = getReferableBindings(session, crosstab, target, targetString);
 
 		}
 		catch ( Exception e )
@@ -3239,7 +3225,6 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		{
 			return cubeLevelNameList;
 		}
-
 		Object[] dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP )
 				.toArray( );
 		TabularDimensionNodeProvider dimensionProvider = new TabularDimensionNodeProvider( );
@@ -3292,4 +3277,44 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		return false;
 	}
 
+	private List getReferableBindings( DataRequestSession session, CrosstabReportItemHandle crosstab, Object target, String targetString) throws Exception
+	{
+		ICubeQueryDefinition cubeQueryDefn;
+		List retList = new ArrayList();
+		if(CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+		{
+			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab, true );
+			if ( groupBtn.getSelection( ) || target instanceof LevelViewHandle || target instanceof String )
+			{
+				retList = session.getCubeQueryUtil( )
+						.getReferableBindingsForLinkedDataSetCube( targetString,
+								cubeQueryDefn,
+								false );
+			}
+			else if ( measureBtn.getSelection( ) || target instanceof MeasureViewHandle )
+			{
+				retList = session.getCubeQueryUtil( )
+						.getReferableMeasureBindingsForLinkedDataSetCube( targetString,
+								cubeQueryDefn );
+			}
+		}
+		else
+		{
+			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
+			if ( groupBtn.getSelection( ) || target instanceof LevelViewHandle || target instanceof String)
+			{
+				retList = session.getCubeQueryUtil( )
+						.getReferableBindings( targetString,
+								cubeQueryDefn,
+								false );
+			}
+			else if ( measureBtn.getSelection( ) || target instanceof MeasureViewHandle )
+			{
+				retList = session.getCubeQueryUtil( )
+						.getReferableMeasureBindings( targetString,
+								cubeQueryDefn );
+			}
+		}
+		return retList;
+	}
 }

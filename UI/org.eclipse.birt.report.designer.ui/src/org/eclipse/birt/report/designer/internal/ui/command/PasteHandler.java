@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
+import org.eclipse.birt.report.designer.core.model.IMixedHandle;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -40,7 +42,22 @@ public class PasteHandler extends SelectionHandler
 		{
 			System.out.println( "Paste action >> Paste " + getClipBoardContents( ) ); //$NON-NLS-1$
 		}
-		DNDUtil.copyHandles( getClipBoardContents( ), selection );
+		if(selection instanceof IMixedHandle)
+		{
+			if( PasteAction.validateCanPaste( ((IMixedHandle)selection).getSlotHandle( ),
+					getClipBoardContents( ), null ))
+			{
+				DNDUtil.copyHandles( getClipBoardContents( ), ((IMixedHandle)selection).getSlotHandle( ) );
+			}
+			else
+			{
+				DNDUtil.copyHandles( getClipBoardContents( ), ((IMixedHandle)selection).getPropertyHandle( ) );
+			}
+		}
+		else
+		{
+			DNDUtil.copyHandles( getClipBoardContents( ), selection );
+		}
 		return null;
 	}
 

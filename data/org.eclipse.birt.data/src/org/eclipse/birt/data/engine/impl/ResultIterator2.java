@@ -381,7 +381,7 @@ class ResultIterator2 extends ResultIterator
 			{
 				ResultObjectUtil.writeObject( tempDos,
 						valueMap.get( binding.getBindingName( ) ),
-						this.getDataTypeClass( binding ) );
+						this.getDataTypeClass( binding ), this.streamManager.getVersion( ) );
 			}
 			else
 			{

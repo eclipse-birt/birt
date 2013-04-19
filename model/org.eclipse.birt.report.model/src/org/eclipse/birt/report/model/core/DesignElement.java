@@ -3468,8 +3468,8 @@ public abstract class DesignElement
 		ElementPropertyDefn defn = getPropertyDefn( propName );
 		if ( defn != null )
 		{
-			// if the content is not contained by module, do nothing
-			if ( module != content.getRoot( ) )
+			// if the content does not belong to the same module, do nothing
+			if (content.getRoot( ) != null && module != content.getRoot( )   )
 			{
 				return;
 			}

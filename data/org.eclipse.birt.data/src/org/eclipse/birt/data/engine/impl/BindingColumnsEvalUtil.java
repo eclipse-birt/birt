@@ -43,7 +43,7 @@ import org.mozilla.javascript.Scriptable;
  * original binding columns, the binding expression is also the same as that of
  * the original one.
  */
-class BindingColumnsEvalUtil
+public class BindingColumnsEvalUtil
 {
 	// 
 	private IResultIterator odiResult;
@@ -54,8 +54,8 @@ class BindingColumnsEvalUtil
 	private List allAutoBindingExprs;
 
 	private ScriptContext cx;
-	private final static int MANUAL_BINDING = 1;
-	private final static int AUTO_BINDING = 2;
+	public final static int MANUAL_BINDING = 1;
+	public final static int AUTO_BINDING = 2;
 
 	private static Logger logger = Logger.getLogger( BindingColumnsEvalUtil.class.getName( ) );
 
@@ -256,24 +256,5 @@ class BindingColumnsEvalUtil
 	{
 		return this.getBindingFromManualBinding( name )!= null;
 	}
-	/**
-	 * A simple wrapper for binding column
-	 */
-	private static class BindingColumn
-	{
-
-		//
-		private String columnName;
-		private IBaseExpression baseExpr;
-		private boolean isAggregation;
-		private int type;
-		
-		private BindingColumn( String columnName, IBaseExpression baseExpr, boolean isAggregation, int type )
-		{
-			this.columnName = columnName;
-			this.baseExpr = baseExpr;
-			this.isAggregation = isAggregation;
-			this.type = type;
-		}
-	}
+	
 }

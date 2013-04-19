@@ -20,6 +20,7 @@ import java.util.List;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.TimeDimensionUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
@@ -32,14 +33,14 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 public class DimensionRowAccessor extends AbstractRowAccessor
 {
 
-	private Dimension dimension;
-	private DimensionRow dimRow;
+	protected IDimension dimension;
+	protected DimensionRow dimRow;
 
 	/**
 	 * 
 	 * @param dimension
 	 */
-	public DimensionRowAccessor( Dimension dimension )
+	public DimensionRowAccessor( IDimension dimension )
 	{
 		this.dimension = dimension;
 		if( !dimension.isTime( ) )
@@ -103,7 +104,7 @@ public class DimensionRowAccessor extends AbstractRowAccessor
 	 */
 	public void seek( int position ) throws IOException
 	{
-		dimRow = dimension.getRowByPosition( position );
+		dimRow = ( (Dimension) dimension ).getRowByPosition( position );
 	}
 
 	/**

@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.core.security.ObjectSecurity;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.datatools.connectivity.oda.IBlob;
@@ -161,7 +162,7 @@ public class ResultObjectUtil
 			for ( int j = 0; j < columnCount; j++ )
 			{
 				Class fieldType = typeArray[j];
-				obs[j] = readObject( dis, fieldType, classLoader );
+				obs[j] = readObject( dis, fieldType, classLoader, VersionManager.getLatestVersion( ) );
 			}
 			rowDatas[i] = newResultObject( obs );
 
@@ -173,10 +174,11 @@ public class ResultObjectUtil
 		return rowDatas;
 	}
 
-	public static Object readObject( DataInputStream dis, Class fieldType, ClassLoader classLoader ) throws IOException, DataException
+	public static Object readObject( DataInputStream dis, Class fieldType, ClassLoader classLoader, int version ) throws IOException, DataException
 	{
 		Object obj = null;
-		if ( dis.readByte( ) == 0 )
+		char leadingChar = (char) dis.read( );
+		if ( leadingChar == 0 )
 		{
 			obj = null;
 			return obj;
@@ -206,17 +208,42 @@ public class ResultObjectUtil
 		else if ( fieldType.equals( IBlob.class )
 				|| fieldType.equals( Blob.class ) )
 		{
-			int len = IOUtil.readInt( dis );
-			if ( len == 0 )
+			if ( version < VersionManager.VERSION_4_2_2 )
 			{
-				obj = null;
+				int len = IOUtil.readInt( dis );
+				if ( len == 0 )
+				{
+					obj = null;
+				}
+				else
+				{
+					byte[] bytes = new byte[len];
+					dis.read( bytes );
+					obj = bytes;
+				}
 			}
 			else
 			{
-				byte[] bytes = new byte[len];
-				dis.readFully( bytes );
+				int byteLength = leadingChar>>1;
+				
+				if( byteLength >= 127 )
+				{
+					byteLength = IOUtil.readInt( dis );
+				}
+				byte[] bytes = new byte[byteLength];
+				dis.read( bytes );
+
 				obj = bytes;
 			}
+		}
+		else if ( fieldType.equals( int[].class ) )
+		{
+			int[] result = new int[IOUtil.readInt( dis )];
+			for( int i = 0; i < result.length; i++ )
+			{
+				result[i] = dis.readInt( );
+			}
+			obj = result;
 		}
 		else if ( fieldType.equals( Object.class ) || fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
 		{
@@ -280,7 +307,7 @@ public class ResultObjectUtil
 			}
 
 			Class fieldType = typeArray[j];
-			writeObject( dos, fieldValue, fieldType );
+			writeObject( dos, fieldValue, fieldType, VersionManager.getLatestVersion( ) );
 		}
 		dos.flush( );
 
@@ -294,45 +321,94 @@ public class ResultObjectUtil
 	}
 
 	public static void writeObject( DataOutputStream dos, Object fieldValue,
-			Class fieldType ) throws IOException, DataException
+			Class fieldType, int version ) throws IOException, DataException
 	{
+		//No Version control needed. Previous we write byte 1 & 0, which is perfectly convert to char 1 & 0.
+		
+		char leadingChar;
 		// process null object
 		if ( fieldValue == null )
 		{
-			dos.writeByte( 0 );
+			leadingChar = 0;
+			dos.write( leadingChar );
 			return;
 		}
 		else
 		{
-			dos.writeByte( 1 );
+			leadingChar = 1;
 		}
 
 		if ( fieldType.equals( Integer.class ) )
+		{
+			dos.write( leadingChar );
 			dos.writeInt( ( (Integer) convert( fieldValue, DataType.INTEGER_TYPE) ).intValue( ) );
+		}
 		else if ( fieldType.equals( Double.class ) )
+		{
+			dos.write( leadingChar );
 			dos.writeDouble( ( (Double) convert( fieldValue, DataType.DOUBLE_TYPE) ).doubleValue( ) );
+		}
 		else if ( fieldType.equals( BigDecimal.class ) )
+		{
+			dos.write( leadingChar );
 			dos.writeUTF( ( (BigDecimal) convert( fieldValue, DataType.DECIMAL_TYPE) ).toString( ) );
+		}
 		else if ( Date.class.isAssignableFrom( fieldType ) )
+		{
+			dos.write( leadingChar );
 			dos.writeLong( ( (Date) convert( fieldValue, DataType.DATE_TYPE )).getTime( ) );
+		}
 		else if ( fieldType.equals( Boolean.class ) )
+		{
+			dos.write( leadingChar );
 			dos.writeBoolean( ( (Boolean) convert( fieldValue, DataType.BOOLEAN_TYPE) ).booleanValue( ) );
+		}
 		else if ( fieldType.equals( String.class ) )
+		{
+			dos.write( leadingChar );
 			IOUtil.writeString( dos, fieldValue.toString( ) );
+		}
 		else if ( fieldType.equals( IClob.class )
 				|| fieldType.equals( Clob.class ) )
-			IOUtil.writeString( dos,fieldValue.toString( ) );
+		{
+			dos.write( leadingChar );
+			IOUtil.writeString( dos, fieldValue.toString( ) );
+		}
 		else if ( fieldType.equals( IBlob.class )
 				|| fieldType.equals( Blob.class ) )
 		{
 			byte[] bytes = (byte[]) fieldValue;
-			if ( bytes == null || bytes.length == 0 )
+			if ( version < VersionManager.VERSION_4_2_2 )
 			{
-				IOUtil.writeInt( dos, 0 );
+				dos.write( leadingChar );
+				if ( bytes == null || bytes.length == 0 )
+				{
+					IOUtil.writeInt( dos, 0 );
+				}
+				else
+				{
+					IOUtil.writeInt( dos, bytes.length );
+					dos.write( (byte[]) fieldValue );
+				}
 			}
 			else
 			{
-				IOUtil.writeInt( dos, bytes.length );
+				int byteLength = bytes.length;
+				
+				if( byteLength < 127 )
+				{
+					//Here populate the high 7 bits to the byte length
+					leadingChar = (char) ( (byteLength << 1) | leadingChar );
+					dos.write( leadingChar );
+				}
+				else
+				{
+					//Here populate all 7 high bits to indicate the size is 127+, and need extra integer to save actual size.
+					leadingChar = (char) ( (127 << 1) | leadingChar );
+					dos.write( leadingChar );
+					IOUtil.writeInt( dos, bytes.length );					
+				}
+					
 				dos.write( (byte[]) fieldValue );
 			}
 		}
@@ -340,7 +416,7 @@ public class ResultObjectUtil
 		{
 			if ( !( fieldValue instanceof Serializable ) )
 				throw new DataException( ResourceConstants.NOT_SERIALIZABLE_CLASS, fieldValue.getClass().getName( ));
-			
+			dos.write( leadingChar );
 			IOUtil.writeObject( dos, fieldValue );
 		}
 		else

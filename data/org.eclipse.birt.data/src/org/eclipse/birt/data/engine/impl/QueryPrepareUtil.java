@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
@@ -27,12 +28,20 @@ import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQuery;
 
 public class QueryPrepareUtil
 {
-	public static PreparedDataSourceQuery prepareQuery( DataEngineImpl dataEngine,
+	public static IPreparedQuery prepareQuery( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign,
 			Map appContext, IQueryContextVisitor contextVisitor) throws DataException
 	{
 		return null;
 		
+	}
+	
+	static public IPreparedQuery preparePresentationQuery(
+			DataEngineImpl dataEngine, IQueryDefinition queryDefn,
+			IBaseDataSetDesign dataSetDesign, Map appContext,
+			IQueryContextVisitor contextVisitor ) throws DataException
+	{
+		return null;
 	}
 	
 	public static IPreparedCubeQuery prepareQuery( Map<String, String> cubeDataSourceMap, Map<String, String> cubeDataObjectMap, DataEngineSession session, DataEngineContext context, ICubeQueryDefinition cubeQuery, Map appContext ) throws DataException

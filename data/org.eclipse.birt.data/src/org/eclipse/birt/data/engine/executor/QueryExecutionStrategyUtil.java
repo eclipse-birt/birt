@@ -69,6 +69,9 @@ public final class QueryExecutionStrategyUtil
 	public static Strategy getQueryExecutionStrategy( DataEngineSession session, IQueryDefinition query,
 			IBaseDataSetDesign dataSet ) throws DataException
 	{
+		/*if ( session.getEngineContext( ).getDataEngineOption( ) > 4 )
+			return Strategy.Complex;*/
+		
 		SortingOptimizer opt = new SortingOptimizer( dataSet, query );
 
 		if ( session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE )

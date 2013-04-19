@@ -24,6 +24,8 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DateFormatISO8601;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.internal.ui.script.JSDocumentProvider;
 import org.eclipse.birt.report.designer.internal.ui.script.JSEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.script.JSSourceViewerConfiguration;
@@ -41,13 +43,15 @@ import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
@@ -277,6 +281,21 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 					|| inputElement instanceof DimensionHandle )
 			{
 				return EMPTY;
+			}
+			// ignore items that cannot be inserted as (part of) expression.
+			else if (inputElement instanceof DataSetHandle
+					&& provider.getChildren(inputElement)[0] instanceof ReportElementHandle
+					&& getAdapter() != null
+					&& getAdapter( ).resolveExtendedData( (DesignElementHandle) inputElement ) != null
+					&& !getAdapter().isExtendedDataItem( (ReportElementHandle) provider.getChildren(inputElement)[0] ))
+			{
+				return EMPTY;
+			}
+			else if (inputElement instanceof ReportElementHandle
+					&& getAdapter( ) != null
+					&& getAdapter( ).isExtendedDataItem( (ReportElementHandle) inputElement ))
+			{
+				return new Object[]{inputElement};
 			}
 			else if ( inputElement instanceof LevelHandle )
 			{
@@ -1530,5 +1549,10 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		super.createButtonsForButtonBar( parent );
 		if ( isEditModal( ) )
 			resetOkButtonStatus( false );
+	}
+	
+	protected IExtendedDataModelUIAdapter getAdapter()
+	{
+		return ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
 	}
 }

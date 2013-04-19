@@ -265,12 +265,12 @@ BlockPreferencePage.displayname.Title=テキストブロック
 
 ###########################################################
 #BlockPreferencePage properties
-SizePreferencePage.displayname.Title=Size
+SizePreferencePage.displayname.Title=サイズ
 
 ###########################################################
 #BorderCanvas properties
 
-BorderCanvas.Inherited0=(Inherited)
+BorderCanvas.Inherited0=( 継承 )
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -1405,8 +1405,8 @@ Element.Style.pageBreakInside=要素内(&I) :
 Element.Style.section=セクション :
 Element.Style.showIfBlank=空白でも表示(&W)
 Element.Style.text.align=文字列の位置揃え(&L) :
-Element.Style.width=&Width:
-Element.Style.height=&Height:
+Element.Style.width=幅(&W): 
+Element.Style.height=高さ(&H): 
 #bidi_hcg
 Element.Style.text.direction=双方向テキスト(&B) :
 Element.Style.text.indent=文字列のインデント(&X) :

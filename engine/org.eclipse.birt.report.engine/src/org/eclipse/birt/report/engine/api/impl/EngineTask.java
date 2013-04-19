@@ -1114,8 +1114,18 @@ public abstract class EngineTask implements IEngineTask
 		{
 			Map.Entry entry = (Map.Entry) iterator.next( );
 			String name = (String) entry.getKey( );
-			String text = (String) entry.getValue( );
-			setParameterDisplayText( name, text );
+			Object text = entry.getValue( );
+			if ( text != null )
+			{
+				if ( text instanceof String[] )
+				{
+					setParameterDisplayText( name, (String[]) text );
+				}
+				else
+				{
+					setParameterDisplayText( name, text.toString( ) );
+				}
+			}
 		}
 	}
 

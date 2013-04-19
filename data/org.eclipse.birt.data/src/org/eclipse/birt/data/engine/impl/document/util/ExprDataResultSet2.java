@@ -14,8 +14,8 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
+import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
 
 /**
  * This class will offer the same function as ExprDataResultSet1, but there is a
@@ -41,7 +41,7 @@ public class ExprDataResultSet2 extends BaseExprDataResultSet
 	 * @throws DataException 
 	 */
 	public ExprDataResultSet2( String tempDir, RAInputStream rowIs, RAInputStream rowLenIs,
-			RAInputStream rowInfoIs, ExprMetaInfo[] inExprMetas, int version, DataSetResultSet dataSetResultSet )
+			RAInputStream rowInfoIs, ExprMetaInfo[] inExprMetas, int version, IDataSetResultSet dataSetResultSet )
 			throws DataException
 	{
 		this.rowIs = rowIs;

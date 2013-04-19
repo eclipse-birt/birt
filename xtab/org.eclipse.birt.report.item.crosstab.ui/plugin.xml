@@ -364,6 +364,9 @@
       <dropAdapter
             adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.CrosstabVariableDropAdapter">
       </dropAdapter>
+      <dropAdapter
+      		adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.ExtendedDataColumnXtabDropAdapter">
+      </dropAdapter>
 
    </extension>
    <extension

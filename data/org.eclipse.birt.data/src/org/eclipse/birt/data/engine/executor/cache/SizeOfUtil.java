@@ -38,8 +38,11 @@ public class SizeOfUtil
 	private static int STRING_OVERHEAD = 40;
 	private static int STRING_SIZE = 40 + ( ( 20 + 1 ) / 4 ) * 8; //We can assume String values to average 20 characters each.;
 	
-	private static int POINTER_SIZE = 4;
-
+	public static int POINTER_SIZE = 4;
+	public static int PRIMITIVE_ARRAY_OVERHEAD = 12;
+	public static int OBJECT_OVERHEAD = 8;
+	public static int OBJECT_ARRAY_OVERHEAD = 12;
+	
 	// field count of result object
 	private int fieldCount = 0;
 	private boolean[] isfixedSize = null;
@@ -70,6 +73,8 @@ public class SizeOfUtil
 					STRING_OVERHEAD = 56;
 					STRING_SIZE = 56 + ( ( 20 + 1 ) / 4 ) * 8; //We can assume String values to average 20 characters each.;
 					POINTER_SIZE = 8;
+					PRIMITIVE_ARRAY_OVERHEAD = 2*8+4;
+					OBJECT_ARRAY_OVERHEAD = 2*8+8;
 				}
 			}
 			catch (BirtException e)
@@ -256,7 +261,7 @@ public class SizeOfUtil
 	 * @param object
 	 * @return
 	 */
-	private static int sizeOf( Class objectClass, Object object )
+	public static int sizeOf( Class objectClass, Object object )
 	{
 		if ( object == null )
 		{

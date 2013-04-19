@@ -23,7 +23,9 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
@@ -36,7 +38,7 @@ import org.eclipse.gef.Request;
 public class InsertAction extends AbstractElementAction
 {
 
-	public final static String ID = "org.eclipse.birt.report.designer.ui.views.action.InsertAction";//$NON-NLS-1$	
+	public final static String ID = "org.eclipse.birt.report.designer.ui.views.action.InsertAction";//$NON-NLS-1$
 
 	public final static String ABOVE = "above"; //$NON-NLS-1$
 
@@ -47,6 +49,14 @@ public class InsertAction extends AbstractElementAction
 	private final static String TEXT = Messages.getString( "InsertAction.text" ); //$NON-NLS-1$
 
 	private SlotHandle slotHandle;
+
+	private PropertyHandle propertyHandle;
+
+	public PropertyHandle getPropertyHandle( )
+	{
+		return propertyHandle;
+	}
+
 	private boolean isDone;
 	private Object createElement;
 
@@ -55,7 +65,7 @@ public class InsertAction extends AbstractElementAction
 		return slotHandle;
 	}
 
-	private String position;
+	private final String position;
 
 	protected String getPosition( )
 	{
@@ -124,9 +134,30 @@ public class InsertAction extends AbstractElementAction
 	public InsertAction( Object selectedObject, String text, String type,
 			String pos )
 	{
-		this( selectedObject, text, null, type, pos );
+		this( selectedObject, text, (SlotHandle) null, type, pos );
 	}
 
+	public InsertAction( Object selectedObject, String text, PropertyHandle propertyHandle,
+			String type )
+	{
+		this( selectedObject, text, propertyHandle, type, CURRENT );
+	}
+
+	public InsertAction( Object selectedObject, String text, PropertyHandle propertyHandle,
+			String type, String pos )
+	{
+		super( selectedObject, text );
+		this.type = type;
+		this.position = pos;
+		if ( propertyHandle != null )
+		{
+			this.propertyHandle = propertyHandle;
+		}
+		else
+		{
+			this.propertyHandle = getDefaultPropertyHandle( );
+		}
+	}
 	public InsertAction( Object selectedObject, String text,
 			SlotHandle slotHandle, String type, String pos )
 	{
@@ -157,6 +188,29 @@ public class InsertAction extends AbstractElementAction
 					|| ( (SlotHandle) getSelection( ) ).canContain( ReportDesignConstants.TABLE_GROUP_ELEMENT );
 		}
 		return super.isEnabled( );
+	}
+
+	protected PropertyHandle getDefaultPropertyHandle( )
+	{
+		Object obj = getSelection( );
+		// if ( obj instanceof ReportElementModel )
+		// {
+		// return ( (ReportElementModel) obj ).getSlotHandle( );
+		// }else
+		if ( obj instanceof PropertyHandle )
+		{
+			return (PropertyHandle) obj;
+		}
+		ElementDetailHandle handle = (ElementDetailHandle) obj;
+		if ( position == CURRENT )
+		{
+			String str = DEUtil.getDefaultContentName( handle );
+			if ( str != null )
+			{
+				return handle.getElementHandle( ).getPropertyHandle( str );
+			}
+		}
+		return handle.getElementHandle( ).getContainerPropertyHandle( );
 	}
 
 	/**
@@ -209,7 +263,7 @@ public class InsertAction extends AbstractElementAction
 		isDone = ProviderFactory.createProvider( getSelection( ) )
 				.performRequest( getSelection( ), request );
 		createElement = request.getExtendedData( ).get( IRequestConstants.REQUEST_KEY_RESULT );
-		
+
 		return isDone;
 
 		// CommandUtils.getHandlerService( )
@@ -232,7 +286,7 @@ public class InsertAction extends AbstractElementAction
 		//
 		// return Boolean.TRUE.equals( returnVlaue );
 	}
-	
+
 	@Override
 	protected void postDoAction( )
 	{
@@ -247,11 +301,11 @@ public class InsertAction extends AbstractElementAction
 
 			r.setSelectionObject( list );
 			SessionHandleAdapter.getInstance( )
-					.getMediator( )
-					.notifyRequest( r );
+			.getMediator( )
+			.notifyRequest( r );
 
 		}
-		
+
 		createElement = null;
 	}
 }
