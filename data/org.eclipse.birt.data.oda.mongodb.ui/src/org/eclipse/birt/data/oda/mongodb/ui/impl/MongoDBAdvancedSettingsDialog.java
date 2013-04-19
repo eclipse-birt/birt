@@ -180,6 +180,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
+		gd.verticalIndent = 8;
 
 		noTimeOutCheckbox = new Button( parent, SWT.CHECK | SWT.WRAP );
 		noTimeOutCheckbox.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Button.text.NoCursorTimeOut" ) ); //$NON-NLS-1$
