@@ -185,6 +185,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 				btnAxisDelete.setToolTipText( Messages.getString( "DataDefinitionSelector.Tooltip.RemoveAxis" ) ); //$NON-NLS-1$
 				btnAxisDelete.addSelectionListener( this );
 				setAxisDeleteEnabled( );
+				ChartUIUtil.addScreenReaderAccessbility( btnAxisDelete, Messages.getString("DataDefinitionSelector.Label.DeleteAxis") ); //$NON-NLS-1$
 			}
 
 			Label lblSeparator = new Label( cmpTop, SWT.SEPARATOR
@@ -203,8 +204,9 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		}
 
 		cmbSeriesSelect = createSeriesSelectCombo( cmpTop, wizardContext );
-
+		
 		btnSeriesDelete = createSeriesDeleteButton( cmpTop, wizardContext );
+		ChartUIUtil.addScreenReaderAccessbility( btnSeriesDelete, Messages.getString("DataDefinitionSelector.Label.DeleteSeries") ); //$NON-NLS-1$
 		setSeriesDeleteEnabled( );
 
 		updateDataDefinition( );

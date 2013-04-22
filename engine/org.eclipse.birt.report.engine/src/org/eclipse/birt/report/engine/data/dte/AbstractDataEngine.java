@@ -175,11 +175,19 @@ public abstract class AbstractDataEngine implements IDataEngine
 				}
 			}
 		}
-
+		
 		// build report queries
 		new ReportQueryBuilder( report, context, dteSession ).build( );
 
 		doPrepareQuery( report, appContext );
+	}
+
+	public void prepare( IDataQueryDefinition query ) throws BirtException
+	{
+
+		this.dteSession.registerQueries( new IDataQueryDefinition[]{query} );
+		IBasePreparedQuery preparedQuery = dteSession.prepare( query );
+		queryMap.put( query, preparedQuery );
 	}
 
 	/**

@@ -101,7 +101,7 @@ public class GroupModelProvider
 			return null;
 		}
 		Object obj = input.get( 0 );
-		if ( !( obj instanceof DesignElementHandle ) )
+		if ( !( obj instanceof ListingHandle ) )
 			return EMPTY;
 
 		ListingHandle element = (ListingHandle) obj;

@@ -199,6 +199,12 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 		
 		vms[StyleConstants.STYLE_DATA_FORMAT] = new DataFormatManager( );
 		vms[StyleConstants.STYLE_OVERFLOW] = new OverflowManager( );
+		vms[StyleConstants.STYLE_HEIGHT] = new LengthManager(
+				CSSConstants.CSS_HEIGHT_PROPERTY, false,
+				CSSValueConstants.NUMBER_0 );
+		vms[StyleConstants.STYLE_WIDTH] = new LengthManager(
+				CSSConstants.CSS_WIDTH_PROPERTY, false,
+				CSSValueConstants.NUMBER_0 );
 	}
 
 	public int getNumberOfProperties( )

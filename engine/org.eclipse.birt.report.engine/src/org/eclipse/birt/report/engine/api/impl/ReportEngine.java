@@ -47,6 +47,7 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IRunnable;
 import org.eclipse.birt.report.engine.api.IStatusHandler;
+import org.eclipse.birt.report.engine.api.RenderOptionDefn;
 import org.eclipse.birt.report.engine.api.impl.LinkedObjectManager.LinkedEntry;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
@@ -919,5 +920,16 @@ public class ReportEngine implements IReportEngine
 	{
 		logger.log( Level.FINE, "createDatasetPreviewTask" );
 		return helper.createDatasetPreviewTask( );
+	}
+
+	public void setDefaultEmitterRenderOption( String emitterId,
+			RenderOptionDefn option )
+	{
+		config.setDefaultEmitterRenderOption( emitterId, option );
+	}
+
+	public Map<String, RenderOptionDefn> getDefaultEmitterRenderOption( String emitterId )
+	{
+		return config.getDefaultEmitterRenderOption( emitterId );
 	}
 }

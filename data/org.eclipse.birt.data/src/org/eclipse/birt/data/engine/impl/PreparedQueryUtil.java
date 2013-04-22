@@ -108,6 +108,18 @@ public class PreparedQueryUtil
 				appContext );
 		if ( queryDefn.getSourceQuery( ) != null )
 		{
+			if ( queryDefn.getSourceQuery( ) instanceof IQueryDefinition )
+			{
+				IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( ((IQueryDefinition) queryDefn.getSourceQuery( )).getDataSetName( ) ) , appContext);
+				IPreparedQuery preparedQuery = QueryPrepareUtil.preparePresentationQuery( dataEngine,
+						queryDefn,
+						dset,
+						appContext,
+						contextVisitor );
+				if ( preparedQuery != null )
+					return preparedQuery;
+			}
+			
 			return new PreparedIVDataExtractionQuery( dataEngine,
 					queryDefn,
 					appContext,
@@ -119,6 +131,14 @@ public class PreparedQueryUtil
 		
 		if ( queryDefn.getQueryResultsID( ) != null && !dataEngine.getContext( ).isDashBoardEnabled( ) )
 		{
+			preparedQuery = QueryPrepareUtil.preparePresentationQuery( dataEngine,
+					queryDefn,
+					dset,
+					appContext,
+					contextVisitor );
+			if ( preparedQuery != null )
+				return preparedQuery;
+			
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
 				|| dataEngine.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 			{
@@ -725,7 +745,7 @@ public class PreparedQueryUtil
 	 * @throws DataException 
 	 * 
 	 */
-	static void mappingParentColumnBinding( IBaseQueryDefinition baseQueryDefn ) throws DataException
+	public static void mappingParentColumnBinding( IBaseQueryDefinition baseQueryDefn ) throws DataException
 	{
 		IBaseQueryDefinition queryDef =  baseQueryDefn;
 		while( queryDef instanceof ISubqueryDefinition )

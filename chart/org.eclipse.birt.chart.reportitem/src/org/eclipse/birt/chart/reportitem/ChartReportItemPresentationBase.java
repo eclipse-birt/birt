@@ -130,7 +130,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		try
 		{
 			String[][] formats = PluginSettings.instance( )
-					.getRegisteredOutputFormats( );
+					.getRegisteredOutputFormats( "" ); //$NON-NLS-1$
 			for ( int i = 0; i < formats.length; i++ )
 			{
 				registeredDevices.add( formats[i][0] );
@@ -612,8 +612,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 					|| xtabCell != null
 					&& !( xtabCell instanceof AggregationCellHandle ) )
 			{
-				return new SharedCubeResultSetEvaluator( (ICubeResultSet) set,
-						cm );
+				return createSharedCubeRSEvaluator( set );
 			}
 
 			return ChartReportItemUtil.instanceCubeEvaluator( modelHandle,
@@ -622,6 +621,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		}
 		// Use empty evaluator if result set is null
 		return EMPTY_CHART_EVALUATOR;
+	}
+
+	protected IDataRowExpressionEvaluator createSharedCubeRSEvaluator(
+			IBaseResultSet set )
+	{
+		return new SharedCubeResultSetEvaluator( (ICubeResultSet) set,
+				cm );
 	}
 
 	private boolean isSubQuery( )
@@ -792,6 +798,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 		try
 		{
+			rtc.setTimeZone( context.getTimeZone( ) );
+			
 			// Create and set shared scale if needed
 			if ( rtc.getSharedScale( ) == null
 					&& ChartReportItemUtil.canScaleShared( modelHandle, cm ) )

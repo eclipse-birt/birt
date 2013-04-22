@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.views.attributes.providers;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -558,9 +559,18 @@ public class ChoiceSetFactory
 			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
 			list.add( DataSetHandle.getQualifiedName( ) );
 		}
+		
+		list.addAll(getLinkedDataSetNames());
 
 		return (String[]) list.toArray( new String[0] );
 	}
+	
+	public static List<String> getLinkedDataSetNames()
+	{
+		LinkedDataSetAdapter adapter = new LinkedDataSetAdapter();
+		return adapter.getVisibleLinkedDataSets();
+	}
+	
 
 	/**
 	 * Gets all the Cubes available.
@@ -579,6 +589,7 @@ public class ChoiceSetFactory
 			CubeHandle CubeHandle = (CubeHandle) iterator.next( );
 			list.add( CubeHandle.getQualifiedName( ) );
 		}
+		list.addAll(getLinkedDataSetNames());
 
 		return (String[]) list.toArray( new String[0] );
 	}

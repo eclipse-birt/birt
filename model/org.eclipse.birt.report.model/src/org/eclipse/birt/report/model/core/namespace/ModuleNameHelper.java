@@ -55,7 +55,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * used again to avoid the duplicate. This may be used when some extensions
 	 * is not well-parsed or other reasons.
 	 */
-	private List<String> cachedContentNames[] = new ArrayList[Module.NAME_SPACE_COUNT];
+	private List<String> cachedContentNames[];
 
 	/**
 	 * This map to store all level elements for the backward compatibility after
@@ -85,6 +85,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	protected void initialize( )
 	{
 		int count = getNameSpaceCount( );
+		cachedContentNames = new ArrayList[count];
 		nameContexts = new INameContext[count];
 		for ( int i = 0; i < count; i++ )
 		{
@@ -130,30 +131,12 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
 	 * (org.eclipse.birt.report.model.core.DesignElement, java.lang.String)
 	 */
-	public String getUniqueName( DesignElement element, String namePrefix )
+	public String getUniqueName( int namespaceId, DesignElement element, String namePrefix )
 	{
 		if ( element == null )
 			return null;
 
-		if ( element instanceof GroupElement )
-		{
-			// ignore name prefix for group element
-			String groupName = getUniqueGroupName( (GroupElement) element );
-			return groupName;
-		}
-
 		ElementDefn eDefn = (ElementDefn) element.getDefn( );
-
-		// if the element does not reside in the module, then get name helper
-		// for the element and generate unique name from there
-		if ( !module.getDefn( ).isKindOf(
-				eDefn.getNameConfig( ).getNameContainer( ) ) )
-		{
-			INameHelper nameHelper = new NameExecutor( element )
-					.getNameHelper( module );
-			return nameHelper == null ? null : nameHelper.getUniqueName(
-					element, namePrefix );
-		}
 
 		String name = element.getName( );
 		if ( StringUtil.isBlank( name ) )
@@ -163,7 +146,6 @@ public class ModuleNameHelper extends AbstractNameHelper
 		}
 
 		name = StringUtil.trimString( name );
-
 		// replace all the illegal chars with '_'
 		name = NamePropertyType.validateName( name );
 
@@ -182,10 +164,9 @@ public class ModuleNameHelper extends AbstractNameHelper
 		}
 
 		// If the element already has a unique name, return it.
-		int nameSpaceID = eDefn.getNameSpaceID( );
-		NameSpace nameSpace = getCachedNameSpace( nameSpaceID );
-		List<String> cachedContentNames = getCachedContentNames( nameSpaceID );
-		NameSpace moduleNameSpace = nameContexts[nameSpaceID].getNameSpace( );
+		NameSpace nameSpace = getCachedNameSpace( namespaceId );
+		List<String> cachedContentNames = getCachedContentNames( namespaceId );
+		NameSpace moduleNameSpace = nameContexts[namespaceId].getNameSpace( );
 
 		String validName = name;
 		if ( element instanceof StyleElement )
@@ -262,28 +243,6 @@ public class ModuleNameHelper extends AbstractNameHelper
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#makeUniqueName
-	 * (org.eclipse.birt.report.model.core.DesignElement)
-	 */
-	public void makeUniqueName( DesignElement element )
-	{
-		// if element is groupelement , set unique group name.
-		if ( element instanceof GroupElement )
-		{
-			String name = getUniqueName( element );
-
-			if ( name != null )
-				setUniqueGroupName( (GroupElement) element, name );
-			return;
-		}
-
-		super.makeUniqueName( element );
-	}
-
 	/**
 	 * Gets the cached content name list with the given id.
 	 * 
@@ -293,103 +252,11 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 */
 	List<String> getCachedContentNames( int id )
 	{
-		assert id >= 0 && id < Module.NAME_SPACE_COUNT;
+		assert id >= 0 && id < getNameSpaceCount( );
 		return cachedContentNames[id];
 	}
 
-	/**
-	 * Returns a unique name for the group element. The name is unique in the
-	 * scope of the table.
-	 * 
-	 * @param element
-	 *            the group element.
-	 * @return unique name of group element.
-	 * 
-	 */
-	private String getUniqueGroupName( GroupElement group )
-	{
-		if ( group == null || group.getContainer( ) == null )
-			return null;
-
-		ListingHandle listing = (ListingHandle) group.getContainer( )
-				.getHandle( module );
-
-		String groupName = (String) group.getLocalProperty( module,
-				IGroupElementModel.GROUP_NAME_PROP );
-
-		// replace all the illegal chars with '_'
-		groupName = NamePropertyType.validateName( groupName );
-
-		if ( StringUtil.isBlank( groupName ) )
-		{
-			GroupElement virtualGroup = (GroupElement) group.getVirtualParent( );
-
-			while ( virtualGroup != null )
-			{
-				groupName = (String) virtualGroup.getLocalProperty(
-						virtualGroup.getRoot( ),
-						IGroupElementModel.GROUP_NAME_PROP );
-				if ( !StringUtil.isBlank( groupName ) )
-				{
-					break;
-				}
-
-				virtualGroup = (GroupElement) virtualGroup.getVirtualParent( );
-			}
-		}
-
-		String namePrefix = groupName;
-		int level = group.getGroupLevel( );
-
-		if ( StringUtil.isBlank( namePrefix ) )
-		{
-			namePrefix = ModelMessages.getMessage( "New." //$NON-NLS-1$ 
-					+ group.getDefn( ).getName( ) );
-			namePrefix = namePrefix.trim( );
-			groupName = namePrefix + level;
-		}
-
-		while ( true )
-		{
-			if ( GroupNameValidator.getInstance( )
-					.validateForRenamingGroup( listing,
-							(GroupHandle) group.getHandle( module ), groupName )
-					.size( ) == 0 )
-			{
-				break;
-			}
-
-			groupName = namePrefix + level;
-			level++;
-
-		}
-
-		return groupName;
-
-	}
-
-	/**
-	 * Creates a unique name for the group element. The name is unique in the
-	 * scope of the table.
-	 * 
-	 * @param element
-	 *            the group element.
-	 * @param groupName
-	 *            name of group element.
-	 * 
-	 */
-	private void setUniqueGroupName( GroupElement group, String groupName )
-	{
-		assert groupName != null;
-
-		String localGroupName = (String) group.getLocalProperty( module,
-				IGroupElementModel.GROUP_NAME_PROP );
-		if ( groupName.equals( localGroupName ) )
-			return;
-
-		group.setProperty( IGroupElementModel.GROUP_NAME_PROP, groupName );
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -399,7 +266,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 */
 	public void addContentName( int id, String name )
 	{
-		if ( id >= 0 && id < Module.NAME_SPACE_COUNT )
+		if ( id >= 0 && id < getNameSpaceCount( ) )
 		{
 			if ( !cachedContentNames[id].contains( name ) )
 				cachedContentNames[id].add( name );

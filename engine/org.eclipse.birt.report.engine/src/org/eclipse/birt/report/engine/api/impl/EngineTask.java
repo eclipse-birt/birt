@@ -1114,8 +1114,18 @@ public abstract class EngineTask implements IEngineTask
 		{
 			Map.Entry entry = (Map.Entry) iterator.next( );
 			String name = (String) entry.getKey( );
-			String text = (String) entry.getValue( );
-			setParameterDisplayText( name, text );
+			Object text = entry.getValue( );
+			if ( text != null )
+			{
+				if ( text instanceof String[] )
+				{
+					setParameterDisplayText( name, (String[]) text );
+				}
+				else
+				{
+					setParameterDisplayText( name, text.toString( ) );
+				}
+			}
 		}
 	}
 
@@ -1484,52 +1494,58 @@ public abstract class EngineTask implements IEngineTask
 
 		boolean visit( ModuleHandle report, Object value, ExecutionContext executionContext )
 		{
-			executionContext.clearExceptions();
+			executionContext.clearExceptions( );
 			SlotHandle parameters = report.getParameters( );
-			Iterator iter = parameters.iterator( );
-			while ( iter.hasNext( ) )
+			if ( parameters != null )
 			{
-				Object param = iter.next( );
-				if ( param instanceof CascadingParameterGroupHandle )
+				Iterator iter = parameters.iterator( );
+
+				while ( iter.hasNext( ) )
 				{
-					if (!visitCascadingParamterGroup(
-							(CascadingParameterGroupHandle) param, value))
+					Object param = iter.next( );
+					if ( param instanceof CascadingParameterGroupHandle )
 					{
-						executionContext.addException(
-								(CascadingParameterGroupHandle) param,
-								engineException);
+						if ( !visitCascadingParamterGroup(
+								(CascadingParameterGroupHandle) param, value ) )
+						{
+							executionContext.addException(
+									(CascadingParameterGroupHandle) param,
+									engineException );
+						}
 					}
-				}
-				else if ( param instanceof ParameterGroupHandle )
-				{
-					if (!visitParameterGroup((ParameterGroupHandle) param,
-							value))
+					else if ( param instanceof ParameterGroupHandle )
 					{
-						executionContext.addException(
-								(ParameterGroupHandle) param, engineException);
+						if ( !visitParameterGroup(
+								(ParameterGroupHandle) param, value ) )
+						{
+							executionContext.addException(
+									(ParameterGroupHandle) param,
+									engineException );
+						}
 					}
-				}
-				else if ( param instanceof ScalarParameterHandle )
-				{
-					if (!visitScalarParameter((ScalarParameterHandle) param,
-							value))
+					else if ( param instanceof ScalarParameterHandle )
 					{
-						executionContext.addException(
-								(ScalarParameterHandle) param, engineException);
+						if ( !visitScalarParameter(
+								(ScalarParameterHandle) param, value ) )
+						{
+							executionContext.addException(
+									(ScalarParameterHandle) param,
+									engineException );
+						}
 					}
-				}
-				else if ( param instanceof DynamicFilterParameterHandle )
-				{
-					if (!visitDynamicFilterParameter(
-							(DynamicFilterParameterHandle) param, value))
+					else if ( param instanceof DynamicFilterParameterHandle )
 					{
-						executionContext.addException(
-								(DynamicFilterParameterHandle) param,
-								engineException);
+						if ( !visitDynamicFilterParameter(
+								(DynamicFilterParameterHandle) param, value ) )
+						{
+							executionContext.addException(
+									(DynamicFilterParameterHandle) param,
+									engineException );
+						}
 					}
 				}
 			}
-			if (executionContext.hasErrors())
+			if ( executionContext.hasErrors( ) )
 			{
 				return false;
 			}
@@ -2002,7 +2018,7 @@ public abstract class EngineTask implements IEngineTask
 			handle.setOptions( newOptions );
 		}
 	}
-
+	
 	protected void startFactory( )
 	{
 		ReportDesignHandle reportDesign = executionContext.getReportDesign( );

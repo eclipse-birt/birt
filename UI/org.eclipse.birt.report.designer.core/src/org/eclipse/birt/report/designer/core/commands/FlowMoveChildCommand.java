@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -83,8 +84,15 @@ public class FlowMoveChildCommand extends Command
 			{
 				containerHandle = ( (ListBandProxy) container ).getSlotHandle( )
 						.getElementHandle( );
-				slotID = ( (ListBandProxy) container ).getSlotHandle( )
-						.getSlotID( );
+				ElementDetailHandle slot = ( (ListBandProxy) container ).getSlotHandle( );
+				if ( slot instanceof SlotHandle )
+				{
+					slotID = ((SlotHandle)slot).getSlotID( );
+				}
+				else
+				{
+					slotID = -1;
+				}
 				pos = DEUtil.findInsertPosition( containerHandle,
 						(DesignElementHandle) after,
 						slotID );

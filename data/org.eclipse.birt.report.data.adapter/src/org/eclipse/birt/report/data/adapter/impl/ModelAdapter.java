@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
@@ -47,6 +48,7 @@ import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.IBuildInBaseTimeFunction;
 import org.eclipse.birt.report.data.adapter.i18n.Message;
@@ -81,6 +83,7 @@ import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
@@ -205,9 +208,9 @@ public class ModelAdapter implements IModelAdapter
 		ScriptExpression jsExpr = new ExpressionAdapter( expr, dataType );
 		if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
 		{
-			jsExpr = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) ) );
-			jsExpr.setConstant( true );
-			jsExpr.setConstantValue( expr.getExpression( ) );
+			jsExpr = new ScriptExpression( expr.getStringExpression( ) );
+			jsExpr.setScriptId( BaseExpression.constantId );
+			jsExpr.setHandle( expr.getExpression( ) );
 		}
 		return jsExpr;
 	}
@@ -414,9 +417,19 @@ public class ModelAdapter implements IModelAdapter
 						org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_MEMBER,
 						this.context.getDataEngineContext( ).getLocale( ) ) );
 				
-				binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
-					.getValue( ),
-					ExpressionLocation.CUBE ) );
+				if ( handle.getElementHandle( ) instanceof ReportItemHandle
+						&& LinkedDataSetUtil.bindToLinkedDataSet( ( (ReportItemHandle) handle.getElementHandle( ) ) ) )
+				{
+					binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
+							.getValue( ),
+							ExpressionLocation.TABLE ) );
+				}
+				else
+				{
+					binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
+							.getValue( ),
+							ExpressionLocation.CUBE ) );
+				}
 				binding.setDataType( DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 
 				if ( handle.getFilterExpression( ) != null )
@@ -942,9 +955,9 @@ public class ModelAdapter implements IModelAdapter
 		ScriptExpression jsExpr = null;
 		if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
 		{
-			jsExpr = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) ) );
-			jsExpr.setConstant( true );
-			jsExpr.setConstantValue( expr.getExpression( ) );
+			jsExpr = new ScriptExpression( expr.getStringExpression( ) );
+			jsExpr.setScriptId( BaseExpression.constantId );
+			jsExpr.setHandle( expr.getExpression( ) );
 			return jsExpr;
 		}
 		else if ( "bre".equals( expr.getType( ) ) )

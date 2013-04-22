@@ -77,7 +77,7 @@ public class OdaDataSourceParseTest extends BaseTestCase
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
-
+/*
 	protected void setUp( ) throws Exception
 	{
 		// do not call super.setUp() since we don't want to load extension.
@@ -96,7 +96,7 @@ public class OdaDataSourceParseTest extends BaseTestCase
 
 		engine = new DesignEngine( new DesignConfig( ) );
 		createDesign( );
-	}
+	}*/
 
 	/**
 	 * This test reads the design file, and checks the properties and style

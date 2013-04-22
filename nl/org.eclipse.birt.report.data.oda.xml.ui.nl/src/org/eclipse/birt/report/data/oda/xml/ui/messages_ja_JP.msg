@@ -1,6 +1,6 @@
 # wizard dialog messages
 wizard.title.selectFolder=XML データソース
-wizard.defaultMessage.selectFolder=XML ファイルとスキーマ情報に ULR を定義してください。
+wizard.defaultMessage.selectFolder=XML ファイルとスキーマ情報に URL を定義してください。
 wizard.title.newDataSet=新規データセット
 wizard.title.selectXmlFile=プレビューする XML データの選択
 wizard.defaultMessage.selectFile=このセッションでデータをプレビューするには、サンプルの XML ソースを選択してください。

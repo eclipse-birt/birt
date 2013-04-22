@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.IGuideFeedBackHost;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportElementDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -82,7 +83,7 @@ import org.eclipse.swt.widgets.Display;
  * </p>
  */
 public abstract class ReportElementEditPart extends AbstractGraphicalEditPart implements
-		IModelAdapterHelper
+		IModelAdapterHelper, IGuideFeedBackHost
 {
 
 	private static final int DELAY_TIME = 1600;

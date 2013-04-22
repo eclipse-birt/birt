@@ -1728,9 +1728,9 @@ public class ReportEngineService
 			initializeEmitterConfigs( request, renderOption.getOptions( ) );
 		}
 
-		String reportTitle = ParameterAccessor.htmlDecode( ParameterAccessor.getTitle( request ) );
-		if ( reportTitle != null )
-			renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
+//		String reportTitle = ParameterAccessor.htmlDecode( ParameterAccessor.getTitle( request ) );
+//		if ( reportTitle != null )
+//			renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
 
 		renderTask.setRenderOption( renderOption );
 		renderTask.setLocale( locale );

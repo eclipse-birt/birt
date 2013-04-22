@@ -22,13 +22,9 @@ import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
-import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
 import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataParserException;
-import org.eclipse.birt.report.model.metadata.MetaDataReader;
 import org.eclipse.birt.report.model.metadata.MetaLogManager;
 
 import com.ibm.icu.util.ULocale;
@@ -42,17 +38,11 @@ public class DesignEngineImpl implements IDesignEngine
 {
 
 	/**
-	 * The file name of ROM.DEF
-	 */
-
-	private static final String ROM_DEF_FILE_NAME = "rom.def"; //$NON-NLS-1$
-
-	/**
 	 * The flag to determine whether the meta data and extensions have been
 	 * loaded.
 	 */
 
-	private static Boolean isInitialized = Boolean.FALSE;
+	private static boolean initialized = false;
 
 	/**
 	 * The configuration for the design engine.
@@ -70,43 +60,7 @@ public class DesignEngineImpl implements IDesignEngine
 	public DesignEngineImpl( DesignConfig config )
 	{
 		designConfig = config;
-	}
-
-	/**
-	 * Initializes the meta-data system and loads all extensions which
-	 * implements the extension pointers the model defines. The application must
-	 * call this method once (and only once) before opening or creating a
-	 * design. It is the application's responsibility because the application
-	 * will choose the location to store the definition file, and that location
-	 * may differ for different applications.
-	 * 
-	 * @param is
-	 *            stream for reading the "rom.def" file that provides the
-	 *            meta-data for the system
-	 * @throws MetaDataReaderException
-	 *             if error occurs during read the meta-data file.
-	 */
-
-	private static void initialize( InputStream is )
-			throws MetaDataReaderException
-	{
-		try
-		{
-			if ( !isInitialized.booleanValue( ) )
-				MetaDataReader.read( is );
-
-			if ( !MetaDataDictionary.getInstance( ).isIntializedExtension( ) )
-				MetaDataDictionary.intializeExtension( );
-
-			if ( !isInitialized.booleanValue( ) )
-				SimpleElementFactory
-						.setInstance( new org.eclipse.birt.report.model.api.impl.SimpleElementFactory( ) );
-		}
-		catch ( MetaDataParserException e )
-		{
-			throw new MetaDataReaderException(
-					MetaDataReaderException.DESIGN_EXCEPTION_META_DATA_ERROR, e );
-		}
+		ensureInitialized( );
 	}
 
 	/**
@@ -124,41 +78,7 @@ public class DesignEngineImpl implements IDesignEngine
 	public SessionHandle newSessionHandle( ULocale locale )
 	{
 		// meta-data ready.
-
-		if ( isInitialized.booleanValue( )
-				&& MetaDataDictionary.getInstance( ).isIntializedExtension( ) )
-			return new SessionHandle( locale );
-
-		// Initialize the meta-data if this is the first request to get
-		// a new handle.
-
-		synchronized ( DesignEngineImpl.class )
-		{
-			if ( isInitialized.booleanValue( )
-					&& MetaDataDictionary.getInstance( )
-							.isIntializedExtension( ) )
-				return new SessionHandle( locale );
-
-			if ( !isInitialized.booleanValue( ) )
-				MetaDataDictionary.reset( );
-
-			try
-			{
-				initialize( ReportDesign.class
-						.getResourceAsStream( ROM_DEF_FILE_NAME ) );
-			}
-			catch ( MetaDataReaderException e )
-			{
-				// we provide logger, so do not assert.
-			}
-			finally
-			{
-				MetaLogManager.shutDown( );
-			}
-
-			isInitialized = Boolean.TRUE;
-		}
-
+		ensureInitialized( );
 		SessionHandle session = new SessionHandle( locale );
 		if ( designConfig != null )
 		{
@@ -171,6 +91,17 @@ public class DesignEngineImpl implements IDesignEngine
 		return session;
 	}
 
+	static synchronized void ensureInitialized( )
+	{
+		MetaDataDictionary.initialize( );
+		if ( !initialized )
+		{
+			SimpleElementFactory
+					.setInstance( new org.eclipse.birt.report.model.api.impl.SimpleElementFactory( ) );
+			initialized = true;
+		}
+	}
+
 	/**
 	 * Gets the meta-data of the design engine.
 	 * 
@@ -179,47 +110,7 @@ public class DesignEngineImpl implements IDesignEngine
 
 	public IMetaDataDictionary getMetaData( )
 	{
-		// meta-data ready.
-
-		if ( isInitialized.booleanValue( )
-				&& MetaDataDictionary.getInstance( ).isIntializedExtension( ) )
-			return MetaDataDictionary.getInstance( );
-
-		// Initialize the meta-data if this is the first request to get
-		// a new handle.
-
-		synchronized ( DesignEngineImpl.class )
-		{
-			// isInitialized -- true : means fundamental/core meta-data is loaded
-			// isInitializedExtension -- true : means extension is loaded, of
-			// course the core meta-data is loaded
-			if ( isInitialized.booleanValue( )
-					&& MetaDataDictionary.getInstance( )
-							.isIntializedExtension( ) )
-				return MetaDataDictionary.getInstance( );
-
-			// if core meta-data is not loaded, of course extension can not be
-			// loaded neither
-			if ( !isInitialized.booleanValue( ) )
-				MetaDataDictionary.reset( );
-
-			try
-			{
-				initialize( ReportDesign.class
-						.getResourceAsStream( ROM_DEF_FILE_NAME ) );
-			}
-			catch ( MetaDataReaderException e )
-			{
-				// we provide logger, so do not assert.
-			}
-			finally
-			{
-				MetaLogManager.shutDown( );
-			}
-
-			isInitialized = Boolean.TRUE;
-		}
-
+		ensureInitialized( );
 		return MetaDataDictionary.getInstance( );
 	}
 

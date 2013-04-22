@@ -36,11 +36,10 @@ import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.DesignSessionImpl;
-import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ContentIterator;
@@ -637,12 +636,13 @@ public class ElementExportUtilImpl
 			return false;
 		}
 
-		int nameSpaceID = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		NameSpace nameSpace = targetLibraryHandle.getModule( ).getNameHelper( )
-				.getNameSpace( nameSpaceID );
-
-		DesignElement duplicateElement = nameSpace.getElement( name );
-
+		NameExecutor executor = new NameExecutor(
+				targetLibraryHandle.getModule( ), element );
+		if (!executor.hasNamespace( )) 
+		{
+			return true;
+		}
+		DesignElement duplicateElement = executor.getElement( name );
 		if ( duplicateElement == null )
 			return true;
 
@@ -903,7 +903,7 @@ public class ElementExportUtilImpl
 	 * @return <code>true</code> if the element can be exported successfully.
 	 *         Otherwise <code>false</code>.
 	 */
-	private static boolean checkExportedExtendedItem(
+	protected static boolean checkExportedExtendedItem(
 			ExtendedItemHandle elementToExport )
 	{
 		try

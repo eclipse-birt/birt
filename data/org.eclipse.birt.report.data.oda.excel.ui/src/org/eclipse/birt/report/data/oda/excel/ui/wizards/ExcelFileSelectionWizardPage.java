@@ -1576,7 +1576,15 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	private void savePage(DataSetDesign dataSetDesign) {
 		String queryText = getQueryText();
 		if (queryText.equals(dataSetDesign.getQueryText()))
-			return;
+		{
+			String sheetName = dataSetDesign.getPublicProperties().getProperty(
+					ExcelODAConstants.CONN_WORKSHEETS_PROP);
+			if ( sheetName != null && sheetName.equals( this.currentSheetName ) )
+			{
+				return;
+			}
+		}
+			
 		dataSetDesign.setQueryText(queryText);
         savePublicProperties(dataSetDesign);
         

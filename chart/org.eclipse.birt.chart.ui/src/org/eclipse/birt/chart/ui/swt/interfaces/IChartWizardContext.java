@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 
@@ -18,7 +19,8 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
  * Chart's extension of IWizardContext
  */
 
-public interface IChartWizardContext extends IWizardContext
+public interface IChartWizardContext<C extends IChartObject> extends
+		IWizardContext
 {
 
 	/**
@@ -60,4 +62,20 @@ public interface IChartWizardContext extends IWizardContext
 	 * @param extendedItem
 	 */
 	void setExtendedItem( Object extendedItem );
+
+	/**
+	 * Returns the model on which wizard context is used.
+	 */
+	C getModel( );
+
+	/**
+	 * Returns if the UI is enabled or not.The UI, including task, subtask or
+	 * toggle button, is identified by the exclusive id.
+	 * 
+	 * @param id
+	 *            the exclusive id to identify the UI
+	 * @return the UI enabled state
+	 * @since 2.3
+	 */
+	boolean isEnabled( String id );
 }

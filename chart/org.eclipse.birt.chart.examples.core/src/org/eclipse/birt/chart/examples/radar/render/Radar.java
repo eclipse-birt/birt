@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.examples.radar.render;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withoutaxes.SeriesRenderingHints;
-import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
@@ -50,9 +48,7 @@ import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
@@ -65,7 +61,6 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.ChartUtil.CacheDateFormat;
 import org.eclipse.birt.chart.util.ChartUtil.CacheDecimalFormat;
 import org.eclipse.birt.chart.util.FillUtil;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -77,8 +72,6 @@ public class Radar extends BaseRenderer
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static final String TYPE_LITERAL = "Radar Chart"; //$NON-NLS-1$
-
 	public static final String STANDARD_SUBTYPE_LITERAL = "Standard Radar Chart"; //$NON-NLS-1$
 
 	public static final String SPIDER_SUBTYPE_LITERAL = "Spider Radar Chart"; //$NON-NLS-1$
@@ -91,113 +84,20 @@ public class Radar extends BaseRenderer
 
 	static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.examples/render" ); //$NON-NLS-1$
 
-	private int scaleCount = 6;
 	private double percentReduce = 0.2;
 
 	private double dSafeSpacing = 10;
 
 	private DataPointHints[] dpha = null;
-
-	private double axisMin = Double.MAX_VALUE;
-	private double axisMax = Double.MIN_VALUE;
-	private boolean autoscale = false;
 	
 	private CacheDecimalFormat dfNumericFormatCache = null;
 	private CacheDateFormat dfDateFormatCache = null;
 	
-	double getAxisMin( )
-	{
-		if ( autoscale )
-		{
-			double nmin = axisMin - ( axisMin * ( 1.0 / ( scaleCount * 5 ) ) );
-			return nmin;
-		}
-		else
-		{
-			return axisMin;
-		}
-	}
-
-	double getAxisMax( )
-	{
-		if ( autoscale )
-		{
-			double nmax = axisMax + ( axisMax * ( 1.0 / ( scaleCount * 5 ) ) );
-			return nmax;
-		}
-		else
-		{
-			return axisMax;
-		}
-	}
+	private RadarScaleHelper scaleHelper;
 
 	public Radar( )
 	{
 		super( );
-	}
-
-	private void getDsMinMax( ) throws ChartException
-	{
-		double calcMin = Double.MAX_VALUE;
-		double calcMax = Double.MIN_VALUE;
-
-		// Auto Scale
-		if ( !getFirstSeries( ).isSetRadarAutoScale( )
-				|| getFirstSeries( ).isRadarAutoScale( ) )
-		{
-			autoscale = true;
-		}
-		else
-		{
-			double taxisMin = getFirstSeries( ).getWebLabelMin( );
-			double taxisMax = getFirstSeries( ).getWebLabelMax( );
-			if ( ( taxisMax - taxisMin ) == 0.0 )
-			{
-				autoscale = true;
-			}
-		}
-
-		PluginSettings ps = PluginSettings.instance( );
-		IDataSetProcessor iDSP = null;
-		DataSet dst;
-
-		EList<SeriesDefinition> el = ( (ChartWithoutAxes) getModel( ) ).getSeriesDefinitions( );
-		ArrayList<Series> al = new ArrayList<Series>( );
-		( (ChartWithoutAxesImpl) getModel( ) ).recursivelyGetSeries( el,
-				al,
-				0,
-				0 );
-		final Series[] sea = al.toArray( new Series[al.size( )] );
-
-		for ( int i = 0; i < sea.length; i++ )
-		{
-			iDSP = ps.getDataSetProcessor( sea[i].getClass( ) );
-			dst = sea[i].getDataSet( );
-			Object oMin = iDSP.getMinimum( dst );
-			Object oMax = iDSP.getMaximum( dst );
-			Double min = oMin == null ? null : ( (Number) oMin ).doubleValue( );
-			Double max = oMax == null ? null : ( (Number) oMax ).doubleValue( );
-
-			if ( min != null && min < calcMin )
-			{
-				calcMin = min;
-			}
-			if ( max != null && max > calcMax )
-			{
-				calcMax = max;
-			}
-		}
-		if ( autoscale )
-		{
-			this.axisMin = calcMin;
-			this.axisMax = calcMax;
-		}
-		else
-		{
-			this.axisMin = getFirstSeries( ).getWebLabelMin( );
-			this.axisMax = getFirstSeries( ).getWebLabelMax( );
-		}
-
 	}
 
 	/*
@@ -229,19 +129,14 @@ public class Radar extends BaseRenderer
 					org.eclipse.birt.chart.engine.extension.i18n.Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 		}
 
-		// Currently only using the base series to store web/radar specific
-		// information
-		RadarSeries rsd = getFirstSeries( );
-		int psc = rsd.getPlotSteps( ).intValue( );
-		if ( psc > 20 )
+
+		if (scaleHelper == null)
 		{
-			psc = 20;
+			scaleHelper = new RadarScaleHelper( getFirstSeries( ),
+					(ChartWithoutAxes) getModel( ) );
 		}
-		if ( psc < 1 )
-		{
-			psc = 1;
-		}
-		scaleCount = psc;
+		
+		scaleHelper.compute( );
 
 		// Set on Plot dialog
 		double cvr = ( (ChartWithoutAxes) getModel( ) ).getCoverage( );
@@ -286,8 +181,6 @@ public class Radar extends BaseRenderer
 						+ getClass( ).getName( )
 						+ ( iSeriesIndex + 1 )
 						+ iSeriesCount );
-
-		getDsMinMax( );
 
 		render( getDevice( ),
 				srh.getClientAreaBounds( true ),
@@ -528,9 +421,9 @@ public class Radar extends BaseRenderer
 			ore.setBackground( lia.getColor( ) );
 			ore.setOutline( lia );
 			Bounds bo = goFactory.createBounds( 0, 0, 0, 0 );
-			for ( int sc = 1; sc <= scaleCount; sc++ )
+			for ( int sc = 1; sc <= scaleHelper.getScaleCount( ); sc++ )
 			{
-				double spiderMag = magnitude * sc / scaleCount;
+				double spiderMag = magnitude * sc / scaleHelper.getScaleCount( );
 				ore.setBounds( pc.computeBounds( bo, spiderMag ) );
 				idr.drawOval( ore );
 			}
@@ -539,9 +432,9 @@ public class Radar extends BaseRenderer
 		else if ( SPIDER_SUBTYPE_LITERAL.equals( subType ) )
 		{
 			Location lo1 = lo.copyInstance( );
-			for ( int sc = 1; sc < scaleCount + 1; sc++ )
+			for ( int sc = 1; sc < scaleHelper.getScaleCount( ) + 1; sc++ )
 			{
-				double spiderMag = magnitude * sc / scaleCount;
+				double spiderMag = magnitude * sc / scaleHelper.getScaleCount( );
 				pc.computeLocation( lo1, 0, spiderMag );
 				for ( int index = 1; index < iCount + 1; index++ )
 				{
@@ -578,9 +471,9 @@ public class Radar extends BaseRenderer
 		ore.setBackground( lia.getColor( ) );
 		ore.setOutline( lia );
 
-		for ( int sc = scaleCount; sc >= 1; sc-- )
+		for ( int sc = scaleHelper.getScaleCount( ); sc >= 1; sc-- )
 		{
-			double spiderMag = magnitude * sc / scaleCount;
+			double spiderMag = magnitude * sc / scaleHelper.getScaleCount( );
 			ore.setBounds( goFactory.createBounds( center.getX( ) - spiderMag,
 					center.getY( ) - spiderMag,
 					spiderMag * 2,
@@ -972,23 +865,23 @@ public class Radar extends BaseRenderer
 			}
 
 			double currval = ( (Number) dph.getOrthogonalValue( ) ).doubleValue( );
-			if ( !autoscale )
+			if ( !scaleHelper.getAutoScale( ) )
 			{
 				// Do not render points out of bounds.
-				if ( currval < getAxisMin( ) )
+				if ( currval < scaleHelper.getAxisMin( ) )
 				{
-					currval = getAxisMin( );
+					currval = scaleHelper.getAxisMin( );
 				}
-				if ( currval > getAxisMax( ) )
+				if ( currval > scaleHelper.getAxisMax( ) )
 				{
-					currval = getAxisMax( );
+					currval = scaleHelper.getAxisMax( );
 				}
 			}
 			// Need to do something to give some space at top and center
 			pc.computeLocation( loAxis, index, mag );
 			Location lo = pc.createLocation( index,
 					mag
-							* ( 1 - ( ( getAxisMax( ) - currval ) / ( getAxisMax( ) - getAxisMin( ) ) ) ) );
+							* ( 1 - ( ( scaleHelper.getAxisMax( ) - currval ) / ( scaleHelper.getAxisMax( ) - scaleHelper.getAxisMin( ) ) ) ) );
 			loList.add( lo );
 
 			if ( bPaletteByCategory )
@@ -1053,7 +946,7 @@ public class Radar extends BaseRenderer
 			if ( rsd.isShowWebLabels( ) )
 			{
 				Location loLabel = goFactory.createLocation( 0, 0 );
-				for ( int sc = 0; sc <= scaleCount; sc++ )
+				for ( int sc = 0; sc <= scaleHelper.getScaleCount( ); sc++ )
 				{
 					// Use chart plot as structure source instead of series so
 					// as to web labels interactivity won't be affected by data
@@ -1077,16 +970,16 @@ public class Radar extends BaseRenderer
 					double lblperc;
 					if ( sc == 0 )
 					{
-						lblperc = getAxisMin( );
+						lblperc = scaleHelper.getAxisMin( );
 					}
-					else if ( sc == ( scaleCount ) )
+					else if ( sc == ( scaleHelper.getScaleCount( ) ) )
 					{
-						lblperc = getAxisMax( );
+						lblperc = scaleHelper.getAxisMax( );
 					}
 					else
 					{
-						lblperc = ( ( (double) sc / scaleCount ) * ( getAxisMax( ) - getAxisMin( ) ) )
-								+ getAxisMin( );
+						lblperc = ( ( (double) sc / scaleHelper.getScaleCount( ) ) * ( scaleHelper.getAxisMax( ) - scaleHelper.getAxisMin( ) ) )
+								+ scaleHelper.getAxisMin( );
 					}
 
 					String weblabel = ValueFormatter.format( lblperc,
@@ -1105,7 +998,7 @@ public class Radar extends BaseRenderer
 
 					stre.setLabel( la );
 					stre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-					double ycord = mag * sc / scaleCount;
+					double ycord = mag * sc / scaleHelper.getScaleCount( );
 					ycord = Math.round( centrePointY - ycord );
 					double xcord = Math.round( centrePointX - ( mag * 0.25 ) );
 					loLabel.set( xcord, ycord );

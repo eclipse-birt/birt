@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="attribute"
-    nsURI="http://www.birt.eclipse.org/ChartModelAttribute" nsPrefix="attribute">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="attribute" nsURI="http://www.birt.eclipse.org/ChartModelAttribute"
+    nsPrefix="attribute">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-    <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;Schema file for the chart.model package.&#xD;&#xA;&#x9;&#x9;"/>
+    <details key="documentation" value="&#xA;&#x9;&#x9;Schema file for the chart.model package.&#xA;&#x9;&#x9;"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="AccessibilityValue" eSuperTypes="#//ActionValue">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -25,7 +24,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessibility" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Accessibility&quot; provides a full description of the accessibility.&#xD;&#xA;"/>
+        <details key="documentation" value="Attribute &quot;Accessibility&quot; provides a full description of the accessibility.&#xA;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -35,7 +34,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ActionType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines the allowed values for Action types (for interactivity with chart). &#xD;&#xA;Any new Action type needs to be added here to be supported.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type defines the allowed values for Action types (for interactivity with chart). &#xA;Any new Action type needs to be added here to be supported.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ActionType"/>
@@ -56,7 +55,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionValue">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="ActionValue represents the value of an action.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="ActionValue represents the value of an action.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ActionValue"/>
@@ -72,7 +71,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Anchor">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the options available for anchoring blocks.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the options available for anchoring blocks.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Anchor"/>
@@ -94,7 +93,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Angle3D">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Angle3D represents the angle in 3D coordinate system, it's composed &#xD;&#xA;of 3 angle values, each of which coresponds to an axis. "/>
+      <details key="documentation" value="Angle3D represents the angle in 3D coordinate system, it's composed &#xA;of 3 angle values, each of which coresponds to an axis. "/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Angle3D"/>
@@ -103,7 +102,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="xAngle" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;XAngle&quot; specifies the angle value corresponds to the &#xD;&#xA;x-axis in an 3D coordinate system."/>
+        <details key="documentation" value="Attribute &quot;XAngle&quot; specifies the angle value corresponds to the &#xA;x-axis in an 3D coordinate system."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -113,7 +112,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="yAngle" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;YAngle&quot; specifies the angle value corresponds to the &#xD;&#xA;y-axis in an 3D coordinate system."/>
+        <details key="documentation" value="Attribute &quot;YAngle&quot; specifies the angle value corresponds to the &#xA;y-axis in an 3D coordinate system."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -123,7 +122,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="zAngle" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;ZAngle&quot; specifies the angle value corresponds to the &#xD;&#xA;z-axis in an 3D coordinate system."/>
+        <details key="documentation" value="Attribute &quot;ZAngle&quot; specifies the angle value corresponds to the &#xA;z-axis in an 3D coordinate system."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -133,7 +132,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//AngleType"
         defaultValueLiteral="None" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Type&quot; specifies how will the angle values be used. It can be &#xD;&#xA;X, Y, Z or None, which indicate that the angle value is devoted to &#xD;&#xA;representing an angle corresponding to x,y or z axis or a 3D angle.&#xD;&#xA;"/>
+        <details key="documentation" value="Attribute &quot;Type&quot; specifies how will the angle values be used. It can be &#xA;X, Y, Z or None, which indicate that the angle value is devoted to &#xA;representing an angle corresponding to x,y or z axis or a 3D angle.&#xA;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -161,7 +160,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AxisOrigin">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="AxisOrigin represents the intersection point for an axis.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="AxisOrigin represents the intersection point for an axis.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="AxisOrigin"/>
@@ -170,7 +169,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//IntersectionType"
         defaultValueLiteral="Min" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Type&quot;  specifies the position of origin on the axis, its candidates &#xD;&#xA;min, max and value indicate respectively that the origin is at the start or &#xD;&#xA;end point of the axis or at the position determined by the element &quot;Value&quot; &#xD;&#xA;of the AxisOrigin. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Type&quot;  specifies the position of origin on the axis, its candidates &#xA;min, max and value indicate respectively that the origin is at the start or &#xA;end point of the axis or at the position determined by the element &quot;Value&quot; &#xA;of the AxisOrigin. &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -180,7 +179,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="ecore:EClass org.eclipse.birt.chart.model.data.ecore#//DataElement"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;Value&quot; specifies the actual value of the axis origin to determin &#xD;&#xA;its posision on the axis in case that the type attribute is set to &quot;value&quot;.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Value&quot; specifies the actual value of the axis origin to determin &#xA;its posision on the axis in case that the type attribute is set to &quot;value&quot;.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -190,7 +189,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="AxisType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="The values of this type describe the type of values (numerical, textual, etc) and the type of &#xD;&#xA;scale (linear, logarithmic, etc) displayed along the axis.  Any new Axis type needs to be added &#xD;&#xA;here to be supported.&#xD;&#xA;"/>
+      <details key="documentation" value="The values of this type describe the type of values (numerical, textual, etc) and the type of &#xA;scale (linear, logarithmic, etc) displayed along the axis.  Any new Axis type needs to be added &#xA;here to be supported.&#xA;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="AxisType"/>
@@ -217,7 +216,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="left" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Left&quot; indicates the distance of a chart element from &#xD;&#xA;the left edge of its container.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Left&quot; indicates the distance of a chart element from &#xA;the left edge of its container.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -227,7 +226,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="top" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Top&quot; indicates the distance of a chart element from &#xD;&#xA;the top edge of its container.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Top&quot; indicates the distance of a chart element from &#xA;the top edge of its container.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -237,7 +236,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Width&quot; indicates the width of the chart element.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Width&quot; indicates the width of the chart element.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -257,7 +256,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CallBackValue" eSuperTypes="#//ActionValue">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="CallBackValue extends the type ActionValue specific for callbacks.&#xD;&#xA;&#x9;&#x9;"/>
+      <details key="documentation" value="CallBackValue extends the type ActionValue specific for callbacks.&#xA;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="CallBackValue"/>
@@ -276,7 +275,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ChartDimension">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines the allowed values for Chart dimensions. Any new Chart dimension &#xD;&#xA;type needs to be added here to be supported.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type defines the allowed values for Chart dimensions. Any new Chart dimension &#xA;type needs to be added here to be supported.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ChartDimension"/>
@@ -293,7 +292,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ChartType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines the allowed values for Chart types. Any new Chart type needs to be added &#xD;&#xA;here to be supported.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type defines the allowed values for Chart types. Any new Chart type needs to be added &#xA;here to be supported.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ChartType"/>
@@ -323,7 +322,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" defaultValueLiteral="255"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Transparency&quot; specifies the transparency for the &#xD;&#xA;color, by default it's 255.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Transparency&quot; specifies the transparency for the &#xA;color, by default it's 255.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -333,7 +332,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="red" lowerBound="1" eType="#//RGBValue"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Red&quot; specifies the red component for the color.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Red&quot; specifies the red component for the color.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -343,7 +342,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="green" lowerBound="1" eType="#//RGBValue"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Green&quot; specifies the green component for the color.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Green&quot; specifies the green component for the color.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -363,7 +362,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Cursor">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents a mouse cursor being displayed in chart.  When mouse is moving over the &#xD;&#xA;hotspot area, the mouse cursor will become the specified cursor."/>
+      <details key="documentation" value="This type represents a mouse cursor being displayed in chart.  When mouse is moving over the &#xA;hotspot area, the mouse cursor will become the specified cursor."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Cursor"/>
@@ -392,7 +391,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="CursorType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="The cursor type defines standard cursor types which are supported by all devices, &#xD;&#xA;including SWT, Swing, SVG and HTML/Image."/>
+      <details key="documentation" value="The cursor type defines standard cursor types which are supported by all devices, &#xA;including SWT, Swing, SVG and HTML/Image."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="CursorType"/>
@@ -422,7 +421,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DataPoint">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="DataPoint holds the settings for establishing the label text of a series' datapoints.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="DataPoint holds the settings for establishing the label text of a series' datapoints.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DataPoint"/>
@@ -431,7 +430,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="components" lowerBound="1"
         upperBound="-1" eType="#//DataPointComponent" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The list element &quot;Components&quot; specifies the data components (values) &#xD;&#xA;used for establishing the label text.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The list element &quot;Components&quot; specifies the data components (values) &#xA;used for establishing the label text.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -441,7 +440,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Prefix&quot; specifies the prefix of the label text.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Prefix&quot; specifies the prefix of the label text.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -451,7 +450,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="suffix" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Suffix&quot; specifies the prefix of the label text.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Suffix&quot; specifies the prefix of the label text.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -461,7 +460,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="separator" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Separator&quot; specifies the separator used to separate &#xD;&#xA;different components.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Separator&quot; specifies the separator used to separate &#xA;different components.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -471,7 +470,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DataPointComponent">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="DataPointComponent represents the data value being used for &#xD;&#xA;establishing the label text of a series' datapoint.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="DataPointComponent represents the data value being used for &#xA;establishing the label text of a series' datapoint.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DataPointComponent"/>
@@ -480,7 +479,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//DataPointComponentType"
         defaultValueLiteral="Base_Value" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Type&quot; of type DataPointComponentType  specifies &#xD;&#xA;the source of  the data point component, its candidates are &#xD;&#xA;BaseValue, OrthogonalValue, SeriesValue and &#xD;&#xA;PercentileOrthogonalValue.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Type&quot; of type DataPointComponentType  specifies &#xA;the source of  the data point component, its candidates are &#xA;BaseValue, OrthogonalValue, SeriesValue and &#xA;PercentileOrthogonalValue.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -490,7 +489,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="formatSpecifier" lowerBound="1"
         eType="#//FormatSpecifier" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;FormatSpecifier&quot; specifies the format specifier &#xD;&#xA;being used to format the text output of the data point &#xD;&#xA;component.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;FormatSpecifier&quot; specifies the format specifier &#xA;being used to format the text output of the data point &#xA;component.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -501,7 +500,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String" defaultValueLiteral=""
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute OrthogonalType specifies the orthogonal type of data &#xD;&#xA;point component, it's only valid when Type is OrthogonalValue."/>
+        <details key="documentation" value="Attribute OrthogonalType specifies the orthogonal type of data &#xA;point component, it's only valid when Type is OrthogonalValue."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -511,7 +510,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DataPointComponentType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines the allowed values for data point components.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type defines the allowed values for data point components.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DataPointComponentType"/>
@@ -529,7 +528,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DataType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible data type values associated with chart components.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible data type values associated with chart components.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DataType"/>
@@ -546,7 +545,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DateFormatDetail">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines the form of Date.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type defines the form of Date.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DateFormatDetail"/>
@@ -562,7 +561,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DateFormatSpecifier" eSuperTypes="#//FormatSpecifier">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="DateFormatSpecifier extends the type FormatSpecifier to devote &#xD;&#xA;itself to formating text output of a date/time value.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="DateFormatSpecifier extends the type FormatSpecifier to devote &#xA;itself to formating text output of a date/time value.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DateFormatSpecifier"/>
@@ -571,7 +570,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//DateFormatType"
         defaultValueLiteral="Long" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Type&quot; specifies the DateFormatType, its candidates &#xD;&#xA;are Long, Short, Medium and Full.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Type&quot; specifies the DateFormatType, its candidates &#xA;are Long, Short, Medium and Full.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -581,7 +580,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="detail" lowerBound="1"
         eType="#//DateFormatDetail" defaultValueLiteral="Date" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Detail&quot; specifies whether the value to be formatted &#xD;&#xA;should be treated as date ore datetime.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Detail&quot; specifies whether the value to be formatted &#xA;should be treated as date ore datetime.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -591,7 +590,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DateFormatType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines predefined date format types.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type defines predefined date format types.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DateFormatType"/>
@@ -609,7 +608,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Direction">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the options available for directions.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the options available for directions.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Direction"/>
@@ -625,7 +624,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EmbeddedImage" eSuperTypes="#//Image">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="EmbeddedImage extends type Image to devote itself to representing &#xD;&#xA;an embedded image, by which the image data will be encoded into a string.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="EmbeddedImage extends type Image to devote itself to representing &#xA;an embedded image, by which the image data will be encoded into a string.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="EmbeddedImage"/>
@@ -661,7 +660,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExtendedProperty">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="ExtendedProperty is a name-value pair which is specialized for representing an extended property &#xD;&#xA;entry that is created to hold data for minor extensions to a chart.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="ExtendedProperty is a name-value pair which is specialized for representing an extended property &#xA;entry that is created to hold data for minor extensions to a chart.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ExtendedProperty"/>
@@ -669,7 +668,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Name&quot; specifies the unique name for the property entry.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Name&quot; specifies the unique name for the property entry.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -678,7 +677,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Value&quot; specifies the value for the property entry.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Value&quot; specifies the value for the property entry.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -688,7 +687,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Fill">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Fill represents the information about how to fill a graphic element in a chart.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Fill represents the information about how to fill a graphic element in a chart.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Fill"/>
@@ -697,7 +696,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Type&quot; specifies the type of the Fill.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Type&quot; specifies the type of the Fill.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -707,7 +706,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FontDefinition">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="FontDefinition holds all information about a certain font used by chart.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="FontDefinition holds all information about a certain font used by chart.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="FontDefinition"/>
@@ -715,7 +714,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Name&quot; specifies the name of the font.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Name&quot; specifies the name of the font.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -725,7 +724,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Float"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Size&quot; specifies the font size.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Size&quot; specifies the font size.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -735,7 +734,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="bold" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Bold&quot; specifies if the font is bold.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Bold&quot; specifies if the font is bold.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -746,7 +745,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Italic&quot; specifies if the font is italic.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Italic&quot; specifies if the font is italic.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -757,7 +756,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Strikethrough&quot; specifies if the words are displayed with &#xD;&#xA;a horizontal line through the center of them.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Strikethrough&quot; specifies if the words are displayed with &#xA;a horizontal line through the center of them.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -768,7 +767,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Underlined&quot; specifies if the words are displayed with &#xD;&#xA;a horizontal line under them.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Underlined&quot; specifies if the words are displayed with &#xA;a horizontal line under them.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -789,7 +788,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="alignment" lowerBound="1"
         eType="#//TextAlignment" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;Alignment&quot; specifies how the text is horizontally and vertically &#xD;&#xA;aligned to its rendering area. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Alignment&quot; specifies how the text is horizontally and vertically &#xA;aligned to its rendering area. &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -799,7 +798,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rotation" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Rotation&quot; represents an angle in degree, which specifies  &#xD;&#xA;how much is the text rotated in counter-clockwise direction.&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Rotation&quot; represents an angle in degree, which specifies  &#xA;how much is the text rotated in counter-clockwise direction.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -818,7 +817,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FractionNumberFormatSpecifier" eSuperTypes="#//FormatSpecifier">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="FractionNumberFormatSpecifier extends type FormatSpecifier &#xD;&#xA;and is specialized for displaying nummeric value as fraction number.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="FractionNumberFormatSpecifier extends type FormatSpecifier &#xA;and is specialized for displaying nummeric value as fraction number.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="FractionNumberFormatSpecifier"/>
@@ -838,7 +837,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fractionDigits" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;FractionDigits&quot; specifies the fixed length of the &#xD;&#xA;denominator when in imprecise mode."/>
+        <details key="documentation" value="Attribute &quot;FractionDigits&quot; specifies the fixed length of the &#xA;denominator when in imprecise mode."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -848,7 +847,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="numerator" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Numerator&quot; specifies a fixed numerator for the fraction &#xD;&#xA;result when in imprecise mode. Zero means no effect. This setting &#xD;&#xA;will take the precedence than the FractionDigits setting."/>
+        <details key="documentation" value="Attribute &quot;Numerator&quot; specifies a fixed numerator for the fraction &#xA;result when in imprecise mode. Zero means no effect. This setting &#xA;will take the precedence than the FractionDigits setting."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -889,7 +888,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Gradient" eSuperTypes="#//Fill">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Gradient extends type Fill specialized to represent a two-color gradient.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Gradient extends type Fill specialized to represent a two-color gradient.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Gradient"/>
@@ -898,7 +897,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="startColor" lowerBound="1"
         eType="#//ColorDefinition" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;StartColor&quot; specifies the start color of the gradient.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;StartColor&quot; specifies the start color of the gradient.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -908,7 +907,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="endColor" lowerBound="1"
         eType="#//ColorDefinition" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;EndColor&quot; specifies the end color of the gradient.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;EndColor&quot; specifies the end color of the gradient.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -918,7 +917,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Direction&quot; represents an angle in degree, which specifies &#xD;&#xA;the direction of  the gradient. e.g. If Direction is 45, the Gradient is &#xD;&#xA;at an angle of 45 degrees to vertical. With start color being on the left.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Direction&quot; represents an angle in degree, which specifies &#xA;the direction of  the gradient. e.g. If Direction is 45, the Gradient is &#xA;at an angle of 45 degrees to vertical. With start color being on the left.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -929,7 +928,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Cyclic&quot; specifies whether the gradient is cyclic or linear.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Cyclic&quot; specifies whether the gradient is cyclic or linear.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -939,7 +938,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="transparency" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Transparency&quot; specifies the transparency for the gradient.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Transparency&quot; specifies the transparency for the gradient.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -949,7 +948,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GroupingUnitType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible units for grouping data.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible units for grouping data.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="GroupingUnitType"/>
@@ -973,7 +972,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="HorizontalAlignment">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines the allowed values for Horizontal alignment.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type defines the allowed values for Horizontal alignment.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="HorizontalAlignment"/>
@@ -990,7 +989,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ID" instanceClassName="java.lang.String">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines an ID type that should be used to uniquely identify instances &#xD;&#xA;of the various types in a group.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type defines an ID type that should be used to uniquely identify instances &#xA;of the various types in a group.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ID"/>
@@ -1000,7 +999,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Image" eSuperTypes="#//Fill">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Image extends Fill specialized to represent an image.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Image extends Fill specialized to represent an image.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Image"/>
@@ -1008,7 +1007,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="uRL" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The string attribute &quot;URL&quot; specifies the URL for the image.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The string attribute &quot;URL&quot; specifies the URL for the image.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1018,7 +1017,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Insets">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Insets represents a reserved blank area between the edges and &#xD;&#xA;the client area of a chart element (e.g. Block, Label... etc.).&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Insets represents a reserved blank area between the edges and &#xA;the client area of a chart element (e.g. Block, Label... etc.).&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Insets"/>
@@ -1027,7 +1026,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="top" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Top&quot; specifies the distance in points of the client area from the top edge.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Top&quot; specifies the distance in points of the client area from the top edge.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1037,7 +1036,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="left" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Left&quot; specifies the distance in points of the client area from the left edge.&#xD;&#xA;"/>
+        <details key="documentation" value="Attribute &quot;Left&quot; specifies the distance in points of the client area from the left edge.&#xA;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1047,7 +1046,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="bottom" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Bottom&quot; specifies the distance in points of the client area from the bottom edge.&#xD;&#xA;"/>
+        <details key="documentation" value="Attribute &quot;Bottom&quot; specifies the distance in points of the client area from the bottom edge.&#xA;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1057,7 +1056,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="right" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Right&quot; specifies the distance in points of the client area from the right edge.&#xD;&#xA;"/>
+        <details key="documentation" value="Attribute &quot;Right&quot; specifies the distance in points of the client area from the right edge.&#xA;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1076,7 +1075,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="enable" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="true" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Enable&quot; specifies whether all interactive features are &#xD;&#xA;enabled, by default it's true."/>
+        <details key="documentation" value="Attribute &quot;Enable&quot; specifies whether all interactive features are &#xA;enabled, by default it's true."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1096,7 +1095,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="IntersectionType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible values for axis intersection locations.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible values for axis intersection locations.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="IntersectionType"/>
@@ -1113,7 +1112,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavaDateFormatSpecifier" eSuperTypes="#//FormatSpecifier">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="JavaDateFormatSpecifier extends FormatSpecifier specialized to &#xD;&#xA;represent a java DateFormat instance.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="JavaDateFormatSpecifier extends FormatSpecifier specialized to &#xA;represent a java DateFormat instance.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="JavaDateFormatSpecifier"/>
@@ -1122,7 +1121,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Pattern&quot; specifies the pattern string used for establishing &#xD;&#xA;a DateFormat instance.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Pattern&quot; specifies the pattern string used for establishing &#xA;a DateFormat instance.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1132,7 +1131,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="JavaNumberFormatSpecifier" eSuperTypes="#//FormatSpecifier">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="JavaNumberFormatSpecifier extends FormatSpecifier devotedly &#xD;&#xA;to represent an instance of  NumberFormat.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="JavaNumberFormatSpecifier extends FormatSpecifier devotedly &#xA;to represent an instance of  NumberFormat.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="JavaNumberFormatSpecifier"/>
@@ -1141,7 +1140,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Pattern&quot; specifies the pattern string used to establish an instance &#xD;&#xA;of NumberFormat.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Pattern&quot; specifies the pattern string used to establish an instance &#xA;of NumberFormat.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1151,7 +1150,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiplier" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Multiplier&quot; specifies the multiplier, by which a nummeric &#xD;&#xA;value will be multiplied before being formatted.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Multiplier&quot; specifies the multiplier, by which a nummeric &#xA;value will be multiplied before being formatted.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1161,7 +1160,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="LeaderLineStyle">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines the forms of leader lines.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type defines the forms of leader lines.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LeaderLineStyle"/>
@@ -1194,7 +1193,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="LegendItemType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible values for the legend item type.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible values for the legend item type.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LegendItemType"/>
@@ -1210,7 +1209,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LineAttributes">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="LineAttributes represents a holder of all settings for rendering &#xD;&#xA;a line in the chart graphic.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="LineAttributes represents a holder of all settings for rendering &#xA;a line in the chart graphic.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LineAttributes"/>
@@ -1219,7 +1218,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="style" lowerBound="1" eType="#//LineStyle"
         defaultValueLiteral="Solid" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Style&quot; specifies the line style, e.g. Solid, Dashed... etc.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Style&quot; specifies the line style, e.g. Solid, Dashed... etc.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1230,7 +1229,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" defaultValueLiteral="1"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Thickness&quot; specifies the thickness of the line in points, &#xD;&#xA;by default it's 1.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Thickness&quot; specifies the thickness of the line in points, &#xA;by default it's 1.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1240,7 +1239,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="color" lowerBound="1" eType="#//ColorDefinition"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Element &quot;Color&quot; specifies the color of the line.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Color&quot; specifies the color of the line.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1251,7 +1250,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Visible&quot; specifies whether or not the line is to be rendered.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Visible&quot; specifies whether or not the line is to be rendered.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1278,7 +1277,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="LineStyle">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible values for line styles.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible values for line styles.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LineStyle"/>
@@ -1296,7 +1295,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Location">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Location represents a 2D coordinate point within the chart.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Location represents a 2D coordinate point within the chart.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Location"/>
@@ -1344,7 +1343,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Marker">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Marker represents the value marker for a line or scatter series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Marker represents the value marker for a line or scatter series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Marker"/>
@@ -1353,7 +1352,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//MarkerType"
         defaultValueLiteral="Crosshair" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Type&quot; specifies the type of marker, e.g. Crosshair, &#xD;&#xA;Triangle, Box... etc.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Type&quot; specifies the type of marker, e.g. Crosshair, &#xA;Triangle, Box... etc.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1363,7 +1362,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Size&quot; specifies the size of the marker in points.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Size&quot; specifies the size of the marker in points.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1374,7 +1373,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Visible&quot; specifies whether the marker is to be rendered.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Visible&quot; specifies whether the marker is to be rendered.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1384,7 +1383,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="fill" eType="#//Fill" containment="true"
         resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Fill&quot; specifies the fill used to render the marker.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Fill&quot; specifies the fill used to render the marker.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1394,7 +1393,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="iconPalette" eType="#//Palette"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Deprecated. Use Fill property instead. This is&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;kept just to maintain compatibility with old&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;models.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Deprecated. Use Fill property instead. This is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;kept just to maintain compatibility with old&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;models.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1414,7 +1413,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="MarkerType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible values for markers supported for Line Series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible values for markers supported for Line Series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MarkerType"/>
@@ -1458,7 +1457,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MultipleFill" eSuperTypes="#//Fill">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="MultipleFill extends type Fill to represent a pre-defined series &#xD;&#xA;of possible Fills, one of which will be selected to fill an chart &#xD;&#xA;element due to a certain condition. For example, the color of &#xD;&#xA;the increasing datapoints in a Stock Chart is different with the &#xD;&#xA;decreasing ones."/>
+      <details key="documentation" value="MultipleFill extends type Fill to represent a pre-defined series &#xA;of possible Fills, one of which will be selected to fill an chart &#xA;element due to a certain condition. For example, the color of &#xA;the increasing datapoints in a Stock Chart is different with the &#xA;decreasing ones."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MultipleFill"/>
@@ -1477,7 +1476,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MultiURLValues" eSuperTypes="#//ActionValue">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="MultiURLValues extends ActionValue to devote itself to providing &#xD;&#xA;multiple hyperlink values for 'url_redirection' action, it enables &#xD;&#xA;multiple options for an 'url-redirection' action."/>
+      <details key="documentation" value="MultiURLValues extends ActionValue to devote itself to providing &#xA;multiple hyperlink values for 'url_redirection' action, it enables &#xA;multiple options for an 'url-redirection' action."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MultiURLValues"/>
@@ -1485,6 +1484,9 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="uRLValues" upperBound="-1"
         eType="#//URLValue" containment="true" resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="URLValues"/>
@@ -1510,7 +1512,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NumberFormatSpecifier" eSuperTypes="#//FormatSpecifier">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="NumberFormatSpecifier extends FormatSpecifier specially for &#xD;&#xA;formatting numeric values.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="NumberFormatSpecifier extends FormatSpecifier specially for &#xA;formatting numeric values.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="NumberFormatSpecifier"/>
@@ -1519,7 +1521,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Prefix&quot; specifies the prefix of the output text.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Prefix&quot; specifies the prefix of the output text.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1529,7 +1531,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="suffix" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Suffix&quot; specifies the suffix of the output text.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Suffix&quot; specifies the suffix of the output text.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1539,7 +1541,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiplier" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Multiplier&quot; specifies the multiplier by which a numeric value &#xD;&#xA;will be multiplied before being formatted.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Multiplier&quot; specifies the multiplier by which a numeric value &#xA;will be multiplied before being formatted.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1549,7 +1551,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fractionDigits" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;FractionDigits&quot; specifies the number of fractional &#xD;&#xA;digits to be shown.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;FractionDigits&quot; specifies the number of fractional &#xA;digits to be shown.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1559,7 +1561,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Orientation">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the options available for orientation.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the options available for orientation.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Orientation"/>
@@ -1575,7 +1577,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Palette">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Palette  represents a palette of Fills.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Palette  represents a palette of Fills.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Palette"/>
@@ -1583,7 +1585,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Name&quot; specifies the name that uniquely identifies this palette.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Name&quot; specifies the name that uniquely identifies this palette.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1593,7 +1595,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="entries" lowerBound="1"
         upperBound="-1" eType="#//Fill" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The list element &quot;Entries&quot; represents the entries contained in the palette.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The list element &quot;Entries&quot; represents the entries contained in the palette.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1603,7 +1605,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="PatternBitmap" instanceClassName="long">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type represents the bitmap of a PatternFill.&#xD;&#xA;    &#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;This type represents the bitmap of a PatternFill.&#xA;    &#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="PatternBitmap"/>
@@ -1618,7 +1620,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PatternImage" eSuperTypes="#//Image">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type represents the pattern image.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;This type represents the pattern image.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="PatternImage"/>
@@ -1657,7 +1659,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Percentage" instanceClassName="double">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents a percentage value.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents a percentage value.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Percentage"/>
@@ -1674,7 +1676,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Position">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible values for component (Label, Block etc.) positions.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible values for component (Label, Block etc.) positions.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Position"/>
@@ -1694,7 +1696,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="RGBValue" instanceClassName="int">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible values for color components in RGB Color model.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible values for color components in RGB Color model.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="RGBValue"/>
@@ -1711,7 +1713,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="RiserType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible values for risers supported for Bar Series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible values for risers supported for Bar Series.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="RiserType"/>
@@ -1738,7 +1740,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="angles" upperBound="-1"
         eType="#//Angle3D" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The list element &quot;Angles&quot; provides a series of Angle3D, each of &#xD;&#xA;which represents a rotation action, with the angle values indicate &#xD;&#xA;how many degrees the object will be rotated around the &#xD;&#xA;corresponding axis."/>
+        <details key="documentation" value="The list element &quot;Angles&quot; provides a series of Angle3D, each of &#xA;which represents a rotation action, with the angle values indicate &#xA;how many degrees the object will be rotated around the &#xA;corresponding axis."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1748,7 +1750,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="RuleType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible rule types for use in Query objects.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible rule types for use in Query objects.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="RuleType"/>
@@ -1765,7 +1767,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ScaleUnitType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines predefined date unit types for scale.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;This type defines predefined date unit types for scale.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ScaleUnitType"/>
@@ -1787,7 +1789,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ScriptValue" eSuperTypes="#//ActionValue">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="ScriptValue extends type ActionValue to devote itself to &#xD;&#xA;'Invoke_Script' actions.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="ScriptValue extends type ActionValue to devote itself to &#xA;'Invoke_Script' actions.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ScriptValue"/>
@@ -1796,7 +1798,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="script" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Script&quot; specifies the actual script string to be invoked.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Script&quot; specifies the actual script string to be invoked.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1806,7 +1808,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SeriesValue" eSuperTypes="#//ActionValue">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="SeriesValue extends type ActionValue to devote itself to 'Toggle_Visibility' actions.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="SeriesValue extends type ActionValue to devote itself to 'Toggle_Visibility' actions.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="SeriesValue"/>
@@ -1814,7 +1816,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Name&quot; specifies the name for the series definition.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Name&quot; specifies the name for the series definition.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1824,7 +1826,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Size">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Size represents the 2D dimension of a chart element.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Size represents the 2D dimension of a chart element.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Size"/>
@@ -1833,7 +1835,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Height&quot; specifies the height of an object.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Height&quot; specifies the height of an object.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1843,7 +1845,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Width&quot; specifies the width of an object.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Width&quot; specifies the width of an object.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1853,7 +1855,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SortOption">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the options available for sorting.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the options available for sorting.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="SortOption"/>
@@ -1869,7 +1871,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Stretch">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the options available for stretching (filling) block contents.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the options available for stretching (filling) block contents.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Stretch"/>
@@ -1886,7 +1888,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StringFormatSpecifier" eSuperTypes="#//FormatSpecifier">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="StringFormatSpecifier extends type FormatSpecifier to devote &#xD;&#xA;itself to formatting a string value.&#xD;&#xA;    &#x9;&#x9;"/>
+      <details key="documentation" value="StringFormatSpecifier extends type FormatSpecifier to devote &#xA;itself to formatting a string value.&#xA;    &#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StringFormatSpecifier"/>
@@ -1964,7 +1966,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="StyledComponent">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible chart entities that can support styles.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible chart entities that can support styles.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StyledComponent"/>
@@ -1989,7 +1991,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StyleMap">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="StyleMap represents the style map for the chart.  It includes a list of supported chart &#xD;&#xA;components and the styles associated with them.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="StyleMap represents the style map for the chart.  It includes a list of supported chart &#xA;components and the styles associated with them.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StyleMap"/>
@@ -1998,7 +2000,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentName" lowerBound="1"
         eType="#//StyledComponent" defaultValueLiteral="Chart_All" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the name of a chart component that can have styles associated with it.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the name of a chart component that can have styles associated with it.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2008,7 +2010,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="style" lowerBound="1" eType="#//Style"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the style identifier(s) to be associated with this entry.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the style identifier(s) to be associated with this entry.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2018,7 +2020,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Text">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Text is intended to encapsulate a string to be displayed on the chart.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Text is intended to encapsulate a string to be displayed on the chart.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Text"/>
@@ -2026,7 +2028,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the actual Text String.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the actual Text String.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2036,7 +2038,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="font" lowerBound="1" eType="#//FontDefinition"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the Font Information to be used for this text element.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the Font Information to be used for this text element.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2046,7 +2048,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="color" lowerBound="1" eType="#//ColorDefinition"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the color to be used to render the text.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the color to be used to render the text.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2056,7 +2058,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TextAlignment">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="TextAlignment specifies how will a text be horizontally and vertically aligned.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="TextAlignment specifies how will a text be horizontally and vertically aligned.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TextAlignment"/>
@@ -2079,7 +2081,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TickStyle">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible values for tick positions.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible values for tick positions.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TickStyle"/>
@@ -2098,7 +2100,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TooltipValue" eSuperTypes="#//ActionValue">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="TooltipValue extends type ActionValue to devote itself to 'Show_Tooltip' actions.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="TooltipValue extends type ActionValue to devote itself to 'Show_Tooltip' actions.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TooltipValue"/>
@@ -2106,7 +2108,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Text&quot; specifies the tooltip text.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Attribute &quot;Text&quot; specifies the tooltip&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;text.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2116,17 +2118,27 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="delay" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Attribute &quot;Delay&quot; specifies the delay in milliseconds afer which the tooltip is to be shown.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Attribute &quot;Delay&quot; specifies the delay in&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;milliseconds afer which the tooltip is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;to be shown.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="Delay"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formatSpecifier" lowerBound="1"
+        eType="#//FormatSpecifier" containment="true" resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Attribute &quot;FormatSpecifier&quot; specifies the tooltip format."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="FormatSpecifier"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TriggerCondition">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines the allowed values for Trigger&#xD;&#xA;conditions (for interactivity with chart). Any new&#xD;&#xA;condition needs to be added here to be supported.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type defines the allowed values for Trigger&#xA;conditions (for interactivity with chart). Any new&#xA;condition needs to be added here to be supported.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TriggerCondition"/>
@@ -2165,7 +2177,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TriggerFlow">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="The TriggerFlow defines whether it reacts to the capturing or bubbling sequence &#xD;&#xA;Capture: the trigger’s action will be triggered in the capturing phase&#xD;&#xA;Bubble (default): the trigger’s action will be triggered in the bubbling phase&#xD;&#xA;BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, and will stop the bubbling flow.&#xD;&#xA;"/>
+      <details key="documentation" value="The TriggerFlow defines whether it reacts to the capturing or bubbling sequence &#xA;Capture: the trigger’s action will be triggered in the capturing phase&#xA;Bubble (default): the trigger’s action will be triggered in the bubbling phase&#xA;BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, and will stop the bubbling flow.&#xA;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TriggerFlow"/>
@@ -2182,7 +2194,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="UnitsOfMeasurement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible values of Units of Measurement.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type represents the possible values of Units of Measurement.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="UnitsOfMeasurement"/>
@@ -2200,7 +2212,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="URLValue" eSuperTypes="#//ActionValue">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="URLValue extends type ActionValue to devote itself to 'URL_Redirect' actions.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="URLValue extends type ActionValue to devote itself to 'URL_Redirect' actions.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="URLValue"/>
@@ -2209,7 +2221,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseUrl" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the base URL. This should include&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;any static parameters like login&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;information etc. and should NOT be&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;encoded.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the base URL. This should include&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;any static parameters like login&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;information etc. and should NOT be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;encoded.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2219,7 +2231,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;This element defines the target value to&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;be used for the browser.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;This element defines the target value to&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;be used for the browser.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2229,7 +2241,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseParameterName" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;This element specifies the name to be&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;used for the parameter whose value will&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;be picked up from the base axis (if&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;any).&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;This element specifies the name to be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;used for the parameter whose value will&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;be picked up from the base axis (if&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;any).&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2239,7 +2251,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueParameterName" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;This element specifies the name to be&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;used for the parameter whose value will&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;be picked up from the current data&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;value.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;This element specifies the name to be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;used for the parameter whose value will&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;be picked up from the current data&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;value.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2249,7 +2261,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="seriesParameterName" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;This element specifies the name to be&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;used for the parameter whose value will&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;be picked up from the current series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;This element specifies the name to be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;used for the parameter whose value will&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;be picked up from the current series.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2259,7 +2271,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tooltip" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The element defines a tooltip string to&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;be displayed when mouse is over.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The element defines a tooltip string to&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;be displayed when mouse is over.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -2269,7 +2281,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="VerticalAlignment">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines the allowed values for Vertical alignment.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="This type defines the allowed values for Vertical alignment.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="VerticalAlignment"/>

@@ -106,6 +106,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
 		AttributeBuilder.buildText( styleBuffer, style );
 		AttributeBuilder.buildVisual( styleBuffer, style );
+		AttributeBuilder.buildSize( styleBuffer, style );
 	}
 	
 	/**

@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.GeneralPreferencePag
 import org.eclipse.birt.report.designer.internal.ui.dialogs.HighlightsPreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.MapPreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PageBreakPreferencePage;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.SizePreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.StylePreferenceNode;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
@@ -219,6 +220,8 @@ public class StyleBuilder extends PreferenceDialog
 				new GeneralPreferencePage( handle, theme ) ) );
 		pageContributions.add( new StylePreferenceNode( "Font", //$NON-NLS-1$
 				new FontPreferencePage( handle ) ) );
+		pageContributions.add( new StylePreferenceNode( "Size", //$NON-NLS-1$
+				new SizePreferencePage( handle ) ) );
 		pageContributions.add( new StylePreferenceNode( "Background", //$NON-NLS-1$
 				new BackgroundPreferencePage( handle ) ) );
 		pageContributions.add( new StylePreferenceNode( "Block", //$NON-NLS-1$

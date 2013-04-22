@@ -68,6 +68,8 @@ public class RadarChart extends DefaultChartTypeImpl
 	private static final String[] saDimensions = new String[]{
 		TWO_DIMENSION_TYPE
 	};
+	
+	public static final String TYPE_LITERAL = "Radar Chart"; //$NON-NLS-1$
 
 	public RadarChart( )
 	{
@@ -82,7 +84,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	@Override
 	public String getName( )
 	{
-		return Radar.TYPE_LITERAL;
+		return TYPE_LITERAL;
 	}
 
 	/*
@@ -104,7 +106,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	@Override
 	public IHelpContent getHelp( )
 	{
-		return new HelpContentImpl( Radar.TYPE_LITERAL,
+		return new HelpContentImpl( TYPE_LITERAL,
 				Messages.getString( "RadarChart.Txt.HelpText" ) ); //$NON-NLS-1$
 	}
 
@@ -173,7 +175,7 @@ public class RadarChart extends DefaultChartTypeImpl
 			}
 		}
 		newChart = ChartWithoutAxesImpl.createDefault( );
-		newChart.setType( Radar.TYPE_LITERAL );
+		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		if ( newChart.getDimension( )
@@ -246,7 +248,7 @@ public class RadarChart extends DefaultChartTypeImpl
 			// properties
 			currentChart = ChartWithoutAxesImpl.createDefault( );
 			copyChartProperties( helperModel, currentChart );
-			currentChart.setType( Radar.TYPE_LITERAL );
+			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
@@ -289,7 +291,7 @@ public class RadarChart extends DefaultChartTypeImpl
 		}
 		else if ( currentChart instanceof ChartWithoutAxes )
 		{
-			if ( currentChart.getType( ).equals( Radar.TYPE_LITERAL ) )
+			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
 			{
 				currentChart.setSubType( sNewSubType );
 				// ( (DialChart) currentChart ).setDialSuperimposition(
@@ -306,7 +308,7 @@ public class RadarChart extends DefaultChartTypeImpl
 				// properties
 				currentChart = ChartWithoutAxesImpl.createDefault( );
 				copyChartProperties( helperModel, currentChart );
-				currentChart.setType( Radar.TYPE_LITERAL );
+				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
 

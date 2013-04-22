@@ -1962,12 +1962,21 @@ public interface AttributePackage extends EPackage
 	int TOOLTIP_VALUE__DELAY = ACTION_VALUE_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Format Specifier</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOOLTIP_VALUE__FORMAT_SPECIFIER = ACTION_VALUE_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Tooltip Value</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TOOLTIP_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 2;
+	int TOOLTIP_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -4311,6 +4320,17 @@ public interface AttributePackage extends EPackage
 	EAttribute getTooltipValue_Delay( );
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.TooltipValue#getFormatSpecifier <em>Format Specifier</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Format Specifier</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.TooltipValue#getFormatSpecifier()
+	 * @see #getTooltipValue()
+	 * @generated
+	 */
+	EReference getTooltipValue_FormatSpecifier( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.URLValue <em>URL Value</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>URL Value</em>'.
@@ -6512,6 +6532,14 @@ public interface AttributePackage extends EPackage
 		 * @generated
 		 */
 		EAttribute TOOLTIP_VALUE__DELAY = eINSTANCE.getTooltipValue_Delay( );
+
+		/**
+		 * The meta object literal for the '<em><b>Format Specifier</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TOOLTIP_VALUE__FORMAT_SPECIFIER = eINSTANCE.getTooltipValue_FormatSpecifier( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl <em>URL Value</em>}' class.

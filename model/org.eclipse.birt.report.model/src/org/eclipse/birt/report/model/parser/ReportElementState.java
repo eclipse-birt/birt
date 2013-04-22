@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -579,12 +580,12 @@ public abstract class ReportElementState extends DesignParseState
 			return;
 		}
 
-		int id = contentDefn.getNameSpaceID( );
-		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
-				&& isManagedByNameSpace )
+		if ( name != null && isManagedByNameSpace )
 		{
-			NameSpace ns = new NameExecutor( content ).getNameSpace( module );
-			DesignElement existedElement = ns.getElement( name );
+			NameExecutor executor = new NameExecutor( module, content );
+			int namespceId = executor.getNameSpaceId( );
+			NameSpace ns = executor.getNameSpace( );
+			DesignElement existedElement = executor.getElement( name );
 			if ( existedElement != null )
 			{
 				// if name is identically equal, then fire error
@@ -609,7 +610,7 @@ public abstract class ReportElementState extends DesignParseState
 					// name of parameter and parameter group is changed to
 					// case-insensitive since version 3.2.21
 					if ( handler.versionNumber >= VersionUtil.VERSION_3_2_21
-							&& ( id == Module.PARAMETER_NAME_SPACE ) )
+							&& ( namespceId == Module.PARAMETER_NAME_SPACE ) )
 					{
 						handler.getErrorHandler( )
 								.semanticError(
@@ -622,7 +623,7 @@ public abstract class ReportElementState extends DesignParseState
 				return;
 			}
 			DesignElement parent = content.getExtendsElement( );
-			if ( id == ReportDesign.ELEMENT_NAME_SPACE && parent != null )
+			if ( namespceId == ReportDesign.ELEMENT_NAME_SPACE && parent != null )
 			{
 				if ( parent.getContainerInfo( ).getSlotID( ) != IModuleModel.COMPONENT_SLOT )
 				// if ( !module.getSlot( Module.COMPONENT_SLOT ).contains(

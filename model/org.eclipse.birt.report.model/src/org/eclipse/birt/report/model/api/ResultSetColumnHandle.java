@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.core.StructureContext;
 
 /**
  * Represents the handle of one column in the result set. The result set column
@@ -48,6 +49,11 @@ public class ResultSetColumnHandle extends StructureHandle
 		super( valueHandle, index );
 	}
 
+	public ResultSetColumnHandle( DesignElementHandle element,
+			StructureContext context )
+	{
+		super( element, context );
+	}
 	/**
 	 * Returns the column name.
 	 * 

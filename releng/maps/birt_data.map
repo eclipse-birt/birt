@@ -6,9 +6,9 @@ plugin@org.eclipse.birt.report.data.bidi.utils=GIT,tag=v201212171552,repo=git://
 plugin@org.eclipse.birt.report.data.bidi.utils.ui=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.bidi.utils.ui
 plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui
 plugin@org.eclipse.birt.report.data.oda.jdbc=GIT,tag=v201212061427,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc
-plugin@org.eclipse.birt.report.data.oda.jdbc.ui=GIT,tag=v201302011523,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.ui
+plugin@org.eclipse.birt.report.data.oda.jdbc.ui=GIT,tag=v201303011740,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.ui
 plugin@org.eclipse.birt.report.data.oda.hive=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.hive
-plugin@org.eclipse.birt.report.data.oda.hive.ui=GIT,tag=v201211221117,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.hive.ui
+plugin@org.eclipse.birt.report.data.oda.hive.ui=GIT,tag=v201303011740,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.hive.ui
 plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.dbprofile
 plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui
 plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb=GIT,tag=v201210121419,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb

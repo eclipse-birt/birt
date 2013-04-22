@@ -1943,6 +1943,8 @@ Structure.HighlightRule.border.right.style=스타일
 Structure.HighlightRule.border.right.width=너비
 Structure.HighlightRule.border.right.color=색상
 Structure.HighlightRule.background.color=배경색
+Structure.HighlightRule.background.image=배경 이미지
+Structure.HighlightRule.backgroundRepeat=배경 반복
 Structure.HighlightRule.format.dateTime=날짜 시간 형식
 Structure.HighlightRule.format.number=숫자 형식
 Structure.HighlightRule.format.number.align=숫자 맞춤  
@@ -1956,6 +1958,10 @@ Structure.HighlightRule.font.color=색상
 Structure.HighlightRule.font.textUnderline=밑줄
 Structure.HighlightRule.font.textOverline=윗줄
 Structure.HighlightRule.font.textLineThrough=가운데 줄
+Structure.HighlightRule.padding.top=안쪽 여백 위쪽
+Structure.HighlightRule.padding.left=안쪽 여백 왼쪽
+Structure.HighlightRule.padding.bottom=안쪽 여백 아래쪽
+Structure.HighlightRule.padding.right=안쪽 여백 오른쪽
 Structure.HighlightRule.text.align=텍스트 맞춤
 Structure.HighlightRule.text.indent=텍스트 들여쓰기
 Structure.HighlightRule.text.transform=텍스트 변환
@@ -2091,6 +2097,7 @@ Structure.IncludedLibrary.namespace=네임스페이스
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=파일 이름
 Structure.IncludedCssStyleSheet.externalCssURI=외부 CSS URI
+Structure.IncludedCssStyleSheet.useExternalCss=외부 CSS 사용
 
 #15. DataSetParam
 Structure.DataSetParam.name=이름
@@ -2316,7 +2323,6 @@ Structure.FormatValue.locale=로케일
 Structure.CalculationArgument.name=계산 인수 이름
 Structure.CalculationArgument.value=계산 인수 값
 
-
 ###########################################################
 # Element names
 
@@ -2407,6 +2413,7 @@ Element.DataMartCube=데이터 개체 큐브
 Element.TimeDimension=시간 차원
 Element.ReportItemTheme=보고서 항목 테마
 Element.AbstractTheme=추상적 테마
+Element.DataMartLinkedDataModel=Data Object Linked Data Set
 
 ###########################################################
 # Element property names
@@ -2736,6 +2743,8 @@ Element.Style.widows=창
 Element.Style.orphans=고아
 Element.Style.wordSpacing=단어 간격
 Element.Style.overflow=오버플로
+Element.Style.height=높이
+Element.Style.width=너비
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=책갈피
@@ -3052,7 +3061,7 @@ Element.Image.onPageBreak.this=이미지 인스턴스
 Element.Image.onPageBreak.reportContext=보고서 컨텍스트
 Element.Image.fitToContainer=컨테이너에 맞추기
 Element.Image.proportionalScale=비례 배율
-
+  
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=열
 Element.Grid.slot.rows=행
@@ -3376,6 +3385,7 @@ Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=형식
 Element.FilterConditionElement.updateAggregation=집계 업데이트
 
+
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
 
@@ -3456,6 +3466,10 @@ Element.DataMartCube.dataObject=데이터 개체
 Element.TimeDimension.startTimePoint=시작 시점
 Element.TimeDimension.endTimePoint=종료 시점
 Element.TimeDimension.hierarchies=계층
+
+#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
+Element.DataMartLinkedDataModel.dataSource=데이터 원본
+Element.DataMartLinkedDataModel.dataObject=데이터 개체
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=스타일
@@ -4004,6 +4018,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=템플릿 요소가 라이브러리�
 Info.VersionInfo.INVALID_DESIGN_FILE=열린 디자인 파일이 올바른 디자인 파일이 아니거나 해당 파일이 없습니다.
 Info.VersionInfo.CONVERT_INFO=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
 Info.VersionInfo.INVALID_VERSION=버전 {0}의 보고서 파일이 지원되지 않습니다.
+Info.VersionInfo.LATER_VERSION=최신 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =열린 디자인/라이브러리 또는 포함된 라이브러리는 이전 버전과 호환되므로 디자인/라이브러리가 변경될 수 있습니다.
 
 #EncryptionException

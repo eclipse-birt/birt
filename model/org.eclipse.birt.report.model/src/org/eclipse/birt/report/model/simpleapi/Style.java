@@ -2286,4 +2286,74 @@ public class Style implements IStyle
 
 		cmdStack.commit( );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getHeight()
+	 */
+	public String getHeight( )
+	{
+		return style.getHeight( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setHeight(java.lang
+	 * .String)
+	 */
+	public void setHeight( String height ) throws SemanticException
+	{
+		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			style.setHeight( height );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getWidth()
+	 */
+	public String getWidth( )
+	{
+		return style.getWidth( );
+    }
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setWidth(java.lang
+	 * .String)
+	 */
+	public void setWidth( String width ) throws SemanticException
+	{
+		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			style.setWidth( width );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
+	}
 }

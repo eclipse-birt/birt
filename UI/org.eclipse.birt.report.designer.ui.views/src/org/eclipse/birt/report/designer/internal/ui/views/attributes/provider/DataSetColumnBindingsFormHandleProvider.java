@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -58,7 +59,7 @@ import org.eclipse.swt.widgets.Table;
  */
 
 public class DataSetColumnBindingsFormHandleProvider extends
-		AbstractSortingFormHandleProvider
+		AbstractDatasetSortingFormHandleProvider
 {
 
 	private static final String ALL = Messages.getString( "DataSetColumnBindingsFormHandleProvider.ALL" );//$NON-NLS-1$
@@ -97,7 +98,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 
 	public boolean isEditable( )
 	{
-		if ( input == null )
+		if ( input == null
+				|| !( DEUtil.getInputFirstElement( input ) instanceof ReportItemHandle ) )
 			return false;
 		else if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			return false;
@@ -133,9 +135,10 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	 *            the bindingObject to set
 	 */
 
-	public void setBindingObject( ReportElementHandle bindingObject )
+	public void setBindingObject( DesignElementHandle bindingObject )
 	{
-		this.bindingObject = bindingObject;
+		if ( bindingObject instanceof ReportElementHandle )
+			this.bindingObject = (ReportElementHandle) bindingObject;
 	}
 
 	public String[] getColumnNames( )
@@ -505,8 +508,15 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			{
 				try
 				{
-					CachedMetaDataHandle cmdh = DataSetUIUtil.getCachedMetaDataHandle( datasetHandle );
-					for ( Iterator iter = cmdh.getResultSet( ).iterator( ); iter.hasNext( ); )
+					
+					Iterator iter = getLinkedDataSetColumnIterator(datasetHandle);
+					if(iter == null)
+					{
+						CachedMetaDataHandle cmdh = DataSetUIUtil.getCachedMetaDataHandle( datasetHandle );
+						iter = cmdh.getResultSet( ).iterator( );
+					}
+					
+					for ( ; iter.hasNext( ); )
 					{
 						ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
 						ComputedColumn bindingColumn = StructureFactory.newComputedColumn( bindingObject,
@@ -554,6 +564,18 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			}
 		}
 	}
+	
+	private Iterator getLinkedDataSetColumnIterator(DataSetHandle datasetHandle)
+	{
+		IDataSetColumnBindingsFormHandleProviderHelper helper = (IDataSetColumnBindingsFormHandleProviderHelper) ElementAdapterManager.getAdapter( this,
+				IDataSetColumnBindingsFormHandleProviderHelper.class );
+		if(helper != null)
+		{
+			return helper.getResultSetIterator(datasetHandle);
+		}
+		
+		return null;
+	}
 
 	public void clearAllBindingColumns( )
 	{
@@ -567,7 +589,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 								.getItems( )
 								.isEmpty( ) )
 				{
-					( (ReportItemHandle) bindingObject ).getColumnBindings( ).clearValue( );
+					( (ReportItemHandle) bindingObject ).getColumnBindings( )
+							.clearValue( );
 				}
 			}
 			catch ( SemanticException e )

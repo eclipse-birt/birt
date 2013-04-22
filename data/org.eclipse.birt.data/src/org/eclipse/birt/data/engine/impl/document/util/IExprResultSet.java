@@ -14,7 +14,7 @@ package org.eclipse.birt.data.engine.impl.document.util;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
+import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
 
 /**
  * Read the expression value from report document.
@@ -90,7 +90,7 @@ public interface IExprResultSet
 	 * Get the data set result set enclosed in the IExprResultSet instance.
 	 * @return
 	 */
-	public DataSetResultSet getDataSetResultSet( );
+	public IDataSetResultSet getDataSetResultSet( );
 	
 	public List[] getGroupInfos( ) throws DataException;
 }

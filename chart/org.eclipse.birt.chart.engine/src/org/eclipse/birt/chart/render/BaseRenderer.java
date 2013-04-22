@@ -296,7 +296,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/**
 	 * Sets the deferred cache used by current renderer.
 	 */
-	public final void set( DeferredCache _dc )
+	public void set( DeferredCache _dc )
 	{
 		dc = _dc;
 	}
@@ -1450,7 +1450,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				}
 			}
 
-			if ( !customed )
+			if ( !customed && se != null )
 			{
 				Action action = goFactory.createAction( actionType,
 						goFactory.createSeriesValue( String.valueOf( se.getSeriesIdentifier( ) ) ) );
@@ -2768,7 +2768,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		IActionRenderer iar = getRunTimeContext( ).getActionRenderer( );
 		if ( iar != null )
 		{
-			iar.processAction( tg.getAction( ), source );
+			iar.processAction( tg.getAction( ), source, rtc );
 		}
 
 		// internal processing.
@@ -3678,7 +3678,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected final void renderInteractivity( IPrimitiveRenderer ipr,
 			DataPointHints dph, PrimitiveRenderEvent pre ) throws ChartException
 	{
-		if ( isInteractivityEnabled( ) && dph != null )
+		if ( isInteractivityEnabled( ) && dph != null  && getSeries( ) != null )
 		{
 			// PROCESS 'SERIES LEVEL' TRIGGERS USING SOURCE='bs'
 			final EList<Trigger> elTriggers = getSeries( ).getTriggers( );

@@ -176,6 +176,11 @@ public class CssPropertyUtil
 			return IStyleModel.BORDER_TOP_WIDTH_PROP;
 		if ( CssPropertyConstants.DIRECTION.equals( name ) )
 			return IStyleModel.TEXT_DIRECTION_PROP;
+		
+		if ( CssPropertyConstants.HEIGHT.equals( name ) )
+			return IStyleModel.HEIGHT_PROP;
+		if ( CssPropertyConstants.WIDTH.equals( name ) )
+			return IStyleModel.WIDTH_PROP;
 
 		return null;
 	}

@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -62,7 +63,10 @@ public class SvgInteractivityViewer extends Composite implements
 	{
 		super( parent, style );
 
-		PluginSettings.instance( ).registerDevice( "dv.SVG", //$NON-NLS-1$
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		PluginSettings.instance( config ).registerDevice( "dv.SVG", //$NON-NLS-1$
 				"org.eclipse.birt.chart.device.svg.SVGRendererImpl" ); //$NON-NLS-1$
 		cm = InteractivityCharts.createHSChart( );
 

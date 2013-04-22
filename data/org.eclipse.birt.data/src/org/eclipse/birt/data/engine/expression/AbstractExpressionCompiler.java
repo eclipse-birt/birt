@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.CompilerEnvirons;
@@ -92,7 +93,7 @@ abstract class AbstractExpressionCompiler
 		{
 			this.scriptExpr = baseExpr;
 			exp = baseExpr.getText( );
-			if ( exp == null )
+			if ( exp == null || BaseExpression.constantId.equals( baseExpr.getScriptId( ) ) )
 				return null;
 			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME );
 			

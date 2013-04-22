@@ -140,6 +140,11 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 		return name;
 	}
 
+	public void setName( String name )
+	{
+		this.name = name;
+	}
+
 	/**
 	 * Returns the array containing choices.
 	 * 

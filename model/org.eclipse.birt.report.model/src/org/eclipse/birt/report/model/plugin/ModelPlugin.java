@@ -55,7 +55,7 @@ public class ModelPlugin extends BIRTPlugin
 		ODAProviderFactory.releaseInstance( );
 		OdaExtensionLoaderFactory.releaseInstance( );
 		BundleFactory.releaseInstance( );
-		MetaDataDictionary.releaseExtension( );
+		MetaDataDictionary.reset( );
 		super.stop( context );
 	}
 }

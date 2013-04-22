@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,8 +34,10 @@ import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
 import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.validators.IValueValidator;
 import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
@@ -106,10 +109,19 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 {
 
 	/**
+	 * The file name of ROM.DEF
+	 */
+
+	private static final String ROM_DEF_FILE_NAME = "rom.def"; //$NON-NLS-1$
+
+	
+	/**
 	 * The one and only metadata dictionary.
 	 */
 
 	private static MetaDataDictionary instance = new MetaDataDictionary( );
+	
+	private static boolean initialized = false;
 
 	/**
 	 * Provides the list of design elements keyed by their internal names.
@@ -220,12 +232,6 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 */
 
 	private Map<String, IMethodInfo> functions = null;
-
-	/**
-	 * Status that identifies whether the extensions defined by all Model's
-	 * extension point are loaded or not.
-	 */
-	private static boolean isiniatializedExtensionManager = false;
 
 	/**
 	 * Singleton class, constructor is private.
@@ -518,10 +524,63 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * extension manager. Used primarily for testing.
 	 */
 
-	public static void reset( )
+	public synchronized static void reset( )
 	{
 		instance = new MetaDataDictionary( );
-		releaseExtension( );
+		ExtensionManager.releaseInstance( );
+		initialized = false;
+	}
+
+	/**
+	 * Gets the status that identifies whether the extensions defined by all
+	 * Model extension points are loaded or not.
+	 * 
+	 * @return true if extensions are loaded, otherwise false
+	 */
+	public synchronized static boolean isIntialized( )
+	{
+		return initialized;
+	}
+
+	/**
+	 * Initializes the meta-data system and loads all extensions which
+	 * implements the extension pointers the model defines. The application must
+	 * call this method once (and only once) before opening or creating a
+	 * design. It is the application's responsibility because the application
+	 * will choose the location to store the definition file, and that location
+	 * may differ for different applications.
+	 * 
+	 * @param is
+	 *            stream for reading the "rom.def" file that provides the
+	 *            meta-data for the system
+	 * @throws MetaDataParserException 
+	 * @throws MetaDataReaderException
+	 *             if error occurs during read the meta-data file.
+	 */
+	
+	public synchronized static void initialize( )
+	{
+		if ( initialized )
+		{
+			return;
+		}
+
+		try
+		{
+			InputStream input = ( ReportDesign.class
+					.getResourceAsStream( ROM_DEF_FILE_NAME ) );
+			MetaDataReader.read( input );
+			ExtensionManager.getInstance( ).initialize( );
+		}
+		catch ( MetaDataParserException e )
+		{
+			// we provide logger, so do not assert.
+		}
+		finally
+		{
+			initialized = true;
+			MetaLogManager.shutDown( );
+		}
 	}
 
 	/**
@@ -685,7 +744,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			newName = DesignChoiceConstants.CHOICE_AGGREGATION_FUNCTION;
 		}
 
-		return choiceSets.get( newName );
+		IChoiceSet choiceSet = choiceSets.get( newName );
+		if ( choiceSet != null )
+		{
+			return choiceSet;
+		}
+		return ExtensionManager.getInstance( ).getChoiceSet( choiceSetName );
 	}
 
 	/**
@@ -777,7 +841,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 */
 	public IClassInfo getClass( String name )
 	{
-		return classes.get( name );
+		IClassInfo classInfo = classes.get( name );
+		if ( classInfo != null )
+		{
+			return classInfo;
+		}
+		return ExtensionManager.getInstance( ).getClassInfo( name );
 	}
 
 	/**
@@ -887,7 +956,13 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IValueValidator getValueValidator( String name )
 	{
-		return valueValidators.get( name );
+		IValueValidator validator = valueValidators.get( name );
+		if ( validator != null )
+		{
+			return validator;
+		}
+		return ExtensionManager.getInstance( ).getValueValidator( name );
+
 	}
 
 	/**
@@ -1138,36 +1213,6 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 				methods.put( info.getName( ), info );
 		}
 
-	}
-
-	/**
-	 * Releases the resources of extension manager.
-	 */
-	public static void releaseExtension( )
-	{
-		ExtensionManager.releaseInstance( );
-		isiniatializedExtensionManager = false;
-	}
-
-	/**
-	 * Gets the status that identifies whether the extensions defined by all
-	 * Model extension points are loaded or not.
-	 * 
-	 * @return true if extensions are loaded, otherwise false
-	 */
-	public boolean isIntializedExtension( )
-	{
-		return isiniatializedExtensionManager;
-	}
-
-	/**
-	 * Initializes all the extensions.
-	 * 
-	 */
-	public static void intializeExtension( )
-	{
-		ExtensionManager.getInstance( ).initialize( );
-		isiniatializedExtensionManager = true;
 	}
 
 	/*

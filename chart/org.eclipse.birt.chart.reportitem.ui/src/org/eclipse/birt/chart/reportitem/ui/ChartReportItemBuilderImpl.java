@@ -36,12 +36,12 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.BIRTActionEvaluator;
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
-import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.ChartExpressionButton;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierHandler;
@@ -206,7 +206,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						.getActiveShell( );
 			}
 			final ChartWizard chartBuilder = new ChartWizard( parentShell );
-			dataProvider = new ReportDataServiceProvider( extendedHandle );
+			dataProvider = ChartReportItemUIFactory.instance( ).createReportDataServiceProvider( extendedHandle );
 			ChartReportItemUIFactory uiFactory = ChartReportItemUIFactory.instance( );
 			IChartDataSheet dataSheet = uiFactory.createDataSheet( extendedHandle,
 					dataProvider );
@@ -559,7 +559,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		// CHECK FOR UNBOUND DATASET
 		final ExtendedItemHandle eih = (ExtendedItemHandle) oContext;
 		if ( DEUtil.getDataSetList( eih ).size( ) == 0
-				&& ChartCubeUtil.getBindingCube( eih ) == null )
+				&& ChartReportItemHelper.instance( ).getBindingCubeHandle( eih ) == null )
 		{
 			alProblems.add( Messages.getString( "ChartReportItemBuilderImpl.problem.hasNotBeenFound" ) ); //$NON-NLS-1$
 		}

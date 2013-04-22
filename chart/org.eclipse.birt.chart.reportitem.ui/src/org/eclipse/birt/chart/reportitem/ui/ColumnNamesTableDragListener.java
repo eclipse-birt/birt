@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
-import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -72,7 +72,8 @@ public class ColumnNamesTableDragListener extends DragSourceAdapter
 	 */
 	public void dragStart( DragSourceEvent event )
 	{
-		if ( ChartCubeUtil.getBindingCube( itemHandle ) != null )
+		if ( ChartReportItemHelper.instance( )
+				.getBindingCubeHandle( itemHandle ) != null )
 		{
 			event.doit = false;
 		}

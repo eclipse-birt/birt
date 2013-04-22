@@ -88,6 +88,7 @@ public class DifferenceDataDefinitionComponent
 			labelArray[i].setText( ChartUIUtil.getDifferenceTitle( i ) + "*" ); //$NON-NLS-1$
 			Composite cmpData = dataComArray[i].createArea( cmpSeries );
 			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			( (BaseDataDefinitionComponent) dataComArray[i] ).bindAssociatedName( ChartUIUtil.getDifferenceTitle( i ) );
 		}
 		return cmpSeries;
 	}
