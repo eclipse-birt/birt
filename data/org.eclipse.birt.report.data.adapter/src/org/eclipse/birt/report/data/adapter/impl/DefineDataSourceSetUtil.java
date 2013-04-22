@@ -146,7 +146,21 @@ public class DefineDataSourceSetUtil
 	public static void prepareForTransientQuery( DataSessionContext sessionContext, DataEngineImpl dataEngine, DataSetHandle handle,
 			IQueryDefinition queryDefn) throws BirtException 
 	{
-		IBaseDataSetDesign design = dataEngine.getDataSetDesign( handle.getQualifiedName( ) );
+		IBaseDataSetDesign design = null;
+		if( handle == null )
+		{
+			if( queryDefn.getDataSetName( ) == null )
+			{
+				if( queryDefn.getSourceQuery( )!= null&& queryDefn.getSourceQuery( ) instanceof IQueryDefinition )
+					design = dataEngine.getDataSetDesign( ((IQueryDefinition)queryDefn.getSourceQuery( )).getDataSetName( ) );
+			}
+			else
+				design = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
+		}
+		else
+		{
+			design = dataEngine.getDataSetDesign( handle.getQualifiedName( ) );			
+		}
 		final IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
 		if ( dataSetInterceptor != null )
 		{
