@@ -314,7 +314,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 	protected int getSeriesFillStyles( )
 	{
-		return FillChooserComposite.ENABLE_GRADIENT
+		return FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+				| FillChooserComposite.ENABLE_GRADIENT
 				| FillChooserComposite.ENABLE_IMAGE
 				| FillChooserComposite.ENABLE_POSITIVE_NEGATIVE;
 	}
