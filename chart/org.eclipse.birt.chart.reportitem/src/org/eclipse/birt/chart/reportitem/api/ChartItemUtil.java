@@ -1209,12 +1209,18 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return false;
 	}
 
-	public static TableHandle getInheritedTableHandle( ReportItemHandle itemHandle )
+	/**
+	 * Get the inherited handle
+	 * @param itemHandle
+	 * @return ListHandle or TabHandle
+	 */
+	public static ListingHandle getInheritedListingHandle(
+			ReportItemHandle itemHandle )
 	{
 		if ( isContainerInheritable( itemHandle ) )
 		{
 			DesignElementHandle handle = itemHandle.getContainer( );
-			while ( !( handle instanceof TableHandle ) )
+			while ( handle != null && !( handle instanceof ListingHandle ) )
 			{
 				handle = handle.getContainer( );
 			}
@@ -1222,9 +1228,15 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			{
 				return (TableHandle) handle;
 			}
+
+			if ( handle instanceof ListHandle )
+			{
+				return (ListHandle) handle;
+			}
 		}
 		return null;
 	}
+	
 	/**
 	 * Returns report item handle that is a chart handle and is referred by
 	 * other chart recursively.
