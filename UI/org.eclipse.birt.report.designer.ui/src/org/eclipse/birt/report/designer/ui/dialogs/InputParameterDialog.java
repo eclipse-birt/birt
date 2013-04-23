@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -77,794 +78,1079 @@ import com.ibm.icu.util.ULocale;
  * new preview prototype
  */
 public class InputParameterDialog extends BaseDialog
-{
-
-	private static final String NULL_VALUE_STR = ParameterUtil.LABEL_NULL;
-
+ {
 	private Composite contentPane;
 	private ScrolledComposite scrollPane;
 
 	private List params;
-	private Map paramValues = new HashMap( );
-	private List<IParameterAdapter> paramAdatpers = new ArrayList( );
-	private List isRequiredParameters = new ArrayList( );
-	private List dataTypeCheckList = new ArrayList( );
+	private Map<String, Object> paramValues = new HashMap<String, Object>();
+	private List<IParameterAdapter> paramAdatpers = new ArrayList();
 
-	private boolean performed = false;
+	private List<IParameterControlHelper> controlHelpers = new ArrayList<IParameterControlHelper>();
+	private Map<IParameter, SelectionParameterControlHelper> postCascadeParamLists = new HashMap<IParameter, SelectionParameterControlHelper>();
 
-	private Map<IParameter, Control> postParamLists = new HashMap<IParameter, Control>( );
-
-	private static IParameterSelectionChoice nullValueChoice = new IParameterSelectionChoice( ) {
-
-		public String getLabel( )
-		{
-			return NULL_VALUE_STR;
-		}
-
-		public Object getValue( )
-		{
-			return null;
-		}
-
-	};
-
-	private static IParameterSelectionChoice blankValueChoice = new IParameterSelectionChoice( ) {
-
-		public String getLabel( )
-		{
-			return ""; //$NON-NLS-1$
-		}
-
-		public Object getValue( )
-		{
-			return ""; //$NON-NLS-1$
-		}
-	};
-
-	public InputParameterDialog( Shell parentShell, List params, Map paramValues )
-	{
-		super( parentShell,
-				Messages.getString( "InputParameterDialog.msg.title" ) ); //$NON-NLS-1$
+	public InputParameterDialog(Shell parentShell, List params, Map paramValues) {
+		super(parentShell, Messages.getString("InputParameterDialog.msg.title")); //$NON-NLS-1$
 
 		this.params = params;
-		if ( paramValues != null )
-		{
-			this.paramValues.putAll( paramValues );
+		if (paramValues != null) {
+			this.paramValues.putAll(paramValues);
 		}
 	}
 
-	@Override
-	protected void okPressed( )
-	{
-		Iterator itr = isRequiredParameters.iterator( );
+	protected void okPressed() {
 
-		Map paramValues = getParameters( );
-
-		while ( itr.hasNext( ) )
-		{
-			String paramName = (String) itr.next( );
-			Object paramValue = paramValues.get( paramName );
-
-			if ( paramValue == null
-					|| ( paramValue instanceof String && ( (String) paramValue ).trim( )
-							.length( ) == 0 )
-					|| ( paramValue instanceof Object[] && ( (Object[]) paramValue ).length == 0 ) )
-			{
-				MessageDialog.openError( getShell( ),
-						"Error", Messages.getFormattedString( "InputParameterDialog.err.requiredParam", new String[]{paramName} ) ); //$NON-NLS-1$ //$NON-NLS-2$
-				return;
-			}
+		if (!validateParameters()) {
+			return;
 		}
 
-		itr = dataTypeCheckList.iterator( );
-		while ( itr.hasNext( ) )
-		{
-			ScalarParameter scalarParameter = (ScalarParameter) itr.next( );
-			Object paramValue = paramValues.get( scalarParameter.getHandle( )
-					.getName( ) );
-			try
-			{
-				paramValues.put( scalarParameter.getHandle( ).getName( ),
-						scalarParameter.converToDataType( paramValue ) );
-			}
-			catch ( BirtException e )
-			{
-				MessageDialog.openError( getShell( ),
-						Messages.getString( "InputParameterDialog.err.invalidValueTitle" ), //$NON-NLS-1$
-						Messages.getFormattedString( "InputParameterDialog.err.invalidValue",
-								new String[]{
-										paramValue.toString( ),
-										scalarParameter.getHandle( )
-												.getDataType( )
-								} ) );
-				return;
-			}
+		if (!validateAdapters()) {
+			return;
 		}
-
-		for ( IParameterAdapter adapter : this.paramAdatpers )
-		{
-			try
-			{
-				adapter.validate( );
-			}
-			catch ( BirtException e )
-			{
-				MessageDialog.openError( getShell( ),
-						Messages.getString( "InputParameterDialog.err.invalidValueTitle" ), //$NON-NLS-1$
-						e.getMessage( ) );
-				return;
-			}
-		}
-
-		super.okPressed( );
+		super.okPressed();
 	}
 
-	protected Control createDialogArea( Composite parent )
-	{
-		Composite composite = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
-		layout.marginHeight = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_MARGIN );
-		layout.marginWidth = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_MARGIN );
-		layout.verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
-		layout.horizontalSpacing = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_SPACING );
-		composite.setLayout( layout );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		applyDialogFont( composite );
+	private boolean validateParameters() {
+		for (IParameterControlHelper helper : controlHelpers) {
+			if (!helper.validate()) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-		new Label( composite, SWT.NONE ).setText( Messages.getString( "InputParameterDialog.msg.requiredParam" ) ); //$NON-NLS-1$
+	private boolean validateAdapters() {
+		for (IParameterAdapter adapter : this.paramAdatpers) {
+			try {
+				adapter.validate();
+			} catch (BirtException e) {
+				MessageDialog
+						.openError(
+								getShell(),
+								Messages.getString("InputParameterDialog.err.invalidValueTitle"), //$NON-NLS-1$
+								e.getMessage());
+				return false;
+			}
+		}
+		return true;
+	}
 
-		scrollPane = new ScrolledComposite( composite, SWT.H_SCROLL
-				| SWT.V_SCROLL );
-		scrollPane.setExpandHorizontal( true );
-		scrollPane.setExpandVertical( true );
+	protected Control createDialogArea(Composite parent) {
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+		layout.marginWidth = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+		layout.verticalSpacing = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+		layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+		composite.setLayout(layout);
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		applyDialogFont(composite);
 
-		GridData gd = new GridData( GridData.FILL_BOTH );
+		new Label(composite, SWT.NONE).setText(Messages
+				.getString("InputParameterDialog.msg.requiredParam")); //$NON-NLS-1$
+
+		scrollPane = new ScrolledComposite(composite, SWT.H_SCROLL
+				| SWT.V_SCROLL);
+		scrollPane.setExpandHorizontal(true);
+		scrollPane.setExpandVertical(true);
+
+		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.widthHint = 400;
 		gd.heightHint = 400;
-		scrollPane.setLayoutData( gd );
+		scrollPane.setLayoutData(gd);
 
-		createParameters( );
-		performed = true;
+		createParameters();
 
-		UIUtil.bindHelp( parent, IHelpContextIds.INPUT_PARAMETERS_DIALOG_ID );
+		UIUtil.bindHelp(parent, IHelpContextIds.INPUT_PARAMETERS_DIALOG_ID);
 
 		return composite;
 	}
 
-	private void createParameters( )
-	{
-		if ( contentPane != null && !contentPane.isDisposed( ) )
-		{
-			contentPane.dispose( );
+	private void createParameters() {
+		if (contentPane != null && !contentPane.isDisposed()) {
+			contentPane.dispose();
 		}
 
-		contentPane = new Composite( scrollPane, SWT.NONE );
-		scrollPane.setContent( contentPane );
+		contentPane = new Composite(scrollPane, SWT.NONE);
+		scrollPane.setContent(contentPane);
+		contentPane.setLayoutData(new GridData(GridData.FILL_BOTH));
+		contentPane.setLayout(new GridLayout());
 
-		contentPane.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		createParametersSection(params, contentPane);
 
-		contentPane.setLayout( new GridLayout( ) );
-
-		createParametersSection( params, contentPane );
-
-		// contentPane.setSize( contentPane.computeSize( SWT.DEFAULT,
-		// SWT.DEFAULT ) );
-		scrollPane.setMinSize( contentPane.computeSize( 400, SWT.DEFAULT ) );
+		scrollPane.setMinSize(contentPane.computeSize(400, SWT.DEFAULT));
 	}
 
-	private void createParametersSection( List children, Composite parent )
-	{
-		Iterator iterator = children.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			Object obj = iterator.next( );
-			if ( ( obj instanceof ScalarParameter && !( (ScalarParameter) obj ).getHandle( )
-					.isHidden( ) )
-					|| ( obj instanceof ScalarParameter && !( (ScalarParameter) obj ).getHandle( )
-							.isHidden( ) ) )
-			{
+	private void createParametersSection(List children, Composite parent) {
+		Iterator iterator = children.iterator();
+		while (iterator.hasNext()) {
+			Object obj = iterator.next();
+			if ((obj instanceof ScalarParameter && !((ScalarParameter) obj)
+					.getHandle().isHidden())) {
 				ScalarParameter param = (ScalarParameter) obj;
-				createParamSection( param, parent );
-			}
-			else if ( obj instanceof IParameterAdapter )
-			{
-				( (IParameterAdapter) obj ).createControl( parent );
-				if ( ( (IParameterAdapter) obj ).getHandle( ).isRequired( ) )
-				{
-					isRequiredParameters.add( ( (IParameterAdapter) obj ).getName( ) );
-				}
-				paramAdatpers.add( (IParameterAdapter) obj );
-			}
-			else if ( obj instanceof AbstractParameterGroup )
-			{
+				createParamSection(param, parent);
+			} else if (obj instanceof IParameterAdapter) {
+				IParameterAdapter adapterObj = (IParameterAdapter) obj;
+				adapterObj.createControl(parent);
+				paramAdatpers.add(adapterObj);
+			} else if (obj instanceof AbstractParameterGroup) {
 				AbstractParameterGroup group = (AbstractParameterGroup) obj;
-				createParametersSection( group.getChildren( ),
-						createParamGroupSection( group, parent ) );
+				createParametersSection(group.getChildren(),
+						createParamGroupSection(group, parent));
 			}
 		}
 	}
 
 	private Composite createParamGroupSection(
-			AbstractParameterGroup paramGroup, Composite parent )
-	{
-		Group group = new Group( parent, SWT.NONE );
-		group.setText( paramGroup.getHandle( ).getDisplayLabel( ) );
-		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
-		group.setLayout( new GridLayout( ) );
+			AbstractParameterGroup paramGroup, Composite parent) {
+		Group group = new Group(parent, SWT.NONE);
+		group.setText(paramGroup.getHandle().getDisplayLabel());
+		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
+				| GridData.GRAB_HORIZONTAL));
+		group.setLayout(new GridLayout());
 		return group;
 	}
 
-	private Composite createParamSection( ScalarParameter param,
-			Composite parent )
-	{
-		boolean isRequired = param.getHandle( ).isRequired( );
-		// boolean isStringType = param.getHandle( )
-		// .getDataType( )
-		// .equals( DesignChoiceConstants.PARAM_TYPE_STRING );
-		if ( isRequired )
-		{
-			isRequiredParameters.add( param.getHandle( ).getName( ) );
-		}
+	private Composite createParamSection(ScalarParameter param, Composite parent) {
 
-		Composite container = new Composite( parent, SWT.NONE );
-		container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		GridLayout layout = new GridLayout( );
-		// layout.numColumns = 2;
-		container.setLayout( layout );
+		Composite container = createParamSectionContainer(parent);
+		IParameterControlHelper helper = null;
+		if (param instanceof StaticTextParameter) {
+			helper = new StaticTextParameterControlHelper(this);
 
-		Label label = new Label( container, SWT.NONE );
-		label.setText( param.getHandle( ).getDisplayLabel( )
-				+ ( isRequired ? ": *" : ":" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-
-		if ( param instanceof StaticTextParameter )
-		{
-			createStaticTextParameter(container, param);
-		}
-		else if ( param instanceof RadioParameter )
-		{
-			createRadioParameter(container, param, isRequired);
-		}
-		else if ( param instanceof CheckBoxParameter )
-		{
-			createCheckBoxParameter(container, param, label);
-		}
-		else if ( param instanceof ListingParameter )
-		{
+		} else if (param instanceof RadioParameter) {
+			helper = new RadioParameterControlHelper(this);
+		} else if (param instanceof CheckBoxParameter) {
+			helper = new CheckBoxParameterControlHelper(this);
+		} else if (param instanceof ListingParameter) {
 			final ListingParameter listParam = (ListingParameter) param;
-			if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( listParam.getHandle( )
-					.getParamType( ) ) )
-			{
-				createList( container, listParam );
-				GridData labelLayout = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
-				label.setLayoutData( labelLayout );
-			}
-			else
-			{
-				createCombo( container, listParam );
+			if (DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+					.equals(listParam.getHandle().getParamType())) {
+				helper = new ListParameterControlHelper(this);
+			} else {
+				helper = new ComboParameterControlHelper(this);
 			}
 
 		}
 
+		helper.createControl(container, param,
+				paramValues.get(param.getHandle().getName()));
+
+		controlHelpers.add(helper);
 		return container;
 	}
-	
-	private void createCheckBoxParameter(Composite container,ScalarParameter param,Label label)
-	{
-		final CheckBoxParameter cbParameter = (CheckBoxParameter) param;
 
-//		paramValues.put( cbParameter.getHandle( ).getName( ), false );
-		Object value = getPreSetValue(cbParameter);
-//		if ( paramValues.containsKey( cbParameter.getHandle( ).getName( ) ) )
-//		{
-//			value = getStringFormat( paramValues.get( cbParameter.getHandle( ).getName( ) ) );
-//		}
+	private Composite createParamSectionContainer(Composite parent) {
+		Composite container = new Composite(parent, SWT.NONE);
+		container.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		GridLayout layout = new GridLayout();
+		container.setLayout(layout);
 
-		container.setLayout( GridLayoutFactory.fillDefaults( )
-				.numColumns( 2 )
-				.create( ) );
-		label.setLayoutData( GridDataFactory.fillDefaults( )
-				.span( 2, 1 )
-				.create( ) );
+		return parent;
+	}
 
-		Button btnCheck = new Button( container, SWT.CHECK );
-		btnCheck.setText( Messages.getString( "InputParameterDialog.boolean.checked" ) );
-		btnCheck.addSelectionListener( new SelectionListener( ) {
+	public Map getParameters() {
+		for (IParameterControlHelper helper : controlHelpers) {
+			this.paramValues.putAll(helper.getResults());
+		}
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-			}
+		for (IParameterAdapter adapter : this.paramAdatpers) {
+			this.paramValues.put(adapter.getName(), adapter.getValue());
+		}
+		return this.paramValues;
+	}
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				Button button = (Button) e.getSource( );
-				paramValues.put( cbParameter.getHandle( ).getName( ),
-						button.getSelection( ) );
-			}
-		} );
-		
-		if(value != null ) 
-		{
-			if((value instanceof Boolean &&  (Boolean)value == true ) || "true".equals(value))
-			{
-				btnCheck.setSelection(true);
+	public Map<IParameter, SelectionParameterControlHelper> getPostParamLists() {
+		return this.postCascadeParamLists;
+	}
+
+	public void addPostParamter(IParameter parameter,
+			SelectionParameterControlHelper helper) {
+		this.postCascadeParamLists.put(parameter, helper);
+	}
+}
+
+class InternalParameterSelectionChoice implements IParameterSelectionChoice {
+
+	private String _label;
+	private Object _value;
+
+	public InternalParameterSelectionChoice(String label, Object value) {
+		this._label = label;
+		this._value = value;
+	}
+
+	public Object getValue() {
+		return _value;
+	}
+
+	public String getLabel() {
+		return _label;
+	}
+
+}
+
+enum InputParameterSelectionChoice implements IParameterSelectionChoice {
+	NULLVALUECHOICE(IParameterControlHelper.NULL_VALUE_STR, null), BLANKVALUECHOICE(
+			IParameterControlHelper.EMPTY_VALUE_STR,
+			IParameterControlHelper.EMPTY_VALUE_STR);
+
+	private final String _label;
+	private final Object _value;
+
+	InputParameterSelectionChoice(String label, Object value) {
+		_label = label;
+		_value = value;
+	}
+
+	public Object getValue() {
+		return _value;
+	}
+
+	public String getLabel() {
+		return _label;
+	}
+}
+
+interface IParameterControlHelper {
+	public static final String NULL_VALUE_STR = ParameterUtil.LABEL_NULL;
+	public static final String EMPTY_VALUE_STR = "";//$NON-NLS-1$
+
+	void createControl(Composite parent, Object parameter, Object lastValue);
+
+	Map<String, Object> getResults();
+
+	boolean validate();
+}
+
+abstract class AbstractParameterControlHelper implements
+		IParameterControlHelper {
+	protected Composite parent;
+	protected ScalarParameter parameter;
+
+	protected boolean isRequired = false;
+	protected boolean needTypeCheck = false;
+	protected String paramterHandleName;
+	protected boolean isStringType = false;
+
+	protected Map<String, Object> lastConfigValues = new HashMap<String, Object>();
+	protected Object defaultValue;
+
+	protected Label controlLabel;
+
+	protected InputParameterDialog parameterDialog;
+
+	public AbstractParameterControlHelper(InputParameterDialog dialog) {
+		this.parameterDialog = dialog;
+	}
+
+	public void createControl(Composite parent, Object para, Object lastValue) {
+		this.parent = parent;
+		init(para, lastValue);
+
+		prepare();
+
+		createControlLabel();
+		createParameterControl();
+	}
+
+	protected abstract void createParameterControl();
+
+	protected void prepare() {
+
+	}
+
+	private void initLastValue(Object lastValue) {
+		if (lastValue != null) {
+			lastConfigValues.put(paramterHandleName, lastValue);
+		}
+	}
+
+	public Map<String, Object> getResults() {
+
+		return lastConfigValues;
+	}
+
+	public boolean validate() {
+
+		return validateRequiredItem() && validateDataType();
+	}
+
+	private boolean validateRequiredItem() {
+		if (isRequired) {
+			Object paramterValue = lastConfigValues.get(paramterHandleName);
+			if (paramterValue == null
+					|| (paramterValue instanceof String && StringUtil
+							.isBlank((String) paramterValue))
+					|| (paramterValue instanceof Object[] && ((Object[]) paramterValue).length == 0)) {
+				MessageDialog.openError(parent.getShell(), "Error", Messages
+						.getFormattedString(
+								"InputParameterDialog.err.requiredParam",
+								new String[] { paramterHandleName })); //$NON-NLS-1$ //$NON-NLS-2$
+				return false;
 			}
 		}
-		paramValues.put( cbParameter.getHandle( ).getName( ),	btnCheck.getSelection( ) );
+		return true;
 	}
-	
-	private void createRadioParameter(Composite container,ScalarParameter param,boolean isRequired )
-	{
-		final RadioParameter radioParameter = (RadioParameter) param;
+
+	private boolean validateDataType() {
+		if (needTypeCheck) {
+			Object paramValue = lastConfigValues.get(paramterHandleName);
+			try {
+				Object obj = parameter.converToDataType(paramValue);
+			} catch (BirtException e) {
+				MessageDialog
+						.openError(
+								parent.getShell(),
+								Messages.getString("InputParameterDialog.err.invalidValueTitle"), //$NON-NLS-1$
+								Messages.getFormattedString(
+										"InputParameterDialog.err.invalidValue",//$NON-NLS-1$
+										new String[] {
+												paramValue.toString(),
+												parameter.getHandle()
+														.getDataType() }));
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private void init(Object para, Object lastValue) {
+		parameter = (ScalarParameter) para;
+		paramterHandleName = parameter.getHandle().getName();
+		isRequired = parameter.getHandle().isRequired();
+		isStringType = parameter.getHandle().getDataType()
+				.equals(DesignChoiceConstants.PARAM_TYPE_STRING);
+
+		initLastValue(lastValue);
+		prepareControlDefaultValue();
+	}
+
+	private void createControlLabel() {
+		controlLabel = new Label(parent, SWT.NONE);
+		controlLabel.setText(parameter.getHandle().getDisplayLabel()
+				+ (isRequired ? ": *" : ":")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	private void prepareControlDefaultValue() {
+		defaultValue = getPreSetValue();
+	}
+
+	/**
+	 * Only get first value,if default is Multiple values,should not use this
+	 * 
+	 * @param param
+	 * @return
+	 */
+	private Object getPreSetValue() {
 		Object value = null;
-		dataTypeCheckList.add( radioParameter );
 
-		if ( radioParameter.getDefaultValue( ) != null )
-		{
-			value = radioParameter.getDefaultObject( );
+		if (parameter.getDefaultValues().size() > 0) {
+			value = parameter.getDefaultValues().get(0);
 		}
 
-		if ( paramValues.containsKey( radioParameter.getHandle( ).getName( ) ) )
-		{
-			value = paramValues.get( radioParameter.getHandle( ).getName( ) );
+		if (lastConfigValues.containsKey(paramterHandleName)) {
+			value = lastConfigValues.get(paramterHandleName);
+
+			if (value != null) {
+				parameter.setSelectionValue(value);
+			}
 		}
 
-		List list = radioParameter.getValueList( );
-		if ( !isRequired )
-		{
-			list.add( InputParameterDialog.nullValueChoice );
+		return value;
+	}
+
+	protected String getFormatLabelString(IParameterSelectionChoice choice,
+			ScalarParameter para) {
+		Object value = choice.getValue();
+		String label = choice.getLabel();
+		if (label == null && value != null) {
+			if (value instanceof Date) {
+				label = formatDate2String(value);
+			} else {
+				label = String.valueOf(value);
+			}
 		}
-		List<Button> radioItems = new ArrayList<Button>();
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			if ( i > 0 )
-			{
-				new Label( container, SWT.NONE );
-			}
+		label = formatString(label, para);
+		return label;
+	}
 
-			IParameterSelectionChoice choice = (IParameterSelectionChoice) list.get( i );
-			Button button = new Button( container, SWT.RADIO );
-			String choiceLabel = choice.getLabel( );
-			if ( choiceLabel == null )
-			{
-//				choiceLabel = choice.getValue( ) == null ? NULL_VALUE_STR
-//						: String.valueOf( choice.getValue( ) );
-				choiceLabel = choice.getValue( ) == null ? NULL_VALUE_STR
-						: getLabelString(choice,param);
-			}
-			button.setText( choiceLabel );
-			button.setData( choice.getValue( ) );
+	private String formatDate2String(Object value) {
+		String result = value.toString();
+		try {
+			result = DataTypeUtil.toString(value);
+		} catch (BirtException e) {
+		}
+		return result;
+	}
 
-			if ( choice.getValue( ) != null
-					&& choice.getValue( ).equals( value ) )
-			{
-				button.setSelection( true );
-				paramValues.put( radioParameter.getHandle( ).getName( ),
-						button.getData( ) );
-				clearSelectRadio(radioItems);
-			}
-			else if ( value == null && choiceLabel.equals( NULL_VALUE_STR ) )
-			{
-				button.setSelection( true );
-				paramValues.remove( radioParameter.getHandle( ).getName( ) );
-				clearSelectRadio(radioItems);
-			}
-			radioItems.add(button);
-			
-			button.addSelectionListener( new SelectionListener( ) {
+	protected String formatString(String str, ScalarParameter para) {
 
-				public void widgetDefaultSelected( SelectionEvent e )
-				{
+		if (StringUtil.isBlank(str)) {
+			return EMPTY_VALUE_STR;
+		}
+
+		ScalarParameterHandle paraHandle = para.getHandle();
+
+		String formatPattern = convertFormatPattern(paraHandle);
+		ULocale formatLocale = cvonvertFormatLocale(paraHandle);
+		String type = paraHandle.getDataType();
+
+		if (formatPattern == null) {
+			return str;
+		}
+		String formatStr = EMPTY_VALUE_STR;
+		try {
+			if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(type)) {
+				formatStr = new StringFormatter(formatPattern, formatLocale)
+						.format(str);
+			} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type)) {
+				formatPattern = formatPattern
+						.equals(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED) ? DateFormatter.DATETIME_UNFORMATTED
+						: formatPattern;
+				formatStr = new DateFormatter(formatPattern, formatLocale)
+						.format((Date) para.converToDataType(str));
+			} else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(type)) {
+				formatPattern = formatPattern
+						.equals(DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED) ? DateFormatter.DATE_UNFORMATTED
+						: formatPattern;
+				formatStr = new DateFormatter(formatPattern, formatLocale)
+						.format((Date) para.converToDataType(str));
+			} else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(type)) {
+				formatPattern = formatPattern.equals("Unformatted") ? DateFormatter.TIME_UNFORMATTED //$NON-NLS-1$
+						: formatPattern;
+				formatStr = new DateFormatter(formatPattern, formatLocale)
+						.format((Date) para.converToDataType(str));
+			} else if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(type)
+					|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(type)) {
+				double value = Double.parseDouble(str);
+				if (Double.isInfinite(value))
+					formatStr = str;
+				else {
+					if (DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED
+							.equals(formatPattern)) {
+						formatPattern = null;
+					}
+					formatStr = new NumberFormatter(formatPattern, formatLocale)
+							.format(value);
 				}
+			} else if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(type)) {
+				int value = Integer.parseInt(str);
+				formatStr = new NumberFormatter(formatPattern, formatLocale)
+						.format(value);
+			}
+		} catch (Exception e) {
+			formatStr = str;
+		}
+		if (formatStr == null) {
+			return str;
+		}
+		return UIUtil.convertToGUIString(formatStr);
+	}
 
-				public void widgetSelected( SelectionEvent e )
-				{
-					Button button = (Button) e.getSource( );
-					paramValues.put( radioParameter.getHandle( ).getName( ),
-							button.getData( ) );
-				}
-			} );
+	private String convertFormatPattern(ScalarParameterHandle paraHandle) {
+		String formatCategroy = paraHandle.getCategory();
+		String formatPattern = paraHandle.getPattern();
+
+		formatPattern = isCustom(formatCategroy) ? formatPattern
+				: formatCategroy;
+		return formatPattern;
+	}
+
+	private ULocale cvonvertFormatLocale(ScalarParameterHandle paraHandle) {
+		ULocale formatLocale = null;
+		Object formatValue = paraHandle
+				.getProperty(IScalarParameterModel.FORMAT_PROP);
+		if (formatValue instanceof FormatValue) {
+			PropertyHandle propHandle = paraHandle
+					.getPropertyHandle(IScalarParameterModel.FORMAT_PROP);
+			FormatValue formatValueToSet = (FormatValue) formatValue;
+			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
+					.getHandle(propHandle);
+			formatLocale = formatHandle.getLocale();
+		}
+		if (formatLocale == null) {
+			formatLocale = ULocale.getDefault();
+		}
+		return formatLocale;
+	}
+
+	private boolean isCustom(String formatCategroy) {
+		if (DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM
+				.equals(formatCategroy)
+				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM
+						.equals(formatCategroy)
+				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM
+						.equals(formatCategroy)
+				|| DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM
+						.equals(formatCategroy)
+				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM
+						.equals(formatCategroy)
+				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY
+						.equals(formatCategroy)) {
+			return true;
+		}
+		return false;
+	}
+}
+
+class StaticTextParameterControlHelper extends AbstractParameterControlHelper {
+	public StaticTextParameterControlHelper(InputParameterDialog dialog) {
+		super(dialog);
+	}
+
+	private Text input = null;
+
+	protected void prepare() {
+		needTypeCheck = true;
+	}
+
+	protected void createParameterControl() {
+		createText();
+	}
+
+	private void createText() {
+		input = new Text(parent,
+				parameter.getHandle().isConcealValue() ? SWT.BORDER
+						| SWT.PASSWORD : SWT.BORDER);
+		input.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		input.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				Text input = (Text) e.getSource();
+				lastConfigValues.put(paramterHandleName, input.getText());
+			}
+		});
+		input.setText(getTextDefaultValue());
+	}
+
+	private String getTextDefaultValue() {
+		String result = EMPTY_VALUE_STR;
+		try {
+			result = DataTypeUtil.toString(defaultValue);
+		} catch (BirtException e) {
+		}
+		return formatString(result, parameter);
+	}
+
+}
+
+class CheckBoxParameterControlHelper extends AbstractParameterControlHelper
+ {
+	public CheckBoxParameterControlHelper(InputParameterDialog dialog) {
+		super(dialog);
+	}
+
+	protected void createParameterControl() {
+		createCheckBox();
+	}
+
+	private void createCheckBox() {
+		parent.setLayout(GridLayoutFactory.fillDefaults().numColumns(2)
+				.create());
+		controlLabel.setLayoutData(GridDataFactory.fillDefaults().span(2, 1)
+				.create());
+
+		Button btnCheck = new Button(parent, SWT.CHECK);
+		btnCheck.setText(Messages
+				.getString("InputParameterDialog.boolean.checked"));
+		btnCheck.addSelectionListener(new SelectionListener() {
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				Button button = (Button) e.getSource();
+				lastConfigValues.put(paramterHandleName, button.getSelection());
+			}
+		});
+
+		if (isTrue(defaultValue)) {
+			btnCheck.setSelection(true);
+		}
+
+		lastConfigValues.put(paramterHandleName, btnCheck.getSelection());
+	}
+
+	private boolean isTrue(Object value) {
+		if (value == null) {
+			return false;
+		}
+		return Boolean.valueOf(value.toString());
+	}
+}
+
+class RadioParameterControlHelper extends AbstractParameterControlHelper
+ {
+	public RadioParameterControlHelper(InputParameterDialog dialog) {
+		super(dialog);
+	}
+
+	protected void createParameterControl() {
+		doCreateRadioParameter();
+	}
+
+	protected void prepare() {
+		needTypeCheck = true;
+		list = parameter.getValueList();
+
+		boolean isContainNull = false;
+		for (IParameterSelectionChoice choice : list) {
+			if (InputParameterSelectionChoice.BLANKVALUECHOICE.getValue()
+					.equals(choice.getValue())) {
+				isContainNull = true;
+			}
+		}
+
+		if (!isRequired && !isContainNull) {
+			list.add(InputParameterSelectionChoice.NULLVALUECHOICE);
 		}
 	}
-	
-	private void clearSelectRadio(List<Button> radioItems)
-	{
-		for(Button b : radioItems)
-		{
+
+	private List<IParameterSelectionChoice> list;
+	private List<Button> radioItems = new ArrayList<Button>();
+
+	private void doCreateRadioParameter() {
+		for (int i = 0; i < list.size(); i++) {
+			if (i > 0) {
+				new Label(parent, SWT.NONE);
+			}
+			IParameterSelectionChoice choice = list.get(i);
+			String choiceLabel = getChoiceLabel(choice);
+			Button button = createRadioButton(choiceLabel, choice.getValue());
+			initRadioButton(button, choice, choiceLabel);
+
+		}
+	}
+
+	private void initRadioButton(Button button,
+			IParameterSelectionChoice choice, String choiceLabel) {
+		if ((choice.getValue() == defaultValue)
+				|| (choice.getValue() != null && choice.getValue().equals(
+						defaultValue))) {
+			button.setSelection(true);
+			lastConfigValues.put(paramterHandleName, button.getData());
+			clearSelectRadio(radioItems);
+		} else if (defaultValue == null
+				&& choiceLabel
+						.equals(InputParameterSelectionChoice.NULLVALUECHOICE)) {
+			button.setSelection(true);
+			lastConfigValues.remove(paramterHandleName);
+			clearSelectRadio(radioItems);
+		}
+		radioItems.add(button);
+	}
+
+	private String getChoiceLabel(IParameterSelectionChoice choice) {
+		String choiceLabel = choice.getLabel();
+		if (choiceLabel == null) {
+			choiceLabel = choice.getValue() == null ? NULL_VALUE_STR
+					: getFormatLabelString(choice, parameter);
+		}
+		return choiceLabel;
+	}
+
+	private Button createRadioButton(String labelText, Object buttonData) {
+		Button button = new Button(parent, SWT.RADIO);
+		button.setText(labelText);
+		button.setData(buttonData);
+		button.addSelectionListener(new SelectionListener() {
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				Button button = (Button) e.getSource();
+				lastConfigValues.put(paramterHandleName, button.getData());
+			}
+		});
+		return button;
+	}
+
+	private void clearSelectRadio(List<Button> radioItems) {
+		for (Button b : radioItems) {
 			b.setSelection(false);
 		}
 	}
-	
-	private void createStaticTextParameter(Composite container,ScalarParameter param)
-	{
-		final StaticTextParameter textParam = (StaticTextParameter) param;
-		String value = textParam.getDefaultValue( );
-		dataTypeCheckList.add( textParam );
+}
 
-		Text input = new Text( container, param.getHandle( )
-				.isConcealValue( ) ? SWT.BORDER | SWT.PASSWORD : SWT.BORDER );
-		input.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		input.addModifyListener( new ModifyListener( ) {
+abstract class SelectionParameterControlHelper extends
+		AbstractParameterControlHelper {
+	private boolean performed = false;
+	boolean isCascade = false;
 
-			public void modifyText( ModifyEvent e )
-			{
-				Text input = (Text) e.getSource( );
-				paramValues.put( textParam.getHandle( ).getName( ),
-						input.getText( ) );
-			}
-		} );
+	protected List<IParameterSelectionChoice> valueList = new ArrayList<IParameterSelectionChoice>();
+	private boolean isCascadeGroup;
+	private CascadingParameterGroup cascadeGroup;
 
-		if ( paramValues.containsKey( textParam.getHandle( ).getName( ) ) )
-		{
-			value = getStringFormat( paramValues.get( textParam.getHandle( ).getName( ) ) );
-		}
+	protected List<String> controlResetItems = new ArrayList<String>();
 
-		if ( value != null )
-		{
-			input.setText( formatString( value, param ) );
-		}
-	}
-	
-	private String getStringFormat(Object obj)
-	{
-		if (obj instanceof Date) {
-			try {
-				return DataTypeUtil.toString(obj);
-			} catch (BirtException e) {
-				//do nothing
-			}
-		}
-		return obj.toString();
+	public SelectionParameterControlHelper(InputParameterDialog dialog) {
+		super(dialog);
 	}
 
-	private void checkParam( final String defaultValueLabel,
-			final Object defaultValue, List list )
-	{
-		if ( !performed )
-		{
-			boolean contains = false;
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				try
-				{
-					Object obj = ( (IParameterSelectionChoice) ( list.get( i ) ) ).getValue( );
-					if ( obj == null )
-					{
-						continue;
-					}
-					if ( obj.equals( defaultValue ) )
-					{
-						contains = true;
-						break;
-					}
-				}
-				catch ( Exception e )
-				{
-				}
-			}
-			if ( !contains && defaultValue != null )
-			{
-				IParameterSelectionChoice choice = new IParameterSelectionChoice( ) {
+	abstract Control getControl();
 
-					public String getLabel( )
-					{
-						return defaultValueLabel;
-					}
+	protected void prepare() {
+		super.prepare();
+		prepareValueList();
+		initCascadeGroup();
+	}
 
-					public Object getValue( )
-					{
-						return defaultValue;
-					}
-				};
-				list.add( choice );
-			}
+	private void initCascadeGroup() {
+		if (parameter.getParentGroup() instanceof CascadingParameterGroup) {
+			isCascadeGroup = true;
+			cascadeGroup = (CascadingParameterGroup) parameter.getParentGroup();
 		}
 	}
 
-	private void createCombo( Composite container,
-			final ListingParameter listParam )
-	{
-		boolean isRequired = listParam.getHandle( ).isRequired( );
-		boolean isStringType = listParam.getHandle( )
-				.getDataType( )
-				.equals( DesignChoiceConstants.PARAM_TYPE_STRING );
-		boolean containsBlank = false;
-		boolean containsNull = false;
+	protected void cascadingParamValueChanged(CascadingParameterGroup group,
+			ScalarParameter listParam) {
 
-		//get the value when initiate the combo
-		Object value = getPreSetValue(listParam);
-		int selectIndex = -1;
-
-		int style = SWT.BORDER;
-		if ( !( listParam instanceof ComboBoxParameter ) )
-		{
-			style |= SWT.READ_ONLY;
-		}
-		Combo combo = new Combo( container, style );
-		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		combo.setVisibleItemCount( 30 );
-
-		for ( Object o : listParam.getValueList( ) )
-		{
-			Object choiceValue = ( (IParameterSelectionChoice) o ).getValue( );
-			if ( blankValueChoice.getValue( ).equals( choiceValue ) )
-				containsBlank = true;
-			if ( null == choiceValue )
-				containsNull = true;
+		if (listParam == null) {
+			return;
 		}
 
-		List list = new ArrayList( );
-		if ( isStringType && !isRequired && !containsBlank )
-		{
-			list.add( blankValueChoice );
-		}
-		list.addAll( listParam.getValueList( ) );
-
-		boolean isCascade = isCascadeCombo(listParam);
-		if(!isCascade)
-		{
-			checkParam( formatString( listParam.getDefaultValue( ), listParam ),
-					listParam.getDefaultObject( ),
-					list );
-		}
-
-		if ( !isRequired && !containsNull )
-		{
-
-			list.add( InputParameterDialog.nullValueChoice );
-		}
-		boolean nullAdded = false;
-		for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
-		{
-			IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
-//			String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
-//					: choice.getLabel( ) );
-			String label = getLabelString(choice,listParam);
-			if ( choice.getValue( ) == null && choice.getLabel( ) == null )
-			{
-				if ( !isRequired && !nullAdded )
-				{
-					combo.add( NULL_VALUE_STR );
-					combo.setData( String.valueOf(combo.getItemCount() - 1), null );
-					nullAdded = true;
-				}
-			}
-			else
-			{
-				combo.add( label );
-				combo.setData( String.valueOf(combo.getItemCount() - 1), choice.getValue( ) );
-				if(choice.getValue( ) != null && choice.getValue( ).equals(value) && choice.getLabel() != null && !choice.getLabel().equals(blankValueChoice.getValue()) )
-				{
-//					value = choice.getLabel();
-					selectIndex = combo.getItemCount() -1 ;
-				}
-			}
-		}
-
-		if ( value == null )
-		{
-			if ( !isRequired )
-			{
-				combo.select( combo.getItemCount( ) - 1 );
-			}
-			listParam.setSelectionValue( null );
-			paramValues.put( listParam.getHandle( ).getName( ), null );
-		}
-		else
-		{
-			 setSelectValueAfterInitCombo(selectIndex,value, combo, listParam,isCascade,list);
-		}
-		combo.addFocusListener( new FocusListener( ) {
-
-			public void focusGained( FocusEvent e )
-			{
-
-			}
-
-			public void focusLost( FocusEvent e )
-			{
-				if ( !( listParam instanceof ComboBoxParameter ) )
-				{
-					return;
-				}
-				Combo combo = (Combo) e.getSource( );
-				if ( combo.indexOf( combo.getText( ) ) < 0 )
-				{
-					try {
-						paramValues.put( listParam.getHandle( ).getName( ),
-								listParam.converToDataType( combo.getText( ) ) );
-					}
-					catch (BirtException e1) {
-						MessageDialog.openError( getShell( ),
-								Messages.getString( "InputParameterDialog.err.invalidValueTitle" ), //$NON-NLS-1$
-								Messages.getFormattedString( "InputParameterDialog.err.invalidValue", //$NON-NLS-1$
-										new String[]{
-												combo.getText( ),
-												listParam.getHandle( ).getDataType( )
-										} ) );
-						return;
-					}
-				}
-				else
-				{
-					paramValues.put( listParam.getHandle( ).getName( ),
-							combo.getData( String.valueOf( combo.indexOf( combo.getText( ) ) ) ) );
-				}
-
-				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
-				{
-					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
-					if ( group.getPostParameter( listParam ) != null )
-					{
-						cascadingParamValueChanged( group, listParam );
-					}
-				}
-			}
-		} );
-		combo.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-			}
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				Combo combo = (Combo) e.getSource( );
-				if ( combo.getSelectionIndex( ) != -1 )
-				{
-					paramValues.put( listParam.getHandle( ).getName( ),
-							combo.getData( String.valueOf(combo.getSelectionIndex( )) ));
-				}
-				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
-				{
-					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
-					if ( group.getPostParameter( listParam ) != null )
-					{
-						// try
-						// {
-						// createParameters( );
-						// }
-						// catch ( RuntimeException e1 )
-						// {
-						// e1.printStackTrace( );
-						// }
-						cascadingParamValueChanged( group, listParam );
-					}
-				}
-			}
-		} );
-
-		if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
-		{
-			CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
-			if ( group.getPreParameter( listParam ) != null )
-			{
-				postParamLists.put( group.getPreParameter( listParam ), combo );
-			}
+		if (getPostParamList().containsKey(listParam)) {
+			copeWithCurrentParameter(listParam);
+			ScalarParameter postParam = copeWithNextParameter(group, listParam);
+			cascadingParamValueChanged(group, postParam);
 		}
 	}
-	
-	private void setSelectValueAfterInitCombo(int selectIndex,Object value,Combo combo,ListingParameter listParam ,boolean isCascade,List comboDataList)
-	{
-		boolean found = dealWithValueInComboList(selectIndex,value, combo, listParam);
-		if(!found)
-		{
-//			if ( listParam instanceof ComboBoxParameter )
-//			{
-				dealWithValueNotInComboList(value, combo, listParam, isCascade, comboDataList);
-//			}
-//			else
-//			{
-//				listParam.setSelectionValue( null );
-//				paramValues.put( listParam.getHandle( ).getName( ), null );
-//			}
-		}
+
+	private void copeWithCurrentParameter(ScalarParameter currentParam) {
+		Object value = lastConfigValues.get(currentParam.getHandle().getName());
+		currentParam.setSelectionValue(value);
 	}
-	
-	//if is cascade combo and the value in the combo data list,then select it
-	//if is cascade combo and the value not in the combo data list,then select the first item if items exists
-	//if not cascade then set the value data to combo
-	private void dealWithValueNotInComboList(Object value,Combo combo,ListingParameter listParam ,boolean isCascade,Object comboData)
-	{
-		if(!isCascade || (isCascade && isCanSet2Combo(listParam.getDefaultObject( ), comboData)))
-		{
-			combo.setText( value == null ? NULL_VALUE_STR :value.toString( ) );
-			listParam.setSelectionValue( combo.getText( ) );
-			paramValues.put( listParam.getHandle( ).getName( ),
-					combo.getText( ) );
-		}else{
-			if(combo.getItemCount()>0)
-			{
-				combo.select(0);
-				listParam.setSelectionValue(  combo.getText( ) );
-				paramValues.put( listParam.getHandle( ).getName( ),
-						combo.getData( String.valueOf(combo.getSelectionIndex( )) ));
-			}else
-			{
-				paramValues.put( listParam.getHandle( ).getName( ),null);
+
+	private ScalarParameter copeWithNextParameter(
+			CascadingParameterGroup group, ScalarParameter listParam) {
+		ScalarParameter postParam = (ListingParameter) group
+				.getPostParameter(listParam);
+		if (postParam == null) {
+			return null;
+		}
+		SelectionParameterControlHelper helper = getPostParamList().get(
+				listParam);
+		helper.emptyControlItem();
+
+		Control control = helper.getControl();
+		int itemIndex = 0;
+		for (Iterator iterator = postParam.getValueList().iterator(); iterator
+				.hasNext();) {
+			IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator
+					.next();
+			if (choice.getValue() == null) {
+				continue;
 			}
-			
+
+			String label = getFormatLabelString(choice, listParam);
+			if (label != null) {
+				itemIndex = addControlItem(control, label);
+				if (control instanceof Combo) {
+					control.setData(String.valueOf(itemIndex),
+							choice.getValue());
+				} else {
+					control.setData(label, choice.getValue());
+				}
+			}
 		}
+
+		processPostParator(postParam, control);
+		return postParam;
 	}
-	
-	//if value in combo data list ,then select it and return true
-	//else do nothing and return false
-	private boolean dealWithValueInComboList(int selectIndex,Object value,Combo combo,ListingParameter listParam)
-	{
+
+	private int addControlItem(Control control, String item) {
+		int itemIndex = 0;
+		if (control instanceof Combo) {
+			((Combo) control).add(item);
+			itemIndex = ((Combo) control).getItemCount() - 1;
+		}
+		if (control instanceof org.eclipse.swt.widgets.List) {
+			((org.eclipse.swt.widgets.List) control).add(item);
+			itemIndex = ((org.eclipse.swt.widgets.List) control).getItemCount() - 1;
+		}
+		return itemIndex;
+	}
+
+	private void processPostParator(ScalarParameter listParam, Control control) {
+		Object value = lastConfigValues.get(listParam.getHandle().getName());
 		boolean found = false;
-		if(selectIndex > 0)
-		{
+		if (control instanceof Combo) {
+			Combo combo = (Combo) control;
+			found = dealWithValueInComboList(-1, value, combo, listParam);
+
+			if (!found) {
+				try {
+					Object obj = listParam.converToDataType(listParam
+							.getDefaultObject());
+					if (obj == null) {
+						listParam.setSelectionValue(null);
+						lastConfigValues.put(listParam.getHandle().getName(),
+								null);
+					} else {
+						boolean isCascade = isCascadeParameter(listParam);
+						dealWithValueNotInComboList(obj, combo, listParam,
+								isCascade, combo.getItems());
+					}
+				} catch (BirtException e) {
+					//
+				}
+
+			}
+		}
+		if (control instanceof org.eclipse.swt.widgets.List) {
+			org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List) control;
+			initListValue(value, list, listParam);
+		}
+	}
+
+	/**
+	 * If the combo is cascade then: If the value in the combo data list: then
+	 * select the value else: then select the first item if items exists else :
+	 * then set the value to combo
+	 * 
+	 * @param value
+	 * @param combo
+	 * @param listParam
+	 * @param isCascade
+	 * @param comboData
+	 */
+	private void dealWithValueNotInComboList(Object value, Combo combo,
+			ScalarParameter listParam, boolean isCascade, Object comboData) {
+		if (!isCascade
+				|| (isCascade && isContainValue(listParam.getDefaultObject(),
+						comboData))) {
+			combo.setText(value == null ? NULL_VALUE_STR : value.toString());
+			listParam.setSelectionValue(combo.getText());
+			lastConfigValues.put(paramterHandleName, combo.getText());
+		} else {
+			if (combo.getItemCount() > 0) {
+				combo.select(0);
+				listParam.setSelectionValue(combo.getText());
+				lastConfigValues.put(paramterHandleName, combo.getData(String
+						.valueOf(combo.getSelectionIndex())));
+			} else {
+				lastConfigValues.put(paramterHandleName, null);
+			}
+
+		}
+	}
+
+	/**
+	 * 
+	 * set the default selected item in combo
+	 * 
+	 * @param selectIndex
+	 *            :indicate which item will be selected
+	 * @param combo
+	 *            : Combo
+	 * 
+	 */
+	protected void setSelectValueAfterInitCombo(int selectIndex, Combo combo) {
+		boolean found = dealWithValueInComboList(selectIndex, defaultValue,
+				combo, parameter);
+		if (!found) {
+			dealWithValueNotInComboList(defaultValue, combo, parameter,
+					isCascade, valueList);
+		}
+	}
+
+	/**
+	 * If value in combo data list ,then select it and return true; else do
+	 * nothing and return false
+	 * 
+	 * @param selectIndex
+	 *            : indicate which item will be selected
+	 * @param value
+	 *            : the value which will be selected
+	 * @param combo
+	 * @param listParam
+	 * @return
+	 */
+
+	private boolean dealWithValueInComboList(int selectIndex, Object value,
+			Combo combo, ScalarParameter listParam) {
+		boolean found = false;
+		if (selectIndex > 0) {
 			combo.select(selectIndex);
-			paramValues.put( listParam.getHandle( ).getName( ),
-					combo.getData( String.valueOf(combo.getSelectionIndex( )) ));
-			listParam.setSelectionValue(value == null ? null : value);
+			lastConfigValues.put(paramterHandleName,
+					combo.getData(String.valueOf(combo.getSelectionIndex())));
+			listParam.setSelectionValue(lastConfigValues
+					.get(paramterHandleName));
 			found = true;
 			return found;
 		}
-		for ( int i = 0; i < combo.getItemCount( ); i++ )
-		{
-			Object data = combo.getData( String.valueOf(i) );
-			if (value == data || ( value != null && value.equals( data ) ) )
-			{
-				combo.select( i );
-				paramValues.put( listParam.getHandle( ).getName( ),
-						combo.getData( String.valueOf(combo.getSelectionIndex( )) ));
-				listParam.setSelectionValue(value == null ? null : value);
+		for (int i = 0; i < combo.getItemCount(); i++) {
+			Object data = combo.getData(String.valueOf(i));
+			if (value == data || (value != null && value.equals(data))) {
+				combo.select(i);
+				lastConfigValues.put(paramterHandleName, combo.getData(String
+						.valueOf(combo.getSelectionIndex())));
+				listParam.setSelectionValue(lastConfigValues
+						.get(paramterHandleName));
 				found = true;
 				break;
 			}
 		}
-		return found;		
+		return found;
 	}
-	
-	private Object getPreSetValue(final  ScalarParameter param )
-	{
-		Object value = null;
-		try
-		{
-			if ( param.getDefaultValue( ) != null )
-				value = param.converToDataType( param.getDefaultValue( ) );
-			
-			if(param.getDefaultValues().size()>0)
-			{
-				if(param.getDefaultValues().get(0) instanceof Date)
-				{
-					value = param.getDefaultValues().get(0);
-				}
-			}
-		}
-		catch ( BirtException e )
-		{
+
+	protected void initListValue(Object value,
+			org.eclipse.swt.widgets.List list, ScalarParameter listParam) {
+		List<Object> newValueList = new ArrayList<Object>();
+		List<Object> oldvalueList = new ArrayList<Object>();
+
+		if (value instanceof Object[]) {
+			oldvalueList = Arrays.asList((Object[]) value);
+		} else {
+			oldvalueList.add(value);
 		}
 
-		if ( paramValues.containsKey( param.getHandle( ).getName( ) ) )
-		{
-			value = paramValues.get( param.getHandle( ).getName( ) );
-
-			if ( value != null )
-			{
-				param.setSelectionValue( value.toString( ) );
+		for (int i = 0; i < list.getItemCount(); i++) {
+			Object item = list.getData(list.getItem(i));
+			if (oldvalueList.indexOf(item) >= 0) {
+				list.select(i);
+				newValueList.add(list.getData(list.getItem(i)));
 			}
 		}
-		
-		return value;
+		lastConfigValues.put(listParam.getHandle().getName(),
+				newValueList.toArray(new Object[newValueList.size()]));
 	}
-	
-	//used for cascade combo
-	private boolean isCascadeCombo(ListingParameter listParam)
-	{
+
+	protected void doWithCascadeGroup() {
+		if (isCascadeGroup) {
+			if (cascadeGroup.getPostParameter(parameter) != null) {
+				cascadingParamValueChanged(cascadeGroup, parameter);
+			}
+		}
+	}
+
+	protected void prepareValueList() {
+		boolean containsBlank = false;
+		boolean containsNull = false;
+
+		for (Object o : parameter.getValueList()) {
+			Object choiceValue = ((IParameterSelectionChoice) o).getValue();
+			if (InputParameterSelectionChoice.BLANKVALUECHOICE.getValue()
+					.equals(choiceValue))
+				containsBlank = true;
+			if (null == choiceValue)
+				containsNull = true;
+		}
+
+		if (isStringType && !isRequired && !containsBlank) {
+			valueList.add(InputParameterSelectionChoice.BLANKVALUECHOICE);
+		}
+		valueList.addAll(parameter.getValueList());
+
+		dealCascade();
+
+		if (!isRequired && !containsNull) {
+			valueList.add(InputParameterSelectionChoice.NULLVALUECHOICE);
+		}
+	}
+
+	/**
+	 * If parameter is in cascade group and the parameter not the first item in
+	 * group : then do nothing; else then if default value not in value
+	 * list,then add it to value list.
+	 */
+	private void dealCascade() {
+		isCascade = isCascadeParameter(parameter);
+		if (!isCascade) {
+			addDefaultToValueList(
+					formatString(parameter.getDefaultValue(), parameter),
+					parameter.getDefaultObject(), valueList);
+		}
+	}
+
+	/**
+	 * If defaultValue is not null and it is in the list, then construct a new
+	 * SelectionChoice with defaultValue and add it to the list
+	 * 
+	 * @param defaultValueLabel
+	 * @param defaultValue
+	 * @param list
+	 */
+	private void addDefaultToValueList(final String defaultValueLabel,
+			final Object defaultValue, List list) {
+		if (performed) {
+			return;
+		}
+		boolean contains = isContainValue(defaultValue, list);
+
+		if (!contains && defaultValue != null) {
+			IParameterSelectionChoice choice = new InternalParameterSelectionChoice(
+					defaultValueLabel, defaultValue);
+			list.add(choice);
+		}
+		performed = true;
+	}
+
+	/**
+	 * To check that whether the defaultValue is in the value list If in
+	 * list,return true;else return false.
+	 * 
+	 * @param defaultValue
+	 * @param list
+	 * @return
+	 */
+	private boolean isContainValue(Object defaultValue, List list) {
 		boolean result = false;
-		IParameterGroup group = listParam.getParentGroup();
-		if(group != null && group instanceof CascadingParameterGroup)
-		{
-			List child = listParam.getParentGroup().getChildren();
-			if(child != null && child.size()>1)
-			{
-				for(int i =1;i<child.size();i++)
-				{
-					if(listParam.equals(child.get(i)))
-					{
+		for (int i = 0; i < list.size(); i++) {
+			Object obj = ((IParameterSelectionChoice) (list.get(i))).getValue();
+			if (obj != null && obj.equals(defaultValue)) {
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+
+	private boolean isContainValue(Object defaultValue, String[] items) {
+		for (int i = 0; i < items.length; i++) {
+			if (defaultValue == items[i] || defaultValue.equals(items[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * If the value is in the data,return true;else return false
+	 * 
+	 * @param value
+	 * @param comboData
+	 * @return
+	 */
+	protected boolean isContainValue(Object value, Object data) {
+		boolean result = false;
+		if (data instanceof List) {
+			result = isContainValue(value, (List) data);
+		} else if (data instanceof String[]) {
+			result = isContainValue(value, (String[]) data);
+		}
+		return result;
+
+	}
+
+	/**
+	 * test whether this ScalarParameter is used in cascade group If the param
+	 * is the first item of group,then return false.
+	 * 
+	 * @param listParam
+	 * @return
+	 */
+	private boolean isCascadeParameter(ScalarParameter param) {
+		boolean result = false;
+		IParameterGroup group = param.getParentGroup();
+		if (group != null && group instanceof CascadingParameterGroup) {
+			List child = param.getParentGroup().getChildren();
+			if (child != null && child.size() > 1) {
+				for (int i = 1; i < child.size(); i++) {
+					if (param.equals(child.get(i))) {
 						result = true;
 						break;
 					}
@@ -872,510 +1158,248 @@ public class InputParameterDialog extends BaseDialog
 			}
 		}
 		return result;
-		
 	}
-	
-	//used fo cascade combo
-	private boolean isCanSetComboxText(final Object defaultValue, List list )
-	{
-		boolean result = false;
-		for (int i = 0; i < list.size(); i++) {
-			try {
-				Object obj = ((IParameterSelectionChoice) (list.get(i)))
-						.getValue();
-				if (obj == null) {
-					continue;
+
+	protected void addCascadeParamterRelation() {
+		if (isCascadeGroup) {
+			if (cascadeGroup.getPreParameter(parameter) != null) {
+				parameterDialog.addPostParamter(
+						cascadeGroup.getPreParameter(parameter), this);
+			}
+		}
+	}
+
+	private Map<IParameter, SelectionParameterControlHelper> getPostParamList() {
+		return parameterDialog.getPostParamLists();
+	}
+
+	protected void addItemForControlReset(String data) {
+		if (EMPTY_VALUE_STR.equals(data) || NULL_VALUE_STR.equals(data)) {
+			controlResetItems.add(0, data);
+		}
+	}
+
+	private void emptyControlItem() {
+		if (getControl() instanceof Combo) {
+			((Combo) getControl()).setItems(controlResetItems
+					.toArray(new String[controlResetItems.size()]));
+		} else if (getControl() instanceof org.eclipse.swt.widgets.List) {
+			((org.eclipse.swt.widgets.List) getControl())
+					.setItems(controlResetItems
+							.toArray(new String[controlResetItems.size()]));
+		}
+	}
+}
+
+
+class ComboParameterControlHelper extends SelectionParameterControlHelper {
+
+	public ComboParameterControlHelper(InputParameterDialog dialog) {
+		super(dialog);
+	}
+
+	private Combo combo;
+
+	Control getControl() {
+		return combo;
+	}
+
+	protected void createParameterControl() {
+		createCombo();
+	}
+
+	private void createCombo() {
+		createRawCombo();
+		initCombo();
+	}
+
+	private void createRawCombo() {
+		int style = SWT.BORDER;
+		if (!(parameter instanceof ComboBoxParameter)) {
+			style |= SWT.READ_ONLY;
+		}
+		combo = new Combo(parent, style);
+		combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		combo.setVisibleItemCount(30);
+
+		combo.addFocusListener(new FocusListener() {
+
+			public void focusGained(FocusEvent e) {
+
+			}
+
+			public void focusLost(FocusEvent e) {
+				if (!(parameter instanceof ComboBoxParameter)) {
+					return;
 				}
-				if (obj.equals(defaultValue)) {
-					result = true;
-					break;
+				Combo combo = (Combo) e.getSource();
+				if (combo.indexOf(combo.getText()) < 0) {
+					try {
+						lastConfigValues.put(paramterHandleName,
+								parameter.converToDataType(combo.getText()));
+					} catch (BirtException e1) {
+						MessageDialog.openError(
+								combo.getShell(),
+								Messages.getString("InputParameterDialog.err.invalidValueTitle"), //$NON-NLS-1$
+								Messages.getFormattedString(
+										"InputParameterDialog.err.invalidValue", //$NON-NLS-1$
+										new String[] {
+												combo.getText(),
+												parameter.getHandle()
+														.getDataType() }));
+						return;
+					}
+				} else {
+					lastConfigValues.put(paramterHandleName, combo
+							.getData(String.valueOf(combo.indexOf(combo
+									.getText()))));
 				}
-			} catch (Exception e) {
+
+				// doWithCascadeGroup();
 			}
-		}
-		return result;
-	}
-	
-	private boolean isCanSetComboxText(Object defaultValue,String[] comboItems)
-	{
-		for(int i = 0;i<comboItems.length;i++)
-		{
-			
-			if ( defaultValue == comboItems[i] ||  defaultValue.equals( comboItems[i] ) ) 
-			{
-				return true;
+		});
+
+		combo.addSelectionListener(new SelectionListener() {
+
+			public void widgetDefaultSelected(SelectionEvent e) {
 			}
-		}
-		
-		return false;
-	}
-	
-	private boolean isCanSet2Combo(Object value,Object comboData)
-	{
-		boolean result = false;
-		if(comboData instanceof List)
-		{
-			result = isCanSetComboxText(value, (List)comboData);
-		}else if(comboData instanceof String[])
-		{
-			result = isCanSetComboxText(value, (String[])comboData);
-		}
-		return result;
-			
+
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo = (Combo) e.getSource();
+				if (combo.getSelectionIndex() != -1) {
+					lastConfigValues.put(paramterHandleName, combo
+							.getData(String.valueOf(combo.getSelectionIndex())));
+				}
+				doWithCascadeGroup();
+			}
+		});
 	}
 
-	private void createList( Composite container,
-			final ListingParameter listParam )
-	{
-		boolean isRequired = listParam.getHandle( ).isRequired( );
-		boolean isStringType = listParam.getHandle( )
-				.getDataType( )
-				.equals( DesignChoiceConstants.PARAM_TYPE_STRING );
-		boolean containsBlank = false;
-		boolean containsNull = false;
+	private void initCombo() {
+		int selectIndex = -1;
+		boolean nullAdded = false;
 
-		Object value = null;
-		try
-		{
-			value = listParam.converToDataType( listParam.getDefaultValues( ) == null ? new Object[0]
-					: listParam.getDefaultValues( ).toArray( ) );
-		}
-		catch ( BirtException e )
-		{
-		}
+		// add data to combo,compare whether the default value in data list
+		for (IParameterSelectionChoice choice : valueList) {
+			String label = getFormatLabelString(choice, parameter);
+			if (choice.getValue() == null && choice.getLabel() == null) {
+				if (!isRequired && !nullAdded) {
+					combo.add(NULL_VALUE_STR);
+					combo.setData(String.valueOf(combo.getItemCount() - 1),
+							null);
+					addItemForControlReset(NULL_VALUE_STR);
+					nullAdded = true;
+				}
+			} else {
+				combo.add(label);
+				combo.setData(String.valueOf(combo.getItemCount() - 1),
+						choice.getValue());
 
-		if ( paramValues.containsKey( listParam.getHandle( ).getName( ) ) )
-		{
-			value = paramValues.get( listParam.getHandle( ).getName( ) );
-
-			if ( value != null )
-			{
-				listParam.setSelectionValue( value );
+				addItemForControlReset(label);
+				// If this choice is the default value,mark current choice index
+				if (choice.getValue() != null
+						&& choice.getValue().equals(defaultValue)
+						&& choice.getLabel() != null
+						&& !choice.getLabel().equals(
+								InputParameterSelectionChoice.BLANKVALUECHOICE
+										.getValue())) {
+					selectIndex = combo.getItemCount() - 1;
+				}
 			}
 		}
 
-		ListViewer listViewer = new ListViewer( container );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		if (defaultValue == null) {
+			if (!isRequired) {
+				combo.select(combo.getItemCount() - 1);
+			}
+			parameter.setSelectionValue(null);
+			lastConfigValues.put(paramterHandleName, null);
+		} else {
+			setSelectValueAfterInitCombo(selectIndex, combo);
+		}
+
+		// deal cascade
+		addCascadeParamterRelation();
+	}
+
+}
+
+class ListParameterControlHelper extends SelectionParameterControlHelper {
+	private ListViewer listViewer;
+
+	Control getControl() {
+		return listViewer.getList();
+	}
+
+	public ListParameterControlHelper(InputParameterDialog dialog) {
+		super(dialog);
+	}
+
+	protected void createParameterControl() {
+		initControlLabelLayout();
+		createListParamer();
+	}
+
+	public void createListParamer() {
+		createRawListViewer();
+		initListViewer();
+	}
+
+	private void initControlLabelLayout() {
+		GridData labelLayout = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		controlLabel.setLayoutData(labelLayout);
+	}
+
+	private void createRawListViewer() {
+		listViewer = new ListViewer(parent);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.heightHint = 70;
-		listViewer.getList( ).setLayoutData( gd );
+		listViewer.getList().setLayoutData(gd);
 
-		for ( Object o : listParam.getValueList( ) )
-		{
-			Object choiceValue = ( (IParameterSelectionChoice) o ).getValue( );
-			if ( blankValueChoice.getValue( ).equals( choiceValue ) )
-				containsBlank = true;
-			if ( null == choiceValue )
-				containsNull = true;
-		}
+		listViewer.getList().addSelectionListener(new SelectionListener() {
 
-		List list = new ArrayList( );
-		if ( isStringType && !isRequired && !containsBlank )
-		{
-			list.add( blankValueChoice );
-		}
-		list.addAll( listParam.getValueList( ) );
-		checkParam( formatString( listParam.getDefaultValue( ), listParam ),
-				listParam.getDefaultObject( ),
-				list );
-
-		if ( !isRequired && !containsNull )
-		{
-			list.add( InputParameterDialog.nullValueChoice );
-		}
-
-		for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
-		{
-			IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
-//			String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
-//					: choice.getLabel( ) );
-			String label = getLabelString(choice,listParam);
-			if ( label != null )
-			{
-				listViewer.getList( ).add( label );
-				listViewer.getList( ).setData( label, choice.getValue( ) );
-			}
-		}
-
-		if ( value == null && !isRequired )
-		{
-			listViewer.getList( )
-					.select( listViewer.getList( ).getItemCount( ) - 1 );
-		}
-		else
-		{
-			initListValue(value, listViewer.getList(), listParam);
-
-		}
-
-		if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
-		{
-			CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
-			if ( group.getPreParameter( listParam ) != null )
-			{
-				postParamLists.put( group.getPreParameter( listParam ),
-						listViewer.getList( ) );
-			}
-		}
-
-		listViewer.getList( ).addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
+			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List) e.getSource( );
+			public void widgetSelected(SelectionEvent e) {
+				org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List) e
+						.getSource();
 
-				String[] strs = list.getSelection( );
-				if ( strs != null && strs.length > 0 )
-				{
-					List array = new ArrayList( );
-					for ( int i = 0; i < strs.length; i++ )
-					{
-						Object obj = list.getData( strs[i] );
-						array.add( obj );
+				String[] strs = list.getSelection();
+				if (strs != null && strs.length > 0) {
+					Object[] selectDatas = new Object[strs.length];
+					for (int i = 0; i < strs.length; i++) {
+						selectDatas[i] = list.getData(strs[i]);
 					}
-					Object[] objs = new Object[array.size( )];
-					array.toArray( objs );
-					paramValues.put( listParam.getHandle( ).getName( ), objs );
-				}
-				else
-				{
-					paramValues.remove( listParam.getHandle( ).getName( ) );
+					lastConfigValues.put(paramterHandleName, selectDatas);
+				} else {
+					lastConfigValues.remove(paramterHandleName);
 				}
 
-				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
-				{
-					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
-					if ( group.getPostParameter( listParam ) != null )
-					{
-						// try
-						// {
-						// createParameters( );
-						// }
-						// catch ( RuntimeException e1 )
-						// {
-						// e1.printStackTrace( );
-						// }
-						cascadingParamValueChanged( group, listParam );
-					}
-				}
+				doWithCascadeGroup();
 			}
-		} );
-	}
-	
-	private void initListValue(Object value,org.eclipse.swt.widgets.List list,ListingParameter listParam)
-	{
-		List newValueList = new ArrayList( );
-		List oldvalueList = new ArrayList( );
-
-		if ( value instanceof Object[] )
-		{
-			oldvalueList = Arrays.asList( (Object[]) value );
-		}
-		else
-		{
-			oldvalueList.add( value );
-		}
-
-		for ( int i = 0; i < list.getItemCount( ); i++ )
-		{
-			Object item = list.getData( list.getItem( i ) );
-			if ( oldvalueList.indexOf( item ) >= 0 )
-			{
-				list.select( i );
-				newValueList.add( list.getData( list.getItem( i ) ) );
-			}
-		}
-		paramValues.put( listParam.getHandle( ).getName( ),
-				newValueList.toArray( new Object[newValueList.size( )] ) );
+		});
 	}
 
-	private void cascadingParamValueChanged( CascadingParameterGroup group,
-			ListingParameter listParam )
-	{
-
-		clearPostParamList( group, listParam );
-		if ( postParamLists.containsKey( listParam )
-				&& paramValues.containsKey( listParam.getHandle( ).getName( ) ) )
-		{
-			Object value = paramValues.get( listParam.getHandle( ).getName( ) );
-			listParam.setSelectionValue( value );
-			ListingParameter postParam = (ListingParameter) group.getPostParameter( listParam );
-			if ( postParam == null )
-			{
-				return;
-			}
-			Control control = postParamLists.get( listParam );
-			setControlItems( control, new String[0], true );
-			int itemIndex = 0;
-			for ( Iterator iterator = postParam.getValueList( ).iterator( ); iterator.hasNext( ); )
-			{
-				IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
-				if ( choice.getValue( ) == null )
-				{
-					continue;
-				}
-//				String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
-//						: choice.getLabel( ) );
-				String label = getLabelString(choice,listParam);
-				if ( label != null )
-				{
-					itemIndex = addControlItem( control, label );
-					if(control instanceof Combo)
-					{
-						control.setData(String.valueOf(itemIndex),choice.getValue( ) );
-						itemIndex++;
-					}else
-					{						
-						control.setData( label, choice.getValue( ) );
-					}
-				}
-			}
-
-			processPostParator( postParam, control );
-
-			cascadingParamValueChanged( group, postParam );
-		}
-	}
-
-	private void setControlItems( Control control, String[] items,
-			boolean copyEmptyValues )
-	{
-
-		List list = new ArrayList( );
-		list.addAll( Arrays.asList( items ) );
-
-		if ( control instanceof Combo )
-		{
-			Combo combo = (Combo) control;
-			if ( copyEmptyValues )
-			{
-				if ( combo.indexOf( NULL_VALUE_STR ) > -1 )
-				{
-					list.add( 0, NULL_VALUE_STR );
-				}
-				if ( combo.indexOf( blankValueChoice.getLabel( ) ) > -1 )
-				{
-					list.add( 0, blankValueChoice.getLabel( ) );
-				}
-			}
-			( (Combo) control ).setItems( (String[]) list.toArray( new String[0] ) );
-		}
-		if ( control instanceof org.eclipse.swt.widgets.List )
-		{
-			org.eclipse.swt.widgets.List listControl = (org.eclipse.swt.widgets.List) control;
-			if ( copyEmptyValues )
-			{
-				if ( listControl.indexOf( NULL_VALUE_STR ) > -1 )
-				{
-					list.add( 0, NULL_VALUE_STR );
-				}
-				if ( listControl.indexOf( blankValueChoice.getLabel( ) ) > -1 )
-				{
-					list.add( 0, blankValueChoice.getLabel( ) );
-				}
-			}
-			( (org.eclipse.swt.widgets.List) control ).setItems( (String[]) list.toArray( new String[0] ) );
-		}
-	}
-
-	private int addControlItem( Control control, String item )
-	{
-		int itemIndex = 0;
-		if ( control instanceof Combo )
-		{
-			( (Combo) control ).add( item );
-			itemIndex = ( (Combo) control ).getItemCount() -1;
-		}
-		if ( control instanceof org.eclipse.swt.widgets.List )
-		{
-			( (org.eclipse.swt.widgets.List) control ).add( item );
-			itemIndex = ( (org.eclipse.swt.widgets.List) control ).getItemCount() - 1;
-		}
-		return itemIndex;
-	}
-
-	private void processPostParator( ListingParameter listParam, Control control )
-	{
-		Object value = paramValues.get( listParam.getHandle( ).getName( ) );
-
-		boolean found = false;
-		if ( control instanceof Combo )
-		{
-			Combo combo = (Combo) control;
-			
-			found = dealWithValueInComboList(-1,value, combo, listParam);
-			
-			if ( !found )
-			{
-				try
-				{
-					Object obj = listParam.converToDataType( listParam.getDefaultValue( ) );
-					if ( obj == null )
-					{
-						listParam.setSelectionValue( null );
-						paramValues.put( listParam.getHandle( ).getName( ),
-								null );
-					}
-					else
-					{
-						boolean isCascade = isCascadeCombo(listParam);
-						dealWithValueNotInComboList(obj, combo, listParam, isCascade, combo.getItems());
-					}
-				}
-				catch ( BirtException e )
-				{
-					//
-				}
-
+	private void initListViewer() {
+		for (Iterator iterator = valueList.iterator(); iterator.hasNext();) {
+			IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator
+					.next();
+			String label = getFormatLabelString(choice, parameter);
+			if (label != null) {
+				listViewer.getList().add(label);
+				listViewer.getList().setData(label, choice.getValue());
+				addItemForControlReset(label);
 			}
 		}
-		if ( control instanceof org.eclipse.swt.widgets.List )
-		{
-			org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List) control;
-			initListValue(value, list, listParam);
-		}
-	}
 
-	private void clearPostParamList( CascadingParameterGroup group,
-			IParameter param )
-	{
-		if ( postParamLists.containsKey( param ) )
-		{
-			setControlItems( postParamLists.get( param ), new String[0], true );
-			clearPostParamList( group, group.getPostParameter( param ) );
+		if (defaultValue == null && !isRequired) {
+			listViewer.getList()
+					.select(listViewer.getList().getItemCount() - 1);
+		} else {
+			initListValue(defaultValue, listViewer.getList(), parameter);
 		}
-	}
 
-	public Map getParameters( )
-	{
-		for ( IParameterAdapter adapter : this.paramAdatpers )
-			this.paramValues.put( adapter.getName( ), adapter.getValue( ) );
-		return this.paramValues;
-	}
-
-	private String formatString( String str, ScalarParameter para )
-	{
-		if(str == null || "".equals(str.trim()))//$NON-NLS-1$
-		{
-			return "";//$NON-NLS-1$
-		}
-		ScalarParameterHandle paraHandle = para.getHandle( );
-		String formatCategroy = paraHandle.getCategory( );
-		String formatPattern = paraHandle.getPattern( );
-		ULocale formatLocale = null;
-		Object formatValue = paraHandle.getProperty( IScalarParameterModel.FORMAT_PROP );
-		if ( formatValue instanceof FormatValue )
-		{
-			PropertyHandle propHandle = paraHandle.getPropertyHandle( IScalarParameterModel.FORMAT_PROP );
-			FormatValue formatValueToSet = (FormatValue) formatValue;
-			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
-			formatLocale = formatHandle.getLocale( );
-		}
-		if ( formatLocale == null )
-		{
-			formatLocale = ULocale.getDefault( );
-		}
-		String type = paraHandle.getDataType( );
-		formatPattern = isCustom( formatCategroy ) ? formatPattern
-				: formatCategroy;
-		if ( formatPattern == null )
-		{
-			return str;
-		}
-		String formatStr = ""; //$NON-NLS-1$
-		try
-		{
-			if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
-			{
-				formatStr = new StringFormatter( formatPattern, formatLocale ).format( str );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
-			{
-				formatPattern = formatPattern.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATETIME_UNFORMATTED
-						: formatPattern;
-				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date) para.converToDataType( str ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
-			{
-				formatPattern = formatPattern.equals( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATE_UNFORMATTED
-						: formatPattern;
-				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date) para.converToDataType( str ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
-			{
-				formatPattern = formatPattern.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED //$NON-NLS-1$
-						: formatPattern;
-				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date) para.converToDataType( str ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
-					|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
-			{
-				double value = Double.parseDouble( str );
-				if ( Double.isInfinite( value ) )
-					formatStr = str;
-				else
-				{
-					if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED.equals( formatPattern ) )
-					{
-						formatPattern = null;
-					}
-					formatStr = new NumberFormatter( formatPattern,
-							formatLocale ).format( value );
-				}
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
-			{
-				int value = Integer.parseInt( str );
-				formatStr = new NumberFormatter( formatPattern, formatLocale ).format( value );
-			}
-		}
-		catch ( Exception e )
-		{
-			formatStr = str;
-		}
-		if ( formatStr == null )
-		{
-			return str;
-		}
-		return UIUtil.convertToGUIString( formatStr );
-	}
-
-	private boolean isCustom( String formatCategroy )
-	{
-		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( formatCategroy ) )
-		{
-			return true;
-		}
-		return false;
-	}
-	
-	private String getLabelString(IParameterSelectionChoice choice,ScalarParameter para)
-	{
-		Object value = choice.getValue( );
-		String label = choice.getLabel( );
-		if(label == null && value != null)
-		{
-			if(value instanceof Date)
-			{
-				 try {
-					 label = DataTypeUtil.toString( value );
-				} catch (BirtException e) {
-					// TODO Auto-generated catch block
-				}
-			}else
-			{
-				label = String.valueOf( value );
-			}
-		}
-		label = formatString(label, para);
-		return label; 
+		addCascadeParamterRelation();
 	}
 }
