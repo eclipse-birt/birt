@@ -176,6 +176,20 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 			size = new Dimension( MetricUtility.inchToPixel( 8.5, 11 ).x,
 					MetricUtility.inchToPixel( 8.5, 11 ).y );
 		}
+		else if ( masterPage == null
+				|| masterPage.getPageType( )
+						.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_US_LEDGER ) )
+		{
+			size = new Dimension( MetricUtility.inchToPixel( 11, 17 ).x,
+					MetricUtility.inchToPixel( 11, 17 ).y );
+		}
+		else if ( masterPage == null
+				|| masterPage.getPageType( )
+						.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_US_SUPER_B ) )
+		{
+			size = new Dimension( MetricUtility.inchToPixel( 11, 17 ).x,
+					MetricUtility.inchToPixel( 13, 19 ).y );
+		}
 		else if ( masterPage.getPageType( )
 				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_US_LEGAL ) )
 		{
@@ -187,6 +201,18 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 		{
 			size = new Dimension( MetricUtility.inchToPixel( 8.3, 11.7 ).x,
 					MetricUtility.inchToPixel( 8.3, 11.7 ).y );
+		}
+		else if ( masterPage.getPageType( )
+				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_A3 ) )
+		{
+			size = new Dimension( MetricUtility.inchToPixel( 11.7, 16.5 ).x,
+					MetricUtility.inchToPixel( 11.7, 16.5 ).y );
+		}
+		else if ( masterPage.getPageType( )
+				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_A5 ) )
+		{
+			size = new Dimension( MetricUtility.inchToPixel( 5.8, 8.3 ).x,
+					MetricUtility.inchToPixel( 5.8, 8.3 ).y );
 		}
 		else if ( masterPage.getPageType( )
 				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )
