@@ -1096,7 +1096,7 @@ public class UIUtil
 	}
 
 	public static void resetViewSelection( final EditPartViewer viewer,
-			final boolean notofyToMedia )
+			final boolean notifyToMedia )
 	{
 		final List list = new ArrayList( ( (StructuredSelection) viewer.getSelection( ) ).toList( ) );
 
@@ -1153,11 +1153,11 @@ public class UIUtil
 
 			if ( selectionType == 0 )
 			{
-				part.selectRow( selectContents, notofyToMedia );
+				part.selectRow( selectContents, notifyToMedia );
 			}
 			else if ( selectionType == 1 )
 			{
-				part.selectColumn( selectContents, notofyToMedia );
+				part.selectColumn( selectContents, notifyToMedia );
 			}
 
 		}
@@ -1167,7 +1167,7 @@ public class UIUtil
 			{
 				if ( viewer instanceof DeferredGraphicalViewer )
 					( (DeferredGraphicalViewer) viewer ).setSelection( new StructuredSelection( list ),
-							notofyToMedia );
+							notifyToMedia );
 			}
 
 		}

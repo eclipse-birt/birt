@@ -55,7 +55,9 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor#resetUIData()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor
+	 * #resetUIData()
 	 */
 	void refresh( String value )
 	{
@@ -63,38 +65,50 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 		if ( getDescriptorProvider( ) instanceof IComboDescriptorProvider )
 		{
 			String[] items = ( (IComboDescriptorProvider) getDescriptorProvider( ) ).getItems( );
-			combo.setItems( items );
-			
+			if ( combo.getItems( ) == null
+					|| !Arrays.equals( combo.getItems( ), items ) )
+				combo.setItems( items );
+
 			oldValue = ( (IComboDescriptorProvider) getDescriptorProvider( ) ).load( )
 					.toString( );
-			
+
 			boolean stateFlag = ( ( oldValue == null ) == combo.getEnabled( ) );
-			if ( stateFlag )
-				combo.setEnabled( oldValue != null );
+
 			if ( ( (IComboDescriptorProvider) getDescriptorProvider( ) ).isReadOnly( ) )
 			{
 				combo.setEnabled( false );
 			}
+			else
+			{
+				if ( stateFlag )
+					combo.setEnabled( oldValue != null );
+			}
 			String displayName = ( (IComboDescriptorProvider) getDescriptorProvider( ) ).getDisplayName( oldValue );
 			if ( displayName == null )
 			{
+				if ( oldValue != null
+						&& combo.indexOf( oldValue ) > -1
+						&& combo.getText( ).equals( oldValue ) )
+					return;
 				combo.deselectAll( );
-				if ( oldValue != null && combo.indexOf( oldValue )>-1)
-				{
-					combo.setText( oldValue );
-				}
+				combo.setText( oldValue );
 				return;
 			}
 			else
-				combo.select( Arrays.asList( items )
-						.indexOf( displayName ) );
+			{
+				int index = Arrays.asList( items ).indexOf( displayName );
+				if ( combo.getSelectionIndex( ) != index )
+					combo.select( index );
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
 	 */
 	public Control getControl( )
 	{
@@ -104,7 +118,8 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public Control createControl( Composite parent )
 	{
@@ -159,7 +174,6 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 			WidgetUtil.processError( combo.getShell( ), e );
 		}
 	}
-
 
 	public void save( Object value ) throws SemanticException
 	{

@@ -1331,7 +1331,7 @@ abstract public class ReportEditorWithPalette extends
 		}
 		else if ( type == IAttributeViewPage.class )
 		{
-			AttributeViewPage page = new AttributeViewPage( );
+			AttributeViewPage page = new AttributeViewPage( getModel( ) );
 			return page;
 		}
 		else if ( type == IModelEventManager.class )
