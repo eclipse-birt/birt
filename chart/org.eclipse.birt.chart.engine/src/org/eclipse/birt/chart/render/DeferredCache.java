@@ -702,55 +702,82 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	{
 		this.bAntialiasing = antialiasing;
 	}
-	
-	public int compareTo( DeferredCache other )
+
+	private int getMarkerZOrder( )
 	{
-		MarkerInstruction markerA = null;
-		MarkerInstruction markerB = null;		
-		if ( getAllMarkers( ).size( ) == 0 )
+		if ( getAllMarkers( ).size( ) > 0 )
 		{
-			return 1;
+			for ( MarkerInstruction marker : getAllMarkers( ) )
+			{
+				if ( marker != null )
+				{
+					return marker.getMarkerZOrder( );
+				}
+			}
 		}
 
-		for ( MarkerInstruction marker : getAllMarkers( ) )
+		return -1;
+	}
+
+	private int getConnectionLineZOrder( )
+	{
+		if ( getAllConnectionLines( ).size( ) > 0 )
 		{
-			if ( marker != null )
+			for ( LineRenderEvent line : getAllConnectionLines( ) )
 			{
-				markerA = marker;
-				break;
+				if ( line != null )
+				{
+					return line.getZOrder( );
+				}
 			}
 		}
-		if ( markerA == null )
+		return -1;
+	}
+
+	private int getMarkerNLineZOrder( )
+	{
+		int zOrder = getMarkerZOrder( );
+		if ( zOrder >= 0 )
 		{
-			return 1;
-		}
-		for ( MarkerInstruction marker : other.getAllMarkers( ) )
-		{
-			if ( marker != null )
-			{
-				markerB = marker;
-				break;
-			}
-		}
-		if ( markerB == null )
-		{
-			return -1;
-		}
-		if ( markerA.getMarkerZOrder( ) != markerB.getMarkerZOrder( ) )
-		{
-			return ( markerA.getMarkerZOrder( ) - markerB.getMarkerZOrder( ) );
+			return zOrder;
 		}
 		else
 		{
-			if ( markerA.getMarkerSize( ) - markerB.getMarkerSize( ) > 0 )
+			return getConnectionLineZOrder( );
+		}
+	}
+
+	private double getMarkerSize( )
+	{
+		if ( getAllMarkers( ).size( ) > 0 )
+		{
+			for ( MarkerInstruction marker : getAllMarkers( ) )
 			{
-				return -1;
+				if ( marker != null )
+				{
+					return marker.getMarkerSize( );
+				}
 			}
-			else
+		}
+		return 0;
+	}
+
+	public int compareTo( DeferredCache other )
+	{
+		if ( getMarkerNLineZOrder( ) != other.getMarkerNLineZOrder( ) )
+		{
+			return ( getMarkerNLineZOrder( ) - other.getMarkerNLineZOrder( ) );
+		}
+		else
+		{
+			if ( other.getMarkerSize( ) - getMarkerSize( ) > 0 )
 			{
 				return 1;
 			}
+			else
+			{
+				return -1;
+			}
 		}
 	}
-	
 }
