@@ -76,12 +76,17 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISharedImages;
@@ -108,7 +113,53 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	private PaletteViewerProvider provider;
 	private FlyoutPaletteComposite splitter;
 	private CustomPalettePage page;
+
 	// private ButtonPaneComposite bPane;
+
+	// a temporary flag, used for checking if it needs to active the current
+	// editor part.
+	private static boolean shellActiveFlag = false;
+
+	// record the last activated shell, used for dataset or datasource selection.
+	private static Shell lastActiveShell = null;
+
+	// Used for multiple window case. When the shell is activated and it's not
+	// the last recored activated shell, then active the current active editor.
+	private ShellListener shellActiveListener = new ShellAdapter( ) {
+
+		public void shellActivated( ShellEvent e )
+		{
+			if ( !shellActiveFlag )
+			{
+				shellActiveFlag = true;
+				Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+					public void run( )
+					{
+						if ( lastActiveShell == getSite( ).getShell( ) )
+						{
+							// don't active the current active editor
+							shellActiveFlag = false;
+							return;
+						}
+						else
+						{
+							lastActiveShell = getSite( ).getShell( );
+							IEditorPart editor = UIUtil.getActiveEditor( true );
+							if ( editor instanceof IPartListener )
+							{
+								// update the SessionHandleAdapter's model.
+								// If old selection is dataset or datasource,
+								// the selection status will lost.
+								( (IPartListener) editor ).partActivated( editor );
+							}
+							shellActiveFlag = false;
+						}
+					}
+				} );
+			}
+		};
+	};
 
 	/**
 	 * the list of action ids that are to CommandStack actions
@@ -587,6 +638,10 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 
 		getPreferenceStore( ).addPropertyChangeListener( this );
 
+		getSite( ).getShell( ).addShellListener( shellActiveListener );
+
+		lastActiveShell = getSite( ).getShell( );
+
 		activateDesignerEditPart( );
 	}
 
@@ -603,14 +658,19 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 */
 	public void dispose( )
 	{
-		// remove selection listener
+
+		if ( getSite( ) != null && !getSite( ).getShell( ).isDisposed( ) )
+		{
+			getSite( ).getShell( ).removeShellListener( shellActiveListener );
+		}
 
 		if ( fBreadcrumb != null )
 		{
 			fBreadcrumb.dispose( );
 		}
-		
+
 		getPreferenceStore( ).removePropertyChangeListener( this );
+		// remove selection listener
 		getSite( ).getWorkbenchWindow( )
 				.getSelectionService( )
 				.removeSelectionListener( getSelectionListener( ) );
@@ -636,7 +696,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		// ( (ReportMultiPageEditorSite)getSite()).dispose();
 		deActivateDesignerEditPart( );
 
-		
 	}
 
 	private void deActivateDesignerEditPart( )

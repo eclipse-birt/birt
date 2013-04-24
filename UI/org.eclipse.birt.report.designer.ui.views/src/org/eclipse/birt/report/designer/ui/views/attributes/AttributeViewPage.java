@@ -263,7 +263,7 @@ public class AttributeViewPage extends Page implements
 	 */
 	public void setFocus( )
 	{
-		Display.getDefault( ).asyncExec( new Runnable( ) {
+		Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 			public void run( )
 			{
@@ -359,7 +359,7 @@ public class AttributeViewPage extends Page implements
 		// if ( part != null && !PART_IDS.contains( part.getSite( ).getId( ) )
 		// && !ID.equals( part.getSite( ).getId( ) )
 		// && !PaletteView.ID.equals( part.getSite( ).getId( ) ) )
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null )
+		if ( SessionHandleAdapter.getInstance( ).getModule( ) == model )
 		{
 			if ( part != null
 					&& !ReportPlugin.getDefault( )

@@ -44,7 +44,7 @@ public class MediatorImpl implements IMediator
 		globalListeners.remove( colleague );
 	}
 
-	private final List<IMediatorColleague> listeners = new LinkedList<IMediatorColleague>( );
+	private final List<IMediatorColleague> listeners = new ArrayList<IMediatorColleague>( );
 	private List<MediatorStateImpl> stack = new ArrayList<MediatorStateImpl>( );
 	private int stackPointer = 0;
 	private MediatorStateImpl currentState = new MediatorStateImpl( );

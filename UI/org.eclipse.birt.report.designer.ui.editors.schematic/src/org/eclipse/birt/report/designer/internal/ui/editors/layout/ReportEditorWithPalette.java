@@ -789,8 +789,11 @@ abstract public class ReportEditorWithPalette extends
 			{
 				return null;
 			}
-			TableEditPart part = (TableEditPart) getGraphicalViewer( ).getEditPartRegistry( )
+			Object object = getGraphicalViewer( ).getEditPartRegistry( )
 					.get( tableParent );
+			if ( !( object instanceof TableEditPart ) )
+				return null;
+			TableEditPart part = (TableEditPart) object;
 			int[] selectRows = new int[]{
 				adapter.getRowNumber( )
 			};
