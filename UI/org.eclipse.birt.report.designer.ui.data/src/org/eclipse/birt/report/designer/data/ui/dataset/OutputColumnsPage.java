@@ -27,6 +27,7 @@ import org.eclipse.birt.report.data.adapter.impl.DataSetMetaDataHelper;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.data.ui.util.ControlProvider;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetExceptionHandler;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
@@ -346,7 +347,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		}
 		catch ( BirtException e )
 		{
-			ExceptionHandler.handle( e );
+			DataSetExceptionHandler.handle( e );
 		}
 	}
 
@@ -538,7 +539,6 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				{
 					ExceptionHandler.handle( e );
 				}
-				
 				item.setAnalysis( hint.getAnalysis( ) );
 			}
 		}
@@ -569,44 +569,50 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		return null;
 	}
 
-	protected void setAnalysisTypeForColumn(  )
+	protected void setAnalysisTypeForColumn( )
 	{
-		if ( !isNewlyCreated )
+		try
 		{
-			DataSetHandle ds = ( (DataSetEditor) getContainer( ) ).getHandle( );
-			DataSetViewData[] viewData = DataSetProvider.getCurrentInstance( )
-					.getColumns( ds, true );
-
-			
-			PropertyHandle handle = ds.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
-			Iterator iter = handle.iterator( );
-			if ( iter != null )
+			if ( !isNewlyCreated )
 			{
-				while ( iter.hasNext( ) )
-				{
-					ColumnHintHandle hint = (ColumnHintHandle) iter.next( );
+				DataSetHandle ds = ( (DataSetEditor) getContainer( ) ).getHandle( );
+				DataSetViewData[] viewData = DataSetProvider.getCurrentInstance( )
+						.getColumns( ds, true );
 
-					for ( int i = 0; i < viewData.length; i++ )
+				PropertyHandle handle = ds.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
+				Iterator iter = handle.iterator( );
+				if ( iter != null )
+				{
+					while ( iter.hasNext( ) )
 					{
-						if ( viewData[i].getName( )
-								.equals( hint.getColumnName( ) ) )
+						ColumnHintHandle hint = (ColumnHintHandle) iter.next( );
+
+						for ( int i = 0; i < viewData.length; i++ )
 						{
-							if ( hint.getAnalysis( ) == null )
+							if ( viewData[i].getName( )
+									.equals( hint.getColumnName( ) ) )
 							{
-								try
+								if ( hint.getAnalysis( ) == null )
 								{
-									hint.setAnalysis( DataSetUIUtility.getDefaultAnalysisType( viewData[i].getDataTypeName( ) ) );
+									try
+									{
+										hint.setAnalysis( DataSetUIUtility.getDefaultAnalysisType( viewData[i].getDataTypeName( ) ) );
+									}
+									catch ( SemanticException e )
+									{
+										ExceptionHandler.handle( e );
+									}
 								}
-								catch ( SemanticException e )
-								{
-									ExceptionHandler.handle( e );
-								}
+								continue;
 							}
-							continue;
 						}
 					}
 				}
 			}
+		}
+		catch ( BirtException e )
+		{
+			DataSetExceptionHandler.handle( e );
 		}
 	}
 	
@@ -770,17 +776,24 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	{
 
 		DataSetViewData[] items = null;
-		if ( viewer == null || viewer.getViewer( ) == null )
+		try
 		{
-			items = DataSetProvider.getCurrentInstance( )
-					.getColumns( ( (DataSetEditor) getContainer( ) ).getHandle( ),
-							false,
-							true,
-							true );
+			if ( viewer == null || viewer.getViewer( ) == null )
+			{
+				items = DataSetProvider.getCurrentInstance( )
+						.getColumns( ( (DataSetEditor) getContainer( ) ).getHandle( ),
+								false,
+								true,
+								true );
+			}
+			else
+			{
+				items = (DataSetViewData[]) viewer.getViewer( ).getInput( );
+			}
 		}
-		else
+		catch ( BirtException e )
 		{
-			items = (DataSetViewData[]) viewer.getViewer( ).getInput( );
+			DataSetExceptionHandler.handle( e );
 		}
 
 		for ( int i = 0; i < items.length; i++ )
@@ -814,16 +827,25 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 
 		if ( viewer == null || viewer.getViewer( ) == null )
 		{
-			items = DataSetProvider.getCurrentInstance( )
-					.getColumns( ( (DataSetEditor) getContainer( ) ).getHandle( ),
-							false,
-							true,
-							true );
+			try
+			{
+				items = DataSetProvider.getCurrentInstance( )
+						.getColumns( ( (DataSetEditor) getContainer( ) ).getHandle( ),
+								false,
+								true,
+								true );
+			}
+			catch ( Exception e )
+			{
+				DataSetExceptionHandler.handle( e );
+			}
+
 		}
 		else
 		{
 			items = (DataSetViewData[]) viewer.getViewer( ).getInput( );
 		}
+
 		for ( int i = 0; items != null && i < items.length && validate; i++ )
 		{
 			newColumnNameOrAlias = items[i].getAlias( );

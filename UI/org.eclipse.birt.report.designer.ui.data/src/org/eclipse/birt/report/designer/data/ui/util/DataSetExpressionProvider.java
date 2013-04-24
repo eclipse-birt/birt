@@ -66,8 +66,15 @@ public class DataSetExpressionProvider extends ExpressionProvider
 		if ( parent instanceof DataSetHandle )
 		{
 			List list = new ArrayList( );
-			list.addAll( Arrays.asList( DataSetProvider.getCurrentInstance( )
-					.getColumns( (DataSetHandle) parent, false ) ) );
+			try
+			{
+				list.addAll( Arrays.asList( DataSetProvider.getCurrentInstance( )
+						.getColumns( (DataSetHandle) parent, false ) ) );
+			}
+			catch ( Exception e )
+			{
+				DataSetExceptionHandler.handle( e );
+			}
 			return list;
 		}
 		return super.getChildrenList( parent );

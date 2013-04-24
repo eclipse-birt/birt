@@ -37,7 +37,6 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetViewData;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
@@ -117,8 +116,10 @@ public final class DataSetProvider
 	 * @param dataSetName
 	 * @param refresh
 	 * @return
+	 * @throws BirtException 
 	 */
 	public DataSetViewData[] getColumns( String dataSetName, boolean refresh )
+			throws BirtException
 	{
 		ModuleHandle handle = Utility.getReportModuleHandle( );
 		DataSetHandle dataSet = handle.findDataSet( dataSetName );
@@ -135,8 +136,10 @@ public final class DataSetProvider
 	 * @param dataSet
 	 * @param refresh
 	 * @return
+	 * @throws BirtException 
 	 */
 	public DataSetViewData[] getColumns( DataSetHandle dataSet, boolean refresh )
+			throws BirtException
 	{
 		return getColumns( dataSet, refresh, true, false );
 	}
@@ -148,10 +151,11 @@ public final class DataSetProvider
 	 * @param useColumnHints
 	 *            Only applicable if the list is refreshed.
 	 * @return
+	 * @throws BirtException 
 	 */
 	public DataSetViewData[] getColumns( DataSetHandle dataSet,
 			boolean refresh, boolean useColumnHints,
-			boolean suppressErrorMessage )
+			boolean suppressErrorMessage ) throws BirtException
 	{
 		if ( dataSet == null )
 		{
@@ -179,7 +183,7 @@ public final class DataSetProvider
 		{
 			if ( !suppressErrorMessage )
 			{
-				ExceptionHandler.handle( e );
+				throw e;
 			}
 			columns = null;
 		}

@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.data.ui.util.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetExceptionHandler;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetExpressionProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -394,15 +396,22 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 
 	private void initColumnNames( )
 	{
-		columns = ( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( true,
-				true );
-		if ( columns != null )
+		try
 		{
-			columnExpressions = new String[columns.length];
-			for ( int n = 0; n < columns.length; n++ )
+			columns = ( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( true,
+					true );
+			if ( columns != null )
 			{
-				columnExpressions[n] = columns[n].getName( );
+				columnExpressions = new String[columns.length];
+				for ( int n = 0; n < columns.length; n++ )
+				{
+					columnExpressions[n] = columns[n].getName( );
+				}
 			}
+		}
+		catch ( BirtException e )
+		{
+			DataSetExceptionHandler.handle( e );
 		}
 	}
 	
