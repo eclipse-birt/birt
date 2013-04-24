@@ -478,6 +478,7 @@
 				<include name="org.w3c.css.sac_*.jar"/>
 				<include name="org.apache.commons.codec_*.jar"/>
 				<include name="javax.xml.stream_*.jar"/>
+				<include name="org.eclipse.orbit.mongodb_*.jar"/>
 			</fileset>
 			<fileset dir="../org.eclipse.birt.report.engine/lib">
 				<include name="*.jar"/>
@@ -632,6 +633,7 @@
 			<include name="org.w3c.css.sac_*.jar"/>
 			<include name="org.apache.commons.codec_*.jar"/>
 			<include name="javax.xml.stream_*.jar"/>
+			<include name="org.eclipse.orbit.mongodb_*.jar"/>
 		</fileset>
 		</copy>
 
