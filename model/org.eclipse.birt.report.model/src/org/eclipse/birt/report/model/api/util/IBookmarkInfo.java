@@ -13,10 +13,16 @@ package org.eclipse.birt.report.model.api.util;
 
 public interface IBookmarkInfo
 {
+	
+	public static final int CONSTANTS_TYPE = 1;
+	
+	public static final int EXPRESSION_TYPE = 2;
 
 	String getBookmark( );
 
 	String getDisplayName( );
 
 	String getElementType( );
+	
+	int getBookmarkType( );
 }
