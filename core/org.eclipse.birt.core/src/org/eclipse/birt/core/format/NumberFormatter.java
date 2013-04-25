@@ -93,7 +93,7 @@ public class NumberFormatter implements IFormatter
 	 */
 	private boolean digitSubstitution;
 
-	private RoundingMode roundingMode = RoundingMode.HALF_UP;
+	private RoundingMode roundingMode = RoundingMode.UNNECESSARY;
 
 	/**
 	 * constructor with no argument
