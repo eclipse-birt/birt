@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.QueryDefinitionUtil;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
@@ -336,9 +337,23 @@ public class RDLoad
 
 		int adjustedVersion = resolveVersionConflict( );
 		
+		if ( includeInnerID )
+		{
+			List<ResultFieldMetadata> fields = new ArrayList<ResultFieldMetadata>( targetResultClass.getFieldCount( ) - 1 );
+			for ( int i = 1; i <= targetResultClass.getFieldCount( ); i++ )
+			{
+				ResultFieldMetadata f = targetResultClass.getFieldMetaData( i );
+				if ( f.getName( ).equals( ExprMetaUtil.POS_NAME ) )
+					continue;
+				fields.add( f );
+			}
+
+			targetResultClass = new ResultClass( fields );
+		}
+		
 		return new DataSetResultSet( stream,
 				lensStream,
-				this.loadResultClass( ),
+				targetResultClass,
 				preFilteredRowIds,
 				stringTableMap,
 				index,
