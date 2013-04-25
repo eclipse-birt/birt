@@ -398,8 +398,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 	{
 		try
 		{
-			columns = ( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( true,
-					true );
+			columns = ( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( true );
 			if ( columns != null )
 			{
 				columnExpressions = new String[columns.length];
@@ -411,7 +410,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 		}
 		catch ( BirtException e )
 		{
-			DataSetExceptionHandler.handle( e );
+			e.printStackTrace( );
 		}
 	}
 	

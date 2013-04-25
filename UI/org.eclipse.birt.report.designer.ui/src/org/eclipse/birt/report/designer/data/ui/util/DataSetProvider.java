@@ -141,7 +141,7 @@ public final class DataSetProvider
 	public DataSetViewData[] getColumns( DataSetHandle dataSet, boolean refresh )
 			throws BirtException
 	{
-		return getColumns( dataSet, refresh, true, false );
+		return getColumns( dataSet, refresh, true );
 	}
 
 	/**
@@ -154,8 +154,7 @@ public final class DataSetProvider
 	 * @throws BirtException 
 	 */
 	public DataSetViewData[] getColumns( DataSetHandle dataSet,
-			boolean refresh, boolean useColumnHints,
-			boolean suppressErrorMessage ) throws BirtException
+			boolean refresh, boolean useColumnHints ) throws BirtException
 	{
 		if ( dataSet == null )
 		{
@@ -174,18 +173,17 @@ public final class DataSetProvider
 				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 						dataSet.getModuleHandle( ) );
 				session = DataRequestSession.newSession( context );
-				
+
 				columns = this.populateAllOutputColumns( dataSet, session );
 				htColumns.put( dataSet, columns );
 			}
 		}
 		catch ( BirtException e )
 		{
-			if ( !suppressErrorMessage )
-			{
-				throw e;
-			}
-			columns = null;
+			columns = new DataSetViewData[]{};
+			// updateModel( dataSet, columns );
+			htColumns.put( dataSet, columns );
+			throw e;
 		}
 		finally
 		{
