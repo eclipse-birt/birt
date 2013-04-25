@@ -307,8 +307,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 	 */
 	private void refreshColumnNames( ) throws BirtException
 	{
-		( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( true,
-				true );
+		( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( true );
 	}
 
 	private void addListeners( )
@@ -701,7 +700,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		try
 		{
 			items = DataSetProvider.getCurrentInstance( )
-					.getColumns( dataSet, false, true, true );
+					.getColumns( dataSet, false, true );
 		int inexistence = 0;
 		for ( int i = 0; i < items.length; i++ )
 		{
@@ -1540,7 +1539,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			try
 			{
 				DataSetViewData[] items = DataSetProvider.getCurrentInstance( )
-						.getColumns( handle, false, true, true );
+						.getColumns( handle, false, true );
 				for ( int i = 0; i < items.length; i++ )
 				{
 					if ( columnName.equals( items[i].getName( ) ) )
@@ -1662,7 +1661,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			{
 				DataSetHandle dataSet = ( (DataSetEditor) getContainer( ) ).getHandle( );
 				DataSetViewData[] items = DataSetProvider.getCurrentInstance( )
-						.getColumns( dataSet, false, true, true );
+						.getColumns( dataSet, false, true );
 				int count = items.length;
 				DataSetViewData[] newItems = new DataSetViewData[count + 1];
 				System.arraycopy( items, 0, newItems, 0, count );
@@ -1745,7 +1744,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			}
 			catch ( BirtException e )
 			{
-				DataSetExceptionHandler.handle( e );
+				e.printStackTrace( );
 			}
 			return getOKStatus( );
 		}
@@ -1884,8 +1883,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		{
 			DataSetViewData[] items = DataSetProvider.getCurrentInstance( )
 					.getColumns( ( (DataSetEditor) getContainer( ) ).getHandle( ),
-							true,
-							true,
 							true );
 
 			for ( int i = 0; i < items.length; i++ )

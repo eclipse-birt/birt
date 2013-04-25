@@ -403,8 +403,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 								session );
 				if ( viewDatas == null )
 				{
-					viewDatas = ( (DataSetEditor) getContainer( ) ).getCurrentItemModel( false,
-							false );
+					viewDatas = ( (DataSetEditor) getContainer( ) ).getCurrentItemModel( false );
 				}
 				
 				updateDefaultAnalysisEnablement( viewDatas );
@@ -463,8 +462,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 								session );
 				if ( viewDatas == null )
 				{
-					viewDatas = ( (DataSetEditor) getContainer( ) ).getCurrentItemModel( false,
-							false );
+					viewDatas = ( (DataSetEditor) getContainer( ) ).getCurrentItemModel( false );
 				}
 				
 				updateDefaultAnalysisEnablement( viewDatas );
@@ -783,7 +781,6 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				items = DataSetProvider.getCurrentInstance( )
 						.getColumns( ( (DataSetEditor) getContainer( ) ).getHandle( ),
 								false,
-								true,
 								true );
 			}
 			else
@@ -832,7 +829,6 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				items = DataSetProvider.getCurrentInstance( )
 						.getColumns( ( (DataSetEditor) getContainer( ) ).getHandle( ),
 								false,
-								true,
 								true );
 			}
 			catch ( Exception e )

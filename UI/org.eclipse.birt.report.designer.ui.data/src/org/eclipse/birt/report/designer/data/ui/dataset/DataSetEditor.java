@@ -618,7 +618,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	 */
 	public DataSetViewData[] getCurrentItemModel( ) throws BirtException
 	{
-		return itemModelManager.getCurrentItemModel( true, true );
+		return itemModelManager.getCurrentItemModel( true );
 	}
 
 	/**
@@ -629,11 +629,10 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	 * @return DataSetViewData[]
 	 * @throws BirtException 
 	 */
-	public DataSetViewData[] getCurrentItemModel( boolean useColumnHint,
-			boolean suppressErrorMessage ) throws BirtException
+	public DataSetViewData[] getCurrentItemModel( boolean useColumnHint )
+			throws BirtException
 	{
-		return itemModelManager.getCurrentItemModel( useColumnHint,
-				suppressErrorMessage );
+		return itemModelManager.getCurrentItemModel( useColumnHint );
 	}
 
 	/**
@@ -1090,14 +1089,12 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		 * @return DataSetItemModel[]
 		 * @throws BirtException 
 		 */
-		public DataSetViewData[] getCurrentItemModel( boolean useColumnHint,
-				boolean suppressErrorMessage ) throws BirtException
+		public DataSetViewData[] getCurrentItemModel( boolean useColumnHint ) throws BirtException
 		{
 			DataSetViewData[] dataSetItem = DataSetProvider.getCurrentInstance( )
 					.getColumns( ds,
 							itemModelChanged,
-							useColumnHint,
-							suppressErrorMessage );
+							useColumnHint );
 			itemModelChanged = false;
 			linkedParameterChanged = false;
 			return dataSetItem;
