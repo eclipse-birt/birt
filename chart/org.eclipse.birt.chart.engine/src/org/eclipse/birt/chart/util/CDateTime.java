@@ -113,7 +113,7 @@ public class CDateTime extends GregorianCalendar
 			setTime( c.getTime( ) );
 			if ( c instanceof CDateTime )
 			{
-				checkDateType( ( (CDateTime) c ).getDateTime( ) );
+				checkDateType( (CDateTime) c );
 				if ( ( (CDateTime) c ).isFullDateTime( ) )
 				{
 					setTimeZone( c.getTimeZone( ) );
@@ -660,6 +660,19 @@ public class CDateTime extends GregorianCalendar
 				return -1;
 		}
 	}
+	
+	private static final int getDefaultUnit( CDateTime c )
+	{
+		if ( c.isTimeOnly( ) )
+		{
+			return Calendar.SECOND;
+		}
+		if ( c.isFullDateTime( ) )
+		{
+			return Calendar.MILLISECOND;
+		}
+		return Calendar.DATE;
+	}
 
 	/**
 	 * Walks through all values in a dataset and computes the least significant
@@ -674,6 +687,16 @@ public class CDateTime extends GregorianCalendar
 	 */
 	public static final int computeUnit( DataSetIterator dsi )
 	{
+		// If only one data, do not compute unit but get it via type directly.
+		if ( dsi.size( ) == 1 )
+		{
+			dsi.reset( );
+			Object value = dsi.next( );
+			if ( value instanceof CDateTime )
+			{
+				return getDefaultUnit( (CDateTime) value );
+			}
+		}
 		Calendar cCurr, cPrev;
 
 		for ( int k = 0; k < iaUnitTypes.length; k++ )
@@ -716,6 +739,11 @@ public class CDateTime extends GregorianCalendar
 	public static final int computeUnit( CDateTime[] cdta )
 			throws ChartException
 	{
+		if ( cdta.length == 1 )
+		{
+			return getDefaultUnit( cdta[0] );
+		}
+		
 		int j;
 		for ( int k = 0; k < iaUnitTypes.length; k++ )
 		{
@@ -1018,6 +1046,12 @@ public class CDateTime extends GregorianCalendar
 		{
 			setTimeOnly( true );
 		}
+	}
+	
+	private void checkDateType( CDateTime d )
+	{
+		this.bDateOnly = d.bDateOnly;
+		this.setTimeOnly( d.isTimeOnly( ) );
 	}
 
 	public Date getDateTime( )
