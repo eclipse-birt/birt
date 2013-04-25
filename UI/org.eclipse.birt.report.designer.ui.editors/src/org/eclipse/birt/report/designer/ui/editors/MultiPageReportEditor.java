@@ -136,8 +136,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	private boolean needReset = false;
 	private IWorkbenchPart fActivePart;
 	private boolean isClose = false;
-	private IRelatedFileChangeResolve resolve;
-
+	//private IRelatedFileChangeResolve resolve;
+	private List<IRelatedFileChangeResolve> resolveList = new ArrayList<IRelatedFileChangeResolve>();
 	private IPreferences prefs;
 	IPreferenceChangeListener preferenceChangeListener = new IPreferenceChangeListener( ) {
 
@@ -1055,7 +1055,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 			if ( needReset )
 			{
-				if ( resolve != null && resolve.reset( ) )
+				if ( resolveList != null && resetList( resolveList ) )
 				{
 					getProvider( ).getReportModuleHandle( getEditorInput( ),
 							true );
@@ -1070,7 +1070,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			if ( needReload )
 			{
 
-				if ( resolve != null && resolve.reload( getModel( ) ) )
+				if ( resolveList != null && reloadList( resolveList ) )
 				{
 					// do nothing now
 				}
@@ -1080,6 +1080,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				}
 			}
 
+			
 			if ( getEditorInput( ).exists( ) )
 			{
 				handleActivation( );
@@ -1169,6 +1170,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 						}
 						needReload = false;
 						needReset = false;
+						resolveList.clear( );
 					}
 				} );
 				// UIUtil.resetViewSelection( view, true );
@@ -1179,6 +1181,30 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		// {
 		// getModel( ).setResourceFolder( getProjectFolder( ) );
 		// }
+	}
+	
+	private boolean reloadList(List<IRelatedFileChangeResolve> list)
+	{
+		for (int i=0; i<list.size( ); i++)
+		{
+			if (!list.get( i ).reload( getModel( )))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean resetList(List<IRelatedFileChangeResolve> list)
+	{
+		for (int i=0; i<list.size( ); i++)
+		{
+			if (!list.get( i ).reset( ))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private void refreshResourceEditPart( EditPart parent )
@@ -1649,7 +1675,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			IRelatedFileChangeResolve find = (IRelatedFileChangeResolve) resolves[i];
 			if ( find.acceptType( event.getType( ) ) )
 			{
-				resolve = find;
+				//resolve = find;
+				resolveList.add( find );
 				needReload = find.isReload( event, getModel( ) );
 				needReset = find.isReset( event, getModel( ) );
 				break;
