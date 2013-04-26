@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+     <extension 
+	 	point="org.eclipse.birt.report.engine.emitters"
+	 	name = "Engine PPTX Emitters">
+
+        <emitter
+              class="org.eclipse.birt.report.engine.emitter.pptx.PPTXEmitter"
+              format="pptx"
+              pagination="paper-size-pagination"
+              id="org.eclipse.birt.report.engine.emitter.pptx"
+              mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation"/>
+  </extension>  
+</plugin>

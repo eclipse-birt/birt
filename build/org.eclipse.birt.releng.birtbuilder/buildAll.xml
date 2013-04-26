@@ -1282,6 +1282,7 @@
 			<bundle name="org.eclipse.birt.core.script.function" />
 			<bundle name="org.eclipse.birt.data" />
 			<bundle name="org.eclipse.birt.data.aggregation" />
+			<bundle name="org.eclipse.birt.data.oda.mongodb"/>
 			<bundle name="org.eclipse.birt.report.data.adapter" />
 			<bundle name="org.eclipse.birt.report.data.bidi.utils" />
 			<bundle name="org.eclipse.birt.report.data.oda.jdbc" />
@@ -1298,6 +1299,12 @@
 			<bundle name="org.eclipse.birt.report.engine.emitter.ppt" />
 			<bundle name="org.eclipse.birt.report.engine.emitter.prototype.excel" />
 			<bundle name="org.eclipse.birt.report.engine.emitter.wpml" />
+			<bundle name="org.eclipse.birt.data.oda.pojo"/>
+			<bundle name="org.eclipse.birt.report.engine.ooxml"/>
+			<bundle name="org.eclipse.birt.report.engine.emitter.config.docx"/>
+			<bundle name="org.eclipse.birt.report.engine.emitter.config.pptx"/>
+			<bundle name="org.eclipse.birt.report.engine.emitter.docx"/>
+			<bundle name="org.eclipse.birt.report.engine.emitter.pptx"/>
 			<bundle name="org.eclipse.birt.report.engine.emitter.odp" />
 			<bundle name="org.eclipse.birt.report.engine.emitter.ods" />
 			<bundle name="org.eclipse.birt.report.engine.emitter.odt" />
