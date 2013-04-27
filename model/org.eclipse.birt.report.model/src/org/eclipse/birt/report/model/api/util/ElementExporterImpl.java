@@ -91,7 +91,7 @@ class ElementExporterImpl
 	 * value is element in library handle.
 	 */
 
-	private Map<DesignElementHandle, DesignElementHandle> propBindingMap = new HashMap<DesignElementHandle, DesignElementHandle>( );
+	protected Map<DesignElementHandle, DesignElementHandle> propBindingMap = new HashMap<DesignElementHandle, DesignElementHandle>( );
 
 	/**
 	 * Constructs the exporter with the handle of target library.

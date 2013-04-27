@@ -58,7 +58,7 @@ public abstract class CustomChooserComposite extends Composite
 
 	private Composite cmpContent = null;
 
-	private ICustomChoice cnvSelection = null;
+	protected ICustomChoice cnvSelection = null;
 
 	private Button btnDown = null;
 
@@ -656,7 +656,7 @@ public abstract class CustomChooserComposite extends Composite
 		return -1;
 	}
 
-	void initAccessible( )
+	protected void initAccessible( )
 	{
 		getAccessible( ).removeAccessibleListener( accessibleListener );
 		getAccessible( ).addAccessibleListener( accessibleListener );

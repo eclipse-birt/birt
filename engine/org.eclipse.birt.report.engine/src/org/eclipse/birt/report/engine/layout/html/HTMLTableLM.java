@@ -11,22 +11,14 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.ir.RowDesign;
-import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
 
-public class HTMLTableLM extends HTMLBlockStackingLM
+public class HTMLTableLM extends HTMLRepeatHeaderLM
 {
 
 	/**
@@ -44,93 +36,12 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 		return LAYOUT_MANAGER_TABLE;
 	}
 
-	boolean isFirstLayout = true;
-	boolean isHeaderRefined = false;
-
 	public void initialize( HTMLAbstractLM parent, IContent content,
 			IReportItemExecutor executor, IContentEmitter emitter )
 			throws BirtException
 	{
 		tableEmitter = new HTMLTableLayoutEmitter( emitter, context );
 		super.initialize( parent, content, executor, tableEmitter );
-		isFirstLayout = true;
-		isHeaderRefined = false;
-	}
-	
-	protected void repeatHeader( ) throws BirtException
-	{
-		if ( !isFirstLayout )
-		{
-			ITableContent table = (ITableContent) content;
-			if ( table.isHeaderRepeat( ) )
-			{
-				IBandContent header = table.getHeader( );
-				if ( header != null )
-				{
-					refineBandContent( (ITableBandContent) header );
-					//clean the layout extension
-					cleanRepeatedLayoutExtension( header );
-					boolean pageBreak = context.allowPageBreak( );
-					context.setAllowPageBreak( false );
-					IPageBuffer buffer =  context.getPageBufferManager( );
-					boolean isRepeated = buffer.isRepeated();
-					buffer.setRepeated( true );
-					engine.layout(this, header, emitter );
-					buffer.setRepeated( isRepeated );
-					context.setAllowPageBreak( pageBreak );
-				}
-			}
-		}
-		isFirstLayout = false;
-	}
-	
-	private void refineBandContent( ITableBandContent content )
-	{
-		if ( isHeaderRefined )
-			return;
-		
-		Collection children = content.getChildren( );
-		ArrayList removed = new ArrayList( );
-		if ( children != null )
-		{
-			Iterator itr = children.iterator( );
-			while ( itr.hasNext( ) )
-			{
-				IRowContent rowContent = (IRowContent) itr.next( );
-				RowDesign rowDesign = (RowDesign) rowContent.getGenerateBy( );
-				if ( rowDesign != null && !rowDesign.getRepeatable( ) )
-				{
-					removed.add( rowContent );
-				}
-			}
-			children.removeAll( removed );
-		}
-		isHeaderRefined = true;
-	}
-	
-	private void cleanRepeatedLayoutExtension( IContent content )
-	{
-		Collection children = content.getChildren( );
-		if( children == null )
-		{
-			return;
-		}
-		Iterator i = children.iterator( );
-		while( i.hasNext( ) )
-		{
-			IContent child = (IContent)i.next( );
-			child.setExtension( IContent.LAYOUT_EXTENSION, null );
-			
-			cleanRepeatedLayoutExtension( child );
-		}
-		
-	}
-
-	protected boolean layoutChildren( ) throws BirtException
-	{
-		repeatHeader( );
-		boolean hasNext = super.layoutChildren( );
-		return hasNext;
 	}
 
 	protected void end( boolean finished ) throws BirtException
@@ -146,6 +57,17 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 	protected IContentEmitter getEmitter( )
 	{
 		return this.tableEmitter;
+	}
+
+	protected boolean shouldRepeatHeader( )
+	{
+		return ( (ITableContent) content ).isHeaderRepeat( )
+				&& getHeader( ) != null;
+	}
+
+	protected IBandContent getHeader( )
+	{
+		return ( (ITableContent) content ).getHeader( );
 	}
 
 }

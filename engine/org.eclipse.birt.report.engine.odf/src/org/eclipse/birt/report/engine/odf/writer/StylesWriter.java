@@ -73,7 +73,7 @@ public class StylesWriter
 		writer.close( );		
 	}
 	
-	private void writeDefaultStyles( )
+	public void writeDefaultStyles( )
 	{
 		// TODO: also write "style:default-style" entries?
 		

@@ -84,7 +84,15 @@ public class OutputPropertyDescriptorProvider extends
 				{
 					try
 					{
-						getVisibilityPropertyHandle( element ).removeItem( handle.getStructure( ) );
+						if (DEUtil.getMultiSelectionHandle((List) input)
+								.isExtendedElements()) {
+							PropertyHandle propertyHandle=getVisibilityPropertyHandle( element );
+							propertyHandle.getItems().clear();
+
+						} else{
+							getVisibilityPropertyHandle( element ).removeItem( handle.getStructure( ) );
+						}
+
 					}
 					catch ( PropertyValueException e )
 					{
@@ -161,17 +169,21 @@ public class OutputPropertyDescriptorProvider extends
 		{
 			try
 			{
-				if ( handle instanceof ReportItemHandle )
-				{
-					handle.clearProperty( ReportItemHandle.VISIBILITY_PROP );
-				}
-				else if ( handle instanceof RowHandle )
-				{
-					handle.clearProperty( RowHandle.VISIBILITY_PROP );
-				}
-				else if ( handle instanceof ColumnHandle )
-				{
-					handle.clearProperty( ColumnHandle.VISIBILITY_PROP );
+				if (DEUtil.getMultiSelectionHandle((List) input)
+						.isExtendedElements()) {
+					List handRuleList=(ArrayList)handle.getProperty(ReportItemHandle.VISIBILITY_PROP);
+					if(handRuleList!=null&&handRuleList.size()>0){
+						handRuleList.clear();
+						handle.setProperty(ReportItemHandle.VISIBILITY_PROP, handRuleList);
+					}
+				} else {
+					if (handle instanceof ReportItemHandle) {
+						handle.clearProperty(ReportItemHandle.VISIBILITY_PROP);
+					} else if (handle instanceof RowHandle) {
+						handle.clearProperty(RowHandle.VISIBILITY_PROP);
+					} else if (handle instanceof ColumnHandle) {
+						handle.clearProperty(ColumnHandle.VISIBILITY_PROP);
+					}
 				}
 
 			}

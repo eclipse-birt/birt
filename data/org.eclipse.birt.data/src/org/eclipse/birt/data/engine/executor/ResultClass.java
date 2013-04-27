@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -142,13 +143,8 @@ public class ResultClass implements IResultClass
 		return column.getDataType( ).getName( ).equals( AnyType.class.getName( ) );
 	}
 	
-	/**
-	 * New an instance of ResultClass from input stream.
-	 * 
-	 * @param inputStream
-	 * @throws DataException
-	 */
-	public ResultClass( InputStream inputStream, int version ) throws DataException
+	public ResultClass( InputStream inputStream, int version,
+			boolean includeInnerID ) throws DataException
 	{
 		assert inputStream != null;
 		this.version = version;
@@ -197,6 +193,18 @@ public class ResultClass implements IResultClass
 			}
 			dis.close( );
 			
+			if ( includeInnerID )
+			{
+				ResultFieldMetadata rfm = new ResultFieldMetadata( 0,
+						ExprMetaUtil.POS_NAME,
+						null,
+						Integer.class,
+						null,
+						true,
+						-1 );
+				newProjectedColumns.add( rfm );
+			}
+			
 			initColumnsInfo( newProjectedColumns );
 		}
 		catch ( ClassNotFoundException e )
@@ -211,6 +219,17 @@ public class ResultClass implements IResultClass
 					e,
 					"Result Class" );
 		}
+	}
+	
+	/**
+	 * New an instance of ResultClass from input stream.
+	 * 
+	 * @param inputStream
+	 * @throws DataException
+	 */
+	public ResultClass( InputStream inputStream, int version ) throws DataException
+	{
+		this(  inputStream, version, false );
 	}
 
 	/**

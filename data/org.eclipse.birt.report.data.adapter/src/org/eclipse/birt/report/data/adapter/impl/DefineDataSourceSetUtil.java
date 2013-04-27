@@ -20,8 +20,12 @@ import java.util.List;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -129,6 +133,79 @@ public class DefineDataSourceSetUtil
 
 		if ( context != null )
 			context.process( design, dataSet );
+	}
+	
+	/**
+	 * prepare for transient query
+	 * @param sessionContext
+	 * @param dataEngine
+	 * @param handle
+	 * @param queryDefn
+	 * @throws BirtException
+	 */
+	public static void prepareForTransientQuery( DataSessionContext sessionContext, DataEngineImpl dataEngine, DataSetHandle handle,
+			IQueryDefinition queryDefn) throws BirtException 
+	{
+		IBaseDataSetDesign design = null;
+		if( handle == null )
+		{
+			if( queryDefn.getDataSetName( ) == null )
+			{
+				if( queryDefn.getSourceQuery( )!= null&& queryDefn.getSourceQuery( ) instanceof IQueryDefinition )
+					design = dataEngine.getDataSetDesign( ((IQueryDefinition)queryDefn.getSourceQuery( )).getDataSetName( ) );
+			}
+			else
+				design = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
+		}
+		else
+		{
+			design = dataEngine.getDataSetDesign( handle.getQualifiedName( ) );			
+		}
+		final IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
+		if ( dataSetInterceptor != null )
+		{
+			dataSetInterceptor.preDefineDataSet( sessionContext,
+					dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
+					design,
+					queryDefn );
+			dataEngine.addShutdownListener( new IShutdownListener( ) {
+
+				public void dataEngineShutdown( )
+				{
+					try
+					{
+						dataSetInterceptor.close( );
+					}
+					catch ( BirtException e )
+					{
+					}
+				}
+			} );
+			return;
+		}
+		
+		if ( handle instanceof JointDataSetHandle )
+		{
+			JointDataSetHandle jointDataSet = (JointDataSetHandle) handle;
+			Iterator iter = jointDataSet.dataSetsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				DataSetHandle childDataSet = (DataSetHandle) iter.next( );
+				if ( childDataSet != null )
+				{
+					prepareForTransientQuery( sessionContext, dataEngine, childDataSet, queryDefn );
+				}
+			}
+
+		}
+		if ( handle instanceof DerivedDataSetHandle )
+		{
+			List<DataSetHandle>  inputDataSet = ( (DerivedDataSetHandle) handle ).getInputDataSets( );
+			for ( int i = 0; i < inputDataSet.size( ); i++ )
+			{
+				prepareForTransientQuery( sessionContext, dataEngine, inputDataSet.get(i), queryDefn );
+			}
+		}
 	}
 
 }

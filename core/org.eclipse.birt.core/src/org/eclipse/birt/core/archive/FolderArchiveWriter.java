@@ -241,11 +241,24 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	public void flush( ) throws IOException
 	{
 		IOException ioex = null;
-		synchronized ( inputStreams )
+		synchronized ( outputStreams )
 		{
+			
 			for ( RAOutputStream output : outputStreams )
 			{
-				output.flush( );
+				try
+				{
+					output.flush( );
+				}
+				catch ( IOException ex )
+				{
+					logger.log(Level.SEVERE, ex.getMessage( ), ex);
+					if ( ioex != null )
+					{
+						ioex = ex;
+					}
+				}
+				
 			}
 		}
 		if ( ioex != null )

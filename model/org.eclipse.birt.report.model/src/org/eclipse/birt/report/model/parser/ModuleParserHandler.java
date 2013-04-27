@@ -90,6 +90,11 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 */
 
 	boolean isCurrentVersion = false;
+	
+	/**
+	 * Status identify whether the design file version is the later version.
+	 */
+	private boolean isLaterVersion = false;
 
 	/**
 	 * Control flag identify whether need mark line number of the design
@@ -907,5 +912,23 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		public void startEntity( String name ) throws SAXException
 		{
 		}
+	}
+
+	/**
+	 * whether the design file version is the later version. 
+	 * @return
+	 */
+	public boolean isLaterVersion( )
+	{
+		return isLaterVersion;
+	}
+
+	/**
+	 * set whether the design file version is the later version. 
+	 * @param isLaterVersion
+	 */
+	public void setLaterVersion( boolean isLaterVersion )
+	{
+		this.isLaterVersion = isLaterVersion;
 	}
 }

@@ -2097,7 +2097,7 @@ Structure.IncludedLibrary.namespace=–¼‘O‹óŠÔ
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=ƒtƒ@ƒCƒ‹–¼
 Structure.IncludedCssStyleSheet.externalCssURI=ŠO•”‚Ì CSS URI
-Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
+Structure.IncludedCssStyleSheet.useExternalCss=ŠO•” CSS ‚ğg—p
 
 #15. DataSetParam
 Structure.DataSetParam.name=–¼‘O
@@ -2413,6 +2413,7 @@ Element.DataMartCube=ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒLƒ…[ƒu
 Element.TimeDimension=ŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“
 Element.ReportItemTheme=ƒŒƒ|[ƒg€–Úƒe[ƒ}
 Element.AbstractTheme=’ŠÛƒe[ƒ}
+Element.DataMartLinkedDataModel=Data Object Linked Data Set
 
 ###########################################################
 # Element property names
@@ -2742,6 +2743,8 @@ Element.Style.widows=ƒEƒBƒhƒE
 Element.Style.orphans=ƒI[ƒtƒ@ƒ“
 Element.Style.wordSpacing=’PŒêŠÔ‚ÌŠÔŠu
 Element.Style.overflow=ƒI[ƒo[ƒtƒ[
+Element.Style.height=‚‚³
+Element.Style.width=•
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=ƒuƒbƒNƒ}[ƒN
@@ -3464,6 +3467,10 @@ Element.TimeDimension.startTimePoint=ŠJnƒ|ƒCƒ“ƒg
 Element.TimeDimension.endTimePoint=I—¹ƒ|ƒCƒ“ƒg
 Element.TimeDimension.hierarchies=ŠK‘w
 
+#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
+Element.DataMartLinkedDataModel.dataSource=ƒf[ƒ^ƒ\[ƒX
+Element.DataMartLinkedDataModel.dataObject=ƒf[ƒ^ƒIƒuƒWƒFƒNƒg
+
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=í—Ş
 Element.ReportItemTheme.type=í—Ş
@@ -4011,6 +4018,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=ƒ‰ƒCƒuƒ‰ƒŠ‚Å‚ÍA‚±‚ê‚ç‚Ìƒ
 Info.VersionInfo.INVALID_DESIGN_FILE=ŠJ‚±‚¤‚Æ‚µ‚½ƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍA—LŒø‚ÈƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚Å‚Í‚È‚¢‚©Aƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 Info.VersionInfo.CONVERT_INFO=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Info.VersionInfo.INVALID_VERSION=ƒo[ƒWƒ‡ƒ“ "{0}" ‚ÌƒŒƒ|[ƒgƒtƒ@ƒCƒ‹‚Íg—p‚Å‚«‚Ü‚¹‚ñB
+Info.VersionInfo.LATER_VERSION=ƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍŒã”­ƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B [OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Info.VersionInfo.EXTENSION_COMPATIBILITY =ŠJ‚¢‚Ä‚¢‚éƒfƒUƒCƒ“‚âƒ‰ƒCƒuƒ‰ƒŠ‚Ü‚½‚Í‚»‚ê‚ç‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰ºˆÊŒİŠ·‚ª“K—p‚³‚ê‚½‚ ‚Æ‚ÅA‚»‚ÌƒfƒUƒCƒ“‚Ü‚½‚Íƒ‰ƒCƒuƒ‰ƒŠ‚É•ÏX‚ª‰Á‚¦‚ç‚ê‚½‰Â”\«‚ª‚ ‚è‚Ü‚·B
 
 #EncryptionException

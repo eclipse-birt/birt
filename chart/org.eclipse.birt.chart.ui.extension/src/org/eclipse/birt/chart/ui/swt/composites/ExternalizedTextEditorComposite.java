@@ -76,10 +76,18 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         init();
         placeComponents();
         setText( sText );
-    }
+        
+        ChartUIUtil.addScreenReaderAccessibility( this, txtSelection.getTextControl( ) );
+	}
 
-    private void init()
-    {
+	public void addScreenReaderAccessbility( String description )
+	{
+		ChartUIUtil.addScreenReaderAccessbility( txtSelection.getTextControl( ),
+				description );
+	}
+
+	private void init( )
+	{
         this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
         vListeners = new Vector<Listener>( );
     }
@@ -115,6 +123,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         btnDown.setToolTipText(Messages.getString("ExternalizedTextEditorComposite.Lbl.EditText")); //$NON-NLS-1$
         btnDown.setLayoutData(gdBTNDown);
         btnDown.addSelectionListener(this);
+        ChartUIUtil.addScreenReaderAccessbility( btnDown, btnDown.getToolTipText( ) );
     }
 
     public void setEnabled(boolean bState)

@@ -243,8 +243,11 @@ public class DataSetIterator implements IDatasetIterator
 		{
 			return value;
 		}
-		return DataTypeUtil.convert( this.metadata.getDataProcessor( fieldIndex )
-				.process( value ),
+		
+		Object convertedValue = this.metadata.getDataProcessor( fieldIndex )
+				.process( value );
+		
+		return convertedValue.getClass().isAssignableFrom( value.getClass()) ? convertedValue : DataTypeUtil.convert( convertedValue,
 				value.getClass( ) );
 	}
 

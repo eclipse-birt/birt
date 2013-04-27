@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.chart.ui.swt;
 
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
 
@@ -41,4 +43,9 @@ public abstract class AbstractLineWidthChooserComposite extends
 	
 	abstract public void setLineWidth( int iWidth, EObject eParent );
 	
+	protected void initAccessible( )
+	{
+		super.initAccessible( );
+		ChartUIUtil.addScreenReaderAccessibility( this, (Canvas) cnvSelection );
+	}
 }

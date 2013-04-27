@@ -95,6 +95,18 @@ public interface INameHelper
 	 * @param element
 	 */
 	public void dropElement( int namespaceId, DesignElement element );
+	
+	/**
+	 * make the unique name of element with the given name prefix
+	 * 
+	 * @param namespaceId
+	 *        the name space id
+	 * @param element
+	 *        the design element.
+	 * @param prefix
+	 *        the name prefix
+	 */
+	public void makeUniqueName( int namespaceId, DesignElement element, String prefix );
 
 	/**
 	 * Adds a content name to this help. Generally, this content is not

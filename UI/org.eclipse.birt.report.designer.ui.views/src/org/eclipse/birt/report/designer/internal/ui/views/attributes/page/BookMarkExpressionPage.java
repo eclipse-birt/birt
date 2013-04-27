@@ -130,7 +130,7 @@ public class BookMarkExpressionPage extends AttributePage
 		text = DEUtil.removeQuote( text ).trim( );
 		if ( text.length( ) > 0 )
 		{
-			return text.matches( "[a-zA-Z0-9_\\-\\:\\.]+" );
+			return text.matches( "[a-zA-Z0-9_\\s\\-\\:\\.]+" );
 		}
 		else
 			return true;

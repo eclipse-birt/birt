@@ -220,6 +220,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 		iscLeaderLength.getWidget( ).setMinimum( 0 );
 		iscLeaderLength.getWidget( ).setMaximum( MAX_LEADER_LENGTH );
 		iscLeaderLength.getWidget( ).setSelection( (int) series.getLeaderLineLength( ) );
+		iscLeaderLength.addScreenReaderAccessibility( lblLeaderSize.getText( ) );
 
 		Composite cmpRight = new Composite( this, SWT.NONE );
 		{

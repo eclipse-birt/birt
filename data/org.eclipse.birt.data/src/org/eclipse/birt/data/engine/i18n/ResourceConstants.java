@@ -433,5 +433,7 @@ public class ResourceConstants
 	public final static String INCREMENTAL_DATASET_HAS_ERROR_METADATA= "data.datamart.incrementalDatasetMetaDataError";
     public final static String REGENERATE_BDO_COLLATION = "data.datamart.collation";
 	public final static String FAIL_PUSH_DOWM_FILTER = "data.filter.pushDownFail";
+	
+	public final static String  CANNOT_EXEC_QUERY_INVALEXPR_INVALCOLUMN= "data.query.exprReferInvalidColumn";
 
 }

@@ -150,4 +150,12 @@ public class EmptyGroupElementHandle extends GroupElementHandle
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#clearLocalProperties()
+	 */
+	public void clearLocalPropertiesIncludeSubElement( ) throws SemanticException
+	{		
+		
+	}
+
 }

@@ -170,6 +170,8 @@ public class StyleUtil
 		styleName2Index.put( Style.TEXT_DIRECTION_PROP,
 				StyleConstants.STYLE_DIRECTION );
 		styleName2Index.put( Style.OVERFLOW_PROP, StyleConstants.STYLE_OVERFLOW );
+		styleName2Index.put( Style.HEIGHT_PROP, StyleConstants.STYLE_HEIGHT );
+		styleName2Index.put( Style.WIDTH_PROP, StyleConstants.STYLE_WIDTH );
 
 		colorProperties = new HashSet<String>( );
 		colorProperties.add( Style.BACKGROUND_COLOR_PROP );

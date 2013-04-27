@@ -278,6 +278,17 @@ public abstract class AttributePage extends TabPage implements
 
 	public void postElementEvent( )
 	{
+		Object element = DEUtil.getInputFirstElement( input );
+		if ( element == null )
+			return;
+		if ( element instanceof DesignElementHandle
+				&& getTopContainer( (DesignElementHandle) element ) == null )
+		{
+			return;
+		}
+
+		Section[] sectionArray = getSections( );
+		for ( int i = 0; i < sectionArray.length; i++ )
 		if ( load == false )
 		{
 			load = true;

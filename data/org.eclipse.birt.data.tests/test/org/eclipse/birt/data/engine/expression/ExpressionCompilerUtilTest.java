@@ -84,8 +84,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[4];
 		try
 		{
-			extractColumnExpression( new ScriptExpression( expression ) );
-			fail( "Should throw a BirtException." );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
+			assertTrue( list.isEmpty( ) );
 		}
 		catch ( BirtException e )
 		{
@@ -97,8 +97,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[5];
 		try
 		{
-			extractColumnExpression( new ScriptExpression( expression ) );
-			fail( "Should throw a BirtException." );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
+			assertTrue( list.isEmpty( ) );
 		}
 		catch ( BirtException e )
 		{
@@ -124,8 +124,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[7];
 		try
 		{
-			extractColumnExpression( new ScriptExpression( expression ) );
-			fail( "Should throw a BirtException." );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
+			assertTrue( list.isEmpty( ) );
 		}
 		catch ( BirtException e )
 		{

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="org.eclipse.birt.data.oda.pojo.pojoQueryText" xmlns:tns="org.eclipse.birt.data.oda.pojo.pojoQueryText">
+
+    
+    <complexType name="ColumnMappingType">
+    	<annotation>
+    		<documentation>
+    			A ColumnMappingType defines a method(field)-to-column
+    			mapping.
+    		</documentation>
+    	</annotation>
+    	<sequence>
+    		<choice maxOccurs="1" minOccurs="1">
+    			<element name="Method" type="tns:MethodType"></element>
+    			<element name="Field" type="tns:FieldType"></element>
+    		</choice>
+    	</sequence>
+    	<attribute name="name" type="string" use="required"></attribute>
+    	<attribute name="odaDataType" type="tns:OdaDataType"
+    		use="required">
+    	</attribute>
+    	<attribute name="index" type="int" use="required"></attribute>
+    </complexType>
+
+    <complexType name="ClassColumnMappingsType">
+        <annotation>
+        	<documentation>The ClassColumnMappingsType consists of a series of ColumnMappingType instances. </documentation>
+        </annotation>
+        <sequence>
+        	<element name="ColumnMapping" type="tns:ColumnMappingType"
+        		maxOccurs="unbounded" minOccurs="0">
+        	</element>
+        	<choice maxOccurs="1" minOccurs="1">
+        		<element name="Method" type="tns:MethodType"></element>
+        		<element name="Field" type="tns:FieldType"></element>
+        	</choice>
+        	<element name="ClassColumnMappings" type="tns:ClassColumnMappingsType" maxOccurs="unbounded" minOccurs="0"></element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="MethodType">
+        <sequence>
+        	<choice>
+        		<element name="ConstantParameter" type="tns:ConstantParameterType"></element>
+        		<element name="VariableParameter" type="tns:VariableParameterType"></element>
+        	</choice>
+        </sequence>
+    	<attribute name="name" type="string" use="required"></attribute>
+    </complexType>
+
+    <complexType name="FieldType">
+    	<attribute name="name" type="string" use="required"></attribute>
+    </complexType>
+    
+    <complexType name="ConstantParameterType">
+    	<attribute name="value" type="string"></attribute>
+		<attribute name="type" type="tns:MethodParameterDataType" use="required"></attribute>
+    </complexType>
+
+    <complexType name="VariableParameterType">
+    	<attribute name="name" type="string" use="required"></attribute>
+		<attribute name="type" type="tns:MethodParameterDataType" use="required"></attribute>
+    </complexType>
+
+    <element name="PojoQuery" type="tns:PojoQueryType">
+    	<annotation>
+    		<documentation>The root element of a POJO Query Text. It consists of a series of ClassColumnMappings and ColumnMapping.</documentation>
+    	</annotation>
+    </element>
+    
+    <complexType name="PojoQueryType">
+    	<sequence>
+    		<element name="ClassColumnMappings"
+    			type="tns:ClassColumnMappingsType" maxOccurs="unbounded"
+    			minOccurs="0">
+    		</element>
+    		<element name="ColumnMapping" type="tns:ColumnMappingType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
+    	</sequence>
+    	<attribute name="version" type="string"></attribute>
+    	<attribute name="dataSetClass" type="string"></attribute>
+    	<attribute name="appContextKey" type="string"></attribute>
+    </complexType>
+
+    <simpleType name="OdaDataType">
+    	<restriction base="string">
+    		<enumeration value="Date"></enumeration>
+    		<enumeration value="Double"></enumeration>
+    		<enumeration value="Integer"></enumeration>
+    		<enumeration value="String"></enumeration>
+    		<enumeration value="Time"></enumeration>
+    		<enumeration value="Timestamp"></enumeration>
+    		<enumeration value="Decimal"></enumeration>
+    		<enumeration value="Blob"></enumeration>
+    		<enumeration value="Clob"></enumeration>
+    		<enumeration value="Boolean"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <simpleType name="MethodParameterDataType">
+    	<restriction base="string">
+    	    <enumeration value="boolean"></enumeration>
+    		<enumeration value="Boolean"></enumeration>
+    		<enumeration value="byte"></enumeration>
+    		<enumeration value="Byte"></enumeration>
+    		<enumeration value="char"></enumeration>
+    		<enumeration value="Character"></enumeration>
+    		<enumeration value="double"></enumeration>
+    		<enumeration value="Double"></enumeration>
+    		<enumeration value="float"></enumeration>
+    		<enumeration value="Float"></enumeration>
+    		<enumeration value="int"></enumeration>
+    		<enumeration value="Integer"></enumeration>
+    		<enumeration value="long"></enumeration>
+    		<enumeration value="Long"></enumeration>
+    		<enumeration value="short"></enumeration>
+    		<enumeration value="Short"></enumeration>
+    		<enumeration value="BigDecimal"></enumeration>
+    		<enumeration value="String"></enumeration>
+    		<enumeration value="Date"></enumeration>
+    		<enumeration value="SqlDate"></enumeration>
+    		<enumeration value="Time"></enumeration>
+    		<enumeration value="Timestamp"></enumeration>
+    	</restriction>
+    </simpleType>
+</schema>

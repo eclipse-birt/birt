@@ -483,6 +483,20 @@ public class ChartReportItemUtil extends ChartItemUtil
 			}
 
 			copySDQueryAttributes( sd, tagSD );
+			
+			if ( srcCM instanceof ChartWithAxes
+					&& targetCM instanceof ChartWithAxes )
+			{
+				// Also update axis type
+				if ( ( (ChartWithAxes) srcCM ).getAxes( ).get( 0 ).isSetType( ) )
+				{
+					( (ChartWithAxes) targetCM ).getAxes( )
+							.get( 0 )
+							.setType( ( (ChartWithAxes) srcCM ).getAxes( )
+									.get( 0 )
+									.getType( ) );
+				}
+			}
 		}
 
 		// Copy Y series definitions.
@@ -523,8 +537,13 @@ public class ChartReportItemUtil extends ChartItemUtil
 
 						srcRsds = srcAxisList.get( i ).getSeriesDefinitions( );
 						tagRsds = tagAxisList.get( i ).getSeriesDefinitions( );
-
 						copySDListQueryAttributes( srcRsds, tagRsds, isSameType );
+						
+						// Also update axis type
+						if ( srcAxisList.get( i ).isSetType( ) )
+						{
+							tagAxisList.get( i ).setType( srcAxisList.get( i ).getType( ) );
+						}
 					}
 				}
 				else
@@ -537,6 +556,12 @@ public class ChartReportItemUtil extends ChartItemUtil
 						tagRsds = tagAxisList.get( i ).getSeriesDefinitions( );
 
 						copySDListQueryAttributes( srcRsds, tagRsds, isSameType );
+						
+						// Also update axis type
+						if ( srcAxisList.get( i ).isSetType( ) )
+						{
+							tagAxisList.get( i ).setType( srcAxisList.get( i ).getType( ) );
+						}
 					}
 				}
 			}

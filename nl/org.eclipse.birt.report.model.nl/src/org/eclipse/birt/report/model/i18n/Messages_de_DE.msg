@@ -2097,7 +2097,7 @@ Structure.IncludedLibrary.namespace=Namespace
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=Dateiname
 Structure.IncludedCssStyleSheet.externalCssURI=Externer CSS-URI
-Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
+Structure.IncludedCssStyleSheet.useExternalCss=Externes CSS verwenden
 
 #15. DataSetParam
 Structure.DataSetParam.name=Name
@@ -2413,6 +2413,7 @@ Element.DataMartCube=Datenobjektquader
 Element.TimeDimension=Zeitliche Dimension
 Element.ReportItemTheme=Berichtobjektthema
 Element.AbstractTheme=Abstraktes Thema
+Element.DataMartLinkedDataModel=Data Object Linked Data Set
 
 ###########################################################
 # Element property names
@@ -2742,6 +2743,8 @@ Element.Style.widows=Witwen
 Element.Style.orphans=Waisenkinder
 Element.Style.wordSpacing=Wortabstand
 Element.Style.overflow=Überlauf
+Element.Style.height=Höhe
+Element.Style.width=Breite
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Lesezeichen
@@ -3464,6 +3467,10 @@ Element.TimeDimension.startTimePoint=Startzeitpunkt
 Element.TimeDimension.endTimePoint=Endzeitpunkt
 Element.TimeDimension.hierarchies=Hierarchien
 
+#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
+Element.DataMartLinkedDataModel.dataSource=Datenquelle
+Element.DataMartLinkedDataModel.dataObject=Datenobjekt
+
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=Stile
 Element.ReportItemTheme.type=Typ
@@ -4011,6 +4018,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Die Elemente der Vorlage 
 Info.VersionInfo.INVALID_DESIGN_FILE=Die zu öffnende Designdatei ist keine gültige Designdatei oder nicht vorhanden.
 Info.VersionInfo.CONVERT_INFO=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
 Info.VersionInfo.INVALID_VERSION=Die Berichtdatei für Version {0} wird nicht unterstützt.
+Info.VersionInfo.LATER_VERSION=Die Design-Datei wurde mit einer höheren Version von BIRT erstellt. Klicken Sie auf 'OK', um sie in ein Format zu konvertieren, das von der aktuell verwendeten Produktversion unterstützt wird.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =Das Design/die Bibliothek kann geändert werden, da auf das zu öffnende Design/die zu öffnende Bibliothek oder deren enthaltene Bibliotheken Rückwärtskompatibilität angewendet wird.
 
 #EncryptionException

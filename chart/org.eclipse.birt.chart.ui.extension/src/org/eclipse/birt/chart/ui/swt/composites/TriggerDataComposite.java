@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil.EAttributeAccessor;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
@@ -338,7 +339,8 @@ public class TriggerDataComposite extends Composite implements
 				lastTriggerType = cmbTriggerType.getText( );
 			}
 		} );
-
+		ChartUIUtil.addScreenReaderAccessbility( cmbTriggerType,  lblTriggerEvent.getText( ) );
+		
 		Label lblActionType = new Label( this, SWT.NONE );
 		GridData gdLBLActionType = new GridData( );
 		gdLBLActionType.horizontalIndent = 4;

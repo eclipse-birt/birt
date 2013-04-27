@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteStructureCommand;
+import org.eclipse.birt.report.designer.core.model.IMixedHandle;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
@@ -1006,6 +1007,10 @@ public final class DNDUtil
 		{
 			( (SlotHandle) container ).add( handle );
 		}
+		else if (container instanceof PropertyHandle )
+		{
+			((PropertyHandle) container ).add( handle );
+		}
 	}
 
 	public static void addEmbeddedImageHandle( Object container,
@@ -1163,6 +1168,26 @@ public final class DNDUtil
 							targetHandle.getPropertyDefn( ).getName( ) );
 					infoList.addAll( status.getErrors( ) );
 					return status.canPaste( ) ? CONTAIN_THIS
+							: CONTAIN_NO;
+				}
+				
+				if (targetObj instanceof IMixedHandle)
+				{
+					IMixedHandle mHandle = (IMixedHandle) targetObj;
+					
+					SlotHandle sHandle = mHandle.getSlotHandle( );
+					IPasteStatus sStatus = CopyUtil.canPaste( (IElementCopy) transferData,
+							sHandle.getElementHandle( ),
+							sHandle.getSlotID( ) );
+					infoList.addAll( sStatus.getErrors( ) );
+										
+					PropertyHandle pHandle = mHandle.getPropertyHandle( );
+					IPasteStatus pStatus =  CopyUtil.canPaste( (IElementCopy) transferData,
+							pHandle.getElementHandle( ),
+							pHandle.getPropertyDefn( ).getName( ) );
+					infoList.addAll( pStatus.getErrors( ) );
+					
+					return sStatus.canPaste( ) || pStatus.canPaste( ) ? CONTAIN_THIS
 							: CONTAIN_NO;
 				}
 
@@ -1484,6 +1509,10 @@ public final class DNDUtil
 //					&& length <= 1;
 			return true;
 		}
+		if ( targetObj instanceof IMixedHandle)
+		{
+			return true;
+		}
 		return targetObj instanceof DesignElementHandle
 				|| targetObj instanceof EmbeddedImageNode;
 	}
@@ -1594,5 +1623,7 @@ public final class DNDUtil
 		library.importCssStyles( cssStyleSheet, styleList, theme.getName( ) );
 		return true;
 	}
+	
+
 
 }

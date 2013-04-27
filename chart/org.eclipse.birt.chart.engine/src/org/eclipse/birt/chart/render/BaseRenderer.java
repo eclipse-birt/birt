@@ -296,7 +296,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/**
 	 * Sets the deferred cache used by current renderer.
 	 */
-	public final void set( DeferredCache _dc )
+	public void set( DeferredCache _dc )
 	{
 		dc = _dc;
 	}

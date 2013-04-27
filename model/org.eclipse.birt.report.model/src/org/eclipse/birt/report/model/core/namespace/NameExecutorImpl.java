@@ -138,7 +138,7 @@ class NameExecutorImpl
 				}
 				else
 				{
-					if ( module == focus.getRoot( ) )
+					if ( module == focus.getRoot( ) || focus.getRoot( ) == null )
 					{
 						nsParent = focus.getContainer( );
 					}
@@ -281,7 +281,7 @@ class NameExecutorImpl
 
 		if ( nameHelper != null )
 		{
-			nameHelper.makeUniqueName( namespaceId, focus );
+			nameHelper.makeUniqueName( namespaceId, focus, prefix );
 		}
 	}
 

@@ -14,10 +14,13 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.CrosstabSimpleComboSection;
@@ -142,6 +145,23 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 		// super.save( value );
 	}
 
+	public Object load( )
+	{
+		Object obj = super.load( );
+		
+		if (obj.toString( ).length( ) < 1)
+		{
+			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+			if (adapter != null)
+			{
+				obj = adapter.getExtendedDataName( getExtendedItemHandle( ));
+			}
+			
+		}
+		
+		return obj;
+	}
+
 	private String getCubeName( )
 	{
 		String cubeName;
@@ -172,7 +192,15 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 						.getReportDesignHandle( )
 						.findCube( value.toString( ) );
 			}
-			getExtendedItemHandle( ).setCube( cubeHandle );
+			if(cubeHandle == null && value != null)
+			{
+				new LinkedDataSetAdapter().setLinkedDataModel(getExtendedItemHandle( ), value.toString( ));
+				
+			}else
+			{
+				getExtendedItemHandle( ).setCube( cubeHandle );
+				new LinkedDataSetAdapter().setLinkedDataModel(getExtendedItemHandle( ), null);
+			}
 			if ( clearHistory )
 			{
 				getExtendedItemHandle( ).getColumnBindings( ).clearValue( );

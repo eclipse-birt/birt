@@ -44,6 +44,8 @@ CreateMeasureViewCommand.TransName=측정값 생성
 MergeCrosstabHeaderCellAction_name=머리글 셀 병합(&M)
 SplitCrosstabHeadCellAction_name=머리글 셀 분할(&S)
 
+ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################

@@ -52,6 +52,10 @@ class OlapExpressionCompiler
 			
 			return result;
 		}
+		catch( Exception e )
+		{
+			return Collections.EMPTY_SET;
+		}
 		finally
 		{
 			Context.exit( );
@@ -83,6 +87,10 @@ class OlapExpressionCompiler
 					tree,
 					result );
 			return result;
+		}
+		catch( Exception e )
+		{
+			return Collections.EMPTY_SET;
 		}
 		finally
 		{
