@@ -848,13 +848,29 @@ public class CDateTime extends GregorianCalendar
 
 	/**
 	 * Zeroes out all units for this datetime instance below a specified unit.
+	 * If it's full date time, no trim because original value should be used to
+	 * format using time zone.
 	 * 
 	 * @param iUnit
 	 *            The unit below which all values are to be zeroed out
 	 */
 	public final void clearBelow( int iUnit )
 	{
-		if ( isFullDateTime( ) )
+		clearBelow( iUnit, false );
+	}
+	
+	/**
+	 * Zeroes out all units for this datetime instance below a specified unit.
+	 * 
+	 * @param iUnit
+	 *            The unit below which all values are to be zeroed out
+	 * @param always
+	 *            indicates if it's always trimmed no matter if it's full date
+	 *            time
+	 */
+	public final void clearBelow( int iUnit, boolean always )
+	{
+		if ( !always && isFullDateTime( ) )
 		{
 			// Do not clear below because of timezone issue
 			return;
