@@ -1078,4 +1078,35 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 		return levelBindingName;
 	}
+	
+	public static ComputedColumnHandle getMeasureBindingColumnHandle( MeasureViewHandle mv )
+	{
+		if( mv == null )
+		{
+			return null;
+		}
+		
+		CrosstabReportItemHandle crosstabItem = mv.getCrosstab();
+		String measureName = mv.getCubeMeasureName( );
+		CrosstabCellHandle cell = mv.getCell( );	
+		ComputedColumnHandle columnHandle = null;
+		if( cell != null )
+		{
+			List contents = cell.getContents( );
+			for( Object obj : contents )
+			{
+				if( obj != null && obj instanceof DataItemHandle )
+				{
+					String columnName = ((DataItemHandle)obj).getResultSetColumn( );
+					columnHandle = CrosstabUtil.getColumnHandle( crosstabItem, columnName );
+					if( CrosstabUtil.validateBinding( columnHandle, measureName ) )
+					{
+						break;
+					}
+				}
+			}
+		}
+		
+		return columnHandle;
+	}
 }

@@ -836,23 +836,32 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	 */
 	public static String getDefaultMeasureAggregationFunction(
 			MeasureViewHandle mv )
-	{
+	{		
 		if ( mv != null && mv.getCubeMeasure( ) != null )
 		{
+			String func = null;
 			if ( CrosstabUtil.isBoundToLinkedDataSet( mv.getCrosstab( ) ) )
 			{				
-				if ( !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+				ComputedColumnHandle columnHandle = CrosstabUtil.getMeasureBindingColumnHandle( mv );
+				if( columnHandle != null )
 				{
-					return DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
+					func = columnHandle.getAggregateFunction();
+				}
+				
+				if( func == null 
+						&& !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+				{
+					func = DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
 				}
 			}
 			else
 			{
-				String func = mv.getCubeMeasure( ).getFunction( );
-				if ( func != null )
-				{
-					return DataAdapterUtil.getRollUpAggregationName( func );
-				}
+				func = mv.getCubeMeasure( ).getFunction( );				
+			}
+			
+			if ( func != null )
+			{
+				return DataAdapterUtil.getRollUpAggregationName( func );
 			}
 		}
 
