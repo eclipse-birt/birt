@@ -861,7 +861,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			// Render chart
 			Object renderObject = generateRenderObject( rowAdapter,
 					externalContext,
-					bEmpty,
+					bEmpty || bEmptyData,
 					styleProcessor );
 
 			// Close the dataRow evaluator. It needs to stay opened until the
