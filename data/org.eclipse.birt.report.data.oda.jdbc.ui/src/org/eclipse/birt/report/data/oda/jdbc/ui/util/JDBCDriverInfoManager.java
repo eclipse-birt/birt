@@ -69,6 +69,7 @@ public class JDBCDriverInfoManager
 		driverInfo.setUrlFormat( 
 				configElement.getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_URLTEMPL ) );
 		driverInfo.setHide( configElement.getAttribute( "hide" ) );
+		driverInfo.populateProperties( configElement );
 		return driverInfo;
 	}
 	

@@ -12,10 +12,13 @@
 package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
 import java.sql.Driver;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
+import org.eclipse.core.runtime.IConfigurationElement;
 
 
 /**
@@ -35,7 +38,8 @@ public final class JDBCDriverInformation
     private int minorVersion = 0;
     private String urlFormat = null;
     private String driverDisplayName = null;
-    private boolean hide = false;
+    private boolean hide = false; 
+    private List<PropertyGroup> propertyGroup=new ArrayList<PropertyGroup>( );
     
     /**
      * Since factory methods are provided, it is recommended to make
@@ -136,6 +140,15 @@ public final class JDBCDriverInformation
         return urlFormat;
     }
     
+	public boolean hasProperty( )
+	{
+		if ( this.propertyGroup==null )
+		{
+			return false;
+		}
+		return this.propertyGroup.size( ) > 0;
+	}
+
     /**
      * @param urlFormat The urlFormat to set.
      */
@@ -257,4 +270,44 @@ public final class JDBCDriverInformation
 		return ( hashcode + this.majorVersion * 13 ) + this.minorVersion * 17;
 	}
 
+	private PropertyElement populateProperty(
+			IConfigurationElement configElement )
+	{
+		PropertyElement element = new PropertyElement( );
+		element.setAttribute( Constants.DRIVER_INFO_PROPERTY_NAME,
+				configElement.getAttribute( Constants.DRIVER_INFO_PROPERTY_NAME ) );
+		element.setAttribute( Constants.DRIVER_INFO_PROPERTY_DISPLAYNAME,
+				configElement.getAttribute( Constants.DRIVER_INFO_PROPERTY_DISPLAYNAME ) );
+		element.setAttribute( Constants.DRIVER_INFO_PROPERTY_DEC,
+				configElement.getAttribute( Constants.DRIVER_INFO_PROPERTY_DEC ) );
+		element.setAttribute( Constants.DRIVER_INFO_PROPERTY_ENCRYPT,
+				configElement.getAttribute( Constants.DRIVER_INFO_PROPERTY_ENCRYPT ) );
+		element.setAttribute( Constants.DRIVER_INFO_PROPERTY_TYPE,
+				configElement.getAttribute( Constants.DRIVER_INFO_PROPERTY_TYPE ) );
+		return element;
+	}
+
+	public List<PropertyGroup> getPropertyGroup( )
+	{
+		return propertyGroup;
+	}
+
+	public void populateProperties( IConfigurationElement configElement )
+	{
+		IConfigurationElement[] elements = configElement.getChildren( Constants.DRIVER_INFO_PROPERTY_GROUP );
+		for( IConfigurationElement element:elements )
+		{			
+			String name = element.getAttribute( Constants.DRIVER_INFO_PROPERTY_GROUP_NAME );
+			String desc = element.getAttribute( Constants.DRIVER_INFO_PROPERTY_GROUP_DEC );
+			PropertyGroup group = new PropertyGroup( name, desc );
+			IConfigurationElement[] propertiesConfigurationElements = element.getChildren( Constants.DRIVER_INFO_PROPERTY );
+			List<PropertyElement> list = new ArrayList<PropertyElement>( );
+			for ( IConfigurationElement prElement:propertiesConfigurationElements )
+			{
+				list.add( populateProperty( prElement ) );
+			}
+			group.setProperties( list );
+			propertyGroup.add( group );
+		}		
+	}
 }

@@ -17,7 +17,10 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.profile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
@@ -29,6 +32,8 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInfoManager;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.PropertyElement;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.PropertyGroup;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.bidi.profile.BidiSettingsSupport;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -52,14 +57,18 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
@@ -83,11 +92,15 @@ public class JDBCSelectionPageHelper
 	// Text of url, name and password
 	private Text jdbcUrl, userName, password, jndiName;
 
+	private Composite porpertyGroupComposite;
 	// Button of manage driver and test connection
 	private Button manageButton, testButton;
 
 	private String DEFAULT_MESSAGE;
+	
+	private Map<String, String> databaseProperties = new HashMap<String, String>( );
 
+	private Properties profileProperties=null;
 	// constant string
 	final private static String EMPTY_DRIVER_CLASS_OR_URL = JdbcPlugin.getResourceString( "error.emptyDriverclassOrURL" );//$NON-NLS-1$
 
@@ -125,8 +138,8 @@ public class JDBCSelectionPageHelper
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 4;
 		layout.verticalSpacing = 10;
-		layout.marginBottom = 10;
-		content.setLayout( layout );
+		layout.marginBottom = 300;
+		content.setLayout(layout);
 
 		GridData gridData;
 
@@ -202,7 +215,7 @@ public class JDBCSelectionPageHelper
 			public void selectionChanged( SelectionChangedEvent event )
 			{
 				StructuredSelection selection = (StructuredSelection) event.getSelection( );
-				JDBCDriverInformation info = (JDBCDriverInformation) selection.getFirstElement( );
+				final JDBCDriverInformation info = (JDBCDriverInformation) selection.getFirstElement( );
 
 				String className = ( info != null ) ? info.getDriverClassName( )
 						: EMPTY_STRING;
@@ -221,6 +234,20 @@ public class JDBCSelectionPageHelper
 					{
 						jdbcUrl.setText( EMPTY_STRING );
 					}
+					( (GridData) porpertyGroupComposite.getLayoutData( ) ).exclude = true;
+					porpertyGroupComposite.setVisible( false );
+					porpertyGroupComposite.getParent( ).layout( );
+
+					Control[] children = porpertyGroupComposite.getChildren( );
+					for ( int i = 0; i < children.length; i++ )
+					{
+						children[i].dispose( );
+					}
+					if ( info.hasProperty( ) )
+					{
+						drawPropertyGroups( info );
+					}
+					porpertyGroupComposite.getParent( ).layout( );
 				}
 				// TODO - enhance driverinfo extension point and UI to include
 				// driver-specific JNDI URL template and jndi properties file
@@ -231,6 +258,190 @@ public class JDBCSelectionPageHelper
 				userName.setText( EMPTY_STRING );
 				password.setText( EMPTY_STRING );
 				updateTestButton( );
+			}
+
+			private void drawPropertyGroups( final JDBCDriverInformation info )
+			{
+				( (GridData) porpertyGroupComposite.getLayoutData( ) ).exclude = false;
+				porpertyGroupComposite.setVisible( true );
+				( (GridData) porpertyGroupComposite.getLayoutData( ) ).heightHint = SWT.DEFAULT;
+				databaseProperties.clear( );
+				List<PropertyGroup> propertyGroups = info.getPropertyGroup( );
+				for ( Iterator it = propertyGroups.iterator( ); it.hasNext( ); )
+				{
+					PropertyGroup group = (PropertyGroup) (it.next( ));
+					String propertyGroupName = group.getName( );
+					List<PropertyElement> propertyList = group.getProperties( );
+					Group propertyGroup = drawPropertyGroup( propertyGroupName == null
+							? EMPTY_STRING : propertyGroupName );
+					for ( int i = 0; i < propertyList.size( ); i++ )
+					{
+						final String propertyName = propertyList.get( i )
+								.getAttribute( Constants.DRIVER_INFO_PROPERTY_NAME );
+						Label propertyParam = new Label( propertyGroup,
+								SWT.NONE );
+						String propertyParamDisplayName = propertyList.get( i )
+								.getAttribute( Constants.DRIVER_INFO_PROPERTY_DISPLAYNAME );
+						if ( propertyParamDisplayName == null )
+						{
+							propertyParamDisplayName = propertyName;
+						}
+						propertyParam.setText( propertyParamDisplayName );
+						propertyParam.setToolTipText( propertyList.get( i ).getAttribute( Constants.DRIVER_INFO_PROPERTY_DEC ) );
+						GridData gd = new GridData( );
+						gd.horizontalSpan = 2; // bidi_hcg
+						propertyParam.setLayoutData( gd );
+
+						String propertyContent = null;
+						if ( profileProperties != null
+								&& !profileProperties.isEmpty( ) )
+						{
+							propertyContent = getProfileproperty( propertyName );
+						}
+
+						if ( Constants.DRIVER_INFO_PROPERTY_TYPE_BOOLEN.equalsIgnoreCase( propertyList.get( i )
+								.getAttribute( Constants.DRIVER_INFO_PROPERTY_TYPE ) ) )
+						{
+							drawPropertyCombo( propertyGroup,
+									propertyName,
+									propertyContent );
+						}
+						else
+						{
+							if ( Boolean.valueOf( propertyList.get( i )
+									.getAttribute( Constants.DRIVER_INFO_PROPERTY_ENCRYPT ) ) )
+							{
+								drawPropertyText( propertyGroup,
+										propertyName,
+										propertyContent, true );
+							}
+							else
+								drawPropertyText( propertyGroup,
+										propertyName,
+										propertyContent, false );
+						}
+					}
+					propertyGroup.getParent( ).layout( );
+				}
+			}
+
+			private void drawPropertyText( Group propertyGroup,
+					final String propertyName, String propertyContent, boolean encrypt )
+			{
+				GridData gd;
+				final Text propertyText;
+				if( encrypt )
+				{
+					propertyText = new Text( propertyGroup,
+							SWT.BORDER | SWT.PASSWORD );
+				}
+				else
+				{
+					propertyText = new Text( propertyGroup, SWT.BORDER );
+				}
+				if ( propertyContent != null )
+				{
+					propertyText.setText( propertyContent );
+					databaseProperties.put( propertyName,
+							propertyContent );
+				}
+				propertyText.addModifyListener( new ModifyListener( ) {
+
+					public void modifyText( ModifyEvent e )
+					{
+						databaseProperties.put( propertyName,
+								propertyText.getText( ) );
+					}
+				} );
+				gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalSpan = 3; // bidi_hcg
+				gd.horizontalAlignment = SWT.FILL;
+				propertyText.setLayoutData( gd );
+				propertyText.getParent( ).layout( );
+			}
+
+			private void drawPropertyCombo( Group propertyGroup,
+					final String propertyName, String propertyContent )
+			{
+				GridData gd;
+				final Combo propertyField = new Combo( propertyGroup,
+						SWT.BORDER | SWT.READ_ONLY );
+				propertyField.setItems( new String[]{
+						EMPTY_STRING, "True", "False"
+				} );
+				if ( propertyContent != null )
+				{
+					propertyField.setText( propertyContent );
+					databaseProperties.put( propertyName, propertyContent );
+				}
+				else
+					propertyField.setText( EMPTY_STRING );
+
+				propertyField.addSelectionListener( new SelectionListener( ) {
+
+					@Override
+					public void widgetSelected(
+							SelectionEvent arg0 )
+					{
+						if ( propertyField.getSelectionIndex( ) == 1 )
+						{
+							databaseProperties.put( propertyName,
+									"True" );
+						}
+						else if ( propertyField.getSelectionIndex( ) == 2 )
+						{
+							databaseProperties.put( propertyName,
+									"False" );
+						}
+						else
+						{
+							databaseProperties.put( propertyName,
+									EMPTY_STRING );
+						}
+					}
+
+					@Override
+					public void widgetDefaultSelected(
+							SelectionEvent arg0 )
+					{
+						databaseProperties.put( propertyName, EMPTY_STRING );
+					}
+				} );
+				gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalSpan = 3; // bidi_hcg
+				gd.horizontalAlignment = SWT.FILL;
+				propertyField.setLayoutData( gd );
+				propertyField.getParent( ).layout( );
+			}
+
+			private Group drawPropertyGroup(String propertyGroupName )
+			{
+				GridData gridData;
+
+				Group propertyGroup = new Group( porpertyGroupComposite, SWT.NONE );
+
+				gridData = new GridData( GridData.FILL_HORIZONTAL
+						| GridData.GRAB_HORIZONTAL );
+				gridData.horizontalSpan = 4;
+				gridData.horizontalAlignment = SWT.FILL;
+				propertyGroup.setText( propertyGroupName );
+				propertyGroup.setLayoutData( gridData );
+				GridLayout layout = new GridLayout( );
+				// layout.horizontalSpacing = layout.verticalSpacing = 0;
+				layout.marginWidth = layout.marginHeight = 0;
+				layout.numColumns = 5;
+				
+				
+				Layout parentLayout = porpertyGroupComposite.getParent( ).getLayout( );
+				if ( parentLayout instanceof GridLayout )
+					layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
+				propertyGroup.setLayout( layout );	
+				return propertyGroup;
+			}
+
+			private String getProfileproperty( String propertyName )
+			{
+				return profileProperties.getProperty( propertyName );
 			}
 		} );
 
@@ -269,8 +480,7 @@ public class JDBCSelectionPageHelper
 		gridData.horizontalAlignment = SWT.FILL;
 		jndiName.setLayoutData( gridData );
 
-		// Test connection
-		new Label( content, SWT.NONE );
+		createPropertiesComposite( content );
 
 		manageButton = new Button( content, SWT.PUSH );
 		manageButton.setText( JdbcPlugin.getResourceString( "wizard.label.manageDriver" ) );//$NON-NLS-1$
@@ -296,6 +506,28 @@ public class JDBCSelectionPageHelper
 		return content;
 	}
 
+	private void createPropertiesComposite( Composite content )
+	{
+		GridData gridData;
+
+		porpertyGroupComposite = new Composite( content, SWT.NONE );
+
+		gridData = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.GRAB_HORIZONTAL );
+		gridData.horizontalSpan = 4;
+		gridData.horizontalAlignment = SWT.FILL;
+		gridData.exclude = true;
+		porpertyGroupComposite.setLayoutData( gridData );
+		GridLayout layout = new GridLayout( );
+		// layout.horizontalSpacing = layout.verticalSpacing = 0;
+		layout.marginWidth = layout.marginHeight = 0;
+		layout.numColumns = 5;
+		Layout parentLayout = porpertyGroupComposite.getParent( ).getLayout( );
+		if ( parentLayout instanceof GridLayout )
+			layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
+		porpertyGroupComposite.setLayout( layout );
+	}
+
 	/**
 	 * populate properties
 	 * 
@@ -306,6 +538,7 @@ public class JDBCSelectionPageHelper
 		if ( profileProps == null || profileProps.isEmpty( ) )
 			return; // nothing to initialize
 
+		profileProperties = profileProps;
 		String driverClass = profileProps.getProperty( Constants.ODADriverClass );
 		if ( driverClass == null )
 			driverClass = EMPTY_STRING;
@@ -397,6 +630,8 @@ public class JDBCSelectionPageHelper
 		props.setProperty( Constants.ODAUser, getODAUser( ) );
 		props.setProperty( Constants.ODAPassword, getODAPassword( ) );
 		props.setProperty( Constants.ODAJndiName, getODAJndiName( ) );
+		props.putAll( databaseProperties );
+		
 		// bidi_hcg: add Bidi formats settings to props
 		props = bidiSupportObj.addBidiProperties( props );
 		return props;
@@ -731,14 +966,29 @@ public class JDBCSelectionPageHelper
 					jndiNameValue,
 					userid,
 					passwd,
-					bidiSupportObj.getMetadataBidiFormat( ).toString( ) );
+					bidiSupportObj.getMetadataBidiFormat( ).toString( ),collectSpecifiedProperties( ) );
 		}
 
 		return DriverLoader.testConnection( driverName,
 				url,
 				jndiNameValue,
 				userid,
-				passwd );
+				passwd,collectSpecifiedProperties( ) );
+	}
+
+	private Properties collectSpecifiedProperties( )
+	{
+		Properties props = new Properties( );
+
+		for ( String o : databaseProperties.keySet( ) )
+		{
+			if ( databaseProperties.get( o ) != null
+					&& databaseProperties.get( o ).trim( ).length( ) > 0 )
+			{
+				props.setProperty( o, databaseProperties.get( o ) );
+			}
+		}
+		return props;
 	}
 
 	/**
