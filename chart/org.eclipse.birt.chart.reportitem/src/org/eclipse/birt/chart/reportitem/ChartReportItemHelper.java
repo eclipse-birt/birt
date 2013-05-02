@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -97,5 +98,10 @@ public class ChartReportItemHelper
 	public Iterator<?> getAllUsedBindings( Chart cm, ReportItemHandle handle )
 	{
 		return handle.columnBindingsIterator( );
+	}
+
+	public String getMeasureExprIndicator( CubeHandle cubeHandle )
+	{
+		return ExpressionUtil.MEASURE_INDICATOR;
 	}
 }
