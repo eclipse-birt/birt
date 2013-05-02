@@ -15,6 +15,8 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -201,6 +203,14 @@ public class CopyAction extends AbstractViewAction
 				return ( (GridHandle) parent ).canCopyColumn( columnNumber );
 			}
 		}
+		if(selection instanceof DesignElementHandle)
+		{
+			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+			if( adapter != null && adapter.resolveExtendedData( (DesignElementHandle)selection ) != null)
+			{
+				return true;
+			}
+		}
 		return selection instanceof ReportItemHandle
 				|| selection instanceof DataSetHandle
 				|| selection instanceof DataSourceHandle
@@ -219,5 +229,4 @@ public class CopyAction extends AbstractViewAction
 				|| selection instanceof MeasureGroupHandle
 				|| selection instanceof VariableElementHandle;
 	}
-
 }

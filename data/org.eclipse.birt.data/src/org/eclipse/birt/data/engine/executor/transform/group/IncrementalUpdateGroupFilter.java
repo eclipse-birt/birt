@@ -76,7 +76,31 @@ public class IncrementalUpdateGroupFilter extends IncrementalUpdateCaculator
 			
 			if ( FilterUtil.hasMutipassFilters( filters ) )
 			{
-				doMultiPassFilter( i, filters );
+				List singlePassFilter = new ArrayList<IFilterDefinition>();
+				List multiPassFilter = new ArrayList<IFilterDefinition>();
+				
+				for ( Object filter : filters )
+				{
+					if ( FilterUtil.isFilterNeedMultiPass( ( ( IFilterDefinition ) filter ) ) )
+					{
+						multiPassFilter.add( filter );
+					}
+					else
+					{
+						singlePassFilter.add( filter );
+					}
+				}
+				
+				if ( singlePassFilter.size( ) > 0 )
+				{
+					doSinglePassFilter( i, singlePassFilter );
+					setFilteringResults( );
+					resultSetCache = new SimpleSmartCache( populator.getSession( ),
+							populator.getEventHandler( ),
+							populator.getResultSetMetadata( ) );
+				}
+				
+				doMultiPassFilter( i, multiPassFilter );
 			}
 			else
 			{

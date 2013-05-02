@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -2198,7 +2199,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		super.visitColumn( obj );
 
-		property( obj, ITableColumnModel.WIDTH_PROP );
+		visitSpecialProperty(obj, ITableColumnModel.WIDTH_PROP);
+
 		property( obj, ITableColumnModel.REPEAT_PROP );
 		property( obj, ITableColumnModel.SUPPRESS_DUPLICATES_PROP );
 		writeStructureList( obj, ITableColumnModel.VISIBILITY_PROP );
@@ -2226,8 +2228,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				IDesignElementModel.VIEW_ACTION_PROP );
 
 		super.visitRow( obj );
+		
+		visitSpecialProperty( obj, ITableRowModel.HEIGHT_PROP );
 
-		property( obj, ITableRowModel.HEIGHT_PROP );
 		property( obj, ITableRowModel.BOOKMARK_PROP );
 		property( obj, ITableRowModel.BOOKMARK_DISPLAY_NAME_PROP );
 		property( obj, ITableRowModel.SUPPRESS_DUPLICATES_PROP );
@@ -2275,8 +2278,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, ICellModel.COL_SPAN_PROP );
 		property( obj, ICellModel.ROW_SPAN_PROP );
 		property( obj, ICellModel.DROP_PROP );
-		property( obj, ICellModel.HEIGHT_PROP );
-		property( obj, ICellModel.WIDTH_PROP );
+
+		visitSpecialProperty( obj, ICellModel.HEIGHT_PROP );
+		visitSpecialProperty( obj, ICellModel.WIDTH_PROP );
+
 		property( obj, ICellModel.DIAGONAL_NUMBER_PROP );
 		property( obj, ICellModel.DIAGONAL_STYLE_PROP );
 		property( obj, ICellModel.DIAGONAL_THICKNESS_PROP );
@@ -2752,6 +2757,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		// Overflow
 		property( obj, IStyleModel.OVERFLOW_PROP );
+		// Height
+		property( obj, IStyleModel.HEIGHT_PROP );
+		// Width
+		property( obj, IStyleModel.WIDTH_PROP );
 
 		// Highlight
 
@@ -3337,8 +3346,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IReportItemModel.X_PROP );
 		property( obj, IReportItemModel.Y_PROP );
 		property( obj, IReportItemModel.Z_INDEX_PROP );
-		property( obj, IReportItemModel.HEIGHT_PROP );
-		property( obj, IReportItemModel.WIDTH_PROP );
+
+		visitSpecialProperty( obj, IReportItemModel.HEIGHT_PROP );
+		visitSpecialProperty( obj, IReportItemModel.WIDTH_PROP );
+
 		property( obj, IReportItemModel.DATA_SET_PROP );
 		property( obj, IReportItemModel.CUBE_PROP );
 		property( obj, IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
@@ -3388,8 +3399,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				IMasterPageModel.TYPE_PROP );
 		if ( DesignChoiceConstants.PAGE_SIZE_CUSTOM.equalsIgnoreCase( type ) )
 		{
-			property( obj, IMasterPageModel.HEIGHT_PROP );
-			property( obj, IMasterPageModel.WIDTH_PROP );
+			visitSpecialProperty( obj, IMasterPageModel.HEIGHT_PROP );
+			visitSpecialProperty( obj, IMasterPageModel.WIDTH_PROP );
 		}
 
 		property( obj, IMasterPageModel.ORIENTATION_PROP );
@@ -4368,6 +4379,29 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		super.visitAbstractTheme( obj );
 
 		writeStructureList( obj, IAbstractThemeModel.CSSES_PROP );
+	}
+	
+	/**
+	 * if the property is height or width, meanwhile it is from Style
+	 * ignore this property
+	 * otherwise visit the property
+	 * resolve the conflict about the same property name between StyledElement and Style
+	 * Ted 43511
+	 * @param element
+	 * @param propertyName
+	 * @return 
+	 */
+	private void visitSpecialProperty( StyledElement element,
+			String propertyName )
+	{
+		PropertyDefn propDefn = element.getPropertyDefn( propertyName );
+		if ( propDefn != null
+				&& MetaDataConstants.STYLE_NAME.equals( propDefn.definedBy( ).getName( ) )
+				&& ( IStyleModel.HEIGHT_PROP.equals( propDefn.getName( ) ) || IStyleModel.WIDTH_PROP.equals( propDefn.getName( ) ) ) )
+		{
+			return;
+		}
+		property( element, propertyName );
 	}
 
 }

@@ -46,7 +46,7 @@ import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
-import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
+import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.NewInstanceHelper;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -281,7 +281,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 					return  new EmptyResultIterator( );
 				}
 				
-				DataSetResultSet dataSetResult = rdLoad.loadDataSetData( null, null, new HashMap() );
+				IDataSetResultSet dataSetResult = rdLoad.loadDataSetData( null, null, new HashMap() );
 				StreamManager manager = new StreamManager( getEngineContext( ),
 						new QueryResultInfo( queryDefn.getQueryResultsID( ),
 								null,
@@ -439,7 +439,9 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 					rowLensStream,
 					null,
 					new HashMap(),
-					eventHandler.getAllColumnBindings( ), manager.getVersion( ) );
+					eventHandler.getAllColumnBindings( ),
+					manager.getVersion( ),
+					null );
 			dataSetDataStream.flush( );
 			cache.close( );
 

@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -57,7 +58,7 @@ public class GroupOnYAxis
 	 */
 	void groupKey( )
 	{
-		SessionHandle sessionHandle = new DesignEngine( null ).newSessionHandle( (ULocale) null );
+		SessionHandle sessionHandle = new DesignEngine( new DesignConfig() ).newSessionHandle( (ULocale) null );
 		ReportDesignHandle designHandle = null;
 
 		String path = "src/org/eclipse/birt/chart/examples/api/data/";//$NON-NLS-1$

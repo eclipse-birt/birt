@@ -32,6 +32,8 @@ import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor;
 import org.eclipse.birt.report.engine.emitter.config.impl.EmitterConfigurationManager;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.viewer.utilities.IWebAppInfo;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
@@ -297,9 +299,37 @@ abstract class PreviewSupport
 		options.put( WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf( allowPage ) );
 		options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault( )
 				.getResourceFolder( ) );
-
+		if (hasParameters(model)) {
+			options.put(WebViewer.SHOW_PARAMETER_PAGE_KEY, "true");
+		}
 		WebViewer.display( model.getFileName( ), options );
 	}
+	private boolean hasParameters(ModuleHandle model )
+	{
+		IWebAppInfo webapp = WebViewer.getCurrentWebApp( );
+
+		if ( webapp != null && webapp.useCustomParamHandling( ) )
+		{
+			return false;
+		}
+
+		List parameters = model.getFlattenParameters( );
+
+		if ( parameters != null )
+		{
+			for ( Object p : parameters )
+			{
+				if ( p instanceof ParameterHandle
+						&& !( (ParameterHandle) p ).isHidden( ) )
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 
 	protected void preview( EmitterInfo ei, IEmitterDescriptor descriptor )
 	{

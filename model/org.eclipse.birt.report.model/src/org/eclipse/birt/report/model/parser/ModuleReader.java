@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ParserFactory;
+import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -95,6 +96,21 @@ public abstract class ModuleReader
 			InputSource inputSource = new InputSource( internalStream );
 			inputSource.setEncoding( signature );
 			parser.parse( inputSource, handler );
+			// log warning message
+			// TED 57401
+			List<XMLParserException> warningExceptionList = handler.getErrorHandler( ).getWarnings( );
+			if ( handler.isLaterVersion( )
+					&& ( handler.getModule( ).getOptions( ) == null 
+					     || handler.getModule( ).getOptions( ).isSupportedUnknownVersion( ) )
+					&& warningExceptionList != null
+					&& warningExceptionList.size( ) > 0 )
+			{
+				for ( XMLParserException xmlException : warningExceptionList )
+				{
+					logger.log( Level.WARNING, xmlException.getMessage( ) );
+				}
+			}
+			
 		}
 		catch ( SAXException e )
 		{

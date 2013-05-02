@@ -617,6 +617,7 @@ public class ModuleUtil
 		DesignSession session = new DesignSession( ThreadResources.getLocale( ) );
 		byte[] buf = new byte[512];
 		int len;
+		boolean isSupportedUnknownVersion = true;
 
 		ByteArrayOutputStream bySteam = new ByteArrayOutputStream( );
 		byte[] data = null;
@@ -642,7 +643,9 @@ public class ModuleUtil
 			Module module = session.openModule( filename, inputStreamToParse );
 
 			String version = module.getVersionManager( ).getVersion( );
-			List<IVersionInfo> retList = ModelUtil.checkVersion( version );
+			isSupportedUnknownVersion = module.getOptions( ) == null
+					|| module.getOptions( ).isSupportedUnknownVersion( );
+			List<IVersionInfo> retList = ModelUtil.checkVersion( version, isSupportedUnknownVersion );
 			if ( hasCompatibilities( module ) )
 				retList.add( new VersionInfo( version,
 						VersionInfo.EXTENSION_COMPATIBILITY ) );
@@ -659,8 +662,8 @@ public class ModuleUtil
 					inputStreamToParse = new BufferedInputStream( streamData );
 
 				parse( handler, inputStreamToParse, filename );
-
-				return ModelUtil.checkVersion( handler.version );
+				
+				return ModelUtil.checkVersion( handler.version, isSupportedUnknownVersion );
 			}
 			return Collections.emptyList( );
 		}

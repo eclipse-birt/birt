@@ -148,6 +148,10 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 							context,
 							sTitle );
 					subUI.createArea( cmpGroup );
+					if (subUI instanceof BaseDataDefinitionComponent)
+					{
+						subUI.bindAssociatedName( strDesc );
+					}
 					components.add( subUI );
 				}
 

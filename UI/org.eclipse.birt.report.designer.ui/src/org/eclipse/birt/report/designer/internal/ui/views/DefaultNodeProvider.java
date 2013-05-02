@@ -1,6 +1,6 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -260,6 +260,15 @@ public class DefaultNodeProvider implements INodeProvider
 			}
 			return children;
 		}
+		else if ( model instanceof PropertyHandle )
+		{
+			Object[] children = this.getChildrenByPropertyHandle( (PropertyHandle) model );
+			if ( comparator != null )
+			{
+				Arrays.sort( children, comparator );
+			}
+			return children;
+		}
 		return new Object[]{};
 	}
 
@@ -272,6 +281,10 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( model instanceof SlotHandle )
 		{
 			return ( (SlotHandle) model ).getElementHandle( );
+		}
+		else if ( model instanceof PropertyHandle )
+		{
+			return ( (PropertyHandle) model ).getElementHandle( );
 		}
 		else if ( model instanceof ReportElementHandle )
 		{
@@ -399,6 +412,23 @@ public class DefaultNodeProvider implements INodeProvider
 		return list.toArray( );
 	}
 
+	protected Object[] getChildrenByPropertyHandle( PropertyHandle slotHandle )
+	{
+		ArrayList list = new ArrayList( );
+		Iterator itor = slotHandle.iterator( );
+		while ( itor.hasNext( ) )
+		{
+			Object obj = itor.next( );
+			if ( obj instanceof DesignElementHandle )
+			{
+				DesignElementHandle eleHandle = (DesignElementHandle) obj;
+				list.add( eleHandle );
+			}
+		}
+
+		return list.toArray( );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -408,7 +438,7 @@ public class DefaultNodeProvider implements INodeProvider
 	 */
 	public boolean performRequest( Object model, Request request )
 			throws Exception
-	{
+			{
 		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_INSERT ) )
 		{
 			Map extendsData = request.getExtendedData( );
@@ -486,7 +516,7 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 
 		return false;
-	}
+			}
 
 	private boolean performRevertToTemplateItem( DesignElementHandle handle )
 	{
@@ -547,8 +577,8 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( !( handle instanceof DataItemHandle ) )
 			return false;
 		handle.getModuleHandle( )
-				.getCommandStack( )
-				.startTrans( Messages.getString( "DefaultNodeProvider.stackMsg.changeBinding" ) ); //$NON-NLS-1$
+		.getCommandStack( )
+		.startTrans( Messages.getString( "DefaultNodeProvider.stackMsg.changeBinding" ) ); //$NON-NLS-1$
 		ColumnBindingDialog dialog = new ColumnBindingDialog( (DataItemHandle) handle,
 				UIUtil.getDefaultShell( ),
 				true );
@@ -623,9 +653,9 @@ public class DefaultNodeProvider implements INodeProvider
 				.createElement( null );
 	}
 
-	protected DesignElementHandle createElement( SlotHandle slotHandle,
+	protected DesignElementHandle createElement( ElementDetailHandle slotHandle,
 			String type ) throws Exception
-	{
+			{
 		if ( type == null )
 		{
 			List<IElementDefn> supportList = UIUtil.getUIElementSupportList( slotHandle );
@@ -654,11 +684,17 @@ public class DefaultNodeProvider implements INodeProvider
 			}
 		}
 		return createElement( type );
-	}
+			}
 
 	protected boolean performInsert( Object model, SlotHandle slotHandle,
 			String type, String position, Map extendData ) throws Exception
 	{
+		return performInsert(model, (ElementDetailHandle) slotHandle, type, position, extendData);
+	}
+	
+	protected boolean performInsert( Object model, ElementDetailHandle slotHandle,
+			String type, String position, Map extendData ) throws Exception
+			{
 		if ( type == null )
 		{
 			List<IElementDefn> supportList = UIUtil.getUIElementSupportList( slotHandle );
@@ -711,7 +747,14 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 		if ( position == InsertAction.CURRENT )
 		{
-			slotHandle.add( elementHandle );
+			if ( slotHandle instanceof SlotHandle )
+			{
+				( (SlotHandle) slotHandle ).add( elementHandle );
+			}
+			else if ( slotHandle instanceof PropertyHandle )
+			{
+				( (PropertyHandle) slotHandle ).add( elementHandle );
+			}
 		}
 		else
 		{
@@ -726,11 +769,25 @@ public class DefaultNodeProvider implements INodeProvider
 
 			if ( pos == -1 )
 			{
-				slotHandle.add( elementHandle );
+				if ( slotHandle instanceof SlotHandle )
+				{
+					( (SlotHandle) slotHandle ).add( elementHandle );
+				}
+				else if ( slotHandle instanceof PropertyHandle )
+				{
+					( (PropertyHandle) slotHandle ).add( elementHandle );
+				}
 			}
 			else
 			{
-				slotHandle.add( elementHandle, pos );
+				if ( slotHandle instanceof SlotHandle )
+				{
+					( (SlotHandle) slotHandle ).add( elementHandle, pos );
+				}
+				else if ( slotHandle instanceof PropertyHandle )
+				{
+					( (PropertyHandle) slotHandle ).add( elementHandle, pos );
+				}
 			}
 		}
 
@@ -740,7 +797,7 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			if ( ElementProcessorFactory.createProcessor( elementHandle ) != null
 					&& !ElementProcessorFactory.createProcessor( elementHandle )
-							.editElement( elementHandle ) )
+					.editElement( elementHandle ) )
 			{
 				return false;
 			}
@@ -748,18 +805,19 @@ public class DefaultNodeProvider implements INodeProvider
 		// add the code to add the defaultTheme
 		DEUtil.setDefaultTheme( elementHandle );
 		return true;
-	}
+			}
+
 
 	protected DesignElementHandle createElement( PropertyHandle propertyHandle,
 			String type ) throws Exception
-	{
+			{
 		return createElement( type );
-	}
+			}
 
 	protected boolean performInsert( Object model,
 			PropertyHandle propertyHandle, String type, String position,
 			Map extendData ) throws Exception
-	{
+			{
 		DesignElementHandle elementHandle = createElement( propertyHandle, type );
 		if ( extendData != null )
 		{
@@ -796,7 +854,7 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 		DEUtil.setDefaultTheme( elementHandle );
 		return true;
-	}
+			}
 
 	protected boolean performEdit( ReportElementHandle handle )
 	{

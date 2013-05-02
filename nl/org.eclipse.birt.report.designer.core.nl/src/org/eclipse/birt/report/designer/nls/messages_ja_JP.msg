@@ -263,10 +263,14 @@ ColumnBindingDialog.Text.AddAggr=集計の追加(&G)...
 
 BlockPreferencePage.displayname.Title=テキストブロック
 
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=サイズ
 
 ###########################################################
 #BorderCanvas properties
 
+BorderCanvas.Inherited0=( 継承 )
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -1401,6 +1405,8 @@ Element.Style.pageBreakInside=要素内(&I) :
 Element.Style.section=セクション :
 Element.Style.showIfBlank=空白でも表示(&W)
 Element.Style.text.align=文字列の位置揃え(&L) :
+Element.Style.width=幅(&W): 
+Element.Style.height=高さ(&H): 
 #bidi_hcg
 Element.Style.text.direction=双方向テキスト(&B) :
 Element.Style.text.indent=文字列のインデント(&X) :
@@ -4133,7 +4139,7 @@ WizardTemplateChoicePage.label.Description=説明 :
 WizardTemplateChoicePage.label.Preview=プレビュー :
 WizardTemplateChoicePage.label.ReportTemplates=レポートテンプレート :
 WizardTemplateChoicePage.label.ShowCheatSheets=レポート作成ガイドの表示(&S)
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=デフォルトのテーマを含める(&I)
 WizardTemplateChoicePage.message.BlankReport=内容が定義されていない空白のレポートを作成します。
 WizardTemplateChoicePage.message.ChartListing=グループ化されたレポートを作成します。グラフは、それぞれのグループのデータを視覚的に表します。
 WizardTemplateChoicePage.message.DualColumnChartListing=グラフとリストのサブグループを 2 つ持つグループ化されたレポートを作成します。

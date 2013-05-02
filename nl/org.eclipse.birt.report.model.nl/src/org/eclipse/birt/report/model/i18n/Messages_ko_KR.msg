@@ -2097,7 +2097,7 @@ Structure.IncludedLibrary.namespace=네임스페이스
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=파일 이름
 Structure.IncludedCssStyleSheet.externalCssURI=외부 CSS URI
-Structure.IncludedCssStyleSheet.useExternalCss=Use external CSS
+Structure.IncludedCssStyleSheet.useExternalCss=외부 CSS 사용
 
 #15. DataSetParam
 Structure.DataSetParam.name=이름
@@ -2413,6 +2413,7 @@ Element.DataMartCube=데이터 개체 큐브
 Element.TimeDimension=시간 차원
 Element.ReportItemTheme=보고서 항목 테마
 Element.AbstractTheme=추상적 테마
+Element.DataMartLinkedDataModel=Data Object Linked Data Set
 
 ###########################################################
 # Element property names
@@ -2742,6 +2743,8 @@ Element.Style.widows=창
 Element.Style.orphans=고아
 Element.Style.wordSpacing=단어 간격
 Element.Style.overflow=오버플로
+Element.Style.height=높이
+Element.Style.width=너비
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=책갈피
@@ -3464,6 +3467,10 @@ Element.TimeDimension.startTimePoint=시작 시점
 Element.TimeDimension.endTimePoint=종료 시점
 Element.TimeDimension.hierarchies=계층
 
+#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
+Element.DataMartLinkedDataModel.dataSource=데이터 원본
+Element.DataMartLinkedDataModel.dataObject=데이터 개체
+
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=스타일
 Element.ReportItemTheme.type=형식
@@ -4011,6 +4018,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=템플릿 요소가 라이브러리�
 Info.VersionInfo.INVALID_DESIGN_FILE=열린 디자인 파일이 올바른 디자인 파일이 아니거나 해당 파일이 없습니다.
 Info.VersionInfo.CONVERT_INFO=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
 Info.VersionInfo.INVALID_VERSION=버전 {0}의 보고서 파일이 지원되지 않습니다.
+Info.VersionInfo.LATER_VERSION=최신 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =열린 디자인/라이브러리 또는 포함된 라이브러리는 이전 버전과 호환되므로 디자인/라이브러리가 변경될 수 있습니다.
 
 #EncryptionException

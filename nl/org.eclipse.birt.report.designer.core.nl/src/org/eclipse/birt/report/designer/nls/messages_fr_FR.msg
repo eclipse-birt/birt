@@ -263,10 +263,14 @@ ColumnBindingDialog.Text.AddAggr=Ajouter l'a&grégation...
 
 BlockPreferencePage.displayname.Title=Bloc de texte
 
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Taille
 
 ###########################################################
 #BorderCanvas properties
 
+BorderCanvas.Inherited0=(Hérité)
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -1401,6 +1405,8 @@ Element.Style.pageBreakInside=&A l'intérieur :
 Element.Style.section=Section :
 Element.Style.showIfBlank=&Afficher si vierge :
 Element.Style.text.align=A&lignement du texte :
+Element.Style.width=&Largeur :
+Element.Style.height=&Hauteur :
 #bidi_hcg
 Element.Style.text.direction=Direction du texte &Bidi :
 Element.Style.text.indent=Retrait du te&xte :
@@ -4133,7 +4139,7 @@ WizardTemplateChoicePage.label.Description=Description :
 WizardTemplateChoicePage.label.Preview=Aperçu :
 WizardTemplateChoicePage.label.ReportTemplates=Modèles d'état :
 WizardTemplateChoicePage.label.ShowCheatSheets=&Afficher la feuille de fraude de création d'état
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Inclure les thèmes par défaut
 WizardTemplateChoicePage.message.BlankReport=Créez un état vierge sans aucun contenu prédéfini.
 WizardTemplateChoicePage.message.ChartListing=Créez un état groupé avec un graphique fournissant une représentation visuelle de chaque donnée de groupe.
 WizardTemplateChoicePage.message.DualColumnChartListing=Créez un état groupé avec deux sous-groupes "Graphiques et listes".

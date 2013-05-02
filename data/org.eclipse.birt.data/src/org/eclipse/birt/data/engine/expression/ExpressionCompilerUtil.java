@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
@@ -285,7 +286,7 @@ public class ExpressionCompilerUtil
 	 */
 	public static boolean hasAggregationInExpr( IBaseExpression expression )
 	{
-		if ( expression == null )
+		if ( expression == null || BaseExpression.constantId.equals( expression.getScriptId( ) ) )
 			return false;
 		if ( expression instanceof IScriptExpression )
 		{
@@ -323,7 +324,7 @@ public class ExpressionCompilerUtil
 		if ( expression instanceof IScriptExpression )
 		{
 			String text = ( (IScriptExpression) expression ).getText( );
-			if ( text== null || text.trim( ).length( ) == 0 )
+			if ( text== null || text.trim( ).length( ) == 0 || BaseExpression.constantId.equals( expression.getScriptId( ) ))
 				return true;
 			// fake a registry to register the aggregation.
 			AggregateRegistry aggrReg = new AggregateRegistry( ) {
@@ -495,7 +496,7 @@ public class ExpressionCompilerUtil
 			List l = new ArrayList( );
 			try
 			{
-				if ( expression instanceof IScriptExpression )
+				if ( expression instanceof IScriptExpression &&  !( BaseExpression.constantId.equals( expression.getScriptId( ) ) ) )
 					l = ExpressionUtil.extractColumnExpressions( ( (IScriptExpression) expression ).getText( ),
 							indicator );
 			}

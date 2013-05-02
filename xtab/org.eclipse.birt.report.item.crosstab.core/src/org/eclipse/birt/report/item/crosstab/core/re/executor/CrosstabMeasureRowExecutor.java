@@ -78,6 +78,19 @@ public class CrosstabMeasureRowExecutor extends BaseRowExecutor
 
 				switch ( currentChangeType )
 				{
+					case ColumnEvent.ROW_EDGE_CHANGE :
+
+						// we generate a dummy empty cell
+						nextExecutor = new CrosstabCellExecutor( this,
+								null,
+								rowSpan,
+								colSpan,
+								currentColIndex - colSpan + 1 );
+
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+						hasLast = false;
+						break;
 					case ColumnEvent.MEASURE_HEADER_CHANGE :
 
 						nextExecutor = new CrosstabCellExecutor( this,
@@ -183,6 +196,13 @@ public class CrosstabMeasureRowExecutor extends BaseRowExecutor
 					colSpan = 0;
 					hasLast = true;
 				}
+				else if ( ev.type == ColumnEvent.ROW_EDGE_CHANGE )
+				{
+					// this is a dummy row edge event
+					rowSpan = 1;
+					colSpan = 0;
+					hasLast = true;
+				}
 
 				currentEdgePosition = ev.dataPosition;
 				currentChangeType = ev.type;
@@ -210,6 +230,18 @@ public class CrosstabMeasureRowExecutor extends BaseRowExecutor
 			// handle last column
 			switch ( currentChangeType )
 			{
+				case ColumnEvent.ROW_EDGE_CHANGE :
+
+					// we generate a dummy empty cell
+					nextExecutor = new CrosstabCellExecutor( this,
+							null,
+							rowSpan,
+							colSpan,
+							currentColIndex - colSpan + 1 );
+
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+					break;
 				case ColumnEvent.MEASURE_HEADER_CHANGE :
 
 					nextExecutor = new CrosstabCellExecutor( this,

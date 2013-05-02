@@ -89,4 +89,7 @@ public interface IStyleModel
 	 */
 	public static final String TEXT_DIRECTION_PROP = "bidiTextDirection"; //$NON-NLS-1$
 	public static final String OVERFLOW_PROP = "overflow"; ; //$NON-NLS-1$
+	
+	public static final String HEIGHT_PROP = "height";  //$NON-NLS-1$
+	public static final String WIDTH_PROP = "width";  //$NON-NLS-1$
 }

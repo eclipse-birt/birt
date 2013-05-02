@@ -263,10 +263,14 @@ ColumnBindingDialog.Text.AddAggr=Añadir a&gregación...
 
 BlockPreferencePage.displayname.Title=Bloque de texto
 
+###########################################################
+#BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Tamaño
 
 ###########################################################
 #BorderCanvas properties
 
+BorderCanvas.Inherited0=(Heredado)
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -1401,6 +1405,8 @@ Element.Style.pageBreakInside=&Interior:
 Element.Style.section=Sección:
 Element.Style.showIfBlank=Mostrar si en &blanco
 Element.Style.text.align=A&lineación de texto:
+Element.Style.width=&Anchura:
+Element.Style.height=A&ltura:
 #bidi_hcg
 Element.Style.text.direction=Dirección &bidimensional del texto:
 Element.Style.text.indent=Sangrado de text&o:
@@ -4133,7 +4139,7 @@ WizardTemplateChoicePage.label.Description=Descripción:
 WizardTemplateChoicePage.label.Preview=Vista previa:
 WizardTemplateChoicePage.label.ReportTemplates=Plantillas de informes:
 WizardTemplateChoicePage.label.ShowCheatSheets=&Mostrar archivo de consejos útiles para la creación de informes
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Incluir los temas predeterminados
 WizardTemplateChoicePage.message.BlankReport=Crear un informe en blanco sin contenido predefinido.
 WizardTemplateChoicePage.message.ChartListing=Crear un informe agrupado con un diagrama que ofrece una representación visual de cada dato del grupo.
 WizardTemplateChoicePage.message.DualColumnChartListing=Crear un informe agrupado con dos subgrupos de "diagrama y listado".

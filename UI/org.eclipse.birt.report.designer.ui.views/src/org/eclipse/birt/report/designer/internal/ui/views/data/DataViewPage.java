@@ -211,6 +211,16 @@ public abstract class DataViewPage extends Page implements
 		{
 			list = ( (IStructuredSelection) selection ).toList( );
 		}
+		/**
+		 * There is no object selected after delete an element not displayed in layout, such as data set.
+		 * Then the request has no object to perform.
+		 * So add a root element (ReportDesignHandle) as the object for the request to perform if the select element objects list is empty.
+		 */
+		if(list.size()<1){
+			list=new ArrayList( );
+			list.add(SessionHandleAdapter.getInstance().getModule());
+		}
+		
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 		// no convert

@@ -447,6 +447,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				txtTitle.setLayoutData( gd );
 				txtTitle.addListener( this );
+				txtTitle.addScreenReaderAccessbility( Messages.getString( "SeriesSheetImpl.Label.Title" ) ); //$NON-NLS-1$				
 			}
 
 			cmbTypes = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
@@ -459,6 +460,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				{
 					cmbTypes.setEnabled( false );
 				}
+				ChartUIUtil.addScreenReaderAccessbility( cmbTypes,
+						Messages.getString( "SeriesSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 			}
 
 			if ( !series.getClass( ).isAssignableFrom( SeriesImpl.class ) )
@@ -506,6 +509,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 						: ChartCheckbox.STATE_UNSELECTED )
 						: ChartCheckbox.STATE_GRAYED );
 				btnTranslucent.addSelectionListener( this );
+				btnTranslucent.addScreenReaderAccessiblity( Messages.getString( "SeriesSheetImpl.Label.Translucent" ) ); //$NON-NLS-1$
 			}
 		}
 
@@ -523,6 +527,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 						: ChartCheckbox.STATE_UNSELECTED )
 						: ChartCheckbox.STATE_GRAYED );
 				btnVisible.addSelectionListener( this );
+				btnVisible.addScreenReaderAccessiblity( Messages.getString( "SeriesSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
 			}
 		}
 
@@ -560,6 +565,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				}
 				btnStack.setSelectionState( state );
 				btnStack.addSelectionListener( this );
+				btnStack.addScreenReaderAccessiblity( Messages.getString( "SeriesSheetImpl.Label.Stacked" ) );//$NON-NLS-1$
 			}
 		}
 
@@ -584,6 +590,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				{
 					spnZOrder.setEnabled( false );
 				}
+				ChartUIUtil.addSpinnerScreenReaderAccessbility( spnZOrder,
+						Messages.getString( "SeriesSheetImpl.Label.ZOrder" ) ); //$NON-NLS-1$
 			}
 		}
 

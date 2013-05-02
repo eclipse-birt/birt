@@ -60,6 +60,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -1111,7 +1112,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				: expression.getStringExpression( );
 		String expressionType = expression == null ? null
 				: expression.getType( );
-
+		if(defaultValue != null)
+		{
+			defaultValue = defaultValue.trim();
+		}
 		if ( isStatic( ) )
 		{
 			if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( controlType ) )
@@ -1510,6 +1514,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
 			dataSetList.add( DataSetHandle.getQualifiedName( ) );
 		}
+		for (Iterator itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).iterator( ); itr.hasNext( );)
+		{
+			dataSetList.add( itr.next( ).toString( ) );
+		}
 		if ( inputParameter.getDataSetName( ) != null
 				&& !dataSetList.contains( inputParameter.getDataSetName( ) ) )
 		{
@@ -1556,8 +1564,15 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private DataSetHandle getDataSetHandle( )
 	{
-		return inputParameter.getModuleHandle( )
+		DataSetHandle dataSet = inputParameter.getModuleHandle( )
 				.findDataSet( dataSetChooser.getText( ) );
+		
+		if (dataSet == null)
+		{
+			dataSet = DataUtil.findExtendedDataSet( dataSetChooser.getText( ) );
+		}
+		
+		return dataSet;
 	}
 
 	private void refreshColumns( boolean onlyFilter )
@@ -2202,9 +2217,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		importValue.setText( BUTTON_LABEL_IMPORT );
 		setButtonLayoutData( importValue );
 		// Disabled when no date set defined
+		
 		importValue.setEnabled( !inputParameter.getModuleHandle( )
-				.getVisibleDataSets( )
-				.isEmpty( ) );
+				.getVisibleDataSets( ).isEmpty( )
+			|| ! new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).isEmpty( ));
 		importValue.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -2282,6 +2298,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				}
 			}
 		} );
+		
 		changeDefault = new Button( buttonBar, SWT.TOGGLE );
 		changeDefault.addSelectionListener( new SelectionAdapter( ) {
 
@@ -4071,6 +4088,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				: expression.getStringExpression( );
 		String exprType = expression == null ? ExpressionType.CONSTANT
 				: expression.getType( );
+		if(defaultValue != null)
+		{
+			defaultValue = defaultValue.trim();
+		}
 		if ( ExpressionType.JAVASCRIPT.equals( exprType ) )
 			defaultValue = null;
 

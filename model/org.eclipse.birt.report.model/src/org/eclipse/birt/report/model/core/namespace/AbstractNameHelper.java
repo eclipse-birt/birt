@@ -152,10 +152,15 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 
 	public void makeUniqueName( int namespaceId, DesignElement element )
 	{
+		this.makeUniqueName( namespaceId, element, null );
+	}
+
+	public void makeUniqueName( int namespaceId, DesignElement element, String prefix )
+	{
 		if ( element == null )
 			return;
 
-		String name = getUniqueName( namespaceId, element );
+		String name = getUniqueName( namespaceId, element, prefix );
 		if ( name == null )
 			return;
 

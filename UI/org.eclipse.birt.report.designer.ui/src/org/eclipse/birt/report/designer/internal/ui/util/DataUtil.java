@@ -31,6 +31,8 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -38,6 +40,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -371,6 +374,27 @@ public class DataUtil
 			}
 			return defn;
 		}
+		return null;
+	}
+	
+	/**
+	 * Finds the extended data set by the given name.
+	 * @param name the data set name
+	 * @return the extended data set handle, or null if not found
+	 */
+	public static DataSetHandle findExtendedDataSet(String name)
+	{
+		IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+		if (adapter != null)
+		{
+			ReportElementHandle extData = adapter.findExtendedDataByName( name );
+			
+			if (extData != null)
+			{
+				return adapter.getDataSet(extData);
+			}
+		}
+		
 		return null;
 	}
 }
