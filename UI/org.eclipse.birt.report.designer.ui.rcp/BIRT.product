@@ -89,6 +89,8 @@
       <plugin id="org.eclipse.birt.cshelp"/>
       <plugin id="org.eclipse.birt.data"/>
       <plugin id="org.eclipse.birt.data.aggregation"/>
+      <plugin id="org.eclipse.birt.data.oda.mongodb"/>
+      <plugin id="org.eclipse.birt.data.oda.mongodb.ui"/>
       <plugin id="org.eclipse.birt.doc"/>
       <plugin id="org.eclipse.birt.example"/>
       <plugin id="org.eclipse.birt.jetty.overlay" fragment="true"/>
@@ -143,6 +145,13 @@
       <plugin id="org.eclipse.birt.report.engine.emitter.prototype.excel"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.wpml"/>
       <plugin id="org.eclipse.birt.report.engine.fonts"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.docx"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.pptx"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.pptx"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.docx"/>
+      <plugin id="org.eclipse.birt.report.engine.ooxml"/>
+      <plugin id="org.eclipse.birt.data.oda.pojo"/>
+      <plugin id="org.eclipse.birt.data.oda.pojo.ui"/>
       <plugin id="org.eclipse.birt.report.engine.odf"/>
       <plugin id="org.eclipse.birt.report.engine.script.javascript"/>
       <plugin id="org.eclipse.birt.report.item.crosstab.core"/>
@@ -277,6 +286,7 @@
       <plugin id="org.eclipse.jface.databinding"/>
       <plugin id="org.eclipse.jface.text"/>
       <plugin id="org.eclipse.ltk.core.refactoring"/>
+      <plugin id="org.eclipse.orbit.mongodb"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.swt"/>

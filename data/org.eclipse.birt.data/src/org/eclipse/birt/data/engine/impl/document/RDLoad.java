@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.QueryDefinitionUtil;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
@@ -307,8 +308,12 @@ public class RDLoad
 			Map<String, StringTable> stringTableMap, Map index,
 			boolean includeInnerID, Map appContext ) throws DataException
 	{
+		boolean loadResultClass = false;
 		if ( targetResultClass == null )
+		{
 			targetResultClass = this.loadResultClass( includeInnerID );
+			loadResultClass = true;
+		}
 
 		// TODO Pass in filter rowIds as sorted list.
 		IDataSetReader reader = DataSetStore.createReader( streamManager,
@@ -336,9 +341,27 @@ public class RDLoad
 
 		int adjustedVersion = resolveVersionConflict( );
 		
+		if ( loadResultClass && includeInnerID )
+		{
+			List<ResultFieldMetadata> fields = new ArrayList<ResultFieldMetadata>( targetResultClass.getFieldCount( ) - 1 );
+			for ( int i = 1; i <= targetResultClass.getFieldCount( ); i++ )
+			{
+				ResultFieldMetadata f = targetResultClass.getFieldMetaData( i );
+				if ( f.getName( ).equals( ExprMetaUtil.POS_NAME ) )
+					continue;
+				fields.add( f );
+			}
+
+			targetResultClass = new ResultClass( fields );
+		}
+		else
+		{
+			targetResultClass = this.loadResultClass();
+		}
+		
 		return new DataSetResultSet( stream,
 				lensStream,
-				this.loadResultClass( ),
+				targetResultClass,
 				preFilteredRowIds,
 				stringTableMap,
 				index,

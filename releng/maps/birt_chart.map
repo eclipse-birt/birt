@@ -1,6 +1,6 @@
-plugin@org.eclipse.birt.chart.device.extension=GIT,tag=v201212171413,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.device.extension
+plugin@org.eclipse.birt.chart.device.extension=GIT,tag=v201302161616,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.device.extension
 plugin@org.eclipse.birt.chart.device.pdf=GIT,tag=v201212171413,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.device.pdf
-plugin@org.eclipse.birt.chart.device.svg=GIT,tag=v201212171413,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.device.svg
+plugin@org.eclipse.birt.chart.device.svg=GIT,tag=v201302161616,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.device.svg
 plugin@org.eclipse.birt.chart.device.swt=GIT,tag=v201212171413,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.device.swt
 plugin@org.eclipse.birt.chart.engine=GIT,tag=v201302051912,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.engine
 plugin@org.eclipse.birt.chart.engine.extension=GIT,tag=v201212171413,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.engine.extension
