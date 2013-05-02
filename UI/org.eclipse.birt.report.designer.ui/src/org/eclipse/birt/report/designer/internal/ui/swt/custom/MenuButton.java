@@ -71,6 +71,7 @@ public class MenuButton extends Composite
 	public void setText( String text )
 	{
 		this.text = text;
+		button.setText( "" ); //$NON-NLS-1$
 		layoutControl( );
 	}
 
@@ -101,7 +102,7 @@ public class MenuButton extends Composite
 		}
 		else
 		{
-			tmp.setText( "" );
+			tmp.setText( "" ); //$NON-NLS-1$
 			height = tmp.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
 		}
 		if ( image != null )
@@ -187,7 +188,17 @@ public class MenuButton extends Composite
 		layout.marginHeight = layout.marginWidth = 0;
 		this.setLayout( layout );
 
-		button = new Button( this, style | SWT.DOUBLE_BUFFERED );
+		button = new Button( this, style | SWT.DOUBLE_BUFFERED ){
+			protected void checkSubclass( )
+			{
+				
+			}
+
+			public String getText( )
+			{
+				return MenuButton.this.getText( );
+			}
+		};
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		button.setLayoutData( gd );
 		button.addPaintListener( new PaintListener( ) {
@@ -345,7 +356,7 @@ public class MenuButton extends Composite
 
 			e.gc.setBackground( bgColor );
 
-			int height = e.gc.textExtent( "", DRAW_FLAGS ).y;
+			int height = e.gc.textExtent( "", DRAW_FLAGS ).y; //$NON-NLS-1$
 
 			if ( !isFixed && image != null )
 			{
@@ -357,7 +368,7 @@ public class MenuButton extends Composite
 			if ( defaultSize.y > size.height )
 			{
 				height = height - ( defaultSize.y - size.height );
-				height = e.gc.textExtent( "", DRAW_FLAGS ).y > height ? e.gc.textExtent( "",
+				height = e.gc.textExtent( "", DRAW_FLAGS ).y > height ? e.gc.textExtent( "", //$NON-NLS-1$ //$NON-NLS-2$
 						DRAW_FLAGS ).y
 						: height;
 			}
