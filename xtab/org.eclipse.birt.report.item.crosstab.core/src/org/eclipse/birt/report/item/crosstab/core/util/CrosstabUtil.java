@@ -174,12 +174,47 @@ public final class CrosstabUtil implements ICrosstabConstants
 			{
 				return true;
 			}
-
-			boolean isLinkedDataModel = isBoundToLinkedDataSet( crosstab );
 			
 			// check containment consistence
-			if ( isLinkedDataModel || 
-					dimension.getElement( ).isContentOf( currentCube.getElement( ) ) )
+			if ( isBoundToLinkedDataSet( crosstab ) )
+			{
+				DesignElementHandle deh = dimension.getContainer();
+				if( deh != null && deh instanceof CubeHandle )
+				{
+					String cubeName = ((CubeHandle)deh).getName();
+					if( cubeName != null && cubeName.equals(currentCube.getName()) )
+					{
+						for ( int i = 0; i < crosstab.getDimensionCount( ROW_AXIS_TYPE ); i++ )
+						{
+							DimensionViewHandle dv = crosstab.getDimension( ROW_AXIS_TYPE,
+									i );
+							DimensionHandle dh = dv.getCubeDimension();
+							if ( dh != null
+									&& dh.getName() != null
+									&& dh.getName().equals( dimension.getName() ) )
+							{
+								return false;
+							}
+						}
+
+						for ( int i = 0; i < crosstab.getDimensionCount( COLUMN_AXIS_TYPE ); i++ )
+						{
+							DimensionViewHandle dv = crosstab.getDimension( COLUMN_AXIS_TYPE,
+									i );
+							DimensionHandle dh = dv.getCubeDimension();
+							if ( dh != null
+									&& dh.getName() != null
+									&& dh.getName().equals( dimension.getName() ) )
+							{
+								return false;
+							}
+						}
+
+						return true;
+					}
+				}
+			}
+			else if( dimension.getElement( ).isContentOf( currentCube.getElement( ) ) )
 			{
 				for ( int i = 0; i < crosstab.getDimensionCount( ROW_AXIS_TYPE ); i++ )
 				{
@@ -231,12 +266,34 @@ public final class CrosstabUtil implements ICrosstabConstants
 			{
 				return true;
 			}
-
-			boolean isLinkedDataModel = isBoundToLinkedDataSet( crosstab );
-			
+		
 			// check containment consistence
-			if ( isLinkedDataModel 
-					|| measure.getElement( ).isContentOf( currentCube.getElement( ) ) )
+			if ( isBoundToLinkedDataSet( crosstab )
+					&& measure.getContainer() != null )
+			{
+				DesignElementHandle deh = measure.getContainer().getContainer();
+				if( deh != null && deh instanceof CubeHandle )
+				{
+					String cubeName = ((CubeHandle)deh).getName();
+					if( cubeName != null && cubeName.equals(currentCube.getName()) )
+					{
+						for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
+						{
+							MeasureViewHandle mv = crosstab.getMeasure( i );
+							MeasureHandle mh = mv.getCubeMeasure( ); 
+							if ( mh != null
+									&& mh.getName() != null
+									&& mh.getName().equals( measure.getName() ) )
+							{
+								return false;
+							}
+						}
+
+						return true;
+					}
+				}
+			}
+			else if( measure.getElement( ).isContentOf( currentCube.getElement( ) ) )
 			{
 				for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
 				{
