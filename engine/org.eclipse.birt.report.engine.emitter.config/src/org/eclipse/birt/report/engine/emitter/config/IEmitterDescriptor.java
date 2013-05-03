@@ -14,8 +14,6 @@ package org.eclipse.birt.report.engine.emitter.config;
 import java.util.Locale;
 import java.util.Map;
 
-import org.eclipse.birt.report.engine.api.RenderOptionDefn;
-
 /**
  * This interface is a representation of emitter descriptor.
  */
@@ -52,6 +50,4 @@ public interface IEmitterDescriptor
 	IConfigurableOptionObserver createOptionObserver( );
 
 	void setLocale( Locale locale );
-	
-	void setDefaultRenderOptions( Map<String, RenderOptionDefn> options );
 }
