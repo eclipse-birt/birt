@@ -391,7 +391,9 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 		if ( cellEditor != null )
 		{
 			cellEditor.deactivate( );
-			cellEditor.removeListener( editorListener );
+			applyValue( );
+			if ( cellEditor != null )
+				cellEditor.removeListener( editorListener );
 			cellEditor = null;
 		}
 	}
@@ -738,7 +740,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 		{
 			execMemento = true;
 
-			Display.getDefault( ).asyncExec( new Runnable( ) {
+			Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 				public void run( )
 				{

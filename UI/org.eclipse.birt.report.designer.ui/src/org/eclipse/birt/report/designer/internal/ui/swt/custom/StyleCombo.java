@@ -86,8 +86,8 @@ public final class StyleCombo extends Composite
 	 * value describing its behavior and appearance.
 	 * <p>
 	 * The style value is either one of the style constants defined in class
-	 * <code>SWT</code> which is applicable to instances of this class, or
-	 * must be built by <em>bitwise OR</em> 'ing together (that is, using the
+	 * <code>SWT</code> which is applicable to instances of this class, or must
+	 * be built by <em>bitwise OR</em> 'ing together (that is, using the
 	 * <code>int</code> "|" operator) two or more of those <code>SWT</code>
 	 * style constants. The class description lists the style constants that are
 	 * applicable to the class. Style bits are also inherited from superclasses.
@@ -375,12 +375,13 @@ public final class StyleCombo extends Composite
 	 * @param listener
 	 *            the listener
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
-	 * @exception SWTError(ERROR_NULL_ARGUMENT)
-	 *                when listener is null
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_NULL_ARGUMENT) when listener is null
 	 */
 	// public void addModifyListener( ModifyListener listener )
 	// {
@@ -397,12 +398,13 @@ public final class StyleCombo extends Composite
 	 * @param listener
 	 *            the listener
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
-	 * @exception SWTError(ERROR_NULL_ARGUMENT)
-	 *                when listener is null
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_NULL_ARGUMENT) when listener is null
 	 */
 	public void addSelectionListener( SelectionListener listener )
 	{
@@ -460,10 +462,11 @@ public final class StyleCombo extends Composite
 	 * Clears the current selection.
 	 * <p>
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
 	 */
 	public void clearSelection( )
 	{
@@ -582,10 +585,11 @@ public final class StyleCombo extends Composite
 	 * @param index
 	 *            the index of the item
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
 	 */
 	public void deselect( int index )
 	{
@@ -601,10 +605,11 @@ public final class StyleCombo extends Composite
 	 * If an item is selected, it is deselected. If an item is not selected, it
 	 * remains unselected.
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
 	 */
 	public void deselectAll( )
 	{
@@ -684,12 +689,13 @@ public final class StyleCombo extends Composite
 	 *            the index of the item
 	 * @return the item
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
-	 * @exception SWTError(ERROR_CANNOT_GET_ITEM)
-	 *                when the operation fails
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_CANNOT_GET_ITEM) when the operation fails
 	 */
 	public Object getItem( int index )
 	{
@@ -732,12 +738,13 @@ public final class StyleCombo extends Composite
 	 * 
 	 * @return the number of items in the widget
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
-	 * @exception SWTError(ERROR_CANNOT_GET_COUNT)
-	 *                when the operation fails
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_CANNOT_GET_COUNT) when the operation fails
 	 */
 	public int getItemCount( )
 	{
@@ -753,12 +760,13 @@ public final class StyleCombo extends Composite
 	 * 
 	 * @return the height of one item in the widget
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
-	 * @exception SWTError(ERROR_CANNOT_GET_ITEM_HEIGHT)
-	 *                when the operation fails
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_CANNOT_GET_ITEM_HEIGHT) when the operation fails
 	 */
 	public int getItemHeight( )
 	{
@@ -773,12 +781,13 @@ public final class StyleCombo extends Composite
 	 * 
 	 * @return the items in the widget
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
-	 * @exception SWTError(ERROR_CANNOT_GET_ITEM)
-	 *                when the operation fails
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_CANNOT_GET_ITEM) when the operation fails
 	 */
 	public Object[] getItems( )
 	{
@@ -793,10 +802,11 @@ public final class StyleCombo extends Composite
 	 * 
 	 * @return the index of the selected item.
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
 	 */
 	public int getSelectionIndex( )
 	{
@@ -844,12 +854,13 @@ public final class StyleCombo extends Composite
 	 *            the search item
 	 * @return the index of the item
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
-	 * @exception SWTError(ERROR_NULL_ARGUMENT)
-	 *                when string is null
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_NULL_ARGUMENT) when string is null
 	 */
 	public int indexOf( Object item )
 	{
@@ -1115,12 +1126,13 @@ public final class StyleCombo extends Composite
 	 * @param listener
 	 *            the listener
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
-	 * @exception SWTError(ERROR_NULL_ARGUMENT)
-	 *                when listener is null
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_NULL_ARGUMENT) when listener is null
 	 */
 	public void removeModifyListener( ModifyListener listener )
 	{
@@ -1137,12 +1149,13 @@ public final class StyleCombo extends Composite
 	 * @param listener
 	 *            the listener
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
-	 * @exception SWTError(ERROR_NULL_ARGUMENT)
-	 *                when listener is null
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_NULL_ARGUMENT) when listener is null
 	 */
 	public void removeSelectionListener( SelectionListener listener )
 	{
@@ -1162,10 +1175,11 @@ public final class StyleCombo extends Composite
 	 * @param index
 	 *            the index of the item
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
 	 */
 	public void select( int index )
 	{
@@ -1223,7 +1237,10 @@ public final class StyleCombo extends Composite
 	{
 		checkWidget( );
 		label.forceFocus( );
-		return label.setFocus( );
+		label.setFocus( );
+		Event e = new Event( );
+		notifyListeners( SWT.FocusIn, e );
+		return label.isFocusControl( );
 	}
 
 	public void setFont( Font font )
@@ -1253,14 +1270,15 @@ public final class StyleCombo extends Composite
 	 * @param items
 	 *            the array of items
 	 * 
-	 * @exception SWTError(ERROR_THREAD_INVALID_ACCESS)
-	 *                when called from the wrong thread
-	 * @exception SWTError(ERROR_WIDGET_DISPOSED)
-	 *                when the widget has been disposed
-	 * @exception SWTError(ERROR_NULL_ARGUMENT)
-	 *                when items is null
-	 * @exception SWTError(ERROR_ITEM_NOT_ADDED)
-	 *                when the operation fails
+	 * @exception SWTError
+	 *                (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
+	 *                thread
+	 * @exception SWTError
+	 *                (ERROR_WIDGET_DISPOSED) when the widget has been disposed
+	 * @exception SWTError
+	 *                (ERROR_NULL_ARGUMENT) when items is null
+	 * @exception SWTError
+	 *                (ERROR_ITEM_NOT_ADDED) when the operation fails
 	 */
 	public void setItems( Object[] items )
 	{

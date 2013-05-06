@@ -102,7 +102,7 @@ public class SwingChartPrinter implements Printable
 	{
 		PlatformConfig config = new PlatformConfig( );
 		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
-		IDeviceRenderer render = ChartEngine.instance(config).getRenderer("dv.SWING"); 
+		IDeviceRenderer render = ChartEngine.instance(config).getRenderer("dv.SWING"); //$NON-NLS-1$
 		render.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
 
 		// The input size is in points (1 inch = 72 points)

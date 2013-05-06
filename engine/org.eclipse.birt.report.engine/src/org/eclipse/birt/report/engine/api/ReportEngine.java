@@ -587,17 +587,6 @@ public class ReportEngine implements IReportEngine
 	{
 		return engine.createDatasetPreviewTask( );
 	}
-
-	public void setDefaultEmitterRenderOption( String emitterId,
-			RenderOptionDefn option )
-	{
-		engine.setDefaultEmitterRenderOption( emitterId, option );
-	}
-
-	public Map<String, RenderOptionDefn> getDefaultEmitterRenderOption( String emitterId )
-	{
-		return engine.getDefaultEmitterRenderOption( emitterId );
-	}
 	
 	
 }

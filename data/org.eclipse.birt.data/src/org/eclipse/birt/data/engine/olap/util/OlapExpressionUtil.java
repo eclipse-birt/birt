@@ -145,15 +145,20 @@ public class OlapExpressionUtil
 		{
 			return;
 		}
+		
+		//if this binding is aggregation, return its aggregate on levels.
+		if( !binding.getAggregatOns( ).isEmpty( ) )
+		{
+			for ( String expr : ( (List<String>) binding.getAggregatOns( ) ) )
+			{
+				aggOn.addAll( ExpressionUtil.getReferencedDimLevel( expr ) );
+			}
+			return;
+		}
 
 		List<String> currentVisitBindings = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
 				ExpressionUtil.DATA_INDICATOR );
 		currentVisitBindings.removeAll( visited );
-
-		for ( String expr : ( (List<String>) binding.getAggregatOns( ) ) )
-		{
-			aggOn.addAll( ExpressionUtil.getReferencedDimLevel( expr ) );
-		}
 
 		String text = ( (IScriptExpression) binding.getExpression( ) ).getText( );
 		aggOn.addAll( ExpressionUtil.getReferencedDimLevel( text ) );

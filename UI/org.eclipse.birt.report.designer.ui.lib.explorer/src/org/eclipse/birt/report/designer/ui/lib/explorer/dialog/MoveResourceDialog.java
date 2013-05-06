@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
@@ -55,6 +56,10 @@ public class MoveResourceDialog extends ResourceFileFolderSelectionDialog
 					if ( s instanceof ResourceEntry )
 					{
 						URL url = ( (ResourceEntry) s ).getURL( );
+						try {
+							url = URIUtil.toURI(url).toURL();
+						} catch (Exception e1) {
+						}
 						for ( File f : files )
 						{
 							try

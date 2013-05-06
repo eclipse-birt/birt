@@ -72,6 +72,12 @@ public class PDFPage extends AbstractPage
 	protected float containerHeight;
 
 	protected PDFPageDevice pageDevice;
+	
+	/**
+	 * font size must greater than minimum font . if not,illegalArgumentException
+	 * will be thrown.
+	 */
+	private static float MIN_FONT_SIZE = 1.0E-4f;
 
 	public PDFPage( int pageWidth, int pageHeight, Document document,
 			PdfWriter writer, PDFPageDevice pageDevice )
@@ -480,7 +486,16 @@ public class PDFPage extends AbstractPage
 		}
 		BaseFont font = getBaseFont( fontInfo );
 		float fontSize = fontInfo.getFontSize( );
-		contentByte.setFontAndSize( font, fontSize );
+		try
+		{
+			contentByte.setFontAndSize( font, fontSize );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ) );
+			// close to zero , increase by one MIN_FONT_SIZE step
+			contentByte.setFontAndSize( font, MIN_FONT_SIZE * 2 );
+		}
 		if ( characterSpacing != 0 )
 		{
 			contentByte.setCharacterSpacing( characterSpacing );

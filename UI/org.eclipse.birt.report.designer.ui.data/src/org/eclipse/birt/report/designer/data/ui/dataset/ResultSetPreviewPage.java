@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.impl.DataSetMetaDataHelper;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetPreviewer.PreviewType;
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetExceptionHandler;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -404,12 +405,12 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		catch ( InvocationTargetException e )
 		{
 			//this ExceptionHandler can show exception stacktrace
-			org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler.showException( resultSetTable.getShell( ), Messages.getString( "CssErrDialog.Error" ), e.getCause( ).getLocalizedMessage( ), e.getCause( ) );
+			DataSetExceptionHandler.handle( Messages.getString( "ExceptionDialog.title" ), e.getCause( ).getLocalizedMessage( ), e.getCause( ) ); //$NON-NLS-1$
 		}
 		catch ( InterruptedException e )
 		{
 			//this ExceptionHandler can show exception stacktrace
-			org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler.showException( resultSetTable.getShell( ), Messages.getString( "CssErrDialog.Error" ), e.getLocalizedMessage( ), e );
+			DataSetExceptionHandler.handle( Messages.getString( "ExceptionDialog.title" ), e.getCause( ).getLocalizedMessage( ), e ); //$NON-NLS-1$
 		}
 		
 		updateResultSetTableUI( );
@@ -721,7 +722,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 				}
 				catch ( SemanticException e )
 				{
-					ExceptionHandler.handle( e );
+					DataSetExceptionHandler.handle( e );
 				}
 			}
 		} );

@@ -671,10 +671,16 @@ public class DataSetBasePage extends WizardPage
 		}
 	}
 	
-	public boolean canFinish( )
+	public void setPageFocus( )
 	{
-		this.getControl( ).setFocus( );
-		
+		if ( nameEditor != null && !nameEditor.isDisposed( ) )
+		{
+			nameEditor.setFocus( );
+		}
+	}
+	
+	public boolean canFinish( )
+	{		
 		if( !validStatus( ) )
 			return false;
 		

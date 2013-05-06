@@ -107,6 +107,28 @@ public abstract class MasterPage extends StyledElement
 			height = A4_HEIGHT;
 			width = A4_WIDTH;
 		}
+		else if ( type.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_A3 ) )
+		{
+			height = A3_HEIGHT;
+			width = A3_WIDTH;
+		}
+		else if ( type.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_A5 ) )
+		{
+			height = A5_HEIGHT;
+			width = A5_WIDTH;
+		}
+		else if ( type
+				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_US_LEDGER ) )
+		{
+			height = US_LEDGER_HEIGHT;
+			width = US_LEDGER_WIDTH;
+		}
+		else if ( type
+				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_US_SUPER_B ) )
+		{
+			height = US_SUPER_B_HEIGHT;
+			width = US_SUPER_B_WIDTH;
+		}
 		else
 		{
 			// Choice should have been validated.
@@ -385,6 +407,34 @@ public abstract class MasterPage extends StyledElement
 					return getPredefinedDimension( propName, isLandScape,
 							IMasterPageModel.US_LETTER_WIDTH,
 							IMasterPageModel.US_LETTER_HEIGHT );
+				}
+				else if ( DesignChoiceConstants.PAGE_SIZE_US_LEDGER
+						.equalsIgnoreCase( pageType ) )
+				{
+					return getPredefinedDimension( propName, isLandScape,
+							IMasterPageModel.US_LEDGER_WIDTH,
+							IMasterPageModel.US_LEDGER_HEIGHT );
+				}
+				else if ( DesignChoiceConstants.PAGE_SIZE_US_SUPER_B
+						.equalsIgnoreCase( pageType ) )
+				{
+					return getPredefinedDimension( propName, isLandScape,
+							IMasterPageModel.US_SUPER_B_WIDTH,
+							IMasterPageModel.US_SUPER_B_HEIGHT );
+				}
+				else if ( DesignChoiceConstants.PAGE_SIZE_A3
+						.equalsIgnoreCase( pageType ) )
+				{
+					return getPredefinedDimension( propName, isLandScape,
+							IMasterPageModel.A3_WIDTH,
+							IMasterPageModel.A3_HEIGHT );
+				}
+				else if ( DesignChoiceConstants.PAGE_SIZE_A5
+						.equalsIgnoreCase( pageType ) )
+				{
+					return getPredefinedDimension( propName, isLandScape,
+							IMasterPageModel.A5_WIDTH,
+							IMasterPageModel.A5_HEIGHT );
 				}
 			}
 			catch ( PropertyValueException e )

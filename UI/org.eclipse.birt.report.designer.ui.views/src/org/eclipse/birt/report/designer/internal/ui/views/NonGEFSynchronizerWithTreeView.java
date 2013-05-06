@@ -122,7 +122,7 @@ public class NonGEFSynchronizerWithTreeView implements IMediatorColleague
 	 */
 	protected void fireSelectionChanged( ISelection selection )
 	{
-		ReportRequest request = new ReportRequest( getSource( ) );
+	ReportRequest request = new ReportRequest( getSource( ) );
 		List list = new ArrayList( );
 		if ( selection instanceof IStructuredSelection )
 		{
@@ -140,10 +140,9 @@ public class NonGEFSynchronizerWithTreeView implements IMediatorColleague
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 
-
 		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.notifyRequest( request );
+					.getMediator( )
+					.notifyRequest( request );
 	}
 
 	/**

@@ -115,6 +115,54 @@ public interface IMasterPageModel
 	public static final String A4_WIDTH = "210mm"; //$NON-NLS-1$
 
 	/**
+	 * Height of the ledger page.
+	 */
+
+	public static final String US_LEDGER_HEIGHT = "17in";//$NON-NLS-1$
+
+	/**
+	 * Width of the ledger page.
+	 */
+
+	public static final String US_LEDGER_WIDTH = "11in";//$NON-NLS-1$
+
+	/**
+	 * Height of the Super B page.
+	 */
+
+	public static final String US_SUPER_B_HEIGHT = "19in";//$NON-NLS-1$
+
+	/**
+	 * Width of the Super B page.
+	 */
+
+	public static final String US_SUPER_B_WIDTH = "13in";//$NON-NLS-1$
+
+	/**
+	 * Height of the A5 page.
+	 */
+
+	public static final String A5_HEIGHT = "210mm";//$NON-NLS-1$
+
+	/**
+	 * Width of the A5 page.
+	 */
+
+	public static final String A5_WIDTH = "148mm";//$NON-NLS-1$
+
+	/**
+	 * Height of the A3 page.
+	 */
+
+	public static final String A3_HEIGHT = "420mm";//$NON-NLS-1$
+
+	/**
+	 * Width of the A3 page.
+	 */
+
+	public static final String A3_WIDTH = "297mm";//$NON-NLS-1$
+
+	/**
 	 * Name of the method on page start.
 	 */
 	public static final String ON_PAGE_START_METHOD = "onPageStart"; //$NON-NLS-1$

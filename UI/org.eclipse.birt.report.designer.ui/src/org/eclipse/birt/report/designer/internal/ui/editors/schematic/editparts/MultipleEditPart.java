@@ -39,6 +39,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
@@ -49,7 +50,6 @@ import org.eclipse.swt.widgets.Display;
 /**
  * EditPar to support multiple views.
  */
-
 public class MultipleEditPart extends ReportElementEditPart implements IMultipleAdapterHelper
 {
 
@@ -62,6 +62,18 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 		super( model );
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#getCommand(org.eclipse.gef.Request)
+	 */
+	public Command getCommand( Request request )
+	{
+		if (RequestConstants.REQ_ORPHAN_CHILDREN.equals( request.getType( ) ))
+		{
+			return getParent( ).getCommand( request );
+		}
+		return super.getCommand( request );
+	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createEditPolicies()
 	 */

@@ -55,7 +55,7 @@ public class SwtChartPrinter
 		
 		PlatformConfig config = new PlatformConfig( );
 		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
-		IDeviceRenderer render = ChartEngine.instance( config ).getRenderer("dv.SWT"); 
+		IDeviceRenderer render = ChartEngine.instance( config ).getRenderer("dv.SWT"); //$NON-NLS-1$
 				
 		render.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, gc);
 
@@ -67,7 +67,7 @@ public class SwtChartPrinter
 		IGenerator generator = ChartEngine.instance().getGenerator();
 		GeneratedChartState state = generator.build(render.getDisplayServer(), chart, bo, null, null, null);
 
-		printer.startJob("BIRT Sample Chart");
+		printer.startJob("BIRT Sample Chart");//$NON-NLS-1$
 		printer.startPage();	
 
 		// set render properties

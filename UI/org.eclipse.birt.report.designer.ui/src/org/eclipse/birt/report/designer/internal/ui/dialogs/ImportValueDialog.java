@@ -569,7 +569,7 @@ public class ImportValueDialog extends BaseDialog
 				java.util.List modelValueList = SelectValueFetcher.getSelectValueList( queryExpr,
 						getDataSetHandle( ),
 						true );
-
+				Collections.sort(modelValueList);
 				if ( modelValueList != null )
 				{
 					Iterator iter = modelValueList.iterator( );
@@ -613,7 +613,7 @@ public class ImportValueDialog extends BaseDialog
 							resultList.add( result );
 						}
 					}
-					Collections.sort( resultList, new AlphabeticallyComparator( ) );
+					//Collections.sort( resultList, new AlphabeticallyComparator( ) );
 				}
 				filteValues( );
 			}

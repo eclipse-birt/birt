@@ -791,13 +791,20 @@ public class ChartCubeUtil extends ChartItemUtil
 		return cm;
 	}
 
+	public static String generateComputedColumnName( AggregationCellHandle cell )
+	{
+		return generateComputedColumnName( cell, ExpressionUtil.MEASURE_INDICATOR );
+	}
+	
 	/**
 	 * Generates the name of binding which references to xtab's measure.
 	 * 
 	 * @param cell
 	 *            measure cell or total cell
+	 * @param expressionIndicator
+	 *            measure expression indicator
 	 */
-	public static String generateComputedColumnName( AggregationCellHandle cell )
+	public static String generateComputedColumnName( AggregationCellHandle cell, String expressionIndicator )
 	{
 		MeasureViewHandle measureView = (MeasureViewHandle) cell.getContainer( );
 		LevelHandle rowLevelHandle = cell.getAggregationOnRow( );
@@ -843,7 +850,14 @@ public class ChartCubeUtil extends ChartItemUtil
 				name );
 		String dataType = measureView.getDataType( );
 		column.setDataType( dataType );
-		column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+		if ( ExpressionUtil.DATASET_ROW_INDICATOR.equals( expressionIndicator ) )
+		{
+			column.setExpression( ExpressionUtil.createDataSetRowExpression( measureView.getCubeMeasureName( ) ) );
+		}
+		else
+		{
+			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+		}
 		column.setAggregateFunction( getDefaultMeasureAggregationFunction( measureView ) );
 		if ( aggregationOnRow != null )
 		{

@@ -117,7 +117,9 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		// header of table
 		content.setHeaderRepeat( crosstabItem.isRepeatColumnHeader( ) );
 
-		if ( getCubeCursor( ) != null )
+		// ! we don't check the null cube cursor here anymore, as this is
+		// allowed now.
+		// if ( getCubeCursor( ) != null )
 		{
 			// prepare style cache
 			styleCache = new HashMap( );
@@ -132,7 +134,7 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 				rowLevelPageBreakIntervals = GroupUtil.getLevelPageBreakIntervals( crosstabItem,
 						rowGroups,
 						ROW_AXIS_TYPE );
-				
+
 				forcedRowLevelPageBreakInterval = crosstabItem.getRowPageBreakInterval( );
 
 				walker = new CachedColumnWalker( crosstabItem,
@@ -153,11 +155,11 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 						e );
 			}
 		}
-		else
-		{
-			logger.log( Level.SEVERE,
-					Messages.getString( "CrosstabReportItemExecutor.error.invalid.cube.result" ) ); //$NON-NLS-1$
-		}
+		// else
+		// {
+		// logger.log( Level.SEVERE,
+		//					Messages.getString( "CrosstabReportItemExecutor.error.invalid.cube.result" ) ); //$NON-NLS-1$
+		// }
 
 		return content;
 	}

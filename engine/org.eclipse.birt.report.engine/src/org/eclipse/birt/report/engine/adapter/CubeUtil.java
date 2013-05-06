@@ -76,9 +76,12 @@ public class CubeUtil
 	 */
 	private static List getAllEdges( CubeCursor cursor ) throws OLAPException
 	{
-		List ordinateEdge = new ArrayList();		
-		ordinateEdge.addAll( cursor.getOrdinateEdge( ));
-		ordinateEdge.addAll( cursor.getPageEdge( ) );
+		List ordinateEdge = new ArrayList();
+		if ( cursor != null )
+		{
+			ordinateEdge.addAll( cursor.getOrdinateEdge( ) );
+			ordinateEdge.addAll( cursor.getPageEdge( ) );
+		}
 		return ordinateEdge;
 	}
 	

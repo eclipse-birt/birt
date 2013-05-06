@@ -71,6 +71,7 @@ public class MenuButton extends Composite
 	public void setText( String text )
 	{
 		this.text = text;
+		button.setText( "" ); //$NON-NLS-1$
 		layoutControl( );
 	}
 
@@ -101,7 +102,7 @@ public class MenuButton extends Composite
 		}
 		else
 		{
-			tmp.setText( "" );
+			tmp.setText( "" ); //$NON-NLS-1$
 			height = tmp.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
 		}
 		if ( image != null )
@@ -177,30 +178,44 @@ public class MenuButton extends Composite
 
 	private boolean mouseSelection = false;
 
+	private boolean mouseDown = false;
+
 	public MenuButton( Composite parent, int style, boolean fixed )
 	{
-		super( parent, SWT.NONE );
+		super( parent, SWT.DOUBLE_BUFFERED );
 		isFixed = fixed;
 		GridLayout layout = new GridLayout( );
 		layout.marginHeight = layout.marginWidth = 0;
 		this.setLayout( layout );
 
-		button = new Button( this, style );
+		button = new Button( this, style | SWT.DOUBLE_BUFFERED ){
+			protected void checkSubclass( )
+			{
+				
+			}
+
+			public String getText( )
+			{
+				return MenuButton.this.getText( );
+			}
+		};
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		button.setLayoutData( gd );
 		button.addPaintListener( new PaintListener( ) {
 
-			public void paintControl( PaintEvent e )
+			public void paintControl( final PaintEvent e )
 			{
 				MenuButton.this.paintControl( e );
 			}
 		} );
+
 		button.addListener( SWT.MouseUp, new Listener( ) {
 
 			public void handleEvent( Event e )
 			{
-				if ( !button.isEnabled( ) || e.button != 1 )
+				if ( !button.isEnabled( ) || e.button != 1 || !mouseDown )
 					return;
+				mouseDown = false;
 				mouseSelection = true;
 				Rectangle size = button.getBounds( );
 				if ( !size.contains( e.x, e.y ) )
@@ -230,6 +245,21 @@ public class MenuButton extends Composite
 						menu.setVisible( true );
 					}
 				}
+			}
+
+		} );
+
+		button.addListener( SWT.MouseDown, new Listener( ) {
+
+			public void handleEvent( Event e )
+			{
+				if ( !button.isEnabled( ) || e.button != 1 )
+					return;
+				mouseSelection = true;
+				Rectangle size = button.getBounds( );
+				if ( !size.contains( e.x, e.y ) )
+					return;
+				mouseDown = true;
 			}
 
 		} );
@@ -326,7 +356,7 @@ public class MenuButton extends Composite
 
 			e.gc.setBackground( bgColor );
 
-			int height = e.gc.textExtent( "", DRAW_FLAGS ).y;
+			int height = e.gc.textExtent( "", DRAW_FLAGS ).y; //$NON-NLS-1$
 
 			if ( !isFixed && image != null )
 			{
@@ -338,7 +368,7 @@ public class MenuButton extends Composite
 			if ( defaultSize.y > size.height )
 			{
 				height = height - ( defaultSize.y - size.height );
-				height = e.gc.textExtent( "", DRAW_FLAGS ).y > height ? e.gc.textExtent( "",
+				height = e.gc.textExtent( "", DRAW_FLAGS ).y > height ? e.gc.textExtent( "", //$NON-NLS-1$ //$NON-NLS-2$
 						DRAW_FLAGS ).y
 						: height;
 			}
@@ -375,13 +405,9 @@ public class MenuButton extends Composite
 				int imageWidth = image.getImageData( ).width;
 				int imageHeight = image.getImageData( ).height;
 
-				Image imageTemp;
+				Image imageTemp = null;
 
-				if ( isEnabled( ) )
-					imageTemp = new Image( e.gc.getDevice( ),
-							image,
-							SWT.IMAGE_COPY );
-				else
+				if ( !isEnabled( ) )
 					imageTemp = new Image( e.gc.getDevice( ),
 							image,
 							SWT.IMAGE_DISABLE );
@@ -395,17 +421,32 @@ public class MenuButton extends Composite
 				}
 
 				left += ( MARGIN_GAP + imageWidth );
-				e.gc.drawImage( imageTemp,
-						0,
-						0,
-						imageTemp.getImageData( ).width,
-						imageTemp.getImageData( ).height,
-						( size.width - left ) / 2 + MARGIN_GAP,
-						Math.round( ( (float) ( size.height - imageHeight ) / 2 ) ),
-						imageWidth,
-						imageHeight );
+				if ( !isEnabled( ) )
+				{
+					e.gc.drawImage( imageTemp,
+							0,
+							0,
+							imageTemp.getImageData( ).width,
+							imageTemp.getImageData( ).height,
+							( size.width - left ) / 2 + MARGIN_GAP,
+							Math.round( ( (float) ( size.height - imageHeight ) / 2 ) ),
+							imageWidth,
+							imageHeight );
 
-				imageTemp.dispose( );
+					imageTemp.dispose( );
+				}
+				else
+				{
+					e.gc.drawImage( image,
+							0,
+							0,
+							image.getImageData( ).width,
+							image.getImageData( ).height,
+							( size.width - left ) / 2 + MARGIN_GAP,
+							Math.round( ( (float) ( size.height - imageHeight ) / 2 ) ),
+							imageWidth,
+							imageHeight );
+				}
 			}
 
 		}

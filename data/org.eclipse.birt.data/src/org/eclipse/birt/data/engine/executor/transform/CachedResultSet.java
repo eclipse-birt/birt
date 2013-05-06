@@ -360,10 +360,10 @@ public class CachedResultSet implements IResultIterator
 						{
 							ind.close( );
 						}
-						for ( IAuxiliaryIndexCreator creator : streamsWrapper.getAuxiliaryIndexCreators( ) )
-						{
-							creator.close( );
-						}
+					}
+					for ( IAuxiliaryIndexCreator creator : streamsWrapper.getAuxiliaryIndexCreators( ) )
+					{
+						creator.close( );
 					}
 				}
 				

@@ -47,12 +47,28 @@ public abstract class RepeatableArea extends BlockContainerArea
 	{
 		this.inHeaderBand = inHeaderBand;
 	}
+	
+	//TODO refactor 
+	protected boolean isFirstChildInHeaderBand()
+	{
+		//check if the first child is in head band;
+		if(children.size( )>0)
+		{
+			AbstractArea first = (AbstractArea)children.get(0);
+			if(isInRepeatHeader(first))
+			{
+				return true;
+			}
+			
+		}
+		return false;
+	}
 
 	protected void addRepeatedItem( ) throws BirtException
 	{
 		if ( repeatList != null && repeatList.size( ) > 0 )
 		{
-			if ( !inHeaderBand )
+			if ( !inHeaderBand && !isFirstChildInHeaderBand())
 			{
 				if ( getRepeatedHeight( ) < getMaxAvaHeight( ) )
 				{

@@ -34,8 +34,6 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 
 	private Map<String, String> defaultEmitterIdsOfFormats = new HashMap<String, String>( );
 	
-	private Map<String, Map<String, RenderOptionDefn>> defaultEmitterRenderOptions = new HashMap<String, Map<String, RenderOptionDefn>>( );
-	
 	/**
 	 * constructor
 	 */
@@ -554,20 +552,4 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 		return buf.toString( );
 	}
 	
-	public void setDefaultEmitterRenderOption( String emitterId,
-			RenderOptionDefn option )
-	{
-		Map<String, RenderOptionDefn> options = defaultEmitterRenderOptions.get( emitterId );
-		if( options == null )
-		{
-			options = new HashMap<String, RenderOptionDefn>( );
-			defaultEmitterRenderOptions.put( emitterId, options );
-		}
-		options.put( option.getKey( ), option );
-	}
-	
-	public Map<String, RenderOptionDefn> getDefaultEmitterRenderOption( String emitterId )
-	{
-		return defaultEmitterRenderOptions.get( emitterId );
-	}
 }

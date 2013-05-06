@@ -424,9 +424,12 @@ public final class SwingInteractivityViewer extends JPanel implements
 			JPanel jp = new JPanel( );
 			jp.setLayout( new FlowLayout( FlowLayout.LEFT, 3, 3 ) );
 
-			jp.add( new JLabel( "Choose:" ) );//$NON-NLS-1$
-			jcbModels = new JComboBox( );
+			JLabel choose = new JLabel( "Choose:" );//$NON-NLS-1$
+			choose.setDisplayedMnemonic( 'c' );
+			jp.add( choose );
 
+			jcbModels = new JComboBox( );
+			choose.setLabelFor( jcbModels );
 			jcbModels.addItem( "Highlight Series" );//$NON-NLS-1$
 			jcbModels.addItem( "Show Tooltip" );//$NON-NLS-1$
 			jcbModels.addItem( "Toggle Visibility" );//$NON-NLS-1$
@@ -439,7 +442,9 @@ public final class SwingInteractivityViewer extends JPanel implements
 			jp.add( jcbModels );
 
 			jbUpdate = new JButton( "Update" );//$NON-NLS-1$
+			jbUpdate.setMnemonic( 'u' );
 			jbUpdate.addActionListener( this );
+			jbUpdate.setToolTipText( "Show" );//$NON-NLS-1$
 			jp.add( jbUpdate );
 
 			add( jp );
