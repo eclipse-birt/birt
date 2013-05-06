@@ -955,10 +955,11 @@ public class TableLayout
 		
 		//clear border
 		BoxStyle bs = emptyCell.getBoxStyle( );
-		if ( bs == BoxStyle.DEFAULT )
-			bs = new BoxStyle( BoxStyle.DEFAULT );
-		bs.setRightBorder( null );
-		bs.setBottomBorder( null );
+		if ( bs != BoxStyle.DEFAULT )
+		{
+			bs.setRightBorder( null );
+			bs.setBottomBorder( null );
+		}
 		
 		emptyCell.setHeight( 0 );
 		emptyCell.setRowSpan( rowSpan );
