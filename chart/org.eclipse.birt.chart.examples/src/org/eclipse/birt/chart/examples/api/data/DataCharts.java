@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
@@ -91,7 +90,7 @@ public class DataCharts
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		cwoaPie.getSeriesDefinitions( ).add( sd );
 
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 
 		final Fill[] fiaBase = {
 				ColorDefinitionImpl.ORANGE( ),
@@ -209,8 +208,8 @@ public class DataCharts
 		ls1.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
 		for ( int i = 0; i < ls1.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ls1.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL );
-			( (Marker) ls1.getMarkers( ).get( i ) ).setSize( 10 );
+			 ls1.getMarkers( ).get( i ) .setType( MarkerType.TRIANGLE_LITERAL );
+			 ls1.getMarkers( ).get( i ) .setSize( 10 );
 		}
 		ls1.getLabel( ).setVisible( true );
 
@@ -226,8 +225,8 @@ public class DataCharts
 		ls2.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
 		for ( int i = 0; i < ls2.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ls2.getMarkers( ).get( i ) ).setType( MarkerType.CIRCLE_LITERAL );
-			( (Marker) ls2.getMarkers( ).get( i ) ).setSize( 10 );
+			ls2.getMarkers( ).get( i ) .setType( MarkerType.CIRCLE_LITERAL );
+			ls2.getMarkers( ).get( i ) .setSize( 10 );
 		}
 		ls2.getLabel( ).setVisible( true );
 
@@ -373,12 +372,12 @@ public class DataCharts
 
 		// 1. Create a big number data set and set big number flag as true.
 		NumberDataSet seriesOneValues = NumberDataSetImpl.create( new BigNumber[]{
-				new BigNumber( "3E314" ),
-				new BigNumber( "5E315" ),
-				new BigNumber( "8E314" ),
-				new BigNumber( "7E315" ),
-				new BigNumber( "5.5E315" ),
-				new BigNumber( "3.5E316" )
+				new BigNumber( "3E314" ),//$NON-NLS-1$
+				new BigNumber( "5E315" ),//$NON-NLS-1$
+				new BigNumber( "8E314" ),//$NON-NLS-1$
+				new BigNumber( "7E315" ),//$NON-NLS-1$
+				new BigNumber( "5.5E315" ),//$NON-NLS-1$
+				new BigNumber( "3.5E316" )//$NON-NLS-1$
 		} );
 		( (DataSetImpl) seriesOneValues ).setIsBigNumber( true );
 
@@ -386,7 +385,7 @@ public class DataCharts
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		cwoaPie.getSeriesDefinitions( ).add( sd );
 
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 
 		final Fill[] fiaBase = {
 				ColorDefinitionImpl.ORANGE( ),

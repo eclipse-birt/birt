@@ -87,7 +87,7 @@ public class CurveFittingViewer extends Composite implements
 
 		Label la = new Label( cBottom, SWT.NONE );
 
-		la.setText( "Choose: " );//$NON-NLS-1$
+		la.setText( "&Choose: " );//$NON-NLS-1$
 		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cbType.add( "Bar Chart" );//$NON-NLS-1$
 		cbType.add( "Line Chart" );//$NON-NLS-1$
@@ -96,8 +96,9 @@ public class CurveFittingViewer extends Composite implements
 		cbType.select( 0 );
 
 		btn = new Button( cBottom, SWT.NONE );
-		btn.setText( "Update" );//$NON-NLS-1$
+		btn.setText( "&Update" );//$NON-NLS-1$
 		btn.addSelectionListener( cfViewer );
+		btn.setToolTipText( "Update" );//$NON-NLS-1$
 
 		shell.open( );
 		while ( !shell.isDisposed( ) )

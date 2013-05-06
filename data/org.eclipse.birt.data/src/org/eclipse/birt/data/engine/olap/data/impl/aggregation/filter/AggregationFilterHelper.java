@@ -175,6 +175,13 @@ public class AggregationFilterHelper
 		}
 	}
 
+	private boolean isMatchResultSet( AggregationDefinition aggregation,
+			IAggregationResultSet resultSet, AggrFilterDefinition filter )
+	{
+		return filter.getAggrLevels( ) == null
+				&& resultSet.getLevelIndex( filter.getTargetLevel( ) ) >= 0;
+	}
+	
 	/**
 	 * 
 	 * @param aggregation
@@ -323,14 +330,14 @@ public class AggregationFilterHelper
 		for ( int k = 0; k < this.topbottomFilters.size( ); k++ )
 		{
 			TopBottomFilterDefinition filterDefinition = (TopBottomFilterDefinition) topbottomFilters.get( k );
-			if ( isMatch( rs.getAggregationDefinition( ), rs, filterDefinition ) )
+			if ( isMatchResultSet( rs.getAggregationDefinition( ), rs, filterDefinition ) )
 				return true;
 		}
 
 		for ( int k = 0; k < this.aggrFilters.size( ); k++ )
 		{
 			AggrFilterDefinition filterDefinition = ( (AggrFilterDefinition) aggrFilters.get( k ) );
-			if ( isMatch( rs.getAggregationDefinition( ), rs, filterDefinition ) )
+			if ( isMatchResultSet( rs.getAggregationDefinition( ), rs, filterDefinition ) )
 				return true;
 		}
 
@@ -482,7 +489,7 @@ public class AggregationFilterHelper
 							.getAggregationFunctions( ) != null
 							&& isMatch( rs[i].getAggregationDefinition( ),
 									rs[i],
-									filter ) && filter.getAxisQualifierLevels( )!=null )
+									filter ) && filter.getAggrLevels( )!=null )
 					{
 						applyNoUpdateAggrFilter( rs[i], filter, levelFilterList );
 						filtered = true;		
@@ -492,11 +499,11 @@ public class AggregationFilterHelper
 				for ( Iterator k = topbottomFilters.iterator( ); k.hasNext( ); )
 				{
 					TopBottomFilterDefinition filter = (TopBottomFilterDefinition) k.next( );
-					if ( rs[i].getAggregationDefinition( )
-							.getAggregationFunctions( ) != null
-							&& isMatch( rs[i].getAggregationDefinition( ),
-									rs[i],
-									filter ) && filter.getAxisQualifierLevels( )!=null )
+					if (rs[i].getAggregationDefinition()
+							.getAggregationFunctions() != null
+							&& (isMatch(rs[i].getAggregationDefinition(),
+									rs[i], filter) && filter
+									.getAggrLevels() != null) )
 					{
 						applyNoUpdateTopBottomFilters( rs[i].getAggregationDefinition( ),
 								rs[i],

@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +40,7 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.core.filesystem.URIUtil;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -448,11 +450,22 @@ public class IDEFileReportProvider implements IReportProvider
 	{
 		if ( input instanceof IURIEditorInput )
 		{
-			return new Path( ( (IURIEditorInput) input ).getURI( ).getPath( ) );
+			//return new Path( ( (IURIEditorInput) input ).getURI( ).getPath( ) );
+			URI uri = ( (IURIEditorInput) input ).getURI( );
+			if(uri == null && input instanceof IFileEditorInput)
+				return ((IFileEditorInput)input).getFile( ).getFullPath( );
+			IPath localPath = URIUtil.toPath( uri );
+			String host = uri.getHost( );
+			if ( host != null && localPath == null )
+			{
+				return new Path( host + uri.getPath( ) ).makeUNC( true );
+			}
+			return localPath;
 		}
-		if (input instanceof IFileEditorInput) {
-			return ((IFileEditorInput) input).getFile( ).getLocation( );
-}
+		if ( input instanceof IFileEditorInput )
+		{
+			return ( (IFileEditorInput) input ).getFile( ).getLocation( );
+		}
 		return null;
 	}
 
@@ -499,9 +512,11 @@ public class IDEFileReportProvider implements IReportProvider
 							designerVersion );
 					properties.put( IModuleOption.CREATED_BY_KEY,
 							designerVersion );
-					if (fileName.endsWith( "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION ))
+					if ( fileName.endsWith( "."
+							+ IReportElementConstants.TEMPLATE_FILE_EXTENSION ) )
 					{
-						properties.put( IModuleOption.PARSER_SEMANTIC_CHECK_KEY, false );
+						properties.put( IModuleOption.PARSER_SEMANTIC_CHECK_KEY,
+								false );
 					}
 					String projectFolder = getProjectFolder( input );
 					if ( projectFolder != null )

@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -327,7 +326,7 @@ public class FormatCharts
 		} );
 
 		// Base Series
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory =  SeriesImpl.create( );
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
@@ -446,7 +445,7 @@ public class FormatCharts
 		ss.setSeriesIdentifier( "Unit Price" );//$NON-NLS-1$
 		for ( int i = 0; i < ss.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ss.getMarkers( ).get( i ) ).setType( MarkerType.CIRCLE_LITERAL );
+			 ss.getMarkers( ).get( i ) .setType( MarkerType.CIRCLE_LITERAL );
 		}
 		DataPoint dp = ss.getDataPoint( );
 		dp.getComponents( ).clear( );

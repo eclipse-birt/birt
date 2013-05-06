@@ -59,6 +59,6 @@ public class Regression_76874 extends BaseTestCase
 		
 		// default value is returned.
 		
-		assertEquals( "medium", label.getProperty( Style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
+		assertEquals( "10pt", label.getProperty( Style.FONT_SIZE_PROP ).toString() ); //$NON-NLS-1$
 	}
 }

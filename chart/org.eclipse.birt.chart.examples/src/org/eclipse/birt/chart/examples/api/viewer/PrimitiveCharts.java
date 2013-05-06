@@ -43,7 +43,6 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
@@ -398,7 +397,7 @@ public final class PrimitiveCharts
 		bs.getTriggers( ).add( t );
 		c = AttributeFactory.eINSTANCE.createCursor();
 		c.setType( CursorType.CUSTOM );
-		c.getImage( ).add( EmbeddedImageImpl.create( "Crosshair.gif", "R0lGODlhCAAIALMAAGbNM2bMM2XJM2XGM2TDMmTBM2K2MmKxM2CtM16gMl6cMl2XMl2WMl2VMv///wAAACH5BAEAAA4ALAAAAAAIAAgAAAQc0MkQpHWhXEmQDcBwKM2yAIKRMOZiLczmsLJpRQA7" ) );
+		c.getImage( ).add( EmbeddedImageImpl.create( "Crosshair.gif", "R0lGODlhCAAIALMAAGbNM2bMM2XJM2XGM2TDMmTBM2K2MmKxM2CtM16gMl6cMl2XMl2WMl2VMv///wAAACH5BAEAAA4ALAAAAAAIAAgAAAQc0MkQpHWhXEmQDcBwKM2yAIKRMOZiLczmsLJpRQA7" ) );//$NON-NLS-1$//$NON-NLS-2$
 		bs.setCursor( c );
 		
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
@@ -547,7 +546,7 @@ public final class PrimitiveCharts
 		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
 		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ls.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL);
+			ls.getMarkers( ).get( i ) .setType( MarkerType.TRIANGLE_LITERAL);
 		}
 		ls.getLabel( ).setVisible( true );
 
@@ -617,7 +616,7 @@ public final class PrimitiveCharts
 		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.BLUE( ) );
 		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ls.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL);
+			ls.getMarkers( ).get( i ) .setType( MarkerType.TRIANGLE_LITERAL);
 		}
 		ls.getLabel( ).setVisible( true );
 		ls.setCurve( true );
@@ -986,7 +985,7 @@ public final class PrimitiveCharts
 		ls1.setDataSet( seriesTwoValues );
 		for ( int i = 0; i < ls1.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ls1.getMarkers( ).get( i ) ).setType( MarkerType.BOX_LITERAL);
+			ls1.getMarkers( ).get( i ) .setType( MarkerType.BOX_LITERAL);
 		}
 		ls1.getLabel( ).setVisible( true );
 
@@ -1106,7 +1105,7 @@ public final class PrimitiveCharts
 		ss.setSeriesIdentifier( "Unit Price" );//$NON-NLS-1$
 		for ( int i = 0; i < ss.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ss.getMarkers( ).get( i ) ).setType( MarkerType.CIRCLE_LITERAL);
+			ss.getMarkers( ).get( i ) .setType( MarkerType.CIRCLE_LITERAL);
 		}
 		DataPoint dp = ss.getDataPoint( );
 		dp.getComponents( ).clear( );
@@ -1218,7 +1217,7 @@ public final class PrimitiveCharts
 		ss.setSeriesIdentifier( "Unit Price" );//$NON-NLS-1$
 		for ( int i = 0; i < ss.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ss.getMarkers( ).get( i ) ).setType( MarkerType.CIRCLE_LITERAL);
+			ss.getMarkers( ).get( i ) .setType( MarkerType.CIRCLE_LITERAL);
 		}
 		DataPoint dp = ss.getDataPoint( );
 		dp.getComponents( ).clear( );
@@ -2402,7 +2401,7 @@ public final class PrimitiveCharts
 		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
 		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ls.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL);
+			ls.getMarkers( ).get( i ) .setType( MarkerType.TRIANGLE_LITERAL);
 		}
 		ls.getLabel( ).setVisible( true );
 		ls.setCurve( true );
@@ -2522,14 +2521,14 @@ public final class PrimitiveCharts
 		} );
 
 		StockDataSet dsStockValues = StockDataSetImpl.create( new StockEntry[]{
-				new StockEntry( 27.01, 27.10, 26.82, 26.85 ),
-				new StockEntry( 26.87, 27.15, 26.83, 27.01 ),
-				new StockEntry( 26.84, 27.15, 26.78, 26.97 ),
-				new StockEntry( 27.00, 27.17, 26.94, 27.07 ),
-				new StockEntry( 27.01, 27.15, 26.89, 26.95 ),
-				new StockEntry( 27.00, 27.32, 26.80, 26.96 ),
-				new StockEntry( 27.15, 27.28, 27.01, 27.16 ),
-				new StockEntry( 27.22, 27.40, 27.07, 27.11 ),
+				new StockEntry( 27.01, 26.82, 27.10, 26.85 ),
+				new StockEntry( 26.87, 26.83, 27.15, 27.01 ),
+				new StockEntry( 26.84, 26.78, 27.15, 26.97 ),
+				new StockEntry( 27.00, 26.94, 27.17, 27.07 ),
+				new StockEntry( 27.01, 26.89, 27.15, 26.95 ),
+				new StockEntry( 27.00, 26.80, 27.32, 26.96 ),
+				new StockEntry( 27.15, 27.01, 27.28, 27.16 ),
+				new StockEntry( 27.22, 27.07, 27.40, 27.11 ),
 		} );
 
 		// X-Series
@@ -2793,7 +2792,7 @@ public final class PrimitiveCharts
 		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );
 		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ls.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL);
+			ls.getMarkers( ).get( i ) .setType( MarkerType.TRIANGLE_LITERAL);
 		}
 		ls.getLabel( ).setVisible( true );
 
@@ -2940,10 +2939,6 @@ public final class PrimitiveCharts
 		{
 			chartFile = new File( "testChart.chart" ); //$NON-NLS-1$
 		}
-		if ( chartFile == null )
-		{
-			throw new RuntimeException("No chart file specified!"); //$NON-NLS-1$
-		}
 
 		// Reads the chart model
 		InputStream is = null;
@@ -2982,10 +2977,13 @@ public final class PrimitiveCharts
 				14.32, -19.5, 8.38, 0.34, 9.22
 		} );
 
-		( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
-				.get( 0 ) ).getDesignTimeSeries( ).setDataSet( categoryValues );
-		( (SeriesDefinition) ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
-				0 ).get( 0 ) ).getDesignTimeSeries( )
+		ChartUIUtil.getBaseSeriesDefinitions( chart )
+				.get( 0 )
+				.getDesignTimeSeries( )
+				.setDataSet( categoryValues );
+		ChartUIUtil.getOrthogonalSeriesDefinitions( chart, 0 )
+				.get( 0 )
+				.getDesignTimeSeries( )
 				.setDataSet( orthoValues1 );
 		return chart;
 	}

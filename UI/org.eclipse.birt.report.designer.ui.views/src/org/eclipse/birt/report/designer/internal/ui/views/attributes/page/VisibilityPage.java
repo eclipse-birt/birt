@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Composite;
  * The visibility attribute page of DE element. Note: Visibility Not support
  * multi-selection.
  */
-public class VisibilityPage extends ResetAttributePage
+public class VisibilityPage extends AttributePage
 {
 	public void buildUI( Composite parent  )
 	{

@@ -24,7 +24,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.report.engine.api.RenderOptionDefn;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -38,7 +37,6 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 	protected Map initParams = null;
 	protected Locale locale;
 	protected Map<String, RenderOptionDefn> renderOptionDefns = new HashMap<String, RenderOptionDefn>();
-	private Map<String, RenderOptionDefn> engineDefaultOption;
 	protected IConfigurableOption[] options;
 	
 	private static final String OPTIONS_CONFIG_FILE = "RenderDefaults.cfg";
@@ -98,14 +96,6 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 		}
 	}
 	
-	/**
-	 * Load default values from jar.
-	 * There are two types of config files, one is xml, the other is cfg.
-	 * The xml config file always overwrites the .cfg file.
-	 * 
-	 * @param bundleName
-	 * @return
-	 */
 	protected boolean loadDefaultValues( String bundleName )
 	{
 		try
@@ -170,80 +160,48 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 		{
 			return;
 		}
-		RenderOptionDefn engineDefn = engineDefaultOption.get( option.getName( ) );
 		RenderOptionDefn defn = renderOptionDefns.get( option.getName( ) );
 		if ( defn != null )
 		{
-			//both configuration exist, we should merge them first
-			if(engineDefn != null)
+			String value = defn.getValue( );
+			ConfigurableOption optionImpl = (ConfigurableOption) option;
+			optionImpl.setEnabled( defn.isEnabled( ) );
+			switch ( option.getDataType( ) )
 			{
-				defn = new RenderOptionDefn(defn.getKey( ), //same key
-						engineDefn.getValue( ), // engine value always overwrite
-						defn.isEnabled( ) & engineDefn.isEnabled( )); // the enabled option is the combined value
+				case STRING :
+					optionImpl.setDefaultValue( value );
+					break;
+				case BOOLEAN :
+					optionImpl.setDefaultValue(Boolean.valueOf( value ));
+					break;
+				case INTEGER :
+					Integer intValue = null;
+					try
+					{
+						intValue = Integer.decode( value );
+					}
+					catch ( NumberFormatException e )
+					{
+						break;
+					}
+					optionImpl.setDefaultValue( intValue);
+					break;
+				case FLOAT :
+					Float floatValue = null;
+					try
+					{
+						floatValue = Float.valueOf( value );
+					}
+					catch ( NumberFormatException e )
+					{
+						break;
+					}
+					optionImpl.setDefaultValue( floatValue );
+					break;
+				default :
+					break;
 			}
-			applyDefaultValue( option, defn );
 		}
-		else if( engineDefn != null )
-		{
-			applyDefaultValue( option, engineDefn );
-		}
-	}
-
-	private void applyDefaultValue( IConfigurableOption option,
-			RenderOptionDefn defn )
-	{
-		String value = defn.getValue( );
-		ConfigurableOption optionImpl = (ConfigurableOption) option;
-		optionImpl.setEnabled( defn.isEnabled( ) );
-		switch ( option.getDataType( ) )
-		{
-			case STRING :
-				optionImpl.setDefaultValue( value );
-				break;
-			case BOOLEAN :
-				optionImpl.setDefaultValue(Boolean.valueOf( value ));
-				break;
-			case INTEGER :
-				Integer intValue = null;
-				try
-				{
-					intValue = Integer.decode( value );
-				}
-				catch ( NumberFormatException e )
-				{
-					break;
-				}
-				optionImpl.setDefaultValue( intValue);
-				break;
-			case FLOAT :
-				Float floatValue = null;
-				try
-				{
-					floatValue = Float.valueOf( value );
-				}
-				catch ( NumberFormatException e )
-				{
-					break;
-				}
-				optionImpl.setDefaultValue( floatValue );
-				break;
-			default :
-				break;
-		}
-	}
-	
-	public void setDefaultRenderOptions( Map<String, RenderOptionDefn> options )
-	{
-		if( engineDefaultOption == null )
-		{
-			engineDefaultOption = new HashMap<String, RenderOptionDefn>( );			
-		}
-		engineDefaultOption.clear( );
-		if ( options != null )
-		{
-			engineDefaultOption.putAll( options );			
-		}
-		initOptions( );
 	}
 	
 	private URL getResourceURL( String bundleName, String resourceName )

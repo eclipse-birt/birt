@@ -121,6 +121,7 @@ public class RenameInputDialog extends BaseDialog
 		
 		text = new Text( container, SWT.BORDER | SWT.SINGLE );
 		text.setText( value );
+		text.selectAll();
 
 		GridData gd = new GridData( GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL );
 		gd.horizontalSpan = 2;

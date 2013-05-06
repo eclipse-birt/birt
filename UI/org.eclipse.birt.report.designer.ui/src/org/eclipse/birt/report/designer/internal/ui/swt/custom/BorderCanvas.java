@@ -7,6 +7,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -21,14 +22,13 @@ import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 public class BorderCanvas extends Canvas
 {
 
-	private static final String INHERITED = Messages.getString("BorderCanvas.Inherited0"); //$NON-NLS-1$
+	private static final String INHERITED = Messages.getString( "BorderCanvas.Label.Inherited" ); //$NON-NLS-1$
 	private boolean mouseIn = false;
 	private int mouseInArea = SWT.NONE;
 
@@ -489,8 +489,7 @@ public class BorderCanvas extends Canvas
 				fontData.setHeight( 9 );
 				Font font = new Font( gc.getDevice( ), fontData );
 				gc.setFont( font );
-				gc.setForeground( Display.getDefault( )
-						.getSystemColor( SWT.COLOR_RED ) );
+				gc.setForeground( ColorConstants.darkGreen );
 				Point size = gc.stringExtent( INHERITED );
 				Transform transform = new Transform( gc.getDevice( ) );
 				transform.translate( -1, height + ( height - 100 ) / 2 - size.y );
@@ -518,8 +517,7 @@ public class BorderCanvas extends Canvas
 				fontData.setHeight( 9 );
 				Font font = new Font( gc.getDevice( ), fontData );
 				gc.setFont( font );
-				gc.setForeground( Display.getDefault( )
-						.getSystemColor( SWT.COLOR_RED ) );
+				gc.setForeground( ColorConstants.darkGreen );
 				Point size = gc.stringExtent( INHERITED );
 				gc.drawText( INHERITED, ( width - size.x ) / 2, ( height - 100 )
 						/ 2
@@ -542,8 +540,7 @@ public class BorderCanvas extends Canvas
 				fontData.setHeight( 9 );
 				Font font = new Font( gc.getDevice( ), fontData );
 				gc.setFont( font );
-				gc.setForeground( Display.getDefault( )
-						.getSystemColor( SWT.COLOR_RED ) );
+				gc.setForeground( ColorConstants.darkGreen );
 				Point size = gc.stringExtent( INHERITED );
 				Transform transform = new Transform( gc.getDevice( ) );
 				transform.translate( width + 2, 0 );
@@ -576,8 +573,7 @@ public class BorderCanvas extends Canvas
 				fontData.setHeight( 9 );
 				Font font = new Font( gc.getDevice( ), fontData );
 				gc.setFont( font );
-				gc.setForeground( Display.getDefault( )
-						.getSystemColor( SWT.COLOR_RED ) );
+				gc.setForeground( ColorConstants.darkGreen );
 				Point size = gc.stringExtent( INHERITED );
 				gc.drawText( INHERITED,
 						( width - size.x ) / 2,

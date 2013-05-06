@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
 
@@ -109,8 +110,13 @@ public class StyleBuilder
 		entry.setProperty( StyleConstant.FONT_SIZE_PROP, convertFontSize( style
 				.getProperty( IStyle.STYLE_FONT_SIZE ) ) );
 
-		entry.setProperty( StyleConstant.FONT_STYLE_PROP, "italic"
-				.equalsIgnoreCase( style.getFontStyle( ) ) );
+		// when font style is oblique or italic , we set the font style to
+		// italic.The style is consistent with the doc emitter.
+		entry.setProperty(
+				StyleConstant.FONT_STYLE_PROP,
+				"italic".equalsIgnoreCase( style.getFontStyle( ) )
+						|| CSSConstants.CSS_OBLIQUE_VALUE
+								.equalsIgnoreCase( style.getFontStyle( ) ) );
 
 		entry.setProperty( StyleConstant.FONT_WEIGHT_PROP, "bold"
 				.equalsIgnoreCase( style.getFontWeight( ) ) );

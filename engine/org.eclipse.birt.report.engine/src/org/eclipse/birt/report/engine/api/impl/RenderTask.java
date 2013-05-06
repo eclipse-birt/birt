@@ -437,6 +437,16 @@ public class RenderTask extends EngineTask implements IRenderTask
 				 * 1. element is set visibility to false in pdf format
 				 * 2. element is set display to none
 				 */
+				Object repaginateForPDF = renderOptions
+						.getOption( IPDFRenderOption.REPAGINATE_FOR_PDF );
+				if ( repaginateForPDF != null
+						&& repaginateForPDF instanceof Boolean )
+				{
+					if ( ( (Boolean) repaginateForPDF ).booleanValue( ) )
+					{
+						RenderTask.this.PDFRenderPageByPage = false;
+					}
+				}
 				if ( RenderTask.this.PDFRenderPageByPage
 						&& executionContext.isFixedLayout( ) )
 				{

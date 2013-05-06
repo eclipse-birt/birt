@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.templates.IDynamicTemplateProvider;
 import org.eclipse.birt.report.designer.ui.templates.ITemplateAdaptable;
 import org.eclipse.birt.report.designer.ui.templates.ITemplateEntry;
@@ -288,6 +289,7 @@ public class ExtensionTemplateListProvider implements
 				ReportDesignHandle handle = ( (TemplateNode) element ).getHandle( );
 				str = handle.getDisplayName( );
 			}
+			str = Messages.getString(str);
 			return str;
 		}
 		return null;

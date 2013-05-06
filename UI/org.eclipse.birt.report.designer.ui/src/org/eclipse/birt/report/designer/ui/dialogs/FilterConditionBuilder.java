@@ -1818,8 +1818,15 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	{
 		if ( handle instanceof DataSetHandle )
 		{
-			columnList = Arrays.asList( DataSetProvider.getCurrentInstance( )
-					.getColumns( (DataSetHandle) handle, false ) );
+			try
+			{
+				columnList = Arrays.asList( DataSetProvider.getCurrentInstance( )
+						.getColumns( (DataSetHandle) handle, false ) );
+			}
+			catch ( BirtException e )
+			{
+				//do nothing now
+			}
 		}
 		else if ( handle instanceof TabularCubeHandle
 				|| handle instanceof TabularHierarchyHandle )

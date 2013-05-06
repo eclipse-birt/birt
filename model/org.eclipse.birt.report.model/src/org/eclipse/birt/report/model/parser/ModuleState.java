@@ -109,11 +109,9 @@ public abstract class ModuleState extends DesignParseState
 			{
 				handler.setLaterVersion( true );
 
-				if ( !( module.getOptions( ) == null || module.getOptions( ).isSupportedUnknownVersion( ) ) )
+				if ( module.getOptions( ) == null || !module.getOptions( ).isSupportedUnknownVersion( ) )
 				{
-					DesignParserException e = new DesignParserException( new String[]{
-						version
-					},
+					DesignParserException e = new DesignParserException( new String[]{ version }, 
 							DesignParserException.DESIGN_EXCEPTION_UNSUPPORTED_VERSION );
 					throw new XMLParserException( e );
 				}
