@@ -661,7 +661,17 @@ public abstract class CustomChooserComposite extends Composite
 		getAccessible( ).removeAccessibleListener( accessibleListener );
 		getAccessible( ).addAccessibleListener( accessibleListener );
 
-		getAccessible( ).removeAccessibleControlListener( accessibleControlListener );
+		// A workaround to resolve NullPointerException bug in SWT 4.3 M7, will
+		// restore when swt solve the missing of NPE check in Accessible class
+		try
+		{
+			getAccessible( ).removeAccessibleControlListener( accessibleControlListener );
+		}
+		catch ( NullPointerException e )
+		{
+
+		}
+		
 		getAccessible( ).addAccessibleControlListener( accessibleControlListener );
 	}
 }
