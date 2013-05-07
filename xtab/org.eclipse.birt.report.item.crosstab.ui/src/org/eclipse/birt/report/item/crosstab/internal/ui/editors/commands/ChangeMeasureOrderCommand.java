@@ -78,6 +78,7 @@ public class ChangeMeasureOrderCommand extends AbstractCrosstabCommand
 		{
 			rollBack( );
 			ExceptionUtil.handle( e );
+			return;
 		}
 		transEnd( );
 	}
