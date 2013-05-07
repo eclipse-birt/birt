@@ -70,7 +70,7 @@ import org.eclipse.swt.widgets.TreeItem;
 public class GroupDialog extends TitleAreaDialog
 {
 
-	private boolean isNameReadOnly = false;
+	private boolean isUndefined = false;
 	
 	public GroupDialog( TabularHierarchyHandle hierarchy )
 	{
@@ -88,10 +88,10 @@ public class GroupDialog extends TitleAreaDialog
 		dateTypeSelectedList.addAll( levelList );
 	}
 
-	public GroupDialog (boolean isNameReadOnly)
+	public GroupDialog (boolean isUndefined)
 	{
 		this();
-		this.isNameReadOnly = isNameReadOnly;
+		this.isUndefined = isUndefined;
 	}
 	
 	public GroupDialog( )
@@ -205,7 +205,7 @@ public class GroupDialog extends TitleAreaDialog
 
 	protected void initDialog( )
 	{
-		if(isNameReadOnly)
+		if(isUndefined)
 		{
 			nameText.setEnabled( false );
 		}
@@ -247,7 +247,11 @@ public class GroupDialog extends TitleAreaDialog
 
 		levelViewer.setInput( getDateTypeNames( getLevelTypesByDateType( ) ) );
 		levelViewer.expandAll( );
-		if ( levelViewer.getTree( ).getItemCount( ) > 0 )
+		if ( isUndefined )
+		{
+			dateTypeSelectedList.clear( );
+		}
+		else if ( levelViewer.getTree( ).getItemCount( ) > 0 )
 		{
 			TreeItem topNode = levelViewer.getTree( ).getItem( 0 );
 			do
