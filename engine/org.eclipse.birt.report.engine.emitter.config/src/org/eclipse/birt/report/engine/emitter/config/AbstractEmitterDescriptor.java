@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter.config;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
@@ -36,21 +37,25 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 
 	protected Map initParams = null;
 	protected Locale locale;
-	protected Map<String, RenderOptionDefn> renderOptionDefns = new HashMap<String, RenderOptionDefn>();
+	protected Map<String, RenderOptionDefn> renderOptionDefns = new HashMap<String, RenderOptionDefn>( );
 	protected IConfigurableOption[] options;
-	
+
 	private static final String OPTIONS_CONFIG_FILE = "RenderDefaults.cfg";
-	
+
 	private static final String RENDER_OPTIONS_FILE = "RenderOptions.xml";
-	
+
 	private static final String OPTION_QNAME = "option";
-	
+
 	private static final String OPTION_NAME = "name";
-	
+
 	private static final String OPTION_DEFAULT = "default";
-	
+
 	private static final String OPTION_ENABLED = "enabled";
-	
+
+	private static final String CONFIGS_BUNDLE = "org.eclipse.birt.report.engine.emitter.configs";
+
+	private static final String XML_EXTENSION = ".xml";
+
 	public void setInitParameters( Map params )
 	{
 		this.initParams = params;
@@ -84,7 +89,7 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 	{
 		return null;
 	}
-	
+
 	protected abstract void initOptions( );
 
 	protected void applyDefaultValues( )
@@ -95,34 +100,14 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 			applyDefaultValue( option );
 		}
 	}
-	
+
 	protected boolean loadDefaultValues( String bundleName )
 	{
 		try
 		{
-			URL url = getResourceURL( bundleName, OPTIONS_CONFIG_FILE );
-			if( url != null )
-			{
-				InputStream in = url.openStream( );
-				Properties defaultValues = new Properties( );
-				defaultValues.load( in );
-				for ( Entry<Object, Object> entry : defaultValues.entrySet( ) )
-				{
-					String name = entry.getKey( ).toString( );
-					String value = entry.getValue( ).toString( );
-					renderOptionDefns.put( name, new RenderOptionDefn( name,
-							value,
-							true ) );
-				}
-				in.close( );
-			}
-			url = getResourceURL( bundleName, RENDER_OPTIONS_FILE );
-			if ( url != null )
-			{
-				InputStream in = url.openStream( );
-				doLoadDefaultValues( in );
-				in.close( );
-			}
+			loadCFGFile( bundleName );
+			loadXMLFile( bundleName );
+			loadFromConfigs( );
 		}
 		catch ( Exception e )
 		{
@@ -130,18 +115,60 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 		}
 		return renderOptionDefns != null && !renderOptionDefns.isEmpty( );
 	}
-	
+
+	private void loadFromConfigs( ) throws IOException, Exception
+	{
+		URL url = getResourceURL( CONFIGS_BUNDLE, getID( ) + XML_EXTENSION );
+		if ( url != null )
+		{
+			InputStream in = url.openStream( );
+			doLoadDefaultValues( in );
+			in.close( );
+		}
+	}
+
+	private void loadXMLFile( String bundleName ) throws IOException, Exception
+	{
+		URL url = getResourceURL( bundleName, RENDER_OPTIONS_FILE );
+		if ( url != null )
+		{
+			InputStream in = url.openStream( );
+			doLoadDefaultValues( in );
+			in.close( );
+		}
+	}
+
+	private void loadCFGFile( String bundleName ) throws IOException
+	{
+		URL url = getResourceURL( bundleName, OPTIONS_CONFIG_FILE );
+		if ( url != null )
+		{
+			InputStream in = url.openStream( );
+			Properties defaultValues = new Properties( );
+			defaultValues.load( in );
+			for ( Entry<Object, Object> entry : defaultValues.entrySet( ) )
+			{
+				String name = entry.getKey( ).toString( );
+				String value = entry.getValue( ).toString( );
+				renderOptionDefns.put( name, new RenderOptionDefn( name,
+						value,
+						true ) );
+			}
+			in.close( );
+		}
+	}
+
 	private void doLoadDefaultValues( InputStream in ) throws Exception
 	{
-		
+
 		SAXParser parser = SAXParserFactory.newInstance( ).newSAXParser( );
 		try
 		{
-			parser.parse( in, new RenderOptionHandler( ) );			
+			parser.parse( in, new RenderOptionHandler( ) );
 		}
 		finally
 		{
-			// even there is XML exception, need to release the resource. 
+			// even there is XML exception, need to release the resource.
 			try
 			{
 				parser.reset( );
@@ -149,7 +176,7 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 			}
 			catch ( Exception e1 )
 			{
-				
+
 			}
 		}
 	}
@@ -172,7 +199,7 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 					optionImpl.setDefaultValue( value );
 					break;
 				case BOOLEAN :
-					optionImpl.setDefaultValue(Boolean.valueOf( value ));
+					optionImpl.setDefaultValue( Boolean.valueOf( value ) );
 					break;
 				case INTEGER :
 					Integer intValue = null;
@@ -184,7 +211,7 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 					{
 						break;
 					}
-					optionImpl.setDefaultValue( intValue);
+					optionImpl.setDefaultValue( intValue );
 					break;
 				case FLOAT :
 					Float floatValue = null;
@@ -203,7 +230,7 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 			}
 		}
 	}
-	
+
 	private URL getResourceURL( String bundleName, String resourceName )
 	{
 		IBundle bundle = Platform.getBundle( bundleName ); //$NON-NLS-1$
@@ -213,7 +240,7 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 		}
 		return null;
 	}
-	
+
 	private class RenderOptionHandler extends DefaultHandler
 	{
 
@@ -241,7 +268,7 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 		}
 
 	}
-	
+
 	private boolean isEmpty( String str )
 	{
 		return str == null || str.length( ) == 0;
