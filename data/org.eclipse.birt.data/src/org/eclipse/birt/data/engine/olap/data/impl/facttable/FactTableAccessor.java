@@ -784,7 +784,7 @@ public class FactTableAccessor
 			for ( int k = subDimensionNumber.length - 1; k >= 0 ; k-- )
 			{
 				i = subDimensionNumber[k];
-				while ( i > radix )
+				while ( i >= radix )
 				{
 					buffer[position++] = digits[i % radix];
 					i = i / radix;
