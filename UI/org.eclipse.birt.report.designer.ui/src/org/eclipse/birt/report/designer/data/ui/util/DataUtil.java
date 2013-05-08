@@ -427,7 +427,7 @@ public class DataUtil
 			}
 			catch ( BirtException e )
 			{
-				ExceptionHandler.handle( e );
+				DataSetExceptionHandler.handle( e );
 			}
 		}
 		return null;

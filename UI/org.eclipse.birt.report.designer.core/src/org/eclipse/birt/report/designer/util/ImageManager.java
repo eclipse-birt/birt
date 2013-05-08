@@ -388,7 +388,26 @@ public class ImageManager
 			{
 				in = url.openStream( );
 			}
-			image = new Image( null, in );
+			ImageData[] datas = new ImageLoader( ).load( in );
+			if (datas != null && datas.length != 0)
+			{
+				ImageData cur = null;
+	//			if (datas.length == 1)
+	//			{
+	//				cur = datas[0];
+	//			}
+				int index = 0;
+				for (int i=0; i<datas.length; i++)
+				{
+					ImageData temp = datas[i];
+					if (temp.width * temp.height > datas[index].width * datas[index].height)
+					{
+						index = i;
+					}
+				}
+				cur = datas[index];
+				image = new Image( null, cur );
+			}
 		}
 		catch ( IOException e )
 		{

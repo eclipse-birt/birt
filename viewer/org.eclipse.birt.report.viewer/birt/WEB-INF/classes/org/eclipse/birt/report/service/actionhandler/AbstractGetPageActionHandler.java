@@ -20,7 +20,6 @@ import javax.xml.namespace.QName;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
-import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -331,7 +330,19 @@ public abstract class AbstractGetPageActionHandler
 					}
 					catch ( NumberFormatException e )
 					{
-						pageNumber = -1;
+						AxisFault fault = new AxisFault( );
+						fault.setFaultCode( new QName(
+								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
+						fault
+							.setFaultString( BirtResources
+								.getMessage(
+									ResourceConstants.ACTION_EXCEPTION_PAGE_NUMBER_PARSE_ERROR,
+										new Object[]{
+											params[i].getValue( )
+										}
+									)
+								);
+						throw fault;
 					}
 					if ( pageNumber <= 0 || pageNumber > __totalPageNumber )
 					{

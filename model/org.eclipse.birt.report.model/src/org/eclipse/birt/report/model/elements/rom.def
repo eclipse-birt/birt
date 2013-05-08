@@ -211,6 +211,10 @@
     <Choice displayNameID="Choices.pageSize.us-letter" name="us-letter"/>
     <Choice displayNameID="Choices.pageSize.us-legal" name="us-legal"/>
     <Choice displayNameID="Choices.pageSize.a4" name="a4"/>
+    <Choice displayNameID="Choices.pageSize.a3" name="a3"/>
+    <Choice displayNameID="Choices.pageSize.us-ledger" name="us-ledger"/>
+    <Choice displayNameID="Choices.pageSize.us-super-b" name="us-super-b"/>
+    <Choice displayNameID="Choices.pageSize.a5" name="a5"/>
   </ChoiceType>
   <ChoiceType name="pageOrientation">
     <Choice displayNameID="Choices.pageOrientation.auto" name="auto"/>

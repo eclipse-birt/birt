@@ -88,7 +88,7 @@ public class DialChartViewer extends Composite implements
 
 		Label la = new Label( cBottom, SWT.NONE );
 
-		la.setText( "Choose: " );//$NON-NLS-1$
+		la.setText( "&Choose: " );//$NON-NLS-1$
 		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cbType.add( "Single Dial, Multi Regions" );//$NON-NLS-1$
 		cbType.add( "Multi Dials, Multi Regions" );//$NON-NLS-1$
@@ -97,8 +97,9 @@ public class DialChartViewer extends Composite implements
 		cbType.select( 0 );
 
 		btn = new Button( cBottom, SWT.NONE );
-		btn.setText( "Update" );//$NON-NLS-1$
+		btn.setText( "&Update" );//$NON-NLS-1$
 		btn.addSelectionListener( dcViewer );
+		btn.setToolTipText( "Update" );//$NON-NLS-1$
 
 		shell.open( );
 		while ( !shell.isDisposed( ) )

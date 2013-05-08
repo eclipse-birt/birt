@@ -160,6 +160,7 @@ public abstract class PropertiesProcessor implements HTMLConstants
 						try
 						{
 							int size = Integer.parseInt( value ); //$NON-NLS-1$
+							size = Math.min( size, 7 );
 							IStyle style = sp.getStyle( );
 							if ( !hasProperty( style, IStyle.STYLE_FONT_SIZE ) )
 							{

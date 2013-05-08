@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.core.mediator.IMediatorState;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -68,7 +69,7 @@ public class ReportScriptFormPage extends ReportFormPage
 
 	protected IEditorPart jsEditor;
 
-	private ModelEventManager manager = getModelEventManager( );
+	private IModelEventManager manager = getModelEventManager( );
 
 	private Control control;
 
@@ -124,7 +125,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	/**
 	 * @return
 	 */
-	protected ModelEventManager getModelEventManager( )
+	protected IModelEventManager getModelEventManager( )
 	{
 		if ( manager == null )
 		{

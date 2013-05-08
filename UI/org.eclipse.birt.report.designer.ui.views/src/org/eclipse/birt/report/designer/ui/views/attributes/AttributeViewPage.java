@@ -19,9 +19,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediator;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
-import org.eclipse.birt.report.designer.core.mediator.MediatorManager;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
@@ -38,6 +38,7 @@ import org.eclipse.birt.report.designer.ui.views.IPageGenerator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.commands.ExecutionException;
@@ -104,6 +105,8 @@ public class AttributeViewPage extends Page implements
 	// add restore library properties action
 	private RestoreLibraryPropertiesAction restoreLibraryPropertiesAction;
 
+	private ModuleHandle model;
+
 	public class RestoreLibraryPropertiesAction extends Action
 	{
 
@@ -151,6 +154,11 @@ public class AttributeViewPage extends Page implements
 		}
 	}
 
+	public AttributeViewPage( ModuleHandle model )
+	{
+		this.model = model;
+	}
+
 	/**
 	 * Clear all the local properties
 	 * 
@@ -161,7 +169,7 @@ public class AttributeViewPage extends Page implements
 		try
 		{
 			Object data = SessionHandleAdapter.getInstance( )
-					.getMediator( )
+					.getMediator( model )
 					.getState( )
 					.getData( );
 
@@ -182,6 +190,8 @@ public class AttributeViewPage extends Page implements
 
 			DEUtil.getGroupElementHandle( getModelList( selection ) )
 					.clearLocalProperties( );
+			DEUtil.getGroupElementHandle( getModelList( selection ) )
+					.clearLocalPropertiesIncludeSubElement( );
 		}
 		catch ( SemanticException e )
 		{
@@ -189,7 +199,6 @@ public class AttributeViewPage extends Page implements
 		}
 		return;
 	}
-
 	/**
 	 * Creates the SWT controls for this workbench part.
 	 * <p>
@@ -226,7 +235,9 @@ public class AttributeViewPage extends Page implements
 		selection = page.getSelection( );
 		page.addSelectionListener( this );
 
-		MediatorManager.addGlobalColleague( this );
+		SessionHandleAdapter.getInstance( )
+				.getMediator( model )
+				.addColleague( this );
 	}
 
 	private void addActions( )
@@ -252,7 +263,7 @@ public class AttributeViewPage extends Page implements
 	 */
 	public void setFocus( )
 	{
-		Display.getDefault( ).asyncExec( new Runnable( ) {
+		Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 			public void run( )
 			{
@@ -278,7 +289,8 @@ public class AttributeViewPage extends Page implements
 	{
 		GroupElementHandle groupHandle = DEUtil.getGroupElementHandle( modelList );
 
-		return groupHandle.hasLocalPropertiesForExtendedElements( );
+		return groupHandle.hasLocalPropertiesForExtendedElements( )
+				|| groupHandle.hasLocalPropertiesIncludeSubElement( );
 	}
 
 	public void resetRestorePropertiesAction( List modelList )
@@ -347,12 +359,32 @@ public class AttributeViewPage extends Page implements
 		// if ( part != null && !PART_IDS.contains( part.getSite( ).getId( ) )
 		// && !ID.equals( part.getSite( ).getId( ) )
 		// && !PaletteView.ID.equals( part.getSite( ).getId( ) ) )
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null )
+		if ( SessionHandleAdapter.getInstance( ).getModule( ) == model )
 		{
 			if ( part != null
 					&& !ReportPlugin.getDefault( )
 							.containIgnoreViewID( part.getSite( ).getId( ) ) )
 			{
+				if ( selection == null && requesList.isEmpty( ) )
+				{
+					IMediator mediator = SessionHandleAdapter.getInstance( )
+							.getMediator( model, false );
+					if ( mediator != null
+							&& mediator.getState( ) != null
+							&& mediator.getState( ).getData( ) instanceof List )
+					{
+						//When close and reopen the attribute view, display the old selection.
+						ReportRequest request = new ReportRequest( this );
+						request.setSelectionObject( (List) mediator.getState( )
+								.getData( ) );
+						request.setType( ReportRequest.SELECTION );
+						SessionHandleAdapter.getInstance( )
+								.getMediator( model )
+								.notifyRequest( request );
+						return;
+					}
+
+				}
 				handleSelectionChanged( new StructuredSelection( ) );
 			}
 		}
@@ -385,7 +417,12 @@ public class AttributeViewPage extends Page implements
 		// page.removePartListener( partListener );
 
 		// remove the mediator listener
-		MediatorManager.removeGlobalColleague( this );
+		IMediator mediator = SessionHandleAdapter.getInstance( )
+				.getMediator( model, false );
+		if ( mediator != null )
+		{
+			mediator.removeColleague( this );
+		}
 
 		super.dispose( );
 	}
@@ -622,7 +659,7 @@ public class AttributeViewPage extends Page implements
 				handleSelectionChanged( new StructuredSelection( requesList ) );
 				registerEventManager( );
 			}
-
+			setPartName( );
 		}
 	}
 

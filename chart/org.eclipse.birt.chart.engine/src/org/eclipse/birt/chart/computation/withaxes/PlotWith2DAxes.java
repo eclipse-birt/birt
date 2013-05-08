@@ -283,7 +283,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		final Series[] sea = ax.getRuntimeSeries( );
 		final int iSeriesCount = sea.length;
 		Series se;
-		DataSet ds;
+		DataSet ds = null;
 
 		Object oV1, oV2, oMin = null, oMax = null;
 
@@ -489,12 +489,24 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 					if ( iSeriesPerGroup > 0 )
 					{
-						se = alSeriesPerGroup.get( 0 );
-						ds = se.getDataSet( );
-						
-						if ( ds instanceof NullDataSet )
+						for( int j = 0 ; j < iSeriesPerGroup; j++ )
 						{
-							// Ignore stacking null data
+							se = alSeriesPerGroup.get( j );
+							ds = se.getDataSet( );
+						
+							if ( ds instanceof NullDataSet )
+							{
+								// Ignore stacking null data
+								continue;
+							}
+							else
+							{
+								break;
+							}
+						}
+						
+						if ( ds == null )
+						{
 							continue;
 						}
 						

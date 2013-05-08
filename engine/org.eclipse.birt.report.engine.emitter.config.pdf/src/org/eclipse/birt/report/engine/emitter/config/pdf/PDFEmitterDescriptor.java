@@ -36,6 +36,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String EMBEDDED_FONT = "EmbeddedFont";
 	private static final String CHART_DPI = "ChartDpi";
 	private static final String RENDER_CHART_IN_SVG = "RenderChartInSVG";
+	private static final String REPAGINATE_FOR_PDF = "repaginateForPDF";
 
 	protected void initOptions( )
 	{
@@ -148,10 +149,23 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		renderChartInSVG.setToolTip( null );
 		renderChartInSVG
 				.setDescription( getMessage( "OptionDescription.RenderChartInSVG" ) ); //$NON-NLS-1$
+		
+		// Initializes the option for repaginate for PDF.
+		ConfigurableOption repaginateForPDF = new ConfigurableOption(
+				REPAGINATE_FOR_PDF );
+		repaginateForPDF
+				.setDisplayName( getMessage( "OptionDisplayValue.RepaginateForPDF" ) );
+		repaginateForPDF.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		repaginateForPDF
+				.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		repaginateForPDF.setDefaultValue( Boolean.FALSE );
+		repaginateForPDF.setToolTip( null );
+		repaginateForPDF
+				.setDescription( getMessage( "OptionDescription.RepaginateForPDF" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping, textHyphenation,
 				fontSubstitution, pageOverFlow, embeddedFont, chartDpi,
-				renderChartInSVG};
+				renderChartInSVG, repaginateForPDF};
 		
 		applyDefaultValues( );
 
@@ -227,6 +241,10 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( CHART_DPI.equals( name ) )
 		{
 			return IRenderOption.CHART_DPI;
+		}
+		if ( REPAGINATE_FOR_PDF.equals( name ) )
+		{
+			return IPDFRenderOption.REPAGINATE_FOR_PDF;
 		}
 		return name;
 	}

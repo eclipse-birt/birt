@@ -530,7 +530,7 @@ public class WizardTemplateChoicePage extends WizardPage implements
 			}
 			else
 			{
-				description.setText( ReprotDescription );
+				description.setText( Messages.getString(ReprotDescription) );
 			}
 		}
 		else

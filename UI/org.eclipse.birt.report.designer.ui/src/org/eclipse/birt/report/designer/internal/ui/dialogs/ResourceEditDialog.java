@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.AutoResizeTableLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.LinkedProperties;
@@ -29,6 +30,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -42,13 +44,9 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -142,7 +140,7 @@ public class ResourceEditDialog extends BaseDialog
 
 		/**
 		 * The constructor.
-		 *
+		 * 
 		 * @param descent
 		 *            sorting order.
 		 * @param second
@@ -158,7 +156,7 @@ public class ResourceEditDialog extends BaseDialog
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see
 		 * org.eclipse.jface.viewers.ViewerSorter#compare(org.eclipse.jface.
 		 * viewers.Viewer, java.lang.Object, java.lang.Object)
@@ -286,10 +284,6 @@ public class ResourceEditDialog extends BaseDialog
 	public void create( )
 	{
 		super.create( );
-
-		Point pt = getShell( ).computeSize( -1, -1 );
-		pt.y = Math.max( pt.y, 400 );
-		getShell( ).setSize( pt );
 
 		updateButtonState( );
 	}
@@ -479,6 +473,8 @@ public class ResourceEditDialog extends BaseDialog
 		final Table table = new Table( innerParent, SWT.BORDER
 				| SWT.FULL_SELECTION );
 		GridData data = new GridData( GridData.FILL_BOTH );
+		data.widthHint = 450;
+		data.heightHint = 200;
 		table.setLayoutData( data );
 
 		table.setHeaderVisible( true );
@@ -555,40 +551,14 @@ public class ResourceEditDialog extends BaseDialog
 			}
 		} );
 
-		innerParent.addControlListener( new ControlAdapter( ) {
+		TableLayout layout = new AutoResizeTableLayout( viewer.getTable( ) );
+		layout.addColumnData( new ColumnWeightData( 50, true ) );
+		layout.addColumnData( new ColumnWeightData( 50, true ) );
+		viewer.getTable( ).setLayout( layout );
 
-			// Resize the columns by proportion when the parent control is
-			// resized.
-			public void controlResized( ControlEvent e )
-			{
-				Rectangle area = innerParent.getClientArea( );
-				Point preferredSize = table.computeSize( SWT.DEFAULT,
-						SWT.DEFAULT );
-				int width = area.width - 2 * table.getBorderWidth( );
-				if ( preferredSize.y > area.height )
-				{
-					Point vBarSize = table.getVerticalBar( ).getSize( );
-					width -= vBarSize.x;
-				}
-				Point oldSize = table.getSize( );
-				if ( oldSize.x > width )
-				{
-					column1.setWidth( 2 * width / 5 );
-					column2.setWidth( width - column1.getWidth( ) );
-					table.setSize( width, area.height );
-				}
-				else
-				{
-					table.setSize( width, area.height );
-					column1.setWidth( 2 * width / 5 );
-					column2.setWidth( width - column1.getWidth( ) );
-				}
-			}
-		} );
-
-//		 table.setSortColumn( column1 );
-//		 table.setSortDirection( SWT.UP );
-//		 viewer.setSorter( new ResourceSorter( false, false ) );
+		// table.setSortColumn( column1 );
+		// table.setSortDirection( SWT.UP );
+		// viewer.setSorter( new ResourceSorter( false, false ) );
 
 		Group gp = new Group( innerParent, SWT.NONE );
 		gp.setText( Messages.getString( "ResourceEditDialog.text.QuickAdd" ) ); //$NON-NLS-1$
@@ -862,5 +832,10 @@ public class ResourceEditDialog extends BaseDialog
 		private LinkedProperties holder;
 		private String holderFile;
 		private boolean isDeleted;
+	}
+	
+	protected boolean needRememberLastSize( )
+	{
+		return true;
 	}
 }

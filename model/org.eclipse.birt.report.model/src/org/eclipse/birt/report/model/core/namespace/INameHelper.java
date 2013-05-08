@@ -89,14 +89,6 @@ public interface INameHelper
 	public void makeUniqueName( int namespaceId, DesignElement element );
 	
 	/**
-	 * remove a element from cached namespace
-	 * 
-	 * @param namespace
-	 * @param element
-	 */
-	public void dropElement( int namespaceId, DesignElement element );
-	
-	/**
 	 * make the unique name of element with the given name prefix
 	 * 
 	 * @param namespaceId
@@ -107,7 +99,15 @@ public interface INameHelper
 	 *        the name prefix
 	 */
 	public void makeUniqueName( int namespaceId, DesignElement element, String prefix );
-
+	
+	/**
+	 * remove a element from cached namespace
+	 * 
+	 * @param namespace
+	 * @param element
+	 */
+	public void dropElement( int namespaceId, DesignElement element );
+	
 	/**
 	 * Adds a content name to this help. Generally, this content is not
 	 * generated when the extension is not found. However, its name is reserved

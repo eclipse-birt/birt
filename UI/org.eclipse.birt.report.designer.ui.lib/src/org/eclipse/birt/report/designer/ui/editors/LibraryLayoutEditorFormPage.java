@@ -298,7 +298,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		}
 		else if ( adapter == IAttributeViewPage.class )
 		{
-			AttributeViewPage page = new AttributeViewPage( );
+			AttributeViewPage page = new AttributeViewPage( getModel( ) );
 			return page;
 		}
 		return super.getAdapter( adapter );

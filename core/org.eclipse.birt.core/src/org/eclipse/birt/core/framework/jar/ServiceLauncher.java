@@ -21,6 +21,7 @@ import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.core.framework.PlatformLauncher;
+import org.eclipse.core.internal.registry.RegistryProviderFactory;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.RegistryFactory;
@@ -109,6 +110,7 @@ public class ServiceLauncher extends PlatformLauncher
 		{
 			platform.shutdown( );
 			platform = null;
+			RegistryProviderFactory.releaseDefault( );
 		}
 	}
 }

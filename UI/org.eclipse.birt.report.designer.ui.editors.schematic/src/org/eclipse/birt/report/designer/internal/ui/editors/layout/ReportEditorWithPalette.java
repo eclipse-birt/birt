@@ -156,7 +156,7 @@ abstract public class ReportEditorWithPalette extends
 
 	private ModuleHandle model;
 
-	private ModelEventManager manager = createModelEventManager( );
+	private IModelEventManager manager = createModelEventManager( );
 
 	private static final String DLG_ERROR_OPEN_ERROR_MSG = "Can't open file"; //$NON-NLS-1$
 
@@ -179,7 +179,7 @@ abstract public class ReportEditorWithPalette extends
 	/**
 	 * @return
 	 */
-	protected ModelEventManager createModelEventManager( )
+	protected IModelEventManager createModelEventManager( )
 	{
 		return new ModelEventManager( );
 	}
@@ -187,7 +187,7 @@ abstract public class ReportEditorWithPalette extends
 	/**
 	 * @return
 	 */
-	protected ModelEventManager getModelEventManager( )
+	protected IModelEventManager getModelEventManager( )
 	{
 		return manager;
 	}
@@ -798,8 +798,11 @@ abstract public class ReportEditorWithPalette extends
 			{
 				return null;
 			}
-			TableEditPart part = (TableEditPart) getGraphicalViewer( ).getEditPartRegistry( )
+			Object object = getGraphicalViewer( ).getEditPartRegistry( )
 					.get( tableParent );
+			if ( !( object instanceof TableEditPart ) )
+				return null;
+			TableEditPart part = (TableEditPart) object;
 			int[] selectRows = new int[]{
 				adapter.getRowNumber( )
 			};
@@ -1340,7 +1343,7 @@ abstract public class ReportEditorWithPalette extends
 		}
 		else if ( type == IAttributeViewPage.class )
 		{
-			AttributeViewPage page = new AttributeViewPage( );
+			AttributeViewPage page = new AttributeViewPage( getModel( ) );
 			return page;
 		}
 		else if ( type == IModelEventManager.class )

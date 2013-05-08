@@ -138,7 +138,7 @@ public class LibraryAddTest extends BaseTestCase
 		assertEquals(1,designHandle.getListProperty( ReportDesign.LIBRARIES_PROP).size( ));
 		
 		designHandle.dropLibrary( lib2 );
-		assertEquals(0,designHandle.getListProperty( ReportDesign.LIBRARIES_PROP).size( ));
+		assertNull(designHandle.getListProperty( ReportDesign.LIBRARIES_PROP));
 		
 	}
 }

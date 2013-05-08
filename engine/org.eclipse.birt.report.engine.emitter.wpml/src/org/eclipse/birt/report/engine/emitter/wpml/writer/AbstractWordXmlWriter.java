@@ -499,6 +499,7 @@ public abstract class AbstractWordXmlWriter
 			writeBackgroundColor( style.getBackgroundColor( ) );
 			writeParagraphBorders( style );
 		}
+		writeBidi( CSSConstants.CSS_RTL_VALUE.equals( style.getDirection( ) ) );
 		writer.closeTag( "w:pPr" );
 	}
 

@@ -200,6 +200,8 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 							viewHandle.getLevelCount( ) );
 					CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 					cellHandle.addContent( dataHandle );
+					
+					CrosstabUtil.addLabelToHeader( levelViewHandle );
 				}
 				else
 				{

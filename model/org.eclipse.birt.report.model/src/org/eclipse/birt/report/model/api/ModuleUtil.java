@@ -617,7 +617,7 @@ public class ModuleUtil
 		DesignSession session = new DesignSession( ThreadResources.getLocale( ) );
 		byte[] buf = new byte[512];
 		int len;
-		boolean isSupportedUnknownVersion = true;
+		boolean isSupportedUnknownVersion = false;
 
 		ByteArrayOutputStream bySteam = new ByteArrayOutputStream( );
 		byte[] data = null;
@@ -643,8 +643,10 @@ public class ModuleUtil
 			Module module = session.openModule( filename, inputStreamToParse );
 
 			String version = module.getVersionManager( ).getVersion( );
-			isSupportedUnknownVersion = module.getOptions( ) == null
-					|| module.getOptions( ).isSupportedUnknownVersion( );
+			if( module.getOptions( ) != null )
+			{
+				isSupportedUnknownVersion = module.getOptions( ).isSupportedUnknownVersion( );
+			}
 			List<IVersionInfo> retList = ModelUtil.checkVersion( version, isSupportedUnknownVersion );
 			if ( hasCompatibilities( module ) )
 				retList.add( new VersionInfo( version,

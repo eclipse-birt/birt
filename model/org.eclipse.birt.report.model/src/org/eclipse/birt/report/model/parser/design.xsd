@@ -1051,7 +1051,19 @@
 					<xs:documentation>US legal size paper: 8.5" x 14"</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
+			<xs:enumeration value="us-ledger">
+				<xs:annotation>
+					<xs:documentation>US legal size paper: 11" x 17"</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="us-super-b">
+				<xs:annotation>
+					<xs:documentation>US legal size paper: 13" x 19"</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="a3"/>
 			<xs:enumeration value="a4"/>
+			<xs:enumeration value="a5"/>
 			<xs:enumeration value="custom">
 				<xs:annotation>
 					<xs:documentation>No pagination, for reports to be displayed as a single web page.  Best for small reports.</xs:documentation>

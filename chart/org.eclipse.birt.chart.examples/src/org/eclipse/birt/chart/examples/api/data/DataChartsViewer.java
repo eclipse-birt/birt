@@ -27,14 +27,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -45,6 +44,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 /**
  * The selector of interactivity charts in Swing JPanel.
@@ -103,8 +103,9 @@ public final class DataChartsViewer extends JPanel implements
 	 */
 	DataChartsViewer( )
 	{
-		
-		final PluginSettings ps = PluginSettings.instance( );
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		final PluginSettings ps = PluginSettings.instance( config );
 		try
 		{
 			idr = ps.getDevice( "dv.SWING" );//$NON-NLS-1$
@@ -364,7 +365,9 @@ public final class DataChartsViewer extends JPanel implements
 			JPanel jp = new JPanel( );
 			jp.setLayout( new FlowLayout( FlowLayout.LEFT, 3, 3 ) );
 
-			jp.add( new JLabel( "Choose:" ) );//$NON-NLS-1$
+			JLabel choose=new JLabel( "Choose:" );//$NON-NLS-1$
+			choose.setDisplayedMnemonic( 'c' );
+			jp.add( choose );
 			jcbModels = new JComboBox( );
 
 			jcbModels.addItem( "Min Slice" );//$NON-NLS-1$
@@ -373,9 +376,12 @@ public final class DataChartsViewer extends JPanel implements
 			jcbModels.addItem( "Big number Y Series" );//$NON-NLS-1$
 
 			jcbModels.setSelectedIndex( 0 );
+			choose.setLabelFor( jcbModels );
 			jp.add( jcbModels );
 
 			jbUpdate = new JButton( "Update" );//$NON-NLS-1$
+			jbUpdate.setMnemonic( 'u' );
+			jbUpdate.setToolTipText( "Update" );//$NON-NLS-1$
 			jbUpdate.addActionListener( this );
 			jp.add( jbUpdate );
 
