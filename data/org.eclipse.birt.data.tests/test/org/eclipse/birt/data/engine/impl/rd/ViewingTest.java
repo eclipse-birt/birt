@@ -647,6 +647,29 @@ public class ViewingTest extends RDTestCase
 		this.checkOutputFile( );
 	}
 	
+	public void testSourceSubQueryIV2( ) throws Exception
+	{
+		this.GEN_add_filter = false;
+		this.GEN_add_group = true;
+		this.GEN_subquery_on_group = true;
+		this._genBasicIVWithSubQuery( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		SubqueryLocator subqueryLocator = new SubqueryLocator( 5, "IAMTEST", baseQuery );	
+		QueryDefinition query = new QueryDefinition( );
+		query.setSourceQuery( subqueryLocator );
+		_preBasicSubIV1( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
 	/**
 	 * @param GEN_add_filter
 	 * @param GEN_add_group
