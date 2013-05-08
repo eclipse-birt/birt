@@ -644,15 +644,13 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			showBreadcrumb( );
 
 		getPreferenceStore( ).addPropertyChangeListener( this );
-<<<<<<< HEAD
+
 		registerExtensionPreference( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
-=======
 
 		getSite( ).getShell( ).addShellListener( shellActiveListener );
 
 		lastActiveShell = getSite( ).getShell( );
 
->>>>>>> refs/remotes/origin/master
 		activateDesignerEditPart( );
 
 	}
@@ -681,17 +679,11 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			fBreadcrumb.dispose( );
 		}
 
-<<<<<<< HEAD
 		deregisterExtensionPreference( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
 
-=======
->>>>>>> refs/remotes/origin/master
 		getPreferenceStore( ).removePropertyChangeListener( this );
-<<<<<<< HEAD
 
-=======
 		// remove selection listener
->>>>>>> refs/remotes/origin/master
 		getSite( ).getWorkbenchWindow( )
 				.getSelectionService( )
 				.removeSelectionListener( getSelectionListener( ) );
