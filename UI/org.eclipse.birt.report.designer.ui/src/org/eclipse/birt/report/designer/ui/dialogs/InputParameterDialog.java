@@ -398,6 +398,7 @@ abstract class AbstractParameterControlHelper implements
 			Object paramValue = lastConfigValues.get(paramterHandleName);
 			try {
 				Object obj = parameter.converToDataType(paramValue);
+				lastConfigValues.put(paramterHandleName, obj);
 			} catch (BirtException e) {
 				MessageDialog
 						.openError(
