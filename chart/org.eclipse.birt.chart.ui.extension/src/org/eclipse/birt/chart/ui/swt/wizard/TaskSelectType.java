@@ -282,7 +282,7 @@ public class TaskSelectType extends SimpleTask implements
 			foSashForm.setLayout( layout );
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			// TODO verify Bug 194391 in Linux
-			gridData.heightHint = 570;
+			gridData.heightHint = 680;
 			foSashForm.setLayoutData( gridData );
 		}
 		createTopPreviewArea( foSashForm );
