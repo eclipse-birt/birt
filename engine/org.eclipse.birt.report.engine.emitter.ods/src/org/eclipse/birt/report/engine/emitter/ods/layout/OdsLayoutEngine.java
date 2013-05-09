@@ -509,7 +509,18 @@ public class OdsLayoutEngine
 		{
 			return true;
 		}
+		//FIXME: this is a workaround, should find a better way to handle both column and row spanned cells.
+		if( isColumnSpanned( realData ) )
+		{
+			return true;
+		}
 		return realData.getRowSpanInDesign( ) > 0;
+	}
+
+	private boolean isColumnSpanned( SheetData realData ) {
+		int col = axis.getColumnIndexByCoordinate( realData.getStartX( ) );
+		int span = axis.getColumnIndexByCoordinate( realData.getEndX( ) ) - col;
+		return span > 0;
 	}
 
 	private SheetData getRealData( SheetData data )
