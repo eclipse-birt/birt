@@ -37,6 +37,7 @@ public class ResultFieldMetadata
 	private boolean m_indexColumn;
 	private boolean m_compressedColumn;
 	private boolean accessible = true;
+	private float m_compressThrehold;
 	
 	public ResultFieldMetadata( int driverPosition, String name, 
 						 		String label, Class dataType,
@@ -212,5 +213,15 @@ public class ResultFieldMetadata
     public void setAccessibility( boolean accessible )
     {
     	this.accessible = accessible;
+    }
+    
+    public float getCompressThrehold( )
+    {
+    	return this.m_compressThrehold;
+    }
+    
+    public void setCompressThrehold( float threhold )
+    {
+    	m_compressThrehold = threhold;
     }
 }

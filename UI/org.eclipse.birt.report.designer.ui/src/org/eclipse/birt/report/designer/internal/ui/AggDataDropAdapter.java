@@ -27,7 +27,10 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.jface.window.Window;
@@ -116,7 +119,16 @@ public class AggDataDropAdapter implements IDropAdapter
 			else if ( target instanceof ListBandEditPart )
 			{
 				ListBandProxy cellHandle = (ListBandProxy) ( (ListBandEditPart) target ).getModel( );
-				cellHandle.getSlotHandle( ).add( dataHandle );
+				ElementDetailHandle slot = cellHandle.getSlotHandle( );
+				if ( slot instanceof SlotHandle )
+				{
+					((SlotHandle)slot).add( dataHandle );
+				}
+				else
+				{
+					((PropertyHandle)slot).add( dataHandle );
+				}
+				
 				targetElement = cellHandle.getElemtHandle( );
 			}
 

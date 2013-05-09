@@ -70,6 +70,8 @@ import org.eclipse.swt.widgets.TreeItem;
 public class GroupDialog extends TitleAreaDialog
 {
 
+	private boolean isNameReadOnly = false;
+	
 	public GroupDialog( TabularHierarchyHandle hierarchy )
 	{
 		this( );
@@ -86,6 +88,12 @@ public class GroupDialog extends TitleAreaDialog
 		dateTypeSelectedList.addAll( levelList );
 	}
 
+	public GroupDialog (boolean isNameReadOnly)
+	{
+		this();
+		this.isNameReadOnly = isNameReadOnly;
+	}
+	
 	public GroupDialog( )
 	{
 		super( UIUtil.getDefaultShell( ) );
@@ -197,6 +205,10 @@ public class GroupDialog extends TitleAreaDialog
 
 	protected void initDialog( )
 	{
+		if(isNameReadOnly)
+		{
+			nameText.setEnabled( false );
+		}
 		if ( hierarchy != null )
 		{
 			nameText.setText( hierarchy.getContainer( ).getName( ) );
@@ -857,7 +869,7 @@ public class GroupDialog extends TitleAreaDialog
 		return dataset;
 	}
 
-	private void setInput( TabularHierarchyHandle hierarchy,
+	public void setInput( TabularHierarchyHandle hierarchy,
 			ResultSetColumnHandle dataField )
 	{
 		dimension = (DimensionHandle) hierarchy.getContainer( );

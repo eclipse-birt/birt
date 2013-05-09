@@ -240,10 +240,10 @@ public class DistinctValueSelector
 					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) copy ),
 					copy, dataSetHandle );
 
-			session = engineTask.getDataSession( );
-
 			AppContextPopulator.populateApplicationContext( dataSetHandle,
-					session );
+					engineTask.getAppContext( ) );
+			
+			session = engineTask.getDataSession( );
 
 			engineTask.run( );
 			result = session.getColumnValueSet( dataSetHandle,

@@ -43,37 +43,37 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	 * Data binding properties for the listing elements.
 	 */
 
-	protected final static Set<String> listingElementDataBindingProps;
+	protected static Set<String> listingElementDataBindingProps;
 
 	/**
 	 * Data binding properties hash code for the listing elements.
 	 */
 
-	protected final static Set<Integer> listingElementDataBindingPropsNameHash;
+	protected static Set<Integer> listingElementDataBindingPropsNameHash;
 
 	/**
 	 * Data binding properties for the extended elements.
 	 */
 
-	protected final static Set<String> extendedItemDataBindingProps;
+	protected static Set<String> extendedItemDataBindingProps;
 
 	/**
 	 * Data binding properties hash code for the extended elements.
 	 */
 
-	protected final static Set<Integer> extendedItemDataBindingPropsNameHash;
+	protected static Set<Integer> extendedItemDataBindingPropsNameHash;
 
 	/**
 	 * Data binding properties for the report items.
 	 */
 
-	protected final static Set<String> reportItemDataBindingProps;
+	protected static Set<String> reportItemDataBindingProps;
 
 	/**
 	 * Data binding properties hash code for the report items.
 	 */
 
-	protected final static Set<Integer> reportItemDataBindingPropsNameHash;
+	protected static Set<Integer> reportItemDataBindingPropsNameHash;
 
 	static
 	{
@@ -84,7 +84,7 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 		tmpSet.add( IReportItemModel.CUBE_PROP );
 		tmpSet.add( IListingElementModel.FILTER_PROP );
 		tmpSet.add( IListingElementModel.SORT_PROP );
-		listingElementDataBindingProps = Collections.unmodifiableSet( tmpSet );
+		listingElementDataBindingProps = tmpSet;
 
 		Set<Integer> tmpIntegerSet = new HashSet<Integer>( );
 		tmpIntegerSet.add( Integer
@@ -100,8 +100,7 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 				.hashCode( ) ) );
 		tmpIntegerSet.add( Integer.valueOf( IListingElementModel.SORT_PROP
 				.hashCode( ) ) );
-		listingElementDataBindingPropsNameHash = Collections
-				.unmodifiableSet( tmpIntegerSet );
+		listingElementDataBindingPropsNameHash = tmpIntegerSet;
 
 		tmpSet = new HashSet<String>( );
 		tmpSet.add( IReportItemModel.PARAM_BINDINGS_PROP );
@@ -109,7 +108,7 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 		tmpSet.add( IReportItemModel.DATA_SET_PROP );
 		tmpSet.add( IReportItemModel.CUBE_PROP );
 		tmpSet.add( IExtendedItemModel.FILTER_PROP );
-		extendedItemDataBindingProps = Collections.unmodifiableSet( tmpSet );
+		extendedItemDataBindingProps =  tmpSet;
 
 		tmpIntegerSet = new HashSet<Integer>( );
 		tmpIntegerSet.add( Integer
@@ -123,15 +122,14 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 				.hashCode( ) ) );
 		tmpIntegerSet.add( Integer.valueOf( IExtendedItemModel.FILTER_PROP
 				.hashCode( ) ) );
-		extendedItemDataBindingPropsNameHash = Collections
-				.unmodifiableSet( tmpIntegerSet );
+		extendedItemDataBindingPropsNameHash = tmpIntegerSet;
 
 		tmpSet = new HashSet<String>( );
 		tmpSet.add( IReportItemModel.PARAM_BINDINGS_PROP );
 		tmpSet.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 		tmpSet.add( IReportItemModel.DATA_SET_PROP );
 		tmpSet.add( IReportItemModel.CUBE_PROP );
-		reportItemDataBindingProps = Collections.unmodifiableSet( tmpSet );
+		reportItemDataBindingProps = tmpSet;
 
 		tmpIntegerSet = new HashSet<Integer>( );
 		tmpIntegerSet.add( Integer
@@ -143,8 +141,7 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 				.hashCode( ) ) );
 		tmpIntegerSet.add( Integer.valueOf( IReportItemModel.CUBE_PROP
 				.hashCode( ) ) );
-		reportItemDataBindingPropsNameHash = Collections
-				.unmodifiableSet( tmpIntegerSet );
+		reportItemDataBindingPropsNameHash = tmpIntegerSet;
 	}
 
 	/**

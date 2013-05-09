@@ -65,7 +65,12 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	public SharedCubeResultSetEvaluator( ICubeResultSet rs, Chart cm )
 	{
 		super( rs );
-		parseLevelIndex( rs.getCubeQuery( ), cm );
+		init( rs.getCubeQuery( ), cm );
+	}
+
+	protected void init( IBaseCubeQueryDefinition queryDefinition, Chart cm )
+	{
+		parseLevelIndex( queryDefinition, cm );
 		try
 		{
 			initCubeCursor( );
@@ -93,15 +98,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	{
 		super( (ICubeResultSet) null );
 		this.qr = qr;
-		parseLevelIndex( queryDefinition, cm );
-		try
-		{
-			initCubeCursor( );
-		}
-		catch ( OLAPException e )
-		{
-			logger.log( e );
-		}
+		init( queryDefinition, cm );
 	}
 
 	/**
@@ -111,7 +108,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	 * @param queryDefintion
 	 * @param cm
 	 */
-	private void parseLevelIndex( IBaseCubeQueryDefinition queryDefintion,
+	protected void parseLevelIndex( IBaseCubeQueryDefinition queryDefintion,
 			Chart cm )
 	{
 		fCategoryInnerLevelIndex = -1;
@@ -187,7 +184,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	 * @param cubeBindingMap
 	 * @return
 	 */
-	private int findInnerLevelIndex( String expr, IEdgeDefinition edge, Map<String, String> cubeBindingMap )
+	protected int findInnerLevelIndex( String expr, IEdgeDefinition edge, Map<String, String> cubeBindingMap )
 	{
 		int index = -1;
 		if ( ChartUtil.isEmpty( expr ) )
@@ -233,7 +230,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 		return index;
 	}
 
-	private Map<String, List<String>> getDimLevelsNames( IEdgeDefinition ed )
+	protected Map<String, List<String>> getDimLevelsNames( IEdgeDefinition ed )
 	{
 		Map<String, List<String>> map = new LinkedHashMap<String, List<String>>( );
 		List<IDimensionDefinition> dimensions = ed.getDimensions( );

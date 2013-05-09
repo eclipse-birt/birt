@@ -24,6 +24,7 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunction;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionArgument;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory;
 import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
+import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
@@ -324,7 +325,8 @@ public class ExpressionProvider implements
 			categoryList.add( COLUMN_BINDINGS );
 		}
 		if ( elementHandle instanceof ReportItemHandle
-				&& ( (ReportItemHandle) elementHandle ).getCube( ) != null )
+				&& ( (ReportItemHandle) elementHandle ).getCube( ) != null
+				&& !LinkedDataSetUtil.bindToLinkedDataSet( (ReportItemHandle) elementHandle ))
 		{
 			categoryList.add( CURRENT_CUBE );
 		}

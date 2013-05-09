@@ -44,6 +44,8 @@ CreateMeasureViewCommand.TransName=Créer une mesure
 MergeCrosstabHeaderCellAction_name=&Fusionner les cellules d'en-tête
 SplitCrosstabHeadCellAction_name=F&ractionner les cellules d'en-tête
 
+ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################

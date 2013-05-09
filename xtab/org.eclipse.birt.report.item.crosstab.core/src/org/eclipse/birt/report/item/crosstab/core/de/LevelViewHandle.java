@@ -24,6 +24,7 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
@@ -50,7 +51,15 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public LevelHandle getCubeLevel( )
 	{
-		return (LevelHandle) handle.getElementProperty( LEVEL_PROP );
+		LevelHandle cubeLevel = (LevelHandle) handle.getElementProperty( LEVEL_PROP );
+		if( cubeLevel == null )
+		{
+			String fullLevelName = this.getCubeLevelName( );			
+			CubeHandle cubeHandle = this.getCrosstab( ).getCube( );
+			cubeLevel = findLevelHandle( fullLevelName );
+		}
+		
+		return cubeLevel;
 	}
 
 	/**

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import org.eclipse.birt.core.archive.FolderArchiveFile;
 import org.eclipse.birt.core.archive.cache.SystemCacheManager;
 import org.eclipse.birt.core.archive.compound.v3.Ext2FileSystem;
 import org.eclipse.birt.core.i18n.CoreMessages;
@@ -88,6 +89,12 @@ public class ArchiveFile implements IArchiveFile
 			ArchiveFileV3 f3 = new ArchiveFileV3( tmpFileName, "rw" );
 			f3.setSystemId( systemId );
 			this.af = f3;
+		}
+		else if ( "rwf".equals( mode ) )
+		{
+			FolderArchiveFile f = new FolderArchiveFile( fileName );
+			f.setSystemId( systemId );
+			this.af = f;
 		}
 		else
 		{

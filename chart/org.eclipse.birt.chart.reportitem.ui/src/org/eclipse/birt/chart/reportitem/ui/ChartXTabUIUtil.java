@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
@@ -124,15 +125,17 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 		// Compare if dimensions between category expression and Y optional
 		// expression are same.
 		Iterator<ComputedColumnHandle> columnBindings = null;
-		if ( getBindingCube( itemHandle ) != null
+		if ( ChartReportItemHelper.instance( )
+				.getBindingCubeHandle( itemHandle ) != null
 				&& provider.isInheritanceOnly( )
 				|| provider.isSharedBinding( ) )
 		{
 			ReportItemHandle reportItemHandle = provider.getReportItemHandle( );
 			columnBindings = reportItemHandle.getColumnBindings( ).iterator( );
 		}
-		else if ( getBindingCube( itemHandle ) != null
-				|| ( provider.isInXTabMeasureCell( ) && !provider.isPartChart( ) ) ) // 
+		else if ( ChartReportItemHelper.instance( )
+				.getBindingCubeHandle( itemHandle ) != null
+				|| ( provider.isInXTabMeasureCell( ) && !provider.isPartChart( ) ) ) //
 		{
 			columnBindings = getAllColumnBindingsIterator( itemHandle );
 		}
@@ -316,7 +319,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 			catch ( Exception e )
 			{
 				// Do nothing.
-				newName = name + "1";
+				newName = name + "1"; //$NON-NLS-1$
 			}
 			column.setName( newName );
 			nameSet.add( newName );

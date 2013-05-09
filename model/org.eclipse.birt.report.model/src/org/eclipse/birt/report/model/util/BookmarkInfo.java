@@ -19,12 +19,19 @@ public class BookmarkInfo implements IBookmarkInfo
 	private String displayName;
 	private String bookmark;
 	private String elementType;
+	private int bookmarkType = IBookmarkInfo.CONSTANTS_TYPE;
 
 	public BookmarkInfo( String bookmark, String displayName, String elementType )
 	{
 		this.displayName = displayName;
 		this.bookmark = bookmark;
 		this.elementType = elementType;
+	}
+	
+	public BookmarkInfo( String bookmark, String displayName, String elementType, int bookmarkType )
+	{
+		this(bookmark, displayName, elementType);
+		this.bookmarkType = bookmarkType;
 	}
 
 	public String getDisplayName( )
@@ -40,5 +47,10 @@ public class BookmarkInfo implements IBookmarkInfo
 	public String getElementType( )
 	{
 		return elementType;
+	}
+
+	public int getBookmarkType( )
+	{
+		return bookmarkType;
 	}
 }

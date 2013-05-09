@@ -49,8 +49,14 @@ public class AggregationCellHandle extends CrosstabCellHandle
 	 */
 	public LevelHandle getAggregationOnRow( )
 	{
-		return (LevelHandle) handle
-				.getElementProperty( AGGREGATION_ON_ROW_PROP );
+		LevelHandle levelHandle =  (LevelHandle) handle.getElementProperty( AGGREGATION_ON_ROW_PROP );
+		if( levelHandle == null )
+		{
+			String fullLevelName = handle.getStringProperty( AGGREGATION_ON_ROW_PROP );
+			levelHandle = findLevelHandle( fullLevelName );
+		}
+		
+		return levelHandle;
 	}
 
 	/**
@@ -60,8 +66,14 @@ public class AggregationCellHandle extends CrosstabCellHandle
 	 */
 	public LevelHandle getAggregationOnColumn( )
 	{
-		return (LevelHandle) handle
-				.getElementProperty( AGGREGATION_ON_COLUMN_PROP );
+		LevelHandle levelHandle =  (LevelHandle) handle.getElementProperty( AGGREGATION_ON_COLUMN_PROP );
+		if( levelHandle == null )
+		{
+			String fullLevelName = handle.getStringProperty( AGGREGATION_ON_COLUMN_PROP );
+			levelHandle = findLevelHandle( fullLevelName );
+		}
+		
+		return levelHandle;
 	}
 
 	/**
@@ -71,7 +83,14 @@ public class AggregationCellHandle extends CrosstabCellHandle
 	 */
 	public LevelHandle getSpanOverOnRow( )
 	{
-		return (LevelHandle) handle.getElementProperty( SPAN_OVER_ON_ROW_PROP );
+		LevelHandle levelHandle =  (LevelHandle) handle.getElementProperty( SPAN_OVER_ON_ROW_PROP );
+		if( levelHandle == null )
+		{
+			String fullLevelName = handle.getStringProperty( SPAN_OVER_ON_ROW_PROP );
+			levelHandle = findLevelHandle( fullLevelName );
+		}
+		
+		return levelHandle;
 	}
 
 	/**
@@ -82,8 +101,14 @@ public class AggregationCellHandle extends CrosstabCellHandle
 	 */
 	public LevelHandle getSpanOverOnColumn( )
 	{
-		return (LevelHandle) handle
-				.getElementProperty( SPAN_OVER_ON_COLUMN_PROP );
+		LevelHandle levelHandle =  (LevelHandle) handle.getElementProperty( SPAN_OVER_ON_COLUMN_PROP );
+		if( levelHandle == null )
+		{
+			String fullLevelName = handle.getStringProperty( SPAN_OVER_ON_COLUMN_PROP );
+			levelHandle = findLevelHandle( fullLevelName );
+		}
+		
+		return levelHandle;
 	}
 
 	/**

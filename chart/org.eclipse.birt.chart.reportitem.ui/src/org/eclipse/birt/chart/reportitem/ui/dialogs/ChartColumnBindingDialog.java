@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
@@ -195,7 +195,8 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 				{
 					List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
 
-					CubeHandle cubeHandle = ChartCubeUtil.getBindingCube( inputElement );
+					CubeHandle cubeHandle = ChartReportItemHelper.instance( )
+							.getBindingCubeHandle( inputElement );
 					if ( cubeHandle != null )
 					{
 						if ( inputElement.getCube( ) == null )

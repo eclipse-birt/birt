@@ -44,6 +44,8 @@ CreateMeasureViewCommand.TransName=Crear medida
 MergeCrosstabHeaderCellAction_name=&Combinar celdas de encabezado
 SplitCrosstabHeadCellAction_name=&Dividir celda de encabezado
 
+ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################

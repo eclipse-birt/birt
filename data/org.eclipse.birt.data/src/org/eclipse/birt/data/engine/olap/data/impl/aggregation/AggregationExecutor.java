@@ -60,7 +60,7 @@ public class AggregationExecutor
 	//for every dimColumn in paraColumns, save <dimIndex, levelIndex, columnIndex, isKey>
 	private ColumnInfo[] paraInfos;
 	
-	private IDataSet4Aggregation dataSet4Aggregation;
+	protected IDataSet4Aggregation dataSet4Aggregation;
 	
 	private ICubeDimensionReader cubeDimensionReader;
 	
@@ -429,8 +429,7 @@ public class AggregationExecutor
 									diskSortedStackWrapper[i].diskSortedStack.push( popRow );
 							}
 						}
-						aggregationRow[i] = new Row4Aggregation( );
-						aggregationRow[i].setDimPos( dataSet4Aggregation.getDimensionPosition( ) );
+						aggregationRow[i] = createRow4Aggregation( );
 						aggregationRow[i].setLevelMembers( members );
 						if ( aggregationRow[i].getLevelMembers( ) == null )
 						{
@@ -452,6 +451,7 @@ public class AggregationExecutor
 							measures[j] = dataSet4Aggregation.getMeasureValue( j );
 						}
 						aggregationRow[i].addMeasure( measures );
+						addPosition( aggregationRow[i] );
 					}
 				}
 				factRowCount++;
@@ -488,6 +488,18 @@ public class AggregationExecutor
 		{
 			throw DataException.wrap( e );
 		}
+	}
+	
+	protected Row4Aggregation createRow4Aggregation( )
+	{
+		Row4Aggregation aggregationRow = new Row4Aggregation( );
+		aggregationRow.setDimPos( dataSet4Aggregation.getDimensionPosition( ) );
+		return aggregationRow;
+	}
+
+	protected void addPosition( Row4Aggregation aggregationRow )
+	{
+		// Implement in sub classes.
 	}
 	
 	

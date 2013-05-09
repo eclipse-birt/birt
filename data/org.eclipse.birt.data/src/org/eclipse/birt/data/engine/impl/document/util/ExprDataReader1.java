@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.impl.document.RowSaveUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
+import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -54,7 +55,7 @@ class ExprDataReader1 implements IExprDataReader
 	private List exprKeys;
 	private Map dataSetExprKeys;
 	private int metaOffset;
-	private DataSetResultSet dataSetData;
+	private IDataSetResultSet dataSetData;
 	private Map bindingNameTypeMap;
 	private ClassLoader currentClassLoader;
 	/**
@@ -63,7 +64,7 @@ class ExprDataReader1 implements IExprDataReader
 	 * @param version
 	 */
 	ExprDataReader1( RAInputStream rowExprsRAIs, RAInputStream rowLenRAIs,
-			int version, DataSetResultSet dataSetData ) throws DataException
+			int version, IDataSetResultSet dataSetData ) throws DataException
 	{
 		this.INT_LENGTH = IOUtil.INT_LENGTH;
 		

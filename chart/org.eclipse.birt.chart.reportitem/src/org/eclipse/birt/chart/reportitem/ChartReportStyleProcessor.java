@@ -793,15 +793,17 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
     @Override
 	public void processStyle( Chart cm )
 	{
-    	// Apply dataset column's style.
-    	DataSetHandle dataset = ChartItemUtil.getBindingDataSet(handle);
-    	if ( dataset != null )
-    	{
-    		processDataSetStyle( cm );
-    		return;
-    	}
-    	// Apply cube level's style.
-		CubeHandle cube = ChartCubeUtil.getBindingCube( handle );
+		// Apply dataset column's style.
+		DataSetHandle dataset = ChartReportItemHelper.instance( )
+				.getBindingDataSetHandle( (ReportItemHandle) handle );
+		if ( dataset != null )
+		{
+			processDataSetStyle( cm );
+			return;
+		}
+		// Apply cube level's style.
+		CubeHandle cube = ChartReportItemHelper.instance( )
+				.getBindingCubeHandle( (ReportItemHandle) handle );
 		if ( cube == null )
 		{
 			return;

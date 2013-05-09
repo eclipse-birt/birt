@@ -13,8 +13,8 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.ChartPageGenerator;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
@@ -277,7 +277,8 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 		}
 
 		if ( handle instanceof ReportItemHandle
-				&& ChartCubeUtil.getBindingCube( (DesignElementHandle) handle ) != null )
+				&& ChartReportItemHelper.instance( )
+						.getBindingCubeHandle( (ReportItemHandle) handle ) != null )
 
 		{
 			// It is in cube mode.

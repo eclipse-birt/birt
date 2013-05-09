@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:PojoQuery xmlns:tns="org.eclipse.birt.data.oda.pojo.pojoQueryText" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="org.eclipse.birt.data.oda.pojo.pojoQueryText pojoQueryText.xsd "
+dataSetClass="org.eclipse.birt.data.oda.pojo.input.TeacherDataSet" appContextKey="TeacherDataSet_Key" version="1.0">
+  
+  <ClassColumnMappings>
+    <ColumnMapping name="Dean ID" odaDataType="Integer" index="1">
+      <Method name="getDeanID">
+      </Method>
+    </ColumnMapping>
+    <ColumnMapping name="Dean Name" odaDataType="String" index="2">
+      <Method name="getDeanName">
+      </Method>
+    </ColumnMapping>
+    <Method name="getDean">
+    </Method>
+  </ClassColumnMappings>
+  
+  <ClassColumnMappings>
+    <ColumnMapping name="Student ID" odaDataType="Integer" index="3">
+      <Method name="getStudentID">
+      </Method>
+    </ColumnMapping>
+    <ColumnMapping name="Student Name" odaDataType="String" index="4">
+      <Method name="getStudentName">
+      </Method>
+    </ColumnMapping>
+    <Method name="getStudents">
+      <ConstantParameter value="18" type="int"/>
+  	  <VariableParameter name="sex" type="boolean"/>
+      <ConstantParameter type="java.lang.String"/>
+    </Method>
+  </ClassColumnMappings>
+  <ColumnMapping name="Teacher ID" odaDataType="Integer" index="5">
+    <Method name="getTeacherID">
+    </Method>
+  </ColumnMapping>
+  <ColumnMapping name="Teacher Name" odaDataType="String" index="6">
+    <Method name="getTeacherName">
+    </Method>
+  </ColumnMapping>
+  <ColumnMapping name="Age" odaDataType="Integer" index="7">
+    <Field name="age">
+    </Field>
+  </ColumnMapping>
+</tns:PojoQuery>
+
+

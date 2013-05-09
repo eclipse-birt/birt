@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -68,6 +69,8 @@ public class DataColumnBindingDialog extends BaseDialog
 	private boolean isTimePeriod;
 	
 	private boolean needPrompt = true;
+	
+	private boolean isLinkModelTimePeriod = false;
 
 	
 	public boolean isNeedPrompt( )
@@ -146,12 +149,18 @@ public class DataColumnBindingDialog extends BaseDialog
 		dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( DEUtil.getBindingHolder( bindingObject ),
 				IBindingDialogHelper.class );
 
+		isTableAddTimeDemision(bindingObject, bindingColumn);
+		if(isLinkModelTimePeriod )
+		{
+			dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter(this,
+					IBindingDialogHelper.class );
+		}
 		if ( dialogHelper == null )
 		{
 			// use default helper.
 			dialogHelper = new BindingDialogHelper( );
 		}
-
+		
 		dialogHelper.setEditModal( isEditModal( ) );
 
 		if ( !bindSelf )
@@ -182,6 +191,18 @@ public class DataColumnBindingDialog extends BaseDialog
 		if ( isTimePeriod || isEditTimePeriod())
 		{
 			setTitle( TIMEPERIOD_BUILDER_TITLE );
+		}
+	}
+	
+	private void isTableAddTimeDemision( ReportItemHandle bindingObject,
+			ComputedColumnHandle bindingColumn)
+	{
+		if(DEUtil.getBindingHolder( bindingObject ) instanceof TableHandle)
+		{
+			if(bindingColumn != null && bindingColumn.getTimeDimension() != null && !"".equals(bindingColumn.getTimeDimension()))
+			{
+				isLinkModelTimePeriod = true;
+			}
 		}
 	}
 
@@ -421,5 +442,10 @@ public class DataColumnBindingDialog extends BaseDialog
 	public boolean isEditModal( )
 	{
 		return isEditModal;
+	}
+	
+	public void setLinkedModelTimePeriod(boolean isLinkModelTimePeriod)
+	{
+		this.isLinkModelTimePeriod = isLinkModelTimePeriod;
 	}
 }

@@ -35,9 +35,9 @@ import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableAccessor;
 
 public class Cube implements ICube
 {
-	private String name;
+	protected String name;
 	protected IDocumentManager documentManager;
-	private IDimension[] dimension;
+	protected IDimension[] dimension;
 	private FactTable factTable;
 
 	private static Logger logger = Logger.getLogger( Cube.class.getName( ) );

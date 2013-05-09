@@ -163,6 +163,7 @@ class QueryExecutionHelper
 			}
 			major = handle;
 			defineDataSet( handle, new DataSetHandleProcessContext(major, useResultHints, keepDataSetFilter, allowAggregation) );
+			DefineDataSourceSetUtil.prepareForTransientQuery( sessionContext, (DataEngineImpl)dataEngine, handle, queryDefn );
 		}
 	}
 
@@ -361,16 +362,6 @@ class QueryExecutionHelper
 			{
 				preDefineDataSet( (DataSetHandle) inputDataSet.get( i ) );
 			}
-		}
-
-		IBaseDataSetDesign baseDS = ( (DataEngineImpl) dataEngine ).getDataSetDesign( handle.getQualifiedName( ) );
-		IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( baseDS );
-		if ( dataSetInterceptor != null )
-		{
-			dataSetInterceptor.preDefineDataSet( sessionContext,
-					( (DataEngineImpl) dataEngine ).getDataSourceDesign( baseDS.getDataSourceName( ) ),
-					baseDS,
-					sessionContext.getModuleHandle( ) );
 		}
 	}
 	

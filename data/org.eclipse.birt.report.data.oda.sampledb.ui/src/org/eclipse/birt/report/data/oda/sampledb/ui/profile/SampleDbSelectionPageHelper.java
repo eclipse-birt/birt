@@ -81,17 +81,19 @@ public class SampleDbSelectionPageHelper
 		m_sampleUser = new Label( content, SWT.LEFT );
 		m_sampleUser.setText( SampleDBJDBCConnectionFactory.getDbUser( ) );//$NON-NLS-1$
 		
-		if ( this.m_wizardPage.getPreviousPage( )
-				.getClass( )
-				.toString( )
-				.contains( "DataSourceSelectionPage" ) )
+		setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
+		if ( this.m_wizardPage != null ) 
 		{
-			setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
-		}
-		else
-		{
-			setMessage( Messages.getMessage( "datasource.page.warning" ),
-					IMessageProvider.WARNING );
+			if ( this.m_wizardPage.getPreviousPage( ).getClass( ).toString( )
+					.contains( "DataSourceSelectionPage" ) ) 
+			{
+				setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
+			} 
+			else 
+			{
+				setMessage( Messages.getMessage( "datasource.page.warning" ),
+						IMessageProvider.WARNING );
+			}
 		}
 
 		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( getControl(),

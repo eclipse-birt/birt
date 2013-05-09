@@ -15,28 +15,12 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for library element to store the constants.
  */
 
-public interface ILibraryModel
+public interface ILibraryModel extends IInternalLibraryModel
 {
 
 	// Library slots
 	// See constants defined in the module class.
 
-	/**
-	 * Identifier of the slot that holds themes.
-	 */
-
-	public static final int THEMES_SLOT = 0;
-
-	/**
-	 * Identifier of the slot that holds a collections of cube elements.
-	 */
-
-	public static final int CUBE_SLOT = 6;
-
-	/**
-	 * Number of slots in the library.
-	 */
-
-	public static final int SLOT_COUNT = 7;
+	
 
 }

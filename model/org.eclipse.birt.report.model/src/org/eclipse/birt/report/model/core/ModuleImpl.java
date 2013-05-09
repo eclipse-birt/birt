@@ -173,7 +173,7 @@ public abstract class ModuleImpl extends DesignElement
 	/**
 	 * Number of defined name spaces.
 	 */
-	public static final int NAME_SPACE_COUNT = 11;
+	public static int NAME_SPACE_COUNT = 11;
 
 	/**
 	 * The session that owns this module.
@@ -680,7 +680,9 @@ public abstract class ModuleImpl extends DesignElement
 		module.validationListeners = null;
 
 		// set ModuleOption to null
-		// module.options = null;
+		// handle module options
+		if ( options != null )
+			module.setOptions( ( (ModuleOption) options.copy( ) ) );
 		assert module.getID( ) > NO_ID;
 		assert module.getElementByID( module.getID( ) ) == null;
 		module.addElementID( module );

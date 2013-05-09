@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.StringTable;
+import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -93,8 +94,13 @@ public interface ResultSetCache
 	 * Serialize to an output stream
 	 * 
 	 * @param outputStream
+	 * @param auxiliaryIndexCreators 
 	 */
-	public void doSave( DataOutputStream outputStream, DataOutputStream lensStream, Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMapping, int version )
+	public void doSave( DataOutputStream outputStream,
+			DataOutputStream lensStream, Map<String, StringTable> stringTable,
+			Map<String, IIndexSerializer> index,
+			List<IBinding> cacheRequestMapping, int version,
+			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
 			throws DataException;
 	
 	/**
@@ -107,8 +113,11 @@ public interface ResultSetCache
 	 * @param cacheRequestMap
 	 * @throws DataException
 	 */
-	public void incrementalUpdate( OutputStream outputStream, OutputStream rowLensStream, int rowCount, 
-			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap, int version )
+	public void incrementalUpdate( OutputStream outputStream,
+			OutputStream rowLensStream, int rowCount,
+			Map<String, StringTable> stringTable,
+			Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
+			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
 			throws DataException;
 	
 	/**

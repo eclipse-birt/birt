@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
-import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.DefaultExpressionValidator;
 import org.eclipse.birt.chart.ui.swt.interfaces.IAssistField;
@@ -205,7 +206,8 @@ public class ChartExpressionButtonUtil
 	public static IExpressionButton createExpressionButton( Composite parent,
 			Control control, ExtendedItemHandle eih, IExpressionProvider ep )
 	{
-		boolean isCube = ChartCubeUtil.getBindingCube( eih ) != null;
+		boolean isCube = ChartReportItemHelper.instance( )
+				.getBindingCubeHandle( eih ) != null;
 
 		boolean isCombo = control instanceof Combo || control instanceof CCombo;
 

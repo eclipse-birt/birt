@@ -903,7 +903,7 @@ public class ElementExportUtilImpl
 	 * @return <code>true</code> if the element can be exported successfully.
 	 *         Otherwise <code>false</code>.
 	 */
-	private static boolean checkExportedExtendedItem(
+	protected static boolean checkExportedExtendedItem(
 			ExtendedItemHandle elementToExport )
 	{
 		try

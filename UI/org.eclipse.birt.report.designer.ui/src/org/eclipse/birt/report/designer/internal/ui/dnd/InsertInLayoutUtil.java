@@ -24,6 +24,8 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
@@ -87,7 +89,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 public class InsertInLayoutUtil
 {
-
+	
 	/**
 	 * Rule interface for defining insertion rule
 	 */
@@ -351,7 +353,7 @@ public class InsertInLayoutUtil
 		{
 			return getGroupContainer( container ) != null
 					&& getGroupHandle( container ).getKeyExpr( ) == null
-					&& ( getGroupContainer( container ).getDataSet( ) == getDataSetHandle( dataSetColumn ) || getGroupContainer( container ).getDataSet( ) == null );
+					&& ( getGroupContainer( container ).getDataSet( ) == getDataSet( dataSetColumn ) || getGroupContainer( container ).getDataSet( ) == null );
 		}
 
 		/*
@@ -390,7 +392,7 @@ public class InsertInLayoutUtil
 				{
 					if ( elementHandle instanceof ListingHandle
 							&& ( dataSetHandle = ( (ListingHandle) elementHandle ).getDataSet( ) ) != null
-							&& ( dataSetHandle == getDataSetHandle( dataSetColumn ) ) )
+							&& ( dataSetHandle == getDataSet( dataSetColumn ) ) )
 					{
 						break;
 					}
@@ -398,18 +400,13 @@ public class InsertInLayoutUtil
 			}
 
 			if ( dataSetHandle == null
-					|| dataSetHandle != getDataSetHandle( dataSetColumn ) )
+					|| dataSetHandle != getDataSet( dataSetColumn ) )
 			{
-				getGroupContainer( container ).setDataSet( getDataSetHandle( dataSetColumn ) );
+				setDataSet(getGroupContainer( container ), getDataSet( dataSetColumn ));
 			}
 
 			getGroupHandle( container ).setKeyExpr( DEUtil.getColumnExpression( dataSetColumn.getColumnName( ) ) );
 
-		}
-
-		protected DataSetHandle getDataSetHandle( ResultSetColumnHandle model )
-		{
-			return (DataSetHandle) model.getElementHandle( );
 		}
 
 		protected GroupHandle getGroupHandle( Object target )
@@ -715,14 +712,14 @@ public class InsertInLayoutUtil
 		 */
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
-		DataSetHandle dataSet = (DataSetHandle) model.getElementHandle( );
+		DataSetHandle dataSet = getDataSet( model );
 
 		if ( targetParent instanceof TableHandle )
 		{
 			TableHandle tableHandle = (TableHandle) targetParent;
 			if ( tableHandle.isSummaryTable( ) )
 			{
-				tableHandle.setDataSet( dataSet );
+				setDataSet(tableHandle, dataSet);
 				setDataItemAction( model, dataHandle );
 				if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( UIUtil.getColumnAnalysis( model ) ) )
 				{
@@ -772,7 +769,7 @@ public class InsertInLayoutUtil
 				}
 				else if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( UIUtil.getColumnAnalysis( model ) ) )
 				{
-					DataSetHandle dataset = (DataSetHandle) model.getElementHandle( );
+					DataSetHandle dataset = getDataSet( model );
 					String str = UIUtil.getAnalysisColumn( model );
 					String type = ""; //$NON-NLS-1$
 
@@ -791,8 +788,7 @@ public class InsertInLayoutUtil
 							}
 						}
 
-						for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-								.iterator( ); iter.hasNext( ); )
+						for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
 						{
 							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
 							if ( element.getColumnName( ).equals( str )
@@ -1066,7 +1062,7 @@ public class InsertInLayoutUtil
 					ComputedColumn bindingColumn = createBindingColumn( target,
 							dataHandle,
 							model );
-					dataHandle.setDataSet( dataSet );
+					setDataSet(dataHandle, dataSet);
 					dataHandle.addColumnBinding( bindingColumn, false );
 				}
 				else
@@ -1074,11 +1070,13 @@ public class InsertInLayoutUtil
 					ComputedColumn bindingColumn = createBindingColumn( target,
 							container,
 							model );
-					container.setDataSet( dataSet );
+					setDataSet(container, dataSet);
 					container.addColumnBinding( bindingColumn, false );
 				}
 			}
-			else if ( root.getDataSet( ) == dataSet )
+			else if ( root.getDataSet( ) == dataSet
+					|| (getAdapter() != null && getAdapter().resolveExtendedData( root.getDataSet( ) )
+							.equals( getAdapter().resolveExtendedData( dataSet ) )))
 			{
 				container = DEUtil.getBindingHolder( container );
 				ComputedColumn bindingColumn = createBindingColumn( target,
@@ -1096,7 +1094,7 @@ public class InsertInLayoutUtil
 					ComputedColumn bindingColumn = createBindingColumn( target,
 							listingHandle,
 							model );
-					listingHandle.setDataSet( dataSet );
+					setDataSet(listingHandle, dataSet);
 					listingHandle.addColumnBinding( bindingColumn, false );
 				}
 				// do nothing, forbid dragging into the place.
@@ -1215,7 +1213,7 @@ public class InsertInLayoutUtil
 				}
 			}
 			dataHandle.addColumnBinding( bindingColumn, false );
-			dataHandle.setDataSet( dataSet );
+			setDataSet(dataHandle, dataSet);
 		}
 
 		setDataItemAction( model, dataHandle );
@@ -1391,6 +1389,7 @@ public class InsertInLayoutUtil
 		// // .newTableItem( null, columns.length );
 		CachedMetaDataHandle cachedMetadata = DataSetUIUtil.getCachedMetaDataHandle( model );
 		List columList = new ArrayList( );
+
 		for ( Iterator iter = cachedMetadata.getResultSet( ).iterator( ); iter.hasNext( ); )
 		{
 			ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
@@ -1413,7 +1412,7 @@ public class InsertInLayoutUtil
 				columns,
 				false );
 
-		tableHandle.setDataSet( model );
+		setDataSet(tableHandle, model);
 		return tableHandle;
 
 	}
@@ -1550,7 +1549,7 @@ public class InsertInLayoutUtil
 		{
 			if ( array[i] instanceof ResultSetColumnHandle )
 			{
-				Object currDataSet = ( (ResultSetColumnHandle) array[i] ).getElementHandle( );
+				Object currDataSet = getDataSet( ( (ResultSetColumnHandle) array[i] ) );
 				if ( currDataSet == null )
 				{
 					return false;
@@ -1724,12 +1723,11 @@ public class InsertInLayoutUtil
 				else if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( UIUtil.getColumnAnalysis( insertObj ) ) )
 				{
 					String str = UIUtil.getAnalysisColumn( insertObj );
-					DataSetHandle dataset = (DataSetHandle) insertObj.getElementHandle( );
+					DataSetHandle dataset = getDataSet( insertObj );
 					String type = "";
 					if ( str != null )
 					{
-						for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-								.iterator( ); iter.hasNext( ); )
+						for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
 						{
 							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
 							if ( element.getColumnName( ).equals( str )
@@ -1819,11 +1817,22 @@ public class InsertInLayoutUtil
 				{
 					dataSet = bindingRoot.getDataSet( );
 				}
-				return itsDataSet == null
+				if( itsDataSet == null
 						&& ( bindingHolder == null || !bindingHolder.getColumnBindings( )
 								.iterator( )
 								.hasNext( ) )
-						|| insertObj.getElementHandle( ).equals( dataSet );
+						|| getDataSet( insertObj ).equals( dataSet ))
+				{
+					return true;
+				}
+				else
+				{
+					if(ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( bindingRoot ))
+					{
+						return getAdapter() != null && getAdapter().getBoundExtendedData( bindingRoot ).equals( 
+								getAdapter().resolveExtendedData( getDataSet( insertObj ) ));
+					}
+				}
 			}
 		}
 		return false;
@@ -2041,9 +2050,8 @@ public class InsertInLayoutUtil
 	private static ColumnHintHandle findColumnHintHandle(
 			ResultSetColumnHandle column )
 	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-				.iterator( ); iter.hasNext( ); )
+		DataSetHandle dataset = getDataSet( column );
+		for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
 			if ( element.getColumnName( ).equals( column.getColumnName( ) )
@@ -2143,7 +2151,10 @@ public class InsertInLayoutUtil
 	{
 		if ( handle instanceof DataSetHandle )
 		{
-			if ( ( !( handle instanceof JointDataSetHandle || handle instanceof DerivedDataSetHandle ) && ( (DataSetHandle) handle ).getDataSource( ) == null )
+			boolean needsDataSource = getAdapter() == null ? true : getAdapter().needsDataSource( (DataSetHandle) handle );
+			
+			if ( ( !( handle instanceof JointDataSetHandle || handle instanceof DerivedDataSetHandle || !needsDataSource ) 
+							&& ( (DataSetHandle) handle ).getDataSource( ) == null )
 					|| !DataSetUIUtil.hasMetaData( (DataSetHandle) handle ) )
 			{
 				return false;
@@ -2210,5 +2221,38 @@ public class InsertInLayoutUtil
 			}
 		}
 		return new StructuredSelection( resultList );
+	}
+	
+	private static DataSetHandle getDataSet(ResultSetColumnHandle column)
+	{
+		DataSetHandle dataSet;
+		
+		if(getAdapter() != null && getAdapter().getDataSet( column ) != null)
+		{
+			dataSet = getAdapter().getDataSet( column );
+		}
+		else
+		{
+			dataSet = (DataSetHandle) column.getElementHandle( );
+		}
+		
+		return dataSet;
+	}
+	
+	private static void setDataSet(ReportItemHandle target, DataSetHandle dataSet) throws SemanticException
+	{
+		if (getAdapter() != null && getAdapter().resolveExtendedData( dataSet ) != null)
+		{
+			getAdapter().setExtendedData( target, getAdapter().resolveExtendedData( dataSet ) );
+		}
+		else
+		{
+			target.setDataSet( dataSet );
+		}
+	}
+	
+	private static IExtendedDataModelUIAdapter getAdapter()
+	{
+		return ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
 	}
 }

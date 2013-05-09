@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %plugin.name
+Bundle-SymbolicName: org.eclipse.birt.data.oda.pojo;singleton:=true
+Bundle-Version: 4.2.2.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.birt.data.oda.pojo.Activator
+Bundle-Vendor: Eclipse BIRT Project
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.data.oda.pojo.api,
+ org.eclipse.birt.data.oda.pojo.impl;x-friends:="org.eclipse.birt.data.oda.pojo.ui,org.eclipse.birt.data.oda.pojo.tests",
+ org.eclipse.birt.data.oda.pojo.impl.internal;x-friends:="org.eclipse.birt.data.oda.pojo.tests",
+ org.eclipse.birt.data.oda.pojo.querymodel;x-friends:="org.eclipse.birt.data.oda.pojo.ui,org.eclipse.birt.data.oda.pojo.tests",
+ org.eclipse.birt.data.oda.pojo.util;x-friends:="org.eclipse.birt.data.oda.pojo.ui,org.eclipse.birt.data.oda.pojo.tests"
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.3.0,4.0.0)",
+ org.eclipse.datatools.connectivity.oda;bundle-version="[3.2.0,4.0.0)",
+ org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.0.7,4.0.0)",
+ org.eclipse.birt.core;bundle-version="[3.7.2,5.0.0)"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

@@ -16,7 +16,7 @@ import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 /**
  * 
  */
-class ValueObject implements Comparable
+public class ValueObject implements Comparable
 {
 
 	public Object value;

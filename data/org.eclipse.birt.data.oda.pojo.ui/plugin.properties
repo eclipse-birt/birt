@@ -1,0 +1,26 @@
+###############################################################################
+# Copyright (c) 2013 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation  - initial API and implementation
+###############################################################################
+# Plug-in Configuration
+#
+oda.data.source.id=org.eclipse.birt.data.oda.pojo
+#
+###############################################################################
+# NLS strings
+#
+plugin.name=BIRT POJO Data Source ODA Designer
+newwizard.name=BIRT POJO Data Source
+newwizard.description=Create a BIRT POJO Data Source connection profile
+wizard.window.title=New BIRT POJO Data Source Profile
+wizard.data.source.page.title=BIRT POJO Data Source
+profile.propertypage.name=BIRT POJO Data Source Connection Properties
+wizard.data.set.window.title=New BIRT POJO Data Set
+wizard.data.set.propertiesPage.title=Properties
+wizard.data.set.columnMappingPage.title=Column Mapping

@@ -11,15 +11,13 @@
 
 package org.eclipse.birt.report.model.core.namespace;
 
-import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.olap.Dimension;
 
 /**
  * Represents the factory to produce module name space according to different
  * name space ID.
  */
 
-public class NameContextFactory
+public class NameContextFactory extends NameContextFactoryImpl
 {
 
 	private NameContextFactory( )
@@ -27,44 +25,5 @@ public class NameContextFactory
 		// Doesn't allow instantiation.
 	}
 
-	/**
-	 * Returns the module name space with the attached module and name space ID.
-	 * 
-	 * @param module
-	 *            the attached module
-	 * @param nameSpaceID
-	 *            the name space ID. The different module name space for
-	 *            different name space ID.
-	 * @return the produced element name space
-	 */
 
-	public static INameContext createModuleNameContext( Module module,
-			int nameSpaceID )
-	{
-		if ( nameSpaceID == Module.STYLE_NAME_SPACE )
-			return new StyleNameContext( module );
-
-		if ( nameSpaceID == Module.CUBE_NAME_SPACE
-				|| nameSpaceID == Module.DIMENSION_NAME_SPACE )
-			return new CubeNameContext( module, nameSpaceID );
-
-		return new GeneralModuleNameContext( module, nameSpaceID );
-	}
-
-	/**
-	 * Creates the dimension name context.
-	 * 
-	 * @param dimension
-	 *            the dimension.
-	 * @param nameSpaceID
-	 *            the name space id.
-	 * @return the dimension name context.
-	 */
-	public static INameContext createDimensionNameContext( Dimension dimension,
-			int nameSpaceID )
-	{
-		if ( nameSpaceID == Dimension.LEVEL_NAME_SPACE )
-			return new DimensionNameContext( dimension );
-		return null;
-	}
 }

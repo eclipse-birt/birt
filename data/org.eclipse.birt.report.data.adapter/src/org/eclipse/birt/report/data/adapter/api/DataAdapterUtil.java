@@ -202,6 +202,10 @@ public class DataAdapterUtil
 						targetScope,
 						new JSResultIteratorObject( (ILinkedResult) source,
 								targetScope ) );
+				targetScope.put( "data",
+						targetScope,
+						new JSResultIteratorObject( (ILinkedResult) source,
+								targetScope ) );
 			}
 			else if ( type == ILinkedResult.TYPE_CUBE && source.getCurrentResult( )!= null )
 			{

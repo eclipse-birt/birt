@@ -64,6 +64,9 @@ public interface ICubeQueryUtil
 	public List getReferableBindings( String targetLevel,
 			ICubeQueryDefinition cubeQueryDefn, boolean isSort ) throws AdapterException;
 	
+	public List getReferableBindingsForLinkedDataSetCube( String targetLevel,
+			ICubeQueryDefinition cubeQueryDefn, boolean isSort ) throws AdapterException;
+	
 	/**
 	 * Utility method to acquire referable measure bindings.
 	 * @param measureName
@@ -72,6 +75,9 @@ public interface ICubeQueryUtil
 	 * @throws DataException
 	 */
 	public List getReferableMeasureBindings( String measureName,
+			ICubeQueryDefinition cubeDefn ) throws DataException;
+	
+	public List getReferableMeasureBindingsForLinkedDataSetCube( String measureName,
 			ICubeQueryDefinition cubeDefn ) throws DataException;
 	/**
 	 * Return a list of ILevelDefinition instances that referenced by 
@@ -267,5 +273,7 @@ public interface ICubeQueryUtil
 	 */
 	public boolean isValidDimensionName( String name );
 
-
+	public List getInvalidBindingsForLinkedDataSetCube( ICubeQueryDefinition queryDefn )
+			throws AdapterException;	
+	
 }

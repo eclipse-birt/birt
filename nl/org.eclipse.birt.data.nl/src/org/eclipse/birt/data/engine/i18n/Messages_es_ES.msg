@@ -446,3 +446,4 @@ data.datamart.collation=En el producto anterior, no se utiliza la intercalación 
 
 
 data.filter.pushDownFail= Error al reducir el filtro que solo es compatible con la extnsión ODA.
+data.query.exprReferInvalidColumn=Cannot execute query because: the query contains an invalid expression which references an invalid dataset column "{0}".

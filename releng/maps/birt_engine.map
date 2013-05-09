@@ -1,4 +1,4 @@
-plugin@org.eclipse.birt.report.engine=GIT,tag=v201302051125,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine
+plugin@org.eclipse.birt.report.engine=GIT,tag=v201303131539,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine
 plugin@org.eclipse.birt.report.engine.emitter.config=GIT,tag=v201212131704,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.config
 plugin@org.eclipse.birt.report.engine.emitter.config.excel=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.config.excel
 plugin@org.eclipse.birt.report.engine.emitter.config.html=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.config.html
@@ -22,6 +22,12 @@ plugin@org.eclipse.birt.report.engine.emitter.prototype.excel=GIT,tag=v201212171
 plugin@org.eclipse.birt.report.engine.emitter.ppt=GIT,tag=v201212191626,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.ppt
 plugin@org.eclipse.birt.report.engine.dataextraction=GIT,tag=v201212171413,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.dataextraction
 plugin@org.eclipse.birt.report.engine.dataextraction.csv=GIT,tag=v201210111858,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.dataextraction.csv
+
+plugin@org.eclipse.birt.report.engine.ooxml=GIT,tag=v201303191320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.ooxml
+plugin@org.eclipse.birt.report.engine.emitter.config.docx=GIT,tag=v201303191320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.config.docx
+plugin@org.eclipse.birt.report.engine.emitter.config.pptx=GIT,tag=v201303191320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.config.pptx
+plugin@org.eclipse.birt.report.engine.emitter.docx=GIT,tag=v201303191320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.docx
+plugin@org.eclipse.birt.report.engine.emitter.pptx=GIT,tag=v201303191320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.pptx
 
 plugin@org.eclipse.birt.report.engine.tests=GIT,tag=v201210270645,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.tests
 plugin@org.eclipse.birt.report.engine.emitter.html.tests=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.emitter.html.tests

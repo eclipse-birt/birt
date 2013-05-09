@@ -1,19 +1,36 @@
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.impl.DataModelAdapter;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -350,6 +367,19 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		QueryDefinition query = new QueryDefinition( );
 		query.setDataSetName( dataset.getQualifiedName( ) );
 		query.setAutoBinding( true );
+		Set<String> existBindings = new HashSet<String>( );
+		if ( this.selectedColumns != null )
+		{
+			for ( String column : selectedColumns )
+			{
+				if ( !existBindings.contains( column ) )
+				{
+					addBinding( query, column );
+					existBindings.add( column );
+				}
+			}
+		}
+		Set<String> referenced = new HashSet<String>( );
 		// set max rows
 		if ( maxRow >= 0 )
 		{
@@ -366,6 +396,8 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			for ( int i = 0; i < filterExpressions.length; i++ )
 			{
 				query.getFilters( ).add( filterExpressions[i] );
+				findReferencedColumns( referenced,
+						filterExpressions[i].getExpression( ) );
 			}
 			filterExpressions = null;
 		}
@@ -375,12 +407,120 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			for ( int i = 0; i < sortExpressions.length; i++ )
 			{
 				query.getSorts( ).add( sortExpressions[i] );
+				findReferencedColumns( referenced,
+						sortExpressions[i].getExpression( ) );
 			}
 			sortExpressions = null;
+		}
+		if ( !referenced.isEmpty( ) )
+		{
+			for ( String col : referenced )
+			{
+				if ( !existBindings.contains( col ) )
+				{
+					addBinding( query, col );
+				}
+			}
 		}
 		return query;
 	}
 	
+	private void findReferencedColumns( Set<String> referenced,
+			IBaseExpression expr )
+	{
+		findReferencedColumns( referenced, null, expr );
+
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void findReferencedColumns( Set<String> referencedRows,
+			Set<String> referencedDSRows, IBaseExpression expr )
+	{
+		if ( expr instanceof IScriptExpression )
+		{
+			IScriptExpression script = (IScriptExpression) expr;
+			if ( script != null )
+			{
+				try
+				{
+					IScriptExpression scriptExpr = script;
+					// convert BRE expression into javascript expression
+					if ( "bre".equals( script.getScriptId( ) ) )
+					{
+						IModelAdapter adapter = getModelAdapter( );
+						scriptExpr = adapter.adaptJSExpression(
+								script.getText( ), script.getScriptId( ) );
+					}
+
+					// find referenced binding names
+					// the script text may be null value, for example: a value
+					// list which contains a none value.
+					if ( scriptExpr != null )
+					{
+						List<IColumnBinding> columns = ExpressionUtil
+								.extractColumnExpressions( scriptExpr.getText( ) );
+						for ( IColumnBinding col : columns )
+						{
+							referencedRows.add( col.getResultSetColumnName( ) );
+						}
+
+						if ( referencedDSRows != null )
+						{
+							columns = ExpressionUtil.extractColumnExpressions(
+									scriptExpr.getText( ),
+									ExpressionUtil.DATASET_ROW_INDICATOR );
+							for ( IColumnBinding col : columns )
+							{
+								referencedDSRows.add( col
+										.getResultSetColumnName( ) );
+							}
+						}
+					}
+				}
+				catch ( BirtException e )
+				{
+				}
+			}
+		}
+		else if ( expr instanceof IConditionalExpression )
+		{
+			IConditionalExpression condition = (IConditionalExpression) expr;
+			findReferencedColumns( referencedRows, referencedDSRows,
+					condition.getExpression( ) );
+			findReferencedColumns( referencedRows, referencedDSRows,
+					condition.getOperand1( ) );
+			findReferencedColumns( referencedRows, referencedDSRows,
+					condition.getOperand2( ) );
+		}
+		else if ( expr instanceof IExpressionCollection )
+		{
+			IExpressionCollection exprs = (IExpressionCollection) expr;
+			Collection<IBaseExpression> collection = exprs.getExpressions( );
+			for ( Iterator<IBaseExpression> i = collection.iterator( ); i
+					.hasNext( ); )
+			{
+				findReferencedColumns( referencedRows, referencedDSRows,
+						i.next( ) );
+			}
+		}
+	}
+
+	private void addBinding( QueryDefinition query, String column )
+			throws DataException
+	{
+		ScriptExpression expr = new ScriptExpression(
+				ExpressionUtil.createDataSetRowExpression( column ) );
+		IBinding binding = new Binding( column, expr );
+		query.addBinding( binding );
+	}
+
+	protected IModelAdapter getModelAdapter( ) throws BirtException
+	{
+		IModelAdapter adapter = new DataModelAdapter( new DataSessionContext(
+				DataEngineContext.DIRECT_PRESENTATION ) );
+		return adapter;
+	}
+
 	protected void validateStringParameter( String paramName,
 			Object paramValue, AbstractScalarParameterHandle paramHandle )
 			throws ParameterValidationException

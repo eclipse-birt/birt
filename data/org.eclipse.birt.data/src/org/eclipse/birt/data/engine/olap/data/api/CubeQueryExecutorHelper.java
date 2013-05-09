@@ -86,24 +86,24 @@ import org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper;
 
 public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 {
-	private Cube cube;
-	private List levelFilters = null;
-	private List simpleLevelFilters = null;	// list for SimepleLevelFilter
-	private List measureFilters = null;
+	protected Cube cube;
+	protected List levelFilters = null;
+	protected List simpleLevelFilters = null;	// list for SimepleLevelFilter
+	protected List measureFilters = null;
 	private Map dimJSFilterMap = null;
 	
 	private List rowSort = null;
 	private List columnSort = null;
 	private List pageSort = null;
 	
-	private boolean isBreakHierarchy = true;
+	protected boolean isBreakHierarchy = true;
 	
-	private IComputedMeasureHelper computedMeasureHelper = null;
+	protected IComputedMeasureHelper computedMeasureHelper = null;
 	
 	private List aggrFilterHelpers;
 	private List aggrMeasureFilters;
 	
-	private List cubePosFilters;
+	protected List cubePosFilters;
 	private static Logger logger = Logger.getLogger( CubeQueryExecutorHelper.class.getName( ) );
 	
 	public int maxDataObjectRows = -1;
@@ -521,7 +521,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 						if (dimLevelSet.size() > 0) 
 						{
 							applyMerge = true;
-							CubeQueryExecutorHelper executorHelper = new CubeQueryExecutorHelper(
+							CubeQueryExecutorHelper executorHelper = createCubeQueryExecutorHelper(
 									this.cube, cubeQueryExecutor.getComputedMeasureHelper(),fetcher);
 							
 							executorHelper.setBreakHierarchy(cubeQueryExecutor.getCubeQueryDefinition().getFilterOption() == 0);
@@ -810,6 +810,28 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			}
 		}
 	}
+	
+	protected boolean populateAggrMeasureFilterResult( ICube cube,
+			IAggregationResultSet[] resultSet, List aggrMeasureFilters,
+			CubeQueryExecutor cubeQueryExecutor, IBindingValueFetcher fetcher )
+			throws DataException, IOException
+	{
+		AggrMeasureFilterHelper filter = new AggrMeasureFilterHelper( cube,
+				resultSet );
+		filter.setQueryExecutor( cubeQueryExecutor );
+		filter.setBindingValueFetcher( fetcher );
+
+		cubePosFilters = filter.getCubePosFilters( aggrMeasureFilters );
+		if ( cubePosFilters == null )
+		{
+			for ( int i = 0; i < resultSet.length; i++ )
+			{// clear all aggregation result sets to be empty
+				resultSet[i].clear( );
+			}
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * @param aggregations
@@ -827,20 +849,11 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		
 		if ( !aggrMeasureFilters.isEmpty( ) )
 		{
-			AggrMeasureFilterHelper filter = new AggrMeasureFilterHelper( cube,
-					resultSet );
-			filter.setQueryExecutor( cubeQueryExecutor );
-			filter.setBindingValueFetcher( fetcher );
-			cubePosFilters = filter.getCubePosFilters( aggrMeasureFilters );
-			if( cubePosFilters == null )
-			{
-				for ( int i = 0; i < resultSet.length; i++ )
-				{// clear all aggregation result sets to be empty
-					resultSet[i].clear( );
-				}
-				return;
-			}
-			recalculate = true;
+			recalculate = populateAggrMeasureFilterResult( cube,
+					resultSet,
+					aggrMeasureFilters,
+					cubeQueryExecutor,
+					fetcher );
 		}
 		
 		if ( !aggrFilterHelpers.isEmpty( ) )
@@ -892,7 +905,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	private IAggregationResultSet[] onePassExecute(
+	protected IAggregationResultSet[] onePassExecute(
 			AggregationDefinition[] aggregations, StopSign stopSign )
 			throws DataException, IOException, BirtException
 	{
@@ -1007,7 +1020,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @param dimensionName
 	 * @return
 	 */
-	private List getDimensionJSFilterList( String dimensionName )
+	protected List getDimensionJSFilterList( String dimensionName )
 	{
 		Object value = dimJSFilterMap.get( dimensionName );
 		if( value != null )
@@ -1142,5 +1155,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	public long getMemoryCacheSize( )
 	{
 		return memoryCacheSize;
+	}
+	
+	protected CubeQueryExecutorHelper createCubeQueryExecutorHelper(
+			ICube cube, IComputedMeasureHelper computedMeasureHelper,
+			IBindingValueFetcher fetcher ) throws DataException
+	{
+		return new CubeQueryExecutorHelper( cube,
+				computedMeasureHelper,
+				fetcher );
 	}
 }

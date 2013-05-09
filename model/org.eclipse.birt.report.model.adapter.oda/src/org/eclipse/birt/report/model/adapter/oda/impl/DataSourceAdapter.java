@@ -135,8 +135,7 @@ public class DataSourceAdapter extends AbstractDataAdapter
 		{
 			// extension id is set without undo/redo support.
 
-			sourceHandle.getElement( ).setProperty(
-					OdaDataSourceHandle.EXTENSION_ID_PROP,
+			sourceHandle.setProperty( OdaDataSourceHandle.EXTENSION_ID_PROP,
 					sourceDesign.getOdaExtensionId( ) );
 
 			if ( updateName )

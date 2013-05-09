@@ -215,7 +215,7 @@ public class BTree<K, V> implements BTreeConstants
 		return null;
 	}
 
-	LeafEntry<K, V> findEntry( K k ) throws IOException
+	protected LeafEntry<K, V> findEntry( K k ) throws IOException
 	{
 		if ( k == null && !allowNullKey )
 		{
@@ -250,7 +250,7 @@ public class BTree<K, V> implements BTreeConstants
 		throw new UnsupportedOperationException( "setEntryValue" );
 	}
 
-	LeafEntry<K, V> insertEntry( K k, V v ) throws IOException
+	protected LeafEntry<K, V> insertEntry( K k, V v ) throws IOException
 	{
 		BTreeValue<K> key = createKey( k );
 		@SuppressWarnings("unchecked")
@@ -755,7 +755,7 @@ public class BTree<K, V> implements BTreeConstants
 		return new BTreeValue<K>( key, keyBytes );
 	}
 
-	K getKey( BTreeValue<K> key ) throws IOException
+	protected K getKey( BTreeValue<K> key ) throws IOException
 	{
 		if ( key == NULL_KEY )
 		{
@@ -833,7 +833,7 @@ public class BTree<K, V> implements BTreeConstants
 		return new BTreeValue<K>( keyBytes );
 	}
 
-	V getValue( BTreeValue<V> value ) throws IOException
+	protected V getValue( BTreeValue<V> value ) throws IOException
 	{
 		V v = value.getValue( );
 		if ( v != null )

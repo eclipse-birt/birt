@@ -273,6 +273,11 @@ public class DataSessionContext
 		return moduleHandle;
 	}
 	
+	public void setModuleHandle( ModuleHandle moduleHandle )
+	{
+		this.moduleHandle = moduleHandle;
+	}
+	
 	/**
 	 * Sets the application context to be passed to data engine and data drivers
 	 * @param context - task contexts in a map. The map contains name(String) - value pairs

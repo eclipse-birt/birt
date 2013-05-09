@@ -1,4 +1,4 @@
-plugin@org.eclipse.birt.report.model=GIT,tag=v201301151658,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=model/org.eclipse.birt.report.model
+plugin@org.eclipse.birt.report.model=GIT,tag=v201302161616,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=model/org.eclipse.birt.report.model
 plugin@org.eclipse.birt.report.model.adapter.oda=GIT,tag=v201211261349,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=model/org.eclipse.birt.report.model.adapter.oda
 plugin@org.eclipse.birt.resources=GIT,tag=v201210111858,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=model/org.eclipse.birt.resources
 

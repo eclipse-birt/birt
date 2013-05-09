@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.page;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
@@ -100,7 +101,7 @@ public class ChartBindingPage extends BindingPage
 				{
 					isSharing = true;
 				}
-				boolean useCube = ( rih.getCube( ) != null );
+				boolean useCube = ( ChartReportItemHelper.instance( ).getBindingCubeHandle( rih ) != null );
 				return !isSharing
 						&&(!useCube)
 						&& !ChartItemUtil.isChartInheritGroups( rih )

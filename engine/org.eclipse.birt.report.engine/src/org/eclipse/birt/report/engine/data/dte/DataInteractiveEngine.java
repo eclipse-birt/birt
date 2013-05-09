@@ -149,8 +149,8 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			String pId = info[0];
 			String qId = info[2];
 			String rsId = info[3];
-			if ( queryId.equals( qId )
-					&& rsetId.equals( rsId ) && equals(parendId, pId) )
+			if ( queryId.equals( qId ) && equals( rsetId, rsId )
+					&& equals( parendId, pId ) )
 			{
 				iter.remove( );
 			}

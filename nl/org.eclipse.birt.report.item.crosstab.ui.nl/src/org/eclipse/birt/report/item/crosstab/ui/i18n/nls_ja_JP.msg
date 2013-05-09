@@ -44,6 +44,8 @@ CreateMeasureViewCommand.TransName=メジャーの作成
 MergeCrosstabHeaderCellAction_name=ヘッダセルの結合(&M)
 SplitCrosstabHeadCellAction_name=ヘッダセルの分割(&S)
 
+ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################

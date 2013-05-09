@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.QueryDefinitionUtil;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
@@ -45,7 +46,11 @@ import org.eclipse.birt.data.engine.impl.document.util.IExprResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
+import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
+import org.eclipse.birt.data.engine.impl.index.IOrderedIntSet;
 import org.eclipse.birt.data.engine.odi.IResultClass;
+import org.eclipse.birt.data.engine.storage.DataSetStore;
+import org.eclipse.birt.data.engine.storage.IDataSetReader;
 
 /**
  * Load data from input stream.
@@ -228,11 +233,22 @@ public class RDLoad
 	 */
 	public IResultClass loadResultClass( ) throws DataException
 	{
+		return loadResultClass( false );
+	}
+	
+	public IResultClass loadResultClass( boolean includeInnerID ) throws DataException
+	{
+		
+		if( !streamManager.hasInStream( DataEngineContext.DATASET_META_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE ) )
+			return null;
+		
 		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_META_STREAM,
-					StreamManager.ROOT_STREAM,
-					StreamManager.BASE_SCOPE );
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
-		IResultClass resultClass = new ResultClass( buffStream, version );
+		IResultClass resultClass = new ResultClass( buffStream, version, includeInnerID );
 		try
 		{
 			buffStream.close( );
@@ -244,66 +260,115 @@ public class RDLoad
 					e,
 					"Result Class" );
 		}
-
 		return resultClass;
 	}
 	
-	/**
-	 * @return
-	 * @throws DataException
-	 */
-	public DataSetResultSet loadDataSetData( Set<Integer> preFilteredRowIds, Map<String, StringTable> stringTableMap, Map index ) throws DataException
+	public IDataSetResultSet loadDataSetData( IOrderedIntSet preFilteredRowIds,
+			Map<String, StringTable> stringTableMap, Map index )
+			throws DataException
 	{
-		if( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
-					StreamManager.ROOT_STREAM,
-					StreamManager.BASE_SCOPE ) )
-				return null;
-		RAInputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM,
-					StreamManager.ROOT_STREAM,
-					StreamManager.BASE_SCOPE );	
-
-		RAInputStream lensStream = null;
-		if( version >= VersionManager.VERSION_2_2_1_3 )
-			lensStream = streamManager.getInStream( DataEngineContext.DATASET_DATA_LEN_STREAM,
-				StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE );
-		
-		int adjustedVersion = resolveVersionConflict( );
-		
-		DataSetResultSet populator = new DataSetResultSet( stream, lensStream, 
-				this.loadResultClass( ), preFilteredRowIds, stringTableMap, index, adjustedVersion );
-
-		return populator;
+		return loadDataSetData( preFilteredRowIds, stringTableMap, index, new HashMap() );
 	}
 	
 	/**
-	 * Load data set with assignment of inner id.
 	 * @return
 	 * @throws DataException
 	 */
-	public DataSetResultSet loadDataSetData( Set<Integer> preFilteredRowIds, Map<String, StringTable> stringTableMap, Map index, boolean includeInnerID ) throws DataException
+	public IDataSetResultSet loadDataSetData( IOrderedIntSet preFilteredRowIds,
+			Map<String, StringTable> stringTableMap, Map index, Map appContext )
+			throws DataException
 	{
-		if( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
+		return loadDataSetData( preFilteredRowIds,
+				stringTableMap,
+				index,
+				true,
+				appContext );
+	}
+
+	/**
+	 * Load data set with assignment of inner id.
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	public IDataSetResultSet loadDataSetData( IOrderedIntSet preFilteredRowIds,
+			Map<String, StringTable> stringTableMap, Map index,
+			boolean includeInnerID, Map appContext ) throws DataException
+	{
+		return loadDataSetData( null,
+				preFilteredRowIds,
+				stringTableMap,
+				index,
+				includeInnerID,
+				appContext );
+	}
+	
+	public IDataSetResultSet loadDataSetData( IResultClass targetResultClass,
+			IOrderedIntSet preFilteredRowIds,
+			Map<String, StringTable> stringTableMap, Map index,
+			boolean includeInnerID, Map appContext ) throws DataException
+	{
+		boolean loadResultClass = false;
+		if ( targetResultClass == null )
+		{
+			targetResultClass = this.loadResultClass( includeInnerID );
+			loadResultClass = true;
+		}
+
+		// TODO Pass in filter rowIds as sorted list.
+		IDataSetReader reader = DataSetStore.createReader( streamManager,
+				targetResultClass,
+				appContext );
+		if ( reader != null )
+			return reader.load( preFilteredRowIds == null
+					? null
+					: preFilteredRowIds );
+
+		if ( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE ) )
 			return null;
+		
 		RAInputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE );
-	
+
 		RAInputStream lensStream = null;
-		if( version >= VersionManager.VERSION_2_2_1_3 )
+		if ( version >= VersionManager.VERSION_2_2_1_3 )
 			lensStream = streamManager.getInStream( DataEngineContext.DATASET_DATA_LEN_STREAM,
-				StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE );
-		
+					StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE );
+
 		int adjustedVersion = resolveVersionConflict( );
 		
-		DataSetResultSet populator = new DataSetResultSet( stream, lensStream, 
-				this.loadResultClass( ), preFilteredRowIds, stringTableMap, index, adjustedVersion, includeInnerID );
+		if ( loadResultClass && includeInnerID )
+		{
+			List<ResultFieldMetadata> fields = new ArrayList<ResultFieldMetadata>( targetResultClass.getFieldCount( ) - 1 );
+			for ( int i = 1; i <= targetResultClass.getFieldCount( ); i++ )
+			{
+				ResultFieldMetadata f = targetResultClass.getFieldMetaData( i );
+				if ( f.getName( ).equals( ExprMetaUtil.POS_NAME ) )
+					continue;
+				fields.add( f );
+			}
 
-		return populator;
+			targetResultClass = new ResultClass( fields );
+		}
+		else
+		{
+			targetResultClass = this.loadResultClass();
+		}
+		
+		return new DataSetResultSet( stream,
+				lensStream,
+				targetResultClass,
+				preFilteredRowIds,
+				stringTableMap,
+				index,
+				adjustedVersion,
+				includeInnerID );
 	}
+	
 	
 	private int resolveVersionConflict( )
 	{
@@ -313,7 +378,6 @@ public class RDLoad
 		else
 			return version;
 	}
-
 	/**
 	 * @param streamPos
 	 * @param streamScope

@@ -2,10 +2,10 @@
 feature@org.eclipse.birt.sdk=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.sdk.feature
 plugin@org.eclipse.birt.sdk=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=build/org.eclipse.birt.sdk
 
-feature@org.eclipse.birt=GIT,tag=v201301281649,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.feature
+feature@org.eclipse.birt=GIT,tag=v201303191541,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.feature
 plugin@org.eclipse.birt=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=build/org.eclipse.birt
 
-feature@org.eclipse.birt.osgi.runtime=GIT,tag=v201301281649,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.osgi.runtime
+feature@org.eclipse.birt.osgi.runtime=GIT,tag=v201303191541,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.osgi.runtime
 feature@org.eclipse.birt.osgi.runtime.sdk=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.osgi.runtime.sdk
 
 feature@org.eclipse.birt.chart.osgi.runtime=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.chart.osgi.runtime

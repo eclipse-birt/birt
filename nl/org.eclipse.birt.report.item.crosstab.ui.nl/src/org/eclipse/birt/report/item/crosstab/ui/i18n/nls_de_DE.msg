@@ -44,6 +44,8 @@ CreateMeasureViewCommand.TransName=Maﬂeinheit erstellen
 MergeCrosstabHeaderCellAction_name=&Kopfzeilen verbinden
 SplitCrosstabHeadCellAction_name=Kopfzeile &teilen
 
+ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################

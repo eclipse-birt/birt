@@ -2413,6 +2413,7 @@ Element.DataMartCube=数据对象多维数据集
 Element.TimeDimension=时间维
 Element.ReportItemTheme=报表项布景主题
 Element.AbstractTheme=抽象布景主题
+Element.DataMartLinkedDataModel=Data Object Linked Data Set
 
 ###########################################################
 # Element property names
@@ -3465,6 +3466,10 @@ Element.DataMartCube.dataObject=数据对象
 Element.TimeDimension.startTimePoint=开始时间
 Element.TimeDimension.endTimePoint=结束时间
 Element.TimeDimension.hierarchies=层次结构
+
+#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
+Element.DataMartLinkedDataModel.dataSource=数据源
+Element.DataMartLinkedDataModel.dataObject=数据对象
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=样式

@@ -131,10 +131,12 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 	IDataQueryDefinition createQuery( ExtendedItemHandle handle,
 			IDataQueryDefinition parent ) throws BirtException
 	{
+		
 		IModelAdapter modelAdapter = context.getDataRequestSession( )
 				.getModelAdaptor( );
-		if ( handle.getDataSet( ) != null
-				|| ( handle.getCube( ) == null && parent instanceof IBaseQueryDefinition ) )
+		if ( ChartReportItemHelper.instance( ).getBindingDataSetHandle( handle ) != null
+				|| ( ChartReportItemHelper.instance( )
+						.getBindingCubeHandle( handle ) == null && parent instanceof IBaseQueryDefinition ) )
 		{
 			// If chart is sharing query or in multiple view, it means chart
 			// shares
@@ -170,7 +172,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 
 			return new ChartBaseQueryHelper( handle, cm, modelAdapter ).createBaseQuery( parent );
 		}
-		else if ( handle.getCube( ) != null
+		else if ( ChartReportItemHelper.instance( )
+				.getBindingCubeHandle( handle ) != null
 				|| parent instanceof ICubeQueryDefinition )
 		{
 			// Fixed ED 28

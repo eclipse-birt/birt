@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -95,10 +96,20 @@ public class TableGridProcessor extends AbstractElementProcessor
 						DataSetHandle dataSet = SessionHandleAdapter.getInstance( )
 								.getReportDesignHandle( )
 								.findDataSet( data[2].toString( ) );
+						boolean isExtendedDataModel = false;
+						if (dataSet == null)
+						{
+							// handle special case for extended data model
+							( (ReportItemHandle) handle ).setDataSet( null );
+							isExtendedDataModel = new LinkedDataSetAdapter().setLinkedDataModel( (ReportItemHandle) handle, data[2].toString( ) );
+						}
 						( (ReportItemHandle) handle ).setDataSet( dataSet );
 						DataSetColumnBindingsFormHandleProvider provider = new DataSetColumnBindingsFormHandleProvider( );
 						provider.setBindingObject( (ReportItemHandle) handle );
-						provider.generateAllBindingColumns( );
+						if (!isExtendedDataModel)
+						{
+							provider.generateAllBindingColumns( );
+						}
 					}
 					catch ( Exception e )
 					{

@@ -215,9 +215,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 		if ( dataSetInterceptor != null )
 		{
 			dataSetInterceptor.preDefineDataSet( sessionContext,
-					dataEngine.getDataSourceDesign( design.getDataSourceName( )),
+					dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
 					design,
-					getDataSessionContext().getModuleHandle() );
+					null );
 		}
 		dataEngine.defineDataSet( design );
 	}
@@ -705,6 +705,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		if ( cubeInterceptor == null || cubeInterceptor.needDefineCube( ))
 		{
+			if( ! (cubeHandle instanceof TabularCubeHandle) )
+				return;
 			Set involvedDataSets = getInvolvedDataSets((TabularCubeHandle)cubeHandle);
 			Iterator itr = involvedDataSets.iterator( );
 			while (itr.hasNext( ))
@@ -1909,7 +1911,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				{
 				  public URI run()
 				  {
-				    return new File(handle.getResourceFolder()).toURI();
+				    return new File( handle.getModule( ).getSession( ).getResourceFolder( ) ).toURI( );
 				  }
 				});
 
@@ -2074,6 +2076,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 				}
 			}
 			DefineDataSourceSetUtil.defineDataSourceAndDataSet( handle, dataEngine, this.modelAdaptor, null );
+			
+			DefineDataSourceSetUtil.prepareForTransientQuery( sessionContext,
+					dataEngine,
+					handle,
+					queryDefn );
 		}
 	}
 

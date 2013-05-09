@@ -37,7 +37,7 @@ import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 public class DataSetFromOriginalCube implements IDataSet4Aggregation
 {
 	
-	private IFactTableRowIterator factTableRowIterator;
+	protected IFactTableRowIterator factTableRowIterator;
 	
 	//All the dimensions, dimIndex and levelIndex are got from it
 	private IDimensionResultIterator[] dimensionResultIterators;

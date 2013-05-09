@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -830,15 +831,27 @@ public class BindingPage extends Composite implements Listener
 			{
 				getReportItemHandle( ).setDataBindingReference( null );
 			}
-
-			getReportItemHandle( ).setDataSet( dataSet );
+			boolean isExtendedDataModel = false;
+			if (dataSet == null && value != null)
+			{
+				getReportItemHandle( ).setDataSet( null );
+				isExtendedDataModel = new LinkedDataSetAdapter().setLinkedDataModel( getReportItemHandle( ), value.toString( ) );
+			}
+			else
+			{
+				new LinkedDataSetAdapter().setLinkedDataModel( getReportItemHandle( ), null );
+				getReportItemHandle( ).setDataSet( dataSet );
+			}
 			if ( clearHistory )
 			{
 				getReportItemHandle( ).getColumnBindings( ).clearValue( );
 				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
 						.clearValue( );
 			}
-			columnBindingsFormPage.generateAllBindingColumns( );
+			if(!isExtendedDataModel)
+			{
+				columnBindingsFormPage.generateAllBindingColumns( );
+			}
 
 			commit( );
 		}

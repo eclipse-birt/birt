@@ -54,6 +54,7 @@ import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
+import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IAggrInfo;
@@ -67,6 +68,9 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.JSResultSetRow;
 import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
+import org.eclipse.birt.data.engine.storage.DataSetStore;
+import org.eclipse.birt.data.engine.storage.IDataSetWriter;
+
 
 /**
  * A Result Set that directly fetch data from ODA w/o using any cache.
@@ -92,6 +96,10 @@ public class SimpleResultSet implements IResultIterator
 	private IProgressiveAggregationHelper aggrHelper;
 	private boolean isClosed;
 	private ICloseable closeable;
+
+	private IDataSetWriter writer;
+	private List<IAuxiliaryIndexCreator> auxiliaryIndexCreators;
+
 	private boolean forceLookForward;
 	private BaseQuery dataSourceQuery;
 	private DataEngineSession session;
@@ -101,6 +109,7 @@ public class SimpleResultSet implements IResultIterator
 	
 	//TODO: refactor me. Add this for emergence -- release.
 	private boolean isFirstNextCall = true;
+
 	
 	/**
 	 * 
@@ -163,6 +172,7 @@ public class SimpleResultSet implements IResultIterator
 				groupSpecs,
 				session,
 				forceLookingForward );
+
 	}
 
 	public SimpleResultSet( CandidateQuery dataSourceQuery,
@@ -210,7 +220,7 @@ public class SimpleResultSet implements IResultIterator
 
 		populateComputedColumnHelper( baseQuery );
 		populateRowResultSet( handler, scRequest, needLookForward );
-		populateDataSetColumns( handler, this.query, resultMetadata );
+		populateDataSetColumns( handler, this.query, resultMetadata, groupSpecs, forceLookingForward );
 		populateAggregationHelper( handler, session, groupSpecs, needLookForward );
 		populateGroupCalculator( groupSpecs,
 				needLookForward,
@@ -264,7 +274,7 @@ public class SimpleResultSet implements IResultIterator
 
 	@SuppressWarnings("unchecked")
 	private void populateDataSetColumns( IEventHandler handler,
-			IBaseQueryDefinition query, IResultClass resultClass )
+			IBaseQueryDefinition query, IResultClass resultClass, GroupSpec[] groupSpecs, boolean forceLookingForward )
 			throws DataException
 	{
 		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
@@ -346,6 +356,13 @@ public class SimpleResultSet implements IResultIterator
 			this.closeable.close( );
 			this.closeable = null;
 		}
+		
+		if( this.writer!= null )
+		{
+			this.writer.close( );
+			this.writer = null;
+		}
+		
 		this.groupCalculator.close( );
 		
 		if ( this.dataSetStream != null )
@@ -394,6 +411,7 @@ public class SimpleResultSet implements IResultIterator
 
 					exprValueStream.close( );
 				}
+				
 				dataSetStream.close( );
 				dataSetStream = null;
 			}
@@ -414,6 +432,15 @@ public class SimpleResultSet implements IResultIterator
 			}
 			dataSetLenStream = null;
 		}
+
+		if ( auxiliaryIndexCreators != null )
+		{
+			for ( IAuxiliaryIndexCreator creator : auxiliaryIndexCreators )
+			{
+				creator.close( );
+			}
+		}
+
 		this.rowResultSet = null;
 		this.ccHelper = null;
 		this.aggrHelper = null;
@@ -424,6 +451,7 @@ public class SimpleResultSet implements IResultIterator
 		this.resultSetNameSet.clear( );
 		if ( onFetchEvents != null )
 			onFetchEvents.clear( );
+
 		this.isClosed = true;
 	}
 	
@@ -431,32 +459,43 @@ public class SimpleResultSet implements IResultIterator
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#addIncrement(org.eclipse.birt.data.engine.impl.document.StreamWrapper, int, boolean)
 	 */
-	public void incrementalUpdate(StreamWrapper streamsWrapper, int originalRowCount,
-			boolean isSubQuery) throws DataException
+	public void incrementalUpdate( StreamWrapper streamsWrapper,
+			int originalRowCount, boolean isSubQuery ) throws DataException
 	{
 		this.streamsWrapper = streamsWrapper;
-
+		this.auxiliaryIndexCreators = streamsWrapper.getAuxiliaryIndexCreators( );
+		
 		try
 		{
-			dataSetStream = this.streamsWrapper.getStreamManager( )
+			writer = DataSetStore.createUpdater( this.streamsWrapper.getStreamManager( ),
+					getResultClass( ),
+					handler.getAppContext( ),
+					this.session,
+					auxiliaryIndexCreators );
+
+			if ( writer == null )
+			{
+				dataSetStream = this.streamsWrapper.getStreamManager( )
 						.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
-							StreamManager.ROOT_STREAM,
-							StreamManager.SELF_SCOPE );
-			OutputStream dlenStream = this.streamsWrapper.getStreamManager( )
+								StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE );
+				OutputStream dlenStream = this.streamsWrapper.getStreamManager( )
 						.getOutStream( DataEngineContext.DATASET_DATA_LEN_STREAM,
-							StreamManager.ROOT_STREAM,
-							StreamManager.SELF_SCOPE );
-			if ( dataSetStream instanceof RAOutputStream )
-			{
-				rowCountOffset = ( (RAOutputStream) dataSetStream ).getOffset( );
-				( (RAOutputStream) dataSetStream ).seek( ( (RAOutputStream) dataSetStream ).length( ) );
-				offset = ( (RAOutputStream) dataSetStream ).getOffset( );
+								StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE );
+				if ( dataSetStream instanceof RAOutputStream )
+				{
+					rowCountOffset = ( (RAOutputStream) dataSetStream ).getOffset( );
+					( (RAOutputStream) dataSetStream ).seek( ( (RAOutputStream) dataSetStream ).length( ) );
+					offset = ( (RAOutputStream) dataSetStream ).getOffset( );
+				}
+				if ( dlenStream instanceof RAOutputStream )
+				{
+					( (RAOutputStream) dlenStream ).seek( ( (RAOutputStream) dlenStream ).length( ) );
+				}
+				dataSetLenStream = new DataOutputStream( dlenStream );
 			}
-			if ( dlenStream instanceof RAOutputStream )
-			{
-				( (RAOutputStream) dlenStream ).seek( ( (RAOutputStream) dlenStream ).length( ) );
-			}
-			dataSetLenStream = new DataOutputStream( dlenStream );
+			
 			this.rowCount += originalRowCount;
 		}
 		catch ( IOException e )
@@ -474,8 +513,13 @@ public class SimpleResultSet implements IResultIterator
 			throws DataException
 	{
 		this.streamsWrapper = streamsWrapper;
+		this.auxiliaryIndexCreators = streamsWrapper.getAuxiliaryIndexCreators( );
 		this.groupCalculator.doSave( streamsWrapper.getStreamManager( ) );
-		
+		this.writer = DataSetStore.createWriter( streamsWrapper.getStreamManager( ),
+				getResultClass( ),
+				handler.getAppContext( ),
+				this.session,
+				auxiliaryIndexCreators );
 		try
 		{
 			if ( streamsWrapper.getStreamForResultClass( ) != null )
@@ -486,14 +530,27 @@ public class SimpleResultSet implements IResultIterator
 						streamsWrapper.getStreamManager( ).getVersion( ) );
 				streamsWrapper.getStreamForResultClass( ).close( );
 			}
-			dataSetStream = this.streamsWrapper.getStreamManager( )
-					.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
-							StreamManager.ROOT_STREAM,
-							StreamManager.SELF_SCOPE );
-			dataSetLenStream = streamsWrapper.getStreamForDataSetRowLens( );
-			if ( dataSetStream instanceof RAOutputStream )
-				rowCountOffset = ( (RAOutputStream) dataSetStream ).getOffset( );
-			IOUtil.writeInt( dataSetStream, this.initialRowCount );
+
+			if ( writer == null )
+			{
+				dataSetStream = this.streamsWrapper.getStreamManager( )
+						.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
+								StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE );
+				dataSetLenStream = streamsWrapper.getStreamForDataSetRowLens( );
+				if ( dataSetStream instanceof RAOutputStream )
+					rowCountOffset = ( (RAOutputStream) dataSetStream ).getOffset( );
+				IOUtil.writeInt( dataSetStream, this.initialRowCount );
+
+				if ( auxiliaryIndexCreators != null )
+				{
+					for ( IAuxiliaryIndexCreator aIndex : this.auxiliaryIndexCreators )
+					{
+						aIndex.initialize( this.resultClass,
+								this.getExecutorHelper( ).getScriptable( ) );
+					}
+				}
+			}
 		}
 		catch ( IOException e )
 		{
@@ -718,7 +775,11 @@ public class SimpleResultSet implements IResultIterator
 		{
 			try
 			{
-				if ( dataSetStream != null )
+				if ( writer != null )
+				{
+					writer.save( currResultObj, rowCount - 1 );
+				}
+				else if ( dataSetStream != null )
 				{
 					int colCount = this.populateResultClass( rs.getResultClass( ) )
 							.getFieldCount( );
@@ -729,9 +790,16 @@ public class SimpleResultSet implements IResultIterator
 							colCount,
 							resultSetNameSet,
 							streamsWrapper.getOutputStringTable( getResultClass( ) ),
-							streamsWrapper.getStreamForIndex( getResultClass( ),
-									handler.getAppContext( ) ),
-							index, streamsWrapper.getStreamManager( ).getVersion( ) );
+							streamsWrapper.getStreamForIndex( getResultClass( ), handler.getAppContext( ) ),
+							this.rowCount-1, streamsWrapper.getStreamManager( ).getVersion( ) );
+
+					if ( auxiliaryIndexCreators != null )
+					{
+						for ( IAuxiliaryIndexCreator creator : auxiliaryIndexCreators )
+						{
+							creator.save( currResultObj, this.rowCount - 1 );
+						}
+					}
 				}
 			}
 			catch ( IOException e )

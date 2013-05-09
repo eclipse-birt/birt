@@ -1113,5 +1113,20 @@ Specify the properties of the relative time period measure. Cross tabs support r
 </description>
 <topic href="/com.actuate.birt.doc/actuatebirt/rtp-HowToAggregateDataBRTP.html" label="How to aggregate data by a relative time period"/>
 </context>
+<context id="Wizard_POJO_Dataset_Props_ID" title="Data Set - POJO">
+   <description>In POJO Data Set Class Name, specify the POJO class that retrieves the data at run time. Choose Browse to find and select the class. In Application Context Key, use the default key or delete it. This property is optional.</description>
+</context>
+<context id="Dialog_POJO_Dataset_ColumnMapping_ID" title="Column Mapping">
+   <description>Edit the column mapping information or use the current values.</description>
+</context>
+<context id="Wizard_DataSourcePropertyBinding(org_eclipse_birt_data_oda_pojo)_ID" title="Data Source - POJO Data Source - Property Binding">
+   <description>Use this page to define the run-time attributes of a POJO data source. Values that you set on this page override the values defined on the other pages of Edit Data Source. 
+* Shared Location of Custom POJO Data Set Classes: Type an expression for the location of the JAR file that contains the POJO classes to use as the data source. 
+* Connection Profile Name: Type an expression for the name of the connection profile. 
+* Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.</description>
+</context>
+<context id="Dialog_POJO_Dataset_ClassInput_ID" title="Choose Class">
+   <description>Search for and select the POJO class that retrieves the data at run time.</description>
+</context>
 
 </contexts>

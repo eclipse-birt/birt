@@ -446,3 +446,4 @@ data.datamart.collation=이전 제품에서는 정렬을 설정했더라도 데이터 개체 인덱스에
 
 
 data.filter.pushDownFail= ODA 확장 측에서만 지원되는 필터를 아래로 밀어내지 못했습니다.
+data.query.exprReferInvalidColumn=Cannot execute query because: the query contains an invalid expression which references an invalid dataset column "{0}".

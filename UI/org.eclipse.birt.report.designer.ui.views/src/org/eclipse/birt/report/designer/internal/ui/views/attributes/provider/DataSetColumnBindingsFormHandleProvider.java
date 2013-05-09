@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -507,8 +508,15 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			{
 				try
 				{
-					CachedMetaDataHandle cmdh = DataSetUIUtil.getCachedMetaDataHandle( datasetHandle );
-					for ( Iterator iter = cmdh.getResultSet( ).iterator( ); iter.hasNext( ); )
+					
+					Iterator iter = getLinkedDataSetColumnIterator(datasetHandle);
+					if(iter == null)
+					{
+						CachedMetaDataHandle cmdh = DataSetUIUtil.getCachedMetaDataHandle( datasetHandle );
+						iter = cmdh.getResultSet( ).iterator( );
+					}
+					
+					for ( ; iter.hasNext( ); )
 					{
 						ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
 						ComputedColumn bindingColumn = StructureFactory.newComputedColumn( bindingObject,
@@ -555,6 +563,18 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				}
 			}
 		}
+	}
+	
+	private Iterator getLinkedDataSetColumnIterator(DataSetHandle datasetHandle)
+	{
+		IDataSetColumnBindingsFormHandleProviderHelper helper = (IDataSetColumnBindingsFormHandleProviderHelper) ElementAdapterManager.getAdapter( this,
+				IDataSetColumnBindingsFormHandleProviderHelper.class );
+		if(helper != null)
+		{
+			return helper.getResultSetIterator(datasetHandle);
+		}
+		
+		return null;
 	}
 
 	public void clearAllBindingColumns( )

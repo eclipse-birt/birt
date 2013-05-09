@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * 
  */
-class GroupBindingColumn
+public class GroupBindingColumn
 {
 	//
 	private int groupLevel;
@@ -35,7 +35,7 @@ class GroupBindingColumn
 	 * @param bindings
 	 * @param groupLevel
 	 */
-	GroupBindingColumn( String groupKey, int groupLevel, Map bindings )
+	public GroupBindingColumn( String groupKey, int groupLevel, Map bindings )
 	{
 		Object[] params = {
 				groupKey, Integer.valueOf( groupLevel ), bindings
@@ -64,7 +64,7 @@ class GroupBindingColumn
 	 * 
 	 * @return
 	 */
-	int getGroupLevel()
+	public int getGroupLevel()
 	{
 		return this.groupLevel;
 	}
@@ -73,7 +73,7 @@ class GroupBindingColumn
 	 * 
 	 * @return
 	 */
-	Set getColumnNames()
+	public Set getColumnNames()
 	{
 		return this.bindings.keySet( );
 	}
@@ -84,7 +84,7 @@ class GroupBindingColumn
 	 * @return
 	 * @throws DataException 
 	 */
-	IBaseExpression getExpression( String name ) throws DataException
+	public IBaseExpression getExpression( String name ) throws DataException
 	{
 		if ( this.bindings.containsKey( name ))
 			return ((IBinding) this.bindings.get( name )).getExpression( );
@@ -92,7 +92,7 @@ class GroupBindingColumn
 			return null;
 	}
 	
-	IBinding getBinding( String name ) throws DataException
+	public IBinding getBinding( String name ) throws DataException
 	{
 		if ( this.bindings.containsKey( name ))
 			return ((IBinding) this.bindings.get( name ));

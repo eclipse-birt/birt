@@ -16,11 +16,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.render.IActionRenderer;
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -216,6 +218,7 @@ public class ChartExpressionProvider extends ExpressionProvider
 		return super.getDisplayText( element );
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected Iterator<ComputedColumnHandle> getColumnBindings(
 			ReportItemHandle handle )
@@ -265,5 +268,21 @@ public class ChartExpressionProvider extends ExpressionProvider
 					itemText, parent
 			} );
 		}
+	}
+	
+	@Override
+	public String getInsertText( Object element )
+	{
+		if ( element instanceof ComputedColumnHandle
+				&& ChartReportItemHelper.instance( )
+						.getBindingDataSetHandle( (ReportItemHandle) elementHandle ) != null )
+		{
+			return ChartExpressionUtil.createBindingExpression( ((ComputedColumnHandle)element).getName( ), false );
+		}
+		else
+		{
+			return super.getInsertText( element );
+		}
+				
 	}
 }

@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.impl.document.RDLoadUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
+import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
 
 /**
  * Read the data of expression and meantime provide the group related service.
@@ -53,7 +54,7 @@ public class ExprResultSet implements IExprResultSet
 
 	protected StreamManager streamManager;
 	
-	protected DataSetResultSet dataSetResultSet;
+	protected IDataSetResultSet dataSetResultSet;
 	
 	protected String tempDir;
 	
@@ -70,7 +71,7 @@ public class ExprResultSet implements IExprResultSet
 	 * @throws DataException
 	 */
 	public ExprResultSet( String tempDir, StreamManager streamManager, int version,
-			boolean isBasedOnSecondRD,  DataSetResultSet dataSetResultSet, int rowIdStartingIndex,
+			boolean isBasedOnSecondRD,  IDataSetResultSet dataSetResultSet, int rowIdStartingIndex,
 			IBaseQueryDefinition qd ) throws DataException
 	{
 		this.tempDir = tempDir;
@@ -89,7 +90,7 @@ public class ExprResultSet implements IExprResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#getDataSetResultSet()
 	 */
-	public DataSetResultSet getDataSetResultSet()
+	public IDataSetResultSet getDataSetResultSet()
 	{
 		return this.dataSetResultSet;
 	}

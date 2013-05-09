@@ -44,6 +44,8 @@ CreateMeasureViewCommand.TransName=创建度量
 MergeCrosstabHeaderCellAction_name=合并标题单元格(&M)
 SplitCrosstabHeadCellAction_name=拆分标题单元格(&S)
 
+ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################

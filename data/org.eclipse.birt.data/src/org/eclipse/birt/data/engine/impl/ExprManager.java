@@ -159,7 +159,7 @@ public class ExprManager
 	 * TODO: remove me
 	 * @return
 	 */
-	List getBindingExprs( )
+	public List getBindingExprs( )
 	{
 		return this.bindingExprs;
 	}
@@ -168,7 +168,7 @@ public class ExprManager
 	 * TODO: remove me
 	 * @return
 	 */
-	Map getAutoBindingExprMap( )
+	public Map getAutoBindingExprMap( )
 	{
 		return this.autoBindingExprMap;
 	}

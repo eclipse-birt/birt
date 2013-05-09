@@ -446,3 +446,4 @@ data.datamart.collation=在以前的产品中，即使设置了整理操作，也不将其用于数据对象
 
 
 data.filter.pushDownFail= 下推仅支持 ODA 扩展端的筛选器失败。
+data.query.exprReferInvalidColumn=Cannot execute query because: the query contains an invalid expression which references an invalid dataset column "{0}".

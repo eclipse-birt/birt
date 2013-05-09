@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StringTable;
+import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -424,8 +425,11 @@ public class DiskCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
-	public void doSave( DataOutputStream outputStream, DataOutputStream rowLensStream, 
-			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap, int version )
+	public void doSave( DataOutputStream outputStream,
+			DataOutputStream rowLensStream,
+			Map<String, StringTable> stringTable,
+			Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
+			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
 			throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
@@ -451,6 +455,13 @@ public class DiskCache implements ResultSetCache
 						ro,
 						colCount,
 						resultSetNameSet, stringTable, map, i, version );
+				if ( auxiliaryIndexCreators != null )
+				{
+					for ( IAuxiliaryIndexCreator creator : auxiliaryIndexCreators )
+					{
+						creator.save( ro, i );
+					}
+				}
 			}
 			
 			this.reset( );
@@ -466,8 +477,11 @@ public class DiskCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
-	public void incrementalUpdate( OutputStream outputStream, OutputStream rowLensStream, int originalRowCount, 
-			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap, int version )
+	public void incrementalUpdate( OutputStream outputStream,
+			OutputStream rowLensStream, int originalRowCount,
+			Map<String, StringTable> stringTable,
+			Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
+			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
 			throws DataException
 	{
 		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( cacheRequestMap );
@@ -492,10 +506,18 @@ public class DiskCache implements ResultSetCache
 			for ( int i = 0; i < rowCount - originalRowCount; i++ )
 			{
 				IOUtil.writeLong( rlos, offset );
+				IResultObject ro = this.diskBasedResultSet.nextRow( );
 				offset += ResultSetUtil.writeResultObject( dos,
-						this.diskBasedResultSet.nextRow( ),
+						ro,
 						colCount,
 						resultSetNameSet, stringTable, map, i + originalRowCount, version );
+				if ( auxiliaryIndexCreators != null )
+				{
+					for ( IAuxiliaryIndexCreator creator : auxiliaryIndexCreators )
+					{
+						creator.save( ro, i + originalRowCount );
+					}
+				}
 			}
 			
 			this.reset( );

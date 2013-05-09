@@ -14,11 +14,8 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
@@ -28,7 +25,8 @@ import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StringTable;
-import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
+import org.eclipse.birt.data.engine.impl.index.IOrderedIntSet;
+import org.eclipse.birt.data.engine.impl.index.IOrderedIntSetIterator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -36,7 +34,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * The raw result set which will retrieve the raw data of data set from the
  * report document.
  */
-public class DataSetResultSet implements IDataSetPopulator
+public class DataSetResultSet implements IDataSetResultSet
 {
 	private int rowIndex;
 	private int rowCount;
@@ -54,10 +52,12 @@ public class DataSetResultSet implements IDataSetPopulator
 	private RAInputStream dataSetRowLensStream;
 	private DataInputStream disRowLensStream;
 	private long initPos;
-	private List<Integer> prefilteredRowIds;
+	private IOrderedIntSet prefilteredRowIds;
 	private Map index;
 	private Map<String, StringTable> stringTableMap;
 	private boolean includeInnerID = true;
+	private IOrderedIntSetIterator rowIdIterator;
+
 
 	/**
 	 * @param inputStream
@@ -65,7 +65,7 @@ public class DataSetResultSet implements IDataSetPopulator
 	 */
 	public DataSetResultSet( RAInputStream inputStream,
 			RAInputStream lensStream, IResultClass rsMetaData,
-			Set<Integer> prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version )
+			IOrderedIntSet prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version )
 			throws DataException
 	{
 		this( inputStream,
@@ -84,7 +84,7 @@ public class DataSetResultSet implements IDataSetPopulator
 	 */
 	public DataSetResultSet( RAInputStream inputStream,
 			RAInputStream lensStream, IResultClass rsMetaData,
-			Set<Integer> prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version, boolean includeInnerID )
+			IOrderedIntSet prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version, boolean includeInnerID )
 			throws DataException
 	{
 		assert inputStream != null;
@@ -112,13 +112,10 @@ public class DataSetResultSet implements IDataSetPopulator
 		// Notice we should use column count in original metadata
 		this.colCount = rsMetaData.getFieldCount( );
 
-		if ( prefilteredRows != null )
-		{
-			this.prefilteredRowIds = new LinkedList<Integer>( );
-			this.prefilteredRowIds.addAll( prefilteredRows );
-		}
-		if ( this.prefilteredRowIds != null )
-			Collections.sort( this.prefilteredRowIds );
+		this.prefilteredRowIds = prefilteredRows;
+		if( this.prefilteredRowIds != null )
+			this.rowIdIterator = this.prefilteredRowIds.iterator();
+		
 		this.index = index;
 		this.stringTableMap = stringTableMap;
 		this.initLoad( );
@@ -166,10 +163,9 @@ public class DataSetResultSet implements IDataSetPopulator
 	{
 		if ( this.prefilteredRowIds != null )
 		{
-			if ( this.prefilteredRowIds.isEmpty( ) )
+			if ( !this.rowIdIterator.hasNext() )
 				return null;
-			this.skipTo( this.prefilteredRowIds.get( 0 ) );
-			this.prefilteredRowIds.remove( 0 );
+			this.skipTo( this.rowIdIterator.next() );
 			return this.getResultObject( );
 		}
 

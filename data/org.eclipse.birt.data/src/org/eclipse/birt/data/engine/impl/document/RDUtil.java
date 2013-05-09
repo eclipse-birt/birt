@@ -43,7 +43,7 @@ public final class RDUtil
 	 * @param queryResultInfo
 	 * @return
 	 */
-	private static QueryResultInfo getRealQueryResultInfo(
+	public static QueryResultInfo getRealQueryResultInfo(
 			QueryResultInfo queryResultInfo )
 	{
 		String rootQueryResultID = null;

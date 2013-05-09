@@ -23,6 +23,9 @@ import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.util.CubeUtil;
 
 /**
  * Abstract report item class for all crosstab items.
@@ -125,6 +128,46 @@ public class AbstractCrosstabItemHandle extends ReportItem implements
 		return (CrosstabReportItemHandle) CrosstabUtil.getReportItem( getCrosstabHandle( ) );
 	}
 
+	/**
+	 * Find level handle by full name.
+	 * 
+	 * @param fullLevelName
+	 * @return
+	 */
+	public LevelHandle findLevelHandle( String fullLevelName )
+	{
+		if( fullLevelName == null )
+		{
+			return null;
+		}
+		
+		LevelHandle level = null;
+		CrosstabReportItemHandle crosstab = this.getCrosstab( );
+		if( crosstab != null && crosstab.getCube( ) != null )
+		{
+			String[] slices = CubeUtil.splitLevelName( fullLevelName );		
+			if( slices[0] != null &&  slices[1] != null )
+			{
+				DimensionHandle cubeDimension = crosstab.getCube( ).getDimension( slices[0] );
+				if( cubeDimension != null && cubeDimension.getDefaultHierarchy( ) != null )
+				{
+					 level = cubeDimension.getDefaultHierarchy( ).getLevel( slices[1] );
+				}				
+				
+				if( level == null && cubeDimension != null && cubeDimension.isTimeType( ) )
+				{
+					cubeDimension = crosstab.getCube( ).getDimension( slices[0], false );
+					if( cubeDimension != null && cubeDimension.getDefaultHierarchy( ) != null )
+					{
+						 level = cubeDimension.getDefaultHierarchy( ).getLevel( slices[1] );
+					}	
+				}
+			}
+		}
+		
+		return level;
+	}
+	
 	/**
 	 * Returns the container for current handle.
 	 * 

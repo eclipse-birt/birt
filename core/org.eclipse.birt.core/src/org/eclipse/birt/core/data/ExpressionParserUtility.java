@@ -117,7 +117,7 @@ public class ExpressionParserUtility
 		return util.hasAggregation;
 	}
 	
-	static boolean isDirectColumnRef( String expression, String indicator )
+	public static boolean isDirectColumnRef( String expression, String indicator )
 			throws BirtException
 	{
 		ExpressionParserUtility util = new ExpressionParserUtility();

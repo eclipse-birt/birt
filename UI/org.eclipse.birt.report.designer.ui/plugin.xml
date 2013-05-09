@@ -487,6 +487,9 @@
       <dropAdapter
             adapter="org.eclipse.birt.report.designer.internal.ui.VariableDropAdapter">
       </dropAdapter>
+       <dropAdapter
+            adapter="org.eclipse.birt.report.designer.internal.ui.TableDropAdapter">
+      </dropAdapter>
    </extension>
    <extension
          point="org.eclipse.birt.report.designer.ui.elementAdapters">

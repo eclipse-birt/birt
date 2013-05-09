@@ -899,12 +899,16 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			// info.setMeasure( reportHandle.getMeasure( i ).getCubeMeasure( )
 			// );
 			info.setViewHandle( reportHandle.getCrosstabView( axis ) );
-			info.setMeasureQualifiedName( reportHandle.getMeasure( i )
-					.getCubeMeasure( )
-					.getQualifiedName( ) );
-			info.setMeasureDisplayName( reportHandle.getMeasure( i )
-					.getCubeMeasure( )
-					.getName( ) );
+			if(reportHandle.getMeasure( i ).getCubeMeasure( ) != null)
+			{
+				info.setMeasureQualifiedName( reportHandle.getMeasure( i )
+						.getCubeMeasure( )
+						.getQualifiedName( ) );
+				
+				info.setMeasureDisplayName( reportHandle.getMeasure( i )
+						.getCubeMeasure( )
+						.getName( ) );
+			}
 
 			info.setFunction( CrosstabUtil.getDefaultMeasureAggregationFunction( reportHandle.getMeasure( i ) ) );
 			info.setExpectedView( "" ); //$NON-NLS-1$
@@ -926,10 +930,13 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			MeasureViewHandle measureViewHandle = (MeasureViewHandle) measures.get( i );
 			// info.setMeasure( measureViewHandle.getCubeMeasure( ) );
 			info.setViewHandle( reportHandle.getCrosstabView( axis ) );
-			info.setMeasureQualifiedName( measureViewHandle.getCubeMeasure( )
-					.getQualifiedName( ) );
-			info.setMeasureDisplayName( measureViewHandle.getCubeMeasure( )
-					.getName( ) );
+			if(measureViewHandle.getCubeMeasure( ) != null)
+			{
+				info.setMeasureQualifiedName( measureViewHandle.getCubeMeasure( )
+						.getQualifiedName( ) );
+				info.setMeasureDisplayName( measureViewHandle.getCubeMeasure( )
+						.getName( ) );
+			}
 
 			// info.setFunction( reportHandle.getAggregationFunction(
 			// viewHandle.getAxisType( ),

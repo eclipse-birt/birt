@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartInXTabStatusManager;
@@ -223,7 +224,9 @@ public class ChartAggregationCellViewProvider extends
 		cm.getLegend( ).setVisible( false );
 		cm.getTitle( ).setVisible( false );
 
-		String exprMeasure = ChartCubeUtil.generateComputedColumnName( cell );
+		String exprMeasure = ChartCubeUtil.generateComputedColumnName( cell,
+				ChartReportItemHelper.instance( )
+						.getMeasureExprIndicator( cell.getCrosstab( ).getCube( ) ) );
 		String exprCategory = null;
 
 		// Compute the correct chart direction according to xtab
@@ -308,7 +311,9 @@ public class ChartAggregationCellViewProvider extends
 			AggregationCellHandle cell )
 	{
 		// Replace the query expression in chart model
-		String exprMeasure = ChartCubeUtil.generateComputedColumnName( cell );
+		String exprMeasure = ChartCubeUtil.generateComputedColumnName( cell,
+				ChartReportItemHelper.instance( )
+						.getMeasureExprIndicator( cell.getCrosstab( ).getCube( ) ) );
 		String exprCategory = null;
 
 		if ( cm.isTransposed( ) )

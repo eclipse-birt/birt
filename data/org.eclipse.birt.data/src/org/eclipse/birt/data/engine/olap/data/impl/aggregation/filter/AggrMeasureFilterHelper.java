@@ -46,6 +46,7 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.filter.AggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.CubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.InvalidCubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.ValidCubePosFilter;
 import org.eclipse.birt.data.engine.script.FilterPassController;
@@ -59,10 +60,10 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
 public class AggrMeasureFilterHelper
 {
 
-	private Map dimMap = null;
-	private IAggregationResultSet[] resultSet;
+	protected Map dimMap = null;
+	protected IAggregationResultSet[] resultSet;
 	private CubeQueryExecutor executor;
-	private IBindingValueFetcher fetcher;
+	protected IBindingValueFetcher fetcher;
 
 	/**
 	 * 
@@ -81,7 +82,7 @@ public class AggrMeasureFilterHelper
 		this.resultSet = resultSet;
 	}
 
-	private List<String> getAggregationName( )
+	protected List<String> getAggregationName( )
 	{
 		List<String> aggregationName = new ArrayList<String>();
 		for( int i = 0; i < resultSet.length; i++ )
@@ -156,7 +157,7 @@ public class AggrMeasureFilterHelper
 				IDiskArray rowIndexArray = collectValidRowIndexArray( resultSet[i],
 						jsMeasureEvalFilterHelper,
 						aggregationNames );
-				CubePosFilter cubePosFilter = null;;
+				ICubePosFilter cubePosFilter = null;;
 				if ( rowIndexArray.size( ) <= resultSet[i].length( ) / 2 )
 				{// use valid position filter
 					cubePosFilter = getValidPosFilter( resultSet[i],
@@ -176,7 +177,7 @@ public class AggrMeasureFilterHelper
 		}
 		return cubePosFilterList;
 	}
-
+	
 	/**
 	 * to indicate whether the specified <code>resultSet</code> has
 	 * aggregation definition for any one of the <code>aggregationNames</code>.
@@ -186,7 +187,7 @@ public class AggrMeasureFilterHelper
 	 * @return
 	 * @throws IOException
 	 */
-	private boolean hasDefinition( IAggregationResultSet resultSet,
+	protected boolean hasDefinition( IAggregationResultSet resultSet,
 			String[] aggregationNames ) throws IOException
 	{
 		for ( int j = 0; j < aggregationNames.length; j++ )
@@ -219,7 +220,7 @@ public class AggrMeasureFilterHelper
 	 * @return
 	 * @throws DataException 
 	 */
-	private String[] populateAggregationNames( List<String> allAggrNames, List jsMeasureEvalFilterHelper ) throws DataException
+	protected String[] populateAggregationNames( List<String> allAggrNames, List jsMeasureEvalFilterHelper ) throws DataException
 	{
 		String[] aggregationNames = new String[jsMeasureEvalFilterHelper.size( )];
 		for ( int i = 0; i < aggregationNames.length; i++ )
@@ -278,7 +279,7 @@ public class AggrMeasureFilterHelper
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	private CubePosFilter getInvalidPosFilter( IAggregationResultSet resultSet,
+	protected ICubePosFilter getInvalidPosFilter( IAggregationResultSet resultSet,
 			IDiskArray rowIndexArray, String[] dimensionNames,
 			List[] levelListArray ) throws IOException, DataException
 	{
@@ -338,7 +339,7 @@ public class AggrMeasureFilterHelper
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	private CubePosFilter getValidPosFilter( IAggregationResultSet resultSet,
+	protected ICubePosFilter getValidPosFilter( IAggregationResultSet resultSet,
 			IDiskArray rowIndexArray, String[] dimensionNames,
 			List[] levelListArray ) throws IOException, DataException
 	{
@@ -553,7 +554,7 @@ public class AggrMeasureFilterHelper
 		return result;
 	}
 
-	private boolean isTopBottomNConditionalExpression( IBaseExpression expr )
+	protected boolean isTopBottomNConditionalExpression( IBaseExpression expr )
 	{
 		if( expr == null || ! (expr instanceof IConditionalExpression ))
 		{
@@ -576,7 +577,7 @@ public class AggrMeasureFilterHelper
 	 * @param resultSet
 	 * @return
 	 */
-	private Map populateLevelMap( IAggregationResultSet resultSet )
+	protected Map populateLevelMap( IAggregationResultSet resultSet )
 	{
 		final DimLevel[] dimLevels = resultSet.getAllLevels( );
 		Map levelMap = new HashMap( );

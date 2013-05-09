@@ -273,6 +273,15 @@ public class StreamManager
 		}
 	}
 	
+	public OutputStream getOutStream( int streamType, int streamPos,
+			int streamScope, String subName ) throws DataException
+	{
+		StreamID streamID = getStreamID( streamType, streamPos, streamScope );
+		return context.getOutputStream( streamID.getStartStream( ),
+				streamID.getSubQueryStream( ),
+				streamType, subName );
+	}
+	
 	
 	/**
 	 * @param streamType
@@ -294,6 +303,14 @@ public class StreamManager
 	{
 		StreamID streamID = getStreamID( streamType, streamPos, streamScope );
 		return createInputStream( streamID, streamType );
+	}
+	
+	public RAInputStream getInStream( int streamType, int streamPos, int streamScope, String subname ) throws DataException
+	{
+		StreamID streamID = getStreamID( streamType, streamPos, streamScope );
+		return (RAInputStream) context.getInputStream( streamID.getStartStream( ),
+				streamID.getSubQueryStream( ),
+				streamType, subname );
 	}
 	
 	/**
@@ -464,6 +481,14 @@ public class StreamManager
 				streamType );
 	}
 	
+	public boolean hasInStream( int streamType, int streamPos, int streamScope, String subname ) throws DataException
+	{
+		StreamID streamID = getStreamID( streamType, streamPos, streamScope );
+		return context.hasInStream( streamID.getStartStream( ),
+				streamID.getSubQueryStream( ),
+				streamType, subname );
+	}
+	
 	/**
 	 * @param streamType
 	 * @return
@@ -511,6 +536,16 @@ public class StreamManager
 				StreamManager.BASE_SCOPE );
 		String realStream = streamID.getStartStream( ) + "/" + subStream;
 		context.dropStream( realStream );
+	}
+	
+	public void dropStream( int streamType, int streamPos, int streamScope,
+			String subName )
+	{
+		StreamID streamID = getStreamID( streamType, streamPos, streamScope );
+		context.dropStream( streamID.getStartStream( ),
+				streamID.getSubQueryStream( ),
+				streamType,
+				subName );
 	}
 	
 	/**

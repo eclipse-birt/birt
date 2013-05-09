@@ -287,6 +287,19 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		}
 		return result;
 	}
+	
+	public List getReferableBindingsForLinkedDataSetCube( String targetLevel,
+			ICubeQueryDefinition cubeQueryDefn, boolean isSort )
+			throws AdapterException
+	{
+		return getReferableBindings( targetLevel, cubeQueryDefn, isSort );
+	}
+	
+	public List getReferableMeasureBindingsForLinkedDataSetCube( String measureName,
+			ICubeQueryDefinition cubeDefn ) throws DataException
+	{
+		return getReferableMeasureBindings( measureName, cubeDefn );
+	}
 
 	/**
 	 * Indicate whether the binding stands for an OVERALL grand total.
@@ -1008,6 +1021,12 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
+	}
+	
+	public List getInvalidBindingsForLinkedDataSetCube( ICubeQueryDefinition queryDefn )
+			throws AdapterException
+	{
+		return getInvalidBindings( queryDefn );
 	}
 	
 	/**

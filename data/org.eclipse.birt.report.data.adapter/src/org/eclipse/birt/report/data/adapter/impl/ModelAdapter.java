@@ -48,6 +48,7 @@ import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.IBuildInBaseTimeFunction;
 import org.eclipse.birt.report.data.adapter.i18n.Message;
@@ -82,6 +83,7 @@ import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
@@ -415,9 +417,19 @@ public class ModelAdapter implements IModelAdapter
 						org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_MEMBER,
 						this.context.getDataEngineContext( ).getLocale( ) ) );
 				
-				binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
-					.getValue( ),
-					ExpressionLocation.CUBE ) );
+				if ( handle.getElementHandle( ) instanceof ReportItemHandle
+						&& LinkedDataSetUtil.bindToLinkedDataSet( ( (ReportItemHandle) handle.getElementHandle( ) ) ) )
+				{
+					binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
+							.getValue( ),
+							ExpressionLocation.TABLE ) );
+				}
+				else
+				{
+					binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
+							.getValue( ),
+							ExpressionLocation.CUBE ) );
+				}
 				binding.setDataType( DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 
 				if ( handle.getFilterExpression( ) != null )

@@ -58,6 +58,12 @@ public abstract class CubeHandle extends ReportElementHandle
 		super( module, element );
 	}
 
+	public DimensionHandle getDimension( String dimensionName,
+			boolean needLevelForTimeDimension )
+	{
+		return getDimension( dimensionName );
+	}
+	
 	/**
 	 * Gets the dimension with the specified name within this cube.
 	 * 

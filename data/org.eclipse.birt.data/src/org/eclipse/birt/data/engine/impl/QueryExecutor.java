@@ -78,7 +78,7 @@ import com.ibm.icu.text.Collator;
 public abstract class QueryExecutor implements IQueryExecutor
 {
 
-	private IBaseQueryDefinition baseQueryDefn;
+	protected IBaseQueryDefinition baseQueryDefn;
 	private AggregateTable aggrTable;
 	
 	// from PreparedQuery->PreparedDataSourceQuery->DataEngineImpl

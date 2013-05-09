@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -790,13 +791,20 @@ public class ChartCubeUtil extends ChartItemUtil
 		return cm;
 	}
 
+	public static String generateComputedColumnName( AggregationCellHandle cell )
+	{
+		return generateComputedColumnName( cell, ExpressionUtil.MEASURE_INDICATOR );
+	}
+	
 	/**
 	 * Generates the name of binding which references to xtab's measure.
 	 * 
 	 * @param cell
 	 *            measure cell or total cell
+	 * @param expressionIndicator
+	 *            measure expression indicator
 	 */
-	public static String generateComputedColumnName( AggregationCellHandle cell )
+	public static String generateComputedColumnName( AggregationCellHandle cell, String expressionIndicator )
 	{
 		MeasureViewHandle measureView = (MeasureViewHandle) cell.getContainer( );
 		LevelHandle rowLevelHandle = cell.getAggregationOnRow( );
@@ -842,7 +850,14 @@ public class ChartCubeUtil extends ChartItemUtil
 				name );
 		String dataType = measureView.getDataType( );
 		column.setDataType( dataType );
-		column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+		if ( ExpressionUtil.DATASET_ROW_INDICATOR.equals( expressionIndicator ) )
+		{
+			column.setExpression( ExpressionUtil.createDataSetRowExpression( measureView.getCubeMeasureName( ) ) );
+		}
+		else
+		{
+			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+		}
 		column.setAggregateFunction( getDefaultMeasureAggregationFunction( measureView ) );
 		if ( aggregationOnRow != null )
 		{
@@ -968,7 +983,7 @@ public class ChartCubeUtil extends ChartItemUtil
 	{
 		for ( ComputedColumnHandle cch : bindings )
 		{
-			ChartReportItemUtil.loadExpression( exprCodec, cch );
+			ChartReportItemHelper.instance( ).loadExpression( exprCodec, cch );
 			String[] levelNames = exprCodec.getLevelNames( );
 			if ( levelNames != null
 					&& levelNames[0].equals( dimName )

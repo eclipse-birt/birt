@@ -18,6 +18,7 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
@@ -56,7 +57,18 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public DimensionHandle getCubeDimension( )
 	{
-		return (DimensionHandle) handle.getElementProperty( DIMENSION_PROP );
+		DimensionHandle cubeDimension = (DimensionHandle) handle.getElementProperty( DIMENSION_PROP );
+		if( cubeDimension == null )
+		{
+			String dimensionName = this.getCubeDimensionName( );
+			CubeHandle cube = this.getCrosstab( ).getCube( );
+			if( dimensionName != null && cube != null )
+			{
+				cubeDimension = cube.getDimension( dimensionName );
+			}
+		}
+		
+		return cubeDimension;
 	}
 
 	/**

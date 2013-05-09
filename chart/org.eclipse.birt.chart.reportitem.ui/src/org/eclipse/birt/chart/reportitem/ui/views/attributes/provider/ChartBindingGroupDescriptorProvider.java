@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -23,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Bi
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -58,8 +62,8 @@ public class ChartBindingGroupDescriptorProvider extends
 		switch ( type )
 		{
 			case ReportItemHandle.DATABINDING_TYPE_DATA :
-				DataSetHandle dataset = element.getDataSet( );
-				CubeHandle cube = element.getCube( );
+				DataSetHandle dataset = ChartReportItemHelper.instance( ).getBindingDataSetHandle( element );
+				CubeHandle cube = ChartReportItemHelper.instance( ).getBindingCubeHandle( element );
 				if ( dataset == null && cube == null )
 					value = NONE;
 				else if ( dataset != null )
@@ -242,11 +246,31 @@ public class ChartBindingGroupDescriptorProvider extends
 		return Arrays.asList( ChoiceSetFactory.getDataSets( ) );
 	}
 
+	/**
+	 * Gets all the Cubes available.
+	 * 
+	 * @return A String array contains all the Cubs.
+	 */
+	private String[] getCubes( )
+	{
+		ArrayList list = new ArrayList( );
 
+		ModuleHandle handle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		for ( Iterator iterator = handle.getVisibleCubes( ).iterator( ); iterator.hasNext( ); )
+		{
+			CubeHandle CubeHandle = (CubeHandle) iterator.next( );
+			list.add( CubeHandle.getQualifiedName( ) );
+		}
+
+		return (String[]) list.toArray( new String[0] );
+	}
+	
 	public String[] getAvailableDatasetItems( )
 	{
 		String[] dataSets = ChoiceSetFactory.getDataSets( );
-		String[] cubes = ChoiceSetFactory.getCubes( );
+		String[] cubes = getCubes( );
 		int length = 1;
 		if ( dataSets.length > 0 )
 			length += ( dataSets.length + 1 );

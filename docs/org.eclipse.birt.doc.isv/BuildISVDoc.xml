@@ -248,7 +248,7 @@
                          use="true"
                          windowtitle="Birt Engine API ${doc.version}"
                          doctitle="BIRT Engine API ${doc.version} (Provisional)"
-                         source="1.6"
+                         source="1.5"
                          packagenames="org.eclipse.birt.report.engine.api">
                         <fileset dir="${engine.dir}/src" defaultexcludes="yes">
 							<include name="**/api/*.java"/>
@@ -271,7 +271,7 @@
                          use="true"
                          windowtitle="Birt Script API ${doc.version}"
                          doctitle="BIRT Script API ${doc.version} (Provisional)"
-                         source="1.6"
+                         source="1.5"
                          packagenames="org.eclipse.birt.report.engine.api.*">
                         <fileset dir="${engine.dir}/src" defaultexcludes="yes">
                       <include name="**/api/script/**/*.java"/>
@@ -292,7 +292,7 @@
                          use="true"
                          windowtitle="BIRT Model API ${doc.version}"
                      doctitle="BIRT Model API ${doc.version}"
-                         source="1.6"
+                         source="1.5"
                          packagenames="org.eclipse.birt.report.model.*">
                         <packageset dir="${model.dir}/src" defaultexcludes="yes">
                       <include name="org/eclipse/birt/report/model/api/**" />
@@ -312,7 +312,7 @@
                         use="true"
                         windowtitle="BIRT Data Engine API ${doc.version} Specification - Provisional"
                         doctitle="BIRT Data Engine API ${doc.version} (Provisional)"
-                        source="1.6"
+                        source="1.5"
                         packagenames="org.eclipse.birt.data.*">
                         <packageset dir="${data.dir}/src" defaultexcludes="yes">
                                 <include name="org/eclipse/birt/data/engine/api/**" />
@@ -332,7 +332,7 @@
                         use="true"
                         windowtitle="BIRT Core API Reference v${doc.version} (Provisional)"
                         doctitle="BIRT Core API Reference v${doc.version} (Provisional)"
-                        source="1.6"
+                        source="1.5"
 		                sourcepath="${core.dir}/src"
                         packagenames="org.eclipse.birt.core.archive,
         	 org.eclipse.birt.core.archive.compound,
@@ -365,7 +365,7 @@
                         use="true"
                         windowtitle="BIRT Core UI API Reference v${doc.version} (Provisional)"
                         doctitle="BIRT Core UI API Reference v${doc.version} (Provisional)"
-                        source="1.6"
+                        source="1.5"
         	            sourcepath="${core.ui.dir}/src"
                         packagenames="org.eclipse.birt.core.ui.frameworks.errordisplay,
         	 org.eclipse.birt.core.ui.frameworks.taskwizard,
