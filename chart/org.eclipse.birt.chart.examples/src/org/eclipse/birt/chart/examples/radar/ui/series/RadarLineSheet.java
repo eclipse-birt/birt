@@ -36,8 +36,10 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 
 import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.util.ULocale;
 
 /**
  * 
@@ -48,6 +50,7 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 
 	private final RadarSeries series;
 	private static final int MAX_STEPS = 20;
+	private static final int MIN_STEPS = 1;
 	private ChartCheckbox btnAutoScale = null;
 	private Label lblWebMax = null;
 	private Label lblWebMin = null;
@@ -193,10 +196,10 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 							true );
 			GridData gdISCLeaderLength = new GridData(  GridData.FILL_HORIZONTAL);
 			iscScaleCnt.setLayoutData( gdISCLeaderLength );
-			iscScaleCnt.getWidget( ).setMinimum( 1 );
+			iscScaleCnt.getWidget( ).setMinimum( MIN_STEPS );
 			iscScaleCnt.getWidget( ).setMaximum( MAX_STEPS );
 			iscScaleCnt.getWidget( ).setSelection( series.getPlotSteps( ).intValue( ) );
-			iscScaleCnt.addListener( SWT.Selection, this );
+			iscScaleCnt.addListener( SWT.Modify, this );
 		}
 
 		if ( getChart( ).getSubType( )
@@ -295,7 +298,35 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		{
 			if ( supportNumberOfStep( ) )
 			{
-				series.setPlotSteps( BigInteger.valueOf( iscScaleCnt.getWidget( ).getSelection( ) ) );
+				if ( iscScaleCnt.getWidget( ).getText( ) == null
+						|| iscScaleCnt.getWidget( ).getText( ).length( ) == 0 ) {
+					series.setPlotSteps( BigInteger.valueOf( iscScaleCnt
+							.getWidget( ).getSelection( ) ) );
+					return;
+				}
+				if ( new BigInteger( iscScaleCnt.getWidget( ).getText( ) )
+						.intValue( ) > MAX_STEPS ) {
+					iscScaleCnt.getWidget( ).setSelection( MAX_STEPS );
+					series.setPlotSteps( BigInteger.valueOf( MAX_STEPS ) );
+					MessageBox mb = new MessageBox( iscScaleCnt.getShell( ),
+							SWT.ICON_WARNING | SWT.OK );
+					mb.setMessage( Messages.getString(
+							"Radar.Composite.Label.ScaleCount.MinMaxWarning",
+							new Object[] { MIN_STEPS, MAX_STEPS },
+							ULocale.getDefault( ) ) );
+					mb.open( );
+				} else if ( new BigInteger( iscScaleCnt.getWidget( ).getText( ) )
+						.intValue() < MIN_STEPS ) {
+					iscScaleCnt.getWidget( ).setSelection( MIN_STEPS );
+					series.setPlotSteps( BigInteger.valueOf( MIN_STEPS ) );
+					MessageBox mb = new MessageBox( iscScaleCnt.getShell( ),
+							SWT.ICON_WARNING | SWT.OK);
+					mb.setMessage( Messages.getString(
+							"Radar.Composite.Label.ScaleCount.MinMaxWarning",
+							new Object[] { MIN_STEPS, MAX_STEPS },
+							ULocale.getDefault( ) ) );
+					mb.open( );
+				}
 			}
 		}
 		else if ( event.widget.equals( btnAutoScale ) )
