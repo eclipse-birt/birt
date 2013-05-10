@@ -141,6 +141,18 @@ public class ExprEvaluateUtil
 						op1Value.length > 0 ? op1Value[0] : null,
 						op2Value.length > 0 ? op2Value[0] : null );
 		}
+		else if ( BaseExpression.constantId.equals( dataExpr.getScriptId( ) ) )
+		{
+			//if expression is constant
+			Object value = ( (IScriptExpression) dataExpr ).getHandle( );
+			if ( value == null )
+			{
+				value = ( (IScriptExpression) dataExpr ).getText( );
+				( (IScriptExpression) dataExpr ).setHandle( value );
+			}
+			exprValue = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+			return exprValue;
+		}
 		else
 		{
 			DataException e = new DataException( ResourceConstants.INVALID_EXPR_HANDLE );
