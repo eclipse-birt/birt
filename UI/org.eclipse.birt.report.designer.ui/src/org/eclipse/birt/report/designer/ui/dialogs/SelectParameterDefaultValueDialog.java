@@ -18,6 +18,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -365,7 +367,14 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 			}
 			else
 			{
-				return String.valueOf( element );
+				try
+				{
+					return DataTypeUtil.toString( element );
+				}
+				catch ( BirtException e )
+				{
+					return String.valueOf( element );
+				}
 			}
 
 		}
