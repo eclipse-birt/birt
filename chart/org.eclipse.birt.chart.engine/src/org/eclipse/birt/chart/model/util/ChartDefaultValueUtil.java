@@ -340,7 +340,10 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 		Set<Series> dtSeries = new HashSet<Series>( );
 		for ( SeriesDefinition sdef : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
 		{
-			dtSeries.add( sdef.getDesignTimeSeries( ) );
+			for ( Series s: sdef.getSeries( ) )
+			{
+				dtSeries.add( s );
+			}
 		}
 		for ( Iterator<Series> iter = dtSeries.iterator( ); iter.hasNext( ); )
 		{
