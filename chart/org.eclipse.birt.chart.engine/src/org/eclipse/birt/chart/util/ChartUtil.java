@@ -2552,6 +2552,23 @@ public class ChartUtil
 	}
 	
 	/**
+	 * Returns default chart title.
+	 * 
+	 * @param chart
+	 * @param uLocale
+	 * @return default chart title.
+	 */
+	public static String getDefaultChartTitle( Chart chart, ULocale uLocale )
+	{
+		if ( chart.getType( ) == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		return Messages.getString( chart.getType( )
+				.replaceAll( " ", "" ) + ".Title", uLocale );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+	
+	/**
 	 * Checks if current series is only an instance of specified series type,
 	 * neither super class nor sub class.
 	 * 

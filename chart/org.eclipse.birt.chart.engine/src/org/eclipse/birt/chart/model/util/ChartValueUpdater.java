@@ -32,6 +32,8 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import com.ibm.icu.util.ULocale;
+
 
 /**
  * This class override base chart value updater, it overrides super methods.
@@ -40,7 +42,15 @@ import org.eclipse.emf.ecore.EObject;
 public class ChartValueUpdater extends BaseChartValueUpdater
 {
 	protected Chart chart;
+	private ULocale uLocale;
 	
+	protected ULocale getULocale( ) {
+		return uLocale;
+	}
+
+	public void setULocale( ULocale uLocale ) {
+		this.uLocale = uLocale;
+	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.model.util.BaseChartValueUpdater#update(org.eclipse.birt.chart.model.Chart, org.eclipse.birt.chart.model.Chart)
 	 */
@@ -371,7 +381,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 			{
 				eObj.getLabel( )
 						.getCaption( )
-						.setValue( ChartUtil.getDefaultChartTitle( chart ) );
+						.setValue( ChartUtil.getDefaultChartTitle( chart, getULocale( ) ) );
 			}
 		}
 		super.updateTitleBlock( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible );

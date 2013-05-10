@@ -844,7 +844,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			ChartReportStyleProcessor styleProcessor = new ChartReportStyleProcessor( modelHandle,
 					true,
 					this.style,
-					this.dpi );
+					this.dpi,
+					rtc.getULocale( ) );
 
 			styleProcessor.applyDefaultHyperlink( this.cm );
 

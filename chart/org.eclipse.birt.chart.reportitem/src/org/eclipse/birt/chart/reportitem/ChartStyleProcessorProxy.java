@@ -16,6 +16,8 @@ import org.eclipse.birt.chart.model.util.ChartValueUpdater;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * This class process extra styles to chart.
  * 
@@ -30,6 +32,15 @@ public class ChartStyleProcessorProxy
 	private FormatInfo categoryFormat = null;
 
 	protected ChartValueUpdater chartValueUpdater;
+	
+	private ULocale uLocale;
+	
+	protected void setULocale( ULocale uLocale ) {
+		this.uLocale = uLocale;
+		if( this.chartValueUpdater != null ){
+			this.chartValueUpdater.setULocale( uLocale );
+		}
+	}
 	
 	/**
 	 * Constructor.
