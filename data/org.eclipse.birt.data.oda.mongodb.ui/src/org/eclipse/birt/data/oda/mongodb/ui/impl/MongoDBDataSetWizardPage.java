@@ -368,8 +368,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 		gd.widthHint = 120;
 		selectedFieldsTable.getTable( ).setLayoutData( gd );
 
-		selectedFieldsTable.getTable( ).setHeaderVisible( false );
-		selectedFieldsTable.getTable( ).setLinesVisible( false );
+		selectedFieldsTable.getTable( ).setHeaderVisible( true );
 
 		TableColumn column1 = new TableColumn( selectedFieldsTable.getTable( ),
 				SWT.LEFT );
@@ -378,6 +377,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 
 		TableColumn column2 = new TableColumn( selectedFieldsTable.getTable( ),
 				SWT.LEFT );
+		column2.setText( Messages.getString( "MongoDBDataSetWizardPage.HeaderText.SelectedFields" ) );
 		column2.setResizable( true );
 		column2.setWidth( 180 );
 
