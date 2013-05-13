@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
@@ -83,6 +84,17 @@ public class TableProcessor implements HTMLConstants
 		{
 			Row row = table.getRow( i );
 			RowContent rowContent = (RowContent) row.getContent( );
+			
+			// the default page break inside for html table row is "auto"
+			IStyle rowStyle = rowContent.getStyle( );
+			if (rowStyle != null )
+			{
+				if ( rowStyle.getPageBreakInside( ) == null )
+				{
+					rowStyle.setProperty( IStyle.STYLE_PAGE_BREAK_INSIDE, IStyle.AUTO_VALUE );
+				}
+			}
+			
 			Collection children = rowContent.getChildren( );
 			children.clear( );
 			for ( int j = 0; j < table.getColCount( ); j++ )

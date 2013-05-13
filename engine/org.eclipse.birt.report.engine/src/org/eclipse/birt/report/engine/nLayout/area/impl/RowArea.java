@@ -470,8 +470,8 @@ public class RowArea extends ContainerArea
 			{
 				IStyle style = content.getStyle( );
 				String pb = style.getPageBreakInside( );
-				//auto value is set or html table row
-				if ( IStyle.CSS_AUTO_VALUE.equals( pb )  || content.getGenerateBy( )==null)
+				// auto value is set 
+				if ( IStyle.CSS_AUTO_VALUE.equals( pb ) )
 				{
 					return false;
 				}
