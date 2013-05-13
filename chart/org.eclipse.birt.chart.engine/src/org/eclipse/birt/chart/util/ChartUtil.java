@@ -596,7 +596,7 @@ public class ChartUtil
 	public static String[] getSupportedOutputFormats( ) throws ChartException
 	{
 		String[][] outputFormatArray = PluginSettings.instance( )
-				.getRegisteredOutputFormats( "" ); //$NON-NLS-1$
+				.getRegisteredOutputFormats( ); 
 		String[] formats = new String[outputFormatArray.length];
 		for ( int i = 0; i < formats.length; i++ )
 		{
@@ -615,7 +615,7 @@ public class ChartUtil
 			throws ChartException
 	{
 		String[][] outputFormatArray = PluginSettings.instance( )
-				.getRegisteredOutputFormats( "" ); //$NON-NLS-1$
+				.getRegisteredOutputFormats( );
 		String[] formats = new String[outputFormatArray.length];
 		for ( int i = 0; i < formats.length; i++ )
 		{
