@@ -1967,8 +1967,7 @@ public class UIUtil
 	public static ActionHandle getColumnAction( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column);
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-				.iterator( ); iter.hasNext( ); )
+		for ( Iterator iter = dataset.columnHintsIterator(); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
 			if ( element.getColumnName( ).equals( column.getColumnName( ) )
