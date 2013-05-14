@@ -3,6 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Emitter Configuration Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.config;singleton:=true
 Bundle-Version: 4.2.2.qualifier
+Bundle-ClassPath: library.jar,
+ .
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
