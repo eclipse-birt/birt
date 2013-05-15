@@ -275,6 +275,8 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		else
 		{
 			boolean isInline = true;
+			// used in render the text align
+			textInlineRenderFlag = true;
 			if ( inlineFlag == InlineFlag.FIRST_INLINE
 					&& flag == TextFlag.START )
 			{
@@ -286,6 +288,7 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 			else
 				writeTextInRun( type, txt, style, fontFamily, info, isInline,
 						paragraphWidth, runIsRtl );
+			textInlineRenderFlag = false;
 		}
 	}
 
