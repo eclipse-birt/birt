@@ -715,7 +715,14 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				name );
 		String dataType = measureView.getDataType( );
 		column.setDataType( dataType );
-		column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+		{
+			column.setExpression( ExpressionUtil.createDataSetRowExpression( measureView.getCubeMeasureName( ) ) );
+		}
+		else
+		{
+			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+		}
 		String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
 		column.setAggregateFunction( function != null ? function
 				: defaultFunction );
