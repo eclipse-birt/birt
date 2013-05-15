@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.ToggleBreadcrumbAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
@@ -33,6 +34,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointMana
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.util.CategorizedElementSorter;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryAction;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -48,6 +50,7 @@ import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -180,34 +183,37 @@ public class DesignerActionBarContributor extends
 	 */
 	public static final String M_DATA = "birtData"; //$NON-NLS-1$
 
-	 private IPropertyChangeListener propertyChangeListener = new IPropertyChangeListener() {
-	        public void propertyChange(PropertyChangeEvent event) {
-	        	RegisterAction[] actions = getInsertElementActions( );
-	        	if (actions != null)
-	        	{
-	        		for (int i=0; i<actions.length; i++)
-	        		{
-	        			if (event.getProperty().equals(SubActionBars.P_ACTION_HANDLERS)) 
-	        			{
-	        	           if (getAction( actions[i].id ) instanceof ReportRetargetAction)
-	        	           {
-	        	        	   ((ReportRetargetAction)getAction( actions[i].id )).propagateChange( event );
-	        	           }
-	        			}
-	        		}
-	        	}
-	        }
-	    };
+	private IPropertyChangeListener propertyChangeListener = new IPropertyChangeListener( ) {
+
+		public void propertyChange( PropertyChangeEvent event )
+		{
+			RegisterAction[] actions = getInsertElementActions( );
+			if ( actions != null )
+			{
+				for ( int i = 0; i < actions.length; i++ )
+				{
+					if ( event.getProperty( )
+							.equals( SubActionBars.P_ACTION_HANDLERS ) )
+					{
+						if ( getAction( actions[i].id ) instanceof ReportRetargetAction )
+						{
+							( (ReportRetargetAction) getAction( actions[i].id ) ).propagateChange( event );
+						}
+					}
+				}
+			}
+		}
+	};
+
 	public void init( IActionBars bars )
 	{
 		super.init( bars );
-		if (bars instanceof SubActionBars)
+		if ( bars instanceof SubActionBars )
 		{
-			((SubActionBars)bars).addPropertyChangeListener( propertyChangeListener );
+			( (SubActionBars) bars ).addPropertyChangeListener( propertyChangeListener );
 		}
 	}
-	
-	
+
 	/*
 	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
 	 */
@@ -278,6 +284,9 @@ public class DesignerActionBarContributor extends
 				for ( int k = 0; k < extensionPoints.size( ); k++ )
 				{
 					ExtendedElementUIPoint point = (ExtendedElementUIPoint) extensionPoints.get( k );
+					if ( !UIUtil.isVisibleExtensionElement( point ) )
+						continue;
+
 					IElementDefn extension = DEUtil.getMetaDataDictionary( )
 							.getExtension( point.getExtensionName( ) );
 
@@ -341,9 +350,10 @@ public class DesignerActionBarContributor extends
 						actions[i].style ) );
 		}
 	}
-	
+
 	private static class ReportRetargetAction extends RetargetAction
 	{
+
 		public ReportRetargetAction( String actionID, String text, int style )
 		{
 			super( actionID, text, style );
@@ -397,9 +407,9 @@ public class DesignerActionBarContributor extends
 
 		zoomComboContributionItem.setVisible( true );
 		tbm.add( zoomComboContributionItem );
-		
+
 		toggleBreadcrumbAction = new ToggleBreadcrumbAction( getPage( ) );
-		tbm.add( toggleBreadcrumbAction  );
+		tbm.add( toggleBreadcrumbAction );
 	}
 
 	/*
@@ -413,11 +423,18 @@ public class DesignerActionBarContributor extends
 		updateEditMenu( menubar );
 		// Insert Menu
 		MenuManager insertMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.insert" ), M_INSERT ); //$NON-NLS-1$
-		contributeActionsToMenu( insertMenu, getInsertElementActions( ) );
-		insertMenu.add( new Separator( ) );
-		insertMenu.add( getAction( InsertAggregationAction.ID ) );
-		insertMenu.add( getAction( InsertRelativeTimePeriodAction.ID ) );
-		insertMenu.add( new Separator( ) );
+		createInsertMenu( insertMenu );
+
+		insertMenu.addMenuListener( new IMenuListener( ) {
+
+			public void menuAboutToShow( IMenuManager manager )
+			{
+				manager.removeAll( );
+				insertElementActions = null;
+				createInsertMenu( manager );
+			}
+		} );
+
 		// insertMenu.add( getAction( ImportLibraryAction.ID ) );
 		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, insertMenu );
 
@@ -436,6 +453,15 @@ public class DesignerActionBarContributor extends
 		menubar.insertAfter( M_ELEMENT, dataMenu );
 
 		menubar.update( );
+	}
+
+	protected void createInsertMenu( IMenuManager insertMenu )
+	{
+		contributeActionsToMenu( insertMenu, getInsertElementActions( ) );
+		insertMenu.add( new Separator( ) );
+		insertMenu.add( getAction( InsertAggregationAction.ID ) );
+		insertMenu.add( getAction( InsertRelativeTimePeriodAction.ID ) );
+		insertMenu.add( new Separator( ) );
 	}
 
 	private void contributeElementMenu( MenuManager elementMenu )
@@ -520,7 +546,7 @@ public class DesignerActionBarContributor extends
 
 	}
 
-	private void contributeActionsToMenu( MenuManager menu,
+	private void contributeActionsToMenu( IMenuManager menu,
 			RegisterAction[] actions )
 	{
 		for ( int i = 0; i < actions.length; i++ )
@@ -528,9 +554,9 @@ public class DesignerActionBarContributor extends
 			if ( actions[i] != null )
 			{
 				IAction action = getAction( actions[i].id );
-				
+
 				menu.add( action );
-				
+
 			}
 			else
 			{
@@ -639,17 +665,17 @@ public class DesignerActionBarContributor extends
 			} );
 		}
 	}
-	
+
 	@Override
 	public void dispose( )
 	{
-		if (toggleBreadcrumbAction != null)
+		if ( toggleBreadcrumbAction != null )
 		{
 			toggleBreadcrumbAction.dispose( );
 		}
-		if (getActionBars( ) instanceof SubActionBars)
+		if ( getActionBars( ) instanceof SubActionBars )
 		{
-			((SubActionBars)getActionBars( )).removePropertyChangeListener( propertyChangeListener );
+			( (SubActionBars) getActionBars( ) ).removePropertyChangeListener( propertyChangeListener );
 		}
 		super.dispose( );
 	}

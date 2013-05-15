@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -28,6 +29,7 @@ import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineStyleChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineWidthChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.MarkerIconDialog;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory;
@@ -38,6 +40,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
@@ -257,5 +260,11 @@ public class ChartUIFactory implements IChartUIFactory
 			// Do nothing.
 		}
 		return isSetInvisible;
+	}
+
+	public TrayDialog createChartMarkerIconDialog( Shell parent, Fill fill,
+			ChartWizardContext context )
+	{
+		return new MarkerIconDialog( parent, fill, context );
 	}
 }

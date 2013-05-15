@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -30,6 +31,7 @@ import org.eclipse.birt.chart.ui.swt.ChartSpinner;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
@@ -256,7 +258,18 @@ public interface IChartUIFactory
 	 */
 	ChartSlider createChartSlider( Composite parent, int style,
 			EObject eParent, String sProperty );
-	
+
+	/**
+	 * Create marker icon dialog.
+	 * 
+	 * @param parent
+	 * @param fill
+	 * @param context
+	 * @return marker icon dialog
+	 */
+	TrayDialog createChartMarkerIconDialog( Shell parent, Fill fill,
+			ChartWizardContext context );
+
 	/**
 	 * Check if the state of specified button allows to enable UI component.
 	 * 

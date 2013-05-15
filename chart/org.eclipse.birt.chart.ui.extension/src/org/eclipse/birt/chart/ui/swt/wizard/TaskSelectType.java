@@ -282,7 +282,7 @@ public class TaskSelectType extends SimpleTask implements
 			foSashForm.setLayout( layout );
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			// TODO verify Bug 194391 in Linux
-			gridData.heightHint = 570;
+			gridData.heightHint = 680;
 			foSashForm.setLayoutData( gridData );
 		}
 		createTopPreviewArea( foSashForm );
@@ -1343,19 +1343,7 @@ public class TaskSelectType extends SimpleTask implements
 		// Update dimension
 		updateDimensionCombo( sSelectedType );
 
-		// Show the subtypes for the selected type based on current selections
-		// of dimension and orientation
-		String availDim = getAvailableDimension( chartType, sDimension );
-		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( chartType.getChartSubtypes( availDim,
-				getAvailableOrientation( chartType, availDim, this.orientation ) ) );
-
-		if ( vSubTypes.size( ) == 0 )
-		{
-			vSubTypes = new Vector<IChartSubType>( chartType.getChartSubtypes( chartType.getDefaultDimension( ),
-					chartType.getDefaultOrientation( ) ) );
-			this.sDimension = null;
-			this.orientation = null;
-		}
+		Vector<IChartSubType> vSubTypes = getAvailableChartSubtypes( chartType );
 
 		// If two orientations are not supported, to get the default.
 		if ( btnOrientation == null || !btnOrientation.isEnabled( ) )
@@ -1381,6 +1369,25 @@ public class TaskSelectType extends SimpleTask implements
 		createSubtypeBtnGroups( vSubTypes );
 		updateOrientationUIState();
 		cmpRight.layout( );
+	}
+
+	protected Vector<IChartSubType> getAvailableChartSubtypes(IChartType chartType )
+	{
+		// Show the subtypes for the selected type based on current selections
+		// of dimension and orientation
+		String availDim = getAvailableDimension( chartType, sDimension );
+		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( chartType.getChartSubtypes( availDim,
+				getAvailableOrientation( chartType, availDim, this.orientation ) ) );
+
+		if ( vSubTypes.size( ) == 0 )
+		{
+			vSubTypes = new Vector<IChartSubType>( chartType.getChartSubtypes( chartType.getDefaultDimension( ),
+					chartType.getDefaultOrientation( ) ) );
+			this.sDimension = null;
+			this.orientation = null;
+		}
+		
+		return vSubTypes;
 	}
 
 	protected void setDefaultSubtypeSelection( )
@@ -2154,6 +2161,9 @@ public class TaskSelectType extends SimpleTask implements
 						{
 							String outputFormat = outputFormats[cbOutput.getSelectionIndex( )];
 							getContext( ).setOutputFormat( outputFormat );
+							
+							createAndDisplayTypesSheet( sType );
+							setDefaultSubtypeSelection( );
 							
 							// Update apply button
 							if ( container != null && container instanceof ChartWizard )

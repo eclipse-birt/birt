@@ -1,5 +1,0 @@
-sub1  sub2  sub3  
-0  700  Chicago  0
-1  400  Chicago  1
-2  100  New York  2
-3  100  New York  3

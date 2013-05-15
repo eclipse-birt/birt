@@ -2559,8 +2559,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 			CDateTime cdtMinAxis = ( (CDateTime) oMinValue ).backward( iUnit, 1 );
 			CDateTime cdtMaxAxis = ( (CDateTime) oMaxValue ).forward( iUnit, 1 );
-			cdtMinAxis.clearBelow( iUnit );
-			cdtMaxAxis.clearBelow( iUnit );
+			cdtMinAxis.clearBelow( iUnit, true );
+			cdtMaxAxis.clearBelow( iUnit, true );
 
 			ScaleInfo info = new ScaleInfo( plotComp,
 					DATE_TIME,

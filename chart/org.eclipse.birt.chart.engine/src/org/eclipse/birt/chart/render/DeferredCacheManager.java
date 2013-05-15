@@ -180,7 +180,7 @@ public final class DeferredCacheManager
 		flushOptions( options );
 
 		// Flush markers and labels.
-		flushMarkersNLabels( );
+		flushMarkersNLinesNLabels( );
 		
 		clearDC( );
 	}
@@ -211,20 +211,39 @@ public final class DeferredCacheManager
 	}
 	
 	/**
-	 * Flush markers and lables in all caches.
+	 * Flush markers, connection lines and labels in all caches.
 	 * 
 	 * @throws ChartException
 	 */
-	void flushMarkersNLabels( ) throws ChartException
+	void flushMarkersNLinesNLabels( ) throws ChartException
 	{
-		List<IRenderInstruction> allMarkers = new ArrayList<IRenderInstruction>( );
-		List<TextRenderEvent> allLabels = new ArrayList<TextRenderEvent>( );
+		fFirstDC.flushOptions( DeferredCache.FLUSH_CONNECTION_LINE );
+		fFirstDC.getAllConnectionLines( ).clear( );
+		fFirstDC.flushOptions( DeferredCache.FLUSH_MARKER );
+		fFirstDC.getAllMarkers( ).clear( );
 
-		getMarkersNLabels( allMarkers, allLabels );
+		Collections.sort( fDeferredCacheList );
+		for ( DeferredCache cache : fDeferredCacheList )
+		{
+			cache.flushOptions( DeferredCache.FLUSH_CONNECTION_LINE );
+			cache.getAllConnectionLines( ).clear( );
+			cache.flushOptions( DeferredCache.FLUSH_MARKER );
+			cache.getAllMarkers( ).clear( );
+		}
+		fLastDC.flushOptions( DeferredCache.FLUSH_CONNECTION_LINE );
+		fLastDC.getAllConnectionLines( ).clear( );
+		fLastDC.flushOptions( DeferredCache.FLUSH_MARKER );
+		fLastDC.getAllMarkers( ).clear( );
 
-		DeferredCache.flushMarkers( fDeviceRenderer, allMarkers );
-
-		DeferredCache.flushLabels( fDeviceRenderer, allLabels );
+		fFirstDC.flushOptions( DeferredCache.FLUSH_LABLE );
+		fFirstDC.getAllLabels( ).clear( );
+		for ( DeferredCache cache : fDeferredCacheList )
+		{
+			cache.flushOptions( DeferredCache.FLUSH_LABLE );
+			cache.getAllLabels( ).clear( );
+		}
+		fLastDC.flushOptions( DeferredCache.FLUSH_LABLE );
+		fLastDC.getAllLabels( ).clear( );
 	}
 	
 	/**
@@ -242,26 +261,11 @@ public final class DeferredCacheManager
 
 		for ( java.util.Iterator<DeferredCache> iter = fDeferredCacheList.iterator( ); iter.hasNext( ); )
 		{
-			Object obj = iter.next( );
-			if ( obj instanceof DeferredCache )
-			{
-				allMarkers.addAll( ( (DeferredCache) obj ).getAllMarkers( ) );
-				( (DeferredCache) obj ).getAllMarkers( ).clear( );
-				allLabels.addAll( ( (DeferredCache) obj ).getAllLabels( ) );
-				( (DeferredCache) obj ).getAllLabels( ).clear( );
-			}
-			else if ( obj instanceof List )
-			{
-				Collections.sort( (List) obj );
-				for ( java.util.Iterator iter1 = ( (List) obj ).iterator( ); iter1.hasNext( ); )
-				{
-					DeferredCache dc = (DeferredCache) iter1.next( );
-					allMarkers.addAll( dc.getAllMarkers( ) );
-					dc.getAllMarkers( ).clear( );
-					allLabels.addAll( dc.getAllLabels( ) );
-					dc.getAllLabels( ).clear( );
-				}
-			}
+			DeferredCache obj = iter.next( );
+			allMarkers.addAll( obj.getAllMarkers( ) );
+			obj.getAllMarkers( ).clear( );
+			allLabels.addAll( obj.getAllLabels( ) );
+			obj.getAllLabels( ).clear( );
 		}
 
 		allMarkers.addAll( fLastDC.getAllMarkers( ) );

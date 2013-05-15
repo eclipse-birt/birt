@@ -188,36 +188,6 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	 * @param bindingCollection
 	 * @throws DataException 
 	 */
-	protected static void addSourceQueryBindings( List<IBinding> resultBindingList,
-			Map bindings ) throws DataException
-	{
-		Iterator it = bindings.entrySet( ).iterator( );
-		while ( it.hasNext( ) ) 
-		{
-			Map.Entry entry = (Map.Entry) it.next( );
-			IBinding binding = (IBinding) entry.getValue( );
-			boolean exist = false;
-			for ( int i = 0; i < resultBindingList.size( ); i++ ) 
-			{
-				if ( resultBindingList.get( i ) != null
-						&& resultBindingList.get( i ).getBindingName( )
-								.equals( binding.getBindingName( ) ) ) 
-				{
-					exist = true;
-				}
-			}
-			if ( !exist )
-				resultBindingList.add( binding );
-
-		}
-	}
-	
-	/**
-	 * 
-	 * @param resultBindingList
-	 * @param bindingCollection
-	 * @throws DataException 
-	 */
 	protected static void addQueryBindings( List<IBinding> resultBindingList,
 			Map bindings ) throws DataException
 	{
@@ -414,7 +384,6 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 				getSubQueryBindings( queryDefinition,
 						( (SubqueryLocator) queryDefn.getSourceQuery( ) ).getName( ), bindingList );
 				addQueryBindings( bindingList, queryDefinition.getBindings( ) );
-				addSourceQueryBindings( bindingList, queryDefn.getSourceQuery( ).getBindings( ) );
 				bindings = bindingList.toArray( new IBinding[0] );
 			}
 			else

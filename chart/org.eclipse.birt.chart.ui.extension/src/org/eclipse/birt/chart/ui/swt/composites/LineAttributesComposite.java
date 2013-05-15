@@ -57,7 +57,7 @@ public class LineAttributesComposite extends Composite implements
 
 	private transient FillChooserComposite cmbColor = null;
 	
-	private ChartCheckbox btnVisible = null;
+	protected ChartCheckbox btnVisible = null;
 
 	private transient LineAttributes laCurrent = null;
 
@@ -202,7 +202,7 @@ public class LineAttributesComposite extends Composite implements
 	/**
 	 * 
 	 */
-	private void placeComponents( )
+	protected void placeComponents( )
 	{
 		FillLayout flMain = new FillLayout( );
 		flMain.marginHeight = 0;

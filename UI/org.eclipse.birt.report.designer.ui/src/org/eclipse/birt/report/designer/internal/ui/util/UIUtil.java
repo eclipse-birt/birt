@@ -38,6 +38,7 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 
 import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
@@ -1966,8 +1967,7 @@ public class UIUtil
 	public static ActionHandle getColumnAction( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column);
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-				.iterator( ); iter.hasNext( ); )
+		for ( Iterator iter = dataset.columnHintsIterator(); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
 			if ( element.getColumnName( ).equals( column.getColumnName( ) )
@@ -2065,7 +2065,8 @@ public class UIUtil
 				.getExtendedElementPoints( );
 		for ( ExtendedElementUIPoint point : points )
 		{
-			list.remove( DEUtil.getElementDefn( point.getExtensionName( ) ) );
+			if ( isVisibleExtensionElement( point ) )
+				list.remove( DEUtil.getElementDefn( point.getExtensionName( ) ) );
 		}
 
 		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
@@ -2075,6 +2076,31 @@ public class UIUtil
 		}
 
 		return list;
+	}
+
+	public static boolean isVisibleExtensionElement(
+			ExtendedElementUIPoint point )
+	{
+		String preference = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
+		if ( preference != null )
+		{
+			String[] splits = preference.split( "/" );
+			if ( splits.length == 2 )
+			{
+				IPreferences wrapper = PreferenceFactory.getInstance( )
+						.getPluginPreferences( splits[0], null );
+				if ( wrapper != null )
+				{
+					Boolean bool = wrapper.getBoolean( splits[1] );
+					return bool;
+				}
+			}
+		}
+		else
+		{
+			return ( (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER ) ).booleanValue( );
+		}
+		return true;
 	}
 
 	/**
