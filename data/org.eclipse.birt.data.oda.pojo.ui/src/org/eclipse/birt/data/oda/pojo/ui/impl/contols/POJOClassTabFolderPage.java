@@ -334,7 +334,8 @@ public class POJOClassTabFolderPage
 				classPathElements[i] = element;
 			}
 			
-			this.jarButton.getMenuButtonHelper( ).addClassPathElements( classPathElements );
+			this.jarButton.getMenuButtonHelper( )
+					.addClassPathElements( classPathElements, true );
 		}
 
 		classPathsTableViewer.setInput( elements );
