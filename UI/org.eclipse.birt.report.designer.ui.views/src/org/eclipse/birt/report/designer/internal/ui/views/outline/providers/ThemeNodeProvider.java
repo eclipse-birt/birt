@@ -23,9 +23,9 @@ import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.action.IMenuManager;
@@ -81,7 +81,7 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 		return ( (ThemeHandle) model ).getDisplayLabel( );
 	}
 
-	protected DesignElementHandle createElement( SlotHandle slotHandle,
+	protected DesignElementHandle createElement( ElementDetailHandle slotHandle,
 			String type ) throws Exception
 	{
 		ThemeHandle theme = (ThemeHandle) slotHandle.getElementHandle( );

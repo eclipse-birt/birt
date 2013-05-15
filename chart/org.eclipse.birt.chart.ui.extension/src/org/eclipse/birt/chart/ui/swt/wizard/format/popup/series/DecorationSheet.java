@@ -70,9 +70,7 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 		Composite cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
-		LabelAttributesContext attributesContext = new LabelAttributesContext( );
-		attributesContext.isFontAlignmentEnabled = false;
-		attributesContext.isVisibilityEnabled = false;
+		LabelAttributesContext attributesContext = getLabelAttributeContext( );
 		lacDeco = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
 				getContext( ),
@@ -157,6 +155,15 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 					break;
 			}
 		}
+	}
+	
+	protected LabelAttributesContext getLabelAttributeContext( )
+	{
+		LabelAttributesContext labelAttrs = new LabelAttributesContext( );
+		labelAttrs.isFontAlignmentEnabled = false;
+		labelAttrs.isVisibilityEnabled = false;
+
+		return labelAttrs;
 	}
 
 }

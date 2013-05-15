@@ -715,7 +715,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				name );
 		String dataType = measureView.getDataType( );
 		column.setDataType( dataType );
-		if(CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
 		{
 			column.setExpression( ExpressionUtil.createDataSetRowExpression( measureView.getCubeMeasureName( ) ) );
 		}

@@ -336,10 +336,11 @@ public class Scatter extends Line
 					}
 					lre.setStart( loaShadow[0] );
 					lre.setEnd( loaShadow[1] );
+					lre.setZOrder( getSeriesDefinition( ).getZOrder( ) );
 					LineAttributes liaShadow = goFactory.copyOf( lia );
 					liaShadow.setColor( cLineShadow );
 					lre.setLineAttributes( liaShadow );
-					ipr.drawLine( lre );
+					dc.addConnectionLine( lre );
 				}
 			}
 
@@ -398,7 +399,8 @@ public class Scatter extends Line
 						
 						lre.setStart( loa[0] );
 						lre.setEnd( loa[1] );
-						ipr.drawLine( lre );
+						lre.setZOrder( getSeriesDefinition( ).getZOrder( ) );
+						dc.addConnectionLine( lre );
 					}
 					/*
 					 * else // TBD: BSP HIDDEN SURFACE REMOVAL FOR INTERSECTING

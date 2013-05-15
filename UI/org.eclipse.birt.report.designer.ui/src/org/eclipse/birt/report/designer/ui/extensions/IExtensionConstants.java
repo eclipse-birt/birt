@@ -49,6 +49,7 @@ public interface IExtensionConstants
 	String ATTRIBUTE_PALETTE_CATEGORY_DISPLAYNAME = "categoryDisplayName"; //$NON-NLS-1$
 	String ATTRIBUTE_EDITOR_CAN_RESIZE = "canResize"; //$NON-NLS-1$
 	String ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER = "showInDesigner"; //$NON-NLS-1$
+	String ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE = "showInDesignerByPreference"; //$NON-NLS-1$
 	String ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE = "showInMasterPage"; //$NON-NLS-1$
 	String ATTRIBUTE_EDITOR_MENU_LABEL = "menuLabel"; //$NON-NLS-1$
 

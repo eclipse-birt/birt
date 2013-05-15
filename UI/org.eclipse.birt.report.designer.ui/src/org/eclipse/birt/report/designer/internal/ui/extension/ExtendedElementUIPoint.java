@@ -45,6 +45,8 @@ public class ExtendedElementUIPoint
 		// Default value
 		setAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER,
 				Boolean.TRUE );
+		setAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE,
+				null );
 		setAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE,
 				Boolean.TRUE );
 		setAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_CAN_RESIZE,

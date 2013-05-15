@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
@@ -177,7 +178,10 @@ public class RadarChart extends DefaultChartTypeImpl
 		newChart = ChartWithoutAxesImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
-		newChart.setDimension( getDimensionFor( sDimension ) );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"dimension",//$NON-NLS-1$
+				ChartUIUtil.getDimensionType( sDimension ),
+				sDimension == null );
 		if ( newChart.getDimension( )
 				.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) )
 		{
@@ -250,7 +254,10 @@ public class RadarChart extends DefaultChartTypeImpl
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"dimension",//$NON-NLS-1$
+					ChartUIUtil.getDimensionType( sNewDimension ),
+					sNewDimension == null );
 
 			// Copy series definitions from old chart
 			( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
@@ -296,11 +303,6 @@ public class RadarChart extends DefaultChartTypeImpl
 				currentChart.setSubType( sNewSubType );
 				// ( (DialChart) currentChart ).setDialSuperimposition(
 				// sNewSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL ) );
-				if ( !currentChart.getDimension( )
-						.equals( getDimensionFor( sNewDimension ) ) )
-				{
-					currentChart.setDimension( getDimensionFor( sNewDimension ) );
-				}
 			}
 			else
 			{
@@ -310,7 +312,6 @@ public class RadarChart extends DefaultChartTypeImpl
 				copyChartProperties( helperModel, currentChart );
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
-				currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
 				// Clear existing series definitions
 				( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
@@ -344,6 +345,10 @@ public class RadarChart extends DefaultChartTypeImpl
 					title.setValue( getDefaultTitle( ) );
 				}
 			}
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"dimension",//$NON-NLS-1$
+					ChartUIUtil.getDimensionType( sNewDimension ),
+					sNewDimension == null );
 		}
 		else
 		{
@@ -409,11 +414,6 @@ public class RadarChart extends DefaultChartTypeImpl
 	public boolean supportsTransposition( )
 	{
 		return false;
-	}
-
-	private ChartDimension getDimensionFor( String sDimension )
-	{
-		return ChartDimension.TWO_DIMENSIONAL_LITERAL;
 	}
 
 	@Override

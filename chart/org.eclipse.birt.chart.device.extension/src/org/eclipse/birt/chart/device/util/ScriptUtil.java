@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.device.util;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.LegendItemHints;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
@@ -160,6 +161,21 @@ public class ScriptUtil
 			}
 		}
 		return buffer.toString( );
+	}
+
+	/**
+	 * This method transforms a string to HTML text. e.g. '\r\n' to '<br>'.
+	 * @param s
+	 * @return converted HTML text
+	 */
+	public static String transformToHTMLText( String s )
+	{
+		if ( s == null )
+		{
+			return IConstants.EMPTY_STRING;
+		}
+
+		return s.replaceAll( "\r\n", "<br>" ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 }

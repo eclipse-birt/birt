@@ -198,7 +198,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	};
 
-	private void confirmSave( )
+	protected void confirmSave( )
 	{
 
 		if ( fIsHandlingActivation )

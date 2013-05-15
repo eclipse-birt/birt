@@ -113,7 +113,6 @@ public class DateFormatFactory
 				result = DateFormat.getDateTimeInstance( dateStyle,
 						timeStyle,
 						locale.toLocale( ) );
-			result.setLenient( false );
 			tlsMap.put( keyStr, result );
 		}
 

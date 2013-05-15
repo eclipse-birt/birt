@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.engine.internal.executor.dup;
 
 import java.util.HashMap;
+import java.util.Stack;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.executor.DataItemExecutionState;
@@ -27,7 +29,8 @@ import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.RowDesign;
-import org.eclipse.birt.report.engine.ir.TableBandDesign;
+import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.model.api.TableHandle;
 
 public class SuppressDuplicateUtil
 {
@@ -110,7 +113,8 @@ public class SuppressDuplicateUtil
 		if ( genBy instanceof DataItemDesign )
 		{
 			DataItemDesign dataDesign = (DataItemDesign) genBy;
-			if ( dataDesign.getSuppressDuplicate( ) )
+			if ( dataDesign.getSuppressDuplicate( )
+					&& states.containsKey( dataDesign ) )
 			{
 				Object value = dataContent.getValue( );
 				DataItemExecutionState state = states.get( dataDesign );
@@ -139,12 +143,75 @@ public class SuppressDuplicateUtil
 				DefaultReportItemVisitorImpl
 	{
 
+		Stack<Boolean> isInDetailBand = new Stack<Boolean>( );
+
 		public Object visitFreeFormItem( FreeFormItemDesign container,
 				Object value )
 		{
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 			{
 				container.getItem( i ).accept( this, value );
+			}
+			return value;
+		}
+		
+		public Object visitTableItem( TableItemDesign table, Object value )
+		{
+			TableHandle handle = (TableHandle) table.getHandle( );
+			boolean isSummaryTable = handle.isSummaryTable( );
+			if ( isSummaryTable )
+			{
+				BandDesign header = table.getHeader( );
+				if ( header != null )
+				{
+					value = header.accept( this, value );
+				}
+				for ( int i = 0; i < table.getGroupCount( ); i++ )
+				{
+					GroupDesign group = table.getGroup( i );
+					if ( i == table.getGroupCount( ) - 1 )
+					{
+						isInDetailBand.push( Boolean.TRUE );
+					}
+					value = group.accept( this, value );
+					if ( i == table.getGroupCount( ) - 1 )
+					{
+						isInDetailBand.pop( );
+					}
+				}
+
+				BandDesign footer = table.getFooter( );
+				if ( footer != null )
+				{
+					value = footer.accept( this, value );
+				}
+			}
+			else
+			{
+				BandDesign header = table.getHeader( );
+				if ( header != null )
+				{
+					value = header.accept( this, value );
+				}
+				for ( int i = 0; i < table.getGroupCount( ); i++ )
+				{
+					GroupDesign group = table.getGroup( i );
+					value = group.accept( this, value );
+				}
+
+				BandDesign detail = table.getDetail( );
+				if ( detail != null )
+				{
+					isInDetailBand.push( Boolean.TRUE );
+					value = detail.accept( this, value );
+					isInDetailBand.pop( );
+				}
+
+				BandDesign footer = table.getFooter( );
+				if ( footer != null )
+				{
+					value = footer.accept( this, value );
+				}
 			}
 			return value;
 		}
@@ -178,7 +245,10 @@ public class SuppressDuplicateUtil
 
 		public Object visitDataItem( DataItemDesign data, Object value )
 		{
-			states.put( data, null );
+			if(!isInDetailBand.isEmpty( ) && isInDetailBand.peek( ))
+			{
+				states.put( data, null );
+			}
 			return value;
 		}
 

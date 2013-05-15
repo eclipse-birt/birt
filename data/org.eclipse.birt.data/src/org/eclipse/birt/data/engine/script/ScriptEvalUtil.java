@@ -1247,6 +1247,9 @@ public class ScriptEvalUtil
 		private static IScriptExpression constructValidScriptExpression(
 				IScriptExpression ise )
 		{
+			if( ise != null && BaseExpression.constantId.equals( ise.getScriptId( ) ) )
+				return ise;
+			
 			return ise != null
 					&& ise.getText( ) != null
 					&& ise.getText( ).trim( ).length( ) > 0 ? ise

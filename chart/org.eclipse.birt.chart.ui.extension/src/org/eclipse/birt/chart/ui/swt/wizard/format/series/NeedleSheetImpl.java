@@ -16,7 +16,9 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NeedleComposite;
+import org.eclipse.birt.chart.ui.swt.composites.NeedleComposite.NeedleAttributesContext;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
@@ -48,12 +50,31 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 			cmpContent.setLayoutData( gd );
 		}
 
-		NeedleComposite cmpNeedle = new NeedleComposite( cmpContent,
-				getContext( ),
-				(DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
-		cmpNeedle.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		createNeedleComponent( cmpContent );
 
 		createButtonGroup( cmpContent );
+	}
+
+	protected void createNeedleComponent( Composite cmpContent )
+	{
+		NeedleComposite cmpNeedle = new NeedleComposite( cmpContent,
+				getContext( ),
+				(DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
+				getNeedleAttributesContext( ) );
+
+		cmpNeedle.setLayoutData( new GridData( GridData.FILL_BOTH ) );	
+	}
+	
+	protected NeedleAttributesContext getNeedleAttributesContext( )
+	{
+		NeedleAttributesContext needleAttrContext = new NeedleAttributesContext( );
+		
+		needleAttrContext.lineOptionalStyles = LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_STYLES;		
+		
+		needleAttrContext.bEnableHeadStyle = true;
+
+		return needleAttrContext;
 	}
 
 	private void createButtonGroup( Composite parent )
@@ -108,7 +129,7 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 		// TODO Auto-generated method stub
 	}
 
-	private SeriesDefinition getSeriesDefinitionForProcessing( )
+	protected SeriesDefinition getSeriesDefinitionForProcessing( )
 	{
 		SeriesDefinition sd = null;
 		if ( getChart( ) instanceof ChartWithAxes )

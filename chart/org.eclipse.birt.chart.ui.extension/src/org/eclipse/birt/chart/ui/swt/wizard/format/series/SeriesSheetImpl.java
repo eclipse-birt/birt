@@ -81,10 +81,16 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 	private ITaskPopupSheet popup = null;
 
-	protected static final int COLUMN_DETAIL = 7;
+	protected int columnDetailNumber;
 	protected static final int HORIZONTAL_SPACING = 5;
 
 	protected Composite cmpList = null;
+	
+	public SeriesSheetImpl()
+	{
+		super();
+		columnDetailNumber = 7;
+	}
 
 	public void createControl( Composite parent )
 	{
@@ -156,7 +162,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		{
 			cmpList = new Composite( cmpScroll, SWT.NONE );
 
-			GridLayout glContent = new GridLayout( COLUMN_DETAIL, false );
+			GridLayout glContent = new GridLayout( columnDetailNumber, false );
 			glContent.horizontalSpacing = HORIZONTAL_SPACING;
 			cmpList.setLayout( glContent );
 			cmpList.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -171,6 +177,56 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			}
 		}
 
+		createSeriesOptionsLabels();
+
+		int treeIndex = 0;
+
+		if ( needCategorySeries( ) )
+		{
+			// Pie chart needs Category Series.
+			List<SeriesDefinition> seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
+			for ( int i = 0; i < seriesDefns.size( ); i++ )
+			{
+				createSeriesOptionChoser( seriesDefns.get( i ),
+						Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ 
+						i,
+						treeIndex++,
+						false ).placeComponents( cmpList );
+			}
+		}
+
+		List<SeriesDefinition> allSeriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
+
+		String text = getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
+		boolean canStack;
+		int seriesIndex = 0;
+		for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ); i++ )
+		{
+			canStack = true;
+			List<SeriesDefinition> seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+					i );
+			for ( int j = 0; j < seriesDefns.size( ); j++ )
+			{
+				if ( !seriesDefns.get( j )
+						.getDesignTimeSeries( )
+						.canBeStacked( ) )
+				{
+					canStack = false;
+					break;
+				}
+			}
+			for ( int j = 0; j < seriesDefns.size( ); j++ )
+			{
+				createSeriesOptionChoser( seriesDefns.get( j ),
+						( allSeriesDefns.size( ) == 1 ? text
+								: ( text + " - " + ( seriesIndex + 1 ) ) ), seriesIndex++, treeIndex++, canStack, i ).placeComponents( cmpList ); //$NON-NLS-1$
+			}
+		}
+
+	}
+
+	protected void createSeriesOptionsLabels( )
+	{
 		Label lblSeries = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
@@ -233,56 +289,34 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblTranslucent.setFont( JFaceResources.getBannerFont( ) );
 			lblTranslucent.setText( Messages.getString( "SeriesSheetImpl.Label.Translucent" ) ); //$NON-NLS-1$
 		}
+	}
 
-		int treeIndex = 0;
+	protected SeriesOptionChoser createSeriesOptionChoser( SeriesDefinition seriesDefn,
+			String seriesName, int iSeriesDefinitionIndex, int treeIndex, boolean canStack, int axisIndex )
+	{
+		return new SeriesOptionChoser( seriesDefn,
+				seriesName,
+				iSeriesDefinitionIndex,
+				treeIndex,
+				canStack,
+				axisIndex);
+	}
 
-		if ( needCategorySeries( ) )
-		{
-			// Pie chart needs Category Series.
-			List<SeriesDefinition> seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
-			for ( int i = 0; i < seriesDefns.size( ); i++ )
-			{
-				new SeriesOptionChoser( seriesDefns.get( i ),
-						Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ 
-						i,
-						treeIndex++,
-						false ).placeComponents( cmpList );
-			}
-		}
-
-		List<SeriesDefinition> allSeriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
-
-		String text = getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
-		boolean canStack;
-		int seriesIndex = 0;
-		for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ); i++ )
-		{
-			canStack = true;
-			List<SeriesDefinition> seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
-					i );
-			for ( int j = 0; j < seriesDefns.size( ); j++ )
-			{
-				if ( !seriesDefns.get( j )
-						.getDesignTimeSeries( )
-						.canBeStacked( ) )
-				{
-					canStack = false;
-					break;
-				}
-			}
-			for ( int j = 0; j < seriesDefns.size( ); j++ )
-			{
-				new SeriesOptionChoser( seriesDefns.get( j ),
-						( allSeriesDefns.size( ) == 1 ? text
-								: ( text + " - " + ( seriesIndex + 1 ) ) ), seriesIndex++, treeIndex++, canStack, i ).placeComponents( cmpList ); //$NON-NLS-1$
-			}
-		}
-
+	protected SeriesOptionChoser createSeriesOptionChoser(SeriesDefinition seriesDefn,
+			String seriesName, int iSeriesDefinitionIndex, int treeIndex, boolean canStack )
+	{
+		return new SeriesOptionChoser( seriesDefn,
+				seriesName,
+				iSeriesDefinitionIndex,
+				treeIndex,
+				canStack );
 	}
 
 	protected int getSeriesFillStyles( )
 	{
-		return FillChooserComposite.ENABLE_GRADIENT
+		return FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+				| FillChooserComposite.ENABLE_GRADIENT
 				| FillChooserComposite.ENABLE_IMAGE
 				| FillChooserComposite.ENABLE_POSITIVE_NEGATIVE;
 	}
@@ -326,7 +360,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	public class SeriesOptionChoser implements SelectionListener, Listener
 	{
 
-		private SeriesDefinition seriesDefn;
+		protected SeriesDefinition seriesDefn;
 		private String seriesName;
 
 		private Link linkSeries;
@@ -346,7 +380,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		private boolean bStackedPercent;
 		
-		private Series defSeries;
+		protected Series defSeries;
 
 		public SeriesOptionChoser( SeriesDefinition seriesDefn,
 				String seriesName, int iSeriesDefinitionIndex, int treeIndex,

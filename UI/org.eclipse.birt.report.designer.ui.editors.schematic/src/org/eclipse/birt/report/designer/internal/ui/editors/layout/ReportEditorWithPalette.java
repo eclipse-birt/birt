@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.preference.PreferenceChangeEvent;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -75,6 +76,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Editp
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportFlyoutPalettePreferences;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportTemplateTransferDropTargetListener;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
@@ -91,7 +93,6 @@ import org.eclipse.birt.report.designer.ui.actions.InsertExpressionMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertRelativeTimePeriodAction;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
-import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
@@ -501,12 +502,16 @@ abstract public class ReportEditorWithPalette extends
 		for ( Iterator iter = points.iterator( ); iter.hasNext( ); )
 		{
 			ExtendedElementUIPoint point = (ExtendedElementUIPoint) iter.next( );
-			if ( ( (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER ) ).booleanValue( ) )
+
+			IAction action = new GeneralInsertMenuAction( this,
+					point.getExtensionName( ),
+					point.getExtensionName( ),
+					point.getExtensionName( ) );
+			getSelectionActions( ).remove( action.getId( ) );
+			removeEditPartAction( (SelectionAction) action );
+
+			if ( UIUtil.isVisibleExtensionElement( point ) )
 			{
-				IAction action = new GeneralInsertMenuAction( this,
-						point.getExtensionName( ),
-						point.getExtensionName( ),
-						point.getExtensionName( ) );
 				getSelectionActions( ).add( action.getId( ) );
 				addEditPartAction( (SelectionAction) action );
 			}
@@ -519,6 +524,10 @@ abstract public class ReportEditorWithPalette extends
 					entries[i].getItemName( ),
 					entries[i].getItemName( ),
 					entries[i].getLabel( ) );
+
+			getSelectionActions( ).remove( action.getId( ) );
+			removeEditPartAction( (SelectionAction) action );
+
 			getSelectionActions( ).add( action.getId( ) );
 			addEditPartAction( (SelectionAction) action );
 		}
@@ -1366,5 +1375,13 @@ abstract public class ReportEditorWithPalette extends
 		super.dispose( );
 
 		manager = null;
+	}
+
+	public void preferenceChange( PreferenceChangeEvent event )
+	{
+		paletteRoot = null;
+		getEditDomain( ).setPaletteRoot( getPaletteRoot( ) );
+		registerInsertExtElementActions( );
+		updateStackActions( );
 	}
 }

@@ -39,6 +39,7 @@ import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
@@ -335,10 +336,17 @@ public final class PreparedQuery
 			{
 				IScriptExpression baseExpr = ( (IScriptExpression) expr );
 				String exprText = ( (IScriptExpression) expr ).getText( );
-				CompiledExpression handle = compiler.compile( exprText,
-						reg,
-						session.getEngineContext( ).getScriptContext( ) );
-				expr.setHandle( handle );
+				if( BaseExpression.constantId.equals( baseExpr.getScriptId( ) ) )
+				{
+					baseExpr.setHandle( exprText );
+				}
+				else
+				{
+					CompiledExpression handle = compiler.compile( exprText,
+							reg,
+							session.getEngineContext( ).getScriptContext( ) );
+					expr.setHandle( handle );					
+				}
 			}
 			else if ( expr instanceof IConditionalExpression )
 			{

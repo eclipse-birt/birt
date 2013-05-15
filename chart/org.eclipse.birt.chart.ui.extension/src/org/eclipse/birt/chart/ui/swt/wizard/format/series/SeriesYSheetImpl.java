@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
@@ -240,8 +241,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		createSeriesSpecificButton( cmp );
 
 		// Markers for Line/Area/Scatter series
-		if ( getCurrentDesignTimeSeries( ) instanceof LineSeries
-				&& !isDifferenceSeries( ) )
+		if ( isMarkerAvailable( ) )
 		{
 			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.Markers" ), //$NON-NLS-1$
 					getContext( ),
@@ -299,58 +299,77 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		}
 	}
 
-	protected void createSeriesSpecificButton( Composite cmp )
+	protected void createPieSeriesButton( Composite cmp )
 	{
 		ITaskPopupSheet popup;
-		// Titles for Pie series
-		if ( getCurrentDesignTimeSeries( ) instanceof PieSeries )
-		{
-			popup = new PieTitleSheet( Messages.getString( "SeriesYSheetImpl.Label.Titles" ), //$NON-NLS-1$
-					getContext( ),
-					getCurrentDesignTimeSeries( ) );
-			Button btnPieTitle = createToggleButton( cmp,
-					BUTTON_TITLE,
-					Messages.getString( "SeriesYSheetImpl.Label.Titles&" ), //$NON-NLS-1$
-					popup );
-			btnPieTitle.addSelectionListener( this );
-		}
+
+		popup = new PieTitleSheet( Messages.getString( "SeriesYSheetImpl.Label.Titles" ), //$NON-NLS-1$
+				getContext( ),
+				getCurrentDesignTimeSeries( ) );
+		Button btnPieTitle = createToggleButton( cmp,
+				BUTTON_TITLE,
+				Messages.getString( "SeriesYSheetImpl.Label.Titles&" ), //$NON-NLS-1$
+				popup );
+		btnPieTitle.addSelectionListener( this );
+	}
+	
+	protected void createDifferenceSeriesButton( Composite cmp )
+	{
+		ITaskPopupSheet popup;
 
 		// Markers for Difference series
-		if ( isDifferenceSeries( ) )
-		{
-			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.PositiveMarkers" ), //$NON-NLS-1$
-					getContext( ),
-					(DifferenceSeries) getCurrentDesignTimeSeries( ),
-					true );
-			Button btnPLineMarker = createToggleButton( cmp,
-					BUTTON_POSITIVE_MARKERS,
-					Messages.getString( "SeriesYSheetImpl.Label.PositiveMarkers&" ), //$NON-NLS-1$
-					popup );
-			btnPLineMarker.addSelectionListener( this );
+		popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.PositiveMarkers" ), //$NON-NLS-1$
+				getContext( ),
+				(DifferenceSeries) getCurrentDesignTimeSeries( ),
+				true );
+		Button btnPLineMarker = createToggleButton( cmp,
+				BUTTON_POSITIVE_MARKERS,
+				Messages.getString( "SeriesYSheetImpl.Label.PositiveMarkers&" ), //$NON-NLS-1$
+				popup );
+		btnPLineMarker.addSelectionListener( this );
 
-			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.NegativeMarkers" ), //$NON-NLS-1$
-					getContext( ),
-					(DifferenceSeries) getCurrentDesignTimeSeries( ),
-					false );
-			Button btnNLineMarker = createToggleButton( cmp,
-					BUTTON_NEGATIVE_MARKERS,
-					Messages.getString( "SeriesYSheetImpl.Label.NegativeMarkers&" ), //$NON-NLS-1$
-					popup );
-			btnNLineMarker.addSelectionListener( this );
-		}
+		popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.NegativeMarkers" ), //$NON-NLS-1$
+				getContext( ),
+				(DifferenceSeries) getCurrentDesignTimeSeries( ),
+				false );
+		Button btnNLineMarker = createToggleButton( cmp,
+				BUTTON_NEGATIVE_MARKERS,
+				Messages.getString( "SeriesYSheetImpl.Label.NegativeMarkers&" ), //$NON-NLS-1$
+				popup );
+		btnNLineMarker.addSelectionListener( this );
+	}
+	
+	protected void createGanttSeriesButton( Composite cmp )
+	{
+		ITaskPopupSheet popup;
 
 		// Decoration Label for Gantt series
-		if ( getCurrentDesignTimeSeries( ) instanceof GanttSeries )
+		popup = new DecorationSheet( Messages.getString( "SeriesYSheetImpl.Label.Decoration" ), //$NON-NLS-1$
+				getContext( ),
+				(GanttSeries) getCurrentDesignTimeSeries( ) );
+		Button btnDecoration = createToggleButton( cmp,
+				BUTTON_DECORATION,
+				Messages.getString( "SeriesYSheetImpl.Label.Decoration&" ), //$NON-NLS-1$
+				popup,
+				getContext().getUIFactory( ).canEnableUI( btnDecoVisible ) );
+		btnDecoration.addSelectionListener( this );
+	}
+	
+	protected void createSeriesSpecificButton( Composite cmp )
+	{
+		if ( isPieSeries( ) )
 		{
-			popup = new DecorationSheet( Messages.getString( "SeriesYSheetImpl.Label.Decoration" ), //$NON-NLS-1$
-					getContext( ),
-					(GanttSeries) getCurrentDesignTimeSeries( ) );
-			Button btnDecoration = createToggleButton( cmp,
-					BUTTON_DECORATION,
-					Messages.getString( "SeriesYSheetImpl.Label.Decoration&" ), //$NON-NLS-1$
-					popup,
-					getContext().getUIFactory( ).canEnableUI( btnDecoVisible ) );
-			btnDecoration.addSelectionListener( this );
+			createPieSeriesButton( cmp );
+		}
+
+		if ( isDifferenceSeries( ) )
+		{
+			createDifferenceSeriesButton( cmp );
+		}
+
+		if ( isGanttSeries( ) )
+		{
+			createGanttSeriesButton( cmp );
 		}
 	}
 
@@ -629,5 +648,15 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 	{
 		return getCurrentDesignTimeSeries( ) instanceof DifferenceSeries;
 	}
+	
+	protected boolean isPieSeries( )
+	{
+		return getCurrentDesignTimeSeries( ) instanceof PieSeries;
+	}
 
+	protected boolean isMarkerAvailable( )
+	{
+		return getCurrentDesignTimeSeries( ) instanceof LineSeries
+				&& !isDifferenceSeries( );
+	}
 }
