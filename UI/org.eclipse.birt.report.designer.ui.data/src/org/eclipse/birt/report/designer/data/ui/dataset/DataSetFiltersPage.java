@@ -18,7 +18,6 @@ import java.util.List;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.data.ui.util.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.data.ui.util.DataSetExceptionHandler;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetExpressionProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -370,6 +369,12 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 		return true;
 	}
 	
+	public boolean performCancel( )
+	{
+		( (DataSetHandle) getContainer( ).getModel( ) ).removeListener( this );
+		return super.performCancel( );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -377,6 +382,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage im
 	 */
 	public boolean performOk( )
 	{
+		( (DataSetHandle) getContainer( ).getModel( ) ).removeListener( this );
 		return canLeave( );
 	}
 	

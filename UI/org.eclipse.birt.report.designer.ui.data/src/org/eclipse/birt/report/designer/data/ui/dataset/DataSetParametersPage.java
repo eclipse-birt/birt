@@ -1145,9 +1145,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 					&& this.getContainer( ) instanceof DataSetEditor )
 			{
 				this.modelChanged = false;
-				( (DataSetHandle) getContainer( ).getModel( ) ).removeListener( this );
 				( (DataSetEditor) getContainer( ) ).updateDataSetDesign( this );
 			}
+			
+			( (DataSetHandle) getContainer( ).getModel( ) ).removeListener( this );
+
 			return super.performOk( );
 		}
 		else
@@ -1161,6 +1163,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 							} ) );
 			if ( confirm )
 				( (DataSetEditor) getContainer( ) ).updateDataSetDesign( this );
+			
+			( (DataSetHandle) getContainer( ).getModel( ) ).removeListener( this );
+
 			return confirm;
 		}
 	}
@@ -2097,7 +2102,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 								Messages.getString( "ParameterNodeProvider.dial.title.editScalar" ), false ); //$NON-NLS-1$
 						isCreateMode = false;
 					}
-					handle.addListener( new ScalarParameterListener( ) );
+					ScalarParameterListener scalarParameterListener = new ScalarParameterListener( );
+					handle.addListener( scalarParameterListener );
 					dialog.setInput( handle );
 					if ( dialog.open( ) == OK )
 					{
@@ -2132,6 +2138,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 					{
 						dataSetParameterHandle.setParamName( originalParamName );
 					}
+					
+					handle.removeListener( scalarParameterListener );
 				}
 			};
 

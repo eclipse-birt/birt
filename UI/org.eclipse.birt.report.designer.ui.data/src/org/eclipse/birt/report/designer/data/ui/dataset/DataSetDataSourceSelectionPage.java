@@ -180,14 +180,14 @@ public class DataSetDataSourceSelectionPage
 			{
 				if ( lastSelectedDataSourceIndex != combo.getSelectionIndex( ) )
 				{
-					DataSetHandle datasetHandle =  (DataSetHandle) getContainer( ).getModel( ) ;
+					DataSetHandle datasetHandle = (DataSetHandle) getContainer( ).getModel( );
 					datasetHandle.setDataSource( combo.getItem( combo.getSelectionIndex( ) ) );
 					( (DataSetEditor) ( getContainer( ) ) ).updateDataSetDesign( this );
-					
-					if( datasetHandle instanceof OdaDataSetHandle && datasetHandle.getProperty( DataSetHandle.RESULT_SET_PROP ) != null )
+
+					if ( datasetHandle instanceof OdaDataSetHandle
+							&& datasetHandle.getProperty( DataSetHandle.RESULT_SET_PROP ) != null )
 						datasetHandle.clearProperty( DataSetHandle.RESULT_SET_PROP );
 				}
-				( (DataSetHandle) ( getContainer( ).getModel( ) ) ).removeListener( this );
 			}
 		}
 		catch ( SemanticException e )
@@ -195,6 +195,8 @@ public class DataSetDataSourceSelectionPage
 			ExceptionHandler.handle( e );
 			return false;
 		}
+		
+		( (DataSetHandle) ( getContainer( ).getModel( ) ) ).removeListener( this );
 		return super.performOk( );
 	}
 

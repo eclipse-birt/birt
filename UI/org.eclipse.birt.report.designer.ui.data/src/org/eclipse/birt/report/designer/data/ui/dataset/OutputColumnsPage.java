@@ -308,10 +308,16 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			}
 			if( !pageActivated )
 				this.setAnalysisTypeForColumn( );
+			
+			( (DataSetHandle) getContainer( ).getModel( ) ).removeListener( this );
+
 			return super.performOk( );
 		}
 		else
+		{
+			( (DataSetHandle) getContainer( ).getModel( ) ).removeListener( this );
 			return false;
+		}
 	}
 
 	/*
