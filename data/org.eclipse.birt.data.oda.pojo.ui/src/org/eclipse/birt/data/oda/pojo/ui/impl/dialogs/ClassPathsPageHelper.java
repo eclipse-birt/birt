@@ -105,13 +105,11 @@ public class ClassPathsPageHelper
 		runtimePage.setPrompMessage( Messages.getString( "DataSource.POJOClassTabFolderPage.promptLabel.runtime" ) ); //$NON-NLS-1$
 		TabItem runtimeTab = runtimePage.createContents( tabFolder );
 		runtimeTab.setText( Messages.getString( "DataSource.POJOClasses.tab.runtime" ) ); //$NON-NLS-1$
-		runtimeTab.setImage( Utils.getRunTimeIcon( ) );
 
 		designtimePage = new POJOClassTabFolderPage( this, getApplResourceDir( ) );
 		designtimePage.setPrompMessage( Messages.getString( "DataSource.POJOClassTabFolderPage.promptLabel.designtime" ) ); //$NON-NLS-1$
 		TabItem designTimeTab = designtimePage.createContents( tabFolder );
 		designTimeTab.setText( Messages.getString( "DataSource.POJOClasses.tab.designTime" ) ); //$NON-NLS-1$
-		designTimeTab.setImage( Utils.getDesignTimeIcon( ) );
 		
 		runtimePage.setFriendPage( designtimePage );
 		designtimePage.setFriendPage( runtimePage );
