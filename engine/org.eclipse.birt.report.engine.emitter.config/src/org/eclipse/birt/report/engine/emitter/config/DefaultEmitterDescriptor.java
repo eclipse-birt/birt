@@ -1,22 +1,12 @@
 package org.eclipse.birt.report.engine.emitter.config;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Map.Entry;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.Platform;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 
 public abstract class DefaultEmitterDescriptor
@@ -26,18 +16,7 @@ public abstract class DefaultEmitterDescriptor
 	protected Locale locale;
 	protected Map<String, RenderOptionDefn> renderOptionDefns = new HashMap<String, RenderOptionDefn>( );
 	protected IConfigurableOption[] options;
-
-	private static final String OPTIONS_CONFIG_FILE = "RenderDefaults.cfg";
-
-	private static final String RENDER_OPTIONS_FILE = "RenderOptions.xml";
-
-	private static final String OPTION_QNAME = "option";
-
-	private static final String OPTION_NAME = "name";
-
-	private static final String OPTION_DEFAULT = "default";
-
-	private static final String OPTION_ENABLED = "enabled";
+	private boolean enabled = true;
 
 	public void setInitParameters( Map params )
 	{
@@ -54,6 +33,11 @@ public abstract class DefaultEmitterDescriptor
 	}
 
 	protected abstract void initOptions( );
+	
+	public boolean isEnabled( )
+	{
+		return enabled;
+	}
 	
 	public IConfigurableOptionObserver createOptionObserver( )
 	{
@@ -74,6 +58,16 @@ public abstract class DefaultEmitterDescriptor
 	{
 		return null;
 	}
+	
+	void setEnabled( boolean enabled )
+	{
+		this.enabled = enabled;
+	}
+	
+	void addRenderOption( String name, RenderOptionDefn renderOptionDefn )
+	{
+		renderOptionDefns.put( name, renderOptionDefn );
+	}
 
 	protected void applyDefaultValues( )
 	{
@@ -86,10 +80,14 @@ public abstract class DefaultEmitterDescriptor
 
 	protected boolean loadDefaultValues( String bundleName )
 	{
+		return doLoadDefaultvalues( bundleName, new RenderOptionParser( this ) );
+	}
+
+	boolean doLoadDefaultvalues( String bundleName, RenderOptionParser parser )
+	{
 		try
 		{
-			loadCFGFile( bundleName );
-			loadXMLFile( bundleName );
+			parser.parseConfigFor( bundleName );
 		}
 		catch ( Exception e )
 		{
@@ -97,62 +95,7 @@ public abstract class DefaultEmitterDescriptor
 		}
 		return renderOptionDefns != null && !renderOptionDefns.isEmpty( );
 	}
-
-
-	private void loadXMLFile( String bundleName ) throws IOException, Exception
-	{
-		URL url = getResourceURL( bundleName, RENDER_OPTIONS_FILE );
-		if ( url != null )
-		{
-			InputStream in = url.openStream( );
-			doLoadDefaultValues( in );
-			in.close( );
-		}
-	}
-
-	private void loadCFGFile( String bundleName ) throws IOException
-	{
-		URL url = getResourceURL( bundleName, OPTIONS_CONFIG_FILE );
-		if ( url != null )
-		{
-			InputStream in = url.openStream( );
-			Properties defaultValues = new Properties( );
-			defaultValues.load( in );
-			for ( Entry<Object, Object> entry : defaultValues.entrySet( ) )
-			{
-				String name = entry.getKey( ).toString( );
-				String value = entry.getValue( ).toString( );
-				renderOptionDefns.put( name, new RenderOptionDefn( name,
-						value,
-						true ) );
-			}
-			in.close( );
-		}
-	}
-
-	protected void doLoadDefaultValues( InputStream in ) throws Exception
-	{
-
-		SAXParser parser = SAXParserFactory.newInstance( ).newSAXParser( );
-		try
-		{
-			parser.parse( in, new RenderOptionHandler( ) );
-		}
-		finally
-		{
-			// even there is XML exception, need to release the resource.
-			try
-			{
-				parser.reset( );
-				parser = null;
-			}
-			catch ( Exception e1 )
-			{
-
-			}
-		}
-	}
-
+	
 	private void applyDefaultValue( IConfigurableOption option )
 	{
 		if ( renderOptionDefns == null || renderOptionDefns.isEmpty( ) )
@@ -211,38 +154,5 @@ public abstract class DefaultEmitterDescriptor
 			return bundle.getEntry( resourceName );
 		}
 		return null;
-	}
-
-	protected class RenderOptionHandler extends DefaultHandler
-	{
-
-		@Override
-		public void startElement( String uri, String localName, String qName,
-				Attributes attributes ) throws SAXException
-		{
-			if ( OPTION_QNAME.equalsIgnoreCase( qName ) )
-			{
-				String name = attributes.getValue( OPTION_NAME );
-				if ( !isEmpty( name ) )
-				{
-					String defualt = attributes.getValue( OPTION_DEFAULT );
-					Boolean enabled = Boolean.TRUE;
-					String enabledStr = attributes.getValue( OPTION_ENABLED );
-					if ( !isEmpty( enabledStr ) )
-					{
-						enabled = Boolean.valueOf( enabledStr );
-					}
-					renderOptionDefns.put( name, new RenderOptionDefn( name,
-							defualt,
-							enabled ) );
-				}
-			}
-		}
-
-	}
-
-	private boolean isEmpty( String str )
-	{
-		return str == null || str.length( ) == 0;
 	}
 }
