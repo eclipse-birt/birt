@@ -669,12 +669,17 @@ public class ImageMapEmitter implements IImageMapEmitter
 		{
 			if ( ac instanceof MultipleActions )
 			{
+				// Still show menu if visible is true.
+				boolean needMenu = ac.getValue( ) != null
+						&& ac.getValue( ).getLabel( ) != null
+						&& ac.getValue( ).getLabel( ).isVisible( );
+				
 				List<Action> validActions = MultiActionValuesScriptGenerator.getValidActions( (MultipleActions) ac );
 				if ( validActions.size( ) == 0 )
 				{
 					return ""; //$NON-NLS-1$
 				}
-				else if ( validActions.size( ) == 1 )
+				else if ( validActions.size( ) == 1 && !needMenu )
 				{
 					ActionValue av = validActions.get( 0 ).getValue( );
 					if ( av instanceof URLValue )
