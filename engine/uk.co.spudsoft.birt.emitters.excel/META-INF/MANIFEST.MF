@@ -13,8 +13,8 @@ Bundle-ClassPath: .,
  lib/stax-api-1.0.1.jar,
  lib/xmlbeans-2.3.0.jar,
  lib/poi-3.9-20121203.jar,
- lib/poi-ooxml-3.9-20130419.jar,
- lib/poi-ooxml-schemas-3.9-20130419.jar
+ lib/poi-ooxml-3.9-20121203.jar,
+ lib/poi-ooxml-schemas-3.9-20121203.jar
 Bundle-ActivationPolicy: lazy
 Export-Package: uk.co.spudsoft.birt.emitters.excel,
  uk.co.spudsoft.birt.emitters.excel.framework
