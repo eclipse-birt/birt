@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+    <text-property name="title">Nested Tables Test Report</text-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[var rowCount = 0;]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <script-data-source name="Data Source" id="23"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="Data Set" id="24">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">One</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">Two</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">Three</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">One</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Two</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Three</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">One</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Two</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">Three</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="fetch"><![CDATA[if( rowCount < 3 ) {
+	++rowCount;
+	row["One"] = 1 * rowCount;
+	row["Two"] = 2 * rowCount;
+	row["Three"] = 3 * rowCount;
+	
+	return true;
+} else {
+	return false;
+}]]></method>
+        </script-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="table-detail-cell" id="84">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+        <style name="table-header-cell" id="85">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="47">
+            <column id="48"/>
+            <row id="78">
+                <cell id="79">
+                    <label id="82">
+                        <text-property name="text">Table 1</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="50">
+                <cell id="51">
+                    <property name="backgroundColor">teal</property>
+                    <table name="Test" id="25">
+                        <property name="width">3in</property>
+                        <property name="dataSet">Data Set</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">One</property>
+                                <text-property name="displayName">One</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["One"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Two</property>
+                                <text-property name="displayName">Two</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["Two"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Three</property>
+                                <text-property name="displayName">Three</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["Three"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                        </list-property>
+                        <column id="44">
+                            <property name="width">1in</property>
+                        </column>
+                        <column id="45">
+                            <property name="width">1in</property>
+                        </column>
+                        <column id="46">
+                            <property name="width">1in</property>
+                        </column>
+                        <header>
+                            <row id="26">
+                                <cell id="27">
+                                    <label id="28">
+                                        <text-property name="text">One</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="29">
+                                    <label id="30">
+                                        <text-property name="text">Two</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="31">
+                                    <label id="32">
+                                        <text-property name="text">Three</text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                        </header>
+                        <detail>
+                            <row id="33">
+                                <cell id="34">
+                                    <data id="35">
+                                        <property name="resultSetColumn">One</property>
+                                    </data>
+                                </cell>
+                                <cell id="36">
+                                    <data id="37">
+                                        <property name="resultSetColumn">Two</property>
+                                    </data>
+                                </cell>
+                                <cell id="38">
+                                    <data id="39">
+                                        <property name="resultSetColumn">Three</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                    </table>
+                </cell>
+            </row>
+            <row id="80">
+                <cell id="81">
+                    <label id="83">
+                        <text-property name="text">Table 2</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="75">
+                <cell id="76">
+                    <property name="backgroundColor">orange</property>
+                    <table name="Test1" id="53">
+                        <property name="width">3in</property>
+                        <property name="dataSet">Data Set</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">One</property>
+                                <text-property name="displayName">One</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["One"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Two</property>
+                                <text-property name="displayName">Two</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["Two"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Three</property>
+                                <text-property name="displayName">Three</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["Three"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                        </list-property>
+                        <column id="72">
+                            <property name="width">1in</property>
+                        </column>
+                        <column id="73">
+                            <property name="width">1in</property>
+                        </column>
+                        <column id="74">
+                            <property name="width">1in</property>
+                        </column>
+                        <header>
+                            <row id="54">
+                                <cell id="55">
+                                    <label id="56">
+                                        <text-property name="text">One</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="57">
+                                    <label id="58">
+                                        <text-property name="text">Two</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="59">
+                                    <label id="60">
+                                        <text-property name="text">Three</text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                        </header>
+                        <detail>
+                            <row id="61">
+                                <cell id="62">
+                                    <data id="63">
+                                        <property name="resultSetColumn">One</property>
+                                    </data>
+                                </cell>
+                                <cell id="64">
+                                    <data id="65">
+                                        <property name="resultSetColumn">Two</property>
+                                    </data>
+                                </cell>
+                                <cell id="66">
+                                    <data id="67">
+                                        <property name="resultSetColumn">Three</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </detail>
+                    </table>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

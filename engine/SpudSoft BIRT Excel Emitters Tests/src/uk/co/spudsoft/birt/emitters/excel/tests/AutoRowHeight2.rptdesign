@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+    <text-property name="title">Auto RowHeight Report 2</text-property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">85</property>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="orientation">landscape</property>
+            <property name="topMargin">10mm</property>
+            <property name="leftMargin">20mm</property>
+            <property name="bottomMargin">10mm</property>
+            <property name="rightMargin">8mm</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="104">
+            <column id="105">
+                <property name="width">40mm</property>
+            </column>
+            <column id="1765">
+                <property name="width">15mm</property>
+            </column>
+            <column id="106">
+                <property name="width">120mm</property>
+            </column>
+            <column id="107">
+                <property name="width">37mm</property>
+            </column>
+            <column id="108">
+                <property name="width">30mm</property>
+            </column>
+            <row id="1781">
+                <cell id="1782">
+                    <property name="colSpan">5</property>
+                    <property name="rowSpan">1</property>
+                    <property name="textAlign">center</property>
+                    <text id="42">
+                        <property name="contentType">plain</property>
+                        <text-property name="content"><![CDATA[A long line of text that wraps without newlines, firstly with a single font:
+Nisi deserunt ex aute ut eu id reprehenderit exercitation lorem non laboris irure cupidatat ipsum. Ad irure, laboris qui. Veniam quis dolore magna dolor minim officia, in proident dolor exercitation esse dolore velit ad reprehenderit, incididunt aliqua.
+Voluptate ad anim deserunt. Cupidatat tempor cupidatat lorem cillum ut in incididunt aliquip, magna excepteur lorem ea. Sunt irure quis cupidatat lorem proident ea mollit ea culpa ea eu adipisicing ipsum duis, dolore nostrud. Qui voluptate sit, sint eu velit. Labore magna sit et mollit sit officia do.
+Eu minim in do. Ut nulla eiusmod qui nostrud in. Nisi proident sit, minim, nisi reprehenderit nisi commodo et qui lorem ea.
+Voluptate nostrud aute ut sed nulla proident ut laboris adipisicing eu nulla in nulla tempor elit irure, veniam in. Sit ullamco ut veniam cupidatat ad fugiat ipsum nostrud esse dolor eiusmod velit nostrud cupidatat voluptate. Cupidatat consequat officia dolore non amet, enim nulla veniam dolore, ut ut non nisi dolor eu nulla dolore nostrud. Sed voluptate, aute labore. Duis ad cillum lorem labore esse!]]></text-property>
+                    </text>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

@@ -1,0 +1,1477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.1.v201209101448 Build &lt;4.2.1.v20120912-1721></property>
+    <text-property name="title">Big Crosstab Report 1</text-property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="42">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Full Data Set" id="43">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CUSTOMERNUMBER</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
+                    <text-property name="heading">CUSTOMERNUMBER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUSTOMERNAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CUSTOMERNAME</text-property>
+                    <text-property name="heading">CUSTOMERNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONTACTLASTNAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONTACTLASTNAME</text-property>
+                    <text-property name="heading">CONTACTLASTNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONTACTFIRSTNAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONTACTFIRSTNAME</text-property>
+                    <text-property name="heading">CONTACTFIRSTNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PHONE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">PHONE</text-property>
+                    <text-property name="heading">PHONE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ADDRESSLINE1</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">ADDRESSLINE1</text-property>
+                    <text-property name="heading">ADDRESSLINE1</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ADDRESSLINE2</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">ADDRESSLINE2</text-property>
+                    <text-property name="heading">ADDRESSLINE2</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CITY</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CITY</text-property>
+                    <text-property name="heading">CITY</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">STATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">STATE</text-property>
+                    <text-property name="heading">STATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">POSTALCODE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">POSTALCODE</text-property>
+                    <text-property name="heading">POSTALCODE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COUNTRY</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">COUNTRY</text-property>
+                    <text-property name="heading">COUNTRY</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SALESREPEMPLOYEENUMBER</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SALESREPEMPLOYEENUMBER</text-property>
+                    <text-property name="heading">SALESREPEMPLOYEENUMBER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CREDITLIMIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">CREDITLIMIT</text-property>
+                    <text-property name="heading">CREDITLIMIT</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CONTACTLASTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CONTACTFIRSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">SALESREPEMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">CREDITLIMIT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <property name="nativeName">CUSTOMERNUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CUSTOMERNAME</property>
+                    <property name="nativeName">CUSTOMERNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <property name="nativeName">CONTACTLASTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <property name="nativeName">CONTACTFIRSTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">PHONE</property>
+                    <property name="nativeName">PHONE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">ADDRESSLINE1</property>
+                    <property name="nativeName">ADDRESSLINE1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">ADDRESSLINE2</property>
+                    <property name="nativeName">ADDRESSLINE2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">CITY</property>
+                    <property name="nativeName">CITY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">STATE</property>
+                    <property name="nativeName">STATE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">POSTALCODE</property>
+                    <property name="nativeName">POSTALCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">COUNTRY</property>
+                    <property name="nativeName">COUNTRY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <property name="nativeName">SALESREPEMPLOYEENUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">CREDITLIMIT</property>
+                    <property name="nativeName">CREDITLIMIT</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.CUSTOMERS]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Empty Data Set" id="44">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CUSTOMERNUMBER</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
+                    <text-property name="heading">CUSTOMERNUMBER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUSTOMERNAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CUSTOMERNAME</text-property>
+                    <text-property name="heading">CUSTOMERNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONTACTLASTNAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONTACTLASTNAME</text-property>
+                    <text-property name="heading">CONTACTLASTNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONTACTFIRSTNAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONTACTFIRSTNAME</text-property>
+                    <text-property name="heading">CONTACTFIRSTNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PHONE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">PHONE</text-property>
+                    <text-property name="heading">PHONE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ADDRESSLINE1</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">ADDRESSLINE1</text-property>
+                    <text-property name="heading">ADDRESSLINE1</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ADDRESSLINE2</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">ADDRESSLINE2</text-property>
+                    <text-property name="heading">ADDRESSLINE2</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CITY</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CITY</text-property>
+                    <text-property name="heading">CITY</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">STATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">STATE</text-property>
+                    <text-property name="heading">STATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">POSTALCODE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">POSTALCODE</text-property>
+                    <text-property name="heading">POSTALCODE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COUNTRY</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">COUNTRY</text-property>
+                    <text-property name="heading">COUNTRY</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SALESREPEMPLOYEENUMBER</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SALESREPEMPLOYEENUMBER</text-property>
+                    <text-property name="heading">SALESREPEMPLOYEENUMBER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CREDITLIMIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">CREDITLIMIT</text-property>
+                    <text-property name="heading">CREDITLIMIT</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CONTACTLASTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CONTACTFIRSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">SALESREPEMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">CREDITLIMIT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <property name="nativeName">CUSTOMERNUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CUSTOMERNAME</property>
+                    <property name="nativeName">CUSTOMERNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <property name="nativeName">CONTACTLASTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <property name="nativeName">CONTACTFIRSTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">PHONE</property>
+                    <property name="nativeName">PHONE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">ADDRESSLINE1</property>
+                    <property name="nativeName">ADDRESSLINE1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">ADDRESSLINE2</property>
+                    <property name="nativeName">ADDRESSLINE2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">CITY</property>
+                    <property name="nativeName">CITY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">STATE</property>
+                    <property name="nativeName">STATE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">POSTALCODE</property>
+                    <property name="nativeName">POSTALCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">COUNTRY</property>
+                    <property name="nativeName">COUNTRY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <property name="nativeName">SALESREPEMPLOYEENUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">CREDITLIMIT</property>
+                    <property name="nativeName">CREDITLIMIT</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.CUSTOMERS
+where CUSTOMERNUMBEr < 0
+]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CUSTOMERNUMBER</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CUSTOMERNUMBER</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CUSTOMERNUMBER</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CUSTOMERNAME</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CUSTOMERNAME</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CUSTOMERNAME</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CONTACTLASTNAME</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CONTACTLASTNAME</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CONTACTLASTNAME</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CONTACTFIRSTNAME</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CONTACTFIRSTNAME</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CONTACTFIRSTNAME</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PHONE</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PHONE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PHONE</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ADDRESSLINE1</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ADDRESSLINE1</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ADDRESSLINE1</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ADDRESSLINE2</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ADDRESSLINE2</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ADDRESSLINE2</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CITY</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CITY</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CITY</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>STATE</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>STATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>STATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>POSTALCODE</design:name>
+              <design:position>10</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>15</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>POSTALCODE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>POSTALCODE</design:label>
+            <design:formattingHints>
+              <design:displaySize>15</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>COUNTRY</design:name>
+              <design:position>11</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>COUNTRY</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>COUNTRY</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>SALESREPEMPLOYEENUMBER</design:name>
+              <design:position>12</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>SALESREPEMPLOYEENUMBER</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>SALESREPEMPLOYEENUMBER</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CREDITLIMIT</design:name>
+              <design:position>13</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>15</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CREDITLIMIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CREDITLIMIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="crosstab-cell" id="2">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">0pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">0pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">0pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">0pt</property>
+            <property name="paddingTop">0pt</property>
+            <property name="paddingLeft">0pt</property>
+            <property name="paddingBottom">0pt</property>
+            <property name="paddingRight">0pt</property>
+        </style>
+        <style name="crosstab" id="3">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">0pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">0pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">0pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">0pt</property>
+            <property name="paddingTop">0pt</property>
+            <property name="paddingLeft">0pt</property>
+            <property name="paddingBottom">0pt</property>
+            <property name="paddingRight">0pt</property>
+        </style>
+        <style name="data" id="40">
+            <property name="borderBottomWidth">0pt</property>
+            <property name="borderLeftWidth">0pt</property>
+            <property name="borderRightWidth">0pt</property>
+            <property name="borderTopWidth">0pt</property>
+            <property name="paddingTop">0pt</property>
+            <property name="paddingLeft">0pt</property>
+            <property name="paddingBottom">0pt</property>
+            <property name="paddingRight">0pt</property>
+        </style>
+        <style name="label" id="41">
+            <property name="borderBottomWidth">0pt</property>
+            <property name="borderLeftWidth">0pt</property>
+            <property name="borderRightWidth">0pt</property>
+            <property name="borderTopWidth">0pt</property>
+            <property name="paddingTop">0pt</property>
+            <property name="paddingLeft">0pt</property>
+            <property name="paddingBottom">0pt</property>
+            <property name="paddingRight">0pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Page Master" id="4"/>
+    </page-setup>
+    <body>
+        <table name="Full1" id="45">
+            <property name="dataSet">Full Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <text-property name="displayName">CUSTOMERNAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <text-property name="displayName">CONTACTLASTNAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CONTACTLASTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <text-property name="displayName">CONTACTFIRSTNAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <text-property name="displayName">PHONE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PHONE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <text-property name="displayName">ADDRESSLINE1</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ADDRESSLINE1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <text-property name="displayName">ADDRESSLINE2</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ADDRESSLINE2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <text-property name="displayName">CITY</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CITY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <text-property name="displayName">STATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["STATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <text-property name="displayName">POSTALCODE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["POSTALCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <text-property name="displayName">COUNTRY</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <text-property name="displayName">SALESREPEMPLOYEENUMBER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CREDITLIMIT</property>
+                    <text-property name="displayName">CREDITLIMIT</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CREDITLIMIT"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <column id="114"/>
+            <column id="115"/>
+            <column id="116"/>
+            <column id="117"/>
+            <column id="118"/>
+            <column id="119"/>
+            <column id="120"/>
+            <column id="121"/>
+            <column id="122"/>
+            <column id="123"/>
+            <column id="124"/>
+            <column id="125"/>
+            <column id="126"/>
+            <header>
+                <row id="46">
+                    <cell id="47">
+                        <label id="48">
+                            <text-property name="text">CUSTOMERNUMBER</text-property>
+                        </label>
+                    </cell>
+                    <cell id="49">
+                        <label id="50">
+                            <text-property name="text">CUSTOMERNAME</text-property>
+                        </label>
+                    </cell>
+                    <cell id="51">
+                        <label id="52">
+                            <text-property name="text">CONTACTLASTNAME</text-property>
+                        </label>
+                    </cell>
+                    <cell id="53">
+                        <label id="54">
+                            <text-property name="text">CONTACTFIRSTNAME</text-property>
+                        </label>
+                    </cell>
+                    <cell id="55">
+                        <label id="56">
+                            <text-property name="text">PHONE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="57">
+                        <label id="58">
+                            <text-property name="text">ADDRESSLINE1</text-property>
+                        </label>
+                    </cell>
+                    <cell id="59">
+                        <label id="60">
+                            <text-property name="text">ADDRESSLINE2</text-property>
+                        </label>
+                    </cell>
+                    <cell id="61">
+                        <label id="62">
+                            <text-property name="text">CITY</text-property>
+                        </label>
+                    </cell>
+                    <cell id="63">
+                        <label id="64">
+                            <text-property name="text">STATE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="65">
+                        <label id="66">
+                            <text-property name="text">POSTALCODE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="67">
+                        <label id="68">
+                            <text-property name="text">COUNTRY</text-property>
+                        </label>
+                    </cell>
+                    <cell id="69">
+                        <label id="70">
+                            <text-property name="text">SALESREPEMPLOYEENUMBER</text-property>
+                        </label>
+                    </cell>
+                    <cell id="71">
+                        <label id="72">
+                            <text-property name="text">CREDITLIMIT</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="73">
+                    <cell id="74">
+                        <data id="75">
+                            <property name="resultSetColumn">CUSTOMERNUMBER</property>
+                        </data>
+                    </cell>
+                    <cell id="76">
+                        <data id="77">
+                            <property name="resultSetColumn">CUSTOMERNAME</property>
+                        </data>
+                    </cell>
+                    <cell id="78">
+                        <data id="79">
+                            <property name="resultSetColumn">CONTACTLASTNAME</property>
+                        </data>
+                    </cell>
+                    <cell id="80">
+                        <data id="81">
+                            <property name="resultSetColumn">CONTACTFIRSTNAME</property>
+                        </data>
+                    </cell>
+                    <cell id="82">
+                        <data id="83">
+                            <property name="resultSetColumn">PHONE</property>
+                        </data>
+                    </cell>
+                    <cell id="84">
+                        <data id="85">
+                            <property name="resultSetColumn">ADDRESSLINE1</property>
+                        </data>
+                    </cell>
+                    <cell id="86">
+                        <data id="87">
+                            <property name="resultSetColumn">ADDRESSLINE2</property>
+                        </data>
+                    </cell>
+                    <cell id="88">
+                        <data id="89">
+                            <property name="resultSetColumn">CITY</property>
+                        </data>
+                    </cell>
+                    <cell id="90">
+                        <data id="91">
+                            <property name="resultSetColumn">STATE</property>
+                        </data>
+                    </cell>
+                    <cell id="92">
+                        <data id="93">
+                            <property name="resultSetColumn">POSTALCODE</property>
+                        </data>
+                    </cell>
+                    <cell id="94">
+                        <data id="95">
+                            <property name="resultSetColumn">COUNTRY</property>
+                        </data>
+                    </cell>
+                    <cell id="96">
+                        <data id="97">
+                            <property name="resultSetColumn">SALESREPEMPLOYEENUMBER</property>
+                        </data>
+                    </cell>
+                    <cell id="98">
+                        <data id="99">
+                            <property name="resultSetColumn">CREDITLIMIT</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="100">
+                    <cell id="101"/>
+                    <cell id="102"/>
+                    <cell id="103"/>
+                    <cell id="104"/>
+                    <cell id="105"/>
+                    <cell id="106"/>
+                    <cell id="107"/>
+                    <cell id="108"/>
+                    <cell id="109"/>
+                    <cell id="110"/>
+                    <cell id="111"/>
+                    <cell id="112"/>
+                    <cell id="113"/>
+                </row>
+            </footer>
+        </table>
+        <table name="Empty1" id="127">
+            <property name="dataSet">Empty Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <text-property name="displayName">CUSTOMERNAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <text-property name="displayName">CONTACTLASTNAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CONTACTLASTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <text-property name="displayName">CONTACTFIRSTNAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <text-property name="displayName">PHONE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PHONE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <text-property name="displayName">ADDRESSLINE1</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ADDRESSLINE1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <text-property name="displayName">ADDRESSLINE2</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ADDRESSLINE2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <text-property name="displayName">CITY</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CITY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <text-property name="displayName">STATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["STATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <text-property name="displayName">POSTALCODE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["POSTALCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <text-property name="displayName">COUNTRY</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <text-property name="displayName">SALESREPEMPLOYEENUMBER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CREDITLIMIT</property>
+                    <text-property name="displayName">CREDITLIMIT</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CREDITLIMIT"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <column id="198"/>
+            <header>
+                <row id="128">
+                    <cell id="133">
+                        <label id="134">
+                            <text-property name="text">CONTACTLASTNAME</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="155">
+                    <cell id="160">
+                        <data id="161">
+                            <property name="resultSetColumn">CONTACTLASTNAME</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="182">
+                    <cell id="185"/>
+                </row>
+            </footer>
+        </table>
+        <table name="Full2" id="209">
+            <property name="dataSet">Full Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <text-property name="displayName">CUSTOMERNAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <text-property name="displayName">CONTACTLASTNAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CONTACTLASTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <text-property name="displayName">CONTACTFIRSTNAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <text-property name="displayName">PHONE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PHONE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <text-property name="displayName">ADDRESSLINE1</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ADDRESSLINE1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <text-property name="displayName">ADDRESSLINE2</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ADDRESSLINE2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <text-property name="displayName">CITY</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CITY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <text-property name="displayName">STATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["STATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <text-property name="displayName">POSTALCODE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["POSTALCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <text-property name="displayName">COUNTRY</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <text-property name="displayName">SALESREPEMPLOYEENUMBER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CREDITLIMIT</property>
+                    <text-property name="displayName">CREDITLIMIT</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CREDITLIMIT"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <column id="278"/>
+            <column id="279"/>
+            <column id="280"/>
+            <column id="281"/>
+            <column id="282"/>
+            <column id="283"/>
+            <column id="284"/>
+            <column id="285"/>
+            <column id="286"/>
+            <column id="287"/>
+            <column id="288"/>
+            <column id="289"/>
+            <column id="290"/>
+            <header>
+                <row id="210">
+                    <cell id="211">
+                        <label id="212">
+                            <text-property name="text">CUSTOMERNUMBER</text-property>
+                        </label>
+                    </cell>
+                    <cell id="213">
+                        <label id="214">
+                            <text-property name="text">CUSTOMERNAME</text-property>
+                        </label>
+                    </cell>
+                    <cell id="215">
+                        <label id="216">
+                            <text-property name="text">CONTACTLASTNAME</text-property>
+                        </label>
+                    </cell>
+                    <cell id="217">
+                        <label id="218">
+                            <text-property name="text">CONTACTFIRSTNAME</text-property>
+                        </label>
+                    </cell>
+                    <cell id="219">
+                        <label id="220">
+                            <text-property name="text">PHONE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="221">
+                        <label id="222">
+                            <text-property name="text">ADDRESSLINE1</text-property>
+                        </label>
+                    </cell>
+                    <cell id="223">
+                        <label id="224">
+                            <text-property name="text">ADDRESSLINE2</text-property>
+                        </label>
+                    </cell>
+                    <cell id="225">
+                        <label id="226">
+                            <text-property name="text">CITY</text-property>
+                        </label>
+                    </cell>
+                    <cell id="227">
+                        <label id="228">
+                            <text-property name="text">STATE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="229">
+                        <label id="230">
+                            <text-property name="text">POSTALCODE</text-property>
+                        </label>
+                    </cell>
+                    <cell id="231">
+                        <label id="232">
+                            <text-property name="text">COUNTRY</text-property>
+                        </label>
+                    </cell>
+                    <cell id="233">
+                        <label id="234">
+                            <text-property name="text">SALESREPEMPLOYEENUMBER</text-property>
+                        </label>
+                    </cell>
+                    <cell id="235">
+                        <label id="236">
+                            <text-property name="text">CREDITLIMIT</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="237">
+                    <cell id="238">
+                        <data id="239">
+                            <property name="resultSetColumn">CUSTOMERNUMBER</property>
+                        </data>
+                    </cell>
+                    <cell id="240">
+                        <data id="241">
+                            <property name="resultSetColumn">CUSTOMERNAME</property>
+                        </data>
+                    </cell>
+                    <cell id="242">
+                        <data id="243">
+                            <property name="resultSetColumn">CONTACTLASTNAME</property>
+                        </data>
+                    </cell>
+                    <cell id="244">
+                        <data id="245">
+                            <property name="resultSetColumn">CONTACTFIRSTNAME</property>
+                        </data>
+                    </cell>
+                    <cell id="246">
+                        <data id="247">
+                            <property name="resultSetColumn">PHONE</property>
+                        </data>
+                    </cell>
+                    <cell id="248">
+                        <data id="249">
+                            <property name="resultSetColumn">ADDRESSLINE1</property>
+                        </data>
+                    </cell>
+                    <cell id="250">
+                        <data id="251">
+                            <property name="resultSetColumn">ADDRESSLINE2</property>
+                        </data>
+                    </cell>
+                    <cell id="252">
+                        <data id="253">
+                            <property name="resultSetColumn">CITY</property>
+                        </data>
+                    </cell>
+                    <cell id="254">
+                        <data id="255">
+                            <property name="resultSetColumn">STATE</property>
+                        </data>
+                    </cell>
+                    <cell id="256">
+                        <data id="257">
+                            <property name="resultSetColumn">POSTALCODE</property>
+                        </data>
+                    </cell>
+                    <cell id="258">
+                        <data id="259">
+                            <property name="resultSetColumn">COUNTRY</property>
+                        </data>
+                    </cell>
+                    <cell id="260">
+                        <data id="261">
+                            <property name="resultSetColumn">SALESREPEMPLOYEENUMBER</property>
+                        </data>
+                    </cell>
+                    <cell id="262">
+                        <data id="263">
+                            <property name="resultSetColumn">CREDITLIMIT</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="264">
+                    <cell id="265"/>
+                    <cell id="266"/>
+                    <cell id="267"/>
+                    <cell id="268"/>
+                    <cell id="269"/>
+                    <cell id="270"/>
+                    <cell id="271"/>
+                    <cell id="272"/>
+                    <cell id="273"/>
+                    <cell id="274"/>
+                    <cell id="275"/>
+                    <cell id="276"/>
+                    <cell id="277"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

@@ -1,0 +1,845 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.1.v201209101448 Build &lt;4.2.1.v20120912-1721></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">fixed layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="8">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CUSTOMERNUMBER</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
+                    <text-property name="heading">CUSTOMERNUMBER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CUSTOMERNAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CUSTOMERNAME</text-property>
+                    <text-property name="heading">CUSTOMERNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONTACTLASTNAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONTACTLASTNAME</text-property>
+                    <text-property name="heading">CONTACTLASTNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CONTACTFIRSTNAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CONTACTFIRSTNAME</text-property>
+                    <text-property name="heading">CONTACTFIRSTNAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PHONE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">PHONE</text-property>
+                    <text-property name="heading">PHONE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ADDRESSLINE1</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">ADDRESSLINE1</text-property>
+                    <text-property name="heading">ADDRESSLINE1</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ADDRESSLINE2</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">ADDRESSLINE2</text-property>
+                    <text-property name="heading">ADDRESSLINE2</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CITY</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">CITY</text-property>
+                    <text-property name="heading">CITY</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">STATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">STATE</text-property>
+                    <text-property name="heading">STATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">POSTALCODE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">POSTALCODE</text-property>
+                    <text-property name="heading">POSTALCODE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COUNTRY</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">COUNTRY</text-property>
+                    <text-property name="heading">COUNTRY</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SALESREPEMPLOYEENUMBER</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">SALESREPEMPLOYEENUMBER</text-property>
+                    <text-property name="heading">SALESREPEMPLOYEENUMBER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CREDITLIMIT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">CREDITLIMIT</text-property>
+                    <text-property name="heading">CREDITLIMIT</text-property>
+                </structure>
+            </list-property>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">in</property>
+                    <expression name="expr" type="javascript">row["COUNTRY"]</expression>
+                    <simple-property-list name="value1">
+                        <value>"Australia"</value>
+                        <value>"France"</value>
+                        <value>"Israel"</value>
+                        <value>"New Zealand"</value>
+                    </simple-property-list>
+                    <property name="updateAggregation">true</property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CONTACTLASTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CONTACTFIRSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">SALESREPEMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">CREDITLIMIT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <property name="nativeName">CUSTOMERNUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CUSTOMERNAME</property>
+                    <property name="nativeName">CUSTOMERNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <property name="nativeName">CONTACTLASTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <property name="nativeName">CONTACTFIRSTNAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">PHONE</property>
+                    <property name="nativeName">PHONE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">ADDRESSLINE1</property>
+                    <property name="nativeName">ADDRESSLINE1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">ADDRESSLINE2</property>
+                    <property name="nativeName">ADDRESSLINE2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">CITY</property>
+                    <property name="nativeName">CITY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">STATE</property>
+                    <property name="nativeName">STATE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">POSTALCODE</property>
+                    <property name="nativeName">POSTALCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">COUNTRY</property>
+                    <property name="nativeName">COUNTRY</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <property name="nativeName">SALESREPEMPLOYEENUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">CREDITLIMIT</property>
+                    <property name="nativeName">CREDITLIMIT</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select *
+from customers]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ORDERNUMBER</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ORDERNUMBER</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ORDERNUMBER</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PRODUCTCODE</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>15</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PRODUCTCODE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PRODUCTCODE</design:label>
+            <design:formattingHints>
+              <design:displaySize>15</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>QUANTITYORDERED</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>QUANTITYORDERED</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>QUANTITYORDERED</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PRICEEACH</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>15</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PRICEEACH</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PRICEEACH</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ORDERLINENUMBER</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>5</design:nativeDataTypeCode>
+            <design:precision>5</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ORDERLINENUMBER</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ORDERLINENUMBER</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="table-header" id="57">
+            <property name="backgroundColor">#6078BF</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">small</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#FFFFFF</property>
+            <property name="paddingTop">0px</property>
+            <property name="paddingLeft">0px</property>
+            <property name="paddingBottom">0px</property>
+            <property name="paddingRight">0px</property>
+        </style>
+        <style name="table-footer" id="58">
+            <property name="backgroundColor">#6078BF</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">small</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#FFFFFF</property>
+            <property name="paddingTop">0px</property>
+            <property name="paddingLeft">0px</property>
+            <property name="paddingBottom">0px</property>
+            <property name="paddingRight">0px</property>
+        </style>
+        <style name="table-detail" id="59">
+            <property name="backgroundColor">#E6ECFF</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">x-small</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#000080</property>
+            <property name="paddingTop">0px</property>
+            <property name="paddingLeft">0px</property>
+            <property name="paddingBottom">0px</property>
+            <property name="paddingRight">0px</property>
+        </style>
+        <style name="table-group-header-1" id="60">
+            <property name="backgroundColor">#809FFF</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">small</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#FFFFFF</property>
+            <property name="paddingTop">0px</property>
+            <property name="paddingLeft">0px</property>
+            <property name="paddingBottom">0px</property>
+            <property name="paddingRight">0px</property>
+        </style>
+        <style name="table-group-footer-1" id="61">
+            <property name="backgroundColor">#C0C0C0</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">x-small</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#000080</property>
+            <property name="paddingTop">0px</property>
+            <property name="paddingLeft">0px</property>
+            <property name="paddingBottom">0px</property>
+            <property name="paddingRight">0px</property>
+        </style>
+        <style name="special-header" id="62">
+            <property name="backgroundColor">#6078BF</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">medium</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#FFFFFF</property>
+            <property name="paddingTop">0px</property>
+            <property name="paddingLeft">0px</property>
+            <property name="paddingBottom">0px</property>
+            <property name="paddingRight">0px</property>
+        </style>
+        <style name="crosstab-detail" id="63">
+            <property name="backgroundColor">#E6ECFF</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">x-small</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#000080</property>
+            <property name="paddingTop">0px</property>
+            <property name="paddingLeft">0px</property>
+            <property name="paddingBottom">0px</property>
+            <property name="paddingRight">0px</property>
+        </style>
+        <style name="crosstab-header" id="64">
+            <property name="backgroundColor">#6078BF</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">small</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#FFFFFF</property>
+            <property name="paddingTop">0px</property>
+            <property name="paddingLeft">0px</property>
+            <property name="paddingBottom">0px</property>
+            <property name="paddingRight">0px</property>
+        </style>
+        <style name="mydata" id="65">
+            <property name="color">orange</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="orientation">landscape</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="66">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">smaller</property>
+            <property name="pageBreakInside">auto</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <text-property name="displayName">CUSTOMERNAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <text-property name="displayName">PHONE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PHONE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <text-property name="displayName">CITY</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CITY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <text-property name="displayName">STATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["STATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <text-property name="displayName">POSTALCODE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["POSTALCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <text-property name="displayName">SALESREPEMPLOYEENUMBER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CREDITLIMIT</property>
+                    <text-property name="displayName">CREDITLIMIT</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CREDITLIMIT"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <text-property name="displayName">COUNTRY</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <property name="repeatHeader">false</property>
+            <property name="pageBreakInterval">0</property>
+            <column id="144"/>
+            <column id="94"/>
+            <column id="95"/>
+            <column id="96"/>
+            <column id="97"/>
+            <column id="98"/>
+            <column id="101"/>
+            <group id="147">
+                <property name="groupName">NewTableGroup1</property>
+                <expression name="keyExpr" type="javascript">row["COUNTRY"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["COUNTRY"]</expression>
+                </structure>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">always-excluding-last</property>
+                <header>
+                    <row id="148">
+                        <property name="backgroundColor">#FFFFFF</property>
+                        <property name="fontSize">small</property>
+                        <property name="color">#000000</property>
+                        <cell id="149">
+                            <property name="fontSize">small</property>
+                            <data id="168">
+                                <property name="resultSetColumn">COUNTRY</property>
+                            </data>
+                        </cell>
+                        <cell id="150">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="151">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="152">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="153">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="154">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="157">
+                            <property name="fontSize">small</property>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <group id="190">
+                <property name="groupName">NewTableGroup2</property>
+                <expression name="keyExpr" type="javascript">row["CITY"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["CITY"]</expression>
+                </structure>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">auto</property>
+                <header>
+                    <row id="222">
+                        <property name="backgroundColor">#3E9EFF</property>
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="fontSize">small</property>
+                        <cell id="223">
+                            <property name="fontSize">small</property>
+                            <label id="145">
+                                <text-property name="text">COUNTRY</text-property>
+                            </label>
+                        </cell>
+                        <cell id="224">
+                            <property name="fontSize">small</property>
+                            <label id="102">
+                                <text-property name="text">CUSTOMERNUMBER</text-property>
+                            </label>
+                        </cell>
+                        <cell id="225">
+                            <property name="fontSize">small</property>
+                            <label id="104">
+                                <text-property name="text">CUSTOMERNAME</text-property>
+                            </label>
+                        </cell>
+                        <cell id="226">
+                            <property name="fontSize">small</property>
+                            <label id="106">
+                                <text-property name="text">PHONE</text-property>
+                            </label>
+                        </cell>
+                        <cell id="227">
+                            <property name="fontSize">small</property>
+                            <label id="108">
+                                <text-property name="text">CITY</text-property>
+                            </label>
+                        </cell>
+                        <cell id="228">
+                            <property name="fontSize">small</property>
+                            <label id="110">
+                                <text-property name="text">STATE</text-property>
+                            </label>
+                        </cell>
+                        <cell id="231">
+                            <property name="fontSize">small</property>
+                            <label id="116">
+                                <text-property name="text">CREDITLIMIT</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                    <row id="191">
+                        <property name="backgroundColor">#AED7FF</property>
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="fontSize">smaller</property>
+                        <cell id="192">
+                            <property name="fontSize">small</property>
+                            <data id="211">
+                                <property name="resultSetColumn">CITY</property>
+                            </data>
+                        </cell>
+                        <cell id="193">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="194">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="195">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="196">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="197">
+                            <property name="fontSize">small</property>
+                        </cell>
+                        <cell id="200">
+                            <property name="fontSize">small</property>
+                        </cell>
+                    </row>
+                </header>
+                <footer>
+                    <row id="232">
+                        <list-property name="userProperties">
+                            <structure>
+                                <property name="name">ExcelEmitter.InsertPrintBreakAfter</property>
+                                <property name="type">boolean</property>
+                            </structure>
+                        </list-property>
+                        <property name="ExcelEmitter.InsertPrintBreakAfter">true</property>
+                        <cell id="233"/>
+                        <cell id="234"/>
+                        <cell id="235"/>
+                        <cell id="236"/>
+                        <cell id="237"/>
+                        <cell id="238"/>
+                        <cell id="239"/>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row id="76">
+                    <property name="backgroundColor">#FFFFFF</property>
+                    <property name="fontSize">smaller</property>
+                    <property name="fontWeight">normal</property>
+                    <list-property name="highlightRules">
+                        <structure>
+                            <property name="operator">eq</property>
+                            <expression name="testExpr" type="javascript">row.__rownum % 10</expression>
+                            <simple-property-list name="value1">
+                                <value type="javascript">0</value>
+                            </simple-property-list>
+                        </structure>
+                    </list-property>
+                    <cell id="142">
+                        <property name="fontSize">small</property>
+                        <data id="146">
+                            <property name="resultSetColumn">COUNTRY</property>
+                        </data>
+                    </cell>
+                    <cell id="77">
+                        <property name="fontSize">small</property>
+                        <data id="103">
+                            <property name="resultSetColumn">CUSTOMERNUMBER</property>
+                        </data>
+                    </cell>
+                    <cell id="78">
+                        <property name="fontSize">small</property>
+                        <data id="105">
+                            <property name="resultSetColumn">CUSTOMERNAME</property>
+                        </data>
+                    </cell>
+                    <cell id="79">
+                        <property name="fontSize">small</property>
+                        <data id="107">
+                            <property name="resultSetColumn">PHONE</property>
+                        </data>
+                    </cell>
+                    <cell id="80">
+                        <property name="fontSize">small</property>
+                        <data id="109">
+                            <property name="resultSetColumn">CITY</property>
+                        </data>
+                    </cell>
+                    <cell id="81">
+                        <property name="fontSize">small</property>
+                        <data id="111">
+                            <property name="resultSetColumn">STATE</property>
+                        </data>
+                    </cell>
+                    <cell id="84">
+                        <property name="fontSize">small</property>
+                        <data id="117">
+                            <property name="resultSetColumn">CREDITLIMIT</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="85">
+                    <property name="backgroundColor">#FFFFFF</property>
+                    <property name="fontSize">smaller</property>
+                    <cell id="143">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="86">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="87">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="88">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="89">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="90">
+                        <property name="fontSize">small</property>
+                    </cell>
+                    <cell id="93">
+                        <property name="fontSize">small</property>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
