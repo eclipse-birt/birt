@@ -53,6 +53,9 @@ public class ClassPathsPageHelper
 	private POJOClassTabFolderPage runtimePage;
 	private POJOClassTabFolderPage designtimePage;
 
+	private boolean needsRefresh = false;
+	
+	
 	public ClassPathsPageHelper( ResourceIdentifiers ri )
 	{
 		this.ri = ri;
@@ -122,23 +125,43 @@ public class ClassPathsPageHelper
 		if ( dataSourceProps != null )
 		{
 			props = dataSourceProps;
+			needsRefresh = true;
 		}
-		initControlValues( );
 	}
 	
-	private void initControlValues( )
+	public void refresh( )
 	{
-		String dataSetClassPath = props.getProperty( Constants.POJO_DATA_SET_CLASS_PATH );
-		String pojoClassPath = props.getProperty( Constants.POJO_CLASS_PATH );
-		
-		if ( runtimePage != null )
+		if ( needsRefresh && runtimePage != null && designtimePage != null )
 		{
-			//UI controls are already created
+			String dataSetClassPath = props.getProperty( Constants.POJO_DATA_SET_CLASS_PATH );
+			String pojoClassPath = props.getProperty( Constants.POJO_CLASS_PATH );
+
+			// UI controls are already created
 			runtimePage.setClassPath( dataSetClassPath );
 			designtimePage.setClassPath( pojoClassPath );
+
+			runtimePage.refresh( );
+			designtimePage.refresh( );
+			
+		}
+		needsRefresh = false;
+	}
+
+	private void initControlValues( )
+	{
+		if ( runtimePage != null )
+		{
+			String dataSetClassPath = props.getProperty( Constants.POJO_DATA_SET_CLASS_PATH );
+			String pojoClassPath = props.getProperty( Constants.POJO_CLASS_PATH );
+
+			// UI controls are already created
+			runtimePage.setClassPath( dataSetClassPath );
+			designtimePage.setClassPath( pojoClassPath );
+			runtimePage.initClassPathElements( );
+			designtimePage.initClassPathElements( );
 		}
 	}
-	
+
 	private File getApplResourceDir( )
 	{
 		if ( ri != null )

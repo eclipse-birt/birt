@@ -173,6 +173,7 @@ public class ClassSelectionButton
 		ClassPathElement[] elements = createClassPathElements( paths,
 				rootPath,
 				isRelative );
+		( (MenuButtonHelper) helper ).updateTableElementsList( );
 		helper.addClassPathElements( elements, true );
 
 		if ( folderPage != null )

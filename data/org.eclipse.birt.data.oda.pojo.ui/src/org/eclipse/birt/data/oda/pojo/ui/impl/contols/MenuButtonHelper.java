@@ -34,10 +34,22 @@ public class MenuButtonHelper implements IMenuButtonHelper
 	public MenuButtonHelper( TableViewer viewer )
 	{
 		this.viewer = viewer;
-		updateTableElementsList( viewer );
+		updateTableElementsList( );
+	}
+	
+	public void clearTableElementsList( )
+	{
+		if( elements == null )
+		{
+			elements = new ArrayList<ClassPathElement>( );
+		}
+		else
+		{
+			elements.clear( );
+		}
 	}
 
-	private void updateTableElementsList( TableViewer viewer )
+	public void updateTableElementsList( )
 	{
 		elements = (List<ClassPathElement>) viewer.getInput( );
 		if( elements == null )
@@ -53,7 +65,6 @@ public class MenuButtonHelper implements IMenuButtonHelper
 
 	public void addClassPathElements( ClassPathElement[] items, boolean current )
 	{
-		updateTableElementsList( viewer );
 		boolean containsDuplicated = false;
 		for ( int i = 0; i < items.length; i++ )
 		{

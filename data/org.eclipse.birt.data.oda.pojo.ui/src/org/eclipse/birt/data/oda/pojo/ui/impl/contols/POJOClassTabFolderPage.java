@@ -53,6 +53,7 @@ public class POJOClassTabFolderPage
 	private File resouceDir;
 	private List<ClassPathElement> elements;
 	private String promp;
+	private String dataSetClassPath;
 	
 	private static String PATH_SEPARATOR = ";"; //$NON-NLS-1$
 
@@ -313,11 +314,15 @@ public class POJOClassTabFolderPage
 		return ( (MenuButtonHelper) jarButton.getMenuButtonHelper( ) ).getElementCount( ) > 0;
 	}
 
-	public void initClassPathElements( String dataSetClassPath )
+	public void initClassPathElements( )
 	{
 		if ( elements == null )
 			elements = new ArrayList<ClassPathElement>( );
+		else
+			elements.clear( );
 
+		( (MenuButtonHelper) this.jarButton.getMenuButtonHelper( ) ).clearTableElementsList( );
+		
 		if ( dataSetClassPath != null && dataSetClassPath.trim( ).length( ) > 0 )
 		{
 			String paths[] = dataSetClassPath.split( PATH_SEPARATOR );
@@ -330,8 +335,8 @@ public class POJOClassTabFolderPage
 						paths[i],
 						!file.isAbsolute( ) );
 
-				this.elements.add( element );
 				classPathElements[i] = element;
+				elements.add( element );
 			}
 			
 			this.jarButton.getMenuButtonHelper( )
@@ -466,7 +471,22 @@ public class POJOClassTabFolderPage
 
 	public void setClassPath( String dataSetClassPath )
 	{
-		initClassPathElements( dataSetClassPath );
+		this.dataSetClassPath = dataSetClassPath;
+	}
+
+	public void refresh( )
+	{
+		if ( elements != null )
+		{
+			elements.clear( );
+			classPathsTableViewer.refresh( );
+			( (MenuButtonHelper) this.jarButton.getMenuButtonHelper( ) ).clearTableElementsList( );
+		}
+		else
+		{
+			elements = new ArrayList<ClassPathElement>( );
+		}
+		initClassPathElements( );
 	}
 
 }
