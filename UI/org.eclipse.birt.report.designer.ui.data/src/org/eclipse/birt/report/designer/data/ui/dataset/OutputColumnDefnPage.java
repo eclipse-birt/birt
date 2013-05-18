@@ -647,7 +647,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			return super.performOk( );
 		}
 		else
+		{
+			disposeAll( );
 			return false;
+		}
 	}
 
 	/**
@@ -715,7 +718,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	{
 		rsColumnMap = null;
 		columnHintMap = null;
-	//	selectorImage.dispose( );
 		( (DataSetHandle) getContainer( ).getModel( ) ).removeListener( this );
 	}
 

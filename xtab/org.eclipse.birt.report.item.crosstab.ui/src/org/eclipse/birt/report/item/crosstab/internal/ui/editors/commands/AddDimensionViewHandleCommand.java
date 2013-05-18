@@ -187,6 +187,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 			{
 				rollBack( );
 				ExceptionUtil.handle( e );
+				return;
 			}
 		}
 		transEnd( );

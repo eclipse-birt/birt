@@ -355,6 +355,7 @@ public class ParameterComboCellEditor extends DialogCellEditor
 			}
 		}
 		setFocus( );
+		handle.removeListener( this.listener );
 		return null;
 	}
 

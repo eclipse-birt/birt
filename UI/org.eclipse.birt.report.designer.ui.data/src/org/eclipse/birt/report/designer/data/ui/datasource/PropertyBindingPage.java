@@ -295,7 +295,6 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				property,
 				new ExpressionProvider( handle ),
 				handle,
-				true,
 				SWT.PUSH );
 
 		if ( isEncryptable )

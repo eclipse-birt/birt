@@ -16,10 +16,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.Collator;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -242,8 +244,22 @@ public class WebViewer
 				Locale locale = locales[i];
 				if ( locale != null && locale.getCountry( ).length( ) != 0 )
 				{
-					LOCALE_TABLE.put( locale.getDisplayName( ),
-							locale.getLanguage( ) + "_" + locale.getCountry( ) ); //$NON-NLS-1$
+					if(LOCALE_TABLE.containsValue(locale.getLanguage( ) + "_" + locale.getCountry( ))){
+						/**Some locale has same country & language with others ,only different in Variant.
+						 * BIRT do not support different behavior for different variant.
+						 * So filter out duplicate locale from LOCALE_TABLE.
+						 */					
+						String existKey=getKeyByValue(locale.getLanguage( ) + "_" + locale.getCountry( ));
+						if(locale.getDisplayName().length()<existKey.length()){
+							LOCALE_TABLE.remove(existKey);
+							LOCALE_TABLE.put( locale.getDisplayName( ),
+									locale.getLanguage( ) + "_" + locale.getCountry( ) );
+						}
+					}else{
+						LOCALE_TABLE.put( locale.getDisplayName( ),
+								locale.getLanguage( ) + "_" + locale.getCountry( ) ); //$NON-NLS-1$
+					}
+
 				}
 			}
 		}
@@ -276,6 +292,18 @@ public class WebViewer
 	private static IWebAppInfo DEFAULT_WEBAPP = apps.get( ViewerPlugin.WEBAPP_CONTEXT );
 
 	private static boolean adapterChecked = false;
+	
+	private static String getKeyByValue(String value){
+		Set<Entry<String, String>> entrySet = LOCALE_TABLE.entrySet();
+		Iterator<Entry<String, String>> iterator = entrySet.iterator();
+		while (iterator.hasNext()) {
+			Map.Entry mapentry = (Map.Entry) iterator.next();
+			if(mapentry.getValue().toString().equals(value)){
+				return mapentry.getKey().toString();
+			}
+		}
+		return "";
+	}
 
 	private static void checkAdapter( )
 	{
@@ -326,6 +354,7 @@ public class WebViewer
 				+ WebappAccessor.getPort( app.getName( ) )
 				+ "/" + app.getName( ) + "/"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
+
 
 	/**
 	 * Create web viewer url to run the report.

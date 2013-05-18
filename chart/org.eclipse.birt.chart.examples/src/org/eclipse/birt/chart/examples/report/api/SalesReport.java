@@ -35,6 +35,8 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
@@ -43,6 +45,8 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.IDesignEngine;
+import org.eclipse.birt.report.model.api.IDesignEngineFactory;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -80,11 +84,29 @@ public class SalesReport
 	{
 		new SalesReport( ).createReport( );
 	}
+	
+	private IDesignEngine getDesignEngine( )
+	{
+
+		DesignConfig config = new DesignConfig( );
+		try
+		{
+			Platform.startup( config );
+		}
+		catch ( BirtException e )
+		{
+			e.printStackTrace( );
+		}
+
+		Object factory = Platform.createFactoryObject( IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY );
+
+		return ( (IDesignEngineFactory) factory ).createDesignEngine( config );
+	}
 
 	void createReport( ) throws SemanticException, IOException
 	{
 		// A session handle for all open reports
-		SessionHandle session = new DesignEngine( new DesignConfig() ).newSessionHandle( (ULocale) null );
+		SessionHandle session = getDesignEngine( ).newSessionHandle( (ULocale) null );
 
 		// Create a new report
 		reportDesignHandle = session.createDesign( );
@@ -105,6 +127,8 @@ public class SalesReport
 			throw new IOException( "Can not create the output folder" );//$NON-NLS-1$
 		}
 		reportDesignHandle.saveAs( outputPath + "/" + "SalesReport.rptdesign" );//$NON-NLS-1$//$NON-NLS-2$
+		
+		Platform.shutdown( );
 	}
 
 	private void createDataSources( ) throws SemanticException

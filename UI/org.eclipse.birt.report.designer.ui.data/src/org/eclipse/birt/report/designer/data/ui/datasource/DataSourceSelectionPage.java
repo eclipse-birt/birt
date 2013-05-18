@@ -75,10 +75,13 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -156,19 +159,32 @@ public class DataSourceSelectionPage extends WizardPage
 	public void createControl( Composite parent )
 	{
 		helper = new DataSourceSelectionHelper( );
-		Composite composite = new Composite( parent, SWT.NONE );
+		
+		ScrolledComposite scrollContent = new ScrolledComposite( parent,
+				SWT.H_SCROLL | SWT.V_SCROLL );
+		scrollContent.setAlwaysShowScrollBars( false );
+		scrollContent.setExpandHorizontal( true );
+		scrollContent.setMinWidth( 500 );
+		scrollContent.setMinHeight( 300 );
+		scrollContent.setLayout( new FillLayout( ) );
+		scrollContent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		Composite composite = new Composite( scrollContent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 2;
 		composite.setLayout( layout );
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		composite.setLayoutData( gd );
 		
 		setupDSChoiceListRadio( composite );
 		setupConnectionProfileRadio( composite );
 
-		GridData layoutData = new GridData( GridData.FILL_BOTH );
+		GridData layoutData = new GridData( GridData.FILL_BOTH ); 
 		layoutData.horizontalSpan = 2;
-		dataSourceList = new ListViewer( composite, SWT.SINGLE | SWT.BORDER );
-		dataSourceList.getControl( ).setLayoutData( layoutData );
-
+		dataSourceList = new ListViewer( composite, SWT.SINGLE
+				| SWT.FULL_SELECTION | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL );
+		dataSourceList.getList( ).setLayoutData( layoutData );
+		
 		dataSourceList.setContentProvider( new IStructuredContentProvider( ) {
 
 			public Object[] getElements( Object inputElement )
@@ -249,7 +265,12 @@ public class DataSourceSelectionPage extends WizardPage
 			}
 		} );
 
-		setControl( composite );
+		setControl( scrollContent );
+		
+		dataSourceName.setFocus( );
+		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		composite.setSize( size );
+		scrollContent.setContent( composite );
 		
 		Utility.setSystemHelp( getControl( ),
 				IHelpConstants.CONEXT_ID_DATASOURCE_NEW );

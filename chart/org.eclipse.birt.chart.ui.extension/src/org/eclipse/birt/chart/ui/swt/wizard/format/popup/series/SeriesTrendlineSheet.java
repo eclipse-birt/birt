@@ -234,7 +234,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
 		gdCBVisible.horizontalSpan = 2 ;
 		btnLabelVisible.setLayoutData( gdCBVisible );
-		btnLabelVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
+		btnLabelVisible.setText( Messages.getString( "SeriesTrendlineSheet.SeriesTrendlineSheet.Lbl.IsVisible" ) ); //$NON-NLS-1$
 		btnLabelVisible.setSelectionState( getTrendline( ).getLabel( )
 				.isSetVisible( ) ? ( getTrendline( ).getLabel( ).isVisible( ) ? ChartCheckbox.STATE_SELECTED
 				: ChartCheckbox.STATE_UNSELECTED )

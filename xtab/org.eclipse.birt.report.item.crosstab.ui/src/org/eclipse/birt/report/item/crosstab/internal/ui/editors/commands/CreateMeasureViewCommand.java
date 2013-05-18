@@ -100,6 +100,7 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand
 		{
 			rollBack( );
 			ExceptionUtil.handle( e );
+			return;
 		}
 		transEnd( );
 	}
