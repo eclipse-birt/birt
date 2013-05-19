@@ -629,8 +629,13 @@ public class SVGInteractiveRenderer
 	private void addMultiActionsJSCode( Element elm, StructureSource src,
 			Trigger tg, String scriptEvent, boolean bDblClick, MultipleActions action )
 	{
+		// Still show menu if visible is true.
+		boolean needMenu = action.getValue( ) != null
+				&& action.getValue( ).getLabel( ) != null
+				&& action.getValue( ).getLabel( ).isVisible( );
+		
 		List<Action> subActions = MultiActionValuesScriptGenerator.getValidActions( action );
-		if ( subActions.size( ) == 1 )
+		if ( subActions.size( ) == 1 && !needMenu )
 		{
 			Action subAction = subActions.get( 0 );
 			addActionJSCode( elm,
@@ -943,8 +948,16 @@ public class SVGInteractiveRenderer
 
 		MultiActionValuesScriptGenerator.appendInteractivityVariables( sb );
 
+		// Still show menu if visible is true.
+		if ( actions.getValue( ) != null
+				&& actions.getValue( ).getLabel( ) != null
+				&& actions.getValue( ).getLabel( ).isVisible( ) )
+		{
+			sb.append( "menuInfo.needMenu = true;" ); //$NON-NLS-1$
+		}
+		
 		sb.append( "\n"); //$NON-NLS-1$
-		sb.append( "if ( menuInfo.menuItemNames.length == 1 ) {\n" );//$NON-NLS-1$
+		sb.append( "if ( menuInfo.menuItemNames.length == 1 && !menuInfo.needMenu ) {\n" );//$NON-NLS-1$
 		sb.append( "	BirtChartActionsMenu.executeMenuActionImpl( evt, menuInfo.menuItems[0], menuInfo );\n" );//$NON-NLS-1$
 		sb.append( "} else { \n" );//$NON-NLS-1$
 		sb.append( "  BirtChartActionsMenu.show( evt, source, menuInfo ); "); //$NON-NLS-1$

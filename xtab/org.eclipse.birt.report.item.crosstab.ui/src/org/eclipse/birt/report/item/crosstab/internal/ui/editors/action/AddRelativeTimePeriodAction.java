@@ -176,7 +176,8 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 		{
 			return false;
 		}
-		List list = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ).getContents( );
+		List list = cube.getContents( ICubeModel.DIMENSIONS_PROP );
+		
 		for (int i=0; i<list.size( ); i++)
 		{
 			DimensionHandle dimension = (DimensionHandle)list.get( i );

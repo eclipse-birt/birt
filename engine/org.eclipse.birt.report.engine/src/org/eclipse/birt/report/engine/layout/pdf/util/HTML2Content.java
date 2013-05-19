@@ -658,14 +658,18 @@ public class HTML2Content implements HTMLConstants
 			String styleType = "";
 			if ( value != null )
 				styleType = value.toString( );
-			BulletFrame frame = new BulletFrame( styleType ); 
 			if ( ele.getParentNode( ).getNodeName( ).equals( TAG_OL ) && !nestList ) //$NON-NLS-1$
 			{
-				//index mean the order in the list 
+				// set default style type to the <ol> tag;
+				if ( "".equals( styleType ) )
+					styleType = BulletFrame.CSS_LISTSTYLETYPE_DECIMAL;
+				BulletFrame frame = new BulletFrame( styleType );
+				// index mean the order in the list
 				text.setText( frame.paintBullet( index ) + "." ); //$NON-NLS-1$
 			}
 			else if ( ele.getParentNode( ).getNodeName( ).equals( TAG_UL )&& !nestList ) //$NON-NLS-1$
 			{
+				BulletFrame frame = new BulletFrame( styleType ); 
 				text.setText( frame.paintBullet( index ) );
 				if("".equals( text.getText( ))) //add default list type when tag <ul> attribute is empty. 
 				{

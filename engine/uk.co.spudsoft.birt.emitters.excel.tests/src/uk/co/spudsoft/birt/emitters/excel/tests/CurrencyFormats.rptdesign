@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+    <text-property name="title">Currency Formats Test Report</text-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[var rowCount = 0;
+// java.lang.System.out.println( "rowCount: " + rowCount );
+]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <script-data-source name="Data Source" id="39"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="Data Set" id="40">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Currency</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">Decimal</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">Rate</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Currency</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Decimal</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Rate</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Currency</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Decimal</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">Rate</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="fetch"><![CDATA[// java.lang.System.out.println( "fetch" );
+// java.lang.System.out.println( "rowCount: " + ( rowCount == null ? "<null>" : rowCount ) );
+if( rowCount < 4 ) {
+	var pi = 3.1415926535897932384626433832795;
+	
+	switch( rowCount++ ) {
+        case 0: 
+            row[ "Currency" ] = "£";
+            row[ "Rate" ] = 1.0;
+            break;
+        case 1: 
+            row[ "Currency" ] = "$";
+            row[ "Rate" ] = 0.620578379;
+            break;
+        case 2: 
+            row[ "Currency" ] = "¥";
+            row[ "Rate" ] = 0.00819225518;
+            break;
+        case 3: 
+            row[ "Currency" ] = "€";
+            row[ "Rate" ] = 0.878428696;
+            break;
+	}
+
+	row[ "Decimal" ] = pi * 1000;
+	
+	return true;
+} else {
+	return false;
+}
+]]></method>
+        </script-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="table-detail-cell" id="93">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+        <style name="table-header-cell" id="94">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderTopStyle">solid</property>
+        </style>
+        <style name="table" id="95">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderTopStyle">solid</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="topMargin">0.5cm</property>
+            <property name="leftMargin">0.5cm</property>
+            <property name="bottomMargin">0.5cm</property>
+            <property name="rightMargin">0.5cm</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="208">
+            <property name="width">6.020833333333333in</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Currency</property>
+                    <text-property name="displayName">Currency</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Currency"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Decimal</property>
+                    <text-property name="displayName">Decimal</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Decimal"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">Rate</property>
+                    <text-property name="displayName">Rate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Rate"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <column id="222">
+                <property name="width">2.0833333333333335in</property>
+            </column>
+            <column id="223">
+                <property name="width">2.0104166666666665in</property>
+            </column>
+            <column id="227">
+                <property name="width">1.9270833333333333in</property>
+            </column>
+            <header>
+                <row id="209">
+                    <cell id="210">
+                        <label id="211">
+                            <text-property name="text">Currency</text-property>
+                        </label>
+                    </cell>
+                    <cell id="212">
+                        <label id="213">
+                            <text-property name="text">Currency</text-property>
+                        </label>
+                    </cell>
+                    <cell id="224">
+                        <label id="228">
+                            <text-property name="text">Rate</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="214">
+                    <cell id="215">
+                        <data id="216">
+                            <property name="resultSetColumn">Currency</property>
+                        </data>
+                    </cell>
+                    <cell id="217">
+                        <data id="218">
+                            <structure name="numberFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">¤ ###,##0.00</property>
+                            </structure>
+                            <property name="textAlign">right</property>
+                            <method name="onRender"><![CDATA[java.lang.System.err.println( 'onRender' );
+java.lang.System.err.println( this.getRowData().getColumnValue('Currency') );
+java.lang.System.err.println( this.getRowData().getColumnValue('Currency').charCodeAt(0) );
+var currency = this.getRowData().getColumnValue('Currency');
+this.getStyle().numberFormat = currency + "###0.00{RoundingMode=HALF_UP}";]]></method>
+                            <property name="resultSetColumn">Decimal</property>
+                        </data>
+                    </cell>
+                    <cell id="225">
+                        <data id="230">
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">Rate</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="219">
+                    <cell id="220"/>
+                    <cell id="221"/>
+                    <cell id="226"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

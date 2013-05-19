@@ -23,9 +23,11 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 public class ResultMetaData implements IResultMetaData
 {
@@ -121,19 +123,15 @@ public class ResultMetaData implements IResultMetaData
 
 	protected void appendMetaData( IBaseQueryDefinition query, DesignElementHandle handle )
 	{
-		TableHandle tableHandle = null;
+		
 		ArrayList<ComputedColumn> columnList = null;
 		ArrayList<String> notAllowed = new ArrayList<String>( );
 		if ( handle != null
-				&& handle instanceof TableHandle )
+				&& handle instanceof TableHandle || handle instanceof DataItemHandle)
 		{
-			tableHandle = (TableHandle) handle;
+			columnList = (ArrayList<ComputedColumn>)handle.getProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 		}
 
-		if (tableHandle != null)
-		{
-			columnList = (ArrayList<ComputedColumn>)tableHandle.getProperty( TableHandle.BOUND_DATA_COLUMNS_PROP );
-		}
 		if (columnList != null )
 		{
 			for( int i = 0; i < columnList.size( ); i++ )

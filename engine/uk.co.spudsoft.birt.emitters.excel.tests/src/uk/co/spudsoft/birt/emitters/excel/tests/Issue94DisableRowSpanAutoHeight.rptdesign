@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301221637 Build &lt;4.2.2.v20130206-1509></property>
+    <property name="units">in</property>
+    <method name="beforeRender"><![CDATA[reportContext.getRenderOption().setOption("ExcelEmitter.SpannedRowHeight", 2);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab-cell" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="7">
+            <property name="width">7.947916666666667in</property>
+            <column id="8">
+                <property name="width">3in</property>
+            </column>
+            <column id="9">
+                <property name="width">3in</property>
+            </column>
+            <column id="10">
+                <property name="width">1.9479166666666667in</property>
+            </column>
+            <row id="11">
+                <cell id="12">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">2</property>
+                    <label id="56">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="fontSize">36pt</property>
+                        <text-property name="text">Big</text-property>
+                    </label>
+                </cell>
+                <cell id="14"/>
+            </row>
+            <row id="15">
+                <cell id="18"/>
+            </row>
+            <row id="19">
+                <cell id="20"/>
+                <cell id="21"/>
+                <cell id="22"/>
+            </row>
+        </grid>
+        <grid id="24">
+            <property name="width">7.947916666666667in</property>
+            <column id="25">
+                <property name="width">3in</property>
+            </column>
+            <column id="26">
+                <property name="width">3in</property>
+            </column>
+            <column id="27">
+                <property name="width">1.9479166666666667in</property>
+            </column>
+            <row id="28">
+                <cell id="29">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">2</property>
+                    <label id="30">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="fontSize">72pt</property>
+                        <text-property name="text">Very Big </text-property>
+                    </label>
+                </cell>
+                <cell id="31"/>
+            </row>
+            <row id="32">
+                <cell id="33"/>
+            </row>
+            <row id="34">
+                <cell id="35"/>
+                <cell id="36"/>
+                <cell id="37"/>
+            </row>
+        </grid>
+        <grid id="38">
+            <property name="width">7.947916666666667in</property>
+            <column id="39">
+                <property name="width">3in</property>
+            </column>
+            <column id="40">
+                <property name="width">3in</property>
+            </column>
+            <column id="41">
+                <property name="width">1.9479166666666667in</property>
+            </column>
+            <row id="42">
+                <cell id="43">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">3</property>
+                    <label id="44">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="fontSize">72pt</property>
+                        <text-property name="text">Very Big </text-property>
+                    </label>
+                </cell>
+                <cell id="45"/>
+            </row>
+            <row id="52">
+                <cell id="55">
+                    <label id="23">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="fontSize">36pt</property>
+                        <text-property name="text">Big</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="46">
+                <cell id="47"/>
+            </row>
+            <row id="48">
+                <cell id="49"/>
+                <cell id="50"/>
+                <cell id="51"/>
+            </row>
+        </grid>
+    </body>
+</report>

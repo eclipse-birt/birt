@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.emitter.HTMLWriter;
@@ -504,6 +505,20 @@ public abstract class BasicComponent extends AbstractWordXmlWriter
 		buildText( styleBuffer, style );
 		buildVisual( styleBuffer, style );
 		buildTextDecoration( styleBuffer, style );
+		buildDirection( styleBuffer, style );
+	}
+
+	private void buildDirection( StringBuffer styleBuffer, IStyle style )
+	{
+		String direction = style.getDirection( );
+		if ( CSSConstants.CSS_RTL_VALUE.equals( style.getDirection( ) ) )
+		{
+			// set direction to rtl
+			styleBuffer.append( " direction:" );
+			styleBuffer.append( direction );
+			styleBuffer.append( ";" );
+			styleBuffer.append( "unicode-bidi:didi-override;" );
+		}
 	}
 
 	private int getElementType( DimensionType x, DimensionType y,

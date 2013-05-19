@@ -149,6 +149,7 @@
       <plugin id="org.eclipse.birt.report.item.crosstab.ui"/>
       <plugin id="org.eclipse.birt.report.model"/>
       <plugin id="org.eclipse.birt.report.model.adapter.oda"/>
+      <plugin id="uk.co.spudsoft.birt.emitters.excel"/>
       <plugin id="org.eclipse.compare.core"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>

@@ -34,10 +34,22 @@ public class MenuButtonHelper implements IMenuButtonHelper
 	public MenuButtonHelper( TableViewer viewer )
 	{
 		this.viewer = viewer;
-		updateTableElementsList( viewer );
+		updateTableElementsList( );
+	}
+	
+	public void clearTableElementsList( )
+	{
+		if( elements == null )
+		{
+			elements = new ArrayList<ClassPathElement>( );
+		}
+		else
+		{
+			elements.clear( );
+		}
 	}
 
-	private void updateTableElementsList( TableViewer viewer )
+	public void updateTableElementsList( )
 	{
 		elements = (List<ClassPathElement>) viewer.getInput( );
 		if( elements == null )
@@ -51,9 +63,8 @@ public class MenuButtonHelper implements IMenuButtonHelper
 		return elements == null ? 0 : elements.size( );
 	}
 
-	public void addClassPathElements( ClassPathElement[] items )
+	public void addClassPathElements( ClassPathElement[] items, boolean current )
 	{
-		updateTableElementsList( viewer );
 		boolean containsDuplicated = false;
 		for ( int i = 0; i < items.length; i++ )
 		{
@@ -81,7 +92,7 @@ public class MenuButtonHelper implements IMenuButtonHelper
 		}
 		viewer.setInput( elements );
 		viewer.refresh( );
-		if ( containsDuplicated )
+		if ( containsDuplicated && current )
 		{
 			ExceptionHandler.openMessageBox( Messages.getString( "ExceptionDialog.title.erro" ), Messages.getString( "ExceptionDialog.DataSource.AddDuplicatedJar" ), SWT.ICON_ERROR ); //$NON-NLS-1$//$NON-NLS-2$
 		}

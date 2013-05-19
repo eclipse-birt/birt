@@ -69,7 +69,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -136,8 +135,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	private boolean needReset = false;
 	private IWorkbenchPart fActivePart;
 	private boolean isClose = false;
-	//private IRelatedFileChangeResolve resolve;
-	private List<IRelatedFileChangeResolve> resolveList = new ArrayList<IRelatedFileChangeResolve>();
+	// private IRelatedFileChangeResolve resolve;
+	private List<IRelatedFileChangeResolve> resolveList = new ArrayList<IRelatedFileChangeResolve>( );
 	private IPreferences prefs;
 	IPreferenceChangeListener preferenceChangeListener = new IPreferenceChangeListener( ) {
 
@@ -1002,6 +1001,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 * @see
 	 * org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
+	private boolean waitReload = false;
+
 	public void partActivated( IWorkbenchPart part )
 	{
 		fActivePart = part;
@@ -1067,20 +1068,25 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				needReload = false;
 
 			}
+
 			if ( needReload )
 			{
+				if ( !waitReload )
+				{
+					waitReload = true;
+					if ( resolveList != null && reloadList( resolveList ) )
+					{
+						// do nothing now
+					}
+					else
+					{
+						needReload = false;
+					}
 
-				if ( resolveList != null && reloadList( resolveList ) )
-				{
-					// do nothing now
-				}
-				else
-				{
-					needReload = false;
+					waitReload = false;
 				}
 			}
 
-			
 			if ( getEditorInput( ).exists( ) )
 			{
 				handleActivation( );
@@ -1182,24 +1188,24 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		// getModel( ).setResourceFolder( getProjectFolder( ) );
 		// }
 	}
-	
-	private boolean reloadList(List<IRelatedFileChangeResolve> list)
+
+	private boolean reloadList( List<IRelatedFileChangeResolve> list )
 	{
-		for (int i=0; i<list.size( ); i++)
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if (!list.get( i ).reload( getModel( )))
+			if ( !list.get( i ).reload( getModel( ) ) )
 			{
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	private boolean resetList(List<IRelatedFileChangeResolve> list)
+
+	private boolean resetList( List<IRelatedFileChangeResolve> list )
 	{
-		for (int i=0; i<list.size( ); i++)
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if (!list.get( i ).reset( ))
+			if ( !list.get( i ).reset( ) )
 			{
 				return false;
 			}
@@ -1675,7 +1681,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			IRelatedFileChangeResolve find = (IRelatedFileChangeResolve) resolves[i];
 			if ( find.acceptType( event.getType( ) ) )
 			{
-				//resolve = find;
+				// resolve = find;
 				resolveList.add( find );
 				needReload = find.isReload( event, getModel( ) );
 				needReset = find.isReset( event, getModel( ) );

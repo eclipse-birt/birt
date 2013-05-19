@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 
 
 /**
+ * POJO DataSourceWizardPage to define the data source class paths
  * 
  */
 
@@ -48,27 +49,30 @@ public class ClassPathsWizardPage extends DataSourceWizardPage
 	}
 
 
-
-	@Override
 	public Properties collectCustomProperties( )
 	{
 		return helper.collectCustomProperties( );
 	}
 
 
-	@Override
 	public void setInitialProperties( Properties dataSourceProps )
 	{
 		helper.setInitialProperties( dataSourceProps );
 	}
 	
-	
+	public void refresh( )
+	{
+		if ( helper != null )
+		{
+			helper.refresh( );
+		}
+	}
+	    
 	protected Runnable createTestConnectionRunnable( final IConnectionProfile profile )
 	{
 		return helper.createTestConnectionRunnable( profile );
 	}
 
-	@Override
 	public void createPageCustomControl( Composite parent )
 	{
 		helper.setResourceIdentifiers( this.getHostResourceIdentifiers( ) );

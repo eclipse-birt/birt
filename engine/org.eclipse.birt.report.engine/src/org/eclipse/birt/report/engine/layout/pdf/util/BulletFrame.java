@@ -25,6 +25,7 @@ public class BulletFrame
 	public static String CSS_LISTSTYLETYPE_UPPERALPHA_VALUE = "upper-alpha";
 	public static String CSS_LISTSTYLETYPE_NONE_VALUE = "none";
 	public static String CSS_LISTSTYLETYPE_INHERIT_VALUE = "inherit";
+	public static String CSS_LISTSTYLETYPE_DECIMAL = "decimal";
 	// list style type:
 
 	public static final int LIST_DISC_VALUE = 0;
@@ -42,6 +43,7 @@ public class BulletFrame
 	public static final int LIST_STYLE_UPPERALPHA = 12;
 	public static final int LIST_STYLE_NONE = 13;
 	public static final int LIST_STYLE_INHERIT = 14;
+	public static final int LIST_STYLE_DECIMAL = 15;
 
 	public static final Map<String, Integer> TYPES = new HashMap<String, Integer>( );// mapping
 																						// the
@@ -137,6 +139,7 @@ public class BulletFrame
 		TYPES.put( CSS_LISTSTYLETYPE_UPPERALPHA_VALUE, LIST_STYLE_UPPERALPHA );
 		TYPES.put( CSS_LISTSTYLETYPE_NONE_VALUE, LIST_STYLE_NONE );
 		TYPES.put( CSS_LISTSTYLETYPE_INHERIT_VALUE, LIST_STYLE_INHERIT );
+		TYPES.put( CSS_LISTSTYLETYPE_DECIMAL, LIST_STYLE_DECIMAL );
 
 	}
 
@@ -200,7 +203,9 @@ public class BulletFrame
 			case LIST_STYLE_GEORGIAN :
 				georgianToText( ordinal, buffer );
 				break;
-
+			case LIST_STYLE_DECIMAL :
+				decimalToText( ordinal, buffer );
+				break;
 			case LIST_STYLE_NONE :
 			case LIST_STYLE_INHERIT :
 			default :
@@ -208,6 +213,11 @@ public class BulletFrame
 				break;
 		}
 		return buffer.toString( );
+	}
+
+	private void decimalToText( int ordinal, StringBuffer buffer )
+	{
+		buffer.append( ordinal );
 	}
 
 	private void georgianToText( int ordinal, StringBuffer buffer )
