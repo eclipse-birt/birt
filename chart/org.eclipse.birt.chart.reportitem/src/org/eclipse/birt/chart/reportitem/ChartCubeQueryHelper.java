@@ -758,8 +758,13 @@ public class ChartCubeQueryHelper
 		String[] levels = exprCodec.getLevelNames( );
 		String dimensionName = levels[0];
 		final int edgeType = getEdgeType( dimensionName );
+		final boolean keepCubeHierarichy = edgeType == ICubeQueryDefinition.ROW_EDGE ? ChartReportItemUtil.isKeepCubeHierarchyOnCategory( cm )
+				: ChartReportItemUtil.isKeepCubeHierarchyOnSeries( cm );
+
 		IEdgeDefinition edge = cubeQuery.getEdge( edgeType );
 		IHierarchyDefinition hieDef = null;
+		HierarchyHandle hieHandle = cube.getDimension( dimensionName )
+				.getDefaultHierarchy( );
 		if ( edge == null )
 		{
 			// Only create one edge/dimension/hierarchy in one
@@ -768,27 +773,43 @@ public class ChartCubeQueryHelper
 			IDimensionDefinition dimDef = edge.createDimension( dimensionName );
 			// Do not use qualified name since it may be from
 			// library
-			hieDef = dimDef.createHierarchy( cube.getDimension( dimDef.getName( ) )
-					.getDefaultHierarchy( )
-					.getName( ) );
+			hieDef = dimDef.createHierarchy( hieHandle.getName( ) );
 		}
 		else
 		{
 			hieDef = edge.getDimensions( ).get( 0 ).getHierarchy( ).get( 0 );
 		}
-
+		
 		// Create level
+		LevelHandle levelHandle = hieHandle.getLevel( levels[1] );
+		if ( registeredLevelHandles.containsKey( levelHandle ) )
+		{
+			// Current level may be added before
+			return;
+		}
 		ILevelDefinition levelDef = hieDef.createLevel( levels[1] );
-
 		registeredLevels.put( bindingName, levelDef );
-
-		LevelHandle levelHandle = handle.getModuleHandle( )
-				.findLevel( levelDef.getHierarchy( )
-						.getDimension( )
-						.getName( )
-						+ "/" + levelDef.getName( ) ); //$NON-NLS-1$
-
 		registeredLevelHandles.put( levelHandle, levelDef );
+
+		// Add parent levels to edge if keep cube hierarchy
+		if ( hieHandle.getLevelCount( ) > 1 && keepCubeHierarichy )
+		{
+			for ( int levelIndex = 0; levelIndex < hieHandle.getLevelCount( ); levelIndex++ )
+			{
+				LevelHandle lh = hieHandle.getLevel( levelIndex );
+				if ( lh.getName( ).equals( levelDef.getName( ) ) )
+				{
+					break;
+				}
+				if ( registeredLevelHandles.containsKey( lh ) )
+				{
+					// Current level may be added before
+					break;
+				}
+				ILevelDefinition ld = hieDef.createLevel( lh.getName( ) );
+				registeredLevelHandles.put( lh, ld );
+			}
+		}
 	}
 
 	/**

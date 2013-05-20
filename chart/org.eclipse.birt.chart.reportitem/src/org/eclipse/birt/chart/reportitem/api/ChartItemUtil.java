@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -1915,5 +1916,88 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			}
 		}
 		return complexScripts;
+	}
+	
+	/**
+	 * Returns the boolean value from extended property.
+	 * 
+	 * @param cm
+	 *            chart model
+	 * @param extendedPropertyName
+	 *            property name
+	 * @param defaultValue
+	 *            default value when it's null
+	 * @return boolean property value
+	 */
+	public static boolean getBooleanProperty( Chart cm,
+			String extendedPropertyName, boolean defaultValue )
+	{
+		if ( cm == null )
+		{
+			return defaultValue;
+		}
+		ExtendedProperty property = ChartUtil.getExtendedProperty( cm,
+				extendedPropertyName );
+		if ( property == null )
+		{
+			return defaultValue;
+		}
+		return Boolean.valueOf( property.getValue( ) );
+	}
+
+	/**
+	 * Returns if cube hierarchy should be kept on category
+	 * 
+	 * @param cm
+	 *            chart model
+	 * @return result
+	 */
+	public static boolean isKeepCubeHierarchyOnCategory( Chart cm )
+	{
+		return getBooleanProperty( cm,
+				EXTENDED_PROPERTY_HIERARCHY_CATEGORY,
+				true );
+	}
+
+	/**
+	 * Returns if cube hierarchy should be kept on series
+	 * 
+	 * @param cm
+	 *            chart model
+	 * @return result
+	 */
+	public static boolean isKeepCubeHierarchyOnSeries( Chart cm )
+	{
+		return getBooleanProperty( cm, EXTENDED_PROPERTY_HIERARCHY_SERIES, true );
+	}
+
+	/**
+	 * Sets the property to keep cube hierarchy on category
+	 * 
+	 * @param cm
+	 *            chart model
+	 * @param value
+	 *            state
+	 */
+	public static void setKeepCubeHierarchyOnCategory( Chart cm, boolean value )
+	{
+		ChartUtil.setExtendedProperty( cm,
+				EXTENDED_PROPERTY_HIERARCHY_CATEGORY,
+				String.valueOf( value ) );
+	}
+
+	/**
+	 * Sets the property to keep cube hierarchy on series.
+	 * 
+	 * @param cm
+	 *            chart model
+	 * @param value
+	 *            state
+	 */
+	public static void setKeepCubeHierarchyOnSeries( Chart cm, boolean value )
+	{
+		ChartUtil.setExtendedProperty( cm,
+				EXTENDED_PROPERTY_HIERARCHY_SERIES,
+				String.valueOf( value ) );
 	}
 }
