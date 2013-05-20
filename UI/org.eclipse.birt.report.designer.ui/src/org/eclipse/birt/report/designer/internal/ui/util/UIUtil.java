@@ -1996,11 +1996,16 @@ public class UIUtil
 		Image image = ReportPlatformUIImages.getImage( imageName );
 
 		GridData gd = new GridData( );
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )
 		{
 			gd.widthHint = 20;
 			gd.heightHint = 20;
 		}
+		else
+		{
+			gd.widthHint = button.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
+		}
+
 		button.setLayoutData( gd );
 
 		button.setImage( image );
@@ -2030,10 +2035,11 @@ public class UIUtil
 			button.setExpressionButtonProvider( provider );
 
 		GridData gd = new GridData( );
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )
 		{
 			gd.heightHint = 20;
 		}
+
 		button.getControl( ).setLayoutData( gd );
 		return button;
 	}
