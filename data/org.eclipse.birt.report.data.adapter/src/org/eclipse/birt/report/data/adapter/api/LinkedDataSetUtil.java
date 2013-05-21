@@ -48,7 +48,7 @@ public class LinkedDataSetUtil
 			return true;
 		try
 		{
-			Iterator iter = handle.getAvailableBindings( );
+			Iterator iter = handle.columnBindingsIterator( );
 			Set aggregationBinding = new HashSet( );
 			populateAggregationBindingNames( aggregationBinding, iter );
 			DataSetHandle dataSet = handle.getDataSet();
