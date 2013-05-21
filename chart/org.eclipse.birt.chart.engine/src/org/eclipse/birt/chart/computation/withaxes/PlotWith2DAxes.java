@@ -497,6 +497,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							if ( ds instanceof NullDataSet )
 							{
 								// Ignore stacking null data
+								ds = null;
 								continue;
 							}
 							else

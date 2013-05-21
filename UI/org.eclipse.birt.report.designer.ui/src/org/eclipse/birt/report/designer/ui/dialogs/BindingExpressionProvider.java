@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
@@ -28,6 +29,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
@@ -80,6 +82,15 @@ public class BindingExpressionProvider extends ExpressionProvider
 						if ( column.getName( )
 								.equals( computedColumnHandle.getName( ) ) )
 							return false;
+					}
+					if ( ExpressionFilter.CATEGORY.equals( parentElement )
+							&& ExpressionProvider.DATASETS.equals( element )
+							&& handle instanceof TableHandle
+							&& ((TableHandle)handle).isSummaryTable( )
+							&& ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter() != null
+							&& ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ).resolveExtendedData( dataSetHandle ) != null)
+					{
+						return false;
 					}
 					return true;
 				}
