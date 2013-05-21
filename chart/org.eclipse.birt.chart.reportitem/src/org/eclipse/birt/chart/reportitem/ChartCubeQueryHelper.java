@@ -808,6 +808,9 @@ public class ChartCubeQueryHelper
 				}
 				ILevelDefinition ld = hieDef.createLevel( lh.getName( ) );
 				registeredLevelHandles.put( lh, ld );
+				// Add dummy binding name so that the extra level can be found
+				// when adding to measure aggregation
+				registeredLevels.put( bindingName + "_" + lh.getName( ), ld ); //$NON-NLS-1$
 			}
 		}
 	}
