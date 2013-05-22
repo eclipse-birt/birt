@@ -11,7 +11,12 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
+import java.util.List;
+
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 
 /**
  * 
@@ -24,6 +29,24 @@ public class CrosstabComputedMeasureExpressionProvider extends
 	public CrosstabComputedMeasureExpressionProvider( DesignElementHandle handle )
 	{
 		super( handle, null );
+	}
+	
+	protected List getCategoryList( )
+	{
+		List categoryList = super.getCategoryList( );
+		
+		try
+		{
+			if(CrosstabUtil.isBoundToLinkedDataSet( getCrosstabReportItemHandle()))
+			{
+				categoryList.remove( ExpressionProvider.DATASETS );
+			}
+		}
+		catch ( ExtendedElementException e )
+		{
+		}
+		
+		return categoryList;
 	}
 
 //	protected void addFilterToProvider( )

@@ -101,14 +101,31 @@
 		{
 			if(parameterBean.isRequired( )){
 				if(parameterBean.getSelectionList( )!=null && !parameterBean.getSelectionList( ).isEmpty(  )){
+					/*
 					ParameterSelectionChoice selectionItem = ( ParameterSelectionChoice )parameterBean.getSelectionList( ).get( 0 );						
 					String label = selectionItem.getLabel( );
 					String value = ( String ) selectionItem.getValue( );
 					defaultValue = 	value;
+					*/
+					selectFirst = true;
 				}
 			}
+				
+			if( allowMultiValue && DataUtil.contain( values, "", true ) )
+			{
+%>
+		<OPTION SELECTED></OPTION>
+<%				
+			}
+			else
+			{
+%>
+		<OPTION></OPTION>
+<%
+			}
 		}
-		else if ( DataUtil.trimString( defaultValue ).length( ) > 0 && !parameterBean.isDefaultValueInList( ) ) // Add default value in Combo Box
+		
+		if ( DataUtil.trimString( defaultValue ).length( ) > 0 && !parameterBean.isDefaultValueInList( ) ) // Add default value in Combo Box
 		{
 			boolean flag = false;
 			if( allowMultiValue )
@@ -221,6 +238,18 @@
 	{
 	%>
 		<INPUT TYPE="HIDDEN" ID="<%=IBirtConstants.IS_CASCADE%>" VALUE="true"/>
+	<%
+	}
+	%>
+	
+	<%
+	//60078, 57264. If the parameterBean is not cascade, then select the first element.
+	if ( selectFirst && !parameterBean.isCascade( ))
+	{
+	%>
+		<script>
+			document.getElementById("<%= encodedParameterName + "_selection"%>").options[1].selected = true;
+		</script>
 	<%
 	}
 	%>

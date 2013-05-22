@@ -693,16 +693,19 @@ public class HyperlinkBuilder extends BaseDialog
 				updateButtons( );
 			}
 		} );
-		
-		locationEditor.addTraverseListener(new TraverseListener() {
-			public void keyTraversed(TraverseEvent e) {
-				if (e.detail == SWT.TRAVERSE_TAB_NEXT
-						|| e.detail == SWT.TRAVERSE_TAB_PREVIOUS) {
+
+		locationEditor.addTraverseListener( new TraverseListener( ) {
+
+			public void keyTraversed( TraverseEvent e )
+			{
+				if ( e.detail == SWT.TRAVERSE_TAB_NEXT
+						|| e.detail == SWT.TRAVERSE_TAB_PREVIOUS )
+				{
 					e.doit = true;
 				}
 			}
-		});
-		
+		} );
+
 		Composite buttonArea = new Composite( displayArea, SWT.NONE );
 		buttonArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		buttonArea.setLayoutData( new GridData( ) );
@@ -954,8 +957,10 @@ public class HyperlinkBuilder extends BaseDialog
 		group.setLayout( layout );
 		new Label( group, SWT.NONE ).setText( Messages.getString( "HyperlinkBuilder.DrillThroughLinkExpression" ) ); //$NON-NLS-1$
 
-		bookmarkEditor = new Text( group, SWT.BORDER | SWT.READ_ONLY | SWT.MULTI );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL ) ;
+		bookmarkEditor = new Text( group, SWT.BORDER
+				| SWT.READ_ONLY
+				| SWT.MULTI );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.heightHint = bookmarkEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
 				- bookmarkEditor.getBorderWidth( )
 				* 2;
@@ -1675,9 +1680,12 @@ public class HyperlinkBuilder extends BaseDialog
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType )
 				&& showBookMark )
 		{
-			if(bookmarkRadio!=null ){
+			if ( bookmarkRadio != null )
+			{
 				bookmarkRadio.setSelection( true );
-			}else{
+			}
+			else
+			{
 				noneRadio.setSelection( true );
 			}
 		}
@@ -2212,7 +2220,8 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 		{
-			okEnable = ( !StringUtil.isBlank( locationEditor.getText( ) ) || !StringUtil.isBlank( documentEditor.getText( ) ) )
+			okEnable = ( ( !StringUtil.isBlank( locationEditor.getText( ) ) && reportDesignButton.getSelection( ) ) 
+					|| ( !StringUtil.isBlank( documentEditor.getText( ) ) && reportDocumentButton.getSelection( ) ) )
 					&& messageLine.getText( ).length( ) == 0;
 		}
 		getOkButton( ).setEnabled( okEnable );
@@ -2325,43 +2334,45 @@ public class HyperlinkBuilder extends BaseDialog
 		closeTargetReport( );
 		targetReportHandle = null;
 		// String errorMessage = null;
-		if ( newFilename.toLowerCase( ).endsWith( ".rptdocument" ) ) //$NON-NLS-1$
+		if ( newFilename != null && newFilename.trim( ).length( ) > 0 )
 		{
-			ReportEngine engine = new ReportEngine( new EngineConfig( ) );
+			if ( newFilename.toLowerCase( ).endsWith( ".rptdocument" ) ) //$NON-NLS-1$
+			{
+				ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 
-			try
-			{
-				targetReportHandle = engine.openReportDocument( resolvePath( newFilename ) );
+				try
+				{
+					targetReportHandle = engine.openReportDocument( resolvePath( newFilename ) );
+				}
+				catch ( EngineException e )
+				{
+					logger.log( Level.SEVERE, e.getMessage( ), e );
+					// errorMessage = e.getMessage( );
+				}
 			}
-			catch ( EngineException e )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
-				// errorMessage = e.getMessage( );
-			}
-		}
-		else
-		{
-			try
-			{
-				targetReportHandle = SessionHandleAdapter.getInstance( )
-						.getSessionHandle( )
-						.openDesign( newFilename );
-			}
-			catch ( DesignFileException e )
+			else
 			{
 				try
 				{
 					targetReportHandle = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
-							.openDesign( resolvePath( newFilename ) );
+							.openDesign( newFilename );
 				}
-				catch ( DesignFileException e1 )
+				catch ( DesignFileException e )
 				{
-					// errorMessage = ERROR_MSG_INVALID_REPORT;
+					try
+					{
+						targetReportHandle = SessionHandleAdapter.getInstance( )
+								.getSessionHandle( )
+								.openDesign( resolvePath( newFilename ) );
+					}
+					catch ( DesignFileException e1 )
+					{
+						// errorMessage = ERROR_MSG_INVALID_REPORT;
+					}
 				}
 			}
 		}
-
 		messageLine.setText( "" ); //$NON-NLS-1$
 		messageLine.setImage( null );
 

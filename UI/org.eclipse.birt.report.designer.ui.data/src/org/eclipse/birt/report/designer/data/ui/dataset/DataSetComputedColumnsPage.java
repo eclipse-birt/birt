@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.data.ui.util.ControlProvider;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetExceptionHandler;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetExpressionProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
@@ -281,24 +282,32 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 	 */
 	public void pageActivated( )
 	{
-		refreshColumnNames( );
-		getContainer( ).setMessage( Messages.getString( "dataset.editor.computedColumns" ), //$NON-NLS-1$
-				IMessageProvider.NONE ); // $-NON-NLS-1
-		// //$NON-NLS-1$
-		setPageProperties( );
+		try
+		{
+			refreshColumnNames( );
+			getContainer( ).setMessage( Messages.getString( "dataset.editor.computedColumns" ), //$NON-NLS-1$
+					IMessageProvider.NONE ); // $-NON-NLS-1
+			// //$NON-NLS-1$
+			setPageProperties( );
 
-		computedColumns = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.COMPUTED_COLUMNS_PROP );;
-		viewer.getViewer( ).setInput( computedColumns );
-		viewer.getViewer( ).getTable( ).select( 0 );
+			computedColumns = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.COMPUTED_COLUMNS_PROP );;
+			viewer.getViewer( ).setInput( computedColumns );
+			viewer.getViewer( ).getTable( ).select( 0 );
+		}
+		catch ( BirtException e )
+		{
+			DataSetExceptionHandler.handle( e );
+		}
+
 	}
 
 	/**
 	 * Refresh columns meta data
+	 * @throws BirtException 
 	 */
-	private void refreshColumnNames( )
+	private void refreshColumnNames( ) throws BirtException
 	{
-		( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( true,
-				true );
+		( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( true );
 	}
 
 	private void addListeners( )
@@ -687,8 +696,11 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 	private void updateColumnsOfDataSetHandle( )
 	{
 		DataSetHandle dataSet = ( (DataSetEditor) getContainer( ) ).getHandle( );
-		DataSetViewData[] items = DataSetProvider.getCurrentInstance( )
-				.getColumns( dataSet, false, true, true );
+		DataSetViewData[] items;
+		try
+		{
+			items = DataSetProvider.getCurrentInstance( )
+					.getColumns( dataSet, false, true );
 		int inexistence = 0;
 		for ( int i = 0; i < items.length; i++ )
 		{
@@ -734,6 +746,11 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		}
 		DataSetProvider.getCurrentInstance( )
 				.updateColumnsOfDataSetHandle( dataSet, existItems );
+		}
+		catch ( BirtException e )
+		{
+			DataSetExceptionHandler.handle( e );
+		}
 	}
 
 	/*
@@ -1519,14 +1536,21 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			{
 				return null;
 			}
-			DataSetViewData[] items = DataSetProvider.getCurrentInstance( )
-					.getColumns( handle, false, true, true );
-			for ( int i = 0; i < items.length; i++ )
+			try
 			{
-				if ( columnName.equals( items[i].getName( ) ) )
+				DataSetViewData[] items = DataSetProvider.getCurrentInstance( )
+						.getColumns( handle, false, true );
+				for ( int i = 0; i < items.length; i++ )
 				{
-					return items[i];
+					if ( columnName.equals( items[i].getName( ) ) )
+					{
+						return items[i];
+					}
 				}
+			}
+			catch ( BirtException e )
+			{
+				DataSetExceptionHandler.handle( e );
 			}
 			return null;
 		}
@@ -1633,22 +1657,29 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		 */
 		private void updateComputedColumns( ComputedColumn handle )
 		{
-			DataSetHandle dataSet = ( (DataSetEditor) getContainer( ) ).getHandle( );
-			DataSetViewData[] items = DataSetProvider.getCurrentInstance( )
-					.getColumns( dataSet, false, true, true );
-			int count = items.length;
-			DataSetViewData[] newItems = new DataSetViewData[count + 1];
-			System.arraycopy( items, 0, newItems, 0, count );
-			newItems[count] = new DataSetViewData( );
-			newItems[count].setName( handle.getName( ) );
-			newItems[count].setDataTypeName( handle.getDataType( ) );
-			newItems[count].setAlias( handle.getDisplayName( ) );
-			newItems[count].setComputedColumn( true );
-			newItems[count].setPosition( count + 1 );
-			newItems[count].setDataType( DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
+			try
+			{
+				DataSetHandle dataSet = ( (DataSetEditor) getContainer( ) ).getHandle( );
+				DataSetViewData[] items = DataSetProvider.getCurrentInstance( )
+						.getColumns( dataSet, false, true );
+				int count = items.length;
+				DataSetViewData[] newItems = new DataSetViewData[count + 1];
+				System.arraycopy( items, 0, newItems, 0, count );
+				newItems[count] = new DataSetViewData( );
+				newItems[count].setName( handle.getName( ) );
+				newItems[count].setDataTypeName( handle.getDataType( ) );
+				newItems[count].setAlias( handle.getDisplayName( ) );
+				newItems[count].setComputedColumn( true );
+				newItems[count].setPosition( count + 1 );
+				newItems[count].setDataType( DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 
-			DataSetProvider.getCurrentInstance( )
-					.updateColumnsOfDataSetHandle( dataSet, newItems );
+				DataSetProvider.getCurrentInstance( )
+						.updateColumnsOfDataSetHandle( dataSet, newItems );
+			}
+			catch ( BirtException e )
+			{
+				DataSetExceptionHandler.handle( e );
+			}
 		}
 
 		/*
@@ -1658,50 +1689,51 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		 */
 		protected IStatus validateSyntax( Object structureOrHandle )
 		{
-			// duplicated columnName check
-			if ( !isUniqueColumnName( ) )
-				return getMiscStatus( IStatus.ERROR,
-						Messages.getString( "DataSetComputedColumnsPage.duplicatedName" ) ); //$NON-NLS-1$
-
-			// blankProperty check
-			if ( isBlankProperty( txtColumnName.getText( ) ) )
-				return getBlankPropertyStatus( dialogLabels[COLUMN_NAME_INDEX] );
-			if ( isBlankProperty( cmbDataType.getText( ) ) )
-				return getBlankPropertyStatus( dialogLabels[DATA_TYPE_INDEX] );
-			//ColumnName is number
-			if ( isNumeric( txtColumnName.getText( ) ) )
-			{
-				return getMiscStatus( IStatus.ERROR,
-						Messages.getString( "DataSetComputedColumnsPage.numberName" ) );
-			}
-//			if ( expression!=null && isBlankProperty( expression.getText( ) ) )
-//			{
-//				String funcName = getSelectedFunction( ).getName( );
-//				if ( isFunctionCount( funcName ) == false )
-//					return getBlankPropertyStatus( cellLabels[EXPRESSION_INDEX] );
-//			}
-			// validate arguments
-			IAggrFunction aggrFunc = getSelectedFunction( );
-			if ( aggrFunc != null )
-			{
-				IParameterDefn[] paramDefns = aggrFunc.getParameterDefn( );
-				for ( int i = 0; i < paramDefns.length; i++ )
-				{
-					if ( !paramDefns[i].isOptional( )
-							&& isBlankProperty( txtParams[i].getText( ) ) )
-					{
-						return getBlankPropertyStatus( paramDefns[i].getDisplayName( ) );
-					}
-				}
-			}
-			else if ( txtParams != null
-					&& isBlankProperty( txtParams[0].getText( ) ) )
-			{
-				return getBlankPropertyStatus( dialogLabels[EXPRESSION_INDEX] );
-			}
-			
 			try
 			{
+				// duplicated columnName check
+				if ( !isUniqueColumnName( ) )
+					return getMiscStatus( IStatus.ERROR,
+							Messages.getString( "DataSetComputedColumnsPage.duplicatedName" ) ); //$NON-NLS-1$
+
+				// blankProperty check
+				if ( isBlankProperty( txtColumnName.getText( ) ) )
+					return getBlankPropertyStatus( dialogLabels[COLUMN_NAME_INDEX] );
+				if ( isBlankProperty( cmbDataType.getText( ) ) )
+					return getBlankPropertyStatus( dialogLabels[DATA_TYPE_INDEX] );
+				//ColumnName is number
+				if ( isNumeric( txtColumnName.getText( ) ) )
+				{
+					return getMiscStatus( IStatus.ERROR,
+							Messages.getString( "DataSetComputedColumnsPage.numberName" ) );
+				}
+//				if ( expression!=null && isBlankProperty( expression.getText( ) ) )
+//				{
+//					String funcName = getSelectedFunction( ).getName( );
+//					if ( isFunctionCount( funcName ) == false )
+//						return getBlankPropertyStatus( cellLabels[EXPRESSION_INDEX] );
+//				}
+				// validate arguments
+				IAggrFunction aggrFunc = getSelectedFunction( );
+				if ( aggrFunc != null )
+				{
+					IParameterDefn[] paramDefns = aggrFunc.getParameterDefn( );
+					for ( int i = 0; i < paramDefns.length; i++ )
+					{
+						if ( !paramDefns[i].isOptional( )
+								&& isBlankProperty( txtParams[i].getText( ) ) )
+						{
+							return getBlankPropertyStatus( paramDefns[i].getDisplayName( ) );
+						}
+					}
+				}
+				else if ( txtParams != null
+						&& isBlankProperty( txtParams[0].getText( ) ) )
+				{
+					return getBlankPropertyStatus( dialogLabels[EXPRESSION_INDEX] );
+				}
+
+
 				if ( cmbAggregation != null
 						&& cmbAggregation.getText( ).trim( ).length( ) > 0
 						&& !checkExpressionBindingFields( ) )
@@ -1712,6 +1744,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			}
 			catch ( BirtException e )
 			{
+				e.printStackTrace( );
 			}
 			return getOKStatus( );
 		}
@@ -1844,13 +1877,12 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		/**
 		 * 
 		 * @return
+		 * @throws BirtException 
 		 */
-		private final boolean isUniqueColumnName( )
+		private final boolean isUniqueColumnName( ) throws BirtException
 		{
 			DataSetViewData[] items = DataSetProvider.getCurrentInstance( )
 					.getColumns( ( (DataSetEditor) getContainer( ) ).getHandle( ),
-							true,
-							true,
 							true );
 
 			for ( int i = 0; i < items.length; i++ )

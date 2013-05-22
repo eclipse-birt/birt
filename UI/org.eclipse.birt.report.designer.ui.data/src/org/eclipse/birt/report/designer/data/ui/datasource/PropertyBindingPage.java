@@ -40,6 +40,10 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
+import org.eclipse.datatools.connectivity.oda.util.manifest.Property;
 import org.eclipse.datatools.help.HelpUtil;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
@@ -85,7 +89,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 	private static Logger logger = Logger.getLogger( PropertyBindingPage.class.getName( ) );
 	
 	private ReportElementHandle handle;
-
+	
 	/**
 	 * the content
 	 */
@@ -123,16 +127,14 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			if ( propList.get( i ) instanceof String[] )
 			{
 				bindingName = ( (String[]) propList.get( i ) )[0];
-				nameLabel.setText( ( (String[]) propList.get( i ) )[1]
-						+ Messages.getString( "PropertyBindingPage.label.colon" ) ); //$NON-NLS-1$
+				nameLabel.setText( getLabelText( ( (String[]) propList.get( i ) )[1] ) ); //$NON-NLS-1$
 			}
-			else if ( propList.get( i ) instanceof IPropertyDefn )
+			else if ( propList.get( i ) instanceof Property )
 			{
-				IPropertyDefn propDefn = (IPropertyDefn) propList.get( i );
-				bindingName = propDefn.getName( );
-				nameLabel.setText( propDefn.getDisplayName( )
-						+ Messages.getString( "PropertyBindingPage.label.colon" ) ); //$NON-NLS-1$
-				isEncryptable = propDefn.isEncryptable( );
+				Property prop = (Property) propList.get( i );
+				bindingName = prop.getName( );
+				nameLabel.setText( getLabelText( prop.getDisplayName( ) ) ); //$NON-NLS-1$
+				isEncryptable = prop.isEncryptable( );
 			}
 			nameLabelList.add( nameLabel );
 
@@ -162,8 +164,12 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			else
 				propertyText = new Text( mainComposite, SWT.BORDER );
 			propertyText.setLayoutData( data );
-			propertyText.setText( (String) bindingValue.get( i ) == null ? "" //$NON-NLS-1$
-					: (String) bindingValue.get( i ) );
+			if ( i < bindingValue.size( ) )
+			{
+				propertyText.setText( (String) bindingValue.get( i ) == null
+						? "" //$NON-NLS-1$
+						: (String) bindingValue.get( i ) );
+			}
 			propertyTextList.add( propertyText );
 
 			if ( ds instanceof OdaDataSourceHandle )
@@ -172,6 +178,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				OdaDataSourceHandle odsh = (OdaDataSourceHandle) ds;
 				String contextId = getDynamicContextId( odsh.getExtensionID( ),
 						odsh.getExtensionID( ) ); 
+				
 				if ( contextId != null )
 				{
 					//contextId is provided thru o.e.datatools.help extension point
@@ -193,6 +200,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				OdaDataSourceHandle odsh = (OdaDataSourceHandle) ( ( (OdaDataSetHandle) ds ).getDataSource( ) );
 				String contextId = getDynamicContextId( ((OdaDataSetHandle)ds).getExtensionID( ),
 						odsh.getExtensionID( ));
+
 				if ( contextId != null )
 				{
 					//contextId is provided thru o.e.datatools.help extension point
@@ -228,7 +236,53 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 
 		return sComposite;
 	}
-	
+
+	private String getLabelText( String displayName )
+	{
+		return displayName
+				+ Messages.getString( "PropertyBindingPage.label.colon" ); //$NON-NLS-1$
+	}
+
+	private void addPropertyDisplayNamesFromDriver(
+			OdaDataSourceHandle dataSourceHandle )
+	{
+		try
+		{
+			ExtensionManifest extMF = ManifestExplorer.getInstance( )
+					.getExtensionManifest( dataSourceHandle.getExtensionID( ) );
+			Property[] properties = extMF.getVisibleProperties( );
+			for ( int i = 0; i < properties.length; i++ )
+			{
+				propList.add( properties[i] );
+			}
+		}
+		catch ( OdaException e )
+		{
+			e.printStackTrace( );
+		}
+	}
+
+	private void addPropertyDisplayNamesFromDriver(
+			OdaDataSetHandle dataSetHandle )
+	{
+		try
+		{
+			( (OdaDataSourceHandle) dataSetHandle.getDataSource( ) ).getExtensionID( );
+			ExtensionManifest extMF = ManifestExplorer.getInstance( )
+					.getExtensionManifest( ( (OdaDataSourceHandle) dataSetHandle.getDataSource( ) ).getExtensionID( ) );
+			Property[] properties = extMF.getDataSetType( dataSetHandle.getExtensionID( ) )
+					.getVisibleProperties( );
+			for ( int i = 0; i < properties.length; i++ )
+			{
+				propList.add( properties[i] );
+			}
+		}
+		catch ( OdaException e )
+		{
+			e.printStackTrace( );
+		}
+	}
+
 	private static String getDynamicContextId( String helpKeyPrefix, String helpPlugin )
 	{
 		return HelpUtil.getContextId( helpKeyPrefix + ".properties.helpKey", helpPlugin ); //$NON-NLS-1$
@@ -241,7 +295,6 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				property,
 				new ExpressionProvider( handle ),
 				handle,
-				true,
 				SWT.PUSH );
 
 		if ( isEncryptable )
@@ -286,6 +339,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 					? ""
 					: ( (DataSetHandle) ds ).getPropertyBinding( QUERYTEXT ) );
 		}
+		
 		if ( iterator != null )
 		{
 			while ( iterator.hasNext( ) )
@@ -298,7 +352,6 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 					if ( elementDefn != null
 							&& !elementDefn.isPropertyVisible( name ) )
 						continue;
-					propList.add( propertyDefn );
 
 					if ( ds instanceof DataSetHandle )
 					{
@@ -319,6 +372,16 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				}
 			}
 		}
+		
+		if ( ds instanceof OdaDataSetHandle )
+		{
+			addPropertyDisplayNamesFromDriver( (OdaDataSetHandle) ds );
+		}
+		else if ( ds instanceof OdaDataSourceHandle )
+		{
+			addPropertyDisplayNamesFromDriver( (OdaDataSourceHandle) ds );
+		}
+		
 	}
 
 	/**
@@ -371,9 +434,9 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 						( (DesignElementHandle) ds ).setPropertyBinding( ( (String[]) propList.get( i ) )[0],
 								expr );
 					}
-					else if ( propList.get( i ) instanceof IPropertyDefn )
+					else if ( propList.get( i ) instanceof Property )
 					{
-						( (DesignElementHandle) ds ).setPropertyBinding( ( (IPropertyDefn) propList.get( i ) ).getName( ),
+						( (DesignElementHandle) ds ).setPropertyBinding( ( (Property) propList.get( i ) ).getName( ),
 								expr );
 					}
 				}

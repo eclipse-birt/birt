@@ -36,11 +36,42 @@ public class NeedleComposite extends Composite implements Listener
 	
 	private HeadStyleAttributeComposite cmbHeadStyle;
 	
+	public static class NeedleAttributesContext
+	{
+		public int lineOptionalStyles = LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_STYLES;
+
+		public boolean bEnableHeadStyle = true;
+	}
+
 	public NeedleComposite( Composite coParent,
 			ChartWizardContext wizardContext, 
 			DialSeries series )
 	{
 		super( coParent, SWT.NONE );
+
+		construct( coParent,
+				wizardContext,
+				series,
+				new NeedleAttributesContext( ) );
+	}
+
+	public NeedleComposite( Composite coParent,
+			ChartWizardContext wizardContext, 
+			DialSeries series, NeedleAttributesContext needleAttributeContext )
+	{
+		super( coParent, SWT.NONE );
+
+		construct( coParent,
+				wizardContext,
+				series,
+				needleAttributeContext );
+	}
+
+	private void construct( Composite coParent,
+			ChartWizardContext wizardContext, DialSeries series,
+			NeedleAttributesContext needleAttributeContext )
+	{
 		this.series = series;
 		DialSeries defSeries = (DialSeries) ChartDefaultValueUtil.getDefaultSeries( series );
 		GridLayout gl = new GridLayout( 1, true );
@@ -51,26 +82,26 @@ public class NeedleComposite extends Composite implements Listener
 		
 		liacNeedle = new LineAttributesComposite( this,
 				SWT.NONE,
+				needleAttributeContext.lineOptionalStyles,
 				wizardContext,
 				series.getNeedle( ).getLineAttributes( ),
-				true,
-				true,
-				false,
-				false,
 				defSeries.getNeedle( ).getLineAttributes( ) );
 		GridData gdLIACNeedle = new GridData( GridData.FILL_HORIZONTAL );
 		liacNeedle.setLayoutData( gdLIACNeedle );
 		liacNeedle.addListener( this );
 
-		cmbHeadStyle = new HeadStyleAttributeComposite( this,
-				SWT.NONE,
-				series.getNeedle( ).getDecorator( ),
-				series.getNeedle( ),
-				"decorator", //$NON-NLS-1$
-				wizardContext );
-		GridData gdCMBHeadStyle = new GridData( GridData.FILL_HORIZONTAL );
-		cmbHeadStyle.setLayoutData( gdCMBHeadStyle );
-		cmbHeadStyle.addListener( this );
+		if( needleAttributeContext.bEnableHeadStyle )
+		{
+			cmbHeadStyle = new HeadStyleAttributeComposite( this,
+					SWT.NONE,
+					series.getNeedle( ).getDecorator( ),
+					series.getNeedle( ),
+					"decorator", //$NON-NLS-1$
+					wizardContext );
+			GridData gdCMBHeadStyle = new GridData( GridData.FILL_HORIZONTAL );
+			cmbHeadStyle.setLayoutData( gdCMBHeadStyle );
+			cmbHeadStyle.addListener( this );
+		}
 	}
 	
 	/* (non-Javadoc)

@@ -22,7 +22,9 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelper;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
+import org.eclipse.birt.report.designer.ui.preferences.IStatusChangeListener;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.core.resources.IProject;
 
 /**
  * 
@@ -117,5 +119,18 @@ public class ChartReportItemUIFactory extends ChartUIFactory
 	public DesignerRepresentation createFigure( ChartReportItemImpl crii )
 	{
 		return new DesignerRepresentation( crii );
+	}	
+	
+	/**
+	 * Create chart preference page
+	 * @param context
+	 * @param project
+	 * @return ChartConfigurationBlock
+	 */
+	public ChartConfigurationBlock createChartConfigurationBlock(IStatusChangeListener context,
+			IProject project){
+		return new ChartConfigurationBlock( context,
+				project );
 	}
+
 }

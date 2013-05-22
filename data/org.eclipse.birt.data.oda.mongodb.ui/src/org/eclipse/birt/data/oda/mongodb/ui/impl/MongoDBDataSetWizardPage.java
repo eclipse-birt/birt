@@ -368,8 +368,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 		gd.widthHint = 120;
 		selectedFieldsTable.getTable( ).setLayoutData( gd );
 
-		selectedFieldsTable.getTable( ).setHeaderVisible( false );
-		selectedFieldsTable.getTable( ).setLinesVisible( false );
+		selectedFieldsTable.getTable( ).setHeaderVisible( true );
 
 		TableColumn column1 = new TableColumn( selectedFieldsTable.getTable( ),
 				SWT.LEFT );
@@ -378,6 +377,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 
 		TableColumn column2 = new TableColumn( selectedFieldsTable.getTable( ),
 				SWT.LEFT );
+		column2.setText( Messages.getString( "MongoDBDataSetWizardPage.HeaderText.SelectedFields" ) );
 		column2.setResizable( true );
 		column2.setWidth( 180 );
 
@@ -1443,7 +1443,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 			}
 			addAllBtn.setEnabled( selectedFields.size( ) < allAvailableFields.size( )
 					&& containsUnselectedItem( availableFieldsViewer.getTree( )
-							.getSelection( ), false ) );
+							.getSelection( ) ) );
 			removeBtn.setEnabled( false );
 			upBtn.setEnabled( false );
 			downBtn.setEnabled( false );
@@ -1533,24 +1533,44 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 		}
 		return false;
 	}
+	
+	private boolean containsUnselectedItem( TreeItem[] items )
+	{
+		if ( items.length > 0
+				&& items[0].getData( ) instanceof FieldEntryWrapper )
+		{
+			return containsUnselectedItem( items[0].getItems( ), true );
+		}
+		else
+		{
+			return containsUnselectedItem( items, false );
+		}
+	}
 
 	private boolean containsUnselectedItem( TreeItem[] items,
 			boolean includeCurrent )
 	{
 		for ( int i = 0; i < items.length; i++ )
 		{
-			if ( items[i].getData( ) instanceof FieldEntryWrapper )
-			{
-				return selectedFields.size( ) < allAvailableFields.size( );
-			}
 			if ( items[i].getData( ) instanceof FieldMetaData )
 			{
 				FieldMetaData field = (FieldMetaData) items[i].getData( );
-				if ( !field.hasChildDocuments( ) )
+				if ( includeCurrent )
 				{
-					return false;
+					if ( field.hasChildDocuments( ) )
+					{
+						if ( !allChildrenSelected( field, false ) )
+						{
+							return true;
+						}
+					}
+					else if ( !isSelectedField( field.getFullDisplayName( ) ) )
+					{
+						return true;
+					}
 				}
-				else if ( !allChildrenSelected( field, includeCurrent ) )
+				else if ( field.hasChildDocuments( )
+						&& !allChildrenSelected( field, includeCurrent ) )
 				{
 					return true;
 				}

@@ -332,30 +332,32 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		fccRange.addListener( this );
 
 		// Range Outline
-		grpMarkerRange = new Group( cmpRange, SWT.NONE );
-		GridData gdGRPMarkerRange = new GridData( GridData.FILL_HORIZONTAL );
-		gdGRPMarkerRange.horizontalSpan = 3;
-		grpMarkerRange.setLayoutData( gdGRPMarkerRange );
-		grpMarkerRange.setLayout( new FillLayout( ) );
-		grpMarkerRange.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.RangeOutline" ) ); //$NON-NLS-1$
-
-		int lineStyles = LineAttributesComposite.ENABLE_COLOR
-				| LineAttributesComposite.ENABLE_STYLES
-				| LineAttributesComposite.ENABLE_VISIBILITY
-				| LineAttributesComposite.ENABLE_WIDTH;
-		lineStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
-				: lineStyles;
-		liacMarkerRange = new LineAttributesComposite( grpMarkerRange,
-				SWT.NONE,
-				lineStyles,
-				getContext( ),
-				null,
-				( (DialSeries) defSeries ).getDial( )
-						.getDialRegions( )
-						.get( 0 )
-						.getOutline( ) );
-		liacMarkerRange.addListener( this );
-
+		if ( supportRangeOutline( ) )
+		{
+			grpMarkerRange = new Group( cmpRange, SWT.NONE );
+			GridData gdGRPMarkerRange = new GridData( GridData.FILL_HORIZONTAL );
+			gdGRPMarkerRange.horizontalSpan = 3;
+			grpMarkerRange.setLayoutData( gdGRPMarkerRange );
+			grpMarkerRange.setLayout( new FillLayout( ) );
+			grpMarkerRange.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.RangeOutline" ) ); //$NON-NLS-1$
+	
+			int lineStyles = LineAttributesComposite.ENABLE_COLOR
+					| LineAttributesComposite.ENABLE_STYLES
+					| LineAttributesComposite.ENABLE_VISIBILITY
+					| LineAttributesComposite.ENABLE_WIDTH;
+			lineStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+					: lineStyles;
+			liacMarkerRange = new LineAttributesComposite( grpMarkerRange,
+					SWT.NONE,
+					lineStyles,
+					getContext( ),
+					null,
+					( (DialSeries) defSeries ).getDial( )
+							.getDialRegions( )
+							.get( 0 )
+							.getOutline( ) );
+			liacMarkerRange.addListener( this );
+		}
 		// Label Properties
 		// lacLabel = new LabelAttributesComposite( cmpContent,
 		// SWT.NONE,
@@ -379,6 +381,11 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		refreshButtons( );
 
 		return cmpContent;
+	}
+
+	protected boolean supportRangeOutline( )
+	{
+		return true;
 	}
 
 	protected boolean supportRadius( )
@@ -690,8 +697,11 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		// Update the fill
 		fccRange.setFill( range.getFill( ) );
 
-		// Update the Line attribute fields
-		liacMarkerRange.setLineAttributes( range.getOutline( ) );
+		if ( supportRangeOutline( ) )
+		{
+			// Update the Line attribute fields
+			liacMarkerRange.setLineAttributes( range.getOutline( ) );
+		}
 
 		// // Update the Label attribute fields
 		// lacLabel.setLabel( range.getLabel( ), chart.getUnits( ) );
@@ -720,21 +730,26 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		lblEndValue.setEnabled( bState );
 		txtEndValue.setEnabled( bState );
 
-		if ( supportRadius( ) )
+		if( supportRadius( ) )
 		{
 			lblInnerRadius.setEnabled( bState );
 			txtInnerRadius.setEnabled( bState );
 			lblOuterRadius.setEnabled( bState );
 			txtOuterRadius.setEnabled( bState );
 		}
-		
-		liacMarkerRange.setAttributesEnabled( bState );
-		// lacLabel.setEnabled( bState );
+
+		if( supportRangeOutline( ) )
+		{
+			liacMarkerRange.setAttributesEnabled( bState );
+			// lacLabel.setEnabled( bState );
+			this.grpMarkerRange.setEnabled( bState );
+		}
+
 		lblRangeFill.setEnabled( bState );
 		fccRange.setEnabled( bState );
 
 		this.grpGeneral.setEnabled( bState );
-		this.grpMarkerRange.setEnabled( bState );
+
 	}
 
 	private void resetUI( )
@@ -746,8 +761,12 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 			txtOuterRadius.unsetValue( );
 		}
 		fccRange.setFill( null );
-		liacMarkerRange.setLineAttributes( null );
-		liacMarkerRange.layout( );
+		
+		if( supportRangeOutline ( ) )
+		{
+			liacMarkerRange.setLineAttributes( null );
+			liacMarkerRange.layout( );
+		}
 		// lacLabel.setLabel( LabelImpl.create( ), chart.getUnits( ) );
 		// lacLabel.layout( );
 	}

@@ -73,8 +73,12 @@ public class Utils
 	private static final String FIELD_IMG_FLAG = "fieldImgFlag"; //$NON-NLS-1$
 	private static final String METHOD_IMG_FLAG = "methodImgFlag"; //$NON-NLS-1$
 	private static final String WARNING_IMG_FLAG = "warningImgFlag"; //$NON-NLS-1$
+	
+	//The icons DESIGNTIME_IMG_FLAG and RUNTIME_IMG_FLAG are discarded to use for the TabItem
+	//But still preserve the 2 icon files and the entries
 	private static final String DESIGNTIME_IMG_FLAG = "DesignTimeImgFlag"; //$NON-NLS-1$
 	private static final String RUNTIME_IMG_FLAG = "RunTimeImgFlag"; //$NON-NLS-1$
+	
 	private static final String FOLDER_ICON = "FolderIcon"; //$NON-NLS-1$
 	private static final String JAR_ICON = "JarIcon"; //$NON-NLS-1$
 	private static final String OK_DISABLE_ICON = "OKDisableIcon"; //$NON-NLS-1$
@@ -645,16 +649,6 @@ public class Utils
 		return JFaceResources.getImageRegistry( ).get( WARNING_IMG_FLAG );
 	}
 	
-	public static Image getDesignTimeIcon( )
-	{
-		return JFaceResources.getImageRegistry( ).get( DESIGNTIME_IMG_FLAG );
-	}
-	
-	public static Image getRunTimeIcon( )
-	{
-		return JFaceResources.getImageRegistry( ).get( RUNTIME_IMG_FLAG );
-	}
-
 	public static Image getFolderIcon( )
 	{
 		return JFaceResources.getImageRegistry( ).get( FOLDER_ICON );

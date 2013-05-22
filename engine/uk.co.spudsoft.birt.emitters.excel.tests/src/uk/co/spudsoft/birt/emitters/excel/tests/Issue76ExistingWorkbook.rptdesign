@@ -1,0 +1,840 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.1.v201209101448 Build &lt;4.2.1.v20120912-1721></property>
+    <text-property name="title">Big Crosstab Report 1</text-property>
+    <method name="beforeFactory"><![CDATA[var path;
+if( reportContext.getHttpServletRequest() != null ) {
+	var request = reportContext.getHttpServletRequest().getParameterMap();
+	path = request.get( "__report" )[0].toString();
+} else if( reportContext.getAppContext() != null ) {
+	path = reportContext.getAppContext().get( "__report" );
+}
+if( path!= null){
+	if( path.contains( "/" ) ) {
+		path = path.substring( 0, path.lastIndexOf( "/" ) );
+	} else if( path.contains( "\\" ) ) {
+		path = path.substring( 0, path.lastIndexOf( "\\" ) );
+	}
+}
+// java.lang.System.err.println( "resourcePath = " + path );
+this.getDataSource( "Mission Data Source" ).setPrivateDriverProperty( "HOME", path );]]></method>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.datatools.connectivity.oda.flatfile" name="Mission Data Source" id="6">
+            <property name="HOME">.</property>
+            <property name="DELIMTYPE">TAB</property>
+            <property name="CHARSET">UTF-8</property>
+            <property name="INCLCOLUMNNAME">YES</property>
+            <property name="INCLTYPELINE">NO</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.datatools.connectivity.oda.flatfile.dataSet" name="Mission Data Set" id="7">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Launch</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Orbit inclination/degrees</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Distance/km</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Registration number</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Launch vehicle</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Landing rollout time/s</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Orbit apogee/km</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Launch base</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Launch site</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Nation</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Landing</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Mission</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Summary</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Orbit period/s</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Orbit perigee/km</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Landing site</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Duration/s</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Number of revolutions around Earth</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Payload mass/kg</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Spacecraft mass/kg</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Launch</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Orbit inclination/degrees</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">Distance/km</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">Registration number</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">Launch vehicle</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">Landing rollout time/s</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">Orbit apogee/km</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">Launch base</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">Launch site</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">Nation</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">Landing</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">Mission</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">Summary</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">Orbit period/s</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">Orbit perigee/km</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">Landing site</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">Duration/s</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">Number of revolutions around Earth</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">Payload mass/kg</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">Spacecraft mass/kg</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Mission Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Launch</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">Orbit inclination/degrees</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">Distance/km</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">Registration number</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">Launch vehicle</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">Landing rollout time/s</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">Orbit apogee/km</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">Launch base</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">Launch site</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">Nation</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">Landing</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">Mission</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">Summary</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">Orbit period/s</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">Orbit perigee/km</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">Landing site</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">Duration/s</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">Number of revolutions around Earth</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">Payload mass/kg</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">Spacecraft mass/kg</property>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select "Launch", "Orbit inclination/degrees", "Distance/km", "Registration number", "Launch vehicle", "Landing rollout time/s", "Orbit apogee/km", "Launch base", "Launch site", "Nation", "Landing", "Mission", "Summary", "Orbit period/s", "Orbit perigee/km", "Landing site", "Duration/s", "Number of revolutions around Earth", "Payload mass/kg", "Spacecraft mass/kg"  from MannedSpaceMissions.tsv : {"Launch","Launch",TIMESTAMP;"Orbit inclination\/degrees","Orbit inclination\/degrees",DOUBLE;"Distance\/km","Distance\/km",INT;"Registration number","Registration number",STRING;"Launch vehicle","Launch vehicle",STRING;"Landing rollout time\/s","Landing rollout time\/s",INT;"Orbit apogee\/km","Orbit apogee\/km",DOUBLE;"Launch base","Launch base",STRING;"Launch site","Launch site",STRING;"Nation","Nation",STRING;"Landing","Landing",TIMESTAMP;"Mission","Mission",STRING;"Summary","Summary",STRING;"Orbit period\/s","Orbit period\/s",DOUBLE;"Orbit perigee\/km","Orbit perigee\/km",DOUBLE;"Landing site","Landing site",STRING;"Duration\/s","Duration\/s",INT;"Number of revolutions around Earth","Number of revolutions around Earth",DOUBLE;"Payload mass\/kg","Payload mass\/kg",DOUBLE;"Spacecraft mass\/kg","Spacecraft mass\/kg",DOUBLE }]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="Mission Cube" id="8">
+            <property name="dimensions">
+                <tabular-dimension name="LaunchDate" id="9">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="10">
+                            <property name="levels">
+                                <tabular-level name="LaunchYear" id="11">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">year</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">Launch</property>
+                                </tabular-level>
+                                <tabular-level name="LaunchMonth" id="12">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">Launch</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">Mission Data Set</property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="LaunchVehicle" id="13">
+                    <property name="isTimeType">false</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="14">
+                            <property name="levels">
+                                <tabular-level name="LaunchVehicle" id="15">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">Launch vehicle</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">Mission Data Set</property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="LaunchSite" id="16">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy2" id="17">
+                            <property name="levels">
+                                <tabular-level name="Nation" id="18">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">Nation</property>
+                                </tabular-level>
+                                <tabular-level name="LaunchBase" id="19">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">Launch base</property>
+                                </tabular-level>
+                                <tabular-level name="LaunchSite" id="20">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">Nation</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">Mission Data Set</property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="MeasureGroup" id="21">
+                    <property name="measures">
+                        <tabular-measure name="Mission Count" id="22">
+                            <property name="function">count</property>
+                            <property name="isCalculated">false</property>
+                            <expression name="measureExpression">dataSetRow['Mission']</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                        <tabular-measure name="Mission Duration" id="23">
+                            <property name="function">sum</property>
+                            <property name="isCalculated">false</property>
+                            <expression name="measureExpression">dataSetRow['Duration/s']</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">Mission Data Set</property>
+        </tabular-cube>
+    </cubes>
+    <styles>
+        <style name="crosstab-cell" id="2">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">0pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">0pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">0pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">0pt</property>
+            <property name="paddingTop">0pt</property>
+            <property name="paddingLeft">0pt</property>
+            <property name="paddingBottom">0pt</property>
+            <property name="paddingRight">0pt</property>
+        </style>
+        <style name="crosstab" id="3">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">0pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">0pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">0pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">0pt</property>
+            <property name="paddingTop">0pt</property>
+            <property name="paddingLeft">0pt</property>
+            <property name="paddingBottom">0pt</property>
+            <property name="paddingRight">0pt</property>
+        </style>
+        <style name="data" id="40">
+            <property name="borderBottomWidth">0pt</property>
+            <property name="borderLeftWidth">0pt</property>
+            <property name="borderRightWidth">0pt</property>
+            <property name="borderTopWidth">0pt</property>
+            <property name="paddingTop">0pt</property>
+            <property name="paddingLeft">0pt</property>
+            <property name="paddingBottom">0pt</property>
+            <property name="paddingRight">0pt</property>
+        </style>
+        <style name="label" id="41">
+            <property name="borderBottomWidth">0pt</property>
+            <property name="borderLeftWidth">0pt</property>
+            <property name="borderRightWidth">0pt</property>
+            <property name="borderTopWidth">0pt</property>
+            <property name="paddingTop">0pt</property>
+            <property name="paddingLeft">0pt</property>
+            <property name="paddingBottom">0pt</property>
+            <property name="paddingRight">0pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Page Master" id="4"/>
+    </page-setup>
+    <body>
+        <table name="RawData" id="63">
+            <property name="dataSet">Mission Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Launch</property>
+                    <text-property name="displayName">Launch</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Launch"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">Orbit inclination/degrees</property>
+                    <text-property name="displayName">Orbit inclination/degrees</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Orbit inclination/degrees"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">Distance/km</property>
+                    <text-property name="displayName">Distance/km</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Distance/km"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Registration number</property>
+                    <text-property name="displayName">Registration number</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Registration number"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Launch vehicle</property>
+                    <text-property name="displayName">Launch vehicle</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Launch vehicle"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Landing rollout time/s</property>
+                    <text-property name="displayName">Landing rollout time/s</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Landing rollout time/s"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Orbit apogee/km</property>
+                    <text-property name="displayName">Orbit apogee/km</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Orbit apogee/km"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">Launch base</property>
+                    <text-property name="displayName">Launch base</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Launch base"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Launch site</property>
+                    <text-property name="displayName">Launch site</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Launch site"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Nation</property>
+                    <text-property name="displayName">Nation</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Nation"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Landing</property>
+                    <text-property name="displayName">Landing</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Landing"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">Mission</property>
+                    <text-property name="displayName">Mission</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Mission"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Summary</property>
+                    <text-property name="displayName">Summary</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Summary"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Orbit period/s</property>
+                    <text-property name="displayName">Orbit period/s</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Orbit period/s"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">Orbit perigee/km</property>
+                    <text-property name="displayName">Orbit perigee/km</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Orbit perigee/km"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">Landing site</property>
+                    <text-property name="displayName">Landing site</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Landing site"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Duration/s</property>
+                    <text-property name="displayName">Duration/s</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Duration/s"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Number of revolutions around Earth</property>
+                    <text-property name="displayName">Number of revolutions around Earth</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Number of revolutions around Earth"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">Payload mass/kg</property>
+                    <text-property name="displayName">Payload mass/kg</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Payload mass/kg"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">Spacecraft mass/kg</property>
+                    <text-property name="displayName">Spacecraft mass/kg</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Spacecraft mass/kg"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <column id="167"/>
+            <column id="168"/>
+            <column id="169"/>
+            <column id="170"/>
+            <column id="171"/>
+            <column id="172"/>
+            <column id="173"/>
+            <column id="174"/>
+            <column id="175"/>
+            <column id="176"/>
+            <column id="177"/>
+            <column id="178"/>
+            <column id="179"/>
+            <column id="180"/>
+            <column id="181"/>
+            <column id="182"/>
+            <column id="183"/>
+            <column id="184"/>
+            <column id="185"/>
+            <column id="186"/>
+            <header>
+                <row id="64">
+                    <cell id="65">
+                        <label id="66">
+                            <text-property name="text">Launch</text-property>
+                        </label>
+                    </cell>
+                    <cell id="67">
+                        <label id="68">
+                            <text-property name="text">Orbit inclination/degrees</text-property>
+                        </label>
+                    </cell>
+                    <cell id="69">
+                        <label id="70">
+                            <text-property name="text">Distance/km</text-property>
+                        </label>
+                    </cell>
+                    <cell id="71">
+                        <label id="72">
+                            <text-property name="text">Registration number</text-property>
+                        </label>
+                    </cell>
+                    <cell id="73">
+                        <label id="74">
+                            <text-property name="text">Launch vehicle</text-property>
+                        </label>
+                    </cell>
+                    <cell id="75">
+                        <label id="76">
+                            <text-property name="text">Landing rollout time/s</text-property>
+                        </label>
+                    </cell>
+                    <cell id="77">
+                        <label id="78">
+                            <text-property name="text">Orbit apogee/km</text-property>
+                        </label>
+                    </cell>
+                    <cell id="79">
+                        <label id="80">
+                            <text-property name="text">Launch base</text-property>
+                        </label>
+                    </cell>
+                    <cell id="81">
+                        <label id="82">
+                            <text-property name="text">Launch site</text-property>
+                        </label>
+                    </cell>
+                    <cell id="83">
+                        <label id="84">
+                            <text-property name="text">Nation</text-property>
+                        </label>
+                    </cell>
+                    <cell id="85">
+                        <label id="86">
+                            <text-property name="text">Landing</text-property>
+                        </label>
+                    </cell>
+                    <cell id="87">
+                        <label id="88">
+                            <text-property name="text">Mission</text-property>
+                        </label>
+                    </cell>
+                    <cell id="89">
+                        <label id="90">
+                            <text-property name="text">Summary</text-property>
+                        </label>
+                    </cell>
+                    <cell id="91">
+                        <label id="92">
+                            <text-property name="text">Orbit period/s</text-property>
+                        </label>
+                    </cell>
+                    <cell id="93">
+                        <label id="94">
+                            <text-property name="text">Orbit perigee/km</text-property>
+                        </label>
+                    </cell>
+                    <cell id="95">
+                        <label id="96">
+                            <text-property name="text">Landing site</text-property>
+                        </label>
+                    </cell>
+                    <cell id="97">
+                        <label id="98">
+                            <text-property name="text">Duration/s</text-property>
+                        </label>
+                    </cell>
+                    <cell id="99">
+                        <label id="100">
+                            <text-property name="text">Number of revolutions around Earth</text-property>
+                        </label>
+                    </cell>
+                    <cell id="101">
+                        <label id="102">
+                            <text-property name="text">Payload mass/kg</text-property>
+                        </label>
+                    </cell>
+                    <cell id="103">
+                        <label id="104">
+                            <text-property name="text">Spacecraft mass/kg</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="105">
+                    <cell id="106">
+                        <data id="107">
+                            <property name="resultSetColumn">Launch</property>
+                        </data>
+                    </cell>
+                    <cell id="108">
+                        <data id="109">
+                            <property name="resultSetColumn">Orbit inclination/degrees</property>
+                        </data>
+                    </cell>
+                    <cell id="110">
+                        <data id="111">
+                            <property name="resultSetColumn">Distance/km</property>
+                        </data>
+                    </cell>
+                    <cell id="112">
+                        <data id="113">
+                            <property name="resultSetColumn">Registration number</property>
+                        </data>
+                    </cell>
+                    <cell id="114">
+                        <data id="115">
+                            <property name="resultSetColumn">Launch vehicle</property>
+                        </data>
+                    </cell>
+                    <cell id="116">
+                        <data id="117">
+                            <property name="resultSetColumn">Landing rollout time/s</property>
+                        </data>
+                    </cell>
+                    <cell id="118">
+                        <data id="119">
+                            <property name="resultSetColumn">Orbit apogee/km</property>
+                        </data>
+                    </cell>
+                    <cell id="120">
+                        <data id="121">
+                            <property name="resultSetColumn">Launch base</property>
+                        </data>
+                    </cell>
+                    <cell id="122">
+                        <data id="123">
+                            <property name="resultSetColumn">Launch site</property>
+                        </data>
+                    </cell>
+                    <cell id="124">
+                        <data id="125">
+                            <property name="resultSetColumn">Nation</property>
+                        </data>
+                    </cell>
+                    <cell id="126">
+                        <data id="127">
+                            <property name="resultSetColumn">Landing</property>
+                        </data>
+                    </cell>
+                    <cell id="128">
+                        <data id="129">
+                            <property name="resultSetColumn">Mission</property>
+                        </data>
+                    </cell>
+                    <cell id="130">
+                        <data id="131">
+                            <property name="resultSetColumn">Summary</property>
+                        </data>
+                    </cell>
+                    <cell id="132">
+                        <data id="133">
+                            <property name="resultSetColumn">Orbit period/s</property>
+                        </data>
+                    </cell>
+                    <cell id="134">
+                        <data id="135">
+                            <property name="resultSetColumn">Orbit perigee/km</property>
+                        </data>
+                    </cell>
+                    <cell id="136">
+                        <data id="137">
+                            <property name="resultSetColumn">Landing site</property>
+                        </data>
+                    </cell>
+                    <cell id="138">
+                        <data id="139">
+                            <property name="resultSetColumn">Duration/s</property>
+                        </data>
+                    </cell>
+                    <cell id="140">
+                        <data id="141">
+                            <property name="resultSetColumn">Number of revolutions around Earth</property>
+                        </data>
+                    </cell>
+                    <cell id="142">
+                        <data id="143">
+                            <property name="resultSetColumn">Payload mass/kg</property>
+                        </data>
+                    </cell>
+                    <cell id="144">
+                        <data id="145">
+                            <property name="resultSetColumn">Spacecraft mass/kg</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="146">
+                    <cell id="147"/>
+                    <cell id="148"/>
+                    <cell id="149"/>
+                    <cell id="150"/>
+                    <cell id="151"/>
+                    <cell id="152"/>
+                    <cell id="153"/>
+                    <cell id="154"/>
+                    <cell id="155"/>
+                    <cell id="156"/>
+                    <cell id="157"/>
+                    <cell id="158"/>
+                    <cell id="159"/>
+                    <cell id="160"/>
+                    <cell id="161"/>
+                    <cell id="162"/>
+                    <cell id="163"/>
+                    <cell id="164"/>
+                    <cell id="165"/>
+                    <cell id="166"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

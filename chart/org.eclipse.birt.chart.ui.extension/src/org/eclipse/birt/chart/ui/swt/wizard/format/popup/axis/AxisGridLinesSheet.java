@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.Grid;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
@@ -248,7 +249,13 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				axis.getMajorGrid( ),
 				axis.getOrientation( ).getValue( ),
 				ticksVisible,
-				defAxis.getMajorGrid( ) );
+				defAxis.getMajorGrid( ) ){
+			protected void init( Grid grid ){
+				super.init(grid);
+				super.lineVisibleLabel=Messages.getString( "AxisGridLinesSheet.MajorLabel.LineIsVisible" ); //$NON-NLS-1$
+				super.tickVisibleLabel=Messages.getString( "AxisGridLinesSheet.MajorLabel.TickIsVisible" ); //$NON-NLS-1$
+			}			
+		};
 		gacMajor.addListener( this );
 
 		// Minor Grid
@@ -269,7 +276,13 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				axis.getMinorGrid( ),
 				axis.getOrientation( ).getValue( ),
 				ticksVisible,
-				defAxis.getMinorGrid( ) );
+				defAxis.getMinorGrid( ) ){
+			protected void init( Grid grid ){
+				super.init(grid);
+				super.lineVisibleLabel=Messages.getString( "AxisGridLinesSheet.MinorLabel.LineIsVisible" ); //$NON-NLS-1$
+				super.tickVisibleLabel=Messages.getString( "AxisGridLinesSheet.MinorLabel.TickIsVisible" ); //$NON-NLS-1$
+			}		
+		};
 		gacMinor.addListener( this );
 
 		setStateOfMajorGrid( );

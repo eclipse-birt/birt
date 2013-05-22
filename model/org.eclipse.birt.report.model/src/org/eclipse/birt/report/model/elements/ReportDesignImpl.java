@@ -320,11 +320,14 @@ abstract class ReportDesignImpl extends LayoutModule
 			throws CloneNotSupportedException
 	{
 		Module module = (Module) super.doClone( policy );
+		
 		if ( isCached( ) )
 		{
 			module.cacheValues( );
 		}
-
+		
+		//remove css reference 
+		((ReportDesignImpl)module).operation = null;
 		return module;
 	}
 

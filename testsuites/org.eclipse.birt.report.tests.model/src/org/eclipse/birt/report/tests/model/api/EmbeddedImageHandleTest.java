@@ -83,7 +83,7 @@ public class EmbeddedImageHandleTest extends BaseTestCase
 			
 			image2handle.drop();
 			List value1 =  propHandle.getListValue();
-			assertEquals( 0, value1.size( ) );
+			assertNull( value1);
 			assertNull( image2handle.getStructure( ) );
 		}
 

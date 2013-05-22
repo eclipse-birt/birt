@@ -818,7 +818,8 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 		}
 		else if ( adapter == IAttributeViewPage.class )
 		{
-			AttributeViewPage page = new AttributeViewPage( );
+			AttributeViewPage page = new AttributeViewPage( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ) );
 			return page;
 		}
 		else if ( adapter == ITextEditor.class )
@@ -1885,7 +1886,7 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 		if ( element instanceof IPropertyDefn )
 		{
 			IPropertyDefn eleDef = (IPropertyDefn) element;
-			
+
 			// XXX start hack, force "onContentUpdate" to be shown as
 			// "clientScripts"
 			if ( "onContentUpdate".equals( eleDef.getName( ) ) ) //$NON-NLS-1$

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.preference.IPreferenceChangeListener;
+import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.EditorBreadcrumb;
 import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.ReportLayoutEditorBreadcrumb;
@@ -23,9 +25,13 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers.SchematicContextMenuProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditDomain;
@@ -76,12 +82,17 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISharedImages;
@@ -101,14 +112,61 @@ import com.ibm.icu.text.MessageFormat;
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
-		IPropertyChangeListener
+		IPropertyChangeListener,
+		IPreferenceChangeListener
 {
 
 	private static final String VIEW_CONTEXT_ID = "org.eclipse.birt.report.designer.internal.ui.editors.parts.graphicaleditorwithflyoutpalette.context"; //$NON-NLS-1$
 	private PaletteViewerProvider provider;
 	private FlyoutPaletteComposite splitter;
 	private CustomPalettePage page;
+
 	// private ButtonPaneComposite bPane;
+
+	// a temporary flag, used for checking if it needs to active the current
+	// editor part.
+	private static boolean shellActiveFlag = false;
+
+	// record the last activated shell, used for dataset or datasource selection.
+	private static Shell lastActiveShell = null;
+
+	// Used for multiple window case. When the shell is activated and it's not
+	// the last recored activated shell, then active the current active editor.
+	private ShellListener shellActiveListener = new ShellAdapter( ) {
+
+		public void shellActivated( ShellEvent e )
+		{
+			if ( !shellActiveFlag )
+			{
+				shellActiveFlag = true;
+				Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+					public void run( )
+					{
+						if ( lastActiveShell == getSite( ).getShell( ) )
+						{
+							// don't active the current active editor
+							shellActiveFlag = false;
+							return;
+						}
+						else
+						{
+							lastActiveShell = getSite( ).getShell( );
+							IEditorPart editor = UIUtil.getActiveEditor( true );
+							if ( editor instanceof IPartListener )
+							{
+								// update the SessionHandleAdapter's model.
+								// If old selection is dataset or datasource,
+								// the selection status will lost.
+								( (IPartListener) editor ).partActivated( editor );
+							}
+							shellActiveFlag = false;
+						}
+					}
+				} );
+			}
+		};
+	};
 
 	/**
 	 * the list of action ids that are to CommandStack actions
@@ -587,7 +645,14 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 
 		getPreferenceStore( ).addPropertyChangeListener( this );
 
+		registerExtensionPreference( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
+
+		getSite( ).getShell( ).addShellListener( shellActiveListener );
+
+		lastActiveShell = getSite( ).getShell( );
+
 		activateDesignerEditPart( );
+
 	}
 
 	private void activateDesignerEditPart( )
@@ -603,14 +668,22 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 */
 	public void dispose( )
 	{
-		// remove selection listener
+
+		if ( getSite( ) != null && !getSite( ).getShell( ).isDisposed( ) )
+		{
+			getSite( ).getShell( ).removeShellListener( shellActiveListener );
+		}
 
 		if ( fBreadcrumb != null )
 		{
 			fBreadcrumb.dispose( );
 		}
-		
+
+		deregisterExtensionPreference( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
+
 		getPreferenceStore( ).removePropertyChangeListener( this );
+
+		// remove selection listener
 		getSite( ).getWorkbenchWindow( )
 				.getSelectionService( )
 				.removeSelectionListener( getSelectionListener( ) );
@@ -636,7 +709,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		// ( (ReportMultiPageEditorSite)getSite()).dispose();
 		deActivateDesignerEditPart( );
 
-		
 	}
 
 	private void deActivateDesignerEditPart( )
@@ -877,6 +949,12 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		editPartActionIDs.add( action.getId( ) );
 	}
 
+	protected void removeEditPartAction( SelectionAction action )
+	{
+		getActionRegistry( ).removeAction( action );
+		editPartActionIDs.remove( action.getId( ) );
+	}
+
 	/**
 	 * Adds an <code>CommandStack</code> action to this editor.
 	 * 
@@ -1004,4 +1082,56 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		fBreadcrumbComposite.getParent( ).layout( true, true );
 	}
 
+	protected void registerExtensionPreference( String extension )
+	{
+		List exts = ExtensionPointManager.getInstance( )
+				.getExtendedElementPoints( );
+
+		for ( Iterator itor = exts.iterator( ); itor.hasNext( ); )
+		{
+			ExtendedElementUIPoint point = (ExtendedElementUIPoint) itor.next( );
+			String preference = (String) point.getAttribute( extension );
+			if ( preference != null )
+			{
+				String[] splits = preference.split( "/" );
+				if ( splits.length == 2 )
+				{
+					IPreferences wrapper = PreferenceFactory.getInstance( )
+							.getPluginPreferences( splits[0], null );
+					if ( wrapper != null )
+					{
+						wrapper.removePreferenceChangeListener( this );
+						wrapper.addPreferenceChangeListener( this );
+						ExtensionPointManager.getInstance( )
+								.addPreference( extension, splits[1] );
+					}
+				}
+			}
+		}
+	}
+
+	protected void deregisterExtensionPreference( String extension )
+	{
+		List exts = ExtensionPointManager.getInstance( )
+				.getExtendedElementPoints( );
+
+		for ( Iterator itor = exts.iterator( ); itor.hasNext( ); )
+		{
+			ExtendedElementUIPoint point = (ExtendedElementUIPoint) itor.next( );
+			String preference = (String) point.getAttribute( extension );
+			if ( preference != null )
+			{
+				String[] splits = preference.split( "/" );
+				if ( splits.length == 2 )
+				{
+					IPreferences wrapper = PreferenceFactory.getInstance( )
+							.getPluginPreferences( splits[0], null );
+					if ( wrapper != null )
+					{
+						wrapper.removePreferenceChangeListener( this );
+					}
+				}
+			}
+		}
+	}
 }

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.preferences;
 import java.util.HashMap;
 
 import org.eclipse.birt.core.preference.IPreferences;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -41,6 +42,27 @@ public class PreferenceFactory implements IPropertyChangeListener
 	public IPreferences getPreferences( AbstractUIPlugin plugin )
 	{
 		return getPreferences( plugin, null );
+	}
+
+	public IPreferences getPluginPreferences( String pluginId, IProject project )
+	{
+		IReportPreferenceFactory preference = (IReportPreferenceFactory) ElementAdapterManager.getAdapter( ReportPlugin.getDefault( ),
+				IReportPreferenceFactory.class );
+
+		if ( preference == null || project == null )
+		{
+			if ( preferenceMap.containsKey( pluginId ) )
+				return (PreferenceWrapper) preferenceMap.get( pluginId );
+		}
+		else
+		{
+			String id = pluginId.concat( "/" ).concat( project.getName( ) ); //$NON-NLS-1$
+			if ( preferenceMap.containsKey( id ) )
+			{
+				return (PreferenceWrapper) preferenceMap.get( id );
+			}
+		}
+		return null;
 	}
 
 	public IPreferences getPreferences( AbstractUIPlugin plugin,

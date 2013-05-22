@@ -92,6 +92,7 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 		{
 			rollBack( );
 			ExceptionUtil.handle( e );
+			return;
 		}
 		transEnd( );
 	}

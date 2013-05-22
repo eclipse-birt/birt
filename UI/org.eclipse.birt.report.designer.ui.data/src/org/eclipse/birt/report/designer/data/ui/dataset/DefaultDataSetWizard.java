@@ -159,6 +159,7 @@ public class DefaultDataSetWizard extends Wizard
 
 	public boolean canFinish( )
 	{
+		dataSetPage.setPageFocus( );
 		return dataSetPage.canFinish( ) && columnDefPage.isPageComplete( );
 	}
 }

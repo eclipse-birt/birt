@@ -97,14 +97,11 @@ public class DialLabelSheet extends AbstractPopupSheet
 		cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
-		LabelAttributesContext attributesContext = new LabelAttributesContext( );
-		attributesContext.isPositionEnabled = false;
-		attributesContext.isFontAlignmentEnabled = false;
-		attributesContext.isVisibilityEnabled = false;
+
 		lacTitle = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
 				getContext( ),
-				attributesContext,
+				getLabelAttributeContext( ),
 				null,
 				getSeriesForProcessing( ).getDial( ),
 				null,
@@ -262,5 +259,15 @@ public class DialLabelSheet extends AbstractPopupSheet
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	protected LabelAttributesContext getLabelAttributeContext( )
+	{
+		LabelAttributesContext attributesContext = new LabelAttributesContext( );
+		attributesContext.isPositionEnabled = false;
+		attributesContext.isFontAlignmentEnabled = false;
+		attributesContext.isVisibilityEnabled = false;
+		
+		return attributesContext;
 	}
 }

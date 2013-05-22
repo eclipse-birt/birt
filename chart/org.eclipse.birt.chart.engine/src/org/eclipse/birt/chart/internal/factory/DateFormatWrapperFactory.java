@@ -65,6 +65,26 @@ public class DateFormatWrapperFactory
 	public static final IDateFormatWrapper getPreferredDateFormat( int iUnit,
 			ULocale locale )
 	{
+		return getPreferredDateFormat( iUnit, locale, true );
+	}
+	
+	/**
+	 * Returns a preferred format specifier for tick labels that represent axis
+	 * values that will be computed based on the difference between cdt1 and
+	 * cdt2
+	 * 
+	 * @param iUnit
+	 *            The unit for which a preferred pattern is being requested
+	 * @param locale
+	 *            The locale for format style
+	 * @param keepHierarchy
+	 *            indicates if the format should keep hierarchy
+	 * 
+	 * @return A preferred datetime format for the given unit
+	 */
+	public static final IDateFormatWrapper getPreferredDateFormat( int iUnit,
+			ULocale locale, boolean keepHierarchy )
+	{
 		IDateFormatWrapper df = null;
 		switch ( iUnit )
 		{
@@ -73,11 +93,20 @@ public class DateFormatWrapperFactory
 						locale ) );
 				break;
 			case CDateTime.QUARTER :
-				df = new CommonDateFormatWrapper( new SimpleDateFormat( "yyyy QQQ", //$NON-NLS-1$
+				df = new CommonDateFormatWrapper( new SimpleDateFormat( keepHierarchy ? "yyyy QQQ" //$NON-NLS-1$
+						: "QQQ", //$NON-NLS-1$
 						locale ) );
 				break;
 			case Calendar.MONTH :
-				df = new MonthDateFormat( locale );
+				if ( keepHierarchy )
+				{
+					df = new MonthDateFormat( locale );
+				}
+				else
+				{
+					df = new CommonDateFormatWrapper( new SimpleDateFormat( "MMM", //$NON-NLS-1$
+							locale ) );
+				}
 				break;
 			case Calendar.DATE :
 			case Calendar.WEEK_OF_YEAR :

@@ -343,9 +343,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		lblMax.setEnabled( bEnabled );
 		txtScaleMin.setEnabled( bEnabled );
 		txtScaleMax.setEnabled( bEnabled );
-		// Enabled only min or max has been set
-		btnShowOutside.setEnabled( bEnabled
-				&& ( getScale( ).eIsSet( ComponentPackage.eINSTANCE.getScale_Min( ) ) || getScale( ).eIsSet( ComponentPackage.eINSTANCE.getScale_Max( ) ) ) );
+		btnShowOutside.setEnabled( bEnabled );
 
 		lblUnit.setEnabled( bEnabled
 				&& btnStepSize.getSelection( )

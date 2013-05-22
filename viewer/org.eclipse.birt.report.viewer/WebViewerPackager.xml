@@ -701,6 +701,7 @@
 			<include name="org.eclipse.birt.report.engine.emitter.docx_*.jar"/>
 			<include name="org.eclipse.birt.report.engine.emitter.pptx_*.jar"/>
 			<include name="org.eclipse.birt.data.oda.pojo_*.jar"/>
+			<include name="uk.co.spudsoft.birt.emitters.excel_*/**"/>
 		</fileset>
 		</copy>
 

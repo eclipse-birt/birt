@@ -295,6 +295,10 @@ public interface DesignChoiceConstants
 	public static final String PAGE_SIZE_US_LETTER = "us-letter"; //$NON-NLS-1$
 	public static final String PAGE_SIZE_US_LEGAL = "us-legal"; //$NON-NLS-1$
 	public static final String PAGE_SIZE_A4 = "a4"; //$NON-NLS-1$
+	public static final String PAGE_SIZE_A3 = "a3"; //$NON-NLS-1$
+	public static final String PAGE_SIZE_A5 = "a5"; //$NON-NLS-1$
+	public static final String PAGE_SIZE_US_LEDGER = "us-ledger"; //$NON-NLS-1$
+	public static final String PAGE_SIZE_US_SUPER_B = "us-super-b"; //$NON-NLS-1$
 
 	// pageOrientation
 

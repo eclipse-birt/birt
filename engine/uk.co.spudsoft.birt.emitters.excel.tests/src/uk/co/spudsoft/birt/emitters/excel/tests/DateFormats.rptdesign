@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+    <text-property name="title">Number Formats Test Report</text-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[var rowCount = 0;
+// java.lang.System.out.println( "rowCount: " + rowCount );
+]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <script-data-source name="Data Source" id="39"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="Data Set" id="40">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">DateTime</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Name</property>
+                </structure>
+                <structure>
+                    <property name="columnName">DateTime</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">DateTime</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="fetch"><![CDATA[// java.lang.System.out.println( "fetch" );
+// java.lang.System.out.println( "rowCount: " + ( rowCount == null ? "<null>" : rowCount ) );
+if( rowCount < 2 ) {
+	++rowCount;
+	
+	var pi = 3.1415926535897932384626433832795;
+	
+	row[ "Name" ] = "Row " + rowCount;
+	row[ "DateTime" ] = new Date( 2012, 2, 15, 15, 53, 36, 234 );
+	return true;
+} else {
+	// java.lang.System.out.println( "rowCount: " + rowCount );
+	return false;
+}
+]]></method>
+        </script-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="table-detail-cell" id="93">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+        <style name="table-header-cell" id="94">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderTopStyle">solid</property>
+        </style>
+        <style name="table" id="95">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderTopStyle">solid</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">custom</property>
+            <property name="height">100mm</property>
+            <property name="width">500mm</property>
+            <property name="orientation">landscape</property>
+            <property name="topMargin">0.5cm</property>
+            <property name="leftMargin">0.5cm</property>
+            <property name="bottomMargin">0.5cm</property>
+            <property name="rightMargin">0.5cm</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="365">
+            <property name="width">16.510416666666668in</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Name</property>
+                    <text-property name="displayName">Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DateTime</property>
+                    <text-property name="displayName">DateTime</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DateTime"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+            </list-property>
+            <column id="409">
+                <property name="width">1.0104166666666667in</property>
+            </column>
+            <column id="410">
+                <property name="width">2.5in</property>
+            </column>
+            <column id="411">
+                <property name="width">2.5in</property>
+            </column>
+            <column id="412">
+                <property name="width">2in</property>
+            </column>
+            <column id="413">
+                <property name="width">2in</property>
+            </column>
+            <column id="414">
+                <property name="width">2in</property>
+            </column>
+            <column id="415">
+                <property name="width">1.5in</property>
+            </column>
+            <column id="416">
+                <property name="width">1.5in</property>
+            </column>
+            <column id="426">
+                <property name="width">1.5in</property>
+            </column>
+            <header>
+                <row id="366">
+                    <cell id="367"/>
+                    <cell id="369">
+                        <label id="370">
+                            <text-property name="text">Unformatted</text-property>
+                        </label>
+                    </cell>
+                    <cell id="371">
+                        <label id="372">
+                            <text-property name="text">March 15, 2012 3:53:36 PM GMT</text-property>
+                        </label>
+                    </cell>
+                    <cell id="373">
+                        <label id="374">
+                            <text-property name="text">March 15, 2012</text-property>
+                        </label>
+                    </cell>
+                    <cell id="375">
+                        <label id="376">
+                            <text-property name="text">Mar 15, 2012</text-property>
+                        </label>
+                    </cell>
+                    <cell id="377">
+                        <label id="378">
+                            <text-property name="text">3/15/12</text-property>
+                        </label>
+                    </cell>
+                    <cell id="379">
+                        <label id="380">
+                            <text-property name="text">3:53:36 PM GMT</text-property>
+                        </label>
+                    </cell>
+                    <cell id="381">
+                        <label id="382">
+                            <text-property name="text">3:53:36 PM</text-property>
+                        </label>
+                    </cell>
+                    <cell id="423">
+                        <label id="435">
+                            <text-property name="text">15:53</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row id="441">
+                    <cell id="442"/>
+                    <cell id="443">
+                        <label id="452">
+                            <text-property name="text"></text-property>
+                        </label>
+                    </cell>
+                    <cell id="444">
+                        <label id="453">
+                            <text-property name="text">General Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="445">
+                        <label id="454">
+                            <text-property name="text">Long Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="446">
+                        <label id="456">
+                            <text-property name="text">Medium Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="447">
+                        <label id="457">
+                            <text-property name="text">Short Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="448">
+                        <label id="458">
+                            <text-property name="text">Long Time</text-property>
+                        </label>
+                    </cell>
+                    <cell id="449">
+                        <label id="459">
+                            <text-property name="text">Medium Time</text-property>
+                        </label>
+                    </cell>
+                    <cell id="450">
+                        <label id="460">
+                            <text-property name="text">Short Time</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="383">
+                    <cell id="384">
+                        <data id="385">
+                            <property name="resultSetColumn">Name</property>
+                        </data>
+                    </cell>
+                    <cell id="386">
+                        <data id="417">
+                            <property name="resultSetColumn">DateTime</property>
+                        </data>
+                    </cell>
+                    <cell id="388">
+                        <data id="389">
+                            <structure name="dateTimeFormat">
+                                <property name="category">General Date</property>
+                                <property name="pattern">General Date</property>
+                            </structure>
+                            <property name="resultSetColumn">DateTime</property>
+                        </data>
+                    </cell>
+                    <cell id="390">
+                        <data id="418">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Long Date</property>
+                                <property name="pattern">Long Date</property>
+                            </structure>
+                            <property name="resultSetColumn">DateTime</property>
+                        </data>
+                    </cell>
+                    <cell id="392">
+                        <data id="419">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Medium Date</property>
+                                <property name="pattern">Medium Date</property>
+                            </structure>
+                            <property name="resultSetColumn">DateTime</property>
+                        </data>
+                    </cell>
+                    <cell id="394">
+                        <data id="420">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Short Date</property>
+                                <property name="pattern">Short Date</property>
+                            </structure>
+                            <property name="resultSetColumn">DateTime</property>
+                        </data>
+                    </cell>
+                    <cell id="396">
+                        <data id="421">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Long Time</property>
+                                <property name="pattern">Long Time</property>
+                            </structure>
+                            <property name="resultSetColumn">DateTime</property>
+                        </data>
+                    </cell>
+                    <cell id="398">
+                        <data id="438">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Medium Time</property>
+                                <property name="pattern">Medium Time</property>
+                            </structure>
+                            <property name="resultSetColumn">DateTime</property>
+                        </data>
+                    </cell>
+                    <cell id="424">
+                        <data id="422">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Short Time</property>
+                                <property name="pattern">Short Time</property>
+                            </structure>
+                            <property name="resultSetColumn">DateTime</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="400">
+                    <cell id="401"/>
+                    <cell id="402"/>
+                    <cell id="403"/>
+                    <cell id="404"/>
+                    <cell id="405"/>
+                    <cell id="406"/>
+                    <cell id="407"/>
+                    <cell id="408"/>
+                    <cell id="425"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

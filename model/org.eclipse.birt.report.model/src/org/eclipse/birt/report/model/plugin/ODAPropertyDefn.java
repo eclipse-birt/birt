@@ -31,14 +31,26 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 {
 
 	protected Property property = null;
+	
+	protected String displayName;
 
 	ODAPropertyDefn( Property property )
 	{
 		assert property != null;
-
+		
 		this.property = property;
 
 		name = property.getName( );
+		
+		// Due to the limitation of ODA design interface, the display name
+		// contains mnemonic key hint "&".
+		// Strips out the '&' character.
+		displayName = property.getDisplayName( );
+		if ( displayName != null && displayName.indexOf( '&' ) != -1 )
+		{
+			displayName = property.getDisplayName( ).replace( "&", "" );
+		}
+		
 		type = MetaDataDictionary.getInstance( ).getPropertyType(
 				property.getType( ) );
 	}
@@ -73,7 +85,7 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 
 	public String getDisplayName( )
 	{
-		return property.getDisplayName( );
+		return displayName;
 	}
 
 	/*

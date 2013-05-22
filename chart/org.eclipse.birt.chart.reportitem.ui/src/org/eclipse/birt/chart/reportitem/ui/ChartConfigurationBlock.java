@@ -29,13 +29,13 @@ import org.eclipse.swt.widgets.Control;
 public class ChartConfigurationBlock extends OptionsConfigurationBlock
 {
 
-	private final Key PREF_ENALBE_LIVE = getKey( ChartReportItemUIActivator.ID,
+	protected final Key PREF_ENALBE_LIVE = getKey( ChartReportItemUIActivator.ID,
 			ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE );
-	private final Key PREF_MAX_ROW = getKey( ChartReportItemUIActivator.ID,
+	protected final Key PREF_MAX_ROW = getKey( ChartReportItemUIActivator.ID,
 			ChartReportItemUIActivator.PREFERENCE_MAX_ROW );
-	private static final String ENABLE_BUTTON = Messages.getString( "ChartPreferencePage.Label.EnableLivePreview" );
-	private static final String ENABLED = "true";
-	private static final String DISABLED = "false";
+	private static final String ENABLE_BUTTON = Messages.getString( "ChartPreferencePage.Label.EnableLivePreview" ); //$NON-NLS-1$
+	protected static final String ENABLED = "true"; //$NON-NLS-1$
+	protected static final String DISABLED = "false"; //$NON-NLS-1$
 	private static final int MAX_ROW_LIMIT = 10000;
 	private PixelConverter fPixelConverter;
 
@@ -45,8 +45,8 @@ public class ChartConfigurationBlock extends OptionsConfigurationBlock
 		super( context, ChartReportItemUIActivator.getDefault( ), project );
 		setKeys( getKeys( ) );
 	}
-
-	private Key[] getKeys( )
+	
+	protected Key[] getKeys( )
 	{
 		Key[] keys = new Key[]{
 				PREF_ENALBE_LIVE, PREF_MAX_ROW
@@ -82,7 +82,7 @@ public class ChartConfigurationBlock extends OptionsConfigurationBlock
 		return mainComp;
 	}
 
-	private Composite createBuildPathTabContent( Composite parent )
+	protected Composite createBuildPathTabContent( Composite parent )
 	{
 
 		Composite pageContent = new Composite( parent, SWT.NONE );
@@ -109,7 +109,7 @@ public class ChartConfigurationBlock extends OptionsConfigurationBlock
 				enableDisableValues,
 				0 );
 		addTextField( pageContent,
-				Messages.getString( "ChartPreferencePage.Label.MaxRowNumber" ),
+				Messages.getString( "ChartPreferencePage.Label.MaxRowNumber" ), //$NON-NLS-1$
 				PREF_MAX_ROW,
 				0,
 				0 );

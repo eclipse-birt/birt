@@ -72,7 +72,15 @@ public class MultiActionValuesScriptGenerator
 	{
 		StringBuilder sb = getJSContext( actions, locale );
 		
-		sb.append( "if ( menuInfo.menuItemNames.length == 1 ) {\n" );//$NON-NLS-1$
+		// Still show menu if visible is true.
+		if ( actions.getValue( ) != null
+				&& actions.getValue( ).getLabel( ) != null
+				&& actions.getValue( ).getLabel( ).isVisible( ) )
+		{
+			sb.append( "menuInfo.needMenu = true;" ); //$NON-NLS-1$
+		}
+		
+		sb.append( "if ( menuInfo.menuItemNames.length == 1 && !menuInfo.needMenu ) {\n" );//$NON-NLS-1$
 		sb.append( "	BirtChartMenuHelper.executeMenuAction( evt, menuInfo.menuItems[0], menuInfo );\n" );//$NON-NLS-1$
 		sb.append( "} else { \n" );//$NON-NLS-1$
 		sb.append( "	var popMenu = BirtChartMenuHelper.createPopupMenu(evt, menuInfo);\n");//$NON-NLS-1$

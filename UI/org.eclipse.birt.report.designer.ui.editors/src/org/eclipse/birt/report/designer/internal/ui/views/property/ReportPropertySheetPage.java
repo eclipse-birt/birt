@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediator;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -31,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.editors.Activator;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
@@ -262,7 +264,8 @@ public class ReportPropertySheetPage extends Page implements
 					MementoElement.Type_Viewer );
 		}
 
-		handleSelectionChanged( page.getSelection( ) );
+		page.addSelectionListener( this );
+		// handleSelectionChanged( page.getSelection( ) );
 	}
 
 	/**
@@ -488,7 +491,9 @@ public class ReportPropertySheetPage extends Page implements
 		if ( cellEditor != null )
 		{
 			cellEditor.deactivate( );
-			cellEditor.removeListener( editorListener );
+			applyValue( );
+			if ( cellEditor != null )
+				cellEditor.removeListener( editorListener );
 			cellEditor = null;
 		}
 	}
@@ -826,6 +831,31 @@ public class ReportPropertySheetPage extends Page implements
 	public void selectionChanged( IWorkbenchPart part, ISelection selection )
 	{
 		deactivateCellEditor( );
+
+		if ( SessionHandleAdapter.getInstance( ).getModule( ) == moduleHandle )
+		{
+			if ( part != null
+					&& !ReportPlugin.getDefault( )
+							.containIgnoreViewID( part.getSite( ).getId( ) ) )
+			{
+				IMediator mediator = SessionHandleAdapter.getInstance( )
+						.getMediator( moduleHandle, false );
+				if ( mediator != null
+						&& mediator.getState( ) != null
+						&& mediator.getState( ).getData( ) instanceof List )
+				{
+					// When close and reopen the attribute view, display the
+					// old selection.
+					ReportRequest request = new ReportRequest( this );
+					request.setSelectionObject( (List) mediator.getState( )
+							.getData( ) );
+					request.setType( ReportRequest.SELECTION );
+					SessionHandleAdapter.getInstance( )
+							.getMediator( moduleHandle )
+							.notifyRequest( request );
+				}
+			}
+		}
 	}
 
 	/*
@@ -838,8 +868,14 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		if ( this.selection != null && this.selection.equals( selection ) )
 			return;
+
+		deactivateCellEditor( );
+
 		this.selection = selection;
 		deRegisterListeners( );
+
+		if ( treeListener != null )
+			viewer.getTree( ).removeTreeListener( treeListener );
 
 		list = getModelList( selection );
 
@@ -1080,6 +1116,8 @@ public class ReportPropertySheetPage extends Page implements
 	public void dispose( )
 	{
 		// remove the mediator listener
+		IWorkbenchPage page = getSite( ).getPage( );
+		page.removeSelectionListener( this );
 		SessionHandleAdapter.getInstance( )
 				.getMediator( moduleHandle )
 				.removeColleague( this );

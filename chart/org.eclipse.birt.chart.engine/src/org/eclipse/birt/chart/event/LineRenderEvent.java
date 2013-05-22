@@ -29,6 +29,8 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 
 	private transient Location loEnd;
 
+	private int zOrder;
+
 	protected transient LineAttributes lia;
 
 	/**
@@ -121,6 +123,8 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 		{
 			lre.setEnd( loEnd.copyInstance( ) );
 		}
+
+		lre.setZOrder( zOrder );
 		return lre;
 	}
 
@@ -154,6 +158,22 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 		this.loEnd = null;
 		this.loStart = null;
 		this.lia = null;
+		this.zOrder = 0;
+	}
 
+	/**
+	 * Sets the zOrder of the line.
+	 */
+	public final void setZOrder( int _zOrder )
+	{
+		zOrder = _zOrder;
+	}
+
+	/**
+	 * @return Returns the zOrder of the line.
+	 */
+	public final int getZOrder( )
+	{
+		return zOrder;
 	}
 }

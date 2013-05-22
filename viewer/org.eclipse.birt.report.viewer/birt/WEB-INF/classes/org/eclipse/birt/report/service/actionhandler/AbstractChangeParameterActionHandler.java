@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.rmi.RemoteException;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
@@ -156,7 +155,19 @@ public abstract class AbstractChangeParameterActionHandler
 					}
 					catch ( NumberFormatException e )
 					{
-						pageNumber = -1;
+						AxisFault fault = new AxisFault( );
+						fault.setFaultCode( new QName(
+								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
+						fault
+							.setFaultString( BirtResources
+								.getMessage(
+									ResourceConstants.ACTION_EXCEPTION_PAGE_NUMBER_PARSE_ERROR,
+										new Object[]{
+											params[i].getValue( )
+										}
+									)
+								);
+						throw fault;
 					}
 					InputOptions options = new InputOptions( );
 					options.setOption( InputOptions.OPT_REQUEST, request );

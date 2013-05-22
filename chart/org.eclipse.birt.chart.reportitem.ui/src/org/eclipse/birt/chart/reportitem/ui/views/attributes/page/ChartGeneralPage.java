@@ -112,9 +112,6 @@ public class ChartGeneralPage extends GeneralPage
 		displaySection.setGridPlaceholder( 2, true );
 		displaySection.setWidth( 200 );
 		addSection( ChartPageSectionId.CHART_DISPLAY, displaySection );
-
-		createSections( );
-		layoutSections( );
 	}
 
 	public boolean canReset( )

@@ -1297,9 +1297,12 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	{
 		String version = module.getVersionManager( ).getVersion( );
 		if ( version != null )
-		{
-			boolean isSupportedUnknownVersion = module.getOptions( ) == null
-					                              || module.getOptions( ).isSupportedUnknownVersion( );
+		{			
+			boolean isSupportedUnknownVersion = false;
+			if( module.getOptions( ) != null )
+			{
+				isSupportedUnknownVersion = module.getOptions( ).isSupportedUnknownVersion( );
+			}			
 			List versionInfos = ModelUtil.checkVersion( version, isSupportedUnknownVersion );
 			if ( !versionInfos.isEmpty( ) )
 				return true;

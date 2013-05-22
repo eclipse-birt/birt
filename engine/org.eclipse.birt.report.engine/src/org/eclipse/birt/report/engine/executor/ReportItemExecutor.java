@@ -37,9 +37,9 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
+import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -364,7 +364,8 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				}
 				else
 				{
-					bookmark = this.manager.nextBookmarkID( );
+					if ( !( item instanceof DataItemDesign ) )
+						bookmark = this.manager.nextBookmarkID( );
 				}
 			}
 		}

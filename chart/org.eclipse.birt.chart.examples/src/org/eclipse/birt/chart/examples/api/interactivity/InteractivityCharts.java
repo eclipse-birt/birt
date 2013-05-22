@@ -444,11 +444,11 @@ public class InteractivityCharts
 		sdX.getSeries( ).add( seCategory );
 		sdY.getSeries( ).add( ls );
 		
-		Series ls2 = (Series)EcoreUtil.copy( ls );
+		Series ls2 = EcoreUtil.copy( ls );
 		ls2.setDataSet( NumberDataSetImpl.create( vn1 ) );
 		sdY.getSeries( ).add( ls2 );
 		
-		Series ls3 = (Series)EcoreUtil.copy( ls );
+		Series ls3 = EcoreUtil.copy( ls );
 		ls3.setDataSet( NumberDataSetImpl.create( vn1 ) );
 		sdY.getSeries( ).add( ls3 );
 
@@ -658,13 +658,13 @@ public class InteractivityCharts
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( bs );
 
-		Series bs2 = (Series) EcoreUtil.copy( bs );
+		Series bs2 =  EcoreUtil.copy( bs );
 		bs2.setDataSet( NumberDataSetImpl.create( new double[]{
 				35, 30, 10
 		} ) );
 		sdY.getSeries( ).add( bs2 );
 
-		Series bs3 = (Series) EcoreUtil.copy( bs );
+		Series bs3 =  EcoreUtil.copy( bs );
 		bs3.setDataSet( NumberDataSetImpl.create( new double[]{
 				20, 10, 30
 		} ) );

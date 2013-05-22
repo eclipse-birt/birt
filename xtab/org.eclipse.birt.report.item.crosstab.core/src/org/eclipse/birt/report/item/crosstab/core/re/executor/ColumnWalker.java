@@ -18,6 +18,7 @@ import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -151,14 +152,32 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 						&& groupIndex == 0
 						&& crosstabItem.getHeader( ) != null )
 				{
-					// in case it also has no row edge, we produce a dummy row
-					// edge event to output the crosstab header.
+					// mark the flag as we only check once.
 					groupIndex++;
-					
-					dimensionIndex = -1;
-					levelIndex = -1;
-					currentState = STATE_ROW_EDGE;
-					return;
+
+					boolean hasHeaderContent = false;
+					for ( int i = 0; i < crosstabItem.getHeaderCount( ); i++ )
+					{
+						CrosstabCellHandle cell = crosstabItem.getHeader( i );
+
+						if ( cell.getContents( ).size( ) > 0 )
+						{
+							hasHeaderContent = true;
+							break;
+						}
+					}
+
+					if ( hasHeaderContent )
+					{
+						// in case it has no row edge but has non-empty header
+						// cell, we produce a dummy row edge event to output the
+						// crosstab header.
+
+						dimensionIndex = -1;
+						levelIndex = -1;
+						currentState = STATE_ROW_EDGE;
+						return;
+					}
 				}
 
 			case STATE_MEASURE_HEADER :

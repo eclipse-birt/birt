@@ -49,6 +49,11 @@ public abstract class AbstractWordXmlWriter
 
 	// Holds the global layout orientation.
 	protected boolean rtl = false;
+	
+	/**
+	 * Holds the text type , used in text align render.
+	 */
+	protected boolean textInlineRenderFlag = false;
 
 	protected abstract void writeTableLayout( );
 
@@ -388,7 +393,16 @@ public abstract class AbstractWordXmlWriter
 				writeAttrTag( "w:jc", textAlign );
 		}
 		else
-			writeAttrTag( "w:jc", textAlign );
+		{
+			// When textInlineRenderFlag is true ,in order to make
+			// the same effect as html and pdf render .Just write
+			// text align to left ,no matter what is the text align
+			// type.
+			if ( textInlineRenderFlag )
+				writeAttrTag( "w:jc", IStyle.CSS_LEFT_VALUE );
+			else
+				writeAttrTag( "w:jc", textAlign );
+		}
 	}
 
 	protected void writeBackgroundColor( String color )
@@ -499,6 +513,7 @@ public abstract class AbstractWordXmlWriter
 			writeBackgroundColor( style.getBackgroundColor( ) );
 			writeParagraphBorders( style );
 		}
+		writeBidi( CSSConstants.CSS_RTL_VALUE.equals( style.getDirection( ) ) );
 		writer.closeTag( "w:pPr" );
 	}
 

@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -87,7 +88,9 @@ public final class StyleChartViewer implements
 	 */
 	StyleChartViewer( )
 	{
-		final PluginSettings ps = PluginSettings.instance( );
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		final PluginSettings ps = PluginSettings.instance( config );
 		try
 		{
 			idr = ps.getDevice( "dv.SWT" );//$NON-NLS-1$

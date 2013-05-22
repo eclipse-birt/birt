@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+    <text-property name="title">Number Formats Test Report</text-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[var rowCount = 0;
+// java.lang.System.out.println( "rowCount: " + rowCount );
+]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <script-data-source name="Data Source" id="39"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="Data Set" id="40">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">LongTextOneLine</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">LongTextTwoLines</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Name</property>
+                </structure>
+                <structure>
+                    <property name="columnName">LongTextOneLine</property>
+                </structure>
+                <structure>
+                    <property name="columnName">LongTextTwoLines</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">LongTextOneLine</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">LongTextTwoLines</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="fetch"><![CDATA[// java.lang.System.out.println( "fetch" );
+// java.lang.System.out.println( "rowCount: " + ( rowCount == null ? "<null>" : rowCount ) );
+if( rowCount < 2 ) {
+	++rowCount;
+	
+	var pi = 3.1415926535897932384626433832795;
+	
+	row[ "Name" ] = "Row " + rowCount;
+    row[ "LongTextOneLine" ] = "Anim mollit commodo. Voluptate proident sint dolor esse cillum in sed ut amet reprehenderit fugiat adipisicing ipsum in nulla pariatur ad. Exercitation ullamco magna anim aute minim ex commodo. Ad minim nisi commodo ipsum est pariatur velit, adipisicing exercitation lorem in ipsum labore sit amet. Aute officia ad ipsum nulla duis minim ipsum aliquip ipsum aliquip. Cillum pariatur, sed tempor, irure mollit, tempor ad eu dolor non ex dolore dolore commodo. Voluptate est adipisicing nisi ut excepteur officia elit, adipisicing in commodo, ipsum dolore ut consectetur nostrud nulla sint? Deserunt elit reprehenderit anim.";
+    row[ "LongTextTwoLines" ] = "Anim mollit commodo. Voluptate proident sint dolor esse cillum in sed ut amet reprehenderit fugiat adipisicing ipsum in nulla pariatur ad. Exercitation ullamco magna anim aute minim ex commodo. Ad minim nisi commodo ipsum est pariatur velit, adipisicing exercitation lorem in ipsum labore sit amet. Aute officia ad ipsum nulla duis minim ipsum aliquip ipsum aliquip. \nCillum pariatur, sed tempor, irure mollit, tempor ad eu dolor non ex dolore dolore commodo. Voluptate est adipisicing nisi ut excepteur officia elit, adipisicing in commodo, ipsum dolore ut consectetur nostrud nulla sint? Deserunt elit reprehenderit anim.";
+	
+	// java.lang.System.out.println( "Date: " + row[ "Date" ] + " / " + row["Date"].getTime());
+	
+	return true;
+} else {
+	// java.lang.System.out.println( "rowCount: " + rowCount );
+	return false;
+}
+]]></method>
+        </script-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="table-detail-cell" id="93">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+        <style name="table-header-cell" id="94">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderTopStyle">solid</property>
+        </style>
+        <style name="table" id="95">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderTopStyle">solid</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="topMargin">0.5cm</property>
+            <property name="leftMargin">0.5cm</property>
+            <property name="bottomMargin">0.5cm</property>
+            <property name="rightMargin">0.5cm</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table name="Auto" id="335">
+            <property name="pageBreakAfter">always</property>
+            <property name="width">9in</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Name</property>
+                    <text-property name="displayName">Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LongTextOneLine</property>
+                    <text-property name="displayName">LongTextOneLine</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LongTextOneLine"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LongTextTwoLines</property>
+                    <text-property name="displayName">LongTextTwoLines</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LongTextTwoLines"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="354">
+                <property name="width">3in</property>
+            </column>
+            <column id="355">
+                <property name="width">3in</property>
+            </column>
+            <column id="356">
+                <property name="width">3in</property>
+            </column>
+            <header>
+                <row id="336">
+                    <cell id="337">
+                        <label id="338">
+                            <text-property name="text">Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="339">
+                        <label id="340">
+                            <text-property name="text">LongTextOneLine</text-property>
+                        </label>
+                    </cell>
+                    <cell id="341">
+                        <label id="342">
+                            <text-property name="text">LongTextTwoLines</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="343">
+                    <cell id="344">
+                        <data id="345">
+                            <property name="resultSetColumn">Name</property>
+                        </data>
+                    </cell>
+                    <cell id="346">
+                        <data id="347">
+                            <property name="resultSetColumn">LongTextOneLine</property>
+                        </data>
+                    </cell>
+                    <cell id="348">
+                        <data id="349">
+                            <property name="resultSetColumn">LongTextTwoLines</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="350">
+                    <cell id="351"/>
+                    <cell id="352"/>
+                    <cell id="353"/>
+                </row>
+            </footer>
+        </table>
+        <table name="NoWrap" id="357">
+            <property name="pageBreakAfter">always</property>
+            <property name="width">9in</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Name</property>
+                    <text-property name="displayName">Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LongTextOneLine</property>
+                    <text-property name="displayName">LongTextOneLine</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LongTextOneLine"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LongTextTwoLines</property>
+                    <text-property name="displayName">LongTextTwoLines</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LongTextTwoLines"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="376">
+                <property name="width">3in</property>
+            </column>
+            <column id="377">
+                <property name="width">3in</property>
+            </column>
+            <column id="378">
+                <property name="width">3in</property>
+            </column>
+            <header>
+                <row id="358">
+                    <cell id="359">
+                        <label id="360">
+                            <text-property name="text">Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="361">
+                        <label id="362">
+                            <text-property name="text">LongTextOneLine</text-property>
+                        </label>
+                    </cell>
+                    <cell id="363">
+                        <label id="364">
+                            <text-property name="text">LongTextTwoLines</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="365">
+                    <cell id="366">
+                        <data id="367">
+                            <property name="resultSetColumn">Name</property>
+                        </data>
+                    </cell>
+                    <cell id="368">
+                        <data id="369">
+                            <property name="whiteSpace">nowrap</property>
+                            <property name="resultSetColumn">LongTextOneLine</property>
+                        </data>
+                    </cell>
+                    <cell id="370">
+                        <data id="371">
+                            <property name="whiteSpace">nowrap</property>
+                            <property name="resultSetColumn">LongTextTwoLines</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="372">
+                    <cell id="373"/>
+                    <cell id="374"/>
+                    <cell id="375"/>
+                </row>
+            </footer>
+        </table>
+        <table name="Normal" id="379">
+            <property name="pageBreakAfter">always</property>
+            <property name="width">9in</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Name</property>
+                    <text-property name="displayName">Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LongTextOneLine</property>
+                    <text-property name="displayName">LongTextOneLine</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LongTextOneLine"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LongTextTwoLines</property>
+                    <text-property name="displayName">LongTextTwoLines</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LongTextTwoLines"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="398">
+                <property name="width">3in</property>
+            </column>
+            <column id="399">
+                <property name="width">3in</property>
+            </column>
+            <column id="400">
+                <property name="width">3in</property>
+            </column>
+            <header>
+                <row id="380">
+                    <cell id="381">
+                        <label id="382">
+                            <text-property name="text">Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="383">
+                        <label id="384">
+                            <text-property name="text">LongTextOneLine</text-property>
+                        </label>
+                    </cell>
+                    <cell id="385">
+                        <label id="386">
+                            <text-property name="text">LongTextTwoLines</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="387">
+                    <cell id="388">
+                        <data id="389">
+                            <property name="resultSetColumn">Name</property>
+                        </data>
+                    </cell>
+                    <cell id="390">
+                        <data id="391">
+                            <property name="whiteSpace">normal</property>
+                            <property name="resultSetColumn">LongTextOneLine</property>
+                        </data>
+                    </cell>
+                    <cell id="392">
+                        <data id="393">
+                            <property name="whiteSpace">normal</property>
+                            <property name="resultSetColumn">LongTextTwoLines</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="394">
+                    <cell id="395"/>
+                    <cell id="396"/>
+                    <cell id="397"/>
+                </row>
+            </footer>
+        </table>
+        <table name="Preformatted" id="401">
+            <property name="pageBreakAfter">always</property>
+            <property name="width">9in</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Name</property>
+                    <text-property name="displayName">Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LongTextOneLine</property>
+                    <text-property name="displayName">LongTextOneLine</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LongTextOneLine"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">LongTextTwoLines</property>
+                    <text-property name="displayName">LongTextTwoLines</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["LongTextTwoLines"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="420">
+                <property name="width">3in</property>
+            </column>
+            <column id="421">
+                <property name="width">3in</property>
+            </column>
+            <column id="422">
+                <property name="width">3in</property>
+            </column>
+            <header>
+                <row id="402">
+                    <cell id="403">
+                        <label id="404">
+                            <text-property name="text">Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="405">
+                        <label id="406">
+                            <text-property name="text">LongTextOneLine</text-property>
+                        </label>
+                    </cell>
+                    <cell id="407">
+                        <label id="408">
+                            <text-property name="text">LongTextTwoLines</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="409">
+                    <cell id="410">
+                        <data id="411">
+                            <property name="resultSetColumn">Name</property>
+                        </data>
+                    </cell>
+                    <cell id="412">
+                        <data id="413">
+                            <property name="whiteSpace">pre</property>
+                            <property name="resultSetColumn">LongTextOneLine</property>
+                        </data>
+                    </cell>
+                    <cell id="414">
+                        <data id="415">
+                            <property name="whiteSpace">pre</property>
+                            <property name="resultSetColumn">LongTextTwoLines</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="416">
+                    <cell id="417"/>
+                    <cell id="418"/>
+                    <cell id="419"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

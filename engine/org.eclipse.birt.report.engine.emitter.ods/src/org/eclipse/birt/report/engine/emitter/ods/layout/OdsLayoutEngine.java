@@ -398,7 +398,7 @@ public class OdsLayoutEngine
 			SheetData upstair = cache.getColumnLastData( currentColumnIndex );
 			if ( rowspan > 0 )
 			{
-				if ( upstair != null && canSpan( upstair, rowContainer ) )
+				if ( upstair != null && canSpan( upstair, rowContainer, currentColumnIndex ) )
 				{
 					Type blankType = Type.VERTICAL;
 					if ( upstair.isBlank( ) )
@@ -500,16 +500,34 @@ public class OdsLayoutEngine
 		return 0;
 	}
 
-	private boolean canSpan( SheetData data, OdsContainer rowContainer )
+	private boolean canSpan( SheetData upstair, OdsContainer rowContainer, int currentColumn )
 	{
-		SheetData realData = getRealData(data);
+		SheetData realData = getRealData( upstair );
 		if ( realData == null )
 			return false;
 		if ( isInContainer( realData, rowContainer ) )
 		{
 			return true;
 		}
+		// for two dimensional spanning, the horizontal spanned cells in the
+		// last spanning row will accept zero rowSpanInDesign.
+		if ( isInLastSpanningRow( upstair, realData, currentColumn ) )
+		{
+			return realData.getRowSpanInDesign( ) >= 0;
+		}
 		return realData.getRowSpanInDesign( ) > 0;
+	}
+
+	private boolean isInLastSpanningRow( SheetData upstair, SheetData realData,
+			int currentColumn )
+	{
+		int realColumn = axis.getColumnIndexByCoordinate( realData.getStartX( ) );
+		int span = axis.getColumnIndexByCoordinate( realData.getEndX( ) )
+				- realColumn;
+		return currentColumn > realColumn
+				&& currentColumn < realColumn + span
+				&& upstair.getRowIndex( ) == realData.getRowIndex( )
+						+ realData.getRowSpan( ) - 1;
 	}
 
 	private SheetData getRealData( SheetData data )

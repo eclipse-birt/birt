@@ -462,9 +462,9 @@
 			<!-- <zipfileset dir="${template.dir}/legal" prefix="eclipse"> <include 
 				name="**/*" /> </zipfileset> -->
 			<zipfileset dir="${package.files.dir}/jee" includes="**/*" />
-			<zipfileset
+			<!--zipfileset
 				file="${eclipse.build.configs}/../../extras/eclipse.exe.manifest"
-				prefix="eclipse" />
+				prefix="eclipse" /-->
 			<zipfileset dir="${buildDirectory}/plugins" prefix="${ZipPrefix}">
 				<patternset refid="orbit.include.jars" />
 			</zipfileset>

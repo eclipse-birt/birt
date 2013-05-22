@@ -173,7 +173,8 @@ public class ClassSelectionButton
 		ClassPathElement[] elements = createClassPathElements( paths,
 				rootPath,
 				isRelative );
-		helper.addClassPathElements( elements );
+		( (MenuButtonHelper) helper ).updateTableElementsList( );
+		helper.addClassPathElements( elements, true );
 
 		if ( folderPage != null )
 		{
@@ -183,7 +184,7 @@ public class ClassSelectionButton
 			{
 				TableViewer friendTableViewer = folderPage.getTabFriendClassTabFolderPage( ).getClassPathsTableViewer( );
 				IMenuButtonHelper friendHelper = new MenuButtonHelper( friendTableViewer );
-				friendHelper.addClassPathElements( elements );
+				friendHelper.addClassPathElements( elements, false );
 				folderPage.getTabFriendClassTabFolderPage( ).updateWizardPageStatus( );
 				folderPage.setDefaultPathInitialized( );
 				folderPage.getTabFriendClassTabFolderPage( ).setDefaultPathInitialized( );							

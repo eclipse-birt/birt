@@ -143,7 +143,19 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 					}
 					catch ( NumberFormatException e )
 					{
-						pageNumber = -1;
+						AxisFault fault = new AxisFault( );
+						fault.setFaultCode( new QName(
+								"DocumentProcessor.getPageNumber( )" ) ); //$NON-NLS-1$
+						fault
+							.setFaultString( BirtResources
+								.getMessage(
+									ResourceConstants.ACTION_EXCEPTION_PAGE_NUMBER_PARSE_ERROR,
+										new Object[]{
+											params[i].getValue( )
+										}
+									)
+								);
+						throw fault;
 					}
 					InputOptions options = new InputOptions( );
 					options.setOption( InputOptions.OPT_REQUEST, request );

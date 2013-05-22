@@ -29,17 +29,7 @@ public class ModuleOption implements IModuleOption
 	 * Maps to store the key/value pairs.
 	 */
 
-	protected Map options = new HashMap( );
-	
-	/**
-	 * whether support unknown version
-	 * if so, 
-	 * 1, allow run unknown version design/document.
-	 * 2, ignore all the errors related with unknown tag/unknown property and log out a warning.
-	 * 3, if a design contains warnings for unknown version, ignore the waring and continue run/render.
-	 * default value is "true"
-	 */
-	private boolean isSupportedUnknownVersion = true;
+	protected Map options = new HashMap( );	
 
 	/**
 	 * Default constructor.
@@ -307,7 +297,12 @@ public class ModuleOption implements IModuleOption
 	 */
 	public boolean isSupportedUnknownVersion( )
 	{
-		return this.isSupportedUnknownVersion;
+		Object isSupportedUnknownVersion = options.get( SUPPORTED_UNKNOWN_VERSION_KEY );
+		if( isSupportedUnknownVersion != null && isSupportedUnknownVersion instanceof Boolean && (Boolean)isSupportedUnknownVersion )
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -316,6 +311,6 @@ public class ModuleOption implements IModuleOption
 	 */
 	public void setSupportedUnknownVersion( boolean isSupportedUnknownVersion )
 	{
-		this.isSupportedUnknownVersion = isSupportedUnknownVersion;
+		options.put( SUPPORTED_UNKNOWN_VERSION_KEY, isSupportedUnknownVersion );
 	}
 }

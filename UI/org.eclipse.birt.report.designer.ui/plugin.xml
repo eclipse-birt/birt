@@ -296,6 +296,13 @@
            properties="id"
            type="org.eclipse.jface.action.IAction">
      </propertyTester>
+     <propertyTester
+           class="org.eclipse.birt.report.designer.internal.ui.extension.PathResourcePropertyTester"
+           id="PathResourceTester"
+           namespace="PathResource"
+           properties="isFile,pathEndsWith"
+           type="org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry">
+     </propertyTester>
    </extension>
    <extension
          point="org.eclipse.ui.commands">

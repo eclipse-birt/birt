@@ -52,7 +52,11 @@ public class Package extends PartContainer
 	{
 		String name = "BIRT_OOXML_Temp_"
 				+ Thread.currentThread( ).getId( ) + System.nanoTime( );
-				
+		if ( tempFileDir != null
+				&& !tempFileDir.endsWith( String.valueOf( File.separatorChar ) ) )
+		{
+			tempFileDir += File.separatorChar;
+		}
 		String fullFileName = tempFileDir + name;
 		try
 		{

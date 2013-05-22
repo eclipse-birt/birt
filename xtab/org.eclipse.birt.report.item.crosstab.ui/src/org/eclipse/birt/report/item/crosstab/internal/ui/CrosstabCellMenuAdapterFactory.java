@@ -29,7 +29,9 @@ import org.eclipse.birt.report.designer.ui.actions.InsertRelativeTimePeriodActio
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMeasureViewHandleAction;
@@ -47,6 +49,8 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstab
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -151,7 +155,10 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		if ( element != null )
 		{
 			IAction action = new AddLevelHandleAction( element );
-			menu.insertBefore( firstId, action );
+			if (!CrosstabUtil.isBoundToLinkedDataSet( getCrosstab(element) ))
+			{
+				menu.insertBefore( firstId, action );
+			}
 
 			action = new AddSubTotalAction( element );
 			menu.insertBefore( firstId, action );
@@ -354,4 +361,29 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		return null;
 	}
 
+	private CrosstabReportItemHandle getCrosstab(DesignElementHandle handle)
+	{
+		if (handle == null)
+		{
+			return null;
+		}
+		
+		IReportItem item = null;
+		try
+		{
+			item = ((ExtendedItemHandle)handle).getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			return null;
+		}
+		
+		if (item instanceof CrosstabReportItemHandle)
+		{
+			return (CrosstabReportItemHandle) item;
+		}
+		
+		return getCrosstab(handle.getContainer( ));
+	}
+	
 }

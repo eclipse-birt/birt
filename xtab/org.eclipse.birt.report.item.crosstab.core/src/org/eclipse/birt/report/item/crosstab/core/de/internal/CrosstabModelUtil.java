@@ -374,6 +374,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 
 		return null;
 	}
+
 	public static Iterator getBindingColumnIterator( DesignElementHandle handle )
 	{
 		if ( handle instanceof ReportItemHandle )
@@ -382,6 +383,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		}
 		return Collections.EMPTY_LIST.iterator( );
 	}
+
 	public static List getVisiableColumnBindingsList(
 			DesignElementHandle handle, boolean includeSelf )
 	{
@@ -394,9 +396,10 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				bindingList.add( iterator.next( ) );
 			}
 		}
-		
+
 		return bindingList;
 	}
+
 	public static ComputedColumnHandle getInputBinding( ReportItemHandle input,
 			String bindingName )
 	{
@@ -434,6 +437,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			}
 		}
 	}
+
 	private static List<DataItemHandle> getDataItems(AggregationCellHandle cell)
 	{
 		List<DataItemHandle> items = new ArrayList<DataItemHandle>();
@@ -490,6 +494,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			//do nothing now
 		}
 	}
+	
 	private static boolean needUpdateMeasure( MeasureViewHandle measureView )
 	{
 		if ( measureView == null )
@@ -506,6 +511,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		
 		return items.size( ) > 0;
 	}
+
 	/**
 	 * @param crosstab
 	 * @param measureView
@@ -523,8 +529,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			String function, String rowDimension, String rowLevel,
 			String colDimension, String colLevel ) throws SemanticException
 	{
-		if ( crosstab == null
-				|| !needUpdateMeasure( measureView ) )
+		if ( crosstab == null || !needUpdateMeasure( measureView ) )
 		{
 			return;
 		}
@@ -545,6 +550,17 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					colDimension,
 					colLevel );
 		}
+
+		if ( measureView instanceof ComputedMeasureViewHandle )
+		{
+			List<DataItemHandle> items = getDataItems(cell);
+			for (int i=0; i<items.size( ); i++)
+			{
+				updateRPTAggregateOn( crosstab, items.get( i ) );
+			}
+			return;
+		}
+
 		if ( cell != null )
 		{
 			// create a computed column and set some properties
@@ -615,8 +631,14 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			}
 
 			// add the computed column to crosstab
-			ComputedColumnHandle columnHandle = ( (ReportItemHandle) crosstab.getModelHandle( ) ).addColumnBinding( column,
-					false );
+			ComputedColumnHandle columnHandle = generateAggregation( crosstab,
+					cell,
+					measureView,
+					function,
+					rowDimension,
+					rowLevel,
+					colDimension,
+					colLevel );
 
 			if ( cell.getContents( ).size( ) == 0 )
 			{
@@ -677,6 +699,81 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				}
 			}
 		}
+	}
+
+	public static ComputedColumnHandle generateAggregation(
+			CrosstabReportItemHandle crosstab, AggregationCellHandle cell,
+			MeasureViewHandle measureView, String function,
+			String rowDimension, String rowLevel, String colDimension,
+			String colLevel ) throws SemanticException
+	{
+		// create a computed column and set some properties
+		String name = CrosstabModelUtil.generateComputedColumnName( measureView,
+				colLevel,
+				rowLevel );
+		ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
+				name );
+		String dataType = measureView.getDataType( );
+		column.setDataType( dataType );
+		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+		{
+			column.setExpression( ExpressionUtil.createDataSetRowExpression( measureView.getCubeMeasureName( ) ) );
+		}
+		else
+		{
+			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+		}
+		String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
+		column.setAggregateFunction( function != null ? function
+				: defaultFunction );
+
+		// When the function is not null,set the column set the correct data
+		// type
+		if ( function != null && !function.equals( defaultFunction ) )
+		{
+			try
+			{
+				// reset the data type to default by the aggregatino
+				// function
+
+				IAggrFunction aggFunc = getAggregationManager( ).getAggregation( column.getAggregateFunction( ) );
+
+				if ( aggFunc.getType( ) == IAggrFunction.RUNNING_AGGR )
+				{
+					// for running aggregation functions, it does not
+					// support
+					// direct calculation on measure, so we reset the func
+					// to default func.
+					column.setAggregateFunction( defaultFunction );
+				}
+				else
+				{
+					String targetType = DataAdapterUtil.adapterToModelDataType( aggFunc.getDataType( ) );
+
+					if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+					{
+						column.setDataType( targetType );
+					}
+				}
+			}
+			catch ( BirtException e )
+			{
+				// do nothing;
+			}
+		}
+
+		if ( rowLevel != null )
+		{
+			column.addAggregateOn( rowLevel );
+		}
+
+		if ( colLevel != null )
+		{
+			column.addAggregateOn( colLevel );
+		}
+
+		return ( (ReportItemHandle) crosstab.getModelHandle( ) ).addColumnBinding( column,
+				false );
 	}
 
 	static AggregationManager getAggregationManager( ) throws BirtException
@@ -746,23 +843,32 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	 */
 	public static String getDefaultMeasureAggregationFunction(
 			MeasureViewHandle mv )
-	{
+	{		
 		if ( mv != null && mv.getCubeMeasure( ) != null )
 		{
+			String func = null;
 			if ( CrosstabUtil.isBoundToLinkedDataSet( mv.getCrosstab( ) ) )
 			{				
-				if ( !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+				ComputedColumnHandle columnHandle = CrosstabUtil.getMeasureBindingColumnHandle( mv );
+				if( columnHandle != null )
 				{
-					return DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
+					func = columnHandle.getAggregateFunction();
+				}
+				
+				if( func == null 
+						&& !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+				{
+					func = DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
 				}
 			}
 			else
 			{
-				String func = mv.getCubeMeasure( ).getFunction( );
-				if ( func != null )
-				{
-					return DataAdapterUtil.getRollUpAggregationName( func );
-				}
+				func = mv.getCubeMeasure( ).getFunction( );				
+			}
+			
+			if ( func != null )
+			{
+				return DataAdapterUtil.getRollUpAggregationName( func );
 			}
 		}
 
@@ -1994,7 +2100,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	{
 		updateHeaderCell( crosstab, pos, axisType, false, 0 );
 	}
-	
+
 	public static void updateHeaderCell( CrosstabReportItemHandle crosstab,
 			int pos, int axisType, boolean removeLevel )
 	{
@@ -2004,10 +2110,17 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	public static void updateHeaderCell( CrosstabReportItemHandle crosstab,
 			int pos, int axisType, boolean isMoveDimension, int adjustCount )
 	{
-		updateHeaderCell( crosstab, pos, axisType, isMoveDimension, adjustCount, false );
+		updateHeaderCell( crosstab,
+				pos,
+				axisType,
+				isMoveDimension,
+				adjustCount,
+				false );
 	}
+
 	public static void updateHeaderCell( CrosstabReportItemHandle crosstab,
-			int pos, int axisType, boolean isMoveDimension, int adjustCount, boolean removeLevel )
+			int pos, int axisType, boolean isMoveDimension, int adjustCount,
+			boolean removeLevel )
 	{
 
 		HeaderData data = calcHeaderData( crosstab );
@@ -2049,7 +2162,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				&& !crosstab.isHideMeasureHeader( )
 				&& crosstab.getMeasureCount( ) > 0 )// setHideMeasureHeader
 		{
-			if (crosstab.getHeaderCount( ) <= 1)
+			if ( crosstab.getHeaderCount( ) <= 1 )
 			{
 				return;
 			}
@@ -2081,7 +2194,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 						try
 						{
 							int delPos = data.columnNumber - 1;
-							if (i == data.rowNumber - 2)
+							if ( i == data.rowNumber - 2 )
 							{
 								delPos = data.columnNumber;
 							}
@@ -2109,7 +2222,10 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		}
 
 		boolean isAdd = total - crosstab.getHeaderCount( ) > 0;
-		if ( !isMoveDimension && !needUpdateHeaderCell( crosstab, removeLevel?false:isAdd, axisType  ) )
+		if ( !isMoveDimension
+				&& !needUpdateHeaderCell( crosstab,
+						removeLevel ? false : isAdd,
+						axisType ) )
 		{
 			return;
 		}
@@ -2128,7 +2244,8 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					if ( isAdd )
 					{
 						int insertRow = pos;
-						if ( insertRow == data.rowNumber - 1 && rowLevelList.size( ) != 0)
+						if ( insertRow == data.rowNumber - 1
+								&& rowLevelList.size( ) != 0 )
 						{
 							insertRow = insertRow - 1;
 						}
@@ -2140,8 +2257,9 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					}
 					else
 					{
-						headerHandle.removeItem( (pos == data.rowNumber ? pos - 1
-								: pos) * data.columnNumber );
+						headerHandle.removeItem( ( pos == data.rowNumber ? pos - 1
+								: pos )
+								* data.columnNumber );
 					}
 				}
 				catch ( SemanticException e )
@@ -2159,7 +2277,8 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					if ( isAdd )
 					{
 						int insertColumn = pos;
-						if (pos == data.columnNumber - 1 && i != data.rowNumber - 1)
+						if ( pos == data.columnNumber - 1
+								&& i != data.rowNumber - 1 )
 						{
 							insertColumn = pos - 1;
 						}
@@ -2172,13 +2291,14 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					else
 					{
 						int newPos = pos;
-						if (pos==data.columnNumber && i != data.rowNumber - 1)
+						if ( pos == data.columnNumber
+								&& i != data.rowNumber - 1 )
 						{
 							newPos = pos - 1;
 						}
 						headerHandle.removeItem( i
 								* ( data.columnNumber + 1 )
-								+ newPos);
+								+ newPos );
 					}
 				}
 				catch ( SemanticException e )
@@ -2229,13 +2349,17 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				return false;
 			}
 		}
-		if (isAdd)
+		if ( isAdd )
 		{
-			if (ICrosstabConstants.COLUMN_AXIS_TYPE == axisType && (columnLevelList.size( ) == value || columnLevelList.size( ) == 1) && rowLevelList.size( ) == 1)
+			if ( ICrosstabConstants.COLUMN_AXIS_TYPE == axisType
+					&& ( columnLevelList.size( ) == value || columnLevelList.size( ) == 1 )
+					&& rowLevelList.size( ) == 1 )
 			{
 				return true;
 			}
-			else if (ICrosstabConstants.ROW_AXIS_TYPE == axisType && columnLevelList.size( ) == 1 && (rowLevelList.size( ) == value || rowLevelList.size( ) == 1))
+			else if ( ICrosstabConstants.ROW_AXIS_TYPE == axisType
+					&& columnLevelList.size( ) == 1
+					&& ( rowLevelList.size( ) == value || rowLevelList.size( ) == 1 ) )
 			{
 				return true;
 			}

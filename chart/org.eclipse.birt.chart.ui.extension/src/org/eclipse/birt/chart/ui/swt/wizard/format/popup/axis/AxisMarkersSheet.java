@@ -464,7 +464,14 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 				null,
 				"label", //$NON-NLS-1$
 				defAxis.getMarkerLines( ).get( 0 ),
-				getChart( ).getUnits( ) );
+				getChart( ).getUnits( ) ){
+			protected void placeComponents( )
+			{
+				super.placeComponents( );
+				btnVisible.setText(Messages.getString("AxisMarkersSheet.Label.IsVisible")); //$NON-NLS-1$
+			}
+			
+		};
 		GridData gdLACLabel = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
 				| GridData.FILL_HORIZONTAL );
 		lacLabel.setLayoutData( gdLACLabel );

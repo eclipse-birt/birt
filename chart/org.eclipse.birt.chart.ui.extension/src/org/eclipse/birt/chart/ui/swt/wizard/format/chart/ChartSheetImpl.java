@@ -1015,4 +1015,13 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 				.get( 0 );
 	}
 
+	@Override
+	public void dispose( )
+	{
+		super.dispose( );
+		ChartPreviewPainterBase.enableProcessor( true );
+	}
+	
+	
+
 }
