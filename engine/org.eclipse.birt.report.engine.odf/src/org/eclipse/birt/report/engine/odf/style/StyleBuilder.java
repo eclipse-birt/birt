@@ -168,6 +168,7 @@ public class StyleBuilder
 
 		entry.setProperty( StyleConstant.LETTER_SPACING, style.getProperty( StyleConstants.STYLE_LETTER_SPACING ) );
 		
+		entry.setProperty( StyleConstant.TEXT_INDENT, style.getProperty( StyleConstants.STYLE_TEXT_INDENT ) );
 		
 		String imageUri = style.getBackgroundImage( );
 		if ( imageUri != null && imageUri.length( ) > 0 && !"none".equals( imageUri ) )
