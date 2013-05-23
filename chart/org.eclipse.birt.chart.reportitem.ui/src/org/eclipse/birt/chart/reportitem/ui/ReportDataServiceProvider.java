@@ -1051,6 +1051,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				column.setDataType( resultSetColumn.getDataType( ) );
 				ExpressionUtility.setBindingColumnExpression( resultSetColumn,
 						column );
+				column.setDisplayName( UIUtil.getColumnDisplayName( resultSetColumn ) );
+				String displayKey = UIUtil.getColumnDisplayNameKey( resultSetColumn );
+				if ( displayKey != null )
+				{
+					column.setDisplayNameID( displayKey );
+				}
+				
 				columnList.add( column );
 			}
 			return columnList;
