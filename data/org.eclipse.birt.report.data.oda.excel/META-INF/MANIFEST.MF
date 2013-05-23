@@ -4,7 +4,6 @@ Bundle-Name: %plugin.name
 Bundle-SymbolicName: org.eclipse.birt.report.data.oda.excel; singleton:=true
 Bundle-Version: 4.2.2.qualifier
 Bundle-ClassPath: .,
- lib/poi-3.9/poi-3.9-20121203.jar,
  lib/poi-3.9/poi-ooxml-3.9-20121203.jar,
  lib/poi-3.9/poi-ooxml-schemas-3.9-20121203.jar,
  lib/poi-3.9/ooxml-lib/dom4j-1.6.1.jar,
@@ -25,3 +24,5 @@ Require-Bundle: org.eclipse.core.runtime,
  javax.xml.stream;bundle-version="[1.0.1,2.0.0)";resolution:=optional
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Import-Package: org.apache.poi.hssf.usermodel,
+ org.apache.poi.ss.usermodel
