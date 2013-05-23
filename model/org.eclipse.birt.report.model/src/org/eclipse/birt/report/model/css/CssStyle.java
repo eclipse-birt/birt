@@ -15,11 +15,13 @@ import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.ReferenceableElementAdapter;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 
 /**
  * This class represents a shared css style which can't be modified.
@@ -131,5 +133,13 @@ public class CssStyle extends Style
 	{
 		return false;
 	}
-
+	
+	public Object doClone( CopyPolicy policy ) throws CloneNotSupportedException
+	{
+		CssStyle newStyle = (CssStyle) super.doClone( policy );
+		ReferenceableElementAdapter newAdapter = new ReferenceableElementAdapter( newStyle );
+		newAdapter.clearClients( );
+		newStyle.adapter = newAdapter;
+		return newStyle;
+	}
 }
