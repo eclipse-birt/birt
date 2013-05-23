@@ -1416,8 +1416,8 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		}
 
 		CubeHandle cube = handle.getCube( );
-		DataSetHandle dataset = handle.getDataSet( );
-		if ( cube != null )
+		DataSetHandle dataset = handle.getDataSet( );		
+		if ( cube != null && ChartReportItemHelper.instance( ).getBindingCubeHandle( handle ) != null )
 		{
 			for ( LevelHandle lh : ChartCubeUtil.getAllLevels( cube ) )
 			{
@@ -1434,8 +1434,9 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 				}
 			}
 		}
-		else if ( dataset != null )
+		else if ( dataset != null && ChartReportItemHelper.instance( ).getBindingDataSetHandle( handle ) != null )
 		{
+
 			for ( Iterator<?> iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 					.iterator( ); iter.hasNext( ); )
 			{

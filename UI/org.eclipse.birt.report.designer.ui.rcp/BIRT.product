@@ -160,6 +160,7 @@
       <plugin id="org.eclipse.birt.report.model.adapter.oda"/>
       <plugin id="org.eclipse.birt.report.viewer"/>
       <plugin id="org.eclipse.birt.resources"/>
+      <plugin id="uk.co.spudsoft.birt.emitters.excel"/>
       <plugin id="org.eclipse.compare.core"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>

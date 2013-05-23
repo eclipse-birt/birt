@@ -1,0 +1,80 @@
+.table-group-header-1 {
+background : #0B285B;
+border-bottom : double;
+border-top : solid;
+border-top-width : thin;
+border-color : #FFF8DC;
+font-family : Arial;
+font-size :  12;
+font-weight : bold;
+color : #FFFFE0;
+}
+.table-group-header-2 {
+background : #13449B;
+border-bottom : double;
+border-top : solid;
+border-top-width : thin;
+border-color : #FFF8DC;
+font-family : Arial;
+font-size : 12;
+font-weight : bold;
+color : #FFFFE0;
+}
+.table-group-header-3 {
+background : #1A5FDA;
+border-bottom : double;
+border-top : solid;
+border-top-width : thin;
+border-color : #FFF8DC;
+font-family : Arial;
+font-size : 12;
+font-weight : bold;
+color : #FFFFE0;
+}
+
+.table-header {
+background : #206090;
+border-bottom : double;
+border-top : solid;
+border-top-width : thin;
+border-color : #206090;
+font-family : Arial;
+font-size : 12;
+font-weight : bold;
+color : #FFFFE0;
+}
+
+.table-detail {
+background : #FFFFFF;
+font-family : Arial;
+font-size : 12;
+color : #2A2B2F;
+}
+
+ .table-footer {
+background : #6495ED;
+border-top : double;
+border-bottom : solid;
+border-bottom-width : thin;
+border-color : #483D8B;
+font-family : Arial;
+font-size : 12;
+font-weight : bold;
+color : #FFFFE0;
+}
+
+.tableHeaderFont {
+font-family : Arial;
+font-size : 12;
+color : #FFFFE0;
+}
+
+.tableDetailFont {
+font-family : Arial;
+font-size : 10;
+color : #2C2C2C;
+}
+
+ .rowHilight{
+background : #DEDFE3;
+ }

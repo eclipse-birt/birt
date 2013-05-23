@@ -39,8 +39,35 @@ public class SeriesNameFormat
 		// disable public construactor
 	}
 
+	/**
+	 * Returns default series format
+	 * 
+	 * @param sd
+	 *            series definition
+	 * @param loc
+	 *            locale
+	 * @return default series format
+	 * @deprecated to use {@link #getSeriesNameFormat(SeriesDefinition, ULocale, boolean)}
+	 */
 	public static SeriesNameFormat getSeriesNameFormat( SeriesDefinition sd,
 			ULocale loc )
+	{
+		return getSeriesNameFormat( sd, loc, true );
+	}
+
+	/**
+	 * Returns default series format
+	 * 
+	 * @param sd
+	 *            series definition
+	 * @param loc
+	 *            locale
+	 * @param keepHierarchy
+	 *            indicates if hierarchy should be kept
+	 * @return default series format
+	 */
+	public static SeriesNameFormat getSeriesNameFormat( SeriesDefinition sd,
+			ULocale loc, boolean keepHierarchy )
 	{
 		if ( sd != null
 				&& sd.getQuery( ) != null
@@ -49,17 +76,19 @@ public class SeriesNameFormat
 			SeriesGrouping sg = sd.getQuery( ).getGrouping( );
 			if ( sg.getGroupType( ) == DataType.DATE_TIME_LITERAL )
 			{
-				return new SeriesNameDateFormat( sg.getGroupingUnit( ), loc );
+				return new SeriesNameDateFormat( sg.getGroupingUnit( ),
+						loc,
+						keepHierarchy );
 			}
 		}
-		
+
 		return DEFAULT_FORMAT;
 	}
 
 	public String format( Object obj )
 	{
 		String str = ""; //$NON-NLS-1$
-		
+
 		if ( obj != null )
 		{
 			if ( obj instanceof Number )
@@ -75,7 +104,7 @@ public class SeriesNameFormat
 				str = obj.toString( );
 			}
 		}
-		
+
 		return str;
 	}
 
@@ -84,19 +113,22 @@ public class SeriesNameFormat
 	 */
 	private static class SeriesNameDateFormat extends SeriesNameFormat
 	{
+
 		private GroupingUnitType unitType;
 		private IDateFormatWrapper dfWrapper;
 
 		/**
 		 * @param unitType
 		 */
-		public SeriesNameDateFormat( GroupingUnitType unitType, ULocale loc )
+		public SeriesNameDateFormat( GroupingUnitType unitType, ULocale loc,
+				boolean keepHierarchy )
 		{
 			this.unitType = unitType;
 			dfWrapper = DateFormatWrapperFactory.getPreferredDateFormat( GroupingUtil.groupingUnit2CDateUnit( unitType ),
-					loc );
+					loc,
+					keepHierarchy );
 		}
-		
+
 		/**
 		 * Convert GroupingUnit type to CDateUnit type.
 		 * 
@@ -162,4 +194,3 @@ public class SeriesNameFormat
 		}
 	}
 }
-

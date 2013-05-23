@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+    <text-property name="title">Borders Test Report 3</text-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[var rowCount = 0;
+// java.lang.System.out.println( "rowCount: " + rowCount );
+]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <script-data-source name="Data Source" id="39"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="Data Set" id="40">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">0</property>
+                    <property name="name">Name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Integer</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">DateTime</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">Decimal</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">Float</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">Boolean</property>
+                    <property name="dataType">boolean</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">Date</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">Time</property>
+                    <property name="dataType">time</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Name</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Integer</property>
+                </structure>
+                <structure>
+                    <property name="columnName">DateTime</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Decimal</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Float</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Boolean</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Date</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Time</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Integer</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">DateTime</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">Decimal</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">Float</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">Boolean</property>
+                        <property name="dataType">boolean</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">Date</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">Time</property>
+                        <property name="dataType">time</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="fetch"><![CDATA[// java.lang.System.out.println( "fetch" );
+// java.lang.System.out.println( "rowCount: " + ( rowCount == null ? "<null>" : rowCount ) );
+if( rowCount < 2 ) {
+	++rowCount;
+	
+	var pi = 3.1415926535897932384626433832795;
+	
+	row[ "Name" ] = "Row " + rowCount;
+	row[ "Integer" ] = rowCount;
+	row[ "Float" ] = rowCount * pi;
+	row[ "Decimal" ] = rowCount * pi;
+	row[ "Boolean" ] = (rowCount % 2 == 0);
+	row[ "DateTime" ] = new Date(pi * 500000000000);
+	row[ "Date" ] = new Date(pi * 500000000000);
+	row[ "Time" ] = new Date(pi * 500000000000);
+	
+	// java.lang.System.out.println( "Date: " + row[ "Date" ] + " / " + row["Date"].getTime());
+	
+	return true;
+} else {
+	// java.lang.System.out.println( "rowCount: " + rowCount );
+	return false;
+}
+]]></method>
+        </script-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="table-detail-cell" id="93"/>
+        <style name="table-header-cell" id="94"/>
+        <style name="table" id="95">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderTopStyle">solid</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="topMargin">0.5cm</property>
+            <property name="leftMargin">0.5cm</property>
+            <property name="bottomMargin">0.5cm</property>
+            <property name="rightMargin">0.5cm</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="41">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Name</property>
+                    <text-property name="displayName">Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Integer</property>
+                    <text-property name="displayName">Integer</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Integer"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">DateTime</property>
+                    <text-property name="displayName">DateTime</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DateTime"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">Decimal</property>
+                    <text-property name="displayName">Decimal</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Decimal"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">Float</property>
+                    <text-property name="displayName">Float</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Float"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">Boolean</property>
+                    <text-property name="displayName">Boolean</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Boolean"]</expression>
+                    <property name="dataType">boolean</property>
+                </structure>
+                <structure>
+                    <property name="name">Date</property>
+                    <text-property name="displayName">Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Date"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">Time</property>
+                    <text-property name="displayName">Time</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Time"]</expression>
+                    <property name="dataType">time</property>
+                </structure>
+            </list-property>
+            <column id="85"/>
+            <column id="86"/>
+            <column id="87"/>
+            <column id="88"/>
+            <column id="89"/>
+            <column id="90"/>
+            <column id="91"/>
+            <column id="92"/>
+            <header>
+                <row id="42">
+                    <cell id="43"/>
+                    <cell id="45"/>
+                    <cell id="47"/>
+                    <cell id="49"/>
+                    <cell id="51"/>
+                    <cell id="53"/>
+                    <cell id="55"/>
+                    <cell id="57"/>
+                </row>
+            </header>
+            <detail>
+                <row id="59">
+                    <cell id="60"/>
+                    <cell id="62">
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <data id="65">
+                            <property name="borderBottomColor">#FFA500</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderLeftColor">#FFA500</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderRightColor">#FFA500</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderTopColor">#FFA500</property>
+                            <property name="borderTopStyle">solid</property>
+                            <structure name="dateTimeFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">yyyy-MM-dd hh:mm:ss</property>
+                            </structure>
+                            <property name="resultSetColumn">DateTime</property>
+                        </data>
+                    </cell>
+                    <cell id="66"/>
+                    <cell id="68">
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <property name="borderBottomColor">#0000FF</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderLeftColor">#0000FF</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderRightColor">#0000FF</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderTopColor">#0000FF</property>
+                        <property name="borderTopStyle">solid</property>
+                        <data id="69">
+                            <structure name="numberFormat">
+                                <property name="category">Unformatted</property>
+                            </structure>
+                            <property name="resultSetColumn">Float</property>
+                        </data>
+                    </cell>
+                    <cell id="72"/>
+                    <cell id="74"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="76">
+                    <cell id="77"/>
+                    <cell id="78"/>
+                    <cell id="79"/>
+                    <cell id="80"/>
+                    <cell id="81"/>
+                    <cell id="82"/>
+                    <cell id="83"/>
+                    <cell id="84"/>
+                </row>
+            </footer>
+        </table>
+        <grid id="105">
+            <column id="106"/>
+            <column id="107"/>
+            <column id="108"/>
+            <column id="109"/>
+            <column id="110"/>
+            <column id="111"/>
+            <column id="112"/>
+            <column id="113"/>
+            <row id="114">
+                <cell id="115"/>
+                <cell id="116"/>
+                <cell id="117"/>
+                <cell id="118"/>
+                <cell id="119"/>
+                <cell id="120"/>
+                <cell id="121"/>
+                <cell id="122"/>
+            </row>
+            <row id="123">
+                <cell id="124"/>
+                <cell id="125">
+                    <property name="colSpan">4</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderBottomColor">#0000FF</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderLeftColor">#0000FF</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderRightColor">#0000FF</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderTopColor">#0000FF</property>
+                    <property name="borderTopStyle">solid</property>
+                </cell>
+                <cell id="129"/>
+                <cell id="130"/>
+                <cell id="131"/>
+            </row>
+            <row id="132">
+                <cell id="133"/>
+                <cell id="134"/>
+                <cell id="135">
+                    <property name="colSpan">4</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderBottomColor">#008000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderLeftColor">#008000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderRightColor">#008000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderTopColor">#008000</property>
+                    <property name="borderTopStyle">solid</property>
+                </cell>
+                <cell id="139"/>
+                <cell id="140"/>
+            </row>
+            <row id="141">
+                <cell id="142"/>
+                <cell id="143"/>
+                <cell id="144"/>
+                <cell id="145"/>
+                <cell id="146"/>
+                <cell id="147"/>
+                <cell id="148"/>
+                <cell id="149"/>
+            </row>
+        </grid>
+        <grid id="150">
+            <column id="151"/>
+            <column id="152"/>
+            <column id="153"/>
+            <column id="154"/>
+            <column id="155"/>
+            <column id="156"/>
+            <column id="157"/>
+            <column id="158"/>
+            <row id="159">
+                <cell id="160"/>
+                <cell id="161"/>
+                <cell id="162"/>
+                <cell id="163"/>
+                <cell id="164"/>
+                <cell id="165"/>
+                <cell id="166"/>
+                <cell id="167"/>
+            </row>
+            <row id="168">
+                <cell id="169"/>
+                <cell id="170">
+                    <property name="colSpan">4</property>
+                    <property name="rowSpan">2</property>
+                    <property name="borderBottomColor">#0000FF</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderLeftColor">#0000FF</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderRightColor">#0000FF</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderTopColor">#0000FF</property>
+                    <property name="borderTopStyle">solid</property>
+                </cell>
+                <cell id="171"/>
+                <cell id="172"/>
+                <cell id="173"/>
+            </row>
+            <row id="189">
+                <cell id="190"/>
+                <cell id="195"/>
+                <cell id="196"/>
+                <cell id="197"/>
+            </row>
+            <row id="198">
+                <cell id="199"/>
+                <cell id="200"/>
+                <cell id="201">
+                    <property name="colSpan">4</property>
+                    <property name="rowSpan">2</property>
+                    <property name="borderBottomColor">#008000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderLeftColor">#008000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderRightColor">#008000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderTopColor">#008000</property>
+                    <property name="borderTopStyle">solid</property>
+                </cell>
+                <cell id="205"/>
+                <cell id="206"/>
+            </row>
+            <row id="174">
+                <cell id="175"/>
+                <cell id="176"/>
+                <cell id="178"/>
+                <cell id="179"/>
+            </row>
+            <row id="180">
+                <cell id="181"/>
+                <cell id="182"/>
+                <cell id="183"/>
+                <cell id="184"/>
+                <cell id="185"/>
+                <cell id="186"/>
+                <cell id="187"/>
+                <cell id="188"/>
+            </row>
+        </grid>
+        <grid id="270">
+            <column id="271"/>
+            <column id="272"/>
+            <column id="273"/>
+            <column id="274"/>
+            <column id="275"/>
+            <column id="276"/>
+            <column id="277"/>
+            <column id="278"/>
+            <row id="279">
+                <cell id="280"/>
+                <cell id="281"/>
+                <cell id="282"/>
+                <cell id="283"/>
+                <cell id="284"/>
+                <cell id="285"/>
+                <cell id="286"/>
+                <cell id="287"/>
+            </row>
+            <row id="308">
+                <property name="borderBottomColor">#000000</property>
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderLeftColor">#000000</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderRightColor">#000000</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderTopColor">#000000</property>
+                <property name="borderTopStyle">solid</property>
+                <cell id="309"/>
+                <cell id="310"/>
+                <cell id="305">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <property name="borderBottomColor">#008000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderLeftColor">#008000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderRightColor">#008000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderTopColor">#008000</property>
+                    <property name="borderTopStyle">solid</property>
+                </cell>
+                <cell id="311"/>
+                <cell id="312">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                </cell>
+                <cell id="321"/>
+            </row>
+            <row id="314">
+                <cell id="315"/>
+                <cell id="316"/>
+                <cell id="317"/>
+                <cell id="318"/>
+                <cell id="319"/>
+                <cell id="322"/>
+                <cell id="323"/>
+                <cell id="320"/>
+            </row>
+            <row id="333">
+                <property name="borderBottomColor">#000000</property>
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderLeftColor">#000000</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderRightColor">#000000</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderTopColor">#000000</property>
+                <property name="borderTopStyle">solid</property>
+                <cell id="334"/>
+                <cell id="335"/>
+                <cell id="336">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">2</property>
+                    <property name="borderBottomColor">#FF0000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderLeftColor">#FF0000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderRightColor">#FF0000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderTopColor">#FF0000</property>
+                    <property name="borderTopStyle">solid</property>
+                </cell>
+                <cell id="338"/>
+                <cell id="339">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">2</property>
+                </cell>
+                <cell id="341"/>
+            </row>
+            <row id="342">
+                <property name="borderBottomColor">#000000</property>
+                <property name="borderBottomStyle">solid</property>
+                <property name="borderLeftColor">#000000</property>
+                <property name="borderLeftStyle">solid</property>
+                <property name="borderRightColor">#000000</property>
+                <property name="borderRightStyle">solid</property>
+                <property name="borderTopColor">#000000</property>
+                <property name="borderTopStyle">solid</property>
+                <cell id="343"/>
+                <cell id="344"/>
+                <cell id="347"/>
+                <cell id="350"/>
+            </row>
+            <row id="324">
+                <cell id="325"/>
+                <cell id="326"/>
+                <cell id="327"/>
+                <cell id="328"/>
+                <cell id="329"/>
+                <cell id="330"/>
+                <cell id="331"/>
+                <cell id="332"/>
+            </row>
+        </grid>
+        <grid id="207">
+            <column id="208"/>
+            <column id="209"/>
+            <column id="210"/>
+            <column id="211"/>
+            <column id="212"/>
+            <column id="213"/>
+            <column id="214"/>
+            <column id="215"/>
+            <row id="216">
+                <cell id="217"/>
+                <cell id="218"/>
+                <cell id="219"/>
+                <cell id="220"/>
+                <cell id="221"/>
+                <cell id="222"/>
+                <cell id="223"/>
+                <cell id="224"/>
+            </row>
+            <row id="225">
+                <cell id="226"/>
+                <cell id="227">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">2</property>
+                    <property name="borderBottomColor">#0000FF</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderLeftColor">#0000FF</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderRightColor">#0000FF</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderTopColor">#0000FF</property>
+                    <property name="borderTopStyle">solid</property>
+                </cell>
+                <cell id="257"/>
+                <cell id="258"/>
+                <cell id="228"/>
+                <cell id="229"/>
+                <cell id="230"/>
+            </row>
+            <row id="231">
+                <cell id="232"/>
+                <cell id="261"/>
+                <cell id="262"/>
+                <cell id="233">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">2</property>
+                    <property name="borderBottomColor">#800000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderLeftColor">#800000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderRightColor">#800000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderTopColor">#800000</property>
+                    <property name="borderTopStyle">solid</property>
+                </cell>
+                <cell id="235"/>
+            </row>
+            <row id="236">
+                <cell id="237"/>
+                <cell id="238"/>
+                <cell id="239">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">2</property>
+                    <property name="borderBottomColor">#008000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderLeftColor">#008000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderRightColor">#008000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderTopColor">#008000</property>
+                    <property name="borderTopStyle">solid</property>
+                </cell>
+                <cell id="264"/>
+                <cell id="241"/>
+            </row>
+            <row id="242">
+                <cell id="243"/>
+                <cell id="244"/>
+                <cell id="268"/>
+                <cell id="269"/>
+                <cell id="245">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">2</property>
+                    <property name="borderBottomColor">#FFA500</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderLeftColor">#FFA500</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderRightColor">#FFA500</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderTopColor">#FFA500</property>
+                    <property name="borderTopStyle">solid</property>
+                </cell>
+            </row>
+            <row id="247">
+                <cell id="248">
+                    <property name="borderBottomColor">#00FF00</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderLeftColor">#00FF00</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderRightColor">#00FF00</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderTopColor">#00FF00</property>
+                    <property name="borderTopStyle">solid</property>
+                </cell>
+                <cell id="249"/>
+                <cell id="250"/>
+                <cell id="251"/>
+                <cell id="252"/>
+                <cell id="253"/>
+            </row>
+        </grid>
+    </body>
+</report>
