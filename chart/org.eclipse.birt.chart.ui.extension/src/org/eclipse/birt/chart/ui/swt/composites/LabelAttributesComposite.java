@@ -993,4 +993,9 @@ public class LabelAttributesComposite extends Composite implements
 			icInsets.setDefaultInsets( defLabel.getInsets( ) );
 		}
 	}
+	
+	public Composite getGeneralComposite( )
+	{
+		return cmpGeneral;
+	}
 }
