@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
  * 
  */
 
-public final class CssStyleSheet
+public final class CssStyleSheet implements Cloneable
 {
 
 	/**
