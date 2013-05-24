@@ -1238,7 +1238,7 @@ public class InsertInLayoutUtil
 			// .newLabel( null );
 			LabelHandle label = DesignElementFactory.getInstance( )
 					.newLabel( null );
-			label.setText( UIUtil.getColumnDisplayName( model ) );
+			label.setText( UIUtil.getHeadColumnDisplayName( model ) );
 			String displayKey = UIUtil.getColumnHeaderDisplayNameKey( model );
 			if (displayKey == null)
 			{
@@ -1939,7 +1939,7 @@ public class InsertInLayoutUtil
 						// LabelHandle labelItemHandle =
 						// DesignElementFactory.getInstance( )
 						// .newLabel( null );
-						String labelText = UIUtil.getColumnDisplayName( columns[j] );
+						String labelText = UIUtil.getHeadColumnDisplayName( columns[j] );
 						if ( labelText != null )
 						{
 							labelItemHandle.setText( labelText );
