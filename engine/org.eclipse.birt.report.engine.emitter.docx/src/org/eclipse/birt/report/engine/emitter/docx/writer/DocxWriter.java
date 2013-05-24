@@ -250,7 +250,7 @@ public class DocxWriter implements IWordWriter
 	public void writeContent( int type, String txt, IStyle style,
 			IStyle inlineStyle, String fontFamily, HyperlinkInfo info,
 			InlineFlag inlineFlag, TextFlag textFlag, int pargraphWidth,
-			boolean runIsRtl )
+			boolean runIsRtl, String textAlign )
 	{
 		if ( inlineFlag == InlineFlag.BLOCK )
 		{
@@ -263,11 +263,11 @@ public class DocxWriter implements IWordWriter
 			if ( inlineFlag == InlineFlag.FIRST_INLINE
 					&& textFlag == TextFlag.START )
 			{
-				currentComponent
-						.startParagraph( style, isInline, pargraphWidth );
+				currentComponent.startParagraph( style, isInline,
+						pargraphWidth, textAlign );
 			}
 			currentComponent.writeTextInRun( type, txt, style, fontFamily,
-					info, isInline, pargraphWidth, runIsRtl );
+					info, isInline, pargraphWidth, runIsRtl, textAlign );
 		}
 	}
 

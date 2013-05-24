@@ -735,7 +735,7 @@ public class StyleEntryWriter
 
 	private void writeIndent( StyleEntry style )
 	{
-		CSSValue value = (CSSValue)style.getProperty( StyleConstants.STYLE_TEXT_INDENT );
+		CSSValue value = (CSSValue)style.getProperty( StyleConstant.TEXT_INDENT );
 		if ( value != null )
 		{
 			writer.attribute( "fo:text-indent", getDimension( value ) );
