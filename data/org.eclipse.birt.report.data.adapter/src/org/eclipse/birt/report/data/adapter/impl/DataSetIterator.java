@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.timeFunction.DateTimeUtility;
 import org.eclipse.birt.report.data.adapter.group.ICalculator;
 import org.eclipse.birt.report.data.adapter.i18n.AdapterResourceHandle;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
@@ -305,23 +306,11 @@ public class DataSetIterator implements IDatasetIterator
 	{
 		assert d != null;
 		
-		Date date;
-		try
+		if( d instanceof java.sql.Date )
 		{
-			if( d instanceof java.sql.Date )
-			{
-				defaultCalendar.setTime( ( Date ) d );
-				return this.defaultCalendar;
-			}
-			date = DataTypeUtil.toDate( d );
-			this.calendar.setTime( date );
-			return this.calendar;
+			return this.defaultCalendar;
 		}
-		catch ( BirtException e )
-		{
-			throw new java.lang.IllegalArgumentException( AdapterResourceHandle.getInstance( )
-					.getMessage( ResourceConstants.INVALID_DATETIME_VALUE ) );
-		}
+		return this.calendar;
 	}
 	
 	/**
@@ -605,82 +594,8 @@ public class DataSetIterator implements IDatasetIterator
 			assert args.length == 2;
 			String timeType = args[0].toString( );
 			Object d = args[1];
-			if ( args[1] == null )
-				return new Integer( 0 );
-			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( timeType ) )
-			{
-				return new Integer( getCalendar( d ).get( Calendar.DAY_OF_MONTH ) );
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( timeType ) )
-			{
-				return new Integer( getCalendar( d ).get( Calendar.DAY_OF_WEEK ) );
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( timeType ) )
-			{
-				return new Integer( getCalendar( d ).get( Calendar.DAY_OF_YEAR ) );
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( timeType ) )
-			{
-				return new Integer( getCalendar( d ).get( Calendar.WEEK_OF_MONTH ) );
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( timeType ) )
-			{
-				return new Integer( getCalendar( d ).get( Calendar.WEEK_OF_YEAR ) );
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( timeType ) )
-			{
-				return new Integer( getCalendar( d ).get( Calendar.MONTH ) + 1 );
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ) )
-			{
-				int month = -1;
-				month = getCalendar( d ).get( Calendar.MONTH );
-				int quarter = -1;
-				switch ( month )
-				{
-					case Calendar.JANUARY :
-					case Calendar.FEBRUARY :
-					case Calendar.MARCH :
-						quarter = 1;
-						break;
-					case Calendar.APRIL :
-					case Calendar.MAY :
-					case Calendar.JUNE :
-						quarter = 2;
-						break;
-					case Calendar.JULY :
-					case Calendar.AUGUST :
-					case Calendar.SEPTEMBER :
-						quarter = 3;
-						break;
-					case Calendar.OCTOBER :
-					case Calendar.NOVEMBER :
-					case Calendar.DECEMBER :
-						quarter = 4;
-						break;
-					default :
-						quarter = -1;
-				}
-				return new Integer( quarter );
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ) )
-			{
-				return new Integer( getCalendar( d ).get( Calendar.YEAR ) );
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( timeType ) )
-			{
-				return new Integer( getCalendar( d ).get( Calendar.HOUR_OF_DAY ) );
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals( timeType ) )
-			{
-				return new Integer( getCalendar( d ).get( Calendar.MINUTE ) );
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ) )
-			{
-				return Integer.valueOf( getCalendar( d ).get( Calendar.SECOND ) );
-			}
-			else
-				throw new AdapterException( ResourceConstants.INVALID_DATE_TIME_TYPE, timeType );
+			
+			return DateTimeUtility.getPortion( d, timeType, getCalendar( d ) );
 		}
 	}
 

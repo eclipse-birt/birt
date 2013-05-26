@@ -64,6 +64,7 @@
       <plugin id="org.apache.jasper.glassfish"/>
       <plugin id="org.apache.lucene.analysis"/>
       <plugin id="org.apache.lucene.core"/>
+      <plugin id="org.apache.poi"/>
       <plugin id="org.apache.xerces"/>
       <plugin id="org.apache.xml.resolver"/>
       <plugin id="org.apache.xml.serializer"/>

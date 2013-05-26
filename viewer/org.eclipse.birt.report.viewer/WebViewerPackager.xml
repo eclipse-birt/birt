@@ -479,6 +479,7 @@
 				<include name="org.apache.commons.codec_*.jar"/>
 				<include name="javax.xml.stream_*.jar"/>
 				<include name="org.eclipse.orbit.mongodb_*.jar"/>
+				<include name="org.apache.poi_*.jar"/>
 			</fileset>
 			<fileset dir="../org.eclipse.birt.report.engine/lib">
 				<include name="*.jar"/>
@@ -634,6 +635,7 @@
 			<include name="org.apache.commons.codec_*.jar"/>
 			<include name="javax.xml.stream_*.jar"/>
 			<include name="org.eclipse.orbit.mongodb_*.jar"/>
+			<include name="org.apache.poi_*.jar"/>
 		</fileset>
 		</copy>
 
@@ -701,7 +703,7 @@
 			<include name="org.eclipse.birt.report.engine.emitter.docx_*.jar"/>
 			<include name="org.eclipse.birt.report.engine.emitter.pptx_*.jar"/>
 			<include name="org.eclipse.birt.data.oda.pojo_*.jar"/>
-			<include name="uk.co.spudsoft.birt.emitters.excel_*.jar"/>
+			<include name="uk.co.spudsoft.birt.emitters.excel_*/**"/>
 		</fileset>
 		</copy>
 

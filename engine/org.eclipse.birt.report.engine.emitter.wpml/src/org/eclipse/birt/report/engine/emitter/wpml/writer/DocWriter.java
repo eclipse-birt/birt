@@ -265,7 +265,7 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 	public void writeContent( int type, String txt, IStyle style,
 			IStyle inlineStyle, String fontFamily, HyperlinkInfo info,
 			InlineFlag inlineFlag, TextFlag flag, int paragraphWidth,
-			boolean runIsRtl )
+			boolean runIsRtl, String textAlign )
 	{
 		if ( inlineFlag == InlineFlag.BLOCK )
 		{
@@ -275,20 +275,17 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		else
 		{
 			boolean isInline = true;
-			// used in render the text align
-			textInlineRenderFlag = true;
 			if ( inlineFlag == InlineFlag.FIRST_INLINE
 					&& flag == TextFlag.START )
 			{
-				startParagraph( style, isInline, paragraphWidth );
+				startParagraph( style, isInline, paragraphWidth, textAlign );
 			}
 			if ( inlineStyle != null )
 				writeTextInRun( type, txt, inlineStyle, fontFamily, info,
-						isInline, paragraphWidth, runIsRtl );
+						isInline, paragraphWidth, runIsRtl, textAlign );
 			else
 				writeTextInRun( type, txt, style, fontFamily, info, isInline,
-						paragraphWidth, runIsRtl );
-			textInlineRenderFlag = false;
+						paragraphWidth, runIsRtl, textAlign );
 		}
 	}
 

@@ -14,7 +14,7 @@ import java.awt.Color;
 
 public interface StyleConstant {
     
-	public static final int COUNT = 65;
+	public static final int COUNT = 66;
     
     public static final int FONT_FAMILY_PROP = 0;
     public static final int FONT_SIZE_PROP = 1;
@@ -105,6 +105,7 @@ public interface StyleConstant {
     public static final int GRAPHIC_STROKE_WIDTH = 63;
     
     public static final int MIN_HEIGHT = 64;
+    public static final int TEXT_INDENT = 65;
 	
 	public static final String NULL = "NULL";   //$NON-NLS-1$
 		
