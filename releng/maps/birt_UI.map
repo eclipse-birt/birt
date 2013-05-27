@@ -2,7 +2,7 @@ plugin@org.eclipse.birt.report.debug.core=GIT,tag=v201212171413,repo=git://git.e
 plugin@org.eclipse.birt.report.debug.ui=GIT,tag=v201212171413,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.debug.ui
 plugin@org.eclipse.birt.report.designer.core=GIT,tag=v201305071255,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.core
 plugin@org.eclipse.birt.report.designer.samplereports=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.samplereports
-plugin@org.eclipse.birt.report.designer.ui=GIT,tag=v201305180941,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui
+plugin@org.eclipse.birt.report.designer.ui=GIT,tag=v201305201440,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui
 plugin@org.eclipse.birt.report.designer.ui.cubebuilder=GIT,tag=v201305071453,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui.cubebuilder
 plugin@org.eclipse.birt.report.designer.ui.data=GIT,tag=v201305161928,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui.data
 plugin@org.eclipse.birt.report.designer.ui.editor.script=GIT,tag=v201211121517,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui.editor.script
@@ -15,7 +15,7 @@ plugin@org.eclipse.birt.report.designer.ui.lib.explorer=GIT,tag=v201304170155,re
 plugin@org.eclipse.birt.report.designer.ui.preview=GIT,tag=v201212171413,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui.preview
 plugin@org.eclipse.birt.report.designer.ui.preview.static_html=GIT,tag=v201212171413,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui.preview.static_html
 plugin@org.eclipse.birt.report.designer.ui.preview.web=GIT,tag=v201302281614,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui.preview.web
-plugin@org.eclipse.birt.report.designer.ui.rcp=GIT,tag=v201305192148,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui.rcp
+plugin@org.eclipse.birt.report.designer.ui.rcp=GIT,tag=v201305262107,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui.rcp
 plugin@org.eclipse.birt.report.designer.ui.samples.ide=GIT,tag=v201210111858,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui.samples.ide
 plugin@org.eclipse.birt.report.designer.ui.samples.rcp=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui.samples.rcp
 plugin@org.eclipse.birt.report.designer.ui.samplesview=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=UI/org.eclipse.birt.report.designer.ui.samplesview
