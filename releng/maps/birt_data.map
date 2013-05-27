@@ -1,12 +1,12 @@
 plugin@org.eclipse.birt.data=GIT,tag=v201305101725,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.data
 plugin@org.eclipse.birt.data.aggregation=GIT,tag=v201210311502,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.data.aggregation
-plugin@org.eclipse.birt.report.data.adapter=GIT,tag=v201305180941,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.adapter
+plugin@org.eclipse.birt.report.data.adapter=GIT,tag=v201305241042,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.adapter
 plugin@org.eclipse.birt.core.script.function=GIT,tag=v201212171413,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.core.script.function
 plugin@org.eclipse.birt.report.data.bidi.utils=GIT,tag=v201212171552,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.bidi.utils
 plugin@org.eclipse.birt.report.data.bidi.utils.ui=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.bidi.utils.ui
 plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui
-plugin@org.eclipse.birt.report.data.oda.jdbc=GIT,tag=v201305061757,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc
-plugin@org.eclipse.birt.report.data.oda.jdbc.ui=GIT,tag=v201302221451,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.ui
+plugin@org.eclipse.birt.report.data.oda.jdbc=GIT,tag=v201305221129,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc
+plugin@org.eclipse.birt.report.data.oda.jdbc.ui=GIT,tag=v200705101451,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.ui
 plugin@org.eclipse.birt.report.data.oda.hive=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.hive
 plugin@org.eclipse.birt.report.data.oda.hive.ui=GIT,tag=v201302221451,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.hive.ui
 plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.dbprofile
@@ -17,7 +17,7 @@ plugin@org.eclipse.birt.report.data.oda.sampledb.ui=GIT,tag=v201304161221,repo=g
 plugin@org.eclipse.birt.report.data.oda.xml=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.xml
 plugin@org.eclipse.birt.report.data.oda.xml.ui=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.xml.ui
 plugin@org.eclipse.birt.report.engine.script.javascript=GIT,tag=v201212201125,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.engine.script.javascript
-plugin@org.eclipse.birt.report.data.oda.excel=GIT,tag=v201305171710,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.excel
+plugin@org.eclipse.birt.report.data.oda.excel=GIT,tag=v201305231611,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.excel
 plugin@org.eclipse.birt.report.data.oda.excel.ui=GIT,tag=v201304091549,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.excel.ui
 plugin@org.eclipse.birt.me.prettyprint.hector=GIT,tag=v201301281456,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.me.prettyprint.hector
 
