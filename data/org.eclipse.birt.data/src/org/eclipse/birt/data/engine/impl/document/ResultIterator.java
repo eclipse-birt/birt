@@ -339,14 +339,21 @@ public class ResultIterator implements IResultIterator
 	public IResultIterator getSecondaryIterator( String subQueryName,
 			Scriptable scope ) throws DataException
 	{
-		String parentQueryResultsID = null;
+		String queryResultsID = null;
+		String baseQueryResultsID = null;
+		int rootIdIdex = queryResultID.indexOf( "/" );
+		if ( rootIdIdex > -1 )
+			baseQueryResultsID = queryResultID.substring( 0, rootIdIdex );
+		else
+			baseQueryResultsID = queryResultID;
+
 		if ( this.subQueryName == null )
 		{
-			parentQueryResultsID = queryResultID;
+			queryResultsID = queryResultID;
 		}
 		else
 		{
-			parentQueryResultsID = queryResultID
+			queryResultsID = queryResultID
 					+ "/" + this.subQueryName + "/" + this.subQueryIndex;
 		}
 		
@@ -355,8 +362,8 @@ public class ResultIterator implements IResultIterator
 		{
 			queryResults = new QueryResults( tempDir,
 					context,
-					queryResultID,
-					parentQueryResultsID,
+					baseQueryResultsID,
+					queryResultsID,
 					this.getResultMetaData( ),
 					subQueryName,
 					this.exprResultSet.getCurrentIndex( ),
