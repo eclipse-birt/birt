@@ -860,6 +860,8 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				{
 					func = DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
 				}
+				
+				return func;
 			}
 			else
 			{
