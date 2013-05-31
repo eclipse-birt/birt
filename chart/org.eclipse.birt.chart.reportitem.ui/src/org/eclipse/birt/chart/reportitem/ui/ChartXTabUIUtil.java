@@ -398,6 +398,12 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
 						ChartCubeUtil.createMeasureBindingName( measureHandle ) );
 				column.setDataType( measureHandle.getDataType( ) );
+				column.setDisplayName( measureHandle.getDisplayName( ) );
+				String nameKey = measureHandle.getDisplayNameKey( );
+				if ( nameKey != null )
+				{
+					column.setDisplayNameID( nameKey );
+				}
 				column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
 						new Expression( exprConverter.getMeasureExpression( measureHandle.getName( ) ),
 								exprType ) );

@@ -240,7 +240,7 @@
 
 		<antcall target="createChartDownload" />
 
-		<property file="${buildDirectory}/dtpURLmonitor.properties" />
+		<property file="${builder.dir}/dtpURLmonitor.properties" />
 		<property file="${eclipse.build.configs}/../../config.properties" />
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#"
 			value="Nightly" />
@@ -248,6 +248,8 @@
 			value="${buildId}" />
 		<replace file="${OutputDir}\${birt.info}" token="#branch#"
 			value="${package.version}" />
+		<replace file="${OutputDir}\${birt.info}" token="#buildVersion#"
+			value="${BranchVersion}" />
 		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEVERSION#"
 			value="${eclipseVersion}" />
 		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEURL#"

@@ -1427,9 +1427,7 @@ public final class Bar extends AxesRenderer
 						ex );
 			}
 						
-			if ( laDataPoint.isVisible( )
-					&& ( dHeight != 0 || bShowOutside )
-					&& dWidth != 0 )
+			if ( laDataPoint.isVisible( ) && ( dHeight != 0 || bShowOutside ) )
 			{
 				// Only render the label that is inside
 				if ( !dpha[i].isOutside( ) )

@@ -920,6 +920,34 @@ public class ChartUtil
 				categorySD );
 	}
 	
+	private static Chart searchChartModelFromChild( EObject chartElement )
+	{
+		EObject parent = chartElement.eContainer( );
+		if ( parent != null )
+		{
+			if ( parent instanceof Chart )
+			{
+				return (Chart) parent;
+			}
+			else
+			{
+				return searchChartModelFromChild( parent );
+			}
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	private static String generateSeriesGroupingID( SeriesGrouping group )
+	{
+		return group.getGroupType( ).getName( ) + "_" //$NON-NLS-1$
+				+ group.getGroupingUnit( ).getName( )
+				+ "_" //$NON-NLS-1$
+				+ group.getGroupingInterval( );
+	}
+	
 	/**
 	 * Returns a binding name for a value series.
 	 * 
@@ -956,7 +984,13 @@ public class ChartUtil
 		{
 			returnExpr += "_" + fullAggExpr; //$NON-NLS-1$
 		}
-		return escapeSpecialCharacters( returnExpr );
+		returnExpr = escapeSpecialCharacters( returnExpr );
+		
+		// The generated value binding name must include category and optional Y info to keep unique.
+		returnExpr += createValueAggregrateKey( categorySD,
+				orthoSD,
+				exprCodec );
+		return returnExpr;
 	}
 	
 	/**
@@ -986,9 +1020,45 @@ public class ChartUtil
 		{
 			exprCodec.decode( orthQuery.getDefinition( ) );
 			String expr = exprCodec.getExpression( );
-			return ExpressionUtil.createRowExpression( escapeSpecialCharacters( ( expr
-					+ "_" + fullAggExpr ) ) ); //$NON-NLS-1$
+			String rowExpr = escapeSpecialCharacters( ( expr
+					+ "_" + fullAggExpr ) );//$NON-NLS-1$
+			
+			//The generated value binding name must include category and optional Y info to keep unique.
+			rowExpr += createValueAggregrateKey( categorySD,
+					orthoSD,
+					exprCodec );
+			
+			return ExpressionUtil.createRowExpression( rowExpr  ); 
 		}
+	}
+
+	private static String createValueAggregrateKey(
+			SeriesDefinition categorySD, SeriesDefinition orthoSD,
+			ExpressionCodec exprCodec  )
+	{
+		String key = ""; //$NON-NLS-1$
+		Chart cm = searchChartModelFromChild( categorySD );
+		if ( cm != null && compareVersion( cm.getVersion( ), "2.6.1" ) >= 0 ) //$NON-NLS-1$
+		{
+			if ( categorySD.getGrouping( ).isEnabled( )
+					&& categorySD.getDesignTimeSeries( ) != null )
+			{
+				List<Query> defs = categorySD.getDesignTimeSeries( )
+						.getDataDefinition( );
+				if ( defs.size( ) > 0
+						&& defs.get( 0 ).getDefinition( ) != null )
+				{
+					exprCodec.decode( defs.get( 0 ).getDefinition( ) );
+					key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ) + "_" + generateSeriesGroupingID( categorySD.getGrouping( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
+			if ( !ChartUtil.isEmpty( orthoSD.getQuery( ).getDefinition( ) ) )
+			{
+				exprCodec.decode( orthoSD.getQuery( ).getDefinition( ) );
+				key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ) + "_" + generateSeriesGroupingID( orthoSD.getQuery( ).getGrouping( ) ); //$NON-NLS-1$//$NON-NLS-2$
+			}
+		}
+		return key;
 	}
 	
 	/**

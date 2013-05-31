@@ -45,13 +45,13 @@ public class ClassPathsEditorPage extends DataSourceEditorPage
 		return helper.createTestConnectionRunnable( profile );
 	}
 
-	/* (non-Javadoc)
+    /* (non-Javadoc)
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage#collectCustomProperties(java.util.Properties)
 	 */
 	@Override
 	public Properties collectCustomProperties( Properties dataSourceProps )
 	{
-		return helper.collectCustomProperties( );
+		return helper.collectCustomProperties( dataSourceProps );
 	}
 
 	/* (non-Javadoc)
@@ -61,8 +61,12 @@ public class ClassPathsEditorPage extends DataSourceEditorPage
 	protected void createAndInitCustomControl( Composite parent,
 			Properties profileProps )
 	{
+		if ( helper.isPageInitialized( ) )
+			return;
+
 		helper.setResourceIdentifiers( this.getHostResourceIdentifiers( ) );
 		helper.setInitialProperties( profileProps );
 		helper.createPageCustomControl( parent );
 	}
+	
 }

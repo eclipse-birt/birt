@@ -2514,7 +2514,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return sb.toString( );
 	}
 
-	private String getBaseSeriesTitle( Chart chart )
+	protected String getBaseSeriesTitle( Chart chart )
 	{
 		if ( chart instanceof ChartWithAxes )
 		{
@@ -2523,7 +2523,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return Messages.getString( "StandardChartDataSheet.Label.UseAsCategorySeries" ); //$NON-NLS-1$
 	}
 
-	private String getOrthogonalSeriesTitle( Chart chart )
+	protected String getOrthogonalSeriesTitle( Chart chart )
 	{
 		if ( chart instanceof ChartWithAxes )
 		{

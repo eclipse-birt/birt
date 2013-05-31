@@ -378,12 +378,17 @@ public class DesignerRepresentation extends ReportElementFigure
 
 		final Display d = Display.getCurrent( );
 
-		// OFFSCREEN IMAGE CREATION STRATEGY
+		/*
+		 * OFFSCREEN IMAGE CREATION STRATEGY three condition: 1.the Image and the
+		 * GC initialization. 2.the Image has been resized 3.In Linux OS, cached
+		 * image doesn't work, need create a new Image instance.(bug 58772)
+		 */
 		if ( imgChart == null
 				|| imgChart.getImageData( ).width != dSize.width
 				|| imgChart.getImageData( ).height != dSize.height
 				|| gc == null
-				|| gc.isDisposed( ) )
+				|| gc.isDisposed( )
+				|| Platform.OS_LINUX.equals( Platform.getOS( ) ) )
 		{
 			if ( gc != null )
 			{

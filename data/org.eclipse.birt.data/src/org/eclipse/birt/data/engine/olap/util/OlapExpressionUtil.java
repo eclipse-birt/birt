@@ -153,7 +153,9 @@ public class OlapExpressionUtil
 			{
 				aggOn.addAll( ExpressionUtil.getReferencedDimLevel( expr ) );
 			}
-			return;
+			
+			if ( !CubeQueryDefinitionUtil.isRunnnigAggr( binding.getAggrFunction( ) ) )
+				return;
 		}
 
 		List<String> currentVisitBindings = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
