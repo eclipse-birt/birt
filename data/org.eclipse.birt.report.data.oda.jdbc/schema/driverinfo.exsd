@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.report.data.oda.jdbc">
+<schema targetNamespace="org.eclipse.birt.report.data.oda.jdbc" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.birt.report.data.oda.jdbc" id="driverinfo" name="JDBC Driver Information Extension"/>
@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="jdbcDriver" minOccurs="0" maxOccurs="unbounded"/>
@@ -47,6 +52,7 @@
       </annotation>
       <complexType>
          <sequence>
+            <element ref="propertyGroup" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="name" type="string">
             <annotation>
@@ -86,6 +92,78 @@ The extension class must implement interface org.eclipse.birt.report.data.oda.jd
       </complexType>
    </element>
 
+   <element name="propertyGroup">
+      <complexType>
+         <sequence minOccurs="0" maxOccurs="unbounded">
+            <element ref="property" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  Properties Group for JDBC connection, Such as &quot;Secure Sockets Layer&quot; encryption.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayName" type="string">
+            <annotation>
+               <documentation>
+                  Displayable name of the property group. Can be translatable.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="property">
+      <complexType>
+         <attribute name="propertyName" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Name of property. It is the parameter name used in the program.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayName" type="string">
+            <annotation>
+               <documentation>
+                  Displayable name of the property. Can be translatable.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  Description of property. To illustrate the message about property.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="encrypt" type="boolean">
+            <annotation>
+               <documentation>
+                  Label to decide the content of property should be encrypted or not. Set true to enable encryption, such as password input Text. Set false to disable encryption.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="type">
+            <annotation>
+               <documentation>
+                  The type of property. It should be boolean, number or string. string is its default value.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="boolean">
+                  </enumeration>
+                  <enumeration value="number">
+                  </enumeration>
+                  <enumeration value="string">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+      </complexType>
+   </element>
+
    <annotation>
       <appInfo>
          <meta.section type="since"/>
@@ -112,23 +190,7 @@ The extension class must implement interface org.eclipse.birt.report.data.oda.jd
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="apiInfo"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="implementation"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
    <annotation>
       <appInfo>

@@ -69,6 +69,8 @@ public interface IWordWriter
 	void startTableCell( int width, IStyle style, SpanInfo info );
 
 	void endTableCell( boolean needEmptyP );
+	
+	void endTableCell( boolean needEmptyP, boolean inForeign );
 
 	void writeSpanCell( SpanInfo info );
 
@@ -107,7 +109,8 @@ public interface IWordWriter
 
 	void writeContent( int type, String txt, IStyle style, IStyle inlineStyle,
 			String fontFamily, HyperlinkInfo info, InlineFlag inlineFlag,
-			TextFlag flag, int paragraphWidth, boolean runIsRtl );
+			TextFlag flag, int paragraphWidth, boolean runIsRtl,
+			String textAlign );
 
 	void startPage( );
 

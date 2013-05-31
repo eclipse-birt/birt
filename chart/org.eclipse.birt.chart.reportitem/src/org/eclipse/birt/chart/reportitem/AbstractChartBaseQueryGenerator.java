@@ -262,7 +262,10 @@ public abstract class AbstractChartBaseQueryGenerator
 
 				try
 				{
-					query.addBinding( colBinding );
+					if ( !query.getBindings( ).containsKey( colBinding.getBindingName( ) ) )
+					{
+						query.addBinding( colBinding );
+					}
 				}
 				catch ( DataException e )
 				{

@@ -2198,15 +2198,20 @@ public class ChartUIUtil
 	 */
 	public static boolean hasLimitOnCategorySortKey( ChartWizardContext wizardContext )
 	{
-		int stateInfo = wizardContext.getDataServiceProvider( ).getState( );
-		boolean isCube = ( stateInfo & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE
-				&& ( stateInfo & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY;
-
-		if ( ChartUtil.isSpecifiedYOptionalExpression( wizardContext.getModel( ) ) && !isCube )
-
-		{
-			return true;
-		}
+		// Below code is commented out, since now we don't limit sort key on category again, the new rule is: 
+		// if multiple series has different orders on categories, the first
+		// series' order will be always used, first series' categories order
+		// will be used for other series.
+		
+//		int stateInfo = wizardContext.getDataServiceProvider( ).getState( );
+//		boolean isCube = ( stateInfo & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE
+//				&& ( stateInfo & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY;
+//
+//		if ( ChartUtil.isSpecifiedYOptionalExpression( wizardContext.getModel( ) ) && !isCube )
+//
+//		{
+//			return true;
+//		}
 
 		return false;
 	}
