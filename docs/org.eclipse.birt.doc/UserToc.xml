@@ -112,7 +112,7 @@
     <topic label="How to update a filter condition dynamically when the report runs" href="birt/rp-HowToUpdateAFilterConditionDynamicallyWhenTheReportRuns.html" />
     </topic>
   <topic label="Building a Report That Contains Subreports" href="birt/sub-BuildingARptThatContainsSubreportsIntro.html" >
-    <topic label="Tutorial 3: Building a report containing side-by-side subreports" href="birt/sub-SubreportsTutorialIntro.html" >
+    <topic label="Tutorial 4: Building a report containing side-by-side subreports" href="birt/sub-SubreportsTutorialIntro.html" >
       <topic label="Task 1: Create a new report" href="birt/sub-TutT1CreateNewReport.html" />
       <topic label="Task 2: Build a data source" href="birt/sub-TutT2BuildDataSource.html" />
       <topic label="Task 3: Build a data set for the customer report" href="birt/sub-TutT3BuildDataSetForCustomerRpt.html" />
@@ -130,7 +130,7 @@
       </topic>
       </topic>
   <topic label="Using a Chart" href="birt/ch-UsingAChartIntro.html" >
-    <topic label="Tutorial 4: Creating a stand-alone chart" href="birt/ch-ChartsTutorialIntro.html" >
+    <topic label="Tutorial 5: Creating a stand-alone chart" href="birt/ch-ChartsTutorialIntro.html" >
       <topic label="Task 1: Set up and query the data source" href="birt/ch-TutT1QueryTheDataSource.html" />
       <topic label="Task 2: Add the chart to the report" href="birt/ch-TutT2AddTheChartToTheReport.html" />
       <topic label="Task 3: Provide data for a chart" href="birt/ch-TutT3ProvideDataForAChart.html" />
@@ -152,7 +152,7 @@
       </topic>
       </topic>
   <topic label="Presenting Data in a Cross Tab" href="birt/ct-PresentingDataInACrossTabIntro.html" >
-    <topic label="Tutorial 5: Creating a cross tab" href="birt/ct-CrosstabTutorialIntro.html" >
+    <topic label="Tutorial 6: Creating a cross tab" href="birt/ct-CrosstabTutorialIntro.html" >
       <topic label="Task 1: Create a new report" href="birt/ct-TutT1CreateANewReport.html" />
       <topic label="Task 2: Build a data source" href="birt/ct-TutT2BuildADataSource.html" />
       <topic label="Task 3: Build a data set" href="birt/ct-TutT3BuildADataSet.html" />

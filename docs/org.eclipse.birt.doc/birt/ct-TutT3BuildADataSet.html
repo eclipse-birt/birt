@@ -31,7 +31,7 @@
     <hr align="left" />
     <blockquote>
       <h3 class="N_TutorialTask">Task 3:&nbsp;&nbsp;<a name="220680">Build a data set</a></h3>
-      <p class="b_Body"><a name="220683">In this procedure, you build a data set to indicate what data to extract from </a>the Customers, OrderDetails, and Products tables.</p>
+      <p class="b_Body"><a name="220683">In this procedure, you build a data set to indicate what data to extract from the Customers, OrderDetails, and Products tables.</a></p>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -84,7 +84,7 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="220692">Use the following SQL SELECT statement to indicate what data to </a>retrieve. Type the column and table names, or drag them from Available Items to the appropriate location in the SELECT statement.</div>
+              <div class="N_n1_NumList1_inner"><a name="220692">Use the following SQL SELECT statement to indicate what data to retrieve. Type the column and table names, or drag them from Available Items to the appropriate location in the SELECT statement.</a></div>
             </td>
           </tr>
         </table>
@@ -94,9 +94,9 @@
       <div class="coi_CodeIndent"><a name="220749">Orderdetails.priceEach,</a></div>
       <div class="coi_CodeIndent"><a name="220750">Products.productline</a></div>
       <div class="coi_CodeIndent"><a name="441796">&nbsp;</a></div>
-      <div class="coi_CodeIndent"><a name="441797">FROM Customers INNER JOIN Orders ON Customers.customerNumber </a>= Orders.customerNumber </div>
-      <div class="coi_CodeIndent"><a name="220753">INNER JOIN Orderdetails ON Orders.orderNumber = </a>Orderdetails.orderNumber </div>
-      <div class="coi_CodeIndent"><a name="220754">INNER JOIN Products ON Orderdetails.productCode = </a>Products.productCode</div>
+      <div class="coi_CodeIndent"><a name="441797">FROM Customers INNER JOIN Orders ON Customers.customerNumber = Orders.customerNumber </a></div>
+      <div class="coi_CodeIndent"><a name="220753">INNER JOIN Orderdetails ON Orders.orderNumber = Orderdetails.orderNumber </a></div>
+      <div class="coi_CodeIndent"><a name="220754">INNER JOIN Products ON Orderdetails.productCode = Products.productCode</a></div>
       <div class="coi_CodeIndent"><a name="220755">&nbsp;</a></div>
       <div class="coi_CodeIndent"><a name="220700">WHERE Customers.country = 'USA'</a></div>
       <div class="N_i_Indent1"><a name="220759">This SELECT statement joins four tables to get the required data.</a></div>
@@ -109,7 +109,7 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="220708">Choose Finish to save the data set. Edit Data Set displays the columns </a>specified in the query, and provides options for editing the data set. </div>
+              <div class="N_n1_NumList1_inner"><a name="220708">Choose Finish to save the data set. Edit Data Set displays the columns specified in the query, and provides options for editing the data set. </a></div>
             </td>
           </tr>
         </table>
@@ -123,7 +123,7 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="220846">Choose Computed Columns, then choose New to create a computed field </a>that calculates extended prices by multiplying values from the QUANTITYORDERED and PRICEEACH fields.</div>
+              <div class="N_n1_NumList1_inner"><a name="220846">Choose Computed Columns, then choose New to create a computed field that calculates extended prices by multiplying values from the QUANTITYORDERED and PRICEEACH fields.</a></div>
             </td>
           </tr>
         </table>
@@ -137,7 +137,7 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="220847">In New Computed Column, specify the following values, as shown in </a><a href="#306370" title="Build a data set">Figure&nbsp;17-2</a>:</div>
+              <div class="N_n1_NumList1_inner"><a name="220847">In New Computed Column, specify the following values, as shown in </a><a href="#306370" title="Build a data set">Figure&nbsp;20-2</a>:</div>
             </td>
           </tr>
         </table>
@@ -186,10 +186,10 @@
         </table>
       </div>
       <div class="cfi2_CodeFirstIndent2"><a name="220866">row["QUANTITYORDERED"] * row["PRICEEACH"]</a></div>
-      <div class="N_i2_Indent2"><a name="306361">Alternatively, open the expression builder to construct the expression </a>by selecting the appropriate data set fields. Note that data set field names are case-sensitive. If you typed row["quantityOrdered"] in the Expression field, BIRT displays an error when you preview the results returned by the data set. The case requirement for data set field names is unlike the SELECT statement where you can type table field names in any case. </div>
+      <div class="N_i2_Indent2"><a name="306361">Alternatively, open the expression builder to construct the expression by selecting the appropriate data set fields. Note that data set field names are case-sensitive. If you typed row["quantityOrdered"] in the Expression field, BIRT displays an error when you preview the results returned by the data set. The case requirement for data set field names is unlike the SELECT statement where you can type table field names in any case. </a></div>
       <p class="i3_Image3"><a name="306368"><img class="Default" src="images/xtab_computedcolumn.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 17-2 Computed field EXTENDED_PRICE" /></a></p>
       <div class="fc3_FigCall3Title">
-        <b class="Bold">Figure&nbsp;17-2&nbsp;&nbsp;</b><a name="306370">Computed field EXTENDED_PRICE</a></div>
+        <b class="Bold">Figure&nbsp;20-2&nbsp;&nbsp;</b><a name="306370">Computed field EXTENDED_PRICE</a></div>
       <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -213,14 +213,14 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="306349">Choose Preview Results to confirm that the query returns the correct data. </a><a href="#306358" title="Build a data set">Figure&nbsp;17-3</a> shows some of the data rows that the data set returns.</div>
+              <div class="N_n1_NumList1_inner"><a name="306349">Choose Preview Results to confirm that the query returns the correct data. </a><a href="#306358" title="Build a data set">Figure&nbsp;20-3</a> shows some of the data rows that the data set returns.</div>
             </td>
           </tr>
         </table>
       </div>
       <p class="i2_Image2"><a name="306356"><img class="Default" src="images/xtab_dspreview.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 17-3 Preview of rows returned by the Sales data set" /></a></p>
       <div class="fc2_FigCall2Title">
-        <b class="Bold">Figure&nbsp;17-3&nbsp;&nbsp;</b><a name="306358">Preview of rows returned by the Sales data set</a></div>
+        <b class="Bold">Figure&nbsp;20-3&nbsp;&nbsp;</b><a name="306358">Preview of rows returned by the Sales data set</a></div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -240,7 +240,7 @@
     <table align="right" summary="">
       <tr>
         <td class="WebWorks_Company_Name_Bottom">
-          <a href="notices.html">(c) Copyright Actuate Corporation 2013</a>
+          <a href="notices.html">(c) Copyright Actuate Corporation 2012</a>
         </td>
       </tr>
     </table>
