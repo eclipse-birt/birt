@@ -95,7 +95,7 @@ public class DocxEmitterImpl extends AbstractEmitterImpl
 				 .startTableCell( width, foreign.getComputedStyle( ), null );
 				 // TODO:need text paser for foreign raw value
 				 wordWriter.writeForeign( foreign );
-				 wordWriter.endTableCell( true );
+				 wordWriter.endTableCell( true ,true);
 				 wordWriter.endTableRow( );
 				 wordWriter.endTable( );
 				 context.setIsAfterTable( true );

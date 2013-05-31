@@ -69,6 +69,8 @@ public interface IWordWriter
 	void startTableCell( int width, IStyle style, SpanInfo info );
 
 	void endTableCell( boolean needEmptyP );
+	
+	void endTableCell( boolean needEmptyP, boolean inForeign );
 
 	void writeSpanCell( SpanInfo info );
 
