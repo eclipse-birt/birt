@@ -863,13 +863,13 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			}
 			else
 			{
-				func = mv.getCubeMeasure( ).getFunction( );				
+				func = mv.getCubeMeasure( ).getFunction( );	
+				if ( func != null )
+				{
+					return DataAdapterUtil.getRollUpAggregationName( func );
+				}
 			}
-			
-			if ( func != null )
-			{
-				return DataAdapterUtil.getRollUpAggregationName( func );
-			}
+	
 		}
 
 		return DEFAULT_MEASURE_FUNCTION;
