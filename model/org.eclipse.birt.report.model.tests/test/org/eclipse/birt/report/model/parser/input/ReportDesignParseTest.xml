@@ -41,6 +41,7 @@
     <method name="afterRender"><![CDATA[script of afterRender]]></method>
     <method name="onPageStart"><![CDATA[script of onPageStart]]></method>
     <method name="onPageEnd"><![CDATA[script of onPageEnd]]></method>
+    <method name="clientInitialize"><![CDATA[script of clientInitialize]]></method>
     <list-property name="includeLibraries">
 		<structure>
 			<property name="fileName">LibraryA.xml</property>

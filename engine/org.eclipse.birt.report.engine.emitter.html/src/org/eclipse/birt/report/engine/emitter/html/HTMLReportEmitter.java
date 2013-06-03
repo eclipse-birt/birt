@@ -91,6 +91,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -565,6 +566,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.writeCode( " //]]>" ); //$NON-NLS-1$
 		writer.writeCode( "</script>" ); //$NON-NLS-1$
 	}
+	
+	private void doClientInitialize(String javaScriptLibraries)
+	{
+		writer.writeCode( "<script type=\"text/javascript\" src=\"head.js\" >" ); //$NON-NLS-1$
+		writer.writeCode( "</script>" ); //$NON-NLS-1$		
+		writer.writeCode( "<script type=\"text/javascript\">" ); //$NON-NLS-1$
+		writer.writeCode( " //<![CDATA[" ); //$NON-NLS-1$
+		writer.writeCode( javaScriptLibraries ); //$NON-NLS-1$
+		writer.writeCode( " //]]>" ); //$NON-NLS-1$
+		writer.writeCode( "</script>" ); //$NON-NLS-1$
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -734,6 +746,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			fixTransparentPNG( );
 		}
 		fixRedirect( );
+		// client initialize
+		String clientInitialize = report.getDesign( ).getReportDesign( ).getClientInitialize( );
+		if(!StringUtil.isBlank( clientInitialize ))
+		{
+			doClientInitialize( clientInitialize );
+		}		
 		writer.closeTag( HTMLTags.TAG_HEAD );
 
 		writer.openTag( HTMLTags.TAG_BODY );
