@@ -1002,9 +1002,18 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 * org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
 	private boolean waitReload = false;
+	
+	private IWorkbenchPart lastActivtedPart = null;
 
 	public void partActivated( IWorkbenchPart part )
 	{
+		//make sure the part will be activated only once
+		//if the part activated twice,will occur some problem,this is Temporary solution
+		if(lastActivtedPart == part)
+		{
+			return ;
+		}
+		lastActivtedPart = part;
 		fActivePart = part;
 
 		if ( part != this )
