@@ -617,6 +617,8 @@ public class NumberFormatter implements IFormatter
 
 	BigDecimal roundValue( BigDecimal bd )
 	{
+		if ( roundingMode == RoundingMode.UNNECESSARY )
+			return bd;
 		if ( roundPrecision >= 0 )
 		{
 			int scale = bd.scale( );
@@ -637,6 +639,8 @@ public class NumberFormatter implements IFormatter
 
 	double roundValue( double value )
 	{
+		if ( roundingMode == RoundingMode.UNNECESSARY )
+			return value;
 		if ( roundPrecision >= 0 )
 		{
 			BigDecimal bd = BigDecimal.valueOf( value );
@@ -652,7 +656,6 @@ public class NumberFormatter implements IFormatter
 			catch ( ArithmeticException e )
 			{
 				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
-				return value;
 			}
 		}
 		return value;
