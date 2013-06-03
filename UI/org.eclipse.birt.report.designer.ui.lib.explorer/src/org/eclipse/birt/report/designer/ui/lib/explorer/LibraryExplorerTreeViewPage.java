@@ -145,7 +145,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 */
 	protected TreeViewer createTreeViewer( Composite parent )
 	{
-		TreeViewer treeViewer = new TreeViewer( parent, SWT.SINGLE
+		TreeViewer treeViewer = new TreeViewer( parent, SWT.MULTI
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL );
 
