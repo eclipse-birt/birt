@@ -1001,19 +1001,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 * @see
 	 * org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
-	private boolean waitReload = false;
-	
-	private IWorkbenchPart lastActivtedPart = null;
-
 	public void partActivated( IWorkbenchPart part )
 	{
-		//make sure the part will be activated only once
-		//if the part activated twice,will occur some problem,this is Temporary solution
-		if(lastActivtedPart == part)
-		{
-			return ;
-		}
-		lastActivtedPart = part;
 		fActivePart = part;
 
 		if ( part != this )
@@ -1077,22 +1066,16 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				needReload = false;
 
 			}
-
 			if ( needReload )
 			{
-				if ( !waitReload )
-				{
-					waitReload = true;
-					if ( resolveList != null && reloadList( resolveList ) )
-					{
-						// do nothing now
-					}
-					else
-					{
-						needReload = false;
-					}
 
-					waitReload = false;
+				if ( resolveList != null && reloadList( resolveList ) )
+				{
+					// do nothing now
+				}
+				else
+				{
+					needReload = false;
 				}
 			}
 
@@ -1280,6 +1263,18 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
+		if ( part instanceof MultiPageReportEditor )
+		{
+			MultiPageReportEditor topEditor = (MultiPageReportEditor) part;
+			if ( topEditor.getModel( ) != null
+					&& topEditor.getModel( ) != SessionHandleAdapter.getInstance( )
+							.getModule( ) )
+			{
+				SessionHandleAdapter.getInstance( )
+						.setModule( topEditor.getModel( ) );
+				updateRelatedViews( );
+			}
+		}
 	}
 
 	/*
