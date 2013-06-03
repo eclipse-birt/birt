@@ -42,10 +42,6 @@ public class ArchiveFileV3 implements IArchiveFile
 
 	{
 		fs = new Ext2FileSystem( fileName, rf, mode );
-		if ( ArchiveFile.enableSystemCache )
-		{
-			fs.setCacheManager( ArchiveFile.systemCacheManager );
-		}
 		if ( ArchiveFile.enableFileCache && fs.isRemoveOnExit( ) )
 		{
 			fs.setCacheSize( ArchiveFile.FILE_CACHE_SIZE * 4096 );
