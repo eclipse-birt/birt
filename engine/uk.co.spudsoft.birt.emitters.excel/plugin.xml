@@ -15,7 +15,7 @@
       </emitter>
       <emitter
             class="uk.co.spudsoft.birt.emitters.excel.XlsEmitter"
-            format="xls"
+            format="xls_spudsoft"
             id="uk.co.spudsoft.birt.emitters.excel.XlsEmitter"
             mimeType="application/vnd.ms-excel"
             pagination="page-break-pagination"
