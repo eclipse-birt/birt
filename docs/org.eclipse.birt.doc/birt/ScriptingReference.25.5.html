@@ -31,7 +31,7 @@
     <hr align="left" />
     <blockquote>
       <h2 class="RH1_Class">Class  <a name="322273">BirtDuration</a></h2>
-      <p class="b_Body"><a name="322274">The BirtDuration class provides functions to get parts of time periods, or </a>durations, used in XML documents. The durations are specified in the following form:</p>
+      <p class="b_Body"><a name="322274">The BirtDuration class provides functions to get parts of time periods, or durations, used in XML documents. The durations are specified in the following form:</a></p>
       <div class="cfb_CodeFirst_Break"><a name="317618">P</a><em class="Italic">n</em>Y<em class="Italic">n</em>M<em class="Italic">n</em>DT<em class="Italic">n</em>H<em class="Italic">n</em>M<em class="Italic">n</em>S</div>
       <p class="b_Body"><a name="317629">where:</a></p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
@@ -99,7 +99,7 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="317256">T indicates the start of a time section (required if the duration includes hours, </a>minutes, or seconds)</div>
+              <div class="b1_Bullet1_inner"><a name="317256">T indicates the start of a time section (required if the duration includes hours, minutes, or seconds)</a></div>
             </td>
           </tr>
         </table>
@@ -146,11 +146,11 @@
           </tr>
         </table>
       </div>
-      <p class="b_Body"><a name="321338">For example, the following value indicates a duration of 2 years, 3 months, and 5 </a>days:</p>
+      <p class="b_Body"><a name="321338">For example, the following value indicates a duration of 2 years, 3 months, and 5 days:</a></p>
       <div class="cfb_CodeFirst_Break"><a name="317581">P2Y3M5D</a></div>
       <p class="b_Body"><a name="317652">The following value indicates a duration of 10 hours:</a></p>
       <div class="cfb_CodeFirst_Break"><a name="317608">PT10H</a></div>
-      <p class="b_Body"><a name="317674">The BirtDuration class is static. The application cannot create instances of the </a>class.</p>
+      <p class="b_Body"><a name="317674">The BirtDuration class is static. The application cannot create instances of the class.</a></p>
       <h3 class="RH2_Method"><a name="349842">BirtDuration.add</a></h3>
       <p class="b_Body"><a name="349843">This function adds two durations together, and returns the sum.</a></p>
       <p class="N_sb_ScanBold"><a name="349844">Syntax</a></p>
@@ -181,7 +181,7 @@
       <div class="cf_CodeFirst"><a name="350414">var today = new Date();</a></div>
       <div class="co_Code"><a name="350420">var annualDate = BirtDuration.addTo(today, "P1Y") </a></div>
       <h3 class="RH2_Method"><a name="350439">BirtDuration.compare</a></h3>
-      <p class="b_Body"><a name="350440">This function tests if a duration is the same, greater than, or less than another </a>duration.</p>
+      <p class="b_Body"><a name="350440">This function tests if a duration is the same, greater than, or less than another duration.</a></p>
       <p class="N_sb_ScanBold"><a name="350441">Syntax</a></p>
       <div class="rs_RSyntax"><a name="350442">integer BirtDuration.compare(string lexicalDuration1, string lexicalDuration2)</a></div>
       <p class="N_sb_ScanBold"><a name="350443">Parameters</a></p>
@@ -190,7 +190,7 @@
       <p class="RParameter"><a name="350446">lexicalDuration2</a></p>
       <p class="bn_BodyNoLead"><a name="350447">String. The second duration to use in the comparison.</a></p>
       <p class="N_sb_ScanBold"><a name="350448">Returns</a></p>
-      <p class="b_Body"><a name="350449">Integer. Partial order relation between the two durations. Returns 1 if the first </a>duration is greater, 0 if they are equal and -1 if the second duration is greater.</p>
+      <p class="b_Body"><a name="350449">Integer. Partial order relation between the two durations. Returns 1 if the first duration is greater, 0 if they are equal and -1 if the second duration is greater.</a></p>
       <p class="N_sb_ScanBold"><a name="350450">Examples</a></p>
       <p class="b_Body"><a name="350451">The following expressions compare the lengths of specific durations:</a></p>
       <div class="cf_CodeFirst"><a name="350452">BirtDuration.compare("P1Y", "P12M"); // returns 0</a></div>
@@ -217,7 +217,7 @@
       <p class="RParameter"><a name="356234">lexicalDuration</a></p>
       <p class="bn_BodyNoLead"><a name="356235">String. The duration to analyze.</a></p>
       <p class="N_sb_ScanBold"><a name="356238">Returns</a></p>
-      <p class="b_Body"><a name="356239">Integer. The sign of the duration as a multiplier. Returns 1 for a positive duration, </a>-1 for a negative duration, and 0 for null or 0 value.</p>
+      <p class="b_Body"><a name="356239">Integer. The sign of the duration as a multiplier. Returns 1 for a positive duration, -1 for a negative duration, and 0 for null or 0 value.</a></p>
       <p class="N_sb_ScanBold"><a name="356240">Examples</a></p>
       <p class="b_Body"><a name="356241">The following expression analyzes the sings of a specific duration:</a></p>
       <div class="cf_CodeFirst"><a name="356242">BirtDuration.getSign("P0Y"); // returns 0</a></div>
@@ -236,32 +236,32 @@
       <div class="cf_CodeFirst"><a name="320448">BirtDuration.hour( "P1Y15DT12H" ) // returns 12</a></div>
       <div class="co_Code"><a name="320449">BirtDuration.hour( "P5Y2M" ) // returns 0</a></div>
       <h3 class="RH2_Method"><a name="321505">BirtDuration.isLongerThan</a></h3>
-      <p class="b_Body"><a name="321506">This function tests if a duration is longer than another duration. Sometimes the </a>order relationship between certain durations cannot be determined, for example, one month (P1M) and 30 days (P30D), or one year (P1Y) and 365 days (P365D). In cases such as these, the function returns false.</p>
+      <p class="b_Body"><a name="321506">This function tests if a duration is longer than another duration. Sometimes the order relationship between certain durations cannot be determined, for example, one month (P1M) and 30 days (P30D), or one year (P1Y) and 365 days (P365D). In cases such as these, the function returns false.</a></p>
       <p class="N_sb_ScanBold"><a name="321507">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="321508">boolean BirtDuration.isLongerThan( string lexicalDuration1, string </a>lexicalDuration2 )</div>
+      <div class="rs_RSyntax"><a name="321508">boolean BirtDuration.isLongerThan( string lexicalDuration1, string lexicalDuration2 )</a></div>
       <p class="N_sb_ScanBold"><a name="321509">Parameters</a></p>
       <p class="RParameter"><a name="321510">lexicalDuration1</a></p>
       <p class="bn_BodyNoLead"><a name="321511">String. The first duration to use in the comparison.</a></p>
       <p class="RParameter"><a name="321512">lexicalDuration2</a></p>
       <p class="bn_BodyNoLead"><a name="321513">String. The second duration to use in the comparison.</a></p>
       <p class="N_sb_ScanBold"><a name="321514">Returns</a></p>
-      <p class="b_Body"><a name="322015">Boolean. True if the first duration is longer than the second duration; returns false </a>otherwise.</p>
+      <p class="b_Body"><a name="322015">Boolean. True if the first duration is longer than the second duration; returns false otherwise.</a></p>
       <p class="N_sb_ScanBold"><a name="322016">Examples</a></p>
       <p class="b_Body"><a name="322017">The following expressions compare the lengths of specific durations:</a></p>
       <div class="cf_CodeFirst"><a name="321518">BirtDuration.isLongerThan( "P1Y3M" ,  "P13M" ) // returns true</a></div>
       <div class="co_Code"><a name="321519">BirtDuration.isLongerThan( "P2M" ,  "P62D" ) // returns false</a></div>
       <div class="co_Code"><a name="321520">BirtDuration.isLongerThan( "PT25H" ,  "P1D" ) // returns true</a></div>
       <h3 class="RH2_Method"><a name="322168">BirtDuration.isShorterThan</a></h3>
-      <p class="b_Body"><a name="322169">This function tests if a duration is shorter than another duration. Sometimes the </a>order relationship between certain durations cannot be determined, for example, one month (P1M) and 30 days (P30D), or one year (P1Y) and 365 days (P365D). In cases such as these, the function returns false.</p>
+      <p class="b_Body"><a name="322169">This function tests if a duration is shorter than another duration. Sometimes the order relationship between certain durations cannot be determined, for example, one month (P1M) and 30 days (P30D), or one year (P1Y) and 365 days (P365D). In cases such as these, the function returns false.</a></p>
       <p class="N_sb_ScanBold"><a name="322170">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="322171">boolean BirtDuration.isShorterThan( string lexicalDuration1, string </a>lexicalDuration2 )</div>
+      <div class="rs_RSyntax"><a name="322171">boolean BirtDuration.isShorterThan( string lexicalDuration1, string lexicalDuration2 )</a></div>
       <p class="N_sb_ScanBold"><a name="322172">Parameters</a></p>
       <p class="RParameter"><a name="322173">lexicalDuration1</a></p>
       <p class="bn_BodyNoLead"><a name="322174">String. The first duration to use in the comparison.</a></p>
       <p class="RParameter"><a name="322175">lexicalDuration2</a></p>
       <p class="bn_BodyNoLead"><a name="322176">String. The second duration to use in the comparison.</a></p>
       <p class="N_sb_ScanBold"><a name="322177">Returns</a></p>
-      <p class="b_Body"><a name="322178">Boolean. True if the first duration is shorter than the second duration; returns </a>false otherwise.</p>
+      <p class="b_Body"><a name="322178">Boolean. True if the first duration is shorter than the second duration; returns false otherwise.</a></p>
       <p class="N_sb_ScanBold"><a name="322179">Examples</a></p>
       <p class="b_Body"><a name="322180">The following expressions compare the lengths of specific durations:</a></p>
       <div class="cf_CodeFirst"><a name="322181">BirtDuration.isShorterThan( "P1Y3M" ,  "P13M" ) // returns false</a></div>
@@ -306,7 +306,7 @@
       <p class="N_sb_ScanBold"><a name="356477">Returns</a></p>
       <p class="b_Body"><a name="356478">String. The product of the input duration and the factor.</a></p>
       <p class="N_sb_ScanBold"><a name="356441">Examples</a></p>
-      <p class="b_Body"><a name="356442">The following examples show the products returned fora specific duration and </a>factor:</p>
+      <p class="b_Body"><a name="356442">The following examples show the products returned fora specific duration and factor:</a></p>
       <div class="cf_CodeFirst"><a name="356443">BirtDuration.multiply( "P1Y3M15DT12H30M45S", 1) </a></div>
       <div class="co_Code"><a name="356539">// returns P1Y3M15DT12H30M45S</a></div>
       <div class="co_Code"><a name="356444">BirtDuration.multiply( "P5Y8DT15H", 0) // returns P0Y0DT0H</a></div>
@@ -351,7 +351,7 @@
       <p class="b_Body"><a name="356903">The following example subtracts two durations:</a></p>
       <div class="cf_CodeFirst"><a name="356904">BirtDuration.subtract("P1Y3M", "P13M") // returns P0Y2M</a></div>
       <h3 class="RH2_Method"><a name="321357">BirtDuration.timeInMills</a></h3>
-      <p class="b_Body"><a name="321358">This function returns the number of milliseconds in a given duration, from a </a>specified start date. The number of milliseconds in a duration can change depending on the start date. For example, a duration of one month can be 28, 29, 30, or 31 days, depending on the start date. If the start date is January 1, the function calculates the milliseconds between January 1 and February 1 (excluding February 1), which equals 2678400000 millseconds or 31 days. If the start date is February 1, 2009 (a leap year), the function calculates the milliseconds between February 1 and March 1, which equals 2505600000 milliseconds or 29 days.</p>
+      <p class="b_Body"><a name="321358">This function returns the number of milliseconds in a given duration, from a specified start date. The number of milliseconds in a duration can change depending on the start date. For example, a duration of one month can be 28, 29, 30, or 31 days, depending on the start date. If the start date is January 1, the function calculates the milliseconds between January 1 and February 1 (excluding February 1), which equals 2678400000 millseconds or 31 days. If the start date is February 1, 2009 (a leap year), the function calculates the milliseconds between February 1 and March 1, which equals 2505600000 milliseconds or 29 days.</a></p>
       <p class="N_sb_ScanBold"><a name="321359">Syntax</a></p>
       <div class="rs_RSyntax"><a name="321360">Number BirtDuration.timeInMills( string lexicalDuration, Date startDate )</a></div>
       <p class="N_sb_ScanBold"><a name="321361">Parameters</a></p>
@@ -362,10 +362,10 @@
       <p class="N_sb_ScanBold"><a name="321364">Returns</a></p>
       <p class="b_Body"><a name="321365">Number object. The number of milliseconds in the specified duration.</a></p>
       <p class="N_sb_ScanBold"><a name="321366">Examples</a></p>
-      <p class="b_Body"><a name="321367">The following examples show the number of milliseconds returned for specific </a>durations and start dates:</p>
-      <div class="cf_CodeFirst"><a name="321368">BirtDuration.timeInMills( "P1Y3M10D" ,  "2009-01-01" ) // returns </a>40172400000</div>
-      <div class="co_Code"><a name="321369">BirtDuration.timeInMills( "P1Y3M10D" ,  "2008-01-01" ) // returns </a>40258800000</div>
-      <div class="co_Code"><a name="321467">BirtDuration.timeInMills( "PT6H45M20S" ,  "2009-01-01" ) // </a>returns 24320000</div>
+      <p class="b_Body"><a name="321367">The following examples show the number of milliseconds returned for specific durations and start dates:</a></p>
+      <div class="cf_CodeFirst"><a name="321368">BirtDuration.timeInMills( "P1Y3M10D" ,  "2009-01-01" ) // returns 40172400000</a></div>
+      <div class="co_Code"><a name="321369">BirtDuration.timeInMills( "P1Y3M10D" ,  "2008-01-01" ) // returns 40258800000</a></div>
+      <div class="co_Code"><a name="321467">BirtDuration.timeInMills( "PT6H45M20S" ,  "2009-01-01" ) // returns 24320000</a></div>
       <h3 class="RH2_Method"><a name="321213">BirtDuration.year</a></h3>
       <p class="b_Body"><a name="321214">This function returns the year value of a given duration.</a></p>
       <p class="N_sb_ScanBold"><a name="321215">Syntax</a></p>
@@ -384,7 +384,7 @@
     <table align="right" summary="">
       <tr>
         <td class="WebWorks_Company_Name_Bottom">
-          <a href="notices.html">(c) Copyright Actuate Corporation 2013</a>
+          <a href="notices.html">(c) Copyright Actuate Corporation 2012</a>
         </td>
       </tr>
     </table>
