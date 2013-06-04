@@ -23,6 +23,7 @@
     <method name="afterRender"><![CDATA[new afterRender script]]></method>
     <method name="onPageStart"><![CDATA[new script of onPageStart]]></method>
     <method name="onPageEnd"><![CDATA[new script of onPageEnd]]></method>
+    <method name="clientInitialize"><![CDATA[new clientInitialize script]]></method>
     <text-property name="displayName" key="new display name key">new display name</text-property>
     <property name="iconFile">new iconFile</property>
     <property name="cheatSheet">new cheetSheet</property>

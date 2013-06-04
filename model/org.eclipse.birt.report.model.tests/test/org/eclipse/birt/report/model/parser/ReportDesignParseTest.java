@@ -381,6 +381,8 @@ public class ReportDesignParseTest extends BaseTestCase
 		
 		// Test onPrepare
 		assertEquals( "script of onPrepare", designHandle.getOnPrepare( ) );  //$NON-NLS-1$
+		// Test clientInitialize
+		assertEquals( "script of clientInitialize", designHandle.getClientInitialize( ) );  //$NON-NLS-1$
 
 	}
 
@@ -503,6 +505,8 @@ public class ReportDesignParseTest extends BaseTestCase
 		
 		// Test on prepare
 		designHandle.setOnPrepare( "new onPrepare script" ); //$NON-NLS-1$
+		// Test client initialize
+		designHandle.setClientInitialize( "new clientInitialize script" ); //$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );

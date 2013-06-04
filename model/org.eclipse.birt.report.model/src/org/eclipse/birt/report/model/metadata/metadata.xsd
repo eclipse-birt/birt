@@ -490,6 +490,7 @@ The 'extends' attribute is optional, in this case, it means this report element 
 			<xs:enumeration value="presentation"/>
 			<xs:enumeration value="element"/>
 			<xs:enumeration value="startup"/>
+			<xs:enumeration value="client"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="VisibilityType" final="restriction">

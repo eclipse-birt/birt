@@ -30,8 +30,8 @@
     </div>
     <hr align="left" />
     <blockquote>
-      <h3 class="N_TutorialTask">Task 10:&nbsp;&nbsp;<a name="236380">Display credit limit ranges in the table of </a>contents</h3>
-      <p class="b_Body"><a name="192575">Rather than display the first value of each credit limit group, the table of </a>contents makes more sense if it displays the same credit limit range values as the report. You accomplish this task by using the same JavaScript expression that you used previously to display credit limit ranges (0&nbsp;-&nbsp;49999, 50000&nbsp;-&nbsp;99999, and so on) in the group header.</p>
+      <h3 class="N_TutorialTask">Task 10:&nbsp;&nbsp;<a name="236380">Display credit limit ranges in the table of contents</a></h3>
+      <p class="b_Body"><a name="192575">Rather than display the first value of each credit limit group, the table of contents makes more sense if it displays the same credit limit range values as the report. You accomplish this task by using the same JavaScript expression that you used previously to display credit limit ranges (0&nbsp;-&nbsp;49999, 50000&nbsp;-&nbsp;99999, and so on) in the group header.</a></p>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -55,7 +55,7 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="192577">In the layout editor, select the table, then choose the Groups tab in </a>Property Editor.</div>
+              <div class="N_n1_NumList1_inner"><a name="192577">In the layout editor, select the table, then choose the Groups tab in Property Editor.</a></div>
             </td>
           </tr>
         </table>
@@ -74,10 +74,10 @@
           </tr>
         </table>
       </div>
-      <div class="N_i_Indent1"><a name="313029">Edit Group, shown in </a><a href="#256393" title="Display credit limit ranges in the table of contents">Figure&nbsp;8-30</a>, displays the properties of the group. Under Table of Contents, Item Expression is set, by default, to the grouping field, row["CREDITLIMIT"].</div>
-      <p class="i2_Image2"><a name="256382"><img class="Default" src="images/grouping.08.12.1.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 8-30 Edit Group displaying the properties of credit_group" /></a></p>
+      <div class="N_i_Indent1"><a name="313029">Edit Group, shown in </a><a href="#487170" title="Display credit limit ranges in the table of contents">Figure&nbsp;11-30</a>, displays the properties of the group. Under Table of Contents, Item Expression is set, by default, to the grouping field, row["CREDITLIMIT"].</div>
+      <p class="i2_Image2"><a name="487168"><img class="Default" src="images/grouping.08.12.1.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 8-30 Edit Group displaying the properties of credit_group" /></a></p>
       <div class="fc2_FigCall2Title">
-        <b class="Bold">Figure&nbsp;8-30&nbsp;&nbsp;</b><a name="256393">Edit Group displaying the properties of credit_group</a></div>
+        <b class="Bold">Figure&nbsp;11-30&nbsp;&nbsp;</b><a name="487170">Edit Group displaying the properties of credit_group</a></div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
@@ -87,16 +87,16 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="456403">Choose the expression builder button, and, in the expression builder, </a>replace the row["CREDITLIMIT"] expression with the following expression. This expression is the same column-binding expression that is used by the data element, [CREDIT_GRP_HEADER], in the group header. Rather than typing the expression again, you can copy it from the data element and paste it here.</div>
+              <div class="N_n1_NumList1_inner"><a name="456403">Choose the expression builder button, and, in the expression builder, replace the row["CREDITLIMIT"] expression with the following expression. This expression is the same column-binding expression that is used by the data element, [CREDIT_GRP_HEADER], in the group header. Rather than typing the expression again, you can copy it from the data element and paste it here.</a></div>
             </td>
           </tr>
         </table>
       </div>
       <div class="cfi_CodeFirstIndent"><a name="209589">for(i=50000; i&lt;300000; i+=50000){</a></div>
       <div class="coi2_CodeIndent2"><a name="192584">if( row["CREDITLIMIT"] &lt; i ){</a></div>
-      <div class="coi2_CodeIndent2"><a name="192585">&nbsp;&nbsp;</a>rangeStart = i-50000;</div>
-      <div class="coi2_CodeIndent2"><a name="192586">&nbsp;&nbsp;</a>rangeEnd = i-1;</div>
-      <div class="coi2_CodeIndent2"><a name="192587">&nbsp;&nbsp;</a>break;</div>
+      <div class="coi2_CodeIndent2"><a name="192585">&nbsp;&nbsp;rangeStart = i-50000;</a></div>
+      <div class="coi2_CodeIndent2"><a name="192586">&nbsp;&nbsp;rangeEnd = i-1;</a></div>
+      <div class="coi2_CodeIndent2"><a name="192587">&nbsp;&nbsp;break;</a></div>
       <div class="coi2_CodeIndent2"><a name="192588">}</a></div>
       <div class="coi_CodeIndent"><a name="192589">}</a></div>
       <div class="coi_CodeIndent"><a name="192590">displayString = rangeStart + " - " + rangeEnd;</a></div>
@@ -124,21 +124,21 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="192593">Preview the report in the report viewer to verify the change in the table of </a>contents. The table of contents displays the credit limit ranges, as shown in <a href="#427351" title="Display credit limit ranges in the table of contents">Figure&nbsp;8-31</a>.</div>
+              <div class="N_n1_NumList1_inner"><a name="192593">Preview the report in the report viewer to verify the change in the table of contents. The table of contents displays the credit limit ranges, as shown in </a><a href="#464819" title="Display credit limit ranges in the table of contents">Figure&nbsp;11-31</a>.</div>
             </td>
           </tr>
         </table>
       </div>
-      <p class="i1_Image1"><a name="427349"><img class="Default" src="images/grouping.08.12.2.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 8-31 Updated table of contents" /></a></p>
+      <p class="i1_Image1"><a name="464817"><img class="Default" src="images/grouping.08.12.2.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 8-31 Updated table of contents" /></a></p>
       <div class="fc_FigCalloutTitle">
-        <b class="Bold">Figure&nbsp;8-31&nbsp;&nbsp;</b><a name="427351">Updated table of contents</a></div>
+        <b class="Bold">Figure&nbsp;11-31&nbsp;&nbsp;</b><a name="464819">Updated table of contents</a></div>
       <p class="b_Body"><a name="192620">&nbsp;</a></p>
     </blockquote>
     <hr align="left" />
     <table align="right" summary="">
       <tr>
         <td class="WebWorks_Company_Name_Bottom">
-          <a href="notices.html">(c) Copyright Actuate Corporation 2013</a>
+          <a href="notices.html">(c) Copyright Actuate Corporation 2012</a>
         </td>
       </tr>
     </table>
