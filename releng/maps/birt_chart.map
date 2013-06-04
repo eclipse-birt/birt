@@ -7,9 +7,9 @@ plugin@org.eclipse.birt.chart.engine.extension=GIT,tag=v201305030149,repo=git://
 plugin@org.eclipse.birt.chart.examples=GIT,tag=v201305171510,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.examples
 plugin@org.eclipse.birt.chart.examples.core=GIT,tag=v201305101145,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.examples.core
 plugin@org.eclipse.birt.chart.reportitem=GIT,tag=v201305210805,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.reportitem
-plugin@org.eclipse.birt.chart.reportitem.ui=GIT,tag=v201305030149,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.reportitem.ui
+plugin@org.eclipse.birt.chart.reportitem.ui=GIT,tag=v201305291555,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.reportitem.ui
 plugin@org.eclipse.birt.chart.ui=GIT,tag=v201305171510,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.ui
-plugin@org.eclipse.birt.chart.ui.extension=GIT,tag=v201305171510,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.ui.extension
+plugin@org.eclipse.birt.chart.ui.extension=GIT,tag=v201305291555,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.ui.extension
 plugin@org.eclipse.birt.chart.viewer=GIT,tag=v201303010405,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.viewer
 plugin@org.eclipse.birt.chart.integration.wtp.ui=GIT,tag=v201302041142,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.integration.wtp.ui
 
