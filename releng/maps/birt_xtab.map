@@ -1,4 +1,4 @@
-plugin@org.eclipse.birt.report.item.crosstab.core=GIT,tag=v201305151010,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=xtab/org.eclipse.birt.report.item.crosstab.core
+plugin@org.eclipse.birt.report.item.crosstab.core=GIT,tag=v201305311832,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=xtab/org.eclipse.birt.report.item.crosstab.core
 plugin@org.eclipse.birt.report.item.crosstab.ui=GIT,tag=v201305221116,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=xtab/org.eclipse.birt.report.item.crosstab.ui
 
 plugin@org.eclipse.birt.report.item.crosstab.core.tests=GIT,tag=v201210101433,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=xtab/org.eclipse.birt.report.item.crosstab.core.tests
