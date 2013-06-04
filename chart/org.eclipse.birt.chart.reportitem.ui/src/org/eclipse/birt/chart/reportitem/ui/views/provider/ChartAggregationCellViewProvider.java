@@ -151,13 +151,6 @@ public class ChartAggregationCellViewProvider extends
 	{
 		try
 		{
-			if ( ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCount( ) > 1 )
-			{
-				// If total aggregation cell is still existent, do not remove
-				// size and grandtotal row/column
-				return;
-			}
-
 			ExtendedItemHandle chartHandle = getChartHandle( cell );
 			Chart cm = ChartItemUtil.getChartFromHandle( chartHandle );
 
