@@ -587,7 +587,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 
 			// When the function is not null,set the column set the correct data
 			// type
-			if ( function != null && !function.equals( defaultFunction ) )
+			if ( function != null && !function.equalsIgnoreCase( defaultFunction ) )
 			{
 				try
 				{
@@ -729,7 +729,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 
 		// When the function is not null,set the column set the correct data
 		// type
-		if ( function != null && !function.equals( defaultFunction ) )
+		if ( function != null && !function.equalsIgnoreCase( defaultFunction ) )
 		{
 			try
 			{
