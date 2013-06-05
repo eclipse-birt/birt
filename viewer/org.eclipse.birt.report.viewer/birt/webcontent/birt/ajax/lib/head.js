@@ -1080,4 +1080,4 @@
  */
 
 // An additonal alias 
-BIRT = head;
+BIRT = {loader: head};
