@@ -19,7 +19,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/3.7"/>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.3"/>
       <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/3.7"/>
    </url>
 
@@ -198,7 +198,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.data.oda.mongodb.ui"
          download-size="0"
@@ -212,7 +212,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="javax.xml.rpc"
          download-size="0"
@@ -659,5 +659,5 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
 </feature>

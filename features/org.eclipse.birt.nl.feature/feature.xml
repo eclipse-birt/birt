@@ -19,7 +19,7 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/3.7"/>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.3"/>
       <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/3.7"/>
    </url>
 
@@ -469,7 +469,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.data.oda.hive.ui.nl1"
          download-size="0"
@@ -485,7 +485,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.data.oda.excel.ui.nl1"
          download-size="0"
@@ -493,5 +493,5 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
 </feature>
