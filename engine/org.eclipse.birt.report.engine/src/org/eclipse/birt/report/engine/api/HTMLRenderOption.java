@@ -537,4 +537,23 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	{
 		setOption( HTML_ENABLE_COMPACT_MODE, enableCompactMode );
 	}
+	
+	/**
+	 * set the URL of head.js file 
+	 * @param headJsUrl
+	 */
+	public void setBirtJsUrl( String birtJsUrl )
+	{
+		setOption( BIRT_JS_URL_KEY, birtJsUrl );
+	}
+	
+	/**
+	 * get the URL of head.js file 
+	 * 
+	 * @return the URL of head.js file 
+	 */
+	public String getBirtJsUrl( )
+	{
+		return getStringOption( BIRT_JS_URL_KEY );
+	}
 }
