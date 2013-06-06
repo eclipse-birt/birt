@@ -78,6 +78,7 @@
 		
 		<SCRIPT SRC="birt/ajax/utility/Debug.js" type="text/javascript"></script>
 		<script src="birt/ajax/lib/prototype.js" type="text/javascript"></script>
+		<script src="birt/ajax/lib/head.js" type="text/javascript"></script>
 		
 		<!-- Mask -->
 		<script src="birt/ajax/core/Mask.js" type="text/javascript"></script>
