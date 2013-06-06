@@ -855,10 +855,17 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					func = columnHandle.getAggregateFunction();
 				}
 				
-				if( func == null 
-						&& !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+				if( func == null )
 				{
-					func = DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
+					if( !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+					{
+						func = DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
+					}	
+					else
+					{
+						func = DEFAULT_MEASURE_FUNCTION;
+					}	
+					
 				}
 				
 				return func;
