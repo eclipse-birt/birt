@@ -1095,6 +1095,7 @@ public class FormatSpecifierComposite extends Composite
 			
 			// set sample number patterns
 			txtNumberPattern.setItems( new String[]{
+					"##.##%", //$NON-NLS-1$
 					"##.###", //$NON-NLS-1$
 					"00.###", //$NON-NLS-1$
 					"##,###.00", //$NON-NLS-1$
