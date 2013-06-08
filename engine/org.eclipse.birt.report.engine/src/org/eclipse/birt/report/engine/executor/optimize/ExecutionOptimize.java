@@ -389,6 +389,8 @@ public class ExecutionOptimize
 			{
 				header.accept( this, null );
 			}
+			//the last leaf should be execute. set  as true;
+			currentNode.execute = true;
 			// visit listing groups
 			int groupCount = listing.getGroupCount( );
 			if ( groupCount > 0 )
