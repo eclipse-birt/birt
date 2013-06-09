@@ -3,7 +3,7 @@ package org.eclipse.birt.report.engine.emitter.config;
 /**
  * RenderOptionDefn
  */
-class RenderOptionDefn
+public class RenderOptionDefn
 {
 	private String key;
 	private String value;

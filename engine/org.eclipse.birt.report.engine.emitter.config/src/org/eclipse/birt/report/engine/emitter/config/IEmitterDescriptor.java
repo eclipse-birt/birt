@@ -50,4 +50,11 @@ public interface IEmitterDescriptor
 	IConfigurableOptionObserver createOptionObserver( );
 
 	void setLocale( Locale locale );
+	
+	/**
+	 * Indicates whether this emitter is enabled
+	 * 
+	 * @return true if this emitter is enabled
+	 */
+	boolean isEnabled( );
 }

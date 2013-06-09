@@ -1,8 +1,10 @@
 
-package org.eclipse.birt.report.engine.emitter.config;
+package org.eclipse.birt.report.engine.emitter.config.impl;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
@@ -11,11 +13,17 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.engine.emitter.config.IDefaultConfigLoader;
+import org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor;
+import org.eclipse.birt.report.engine.emitter.config.RenderOptionDefn;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class RenderOptionParser
+/**
+ * loads the config from emitter.config.jar
+ */
+public class JarConfigLoader implements IDefaultConfigLoader
 {
 
 	private static final String OPTIONS_CONFIG_FILE = "RenderDefaults.cfg";
@@ -30,21 +38,36 @@ public class RenderOptionParser
 
 	private static final String OPTION_ENABLED = "enabled";
 
-	protected DefaultEmitterDescriptor descriptor;
+	protected Map<String, RenderOptionDefn> options = new HashMap<String, RenderOptionDefn>( );
 
-	RenderOptionParser( DefaultEmitterDescriptor descriptor )
+	public Map<String, RenderOptionDefn> loadConfigFor( String bundleName,
+			IEmitterDescriptor descriptor )
 	{
-		this.descriptor = descriptor;
+		options.clear( );
+		try
+		{
+			parseConfigFor( bundleName );
+		}
+		catch ( Exception e )
+		{
+
+		}
+		return options;
 	}
 
-	void parseConfigFor( String bundleName ) throws Exception
+	public int getPriority( )
+	{
+		return 0;
+	}
+
+	protected void parseConfigFor( String bundleName ) throws Exception
 	{
 		// first, load .cfg file
 		loadCfgFile( getResourceURL( bundleName, OPTIONS_CONFIG_FILE ) );
 		// then load .xml file, this overrides the .cfg file
 		loadXMLFile( bundleName, RENDER_OPTIONS_FILE );
 	}
-	
+
 	protected DefaultHandler getHandler( )
 	{
 		return new RenderOptionHandler( );
@@ -61,15 +84,14 @@ public class RenderOptionParser
 			{
 				String name = entry.getKey( ).toString( );
 				String value = entry.getValue( ).toString( );
-				descriptor.addRenderOption( name, new RenderOptionDefn( name,
-						value,
-						true ) );
+				options.put( name, new RenderOptionDefn( name, value, true ) );
 			}
 			in.close( );
 		}
 	}
 
-	protected void loadXMLFile( String bundleName, String fileName ) throws Exception
+	protected void loadXMLFile( String bundleName, String fileName )
+			throws Exception
 	{
 		URL url = getResourceURL( bundleName, fileName );
 		if ( url != null )
@@ -80,8 +102,7 @@ public class RenderOptionParser
 		}
 	}
 
-	private void parseConfigXML( InputStream in )
-			throws Exception
+	private void parseConfigXML( InputStream in ) throws Exception
 	{
 
 		SAXParser parser = SAXParserFactory.newInstance( ).newSAXParser( );
@@ -103,8 +124,7 @@ public class RenderOptionParser
 			}
 		}
 	}
-	
-	
+
 	private URL getResourceURL( String bundleName, String resourceName )
 	{
 		IBundle bundle = Platform.getBundle( bundleName ); //$NON-NLS-1$
@@ -134,8 +154,9 @@ public class RenderOptionParser
 					{
 						enabled = Boolean.valueOf( enabledStr );
 					}
-					descriptor.addRenderOption( name,
-							new RenderOptionDefn( name, defualt, enabled ) );
+					options.put( name, new RenderOptionDefn( name,
+							defualt,
+							enabled ) );
 				}
 			}
 		}
