@@ -37,5 +37,5 @@ plugin@org.eclipse.birt.report.engine.emitter.prototype.excel.tests=GIT,tag=v201
 plugin@org.eclipse.birt.report.engine.dataextraction.csv.tests=GIT,tag=v201306041519,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.dataextraction.csv.tests
 fragment@org.eclipse.birt.report.engine.testhelper=GIT,tag=v201306041519,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/org.eclipse.birt.report.engine.testhelper
 
-plugin@uk.co.spudsoft.birt.emitters.excel=GIT,tag=v201306061427,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/uk.co.spudsoft.birt.emitters.excel
+plugin@uk.co.spudsoft.birt.emitters.excel=GIT,tag=v201306091613,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/uk.co.spudsoft.birt.emitters.excel
 plugin@uk.co.spudsoft.birt.emitters.excel.tests=GIT,tag=v201306041519,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=engine/uk.co.spudsoft.birt.emitters.excel.tests
