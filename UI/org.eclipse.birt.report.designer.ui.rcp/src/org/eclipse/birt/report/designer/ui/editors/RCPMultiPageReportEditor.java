@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -79,6 +82,20 @@ public class RCPMultiPageReportEditor extends MultiPageReportEditor
 		catch ( CoreException e )
 		{
 		}
+	}
+	
+	public void doSaveAs() {
+		// TODO Auto-generated method stub
+		super.doSaveAs();
+
+		String resource = new Path(getModel().getFileName())
+				.removeLastSegments(1).toOSString();
+		getModel().setResourceFolder(resource);
+		SessionHandleAdapter
+				.getInstance()
+				.getSessionHandle()
+				.fireResourceChange(
+						new LibraryChangeEvent(getModel().getFileName()));
 	}
 
 	@Override
