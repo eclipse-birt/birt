@@ -60,6 +60,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -1513,10 +1514,14 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
 			dataSetList.add( DataSetHandle.getQualifiedName( ) );
 		}
-//		for (Iterator itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).iterator( ); itr.hasNext( );)
-//		{
-//			dataSetList.add( itr.next( ).toString( ) );
-//		}
+		
+		if(staticRadio.getSelection()) // linked data model is not applicable to dynamic params.
+		{
+			for (Iterator itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).iterator( ); itr.hasNext( );)
+			{
+				dataSetList.add( itr.next( ).toString( ) );
+			}
+		}
 		if ( inputParameter.getDataSetName( ) != null
 				&& !dataSetList.contains( inputParameter.getDataSetName( ) ) )
 		{
@@ -2219,7 +2224,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		
 		importValue.setEnabled( !inputParameter.getModuleHandle( )
 				.getVisibleDataSets( ).isEmpty( )
-			/*|| ! new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).isEmpty( )*/);
+			// linked data model is not applicable to dynamic params.
+			|| (staticRadio.getSelection() ? ! new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).isEmpty( ) : false));
 		importValue.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
