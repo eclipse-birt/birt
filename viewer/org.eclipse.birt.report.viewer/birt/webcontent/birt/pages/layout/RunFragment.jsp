@@ -84,6 +84,10 @@
 		<script src="birt/ajax/lib/prototype.js" type="text/javascript"></script>
 		<script src="birt/ajax/lib/head.js" type="text/javascript"></script>
 		
+		<script type="text/javascript">	
+			<%= attributeBean.getClientInitialize( ) %>
+		</script>
+		
 		<!-- Mask -->
 		<script src="birt/ajax/core/Mask.js" type="text/javascript"></script>
 		<script src="birt/ajax/utility/BrowserUtility.js" type="text/javascript"></script>
