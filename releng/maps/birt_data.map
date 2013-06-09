@@ -17,7 +17,7 @@ plugin@org.eclipse.birt.report.data.oda.sampledb.ui=GIT,tag=v201306041519,repo=g
 plugin@org.eclipse.birt.report.data.oda.xml=GIT,tag=v201306041519,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.xml
 plugin@org.eclipse.birt.report.data.oda.xml.ui=GIT,tag=v201306041519,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.xml.ui
 plugin@org.eclipse.birt.report.engine.script.javascript=GIT,tag=v201306041519,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.engine.script.javascript
-plugin@org.eclipse.birt.report.data.oda.excel=GIT,tag=v201306041519,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.excel
+plugin@org.eclipse.birt.report.data.oda.excel=GIT,tag=v201306061427,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.excel
 plugin@org.eclipse.birt.report.data.oda.excel.ui=GIT,tag=v201306041519,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.excel.ui
 plugin@org.eclipse.birt.me.prettyprint.hector=GIT,tag=v201306041519,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.me.prettyprint.hector
 
