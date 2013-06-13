@@ -84,8 +84,6 @@ public class RCPMultiPageReportEditor extends MultiPageReportEditor
 		{
 		}
 	}
-
-	
 	
 	public void doSaveAs() {
 		// TODO Auto-generated method stub

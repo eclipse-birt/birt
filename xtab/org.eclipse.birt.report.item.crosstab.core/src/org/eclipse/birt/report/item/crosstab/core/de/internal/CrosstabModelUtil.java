@@ -587,7 +587,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 
 			// When the function is not null,set the column set the correct data
 			// type
-			if ( function != null && !function.equals( defaultFunction ) )
+			if ( function != null && !function.equalsIgnoreCase( defaultFunction ) )
 			{
 				try
 				{
@@ -729,7 +729,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 
 		// When the function is not null,set the column set the correct data
 		// type
-		if ( function != null && !function.equals( defaultFunction ) )
+		if ( function != null && !function.equalsIgnoreCase( defaultFunction ) )
 		{
 			try
 			{
@@ -855,21 +855,30 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					func = columnHandle.getAggregateFunction();
 				}
 				
-				if( func == null 
-						&& !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+				if( func == null )
 				{
-					func = DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
+					if( !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+					{
+						func = DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
+					}	
+					else
+					{
+						func = DEFAULT_MEASURE_FUNCTION;
+					}	
+					
 				}
+				
+				return func;
 			}
 			else
 			{
-				func = mv.getCubeMeasure( ).getFunction( );				
+				func = mv.getCubeMeasure( ).getFunction( );	
+				if ( func != null )
+				{
+					return DataAdapterUtil.getRollUpAggregationName( func );
+				}
 			}
-			
-			if ( func != null )
-			{
-				return DataAdapterUtil.getRollUpAggregationName( func );
-			}
+	
 		}
 
 		return DEFAULT_MEASURE_FUNCTION;

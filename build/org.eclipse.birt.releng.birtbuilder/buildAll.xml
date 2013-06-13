@@ -1246,6 +1246,7 @@
 			<fileset dir="${buildOutputDir}">
 				<include name="org.eclipse.birt.*/**" />
 				<include name="org.eclipse.datatools.*/**" />
+				<include name="uk.co.spudsoft.birt.*/**" />
 			</fileset>
 		</copy>
 

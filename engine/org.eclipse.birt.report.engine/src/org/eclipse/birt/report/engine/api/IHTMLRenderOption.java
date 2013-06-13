@@ -364,4 +364,9 @@ public interface IHTMLRenderOption extends IRenderOption
 	 * new line separators will be ignored in html output.
 	 */
 	public static final String HTML_ENABLE_COMPACT_MODE = "htmlEnableCompactMode";
+	
+	/**
+	 * the URL of head.js file
+	 */
+	static final String BIRT_JS_URL_KEY = "birtJsUrl"; //$NON-NLS-1$
 }

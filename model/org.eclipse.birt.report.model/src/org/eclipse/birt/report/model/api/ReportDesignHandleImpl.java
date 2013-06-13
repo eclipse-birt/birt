@@ -1621,4 +1621,5 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 	{
 		setProperty( CLIENT_INITIALIZE_METHOD, script );
 	}
+
 }

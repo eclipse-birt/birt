@@ -441,7 +441,6 @@ public class NewReportWizard extends Wizard implements
 						new OpenCheatSheetAction( cheatSheetId ).run( );
 					}
 					
-					
 					IReportResourceSynchronizer synchronizer = ReportPlugin
 							.getDefault().getResourceSynchronizerService();
 

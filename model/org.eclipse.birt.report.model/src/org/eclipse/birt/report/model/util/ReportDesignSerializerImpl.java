@@ -1669,6 +1669,37 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			targetDesign.cacheFlattenElement( extendsElement, newElement );
 		localizePropertyValues( element, newElement );
 		localizePropertyBindings( element, newElement );
+		
+		// a temporary fix to handle the linkedDataModel measure/dimension namespace issue. 
+		if ( newElement instanceof ExtendedItem )
+		{
+			if ( ( (ExtendedItem) newElement ).getProperty(
+					newElement.getRoot( ),
+					IExtendedItemModel.EXTENSION_NAME_PROP ).equals(
+					"MeasureView" ) )
+			{
+				ElementRefValue value = (ElementRefValue) newElement
+						.getProperty( newElement.getRoot( ), "measure" );
+				if ( value != null )
+				{
+					value.setLibraryNamespace( null );
+					newElement.setProperty( "measure", value );
+				}
+			}
+			if ( ( (ExtendedItem) newElement ).getProperty(
+					newElement.getRoot( ),
+					IExtendedItemModel.EXTENSION_NAME_PROP ).equals(
+					"DimensionView" ) )
+			{
+				ElementRefValue value = (ElementRefValue) newElement
+						.getProperty( newElement.getRoot( ), "dimension" );
+				if ( value != null )
+				{
+					value.setLibraryNamespace( null );
+					newElement.setProperty( "dimension", value );
+				}
+			}
+		}
 		return newElement;
 	}
 
