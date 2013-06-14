@@ -87,24 +87,6 @@ public class DocxEmitterImpl extends AbstractEmitterImpl
 		{
 			if ( embedHtml )
 			{
-<<<<<<< HEAD
-				 int width = WordUtil.convertTo( foreign.getWidth( ),
-				 context.getCurrentWidth( ), reportDpi );
-				 width = Math.min( width, context.getCurrentWidth( ) );
-				 wordWriter.startTable( foreign.getComputedStyle( ), width, true
-				 );
-				 wordWriter.startTableRow( -1 );
-				 wordWriter
-				 .startTableCell( width, foreign.getComputedStyle( ), null );
-				 writeBookmark( foreign );
-				 // TODO:need text paser for foreign raw value
-				 wordWriter.writeForeign( foreign );
-				 wordWriter.endTableCell( true ,true);
-				 wordWriter.endTableRow( );
-				 wordWriter.endTable( );
-				 context.setIsAfterTable( true );
-				 context.addContainer( true );
-=======
 				int width = WordUtil.convertTo( foreign.getWidth( ),
 						context.getCurrentWidth( ), reportDpi );
 				width = Math.min( width, context.getCurrentWidth( ) );
@@ -129,7 +111,6 @@ public class DocxEmitterImpl extends AbstractEmitterImpl
 				wordWriter.endTable( );
 				context.setIsAfterTable( true );
 				context.addContainer( true );
->>>>>>> refs/remotes/origin/master
 			}
 			else
 			{
