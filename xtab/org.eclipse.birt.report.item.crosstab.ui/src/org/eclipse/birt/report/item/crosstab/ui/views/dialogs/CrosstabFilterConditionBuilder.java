@@ -2931,6 +2931,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			try
 			{
 				memberValueHandle.setValue( "" );
+				memberValueHandle.setLevel( getLevelHandle( (IDimensionLevel) referencedLevelList.get( 0 )) );
 			}
 			catch ( SemanticException e )
 			{
