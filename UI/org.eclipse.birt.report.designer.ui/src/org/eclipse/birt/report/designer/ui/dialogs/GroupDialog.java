@@ -1624,6 +1624,11 @@ public class GroupDialog extends BaseDialog implements Listener
 	private static void setDataItemAction( ColumnHintHandle model,
 			DataItemHandle dataHandle )
 	{
+		if ( model == null || dataHandle == null )
+		{
+			return;
+		}
+		
 		ActionHandle actionHandle = model.getActionHandle( );
 		if ( actionHandle != null )
 		{
