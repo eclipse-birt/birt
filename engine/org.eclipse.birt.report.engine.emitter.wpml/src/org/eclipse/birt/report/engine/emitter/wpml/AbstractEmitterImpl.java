@@ -434,16 +434,15 @@ public abstract class AbstractEmitterImpl
 				.getCurrentWidth( ), reportDpi );
 		width = Math.min( width, context.getCurrentWidth( ) );
 		wordWriter.startTable( list.getComputedStyle( ), width );
+		context.startCell( );
+		wordWriter.startTableRow( -1 );
+		IStyle style = computeStyle( list.getComputedStyle( ) );
+		wordWriter.startTableCell( context.getCurrentWidth( ), style, null );
+		writeTableToc( );
 	}
 
 	public void startListBand( IListBandContent listBand )
 	{
-		context.startCell( );
-		wordWriter.startTableRow( -1 );
-
-		IStyle style = computeStyle( listBand.getComputedStyle( ) );
-		wordWriter.startTableCell( context.getCurrentWidth( ), style, null );
-		writeTableToc( );
 	}
 
 	public void startListGroup( IListGroupContent group )
@@ -671,6 +670,10 @@ public abstract class AbstractEmitterImpl
 
 	public void endList( IListContent list )
 	{
+		adjustInline( );
+		wordWriter.endTableCell( context.needEmptyP( ) );
+		context.endCell( );
+		wordWriter.endTableRow( );
 		if ( !styles.isEmpty( ) )
 		{
 			styles.pop( );
@@ -684,10 +687,6 @@ public abstract class AbstractEmitterImpl
 
 	public void endListBand( IListBandContent listBand )
 	{
-		adjustInline( );
-		wordWriter.endTableCell( context.needEmptyP() );
-		context.endCell( );
-		wordWriter.endTableRow( );
 	}
 
 	public void endListGroup( IListGroupContent group )
