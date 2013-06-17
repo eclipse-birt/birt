@@ -231,7 +231,7 @@ public class ResultObjectUtil
 					byteLength = IOUtil.readInt( dis );
 				}
 				byte[] bytes = new byte[byteLength];
-				dis.read( bytes );
+				dis.readFully( bytes );
 
 				obj = bytes;
 			}
