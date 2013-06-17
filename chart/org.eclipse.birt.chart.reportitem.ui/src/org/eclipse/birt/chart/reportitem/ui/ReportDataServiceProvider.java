@@ -3555,6 +3555,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		return itemHandle.getDataSet( ) == null
 				&& ChartReportItemUtil.isContainerInheritable( itemHandle )
+				&& !ChartReportItemUtil.isContainerGridHandle( itemHandle )
 				&& !context.isInheritColumnsOnly( );
 	}
 
