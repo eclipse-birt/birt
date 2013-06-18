@@ -98,7 +98,6 @@ import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.IReportClasspathResolver;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -133,7 +132,6 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -954,8 +952,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 					// Clean old bindings and add new bindings
 					clearBindings( );
-					generateBindings( ChartReportItemUIUtil.generateComputedColumns( itemHandle,
-							dataset ) );
+					generateBindings( generateComputedColumns( dataset ) );
 
 					enableCategoryGroup( );
 				}
@@ -1024,6 +1021,23 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				DEUtil.addColumn( itemHandle, iter.next( ), false );
 			}
 		}
+	}
+
+	/**
+	 * Generate computed columns for the given report item with the closest data
+	 * set available.
+	 * 
+	 * @param dataSetHandle
+	 *            Data Set. No aggregation created.
+	 * 
+	 * @return true if succeed,or fail if no column generated.
+	 * @see DataUtil#generateComputedColumns(ReportItemHandle)
+	 * 
+	 */
+	protected List<ComputedColumn> generateComputedColumns(
+			DataSetHandle dataSetHandle ) throws SemanticException
+	{
+		return ChartReportItemUIUtil.generateComputedColumns( itemHandle, dataSetHandle );
 	}
 
 	/**
