@@ -1789,8 +1789,20 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			// }
 
 			CubeHandle cubeHandle = xtabHandle.getCube( );
-			if ( cubeHandle != null )
+			
+			if(CrosstabUtil.isBoundToLinkedDataSet( xtabHandle ))
 			{
+				for (int i = 0; i < xtabHandle.getMeasureCount( ); i++)
+				{
+					String str = ExpressionUtil.createDataSetRowExpression( xtabHandle.getMeasure( i ).getCubeMeasureName( ) );
+					if ( !measures.contains( str ) )
+					{
+						measures.add( str );
+					}
+				}
+			}
+			else if ( cubeHandle != null )
+			{	
 				List children = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
 				for ( int i = 0; i < children.size( ); i++ )
 				{
