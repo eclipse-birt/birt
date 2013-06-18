@@ -1689,7 +1689,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			IRelatedFileChangeResolve find = (IRelatedFileChangeResolve) resolves[i];
 			if ( find.acceptType( event.getType( ) ) )
 			{
-				if(targetPath.toOSString().equals(getModel( ).getFileName())){
+				if(targetPath!=null &&targetPath.toOSString().equals(getModel( ).getFileName())){
 					/**
 					 * Check whether the  resolveList already contains the same type of the new IRelatedFileChangeResolve.
 					 * Add the new resolve to the resolveList only if the list doesn't contain  objects have the same type of the new resolve.
