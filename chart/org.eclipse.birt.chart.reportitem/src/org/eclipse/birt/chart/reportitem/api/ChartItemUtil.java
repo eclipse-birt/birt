@@ -66,6 +66,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
+import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
@@ -1204,24 +1205,45 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 				{
 					return true;
 				}
+				else if ( container instanceof GridHandle )
+				{
+					return true;
+				}
 				container = container.getContainer( );
 			}
 		}
 		return false;
 	}
 
+	public static boolean isContainerGridHandle( ReportItemHandle itemHandle )
+	{
+		DesignElementHandle container = itemHandle.getContainer( );
+		if ( container instanceof CellHandle )
+		{
+			while ( container != null )
+			{
+				if ( container instanceof GridHandle )
+				{
+					return true;
+				}
+				container = container.getContainer( );
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Get the inherited handle
 	 * @param itemHandle
-	 * @return ListHandle or TabHandle
+	 * @return ListHandle or TabHandle or GridHandle
 	 */
-	public static ListingHandle getInheritedListingHandle(
+	public static ReportItemHandle getInheritedHandle(
 			ReportItemHandle itemHandle )
 	{
 		if ( isContainerInheritable( itemHandle ) )
 		{
 			DesignElementHandle handle = itemHandle.getContainer( );
-			while ( handle != null && !( handle instanceof ListingHandle ) )
+			while ( handle != null && !( handle instanceof ListingHandle || handle instanceof GridHandle ) )
 			{
 				handle = handle.getContainer( );
 			}
@@ -1229,10 +1251,13 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			{
 				return (TableHandle) handle;
 			}
-
-			if ( handle instanceof ListHandle )
+			else if ( handle instanceof ListHandle )
 			{
 				return (ListHandle) handle;
+			}
+			else if ( handle instanceof GridHandle )
+			{
+				return (GridHandle) handle;
 			}
 		}
 		return null;
@@ -1597,7 +1622,6 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return null;
 
 	}
-
 	protected static boolean loadExpressionFromHandle(
 			ExpressionCodec exprCodec, ExpressionHandle eh )
 	{

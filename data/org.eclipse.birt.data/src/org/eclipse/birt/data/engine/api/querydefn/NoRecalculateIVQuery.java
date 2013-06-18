@@ -71,20 +71,7 @@ public class NoRecalculateIVQuery extends QueryDefnDelegator
 			n.setFilter( b.getFilter( ) );
 			n.setTimeFunction( b.getTimeFunction( ) );
 			
-			if ( b.getAggrFunction( ) != null  )
-			{
-				n.setExpression( new ScriptExpression( "dataSetRow[\"" + b.getBindingName( )+"\"]" ) );  //$NON-NLS-1$//$NON-NLS-2$
-			}
-			else
-			{
-				n.setAggrFunction( b.getAggrFunction( ) );
-				n.setExpression( b.getExpression( ) );
-				Iterator<String> itr = b.getAggregatOns( ).iterator( );
-				while ( itr.hasNext( ) )
-				{
-					n.addAggregateOn( itr.next( ) );
-				}
-			}
+			n.setExpression( new ScriptExpression( "dataSetRow[\"" + b.getBindingName( )+"\"]" ) );  //$NON-NLS-1$//$NON-NLS-2$
 			bindingsMap.put( n.getBindingName( ), n );
 		}
 	}
