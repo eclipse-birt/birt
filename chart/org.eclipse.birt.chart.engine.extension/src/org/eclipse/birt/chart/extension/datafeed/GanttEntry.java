@@ -188,7 +188,13 @@ public final class GanttEntry implements IDataPointEntry
 		String strEnd = getFormattedString( GanttDataPointDefinition.TYPE_END_DATE,
 				formatter,
 				locale );
-		return "S" + strStart + " E" + strEnd + " " + strLabel; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String formattedString = "S " + strStart + "; E " + strEnd; //$NON-NLS-1$ //$NON-NLS-2$
+		if ( strLabel != null )
+		{
+			formattedString += "; " + strLabel; //$NON-NLS-1$
+		}
+
+		return formattedString;
 	}
 
 	public String getFormattedString( String type, FormatSpecifier formatter,
