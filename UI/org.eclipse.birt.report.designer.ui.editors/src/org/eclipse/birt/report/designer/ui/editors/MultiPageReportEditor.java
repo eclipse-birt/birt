@@ -61,6 +61,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.views.palette.PalettePage;
@@ -1668,6 +1669,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			refreshGraphicalEditor( );
 			return;
 		}
+
+
+
 		if ( event.getSource( ).equals( getModel( ) ) )
 		{
 			return;
@@ -1679,18 +1683,41 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		{
 			return;
 		}
-
+		Path targetPath=(Path)event.getData();
 		for ( int i = 0; i < resolves.length; i++ )
 		{
 			IRelatedFileChangeResolve find = (IRelatedFileChangeResolve) resolves[i];
 			if ( find.acceptType( event.getType( ) ) )
 			{
-				// resolve = find;
-				resolveList.add( find );
-				needReload = find.isReload( event, getModel( ) );
-				needReset = find.isReset( event, getModel( ) );
+				if(targetPath.toOSString().equals(getModel( ).getFileName())){
+					/**
+					 * Check whether the  resolveList already contains the same type of the new IRelatedFileChangeResolve.
+					 * Add the new resolve to the resolveList only if the list doesn't contain  objects have the same type of the new resolve.
+					 * This judgment call tries to prevent duplicate refresh action when several resources change happens.
+					 */
+					if(!checkResolveListListContainsType(find)){
+						resolveList.add( find );
+					}				
+					needReload = find.isReload( event, getModel( ) );
+					needReset = find.isReset( event, getModel( ) );
+				}
+
 				break;
 			}
 		}
+	}
+	/**
+	 * Check whether the  resolveList already contains the same type of the new IRelatedFileChangeResolve.
+	 * @param find
+	 * @return
+	 */
+	private boolean checkResolveListListContainsType(IRelatedFileChangeResolve find){
+		for(int i=0;i<resolveList.size();i++){
+			IRelatedFileChangeResolve obj=resolveList.get(i);
+			if(find.getClass().equals(obj.getClass())){
+				return true;
+			}
+		}
+		return false;
 	}
 }
