@@ -2661,4 +2661,36 @@ public class ChartUtil
 		}
 		return false;
 	}
+
+	/**
+	 * Returns the expression text from the raw expression which supports both
+	 * BRE and Javascript types.
+	 * 
+	 * @param expr
+	 *            raw expression
+	 * @return expression text
+	 */
+	public static String getExpressionText( String expr )
+	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		exprCodec.decode( expr );
+		return exprCodec.getExpression( );
+	}
+
+	/**
+	 * Returns the expression type from the raw expression which supports both
+	 * BRE and Javascript types.
+	 * 
+	 * @param expr
+	 *            raw expression
+	 * @return expression type
+	 */
+	public static String getExpressionType( String expr )
+	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		exprCodec.decode( expr );
+		return exprCodec.getType( );
+	}
 }
