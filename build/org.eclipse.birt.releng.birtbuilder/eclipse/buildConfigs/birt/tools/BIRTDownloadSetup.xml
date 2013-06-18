@@ -46,6 +46,8 @@
 	<property name="framework.zip.name" value="birt-report-framework-${package.version}.zip" />
 	<property name="allinone.zip.name"
 		value="birt-report-designer-all-in-one-${package.version}.zip" />
+	<property name="allinone_64.zip.name"
+			value="birt-report-designer-all-in-one-x86_64-${package.version}.zip" />
 	<property name="allinone.hq.zip.name"
 		value="birt-report-designer-all-in-one-HQ-${package.version}.zip" />
 	<property name="allinone.linux.zip.name"
@@ -233,6 +235,8 @@
 		<antcall target="createDatabase" />
 
 		<antcall target="createAllInOne" />
+		
+		<antcall target="createAllInOne_64" />
 
 		<antcall target="createAllInOneForLinux" />
 
@@ -476,6 +480,55 @@
 
 	</target>
 
+	<target name="createAllInOne_64">
+		<!-- Make birt all-in-one ZIP file -->
+		<zip destfile="${OutputDir}/${allinone_64.zip.name}" duplicate="preserve">
+			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
+				<include name="**/*" />
+				<exclude name="org.eclipse.birt.report.designer.ui.rcp*/**" />
+				<exclude name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
+				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
+				<exclude name="org.eclipse.birt.thirdparty*/**" />
+				<exclude name="org.eclipse.birt.chart.integration.wtp.ui*/**" />
+				<exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
+				<exclude name="*.source_*/**" />
+				<exclude name="org.eclipse.birt.sdk_*.jar" />
+				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
+				<exclude name="org.eclipse.birt.report.designer_*/**" />
+				<exclude name="org.eclipse.birt.report.runtime_*/**" />
+				<exclude name="org.eclipse.birt.chart.doc.isv_*.jar" />
+				<exclude name="org.eclipse.birt.doc.isv_*.jar" />
+				<patternset refid="exclude.jars" />
+			</zipfileset>
+			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
+				<include name="**/*" />
+				<exclude name="*.source_*/**" />
+				<exclude name="org.eclipse.birt.thirdparty*/**" />
+				<exclude name="org.eclipse.birt.sdk*/**" />
+				<exclude name="org.eclipse.birt.*.sdk*/**" />
+				<exclude name="org.eclipse.birt.rcp*/**" />
+				<exclude name="org.eclipse.birt.integration.wtp*/**" />
+				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
+				<exclude name="org.eclipse.birt.chart.doc.isv*/**" />
+				<exclude name="org.eclipse.birt.doc.isv*/**" />
+				<exclude name="org.eclipse.birt.osgi*/**" />
+				<patternset refid="third.party.features" />
+			</zipfileset>
+			<!-- <zipfileset dir="${template.dir}/legal" prefix="eclipse"> <include 
+				name="**/*" /> </zipfileset> -->
+			<zipfileset dir="${package.files.dir}/jee-x86_64" includes="**/*" />
+			<!--zipfileset
+				file="${eclipse.build.configs}/../../extras/eclipse.exe.manifest"
+				prefix="eclipse" /-->
+			<zipfileset dir="${buildDirectory}/plugins" prefix="${ZipPrefix}">
+				<patternset refid="orbit.include.jars" />
+			</zipfileset>
+		</zip>
+
+		<antcall target="RepackageAllinone_64" />
+
+	</target>
+	
 	<target name="RepackageAllinone" if="repackage.allinone">
 		<!-- repackage allinone for HQ,refer TED 34798 -->
 		<delete dir="${OutputDir}/tmp" failonerror="false" />
@@ -503,6 +556,33 @@
 		<delete dir="${OutputDir}/tmp" />
 	</target>
 
+	<target name="RepackageAllinone_64" if="repackage.allinone">
+		<!-- repackage allinone for HQ,refer TED 34798 -->
+		<delete dir="${OutputDir}/tmp" failonerror="false" />
+		<unzip src="${OutputDir}/${allinone_64.zip.name}" dest="${OutputDir}/tmp" />
+		<delete file="${OutputDir}/${allinone_64.zip.name}" />
+		<copy todir="${OutputDir}/tmp/eclipse/features" failonerror="false"
+			overwrite="true">
+			<fileset dir="${deposit}/eclipse/features">
+				<include name="org.eclipse.birt.chart.doc.isv*/**" />
+				<include name="org.eclipse.birt.doc.isv*/**" />
+			</fileset>
+		</copy>
+		<copy todir="${OutputDir}/tmp/eclipse/plugins" failonerror="false"
+			overwrite="true">
+			<fileset dir="${deposit}/eclipse/plugins">
+				<include name="org.eclipse.birt.chart.doc.isv_*.jar" />
+				<include name="org.eclipse.birt.doc.isv_*.jar" />
+			</fileset>
+		</copy>
+		<zip destfile="${OutputDir}/${allinone_64.zip.name}">
+			<fileset dir="${OutputDir}/tmp">
+				<include name="eclipse/**" />
+			</fileset>
+		</zip>
+		<delete dir="${OutputDir}/tmp" />
+	</target>
+	
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - This 
 		target is used for create All-In-One package for Linux - - - - - - - - - 
 		- - - - - - - - - - - - - - - - - - - - - - - - - -->

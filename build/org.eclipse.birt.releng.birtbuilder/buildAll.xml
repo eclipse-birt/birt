@@ -288,6 +288,9 @@
 			file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}.zip" />
 		<move
+			file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-x86_64-${package.version}.zip"
+			tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-x86_64-${package.version}-${build.date}.zip" />	
+		<move
 			file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-linux-gtk.tar.gz"
 			tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}-linux-gtk.tar.gz" />
 		<move
