@@ -11,14 +11,26 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -247,5 +259,39 @@ public class ChartReportItemUIUtil
 			return 3;
 		}
 		return 0;
+	}
+	
+	/**
+	 * Generate computed columns for the given report item with the closest data
+	 * set available.
+	 * 
+	 * @param dataSetHandle
+	 *            Data Set. No aggregation created.
+	 * 
+	 * @return true if succeed,or fail if no column generated.
+	 * @see DataUtil#generateComputedColumns(ReportItemHandle)
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<ComputedColumn> generateComputedColumns(
+			ReportItemHandle handle, DataSetHandle dataSetHandle )
+			throws SemanticException
+	{
+		if ( dataSetHandle != null )
+		{
+			List<ResultSetColumnHandle> resultSetColumnList = DataUtil.getColumnList( dataSetHandle );
+			List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
+			for ( ResultSetColumnHandle resultSetColumn : resultSetColumnList )
+			{
+				ComputedColumn column = StructureFactory.newComputedColumn( handle,
+						resultSetColumn.getColumnName( ) );
+				column.setDataType( resultSetColumn.getDataType( ) );
+				ExpressionUtility.setBindingColumnExpression( resultSetColumn,
+						column );
+				columnList.add( column );
+			}
+			return columnList;
+		}
+		return Collections.emptyList( );
 	}
 }

@@ -185,6 +185,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			final String TRANS_NAME = org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "ChartElementCommandImpl.editChart" ); //$NON-NLS-1$
 			commandStack.startTrans( TRANS_NAME );
 
+			beforeOpenChartBuilder( );
+			
 			final ChartReportItemImpl crii = ( (ChartReportItemImpl) item );
 			final Chart cm = (Chart) crii.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 			final Chart cmClone = ( cm == null ) ? null : cm.copyInstance( );
@@ -313,6 +315,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							(ChartWithAxes) contextResult.getModel( ) );
 				}
+				
+				afterOpenChartBuilder( );
+				
 				commandStack.commit( );
 				return Window.OK;
 			}
@@ -793,5 +798,15 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		if ( formatSpecifierHandler == null )
 			formatSpecifierHandler = new FormatSpecifierHandler();
 		return formatSpecifierHandler;
+	}
+	
+	protected void beforeOpenChartBuilder()
+	{
+		// Do nothing, for subclass to override.
+	}
+	
+	protected void afterOpenChartBuilder( )
+	{
+		// Do nothing, for subclass to override.		
 	}
 }

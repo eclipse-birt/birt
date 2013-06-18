@@ -954,7 +954,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 					// Clean old bindings and add new bindings
 					clearBindings( );
-					generateBindings( generateComputedColumns( dataset ) );
+					generateBindings( ChartReportItemUIUtil.generateComputedColumns( itemHandle,
+							dataset ) );
 
 					enableCategoryGroup( );
 				}
@@ -1023,39 +1024,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				DEUtil.addColumn( itemHandle, iter.next( ), false );
 			}
 		}
-	}
-
-	/**
-	 * Generate computed columns for the given report item with the closest data
-	 * set available.
-	 * 
-	 * @param dataSetHandle
-	 *            Data Set. No aggregation created.
-	 * 
-	 * @return true if succeed,or fail if no column generated.
-	 * @see DataUtil#generateComputedColumns(ReportItemHandle)
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	protected List<ComputedColumn> generateComputedColumns(
-			DataSetHandle dataSetHandle ) throws SemanticException
-	{
-		if ( dataSetHandle != null )
-		{
-			List<ResultSetColumnHandle> resultSetColumnList = DataUtil.getColumnList( dataSetHandle );
-			List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
-			for ( ResultSetColumnHandle resultSetColumn : resultSetColumnList )
-			{
-				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
-						resultSetColumn.getColumnName( ) );
-				column.setDataType( resultSetColumn.getDataType( ) );
-				ExpressionUtility.setBindingColumnExpression( resultSetColumn,
-						column );
-				columnList.add( column );
-			}
-			return columnList;
-		}
-		return Collections.emptyList( );
 	}
 
 	/**
