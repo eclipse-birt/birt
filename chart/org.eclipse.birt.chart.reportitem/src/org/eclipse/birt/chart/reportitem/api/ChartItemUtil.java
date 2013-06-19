@@ -72,6 +72,7 @@ import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -88,6 +89,7 @@ import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Utility class for Chart integration as report item
@@ -2023,5 +2025,24 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		ChartUtil.setExtendedProperty( cm,
 				EXTENDED_PROPERTY_HIERARCHY_SERIES,
 				String.valueOf( value ) );
+	}
+
+	/*
+	 * Get externalized message.
+	 * 
+	 * @param handle design element handle
+	 * @param sKey the key of the externalized message
+	 * @param sDefaultValue default value
+	 * @param locale locale information
+	 * 
+	 * @return message the externalized message.
+	 */
+	public static String externalizedMessage( DesignElementHandle handle, String sKey,
+			String sDefaultValue, ULocale locale )
+	{
+		return ModuleUtil.getExternalizedValue( handle,
+				sKey,
+				sDefaultValue,
+				locale );
 	}
 }
