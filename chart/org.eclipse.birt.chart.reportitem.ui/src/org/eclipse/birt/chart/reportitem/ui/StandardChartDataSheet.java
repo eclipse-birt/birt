@@ -1126,7 +1126,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		initDataSelector( );
 		updatePredefinedQueries( );
-		checkColBindingForCube( );
+		checkDataBinding( );
 		if ( dataProvider.checkState( IDataServiceProvider.IN_MULTI_VIEWS ) )
 		{
 			autoSelect( false );
@@ -1247,7 +1247,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			handle.getModuleHandle( ).getCommandStack( ).commit( );
 			updatePredefinedQueries( );
-			checkColBindingForCube( );
+			checkDataBinding( );
 		}
 		else
 		{
@@ -1727,7 +1727,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					getContext( ).setShowingDataPreview( Boolean.valueOf( w.getSelection( ) ) );
 					updateDragDataSource( );
 				}
-				checkColBindingForCube( );
+				checkDataBinding( );
 				ChartWizard.removeException( ChartWizard.StaChartDSh_switch_ID );
 			}
 			catch ( ChartException e1 )
@@ -3074,7 +3074,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	}
 
 	@SuppressWarnings("unchecked")
-	private void checkColBindingForCube( )
+	protected void checkDataBinding( )
 	{
 		if ( getCube( ) != null
 				&& !chartItemHelper

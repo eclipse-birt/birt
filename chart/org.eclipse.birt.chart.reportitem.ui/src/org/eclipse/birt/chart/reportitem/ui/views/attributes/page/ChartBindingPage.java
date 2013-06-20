@@ -38,9 +38,14 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 public class ChartBindingPage extends BindingPage
 {
 
+	protected BindingGroupDescriptorProvider createBindingGroupDescriptorProvider( )
+	{
+		return new ChartBindingGroupDescriptorProvider( );
+	}
+	
 	protected void applyCustomSections( )
 	{
-		ChartBindingGroupDescriptorProvider bindingProvider = new ChartBindingGroupDescriptorProvider( );
+		BindingGroupDescriptorProvider bindingProvider = createBindingGroupDescriptorProvider( );
 		bindingProvider.setRefrenceSection( ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ) );
 		( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).setProvider( bindingProvider );
 		AggregateOnBindingsFormHandleProvider dataSetFormProvider = createDataSetFormProvider();
