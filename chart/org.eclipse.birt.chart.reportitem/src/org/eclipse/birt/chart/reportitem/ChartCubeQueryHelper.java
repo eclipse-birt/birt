@@ -586,7 +586,7 @@ public class ChartCubeQueryHelper
 
 	private void addSorting( ICubeQueryDefinition cubeQuery, CubeHandle cube,
 			SeriesDefinition sd, int i ) throws BirtException
-	{
+	{	
 		if ( sd.getSortKey( ) == null )
 		{
 			return;
@@ -595,6 +595,15 @@ public class ChartCubeQueryHelper
 		String sortKey = sd.getSortKey( ).getDefinition( );
 		if ( sd.isSetSorting( ) && sortKey != null && sortKey.length( ) > 0 )
 		{
+			Query targetQuery = i > 0 ? sd.getQuery( )
+					: (Query) sd.getDesignTimeSeries( )
+							.getDataDefinition( )
+							.get( 0 );
+			if ( needSkipSort( targetQuery.getDefinition( ) ) )
+			{
+				return;
+			}
+						
 			exprCodec.decode( sortKey );
 			String sortKeyBinding = exprCodec.getCubeBindingName( true );
 			if ( registeredLevels.containsKey( sortKeyBinding ) )
@@ -624,10 +633,6 @@ public class ChartCubeQueryHelper
 				// Add sorting on measures
 				IMeasureDefinition mDef = registeredMeasures.get( sortKeyBinding );
 
-				Query targetQuery = i > 0 ? sd.getQuery( )
-						: (Query) sd.getDesignTimeSeries( )
-								.getDataDefinition( )
-								.get( 0 );
 				ExpressionCodec exprCodecTarget = ChartModelHelper.instance( )
 						.createExpressionCodec( );
 				exprCodecTarget.decode( targetQuery.getDefinition( ) );
@@ -668,6 +673,35 @@ public class ChartCubeQueryHelper
 				cubeQuery.addSort( sortDef );
 			}
 		}
+	}
+	
+	private boolean needSkipSort(
+			String definition )
+	{
+		ExpressionCodec exprCodec = ChartReportItemUtil.getDimensionExpresion( definition,
+				handle );
+		if ( exprCodec == null )
+		{
+			return false;
+		}
+
+		String[] levels = exprCodec.getLevelNames( );
+
+		if ( levels == null )
+		{
+			return false;
+		}
+
+		String dimensionName = levels[0];
+		final int edgeType = getEdgeType( dimensionName );
+
+		boolean isKeepCubeHierarchyAndNotCubeTopLevel = edgeType == ICubeQueryDefinition.ROW_EDGE ? ChartReportItemUtil.isKeepCubeHierarchyAndNotCubeTopLevelOnCategory( cm,
+				getCubeHandle( ),
+				handle )
+				: ChartReportItemUtil.isKeepCubeHierarchyAndNotCubeTopLevelOnSeries( cm,
+						getCubeHandle( ),
+						handle );
+		return isKeepCubeHierarchyAndNotCubeTopLevel;
 	}
 
 	protected void bindBinding( IBinding colBinding,

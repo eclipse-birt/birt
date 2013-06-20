@@ -3694,9 +3694,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			states |= INHERIT_COLUMNS_GROUPS;
 		}
+		if ( isKeepCubeHierarchyAndNotCubeTopLevelOnCategory(  ) )
+		{
+			states |= IS_CUBE_AND_CATEGORY_NOT_TOP_LEVEL;
+		}
+		if ( isKeepCubeHierarchyAndNotCubeTopLevelOnSeries(  ) )
+		{
+			states |= IS_CUBE_AND_SERIES_NOT_TOP_LEVEL;
+		}
 
 		return states;
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -3909,6 +3918,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			initReportVariable( );
 			loadDesign( );
 		}
+	}
+	
+	protected boolean isKeepCubeHierarchyAndNotCubeTopLevelOnCategory( )
+	{
+		return ChartReportItemUtil.isKeepCubeHierarchyAndNotCubeTopLevelOnCategory( context.getModel( ),
+				getBindingCubeHandle( ),
+				itemHandle );
+	}
+
+	protected boolean isKeepCubeHierarchyAndNotCubeTopLevelOnSeries( )
+	{
+		return ChartReportItemUtil.isKeepCubeHierarchyAndNotCubeTopLevelOnSeries( context.getModel( ),
+				getBindingCubeHandle( ),
+				itemHandle );
 	}
 
 	public CubeHandle getBindingCubeHandle( )

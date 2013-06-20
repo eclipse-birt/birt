@@ -66,6 +66,9 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.emf.common.util.EList;
@@ -801,5 +804,119 @@ public class ChartReportItemUtil extends ChartItemUtil
 			return (Expression) eh.getValue( );
 		}
 		return null;
+	}
+	
+	public static boolean isKeepCubeHierarchyAndNotCubeTopLevelOnCategory(
+			Chart model, CubeHandle cubeHandle, ReportItemHandle itemHandle )
+	{
+		boolean isKeepCubeHierarchy = isKeepCubeHierarchyOnCategory( model );
+
+		if ( !isKeepCubeHierarchy )
+		{
+			return false;
+		}
+
+		if ( cubeHandle == null )
+		{
+			return false;
+		}
+
+		SeriesDefinition sd = ChartUtil.getBaseSeriesDefinitions( model )
+				.get( 0 );
+
+		Query query = ChartUtil.getDataQuery( sd, 0 );
+
+		return !isCubeTopLevel( query, itemHandle );
+	}
+
+	public static boolean isKeepCubeHierarchyAndNotCubeTopLevelOnSeries(
+			Chart model, CubeHandle cubeHandle, ReportItemHandle itemHandle )
+	{
+		boolean isKeepCubeHierarchy = isKeepCubeHierarchyOnSeries( model );
+
+		if ( !isKeepCubeHierarchy )
+		{
+			return false;
+		}
+
+		if ( cubeHandle == null )
+		{
+			return false;
+		}
+
+		Query query = ChartUtil.getAllOrthogonalSeriesDefinitions( model )
+				.get( 0 )
+				.getQuery( );
+
+		return !isCubeTopLevel( query, itemHandle );
+	}
+	
+	public static ExpressionCodec getDimensionExpresion(String definition,ReportItemHandle itemHandle){
+		ExpressionCodec exprc = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		String bindName = exprc.getBindingName( definition );
+		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
+		while ( iterator.hasNext( ) )
+		{
+			ComputedColumnHandle binding = iterator.next( );
+			if ( binding.getName( ).equals( bindName ) )
+			{
+				ChartItemUtil.loadExpression( exprc, binding );
+				break;
+			}
+		}
+
+		if ( exprc.isDimensionExpresion( ) )
+		{
+			return exprc;
+		}
+		else
+		{
+			return null;
+		}				
+	}
+	
+	private static boolean isCubeTopLevel( Query query ,ReportItemHandle itemHandle)
+	{
+		ExpressionCodec exprc = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		String bindName = exprc.getBindingName( query.getDefinition( ) );
+		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
+		while ( iterator.hasNext( ) )
+		{
+			ComputedColumnHandle binding = iterator.next( );
+			if ( binding.getName( ).equals( bindName ) )
+			{
+				ChartItemUtil.loadExpression( exprc, binding );
+				break;
+			}
+		}
+
+		if ( !exprc.isDimensionExpresion( ) )
+		{
+			return false;
+		}
+
+		CubeHandle cube =  ChartReportItemHelper.instance( )
+				.getBindingCubeHandle( itemHandle );
+
+		// Add row/column edge
+		String[] levels = exprc.getLevelNames( );
+		String dimensionName = levels[0];
+		HierarchyHandle hieHandle = cube.getDimension( dimensionName )
+				.getDefaultHierarchy( );
+
+		// Add parent levels to edge if keep cube hierarchy
+		if ( hieHandle.getLevelCount( ) > 1 )
+		{
+			// level index
+			LevelHandle lh = hieHandle.getLevel( 0 );
+
+			if ( lh.getName( ).equals( levels[1] ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
