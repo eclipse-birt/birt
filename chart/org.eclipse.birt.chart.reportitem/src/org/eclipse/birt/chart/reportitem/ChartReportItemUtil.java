@@ -293,6 +293,18 @@ public class ChartReportItemUtil extends ChartItemUtil
 		}
 		return factory.createCubeQueryHelper( handle, cm, modelAdapter );
 	}
+	
+	public static ChartBaseQueryHelper  instanceQueryHelper(
+			ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter )
+	{
+		IChartReportItemFactory factory = getAdapter( handle,
+				IChartReportItemFactory.class );
+		if ( factory == null )
+		{
+			factory = baseFactory;
+		}
+		return factory.createQueryHelper( handle, cm, modelAdapter );
+	}
 
 	public static IGroupedDataRowExpressionEvaluator instanceCubeEvaluator(
 			ExtendedItemHandle handle, Chart cm, ICubeResultSet set )

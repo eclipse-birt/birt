@@ -1624,6 +1624,23 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return null;
 
 	}
+	
+	protected static boolean loadExpressionFromHandle(
+			ExpressionCodec exprCodec, Expression expression )
+	{
+		if ( expression != null && expression.getStringExpression( ) != null )
+		{
+			exprCodec.setExpression( expression.getStringExpression( ) );
+			exprCodec.setType( expression.getType( ) );
+			return true;
+		}
+		else
+		{
+			exprCodec.setExpression( null );
+			return false;
+		}
+	}
+	
 	protected static boolean loadExpressionFromHandle(
 			ExpressionCodec exprCodec, ExpressionHandle eh )
 	{
@@ -1647,6 +1664,17 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		if ( exprCodec != null )
 		{
 			ExpressionHandle eh = fceh.getExpressionProperty( FilterCondition.EXPR_MEMBER );
+			return loadExpressionFromHandle( exprCodec, eh );
+		}
+		return false;
+	}
+	
+	public static boolean loadExpression( ExpressionCodec exprCodec,
+			FilterCondition fceh )
+	{
+		if ( exprCodec != null )
+		{
+			Expression eh = fceh.getExpressionProperty( FilterCondition.EXPR_MEMBER );
 			return loadExpressionFromHandle( exprCodec, eh );
 		}
 		return false;
