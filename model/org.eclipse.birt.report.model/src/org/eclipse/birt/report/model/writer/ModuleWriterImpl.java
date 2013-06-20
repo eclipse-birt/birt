@@ -2453,6 +2453,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		resourceKey( obj, ICascadingParameterGroupModel.PROMPT_TEXT_ID_PROP,
 				ICascadingParameterGroupModel.PROMPT_TEXT_PROP );
 		property( obj, ICascadingParameterGroupModel.DATA_SET_PROP );
+		visitCascadingParameterGroupExtraProperty(obj);
 		property( obj, ICascadingParameterGroupModel.DATA_SET_MODE_PROP );
 
 		writeContents( obj, IParameterGroupModel.PARAMETERS_SLOT,
@@ -2461,7 +2462,12 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		writer.endElement( );
 	}
+	
+	protected void visitCascadingParameterGroupExtraProperty( CascadingParameterGroup obj )
+	{
 
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
