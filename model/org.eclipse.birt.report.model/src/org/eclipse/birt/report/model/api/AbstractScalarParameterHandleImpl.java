@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.AbstractScalarParameter;
@@ -328,6 +329,35 @@ public abstract class AbstractScalarParameterHandleImpl extends ParameterHandle
 	public void setDataSetName( String dataSetName ) throws SemanticException
 	{
 		setStringProperty( DATASET_NAME_PROP, dataSetName );
+	}
+	
+	/**
+	 * Sets the data set of the report item.
+	 * 
+	 * @param handle
+	 *            the handle of the data set, if <code>handle</code> is null,
+	 *            data set property will be cleared.
+	 * 
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+	public void setDataSet( DataSetHandle handle ) throws SemanticException
+	{
+		if ( handle == null )
+			setStringProperty( DATASET_NAME_PROP, null );
+		else
+		{
+			ModuleHandle moduleHandle = handle.getRoot( );
+			String valueToSet = handle.getElement( ).getFullName( );
+			if ( moduleHandle instanceof LibraryHandle )
+			{
+				String namespace = ( (LibraryHandle) moduleHandle )
+						.getNamespace( );
+				valueToSet = StringUtil.buildQualifiedReference( namespace,
+						valueToSet );
+			}
+			setStringProperty( DATASET_NAME_PROP, valueToSet );
+		}	
 	}
 
 	/**
