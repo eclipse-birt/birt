@@ -1558,8 +1558,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 							reportItem.getDataSet( ),
 							DEUtil.getVisiableColumnBindingsList( designHandle )
 									.iterator( ),
-							designHandle instanceof TableGroupHandle ? null
-									: DEUtil.getGroups( designHandle )
+							DEUtil.getGroups( designHandle )
 											.iterator( ),
 							true );
 		}
