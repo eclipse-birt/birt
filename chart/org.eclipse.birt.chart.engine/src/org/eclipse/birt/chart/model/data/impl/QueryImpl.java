@@ -411,4 +411,9 @@ public class QueryImpl extends EObjectImpl implements Query
 		return expression;
 	}
 
+	public void setDefinitionExpression( ScriptExpression expression )
+	{
+		this.setDefinition( ChartUtil.adaptExpression( expression ) );
+	}
+
 } //QueryImpl

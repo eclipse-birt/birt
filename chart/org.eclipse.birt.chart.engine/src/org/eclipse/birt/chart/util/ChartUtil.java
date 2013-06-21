@@ -68,6 +68,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.ScriptExpression;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
@@ -2692,5 +2693,25 @@ public class ChartUtil
 				.createExpressionCodec( );
 		exprCodec.decode( expr );
 		return exprCodec.getType( );
+	}
+
+	/**
+	 * Encode script expression into a string
+	 * 
+	 * @param expression
+	 *            script expression
+	 * @return encoded expression string
+	 */
+	public static String adaptExpression( ScriptExpression expression )
+	{
+		if ( expression == null )
+		{
+			return IConstants.EMPTY_STRING;
+		}
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		exprCodec.setType( expression.getType( ) );
+		exprCodec.setExpression( expression.getValue( ) );
+		return exprCodec.encode( );
 	}
 }

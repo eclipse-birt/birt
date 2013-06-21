@@ -74,4 +74,11 @@ public interface ScriptValue extends ActionValue
 	 */
 	ScriptExpression getScriptExpression( );
 
+	/*
+	 * Set script expression.
+	 * 
+	 * @param expression the script expression.
+	 */
+	void setScriptExpression( ScriptExpression expression );
+
 } // ScriptValue

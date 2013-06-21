@@ -224,4 +224,14 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 		return expression;
 	}
 
+	/*
+	 * Set script expression.
+	 * 
+	 * @param expression the script expression.
+	 */
+	public void setScriptExpression( ScriptExpression expression )
+	{
+		setScript( ChartUtil.adaptExpression( expression ) );
+	}
+
 } // ScriptValueImpl
