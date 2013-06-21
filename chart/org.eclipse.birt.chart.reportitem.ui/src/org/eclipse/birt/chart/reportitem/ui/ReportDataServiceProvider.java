@@ -98,7 +98,6 @@ import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.IReportClasspathResolver;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -136,7 +135,6 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
@@ -1093,33 +1091,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @see DataUtil#generateComputedColumns(ReportItemHandle)
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
 	protected List<ComputedColumn> generateComputedColumns(
 			DataSetHandle dataSetHandle ) throws SemanticException
 	{
-		if ( dataSetHandle != null )
-		{
-			List<ResultSetColumnHandle> resultSetColumnList = DataUtil.getColumnList( dataSetHandle );
-			List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
-			for ( ResultSetColumnHandle resultSetColumn : resultSetColumnList )
-			{
-				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
-						resultSetColumn.getColumnName( ) );
-				column.setDataType( resultSetColumn.getDataType( ) );
-				ExpressionUtility.setBindingColumnExpression( resultSetColumn,
-						column );
-				column.setDisplayName( UIUtil.getColumnDisplayName( resultSetColumn ) );
-				String displayKey = UIUtil.getColumnDisplayNameKey( resultSetColumn );
-				if ( displayKey != null )
-				{
-					column.setDisplayNameID( displayKey );
-				}
-				
-				columnList.add( column );
-			}
-			return columnList;
-		}
-		return Collections.emptyList( );
+		return ChartReportItemUIUtil.generateComputedColumns( itemHandle, dataSetHandle );
 	}
 
 	/**

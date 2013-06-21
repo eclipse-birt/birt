@@ -199,7 +199,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 							.getBindingCubeHandle( inputElement );
 					if ( cubeHandle != null )
 					{
-						if ( inputElement.getCube( ) == null )
+						if ( inputElement.getCube( ) == null || ChartItemUtil.isInMultiViews( inputElement ) )
 						{
 							// It inherits bindings from crosstab or sharing
 							// query with crosstab, only need to refresh
@@ -237,7 +237,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 
 						DataSetHandle dataSetHandle = inputElement.getDataSet( );
 
-						if ( dataSetHandle == null )
+						if ( dataSetHandle == null || ChartItemUtil.isInMultiViews( inputElement ) )
 						{
 							// It inherits bindings from table or sharing query
 							// with table, only need to refresh bindings.

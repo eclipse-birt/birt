@@ -222,7 +222,7 @@ public class CubeQueryUtil
 			}
 		}
 	}
-
+	
 	private static boolean isSubLevel( String levelExpr, String targetLevel,
 			boolean issubLevel ) throws AdapterException
 	{
