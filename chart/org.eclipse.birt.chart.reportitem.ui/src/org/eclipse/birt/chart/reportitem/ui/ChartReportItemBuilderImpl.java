@@ -184,8 +184,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					.getCommandStack( );
 			final String TRANS_NAME = org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "ChartElementCommandImpl.editChart" ); //$NON-NLS-1$
 			commandStack.startTrans( TRANS_NAME );
-
-			beforeOpenChartBuilder( );
 			
 			final ChartReportItemImpl crii = ( (ChartReportItemImpl) item );
 			final Chart cm = (Chart) crii.getProperty( ChartReportItemConstants.PROPERTY_CHART );
@@ -280,6 +278,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			context.setActionEvaluator( new BIRTActionEvaluator( ) );
 			
 			ChartAdapter.endIgnoreNotifications( );
+			
+
+			beforeOpenChartBuilder( );
 			
 			isChartWizardOpen = true;
 			ChartWizardContext contextResult = (ChartWizardContext) chartBuilder.open( null,
