@@ -16,6 +16,9 @@
 
 package org.eclipse.birt.chart.model.data;
 
+import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+
 /*
  * This type represents expression
  */
@@ -24,6 +27,22 @@ public class ScriptExpression
 
 	private String type;
 	private String value;
+
+	public ScriptExpression( )
+	{
+		this( ExpressionCodec.JAVASCRIPT );
+	}
+
+	public ScriptExpression( String type )
+	{
+		this( type, IConstants.EMPTY_STRING );
+	}
+
+	public ScriptExpression( String type, String value )
+	{
+		this.type = type;
+		this.value = value;
+	}
 
 	/*
 	 * Get expression type
