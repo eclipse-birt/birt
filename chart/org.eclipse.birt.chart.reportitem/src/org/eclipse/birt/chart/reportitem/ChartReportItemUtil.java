@@ -14,7 +14,9 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
@@ -53,8 +55,13 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionListHandle;
@@ -66,9 +73,11 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.util.CubeUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.emf.common.util.EList;
@@ -919,4 +928,194 @@ public class ChartReportItemUtil extends ChartItemUtil
 		}
 		return false;
 	}
+
+	public static boolean validateCubeResultSetBinding(
+			ReportItemHandle itemHandle, Chart cm )
+			throws ExtendedElementException
+	{
+		ReportItemHandle handle = null;
+		if ( ChartItemUtil.isReportItemReference( itemHandle )
+				|| ChartItemUtil.isInMultiViews( itemHandle ) )
+		{
+			handle = ChartItemUtil.getReportItemReference( itemHandle );
+		}
+		if ( handle == null )
+		{
+			handle = ChartItemUtil.getInheritedHandle( itemHandle );
+		}
+
+		boolean isCrosstab = false;
+		if ( handle instanceof ExtendedItemHandle )
+		{
+			isCrosstab = "Crosstab".equals( ( (ExtendedItemHandle) handle ).getExtensionName( ) ); //$NON-NLS-1$
+		}
+		else
+		{
+			DesignElementHandle container = itemHandle.getContainer( );
+			while ( container != null )
+			{
+				if ( container instanceof ExtendedItemHandle
+						&& "Crosstab".equals( ( (ExtendedItemHandle) container ).getExtensionName( ) ) ) //$NON-NLS-1$
+				{
+					handle = (ReportItemHandle) container;
+					isCrosstab = true;
+					break;
+				}
+				container = container.getContainer( );
+			}
+		}
+		if ( !isCrosstab )
+		{
+			return true; // not cross tab, ignore.
+		}
+
+		CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) handle ).getReportItem( );
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		ArrayList<String> rowAxisDimensions = new ArrayList<String>( );
+		ArrayList<String> colAxisDimensions = new ArrayList<String>( );
+		/* get cross tab row and column dimensions */
+		if ( crossTab.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE ) != null )
+		{
+			rowAxisDimensions = getDemensions( crossTab.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE ) );
+		}
+		if ( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
+		{
+			colAxisDimensions = getDemensions( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) );
+		}
+
+		// get all bindings
+		Map<String, ComputedColumnHandle> bindingMap = new LinkedHashMap<String, ComputedColumnHandle>( );
+		for ( Iterator<ComputedColumnHandle> bindings = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle ); bindings.hasNext( ); )
+		{
+			ComputedColumnHandle column = bindings.next( );
+			bindingMap.put( column.getName( ), column );
+		}
+
+		for ( SeriesDefinition seriesDefinition : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
+		{
+			Series series = seriesDefinition.getDesignTimeSeries( );
+			List<Query> queries = series.getDataDefinition( );
+			for ( Query query : queries )
+			{
+				String bindingName = exprCodec.getBindingName( query.getDefinition( ) );
+				ComputedColumnHandle computedBinding = bindingMap.get( bindingName );
+				if ( computedBinding == null )
+				{
+					return false; // if orthogonal series binding does not
+									// exist, it must be removed in cross-tab
+				}
+				@SuppressWarnings("unchecked")
+				List<String> aggOnList = computedBinding.getAggregateOnList( );
+				String[] categoryExpressions = ChartUtil.getCategoryExpressions( cm );
+				String[] yOptionalExpressions = ChartUtil.getYOptoinalExpressions( cm );
+				boolean isInXTab = ChartCubeUtil.isInXTabMeasureCell( itemHandle );
+				if ( aggOnList.size( ) > 0 )
+				{
+					// check first aggregation on category and optionalY.
+					if ( !searchAggregation( aggOnList.get( 0 ),
+							bindingMap,
+							rowAxisDimensions,
+							colAxisDimensions,
+							categoryExpressions,
+							yOptionalExpressions,
+							itemHandle ) )
+					{
+						return false;
+					}
+				}
+				if ( !isInXTab && aggOnList.size( ) > 1 ) // XTab has category
+															// only.
+				{
+					if ( !searchAggregation( aggOnList.get( 1 ),
+							bindingMap,
+							rowAxisDimensions,
+							colAxisDimensions,
+							categoryExpressions,
+							yOptionalExpressions,
+							itemHandle ) )
+					{
+						return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/*
+	 * get all dimensions in cross tab view.
+	 */
+	private static ArrayList<String> getDemensions(
+			CrosstabViewHandle viewHandle )
+	{
+		ArrayList<String> names = new ArrayList<String>( );
+		for ( int i = 0; i < viewHandle.getDimensionCount( ); i++ )
+		{
+			DimensionViewHandle dimensionHandle = viewHandle.getDimension( i );
+			for ( int k = 0; k < dimensionHandle.getLevelCount( ); k++ )
+			{
+				names.add( dimensionHandle.getLevel( k )
+						.getCubeLevel( )
+						.getName( ) );
+			}
+		}
+
+		return names;
+	}
+
+	private static boolean searchAggregation( String aggOn,
+			Map<String, ComputedColumnHandle> bindingMap,
+			ArrayList<String> rowAxisDimensions,
+			ArrayList<String> colAxisDimensions, String[] catecoryBindNames,
+			String[] yOptionalBindNames, ReportItemHandle itemHandle )
+	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		String[] levelNames = CubeUtil.splitLevelName( aggOn );
+		ComputedColumnHandle cch = ChartReportItemHelper.instance( )
+				.findDimensionBinding( exprCodec,
+						levelNames[0],
+						levelNames[1],
+						bindingMap.values( ),
+						itemHandle );
+		if ( cch == null || cch.getName( ) == null )
+		{
+			return false; // dimension binding not found
+		}
+
+		/* see aggregation is on row or column dimension */
+		ArrayList<String> dimensions = null;
+		if ( rowAxisDimensions.contains( cch.getName( ) ) )
+		{
+			dimensions = rowAxisDimensions;
+		}
+		else if ( colAxisDimensions.contains( cch.getName( ) ) )
+		{
+			dimensions = colAxisDimensions;
+		}
+
+		if ( dimensions != null )
+		{
+			for ( String field : catecoryBindNames )
+			{
+				if ( dimensions.contains( exprCodec.getBindingName( field ) ) )
+				{
+					return true;
+				}
+			}
+
+			for ( String field : yOptionalBindNames )
+			{
+				if ( dimensions.contains( exprCodec.getBindingName( field ) ) )
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 }

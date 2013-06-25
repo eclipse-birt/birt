@@ -30,6 +30,8 @@ import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
@@ -193,6 +195,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	protected ExpressionCodec exprCodec = null;
 
 	private IDatasetPreviewTask dataSetPreviewTask;
+
+	private ILogger logger = Logger.getLogger( "com.actuate.birt.chart.reportitem.ui/trace" ); //$NON-NLS-1$
 
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle )
 	{
@@ -1609,7 +1613,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 			catch ( BirtException e )
 			{
-
+				logger.log( e );
 				throw new ChartException( ChartReportItemUIActivator.ID,
 						ChartException.DATA_BINDING,
 						e );

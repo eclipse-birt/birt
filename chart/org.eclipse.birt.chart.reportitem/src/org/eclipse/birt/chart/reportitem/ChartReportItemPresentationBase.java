@@ -119,6 +119,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	private Bounds boundsRuntime = null;
 	
+	private boolean validCubeResultSet = true;
+
 	protected int renderDpi = 96;
 	
 	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
@@ -751,7 +753,15 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			}
 			else
 			{
-				throw birtException;
+				if ( !ChartReportItemUtil.validateCubeResultSetBinding( modelHandle,
+						cm ) )
+				{
+					validCubeResultSet = false;
+				}
+				else
+				{
+					throw birtException;
+				}
 			}
 		}
 
@@ -865,6 +875,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 				bEmptyData = true;
 			}
 
+			if ( !validCubeResultSet )
+			{
+				this.outputType = OUTPUT_AS_HTML_TEXT;
+				return "<p align='left'>" //$NON-NLS-1$
+						+ Messages.getString( "ChartReportItemPresentationImpl.error.InvalidCubeBinding" ) //$NON-NLS-1$
+						+ "</p>"; //$NON-NLS-1$
+			}
 			// Render chart
 			Object renderObject = generateRenderObject( rowAdapter,
 					externalContext,
