@@ -1099,8 +1099,16 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( level.getCrosstab( ) );
-			retList = session.getCubeQueryUtil( )
-					.getReferableBindings( targetLevel, cubeQueryDefn, true );
+			if(CrosstabUtil.isBoundToLinkedDataSet(level.getCrosstab()))
+			{
+				retList = session.getCubeQueryUtil( )
+						.getReferableBindingsForLinkedDataSetCube( targetLevel, cubeQueryDefn, true );
+			}
+			else
+			{
+				retList = session.getCubeQueryUtil( )
+						.getReferableBindings( targetLevel, cubeQueryDefn, true );
+			}
 		}
 		catch ( Exception e )
 		{
