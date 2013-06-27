@@ -45,12 +45,14 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
@@ -233,6 +235,27 @@ public class DistinctValueSelector
 					DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
 							.getContextClassLoader( ),
 							copy ) );
+			
+			//clear filter in gorup
+			if( groupIterator != null )
+			{
+				List clearedGroup = new ArrayList( );
+				while( groupIterator.hasNext( ) )
+				{
+					GroupHandle groupHandle = (GroupHandle) groupIterator.next( );
+					if( groupHandle.filtersIterator( ).hasNext( ) )
+					{
+						GroupHandle copyHandle = (GroupHandle)groupHandle.copy( ).getHandle( copy.getModule( ) );
+						copyHandle.setProperty( IGroupElementModel.FILTER_PROP , Collections.EMPTY_LIST );
+						clearedGroup.add( copyHandle );
+					}
+					else
+					{
+						clearedGroup.add( groupHandle );
+					}
+				}
+				groupIterator = clearedGroup.iterator( );
+			}
 
 			ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
 
