@@ -1117,9 +1117,17 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 							expression[1] = splits[1];
 						if ( splits.length > 2 )
 							expression[2] = splits[2];
-						result = converter.getDimensionExpression( expression[0],
-								expression[1],
-								expression[2] );
+						
+						if( CrosstabUtil.isBoundToLinkedDataSet( getCrosstab((ExtendedItemHandle) designHandle )))
+						{
+							result = converter.getResultSetColumnExpression(expression[0]);
+						}
+						else
+						{
+							result = converter.getDimensionExpression( expression[0],
+									expression[1],
+									expression[2] );
+						}
 					}
 					else
 					{
@@ -3316,5 +3324,20 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			}
 		}
 		return retList;
+	}
+	
+	private CrosstabReportItemHandle getCrosstab(ExtendedItemHandle element)
+	{
+		CrosstabReportItemHandle crosstab = null;
+		try
+		{
+			crosstab = (CrosstabReportItemHandle) element.getReportItem( );
+		}
+		catch ( ExtendedElementException ex )
+		{
+			ExceptionUtil.handle( ex );
+		}
+		
+		return crosstab;
 	}
 }
