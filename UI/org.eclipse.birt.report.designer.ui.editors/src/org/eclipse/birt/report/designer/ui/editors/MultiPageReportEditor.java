@@ -1669,14 +1669,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			refreshGraphicalEditor( );
 			return;
 		}
-
-
-
 		if ( event.getSource( ).equals( getModel( ) ) )
 		{
 			return;
 		}
-
 		Object[] resolves = ElementAdapterManager.getAdapters( getModel( ),
 				IRelatedFileChangeResolve.class );
 		if ( resolves == null )
@@ -1689,29 +1685,35 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			IRelatedFileChangeResolve find = (IRelatedFileChangeResolve) resolves[i];
 			if ( find.acceptType( event.getType( ) ) )
 			{
-				if(targetPath!=null &&targetPath.toOSString().equals(getModel( ).getFileName())){
-					/**
-					 * Check whether the  resolveList already contains the same type of the new IRelatedFileChangeResolve.
-					 * Add the new resolve to the resolveList only if the list doesn't contain  objects have the same type of the new resolve.
-					 * This judgment call tries to prevent duplicate refresh action when several resources change happens.
-					 */
-					if(!checkResolveListListContainsType(find)){
-						resolveList.add( find );
-					}				
-					needReload = find.isReload( event, getModel( ) );
-					needReset = find.isReset( event, getModel( ) );
+				/**
+				 * Check whether the  resolveList already contains the same type of the new IRelatedFileChangeResolve.
+				 * Add the new resolve to the resolveList only if the list doesn't contain  objects have the same type of the new resolve.
+				 * This judgment call tries to prevent duplicate refresh action when several resources change happens.
+				 */
+				if(!checkResolveListContainsType(find)){
+					if(targetPath!=null ){
+						if(targetPath.toOSString().equals(getModel( ).getFileName())){
+							addToResolveList(event,find);
+						}				
+					}else{//if targetPath is null, follow the old logic
+							addToResolveList(event,find);
+					}
 				}
-
 				break;
 			}
 		}
+	}
+	private void addToResolveList(IReportResourceChangeEvent event,IRelatedFileChangeResolve find){
+		resolveList.add( find );
+		needReload = find.isReload( event, getModel( ) );
+		needReset = find.isReset( event, getModel( ) );
 	}
 	/**
 	 * Check whether the  resolveList already contains the same type of the new IRelatedFileChangeResolve.
 	 * @param find
 	 * @return
 	 */
-	private boolean checkResolveListListContainsType(IRelatedFileChangeResolve find){
+	private boolean checkResolveListContainsType(IRelatedFileChangeResolve find){
 		for(int i=0;i<resolveList.size();i++){
 			IRelatedFileChangeResolve obj=resolveList.get(i);
 			if(find.getClass().equals(obj.getClass())){
