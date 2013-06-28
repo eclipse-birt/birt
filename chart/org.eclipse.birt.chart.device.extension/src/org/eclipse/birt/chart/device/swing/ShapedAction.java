@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.device.swing;
 
-import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
