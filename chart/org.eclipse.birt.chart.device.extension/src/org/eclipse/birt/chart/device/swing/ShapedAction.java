@@ -55,17 +55,16 @@ public final class ShapedAction
 	public ShapedAction( StructureSource oSource, Location[] loa, Shape clipping )
 	{
 		_oSource = oSource;
-		final int[][] i2a = G2dRendererBase.getCoordinatesAsInts( loa );
 		if ( clipping != null )
 		{
 			Area ar1 = new Area( clipping );
-			Area ar2 = new Area( new Polygon( i2a[0], i2a[1], loa.length ) );
+			Area ar2 = new Area( G2dRendererBase.getPolygon2D( loa ) );
 			ar2.intersect( ar1 );
 			_sh = ar2;
 		}
 		else
 		{
-			_sh = new Polygon( i2a[0], i2a[1], loa.length );
+			_sh = G2dRendererBase.getPolygon2D( loa );
 		}
 	}
 
