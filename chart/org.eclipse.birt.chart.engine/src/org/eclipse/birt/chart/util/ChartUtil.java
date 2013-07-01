@@ -964,6 +964,25 @@ public class ChartUtil
 			Query orthQuery, SeriesDefinition orthoSD,
 			SeriesDefinition categorySD ) throws ChartException
 	{
+		return generateBindingNameOfValueSeries( orthQuery, orthoSD, categorySD, false );
+	}
+	
+	/**
+	 * Returns a binding name for a value series.
+	 * 
+	 * @param orthQuery
+	 * @param orthoSD
+	 * @param categorySD
+	 * @param forceNewRule indicates if use old 
+	 * @return binding name
+	 * @throws ChartException
+	 * 
+	 * @since 4.2
+	 */
+	public static String generateBindingNameOfValueSeries(
+			Query orthQuery, SeriesDefinition orthoSD,
+			SeriesDefinition categorySD, boolean forceNewRule ) throws ChartException
+	{
 		ExpressionCodec exprCodec = ChartModelHelper.instance( )
 				.createExpressionCodec( );
 		String returnExpr = orthQuery.getDefinition( );
@@ -987,10 +1006,12 @@ public class ChartUtil
 		}
 		returnExpr = escapeSpecialCharacters( returnExpr );
 		
-		// The generated value binding name must include category and optional Y info to keep unique.
+		// The generated value binding name must include category and
+		// optional Y info to keep unique.
 		returnExpr += createValueAggregrateKey( categorySD,
-				orthoSD,
-				exprCodec );
+					orthoSD,
+					exprCodec, 
+					forceNewRule );
 		return returnExpr;
 	}
 	
@@ -1027,7 +1048,8 @@ public class ChartUtil
 			//The generated value binding name must include category and optional Y info to keep unique.
 			rowExpr += createValueAggregrateKey( categorySD,
 					orthoSD,
-					exprCodec );
+					exprCodec,
+					false );
 			
 			return ExpressionUtil.createRowExpression( rowExpr  ); 
 		}
@@ -1035,11 +1057,12 @@ public class ChartUtil
 
 	private static String createValueAggregrateKey(
 			SeriesDefinition categorySD, SeriesDefinition orthoSD,
-			ExpressionCodec exprCodec  )
+			ExpressionCodec exprCodec, boolean forceNewRule  )
 	{
 		String key = ""; //$NON-NLS-1$
 		Chart cm = searchChartModelFromChild( categorySD );
-		if ( cm != null && compareVersion( cm.getVersion( ), "2.6.1" ) >= 0 ) //$NON-NLS-1$
+		if ( cm != null
+				&& ( forceNewRule || compareVersion( cm.getVersion( ), "2.6.1" ) >= 0 ) ) //$NON-NLS-1$
 		{
 			if ( categorySD.getGrouping( ).isEnabled( )
 					&& categorySD.getDesignTimeSeries( ) != null )
