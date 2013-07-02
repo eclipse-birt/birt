@@ -283,8 +283,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 				return EMPTY;
 			}
 			// ignore items that cannot be inserted as (part of) expression.
-			else if (inputElement instanceof DataSetHandle
-					&& provider.getChildren(inputElement)[0] instanceof ReportElementHandle
+			else if ( provider.getChildren(inputElement)[0] instanceof ReportElementHandle
 					&& getAdapter() != null
 					&& getAdapter( ).resolveExtendedData( (DesignElementHandle) inputElement ) != null
 					&& !getAdapter().isExtendedDataItem( (ReportElementHandle) provider.getChildren(inputElement)[0] ))
