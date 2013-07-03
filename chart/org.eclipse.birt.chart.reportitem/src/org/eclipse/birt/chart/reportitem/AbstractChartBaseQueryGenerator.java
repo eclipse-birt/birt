@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -145,6 +146,9 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param baseSD
 	 * @throws ChartException
 	 */
+	@SuppressWarnings({
+			"unchecked", "deprecation"
+	})
 	protected void addValueSeriesAggregateBindingForGrouping(
 			BaseQueryDefinition query,
 			EList<SeriesDefinition> seriesDefinitions,
@@ -266,6 +270,40 @@ public abstract class AbstractChartBaseQueryGenerator
 					if ( !query.getBindings( ).containsKey( colBinding.getBindingName( ) ) )
 					{
 						query.addBinding( colBinding );
+						
+						// For backwards compatibility, still create binding
+						// name with old rule for old report to ensure both old
+						// report and old report document work. 
+						if ( ChartUtil.compareVersion( fChartModel.getVersion( ),
+								"2.6.1" ) < 0 ) //$NON-NLS-1$
+						{
+							String bindingName = ChartUtil.generateBindingNameOfValueSeries( qry,
+									orthSD,
+									baseSD,
+									true );
+							if ( !query.getBindings( ).containsKey( bindingName )
+									&& !fNameSet.contains( bindingName ) )
+							{
+								IBinding newBinding = new Binding( bindingName,
+										colBinding.getExpression( ) );
+								newBinding.setAggrFunction( colBinding.getAggrFunction( ) );
+								newBinding.setDataType( colBinding.getDataType( ) );
+								newBinding.setDisplayName( colBinding.getDisplayName( ) );
+								newBinding.setExportable( colBinding.exportable( ) );
+								newBinding.setFilter( colBinding.getFilter( ) );
+								newBinding.setTimeFunction( colBinding.getTimeFunction( ) );
+								for ( Object o : colBinding.getAggregatOns( ) )
+								{
+									newBinding.getAggregatOns( ).add( o );
+								}
+								for ( Object o : colBinding.getArguments( ) )
+								{
+									newBinding.addArgument( (IBaseExpression) o );
+								}
+								
+								query.addBinding( newBinding );
+							}
+						}
 					}
 				}
 				catch ( DataException e )

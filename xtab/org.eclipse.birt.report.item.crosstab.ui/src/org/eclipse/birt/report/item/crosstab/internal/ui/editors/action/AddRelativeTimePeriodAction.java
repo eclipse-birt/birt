@@ -174,7 +174,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 			for( int i = 0; i < reportHandle.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE); i++ )
 			{
 				DimensionHandle dimension = reportHandle.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i).getCubeDimension();
-				if( dimension.isTimeType() )
+				if( dimension != null && dimension.isTimeType() )
 				{
 					return true;
 				}
@@ -182,7 +182,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 			for( int i = 0; i < reportHandle.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE); i++ )
 			{
 				DimensionHandle dimension = reportHandle.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE, i).getCubeDimension();
-				if( dimension.isTimeType() )
+				if( dimension != null && dimension.isTimeType() )
 				{
 					return true;
 				}

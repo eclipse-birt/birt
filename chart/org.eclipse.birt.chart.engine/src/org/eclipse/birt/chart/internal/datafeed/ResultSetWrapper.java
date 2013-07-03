@@ -1529,7 +1529,7 @@ public final class ResultSetWrapper
 
 					// compare to existing base values and find an available
 					// position.
-					for ( int j = 0; sorting != null && j < baseValue.size( ); j++ )
+					for ( int j = 0; j < baseValue.size( ); j++ )
 					{
 						Object ov = baseValue.get( j );
 

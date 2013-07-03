@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
