@@ -87,6 +87,7 @@ public class DocxEmitterImpl extends AbstractEmitterImpl
 		{
 			if ( embedHtml )
 			{
+				writeBookmark( foreign );
 				int width = WordUtil.convertTo( foreign.getWidth( ),
 						context.getCurrentWidth( ), reportDpi );
 				width = Math.min( width, context.getCurrentWidth( ) );
