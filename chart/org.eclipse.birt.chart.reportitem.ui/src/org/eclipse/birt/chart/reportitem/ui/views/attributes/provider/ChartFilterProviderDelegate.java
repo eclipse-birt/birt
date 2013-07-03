@@ -13,9 +13,9 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.ChartPageGenerator;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;

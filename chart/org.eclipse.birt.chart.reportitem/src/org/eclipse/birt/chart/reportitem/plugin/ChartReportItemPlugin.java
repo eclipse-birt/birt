@@ -20,9 +20,9 @@ import org.eclipse.birt.chart.device.ImageWriterFactory;
 import org.eclipse.birt.chart.device.ScriptMenuHelper;
 import org.eclipse.birt.chart.model.IChartModelHelper;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 

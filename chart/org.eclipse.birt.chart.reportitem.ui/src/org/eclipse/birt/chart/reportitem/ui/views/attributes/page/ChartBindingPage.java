@@ -14,10 +14,10 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.page;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartBindingGroupDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BindingPage;
