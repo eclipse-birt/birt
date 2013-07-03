@@ -231,9 +231,10 @@ public class BirtTagUtil
 
 				if ( reportRunnable == null )
 				{
-					throw new ViewerException(
-							ResourceConstants.GENERAL_EXCEPTION_REPORT_FILE_ERROR,
-							new String[]{designFile} );
+					throw new ViewerException( ResourceConstants.GENERAL_EXCEPTION_REPORT_FILE_ERROR,
+							new String[]{
+								new File( designFile ).getName( )
+							} );
 				}
 			}
 		}
