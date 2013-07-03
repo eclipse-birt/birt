@@ -89,6 +89,10 @@
             <property name="y">0.5mm</property>
             <property name="height">0.25mm</property>
             <property name="width">1mm</property>
+            <property name="role">Div</property>
+            <property name="language">English</property>
+            <property name="altText">Alt Text</property>
+            <property name="order">1</property>
             <text-property name="text" key="text key">Body's slot</text-property>
             <text-property name="helpText" key="help key">label help text</text-property>
         </label>

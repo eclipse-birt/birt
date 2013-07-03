@@ -86,6 +86,9 @@
             <expression name="bookmark">No bookmark</expression>
             <property name="source">embed</property>
             <property name="fitToContainer">false</property>
+            <property name="role">Figure</property>
+            <property name="language">English</property>
+            <property name="order">1</property>
             <property name="imageName">BodyImage</property>
             <text-property name="helpText" key="new resource key for body image help text">new body image help text</text-property>
             <list-property name="action">

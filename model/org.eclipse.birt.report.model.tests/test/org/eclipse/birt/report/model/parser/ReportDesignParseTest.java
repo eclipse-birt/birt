@@ -53,8 +53,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -62,7 +60,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.XPathParser;
 
 /**
  * This class tests the property parsing and writing. Translation is test in
@@ -378,6 +375,7 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertNull( handle );
 
 		assertEquals( ULocale.GERMAN, designHandle.getLocale( ) );
+		assertEquals( "English", designHandle.getLanguage( ) );
 		
 		// Test onPrepare
 		assertEquals( "script of onPrepare", designHandle.getOnPrepare( ) );  //$NON-NLS-1$
@@ -414,6 +412,7 @@ public class ReportDesignParseTest extends BaseTestCase
 		openDesign( fileName, ULocale.ENGLISH );
 
 		designHandle.setProperty( ReportDesign.AUTHOR_PROP, "Report Author" ); //$NON-NLS-1$
+		designHandle.setLanguage( "English" );
 		designHandle.setSubject( "Report Subject" ); //$NON-NLS-1$
 		designHandle.setProperty( ReportDesign.HELP_GUIDE_PROP, "Help guide" ); //$NON-NLS-1$
 		designHandle.setProperty( ReportDesign.CREATED_BY_PROP,

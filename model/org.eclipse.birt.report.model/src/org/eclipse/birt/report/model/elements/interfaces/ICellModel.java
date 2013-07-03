@@ -162,5 +162,20 @@ public interface ICellModel
 	 * headers of the data cell.
 	 */
 	public static final String HEADERS_PROP = "headers"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the role property.
+	 */
+	public static final String ROLE_PROP = "role"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the language property.
+	 */
+	public static final String LANGUAGE_PROP = "language"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the altText property.
+	 */
+	public static final String ALTTEXT_PROP = "altText"; //$NON-NLS-1$
 
 }

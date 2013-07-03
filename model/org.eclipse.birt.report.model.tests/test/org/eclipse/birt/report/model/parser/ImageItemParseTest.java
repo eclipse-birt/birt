@@ -195,6 +195,9 @@ public class ImageItemParseTest extends BaseTestCase
 		image = findImageItemByName( "Image1" ); //$NON-NLS-1$
 		double scale = handle.getScale( );
 		assertTrue( scale == 0.8 );
+		
+		// test default value of Role in Image
+		assertEquals( "figure", handle.getRole( ) ); //$NON-NLS-1$
 
 		String size = handle.getSize( );
 		assertEquals( DesignChoiceConstants.IMAGE_SIZE_SCALE_TO_ITEM, size );
@@ -262,6 +265,10 @@ public class ImageItemParseTest extends BaseTestCase
 				"http://localhost:8080/bodyImage.jpg", actionHandle.getURI( ) ); //$NON-NLS-1$
 
 		assertTrue( handle.fitToContainer( ) );
+		
+		assertEquals( "Div", handle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "English", handle.getLanguage( ) ); //$NON-NLS-1$
+		assertEquals( 1, handle.getOrder( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -366,6 +373,10 @@ public class ImageItemParseTest extends BaseTestCase
 		handle.setHelpText( "new body image help text" ); //$NON-NLS-1$
 		handle.setHelpTextKey( "new resource key for body image help text" ); //$NON-NLS-1$
 		handle.setFitToContainer( false );
+		
+		handle.setRole( "Figure" ); //$NON-NLS-1$
+		handle.setLanguage( "English" ); //$NON-NLS-1$
+		handle.setOrder( 1 ); //$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( "ImageItemParseTest_golden.xml" ) ); //$NON-NLS-1$
@@ -393,6 +404,7 @@ public class ImageItemParseTest extends BaseTestCase
 		ImageHandle imageHandle = (ImageHandle) designHandle
 				.findElement( "image2" ); //$NON-NLS-1$
 		assertNotNull( imageHandle );
+		
 
 	}
 }

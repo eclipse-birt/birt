@@ -3,6 +3,7 @@
     <property name="author">Report Author</property>
     <property name="comments">New comments</property>
     <property name="createdBy">Report Creator</property>
+    <property name="language">English</property> 
     <text-property name="title" key="New title id">New title</text-property>
     <html-property name="description" key="New description id">New description</html-property>
     <simple-property-list name="includeResource">
@@ -35,7 +36,7 @@
     <expression name="ACLExpression">new acl expression test</expression>
     <property name="cascadeACL">true</property>
     <property name="imageDPI">10</property>
-    <property name="locale">fr_CA</property>            
+    <property name="locale">fr_CA</property>
     <list-property name="libraries">
         <structure>
             <property name="fileName">LibraryA.xml</property>

@@ -33,29 +33,32 @@
     <body>
         <grid name="My grid" id="9">
             <property name="summary">new summary</property>
-            <text-property name="caption" key="new caption key">new caption</text-property>        
+            <text-property name="caption" key="new caption key">new caption</text-property>
+            <property name="role">Grid Role</property>
+            <property name="language">English</property>
+            <property name="order">1</property>       
             <column id="10">
-                <property name="width">2.5mm</property>
                 <property name="repeat">3</property>
                 <property name="style">My-Style</property>
+                <property name="width">2.5mm</property>
             </column>
             <column id="11">
-                <property name="width">1.5mm</property>
                 <property name="style">My-Style</property>
+                <property name="width">1.5mm</property>
             </column>
             <row id="12">
-                <property name="height">5mm</property>
                 <expression name="bookmark">This is bookmark for section.</expression>
                 <property name="style">My-Style</property>
+                <property name="height">5mm</property>
                 <cell id="13">
                     <property name="column">1</property>
                     <property name="colSpan">1</property>
-                    <property name="rowSpan">1</property>
+                    <property name="rowSpan">1</property>                    
                     <label id="14">
-                        <property name="x">1mm</property>
-                        <property name="y">2mm</property>
                         <property name="height">3mm</property>
                         <property name="width">4mm</property>
+                        <property name="x">1mm</property>
+                        <property name="y">2mm</property>
                         <text-property name="text">Customer Name</text-property>
                     </label>
                 </cell>
@@ -64,8 +67,6 @@
                     <property name="colSpan">3</property>
                     <property name="rowSpan">1</property>
                     <property name="drop">all</property>
-                    <property name="height">1.5mm</property>
-                    <property name="width">2mm</property>
                     <property name="diagonalNumber">20</property>
         			<property name="diagonalStyle">inset</property>
         			<property name="diagonalThickness">1.5mm</property>
@@ -77,18 +78,23 @@
         			<property name="scope">col</property>
         			<expression name="bookmark">new bookmark for cell</expression>
         			<expression name="headers">new headers for cell</expression>
+                    <property name="role">Cell Role</property>
+		            <property name="language">English</property>
+		            <property name="altText">Alt Text</property>
                     <property name="style">My-Style</property>
                     <property name="backgroundColor">red</property>
                     <property name="borderTopColor">yellow</property>
                     <property name="borderTopStyle">dotted</property>
                     <property name="borderTopWidth">2mm</property>
+                    <property name="height">1.5mm</property>
+                    <property name="width">2mm</property>
                     <label name="address" id="16">
-                        <property name="x">1.1mm</property>
-                        <property name="y">2.2mm</property>
                         <property name="height">3.3mm</property>
                         <property name="width">4.4mm</property>
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
                         <text-property name="text">Address</text-property>
-                    </label>
+                    </label>                    
                 </cell>
             </row>
             <row id="17">
@@ -97,10 +103,10 @@
                     <property name="colSpan">4</property>
                     <property name="rowSpan">1</property>
                     <label id="19">
-                        <property name="x">1.1mm</property>
-                        <property name="y">2.2mm</property>
                         <property name="height">3.3mm</property>
                         <property name="width">4.4mm</property>
+                        <property name="x">1.1mm</property>
+                        <property name="y">2.2mm</property>
                         <text-property name="text">Address</text-property>
                     </label>
                     <grid name="cellGrid" id="20"/>

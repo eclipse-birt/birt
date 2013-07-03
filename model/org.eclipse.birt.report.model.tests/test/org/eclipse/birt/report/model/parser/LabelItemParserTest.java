@@ -121,6 +121,9 @@ public class LabelItemParserTest extends ParserTestCase
 		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK, action
 				.getLinkType( ) );
 		assertEquals( "http://localhost:8080/", action.getURI( ) ); //$NON-NLS-1$
+		
+		// test default value of Role in Label
+		assertEquals( "div", labelHandle.getRole( ) ); //$NON-NLS-1$
 
 		// reads in a lable that exists in the body.
 
@@ -135,6 +138,11 @@ public class LabelItemParserTest extends ParserTestCase
 		assertEquals( "label help text", labelHandle.getHelpText( ) ); //$NON-NLS-1$
 		assertEquals( "help key", labelHandle.getHelpTextKey( ) ); //$NON-NLS-1$
 		assertEquals( "text key", labelHandle.getTextKey( ) ); //$NON-NLS-1$
+		
+		assertEquals( "Div", labelHandle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "English", labelHandle.getLanguage( ) ); //$NON-NLS-1$
+		assertEquals( "Alt Text", labelHandle.getAltText( ) ); //$NON-NLS-1$
+		assertEquals( 1, labelHandle.getOrder( ) ); //$NON-NLS-1$
 
 		// make sure that this label exists in the body slot.
 
@@ -249,6 +257,11 @@ public class LabelItemParserTest extends ParserTestCase
 		labelHandle.setTextKey( "new text resource key" ); //$NON-NLS-1$
 		labelHandle.setHelpText( "new help text" ); //$NON-NLS-1$
 		labelHandle.setHelpTextKey( "new help text key" ); //$NON-NLS-1$
+		
+		labelHandle.setRole( "Div" ); //$NON-NLS-1$
+		labelHandle.setLanguage( "English" ); //$NON-NLS-1$
+		labelHandle.setAltText( "Alt Text" ); //$NON-NLS-1$
+		labelHandle.setOrder( 1 ); //$NON-NLS-1$
 
 		labelHandle.setCustomXml( "new custom <text> </text> for bodyLabel" ); //$NON-NLS-1$
 

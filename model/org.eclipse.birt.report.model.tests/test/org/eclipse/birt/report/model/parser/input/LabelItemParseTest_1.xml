@@ -39,6 +39,10 @@
                     <property name="height">0.25mm</property>
                     <property name="width">2mm</property>
                     <text-property name="text">First Page</text-property>
+                    <property name="role">Div</property>
+		            <property name="language">English</property>
+		            <property name="altText">Alt Text</property>
+		            <property name="order">1</property>
                 </label>
             </contents>
         </graphic-master-page>

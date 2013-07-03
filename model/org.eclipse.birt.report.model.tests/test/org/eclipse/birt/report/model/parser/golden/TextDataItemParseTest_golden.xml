@@ -13,10 +13,10 @@
             <property name="columnSpacing">0.25mm</property>
             <contents>
                 <label name="label1" id="4">
-                    <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>
                     <property name="width">2mm</property>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
             </contents>
@@ -27,6 +27,11 @@
             <expression name="valueExpr">new value expr</expression>
             <property name="contentType">rtf</property>
             <property name="hasExpression">false</property>
+            <property name="role">Div</property>
+            <property name="language">English</property>
+            <property name="altText">Alt Text</property>
+            <property name="order">1</property>
         </text-data>
+        <text-data name="Text Data2" id="6"/>
     </body>
 </report>
