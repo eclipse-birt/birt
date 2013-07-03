@@ -276,7 +276,9 @@ public class PieSeriesAttributeComposite extends Composite implements
 		lblInnerRadiusPercent = txtInnerRadius.getUnitLabel( );
 
 		lblInnerRadiusPercent.setVisible( series.isInnerRadiusPercent( ) );
+		createRatio( cmpRight );
 		createRotation( cmpRight );
+		createDirection( cmpRight );
 		createSeriesDetail( cmpRight );
 
 		updateInnerRadiusStates( );
@@ -313,8 +315,8 @@ public class PieSeriesAttributeComposite extends Composite implements
 		cmbLeaderLine.setItemData( ns.getNames( ) );
 		cmbLeaderLine.setSelection( series.getLeaderLineStyle( ).getName( ) );
 	}
-
-	protected void createRotation( Composite cmpRight )
+	
+	protected void createRatio( Composite cmpRight )
 	{
 		Label lblRatio = new Label( cmpRight, SWT.NONE );
 		{
@@ -341,7 +343,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 			sRatio.setEnabled( true );
 			sRatio.addSelectionListener( this );
 		}
+	}
 
+	protected void createRotation( Composite cmpRight )
+	{
 		Label lblRotation = new Label( cmpRight, SWT.NONE );
 		{
 			lblRotation.setText( Messages.getString( "PieBottomAreaComponent.Label.Rotation" ) ); //$NON-NLS-1$
@@ -367,7 +372,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 			sRotation.setEnabled( true );
 			sRotation.addSelectionListener( this );
 		}
-
+	}
+	
+	protected void createDirection( Composite cmpRight )
+	{
 		btnDirection = context.getUIFactory( )
 				.createChartCheckbox( cmpRight,
 						SWT.NONE,

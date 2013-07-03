@@ -25,7 +25,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 
 public interface IDataServiceProvider
 {
-
 	/**
 	 * Indicates if chart has data set
 	 */
@@ -79,6 +78,16 @@ public interface IDataServiceProvider
 	 */
 	public static final int SHARE_CHART_QUERY_RECURSIVELY = 1 << 14;
 	
+	/**
+	 * Indicates if is cube and category is not top level
+	 */
+	public static final int IS_CUBE_AND_CATEGORY_NOT_TOP_LEVEL = 1 << 15;
+	
+	/**
+	 * Indicates if is cube and series is not top level
+	 */
+	public static final int IS_CUBE_AND_SERIES_NOT_TOP_LEVEL = 1 << 16;
+
 	/**
 	 * Does some initialization works in this method.
 	 * @throws ChartException
@@ -197,5 +206,5 @@ public interface IDataServiceProvider
 	 * @since 2.3
 	 */
 	public Object checkData( String checkType, Object data );
-
+	
 }

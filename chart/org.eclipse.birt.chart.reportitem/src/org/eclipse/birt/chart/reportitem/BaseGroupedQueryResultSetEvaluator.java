@@ -446,7 +446,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 *            grouping definition.
 	 * @throws ChartException
 	 */
-	private void updateEnabledGroupIndexes( Chart cm,
+	protected void updateEnabledGroupIndexes( Chart cm,
 			List<IGroupDefinition> groupDefinitions ) throws ChartException
 	{
 		faEnabledGroups = new boolean[fGroupCount];

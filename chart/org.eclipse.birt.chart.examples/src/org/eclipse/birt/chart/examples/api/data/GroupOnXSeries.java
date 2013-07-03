@@ -17,12 +17,14 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.IDesignEngine;
+import org.eclipse.birt.report.model.api.IDesignEngineFactory;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -47,17 +49,35 @@ public class GroupOnXSeries
 		new GroupOnXSeries( ).groupSeries( );
 
 	}
+	
+	private IDesignEngine getDesignEngine( )
+	{
+
+		DesignConfig config = new DesignConfig( );
+		try
+		{
+			Platform.startup( config );
+		}
+		catch ( BirtException e )
+		{
+			e.printStackTrace( );
+		}
+
+		Object factory = Platform.createFactoryObject( IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY );
+
+		return ( (IDesignEngineFactory) factory ).createDesignEngine( config );
+	}
 
 	/**
 	 * Get the chart instance from the design file and group X series of the
 	 * chart.
 	 * 
-	 * @return An instance of the simulated runtime chart model (containing
+	 * return An instance of the simulated runtime chart model (containing
 	 *         filled datasets)
 	 */
 	void groupSeries( )
 	{
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig() ).newSessionHandle( (ULocale) null );
+		SessionHandle sessionHandle = getDesignEngine( ).newSessionHandle( (ULocale) null );
 		ReportDesignHandle designHandle = null;
 
 		String path = "src/org/eclipse/birt/chart/examples/api/data/";//$NON-NLS-1$
@@ -76,8 +96,8 @@ public class GroupOnXSeries
 					.getCaption( )
 					.setValue( "Group On X Series" );//$NON-NLS-1$
 
-			SeriesDefinition sdX = (SeriesDefinition) ( (Axis) ( (ChartWithAxes) cm ).getAxes( )
-					.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
+			SeriesDefinition sdX = ( ( (ChartWithAxes) cm ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
+					.get( 0 );
 
 			sdX.setSorting( SortOption.ASCENDING_LITERAL );
 			sdX.getGrouping( ).setEnabled( true );
@@ -97,6 +117,10 @@ public class GroupOnXSeries
 		catch ( IOException e )
 		{
 			e.printStackTrace( );
+		}
+		finally
+		{
+			Platform.shutdown( );
 		}
 
 	}

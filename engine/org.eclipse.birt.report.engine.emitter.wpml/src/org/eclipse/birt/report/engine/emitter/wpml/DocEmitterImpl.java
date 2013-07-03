@@ -219,6 +219,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 		IStyle computedStyle = content.getComputedStyle( );
 		IStyle inlineStyle = null;
 
+		String textAlign = null;
 		if ( "inline".equalsIgnoreCase( content.getComputedStyle( )
 				.getDisplay( ) ) )
 		{
@@ -238,6 +239,9 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 			{
 				inlineStyle = mergeStyles( inlineStyles );
 			}
+			IContent parent = (IContent) content.getParent( );
+			if ( parent != null && parent.getComputedStyle( ) != null )
+				textAlign = parent.getComputedStyle( ).getTextAlign( );
 		}
 		else
 		{
@@ -246,7 +250,8 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 
 		writeBookmark( content );
 		writeToc( content, inlineFlag == InlineFlag.MIDDLE_INLINE ); // element with Toc contains bookmark
-		writeText( type, txt, content, inlineFlag, computedStyle, inlineStyle );
+		writeText( type, txt, content, inlineFlag, computedStyle, inlineStyle,
+				textAlign );
 		context.setIsAfterTable( false );
 	}
 

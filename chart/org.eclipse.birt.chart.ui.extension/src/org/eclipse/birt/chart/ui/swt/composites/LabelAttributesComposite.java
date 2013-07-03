@@ -63,7 +63,7 @@ public class LabelAttributesComposite extends Composite implements
 
 	private Group grpOutline = null;
 
-	private ChartCheckbox btnVisible = null;
+	protected ChartCheckbox btnVisible = null;
 
 	private Label lblLabel = null;
 
@@ -416,7 +416,7 @@ public class LabelAttributesComposite extends Composite implements
 	/**
 	 * 
 	 */
-	private void placeComponents( )
+	protected void placeComponents( )
 	{
 		FillLayout flMain = new FillLayout( );
 		flMain.marginHeight = 0;
@@ -610,7 +610,14 @@ public class LabelAttributesComposite extends Composite implements
 					optionalStyles,
 					wizardContext,
 					laCurrent,
-					defLabel.getOutline( ) );
+					defLabel.getOutline( ) ) {
+
+				protected void placeComponents( )
+				{
+					super.placeComponents( );
+					btnVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible2" ) ); //$NON-NLS-1$
+				}
+			};
 			liacOutline.addListener( this );
 			liacOutline.setAttributesEnabled( bEnableUI );
 		}
@@ -985,5 +992,10 @@ public class LabelAttributesComposite extends Composite implements
 		{
 			icInsets.setDefaultInsets( defLabel.getInsets( ) );
 		}
+	}
+	
+	public Composite getGeneralComposite( )
+	{
+		return cmpGeneral;
 	}
 }

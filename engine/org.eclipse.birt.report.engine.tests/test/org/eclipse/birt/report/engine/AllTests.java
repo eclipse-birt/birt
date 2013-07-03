@@ -95,6 +95,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.HTMLWriterTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.XMLEncodeUtilTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.XMLWriterTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.HTMLClientInitializeTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.buffermgr.TableTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.css.CssParserTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.css.HTMLProcessorTest.class );

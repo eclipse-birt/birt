@@ -1204,7 +1204,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 		label = LabelImpl.createDefault( false );
 		labelPosition = Position.OUTSIDE_LITERAL;
 		seriesIdentifier = IConstants.UNDEFINED_STRING;
-		setDataPoint( DataPointImpl.create( null, null, ", " ) ); //$NON-NLS-1$
+		setDataPoint( DataPointImpl.createDefault( ) ); 
 	}
 
 	/*

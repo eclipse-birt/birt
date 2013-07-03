@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.script.ChartScriptContext;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -377,12 +378,17 @@ public class DesignerRepresentation extends ReportElementFigure
 
 		final Display d = Display.getCurrent( );
 
-		// OFFSCREEN IMAGE CREATION STRATEGY
+		/*
+		 * OFFSCREEN IMAGE CREATION STRATEGY three condition: 1.the Image and the
+		 * GC initialization. 2.the Image has been resized 3.In Linux OS, cached
+		 * image doesn't work, need create a new Image instance.(bug 58772)
+		 */
 		if ( imgChart == null
 				|| imgChart.getImageData( ).width != dSize.width
 				|| imgChart.getImageData( ).height != dSize.height
 				|| gc == null
-				|| gc.isDisposed( ) )
+				|| gc.isDisposed( )
+				|| Platform.OS_LINUX.equals( Platform.getOS( ) ) )
 		{
 			if ( gc != null )
 			{
@@ -563,8 +569,19 @@ public class DesignerRepresentation extends ReportElementFigure
 	protected final RunTimeContext constructRuntimeContext( )
 	{
 		RunTimeContext rtc = new RunTimeContext( );
+		
+		ChartScriptContext csc = new ChartScriptContext( );
+		csc.setChartInstance( cm );
+		csc.setULocale( rtc.getULocale( ) );
+		csc.setLogger( logger );
+		rtc.setScriptContext( csc );
+		
 		rtc.setScriptingEnabled( false );
-		rtc.setScriptHandler( new ScriptHandler( ) );
+		ScriptHandler sh = new ScriptHandler( );
+		rtc.setScriptHandler( sh );
+		sh.setScriptClassLoader( rtc.getScriptClassLoader( ) );
+		sh.setScriptContext( rtc.getScriptContext( ) );
+
 		rtc.setMessageLookup( new BIRTDesignerMessageLookup( crii.getHandle( ) ) );
 
 		// Set direction from model to chart runtime context

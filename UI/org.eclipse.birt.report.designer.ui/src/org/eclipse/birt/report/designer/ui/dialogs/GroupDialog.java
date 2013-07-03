@@ -44,6 +44,7 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -70,6 +71,7 @@ import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
@@ -79,6 +81,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.JFaceColors;
@@ -914,6 +917,12 @@ public class GroupDialog extends BaseDialog implements Listener
 								200, 100, 100, 100
 						};
 					}
+					
+					@Override
+					public boolean isEditGroup() {
+						
+						return editGroup();
+					}
 				},
 				true );
 		filterPage.setInput( list );
@@ -1385,7 +1394,7 @@ public class GroupDialog extends BaseDialog implements Listener
 						ComputedColumnHandle columnHandle = (ComputedColumnHandle) columnList.get( index );
 						dataItemHandle.setResultSetColumn( columnHandle.getName( ) );
 						ColumnHintHandle hintHandle = findColumnHintHandle( columnHandle );
-
+						setDataItemAction( hintHandle, dataItemHandle );
 						StyleHandle styleHandle = dataItemHandle.getPrivateStyle( );
 						if ( hintHandle != null )
 						{
@@ -1617,6 +1626,31 @@ public class GroupDialog extends BaseDialog implements Listener
 		return groups;
 	}
 
+	
+	private static void setDataItemAction( ColumnHintHandle model,
+			DataItemHandle dataHandle )
+	{
+		if ( model == null || dataHandle == null )
+		{
+			return;
+		}
+		
+		ActionHandle actionHandle = model.getActionHandle( );
+		if ( actionHandle != null )
+		{
+			List source = new ArrayList( );
+			source.add( actionHandle.getStructure( ) );
+			List newAction = ModelUtil.cloneStructList( source );
+			try
+			{
+				dataHandle.setAction( (Action) newAction.get( 0 ) );
+			}
+			catch ( SemanticException e )
+			{
+				// Do nothing now
+			}
+		}
+	}
 	private static ColumnHintHandle findColumnHintHandle(
 			ComputedColumnHandle column )
 	{
@@ -1933,6 +1967,15 @@ public class GroupDialog extends BaseDialog implements Listener
 	{
 		inputGroup.removeListener( this );
 		return super.close( );
+	}
+	
+	private boolean editGroup()
+	{
+		if(GROUP_DLG_TITLE_EDIT.equals(getTitle()))
+		{
+			return true;
+		}
+		return false;
 	}
 
 }

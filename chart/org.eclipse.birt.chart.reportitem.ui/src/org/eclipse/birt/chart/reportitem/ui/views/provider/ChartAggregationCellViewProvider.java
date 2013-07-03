@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartInXTabStatusManager;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -150,13 +151,6 @@ public class ChartAggregationCellViewProvider extends
 	{
 		try
 		{
-			if ( ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCount( ) > 1 )
-			{
-				// If total aggregation cell is still existent, do not remove
-				// size and grandtotal row/column
-				return;
-			}
-
 			ExtendedItemHandle chartHandle = getChartHandle( cell );
 			Chart cm = ChartItemUtil.getChartFromHandle( chartHandle );
 
@@ -223,7 +217,9 @@ public class ChartAggregationCellViewProvider extends
 		cm.getLegend( ).setVisible( false );
 		cm.getTitle( ).setVisible( false );
 
-		String exprMeasure = ChartCubeUtil.generateComputedColumnName( cell );
+		String exprMeasure = ChartCubeUtil.generateComputedColumnName( cell,
+				ChartReportItemHelper.instance( )
+						.getMeasureExprIndicator( cell.getCrosstab( ).getCube( ) ) );
 		String exprCategory = null;
 
 		// Compute the correct chart direction according to xtab
@@ -308,7 +304,9 @@ public class ChartAggregationCellViewProvider extends
 			AggregationCellHandle cell )
 	{
 		// Replace the query expression in chart model
-		String exprMeasure = ChartCubeUtil.generateComputedColumnName( cell );
+		String exprMeasure = ChartCubeUtil.generateComputedColumnName( cell,
+				ChartReportItemHelper.instance( )
+						.getMeasureExprIndicator( cell.getCrosstab( ).getCube( ) ) );
 		String exprCategory = null;
 
 		if ( cm.isTransposed( ) )
@@ -581,6 +579,13 @@ public class ChartAggregationCellViewProvider extends
 			}
 		}
 		CrosstabReportItemHandle xtab = info.getCrosstab( );
+		// Do not allow switching to Chart if neither row or column is defined
+		if ( xtab.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ) == 0
+				&& xtab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ) == 0 )
+		{
+			return false;
+		}
+		
 		if ( info.getType( ) == SwitchCellInfo.GRAND_TOTAL
 				|| info.getType( ) == SwitchCellInfo.SUB_TOTAL )
 		{

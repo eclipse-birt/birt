@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="61">
+            <text-property name="text">Grid The First</text-property>
+        </label>
+        <grid id="7">
+            <column id="8"/>
+            <column id="9"/>
+            <column id="10"/>
+            <row id="11">
+                <cell id="12">
+                    <label id="23">
+                        <text-property name="text">First Row</text-property>
+                    </label>
+                </cell>
+                <cell id="13"/>
+                <cell id="14"/>
+            </row>
+            <row id="15">
+                <cell id="16"/>
+                <cell id="17"/>
+                <cell id="18"/>
+            </row>
+            <row id="19">
+                <cell id="20">
+                    <label id="24">
+                        <text-property name="text">Third Row</text-property>
+                    </label>
+                </cell>
+                <cell id="21"/>
+                <cell id="22"/>
+            </row>
+        </grid>
+        <label id="62">
+            <text-property name="text">Grid The Second</text-property>
+        </label>
+        <grid id="25">
+            <column id="26"/>
+            <column id="27"/>
+            <column id="28"/>
+            <row id="29">
+                <cell id="30">
+                    <label id="31">
+                        <text-property name="text">First Row</text-property>
+                    </label>
+                </cell>
+                <cell id="32"/>
+                <cell id="33"/>
+            </row>
+            <row id="34">
+                <cell id="35"/>
+                <cell id="36"/>
+                <cell id="37"/>
+            </row>
+            <row id="38">
+                <cell id="39">
+                    <label id="40">
+                        <text-property name="text">Third Row</text-property>
+                    </label>
+                </cell>
+                <cell id="41"/>
+                <cell id="42"/>
+            </row>
+        </grid>
+        <label id="63">
+            <text-property name="text">Grid The Third</text-property>
+        </label>
+        <grid id="43">
+            <column id="44"/>
+            <column id="45"/>
+            <column id="46"/>
+            <row id="47">
+                <cell id="48">
+                    <label id="49">
+                        <text-property name="text">First Row</text-property>
+                    </label>
+                </cell>
+                <cell id="50"/>
+                <cell id="51"/>
+            </row>
+            <row id="52">
+                <cell id="53"/>
+                <cell id="54"/>
+                <cell id="55"/>
+            </row>
+            <row id="56">
+                <cell id="57">
+                    <label id="58">
+                        <text-property name="text">Third Row</text-property>
+                    </label>
+                </cell>
+                <cell id="59"/>
+                <cell id="60"/>
+            </row>
+        </grid>
+    </body>
+</report>

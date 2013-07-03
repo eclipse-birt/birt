@@ -218,6 +218,7 @@ public final class Bar extends AxesRenderer
 		// IF ANY)
 		final ChartWithAxes cwa = (ChartWithAxes) getModel( );
 		final Bounds boClientArea = isrh.getClientAreaBounds( true );
+		final Bounds boClientAreaWithoutInsets=isrh.getClientAreaBounds( false );
 
 		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 		logger.log( ILogger.INFORMATION,
@@ -278,7 +279,7 @@ public final class Bar extends AxesRenderer
 				: cwa.getUnitSpacing( ); // AS A PERCENTAGE OF ONE
 		
 		// Clipping area is not the same with client area.
-		final Bounds clipArea = goFactory.copyOf( boClientArea );
+		final Bounds clipArea = goFactory.copyOf( boClientAreaWithoutInsets );
 		if ( cwa.getDimension( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL )
 		{
 			boClientArea.delta( -dSeriesThickness, dSeriesThickness, 0, 0 );
@@ -1040,40 +1041,6 @@ public final class Bar extends AxesRenderer
 				continue;
 			}
 
-			// clip bars
-			if ( bRendering3D )
-			{
-				// TODO check client area for 3D
-			}
-			else
-			{
-				for ( int j = 0; j < loaFrontFace.length; j++ )
-				{
-					Location location = loaFrontFace[j];
-
-					if ( location.getX( ) < boClientArea.getLeft( ) )
-					{
-						location.setX( boClientArea.getLeft( ) );
-					}
-					else if ( location.getX( ) > boClientArea.getLeft( )
-							+ boClientArea.getWidth( ) )
-					{
-						location.setX( boClientArea.getLeft( )
-								+ boClientArea.getWidth( ) );
-					}
-					if ( location.getY( ) < boClientArea.getTop( ) )
-					{
-						location.setY( boClientArea.getTop( ) );
-					}
-					else if ( location.getY( ) > boClientArea.getTop( )
-							+ boClientArea.getHeight( ) )
-					{
-						location.setY( boClientArea.getTop( )
-								+ boClientArea.getHeight( ) );
-					}
-				}
-			}
-
 			if ( isInteractivityEnabled( ) )
 			{
 				// PROCESS 'SERIES LEVEL' TRIGGERS USING SOURCE='bs'
@@ -1427,9 +1394,7 @@ public final class Bar extends AxesRenderer
 						ex );
 			}
 						
-			if ( laDataPoint.isVisible( )
-					&& ( dHeight != 0 || bShowOutside )
-					&& dWidth != 0 )
+			if ( laDataPoint.isVisible( ) && ( dHeight != 0 || bShowOutside ) )
 			{
 				// Only render the label that is inside
 				if ( !dpha[i].isOutside( ) )

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+    <text-property name="title">Simple Test Report</text-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[var rowCount = 0;]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="47">
+            <column id="48"/>
+            <column id="49"/>
+            <column id="50"/>
+            <row id="51">
+                <cell id="52">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <text id="65">
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[Big Heading]]></text-property>
+                    </text>
+                </cell>
+                <cell id="54">
+                    <text id="66">
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[Small Heading]]></text-property>
+                    </text>
+                </cell>
+            </row>
+            <row id="55">
+                <cell id="56">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <text id="75">
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[Hello
+
+Matey]]></text-property>
+                    </text>
+                </cell>
+                <cell id="58">
+                    <text id="68">
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[Row2Col3]]></text-property>
+                    </text>
+                </cell>
+            </row>
+            <row id="59">
+                <cell id="60">
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
+                    <text id="76">
+                        <property name="contentType">plain</property>
+                        <text-property name="content"><![CDATA[Hello
+
+ 
+Matey]]></text-property>
+                    </text>
+                </cell>
+                <cell id="62">
+                    <text id="71">
+                        <property name="contentType">auto</property>
+                        <text-property name="content"><![CDATA[Row3Col3]]></text-property>
+                    </text>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

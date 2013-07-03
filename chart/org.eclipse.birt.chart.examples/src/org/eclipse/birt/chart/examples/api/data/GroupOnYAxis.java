@@ -20,10 +20,14 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.IDesignEngine;
+import org.eclipse.birt.report.model.api.IDesignEngineFactory;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -49,6 +53,25 @@ public class GroupOnYAxis
 		new GroupOnYAxis( ).groupKey( );
 
 	}
+	
+	private IDesignEngine getDesignEngine( )
+	{
+
+		DesignConfig config = new DesignConfig( );
+		try
+		{
+			Platform.startup( config );
+		}
+		catch ( BirtException e )
+		{
+			e.printStackTrace( );
+		}
+
+		Object factory = Platform.createFactoryObject( IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY );
+
+		return ( (IDesignEngineFactory) factory ).createDesignEngine( config );
+	}
+	
 
 	/**
 	 * Get the chart instance from the design file and add series grouping key.
@@ -58,7 +81,7 @@ public class GroupOnYAxis
 	 */
 	void groupKey( )
 	{
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig() ).newSessionHandle( (ULocale) null );
+		SessionHandle sessionHandle = getDesignEngine( ).newSessionHandle( (ULocale) null );
 		ReportDesignHandle designHandle = null;
 
 		String path = "src/org/eclipse/birt/chart/examples/api/data/";//$NON-NLS-1$
@@ -105,6 +128,10 @@ public class GroupOnYAxis
 		catch ( IOException e )
 		{
 			e.printStackTrace( );
+		}
+		finally
+		{
+			Platform.shutdown( );
 		}
 
 	}

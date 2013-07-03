@@ -55,8 +55,10 @@ public class ChartPreferencePage extends PropertyAndPreferencePage
 
 	public void createControl( Composite parent )
 	{
-		fConfigurationBlock = new ChartConfigurationBlock( getNewStatusChangedListener( ),
-				getProject( ) );
+		
+		fConfigurationBlock = ChartReportItemUIFactory.instance( )
+				.createChartConfigurationBlock( getNewStatusChangedListener( ),
+						getProject( ) );
 		super.createControl( parent );
 
 		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( getControl( ),

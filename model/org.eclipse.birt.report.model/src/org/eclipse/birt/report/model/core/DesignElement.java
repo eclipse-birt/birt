@@ -1810,8 +1810,15 @@ public abstract class DesignElement
 		{
 			String propName = iter.next( );
 			ElementPropertyDefn propDefn = getPropertyDefn( propName );
-			if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_TYPE )
+			if ( ( propDefn.isListType( ) && !((List)propValues.get( propName)).isEmpty( ) ) )
+			{
 				return true;
+			}
+			else 
+				if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_TYPE )
+			{
+				return true;
+			}
 		}
 		return false;
 	}
@@ -3480,10 +3487,6 @@ public abstract class DesignElement
 				if ( values != null )
 				{
 					values.remove( content );
-					if ( values.size( ) == 0 )
-					{
-						clearProperty( propName );
-					}
 					content.containerInfo = null;
 				}
 			}

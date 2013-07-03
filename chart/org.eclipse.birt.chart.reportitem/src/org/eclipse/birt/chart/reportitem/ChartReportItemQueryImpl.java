@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -170,7 +171,9 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				return new ChartSharingQueryHelper( itemHandle, cm, modelAdapter ).createQuery( parent );
 			}
 
-			return new ChartBaseQueryHelper( handle, cm, modelAdapter ).createBaseQuery( parent );
+			return ChartReportItemUtil.instanceQueryHelper( handle,
+					cm,
+					modelAdapter ).createBaseQuery( parent );
 		}
 		else if ( ChartReportItemHelper.instance( )
 				.getBindingCubeHandle( handle ) != null

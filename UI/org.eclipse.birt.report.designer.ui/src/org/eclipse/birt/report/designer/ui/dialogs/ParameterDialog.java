@@ -1514,9 +1514,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
 			dataSetList.add( DataSetHandle.getQualifiedName( ) );
 		}
-		for (Iterator itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).iterator( ); itr.hasNext( );)
+		
+		if(staticRadio.getSelection()) // linked data model is not applicable to dynamic params.
 		{
-			dataSetList.add( itr.next( ).toString( ) );
+			for (Iterator itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).iterator( ); itr.hasNext( );)
+			{
+				dataSetList.add( itr.next( ).toString( ) );
+			}
 		}
 		if ( inputParameter.getDataSetName( ) != null
 				&& !dataSetList.contains( inputParameter.getDataSetName( ) ) )
@@ -2220,7 +2224,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		
 		importValue.setEnabled( !inputParameter.getModuleHandle( )
 				.getVisibleDataSets( ).isEmpty( )
-			|| ! new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).isEmpty( ));
+			// linked data model is not applicable to dynamic params.
+			|| (staticRadio.getSelection() ? ! new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).isEmpty( ) : false));
 		importValue.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

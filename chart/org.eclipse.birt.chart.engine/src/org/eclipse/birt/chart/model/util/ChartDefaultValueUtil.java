@@ -13,15 +13,21 @@ package org.eclipse.birt.chart.model.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
+import org.eclipse.birt.chart.model.attribute.DataPointComponent;
+import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
+import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -328,6 +334,29 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 			seriesList.add( DefaultValueProvider.defPieSeries( ).copyInstance( ) );
 		}
 		
+		// Get remaining default series objects.
+		Set<String> seriesNameSet = new HashSet<String>( );
+		for ( Series s : seriesList )
+		{
+			seriesNameSet.add( s.getClass( ).getName( ) );
+		}
+		Set<Series> dtSeries = new HashSet<Series>( );
+		for ( SeriesDefinition sdef : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
+		{
+			for ( Series s: sdef.getSeries( ) )
+			{
+				dtSeries.add( s );
+			}
+		}
+		for ( Iterator<Series> iter = dtSeries.iterator( ); iter.hasNext( ); )
+		{
+			Series s = iter.next( );
+			if ( !seriesNameSet.contains( s.getClass( ).getName( ) ) )
+			{
+				seriesList.add( getDefaultSeries( s ) );
+			}
+		}
+		
 		// Set default chart title according to chart type.
 		instance.getTitle( )
 				.getLabel( )
@@ -413,5 +442,34 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 		}
 		
 		return null;
+	}
+
+	/**
+	 * Returns the default DataPointComponent of Percentile Value Literal with
+	 * according formatter.
+	 * 
+	 * @param eObj
+	 * @param eDefObj
+	 * @return default DataPointComponent of Percentile Value Literal
+	 */
+	public static DataPointComponent getPercentileDataPointDefObj(
+			DataPointComponent eObj, DataPointComponent eDefObj) {
+		// Set default format for percentile value.
+		DataPointComponent eTmpDefObj = eDefObj;
+		if ( eObj != null
+				&& eObj.getType( ) == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL
+				&& ( eDefObj == null || eDefObj.getFormatSpecifier( ) == null ) )
+		{
+			if ( eDefObj == null ) 
+			{
+				eTmpDefObj = DataPointComponentImpl.create( DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL,  DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
+			}
+			else if ( eDefObj.getFormatSpecifier( ) == null )
+			{
+				eTmpDefObj = eDefObj.copyInstance( );
+				eTmpDefObj.setFormatSpecifier( DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
+			}
+		}
+		return eTmpDefObj;
 	}
 }

@@ -197,7 +197,7 @@ public class ImageMapEmitter implements IImageMapEmitter
 						setURLValueAttributes( tag,
 								condition,
 								htmlAttr,
-								(URLValue) subAction.getValue( ) );
+								(URLValue) subAction.getValue( ), null );
 						return true;
 					}
 					else if ( subAction.getValue( ) instanceof ScriptValue )
@@ -229,11 +229,12 @@ public class ImageMapEmitter implements IImageMapEmitter
 							}
 							else if ( size == 1 )
 							{
-								URLValue uv = validURLValues.get( 0 );
-								setURLValueAttributes( tag,
-										condition,
-										htmlAttr,
-										uv );
+								URLValue uv = validURLValues.get(0);
+								// When there is only one link, set URLValue tooltip if it's
+								// not null. Otherwise, set MultiUrlvalues tooltip.
+								setURLValueAttributes(tag, condition, htmlAttr, uv,
+										((MultiURLValues) ac.getValue())
+												.getTooltip());
 								return true;
 							}
 							else
@@ -250,7 +251,7 @@ public class ImageMapEmitter implements IImageMapEmitter
 						else
 						{
 							URLValue uv = (URLValue) ac.getValue( );
-							setURLValueAttributes( tag, condition, htmlAttr, uv );
+							setURLValueAttributes( tag, condition, htmlAttr, uv, null );
 							return true;
 						}
 
@@ -323,13 +324,16 @@ public class ImageMapEmitter implements IImageMapEmitter
 	 * @param condition
 	 * @param htmlAttr
 	 * @param uv
+	 * @param tooltip
 	 */
 	private void setURLValueAttributes( HTMLTag tag,
-			TriggerCondition condition, HTMLAttribute htmlAttr, URLValue uv )
+			TriggerCondition condition, HTMLAttribute htmlAttr, URLValue uv, String tooltip )
 	{
-		// Add tooltip.
-		String tooltip = uv.getTooltip( );
-		setTooltipAttribute( tag, tooltip );
+		if (uv != null && uv.getTooltip() != null) {
+			setTooltipAttribute(tag, uv.getTooltip());
+		} else {
+			setTooltipAttribute(tag, tooltip);
+		}
 
 		if ( condition == TriggerCondition.ONCLICK_LITERAL )
 		{
@@ -665,12 +669,17 @@ public class ImageMapEmitter implements IImageMapEmitter
 		{
 			if ( ac instanceof MultipleActions )
 			{
+				// Still show menu if visible is true.
+				boolean needMenu = ac.getValue( ) != null
+						&& ac.getValue( ).getLabel( ) != null
+						&& ac.getValue( ).getLabel( ).isVisible( );
+				
 				List<Action> validActions = MultiActionValuesScriptGenerator.getValidActions( (MultipleActions) ac );
 				if ( validActions.size( ) == 0 )
 				{
 					return ""; //$NON-NLS-1$
 				}
-				else if ( validActions.size( ) == 1 )
+				else if ( validActions.size( ) == 1 && !needMenu )
 				{
 					ActionValue av = validActions.get( 0 ).getValue( );
 					if ( av instanceof URLValue )

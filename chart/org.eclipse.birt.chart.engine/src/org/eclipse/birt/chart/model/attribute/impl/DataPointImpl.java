@@ -367,7 +367,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	 * @param sPrefix
 	 * @param sSuffix
 	 * @param sSeparator
-	 * @return
+	 * @return instance of data point.
 	 */
 	public static final DataPoint create( String sPrefix, String sSuffix,
 			String sSeparator )
@@ -382,6 +382,11 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 		return dp;
 	}
 
+	public static final DataPoint createDefault( )
+	{
+		final DataPoint dp = AttributeFactory.eINSTANCE.createDataPoint( );
+		return dp;
+	}
 	/**
 	 * @generated
 	 */

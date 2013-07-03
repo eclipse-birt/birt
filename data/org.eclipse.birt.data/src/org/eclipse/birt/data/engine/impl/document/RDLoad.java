@@ -308,8 +308,12 @@ public class RDLoad
 			Map<String, StringTable> stringTableMap, Map index,
 			boolean includeInnerID, Map appContext ) throws DataException
 	{
+		boolean loadResultClass = false;
 		if ( targetResultClass == null )
+		{
 			targetResultClass = this.loadResultClass( includeInnerID );
+			loadResultClass = true;
+		}
 
 		// TODO Pass in filter rowIds as sorted list.
 		IDataSetReader reader = DataSetStore.createReader( streamManager,
@@ -337,7 +341,7 @@ public class RDLoad
 
 		int adjustedVersion = resolveVersionConflict( );
 		
-		if ( includeInnerID )
+		if ( loadResultClass && includeInnerID )
 		{
 			List<ResultFieldMetadata> fields = new ArrayList<ResultFieldMetadata>( targetResultClass.getFieldCount( ) - 1 );
 			for ( int i = 1; i <= targetResultClass.getFieldCount( ); i++ )
@@ -349,6 +353,10 @@ public class RDLoad
 			}
 
 			targetResultClass = new ResultClass( fields );
+		}
+		else
+		{
+			targetResultClass = this.loadResultClass();
 		}
 		
 		return new DataSetResultSet( stream,

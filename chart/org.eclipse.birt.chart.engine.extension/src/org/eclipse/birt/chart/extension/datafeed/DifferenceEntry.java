@@ -267,7 +267,7 @@ public final class DifferenceEntry extends NumberDataPointEntry
 		String strNeg = getFormattedString( DifferenceDataPointDefinition.TYPE_NEGATIVE_VALUE,
 				formatter,
 				locale );
-		return "P" + strPos + " N" + strNeg; //$NON-NLS-1$//$NON-NLS-2$
+		return "P " + strPos + "; N " + strNeg; //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	public boolean isValid( )

@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
-import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
+import org.eclipse.birt.chart.model.data.ScriptExpression;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -208,6 +209,29 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	{
 		super.set( src );
 		script = src.getScript( );
+	}
+
+	/*
+	 * Get script expression.
+	 * 
+	 * @return expression the script expression.
+	 */
+	public ScriptExpression getScriptExpression( )
+	{
+		ScriptExpression expression = new ScriptExpression( );
+		expression.setType( ChartUtil.getExpressionType( script ) );
+		expression.setValue( ChartUtil.getExpressionText( script ) );
+		return expression;
+	}
+
+	/*
+	 * Set script expression.
+	 * 
+	 * @param expression the script expression.
+	 */
+	public void setScriptExpression( ScriptExpression expression )
+	{
+		setScript( ChartUtil.adaptExpression( expression ) );
 	}
 
 } // ScriptValueImpl

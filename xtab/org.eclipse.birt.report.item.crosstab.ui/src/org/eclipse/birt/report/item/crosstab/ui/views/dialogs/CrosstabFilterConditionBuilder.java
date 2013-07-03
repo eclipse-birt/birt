@@ -2770,7 +2770,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		{
 			hasCount++;
 			LevelHandle tempLevel = getLevelHandle( (IDimensionLevel) referenceLevels.get( hasCount - 1 ) );
-			if ( lastMemberValue.getLevel( ) != tempLevel )
+			if ( lastMemberValue.getLevel( ) != tempLevel
+					&& !( lastMemberValue.getCubeLevelName().equals(tempLevel.getFullName()) && isBoundToLinkedDataSet( ) ))
 			{
 				try
 				{
@@ -2820,6 +2821,20 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		return memberValue;
 	}
 
+	private boolean isBoundToLinkedDataSet()
+	{
+		CrosstabReportItemHandle crosstab = null;
+		try
+		{
+			crosstab = (CrosstabReportItemHandle) ((ExtendedItemHandle) designHandle).getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			return false;
+		}
+		return CrosstabUtil.isBoundToLinkedDataSet(crosstab);
+	}
+	
 	private LevelHandle getLevelHandle( IDimensionLevel levelInfo )
 	{
 
@@ -2924,6 +2939,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			try
 			{
 				memberValueHandle.setValue( "" );
+				memberValueHandle.setLevel( getLevelHandle( (IDimensionLevel) referencedLevelList.get( 0 )) );
 			}
 			catch ( SemanticException e )
 			{

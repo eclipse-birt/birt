@@ -320,12 +320,47 @@ abstract class ReportDesignImpl extends LayoutModule
 			throws CloneNotSupportedException
 	{
 		Module module = (Module) super.doClone( policy );
+		
 		if ( isCached( ) )
 		{
 			module.cacheValues( );
 		}
-
+		
+		// clone operation
+		this.cloneOperation( this, (ReportDesignImpl)module );
 		return module;
+	}
+	
+	private void cloneOperation( ReportDesignImpl oldReportDesign, ReportDesignImpl newReportDesign )
+			throws CloneNotSupportedException
+	{	
+		CssStyleSheetAdapter oldCssStyleSheetAdapter = (CssStyleSheetAdapter) oldReportDesign.operation;
+		if( oldCssStyleSheetAdapter == null )
+		{
+			return ;
+		}
+		CssStyleSheetAdapter newCssStyleSheetAdapter = new CssStyleSheetAdapter( );
+		List<CssStyleSheet> oldSheetList = oldCssStyleSheetAdapter.getCsses( );
+		List<CssStyleSheet> newSheetList = new ArrayList<CssStyleSheet>( );
+		// clone CssStyleSheetAdapter
+		if ( oldSheetList != null && oldSheetList.size( ) > 0 )
+		{
+			for ( CssStyleSheet sheet : oldSheetList )
+			{
+				// clone CssStyleSheet
+				CssStyleSheet newSheet = (CssStyleSheet) sheet.clone( );
+				newSheet.setContainer( newReportDesign );
+				newSheetList.add( newSheet );
+			}
+		}
+		if ( newSheetList != null && newSheetList.size( ) > 0 )
+		{
+			for ( CssStyleSheet sheet : newSheetList )
+			{
+				newCssStyleSheetAdapter.addCss( sheet );
+			}
+		}
+		newReportDesign.operation = newCssStyleSheetAdapter;
 	}
 
 	/*

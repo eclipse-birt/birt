@@ -694,6 +694,7 @@ public class ParamDefTag extends BodyTagSupport
 				BirtTagUtil.writeExtScripts(writer, baseURL + "birt/ajax/", //$NON-NLS-1$
 						new String[] {
 						"lib/prototype.js", //$NON-NLS-1$
+						"lib/head.js", //$NON-NLS-1$
 						"utility/Debug.js", //$NON-NLS-1$
 						"utility/Constants.js", //$NON-NLS-1$
 						"utility/BirtUtility.js", //$NON-NLS-1$

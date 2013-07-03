@@ -415,6 +415,9 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
+		if ( instance == null )
+			return;
+
 		if ( part instanceof ReportEditorProxy )
 		{
 			instance.partBroughtToTop( ( (ReportEditorProxy) part ).getEditorPart( ) );

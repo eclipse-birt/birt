@@ -38,6 +38,7 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 
 import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
@@ -205,6 +206,8 @@ public class UIUtil
 
 	private static final String MSG_DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Title.ImportSuccessfully" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_MSG = Messages.getString( "ImportLibraryAction.Message.ImportSuccessfully" ); //$NON-NLS-1$
+
+	private static final String AC_GROUP_COLLAPSE_LEVEL_PROPERTY = "__ac_group_collapse_level"; //$NON-NLS-1$
 
 	private static String[] EDITOR_IDS = {
 		"org.eclipse.birt.report.designer.ui.editors.ReportEditor", //$NON-NLS-1$
@@ -598,6 +601,44 @@ public class UIUtil
 
 		if ( groupHandle != null && slotHandle != null )
 		{
+			String collapseLevel = parent.getStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY );
+			if ( collapseLevel != null
+					&& collapseLevel.trim( ).length( ) > 0
+					&& position >= 0 )
+			{
+				String[] levels = collapseLevel.split( "," );
+				List<Integer> levelList = new ArrayList<Integer>( );
+				for ( int i = 0; i < levels.length; i++ )
+				{
+					try
+					{
+						int level = Integer.parseInt( levels[i] );
+						if ( level >= position )
+						{
+							level++;
+						}
+						levelList.add( level );
+					}
+					catch ( NumberFormatException e )
+					{
+					}
+				}
+
+				StringBuffer buffer = new StringBuffer( );
+				for ( int i = 0; i < levelList.size( ); i++ )
+				{
+					buffer.append( levelList.get( i ) );
+					if ( i < levelList.size( ) - 1 )
+						buffer.append( "," ); //$NON-NLS-1$
+				}
+
+				String value = buffer.toString( ).trim( ).length( ) > 0 ? buffer.toString( )
+						.trim( )
+						: null;
+				parent.setStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY,
+						value );
+			}
+
 			slotHandle.add( groupHandle, position );
 			// if ( !DEUtil.getDataSetList( parent ).isEmpty( ) )
 			{// If data set can be found or a blank group will be inserted.
@@ -1056,7 +1097,7 @@ public class UIUtil
 	}
 
 	public static void resetViewSelection( final EditPartViewer viewer,
-			final boolean notofyToMedia )
+			final boolean notifyToMedia )
 	{
 		final List list = new ArrayList( ( (StructuredSelection) viewer.getSelection( ) ).toList( ) );
 
@@ -1113,11 +1154,11 @@ public class UIUtil
 
 			if ( selectionType == 0 )
 			{
-				part.selectRow( selectContents, notofyToMedia );
+				part.selectRow( selectContents, notifyToMedia );
 			}
 			else if ( selectionType == 1 )
 			{
-				part.selectColumn( selectContents, notofyToMedia );
+				part.selectColumn( selectContents, notifyToMedia );
 			}
 
 		}
@@ -1127,7 +1168,7 @@ public class UIUtil
 			{
 				if ( viewer instanceof DeferredGraphicalViewer )
 					( (DeferredGraphicalViewer) viewer ).setSelection( new StructuredSelection( list ),
-							notofyToMedia );
+							notifyToMedia );
 			}
 
 		}
@@ -1757,6 +1798,33 @@ public class UIUtil
 		return null;
 	}
 
+	public static String getHeadColumnDisplayName( ResultSetColumnHandle column )
+	{
+		DataSetHandle dataset = getDataSet(column);
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				if (element.getHeading( ) != null)
+				{
+					return element.getHeading( );
+				}
+				if ( element.getDisplayNameKey( ) != null )
+				{
+					String displayName = element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
+							ColumnHint.DISPLAY_NAME_MEMBER );
+					if ( displayName != null )
+						return displayName;
+				}
+				return element.getDisplayName( ) == null ? column.getColumnName( )
+						: element.getDisplayName( );
+			}
+		}
+		return column.getColumnName( );
+	}
 	/**
 	 * Return the display name of dataset column
 	 * 
@@ -1926,8 +1994,7 @@ public class UIUtil
 	public static ActionHandle getColumnAction( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column);
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-				.iterator( ); iter.hasNext( ); )
+		for ( Iterator iter = dataset.columnHintsIterator(); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
 			if ( element.getColumnName( ).equals( column.getColumnName( ) )
@@ -1956,11 +2023,16 @@ public class UIUtil
 		Image image = ReportPlatformUIImages.getImage( imageName );
 
 		GridData gd = new GridData( );
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )
 		{
 			gd.widthHint = 20;
 			gd.heightHint = 20;
 		}
+		else
+		{
+			gd.widthHint = button.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
+		}
+
 		button.setLayoutData( gd );
 
 		button.setImage( image );
@@ -1990,10 +2062,11 @@ public class UIUtil
 			button.setExpressionButtonProvider( provider );
 
 		GridData gd = new GridData( );
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )
 		{
 			gd.heightHint = 20;
 		}
+
 		button.getControl( ).setLayoutData( gd );
 		return button;
 	}
@@ -2025,7 +2098,8 @@ public class UIUtil
 				.getExtendedElementPoints( );
 		for ( ExtendedElementUIPoint point : points )
 		{
-			list.remove( DEUtil.getElementDefn( point.getExtensionName( ) ) );
+			if ( isVisibleExtensionElement( point ) )
+				list.remove( DEUtil.getElementDefn( point.getExtensionName( ) ) );
 		}
 
 		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
@@ -2035,6 +2109,31 @@ public class UIUtil
 		}
 
 		return list;
+	}
+
+	public static boolean isVisibleExtensionElement(
+			ExtendedElementUIPoint point )
+	{
+		String preference = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
+		if ( preference != null )
+		{
+			String[] splits = preference.split( "/" );
+			if ( splits.length == 2 )
+			{
+				IPreferences wrapper = PreferenceFactory.getInstance( )
+						.getPluginPreferences( splits[0], null );
+				if ( wrapper != null )
+				{
+					Boolean bool = wrapper.getBoolean( splits[1] );
+					return bool;
+				}
+			}
+		}
+		else
+		{
+			return ( (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER ) ).booleanValue( );
+		}
+		return true;
 	}
 
 	/**

@@ -256,6 +256,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 	protected IExpressionProvider expressionProvider;
 	protected ValueCombo expressionValue1, expressionValue2;
+	
+	private boolean isUsedForEditGroup = false;
 
 	protected ValueCombo.ISelection expValueAction = new ValueCombo.ISelection( ) {
 
@@ -1558,9 +1560,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 							reportItem.getDataSet( ),
 							DEUtil.getVisiableColumnBindingsList( designHandle )
 									.iterator( ),
-							designHandle instanceof TableGroupHandle ? null
-									: DEUtil.getGroups( designHandle )
-											.iterator( ),
+//							DEUtil.getGroups( designHandle )
+//											.iterator( ),
+									getGroupIterator(),
 							true );
 		}
 		else
@@ -1568,6 +1570,23 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			ExceptionHandler.openErrorMessageBox( Messages.getString( "SelectValueDialog.errorRetrievinglist" ), Messages.getString( "SelectValueDialog.noExpressionSet" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return selectValueList;
+	}
+	
+	private Iterator getGroupIterator()
+	{
+		//if add a new group ,and at same time to add filter,then remove current added group 
+		//because pass this new group to DTE,will cause Exception;
+		//if edit a group ,then do nothing
+		List groupList = DEUtil.getGroups( designHandle );
+		if(groupList == null)
+		{
+			return null;
+		}
+		if(!isUsedForEditGroup)
+		{
+			groupList.remove(designHandle);
+		}
+		return groupList.iterator();
 	}
 
 	/**
@@ -1818,8 +1837,15 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	{
 		if ( handle instanceof DataSetHandle )
 		{
-			columnList = Arrays.asList( DataSetProvider.getCurrentInstance( )
-					.getColumns( (DataSetHandle) handle, false ) );
+			try
+			{
+				columnList = Arrays.asList( DataSetProvider.getCurrentInstance( )
+						.getColumns( (DataSetHandle) handle, false ) );
+			}
+			catch ( BirtException e )
+			{
+				//do nothing now
+			}
 		}
 		else if ( handle instanceof TabularCubeHandle
 				|| handle instanceof TabularHierarchyHandle )
@@ -2045,6 +2071,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	public void updateHandle( FilterConditionHandle handle, int handleCount )
 	{
 		this.filterCondition = handle;
+	}
+
+	public void setUsedForEditGroup(boolean isUsedForEditGroup) {
+		this.isUsedForEditGroup = isUsedForEditGroup;
 	}
 
 }

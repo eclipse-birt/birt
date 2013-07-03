@@ -270,6 +270,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		} );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
+		GridData gData = new GridData( SWT.FILL, SWT.FILL, true, true, 4, 1 );
+		gData.heightHint = lbName.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+		Label upperBreak = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+		upperBreak.setLayoutData(gData);
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		cmbType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
@@ -305,6 +309,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			createCommonSection( composite );
 		}
+		
+		Label lowerBreak = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+		lowerBreak.setLayoutData(gData);
+		
 		if ( isTimePeriod( ) )
 		{
 			new Label( composite, SWT.NONE ).setText( Messages.getString( "CrosstabBindingDialogHelper.timedimension.label" ) ); //$NON-NLS-1$
@@ -1376,8 +1384,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			return new String[0];
 		}
-		List list = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP )
-				.getContents( );
+		List list = cube.getContents( ICubeModel.DIMENSIONS_PROP );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			DimensionHandle dimension = (DimensionHandle) list.get( i );
@@ -1782,8 +1789,20 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			// }
 
 			CubeHandle cubeHandle = xtabHandle.getCube( );
-			if ( cubeHandle != null )
+			
+			if(CrosstabUtil.isBoundToLinkedDataSet( xtabHandle ))
 			{
+				for (int i = 0; i < xtabHandle.getMeasureCount( ); i++)
+				{
+					String str = ExpressionUtil.createDataSetRowExpression( xtabHandle.getMeasure( i ).getCubeMeasureName( ) );
+					if ( !measures.contains( str ) )
+					{
+						measures.add( str );
+					}
+				}
+			}
+			else if ( cubeHandle != null )
+			{	
 				List children = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
 				for ( int i = 0; i < children.size( ); i++ )
 				{

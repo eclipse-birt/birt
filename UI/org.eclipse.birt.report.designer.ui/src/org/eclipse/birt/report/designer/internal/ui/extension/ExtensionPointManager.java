@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.extension;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,6 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.preference.IPreferenceChangeListener;
+import org.eclipse.birt.core.preference.PreferenceChangeEvent;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -40,7 +43,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
  * extensions by model extension ID, or full list.It caches the information to
  * avoid reading the extensions each time.
  */
-public class ExtensionPointManager
+public class ExtensionPointManager implements IPreferenceChangeListener
 {
 
 	private Map<String, ExtendedElementUIPoint> reportItemUIMap = null;
@@ -48,6 +51,9 @@ public class ExtensionPointManager
 	private Map<String, IMenuBuilder> menuBuilderMap = null;
 
 	private Map<String, IProviderFactory> providerFactoryMap = null;
+
+	private Map<String, List<String>> prefereces = new HashMap<String, List<String>>( );
+	private Map<String, List<IPreferenceChangeListener>> prefListeners = new HashMap<String, List<IPreferenceChangeListener>>( );
 
 	private volatile static ExtensionPointManager instance = null;
 
@@ -141,10 +147,10 @@ public class ExtensionPointManager
 					}
 				}
 			}
-			
+
 			return reportItemUIMap;
 		}
-		
+
 	}
 
 	private Map<String, IMenuBuilder> getMenuBuilderMap( )
@@ -182,7 +188,7 @@ public class ExtensionPointManager
 			}
 			return menuBuilderMap;
 		}
-		
+
 	}
 
 	private Map<String, IProviderFactory> getProviderFactoryMap( )
@@ -220,7 +226,7 @@ public class ExtensionPointManager
 			}
 			return providerFactoryMap;
 		}
-		
+
 	}
 
 	private List<IExtension> getExtensionElements( String id )
@@ -337,6 +343,9 @@ public class ExtensionPointManager
 			loadBooleanAttribute( newPoint,
 					element,
 					IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER );
+			loadStringAttribute( newPoint,
+					element,
+					IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
 			loadBooleanAttribute( newPoint,
 					element,
 					IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE );
@@ -448,6 +457,90 @@ public class ExtensionPointManager
 						imageDescriptor );
 			}
 			newPoint.setAttribute( attributeName, imageDescriptor );
+		}
+	}
+
+	public void preferenceChange( PreferenceChangeEvent event )
+	{
+		Iterator<String> exntesions = prefereces.keySet( ).iterator( );
+		while ( exntesions.hasNext( ) )
+		{
+			String extension = exntesions.next( );
+			List<String> prefs = prefereces.get( extension );
+			if ( prefs.contains( event.getKey( ) ) )
+			{
+				List<IPreferenceChangeListener> listeners = prefListeners.get( extension );
+				if ( listeners != null )
+				{
+					for ( int i = 0; i < listeners.size( ); i++ )
+					{
+						listeners.get( i ).preferenceChange( event );
+					}
+				}
+			}
+		}
+	}
+
+	public void addPreference( String extension, String preference )
+	{
+		if ( preference != null && extension != null )
+		{
+			if ( !prefereces.containsKey( extension ) )
+			{
+				prefereces.put( extension, new ArrayList<String>( ) );
+			}
+
+			List<String> prefs = prefereces.get( extension );
+			if ( !prefs.contains( preference ) )
+				prefs.add( preference );
+		}
+	}
+
+	public void removePreference( String extension, String preference )
+	{
+		if ( preference != null && extension != null )
+		{
+			if ( !prefereces.containsKey( extension ) )
+			{
+				return;
+			}
+
+			List<String> prefs = prefereces.get( extension );
+			if ( prefs.contains( preference ) )
+				prefs.remove( preference );
+		}
+	}
+
+	public void addPreferenceChangeListener( String extension,
+			IPreferenceChangeListener listener )
+	{
+		if ( listener != null && extension != null )
+		{
+			if ( !prefListeners.containsKey( extension ) )
+			{
+				prefListeners.put( extension,
+						new ArrayList<IPreferenceChangeListener>( ) );
+			}
+
+			List<IPreferenceChangeListener> lisnteners = prefListeners.get( extension );
+			if ( !lisnteners.contains( listener ) )
+				lisnteners.add( listener );
+		}
+	}
+
+	public void removePreferenceChangeListener( String extension,
+			IPreferenceChangeListener listener )
+	{
+		if ( listener != null && extension != null )
+		{
+			if ( !prefListeners.containsKey( extension ) )
+			{
+				return;
+			}
+
+			List<IPreferenceChangeListener> listeners = prefListeners.get( extension );
+			if ( listeners.contains( listener ) )
+				listeners.remove( listener );
 		}
 	}
 

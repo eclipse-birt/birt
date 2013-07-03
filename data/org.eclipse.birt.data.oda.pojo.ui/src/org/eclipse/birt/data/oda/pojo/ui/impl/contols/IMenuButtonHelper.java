@@ -18,7 +18,8 @@ import org.eclipse.swt.widgets.Listener;
 public interface IMenuButtonHelper
 {
 
-	public void addClassPathElements( ClassPathElement[] elements );
+	public void addClassPathElements( ClassPathElement[] elements,
+			boolean current );
 	
 	public void setProvider( IMenuButtonProvider provider );
 	

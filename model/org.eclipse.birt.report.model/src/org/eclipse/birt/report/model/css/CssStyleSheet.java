@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
@@ -28,7 +29,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
  * 
  */
 
-public final class CssStyleSheet
+public final class CssStyleSheet implements Cloneable
 {
 
 	/**
@@ -324,4 +325,22 @@ public final class CssStyleSheet
 		}
 	}
 
+	@Override
+	public CssStyleSheet clone( ) throws CloneNotSupportedException
+	{
+		CssStyleSheet cssStyleSheet = (CssStyleSheet) super.clone( );
+		// clone CssStyle
+		LinkedHashMap<String, CssStyle> newStyles = new LinkedHashMap<String, CssStyle>( );
+		if ( this.styles.size( ) > 0 )
+		{
+			Set<String> keySet = this.styles.keySet( );
+			for ( String key : keySet )
+			{
+				CssStyle cloneCssStyle = (CssStyle) this.styles.get( key ).clone( );
+				newStyles.put( key, cloneCssStyle );
+			}
+		}
+		cssStyleSheet.styles = newStyles;
+		return cssStyleSheet;
+	}
 }

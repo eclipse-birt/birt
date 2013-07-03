@@ -30,10 +30,10 @@ import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.ExpressionDescriptor;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.IExpressionDescriptor;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
@@ -1108,11 +1108,15 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			@Override
 			public boolean skipSelection( int index )
 			{
-				int selectState = selectDataTypes.get( index ).intValue( );
-				if ( selectState == SELECT_NEXT )
-				{
-					return true;
+				//skip out of boundary selection
+				if(index>=0){
+					int selectState = selectDataTypes.get( index ).intValue( );
+					if ( selectState == SELECT_NEXT )
+					{
+						return true;
+					}
 				}
+					
 				return false;
 			}
 		};
@@ -1122,7 +1126,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		initDataSelector( );
 		updatePredefinedQueries( );
-		checkColBindingForCube( );
+		checkDataBinding( );
 		if ( dataProvider.checkState( IDataServiceProvider.IN_MULTI_VIEWS ) )
 		{
 			autoSelect( false );
@@ -1243,7 +1247,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			handle.getModuleHandle( ).getCommandStack( ).commit( );
 			updatePredefinedQueries( );
-			checkColBindingForCube( );
+			checkDataBinding( );
 		}
 		else
 		{
@@ -1723,7 +1727,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					getContext( ).setShowingDataPreview( Boolean.valueOf( w.getSelection( ) ) );
 					updateDragDataSource( );
 				}
-				checkColBindingForCube( );
+				checkDataBinding( );
 				ChartWizard.removeException( ChartWizard.StaChartDSh_switch_ID );
 			}
 			catch ( ChartException e1 )
@@ -2510,7 +2514,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return sb.toString( );
 	}
 
-	private String getBaseSeriesTitle( Chart chart )
+	protected String getBaseSeriesTitle( Chart chart )
 	{
 		if ( chart instanceof ChartWithAxes )
 		{
@@ -2519,7 +2523,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return Messages.getString( "StandardChartDataSheet.Label.UseAsCategorySeries" ); //$NON-NLS-1$
 	}
 
-	private String getOrthogonalSeriesTitle( Chart chart )
+	protected String getOrthogonalSeriesTitle( Chart chart )
 	{
 		if ( chart instanceof ChartWithAxes )
 		{
@@ -3070,7 +3074,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	}
 
 	@SuppressWarnings("unchecked")
-	private void checkColBindingForCube( )
+	protected void checkDataBinding( )
 	{
 		if ( getCube( ) != null
 				&& !chartItemHelper

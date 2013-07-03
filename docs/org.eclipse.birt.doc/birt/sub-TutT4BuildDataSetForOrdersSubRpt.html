@@ -31,9 +31,9 @@
     <hr align="left" />
     <blockquote>
       <h3 class="N_TutorialTask">Task 4:&nbsp;&nbsp;<a name="187589">Build a data set for the orders subreport</a></h3>
-      <p class="b_Body"><a name="187592">In this procedure, you build a data set to indicate what data to extract from </a>the Orders table. The orders subreport that you create later uses this data set.</p>
+      <p class="b_Body"><a name="187592">In this procedure, you build a data set to indicate what data to extract from the Orders table. The orders subreport that you create later uses this data set.</a></p>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -41,13 +41,13 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="187593">In Data Explorer, right-click Data Sets, and choose New Data Set from the </a>context menu.</div>
+              <div class="N_n1_NumList1_inner"><a name="187593">In Data Explorer, right-click Data Sets, and choose New Data Set from the context menu.</a></div>
             </td>
           </tr>
         </table>
       </div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -62,7 +62,7 @@
       </div>
       <div class="cfi_CodeFirstIndent"><a name="187597">Orders</a></div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -76,7 +76,7 @@
         </table>
       </div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -84,13 +84,13 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="187601">In Query, in Available Items, expand CLASSICMODELS, then expand the </a>Orders table to display the columns in the table.</div>
+              <div class="N_n1_NumList1_inner"><a name="187601">In Query, in Available Items, expand CLASSICMODELS, then expand the Orders table to display the columns in the table.</a></div>
             </td>
           </tr>
         </table>
       </div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -98,7 +98,7 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="187602">Use the following SQL SELECT statement to indicate what data to </a>retrieve:</div>
+              <div class="N_n1_NumList1_inner"><a name="187602">Use the following SQL SELECT statement to indicate what data to retrieve:</a></div>
             </td>
           </tr>
         </table>
@@ -107,9 +107,9 @@
       <div class="coi_CodeIndent"><a name="187604">Orders.orderDate</a></div>
       <div class="coi_CodeIndent"><a name="187605">FROM Orders</a></div>
       <div class="coi_CodeIndent"><a name="187606">WHERE Orders.customerNumber = ?</a></div>
-      <div class="N_i_Indent1"><a name="187607">This statement selects the ORDERNUMBER and ORDERDATE columns </a>from the Orders table. The WHERE clause has a parameter marker for the value of CUSTOMERNUMBER. When the report runs, the orders subreport gets the current CUSTOMERNUMBER value from the customers report.</div>
+      <div class="N_i_Indent1"><a name="187607">This statement selects the ORDERNUMBER and ORDERDATE columns from the Orders table. The WHERE clause has a parameter marker for the value of CUSTOMERNUMBER. When the report runs, the orders subreport gets the current CUSTOMERNUMBER value from the customers report.</a></div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -123,7 +123,7 @@
         </table>
       </div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -131,13 +131,13 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="187608">In Edit Data Set, create a data set parameter to supply the </a>CUSTOMERNUMBER value in the WHERE clause.</div>
+              <div class="N_n1_NumList1_inner"><a name="187608">In Edit Data Set, create a data set parameter to supply the CUSTOMERNUMBER value in the WHERE clause.</a></div>
             </td>
           </tr>
         </table>
       </div>
       <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -145,13 +145,13 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n2_NumList2_inner"><a name="187609">Choose Parameters from the left side of the window. Edit Data Set </a>displays a default parameter definition.</div>
+              <div class="N_n2_NumList2_inner"><a name="187609">Choose Parameters from the left side of the window. Edit Data Set displays a default parameter definition.</a></div>
             </td>
           </tr>
         </table>
       </div>
       <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -165,7 +165,7 @@
         </table>
       </div>
       <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -179,7 +179,7 @@
         </table>
       </div>
       <div class="b3_Bullet3_outer" style="margin-left: 28.3464pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="b3_Bullet3_inner" style="width: 14.173199999999997pt; white-space: nowrap">
@@ -193,7 +193,7 @@
         </table>
       </div>
       <div class="b3_Bullet3_outer" style="margin-left: 28.3464pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="b3_Bullet3_inner" style="width: 14.173199999999997pt; white-space: nowrap">
@@ -207,7 +207,7 @@
         </table>
       </div>
       <div class="b3_Bullet3_outer" style="margin-left: 28.3464pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="b3_Bullet3_inner" style="width: 14.173199999999997pt; white-space: nowrap">
@@ -221,7 +221,7 @@
         </table>
       </div>
       <div class="b3_Bullet3_outer" style="margin-left: 28.3464pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="b3_Bullet3_inner" style="width: 14.173199999999997pt; white-space: nowrap">
@@ -234,9 +234,9 @@
           </tr>
         </table>
       </div>
-      <div class="N_i3_Indent3"><a name="187616">103 is one of the values in the CUSTOMERNUMBER column. A </a>default value is required for BIRT Report Designer to run the query for testing purposes.</div>
+      <div class="N_i3_Indent3"><a name="187616">103 is one of the values in the CUSTOMERNUMBER column. A default value is required for BIRT Report Designer to run the query for testing purposes.</a></div>
       <div class="b3_Bullet3_outer" style="margin-left: 28.3464pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="b3_Bullet3_inner" style="width: 14.173199999999997pt; white-space: nowrap">
@@ -253,7 +253,7 @@
       <div class="fc4_FigCall4Title">
         <b class="Bold">Figure&nbsp;13-4&nbsp;&nbsp;</b><a name="309933">Edited parameter definition</a></div>
       <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -261,13 +261,13 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n2_NumList2_inner"><a name="309915">Choose OK to confirm your edits to the parameter definition. The </a>parameter definition appears in Edit Data Set.</div>
+              <div class="N_n2_NumList2_inner"><a name="309915">Choose OK to confirm your edits to the parameter definition. The parameter definition appears in Edit Data Set.</a></div>
             </td>
           </tr>
         </table>
       </div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
@@ -280,11 +280,11 @@
           </tr>
         </table>
       </div>
-      <p class="i2_Image2"><a name="309909"><img class="Default" src="images/ordersdsresults.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 13-5 Data preview for the orders subreport" /></a></p>
+      <p class="i2_Image2"><a name="309909"><img class="Default" src="images/ordersdsresults.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 13-5 Data preview for the orders subreport" /> </a></p>
       <div class="fc2_FigCall2Title">
         <b class="Bold">Figure&nbsp;13-5&nbsp;&nbsp;</b><a name="309911">Data preview for the orders subreport</a></div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
               <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">

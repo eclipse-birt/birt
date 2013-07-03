@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+    <text-property name="title">Borders Test Report 1</text-property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="grid" id="49">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thick</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thick</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thick</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thick</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="51">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+            <text-property name="text">Solid Black Thin</text-property>
+        </label>
+        <label id="52">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">solid</property>
+            <text-property name="text">Solid Black Medium</text-property>
+        </label>
+        <label id="53">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thick</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thick</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thick</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thick</property>
+            <text-property name="text">Solid Black Thick</text-property>
+        </label>
+        <label id="54">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">dotted</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">dotted</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">dotted</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">dotted</property>
+            <property name="borderTopWidth">thin</property>
+            <text-property name="text">Dotted Black Thin</text-property>
+        </label>
+        <label id="63">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">dotted</property>
+            <property name="borderBottomWidth">medium</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">dotted</property>
+            <property name="borderLeftWidth">medium</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">dotted</property>
+            <property name="borderRightWidth">medium</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">dotted</property>
+            <property name="borderTopWidth">medium</property>
+            <text-property name="text">Dotted Black Medium</text-property>
+        </label>
+        <label id="62">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">dotted</property>
+            <property name="borderBottomWidth">thick</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">dotted</property>
+            <property name="borderLeftWidth">thick</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">dotted</property>
+            <property name="borderRightWidth">thick</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">dotted</property>
+            <property name="borderTopWidth">thick</property>
+            <text-property name="text">Dotted Black Thick</text-property>
+        </label>
+        <label id="64">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">dashed</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">dashed</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">dashed</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">dashed</property>
+            <property name="borderTopWidth">thin</property>
+            <text-property name="text">Dashed Black Thin</text-property>
+        </label>
+        <label id="65">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">dashed</property>
+            <property name="borderBottomWidth">medium</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">dashed</property>
+            <property name="borderLeftWidth">medium</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">dashed</property>
+            <property name="borderRightWidth">medium</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">dashed</property>
+            <property name="borderTopWidth">medium</property>
+            <text-property name="text">Dashed Black Medium</text-property>
+        </label>
+        <label id="66">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">dashed</property>
+            <property name="borderBottomWidth">thick</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">dashed</property>
+            <property name="borderLeftWidth">thick</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">dashed</property>
+            <property name="borderRightWidth">thick</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">dashed</property>
+            <property name="borderTopWidth">thick</property>
+            <text-property name="text">Dashed Black Thick</text-property>
+        </label>
+        <label id="67">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">double</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">double</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">double</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">double</property>
+            <property name="borderTopWidth">thin</property>
+            <text-property name="text">Double Black Thin</text-property>
+        </label>
+        <label id="68">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">double</property>
+            <property name="borderBottomWidth">medium</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">double</property>
+            <property name="borderLeftWidth">medium</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">double</property>
+            <property name="borderRightWidth">medium</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">double</property>
+            <property name="borderTopWidth">medium</property>
+            <text-property name="text">Double Black Medium</text-property>
+        </label>
+        <label id="69">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">double</property>
+            <property name="borderBottomWidth">thick</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">double</property>
+            <property name="borderLeftWidth">thick</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">double</property>
+            <property name="borderRightWidth">thick</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">double</property>
+            <property name="borderTopWidth">thick</property>
+            <text-property name="text">Double Black Thick</text-property>
+        </label>
+    </body>
+</report>

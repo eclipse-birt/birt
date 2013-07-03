@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
@@ -271,9 +272,22 @@ public class PathResourceEntry extends BaseResourceEntity
 
 	public Image getImage( )
 	{
-		if ( isFile( )
-				&& getURL( ).toString( ).toLowerCase( ).endsWith( "rptdesign" ) )
-			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_REPORT_FILE );
+		if ( isFile( ) )
+		{
+			String path = getURL( ).toString( ).toLowerCase( );
+			if ( path.endsWith( ".rptdesign" ) ) //$NON-NLS-1$
+				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_REPORT_FILE );
+			if ( path.endsWith( ".rpttemplate" ) ) //$NON-NLS-1$
+				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_TEMPLATE_FILE );
+			if ( path.endsWith( ".rptdocument" ) ) //$NON-NLS-1$
+				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DOCUMENT_FILE );
+			
+			Object adapter = ElementAdapterManager.getAdapter( this, Image.class );
+			if ( adapter instanceof Image )
+			{
+				return (Image) adapter;
+			}
+		}
 		if ( this.isFolder || this.isRoot )
 			return PlatformUI.getWorkbench( )
 					.getSharedImages( )

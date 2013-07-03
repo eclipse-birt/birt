@@ -49,36 +49,27 @@ public class POJOClassTabFolderPage
 	private TableViewer classPathsTableViewer;
 	private Button editBtn, upBtn, downBtn, removeBtn;
 	private ClassSelectionButton jarButton;
+	private Composite left, right;
 
 	private File resouceDir;
 	private List<ClassPathElement> elements;
 	private String promp;
+	private String dataSetClassPath;
 	
 	private static String PATH_SEPARATOR = ";"; //$NON-NLS-1$
 
 	private POJOClassTabFolderPage friendPage;
-	
-	private boolean defaultPathInitialized=true;
-
-	public boolean isDefaultPathInitialized()
-	{
-		return this.defaultPathInitialized;
-	}
-	public void setDefaultPathInitialized()
-	{
-		this.defaultPathInitialized=false;
-	}
-	
+	private boolean isPageEditable;
 	
 	public TableViewer getClassPathsTableViewer( )
 	{
 		return classPathsTableViewer;
 	}
+	
 	public POJOClassTabFolderPage getTabFriendClassTabFolderPage( )
 	{
 		return friendPage;
 	}
-
 	
 	public void setFriendPage(POJOClassTabFolderPage friendPage )
 	{
@@ -89,6 +80,7 @@ public class POJOClassTabFolderPage
 	{
 		this.parent = parent;
 		this.resouceDir = resouceDir;
+		this.isPageEditable = true;
 	}
 
 	public TabItem createContents( TabFolder tabFolder )
@@ -123,7 +115,7 @@ public class POJOClassTabFolderPage
 
 	private void createLeftArea( Composite page )
 	{
-		Composite left = new Composite( page, SWT.NONE );
+		left = new Composite( page, SWT.NONE );
 		left.setLayout( new GridLayout( 1, false ) );
 		left.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
@@ -134,7 +126,7 @@ public class POJOClassTabFolderPage
 				| SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.H_SCROLL
 				| SWT.FULL_SELECTION );
 		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = 300;
+		gd.heightHint = 250;
 		gd.widthHint = 300;
 
 		classPathsTableViewer.getTable( ).setLayoutData( gd );
@@ -163,7 +155,7 @@ public class POJOClassTabFolderPage
 
 	private void createRightArea( Composite page )
 	{
-		Composite right = new Composite( page, SWT.NONE );
+		right = new Composite( page, SWT.NONE );
 		GridLayout layout = new GridLayout( 1, false );
 		layout.marginTop = 30;
 		right.setLayout( layout );
@@ -283,41 +275,91 @@ public class POJOClassTabFolderPage
 
 	private void updateButtons( )
 	{
-		if ( classPathsTableViewer.getTable( ).getSelectionCount( ) == 1 )
+		if ( isPageEditable )
 		{
-			editBtn.setEnabled( true );
-			upBtn.setEnabled( classPathsTableViewer.getTable( )
-					.getSelectionIndex( ) > 0 );
-			downBtn.setEnabled( classPathsTableViewer.getTable( )
-					.getSelectionIndex( ) < ( classPathsTableViewer.getTable( )
-					.getItemCount( ) - 1 ) );
+			if ( classPathsTableViewer.getTable( ).getSelectionCount( ) == 1 )
+			{
+				editBtn.setEnabled( true );
+				upBtn.setEnabled( classPathsTableViewer.getTable( )
+						.getSelectionIndex( ) > 0 );
+				downBtn.setEnabled( classPathsTableViewer.getTable( )
+						.getSelectionIndex( ) < ( classPathsTableViewer.getTable( )
+						.getItemCount( ) - 1 ) );
+			}
+			else
+			{
+				editBtn.setEnabled( false );
+				upBtn.setEnabled( false );
+				downBtn.setEnabled( false );
+			}
+			removeBtn.setEnabled( classPathsTableViewer.getTable( )
+					.getSelectionCount( ) > 0 );
 		}
 		else
 		{
 			editBtn.setEnabled( false );
 			upBtn.setEnabled( false );
 			downBtn.setEnabled( false );
+			removeBtn.setEnabled( false );
 		}
-		removeBtn.setEnabled( classPathsTableViewer.getTable( )
-				.getSelectionCount( ) > 0 );
 	}
 	
-	public void updateWizardPageStatus( )
+	public void setEnabled( boolean enabled )
+	{
+		left.setEnabled( enabled );
+		right.setEnabled( enabled );
+		jarButton.getControl( ).setEnabled( enabled );
+
+		Control[] children = left.getChildren( );
+		setAllEnabled( children, enabled );
+		this.isPageEditable = enabled;
+	}
+
+	private void setAllEnabled( Control[] controls, boolean enabled )
+	{
+		for ( int i = 0; i < controls.length; i++ )
+		{
+			controls[i].setEnabled( enabled );
+			if ( controls[i] instanceof Composite )
+			{
+				setAllEnabled( ( (Composite) controls[i] ).getChildren( ),
+						enabled );
+
+			}
+		}
+		if ( !enabled )
+		{
+			editBtn.setEnabled( false );
+			upBtn.setEnabled( false );
+			downBtn.setEnabled( false );
+			removeBtn.setEnabled( false );
+		}
+	}
+
+	protected void updateWizardPageStatus( )
 	{
 		if ( parent != null )
 			parent.updatePageStatus( );
 	}
 	
-	public boolean canFinish( )
+	private void synchronizeClassPath( )
 	{
-		return ( (MenuButtonHelper) jarButton.getMenuButtonHelper( ) ).getElementCount( ) > 0;
+		if ( !getTabFriendClassTabFolderPage( ).isPageEditable( ) )
+		{
+			getTabFriendClassTabFolderPage( ).resetJarElements( getJarElements( ) );
+			getTabFriendClassTabFolderPage( ).updateWizardPageStatus( );
+		}
 	}
 
-	public void initClassPathElements( String dataSetClassPath )
+	public void initClassPathElements( )
 	{
 		if ( elements == null )
 			elements = new ArrayList<ClassPathElement>( );
+		else
+			elements.clear( );
 
+		( (MenuButtonHelper) this.jarButton.getMenuButtonHelper( ) ).clearTableElementsList( );
+		
 		if ( dataSetClassPath != null && dataSetClassPath.trim( ).length( ) > 0 )
 		{
 			String paths[] = dataSetClassPath.split( PATH_SEPARATOR );
@@ -330,16 +372,22 @@ public class POJOClassTabFolderPage
 						paths[i],
 						!file.isAbsolute( ) );
 
-				this.elements.add( element );
 				classPathElements[i] = element;
+				elements.add( element );
 			}
 			
-			this.jarButton.getMenuButtonHelper( ).addClassPathElements( classPathElements );
+			this.jarButton.getMenuButtonHelper( )
+					.addClassPathElements( classPathElements, true );
 		}
 
 		classPathsTableViewer.setInput( elements );
 		classPathsTableViewer.refresh( );
 		updateWizardPageStatus( );
+	}
+
+	public boolean canFinish( )
+	{
+		return elements != null && elements.size( ) > 0;
 	}
 
 	private void doEdit( )
@@ -410,6 +458,7 @@ public class POJOClassTabFolderPage
 				updateButtons( );
 			}
 		}
+		synchronizeClassPath( );
 	}
 
 	private void doMoveDown( )
@@ -427,6 +476,7 @@ public class POJOClassTabFolderPage
 				updateButtons( );
 			}
 		}
+		synchronizeClassPath( );
 	}
 
 	private void doRemoveItems( )
@@ -447,6 +497,7 @@ public class POJOClassTabFolderPage
 			updateButtons( );
 			updateWizardPageStatus( );
 		}
+		synchronizeClassPath( );
 	}
 
 	public String getClassPathString( )
@@ -465,7 +516,55 @@ public class POJOClassTabFolderPage
 
 	public void setClassPath( String dataSetClassPath )
 	{
-		initClassPathElements( dataSetClassPath );
+		this.dataSetClassPath = dataSetClassPath;
+	}
+
+	public void refresh( )
+	{
+		if ( elements != null )
+		{
+			elements.clear( );
+			classPathsTableViewer.refresh( );
+			( (MenuButtonHelper) this.jarButton.getMenuButtonHelper( ) ).clearTableElementsList( );
+		}
+		else
+		{
+			elements = new ArrayList<ClassPathElement>( );
+		}
+		initClassPathElements( );
+	}
+	
+	public List<ClassPathElement> getJarElements( )
+	{
+		return elements;
+	}
+
+	public void resetJarElements( List<ClassPathElement> paths )
+	{
+		if ( elements != null )
+		{
+			elements.clear( );
+		}
+		else
+		{
+			elements = new ArrayList<ClassPathElement>( );
+		}
+
+		if ( paths != null )
+		{
+			elements.addAll( paths );
+		}
+		classPathsTableViewer.refresh( );
+	}
+
+	public boolean isPageEditable( )
+	{
+		return isPageEditable;
+	}
+
+	public void setPageEditable( boolean isPageEditable )
+	{
+		this.isPageEditable = isPageEditable;
 	}
 
 }

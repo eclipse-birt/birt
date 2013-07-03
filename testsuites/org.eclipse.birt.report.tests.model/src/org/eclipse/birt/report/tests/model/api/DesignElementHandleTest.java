@@ -155,7 +155,7 @@ public class DesignElementHandleTest extends BaseTestCase
 		ListGroupHandle listGroup = factory.newListGroup( );
 		listGroup.setName( "Group1" ); //$NON-NLS-1$
 
-		assertTrue(nestedList.canContain( ListItem.GROUP_SLOT, listGroup ));
+		assertFalse(nestedList.canContain( ListItem.GROUP_SLOT, listGroup ));
 		assertFalse(table.canContain( TableItem.GROUP_SLOT, listGroup ));
 	
 		// creates a table with semantic error.

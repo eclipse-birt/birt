@@ -30,6 +30,8 @@ import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
@@ -45,12 +47,12 @@ import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.SharedCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
@@ -98,7 +100,6 @@ import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.IReportClasspathResolver;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -107,6 +108,8 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
+import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
@@ -126,6 +129,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
@@ -133,8 +137,8 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -190,6 +194,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	protected ExpressionCodec exprCodec = null;
 
+	private IDatasetPreviewTask dataSetPreviewTask;
+
+	private ILogger logger = Logger.getLogger( "com.actuate.birt.chart.reportitem.ui/trace" ); //$NON-NLS-1$
+
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle )
 	{
 		super( );
@@ -204,7 +212,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				.getReportClasspathResolverService( );
 		if ( provider != null )
 		{
-			String designPath = ( (ReportDesignHandle) itemHandle.getModuleHandle( ) ).getFileName( );
+			String designPath = null;
+			if ( isLibraryHandle( ) )
+			{
+				designPath = ( (LibraryHandle) itemHandle.getModuleHandle( ) ).getFileName( );
+			}
+			else
+			{
+				designPath = ( (ReportDesignHandle) itemHandle.getModuleHandle( ) ).getFileName( );
+			}
 			return provider.resolveClasspath( designPath );
 		}
 
@@ -221,30 +237,30 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		try
 		{
+			EngineConfig config = new EngineConfig( );
+			String[] paths = getDesignWorkspaceClasspath( );
+			if ( paths != null && paths.length > 0 )
+			{
+				StringBuffer buffer = new StringBuffer( );
+				for ( String path : paths )
+				{
+					if ( buffer.length( ) > 0 )
+					{
+						buffer.append( ';' );
+					}
+					buffer.append( path );
+				}
+				if ( buffer.length( ) != 0 )
+				{
+					HashMap<Object, Object> appContext = config.getAppContext( );
+					appContext.put( EngineConstants.PROJECT_CLASSPATH_KEY,
+							buffer.toString( ) );
+				}
+			}
+			engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
+			
 			if ( isReportDesignHandle( ) )
 			{
-				EngineConfig config = new EngineConfig( );
-				String[] paths = getDesignWorkspaceClasspath( );
-				if ( paths != null && paths.length > 0 )
-				{
-					StringBuffer buffer = new StringBuffer( );
-					for ( String path : paths )
-					{
-						if ( buffer.length( ) > 0 )
-						{
-							buffer.append( ';' );
-						}
-						buffer.append( path );
-					}
-					if ( buffer.length( ) != 0 )
-					{
-						HashMap<Object, Object> appContext = config.getAppContext( );
-						appContext.put( EngineConstants.PROJECT_CLASSPATH_KEY,
-								buffer.toString( ) );
-					}
-				}
-				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
-
 				engineTask = new ChartDummyEngineTask( engine,
 						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
 						itemHandle.getModuleHandle( ) );
@@ -255,6 +271,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 			else
 			{
+				// Create data set preview task to execute script data set query in report library.
+				ReportEngineHelper engineHelper = new ReportEngineHelper( engine );
+				dataSetPreviewTask = engineHelper.createDatasetPreviewTask( );
+				
 				DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 						getReportDesignHandle( ) );
 				session = DataRequestSession.newSession( dsc );
@@ -641,7 +661,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	protected final List<Object[]> getPreviewRowData( String[] bindingNames,
 			int rowCount, boolean isStringType ) throws ChartException
 	{
-		List<Object[]> dataList = new ArrayList<Object[]>( );
+		List<Object[]> dataList = null;
 
 		// Set thread context class loader so Rhino can find POJOs in workspace
 		// projects
@@ -656,43 +676,43 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		try
 		{
+			DataSetHandle datasetHandle = getDataSetFromHandle( );
 			QueryDefinition queryDefn = new QueryDefinition( );
 			queryDefn.setMaxRows( getMaxRow( ) );
-			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
+			queryDefn.setDataSetName( datasetHandle.getQualifiedName( ) );
 
 			setQueryDefinitionWithDataSet( itemHandle, queryDefn );
 
-			IQueryResults actualResultSet = executeDataSetQuery( queryDefn );
-			if ( actualResultSet != null )
+			// For script data set in report library, since there is not
+			// execution context in report library, just use data set preview
+			// task to execute query.
+			if ( isLibraryHandle( )
+					&& datasetHandle instanceof ScriptDataSetHandle )
 			{
-				String[] expressions = bindingNames;
-				int columnCount = expressions.length;
-				IResultIterator iter = actualResultSet.getResultIterator( );
-				while ( iter.next( ) )
+				dataSetPreviewTask.setQuery( queryDefn );
+				dataSetPreviewTask.setDataSet( datasetHandle );
+				IExtractionResults ier = dataSetPreviewTask.execute( );
+				if ( ier != null )
 				{
-					if ( isStringType )
-					{
-						String[] record = new String[columnCount];
-						for ( int n = 0; n < columnCount; n++ )
-						{
-							// Bugzilla#190229, to get string with localized
-							// format
-							record[n] = valueAsString( iter.getValue( expressions[n] ) );
-						}
-						dataList.add( record );
-					}
-					else
-					{
-						Object[] record = new Object[columnCount];
-						for ( int n = 0; n < columnCount; n++ )
-						{
-							record[n] = iter.getValue( expressions[n] );
-						}
-						dataList.add( record );
-					}
+					IResultIterator iter = ier.nextResultIterator( )
+							.getResultIterator( );
+					dataList = iterateDataSetResults( iter,
+							bindingNames,
+							isStringType );
+					ier.close( );
 				}
-
-				actualResultSet.close( );
+			}
+			else
+			{
+				IQueryResults actualResultSet = executeDataSetQuery( queryDefn );
+				if ( actualResultSet != null )
+				{
+					IResultIterator iter = actualResultSet.getResultIterator( );
+					dataList = iterateDataSetResults( iter,
+							bindingNames,
+							isStringType );
+					actualResultSet.close( );
+				}
 			}
 		}
 		catch ( BirtException e )
@@ -705,6 +725,40 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
+		}
+		return ( dataList == null ) ? new ArrayList<Object[]>( ) : dataList;
+	}
+
+	private List<Object[]> iterateDataSetResults( IResultIterator iter,
+			String[] bindingNames, boolean isStringType )
+			throws BirtException
+	{
+		List<Object[]> dataList = new ArrayList<Object[]>( );
+		
+		String[] expressions = bindingNames;
+		int columnCount = expressions.length;
+		while ( iter.next( ) )
+		{
+			if ( isStringType )
+			{
+				String[] record = new String[columnCount];
+				for ( int n = 0; n < columnCount; n++ )
+				{
+					// Bugzilla#190229, to get string with localized
+					// format
+					record[n] = valueAsString( iter.getValue( expressions[n] ) );
+				}
+				dataList.add( record );
+			}
+			else
+			{
+				Object[] record = new Object[columnCount];
+				for ( int n = 0; n < columnCount; n++ )
+				{
+					record[n] = iter.getValue( expressions[n] );
+				}
+				dataList.add( record );
+			}
 		}
 		return dataList;
 	}
@@ -755,6 +809,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return itemHandle.getModuleHandle( ) instanceof ReportDesignHandle;
 	}
 
+	private boolean isLibraryHandle( )
+	{
+		return itemHandle.getModuleHandle( ) instanceof LibraryHandle;
+	}
+	
 	/**
 	 * Add group definitions into query definition.
 	 * 
@@ -1036,26 +1095,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @see DataUtil#generateComputedColumns(ReportItemHandle)
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
 	protected List<ComputedColumn> generateComputedColumns(
 			DataSetHandle dataSetHandle ) throws SemanticException
 	{
-		if ( dataSetHandle != null )
-		{
-			List<ResultSetColumnHandle> resultSetColumnList = DataUtil.getColumnList( dataSetHandle );
-			List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
-			for ( ResultSetColumnHandle resultSetColumn : resultSetColumnList )
-			{
-				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
-						resultSetColumn.getColumnName( ) );
-				column.setDataType( resultSetColumn.getDataType( ) );
-				ExpressionUtility.setBindingColumnExpression( resultSetColumn,
-						column );
-				columnList.add( column );
-			}
-			return columnList;
-		}
-		return Collections.emptyList( );
+		return ChartReportItemUIUtil.generateComputedColumns( itemHandle, dataSetHandle );
 	}
 
 	/**
@@ -1570,7 +1613,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 			catch ( BirtException e )
 			{
-
+				logger.log( e );
 				throw new ChartException( ChartReportItemUIActivator.ID,
 						ChartException.DATA_BINDING,
 						e );
@@ -3555,6 +3598,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		return itemHandle.getDataSet( ) == null
 				&& ChartReportItemUtil.isContainerInheritable( itemHandle )
+				&& !ChartReportItemUtil.isContainerGridHandle( itemHandle )
 				&& !context.isInheritColumnsOnly( );
 	}
 
@@ -3629,9 +3673,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			states |= INHERIT_COLUMNS_GROUPS;
 		}
+		if ( isKeepCubeHierarchyAndNotCubeTopLevelOnCategory(  ) )
+		{
+			states |= IS_CUBE_AND_CATEGORY_NOT_TOP_LEVEL;
+		}
+		if ( isKeepCubeHierarchyAndNotCubeTopLevelOnSeries(  ) )
+		{
+			states |= IS_CUBE_AND_SERIES_NOT_TOP_LEVEL;
+		}
 
 		return states;
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -3844,6 +3897,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			initReportVariable( );
 			loadDesign( );
 		}
+	}
+	
+	protected boolean isKeepCubeHierarchyAndNotCubeTopLevelOnCategory( )
+	{
+		return ChartReportItemUtil.isKeepCubeHierarchyAndNotCubeTopLevelOnCategory( context.getModel( ),
+				getBindingCubeHandle( ),
+				itemHandle );
+	}
+
+	protected boolean isKeepCubeHierarchyAndNotCubeTopLevelOnSeries( )
+	{
+		return ChartReportItemUtil.isKeepCubeHierarchyAndNotCubeTopLevelOnSeries( context.getModel( ),
+				getBindingCubeHandle( ),
+				itemHandle );
 	}
 
 	public CubeHandle getBindingCubeHandle( )

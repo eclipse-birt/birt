@@ -398,7 +398,9 @@ public class FontSizeBuilder extends Composite
 
 			if ( units.contains( sp[1] ) )
 			{
-				unitCombo.setText( units.findChoice( sp[1] ).getDisplayName( ) );
+				String text = units.findChoice( sp[1] ).getDisplayName( );
+				if ( !unitCombo.getText( ).equals( text ) )
+					unitCombo.setText( text );
 			}
 
 		}

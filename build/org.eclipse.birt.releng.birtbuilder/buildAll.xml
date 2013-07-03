@@ -288,6 +288,9 @@
 			file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}.zip" />
 		<move
+			file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-x86_64-${package.version}.zip"
+			tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-x86_64-${package.version}-${build.date}.zip" />	
+		<move
 			file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-linux-gtk.tar.gz"
 			tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}-linux-gtk.tar.gz" />
 		<move
@@ -1246,6 +1249,7 @@
 			<fileset dir="${buildOutputDir}">
 				<include name="org.eclipse.birt.*/**" />
 				<include name="org.eclipse.datatools.*/**" />
+				<include name="uk.co.spudsoft.birt.*/**" />
 			</fileset>
 		</copy>
 
@@ -1327,6 +1331,7 @@
 			<bundle name="org.eclipse.birt.report.engine.emitter.config.ods" />
 			<bundle name="org.eclipse.birt.report.engine.emitter.config.odt" />
 			<bundle name="org.eclipse.birt.axis.overlay" />
+			<bundle name="uk.co.spudsoft.birt.emitters.excel" />
 			<manifest>
 				<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}" />
 				<attribute name="Bundle-Name" value="BIRT Runtime SDK" />

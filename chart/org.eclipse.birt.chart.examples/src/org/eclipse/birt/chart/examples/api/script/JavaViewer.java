@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -91,7 +92,7 @@ public class JavaViewer extends Composite implements
 
 		Label la = new Label( cBottom, SWT.NONE );
 
-		la.setText( "Choose: " );//$NON-NLS-1$
+		la.setText( "&Choose: " );//$NON-NLS-1$
 		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cbType.add( "Axis" );//$NON-NLS-1$
 		cbType.add( "DataPoints" );//$NON-NLS-1$
@@ -103,7 +104,8 @@ public class JavaViewer extends Composite implements
 		cbType.select( 0 );
 
 		btn = new Button( cBottom, SWT.NONE );
-		btn.setText( "Update" );//$NON-NLS-1$
+		btn.setText( "&Update" );//$NON-NLS-1$
+		btn.setToolTipText( "&Update" );//$NON-NLS-1$
 		btn.addSelectionListener( jViewer );
 
 		shell.open( );
@@ -122,7 +124,9 @@ public class JavaViewer extends Composite implements
 	JavaViewer( Composite parent, int style )
 	{
 		super( parent, style );
-		final PluginSettings ps = PluginSettings.instance( );
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		final PluginSettings ps = PluginSettings.instance( config );
 		try
 		{
 			idr = ps.getDevice( "dv.SWT" );//$NON-NLS-1$

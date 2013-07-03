@@ -499,9 +499,47 @@ public abstract class AbstractWordXmlWriter
 			writeBackgroundColor( style.getBackgroundColor( ) );
 			writeParagraphBorders( style );
 		}
+		writeBidi( CSSConstants.CSS_RTL_VALUE.equals( style.getDirection( ) ) );
 		writer.closeTag( "w:pPr" );
 	}
 
+	/**
+	 * Used only in inline text .The  text align style of inline text 
+	 * is ignored,but its parent text align should be applied.
+	 * @param style
+	 * @param isInline
+	 * @param paragraphWidth
+	 * @param textAlign parent text align of inline text 
+	 */
+	public void startParagraph( IStyle style, boolean isInline,
+			int paragraphWidth, String textAlign )
+	{
+		writer.openTag( "w:p" );
+		writer.openTag( "w:pPr" );
+		writeSpacing( ( style.getProperty( StyleConstants.STYLE_MARGIN_TOP ) ),
+				( style.getProperty( StyleConstants.STYLE_MARGIN_BOTTOM ) ) );
+		writeAlign( textAlign, style.getDirection( ) );
+		int indent = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_TEXT_INDENT ),
+				paragraphWidth ) / 1000 * 20;
+		
+		int leftMargin = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_MARGIN_LEFT ),
+				paragraphWidth ) / 1000 * 20;
+		
+		int rightMargin = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ),
+				paragraphWidth ) / 1000 * 20;
+		writeIndent( leftMargin, rightMargin, indent );
+		
+		if ( !isInline )
+		{
+			writeBackgroundColor( style.getBackgroundColor( ) );
+			writeParagraphBorders( style );
+		}
+		writeBidi( CSSConstants.CSS_RTL_VALUE.equals( style.getDirection( ) ) );
+		writer.closeTag( "w:pPr" );
+	}
 	private void writeSpacing( CSSValue height )
 	{
 		// unit: twentieths of a point(twips)
@@ -782,9 +820,22 @@ public abstract class AbstractWordXmlWriter
 
 	public void endTableCell( boolean empty )
 	{
+		endTableCell( empty, false );
+	}
+	
+	public void endTableCell( boolean empty, boolean inForeign )
+	{
+
 		if ( empty )
 		{
-			insertEmptyParagraph( );
+			if ( inForeign )
+			{
+				insertEmptyParagraphInForeign( );
+			}
+			else
+			{
+				insertEmptyParagraph( );
+			}
 		}
 		writer.closeTag( "w:tc" );
 	}
@@ -814,6 +865,12 @@ public abstract class AbstractWordXmlWriter
 		writer.closeTag("w:p");
 	}
 
+	public void insertEmptyParagraphInForeign( )
+	{
+		writer.openTag("w:p");
+		writer.closeTag("w:p");
+	}
+	
 	public void insertHiddenParagraph( )
 	{
 		writer.openTag( "w:p" );
@@ -1069,6 +1126,62 @@ public abstract class AbstractWordXmlWriter
 		closeHyperlink( info );
 	}
 
+	public void writeTextInRun( int type, String txt, IStyle style,
+			String fontFamily, HyperlinkInfo info, boolean isInline,
+			int paragraphWidth, boolean runIsRtl, String textAlign )
+	{
+		if ( "".equals( txt ) )
+		{
+			return;
+		}
+		if ( needNewParagraph( txt ) )
+		{
+			writer.closeTag( "w:p" );
+			startParagraph( style, isInline, paragraphWidth,textAlign );
+			return;
+		}
+
+		openHyperlink( info );
+		boolean isField = WordUtil.isField( type );
+		String direction = style.getDirection( );
+
+		if ( isField )
+		{
+			writeField( true, style, fontFamily );
+		}
+		writer.openTag( "w:r" );
+		writer.openTag( "w:rPr" );
+		writeRunProperties( style, fontFamily, info );
+		if ( isInline )
+		{
+			writeAlign( textAlign, direction );
+			writeBackgroundColor( style.getBackgroundColor( ) );
+			writePosition( style.getVerticalAlign( ), style
+						.getProperty( StyleConstants.STYLE_FONT_SIZE ) );
+				writeRunBorders( style );
+		}
+		if ( !isField && runIsRtl )
+		{
+			writer.openTag( "w:rtl" );
+			writer.closeTag( "w:rtl" );
+		}
+		writer.closeTag( "w:rPr" );
+
+		if ( isField )
+		{
+			writeAutoText( type );
+		}
+		else
+		{
+			writeString( txt, style );
+		}
+		writer.closeTag( "w:r" );
+		if ( isField )
+		{
+			writeField( false, style, fontFamily );
+		}
+		closeHyperlink( info );
+	}
 	private void writePosition( String verticalAlign, CSSValue fontSize )
 	{
 		int size = WordUtil.parseFontSize( PropertyUtil

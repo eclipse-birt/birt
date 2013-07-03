@@ -122,8 +122,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 						continue;
 					if ( this.getReferencedMeasureName( binding.getExpression( ) ) != null )
 					{
-						if ( this.isLeafLevel( cubeDefn, target )
-								&& this.isMeasureBinding( cubeDefn, binding ) )
+						if ( this.isMeasureBinding( cubeDefn, binding ) )
 						{
 							result.add( new BindingMetaInfo( binding.getBindingName( ),
 									IBindingMetaInfo.MEASURE_TYPE ) );

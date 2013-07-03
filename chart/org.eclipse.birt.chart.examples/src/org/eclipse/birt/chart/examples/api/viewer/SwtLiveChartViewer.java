@@ -26,7 +26,6 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
@@ -217,7 +216,7 @@ public class SwtLiveChartViewer extends Composite implements PaintListener
 		ls1.getLineAttributes( ).setColor( ColorDefinitionImpl.GREEN( ) );
 		for ( int i = 0; i < ls1.getMarkers( ).size( ); i++ )
 		{
-			( (Marker) ls1.getMarkers( ).get( i ) ).setType( MarkerType.BOX_LITERAL );
+			ls1.getMarkers( ).get( i ) .setType( MarkerType.BOX_LITERAL );
 		}
 		ls1.setCurve( true );
 
@@ -241,16 +240,16 @@ public class SwtLiveChartViewer extends Composite implements PaintListener
 
 		// X-Axis
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
-		SeriesDefinition sdX = (SeriesDefinition) xAxisPrimary.getSeriesDefinitions( )
+		SeriesDefinition sdX =  xAxisPrimary.getSeriesDefinitions( )
 				.get( 0 );
-		( (Series) sdX.getSeries( ).get( 0 ) ).setDataSet( categoryValues );
+		sdX.getSeries( ).get( 0 ) .setDataSet( categoryValues );
 
 		// Y-Axis
 		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
-		SeriesDefinition sdY = (SeriesDefinition) yAxisPrimary.getSeriesDefinitions( )
+		SeriesDefinition sdY =  yAxisPrimary.getSeriesDefinitions( )
 				.get( 0 );
-		( (Series) sdY.getSeries( ).get( 0 ) ).setDataSet( seriesOneValues );
-		( (Series) sdY.getSeries( ).get( 1 ) ).setDataSet( seriesTwoValues );
+		sdY.getSeries( ).get( 0 ) .setDataSet( seriesOneValues );
+		sdY.getSeries( ).get( 1 ) .setDataSet( seriesTwoValues );
 	}
 	// Live Date Set
 	private static final String[] sa = {
@@ -332,7 +331,10 @@ public class SwtLiveChartViewer extends Composite implements PaintListener
 
 		try
 		{
-			gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, null, null );
+			if ( bFirstPaint ) // ++++ added this line. But then data does not
+			{
+				gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, null, null );
+			}
 			gr.render( idr, gcs );
 			GC gc = e.gc;
 			gc.drawImage( imgChart, d.x, d.y );

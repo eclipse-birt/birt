@@ -11,23 +11,20 @@
 
 package org.eclipse.birt.report.context;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
-import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
-import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
-import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -531,5 +528,24 @@ abstract public class BaseAttributeBean
 	public void setDocumentInUrl( boolean documentInUrl )
 	{
 		this.documentInUrl = documentInUrl;
+	}
+	
+	public String getClientInitialize( )
+	{
+		IReportRunnable r;
+		try
+		{
+			r = (IReportRunnable) reportDesignHandle.getDesignObject( );
+		}
+		catch ( ReportServiceException e )
+		{
+			return "";
+		}
+		if ( r.getDesignHandle( ) instanceof ReportDesignHandle )
+		{
+			ReportDesignHandle handle = (ReportDesignHandle) r.getDesignHandle( );
+			return handle.getClientInitialize( );
+		}
+		return "";
 	}
 }

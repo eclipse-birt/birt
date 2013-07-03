@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -44,7 +45,8 @@ public class ColumnBindingMetaData implements IResultMetaData
 			IResultClass rsClass ) throws DataException
 	{
 		bindingList = new ArrayList<Binding>( );
-		bindingList.addAll( queryDefn.getBindings( ).values( ) );
+		ArrayList<Binding> presentBindings = new ArrayList<Binding>( queryDefn.getBindings( )
+				.values( ) );
 		if ( ( (QueryDefinition) queryDefn ).needAutoBinding( )
 				&& rsClass != null )
 		{
@@ -72,6 +74,15 @@ public class ColumnBindingMetaData implements IResultMetaData
 							metaData.getColumnType( colIndex ) );
 					Binding binding = new Binding( colName, baseExpr );
 					binding.setDisplayName( metaData.getColumnLabel( colIndex ) );
+					
+					IBinding found = findBinding( binding, presentBindings );
+					if ( found != null
+							&& found.getDataType( ) == DataType.UNKNOWN_TYPE )
+					{
+						// Remove duplicate bindings which does not set data
+						// type correctly.
+						presentBindings.remove( found );
+					}
 					bindingList.add( binding );
 				}
 				catch ( BirtException e )
@@ -79,6 +90,54 @@ public class ColumnBindingMetaData implements IResultMetaData
 				}
 			}
 		}
+		bindingList.addAll( presentBindings );
+	}
+	
+	private IBinding findBinding( IBinding binding,
+			List<Binding> presentBindings ) throws DataException
+	{
+		for ( IBinding b : presentBindings )
+		{
+			if ( isSameBinding( b, binding ) )
+				return b;
+		}
+		return null;
+	}
+
+	private boolean isSameBinding( IBinding b1, IBinding b2 )
+			throws DataException
+	{
+		if ( !QueryCompUtil.isTwoExpressionEqual( b1.getExpression( ),
+				b2.getExpression( ),
+				true ) )
+			return false;
+		if ( !QueryCompUtil.isEqualString( b1.getAggrFunction( ),
+				b2.getAggrFunction( ) ) )
+			return false;
+		if ( !QueryCompUtil.isTwoExpressionEqual( b1.getFilter( ),
+				b2.getFilter( ),
+				true ) )
+			return false;
+		if ( b1.getAggregatOns( ).size( ) != b2.getAggregatOns( ).size( ) )
+			return false;
+		for ( int i = 0; i < b1.getAggregatOns( ).size( ); i++ )
+		{
+			if ( !QueryCompUtil.isEqualString( b1.getAggregatOns( )
+					.get( i )
+					.toString( ), b2.getAggregatOns( ).get( i ).toString( ) ) )
+				return false;
+		}
+		if ( b1.getArguments( ).size( ) != b2.getArguments( ).size( ) )
+			return false;
+		for ( int i = 0; i < b1.getArguments( ).size( ); i++ )
+		{
+			if ( !QueryCompUtil.isTwoExpressionEqual( (IBaseExpression) b1.getArguments( )
+					.get( i ),
+					(IBaseExpression) b2.getArguments( ).get( i ),
+					true ) )
+				return false;
+		}
+		return true;
 	}
 	
 	

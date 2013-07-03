@@ -398,7 +398,7 @@ public class QueryCompUtil
 	 * @param obj2
 	 * @return
 	 */
-	private static boolean isTwoExpressionEqual( IBaseExpression obj1, IBaseExpression obj2, boolean ignoreDataType )
+	public static boolean isTwoExpressionEqual( IBaseExpression obj1, IBaseExpression obj2, boolean ignoreDataType )
 	{
 		if( obj1 == null && obj2!= null )
 			return false;
@@ -607,7 +607,7 @@ public class QueryCompUtil
 	 * @param ob2
 	 * @return
 	 */
-	private static boolean isEqualString( Object ob1, Object ob2 )
+	public static boolean isEqualString( Object ob1, Object ob2 )
 	{
 		if ( ob1 == ob2 )
 			return true;

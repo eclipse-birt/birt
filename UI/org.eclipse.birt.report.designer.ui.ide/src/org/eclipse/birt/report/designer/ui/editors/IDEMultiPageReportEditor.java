@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -52,7 +53,8 @@ import org.eclipse.ui.part.FileEditorInput;
 public class IDEMultiPageReportEditor extends MultiPageReportEditor
 {
 
-	private static final String ProblemMarkID = "org.eclipse.birt.report.designer.ui.ide" + ".birtproblemmarker"; 
+	private static final String ProblemMarkID = "org.eclipse.birt.report.designer.ui.ide" //$NON-NLS-1$
+			+ ".birtproblemmarker"; //$NON-NLS-1$
 	protected static final Logger logger = Logger.getLogger( IDEMultiPageReportEditor.class.getName( ) );
 
 	/**
@@ -100,7 +102,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		/**
 		 * is visit successful
 		 */
-		public boolean visit( IResourceDelta delta )
+		public boolean visit( final IResourceDelta delta )
 		{
 			if ( delta == null
 					|| !delta.getResource( )
@@ -132,6 +134,14 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 										DLG_SAVE_BUTTON_SAVE,
 										DLG_SAVE_BUTTON_CLOSE
 								};
+
+								final IResource file = delta.getResource( );
+
+								if ( closedStatus.contains( file ) )
+								{
+									return;
+								}
+
 								MessageDialog dialog = new MessageDialog( getSite( ).getShell( ),
 										title,
 										null,
@@ -139,10 +149,13 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 										MessageDialog.QUESTION,
 										buttons,
 										0 );
+
+								closedStatus.add( file );
+
 								if ( dialog.open( ) == Dialog.OK )
 								{
 									doSaveAs( );
-									if (!isExistModelFile( ))
+									if ( !isExistModelFile( ) )
 									{
 										closeEditor( false );
 									}
@@ -151,6 +164,15 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 								{
 									closeEditor( false );
 								}
+
+								Display.getDefault( )
+										.asyncExec( new Runnable( ) {
+
+											public void run( )
+											{
+												closedStatus.remove( file );
+											}
+										} );
 							}
 						}
 					} );
@@ -238,7 +260,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 					( (IReportEditorPage) page ).setInput( input );
 				}
 			}
-			updateRelatedViews();
+			updateRelatedViews( );
 		}
 	}
 
@@ -278,12 +300,8 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#
-	 * partActivated(org.eclipse.ui.IWorkbenchPart)
-	 */
+	private static List<IResource> closedStatus = new ArrayList<IResource>( );
+
 	public void partActivated( IWorkbenchPart part )
 	{
 		super.partActivated( part );
@@ -292,7 +310,8 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 			return;
 		if ( isWorkspaceResource )
 		{
-			if ( !( (IFileEditorInput) getEditorInput( ) ).getFile( ).exists( ) )
+			final IFile file = ( (IFileEditorInput) getEditorInput( ) ).getFile( );
+			if ( !file.exists( ) )
 			{
 
 				Shell shell = getSite( ).getShell( );
@@ -305,6 +324,11 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 						DLG_SAVE_BUTTON_SAVE, DLG_SAVE_BUTTON_CLOSE
 				};
 
+				if ( closedStatus.contains( file ) )
+				{
+					return;
+				}
+
 				MessageDialog dialog = new MessageDialog( shell,
 						title,
 						null,
@@ -313,17 +337,26 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 						buttons,
 						0 );
 
-				if ( dialog.open( ) == 0 )
+				closedStatus.add( file );
+
+				int result = dialog.open( );
+
+				if ( result == 0 )
 				{
 					doSaveAs( );
 					partActivated( part );
 				}
-
 				else
 				{
 					closeEditor( false );
 				}
+				Display.getDefault( ).asyncExec( new Runnable( ) {
 
+					public void run( )
+					{
+						closedStatus.remove( file );
+					}
+				} );
 			}
 		}
 	}
@@ -544,6 +577,22 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		}
 
 		return isNewPageValid;
+	}
+
+	protected void confirmSave( )
+	{
+		if ( isWorkspaceResource )
+		{
+			IFile file = ( (IFileEditorInput) getEditorInput( ) ).getFile( );
+			if ( !file.exists( ) )
+			{
+				if ( closedStatus.contains( file ) )
+				{
+					return;
+				}
+			}
+		}
+		super.confirmSave( );
 	}
 
 }

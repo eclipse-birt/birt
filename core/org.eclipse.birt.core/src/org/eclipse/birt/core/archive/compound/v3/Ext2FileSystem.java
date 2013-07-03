@@ -299,11 +299,6 @@ public class Ext2FileSystem
 		cacheManager.setMaxCacheSize( cacheSize );
 	}
 
-	public void setCacheManager( SystemCacheManager manager )
-	{
-		cacheManager.setSystemCacheManager( manager );
-	}
-
 	public int getUsedCacheSize( )
 	{
 		return cacheManager.getUsedCacheSize( );

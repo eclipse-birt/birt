@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
 import java.util.ArrayList;
@@ -83,9 +84,9 @@ import org.eclipse.swt.widgets.Text;
  * each side to define a join data set
  */
 
-public class JointDataSetPage extends WizardPage
-		implements
-			ISelectionChangedListener,IPropertyPage
+public class JointDataSetPage extends WizardPage implements
+		ISelectionChangedListener,
+		IPropertyPage
 {
 
 	private final static transient String seperator = "::"; //$NON-NLS-1$
@@ -96,28 +97,28 @@ public class JointDataSetPage extends WizardPage
 	private transient ListViewer rightColumnList = null;
 	private transient DataSetHandle leftHandle = null;
 	private transient DataSetHandle rightHandle = null;
-	
+
 	private transient Group leftGroup;
 	private transient Group centerGroup;
 	private transient Group rightGroup;
-	
+
 	private transient Button innerJoinButton;
 	private transient Button leftOuterJoinButton;
 	private transient Button rightOuterJoinButton;
 	private transient Button fullOuterJoinButton;
-	
+
 	private transient Composite topComposite;
 	private transient Composite bottomComposite;
-	
+
 	private transient List dataSetList;
 	private boolean leftSelected = true;
 	private String leftColumnSelection;
 	private String rightColumnSelection;
 	private String leftDataSetName;
 	private String rightDataSetName;
-	
+
 	private boolean selectionChanged = false;
-	
+
 	private IPropertyPageContainer propertyPageContainer;
 	private Text nameEditor;
 	private Label nameLabel;
@@ -136,7 +137,7 @@ public class JointDataSetPage extends WizardPage
 	final private static int LEFT_DATASET = 0;
 	final private static int RIGHT_DATASET = -1;
 	private PropertyHandle propertyHandle;
-	
+
 	private PropertyHandle columnHintHandle;
 
 	private static Logger logger = Logger.getLogger( JointDataSetPage.class.getName( ) );
@@ -150,7 +151,10 @@ public class JointDataSetPage extends WizardPage
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see
+	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createControl( Composite parent )
 	{
@@ -160,7 +164,10 @@ public class JointDataSetPage extends WizardPage
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#createPageControl(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * createPageControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public Control createPageControl( Composite parent )
 	{
@@ -178,23 +185,24 @@ public class JointDataSetPage extends WizardPage
 			pageDescription.setText( getPageDescription( ) );
 			pageDescription.setToolTipText( getPageDescription( ) );
 		}
-        
+
 		topComposite = new Composite( composite, SWT.NONE );
 		createTopComposite( topComposite );
 
 		bottomComposite = new Composite( composite, SWT.NONE );
 		createBottomComposite( bottomComposite );
-		
+
 		joinType = DesignChoiceConstants.JOIN_TYPE_INNER;
-		
+
 		selectionChanged = false;
-		
+
 		Utility.setSystemHelp( composite, IHelpConstants.CONEXT_ID_JOINTDATASET );
 		return composite;
 	}
-	 
+
 	/**
 	 * create top composite for page
+	 * 
 	 * @param parent
 	 */
 	private void createTopComposite( Composite parent )
@@ -202,7 +210,7 @@ public class JointDataSetPage extends WizardPage
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 3;
 		parent.setLayout( layout );
-		
+
 		GridData data = new GridData( GridData.FILL_BOTH );
 		parent.setLayoutData( data );
 
@@ -237,26 +245,28 @@ public class JointDataSetPage extends WizardPage
 		leftDataSetChooser.setLabelProvider( provider );
 		leftDataSetChooser.setInput( dataSetList );
 		leftDataSetChooser.addSelectionChangedListener( this );
-		
+
 		data = new FormData( );
 
 		data.top = new FormAttachment( leftDataSetChooser.getCombo( ), 10 );
 		data.left = new FormAttachment( 0, 5 );
 		data.right = new FormAttachment( 100, -5 );
 		data.bottom = new FormAttachment( 100, -5 );
-		
+
 		leftColumnList = new ListViewer( leftGroup, SWT.V_SCROLL
-				| SWT.H_SCROLL | SWT.BORDER );
+				| SWT.H_SCROLL
+				| SWT.BORDER );
 		leftColumnList.getControl( ).setLayoutData( data );
 		ColumnProvider colProvider = new ColumnProvider( );
 		leftColumnList.setContentProvider( colProvider );
 		leftColumnList.setLabelProvider( colProvider );
 		leftColumnList.addSelectionChangedListener( this );
-		
+
 	}
-	
+
 	/**
 	 * create center composite for page
+	 * 
 	 * @param composite
 	 */
 	private void createCenterGroup( Composite composite )
@@ -269,7 +279,7 @@ public class JointDataSetPage extends WizardPage
 
 		centerGroup.setText( TEXT_JOINTYYPE );
 		createRadioButtonList( centerGroup );
-		
+
 	}
 
 	/**
@@ -304,14 +314,15 @@ public class JointDataSetPage extends WizardPage
 		data.right = new FormAttachment( 100, -5 );
 		data.bottom = new FormAttachment( 100, -5 );
 		rightColumnList = new ListViewer( rightGroup, SWT.V_SCROLL
-				| SWT.H_SCROLL | SWT.BORDER );
+				| SWT.H_SCROLL
+				| SWT.BORDER );
 		rightColumnList.getControl( ).setLayoutData( data );
 		ColumnProvider colProvider = new ColumnProvider( );
 		rightColumnList.setContentProvider( colProvider );
 		rightColumnList.setLabelProvider( colProvider );
 		rightColumnList.addSelectionChangedListener( this );
 	}
-	
+
 	/**
 	 * create bottom composite for page
 	 * 
@@ -339,7 +350,7 @@ public class JointDataSetPage extends WizardPage
 		{
 			nameEditor.setText( Utility.getUniqueDataSetName( Messages.getString( "dataset.new.defaultName" ) ) );//$NON-NLS-1$			
 		}
-		
+
 		nameEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		nameEditor.setToolTipText( Messages.getString( "DataSetBasePage.tooltip" ) ); //$NON-NLS-1$
 		nameEditor.addModifyListener( new ModifyListener( ) {
@@ -352,7 +363,7 @@ public class JointDataSetPage extends WizardPage
 					setPageComplete( false );
 				}
 				else if ( isDuplicateName( ) )
-				{//name is duplicated
+				{// name is duplicated
 					setPageMessage( DUPLICATE_NAME, ERROR );
 					setPageComplete( false );
 				}
@@ -366,17 +377,18 @@ public class JointDataSetPage extends WizardPage
 					setPageComplete( false );
 				}
 				else
-				{//everything is OK
+				{// everything is OK
 					setPageComplete( canPageComplete( ) );
 					setPageMessage( CREATE_PROMPT, NONE );
 				}
 			}
 		} );
-		
+
 	}
-	
+
 	/**
 	 * cread radio button list for center composite
+	 * 
 	 * @param composite
 	 */
 	private void createRadioButtonList( Composite composite )
@@ -403,7 +415,7 @@ public class JointDataSetPage extends WizardPage
 		fullOuterJoinButton = new Button( composite, SWT.RADIO | SWT.WRAP );
 		fullOuterJoinButton.setText( TEXT_FULLJOIN );
 		fullOuterJoinButton.setLayoutData( data );
-		
+
 		RadioSelectionLister listener = new RadioSelectionLister( );
 		innerJoinButton.addSelectionListener( listener );
 		leftOuterJoinButton.addSelectionListener( listener );
@@ -480,15 +492,18 @@ public class JointDataSetPage extends WizardPage
 		}
 		return dataSets;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+	 * 
+	 * @see
+	 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
+	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
 	public void selectionChanged( SelectionChangedEvent event )
 	{
 		selectionChanged = true;
-		
+
 		if ( event.getSource( ) instanceof ComboViewer )
 		{
 			this.setPageMessage( Messages.getString( "JointDataSetPage.page.detail" ), //$NON-NLS-1$
@@ -497,32 +512,35 @@ public class JointDataSetPage extends WizardPage
 				leftSelected = false;
 			else
 				leftSelected = true;
-			DataSetHandle handle = (DataSetHandle) ( (IStructuredSelection) event.getSelection( ) ).getFirstElement( );
-			if ( leftSelected )
+			if ( ( (IStructuredSelection) event.getSelection( ) ).getFirstElement( ) instanceof DataSetHandle )
 			{
-				leftDataSetName = handle.getQualifiedName( );
-				leftHandle = handle;
-			}
-			else
-			{
-				rightDataSetName = handle.getQualifiedName( );
-				rightHandle = handle;
-			}
-			DataSetViewData[] columsItems = null;
-			try
-			{
-				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-						handle.getModuleHandle( ) );
-				DataRequestSession session = DataRequestSession.newSession( context );
+				DataSetHandle handle = (DataSetHandle) ( (IStructuredSelection) event.getSelection( ) ).getFirstElement( );
+				if ( leftSelected )
+				{
+					leftDataSetName = handle.getQualifiedName( );
+					leftHandle = handle;
+				}
+				else
+				{
+					rightDataSetName = handle.getQualifiedName( );
+					rightHandle = handle;
+				}
+				DataSetViewData[] columsItems = null;
+				try
+				{
+					DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+							handle.getModuleHandle( ) );
+					DataRequestSession session = DataRequestSession.newSession( context );
 
-				columsItems = DataSetProvider.getCurrentInstance( )
-						.populateAllCachedMetaData( handle, session );
-				populateColumns( columsItems );
-				session.shutdown( );
-			}
-			catch ( BirtException e )
-			{
-				ExceptionHandler.handle( e );
+					columsItems = DataSetProvider.getCurrentInstance( )
+							.populateAllCachedMetaData( handle, session );
+					populateColumns( columsItems );
+					session.shutdown( );
+				}
+				catch ( BirtException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
 		}
 		else if ( event.getSource( ) instanceof ListViewer )
@@ -531,11 +549,14 @@ public class JointDataSetPage extends WizardPage
 				leftSelected = false;
 			else
 				leftSelected = true;
-			DataSetViewData itemModel = (DataSetViewData) ( (IStructuredSelection) event.getSelection( ) ).getFirstElement( );
-			if ( leftSelected )
-				leftColumnSelection = itemModel.getName( );
-			else
-				rightColumnSelection = itemModel.getName( );
+			if ( ( (IStructuredSelection) event.getSelection( ) ).getFirstElement( ) instanceof DataSetViewData )
+			{
+				DataSetViewData itemModel = (DataSetViewData) ( (IStructuredSelection) event.getSelection( ) ).getFirstElement( );
+				if ( leftSelected )
+					leftColumnSelection = itemModel.getName( );
+				else
+					rightColumnSelection = itemModel.getName( );
+			}
 		}
 		if ( !this.nameEditor.isDisposed( ) )
 			setPageComplete( canPageComplete( ) );
@@ -543,6 +564,7 @@ public class JointDataSetPage extends WizardPage
 
 	/**
 	 * populate columns for the selection changed of comboViewer
+	 * 
 	 * @param columsItems
 	 */
 	private void populateColumns( DataSetViewData[] columsItems )
@@ -568,9 +590,10 @@ public class JointDataSetPage extends WizardPage
 			}
 		}
 	}
-	
+
 	/**
 	 * create joint datasetHandle
+	 * 
 	 * @return
 	 */
 	public DataSetHandle createSelectedDataSet( )
@@ -596,6 +619,7 @@ public class JointDataSetPage extends WizardPage
 
 	/**
 	 * create joint data set
+	 * 
 	 * @return
 	 * @throws SemanticException
 	 */
@@ -613,28 +637,29 @@ public class JointDataSetPage extends WizardPage
 			dsHandle.addDataSet( leftDataSetName );
 			dsHandle.addDataSet( rightDataSetName );
 		}
-		
+
 		setParameters( dsHandle );
 
 		propertyHandle = dsHandle.getPropertyHandle( JointDataSet.JOIN_CONDITONS_PROP );
 		propertyHandle.addItem( createJoinCondition( ) );
-		
+
 		addColumnHints( dsHandle );
-		
+
 		return dsHandle;
 	}
-	
-	private void addColumnHints( JointDataSetHandle dsHandle ) throws SemanticException
+
+	private void addColumnHints( JointDataSetHandle dsHandle )
+			throws SemanticException
 	{
 		columnHintHandle = dsHandle.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
-		if( columnHintHandle == null )
+		if ( columnHintHandle == null )
 			return;
-		
+
 		columnHintHandle.clearValue( );
-		
+
 		List<ColumnHint> rightColumns = new ArrayList<ColumnHint>( );
-		HashMap<String,ColumnHint> resultMap = new HashMap<String,ColumnHint>( );
-		
+		HashMap<String, ColumnHint> resultMap = new HashMap<String, ColumnHint>( );
+
 		String leftDsName = this.leftDataSetName;
 		String rightDsName = this.rightDataSetName;
 
@@ -646,10 +671,11 @@ public class JointDataSetPage extends WizardPage
 			DataRequestSession session = DataRequestSession.newSession( context );
 			IResultMetaData leftMetaData = session.getDataSetMetaData( leftHandle,
 					false );
-			
-			IResultMetaData righMetaData; 
 
-			if( this.leftDataSetName != null && this.leftDataSetName.equalsIgnoreCase( this.rightDataSetName ) )
+			IResultMetaData righMetaData;
+
+			if ( this.leftDataSetName != null
+					&& this.leftDataSetName.equalsIgnoreCase( this.rightDataSetName ) )
 			{
 				leftDsName = leftDsName + "1";
 				rightDsName = rightDsName + "2";
@@ -659,12 +685,10 @@ public class JointDataSetPage extends WizardPage
 			{
 				righMetaData = session.getDataSetMetaData( rightHandle, false );
 			}
-			
+
 			for ( int i = 1; i <= leftMetaData.getColumnCount( ); i++ )
 			{
-				ColumnHint item = createColumnHint( leftMetaData,
-						i,
-						leftDsName );
+				ColumnHint item = createColumnHint( leftMetaData, i, leftDsName );
 				resultMap.put( (String) item.getProperty( null,
 						ColumnHint.ALIAS_MEMBER ), item );
 			}
@@ -682,9 +706,9 @@ public class JointDataSetPage extends WizardPage
 		{
 			ExceptionHandler.handle( e );
 		}
-		
+
 		resetColumnHintAlias( rightColumns, resultMap, leftDsName, rightDsName );
-		
+
 		for ( Iterator<ColumnHint> iter = resultMap.values( ).iterator( ); iter.hasNext( ); )
 		{
 			ColumnHint item = iter.next( );
@@ -735,13 +759,14 @@ public class JointDataSetPage extends WizardPage
 	{
 		ColumnHint column = new ColumnHint( );
 		column.setProperty( ColumnHint.COLUMN_NAME_MEMBER, dsName
-				+ seperator + item.getColumnName( index ) );
+				+ seperator
+				+ item.getColumnName( index ) );
 		column.setProperty( ColumnHint.ALIAS_MEMBER,
-				item.getColumnAlias( index ) == null
-						? item.getColumnName( index )
+				item.getColumnAlias( index ) == null ? item.getColumnName( index )
 						: item.getColumnAlias( index ) );
 		column.setProperty( ColumnHint.DISPLAY_NAME_MEMBER, dsName
-				+ seperator + item.getColumnName( index ) );
+				+ seperator
+				+ item.getColumnName( index ) );
 		return column;
 	}
 
@@ -758,17 +783,19 @@ public class JointDataSetPage extends WizardPage
 		PropertyHandle dsParameterHandle = dsHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP );
 		if ( leftDataSetName.equals( rightDataSetName ) )
 		{
-			params = getDataSetParameters( 
-					leftDataSetName + "1", leftHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ), 
-					rightDataSetName + "2", rightHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ) );
+			params = getDataSetParameters( leftDataSetName + "1",
+					leftHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ),
+					rightDataSetName + "2",
+					rightHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ) );
 		}
 		else
 		{
-			params = getDataSetParameters( 
-					leftDataSetName, leftHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ), 
-					rightDataSetName, rightHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ) );
+			params = getDataSetParameters( leftDataSetName,
+					leftHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ),
+					rightDataSetName,
+					rightHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ) );
 		}
-		if ( params.size( ) == 0 ) //parameter count turning to 0 case
+		if ( params.size( ) == 0 ) // parameter count turning to 0 case
 		{
 			dsParameterHandle.clearValue( );
 		}
@@ -776,31 +803,32 @@ public class JointDataSetPage extends WizardPage
 		{
 			Iterator iter = dsParameterHandle.iterator( );
 			int i = 0;
-			
+
 			while ( iter.hasNext( ) && i < params.size( ) )
 			{
 				DataSetParameterHandle parameterHandle = (DataSetParameterHandle) iter.next( );
-				updateDataSetParameterHandle( parameterHandle, params.get( i ));
+				updateDataSetParameterHandle( parameterHandle, params.get( i ) );
 				i++;
 			}
-			
-			//parameter count decreasing case
+
+			// parameter count decreasing case
 			if ( dsParameterHandle.getListValue( ) != null )
 				while ( i < dsParameterHandle.getListValue( ).size( ) )
 				{
 					dsParameterHandle.removeItem( dsParameterHandle.getListValue( )
 							.size( ) - 1 );
 				}
-			
-			//parameter count increasing case
-			for (; i<params.size( ); i++)
+
+			// parameter count increasing case
+			for ( ; i < params.size( ); i++ )
 			{
 				dsParameterHandle.addItem( params.get( i ) );
 			}
 		}
 	}
-	
-	private static void updateDataSetParameterHandle( DataSetParameterHandle handle, DataSetParameter param )
+
+	private static void updateDataSetParameterHandle(
+			DataSetParameterHandle handle, DataSetParameter param )
 	{
 		try
 		{
@@ -826,18 +854,23 @@ public class JointDataSetPage extends WizardPage
 		handle.setPosition( param.getPosition( ) );
 	}
 
-	
-	private static List<DataSetParameter> getDataSetParameters( String dataSetName1,
-			PropertyHandle parameterHandle1, String dataSetName2, PropertyHandle parameterHandle2 )
+	private static List<DataSetParameter> getDataSetParameters(
+			String dataSetName1, PropertyHandle parameterHandle1,
+			String dataSetName2, PropertyHandle parameterHandle2 )
 	{
-		List<DataSetParameter> params1 = getDataSetParameters( dataSetName1, parameterHandle1, 0 );
-		List<DataSetParameter> params2 = getDataSetParameters( dataSetName2, parameterHandle2, params1.size( ) );
+		List<DataSetParameter> params1 = getDataSetParameters( dataSetName1,
+				parameterHandle1,
+				0 );
+		List<DataSetParameter> params2 = getDataSetParameters( dataSetName2,
+				parameterHandle2,
+				params1.size( ) );
 		params1.addAll( params2 );
 		return params1;
 	}
-	
-	private static List<DataSetParameter> getDataSetParameters( String dataSetName,
-			PropertyHandle parameterHandle, int startPosition )
+
+	private static List<DataSetParameter> getDataSetParameters(
+			String dataSetName, PropertyHandle parameterHandle,
+			int startPosition )
 	{
 		Iterator paramterIterator = parameterHandle.iterator( );
 		List<DataSetParameter> result = new ArrayList<DataSetParameter>( );
@@ -845,8 +878,7 @@ public class JointDataSetPage extends WizardPage
 		while ( paramterIterator.hasNext( ) )
 		{
 			DataSetParameterHandle paramter = (DataSetParameterHandle) ( paramterIterator.next( ) );
-			DataSetParameter dataSetParameter = 
-				toDataSetParameter( (DataSetParameter) paramter.getStructure( ),
+			DataSetParameter dataSetParameter = toDataSetParameter( (DataSetParameter) paramter.getStructure( ),
 					dataSetName,
 					position );
 			position++;
@@ -854,14 +886,14 @@ public class JointDataSetPage extends WizardPage
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 
 	 * @param parameter
 	 * @return
 	 */
-	private static DataSetParameter toDataSetParameter( DataSetParameter parameter,
-			String dataSetName, Integer position )
+	private static DataSetParameter toDataSetParameter(
+			DataSetParameter parameter, String dataSetName, Integer position )
 	{
 		DataSetParameter dataSetParameter = new DataSetParameter( );
 		dataSetParameter.setDataType( parameter.getDataType( ) );
@@ -875,7 +907,7 @@ public class JointDataSetPage extends WizardPage
 		dataSetParameter.setPosition( position );
 		return dataSetParameter;
 	}
-	
+
 	/**
 	 * 
 	 * @param dataSetName
@@ -887,7 +919,7 @@ public class JointDataSetPage extends WizardPage
 	{
 		return dataSetName + seperator + sourceParameterName;
 	}
-	
+
 	/**
 	 * Create joint condition
 	 * 
@@ -909,32 +941,38 @@ public class JointDataSetPage extends WizardPage
 
 	/**
 	 * Whether the page can complete
+	 * 
 	 * @return
 	 */
 	private boolean canPageComplete( )
 	{
 		if ( leftDataSetName != null
-				&& rightDataSetName != null && leftColumnSelection != null
-				&& rightColumnSelection != null && !nameEditor.isDisposed( )
+				&& rightDataSetName != null
+				&& leftColumnSelection != null
+				&& rightColumnSelection != null
+				&& !nameEditor.isDisposed( )
 				&& !StringUtil.isBlank( nameEditor.getText( ).trim( ) )
 				&& !isDuplicateName( ) )
 			return true;
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Provider class for comboViewer to view the list of data sets
 	 * 
 	 */
-	static class DataSetComboProvider
-			implements
-				IStructuredContentProvider,
-				ILabelProvider
+	static class DataSetComboProvider implements
+			IStructuredContentProvider,
+			ILabelProvider
 	{
+
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
+		 * java.lang.Object)
 		 */
 		public Object[] getElements( Object inputElement )
 		{
@@ -943,15 +981,19 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		public void dispose( )
 		{
 		}
-		
+
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		public void inputChanged( Viewer viewer, Object oldInput,
 				Object newInput )
@@ -961,7 +1003,9 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 		 */
 		public Image getImage( Object element )
 		{
@@ -970,7 +1014,9 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
 		public String getText( Object element )
 		{
@@ -983,7 +1029,10 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * .jface.viewers.ILabelProviderListener)
 		 */
 		public void addListener( ILabelProviderListener listener )
 		{
@@ -991,7 +1040,10 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object, java.lang.String)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
+		 * .lang.Object, java.lang.String)
 		 */
 		public boolean isLabelProperty( Object element, String property )
 		{
@@ -1000,7 +1052,10 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * .jface.viewers.ILabelProviderListener)
 		 */
 		public void removeListener( ILabelProviderListener listener )
 		{
@@ -1013,11 +1068,17 @@ public class JointDataSetPage extends WizardPage
 	 * Provider class for listViewer to list the column items from data set
 	 * 
 	 */
-	static class ColumnProvider implements IStructuredContentProvider, ILabelProvider
+	static class ColumnProvider implements
+			IStructuredContentProvider,
+			ILabelProvider
 	{
+
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
+		 * java.lang.Object)
 		 */
 		public Object[] getElements( Object inputElement )
 		{
@@ -1029,6 +1090,7 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		public void dispose( )
@@ -1037,7 +1099,10 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		public void inputChanged( Viewer viewer, Object oldInput,
 				Object newInput )
@@ -1047,7 +1112,9 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 		 */
 		public Image getImage( Object element )
 		{
@@ -1056,7 +1123,9 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
 		public String getText( Object element )
 		{
@@ -1069,7 +1138,10 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * .jface.viewers.ILabelProviderListener)
 		 */
 		public void addListener( ILabelProviderListener listener )
 		{
@@ -1077,7 +1149,10 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object, java.lang.String)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
+		 * .lang.Object, java.lang.String)
 		 */
 		public boolean isLabelProperty( Object element, String property )
 		{
@@ -1086,7 +1161,10 @@ public class JointDataSetPage extends WizardPage
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		 * 
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * .jface.viewers.ILabelProviderListener)
 		 */
 		public void removeListener( ILabelProviderListener listener )
 		{
@@ -1099,7 +1177,7 @@ public class JointDataSetPage extends WizardPage
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			selectionChanged = true;			
+			selectionChanged = true;
 
 			if ( e.getSource( ) instanceof Button )
 			{
@@ -1119,12 +1197,16 @@ public class JointDataSetPage extends WizardPage
 		{
 			widgetSelected( e );
 		}
-		
+
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#setContainer(org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPageContainer)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * setContainer(org.eclipse.birt.report.designer.ui.dialogs.properties.
+	 * IPropertyPageContainer)
 	 */
 	public void setContainer( IPropertyPageContainer parentContainer )
 	{
@@ -1134,7 +1216,10 @@ public class JointDataSetPage extends WizardPage
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#canLeave()
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * canLeave()
 	 */
 	public boolean canLeave( )
 	{
@@ -1158,14 +1243,14 @@ public class JointDataSetPage extends WizardPage
 		JointDataSetHandle handle = null;
 		if ( leftDataSetName == null || rightDataSetName == null )
 			return false;
-		
+
 		if ( propertyPageContainer instanceof DataSetEditor )
 		{
 			handle = (JointDataSetHandle) ( (DataSetEditor) propertyPageContainer ).getModel( );
 			if ( selectionChanged )
 			{
 				selectionChanged = false;
-				
+
 				List datasetName = handle.getDataSetNames( );
 				for ( int i = 0; i < datasetName.size( ); i++ )
 				{
@@ -1201,9 +1286,10 @@ public class JointDataSetPage extends WizardPage
 		}
 		return true;
 	}
-	
+
 	/**
 	 * set page description
+	 * 
 	 * @return
 	 */
 	private String getPageDescription( )
@@ -1213,7 +1299,10 @@ public class JointDataSetPage extends WizardPage
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#performOk()
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * performOk()
 	 */
 	public boolean performOk( )
 	{
@@ -1221,7 +1310,7 @@ public class JointDataSetPage extends WizardPage
 		{
 			if ( propertyHandle == null )
 				return true;
-			
+
 			return modifyJointCondition( );
 		}
 		catch ( SemanticException e )
@@ -1232,7 +1321,10 @@ public class JointDataSetPage extends WizardPage
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#performCancel()
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * performCancel()
 	 */
 	public boolean performCancel( )
 	{
@@ -1241,7 +1333,10 @@ public class JointDataSetPage extends WizardPage
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#pageActivated()
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * pageActivated()
 	 */
 	public void pageActivated( )
 	{
@@ -1283,11 +1378,11 @@ public class JointDataSetPage extends WizardPage
 			}
 
 		}
-		
-		selectionChanged = false;		
+
+		selectionChanged = false;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param joinType
@@ -1324,7 +1419,7 @@ public class JointDataSetPage extends WizardPage
 			fullOuterJoinButton.setSelection( true );
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param name
@@ -1425,17 +1520,20 @@ public class JointDataSetPage extends WizardPage
 			this.setMessage( newMessage, type );
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#getToolTip()
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * getToolTip()
 	 */
 	public String getToolTip( )
 	{
 		return Messages.getString( "JointDataSetPage.pageName" ); //$NON-NLS-1$
 	}
-	
-    /*
+
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)

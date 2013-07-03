@@ -46,7 +46,9 @@ public class ScaleContext extends Methods
 	private Object oMax;
 	private Object oStep;
 
+	//if uses the specified minimum value
 	private boolean bMinimumFixed = false;
+	//if uses the specified maximum value
 	private boolean bMaximumFixed = false;
 	private boolean bStepFixed = false;
 	private boolean bMargin = false;
@@ -547,12 +549,12 @@ public class ScaleContext extends Methods
 				if ( !bMinimumFixed )
 				{
 					cdtMinValue = cdtMinValue.backward( iUnit, iStep );
-					cdtMinValue.clearBelow( iUnit );
+					cdtMinValue.clearBelow( iUnit, true );
 
 					if ( !bMaximumFixed )
 					{
 						cdtMaxValue = cdtMaxValue.forward( iUnit, 1 );
-						cdtMaxValue.clearBelow( iUnit );
+						cdtMaxValue.clearBelow( iUnit, true );
 					}
 				}
 				else if ( !bMaximumFixed )

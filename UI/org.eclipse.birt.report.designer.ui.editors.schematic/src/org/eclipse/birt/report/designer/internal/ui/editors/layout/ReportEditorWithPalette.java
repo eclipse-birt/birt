@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.preference.PreferenceChangeEvent;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
 import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -75,6 +76,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Editp
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportFlyoutPalettePreferences;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportTemplateTransferDropTargetListener;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
@@ -91,7 +93,6 @@ import org.eclipse.birt.report.designer.ui.actions.InsertExpressionMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertRelativeTimePeriodAction;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
-import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
@@ -155,7 +156,7 @@ abstract public class ReportEditorWithPalette extends
 
 	private ModuleHandle model;
 
-	private ModelEventManager manager = createModelEventManager( );
+	private IModelEventManager manager = createModelEventManager( );
 
 	private static final String DLG_ERROR_OPEN_ERROR_MSG = "Can't open file"; //$NON-NLS-1$
 
@@ -178,7 +179,7 @@ abstract public class ReportEditorWithPalette extends
 	/**
 	 * @return
 	 */
-	protected ModelEventManager createModelEventManager( )
+	protected IModelEventManager createModelEventManager( )
 	{
 		return new ModelEventManager( );
 	}
@@ -186,7 +187,7 @@ abstract public class ReportEditorWithPalette extends
 	/**
 	 * @return
 	 */
-	protected ModelEventManager getModelEventManager( )
+	protected IModelEventManager getModelEventManager( )
 	{
 		return manager;
 	}
@@ -501,12 +502,16 @@ abstract public class ReportEditorWithPalette extends
 		for ( Iterator iter = points.iterator( ); iter.hasNext( ); )
 		{
 			ExtendedElementUIPoint point = (ExtendedElementUIPoint) iter.next( );
-			if ( ( (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER ) ).booleanValue( ) )
+
+			IAction action = new GeneralInsertMenuAction( this,
+					point.getExtensionName( ),
+					point.getExtensionName( ),
+					point.getExtensionName( ) );
+			getSelectionActions( ).remove( action.getId( ) );
+			removeEditPartAction( (SelectionAction) action );
+
+			if ( UIUtil.isVisibleExtensionElement( point ) )
 			{
-				IAction action = new GeneralInsertMenuAction( this,
-						point.getExtensionName( ),
-						point.getExtensionName( ),
-						point.getExtensionName( ) );
 				getSelectionActions( ).add( action.getId( ) );
 				addEditPartAction( (SelectionAction) action );
 			}
@@ -519,6 +524,10 @@ abstract public class ReportEditorWithPalette extends
 					entries[i].getItemName( ),
 					entries[i].getItemName( ),
 					entries[i].getLabel( ) );
+
+			getSelectionActions( ).remove( action.getId( ) );
+			removeEditPartAction( (SelectionAction) action );
+
 			getSelectionActions( ).add( action.getId( ) );
 			addEditPartAction( (SelectionAction) action );
 		}
@@ -789,8 +798,11 @@ abstract public class ReportEditorWithPalette extends
 			{
 				return null;
 			}
-			TableEditPart part = (TableEditPart) getGraphicalViewer( ).getEditPartRegistry( )
+			Object object = getGraphicalViewer( ).getEditPartRegistry( )
 					.get( tableParent );
+			if ( !( object instanceof TableEditPart ) )
+				return null;
+			TableEditPart part = (TableEditPart) object;
 			int[] selectRows = new int[]{
 				adapter.getRowNumber( )
 			};
@@ -1331,7 +1343,7 @@ abstract public class ReportEditorWithPalette extends
 		}
 		else if ( type == IAttributeViewPage.class )
 		{
-			AttributeViewPage page = new AttributeViewPage( );
+			AttributeViewPage page = new AttributeViewPage( getModel( ) );
 			return page;
 		}
 		else if ( type == IModelEventManager.class )
@@ -1363,5 +1375,13 @@ abstract public class ReportEditorWithPalette extends
 		super.dispose( );
 
 		manager = null;
+	}
+
+	public void preferenceChange( PreferenceChangeEvent event )
+	{
+		paletteRoot = null;
+		getEditDomain( ).setPaletteRoot( getPaletteRoot( ) );
+		registerInsertExtElementActions( );
+		updateStackActions( );
 	}
 }

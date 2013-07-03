@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
-import org.eclipse.birt.report.model.metadata.NameSpaceFactory;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -149,12 +148,12 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	{
 		return getNameContext( nameSpaceID ).getNameSpace( );
 	}
-
+	
 	public void makeUniqueName( int namespaceId, DesignElement element )
 	{
 		this.makeUniqueName( namespaceId, element, null );
 	}
-
+	
 	public void makeUniqueName( int namespaceId, DesignElement element, String prefix )
 	{
 		if ( element == null )

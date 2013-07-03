@@ -48,6 +48,8 @@ public interface ChartReportItemConstants
 	public static final String PROPERTY_CUBE_FILTER = "cubeFilter";//$NON-NLS-1$
 	public static final String PROPERTY_HOST_CHART = "hostChart";//$NON-NLS-1$
 	public static final String PROPERTY_INHERIT_COLUMNS = "inheritColumns";//$NON-NLS-1$
+	public static final String EXTENDED_PROPERTY_HIERARCHY_CATEGORY = "keep.hierarchy.category"; //$NON-NLS-1$
+	public static final String EXTENDED_PROPERTY_HIERARCHY_SERIES = "keep.hierarchy.series";//$NON-NLS-1$
 
 	/**
 	 * Specifies the chart type in xtab

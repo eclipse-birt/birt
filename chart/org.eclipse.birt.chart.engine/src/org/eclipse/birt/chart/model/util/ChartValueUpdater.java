@@ -15,9 +15,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
-import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.DialRegion;
@@ -32,6 +30,8 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import com.ibm.icu.util.ULocale;
+
 
 /**
  * This class override base chart value updater, it overrides super methods.
@@ -40,7 +40,15 @@ import org.eclipse.emf.ecore.EObject;
 public class ChartValueUpdater extends BaseChartValueUpdater
 {
 	protected Chart chart;
+	private ULocale uLocale;
 	
+	protected ULocale getULocale( ) {
+		return uLocale;
+	}
+
+	public void setULocale( ULocale uLocale ) {
+		this.uLocale = uLocale;
+	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.model.util.BaseChartValueUpdater#update(org.eclipse.birt.chart.model.Chart, org.eclipse.birt.chart.model.Chart)
 	 */
@@ -371,7 +379,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 			{
 				eObj.getLabel( )
 						.getCaption( )
-						.setValue( ChartUtil.getDefaultChartTitle( chart ) );
+						.setValue( ChartUtil.getDefaultChartTitle( chart, getULocale( ) ) );
 			}
 		}
 		super.updateTitleBlock( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible );
@@ -383,23 +391,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 			DataPointComponent eDefObj, boolean eDefOverride,
 			boolean checkVisible )
 	{
-		// Set default format for percentile value.
-		DataPointComponent eTmpDefObj = eDefObj;
-		if ( eObj != null
-				&& eObj.getType( ) == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL
-				&& ( eDefObj == null || eDefObj.getFormatSpecifier( ) == null ) )
-		{
-			if ( eDefObj == null ) 
-			{
-				eTmpDefObj = DataPointComponentImpl.create( DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL,  DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
-			}
-			else if ( eDefObj.getFormatSpecifier( ) == null )
-			{
-				eTmpDefObj = eDefObj.copyInstance( );
-				eTmpDefObj.setFormatSpecifier( DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
-			}
-		}
-		
-		super.updateDataPointComponent( name, eParentObj, eObj, eRefObj, eTmpDefObj, eDefOverride, checkVisible );
+		super.updateDataPointComponent( name, eParentObj, eObj, eRefObj, ChartDefaultValueUtil.getPercentileDataPointDefObj(eObj,
+				eDefObj), eDefOverride, checkVisible );
 	}
 }

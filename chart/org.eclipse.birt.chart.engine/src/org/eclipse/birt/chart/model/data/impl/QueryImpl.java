@@ -17,6 +17,8 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.Rule;
+import org.eclipse.birt.chart.model.data.ScriptExpression;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -394,6 +396,24 @@ public class QueryImpl extends EObjectImpl implements Query
 
 		definition = src.getDefinition( );
 
+	}
+
+	/*
+	 * Get definition expression.
+	 * 
+	 * @return expression the definition expression.
+	 */
+	public ScriptExpression getDefinitionExpression( )
+	{
+		ScriptExpression expression = new ScriptExpression( );
+		expression.setType( ChartUtil.getExpressionType( definition ) );
+		expression.setValue( ChartUtil.getExpressionText( definition ) );
+		return expression;
+	}
+
+	public void setDefinitionExpression( ScriptExpression expression )
+	{
+		this.setDefinition( ChartUtil.adaptExpression( expression ) );
 	}
 
 } //QueryImpl

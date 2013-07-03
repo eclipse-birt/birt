@@ -211,6 +211,10 @@
     <Choice displayNameID="Choices.pageSize.us-letter" name="us-letter"/>
     <Choice displayNameID="Choices.pageSize.us-legal" name="us-legal"/>
     <Choice displayNameID="Choices.pageSize.a4" name="a4"/>
+    <Choice displayNameID="Choices.pageSize.a3" name="a3"/>
+    <Choice displayNameID="Choices.pageSize.us-ledger" name="us-ledger"/>
+    <Choice displayNameID="Choices.pageSize.us-super-b" name="us-super-b"/>
+    <Choice displayNameID="Choices.pageSize.a5" name="a5"/>
   </ChoiceType>
   <ChoiceType name="pageOrientation">
     <Choice displayNameID="Choices.pageOrientation.auto" name="auto"/>
@@ -1818,7 +1822,9 @@
   	<Property displayNameID="Element.ReportDesign.dataObjects" isList="true" name="dataObjects" since="2.5" type="contentElement">
   	  <Type name="VariableElement"/>	
   	</Property>
-  	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" />  	
+  	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" /> 
+  	<Method context="client" displayNameID="Element.ReportDesign.clientInitialize" name="clientInitialize" since="1.0" toolTipID="Element.ReportDesign.clientInitialize.toolTip">
+    </Method> 	
 	<Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>

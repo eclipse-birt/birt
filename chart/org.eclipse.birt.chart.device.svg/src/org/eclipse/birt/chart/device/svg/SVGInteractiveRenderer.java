@@ -629,8 +629,13 @@ public class SVGInteractiveRenderer
 	private void addMultiActionsJSCode( Element elm, StructureSource src,
 			Trigger tg, String scriptEvent, boolean bDblClick, MultipleActions action )
 	{
+		// Still show menu if visible is true.
+		boolean needMenu = action.getValue( ) != null
+				&& action.getValue( ).getLabel( ) != null
+				&& action.getValue( ).getLabel( ).isVisible( );
+		
 		List<Action> subActions = MultiActionValuesScriptGenerator.getValidActions( action );
-		if ( subActions.size( ) == 1 )
+		if ( subActions.size( ) == 1 && !needMenu )
 		{
 			Action subAction = subActions.get( 0 );
 			addActionJSCode( elm,
@@ -832,26 +837,28 @@ public class SVGInteractiveRenderer
 					elm,
 					src,
 					scriptEvent,
-					bDblClick );
+					bDblClick, null );
 		}
 		else if ( av instanceof MultiURLValues )
 		{
 			MultiURLValues muv = (MultiURLValues) av;
 
-			setTooltipForURLRedirect( elm, src, muv.getTooltip( ) );
 
 			List<URLValue> validURLValues = MultiActionValuesScriptGenerator.getValidURLValues( muv );
 			int size = validURLValues.size( );
 			if ( size == 1 )
 			{
+				// When there is only one link, set URLValue tooltip if it's
+				// not null. Otherwise, set MultiUrlvalues tooltip.
 				setURLValueAttributes( validURLValues.get( 0 ),
 						elm,
 						src,
 						scriptEvent,
-						bDblClick );
+						bDblClick, muv.getTooltip() );
 			}
 			else if ( size > 1 )
 			{
+				setTooltipForURLRedirect( elm, src, muv.getTooltip( ) );
 				setMultiURLValuesAttributes( muv,
 						elm,
 						src,
@@ -941,8 +948,16 @@ public class SVGInteractiveRenderer
 
 		MultiActionValuesScriptGenerator.appendInteractivityVariables( sb );
 
+		// Still show menu if visible is true.
+		if ( actions.getValue( ) != null
+				&& actions.getValue( ).getLabel( ) != null
+				&& actions.getValue( ).getLabel( ).isVisible( ) )
+		{
+			sb.append( "menuInfo.needMenu = true;" ); //$NON-NLS-1$
+		}
+		
 		sb.append( "\n"); //$NON-NLS-1$
-		sb.append( "if ( menuInfo.menuItemNames.length == 1 ) {\n" );//$NON-NLS-1$
+		sb.append( "if ( menuInfo.menuItemNames.length == 1 && !menuInfo.needMenu ) {\n" );//$NON-NLS-1$
 		sb.append( "	BirtChartActionsMenu.executeMenuActionImpl( evt, menuInfo.menuItems[0], menuInfo );\n" );//$NON-NLS-1$
 		sb.append( "} else { \n" );//$NON-NLS-1$
 		sb.append( "  BirtChartActionsMenu.show( evt, source, menuInfo ); "); //$NON-NLS-1$
@@ -1027,11 +1042,16 @@ public class SVGInteractiveRenderer
 	 * @param src
 	 * @param scriptEvent
 	 * @param bDblClick
+	 * @param tooltip
 	 */
 	private void setURLValueAttributes( URLValue urlValue, Element elm,
-			StructureSource src, String scriptEvent, boolean bDblClick )
+			StructureSource src, String scriptEvent, boolean bDblClick, String tooltip )
 	{
-		setTooltipForURLRedirect( elm, src, urlValue );
+		if (urlValue != null && urlValue.getTooltip() != null) {
+			setTooltipForURLRedirect(elm, src, urlValue);
+		} else {
+			setTooltipForURLRedirect(elm, src, tooltip);
+		}
 
 		String url = ""; //$NON-NLS-1$
 		if ( urlValue.getBaseUrl( ).startsWith( "#" ) ) { //$NON-NLS-1$

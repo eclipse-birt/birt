@@ -55,6 +55,7 @@ import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.style.BaseStyleProcessor;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.SimpleStyle;
@@ -90,6 +91,8 @@ import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.css.CSSValueList;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * ChartReportStyleProcessor
@@ -129,7 +132,9 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	 * current context.
 	 */
 	protected ChartStyleProcessorProxy styleProcessorProxy = null;
-
+	
+	private ULocale uLocale;
+	
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	protected static final IGObjectFactory goFactory = GObjectFactory.instance( );
@@ -192,6 +197,28 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		this.useCache = useCache;
 		this.dstyle = dstyle;
 		this.dpi = dpi;
+		// Set concrete style processor proxy according to current context.
+		this.setStyleProcessorProxy( ChartReportStyleProcessor.getChartStyleProcessorProxy( this ) );
+	}
+	
+	/**
+	 * The constructor. Default not using cache.
+	 * 
+	 * @param handle
+	 * @param useCache
+	 *            specify if use cache.
+	 * @param uLocale
+	 * @param style
+	 */
+	public ChartReportStyleProcessor( DesignElementHandle handle,
+			boolean useCache,
+			org.eclipse.birt.report.engine.content.IStyle dstyle, int dpi, ULocale uLocale )
+	{
+		this.handle = handle;
+		this.useCache = useCache;
+		this.dstyle = dstyle;
+		this.dpi = dpi;
+		this.uLocale = uLocale;
 		// Set concrete style processor proxy according to current context.
 		this.setStyleProcessorProxy( ChartReportStyleProcessor.getChartStyleProcessorProxy( this ) );
 	}
@@ -1390,8 +1417,8 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		}
 
 		CubeHandle cube = handle.getCube( );
-		DataSetHandle dataset = handle.getDataSet( );
-		if ( cube != null )
+		DataSetHandle dataset = handle.getDataSet( );		
+		if ( cube != null && ChartReportItemHelper.instance( ).getBindingCubeHandle( handle ) != null )
 		{
 			for ( LevelHandle lh : ChartCubeUtil.getAllLevels( cube ) )
 			{
@@ -1408,8 +1435,9 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 				}
 			}
 		}
-		else if ( dataset != null )
+		else if ( dataset != null && ChartReportItemHelper.instance( ).getBindingDataSetHandle( handle ) != null )
 		{
+
 			for ( Iterator<?> iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 					.iterator( ); iter.hasNext( ); )
 			{
@@ -1450,11 +1478,12 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	{
 		ChartStyleProcessorProxy factory = ChartReportItemUtil.getAdapter( processor,
 				ChartStyleProcessorProxy.class );
-		if ( factory != null )
-		{
-			return factory;
+		if ( factory == null ) {
+			factory = new ChartStyleProcessorProxy( );
 		}
-		return new ChartStyleProcessorProxy();
+		factory.setULocale( processor.uLocale );
+
+		return factory;
 	}
 	
 	/* (non-Javadoc)

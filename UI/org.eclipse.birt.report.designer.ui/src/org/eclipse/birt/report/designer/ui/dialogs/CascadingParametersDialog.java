@@ -51,6 +51,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -2919,7 +2920,7 @@ public class CascadingParametersDialog extends BaseDialog
 					{
 						try
 						{
-							parameter.setDataSetName( dataset.getText( ) );
+							parameter.setDataSet( findDataSet( dataset.getText( )) );
 							if ( parameter.getDataSet( ) != null )
 							{
 								if ( getFirstParameter( ) == null
@@ -3545,5 +3546,22 @@ public class CascadingParametersDialog extends BaseDialog
 			defaultValueList.clear( );
 			defaultValueList.add( expression );
 		}
+	}
+	
+	public DataSetHandle findDataSet( String dataSetName )
+	{
+		ModuleHandle handle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		for ( Iterator iterator = handle.getVisibleDataSets( ).iterator( ); iterator.hasNext( ); )
+		{
+			DataSetHandle dataSetHandle = (DataSetHandle) iterator.next( );
+			if(dataSetHandle.getName( ).equals( dataSetName ))
+			{
+				return dataSetHandle;
+			}
+		}
+		
+		return DataUtil.findExtendedDataSet( dataSetName );
 	}
 }
