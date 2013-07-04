@@ -943,6 +943,10 @@ public class ChartUtil
 	
 	private static String generateSeriesGroupingID( SeriesGrouping group )
 	{
+		if ( group == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
 		return group.getGroupType( ).getName( ) + "_" //$NON-NLS-1$
 				+ group.getGroupingUnit( ).getName( )
 				+ "_" //$NON-NLS-1$
@@ -1076,10 +1080,17 @@ public class ChartUtil
 					key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ) + "_" + generateSeriesGroupingID( categorySD.getGrouping( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
-			if ( !ChartUtil.isEmpty( orthoSD.getQuery( ).getDefinition( ) ) )
+			if ( orthoSD.getQuery( ) != null && !ChartUtil.isEmpty( orthoSD.getQuery( ).getDefinition( ) ) )
 			{
 				exprCodec.decode( orthoSD.getQuery( ).getDefinition( ) );
-				key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ) + "_" + generateSeriesGroupingID( orthoSD.getQuery( ).getGrouping( ) ); //$NON-NLS-1$//$NON-NLS-2$
+				if ( orthoSD.getQuery( ).getGrouping( ) == null )
+				{
+					key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ); //$NON-NLS-1$
+				}
+				else
+				{
+					key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ) + "_" + generateSeriesGroupingID( orthoSD.getQuery( ).getGrouping( ) ); //$NON-NLS-1$//$NON-NLS-2$
+				}
 			}
 		}
 		return key;
