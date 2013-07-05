@@ -18,9 +18,9 @@ import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemThemeModel;
+import org.eclipse.birt.report.model.elements.strategy.FlattenCopyPolicy;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
@@ -123,5 +123,10 @@ public class ReportItemTheme extends AbstractTheme
 	public String getType( Module module )
 	{
 		return getStringProperty( module, TYPE_PROP );
+	}
+	
+	public Object FlattenClone( ) throws CloneNotSupportedException 
+	{
+		return doClone( FlattenCopyPolicy.getInstance( ) );
 	}
 }
