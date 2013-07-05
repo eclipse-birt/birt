@@ -52,6 +52,8 @@
 		value="birt-report-designer-all-in-one-HQ-${package.version}.zip" />
 	<property name="allinone.linux.zip.name"
 		value="birt-report-designer-all-in-one-${package.version}-linux-gtk.tar" />
+	<property name="allinone.mac.zip.name"
+		value="birt-report-designer-all-in-one-${package.version}-macosx-cocoa.tar.gz" />
 	<property name="runtime.zip.name" value="birt-runtime-${package.version}.zip" />
 	<property name="runtime.osgi.zip.name" value="birt-runtime-osgi-${package.version}.zip" />
 	<property name="wtp.runtime.zip.name" value="birt.zip" />
@@ -239,6 +241,8 @@
 		<antcall target="createAllInOne_64" />
 
 		<antcall target="createAllInOneForLinux" />
+		
+		<antcall target="createAllInOneForMac" />
 
 		<antcall target="createBirtSourceBuild" />
 
@@ -650,6 +654,99 @@
 
 	</target>
 
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - This 
+		target is used for create All-In-One package for Mac - - - - - - - - - 
+		- - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<target name="createAllInOneForMac">
+		<!-- Make birt all-in-one ZIP file -->
+		<mkdir dir="${OutputDir}/temp" />
+		<mkdir dir="${OutputDir}/temp/eclipse" />
+		<mkdir dir="${OutputDir}/temp/eclipse/plugins" />
+		<mkdir dir="${OutputDir}/temp/eclipse/features" />
+
+		<copy todir="${OutputDir}/temp/eclipse/plugins" overwrite="true">
+			<fileset dir="${deposit}/eclipse/plugins">
+				<include name="**/*" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
+				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
+				<exclude name="*.source_*/**" />
+				<exclude name="org.eclipse.birt.sdk_*/**" />
+				<exclude name="org.eclipse.birt.thirdparty*/**" />
+				<exclude name="org.eclipse.birt.chart.integration.wtp.ui*/**" />
+				<exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
+				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
+				<exclude name="org.eclipse.birt.report.designer_*/**" />
+				<exclude name="org.eclipse.birt.report.runtime_*/**" />
+				<exclude name="org.eclipse.birt.chart.doc.isv_*.jar" />
+				<exclude name="org.eclipse.birt.doc.isv_*.jar" />
+				<patternset refid="exclude.jars" />
+			</fileset>
+			<fileset dir="${buildDirectory}/plugins">
+				<patternset refid="orbit.include.jars" />
+			</fileset>
+		</copy>
+		<copy todir="${OutputDir}/temp/eclipse/features" overwrite="true">
+			<fileset dir="${deposit}/eclipse/features">
+				<include name="**/*" />
+				<exclude name="*.source_*/**" />
+				<exclude name="org.eclipse.birt.sdk*/**" />
+				<exclude name="org.eclipse.birt.*.sdk*/**" />
+				<exclude name="org.eclipse.birt.thirdparty*/**" />
+				<exclude name="org.eclipse.birt.rcp*/**" />
+				<exclude name="org.eclipse.birt.integration.wtp*/**" />
+				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
+				<exclude name="org.eclipse.birt.chart.doc.isv*/**" />
+				<exclude name="org.eclipse.birt.doc.isv*/**" />
+				<exclude name="org.eclipse.birt.osgi*/**" />
+				<patternset refid="third.party.features" />
+			</fileset>
+		</copy>
+		<copy todir="${OutputDir}/temp/eclipse" overwrite="true">
+			<fileset dir="${package.files.dir}/jee-mac/eclipse"
+				includes="**/*" />
+		</copy>
+		<exec executable="chmod" dir="${OutputDir}/temp/eclipse">
+			<arg line="+x eclipse" />
+		</exec>
+		<exec executable="tar" dir="${OutputDir}/temp">
+			<arg line="-czf ${OutputDir}/${allinone.mac.zip.name} eclipse/" />
+		</exec>
+
+		<delete dir="${OutputDir}/temp" includeemptydirs="true" />
+
+		<antcall target="RepackageAllinone_mac" />
+		
+	</target>	
+	
+	<target name="RepackageAllinone_mac" if="repackage.allinone">
+		<!-- repackage allinone for HQ,refer TED 34798 -->
+		<delete dir="${OutputDir}/tmp" failonerror="false" />
+		<untar src="${OutputDir}/${allinone.mac.zip.name}" dest="${OutputDir}/tmp" compression="gzip"/>
+		
+		<delete file="${OutputDir}/${allinone.mac.zip.name}" />
+		<copy todir="${OutputDir}/tmp/eclipse/features" failonerror="false"
+			overwrite="true">
+			<fileset dir="${deposit}/eclipse/features">
+				<include name="org.eclipse.birt.chart.doc.isv*/**" />
+				<include name="org.eclipse.birt.doc.isv*/**" />
+			</fileset>
+		</copy>
+		<copy todir="${OutputDir}/tmp/eclipse/plugins" failonerror="false"
+			overwrite="true">
+			<fileset dir="${deposit}/eclipse/plugins">
+				<include name="org.eclipse.birt.chart.doc.isv_*.jar" />
+				<include name="org.eclipse.birt.doc.isv_*.jar" />
+			</fileset>
+		</copy>
+		<tar destfile="${OutputDir}/${allinone.mac.zip.name}" compression="gzip">
+			<fileset dir="${OutputDir}/tmp">
+				<include name="eclipse/**" />
+			</fileset>
+		</tar>
+		<delete dir="${OutputDir}/tmp" />
+	</target>
+	
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - This 
 		target is used for create birt.zip for integration.wtp.ui - - - - - - - - 
 		- - - - - - - - - - - - - - - - - - - - - - - - - - -->
