@@ -884,7 +884,8 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		boolean needCheckRedundantAggregations = false;
 
 		// so far we only check for computed measures
-		if ( measureView instanceof ComputedMeasureViewHandle )
+		if ( measureView instanceof ComputedMeasureViewHandle
+				&& !CrosstabUtil.isLinkedDataModelMeasureView( measureView ) )
 		{
 			// for computed measure, aggregation is not needed in following
 			// cases:

@@ -230,12 +230,13 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 				int dimCount = crosstabItem.getDimensionCount( ROW_AXIS_TYPE );
 				DimensionViewHandle rdv = crosstabItem.getDimension( ROW_AXIS_TYPE,
 						dimCount - 1 );
-
-				spanLevel = getAggregationCell( dimCount - 1,
+				
+				AggregationCellHandle cellHandle = getAggregationCell( dimCount - 1,
 						rdv.getLevelCount( ) - 1,
 						ev.dimensionIndex,
 						ev.levelIndex,
-						mx ).getSpanOverOnRow( );
+						mx ); 
+				spanLevel = (cellHandle != null) ? cellHandle.getSpanOverOnRow( ) : null;
 				break;
 		}
 
@@ -456,13 +457,14 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 						DimensionViewHandle rdv = crosstabItem.getDimension( ROW_AXIS_TYPE,
 								dimCount - 1 );
 
+						AggregationCellHandle cellHandle = getAggregationCell( dimCount - 1,
+								rdv.getLevelCount( ) - 1,
+								ev.dimensionIndex,
+								ev.levelIndex,
+								mx );
 						rowSpan = GroupUtil.computeAggregationCellRowOverSpan( crosstabItem,
 								rowGroups,
-								getAggregationCell( dimCount - 1,
-										rdv.getLevelCount( ) - 1,
-										ev.dimensionIndex,
-										ev.levelIndex,
-										mx ).getSpanOverOnRow( ),
+								(cellHandle != null) ? cellHandle.getSpanOverOnRow( ) : null,
 								getRowEdgeCursor( ) );
 					}
 					colSpan = 0;
@@ -494,13 +496,14 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 						DimensionViewHandle rdv = crosstabItem.getDimension( ROW_AXIS_TYPE,
 								dimCount - 1 );
 
+						AggregationCellHandle cellHandle = getAggregationCell( dimCount - 1,
+								rdv.getLevelCount( ) - 1,
+								ev.dimensionIndex,
+								ev.levelIndex,
+								mx );
 						rowSpan = GroupUtil.computeAggregationCellRowOverSpan( crosstabItem,
 								rowGroups,
-								getAggregationCell( dimCount - 1,
-										rdv.getLevelCount( ) - 1,
-										ev.dimensionIndex,
-										ev.levelIndex,
-										mx ).getSpanOverOnRow( ),
+								(cellHandle != null) ? cellHandle.getSpanOverOnRow( ) : null,
 								getRowEdgeCursor( ) );
 					}
 					colSpan = 0;
