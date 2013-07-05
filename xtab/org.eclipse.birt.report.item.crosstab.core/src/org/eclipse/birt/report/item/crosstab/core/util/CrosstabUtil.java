@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -67,8 +69,9 @@ import org.eclipse.birt.report.model.api.util.CubeUtil;
  */
 
 public final class CrosstabUtil implements ICrosstabConstants
-{
-
+{		
+	public static final String BRS_DATASET_ROW_INDICATOR = "DATASET";
+	
 	private CrosstabUtil( )
 	{
 	}
@@ -1022,11 +1025,17 @@ public final class CrosstabUtil implements ICrosstabConstants
 	
 	public static boolean validateBinding( ComputedColumnHandle column, String columnName )
 	{
-		if( column == null || columnName == null )
+		if( column == null )
 		{
 			return false;
 			
 		}
+		
+		if( columnName == null || columnName.isEmpty() )
+		{
+			columnName = "[^\\]]+";
+		}
+		
 		ExpressionHandle expr = column
 				.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );		
 		String expression = expr.getStringExpression( );
@@ -1144,7 +1153,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 		
 		CrosstabReportItemHandle crosstabItem = mv.getCrosstab();
-		String measureName = mv.getCubeMeasureName( );
+		String measureName = (mv instanceof ComputedMeasureViewHandle) ? null : mv.getCubeMeasureName( );
 		CrosstabCellHandle cell = mv.getCell( );	
 		ComputedColumnHandle columnHandle = null;
 		if( cell != null )
@@ -1165,5 +1174,63 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 		
 		return columnHandle;
+	}
+	
+	public static boolean isLinkedDataModelMeasureView( MeasureViewHandle mv )
+	{
+		String refColumn = getRefLinkedDataModelColumnName( mv );
+		return refColumn != null && !refColumn.isEmpty();
+	}
+	
+	public static String getRefLinkedDataModelColumnName( MeasureViewHandle mv )
+	{
+		if( mv == null )
+		{
+			return null;
+		}
+		
+		if( !isBoundToLinkedDataSet( mv.getCrosstab() ) )
+		{
+			return null;
+		}
+		
+		String refColumnName = null;
+		if( mv instanceof ComputedMeasureViewHandle )
+		{
+			ComputedColumnHandle ch = getMeasureBindingColumnHandle( mv );
+			if( ch != null 
+					&& ch.getAggregateFunction() != null 
+					&& !ch.getAggregateFunction().isEmpty()
+					&& ch.getCalculationType() == null )
+			{	
+				ExpressionHandle expr = ch
+						.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );		
+				String expression = expr.getStringExpression( );
+				if( expression != null )
+				{
+					Pattern p = null;
+					if( ExpressionType.JAVASCRIPT.equalsIgnoreCase( expr.getType( ) ) )
+					{
+						p = Pattern.compile( ExpressionUtil.DATASET_ROW_INDICATOR + "\\[\\s*\\\"([^\\]]+)\\\"\\s*\\]" );						
+					}
+					else
+					{
+						p = Pattern.compile( "\\["+ BRS_DATASET_ROW_INDICATOR +"\\]\\.\\[\\s*([^\\]]+)\\s*\\]" );						
+					}
+					
+					Matcher m = p.matcher( expression );
+					if( m.find( ) )
+					{
+						return m.group( 1 );
+					}
+				}
+			}
+		}
+		else
+		{
+			refColumnName = mv.getCubeMeasureName();
+		}
+		
+		return refColumnName;
 	}
 }

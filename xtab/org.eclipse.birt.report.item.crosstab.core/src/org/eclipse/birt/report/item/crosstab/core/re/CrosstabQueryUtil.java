@@ -166,7 +166,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 						cubeQuery,
 						modelAdapter );
 
-				if ( mv instanceof ComputedMeasureViewHandle )
+				if ( mv instanceof ComputedMeasureViewHandle 
+						&& !CrosstabUtil.isLinkedDataModelMeasureView( mv ) )
 				{
 					continue;
 				}
@@ -300,7 +301,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 			CrosstabReportItemHandle crosstabItem, 
 			MeasureViewHandle mv )
 	{
-		String linkedColumnName = mv.getCubeMeasureName( );
+		String linkedColumnName = (mv instanceof ComputedMeasureViewHandle) ? null : mv.getCubeMeasureName( );
 		CrosstabCellHandle cell = mv.getCell( );
 		String measureBindingName = linkedColumnName;
 		String aggrFunc = null;		

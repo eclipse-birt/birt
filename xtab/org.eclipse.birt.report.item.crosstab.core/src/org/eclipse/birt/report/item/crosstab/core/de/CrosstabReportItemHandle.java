@@ -724,9 +724,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 			MeasureViewHandle measureView = getMeasure( i );
 			if ( measureView != null )
 			{
-				String cubeMeasureName = measureView.getCubeMeasureName( );
-				if ( ( cubeMeasureName != null && cubeMeasureName.equals( name ) )
-						|| ( cubeMeasureName == null && name == null ) )
+				String measureName = (measureView instanceof ComputedMeasureViewHandle) 
+						? ((ComputedMeasureViewHandle)measureView).getName() 
+								: measureView.getCubeMeasureName( );
+				if ( ( measureName != null && measureName.equals( name ) )
+						|| ( measureName == null && name == null ) )
 					return measureView;
 			}
 		}
