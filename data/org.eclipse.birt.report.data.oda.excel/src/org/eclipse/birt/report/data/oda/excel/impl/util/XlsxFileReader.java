@@ -137,7 +137,7 @@ public class XlsxFileReader {
 			values = new ArrayList<Object>();
 			this.cellDataType = cDataType.NUMBER;
 			this.xlsxRowsToRead = xlsxRowsToRead;
-			sdf = new SimpleDateFormat( );
+			sdf = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssZ" );//ISO date format
 		}
 
 		public void startElement(String uri, String localName, String qName,
