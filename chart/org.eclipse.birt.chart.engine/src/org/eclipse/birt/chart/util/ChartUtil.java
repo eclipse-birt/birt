@@ -73,6 +73,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
@@ -1083,14 +1084,12 @@ public class ChartUtil
 			if ( orthoSD.getQuery( ) != null && !ChartUtil.isEmpty( orthoSD.getQuery( ).getDefinition( ) ) )
 			{
 				exprCodec.decode( orthoSD.getQuery( ).getDefinition( ) );
-				if ( orthoSD.getQuery( ).getGrouping( ) == null )
+				SeriesGrouping sg = orthoSD.getQuery( ).getGrouping( );
+				if ( sg == null )
 				{
-					key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ); //$NON-NLS-1$
+					sg = SeriesGroupingImpl.create( );
 				}
-				else
-				{
-					key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ) + "_" + generateSeriesGroupingID( orthoSD.getQuery( ).getGrouping( ) ); //$NON-NLS-1$//$NON-NLS-2$
-				}
+				key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ) + "_" + generateSeriesGroupingID( sg ); //$NON-NLS-1$//$NON-NLS-2$
 			}
 		}
 		return key;
