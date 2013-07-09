@@ -1031,7 +1031,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 			
 		}
 		
-		if( columnName == null || columnName.isEmpty() )
+		if( columnName == null || columnName.trim().length() <= 0 )
 		{
 			columnName = "[^\\]]+";
 		}
@@ -1179,7 +1179,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 	public static boolean isLinkedDataModelMeasureView( MeasureViewHandle mv )
 	{
 		String refColumn = getRefLinkedDataModelColumnName( mv );
-		return refColumn != null && !refColumn.isEmpty();
+		return refColumn != null && refColumn.trim().length() > 0;
 	}
 	
 	public static String getRefLinkedDataModelColumnName( MeasureViewHandle mv )
@@ -1200,7 +1200,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 			ComputedColumnHandle ch = getMeasureBindingColumnHandle( mv );
 			if( ch != null 
 					&& ch.getAggregateFunction() != null 
-					&& !ch.getAggregateFunction().isEmpty()
+					&& ch.getAggregateFunction().trim().length() > 0
 					&& ch.getCalculationType() == null )
 			{	
 				ExpressionHandle expr = ch

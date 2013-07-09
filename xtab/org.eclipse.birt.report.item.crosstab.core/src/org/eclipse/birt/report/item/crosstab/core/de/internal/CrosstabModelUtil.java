@@ -578,7 +578,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
 			{
 				String dataField = CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
-				if( dataField == null || dataField.isEmpty() )
+				if( dataField == null || dataField.trim().length() <= 0 )
 				{
 					// throw case
 					return;
@@ -731,7 +731,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
 		{
 			String dataField = CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
-			if( dataField == null || dataField.isEmpty() )
+			if( dataField == null || dataField.trim().length() <= 0 )
 			{
 				// throw case
 				return null;
