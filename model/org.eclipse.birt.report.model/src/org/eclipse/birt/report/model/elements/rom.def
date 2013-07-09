@@ -2603,8 +2603,8 @@
 	<Property canInherit="true" detailType="ReportItemTheme" displayNameID="Element.ReportItem.theme" name="theme" runtimeSettable="false" since="2.6" type="elementRef">
     	<Trigger validator="ThemeReferenceValidator"/>
     </Property>
-    <Property displayNameID="Element.ExtendedItem.language" name="language" since="4.3" type="string"/>
-    <Property displayNameID="Element.ExtendedItem.order" name="order" since="4.3" type="integer"/>
+    <Property displayNameID="Element.ReportItem.language" name="language" since="4.3" type="string"/>
+    <Property displayNameID="Element.ReportItem.order" name="order" since="4.3" type="integer"/>
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>    
