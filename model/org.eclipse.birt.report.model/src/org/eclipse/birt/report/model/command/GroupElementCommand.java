@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -20,7 +19,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -36,13 +34,11 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
-import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -209,10 +205,19 @@ public class GroupElementCommand extends ContentCommand
 				return;
 			}
 		}
-		List<Object> boundColumns = element.getListProperty( module,
-				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-
-		if ( boundColumns == null || boundColumns.isEmpty( ) )
+		// Ted 62466
+		List<Object> boundColumns = null;
+		Object boundColumnsObject = element.getLocalProperty( module, IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		if ( boundColumnsObject == null )
+			return;
+		if ( boundColumnsObject instanceof List )
+			boundColumns = (List<Object>) boundColumnsObject;
+		else
+		{
+			return;
+		}
+		
+		if ( boundColumns.isEmpty( ) )
 			return;
 
 		String groupName = (String) content.getProperty( module,
