@@ -123,6 +123,7 @@
          </propertyVisibility>
          <property
                canInherit="true"
+               defaultValue="Figure"
                isEncryptable="false"
                isList="false"
                name="role"
