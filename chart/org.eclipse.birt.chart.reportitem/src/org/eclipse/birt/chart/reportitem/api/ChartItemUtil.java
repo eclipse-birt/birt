@@ -101,6 +101,8 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
+	public static final String BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT = "BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT"; //$NON-NLS-1$
+	
 	/**
 	 * Returns the element handle which can save binding columns the given
 	 * element
