@@ -41,6 +41,7 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
@@ -75,6 +76,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 	
 
 	private IReportEngine engine;
+
 	private EngineConfig engineConfig;
 	private Map paramValues = new HashMap( );
 
@@ -90,7 +92,24 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 
 	IGetParameterDefinitionTask task;
 	List allParameters;
+	private String engineType = IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY;
+	private TaskConfig taskConfig;
+	
+	public void setTaskConfig( TaskConfig taskConfig )
+	{
+		this.taskConfig = taskConfig;
+	}
 
+	public void setEngineType( String engineType )
+	{
+		this.engineType = engineType;
+	}
+	
+	public IReportEngine getEngine( )
+	{
+		return engine;
+	}
+	
 	public ReportLauncher( )
 	{
 		reportDesignFile = getFileName( );
@@ -126,7 +145,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		return System.getProperty( ATTR_ENGINE_HOME );
 	}
 	
-	private static String getResourceFolder()
+	public static String getResourceFolder()
 	{
 		return System.getProperty( ATTR_RESOURCE_FOLDER );
 	}
@@ -455,7 +474,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		map.put( temp, objs );
 	}
 
-	private void run( )
+	public void run( )
 	{
 		init( );
 		renderReport( );
@@ -497,7 +516,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 			throw new Error( Messages.getString( "ReportLauncher.FailToStartReportPlatform" ) );//$NON-NLS-1$
 		}
 
-		IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
+		IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject( engineType );
 
 		configEngine( );
 
@@ -597,6 +616,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 			}
 			runAndRenderTask.setAppContext( Collections.EMPTY_MAP );
 			runAndRenderTask.setRenderOption( renderOption );
+			configTask( runAndRenderTask );
 			runAndRenderTask.run( );
 		}
 		catch ( EngineException e )
@@ -629,6 +649,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 				runTask.setParameterValues( parameters );
 			}
 			runTask.setAppContext( Collections.EMPTY_MAP );
+			configTask( runTask );
 			runTask.run( archive );
 		}
 		catch ( EngineException e )
@@ -661,6 +682,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		try
 		{
 			renderTask.setRenderOption( renderOption );
+			configTask( renderTask );
 			renderTask.render( );
 		}
 		catch ( EngineException e )
@@ -743,4 +765,15 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		Platform.shutdown( );
 	}
 
+	private void configTask(IEngineTask task)
+	{
+		if (taskConfig != null)
+		{
+			taskConfig.configTask( task );
+		}
+	}
+	public interface TaskConfig
+	{
+		void configTask(IEngineTask task);
+	}
 }

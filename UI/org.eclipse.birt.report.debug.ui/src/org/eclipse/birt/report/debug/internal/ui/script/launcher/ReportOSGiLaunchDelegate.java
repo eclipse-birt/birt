@@ -32,6 +32,7 @@ public class ReportOSGiLaunchDelegate extends
 {
 
 	ReportLaunchHelper helper;
+	public static final String APP_NAME = "application name";//$NON-NLS-1$
 
 	public ReportOSGiLaunchDelegate( )
 	{
@@ -87,17 +88,27 @@ public class ReportOSGiLaunchDelegate extends
 		if ( idx != -1 && ( idx + 1 ) < list.size( ) )
 		{
 			list.set( idx + 1,
-					"org.eclipse.birt.report.debug.core.ReportDebugger" ); //$NON-NLS-1$
+					getApplicationName( ) ); //$NON-NLS-1$
 		}
 		else
 		{
 			list.add( "-application" ); //$NON-NLS-1$
-			list.add( "org.eclipse.birt.report.debug.core.ReportDebugger" ); //$NON-NLS-1$
+			list.add( getApplicationName( ) ); //$NON-NLS-1$
 		}
 
 		list.add( "-nosplash" ); //$NON-NLS-1$
 
 		return (String[]) list.toArray( new String[list.size( )] );
+	}
+	
+	private String getApplicationName()
+	{
+		String name = System.getProperty( APP_NAME );
+		if (name == null || name.length( ) == 0)
+		{
+			name = "org.eclipse.birt.report.debug.core.ReportDebugger";
+		}
+		return name;
 	}
 
 	public IVMRunner getVMRunner( ILaunchConfiguration configuration,
