@@ -869,6 +869,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			super.pageChange( newPageIndex );
 		}
 		updateRelatedViews( );
+		updateAttributeView(  getActivePageInstance( )  );
 	}
 
 	public void setFocus( )
