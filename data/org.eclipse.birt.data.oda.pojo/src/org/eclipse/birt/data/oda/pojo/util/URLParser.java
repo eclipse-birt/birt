@@ -83,6 +83,14 @@ public class URLParser
 			{
 				//an absolute path
 				uri = new File( path ).toURI( );
+				try
+				{
+					urls.add( uri.toURL( ) );					
+				}
+				catch ( MalformedURLException e )
+				{
+					throw new OdaException( e );
+				}
 			}
 			else
 			{
@@ -95,17 +103,19 @@ public class URLParser
 				{
 					throw new OdaException( e );
 				}
-			}
-			if ( resourceIdentifiers != null )
-			{
-				URI resovledUri = ResourceIdentifiers.resolveApplResource( resourceIdentifiers, uri );
-				if ( resovledUri == null )
+				
+				URI resovledUri = null;
+				if ( resourceIdentifiers != null )
 				{
-					logger.log( Level.WARNING, "Failed to resolve path:" + uri //$NON-NLS-1$
-							+ " from app resource folder(" + ResourceIdentifiers.getApplResourceBaseURI( resourceIdentifiers ) + ')');  //$NON-NLS-1$
-					
-					//then, try to resolve it from design resource
-					resovledUri = ResourceIdentifiers.resolveDesignResource( resourceIdentifiers, uri );
+					resovledUri = ResourceIdentifiers.resolveApplResource( resourceIdentifiers, uri );
+					if ( resovledUri == null )
+					{
+						logger.log( Level.WARNING, "Failed to resolve path:" + uri //$NON-NLS-1$
+								+ " from app resource folder(" + ResourceIdentifiers.getApplResourceBaseURI( resourceIdentifiers ) + ')');  //$NON-NLS-1$
+						
+						//then, try to resolve it from design resource
+						resovledUri = ResourceIdentifiers.resolveDesignResource( resourceIdentifiers, uri );
+					}
 				}
 				if ( resovledUri == null )
 				{
@@ -121,17 +131,6 @@ public class URLParser
 					{
 						throw new OdaException( e );
 					}
-				}
-			}
-			else
-			{
-				try
-				{
-					urls.add( uri.toURL( ) );
-				}
-				catch ( MalformedURLException e )
-				{
-					throw new OdaException( e );
 				}
 			}
 		}
