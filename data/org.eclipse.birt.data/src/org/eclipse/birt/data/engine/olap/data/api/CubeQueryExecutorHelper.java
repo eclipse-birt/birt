@@ -27,7 +27,6 @@ import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
@@ -521,13 +520,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 										.getCubeQueryDefinition().getBindings());
 						if (dimLevelSet.size() > 0) 
 						{
-							if ( OlapExpressionCompiler
-									.getReferencedScriptObject( expr,
-											ExpressionUtil.MEASURE_INDICATOR ) != null )
-							{
-								applyMerge = false;
-								break;
-							}
 							applyMerge = true;
 							CubeQueryExecutorHelper executorHelper = createCubeQueryExecutorHelper(
 									this.cube, cubeQueryExecutor.getComputedMeasureHelper(),fetcher);
