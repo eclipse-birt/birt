@@ -177,7 +177,7 @@ BirtDndManager.prototype = {
 		var mouseX = Event.pointerX(event);
 		var mouseY = Event.pointerY(event);
 			//Distance from the edge of the element to edge of browser
-		var offsets = Position.cumulativeOffset(elem);
+		var offsets = Element.cumulativeOffset(elem);
 			//Distance from the edge of the element of mouse
 		elem.offsetX =  (mouseX - offsets[0]);
 		elem.offsetY =  (mouseY - offsets[1]);
@@ -243,7 +243,7 @@ BirtDndManager.prototype = {
 	
 	__moveCurrentDragElement: function(x, y)
 	{
-		var offsets = Position.cumulativeOffset(this.currentDragElement);
+		var offsets = Element.cumulativeOffset(this.currentDragElement);
 	    	//subtract the element's current left, top coordinates from the offsets
 	    offsets[0] -= parseInt(this.currentDragElement.style.left || '0');
 	    offsets[1] -= parseInt(this.currentDragElement.style.top || '0');
