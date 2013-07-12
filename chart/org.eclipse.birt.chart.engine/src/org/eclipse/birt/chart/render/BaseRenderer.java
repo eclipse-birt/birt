@@ -2833,19 +2833,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				for ( Action subAction : mas.getActions( ) )
 				{
 					ActionValue av = subAction.getValue( );
-					if ( av.getLabel( ) == null
-							|| av.getLabel( ).getCaption( ).getValue( ) == null
-							|| "".equals( av.getLabel( ).getCaption( ).getValue( ) ) ) //$NON-NLS-1$
-					{
-						String expr = "ActionType." + subAction.getType( ).getName( ) + ".DisplayName"; //$NON-NLS-1$ //$NON-NLS-2$
-						String displayName = Messages.getString( expr );
-						if ( displayName != null )
-						{
-							Label l = LabelImpl.create( );
-							l.getCaption( ).setValue( displayName );
-							av.setLabel( l );
-						}
-					}
+					ChartUtil.setLabelTo( subAction );
 					if ( subAction.getValue( ) instanceof URLValue )
 						buildMultiURL( valueHints,
 								(URLValue) subAction.getValue( ) );
