@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
@@ -24,10 +25,12 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -71,7 +74,7 @@ public class GroupDialog extends TitleAreaDialog
 {
 
 	private boolean isUndefined = false;
-	
+
 	public GroupDialog( TabularHierarchyHandle hierarchy )
 	{
 		this( );
@@ -88,12 +91,12 @@ public class GroupDialog extends TitleAreaDialog
 		dateTypeSelectedList.addAll( levelList );
 	}
 
-	public GroupDialog (boolean isUndefined)
+	public GroupDialog( boolean isUndefined )
 	{
-		this();
+		this( );
 		this.isUndefined = isUndefined;
 	}
-	
+
 	public GroupDialog( )
 	{
 		super( UIUtil.getDefaultShell( ) );
@@ -205,7 +208,7 @@ public class GroupDialog extends TitleAreaDialog
 
 	protected void initDialog( )
 	{
-		if(isUndefined)
+		if ( isUndefined )
 		{
 			nameText.setEnabled( false );
 		}
@@ -582,6 +585,35 @@ public class GroupDialog extends TitleAreaDialog
 		if ( isNew )
 		{
 			insertDimension( );
+			updateDateLevels( );
+		}
+	}
+
+	protected void updateDateLevels( )
+	{
+		if ( dimension.isTimeType( ) )
+		{
+			try
+			{
+				for ( int i = 0; i < hierarchy.getLevelCount( ); i++ )
+				{
+					TabularLevelHandle level = (TabularLevelHandle) hierarchy.getLevel( i );
+					Iterator attrs = level.attributesIterator( );
+					while ( attrs.hasNext( ) )
+					{
+						LevelAttributeHandle attr = (LevelAttributeHandle) attrs.next( );
+						if ( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME.equals( attr.getName( ) ) )
+						{
+							attr.setDataType( dataField.getDataType( ) );
+							break;
+						}
+					}
+				}
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
 	}
 
