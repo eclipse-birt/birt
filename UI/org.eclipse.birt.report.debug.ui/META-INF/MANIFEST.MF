@@ -49,5 +49,5 @@ Require-Bundle: org.eclipse.core.runtime.compatibility;bundle-version="[3.1.100,
  org.eclipse.core.expressions
 Eclipse-LazyStart: true
 Plugin-Class: org.eclipse.birt.report.debug.ui.DebugUI
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.ibm.icu.util;version="[3.4.4,51.0.0)"

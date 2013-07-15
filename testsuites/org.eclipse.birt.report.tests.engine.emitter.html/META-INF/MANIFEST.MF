@@ -7,5 +7,5 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.engine
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Eclipse BIRT Project
