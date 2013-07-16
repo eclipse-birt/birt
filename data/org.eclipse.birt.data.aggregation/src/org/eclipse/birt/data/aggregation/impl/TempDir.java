@@ -3,6 +3,8 @@ package org.eclipse.birt.data.aggregation.impl;
 
 import java.io.File;
 
+import org.eclipse.birt.data.engine.api.DataEngineThreadLocal;
+
 public class TempDir
 {
 
@@ -47,7 +49,14 @@ public class TempDir
 
 	public String getPath( )
 	{
-		return path;
+		if ( DataEngineThreadLocal.getInstance( ).getPathManager( ) != null )
+		{
+			return DataEngineThreadLocal.getInstance( )
+					.getPathManager( )
+					.getTempFileName( "AggregationPlugin_temp", 0, null );
+		}
+		else
+			return path;
 	}
 
 	public static void release( )
