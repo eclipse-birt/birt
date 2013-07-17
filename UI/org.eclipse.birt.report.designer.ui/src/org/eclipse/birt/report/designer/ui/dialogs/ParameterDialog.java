@@ -1568,15 +1568,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private DataSetHandle getDataSetHandle( )
 	{
-		DataSetHandle dataSet = inputParameter.getModuleHandle( )
-				.findDataSet( dataSetChooser.getText( ) );
-		
-		if (dataSet == null)
-		{
-			dataSet = DataUtil.findExtendedDataSet( dataSetChooser.getText( ) );
-		}
-		
-		return dataSet;
+		return DataUtil.findDataSet(dataSetChooser.getText( ), inputParameter.getModuleHandle( ));
 	}
 
 	private void refreshColumns( boolean onlyFilter )
