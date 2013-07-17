@@ -71,7 +71,7 @@ public class StyleProperties
 			content.setWidth( (DimensionType) w );
 		}
 		Object h = properties.get( HEIGHT );
-		if ( w != null )
+		if ( h != null )
 		{
 			content.setHeight( (DimensionType) h );
 		}
