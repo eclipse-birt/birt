@@ -163,9 +163,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 2;
 			btnCategoryAxis.setLayoutData( gd );
-			btnCategoryAxis.setSelectionState( getAxisForProcessing( ).isSetCategoryAxis( ) ? ( getAxisForProcessing( ).isCategoryAxis( ) ? ChartCheckbox.STATE_SELECTED
-					: ChartCheckbox.STATE_UNSELECTED )
-					: ChartCheckbox.STATE_GRAYED );
+			btnCategoryAxis.setSelectionState( getDefaultCategoryAxisButtonState( ) );
 			updateCategoryAxisUI( !getAxisForProcessing( ).isSetType( )
 					|| !AxisType.TEXT_LITERAL.equals( getAxisForProcessing( ).getType( ) ) );
 			btnCategoryAxis.addSelectionListener( this );
@@ -342,6 +340,13 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 		setStateOfTitle( );
 		setStateOfLabel( );
+	}
+
+	protected int getDefaultCategoryAxisButtonState( )
+	{
+		return getAxisForProcessing( ).isSetCategoryAxis( ) ? ( getAxisForProcessing( ).isCategoryAxis( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED;
 	}
 
 	protected void createTitleComosite( Composite cmpBasic )
