@@ -2208,8 +2208,11 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					{
 						try
 						{
-							headerHandle.removeItem( ( data.rowNumber - 1 )
-									* ( data.columnNumber - 1 ) );
+							int delPos =  ( data.rowNumber - 1 ) * ( data.columnNumber - 1 );
+							if( delPos < crosstab.getHeaderCount( ) )
+							{
+								headerHandle.removeItem( delPos );
+							}
 						}
 						catch ( PropertyValueException e )
 						{
@@ -2231,9 +2234,12 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 							{
 								delPos = data.columnNumber;
 							}
-							headerHandle.removeItem( i
-									* ( data.columnNumber + 1 )
-									+ delPos );
+							
+							delPos = i * ( data.columnNumber + 1 ) + delPos;
+							if( delPos < crosstab.getHeaderCount( ) )
+							{
+								headerHandle.removeItem( delPos );
+							}
 						}
 						catch ( PropertyValueException e )
 						{
@@ -2290,9 +2296,11 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					}
 					else
 					{
-						headerHandle.removeItem( ( pos == data.rowNumber ? pos - 1
-								: pos )
-								* data.columnNumber );
+						int delPos = ( pos == data.rowNumber ? pos - 1 : pos ) * data.columnNumber;
+						if( delPos < crosstab.getHeaderCount( ) )
+						{
+							headerHandle.removeItem( delPos );
+						}
 					}
 				}
 				catch ( SemanticException e )
@@ -2323,15 +2331,17 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					}
 					else
 					{
-						int newPos = pos;
+						int delPos = pos;
 						if ( pos == data.columnNumber
 								&& i != data.rowNumber - 1 )
 						{
-							newPos = pos - 1;
+							delPos = pos - 1;
 						}
-						headerHandle.removeItem( i
-								* ( data.columnNumber + 1 )
-								+ newPos );
+						delPos = i * ( data.columnNumber + 1 ) + delPos;						
+						if( delPos < crosstab.getHeaderCount( ) )
+						{
+							headerHandle.removeItem( delPos );
+						}
 					}
 				}
 				catch ( SemanticException e )
