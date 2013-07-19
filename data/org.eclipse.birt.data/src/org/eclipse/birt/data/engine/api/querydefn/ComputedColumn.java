@@ -31,6 +31,7 @@ public class ComputedColumn implements IComputedColumn
 	private String aggrFuntion;
 	private List argument;
 	private IScriptExpression filter;
+	private int positionHint = -1;
     
 	/**
 	 * @param name
@@ -135,5 +136,15 @@ public class ComputedColumn implements IComputedColumn
 	public IScriptExpression getAggregateFilter( )
 	{
 		return this.filter;
+	}
+	
+	public void setPositionHint( int positionHint )
+	{
+		this.positionHint = positionHint;
+	}
+	
+	public int getPositionHint( )
+	{
+		return this.positionHint;
 	}
 }
