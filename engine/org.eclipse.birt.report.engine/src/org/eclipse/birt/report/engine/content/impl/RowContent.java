@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.ir.RowDesign;
 
 /**
  * 
@@ -36,6 +37,8 @@ public class RowContent extends AbstractContent implements IRowContent
 	protected int rowID = -1;	
 	
 	protected String groupId;
+	
+	protected Boolean repeatable = null;
 	
 	RowContent(IRowContent row)
 	{
@@ -100,6 +103,7 @@ public class RowContent extends AbstractContent implements IRowContent
 	static final protected short FIELD_ROWTYPE = 801;
 	static final protected short FIELD_ROW_GROUPLEVEL = 802;
 	static final protected short FIELD_ROW_GROUPID = 803;
+	static final protected short FIELD_ROW_REPEABLE = 804;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -114,6 +118,12 @@ public class RowContent extends AbstractContent implements IRowContent
 			IOUtil.writeShort( out,  FIELD_ROW_GROUPID );
 			IOUtil.writeString( out,  groupId );
 		}
+		if ( repeatable != null )
+		{
+			IOUtil.writeShort( out, FIELD_ROW_REPEABLE );
+			IOUtil.writeBool( out, repeatable.booleanValue( ) );
+		}
+		
 	}
 
 	public boolean needSave( )
@@ -137,6 +147,9 @@ public class RowContent extends AbstractContent implements IRowContent
 				break;
 			case FIELD_ROW_GROUPID :
 				groupId = IOUtil.readString( in );
+				break;
+			case FIELD_ROW_REPEABLE :
+				repeatable = IOUtil.readBool( in );
 				break;
 			default :
 				super.readField( version, filedId, in, loader );
@@ -187,5 +200,23 @@ public class RowContent extends AbstractContent implements IRowContent
 	protected IContent cloneContent()
 	{
 		return new RowContent(this);
+	}
+
+	public void setRepeatable( boolean repeatable )
+	{
+		this.repeatable = new Boolean(repeatable);
+	}
+
+	public boolean isRepeatable( )
+	{
+		if ( repeatable != null )
+		{
+			return repeatable.booleanValue( );
+		}
+		if ( generateBy != null && generateBy instanceof RowDesign )
+		{
+			return ( (RowDesign) generateBy ).getRepeatable( );
+		}
+		return true;
 	}
 }
