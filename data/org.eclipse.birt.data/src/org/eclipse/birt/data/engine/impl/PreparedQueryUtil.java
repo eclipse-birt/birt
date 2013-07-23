@@ -53,6 +53,7 @@ import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -161,7 +162,7 @@ public class PreparedQueryUtil
 		if( dset!= null )
 		{
 			FilterPrepareUtil.prepareFilters( dset.getFilters( ), dataEngine.getContext( ).getScriptContext( ) );
-			QueryContextVisitorUtil.populateDataSet( contextVisitor, dset );
+			QueryContextVisitorUtil.populateDataSet( contextVisitor, dset, appContext );
 			
 			preparedQuery = QueryPrepareUtil.prepareQuery( dataEngine,
 					queryDefn,
@@ -203,6 +204,7 @@ public class PreparedQueryUtil
 			}
 			else
 			{
+				( (BaseDataSetDesign) dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) ).setQueryContextVisitor( contextVisitor );
 				preparedQuery = new PreparedOdaDSQuery( dataEngine,
 						queryDefn,
 						dset,
