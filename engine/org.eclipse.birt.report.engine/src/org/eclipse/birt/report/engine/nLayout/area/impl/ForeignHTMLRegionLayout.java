@@ -41,6 +41,7 @@ public class ForeignHTMLRegionLayout implements ILayout
 		regionLayoutContext.setHtmlLayoutContext( context
 				.getHtmlLayoutContext( ) );
 		regionLayoutContext.setMaxBP( Integer.MAX_VALUE );
+		regionLayoutContext.setMaxHeight( Integer.MAX_VALUE );
 		regionLayoutContext.setReport( context.getReport( ) );
 
 		ForeignHtmlRegionArea region = new ForeignHtmlRegionArea( content,

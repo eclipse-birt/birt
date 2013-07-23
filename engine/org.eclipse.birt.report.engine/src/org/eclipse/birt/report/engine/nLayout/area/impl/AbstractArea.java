@@ -292,11 +292,6 @@ public abstract class AbstractArea implements IArea
 		if ( area instanceof IContainerArea )
 		{
 			System.out.print( area.getClass( ) + "||" );
-			if ( area instanceof CellArea )
-			{
-				System.out.print( "rowspan=" + ((CellArea)area).getRowSpan( ) + "||");
-			}
-			
 			System.out.println( "x:" + area.getX( ) + " y:" + area.getY( )
 					+ " width:" + area.getWidth( ) + " height:"
 					+ area.getHeight( ) );
@@ -341,6 +336,52 @@ public abstract class AbstractArea implements IArea
 					debugPrint( child );
 				}
 			}
+		}
+		else
+		{
+			if ( area instanceof ITextArea )
+			{
+				System.out.println( ( (ITextArea) area ).getText( ) );
+			}
+			else if ( area instanceof IImageArea )
+			{
+				System.out.println( "[image]" );
+			}
+			else if ( area instanceof ITemplateArea )
+			{
+				System.out.println( "[template]" );
+			}
+		}
+	}
+	
+	public static void debugPrintWithComputedXY( IArea area )
+	{
+		debugPrint3(area, 0, 0 );
+	}
+	
+	private static void debugPrint3( IArea area, int x, int y )
+	{
+		if ( area instanceof IContainerArea )
+		{
+			System.out.print( area.getClass( ) + "||" );
+			if ( null != ( (ContainerArea) area ).getContent( ) )
+			{
+				System.out.print( ( (ContainerArea) area ).getContent( )
+						.getInstanceID( ) + "||" );
+			}
+			x = x + area.getX( );
+			y = y + area.getY( );
+			System.out.println( "x:" + x + " y:" + y
+					+ " width:" + area.getWidth( ) + " height:"
+					+ area.getHeight( ) );
+			for ( Iterator<IArea> i = ( (IContainerArea) area ).getChildren( ); i
+					.hasNext( ); )
+			{
+				IArea child = i.next( );
+				debugPrint3( child, x, y );
+			}
+			x = x - area.getX( );
+			y = x - area.getY( );
 		}
 		else
 		{
