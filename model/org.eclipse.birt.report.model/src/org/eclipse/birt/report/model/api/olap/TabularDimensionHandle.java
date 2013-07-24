@@ -43,6 +43,20 @@ public class TabularDimensionHandle extends DimensionHandle
 	{
 		super( module, element );
 	}
+	
+	/**
+	 * Checks if this dimension is time type.
+	 */
+	public boolean isTimeType( ) 
+	{
+		DimensionHandle sharedDimension = getSharedDimension( );
+		if ( sharedDimension == null )
+			return getBooleanProperty( IS_TIME_TYPE_PROP );
+		else 
+		{
+			return sharedDimension.isTimeType( );
+		}
+	}
 
 	/**
 	 * Returns the dimension object that this dimension refers to.
