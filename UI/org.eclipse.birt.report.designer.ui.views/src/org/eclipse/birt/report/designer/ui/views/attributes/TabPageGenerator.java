@@ -33,6 +33,8 @@ import org.eclipse.swt.widgets.Control;
 public class TabPageGenerator implements IPageGenerator
 {
 
+	public final static String ACTIVE_PAGE = "ActivePage"; //$NON-NLS-1$
+
 	protected int tabIndex = 0;
 
 	protected String selectedTabText;
@@ -239,6 +241,12 @@ public class TabPageGenerator implements IPageGenerator
 				}
 			}
 		}
+	}
+
+	public void selectTabItem( String tabKey )
+	{
+		selectedTabText = tabKey;
+		showPropertiesPage( );
 	}
 
 }
