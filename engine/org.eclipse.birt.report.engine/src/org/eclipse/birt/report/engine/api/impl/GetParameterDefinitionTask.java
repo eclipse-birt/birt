@@ -640,7 +640,6 @@ public class GetParameterDefinitionTask extends EngineTask
 	{
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( dataSet.getQualifiedName( ) );
-		queryDefn.setAutoBinding( true );
 		return queryDefn;
 	}
 

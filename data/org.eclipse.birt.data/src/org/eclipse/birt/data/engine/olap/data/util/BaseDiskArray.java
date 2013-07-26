@@ -214,6 +214,7 @@ abstract class BaseDiskArray implements IDiskArray
 		}
 		clearDiskFile( );
 		this.size = 0;
+		this.buffer = null;
 	}
 
 	/**

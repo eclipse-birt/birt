@@ -205,15 +205,9 @@ class ResultIterator2 extends ResultIterator
 					{
 						referencedBindings = ExpressionCompilerUtil.extractColumnExpression( argExpr,
 								ExpressionUtil.ROW_INDICATOR );
-						for ( int i = 0; i < referencedBindings.size( ); i++ )
-						{
-							IBinding b = (IBinding) bindingMap.get( referencedBindings.get( i ) );
-							if ( b != null && b.getAggrFunction( ) != null )
-							{
-								needRecalcualte = true;
-								break;
-							}
-						}
+
+						needRecalcualte = needRecalculate( referencedBindings, bindingMap ) ;
+						
 						if( needRecalcualte )
 							break;
 					}
@@ -234,6 +228,29 @@ class ResultIterator2 extends ResultIterator
 		}
 		return bindingList;
 	}
+	
+	
+	private boolean needRecalculate(List<String> referencedBindings, Map bindingMap) throws DataException
+	{
+		for ( int i = 0; i < referencedBindings.size( ); i++ )
+		{
+			IBinding b = (IBinding) bindingMap.get( referencedBindings.get( i ) );
+			if ( b != null && b.getAggrFunction( ) != null )
+			{
+				return true;
+			}
+			
+			if ( b.getExpression( ) != null )
+			{
+				return needRecalculate( ExpressionCompilerUtil.extractColumnExpression( b.getExpression( ),
+						ExpressionUtil.ROW_INDICATOR ), bindingMap );
+			}
+		}
+		
+		return false;
+	}
+	
+	
 
 	private void doSaveResultClass( OutputStream outputStream,
 			List<IBinding> requestColumnMap ) throws BirtException
