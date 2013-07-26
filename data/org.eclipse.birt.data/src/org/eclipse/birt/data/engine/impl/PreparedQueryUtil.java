@@ -56,6 +56,7 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -72,6 +73,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 /**
  * Create concreate class of IPreparedQuery
@@ -845,6 +847,18 @@ class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign
 	{
 		return this.source.getPrimaryResultSetNumber( );
 	}	
+	
+	public QuerySpecification getCombinedQuerySpecification( )
+	{
+		if( this.source instanceof OdaDataSetDesign )
+		{
+			return ( (OdaDataSetDesign) this.source ).getCombinedQuerySpecification( );
+		}
+		else
+		{
+			return null;
+		}
+	}
 }
 
 class JointDataSetAdapter extends DataSetAdapter implements IJointDataSetDesign

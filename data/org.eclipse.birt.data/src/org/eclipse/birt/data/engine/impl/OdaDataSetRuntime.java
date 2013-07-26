@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
 
 /**
@@ -141,5 +142,15 @@ public class OdaDataSetRuntime extends DataSetRuntime
 	public void close( ) throws DataException
 	{
 		super.close( );
+	}
+	
+	public QuerySpecification getCombinedQuerySpecification( )
+	{
+		if ( dataSetDesign instanceof OdaDataSetAdapter )
+			return ( (OdaDataSetAdapter) dataSetDesign ).getCombinedQuerySpecification( );
+		else
+		{
+			return null;
+		}
 	}
 }
