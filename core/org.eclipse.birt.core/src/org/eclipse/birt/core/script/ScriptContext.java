@@ -61,6 +61,11 @@ public class ScriptContext implements IScriptContext
 		parent = scriptContext;
 		scriptContexts = new HashMap<String, IScriptContext>( );
 		this.scope = scope;
+		if ( parent != null )
+		{
+			this.locale = parent.locale;
+			this.timeZone = parent.timeZone;
+		}
 	}
 
 	public ClassLoader getApplicationClassLoader( )
