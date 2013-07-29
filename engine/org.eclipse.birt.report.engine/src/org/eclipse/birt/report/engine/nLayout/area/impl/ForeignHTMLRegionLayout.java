@@ -86,6 +86,11 @@ public class ForeignHTMLRegionLayout implements ILayout
 		public void layout( IContent content ) throws BirtException
 		{
 			current.initialize( );
+			//if width is specified. set MAX width
+			if (current.specifiedWidth > 0) 
+			{
+				current.setMaxAvaWidth(current.specifiedWidth);
+			}
 			if ( current.getSpecifiedHeight( ) <= 0 )
 			{
 				visitChildren( content, this );
