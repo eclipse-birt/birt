@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2009, 2011 Actuate Corporation.
+ * Copyright (c) 2009, 2013 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,6 +23,7 @@ import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.services.impl.ProviderUtil;
 import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
+import org.eclipse.datatools.connectivity.oda.spec.BaseQuery;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification.ParameterIdentifier;
 import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
@@ -146,7 +147,7 @@ public class QuerySpecHelper
      * @since 2.5.2
      */
     public static void setValidationConnectionContext( ValidationContext validationContext, 
-            Properties connProperties, Map appContext )
+            Properties connProperties, Map<?,?> appContext )
         throws DataException
     {
         if( validationContext == null )
@@ -177,7 +178,7 @@ public class QuerySpecHelper
             validationContext.setConnection( validationContext.new Connection( effectiveProps ));    
     }
     
-    private static Properties getEffectiveProperties( Properties connProperties, Map appContext ) 
+    private static Properties getEffectiveProperties( Properties connProperties, Map<?,?> appContext ) 
         throws DataException
     {
         // use a consumer profile provider service to get the appropriate connection properties to apply
@@ -205,8 +206,9 @@ public class QuerySpecHelper
      *              to manage its connection state to avoid having a live connection remain open
      * @throws OdaException
      */
+    @SuppressWarnings("unused")
     private static IConnectionProfile createTransientProfile( String odaDataSourceId, 
-            Properties connProperties, Map appContext )
+            Properties connProperties, Map<?,?> appContext )
         throws DataException
     {
         Properties effectiveProps = getEffectiveProperties( connProperties, appContext );
@@ -338,6 +340,21 @@ public class QuerySpecHelper
             return false;
         
         return ValidatorUtil.isInvalidValueExpression( valueExpr, (OdaException)dataEx.getCause() );
+    }
+
+    /**
+     * Indicates whether the specified BaseQuery is identified as one of the cause(s) 
+     * of the specified exception caught while preparing or executing an ODA query.
+     * @param filterExpr    a {@link BaseQuery} whose processing might have caused an exception
+     * @param dataEx        the exception caught while preparing or executing an ODA query
+     * @return  true if the specified BaseQuery is one of the cause(s) in the exception; false otherwise
+     */
+    public static boolean isInvalidBaseQuery( BaseQuery baseQuery, DataException dataEx )
+    {
+        if( ! hasOdaException( dataEx ) )
+            return false;
+        
+        return ValidatorUtil.isInvalidBaseQuery( baseQuery, (OdaException)dataEx.getCause() );
     }
     
     private static boolean hasOdaException( DataException dataEx )

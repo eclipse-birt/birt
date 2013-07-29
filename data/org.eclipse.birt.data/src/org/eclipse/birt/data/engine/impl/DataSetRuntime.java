@@ -75,7 +75,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	private JSResultSetRow resultSetRow;
 	
 	/** Static design of data set */
-	private IBaseDataSetDesign	dataSetDesign;
+	protected IBaseDataSetDesign	dataSetDesign;
 	/** Javascript object implementing the DataSet class */
 	private Scriptable		jsDataSetObject;
 	

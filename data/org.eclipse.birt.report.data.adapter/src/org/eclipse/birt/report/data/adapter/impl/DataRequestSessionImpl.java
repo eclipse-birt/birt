@@ -211,14 +211,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void defineDataSet( IBaseDataSetDesign design ) throws BirtException
 	{
-		IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
-		if ( dataSetInterceptor != null )
-		{
-			dataSetInterceptor.preDefineDataSet( sessionContext,
-					dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
-					design,
-					null );
-		}
 		dataEngine.defineDataSet( design );
 	}
 
@@ -1652,6 +1644,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
+		IBaseDataSetDesign design = dataEngine.getDataSetDesign( query.getName( ) );
+		if ( design != null )
+		{
+			final IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
+			if ( dataSetInterceptor != null )
+			{
+				dataSetInterceptor.preDefineDataSet( sessionContext,
+						dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
+						design,
+						null );
+			}
+		}
 		refactorCubeQueryDefinition( query );
 		populateMeasureDefinitionForCalculateMeasures( query );
 		setMeasureDataTypeForCubeQuery ( query );

@@ -293,59 +293,72 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			String dataText = extDataSet.getQueryText( );
 			
 			DataException exception = null;
-			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			
+			QuerySpecification combinedQuerySpec = extDataSet.getCombinedQuerySpecification( );
+			if ( combinedQuerySpec != null )
 			{
-				ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext();
-
-				if ( validationContext != null )
+				querySpec = combinedQuerySpec;
+			}
+			else
+			{
+				if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 				{
-					validationContext.setQueryText(((IOdaDataSetDesign) dataSetDesign).getQueryText());
-					//Change to use the specific ValidationContext API in next release.
-					validationContext.setData( "org.eclipse.birt.data.applicationContext", this.getAppContext());
-					OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper(
-							queryDefn, (IOdaDataSetDesign) dataSetDesign);
-					rollbackHelper.collectOriginalInfo();
-					try
+					ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
+
+					if ( validationContext != null )
 					{
-						if ( validateStatus == ValidateStatus.unknown || validateStatus == ValidateStatus.ok )
+						validationContext.setQueryText( ( (IOdaDataSetDesign) dataSetDesign ).getQueryText( ) );
+						// Change to use the specific ValidationContext API in
+						// next release.
+						validationContext.setData( "org.eclipse.birt.data.applicationContext",
+								this.getAppContext( ) );
+						OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper( queryDefn,
+								(IOdaDataSetDesign) dataSetDesign );
+						rollbackHelper.collectOriginalInfo( );
+						try
 						{
-							querySpec = OdaQueryOptimizationUtil.optimizeExecution(
-									((OdaDataSourceRuntime) dataEngine
-											.getDataSourceRuntime(dataSetDesign
-													.getDataSourceName()))
-											.getExtensionID(),
-									validationContext,
-									(IOdaDataSetDesign) dataSetDesign,
-									queryDefn, dataEngine.getSession(),
-									appContext, contextVisitor);
-						}
-						
-						if( querySpec != null && validateStatus == ValidateStatus.unknown )
-						{
-							try
+							if ( validateStatus == ValidateStatus.unknown
+									|| validateStatus == ValidateStatus.ok )
 							{
-								querySpec.validate( validationContext );
-								validateStatus = validateStatus.ok;
-							}
-							catch ( OdaException ex )
-							{
-								validateStatus = validateStatus.fail;
-								querySpec = null;
-								logger.log( Level.WARNING,
-										ex.getLocalizedMessage( ),
-										ex );
+								querySpec = OdaQueryOptimizationUtil.optimizeExecution( ( (OdaDataSourceRuntime) dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) ).getExtensionID( ),
+										validationContext,
+										(IOdaDataSetDesign) dataSetDesign,
+										queryDefn,
+										dataEngine.getSession( ),
+										appContext,
+										contextVisitor );
 							}
 
+							if ( querySpec != null
+									&& validateStatus == ValidateStatus.unknown )
+							{
+								try
+								{
+									querySpec.validate( validationContext );
+									validateStatus = validateStatus.ok;
+								}
+								catch ( OdaException ex )
+								{
+									validateStatus = validateStatus.fail;
+									querySpec = null;
+									logger.log( Level.WARNING,
+											ex.getLocalizedMessage( ),
+											ex );
+								}
+
+							}
 						}
-					}
-					catch ( DataException e )
-					{
-						exception = e;
-					}
-					if ( querySpec == null )
-					{
-						//roll back changes made in <code>dataSetDesign</code> and <code>queryDefn</code>
-						rollbackHelper.rollback( );
+						catch ( DataException e )
+						{
+							exception = e;
+						}
+						if ( querySpec == null )
+						{
+							// roll back changes made in
+							// <code>dataSetDesign</code> and
+							// <code>queryDefn</code>
+							rollbackHelper.rollback( );
+						}
 					}
 				}
 			}

@@ -586,13 +586,13 @@ public class CascadingParametersDialog extends BaseDialog
 			return;
 		}
 
-		String dataSetName = inputParameterGroup.getDataSet( ).getName( );
+		DataSetHandle dataSet = inputParameterGroup.getDataSet( );
 		for ( Iterator iter = elementsList.iterator( ); iter.hasNext( ); )
 		{
 			ScalarParameterHandle handle = (ScalarParameterHandle) iter.next( );
 			try
 			{
-				handle.setDataSetName( dataSetName );
+				handle.setDataSet( dataSet );
 			}
 			catch ( SemanticException e1 )
 			{
@@ -1884,18 +1884,13 @@ public class CascadingParametersDialog extends BaseDialog
 	{
 		if ( !isSingle( ) )
 		{
-			if ( handle != null && handle.getDataSetName( ) != null )
+			if ( handle != null && handle.getDataSet( ) != null )
 			{
-				return getDataSet( handle.getDataSetName( ) );
+				return handle.getDataSet( );
 			}
 			return null;
 		}
 		return inputParameterGroup.getDataSet( );
-	}
-
-	private DataSetHandle getDataSet( String name )
-	{
-		return inputParameterGroup.getModuleHandle( ).findDataSet( name );
 	}
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
@@ -2920,7 +2915,7 @@ public class CascadingParametersDialog extends BaseDialog
 					{
 						try
 						{
-							parameter.setDataSet( findDataSet( dataset.getText( )) );
+							parameter.setDataSet( DataUtil.findDataSet( dataset.getText( ) ) );
 							if ( parameter.getDataSet( ) != null )
 							{
 								if ( getFirstParameter( ) == null
@@ -3152,8 +3147,7 @@ public class CascadingParametersDialog extends BaseDialog
 				{
 					try
 					{
-						parameter.setDataSetName( inputParameterGroup.getDataSet( )
-								.getName( ) );
+						parameter.setDataSet( inputParameterGroup.getDataSet( ) );
 						value.setItems( getDataSetColumns( parameter, true ) );
 						displayText.setItems( getDataSetColumns( parameter,
 								false ) );
@@ -3546,22 +3540,5 @@ public class CascadingParametersDialog extends BaseDialog
 			defaultValueList.clear( );
 			defaultValueList.add( expression );
 		}
-	}
-	
-	public DataSetHandle findDataSet( String dataSetName )
-	{
-		ModuleHandle handle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-
-		for ( Iterator iterator = handle.getVisibleDataSets( ).iterator( ); iterator.hasNext( ); )
-		{
-			DataSetHandle dataSetHandle = (DataSetHandle) iterator.next( );
-			if(dataSetHandle.getName( ).equals( dataSetName ))
-			{
-				return dataSetHandle;
-			}
-		}
-		
-		return DataUtil.findExtendedDataSet( dataSetName );
 	}
 }
