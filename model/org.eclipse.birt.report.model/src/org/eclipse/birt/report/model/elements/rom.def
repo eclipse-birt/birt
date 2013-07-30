@@ -2990,10 +2990,10 @@
     <Property detailType="pageBreakAfter" displayNameID="Element.ListingGroup.pageBreakAfter" name="pageBreakAfter" runtimeSettable="false" since="2.1" type="choice">
       <Default>auto</Default>
     </Property>
-    <Property canInherit="false" detailType="pageBreakBefore" displayNameID="Element.ListingGroup.pageBreakBefore" name="pageBreakBefore" runtimeSettable="false" since="2.1" type="choice">
+    <Property detailType="pageBreakBefore" displayNameID="Element.ListingGroup.pageBreakBefore" name="pageBreakBefore" runtimeSettable="false" since="2.1" type="choice">
       <Default>auto</Default>
     </Property>
-    <Property canInherit="false" detailType="pageBreakInside" displayNameID="Element.ListingGroup.pageBreakInside" name="pageBreakInside" runtimeSettable="false" since="2.2" type="choice">
+    <Property detailType="pageBreakInside" displayNameID="Element.ListingGroup.pageBreakInside" name="pageBreakInside" runtimeSettable="false" since="2.2" type="choice">
       <Default>auto</Default>
     </Property>
 	<PropertyGroup displayNameID="Element.ListingGroup.Interval">
