@@ -351,9 +351,9 @@ public final class ValueFormatter
 	 * 
 	 * @param oValue
 	 * @param fs
-	 * @return
+	 * @return format specifier.
 	 */
-	private static FormatSpecifier resetFormatSpecifier( Object oValue,
+	public static FormatSpecifier resetFormatSpecifier( Object oValue,
 			FormatSpecifier fs )
 	{
 		if ( oValue instanceof IDataPointEntry )
