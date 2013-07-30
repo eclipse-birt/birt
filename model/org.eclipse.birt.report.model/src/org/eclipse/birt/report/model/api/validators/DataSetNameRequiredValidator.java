@@ -11,18 +11,6 @@
 
 package org.eclipse.birt.report.model.api.validators;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
-import org.eclipse.birt.report.model.elements.ScalarParameter;
-import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
-import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
  * Validates the data set name of scalar parameter is required.
@@ -35,7 +23,7 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * 
  */
 
-public class DataSetNameRequiredValidator extends AbstractElementValidator
+public class DataSetNameRequiredValidator extends DataSetNameRequiredValidatorImpl
 {
 
 	private final static DataSetNameRequiredValidator instance = new DataSetNameRequiredValidator( );
@@ -50,52 +38,5 @@ public class DataSetNameRequiredValidator extends AbstractElementValidator
 	{
 		return instance;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.validators.core.AbstractElementValidator
-	 * #validate(org.eclipse.birt.report.model.elements.ReportDesign,
-	 * org.eclipse.birt.report.model.core.DesignElement)
-	 */
-
-	public List validate( Module module, DesignElement element )
-	{
-		if ( !( element instanceof ScalarParameter ) )
-			return Collections.EMPTY_LIST;
-
-		return doValidate( module, (ScalarParameter) element );
-	}
-
-	private List doValidate( Module module, ScalarParameter toValidate )
-	{
-		List list = new ArrayList( );
-
-		String labelExpr = toValidate.getStringProperty( module,
-				IAbstractScalarParameterModel.LABEL_EXPR_PROP );
-		String valueExpr = toValidate.getStringProperty( module,
-				IAbstractScalarParameterModel.VALUE_EXPR_PROP );
-
-		if ( toValidate.getContainer( ) instanceof CascadingParameterGroup )
-			return list;
-
-		if ( !StringUtil.isBlank( labelExpr )
-				|| !StringUtil.isBlank( valueExpr ) )
-		{
-			String dataSetName = toValidate.getStringProperty( module,
-					IAbstractScalarParameterModel.DATASET_NAME_PROP );
-
-			if ( StringUtil.isBlank( dataSetName ) )
-				list
-						.add( new PropertyValueException(
-								toValidate,
-								IAbstractScalarParameterModel.DATASET_NAME_PROP,
-								null,
-								PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
-		}
-
-		return list;
-	}
-
+	
 }

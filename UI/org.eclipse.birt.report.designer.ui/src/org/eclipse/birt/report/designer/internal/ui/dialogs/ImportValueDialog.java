@@ -799,16 +799,7 @@ public class ImportValueDialog extends BaseDialog
 
 	private DataSetHandle getDataSetHandle( )
 	{
-		DataSetHandle dataSet = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.findDataSet( currentDataSetName );
-		
-		if (dataSet == null)
-		{
-			dataSet = DataUtil.findExtendedDataSet( currentDataSetName );
-		}
-		
-		return dataSet;
+		return DataUtil.findDataSet( currentDataSetName );
 	}
 
 	public boolean close( )

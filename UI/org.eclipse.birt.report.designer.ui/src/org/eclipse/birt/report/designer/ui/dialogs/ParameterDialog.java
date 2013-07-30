@@ -1242,9 +1242,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		else
 		{
 			refreshDataSets( );
-			if ( inputParameter.getDataSetName( ) != null )
+			if ( inputParameter.getDataSet( ) != null )
 			{
-				dataSetChooser.setText( inputParameter.getDataSetName( ) );
+				dataSetChooser.setText( inputParameter.getDataSet( ).getName() );
 			}
 			refreshColumns( false );
 			refreshSortByItems( );
@@ -1515,17 +1515,17 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			dataSetList.add( DataSetHandle.getQualifiedName( ) );
 		}
 		
-		if(staticRadio.getSelection()) // linked data model is not applicable to dynamic params.
+		//if(staticRadio.getSelection()) // linked data model is not applicable to dynamic params.
 		{
 			for (Iterator itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).iterator( ); itr.hasNext( );)
 			{
 				dataSetList.add( itr.next( ).toString( ) );
 			}
 		}
-		if ( inputParameter.getDataSetName( ) != null
-				&& !dataSetList.contains( inputParameter.getDataSetName( ) ) )
+		if ( inputParameter.getDataSet( ) != null
+				&& !dataSetList.contains( inputParameter.getDataSet( ).getName() ) )
 		{
-			dataSetList.add( 0, inputParameter.getDataSetName( ) );
+			dataSetList.add( 0, inputParameter.getDataSet( ).getName() );
 		}
 
 		if ( oldList.length != dataSetList.size( ) ) // it means new data set
@@ -1568,15 +1568,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private DataSetHandle getDataSetHandle( )
 	{
-		DataSetHandle dataSet = inputParameter.getModuleHandle( )
-				.findDataSet( dataSetChooser.getText( ) );
-		
-		if (dataSet == null)
-		{
-			dataSet = DataUtil.findExtendedDataSet( dataSetChooser.getText( ) );
-		}
-		
-		return dataSet;
+		return DataUtil.findDataSet(dataSetChooser.getText( ), inputParameter.getModuleHandle( ));
 	}
 
 	private void refreshColumns( boolean onlyFilter )
@@ -3360,7 +3352,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 						}
 					}
 				}
-				inputParameter.setDataSetName( null );
+				inputParameter.setDataSet( null );
 				inputParameter.setValueExpr( null );
 				inputParameter.setLabelExpr( null );
 			}
@@ -3368,7 +3360,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				// Save dynamic settings
 				inputParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
-				inputParameter.setDataSetName( dataSetChooser.getText( ) );
+				inputParameter.setDataSet( DataUtil.findDataSet( dataSetChooser.getText( )) );
 				// inputParameter.setValueExpr( getExpression(
 				// columnChooser.getText( ) ) );
 				{

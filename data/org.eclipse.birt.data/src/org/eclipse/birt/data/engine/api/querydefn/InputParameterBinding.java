@@ -66,6 +66,10 @@ public class InputParameterBinding implements IInputParameterBinding
 	    return name;
 	}
 
+	public void setName( String name )
+	{
+		this.name = name;
+	}
 	/**
 	 * Returns the parameter position.
 	 * 

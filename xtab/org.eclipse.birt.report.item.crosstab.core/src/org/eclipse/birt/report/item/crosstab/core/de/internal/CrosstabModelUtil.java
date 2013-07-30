@@ -501,7 +501,8 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		{
 			return false;
 		}
-		if ( !( measureView instanceof ComputedMeasureViewHandle ) )
+		if ( !( measureView instanceof ComputedMeasureViewHandle ) 
+				|| CrosstabUtil.isLinkedDataModelMeasureView( measureView ) )
 		{
 			return true;
 		}
@@ -533,7 +534,8 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		{
 			return;
 		}
-		if ( measureView instanceof ComputedMeasureViewHandle )
+		if ( measureView instanceof ComputedMeasureViewHandle
+				&& !CrosstabUtil.isLinkedDataModelMeasureView( measureView ) )
 		{
 			List<DataItemHandle> items = getDataItems(cell);
 			for (int i=0; i<items.size( ); i++)
@@ -551,7 +553,8 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					colLevel );
 		}
 
-		if ( measureView instanceof ComputedMeasureViewHandle )
+		if ( measureView instanceof ComputedMeasureViewHandle
+				&& !CrosstabUtil.isLinkedDataModelMeasureView( measureView ) )
 		{
 			List<DataItemHandle> items = getDataItems(cell);
 			for (int i=0; i<items.size( ); i++)
@@ -564,7 +567,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		if ( cell != null )
 		{
 			// create a computed column and set some properties
-			String name = CrosstabModelUtil.generateComputedColumnName( measureView,
+			String name = generateComputedColumnName( measureView,
 					colLevel,
 					rowLevel );
 			ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
@@ -574,7 +577,13 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			
 			if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
 			{
-				column.setExpression( ExpressionUtil.createDataSetRowExpression( measureView.getCubeMeasureName( ) ) );
+				String dataField = CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
+				if( dataField == null || dataField.trim().length() <= 0 )
+				{
+					// throw case
+					return;
+				}
+				column.setExpression( ExpressionUtil.createDataSetRowExpression( dataField ) );
 			}
 			else
 			{
@@ -639,7 +648,11 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					rowLevel,
 					colDimension,
 					colLevel );
-
+			if( columnHandle == null )
+			{
+				return;
+			}
+			
 			if ( cell.getContents( ).size( ) == 0 )
 			{
 				// set the data-item result set the the name of the column
@@ -708,7 +721,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			String colLevel ) throws SemanticException
 	{
 		// create a computed column and set some properties
-		String name = CrosstabModelUtil.generateComputedColumnName( measureView,
+		String name = generateComputedColumnName( measureView,
 				colLevel,
 				rowLevel );
 		ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
@@ -717,12 +730,20 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		column.setDataType( dataType );
 		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
 		{
-			column.setExpression( ExpressionUtil.createDataSetRowExpression( measureView.getCubeMeasureName( ) ) );
+			String dataField = CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
+			if( dataField == null || dataField.trim().length() <= 0 )
+			{
+				// throw case
+				return null;
+			}
+			
+			column.setExpression( ExpressionUtil.createDataSetRowExpression( dataField ) );
 		}
 		else
 		{
 			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
 		}
+		
 		String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
 		column.setAggregateFunction( function != null ? function
 				: defaultFunction );
@@ -806,8 +827,10 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		String name = ""; //$NON-NLS-1$
 		String temp = measureView.getCubeMeasureName( );
 		if ( temp != null && temp.length( ) > 0 )
+		{
 			name = name + temp;
-
+		}
+		
 		if ( aggregationOnRow != null && aggregationOnRow.length( ) > 0 )
 		{
 			if ( name.length( ) > 0 )
@@ -1955,7 +1978,8 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			return 0;
 		}
 
-		if ( measureView instanceof ComputedMeasureViewHandle )
+		if ( measureView instanceof ComputedMeasureViewHandle 
+				&& !CrosstabUtil.isLinkedDataModelMeasureView( measureView ) )
 		{
 			// currently computed measure do not support subtotal or grandtotal,
 			// so it can only have one header.

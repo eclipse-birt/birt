@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 /**
  * Default implementation of the {@link org.eclipse.birt.data.engine.api.IOdaDataSetDesign} interface.<p>
@@ -31,6 +32,8 @@ public class OdaDataSetDesign extends BaseDataSetDesign
 	private Map 	publicProps;
 	private Map 	privateProps;
 	private int resultSetNumber = -1;
+	
+	private QuerySpecification combinedQuerySpec;
 	
 	/**
 	 * Constructs an instance with the given name
@@ -161,5 +164,15 @@ public class OdaDataSetDesign extends BaseDataSetDesign
 	public int getPrimaryResultSetNumber( )
 	{
 		return this.resultSetNumber;
+	}
+	
+	public void setCombinedQuerySpecification( QuerySpecification querySpec )
+	{
+		this.combinedQuerySpec = querySpec; 
+	}
+	
+	public QuerySpecification getCombinedQuerySpecification( )
+	{
+		return this.combinedQuerySpec;
 	}
 }
