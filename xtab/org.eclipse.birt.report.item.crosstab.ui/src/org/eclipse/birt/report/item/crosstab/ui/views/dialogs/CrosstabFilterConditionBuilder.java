@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.data.ui.util.CubeValueSelector;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionEditor;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
@@ -1118,9 +1119,20 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 						if ( splits.length > 2 )
 							expression[2] = splits[2];
 						
-						if( CrosstabUtil.isBoundToLinkedDataSet( getCrosstab((ExtendedItemHandle) designHandle )))
+						if( CrosstabUtil.isBoundToLinkedDataSet( getCrosstab((ExtendedItemHandle) designHandle ))
+								&& ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null)
 						{
-							result = converter.getResultSetColumnExpression(expression[0]);
+							LevelHandle levelHandle = null;
+							for ( LevelHandle level : getCubeLevels() )
+							{
+								if( level.getName().equals(splits[1]) )
+								{
+									levelHandle = level;
+									break;
+								}
+							}
+							result = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( )
+									.createExtendedDataItemExpression( levelHandle );
 						}
 						else
 						{
@@ -3291,6 +3303,46 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		return cubeLevelNameList;
 	}
 
+	private List<LevelHandle> getCubeLevels()
+	{
+		List<LevelHandle> lhs = new ArrayList<LevelHandle>();
+		
+		ExtendedItemHandle element = (ExtendedItemHandle) designHandle;
+		CubeHandle cube = null;
+		try
+		{
+			cube = ( (CrosstabReportItemHandle) element.getReportItem( ) ).getCube( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			logger.log( Level.SEVERE, e.getMessage( ), e );
+		}
+		if ( cube == null )
+		{
+			return lhs;
+		}
+		
+		Object[] dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP ).toArray( );
+		TabularDimensionNodeProvider dimensionProvider = new TabularDimensionNodeProvider( );
+		TabularLevelNodeProvider levelProvider = new TabularLevelNodeProvider( );
+		for ( Object o : dimensions )
+		{
+			if ( o instanceof DimensionHandle )
+			{
+				DimensionHandle dimension = (DimensionHandle) o;
+				Object[] levels = dimensionProvider.getChildren( o );
+				for ( Object l : levels )
+				{
+					if ( l instanceof LevelHandle )
+					{
+						lhs.add((LevelHandle) l);
+					}
+				}
+			}
+		}
+		return lhs;
+	}
+	
 	private boolean isGroupLevel( String levelName )
 	{
 		for ( Object level : groupLevelNameList )
