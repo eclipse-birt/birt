@@ -213,7 +213,6 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		this.dependId = dependId;
 		this.caches = new FileCacheManager( );
 		caches.setCacheListener( new ArchiveFileV2CacheListener( ) );
-		caches.setSystemCacheManager( ArchiveFile.systemCacheManager );
 
 		setupArchiveMode( mode );
 

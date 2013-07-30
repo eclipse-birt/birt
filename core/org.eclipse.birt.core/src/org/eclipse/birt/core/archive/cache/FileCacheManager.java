@@ -19,10 +19,6 @@ public class FileCacheManager
 {
 
 	/**
-	 * the system cache manager.
-	 */
-	protected SystemCacheManager systemCache;
-	/**
 	 * the cache used by this file.
 	 */
 	protected ConcurrentHashMap<Object, Cacheable> caches;
@@ -43,17 +39,11 @@ public class FileCacheManager
 
 	public FileCacheManager( )
 	{
-		this( null, 0 );
+		this( 0 );
 	}
 
 	public FileCacheManager( int maxCacheSize )
 	{
-		this( null, maxCacheSize );
-	}
-
-	public FileCacheManager( SystemCacheManager systemCache, int maxCacheSize )
-	{
-		this.systemCache = systemCache;
 		this.maxCacheSize = maxCacheSize;
 		this.lockedCacheSize = 0;
 		this.caches = new ConcurrentHashMap<Object, Cacheable>( 2 );
@@ -81,16 +71,6 @@ public class FileCacheManager
 		return caches.size( );
 	}
 
-	synchronized public void setSystemCacheManager( SystemCacheManager manager )
-	{
-		if ( systemCache != null )
-		{
-			throw new IllegalArgumentException(
-					"can not set the system cache manger twice" );
-		}
-		systemCache = manager;
-	}
-
 	protected void adjustFreeCaches( )
 	{
 		// release the free cache
@@ -116,30 +96,10 @@ public class FileCacheManager
 			}
 			removedCaches[i] = freeCache;
 		}
-		if ( systemCache != null )
-		{
-			synchronized ( systemCache )
-			{
-				// systemCache.increaseUsedCacheSize( -releasedCacheSize );
-				for ( Cacheable cache : removedCaches )
-				{
-					systemCache.addCache( cache );
-				}
-			}
-		}
 	}
 
 	synchronized public void clear( )
 	{
-		if ( systemCache != null )
-		{
-			synchronized ( systemCache )
-			{
-				systemCache.removeCaches( this );
-				systemCache.increaseUsedCacheSize( -lockedCacheSize );
-				systemCache.increaseUsedCacheSize( -freeCaches.size( ) );
-			}
-		}
 		caches.clear( );
 		lockedCacheSize = 0;
 		freeCaches.clear( );
@@ -221,19 +181,7 @@ public class FileCacheManager
 			{
 				listener.onCacheRelease( cache );
 			}
-			// the dropped cache is released to the system cache directly
-			if ( systemCache == null )
-			{
-				caches.remove( cache.getCacheKey( ) );
-			}
-			else
-			{
-				synchronized ( systemCache )
-				{
-					// add it to the system free list
-					systemCache.addCache( cache );
-				}
-			}
+			caches.remove( cache.getCacheKey( ) );
 		}
 	}
 
@@ -264,12 +212,6 @@ public class FileCacheManager
 		}
 		if ( referenceCount == 0 )
 		{
-			// the cache exist in the system cache
-			assert ( systemCache != null );
-			synchronized ( systemCache )
-			{
-				systemCache.removeCache( cache );
-			}
 			lockedCacheSize++;
 			cache.getReferenceCount( ).set( 1 );
 			return cache;
@@ -300,26 +242,6 @@ public class FileCacheManager
 			{
 				// the cache exist in the free cache
 				freeCaches.remove( oldCache );
-			}
-			else
-			{
-				// the cache exist in the system cache
-				assert ( systemCache != null );
-				synchronized ( systemCache )
-				{
-					systemCache.removeCache( oldCache );
-				}
-			}
-		}
-		else
-		{
-			// adjust the system cache size as we add a block
-			if ( systemCache != null )
-			{
-				synchronized ( systemCache )
-				{
-					systemCache.increaseUsedCacheSize( 1 );
-				}
 			}
 		}
 		caches.put( cacheKey, cache );

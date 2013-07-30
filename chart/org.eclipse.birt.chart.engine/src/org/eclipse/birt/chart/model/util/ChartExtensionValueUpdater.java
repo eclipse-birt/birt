@@ -23,8 +23,11 @@ import java.util.Set;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.IChartObject;
+import org.eclipse.birt.chart.model.attribute.DataPointComponent;
+import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Marker;
+import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.layout.Block;
@@ -217,7 +220,7 @@ public class ChartExtensionValueUpdater
 		{
 			return;
 		}
-
+		
 		// Process visible case.
 		if ( contanisVisibleElement( eObj.eClass( ) ) )
 		{
@@ -398,6 +401,11 @@ public class ChartExtensionValueUpdater
 	private void update( EReference ref, EObject eParentObj, EObject eObj,
 			EObject eRef, EObject eDef )
 	{
+		if ( eObj != null && eObj instanceof DataPointComponent ) {
+			eDef = ChartDefaultValueUtil.getPercentileDataPointDefObj(
+					( DataPointComponent ) eObj, ( DataPointComponent ) eDef );
+		}
+		
 		update( ref.getEReferenceType( ),
 				ref.getName( ),
 				eParentObj,

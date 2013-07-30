@@ -306,9 +306,18 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				( (DataSetEditor) this.getContainer( ) ).updateDataSetDesign( this );
 				this.modelChanged = false;
 			}
-			if( !pageActivated )
-				this.setAnalysisTypeForColumn( );
-			
+			try
+			{
+				if ( !pageActivated )
+				{
+					setAnalysisTypeForColumn( );
+				}
+			}
+			catch ( BirtException e )
+			{
+				ExceptionHandler.handle( e, true );
+			}
+
 			( (DataSetHandle) getContainer( ).getModel( ) ).removeListener( this );
 
 			return super.performOk( );
@@ -573,50 +582,43 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		return null;
 	}
 
-	protected void setAnalysisTypeForColumn( )
+	protected void setAnalysisTypeForColumn( ) throws BirtException
 	{
-		try
+		if ( !isNewlyCreated )
 		{
-			if ( !isNewlyCreated )
+			DataSetHandle ds = ( (DataSetEditor) getContainer( ) ).getHandle( );
+			DataSetViewData[] viewData = DataSetProvider.getCurrentInstance( )
+					.getColumns( ds, true );
+
+			PropertyHandle handle = ds.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
+			Iterator iter = handle.iterator( );
+			if ( iter != null )
 			{
-				DataSetHandle ds = ( (DataSetEditor) getContainer( ) ).getHandle( );
-				DataSetViewData[] viewData = DataSetProvider.getCurrentInstance( )
-						.getColumns( ds, true );
-
-				PropertyHandle handle = ds.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
-				Iterator iter = handle.iterator( );
-				if ( iter != null )
+				while ( iter.hasNext( ) )
 				{
-					while ( iter.hasNext( ) )
-					{
-						ColumnHintHandle hint = (ColumnHintHandle) iter.next( );
+					ColumnHintHandle hint = (ColumnHintHandle) iter.next( );
 
-						for ( int i = 0; i < viewData.length; i++ )
+					for ( int i = 0; i < viewData.length; i++ )
+					{
+						if ( viewData[i].getName( )
+								.equals( hint.getColumnName( ) ) )
 						{
-							if ( viewData[i].getName( )
-									.equals( hint.getColumnName( ) ) )
+							if ( hint.getAnalysis( ) == null )
 							{
-								if ( hint.getAnalysis( ) == null )
+								try
 								{
-									try
-									{
-										hint.setAnalysis( DataSetUIUtility.getDefaultAnalysisType( viewData[i].getDataTypeName( ) ) );
-									}
-									catch ( SemanticException e )
-									{
-										ExceptionHandler.handle( e );
-									}
+									hint.setAnalysis( DataSetUIUtility.getDefaultAnalysisType( viewData[i].getDataTypeName( ) ) );
 								}
-								continue;
+								catch ( SemanticException e )
+								{
+									ExceptionHandler.handle( e, true );
+								}
 							}
+							continue;
 						}
 					}
 				}
 			}
-		}
-		catch ( BirtException e )
-		{
-			DataSetExceptionHandler.handle( e );
 		}
 	}
 	
@@ -839,7 +841,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			}
 			catch ( Exception e )
 			{
-				DataSetExceptionHandler.handle( e );
+				ExceptionHandler.handle( e, true );
 			}
 
 		}

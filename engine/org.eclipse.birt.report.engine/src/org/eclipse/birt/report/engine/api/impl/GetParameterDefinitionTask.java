@@ -24,7 +24,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -49,7 +48,6 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
-import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -517,7 +515,7 @@ public class GetParameterDefinitionTask extends EngineTask
 						return evaluateSelectionValue( sparam );
 					}
 				}
-				if ( parameter.getDataSetName( ) != null )
+				if ( parameter.getDataSet( ) != null )
 				{
 					// parameter has dataSet
 					return getChoicesFromParameterQuery( parameter );
@@ -640,7 +638,6 @@ public class GetParameterDefinitionTask extends EngineTask
 	{
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( dataSet.getQualifiedName( ) );
-		queryDefn.setAutoBinding( true );
 		return queryDefn;
 	}
 
@@ -1359,9 +1356,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	private IResultIterator getResultSetForParameter(
 			AbstractScalarParameterHandle parameter )
 	{
-		
-		ModuleHandle report =  executionContext.getDesign( );
-		DataSetHandle dataSet = report.findDataSet( parameter.getDataSetName( ) );
+		DataSetHandle dataSet = parameter.getDataSet( );
 		IResultIterator iterator = null;
 		if ( dataSet != null )
 		{

@@ -127,15 +127,17 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 /**
  * Main class of javaScript editor
- * 
  */
-
 public class JSEditor extends EditorPart implements IMediatorColleague
 {
 
 	protected static Logger logger = Logger.getLogger( JSEditor.class.getName( ) );
 
 	private static final String NO_EXPRESSION = Messages.getString( "JSEditor.Display.NoExpression" ); //$NON-NLS-1$
+
+	static final String CLIENT_CONTEXT = "client"; //$NON-NLS-1$
+
+	static final String CLIENT_SCRIPTS = "clientScripts";//$NON-NLS-1$;
 
 	static final String METHOD_DISPLAY_INDENT = "  "; //$NON-NLS-1$
 
@@ -183,7 +185,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 
 	private Label ano;
 
-	private final HashMap selectionMap = new HashMap( );
+	private final HashMap<Object, Object> selectionMap = new HashMap<Object, Object>( );
 
 	private boolean isModified;
 
@@ -213,26 +215,12 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 	/** The listener for document changed. */
 	private final IDocumentListener documentListener = new IDocumentListener( ) {
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.text.IDocumentListener#documentAboutToBeChanged
-		 * (org.eclipse.jface.text.DocumentEvent)
-		 */
 		public void documentAboutToBeChanged( DocumentEvent event )
 		{
 			// Does nothing.
 			return;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.text.IDocumentListener#documentChanged(org.eclipse
-		 * .jface.text.DocumentEvent)
-		 */
 		public void documentChanged( DocumentEvent event )
 		{
 			if ( isTextListenerEnable )
@@ -257,13 +245,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 		/** The latest clear point for redoing. */
 		private int lastClearPoint = -1;
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.text.undo.IDocumentUndoListener#documentUndoNotification
-		 * (org.eclipse.text.undo.DocumentUndoEvent)
-		 */
 		public void documentUndoNotification( DocumentUndoEvent event )
 		{
 			if ( event == null )
@@ -311,6 +292,57 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 
 			firePropertyChange( PROP_DIRTY );
 		}
+	};
+
+	private ISelectionChangedListener propertyDefnChangeListener = new ISelectionChangedListener( ) {
+
+		public void selectionChanged( SelectionChangedEvent event )
+		{
+			ISelection selection = event.getSelection( );
+			if ( selection != null )
+			{
+				Object[] sel = ( (IStructuredSelection) selection ).toArray( );
+				if ( sel.length == 1 )
+				{
+					if ( sel[0] instanceof IPropertyDefn )
+					{
+
+						// Save the current expression into the DE using DE API
+						DesignElementHandle desHandle = (DesignElementHandle) cmbExprListViewer.getInput( );
+						saveModel( );
+
+						// Update the editor to display the expression
+						// corresponding to the selected combo item ( method
+						// name/ expression name )
+						IPropertyDefn elePropDefn = (IPropertyDefn) sel[0];
+						cmbItemLastSelected = elePropDefn;
+
+						setEditorText( desHandle.getStringProperty( elePropDefn.getName( ) ) );
+						if ( event.getSource( ) == cmbExprListViewer )
+						{
+							// Store the main selection state only
+							selectionMap.put( getModel( ), selection );
+						}
+						else if ( event.getSource( ) == cmbSubFunctionsViewer )
+						{
+							// Store both the main and sub selection state here.
+							List<Object> selectionList = new ArrayList<Object>( );
+							selectionList.add( ( (StructuredSelection) cmbExprListViewer.getSelection( ) ).getFirstElement( ) );
+							selectionList.add( ( (StructuredSelection) selection ).getFirstElement( ) );
+							selectionMap.put( getModel( ),
+									new StructuredSelection( selectionList ) );
+						}
+
+						String method = cmbItemLastSelected.getName( );
+
+						updateScriptContext( desHandle, method );
+						updateMethodDescription( method );
+						refreshAll( );
+					}
+				}
+			}
+		}
+
 	};
 
 	/**
@@ -399,7 +431,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 		// strip the full qualified name
 		fullName = fullName.substring( fullName.lastIndexOf( '.' ) + 1 );
 		int upCase = 0;
-		SortedMap caps = new TreeMap( );
+		SortedMap<Object, Object> caps = new TreeMap<Object, Object>( );
 		for ( int i = 0; i < fullName.length( ); i++ )
 		{
 			char character = fullName.charAt( i );
@@ -413,7 +445,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 		if ( upCase > 2 )
 		{
 			StringBuffer result = new StringBuffer( );
-			for ( Iterator iter = caps.values( ).iterator( ); iter.hasNext( ); )
+			for ( Iterator<Object> iter = caps.values( ).iterator( ); iter.hasNext( ); )
 			{
 				result.append( (char) ( (Integer) iter.next( ) ).intValue( ) );
 			}
@@ -511,13 +543,13 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 				{
 					IMethodInfo mi = (IMethodInfo) mtds.get( i );
 
-					for ( Iterator itr = mi.argumentListIterator( ); itr.hasNext( ); )
+					for ( Iterator<IArgumentInfoList> itr = mi.argumentListIterator( ); itr.hasNext( ); )
 					{
-						IArgumentInfoList ailist = (IArgumentInfoList) itr.next( );
+						IArgumentInfoList ailist = itr.next( );
 
-						for ( Iterator argItr = ailist.argumentsIterator( ); argItr.hasNext( ); )
+						for ( Iterator<IArgumentInfo> argItr = ailist.argumentsIterator( ); argItr.hasNext( ); )
 						{
-							IArgumentInfo aiinfo = (IArgumentInfo) argItr.next( );
+							IArgumentInfo aiinfo = argItr.next( );
 
 							String argName = aiinfo.getName( );
 							IClassInfo ci = aiinfo.getClassType( );
@@ -577,11 +609,11 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 
 						ScriptParser parser = new ScriptParser( getEditorText( ) );
 
-						Collection coll = parser.getAllMethodInfo( );
+						Collection<IScriptMethodInfo> coll = parser.getAllMethodInfo( );
 
-						for ( Iterator itr = coll.iterator( ); itr.hasNext( ); )
+						for ( Iterator<IScriptMethodInfo> itr = coll.iterator( ); itr.hasNext( ); )
 						{
-							IScriptMethodInfo mtd = (IScriptMethodInfo) itr.next( );
+							IScriptMethodInfo mtd = itr.next( );
 
 							cmbSubFunctions.markSelection( METHOD_DISPLAY_INDENT
 									+ mtd.getName( ) );
@@ -594,6 +626,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 		cmbSubFunctionsViewer.setContentProvider( subProvider );
 		cmbSubFunctionsViewer.setLabelProvider( subProvider );
 		cmbSubFunctionsViewer.addSelectionChangedListener( subProvider );
+		cmbSubFunctionsViewer.addSelectionChangedListener( propertyDefnChangeListener );
 
 		// Initialize the model for the document.
 		Object model = getModel( );
@@ -608,61 +641,10 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 			setComboViewerInput( Messages.getString( "JSEditor.Input.trial" ) ); //$NON-NLS-1$
 		}
 		cmbExprListViewer.addSelectionChangedListener( palettePage.getSupport( ) );
-		cmbExprListViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
-
-			/**
-			 * selectionChanged( event) - This listener implementation is
-			 * invoked when an item in the combo box is selected, - It saves the
-			 * current editor contents. - Updates the editor content with the
-			 * expression corresponding to the selected method name or
-			 * expression. name.
-			 */
-			public void selectionChanged( SelectionChangedEvent event )
-			{
-				ISelection selection = event.getSelection( );
-				if ( selection != null )
-				{
-					Object[] sel = ( (IStructuredSelection) selection ).toArray( );
-					if ( sel.length == 1 )
-					{
-						if ( sel[0] instanceof IPropertyDefn )
-						{
-
-							// Save the current expression into the DE
-							// using DE
-							// API
-							DesignElementHandle desHandle = (DesignElementHandle) cmbExprListViewer.getInput( );
-							saveModel( );
-
-							// Update the editor to display the
-							// expression
-							// corresponding to the selected
-							// combo item ( method name/ expression name
-							// )
-							IPropertyDefn elePropDefn = (IPropertyDefn) sel[0];
-							cmbItemLastSelected = elePropDefn;
-
-							setEditorText( desHandle.getStringProperty( elePropDefn.getName( ) ) );
-							selectionMap.put( getModel( ), selection );
-
-							String method = cmbItemLastSelected.getName( );
-
-							updateScriptContext( desHandle, method );
-							updateMethodDescription( method );
-							refreshAll( );
-						}
-					}
-				}
-			}
-
-		} );
+		cmbExprListViewer.addSelectionChangedListener( propertyDefnChangeListener );
 
 		scriptEditor.createPartControl( child );
 		scriptValidator = new ScriptValidator( getViewer( ) );
-
-		// suport the mediator
-		// SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this
-		// );
 
 		disableEditor( );
 
@@ -793,10 +775,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 		}
 		else if ( adapter == IContentOutlinePage.class )
 		{
-			// ( (NonGEFSynchronizerWithMutiPageEditor)
-			// getSelectionSynchronizer( ) ).add( (NonGEFSynchronizer)
-			// outlinePage.getAdapter( NonGEFSynchronizer.class ) );
-
 			// Add JS Editor as a selection listener to Outline view selections.
 			// outlinePage.addSelectionChangedListener( jsEditor );
 			DesignerOutlinePage outlinePage = new DesignerOutlinePage( SessionHandleAdapter.getInstance( )
@@ -1279,7 +1257,19 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 					{
 						// Selects the last saveed or first item in the
 						// expression list.
-						selectItemInComboExpList( (ISelection) selectionMap.get( getModel( ) ) );
+						ISelection oldSelection = (ISelection) selectionMap.get( getModel( ) );
+
+						if ( oldSelection instanceof StructuredSelection
+								&& ( (StructuredSelection) oldSelection ).size( ) > 1 )
+						{
+							Object[] sels = ( (StructuredSelection) oldSelection ).toArray( );
+							selectItemInComboExpList( new StructuredSelection( sels[0] ) );
+							cmbSubFunctionsViewer.setSelection( new StructuredSelection( sels[1] ) );
+						}
+						else
+						{
+							selectItemInComboExpList( oldSelection );
+						}
 					}
 				}
 				else
@@ -1347,7 +1337,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 		{
 			return selection;
 		}
-		List temp = new ArrayList( );
+		List<Object> temp = new ArrayList<Object>( );
 		List list = ( (IStructuredSelection) selection ).toList( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
@@ -1392,24 +1382,6 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 		}
 		return null;
 	}
-
-	// /**
-	// * selectItemInComboExpList - selects the specified input item in the
-	// * expList - if input is null selects first item.
-	// */
-	// private void selectItemInComboExpList( IPropertyDefn propDefn )
-	// {
-	// if ( propDefn == null )
-	// {
-	// if ( cmbExpList.getItemCount( ) > 0 )
-	// propDefn = (IPropertyDefn) this.cmbExprListViewer
-	// .getElementAt( 0 );
-	// }
-	//
-	// if ( propDefn != null )
-	// selectItemInComboExpList( new StructuredSelection( propDefn ) );
-	//
-	// }
 
 	/**
 	 * setEditorText - sets the editor content.
@@ -1644,14 +1616,22 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 		}
 		else
 		{
-			selectItemInComboExpList( (ISelection) oldSelection );
+			StructuredSelection selection = (StructuredSelection) oldSelection;
+			selectItemInComboExpList( new StructuredSelection( selection.getFirstElement( ) ) );
 		}
 
 		cmbSubFunctionsViewer.setInput( model );
 		int itemCount = cmbSubFunctions.getItemCount( );
 		if ( itemCount > 0 )
 		{
-			cmbSubFunctions.select( 0 ); // select first element always
+			if ( oldSelection instanceof StructuredSelection
+					&& ( (StructuredSelection) oldSelection ).size( ) > 1 )
+			{
+				StructuredSelection selection = (StructuredSelection) oldSelection;
+				cmbSubFunctionsViewer.setSelection( new StructuredSelection( selection.toArray( )[1] ) );
+			}
+			else
+				cmbSubFunctionsViewer.setSelection( new StructuredSelection( cmbSubFunctionsViewer.getElementAt( 0 ) ) );
 		}
 		cmbSubFunctions.setEnabled( itemCount > 0 );
 		return;
@@ -1859,13 +1839,33 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 		if ( inputElement instanceof DesignElementHandle )
 		{
 			DesignElementHandle eleHandle = (DesignElementHandle) inputElement;
-
 			List methods = eleHandle.getMethods( );
-
-			if ( methods != null )
+			List<Object> clientScripts = new ArrayList<Object>( );
+			List<Object> elements = new ArrayList<Object>( );
+			for ( int i = 0; i < methods.size( ); i++ )
 			{
-				return methods.toArray( new Object[methods.size( )] );
+				IPropertyDefn mtdDef = (IPropertyDefn) methods.get( i );
+
+				// XXX for report design, we search for the "client" methods and
+				// group as a list. Then we use the List object to represent this
+				// virtual clientScripts context to simulate the sub function UI.
+				if ( eleHandle instanceof ReportDesignHandle
+						&& JSEditor.CLIENT_CONTEXT.equals( mtdDef.getContext( ) ) )
+				{
+					clientScripts.add( mtdDef );
+				}
+				else
+				{
+					elements.add( mtdDef );
+				}
 			}
+
+			if ( !clientScripts.isEmpty( ) )
+			{
+				elements.add( clientScripts );
+			}
+
+			return elements.toArray( new Object[elements.size( )] );
 		}
 		return new Object[]{};
 	}
@@ -1887,14 +1887,13 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 		{
 			IPropertyDefn eleDef = (IPropertyDefn) element;
 
-			// XXX start hack, force "onContentUpdate" to be shown as
-			// "clientScripts"
-			if ( "onContentUpdate".equals( eleDef.getName( ) ) ) //$NON-NLS-1$
-			{
-				return "clientScripts"; //$NON-NLS-1$
-			}
-			// XXX end hack
 			return eleDef.getName( );
+		}
+		else if ( element instanceof List )
+		{
+			// If the selection is the List object, it should be the virtual
+			// clientScripts context.
+			return JSEditor.CLIENT_SCRIPTS;
 		}
 		return NO_TEXT;
 	}
@@ -1965,7 +1964,7 @@ class JSSubFunctionListProvider implements
 
 	public Object[] getElements( Object inputElement )
 	{
-		List elements = new ArrayList( );
+		List<Object> elements = new ArrayList<Object>( );
 
 		if ( inputElement instanceof ExtendedItemHandle )
 		{
@@ -1985,23 +1984,22 @@ class JSSubFunctionListProvider implements
 				}
 			}
 		}
-		// XXX start hack, add a dummy "onContentUpdate" function for report
-		// design handle in list for pseudo context "clientScripts", it's
-		// actually the real context name hacked hereinbefore.
+		// XXX for report design, we check whether the selection represents the
+		// virutal clicentScripts context, which is a List object, then refresh
+		// the sub function UI.
 		else if ( inputElement instanceof ReportDesignHandle )
 		{
 			int selectedIndex = editor.cmbExpList.getSelectionIndex( );
 			if ( selectedIndex >= 0 )
 			{
-				String scriptName = editor.cmbExpList.getItem( editor.cmbExpList.getSelectionIndex( ) );
+				Object mainSelection = ( (StructuredSelection) editor.cmbExprListViewer.getSelection( ) ).getFirstElement( );
 
-				if ( "clientScripts".equals( scriptName ) ) //$NON-NLS-1$
+				if ( mainSelection instanceof List )
 				{
-					elements.add( "onContentUpdate" ); //$NON-NLS-1$
+					elements.addAll( (List) mainSelection );
 				}
 			}
 		}
-		// XXX end hack
 
 		return elements.toArray( );
 	}
@@ -2032,6 +2030,10 @@ class JSSubFunctionListProvider implements
 		else if ( element instanceof String )
 		{
 			return (String) element;
+		}
+		else if ( element instanceof IPropertyDefn )
+		{
+			return ( (IPropertyDefn) element ).getName( );
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -2072,7 +2074,7 @@ class JSSubFunctionListProvider implements
 					if ( itemCount > 0 )
 					{
 						// select first element always
-						editor.cmbSubFunctions.select( 0 );
+						editor.cmbSubFunctionsViewer.setSelection( new StructuredSelection( editor.cmbSubFunctionsViewer.getElementAt( 0 ) ) );
 					}
 					editor.cmbSubFunctions.setEnabled( itemCount > 0 );
 				}
@@ -2123,7 +2125,7 @@ class JSSubFunctionListProvider implements
 							}
 						}
 
-						editor.cmbSubFunctions.select( 0 );
+						editor.cmbSubFunctionsViewer.setSelection( new StructuredSelection( editor.cmbSubFunctionsViewer.getElementAt( 0 ) ) );
 					}
 				}
 			}
@@ -2134,11 +2136,11 @@ class JSSubFunctionListProvider implements
 	{
 		ScriptParser parser = new ScriptParser( editor.getEditorText( ) );
 
-		Collection coll = parser.getAllMethodInfo( );
+		Collection<IScriptMethodInfo> coll = parser.getAllMethodInfo( );
 
-		for ( Iterator itr = coll.iterator( ); itr.hasNext( ); )
+		for ( Iterator<IScriptMethodInfo> itr = coll.iterator( ); itr.hasNext( ); )
 		{
-			IScriptMethodInfo mtd = (IScriptMethodInfo) itr.next( );
+			IScriptMethodInfo mtd = itr.next( );
 
 			if ( methodInfo.getName( ).equals( mtd.getName( ) ) )
 			{
@@ -2167,7 +2169,7 @@ class JSSubFunctionListProvider implements
 
 			if ( code != null )
 			{
-				signature.append( "\n" ).append( code ).append( "\n" );
+				signature.append( "\n" ).append( code ).append( "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 				return signature.toString( );
 			}
@@ -2176,17 +2178,17 @@ class JSSubFunctionListProvider implements
 		signature.append( "\nfunction " ); //$NON-NLS-1$
 		signature.append( info.getName( ) );
 		signature.append( "( " ); //$NON-NLS-1$
-		Iterator iter = info.argumentListIterator( );
+		Iterator<IArgumentInfoList> iter = info.argumentListIterator( );
 		if ( iter.hasNext( ) )
 		{
 			// only one iteraration, we ignore overload cases for now
 			// need to do multiple iterations if overloaded methods should be
 			// supported
 
-			IArgumentInfoList argumentList = (IArgumentInfoList) iter.next( );
-			for ( Iterator argumentIter = argumentList.argumentsIterator( ); argumentIter.hasNext( ); )
+			IArgumentInfoList argumentList = iter.next( );
+			for ( Iterator<IArgumentInfo> argumentIter = argumentList.argumentsIterator( ); argumentIter.hasNext( ); )
 			{
-				IArgumentInfo argument = (IArgumentInfo) argumentIter.next( );
+				IArgumentInfo argument = argumentIter.next( );
 
 				String argName = argument.getName( );
 

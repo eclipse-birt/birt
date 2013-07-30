@@ -68,10 +68,12 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.ScriptExpression;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
@@ -920,6 +922,38 @@ public class ChartUtil
 				categorySD );
 	}
 	
+	private static Chart searchChartModelFromChild( EObject chartElement )
+	{
+		EObject parent = chartElement.eContainer( );
+		if ( parent != null )
+		{
+			if ( parent instanceof Chart )
+			{
+				return (Chart) parent;
+			}
+			else
+			{
+				return searchChartModelFromChild( parent );
+			}
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	private static String generateSeriesGroupingID( SeriesGrouping group )
+	{
+		if ( group == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		return group.getGroupType( ).getName( ) + "_" //$NON-NLS-1$
+				+ group.getGroupingUnit( ).getName( )
+				+ "_" //$NON-NLS-1$
+				+ group.getGroupingInterval( );
+	}
+	
 	/**
 	 * Returns a binding name for a value series.
 	 * 
@@ -934,6 +968,25 @@ public class ChartUtil
 	public static String generateBindingNameOfValueSeries(
 			Query orthQuery, SeriesDefinition orthoSD,
 			SeriesDefinition categorySD ) throws ChartException
+	{
+		return generateBindingNameOfValueSeries( orthQuery, orthoSD, categorySD, false );
+	}
+	
+	/**
+	 * Returns a binding name for a value series.
+	 * 
+	 * @param orthQuery
+	 * @param orthoSD
+	 * @param categorySD
+	 * @param forceNewRule indicates if use old 
+	 * @return binding name
+	 * @throws ChartException
+	 * 
+	 * @since 4.2
+	 */
+	public static String generateBindingNameOfValueSeries(
+			Query orthQuery, SeriesDefinition orthoSD,
+			SeriesDefinition categorySD, boolean forceNewRule ) throws ChartException
 	{
 		ExpressionCodec exprCodec = ChartModelHelper.instance( )
 				.createExpressionCodec( );
@@ -956,7 +1009,15 @@ public class ChartUtil
 		{
 			returnExpr += "_" + fullAggExpr; //$NON-NLS-1$
 		}
-		return escapeSpecialCharacters( returnExpr );
+		returnExpr = escapeSpecialCharacters( returnExpr );
+		
+		// The generated value binding name must include category and
+		// optional Y info to keep unique.
+		returnExpr += createValueAggregrateKey( categorySD,
+					orthoSD,
+					exprCodec, 
+					forceNewRule );
+		return returnExpr;
 	}
 	
 	/**
@@ -986,9 +1047,52 @@ public class ChartUtil
 		{
 			exprCodec.decode( orthQuery.getDefinition( ) );
 			String expr = exprCodec.getExpression( );
-			return ExpressionUtil.createRowExpression( escapeSpecialCharacters( ( expr
-					+ "_" + fullAggExpr ) ) ); //$NON-NLS-1$
+			String rowExpr = escapeSpecialCharacters( ( expr
+					+ "_" + fullAggExpr ) );//$NON-NLS-1$
+			
+			//The generated value binding name must include category and optional Y info to keep unique.
+			rowExpr += createValueAggregrateKey( categorySD,
+					orthoSD,
+					exprCodec,
+					false );
+			
+			return ExpressionUtil.createRowExpression( rowExpr  ); 
 		}
+	}
+
+	private static String createValueAggregrateKey(
+			SeriesDefinition categorySD, SeriesDefinition orthoSD,
+			ExpressionCodec exprCodec, boolean forceNewRule  )
+	{
+		String key = ""; //$NON-NLS-1$
+		Chart cm = searchChartModelFromChild( categorySD );
+		if ( cm != null
+				&& ( forceNewRule || compareVersion( cm.getVersion( ), "2.6.1" ) >= 0 ) ) //$NON-NLS-1$
+		{
+			if ( categorySD.getGrouping( ).isEnabled( )
+					&& categorySD.getDesignTimeSeries( ) != null )
+			{
+				List<Query> defs = categorySD.getDesignTimeSeries( )
+						.getDataDefinition( );
+				if ( defs.size( ) > 0
+						&& defs.get( 0 ).getDefinition( ) != null )
+				{
+					exprCodec.decode( defs.get( 0 ).getDefinition( ) );
+					key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ) + "_" + generateSeriesGroupingID( categorySD.getGrouping( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
+			if ( orthoSD.getQuery( ) != null && !ChartUtil.isEmpty( orthoSD.getQuery( ).getDefinition( ) ) )
+			{
+				exprCodec.decode( orthoSD.getQuery( ).getDefinition( ) );
+				SeriesGrouping sg = orthoSD.getQuery( ).getGrouping( );
+				if ( sg == null )
+				{
+					sg = SeriesGroupingImpl.create( );
+				}
+				key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ) + "_" + generateSeriesGroupingID( sg ); //$NON-NLS-1$//$NON-NLS-2$
+			}
+		}
+		return key;
 	}
 	
 	/**
@@ -2590,5 +2694,57 @@ public class ChartUtil
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Returns the expression text from the raw expression which supports both
+	 * BRE and Javascript types.
+	 * 
+	 * @param expr
+	 *            raw expression
+	 * @return expression text
+	 */
+	public static String getExpressionText( String expr )
+	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		exprCodec.decode( expr );
+		return exprCodec.getExpression( );
+	}
+
+	/**
+	 * Returns the expression type from the raw expression which supports both
+	 * BRE and Javascript types.
+	 * 
+	 * @param expr
+	 *            raw expression
+	 * @return expression type
+	 */
+	public static String getExpressionType( String expr )
+	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		exprCodec.decode( expr );
+		return exprCodec.getType( );
+	}
+
+	/**
+	 * Encode script expression into a string
+	 * 
+	 * @param expression
+	 *            script expression
+	 * @return encoded expression string
+	 */
+	public static String adaptExpression( ScriptExpression expression )
+	{
+		if ( expression == null )
+		{
+			return IConstants.EMPTY_STRING;
+		}
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		exprCodec.setType( expression.getType( ) );
+		exprCodec.setExpression( expression.getValue( ) );
+		return exprCodec.encode( );
 	}
 }

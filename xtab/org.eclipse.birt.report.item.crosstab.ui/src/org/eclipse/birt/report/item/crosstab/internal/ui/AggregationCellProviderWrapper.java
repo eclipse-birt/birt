@@ -175,6 +175,21 @@ public class AggregationCellProviderWrapper
 		return ret;
 	}
 
+	public void restoreViews(SwitchCellInfo info)
+	{
+		AggregationCellHandle cell = info.getAggregationCell( );
+		String expectedView = info.getExpectedView( );
+		if(expectedView == null || expectedView.length( ) == 0)
+		{
+			return;
+		}
+		
+		IAggregationCellViewProvider provider = getMatchProvider( cell );
+		if(provider != null)
+		{
+			provider.restoreView( cell );
+		}
+	}
 	public boolean switchView( SwitchCellInfo info )
 	{
 		boolean ret = false;

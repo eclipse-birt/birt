@@ -25,6 +25,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -167,6 +168,29 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 		{
 			return false;
 		}
+		
+		if( CrosstabUtil.isBoundToLinkedDataSet( reportHandle) )
+		{
+			for( int i = 0; i < reportHandle.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE); i++ )
+			{
+				DimensionHandle dimension = reportHandle.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i).getCubeDimension();
+				if( dimension != null && dimension.isTimeType() )
+				{
+					return true;
+				}
+			}
+			for( int i = 0; i < reportHandle.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE); i++ )
+			{
+				DimensionHandle dimension = reportHandle.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE, i).getCubeDimension();
+				if( dimension != null && dimension.isTimeType() )
+				{
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
 		CubeHandle cube = reportHandle.getCube( );
 		if (cube == null)
 		{

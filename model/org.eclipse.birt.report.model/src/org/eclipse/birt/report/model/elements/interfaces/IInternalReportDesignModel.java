@@ -209,4 +209,10 @@ public interface IInternalReportDesignModel
 
 	public static final String ON_PREPARE_METHOD = "onPrepare"; //$NON-NLS-1$
 
+	/**
+	 * Name of the client-initialize property.
+	 * The design can load java script libraries by the property.
+	 */
+	public static final String CLIENT_INITIALIZE_METHOD = "clientInitialize"; //$NON-NLS-1$
+
 }

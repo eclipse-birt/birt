@@ -56,6 +56,11 @@ public class FontHandler
 	private FontMappingManager fontManager = null;
 
 	private Map fonts = new HashMap( );
+	
+	/**
+	 * the characters which prefer to use the font of their previous character.
+	 */
+	private static final String WEAK_FONT_CHARS = " ,.";
 
 	/**
 	 * The constructor
@@ -178,7 +183,7 @@ public class FontHandler
 		}
 		return candidateFont.charExists( character );
 	}
-
+	
 	/**
 	 * Gets the BaseFont object to display the given character.
 	 * 
@@ -186,14 +191,21 @@ public class FontHandler
 	 * <li> try the font family defined in the families to see if one can be
 	 * used to display the character. </li>
 	 * <li> try to use the default font to display the character. </li>
-	 * <li> if none of the above sucess, return NULL for the character.</li>
+	 * <li> if none of the above success, return NULL for the character.</li>
 	 * 
 	 * @param c
 	 *            the given character.
-	 * @return the BaseFont. it alwys return a font.
+	 * @return the BaseFont. it always return a font.
 	 */
 	public BaseFont getMappedFont( char c )
-	{
+	{	
+		if ( WEAK_FONT_CHARS.indexOf( c ) != -1 )
+		{
+			if ( bf != null && bf.charExists( c ) )
+			{
+				return bf;
+			}
+		}
 		// search in the font family to find one to display the character
 		for ( int i = 0; i < fontFamilies.length; i++ )
 		{

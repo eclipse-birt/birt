@@ -66,11 +66,13 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
+import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -87,6 +89,7 @@ import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Utility class for Chart integration as report item
@@ -1204,24 +1207,45 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 				{
 					return true;
 				}
+				else if ( container instanceof GridHandle )
+				{
+					return true;
+				}
 				container = container.getContainer( );
 			}
 		}
 		return false;
 	}
 
+	public static boolean isContainerGridHandle( ReportItemHandle itemHandle )
+	{
+		DesignElementHandle container = itemHandle.getContainer( );
+		if ( container instanceof CellHandle )
+		{
+			while ( container != null )
+			{
+				if ( container instanceof GridHandle )
+				{
+					return true;
+				}
+				container = container.getContainer( );
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Get the inherited handle
 	 * @param itemHandle
-	 * @return ListHandle or TabHandle
+	 * @return ListHandle or TabHandle or GridHandle
 	 */
-	public static ListingHandle getInheritedListingHandle(
+	public static ReportItemHandle getInheritedHandle(
 			ReportItemHandle itemHandle )
 	{
 		if ( isContainerInheritable( itemHandle ) )
 		{
 			DesignElementHandle handle = itemHandle.getContainer( );
-			while ( handle != null && !( handle instanceof ListingHandle ) )
+			while ( handle != null && !( handle instanceof ListingHandle || handle instanceof GridHandle ) )
 			{
 				handle = handle.getContainer( );
 			}
@@ -1229,10 +1253,13 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			{
 				return (TableHandle) handle;
 			}
-
-			if ( handle instanceof ListHandle )
+			else if ( handle instanceof ListHandle )
 			{
 				return (ListHandle) handle;
+			}
+			else if ( handle instanceof GridHandle )
+			{
+				return (GridHandle) handle;
 			}
 		}
 		return null;
@@ -1597,7 +1624,23 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return null;
 
 	}
-
+	
+	protected static boolean loadExpressionFromHandle(
+			ExpressionCodec exprCodec, Expression expression )
+	{
+		if ( expression != null && expression.getStringExpression( ) != null )
+		{
+			exprCodec.setExpression( expression.getStringExpression( ) );
+			exprCodec.setType( expression.getType( ) );
+			return true;
+		}
+		else
+		{
+			exprCodec.setExpression( null );
+			return false;
+		}
+	}
+	
 	protected static boolean loadExpressionFromHandle(
 			ExpressionCodec exprCodec, ExpressionHandle eh )
 	{
@@ -1621,6 +1664,17 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		if ( exprCodec != null )
 		{
 			ExpressionHandle eh = fceh.getExpressionProperty( FilterCondition.EXPR_MEMBER );
+			return loadExpressionFromHandle( exprCodec, eh );
+		}
+		return false;
+	}
+	
+	public static boolean loadExpression( ExpressionCodec exprCodec,
+			FilterCondition fceh )
+	{
+		if ( exprCodec != null )
+		{
+			Expression eh = fceh.getExpressionProperty( FilterCondition.EXPR_MEMBER );
 			return loadExpressionFromHandle( exprCodec, eh );
 		}
 		return false;
@@ -1999,5 +2053,24 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		ChartUtil.setExtendedProperty( cm,
 				EXTENDED_PROPERTY_HIERARCHY_SERIES,
 				String.valueOf( value ) );
+	}
+
+	/*
+	 * Get externalized message.
+	 * 
+	 * @param handle design element handle
+	 * @param sKey the key of the externalized message
+	 * @param sDefaultValue default value
+	 * @param locale locale information
+	 * 
+	 * @return message the externalized message.
+	 */
+	public static String externalizedMessage( DesignElementHandle handle, String sKey,
+			String sDefaultValue, ULocale locale )
+	{
+		return ModuleUtil.getExternalizedValue( handle,
+				sKey,
+				sDefaultValue,
+				locale );
 	}
 }

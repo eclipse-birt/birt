@@ -236,6 +236,11 @@ public class DocxWriter implements IWordWriter
 	{
 		currentComponent.endTableCell( needEmptyP );
 	}
+	
+	public void endTableCell( boolean needEmptyp, boolean inForeign )
+	{
+		currentComponent.endTableCell( needEmptyp, inForeign );
+	}
 
 	public void writeSpanCell( SpanInfo info )
 	{

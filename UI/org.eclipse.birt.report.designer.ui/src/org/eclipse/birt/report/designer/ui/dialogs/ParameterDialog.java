@@ -60,6 +60,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -1241,9 +1242,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		else
 		{
 			refreshDataSets( );
-			if ( inputParameter.getDataSetName( ) != null )
+			if ( inputParameter.getDataSet( ) != null )
 			{
-				dataSetChooser.setText( inputParameter.getDataSetName( ) );
+				dataSetChooser.setText( inputParameter.getDataSet( ).getName() );
 			}
 			refreshColumns( false );
 			refreshSortByItems( );
@@ -1513,14 +1514,18 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
 			dataSetList.add( DataSetHandle.getQualifiedName( ) );
 		}
-//		for (Iterator itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).iterator( ); itr.hasNext( );)
-//		{
-//			dataSetList.add( itr.next( ).toString( ) );
-//		}
-		if ( inputParameter.getDataSetName( ) != null
-				&& !dataSetList.contains( inputParameter.getDataSetName( ) ) )
+		
+		//if(staticRadio.getSelection()) // linked data model is not applicable to dynamic params.
 		{
-			dataSetList.add( 0, inputParameter.getDataSetName( ) );
+			for (Iterator itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).iterator( ); itr.hasNext( );)
+			{
+				dataSetList.add( itr.next( ).toString( ) );
+			}
+		}
+		if ( inputParameter.getDataSet( ) != null
+				&& !dataSetList.contains( inputParameter.getDataSet( ).getName() ) )
+		{
+			dataSetList.add( 0, inputParameter.getDataSet( ).getName() );
 		}
 
 		if ( oldList.length != dataSetList.size( ) ) // it means new data set
@@ -1563,15 +1568,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private DataSetHandle getDataSetHandle( )
 	{
-		DataSetHandle dataSet = inputParameter.getModuleHandle( )
-				.findDataSet( dataSetChooser.getText( ) );
-		
-		if (dataSet == null)
-		{
-			dataSet = DataUtil.findExtendedDataSet( dataSetChooser.getText( ) );
-		}
-		
-		return dataSet;
+		return DataUtil.findDataSet(dataSetChooser.getText( ), inputParameter.getModuleHandle( ));
 	}
 
 	private void refreshColumns( boolean onlyFilter )
@@ -2219,7 +2216,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		
 		importValue.setEnabled( !inputParameter.getModuleHandle( )
 				.getVisibleDataSets( ).isEmpty( )
-			/*|| ! new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).isEmpty( )*/);
+			// linked data model is not applicable to dynamic params.
+			|| (staticRadio.getSelection() ? ! new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).isEmpty( ) : false));
 		importValue.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -3354,7 +3352,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 						}
 					}
 				}
-				inputParameter.setDataSetName( null );
+				inputParameter.setDataSet( null );
 				inputParameter.setValueExpr( null );
 				inputParameter.setLabelExpr( null );
 			}
@@ -3362,7 +3360,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				// Save dynamic settings
 				inputParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
-				inputParameter.setDataSetName( dataSetChooser.getText( ) );
+				inputParameter.setDataSet( DataUtil.findDataSet( dataSetChooser.getText( )) );
 				// inputParameter.setValueExpr( getExpression(
 				// columnChooser.getText( ) ) );
 				{

@@ -31,7 +31,7 @@
     <hr align="left" />
     <blockquote>
       <h2 class="RH1_Class">Class  <a name="267940">BirtMath</a></h2>
-      <p class="b_Body"><a name="267941">The BirtMath class provides functions to manipulate numeric data, for example, </a>to add, subtract, multiple, divide, and round numbers. A number is a generic object that can be cast as another type in the Data Type field of the Edit Data Binding dialog. This class is static. The application cannot create instances of the class.</p>
+      <p class="b_Body"><a name="267941">The BirtMath class provides functions to manipulate numeric data, for example, to add, subtract, multiple, divide, and round numbers. A number is a generic object that can be cast as another type in the Data Type field of the Edit Data Binding dialog. This class is static. The application cannot create instances of the class.</a></p>
       <h3 class="RH2_Method"><a name="267942">BirtMath.add</a></h3>
       <p class="b_Body"><a name="267943">This function returns the sum of two numbers.</a></p>
       <p class="N_sb_ScanBold"><a name="267944">Syntax</a></p>
@@ -44,7 +44,7 @@
       <p class="N_sb_ScanBold"><a name="267949">Returns</a></p>
       <p class="b_Body"><a name="267950">Number object. The number that results from adding n1 and n2.</a></p>
       <p class="N_sb_ScanBold"><a name="267951">Example</a></p>
-      <p class="b_Body"><a name="267952">The following example returns the sum of values in the SalesTotal and Shipping </a>fields:</p>
+      <p class="b_Body"><a name="267952">The following example returns the sum of values in the SalesTotal and Shipping fields:</a></p>
       <div class="cf_CodeFirst"><a name="267953">BirtMath.add( row["SalesTotal"], row["Shipping"] )</a></div>
       <h3 class="RH2_Method"><a name="271050">BirtMath.ceiling</a></h3>
       <p class="b_Body"><a name="271051">This function rounds a number up, away from 0, to the nearest specified multiple.</a></p>
@@ -56,14 +56,14 @@
       <p class="RParameter"><a name="271057">significance</a></p>
       <p class="bn_BodyNoLead"><a name="271058">Number object. The multiple to round n to.</a></p>
       <p class="N_sb_ScanBold"><a name="271059">Returns</a></p>
-      <p class="b_Body"><a name="271060">Number object. A number that results from the rounding. If n is an exact multiple </a>of significance, no rounding occurs.</p>
+      <p class="b_Body"><a name="271060">Number object. A number that results from the rounding. If n is an exact multiple of significance, no rounding occurs.</a></p>
       <p class="N_sb_ScanBold"><a name="271061">Examples</a></p>
-      <p class="b_Body"><a name="271062">BirtMath.ceiling(</a>&nbsp;) is commonly used to round up prices. For example, to avoid dealing with pennies, you can round prices in a Price field up to the nearest nickel with the following expression:</p>
+      <p class="b_Body"><a name="271062">BirtMath.ceiling(&nbsp;) is commonly used to round up prices. For example, to avoid dealing with pennies, you can round prices in a Price field up to the nearest nickel with the following expression:</a></p>
       <div class="cf_CodeFirst"><a name="271063">BirtMath.ceiling( row["Price"] , 0.05 )</a></div>
       <p class="b_Body"><a name="271395">If the Price value is 20.52, the expression returns 20.55.</a></p>
       <p class="b_Body"><a name="271406">The following expression rounds prices up to the nearest dime:</a></p>
       <div class="cf_CodeFirst"><a name="271412">BirtMath.ceiling( row["Price"] , 0.1 )</a></div>
-      <p class="b_Body"><a name="271407">If the Price value is 20.52, the expression returns 20.60. If the Price value is 20.40, </a>the expression returns 20.40. No rounding occurs because 20.40 is a multiple of 0.1.</p>
+      <p class="b_Body"><a name="271407">If the Price value is 20.52, the expression returns 20.60. If the Price value is 20.40, the expression returns 20.40. No rounding occurs because 20.40 is a multiple of 0.1.</a></p>
       <p class="b_Body"><a name="271501">The following expression rounds prices up to the nearest dollar:</a></p>
       <div class="cf_CodeFirst"><a name="271502">BirtMath.ceiling( row["Price"] , 1 )</a></div>
       <p class="b_Body"><a name="271518">If the Price value is 20.30, the expression returns 21.</a></p>
@@ -82,7 +82,7 @@
       <p class="b_Body"><a name="270561">The following example shows the results of dividing specific numbers:</a></p>
       <div class="cf_CodeFirst"><a name="271010">BirtMath.divide( 10, 2 ) // returns 5</a></div>
       <div class="co_Code"><a name="271019">BirtMath.divide( 2, 10) // returns 0.2</a></div>
-      <p class="b_Body"><a name="271007">The following example returns the result of dividing values in the Total field by </a>values in the Quantity field:</p>
+      <p class="b_Body"><a name="271007">The following example returns the result of dividing values in the Total field by values in the Quantity field:</a></p>
       <div class="cf_CodeFirst"><a name="270562">BirtMath.divide( row["Total"], row["Quantity"] )</a></div>
       <h3 class="RH2_Method"><a name="271580">BirtMath.mod</a></h3>
       <p class="b_Body"><a name="271581">This function returns the remainder after a number is divided by a divisor.</a></p>
@@ -92,15 +92,15 @@
       <p class="RParameter"><a name="271585">number</a></p>
       <p class="bn_BodyNoLead"><a name="271586">Number object. The number to be divided.</a></p>
       <p class="RParameter"><a name="271587">divisor</a></p>
-      <p class="bn_BodyNoLead"><a name="271588">Number object. The number by which the first number is divided. You must </a>specify a non-zero number.</p>
+      <p class="bn_BodyNoLead"><a name="271588">Number object. The number by which the first number is divided. You must specify a non-zero number.</a></p>
       <p class="N_sb_ScanBold"><a name="271589">Returns</a></p>
       <p class="b_Body"><a name="271590">The remainder after number is divided by divisor.</a></p>
       <p class="N_sb_ScanBold"><a name="271591">Examples</a></p>
-      <p class="b_Body"><a name="271592">The following examples shows the results that the function returns for specific </a>numbers:</p>
+      <p class="b_Body"><a name="271592">The following examples shows the results that the function returns for specific numbers:</a></p>
       <div class="cf_CodeFirst"><a name="274476">BirtMath.mod( 10, 3 ) // returns 1</a></div>
       <div class="co_Code"><a name="274483">BirtMath.mod( 10, 5 ) // returns 0</a></div>
       <div class="co_Code"><a name="274514">BirtMath.mod( 10, 6 ) // returns 4</a></div>
-      <p class="b_Body"><a name="274193">The following example checks if numbers in the Grade field are odd or even. </a>When the divisor is 2, the function returns 0 for even numbers, and 1 for odd numbers.</p>
+      <p class="b_Body"><a name="274193">The following example checks if numbers in the Grade field are odd or even. When the divisor is 2, the function returns 0 for even numbers, and 1 for odd numbers.</a></p>
       <div class="cf_CodeFirst"><a name="271593">BirtMath.mod( row["Grade"], 2 ) </a></div>
       <h3 class="RH2_Method"><a name="270911">BirtMath.multiply</a></h3>
       <p class="b_Body"><a name="270913">This function returns the multiplication of two numbers. </a></p>
@@ -114,7 +114,7 @@
       <p class="N_sb_ScanBold"><a name="270944">Returns</a></p>
       <p class="b_Body"><a name="270945">Number object. A number that results from multiplying n1 and n2.</a></p>
       <p class="N_sb_ScanBold"><a name="270946">Example</a></p>
-      <p class="b_Body"><a name="270947">The following example returns the result of multiplying values in the </a>QuantityOrdered and PriceEach fields:</p>
+      <p class="b_Body"><a name="270947">The following example returns the result of multiplying values in the QuantityOrdered and PriceEach fields:</a></p>
       <div class="cf_CodeFirst"><a name="270948">BirtMath.multiply( row["QuantityOrdered"], row["PriceEach"] )</a></div>
       <h3 class="RH2_Method"><a name="274568">BirtMath.round</a></h3>
       <p class="b_Body"><a name="274569">This function rounds a number to a specified number of digits.</a></p>
@@ -124,16 +124,16 @@
       <p class="RParameter"><a name="274573">number</a></p>
       <p class="bn_BodyNoLead"><a name="274614">Number object. The number to round.</a></p>
       <p class="RParameter"><a name="274615">dec</a></p>
-      <p class="bn_BodyNoLead"><a name="274616">Number object. The number of digits to round number to. If you omit this </a>argument, the function assumes 0.</p>
+      <p class="bn_BodyNoLead"><a name="274616">Number object. The number of digits to round number to. If you omit this argument, the function assumes 0.</a></p>
       <p class="N_sb_ScanBold"><a name="274577">Returns</a></p>
       <p class="b_Body"><a name="274578">Number object. A number rounded to a specified number of digits.</a></p>
       <p class="N_sb_ScanBold"><a name="274579">Examples</a></p>
-      <p class="b_Body"><a name="274580">The following examples shows the results that the function returns for specific </a>numbers:</p>
+      <p class="b_Body"><a name="274580">The following examples shows the results that the function returns for specific numbers:</a></p>
       <div class="cf_CodeFirst"><a name="274581">BirtMath.round( 1545.50 ) // returns 1546</a></div>
       <div class="co_Code"><a name="274695">BirtMath.round( 1545.56, 1 ) // returns 1545.6</a></div>
       <div class="co_Code"><a name="274650">BirtMath.round( 1545.23, 1 ) // returns 1545.2</a></div>
       <div class="co_Code"><a name="274582">BirtMath.round( 1545.50, -1 ) // returns 1550</a></div>
-      <p class="b_Body"><a name="274584">The following example rounds the values in the PriceEstimate field to return an </a>integer:</p>
+      <p class="b_Body"><a name="274584">The following example rounds the values in the PriceEstimate field to return an integer:</a></p>
       <div class="cf_CodeFirst"><a name="274585">BirtMath.round( row["PriceEstimate"], 0 ) </a></div>
       <h3 class="RH2_Method"><a name="274754">BirtMath.roundDown</a></h3>
       <p class="b_Body"><a name="274755">This function rounds a number down to a specified number of digits.</a></p>
@@ -143,16 +143,16 @@
       <p class="RParameter"><a name="274759">number</a></p>
       <p class="bn_BodyNoLead"><a name="274760">Number object. The number to round.</a></p>
       <p class="RParameter"><a name="274761">dec</a></p>
-      <p class="bn_BodyNoLead"><a name="274762">Number object. The number of digits to round number down to. If you omit this </a>argument, the function assumes 0.</p>
+      <p class="bn_BodyNoLead"><a name="274762">Number object. The number of digits to round number down to. If you omit this argument, the function assumes 0.</a></p>
       <p class="N_sb_ScanBold"><a name="274763">Returns</a></p>
       <p class="b_Body"><a name="274764">Number object. A number rounded down to a specified number of digits.</a></p>
       <p class="N_sb_ScanBold"><a name="274765">Examples</a></p>
-      <p class="b_Body"><a name="274766">The following examples shows the results that the function returns for specific </a>numbers:</p>
+      <p class="b_Body"><a name="274766">The following examples shows the results that the function returns for specific numbers:</a></p>
       <div class="cf_CodeFirst"><a name="274767">BirtMath.roundDown( 1545.50 ) // returns 1545</a></div>
       <div class="co_Code"><a name="274768">BirtMath.roundDown( 1545.56, 1 ) // returns 1545.5</a></div>
       <div class="co_Code"><a name="274769">BirtMath.roundDown( 1545.23, 1 ) // returns 1545.2</a></div>
       <div class="co_Code"><a name="274770">BirtMath.roundDown( 1545.50, -1 ) // returns 1540</a></div>
-      <p class="b_Body"><a name="274771">The following example rounds down the values in the PriceEstimate field to </a>return an integer:</p>
+      <p class="b_Body"><a name="274771">The following example rounds down the values in the PriceEstimate field to return an integer:</a></p>
       <div class="cf_CodeFirst"><a name="274772">BirtMath.roundDown( row["PriceEstimate"], 0 ) </a></div>
       <h3 class="RH2_Method"><a name="275084">BirtMath.roundUp</a></h3>
       <p class="b_Body"><a name="275085">This function rounds a number up to a specified number of digits.</a></p>
@@ -162,19 +162,19 @@
       <p class="RParameter"><a name="275089">number</a></p>
       <p class="bn_BodyNoLead"><a name="275090">Number object. The number to round up.</a></p>
       <p class="RParameter"><a name="275091">dec</a></p>
-      <p class="bn_BodyNoLead"><a name="275092">Number object. The number of digits to round number up to. If you omit this </a>argument, the function assumes 0.</p>
+      <p class="bn_BodyNoLead"><a name="275092">Number object. The number of digits to round number up to. If you omit this argument, the function assumes 0.</a></p>
       <p class="N_sb_ScanBold"><a name="275093">Returns</a></p>
       <p class="b_Body"><a name="275094">Number object. A number rounded up to a specified number of digits.</a></p>
       <p class="N_sb_ScanBold"><a name="275095">Examples</a></p>
-      <p class="b_Body"><a name="275096">The following examples shows the results that the function returns for specific </a>numbers:</p>
+      <p class="b_Body"><a name="275096">The following examples shows the results that the function returns for specific numbers:</a></p>
       <div class="cf_CodeFirst"><a name="275097">BirtMath.roundUp( 1545.50 ) // returns 1546</a></div>
       <div class="co_Code"><a name="275098">BirtMath.roundUp( 1545.56, 1 ) // returns 1545.6</a></div>
       <div class="co_Code"><a name="275099">BirtMath.roundUp( 1545.23, 1 ) // returns 1545.3</a></div>
       <div class="co_Code"><a name="275100">BirtMath.roundUp( 1545.50, -1 ) // returns 1550</a></div>
-      <p class="b_Body"><a name="275101">The following example rounds up the values in the PriceEstimate field to return </a>an integer:</p>
+      <p class="b_Body"><a name="275101">The following example rounds up the values in the PriceEstimate field to return an integer:</a></p>
       <div class="cf_CodeFirst"><a name="275102">BirtMath.roundUp( row["PriceEstimate"], 0 ) </a></div>
       <h3 class="RH2_Method"><a name="275121">BirtMath.safeDivide</a></h3>
-      <p class="b_Body"><a name="275122">This function returns the result of dividing one number by another, preventing a </a>division by zero condition. </p>
+      <p class="b_Body"><a name="275122">This function returns the result of dividing one number by another, preventing a division by zero condition. </a></p>
       <p class="N_sb_ScanBold"><a name="275123">Syntax</a></p>
       <div class="rs_RSyntax"><a name="275124">Number BirtMath.safeDivide( Number dividend, Number divisor, object ifZero )</a></div>
       <p class="N_sb_ScanBold"><a name="275125">Parameters</a></p>
@@ -185,12 +185,12 @@
       <p class="RParameter"><a name="275490">ifZero</a></p>
       <p class="bn_BodyNoLead"><a name="275502">Object. The value to return when divisor is zero.</a></p>
       <p class="N_sb_ScanBold"><a name="275130">Returns</a></p>
-      <p class="b_Body"><a name="275131">Number object. Number object. A number that results from dividing dividend by </a>divisor.</p>
+      <p class="b_Body"><a name="275131">Number object. Number object. A number that results from dividing dividend by divisor.</a></p>
       <p class="N_sb_ScanBold"><a name="275132">Examples</a></p>
-      <p class="b_Body"><a name="275133">The following example shows the results that the function returns for specific </a>numbers:</p>
+      <p class="b_Body"><a name="275133">The following example shows the results that the function returns for specific numbers:</a></p>
       <div class="cf_CodeFirst"><a name="275134">BirtMath.safeDivide( 10, 2, 0 ) // returns 5</a></div>
       <div class="co_Code"><a name="275520">BirtMath.safeDivide( 10, 0, 0 ) // returns 0</a></div>
-      <p class="b_Body"><a name="275521">The following example returns the result of dividing values in the Revenue field </a>by values in the Volume field. If the Volume value is 0, the function returns 0.</p>
+      <p class="b_Body"><a name="275521">The following example returns the result of dividing values in the Revenue field by values in the Volume field. If the Volume value is 0, the function returns 0.</a></p>
       <div class="cf_CodeFirst"><a name="275517">BirtMath.safeDivide( row["Revenue"], row["Volume"], 0 )</a></div>
       <h3 class="RH2_Method"><a name="270972">BirtMath.subtract</a></h3>
       <p class="b_Body"><a name="270974">This function returns the result of subtracting one number from another.</a></p>
@@ -207,7 +207,7 @@
       <p class="b_Body"><a name="271028">The following example shows the results of subtracting specific numbers:</a></p>
       <div class="cf_CodeFirst"><a name="271029">BirtMath.subtract( 12, 4 ) // returns 8</a></div>
       <div class="co_Code"><a name="271030">BirtMath.subtract( 4, 12) // returns -8</a></div>
-      <p class="b_Body"><a name="271031">The following example returns the result of subtracting values in the Discount </a>field from values in the Total field:</p>
+      <p class="b_Body"><a name="271031">The following example returns the result of subtracting values in the Discount field from values in the Total field:</a></p>
       <div class="cf_CodeFirst"><a name="271032">BirtMath.subtract( row["Total"], row["Discount"] )</a></div>
     </blockquote>
     <hr align="left" />

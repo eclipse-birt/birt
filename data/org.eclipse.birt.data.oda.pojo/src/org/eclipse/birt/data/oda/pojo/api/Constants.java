@@ -88,4 +88,6 @@ public class Constants
 	
 	public static final char CLASS_PATH_SEPERATOR = ';';
 	public static final String DEFAULT_VERSION = "1.0"; //$NON-NLS-1$
+	public static final String SYNCHRONIZE_CLASS_PATH = "SynchronizeClassPath"; //$NON-NLS-1$
+
 }

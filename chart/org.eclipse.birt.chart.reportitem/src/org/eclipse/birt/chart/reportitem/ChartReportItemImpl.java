@@ -54,6 +54,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.api.IChartReportItem;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
@@ -65,7 +66,6 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TemplateParameterDefinitionHandle;
@@ -1040,7 +1040,7 @@ public class ChartReportItemImpl extends ReportItem implements
 	public String externalizedMessage( String sKey, String sDefaultValue,
 			ULocale locale )
 	{
-		return ModuleUtil.getExternalizedValue( handle,
+		return ChartItemUtil.externalizedMessage( handle,
 				sKey,
 				sDefaultValue,
 				locale );

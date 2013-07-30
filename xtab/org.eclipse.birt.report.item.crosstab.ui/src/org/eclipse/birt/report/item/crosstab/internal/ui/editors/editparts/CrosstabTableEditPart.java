@@ -637,7 +637,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 			boolean bool = isFixLayout( )
 					&& dimHandle != null
 					&& DesignChoiceConstants.UNITS_PERCENTAGE.equals( dimHandle.getUnits( ) );
-			if ( dimHandle != null && dimHandle.getMeasure( ) > 0 && !bool )
+			if ( dimHandle != null && DEUtil.convertoToPixel( dimHandle ) > 1 && !bool )
 			{
 				allNumbers = allNumbers - 1;
 				width = width - getColumnWidthValue( colNumber );

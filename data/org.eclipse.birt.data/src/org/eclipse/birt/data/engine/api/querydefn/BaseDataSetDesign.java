@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
+import org.eclipse.birt.data.engine.impl.IQueryContextVisitor;
 
 import com.ibm.icu.util.ULocale;
 
@@ -65,6 +66,8 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
     
 	private List<ISortDefinition> sortHints = null;
 	private boolean needCache = true;
+	private IQueryContextVisitor queryContextVisitor = null;
+	
     
 	/**
 	 * Instantiates a data set with given name.
@@ -445,5 +448,15 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	public void setNeedCache( boolean needCache )
 	{
 		this.needCache = needCache;
+	}
+	
+	public void setQueryContextVisitor( IQueryContextVisitor visitor )
+	{
+		this.queryContextVisitor = visitor;
+	}
+	
+	public IQueryContextVisitor getQueryContextVisitor( )
+	{
+		return this.queryContextVisitor;
 	}
 }

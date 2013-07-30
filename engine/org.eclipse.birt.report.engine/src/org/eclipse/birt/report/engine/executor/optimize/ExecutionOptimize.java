@@ -252,6 +252,8 @@ public class ExecutionOptimize
 
 		protected PolicyNode findPreviousNode( PolicyNode node )
 		{
+			if ( node.design instanceof GroupDesign )
+				return node;
 			if ( node == null || node.parent == null )
 			{
 				return null;
@@ -269,6 +271,8 @@ public class ExecutionOptimize
 
 		protected PolicyNode findNextNode( PolicyNode node )
 		{
+			if ( node.design instanceof GroupDesign )
+				return node;
 			if ( node == null || node.parent == null )
 			{
 				return null;
@@ -283,7 +287,7 @@ public class ExecutionOptimize
 			}
 			else
 			{
-				return findPreviousNode( node.parent );
+				return findNextNode( node.parent );
 			}
 		}
 
@@ -385,6 +389,8 @@ public class ExecutionOptimize
 			{
 				header.accept( this, null );
 			}
+			//the last leaf should be execute. set  as true;
+			currentNode.execute = true;
 			// visit listing groups
 			int groupCount = listing.getGroupCount( );
 			if ( groupCount > 0 )
@@ -464,7 +470,6 @@ public class ExecutionOptimize
 			if ( ++groupLevel < listing.getGroupCount( ) )
 			{
 				processGroup( listing, groupLevel, header != null );
-				processGroup( listing, groupLevel, false );
 			}
 			else
 			{

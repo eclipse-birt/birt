@@ -101,7 +101,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	{
 		String dataType = null;
 		CrosstabReportItemHandle crosstabItem = getCrosstab();
-		if( CrosstabUtil.isBoundToLinkedDataSet( getCrosstab() ) )
+		if( CrosstabUtil.isBoundToLinkedDataSet( crosstabItem ) )
 		{
 			String linkedColumnName = getCubeMeasureName( );
 			CrosstabCellHandle cell = getCell( );

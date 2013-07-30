@@ -53,8 +53,8 @@ import org.eclipse.ui.part.FileEditorInput;
 public class IDEMultiPageReportEditor extends MultiPageReportEditor
 {
 
-	private static final String ProblemMarkID = "org.eclipse.birt.report.designer.ui.ide"
-			+ ".birtproblemmarker";
+	private static final String ProblemMarkID = "org.eclipse.birt.report.designer.ui.ide" //$NON-NLS-1$
+			+ ".birtproblemmarker"; //$NON-NLS-1$
 	protected static final Logger logger = Logger.getLogger( IDEMultiPageReportEditor.class.getName( ) );
 
 	/**
@@ -300,12 +300,6 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#
-	 * partActivated(org.eclipse.ui.IWorkbenchPart)
-	 */
 	private static List<IResource> closedStatus = new ArrayList<IResource>( );
 
 	public void partActivated( IWorkbenchPart part )
@@ -587,12 +581,15 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 
 	protected void confirmSave( )
 	{
-		final IFile file = ( (IFileEditorInput) getEditorInput( ) ).getFile( );
-		if ( !file.exists( ) )
+		if ( isWorkspaceResource )
 		{
-			if ( closedStatus.contains( file ) )
+			IFile file = ( (IFileEditorInput) getEditorInput( ) ).getFile( );
+			if ( !file.exists( ) )
 			{
-				return;
+				if ( closedStatus.contains( file ) )
+				{
+					return;
+				}
 			}
 		}
 		super.confirmSave( );

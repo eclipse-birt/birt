@@ -1268,6 +1268,13 @@ public final class Generator implements IGenerator
 		try
 		{
 			gcs.getComputations( ).compute( boPlot );
+			for ( LegendItemRenderingHints lirha : gcs.getRenderers( ).values( ) )
+			{
+				BaseRenderer br = lirha.getRenderer( );
+				br.set( br.getComputations( )
+						.getSeriesRenderingHints( br.getSeriesDefinition( ),
+								br.getSeries( ) ) );
+			}
 		}
 		catch ( RuntimeException ex )
 		{

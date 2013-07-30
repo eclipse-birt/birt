@@ -1,9 +1,9 @@
 /* Default style for links */
 /*                         */
 a:link:active  { color: #0000CC}
-a:link:hover   { color: #CC0033}
 a:link         { color: #3366CC}
 a:visited      { color: #9999CC}
+a:link:hover, a:visited:hover   { color: #CC0033}
 
 .WebWorks_Paragraph_List_Outer
 {
@@ -19,6 +19,12 @@ a:visited      { color: #9999CC}
   margin: 0pt;
   padding: 0pt;
   text-indent: 0pt;
+}
+
+dt.Related_Topics_Title
+{
+  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-weight: bold;
 }
 
 h2.WebWorks_TOC_Title

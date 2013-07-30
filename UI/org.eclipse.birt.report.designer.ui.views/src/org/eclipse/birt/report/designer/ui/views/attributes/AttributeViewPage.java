@@ -373,7 +373,8 @@ public class AttributeViewPage extends Page implements
 							&& mediator.getState( ) != null
 							&& mediator.getState( ).getData( ) instanceof List )
 					{
-						//When close and reopen the attribute view, display the old selection.
+						// When close and reopen the attribute view, display the
+						// old selection.
 						ReportRequest request = new ReportRequest( this );
 						request.setSelectionObject( (List) mediator.getState( )
 								.getData( ) );
@@ -658,6 +659,18 @@ public class AttributeViewPage extends Page implements
 				requesList = (List) request.getData( );
 				handleSelectionChanged( new StructuredSelection( requesList ) );
 				registerEventManager( );
+			}
+			if ( request.getExtras( ) != null
+					&& request.getExtras( )
+							.containsKey( AbstractPageGenerator.ACTIVE_PAGE ) )
+			{
+				if ( pageGenerator instanceof TabPageGenerator
+						&& request.getExtras( )
+								.get( TabPageGenerator.ACTIVE_PAGE ) instanceof String )
+				{
+					( (TabPageGenerator) pageGenerator ).selectTabItem( (String) request.getExtras( )
+							.get( TabPageGenerator.ACTIVE_PAGE ) );
+				}
 			}
 			setPartName( );
 		}
