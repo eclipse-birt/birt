@@ -570,9 +570,9 @@ public class PDFPage extends AbstractPage
 		// Opens the target in a new window.
 		{
 			boolean isUrl = hyperlink.startsWith( "http" );
-			Matcher matcher = PAGE_LINK_PATTERN.matcher( hyperlink );
-			if ( matcher.find( ) && !isUrl )
+			if ( !isUrl )
 			{
+				Matcher matcher = PAGE_LINK_PATTERN.matcher( hyperlink );
 				String fileName = matcher.group( 1 );
 				String pageNumber = matcher.group( 2 );
 				return new PdfAction( fileName, Integer.valueOf( pageNumber ) );
