@@ -52,7 +52,14 @@ public class RenameResourceAction extends ResourceAction
 	@Override
 	public boolean isEnabled( )
 	{
-		return canModifySelectedResources( );
+		boolean enabled = canModifySelectedResources( );
+		if ( enabled )
+		{
+			Collection<?> resources = getSelectedResources( );
+			if ( resources.size( ) > 1 )
+				enabled = false;
+		}
+		return enabled;
 	}
 
 	@Override

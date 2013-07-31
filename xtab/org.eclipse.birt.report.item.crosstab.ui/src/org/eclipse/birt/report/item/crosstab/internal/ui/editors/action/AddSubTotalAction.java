@@ -197,6 +197,54 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			}
 		}
 	}
+	
+	private void restoreViews( GrandOpration newOperation, int axisType)
+	{
+		int count = newOperation.getMeasures( ).size( );
+
+		for ( int i = 0; i < count; i++ )
+		{
+			String tmpMeasureName = newOperation.getMeasures( ).get( i );
+			MeasureViewHandle measureView = findMeasureViewHandle( tmpMeasureName );
+			String expectedView = newOperation.getExpectedViews( ).get( i );
+			if ( expectedView == null || expectedView.length( ) == 0 )
+			{
+				continue;
+			}
+			CrosstabReportItemHandle crosstab = levelHandle.getCrosstab( );
+
+			AggregationCellHandle cell = getGrandAggregationCell( measureView,
+					levelHandle,
+					axisType );
+
+			if ( cell != null )
+			{
+				// updateShowStatus( cell, expectedView );
+
+//				SwitchCellInfo swtichCellInfo = new SwitchCellInfo( crosstab,
+//						SwitchCellInfo.GRAND_TOTAL );
+//				GrandTotalInfo grandTotal = new GrandTotalInfo( );
+//				grandTotal.setExpectedView( expectedView );
+//				// grandTotal.setMeasure( tmpMeasure );
+//				grandTotal.setMeasureQualifiedName( tmpMeasureName );
+				
+				SwitchCellInfo swtichCellInfo = new SwitchCellInfo( crosstab,
+						SwitchCellInfo.GRAND_TOTAL );
+				GrandTotalInfo grandTotal = new GrandTotalInfo( );
+				grandTotal.setExpectedView( expectedView );
+				// grandTotal.setMeasure( tmpMeasure );
+				grandTotal.setMeasureQualifiedName( tmpMeasureName );
+				swtichCellInfo.setGrandTotalInfo( grandTotal, axisType );
+				
+				providerWrapper.restoreViews( swtichCellInfo );
+
+				// Chart needs to update
+				needUpdateView = true;
+			}
+
+		}
+
+	}
 
 	private void processOperation( GrandOpration oriOperation,
 			GrandOpration newOperation, int axisType ) throws SemanticException
@@ -218,8 +266,11 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		else if ( oriOperation.getMeasures( ).size( ) != 0
 				&& newOperation.getMeasures( ).size( ) == 0 )
 		{
+			restoreViews( oriOperation, axisType );
 			levelHandle.getCrosstab( ).removeGrandTotal( axisType );
 			// Chart needs to update
+			
+			
 			needUpdateView = true;
 		}
 		else

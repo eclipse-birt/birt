@@ -461,6 +461,10 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 		{
 			queryProps.setRuntimeMetaDataSearchLimit( getDocumentSearchLimit( ) );
 		}
+		else
+		{
+			queryProps.setRuntimeMetaDataSearchLimit( null );
+		}
 
 		if ( indexExpr != null )
 		{

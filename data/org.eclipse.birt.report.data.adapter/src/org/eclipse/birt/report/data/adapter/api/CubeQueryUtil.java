@@ -204,7 +204,6 @@ public class CubeQueryUtil
 		}
 	}
 	
-	
 	private static void populateAnotherAxisLevels( List aggrOns, List edgeExprList,
 			List result, String targetLevel ) throws AdapterException
 	{

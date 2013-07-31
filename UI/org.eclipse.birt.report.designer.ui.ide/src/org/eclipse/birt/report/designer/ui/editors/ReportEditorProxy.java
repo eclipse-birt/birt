@@ -426,7 +426,6 @@ public class ReportEditorProxy extends EditorPart implements
 		{
 			instance.partBroughtToTop( part );
 		}
-		partActivated( part );
 	}
 
 	/*

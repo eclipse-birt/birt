@@ -15,7 +15,6 @@ import java.io.File;
 
 import org.eclipse.birt.data.oda.pojo.ui.impl.models.ClassPathElement;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MenuButton;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -179,18 +178,19 @@ public class ClassSelectionButton
 		if ( folderPage != null )
 		{
 			folderPage.updateWizardPageStatus( );
-			if ( folderPage.isDefaultPathInitialized( ))
-				
-			{
-				TableViewer friendTableViewer = folderPage.getTabFriendClassTabFolderPage( ).getClassPathsTableViewer( );
-				IMenuButtonHelper friendHelper = new MenuButtonHelper( friendTableViewer );
-				friendHelper.addClassPathElements( elements, false );
-				folderPage.getTabFriendClassTabFolderPage( ).updateWizardPageStatus( );
-				folderPage.setDefaultPathInitialized( );
-				folderPage.getTabFriendClassTabFolderPage( ).setDefaultPathInitialized( );							
-			}
+			synchronizeClassPath( );
 		}
+	}
 
+	private void synchronizeClassPath( )
+	{
+		if ( !folderPage.getTabFriendClassTabFolderPage( ).isPageEditable( ) )
+		{
+			folderPage.getTabFriendClassTabFolderPage( )
+					.resetJarElements( folderPage.getJarElements( ) );
+			folderPage.getTabFriendClassTabFolderPage( )
+					.updateWizardPageStatus( );
+		}
 	}
 
 	private ClassPathElement[] createClassPathElements( String[] paths,

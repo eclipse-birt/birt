@@ -132,19 +132,11 @@ public class AxisLabelSheet extends AbstractPopupSheet implements
 				break;
 		}
 
-		Composite cmpOther = new Composite( grpLabel, SWT.NONE );
-		{
-			GridLayout glCmpOther = new GridLayout();
-			glCmpOther.numColumns = 3;
-			glCmpOther.marginWidth = 0;
-			glCmpOther.marginHeight = 0;
-			cmpOther.setLayout( glCmpOther );
-		}
+		Composite cmpOther = lacLabel.getGeneralComposite( );
 
 		Label lblInterval = new Label( cmpOther, SWT.NONE );
 		{
 			GridData gd = new GridData( );
-			gd.horizontalIndent = 10;
 			lblInterval.setLayoutData( gd );
 			lblInterval.setText( Messages.getString( "AxisTextSheet.Label.Interval" ) ); //$NON-NLS-1$
 			lblInterval.setEnabled( isLabelEnabled );
@@ -158,7 +150,6 @@ public class AxisLabelSheet extends AbstractPopupSheet implements
 						isLabelEnabled );
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
-			gd.horizontalSpan = 2;
 			gd.widthHint = 135;
 			iscInterval.setLayoutData( gd );
 			iscInterval.getWidget( ).setMinimum( 1 );
@@ -195,7 +186,6 @@ public class AxisLabelSheet extends AbstractPopupSheet implements
 		Label lbEllipsis = new Label( cmpOther, SWT.NONE );
 		{
 			GridData gd = new GridData( );
-			gd.horizontalIndent = 10;
 			lbEllipsis.setLayoutData( gd );
 			lbEllipsis.setText( Messages.getString( "AxisLabelSheet.Label.Ellipsis" ) ); //$NON-NLS-1$
 			lbEllipsis.setEnabled( true );
@@ -210,7 +200,6 @@ public class AxisLabelSheet extends AbstractPopupSheet implements
 						enableEllipsis );
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
-			gd.horizontalSpan = 2;
 			iscEllipsis.setLayoutData( gd );
 			iscEllipsis.getWidget( ).setMinimum( 0 );
 			iscEllipsis.getWidget( ).setToolTipText( Messages.getString( "AxisLabelSheet.Label.Ellipsis.Tooltip" ) ); //$NON-NLS-1$

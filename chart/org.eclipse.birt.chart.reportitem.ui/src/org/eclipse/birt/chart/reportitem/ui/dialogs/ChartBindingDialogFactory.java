@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.reportitem.ui.dialogs;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.core.runtime.IAdapterFactory;

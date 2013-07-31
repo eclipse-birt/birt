@@ -777,6 +777,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			fixTransparentPNG( );
 		}
+
 		fixRedirect( );		
 		// client initialize		
 		String clientInitialize = report.getDesign( ).getReportDesign( ).getClientInitialize( );
@@ -794,6 +795,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			doClientInitialize( clientInitialize );
 		}	
+
 		writer.closeTag( HTMLTags.TAG_HEAD );
 
 		writer.openTag( HTMLTags.TAG_BODY );

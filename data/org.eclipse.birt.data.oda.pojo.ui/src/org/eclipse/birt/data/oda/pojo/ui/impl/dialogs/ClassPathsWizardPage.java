@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 
 public class ClassPathsWizardPage extends DataSourceWizardPage
 {
+	private Properties properties;
 	private ClassPathsPageHelper helper;
 
 	public ClassPathsWizardPage( String pageName )
@@ -45,21 +46,29 @@ public class ClassPathsWizardPage extends DataSourceWizardPage
 		super( pageName, title, titleImage );
 		this.setMessage( ClassPathsPageHelper.DEFAULT_MSG );
 		helper = new ClassPathsPageHelper( this.getHostResourceIdentifiers( ) );
-		helper.setWizardPage( this );
+		helper.setWizardPage( this );		
 	}
 
 
 	public Properties collectCustomProperties( )
 	{
-		return helper.collectCustomProperties( );
+		if ( properties == null )
+			properties = new Properties( );
+		
+		return helper.collectCustomProperties( properties );
 	}
-
 
 	public void setInitialProperties( Properties dataSourceProps )
 	{
-		helper.setInitialProperties( dataSourceProps );
+		properties = dataSourceProps;
+		if ( properties == null )
+			properties = new Properties( );
+
+		if ( helper == null )
+			return; // ignore, wait till createPageCustomControl to initialize
+		helper.setInitialProperties( properties );
 	}
-	
+
 	public void refresh( )
 	{
 		if ( helper != null )
@@ -79,5 +88,4 @@ public class ClassPathsWizardPage extends DataSourceWizardPage
 		helper.createPageCustomControl( parent );
 	}
 
-	
 }

@@ -61,6 +61,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.views.palette.PalettePage;
@@ -1001,8 +1002,6 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 * @see
 	 * org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
-	private boolean waitReload = false;
-
 	public void partActivated( IWorkbenchPart part )
 	{
 		fActivePart = part;
@@ -1068,22 +1067,16 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				needReload = false;
 
 			}
-
 			if ( needReload )
 			{
-				if ( !waitReload )
-				{
-					waitReload = true;
-					if ( resolveList != null && reloadList( resolveList ) )
-					{
-						// do nothing now
-					}
-					else
-					{
-						needReload = false;
-					}
 
-					waitReload = false;
+				if ( resolveList != null && reloadList( resolveList ) )
+				{
+					// do nothing now
+				}
+				else
+				{
+					needReload = false;
 				}
 			}
 
@@ -1271,6 +1264,18 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
+		if ( part instanceof MultiPageReportEditor )
+		{
+			MultiPageReportEditor topEditor = (MultiPageReportEditor) part;
+			if ( topEditor.getModel( ) != null
+					&& topEditor.getModel( ) != SessionHandleAdapter.getInstance( )
+							.getModule( ) )
+			{
+				SessionHandleAdapter.getInstance( )
+						.setModule( topEditor.getModel( ) );
+				updateRelatedViews( );
+			}
+		}
 	}
 
 	/*
@@ -1668,25 +1673,53 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		{
 			return;
 		}
-
 		Object[] resolves = ElementAdapterManager.getAdapters( getModel( ),
 				IRelatedFileChangeResolve.class );
 		if ( resolves == null )
 		{
 			return;
 		}
-
+		Path targetPath=(Path)event.getData();
 		for ( int i = 0; i < resolves.length; i++ )
 		{
 			IRelatedFileChangeResolve find = (IRelatedFileChangeResolve) resolves[i];
 			if ( find.acceptType( event.getType( ) ) )
 			{
-				// resolve = find;
-				resolveList.add( find );
-				needReload = find.isReload( event, getModel( ) );
-				needReset = find.isReset( event, getModel( ) );
+				/**
+				 * Check whether the  resolveList already contains the same type of the new IRelatedFileChangeResolve.
+				 * Add the new resolve to the resolveList only if the list doesn't contain  objects have the same type of the new resolve.
+				 * This judgment call tries to prevent duplicate refresh action when several resources change happens.
+				 */
+				if(!checkResolveListContainsType(find)){
+					if(targetPath!=null ){
+						if(targetPath.toOSString().equals(getModel( ).getFileName())){
+							addToResolveList(event,find);
+						}				
+					}else{//if targetPath is null, follow the old logic
+							addToResolveList(event,find);
+					}
+				}
 				break;
 			}
 		}
+	}
+	private void addToResolveList(IReportResourceChangeEvent event,IRelatedFileChangeResolve find){
+		resolveList.add( find );
+		needReload = find.isReload( event, getModel( ) );
+		needReset = find.isReset( event, getModel( ) );
+	}
+	/**
+	 * Check whether the  resolveList already contains the same type of the new IRelatedFileChangeResolve.
+	 * @param find
+	 * @return
+	 */
+	private boolean checkResolveListContainsType(IRelatedFileChangeResolve find){
+		for(int i=0;i<resolveList.size();i++){
+			IRelatedFileChangeResolve obj=resolveList.get(i);
+			if(find.getClass().equals(obj.getClass())){
+				return true;
+			}
+		}
+		return false;
 	}
 }

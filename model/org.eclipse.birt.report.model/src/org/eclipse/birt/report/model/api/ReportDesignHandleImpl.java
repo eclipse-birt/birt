@@ -1594,7 +1594,6 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 		setProperty( ON_PREPARE_METHOD, script );
 	}
 	
-	
 	/**
 	 * Gets the client-initialize script of the report design.
 	 * The design can load java script libraries by the property.

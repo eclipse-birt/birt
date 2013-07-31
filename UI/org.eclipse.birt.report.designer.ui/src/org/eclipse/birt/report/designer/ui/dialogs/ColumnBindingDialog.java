@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
@@ -1155,7 +1156,8 @@ public class ColumnBindingDialog extends BaseDialog
 		{
 			ComputedColumnHandle cachedColumn = (ComputedColumnHandle) iter.next( );
 			String columnName = cachedColumn.getName( );
-			if ( DEUtil.getColumnExpression( columnName ).equals( expression ) )
+			if ( LinkedDataSetUtil.bindToLinkedDataSet(inputElement)? DEUtil.getDataExpression( columnName ).equals( expression ) 
+					: DEUtil.getColumnExpression( columnName ).equals( expression ) )
 			{
 				return columnName;
 			}

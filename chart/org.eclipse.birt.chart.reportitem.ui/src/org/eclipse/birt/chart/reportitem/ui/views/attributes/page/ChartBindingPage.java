@@ -14,10 +14,10 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.page;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartBindingGroupDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BindingPage;
@@ -38,9 +38,14 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 public class ChartBindingPage extends BindingPage
 {
 
+	protected BindingGroupDescriptorProvider createBindingGroupDescriptorProvider( )
+	{
+		return new ChartBindingGroupDescriptorProvider( );
+	}
+	
 	protected void applyCustomSections( )
 	{
-		ChartBindingGroupDescriptorProvider bindingProvider = new ChartBindingGroupDescriptorProvider( );
+		BindingGroupDescriptorProvider bindingProvider = createBindingGroupDescriptorProvider( );
 		bindingProvider.setRefrenceSection( ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ) );
 		( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).setProvider( bindingProvider );
 		AggregateOnBindingsFormHandleProvider dataSetFormProvider = createDataSetFormProvider();

@@ -36,12 +36,12 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.BIRTActionEvaluator;
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierHandler;
@@ -184,8 +184,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					.getCommandStack( );
 			final String TRANS_NAME = org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "ChartElementCommandImpl.editChart" ); //$NON-NLS-1$
 			commandStack.startTrans( TRANS_NAME );
-
-			beforeOpenChartBuilder( );
 			
 			final ChartReportItemImpl crii = ( (ChartReportItemImpl) item );
 			final Chart cm = (Chart) crii.getProperty( ChartReportItemConstants.PROPERTY_CHART );
@@ -280,6 +278,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			context.setActionEvaluator( new BIRTActionEvaluator( ) );
 			
 			ChartAdapter.endIgnoreNotifications( );
+			
+
+			beforeOpenChartBuilder( );
 			
 			isChartWizardOpen = true;
 			ChartWizardContext contextResult = (ChartWizardContext) chartBuilder.open( null,

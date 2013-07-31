@@ -15,9 +15,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
-import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.DialRegion;
@@ -393,23 +391,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 			DataPointComponent eDefObj, boolean eDefOverride,
 			boolean checkVisible )
 	{
-		// Set default format for percentile value.
-		DataPointComponent eTmpDefObj = eDefObj;
-		if ( eObj != null
-				&& eObj.getType( ) == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL
-				&& ( eDefObj == null || eDefObj.getFormatSpecifier( ) == null ) )
-		{
-			if ( eDefObj == null ) 
-			{
-				eTmpDefObj = DataPointComponentImpl.create( DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL,  DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
-			}
-			else if ( eDefObj.getFormatSpecifier( ) == null )
-			{
-				eTmpDefObj = eDefObj.copyInstance( );
-				eTmpDefObj.setFormatSpecifier( DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
-			}
-		}
-		
-		super.updateDataPointComponent( name, eParentObj, eObj, eRefObj, eTmpDefObj, eDefOverride, checkVisible );
+		super.updateDataPointComponent( name, eParentObj, eObj, eRefObj, ChartDefaultValueUtil.getPercentileDataPointDefObj(eObj,
+				eDefObj), eDefOverride, checkVisible );
 	}
 }

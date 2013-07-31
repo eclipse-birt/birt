@@ -765,6 +765,18 @@
 			</fileset>
 		</copy>
 
+		<copy todir="${package-dest}/jee-x86_64/eclipse/plugins" failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<copy todir="${package-dest}/jee-x86_64/eclipse/features" failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+				<include name="**" />
+			</fileset>
+		</copy>
+		
 		<copy todir="${package-dest}/jee-linux/eclipse/plugins"
 			failonerror="false">
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
@@ -1082,6 +1094,18 @@
 			</fileset>
 		</copy>
 
+		<copy todir="${package-dest}/jee-x86_64/eclipse/plugins" failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<copy todir="${package-dest}/jee-x86_64/eclipse/features" failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+				<include name="**" />
+			</fileset>
+		</copy>
+		
 		<copy todir="${package-dest}/jee-linux/eclipse/plugins"
 			failonerror="false">
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">

@@ -1798,6 +1798,33 @@ public class UIUtil
 		return null;
 	}
 
+	public static String getHeadColumnDisplayName( ResultSetColumnHandle column )
+	{
+		DataSetHandle dataset = getDataSet(column);
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				if (element.getHeading( ) != null)
+				{
+					return element.getHeading( );
+				}
+				if ( element.getDisplayNameKey( ) != null )
+				{
+					String displayName = element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
+							ColumnHint.DISPLAY_NAME_MEMBER );
+					if ( displayName != null )
+						return displayName;
+				}
+				return element.getDisplayName( ) == null ? column.getColumnName( )
+						: element.getDisplayName( );
+			}
+		}
+		return column.getColumnName( );
+	}
 	/**
 	 * Return the display name of dataset column
 	 * 
@@ -1996,11 +2023,16 @@ public class UIUtil
 		Image image = ReportPlatformUIImages.getImage( imageName );
 
 		GridData gd = new GridData( );
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )
 		{
 			gd.widthHint = 20;
 			gd.heightHint = 20;
 		}
+		else
+		{
+			gd.widthHint = button.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
+		}
+
 		button.setLayoutData( gd );
 
 		button.setImage( image );
@@ -2030,10 +2062,11 @@ public class UIUtil
 			button.setExpressionButtonProvider( provider );
 
 		GridData gd = new GridData( );
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )
 		{
 			gd.heightHint = 20;
 		}
+
 		button.getControl( ).setLayoutData( gd );
 		return button;
 	}

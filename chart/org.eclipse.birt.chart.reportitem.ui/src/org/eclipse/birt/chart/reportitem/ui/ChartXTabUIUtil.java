@@ -23,9 +23,9 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -398,6 +398,12 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
 						ChartCubeUtil.createMeasureBindingName( measureHandle ) );
 				column.setDataType( measureHandle.getDataType( ) );
+				column.setDisplayName( measureHandle.getDisplayName( ) );
+				String nameKey = measureHandle.getDisplayNameKey( );
+				if ( nameKey != null )
+				{
+					column.setDisplayNameID( nameKey );
+				}
 				column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
 						new Expression( exprConverter.getMeasureExpression( measureHandle.getName( ) ),
 								exprType ) );

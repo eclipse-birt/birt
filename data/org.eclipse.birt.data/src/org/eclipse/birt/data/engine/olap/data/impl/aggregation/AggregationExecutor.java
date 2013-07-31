@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
@@ -36,8 +37,10 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
+import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
+import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 /**
  * Execute aggregation on a cube. 
@@ -311,6 +314,7 @@ public class AggregationExecutor
 		}
 		IAggregationResultSet[] resultSets = 
 			new IAggregationResultSet[aggregationCalculators.length];
+		boolean needPopulateMissingAggrResultSetRow = false;
 		for ( int i = 0; i < aggregationCalculators.length; i++ )
 		{
 			resultSets[i] = new AggregationResultSet( aggregationCalculators[i].aggregation,
@@ -319,14 +323,300 @@ public class AggregationExecutor
 					getAttributeNames( i ) );
 			if( timeFunctionCalculator[i].existTimeFunction() )
 			{
+				needPopulateMissingAggrResultSetRow = true; 
+			}
+		}
+		if( needPopulateMissingAggrResultSetRow )
+		{
+			populateMissingAggrResultSetRows( resultSets );
+		}
+		for ( int i = 0; i < aggregationCalculators.length; i++ )
+		{
+			if( timeFunctionCalculator[i].existTimeFunction() )
+			{		
 				List<TimeResultRow> timeResultSet = timeFunctionCalculator[i].getAggregationResultSet( resultSets[i] );
 				( (AggregationResultSet)resultSets[i]).addTimeFunctionResultSet(timeResultSet);
 			}
 		}
+		
 		this.dataSet4Aggregation.close( );
 		return resultSets;
 	}
 	
+	private void populateEdgeMember( List<Member[]> edgeMember, IAggregationResultSet rs ) throws IOException
+	{
+		for ( int i = 0; i < rs.length( ); i++ )
+		{
+			rs.seek( i );
+			edgeMember.add( rs.getCurrentRow( ).getLevelMembers( ) );
+		}
+	}
+	
+	private void populateMissingAggrResultSetRows( IAggregationResultSet[] rs )
+			throws IOException
+	{
+		if ( rs.length <= 2 )
+			return;
+		if ( rs[0].getAggregationDefinition( ).getAggregationFunctions( ) != null
+				|| rs[1].getAggregationDefinition( ).getAggregationFunctions( ) != null )
+			return;
+
+		DimLevel[] edgeDimLevel1 = rs[0].getAllLevels( );
+		DimLevel[] edgeDimLevel2 = rs[1].getAllLevels( );
+		List<Member[]> edgeMember1 = new ArrayList<Member[]>( );
+		List<Member[]> edgeMember2 = new ArrayList<Member[]>( );
+
+		populateEdgeMember( edgeMember1, rs[0] );
+		populateEdgeMember( edgeMember2, rs[1] );
+
+		for ( int i = 2; i < rs.length; i++ )
+		{
+			if( !timeFunctionCalculator[i].existTimeFunction() )
+			{	
+				continue;
+			}
+			
+			DimLevel[] dims = rs[i].getAllLevels( );
+			if ( dims.length <= ( edgeDimLevel1.length + edgeDimLevel2.length ) )
+			{
+				int[] coverLength = getTargetDimLevelCoverageOnEdges( dims,
+						edgeDimLevel1,
+						edgeDimLevel2 );
+				if ( coverLength[0] == -1 )
+					continue;
+
+				List<Member[]> targetMemberList = null;
+				if ( coverLength[0] == 1 )
+				{
+					targetMemberList = getTargetMemberList( edgeMember1,
+							edgeMember2, coverLength );
+				}
+				else
+				{
+					targetMemberList = getTargetMemberList( edgeMember2,
+							edgeMember1, coverLength );
+				}
+
+				IDiskArray allRows = new BufferedStructureArray( AggregationResultRow.getCreator( ),
+						targetMemberList.size( ) );
+
+				int currentSeekRow = 0;
+				for ( int j = 0; j < targetMemberList.size( ); j++ )
+				{
+					Member[] currentTargetMember = targetMemberList.get( j );
+					if ( currentSeekRow >= rs[i].length( ) )
+					{
+						allRows.add( new AggregationResultRow( currentTargetMember,
+								new Object[rs[i].getAggregationCount( )] ) );
+						continue;
+					}
+					rs[i].seek( currentSeekRow );
+					IAggregationResultRow row = rs[i].getCurrentRow( );
+					Member[] currentSeekMember = row.getLevelMembers( );
+					if ( isSameWithCurrentTargetMember( currentSeekMember,
+							currentTargetMember ) )
+					{
+						allRows.add( row );
+						currentSeekRow++;
+					}
+					else
+					{
+						allRows.add( new AggregationResultRow( currentTargetMember,
+								new Object[rs[i].getAggregationCount( )] ) );
+					}
+				}
+
+				AggregationResultSet rsRow = new AggregationResultSet( rs[i].getAggregationDefinition( ),
+						rs[i].getAllLevels( ),
+						allRows,
+						rs[i].getKeyNames( ),
+						rs[i].getAttributeNames( ) );
+				rs[i] = rsRow;
+			}
+		}
+	}
+	
+	private boolean isSameWithCurrentTargetMember( Member[] currentSeekMember, Member[] currentTargetMember )
+	{
+		for( int i = 0 ; i < currentSeekMember.length; i ++ )
+		{
+			if( !currentSeekMember[i].equals( currentTargetMember[i] ))
+				return false;
+		}
+		return true;
+	}
+	
+	private boolean existInTargetMemberArray( Member[] member, List<Member[]> list )
+	{
+		for( int i = 0; i<list.size( );i++)
+		{
+			if ( isSameWithCurrentTargetMember( list.get( i ), member ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private Member[] getMergedMembers( Member[] candidateMember1,
+			Member[] candidateMember2 )
+	{
+		Member[] targetCombinedMember = new Member[candidateMember1.length
+				+ candidateMember2.length];
+		System.arraycopy( candidateMember1,
+				0,
+				targetCombinedMember,
+				0,
+				candidateMember1.length );
+		System.arraycopy( candidateMember2,
+				0,
+				targetCombinedMember,
+				candidateMember1.length,
+				candidateMember2.length );
+		return targetCombinedMember;
+	}
+	
+	private List<Member[]> getTargetMemberList( List<Member[]> edgeMember1, List<Member[]> edgeMember2, int[] coverLength )
+	{
+		List<Member[]> targetMemberArray = new ArrayList<Member[]>( );
+
+		for ( int a = 0; a < edgeMember1.size( ); a++ )
+		{
+			for ( int b = 0; b < edgeMember2.size( ); b++ )
+			{
+				Member[] candidateMember1 = edgeMember1.get( a );
+				Member[] candidateMember2 = edgeMember2.get( b );
+				if ( !( ( coverLength[1] == candidateMember1.length ) && ( coverLength[2] == candidateMember2.length ) ) )
+				{
+					candidateMember1 = getTrimmedMembers( candidateMember1,
+							coverLength[1] );
+					candidateMember2 = getTrimmedMembers( candidateMember2,
+							coverLength[2] );
+
+					Member[] targetCombinedMember = getMergedMembers( candidateMember1,
+							candidateMember2 );
+
+					if ( existInTargetMemberArray( targetCombinedMember,
+							targetMemberArray ) )
+					{
+						continue;
+					}
+					else
+					{
+						targetMemberArray.add( targetCombinedMember );
+					}
+
+				}
+				else
+				{
+					Member[] targetMember = getMergedMembers( candidateMember1,
+							candidateMember2 );
+					targetMemberArray.add( targetMember );
+				}
+			}
+		}
+		
+		return targetMemberArray;
+	}
+	
+	private Member[] getTrimmedMembers( Member[] member, int length )
+	{
+		Member[] target = new Member[length];
+		for( int i = 0;i<length;i++)
+		{
+			target[i] = member[i];
+		}
+		
+		return target;
+	}
+	
+	private int[] getTargetDimLevelCoverageOnEdges( DimLevel[] dims, DimLevel[] edgeDimLevel1, DimLevel[] edgeDimLevel2 )
+	{
+		// coverDimLevelLength[0] represents which edge's dimension levels appears first.
+		// coverDimLevelLength[1] represents the cover depth in the first dimension levels.
+		// coverDimLevelLength[2] represents the cover depth in the second dimension levels.
+ 		int[] coverDimLevelLength = new int[3];
+		coverDimLevelLength[0] = -1; // not a target AggregationResultSet
+		if ( dims[0].equals( edgeDimLevel1[0] ) )
+		{
+			int i = 0;
+			for ( ; i < edgeDimLevel1.length && i < dims.length; i++ )
+			{
+				if ( !dims[i].equals( edgeDimLevel1[i] ) )
+				{
+					if( !dims[i].equals( edgeDimLevel2[0] ) )
+					{
+						return coverDimLevelLength;
+					}
+					else
+					{
+						coverDimLevelLength[1] = i + 1;
+						break;
+					}
+				}
+			}
+			if( i <= edgeDimLevel1.length )
+			{
+				coverDimLevelLength[1] = i;
+			}
+			int j = 0;
+			for ( ; j < edgeDimLevel2.length; j++, i++ )
+			{
+				if( i >= dims.length )
+				{
+					break;
+				}
+				if ( !dims[i].equals( edgeDimLevel2[j] ) )
+				{
+					return coverDimLevelLength;
+				}
+			}
+			coverDimLevelLength[2] = j;
+			coverDimLevelLength[0] = 1;
+			return coverDimLevelLength;
+		}
+		else if ( dims[0].equals( edgeDimLevel2[0] ) )
+		{
+			int i = 0;
+			for ( ; i < edgeDimLevel2.length && i < dims.length; i++ )
+			{
+				if ( !dims[i].equals( edgeDimLevel2[i] ) )
+				{
+					if( !dims[i].equals( edgeDimLevel1[0] ) )
+					{
+						return coverDimLevelLength;
+					}
+					else
+					{
+						coverDimLevelLength[1] = i;
+						break;
+					}
+				}
+			}
+			if( i <= edgeDimLevel2.length )
+			{
+				coverDimLevelLength[1] = i;
+			}
+			int j = 0; 
+			for ( ; j < edgeDimLevel1.length; j++, i++ )
+			{
+				if( i >= dims.length )
+				{
+					break;
+				}
+				if ( !dims[i].equals( edgeDimLevel1[j] ) )
+				{
+					return coverDimLevelLength;
+				}
+			}
+			coverDimLevelLength[2] = j;
+			coverDimLevelLength[0] = 0;
+			return coverDimLevelLength;
+		}
+		else
+			return coverDimLevelLength;
+	}
+
 	/**
 	 * 
 	 * @param row

@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
@@ -39,6 +40,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -375,6 +377,44 @@ public class DataUtil
 			return defn;
 		}
 		return null;
+	}
+	
+	/**
+	 * Finds the data set by the given name. If not found, try to find the extended data set.
+	 * @param name the data set name
+	 * @return the data set handle
+	 */
+	public static DataSetHandle findDataSet( String name )
+	{
+		return findDataSet( name, null );
+	}
+	
+	/**
+	 * Finds the data set by the given name. If not found, try to find the extended data set.
+	 * @param module the module handle
+	 * @param name the data set name
+	 * @return the data set handle
+	 */
+	public static DataSetHandle findDataSet( String name, ModuleHandle module )
+	{
+		DataSetHandle dataSet = null;
+
+		if (module != null)
+		{
+			dataSet = module.findDataSet( name );
+		}
+		else
+		{
+			dataSet = SessionHandleAdapter.getInstance( ).getModule().findDataSet( name );
+
+		}
+
+		if( dataSet != null )
+		{
+			return dataSet;
+		}
+		
+		return findExtendedDataSet( name );
 	}
 	
 	/**

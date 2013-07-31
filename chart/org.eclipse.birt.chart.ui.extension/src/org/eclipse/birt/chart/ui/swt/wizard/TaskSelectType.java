@@ -21,6 +21,8 @@ import java.util.Map.Entry;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -182,6 +184,7 @@ public class TaskSelectType extends SimpleTask implements
 	protected static Hashtable<String, Series> htSeriesNames = null;
 	
 	protected static String[] outputFormats, outputDisplayNames;
+	protected static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/trace" ); //$NON-NLS-1$
 	static
 	{
 		try
@@ -1501,6 +1504,10 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		catch ( Exception e )
 		{
+			if ( e instanceof RuntimeException )
+			{
+				logger.log( e );
+			}
 			ChartWizard.showException( ChartWizard.TaskSelType_refreCh_ID,
 					e.getLocalizedMessage( ) );
 		}

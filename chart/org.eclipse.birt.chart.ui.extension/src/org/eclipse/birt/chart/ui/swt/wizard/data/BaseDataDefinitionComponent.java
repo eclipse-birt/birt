@@ -88,7 +88,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	private IExpressionButton btnBuilder = null;
 
-	private Button btnGroup = null;
+	protected Button btnGroup = null;
 
 	protected Query query = null;
 
@@ -119,7 +119,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			.createExpressionCodec( );
 
 	private final SharedBindingHelper sbHelper = new SharedBindingHelper( );
-
+	
 	/**
 	 * 
 	 * @param queryType
@@ -440,10 +440,33 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			cmbDefinition.setEnabled( false );
 			btnBuilder.setEnabled( false );
 		}
-
+		
+		disableBtnGroup();
+		
 		setTooltipForInputControl( );
 		
 		return cmpTop;
+	}
+	
+	 
+	/*
+	 * if:1.is cube 2. keep hierarchy is checked 3.current cmbDefinition is not
+	 * top level then disable gourping and sorting dialog
+	 * if(ChartUIUtil.isKeepCubeHierarchyAndIsNotTopLevel( wizardContext, query,
+	 * keep_hierarchy ));
+	 */
+	protected void disableBtnGroup( )
+	{
+		if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType )
+				&& query.getDefinition( ) != null
+				&& !"".endsWith( query.getDefinition( ) ) ) { //$NON-NLS-1$
+			IDataServiceProvider dataServiceProvider = context.getDataServiceProvider( );
+
+			if ( dataServiceProvider.checkState( IDataServiceProvider.IS_CUBE_AND_CATEGORY_NOT_TOP_LEVEL ) )
+			{
+				btnGroup.setEnabled( false );
+			}
+		}
 	}
 
 	/**

@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CLabel;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
@@ -1416,8 +1417,18 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		};
 
 		if ( expressionProvider == null )
-			expressionProvider = new BindingExpressionProvider( this.bindingHolder,
-					this.binding );
+		{
+			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+			if(adapter != null && adapter.getBoundExtendedData( this.bindingHolder ) != null)
+			{
+				expressionProvider = adapter.getBindingExpressionProvider( this.bindingHolder, this.binding );
+			}
+			else
+			{
+				expressionProvider = new BindingExpressionProvider( this.bindingHolder,
+						this.binding );
+			}
+		}
 
 		ExpressionButton button = ExpressionButtonUtil.createExpressionButton( parent,
 				control,

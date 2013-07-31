@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
+import org.eclipse.birt.chart.model.data.ScriptExpression;
+
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Script Value</b></em>'. <!-- end-user-doc
  * -->
@@ -64,5 +66,19 @@ public interface ScriptValue extends ActionValue
 	 * @generated
 	 */
 	ScriptValue copyInstance( );
+
+	/*
+	 * Get script expression.
+	 * 
+	 * @return expression the script expression.
+	 */
+	ScriptExpression getScriptExpression( );
+
+	/*
+	 * Set script expression.
+	 * 
+	 * @param expression the script expression.
+	 */
+	void setScriptExpression( ScriptExpression expression );
 
 } // ScriptValue

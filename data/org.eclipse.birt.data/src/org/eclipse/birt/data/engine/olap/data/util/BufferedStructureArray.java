@@ -13,10 +13,7 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.eclipse.birt.data.engine.api.DataEngineThreadLocal;
 
 /**
  * 
@@ -87,6 +84,7 @@ public class BufferedStructureArray implements IDiskArray
 	 */
 	public void close( ) throws IOException
 	{
+		this.buffer = null;
 		clearTempDir( );
 	}
 
@@ -98,6 +96,7 @@ public class BufferedStructureArray implements IDiskArray
 		if ( diskList != null )
 		{
 			diskList.close( );
+			diskList = null;
 		}
 	}
 

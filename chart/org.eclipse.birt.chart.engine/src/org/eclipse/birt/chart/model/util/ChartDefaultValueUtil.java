@@ -22,9 +22,12 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
+import org.eclipse.birt.chart.model.attribute.DataPointComponent;
+import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
+import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -439,5 +442,34 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 		}
 		
 		return null;
+	}
+
+	/**
+	 * Returns the default DataPointComponent of Percentile Value Literal with
+	 * according formatter.
+	 * 
+	 * @param eObj
+	 * @param eDefObj
+	 * @return default DataPointComponent of Percentile Value Literal
+	 */
+	public static DataPointComponent getPercentileDataPointDefObj(
+			DataPointComponent eObj, DataPointComponent eDefObj) {
+		// Set default format for percentile value.
+		DataPointComponent eTmpDefObj = eDefObj;
+		if ( eObj != null
+				&& eObj.getType( ) == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL
+				&& ( eDefObj == null || eDefObj.getFormatSpecifier( ) == null ) )
+		{
+			if ( eDefObj == null ) 
+			{
+				eTmpDefObj = DataPointComponentImpl.create( DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL,  DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
+			}
+			else if ( eDefObj.getFormatSpecifier( ) == null )
+			{
+				eTmpDefObj = eDefObj.copyInstance( );
+				eTmpDefObj.setFormatSpecifier( DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
+			}
+		}
+		return eTmpDefObj;
 	}
 }

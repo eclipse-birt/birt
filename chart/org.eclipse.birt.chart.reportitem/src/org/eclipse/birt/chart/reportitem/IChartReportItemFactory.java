@@ -49,4 +49,7 @@ public interface IChartReportItemFactory
 			ICubeResultSet set );
 	
 	IChartReportItem createChartReportItem(  ExtendedItemHandle eih );
+
+	ChartBaseQueryHelper createQueryHelper( ExtendedItemHandle handle,
+			Chart cm, IModelAdapter modelAdapter );
 }
