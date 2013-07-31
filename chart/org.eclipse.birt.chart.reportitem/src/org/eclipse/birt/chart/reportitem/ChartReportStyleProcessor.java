@@ -1406,7 +1406,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		return trigger;
 	}
 
-	protected ActionHandle getDefaultAction( ExtendedItemHandle handle,
+	public static ActionHandle getDefaultAction( ExtendedItemHandle handle,
 			String expression )
 	{
 		ExpressionCodec exprCodec = ChartModelHelper.instance( )
