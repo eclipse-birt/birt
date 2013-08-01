@@ -11,6 +11,7 @@
  **************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,5 +82,19 @@ public class DataSetDesignHelper
 	public static IResultClass getResultClass( IQuery odiQuery )
 	{
 		return null;
+	}
+	
+	public static void populateDataSetNames( IBaseDataSetDesign design, DataEngineImpl engine, List names ) throws DataException
+	{
+		if( design == null )
+			return;
+		names.add( design.getName( ) );
+		if( design instanceof IJointDataSetDesign )
+		{
+			IJointDataSetDesign jointDesign = ( IJointDataSetDesign )design;
+			
+			populateDataSetNames( engine.getDataSetDesign( jointDesign.getLeftDataSetDesignQulifiedName( ) ), engine, names );
+			populateDataSetNames( engine.getDataSetDesign( jointDesign.getRightDataSetDesignQulifiedName( ) ), engine, names );
+		}
 	}
 }
