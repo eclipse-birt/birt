@@ -155,7 +155,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		if ( element != null )
 		{
 			IAction action = new AddLevelHandleAction( element );
-			if (!CrosstabUtil.isBoundToLinkedDataSet( getCrosstab(element) ))
+			//if (!CrosstabUtil.isBoundToLinkedDataSet( getCrosstab(element) ))
 			{
 				menu.insertBefore( firstId, action );
 			}

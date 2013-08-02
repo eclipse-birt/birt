@@ -73,8 +73,6 @@ import org.eclipse.swt.widgets.TreeItem;
 public class GroupDialog extends TitleAreaDialog
 {
 
-	private boolean isUndefined = false;
-
 	public GroupDialog( TabularHierarchyHandle hierarchy )
 	{
 		this( );
@@ -89,12 +87,6 @@ public class GroupDialog extends TitleAreaDialog
 				levelList.add( levels[i].getDateTimeLevelType( ) );
 		}
 		dateTypeSelectedList.addAll( levelList );
-	}
-
-	public GroupDialog( boolean isUndefined )
-	{
-		this( );
-		this.isUndefined = isUndefined;
 	}
 
 	public GroupDialog( )
@@ -208,10 +200,6 @@ public class GroupDialog extends TitleAreaDialog
 
 	protected void initDialog( )
 	{
-		if ( isUndefined )
-		{
-			nameText.setEnabled( false );
-		}
 		if ( hierarchy != null )
 		{
 			nameText.setText( hierarchy.getContainer( ).getName( ) );
@@ -250,11 +238,7 @@ public class GroupDialog extends TitleAreaDialog
 
 		levelViewer.setInput( getDateTypeNames( getLevelTypesByDateType( ) ) );
 		levelViewer.expandAll( );
-		if ( isUndefined )
-		{
-			dateTypeSelectedList.clear( );
-		}
-		else if ( levelViewer.getTree( ).getItemCount( ) > 0 )
+		if ( levelViewer.getTree( ).getItemCount( ) > 0 )
 		{
 			TreeItem topNode = levelViewer.getTree( ).getItem( 0 );
 			do
@@ -905,7 +889,7 @@ public class GroupDialog extends TitleAreaDialog
 		return dataset;
 	}
 
-	public void setInput( TabularHierarchyHandle hierarchy,
+	private void setInput( TabularHierarchyHandle hierarchy,
 			ResultSetColumnHandle dataField )
 	{
 		dimension = (DimensionHandle) hierarchy.getContainer( );

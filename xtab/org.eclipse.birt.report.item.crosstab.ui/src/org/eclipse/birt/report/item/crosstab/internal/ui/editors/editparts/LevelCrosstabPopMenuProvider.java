@@ -71,7 +71,7 @@ public class LevelCrosstabPopMenuProvider extends ContextMenuProvider
 		if (element != null)
 		{
 			IAction action = new AddLevelHandleAction( element );
-			if (!CrosstabUtil.isBoundToLinkedDataSet( getCrosstab(element) ) )
+			//if (!CrosstabUtil.isBoundToLinkedDataSet( getCrosstab(element) ) )
 			{
 				menu.add( action );
 			}
