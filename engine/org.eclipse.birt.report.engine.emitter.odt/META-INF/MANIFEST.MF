@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.birt.report.engine,
 Bundle-Vendor: Eclipse BIRT Project
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.odt.plugin.OdtEmitterPlugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.engine.emitter.odt,
  org.eclipse.birt.report.engine.emitter.odt.writer
 Import-Package: com.ibm.icu.util;version="[3.4.4,51.0.0)"

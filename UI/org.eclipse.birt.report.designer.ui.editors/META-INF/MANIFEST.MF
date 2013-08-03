@@ -31,4 +31,4 @@ Export-Package: org.eclipse.birt.report.designer.internal.ui.editors,
  org.eclipse.birt.report.designer.ui.editors.actions,
  org.eclipse.birt.report.designer.ui.editors.extension
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
