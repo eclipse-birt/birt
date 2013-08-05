@@ -5,4 +5,5 @@ Bundle-SymbolicName: org.eclipse.birt.chart
 Bundle-Version: 4.2.2.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+

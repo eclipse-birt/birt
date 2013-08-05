@@ -1359,7 +1359,10 @@ public abstract class EngineTask implements IEngineTask
 	public void cancel( )
 	{
 		cancelFlag = true;
-		executionContext.cancel( );
+		if (executionContext != null) 
+		{
+			executionContext.cancel();
+		}
 		disposeResourceLocator( );
 		changeStatusToStopped();
 	}
