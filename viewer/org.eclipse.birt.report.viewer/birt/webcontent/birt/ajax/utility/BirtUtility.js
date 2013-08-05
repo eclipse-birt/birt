@@ -591,15 +591,27 @@ BirtUtility.prototype =
 				href = document.location.href;
 			}
 			
+			/*
 			var dpi;
 			if( screen.deviceXDPI )
 				dpi = screen.deviceXDPI;
+			*/
 			
+			var tmpNode = document.createElement("DIV");
+			tmpNode.style.cssText = "width:1in;height:1in;position:absolute;left:0px;top:0px;z-index:99;visibility:hidden";
+			document.body.appendChild(tmpNode);
+			var dpi = parseInt(tmpNode.offsetHeight);
+			tmpNode.parentNode.removeChild(tmpNode);
+	
 			if( dpi )
 			{
+				/*
 				var reg = new RegExp( "([&|?]{1}" + this.__PARAM_DPI + "\s*)=([^&|^#]*)", "gi" );
 				if( href.search( reg ) < 0 )
 					href = href + "&" + this.__PARAM_DPI + "=" + dpi;
+				*/
+				href = birtUtility.deleteURLParameter(href, this.__PARAM_DPI);
+				href = href + "&" + this.__PARAM_DPI + "=" + dpi;
 			}			
 		}
 		catch(e)
