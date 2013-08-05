@@ -279,6 +279,14 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 				if ( settingsDialog.open( ) == Window.OK )
 				{
 					settingsDialog.updateQueryProperties( queryProps );
+					try
+					{
+						synchronizeSearchLimit( );
+					}
+					catch ( OdaException e1 )
+					{
+						handleNoFieldsException( e1 );
+					}
 					modelChanged = true;
 					validateData( );
 				}
@@ -292,6 +300,40 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 
 		} );
 
+	}
+	
+	private void synchronizeSearchLimit( ) throws OdaException
+	{
+		if ( !queryProps.hasRuntimeMetaDataSearchLimit( ) )
+			return;
+
+		int runtimeLimit = queryProps.getRuntimeMetaDataSearchLimit( )
+				.intValue( );
+		if ( runtimeLimit < this.searchLimit )
+		{
+			MessageDialog infoDialog = new MessageDialog( sComposite.getShell( ),
+					Messages.getString( "MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.title" ),
+					null,
+					Messages.getString( "MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.message" ),
+					MessageDialog.INFORMATION,
+					new String[]{
+						Messages.getString( "MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.button" )
+					},
+					0 );
+			if ( infoDialog.open( ) == Window.OK )
+			{
+				this.searchLimit = runtimeLimit;
+				docNumText.setText( String.valueOf( searchLimit ) );
+				updateAvailableFieldsList( );
+
+				refreshAvailableFieldsViewer( );
+				availableFieldsViewer.expandToLevel( 2 );
+
+				refreshSelectedFieldsViewer( );
+				selectedFieldsTable.getTable( ).deselectAll( );
+				autoSelectRootItem( );
+			}
+		}
 	}
 
 	private void createFieldsSelectionArea( Composite mainComposite )
@@ -852,7 +894,6 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 				catch ( OdaException ex )
 				{
 					handleNoFieldsException( ex );
-
 				}
 
 				validateData( );
