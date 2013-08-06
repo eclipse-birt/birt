@@ -272,4 +272,12 @@ public interface IReportDocument extends IDocument
 	 * @return the system id
 	 */
 	String getSystemId( );
+	
+	/**
+	 * return the errors in the document. The errors are recorded
+	 * during document generation phase.
+	 * 
+	 * @return the error list.
+	 */
+	List<String> getDocumentErrors( );
 }

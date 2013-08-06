@@ -1856,4 +1856,17 @@ public class ReportDocumentReader
 	{
 		return systemId;
 	}
+	
+	public List<String> getDocumentErrors( )
+	{
+		RunStatusReader statusReader = new RunStatusReader( this );
+		try
+		{
+			return statusReader.getGenerationErrors( );
+		}
+		finally
+		{
+			statusReader.close( );
+		}
+	}
 }
