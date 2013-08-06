@@ -176,16 +176,24 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		if ( ( isVerticalMeasure && axisType == COLUMN_AXIS_TYPE )
 				|| ( !isVerticalMeasure && axisType == ROW_AXIS_TYPE ) )
 		{
-			String defaultFunction = functions.get( 0 );
-
+			String firstFunc = functions.get( 0 );
+			String firstDataType = (measures.get( 0 ) != null) ? measures.get( 0 ).getDataType() : null;
 			for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
 			{
 				MeasureViewHandle mv = crosstab.getMeasure( i );
-
 				if ( !measures.contains( mv ) )
 				{
 					measures.add( mv );
-					functions.add( defaultFunction );
+					String dataType = mv.getDataType();
+					if( dataType != null 
+							&& dataType.equalsIgnoreCase( firstDataType ) )
+					{
+						functions.add( firstFunc );
+					}
+					else
+					{
+						functions.add( CrosstabModelUtil.getDefaultMeasureAggregationFunction(mv) );
+					}
 				}
 			}
 		}

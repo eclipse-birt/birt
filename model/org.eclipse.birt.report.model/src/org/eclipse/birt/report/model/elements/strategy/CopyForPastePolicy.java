@@ -37,7 +37,7 @@ public class CopyForPastePolicy extends CopyPolicy
 	 * Private constructor.
 	 */
 
-	private CopyForPastePolicy( )
+	protected CopyForPastePolicy( )
 	{
 	}
 
@@ -194,7 +194,7 @@ public class CopyForPastePolicy extends CopyPolicy
 	 *            the design element need to clear display name information.
 	 */
 
-	private void clearDisplayName( DesignElement e )
+	protected void clearDisplayName( DesignElement e )
 	{
 		// clear text-property of displayName
 		if ( e.getLocalProperty( null, IDesignElementModel.DISPLAY_NAME_PROP ) != null )

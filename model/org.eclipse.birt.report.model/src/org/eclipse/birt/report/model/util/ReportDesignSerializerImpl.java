@@ -1828,7 +1828,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		ReportItemTheme newTheme = null;
 		try
 		{
-			newTheme = (ReportItemTheme) sourceTheme.clone( );
+			newTheme = (ReportItemTheme) sourceTheme.FlattenClone();
 		}
 		catch ( CloneNotSupportedException e )
 		{
