@@ -120,7 +120,22 @@
          <propertyVisibility
                name="inheritColumns"
                visibility="hide">
-         </propertyVisibility>         
+         </propertyVisibility>
+         <property
+               canInherit="true"
+               defaultValue="Figure"
+               isEncryptable="false"
+               isList="false"
+               name="role"
+               type="string">
+         </property>
+         <property
+               canInherit="true"
+               isEncryptable="false"
+               isList="false"
+               name="url"
+               type="string">
+         </property>         
       </reportItem>
    </extension>
    <extension

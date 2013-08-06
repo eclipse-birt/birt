@@ -1822,7 +1822,8 @@
   	<Property displayNameID="Element.ReportDesign.dataObjects" isList="true" name="dataObjects" since="2.5" type="contentElement">
   	  <Type name="VariableElement"/>	
   	</Property>
-  	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" /> 
+  	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" />
+  	<Property displayNameID="Element.ReportDesign.language" name="language" since="4.3" type="string" />
   	<Method context="client" displayNameID="Element.ReportDesign.clientInitialize" name="clientInitialize" since="1.0" toolTipID="Element.ReportDesign.clientInitialize.toolTip">
     </Method> 	
 	<Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
@@ -2602,6 +2603,8 @@
 	<Property canInherit="true" detailType="ReportItemTheme" displayNameID="Element.ReportItem.theme" name="theme" runtimeSettable="false" since="2.6" type="elementRef">
     	<Trigger validator="ThemeReferenceValidator"/>
     </Property>
+    <Property displayNameID="Element.ReportItem.language" name="language" since="4.3" type="string"/>
+    <Property displayNameID="Element.ReportItem.order" name="order" since="4.3" type="integer"/>
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>    
@@ -2689,6 +2692,10 @@
     <Property displayNameID="Element.Label.textID" name="textID" since="1.0" type="resourceKey"/>
     <Property displayNameID="Element.Label.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Label.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
+    <Property displayNameID="Element.Label.role" name="role" since="4.3" type="string">
+    	<Default>div</Default>
+    </Property>
+    <Property displayNameID="Element.Label.altText" name="altText" since="4.3" type="string"/>
     <Method context="startup" displayNameID="Element.Label.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Label.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Label.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.ILabel"/>
       <Argument name="reportContext" tagID="Element.Label.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -2789,6 +2796,10 @@
     <Property displayNameID="Element.Data.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Data.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
     <Property detailType="Action" displayNameID="Element.Data.action" isList="true" name="action" runtimeSettable="false" since="1.0" type="structure"/>
+    <Property displayNameID="Element.Data.role" name="role" since="4.3" type="string">
+    	<Default>div</Default>
+    </Property>
+    <Property displayNameID="Element.Data.altText" name="altText" since="4.3" type="string"/>
     <Method context="startup" displayNameID="Element.Data.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Data.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Data.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IDataItem"/>
       <Argument name="reportContext" tagID="Element.Data.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -2874,6 +2885,10 @@
     <Property displayNameID="Element.Text.hasExpression" name="hasExpression" since="2.5" type="boolean">
       <Default>true</Default>
     </Property>
+    <Property displayNameID="Element.Text.role" name="role" since="4.3" type="string">
+    	<Default>div</Default>
+    </Property>
+    <Property displayNameID="Element.Text.altText" name="altText" since="4.3" type="string"/>
     <Method context="startup" displayNameID="Element.Text.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Text.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Text.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.ITextItem"/>
       <Argument name="reportContext" tagID="Element.Text.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -3025,6 +3040,10 @@
     </Property>    
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.List" extends="Listing" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ListItem" name="List" selector="list" since="1.0" xmlName="list">
+    <Property displayNameID="Element.List.role" name="role" since="4.3" type="string">
+    	<Default>sect</Default>
+    </Property>
+    <Property displayNameID="Element.List.altText" name="altText" since="4.3" type="string"/>
     <Slot displayNameID="Element.List.slot.header" multipleCardinality="true" name="header" selector="list-header" since="1.0" xmlName="header">
       <Type name="FreeForm"/>
       <Type name="Text"/>
@@ -3137,6 +3156,9 @@
     <Property displayNameID="Element.Table.captionID" name="captionID" since="1.0" type="resourceKey"/>
     <Property displayNameID="Element.Table.isSummaryTable" name="isSummaryTable" runtimeSettable="false" since="2.5" type="boolean">
       <Default>false</Default>    	
+    </Property>
+     <Property displayNameID="Element.Table.role" name="role" since="4.3" type="string">
+    	<Default>table</Default>
     </Property>
     <Slot displayNameID="Element.Table.slot.header" multipleCardinality="true" name="header" selector="table-header" since="1.0" xmlName="header">
       <Type name="Row"/>
@@ -3278,6 +3300,10 @@
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.Row.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>
+    <Property displayNameID="Element.Row.role" name="role" since="4.3" type="string">
+    	<Default>tr</Default>
+    </Property>
+    <Property displayNameID="Element.Row.language" name="language" since="4.3" type="string"/>
     <Method context="startup" displayNameID="Element.Row.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Row.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Row.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IRow"/>
       <Argument name="reportContext" tagID="Element.Row.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -3329,6 +3355,11 @@
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.Cell.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>
+    <Property displayNameID="Element.Cell.role" name="role" since="4.3" type="string">
+    	<Default>td</Default>
+    </Property>
+    <Property displayNameID="Element.Cell.language" name="language" since="4.3" type="string"/>
+    <Property displayNameID="Element.Cell.altText" name="altText" since="4.3" type="string"/>
     <PropertyGroup displayNameID="Element.Cell.diagonal">
     	<Property displayNameID="Element.Cell.diagonalNumber" name="diagonalNumber" runtimeSettable="false" since="2.3" type="integer" validator="NonNegativeValueValidator">
     		<Default>0</Default>
@@ -3421,6 +3452,9 @@
 	<Property displayNameID="Element.Image.proportionalScale" name="proportionalScale" runtimeSettable="true" since="2.6.3" type="boolean">
 		<Default>false</Default>
 	</Property>
+	<Property displayNameID="Element.Image.role" name="role" since="4.3" type="string">
+    	<Default>figure</Default>
+    </Property>
 	<Method context="startup" displayNameID="Element.Image.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Image.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Image.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IImage"/>
       <Argument name="reportContext" tagID="Element.Image.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -3484,6 +3518,9 @@
     <Property displayNameID="Element.Grid.caption" name="caption" runtimeSettable="false" since="2.3" type="string"/>
     <Property displayNameID="Element.Grid.captionID" name="captionID" since="2.3" type="resourceKey"/>
     <Property displayNameID="Element.Grid.summary" name="summary" runtimeSettable="false" since="2.3" type="string"/>
+    <Property displayNameID="Element.Grid.role" name="role" since="4.3" type="string">
+    	<Default>sect</Default>
+    </Property>
     <Slot displayNameID="Element.Grid.slot.columns" multipleCardinality="true" name="columns" since="1.0">
       <Type name="Column"/>
       <Trigger validator="InconsistentColumnsValidator"/>
@@ -3558,6 +3595,10 @@
     <Property displayNameID="Element.TextData.hasExpression" name="hasExpression" since="2.5" type="boolean">
     	<Default>true</Default>
     </Property>
+    <Property displayNameID="Element.TextData.role" name="role" since="4.3" type="string">
+    	<Default>div</Default>
+    </Property>
+    <Property displayNameID="Element.TextData.altText" name="altText" since="4.3" type="string"/>
 	<Method context="startup" displayNameID="Element.TextData.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.TextData.onPrepare.toolTip">
       <Argument name="this" tagID="Element.TextData.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IDynamicText"/>
       <Argument name="reportContext" tagID="Element.TextData.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>

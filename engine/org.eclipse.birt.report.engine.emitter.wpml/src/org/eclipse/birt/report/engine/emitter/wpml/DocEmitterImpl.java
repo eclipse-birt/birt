@@ -171,6 +171,11 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 
 			context.startCell( );
 
+			if ( context.isAfterTable( ) )
+			{
+				wordWriter.insertHiddenParagraph( );
+				context.setIsAfterTable( false );
+			}
 			int width = WordUtil.convertTo( foreign.getWidth( ),
 					context.getCurrentWidth( ), reportDpi );
 			width = Math.min( width, context.getCurrentWidth( ) );

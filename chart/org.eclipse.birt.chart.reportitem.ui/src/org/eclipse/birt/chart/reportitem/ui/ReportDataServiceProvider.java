@@ -3364,12 +3364,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
 					i );
-			ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
+			ComputedColumnHandle cch = ChartReportItemHelper.instance( ).findDimensionBinding( exprCodec,
 					dimensionHandle.getCubeDimensionName( ),
 					dimensionHandle.getLevel( dimensionHandle.getLevelCount( ) - 1 )
 							.getCubeLevel( )
 							.getName( ),
-					bindingMap.values( ) );
+					bindingMap.values( ),
+					itemHandle );
 			rowChildren.add( cch );
 		}
 		if ( rowChildren.size( ) > 0 )
@@ -3394,12 +3395,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
 					i );
-			ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
+			ComputedColumnHandle cch = ChartReportItemHelper.instance( ).findDimensionBinding( exprCodec,
 					dimensionHandle.getCubeDimensionName( ),
 					dimensionHandle.getLevel( dimensionHandle.getLevelCount( ) - 1 )
 							.getCubeLevel( )
 							.getName( ),
-					bindingMap.values( ) );
+					bindingMap.values( ),
+					itemHandle);
 			colChildren.add( cch );
 		}
 		if ( colChildren.size( ) > 0 )

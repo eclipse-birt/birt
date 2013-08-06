@@ -10,6 +10,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ag
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
@@ -50,6 +52,7 @@ public class CrosstabBindingsFormHandleProvider extends
 		try
 		{
 			ExtendedItemHandle handle = getExtendedItemHandle( );
+			CrosstabReportItemHandle crosstab = (CrosstabReportItemHandle) handle.getReportItem( );
 			if ( handle.getCube( ) != null )
 			{
 				CubeHandle cube = getExtendedItemHandle( ).getCube( );
@@ -57,6 +60,11 @@ public class CrosstabBindingsFormHandleProvider extends
 				for ( Iterator iterator = dimensions.iterator( ); iterator.hasNext( ); )
 				{
 					DimensionHandle dimension = (DimensionHandle) iterator.next( );
+					//only generate used dimension
+					if(!isUsedDimension(crosstab,dimension))
+					{
+						continue;
+					}
 					if ( dimension instanceof TabularDimensionHandle
 							&& !dimension.isTimeType( ) )
 					{
@@ -72,7 +80,6 @@ public class CrosstabBindingsFormHandleProvider extends
 					}
 				}
 
-				CrosstabReportItemHandle crosstab = (CrosstabReportItemHandle) handle.getReportItem( );
 				for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
 				{
 					MeasureViewHandle measureView = crosstab.getMeasure( i );
@@ -108,6 +115,17 @@ public class CrosstabBindingsFormHandleProvider extends
 			ExceptionHandler.handle( e );
 		}
 	}
+	
+	private boolean isUsedDimension(CrosstabReportItemHandle crosstab,DimensionHandle dimension)
+	{
+		boolean result = true;
+		DimensionViewHandle viewHandle = crosstab.getDimension(dimension.getName());
+		if(viewHandle == null)
+		{
+			result = false;
+		}
+		return result;
+	}
 
 	private void generateDimensionBindings( ExtendedItemHandle handle,
 			DimensionHandle dimensionHandle, int type )
@@ -120,11 +138,26 @@ public class CrosstabBindingsFormHandleProvider extends
 			LevelHandle[] levels = getLevelHandles( dimensionHandle );
 			for ( int j = 0; j < levels.length; j++ )
 			{
-
+				//only generate used
+				if(!isUsedLevelHandle(xtabHandle, levels[j]) )
+				{
+					continue;
+				}
 				CrosstabAdaptUtil.createColumnBinding( (ExtendedItemHandle) xtabHandle.getModelHandle( ),
 						levels[j] );
 			}
 		}
+	}
+	
+	private boolean isUsedLevelHandle(CrosstabReportItemHandle xtabHandle,LevelHandle levelHandle)
+	{
+		boolean result = true;
+		LevelViewHandle viewHandle = xtabHandle.getLevel(levelHandle.getFullName());
+		if(viewHandle == null)
+		{
+			result = false;
+		}
+		return result;
 	}
 
 	private LevelHandle[] getLevelHandles( DimensionHandle dimensionHandle )

@@ -41,6 +41,7 @@ public class ForeignHTMLRegionLayout implements ILayout
 		regionLayoutContext.setHtmlLayoutContext( context
 				.getHtmlLayoutContext( ) );
 		regionLayoutContext.setMaxBP( Integer.MAX_VALUE );
+		regionLayoutContext.setMaxHeight( Integer.MAX_VALUE );
 		regionLayoutContext.setReport( context.getReport( ) );
 
 		ForeignHtmlRegionArea region = new ForeignHtmlRegionArea( content,
@@ -85,6 +86,11 @@ public class ForeignHTMLRegionLayout implements ILayout
 		public void layout( IContent content ) throws BirtException
 		{
 			current.initialize( );
+			//if width is specified. set MAX width
+			if (current.specifiedWidth > 0) 
+			{
+				current.setMaxAvaWidth(current.specifiedWidth);
+			}
 			if ( current.getSpecifiedHeight( ) <= 0 )
 			{
 				visitChildren( content, this );

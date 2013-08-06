@@ -1689,8 +1689,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			{
 				// Bugzilla 265615: need to use cumulative offset for special cases
 				// where one element is inside a group container
-				var offsetITC = Position.cumulativeOffset( oFirstITC );
-				var offsetST = Position.cumulativeOffset( oFirstST );
+				var offsetITC = Element.cumulativeOffset( oFirstITC );
+				var offsetST = Element.cumulativeOffset( oFirstST );
 				
 				// compare y-offset first, then x-offset to determine the visual order
 				if( ( offsetITC[1] > offsetST[1] ) || ( offsetITC[1] == offsetST[1] && offsetITC[0] > offsetST[0] ) )

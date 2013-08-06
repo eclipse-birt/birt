@@ -649,7 +649,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 					{
 						throw new ViewerException( ResourceConstants.GENERAL_EXCEPTION_REPORT_FILE_ERROR,
 								new String[]{
-									this.reportDesignName
+									new File( this.reportDesignName ).getName( )
 								} );
 					}
 				}

@@ -916,18 +916,19 @@ public class ChartReportItemUtil extends ChartItemUtil
 		HierarchyHandle hieHandle = cube.getDimension( dimensionName )
 				.getDefaultHierarchy( );
 
-		// Add parent levels to edge if keep cube hierarchy
-		if ( hieHandle.getLevelCount( ) > 1 )
+		// If not multi-dimension return true;If multi-dimension,
+		// return true if is parent top level
+		if ( hieHandle.getLevelCount( ) != 0
+				&& ( hieHandle.getLevelCount( ) == 1 || hieHandle.getLevel( 0 )
+						.getName( )
+						.equals( levels[1] ) ) )
 		{
-			// level index
-			LevelHandle lh = hieHandle.getLevel( 0 );
-
-			if ( lh.getName( ).equals( levels[1] ) )
-			{
-				return true;
-			}
+			return true;
 		}
-		return false;
+		else
+		{
+			return false;
+		}
 	}
 
 	public static boolean validateCubeResultSetBinding(

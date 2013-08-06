@@ -447,6 +447,24 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 						rtc.putState( ChartUtil.CHART_MAX_ROW, oMaxRow );
 					}
 				}
+				
+				// Get time out setting from app context.
+				Object chartConvertTimeOut = context.getAppContext( )
+						.get( ChartItemUtil.BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT );
+				if ( chartConvertTimeOut != null )
+				{
+					rtc.putState( ChartItemUtil.BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT, chartConvertTimeOut );
+				}
+				else
+				{
+					// Get time out setting if app context doesn't put it
+					chartConvertTimeOut = context.getGlobalVariable( ChartItemUtil.BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT );
+					if ( chartConvertTimeOut != null )
+					{
+						rtc.putState( ChartItemUtil.BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT, chartConvertTimeOut );
+					}
+				}
+				
 			}
 			ois.close( );
 		}

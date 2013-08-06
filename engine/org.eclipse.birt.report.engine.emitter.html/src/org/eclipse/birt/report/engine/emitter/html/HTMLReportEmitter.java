@@ -2943,6 +2943,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		// action
 		boolean hasAction = handleAction( hyperlinkAction, url );
+		// if the image has url links, force compact mode to avoid unwanted hyphen.
+		boolean compactMode = writer.isEnableCompactMode( );
+		if( hasAction )
+		{
+			writer.setEnableCompactMode( true );
+		}
 
 		//Image must have a bookmark.
 		if ( image.getBookmark( ) == null )
@@ -3062,6 +3068,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.closeTag( tag );
 		}
+		// restore compact mode
+		writer.setEnableCompactMode( compactMode );
 	}
 	
 	/**

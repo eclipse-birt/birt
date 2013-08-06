@@ -43,6 +43,8 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -246,11 +248,29 @@ public class AttributeViewPage extends Page implements
 		{
 			restoreLibraryPropertiesAction = new RestoreLibraryPropertiesAction( this );
 		}
-
+		clearOldRestoreLibraryPropertiesAction();
+		
 		getSite( ).getActionBars( )
 				.getToolBarManager( )
 				.add( restoreLibraryPropertiesAction );
 
+	}
+	
+	private void clearOldRestoreLibraryPropertiesAction()
+	{
+		IContributionItem[] items = getSite( ).getActionBars( ).getToolBarManager( ).getItems();
+		for(IContributionItem item : items)
+		{
+			
+			if(item instanceof ActionContributionItem)
+			{
+				ActionContributionItem aItem = (ActionContributionItem)item;
+				if(aItem.getAction()  instanceof RestoreLibraryPropertiesAction)
+				{
+					getSite( ).getActionBars( ).getToolBarManager( ).remove(item);
+				}
+			}
+		}
 	}
 
 	/**

@@ -819,26 +819,39 @@ public class OlapExpressionUtil
 			boolean referToAttribute = isReferenceToAttribute( new ScriptExpression( expr ),
 					new ArrayList( ) );
 
-			if ( exprTrimed
-					.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
-					|| exprTrimed
-							.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
-				return true;
+			if( referToAttribute )
+			{
+				if ( exprTrimed.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
+						|| exprTrimed.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" )
+						|| exprTrimed.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" ) )
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
 			else
 			{
-				if ( referToAttribute )
+				if ( exprTrimed.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
+						|| exprTrimed.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" )
+						|| exprTrimed.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" ) )
+				{
+					return true;
+				}
+				else
+				{
 					return false;
+				}
 			}
+			
+		
 		}
 		catch ( DataException e )
 		{
+			return false;
 		}
-
-		if ( exprTrimed.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
-				|| exprTrimed.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" )
-				|| exprTrimed.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" ) )
-			return true;
-		return false;
 	}
 
 	/**

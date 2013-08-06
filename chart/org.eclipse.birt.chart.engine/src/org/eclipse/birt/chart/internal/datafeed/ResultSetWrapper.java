@@ -1484,11 +1484,13 @@ public final class ResultSetWrapper
 	 * Returns the values for given column and compute index arrays.
 	 * 
 	 * @param iColumnIndex
+	 * @param sorting
+	 * @param isCategory
 	 * @return an array have two return objects, first is the base value list,
 	 *         second is the index map for all grouped subset.
 	 */
 	public Object[] getMergedGroupingBaseValues( int iColumnIndex,
-			SortOption sorting )
+			SortOption sorting, boolean isCategory )
 	{
 		int groupCount = getGroupCount( );
 
@@ -1528,8 +1530,13 @@ public final class ResultSetWrapper
 					int insertPoint = -1;
 
 					// compare to existing base values and find an available
-					// position.
-					for ( int j = 0; j < baseValue.size( ); j++ )
+					// position. Only when sort enabled or axis type is
+					// category.
+
+					// Do sorting 
+					int size = ( sorting != null || isCategory )
+							? baseValue.size( ) : 0;
+					for ( int j = 0; j < size; j++ )
 					{
 						Object ov = baseValue.get( j );
 

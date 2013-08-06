@@ -152,9 +152,11 @@ public class FramesetFragment extends BirtBaseFragment
 		}
 		
 		String filename = ParameterAccessor.getExportFilename( new BirtContext( request, response ), format, emitterId );
-		response
-				.setHeader(
-						"Content-Disposition", openType + "; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		response.setHeader( "Content-Disposition", //$NON-NLS-1$
+				ParameterAccessor.htmlHeaderValueEncode( openType )
+						+ "; filename=\"" //$NON-NLS-1$
+						+ ParameterAccessor.htmlHeaderValueEncode( filename )
+						+ "\"" ); //$NON-NLS-1$
 	}
 
 	/**

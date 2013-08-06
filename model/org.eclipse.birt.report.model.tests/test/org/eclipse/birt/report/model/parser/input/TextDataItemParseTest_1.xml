@@ -26,6 +26,10 @@
     <body>
         <text-data name="Text Data">
             <expression name="contentTypeExpr">html</expression>
+            <property name="role">Div</property>
+            <property name="language">English</property>
+            <property name="altText">Alt Text</property>
+            <property name="order">1</property>
         </text-data>
     </body>
 </report>

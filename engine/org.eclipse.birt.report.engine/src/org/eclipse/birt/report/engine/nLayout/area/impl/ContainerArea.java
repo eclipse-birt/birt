@@ -975,7 +975,7 @@ public abstract class ContainerArea extends AbstractArea
 			if ( hsConflicted[i] )
 			{
 				style.setProperty( hsStyle[i],
-						new FloatValue( CSSPrimitiveValue.CSS_PT, vs[i] / 1000f ) );
+						new FloatValue( CSSPrimitiveValue.CSS_PT, hs[i] / 1000f ) );
 			}
 		}
 	}

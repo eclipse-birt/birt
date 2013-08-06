@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.series;
 
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
@@ -55,17 +56,31 @@ public class StockDataDefinitionComponent extends DefaultSelectDataComponent
 		init( );
 	}
 
+	private int adaptIndex(int orginalIndex)
+	{
+		int[] indexmap = {2, 0, 1, 3};
+		return indexmap[orginalIndex];
+	}
+	
 	private void init( )
 	{
 		labelArray = new Label[4];
 		dataComArray = new ISelectDataComponent[4];
 
+		// The order of stock values in chart model is High, Low, Open, Close,
+		// it is not usual order, change order to Open, High, Low, Close.
+		Query[] stockQuerys = new Query[4];
+		stockQuerys[0] = ChartUIUtil.getDataQuery( seriesDefn, 0 );
+		stockQuerys[1] = ChartUIUtil.getDataQuery( seriesDefn, 1 );
+		stockQuerys[2] = ChartUIUtil.getDataQuery( seriesDefn, 2 );
+		stockQuerys[3] = ChartUIUtil.getDataQuery( seriesDefn, 3 );
+		
 		for ( int i = 0; i < dataComArray.length; i++ )
 		{
 			dataComArray[i] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
 					ChartUIConstants.QUERY_VALUE,
 					seriesDefn,
-					ChartUIUtil.getDataQuery( seriesDefn, i ),
+					stockQuerys[adaptIndex(i)],
 					context,
 					sTitle );
 		}
@@ -87,14 +102,15 @@ public class StockDataDefinitionComponent extends DefaultSelectDataComponent
 		for ( int i = 0; i < dataComArray.length; i++ )
 		{
 			labelArray[i] = new Label( cmpSeries, SWT.NONE );
-			labelArray[i].setText( ChartUIUtil.getStockTitle( i ) + "*" ); //$NON-NLS-1$
+			labelArray[i].setText( ChartUIUtil.getStockTitle( adaptIndex( i ) ) + "*" ); //$NON-NLS-1$
 			Composite cmpData = dataComArray[i].createArea( cmpSeries );
 			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			( (BaseDataDefinitionComponent) dataComArray[i] ).bindAssociatedName( ChartUIUtil.getStockTitle( i ) );
+			( (BaseDataDefinitionComponent) dataComArray[i] ).bindAssociatedName( ChartUIUtil.getStockTitle( adaptIndex( i ) ) );
 		}
 		return cmpSeries;
 	}
 
+	@Override
 	public void selectArea( boolean selected, Object data )
 	{
 		if ( data instanceof Integer )
@@ -113,7 +129,7 @@ public class StockDataDefinitionComponent extends DefaultSelectDataComponent
 			{
 				dataComArray[i].selectArea( selected, new Object[]{
 						seriesdefinition,
-						ChartUIUtil.getDataQuery( seriesdefinition, i )
+						ChartUIUtil.getDataQuery( seriesdefinition, adaptIndex( i ) )
 				} );
 			}
 		}

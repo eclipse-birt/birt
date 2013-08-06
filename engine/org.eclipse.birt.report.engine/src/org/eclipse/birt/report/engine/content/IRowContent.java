@@ -31,5 +31,9 @@ public interface IRowContent extends IContainerContent
 	public IGroupContent getGroup( );
 
 	public IBandContent getBand( );
+	
+	public void setRepeatable (boolean repeatable);
+
+	public boolean isRepeatable();
 
 }

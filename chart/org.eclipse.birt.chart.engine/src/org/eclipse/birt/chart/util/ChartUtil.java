@@ -2606,11 +2606,16 @@ public class ChartUtil
 	public static Query getDataQuery( SeriesDefinition seriesDefn,
 			int queryIndex )
 	{
-		if ( seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).size( ) <= queryIndex )
+		int size = seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).size( );
+		if ( size <= queryIndex )
 		{
-			Query query = QueryImpl.create( "" ); //$NON-NLS-1$
-			query.eAdapters( ).addAll( seriesDefn.eAdapters( ) );
-			seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).add( query );
+			Query query = null;
+			for(int i = size; i <= queryIndex; i++ )
+			{
+				query = QueryImpl.create( "" ); //$NON-NLS-1$
+				query.eAdapters( ).addAll( seriesDefn.eAdapters( ) );
+				seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).add( query );
+			}
 			return query;
 		}
 		return seriesDefn.getDesignTimeSeries( )

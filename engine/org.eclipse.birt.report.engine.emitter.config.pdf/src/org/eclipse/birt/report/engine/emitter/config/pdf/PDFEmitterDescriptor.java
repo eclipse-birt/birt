@@ -37,6 +37,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String CHART_DPI = "ChartDpi";
 	private static final String RENDER_CHART_IN_SVG = "RenderChartInSVG";
 	private static final String REPAGINATE_FOR_PDF = "repaginateForPDF";
+	private static final String DISABLE_FLASH_ANIMATION = "DisableFlashAnimation";
 
 	protected void initOptions( )
 	{
@@ -162,11 +163,25 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		repaginateForPDF.setToolTip( null );
 		repaginateForPDF
 				.setDescription( getMessage( "OptionDescription.RepaginateForPDF" ) ); //$NON-NLS-1$
-
-		options = new IConfigurableOption[]{bidiProcessing, textWrapping, textHyphenation,
-				fontSubstitution, pageOverFlow, embeddedFont, chartDpi,
-				renderChartInSVG, repaginateForPDF};
 		
+		// Initializes the option for disabling Flash animation.
+		ConfigurableOption disableFlashAnimation = new ConfigurableOption(
+				DISABLE_FLASH_ANIMATION );
+		disableFlashAnimation
+				.setDisplayName( getMessage( "OptionDisplayValue.DisableFlashAnimation" ) ); //$NON-NLS-1$
+		disableFlashAnimation
+				.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		disableFlashAnimation
+				.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		disableFlashAnimation.setDefaultValue( Boolean.FALSE );
+		disableFlashAnimation.setToolTip( null );
+		disableFlashAnimation
+				.setDescription( getMessage( "OptionDescription.DisableFlashAnimation" ) ); //$NON-NLS-1$
+
+		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
+				textHyphenation, fontSubstitution, pageOverFlow, embeddedFont,
+				chartDpi, renderChartInSVG, repaginateForPDF, disableFlashAnimation};
+
 		applyDefaultValues( );
 
 	}
@@ -245,6 +260,10 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( REPAGINATE_FOR_PDF.equals( name ) )
 		{
 			return IPDFRenderOption.REPAGINATE_FOR_PDF;
+		}
+		if ( DISABLE_FLASH_ANIMATION.equals( name ) )
+		{
+			return IPDFRenderOption.DISABLE_FLASH_ANIMATION;
 		}
 		return name;
 	}

@@ -134,5 +134,30 @@ public interface IInternalReportItemModel {
 	 * Name of the property that defines theme name applied for this element.
 	 */
 	public static final String THEME_PROP = ISupportThemeElementConstants.THEME_PROP;
+	
+	/**
+	 * Name of the role property.
+	 */
+	public static final String ROLE_PROP = "role"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the language property.
+	 */
+	public static final String LANGUAGE_PROP = "language"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the altText property.
+	 */
+	public static final String ALTTEXT_PROP = "altText"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the order property.
+	 */
+	public static final String ORDER_PROP = "order"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the url property.
+	 */
+	public static final String URL_PROP = "url"; //$NON-NLS-1$
 
 }

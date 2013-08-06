@@ -600,7 +600,7 @@ public class DataProcessor
 		{
 			// compute all base values.
 			Object[] oa = rsw.getMergedGroupingBaseValues( iBaseColumnIndex,
-					baseSorting );
+					baseSorting, true ); // Chart without axis has no category axis, keep as before.
 
 			List baseValues = (List) oa[0];
 			List idxList = (List) oa[1];
@@ -831,7 +831,9 @@ public class DataProcessor
 		{
 			// compute all base values.
 			Object[] oa = rsw.getMergedGroupingBaseValues( iBaseColumnIndex,
-					baseSorting );
+					baseSorting,
+					cwa.getAxes( ).get( 0 ).isCategoryAxis( )
+							|| !cwa.getAxes( ).get( 0 ).isSetCategoryAxis( ) );
 
 			List baseValues = (List) oa[0];
 			List idxList = (List) oa[1];

@@ -316,11 +316,19 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		lblRangeFill.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.Fill" ) ); //$NON-NLS-1$
 		
 		int fillStyles = FillChooserComposite.ENABLE_GRADIENT
-				| FillChooserComposite.ENABLE_IMAGE
 				| FillChooserComposite.ENABLE_TRANSPARENT
 				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
 		fillStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
 				: fillStyles;
+		if ( supportPatternAndImageFill( ) )
+		{
+			fillStyles |= FillChooserComposite.ENABLE_IMAGE;
+		}
+		else
+		{
+			fillStyles |= FillChooserComposite.DISABLE_PATTERN_FILL;
+		}
+		
 		fccRange = new FillChooserComposite( cmpRange,
 				SWT.NONE,
 				fillStyles,
@@ -381,6 +389,11 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		refreshButtons( );
 
 		return cmpContent;
+	}
+
+	protected boolean supportPatternAndImageFill( )
+	{
+		return true;
 	}
 
 	protected boolean supportRangeOutline( )

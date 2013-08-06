@@ -4,7 +4,8 @@
     <property name="author">W.C. Fields</property>
     <property name="subject">subject</property>
     <property name="helpGuide">http://company.com/reportHelp.html</property>
-    <property name="createdBy">Whiz-Bang Plus</property>
+    <property name="createdBy">Whiz-Bang Plus</property>    
+    <property name="language">English</property> 
     <property name="refreshRate">30</property>
     <property name="base">c:\</property>
     <property name="locale">de</property>

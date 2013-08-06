@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
  * The extended data adapter for extended report item
@@ -151,4 +153,10 @@ public interface IExtendedDataModelUIAdapter
 	 */
 	public ExpressionProvider getBindingExpressionProvider( DesignElementHandle handle, ComputedColumnHandle computedColumnHandle );
 
+	/**
+	 * Gets the level hierarchy hints
+	 * @param dimension the dimension
+	 * @return the levels
+	 */
+	public List<LevelHandle> getLevelHints(DimensionHandle dimension);
 }

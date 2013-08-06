@@ -216,8 +216,8 @@ public class ParameterAccessor
 	/**
 	 * URL parameter name that gives the preview max cube fetch levels option.
 	 */
-//	public static final String PARAM_MAXCUBE_ROWLEVELS = "__maxrowlevels"; //$NON-NLS-1$
-//	public static final String PARAM_MAXCUBE_COLUMNLEVELS = "__maxcolumnlevels"; //$NON-NLS-1$
+	//	public static final String PARAM_MAXCUBE_ROWLEVELS = "__maxrowlevels"; //$NON-NLS-1$
+	//	public static final String PARAM_MAXCUBE_COLUMNLEVELS = "__maxcolumnlevels"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the cube memory size option.
@@ -804,15 +804,15 @@ public class ParameterAccessor
 	 * @return max levels
 	 */
 
-//	public static int getMaxCubeRowLevels( HttpServletRequest request )
-//	{
-//		int curMaxRowLevels = ParameterAccessor.getParameterAsInt( request,
-//				PARAM_MAXCUBE_ROWLEVELS );
-//		if ( curMaxRowLevels <= 0 )
-//			curMaxRowLevels = maxCubeRowLevels;
-//
-//		return curMaxRowLevels;
-//	}
+	// public static int getMaxCubeRowLevels( HttpServletRequest request )
+	// {
+	// int curMaxRowLevels = ParameterAccessor.getParameterAsInt( request,
+	// PARAM_MAXCUBE_ROWLEVELS );
+	// if ( curMaxRowLevels <= 0 )
+	// curMaxRowLevels = maxCubeRowLevels;
+	//
+	// return curMaxRowLevels;
+	// }
 
 	/**
 	 * Get preview max cube fetch column levels.
@@ -822,15 +822,15 @@ public class ParameterAccessor
 	 * @return max levels
 	 */
 
-//	public static int getMaxCubeColumnLevels( HttpServletRequest request )
-//	{
-//		int curMaxColumnLevels = ParameterAccessor.getParameterAsInt( request,
-//				PARAM_MAXCUBE_COLUMNLEVELS );
-//		if ( curMaxColumnLevels <= 0 )
-//			curMaxColumnLevels = maxCubeColumnLevels;
-//
-//		return curMaxColumnLevels;
-//	}
+	// public static int getMaxCubeColumnLevels( HttpServletRequest request )
+	// {
+	// int curMaxColumnLevels = ParameterAccessor.getParameterAsInt( request,
+	// PARAM_MAXCUBE_COLUMNLEVELS );
+	// if ( curMaxColumnLevels <= 0 )
+	// curMaxColumnLevels = maxCubeColumnLevels;
+	//
+	// return curMaxColumnLevels;
+	// }
 
 	/**
 	 * Get cube memory size.
@@ -960,7 +960,6 @@ public class ParameterAccessor
 	 *            locale string
 	 * @return report locale
 	 */
-
 	public static Locale getLocaleFromString( String locale )
 	{
 		if ( locale == null || locale.length( ) <= 0 )
@@ -968,21 +967,67 @@ public class ParameterAccessor
 			return null;
 		}
 
-		String[] sp = locale.split( "_" ); //$NON-NLS-1$
-		if ( sp.length == 1 )
+		int len = locale.length( );
+
+		if ( len != 2 && len != 5 && len < 7 )
 		{
-			// language
-			return new Locale( locale );
+			return null;
 		}
-		else if ( sp.length == 2 )
+
+		// we do a strict check here so the locale string must be something like
+		// en_US_xxx.
+
+		char ch0 = locale.charAt( 0 );
+		char ch1 = locale.charAt( 1 );
+		if ( ch0 < 'a' || ch0 > 'z' || ch1 < 'a' || ch1 > 'z' )
 		{
-			// language, country
-			return new Locale( sp[0], sp[1] );
+			// Invalid locale format
+			return null;
+		}
+
+		if ( len == 2 )
+		{
+			return new Locale( locale, "" ); //$NON-NLS-1$
 		}
 		else
 		{
-			// language, country, variant
-			return new Locale( sp[0], sp[1], sp[2] );
+			if ( locale.charAt( 2 ) != '_' )
+			{
+				// Invalid locale format
+				return null;
+			}
+
+			char ch3 = locale.charAt( 3 );
+			if ( ch3 == '_' )
+			{
+				return new Locale( locale.substring( 0, 2 ), "", //$NON-NLS-1$
+						locale.substring( 4 ) );
+			}
+
+			char ch4 = locale.charAt( 4 );
+			if ( ch3 < 'A' || ch3 > 'Z' || ch4 < 'A' || ch4 > 'Z' )
+			{
+				// Invalid locale format
+				return null;
+			}
+
+			if ( len == 5 )
+			{
+				return new Locale( locale.substring( 0, 2 ),
+						locale.substring( 3, 5 ) );
+			}
+			else
+			{
+				if ( locale.charAt( 5 ) != '_' )
+				{
+					// Invalid locale format
+					return null;
+				}
+
+				return new Locale( locale.substring( 0, 2 ),
+						locale.substring( 3, 5 ),
+						locale.substring( 6 ) );
+			}
 		}
 	}
 
@@ -1320,6 +1365,52 @@ public class ParameterAccessor
 	public static TimeZone getWebAppTimeZone( )
 	{
 		return webAppTimeZone;
+	}
+
+	public static final String htmlHeaderValueEncode( String s )
+	{
+		if ( s == null )
+		{
+			return s;
+		}
+
+		s = s.replaceAll( "\\s", " " ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		return s;
+		
+		// TODO filter other unxpected characters.
+		// // these are only allowed characters in html header value.
+		// // ^[a-zA-Z0-9()\-=\*\.\?;,+\/:&_ ]*$
+		// StringBuilder sb = new StringBuilder( );
+		//
+		// for ( int i = 0; i < s.length( ); i++ )
+		// {
+		// char c = s.charAt( i );
+		//
+		// if ( ( c >= 'a' && c <= 'z' )
+		// || ( c >= 'A' && c <= 'Z' )
+		// || ( c >= '0' && c <= '9' )
+		// || c == '-'
+		// || c == '='
+		// || c == '('
+		// || c == ')'
+		// || c == '*'
+		// || c == '.'
+		// || c == '?'
+		// || c == ';'
+		// || c == ','
+		// || c == '+'
+		// || c == '/'
+		// || c == ':'
+		// || c == '&'
+		// || c == '_'
+		// || c == ' ' )
+		// {
+		// sb.append( c );
+		// }
+		// }
+		//
+		// return sb.toString( );
 	}
 
 	/**
@@ -2862,11 +2953,12 @@ public class ParameterAccessor
 					{
 						String urlRoot = null;
 						// for file urls
-						if("file".equalsIgnoreCase(url.getProtocol())) //$NON-NLS-1$
+						if ( "file".equalsIgnoreCase( url.getProtocol( ) ) ) //$NON-NLS-1$
 						{
-							urlRoot = DataUtil.trimString( url.getPath() );
+							urlRoot = DataUtil.trimString( url.getPath( ) );
 						}
-						// for other url protocals, e.g. path in an unpacked war, or other global urls
+						// for other url protocals, e.g. path in an unpacked
+						// war, or other global urls
 						else
 						{
 							urlRoot = DataUtil.trimString( url.toExternalForm( ) );
@@ -3474,13 +3566,13 @@ public class ParameterAccessor
 
 	public static String[] sortSupportedFormatsByDisplayName( String[] values )
 	{
-		Arrays.sort( values, new Comparator<String>( )
-		{
+		Arrays.sort( values, new Comparator<String>( ) {
+
 			public int compare( String o1, String o2 )
 			{
-				if(getOutputFormatLabel(o1) != null)
+				if ( getOutputFormatLabel( o1 ) != null )
 				{
-					return getOutputFormatLabel(o1).compareToIgnoreCase( getOutputFormatLabel(o2));
+					return getOutputFormatLabel( o1 ).compareToIgnoreCase( getOutputFormatLabel( o2 ) );
 				}
 				return o1.compareToIgnoreCase( o2 );
 			}

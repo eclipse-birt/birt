@@ -455,17 +455,25 @@ public class LayoutEngine extends LayoutEmitterAdapter
 				container );
 		setContainer( area );
 	}
-
-	protected void _endContainer( IContent container ) throws BirtException
+	
+	protected boolean checkUnfinishedContent( IContent content )
 	{
 		if ( !unfinishedContents.isEmpty( ) )
 		{
-			IContent content = unfinishedContents.peek( );
-			if ( container == content )
+			if ( unfinishedContents.contains( content ) )
 			{
-				unfinishedContents.poll( );
-				return;
+				unfinishedContents.remove( content );
+				return true;
 			}
+		}
+		return false;
+	}
+
+	protected void _endContainer( IContent container ) throws BirtException
+	{
+		if ( checkUnfinishedContent(container) )
+		{
+			return;
 		}
 		boolean isInline = PropertyUtil.isInlineElement( container );
 		if ( isInline )
@@ -491,14 +499,9 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	
 	public void endList( IListContent list ) throws BirtException
 	{
-		if ( !unfinishedContents.isEmpty( ) )
+		if ( checkUnfinishedContent( list ) )
 		{
-			IContent content = unfinishedContents.peek( );
-			if ( list == content )
-			{
-				unfinishedContents.poll( );
-				return;
-			}
+			return;
 		}
 		while ( current != null && !( current instanceof ListArea ) )
 		{
@@ -565,13 +568,9 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void endContent( IContent content ) throws BirtException
 	{
-		if ( !unfinishedContents.isEmpty( ) )
+		if ( checkUnfinishedContent( content ) )
 		{
-			IContent c = unfinishedContents.peek( );
-			if ( c == content )
-			{
-				unfinishedContents.poll( );
-			}
+			return;
 		}
 	}
 

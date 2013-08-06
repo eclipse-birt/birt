@@ -2524,8 +2524,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	private static String getDataSet( TabularHierarchyHandle handle )
 	{
-		if ( handle.getDataSet( )!= null )
+		if ( handle.getDataSet( ) != null )
 			return handle.getDataSet( ).getQualifiedName( );
+		else if ( handle.getProperty( ITabularCubeModel.DATA_SET_PROP ) != null )
+		{
+			return handle.getProperty( ITabularCubeModel.DATA_SET_PROP )
+					.toString( );
+		}
 		else
 		{
 			CubeHandle cubeHandle = acquireContainerCube( handle );

@@ -118,7 +118,8 @@ abstract class PreviewSupport
 		}
 
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
-		previewWebViewer.setText( "&1 " //$NON-NLS-1$
+		//remove "&1"
+		previewWebViewer.setText( "" //$NON-NLS-1$
 				+ Messages.getString( fullLabel ? "designer.preview.previewaction.label.webviewer" //$NON-NLS-1$
 						: "designer.preview.run.webviewer" ) ); //$NON-NLS-1$
 		previewWebViewer.setImage( UIHelper.getImage( Activator.getDefault( )
@@ -144,10 +145,8 @@ abstract class PreviewSupport
 			MenuItem previewOption = new MenuItem( menu,
 					emits.size( ) > 1 ? SWT.CASCADE : SWT.PUSH );
 
-			String indexPrefix = i > 7 ? "  " : "&" + ( ( i++ ) + 2 ); //$NON-NLS-1$ //$NON-NLS-2$
-			previewOption.setText( indexPrefix
-					+ " " //$NON-NLS-1$
-					+ Messages.getFormattedString( fullLabel ? "designer.preview.previewaction.label" //$NON-NLS-1$
+			//remove indexPrefix
+			previewOption.setText(  Messages.getFormattedString( fullLabel ? "designer.preview.previewaction.label" //$NON-NLS-1$
 							: "designer.preview.run", //$NON-NLS-1$
 							new Object[]{
 								format.toUpperCase( )

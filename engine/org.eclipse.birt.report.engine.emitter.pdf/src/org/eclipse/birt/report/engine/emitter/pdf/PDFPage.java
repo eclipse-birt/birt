@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.print.PrintTranscoder;
@@ -36,7 +38,6 @@ import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.w3c.dom.css.CSSValue;
 
-import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
@@ -78,6 +79,8 @@ public class PDFPage extends AbstractPage
 	 * will be thrown.
 	 */
 	private static float MIN_FONT_SIZE = 1.0E-4f;
+	
+	private static Pattern PAGE_LINK_PATTERN = Pattern.compile("(.+)#page=(\\d+)");
 
 	public PDFPage( int pageWidth, int pageHeight, Document document,
 			PdfWriter writer, PDFPageDevice pageDevice )
@@ -566,6 +569,14 @@ public class PDFPage extends AbstractPage
 				|| "_self".equalsIgnoreCase( target ) )
 		// Opens the target in a new window.
 		{
+			boolean isUrl = hyperlink.startsWith( "http" );
+			if ( !isUrl )
+			{
+				Matcher matcher = PAGE_LINK_PATTERN.matcher( hyperlink );
+				String fileName = matcher.group( 1 );
+				String pageNumber = matcher.group( 2 );
+				return new PdfAction( fileName, Integer.valueOf( pageNumber ) );
+			}
 			return new PdfAction( hyperlink );
 		}
 		else

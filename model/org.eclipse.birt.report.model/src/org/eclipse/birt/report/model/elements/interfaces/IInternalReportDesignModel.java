@@ -214,5 +214,10 @@ public interface IInternalReportDesignModel
 	 * The design can load java script libraries by the property.
 	 */
 	public static final String CLIENT_INITIALIZE_METHOD = "clientInitialize"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the language property.
+	 */
+	public static final String LANGUAGE_PROP = "language"; //$NON-NLS-1$
 
 }

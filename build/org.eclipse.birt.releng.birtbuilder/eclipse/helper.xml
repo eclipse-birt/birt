@@ -791,6 +791,20 @@
 			</fileset>
 		</copy>
 
+		<copy todir="${package-dest}/jee-mac/eclipse/plugins"
+			failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<copy todir="${package-dest}/jee-mac/eclipse/features"
+			failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+				<include name="**" />
+			</fileset>
+		</copy>
+
 		<delete dir="${p4.home}/downloads/${file-version}"
 			includeemptydirs="true" />
 	</target>
@@ -1114,6 +1128,20 @@
 		</copy>
 
 		<copy todir="${package-dest}/jee-linux/eclipse/features"
+			failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<copy todir="${package-dest}/jee-mac/eclipse/plugins"
+			failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<copy todir="${package-dest}/jee-mac/eclipse/features"
 			failonerror="false">
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 				<include name="**" />
