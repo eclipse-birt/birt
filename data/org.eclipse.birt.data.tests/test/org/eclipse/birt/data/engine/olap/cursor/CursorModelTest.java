@@ -153,6 +153,7 @@ public class CursorModelTest extends BaseTestCase
 		{
 			fail( "fail to get here!" );
 		}
+		CubeUtility.close( dataCursor );
 	}
 
 	/**
@@ -216,6 +217,7 @@ public class CursorModelTest extends BaseTestCase
 		{
 			fail( "fail to get here!" );
 		}
+		CubeUtility.close( dataCursor );
 	}
 	
 	/**
@@ -270,6 +272,7 @@ public class CursorModelTest extends BaseTestCase
 		{
 			fail( "fail to get here!" );
 		}
+		CubeUtility.close( dataCursor );
 	}
 		
 	/**
@@ -343,6 +346,7 @@ public class CursorModelTest extends BaseTestCase
 		{
 			fail( "fail to get here!" );
 		}
+		CubeUtility.close( dataCursor );
 	}
 	
 	
@@ -409,6 +413,7 @@ public class CursorModelTest extends BaseTestCase
 		{
 			fail( "fail to get here!" );
 		}
+		CubeUtility.close( dataCursor );
 	}
 		
 	/**
@@ -462,6 +467,7 @@ public class CursorModelTest extends BaseTestCase
 					null,
 					null));
 			this.checkOutputFile( );
+			CubeUtility.close( dataCursor );
 		}
 		catch ( Exception e )
 		{
@@ -519,6 +525,7 @@ public class CursorModelTest extends BaseTestCase
 					null,
 					grandBindingNames ) );
 			this.checkOutputFile( );
+			CubeUtility.close( dataCursor );
 		}
 		catch ( Exception e )
 		{
@@ -581,6 +588,7 @@ public class CursorModelTest extends BaseTestCase
 				null,
 				null ) );
 		this.checkOutputFile( );
+		
 		try
 		{
 
@@ -590,6 +598,7 @@ public class CursorModelTest extends BaseTestCase
 		{
 			assertTrue( e instanceof OLAPException );
 		}
+		CubeUtility.close( dataCursor );
 	}
 	
 
@@ -665,7 +674,7 @@ public class CursorModelTest extends BaseTestCase
 					"totalGrandTotal",
 					null ) );
 			this.checkOutputFile( );
-
+			CubeUtility.close( dataCursor );
 		}
 		catch ( Exception e )
 		{
@@ -739,6 +748,7 @@ public class CursorModelTest extends BaseTestCase
 					"totalGrandTotal",
 					null ) );
 			this.checkOutputFile( );
+			CubeUtility.close( dataCursor );
 		}
 		catch ( Exception e )
 		{
@@ -864,7 +874,7 @@ public class CursorModelTest extends BaseTestCase
 				"totalGrandTotal",
 				null ) );
 		this.checkOutputFile( );
-
+		CubeUtility.close( dataCursor );
 	}
 	
 	public void testCursorWithPageEdge2( ) throws Exception
@@ -934,7 +944,7 @@ public class CursorModelTest extends BaseTestCase
 				"totalGrandTotal",
 				null ) );
 		this.checkOutputFile( );
-
+		CubeUtility.close( dataCursor );
 	}
 	
 	/**
@@ -991,5 +1001,6 @@ public class CursorModelTest extends BaseTestCase
 				null,
 				null ) );
 		this.checkOutputFile( );
+		CubeUtility.close( dataCursor );
 	}
 }
