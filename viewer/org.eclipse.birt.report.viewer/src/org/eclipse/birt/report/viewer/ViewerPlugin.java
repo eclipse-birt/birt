@@ -13,11 +13,14 @@ package org.eclipse.birt.report.viewer;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.Collator;
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
+import java.util.TreeMap;
 
-import org.eclipse.birt.report.viewer.utilities.IWebAppInfo;
+
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
@@ -26,7 +29,7 @@ import org.eclipse.core.runtime.Status;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-import com.ibm.icu.util.TimeZone;
+
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -90,6 +93,33 @@ public class ViewerPlugin extends Plugin
 	private ResourceBundle resourceBundle;
 
 	private BundleContext bundleContext;
+	
+	public static TreeMap<String, String> timeZoneTable_disKey = null;
+
+	public static TreeMap<String, String> getTimeZoneTable_disKey() {
+		return timeZoneTable_disKey;
+	}
+
+	static
+	{
+		// Initialize the locale mapping table
+		timeZoneTable_disKey = new TreeMap<String, String>( Collator.getInstance( ) );
+		String ids[] = TimeZone.getAvailableIDs( );
+
+		if ( ids != null )
+		{
+			for ( int i = 0; i < ids.length; i++ )
+			{
+				String id = ids[i];
+				if ( id != null )
+				{
+					TimeZone timeZone = TimeZone.getTimeZone( id );
+					String timeZoneDisplayName = timeZone.getDisplayName( );
+					timeZoneTable_disKey.put( timeZoneDisplayName, id );
+				}
+			}
+		}
+	}
 
 	/**
 	 * The constructor.
@@ -137,7 +167,7 @@ public class ViewerPlugin extends Plugin
 				ULocale.getDefault( ).getLanguage( ) + "_" + ULocale.getDefault( ).getCountry( ) );
 		
 		plugin.getPluginPreferences( ).setDefault( WebViewer.USER_TIME_ZONE,
-				TimeZone.getDefault( ).getID( ) );
+				timeZoneTable_disKey.get(TimeZone.getDefault( ).getDisplayName()));
 
 		plugin.getPluginPreferences( ).setDefault( WebViewer.BIDI_ORIENTATION,
 				WebViewer.BIDI_ORIENTATION_AUTO );
