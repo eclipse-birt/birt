@@ -444,7 +444,7 @@ public class ArchiveUtil
 		archive( folder, null, file );
 	}
 	
-	static public void converFolderArchive(String folder, String file)  throws IOException
+	static public void convertFolderArchive(String folder, String file)  throws IOException
 	{
 		FolderArchiveReader reader = null;
 		InputStream inputStream = null;
