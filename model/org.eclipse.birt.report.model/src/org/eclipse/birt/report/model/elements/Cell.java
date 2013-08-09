@@ -21,9 +21,12 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.strategy.CellExportPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.CellPropSearchStrategy;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
  * This class represents a cell element. Each grid row or table row contains
@@ -37,6 +40,8 @@ import org.eclipse.birt.report.model.elements.strategy.CellPropSearchStrategy;
 
 public class Cell extends StyledElement implements ICellModel
 {
+
+	private static final PropertySearchStrategy cachedExportStrategy = CellExportPropSearchStrategy.getInstance( );
 
 	/**
 	 * Default Constructor.
@@ -215,5 +220,17 @@ public class Cell extends StyledElement implements ICellModel
 				list.add( tableCellSelector );
 			return list;			
 		}
+	}
+
+	/**
+	 * {@inheritDoc} 
+	 */
+	public Object getFactoryProperty( Module module, ElementPropertyDefn prop,
+			boolean forExport )
+	{
+		// when exporting cells should not get prop values from its container
+		if ( forExport )
+			return cachedExportStrategy.getPropertyFromElement( module, this, prop );
+		return super.getFactoryProperty( module, prop, forExport );
 	}
 }

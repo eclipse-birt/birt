@@ -183,7 +183,7 @@ public class ModelUtil extends ModelUtilBase
 
 		return value;
 	}
-
+	
 	/**
 	 * Duplicates the properties from source element to destination element.
 	 * Source and the destination element should be of the same type. The
@@ -206,10 +206,31 @@ public class ModelUtil extends ModelUtilBase
 	 *            indicate whether the name space of the extended item property
 	 *            should be removed.
 	 */
-
 	public static void duplicateProperties( DesignElementHandle source,
 			DesignElementHandle destination, boolean onlyFactoryProperty,
 			boolean removeNameSpace )
+	{
+		duplicateProperties(source, destination, onlyFactoryProperty, removeNameSpace, false);
+	}
+
+	/**
+	 * Duplicate properties with specified search strategy instead of 
+	 * 
+	 * @param source
+	 *            handle of the source element
+	 * @param destination
+	 *            handle of the destination element
+	 * @param onlyFactoryProperty
+	 *            indicate whether only factory property values are duplicated.
+	 * @param removeNameSpace
+	 *            indicate whether the name space of the extended item property
+	 *            should be removed.
+	 * @param strategy
+	 *            the property search strategy, note this only works when onlyFactoryProperty is true.
+	 */
+	public static void duplicateProperties( DesignElementHandle source,
+			DesignElementHandle destination, boolean onlyFactoryProperty,
+			boolean removeNameSpace, boolean duplicateForExport )
 	{
 		assert source != null;
 		assert destination != null;
@@ -286,8 +307,10 @@ public class ModelUtil extends ModelUtilBase
 				value = propHandle.getElement( ).getLocalProperty(
 						propHandle.getModule( ), propDefn );
 			else if ( onlyFactoryProperty )
+			{
 				value = propHandle.getElement( ).getFactoryProperty(
-						propHandle.getModule( ), propDefn );
+						propHandle.getModule( ), propDefn, duplicateForExport );
+			}
 			else if ( IModuleModel.IMAGES_PROP.equals( propName ) )
 			{
 				// Copy the embedded images
