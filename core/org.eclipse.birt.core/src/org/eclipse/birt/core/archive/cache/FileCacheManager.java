@@ -86,7 +86,6 @@ public class FileCacheManager
 		{
 			return;
 		}
-		Cacheable[] removedCaches = new Cacheable[releasedCacheSize];
 		for ( int i = 0; i < releasedCacheSize; i++ )
 		{
 			Cacheable freeCache = freeCaches.remove( );
@@ -94,7 +93,7 @@ public class FileCacheManager
 			{
 				listener.onCacheRelease( freeCache );
 			}
-			removedCaches[i] = freeCache;
+			caches.remove( freeCache.getCacheKey( ) );
 		}
 	}
 
