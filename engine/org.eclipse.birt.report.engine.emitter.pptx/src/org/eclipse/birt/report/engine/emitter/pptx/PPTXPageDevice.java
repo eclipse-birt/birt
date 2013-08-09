@@ -53,7 +53,8 @@ public class PPTXPageDevice implements IPageDevice
 		{
 			width = PPTXUtil.convertToPointer( width );
 			height = PPTXUtil.convertToPointer( height );
-			page = new PPTXPage( presentation.createSlide( width, height ) );
+			page = new PPTXPage( presentation.createSlide( width, height,
+					backgroundColor ) );
 			page.drawBackgroundColor( backgroundColor, 0, 0, width, height );
 		}
 		catch ( IOException e )

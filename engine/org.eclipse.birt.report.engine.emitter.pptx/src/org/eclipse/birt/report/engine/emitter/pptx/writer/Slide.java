@@ -49,7 +49,7 @@ public class Slide extends Component
 	private boolean isClosed = false;
 	private ImageManager imageManager;
 
-	public Slide( Presentation presentation, int slideIndex )
+	public Slide( Presentation presentation, int slideIndex, Color color )
 			throws IOException
 	{
 		this.index = slideIndex;
@@ -67,6 +67,7 @@ public class Slide extends Component
 		writer.nameSpace( "r", NameSpaces.RELATIONSHIPS );
 		writer.nameSpace( "p", NameSpaces.PRESENTATIONML );
 		writer.openTag( "p:cSld" );
+		drawSlideBackgroundColor( color );
 		writer.openTag( "p:spTree" );
 		writer.openTag( "p:nvGrpSpPr" );
 		writer.openTag( "p:cNvPr" );
@@ -80,6 +81,17 @@ public class Slide extends Component
 		writer.closeTag( "p:nvGrpSpPr" );
 		writer.openTag( "p:grpSpPr" );
 		writer.closeTag( "p:grpSpPr" );
+	}
+
+	private void drawSlideBackgroundColor( Color color )
+	{
+		writer.openTag( "p:bg" );
+		writer.openTag( "p:bgPr" );
+		setColor( color );
+		writer.openTag( "a:effectLst" );
+		writer.closeTag( "a:effectLst" );
+		writer.closeTag( "p:bgPr" );
+		writer.closeTag( "p:bg" );
 	}
 
 	public void drawLine( int startX, int startY, int endX, int endY,
@@ -330,7 +342,6 @@ public class Slide extends Component
 			writer.openTag( "a:prstGeom" );
 			writer.attribute( "prst", "rect" );
 			writer.closeTag( "a:prstGeom" );
-			setColor( color );
 			writer.closeTag( "p:spPr" );
 			writer.closeTag( "p:sp" );
 		}
