@@ -311,6 +311,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		shell.pack( );
 		shell.setFocus( ); // Set focus to this shell to receive key event.
 		shell.open( );
+		cmpDropDown.setFocus( );
 	}
 
 	public void mouseDoubleClick( MouseEvent e )
