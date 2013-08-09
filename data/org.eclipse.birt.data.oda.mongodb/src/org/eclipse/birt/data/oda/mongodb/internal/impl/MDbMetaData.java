@@ -55,7 +55,7 @@ public class MDbMetaData
             sm_factory.new FieldMetaData( DriverUtil.EMPTY_STRING );
     
     private static final String SYSTEM_NAMESPACE_PREFIX = "system."; //$NON-NLS-1$
-    private static final String FIELD_FULL_NAME_SEPARATOR = "."; //$NON-NLS-1$
+    static final String FIELD_FULL_NAME_SEPARATOR = "."; //$NON-NLS-1$
 
     private DB m_connectedDB;
     
@@ -233,6 +233,21 @@ public class MDbMetaData
         if( stripFromIndex > fieldFullName.length() )   // out of bound index
             return fieldFullName;   // n/a in fieldFullName to strip
         return fieldFullName.substring( stripFromIndex );
+    }
+
+    static String formatFieldLevelNames( String[] fieldLevelNames, int fromIndex, int toIndex )
+    {
+        if( fromIndex < 0 || toIndex >= fieldLevelNames.length || fromIndex > toIndex )
+            throw new IllegalArgumentException( "MDbMetaData#formatFieldLevelNames: Index argument(s) out of range." ); //$NON-NLS-1$
+
+        StringBuffer fieldName = new StringBuffer();
+        for( int i=fromIndex; i <= toIndex; i++ )
+        {
+            if( fieldName.length() > 0 )
+                fieldName.append( FIELD_FULL_NAME_SEPARATOR );
+            fieldName.append( fieldLevelNames[i] );
+        }
+        return fieldName.toString();  
     }
 
     /**

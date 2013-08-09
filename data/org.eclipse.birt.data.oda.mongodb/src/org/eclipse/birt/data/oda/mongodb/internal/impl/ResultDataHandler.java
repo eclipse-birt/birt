@@ -182,6 +182,11 @@ public class ResultDataHandler
         return newFieldValues;
     }
 
+    /*
+     * Fetches and returns the value of the named field from a top-level document in a db collection.
+     * This method flattens array(s) of sub-documents, if exists and designated in the metadata,  
+     * and projects the sub-documents in an array into multiple ODA result set rows.
+     */
     public Object getFieldValue( String fieldName, DBObject currentRow )
         throws OdaException
     {
@@ -233,15 +238,15 @@ public class ResultDataHandler
             return value;
         }
         
-        // containerDoc found is of the field being fetched
-        if( isFlattenableLevelField( fieldName ) ) 
+        // if containerDoc is the selected field itself in a flattened nested collection
+        if( isFlattenableLevelField( fieldName ) )
             return containerDoc;
 
-        String fieldSimpleName = fieldMD.getSimpleName();
+        // containerDoc is in a flattened collection (not necessarily immediate parent) of the field being fetched
         Object value = null;
         try
         {
-            value = containerDoc.get( fieldSimpleName );
+            value = getSubFieldValues( fieldName, fieldMD, containerDoc ); 
         }
         catch( Exception ex )
         {
@@ -273,7 +278,7 @@ public class ResultDataHandler
 
         String firstLevelName = fieldLevelNames[0];
         String levelFullName = priorLevelName != null ?
-                                priorLevelName + '.' + firstLevelName :
+                                priorLevelName + MDbMetaData.FIELD_FULL_NAME_SEPARATOR + firstLevelName :
                                 firstLevelName;
 
         DBObject currentContainerDoc = null;
@@ -299,9 +304,18 @@ public class ResultDataHandler
             if( ! firstLevelMD.hasChildDocuments() )    // a leaf field
                 return documentObj;
 
+            // if field is not from the same lineage of a flattenable nested collection
             if( ! isFlattenableNestedField( firstLevelMD ))
-                return null;
-
+                return null;        // no nested parent container doc
+            // field is from the lineage of a flattenable nested collection
+            
+            // if this is the lowest level of a selected field, but not a flattenable collection field itself
+            if( fieldLevelNames.length == 1 && ! isFlattenableLevelField( levelFullName ) )
+                return documentObj;     // return its nested parent container doc
+            
+            // field being processed is an intermediate level one, or 
+            // it is the lowest level of a selected field that is itself a flattenable field;
+            // get the current document from the nested collection
             ArrayFieldValues firstLevelValues = getOrCreateCachedFieldValues( levelFullName );
             if( ! firstLevelValues.hasContainerDocs() )
             {
@@ -326,6 +340,7 @@ public class ResultDataHandler
         
         if( currentContainerDoc == null || currentContainerDoc == NULL_VALUE_FIELD ) 
             return currentContainerDoc;
+        // if the lowest level of a selected field is itself a document in a flattenable nested collection
         if( fieldLevelNames.length == 1 )
              return currentContainerDoc;
         
@@ -367,7 +382,7 @@ public class ResultDataHandler
         m_currentContainingDocs.remove( containerFieldName );
 
         // also clear all cached values of child fields under the containing field
-        String parentPrefix = containerFieldName + '.';
+        String parentPrefix = containerFieldName + MDbMetaData.FIELD_FULL_NAME_SEPARATOR;
         Set<String> cachedFieldNames = new HashSet<String>( m_currentContainingDocs.keySet() );
         for( String fieldName : cachedFieldNames )
         {
@@ -492,6 +507,40 @@ public class ResultDataHandler
         }
         
         return null;    // all values in list is null
+    }
+
+    private Object getSubFieldValues( String fieldFullName, FieldMetaData fieldMD, DBObject documentObj )
+    {
+        String[] fieldLevelNames = fieldMD != null ?
+                    fieldMD.getLevelNames() :
+                    MDbMetaData.splitFieldName( fieldFullName );
+
+        if( fieldLevelNames.length == 1 )
+        {
+            String fieldSimpleName = fieldMD != null ? fieldMD.getSimpleName() : fieldLevelNames[0];
+            return documentObj.get( fieldSimpleName );
+        }
+
+        if( fieldLevelNames.length == 2 )
+            return documentObj.get( fieldLevelNames[1] );   // get the document field by its simple name
+
+        // field has at least 3 levels or more
+        for( int i=fieldLevelNames.length - 2; i >=0 ; i-- )
+        {   
+            // check the lowest ancestor level that is a flattenable nested collection field, i.e. 
+            // the nested level of the specified documentObj
+            String ancestorFullName = MDbMetaData.formatFieldLevelNames( fieldLevelNames, 0, i );
+            if( isFlattenableLevelField( ancestorFullName ) )
+            {   
+                // strip the flattenable ancestor segments from the field full name to identify the lower field level(s);
+                // get the value of the lower level field from the ancestor documentObj
+                String childLevelName = MDbMetaData.formatFieldLevelNames( fieldLevelNames, i+1, fieldLevelNames.length-1 );
+                return fetchFieldValues( childLevelName, documentObj );
+            }
+        }
+
+        // no multi-level field from a flattenable collection
+        return documentObj;     // return the document itself
     }
 
     private static Logger getLogger()
