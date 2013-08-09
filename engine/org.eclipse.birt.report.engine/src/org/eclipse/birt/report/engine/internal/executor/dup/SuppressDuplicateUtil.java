@@ -156,84 +156,59 @@ public class SuppressDuplicateUtil
 		
 		public Object visitTableItem( TableItemDesign table, Object value )
 		{
-			TableHandle handle = (TableHandle) table.getHandle( );
-			boolean isSummaryTable = handle.isSummaryTable( );
-			if ( isSummaryTable )
+			int detailBandId = getDetailBand( table );
+			BandDesign header = table.getHeader( );
+			if ( header != null )
 			{
-				BandDesign header = table.getHeader( );
-				if ( header != null )
+				value = header.accept( this, value );
+			}
+			for ( int i = 0; i < table.getGroupCount( ); i++ )
+			{
+				GroupDesign group = table.getGroup( i );
+				if ( detailBandId == i )
 				{
-					value = header.accept( this, value );
-				}
-				for ( int i = 0; i < table.getGroupCount( ); i++ )
-				{
-					GroupDesign group = table.getGroup( i );
-					if ( i == table.getGroupCount( ) - 1 )
-					{
-						isInDetailBand.push( Boolean.TRUE );
-					}
+					isInDetailBand.push( Boolean.TRUE );
 					value = group.accept( this, value );
-					if ( i == table.getGroupCount( ) - 1 )
-					{
-						isInDetailBand.pop( );
-					}
+					isInDetailBand.pop( );
 				}
-
-				BandDesign footer = table.getFooter( );
-				if ( footer != null )
+				else
 				{
-					value = footer.accept( this, value );
+					value = group.accept( this, value );
 				}
 			}
-			else
+
+			BandDesign detail = table.getDetail( );
+			if ( detail != null )
 			{
-				int detailBandId = getDetailBand( table );
-				BandDesign header = table.getHeader( );
-				if ( header != null )
+				if ( detailBandId == -1 )
 				{
-					value = header.accept( this, value );
+					isInDetailBand.push( Boolean.TRUE );
+					value = detail.accept( this, value );
+					isInDetailBand.pop( );
 				}
-				for ( int i = 0; i < table.getGroupCount( ); i++ )
+				else
 				{
-					GroupDesign group = table.getGroup( i );
-					if ( detailBandId == i )
-					{
-						isInDetailBand.push( Boolean.TRUE );
-						value = group.accept( this, value );
-						isInDetailBand.pop( );
-					}
-					else
-					{
-						value = group.accept( this, value );
-					}
-				}
-
-				BandDesign detail = table.getDetail( );
-				if ( detail != null )
-				{
-					if ( detailBandId == -1 )
-					{
-						isInDetailBand.push( Boolean.TRUE );
-						value = detail.accept( this, value );
-						isInDetailBand.pop( );
-					}
-					else
-					{
-						value = detail.accept( this, value );
-					}
-				}
-
-				BandDesign footer = table.getFooter( );
-				if ( footer != null )
-				{
-					value = footer.accept( this, value );
+					value = detail.accept( this, value );
 				}
 			}
+
+			BandDesign footer = table.getFooter( );
+			if ( footer != null )
+			{
+				value = footer.accept( this, value );
+			}
+			
 			return value;
 		}
 
 		protected int getDetailBand( TableItemDesign table )
 		{
+			BandDesign detail = table.getDetail( );
+			if ( !isBandEmpty( detail ) )
+			{
+				return -1;
+			}
+			
 			for ( int i = table.getGroupCount( ) - 1; i >= 0; i-- )
 			{
 				GroupDesign group = table.getGroup( i );
@@ -242,12 +217,6 @@ public class SuppressDuplicateUtil
 				{
 					return i;
 				}
-			}
-
-			BandDesign detail = table.getDetail( );
-			if ( !isBandEmpty( detail ) )
-			{
-				return -1;
 			}
 			return -1;
 		}
