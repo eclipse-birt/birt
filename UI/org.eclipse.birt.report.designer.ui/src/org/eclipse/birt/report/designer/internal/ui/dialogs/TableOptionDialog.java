@@ -99,6 +99,8 @@ public class TableOptionDialog extends BaseDialog
 
 	private Button autoChk;
 
+	private boolean showDataSetOption = true;
+
 	/**
 	 * The constructor.
 	 * 
@@ -188,11 +190,12 @@ public class TableOptionDialog extends BaseDialog
 		sp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Composite innerPane = new Composite( composite, SWT.NONE );
-		GridData gdata = new GridData( GridData.FILL_BOTH );
+		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.horizontalSpan = 2;
 		innerPane.setLayoutData( gdata );
 		GridLayout glayout = new GridLayout( 2, false );
 		glayout.marginWidth = 10;
+		glayout.marginHeight = 10;
 		innerPane.setLayout( glayout );
 
 		new Label( innerPane, SWT.NONE ).setText( MSG_NUMBER_OF_COLUMNS );
@@ -211,26 +214,31 @@ public class TableOptionDialog extends BaseDialog
 		rowEditor.setIncrement( 1 );
 		rowEditor.setSelection( rowCount );
 		rowEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+		
 		if ( insertTable )
 		{
-			new Label( innerPane, SWT.NONE ).setText( MSG_DATA_SET );
-			dataSetCombo = new Combo( innerPane, SWT.BORDER
-					| SWT.SINGLE
-					| SWT.READ_ONLY );
-			dataSetCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			dataSetCombo.setVisibleItemCount( 30 );
-			String[] dataSets = ChoiceSetFactory.getDataSets( );
-			String[] newList = new String[dataSets.length + 1];
-			System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
-			newList[0] = NONE;
-			dataSetCombo.setItems( newList );
-			dataSetCombo.select( 0 );
+			if ( showDataSetOption )
+			{
+				new Label( innerPane, SWT.NONE ).setText( MSG_DATA_SET );
 
-			autoChk = new Button( composite, SWT.CHECK );
-			autoChk.setText( Messages.getString( "TableOptionDialog.text.AutoSummary" ) );
+				dataSetCombo = new Combo( innerPane, SWT.BORDER
+						| SWT.SINGLE
+						| SWT.READ_ONLY );
+				dataSetCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				dataSetCombo.setVisibleItemCount( 30 );
+				String[] dataSets = ChoiceSetFactory.getDataSets( );
+				String[] newList = new String[dataSets.length + 1];
+				System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
+				newList[0] = NONE;
+				dataSetCombo.setItems( newList );
+				dataSetCombo.select( 0 );
+			}
+
+			autoChk = new Button( innerPane, SWT.CHECK );
+			autoChk.setText( Messages.getString( "TableOptionDialog.text.AutoSummary" ) ); //$NON-NLS-1$
 			gdata = new GridData( GridData.FILL_HORIZONTAL );
 			gdata.horizontalSpan = 2;
+			gdata.verticalIndent = 10;
 			autoChk.setLayoutData( gdata );
 			autoChk.addSelectionListener( new SelectionListener( ) {
 
@@ -246,13 +254,13 @@ public class TableOptionDialog extends BaseDialog
 		}
 		else
 		{
-			Label lb = new Label( composite, SWT.NONE );
+			Label lb = new Label( innerPane, SWT.NONE );
 			gdata = new GridData( GridData.FILL_HORIZONTAL );
 			gdata.horizontalSpan = 2;
 			lb.setLayoutData( gdata );
 		}
 
-		chkbox = new Button( composite, SWT.CHECK );
+		chkbox = new Button( innerPane, SWT.CHECK );
 		chkbox.setText( insertTable ? MSG_REMEMBER_DIMENSIONS_FOR_NEW_TABLES
 				: MSG_REMEMBER_DIMENSIONS_FOR_NEW_GRIDS );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
@@ -293,12 +301,23 @@ public class TableOptionDialog extends BaseDialog
 
 		if ( insertTable )
 		{
-			setResult( new Object[]{
-					Integer.valueOf( rowCount ),
-					Integer.valueOf( columnCount ),
-					dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) ),
-					autoChk.getSelection( )
-			} );
+			if ( !showDataSetOption )
+			{
+				setResult( new Object[]{
+						Integer.valueOf( rowCount ),
+						Integer.valueOf( columnCount ),
+						autoChk.getSelection( )
+				} );
+			}
+			else
+			{
+				setResult( new Object[]{
+						Integer.valueOf( rowCount ),
+						Integer.valueOf( columnCount ),
+						autoChk.getSelection( ),
+						dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) )
+				} );
+			}
 		}
 		else
 			setResult( new Object[]{
@@ -311,5 +330,10 @@ public class TableOptionDialog extends BaseDialog
 		}
 
 		super.okPressed( );
+	}
+
+	public void showDataSetOption( boolean showDataSet )
+	{
+		this.showDataSetOption = showDataSet;
 	}
 }

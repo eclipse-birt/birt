@@ -89,7 +89,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 public class InsertInLayoutUtil
 {
-	
+
 	/**
 	 * Rule interface for defining insertion rule
 	 */
@@ -402,7 +402,8 @@ public class InsertInLayoutUtil
 			if ( dataSetHandle == null
 					|| dataSetHandle != getDataSet( dataSetColumn ) )
 			{
-				setDataSet(getGroupContainer( container ), getDataSet( dataSetColumn ));
+				setDataSet( getGroupContainer( container ),
+						getDataSet( dataSetColumn ) );
 			}
 
 			getGroupHandle( container ).setKeyExpr( DEUtil.getColumnExpression( dataSetColumn.getColumnName( ) ) );
@@ -719,7 +720,7 @@ public class InsertInLayoutUtil
 			TableHandle tableHandle = (TableHandle) targetParent;
 			if ( tableHandle.isSummaryTable( ) )
 			{
-				setDataSet(tableHandle, dataSet);
+				setDataSet( tableHandle, dataSet );
 				setDataItemAction( model, dataHandle );
 				if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( UIUtil.getColumnAnalysis( model ) ) )
 				{
@@ -1062,7 +1063,7 @@ public class InsertInLayoutUtil
 					ComputedColumn bindingColumn = createBindingColumn( target,
 							dataHandle,
 							model );
-					setDataSet(dataHandle, dataSet);
+					setDataSet( dataHandle, dataSet );
 					dataHandle.addColumnBinding( bindingColumn, false );
 				}
 				else
@@ -1070,13 +1071,13 @@ public class InsertInLayoutUtil
 					ComputedColumn bindingColumn = createBindingColumn( target,
 							container,
 							model );
-					setDataSet(container, dataSet);
+					setDataSet( container, dataSet );
 					container.addColumnBinding( bindingColumn, false );
 				}
 			}
 			else if ( root.getDataSet( ) == dataSet
-					|| (getAdapter() != null && getAdapter().resolveExtendedData( root.getDataSet( ) )
-							.equals( getAdapter().resolveExtendedData( dataSet ) )))
+					|| ( getAdapter( ) != null && getAdapter( ).resolveExtendedData( root.getDataSet( ) )
+							.equals( getAdapter( ).resolveExtendedData( dataSet ) ) ) )
 			{
 				container = DEUtil.getBindingHolder( container );
 				ComputedColumn bindingColumn = createBindingColumn( target,
@@ -1094,7 +1095,7 @@ public class InsertInLayoutUtil
 					ComputedColumn bindingColumn = createBindingColumn( target,
 							listingHandle,
 							model );
-					setDataSet(listingHandle, dataSet);
+					setDataSet( listingHandle, dataSet );
 					listingHandle.addColumnBinding( bindingColumn, false );
 				}
 				// do nothing, forbid dragging into the place.
@@ -1213,7 +1214,7 @@ public class InsertInLayoutUtil
 				}
 			}
 			dataHandle.addColumnBinding( bindingColumn, false );
-			setDataSet(dataHandle, dataSet);
+			setDataSet( dataHandle, dataSet );
 		}
 
 		setDataItemAction( model, dataHandle );
@@ -1240,7 +1241,7 @@ public class InsertInLayoutUtil
 					.newLabel( null );
 			label.setText( UIUtil.getHeadColumnDisplayName( model ) );
 			String displayKey = UIUtil.getColumnHeaderDisplayNameKey( model );
-			if (displayKey == null)
+			if ( displayKey == null )
 			{
 				displayKey = UIUtil.getColumnDisplayNameKey( model );
 			}
@@ -1412,7 +1413,7 @@ public class InsertInLayoutUtil
 				columns,
 				false );
 
-		setDataSet(tableHandle, model);
+		setDataSet( tableHandle, model );
 		return tableHandle;
 
 	}
@@ -1817,20 +1818,21 @@ public class InsertInLayoutUtil
 				{
 					dataSet = bindingRoot.getDataSet( );
 				}
-				if( itsDataSet == null
+				if ( itsDataSet == null
 						&& ( bindingHolder == null || !bindingHolder.getColumnBindings( )
 								.iterator( )
 								.hasNext( ) )
-						|| getDataSet( insertObj ).equals( dataSet ))
+						|| getDataSet( insertObj ).equals( dataSet ) )
 				{
 					return true;
 				}
 				else
 				{
-					if(ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( bindingRoot ))
+					if ( ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( bindingRoot ) )
 					{
-						return getAdapter() != null && getAdapter().getBoundExtendedData( bindingRoot ).equals( 
-								getAdapter().resolveExtendedData( getDataSet( insertObj ) ));
+						return getAdapter( ) != null
+								&& getAdapter( ).getBoundExtendedData( bindingRoot )
+										.equals( getAdapter( ).resolveExtendedData( getDataSet( insertObj ) ) );
 					}
 				}
 			}
@@ -1917,14 +1919,14 @@ public class InsertInLayoutUtil
 				|| insertObj instanceof MeasureHandle;
 	}
 
-	protected static void insertToCell( DataSetHandle model,
+	public static void insertToCell( DataSetHandle model,
 			TableHandle tableHandle, SlotHandle slot,
 			ResultSetColumnHandle[] columns, boolean isLabel )
 	{
 		for ( int i = 0; i < slot.getCount( ); i++ )
 		{
 			SlotHandle cells = ( (RowHandle) slot.get( i ) ).getCells( );
-			for ( int j = 0; j < cells.getCount( ); j++ )
+			for ( int j = 0; j < cells.getCount( ) && j < columns.length; j++ )
 			{
 				CellHandle cell = (CellHandle) cells.get( j );
 
@@ -1945,7 +1947,7 @@ public class InsertInLayoutUtil
 							labelItemHandle.setText( labelText );
 						}
 						String displayKey = UIUtil.getColumnHeaderDisplayNameKey( columns[j] );
-						if (displayKey == null)
+						if ( displayKey == null )
 						{
 							displayKey = UIUtil.getColumnDisplayNameKey( columns[j] );
 						}
@@ -2151,10 +2153,11 @@ public class InsertInLayoutUtil
 	{
 		if ( handle instanceof DataSetHandle )
 		{
-			boolean needsDataSource = getAdapter() == null ? true : getAdapter().needsDataSource( (DataSetHandle) handle );
-			
-			if ( ( !( handle instanceof JointDataSetHandle || handle instanceof DerivedDataSetHandle || !needsDataSource ) 
-							&& ( (DataSetHandle) handle ).getDataSource( ) == null )
+			boolean needsDataSource = getAdapter( ) == null ? true
+					: getAdapter( ).needsDataSource( (DataSetHandle) handle );
+
+			if ( ( !( handle instanceof JointDataSetHandle
+					|| handle instanceof DerivedDataSetHandle || !needsDataSource ) && ( (DataSetHandle) handle ).getDataSource( ) == null )
 					|| !DataSetUIUtil.hasMetaData( (DataSetHandle) handle ) )
 			{
 				return false;
@@ -2222,36 +2225,40 @@ public class InsertInLayoutUtil
 		}
 		return new StructuredSelection( resultList );
 	}
-	
-	private static DataSetHandle getDataSet(ResultSetColumnHandle column)
+
+	private static DataSetHandle getDataSet( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataSet;
-		
-		if(getAdapter() != null && getAdapter().getDataSet( column ) != null)
+
+		if ( getAdapter( ) != null
+				&& getAdapter( ).getDataSet( column ) != null )
 		{
-			dataSet = getAdapter().getDataSet( column );
+			dataSet = getAdapter( ).getDataSet( column );
 		}
 		else
 		{
 			dataSet = (DataSetHandle) column.getElementHandle( );
 		}
-		
+
 		return dataSet;
 	}
-	
-	private static void setDataSet(ReportItemHandle target, DataSetHandle dataSet) throws SemanticException
+
+	private static void setDataSet( ReportItemHandle target,
+			DataSetHandle dataSet ) throws SemanticException
 	{
-		if (getAdapter() != null && getAdapter().resolveExtendedData( dataSet ) != null)
+		if ( getAdapter( ) != null
+				&& getAdapter( ).resolveExtendedData( dataSet ) != null )
 		{
-			getAdapter().setExtendedData( target, getAdapter().resolveExtendedData( dataSet ) );
+			getAdapter( ).setExtendedData( target,
+					getAdapter( ).resolveExtendedData( dataSet ) );
 		}
 		else
 		{
 			target.setDataSet( dataSet );
 		}
 	}
-	
-	private static IExtendedDataModelUIAdapter getAdapter()
+
+	private static IExtendedDataModelUIAdapter getAdapter( )
 	{
 		return ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
 	}

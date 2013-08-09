@@ -235,4 +235,9 @@ public class DataSetColumnBindingsFormPage extends SortingFormPage
 	{
 		( (DataSetColumnBindingsFormHandleProvider) provider ).generateAllBindingColumns( );
 	}
+
+	public void generateBindingColumns( Object[] columns )
+	{
+		( (DataSetColumnBindingsFormHandleProvider) provider ).generateBindingColumns( columns );
+	}
 }

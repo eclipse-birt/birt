@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -393,7 +394,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			ComputedColumnHandle binding2 = (ComputedColumnHandle) o2;
 			String columnText1 = getColumnText( binding1, sortingColumnIndex );
 			String columnText2 = getColumnText( binding2, sortingColumnIndex );
-			int result = ( columnText1 == null ? "" : columnText1 ).compareTo( ( columnText2 == null ? ""
+			int result = ( columnText1 == null ? "" : columnText1 ).compareTo( ( columnText2 == null ? "" //$NON-NLS-1$ //$NON-NLS-2$
 					: columnText2 ) );
 			if ( sortDirection == SWT.UP )
 				return result;
@@ -506,16 +507,18 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			}
 			if ( datasetHandle != null )
 			{
+				CommandStack stack = getActionStack( );
+				stack.startTrans( Messages.getString( Messages.getString("DataSetColumnBindingsFormHandleProvider.Trans.RefreshBindingColumns") ) ); //$NON-NLS-1$
 				try
 				{
-					
-					Iterator iter = getLinkedDataSetColumnIterator(datasetHandle);
-					if(iter == null)
+
+					Iterator iter = getLinkedDataSetColumnIterator( datasetHandle );
+					if ( iter == null )
 					{
 						CachedMetaDataHandle cmdh = DataSetUIUtil.getCachedMetaDataHandle( datasetHandle );
 						iter = cmdh.getResultSet( ).iterator( );
 					}
-					
+
 					for ( ; iter.hasNext( ); )
 					{
 						ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
@@ -555,25 +558,84 @@ public class DataSetColumnBindingsFormHandleProvider extends
 					}
 
 					generateOutputParmsBindings( datasetHandle );
+					stack.commit( );
 
 				}
 				catch ( SemanticException e )
 				{
 					ExceptionHandler.handle( e );
+					stack.rollback( );
 				}
 			}
 		}
 	}
-	
-	private Iterator getLinkedDataSetColumnIterator(DataSetHandle datasetHandle)
+
+	public void generateBindingColumns( Object[] columns )
+	{
+		if ( columns != null && columns.length > 0 )
+		{
+			CommandStack stack = getActionStack( );
+			stack.startTrans( Messages.getString( Messages.getString("DataSetColumnBindingsFormHandleProvider.Trans.GenerateBindingColumns") ) ); //$NON-NLS-1$
+			try
+			{
+
+				for ( int i = 0; i < columns.length; i++ )
+				{
+					ResultSetColumnHandle element = (ResultSetColumnHandle) columns[i];
+					ComputedColumn bindingColumn = StructureFactory.newComputedColumn( bindingObject,
+							element.getColumnName( ) );
+					bindingColumn.setDataType( element.getDataType( ) );
+					String groupType = DEUtil.getGroupControlType( bindingObject );
+					List groupList = DEUtil.getGroups( bindingObject );
+					ExpressionUtility.setBindingColumnExpression( element,
+							bindingColumn );
+
+					bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( element ) );
+					String displayKey = UIUtil.getColumnDisplayNameKey( element );
+					if ( displayKey != null )
+						bindingColumn.setDisplayNameID( displayKey );
+
+					if ( bindingObject instanceof ReportItemHandle )
+					{
+						( (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
+								false );
+						continue;
+					}
+					// if ( bindingObject instanceof GroupHandle )
+					// {
+					// ( (GroupHandle) bindingObject ).addColumnBinding(
+					// bindingColumn,
+					// false );
+					// }
+					if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
+					{
+						if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+							bindingColumn.setAggregrateOn( ( (GroupHandle) groupList.get( 0 ) ).getName( ) );
+						else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+							bindingColumn.setAggregrateOn( null );
+					}
+
+				}
+				stack.commit( );
+
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+				stack.rollback( );
+			}
+		}
+	}
+
+	private Iterator getLinkedDataSetColumnIterator( DataSetHandle datasetHandle )
 	{
 		IDataSetColumnBindingsFormHandleProviderHelper helper = (IDataSetColumnBindingsFormHandleProviderHelper) ElementAdapterManager.getAdapter( this,
 				IDataSetColumnBindingsFormHandleProviderHelper.class );
-		if(helper != null)
+		if ( helper != null )
 		{
-			return helper.getResultSetIterator(datasetHandle);
+			return helper.getResultSetIterator( datasetHandle );
 		}
-		
+
 		return null;
 	}
 
@@ -690,4 +752,5 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	{
 		return true;
 	}
+
 }

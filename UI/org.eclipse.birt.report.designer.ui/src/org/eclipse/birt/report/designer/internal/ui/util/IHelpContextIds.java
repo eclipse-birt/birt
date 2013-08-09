@@ -66,7 +66,7 @@ public interface IHelpContextIds
 
 	public static final String STYLE_BUILDER_SIZE_ID = PREFIX
 			+ "StyleBuilderSize_ID"; //$NON-NLS-1$;
-	
+
 	public static final String STYLE_BUILDER_BACKGROUND_ID = PREFIX
 			+ "StyleBuilderBackground_ID"; //$NON-NLS-1$
 
@@ -213,7 +213,7 @@ public interface IHelpContextIds
 
 	public static final String DATA_COLUMN_BINDING_DIALOG = PREFIX
 			+ "DataColumnBindingDialog_ID"; //$NON-NLS-1$
-	
+
 	public static final String RELATIVE_TIME_PERIOD_DIALOG = PREFIX
 			+ "RelativeTimePeriodDialog_ID"; //$NON-NLS-1$
 
@@ -272,7 +272,7 @@ public interface IHelpContextIds
 
 	public static final String CUBE_FILTER_LIST_DIALOG = PREFIX
 			+ "CubeBuilderFilterListDialog_ID"; //$NON-NLS-1$
-	
+
 	public static final String HYPERLINK_PARAMETER_DIALOG_ID = PREFIX
 			+ "HyperlinkParameterDialog_ID"; //$NON-NLS-1$
 
@@ -306,7 +306,7 @@ public interface IHelpContextIds
 
 	public static final String PREFERENCE_BIRT_EXPRESSION_SYNTAX_ID = PREFIX
 			+ "Preference_BIRT_ExpressionSyntax_ID"; //$NON-NLS-1$
-	
+
 	public static final String PREFERENCE_BIRT_EXPRESSION_SYNTAX_COLOR_ID = PREFIX
 			+ "Preference_BIRT_ExpressionSyntaxColor_ID"; //$NON-NLS-1$
 
@@ -395,5 +395,7 @@ public interface IHelpContextIds
 	public static final String INPUT_PARAMETERS_DIALOG_ID = PREFIX
 			+ "InputParametersDialog_ID"; //$NON-NLS-1$
 
+	public static final String SELECT_DATASET_BINDING_COLUMN = PREFIX
+			+ "DataSetBindingSelector_ID"; //$NON-NLS-1$
 
 }
