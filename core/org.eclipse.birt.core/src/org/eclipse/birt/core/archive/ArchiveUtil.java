@@ -53,6 +53,8 @@ public class ArchiveUtil
 	// We need this because the report document should be platform neutual. Here
 	// we define the neutual is the unix seperator.
 	public static String UNIX_SEPERATOR = "/";
+	
+	public final static String CONTNET_SUFFIX = ".content";
 
 	/**
 	 * @param rootPath -
@@ -82,6 +84,11 @@ public class ArchiveUtil
 
 		return relativePath;
 	}
+	
+	public static String generateFullContentPath( String rootPath, String relativePath )
+	{
+		return generateFullPath( rootPath, relativePath + CONTNET_SUFFIX );
+	}
 
 	/**
 	 * @param rootPath -
@@ -110,6 +117,16 @@ public class ArchiveUtil
 			relativePath = UNIX_SEPERATOR + relativePath;
 
 		return relativePath;
+	}
+	
+	public static String generateRelativeContentPath( String rootPath, String fullPath )
+	{
+		String path = generateRelativePath(rootPath, fullPath);
+		if(path.endsWith( CONTNET_SUFFIX ))
+		{
+			return path.substring( 0, path.length( ) - CONTNET_SUFFIX.length( ) );
+		}
+		return path;
 	}
 
 	/**
