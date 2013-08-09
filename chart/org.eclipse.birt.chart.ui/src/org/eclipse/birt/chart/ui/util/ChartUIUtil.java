@@ -41,6 +41,7 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
@@ -1078,6 +1079,21 @@ public class ChartUIUtil
 			else
 			{
 				newSeries.getDataDefinition( ).add( query );
+			}
+		}
+		
+		// Markers for Line-similar series
+		if ( oldSeries instanceof LineSeries && newSeries instanceof LineSeries )
+		{
+			List<Marker> oldMarkers = ( (LineSeries) oldSeries ).getMarkers( );
+			List<Marker> newMarkers = ( (LineSeries) newSeries ).getMarkers( );
+			if ( oldMarkers.size( ) > 1 )
+			{
+				newMarkers.clear( );
+				for ( Marker m : oldMarkers )
+				{
+					newMarkers.add( m.copyInstance( ) );
+				}
 			}
 		}
 	}
