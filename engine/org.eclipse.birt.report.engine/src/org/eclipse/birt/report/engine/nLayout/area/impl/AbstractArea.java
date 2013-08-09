@@ -369,6 +369,10 @@ public abstract class AbstractArea implements IArea
 				System.out.print( ( (ContainerArea) area ).getContent( )
 						.getInstanceID( ) + "||" );
 			}
+			if ( area instanceof CellArea)
+			{
+				System.out.print( "rowspan:" + ( (CellArea) area ).getRowSpan( ) + "||" );
+			}
 			x = x + area.getX( );
 			y = y + area.getY( );
 			System.out.println( "x:" + x + " y:" + y
