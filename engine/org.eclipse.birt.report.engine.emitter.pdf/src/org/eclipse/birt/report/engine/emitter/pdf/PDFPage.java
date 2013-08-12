@@ -80,7 +80,8 @@ public class PDFPage extends AbstractPage
 	 */
 	private static float MIN_FONT_SIZE = 1.0E-4f;
 	
-	private static Pattern PAGE_LINK_PATTERN = Pattern.compile("(.+)#page=(\\d+)");
+	private static Pattern PAGE_LINK_PATTERN = Pattern
+			.compile( "^((([a-zA-Z]:))(/(\\w[\\w ]*.*))+\\.(pdf|PDF))+#page=(\\d+)$" );
 
 	public PDFPage( int pageWidth, int pageHeight, Document document,
 			PdfWriter writer, PDFPageDevice pageDevice )
@@ -573,9 +574,13 @@ public class PDFPage extends AbstractPage
 			if ( !isUrl )
 			{
 				Matcher matcher = PAGE_LINK_PATTERN.matcher( hyperlink );
-				String fileName = matcher.group( 1 );
-				String pageNumber = matcher.group( 2 );
-				return new PdfAction( fileName, Integer.valueOf( pageNumber ) );
+				if ( matcher.find( ) )
+				{
+					String fileName = matcher.group( 1 );
+					String pageNumber = matcher.group( matcher.groupCount( ) );
+					return new PdfAction( fileName,
+							Integer.valueOf( pageNumber ) );
+				}
 			}
 			return new PdfAction( hyperlink );
 		}
