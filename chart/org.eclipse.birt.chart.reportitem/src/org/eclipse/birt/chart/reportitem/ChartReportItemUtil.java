@@ -58,8 +58,6 @@ import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -77,7 +75,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.runtime.IAdapterManager;
@@ -974,16 +971,20 @@ public class ChartReportItemUtil extends ChartItemUtil
 		CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) handle ).getReportItem( );
 		ExpressionCodec exprCodec = ChartModelHelper.instance( )
 				.createExpressionCodec( );
-		ArrayList<String> rowAxisDimensions = new ArrayList<String>( );
-		ArrayList<String> colAxisDimensions = new ArrayList<String>( );
+		List<String> rowAxisDimensions = new ArrayList<String>( );
+		List<String> colAxisDimensions = new ArrayList<String>( );
 		/* get cross tab row and column dimensions */
 		if ( crossTab.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE ) != null )
 		{
-			rowAxisDimensions = getDemensions( crossTab.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE ) );
+			rowAxisDimensions = ChartReportItemHelper.instance( )
+					.getLevelBindingNamesOfCrosstab( crossTab.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE ),
+							itemHandle );
 		}
 		if ( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
 		{
-			colAxisDimensions = getDemensions( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) );
+			colAxisDimensions = ChartReportItemHelper.instance( )
+					.getLevelBindingNamesOfCrosstab( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ),
+							itemHandle );
 		}
 
 		// get all bindings
@@ -1046,35 +1047,22 @@ public class ChartReportItemUtil extends ChartItemUtil
 		return true;
 	}
 
-	/*
-	 * get all dimensions in cross tab view.
-	 */
-	private static ArrayList<String> getDemensions(
-			CrosstabViewHandle viewHandle )
-	{
-		ArrayList<String> names = new ArrayList<String>( );
-		for ( int i = 0; i < viewHandle.getDimensionCount( ); i++ )
-		{
-			DimensionViewHandle dimensionHandle = viewHandle.getDimension( i );
-			for ( int k = 0; k < dimensionHandle.getLevelCount( ); k++ )
-			{
-				names.add( dimensionHandle.getLevel( k )
-						.getCubeLevel( )
-						.getName( ) );
-			}
-		}
-
-		return names;
-	}
-
 	private static boolean searchAggregation( String aggOn,
 			Map<String, ComputedColumnHandle> bindingMap,
-			ArrayList<String> rowAxisDimensions,
-			ArrayList<String> colAxisDimensions, String[] catecoryBindNames,
+			List<String> rowAxisDimensions,
+			List<String> colAxisDimensions, String[] catecoryBindNames,
 			String[] yOptionalBindNames, ReportItemHandle itemHandle )
 	{
-		ExpressionCodec exprCodec = ChartModelHelper.instance( )
-				.createExpressionCodec( );
+		ExpressionCodec exprCodec = null;
+		if ( itemHandle instanceof ExtendedItemHandle )
+		{
+			exprCodec = ChartReportItemHelper.instance( )
+					.createExpressionCodec( (ExtendedItemHandle) itemHandle );
+		}
+		else
+		{
+			exprCodec = ChartModelHelper.instance( ).createExpressionCodec( );
+		}
 		String[] levelNames = CubeUtil.splitLevelName( aggOn );
 		ComputedColumnHandle cch = ChartReportItemHelper.instance( )
 				.findDimensionBinding( exprCodec,
@@ -1088,7 +1076,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 		}
 
 		/* see aggregation is on row or column dimension */
-		ArrayList<String> dimensions = null;
+		List<String> dimensions = null;
 		if ( rowAxisDimensions.contains( cch.getName( ) ) )
 		{
 			dimensions = rowAxisDimensions;
