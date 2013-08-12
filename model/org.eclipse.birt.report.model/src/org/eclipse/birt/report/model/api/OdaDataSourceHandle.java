@@ -401,4 +401,21 @@ public class OdaDataSourceHandle extends DataSourceHandle
 				.getHandle( getPropertyHandle( IOdaDataSourceModel.DESIGNER_STATE_PROP ) );
 	}
 
+	public String getExternalConnectionName( )
+	{
+		String result = getElement( ).getStringProperty( module,
+				IOdaDataSourceModel.EXTERNAL_CONNECTION_NAME );
+		if ( result != null )
+		{
+			return result;
+		}
+		return getName( );
+	}
+
+	public void setExternalConnectionName( String externalConnectionName )
+			throws SemanticException
+	{
+		setProperty( IOdaDataSourceModel.EXTERNAL_CONNECTION_NAME,
+				externalConnectionName );
+	}
 }
