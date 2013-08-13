@@ -1029,15 +1029,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	protected void enableCategoryGroup( )
 	{
-		// enable default category grouping
-		List<SeriesDefinition> sds = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) );
-		if ( sds != null && sds.size( ) > 0 )
+		// enable default category grouping except Gantt and Stock
+		if ( !ChartUIConstants.TYPE_GANTT.equals( context.getModel( ).getType( ) )
+				&& !ChartUIConstants.TYPE_STOCK.equals( context.getModel( )
+						.getType( ) ) )
 		{
-			SeriesDefinition base = sds.get( 0 );
-
-			if ( !ChartUIConstants.TYPE_GANTT.equals( context.getModel( )
-					.getType( ) ) )
+			List<SeriesDefinition> sds = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) );
+			if ( sds != null && sds.size( ) > 0 )
 			{
+				SeriesDefinition base = sds.get( 0 );
 				if ( base.getGrouping( ) == null )
 				{
 					base.setGrouping( SeriesGroupingImpl.create( ) );
