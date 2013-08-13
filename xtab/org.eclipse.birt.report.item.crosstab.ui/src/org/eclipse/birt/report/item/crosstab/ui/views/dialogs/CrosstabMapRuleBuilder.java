@@ -190,7 +190,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 		DataRequestSession session = null;
 		try
 		{
-			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ,designHandle.getModuleHandle( )) );
 
 			DataService.getInstance( ).registerSession( dataSetHandle,session );
 

@@ -20,6 +20,7 @@ import java.util.List;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
@@ -143,8 +144,8 @@ public class DefineDataSourceSetUtil
 	 * @param queryDefn
 	 * @throws BirtException
 	 */
-	public static void prepareForTransientQuery( DataSessionContext sessionContext, DataEngineImpl dataEngine, DataSetHandle handle,
-			IQueryDefinition queryDefn) throws BirtException 
+	public static void prepareForTransientQuery( DataSessionContext dContext, DataEngineImpl dataEngine, DataSetHandle handle,
+			IQueryDefinition queryDefn, IDataQueryDefinition[] registedQueries ) throws BirtException 
 	{
 		IBaseDataSetDesign design = null;
 		if( handle == null )
@@ -164,10 +165,11 @@ public class DefineDataSourceSetUtil
 		final IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
 		if ( dataSetInterceptor != null )
 		{
-			dataSetInterceptor.preDefineDataSet( sessionContext,
+			dataSetInterceptor.preDefineDataSet( dContext,
 					dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
 					design,
-					queryDefn );
+					queryDefn,
+					registedQueries );
 			dataEngine.addShutdownListener( new IShutdownListener( ) {
 
 				public void dataEngineShutdown( )
@@ -193,7 +195,7 @@ public class DefineDataSourceSetUtil
 				DataSetHandle childDataSet = (DataSetHandle) iter.next( );
 				if ( childDataSet != null )
 				{
-					prepareForTransientQuery( sessionContext, dataEngine, childDataSet, queryDefn );
+					prepareForTransientQuery( dContext, dataEngine, childDataSet, queryDefn, registedQueries );
 				}
 			}
 
@@ -203,7 +205,7 @@ public class DefineDataSourceSetUtil
 			List<DataSetHandle>  inputDataSet = ( (DerivedDataSetHandle) handle ).getInputDataSets( );
 			for ( int i = 0; i < inputDataSet.size( ); i++ )
 			{
-				prepareForTransientQuery( sessionContext, dataEngine, inputDataSet.get(i), queryDefn );
+				prepareForTransientQuery( dContext, dataEngine, inputDataSet.get(i), queryDefn, registedQueries );
 			}
 		}
 	}

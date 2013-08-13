@@ -714,20 +714,30 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 			try
 			{
 				List selectValueList = getSelectValueList( );
-				SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ),
-						Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-				dialog.setSelectedValueList( selectValueList );
-				if ( bindingParams != null )
+				
+				if ( selectValueList == null || selectValueList.size( ) == 0 )
 				{
-					dialog.setBindingParams( bindingParams );
-				}
+					MessageDialog.openInformation( null,
+							Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+							Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
 
-				if ( dialog.open( ) == IDialogConstants.OK_ID )
-				{
-					IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( combo );
-					retValue = dialog.getSelectedExprValue( converter );
+				}
+				else {
+					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
+							.getDisplay( )
+							.getActiveShell( ),
+							Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+					dialog.setSelectedValueList( selectValueList );
+					if ( bindingParams != null )
+					{
+						dialog.setBindingParams( bindingParams );
+					}
+	
+					if ( dialog.open( ) == IDialogConstants.OK_ID )
+					{
+						IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( combo );
+						retValue = dialog.getSelectedExprValue( converter );
+					}
 				}
 
 			}
@@ -788,9 +798,14 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 				{
 					String exprType = expr.getType( );
 					IExpressionConverter converter = ExpressionUtility.getExpressionConverter( exprType );
-					if ( expression.getText( )
-							.equals( ExpressionUtility.getColumnExpression( columnName,
-									converter ) ) )
+					String tempExpression = ExpressionUtility.getColumnExpression( columnName,
+							converter );
+					if(DEUtil.isBindingCube( designHandle))
+					{
+						tempExpression =ExpressionUtility.getDataExpression( columnName,
+								converter );
+					}
+					if ( expression.getText( ).equals( tempExpression ) )
 					{
 						return columnName;
 					}
@@ -1209,6 +1224,8 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 	{
 		List selectValueList = new ArrayList( );
 		ReportItemHandle reportItem = DEUtil.getBindingHolder( currentItem );
+		//if used extend to get value,then no fetch again
+		boolean hasFetched = false;
 		if ( bindingName != null && reportItem != null )
 		{
 			if ( reportItem instanceof ExtendedItemHandle )
@@ -1225,12 +1242,13 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 								ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ),
 								(ExtendedItemHandle) reportItem );
 						selectValueList.addAll( valueList );
+						hasFetched = true;
 					}
 				}
 
 			}
 
-			if ( selectValueList.size( ) == 0 )
+			if ( !hasFetched && selectValueList.size( ) == 0 )
 			{
 				selectValueList = SelectValueFetcher.getSelectValueFromBinding( ExpressionButtonUtil.getExpression( expression ),
 						reportItem.getDataSet( ),

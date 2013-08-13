@@ -151,6 +151,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private Map<String, IDimension> createdDimensions;
 
 	private CubeMaterializer cubeMaterializer;
+	private IDataQueryDefinition[] registeredQueries;
 
 	private CubeMaterializer getCubeMaterializer( int cacheSize ) throws BirtException
 	{
@@ -1653,7 +1654,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 				dataSetInterceptor.preDefineDataSet( sessionContext,
 						dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
 						design,
-						null );
+						null,
+						this.registeredQueries );
 			}
 		}
 		refactorCubeQueryDefinition( query );
@@ -2006,6 +2008,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		try
 		{
 			this.dataEngine.registerQueries( queryDefns );
+			this.registeredQueries = queryDefns;
 		}
 		catch ( DataException e )
 		{
@@ -2084,7 +2087,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			DefineDataSourceSetUtil.prepareForTransientQuery( sessionContext,
 					dataEngine,
 					handle,
-					queryDefn );
+					queryDefn,
+					this.registeredQueries );
 		}
 	}
 

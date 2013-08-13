@@ -3,6 +3,7 @@ package org.eclipse.birt.report.data.adapter.api;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 
 /**
@@ -23,7 +24,8 @@ public interface IDataSetInterceptor
 	void preDefineDataSet( DataSessionContext appContext,
 			IBaseDataSourceDesign dsource,
 			IBaseDataSetDesign dset,
-			IQueryDefinition query ) throws BirtException;
+			IQueryDefinition query,
+			IDataQueryDefinition[] registedQueries ) throws BirtException;
 	
 	/**
 	 * release resources

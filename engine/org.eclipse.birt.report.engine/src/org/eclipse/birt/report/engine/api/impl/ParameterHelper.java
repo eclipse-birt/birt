@@ -202,7 +202,7 @@ public class ParameterHelper
 					.getValue( );
 			ScriptExpression dexpr = adapter.adaptExpression( mexpr );
 			addBinding( queryDefn, labelColumnName, dexpr );
-			addColumnBinding( queryDefn, mexpr.getStringExpression( ) );
+			addColumnBinding( queryDefn, dexpr.getText( ) );
 		}
 		org.eclipse.birt.report.model.api.Expression mexpr = (org.eclipse.birt.report.model.api.Expression) parameter
 				.getExpressionProperty( AbstractScalarParameter.VALUE_EXPR_PROP )
@@ -215,7 +215,7 @@ public class ParameterHelper
 		}
 		ScriptExpression dexpr = adapter.adaptExpression( mexpr, dataType );
 		addBinding( queryDefn, valueColumnName, dexpr );
-		addColumnBinding( queryDefn, mexpr.getStringExpression( ) );
+		addColumnBinding( queryDefn, dexpr.getText( ) );
 	}
 	
 	private static void addColumnBinding( QueryDefinition query,

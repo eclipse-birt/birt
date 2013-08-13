@@ -84,6 +84,7 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.MemberValue;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ReportItemTheme;
@@ -97,6 +98,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
@@ -643,8 +645,19 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		if ( context.contains( targetDesign, tmpElement ) )
 			return;
-
+		
+		String originalName = originalElement.getName( );
 		addElement( targetDesign, context, tmpElement );
+		if ( tmpElement instanceof OdaDataSource )
+		{
+			if ( !tmpElement.getName( ).equals( originalName ) )
+			{
+				OdaDataSource odaDataSource = (OdaDataSource) tmpElement;
+				odaDataSource.setProperty(
+						IOdaDataSourceModel.EXTERNAL_CONNECTION_NAME,
+						originalName );
+			}
+		}
 		targetDesign.manageId( tmpElement, true );
 
 		// after the id is adjusted, the property binding can be added.

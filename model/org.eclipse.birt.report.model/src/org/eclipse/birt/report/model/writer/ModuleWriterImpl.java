@@ -1670,6 +1670,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
 				IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP );
+		property( obj, IOdaDataSourceModel.EXTERNAL_CONNECTION_NAME );
 
 		writeOdaExtensionProperties( obj,
 				IOdaExtendableElementModel.EXTENSION_ID_PROP );

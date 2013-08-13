@@ -187,7 +187,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		DataRequestSession session = null;
 		try
 		{
-			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ,designHandle.getModuleHandle( )) );
 			DataService.getInstance( )
 					.registerSession( ( (TabularCubeHandle) cube ).getDataSet( ),
 							session );

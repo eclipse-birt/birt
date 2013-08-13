@@ -11,14 +11,18 @@
 
 package org.eclipse.birt.chart.reportitem.api;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -101,5 +105,24 @@ public class ChartReportItemHelper
 	public String getMeasureExprIndicator( CubeHandle cubeHandle )
 	{
 		return ExpressionUtil.MEASURE_INDICATOR;
+	}
+	
+	public List<String> getLevelBindingNamesOfCrosstab(
+			CrosstabViewHandle viewHandle, ReportItemHandle chartHandle )
+	{
+		ArrayList<String> names = new ArrayList<String>( );
+		for ( int i = 0; i < viewHandle.getDimensionCount( ); i++ )
+		{
+			DimensionViewHandle dimensionHandle = viewHandle.getDimension( i );
+			dimensionHandle.availableBindings( );
+			for ( int k = 0; k < dimensionHandle.getLevelCount( ); k++ )
+			{
+				names.add( dimensionHandle.getLevel( k )
+						.getCubeLevel( )
+						.getName( ) );
+			}
+		}
+
+		return names;
 	}
 }
