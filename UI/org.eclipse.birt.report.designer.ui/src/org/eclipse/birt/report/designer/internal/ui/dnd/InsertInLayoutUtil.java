@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSetBindingSelector;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
@@ -30,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -82,6 +84,7 @@ import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.window.Window;
 
 /**
  * Utility for creation from data view to layout
@@ -1388,33 +1391,52 @@ public class InsertInLayoutUtil
 		// // .getReportDesignHandle( )
 		// // .getElementFactory( )
 		// // .newTableItem( null, columns.length );
-		CachedMetaDataHandle cachedMetadata = DataSetUIUtil.getCachedMetaDataHandle( model );
-		List columList = new ArrayList( );
+//		CachedMetaDataHandle cachedMetadata = DataSetUIUtil.getCachedMetaDataHandle( model );
+//		List columList = new ArrayList( );
+//
+//		for ( Iterator iter = cachedMetadata.getResultSet( ).iterator( ); iter.hasNext( ); )
+//		{
+//			ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
+//			columList.add( element );
+//		}
+//		ResultSetColumnHandle[] columns = (ResultSetColumnHandle[]) columList.toArray( new ResultSetColumnHandle[columList.size( )] );
 
-		for ( Iterator iter = cachedMetadata.getResultSet( ).iterator( ); iter.hasNext( ); )
-		{
-			ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
-			columList.add( element );
+		
+		DataSetBindingSelector selector=new DataSetBindingSelector( UIUtil.getDefaultShell( ),
+				Messages.getString( "DataSetBindingSelectorPage.Title" ) );
+		selector.setDataSet(model.getElement().getName());
+		selector.setValidateEmptyResults(true);
+		if ( selector.open( ) == Window.OK )
+		{		
+			Object[] datasetInfo = (Object[])selector.getResult();
+			Object[] selectedColumns=(Object[])datasetInfo[1];
+					
+			ResultSetColumnHandle[] columns=new ResultSetColumnHandle[selectedColumns.length];		
+			for(int i=0;i<selectedColumns.length;i++){
+				columns[i]=(ResultSetColumnHandle) selectedColumns[i];
+			}
+			
+			TableHandle tableHandle = DesignElementFactory.getInstance( )
+					.newTableItem( null, columns.length );
+			
+			setInitWidth( tableHandle );
+			insertToCell( model,
+					tableHandle,
+					tableHandle.getHeader( ),
+					columns,
+					true );
+			insertToCell( model,
+					tableHandle,
+					tableHandle.getDetail( ),
+					columns,
+					false );
+
+			setDataSet( tableHandle, model );
+			return tableHandle;
+			
 		}
-		ResultSetColumnHandle[] columns = (ResultSetColumnHandle[]) columList.toArray( new ResultSetColumnHandle[columList.size( )] );
-
-		TableHandle tableHandle = DesignElementFactory.getInstance( )
-				.newTableItem( null, columns.length );
-
-		setInitWidth( tableHandle );
-		insertToCell( model,
-				tableHandle,
-				tableHandle.getHeader( ),
-				columns,
-				true );
-		insertToCell( model,
-				tableHandle,
-				tableHandle.getDetail( ),
-				columns,
-				false );
-
-		setDataSet( tableHandle, model );
-		return tableHandle;
+		
+		return null;
 
 	}
 
