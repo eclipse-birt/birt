@@ -64,6 +64,9 @@
 				<antcall target="generateJavaDoc" />
 			</sequential>
 		</parallel>
+                <antcall target="logger">
+                        <param name="message" value="Build Successful" />
+                </antcall>
 	</target>
 
 	<target name="init">
@@ -752,6 +755,9 @@
 	</target>
 
 	<target name="buildBirtWtpFeature" unless="skip.build.WTP">
+                <antcall target="logger">
+                        <param name="message" value="BIRT wtp feature build started" />
+                </antcall>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
 			<property name="builder" value="${eclipse.build.configs}/birt.wtp" />
 		</ant>
@@ -794,11 +800,17 @@
 			<arg
 				line="-q ${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip -r eclipse" />
 		</exec>
+                <antcall target="logger">
+                        <param name="message" value="BIRT wtp feature build finished" />
+                </antcall>
 
 	</target>
 
 	<target name="verifyCompile">
 		<!-- verify compile result -->
+                <antcall target="logger">
+                        <param name="message" value="Checking compile result..." />
+                </antcall>
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 
 		<antcall target="copy2UploadArea" />
