@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.dialogs;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -22,6 +23,8 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.CubeValueSelector;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
@@ -32,6 +35,7 @@ import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.MapHandleProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabBindingExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
@@ -158,7 +162,8 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 		}
 		
 		DataSetHandle dataSetHandle=(DataSetHandle)( (CubeHandle) cube ).getElementProperty(ITabularCubeModel.DATA_SET_PROP);
-		if(dataSetHandle==null)
+		
+		if(dataSetHandle==null  && !CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
 		{
 			return new ArrayList( );
 		}
@@ -192,7 +197,13 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ,designHandle.getModuleHandle( )) );
 
-			DataService.getInstance( ).registerSession( dataSetHandle,session );
+			if(dataSetHandle != null)
+			{
+				DataService.getInstance( ).registerSession( dataSetHandle,session );
+			}else
+			{
+				DataService.getInstance( ).registerSession( cube,session );
+			}
 
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
 			iter = CubeValueSelector.getMemberValueIterator( session,
@@ -202,7 +213,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 		}
 		catch ( BirtException e )
 		{
-			throw e;
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 		List valueList = new ArrayList( );
 		int count = 0;

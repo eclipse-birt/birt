@@ -79,9 +79,7 @@ public class CrosstabUseCubeQueryList implements IUseCubeQueryList
 
 		}
 
-		if ( cube == null
-				|| ( !( cube instanceof TabularCubeHandle ) )
-				|| expression.length( ) == 0 )
+		if ( cube == null || expression.length( ) == 0 )
 		{
 			return new ArrayList( );
 		}
