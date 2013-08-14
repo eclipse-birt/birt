@@ -77,6 +77,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
@@ -1762,6 +1763,21 @@ public class ModelUtil extends ModelUtilBase
 	{
 		assert defn != null;
 		return defn.canInherit( ) || defn.isStyleProperty( );
+	}
+	
+	/**
+	 * Checks if the property supports constant expression
+	 * 
+	 * @param defn
+	 *            the property definition.
+	 * @return true if the property supports constant expression, else return
+	 *         false.
+	 */
+	public static boolean supportConstantExpression( IPropertyDefn defn )
+	{
+		if( IReportItemModel.ALTTEXT_PROP.equals( defn.getName( ) ) )
+			return true;
+		return false;
 	}
 
 }

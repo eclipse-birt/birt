@@ -85,11 +85,16 @@ public class ImageContent extends AbstractContent implements IImageContent
 
 	public String getAltText( )
 	{
-		if ( altText == null )
+		if( altText == null )
 		{
 			if ( generateBy instanceof ImageItemDesign )
 			{
-				return ( (ImageItemDesign) generateBy ).getAltText( );
+				Expression expr = ( (ImageItemDesign) generateBy ).getAltText( );
+				if( expr != null && expr.getType( ) == Expression.CONSTANT )
+				{
+					return expr.getScriptText( );
+				}
+				return null;
 			}
 		}
 		return altText;

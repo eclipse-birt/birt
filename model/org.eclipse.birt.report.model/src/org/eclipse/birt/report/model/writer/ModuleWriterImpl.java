@@ -3128,8 +3128,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			property( obj, IImageItemModel.VALUE_EXPR_PROP );
 		}
 
-		resourceKey( obj, IImageItemModel.ALT_TEXT_KEY_PROP,
-				IImageItemModel.ALT_TEXT_PROP );
+		property( obj, IImageItemModel.ALT_TEXT_PROP );
+		property( obj, IImageItemModel.ALT_TEXT_KEY_PROP );
 		resourceKey( obj, IImageItemModel.HELP_TEXT_ID_PROP,
 				IImageItemModel.HELP_TEXT_PROP );
 

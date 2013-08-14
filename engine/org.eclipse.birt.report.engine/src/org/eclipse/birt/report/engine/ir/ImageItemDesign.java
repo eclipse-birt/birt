@@ -62,7 +62,7 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * Text associated with this image, used for default locale.
 	 */
-	protected String altText;
+	protected Expression altText;
 	/**
 	 * Text Resource Key used for altText localization.
 	 */
@@ -197,10 +197,14 @@ public class ImageItemDesign extends ReportItemDesign
 	 * @param altText
 	 *            The altText to set.
 	 */
-	public void setAltText( String altTextKey, String altText )
+	public void setAltText( Expression altText )
+	{
+		this.altText = altText;
+	}
+	
+	public void setAltTextKey( String altTextKey )
 	{
 		this.altTextKey = altTextKey;
-		this.altText = altText;
 	}
 
 	/**
@@ -214,7 +218,7 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the altText.
 	 */
-	public String getAltText( )
+	public Expression getAltText( )
 	{
 		return altText;
 	}

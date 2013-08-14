@@ -220,5 +220,11 @@ public interface IOConstants
 	 * version 8: support expression list parameter binding.
 	 */
 	static final long ENGINE_IR_VERSION_8 = 8L;
-	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_8;
+	/**
+	 * version 9: support expression alt text
+	 */
+	static final long ENGINE_IR_VERSION_9 = 9L;
+	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_9;
+	
+	
 }
