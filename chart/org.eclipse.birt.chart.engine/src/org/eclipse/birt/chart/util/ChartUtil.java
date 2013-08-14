@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -66,6 +67,8 @@ import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.ScriptExpression;
@@ -2751,5 +2754,35 @@ public class ChartUtil
 		exprCodec.setType( expression.getType( ) );
 		exprCodec.setExpression( expression.getValue( ) );
 		return exprCodec.encode( );
+	}
+
+
+	/**
+	 * Set related label for action.
+	 * 
+	 * @param action
+	 */
+	public static void setLabelTo( Action action )
+	{
+		if ( action == null )
+		{
+			return;
+		}
+		
+		ActionValue av = action.getValue( );
+		if ( av.getLabel( ) == null
+				|| av.getLabel( ).getCaption( ).getValue( ) == null
+				|| "".equals( av.getLabel( ).getCaption( ).getValue( ) ) ) //$NON-NLS-1$
+		{
+			
+			String expr = "ActionType." + action.getType( ).getName( ) + ".DisplayName"; //$NON-NLS-1$ //$NON-NLS-2$
+			String displayName = Messages.getString( expr );
+			if ( displayName != null )
+			{
+				Label l = LabelImpl.create( );
+				l.getCaption( ).setValue( displayName );
+				av.setLabel( l );
+			}
+		}
 	}
 }

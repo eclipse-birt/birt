@@ -125,7 +125,8 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 			OdaDataSourceHandle sourceHandle ) throws BirtException
 	{
 		String configIdValue = dteSource.getExtensionID( )
-				+ Constants.ODA_PROP_CONFIG_KEY_SEPARATOR + sourceHandle.getName( );
+				+ Constants.ODA_PROP_CONFIG_KEY_SEPARATOR
+				+ sourceHandle.getExternalConnectionName( );
 		dteSource.addPublicProperty( Constants.ODA_PROP_CONFIGURATION_ID,
 				configIdValue );
 	}

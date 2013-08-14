@@ -64,10 +64,10 @@ import org.osgi.framework.Bundle;
 public final class DataSetProvider
 {
 
-	private static final String BIRT_SCRIPTLIB = "/birt/scriptlib";
-	private static final String BIRT_CLASSES = "/birt/WEB-INF/classes/";
-	private static final String VIEWER_NAMESPACE = "org.eclipse.birt.report.viewer";
-	private static final String DERIVED_SEPERATOR = "::";
+	private static final String BIRT_SCRIPTLIB = "/birt/scriptlib"; //$NON-NLS-1$
+	private static final String BIRT_CLASSES = "/birt/WEB-INF/classes/"; //$NON-NLS-1$
+	private static final String VIEWER_NAMESPACE = "org.eclipse.birt.report.viewer"; //$NON-NLS-1$
+	private static final String DERIVED_SEPERATOR = "::"; //$NON-NLS-1$
 
 	private static DataSetProvider instance = null;
 
@@ -269,6 +269,7 @@ public final class DataSetProvider
 					items[i].setIndexColumn( hint.isIndexColumn( ) );
 					items[i].setRemoveDuplicateValues( hint.isCompressed( ) );
 					items[i].setAlias( hint.getAlias( ) );
+					items[i].setActionHandle( hint.getActionHandle( ) );
 				}
 				else
 				{
@@ -350,6 +351,7 @@ public final class DataSetProvider
 				items[i].setWordWrap( hint.wordWrap( ) );
 				items[i].setIndexColumn( hint.isIndexColumn( ) );
 				items[i].setRemoveDuplicateValues( hint.isCompressed( ) );
+				items[i].setActionHandle( hint.getActionHandle( ) );
 			}
 			else
 			{
@@ -409,16 +411,6 @@ public final class DataSetProvider
 			return null;
 
 		ColumnHintHandle hint = null;
-		Iterator iter = handle.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-				.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			hint = (ColumnHintHandle) iter.next( );
-			if ( columnName.equals( hint.getColumnName( ) ) )
-			{
-				return hint;
-			}
-		}
 		if ( handle instanceof DerivedDataSetHandle )
 		{
 			String[] splits = columnName.split( DERIVED_SEPERATOR );
@@ -441,6 +433,17 @@ public final class DataSetProvider
 								columnName );
 					}
 				}
+			}
+		}
+		
+		Iterator iter = handle.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			hint = (ColumnHintHandle) iter.next( );
+			if ( columnName.equals( hint.getColumnName( ) ) )
+			{
+				return hint;
 			}
 		}
 		return null;
@@ -678,6 +681,8 @@ public final class DataSetProvider
 						columns[n].setAlias( hint.getAlias( ) );
 						columns[n].setHelpText( hint.getHelpText( ) );
 						columns[n].setAnalysis( hint.getAnalysis( ) );
+						columns[n].setActionHandle( hint.getActionHandle( ) );
+						
 						if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( columns[n].getAnalysis( ) ) )
 						{
 							columns[n].setAnalysisColumn( hint.getAnalysis( ) );

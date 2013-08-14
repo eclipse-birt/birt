@@ -36,9 +36,11 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -63,6 +65,7 @@ public class DataSetBindingSelector extends BaseDialog
 	private Combo dataSetCombo;
 	private String dataSetName;
 	private String[] columns;
+	private boolean validateEmptyResults=false;
 
 	private static final IChoice[] DATA_TYPE_CHOICES = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
@@ -137,6 +140,12 @@ public class DataSetBindingSelector extends BaseDialog
 		return area;
 	}
 
+	protected Control createContents( Composite parent )
+	{
+		Control control = super.createContents( parent );
+		enableOKButton();
+		return  control;
+	}
 	protected void createColumnBindingContents( Composite parent )
 	{
 		columnViewers = CheckboxTableViewer.newCheckList( parent, SWT.CHECK
@@ -162,10 +171,17 @@ public class DataSetBindingSelector extends BaseDialog
 		layout.addColumnData( new ColumnWeightData( 47, true ) );
 		layout.addColumnData( new ColumnWeightData( 47, true ) );
 		columnViewers.getTable( ).setLayout( layout );
-
+		columnViewers.addSelectionChangedListener(new ISelectionChangedListener() {
+		      public void selectionChanged(SelectionChangedEvent event) {
+		    	  enableOKButton();
+		      }
+		    });
 		DataSetColumnProvider provider = new DataSetColumnProvider( );
 		columnViewers.setLabelProvider( provider );
 		columnViewers.setContentProvider( provider );
+
+		
+		
 
 		Composite buttonContainer = new Composite( parent, SWT.NONE );
 		data = new GridData( GridData.FILL_HORIZONTAL );
@@ -183,6 +199,7 @@ public class DataSetBindingSelector extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				columnViewers.setAllChecked( true );
+				enableOKButton();
 			}
 		} );
 
@@ -193,6 +210,7 @@ public class DataSetBindingSelector extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				columnViewers.setAllChecked( false );
+				enableOKButton();
 			}
 		} );
 
@@ -324,6 +342,7 @@ public class DataSetBindingSelector extends BaseDialog
 
 	protected void okPressed( )
 	{
+	
 		result = new Object[3];
 		if ( dataSetName != null || dataSetCombo.getSelectionIndex( ) > 0 )
 		{
@@ -409,9 +428,20 @@ public class DataSetBindingSelector extends BaseDialog
 		return dataType;
 	}
 
+	private void enableOKButton() {
+		if (getOkButton() != null && !getOkButton().isDisposed()) {
+			if(validateEmptyResults){
+				getOkButton().setEnabled(columnViewers.getCheckedElements().length >0);
+			}
+		}
+	}
 	public void setColumns( String[] columns )
 	{
 		this.columns = columns;
+	}
+
+	public void setValidateEmptyResults(boolean validateEmptyResults) {
+		this.validateEmptyResults = validateEmptyResults;
 	}
 
 }

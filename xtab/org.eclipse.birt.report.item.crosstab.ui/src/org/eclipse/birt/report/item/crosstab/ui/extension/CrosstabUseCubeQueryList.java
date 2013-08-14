@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.CubeValueSelector;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.extension.IUseCubeQueryList;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
@@ -78,9 +79,7 @@ public class CrosstabUseCubeQueryList implements IUseCubeQueryList
 
 		}
 
-		if ( cube == null
-				|| ( !( cube instanceof TabularCubeHandle ) )
-				|| expression.length( ) == 0 )
+		if ( cube == null || expression.length( ) == 0 )
 		{
 			return new ArrayList( );
 		}
@@ -92,7 +91,8 @@ public class CrosstabUseCubeQueryList implements IUseCubeQueryList
 		DataRequestSession session = null;
 		try
 		{
-			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION, extendedItem.getModuleHandle( )) );
+			DataService.getInstance( ).registerSession( cube, session );
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
 			iter = CubeValueSelector.getMemberValueIterator( session,
 					cube,

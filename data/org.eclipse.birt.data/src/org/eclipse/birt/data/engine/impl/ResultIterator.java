@@ -1248,8 +1248,8 @@ public class ResultIterator implements IResultIterator
 						resultService.getSession( )
 								.updateNestedEmptyQueryID( resultService.getQueryResults( )
 										.getID( ) );
+						skipSaveEmpty = true;
 					}
-					skipSaveEmpty = true;
 				}
 			}
 			catch ( DataException e )

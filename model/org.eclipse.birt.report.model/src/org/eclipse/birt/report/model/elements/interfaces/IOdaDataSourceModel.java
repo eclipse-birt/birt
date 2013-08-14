@@ -29,6 +29,12 @@ public interface IOdaDataSourceModel
 	 */
 
 	public static final String PRIVATE_DRIVER_PROPERTIES_PROP = "privateDriverProperties"; //$NON-NLS-1$
+	
+	/**
+	 * The property name of external connection name.
+	 */
+
+	public static final String EXTERNAL_CONNECTION_NAME = "externalConnectionName";
 
 	/**
 	 * The property name of public driver properties.
