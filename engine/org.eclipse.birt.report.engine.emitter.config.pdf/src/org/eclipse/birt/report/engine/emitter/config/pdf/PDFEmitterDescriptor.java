@@ -38,6 +38,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String RENDER_CHART_IN_SVG = "RenderChartInSVG";
 	private static final String REPAGINATE_FOR_PDF = "repaginateForPDF";
 	private static final String DISABLE_FLASH_ANIMATION = "DisableFlashAnimation";
+	private static final String DISABLE_PRINT = "DisablePrint";
 
 	protected void initOptions( )
 	{
@@ -177,10 +178,22 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		disableFlashAnimation.setToolTip( null );
 		disableFlashAnimation
 				.setDescription( getMessage( "OptionDescription.DisableFlashAnimation" ) ); //$NON-NLS-1$
+		
+		// Initializes the option for disabling Print.
+		ConfigurableOption disablePrint = new ConfigurableOption( DISABLE_PRINT );
+		disablePrint
+				.setDisplayName( getMessage( "OptionDisplayValue.DisablePrint" ) ); //$NON-NLS-1$
+		disablePrint.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		disablePrint.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		disablePrint.setDefaultValue( Boolean.FALSE );
+		disablePrint.setToolTip( null );
+		disablePrint
+				.setDescription( getMessage( "OptionDescription.DisablePrint" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
 				textHyphenation, fontSubstitution, pageOverFlow, embeddedFont,
-				chartDpi, renderChartInSVG, repaginateForPDF, disableFlashAnimation};
+				chartDpi, renderChartInSVG, repaginateForPDF,
+				disableFlashAnimation, disablePrint};
 
 		applyDefaultValues( );
 
@@ -264,6 +277,10 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( DISABLE_FLASH_ANIMATION.equals( name ) )
 		{
 			return IPDFRenderOption.DISABLE_FLASH_ANIMATION;
+		}
+		if ( DISABLE_PRINT.equals( name ) )
+		{
+			return IPDFRenderOption.DISABLE_PRINT;
 		}
 		return name;
 	}

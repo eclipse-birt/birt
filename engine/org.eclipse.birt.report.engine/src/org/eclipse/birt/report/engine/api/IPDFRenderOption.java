@@ -109,6 +109,10 @@ public interface IPDFRenderOption extends IRenderOption
 	public static final String DISABLE_FLASH_ANIMATION = "pdfRenderOption.disableFlashAnimation";
 	
 	/**
+	 * The option to disable print.
+	 */
+	public static final String DISABLE_PRINT = "pdfRenderOption.disablePrint";
+	/**
 	 * @deprecated
 	 * @param isEmbededFont
 	 */
