@@ -740,7 +740,7 @@ public final class AxesRenderHelper
 			computation.handlePreEachTick( i );
 
 			double y = da.getCoordinate( i );
-			boolean bSkipTickLine = ( yLast == y );
+			boolean bSkipTickLine = ChartUtil.mathEqual( yLast, y );
 			if ( !bSkipTickLine )
 			{
 				yLast = y;
@@ -1039,7 +1039,7 @@ public final class AxesRenderHelper
 
 			double x = da.getCoordinate( i );
 
-			boolean bSkipTickLine = ( x == xLast );
+			boolean bSkipTickLine = ChartUtil.mathEqual( x, xLast );
 			if ( !bSkipTickLine )
 			{
 				xLast = x;
