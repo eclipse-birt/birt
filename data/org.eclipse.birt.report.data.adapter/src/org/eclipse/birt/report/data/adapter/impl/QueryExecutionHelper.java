@@ -128,9 +128,9 @@ class QueryExecutionHelper
 			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt,
 			boolean keepDataSetFilter, boolean disAllowAggregation, Scriptable scope ) throws BirtException
 	{
-		defineDataSourceDataSet( queryDefn, keepDataSetFilter, disAllowAggregation );
-
 		populateQueryDefn( queryDefn, paramBindingIt, filterIt, bindingIt, disAllowAggregation );
+
+		defineDataSourceDataSet( queryDefn, keepDataSetFilter, disAllowAggregation );
 
 		return dataEngine.prepare( queryDefn, sessionContext.getAppContext( ) )
 				.execute( scope );
