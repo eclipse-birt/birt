@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -833,7 +834,8 @@ public class DataProcessor
 			Object[] oa = rsw.getMergedGroupingBaseValues( iBaseColumnIndex,
 					baseSorting,
 					cwa.getAxes( ).get( 0 ).isCategoryAxis( )
-							|| !cwa.getAxes( ).get( 0 ).isSetCategoryAxis( ) );
+							|| !cwa.getAxes( ).get( 0 ).isSetCategoryAxis( )
+							|| cwa.getAxes( ).get( 0 ).getType( ) == AxisType.TEXT_LITERAL );
 
 			List baseValues = (List) oa[0];
 			List idxList = (List) oa[1];
