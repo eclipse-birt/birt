@@ -123,6 +123,10 @@ public class FilterDefnUtil
 		if ( filterDefn1 == null || filterDefn2 == null )
 			return false;
 
+		if( filterDefn1.updateAggregation( ) != filterDefn2.updateAggregation( ) )
+		{
+			return false;
+		}
 		return ExprUtil.isEqualExpression( filterDefn1.getExpression( ),
 				filterDefn2.getExpression( ) );
 	}
