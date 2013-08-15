@@ -61,6 +61,13 @@ public class ForeignHTMLRegionLayout implements ILayout
 				if ( aHeight + parent.getAbsoluteBP( ) > context.getMaxBP( ) )
 				{
 					parent.autoPageBreak( );
+					// The RootArea's autoPageBreak() will update the children.
+					// So return to avoid updating current area into RootArea
+					// twice. 
+					if ( parent instanceof RootArea )
+					{
+						return;
+					}
 				}
 			}
 			parent.update( region );
