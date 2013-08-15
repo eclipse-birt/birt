@@ -110,6 +110,9 @@ public class ExpressionCellEditorProvider implements IExpressionCellEditorProvid
 				input.openExpressionBuilder(builder, exprType);
 			}
 		}
+		if (ExpressionType.CONSTANT.equals(exprType)) {
+			input.openConstantEditor( exprType );
+		}
 		input.notifyExpressionChangeEvent( sOldExpr, input.getExpression( ) );
 	}
 
