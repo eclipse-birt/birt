@@ -1244,7 +1244,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	public static ReportItemHandle getInheritedHandle(
 			ReportItemHandle itemHandle )
 	{
-		if ( isContainerInheritable( itemHandle ) )
+		if ( itemHandle.getDataSet( ) == null && isContainerInheritable( itemHandle ) )
 		{
 			DesignElementHandle handle = itemHandle.getContainer( );
 			while ( handle != null && !( handle instanceof ListingHandle || handle instanceof GridHandle ) )
