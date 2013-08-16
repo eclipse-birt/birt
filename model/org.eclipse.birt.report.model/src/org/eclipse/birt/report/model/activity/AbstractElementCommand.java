@@ -85,7 +85,8 @@ public abstract class AbstractElementCommand extends Command
         Module root = element.getRoot( );
         if ( root == null )
         {
-            return new ActivityStack( module );
+        	//set null module to avoid clearing the name helper cache
+            return new ActivityStack( null );
         }
         return module.getActivityStack( );
     }
