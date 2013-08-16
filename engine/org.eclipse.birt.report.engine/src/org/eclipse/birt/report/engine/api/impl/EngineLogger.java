@@ -13,7 +13,9 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Filter;
 import java.util.logging.Handler;
@@ -47,6 +49,12 @@ public class EngineLogger
 
 	static private final Logger ROOT_LOGGER = Logger
 			.getLogger( BIRT_NAME_SPACE );
+	
+	static private final List<Logger> ROOT_LOGGERS = new ArrayList<Logger>();
+	static
+	{
+		ROOT_LOGGERS.add( ROOT_LOGGER );
+	}
 
 	/**
 	 * the user defined logger output file.
@@ -114,7 +122,10 @@ public class EngineLogger
 		}
 
 		// finally we setup the log level, NULL means use the parent's level
-		ROOT_LOGGER.setLevel( logLevel );
+		for(Logger rootLogger : ROOT_LOGGERS)
+		{
+			rootLogger.setLevel( logLevel );
+		}
 	}
 
 	public static void setLogger( Logger logger )
@@ -133,16 +144,18 @@ public class EngineLogger
 
 	public static boolean isValidLogger( Logger logger )
 	{
-
 		while ( logger != null )
 		{
-			if ( logger == ROOT_LOGGER )
+			for ( Logger rootlogger : ROOT_LOGGERS )
 			{
-				return false;
+				if ( logger == rootlogger )
+				{
+					return true;
+				}
 			}
 			logger = logger.getParent( );
 		}
-		return true;
+		return false;
 	}
 
 	/**
@@ -169,8 +182,11 @@ public class EngineLogger
 	{
 		if ( adapterHandler != null )
 		{
-			ROOT_LOGGER.setUseParentHandlers( true );
-			ROOT_LOGGER.removeHandler( adapterHandler );
+			for ( Logger rootLogger : ROOT_LOGGERS )
+			{
+				rootLogger.setUseParentHandlers( true );
+				rootLogger.removeHandler( adapterHandler );
+			}
 			adapterHandler.close( );
 			adapterHandler = null;
 		}
@@ -200,7 +216,10 @@ public class EngineLogger
 				}
 			}
 		}
-		ROOT_LOGGER.setLevel( newLevel );
+		for ( Logger rootLogger : ROOT_LOGGERS )
+		{
+			rootLogger.setLevel( newLevel );
+		}
 	}
 
 	/**
@@ -290,8 +309,11 @@ public class EngineLogger
 				{
 					adapterHandler = new AdapterHandler(
 							ROOT_LOGGER.getParent( ) );
-					ROOT_LOGGER.addHandler( adapterHandler );
-					ROOT_LOGGER.setUseParentHandlers( false );
+					for ( Logger rootLogger : ROOT_LOGGERS )
+					{
+						rootLogger.addHandler( adapterHandler );
+						rootLogger.setUseParentHandlers( false );
+					}
 				}
 			}
 		}
@@ -440,5 +462,33 @@ public class EngineLogger
 				logger = logger.getParent( );
 			}
 		}
+	}
+	
+	/**
+	 * Add root logger to root logger list 
+	 * 1, add it to root logger list if not exist
+	 * 2, set level
+	 * 3, add handler to it and set use parent handle as false
+	 * There is one root logger in list by default, it's name space is "org.eclipse.birt"
+	 * If there is another root logger need using, invoke this method, 
+	 * e.g. the name space of the logger is "com.actuate.birt" 
+	 * @param  rootLogger
+	 *         the root logger need add to list
+	 *  
+	 */
+	public static void addRootLogger(Logger rootLogger)
+	{
+		if( ROOT_LOGGERS.contains( rootLogger ) )
+		{
+			return;
+		}
+		ROOT_LOGGERS.add( rootLogger );
+		Level level = ROOT_LOGGERS.get( 0 ).getLevel( );
+		rootLogger.setLevel( level );
+		if( adapterHandler != null )
+		{
+			rootLogger.addHandler( adapterHandler );
+			rootLogger.setUseParentHandlers( false );
+		}		
 	}
 }
