@@ -95,7 +95,20 @@ public class AttributesBuilder
 			if ( adapter instanceof IPageGenerator )
 			{
 				if ( element instanceof ExtendedItemHandle )
+				{
 					typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{GuiExtensionManager.getExtensionDisplayName( selection.get( 0 ) )} ); //$NON-NLS-1$
+				}
+				if( Messages.getString( "AttributesBuilder.Label.None" ).equals( typeInfo ) )
+				{
+					if( element instanceof DesignElementHandle )
+					{
+						String displayName = ( (DesignElementHandle) element ).getDefn( ).getDisplayName( );
+						if( displayName != null && !displayName.equals( "" ) )
+						{
+							typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{ displayName });//$NON-NLS-1$
+						}
+					}
+				}
 				IPageGenerator ng = (IPageGenerator) adapter;
 
 				boolean change = false;
