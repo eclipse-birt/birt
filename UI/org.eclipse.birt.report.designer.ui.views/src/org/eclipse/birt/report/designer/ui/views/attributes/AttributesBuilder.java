@@ -65,10 +65,11 @@ public class AttributesBuilder
 
 	protected String selectedTabText;
 
+	private static final String DEFAULT_NONE = Messages.getString( "AttributesBuilder.Label.None" ); //$NON-NLS-1$; 
 	/**
 	 * The type information of current selection.
 	 */
-	protected String typeInfo = Messages.getString( "AttributesBuilder.Label.None" ); //$NON-NLS-1$;
+	protected String typeInfo = DEFAULT_NONE;
 
 	/**
 	 * Gets attribute pages generator correspond to the current selection.
@@ -98,7 +99,7 @@ public class AttributesBuilder
 				{
 					typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{GuiExtensionManager.getExtensionDisplayName( selection.get( 0 ) )} ); //$NON-NLS-1$
 				}
-				if( Messages.getString( "AttributesBuilder.Label.None" ).equals( typeInfo ) )
+				if( DEFAULT_NONE.equals( typeInfo ) )
 				{
 					if( element instanceof DesignElementHandle )
 					{
