@@ -11,12 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de;
 
-import java.util.List;
-
 import org.eclipse.birt.report.item.crosstab.core.IComputedMeasureViewConstants;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
@@ -50,36 +45,18 @@ public class ComputedMeasureViewHandle extends MeasureViewHandle implements
 	@Override
 	public String getCubeMeasureName( )
 	{
-		return handle.getName( );
+		String measureName = (String)handle.getProperty( IComputedMeasureViewConstants.MEASURE_NAME_PROP );
+		if( measureName == null )
+		{
+			measureName = handle.getName( );	
+		} 
+		return measureName;
 	}
-	
+
 	@Override
 	public String getDataType( )
 	{
-		String dataType = null;
-		CrosstabReportItemHandle crosstabItem = getCrosstab();
-		if( CrosstabUtil.isBoundToLinkedDataSet( crosstabItem ) )
-		{
-			CrosstabCellHandle cell = getCell( );
-			if( cell != null )
-			{
-				List contents = cell.getContents( );
-				for( Object obj : contents )
-				{
-					if( obj != null && obj instanceof DataItemHandle )
-					{
-						String bindingName = ((DataItemHandle)obj).getResultSetColumn( );
-						ComputedColumnHandle column = CrosstabUtil.getColumnHandle( crosstabItem, bindingName );
-						dataType = (column!= null) ? column.getDataType( ) : null;
-						if( CrosstabUtil.validateBinding( column, null ) )
-						{
-							break;
-						}
-					}
-				}
-			}
-		}
-		
-		return dataType;
+		return null;
 	}
+
 }

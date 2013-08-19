@@ -581,6 +581,13 @@
             extensionName="ComputedMeasureView"
             hasStyle="false"
             isNameRequired="true">
+         <property
+               canInherit="false"
+               displayNameID="Element.MeasureName"
+               isEncryptable="false"
+               name="measureName"
+               type="string">
+         </property>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
