@@ -101,9 +101,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * end-user-doc -->
  * @generated
  */
-public class AttributeFactoryImpl extends EFactoryImpl
-		implements
-			AttributeFactory
+public class AttributeFactoryImpl extends EFactoryImpl implements
+		AttributeFactory
 {
 
 	/**
@@ -283,6 +282,8 @@ public class AttributeFactoryImpl extends EFactoryImpl
 			case AttributePackage.HORIZONTAL_ALIGNMENT :
 				return createHorizontalAlignmentFromString( eDataType,
 						initialValue );
+			case AttributePackage.IMAGE_SOURCE_TYPE :
+				return createImageSourceTypeFromString( eDataType, initialValue );
 			case AttributePackage.INTERSECTION_TYPE :
 				return createIntersectionTypeFromString( eDataType,
 						initialValue );
@@ -369,6 +370,9 @@ public class AttributeFactoryImpl extends EFactoryImpl
 						initialValue );
 			case AttributePackage.ID :
 				return createIDFromString( eDataType, initialValue );
+			case AttributePackage.IMAGE_SOURCE_TYPE_OBJECT :
+				return createImageSourceTypeObjectFromString( eDataType,
+						initialValue );
 			case AttributePackage.INTERSECTION_TYPE_OBJECT :
 				return createIntersectionTypeObjectFromString( eDataType,
 						initialValue );
@@ -486,6 +490,8 @@ public class AttributeFactoryImpl extends EFactoryImpl
 			case AttributePackage.HORIZONTAL_ALIGNMENT :
 				return convertHorizontalAlignmentToString( eDataType,
 						instanceValue );
+			case AttributePackage.IMAGE_SOURCE_TYPE :
+				return convertImageSourceTypeToString( eDataType, instanceValue );
 			case AttributePackage.INTERSECTION_TYPE :
 				return convertIntersectionTypeToString( eDataType,
 						instanceValue );
@@ -572,6 +578,9 @@ public class AttributeFactoryImpl extends EFactoryImpl
 						instanceValue );
 			case AttributePackage.ID :
 				return convertIDToString( eDataType, instanceValue );
+			case AttributePackage.IMAGE_SOURCE_TYPE_OBJECT :
+				return convertImageSourceTypeObjectToString( eDataType,
+						instanceValue );
 			case AttributePackage.INTERSECTION_TYPE_OBJECT :
 				return convertIntersectionTypeObjectToString( eDataType,
 						instanceValue );
@@ -1458,6 +1467,31 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ImageSourceType createImageSourceTypeFromString(
+			EDataType eDataType, String initialValue )
+	{
+		ImageSourceType result = ImageSourceType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertImageSourceTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public IntersectionType createIntersectionTypeFromString(
 			EDataType eDataType, String initialValue )
 	{
@@ -2307,6 +2341,30 @@ public class AttributeFactoryImpl extends EFactoryImpl
 	public String convertIDToString( EDataType eDataType, Object instanceValue )
 	{
 		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.Literals.STRING,
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ImageSourceType createImageSourceTypeObjectFromString(
+			EDataType eDataType, String initialValue )
+	{
+		return createImageSourceTypeFromString( AttributePackage.Literals.IMAGE_SOURCE_TYPE,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertImageSourceTypeObjectToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return convertImageSourceTypeToString( AttributePackage.Literals.IMAGE_SOURCE_TYPE,
 				instanceValue );
 	}
 

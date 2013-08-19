@@ -74,6 +74,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
+import org.eclipse.birt.chart.model.attribute.ImageSourceType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
@@ -1347,22 +1348,25 @@ public class G2dRendererBase extends DeviceAdapter
 		}
 		else if ( imageModel instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
-			try
+			if ( ( (org.eclipse.birt.chart.model.attribute.Image) imageModel ).getSource( ) == ImageSourceType.STATIC )
 			{
-				final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) imageModel ).getURL( );
-				img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
-			}
-			catch ( ChartException ilex )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						ilex );
-			}
-			catch ( MalformedURLException muex )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						muex );
+				try
+				{
+					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) imageModel ).getURL( );
+					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
+				}
+				catch ( ChartException ilex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							ilex );
+				}
+				catch ( MalformedURLException muex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							muex );
+				}
 			}
 		}
 

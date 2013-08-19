@@ -373,6 +373,10 @@ public class AttributeValidator extends EObjectValidator
 				return validateHorizontalAlignment( (HorizontalAlignment) value,
 						diagnostics,
 						context );
+			case AttributePackage.IMAGE_SOURCE_TYPE :
+				return validateImageSourceType( (ImageSourceType) value,
+						diagnostics,
+						context );
 			case AttributePackage.INTERSECTION_TYPE :
 				return validateIntersectionType( (IntersectionType) value,
 						diagnostics,
@@ -509,6 +513,10 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.ID :
 				return validateID( (String) value, diagnostics, context );
+			case AttributePackage.IMAGE_SOURCE_TYPE_OBJECT :
+				return validateImageSourceTypeObject( (ImageSourceType) value,
+						diagnostics,
+						context );
 			case AttributePackage.INTERSECTION_TYPE_OBJECT :
 				return validateIntersectionTypeObject( (IntersectionType) value,
 						diagnostics,
@@ -1327,6 +1335,17 @@ public class AttributeValidator extends EObjectValidator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean validateImageSourceType( ImageSourceType imageSourceType,
+			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean validateIntersectionType( IntersectionType intersectionType,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
@@ -1740,6 +1759,18 @@ public class AttributeValidator extends EObjectValidator
 				ID__PATTERN__VALUES,
 				diagnostics,
 				context );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateImageSourceTypeObject(
+			ImageSourceType imageSourceTypeObject, DiagnosticChain diagnostics,
+			Map<Object, Object> context )
+	{
+		return true;
 	}
 
 	/**

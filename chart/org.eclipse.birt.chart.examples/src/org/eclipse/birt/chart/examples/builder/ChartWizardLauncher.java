@@ -253,6 +253,7 @@ public class ChartWizardLauncher implements ChartUIConstants
 		// Create context
 		final ChartWizardContext context = new ChartWizardContext( chart,
 				new SimpleUIServiceProviderImpl( ),
+				null,
 				dataProvider,
 				ssd,
 				new ChartUIFactory( ) );

@@ -49,6 +49,7 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Image;
+import org.eclipse.birt.chart.model.attribute.ImageSourceType;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
@@ -119,9 +120,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * end-user-doc -->
  * @generated
  */
-public class AttributePackageImpl extends EPackageImpl
-		implements
-			AttributePackage
+public class AttributePackageImpl extends EPackageImpl implements
+		AttributePackage
 {
 
 	/**
@@ -490,6 +490,13 @@ public class AttributePackageImpl extends EPackageImpl
 	private EEnum horizontalAlignmentEEnum = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum imageSourceTypeEEnum = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -711,6 +718,13 @@ public class AttributePackageImpl extends EPackageImpl
 	private EDataType idEDataType = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType imageSourceTypeObjectEDataType = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -920,8 +934,7 @@ public class AttributePackageImpl extends EPackageImpl
 			return (AttributePackage) EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI );
 
 		// Obtain or create and register package
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.get( eNS_URI ) instanceof AttributePackageImpl
-				? EPackage.Registry.INSTANCE.get( eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.get( eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.get( eNS_URI )
 				: new AttributePackageImpl( ) );
 
 		isInited = true;
@@ -930,20 +943,15 @@ public class AttributePackageImpl extends EPackageImpl
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
 				: ComponentPackage.eINSTANCE );
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
 				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
@@ -1722,6 +1730,16 @@ public class AttributePackageImpl extends EPackageImpl
 	public EAttribute getImage_URL( )
 	{
 		return (EAttribute) imageEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getImage_Source( )
+	{
+		return (EAttribute) imageEClass.getEStructuralFeatures( ).get( 1 );
 	}
 
 	/**
@@ -2665,6 +2683,16 @@ public class AttributePackageImpl extends EPackageImpl
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getImageSourceType( )
+	{
+		return imageSourceTypeEEnum;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -3009,6 +3037,16 @@ public class AttributePackageImpl extends EPackageImpl
 	public EDataType getID( )
 	{
 		return idEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getImageSourceTypeObject( )
+	{
+		return imageSourceTypeObjectEDataType;
 	}
 
 	/**
@@ -3396,6 +3434,7 @@ public class AttributePackageImpl extends EPackageImpl
 
 		imageEClass = createEClass( IMAGE );
 		createEAttribute( imageEClass, IMAGE__URL );
+		createEAttribute( imageEClass, IMAGE__SOURCE );
 
 		insetsEClass = createEClass( INSETS );
 		createEAttribute( insetsEClass, INSETS__TOP );
@@ -3533,6 +3572,7 @@ public class AttributePackageImpl extends EPackageImpl
 		directionEEnum = createEEnum( DIRECTION );
 		groupingUnitTypeEEnum = createEEnum( GROUPING_UNIT_TYPE );
 		horizontalAlignmentEEnum = createEEnum( HORIZONTAL_ALIGNMENT );
+		imageSourceTypeEEnum = createEEnum( IMAGE_SOURCE_TYPE );
 		intersectionTypeEEnum = createEEnum( INTERSECTION_TYPE );
 		leaderLineStyleEEnum = createEEnum( LEADER_LINE_STYLE );
 		legendBehaviorTypeEEnum = createEEnum( LEGEND_BEHAVIOR_TYPE );
@@ -3571,6 +3611,7 @@ public class AttributePackageImpl extends EPackageImpl
 		groupingUnitTypeObjectEDataType = createEDataType( GROUPING_UNIT_TYPE_OBJECT );
 		horizontalAlignmentObjectEDataType = createEDataType( HORIZONTAL_ALIGNMENT_OBJECT );
 		idEDataType = createEDataType( ID );
+		imageSourceTypeObjectEDataType = createEDataType( IMAGE_SOURCE_TYPE_OBJECT );
 		intersectionTypeObjectEDataType = createEDataType( INTERSECTION_TYPE_OBJECT );
 		leaderLineStyleObjectEDataType = createEDataType( LEADER_LINE_STYLE_OBJECT );
 		legendBehaviorTypeObjectEDataType = createEDataType( LEGEND_BEHAVIOR_TYPE_OBJECT );
@@ -3917,6 +3958,9 @@ public class AttributePackageImpl extends EPackageImpl
 		initEAttribute( getImage_URL( ),
 				theXMLTypePackage.getString( ),
 				"uRL", null, 1, 1, Image.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getImage_Source( ),
+				this.getImageSourceType( ),
+				"source", null, 1, 1, Image.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( insetsEClass,
 				Insets.class,
@@ -4349,6 +4393,13 @@ public class AttributePackageImpl extends EPackageImpl
 		addEEnumLiteral( horizontalAlignmentEEnum,
 				HorizontalAlignment.RIGHT_LITERAL );
 
+		initEEnum( imageSourceTypeEEnum,
+				ImageSourceType.class,
+				"ImageSourceType" ); //$NON-NLS-1$
+		addEEnumLiteral( imageSourceTypeEEnum, ImageSourceType.STATIC );
+		addEEnumLiteral( imageSourceTypeEEnum, ImageSourceType.REPORT );
+		addEEnumLiteral( imageSourceTypeEEnum, ImageSourceType.FILE );
+
 		initEEnum( intersectionTypeEEnum,
 				IntersectionType.class,
 				"IntersectionType" ); //$NON-NLS-1$
@@ -4598,6 +4649,9 @@ public class AttributePackageImpl extends EPackageImpl
 		initEDataType( idEDataType,
 				String.class,
 				"ID", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( imageSourceTypeObjectEDataType,
+				ImageSourceType.class,
+				"ImageSourceTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( intersectionTypeObjectEDataType,
 				IntersectionType.class,
 				"IntersectionTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -5134,6 +5188,17 @@ public class AttributePackageImpl extends EPackageImpl
 		addAnnotation( getImage_URL( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "URL" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getImage_Source( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "source" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( imageSourceTypeEEnum, source, new String[]{
+				"name", "ImageSourceType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( imageSourceTypeObjectEDataType, source, new String[]{
+				"name", "ImageSourceType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "ImageSourceType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( insetsEClass, source, new String[]{
 				"name", "Insets", //$NON-NLS-1$ //$NON-NLS-2$

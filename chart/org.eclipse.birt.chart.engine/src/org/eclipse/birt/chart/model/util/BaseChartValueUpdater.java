@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2012 Actuate Corporation.
+ * Copyright (c) 2013 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8332,6 +8332,18 @@ public class BaseChartValueUpdater
 			}
 		}
 
+		if ( !eObj.isSetSource( ) )
+		{
+			if ( eRefObj != null && eRefObj.isSetSource( ) )
+			{
+				eObj.setSource( eRefObj.getSource( ) );
+			}
+			else if ( eDefObj != null && eDefObj.isSetSource( ) )
+			{
+				eObj.setSource( eDefObj.getSource( ) );
+			}
+		}
+
 		if ( eObj.getData( ) == null )
 		{
 			if ( eRefObj != null && eRefObj.getData( ) != null )
@@ -9009,6 +9021,18 @@ public class BaseChartValueUpdater
 			else if ( eDefObj != null && eDefObj.getURL( ) != null )
 			{
 				eObj.setURL( eDefObj.getURL( ) );
+			}
+		}
+
+		if ( !eObj.isSetSource( ) )
+		{
+			if ( eRefObj != null && eRefObj.isSetSource( ) )
+			{
+				eObj.setSource( eRefObj.getSource( ) );
+			}
+			else if ( eDefObj != null && eDefObj.isSetSource( ) )
+			{
+				eObj.setSource( eDefObj.getSource( ) );
 			}
 		}
 
@@ -9913,6 +9937,18 @@ public class BaseChartValueUpdater
 			else if ( eDefObj != null && eDefObj.getURL( ) != null )
 			{
 				eObj.setURL( eDefObj.getURL( ) );
+			}
+		}
+
+		if ( !eObj.isSetSource( ) )
+		{
+			if ( eRefObj != null && eRefObj.isSetSource( ) )
+			{
+				eObj.setSource( eRefObj.getSource( ) );
+			}
+			else if ( eDefObj != null && eDefObj.isSetSource( ) )
+			{
+				eObj.setSource( eDefObj.getSource( ) );
 			}
 		}
 

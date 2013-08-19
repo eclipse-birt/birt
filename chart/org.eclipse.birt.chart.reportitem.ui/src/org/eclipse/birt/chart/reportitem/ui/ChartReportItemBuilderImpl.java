@@ -50,6 +50,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator;
 import org.eclipse.birt.chart.ui.swt.interfaces.IFormatSpecifierHandler;
+import org.eclipse.birt.chart.ui.swt.interfaces.IImageServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -60,6 +61,8 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.IResourceContentProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
@@ -210,8 +213,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartReportItemUIFactory uiFactory = ChartReportItemUIFactory.instance( );
 			IChartDataSheet dataSheet = uiFactory.createDataSheet( extendedHandle,
 					dataProvider );
+			IImageServiceProvider imageProvider = new ChartImageServiceProvider( extendedHandle );
 			final ChartWizardContext context = uiFactory.createWizardContext( cmClone,
 					this,
+					imageProvider,
 					dataProvider,
 					dataSheet );
 			this.wizardContext = context;
@@ -733,6 +738,24 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				if ( eb.open( ) == Window.OK )
 				{
 					value = eb.getResult( );
+				}
+				break;
+			case COMMAND_RESOURCE_SELECTION_DIALOG:
+				ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
+						true,
+						 new String[]{
+						"*.jpg;*.gif;*.png;" //$NON-NLS-1$
+					} );
+				dialog.setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER );
+				dialog.setTitle( sTitle );  
+				dialog.setMessage( sTitle );  
+
+				if ( dialog.open( ) == Window.OK )
+				{
+					String path = dialog.getPath( );
+					return path;
+				}else{
+					return null;
 				}
 		}
 

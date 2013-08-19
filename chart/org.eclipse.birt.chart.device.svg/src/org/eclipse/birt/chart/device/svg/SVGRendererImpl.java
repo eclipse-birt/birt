@@ -788,7 +788,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 			throws ChartException
 	{
 		Image img = super.createImageFromModel( imageModel );
-		if ( !( img instanceof SVGImage ) )
+		if ( img != null && !( img instanceof SVGImage ) )
 		{
 			img = new SVGImage( img, null );
 		}

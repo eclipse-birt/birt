@@ -107,6 +107,8 @@ public class FillChooserComposite extends Composite implements
 	private boolean bImageEnabled = true;
 
 	private boolean bEmbeddedImageEnabled = true;
+	
+	private boolean bResourceImageEnabled = false;
 
 	private boolean bTransparentEnabled = true;
 
@@ -154,6 +156,7 @@ public class FillChooserComposite extends Composite implements
 	public static final int DISABLE_GRADIENT_ANGLE = 1 << 6;
 	public static final int DISABLE_PATTERN_FILL = 1 << 7;
 	public static final int DISABLE_EMBEDDED_IMAGE = 1 << 8;
+	public static final int ENABLE_RESOURCE_IMAGE = 1 << 9;
 
 	/**
 	 * @param parent
@@ -178,6 +181,7 @@ public class FillChooserComposite extends Composite implements
 		this.bTransparencySliderEnable = ( ( ENABLE_TRANSPARENT_SLIDER & optionalStyle ) == ENABLE_TRANSPARENT_SLIDER );
 		this.bGradientAngleEnabled = !( ( DISABLE_GRADIENT_ANGLE & optionalStyle ) == DISABLE_GRADIENT_ANGLE );
 		this.bEmbeddedImageEnabled = !( ( DISABLE_EMBEDDED_IMAGE & optionalStyle ) == DISABLE_EMBEDDED_IMAGE );
+		this.bResourceImageEnabled = ( ENABLE_RESOURCE_IMAGE & optionalStyle ) == ENABLE_RESOURCE_IMAGE;
 	}
 
 	/**
@@ -352,7 +356,9 @@ public class FillChooserComposite extends Composite implements
 		// THE CANVAS
 		cnvSelection = new FillCanvas( cmpContentInner,
 				SWT.NONE,
-				this.bAutoEnabled );
+				this.bAutoEnabled,
+				wizardContext == null ? null
+						: wizardContext.getImageServiceProvider( ) );
 		cnvSelection.setTextIndent( 8 );
 		GridData gdCNVSelection = new GridData( GridData.FILL_BOTH );
 		gdCNVSelection.heightHint = iSize;
@@ -838,7 +844,13 @@ public class FillChooserComposite extends Composite implements
 		}
 		else if ( oSource.equals( this.btnImage ) )
 		{
-			ImageDialog idlg = new ImageDialog( this.getShell( ), fCurrent, bEmbeddedImageEnabled );
+
+			ImageDialog idlg = (ImageDialog) wizardContext.getUIFactory( )
+					.createChartImageDialog( this.getShell( ),
+							fCurrent,
+							wizardContext,
+							bEmbeddedImageEnabled,bResourceImageEnabled );
+
 			cmpDropDown.getShell( ).close( );
 			if ( idlg.open( ) == Window.OK )
 			{
@@ -1105,7 +1117,7 @@ public class FillChooserComposite extends Composite implements
 				e.detail = ACC.STATE_NORMAL;
 			}
 		} );
-		
+
 		ChartUIUtil.addScreenReaderAccessibility( this, cnvSelection );
 	}
 

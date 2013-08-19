@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
+import org.eclipse.birt.chart.model.attribute.ImageSourceType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
@@ -1135,10 +1136,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				}
 				else
 				{
-					// To render a blank image for null embedded data
-					img = new org.eclipse.swt.graphics.Image( ( (SwtDisplayServer) _ids ).getDevice( ),
-							10,
-							10 );
+					img = createEmptyImage( );
 				}
 			}
 			catch ( Exception ilex )
@@ -1155,17 +1153,25 @@ public class SwtRendererImpl extends DeviceAdapter
 		}
 		else
 		{
-			final String sUrl = g.getURL( );
-			try
+			if ( g.getSource( ) == ImageSourceType.STATIC )
 			{
-				img = (org.eclipse.swt.graphics.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
+				final String sUrl = g.getURL( );
+				try
+				{
+					img = (org.eclipse.swt.graphics.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
+				}
+				catch ( MalformedURLException muex )
+				{
+					throw new ChartException( ChartDeviceSwtActivator.ID,
+							ChartException.RENDERING,
+							muex );
+				}
 			}
-			catch ( MalformedURLException muex )
+			else
 			{
-				throw new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.RENDERING,
-						muex );
+				img = createEmptyImage( );
 			}
+
 		}
 
 		Pattern pattern = new Pattern( _gc.getDevice( ), img );
@@ -1174,6 +1180,14 @@ public class SwtRendererImpl extends DeviceAdapter
 
 		pattern.dispose( );
 		img.dispose( );
+	}
+	
+	private Image createEmptyImage( )
+	{
+		// To render a blank image for null embedded data
+		return new org.eclipse.swt.graphics.Image( ( (SwtDisplayServer) _ids ).getDevice( ),
+				10,
+				10 );
 	}
 
 	private Image createImageFromPattern( PatternImage patternImage )
