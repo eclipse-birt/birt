@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
@@ -2127,9 +2126,9 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 						.findImage( image.getURL( ) );
 				if ( embeddedImage != null )
 				{
-					return DATA_BASE64
-							+ new String( Base64.encodeBase64( embeddedImage.getData( handle.getModuleHandle( )
-									.getModule( ) ) ) );
+//					return DATA_BASE64
+//							+ new String( Base64.encodeBase64( embeddedImage.getData( handle.getModuleHandle( )
+//									.getModule( ) ) ) );
 				}			
 			default :
 				return null;
