@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.emitter.config.ppt;
 
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.api.IPPTRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
 import org.eclipse.birt.report.engine.emitter.config.AbstractConfigurableOptionObserver;
@@ -33,6 +34,7 @@ public class PPTEmitterDescriptor extends AbstractEmitterDescriptor
 	protected static final String BIDI_PROCESSING = "BIDIProcessing";
 	protected static final String TEXT_WRAPPING = "TextWrapping";
 	protected static final String CHART_DPI = "ChartDpi";
+	protected static final String EXPORT_TO_OFFICE_2010_2013 = "Export2Office2010And2013";
 
 	protected void initOptions( )
 	{
@@ -109,9 +111,24 @@ public class PPTEmitterDescriptor extends AbstractEmitterDescriptor
 		chartDpi.setToolTip( getMessage( "Tooltip.ChartDpi" ) );
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
+		// Initializes the option for exporting.
+		ConfigurableOption export2Office2010And2013 = new ConfigurableOption(
+				EXPORT_TO_OFFICE_2010_2013 );
+		export2Office2010And2013
+				.setDisplayName( getMessage( "OptionDisplayValue.Export2Office2010And2013" ) ); //$NON-NLS-1$
+		export2Office2010And2013
+				.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		export2Office2010And2013
+				.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		export2Office2010And2013.setDefaultValue( Boolean.FALSE );
+		export2Office2010And2013.setToolTip( null );
+		export2Office2010And2013
+				.setDescription( getMessage( "OptionDescription.Export2Office2010And2013" ) ); //$NON-NLS-1$
+
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				fontSubstitution, pageOverFlow, chartDpi};
-		
+				fontSubstitution, pageOverFlow, chartDpi,
+				export2Office2010And2013};
+
 		applyDefaultValues( );
 	}
 
@@ -177,6 +194,10 @@ public class PPTEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( CHART_DPI.equals( name ) )
 		{
 			return IRenderOption.CHART_DPI;
+		}
+		if ( EXPORT_TO_OFFICE_2010_2013.equals( name ) )
+		{
+			return IPPTRenderOption.EXPORT_FILE_FOR_MICROSOFT_OFFICE_2010_2013;
 		}
 		return name;
 	}
