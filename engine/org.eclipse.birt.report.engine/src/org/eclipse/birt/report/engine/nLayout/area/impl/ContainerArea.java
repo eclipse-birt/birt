@@ -95,6 +95,8 @@ public abstract class ContainerArea extends AbstractArea
 	protected CSSValue pageBreakBefore = null;
 
 	protected CSSValue pageBreakInside = null;
+	
+	protected boolean isChildrenRemoved = false;
 
 	public ContainerArea( ContainerArea parent, LayoutContext context,
 			IContent content )

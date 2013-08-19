@@ -178,7 +178,7 @@ public class FixedLayoutPageHintGenerator
 		{
 			if ( currentContent != null )
 			{
-				if ( InstanceIDComparator.isNextWith( currentContent.content,
+				if ( InstanceIDComparator.isNextWith( currentContent.content, currentContent.isChildrenRemoved, 
 						area.content ) )
 				{
 					if( currentContent.dimension > 0 )
@@ -285,6 +285,7 @@ public class FixedLayoutPageHintGenerator
 			sizeBasedContent.dimension = -1;
 			sizeBasedContent.width = -1;
 		}
+		sizeBasedContent.isChildrenRemoved = area.isChildrenRemoved;
 		return sizeBasedContent;
 	}
 	
@@ -313,7 +314,7 @@ public class FixedLayoutPageHintGenerator
 	static class InstanceIDComparator
 	{
 
-		static boolean isNextWith( IContent content1, IContent content2 )
+		static boolean isNextWith( IContent content1, boolean isContent1ChildrenRemoved, IContent content2 )
 		{
 			if ( content1 == null || content2 == null || content1 == content2 )
 			{
@@ -344,7 +345,7 @@ public class FixedLayoutPageHintGenerator
 						// the parent2 is the first child.
 						if ( pid2.getUniqueID( ) == 0 )
 						{
-							return isNextWith( content1, parent2 );
+							return isNextWith( content1, isContent1ChildrenRemoved, parent2 );
 						}
 						else
 						{
@@ -352,6 +353,11 @@ public class FixedLayoutPageHintGenerator
 							if ( !content1.isLastChild( ) )
 							{
 								return false;
+							}
+							// if content1's children are removed, the page hint should break here.
+							else if( isContent1ChildrenRemoved )
+							{
+								return false;								
 							}
 
 							IContent parent1 = (IContent) content1.getParent( );

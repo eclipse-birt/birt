@@ -550,7 +550,12 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			child.setParent( newContainer );
 			newContainer.addChild( child );
 			children.remove( child );
+			if ( children.isEmpty( ) )
+			{
+				isChildrenRemoved = true;
+			}		
 		}
+
 		newContainer.updateContentHeight( newHeight );
 		applyAlignment( newContainer );
 		return newContainer;
