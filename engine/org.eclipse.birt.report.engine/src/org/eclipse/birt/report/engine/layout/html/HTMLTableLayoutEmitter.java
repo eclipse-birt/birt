@@ -576,12 +576,15 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 				{
 					for(int i=lastRowId+1; i<rowId; i++)
 					{
-						IRowContent newRow = (IRowContent)row.cloneContent( false );
-						newRow.setHeight( new DimensionType( 0, EngineIRConstants.UNITS_IN) );
-						newRow.setParent(row.getParent( ));
+						IRowContent newRow = (IRowContent) row
+								.cloneContent( false );
+						newRow.setHeight( new DimensionType( 0,
+								EngineIRConstants.UNITS_IN ) );
+						newRow.setParent( row.getParent( ) );
 						newRow.setRowID( i );
-						startRow(newRow);
-						endRow(newRow);
+						startRow( newRow );
+						layout.setNeedFormalize( true );
+						endRow( newRow );
 					}
 				}
 				layout.createRow( row, isHidden );
