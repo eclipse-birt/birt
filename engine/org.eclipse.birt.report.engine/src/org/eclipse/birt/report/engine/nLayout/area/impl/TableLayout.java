@@ -785,6 +785,16 @@ public class TableLayout
 			}
 		}
 	}
+	
+	protected boolean isSpecifiedHeight( RowArea area )
+	{
+		IContent content = (IContent) area.getContent( );
+		if ( content != null )
+		{
+			return content.getHeight( ) != null;
+		}
+		return false;
+	}
 
 	/**
 	 * 1) Creates row wrapper. 2) For the null cell in the row wrapper, fills
@@ -844,7 +854,7 @@ public class TableLayout
 				{
 					if ( cell.getRowSpan( ) == 1 )
 					{
-						if ( !isFixedLayout || sheight == 0 )
+						if ( !isFixedLayout || (sheight == 0 && rowArea.getContent( ).getHeight( )==null) )
 						{
 							height = Math.max( height, cell.getHeight( ) );
 						}
@@ -901,7 +911,7 @@ public class TableLayout
 					{
 						if ( cell.getRowSpan( ) == 1 )
 						{
-							if ( !isFixedLayout || sheight == 0 )
+							if ( !isFixedLayout || sheight == 0  && !isSpecifiedHeight(rowArea))
 							{
 								height = Math.max( height, cell.getHeight( ) );
 							}
