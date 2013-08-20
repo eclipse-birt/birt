@@ -299,7 +299,7 @@
 		<tstamp prefix="timestamp">
 			<format property="birt" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
 		</tstamp>
-		<echo message="[${timestamp.birt}] ${message}${line.separator}"
+		<echo message="${timestamp.birt} ${message}${line.separator}"
 			file="${builder.dir}/monitor.log" append="true" />
 	</target>
 </project>
