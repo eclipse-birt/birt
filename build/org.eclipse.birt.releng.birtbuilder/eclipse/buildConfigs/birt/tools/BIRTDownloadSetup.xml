@@ -285,6 +285,7 @@
 		</exec>
 		<replace file="${OutputDir}\${birt.info}" token="#lastcommitid#"
 			value="${lastcommitid}" />
+		<echo message="${lastcommitid}" file="${builder.dir}/lastchangelist"/>
 
 	</target>
 
