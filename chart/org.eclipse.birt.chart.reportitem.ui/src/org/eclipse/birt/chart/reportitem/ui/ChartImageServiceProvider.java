@@ -37,12 +37,25 @@ public class ChartImageServiceProvider implements IImageServiceProvider
 
 	public ChartImageServiceProvider( Object extendedHandle )
 	{
-		this.extendedHandle = (ExtendedItemHandle) extendedHandle;
+		try
+		{
+			this.extendedHandle = (ExtendedItemHandle) extendedHandle;
+		}
+		catch ( Exception e )
+		{
+			this.extendedHandle = null;
+		}
 	}
 
 	public List<String> getEmbeddedImageName( )
 	{
 		List<String> list = new ArrayList<String>( );
+		
+		if ( extendedHandle == null )
+		{
+			return list;
+		}
+		
 		for ( Iterator<?> itor = extendedHandle.getModuleHandle( )
 				.getVisibleImages( )
 				.iterator( ); itor.hasNext( ); )
@@ -75,8 +88,16 @@ public class ChartImageServiceProvider implements IImageServiceProvider
 
 	public org.eclipse.swt.graphics.Image getEmbeddedImage( String fileName )
 	{
-		return ImageManager.getInstance( )
-				.getEmbeddedImage( extendedHandle.getModuleHandle( ), fileName );
+		if ( extendedHandle == null )
+		{
+			return null;
+		}
+		else
+		{
+			return ImageManager.getInstance( )
+					.getEmbeddedImage( extendedHandle.getModuleHandle( ),
+							fileName );
+		}
 	}
 
 	public org.eclipse.swt.graphics.Image loadImage( String fileName )
@@ -96,7 +117,13 @@ public class ChartImageServiceProvider implements IImageServiceProvider
 
 	public String getImageAbsoluteURL( Image image )
 	{
-		return ChartItemUtil.getImageAbsoluteURL( image, extendedHandle );
+		if ( extendedHandle == null )
+		{
+			return null;
+		}
+		else
+		{
+			return ChartItemUtil.getImageAbsoluteURL( image, extendedHandle );
+		}
 	}
-
 }

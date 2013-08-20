@@ -2119,6 +2119,11 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	public static String getImageAbsoluteURL( Image image,
 			ExtendedItemHandle handle )
 	{
+		if ( handle == null )
+		{
+			return null;
+		}
+		
 		switch ( image.getSource( ) )
 		{
 			case STATIC :
