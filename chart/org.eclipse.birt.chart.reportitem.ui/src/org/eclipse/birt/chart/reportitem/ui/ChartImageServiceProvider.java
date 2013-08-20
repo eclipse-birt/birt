@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 /**
- * 
+ * ChartImageServiceProvider
  */
 
 public class ChartImageServiceProvider implements IImageServiceProvider
@@ -43,7 +43,7 @@ public class ChartImageServiceProvider implements IImageServiceProvider
 	public List<String> getEmbeddedImageName( )
 	{
 		List<String> list = new ArrayList<String>( );
-		for ( Iterator itor = extendedHandle.getModuleHandle( )
+		for ( Iterator<?> itor = extendedHandle.getModuleHandle( )
 				.getVisibleImages( )
 				.iterator( ); itor.hasNext( ); )
 		{

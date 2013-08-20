@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
@@ -102,6 +103,9 @@ import com.ibm.icu.util.ULocale;
  * Utility class for Chart integration as report item
  */
 
+/**
+ * ChartItemUtil
+ */
 public class ChartItemUtil extends ChartExpressionUtil implements
 		ChartReportItemConstants
 {
@@ -2066,7 +2070,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 				String.valueOf( value ) );
 	}
 
-	/*
+	/**
 	 * Get externalized message.
 	 * 
 	 * @param handle design element handle
@@ -2085,6 +2089,14 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 				locale );
 	}
 	
+
+	/**
+	 * get absolute  url
+	 * @param image
+	 * @param handle
+	 * @param reportContext
+	 * @return url
+	 */
 	public static String getImageAbsoluteURL( Image image,
 			ExtendedItemHandle handle, IReportContext reportContext )
 	{
@@ -2098,8 +2110,8 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		}
 	}
 	
-	/*
-	 * get absoulte local url
+	/**
+	 * get absolute local url
 	 * @param image
 	 * @param handle
 	 * @return local url
@@ -2120,23 +2132,25 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 				{
 					return url.toExternalForm( );
 				}
+				return null;
 			case REPORT :
 				// embedded case
 				EmbeddedImage embeddedImage = handle.getModuleHandle( )
 						.findImage( image.getURL( ) );
 				if ( embeddedImage != null )
 				{
-//					return DATA_BASE64
-//							+ new String( Base64.encodeBase64( embeddedImage.getData( handle.getModuleHandle( )
-//									.getModule( ) ) ) );
-				}			
+					return DATA_BASE64
+							+ new String( Base64.encodeBase64( embeddedImage.getData( handle.getModuleHandle( )
+									.getModule( ) ) ) );
+				}
+				return null;
 			default :
 				return null;
 		}
 	}
 	
-	/*
-	 * get absoulte server url
+	/**
+	 * get absolute server url
 	 * @param image
 	 * @param reportContext
 	 * @return web url
@@ -2205,7 +2219,8 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 					}
 
 					return uri;
-				}				
+				}
+				return null;
 			default :
 				return null;
 
