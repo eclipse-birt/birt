@@ -228,32 +228,35 @@ public class TableContentLayout
 			formalized = true;
 			rowHint = null;
 		}
-		if ( needFormalize )
+		if ( needFormalize  )
 		{
-			Row row = rows[rowCount - 1];
-			Cell[] cells = row.cells;
-			for ( int cellId = 0; cellId < realColCount; cellId++ )
+			if(hasDropCell())
 			{
-				Cell cell = cells[cellId];
-				if ( cell != null )
+				Row row = rows[rowCount - 1];
+				Cell[] cells = row.cells;
+				for ( int cellId = 0; cellId < realColCount; cellId++ )
 				{
-					// fill empty cell or remove dropped cell
-					if ( cell.status == Cell.CELL_EMPTY )
+					Cell cell = cells[cellId];
+					if ( cell != null )
 					{
-						IReportContent report = rowContent.getReportContent( );
-						ICellContent cellContent = report.createCellContent( );
-						cellContent.getStyle( ).setDisplay( "none" );
-						cellContent.setParent( rowContent );
-						Cell newCell = Cell.createCell( row.rowId, cellId, 1,
-								1, new CellContent( cellContent, null ) );
-						row.cells[cellId] = newCell;
+						// fill empty cell or remove dropped cell
+						if ( cell.status == Cell.CELL_EMPTY )
+						{
+							IReportContent report = rowContent.getReportContent( );
+							ICellContent cellContent = report.createCellContent( );
+							cellContent.getStyle( ).setDisplay( "none" );
+							cellContent.setParent( rowContent );
+							Cell newCell = Cell.createCell( row.rowId, cellId, 1,
+									1, new CellContent( cellContent, null ) );
+							row.cells[cellId] = newCell;
+						}
 					}
 				}
 			}
-			needFormalize = true;
+			needFormalize = false;
 		}
-		
 	}
+	
 
 	/**
 	 * reset the table model.

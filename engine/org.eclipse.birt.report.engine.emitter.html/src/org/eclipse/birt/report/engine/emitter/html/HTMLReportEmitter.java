@@ -3845,8 +3845,29 @@ class TableLayout
 		}
 	}
 	
+	protected boolean isInvisibaleRow()
+	{
+		for(int i=0; i<columnCount; i++)
+		{
+			if(cells[i]!= 0)
+			{
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	protected void addEmptyCell( )
 	{
+		if ( isInvisibaleRow( ) )
+		{
+			for ( int i = 0; i < columnCount; i++ )
+			{
+				cells[i]++;
+			}
+			return;
+		}
 		for ( int i = 0; i < columnCount; i++ )
 		{
 			if ( cells[i] == 0 )
