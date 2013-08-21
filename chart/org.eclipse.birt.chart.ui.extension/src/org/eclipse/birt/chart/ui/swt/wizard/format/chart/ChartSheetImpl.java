@@ -102,11 +102,23 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_CHART );
-		
 		Chart defChart = ChartDefaultValueUtil.getDefaultValueChart( getChart() );
-		
 		init( );
+		Composite cmpBasic = createContentComposite( parent );
+		createAdditionalComposite( cmpBasic );
+		createChartBackgroundComposite( cmpBasic );
+		createChartWallNFloorComposite( cmpBasic );
+		createStyleNPreviewComposite( cmpBasic );
+		createAngleChooserComposite( cmpContent );
+		createCoverageComposite( cmpBasic );
+		createInteractivityComposite( defChart, cmpBasic );
+		createStudyLayoutComposite( defChart, cmpBasic );
+		populateLists( );
+		createButtonGroup( cmpContent );
+	}
 
+	protected Composite createContentComposite( Composite parent )
+	{
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( 3, true );
@@ -122,9 +134,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			gd.horizontalSpan = 2;
 			cmpBasic.setLayoutData( gd );
 		}
+		return cmpBasic;
+	}
 
-		initOptionUI( cmpBasic );
-
+	protected void createChartBackgroundComposite( Composite cmpBasic )
+	{
 		Label lblBackground = new Label( cmpBasic, SWT.NONE );
 		lblBackground.setText( Messages.getString( "ChartSheetImpl.Label.Background" ) ); //$NON-NLS-1$
 
@@ -140,7 +154,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		new Label( cmpBasic, SWT.NONE );
+	}
 
+	protected void createChartWallNFloorComposite( Composite cmpBasic )
+	{
 		if ( hasWallAndFloor( ) )
 		{
 			Label lblWall = new Label( cmpBasic, SWT.NONE );
@@ -179,18 +196,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 			new Label( cmpBasic, SWT.NONE );
 		}
+	}
 
-		createStyleNPreviewUI( cmpBasic );
-
-		Composite cmp3D = new Composite( cmpContent, SWT.NONE );
-		{
-			cmp3D.setLayout( new GridLayout( ) );
-			cmp3D.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		}
-
-		createAngleChooserComposite( cmp3D );
-		createCoverageComposite( cmpBasic );
-
+	protected void createInteractivityComposite( Chart defChart, Composite cmpBasic )
+	{
 		btnEnable = getContext( ).getUIFactory( )
 				.createChartCheckbox( cmpBasic,
 						SWT.NONE,
@@ -206,7 +215,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 							: ChartCheckbox.STATE_UNSELECTED ) );
 			btnEnable.addSelectionListener( this );
 		}
+	}
 
+	protected void createStudyLayoutComposite( Chart defChart, Composite cmpBasic )
+	{
 		// #170985
 		if ( enableStudyLayout( ) )
 		{
@@ -223,9 +235,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 					: ChartCheckbox.STATE_GRAYED );
 			btnStudyLayout.addSelectionListener( this );
 		}
-
-		populateLists( );
-		createButtonGroup( cmpContent );
 	}
 
 	protected void createCoverageComposite( Composite cmpBasic )
@@ -269,8 +278,14 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		spnCorverage.getWidget( ).setValues( spnValue, 1, 100, 0, 1, 10 );
 	}
 
-	protected void createAngleChooserComposite( Composite cmp3D )
+	protected void createAngleChooserComposite( Composite cmpContent )
 	{
+		Composite cmp3D = new Composite( cmpContent, SWT.NONE );
+		{
+			cmp3D.setLayout( new GridLayout( ) );
+			cmp3D.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+		
 		if ( !( ( getChart( ) instanceof ChartWithAxes ) && is3DEnabled( ) ) )
 		{
 			return;
@@ -312,7 +327,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		return ChartUtil.hasMultipleYAxes( getChart( ) );
 	}
 
-	protected void createStyleNPreviewUI( Composite cmpBasic )
+	protected void createStyleNPreviewComposite( Composite cmpBasic )
 	{
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.Style" ) ); //$NON-NLS-1$
 
@@ -336,12 +351,12 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		return ChartUIUtil.is3DType( getChart( ) );
 	}
 
-	protected void initOptionUI( Composite cmpBasic )
+	protected void createAdditionalComposite( Composite cmpBasic )
 	{
 
 	}
 
-	private void init( )
+	protected void init( )
 	{
 		// Make it compatible with old model
 		if ( getChart( ).getInteractivity( ) == null )
@@ -352,7 +367,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		}
 	}
 
-	private void populateLists( )
+	protected void populateLists( )
 	{
 		if ( cmbStyle == null )
 		{
