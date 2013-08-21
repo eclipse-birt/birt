@@ -55,11 +55,6 @@ public class ChartUIExtensionsImpl
 	private Map<String, Collection<DefaultRegisteredEntry<ISeriesUIProvider>>> mSeriesUIs = null;
 
 	private static final String[] saSheets = new String[]{
-			"10/Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl", //$NON-NLS-1$
-			"11/Series.Y Series/Value (Y) Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
-			"12/Series.Category Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl", //$NON-NLS-1$
-			"13/Series.Value Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
-			"14/Series.Value Series.Needle/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.NeedleSheetImpl", //$NON-NLS-1$
 			"20/Chart/Chart Area/org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartSheetImpl", //$NON-NLS-1$
 			"21/Chart.Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisSheetImpl", //$NON-NLS-1$
 			"22/Chart.Axis.X Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisXSheetImpl", //$NON-NLS-1$
@@ -67,7 +62,12 @@ public class ChartUIExtensionsImpl
 			"24/Chart.Axis.Z Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisZSheetImpl", //$NON-NLS-1$
 			"25/Chart.Title/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartTitleSheetImpl", //$NON-NLS-1$
 			"26/Chart.Plot/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartPlotSheetImpl", //$NON-NLS-1$
-			"27/Chart.Legend/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl", //$NON-NLS-1$	
+			"27/Chart.Legend/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl", //$NON-NLS-1$
+			"30/Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl", //$NON-NLS-1$
+			"31/Series.Y Series/Value (Y) Series/org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
+			"32/Series.Category Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl", //$NON-NLS-1$
+			"33/Series.Value Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl", //$NON-NLS-1$
+			"34/Series.Value Series.Needle/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.NeedleSheetImpl", //$NON-NLS-1$
 	};
 
 	private static String[] saTypes = new String[]{
