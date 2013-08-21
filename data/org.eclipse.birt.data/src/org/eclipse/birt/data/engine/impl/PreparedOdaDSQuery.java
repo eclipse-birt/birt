@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -78,7 +79,30 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		};
 		logger.exiting( PreparedOdaDSQuery.class.getName( ),
 				"PreparedOdaDSQuery", params );
+		if( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			populateComputedColumnDataType( dataSetDesign );
 		validateStatus = ValidateStatus.unknown; 
+	}
+	
+	private void populateComputedColumnDataType( IBaseDataSetDesign dataSetDesign )
+	{
+		List computedColumns = dataSetDesign.getComputedColumns( );
+		List resultSets = dataSetDesign.getResultSetHints( );
+		for( int i = 0 ; i <computedColumns.size( ); i++ )
+    	{
+    		IComputedColumn computedColumn = (IComputedColumn) computedColumns.get( i );
+    		String name = computedColumn.getName( );
+    		int dataType = computedColumn.getDataType( );
+			for ( int j = 0; j < resultSets.size( ); j++ )
+			{
+				ColumnDefinition columnDef = (ColumnDefinition) resultSets.get( j );
+				if ( name.equals( columnDef.getColumnName( ) ) )
+				{
+					columnDef.setDataType( dataType );
+					break;
+				}
+			}
+    	}
 	}
 	
 	/*
