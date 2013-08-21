@@ -308,13 +308,10 @@ public class MDbResultSet implements IResultSet
         if( columnValue instanceof Date )
             return (Date)columnValue;
 
-        if( columnValue instanceof java.util.Date )
-            return convertToSqlDate( (java.util.Date)columnValue );
-
         if( columnValue instanceof List )
             return convertToSqlDate( 
-                    (java.util.Date)getFirstFieldValue( (List<?>)columnValue, java.util.Date.class, 
-                                columnName ));
+                        (java.util.Date)getFirstFieldValue( (List<?>)columnValue, java.util.Date.class, columnName ));
+
         // trace logging
         if( columnValue != null && getLogger().isLoggable( Level.FINE ) )
             getLogger().fine( 
@@ -324,9 +321,11 @@ public class MDbResultSet implements IResultSet
         return null;
     }
 
-	private static Date convertToSqlDate( java.util.Date utilDate )
+	private static Date convertToSqlDate( java.util.Date utilDateValue )
 	{
-        return new Date( utilDate.getTime() );
+	    if( utilDateValue == null )
+	        return null;
+        return new Date( utilDateValue.getTime() );
 	}
 
 	/*
@@ -342,7 +341,10 @@ public class MDbResultSet implements IResultSet
 	 */
 	public Time getTime( String columnName ) throws OdaException
 	{
-        return new Time( getDate( columnName ).getTime() );
+	    Date dateValue = getDate( columnName );
+	    if( dateValue == null )
+	        return null;
+        return new Time( dateValue.getTime() );
     }
 
 	/*
@@ -360,6 +362,9 @@ public class MDbResultSet implements IResultSet
 	{
         Object columnValue = getFieldValue( columnName );
         columnValue = tryConvertToDataType( columnValue, Timestamp.class );
+        if( columnValue instanceof Timestamp )
+            return (Timestamp)columnValue;
+
         if( columnValue instanceof BSONTimestamp )
             return convertToSqlTimestamp( (BSONTimestamp)columnValue );
 
@@ -378,6 +383,8 @@ public class MDbResultSet implements IResultSet
 
     private static Timestamp convertToSqlTimestamp( BSONTimestamp ts )
     {
+        if( ts == null )
+            return null;
         return new Timestamp( ts.getTime() * 1000L );
     }
 
@@ -573,6 +580,15 @@ public class MDbResultSet implements IResultSet
             {
                 throw new OdaException( ex );
             }
+        }
+
+        if( value instanceof java.util.Date )   // the object type returned by MongoDB for a Date field
+        {
+            java.util.Date utilDateValue = (java.util.Date)value;
+            if( valueDataType == Date.class ) 
+                return convertToSqlDate( utilDateValue );
+            if( valueDataType == Timestamp.class )
+                return new Timestamp( utilDateValue.getTime() );
         }
         
         return value;   // not able to convert; return value as is
