@@ -436,6 +436,15 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 				Messages.getString( "ChartSheetImpl.Text.Outline&" ), //$NON-NLS-1$
 				popup );
 		btnBlockProp.addSelectionListener( this );
+		
+		// Chart Visibility
+		popup = new VisibilitySheet( Messages.getString( "ChartSheetImpl.Group.EmptyMessage" ), //$NON-NLS-1$
+				getContext( ) );
+		Button btnVisibilityProp = createToggleButton( cmp,
+				BUTTON_VISIBILITY,
+				Messages.getString( "ChartSheetImpl.Group.EmptyMessage&" ), //$NON-NLS-1$
+				popup );
+		btnVisibilityProp.addSelectionListener( this );
 
 		popup = new GeneralPropertiesChartSheet( Messages.getString( "ChartSheetImpl.Text.GeneralProperties" ), //$NON-NLS-1$
 				getContext( ) );
@@ -469,15 +478,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 					getChart( ).getInteractivity( ).isEnable( ) );
 			btnInteractivity.addSelectionListener( this );
 		}
-		
-		// Chart Visibility
-		popup = new VisibilitySheet( Messages.getString( "ChartSheetImpl.Group.EmptyMessage" ), //$NON-NLS-1$
-				getContext( ) );
-		Button btnVisibilityProp = createToggleButton( cmp,
-				BUTTON_VISIBILITY,
-				Messages.getString( "ChartSheetImpl.Group.EmptyMessage&" ), //$NON-NLS-1$
-				popup );
-		btnVisibilityProp.addSelectionListener( this );
 	}
 
 	protected int getBackgroundFillStyles( )
