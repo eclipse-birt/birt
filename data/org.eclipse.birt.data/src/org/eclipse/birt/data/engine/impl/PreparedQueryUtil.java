@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
@@ -732,15 +733,45 @@ public class PreparedQueryUtil
 		Iterator<IBinding> bindingIt = queryDefn.getBindings( )
 				.values( )
 				.iterator( );
+		
+		Set<String> modifiedAggrBinding = new HashSet<String>( );
 		while ( bindingIt.hasNext( ) )
 		{
 			IBinding binding = bindingIt.next( );
 			if ( nameSet.contains( binding.getBindingName( ) ) )
 			{
+				if( binding.getAggrFunction( ) != null )
+					modifiedAggrBinding.add( binding.getBindingName( ) );
 				binding.setAggrFunction( null );
 				binding.getAggregatOns( ).clear( );
 				binding.getArguments( ).clear( );
 				binding.setExpression( new ScriptExpression( ExpressionUtil.createDataSetRowExpression( binding.getBindingName( ) ) ) );
+			}
+		}
+		
+		Iterator groups = queryDefn.getGroups( ).iterator( );
+		while( groups.hasNext( ) )
+		{
+			IGroupDefinition group = (IGroupDefinition) groups.next( );
+			Iterator filters = group.getFilters( ).iterator( );
+			List<IFilterDefinition> removedFilter = new ArrayList<IFilterDefinition>( );
+			while( filters.hasNext( ) )
+			{
+				IFilterDefinition filter = (IFilterDefinition)filters.next( );
+				List<String> list = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ExpressionUtil.ROW_INDICATOR );
+				for( int i=0; i< list.size( ); i++ )
+				{
+					if( modifiedAggrBinding.contains( list.get(i) ) )
+					{
+						removedFilter.add( filter );
+					}
+				}
+			}
+			
+			if( !removedFilter.isEmpty( ) )
+			{
+				queryDefn.getFilters( ).addAll( removedFilter );
+				group.getFilters( ).removeAll( removedFilter );
 			}
 		}
 	}
