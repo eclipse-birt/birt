@@ -20,6 +20,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.AutoResizeTableLayout;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -268,9 +269,8 @@ public class DataSetBindingSelector extends BaseDialog
 	{
 		if ( dataSetName != null )
 		{
-			DataSetHandle datasetHandle = SessionHandleAdapter.getInstance( )
-					.getModule( )
-					.findDataSet( dataSetName );
+			DataSetHandle datasetHandle=DataUtil.findDataSet(dataSetName);
+
 			Iterator iter = null;
 			if ( datasetHandle != null )
 			{
