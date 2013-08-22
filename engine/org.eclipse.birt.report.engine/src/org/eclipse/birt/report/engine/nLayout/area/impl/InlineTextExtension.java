@@ -48,6 +48,8 @@ public class InlineTextExtension
 	 * @see SizeBasedContent#width
 	 */
 	private int widthRestrict;
+	
+	private boolean firstTimeEnter = true;
 
 	/**
 	 * when generating page hint, inline text must invoke this method first.
@@ -57,6 +59,21 @@ public class InlineTextExtension
 		if ( lineBreaks == null || lineBreaks.size( ) == 0 )
 		{
 			return;
+		}
+		
+		// if the area is in the repeated header, its page hint info should only
+		// be updated for one time.
+		// And then we should not update the page hint info any more.
+		// Because the cloned area will not be in the lines. And the page hint
+		// info should not change any more as the area is in repeated header.
+		if ( !firstTimeEnter && area.isInRepeatedHeader( ) )
+		{
+			return;
+		}
+
+		if ( firstTimeEnter )
+		{
+			firstTimeEnter = false;
 		}
 
 		offsetInContent = 0;
@@ -140,4 +157,5 @@ public class InlineTextExtension
 	{
 		return widthRestrict;
 	}
+	
 }

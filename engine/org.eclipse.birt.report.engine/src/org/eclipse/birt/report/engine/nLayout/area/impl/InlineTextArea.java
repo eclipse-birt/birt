@@ -14,8 +14,11 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.AbstractBandContent;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 
@@ -23,6 +26,8 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 {	
 	private InlineTextRenderListener listener = null;
 	
+	private boolean inRepeatedHeader = false;
+
 	public InlineTextArea( ContainerArea parent, LayoutContext context,
 			IContent content )
 	{
@@ -80,6 +85,10 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 	public InlineTextArea cloneArea( )
 	{
 		InlineTextArea newArea = new InlineTextArea( this );
+		if ( isInHeader( ) )
+		{
+			newArea.inRepeatedHeader = true;
+		}
 		return newArea;
 	}
 	
@@ -156,7 +165,7 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 		super.close( isLastLine );
 		if ( isLastLine )
 		{
-			addLineToExtension(this);
+			addLineToExtension( this );
 			addLineBreakToExtension( this );
 		}
 		checkDisplayNone( );
@@ -203,5 +212,36 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 			// current line will go next page.
 			return SplitResult.SUCCEED_WITH_NULL;
 		}
+	}
+	
+	public boolean isInRepeatedHeader( )
+	{
+		return inRepeatedHeader;
+	}
+
+	
+	public void setInRepeatedHeader( boolean inRepeatedHeader )
+	{
+		this.inRepeatedHeader = inRepeatedHeader;
+	}
+
+	
+	private boolean isInHeader( )
+	{
+		IElement parent = content.getParent( );
+		while ( parent != null )
+		{
+			if ( parent instanceof AbstractBandContent )
+			{
+				AbstractBandContent band = (AbstractBandContent) parent;
+				if ( band.getBandType( ) == IBandContent.BAND_HEADER
+						|| band.getBandType( ) == IBandContent.BAND_GROUP_HEADER )
+				{
+					return true;
+				}
+			}
+			parent = parent.getParent( );
+		}
+		return false;
 	}
 }
