@@ -61,7 +61,8 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle implements
 		if( cubeDimension == null )
 		{
 			String dimensionName = this.getCubeDimensionName( );
-			CubeHandle cube = this.getCrosstab( ).getCube( );
+			CrosstabReportItemHandle crosstab = this.getCrosstab( );
+			CubeHandle cube = (crosstab != null) ? crosstab.getCube( ) : null;
 			if( dimensionName != null && cube != null )
 			{
 				cubeDimension = cube.getDimension( dimensionName );
