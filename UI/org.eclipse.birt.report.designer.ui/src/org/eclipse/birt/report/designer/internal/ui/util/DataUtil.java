@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -436,5 +437,31 @@ public class DataUtil
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Gets names of the available data sets and extended data sets
+	 * @param module
+	 * @return
+	 */
+	public static List<String> getAvailableDataSetNames( ModuleHandle module )
+	{
+		List<String> dataSets = new ArrayList<String>();
+		if( module == null )
+		{
+			return dataSets;
+		}
+		
+		for ( Iterator iterator = module.getVisibleDataSets( ).iterator( ); iterator.hasNext( ); )
+		{
+			DataSetHandle dataSetHandle = (DataSetHandle) iterator.next( );
+			dataSets.add( dataSetHandle.getName( ) );
+		}
+		for (Iterator itr = new LinkedDataSetAdapter().getVisibleLinkedDataSets( ).iterator( ); itr.hasNext( );)
+		{
+			dataSets.add( (String) itr.next( ) );
+		}
+		
+		return dataSets;
 	}
 }
