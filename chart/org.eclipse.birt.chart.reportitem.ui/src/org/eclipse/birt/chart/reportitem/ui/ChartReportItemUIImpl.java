@@ -103,8 +103,10 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 					if ( ChartCubeUtil.isAxisChart( (DesignElementHandle) content ) )
 					{
 						final ExtendedItemHandle axisChart = (ExtendedItemHandle) content;
-						if ( !axisChart.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART )
-								.equals( eih ) )
+						final DesignElementHandle oldPlotChart = axisChart.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
+						// If old plot chart is deleted or not same with
+						// hostChart instance, try to update it here.
+						if ( oldPlotChart == null || !oldPlotChart.equals( eih ) )
 							// Update the handle property in async process
 							Display.getCurrent( ).asyncExec( new Runnable( ) {
 
