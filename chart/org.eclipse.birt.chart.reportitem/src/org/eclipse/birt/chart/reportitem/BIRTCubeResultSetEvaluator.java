@@ -359,4 +359,14 @@ public class BIRTCubeResultSetEvaluator extends
 	{
 		lSizeLimit = dataSize;
 	}
+
+	/*
+	 * Returns if group is enabled in each group-level.
+	 */
+	public boolean[] getGroupStatus( )
+	{
+		return new boolean[]{
+			true
+		};
+	}
 }

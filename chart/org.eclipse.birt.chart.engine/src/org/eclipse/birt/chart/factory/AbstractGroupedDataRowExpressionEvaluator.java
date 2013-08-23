@@ -52,4 +52,14 @@ public abstract class AbstractGroupedDataRowExpressionEvaluator implements
 	{
 		return false;
 	}
+
+	/* 
+	 * Returns if group is enabled in each group-level.
+	 */
+	public boolean[] getGroupStatus( )
+	{
+		return new boolean[]{
+			true
+		};
+	}
 }

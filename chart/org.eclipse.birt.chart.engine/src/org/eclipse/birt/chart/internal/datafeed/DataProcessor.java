@@ -381,9 +381,20 @@ public class DataProcessor
 			int[] groupBreaks = new int[]{};
 			if ( orthogonalGroupKeys != null && orthogonalGroupKeys.length > 0 )
 			{
-				// If the orthogonal grouping of chart is set, it should be the 0th
-				// index.
-				groupBreaks = ( (IGroupedDataRowExpressionEvaluator) idre ).getGroupBreaks( 0 );
+				int groupLevel = 0;
+				boolean[] groupStatus = ( (IGroupedDataRowExpressionEvaluator) idre ).getGroupStatus( );
+				for ( ; groupLevel < groupStatus.length; groupLevel++ )
+				{
+					if ( groupStatus[groupLevel] )
+					{
+						break;
+					}
+				}
+				if (groupLevel >= groupStatus.length)
+				{
+					groupLevel = 0;
+				}
+				groupBreaks = ( (IGroupedDataRowExpressionEvaluator) idre ).getGroupBreaks( groupLevel );
 			}
 
 			// Format data time for grouped case.

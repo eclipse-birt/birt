@@ -581,5 +581,13 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		return ChartItemUtil.isChartInheritGroups( itemHandle )
 				|| ( ChartItemUtil.getReportItemReference( itemHandle ) != null );
 	}
+
+	/*
+	 * Returns if group is enabled in each group-level.
+	 */
+	public boolean[] getGroupStatus( )
+	{
+		return faEnabledGroups;
+	}
 }
 
