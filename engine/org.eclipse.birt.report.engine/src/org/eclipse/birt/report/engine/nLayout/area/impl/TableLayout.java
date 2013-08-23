@@ -854,7 +854,7 @@ public class TableLayout
 				{
 					if ( cell.getRowSpan( ) == 1 )
 					{
-						if ( !isFixedLayout || (sheight == 0 && rowArea.getContent( ).getHeight( )==null) )
+						if ( !isFixedLayout || sheight == 0 )
 						{
 							height = Math.max( height, cell.getHeight( ) );
 						}
