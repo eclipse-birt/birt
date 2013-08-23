@@ -159,20 +159,20 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private CCombo cmbInherit = null;
 	private DataItemCombo cmbDataItems = null;
 
-	private StackLayout stackLayout = null;
-	private Composite cmpStack = null;
-	private Composite cmpCubeTree = null;
+	protected StackLayout stackLayout = null;
+	protected Composite cmpStack = null;
+	protected Composite cmpCubeTree = null;
 	private Composite cmpDataPreview = null;
-	private Composite cmpColumnsList = null;
+	protected Composite cmpColumnsList = null;
 
 	private CustomPreviewTable tablePreview = null;
-	private TreeViewer cubeTreeViewer = null;
+	protected TreeViewer treeViewer = null;
 
 	private Button btnFilters = null;
 	private Button btnParameters = null;
 	private Button btnBinding = null;
-	private String currentData = null;
-	private String previousData = null;
+	private String currentDataReference = null;
+	private String previousDataReference = null;
 
 	public static final int SELECT_NONE = 1;
 	public static final int SELECT_NEXT = 2;
@@ -188,7 +188,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private Button btnShowDataPreviewA;
 	private Button btnShowDataPreviewB;
 	private TableViewer tableViewerColumns;
-	private Label columnListDescription;
+	protected Label columnListDescription;
 	private Label dataPreviewDescription;
 	protected ExpressionCodec exprCodec = null;
 	protected ChartReportItemHelper chartItemHelper = ChartReportItemHelper.instance( );
@@ -198,6 +198,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private static final String DATA_LIST = "DataList"; //$NON-NLS-1$
 
 	private Composite parentComposite;
+	protected Label treeViewerTitle;
+	protected Label treeViewerDescription;
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
 			ReportDataServiceProvider dataProvider, int iSupportedDataItems )
@@ -308,53 +310,41 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		notifyListeners( event );
 	}
 
-	@Override
-	public Composite createDataDragSource( Composite parent )
+	private Composite createTreeViewComposite( Composite parent )
 	{
-		cmpStack = new Composite( parent, SWT.NONE );
-		cmpStack.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		stackLayout = new StackLayout( );
-		stackLayout.marginHeight = 0;
-		stackLayout.marginWidth = 0;
-		cmpStack.setLayout( stackLayout );
-
-		cmpCubeTree = ChartUIUtil.createCompositeWrapper( cmpStack );
-		cmpDataPreview = ChartUIUtil.createCompositeWrapper( cmpStack );
-
-		createColumnsViewerArea( cmpStack );
-
-		Label label = new Label( cmpCubeTree, SWT.NONE );
+		Composite cubeTreeComp = ChartUIUtil.createCompositeWrapper( parent );
+		treeViewerTitle = new Label( cubeTreeComp, SWT.NONE );
 		{
-			label.setText( Messages.getString( "StandardChartDataSheet.Label.CubeTree" ) ); //$NON-NLS-1$
-			label.setFont( JFaceResources.getBannerFont( ) );
+			treeViewerTitle.setText( Messages.getString( "StandardChartDataSheet.Label.CubeTree" ) ); //$NON-NLS-1$
+			treeViewerTitle.setFont( JFaceResources.getBannerFont( ) );
 		}
 
 		if ( !dataProvider.isInXTabMeasureCell( )
 				&& !dataProvider.isInMultiView( ) )
 		{
 			// No description if dnd is disabled
-			Label description = new Label( cmpCubeTree, SWT.WRAP );
+			treeViewerDescription = new Label( cubeTreeComp, SWT.WRAP );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				description.setLayoutData( gd );
-				description.setText( getCubeTreeViewNote( ) );
+				treeViewerDescription.setLayoutData( gd );
+				treeViewerDescription.setText( getCubeTreeViewNote( ) );
 			}
 		}
 
-		cubeTreeViewer = new TreeViewer( cmpCubeTree, SWT.SINGLE
+		treeViewer = new TreeViewer( cubeTreeComp, SWT.SINGLE
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.BORDER );
-		cubeTreeViewer.getTree( )
+		treeViewer.getTree( )
 				.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		( (GridData) cubeTreeViewer.getTree( ).getLayoutData( ) ).heightHint = 120;
+		( (GridData) treeViewer.getTree( ).getLayoutData( ) ).heightHint = 120;
 
 		ViewsTreeProvider provider = createCubeViewProvider( );
-		cubeTreeViewer.setLabelProvider( provider );
-		cubeTreeViewer.setContentProvider( provider );
-		cubeTreeViewer.setInput( getCube( ) );
+		treeViewer.setLabelProvider( provider );
+		treeViewer.setContentProvider( provider );
+		treeViewer.setInput( getCube( ) );
 
-		final DragSource dragSource = new DragSource( cubeTreeViewer.getTree( ),
+		final DragSource dragSource = new DragSource( treeViewer.getTree( ),
 				DND.DROP_COPY );
 		dragSource.setTransfer( new Transfer[]{
 			SimpleTextTransfer.getInstance( )
@@ -384,7 +374,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			}
 		} );
 
-		cubeTreeViewer.getTree( ).addListener( SWT.MouseDown, new Listener( ) {
+		treeViewer.getTree( ).addListener( SWT.MouseDown, new Listener( ) {
 
 			public void handleEvent( Event event )
 			{
@@ -406,7 +396,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			}
 		} );
 
-		label = new Label( cmpDataPreview, SWT.NONE );
+		return cubeTreeComp;
+	}
+	
+	private Composite createTableViewComposite( Composite parent )
+	{
+		Composite tabularDataViewComp = ChartUIUtil.createCompositeWrapper( parent );
+		Label label = new Label( tabularDataViewComp, SWT.NONE );
 		{
 			label.setText( Messages.getString( "StandardChartDataSheet.Label.DataPreview" ) ); //$NON-NLS-1$
 			label.setFont( JFaceResources.getBannerFont( ) );
@@ -415,7 +411,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		if ( !dataProvider.isInXTabMeasureCell( )
 				&& !dataProvider.isInMultiView( ) )
 		{
-			dataPreviewDescription = new Label( cmpDataPreview, SWT.WRAP );
+			dataPreviewDescription = new Label( tabularDataViewComp, SWT.WRAP );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				dataPreviewDescription.setLayoutData( gd );
@@ -423,11 +419,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			}
 		}
 
-		btnShowDataPreviewA = new Button( cmpDataPreview, SWT.CHECK );
+		btnShowDataPreviewA = new Button( tabularDataViewComp, SWT.CHECK );
 		btnShowDataPreviewA.setText( Messages.getString( "StandardChartDataSheet.Label.ShowDataPreview" ) ); //$NON-NLS-1$
 		btnShowDataPreviewA.addListener( SWT.Selection, this );
 
-		tablePreview = new CustomPreviewTable( cmpDataPreview, SWT.SINGLE
+		tablePreview = new CustomPreviewTable( tabularDataViewComp, SWT.SINGLE
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION );
@@ -440,44 +436,15 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			tablePreview.addListener( CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE,
 					this );
 		}
-
-		updateDragDataSource( );
-		return cmpStack;
+		
+		return tabularDataViewComp;
 	}
-
-	protected ViewsTreeProvider createCubeViewProvider( )
+	
+	private Composite createColumnListViewComposite( Composite parent )
 	{
-		ViewsTreeProvider provider = new ViewsTreeProvider( ) {
+		Composite columnsListDataViewComp = ChartUIUtil.createCompositeWrapper( parent );
 
-			@Override
-			public Color getBackground( Object element )
-			{
-				if ( element instanceof ReportElementHandle )
-				{
-					String key = getBindingNameFrom( (ReportElementHandle) element );
-					return ColorPalette.getInstance( ).getColor( key );
-				}
-				return super.getBackground( element );
-			}
-		};
-		return provider;
-	}
-
-	/**
-	 * Returns a note for cube tree view.
-	 * 
-	 * @return
-	 */
-	protected String getCubeTreeViewNote( )
-	{
-		return Messages.getString( "StandardChartDataSheet.Label.DragCube" ); //$NON-NLS-1$
-	}
-
-	private void createColumnsViewerArea( Composite parent )
-	{
-		cmpColumnsList = ChartUIUtil.createCompositeWrapper( parent );
-
-		Label label = new Label( cmpColumnsList, SWT.NONE );
+		Label label = new Label( columnsListDataViewComp, SWT.NONE );
 		{
 			label.setText( Messages.getString( "StandardChartDataSheet.Label.DataPreview" ) ); //$NON-NLS-1$
 			label.setFont( JFaceResources.getBannerFont( ) );
@@ -485,7 +452,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		if ( !dataProvider.isInXTabMeasureCell( ) )
 		{
-			columnListDescription = new Label( cmpColumnsList, SWT.WRAP );
+			columnListDescription = new Label( columnsListDataViewComp, SWT.WRAP );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				columnListDescription.setLayoutData( gd );
@@ -493,12 +460,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			}
 		}
 
-		btnShowDataPreviewB = new Button( cmpColumnsList, SWT.CHECK );
+		btnShowDataPreviewB = new Button( columnsListDataViewComp, SWT.CHECK );
 		btnShowDataPreviewB.setText( Messages.getString( "StandardChartDataSheet.Label.ShowDataPreview" ) ); //$NON-NLS-1$
 		btnShowDataPreviewB.addListener( SWT.Selection, this );
 
 		// Add a list to display all columns.
-		final Table table = new Table( cmpColumnsList, SWT.SINGLE
+		final Table table = new Table( columnsListDataViewComp, SWT.SINGLE
 				| SWT.BORDER
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
@@ -738,10 +705,71 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				// Ignore
 			}
 		} );
+		
+		return columnsListDataViewComp;
+	}
+	
+	@Override
+	public Composite createDataDragSource( Composite parent )
+	{
+		cmpStack = new Composite( parent, SWT.NONE );
+		cmpStack.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		stackLayout = new StackLayout( );
+		stackLayout.marginHeight = 0;
+		stackLayout.marginWidth = 0;
+		cmpStack.setLayout( stackLayout );
 
+		cmpCubeTree = this.createTreeViewComposite( cmpStack );
+		cmpDataPreview = this.createTableViewComposite( cmpStack );
+		cmpColumnsList = this.createColumnListViewComposite( cmpStack );
+
+		updateDragDataSource( );
+		return cmpStack;
+	}
+
+	protected ViewsTreeProvider createCubeViewProvider( )
+	{
+		ViewsTreeProvider provider = new ViewsTreeProvider( ) {
+
+			@Override
+			public Color getBackground( Object element )
+			{
+				if ( element instanceof ReportElementHandle )
+				{
+					String key = getBindingNameFrom( (ReportElementHandle) element );
+					return ColorPalette.getInstance( ).getColor( key );
+				}
+				return super.getBackground( element );
+			}
+		};
+		return provider;
+	}
+
+	/**
+	 * Returns a note for cube tree view.
+	 * 
+	 * @return
+	 */
+	protected String getCubeTreeViewNote( )
+	{
+		return Messages.getString( "StandardChartDataSheet.Label.DragCube" ); //$NON-NLS-1$
 	}
 
 	private void updateDragDataSource( )
+	{
+		updateDataPreviewDescComposite( );
+
+		if ( isCubeMode( ) )
+		{
+			updateDragDataSourceWithCubeData( );
+		} 
+		else
+		{
+			updateDragDataSourceWithTabularData( );
+		}
+	}
+
+	private void updateDataPreviewDescComposite( )
 	{
 		if ( dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
 		{// hide the description if share chart
@@ -759,50 +787,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			}
 
 		}
+	}
 
-		if ( isCubeMode( ) )
-		{
-			if ( getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
-			{// share cube
-
-				if ( !getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
-				{
-					( (GridData) columnListDescription.getLayoutData( ) ).exclude = false;
-					columnListDescription.setVisible( true );
-					columnListDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ShareCrossTab" ) ); //$NON-NLS-1$
-					cmpColumnsList.layout( );
-				}
-
-				getContext( ).setShowingDataPreview( Boolean.FALSE );
-				btnShowDataPreviewB.setSelection( false );
-				btnShowDataPreviewB.setEnabled( false );
-
-				stackLayout.topControl = cmpColumnsList;
-				refreshDataPreviewPane( );
-			}
-			else if ( getDataServiceProvider( ).checkState( IDataServiceProvider.INHERIT_CUBE ) )
-			{// inheritance
-				stackLayout.topControl = cmpColumnsList;
-				getContext( ).setShowingDataPreview( Boolean.FALSE );
-				btnShowDataPreviewB.setSelection( false );
-				btnShowDataPreviewB.setEnabled( false );
-				refreshDataPreviewPane( );
-			}
-			else
-			{
-				stackLayout.topControl = cmpCubeTree;
-				ViewsTreeProvider provider = createCubeViewProvider( );
-				cubeTreeViewer.setLabelProvider( provider );
-				cubeTreeViewer.setContentProvider( provider );
-				cubeTreeViewer.setInput( getCube( ) );
-
-			}
-
-			cmpStack.layout( );
-			ChartWizard.removeException( ChartWizard.StaChartDSh_dPreview_ID );
-			return;
-		}
-
+	protected void updateDragDataSourceWithTabularData( )
+	{
 		if ( columnListDescription != null )
 		{
 			if ( !dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
@@ -816,13 +804,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		btnShowDataPreviewB.setEnabled( true );
 
 		// Clear data preview setting if current data item was changed.
-		String pValue = ( previousData == null ) ? "" : previousData; //$NON-NLS-1$
-		String cValue = ( currentData == null ) ? "" : currentData; //$NON-NLS-1$
+		String pValue = ( previousDataReference == null ) ? "" : previousDataReference; //$NON-NLS-1$
+		String cValue = ( currentDataReference == null ) ? "" : currentDataReference; //$NON-NLS-1$
 		if ( !pValue.equals( cValue ) )
 		{
 			getContext( ).setShowingDataPreview( null );
 		}
-		previousData = currentData;
+		previousDataReference = currentDataReference;
 
 		try
 		{
@@ -860,6 +848,52 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		refreshDataPreviewPane( );
 
 		cmpStack.layout( );
+	}
+
+	private void updateDragDataSourceWithCubeData( )
+	{
+		treeViewerTitle.setText( Messages.getString( "StandardChartDataSheet.Label.CubeTree" ) ); //$NON-NLS-1$
+		if ( treeViewerDescription != null )
+		{
+			treeViewerDescription.setText( getCubeTreeViewNote( ) );
+		}
+		if ( getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
+		{// share cube
+
+			if ( !getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
+			{
+				( (GridData) columnListDescription.getLayoutData( ) ).exclude = false;
+				columnListDescription.setVisible( true );
+				columnListDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ShareCrossTab" ) ); //$NON-NLS-1$
+				cmpColumnsList.layout( );
+			}
+
+			getContext( ).setShowingDataPreview( Boolean.FALSE );
+			btnShowDataPreviewB.setSelection( false );
+			btnShowDataPreviewB.setEnabled( false );
+
+			stackLayout.topControl = cmpColumnsList;
+			refreshDataPreviewPane( );
+		}
+		else if ( getDataServiceProvider( ).checkState( IDataServiceProvider.INHERIT_CUBE ) )
+		{// inheritance
+			stackLayout.topControl = cmpColumnsList;
+			getContext( ).setShowingDataPreview( Boolean.FALSE );
+			btnShowDataPreviewB.setSelection( false );
+			btnShowDataPreviewB.setEnabled( false );
+			refreshDataPreviewPane( );
+		}
+		else
+		{
+			stackLayout.topControl = cmpCubeTree;
+			ViewsTreeProvider provider = createCubeViewProvider( );
+			treeViewer.setLabelProvider( provider );
+			treeViewer.setContentProvider( provider );
+			treeViewer.setInput( getCube( ) );
+		}
+
+		cmpStack.layout( );
+		ChartWizard.removeException( ChartWizard.StaChartDSh_dPreview_ID );
 	}
 
 	/**
@@ -1305,7 +1339,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
 			cmbDataItems.setText( sItemRef );
-			currentData = sItemRef;
+			currentDataReference = sItemRef;
 			return;
 		}
 
@@ -1316,7 +1350,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
 			cmbDataItems.setText( sDataSet );
-			currentData = sDataSet;
+			currentDataReference = sDataSet;
 			return;
 		}
 
@@ -1328,7 +1362,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
 			cmbDataItems.setText( sDataCube );
-			currentData = sDataCube;
+			currentDataReference = sDataCube;
 			return;
 		}
 
@@ -1358,7 +1392,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			btnUseData.setEnabled( false );
 		}
 		cmbDataItems.select( 0 );
-		currentData = null;
+		currentDataReference = null;
 		cmbDataItems.setEnabled( false );
 		// Initializes column bindings from container
 		getDataServiceProvider( ).setDataSet( null );
@@ -1499,7 +1533,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					switchDataSet( );
 
 					cmbDataItems.select( 0 );
-					currentData = null;
+					currentDataReference = null;
 					cmbDataItems.setEnabled( false );
 					cmbInherit.setEnabled( !isInheritingSummaryTable( )
 							&& getDataServiceProvider( ).getInheritedDataSet( ) != null
@@ -1573,14 +1607,14 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 								return;
 							}
 							getDataServiceProvider( ).setDataSet( cmbDataItems.getText( ) );
-							currentData = cmbDataItems.getText( );
+							currentDataReference = cmbDataItems.getText( );
 							switchDataSet( );
 							setEnabledForButtons( );
 							updateDragDataSource( );
 							break;
 						case SELECT_DATA_CUBE :
 							getDataServiceProvider( ).setDataCube( cmbDataItems.getText( ) );
-							currentData = cmbDataItems.getText( );
+							currentDataReference = cmbDataItems.getText( );
 							// Since cube has no group, it needs to clear group
 							// flag in category and optional Y of chart model.
 							clearGrouping( );
@@ -1640,7 +1674,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 								ChartAdapter.endIgnoreNotifications( );
 							}
 
-							currentData = cmbDataItems.getText( );
+							currentDataReference = cmbDataItems.getText( );
 							// selectDataSet( );
 							// switchDataSet( cmbDataItems.getText( ) );
 
@@ -1657,13 +1691,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							int result = invokeNewDataSet( );
 							if ( result == Window.CANCEL )
 							{
-								if ( currentData == null )
+								if ( currentDataReference == null )
 								{
 									cmbDataItems.select( 0 );
 								}
 								else
 								{
-									cmbDataItems.setText( currentData );
+									cmbDataItems.setText( currentDataReference );
 								}
 								return;
 							}
@@ -1672,9 +1706,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							cmbDataItems.setItems( createDataComboItems( ) );
 							// select the newly created data set for user
 							String[] datasets = getDataServiceProvider( ).getAllDataSets( );
-							currentData = datasets[datasets.length - 1];
-							getDataServiceProvider( ).setDataSet( currentData );
-							cmbDataItems.setText( currentData );
+							currentDataReference = datasets[datasets.length - 1];
+							getDataServiceProvider( ).setDataSet( currentDataReference );
+							cmbDataItems.setText( currentDataReference );
 							setEnabledForButtons( );
 							updateDragDataSource( );
 							break;
@@ -1694,21 +1728,21 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							cmbDataItems.setItems( createDataComboItems( ) );
 							if ( datacubes.length == count )
 							{
-								if ( currentData == null )
+								if ( currentDataReference == null )
 								{
 									cmbDataItems.select( 0 );
 								}
 								else
 								{
-									cmbDataItems.setText( currentData );
+									cmbDataItems.setText( currentDataReference );
 								}
 								return;
 							}
 
 							// select the newly created data cube for user.
-							currentData = datacubes[datacubes.length - 1];
-							getDataServiceProvider( ).setDataCube( currentData );
-							cmbDataItems.setText( currentData );
+							currentDataReference = datacubes[datacubes.length - 1];
+							getDataServiceProvider( ).setDataCube( currentDataReference );
+							cmbDataItems.setText( currentDataReference );
 							updateDragDataSource( );
 							setEnabledForButtons( );
 							// Update preview via event
@@ -1805,12 +1839,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		if ( currentDS == null )
 		{
 			cmbDataItems.select( 0 );
-			currentData = null;
+			currentDataReference = null;
 		}
 		else
 		{
 			cmbDataItems.setText( currentDS );
-			currentData = currentDS;
+			currentDataReference = currentDS;
 		}
 	}
 
@@ -1964,12 +1998,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private void refreshTreeViewColor( )
 	{
-		if ( cubeTreeViewer == null )
+		if ( treeViewer == null )
 		{
 			return;
 		}
 
-		Collection<TreeItem> items = getAllItems( cubeTreeViewer.getTree( ) );
+		Collection<TreeItem> items = getAllItems( treeViewer.getTree( ) );
 
 		for ( TreeItem item : items )
 		{
@@ -1977,7 +2011,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			Color color = ColorPalette.getInstance( ).getColor( key );
 			item.setBackground( color );
 		}
-		cubeTreeViewer.refresh( );
+		treeViewer.refresh( );
 	}
 
 	/**
@@ -2233,7 +2267,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return this.itemHandle;
 	}
 
-	ReportDataServiceProvider getDataServiceProvider( )
+	protected ReportDataServiceProvider getDataServiceProvider( )
 	{
 		return this.dataProvider;
 	}
@@ -2272,7 +2306,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return menus;
 	}
 
-	private MenuManager createMenuManager( final Object data )
+	protected MenuManager createMenuManager( final Object data )
 	{
 		MenuManager menuManager = new MenuManager( );
 		menuManager.setRemoveAllWhenShown( true );
@@ -2646,11 +2680,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	 */
 	protected String createCubeExpression( )
 	{
-		if ( cubeTreeViewer == null )
+		if ( treeViewer == null )
 		{
 			return null;
 		}
-		TreeItem[] selection = cubeTreeViewer.getTree( ).getSelection( );
+		TreeItem[] selection = treeViewer.getTree( ).getSelection( );
 		String expr = null;
 		if ( selection.length > 0
 				&& !dataProvider.isSharedBinding( )

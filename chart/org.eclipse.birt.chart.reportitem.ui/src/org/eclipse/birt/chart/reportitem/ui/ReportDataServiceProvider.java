@@ -2359,20 +2359,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return isInXTabCell( ) && !isInXTabAggrCell( );
 	}
 
-	boolean isPartChart( )
+	public boolean isPartChart( )
 	{
 		return ChartCubeUtil.isPlotChart( itemHandle )
 				|| ChartCubeUtil.isAxisChart( itemHandle );
 	}
 
-	/*
-	 * (non-Javadoc)
+
+	/**
+	 * Check if chart is sharing query from other report item.
 	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#isSharedBinding
-	 * ()
+	 * @return true  if chart is sharing query from other report item.
 	 */
-	protected boolean isSharedBinding( )
+	public boolean isSharedBinding( )
 	{
 		return ( itemHandle.getDataBindingReference( ) != null || isInMultiView( ) );
 	}
