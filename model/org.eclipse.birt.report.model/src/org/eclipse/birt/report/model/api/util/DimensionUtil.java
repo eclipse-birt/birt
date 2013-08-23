@@ -16,6 +16,7 @@ import javax.print.attribute.ResolutionSyntax;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
@@ -222,7 +223,13 @@ public class DimensionUtil
 
 	{
 		DimensionValue dim = DimensionValue.parse( dimension );
-		return convertTo( dim, appUnit, targetUnits );
+		if ( dim != null )
+		{
+			return convertTo( dim, appUnit, targetUnits );
+		}
+		throw new PropertyValueException( dimension,
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				IPropertyType.DIMENSION_TYPE );
 	}
 
 	/**
