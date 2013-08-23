@@ -52,11 +52,4 @@ public class ComputedMeasureViewHandle extends MeasureViewHandle implements
 		} 
 		return measureName;
 	}
-
-	@Override
-	public String getDataType( )
-	{
-		return null;
-	}
-
 }
