@@ -56,7 +56,7 @@ public class GroupAdapter extends GroupDefinition
 			while ( sortsIt.hasNext( ) )
 			{
 				SortKeyHandle keyHandle = (SortKeyHandle) sortsIt.next( );
-				this.addSort( new SortAdapter( adapter, keyHandle ));
+				this.addSort( adapter.adaptSort( keyHandle ) );
 			}
 		}
 
@@ -68,7 +68,7 @@ public class GroupAdapter extends GroupDefinition
 			{
 				FilterConditionHandle filterHandle = 
 					(FilterConditionHandle) filtersIt.next( );
-				this.addFilter( new FilterAdapter( adapter, filterHandle ));
+				this.addFilter( adapter.adaptFilter( filterHandle ) );
 			}
 		}
 	}
