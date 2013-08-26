@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedData
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -58,6 +59,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableColumn;
 
+
 public class DataSetBindingSelector extends BaseDialog
 {
 
@@ -65,8 +67,10 @@ public class DataSetBindingSelector extends BaseDialog
 	private CheckboxTableViewer columnViewers;
 	private Combo dataSetCombo;
 	private String dataSetName;
+	private DataSetHandle datasetHandle;
 	private String[] columns;
 	private boolean validateEmptyResults=false;
+	private List<DataSetHandle> datasets;
 
 	private static final IChoice[] DATA_TYPE_CHOICES = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
@@ -234,6 +238,7 @@ public class DataSetBindingSelector extends BaseDialog
 
 	protected void createDataSetContents( Composite parent )
 	{
+
 		if ( dataSetName != null )
 		{
 			Label lb = new Label( parent, SWT.NONE );
@@ -241,14 +246,17 @@ public class DataSetBindingSelector extends BaseDialog
 			GridData data = new GridData( GridData.FILL_HORIZONTAL );
 			data.horizontalSpan = 2;
 			lb.setLayoutData( data );
-
 		}
 		else
 		{
 			Label dateSetLabel = new Label( parent, SWT.NONE );
 			dateSetLabel.setText( Messages.getString( "DataSetBindingSelector.Combo.DataSet" ) ); //$NON-NLS-1$
 			dataSetCombo = new Combo( parent, SWT.BORDER | SWT.READ_ONLY );
-			dataSetCombo.setItems( getAvailableDatasetItems( ) );
+			ModuleHandle handle = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+			datasets=org.eclipse.birt.report.designer.internal.ui.util.UIUtil.getVisibleDataSetHandles(handle);
+			for(int i=0;i<datasets.size();i++){
+				dataSetCombo.add(datasets.get(i).getQualifiedName());
+			}
 			dataSetCombo.select( 0 );
 			GridData data = new GridData( GridData.FILL_HORIZONTAL );
 			dataSetCombo.setLayoutData( data );
@@ -264,78 +272,46 @@ public class DataSetBindingSelector extends BaseDialog
 		}
 
 	}
-
+	private DataSetHandle getSelectedDataSet(){
+		return (DataSetHandle)datasets.get(dataSetCombo.getSelectionIndex());
+	}
 	protected void handleDatasetComboSelectedEvent( )
 	{
-		if ( dataSetName != null )
+		Iterator iter = null;
+		DataSetHandle handle=null;
+		if(datasetHandle!=null){
+			handle=datasetHandle;
+		}else if(dataSetName!=null){
+			handle=DataUtil.findDataSet(dataSetName);
+		}else{
+			handle =getSelectedDataSet();
+		}		
+		if ( handle != null )
 		{
-			DataSetHandle datasetHandle=DataUtil.findDataSet(dataSetName);
-
-			Iterator iter = null;
-			if ( datasetHandle != null )
+			try
 			{
-				try
-				{
-					CachedMetaDataHandle cmdh = DataSetUIUtil.getCachedMetaDataHandle( datasetHandle );
-					iter = cmdh.getResultSet( ).iterator( );
-				}
-				catch ( SemanticException e )
-				{
-					ExceptionHandler.handle( e );
-				}
+				CachedMetaDataHandle cmdh = DataSetUIUtil.getCachedMetaDataHandle( handle );
+				iter = cmdh.getResultSet( ).iterator( );
 			}
-			else
+			catch ( SemanticException e )
 			{
-				iter = new LinkedDataSetAdapter( ).getDataSetResLinkedDataModel( dataSetName );
+				ExceptionHandler.handle( e );
 			}
-			if ( iter != null )
-			{
-				columnViewers.setInput( iter );
-			}
-			else
-			{
-				columnViewers.setInput( Collections.EMPTY_LIST.iterator( ) );
-			}
+			
 		}
 		else
 		{
-			if ( dataSetCombo.getSelectionIndex( ) > 0 )
-			{
-				String dataset = dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) );
-				DataSetHandle datasetHandle = SessionHandleAdapter.getInstance( )
-						.getModule( )
-						.findDataSet( dataset );
-				Iterator iter = null;
-				if ( datasetHandle != null )
-				{
-					try
-					{
-						CachedMetaDataHandle cmdh = DataSetUIUtil.getCachedMetaDataHandle( datasetHandle );
-						iter = cmdh.getResultSet( ).iterator( );
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionHandler.handle( e );
-					}
-				}
-				else
-				{
-					iter = new LinkedDataSetAdapter( ).getDataSetResLinkedDataModel( dataset );
-				}
-				if ( iter != null )
-				{
-					columnViewers.setInput( iter );
-				}
-				else
-				{
-					columnViewers.setInput( Collections.EMPTY_LIST.iterator( ) );
-				}
-			}
-			else
-			{
-				columnViewers.setInput( Collections.EMPTY_LIST.iterator( ) );
-			}
+			iter = new LinkedDataSetAdapter( ).getDataSetResLinkedDataModel( dataSetName );
 		}
+		if ( iter != null )
+		{
+			columnViewers.setInput( iter );
+		}
+		else
+		{
+			columnViewers.setInput( Collections.EMPTY_LIST.iterator( ) );
+		}
+
 	}
 
 	private Object[] result;
@@ -344,7 +320,7 @@ public class DataSetBindingSelector extends BaseDialog
 	{
 	
 		result = new Object[3];
-		if ( dataSetName != null || dataSetCombo.getSelectionIndex( ) > 0 )
+		if ( dataSetName != null || dataSetCombo.getSelectionIndex( ) > -1 )
 		{
 			if ( dataSetName == null )
 			{
@@ -401,15 +377,6 @@ public class DataSetBindingSelector extends BaseDialog
 		return result;
 	}
 
-	protected String[] getAvailableDatasetItems( )
-	{
-		String[] dataSets = ChoiceSetFactory.getDataSets( );
-		String[] newList = new String[dataSets.length + 1];
-		newList[0] = NONE;
-		System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
-		return newList;
-	}
-
 	public void setDataSet( String dataSetName )
 	{
 		this.dataSetName = dataSetName;
@@ -442,6 +409,17 @@ public class DataSetBindingSelector extends BaseDialog
 
 	public void setValidateEmptyResults(boolean validateEmptyResults) {
 		this.validateEmptyResults = validateEmptyResults;
+	}
+
+	public DataSetHandle getDatasetHandle() {
+		return datasetHandle;
+	}
+
+	public void setDatasetHandle(DataSetHandle datasetHandle) {
+		if(datasetHandle!=null){
+			this.datasetHandle = datasetHandle;
+			this.dataSetName=datasetHandle.getQualifiedName();
+		}
 	}
 
 }

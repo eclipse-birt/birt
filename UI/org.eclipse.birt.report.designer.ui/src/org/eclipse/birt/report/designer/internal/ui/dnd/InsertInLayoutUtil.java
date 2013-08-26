@@ -1381,30 +1381,9 @@ public class InsertInLayoutUtil
 	protected static TableHandle performInsertDataSet( DataSetHandle model )
 			throws SemanticException
 	{
-		// DataSetItemModel[] columns = DataSetManager.getCurrentInstance( )
-		// .getColumns( model, false );
-		// if ( columns == null || columns.length == 0 )
-		// {
-		// return null;
-		// }
-		// // TableHandle tableHandle = SessionHandleAdapter.getInstance( )
-		// // .getReportDesignHandle( )
-		// // .getElementFactory( )
-		// // .newTableItem( null, columns.length );
-//		CachedMetaDataHandle cachedMetadata = DataSetUIUtil.getCachedMetaDataHandle( model );
-//		List columList = new ArrayList( );
-//
-//		for ( Iterator iter = cachedMetadata.getResultSet( ).iterator( ); iter.hasNext( ); )
-//		{
-//			ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
-//			columList.add( element );
-//		}
-//		ResultSetColumnHandle[] columns = (ResultSetColumnHandle[]) columList.toArray( new ResultSetColumnHandle[columList.size( )] );
-
-		
 		DataSetBindingSelector selector=new DataSetBindingSelector( UIUtil.getDefaultShell( ),
 				Messages.getString( "DataSetBindingSelectorPage.Title" ) );
-		selector.setDataSet(model.getElement().getName());
+		selector.setDatasetHandle(model);
 		selector.setValidateEmptyResults(true);
 		if ( selector.open( ) == Window.OK )
 		{		

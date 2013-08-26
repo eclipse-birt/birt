@@ -82,6 +82,7 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -3314,5 +3315,16 @@ public class UIUtil
 		}
 
 		return false;
+	}
+	public static List<DataSetHandle> getVisibleDataSetHandles(ModuleHandle handle){
+		ArrayList<DataSetHandle> list = new ArrayList<DataSetHandle>( );
+		for ( Iterator iterator = handle.getVisibleDataSets( ).iterator( ); iterator.hasNext( ); )
+		{
+			DataSetHandle dataSetHandle = (DataSetHandle) iterator.next( );
+			list.add( dataSetHandle );
+		}
+		LinkedDataSetAdapter adapter = new LinkedDataSetAdapter();
+		list.addAll(adapter.getVisibleLinkedDataSetsDataSetHandles(handle));	
+		return list;
 	}
 }
