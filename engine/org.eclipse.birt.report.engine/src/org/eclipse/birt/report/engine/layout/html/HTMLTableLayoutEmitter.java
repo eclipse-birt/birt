@@ -355,7 +355,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 				IReportContent report = rowContent.getReportContent( );
 				ICellContent cellContent = report.createCellContent( );
 				cellContent.setParent( rowContent );
-				cellContent.setColumn( cell.getColId( ) + 1 );
+				cellContent.setColumn( j );
 				cellContent.setRowSpan( cell.getRowSpan( ) );
 				cellContent.setColSpan( cell.getColSpan( ) );
 				emitter.startCell( cellContent );
