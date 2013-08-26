@@ -7,7 +7,7 @@
       <dataSource
             driverClass="org.eclipse.birt.report.data.oda.excel.impl.Driver"
             defaultDisplayName="%data.source.name"
-            setThreadContextClassLoader="false"
+            setThreadContextClassLoader="true"
             odaVersion="3.2"
             id="%oda.data.source.id">
          <properties>
