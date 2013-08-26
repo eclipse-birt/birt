@@ -304,62 +304,32 @@ public abstract class AbstractArea implements IArea
 		}
 		else
 		{
-			if ( area instanceof ITextArea )
-			{
-				System.out.println( ( (ITextArea) area ).getText( ) );
-			}
-			else if ( area instanceof IImageArea )
-			{
-				System.out.println( "[image]" );
-			}
-			else if ( area instanceof ITemplateArea )
-			{
-				System.out.println( "[template]" );
-			}
+			debugPrintVisual( area );
 		}
 	}
 	
-	public static void debugPrint2( IArea area )
+	public static void debugPrintVisual( IArea area )
 	{
-		if ( area instanceof IContainerArea )
+		if ( area instanceof ITextArea )
 		{
-			System.out.print( area.getClass( ) + "||" );
-			System.out.println( "x:" + area.getX( ) + " y:" + area.getY( )
-					+ " width:" + area.getWidth( ) + " height:"
-					+ area.getHeight( ) );
-			for ( Iterator<IArea> i = ( (IContainerArea) area ).getChildren( ); i
-					.hasNext( ); )
-			{
-				IArea child = i.next( );
-				if ( child instanceof TextLineArea )
-				{
-					debugPrint( child );
-				}
-			}
+			System.out.println( ( (ITextArea) area ).getText( ) );
 		}
-		else
+		else if ( area instanceof IImageArea )
 		{
-			if ( area instanceof ITextArea )
-			{
-				System.out.println( ( (ITextArea) area ).getText( ) );
-			}
-			else if ( area instanceof IImageArea )
-			{
-				System.out.println( "[image]" );
-			}
-			else if ( area instanceof ITemplateArea )
-			{
-				System.out.println( "[template]" );
-			}
+			System.out.println( "[image]" );
+		}
+		else if ( area instanceof ITemplateArea )
+		{
+			System.out.println( "[template]" );
 		}
 	}
 	
 	public static void debugPrintWithComputedXY( IArea area )
 	{
-		debugPrint3(area, 0, 0 );
+		debugPrint(area, 0, 0 );
 	}
 	
-	private static void debugPrint3( IArea area, int x, int y )
+	private static void debugPrint( IArea area, int x, int y )
 	{
 		if ( area instanceof IContainerArea )
 		{
@@ -382,25 +352,14 @@ public abstract class AbstractArea implements IArea
 					.hasNext( ); )
 			{
 				IArea child = i.next( );
-				debugPrint3( child, x, y );
+				debugPrint( child, x, y );
 			}
 			x = x - area.getX( );
 			y = x - area.getY( );
 		}
 		else
 		{
-			if ( area instanceof ITextArea )
-			{
-				System.out.println( ( (ITextArea) area ).getText( ) );
-			}
-			else if ( area instanceof IImageArea )
-			{
-				System.out.println( "[image]" );
-			}
-			else if ( area instanceof ITemplateArea )
-			{
-				System.out.println( "[template]" );
-			}
+			debugPrintVisual( area );
 		}
 	}
 
