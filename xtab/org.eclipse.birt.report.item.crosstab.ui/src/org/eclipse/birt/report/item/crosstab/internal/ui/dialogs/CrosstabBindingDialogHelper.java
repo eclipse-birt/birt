@@ -44,13 +44,16 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialo
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CLabel;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MenuButton;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.ColorManager;
@@ -1571,12 +1574,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void initFilter( )
 	{
-		if( binding != null  && txtFilter != null)
-		{
-			ExpressionButtonUtil.initExpressionButtonControl( txtFilter,
-					binding,
-					ComputedColumn.FILTER_MEMBER );
-		}
+		ExpressionButtonUtil.initExpressionButtonControl( txtFilter,
+				binding,
+				ComputedColumn.FILTER_MEMBER );
 	}
 
 	private void initFunction( )
@@ -1865,7 +1865,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		ModuleHandle module = ( (ExtendedItemHandle) xtabHandle.getModelHandle( ) ).getModuleHandle( );
 
 		List<IBinding> bindingList = new ArrayList<IBinding>( );
-		boolean isBoundToLinkedDataSet = CrosstabUtil.isBoundToLinkedDataSet( xtabHandle ) ;
 
 		if ( bindingItr != null )
 		{
@@ -2081,11 +2080,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	
 	private void createFilterCondition(Composite composite,GridData gridData)
 	{
-		//if use link data set , not create the filter expression
- 		if(ExtendedDataModelUIAdapterHelper.isBoundToExtendedData(getBindingHolder()))
-		{
-			return;
-		}
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER | SWT.MULTI );
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
@@ -2103,30 +2097,61 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 
 		// createExpressionButton( composite, txtFilter );
-		IExpressionProvider filterExpressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder,
-				this.binding ) {
+		IExpressionProvider filterExpressionProvider;
+		IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+		if(adapter != null && adapter.getBoundExtendedData( this.bindingHolder ) != null)
+		{
+			filterExpressionProvider = adapter.getBindingExpressionProvider( this.bindingHolder, this.binding );
+			((ExpressionProvider)filterExpressionProvider).addFilter( new ExpressionFilter( ) {
 
-			protected List getChildrenList( Object parent )
-			{
-				List children = super.getChildrenList( parent );
-				List retValue = new ArrayList( );
-				retValue.addAll( children );
-				if ( parent instanceof MeasureGroupHandle )
+				public boolean select( Object parentElement, Object element )
 				{
-					for ( int i = 0; i < children.size( ); i++ )
+					if ( parentElement instanceof String )
 					{
-						Object obj = children.get( i );
-						if ( obj instanceof MeasureHandle
-								&& ( (MeasureHandle) obj ).isCalculated( ) )
+						String parent = (String) parentElement;
+						if ( ExpressionFilter.CATEGORY.equals( parent ) )
 						{
-							retValue.remove( obj );
+							if ( element instanceof String )
+							{
+								String elementString = (String) element;
+								if ( ExpressionProvider.COLUMN_BINDINGS.equals( elementString ) )
+								{
+									return false;
+								}
+							}
 						}
 					}
+					return true;
 				}
+			} );
+		}
+		else
+		{
+			filterExpressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder,
+					this.binding ) {
 
-				return retValue;
-			}
-		};
+				protected List getChildrenList( Object parent )
+				{
+					List children = super.getChildrenList( parent );
+					List retValue = new ArrayList( );
+					retValue.addAll( children );
+					if ( parent instanceof MeasureGroupHandle )
+					{
+						for ( int i = 0; i < children.size( ); i++ )
+						{
+							Object obj = children.get( i );
+							if ( obj instanceof MeasureHandle
+									&& ( (MeasureHandle) obj ).isCalculated( ) )
+							{
+								retValue.remove( obj );
+							}
+						}
+					}
+
+					return retValue;
+				}
+			};
+		}
 		ExpressionButtonUtil.createExpressionButton( composite,
 				txtFilter,
 				filterExpressionProvider,
@@ -2536,7 +2561,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			catch ( AdapterException e )
 			{
 			}
-			if (txtFilter != null && !exprEquals( (Expression) binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
+			if (!exprEquals( (Expression) binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
 					.getValue( ),
 					ExpressionButtonUtil.getExpression( txtFilter ) ) )
 				return true;
@@ -2675,11 +2700,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 
 			binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
-			if(txtFilter != null){
-				ExpressionButtonUtil.saveExpressionButtonControl( txtFilter,
-						binding,
-						ComputedColumn.FILTER_MEMBER );
-			}
+			ExpressionButtonUtil.saveExpressionButtonControl( txtFilter,
+					binding,
+					ComputedColumn.FILTER_MEMBER );
 
 			binding.clearAggregateOnList( );
 			// if (!isTimePeriod( ))

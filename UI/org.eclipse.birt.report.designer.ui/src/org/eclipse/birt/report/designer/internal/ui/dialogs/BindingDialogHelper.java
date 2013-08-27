@@ -526,7 +526,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void initFilter( )
 	{
-		if ( binding != null && txtFilter != null)
+		if ( binding != null )
 		{
 			ExpressionHandle expressionHandle = binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER );
 			initExpressionButton( expressionHandle, txtFilter );
@@ -1017,10 +1017,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			cmbType.setEnabled( false );
 			cmbFunction.setEnabled( false );
 			// cmbDataField.setEnabled( false );
-			if(txtFilter != null)
-			{
-				txtFilter.setEnabled( false );
-			}
+			txtFilter.setEnabled( false );
 			paramsComposite.setEnabled( false );
 			cmbGroup.setEnabled( false );
 			btnTable.setEnabled( false );
@@ -1030,33 +1027,24 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	
 	private void createFilterCondition( Composite composite,GridData gd)
 	{
-		if(!isExtendsDataSet())
-		{
-			new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
-			txtFilter = new Text( composite, SWT.BORDER | SWT.MULTI );
-			gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.heightHint = txtFilter.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
-					- txtFilter.getBorderWidth( )
-					* 2;
-			gd.horizontalSpan = 2;
-			txtFilter.setLayoutData( gd );
+		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
+		txtFilter = new Text( composite, SWT.BORDER | SWT.MULTI );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.heightHint = txtFilter.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- txtFilter.getBorderWidth( )
+				* 2;
+		gd.horizontalSpan = 2;
+		txtFilter.setLayoutData( gd );
+		
+		txtFilter.addModifyListener( new ModifyListener( ) {
 			
-			txtFilter.addModifyListener( new ModifyListener( ) {
-				
-				public void modifyText( ModifyEvent arg0 )
-				{
-					modifyDialogContent( );
-					validate( );
-				}
-			} );
-			createExpressionButton( composite, txtFilter );
-		}
-	}
-	
-	
-	private boolean isExtendsDataSet()
-	{
-		return ExtendedDataModelUIAdapterHelper.isBoundToExtendedData(getBindingHolder());
+			public void modifyText( ModifyEvent arg0 )
+			{
+				modifyDialogContent( );
+				validate( );
+			}
+		} );
+		createExpressionButton( composite, txtFilter );
 	}
 
 	private void createCommonSection( Composite composite )
@@ -1529,7 +1517,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 			}
 			
-			if (txtFilter != null &&  !expressionEquals( binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER ),
+			if ( !expressionEquals( binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER ),
 				txtFilter ) )
 				return true;
 			if ( btnTable.getSelection( ) == ( binding.getAggregateOn( ) != null ) )
@@ -1702,11 +1690,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			// binding.setExpression( cmbDataField.getText( ) );
 			binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
 
-			if(txtFilter != null){
-				ExpressionButtonUtil.saveExpressionButtonControl( txtFilter,
-						binding,
-						ComputedColumn.FILTER_MEMBER );
-			}
+			ExpressionButtonUtil.saveExpressionButtonControl( txtFilter,
+					binding,
+					ComputedColumn.FILTER_MEMBER );
 
 			if ( btnTable.getSelection( ) )
 			{
