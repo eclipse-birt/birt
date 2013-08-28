@@ -103,6 +103,7 @@ import org.eclipse.birt.report.data.adapter.i18n.AdapterResourceHandle;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.ColumnMeta;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.IDataProcessor;
+import org.eclipse.birt.report.data.adapter.impl.QueryExecutionHelper.DataSetHandleProcessContext;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -563,7 +564,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 //		ModuleHandle moduleHandle = sessionContext.getModuleHandle( );
 //		if ( moduleHandle == null )
 //			moduleHandle = dataSet.getModuleHandle( );
-
+ 
+		DefineDataSourceSetUtil.defineDataSourceAndDataSet( dataSet,
+				this.dataEngine,
+				this.modelAdaptor,
+				new DataSetHandleProcessContext( dataSet,
+						true,
+						useDataSetFilter,
+						false ) );
+		
+		
 		QueryExecutionHelper execHelper = new QueryExecutionHelper( this.dataEngine,
 				this.modelAdaptor,
 				this.sessionContext,
