@@ -240,6 +240,8 @@ public class AttributeViewPage extends Page implements
 		SessionHandleAdapter.getInstance( )
 				.getMediator( model )
 				.addColleague( this );
+
+		handleSelectionChanged( selection );
 	}
 
 	private void addActions( )
@@ -248,26 +250,30 @@ public class AttributeViewPage extends Page implements
 		{
 			restoreLibraryPropertiesAction = new RestoreLibraryPropertiesAction( this );
 		}
-		clearOldRestoreLibraryPropertiesAction();
-		
+		clearOldRestoreLibraryPropertiesAction( );
+
 		getSite( ).getActionBars( )
 				.getToolBarManager( )
 				.add( restoreLibraryPropertiesAction );
 
 	}
-	
-	private void clearOldRestoreLibraryPropertiesAction()
+
+	private void clearOldRestoreLibraryPropertiesAction( )
 	{
-		IContributionItem[] items = getSite( ).getActionBars( ).getToolBarManager( ).getItems();
-		for(IContributionItem item : items)
+		IContributionItem[] items = getSite( ).getActionBars( )
+				.getToolBarManager( )
+				.getItems( );
+		for ( IContributionItem item : items )
 		{
-			
-			if(item instanceof ActionContributionItem)
+
+			if ( item instanceof ActionContributionItem )
 			{
-				ActionContributionItem aItem = (ActionContributionItem)item;
-				if(aItem.getAction()  instanceof RestoreLibraryPropertiesAction)
+				ActionContributionItem aItem = (ActionContributionItem) item;
+				if ( aItem.getAction( ) instanceof RestoreLibraryPropertiesAction )
 				{
-					getSite( ).getActionBars( ).getToolBarManager( ).remove(item);
+					getSite( ).getActionBars( )
+							.getToolBarManager( )
+							.remove( item );
 				}
 			}
 		}
