@@ -383,16 +383,19 @@ public class DataProcessor
 			{
 				int groupLevel = 0;
 				boolean[] groupStatus = ( (IGroupedDataRowExpressionEvaluator) idre ).getGroupStatus( );
-				for ( ; groupLevel < groupStatus.length; groupLevel++ )
+				if ( groupStatus != null )
 				{
-					if ( groupStatus[groupLevel] )
+					for ( ; groupLevel < groupStatus.length; groupLevel++ )
 					{
-						break;
+						if ( groupStatus[groupLevel] )
+						{
+							break;
+						}
 					}
-				}
-				if (groupLevel >= groupStatus.length)
-				{
-					groupLevel = 0;
+					if (groupLevel >= groupStatus.length)
+					{
+						groupLevel = 0;
+					}
 				}
 				groupBreaks = ( (IGroupedDataRowExpressionEvaluator) idre ).getGroupBreaks( groupLevel );
 			}
