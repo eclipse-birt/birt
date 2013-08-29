@@ -2254,38 +2254,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// colspan
 		int colSpan = cell.getColSpan( );
-
 		if ( colSpan > 1 )
 		{
 			writer.attribute( HTMLTags.ATTR_COLSPAN, colSpan );
 		}
-
-		boolean fixedCellHeight = false;
-		DimensionType cellHeight = null;
+		
 		// rowspan
 		int rowSpan = cell.getRowSpan( );
 		if ( rowSpan > 1 )
 		{
 			writer.attribute( HTMLTags.ATTR_ROWSPAN, rowSpan );
 		}
-		else if ( fixedReport )
-		{
-			IStyle style =  cell.getStyle( );
-			if ( style != null )
-			{
-				String overflow = style.getOverflow( );
-				if (  overflow != null && CSSConstants.CSS_OVERFLOW_SCROLL_VALUE
-		                .equals( overflow ) ) 
-				{
-					// fixed cell height requires the rowspan to be 1.
-					cellHeight = (DimensionType) fixedRowHeightStack.peek( );
-					if ( cellHeight != null )
-					{
-						fixedCellHeight = true;
-					}
-				}
-			}
-		}
+		
+		boolean fixedCellHeight = useFixedCellHeight( cell );
 
 		StringBuffer styleBuffer = new StringBuffer( );
 		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead, fixedCellHeight );
@@ -2339,6 +2320,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.openTag( HTMLTags.TAG_DIV );
 			writer.attribute( HTMLTags.ATTR_STYLE,
 					"position: relative; height: 100%;" );
+			DimensionType cellHeight = (DimensionType) fixedRowHeightStack.peek( );
 			if ( cell.hasDiagonalLine( ) )
 			{
 				outputDiagonalImage( cell, cellHeight );
@@ -2355,7 +2337,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		else if ( cell.hasDiagonalLine( ) )
 		{
-			cellHeight = getCellHeight( cell );
+			DimensionType cellHeight = getCellHeight( cell );
 			if ( cellHeight != null && !"%".equals( cellHeight.getUnits( ) ) )
 			{
 				writer.openTag( HTMLTags.TAG_DIV );
@@ -2369,6 +2351,35 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			metadataEmitter.startCell( cell );
 		}
+	}
+	
+	private boolean useFixedCellHeight( ICellContent cell )
+	{
+		// fixed cell height requires the rowspan to be 1.
+		if ( cell.getRowSpan( ) > 1 )
+		{
+			return false;
+		}
+		if ( fixedReport )
+		{
+			IStyle style = cell.getStyle( );
+			if ( style != null )
+			{
+				String overflow = style.getOverflow( );
+				if ( overflow != null
+						&& CSSConstants.CSS_OVERFLOW_SCROLL_VALUE
+								.equals( overflow ) )
+				{
+					DimensionType cellHeight = (DimensionType) fixedRowHeightStack
+							.peek( );
+					if ( cellHeight != null )
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 	protected void outputDiagonalImage( ICellContent cell,
@@ -2484,8 +2495,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			metadataEmitter.endCell( cell );
 		}
 		
-		boolean fixedRowHeight = ( fixedReport && fixedRowHeightStack.peek( ) != null );
-		if ( fixedRowHeight && cell.getRowSpan( ) == 1 )
+		if ( useFixedCellHeight( cell ) )
 		{
 			writer.closeTag( HTMLTags.TAG_DIV );
 			writer.closeTag( HTMLTags.TAG_DIV );
