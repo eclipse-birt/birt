@@ -221,10 +221,16 @@
 					<TR>
 						<TD></TD>
 						<TD>
-							<INPUT TYPE="radio" NAME="exportDataEncoding" ID="exportDataEncoding_other">
-							<label for="exportDataEncoding_other"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.other" )%></label>
-							<INPUT TYPE="text" NAME="exportDataOtherEncoding" ID="exportDataOtherEncoding_input" CLASS="birtviewer_exportdata_dialog_input" DISABLED="true">
-							<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.comment" )%>
+							<TABLE cellpadding="0" cellspacing="0"><TR>
+							<TD valign="TOP">
+								<INPUT TYPE="radio" NAME="exportDataEncoding" ID="exportDataEncoding_other">
+							</TD>
+							<TD>
+								<label for="exportDataEncoding_other"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.other" )%></label>
+								<INPUT TYPE="text" NAME="exportDataOtherEncoding" ID="exportDataOtherEncoding_input" CLASS="birtviewer_exportdata_dialog_input" DISABLED="true">
+								<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.comment" )%>
+							</TD>
+							</TR></TABLE>
 						</TD>
 					</TR>
 				</TABLE>				
