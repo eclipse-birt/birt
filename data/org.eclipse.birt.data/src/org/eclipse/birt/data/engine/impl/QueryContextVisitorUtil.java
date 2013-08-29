@@ -28,6 +28,11 @@ public class QueryContextVisitorUtil
 		return null;
 	}
 	
+	public static Object getVisitorQuery( IQueryContextVisitor visitor )
+	{
+		return null;
+	}
+	
 	public static void populateEffectiveQueryText( IQueryContextVisitor visitor, String effectiveQueryText ) throws DataException
 	{
 		

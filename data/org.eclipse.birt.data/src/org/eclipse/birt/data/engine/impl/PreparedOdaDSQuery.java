@@ -325,14 +325,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			}
 			else
 			{
-				boolean enablePushDown = !this.fromCache( ) && queryDefn.getQueryExecutionHints( ).enablePushDown( );
-				if(	FilterPrepareUtil.containsExternalFilter( queryDefn.getFilters( ), dataSetType, extDataSet.getDataSource( ).getExtensionID( ) ) )
-				{
-					enablePushDown = true;
-					dataEngine.getSession( ).getDataSetCacheManager( ).clearCache( dataEngine.getDataSourceDesign( this.dataSet.getDesign( ).getDataSourceName( ) ), this.dataSet.getDesign( ) );	
-				}
-				
-				if ( enablePushDown )
+				if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 				{
 					ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
 
