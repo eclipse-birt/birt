@@ -95,17 +95,13 @@ public final class ChartReportItemPresentationPlotImpl extends
 					}
 					StyleHandle style = xtabCell.getModelHandle( )
 							.getPrivateStyle( );
-					double dTopBorder = ChartItemUtil.convertToPoints( style.getBorderTopWidth( ),
-							renderDpi );
-					double dBottomBorder = ChartItemUtil.convertToPoints( style.getBorderBottomWidth( ),
-							renderDpi );
 					// Set negative size to be replaced by actual size
 					// In IE, cell size doesn't include padding, but FF and PDF
 					// includes padding. To avoid this computation conflict, set
 					// 0 padding in design time.
-					bounds.setHeight( -roundPointsWithPixels( dHeight
-							+ ( dTopBorder + dBottomBorder )
-							/ 2 ) );
+					
+					// No need to care border and rounding.
+					bounds.setHeight( - dHeight );
 
 					// If user specifies column cell width manually, set the
 					// width to chart model
