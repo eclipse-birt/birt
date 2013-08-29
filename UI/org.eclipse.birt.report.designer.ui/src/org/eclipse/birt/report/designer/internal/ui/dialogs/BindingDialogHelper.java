@@ -1200,8 +1200,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 								dialog.setCanFinish( false );
 								setErrorMessage( Messages.getFormattedString( "BindingDialogHelper.error.empty", //$NON-NLS-1$
 										new String[]{
-											param.getDisplayName( )
-										} ) );
+											param.getDisplayName( ).replaceAll("\\(&[a-zA-Z0-9]\\)", "").replaceAll("&", "") 
+										} ));
 								return;
 							}
 						}
