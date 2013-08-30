@@ -1063,10 +1063,16 @@ at an angle of 45 degrees to vertical. With start color being on the left.
 				<xsd:sequence>
 					<xsd:element name="URL" type="xsd:string">
 						<xsd:annotation>
-							<xsd:documentation xml:lang="en">The string attribute "URL" specifies the URL for the image.
+							<xsd:documentation xml:lang="en">
+								The string attribute "URL" specifies the
+								URL for the image.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="source" type="ImageSourceType">
+						<xsd:annotation>
+							<xsd:documentation>The string attribute "source" specifies the source of the URL.</xsd:documentation>
+						</xsd:annotation></xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -1693,4 +1699,15 @@ itself to formatting a string value.
 		</xsd:complexContent>
 	</xsd:complexType>
 
+
+	<xsd:simpleType name="ImageSourceType">
+        <xsd:annotation>
+        	<xsd:documentation>This property specifies how to reference the image URL. Static source means the image is using static URL. Report source means the image is using the embedded image from report. File source means the image is from resource files.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+			<xsd:enumeration value="static"></xsd:enumeration>
+			<xsd:enumeration value="report"></xsd:enumeration>
+			<xsd:enumeration value="file"></xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
 </xsd:schema>

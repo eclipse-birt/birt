@@ -11,11 +11,14 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -139,7 +142,11 @@ public class TextPropertyState extends AbstractPropertyState
 			setMember( struct, propDefn.getName( ), name, value );
 		else
 		{
-			setProperty( name, value );
+			// backward compatible
+			if( IImageItemModel.ALT_TEXT_PROP.equals( name ))
+				setProperty( name, new Expression(value, ExpressionType.CONSTANT) );
+			else
+				setProperty( name, value );
 			if ( !StringUtil.isBlank( keyValue ) )
 				setProperty( name + IDesignElementModel.ID_SUFFIX, keyValue );
 		}

@@ -148,6 +148,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementMo
 import org.eclipse.birt.report.model.elements.interfaces.IOdaOlapElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
 import org.eclipse.birt.report.model.elements.interfaces.IParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
@@ -1455,6 +1456,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IModuleModel.AUTHOR_PROP );
 		property( obj, IDesignElementModel.COMMENTS_PROP );
 		property( obj, IModuleModel.CREATED_BY_PROP );
+		property( obj, IReportDesignModel.LANGUAGE_PROP );
 
 		resourceKey( obj, IModuleModel.TITLE_ID_PROP, IModuleModel.TITLE_PROP );
 		resourceKey( obj, IModuleModel.DESCRIPTION_ID_PROP,
@@ -1668,6 +1670,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
 				IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP );
+		property( obj, IOdaDataSourceModel.EXTERNAL_CONNECTION_NAME );
 
 		writeOdaExtensionProperties( obj,
 				IOdaExtendableElementModel.EXTENSION_ID_PROP );
@@ -1817,6 +1820,11 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		resourceKey( obj, IDataItemModel.HELP_TEXT_KEY_PROP,
 				IDataItemModel.HELP_TEXT_PROP );
+		
+		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.LANGUAGE_PROP );
+		property( obj, IReportItemModel.ALTTEXT_PROP );
+		property( obj, IReportItemModel.ORDER_PROP );
 
 		writeActions( obj, IDataItemModel.ACTION_PROP );
 
@@ -1844,6 +1852,11 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, ITextDataItemModel.VALUE_EXPR_PROP );
 		property( obj, ITextDataItemModel.CONTENT_TYPE_PROP );
 		property( obj, ITextDataItemModel.HAS_EXPRESSION_PROP );
+		
+		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.LANGUAGE_PROP );
+		property( obj, IReportItemModel.ALTTEXT_PROP );
+		property( obj, IReportItemModel.ORDER_PROP );
 
 		writer.endElement( );
 	}
@@ -2003,6 +2016,11 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		resourceKeyCDATA( obj, ITextItemModel.CONTENT_RESOURCE_KEY_PROP,
 				ITextItemModel.CONTENT_PROP );
 		property( obj, ITextItemModel.HAS_EXPRESSION_PROP );
+		
+		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.LANGUAGE_PROP );
+		property( obj, IReportItemModel.ALTTEXT_PROP );
+		property( obj, IReportItemModel.ORDER_PROP );
 
 		writer.endElement( );
 	}
@@ -2028,6 +2046,11 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		resourceKey( obj, ILabelModel.TEXT_ID_PROP, ILabelModel.TEXT_PROP );
 		resourceKey( obj, ILabelModel.HELP_TEXT_ID_PROP,
 				ILabelModel.HELP_TEXT_PROP );
+		
+		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.LANGUAGE_PROP );
+		property( obj, IReportItemModel.ALTTEXT_PROP );
+		property( obj, IReportItemModel.ORDER_PROP );
 
 		writeActions( obj, ILabelModel.ACTION_PROP );
 
@@ -2084,6 +2107,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				DesignSchemaConstants.DETAIL_TAG );
 		writeContents( obj, IListingElementModel.FOOTER_SLOT,
 				DesignSchemaConstants.FOOTER_TAG );
+				
+		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.LANGUAGE_PROP );
+		property( obj, IReportItemModel.ALTTEXT_PROP );
 
 		writer.endElement( );
 	}
@@ -2151,6 +2178,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				DesignSchemaConstants.DETAIL_TAG );
 		writeContents( obj, IListingElementModel.FOOTER_SLOT,
 				DesignSchemaConstants.FOOTER_TAG );
+				
+		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.LANGUAGE_PROP );
+		property( obj, IReportItemModel.ORDER_PROP );
 
 		writer.endElement( );
 	}
@@ -2241,6 +2272,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, ITableRowModel.ON_PREPARE_METHOD );
 		property( obj, ITableRowModel.ON_CREATE_METHOD );
 		property( obj, ITableRowModel.ON_RENDER_METHOD );
+		
+		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.LANGUAGE_PROP );
 
 		// write user property definitions and values
 
@@ -2299,6 +2333,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, ICellModel.ON_PREPARE_METHOD );
 		property( obj, ICellModel.ON_CREATE_METHOD );
 		property( obj, ICellModel.ON_RENDER_METHOD );
+		
+		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.LANGUAGE_PROP );
+		property( obj, IReportItemModel.ALTTEXT_PROP );
 
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
@@ -2331,6 +2369,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IGridItemModel.SUMMARY_PROP );
 		resourceKey( obj, IGridItemModel.CAPTION_KEY_PROP,
 				IGridItemModel.CAPTION_PROP );
+				
+		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.LANGUAGE_PROP );
+		property( obj, IReportItemModel.ORDER_PROP );
 
 		writeColumns( obj, IGridItemModel.COLUMN_SLOT );
 		writeContents( obj, IGridItemModel.ROW_SLOT, null );
@@ -2453,6 +2495,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		resourceKey( obj, ICascadingParameterGroupModel.PROMPT_TEXT_ID_PROP,
 				ICascadingParameterGroupModel.PROMPT_TEXT_PROP );
 		property( obj, ICascadingParameterGroupModel.DATA_SET_PROP );
+		visitCascadingParameterGroupExtraProperty(obj);
 		property( obj, ICascadingParameterGroupModel.DATA_SET_MODE_PROP );
 
 		writeContents( obj, IParameterGroupModel.PARAMETERS_SLOT,
@@ -2461,7 +2504,12 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		writer.endElement( );
 	}
+	
+	protected void visitCascadingParameterGroupExtraProperty( CascadingParameterGroup obj )
+	{
 
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -3054,6 +3102,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IImageItemModel.SOURCE_PROP );
 		property( obj, IImageItemModel.FIT_TO_CONTAINER_PROP );
 		property( obj, IImageItemModel.PROPORTIONAL_SCALE_PROP );
+		
+		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.LANGUAGE_PROP );
+		property( obj, IReportItemModel.ORDER_PROP );
 
 		String source = (String) obj.getLocalProperty( getModule( ),
 				IImageItemModel.SOURCE_PROP );
@@ -3076,8 +3128,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			property( obj, IImageItemModel.VALUE_EXPR_PROP );
 		}
 
-		resourceKey( obj, IImageItemModel.ALT_TEXT_KEY_PROP,
-				IImageItemModel.ALT_TEXT_PROP );
+		property( obj, IImageItemModel.ALT_TEXT_PROP );
+		property( obj, IImageItemModel.ALT_TEXT_KEY_PROP );
 		resourceKey( obj, IImageItemModel.HELP_TEXT_ID_PROP,
 				IImageItemModel.HELP_TEXT_PROP );
 

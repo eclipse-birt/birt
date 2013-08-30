@@ -363,11 +363,11 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	 * Build the style of cell content.
 	 */
 	public void buildCellStyle( ICellContent cell, StringBuffer styleBuffer,
-			boolean isHead )
+			boolean isHead, boolean fixedCellHeight )
 	{
 		IStyle style = getElementStyle( cell );
 		// implement the cell's clip.
-		if ( fixedReport )
+		if ( fixedReport && !fixedCellHeight )
 		{
 			HTMLEmitterUtil.buildOverflowStyle( styleBuffer, style, true );
 		}
@@ -423,10 +423,27 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		if ( null != style )
 		{
 			AttributeBuilder.buildMargins( styleBuffer, style );
-			AttributeBuilder.buildPaddings( styleBuffer, style );
+			if ( fixedCellHeight )
+			{
+				// Fixed cell height requires the padding must be 0px.
+				styleBuffer.append( " padding: 0px;" );
+			}
+			else
+			{
+				AttributeBuilder.buildPaddings( styleBuffer, style );
+			}
 		}
 		AttributeBuilder.buildMargins( styleBuffer, cellMergedStyle );
-		AttributeBuilder.buildPaddings( styleBuffer, cellMergedStyle );
+		if ( fixedCellHeight )
+		{
+			// Fixed cell height requires the padding must be 0px.
+			styleBuffer.append( " padding: 0px;" );
+		}
+		else
+		{
+			AttributeBuilder.buildPaddings( styleBuffer, cellMergedStyle );
+		}
+		
 		// build the cell's border
 		buildCellBorder( cell, styleBuffer );
 

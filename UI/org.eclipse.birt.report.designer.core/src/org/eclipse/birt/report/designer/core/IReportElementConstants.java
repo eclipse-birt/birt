@@ -72,6 +72,8 @@ public interface IReportElementConstants
 
 	public static final String DESIGN_FILE_EXTENSION = "rptdesign"; //$NON-NLS-1$
 	
+	public static final String DOCUMENT_FILE_EXTENSION = "rptdocument"; 
+	
 	public static final String STOREDPROCUDURE_OUTPUT_PREFIX = "outputParams"; //$NON-NLS-1$
 
 	public static final String AUTOTEXT_VARIABLE = "variable";//$NON-NLS-1$

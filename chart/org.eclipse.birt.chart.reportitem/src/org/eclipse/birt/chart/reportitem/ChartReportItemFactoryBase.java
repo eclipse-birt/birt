@@ -68,4 +68,10 @@ public class ChartReportItemFactoryBase implements IChartReportItemFactory
 	{
 		return new ChartReportItemImpl( eih );
 	}
+
+	public ChartBaseQueryHelper createQueryHelper( ExtendedItemHandle handle,
+			Chart cm, IModelAdapter modelAdapter )
+	{
+		return new ChartBaseQueryHelper( handle, cm, modelAdapter );
+	}
 }

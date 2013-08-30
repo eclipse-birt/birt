@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.birt.core.data.DataType;
@@ -116,7 +118,11 @@ public class ImportValueDialog extends BaseDialog
 	private int expectedColumnDataType;
 
 	private int[] compatibleDataTypes;
-
+	
+	//used for sort selectedValue
+	private Map<Object, Object> displayObjectMaps = new HashMap<Object, Object>();
+	private Map<Object, Object> objectDisplayMaps = new HashMap<Object, Object>();
+	
 	/**
 	 * Constructs a new instance of the dialog
 	 */
@@ -570,6 +576,8 @@ public class ImportValueDialog extends BaseDialog
 						getDataSetHandle( ),
 						true );
 				Collections.sort(modelValueList);
+				displayObjectMaps.clear();
+				objectDisplayMaps.clear();
 				if ( modelValueList != null )
 				{
 					Iterator iter = modelValueList.iterator( );
@@ -610,6 +618,8 @@ public class ImportValueDialog extends BaseDialog
 						}
 						if ( !resultList.contains( result ) )
 						{
+							displayObjectMaps.put(result, candiateValue);
+							objectDisplayMaps.put(candiateValue, result);
 							resultList.add( result );
 						}
 					}
@@ -678,10 +688,32 @@ public class ImportValueDialog extends BaseDialog
 			}
 		}
 		java.util.List<String> itemList = Arrays.asList(selectedList.getItems());
-		Collections.sort(itemList, new AlphabeticallyComparator());
-		selectedList.setItems((String[]) itemList.toArray());
+//		Collections.sort(itemList, new AlphabeticallyComparator());
+		selectedList.setItems(sortSelectedList(itemList));
 
 		updateButtons( );
+	}
+	
+	private String[] sortSelectedList(java.util.List<String> itemList)
+	{
+		//sort original data
+		java.util.List<String> tempResult = new ArrayList<String>();
+		java.util.List datas = new ArrayList();
+		for(String item : itemList)
+		{
+			if(displayObjectMaps.get(item) != null)
+			{
+				datas.add(displayObjectMaps.get(item));
+			}
+		}
+		Collections.sort(datas);
+		
+		for(int i = 0;i<datas.size();i++)
+		{
+			tempResult.add((String)(objectDisplayMaps.get(datas.get(i))));
+		}
+		
+		return tempResult.toArray(new String[tempResult.size()]);
 	}
 
 	private void updateButtons( )
@@ -767,16 +799,7 @@ public class ImportValueDialog extends BaseDialog
 
 	private DataSetHandle getDataSetHandle( )
 	{
-		DataSetHandle dataSet = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.findDataSet( currentDataSetName );
-		
-		if (dataSet == null)
-		{
-			dataSet = DataUtil.findExtendedDataSet( currentDataSetName );
-		}
-		
-		return dataSet;
+		return DataUtil.findDataSet( currentDataSetName );
 	}
 
 	public boolean close( )

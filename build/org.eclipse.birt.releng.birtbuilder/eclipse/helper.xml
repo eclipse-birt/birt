@@ -540,6 +540,30 @@
 			<fileset dir="${package-dest}/jee-linux/eclipse/features">
 				<include name="org.eclipse.datatools.*/**" />
 			</fileset>
+			<fileset dir="${package-dest}/jee-x86_64/eclipse/plugins">
+				<include name="*.datatools.*.jar" />
+				<include name="org.apache.xerces_*.jar" />
+				<include name="org.apache.xml.resolver_*.jar" />
+				<include name="javax.wsdl_1.4.0*.jar" />
+				<include name="javax.xml_*.jar" />
+				<include name="org.apache.xml.serializer_*.jar" />
+				<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar" />
+			</fileset>
+			<fileset dir="${package-dest}/jee-x86_64/eclipse/features">
+				<include name="org.eclipse.datatools.*/**" />
+			</fileset>
+			<fileset dir="${package-dest}/jee-mac/eclipse/plugins">
+				<include name="*.datatools.*.jar" />
+				<include name="org.apache.xerces_*.jar" />
+				<include name="org.apache.xml.resolver_*.jar" />
+				<include name="javax.wsdl_1.4.0*.jar" />
+				<include name="javax.xml_*.jar" />
+				<include name="org.apache.xml.serializer_*.jar" />
+				<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar" />
+			</fileset>
+			<fileset dir="${package-dest}/jee-mac/eclipse/features">
+				<include name="org.eclipse.datatools.*/**" />
+			</fileset>
 		</delete>
 
 		<!--Define the ODA dependency plugins -->
@@ -765,6 +789,18 @@
 			</fileset>
 		</copy>
 
+		<copy todir="${package-dest}/jee-x86_64/eclipse/plugins" failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<copy todir="${package-dest}/jee-x86_64/eclipse/features" failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+				<include name="**" />
+			</fileset>
+		</copy>
+		
 		<copy todir="${package-dest}/jee-linux/eclipse/plugins"
 			failonerror="false">
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
@@ -773,6 +809,20 @@
 		</copy>
 
 		<copy todir="${package-dest}/jee-linux/eclipse/features"
+			failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<copy todir="${package-dest}/jee-mac/eclipse/plugins"
+			failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<copy todir="${package-dest}/jee-mac/eclipse/features"
 			failonerror="false">
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 				<include name="**" />
@@ -857,6 +907,30 @@
 			<fileset dir="${package-dest}/jee-linux/eclipse/features">
 				<include name="org.eclipse.datatools.*/**" />
 			</fileset>
+			<fileset dir="${package-dest}/jee-x86_64/eclipse/plugins">
+				<include name="*.datatools.*.jar" />
+				<include name="org.apache.xerces_*.jar" />
+				<include name="org.apache.xml.resolver_*.jar" />
+				<include name="javax.wsdl_1.4.0*.jar" />
+				<include name="javax.xml_*.jar" />
+				<include name="org.apache.xml.serializer_*.jar" />
+				<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar" />
+			</fileset>
+			<fileset dir="${package-dest}/jee-x86_64/eclipse/features">
+				<include name="org.eclipse.datatools.*/**" />
+			</fileset>
+			<fileset dir="${package-dest}/jee-mac/eclipse/plugins">
+				<include name="*.datatools.*.jar" />
+				<include name="org.apache.xerces_*.jar" />
+				<include name="org.apache.xml.resolver_*.jar" />
+				<include name="javax.wsdl_1.4.0*.jar" />
+				<include name="javax.xml_*.jar" />
+				<include name="org.apache.xml.serializer_*.jar" />
+				<include name="net.sourceforge.lpg.lpgjavaruntime_*.jar" />
+			</fileset>
+			<fileset dir="${package-dest}/jee-mac/eclipse/features">
+				<include name="org.eclipse.datatools.*/**" />
+			</fileset>			
 		</delete>
 
 		<!--Define the ODA dependency plugins -->
@@ -1082,6 +1156,18 @@
 			</fileset>
 		</copy>
 
+		<copy todir="${package-dest}/jee-x86_64/eclipse/plugins" failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<copy todir="${package-dest}/jee-x86_64/eclipse/features" failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+				<include name="**" />
+			</fileset>
+		</copy>
+		
 		<copy todir="${package-dest}/jee-linux/eclipse/plugins"
 			failonerror="false">
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
@@ -1090,6 +1176,20 @@
 		</copy>
 
 		<copy todir="${package-dest}/jee-linux/eclipse/features"
+			failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<copy todir="${package-dest}/jee-mac/eclipse/plugins"
+			failonerror="false">
+			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<copy todir="${package-dest}/jee-mac/eclipse/features"
 			failonerror="false">
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 				<include name="**" />

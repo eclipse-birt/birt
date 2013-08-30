@@ -820,7 +820,9 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 
 		// Alternative text for image
-		image.setAltText( handle.getAltTextKey( ), handle.getAltText( ) );
+		ExpressionHandle altTextExpr = handle.getExpressionProperty( ImageHandle.ALT_TEXT_PROP );
+		image.setAltText( createExpression(altTextExpr) );
+		image.setAltTextKey( handle.getAltTextKey( ) );
 
 		// Help text for image
 		image.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );

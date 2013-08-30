@@ -91,7 +91,7 @@ public class SubCubeQueryResults implements ICubeQueryResults
 			{
 				throw new DataException( e.getLocalizedMessage( ) );
 			}
-			cubeCursorImpl = new CubeCursorImpl( null,
+			cubeCursorImpl = new SubCubeCursorImpl( null,
 					subCubeCursor,
 					subScope,
 					cx,

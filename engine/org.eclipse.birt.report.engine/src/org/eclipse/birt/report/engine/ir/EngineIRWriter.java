@@ -1568,7 +1568,7 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeBool( out, isProportionalScale );
 		}
 		
-		String altText = image.getAltText( );
+		Expression altText = image.getAltText( );
 		String altTextKey = image.getAltTextKey( );
 		String helpText = image.getHelpText( );
 		String helpTextKey = image.getHelpTextKey( );
@@ -1577,7 +1577,7 @@ public class EngineIRWriter implements IOConstants
 		{
 			IOUtil.writeShort( out, FIELD_ALT_TEXT );
 			IOUtil.writeString( out, altTextKey );
-			IOUtil.writeString( out, altText );
+			writeExpression( out, altText );
 		}
 		if ( helpText != null || helpTextKey != null )
 		{

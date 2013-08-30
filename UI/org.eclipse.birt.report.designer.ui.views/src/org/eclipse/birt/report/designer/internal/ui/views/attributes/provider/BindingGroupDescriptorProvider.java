@@ -14,12 +14,15 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSetBindingSelector;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ParameterBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BindingGroupSection;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -28,9 +31,13 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 
@@ -45,13 +52,14 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 	protected List getAvailableDataBindingReferenceList(
 			ReportItemHandle element )
 	{
-		List bindingRef = new ArrayList();
-		bindingRef.addAll( element.getAvailableDataSetBindingReferenceList( ));
-		
-		if( ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null )
+		List bindingRef = new ArrayList( );
+		bindingRef.addAll( element.getAvailableDataSetBindingReferenceList( ) );
+
+		if ( ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null )
 		{
-			bindingRef.addAll( ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( )
-					.getAvailableBindingReferenceList( element ));
+			bindingRef.addAll( ExtendedDataModelUIAdapterHelper.getInstance( )
+					.getAdapter( )
+					.getAvailableBindingReferenceList( element ) );
 		}
 		return bindingRef;
 	}
@@ -137,6 +145,8 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 						value = null;
 					}
 					int ret = 0;
+					if ( !NONE.equals( value ) )
+						ret = 4;
 					if ( ( !NONE.equals( oldValue ) || getReportItemHandle( ).getColumnBindings( )
 							.iterator( )
 							.hasNext( ) )
@@ -157,7 +167,7 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 
 					switch ( ret )
 					{
-						// Clear binding info
+					// Clear binding info
 						case 0 :
 							resetDataSetReference( value, true );
 							break;
@@ -168,6 +178,10 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 						// Cancel.
 						case 2 :
 							section.load( );
+							break;
+						case 4 :
+							updateDataSetReference( value );
+							break;
 					}
 					break;
 				case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
@@ -192,8 +206,7 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 						return;
 					}
 					int ret1 = 0;
-					if ( ( !NONE.equals( oldValue )
-							|| getReportItemHandle( ).getColumnBindings( )
+					if ( ( !NONE.equals( oldValue ) || getReportItemHandle( ).getColumnBindings( )
 							.iterator( )
 							.hasNext( ) )
 							&& !( value != null && value.equals( oldValue ) ) )
@@ -212,7 +225,7 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 
 					switch ( ret1 )
 					{
-						// Clear binding info
+					// Clear binding info
 						case 0 :
 							resetReference( value );
 							break;
@@ -334,14 +347,16 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 				getReportItemHandle( ).setDataBindingReference( null );
 			}
 			boolean isExtendedDataSet = false;
-			if(dataSet == null && value != null)
+			if ( dataSet == null && value != null )
 			{
 				getReportItemHandle( ).setDataSet( null );
-				isExtendedDataSet = new LinkedDataSetAdapter().setLinkedDataModel(getReportItemHandle( ), value.toString( ));
+				isExtendedDataSet = new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						value.toString( ) );
 			}
 			else
 			{
-				new LinkedDataSetAdapter().setLinkedDataModel(getReportItemHandle( ), null);
+				new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						null );
 				getReportItemHandle( ).setDataSet( dataSet );
 			}
 			if ( clearHistory )
@@ -350,9 +365,18 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
 						.clearValue( );
 			}
-			if(!isExtendedDataSet)
+
+			if ( value != null )
 			{
-				dataSetProvider.generateAllBindingColumns( );
+				DataSetBindingSelector selector = new DataSetBindingSelector( UIUtil.getDefaultShell( ),
+						isExtendedDataSet ? Messages.getString( "BindingGroupDescriptorProvider.DataSetBindingSelector.Title.LinkModel" )//$NON-NLS-1$
+								: Messages.getString( "BindingGroupDescriptorProvider.DataSetBindingSelector.Title.DataSet" ) ); //$NON-NLS-1$
+				selector.setDataSet( value.toString( ) );
+				if ( selector.open( ) == Dialog.OK )
+				{
+					Object[] columns = (Object[]) ( (Object[]) selector.getResult( ) )[1];
+					dataSetProvider.generateBindingColumns( columns );
+				}
 			}
 
 			commit( );
@@ -363,6 +387,96 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 			ExceptionUtil.handle( e );
 		}
 		section.load( );
+	}
+
+	private void updateDataSetReference( Object value )
+	{
+		try
+		{
+			startTrans( "Update Reference" );
+			getReportItemHandle( ).setDataBindingReference( null );
+			DataSetHandle dataSet = null;
+			if ( value != null )
+			{
+				dataSet = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findDataSet( value.toString( ) );
+			}
+			if ( getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			{
+				getReportItemHandle( ).setDataBindingReference( null );
+			}
+			boolean isExtendedDataSet = false;
+			if ( dataSet == null && value != null )
+			{
+				getReportItemHandle( ).setDataSet( null );
+				isExtendedDataSet = new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						value.toString( ) );
+			}
+			else
+			{
+				new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						null );
+				getReportItemHandle( ).setDataSet( dataSet );
+			}
+
+			if ( value != null )
+			{
+				DataSetBindingSelector selector = new DataSetBindingSelector( UIUtil.getDefaultShell( ),
+						isExtendedDataSet ? Messages.getString( "BindingGroupDescriptorProvider.DataSetBindingSelector.Title.LinkModel" )//$NON-NLS-1$
+								: Messages.getString( "BindingGroupDescriptorProvider.DataSetBindingSelector.Title.DataSet" ) ); //$NON-NLS-1$
+				selector.setDataSet( value.toString( ) );
+				Iterator bindings = getReportItemHandle( ).getColumnBindings( )
+						.iterator( );
+				List<String> columnNames = new ArrayList<String>( );
+				while ( bindings.hasNext( ) )
+				{
+					columnNames.add( ( (ComputedColumnHandle) bindings.next( ) ).getName( ) );
+				}
+				if ( !columnNames.isEmpty( ) )
+					selector.setColumns( columnNames.toArray( new String[0] ) );
+				if ( selector.open( ) == Dialog.OK )
+				{
+					clearBinding( getReportItemHandle( ).getColumnBindings( ),
+							(Object[]) ( (Object[]) selector.getResult( ) )[2] );
+					Object[] columns = (Object[]) ( (Object[]) selector.getResult( ) )[1];
+					dataSetProvider.generateBindingColumns( columns );
+				}
+			}
+
+			commit( );
+		}
+		catch ( SemanticException e )
+		{
+			rollback( );
+			ExceptionUtil.handle( e );
+		}
+		section.load( );
+	}
+
+	private void clearBinding( PropertyHandle columnBindings, Object[] objects )
+	{
+		if ( objects != null && columnBindings.getItems( ) != null )
+		{
+			List list = Arrays.asList( objects );
+			for ( int i = columnBindings.getItems( ).size( ) - 1; i >= 0; i-- )
+			{
+				ComputedColumnHandle handle = (ComputedColumnHandle) columnBindings.getAt( i );
+				String name = handle.getName( );
+				if ( list.contains( name ) )
+				{
+					try
+					{
+						columnBindings.removeItem( i );
+					}
+					catch ( PropertyValueException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+			}
+		}
+
 	}
 
 	private void resetReference( Object value )

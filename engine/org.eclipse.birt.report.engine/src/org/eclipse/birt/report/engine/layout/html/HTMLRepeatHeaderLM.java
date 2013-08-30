@@ -86,7 +86,8 @@ public abstract class HTMLRepeatHeaderLM extends HTMLBlockStackingLM
 				{
 					IRowContent rowContent = (IRowContent) object;
 					RowDesign rowDesign = (RowDesign) rowContent.getGenerateBy( );
-					if ( rowDesign != null && !rowDesign.getRepeatable( ) )
+					if ( rowDesign != null && !rowDesign.getRepeatable( )
+							|| !rowContent.isRepeatable( ) )
 					{
 						removed.add( rowContent );
 					}

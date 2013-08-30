@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.dialogs;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -151,9 +152,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			}
 
 		}
-		if ( cube == null
-				|| ( !( cube instanceof TabularCubeHandle ) )
-				|| getExpression( ).length( ) == 0 )
+		if ( cube == null || getExpression( ).length( ) == 0 )
 		{
 			return new ArrayList( );
 		}
@@ -187,10 +186,19 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		DataRequestSession session = null;
 		try
 		{
-			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			DataService.getInstance( )
-					.registerSession( ( (TabularCubeHandle) cube ).getDataSet( ),
-							session );
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ,designHandle.getModuleHandle( )) );
+
+			if ( cube instanceof TabularCubeHandle )
+			{
+				DataService.getInstance( )
+						.registerSession( ( (TabularCubeHandle) cube ).getDataSet( ),
+								session );
+			}
+			else
+			{
+				DataService.getInstance( ).registerSession( cube, session );
+			}
+
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
 			iter = CubeValueSelector.getMemberValueIterator( session,
 					cube,
@@ -199,7 +207,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		}
 		catch ( BirtException e )
 		{
-			throw e;
+			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 		List valueList = new ArrayList( );
 		int count = 0;

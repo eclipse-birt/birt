@@ -217,6 +217,10 @@ public class TableItemParseTest extends ParserTestCase
 		assertEquals( "summary", table.getSummary( ) ); //$NON-NLS-1$
 
 		assertEquals( 3, table.getColumnCount( ) );
+		
+		assertEquals( "Table", table.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "English", table.getLanguage( ) ); //$NON-NLS-1$
+		assertEquals( 1, table.getOrder( ) ); //$NON-NLS-1$
 
 		// test sorting
 
@@ -286,6 +290,15 @@ public class TableItemParseTest extends ParserTestCase
 		assertEquals( "render on the row", row.getOnRender( ) ); //$NON-NLS-1$
 
 		assertEquals( "prepare on the row", row.getOnPrepare( ) ); //$NON-NLS-1$
+		
+		assertEquals( "TR", row.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "English", row.getLanguage( ) ); //$NON-NLS-1$
+		
+		
+		SlotHandle headSlot = table.getHeader( );
+		RowHandle headRow = (RowHandle) headSlot.get( 0 );
+		// test default value of Role in Row
+		assertEquals( "tr", headRow.getRole( ) ); //$NON-NLS-1$
 
 		ColumnHandle column = (ColumnHandle) table.getColumns( ).get( 2 );
 
@@ -413,6 +426,9 @@ public class TableItemParseTest extends ParserTestCase
 
 		table = (TableHandle) designHandle.findElement( "componentsTable" ); //$NON-NLS-1$
 		assertNotNull( table );
+		
+		// test default value of Role in Table
+		assertEquals( "table", table.getRole( ) ); //$NON-NLS-1$
 
 		// reads in a table that exists in the scratch pad.
 
@@ -510,6 +526,10 @@ public class TableItemParseTest extends ParserTestCase
 		tableHandle.setSummary( "new summary" ); //$NON-NLS-1$
 		tableHandle.setSortByGroups( true );
 		tableHandle.setNewHandlerOnEachEvent( false );
+		
+		tableHandle.setRole( "Table" ); //$NON-NLS-1$
+		tableHandle.setLanguage( "English" ); //$NON-NLS-1$
+		tableHandle.setOrder( 1 ); //$NON-NLS-1$
 
 		// visibility rules on column
 
@@ -572,6 +592,9 @@ public class TableItemParseTest extends ParserTestCase
 
 		row.setBookmark( "row bookmark" ); //$NON-NLS-1$
 		row.setBookmarkDisplayName( "row bookmark display name" ); //$NON-NLS-1$
+		
+		row.setRole( "TR" ); //$NON-NLS-1$
+		row.setLanguage( "English" ); //$NON-NLS-1$
 
 		SlotHandle cells = row.getCells( );
 		assertNotNull( cells );

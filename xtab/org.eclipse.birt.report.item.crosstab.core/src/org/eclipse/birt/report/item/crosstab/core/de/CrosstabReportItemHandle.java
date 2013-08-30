@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
+import org.eclipse.birt.report.item.crosstab.core.IComputedMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
@@ -853,6 +854,12 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	public ComputedMeasureViewHandle insertComputedMeasure( String name,
 			int index ) throws SemanticException
 	{
+		return this.insertComputedMeasure( name, index, false );
+	}
+	
+	public ComputedMeasureViewHandle insertComputedMeasure( String name,
+			int index, boolean isMeasureView ) throws SemanticException
+	{
 		if ( name == null )
 		{
 			throw new CrosstabException( Messages.getString( "CrosstabReportItemHandle.exception.name.blank" ) ); //$NON-NLS-1$
@@ -876,6 +883,12 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 
 			if ( extendedItemHandle != null )
 			{
+				if( isMeasureView )
+				{
+					// Set measure name property
+					extendedItemHandle.setProperty( IComputedMeasureViewConstants.MEASURE_NAME_PROP, name );
+				}
+				
 				getMeasuresProperty( ).add( extendedItemHandle, index );
 
 				// validate possible aggregation cells

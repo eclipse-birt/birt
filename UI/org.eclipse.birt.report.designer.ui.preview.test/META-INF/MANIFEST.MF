@@ -6,3 +6,4 @@ Bundle-Version: 4.3.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Require-Bundle: org.eclipse.birt.report.designer.ui.preview,
  org.eclipse.birt.report.engine
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

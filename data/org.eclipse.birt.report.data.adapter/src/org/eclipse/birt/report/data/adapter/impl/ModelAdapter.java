@@ -377,7 +377,7 @@ public class ModelAdapter implements IModelAdapter
 					: this.adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.FILTER_MEMBER )
 							.getValue( ),
 							DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) );
-			
+			result.setExportable( handle.allowExport( ) );
 
 			populateAggregateOns( result, handle );
 			
@@ -416,6 +416,7 @@ public class ModelAdapter implements IModelAdapter
 				binding.setDisplayName( handle.getExternalizedValue( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_ID_MEMBER,
 						org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_MEMBER,
 						this.context.getDataEngineContext( ).getLocale( ) ) );
+				binding.setExportable( handle.allowExport( ) );
 				
 				if ( handle.getElementHandle( ) instanceof ReportItemHandle
 						&& LinkedDataSetUtil.bindToLinkedDataSet( ( (ReportItemHandle) handle.getElementHandle( ) ) ) )

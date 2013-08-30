@@ -30,5 +30,15 @@ public class OlapExpressionUtilTest extends TestCase
 		assertEquals( null,
 				OlapExpressionUtil.getTargetLevel( "dimension[\"dim1\"]" ) );
 */	}
+	
+	public void testComplexDimensionExpression( ) 
+	{
+		String expr = "var kind = dimension[\"Group1\"][\"Field1\"][\"Attribute1\"]\n"
+				+ "var numerator = data[\"Data Column Binding1\"]\n"
+				+ "var denominator";
+				
+		boolean result = OlapExpressionUtil.isComplexDimensionExpr( expr );
+		assertEquals( result, true );
+	}
 
 }

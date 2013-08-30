@@ -115,6 +115,25 @@ public class RenderTask extends EngineTask implements IRenderTask
 		initRenderTask();
 	}
 	
+	/**
+	 * @param engine
+	 *            the report engine
+	 * @param taskType
+	 *            the task type
+	 * @param runnable
+	 *            the report runnable object
+	 * @param reportDoc
+	 *            the report document instance
+	 */
+	public RenderTask( ReportEngine engine, int taskType, IReportRunnable runnable,
+			IReportDocument reportDoc )
+	{
+		super( engine, taskType );
+		this.reportDocument = reportDoc;
+		this.reportRunnable = runnable;
+		initRenderTask();
+	}
+	
 	protected void initRenderTask()
 	{
 		executionContext.setFactoryMode( false );

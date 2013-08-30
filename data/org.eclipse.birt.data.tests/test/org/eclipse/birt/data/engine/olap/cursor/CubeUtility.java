@@ -449,6 +449,21 @@ public class CubeUtility
 		return cqd;
 	}
 	
+	/**
+	 * 
+	 * @param dataCursor
+	 * @throws OLAPException
+	 */
+	public static void close( CubeCursor dataCursor ) throws OLAPException
+	{
+		for ( int i = 0; i < dataCursor.getOrdinateEdge( ).size( ); i++ )
+		{
+			EdgeCursor edge = (EdgeCursor) ( dataCursor.getOrdinateEdge( ).get( i ) );
+			edge.close( );
+		}
+		dataCursor.close( );
+	}
+	
 	ICubeQueryDefinition createQueryDefintionWithPage1( )
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -629,10 +644,7 @@ public class CubeUtility
 
 			}
 		}
-		if ( edge1 != null )
-			edge1.close( );
-		if ( edge2 != null )
-			edge2.close( );
+
 		if ( columnGrandTotal != null )
 		{
 			output += "\n" + columnGrandTotal + "  ";
@@ -645,8 +657,6 @@ public class CubeUtility
 
 		if ( totalGrandTotal != null )
 			output += cursor.getObject( totalGrandTotal );
-
-		cursor.close( );
 		System.out.print( output );
 		return output;
 	}
@@ -730,12 +740,6 @@ public class CubeUtility
 				}
 				lines[0] += "  \n";
 			}
-			productCursor1.close( );
-			productCursor2.close( );
-			countryCursor.close( );
-			cityCursor.close( );
-			timeCursor.close( );
-			dataCursor.close( );
 		}
 		else if ( countryCursor != null
 				&& cityCursor != null && timeCursor != null )
@@ -756,10 +760,6 @@ public class CubeUtility
 					}
 				}
 			}
-			countryCursor.close( );
-			cityCursor.close( );
-			timeCursor.close( );
-			dataCursor.close( );
 			lines[0] += "  \n";
 		}
 		else if( productCursor1!= null && productCursor2!= null )
@@ -778,9 +778,6 @@ public class CubeUtility
 					lines[0] += "  \n";
 				}
 			}
-			productCursor1.close( );
-			productCursor2.close( );
-			dataCursor.close( );
 			lines[0] += "  \n";
 		}
 		output += "\n" + lines[0];

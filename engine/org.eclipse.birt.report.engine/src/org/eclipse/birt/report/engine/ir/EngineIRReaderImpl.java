@@ -1357,8 +1357,18 @@ public class EngineIRReaderImpl implements IOConstants
 				break;
 			case FIELD_ALT_TEXT :
 				String altTextKey = IOUtil.readString( in );
-				String altText = IOUtil.readString( in );
-				image.setAltText( altTextKey, altText );
+				Expression altTextExpr;
+				if( version < ENGINE_IR_VERSION_9)
+				{
+					String altText = IOUtil.readString( in );
+					altTextExpr = Expression.newConstant( altText );
+				}
+				else
+				{
+					altTextExpr = readExpression(in);
+				}
+				image.setAltText( altTextExpr );
+				image.setAltTextKey( altTextKey );
 				break;
 			case FIELD_HELP_TEXT :
 				String helpTextKey = IOUtil.readString( in );

@@ -17,6 +17,7 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -38,6 +39,7 @@ public class SummaryIVTest extends RDTestCase
 	
 	private String GEN_queryResultID;
 	private String UPDATE_queryResultID;
+	private boolean useDateGroup = false;
 	
 	@Override
 	protected DataSourceInfo getDataSourceInfo( )
@@ -87,6 +89,34 @@ public class SummaryIVTest extends RDTestCase
 		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
 
 		this.updateBasicIVOnFilter( );
+		this.closeArchiveReader();
+		this.closeArchiveWriter();
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * With filter test case for 63315
+	 * @throws BirtException
+	 */
+	public void testBasicFilter1( ) throws Exception
+	{
+		useDateGroup = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+		this.preBasicIV( );
+		this.closeArchiveReader();
+		
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName2 );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		this.updateBasicIVOnFilter2( );
 		this.closeArchiveReader();
 		this.closeArchiveWriter();
 
@@ -159,6 +189,41 @@ public class SummaryIVTest extends RDTestCase
 				"1000" );
 		FilterDefinition filter = new FilterDefinition( condition );
 		( (GroupDefinition) qd.getGroups( ).get( 1 ) ).addFilter( filter );
+
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String abc = "";
+			for ( int i = 0; i < bindingName.length; i++ )
+				abc += ri.getValue( this.bindingName[i] ) + "  ";
+
+			this.testPrintln( abc );
+		}
+		this.testPrintln( "\n" );
+
+		ri.close( );
+		qr.close( );
+		myPreDataEngine.shutdown( );
+		myPreDataEngine.clearCache( dataSource, dataSet );
+		myPreDataEngine = null;
+
+	}
+	
+	private void updateBasicIVOnFilter2( ) throws BirtException
+	{
+		IQueryResults qr = null;
+		
+		QueryDefinition qd = newSummaryQuery2( );
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		ConditionalExpression condition = new ConditionalExpression( "row[\"SALES\"]",
+				IConditionalExpression.OP_EQ,
+				"7100.0" );
+		FilterDefinition filter = new FilterDefinition( condition );
+		( (GroupDefinition) qd.getGroups( ).get( 0 ) ).addFilter( filter );
 
 		qr = myPreDataEngine.prepare( qd ).execute( null );
 		this.UPDATE_queryResultID = qr.getID( );
@@ -257,7 +322,16 @@ public class SummaryIVTest extends RDTestCase
 		IQueryResults qr = null;
 
 		// here queryResultID needs to set as the data set
-		QueryDefinition qd = newSummaryQuery(  );
+		QueryDefinition qd;
+
+		if( useDateGroup )
+		{
+			qd = newSummaryQuery1( );
+		}
+		else
+		{
+			qd = newSummaryQuery( );
+		}
 		qd.setQueryResultsID( this.GEN_queryResultID );
 
 		qr = myPreDataEngine.prepare( qd ).execute( null );
@@ -288,8 +362,16 @@ public class SummaryIVTest extends RDTestCase
 	 */
 	private void genBasicIV( ) throws BirtException
 	{
+		QueryDefinition qd;
 
-		QueryDefinition qd = newSummaryQuery( );
+		if( useDateGroup )
+		{
+			qd = newSummaryQuery1( );
+		}
+		else
+		{
+			qd = newSummaryQuery( );
+		}
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
 
@@ -354,4 +436,81 @@ public class SummaryIVTest extends RDTestCase
 
 		return qd;
 	}
+	
+	/**
+	 * @return summary on Year and Country
+	 * @throws DataException 
+	 */
+	private QueryDefinition newSummaryQuery1( ) throws DataException
+	{
+		QueryDefinition qd = newReportQuery( );
+		qd.setIsSummaryQuery( true );
+		qd.setUsesDetails( false );
+
+		// add grouping on column1
+		GroupDefinition gd = new GroupDefinition( "yearGroup" );
+		gd.setKeyColumn( "SALE_DATE" );
+		gd.setIntervalRange( 1 );
+		gd.setInterval( IGroupDefinition.MONTH_INTERVAL );
+		qd.addGroup( gd );
+
+		// add grouping on column1
+		GroupDefinition gd2 = new GroupDefinition( "countryGroup" );
+		gd2.setKeyColumn( "COUNTRY" );
+		qd.addGroup( gd2 );
+		
+		this.bindingName = new String[3];
+		this.bindingName[0] = "SALE_DATE";
+		this.bindingName[1] = "COUNTRY";
+		this.bindingName[2] = "SALES";
+
+		IBinding[] binding;
+		binding = new Binding[3];
+		binding[0] = new Binding( this.bindingName[0],new ScriptExpression( "dataSetRow.SALE_DATE" ) );
+		binding[1] = new Binding( this.bindingName[1], new ScriptExpression( "dataSetRow.COUNTRY" ) );
+		binding[2] = new Binding( this.bindingName[2] );
+		binding[2].setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding[2].setExpression( new ScriptExpression("dataSetRow.AMOUNT") );
+		binding[2].addAggregateOn( "countryGroup" );
+		binding[2].setDataType( DataType.DOUBLE_TYPE );
+		qd.addBinding( binding[0] );
+		qd.addBinding( binding[1] );
+		qd.addBinding( binding[2] );
+
+		return qd;
+	}
+	
+	/**
+	 * @return summary Country
+	 * @throws DataException 
+	 */
+	private QueryDefinition newSummaryQuery2( ) throws DataException
+	{
+		QueryDefinition qd = newReportQuery( );
+		qd.setIsSummaryQuery( true );
+		qd.setUsesDetails( false );
+
+		// add grouping on column1
+		GroupDefinition gd2 = new GroupDefinition( "countryGroup" );
+		gd2.setKeyColumn( "COUNTRY" );
+		qd.addGroup( gd2 );
+		
+		this.bindingName = new String[2];
+		this.bindingName[0] = "COUNTRY";
+		this.bindingName[1] = "SALES";
+
+		IBinding[] binding;
+		binding = new Binding[2];
+		binding[0] = new Binding( this.bindingName[0], new ScriptExpression( "dataSetRow.COUNTRY" ) );
+		binding[1] = new Binding( this.bindingName[1] );
+		binding[1].setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding[1].setExpression( new ScriptExpression("dataSetRow.AMOUNT") );
+		binding[1].addAggregateOn( "countryGroup" );
+		binding[1].setDataType( DataType.DOUBLE_TYPE );
+		qd.addBinding( binding[0] );
+		qd.addBinding( binding[1] );
+
+		return qd;
+	}
+
 }

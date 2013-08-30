@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -78,7 +79,30 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		};
 		logger.exiting( PreparedOdaDSQuery.class.getName( ),
 				"PreparedOdaDSQuery", params );
+		if( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			populateComputedColumnDataType( dataSetDesign );
 		validateStatus = ValidateStatus.unknown; 
+	}
+	
+	private void populateComputedColumnDataType( IBaseDataSetDesign dataSetDesign )
+	{
+		List computedColumns = dataSetDesign.getComputedColumns( );
+		List resultSets = dataSetDesign.getResultSetHints( );
+		for( int i = 0 ; i <computedColumns.size( ); i++ )
+    	{
+    		IComputedColumn computedColumn = (IComputedColumn) computedColumns.get( i );
+    		String name = computedColumn.getName( );
+    		int dataType = computedColumn.getDataType( );
+			for ( int j = 0; j < resultSets.size( ); j++ )
+			{
+				ColumnDefinition columnDef = (ColumnDefinition) resultSets.get( j );
+				if ( name.equals( columnDef.getColumnName( ) ) )
+				{
+					columnDef.setDataType( dataType );
+					break;
+				}
+			}
+    	}
 	}
 	
 	/*
@@ -293,59 +317,72 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			String dataText = extDataSet.getQueryText( );
 			
 			DataException exception = null;
-			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			
+			QuerySpecification combinedQuerySpec = extDataSet.getCombinedQuerySpecification( );
+			if ( combinedQuerySpec != null )
 			{
-				ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext();
-
-				if ( validationContext != null )
+				querySpec = combinedQuerySpec;
+			}
+			else
+			{
+				if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 				{
-					validationContext.setQueryText(((IOdaDataSetDesign) dataSetDesign).getQueryText());
-					//Change to use the specific ValidationContext API in next release.
-					validationContext.setData( "org.eclipse.birt.data.applicationContext", this.getAppContext());
-					OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper(
-							queryDefn, (IOdaDataSetDesign) dataSetDesign);
-					rollbackHelper.collectOriginalInfo();
-					try
+					ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
+
+					if ( validationContext != null )
 					{
-						if ( validateStatus == ValidateStatus.unknown || validateStatus == ValidateStatus.ok )
+						validationContext.setQueryText( ( (IOdaDataSetDesign) dataSetDesign ).getQueryText( ) );
+						// Change to use the specific ValidationContext API in
+						// next release.
+						validationContext.setData( "org.eclipse.birt.data.applicationContext",
+								this.getAppContext( ) );
+						OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper( queryDefn,
+								(IOdaDataSetDesign) dataSetDesign );
+						rollbackHelper.collectOriginalInfo( );
+						try
 						{
-							querySpec = OdaQueryOptimizationUtil.optimizeExecution(
-									((OdaDataSourceRuntime) dataEngine
-											.getDataSourceRuntime(dataSetDesign
-													.getDataSourceName()))
-											.getExtensionID(),
-									validationContext,
-									(IOdaDataSetDesign) dataSetDesign,
-									queryDefn, dataEngine.getSession(),
-									appContext, contextVisitor);
-						}
-						
-						if( querySpec != null && validateStatus == ValidateStatus.unknown )
-						{
-							try
+							if ( validateStatus == ValidateStatus.unknown
+									|| validateStatus == ValidateStatus.ok )
 							{
-								querySpec.validate( validationContext );
-								validateStatus = validateStatus.ok;
-							}
-							catch ( OdaException ex )
-							{
-								validateStatus = validateStatus.fail;
-								querySpec = null;
-								logger.log( Level.WARNING,
-										ex.getLocalizedMessage( ),
-										ex );
+								querySpec = OdaQueryOptimizationUtil.optimizeExecution( ( (OdaDataSourceRuntime) dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) ).getExtensionID( ),
+										validationContext,
+										(IOdaDataSetDesign) dataSetDesign,
+										queryDefn,
+										dataEngine.getSession( ),
+										appContext,
+										contextVisitor );
 							}
 
+							if ( querySpec != null
+									&& validateStatus == ValidateStatus.unknown )
+							{
+								try
+								{
+									querySpec.validate( validationContext );
+									validateStatus = validateStatus.ok;
+								}
+								catch ( OdaException ex )
+								{
+									validateStatus = validateStatus.fail;
+									querySpec = null;
+									logger.log( Level.WARNING,
+											ex.getLocalizedMessage( ),
+											ex );
+								}
+
+							}
 						}
-					}
-					catch ( DataException e )
-					{
-						exception = e;
-					}
-					if ( querySpec == null )
-					{
-						//roll back changes made in <code>dataSetDesign</code> and <code>queryDefn</code>
-						rollbackHelper.rollback( );
+						catch ( DataException e )
+						{
+							exception = e;
+						}
+						if ( querySpec == null )
+						{
+							// roll back changes made in
+							// <code>dataSetDesign</code> and
+							// <code>queryDefn</code>
+							rollbackHelper.rollback( );
+						}
 					}
 				}
 			}

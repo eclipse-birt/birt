@@ -46,8 +46,10 @@ public class SectionPage extends ResetAttributePage
 				ReportDesignConstants.STYLE_ELEMENT );
 		beforeProvider.enableReset( true );
 
-		IDescriptorProvider masterProvider = new SimpleComboPropertyDescriptorProvider( StyleHandle.MASTER_PAGE_PROP,
+		SimpleComboPropertyDescriptorProvider masterProvider = new SimpleComboPropertyDescriptorProvider( StyleHandle.MASTER_PAGE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
+		
+		masterProvider.enableReset(true);
 
 		ComboPropertyDescriptorProvider afterProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_AFTER_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );

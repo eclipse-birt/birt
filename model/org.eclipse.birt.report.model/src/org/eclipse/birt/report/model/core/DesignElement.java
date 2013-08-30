@@ -2677,6 +2677,24 @@ public abstract class DesignElement
 		return cachedPropStrategy.getPropertyExceptRomDefault( module, this,
 				prop );
 	}
+	
+	/**
+	 * Delegates {@link #getFactoryProperty(Module, ElementPropertyDefn)}.
+	 * Derived classes can add special handling when {@code forExport} is set.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param prop
+	 *            definition of the property
+	 * @param forExport
+	 *            indicates whether the property is returned for export
+	 * @return the value of the property according to the rules explained above
+	 */
+	public Object getFactoryProperty( Module module, ElementPropertyDefn prop,
+			boolean forExport )
+	{
+		return getFactoryProperty( module, prop );
+	}
 
 	/**
 	 * Creates the Factory data structures for specialized property access. This

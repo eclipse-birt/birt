@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Stack;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.executor.DataItemExecutionState;
@@ -157,63 +156,89 @@ public class SuppressDuplicateUtil
 		
 		public Object visitTableItem( TableItemDesign table, Object value )
 		{
-			TableHandle handle = (TableHandle) table.getHandle( );
-			boolean isSummaryTable = handle.isSummaryTable( );
-			if ( isSummaryTable )
+			int detailBandId = getDetailBand( table );
+			BandDesign header = table.getHeader( );
+			if ( header != null )
 			{
-				BandDesign header = table.getHeader( );
-				if ( header != null )
+				value = header.accept( this, value );
+			}
+			for ( int i = 0; i < table.getGroupCount( ); i++ )
+			{
+				GroupDesign group = table.getGroup( i );
+				if ( detailBandId == i )
 				{
-					value = header.accept( this, value );
-				}
-				for ( int i = 0; i < table.getGroupCount( ); i++ )
-				{
-					GroupDesign group = table.getGroup( i );
-					if ( i == table.getGroupCount( ) - 1 )
-					{
-						isInDetailBand.push( Boolean.TRUE );
-					}
+					isInDetailBand.push( Boolean.TRUE );
 					value = group.accept( this, value );
-					if ( i == table.getGroupCount( ) - 1 )
-					{
-						isInDetailBand.pop( );
-					}
+					isInDetailBand.pop( );
 				}
-
-				BandDesign footer = table.getFooter( );
-				if ( footer != null )
+				else
 				{
-					value = footer.accept( this, value );
+					value = group.accept( this, value );
 				}
 			}
-			else
-			{
-				BandDesign header = table.getHeader( );
-				if ( header != null )
-				{
-					value = header.accept( this, value );
-				}
-				for ( int i = 0; i < table.getGroupCount( ); i++ )
-				{
-					GroupDesign group = table.getGroup( i );
-					value = group.accept( this, value );
-				}
 
-				BandDesign detail = table.getDetail( );
-				if ( detail != null )
+			BandDesign detail = table.getDetail( );
+			if ( detail != null )
+			{
+				if ( detailBandId == -1 )
 				{
 					isInDetailBand.push( Boolean.TRUE );
 					value = detail.accept( this, value );
 					isInDetailBand.pop( );
 				}
-
-				BandDesign footer = table.getFooter( );
-				if ( footer != null )
+				else
 				{
-					value = footer.accept( this, value );
+					value = detail.accept( this, value );
 				}
 			}
+
+			BandDesign footer = table.getFooter( );
+			if ( footer != null )
+			{
+				value = footer.accept( this, value );
+			}
+			
 			return value;
+		}
+
+		protected int getDetailBand( TableItemDesign table )
+		{
+			BandDesign detail = table.getDetail( );
+			if ( !isBandEmpty( detail ) )
+			{
+				return -1;
+			}
+			
+			for ( int i = table.getGroupCount( ) - 1; i >= 0; i-- )
+			{
+				GroupDesign group = table.getGroup( i );
+				if ( !isBandEmpty( group.getHeader( ) )
+						|| !isBandEmpty( group.getFooter( ) ) )
+				{
+					return i;
+				}
+			}
+			return -1;
+		}
+		
+		protected boolean isBandEmpty( BandDesign band )
+		{
+			if ( band != null )
+			{
+				for ( int i = 0; i < band.getContentCount( ); i++ )
+				{
+					RowDesign row = (RowDesign) band.getContent( i );
+					for ( int j = 0; j < row.getCellCount( ); j++ )
+					{
+						CellDesign cell = row.getCell( j );
+						if ( cell.getContentCount( ) > 0 )
+						{
+							return false;
+						}
+					}
+				}
+			}
+			return true;
 		}
 
 		public Object visitListing( ListingDesign list, Object value )

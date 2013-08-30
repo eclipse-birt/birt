@@ -128,9 +128,9 @@ class QueryExecutionHelper
 			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt,
 			boolean keepDataSetFilter, boolean disAllowAggregation, Scriptable scope ) throws BirtException
 	{
-		defineDataSourceDataSet( queryDefn, keepDataSetFilter, disAllowAggregation );
-
 		populateQueryDefn( queryDefn, paramBindingIt, filterIt, bindingIt, disAllowAggregation );
+
+		defineDataSourceDataSet( queryDefn, keepDataSetFilter, disAllowAggregation );
 
 		return dataEngine.prepare( queryDefn, sessionContext.getAppContext( ) )
 				.execute( scope );
@@ -163,7 +163,7 @@ class QueryExecutionHelper
 			}
 			major = handle;
 			defineDataSet( handle, new DataSetHandleProcessContext(major, useResultHints, keepDataSetFilter, allowAggregation) );
-			DefineDataSourceSetUtil.prepareForTransientQuery( sessionContext, (DataEngineImpl)dataEngine, handle, queryDefn );
+			DefineDataSourceSetUtil.prepareForTransientQuery( sessionContext, (DataEngineImpl)dataEngine, handle, queryDefn, null );
 		}
 	}
 

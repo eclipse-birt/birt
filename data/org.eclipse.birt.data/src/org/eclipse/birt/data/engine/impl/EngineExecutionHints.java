@@ -21,7 +21,6 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.ICacheable;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
-import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -71,7 +70,7 @@ public class EngineExecutionHints implements IEngineExecutionHints
 						IBaseDataSetDesign design = dataEngine.getDataSetDesign( dataSetName );
 							
 						if( design instanceof ICacheable  )
-							this.populateDataSetNames( dataEngine.getDataSetDesign( dataSetName ), dataEngine, temp2 );
+							DataSetDesignHelper.populateDataSetNames( dataEngine.getDataSetDesign( dataSetName ), dataEngine, temp2 );
 						
 						if( qd.getParentQuery() != null && qd.getInputParamBindings().size() == 0 )
 						{
@@ -130,27 +129,7 @@ public class EngineExecutionHints implements IEngineExecutionHints
 			}
 		}
 	}
-	
-	/**
-	 * 
-	 * @param design
-	 * @param names
-	 * @throws DataException
-	 */
-	private void populateDataSetNames( IBaseDataSetDesign design, DataEngineImpl engine, List names ) throws DataException
-	{
-		if( design == null )
-			return;
-		names.add( design.getName( ) );
-		if( design instanceof IJointDataSetDesign )
-		{
-			IJointDataSetDesign jointDesign = ( IJointDataSetDesign )design;
-			
-			populateDataSetNames( engine.getDataSetDesign( jointDesign.getLeftDataSetDesignQulifiedName( ) ), engine, names );
-			populateDataSetNames( engine.getDataSetDesign( jointDesign.getRightDataSetDesignQulifiedName( ) ), engine, names );
-		}
-	}
-	
+		
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutionHints#needCacheDataSet(java.lang.String)

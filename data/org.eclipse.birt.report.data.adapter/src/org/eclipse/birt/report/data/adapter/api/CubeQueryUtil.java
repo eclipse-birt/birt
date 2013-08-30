@@ -112,9 +112,17 @@ public class CubeQueryUtil
 				{
 					case ICubeQueryDefinition.ROW_EDGE :
 						populateAxisLevels( aggrOns, rowEdgeExprList, result );
+						populateAnotherAxisLevels( aggrOns,
+								columnEdgeExprList,
+								result,
+								targetLevel );
 						break;
 					case ICubeQueryDefinition.COLUMN_EDGE :
 						populateAxisLevels( aggrOns, columnEdgeExprList, result );
+						populateAnotherAxisLevels( aggrOns,
+								rowEdgeExprList,
+								result,
+								targetLevel );
 						break;
 				}
 			}
@@ -194,6 +202,35 @@ public class CubeQueryUtil
 				result.add( getTargetDimLevel( levelExpr ) );
 			}
 		}
+	}
+	
+	private static void populateAnotherAxisLevels( List aggrOns, List edgeExprList,
+			List result, String targetLevel ) throws AdapterException
+	{
+		boolean issubLevel = false;
+		for ( int i = 0; i < aggrOns.size( ); i++ )
+		{
+			final String levelExpr = aggrOns.get( i ).toString( );
+			if ( levelExpr.equals( targetLevel ) )
+			{
+				issubLevel = true;
+			}
+			if ( isAxisQualifierLevel( levelExpr, edgeExprList )
+					&& isSubLevel( levelExpr, targetLevel, issubLevel ) )
+			{
+				result.add( getTargetDimLevel( levelExpr ) );
+			}
+		}
+	}
+	
+	private static boolean isSubLevel( String levelExpr, String targetLevel,
+			boolean issubLevel ) throws AdapterException
+	{
+		if ( levelExpr.equals( targetLevel ) )
+		{
+			return false;
+		}
+		return issubLevel;
 	}
 
 	/**

@@ -46,6 +46,10 @@
                     </list-property>
                     <property name="resultSetColumn">First data value</property>
                     <text-property name="helpText" key="New key">New help</text-property>
+                    <property name="role">div new</property>
+		            <property name="language">English new</property>
+		            <property name="altText">Alt Text new</property>
+		            <property name="order">2</property>
                     <list-property name="action">
 		           		<structure>
 	                        <expression name="uri">http://localhost:8080/</expression>

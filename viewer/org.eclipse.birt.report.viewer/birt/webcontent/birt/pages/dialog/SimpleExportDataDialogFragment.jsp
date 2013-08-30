@@ -221,10 +221,16 @@
 					<TR>
 						<TD></TD>
 						<TD>
-							<INPUT TYPE="radio" NAME="exportDataEncoding" ID="exportDataEncoding_other">
-							<label for="exportDataEncoding_other"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.other" )%></label>
-							<INPUT TYPE="text" NAME="exportDataOtherEncoding" ID="exportDataOtherEncoding_input" CLASS="birtviewer_exportdata_dialog_input" DISABLED="true">
-							<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.comment" )%>
+							<TABLE cellpadding="0" cellspacing="0"><TR>
+							<TD valign="TOP">
+								<INPUT TYPE="radio" NAME="exportDataEncoding" ID="exportDataEncoding_other">
+							</TD>
+							<TD>
+								<label for="exportDataEncoding_other"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.other" )%></label>
+								<INPUT TYPE="text" NAME="exportDataOtherEncoding" ID="exportDataOtherEncoding_input" CLASS="birtviewer_exportdata_dialog_input" DISABLED="true">
+								<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.comment" )%>
+							</TD>
+							</TR></TABLE>
 						</TD>
 					</TR>
 				</TABLE>				
@@ -243,19 +249,19 @@
 			<BR/>
 			<DIV>
 				<TABLE cellpadding="0" cellspacing="0">
-					<TR valign="top">
+					<TR>
 						<TD><INPUT TYPE="checkbox" ID="exportColumnDataType"></TD>
-						<TD style="padding-top:2px;" nowrap="nowrap">
+						<TD nowrap="nowrap">
 							<label for="exportColumnDataType"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.datatype" )%></label>
 						</TD>
-						<TD style="padding-left:20px;" valign="top"><INPUT TYPE="checkbox" ID="exportColumnLocaleNeutral"></TD>
-						<TD style="padding-top:2px;" valign="top">
+						<TD style="padding-left:20px;" ><INPUT TYPE="checkbox" ID="exportColumnLocaleNeutral"></TD>
+						<TD  nowrap="nowrap">
 							<label for="exportColumnLocaleNeutral"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.localeneutral" )%></label>
 						</TD>
 					</TR>
 					<TR>
 						<TD><INPUT TYPE="checkbox" ID="exportDataWithCR"></TD>
-						<TD style="padding-top:2px;" nowrap="nowrap">
+						<TD nowrap="nowrap">
 							<label for="exportDataWithCR"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.carriage_return" )%></label>
 						</TD>
 					</TR>

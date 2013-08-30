@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.composites.YOptionalGroupSortingDialog;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -239,6 +240,19 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 		
 		ChartUIUtil.setAllGroupingQueryExceptFirst( context.getModel( ),
 				expression );
+	}
+	
+	protected void disableBtnGroup( )
+	{
+		if ( query.getDefinition( ) != null
+				&& !"".endsWith( query.getDefinition( ) ) ) { //$NON-NLS-1$
+			IDataServiceProvider dataServiceProvider = context.getDataServiceProvider( );
+
+			if ( dataServiceProvider.checkState( IDataServiceProvider.IS_CUBE_AND_SERIES_NOT_TOP_LEVEL ) )
+			{
+				btnGroup.setEnabled( false );
+			}
+		}
 	}
 
 }

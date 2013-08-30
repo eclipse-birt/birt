@@ -41,6 +41,7 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
@@ -1078,6 +1079,21 @@ public class ChartUIUtil
 			else
 			{
 				newSeries.getDataDefinition( ).add( query );
+			}
+		}
+		
+		// Markers for Line-similar series
+		if ( oldSeries instanceof LineSeries && newSeries instanceof LineSeries )
+		{
+			List<Marker> oldMarkers = ( (LineSeries) oldSeries ).getMarkers( );
+			List<Marker> newMarkers = ( (LineSeries) newSeries ).getMarkers( );
+			if ( oldMarkers.size( ) > 1 )
+			{
+				newMarkers.clear( );
+				for ( Marker m : oldMarkers )
+				{
+					newMarkers.add( m.copyInstance( ) );
+				}
 			}
 		}
 	}
@@ -2198,15 +2214,20 @@ public class ChartUIUtil
 	 */
 	public static boolean hasLimitOnCategorySortKey( ChartWizardContext wizardContext )
 	{
-		int stateInfo = wizardContext.getDataServiceProvider( ).getState( );
-		boolean isCube = ( stateInfo & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE
-				&& ( stateInfo & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY;
-
-		if ( ChartUtil.isSpecifiedYOptionalExpression( wizardContext.getModel( ) ) && !isCube )
-
-		{
-			return true;
-		}
+		// Below code is commented out, since now we don't limit sort key on category again, the new rule is: 
+		// if multiple series has different orders on categories, the first
+		// series' order will be always used, first series' categories order
+		// will be used for other series.
+		
+//		int stateInfo = wizardContext.getDataServiceProvider( ).getState( );
+//		boolean isCube = ( stateInfo & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE
+//				&& ( stateInfo & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY;
+//
+//		if ( ChartUtil.isSpecifiedYOptionalExpression( wizardContext.getModel( ) ) && !isCube )
+//
+//		{
+//			return true;
+//		}
 
 		return false;
 	}

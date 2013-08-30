@@ -36,12 +36,12 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.BIRTActionEvaluator;
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierHandler;
@@ -50,6 +50,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator;
 import org.eclipse.birt.chart.ui.swt.interfaces.IFormatSpecifierHandler;
+import org.eclipse.birt.chart.ui.swt.interfaces.IImageServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -60,6 +61,8 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.IResourceContentProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
@@ -184,7 +187,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					.getCommandStack( );
 			final String TRANS_NAME = org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "ChartElementCommandImpl.editChart" ); //$NON-NLS-1$
 			commandStack.startTrans( TRANS_NAME );
-
+			
 			final ChartReportItemImpl crii = ( (ChartReportItemImpl) item );
 			final Chart cm = (Chart) crii.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 			final Chart cmClone = ( cm == null ) ? null : cm.copyInstance( );
@@ -210,8 +213,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartReportItemUIFactory uiFactory = ChartReportItemUIFactory.instance( );
 			IChartDataSheet dataSheet = uiFactory.createDataSheet( extendedHandle,
 					dataProvider );
+			IImageServiceProvider imageProvider = new ChartImageServiceProvider( extendedHandle );
 			final ChartWizardContext context = uiFactory.createWizardContext( cmClone,
 					this,
+					imageProvider,
 					dataProvider,
 					dataSheet );
 			this.wizardContext = context;
@@ -279,6 +284,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			
 			ChartAdapter.endIgnoreNotifications( );
 			
+
+			beforeOpenChartBuilder( );
+			
 			isChartWizardOpen = true;
 			ChartWizardContext contextResult = (ChartWizardContext) chartBuilder.open( null,
 					taskId,
@@ -313,6 +321,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							(ChartWithAxes) contextResult.getModel( ) );
 				}
+				
+				afterOpenChartBuilder( );
+				
 				commandStack.commit( );
 				return Window.OK;
 			}
@@ -728,6 +739,24 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				{
 					value = eb.getResult( );
 				}
+				break;
+			case COMMAND_RESOURCE_SELECTION_DIALOG:
+				ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
+						true,
+						 new String[]{
+						"*.jpg;*.gif;*.png;" //$NON-NLS-1$
+					} );
+				dialog.setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER );
+				dialog.setTitle( sTitle );  
+				dialog.setMessage( sTitle );  
+
+				if ( dialog.open( ) == Window.OK )
+				{
+					String path = dialog.getPath( );
+					return path;
+				}else{
+					return null;
+				}
 		}
 
 		return value;
@@ -793,5 +822,15 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		if ( formatSpecifierHandler == null )
 			formatSpecifierHandler = new FormatSpecifierHandler();
 		return formatSpecifierHandler;
+	}
+	
+	protected void beforeOpenChartBuilder()
+	{
+		// Do nothing, for subclass to override.
+	}
+	
+	protected void afterOpenChartBuilder( )
+	{
+		// Do nothing, for subclass to override.		
 	}
 }

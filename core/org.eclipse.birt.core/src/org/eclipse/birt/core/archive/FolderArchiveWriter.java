@@ -69,7 +69,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	public RAOutputStream createRandomAccessStream( String relativePath )
 			throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
+		String path = ArchiveUtil.generateFullContentPath( folderName, relativePath );
 		File fd = new File( path );
 
 		ArchiveUtil.createParentFolder( fd );
@@ -81,7 +81,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	public RAOutputStream openRandomAccessStream( String relativePath )
 			throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
+		String path = ArchiveUtil.generateFullContentPath( folderName, relativePath );
 		File fd = new File( path );
 
 		ArchiveUtil.createParentFolder( fd );
@@ -105,7 +105,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	public RAInputStream getInputStream( String relativePath )
 			throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
+		String path = ArchiveUtil.generateFullContentPath( folderName, relativePath );
 
 		File file = new File( path );
 		if ( file.exists( ) )
@@ -128,7 +128,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	 */
 	public boolean dropStream( String relativePath )
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
+		String path = ArchiveUtil.generateFullContentPath( folderName, relativePath );
 		File fd = new File( path );
 		return removeFileAndFolder( fd );
 	}
@@ -150,7 +150,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	 */
 	public boolean exists( String relativePath )
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
+		String path = ArchiveUtil.generateFullContentPath( folderName, relativePath );
 		File fd = new File( path );
 		return fd.exists( );
 	}
@@ -302,8 +302,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	 */
 	public Object lock( String stream ) throws IOException
 	{
-		String path = ArchiveUtil
-				.generateFullPath( folderName, stream + ".lck" );
+		String path = ArchiveUtil.generateFullContentPath( folderName, stream)  + ".lck";
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
 		return lockManager.lock( path );
 	}
@@ -339,7 +338,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 					File file = files[i];
 					if ( file.isFile( ) )
 					{
-						String relativePath = ArchiveUtil.generateRelativePath(
+						String relativePath = ArchiveUtil.generateRelativeContentPath(
 								folderName, file.getPath( ) );
 						if ( !ArchiveUtil.needSkip( relativePath ) )
 						{
@@ -362,7 +361,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			File file = (File) list.get( i );
-			String relativePath = ArchiveUtil.generateRelativePath( folderName,
+			String relativePath = ArchiveUtil.generateRelativeContentPath( folderName,
 					file.getPath( ) );
 			if ( !ArchiveUtil.needSkip( relativePath ) )
 			{

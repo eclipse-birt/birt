@@ -118,6 +118,11 @@ public interface IUIServiceProvider
 	 * data expression not allowed.
 	 */
 	public static final int COMMAND_HYPERLINK_DATAPOINTS_SIMPLE = 10;
+	
+	/**
+	 * Constant indicating a builder to select resource file
+	 */
+	public static final int COMMAND_RESOURCE_SELECTION_DIALOG = 11;
 
 	/**
 	 * This method will be used by the Chart Builder UI to invoke the expression

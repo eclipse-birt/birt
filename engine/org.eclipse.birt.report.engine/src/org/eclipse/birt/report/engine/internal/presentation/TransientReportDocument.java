@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.impl.IInternalReportDocument;
+import org.eclipse.birt.report.engine.api.impl.RunStatusReader;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.engine.IReportDocumentExtension;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -242,6 +243,19 @@ public class TransientReportDocument implements IInternalReportDocument
 	public String getSystemId( )
 	{
 		return document.getSystemId();
+	}
+	
+	public List<String> getDocumentErrors( )
+	{
+		RunStatusReader statusReader = new RunStatusReader( this );
+		try
+		{
+			return statusReader.getGenerationErrors( );
+		}
+		finally
+		{
+			statusReader.close( );
+		}
 	}
 	
 }

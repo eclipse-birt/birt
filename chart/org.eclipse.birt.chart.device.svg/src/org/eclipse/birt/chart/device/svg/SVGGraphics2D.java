@@ -1732,6 +1732,19 @@ public class SVGGraphics2D extends ChartGraphics2D
 		elem.setAttribute( "points", pointsStr.toString( ) ); //$NON-NLS-1$
 		return elem;
 	}
+	
+	public Element createPolygon( double[] arg0, double[] arg1, int arg2 )
+	{
+		Element elem = createElement( "polygon" ); //$NON-NLS-1$
+		StringBuffer pointsStr = new StringBuffer( );;
+		for ( int x = 0; x < arg2; x++ )
+		{
+			pointsStr.append( arg0[x] )
+					.append( "," ).append( arg1[x] ).append( " " ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		elem.setAttribute( "points", pointsStr.toString( ) ); //$NON-NLS-1$
+		return elem;
+	}
 
 	protected void initializeScriptStyles( )
 	{

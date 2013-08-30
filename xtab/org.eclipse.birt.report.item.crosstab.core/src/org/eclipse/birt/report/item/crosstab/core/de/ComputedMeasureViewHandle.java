@@ -45,13 +45,11 @@ public class ComputedMeasureViewHandle extends MeasureViewHandle implements
 	@Override
 	public String getCubeMeasureName( )
 	{
-		return handle.getName( );
+		String measureName = (String)handle.getProperty( IComputedMeasureViewConstants.MEASURE_NAME_PROP );
+		if( measureName == null )
+		{
+			measureName = handle.getName( );	
+		} 
+		return measureName;
 	}
-
-	@Override
-	public String getDataType( )
-	{
-		return null;
-	}
-
 }

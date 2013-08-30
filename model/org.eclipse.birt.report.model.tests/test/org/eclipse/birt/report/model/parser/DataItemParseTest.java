@@ -93,9 +93,16 @@ public class DataItemParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK,
 				actionHandle.getLinkType( ) );
 		assertEquals( "http://localhost:8080/", actionHandle.getURI( ) ); //$NON-NLS-1$
+		
+		assertEquals( "div", dataHandle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "English", dataHandle.getLanguage( ) ); //$NON-NLS-1$
+		assertEquals( "Alt Text", dataHandle.getAltText( ) ); //$NON-NLS-1$
+		assertEquals( 1, dataHandle.getOrder( ) ); //$NON-NLS-1$
 
 		dataHandle = (DataItemHandle) designHandle.findElement( "Body Data" ); //$NON-NLS-1$
-
+		// test default value of Role in Data
+		assertEquals( "div", dataHandle.getRole( ) ); //$NON-NLS-1$
+				
 		// make sure that this data exists in the body slot.
 
 		assertEquals( ReportDesign.BODY_SLOT, dataHandle.getContainer( )
@@ -201,6 +208,11 @@ public class DataItemParseTest extends BaseTestCase
 
 		ActionHandle action = dataHandle.getActionHandle( );
 		assertNotNull( action );
+		
+		dataHandle.setRole( "div new" ); //$NON-NLS-1$
+		dataHandle.setLanguage( "English new" ); //$NON-NLS-1$
+		dataHandle.setAltText( "Alt Text new" ); //$NON-NLS-1$
+		dataHandle.setOrder( 2 ); //$NON-NLS-1$
 
 		dataHandle = (DataItemHandle) designHandle.findElement( "Body Data" ); //$NON-NLS-1$
 		dataHandle.setHelpTextKey( "New body help key" ); //$NON-NLS-1$
@@ -224,7 +236,7 @@ public class DataItemParseTest extends BaseTestCase
 				.argumentsIterator( ).next( );
 		argumentHandle.setName( "new_" + argumentHandle.getName( ) ); //$NON-NLS-1$
 		argumentHandle.setValue( "new_" + argumentHandle.getValue( ) ); //$NON-NLS-1$
-
+			
 		dataHandle = (DataItemHandle) designHandle.findElement( "Body Data1" ); //$NON-NLS-1$
 		dataHandle.setAllowExport( true );
 

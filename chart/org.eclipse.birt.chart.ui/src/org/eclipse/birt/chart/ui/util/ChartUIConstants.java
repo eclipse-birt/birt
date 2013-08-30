@@ -101,6 +101,7 @@ public interface ChartUIConstants
 	public static final String BUTTON_POSITIVE_MARKERS = ".Positive"; //$NON-NLS-1$
 	public static final String BUTTON_NEGATIVE_MARKERS = ".Negative"; //$NON-NLS-1$
 	public static final String BUTTON_DECORATION = ".Decoration"; //$NON-NLS-1$
+	public static final String BUTTON_VISIBILITY = ".Visibility"; //$NON-NLS-1$
 
 	// Constants for Chart types
 	public static final String TYPE_BAR = "Bar Chart"; //$NON-NLS-1$

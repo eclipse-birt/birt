@@ -185,9 +185,9 @@ public class ReportEngineService
 			String p = null;
 			try
 			{
-				p = ( (File) jarFileList.get( i ) ).getCanonicalPath();
+				p = ( (File) jarFileList.get( i ) ).getCanonicalPath( );
 			}
-			catch (IOException e)
+			catch ( IOException e )
 			{
 				p = ( (File) jarFileList.get( i ) ).getAbsolutePath( );
 			}
@@ -1728,9 +1728,10 @@ public class ReportEngineService
 			initializeEmitterConfigs( request, renderOption.getOptions( ) );
 		}
 
-//		String reportTitle = ParameterAccessor.htmlDecode( ParameterAccessor.getTitle( request ) );
-//		if ( reportTitle != null )
-//			renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
+		// String reportTitle = ParameterAccessor.htmlDecode(
+		// ParameterAccessor.getTitle( request ) );
+		// if ( reportTitle != null )
+		// renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
 
 		renderTask.setRenderOption( renderOption );
 		renderTask.setLocale( locale );
@@ -1997,24 +1998,28 @@ public class ReportEngineService
 					IResultMetaData metaData = resultSetItem.getResultMetaData( );
 					assert metaData != null;
 
-					Column[] columnArray = new Column[metaData.getColumnCount( )];
+					List<Column> columnArray = new ArrayList<Column>( );
 					for ( int i = 0; i < metaData.getColumnCount( ); i++ )
 					{
-						columnArray[i] = new Column( );
+						if ( !metaData.getAllowExport( i ) )
+							continue;
+						Column column = new Column( );
 
 						String name = metaData.getColumnName( i );
-						columnArray[i].setName( name );
+						column.setName( name );
 
 						String label = metaData.getColumnLabel( i );
 						if ( label == null || label.length( ) <= 0 )
 						{
 							label = name;
 						}
-						columnArray[i].setLabel( label );
+						column.setLabel( label );
 
-						columnArray[i].setVisibility( Boolean.valueOf( true ) );
+						column.setVisibility( Boolean.valueOf( true ) );
+
+						columnArray.add( column );
 					}
-					resultSetArray[k].setColumn( columnArray );
+					resultSetArray[k].setColumn( columnArray.toArray( new Column[0] ) );
 				}
 			}
 		}

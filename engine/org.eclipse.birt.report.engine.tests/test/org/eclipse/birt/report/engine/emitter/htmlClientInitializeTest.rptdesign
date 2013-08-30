@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <method name="clientInitialize"><![CDATA[alert("start load study.js ...");
+head.js("http://127.0.0.1:8080/study.js",function ()
+{
+alert("load study.js completed");
+}
+);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">/ThemesReportItems.rptlibrary</property>
+            <property name="namespace">ThemesReportItems</property>
+        </structure>
+    </list-property>    
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <text id="5">
+            <property name="contentType">html</property>
+            <text-property name="content"><![CDATA[<script>
+
+head(function()
+{
+alert("the study.js should load finished ");
+alertHello();
+});
+</script>]]></text-property>
+        </text>
+    </body>
+</report>

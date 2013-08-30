@@ -409,7 +409,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 			ComputedColumnHandle binding2 = (ComputedColumnHandle) o2;
 			String columnText1 = getColumnText( binding1, sortingColumnIndex );
 			String columnText2 = getColumnText( binding2, sortingColumnIndex );
-			int result = ( columnText1 == null ? "" : columnText1 ).compareTo( ( columnText2 == null ? ""
+			int result = ( columnText1 == null ? "" : columnText1 ).compareTo( ( columnText2 == null ? "" //$NON-NLS-1$ //$NON-NLS-2$
 					: columnText2 ) );
 			if ( sortDirection == SWT.UP )
 				return result;
@@ -442,6 +442,63 @@ public class DataSetColumnBindingsFormHandleProvider implements
 		return false;
 	}
 
+	public void generateBindingColumns( Object[] columns )
+	{
+		if ( columns != null && columns.length > 0 )
+		{
+			CommandStack stack = getActionStack( );
+			stack.startTrans( Messages.getString( Messages.getString("DataSetColumnBindingsFormHandleProvider.GenerateBindingColumns") ) ); //$NON-NLS-1$
+			try
+			{
+
+				for ( int i = 0; i < columns.length; i++ )
+				{
+					ResultSetColumnHandle element = (ResultSetColumnHandle) columns[i];
+					ComputedColumn bindingColumn = StructureFactory.newComputedColumn( bindingObject,
+							element.getColumnName( ) );
+					bindingColumn.setDataType( element.getDataType( ) );
+					String groupType = DEUtil.getGroupControlType( bindingObject );
+					List groupList = DEUtil.getGroups( bindingObject );
+					ExpressionUtility.setBindingColumnExpression( element,
+							bindingColumn );
+
+					bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( element ) );
+					String displayKey = UIUtil.getColumnDisplayNameKey( element );
+					if ( displayKey != null )
+						bindingColumn.setDisplayNameID( displayKey );
+
+					if ( bindingObject instanceof ReportItemHandle )
+					{
+						( (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
+								false );
+						continue;
+					}
+					// if ( bindingObject instanceof GroupHandle )
+					// {
+					// ( (GroupHandle) bindingObject ).addColumnBinding(
+					// bindingColumn,
+					// false );
+					// }
+					if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
+					{
+						if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+							bindingColumn.setAggregrateOn( ( (GroupHandle) groupList.get( 0 ) ).getName( ) );
+						else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+							bindingColumn.setAggregrateOn( null );
+					}
+
+				}
+				stack.commit( );
+
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+				stack.rollback( );
+			}
+		}
+	}
+
 	public void generateAllBindingColumns( )
 	{
 		if ( bindingObject != null )
@@ -465,6 +522,8 @@ public class DataSetColumnBindingsFormHandleProvider implements
 			}
 			if ( datasetHandle != null )
 			{
+				CommandStack stack = getActionStack( );
+				stack.startTrans( Messages.getString( Messages.getString("DataSetColumnBindingsFormHandleProvider.RefreshBindingColumns") ) ); //$NON-NLS-1$
 				try
 				{
 					CachedMetaDataHandle cmdh = DataSetUIUtil.getCachedMetaDataHandle( datasetHandle );
@@ -478,13 +537,13 @@ public class DataSetColumnBindingsFormHandleProvider implements
 						List groupList = DEUtil.getGroups( bindingObject );
 
 						ExpressionUtility.setBindingColumnExpression( element,
-								bindingColumn);
+								bindingColumn );
 
 						bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( element ) );
 						String displayKey = UIUtil.getColumnDisplayNameKey( element );
 						if ( displayKey != null )
 							bindingColumn.setDisplayNameID( displayKey );
-						
+
 						if ( bindingObject instanceof ReportItemHandle )
 						{
 							( (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
@@ -509,9 +568,13 @@ public class DataSetColumnBindingsFormHandleProvider implements
 					}
 
 					generateOutputParmsBindings( datasetHandle );
+					stack.commit( );
+
 				}
 				catch ( SemanticException e )
 				{
+					ExceptionHandler.handle( e );
+					stack.rollback( );
 				}
 			}
 		}
@@ -556,7 +619,8 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				String groupType = DEUtil.getGroupControlType( bindingObject );
 				List groupList = DEUtil.getGroups( bindingObject );
 				ExpressionUtility.setBindingColumnExpression( param,
-						bindingColumn, true);
+						bindingColumn,
+						true );
 
 				if ( bindingObject instanceof ReportItemHandle )
 				{

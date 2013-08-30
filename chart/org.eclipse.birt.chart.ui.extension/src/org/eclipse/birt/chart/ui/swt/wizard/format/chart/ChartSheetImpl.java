@@ -11,19 +11,14 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
-import java.util.List;
-
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
-import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
@@ -33,9 +28,7 @@ import org.eclipse.birt.chart.ui.swt.AbstractChartNumberEditor;
 import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainterBase;
 import org.eclipse.birt.chart.ui.swt.ChartSpinner;
-import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
@@ -48,6 +41,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.BlockPropertiesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.CustomPropertiesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.GeneralPropertiesChartSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.VisibilitySheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -89,18 +83,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 	private Button btnEnablePreview;
 
-	protected ExternalizedTextEditorComposite txtEmptyMsg;
-
-	protected Label lbTxtEmptyMsg;
-
-	protected Label lbFdcEmptyMsg;
-
-	protected FontDefinitionComposite fdcEmptyMsg;
-
-	protected Button btnAutoHide;
-
-	protected Button btnShowEmptyMsg;
-
 	private Button btnResetValue;
 
 	private ChartCheckbox btnEnable;
@@ -120,11 +102,23 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_CHART );
-		
 		Chart defChart = ChartDefaultValueUtil.getDefaultValueChart( getChart() );
-		
 		init( );
+		Composite cmpBasic = createContentComposite( parent );
+		createAdditionalComposite( cmpBasic );
+		createChartBackgroundComposite( cmpBasic );
+		createChartWallNFloorComposite( cmpBasic );
+		createStyleNPreviewComposite( cmpBasic );
+		createAngleChooserComposite( cmpContent );
+		createCoverageComposite( cmpBasic );
+		createInteractivityComposite( defChart, cmpBasic );
+		createStudyLayoutComposite( defChart, cmpBasic );
+		populateLists( );
+		createButtonGroup( cmpContent );
+	}
 
+	protected Composite createContentComposite( Composite parent )
+	{
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( 3, true );
@@ -140,9 +134,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			gd.horizontalSpan = 2;
 			cmpBasic.setLayoutData( gd );
 		}
+		return cmpBasic;
+	}
 
-		initOptionUI( cmpBasic );
-
+	protected void createChartBackgroundComposite( Composite cmpBasic )
+	{
 		Label lblBackground = new Label( cmpBasic, SWT.NONE );
 		lblBackground.setText( Messages.getString( "ChartSheetImpl.Label.Background" ) ); //$NON-NLS-1$
 
@@ -158,7 +154,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		new Label( cmpBasic, SWT.NONE );
+	}
 
+	protected void createChartWallNFloorComposite( Composite cmpBasic )
+	{
 		if ( hasWallAndFloor( ) )
 		{
 			Label lblWall = new Label( cmpBasic, SWT.NONE );
@@ -197,20 +196,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 			new Label( cmpBasic, SWT.NONE );
 		}
+	}
 
-		createStyleNPreviewUI( cmpBasic );
-
-		createAltMsgComposite( cmpBasic );
-
-		Composite cmp3D = new Composite( cmpContent, SWT.NONE );
-		{
-			cmp3D.setLayout( new GridLayout( ) );
-			cmp3D.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		}
-
-		createAngleChooserComposite( cmp3D );
-		createCoverageComposite( cmpBasic );
-
+	protected void createInteractivityComposite( Chart defChart, Composite cmpBasic )
+	{
 		btnEnable = getContext( ).getUIFactory( )
 				.createChartCheckbox( cmpBasic,
 						SWT.NONE,
@@ -226,7 +215,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 							: ChartCheckbox.STATE_UNSELECTED ) );
 			btnEnable.addSelectionListener( this );
 		}
+	}
 
+	protected void createStudyLayoutComposite( Chart defChart, Composite cmpBasic )
+	{
 		// #170985
 		if ( enableStudyLayout( ) )
 		{
@@ -243,9 +235,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 					: ChartCheckbox.STATE_GRAYED );
 			btnStudyLayout.addSelectionListener( this );
 		}
-
-		populateLists( );
-		createButtonGroup( cmpContent );
 	}
 
 	protected void createCoverageComposite( Composite cmpBasic )
@@ -289,8 +278,14 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		spnCorverage.getWidget( ).setValues( spnValue, 1, 100, 0, 1, 10 );
 	}
 
-	protected void createAngleChooserComposite( Composite cmp3D )
+	protected void createAngleChooserComposite( Composite cmpContent )
 	{
+		Composite cmp3D = new Composite( cmpContent, SWT.NONE );
+		{
+			cmp3D.setLayout( new GridLayout( ) );
+			cmp3D.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+		
 		if ( !( ( getChart( ) instanceof ChartWithAxes ) && is3DEnabled( ) ) )
 		{
 			return;
@@ -327,99 +322,12 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		}
 	}
 
-	protected void createAltMsgComposite( Composite cmpBasic )
-	{
-		Group grpEmptyMsg = new Group( cmpBasic, SWT.NONE );
-		{
-			{
-				grpEmptyMsg.setText( Messages.getString( "ChartSheetImpl.Group.EmptyMessage" ) ); //$NON-NLS-1$
-				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.horizontalSpan = 3;
-				grpEmptyMsg.setLayoutData( gd );
-				grpEmptyMsg.setLayout( new GridLayout( 1, false ) );
-			}
-
-			org.eclipse.birt.chart.model.component.Label laEmptyMsg = getChart( ).getEmptyMessage( );
-
-			btnAutoHide = new Button( grpEmptyMsg, SWT.RADIO );
-			{
-				btnAutoHide.setText( Messages.getString( "ChartSheetImpl.Button.AutoHide" ) ); //$NON-NLS-1$
-				GridData gd = new GridData( );
-				btnAutoHide.setLayoutData( gd );
-				btnAutoHide.setSelection( laEmptyMsg.isSetVisible( )
-						&& !laEmptyMsg.isVisible( ) );
-				btnAutoHide.addListener( SWT.Selection, this );
-			}
-
-			btnShowEmptyMsg = new Button( grpEmptyMsg, SWT.RADIO );
-			{
-				btnShowEmptyMsg.setText( Messages.getString( "ChartSheetImpl.Button.ShowEmptyMsg" ) ); //$NON-NLS-1$
-				GridData gd = new GridData( );
-				btnShowEmptyMsg.setLayoutData( gd );
-				btnShowEmptyMsg.setSelection( laEmptyMsg.isSetVisible( )
-						&& laEmptyMsg.isVisible( ) );
-				btnShowEmptyMsg.addListener( SWT.Selection, this );
-			}
-
-			Composite cmpEmptyText = new Composite( grpEmptyMsg, SWT.NONE );
-			{
-				GridData gd = new GridData( GridData.FILL_BOTH );
-				gd.horizontalIndent = 12;
-				cmpEmptyText.setLayoutData( gd );
-				cmpEmptyText.setLayout( new GridLayout( 2, false ) );
-			}
-
-			lbTxtEmptyMsg = new Label( cmpEmptyText, SWT.NONE );
-			lbTxtEmptyMsg.setText( Messages.getString( "ChartSheetImpl.Label.Text" ) ); //$NON-NLS-1$
-
-			List<String> keys = null;
-			if ( getContext( ).getUIServiceProvider( ) != null )
-			{
-				keys = getContext( ).getUIServiceProvider( )
-						.getRegisteredKeys( );
-			}
-
-			txtEmptyMsg = new ExternalizedTextEditorComposite( cmpEmptyText,
-					SWT.BORDER,
-					-1,
-					-1,
-					keys,
-					getContext( ).getUIServiceProvider( ),
-					laEmptyMsg.getCaption( ).getValue( ) );
-			{
-				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.widthHint = 200;
-				txtEmptyMsg.setLayoutData( gd );
-				txtEmptyMsg.addListener( this );
-			}
-
-			lbFdcEmptyMsg = new Label( cmpEmptyText, SWT.NONE );
-			lbFdcEmptyMsg.setText( Messages.getString( "ChartSheetImpl.Label.Font" ) ); //$NON-NLS-1$
-
-			fdcEmptyMsg = new FontDefinitionComposite( cmpEmptyText,
-					SWT.NONE,
-					getContext( ),
-					laEmptyMsg.getCaption( ).getFont( ),
-					laEmptyMsg.getCaption( ).getColor( ),
-					true );
-			{
-				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.widthHint = 200;
-				gd.grabExcessVerticalSpace = false;
-				fdcEmptyMsg.setLayoutData( gd );
-				fdcEmptyMsg.addListener( this );
-			}
-
-			updateEmptyMessageUIStates( );
-		}
-	}
-
 	protected boolean enableStudyLayout( )
 	{
 		return ChartUtil.hasMultipleYAxes( getChart( ) );
 	}
 
-	protected void createStyleNPreviewUI( Composite cmpBasic )
+	protected void createStyleNPreviewComposite( Composite cmpBasic )
 	{
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.Style" ) ); //$NON-NLS-1$
 
@@ -443,12 +351,12 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		return ChartUIUtil.is3DType( getChart( ) );
 	}
 
-	protected void initOptionUI( Composite cmpBasic )
+	protected void createAdditionalComposite( Composite cmpBasic )
 	{
 
 	}
 
-	private void init( )
+	protected void init( )
 	{
 		// Make it compatible with old model
 		if ( getChart( ).getInteractivity( ) == null )
@@ -459,7 +367,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		}
 	}
 
-	private void populateLists( )
+	protected void populateLists( )
 	{
 		if ( cmbStyle == null )
 		{
@@ -528,6 +436,15 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 				Messages.getString( "ChartSheetImpl.Text.Outline&" ), //$NON-NLS-1$
 				popup );
 		btnBlockProp.addSelectionListener( this );
+		
+		// Chart Visibility
+		popup = new VisibilitySheet( Messages.getString( "ChartSheetImpl.Group.EmptyMessage" ), //$NON-NLS-1$
+				getContext( ) );
+		Button btnVisibilityProp = createToggleButton( cmp,
+				BUTTON_VISIBILITY,
+				Messages.getString( "ChartSheetImpl.Group.EmptyMessage&" ), //$NON-NLS-1$
+				popup );
+		btnVisibilityProp.addSelectionListener( this );
 
 		popup = new GeneralPropertiesChartSheet( Messages.getString( "ChartSheetImpl.Text.GeneralProperties" ), //$NON-NLS-1$
 				getContext( ) );
@@ -599,34 +516,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 				( (ChartWithAxes) getChart( ) ).setFloorFill( (Fill) event.data );
 			}
 		}
-		else if ( event.widget == txtEmptyMsg )
-		{
-			getChart( ).getEmptyMessage( )
-					.getCaption( )
-					.setValue( txtEmptyMsg.getText( ) );
-		}
-		else if ( event.widget == btnAutoHide
-				|| event.widget == btnShowEmptyMsg )
-		{
-			getChart( ).getEmptyMessage( )
-					.setVisible( !btnAutoHide.getSelection( ) );
-			updateEmptyMessageUIStates( );
-		}
-		else if ( event.widget == fdcEmptyMsg )
-		{
-			Text caption = getChart( ).getEmptyMessage( ).getCaption( );
-			caption.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
-			caption.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
-		}
-	}
-
-	protected void updateEmptyMessageUIStates( )
-	{
-		boolean bEnabled = getChart( ).getEmptyMessage( ).isVisible( );
-		txtEmptyMsg.setEnabled( bEnabled );
-		fdcEmptyMsg.setEnabled( bEnabled );
-		lbTxtEmptyMsg.setEnabled( bEnabled );
-		lbFdcEmptyMsg.setEnabled( bEnabled );
 	}
 
 	public void widgetSelected( SelectionEvent e )

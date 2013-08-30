@@ -225,6 +225,29 @@ public class BoundDataColumnUtil
 		}
 		return null;
 	}
+	
+	private static boolean equals( String orginal, String dest,
+			boolean IgnoreCase )
+	{
+		if ( IgnoreCase )
+		{
+			if ( orginal != null && orginal.equalsIgnoreCase( dest )
+					|| ( orginal == null && dest == null ) )
+			{
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			if ( orginal != null && orginal.equals( dest )
+					|| ( orginal == null && dest == null ) )
+			{
+				return true;
+			}
+			return false;
+		}
+	}
 
 	/**
 	 * Gets the column with the given expression and aggregateOn value bound the
@@ -247,6 +270,9 @@ public class BoundDataColumnUtil
 		String expression = addColumn.getExpression( );
 		String function = addColumn.getAggregateFunction( );
 		String filterExpression = addColumn.getFilterExpression( );
+		String calculationType = addColumn.getStringProperty(null, ComputedColumn.CALCULATION_TYPE_MEMBER );
+		String refDataType = addColumn.getStringProperty( null,  ComputedColumn.REFERENCE_DATE_TYPE_MEMBER );
+		String timeDimension = addColumn.getStringProperty(null, ComputedColumn.TIME_DIMENSION_MEMBER);
 		List<String> aggregateOnList = addColumn.getAggregateOnList( );
 		String dataType = addColumn.getDataType( );
 
@@ -257,13 +283,20 @@ public class BoundDataColumnUtil
 			String tmpFunction = column.getAggregateFunction( );
 			String tmpFilterExpression = column.getFilterExpression( );
 			String tmpType = column.getDataType( );
+			String tmpCalculationType = column.getStringProperty( null,
+					ComputedColumn.CALCULATION_TYPE_MEMBER );
+			String tmpRefDataType = column.getStringProperty( null,
+					ComputedColumn.REFERENCE_DATE_TYPE_MEMBER );
+			String tmpTimeDimension = column.getStringProperty( null,
+					ComputedColumn.TIME_DIMENSION_MEMBER );
 
-			if ( ( ( expression == null && tmpExpression == null ) || ( expression != null && expression
-					.equals( tmpExpression ) ) )
-					&& ( ( function != null && function.equals( tmpFunction ) ) || ( function == null && tmpFunction == null ) )
-					&& ( ( filterExpression == null && tmpFilterExpression == null ) || ( filterExpression != null && filterExpression
-							.equals( tmpFilterExpression ) ) )
-					&& ( ( dataType == null || tmpType == null) || ( dataType != null && dataType.equalsIgnoreCase( tmpType ) ) ) )
+			if ( equals( expression, tmpExpression, false )
+					&& equals( function, tmpFunction, false )
+					&& equals( calculationType, tmpCalculationType, false )
+					&& equals( filterExpression, tmpFilterExpression, false )
+					&& equals( refDataType, tmpRefDataType, false )
+					&& equals( timeDimension, tmpTimeDimension, false )
+					&& equals( dataType, tmpType, true ) )
 			{
 				List tempAggregateOnList = column.getAggregateOnList( );
 				boolean isEmptyA = aggregateOnList == null

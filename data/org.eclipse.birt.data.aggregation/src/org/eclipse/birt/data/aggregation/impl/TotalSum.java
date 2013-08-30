@@ -90,12 +90,10 @@ public class TotalSum extends AggrFunction
 	{
 
 		private Number sum = 0.0D;
-		private boolean hasNotNullValue = false;
 
 		public void start( )
 		{
 			super.start( );
-			this.hasNotNullValue = false;
 			sum = 0D;
 		}
 
@@ -113,7 +111,6 @@ public class TotalSum extends AggrFunction
 				{
 					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
 				}
-				this.hasNotNullValue = true;
 
 				sum = calculator.add( sum, args[0] );
 			}
@@ -126,7 +123,7 @@ public class TotalSum extends AggrFunction
 		 */
 		public Object getSummaryValue( )
 		{
-			return hasNotNullValue ? sum : null;
+			return sum;
 		}
 
 	}

@@ -30,12 +30,12 @@ import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartInXTabStatusManager;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -57,6 +57,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
  * Provider for conversion between chart and text in cross tab
@@ -151,13 +152,6 @@ public class ChartAggregationCellViewProvider extends
 	{
 		try
 		{
-			if ( ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCount( ) > 1 )
-			{
-				// If total aggregation cell is still existent, do not remove
-				// size and grandtotal row/column
-				return;
-			}
-
 			ExtendedItemHandle chartHandle = getChartHandle( cell );
 			Chart cm = ChartItemUtil.getChartFromHandle( chartHandle );
 
@@ -620,10 +614,17 @@ public class ChartAggregationCellViewProvider extends
 			{
 				return false;
 			}
-			String dataType = info.getCrosstab( )
+			
+			MeasureHandle measureHandle = info.getCrosstab( )
 					.getCube( )
-					.getMeasure( info.getMeasureInfo( ).getMeasureName( ) )
-					.getDataType( );
+					.getMeasure( info.getMeasureInfo( ).getMeasureName( ) );
+			
+			if ( measureHandle == null )
+			{
+				return false;
+			}
+			
+			String dataType = measureHandle.getDataType( );
 			return !DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( dataType );
 		}
 

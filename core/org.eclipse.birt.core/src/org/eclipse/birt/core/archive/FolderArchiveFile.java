@@ -57,7 +57,8 @@ public class FolderArchiveFile implements IArchiveFile
 		try
 		{
 			// serialize meta data into .metedata file
-			File file = new File( folderName + "/" + METEDATA );
+			String meta = ArchiveUtil.generateFullContentPath( folderName, METEDATA );
+			File file = new File( meta );
 
 			outputStream = new RAFolderOutputStream( null, file );
 			data = new DataOutputStream( outputStream );
@@ -166,7 +167,7 @@ public class FolderArchiveFile implements IArchiveFile
 
 	public boolean exists( String name )
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, name );
+		String path = ArchiveUtil.generateFullContentPath( folderName, name );
 		File fd = new File( path );
 		return fd.exists( );
 	}
@@ -185,7 +186,7 @@ public class FolderArchiveFile implements IArchiveFile
 
 	public ArchiveEntry openEntry( String name ) throws IOException
 	{
-		String fullPath = ArchiveUtil.generateFullPath( folderName,
+		String fullPath = ArchiveUtil.generateFullContentPath( folderName,
 				name );
 		File fd = new File( fullPath );
 		if(fd.exists( ))
@@ -212,7 +213,7 @@ public class FolderArchiveFile implements IArchiveFile
 					File file = files[i];
 					if ( file.isFile( ) )
 					{
-						String relativePath = ArchiveUtil.generateRelativePath(
+						String relativePath = ArchiveUtil.generateRelativeContentPath(
 								folderName, file.getPath( ) );
 						if ( !ArchiveUtil.needSkip( relativePath ) )
 						{
@@ -228,7 +229,7 @@ public class FolderArchiveFile implements IArchiveFile
 
 	public ArchiveEntry createEntry( String name ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, name );
+		String path = ArchiveUtil.generateFullContentPath( folderName, name );
 		File fd = new File( path );
 
 		ArchiveUtil.createParentFolder( fd );
@@ -239,7 +240,7 @@ public class FolderArchiveFile implements IArchiveFile
 
 	public boolean removeEntry( String name ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, name );
+		String path = ArchiveUtil.generateFullContentPath( folderName, name );
 		try
 		{
 			File fd = new File( path );
@@ -273,8 +274,7 @@ public class FolderArchiveFile implements IArchiveFile
 
 	public Object lockEntry( String entry ) throws IOException
 	{
-		String path = ArchiveUtil
-				.generateFullPath( folderName, entry + ".lck" );
+		String path = ArchiveUtil.generateFullContentPath( folderName, entry)  + ".lck";
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
 		return lockManager.lock( path );
 	}

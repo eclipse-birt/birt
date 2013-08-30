@@ -13,6 +13,9 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +32,7 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
  */
 public class RunStatusReader
 {
+
 	protected RAInputStream runStatusStream;
 	static protected Logger logger = Logger.getLogger( RunStatusReader.class
 			.getName( ) );
@@ -71,11 +75,12 @@ public class RunStatusReader
 		}
 	}
 
-	public String getStuats( )
+	@SuppressWarnings("unchecked")
+	public List<String> getGenerationErrors( )
 	{
 		if ( runStatusStream == null )
 		{
-			return null;
+			return Collections.EMPTY_LIST;
 		}
 		try
 		{
@@ -83,26 +88,41 @@ public class RunStatusReader
 			int errorSize = IOUtil.readInt( in );
 			if ( errorSize > 0 )
 			{
-				StringBuilder message = new StringBuilder( );
+				ArrayList<String> errors = new ArrayList<String>( );
 				for ( int i = 0; i < errorSize; i++ )
 				{
-					// we needn't use the system.line.property as:
-					// 1. system.getProperty is a security operation, it need
-					// some permission assigned
-					// 2. the message is displayed in client side, we don't
-					// known if the client side has same line separator with the
-					// server
-					message.append( IOUtil.readString( in ) ).append( "\n");
+					errors.add( IOUtil.readString( in ) );
 				}
-				return message.toString( );
+				return errors;
 			}
 		}
 		catch ( IOException e )
 		{
 			logger.log( Level.WARNING,
-			            "Exception occured during reading run task status" ); //$NON-NLS-1$
+					"Exception occured during reading run task status" ); //$NON-NLS-1$
 		}
-		return null;
+		return Collections.EMPTY_LIST;
+	}
+
+	public String getStuats( )
+	{
+		List<String> errList = getGenerationErrors( );
+		if ( errList == null || errList.isEmpty( ) )
+		{
+			return null;
+		}
+		StringBuilder message = new StringBuilder( );
+		for ( String error : errList )
+		{
+			// we needn't use the system.line.property as:
+			// 1. system.getProperty is a security operation, it need
+			// some permission assigned
+			// 2. the message is displayed in client side, we don't
+			// known if the client side has same line separator with the
+			// server
+			message.append( error ).append( "\n" );
+		}
+		return message.toString( );
 	}
 
 }

@@ -32,17 +32,17 @@
             <property name="columnSpacing">0.25mm</property>
             <contents>
                 <label id="8">
-                    <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>
                     <property name="width">2mm</property>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
                 <label id="9">
-                    <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>
                     <property name="width">1mm</property>
+                    <property name="x">6mm</property>
+                    <property name="y">0.5mm</property>
                     <text-property name="text">Today's Date</text-property>
                 </label>
             </contents>
@@ -90,12 +90,12 @@
             <property name="summary">new summary</property>
             <text-property name="caption" key="new caption key">new caption</text-property>
             <column id="13">
-                <property name="width">2.5mm</property>
                 <property name="style">My-Style</property>
+                <property name="width">2.5mm</property>
             </column>
             <column id="14">
-                <property name="width">1.5mm</property>
                 <property name="style">My-Style</property>
+                <property name="width">1.5mm</property>
             </column>
             <column id="15">
                 <property name="suppressDuplicates">true</property>
@@ -123,10 +123,10 @@
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <label id="18">
-                            <property name="x">1mm</property>
-                            <property name="y">2mm</property>
                             <property name="height">3mm</property>
                             <property name="width">4mm</property>
+                            <property name="x">1mm</property>
+                            <property name="y">2mm</property>
                             <text-property name="text">Customer Name</text-property>
                         </label>
                     </cell>
@@ -135,10 +135,10 @@
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                         <label id="20">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
                             <text-property name="text">Address</text-property>
                         </label>
                     </cell>
@@ -188,10 +188,10 @@
                             <property name="colSpan">1</property>
                             <property name="rowSpan">1</property>
                             <label id="24">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>
                                 <text-property name="text">Address1</text-property>
                             </label>
                         </cell>
@@ -201,10 +201,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="27">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>
                                 <text-property name="text">Address2</text-property>
                             </label>
                         </cell>
@@ -216,10 +216,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="30">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>
                                 <text-property name="text">Address3</text-property>
                             </label>
                         </cell>
@@ -235,6 +235,8 @@
                     <property name="newHandlerOnEachEvent">true</property>
                     <method name="onPrepare"><![CDATA[new prepare on row]]></method>
                     <method name="onCreate"><![CDATA[new create on row]]></method>
+                    <property name="role">TR</property>
+            		<property name="language">English</property>
                     <cell id="32">
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
@@ -251,10 +253,10 @@
                             </structure>
                         </list-property>
                         <label id="33">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
                             <text-property name="text">Address</text-property>
                         </label>
                     </cell>
@@ -267,15 +269,18 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label id="36">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
                             <text-property name="text">Address4</text-property>
                         </label>
                     </cell>
                 </row>
             </footer>
+             <property name="role">Table</property>
+            <property name="language">English</property>
+            <property name="order">1</property>
         </table>
         <list name="My List" id="37">
             <property name="dataSet">firstDataSet</property>

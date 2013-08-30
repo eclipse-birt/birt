@@ -116,7 +116,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 	 */
 	public RAInputStream getStream( String relativePath ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
+		String path = ArchiveUtil.generateFullContentPath( folderName, relativePath );
 
 		File file = new File( path );
 		if ( file.exists( ) )
@@ -135,7 +135,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 
 	public boolean exists( String relativePath )
 	{
-		String fullPath = ArchiveUtil.generateFullPath( folderName,
+		String fullPath = ArchiveUtil.generateFullContentPath( folderName,
 				relativePath );
 		File fd = new File( fullPath );
 		return fd.exists( );
@@ -184,7 +184,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			File file = list.get( i );
-			String relativePath = ArchiveUtil.generateRelativePath( folderName,
+			String relativePath = ArchiveUtil.generateRelativeContentPath( folderName,
 					file.getPath( ) );
 			if ( !ArchiveUtil.needSkip( relativePath ) )
 			{
@@ -201,7 +201,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 	 */
 	public Object lock( String stream ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, stream + ".lck" );
+		String path = ArchiveUtil.generateFullContentPath( folderName, stream)  + ".lck";
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
 		return lockManager.lock( path );
 	}

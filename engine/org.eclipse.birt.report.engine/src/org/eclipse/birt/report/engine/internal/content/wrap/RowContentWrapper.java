@@ -92,4 +92,15 @@ public class RowContentWrapper extends AbstractContentWrapper
 	{
 		rowContent.setGroupId( groupId );
 	}
+
+	public void setRepeatable( boolean repeatable )
+	{
+		rowContent.setRepeatable( repeatable );
+		
+	}
+
+	public boolean isRepeatable( )
+	{
+		return rowContent.isRepeatable( );
+	}
 }

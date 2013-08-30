@@ -85,11 +85,18 @@ public class ImageContent extends AbstractContent implements IImageContent
 
 	public String getAltText( )
 	{
+		// This is for backward compatibility. The alt text property was stored
+		// as string and will not be written in the content.
 		if ( altText == null )
 		{
 			if ( generateBy instanceof ImageItemDesign )
 			{
-				return ( (ImageItemDesign) generateBy ).getAltText( );
+				Expression expr = ( (ImageItemDesign) generateBy ).getAltText( );
+				if ( expr != null && expr.getType( ) == Expression.CONSTANT )
+				{
+					return expr.getScriptText( );
+				}
+				return null;
 			}
 		}
 		return altText;

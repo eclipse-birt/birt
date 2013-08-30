@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.IImageServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 
@@ -42,6 +43,7 @@ public class ChartWizardContext implements IChartWizardContext<Chart>
 	private String sDefaultOutputFormat = "SVG"; //$NON-NLS-1$
 	private String sOutputFormat = sDefaultOutputFormat;
 	final protected IUIServiceProvider uiProvider;
+	final protected IImageServiceProvider imageServiceProvider;
 	final private IDataServiceProvider dataProvider;
 	final private IChartDataSheet dataSheet;
 	private IStyleProcessor processor;
@@ -65,11 +67,12 @@ public class ChartWizardContext implements IChartWizardContext<Chart>
 	// Default implementation of UI factory
 	private IChartUIFactory uiFactory;
 
-	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
+	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,IImageServiceProvider imageProvider,
 			IDataServiceProvider dataProvider, IChartDataSheet dataSheet, IChartUIFactory uiFactory )
 	{
 		this.chartModel = chartModel;
 		this.uiProvider = uiProvider;
+		this.imageServiceProvider=imageProvider;
 		this.dataProvider = dataProvider;
 		this.dataSheet = dataSheet;
 		if ( this.dataSheet != null)
@@ -80,9 +83,15 @@ public class ChartWizardContext implements IChartWizardContext<Chart>
 	}
 	
 	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
+			IImageServiceProvider imageProvider,
 			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
 	{
-		this(chartModel, uiProvider, dataProvider, dataSheet, null );
+		this( chartModel,
+				uiProvider,
+				imageProvider,
+				dataProvider,
+				dataSheet,
+				null );
 	}
 			
 	/**
@@ -475,4 +484,11 @@ public class ChartWizardContext implements IChartWizardContext<Chart>
 	{
 		return true;
 	}
+
+	
+	public IImageServiceProvider getImageServiceProvider( )
+	{
+		return imageServiceProvider;
+	}
+	
 }

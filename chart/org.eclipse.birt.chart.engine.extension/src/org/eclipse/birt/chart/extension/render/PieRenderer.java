@@ -1883,9 +1883,6 @@ public final class PieRenderer
 
 	/**
 	 * Defer to draw curved outline.
-	 * 
-	 * @param planesList
-	 *            the list is used to receive the planes.
 	 * @param startAngle
 	 *            angle of pie slice, normally it should be the start angle of
 	 *            pie slice.
@@ -1894,13 +1891,17 @@ public final class PieRenderer
 	 * @param areBentOrTwistedCurve
 	 *            outline group.
 	 * @param isInner
+	 * @param lre
+	 * @param planesList
+	 *            the list is used to receive the planes.
+	 * 
 	 * @return drawable object.
 	 */
 	private final IDrawable deferCurvedOutline( List<IDrawable> list, double startAngle, double angleExtent,
-			AreaRenderEvent areBentOrTwistedCurve, boolean isInner )
+			AreaRenderEvent areBentOrTwistedCurve, boolean isInner, LineRenderEvent lre )
 	{
 		double newAngle = convertAngleForRenderingOrder( startAngle, startAngle + angleExtent );
-		return new CurvedPlane( newAngle, areBentOrTwistedCurve, isInner );
+		return new CurvedPlane( newAngle, areBentOrTwistedCurve, lre, isInner );
 	}
 
 	/**
@@ -2424,13 +2425,17 @@ public final class PieRenderer
 					areLine.add( arcRE2 );
 				}
 				
+				if ( ( LineRenderEvent ) edgeLines[2] != null) {
+					( ( LineRenderEvent ) edgeLines[2] ).setLineAttributes( areLine
+							.getLineAttributes( ) );
+				}
 				// Set curved outline as next, it is rendered after current
 				// curved plane.
 				drawable.setNext( deferCurvedOutline( deferredPlanes,
 						dStartAngle,
 						dAngleExtent,
 						areLine,
-						isInner ) );
+						isInner, ( LineRenderEvent )edgeLines[2] ) );
 			}
 		}
 	}
@@ -2448,36 +2453,47 @@ public final class PieRenderer
 			Location loC, Location loCTop, Size sz, DataPointHints dph )
 	{
 
-		double dAngleInRadians = Math.toRadians( startAngle );
-		double dSineThetaStart = Math.sin( dAngleInRadians );
-		double dCosThetaStart = Math.cos( dAngleInRadians );
-		dAngleInRadians = Math.toRadians( startAngle + extentAngle );
-		double dSineThetaEnd = Math.sin( dAngleInRadians );
-		double dCosThetaEnd = Math.cos( dAngleInRadians );
+		final LineRenderEvent lreStartB2T = getLineByAngle( loC,
+				loCTop,
+				sz,
+				dph,
+				startAngle );
+		final LineRenderEvent lreEndT2B = getLineByAngle( loC,
+				loCTop,
+				sz,
+				dph,
+				startAngle + extentAngle );
 
-		double xE = ( sz.getWidth( ) * dCosThetaEnd );
-		double yE = ( sz.getHeight( ) * dSineThetaEnd );
-		double xS = ( sz.getWidth( ) * dCosThetaStart );
-		double yS = ( sz.getHeight( ) * dSineThetaStart );
-
-		final LineRenderEvent lreStartB2T = new LineRenderEvent( WrappedStructureSource.createSeriesDataPoint( ps,
-				dph ) );
-		lreStartB2T.setStart( goFactory.createLocation( loC.getX( ) + xS,
-				loC.getY( )
-				- yS ) );
-		lreStartB2T.setEnd( goFactory.createLocation( loCTop.getX( ) + xS,
-				loCTop.getY( ) - yS ) );
-		final LineRenderEvent lreEndT2B = new LineRenderEvent( WrappedStructureSource.createSeriesDataPoint( ps,
-				dph ) );
-		lreEndT2B.setStart( goFactory.createLocation( loCTop.getX( ) + xE,
-				loCTop.getY( ) - yE ) );
-		lreEndT2B.setEnd( goFactory.createLocation( loC.getX( ) + xE,
-				loC.getY( )
-				- yE ) );
+		LineRenderEvent lreBetween = null;
+		if ( ( startAngle < 180 && startAngle + extentAngle > 180 ) )
+		{
+			lreBetween = getLineByAngle( loC, loCTop, sz, dph, 180 );
+		}
+		else if ( ( startAngle < 360 && startAngle + extentAngle > 360 ) )
+		{
+			lreBetween = getLineByAngle( loC, loCTop, sz, dph, 360 );
+		}
 
 		return new Object[]{
-				lreStartB2T, lreEndT2B
+				lreStartB2T, lreEndT2B, lreBetween
 		};
+	}
+
+	private LineRenderEvent getLineByAngle( Location loC, Location loCTop,
+			Size sz, DataPointHints dph, double dAngle )
+	{
+		double dAngleInRadius = Math.toRadians( dAngle );
+		double dSineTheta = Math.sin( dAngleInRadius );
+		double dCosTheta = Math.cos( dAngleInRadius );
+		double xS = ( sz.getWidth( ) * dCosTheta );
+		double yS = ( sz.getHeight( ) * dSineTheta );
+		final LineRenderEvent lre = new LineRenderEvent( WrappedStructureSource.createSeriesDataPoint( ps,
+				dph ) );
+		lre.setStart( goFactory.createLocation( loC.getX( ) + xS, loC.getY( )
+				- yS ) );
+		lre.setEnd( goFactory.createLocation( loCTop.getX( ) + xS,
+				loCTop.getY( ) - yS ) );
+		return lre;
 	}
 
 	/**
@@ -2516,6 +2532,8 @@ public final class PieRenderer
 		private boolean _isInnerPlane = false;
 
 		private IDrawable _next;
+		
+		private final LineRenderEvent _lre;
 
 		/**
 		 * Constructor of the class.
@@ -2524,10 +2542,16 @@ public final class PieRenderer
 		 */
 		CurvedPlane( double angle, AreaRenderEvent are, boolean isInnerPlane )
 		{
+			this(angle, are, null, isInnerPlane);
+		}
+		
+		CurvedPlane( double angle, AreaRenderEvent are, LineRenderEvent lre, boolean isInnerPlane )
+		{
 			_are = are;
 			_bo = are.getBounds( );
 			_angle = angle;
 			_isInnerPlane = isInnerPlane;
+			_lre = lre;
 		}
 
 		public final Bounds getBounds( )
@@ -2606,6 +2630,9 @@ public final class PieRenderer
 		{
 			idr.fillArea( _are );
 			idr.drawArea( _are );
+			if( _lre != null ){
+				idr.drawLine( _lre );
+			}
 			/*
 			 * GradientPaint gp = new GradientPaint( (float)dGradientStart2D, 0,
 			 * Color.black, (float)(dGradientStart2D + (dGradientEnd2D -

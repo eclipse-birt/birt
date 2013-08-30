@@ -331,7 +331,10 @@ public class SwtLiveChartViewer extends Composite implements PaintListener
 
 		try
 		{
-			gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, null, null );
+			if ( bFirstPaint ) // ++++ added this line. But then data does not
+			{
+				gcs = gr.build( idr.getDisplayServer( ), cm, bo, null, null, null );
+			}
 			gr.render( idr, gcs );
 			GC gc = e.gc;
 			gc.drawImage( imgChart, d.x, d.y );

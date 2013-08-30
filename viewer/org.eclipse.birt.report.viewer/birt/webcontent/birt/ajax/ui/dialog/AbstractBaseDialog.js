@@ -244,7 +244,7 @@ AbstractBaseDialog.prototype =
 		this.__preHide();
 		Event.stopObserving( window, 'resize', this.__neh_resize_closure, false );
 		Event.stopObserving( document, 'mouseup', this.disposeSelection_closure, false );
-		Element.hide( this.__instance, this.__iframe );
+		[ this.__instance, this.__iframe ].each( Element.hide );
 		this.visible = false;
 		Mask.hide();
 	},

@@ -244,7 +244,9 @@
 	
 	<%
 	//60078, 57264. If the parameterBean is not cascade, then select the first element.
-	if ( selectFirst && !parameterBean.isCascade( ))
+	//64717, when preview in the report designer but not web, this page will load twice, 
+	//and the second time has the seleted value, then skip select the first value.
+	if ( selectFirst && !parameterBean.isCascade( ) && parameterBean.getValue( ) == null)
 	{
 	%>
 		<script>

@@ -494,7 +494,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		{
 			final Location[] loa = ( (PolygonRenderEvent) pre ).getPoints( );
 
-			int[][] pa = getCoordinatesAsInts( loa );
+			double[][] pa = getCoordinates( loa );
 
 			elm = svggc.createPolygon( pa[0], pa[1], pa[0].length );
 		}
@@ -788,7 +788,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 			throws ChartException
 	{
 		Image img = super.createImageFromModel( imageModel );
-		if ( !( img instanceof SVGImage ) )
+		if ( img != null && !( img instanceof SVGImage ) )
 		{
 			img = new SVGImage( img, null );
 		}
@@ -803,5 +803,11 @@ public class SVGRendererImpl extends SwingRendererImpl
 			img = ( (SVGImage) img ).image;
 		}
 		return super.convertPatternImage( img );
+	}
+	
+	@Override
+	protected Shape getPolygon( Location[] loa )
+	{
+		return getPolygon2D( loa );
 	}
 }

@@ -140,14 +140,7 @@ public class RowArea extends ContainerArea
 		TableArea table = getTableArea( );
 		table.addRow( this );
 		updateBackgroundImage( );
-		boolean pb = checkPageBreak( );
-		// if page-break occurs, need re-add this row into layout
-		if ( pb )
-		{
-			//if page-break occurs, the specified height should not be applied.
-			specifiedHeight = 0;
-			table.addRow( this );
-		}
+		
 		//if ( content != null && content.isRTL( ) ) // bidi_hcg
 		//{
 			//reorderCellsForRTL( );

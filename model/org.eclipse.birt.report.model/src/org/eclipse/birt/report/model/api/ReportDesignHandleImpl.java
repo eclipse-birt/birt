@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -1594,7 +1593,6 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 		setProperty( ON_PREPARE_METHOD, script );
 	}
 	
-	
 	/**
 	 * Gets the client-initialize script of the report design.
 	 * The design can load java script libraries by the property.
@@ -1621,6 +1619,31 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 	public void setClientInitialize( String script ) throws SemanticException
 	{
 		setProperty( CLIENT_INITIALIZE_METHOD, script );
+	}
+	
+	/**
+	 * Gets the language of the report design.
+	 * 
+	 * @return the language of the report design
+	 */
+
+	public String getLanguage( )
+	{
+		return getStringProperty( LANGUAGE_PROP );
+	}
+
+	/**
+	 * Sets the language of the report design.
+	 * 
+	 * @param language
+	 *            the language to set
+	 * @throws SemanticException
+	 *             if the method is locked.
+	 */
+
+	public void setLanguage( String language ) throws SemanticException
+	{
+		setProperty( LANGUAGE_PROP, language );
 	}
 
 }

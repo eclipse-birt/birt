@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
@@ -199,7 +199,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 							.getBindingCubeHandle( inputElement );
 					if ( cubeHandle != null )
 					{
-						if ( inputElement.getCube( ) == null )
+						if ( inputElement.getCube( ) == null || ChartItemUtil.isInMultiViews( inputElement ) )
 						{
 							// It inherits bindings from crosstab or sharing
 							// query with crosstab, only need to refresh
@@ -237,7 +237,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 
 						DataSetHandle dataSetHandle = inputElement.getDataSet( );
 
-						if ( dataSetHandle == null )
+						if ( dataSetHandle == null || ChartItemUtil.isInMultiViews( inputElement ) )
 						{
 							// It inherits bindings from table or sharing query
 							// with table, only need to refresh bindings.

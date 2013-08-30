@@ -111,4 +111,18 @@ public interface Query extends IChartObject
 	 */
 	Query copyInstance( );
 
+	/*
+	 * Get definition expression.
+	 * 
+	 * @return expression the definition expression.
+	 */
+	ScriptExpression getDefinitionExpression( );
+	
+	/*
+	 * Set definition expression.
+	 * 
+	 * @param expression the definition expression.
+	 */
+	void setDefinitionExpression( ScriptExpression expression );
+
 } // Query

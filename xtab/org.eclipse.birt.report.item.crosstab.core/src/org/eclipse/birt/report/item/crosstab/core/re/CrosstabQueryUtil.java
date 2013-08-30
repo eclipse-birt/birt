@@ -55,6 +55,7 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
@@ -63,6 +64,7 @@ import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
@@ -166,7 +168,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 						cubeQuery,
 						modelAdapter );
 
-				if ( mv instanceof ComputedMeasureViewHandle )
+				if ( mv instanceof ComputedMeasureViewHandle 
+						&& !CrosstabUtil.isLinkedDataModelMeasureView( mv ) )
 				{
 					continue;
 				}
@@ -300,7 +303,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 			CrosstabReportItemHandle crosstabItem, 
 			MeasureViewHandle mv )
 	{
-		String linkedColumnName = mv.getCubeMeasureName( );
+		String linkedColumnName = (mv instanceof ComputedMeasureViewHandle) ? null : mv.getCubeMeasureName( );
 		CrosstabCellHandle cell = mv.getCell( );
 		String measureBindingName = linkedColumnName;
 		String aggrFunc = null;		
@@ -651,8 +654,9 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		}
 		else
 		{
+			boolean isLinkedDataModel = CrosstabUtil.isBoundToLinkedDataSet( crosstabItem ); 
+					
 			// process non-root level member value
-
 			String targetDataType = targetLevel.getDataType( );
 			int dteDataType = DataAdapterUtil.adaptModelDataType( targetDataType );
 
@@ -663,9 +667,23 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				IDimensionDefinition targetDimDef = targetLevelDef.getHierarchy( )
 						.getDimension( );
 
-				targetLevels.add( modelAdapter.adaptJSExpression( ExpressionUtil.createJSDimensionExpression( targetDimDef.getName( ),
-						targetLevelDef.getName( ) ),
-						targetDataType ) );
+				if( isLinkedDataModel )
+				{
+					DesignElementHandle deh = targetLevel.getContainer( ).getContainer( );
+					boolean isTimeDimension = (deh!= null && deh instanceof DimensionHandle) ? ((DimensionHandle)deh).isTimeType( ) : false;
+					String expr = ExpressionUtil.createDataSetRowExpression( targetDimDef.getName( ) );
+					if( isTimeDimension )
+					{
+						expr = expr + "[\"" + targetLevelDef.getName( ) + "\"]";
+					}
+					targetLevels.add( modelAdapter.adaptJSExpression( expr, targetDataType ) );
+				}
+				else
+				{
+					targetLevels.add( modelAdapter.adaptJSExpression( ExpressionUtil.createJSDimensionExpression( targetDimDef.getName( ),
+							targetLevelDef.getName( ) ),
+							targetDataType ) );
+				}
 			}
 
 			String val = member.getValue( );
@@ -885,8 +903,9 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 		Object val = member.getValue( );
 
-		// only add non-null values
-		if ( val != null )
+		// only add non-null values for normal cube
+		// support null value for linked data model
+		if ( val != null || CrosstabUtil.isBoundToLinkedDataSet( crosstabItem ) )
 		{
 			List<Object> vals = values.get( depth );
 

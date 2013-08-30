@@ -15,10 +15,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Properties;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -56,7 +59,6 @@ public class HTMLTextParser
 	/**
 	 * Initializes and sets configuration
 	 */
-	
 	protected static Properties props;
 	
 	static
@@ -133,88 +135,89 @@ public class HTMLTextParser
 		assert in != null;
 
 		Document doc = tidy.parseDOM( in, null );
-		try
+
+		DocumentBuilder docBuilder = DocumentBuilderPool.getDocumentBuilder( );
+		if ( docBuilder == null )
 		{
-			Document desDoc = DocumentBuilderFactory.newInstance( )
-					.newDocumentBuilder( )
-					.newDocument( );
-			Node desBody = desDoc.createElement( "body" ); //$NON-NLS-1$
-			desDoc.appendChild( desBody );
-			// After parsing with JTidy,normally the children nodes of the root
-			// are
-			// HTML entity, HTML element and comments node. And The children
-			// nodes of the
-			// element HTML are Head element and Body element. Only Body element
-			// and its descendant nodes are preserved.
-			// Entities in raw html are converted to text.
-			Node html = null;
-			for ( Node child = doc.getFirstChild( ); child != null; child = child.getNextSibling( ) )
-			{
-				if ( child.getNodeType( ) == Node.COMMENT_NODE )
-				{
-					Comment commentNode = desBody.getOwnerDocument( )
-							.createComment( child.getNodeValue( ) );
-					desBody.appendChild( commentNode );
-				}
-				else if ( child.getNodeType( ) == Node.ELEMENT_NODE
-						&& "html".equals( child.getNodeName( ) ) )
-				{
-					html = child;
-					break;
-				}
-			}
-
-			if ( html != null )
-			{
-				Node head = getNodeByName( html, "head" ); //$NON-NLS-1$
-				if ( head != null )
-				{
-					for ( Node child = head.getFirstChild( ); child != null; child = child.getNextSibling( ) )
-					{
-						short nodeType = child.getNodeType( );
-						if ( nodeType == Node.ELEMENT_NODE )
-						{
-							if ( "script".equalsIgnoreCase( child.getNodeName( ) ) )
-							{
-								// copy the element node
-								Element ele = null;
-								ele = desBody.getOwnerDocument( )
-										.createElement( child.getNodeName( ) );
-
-								// copy the attributes
-								for ( int i = 0; i < child.getAttributes( )
-										.getLength( ); i++ )
-								{
-									Node attr = child.getAttributes( ).item( i );
-									ele.setAttribute( attr.getNodeName( ),
-											attr.getNodeValue( ) );
-								}
-
-								desBody.appendChild( ele );
-								copyNode( child, ele );
-							}
-						}
-						else if ( nodeType == Node.COMMENT_NODE )
-						{
-							Comment commentNode = desBody.getOwnerDocument( )
-									.createComment( child.getNodeValue( ) );
-							desBody.appendChild( commentNode );
-						}
-					}
-				}
-				Node body = getNodeByName( html, "body" ); //$NON-NLS-1$
-				if ( body != null )
-				{
-					copyNode( body, desBody );
-				}
-			}
-			return desDoc;
-		}
-		catch ( ParserConfigurationException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
 			return null;
 		}
+		Document desDoc = docBuilder.newDocument( );
+		DocumentBuilderPool.releaseDocumentBuilder( docBuilder );
+
+		Node desBody = desDoc.createElement( "body" ); //$NON-NLS-1$
+		desDoc.appendChild( desBody );
+		// After parsing with JTidy,normally the children nodes of the root
+		// are
+		// HTML entity, HTML element and comments node. And The children
+		// nodes of the
+		// element HTML are Head element and Body element. Only Body element
+		// and its descendant nodes are preserved.
+		// Entities in raw html are converted to text.
+		Node html = null;
+		for ( Node child = doc.getFirstChild( ); child != null; child = child
+				.getNextSibling( ) )
+		{
+			if ( child.getNodeType( ) == Node.COMMENT_NODE )
+			{
+				Comment commentNode = desBody.getOwnerDocument( )
+						.createComment( child.getNodeValue( ) );
+				desBody.appendChild( commentNode );
+			}
+			else if ( child.getNodeType( ) == Node.ELEMENT_NODE
+					&& "html".equals( child.getNodeName( ) ) )
+			{
+				html = child;
+				break;
+			}
+		}
+
+		if ( html != null )
+		{
+			Node head = getNodeByName( html, "head" ); //$NON-NLS-1$
+			if ( head != null )
+			{
+				for ( Node child = head.getFirstChild( ); child != null; child = child
+						.getNextSibling( ) )
+				{
+					short nodeType = child.getNodeType( );
+					if ( nodeType == Node.ELEMENT_NODE )
+					{
+						if ( "script".equalsIgnoreCase( child.getNodeName( ) ) )
+						{
+							// copy the element node
+							Element ele = null;
+							ele = desBody.getOwnerDocument( ).createElement(
+									child.getNodeName( ) );
+
+							// copy the attributes
+							for ( int i = 0; i < child.getAttributes( )
+									.getLength( ); i++ )
+							{
+								Node attr = child.getAttributes( ).item( i );
+								ele.setAttribute( attr.getNodeName( ),
+										attr.getNodeValue( ) );
+							}
+
+							desBody.appendChild( ele );
+							copyNode( child, ele );
+						}
+					}
+					else if ( nodeType == Node.COMMENT_NODE )
+					{
+						Comment commentNode = desBody.getOwnerDocument( )
+								.createComment( child.getNodeValue( ) );
+						desBody.appendChild( commentNode );
+					}
+				}
+			}
+			Node body = getNodeByName( html, "body" ); //$NON-NLS-1$
+			if ( body != null )
+			{
+				copyNode( body, desBody );
+			}
+		}
+		return desDoc;
+
 	}
 
 	/**
@@ -317,4 +320,43 @@ public class HTMLTextParser
 			}
 		}
 	}
+	
+	static class DocumentBuilderPool
+	{
+		private static final int MAX_POOL_SIZE = 16;
+		private static BlockingQueue<DocumentBuilder> builders = new LinkedBlockingQueue<DocumentBuilder>( MAX_POOL_SIZE );
+		
+		public static DocumentBuilder getDocumentBuilder( )
+		{	
+			DocumentBuilder docBuilder = builders.poll( );
+			if ( docBuilder == null )
+			{
+				docBuilder = newDocumentBuilder( );
+			}
+			return docBuilder;
+		}
+		
+		public static void releaseDocumentBuilder( DocumentBuilder docBuilder )
+		{
+			docBuilder.reset( );
+			builders.offer( docBuilder );
+		}
+		
+		private static DocumentBuilder newDocumentBuilder( )
+		{
+			try
+			{
+				DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance( )
+						.newDocumentBuilder( );
+				return docBuilder;
+			}
+			catch ( ParserConfigurationException e )
+			{
+				logger.log( Level.SEVERE, e.getMessage( ), e );
+				return null;
+			}
+		}
+	}
+	
 }
+

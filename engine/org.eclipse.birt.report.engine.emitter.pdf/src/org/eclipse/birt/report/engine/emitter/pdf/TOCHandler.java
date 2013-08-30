@@ -104,6 +104,10 @@ public class TOCHandler
 			countOutlineSize( node.getBookmark( ).length( ) );
 			IScriptStyle style = node.getTOCStyle( );
 			String color = style.getColor( );
+			if ( color != null )
+			{
+				color = color.toLowerCase( );
+			}
 			Color awtColor = PropertyUtil.getColor( color );
 			if ( awtColor != null )
 			{

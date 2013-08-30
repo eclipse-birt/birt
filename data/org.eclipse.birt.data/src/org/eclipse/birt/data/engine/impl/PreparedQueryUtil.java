@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
@@ -53,8 +54,10 @@ import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -71,6 +74,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 /**
  * Create concreate class of IPreparedQuery
@@ -161,7 +165,7 @@ public class PreparedQueryUtil
 		if( dset!= null )
 		{
 			FilterPrepareUtil.prepareFilters( dset.getFilters( ), dataEngine.getContext( ).getScriptContext( ) );
-			QueryContextVisitorUtil.populateDataSet( contextVisitor, dset );
+			QueryContextVisitorUtil.populateDataSet( contextVisitor, dset, appContext );
 			
 			preparedQuery = QueryPrepareUtil.prepareQuery( dataEngine,
 					queryDefn,
@@ -203,6 +207,7 @@ public class PreparedQueryUtil
 			}
 			else
 			{
+				( (BaseDataSetDesign) dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) ).setQueryContextVisitor( contextVisitor );
 				preparedQuery = new PreparedOdaDSQuery( dataEngine,
 						queryDefn,
 						dset,
@@ -728,15 +733,45 @@ public class PreparedQueryUtil
 		Iterator<IBinding> bindingIt = queryDefn.getBindings( )
 				.values( )
 				.iterator( );
+		
+		Set<String> modifiedAggrBinding = new HashSet<String>( );
 		while ( bindingIt.hasNext( ) )
 		{
 			IBinding binding = bindingIt.next( );
 			if ( nameSet.contains( binding.getBindingName( ) ) )
 			{
+				if( binding.getAggrFunction( ) != null )
+					modifiedAggrBinding.add( binding.getBindingName( ) );
 				binding.setAggrFunction( null );
 				binding.getAggregatOns( ).clear( );
 				binding.getArguments( ).clear( );
 				binding.setExpression( new ScriptExpression( ExpressionUtil.createDataSetRowExpression( binding.getBindingName( ) ) ) );
+			}
+		}
+		
+		Iterator groups = queryDefn.getGroups( ).iterator( );
+		while( groups.hasNext( ) )
+		{
+			IGroupDefinition group = (IGroupDefinition) groups.next( );
+			Iterator filters = group.getFilters( ).iterator( );
+			List<IFilterDefinition> removedFilter = new ArrayList<IFilterDefinition>( );
+			while( filters.hasNext( ) )
+			{
+				IFilterDefinition filter = (IFilterDefinition)filters.next( );
+				List<String> list = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ExpressionUtil.ROW_INDICATOR );
+				for( int i=0; i< list.size( ); i++ )
+				{
+					if( modifiedAggrBinding.contains( list.get(i) ) )
+					{
+						removedFilter.add( filter );
+					}
+				}
+			}
+			
+			if( !removedFilter.isEmpty( ) )
+			{
+				queryDefn.getFilters( ).addAll( removedFilter );
+				group.getFilters( ).removeAll( removedFilter );
 			}
 		}
 	}
@@ -843,6 +878,18 @@ class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign
 	{
 		return this.source.getPrimaryResultSetNumber( );
 	}	
+	
+	public QuerySpecification getCombinedQuerySpecification( )
+	{
+		if( this.source instanceof OdaDataSetDesign )
+		{
+			return ( (OdaDataSetDesign) this.source ).getCombinedQuerySpecification( );
+		}
+		else
+		{
+			return null;
+		}
+	}
 }
 
 class JointDataSetAdapter extends DataSetAdapter implements IJointDataSetDesign

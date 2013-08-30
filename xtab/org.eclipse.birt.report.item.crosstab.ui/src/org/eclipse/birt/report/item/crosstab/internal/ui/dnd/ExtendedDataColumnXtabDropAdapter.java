@@ -11,13 +11,15 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
-import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupDialog;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -25,6 +27,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
+import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.LevelViewDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
@@ -34,7 +37,6 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
@@ -131,10 +133,8 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 			{
 				if( ((DimensionHandle) element).isTimeType( ) )
 				{
-					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ((DimensionHandle) element).getDefaultHierarchy( );
-					
-					GroupDialog dialog = new GroupDialog( true );
-					dialog.setInput( hierarchy, adapter.getResultSetColumn( (ReportElementHandle) transfer ) );
+					LevelViewDialog dialog = new LevelViewDialog( UIUtil.getDefaultShell( ) );
+					dialog.setInput( (DimensionHandle) element, adapter.getLevelHints( (DimensionHandle) element ) );
 					
 					if ( dialog.open( ) != Window.OK )
 					{
@@ -142,7 +142,7 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 						return false;
 					}
 					
-					element = (DimensionHandle) dialog.getResult( );
+					element = ((List) dialog.getResult( )).toArray();
 				}
 				
 				CreateRequest request = new CreateRequest( );

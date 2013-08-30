@@ -41,7 +41,8 @@ public class CrosstabGrandTotalRowExecutor extends BaseRowExecutor
 	public IContent execute( )
 	{
 		IRowContent content = context.getReportContent( ).createRowContent( );
-
+		content.setRepeatable( false );
+		
 		initializeContent( content, null );
 
 		processRowHeight( findGrandTotalRowCell( rowIndex ) );

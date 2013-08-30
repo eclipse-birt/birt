@@ -73,6 +73,7 @@ public class BrowserAccessor
 	static class ExternalWorkbenchBrowser implements IBrowser
 	{
 
+		private IWebBrowser browser;
 		ExternalWorkbenchBrowser( )
 		{
 		}
@@ -86,18 +87,22 @@ public class BrowserAccessor
 
 		public void close( )
 		{
+			if (browser != null)
+			{
+				browser.close( );
+			}
 		}
 
 		public boolean isCloseSupported( )
 		{
-			return false;
+			return true;
 		}
 
 		public void displayURL( String url ) throws Exception
 		{
 			try
 			{
-				IWebBrowser browser = getExternalBrowser( );
+				browser = getExternalBrowser( );
 				if ( browser != null )
 				{
 					browser.openURL( new URL( url ) );

@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.ui.integrate.ChartUIHelperBase;
 import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionDialog;
 import org.eclipse.birt.chart.ui.swt.composites.HeadStyleChooserComposite;
+import org.eclipse.birt.chart.ui.swt.composites.ImageDialog;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineStyleChooserComposite;
@@ -266,5 +267,16 @@ public class ChartUIFactory implements IChartUIFactory
 			ChartWizardContext context )
 	{
 		return new MarkerIconDialog( parent, fill, context );
+	}
+
+	public TrayDialog createChartImageDialog( Shell parentShell, Fill fCurrent,
+			ChartWizardContext context, boolean bEmbeddedImageEnabled,
+			boolean bResourceImageEnabled )
+	{
+		return new ImageDialog( parentShell,
+				fCurrent,
+				context,
+				bEmbeddedImageEnabled,
+				bResourceImageEnabled );
 	}
 }

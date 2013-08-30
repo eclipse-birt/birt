@@ -103,6 +103,7 @@ import org.eclipse.birt.report.data.adapter.i18n.AdapterResourceHandle;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.ColumnMeta;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.IDataProcessor;
+import org.eclipse.birt.report.data.adapter.impl.QueryExecutionHelper.DataSetHandleProcessContext;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -151,6 +152,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private Map<String, IDimension> createdDimensions;
 
 	private CubeMaterializer cubeMaterializer;
+	private IDataQueryDefinition[] registeredQueries;
 
 	private CubeMaterializer getCubeMaterializer( int cacheSize ) throws BirtException
 	{
@@ -211,14 +213,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void defineDataSet( IBaseDataSetDesign design ) throws BirtException
 	{
-		IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
-		if ( dataSetInterceptor != null )
-		{
-			dataSetInterceptor.preDefineDataSet( sessionContext,
-					dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
-					design,
-					null );
-		}
 		dataEngine.defineDataSet( design );
 	}
 
@@ -570,7 +564,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 //		ModuleHandle moduleHandle = sessionContext.getModuleHandle( );
 //		if ( moduleHandle == null )
 //			moduleHandle = dataSet.getModuleHandle( );
-
+ 
+		DefineDataSourceSetUtil.defineDataSourceAndDataSet( dataSet,
+				this.dataEngine,
+				this.modelAdaptor,
+				new DataSetHandleProcessContext( dataSet,
+						true,
+						useDataSetFilter,
+						false ) );
+		
+		
 		QueryExecutionHelper execHelper = new QueryExecutionHelper( this.dataEngine,
 				this.modelAdaptor,
 				this.sessionContext,
@@ -1652,6 +1655,19 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
+		IBaseDataSetDesign design = dataEngine.getDataSetDesign( query.getName( ) );
+		if ( design != null )
+		{
+			final IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
+			if ( dataSetInterceptor != null )
+			{
+				dataSetInterceptor.preDefineDataSet( sessionContext,
+						dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
+						design,
+						null,
+						this.registeredQueries );
+			}
+		}
 		refactorCubeQueryDefinition( query );
 		populateMeasureDefinitionForCalculateMeasures( query );
 		setMeasureDataTypeForCubeQuery ( query );
@@ -2002,6 +2018,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		try
 		{
 			this.dataEngine.registerQueries( queryDefns );
+			this.registeredQueries = queryDefns;
 		}
 		catch ( DataException e )
 		{
@@ -2080,7 +2097,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			DefineDataSourceSetUtil.prepareForTransientQuery( sessionContext,
 					dataEngine,
 					handle,
-					queryDefn );
+					queryDefn,
+					this.registeredQueries );
 		}
 	}
 
@@ -2520,8 +2538,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	private static String getDataSet( TabularHierarchyHandle handle )
 	{
-		if ( handle.getDataSet( )!= null )
+		if ( handle.getDataSet( ) != null )
 			return handle.getDataSet( ).getQualifiedName( );
+		else if ( handle.getProperty( ITabularCubeModel.DATA_SET_PROP ) != null )
+		{
+			return handle.getProperty( ITabularCubeModel.DATA_SET_PROP )
+					.toString( );
+		}
 		else
 		{
 			CubeHandle cubeHandle = acquireContainerCube( handle );

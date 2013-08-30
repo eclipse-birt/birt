@@ -77,6 +77,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
@@ -183,7 +184,7 @@ public class ModelUtil extends ModelUtilBase
 
 		return value;
 	}
-
+	
 	/**
 	 * Duplicates the properties from source element to destination element.
 	 * Source and the destination element should be of the same type. The
@@ -206,10 +207,31 @@ public class ModelUtil extends ModelUtilBase
 	 *            indicate whether the name space of the extended item property
 	 *            should be removed.
 	 */
-
 	public static void duplicateProperties( DesignElementHandle source,
 			DesignElementHandle destination, boolean onlyFactoryProperty,
 			boolean removeNameSpace )
+	{
+		duplicateProperties(source, destination, onlyFactoryProperty, removeNameSpace, false);
+	}
+
+	/**
+	 * Duplicate properties with specified search strategy instead of 
+	 * 
+	 * @param source
+	 *            handle of the source element
+	 * @param destination
+	 *            handle of the destination element
+	 * @param onlyFactoryProperty
+	 *            indicate whether only factory property values are duplicated.
+	 * @param removeNameSpace
+	 *            indicate whether the name space of the extended item property
+	 *            should be removed.
+	 * @param strategy
+	 *            the property search strategy, note this only works when onlyFactoryProperty is true.
+	 */
+	public static void duplicateProperties( DesignElementHandle source,
+			DesignElementHandle destination, boolean onlyFactoryProperty,
+			boolean removeNameSpace, boolean duplicateForExport )
 	{
 		assert source != null;
 		assert destination != null;
@@ -286,8 +308,10 @@ public class ModelUtil extends ModelUtilBase
 				value = propHandle.getElement( ).getLocalProperty(
 						propHandle.getModule( ), propDefn );
 			else if ( onlyFactoryProperty )
+			{
 				value = propHandle.getElement( ).getFactoryProperty(
-						propHandle.getModule( ), propDefn );
+						propHandle.getModule( ), propDefn, duplicateForExport );
+			}
 			else if ( IModuleModel.IMAGES_PROP.equals( propName ) )
 			{
 				// Copy the embedded images
@@ -1739,6 +1763,21 @@ public class ModelUtil extends ModelUtilBase
 	{
 		assert defn != null;
 		return defn.canInherit( ) || defn.isStyleProperty( );
+	}
+	
+	/**
+	 * Checks if the property supports constant expression
+	 * 
+	 * @param defn
+	 *            the property definition.
+	 * @return true if the property supports constant expression, else return
+	 *         false.
+	 */
+	public static boolean supportConstantExpression( IPropertyDefn defn )
+	{
+		if( IReportItemModel.ALTTEXT_PROP.equals( defn.getName( ) ) )
+			return true;
+		return false;
 	}
 
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.processor;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionWizard;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 
 /**
  * The processor for gird and tables
@@ -64,51 +66,53 @@ public class TableGridProcessor extends AbstractElementProcessor
 	public DesignElementHandle createElement( Object extendedData )
 	{
 		boolean isTable = ReportDesignConstants.TABLE_ITEM.equals( getElementType( ) );
-		TableOptionDialog dialog = new TableOptionDialog( UIUtil.getDefaultShell( ),
-				isTable );
-		if ( dialog.open( ) == Window.OK
-				&& dialog.getResult( ) instanceof Object[] )
+		if ( isTable )
 		{
-			Object[] data = (Object[]) dialog.getResult( );
-			DesignElementHandle handle = null;
-			if ( isTable )
+			TableOptionWizard wizard = new TableOptionWizard( );
+			WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+					wizard );
+			dialog.setHelpAvailable( true );
+			if ( dialog.open( ) == Window.OK )
 			{
-				// handle = getElementFactory( ).newTableItem( getNewName(
-				// extendedData ),
-				// data[1],
-				// 1,
-				// data[0],
-				// 1 );
-				boolean isSummaryTable = data.length > 3
-						&& data[3] != null
-						&& ( (Boolean) data[3] ).booleanValue( );
-				handle = DesignElementFactory.getInstance( )
-						.newTableItem( getNewName( extendedData ),
+				Object[] result = (Object[]) wizard.getResult( );
+				Object[] data = (Object[]) result[0];
+
+				boolean isSummaryTable = data.length > 2
+						&& data[2] != null
+						&& ( (Boolean) data[2] ).booleanValue( );
+				TableHandle table = DesignElementFactory.getInstance( )
+						.newTableItem( null,
 								( (Integer) data[1] ).intValue( ),
 								1,
 								isSummaryTable ? 0
 										: ( (Integer) data[0] ).intValue( ),
 								1 );
-				if ( data[2] != null )
+				InsertInLayoutUtil.setInitWidth( table );
+
+				Object[] datasetInfo = (Object[]) result[1];
+
+				if ( datasetInfo != null && datasetInfo[0] != null )
 				{
 					try
 					{
 						DataSetHandle dataSet = SessionHandleAdapter.getInstance( )
 								.getReportDesignHandle( )
-								.findDataSet( data[2].toString( ) );
-						boolean isExtendedDataModel = false;
-						if (dataSet == null)
+								.findDataSet( datasetInfo[0].toString( ) );
+						if ( dataSet != null )
 						{
-							// handle special case for extended data model
-							( (ReportItemHandle) handle ).setDataSet( null );
-							isExtendedDataModel = new LinkedDataSetAdapter().setLinkedDataModel( (ReportItemHandle) handle, data[2].toString( ) );
+							( (ReportItemHandle) table ).setDataSet( dataSet );
 						}
-						( (ReportItemHandle) handle ).setDataSet( dataSet );
-						DataSetColumnBindingsFormHandleProvider provider = new DataSetColumnBindingsFormHandleProvider( );
-						provider.setBindingObject( (ReportItemHandle) handle );
-						if (!isExtendedDataModel)
+						else
 						{
-							provider.generateAllBindingColumns( );
+							new LinkedDataSetAdapter( ).setLinkedDataModel( table,
+									datasetInfo[0].toString( ) );
+						}
+						DataSetColumnBindingsFormHandleProvider provider = new DataSetColumnBindingsFormHandleProvider( );
+						provider.setBindingObject( table );
+
+						if ( datasetInfo[1] instanceof Object[] )
+						{
+							provider.generateBindingColumns( (Object[]) datasetInfo[1] );
 						}
 					}
 					catch ( Exception e )
@@ -120,27 +124,33 @@ public class TableGridProcessor extends AbstractElementProcessor
 				{
 					try
 					{
-						( (TableHandle) handle ).setIsSummaryTable( ( (Boolean) data[3] ).booleanValue( ) );
+						table.setIsSummaryTable( ( (Boolean) data[2] ).booleanValue( ) );
 					}
 					catch ( SemanticException e )
 					{
 						ExceptionHandler.handle( e );
 					}
 				}
+
+				return table;
 			}
-			else
+		}
+		else
+		{
+			TableOptionDialog dialog = new TableOptionDialog( UIUtil.getDefaultShell( ),
+					isTable );
+			if ( dialog.open( ) == Window.OK
+					&& dialog.getResult( ) instanceof Object[] )
 			{
-				// handle = getElementFactory( ).newGridItem( getNewName(
-				// extendedData ),
-				// data[1],
-				// data[0] );
-				handle = DesignElementFactory.getInstance( )
+				Object[] data = (Object[]) dialog.getResult( );
+				DesignElementHandle handle = DesignElementFactory.getInstance( )
 						.newGridItem( getNewName( extendedData ),
 								( (Integer) data[1] ).intValue( ),
 								( (Integer) data[0] ).intValue( ) );
+
+				InsertInLayoutUtil.setInitWidth( handle );
+				return handle;
 			}
-			InsertInLayoutUtil.setInitWidth( handle );
-			return handle;
 		}
 		return null;
 	}

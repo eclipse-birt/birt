@@ -627,4 +627,82 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	{
 		setStringProperty( BOOKMARK_DISPLAY_NAME_PROP, bookmarkDisplayName );
 	}
+	
+	/**
+	 * Returns the role of this label item.
+	 * 
+	 * @return the help text key
+	 */
+
+	public String getRole( )
+	{
+		return getStringProperty( ROLE_PROP );
+	}
+
+	/**
+	 * Sets the role of this label item.
+	 * 
+	 * @param role
+	 *            the role
+	 * 
+	 * @throws SemanticException
+	 *           if the property is locked.
+	 */
+
+	public void setRole( String role ) throws SemanticException
+	{
+		setStringProperty( ROLE_PROP, role );
+	}
+	
+	/**
+	 * Returns the language of this label item.
+	 * 
+	 * @return the language
+	 */
+
+	public String getLanguage( )
+	{
+		return getStringProperty( LANGUAGE_PROP );
+	}
+
+	/**
+	 * Sets the language of this label item.
+	 * 
+	 * @param language
+	 *            the language
+	 * 
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setLanguage( String language ) throws SemanticException
+	{
+		setStringProperty( LANGUAGE_PROP, language );
+	}
+	
+	/**
+	 * Returns the alternate text of this label item.
+	 * 
+	 * @return the alternate text
+	 */
+
+	public String getAltText( )
+	{
+		return getStringProperty( ALTTEXT_PROP );
+	}
+
+	/**
+	 * Sets the alternate text of this label item.
+	 * 
+	 * @param resourceKey
+	 *            the alternate text
+	 * 
+	 * @throws SemanticException
+	 *            if the property is locked.
+	 */
+
+	public void setAltText( String altText ) throws SemanticException
+	{
+		setStringProperty( ALTTEXT_PROP, altText );
+	}	
 }

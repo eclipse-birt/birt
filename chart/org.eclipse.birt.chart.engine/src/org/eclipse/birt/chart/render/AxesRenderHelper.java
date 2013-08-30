@@ -732,15 +732,15 @@ public final class AxesRenderHelper
 		final double x = ( iLabelLocation == IConstants.LEFT ) ? context.dTick1 - 1
 				: context.dTick2 + 1;
 
-		int yLast = Integer.MIN_VALUE;
+		double yLast = Integer.MIN_VALUE;
 		Location loMinorStart = goFactory.createLocation( 0, 0 );
 		Location loMinorEnd = goFactory.createLocation( 0, 0 );
 		for ( int i = 0; i < length; i++ )
 		{
 			computation.handlePreEachTick( i );
 
-			int y = (int) da.getCoordinate( i );
-			boolean bSkipTickLine = ( yLast == y );
+			double y = da.getCoordinate( i );
+			boolean bSkipTickLine = ChartUtil.mathEqual( yLast, y );
 			if ( !bSkipTickLine )
 			{
 				yLast = y;
@@ -1029,7 +1029,7 @@ public final class AxesRenderHelper
 				: context.dTick1 - 1 )
 				: ( bRendering3D ? context.dTick2 - 1 : context.dTick2 + 1 );
 
-		int xLast = Integer.MIN_VALUE;
+		double xLast = Integer.MIN_VALUE;
 		Location loMinorStart = goFactory.createLocation( 0, 0 );
 		Location loMinorEnd = goFactory.createLocation( 0, 0 );
 		for ( int i = 0; i < length; i++ )
@@ -1037,9 +1037,9 @@ public final class AxesRenderHelper
 
 			computation.handlePreEachTick( i );
 
-			int x = (int) da.getCoordinate( i );
+			double x = da.getCoordinate( i );
 
-			boolean bSkipTickLine = ( x == xLast );
+			boolean bSkipTickLine = ChartUtil.mathEqual( x, xLast );
 			if ( !bSkipTickLine )
 			{
 				xLast = x;

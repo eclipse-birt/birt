@@ -83,6 +83,9 @@
             <structure name="action">
                 <expression name="hyperlink">http://localhost:8080/bodyImage.jpg</expression>
             </structure>
+             <property name="role">Div</property>
+            <property name="language">English</property>
+            <property name="order">1</property>
         </image>
     </body>
 </report>

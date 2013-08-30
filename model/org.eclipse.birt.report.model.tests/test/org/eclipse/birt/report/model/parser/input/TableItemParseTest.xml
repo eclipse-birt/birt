@@ -111,7 +111,7 @@
             <header>
                 <row>
                 	<property name="repeatable">false</property>
-                    <expression name="bookmark">This is bookmark for section.</expression>
+                    <expression name="bookmark">This is bookmark for section.</expression>                   
                     <list-property name="visibility">
                         <structure>
                             <property name="format">pdf</property>
@@ -242,6 +242,8 @@
 					<method name="onPrepare"><![CDATA[prepare on the row]]></method>
 					<method name="onCreate"><![CDATA[create on the row]]></method>
 					<method name="onRender"><![CDATA[render on the row]]></method>	
+					 <property name="role">TR</property>
+            		<property name="language">English</property>
                     <cell>
 						<property name="eventHandlerClass">birt.js.myDetailCellHandler</property>
 						<property name="newHandlerOnEachEvent">true</property>
@@ -277,6 +279,9 @@
                     </cell>
                 </row>
             </footer>
+             <property name="role">Table</property>
+            <property name="language">English</property>
+            <property name="order">1</property>
         </table>
         <list name="My List">
             <property name="dataSet">firstDataSet</property>

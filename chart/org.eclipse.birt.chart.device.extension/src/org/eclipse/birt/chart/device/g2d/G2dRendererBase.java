@@ -29,6 +29,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -73,6 +74,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
+import org.eclipse.birt.chart.model.attribute.ImageSourceType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
@@ -149,6 +151,41 @@ public class G2dRendererBase extends DeviceAdapter
 		return new int[][]{
 				iaX, iaY
 		};
+	}
+	
+	public static final double[][] getCoordinates( Location[] la )
+	{
+		final int n = la.length;
+		final double[] iaX = new double[n];
+		final double[] iaY = new double[n];
+
+		for ( int i = 0; i < n; i++ )
+		{
+			iaX[i] = la[i].getX( );
+			iaY[i] = la[i].getY( );
+		}
+
+		return new double[][]{
+				iaX, iaY
+		};
+	}
+
+	public static Shape getPolygon2D( Location[] loa )
+	{
+		Path2D path = new Path2D.Double( );
+		path.moveTo( loa[0].getX( ), loa[0].getY( ) );
+		for ( int i = 1; i < loa.length; ++i )
+		{
+			path.lineTo( loa[i].getX( ), loa[i].getY( ) );
+		}
+		path.closePath( );
+		return path;
+	}
+
+	protected Shape getPolygon( Location loa[] )
+	{
+		final int[][] i2a = getCoordinatesAsInts( loa );
+		return new Polygon( i2a[0], i2a[1], loa.length );
 	}
 	
 	/**
@@ -326,8 +363,7 @@ public class G2dRendererBase extends DeviceAdapter
 		}
 		else
 		{
-			final int[][] i2a = getCoordinatesAsInts( loa );
-			_g2d.setClip( new Polygon( i2a[0], i2a[1], loa.length ) );
+			_g2d.setClip( getPolygon( loa ) );
 		}
 	}
 
@@ -673,7 +709,6 @@ public class G2dRendererBase extends DeviceAdapter
 
 		// DRAW THE POLYGON
 		final Location[] la = pre.getPoints( );
-		final int[][] i2a = getCoordinatesAsInts( la );
 		Stroke sPrevious = null;
 		final Stroke sCurrent = getCachedStroke( lia );
 		if ( sCurrent != null ) // SOME STROKE DEFINED?
@@ -683,7 +718,7 @@ public class G2dRendererBase extends DeviceAdapter
 		}
 
 		_g2d.setColor( cFG );
-		_g2d.draw( new Polygon( i2a[0], i2a[1], la.length ) );
+		_g2d.draw( getPolygon( la ) );
 		if ( sPrevious != null ) // RESTORE PREVIOUS STROKE
 		{
 			_g2d.setStroke( sPrevious );
@@ -711,7 +746,7 @@ public class G2dRendererBase extends DeviceAdapter
 		{
 			final ColorDefinition cd = (ColorDefinition) flBackground;
 			_g2d.setColor( (Color) _ids.getColor( cd ) );
-			_g2d.fill( new Polygon( i2a[0], i2a[1], loa.length ) );			
+			_g2d.fill( getPolygon( loa ) );			
 		}
 		else if ( flBackground instanceof Gradient )
 		{
@@ -773,7 +808,7 @@ public class G2dRendererBase extends DeviceAdapter
 					(Color) _ids.getColor( cdStart ),
 					p2dEnd,
 					(Color) _ids.getColor( cdEnd ) ) );
-			_g2d.fill( new Polygon( i2a[0], i2a[1], loa.length ) );
+			_g2d.fill( getPolygon( loa ) );
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
@@ -1313,22 +1348,25 @@ public class G2dRendererBase extends DeviceAdapter
 		}
 		else if ( imageModel instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
-			try
+			if ( ( (org.eclipse.birt.chart.model.attribute.Image) imageModel ).getSource( ) == ImageSourceType.STATIC )
 			{
-				final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) imageModel ).getURL( );
-				img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
-			}
-			catch ( ChartException ilex )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						ilex );
-			}
-			catch ( MalformedURLException muex )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						muex );
+				try
+				{
+					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) imageModel ).getURL( );
+					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
+				}
+				catch ( ChartException ilex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							ilex );
+				}
+				catch ( MalformedURLException muex )
+				{
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.RENDERING,
+							muex );
+				}
 			}
 		}
 

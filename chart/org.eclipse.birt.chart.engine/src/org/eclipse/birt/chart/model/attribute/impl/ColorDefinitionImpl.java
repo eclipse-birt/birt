@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -848,6 +847,39 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 		dest.blue = getBlue( );
 		dest.blueESet = isSetBlue( );
 		return dest;
+	}
+
+	@Override
+	public int hashCode( )
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + blue;
+		result = prime * result + green;
+		result = prime * result + red;
+		result = prime * result + transparency;
+		return result;
+	}
+
+	@Override
+	public boolean equals( Object obj )
+	{
+		if ( this == obj )
+			return true;
+		if ( obj == null )
+			return false;
+		if ( getClass( ) != obj.getClass( ) )
+			return false;
+		ColorDefinitionImpl other = (ColorDefinitionImpl) obj;
+		if ( blue != other.blue )
+			return false;
+		if ( green != other.green )
+			return false;
+		if ( red != other.red )
+			return false;
+		if ( transparency != other.transparency )
+			return false;
+		return true;
 	}
 
 } // ColorDefinitionImpl

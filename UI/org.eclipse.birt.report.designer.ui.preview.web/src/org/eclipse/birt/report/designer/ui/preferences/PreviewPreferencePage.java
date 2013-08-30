@@ -99,29 +99,10 @@ public class PreviewPreferencePage extends PreferencePage implements
 			Messages.getString( "designer.preview.preference.bidiOrientation.rtl" ), //$NON-NLS-1$
 	};
 
-	public static TreeMap<String, String> timeZoneTable_disKey = null;
+
 	public static TreeMap<String, String> timeZoneTable_idKey = null;
 
-	static
-	{
-		// Initialize the locale mapping table
-		timeZoneTable_disKey = new TreeMap<String, String>( Collator.getInstance( ) );
-		String ids[] = TimeZone.getAvailableIDs( );
 
-		if ( ids != null )
-		{
-			for ( int i = 0; i < ids.length; i++ )
-			{
-				String id = ids[i];
-				if ( id != null )
-				{
-					TimeZone timeZone = TimeZone.getTimeZone( id );
-					String timeZoneDisplayName = timeZone.getDisplayName( );
-					timeZoneTable_disKey.put( timeZoneDisplayName, id );
-				}
-			}
-		}
-	}
 
 	/**
 	 * Creates preference page controls on demand.
@@ -658,7 +639,7 @@ public class PreviewPreferencePage extends PreferencePage implements
 
 		if ( timeZoneCombo != null )
 		{
-			String timeZoneId = timeZoneTable_disKey.get( timeZoneCombo.getText( ) );
+			String timeZoneId = ViewerPlugin.getTimeZoneTable_disKey().get( timeZoneCombo.getText( ) );
 			if ( timeZoneId == null || timeZoneId.trim( ).length( ) <= 0 )
 			{
 				timeZoneId = TimeZone.getDefault( ).getID( );
@@ -723,9 +704,9 @@ public class PreviewPreferencePage extends PreferencePage implements
 		timeZoneCombo = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
 		timeZoneCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		timeZoneCombo.setVisibleItemCount( 30 );
-		assert timeZoneTable_disKey != null;
-		String[] timeZoneDisplayNames = new String[timeZoneTable_disKey.size( )];
-		timeZoneTable_disKey.keySet( ).toArray( timeZoneDisplayNames );
+		assert ViewerPlugin.getTimeZoneTable_disKey() != null;
+		String[] timeZoneDisplayNames = new String[ViewerPlugin.getTimeZoneTable_disKey().size( )];
+		ViewerPlugin.getTimeZoneTable_disKey().keySet( ).toArray( timeZoneDisplayNames ); 
 		timeZoneCombo.setItems( timeZoneDisplayNames );
 		String defaultTimeZone = ViewerPlugin.getDefault( )
 				.getPluginPreferences( )

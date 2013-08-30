@@ -180,7 +180,7 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 					.updateDefaultTitle( (Chart) chart,
 							wizardContext.getExtendedItem( ) );
 			gcs = gr.build( deviceRenderer.getDisplayServer( ),
-					(Chart) chart,
+					(Chart) chart.copyInstance( ),
 					bo,
 					null,
 					rtc,

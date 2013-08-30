@@ -279,6 +279,8 @@ public class PathResourceEntry extends BaseResourceEntity
 				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_REPORT_FILE );
 			if ( path.endsWith( ".rpttemplate" ) ) //$NON-NLS-1$
 				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_TEMPLATE_FILE );
+			if ( path.endsWith( ".rptdocument" ) ) //$NON-NLS-1$
+				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DOCUMENT_FILE );
 			
 			Object adapter = ElementAdapterManager.getAdapter( this, Image.class );
 			if ( adapter instanceof Image )

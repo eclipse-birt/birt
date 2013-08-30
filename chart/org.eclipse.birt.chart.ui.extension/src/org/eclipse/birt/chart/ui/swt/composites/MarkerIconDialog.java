@@ -47,6 +47,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
@@ -86,12 +87,20 @@ public class MarkerIconDialog extends TrayDialog
 
 	protected Button btnEmbeddedImage;
 
-	private boolean validateURL = false;
-
 	private Label lblException;
 
 	protected ChartWizardContext context;
-
+	
+	private boolean hasUriImagePreviewed=false;
+	
+	private ImageStatus urlImagePreviewStat;
+	
+	private static enum ImageStatus{
+		IMAGE_URL_INVALID,
+		IMAGE_CANNOT_DISPLAY,
+		IMAGE_CAN_DISPLAY
+	}
+	
 	/**
 	 * Constructor
 	 * 
@@ -374,10 +383,18 @@ public class MarkerIconDialog extends TrayDialog
 	
 	private void updateButton( )
 	{
-		getButtonOk( ).setEnabled( ( selectedType == LOCAL_TYPE || selectedType == EMBEDDED_TYPE )
+		// other case
+		boolean localAndEmbededTypeValid = ( selectedType == LOCAL_TYPE || selectedType == EMBEDDED_TYPE )
 				&& icon != null
-				&& ( (Image) icon ).getURL( ) != null
-				|| ( selectedType == URI_TYPE && validateURL == true ) );
+				&& ( (Image) icon ).getURL( ) != null;
+
+		// uri case
+		boolean isUriTextEmpty = ( uriEditor == null )
+				|| uriEditor.isDisposed( )
+				|| ( trimString( uriEditor.getText( ) ) == null );
+		boolean uriTypeValid = ( selectedType == URI_TYPE )
+				&& ( !isUriTextEmpty );
+		getButtonOk( ).setEnabled( localAndEmbededTypeValid || uriTypeValid );
 	}
 
 	private Button getButtonOk( )
@@ -391,8 +408,10 @@ public class MarkerIconDialog extends TrayDialog
 	 * @param uri
 	 *            Image absolute path without "file:///"
 	 */
-	private void preview( String uri )
+	private ImageStatus preview( String uri )
 	{
+		
+		hasUriImagePreviewed=true;	
 		try
 		{
 			URL url = new URL( uri );
@@ -400,30 +419,32 @@ public class MarkerIconDialog extends TrayDialog
 			url.getContent( );
 			if ( previewCanvas.loadImage( url ) != null )
 			{
-				validateURL = true;
-				if ( lblException != null && !lblException.isDisposed( ) )
-				{
-					lblException.setText( "" ); //$NON-NLS-1$
-				}
+				emptyExceptionText();
 			}
+			return ImageStatus.IMAGE_CAN_DISPLAY;
 		}
-		catch ( Exception e )
+		catch (MalformedURLException malEx){
+			showMessage(Messages.getString( "MarkerIconDialog.Exception.InvalidURL" ));//$NON-NLS-1$
+			return ImageStatus.IMAGE_URL_INVALID;
+		}	
+		catch ( Exception ex )
+		{				
+			showMessage(Messages.getString("MarkerIconDialog.Exception.ImageNotAvailable"));  //$NON-NLS-1$
+			return ImageStatus.IMAGE_CANNOT_DISPLAY;
+		}		
+	}
+	
+	private void showMessage(String text){
+		if ( lblException == null || lblException.isDisposed( ) )
 		{
-			getButtonOk( ).setEnabled( false );
-			validateURL = false;
-
-			if ( lblException == null || lblException.isDisposed( ) )
-			{
-				lblException = new Label( inputArea, SWT.NONE );
-				lblException.setLayoutData( new GridData( ) );
-				lblException.setForeground( Display.getDefault( )
-						.getSystemColor( SWT.COLOR_RED ) );
-			}
-
-			lblException.setText( Messages.getString( "MarkerIconDialog.Exception.InvalidURL" ) );//$NON-NLS-1$
-			inputArea.layout( );
-
+			lblException = new Label( inputArea, SWT.NONE );
+			lblException.setLayoutData( new GridData( ) );
+			lblException.setForeground( Display.getDefault( )
+					.getSystemColor( SWT.COLOR_RED ) );
 		}
+
+		lblException.setText(text );
+		inputArea.layout( );
 	}
 
 	private void preview( )
@@ -453,7 +474,7 @@ public class MarkerIconDialog extends TrayDialog
 		}
 		else if ( icon instanceof Image )
 		{
-			preview( ((Image)icon).getURL( ) );
+			urlImagePreviewStat=preview( ((Image)icon).getURL( ) );
 		}
 	}
 	/**
@@ -461,23 +482,66 @@ public class MarkerIconDialog extends TrayDialog
 	 * Otherwise, add the icon into the palette.
 	 * 
 	 */
-	private void checkIcon( )
+	private boolean checkIcon( )
 	{
 		if ( selectedType == URI_TYPE )
 		{
+			// load image to see if can display normally;
+			String uri = trimString( uriEditor.getText( ) );
+			ImageStatus result;
+			// If the image has been previewed before,then use the cached preview result
+			if ( urlImagePreviewStat != null && hasUriImagePreviewed )
+			{
+				result = urlImagePreviewStat;
+			}
+			else
+			{
+				urlImagePreviewStat = preview( uri );
+				result = urlImagePreviewStat;
+			}
+
+			uriEditor.setText( uri );
+			hasUriImagePreviewed=true;
+			
+			switch ( result )
+			{
+				case IMAGE_CANNOT_DISPLAY :
+					MessageBox mb = new MessageBox( Display.getDefault( )
+							.getActiveShell( ), SWT.ICON_WARNING
+							| SWT.OK
+							| SWT.CANCEL );
+					mb.setText( Messages.getString( "MarkerIconDialog.ImageNotAvailableWarning" ) ); //$NON-NLS-1$
+					mb.setMessage( Messages.getString( "MarkerIconDialog.Exception.ImageNotAvailable" ) //$NON-NLS-1$
+							+ Messages.getString( "MarkerIconDialog.ImageNotAvailableWarningMessage" ) ); //$NON-NLS-1$
+					int messageResult = mb.open( );
+					if ( messageResult != SWT.OK )
+					{
+						return false;
+					}
+					break;
+				case IMAGE_URL_INVALID :
+					return false;
+				case IMAGE_CAN_DISPLAY :
+					break;
+				default:
+					return false;
+			}
+
 			if ( icon == null
 					|| ( (Image) icon ).getURL( ) != null
-					&& !( (Image) icon ).getURL( )
-							.equals( trimString( uriEditor.getText( ) ) ) )
+					&& !( (Image) icon ).getURL( ).equals( uri ) )
 			{
-				icon = ImageImpl.create( trimString( uriEditor.getText( ) ) );
+				icon = ImageImpl.create( uri );
 			}
 		}
+		return true;
 	}
 
 	protected void okPressed( )
 	{
-		checkIcon( );
+		if(!checkIcon( )){
+			return;
+		}
 		super.okPressed( );
 	}
 
@@ -531,7 +595,7 @@ public class MarkerIconDialog extends TrayDialog
 		{
 			uriEditor.setText( uriEditor.getText( ).trim( ) );
 			String path = uriEditor.getText( );
-			preview( path );
+			urlImagePreviewStat=preview( path );
 		}
 		else if ( e.widget.equals( btnBrowse ) )
 		{
@@ -610,8 +674,17 @@ public class MarkerIconDialog extends TrayDialog
 	{
 		if ( e.widget.equals( uriEditor ) )
 		{
-			btnPreview.setEnabled( trimString( uriEditor.getText( ) ) != null );
-			getButtonOk( ).setEnabled( false );
+			boolean isTextEmpty=trimString( uriEditor.getText( ) ) != null;
+			btnPreview.setEnabled( isTextEmpty );
+			getButtonOk( ).setEnabled(isTextEmpty);
+			hasUriImagePreviewed=false;
+		}
+	}
+	
+	private void emptyExceptionText(){
+		if ( lblException != null && !lblException.isDisposed( ) )
+		{
+			lblException.setText( "" ); //$NON-NLS-1$
 		}
 	}
 

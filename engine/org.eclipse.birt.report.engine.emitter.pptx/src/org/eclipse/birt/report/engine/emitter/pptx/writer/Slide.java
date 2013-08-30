@@ -27,7 +27,6 @@ import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
-
 import org.eclipse.birt.report.engine.ooxml.IPart;
 import org.eclipse.birt.report.engine.ooxml.ImageManager;
 import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
@@ -35,6 +34,7 @@ import org.eclipse.birt.report.engine.ooxml.constants.ContentTypes;
 import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;
 import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
 import org.eclipse.birt.report.engine.ooxml.util.OOXmlUtil;
+
 import com.lowagie.text.Font;
 
 public class Slide extends Component
@@ -52,6 +52,12 @@ public class Slide extends Component
 	public Slide( Presentation presentation, int slideIndex )
 			throws IOException
 	{
+		this( presentation, slideIndex, null );
+	}
+
+	public Slide( Presentation presentation, int slideIndex, Color bgColor )
+			throws IOException
+	{
 		this.index = slideIndex;
 		this.presentation = presentation;
 		String uri = getSlideUri( index );
@@ -67,6 +73,8 @@ public class Slide extends Component
 		writer.nameSpace( "r", NameSpaces.RELATIONSHIPS );
 		writer.nameSpace( "p", NameSpaces.PRESENTATIONML );
 		writer.openTag( "p:cSld" );
+		if ( bgColor != null )
+			drawSlideBackgroundColor( bgColor );
 		writer.openTag( "p:spTree" );
 		writer.openTag( "p:nvGrpSpPr" );
 		writer.openTag( "p:cNvPr" );
@@ -80,6 +88,17 @@ public class Slide extends Component
 		writer.closeTag( "p:nvGrpSpPr" );
 		writer.openTag( "p:grpSpPr" );
 		writer.closeTag( "p:grpSpPr" );
+	}
+
+	private void drawSlideBackgroundColor( Color color )
+	{
+		writer.openTag( "p:bg" );
+		writer.openTag( "p:bgPr" );
+		setColor( color );
+		writer.openTag( "a:effectLst" );
+		writer.closeTag( "a:effectLst" );
+		writer.closeTag( "p:bgPr" );
+		writer.closeTag( "p:bg" );
 	}
 
 	public void drawLine( int startX, int startY, int endX, int endY,

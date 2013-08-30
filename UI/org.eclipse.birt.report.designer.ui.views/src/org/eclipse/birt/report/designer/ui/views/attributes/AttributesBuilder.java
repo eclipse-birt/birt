@@ -65,10 +65,11 @@ public class AttributesBuilder
 
 	protected String selectedTabText;
 
+	private static final String DEFAULT_NONE = Messages.getString( "AttributesBuilder.Label.None" ); //$NON-NLS-1$; 
 	/**
 	 * The type information of current selection.
 	 */
-	protected String typeInfo = Messages.getString( "AttributesBuilder.Label.None" ); //$NON-NLS-1$;
+	protected String typeInfo = DEFAULT_NONE;
 
 	/**
 	 * Gets attribute pages generator correspond to the current selection.
@@ -95,7 +96,20 @@ public class AttributesBuilder
 			if ( adapter instanceof IPageGenerator )
 			{
 				if ( element instanceof ExtendedItemHandle )
+				{
 					typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{GuiExtensionManager.getExtensionDisplayName( selection.get( 0 ) )} ); //$NON-NLS-1$
+				}
+				if( DEFAULT_NONE.equals( typeInfo ) )
+				{
+					if( element instanceof DesignElementHandle )
+					{
+						String displayName = ( (DesignElementHandle) element ).getDefn( ).getDisplayName( );
+						if( displayName != null && !displayName.equals( "" ) )
+						{
+							typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{ displayName });//$NON-NLS-1$
+						}
+					}
+				}
 				IPageGenerator ng = (IPageGenerator) adapter;
 
 				boolean change = false;

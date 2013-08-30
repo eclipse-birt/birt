@@ -85,8 +85,14 @@ public class DocxEmitterImpl extends AbstractEmitterImpl
 	{
 		if ( IForeignContent.HTML_TYPE.equalsIgnoreCase( foreign.getRawType( ) ) )
 		{
+			if ( context.isAfterTable( ) )
+			{
+				wordWriter.insertHiddenParagraph( );
+				context.setIsAfterTable( false );
+			}
 			if ( embedHtml )
 			{
+				writeBookmark( foreign );
 				int width = WordUtil.convertTo( foreign.getWidth( ),
 						context.getCurrentWidth( ), reportDpi );
 				width = Math.min( width, context.getCurrentWidth( ) );

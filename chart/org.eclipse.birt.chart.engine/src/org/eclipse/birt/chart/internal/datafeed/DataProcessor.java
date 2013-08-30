@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -380,9 +381,23 @@ public class DataProcessor
 			int[] groupBreaks = new int[]{};
 			if ( orthogonalGroupKeys != null && orthogonalGroupKeys.length > 0 )
 			{
-				// If the orthogonal grouping of chart is set, it should be the 0th
-				// index.
-				groupBreaks = ( (IGroupedDataRowExpressionEvaluator) idre ).getGroupBreaks( 0 );
+				int groupLevel = 0;
+				boolean[] groupStatus = ( (IGroupedDataRowExpressionEvaluator) idre ).getGroupStatus( );
+				if ( groupStatus != null )
+				{
+					for ( ; groupLevel < groupStatus.length; groupLevel++ )
+					{
+						if ( groupStatus[groupLevel] )
+						{
+							break;
+						}
+					}
+					if (groupLevel >= groupStatus.length)
+					{
+						groupLevel = 0;
+					}
+				}
+				groupBreaks = ( (IGroupedDataRowExpressionEvaluator) idre ).getGroupBreaks( groupLevel );
 			}
 
 			// Format data time for grouped case.
@@ -600,7 +615,7 @@ public class DataProcessor
 		{
 			// compute all base values.
 			Object[] oa = rsw.getMergedGroupingBaseValues( iBaseColumnIndex,
-					baseSorting );
+					baseSorting, true ); // Chart without axis has no category axis, keep as before.
 
 			List baseValues = (List) oa[0];
 			List idxList = (List) oa[1];
@@ -831,7 +846,10 @@ public class DataProcessor
 		{
 			// compute all base values.
 			Object[] oa = rsw.getMergedGroupingBaseValues( iBaseColumnIndex,
-					baseSorting );
+					baseSorting,
+					cwa.getAxes( ).get( 0 ).isCategoryAxis( )
+							|| !cwa.getAxes( ).get( 0 ).isSetCategoryAxis( )
+							|| cwa.getAxes( ).get( 0 ).getType( ) == AxisType.TEXT_LITERAL );
 
 			List baseValues = (List) oa[0];
 			List idxList = (List) oa[1];

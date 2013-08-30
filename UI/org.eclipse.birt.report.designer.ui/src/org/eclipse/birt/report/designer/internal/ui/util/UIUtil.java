@@ -82,6 +82,7 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -1798,6 +1799,33 @@ public class UIUtil
 		return null;
 	}
 
+	public static String getHeadColumnDisplayName( ResultSetColumnHandle column )
+	{
+		DataSetHandle dataset = getDataSet(column);
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				if (element.getHeading( ) != null)
+				{
+					return element.getHeading( );
+				}
+				if ( element.getDisplayNameKey( ) != null )
+				{
+					String displayName = element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
+							ColumnHint.DISPLAY_NAME_MEMBER );
+					if ( displayName != null )
+						return displayName;
+				}
+				return element.getDisplayName( ) == null ? column.getColumnName( )
+						: element.getDisplayName( );
+			}
+		}
+		return column.getColumnName( );
+	}
 	/**
 	 * Return the display name of dataset column
 	 * 
@@ -1996,11 +2024,16 @@ public class UIUtil
 		Image image = ReportPlatformUIImages.getImage( imageName );
 
 		GridData gd = new GridData( );
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )
 		{
 			gd.widthHint = 20;
 			gd.heightHint = 20;
 		}
+		else
+		{
+			gd.widthHint = button.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
+		}
+
 		button.setLayoutData( gd );
 
 		button.setImage( image );
@@ -2030,10 +2063,11 @@ public class UIUtil
 			button.setExpressionButtonProvider( provider );
 
 		GridData gd = new GridData( );
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )
 		{
 			gd.heightHint = 20;
 		}
+
 		button.getControl( ).setLayoutData( gd );
 		return button;
 	}
@@ -3281,5 +3315,16 @@ public class UIUtil
 		}
 
 		return false;
+	}
+	public static List<DataSetHandle> getVisibleDataSetHandles(ModuleHandle handle){
+		ArrayList<DataSetHandle> list = new ArrayList<DataSetHandle>( );
+		for ( Iterator iterator = handle.getVisibleDataSets( ).iterator( ); iterator.hasNext( ); )
+		{
+			DataSetHandle dataSetHandle = (DataSetHandle) iterator.next( );
+			list.add( dataSetHandle );
+		}
+		LinkedDataSetAdapter adapter = new LinkedDataSetAdapter();
+		list.addAll(adapter.getVisibleLinkedDataSetsDataSetHandles(handle));	
+		return list;
 	}
 }

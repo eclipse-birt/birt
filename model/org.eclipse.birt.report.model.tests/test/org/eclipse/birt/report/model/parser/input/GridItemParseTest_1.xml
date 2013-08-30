@@ -13,6 +13,9 @@
     </page-setup>
     <body>
         <grid name="First grid">
+             <property name="role">Div</property>
+            <property name="language">English</property>
+            <property name="order">1</property>
             <column>
                 <property name="width">2.5mm</property>
             </column>

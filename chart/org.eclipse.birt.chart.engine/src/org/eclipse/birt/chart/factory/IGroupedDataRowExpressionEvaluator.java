@@ -42,4 +42,9 @@ public interface IGroupedDataRowExpressionEvaluator extends
 	 */
 	boolean needCategoryGrouping( );
 
+	/**
+	 * Returns if group is enabled in each group-level.
+	 */
+	boolean[] getGroupStatus( );
+
 }

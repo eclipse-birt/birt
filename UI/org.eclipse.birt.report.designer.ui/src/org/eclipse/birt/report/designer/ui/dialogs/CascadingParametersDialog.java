@@ -51,6 +51,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -585,13 +586,13 @@ public class CascadingParametersDialog extends BaseDialog
 			return;
 		}
 
-		String dataSetName = inputParameterGroup.getDataSet( ).getName( );
+		DataSetHandle dataSet = inputParameterGroup.getDataSet( );
 		for ( Iterator iter = elementsList.iterator( ); iter.hasNext( ); )
 		{
 			ScalarParameterHandle handle = (ScalarParameterHandle) iter.next( );
 			try
 			{
-				handle.setDataSetName( dataSetName );
+				handle.setDataSet( dataSet );
 			}
 			catch ( SemanticException e1 )
 			{
@@ -1883,18 +1884,13 @@ public class CascadingParametersDialog extends BaseDialog
 	{
 		if ( !isSingle( ) )
 		{
-			if ( handle != null && handle.getDataSetName( ) != null )
+			if ( handle != null && handle.getDataSet( ) != null )
 			{
-				return getDataSet( handle.getDataSetName( ) );
+				return handle.getDataSet( );
 			}
 			return null;
 		}
 		return inputParameterGroup.getDataSet( );
-	}
-
-	private DataSetHandle getDataSet( String name )
-	{
-		return inputParameterGroup.getModuleHandle( ).findDataSet( name );
 	}
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
@@ -2919,7 +2915,7 @@ public class CascadingParametersDialog extends BaseDialog
 					{
 						try
 						{
-							parameter.setDataSetName( dataset.getText( ) );
+							parameter.setDataSet( DataUtil.findDataSet( dataset.getText( ) ) );
 							if ( parameter.getDataSet( ) != null )
 							{
 								if ( getFirstParameter( ) == null
@@ -3151,8 +3147,7 @@ public class CascadingParametersDialog extends BaseDialog
 				{
 					try
 					{
-						parameter.setDataSetName( inputParameterGroup.getDataSet( )
-								.getName( ) );
+						parameter.setDataSet( inputParameterGroup.getDataSet( ) );
 						value.setItems( getDataSetColumns( parameter, true ) );
 						displayText.setItems( getDataSetColumns( parameter,
 								false ) );

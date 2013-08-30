@@ -254,9 +254,24 @@ public class DateFormatWrapperFactory
 				endIndex = pos.getEndIndex( )
 						+ ( str.charAt( pos.getEndIndex( ) ) == ',' ? 2 : 1 );
 			}
-			if ( endIndex >= str.length( ) )
+			if ( endIndex >= str.length( ) ) // means date is the last one, need
+												// to remove separator
 			{
-				return str.substring( 0, pos.getBeginIndex( ) ).trim( );
+				endIndex = pos.getBeginIndex( );
+				while ( endIndex > 0 )
+				{
+					char ch = str.charAt( endIndex - 1 );
+					if ( ch == ' '
+							|| ch == ',' || ch == '/' || ch == '-' || ch == '.' )
+					{
+						endIndex--;
+					}
+					else
+					{
+						break;
+					}
+				}
+				return str.substring( 0, endIndex );
 			}
 			return str.substring( 0, pos.getBeginIndex( ) )
 					+ str.substring( endIndex );

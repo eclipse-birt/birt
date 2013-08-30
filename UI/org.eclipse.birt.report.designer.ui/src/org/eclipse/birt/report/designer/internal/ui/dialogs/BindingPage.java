@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,16 +29,20 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -628,6 +633,7 @@ public class BindingPage extends Composite implements Listener
 	}
 
 	private BindingInfo oldInfo;
+
 	private void refreshBindingInfo( BindingInfo info )
 	{
 		int type = info.getBindingType( );
@@ -644,11 +650,14 @@ public class BindingPage extends Composite implements Listener
 		switch ( type )
 		{
 			case ReportItemHandle.DATABINDING_TYPE_NONE :
-				if(oldInfo!=null){
-					if(oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA){
+				if ( oldInfo != null )
+				{
+					if ( oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
+					{
 						selectDatasetType( value );
 					}
-					else if(oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF){
+					else if ( oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+					{
 						selectReferenceType( value );
 					}
 					break;
@@ -676,8 +685,7 @@ public class BindingPage extends Composite implements Listener
 		datasetButton.setSelection( true );
 		datasetCombo.setEnabled( true );
 		datasetCombo.setText( value.toString( ) );
-		bindingButton.setEnabled( !value.toString( )
-				.equals( NullDatasetChoice ) );
+		bindingButton.setEnabled( !value.toString( ).equals( NullDatasetChoice ) );
 		reportItemButton.setSelection( false );
 		reportItemCombo.setEnabled( false );
 	}
@@ -719,6 +727,7 @@ public class BindingPage extends Composite implements Listener
 			BindingInfo info = (BindingInfo) saveValue;
 			int type = info.getBindingType( );
 			String value = info.getBindingValue( ).toString( );
+			String oldValue = ( ( (BindingInfo) loadValue( ) ).getBindingValue( ).toString( ) );
 			switch ( type )
 			{
 				case ReportItemHandle.DATABINDING_TYPE_DATA :
@@ -727,11 +736,12 @@ public class BindingPage extends Composite implements Listener
 						value = null;
 					}
 					int ret = 0;
-					if ( !NullDatasetChoice.equals( ( (BindingInfo) loadValue( ) ).getBindingValue( )
-							.toString( ) )
-							|| getReportItemHandle( ).getColumnBindings( )
-									.iterator( )
-									.hasNext( ) )
+					if ( !NullDatasetChoice.equals( value ) )
+						ret = 4;
+					if ( ( !NullDatasetChoice.equals( oldValue ) || getReportItemHandle( ).getColumnBindings( )
+							.iterator( )
+							.hasNext( ) )
+							&& !( value != null && value.equals( oldValue ) ) )
 					{
 						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
 								Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
@@ -748,7 +758,7 @@ public class BindingPage extends Composite implements Listener
 
 					switch ( ret )
 					{
-						// Clear binding info
+					// Clear binding info
 						case 0 :
 							resetDataSetReference( value, true );
 							break;
@@ -759,6 +769,10 @@ public class BindingPage extends Composite implements Listener
 						// Cancel.
 						case 2 :
 							load( );
+							break;
+						case 4 :
+							updateDataSetReference( value );
+							break;
 					}
 					break;
 				case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
@@ -803,7 +817,7 @@ public class BindingPage extends Composite implements Listener
 
 					switch ( ret1 )
 					{
-						// Clear binding info
+					// Clear binding info
 						case 0 :
 							resetReference( value );
 							break;
@@ -832,14 +846,16 @@ public class BindingPage extends Composite implements Listener
 				getReportItemHandle( ).setDataBindingReference( null );
 			}
 			boolean isExtendedDataModel = false;
-			if (dataSet == null && value != null)
+			if ( dataSet == null && value != null )
 			{
 				getReportItemHandle( ).setDataSet( null );
-				isExtendedDataModel = new LinkedDataSetAdapter().setLinkedDataModel( getReportItemHandle( ), value.toString( ) );
+				isExtendedDataModel = new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						value.toString( ) );
 			}
 			else
 			{
-				new LinkedDataSetAdapter().setLinkedDataModel( getReportItemHandle( ), null );
+				new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						null );
 				getReportItemHandle( ).setDataSet( dataSet );
 			}
 			if ( clearHistory )
@@ -848,9 +864,18 @@ public class BindingPage extends Composite implements Listener
 				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
 						.clearValue( );
 			}
-			if(!isExtendedDataModel)
+
+			if ( value != null )
 			{
-				columnBindingsFormPage.generateAllBindingColumns( );
+				DataSetBindingSelector selector = new DataSetBindingSelector( UIUtil.getDefaultShell( ),
+						isExtendedDataModel ? Messages.getString( "BindingPage.DataSetBindingSelector.Title.LinkModel" ) : //$NON-NLS-1$
+								Messages.getString( "BindingPage.DataSetBindingSelector.Title.DataSet" ) ); //$NON-NLS-1$ 
+				selector.setDataSet( value.toString( ) );
+				if ( selector.open( ) == Dialog.OK )
+				{
+					Object[] columns = (Object[]) ( (Object[]) selector.getResult( ) )[1];
+					columnBindingsFormPage.generateBindingColumns( columns );
+				}
 			}
 
 			commit( );
@@ -863,6 +888,95 @@ public class BindingPage extends Composite implements Listener
 		load( );
 	}
 
+	private void updateDataSetReference( Object value )
+	{
+		try
+		{
+			startTrans( "Reset Reference" ); //$NON-NLS-1$
+			DataSetHandle dataSet = null;
+			if ( value != null )
+			{
+				dataSet = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findDataSet( value.toString( ) );
+			}
+			if ( getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			{
+				getReportItemHandle( ).setDataBindingReference( null );
+			}
+			boolean isExtendedDataModel = false;
+			if ( dataSet == null && value != null )
+			{
+				getReportItemHandle( ).setDataSet( null );
+				isExtendedDataModel = new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						value.toString( ) );
+			}
+			else
+			{
+				new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						null );
+				getReportItemHandle( ).setDataSet( dataSet );
+			}
+
+			if ( value != null )
+			{
+				DataSetBindingSelector selector = new DataSetBindingSelector( UIUtil.getDefaultShell( ),
+						isExtendedDataModel ? Messages.getString( "BindingPage.DataSetBindingSelector.Title.LinkModel" ) : //$NON-NLS-1$
+								Messages.getString( "BindingPage.DataSetBindingSelector.Title.DataSet" ) ); //$NON-NLS-1$ 
+				selector.setDataSet( value.toString( ) );
+				Iterator bindings = getReportItemHandle( ).getColumnBindings( )
+						.iterator( );
+				List<String> columnNames = new ArrayList<String>( );
+				while ( bindings.hasNext( ) )
+				{
+					columnNames.add( ( (ComputedColumnHandle) bindings.next( ) ).getName( ) );
+				}
+				if ( !columnNames.isEmpty( ) )
+					selector.setColumns( columnNames.toArray( new String[0] ) );
+				if ( selector.open( ) == Dialog.OK )
+				{
+					clearBinding( getReportItemHandle( ).getColumnBindings( ),
+							(Object[]) ( (Object[]) selector.getResult( ) )[2] );
+					Object[] columns = (Object[]) ( (Object[]) selector.getResult( ) )[1];
+					columnBindingsFormPage.generateBindingColumns( columns );
+				}
+			}
+
+			commit( );
+		}
+		catch ( SemanticException e )
+		{
+			rollback( );
+			ExceptionHandler.handle( e );
+		}
+		load( );
+	}
+
+	private void clearBinding( PropertyHandle columnBindings, Object[] objects )
+	{
+		if ( objects != null && columnBindings.getItems( ) != null )
+		{
+			List list = Arrays.asList( objects );
+			for ( int i = columnBindings.getItems( ).size( ) - 1; i >= 0; i-- )
+			{
+				ComputedColumnHandle handle = (ComputedColumnHandle) columnBindings.getAt( i );
+				String name = handle.getName( );
+				if ( list.contains( name ) )
+				{
+					try
+					{
+						columnBindings.removeItem( i );
+					}
+					catch ( PropertyValueException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+			}
+		}
+
+	}
+
 	private void resetReference( Object value )
 	{
 		if ( value == null
@@ -872,25 +986,25 @@ public class BindingPage extends Composite implements Listener
 		}
 		else
 		{
-		try
-		{
-			startTrans( "Reset Reference" ); //$NON-NLS-1$
-			ReportItemHandle element = null;
-			if ( value != null )
+			try
 			{
-				element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findElement( value.toString( ) );
+				startTrans( "Reset Reference" ); //$NON-NLS-1$
+				ReportItemHandle element = null;
+				if ( value != null )
+				{
+					element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.findElement( value.toString( ) );
+				}
+				getReportItemHandle( ).setDataBindingReference( element );
+				commit( );
 			}
-			getReportItemHandle( ).setDataBindingReference( element );
-			commit( );
-		}
-		catch ( SemanticException e )
-		{
-			rollback( );
-			ExceptionHandler.handle( e );
-		}
-		load( );
+			catch ( SemanticException e )
+			{
+				rollback( );
+				ExceptionHandler.handle( e );
+			}
+			load( );
 		}
 	}
 

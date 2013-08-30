@@ -1359,7 +1359,10 @@ public abstract class EngineTask implements IEngineTask
 	public void cancel( )
 	{
 		cancelFlag = true;
-		executionContext.cancel( );
+		if (executionContext != null) 
+		{
+			executionContext.cancel();
+		}
 		disposeResourceLocator( );
 		changeStatusToStopped();
 	}
@@ -1751,21 +1754,21 @@ public abstract class EngineTask implements IEngineTask
 		IContentEmitter emitter = null;
 		try
 		{
-			emitter = extManager.createEmitter( format, emitterID );
+			emitter = extManager.createEmitter( emitterID );
 		}
 		catch ( Throwable t )
 		{
-			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
-					format ); // $NON-NLS-1$
+			log.log( Level.SEVERE, "Report engine can not create emitter {0}.", //$NON-NLS-1$
+					emitterID ); // $NON-NLS-1$
 			throw new EngineException(
-					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, format, t );
+					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, emitterID, t );
 		}
 		if ( emitter == null )
 		{
-			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", //$NON-NLS-1$
-					format ); // $NON-NLS-1$
+			log.log( Level.SEVERE, "Report engine can not create emitter {0}.", //$NON-NLS-1$
+					emitterID ); // $NON-NLS-1$
 			throw new EngineException(
-					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, format );
+					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, emitterID );
 		}
 
 		return emitter;

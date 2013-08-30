@@ -15,9 +15,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -187,7 +190,7 @@ public class ParameterHelper
 
 	public static void addParameterBinding( QueryDefinition queryDefn,
 			AbstractScalarParameterHandle parameter, IModelAdapter adapter )
-			throws DataException
+			throws BirtException
 	{
 		String labelColumnName = getLabelColumnName( parameter );
 		String valueColumnName = getValueColumnName( parameter );
@@ -199,6 +202,7 @@ public class ParameterHelper
 					.getValue( );
 			ScriptExpression dexpr = adapter.adaptExpression( mexpr );
 			addBinding( queryDefn, labelColumnName, dexpr );
+			addColumnBinding( queryDefn, dexpr.getText( ) );
 		}
 		org.eclipse.birt.report.model.api.Expression mexpr = (org.eclipse.birt.report.model.api.Expression) parameter
 				.getExpressionProperty( AbstractScalarParameter.VALUE_EXPR_PROP )
@@ -211,8 +215,36 @@ public class ParameterHelper
 		}
 		ScriptExpression dexpr = adapter.adaptExpression( mexpr, dataType );
 		addBinding( queryDefn, valueColumnName, dexpr );
+		addColumnBinding( queryDefn, dexpr.getText( ) );
+	}
+	
+	private static void addColumnBinding( QueryDefinition query,
+			String expression ) throws BirtException
+	{
+		ArrayList<IColumnBinding> bindingColumnList = new ArrayList<IColumnBinding>( );
+		bindingColumnList.addAll( ExpressionUtil.extractColumnExpressions(
+				expression, ExpressionUtil.DATA_INDICATOR ) );
+		bindingColumnList.addAll( ExpressionUtil.extractColumnExpressions(
+				expression, ExpressionUtil.ROW_INDICATOR ) );
+		for ( IColumnBinding binding : bindingColumnList )
+		{
+			addBinding( query, binding.getResultSetColumnName( ) );
+		}
 	}
 
+	private static void addBinding( QueryDefinition query, String column )
+			throws DataException
+	{
+		Map bindingMap = query.getBindings( );
+		if ( !bindingMap.containsKey( column ) )
+		{
+			ScriptExpression expr = new ScriptExpression(
+					ExpressionUtil.createDataSetRowExpression( column ) );
+			IBinding binding = new Binding( column, expr );
+			query.addBinding( binding );
+		}
+
+	}
 	public static void addBinding( QueryDefinition queryDefinition,
 			String columnName, ScriptExpression expr ) throws DataException
 	{
@@ -221,7 +253,7 @@ public class ParameterHelper
 	}
 
 	public static void addParameterSortBy( QueryDefinition queryDefn,
-			AbstractScalarParameterHandle parameter, IModelAdapter adapter )
+			AbstractScalarParameterHandle parameter, IModelAdapter adapter ) throws BirtException
 	{
 		String sortBy = parameter.getSortByColumn( );
 		if ( sortBy != null )
@@ -238,6 +270,7 @@ public class ParameterHelper
 				sort.setSortDirection( direction ? ISortDefinition.SORT_ASC
 						: ISortDefinition.SORT_DESC );
 				queryDefn.addSort( sort );
+				addColumnBinding( queryDefn, mexpr.getStringExpression( ) );
 			}
 		}
 	}

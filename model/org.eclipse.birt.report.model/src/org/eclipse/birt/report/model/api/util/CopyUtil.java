@@ -11,22 +11,37 @@
 
 package org.eclipse.birt.report.model.api.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IDimLevel;
+import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
@@ -93,10 +108,189 @@ public class CopyUtil
 			return Collections.EMPTY_LIST;
 
 		DesignElementHandle target = chosen.getHandle( root );
+		
+		List<String> oldNames = null;
+		DesignElement targetElement = target.getElement( );
+		if ( targetElement instanceof Cube )
+		{
+			oldNames = collectOLAPNames( root, (Cube) targetElement );
+		}
+		
 		container.getModuleHandle( ).rename( container, target );
+		
+		if ( targetElement instanceof Cube )
+		{
+			updateCubeMeasure( root, (Cube) targetElement, oldNames );
+		}
+
 		container.getSlot( slotID ).add( target );
 		copyPastePolicy.copyPropertyBindings( copy, target );
 		return checkPostPasteErrors( target.getElement( ), root );
+	}
+	
+	/**
+	 * update the java script value on measure
+	 * @param module
+	 * @param newCube
+	 * @param oldNames
+	 */
+	private static void updateCubeMeasure( Module module,Cube newCube,List<String> oldNames)
+	{
+		List<String> newNames = collectOLAPNames( module, newCube );		
+		Map<String, String> nameMap = buildOLAPNameMap( oldNames, newNames );
+		updateDerivedMeasure( module, newCube, nameMap );
+	}
+	
+	private static void updateDerivedMeasure( Module module, Cube cube, Map<String, String> nameMap )
+	{
+		List<Measure> derivedMeasureList = new ArrayList<Measure>( );
+
+		LevelContentIterator iter = new LevelContentIterator( module, cube, 3 );
+		while ( iter.hasNext( ) )
+		{
+			DesignElement innerElement = iter.next( );
+			if ( innerElement instanceof Measure )
+			{
+				Measure measure = (Measure) innerElement;
+				if ( measure.getBooleanProperty( module,
+						MeasureHandle.IS_CALCULATED_PROP ) )
+				{
+					derivedMeasureList.add( measure );
+				}
+			}
+		}
+		if ( !derivedMeasureList.isEmpty( ) )
+		{
+			for ( Measure derivedMeasure : derivedMeasureList )
+			{
+				Expression expr = (Expression) derivedMeasure.getProperty(
+						module, MeasureHandle.MEASURE_EXPRESSION_PROP );
+				Expression newExpr = getUpdatedExpression( expr, nameMap );
+				if ( newExpr != null )
+				{
+					derivedMeasure.setProperty(
+							MeasureHandle.MEASURE_EXPRESSION_PROP, newExpr );
+				}
+			}
+		}
+	}
+	
+	private static Expression getUpdatedExpression( Expression old,
+			Map<String, String> nameMap )
+	{
+		if ( old == null )
+			return null;
+
+		String expr = old.getStringExpression( );
+		String type = old.getType( );
+		Map<String, String> updateMap = getUpdateBindingMap( expr, nameMap,
+				type );
+
+		if ( updateMap != null && !updateMap.isEmpty( ) )
+		{
+			String newExpr = expr;
+			for ( Entry<String, String> entry : updateMap.entrySet( ) )
+			{
+				String oldName = entry.getKey( );
+				String newName = entry.getValue( );
+				newExpr = newExpr.replaceAll( "(\\W)" + oldName + "(\\W)", //$NON-NLS-1$ //$NON-NLS-2$ 
+						"$1" + newName + "$2" ); //$NON-NLS-1$  //$NON-NLS-2$
+			}
+			return new Expression( newExpr, old.getUserDefinedType( ) );
+		}
+		return null;
+	}
+	
+	private static Map<String, String> getUpdateBindingMap( String expr,
+			Map<String, String> nameMap, String type )
+	{
+		Map<String, String> updateMap = new HashMap<String, String>( );
+		if ( IExpressionType.JAVASCRIPT.equalsIgnoreCase( type ) )
+		{
+			// for the measure expression case
+			Set<String> measureNameSet = null;
+
+			try
+			{
+				measureNameSet = ExpressionUtil.getAllReferencedMeasures( expr );
+			}
+			catch ( CoreException e )
+			{
+				// Do nothing
+			}
+
+			if ( measureNameSet != null && !measureNameSet.isEmpty( ) )
+			{
+				for ( String measureName : measureNameSet )
+				{
+					String newName = nameMap.get( measureName );
+					if ( newName != null )
+						updateMap.put( measureName, newName );
+				}
+			}
+			else
+			{
+				Set<IDimLevel> tmpSet = null;
+				try
+				{
+					tmpSet = ExpressionUtil.getReferencedDimLevel( expr );
+				}
+				catch ( CoreException e )
+				{
+					// do nothing
+					return null;
+				}
+
+				Iterator<IDimLevel> dimLevels = tmpSet.iterator( );
+				while ( dimLevels.hasNext( ) )
+				{
+					IDimLevel tmpObj = dimLevels.next( );
+
+					String oldName = tmpObj.getDimensionName( );
+					String newName = nameMap.get( oldName );
+					if ( newName == null )
+						continue;
+
+					if ( !newName.equals( oldName ) )
+						updateMap.put( oldName, newName );
+				}
+			}
+
+		}
+		return updateMap;
+	}
+	
+	private static Map<String, String> buildOLAPNameMap( List<String> oldNames,
+			List<String> newNames )
+	{
+		Map<String, String> retMap = new HashMap<String, String>( );
+		for ( int i = 0; i < oldNames.size( ); i++ )
+		{
+			String oldName = oldNames.get( i );
+			String newName = newNames.get( i );
+
+			retMap.put( oldName, newName );
+		}
+
+		return retMap;
+	}
+	
+	private static List<String> collectOLAPNames( Module module, DesignElement cube )
+	{
+		List<String> retMap = new ArrayList<String>( );
+
+		LevelContentIterator iter = new LevelContentIterator( module, cube, 3 );
+		while ( iter.hasNext( ) )
+		{
+			DesignElement innerElement = iter.next( );
+			if ( innerElement instanceof Dimension
+					|| innerElement instanceof Measure )
+				retMap.add( innerElement.getName( ) );
+			else if ( innerElement instanceof Level )
+				retMap.add( ( (Level) innerElement ).getFullName( ) );
+		}
+
+		return retMap;
 	}
 
 	/**
@@ -137,7 +331,21 @@ public class CopyUtil
 			return Collections.EMPTY_LIST;
 
 		DesignElementHandle target = chosen.getHandle( root );
+		
+		List<String> oldNames = null;
+		DesignElement targetElement = target.getElement( );
+		if ( targetElement instanceof Cube )
+		{
+			oldNames = collectOLAPNames( root, (Cube) targetElement );
+		}
+		
 		container.getModuleHandle( ).rename( container, target );
+		
+		if ( targetElement instanceof Cube )
+		{
+			updateCubeMeasure( root, (Cube) targetElement, oldNames );
+		}
+		
 		container.getSlot( slotID ).add( target, newPos );
 		copyPastePolicy.copyPropertyBindings( copy, target );
 		return checkPostPasteErrors( target.getElement( ), root );
@@ -180,7 +388,17 @@ public class CopyUtil
 			return Collections.EMPTY_LIST;
 
 		DesignElementHandle target = chosen.getHandle( root );
+		List<String> oldNames = null;
+		DesignElement targetElement = target.getElement( );
+		if ( targetElement instanceof Cube )
+		{
+			oldNames = collectOLAPNames( root, (Cube) targetElement );
+		}
 		container.getModuleHandle( ).rename( container, target );
+		if ( targetElement instanceof Cube )
+		{
+			updateCubeMeasure( root, (Cube) targetElement, oldNames );
+		}
 		container.add( propName, target );
 		copyPastePolicy.copyPropertyBindings( copy, target );
 		return checkPostPasteErrors( target.getElement( ), root );
@@ -225,7 +443,17 @@ public class CopyUtil
 			return Collections.EMPTY_LIST;
 
 		DesignElementHandle target = chosen.getHandle( root );
+		List<String> oldNames = null;
+		DesignElement targetElement = target.getElement( );
+		if ( targetElement instanceof Cube )
+		{
+			oldNames = collectOLAPNames( root, (Cube) targetElement );
+		}		
 		container.getModuleHandle( ).rename( container, target );
+		if ( targetElement instanceof Cube )
+		{
+			updateCubeMeasure( root, (Cube) targetElement, oldNames );
+		}
 		container.add( propName, target, newPos );
 		copyPastePolicy.copyPropertyBindings( copy, target );
 		return checkPostPasteErrors( target.getElement( ), root );

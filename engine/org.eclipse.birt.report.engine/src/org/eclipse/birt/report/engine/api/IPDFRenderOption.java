@@ -104,6 +104,15 @@ public interface IPDFRenderOption extends IRenderOption
 	public static final String IS_EMBEDDED_FONT = "pdfRenderOption.embeddedFonts";
 	
 	/**
+	 * The option to disable flash animation. Set this option to true for PDF printing. 
+	 */
+	public static final String DISABLE_FLASH_ANIMATION = "pdfRenderOption.disableFlashAnimation";
+	
+	/**
+	 * The option to disable print.
+	 */
+	public static final String DISABLE_PRINT = "pdfRenderOption.disablePrint";
+	/**
 	 * @deprecated
 	 * @param isEmbededFont
 	 */

@@ -38,4 +38,6 @@ public class SizeBasedContent
 	 */
 	public int width;
 	
+	public boolean isChildrenRemoved;
+	
 }

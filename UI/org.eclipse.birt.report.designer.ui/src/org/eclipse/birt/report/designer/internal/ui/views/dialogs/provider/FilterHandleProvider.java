@@ -202,6 +202,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
 					FilterConditionBuilder.DLG_TITLE_NEW,
 					FilterConditionBuilder.DLG_MESSAGE_NEW );
+			dialog.setUsedForEditGroup(isEditGroup());
 			dialog.setDesignHandle( (DesignElementHandle) item );
 			dialog.setInput( null );
 			dialog.setBindingParams( bindingParams );
@@ -255,6 +256,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
 					FilterConditionBuilder.DLG_TITLE_EDIT,
 					FilterConditionBuilder.DLG_MESSAGE_EDIT );
+			dialog.setUsedForEditGroup(isEditGroup());
 			dialog.setDesignHandle( (DesignElementHandle) item );
 			dialog.setInput( filterHandle );
 			dialog.setBindingParams( bindingParams );
@@ -473,5 +475,11 @@ public class FilterHandleProvider implements IFormHandleProvider
 	{
 		return true;
 	}
-
+	
+	//used for edit group,sub class can overwrite this method
+	//
+	public boolean isEditGroup()
+	{
+		return false;
+	}
 }

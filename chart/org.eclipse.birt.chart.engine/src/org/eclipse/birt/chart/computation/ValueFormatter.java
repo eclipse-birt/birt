@@ -16,6 +16,7 @@ import java.text.ParseException;
 import org.eclipse.birt.chart.datafeed.IDataPointEntry;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.internal.factory.DateFormatWrapperFactory;
 import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -203,9 +204,14 @@ public final class ValueFormatter
 				else if ( oValue instanceof CDateTime )
 				{
 					CDateTime cd = (CDateTime) oValue;
-					int dateStyle = cd.isTimeOnly( ) ? DateFormat.NONE
-							: DateFormat.DEFAULT;
-					DateFormat df = DateFormat.getDateTimeInstance( dateStyle,
+					if ( cd.isTimeOnly( ) )
+					{
+						// Keep consistent with preferred date format
+						return DateFormatWrapperFactory.getPreferredDateFormat( Calendar.SECOND,
+								lcl )
+								.format( cd );
+					}
+					DateFormat df = DateFormat.getDateTimeInstance( DateFormat.DEFAULT,
 							DateFormat.DEFAULT,
 							lcl );
 					// Only Datetime supports TimeZone
@@ -345,9 +351,9 @@ public final class ValueFormatter
 	 * 
 	 * @param oValue
 	 * @param fs
-	 * @return
+	 * @return format specifier.
 	 */
-	private static FormatSpecifier resetFormatSpecifier( Object oValue,
+	public static FormatSpecifier resetFormatSpecifier( Object oValue,
 			FormatSpecifier fs )
 	{
 		if ( oValue instanceof IDataPointEntry )

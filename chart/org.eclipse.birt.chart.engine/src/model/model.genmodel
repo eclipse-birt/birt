@@ -116,6 +116,11 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//HorizontalAlignment/Center"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//HorizontalAlignment/Right"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//ImageSourceType">
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//ImageSourceType/static"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//ImageSourceType/report"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//ImageSourceType/file"/>
+    </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//IntersectionType">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//IntersectionType/Min"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//IntersectionType/Max"/>
@@ -280,6 +285,7 @@
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//HorizontalAlignmentObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//ID"/>
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//ImageSourceTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//IntersectionTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LeaderLineStyleObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LegendBehaviorTypeObject"/>
@@ -401,6 +407,7 @@
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//Image">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Image/uRL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Image/source"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//Insets">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Insets/top"/>

@@ -326,6 +326,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	protected HTMLEmitter htmlEmitter;
 	protected Stack tableDIVWrapedFlagStack = new Stack( );
+	protected Stack<DimensionType> fixedRowHeightStack = new Stack<DimensionType>( );
 	
 	/**
 	 * This set is used to store the style class which has been outputted.
@@ -777,6 +778,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			fixTransparentPNG( );
 		}
+
 		fixRedirect( );		
 		// client initialize		
 		String clientInitialize = report.getDesign( ).getReportDesign( ).getClientInitialize( );
@@ -794,6 +796,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			doClientInitialize( clientInitialize );
 		}	
+
 		writer.closeTag( HTMLTags.TAG_HEAD );
 
 		writer.openTag( HTMLTags.TAG_BODY );
@@ -1564,7 +1567,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		StringBuffer styleBuffer = new StringBuffer( );
 		writer.openTag( HTMLTags.TAG_TABLE );
 		writer.attribute( "cellpadding", "0" );
-		writer.attribute( "rules", "none" );
 		styleBuffer.append( "empty-cells: show; border-collapse:collapse;" ); //$NON-NLS-1$
 
 		if ( page != null && outputMasterPageContent )
@@ -2155,6 +2157,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			startedGroups.remove( group );
 		}
 		
+		if ( fixedReport )
+		{
+			DimensionType rowHeight = row.getHeight( );
+			if ( rowHeight != null && !"%".equals( rowHeight.getUnits( ) ) )
+			{
+				fixedRowHeightStack.push( rowHeight );
+			}
+			else
+			{
+				fixedRowHeightStack.push( null );
+			}
+		}
+		
 		tableLayout.startRow( );
 
 	}
@@ -2175,6 +2190,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		//
 		// currentData.adjustCols( );
 		writer.closeTag( HTMLTags.TAG_TR );
+		if ( fixedReport )
+		{
+			fixedRowHeightStack.pop( );
+		}
 	}
 
 	private boolean isCellInHead( ICellContent cell )
@@ -2235,26 +2254,35 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// colspan
 		int colSpan = cell.getColSpan( );
-
 		if ( colSpan > 1 )
 		{
 			writer.attribute( HTMLTags.ATTR_COLSPAN, colSpan );
 		}
-
+		
 		// rowspan
 		int rowSpan = cell.getRowSpan( );
 		if ( rowSpan > 1 )
 		{
 			writer.attribute( HTMLTags.ATTR_ROWSPAN, rowSpan );
 		}
+		
+		boolean fixedCellHeight = useFixedCellHeight( cell );
 
 		StringBuffer styleBuffer = new StringBuffer( );
-		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead );
+		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead, fixedCellHeight );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 		htmlEmitter.handleCellAlign( cell );
-		htmlEmitter.handleCellVAlign( cell );
-		
+		if ( fixedCellHeight )
+		{
+			// Fixed cell height requires the vertical aline must be top.
+			writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
+		}
+		else
+		{
+			htmlEmitter.handleCellVAlign( cell );
+		}
+
 		boolean bookmarkOutput = false;
 		if ( metadataFilter != null )
 		{
@@ -2287,7 +2315,27 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			startedGroups.clear( );
 		}
 
-		if ( cell.hasDiagonalLine( ) )
+		if ( fixedCellHeight )
+		{
+			writer.openTag( HTMLTags.TAG_DIV );
+			writer.attribute( HTMLTags.ATTR_STYLE,
+					"position: relative; height: 100%;" );
+			DimensionType cellHeight = (DimensionType) fixedRowHeightStack.peek( );
+			if ( cell.hasDiagonalLine( ) )
+			{
+				outputDiagonalImage( cell, cellHeight );
+			}
+			writer.openTag( HTMLTags.TAG_DIV );
+			styleBuffer.setLength( 0 );
+			styleBuffer.append( " height: " );
+			styleBuffer.append( cellHeight.toString( ) );
+			styleBuffer.append( "; width: 100%; position: absolute; left: 0px;" );
+			HTMLEmitterUtil.buildOverflowStyle( styleBuffer,
+					cell.getStyle( ),
+					true );
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+		}
+		else if ( cell.hasDiagonalLine( ) )
 		{
 			DimensionType cellHeight = getCellHeight( cell );
 			if ( cellHeight != null && !"%".equals( cellHeight.getUnits( ) ) )
@@ -2303,6 +2351,35 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			metadataEmitter.startCell( cell );
 		}
+	}
+	
+	private boolean useFixedCellHeight( ICellContent cell )
+	{
+		// fixed cell height requires the rowspan to be 1.
+		if ( cell.getRowSpan( ) > 1 )
+		{
+			return false;
+		}
+		if ( fixedReport )
+		{
+			IStyle style = cell.getStyle( );
+			if ( style != null )
+			{
+				String overflow = style.getOverflow( );
+				if ( overflow != null
+						&& CSSConstants.CSS_OVERFLOW_SCROLL_VALUE
+								.equals( overflow ) )
+				{
+					DimensionType cellHeight = (DimensionType) fixedRowHeightStack
+							.peek( );
+					if ( cellHeight != null )
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 	protected void outputDiagonalImage( ICellContent cell,
@@ -2418,7 +2495,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			metadataEmitter.endCell( cell );
 		}
 		
-		if ( cell.hasDiagonalLine( ) )
+		if ( useFixedCellHeight( cell ) )
+		{
+			writer.closeTag( HTMLTags.TAG_DIV );
+			writer.closeTag( HTMLTags.TAG_DIV );
+		}
+		else if ( cell.hasDiagonalLine( ) )
 		{
 			DimensionType cellHeight = getCellHeight( cell );
 			if ( cellHeight != null && !"%".equals( cellHeight.getUnits( ) ) )
@@ -2941,6 +3023,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		// action
 		boolean hasAction = handleAction( hyperlinkAction, url );
+		// if the image has url links, force compact mode to avoid unwanted hyphen.
+		boolean compactMode = writer.isEnableCompactMode( );
+		if( hasAction )
+		{
+			writer.setEnableCompactMode( true );
+		}
 
 		//Image must have a bookmark.
 		if ( image.getBookmark( ) == null )
@@ -3060,6 +3148,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.closeTag( tag );
 		}
+		// restore compact mode
+		writer.setEnableCompactMode( compactMode );
 	}
 	
 	/**
@@ -3836,8 +3926,29 @@ class TableLayout
 		}
 	}
 	
+	protected boolean isInvisibaleRow()
+	{
+		for(int i=0; i<columnCount; i++)
+		{
+			if(cells[i]!= 0)
+			{
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	protected void addEmptyCell( )
 	{
+		if ( isInvisibaleRow( ) )
+		{
+			for ( int i = 0; i < columnCount; i++ )
+			{
+				cells[i]++;
+			}
+			return;
+		}
 		for ( int i = 0; i < columnCount; i++ )
 		{
 			if ( cells[i] == 0 )

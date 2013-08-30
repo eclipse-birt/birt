@@ -29,11 +29,13 @@ import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
+import org.eclipse.birt.chart.model.attribute.ImageSourceType;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.PatternImage;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IImageServiceProvider;
 import org.eclipse.birt.chart.util.PatternImageUtil;
 import org.eclipse.birt.chart.util.PatternImageUtil.ByteColorModel;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -73,6 +75,8 @@ public class FillCanvas extends Canvas
 
 	private int textIndent = 0;
 	
+	private IImageServiceProvider imageServiceProvider = null;
+	
 	public FillCanvas( Composite parent, int iStyle )
 	{
 		super( parent, iStyle );
@@ -89,7 +93,7 @@ public class FillCanvas extends Canvas
 			WizardBase.displayException( pex );
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param parent
@@ -101,6 +105,21 @@ public class FillCanvas extends Canvas
 	{
 		this( parent, iStyle );
 		this.isAutoEnabled = isAutoEnabled;
+	}
+
+	/**
+	 * If true, null color means auto, rather than transparent
+	 * @param parent
+	 * @param iStyle
+	 * @param isAutoEnabled
+	 * @param context
+	 */
+	public FillCanvas( Composite parent, int iStyle, boolean isAutoEnabled,
+			IImageServiceProvider imageServiceProvider )
+	{
+		this( parent, iStyle );
+		this.isAutoEnabled = isAutoEnabled;
+		this.imageServiceProvider = imageServiceProvider;
 	}
 
 	public void setTextIndent(int indent )
@@ -367,15 +386,47 @@ public class FillCanvas extends Canvas
 			}
 			else
 			{
-				try
+				if ( imageServiceProvider == null )
 				{
-					img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
-							new URL( modelImage.getURL( ) ).openStream( ) );
+					try
+					{
+						img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
+								new URL( modelImage.getURL( ) ).openStream( ) );
+					}
+					catch ( MalformedURLException e1 )
+					{
+						img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
+								new FileInputStream( modelImage.getURL( ) ) );
+					}
 				}
-				catch ( MalformedURLException e1 )
+				else if ( modelImage.getSource( ) == ImageSourceType.REPORT )
 				{
-					img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
-							new FileInputStream( modelImage.getURL( ) ) );
+					org.eclipse.swt.graphics.Image embeddedImage = imageServiceProvider.getEmbeddedImage( modelImage.getURL( ) );
+					if ( embeddedImage != null )
+					{
+						ImageData imageData = (ImageData) embeddedImage.getImageData( )
+								.clone( );
+						img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
+								imageData );
+						return img;
+					}
+				}
+				else
+				{
+					String url = imageServiceProvider.getImageAbsoluteURL( modelImage );
+					if ( url != null )
+					{
+						try
+						{
+							img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
+									new URL( url ).openStream( ) );
+						}
+						catch ( MalformedURLException e1 )
+						{
+							img = new org.eclipse.swt.graphics.Image( Display.getCurrent( ),
+									new FileInputStream( url ) );
+						}
+					}
 				}
 			}
 		}

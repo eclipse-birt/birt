@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.ui.swt.ChartUIFactory;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.IImageServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelper;
@@ -60,10 +61,15 @@ public class ChartReportItemUIFactory extends ChartUIFactory
 	}
 
 	public ChartWizardContext createWizardContext( Chart cm,
-			IUIServiceProvider uiProvider, IDataServiceProvider dataProvider,
-			IChartDataSheet dataSheet )
+			IUIServiceProvider uiProvider, IImageServiceProvider imageProvider,
+			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
 	{
-		return new ChartWizardContext( cm, uiProvider, dataProvider, dataSheet, this );
+		return new ChartWizardContext( cm,
+				uiProvider,
+				imageProvider,
+				dataProvider,
+				dataSheet,
+				this );
 	}
 
 	public DteAdapter createDteAdapter( )

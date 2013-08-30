@@ -174,6 +174,14 @@ public class ReportPlatformUIImages
 				+ EVIEW16_PATH
 				+ "template.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_LIBRARY_FILE, ICONS_PATH
+				+ EVIEW16_PATH
+				+ "library.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_DOCUMENT_FILE, ICONS_PATH
+				+ EVIEW16_PATH
+				+ "document.gif" ); //$NON-NLS-1$
+
 		declareImage( IReportGraphicConstants.ICON_REPORT_LOCK, ICONS_PATH
 				+ OBJ16_PATH
 				+ "icon_lock_node.gif" ); //$NON-NLS-1$
@@ -319,7 +327,7 @@ public class ReportPlatformUIImages
 				+ "text.gif" ); //$NON-NLS-1$		
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_LIBRARY, ICONS_PATH
-				+ OBJ16_PATH
+				+ EVIEW16_PATH
 				+ "library.gif" ); //$NON-NLS-1$		
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_LIBRARY_REFERENCED,

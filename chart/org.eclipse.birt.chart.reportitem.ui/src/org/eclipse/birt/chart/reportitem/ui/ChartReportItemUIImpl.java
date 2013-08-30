@@ -103,8 +103,10 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 					if ( ChartCubeUtil.isAxisChart( (DesignElementHandle) content ) )
 					{
 						final ExtendedItemHandle axisChart = (ExtendedItemHandle) content;
-						if ( !axisChart.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART )
-								.equals( eih ) )
+						final DesignElementHandle oldPlotChart = axisChart.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
+						// If old plot chart is deleted or not same with
+						// hostChart instance, try to update it here.
+						if ( oldPlotChart == null || !oldPlotChart.equals( eih ) )
 							// Update the handle property in async process
 							Display.getCurrent( ).asyncExec( new Runnable( ) {
 
@@ -114,6 +116,8 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 									{
 										axisChart.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
 												eih );
+										// Reset listener since this process is deferred after adding listener.
+										addDeleteListenerToHostChart( eih, listenerMap.get( axisChart ) );
 									}
 									catch ( SemanticException e )
 									{
@@ -130,15 +134,7 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 				if ( hostChart != null )
 				{
 					Listener listener = createDeleteChartListener( eih );
-					// Add listener to container to listen when chart is deleted
-					DesignElementHandle cell = hostChart.getContainer( );
-					cell.addListener( listener );
-					// Add listener to container's container to listen when
-					// container is deleted
-					if ( cell.getContainer( ) != null )
-					{
-						cell.getContainer( ).addListener( listener );
-					}
+					addDeleteListenerToHostChart( hostChart, listener );
 				}
 			}
 
@@ -148,6 +144,20 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		{
 			logger.log( e );
 			return null;
+		}
+	}
+	
+	private void addDeleteListenerToHostChart( DesignElementHandle hostChart,
+			Listener listener )
+	{
+		// Add listener to container to listen when chart is deleted
+		DesignElementHandle cell = hostChart.getContainer( );
+		cell.addListener( listener );
+		// Add listener to container's container to listen when
+		// container is deleted
+		if ( cell.getContainer( ) != null )
+		{
+			cell.getContainer( ).addListener( listener );
 		}
 	}
 

@@ -861,12 +861,21 @@ public interface AttributePackage extends EPackage
 	int IMAGE__URL = FILL_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMAGE__SOURCE = FILL_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Image</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IMAGE_FEATURE_COUNT = FILL_FEATURE_COUNT + 1;
+	int IMAGE_FEATURE_COUNT = FILL_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -885,6 +894,15 @@ public interface AttributePackage extends EPackage
 	 * @ordered
 	 */
 	int EMBEDDED_IMAGE__URL = IMAGE__URL;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMBEDDED_IMAGE__SOURCE = IMAGE__SOURCE;
 
 	/**
 	 * The feature id for the '<em><b>Data</b></em>' attribute.
@@ -1639,6 +1657,15 @@ public interface AttributePackage extends EPackage
 	int PATTERN_IMAGE__URL = IMAGE__URL;
 
 	/**
+	 * The feature id for the '<em><b>Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATTERN_IMAGE__SOURCE = IMAGE__SOURCE;
+
+	/**
 	 * The feature id for the '<em><b>Bitmap</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2157,13 +2184,23 @@ public interface AttributePackage extends EPackage
 	int HORIZONTAL_ALIGNMENT = 57;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.ImageSourceType <em>Image Source Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.ImageSourceType
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getImageSourceType()
+	 * @generated
+	 */
+	int IMAGE_SOURCE_TYPE = 58;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.IntersectionType <em>Intersection Type</em>}' enum.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.attribute.IntersectionType
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getIntersectionType()
 	 * @generated
 	 */
-	int INTERSECTION_TYPE = 58;
+	int INTERSECTION_TYPE = 59;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.LeaderLineStyle <em>Leader Line Style</em>}' enum.
@@ -2172,7 +2209,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLeaderLineStyle()
 	 * @generated
 	 */
-	int LEADER_LINE_STYLE = 59;
+	int LEADER_LINE_STYLE = 60;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.LegendBehaviorType <em>Legend Behavior Type</em>}' enum.
@@ -2182,7 +2219,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLegendBehaviorType()
 	 * @generated
 	 */
-	int LEGEND_BEHAVIOR_TYPE = 60;
+	int LEGEND_BEHAVIOR_TYPE = 61;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.LegendItemType <em>Legend Item Type</em>}' enum.
@@ -2191,7 +2228,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLegendItemType()
 	 * @generated
 	 */
-	int LEGEND_ITEM_TYPE = 61;
+	int LEGEND_ITEM_TYPE = 62;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.LineDecorator <em>Line Decorator</em>}' enum.
@@ -2201,7 +2238,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineDecorator()
 	 * @generated
 	 */
-	int LINE_DECORATOR = 62;
+	int LINE_DECORATOR = 63;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.LineStyle <em>Line Style</em>}' enum.
@@ -2210,7 +2247,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineStyle()
 	 * @generated
 	 */
-	int LINE_STYLE = 63;
+	int LINE_STYLE = 64;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.MarkerType <em>Marker Type</em>}' enum.
@@ -2219,7 +2256,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getMarkerType()
 	 * @generated
 	 */
-	int MARKER_TYPE = 64;
+	int MARKER_TYPE = 65;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.MenuStylesKeyType <em>Menu Styles Key Type</em>}' enum.
@@ -2229,7 +2266,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getMenuStylesKeyType()
 	 * @generated
 	 */
-	int MENU_STYLES_KEY_TYPE = 65;
+	int MENU_STYLES_KEY_TYPE = 66;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.Orientation <em>Orientation</em>}' enum.
@@ -2238,7 +2275,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getOrientation()
 	 * @generated
 	 */
-	int ORIENTATION = 66;
+	int ORIENTATION = 67;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.Position <em>Position</em>}' enum.
@@ -2247,7 +2284,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getPosition()
 	 * @generated
 	 */
-	int POSITION = 67;
+	int POSITION = 68;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.RiserType <em>Riser Type</em>}' enum.
@@ -2256,7 +2293,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getRiserType()
 	 * @generated
 	 */
-	int RISER_TYPE = 68;
+	int RISER_TYPE = 69;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.RuleType <em>Rule Type</em>}' enum.
@@ -2265,7 +2302,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getRuleType()
 	 * @generated
 	 */
-	int RULE_TYPE = 69;
+	int RULE_TYPE = 70;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.ScaleUnitType <em>Scale Unit Type</em>}' enum.
@@ -2274,7 +2311,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getScaleUnitType()
 	 * @generated
 	 */
-	int SCALE_UNIT_TYPE = 70;
+	int SCALE_UNIT_TYPE = 71;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.SortOption <em>Sort Option</em>}' enum.
@@ -2283,7 +2320,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getSortOption()
 	 * @generated
 	 */
-	int SORT_OPTION = 71;
+	int SORT_OPTION = 72;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.Stretch <em>Stretch</em>}' enum.
@@ -2292,7 +2329,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getStretch()
 	 * @generated
 	 */
-	int STRETCH = 72;
+	int STRETCH = 73;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.StyledComponent <em>Styled Component</em>}' enum.
@@ -2301,7 +2338,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getStyledComponent()
 	 * @generated
 	 */
-	int STYLED_COMPONENT = 73;
+	int STYLED_COMPONENT = 74;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.TickStyle <em>Tick Style</em>}' enum.
@@ -2310,7 +2347,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTickStyle()
 	 * @generated
 	 */
-	int TICK_STYLE = 74;
+	int TICK_STYLE = 75;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.TriggerCondition <em>Trigger Condition</em>}' enum.
@@ -2319,7 +2356,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTriggerCondition()
 	 * @generated
 	 */
-	int TRIGGER_CONDITION = 75;
+	int TRIGGER_CONDITION = 76;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.TriggerFlow <em>Trigger Flow</em>}' enum.
@@ -2329,7 +2366,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTriggerFlow()
 	 * @generated
 	 */
-	int TRIGGER_FLOW = 76;
+	int TRIGGER_FLOW = 77;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement <em>Units Of Measurement</em>}' enum.
@@ -2338,7 +2375,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getUnitsOfMeasurement()
 	 * @generated
 	 */
-	int UNITS_OF_MEASUREMENT = 77;
+	int UNITS_OF_MEASUREMENT = 78;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.VerticalAlignment <em>Vertical Alignment</em>}' enum.
@@ -2347,7 +2384,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getVerticalAlignment()
 	 * @generated
 	 */
-	int VERTICAL_ALIGNMENT = 78;
+	int VERTICAL_ALIGNMENT = 79;
 
 	/**
 	 * The meta object id for the '<em>Action Type Object</em>' data type.
@@ -2356,7 +2393,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getActionTypeObject()
 	 * @generated
 	 */
-	int ACTION_TYPE_OBJECT = 79;
+	int ACTION_TYPE_OBJECT = 80;
 
 	/**
 	 * The meta object id for the '<em>Anchor Object</em>' data type. <!--
@@ -2366,7 +2403,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getAnchorObject()
 	 * @generated
 	 */
-	int ANCHOR_OBJECT = 80;
+	int ANCHOR_OBJECT = 81;
 
 	/**
 	 * The meta object id for the '<em>Angle Type Object</em>' data type.
@@ -2376,7 +2413,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getAngleTypeObject()
 	 * @generated
 	 */
-	int ANGLE_TYPE_OBJECT = 81;
+	int ANGLE_TYPE_OBJECT = 82;
 
 	/**
 	 * The meta object id for the '<em>Axis Type Object</em>' data type.
@@ -2385,7 +2422,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getAxisTypeObject()
 	 * @generated
 	 */
-	int AXIS_TYPE_OBJECT = 82;
+	int AXIS_TYPE_OBJECT = 83;
 
 	/**
 	 * The meta object id for the '<em>Chart Dimension Object</em>' data type.
@@ -2394,7 +2431,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getChartDimensionObject()
 	 * @generated
 	 */
-	int CHART_DIMENSION_OBJECT = 83;
+	int CHART_DIMENSION_OBJECT = 84;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.AxisType <em>Axis Type</em>}' enum.
@@ -2421,7 +2458,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getChartTypeObject()
 	 * @generated
 	 */
-	int CHART_TYPE_OBJECT = 84;
+	int CHART_TYPE_OBJECT = 85;
 
 	/**
 	 * The meta object id for the '<em>Cursor Type Object</em>' data type.
@@ -2431,7 +2468,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getCursorTypeObject()
 	 * @generated
 	 */
-	int CURSOR_TYPE_OBJECT = 85;
+	int CURSOR_TYPE_OBJECT = 86;
 
 	/**
 	 * The meta object id for the '<em>Data Point Component Type Object</em>' data type.
@@ -2440,7 +2477,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDataPointComponentTypeObject()
 	 * @generated
 	 */
-	int DATA_POINT_COMPONENT_TYPE_OBJECT = 86;
+	int DATA_POINT_COMPONENT_TYPE_OBJECT = 87;
 
 	/**
 	 * The meta object id for the '<em>Data Type Object</em>' data type.
@@ -2449,7 +2486,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDataTypeObject()
 	 * @generated
 	 */
-	int DATA_TYPE_OBJECT = 87;
+	int DATA_TYPE_OBJECT = 88;
 
 	/**
 	 * The meta object id for the '<em>Date Format Detail Object</em>' data type.
@@ -2458,7 +2495,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDateFormatDetailObject()
 	 * @generated
 	 */
-	int DATE_FORMAT_DETAIL_OBJECT = 88;
+	int DATE_FORMAT_DETAIL_OBJECT = 89;
 
 	/**
 	 * The meta object id for the '<em>Date Format Type Object</em>' data type.
@@ -2467,7 +2504,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDateFormatTypeObject()
 	 * @generated
 	 */
-	int DATE_FORMAT_TYPE_OBJECT = 89;
+	int DATE_FORMAT_TYPE_OBJECT = 90;
 
 	/**
 	 * The meta object id for the '<em>Direction Object</em>' data type.
@@ -2476,7 +2513,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getDirectionObject()
 	 * @generated
 	 */
-	int DIRECTION_OBJECT = 90;
+	int DIRECTION_OBJECT = 91;
 
 	/**
 	 * The meta object id for the '<em>Grouping Unit Type Object</em>' data type.
@@ -2485,7 +2522,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getGroupingUnitTypeObject()
 	 * @generated
 	 */
-	int GROUPING_UNIT_TYPE_OBJECT = 91;
+	int GROUPING_UNIT_TYPE_OBJECT = 92;
 
 	/**
 	 * The meta object id for the '<em>Horizontal Alignment Object</em>' data type.
@@ -2494,7 +2531,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getHorizontalAlignmentObject()
 	 * @generated
 	 */
-	int HORIZONTAL_ALIGNMENT_OBJECT = 92;
+	int HORIZONTAL_ALIGNMENT_OBJECT = 93;
 
 	/**
 	 * The meta object id for the '<em>ID</em>' data type. <!--
@@ -2504,7 +2541,17 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getID()
 	 * @generated
 	 */
-	int ID = 93;
+	int ID = 94;
+
+	/**
+	 * The meta object id for the '<em>Image Source Type Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.attribute.ImageSourceType
+	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getImageSourceTypeObject()
+	 * @generated
+	 */
+	int IMAGE_SOURCE_TYPE_OBJECT = 95;
 
 	/**
 	 * The meta object id for the '<em>Intersection Type Object</em>' data type.
@@ -2513,7 +2560,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getIntersectionTypeObject()
 	 * @generated
 	 */
-	int INTERSECTION_TYPE_OBJECT = 94;
+	int INTERSECTION_TYPE_OBJECT = 96;
 
 	/**
 	 * The meta object id for the '<em>Leader Line Style Object</em>' data type.
@@ -2522,7 +2569,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLeaderLineStyleObject()
 	 * @generated
 	 */
-	int LEADER_LINE_STYLE_OBJECT = 95;
+	int LEADER_LINE_STYLE_OBJECT = 97;
 
 	/**
 	 * The meta object id for the '<em>Legend Behavior Type Object</em>' data type.
@@ -2532,7 +2579,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLegendBehaviorTypeObject()
 	 * @generated
 	 */
-	int LEGEND_BEHAVIOR_TYPE_OBJECT = 96;
+	int LEGEND_BEHAVIOR_TYPE_OBJECT = 98;
 
 	/**
 	 * The meta object id for the '<em>Legend Item Type Object</em>' data type.
@@ -2541,7 +2588,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLegendItemTypeObject()
 	 * @generated
 	 */
-	int LEGEND_ITEM_TYPE_OBJECT = 97;
+	int LEGEND_ITEM_TYPE_OBJECT = 99;
 
 	/**
 	 * The meta object id for the '<em>Line Decorator Object</em>' data type.
@@ -2551,7 +2598,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineDecoratorObject()
 	 * @generated
 	 */
-	int LINE_DECORATOR_OBJECT = 98;
+	int LINE_DECORATOR_OBJECT = 100;
 
 	/**
 	 * The meta object id for the '<em>Line Style Object</em>' data type.
@@ -2560,7 +2607,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getLineStyleObject()
 	 * @generated
 	 */
-	int LINE_STYLE_OBJECT = 99;
+	int LINE_STYLE_OBJECT = 101;
 
 	/**
 	 * The meta object id for the '<em>Marker Type Object</em>' data type.
@@ -2569,7 +2616,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getMarkerTypeObject()
 	 * @generated
 	 */
-	int MARKER_TYPE_OBJECT = 100;
+	int MARKER_TYPE_OBJECT = 102;
 
 	/**
 	 * The meta object id for the '<em>Menu Styles Key Type Object</em>' data type.
@@ -2579,7 +2626,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getMenuStylesKeyTypeObject()
 	 * @generated
 	 */
-	int MENU_STYLES_KEY_TYPE_OBJECT = 101;
+	int MENU_STYLES_KEY_TYPE_OBJECT = 103;
 
 	/**
 	 * The meta object id for the '<em>Orientation Object</em>' data type.
@@ -2588,7 +2635,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getOrientationObject()
 	 * @generated
 	 */
-	int ORIENTATION_OBJECT = 102;
+	int ORIENTATION_OBJECT = 104;
 
 	/**
 	 * The meta object id for the '<em>Pattern Bitmap</em>' data type.
@@ -2597,7 +2644,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getPatternBitmap()
 	 * @generated
 	 */
-	int PATTERN_BITMAP = 103;
+	int PATTERN_BITMAP = 105;
 
 	/**
 	 * The meta object id for the '<em>Pattern Bitmap Object</em>' data type.
@@ -2607,7 +2654,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getPatternBitmapObject()
 	 * @generated
 	 */
-	int PATTERN_BITMAP_OBJECT = 104;
+	int PATTERN_BITMAP_OBJECT = 106;
 
 	/**
 	 * The meta object id for the '<em>Percentage</em>' data type. <!--
@@ -2616,7 +2663,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getPercentage()
 	 * @generated
 	 */
-	int PERCENTAGE = 105;
+	int PERCENTAGE = 107;
 
 	/**
 	 * The meta object id for the '<em>Percentage Object</em>' data type.
@@ -2625,7 +2672,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getPercentageObject()
 	 * @generated
 	 */
-	int PERCENTAGE_OBJECT = 106;
+	int PERCENTAGE_OBJECT = 108;
 
 	/**
 	 * The meta object id for the '<em>Position Object</em>' data type. <!--
@@ -2635,7 +2682,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getPositionObject()
 	 * @generated
 	 */
-	int POSITION_OBJECT = 107;
+	int POSITION_OBJECT = 109;
 
 	/**
 	 * The meta object id for the '<em>RGB Value</em>' data type. <!--
@@ -2644,7 +2691,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getRGBValue()
 	 * @generated
 	 */
-	int RGB_VALUE = 108;
+	int RGB_VALUE = 110;
 
 	/**
 	 * The meta object id for the '<em>RGB Value Object</em>' data type.
@@ -2653,7 +2700,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getRGBValueObject()
 	 * @generated
 	 */
-	int RGB_VALUE_OBJECT = 109;
+	int RGB_VALUE_OBJECT = 111;
 
 	/**
 	 * The meta object id for the '<em>Riser Type Object</em>' data type.
@@ -2662,7 +2709,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getRiserTypeObject()
 	 * @generated
 	 */
-	int RISER_TYPE_OBJECT = 110;
+	int RISER_TYPE_OBJECT = 112;
 
 	/**
 	 * The meta object id for the '<em>Rule Type Object</em>' data type.
@@ -2671,7 +2718,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getRuleTypeObject()
 	 * @generated
 	 */
-	int RULE_TYPE_OBJECT = 111;
+	int RULE_TYPE_OBJECT = 113;
 
 	/**
 	 * The meta object id for the '<em>Scale Unit Type Object</em>' data type.
@@ -2680,7 +2727,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getScaleUnitTypeObject()
 	 * @generated
 	 */
-	int SCALE_UNIT_TYPE_OBJECT = 112;
+	int SCALE_UNIT_TYPE_OBJECT = 114;
 
 	/**
 	 * The meta object id for the '<em>Sort Option Object</em>' data type.
@@ -2689,7 +2736,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getSortOptionObject()
 	 * @generated
 	 */
-	int SORT_OPTION_OBJECT = 113;
+	int SORT_OPTION_OBJECT = 115;
 
 	/**
 	 * The meta object id for the '<em>Stretch Object</em>' data type. <!--
@@ -2699,7 +2746,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getStretchObject()
 	 * @generated
 	 */
-	int STRETCH_OBJECT = 114;
+	int STRETCH_OBJECT = 116;
 
 	/**
 	 * The meta object id for the '<em>Styled Component Object</em>' data type.
@@ -2708,7 +2755,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getStyledComponentObject()
 	 * @generated
 	 */
-	int STYLED_COMPONENT_OBJECT = 115;
+	int STYLED_COMPONENT_OBJECT = 117;
 
 	/**
 	 * The meta object id for the '<em>Tick Style Object</em>' data type.
@@ -2717,7 +2764,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTickStyleObject()
 	 * @generated
 	 */
-	int TICK_STYLE_OBJECT = 116;
+	int TICK_STYLE_OBJECT = 118;
 
 	/**
 	 * The meta object id for the '<em>Trigger Condition Object</em>' data type.
@@ -2726,7 +2773,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTriggerConditionObject()
 	 * @generated
 	 */
-	int TRIGGER_CONDITION_OBJECT = 117;
+	int TRIGGER_CONDITION_OBJECT = 119;
 
 	/**
 	 * The meta object id for the '<em>Trigger Flow Object</em>' data type.
@@ -2736,7 +2783,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getTriggerFlowObject()
 	 * @generated
 	 */
-	int TRIGGER_FLOW_OBJECT = 118;
+	int TRIGGER_FLOW_OBJECT = 120;
 
 	/**
 	 * The meta object id for the '<em>Units Of Measurement Object</em>' data type.
@@ -2745,7 +2792,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getUnitsOfMeasurementObject()
 	 * @generated
 	 */
-	int UNITS_OF_MEASUREMENT_OBJECT = 119;
+	int UNITS_OF_MEASUREMENT_OBJECT = 121;
 
 	/**
 	 * The meta object id for the '<em>Vertical Alignment Object</em>' data type.
@@ -2754,7 +2801,7 @@ public interface AttributePackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getVerticalAlignmentObject()
 	 * @generated
 	 */
-	int VERTICAL_ALIGNMENT_OBJECT = 120;
+	int VERTICAL_ALIGNMENT_OBJECT = 122;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.AccessibilityValue <em>Accessibility Value</em>}'.
@@ -3529,6 +3576,17 @@ public interface AttributePackage extends EPackage
 	 * @generated
 	 */
 	EAttribute getImage_URL( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.Image#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Source</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.Image#getSource()
+	 * @see #getImage()
+	 * @generated
+	 */
+	EAttribute getImage_Source( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.Insets <em>Insets</em>}'.
@@ -4511,6 +4569,16 @@ public interface AttributePackage extends EPackage
 	EEnum getHorizontalAlignment( );
 
 	/**
+	 * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.ImageSourceType <em>Image Source Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Image Source Type</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.ImageSourceType
+	 * @generated
+	 */
+	EEnum getImageSourceType( );
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.IntersectionType <em>Intersection Type</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for enum '<em>Intersection Type</em>'.
@@ -4888,6 +4956,18 @@ public interface AttributePackage extends EPackage
 	 * @generated
 	 */
 	EDataType getID( );
+
+	/**
+	 * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.ImageSourceType <em>Image Source Type Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Image Source Type Object</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.ImageSourceType
+	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.ImageSourceType"
+	 *        extendedMetaData="name='ImageSourceType:Object' baseType='ImageSourceType'"
+	 * @generated
+	 */
+	EDataType getImageSourceTypeObject( );
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.birt.chart.model.attribute.IntersectionType <em>Intersection Type Object</em>}'.
@@ -5864,6 +5944,14 @@ public interface AttributePackage extends EPackage
 		EAttribute IMAGE__URL = eINSTANCE.getImage_URL( );
 
 		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IMAGE__SOURCE = eINSTANCE.getImage_Source( );
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.attribute.impl.InsetsImpl <em>Insets</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -6740,6 +6828,16 @@ public interface AttributePackage extends EPackage
 		EEnum HORIZONTAL_ALIGNMENT = eINSTANCE.getHorizontalAlignment( );
 
 		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.attribute.ImageSourceType <em>Image Source Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.attribute.ImageSourceType
+		 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getImageSourceType()
+		 * @generated
+		 */
+		EEnum IMAGE_SOURCE_TYPE = eINSTANCE.getImageSourceType( );
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.attribute.IntersectionType <em>Intersection Type</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -7098,6 +7196,16 @@ public interface AttributePackage extends EPackage
 		 * @generated
 		 */
 		EDataType ID = eINSTANCE.getID( );
+
+		/**
+		 * The meta object literal for the '<em>Image Source Type Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.attribute.ImageSourceType
+		 * @see org.eclipse.birt.chart.model.attribute.impl.AttributePackageImpl#getImageSourceTypeObject()
+		 * @generated
+		 */
+		EDataType IMAGE_SOURCE_TYPE_OBJECT = eINSTANCE.getImageSourceTypeObject( );
 
 		/**
 		 * The meta object literal for the '<em>Intersection Type Object</em>' data type.

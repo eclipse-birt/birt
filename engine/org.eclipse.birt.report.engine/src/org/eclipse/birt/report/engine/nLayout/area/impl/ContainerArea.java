@@ -95,6 +95,8 @@ public abstract class ContainerArea extends AbstractArea
 	protected CSSValue pageBreakBefore = null;
 
 	protected CSSValue pageBreakInside = null;
+	
+	protected boolean isChildrenRemoved = false;
 
 	public ContainerArea( ContainerArea parent, LayoutContext context,
 			IContent content )
@@ -975,7 +977,7 @@ public abstract class ContainerArea extends AbstractArea
 			if ( hsConflicted[i] )
 			{
 				style.setProperty( hsStyle[i],
-						new FloatValue( CSSPrimitiveValue.CSS_PT, vs[i] / 1000f ) );
+						new FloatValue( CSSPrimitiveValue.CSS_PT, hs[i] / 1000f ) );
 			}
 		}
 	}
@@ -993,16 +995,32 @@ public abstract class ContainerArea extends AbstractArea
 		// limitation of java int.
 		if ( total > maxTotal || total < 0 )
 		{
-			int othersTotal = total - values[start];
+			int othersTotal = total;
+			if ( start == 0 && total > maxTotal )
+			{
+				// first remove great than total
+				for ( int i = 0; i < values.length; i++ )
+				{
+					if ( values[i] >= maxTotal )
+					{
+						othersTotal -= values[i];
+						values[i] = 0;
+						conflicted[i] = true;
+					}
+				}
+				if ( othersTotal < maxTotal )
+				{
+					return;
+				}
+			}
+			// remove values[start]
+			othersTotal = othersTotal - values[start];
 			if ( values[start] > 0 )
 			{
 				values[start] = 0;
 				conflicted[start] = true;
 			}
-			resolveConflict( values,
-					maxTotal,
-					othersTotal,
-					start + 1,
+			resolveConflict( values, maxTotal, othersTotal, start + 1,
 					conflicted );
 		}
 	}

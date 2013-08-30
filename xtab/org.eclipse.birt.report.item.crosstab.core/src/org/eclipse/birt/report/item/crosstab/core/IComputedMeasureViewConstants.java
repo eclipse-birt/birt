@@ -26,5 +26,9 @@ public interface IComputedMeasureViewConstants extends IMeasureViewConstants
 	 * Name of the property that holds the expression of computed measure.
 	 */
 	//String EXPRESSION_PROP = "expression"; //$NON-NLS-1$
-
+	
+	/**
+	 * Name of the property that refers a measure name.
+	 */
+	String MEASURE_NAME_PROP = "measureName"; //$NON-NLS-1$
 }

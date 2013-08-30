@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor.buffermgr;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -73,6 +74,8 @@ public class TableContentLayout
 	private int[] adjustedColumnIds;
 	
 	protected String keyString;
+	
+	protected boolean needFormalize = false;
 	
 	public TableContentLayout( ITableContent tableContent, String format,
 			HTMLLayoutContext context, String keyString )
@@ -225,7 +228,35 @@ public class TableContentLayout
 			formalized = true;
 			rowHint = null;
 		}
+		if ( needFormalize  )
+		{
+			if(hasDropCell())
+			{
+				Row row = rows[rowCount - 1];
+				Cell[] cells = row.cells;
+				for ( int cellId = 0; cellId < realColCount; cellId++ )
+				{
+					Cell cell = cells[cellId];
+					if ( cell != null )
+					{
+						// fill empty cell or remove dropped cell
+						if ( cell.status == Cell.CELL_EMPTY )
+						{
+							IReportContent report = rowContent.getReportContent( );
+							ICellContent cellContent = report.createCellContent( );
+							cellContent.getStyle( ).setDisplay( "none" );
+							cellContent.setParent( rowContent );
+							Cell newCell = Cell.createCell( row.rowId, cellId, 1,
+									1, new CellContent( cellContent, null ) );
+							row.cells[cellId] = newCell;
+						}
+					}
+				}
+			}
+			needFormalize = false;
+		}
 	}
+	
 
 	/**
 	 * reset the table model.
@@ -253,6 +284,11 @@ public class TableContentLayout
 	public boolean exceedMaxCache()
 	{
 		return this.rowCount >= MAX_ROW_SPAN;
+	}
+	
+	public void setNeedFormalize( boolean formalize )
+	{
+		this.needFormalize = formalize;
 	}
 	
 	/**
@@ -302,6 +338,7 @@ public class TableContentLayout
 		{
 			// update the status of last row
 			Cell[] lastCells = rows[rowCount - 1].cells;
+			HashSet updated = new HashSet();
 			for ( int cellId = 0; cellId < realColCount; cellId++ )
 			{
 				Cell lastCell = lastCells[cellId];
@@ -311,9 +348,10 @@ public class TableContentLayout
 				}
 				if ( lastCell.status == Cell.CELL_USED )
 				{
-					if ( lastCell.rowId + lastCell.rowSpan >= rowCount + 1 )
+					if ( lastCell.rowId + lastCell.rowSpan >= rowCount + 1 && !updated.contains(lastCell) )
 					{
 						lastCell.rowSpan--;
+						updated.add( lastCell );
 					}
 				}
 			}

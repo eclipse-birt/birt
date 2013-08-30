@@ -1095,6 +1095,7 @@ public class FormatSpecifierComposite extends Composite
 			
 			// set sample number patterns
 			txtNumberPattern.setItems( new String[]{
+					"##.##%", //$NON-NLS-1$
 					"##.###", //$NON-NLS-1$
 					"00.###", //$NON-NLS-1$
 					"##,###.00", //$NON-NLS-1$
@@ -1239,10 +1240,13 @@ public class FormatSpecifierComposite extends Composite
 					"LLL,yyyy", //$NON-NLS-1$
 					"hh:mm:ss,a", //$NON-NLS-1$
 					"HH:mm:ss", //$NON-NLS-1$
+					"D,yyyy", //$NON-NLS-1$
 					"DDD,yyyy,QQQQ", //$NON-NLS-1$
 					"EEE, MMM d, yyyy", //$NON-NLS-1$
 					"yyyy.MMMM.dd GGG hh:mm aaa", //$NON-NLS-1$
-					"yyyy.MM.dd G 'at' HH:mm:ss zzz" //$NON-NLS-1$
+					"yyyy.MM.dd G 'at' HH:mm:ss zzz", //$NON-NLS-1$
+					"w,yyyy", //$NON-NLS-1$
+					"W,LLL,yyyy" //$NON-NLS-1$
 			} );
 			txtDatePattern.setVisibleItemCount( txtDatePattern.getItemCount( ) );
 			txtDatePattern.addSelectionListener( new SelectionAdapter( ) {

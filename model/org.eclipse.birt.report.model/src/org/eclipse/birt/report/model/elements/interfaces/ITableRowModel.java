@@ -88,4 +88,14 @@ public interface ITableRowModel
 
 	public static final int CONTENT_SLOT = 0;
 
+	/**
+	 * Name of the role property.
+	 */
+	public static final String ROLE_PROP = "role"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the language property.
+	 */
+	public static final String LANGUAGE_PROP = "language"; //$NON-NLS-1$
+	
 }

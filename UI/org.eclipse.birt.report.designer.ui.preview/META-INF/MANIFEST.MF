@@ -25,5 +25,5 @@ Export-Package: org.eclipse.birt.report.designer.ui.preview,
  org.eclipse.birt.report.designer.ui.preview.parameter.node,
  org.eclipse.birt.report.designer.ui.preview.toc
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.ibm.icu.util;version="[3.4.4,51.0.0)"

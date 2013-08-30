@@ -55,6 +55,7 @@ import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.style.BaseStyleProcessor;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.SimpleStyle;
@@ -77,6 +78,7 @@ import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -1404,7 +1406,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		return trigger;
 	}
 
-	protected ActionHandle getDefaultAction( ExtendedItemHandle handle,
+	public static ActionHandle getDefaultAction( ExtendedItemHandle handle,
 			String expression )
 	{
 		ExpressionCodec exprCodec = ChartModelHelper.instance( )
@@ -1424,6 +1426,18 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 				if ( bindingname.equals( ChartCubeUtil.createLevelBindingName( lh ) ) )
 				{
 					return lh.getActionHandle( );
+				}
+				
+				// iterate level attributes
+				Iterator<?> iter = lh.attributesIterator( );
+				while ( iter.hasNext( ) )
+				{
+					LevelAttributeHandle laHandle = (LevelAttributeHandle) iter.next( );
+					if ( bindingname.equals( ChartCubeUtil.createLevelAttrBindingName( lh,
+							laHandle ) ) )
+					{
+						return lh.getActionHandle( );
+					}
 				}
 			}
 			for ( MeasureHandle mh : ChartCubeUtil.getAllMeasures( cube ) )

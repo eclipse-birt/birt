@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.data.ui.dataset;
 import java.sql.Types;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -77,6 +78,8 @@ public class DataSetViewData
 	private transient boolean isIndexColumn = false;
 	
 	private boolean removeDuplicateValues = false;
+	
+	private ActionHandle actionHandle = null;
 
 	
 	public String getAnalysisColumn( )
@@ -489,5 +492,25 @@ public class DataSetViewData
 	public boolean removeDuplicateValues( )
 	{
 		return removeDuplicateValues;
+	}
+
+
+	/**
+	 * 
+	 * @return the ActionHandle instance
+	 */
+	public ActionHandle getActionHandle( )
+	{
+		return actionHandle;
+	}
+
+
+	/**
+	 * 
+	 * @param actionHandle the ActionHandle to set
+	 */
+	public void setActionHandle( ActionHandle actionHandle )
+	{
+		this.actionHandle = actionHandle;
 	}
 }

@@ -76,6 +76,7 @@ public class BufferedPrimitiveDiskArray implements IDiskArray
 		if( delegate != null )
 			delegate.close( );
 		clearDiskFile( );
+		this.buffer = null;
 	}
 
 	/**

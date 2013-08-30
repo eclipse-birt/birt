@@ -43,6 +43,8 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -238,6 +240,8 @@ public class AttributeViewPage extends Page implements
 		SessionHandleAdapter.getInstance( )
 				.getMediator( model )
 				.addColleague( this );
+
+		handleSelectionChanged( selection );
 	}
 
 	private void addActions( )
@@ -246,11 +250,33 @@ public class AttributeViewPage extends Page implements
 		{
 			restoreLibraryPropertiesAction = new RestoreLibraryPropertiesAction( this );
 		}
+		clearOldRestoreLibraryPropertiesAction( );
 
 		getSite( ).getActionBars( )
 				.getToolBarManager( )
 				.add( restoreLibraryPropertiesAction );
 
+	}
+
+	private void clearOldRestoreLibraryPropertiesAction( )
+	{
+		IContributionItem[] items = getSite( ).getActionBars( )
+				.getToolBarManager( )
+				.getItems( );
+		for ( IContributionItem item : items )
+		{
+
+			if ( item instanceof ActionContributionItem )
+			{
+				ActionContributionItem aItem = (ActionContributionItem) item;
+				if ( aItem.getAction( ) instanceof RestoreLibraryPropertiesAction )
+				{
+					getSite( ).getActionBars( )
+							.getToolBarManager( )
+							.remove( item );
+				}
+			}
+		}
 	}
 
 	/**
@@ -373,7 +399,8 @@ public class AttributeViewPage extends Page implements
 							&& mediator.getState( ) != null
 							&& mediator.getState( ).getData( ) instanceof List )
 					{
-						//When close and reopen the attribute view, display the old selection.
+						// When close and reopen the attribute view, display the
+						// old selection.
 						ReportRequest request = new ReportRequest( this );
 						request.setSelectionObject( (List) mediator.getState( )
 								.getData( ) );
@@ -658,6 +685,18 @@ public class AttributeViewPage extends Page implements
 				requesList = (List) request.getData( );
 				handleSelectionChanged( new StructuredSelection( requesList ) );
 				registerEventManager( );
+			}
+			if ( request.getExtras( ) != null
+					&& request.getExtras( )
+							.containsKey( AbstractPageGenerator.ACTIVE_PAGE ) )
+			{
+				if ( pageGenerator instanceof TabPageGenerator
+						&& request.getExtras( )
+								.get( TabPageGenerator.ACTIVE_PAGE ) instanceof String )
+				{
+					( (TabPageGenerator) pageGenerator ).selectTabItem( (String) request.getExtras( )
+							.get( TabPageGenerator.ACTIVE_PAGE ) );
+				}
 			}
 			setPartName( );
 		}

@@ -9,12 +9,12 @@ public class DataSetExceptionHandler
 
 	public static void handle( Throwable e )
 	{
-		handle( Messages.getString( "ExceptionDialog.title" ), Messages.getString( "ExceptionDialog.message.general" ), e ); //$NON-NLS-1$ //$NON-NLS-2$
+		handle( Messages.getString( "ExceptionHandler.Title.Error" ), Messages.getString( "ExceptionHandler.Meesage.ExceptionOccur" ), e ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public static void handle( String message, Throwable e )
 	{
-		handle( Messages.getString( "ExceptionDialog.title" ), message, e ); //$NON-NLS-1$
+		handle( Messages.getString( "ExceptionHandler.Title.Error" ), message, e ); //$NON-NLS-1$
 	}
 
 	public static void handle( String dialogTitle, String message, Throwable e )

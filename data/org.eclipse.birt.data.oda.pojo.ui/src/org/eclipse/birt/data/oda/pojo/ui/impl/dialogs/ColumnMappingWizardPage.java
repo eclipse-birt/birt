@@ -23,6 +23,27 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.oda.pojo.api.Constants;
+import org.eclipse.birt.data.oda.pojo.impl.Driver;
+import org.eclipse.birt.data.oda.pojo.querymodel.IMappingSource;
+import org.eclipse.birt.data.oda.pojo.querymodel.IMethodParameter;
+import org.eclipse.birt.data.oda.pojo.querymodel.MethodSource;
+import org.eclipse.birt.data.oda.pojo.querymodel.PojoQuery;
+import org.eclipse.birt.data.oda.pojo.querymodel.VariableParameter;
+import org.eclipse.birt.data.oda.pojo.ui.Activator;
+import org.eclipse.birt.data.oda.pojo.ui.i18n.Messages;
+import org.eclipse.birt.data.oda.pojo.ui.impl.models.ColumnDefinition;
+import org.eclipse.birt.data.oda.pojo.ui.impl.models.ToolTipFaker;
+import org.eclipse.birt.data.oda.pojo.ui.impl.models.TreeData;
+import org.eclipse.birt.data.oda.pojo.ui.impl.providers.ClassTreeContentProvider;
+import org.eclipse.birt.data.oda.pojo.ui.impl.providers.ClassTreeLabelProvider;
+import org.eclipse.birt.data.oda.pojo.ui.impl.providers.ColumnMappingPageHelper;
+import org.eclipse.birt.data.oda.pojo.ui.impl.providers.ColumnMappingTableProvider;
+import org.eclipse.birt.data.oda.pojo.ui.util.HelpUtil;
+import org.eclipse.birt.data.oda.pojo.ui.util.Utils;
+import org.eclipse.birt.data.oda.pojo.util.ClassLister;
+import org.eclipse.birt.data.oda.pojo.util.PojoQueryParser;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDriver;
@@ -76,27 +97,6 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
-
-import org.eclipse.birt.data.oda.pojo.api.Constants;
-import org.eclipse.birt.data.oda.pojo.impl.Driver;
-import org.eclipse.birt.data.oda.pojo.querymodel.IMappingSource;
-import org.eclipse.birt.data.oda.pojo.querymodel.IMethodParameter;
-import org.eclipse.birt.data.oda.pojo.querymodel.MethodSource;
-import org.eclipse.birt.data.oda.pojo.querymodel.PojoQuery;
-import org.eclipse.birt.data.oda.pojo.querymodel.VariableParameter;
-import org.eclipse.birt.data.oda.pojo.ui.Activator;
-import org.eclipse.birt.data.oda.pojo.ui.i18n.Messages;
-import org.eclipse.birt.data.oda.pojo.ui.impl.models.ColumnDefinition;
-import org.eclipse.birt.data.oda.pojo.ui.impl.models.ToolTipFaker;
-import org.eclipse.birt.data.oda.pojo.ui.impl.models.TreeData;
-import org.eclipse.birt.data.oda.pojo.ui.impl.providers.ClassTreeContentProvider;
-import org.eclipse.birt.data.oda.pojo.ui.impl.providers.ClassTreeLabelProvider;
-import org.eclipse.birt.data.oda.pojo.ui.impl.providers.ColumnMappingPageHelper;
-import org.eclipse.birt.data.oda.pojo.ui.impl.providers.ColumnMappingTableProvider;
-import org.eclipse.birt.data.oda.pojo.ui.util.HelpUtil;
-import org.eclipse.birt.data.oda.pojo.ui.util.Utils;
-import org.eclipse.birt.data.oda.pojo.util.ClassLister;
-import org.eclipse.birt.data.oda.pojo.util.PojoQueryParser;
 
 
 /**
@@ -613,8 +613,10 @@ public class ColumnMappingWizardPage extends DataSetWizardPage
 		addBtn = new Button( btnComposite, SWT.NONE );
 		addBtn.setText( ">" ); //$NON-NLS-1$
 		addBtn.setToolTipText( Messages.getString( "DataSet.button.addColumn.tooltip.mapColumn" ) ); //$NON-NLS-1$
+
 		GridData buttonData = new GridData( );
-		buttonData.widthHint = 30;
+		buttonData.widthHint = Math.max( 32, addBtn.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x );
+
 		addBtn.setLayoutData( buttonData );
 		addBtn.setEnabled( false );
 		addBtn.addSelectionListener( new SelectionAdapter( ) {

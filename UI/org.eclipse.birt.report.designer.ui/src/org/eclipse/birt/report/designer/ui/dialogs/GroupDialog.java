@@ -917,6 +917,12 @@ public class GroupDialog extends BaseDialog implements Listener
 								200, 100, 100, 100
 						};
 					}
+					
+					@Override
+					public boolean isEditGroup() {
+						
+						return editGroup();
+					}
 				},
 				true );
 		filterPage.setInput( list );
@@ -1624,6 +1630,11 @@ public class GroupDialog extends BaseDialog implements Listener
 	private static void setDataItemAction( ColumnHintHandle model,
 			DataItemHandle dataHandle )
 	{
+		if ( model == null || dataHandle == null )
+		{
+			return;
+		}
+		
 		ActionHandle actionHandle = model.getActionHandle( );
 		if ( actionHandle != null )
 		{
@@ -1956,6 +1967,15 @@ public class GroupDialog extends BaseDialog implements Listener
 	{
 		inputGroup.removeListener( this );
 		return super.close( );
+	}
+	
+	private boolean editGroup()
+	{
+		if(GROUP_DLG_TITLE_EDIT.equals(getTitle()))
+		{
+			return true;
+		}
+		return false;
 	}
 
 }

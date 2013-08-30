@@ -195,7 +195,16 @@ public class ResultObjectUtil
 		else if ( fieldType.equals( Timestamp.class ) )
 			obj = new Timestamp( dis.readLong( ) );
 		else if ( fieldType.equals( java.sql.Date.class ) )
-			obj = new java.sql.Date( dis.readLong( ) );
+		{
+			try
+			{
+				obj = DataTypeUtil.toSqlDate( new java.sql.Date( dis.readLong( ) ) );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
+		}
 		else if ( Date.class.isAssignableFrom( fieldType ) )
 			obj = new Date( dis.readLong( ) );
 		else if ( fieldType.equals( Boolean.class ) )
@@ -231,7 +240,7 @@ public class ResultObjectUtil
 					byteLength = IOUtil.readInt( dis );
 				}
 				byte[] bytes = new byte[byteLength];
-				dis.read( bytes );
+				dis.readFully( bytes );
 
 				obj = bytes;
 			}

@@ -40,7 +40,7 @@
                     </simple-property-list>
                     <expression name="value2">value2 expression</expression>
                 </structure>
-            </list-property>
+            </list-property>           
             <header>
                 <free-form id="6">
                     <property name="comments">Header Section</property>
@@ -110,6 +110,10 @@
                     <text-property name="displayName">The Section</text-property>
                 </free-form>
             </footer>
+            <property name="role">Sect</property>
+            <property name="language">English</property>
+            <property name="altText">Alt Text</property>
         </list>
+        <list name="My List2" id="12"/>
     </body>
 </report>

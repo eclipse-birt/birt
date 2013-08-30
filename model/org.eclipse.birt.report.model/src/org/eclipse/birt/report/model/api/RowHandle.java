@@ -276,4 +276,56 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	{
 		setStringProperty( BOOKMARK_DISPLAY_NAME_PROP, bookmarkDisplayName );
 	}
+	
+	/**
+	 * Returns the role of this label item.
+	 * 
+	 * @return the help text key
+	 */
+
+	public String getRole( )
+	{
+		return getStringProperty( ROLE_PROP );
+	}
+
+	/**
+	 * Sets the role of this label item.
+	 * 
+	 * @param role
+	 *            the role
+	 * 
+	 * @throws SemanticException
+	 *           if the property is locked.
+	 */
+
+	public void setRole( String role ) throws SemanticException
+	{
+		setStringProperty( ROLE_PROP, role );
+	}
+	
+	/**
+	 * Returns the language of this label item.
+	 * 
+	 * @return the language
+	 */
+
+	public String getLanguage( )
+	{
+		return getStringProperty( LANGUAGE_PROP );
+	}
+
+	/**
+	 * Sets the language of this label item.
+	 * 
+	 * @param language
+	 *            the language
+	 * 
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setLanguage( String language ) throws SemanticException
+	{
+		setStringProperty( LANGUAGE_PROP, language );
+	}
 }

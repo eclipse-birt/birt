@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor.css;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -39,12 +40,6 @@ public class HTMLProcessor
 	private static Logger logger = Logger.getLogger( HTMLProcessor.class
 			.getName( ) );
 
-	/** the execution context */
-	protected ReportDesignHandle design;
-	protected String rootPath;
-
-	private Map appContext;
-
 	/** the possible values for property SIZE of HTML element FONT */
 	private static String[] FONT_SIZE = new String[]{"7.5pt", //$NON-NLS-1$
 			"7.5pt", "7.5pt", //$NON-NLS-1$ //$NON-NLS-2$
@@ -54,14 +49,27 @@ public class HTMLProcessor
 			"10pt", "12pt", //$NON-NLS-1$ //$NON-NLS-2$
 			"13.8pt", "18pt", //$NON-NLS-1$//$NON-NLS-2$
 			"23pt", "36pt"}; //$NON-NLS-1$//$NON-NLS-2$
-
-	private static Pattern pattern = Pattern.compile( "[ ]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );
-
+	
+	private static final Pattern IN_BRACKET_PATTERN = Pattern.compile( "\\(.*?\\)" );
+	
+	private static final Pattern STYLE_PAIR_PATTERN = Pattern.compile( "[ ]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );
+	
+	private static final String BRACKETED_REPLACEMENT = "___BRACKETED___";
+	
 	// private static String[] FONT_SIZE = new String[]{"xx-small", "x-small",
 	// //$NON-NLS-1$ //$NON-NLS-2$
 	// "small", "medium", //$NON-NLS-1$ //$NON-NLS-2$
 	// "large", "x-large", //$NON-NLS-1$//$NON-NLS-2$
 	// "xx-large", "xxx-large"}; //$NON-NLS-1$//$NON-NLS-2$
+	
+	protected ReportDesignHandle design;
+
+	protected String rootPath;
+
+	private Map appContext;
+	
+	private ArrayList<String> bracketed = new ArrayList<String>( );
+
 
 	/**
 	 * Constructor
@@ -85,7 +93,7 @@ public class HTMLProcessor
 		// Takes the zero-length string as parameter just for keeping to the
 		// interface of constructor
 	}
-
+	
 	/**
 	 * Parses the style attribute of the element node and converts the
 	 * deprecated element node in HTML 4.0, and calls it on its children element
@@ -104,8 +112,16 @@ public class HTMLProcessor
 			String inlineStyle = ele.getAttribute( "style" ); //$NON-NLS-1$
 			if ( null != inlineStyle && !"".equals( inlineStyle ) ) //$NON-NLS-1$
 			{
-				StringBuffer buffer = new StringBuffer( );
-				Matcher matcher = pattern.matcher( inlineStyle );
+				// replace all bracketed content to avoid : and ; in the bracket.
+				Matcher matcher = IN_BRACKET_PATTERN.matcher( inlineStyle );
+				while ( matcher.find( ) )
+				{
+					bracketed.add( matcher.group( 0 ) );
+				}
+				inlineStyle = matcher.replaceAll( BRACKETED_REPLACEMENT );
+				
+				int replacementIndex=0;
+				matcher = STYLE_PAIR_PATTERN.matcher( inlineStyle );
 				while ( matcher.find( ) )
 				{
 					String name = matcher.group( 1 );
@@ -113,6 +129,10 @@ public class HTMLProcessor
 					if ( name != null && name.length( ) > 0 && value != null
 							&& value.length( ) > 0 )
 					{
+						while ( value.contains( BRACKETED_REPLACEMENT ) )
+						{
+							value = value.replace( BRACKETED_REPLACEMENT, bracketed.get( replacementIndex++ ) );
+						}
 						cssStyle.put( name, value.trim() );
 					}
 				}

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -44,6 +45,7 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.namespace.AbstractNameHelper;
@@ -62,6 +64,7 @@ import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
+import org.eclipse.birt.report.model.elements.strategy.CellExportPropSearchStrategy;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -896,9 +899,8 @@ class ElementExporterImpl
 		}
 
 		// Copy all properties from the original one to new element.
-
 		ModelUtil.duplicateProperties( elementHandle, newElementHandle,
-				onlyFactoryProperty, true );
+					onlyFactoryProperty, true, true );
 
 		// if 'theme' property is defined, then clear it; otherwise do nothing
 		if ( newElementHandle.getElement( ) instanceof ISupportThemeElement )

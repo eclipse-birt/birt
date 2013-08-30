@@ -84,6 +84,7 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.MemberValue;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ReportItemTheme;
@@ -97,6 +98,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
@@ -643,8 +645,19 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		if ( context.contains( targetDesign, tmpElement ) )
 			return;
-
+		
+		String originalName = originalElement.getName( );
 		addElement( targetDesign, context, tmpElement );
+		if ( tmpElement instanceof OdaDataSource )
+		{
+			if ( !tmpElement.getName( ).equals( originalName ) )
+			{
+				OdaDataSource odaDataSource = (OdaDataSource) tmpElement;
+				odaDataSource.setProperty(
+						IOdaDataSourceModel.EXTERNAL_CONNECTION_NAME,
+						originalName );
+			}
+		}
 		targetDesign.manageId( tmpElement, true );
 
 		// after the id is adjusted, the property binding can be added.
@@ -1669,6 +1682,37 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			targetDesign.cacheFlattenElement( extendsElement, newElement );
 		localizePropertyValues( element, newElement );
 		localizePropertyBindings( element, newElement );
+		
+		// a temporary fix to handle the linkedDataModel measure/dimension namespace issue. 
+		if ( newElement instanceof ExtendedItem )
+		{
+			if ( ( (ExtendedItem) newElement ).getProperty(
+					newElement.getRoot( ),
+					IExtendedItemModel.EXTENSION_NAME_PROP ).equals(
+					"MeasureView" ) )
+			{
+				ElementRefValue value = (ElementRefValue) newElement
+						.getProperty( newElement.getRoot( ), "measure" );
+				if ( value != null )
+				{
+					value.setLibraryNamespace( null );
+					newElement.setProperty( "measure", value );
+				}
+			}
+			if ( ( (ExtendedItem) newElement ).getProperty(
+					newElement.getRoot( ),
+					IExtendedItemModel.EXTENSION_NAME_PROP ).equals(
+					"DimensionView" ) )
+			{
+				ElementRefValue value = (ElementRefValue) newElement
+						.getProperty( newElement.getRoot( ), "dimension" );
+				if ( value != null )
+				{
+					value.setLibraryNamespace( null );
+					newElement.setProperty( "dimension", value );
+				}
+			}
+		}
 		return newElement;
 	}
 
@@ -1797,7 +1841,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		ReportItemTheme newTheme = null;
 		try
 		{
-			newTheme = (ReportItemTheme) sourceTheme.clone( );
+			newTheme = (ReportItemTheme) sourceTheme.FlattenClone();
 		}
 		catch ( CloneNotSupportedException e )
 		{

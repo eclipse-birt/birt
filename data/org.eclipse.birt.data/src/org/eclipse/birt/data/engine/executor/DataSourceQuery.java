@@ -17,10 +17,12 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,6 +59,7 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
+import org.eclipse.datatools.connectivity.oda.spec.basequery.CombinedQuery;
 
 /**
  *	Structure to hold info of a custom field. 
@@ -279,7 +282,19 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         // create and populate a query specification for preparing a statement
         populateQuerySpecification();
         
-        odaStatement = dataSource.prepareStatement( queryText, queryType, this.querySpecificaton );
+		if ( this.querySpecificaton != null
+				&& this.querySpecificaton.getBaseQuery( ) instanceof CombinedQuery )
+		{
+			odaStatement = dataSource.prepareStatement( null,
+					queryType,
+					this.querySpecificaton );
+		}
+		else
+		{
+			odaStatement = dataSource.prepareStatement( queryText,
+					queryType,
+					this.querySpecificaton );
+		}
         
         // Add custom properties to odaStatement
         addPropertiesToPreparedStatement( );

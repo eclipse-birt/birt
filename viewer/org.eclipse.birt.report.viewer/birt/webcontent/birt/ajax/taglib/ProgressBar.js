@@ -195,7 +195,7 @@ ProgressBar.prototype =
 	 */
 	__l_show : function( )
 	{
-		Element.show( this.__mask, this.__instance );		
+		[ this.__mask, this.__instance ].each( Element.show );
 		BirtPosition.center( this.__instance );
 	},
 	
@@ -204,7 +204,7 @@ ProgressBar.prototype =
 	 */
 	__l_hide : function( )
 	{
-		Element.hide( this.__instance, this.__mask );
+		[ this.__instance, this.__mask ].each( Element.hide );
 	},
 
 	/**

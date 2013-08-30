@@ -403,7 +403,7 @@ public class DataSetProcessorImpl extends DataSetAdapter
 						else {
 							throw new ChartException( ChartEngineExtensionPlugin.ID,
 									ChartException.INVALID_DATA_TYPE,
-									"The type of received data type should be numerical.",
+									Messages.getString("DataSetProcessorImpl_exception.dataset.receivednumeric"), //$NON-NLS-1$
 									Messages.getResourceBundle( getULocale( ) ) );
 						}
 					}
@@ -449,6 +449,13 @@ public class DataSetProcessorImpl extends DataSetAdapter
 					}
 					if ( !allNullValues )
 					{
+						if ( rsds.getDataType( ) == IConstants.BOOLEAN )
+						{
+							throw new ChartException( ChartEngineExtensionPlugin.ID,
+									ChartException.DATA_SET,
+									"exception.dataset.booleantype",//$NON-NLS-1$
+									Messages.getResourceBundle( getULocale( ) ) );
+						}
 						// if can't determine applicable data type
 						throw new ChartException( ChartEngineExtensionPlugin.ID,
 								ChartException.DATA_SET,

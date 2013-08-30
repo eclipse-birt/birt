@@ -10,6 +10,7 @@
 
 package org.eclipse.birt.report.engine.emitter.pptx.writer;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -107,7 +108,7 @@ public class Presentation extends Component
 		this.height = height;
 	}
 
-	public Slide createSlide( int pageWidth, int pageHeight )
+	public Slide createSlide( int pageWidth, int pageHeight, Color bgColor )
 			throws IOException
 	{
 		if ( pageWidth > width )
@@ -118,13 +119,13 @@ public class Presentation extends Component
 		{
 			height = pageHeight;
 		}
-		return createSlide( );
+		return createSlide( bgColor );
 	}
 
-	public Slide createSlide( ) throws IOException
+	public Slide createSlide( Color bgColor ) throws IOException
 	{
 		int slideIndex = slides.size( ) + 1;
-		Slide slide = new Slide( this, slideIndex );
+		Slide slide = new Slide( this, slideIndex, bgColor );
 		slides.add( slide );
 		return slide;
 	}

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import javax.olap.OLAPException;
+import javax.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -21,7 +22,6 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 
 /**
@@ -109,8 +109,17 @@ public class DataItemExecutor extends QueryItemExecutor
 				{
 					try
 					{
-						value = ( (ICubeResultSet) rset ).getCubeCursor( )
-								.getObject( bindingColumn );
+						CubeCursor cursor = ( (ICubeResultSet) rset )
+								.getCubeCursor( );
+						// support null cube cursor 60671 61923
+						if ( cursor == null )
+						{
+							value = null;
+						}
+						else
+						{
+							value = cursor.getObject( bindingColumn );
+						}
 					}
 					catch ( OLAPException ex )
 					{

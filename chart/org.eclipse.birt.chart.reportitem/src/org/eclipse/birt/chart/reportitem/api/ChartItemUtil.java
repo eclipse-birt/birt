@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem.api;
 
+import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
@@ -34,6 +36,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
+import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -52,10 +55,12 @@ import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -66,18 +71,23 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
+import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -87,17 +97,25 @@ import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Utility class for Chart integration as report item
  */
 
+/**
+ * ChartItemUtil
+ */
 public class ChartItemUtil extends ChartExpressionUtil implements
 		ChartReportItemConstants
 {
 
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
+	public static final String BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT = "BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT"; //$NON-NLS-1$
+
+	private final static String DATA_BASE64 = "data:;base64,"; //$NON-NLS-1$
+	
 	/**
 	 * Returns the element handle which can save binding columns the given
 	 * element
@@ -1204,24 +1222,45 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 				{
 					return true;
 				}
+				else if ( container instanceof GridHandle )
+				{
+					return true;
+				}
 				container = container.getContainer( );
 			}
 		}
 		return false;
 	}
 
+	public static boolean isContainerGridHandle( ReportItemHandle itemHandle )
+	{
+		DesignElementHandle container = itemHandle.getContainer( );
+		if ( container instanceof CellHandle )
+		{
+			while ( container != null )
+			{
+				if ( container instanceof GridHandle )
+				{
+					return true;
+				}
+				container = container.getContainer( );
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Get the inherited handle
 	 * @param itemHandle
-	 * @return ListHandle or TabHandle
+	 * @return ListHandle or TabHandle or GridHandle
 	 */
-	public static ListingHandle getInheritedListingHandle(
+	public static ReportItemHandle getInheritedHandle(
 			ReportItemHandle itemHandle )
 	{
-		if ( isContainerInheritable( itemHandle ) )
+		if ( itemHandle.getDataSet( ) == null && isContainerInheritable( itemHandle ) )
 		{
 			DesignElementHandle handle = itemHandle.getContainer( );
-			while ( handle != null && !( handle instanceof ListingHandle ) )
+			while ( handle != null && !( handle instanceof ListingHandle || handle instanceof GridHandle ) )
 			{
 				handle = handle.getContainer( );
 			}
@@ -1229,10 +1268,13 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			{
 				return (TableHandle) handle;
 			}
-
-			if ( handle instanceof ListHandle )
+			else if ( handle instanceof ListHandle )
 			{
 				return (ListHandle) handle;
+			}
+			else if ( handle instanceof GridHandle )
+			{
+				return (GridHandle) handle;
 			}
 		}
 		return null;
@@ -1597,7 +1639,23 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return null;
 
 	}
-
+	
+	protected static boolean loadExpressionFromHandle(
+			ExpressionCodec exprCodec, Expression expression )
+	{
+		if ( expression != null && expression.getStringExpression( ) != null )
+		{
+			exprCodec.setExpression( expression.getStringExpression( ) );
+			exprCodec.setType( expression.getType( ) );
+			return true;
+		}
+		else
+		{
+			exprCodec.setExpression( null );
+			return false;
+		}
+	}
+	
 	protected static boolean loadExpressionFromHandle(
 			ExpressionCodec exprCodec, ExpressionHandle eh )
 	{
@@ -1621,6 +1679,17 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		if ( exprCodec != null )
 		{
 			ExpressionHandle eh = fceh.getExpressionProperty( FilterCondition.EXPR_MEMBER );
+			return loadExpressionFromHandle( exprCodec, eh );
+		}
+		return false;
+	}
+	
+	public static boolean loadExpression( ExpressionCodec exprCodec,
+			FilterCondition fceh )
+	{
+		if ( exprCodec != null )
+		{
+			Expression eh = fceh.getExpressionProperty( FilterCondition.EXPR_MEMBER );
 			return loadExpressionFromHandle( exprCodec, eh );
 		}
 		return false;
@@ -1999,5 +2068,167 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		ChartUtil.setExtendedProperty( cm,
 				EXTENDED_PROPERTY_HIERARCHY_SERIES,
 				String.valueOf( value ) );
+	}
+
+	/**
+	 * Get externalized message.
+	 * 
+	 * @param handle design element handle
+	 * @param sKey the key of the externalized message
+	 * @param sDefaultValue default value
+	 * @param locale locale information
+	 * 
+	 * @return message the externalized message.
+	 */
+	public static String externalizedMessage( DesignElementHandle handle, String sKey,
+			String sDefaultValue, ULocale locale )
+	{
+		return ModuleUtil.getExternalizedValue( handle,
+				sKey,
+				sDefaultValue,
+				locale );
+	}
+	
+
+	/**
+	 * get absolute  url
+	 * @param image
+	 * @param handle
+	 * @param reportContext
+	 * @return url
+	 */
+	public static String getImageAbsoluteURL( Image image,
+			ExtendedItemHandle handle, IReportContext reportContext )
+	{
+		if ( reportContext == null )
+		{
+			return getImageAbsoluteURL( image, handle );
+		}
+		else
+		{
+			return getImageAbsoluteURL( image, reportContext );
+		}
+	}
+	
+	/**
+	 * get absolute local url
+	 * @param image
+	 * @param handle
+	 * @return local url
+	 */
+	public static String getImageAbsoluteURL( Image image,
+			ExtendedItemHandle handle )
+	{
+		if ( handle == null )
+		{
+			return null;
+		}
+		
+		switch ( image.getSource( ) )
+		{
+			case STATIC :
+				// url case
+				return image.getURL( );
+			case FILE :
+				// resource case
+				URL url = handle.getModuleHandle( )
+						.findResource( image.getURL( ), IResourceLocator.IMAGE );
+				if ( url != null )
+				{
+					return url.toExternalForm( );
+				}
+				return null;
+			case REPORT :
+				// embedded case
+				EmbeddedImage embeddedImage = handle.getModuleHandle( )
+						.findImage( image.getURL( ) );
+				if ( embeddedImage != null )
+				{
+					return DATA_BASE64
+							+ new String( Base64.encodeBase64( embeddedImage.getData( handle.getModuleHandle( )
+									.getModule( ) ) ) );
+				}
+				return null;
+			default :
+				return null;
+		}
+	}
+	
+	/**
+	 * get absolute server url
+	 * @param image
+	 * @param reportContext
+	 * @return web url
+	 */
+	public static String getImageAbsoluteURL( Image image,
+			IReportContext reportContext )
+	{
+		
+		if ( image == null
+				|| reportContext == null
+				|| reportContext.getRenderOption( ) == null
+				|| reportContext.getDesignHandle( ) == null
+				|| image.getURL( ) == null )
+		{
+			return null;
+		}
+		
+		IHTMLImageHandler imageHandler = reportContext.getRenderOption( )
+				.getImageHandler( );
+		String filePath = image.getURL( );
+		ReportDesignHandle reportDesign = reportContext.getDesignHandle( );
+		String uri = null;
+		switch ( image.getSource( ) )
+		{
+			case STATIC :
+				// url case
+				return image.getURL( );
+			case FILE :
+				// resource case
+				filePath = image.getURL( );
+				if ( filePath == null )
+				{
+					return null;
+				}
+				URL url = reportDesign.findResource( filePath,
+						IResourceLocator.IMAGE );
+				if ( url != null )
+				{
+					filePath = url.toExternalForm( );
+				}
+
+				uri = imageHandler.onCustomImage( new org.eclipse.birt.report.engine.api.impl.Image( filePath ),
+						reportContext );
+
+				if ( uri != null )
+				{
+					image.setURL( uri );
+				}
+
+				return uri;
+			case REPORT :
+				// embedded case
+				EmbeddedImage embeddedImage = reportDesign.getModuleHandle( )
+						.findImage( filePath );
+
+				if ( embeddedImage != null )
+				{
+					org.eclipse.birt.report.engine.api.impl.Image imageParam = new org.eclipse.birt.report.engine.api.impl.Image( embeddedImage.getData( reportDesign.getModule( ) ),
+							filePath );
+
+					uri = imageHandler.onCustomImage( imageParam, reportContext );
+
+					if ( uri != null )
+					{
+						image.setURL( uri );
+					}
+
+					return uri;
+				}
+				return null;
+			default :
+				return null;
+
+		}	
 	}
 }

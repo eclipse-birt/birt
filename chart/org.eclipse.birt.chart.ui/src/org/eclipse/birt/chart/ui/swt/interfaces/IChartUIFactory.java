@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
-import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.AbstractChartInsets;
 import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
 import org.eclipse.birt.chart.ui.swt.AbstractChartNumberEditor;
@@ -25,6 +24,7 @@ import org.eclipse.birt.chart.ui.swt.AbstractChartTextEditor;
 import org.eclipse.birt.chart.ui.swt.AbstractHeadStyleChooserComposite;
 import org.eclipse.birt.chart.ui.swt.AbstractLineStyleChooserComposite;
 import org.eclipse.birt.chart.ui.swt.AbstractLineWidthChooserComposite;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.ChartSlider;
 import org.eclipse.birt.chart.ui.swt.ChartSpinner;
@@ -269,6 +269,15 @@ public interface IChartUIFactory
 	 */
 	TrayDialog createChartMarkerIconDialog( Shell parent, Fill fill,
 			ChartWizardContext context );
+	
+	/**
+	 * Create image dialog
+	 * 
+	 * @return image dialog
+	 */
+	TrayDialog createChartImageDialog( Shell parentShell, Fill fCurrent,
+			ChartWizardContext context, boolean bEmbeddedImageEnabled,
+			boolean bResourceImageEnabled );
 
 	/**
 	 * Check if the state of specified button allows to enable UI component.

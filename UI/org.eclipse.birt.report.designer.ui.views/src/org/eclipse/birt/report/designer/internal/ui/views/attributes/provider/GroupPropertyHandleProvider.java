@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This handler is used to access the underlying IR model properties for the
@@ -359,6 +360,16 @@ public class GroupPropertyHandleProvider
 		}
 
 		return false;
+	}
+	
+	public boolean supportConstantExpression(Object o)
+	{
+		boolean result = false;
+		if ( o instanceof GroupPropertyHandle )
+		{
+			result = ModelUtil.supportConstantExpression( ( (GroupPropertyHandle) o ).getPropertyDefn( ) );
+		}
+		return result;
 	}
 
 	/**

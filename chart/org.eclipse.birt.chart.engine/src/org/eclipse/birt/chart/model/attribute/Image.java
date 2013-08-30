@@ -23,6 +23,7 @@ package org.eclipse.birt.chart.model.attribute;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.Image#getURL <em>URL</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Image#getSource <em>Source</em>}</li>
  * </ul>
  * </p>
  *
@@ -57,6 +58,62 @@ public interface Image extends Fill
 	 * @generated
 	 */
 	void setURL( String value );
+
+	/**
+	 * Returns the value of the '<em><b>Source</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.ImageSourceType}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The string attribute "source" specifies the source of the URL.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Source</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.ImageSourceType
+	 * @see #isSetSource()
+	 * @see #unsetSource()
+	 * @see #setSource(ImageSourceType)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getImage_Source()
+	 * @model unsettable="true" required="true"
+	 *        extendedMetaData="kind='element' name='source'"
+	 * @generated
+	 */
+	ImageSourceType getSource( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Image#getSource <em>Source</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Source</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.ImageSourceType
+	 * @see #isSetSource()
+	 * @see #unsetSource()
+	 * @see #getSource()
+	 * @generated
+	 */
+	void setSource( ImageSourceType value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Image#getSource <em>Source</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetSource()
+	 * @see #getSource()
+	 * @see #setSource(ImageSourceType)
+	 * @generated
+	 */
+	void unsetSource( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Image#getSource <em>Source</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Source</em>' attribute is set.
+	 * @see #unsetSource()
+	 * @see #getSource()
+	 * @see #setSource(ImageSourceType)
+	 * @generated
+	 */
+	boolean isSetSource( );
 
 	/**
 	 * @generated

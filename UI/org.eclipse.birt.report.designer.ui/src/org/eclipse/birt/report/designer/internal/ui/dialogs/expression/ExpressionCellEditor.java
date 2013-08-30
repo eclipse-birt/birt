@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.window.Window;
@@ -77,6 +78,8 @@ public class ExpressionCellEditor extends CellEditor
 	private FocusListener buttonFocusListener;
 
 	private IExpressionCellEditorProvider provider;
+	
+	private boolean allowConstant;
 
 	/**
 	 * Internal class for laying out the dialog.
@@ -120,7 +123,14 @@ public class ExpressionCellEditor extends CellEditor
 
 	public ExpressionCellEditor( Composite parent, int style )
 	{
+		this( parent, style ,false);
+	}
+	
+	public ExpressionCellEditor(Composite parent, int style,boolean allowConstant)
+	{
 		super( parent, style );
+		this.allowConstant = allowConstant;
+		setExpressionCellEditorProvider( new ExpressionCellEditorProvider(allowConstant) );
 	}
 
 	protected Button createButton( Composite parent )
@@ -266,7 +276,7 @@ public class ExpressionCellEditor extends CellEditor
 
 		} );
 
-		setExpressionCellEditorProvider( new ExpressionCellEditorProvider( false ) );
+//		setExpressionCellEditorProvider( new ExpressionCellEditorProvider( _allowConstant ) );
 
 		button.addKeyListener( new KeyAdapter( ) {
 
@@ -319,7 +329,10 @@ public class ExpressionCellEditor extends CellEditor
 		if ( getExpression( ) == null
 				|| getExpression( ).trim( ).length( ) == 0 )
 		{
-			button.setData( ExpressionButtonUtil.EXPR_TYPE, null );
+			if(!isConstantExpression( ))
+			{
+				button.setData( ExpressionButtonUtil.EXPR_TYPE, null );
+			}
 			return null;
 		}
 		return new Expression( getExpression( ), getExpressionType( ) );
@@ -404,6 +417,10 @@ public class ExpressionCellEditor extends CellEditor
 				button.setData( ExpressionButtonUtil.EXPR_TYPE,
 						UIUtil.getDefaultScriptType( ) );
 			}
+			if(isConstantExpression( ))
+			{
+				editor.setEditable( true );
+			}
 			refresh( );
 			editor.addModifyListener( getModifyListener( ) );
 		}
@@ -415,6 +432,15 @@ public class ExpressionCellEditor extends CellEditor
 		refresh( );
 	}
 
+	protected boolean isConstantExpression()
+	{
+		if(ExpressionType.CONSTANT.equals( getExpressionType( ) ))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	protected String getExpressionType( )
 	{
 		String type = (String) button.getData( ExpressionButtonUtil.EXPR_TYPE );
@@ -498,6 +524,7 @@ public class ExpressionCellEditor extends CellEditor
 	protected void openExpressionBuilder( IExpressionBuilder builder,
 			String expressionType )
 	{
+		editor.setEditable( false );
 		builder.setExpression( editor.getText( ) );
 
 		builder.setExpressionContext( contextFactory.getContext( expressionType,
@@ -516,6 +543,20 @@ public class ExpressionCellEditor extends CellEditor
 
 		editor.setFocus( );
 	}
+	
+	protected void openConstantEditor(String expressionType)
+	{
+		button.setData( ExpressionButtonUtil.EXPR_TYPE, expressionType );
+		setEditable();
+		refresh( );
+		editor.setFocus( );
+	}
+	
+	protected void setEditable()
+	{
+		editor.setEditable( true );
+	}
+	
 
 	public String getExpression( )
 	{
