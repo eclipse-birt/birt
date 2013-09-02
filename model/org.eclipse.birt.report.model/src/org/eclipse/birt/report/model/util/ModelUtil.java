@@ -1742,7 +1742,7 @@ public class ModelUtil extends ModelUtilBase
 			{
 				Expression tmpValue = values.get( i );
 				if ( tmpValue != null )
-					newList.add( tmpValue.getExpression( ) );
+					newList.add( tmpValue.getStringExpression( ) );
 				else
 					newList.add( null );
 			}
