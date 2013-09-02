@@ -2214,7 +2214,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				for ( Query qry : series.getDataDefinition( ) )
 				{
 					String expr = qry.getDefinition( );
-					if ( expr == null || "".equals( expr ) ) //$NON-NLS-1$
+					
+					if ( expr == null
+							|| "".equals( expr ) || isDataBinding( expr ) ) //$NON-NLS-1$
 					{
 						continue;
 					}
