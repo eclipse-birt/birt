@@ -1508,7 +1508,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 		StringBuffer pathStr = new StringBuffer( );
 		while ( !pathIter.isDone( ) )
 		{
-			double[] points = new double[6];
+			float[] points = new float[6];
 			int TYPE = pathIter.currentSegment( points );
 			switch ( TYPE )
 			{
@@ -1941,6 +1941,29 @@ public class SVGGraphics2D extends ChartGraphics2D
 	}
 	
 	static String toString( double[] v, int length, char separator )
+	{
+		if ( v.length == 0 )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		if ( v.length == 1 )
+		{
+			return toString( v[0] );
+		}
+		if ( length > v.length )
+		{
+			length = v.length;
+		}
+		StringBuffer buffer = new StringBuffer( toString( v[0] ) );
+		for ( int i = 1; i < length; i++ )
+		{
+			buffer.append( separator );
+			buffer.append( toString( v[i] ) );
+		}
+		return buffer.toString( );
+	}
+
+	static String toString( float[] v, int length, char separator )
 	{
 		if ( v.length == 0 )
 		{
