@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +28,10 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -40,7 +44,17 @@ import org.eclipse.swt.widgets.TreeItem;
  */
 public class LevelViewDialog extends BaseDialog
 {
+	private boolean isEdit = false;
+	private Button regularBtn;
+	private Button dateBtn;
+	private boolean isRegular = false;
 
+	public LevelViewDialog( boolean isEdit )
+	{
+		this( UIUtil.getDefaultShell( ) );
+		this.isEdit = isEdit;
+	}
+	
 	public LevelViewDialog( Shell shell )
 	{
 		super( Messages.getString( "LevelViewDialog.Title" ) ); //$NON-NLS-1$
@@ -55,6 +69,7 @@ public class LevelViewDialog extends BaseDialog
 		this.dimension = dimension;
 		this.showLevels = new LinkedList( );
 		this.showLevels.addAll( showLevels );
+		this.isRegular = !dimension.isTimeType( );
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -67,14 +82,53 @@ public class LevelViewDialog extends BaseDialog
 		infoLabel.setText( Messages.getString( "LevelViewDialog.Label.Info" ) ); //$NON-NLS-1$
 		
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.widthHint = 340;
+		gd.widthHint = 400;
 		infoLabel.setLayoutData( gd );
+		
+		if( !isEdit && dimension.isTimeType( ) )
+		{
+			createButtonArea( dialogArea );
+		}
 		
 		createLevelViewer( dialogArea );
 
 		init( );
 
 		return dialogArea;
+	}
+	
+	private void createButtonArea(Composite parent)
+	{
+		regularBtn = new Button(parent, SWT.RADIO);
+		regularBtn.setText( Messages.getString( "LevelViewDialog.Button.Regular.Text" ) );
+		regularBtn.addSelectionListener( new SelectionAdapter(){
+			public void widgetSelected(SelectionEvent e)
+			{
+				isRegular = true;
+				levelViewer.getTree( ).setVisible( false );
+				checkOKButtonStatus( );
+			}
+		} );
+		
+		dateBtn = new Button( parent, SWT.RADIO );
+		dateBtn.setText( Messages.getString( "LevelViewDialog.Button.Date.Text" ) );
+		dateBtn.addSelectionListener( new SelectionAdapter(){
+			public void widgetSelected(SelectionEvent e)
+			{
+				isRegular = false;
+				levelViewer.getTree( ).setVisible( true );
+				checkOKButtonStatus( );
+			}
+		} );
+		
+		if(dimension.isTimeType( ))
+		{
+			dateBtn.setSelection( true );
+		}
+		else
+		{
+			regularBtn.setSelection( true );
+		}
 	}
 	
 	@Override
@@ -148,12 +202,16 @@ public class LevelViewDialog extends BaseDialog
 
 	public Object getResult( )
 	{
+		if( !isEdit && isRegular )
+		{
+			return new ArrayList();
+		}
 		return showLevels;
 	}
 
 	private void checkOKButtonStatus( )
 	{
-		if ( showLevels == null || showLevels.size( ) == 0 )
+		if ( ( isEdit || !isRegular ) && (showLevels == null || showLevels.size( ) == 0) )
 		{
 			if ( getOkButton( ) != null )
 				getOkButton( ).setEnabled( false );
