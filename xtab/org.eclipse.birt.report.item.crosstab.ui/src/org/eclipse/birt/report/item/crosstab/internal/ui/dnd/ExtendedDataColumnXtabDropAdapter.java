@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
@@ -19,7 +20,6 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
-import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -35,12 +35,14 @@ import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.window.Window;
+
+import com.actuate.birt.report.model.api.TimeDimensionHandle;
 
 public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 {
@@ -59,7 +61,7 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 			EditPart editPart = (EditPart) target;
 			if ( editPart.getModel( ) instanceof IVirtualValidator )
 			{
-				if (handleValidate(editPart, transfer) != null)
+				if ( handleValidate(editPart, transfer).size( ) > 0 )
 					return DNDService.LOGIC_TRUE;
 				else
 					return DNDService.LOGIC_FALSE;
@@ -98,12 +100,31 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 				}
 			}
 			
-			Object element = handleValidate(targetPart, transfer);
+			List validElements = handleValidate(targetPart, transfer);
+			MeasureHandle measure = null;
+			TabularDimensionHandle tabularDimension = null;
+			TimeDimensionHandle timeDimension = null;
 			
-			if (element instanceof MeasureHandle)
+			for(Object obj : validElements )
+			{
+				if(obj instanceof MeasureHandle)
+				{
+					measure = (MeasureHandle) obj;
+				}
+				else if (obj instanceof TabularDimensionHandle )
+				{
+					tabularDimension = (TabularDimensionHandle) obj;
+				}
+				else if(obj instanceof TimeDimensionHandle )
+				{
+					timeDimension = (TimeDimensionHandle) obj;
+				}
+			}
+			
+			if ( measure != null )
 			{
 				CreateRequest request = new CreateRequest( );
-				request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, element );
+				request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, measure );
 				request.setLocation( location.getPoint( ) );
 				
 				Command command = targetPart.getCommand( request );
@@ -129,12 +150,14 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 					return true;
 				}
 			}
-			else if (element instanceof DimensionHandle)
+			else if ( tabularDimension != null || timeDimension != null )
 			{
-				if( ((DimensionHandle) element).isTimeType( ) )
+				Object element = null;
+				
+				if( timeDimension != null )
 				{
-					LevelViewDialog dialog = new LevelViewDialog( UIUtil.getDefaultShell( ) );
-					dialog.setInput( (DimensionHandle) element, adapter.getLevelHints( (DimensionHandle) element ) );
+					LevelViewDialog dialog = new LevelViewDialog( false );
+					dialog.setInput( timeDimension, adapter.getLevelHints( timeDimension ) );
 					
 					if ( dialog.open( ) != Window.OK )
 					{
@@ -142,7 +165,23 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 						return false;
 					}
 					
-					element = ((List) dialog.getResult( )).toArray();
+					if(((List) dialog.getResult( )).size( ) > 0 )
+					{
+						element = ((List) dialog.getResult( )).toArray();
+					}
+					else
+					{
+						element = tabularDimension;
+					}
+				}
+				else if( tabularDimension != null )
+				{
+					element = tabularDimension;
+				}
+				
+				if( element == null )
+				{
+					return false;
 				}
 				
 				CreateRequest request = new CreateRequest( );
@@ -192,7 +231,7 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 
 	}
 	
-	private Object handleValidate(EditPart editPart, Object transfer)
+	private List handleValidate(EditPart editPart, Object transfer)
 	{
 		if (!( transfer instanceof ReportElementHandle ))
 		{
@@ -201,14 +240,16 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 		
 		ReportElementHandle[] supportedTypes = adapter.getSupportedTypes( (ReportElementHandle) transfer, getCrosstab( editPart ).getCube( ) );
 		
+		List list = new ArrayList();
+		
 		for (ReportElementHandle type : supportedTypes)
 		{
 			if (( (IVirtualValidator) editPart.getModel( ) ).handleValidate( type ))
 			{
-				return type;
+				list.add( type );
 			}
 		}
 		
-		return null;
+		return list;
 	}
 }
