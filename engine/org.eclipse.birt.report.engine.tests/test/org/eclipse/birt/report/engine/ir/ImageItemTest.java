@@ -58,7 +58,8 @@ public class ImageItemTest extends ReportItemTestCase
 		//Set
 		String key = "TestKey";
 		String text = "AltText";
-		image.setAltText( key, text );
+		image.setAltText (Expression.newConstant( text) );
+		image.setAltTextKey( key );
 
 		//Get
 		assertEquals( image.getAltText( ), text );
