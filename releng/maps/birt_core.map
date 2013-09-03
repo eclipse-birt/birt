@@ -2,4 +2,4 @@ plugin@org.eclipse.birt.core=GIT,tag=v201308301349,repo=git://git.eclipse.org/gi
 plugin@org.eclipse.birt.core.ui=GIT,tag=v201308301349,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=core/org.eclipse.birt.core.ui
 
 plugin@org.eclipse.birt.core.tests=GIT,tag=v201308301349,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=core/org.eclipse.birt.core.tests
-fragment@org.eclipse.birt.core.testhelper=GIT,tag=v201308301349,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=core/org.eclipse.birt.core.testhelper
+fragment@org.eclipse.birt.core.testhelper=GIT,tag=v201309031220,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=core/org.eclipse.birt.core.testhelper
