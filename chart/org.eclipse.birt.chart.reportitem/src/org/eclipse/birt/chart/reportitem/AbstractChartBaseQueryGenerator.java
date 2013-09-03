@@ -168,7 +168,7 @@ public abstract class AbstractChartBaseQueryGenerator
 			for ( Query qry : series.getDataDefinition( ) )
 			{
 				String expr = qry.getDefinition( );
-				if ( expr == null || "".equals( expr ) ) //$NON-NLS-1$
+				if ( expr == null || "".equals( expr ) || isDataBinding( expr ) ) //$NON-NLS-1$
 				{
 					continue;
 				}
@@ -318,6 +318,14 @@ public abstract class AbstractChartBaseQueryGenerator
 				} );
 			}
 		}
+	}
+	
+	protected boolean isDataBinding(String expr){
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		exprCodec.decode( expr );
+		String returnExpr = exprCodec.getExpression( );	
+		return exprCodec.isCubeBinding( returnExpr, true );
 	}
 
 	/**

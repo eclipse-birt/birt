@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
+import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.emitter.ReportEmitterExecutor;
@@ -40,6 +41,8 @@ import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * A task for running a report design to get a report document
@@ -289,6 +292,13 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				{
 					errList.add( ex.getLocalizedMessage( ) );
 				}
+			}
+			if ( getStatus( ) == IEngineTask.STATUS_CANCELLED )
+			{
+				String cancelReason = new EngineResourceHandle(
+					ULocale.forLocale( getLocale( ) ) )
+							.getMessage( MessageConstants.TASK_CANCEL );
+				errList.add( cancelReason );
 			}
 			if ( !errList.isEmpty( ) )
 			{
