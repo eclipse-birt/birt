@@ -140,7 +140,7 @@ public class RowArea extends ContainerArea
 		TableArea table = getTableArea( );
 		table.addRow( this );
 		updateBackgroundImage( );
-		
+		updateCellBackgroundImage( );
 		//if ( content != null && content.isRTL( ) ) // bidi_hcg
 		//{
 			//reorderCellsForRTL( );
@@ -485,6 +485,17 @@ public class RowArea extends ContainerArea
 	public void updateChildrenPosition( ) throws BirtException
 	{
 
+	}
+	
+	private void updateCellBackgroundImage( )
+	{
+		for ( IArea cell : children )
+		{
+			if ( cell instanceof CellArea )
+			{
+				( (CellArea) cell ).updateBackgroundImage( );
+			}
+		}
 	}
 
 }

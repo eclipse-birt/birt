@@ -128,7 +128,9 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	public void close( ) throws BirtException
 	{
 		height = currentBP + getOffsetY( ) + localProperties.getPaddingBottom( );
-		updateBackgroundImage( );
+		// We don't update background image here. As the row height may be
+		// updated later.
+		// updateBackgroundImage( );
 		checkPageBreak( );
 		parent.update( this );
 		finished = true;
