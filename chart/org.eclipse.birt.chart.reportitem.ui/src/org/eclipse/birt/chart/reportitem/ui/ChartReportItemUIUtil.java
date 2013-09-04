@@ -18,9 +18,13 @@ import java.util.List;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -34,6 +38,12 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWTException;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * ChartReportItemUIUtil
@@ -293,5 +303,116 @@ public class ChartReportItemUIUtil
 			return columnList;
 		}
 		return Collections.emptyList( );
+	}
+
+	public static void refreshBackground( ExtendedItemHandle handle,
+			ReportElementFigure figure )
+	{
+		refreshBackgroundColor( handle, figure );
+		refreshBackgroundImage( handle, figure );
+	}
+
+	/*
+	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
+	 */
+	public static void refreshBackgroundImage( ExtendedItemHandle handle,
+			ReportElementFigure figure )
+	{
+		String backGroundImage = ChartReportItemUIUtil.getBackgroundImage( handle );
+
+		if ( backGroundImage == null )
+		{
+			figure.setImage( null );
+		}
+		else
+		{
+			Image image = null;
+			try
+			{
+				image = ImageManager.getInstance( )
+						.getImage( handle.getModuleHandle( ), backGroundImage );
+			}
+			catch ( SWTException e )
+			{
+				// Should not be ExceptionHandler.handle(e), see SCR#73730
+				image = null;
+			}
+
+			if ( image == null )
+			{
+				figure.setImage( null );
+				return;
+			}
+
+			figure.setImage( image );
+
+			Object[] backGroundPosition = ChartReportItemUIUtil.getBackgroundPosition( handle );
+			int backGroundRepeat = ChartReportItemUIUtil.getBackgroundRepeat( handle );
+
+			figure.setRepeat( backGroundRepeat );
+
+			Object xPosition = backGroundPosition[0];
+			Object yPosition = backGroundPosition[1];
+			Rectangle area = figure.getClientArea( );
+			org.eclipse.swt.graphics.Rectangle imageArea = image.getBounds( );
+			Point position = new Point( -1, -1 );
+			int alignment = 0;
+
+			if ( xPosition instanceof Integer )
+			{
+				position.x = ( (Integer) xPosition ).intValue( );
+			}
+			else if ( xPosition instanceof DimensionValue )
+			{
+				int percentX = (int) ( (DimensionValue) xPosition ).getMeasure( );
+
+				position.x = ( area.width - imageArea.width ) * percentX / 100;
+			}
+			else if ( xPosition instanceof String )
+			{
+				alignment |= DesignElementHandleAdapter.getPosition( (String) xPosition );
+			}
+
+			if ( yPosition instanceof Integer )
+			{
+				position.y = ( (Integer) yPosition ).intValue( );
+			}
+			else if ( yPosition instanceof DimensionValue )
+			{
+				int percentY = (int) ( (DimensionValue) yPosition ).getMeasure( );
+
+				position.y = ( area.width - imageArea.width ) * percentY / 100;
+			}
+			else if ( yPosition instanceof String )
+			{
+				alignment |= DesignElementHandleAdapter.getPosition( (String) yPosition );
+			}
+
+			figure.setAlignment( alignment );
+			figure.setPosition( position );
+		}
+	}
+
+	public static void refreshBackgroundColor( ExtendedItemHandle handle,
+			IFigure figure )
+	{
+		Object obj = handle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP );
+
+		figure.setOpaque( false );
+
+		if ( obj != null )
+		{
+			int color = 0xFFFFFF;
+			if ( obj instanceof String )
+			{
+				color = ColorUtil.parseColor( (String) obj );
+			}
+			else
+			{
+				color = ( (Integer) obj ).intValue( );
+			}
+			figure.setBackgroundColor( ColorManager.getColor( color ) );
+			figure.setOpaque( true );
+		}
 	}
 }
