@@ -510,6 +510,10 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			{
 				evaluateResult = "\"" + evaluateResult + "\""; //$NON-NLS-1$//$NON-NLS-2$
 			}
+			else if ( evaluateResult == null )
+			{
+				evaluateResult = "null"; //$NON-NLS-1$
+			}
 
 			script = Pattern.compile( expression, Pattern.LITERAL )
 					.matcher( script )
@@ -527,6 +531,10 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			if ( evaluateResult instanceof String )
 			{
 				evaluateResult = "\"" + evaluateResult + "\""; //$NON-NLS-1$//$NON-NLS-2$
+			}
+			else if ( evaluateResult == null )
+			{
+				evaluateResult = "null"; //$NON-NLS-1$
 			}
 
 			script = Pattern.compile( expression, Pattern.LITERAL )
