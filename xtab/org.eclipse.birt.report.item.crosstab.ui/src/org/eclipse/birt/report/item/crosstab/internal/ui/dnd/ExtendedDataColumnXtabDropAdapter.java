@@ -35,14 +35,12 @@ import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.window.Window;
-
-import com.actuate.birt.report.model.api.TimeDimensionHandle;
 
 public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 {
@@ -102,8 +100,8 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 			
 			List validElements = handleValidate(targetPart, transfer);
 			MeasureHandle measure = null;
-			TabularDimensionHandle tabularDimension = null;
-			TimeDimensionHandle timeDimension = null;
+			DimensionHandle tabularDimension = null;
+			DimensionHandle timeDimension = null;
 			
 			for(Object obj : validElements )
 			{
@@ -111,13 +109,18 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 				{
 					measure = (MeasureHandle) obj;
 				}
-				else if (obj instanceof TabularDimensionHandle )
+				else if( obj instanceof DimensionHandle )
 				{
-					tabularDimension = (TabularDimensionHandle) obj;
-				}
-				else if(obj instanceof TimeDimensionHandle )
-				{
-					timeDimension = (TimeDimensionHandle) obj;
+					DimensionHandle dim = (DimensionHandle) obj;
+
+					if( dim.isTimeType( ) )
+					{
+						timeDimension = dim;
+					}
+					else
+					{
+						tabularDimension = dim;
+					}
 				}
 			}
 			
