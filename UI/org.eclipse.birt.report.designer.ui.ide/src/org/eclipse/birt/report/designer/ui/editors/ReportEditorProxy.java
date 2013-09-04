@@ -193,7 +193,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public String getTitleToolTip( )
 	{
-		return instance.getTitleToolTip( );
+		if ( instance != null )
+		{
+			return instance.getTitleToolTip( );
+		}
+		return ""; //$NON-NLS-1$
 	}
 
 	/*
@@ -203,7 +207,10 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public void setFocus( )
 	{
-		instance.setFocus( );
+		if ( instance != null )
+		{
+			instance.setFocus( );
+		}
 	}
 
 	/*
@@ -416,7 +423,9 @@ public class ReportEditorProxy extends EditorPart implements
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
 		if ( instance == null )
+		{
 			return;
+		}
 
 		if ( part instanceof ReportEditorProxy )
 		{
@@ -436,6 +445,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public void partClosed( IWorkbenchPart part )
 	{
+		if ( instance == null )
+		{
+			return;
+		}
+		
 		if ( part instanceof ReportEditorProxy )
 		{
 			instance.partClosed( ( (ReportEditorProxy) part ).getEditorPart( ) );
@@ -466,6 +480,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public void partDeactivated( IWorkbenchPart part )
 	{
+		if ( instance == null )
+		{
+			return;
+		}
+		
 		if ( part instanceof ReportEditorProxy )
 		{
 			instance.partDeactivated( ( (ReportEditorProxy) part ).getEditorPart( ) );
@@ -484,6 +503,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public void partOpened( IWorkbenchPart part )
 	{
+		if ( instance == null )
+		{
+			return;
+		}
+		
 		if ( part instanceof ReportEditorProxy )
 		{
 			instance.partOpened( ( (ReportEditorProxy) part ).getEditorPart( ) );
