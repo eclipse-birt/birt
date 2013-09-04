@@ -303,6 +303,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	public void dispose( )
 	{
+		if ( session != null )
+		{
+			try
+			{
+				DataService.getInstance( ).unRegisterSession( session );
+			}
+			catch ( BirtException e )
+			{
+				logger.log( e );
+			}
+		}
+		
 		if ( engineTask != null )
 		{
 			engineTask.close( );
