@@ -97,6 +97,7 @@ public class HTMLLeafItemLM extends HTMLAbstractLM implements ILayoutManager
 			pdfLayoutContext.setLocale( engine.locale );
 			pdfLayoutContext.setHtmlLayoutContext( context );
 			pdfLayoutContext.setMaxBP( Integer.MAX_VALUE );
+			pdfLayoutContext.setMaxHeight( Integer.MAX_VALUE );
 			pdfLayoutContext.setReport( report );
 			RegionLayoutEngine rle = new RegionLayoutEngine( container,
 					pdfLayoutContext );
