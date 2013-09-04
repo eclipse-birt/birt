@@ -305,6 +305,14 @@ public class ChartReportItemUIUtil
 		return Collections.emptyList( );
 	}
 
+	/**
+	 * Refresh background including color and image.
+	 * 
+	 * @param handle
+	 *            Item handle
+	 * @param figure
+	 *            Element figure
+	 */
 	public static void refreshBackground( ExtendedItemHandle handle,
 			ReportElementFigure figure )
 	{
@@ -312,8 +320,13 @@ public class ChartReportItemUIUtil
 		refreshBackgroundImage( handle, figure );
 	}
 
-	/*
-	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
+	/**
+	 * Refresh background image.
+	 * 
+	 * @param handle
+	 *            Item handle
+	 * @param figure
+	 *            Element figure
 	 */
 	public static void refreshBackgroundImage( ExtendedItemHandle handle,
 			ReportElementFigure figure )
@@ -393,6 +406,14 @@ public class ChartReportItemUIUtil
 		}
 	}
 
+	/**
+	 * Refresh background color.
+	 * 
+	 * @param handle
+	 *            Item handle
+	 * @param figure
+	 *            Figure
+	 */
 	public static void refreshBackgroundColor( ExtendedItemHandle handle,
 			IFigure figure )
 	{
