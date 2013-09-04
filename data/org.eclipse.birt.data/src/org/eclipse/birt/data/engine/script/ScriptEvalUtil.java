@@ -949,7 +949,7 @@ public class ScriptEvalUtil
 
 	}	
 	
-	private static int compareIgnoreNull( List<Object> valueList, List<Object> targetList ) throws DataException
+	public static int compareIgnoreNull( List<Object> valueList, List<Object> targetList ) throws DataException
 	{
 		for( int i = 0; i < valueList.size( ); i++ )
 		{
