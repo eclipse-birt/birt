@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
+import org.eclipse.birt.data.engine.executor.transform.EmptyResultIterator;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -230,6 +231,9 @@ class PreparedSubquery implements IPreparedQueryService
 		{
 			assert parentIterator != null;
 	
+			if ( parentIterator instanceof EmptyResultIterator )
+				return new EmptyResultIterator( );
+			
 			IResultIterator ret = null;
 			ICandidateQuery cdQuery = (ICandidateQuery) odiQuery;
 
@@ -298,6 +302,9 @@ class PreparedSubquery implements IPreparedQueryService
 		{
 			if( !subQueryOnGroup )
 				return this.parentIterator.getCurrentResultIndex( );
+			if ( parentIterator instanceof EmptyResultIterator )
+				return 0;
+
 			int groupIndex = this.parentIterator.getCurrentGroupIndex( groupLevel );
 			
 			int[] groupStartingEndingIndex = this.parentIterator.getGroupStartAndEndIndex( groupLevel );
