@@ -695,9 +695,8 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 				}
 			}
 
-			targetCrosstabView.getViewsProperty( )
-					.add( clonedDimensionView.getModelHandle( ), targetIndex );
-			
+			new CrosstabViewTask( targetCrosstabView ).addDimension( clonedDimensionView, targetIndex, 
+					false );			
 
 			// transfer pervious recorded grandtotal for target view
 			if ( transferMeasureList.size( ) > 0
