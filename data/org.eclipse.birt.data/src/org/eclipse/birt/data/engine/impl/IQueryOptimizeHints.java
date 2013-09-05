@@ -1,8 +1,10 @@
-package org.eclipse.birt.data.engine.api;
+package org.eclipse.birt.data.engine.impl;
 
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 
