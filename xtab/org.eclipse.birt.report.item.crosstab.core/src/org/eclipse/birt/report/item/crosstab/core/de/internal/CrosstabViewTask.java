@@ -441,4 +441,94 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			stack.commit( );
 		}
 	}
+	
+	/**
+	 * Add dimension view into crosstab view.
+	 * 
+	 * @param dimensionView
+	 * @param targetIndex
+	 * @param needTransaction
+	 * @throws SemanticException
+	 */
+	public void addDimension ( DimensionViewHandle dimensionView, int targetIndex, boolean needTransaction ) throws SemanticException
+	{
+		if ( dimensionView == null )
+		{
+			return;
+		}
+		
+		CommandStack stack = null;
+
+		if ( needTransaction )
+		{
+			stack = crosstabView.getCommandStack( );
+			stack.startTrans( Messages.getString( "CrosstabViewTask.msg.add.dimension" ) ); //$NON-NLS-1$
+		}
+		
+		try
+		{
+			// Get old inner most level view handle
+			int axisType = crosstabView.getAxisType( );
+			LevelViewHandle oldLevelView = CrosstabModelUtil.getInnerMostLevel( crosstab, axisType );
+			
+			// Add dimension into crosstab view
+			int counterAxisType = CrosstabModelUtil.getOppositeAxisType( axisType );
+			crosstabView.getViewsProperty( ).add( dimensionView.getModelHandle( ), targetIndex );
+			
+			if( crosstab.getGrandTotal( counterAxisType ) != null 
+					|| CrosstabModelUtil.getAllLevelCount( crosstab,
+							counterAxisType ) == 0 )
+			{
+				LevelViewHandle lastLevelView = dimensionView.getLevel( dimensionView.getLevelCount( ) - 1 );				
+				if( lastLevelView != null && lastLevelView.isInnerMost( ) )
+				{					
+					// After add dimension, the innerMost level view is changed
+					// Should update grand-total
+					List measureList = crosstab.getAggregationMeasures( counterAxisType );
+					AggregationInfo oldInfo = getAggregationInfo( oldLevelView, null );
+					AggregationInfo info = getAggregationInfo( lastLevelView, null );
+					for ( int i = 0; i < measureList.size( ); i++ )
+					{
+						MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
+						
+						// Remove old grand-total aggregation cell
+						AggregationCellHandle cell = measureView.getAggregationCell( oldInfo.getRowDimension( ),
+								oldInfo.getRowLevel( ),
+								oldInfo.getColDimension( ),
+								oldInfo.getColLevel( ) );
+						if( cell != null )
+						{
+							// Drop it since inner most level is changed.
+							cell.getModelHandle( ).drop( );
+						}
+						
+						// Update aggregation cell
+						String function = crosstab.getAggregationFunction( counterAxisType,
+								measureView );						
+						validateSingleMeasureAggregation( crosstab,
+								measureView,
+								function,
+								info.getRowDimension( ),
+								info.getRowLevel( ),
+								info.getColDimension( ),
+								info.getColLevel( ) );
+					}
+				}
+			}
+		}
+		catch ( SemanticException e )
+		{
+			if ( needTransaction )
+			{
+				stack.rollback( );
+			}
+
+			throw e;
+		}
+
+		if ( needTransaction )
+		{
+			stack.commit( );
+		}
+	}
 }
