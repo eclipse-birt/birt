@@ -1195,7 +1195,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	 */
 	public static boolean isChartInheritColumnsOnly( ReportItemHandle handle )
 	{
-		return handle.getDataSet( ) != null
+		return handle.getDataSet( ) == null
 				&& isContainerInheritable( handle )
 				&& handle.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
 	}
