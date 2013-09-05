@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
-import org.eclipse.birt.data.engine.api.IQueryOptimizeHints;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 public class QueryOptimizeHints implements IQueryOptimizeHints
