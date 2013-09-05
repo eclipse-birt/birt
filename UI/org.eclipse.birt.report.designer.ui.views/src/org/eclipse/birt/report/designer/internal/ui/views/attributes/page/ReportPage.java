@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 import java.io.ByteArrayOutputStream;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DualRadioButtonPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
@@ -29,7 +30,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -75,8 +75,6 @@ public class ReportPage extends ModulePage
 		displaySection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.REPORT_DISPLAY, displaySection );
 
-
-
 		TextPropertyDescriptorProvider prvImageProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.ICON_FILE_PROP,
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
 		prvImageSection = new TextAndTwoButtonSection( prvImageProvider.getDisplayName( ),
@@ -103,54 +101,62 @@ public class ReportPage extends ModulePage
 					}
 					return;
 				}
-				if ( dialog.shouldSetThumbnail( ) )
+				try
 				{
-					Image image = dialog.getImage( );
-					if ( image != null )
+					if ( dialog.shouldSetThumbnail( ) )
 					{
-						ImageData imageData = image.getImageData( );
-						ImageLoader imageLoader = new ImageLoader( );
-						imageLoader.data = new ImageData[1];
-						imageLoader.data[0] = imageData;
-						ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
-						imageLoader.save( outputStream, dialog.getImageType() );
-						try
+						Image image = dialog.getImage( );
+						if ( image != null )
 						{
-							handle.setThumbnail( outputStream.toByteArray( ) );
-						}
-						catch ( SemanticException e1 )
-						{
-							ExceptionUtil.handle( e1 );
-						}
+							ImageData imageData = image.getImageData( );
+							ImageLoader imageLoader = new ImageLoader( );
+							imageLoader.data = new ImageData[1];
+							imageLoader.data[0] = imageData;
+							ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
+							imageLoader.save( outputStream,
+									dialog.getImageType( ) );
+							try
+							{
+								handle.setThumbnail( outputStream.toByteArray( ) );
+							}
+							catch ( SemanticException e1 )
+							{
+								ExceptionUtil.handle( e1 );
+							}
 
-						image.dispose( );
-						image = null;
-					}
-					prvImageSection.setStringValue( dialog.getImageName( ) );
-					prvImageSection.forceFocus( );
-
-				}
-				else
-				{
-
-					if ( handle.getThumbnail( ) != null
-							&& handle.getThumbnail( ).length != 0 )
-					{
-						try
-						{
-							handle.deleteThumbnail( );
+							image.dispose( );
+							image = null;
 						}
-						catch ( SemanticException e1 )
-						{
-							ExceptionUtil.handle( e1 );
-						}
+						prvImageSection.setStringValue( dialog.getImageName( ) );
+						prvImageSection.getProvider( )
+								.save( dialog.getImageName( ) );
 
 					}
+					else
+					{
 
-					prvImageSection.setStringValue( "" ); //$NON-NLS-1$
-					prvImageSection.forceFocus( );
+						if ( handle.getThumbnail( ) != null
+								&& handle.getThumbnail( ).length != 0 )
+						{
+							try
+							{
+								handle.deleteThumbnail( );
+							}
+							catch ( SemanticException e1 )
+							{
+								ExceptionUtil.handle( e1 );
+							}
+
+						}
+
+						prvImageSection.setStringValue( "" ); //$NON-NLS-1$
+						prvImageSection.getProvider( ).save( null );
+					}
 				}
-
+				catch ( SemanticException e1 )
+				{
+					ExceptionHandler.handle( e1 );
+				}
 			}
 
 		} );
