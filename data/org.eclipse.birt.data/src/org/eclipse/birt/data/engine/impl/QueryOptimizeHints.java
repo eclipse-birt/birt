@@ -1,0 +1,52 @@
+package org.eclipse.birt.data.engine.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IQueryOptimizeHints;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
+
+public class QueryOptimizeHints implements IQueryOptimizeHints
+{
+	public boolean enablePushDownForTransientQuery( )
+	{
+		return true;
+	}
+
+	public void setEnablePushDownForTransientQuery(
+			boolean enablePushDownForTransientQuery )
+	{
+	}
+
+	public Map<String, QuerySpecification> getOptimizedCombinedQuerySpec( )
+	{
+		return null;
+	}
+
+	public Map<String, List<IColumnDefinition>> getTrimmedColumns( )
+	{
+		return null;
+	}
+
+	public Map<String, List<String>> getPushedDownComputedColumns( )
+	{
+		return null;
+	}
+
+	public List<IColumnDefinition> getResultSetsForCombinedQuery( )
+	{
+		return null;
+	}
+
+	public Map<String, List<IFilterDefinition>> getFiltersInAdvance( )
+	{
+		return null;
+	}
+
+	public Map<String, List<String>> getOptimizedFilterExpr( )
+	{
+		return null;
+	}
+}
