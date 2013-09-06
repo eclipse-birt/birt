@@ -49,6 +49,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 
+import com.ibm.icu.util.TimeZone;
+
 /**
  * Used to output metadata, including group collpase/expand icon, column filter
  * icon, element select handle container and instance id, element type id,etc.
@@ -455,7 +457,8 @@ public class MetadataEmitter
 							String rawData = null;
 							try
 							{
-								rawData = DataTypeUtil.toLocaleNeutralString( value );
+								// output time as GMT zone to make the value locale independent
+								rawData = DataTypeUtil.toLocaleNeutralString( value, TimeZone.getTimeZone( "GMT" ) );
 							}
 							catch ( BirtException e )
 							{
