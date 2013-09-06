@@ -1092,9 +1092,33 @@ public final class DataTypeUtil
 	{
 		return toString( source, ULocale.forLocale( locale ) );
 	}
+	
+	/**
+	 * Convert an object to an locale neutral String value. For Date values we will convert to ISO8601 format.
+	 * User can specify the time zone to output.
+	 * 
+	 * @param source
+	 * @param zone
+	 * @return
+	 * @throws BirtException
+	 */
+	public static String toLocaleNeutralString( Object source, TimeZone zone ) throws BirtException
+	{
+		if ( source == null )
+			return null;
+		if ( source instanceof Date )
+		{
+			return DateFormatISO8601.format( (Date) source, zone );
+		}
+		else
+		{
+			return toLocaleNeutralString( source );
+		}
+	}
 
 	/**
 	 * Convert an object to an locale neutral String value. For Date values we will convert to ISO8601 format.
+	 * This will always output default(current) time zone.
 	 * 
 	 * @param source
 	 * @return
