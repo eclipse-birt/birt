@@ -3,7 +3,7 @@
 
 <contexts>
 <context id="dummy_outer_container" title="BIRT contexts">
-<description>Contexts for items identified by Actuate, 05/2010</description>
+<description>Contexts for items identified by Actuate, 09/2013</description>
 </context>
 
 <context id="NewReportProjectWizard_ID" title="New Report Project">
@@ -126,6 +126,20 @@ A <b>data set</b> is a query that specifies which data to retrieve from the data
 Specify how to connect the report to a database, file, or web service. The Classic Models data source is preconfigured and ready to use with BIRT.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForDatabaseOrOtherJDBCDataSource.html" label="How to specify connection information for a data source"/>
+</context>
+
+<context id="Wizard_ExcelDatasource_ID" title="Excel Data Source">
+<!-- created jaht 20130906 and linked -->
+<description>
+Use this page to define an Excel spreadsheet to provide data to a report.
+
+Type a file name or browse to an existing Excel spreadsheet file.
+
+BIRT supports the following optional formats:
+* The first row of the spreadsheet contains the column names
+* The second row of the spreadsheet contains the data types
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForExcelDataSource.html" label="How to create an Excel data source"/>
 </context>
 
 <context id="Wizard_JDBC_Datasource_ID" title="JDBC Data Source Profile">
