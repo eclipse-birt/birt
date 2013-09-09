@@ -249,13 +249,13 @@
 			<BR/>
 			<DIV>
 				<TABLE cellpadding="0" cellspacing="0">
-					<TR>
+					<TR >
 						<TD><INPUT TYPE="checkbox" ID="exportColumnDataType"></TD>
-						<TD nowrap="nowrap">
+						<TD>
 							<label for="exportColumnDataType"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.datatype" )%></label>
 						</TD>
 						<TD style="padding-left:20px;" ><INPUT TYPE="checkbox" ID="exportColumnLocaleNeutral"></TD>
-						<TD  nowrap="nowrap">
+						<TD rowspan="2" valign="top" style="padding-top:3px;">
 							<label for="exportColumnLocaleNeutral"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.localeneutral" )%></label>
 						</TD>
 					</TR>

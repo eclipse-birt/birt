@@ -1840,7 +1840,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		private Combo dataType = null;
 		private Combo direction = null;
 		private Text defaultValueText = null;
-		private Combo linkToSalarParameter = null;
+		private Combo linkToScalarParameter = null;
 		private boolean inputChanged = modelChanged,
 				isOdaDataSetHandle = false;
 		private Button parameterButton;
@@ -2049,23 +2049,23 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			ControlProvider.createLabel( parent, label );
 
 			reportParamComposite = ControlProvider.getDefaultComposite( parent );
-			linkToSalarParameter = new Combo( reportParamComposite,
+			linkToScalarParameter = new Combo( reportParamComposite,
 					SWT.READ_ONLY );
-			linkToSalarParameter.setLayoutData( ControlProvider.getGridDataWithHSpan( 1 ) );
-			linkToSalarParameter.setItems( ParameterPageUtil.getLinkedReportParameterNames( (OdaDataSetParameterHandle) structureHandle ) );
-			linkToSalarParameter.setVisibleItemCount( 30 );
-			linkToSalarParameter.select( Utility.findIndex( linkToSalarParameter.getItems( ),
+			linkToScalarParameter.setLayoutData( ControlProvider.getGridDataWithHSpan( 1 ) );
+			linkToScalarParameter.setItems( ParameterPageUtil.getLinkedReportParameterNames( (OdaDataSetParameterHandle) structureHandle ) );
+			linkToScalarParameter.setVisibleItemCount( 30 );
+			linkToScalarParameter.select( Utility.findIndex( linkToScalarParameter.getItems( ),
 					( (OdaDataSetParameterHandle) structureHandle ).getParamName( ) ) );
-			originalLinkToParamName = linkToSalarParameter.getText( );
-			linkToSalarParameter.addModifyListener( new ModifyListener( ) {
+			originalLinkToParamName = linkToScalarParameter.getText( );
+			linkToScalarParameter.addModifyListener( new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
 					String originalLink = originalLinkToParamName;
-					linkToSalarParameterChanged( );
-					originalLinkToParamName = linkToSalarParameter.getText( );
+					linkToScalarParameterChanged( );
+					originalLinkToParamName = linkToScalarParameter.getText( );
 					updateLinkedReportParameter( originalLink );
-					if ( linkToSalarParameter.isEnabled( ) )
+					if ( linkToScalarParameter.isEnabled( ) )
 					{
 						validateSyntax( );
 					}
@@ -2081,7 +2081,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 					OdaDataSetParameterHandle dataSetParameterHandle = (OdaDataSetParameterHandle) structureHandle;
 					String originalParamName = dataSetParameterHandle.getParamName( );
 					ParameterDialog dialog = null;
-					ParameterHandle handle = ParameterPageUtil.getScalarParameter( linkToSalarParameter.getText( ),
+					ParameterHandle handle = ParameterPageUtil.getScalarParameter( linkToScalarParameter.getText( ),
 							false );
 					boolean isCreateMode = true;
 					if ( handle == null )
@@ -2117,7 +2117,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 								try
 								{
 									parameterSlotHandle.add( paramerHandle );
-									linkToSalarParameter.add( paramerHandle.getQualifiedName( ) );
+									linkToScalarParameter.add( paramerHandle.getQualifiedName( ) );
 								}
 								catch ( ContentException e )
 								{
@@ -2128,9 +2128,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 									ExceptionHandler.handle( e );
 								}
 							}
-							linkToSalarParameter.setItems( ParameterPageUtil.getLinkedReportParameterNames( (OdaDataSetParameterHandle) structureHandle ) );
+							linkToScalarParameter.setItems( ParameterPageUtil.getLinkedReportParameterNames( (OdaDataSetParameterHandle) structureHandle ) );
 							originalLinkToParamName = paramerHandle.getQualifiedName( );
-							linkToSalarParameter.select( Utility.findIndex( linkToSalarParameter.getItems( ),
+							linkToScalarParameter.select( Utility.findIndex( linkToScalarParameter.getItems( ),
 									paramerHandle.getQualifiedName( ) ) );
 						}
 					}
@@ -2178,10 +2178,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 						true );
 			}
 			ParameterHandle currentHandle = null;
-			if ( !linkToSalarParameter.getText( )
+			if ( !linkToScalarParameter.getText( )
 					.equals( Messages.getString( "DataSetParametersPage.reportParam.None" ) ) )
 			{
-				currentHandle = ParameterPageUtil.getScalarParameter( linkToSalarParameter.getText( ),
+				currentHandle = ParameterPageUtil.getScalarParameter( linkToScalarParameter.getText( ),
 						true );
 			}
 			
@@ -2310,7 +2310,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		}
 
 		/*
-		 * necessary in two scenarios 1. linkToSalarParameter 2. okPressed
+		 * necessary in two scenarios 1. linkToScalarParameter 2. okPressed
 		 */
 		private Status updateStructureHandle( )
 		{
@@ -2325,9 +2325,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 							DataSetParameter.DEFAULT_VALUE_MEMBER );
 
 				if ( isOdaDataSetHandle )
-					( (OdaDataSetParameterHandle) structureHandle ).setParamName( Utility.findIndex( linkToSalarParameter.getItems( ),
-							linkToSalarParameter.getText( ) ) == 0 ? null
-							: linkToSalarParameter.getText( ) );
+					( (OdaDataSetParameterHandle) structureHandle ).setParamName( Utility.findIndex( linkToScalarParameter.getItems( ),
+							linkToScalarParameter.getText( ) ) == 0 ? null
+							: linkToScalarParameter.getText( ) );
 			}
 			catch ( SemanticException e )
 			{
@@ -2407,7 +2407,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		private boolean isMatchedParamDataType( )
 		{
 			String dataSetParamType = ParameterPageUtil.getTypeName( dataType.getText( ) );
-			ScalarParameterHandle scalarParam = ParameterPageUtil.getScalarParameter( linkToSalarParameter.getText( ),
+			ScalarParameterHandle scalarParam = ParameterPageUtil.getScalarParameter( linkToScalarParameter.getText( ),
 					false );
 			if ( dataSetParamType != null && scalarParam != null )
 			{
@@ -2454,7 +2454,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				if ( isOdaDataSetHandle )
 				{
 					enableComposite( reportParamComposite, false );
-					linkToSalarParameter.select( 0 );
+					linkToScalarParameter.select( 0 );
 				}
 			}
 			else
@@ -2462,7 +2462,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				if ( isOdaDataSetHandle )
 				{
 					enableComposite( reportParamComposite, true );
-					linkToSalarParameterChanged( );
+					linkToScalarParameterChanged( );
 				}
 				else
 				{
@@ -2471,16 +2471,16 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			}
 		}
 
-		private void linkToSalarParameterChanged( )
+		private void linkToScalarParameterChanged( )
 		{
-			String paramName = Utility.findIndex( linkToSalarParameter.getItems( ),
-					linkToSalarParameter.getText( ) ) == 0 ? null
-					: linkToSalarParameter.getText( );
+			String paramName = Utility.findIndex( linkToScalarParameter.getItems( ),
+					linkToScalarParameter.getText( ) ) == 0 ? null
+					: linkToScalarParameter.getText( );
 
 			if ( paramName == null )
 			{
 				enableComposite( defaultValueComposite,
-						linkToSalarParameter.isEnabled( ) );
+						linkToScalarParameter.isEnabled( ) );
 				defaultValueText.setText( defaultValueString );
 			}
 			else
@@ -2497,7 +2497,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 		private void checkParameterButtonTooltip( )
 		{
-			ParameterHandle handle = ParameterPageUtil.getScalarParameter( linkToSalarParameter.getText( ),
+			ParameterHandle handle = ParameterPageUtil.getScalarParameter( linkToScalarParameter.getText( ),
 					false );
 			if ( parameterButton != null && !parameterButton.isDisposed( ) )
 			{
