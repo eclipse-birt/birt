@@ -583,7 +583,11 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public boolean isSaveAsAllowed( )
 	{
-		return getActivePageInstance( ).isSaveAsAllowed( );
+		if ( getActivePageInstance( ) != null )
+		{
+			return getActivePageInstance( ).isSaveAsAllowed( );
+		}
+		return false;
 	}
 
 	// /*

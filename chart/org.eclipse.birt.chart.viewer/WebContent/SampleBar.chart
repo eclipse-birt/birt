@@ -593,7 +593,7 @@
             <Action>
               <Type>URL_Redirect</Type>
               <Value xsi:type="attribute:URLValue">
-                <BaseUrl>drill/bugDetail.jsp _blank</BaseUrl>
+                <BaseUrl>drill/bugDetail.jsp</BaseUrl>
                 <BaseParameterName>component</BaseParameterName>
                 <ValueParameterName></ValueParameterName>
                 <SeriesParameterName></SeriesParameterName>
