@@ -2619,6 +2619,23 @@ public class DataRequestSessionImpl extends DataRequestSession
 	}
 
 	/**
+	 * 
+	 * @param session
+	 * @param dim
+	 * @param hierHandle
+	 * @param metaList
+	 * @param cubeName
+	 * @return
+	 * @throws BirtException
+	 */
+	QueryDefinition createDimensionQuery(
+			DataRequestSessionImpl session, DimensionHandle dim, TabularHierarchyHandle hierHandle,
+			List metaList, String cubeName ) throws BirtException
+	{
+		return this.createDimensionQuery( session, dim, hierHandle, metaList, cubeName, null );
+	}
+	
+	/**
 	 * Create a query definition for an Hierarchy.
 	 *
 	 * @param session
@@ -2629,7 +2646,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	QueryDefinition createDimensionQuery(
 			DataRequestSessionImpl session, DimensionHandle dim, TabularHierarchyHandle hierHandle,
-			List metaList, String cubeName ) throws BirtException
+			List metaList, String cubeName, String levelColumnName ) throws BirtException
 	{
 		assert metaList!= null;
 		QueryDefinition query = new CubeCreationQueryDefinition( );
@@ -2639,7 +2656,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		query.setName( cubeName );
 
 		prepareLevels( query,
-				hierHandle, metaList, null, null, false );
+				hierHandle, metaList, null, levelColumnName, false );
 
 		DataRequestSessionImpl.popualteFilter( session, DataRequestSessionImpl.getFilterIterator( hierHandle ), query );
 		
