@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.wpml.writer;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -607,34 +604,58 @@ public abstract class AbstractWordXmlWriter
 			}
 		}
 
-		writer.openTag( "w:t" );
-
-		Pattern p = Pattern.compile( "\r|\n" );
-		Matcher m = p.matcher( txt );
-		int length = txt.length( );
-		int index = 0;
-		while ( m.find( index ) )
-		{
-			int start = m.start( );
-			if ( start > index )
-			{
-				writer.cdata("<![CDATA[" + txt.substring( index, start )+ "]]>");
-			}
-
-			int end = m.end( );
-			if (txt.charAt( end - 1 ) != '\r' || end == length
-					||  txt.charAt( end ) != '\n' )
-			{
+		writer.openTag("w:t");
+		writer.attribute("xml:space", "preserve");
+		int length = txt.length();
+		int start = 0;
+		int end = 0;
+		while (end < length) {
+			char ch = txt.charAt(end);
+			if (ch == '\r' || ch == '\n') {
+				// output previous text
+				writeText(txt.substring(start, end));
 				writer.cdata("<w:br/>");
+				start = end + 1;
+				if (ch == '\r' && start < length && txt.charAt(start) == '\n') {
+					start++;
+				}
+				end = start + 1;
+				continue;
 			}
-			index = end;
+			end++;
 		}
-		if ( index < length )
-		{
-			writer.cdata("<![CDATA[" +  txt.substring( index ) + "]]>");
-		}
+		writeText(txt.substring(start));
 
-		writer.closeTag( "w:t" );
+		writer.closeTag("w:t");
+	}
+	
+	/**
+	 * Word have extra limitation on text in run:
+	 * a. it must following xml format.
+	 * b. no ]]>
+	 * so , we need replace all &, <,> in the text
+	 * @param text
+	 */
+	private void writeText(String text) {
+		int length = text.length();
+		StringBuilder sb = new StringBuilder(length * 2);
+		for (int i = 0; i < length; i++) {
+			char ch = text.charAt(i);
+			switch (ch) {
+			case '&':
+				sb.append("&amp;");
+				break;
+			case '>':
+				sb.append("&gt;");
+				break;
+			case '<':
+				sb.append("&lt;");
+				break;
+			default:
+				sb.append(ch);
+			}
+		}
+		writer.cdata(sb.toString());
 	}
 
 	private void writeLetterSpacing( IStyle style )

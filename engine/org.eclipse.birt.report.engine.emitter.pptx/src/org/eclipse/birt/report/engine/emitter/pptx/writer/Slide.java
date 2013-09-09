@@ -169,12 +169,40 @@ public class Slide extends Component
 		setTextProperty( fontName, fontSize, fontStyle, color, isUnderline,
 				isLineThrough, link );
 		writer.openTag( "a:t" );
-		writer.text( text );
+		writeText(text);
 		writer.closeTag( "a:t" );
 		writer.closeTag( "a:r" );
 		writer.closeTag( "a:p" );
 		writer.closeTag( "p:txBody" );
 		writer.closeTag( "p:sp" );
+	}
+	
+	/**
+	 * Word have extra limitation on text in run: a. it must following xml
+	 * format. b. no ]]> so , we need replace all &, <,> in the text
+	 * 
+	 * @param text
+	 */
+	private void writeText(String text) {
+		int length = text.length();
+		StringBuilder sb = new StringBuilder(length * 2);
+		for (int i = 0; i < length; i++) {
+			char ch = text.charAt(i);
+			switch (ch) {
+			case '&':
+				sb.append("&amp;");
+				break;
+			case '>':
+				sb.append("&gt;");
+				break;
+			case '<':
+				sb.append("&lt;");
+				break;
+			default:
+				sb.append(ch);
+			}
+		}
+		writer.cdata(sb.toString());
 	}
 
 	public void drawImage( String uri, String extension, int imageX,
