@@ -44,6 +44,18 @@ Select Consistent Request Session to use the same MongoDB connection for all dat
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForMongoDBDataSource.html" label="How to create a MongoDB data source"/>
 </context>
 
+<context id="Wizard_Hive_Datasource_ID" title="Data Source - Hive Data Source">
+<!-- Added jaht 20130908 -->
+<description>
+Use this page to define the connection properties for a Hive data source.
+
+Type the URI to access the Hive data source and the login credentials.
+
+Optionally, type one or more Add File statements to add script files to the Hadoop distributed cache. Separate each Add File statement with a semicolon.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForHiveDataSource.html" label="How to create a Hive data source"/>
+</context>
+
 <context id="Wizard_MongoDB_Dataset_ID" title="MongoDB Data Set - Query">
 <!-- Added jaht 20130908 -->
 <description>
