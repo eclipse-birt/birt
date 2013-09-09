@@ -201,16 +201,53 @@ public class ExcelUtil
 		return true;
 	}
 
+	/**
+	 * format the date with default time zone
+	 * 
+	 * @param data
+	 * @return
+	 */
 	public static String formatDate( Object data )
 	{
-		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH );
+		return formatDate( data, null );
+	}
+
+	/**
+	 * format the date with defined time zone.
+	 * 
+	 * @param data
+	 * @param timeZone
+	 * @return
+	 */
+	public static String formatDate( Object data, TimeZone timeZone )
+	{
 		Date date = getDate( data );
 		if ( date == null )
 		{
 			return null;
 		}
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH );
+		if ( timeZone != null && needAdjustWithTimeZone( date ) )
+		{
+			dateFormat.setTimeZone( timeZone );
+		}
 		return dateFormat.format( date );
+	}
+
+	/**
+	 * test if the output need adjust with time zone.
+	 * 
+	 * @param date
+	 * @return
+	 */
+	protected static boolean needAdjustWithTimeZone( Date date )
+	{
+		if ( date instanceof java.sql.Date )
+		{
+			return false;
+		}
+		return true;
 	}
 
 	public static Date getDate( Object data )
