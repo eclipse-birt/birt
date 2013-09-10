@@ -50,7 +50,7 @@
                     <structure name="action">
                         <expression name="hyperlink">http://localhost:8080/</expression>
                     </structure>
-                    <property name="role">div</property>
+                    <property name="tagType">p</property>
 		            <property name="language">English</property>
 		            <property name="altText">Alt Text</property>
 		            <property name="order">1</property>

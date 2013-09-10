@@ -242,7 +242,7 @@
 					<method name="onPrepare"><![CDATA[prepare on the row]]></method>
 					<method name="onCreate"><![CDATA[create on the row]]></method>
 					<method name="onRender"><![CDATA[render on the row]]></method>	
-					 <property name="role">TR</property>
+					 <property name="tagType">TR</property>
             		<property name="language">English</property>
                     <cell>
 						<property name="eventHandlerClass">birt.js.myDetailCellHandler</property>
@@ -279,7 +279,7 @@
                     </cell>
                 </row>
             </footer>
-             <property name="role">Table</property>
+             <property name="tagType">Table</property>
             <property name="language">English</property>
             <property name="order">1</property>
         </table>

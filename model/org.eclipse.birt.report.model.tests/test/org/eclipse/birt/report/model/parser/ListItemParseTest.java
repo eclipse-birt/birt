@@ -133,7 +133,7 @@ public class ListItemParseTest extends ParserTestCase
 		assertEquals( "my list on render", listHandle.getOnRender( ) ); //$NON-NLS-1$
 		assertEquals( "my list on page break", listHandle.getOnPageBreak( ) ); //$NON-NLS-1$
 		
-		assertEquals( "Sect", listHandle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "Sect", listHandle.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", listHandle.getLanguage( ) ); //$NON-NLS-1$
 		assertEquals( "Alt Text", listHandle.getAltText( ) ); //$NON-NLS-1$
 
@@ -260,7 +260,7 @@ public class ListItemParseTest extends ParserTestCase
 		ListItem list2 = (ListItem) design.findElement( "My List2" ); //$NON-NLS-1$
 		ListHandle list2Handle = list2.handle( design );
 		// test default value of Role in Text
-		assertEquals( "sect", list2Handle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "sect", list2Handle.getTagType( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -282,7 +282,7 @@ public class ListItemParseTest extends ParserTestCase
 		listHandle.setPageBreakInterval( 100 );
 		listHandle.setOnPageBreak( "new list page break" );//$NON-NLS-1$
 		
-		listHandle.setRole( "Sect" ); //$NON-NLS-1$
+		listHandle.setTagType( "Sect" ); //$NON-NLS-1$
 		listHandle.setLanguage( "English" ); //$NON-NLS-1$
 		listHandle.setAltText( "Alt Text" ); //$NON-NLS-1$
 
