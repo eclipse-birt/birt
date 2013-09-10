@@ -161,6 +161,7 @@ public class DataSessionContext
 			this.mode = mode;
 			this.moduleHandle = moduleHandle;
 			this.appClassLoader = classLoader;
+			this.hasExternalScope = scriptContext != null;
 			ScriptContext internalScriptContext = null;
 			if ( scriptContext == null )
 			{
@@ -171,7 +172,6 @@ public class DataSessionContext
 			}
 			this.sContext = scriptContext;
 			this.topScope = ( (IDataScriptEngine) scriptContext.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( scriptContext );
-			this.hasExternalScope = topScope != null;
 		}
 		catch ( BirtException e )
 		{
