@@ -10,10 +10,13 @@ import java.util.Set;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.Activator;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 
 public class DataModelAdapterUtil 
 {
@@ -171,5 +174,10 @@ public class DataModelAdapterUtil
 				}
 			}
 		}
+	}
+	
+	public static IStatus validateRelativeTimePeriod( ReportItemHandle reportItemHandle, ComputedColumnHandle computedColumnHandle )
+	{
+		return new Status( IStatus.OK, Activator.PLUGIN_ID, "" );
 	}
 }
