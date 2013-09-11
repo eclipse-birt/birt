@@ -58,6 +58,14 @@
                     <property name="color">yellow</property>
                 </structure>
             </list-property>                        
+        </style>       
+         <style name="My-Style4">
+            <property name="fontWeight">lighter</property>     
+ 			<list-property name="highlightRules">
+                <structure>
+                    <property name="lineHeight">10in</property>
+                </structure>
+            </list-property>                        
         </style>        
     </styles>
     <page-setup>
