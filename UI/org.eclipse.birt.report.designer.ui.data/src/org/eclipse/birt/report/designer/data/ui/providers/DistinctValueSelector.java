@@ -83,6 +83,16 @@ public class DistinctValueSelector
 			DataSetHandle dataSetHandle, boolean useDataSetFilter )
 			throws BirtException
 	{
+		return getSelectValueList1( expression,
+				dataSetHandle.getRoot( ),
+				dataSetHandle,
+				useDataSetFilter );
+	}
+	
+	
+	private static List getSelectValueList1( Expression expression, ModuleHandle moduleHandle, 
+			DataSetHandle dataSetHandle, boolean useDataSetFilter ) throws BirtException
+	{
 		ScriptExpression expr = null;
 		DataSetHandle targetHandle = dataSetHandle;
 		Map appContext = new HashMap( );
@@ -90,11 +100,11 @@ public class DistinctValueSelector
 
 		try
 		{
+			ModuleHandle targetModuleHandle = moduleHandle;
 			if ( !useDataSetFilter )
 			{
-				ModuleHandle moduleHandle = ( (Module) dataSetHandle.getRoot( )
-						.copy( ) ).getModuleHandle( );
-				SlotHandle dataSets = moduleHandle.getDataSets( );
+				targetModuleHandle = ( (Module) moduleHandle.copy( ) ).getModuleHandle( );
+				SlotHandle dataSets = targetModuleHandle.getDataSets( );
 				for ( int i = 0; i < dataSets.getCount( ); i++ )
 				{
 					if ( dataSetHandle.getName( ).equals( dataSets.get( i )
@@ -111,7 +121,7 @@ public class DistinctValueSelector
 					PreviewType.RESULTSET );
 			
 			DataModelAdapter adapter = new DataModelAdapter( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					targetHandle.getModuleHandle( ) ) );
+					targetModuleHandle ) );
 			expr = adapter.adaptExpression( expression );
 
 			boolean startsWithRow = ExpressionUtility.isColumnExpression( expr.getText( ),
@@ -174,6 +184,14 @@ public class DistinctValueSelector
 	}
 	
 	
+	public static List getSelectValueList( Expression expression, ModuleHandle moduleHandle, 
+			DataSetHandle dataSetHandle, boolean useDataSetFilter ) throws BirtException
+	{
+		return getSelectValueList1( expression, moduleHandle, dataSetHandle, useDataSetFilter );
+	}
+			
+		
+	
 	private static EngineConfig getEngineConfig( ModuleHandle handle )
 	{
 		EngineConfig ec = new EngineConfig( );
@@ -204,6 +222,16 @@ public class DistinctValueSelector
 			Iterator groupIterator, boolean useDataSetFilter )
 			throws BirtException
 	{
+		return getSelectValueFromBinding1( expression,
+				dataSetHandle, dataSetHandle.getModuleHandle( ), binding,
+				groupIterator, useDataSetFilter ); 
+	}
+	
+	private static List getSelectValueFromBinding1( Expression expression,
+			DataSetHandle dataSetHandle, ModuleHandle moduleHandle, Iterator binding,
+			Iterator groupIterator, boolean useDataSetFilter )
+			throws BirtException
+	{
 		String columnName = null;
 		List bindingList = new ArrayList( );
 
@@ -224,11 +252,11 @@ public class DistinctValueSelector
 		Collection result = null;
 		DataRequestSession session = null;
 		if ( dataSetHandle != null
-				&& ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle ) )
+				&& ( moduleHandle instanceof ReportDesignHandle ) )
 		{
 			EngineConfig config = new EngineConfig( );
 
-			ReportDesignHandle copy = (ReportDesignHandle) ( dataSetHandle.getModuleHandle( )
+			ReportDesignHandle copy = (ReportDesignHandle) ( moduleHandle
 					.copy( ).getHandle( null ) );
 
 			config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
@@ -315,4 +343,17 @@ public class DistinctValueSelector
 		result.remove( null );
 		return new ArrayList( result );
 	}
+	
+	
+	public static List getSelectValueFromBinding( Expression expression,
+			ModuleHandle moduleHandle, DataSetHandle dataSetHandle, 
+			Iterator binding,
+			Iterator groupIterator, boolean useDataSetFilter ) throws BirtException
+	{
+		return getSelectValueFromBinding1( expression,
+				dataSetHandle, moduleHandle, binding,
+				groupIterator, useDataSetFilter );
+	}
+	
+	
 }
