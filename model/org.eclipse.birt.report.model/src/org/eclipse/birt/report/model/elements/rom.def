@@ -1347,7 +1347,10 @@
 	<Member displayNameID="Structure.HighlightRule.padding.left" name="paddingLeft" since="1.0" type="dimension"/>
 	<Member displayNameID="Structure.HighlightRule.padding.bottom" name="paddingBottom" since="1.0" type="dimension"/>
 	<Member displayNameID="Structure.HighlightRule.padding.right" name="paddingRight" since="1.0" type="dimension"/>
-	<Member detailType="backgroundRepeat" displayNameID="Structure.HighlightRule.backgroundRepeat" name="backgroundRepeat" since="2.3" type="choice" />       
+	<Member detailType="backgroundRepeat" displayNameID="Structure.HighlightRule.backgroundRepeat" name="backgroundRepeat" since="2.3" type="choice" />  
+	<Member detailType="normal" displayNameID="Structure.HighlightRule.lineHeight" name="lineHeight" since="4.3" type="dimension" validator="NonNegativeValueValidator">
+        <Default>normal</Default>
+    </Member>     
   </Structure>
   <Structure displayNameID="Structure.CustomColor" name="CustomColor" since="reserved">
     <Member displayNameID="Structure.CustomColor.name" isIntrinsic="true" name="name" runtimeSettable="false" since="reserved" type="name" valueRequired="true"/>

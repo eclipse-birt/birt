@@ -2876,6 +2876,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				property( rule, StyleRule.VALUE2_MEMBER );
 
 				property( rule, HighlightRule.STYLE_MEMBER );
+				
+				//line height
+				property( rule, HighlightRule.LINE_HEIGHT_MEMBER );
 
 				writer.endElement( );
 			}
