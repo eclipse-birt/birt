@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.data.function.layout.IArgume
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 /**
@@ -71,6 +72,30 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 				groupIterator,
 				useDataSetFilter );
 	}
+	
+	public List getSelectValueFromBinding( Expression expression,
+			ModuleHandle moduleHandle, DataSetHandle dataSetHandle, 
+			Iterator binding,
+			Iterator groupIterator, boolean useDataSetFilter )
+			throws BirtException
+	{
+		return DistinctValueSelector.getSelectValueFromBinding( expression,
+				moduleHandle,
+				dataSetHandle,
+				binding,
+				groupIterator,
+				useDataSetFilter );
+	}
+
+	public List getSelectValueList( Expression expression,
+			ModuleHandle moduleHandle, DataSetHandle dataSetHandle,
+			boolean useDataSetFilter ) throws BirtException
+	{
+		return DistinctValueSelector.getSelectValueList( expression,
+				moduleHandle,
+				dataSetHandle,
+				useDataSetFilter );
+	}	
 
 	public void registerSession( DataSetHandle handle,
 			DataRequestSession session ) throws BirtException
@@ -203,5 +228,5 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 				layoutarguments.add( new ArgumentLayout( IArgumentInfo.PERIOD_1,ArgumentLayout.ALIGN_INLINE_NONE));
 			}
 			return layoutarguments;
-	}	
+	}
 }
