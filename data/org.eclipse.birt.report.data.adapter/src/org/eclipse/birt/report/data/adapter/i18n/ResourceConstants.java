@@ -37,6 +37,7 @@ public class ResourceConstants
 	public final static String INVALID_MEASURE_EXPRESSION = "invalid.measure.expression";
 	public final static String INVALID_DATA_TYPE = "invlid.data.type"; 
 	public final static String INVALID_BINDING_EXPRESSION = "invalid.binding.expression";
+	public final static String INVALID_COMPUTED_EXPRESSION  = "invalid.computedColumn.expression";
 	public final static String CUBE_HIERARCHY_CREATION_ERROR = "cube.error.createhierarchy";
 	public final static String CUBE_DIMENSION_CREATION_ERROR = "cube.error.createdimension";
 	public final static String CUBE_MEASURE_CREATION_ERROR = "cube.error.createmeasure";
