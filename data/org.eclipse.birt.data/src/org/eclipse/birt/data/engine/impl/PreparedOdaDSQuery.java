@@ -343,14 +343,16 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 							&& computedColumnsMap.get( extDataSet.getName( ) ) != null )
 					{
 						List computedColumns = extDataSet.getComputedColumns( );
+						List toBeRemovedComputedColumns = new ArrayList();
 						for ( int i = 0; i < computedColumns.size( ); i++ )
 						{
 							if ( computedColumnsMap.get( extDataSet.getName( ) )
 									.contains( ( (IComputedColumn) computedColumns.get( i ) ).getName( ) ) )
 							{
-								computedColumns.remove( i );
+								toBeRemovedComputedColumns.add( computedColumns.get( i ) );
 							}
 						}
+						computedColumns.removeAll( toBeRemovedComputedColumns );
 					}
 
 					List<IColumnDefinition> resultSets = queryOptimizeHints.getResultSetsForCombinedQuery( );
