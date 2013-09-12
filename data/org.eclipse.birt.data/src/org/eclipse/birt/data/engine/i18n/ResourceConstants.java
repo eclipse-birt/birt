@@ -435,5 +435,5 @@ public class ResourceConstants
 	public final static String FAIL_PUSH_DOWM_FILTER = "data.filter.pushDownFail";
 	
 	public final static String  CANNOT_EXEC_QUERY_INVALEXPR_INVALCOLUMN= "data.query.exprReferInvalidColumn";
-
+	public final static String INVALID_BINDING="data.query.invalidColumnBinding";
 }
