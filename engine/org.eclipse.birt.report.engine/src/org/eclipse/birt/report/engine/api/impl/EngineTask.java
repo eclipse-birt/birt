@@ -209,6 +209,8 @@ public abstract class EngineTask implements IEngineTask
 	
 	protected String[] userAcls;
 	
+	protected String cancelReason;
+	
 	private ResourceLocatorWrapper resourceLocator;
 	
 	/**
@@ -1365,6 +1367,12 @@ public abstract class EngineTask implements IEngineTask
 		}
 		disposeResourceLocator( );
 		changeStatusToStopped();
+	}
+	
+	public void cancelBy( String reason )
+	{
+		cancelReason = reason;
+		cancel( );
 	}
 
 	public void cancel( Object signal )

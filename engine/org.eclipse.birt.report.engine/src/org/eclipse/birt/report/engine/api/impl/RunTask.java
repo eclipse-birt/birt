@@ -295,9 +295,12 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			}
 			if ( getStatus( ) == IEngineTask.STATUS_CANCELLED )
 			{
-				String cancelReason = new EngineResourceHandle(
-					ULocale.forLocale( getLocale( ) ) )
+				if ( cancelReason == null )
+				{
+					cancelReason = new EngineResourceHandle(
+							ULocale.forLocale( getLocale( ) ) )
 							.getMessage( MessageConstants.TASK_CANCEL );
+				}
 				errList.add( cancelReason );
 			}
 			if ( !errList.isEmpty( ) )
