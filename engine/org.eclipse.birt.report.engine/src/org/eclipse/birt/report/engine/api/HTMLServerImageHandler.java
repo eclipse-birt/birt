@@ -99,6 +99,20 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 	}
 
 	/**
+	 * returns a unique file name based on a directory and name prefix
+	 * 
+	 * @param imageDir
+	 *            directory to store the image
+	 * @param prefix
+	 *            prefix for the file name
+	 * @return a file name
+	 */
+	protected String createUniqueFileName( String imageDir, String prefix )
+	{
+		return createUniqueFileName( imageDir, prefix, null );
+	}
+	
+	/**
 	 * creates a unique tempoary file to store an image
 	 * 
 	 * @param imageDir
