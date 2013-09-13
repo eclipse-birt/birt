@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Excerpts from BIRT Field Guide" >
@@ -112,9 +112,9 @@
     <topic label="How to filter at the report element level" href="birt/fl-HowToFilterAtTheReportElementLevel.html" />
     <topic label="How to filter at the group level" href="birt/fl-HowToFilterAtTheGroupLevel.html" />
     </topic>
-  <topic label="Enabling the User to Filter Data " href="birt/rp-HowToDefineADataSetParameter.html" >
-    <topic label="How to create a basic report parameter" href="birt/rp-HowToDefineADataSetParameter.html#258758" />
-    <topic label="How to insert a parameter marker in the SQL query" href="birt/rp-HowToDefineADataSetParameter.html#192655" />
+  <topic label="Enabling the User to Filter Data " href="birt/rp-EnablingTheUserToFilterData.html" >
+    <topic label="How to create a basic report parameter" href="birt/rp-HowToCreateABasicReportParameter.html" />
+    <topic label="How to insert a parameter marker in the SQL query" href="birt/rp-HowToDefineADataSetParameter.html" />
     <topic label="How to define a data set parameter" href="birt/rp-HowToDefineADataSetParameter.html#511214" />
     <topic label="How to update a filter condition dynamically when the report runs" href="birt/rp-HowToUpdateAFilterConditionDynamicallyWhenTheReportRuns.html" />
     </topic>
@@ -137,7 +137,7 @@
       </topic>
       </topic>
   <topic label="Using a Chart" href="birt/ch-UsingAChartIntro.html" >
-    <topic label="Tutorial 4: unique riser Creating a stand-alone chart" href="birt/ch-ChartsTutorialIntro.html" >
+    <topic label="Tutorial 4: Creating a stand-alone chart" href="birt/ch-ChartsTutorialIntro.html" >
       <topic label="Task 1: Set up and query the data source" href="birt/ch-TutT1QueryTheDataSource.html" />
       <topic label="Task 2: Add the chart to the report" href="birt/ch-TutT2AddTheChartToTheReport.html" />
       <topic label="Task 3: Provide data for a chart" href="birt/ch-TutT3ProvideDataForAChart.html" />
@@ -152,14 +152,12 @@
     </topic>
   <topic label="Laying Out and Formatting a Chart" href="birt/cf-LayingOutAndFormattingAChartIntro.html" >
     <topic label="Overview of formatting" href="birt/cf-OverviewOfFormatting.html" >
-      <topic label="" href="birt/ChartFormatting.15.3.html" >
-        <topic label="How to set a chart’s background color" href="birt/cf-HowToSetAChartBackgroundColor.html" />
-        <topic label="How to modify the plot area" href="birt/cf-HowToModifyThePlotArea.html" />
-        <topic label="How to format an axis title" href="birt/cf-HowToFormatAnAxisTitle.html" />
-        <topic label="How to set the data type and format of an axis" href="birt/cf-HowToSetTheDataTypeAndFormatOfAnAxis.html" />
-        </topic>
-        </topic>
-        </topic>
+      <topic label="How to set a chart’s background color" href="birt/cf-HowToSetAChartBackgroundColor.html" />
+      <topic label="How to modify the plot area" href="birt/cf-HowToModifyThePlotArea.html" />
+      <topic label="How to format an axis title" href="birt/cf-HowToFormatAnAxisTitle.html" />
+      <topic label="How to set the data type and format of an axis" href="birt/cf-HowToSetTheDataTypeAndFormatOfAnAxis.html" />
+      </topic>
+      </topic>
   <topic label="Presenting Data in a Cross Tab" href="birt/ct-PresentingDataInACrossTabIntro.html" >
     <topic label="Tutorial 5: Creating a cross tab" href="birt/ct-CrosstabTutorialIntro.html" >
       <topic label="Task 1: Create a new report" href="birt/ct-TutT1CreateANewReport.html" />
@@ -220,9 +218,9 @@
       </topic>
     <topic label="Calling external JavaScript functions" href="birt/ScriptingWithJavaScript.22.11.html" />
     </topic>
-  <topic label="Using Java to Write an Event Handler" href="birt/ScriptingWithJava.html" >
-    <topic label="How to create an event handler class and add it to the Java project" href="birt/ScriptingWithJava.html#182543" />
-    <topic label="How to associate a Java class with a report element" href="birt/ScriptingWithJava.html#190654" />
+  <topic label="Using Java to Write an Event Handler" href="birt/ScriptingWithJava.23.1.html" >
+    <topic label="How to create an event handler class and add it to the Java project" href="birt/ScriptingWithJava.23.2.html" />
+    <topic label="How to associate a Java class with a report element" href="birt/ScriptingWithJava.23.3.html" />
     </topic>
   <topic label="Scripting Reference" href="birt/ScriptingReference.24.1.html" >
     <topic label="BIRT JavaScript classes quick reference" href="birt/ScriptingReference.24.2.html" />

@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
-    <title>Creating a stand-alone chart</title>
-    <link rel="StyleSheet" href="css/ChartBasics.css" type="text/css" media="all" />
+    <title>Enabling&nbsp;the&nbsp;User to&nbsp;Filter&nbsp;Data&nbsp;</title>
+    <link rel="StyleSheet" href="css/parameter.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="webworks.css" type="text/css" media="all" />
     <script type="text/javascript" language="JavaScript1.2">
@@ -20,29 +20,30 @@
       <table cellspacing="0" summary="">
         <tr>
           <td>
-            <a href="ch-UsingAChartIntro.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
+            <a href="fl-HowToFilterAtTheGroupLevel.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
           </td>
           <td>
-            <a href="ch-TutT1QueryTheDataSource.html"><img src="images/next.gif" alt="Next" border="0" /></a>
+            <a href="rp-HowToCreateABasicReportParameter.html"><img src="images/next.gif" alt="Next" border="0" /></a>
           </td>
         </tr>
       </table>
     </div>
     <hr align="left" />
     <blockquote>
-      <h2 class="N_Tutorial">Tutorial 4:&nbsp;&nbsp;<span style="font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-weight: normal"><a name="265900"> </a></span>Creating a stand-alone chart</h2>
-      <p class="b_Body"><a name="265985">The tutorial provides step-by-step instructions to build a report that displays order totals organized by product line. The report presents information graphically in a pie chart. In this case, the chart is the entire report. </a></p>
-      <p class="b1i_Bullet1-intro"><a name="221963">To create a chart, complete the following tasks: </a></p>
+      <h2 class="zTitleChapter"><a name="475215">Enabling&nbsp;the&nbsp;User to&nbsp;Filter&nbsp;Data&nbsp;</a></h2>
+      <p class="b_Body"><a name="475220">When you create a report, you build a data set and typically specify filter criteria to display a certain set of data in the report. When a user views the report, the user sees the information that you selected. As users become familiar with the report and recognize its potential as an analytical tool, they may want to view the data in different ways. For example, in a sales report, a user may want to view only sales in a particular region, or sales over a certain amount, or sales that closed in the last 30 days.</a></p>
+      <p class="b_Body"><a name="140779">The solution for this type of ad hoc reporting requirement is for the report to prompt the user to provide information that determines what data to display. You make this solution available by creating report parameters.</a></p>
+      <p class="b1i_Bullet1-intro"><a name="258724">To enable users to filter database data, </a>complete the following tasks in the recommended order. For detailed information about these tasks, see the corresponding topics later in this section.</p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
+              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
                 <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="166932">Set up the report design file and data. Create a new report, data source, and data set. </a></div>
+              <div class="b1_Bullet1_inner"><a name="258726">Create report parameters to prompt the user to specify values that determine what rows to retrieve.</a></div>
             </td>
           </tr>
         </table>
@@ -51,12 +52,12 @@
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
+              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
                 <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="166944">Add the chart element to the report design. Insert a chart element into a report and select a chart type. </a></div>
+              <div class="b1_Bullet1_inner"><a name="258702">Insert parameter markers in the SQL query.</a></div>
             </td>
           </tr>
         </table>
@@ -65,12 +66,12 @@
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
+              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
                 <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="260863">Provide data for the chart. Link the chart to a data set and build the expressions that the chart uses.</a></div>
+              <div class="b1_Bullet1_inner"><a name="140317">Create a data set parameter to supply a value for each parameter marker.</a></div>
             </td>
           </tr>
         </table>
@@ -79,12 +80,12 @@
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
+              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
                 <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="260865">Change the chart title.</a></div>
+              <div class="b1_Bullet1_inner"><a name="140336">Bind the data set parameter to the report parameter, so that the data set parameter gets the user-specified value from the report parameter and passes it to the SQL query.</a></div>
             </td>
           </tr>
         </table>
@@ -93,12 +94,12 @@
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
+              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
                 <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="362829">Refine the chart appearance. Remove the chart legend and modify the labels that identify each sector. </a></div>
+              <div class="b1_Bullet1_inner"><a name="140344">Determine how to present the report parameters.</a></div>
             </td>
           </tr>
         </table>
@@ -107,12 +108,12 @@
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
             <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
+              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
                 <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="260228">Preview the chart. </a></div>
+              <div class="b1_Bullet1_inner"><a name="142788">Test the report parameters.</a></div>
             </td>
           </tr>
         </table>

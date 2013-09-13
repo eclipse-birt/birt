@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
-    <title>Providing the ReportDesign.initialize code</title>
-    <link rel="StyleSheet" href="css/ScriptingWithJavaScript.css" type="text/css" media="all" />
+    <title>How to associate a Java class with a report element</title>
+    <link rel="StyleSheet" href="css/ScriptingWithJava.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="webworks.css" type="text/css" media="all" />
     <script type="text/javascript" language="JavaScript1.2">
@@ -20,23 +20,18 @@
       <table cellspacing="0" summary="">
         <tr>
           <td>
-            <a href="ScriptingWithJavaScript.22.02.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
+            <a href="ScriptingWithJava.23.2.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
           </td>
           <td>
-            <a href="ScriptingWithJavaScript.22.04.html"><img src="images/next.gif" alt="Next" border="0" /></a>
+            <a href="ScriptingReference.24.1.html"><img src="images/next.gif" alt="Next" border="0" /></a>
           </td>
         </tr>
       </table>
     </div>
     <hr align="left" />
     <blockquote>
-      <h3 class="N_h2h_Head2Help"><a name="156537">Providing the ReportDesign.initialize code</a></h3>
-      <p class="b_Body"><a name="151626">The following code in the ReportDesign.initialize method creates a file on your hard drive and adds one line to the file.</a></p>
-      <div class="cf_CodeFirst"><a name="151627">importPackage(&nbsp;Packages.java.io&nbsp;);</a></div>
-      <div class="co_Code"><a name="151628">fos = new java.io.FileOutputStream(&nbsp;"c:\\logFile.txt"&nbsp;);</a></div>
-      <div class="co_Code"><a name="151629">printWriter = new java.io.PrintWriter(&nbsp;fos&nbsp;);</a></div>
-      <div class="co_Code"><a name="151630">printWriter.println(&nbsp;"ReportDesign.initialize"&nbsp;);</a></div>
-      <p class="b1i_Bullet1-intro"><a name="151631">The preceding code performs the following tasks:</a></p>
+      <h4 class="N_hth_HowToHelp"><a name="190654">How to associate a Java class with a report element</a></h4>
+      <p class="b_Body"><a name="190655">The steps in this procedure make the following assumptions:</a></p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
@@ -46,7 +41,7 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="151632">Imports the Java package, java.io</a></div>
+              <div class="b1_Bullet1_inner"><a name="190657">A report design is open in the Report Design perspective.</a></div>
             </td>
           </tr>
         </table>
@@ -60,7 +55,7 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="151634">Creates a file output stream for the file you want to create</a></div>
+              <div class="b1_Bullet1_inner"><a name="257261">The report design includes a scriptable report item, such as a label.</a></div>
             </td>
           </tr>
         </table>
@@ -74,12 +69,11 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="151636">Creates a PrintWriter object that every script can use to track script execution sequence</a></div>
+              <div class="b1_Bullet1_inner"><a name="190658">A Java class containing event handler methods for the scriptable report item is visible to BIRT.</a></div>
             </td>
           </tr>
         </table>
       </div>
-      <h4 class="N_ht_HowTo"><a name="151640">How to provide code for the ReportDesign.initialize script</a></h4>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
@@ -89,11 +83,14 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="151643">Choose the Script tab.</a></div>
+              <div class="N_n1_NumList1_inner"><a name="190659">In Outline, select the report element for which an event handler class is visible to BIRT, as shown in </a><a href="#212302" title="How to associate a Java class with a report element">Figure&nbsp;23-6</a>.</div>
             </td>
           </tr>
         </table>
       </div>
+      <p class="i2_Image2"><a name="190663"><img class="Default" src="images/SelectLabel.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 23-6 Selecting a report element" /></a></p>
+      <div class="fc2_FigCall2Title">
+        <b class="Bold">Figure&nbsp;23-6&nbsp;&nbsp;</b><a name="212302">Selecting a report element </a></div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
@@ -103,14 +100,14 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="151648">In Outline, select the top line, as shown in </a><a href="#152861" title="Providing the ReportDesign.initialize code">Figure&nbsp;22-2</a>.</div>
+              <div class="N_n1_NumList1_inner"><a name="190664">In Property Editor, choose Event Handler, as shown in </a><a href="#212318" title="How to associate a Java class with a report element">Figure&nbsp;23-7</a>.</div>
             </td>
           </tr>
         </table>
       </div>
-      <p class="i2_Image2"><a name="151657"><img class="Default" src="images/SelectingReportDesign.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 22-2 Selecting the report design" /></a></p>
+      <p class="i2_Image2"><a name="190725"><img class="Default" src="images/PropertyEditorEventHandler.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 23-7 Event handler properties" /></a></p>
       <div class="fc2_FigCall2Title">
-        <b class="Bold">Figure&nbsp;22-2&nbsp;&nbsp;</b><a name="152861">Selecting the report design</a></div>
+        <b class="Bold">Figure&nbsp;23-7&nbsp;&nbsp;</b><a name="212318">Event handler properties</a></div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
           <tr style="vertical-align: baseline">
@@ -120,7 +117,7 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="151658">In Script, select initialize.</a></div>
+              <div class="N_n1_NumList1_inner"><a name="257270">Choose Browse. Class Selection shows available event handler classes.</a></div>
             </td>
           </tr>
         </table>
@@ -134,14 +131,32 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="151659">Type the code into the script editor, as shown in </a><a href="#152863" title="Providing the ReportDesign.initialize code">Figure&nbsp;22-3</a>.</div>
+              <div class="N_n1_NumList1_inner"><a name="257333">Select the event handler class that extends the BIRT ROM event adapter class, as shown in </a><a href="#257378" title="How to associate a Java class with a report element">Figure&nbsp;23-8</a>. Then, choose OK.</div>
             </td>
           </tr>
         </table>
       </div>
-      <p class="i2_Image2"><a name="151675"><img class="Default" src="images/providingCode.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 22-3 Providing ReportDesign.initialize code" /></a></p>
+      <p class="i2_Image2"><a name="257343"><img class="Default" src="images/EventHandlerSelection.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 23-8 Selecting the event handler class" /></a></p>
       <div class="fc2_FigCall2Title">
-        <b class="Bold">Figure&nbsp;22-3&nbsp;&nbsp;</b><a name="152863">Providing ReportDesign.initialize code</a></div>
+        <b class="Bold">Figure&nbsp;23-8&nbsp;&nbsp;</b><a name="257378">Selecting the event handler class</a></div>
+      <div class="N_i_Indent1"><a name="257297">The fully qualified name of the event handler class appears in Property Editor, as shown in </a><a href="#257672" title="How to associate a Java class with a report element">Figure&nbsp;23-9</a>.</div>
+      <p class="i2_Image2"><a name="257670"><img class="Default" src="images/PropertyEditorEventHandler2.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 23-9 The event handler class name" /></a></p>
+      <div class="fc2_FigCall2Title">
+        <b class="Bold">Figure&nbsp;23-9&nbsp;&nbsp;</b><a name="257672">The event handler class name</a></div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">5&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="298661">Preview the report. The label’s background color is red.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
     </blockquote>
     <hr align="left" />
     <table align="right" summary="">
