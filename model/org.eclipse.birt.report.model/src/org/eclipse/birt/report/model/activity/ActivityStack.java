@@ -1022,6 +1022,10 @@ public class ActivityStack implements CommandStack
 	 */
 	public CompoundRecord getTopTransaction( )
 	{
+		if ( transStack.isEmpty( ) )
+		{
+			return null;
+		}
 		return this.transStack.lastElement( );
 	}
 }
