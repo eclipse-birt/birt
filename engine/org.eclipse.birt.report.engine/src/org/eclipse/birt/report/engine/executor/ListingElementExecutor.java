@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.BandDesign;
@@ -64,20 +66,37 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		super( manager, type );
 	}
 
+	protected int getMaxPageBreakInterval( )
+	{
+		@SuppressWarnings("rawtypes")
+		Map appContext = executorContext.getAppContext( );
+		if ( appContext != null )
+		{
+			Object maxPageBreakObject = appContext
+					.get( EngineConstants.APPCONTEXT_MAX_PAGE_BREAK_INTERVAL );
+			if ( maxPageBreakObject instanceof Number )
+			{
+				return ( (Number) maxPageBreakObject ).intValue( );
+			}
+		}
+		return MAX_PAGE_BREAK_INTERVAL;
+	}
+
 	protected void initializeContent( ReportElementDesign design,
 			IContent content )
 	{
 		super.initializeContent( design, content );
 		pageBreakInterval = ( (ListingDesign) design )
 				.getPageBreakInterval( );
-		if ( pageBreakInterval <= 0 || pageBreakInterval > 10000)
+		int maxPageBreakInterval = getMaxPageBreakInterval( );
+		if ( pageBreakInterval <= 0 || pageBreakInterval > maxPageBreakInterval )
 		{
-			getLogger()
-					.log(Level.WARNING,
-							"Page Break Intervel for listing element "
-									+ this.getInstanceID().toString()
-									+ " is 0 or greater than 10000. Reset it to 10000 to prevent OOM");
-			pageBreakInterval = MAX_PAGE_BREAK_INTERVAL;
+			getLogger( )
+					.log( Level.WARNING,
+							"Page Break Intervel for listing element {0}  is {1}. Reset it to {1} to prevent OOM",
+							new Object[]{getInstanceID( ).toString( ),
+									pageBreakInterval, maxPageBreakInterval} );
+			pageBreakInterval = maxPageBreakInterval;
 		}
 		pageBreakLevel = getPageBreakIntervalGroup();
 		breakOnDetailBand = pageBreakIntervalOnDetail( );
@@ -114,36 +133,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		{
 			return -1;
 		}
-	}
-
-	private boolean isPageBreakIntervalValid( ListingDesign design )
-	{
-		//support summary table
-		if ( design instanceof TableItemDesign )
-		{
-			TableHandle handle = (TableHandle) design.getHandle( );
-			if ( handle.isSummaryTable( ) )
-			{
-				if ( design.getGroupCount( ) > 0 )
-				{
-					return true;
-				}
-			}
-
-		}
-		BandDesign detailBand = design.getDetail( );
-		if ( detailBand == null || detailBand.getContentCount( ) == 0 )
-		{
-			return false;
-		}
-		for ( int i = 0; i < design.getGroupCount( ); i++ )
-		{
-			if ( design.getGroup( i ).getHideDetail( ) )
-			{
-				return false;
-			}
-		}
-		return true;
 	}
 
 	/**

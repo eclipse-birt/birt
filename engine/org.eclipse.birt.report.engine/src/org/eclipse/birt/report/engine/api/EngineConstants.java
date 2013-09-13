@@ -62,4 +62,10 @@ public class EngineConstants {
 	 * the default value is false;
 	 */
 	public static final String REFRESH_DATA = "REFRESH_DATA";
+
+	/**
+	 * the max page break interval limit. It limits maximum page size to avoid
+	 * OOM
+	 */
+	public final static String APPCONTEXT_MAX_PAGE_BREAK_INTERVAL = "MAX_PAGE_BREAK_INTERVAL";
 }

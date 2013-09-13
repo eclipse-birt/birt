@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
-    <title>Using&nbsp;Java&nbsp;to&nbsp;Write&nbsp;an Event&nbsp;Handler</title>
+    <title>How to create an event handler class and add it to the Java project</title>
     <link rel="StyleSheet" href="css/ScriptingWithJava.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="webworks.css" type="text/css" media="all" />
@@ -20,20 +20,17 @@
       <table cellspacing="0" summary="">
         <tr>
           <td>
-            <a href="ScriptingWithJavaScript.22.11.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
+            <a href="ScriptingWithJava.23.1.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
           </td>
           <td>
-            <a href="ScriptingReference.24.1.html"><img src="images/next.gif" alt="Next" border="0" /></a>
+            <a href="ScriptingWithJava.23.3.html"><img src="images/next.gif" alt="Next" border="0" /></a>
           </td>
         </tr>
       </table>
     </div>
     <hr align="left" />
     <blockquote>
-      <h2 class="zTitleChapter"><a name="190206">Using&nbsp;Java&nbsp;to&nbsp;Write&nbsp;an Event&nbsp;Handler</a></h2>
-      <p class="b_Body"><a name="205717">Creating a Java event handler is more complex than creating a JavaScript event handler. You cannot type Java code directly in BIRT Report Designer. </a></p>
-      <p class="b_Body"><a name="255599">To create a Java event handler class, compile the source for the Java class and make the class visible to BIRT. Creating a Java event handler for BIRT is simplified, however, by the fact that Eclipse is a robust Java development environment and supports integrating a Java project with a BIRT project.</a></p>
-      <h4 class="N_ht_HowTo"><a name="182543">How to create an event handler class and add it to the Java project</a></h4>
+      <h4 class="N_hth_HowToHelp"><a name="182543">How to create an event handler class and add it to the Java project</a></h4>
       <p class="b_Body"><a name="182544">This section describes the process for using the Eclipse Java development environment to create an event handler class for a scriptable BIRT element. The steps assume that the Java perspective is open and that a Java project exists in the workspace.</a></p>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
@@ -87,12 +84,12 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n2_NumList2_inner"><a name="315585">Select org.eclipse.birt.core_&lt;version&gt;.jar. Use control-click to select org.eclipse.birt.report.engine_&lt;version&gt;.jar. Choose Open. Java Build Path appears, as shown in </a><a href="#315594" title="Using Java to Write an Event Handler">Figure&nbsp;23-1</a>. Choose OK.</div>
+              <div class="N_n2_NumList2_inner"><a name="315585">Select org.eclipse.birt.core_&lt;version&gt;.jar. Use control-click to select org.eclipse.birt.report.engine_&lt;version&gt;.jar. Choose Open. Java Build Path appears, as shown in </a><a href="#315594" title="How to create an event handler class and add it to the Java project">Figure&nbsp;23-1</a>. Choose OK.</div>
             </td>
           </tr>
         </table>
       </div>
-      <p class="i3_Image3"><a name="315592"><img class="Default" src="images/JavaProjectPropertiesDialog.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 24-1 The report engine JAR file in the build path" /></a></p>
+      <p class="i3_Image3"><a name="315592"><img class="Default" src="images/JavaProjectPropertiesDialog.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 23-1 The report engine JAR file in the build path" /></a></p>
       <div class="fc3_FigCall3TitleFirst">
         <b class="Bold">Figure&nbsp;23-1&nbsp;&nbsp;</b><a name="315594">The report engine JAR file in the build path</a></div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
@@ -216,12 +213,12 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b3_Bullet3_inner"><a name="257017">In Superclass Selection, in Choose a type, type the name of the event adapter class for the ROM element. For example, for a label element, type LabelEventAdapter, as shown in </a><a href="#295509" title="Using Java to Write an Event Handler">Figure&nbsp;23-2</a>.</div>
+              <div class="b3_Bullet3_inner"><a name="257017">In Superclass Selection, in Choose a type, type the name of the event adapter class for the ROM element. For example, for a label element, type LabelEventAdapter, as shown in </a><a href="#295509" title="How to create an event handler class and add it to the Java project">Figure&nbsp;23-2</a>.</div>
             </td>
           </tr>
         </table>
       </div>
-      <p class="i4_Image4"><a name="257021"><img class="Default" src="images/superclassSelection.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 24-2 Selecting a Superclass" /></a></p>
+      <p class="i4_Image4"><a name="257021"><img class="Default" src="images/superclassSelection.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 23-2 Selecting a Superclass" /></a></p>
       <div class="fc4_FigCall4Title">
         <b class="Bold">Figure&nbsp;23-2&nbsp;&nbsp;</b><a name="295509">Selecting a Superclass</a></div>
       <div class="b3_Bullet3_outer" style="margin-left: 28.3464pt">
@@ -247,12 +244,12 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="295512">In New Java Class, select Generate comments. New Java Class appears similar to the one shown in </a><a href="#255894" title="Using Java to Write an Event Handler">Figure&nbsp;23-3</a>. </div>
+              <div class="N_n1_NumList1_inner"><a name="295512">In New Java Class, select Generate comments. New Java Class appears similar to the one shown in </a><a href="#255894" title="How to create an event handler class and add it to the Java project">Figure&nbsp;23-3</a>. </div>
             </td>
           </tr>
         </table>
       </div>
-      <p class="i2_Image2"><a name="255892"><img class="Default" src="images/JavaClass.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 24-3 New Java Class final properties" /></a></p>
+      <p class="i2_Image2"><a name="255892"><img class="Default" src="images/JavaClass.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 23-3 New Java Class final properties" /></a></p>
       <div class="fc2_FigCall2Title">
         <b class="Bold">Figure&nbsp;23-3&nbsp;&nbsp;</b><a name="255894">New Java Class final properties</a></div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
@@ -264,12 +261,12 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="257151">Choose Finish. The Java editor appears, similar to the one shown in </a><a href="#210837" title="Using Java to Write an Event Handler">Figure&nbsp;23-4</a>.</div>
+              <div class="N_n1_NumList1_inner"><a name="257151">Choose Finish. The Java editor appears, similar to the one shown in </a><a href="#210837" title="How to create an event handler class and add it to the Java project">Figure&nbsp;23-4</a>.</div>
             </td>
           </tr>
         </table>
       </div>
-      <p class="i2_Image2"><a name="182568"><img class="Default" src="images/MyLabelClass.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 24-4 The new class in the Java editor" /></a></p>
+      <p class="i2_Image2"><a name="182568"><img class="Default" src="images/MyLabelClass.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 23-4 The new class in the Java editor" /></a></p>
       <div class="fc2_FigCall2Title">
         <b class="Bold">Figure&nbsp;23-4&nbsp;&nbsp;</b><a name="210837">The new class in the Java editor</a></div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
@@ -281,12 +278,12 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="182569">Add the event handler method for the event handler class. Import all required classes. </a><a href="#210863" title="Using Java to Write an Event Handler">Figure&nbsp;23-5</a> shows the addition of an onPrepare(&nbsp;) method that sets the background color of a label to red.</div>
+              <div class="N_n1_NumList1_inner"><a name="182569">Add the event handler method for the event handler class. Import all required classes. </a><a href="#210863" title="How to create an event handler class and add it to the Java project">Figure&nbsp;23-5</a> shows the addition of an onPrepare(&nbsp;) method that sets the background color of a label to red.</div>
             </td>
           </tr>
         </table>
       </div>
-      <p class="i2_Image2"><a name="188765"><img class="Default" src="images/MyLabelClass2.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 24-5 The onPrepare( ) method in the Java editor" /></a></p>
+      <p class="i2_Image2"><a name="188765"><img class="Default" src="images/MyLabelClass2.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 23-5 The onPrepare( ) method in the Java editor" /></a></p>
       <div class="fc2_FigCall2Title">
         <b class="Bold">Figure&nbsp;23-5&nbsp;&nbsp;</b><a name="210863">The onPrepare(&nbsp;) method in the Java editor</a></div>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
@@ -303,140 +300,6 @@
           </tr>
         </table>
       </div>
-      <h4 class="N_ht_HowTo"><a name="190654">How to associate a Java class with a report element</a></h4>
-      <p class="b_Body"><a name="190655">The steps in this procedure make the following assumptions:</a></p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="190657">A report design is open in the Report Design perspective.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="257261">The report design includes a scriptable report item, such as a label.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="190658">A Java class containing event handler methods for the scriptable report item is visible to BIRT.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <span class="zAuto_0023Format">1&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="190659">In Outline, select the report element for which an event handler class is visible to BIRT, as shown in </a><a href="#212302" title="Using Java to Write an Event Handler">Figure&nbsp;23-6</a>.</div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <p class="i2_Image2"><a name="190663"><img class="Default" src="images/SelectLabel.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 24-6 Selecting a report element" /></a></p>
-      <div class="fc2_FigCall2Title">
-        <b class="Bold">Figure&nbsp;23-6&nbsp;&nbsp;</b><a name="212302">Selecting a report element </a></div>
-      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <span class="zAuto_0023Format">2&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="190664">In Property Editor, choose Event Handler, as shown in </a><a href="#212318" title="Using Java to Write an Event Handler">Figure&nbsp;23-7</a>.</div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <p class="i2_Image2"><a name="190725"><img class="Default" src="images/PropertyEditorEventHandler.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 24-7 Event handler properties" /></a></p>
-      <div class="fc2_FigCall2Title">
-        <b class="Bold">Figure&nbsp;23-7&nbsp;&nbsp;</b><a name="212318">Event handler properties</a></div>
-      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <span class="zAuto_0023Format">3&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="257270">Choose Browse. Class Selection shows available event handler classes.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <span class="zAuto_0023Format">4&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="257333">Select the event handler class that extends the BIRT ROM event adapter class, as shown in </a><a href="#257378" title="Using Java to Write an Event Handler">Figure&nbsp;23-8</a>. Then, choose OK.</div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <p class="i2_Image2"><a name="257343"><img class="Default" src="images/EventHandlerSelection.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 24-8 Selecting the event handler class" /></a></p>
-      <div class="fc2_FigCall2Title">
-        <b class="Bold">Figure&nbsp;23-8&nbsp;&nbsp;</b><a name="257378">Selecting the event handler class</a></div>
-      <div class="N_i_Indent1"><a name="257297">The fully qualified name of the event handler class appears in Property Editor, as shown in </a><a href="#257672" title="Using Java to Write an Event Handler">Figure&nbsp;23-9</a>.</div>
-      <p class="i2_Image2"><a name="257670"><img class="Default" src="images/PropertyEditorEventHandler2.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 24-9 The event handler class name" /></a></p>
-      <div class="fc2_FigCall2Title">
-        <b class="Bold">Figure&nbsp;23-9&nbsp;&nbsp;</b><a name="257672">The event handler class name</a></div>
-      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <span class="zAuto_0023Format">5&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="298661">Preview the report. The label’s background color is red.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <p class="b_Body"><a name="223420">&nbsp;</a></p>
-      <table class="tn_Table1-no_rule" style="text-align: left; width: 324.86256000000003pt" cellspacing="0" summary="">
-        <caption></caption>
-      </table>
-      <table class="tn_Table1-no_rule" style="text-align: left; width: 324.86256000000003pt" cellspacing="0" summary="">
-        <caption></caption>
-      </table>
     </blockquote>
     <hr align="left" />
     <table align="right" summary="">

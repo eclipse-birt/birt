@@ -492,7 +492,7 @@ Import values from a data set field to display in the list box, combo box, or as
 </description>
 </context>
 
-<context id=" General_ID" title="Style - General Page">
+<context id="StyleBuilderGeneral_ID" title="Style - General Page">
 <!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style. Updated. khahn 20090512 linked 20090604 -->
 <description>
 Create a style to apply a set of formats to report elements.
@@ -588,7 +588,7 @@ Set a formatting rule for a style that defines when and how to change the appear
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/fm-HowToCreateAFormattingRule.html" label="How to create a formatting rule"/>
 </context>
 
-<context id="StyleBuilderSize_ID" title="Style - Comments Page">
+<context id="StyleBuilderComments_ID" title="Style - Comments Page">
 <!-- SEQUENCE: Right-click an empty area in layout editor or a report element such as a label, choose Style>New Style>Comments. Created 20130908 jaht -->
 <description>
 Type comments that describe the usage of the style.

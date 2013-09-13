@@ -99,20 +99,6 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 	}
 
 	/**
-	 * returns a unique file name based on a directory and name prefix
-	 * 
-	 * @param imageDir
-	 *            directory to store the image
-	 * @param prefix
-	 *            prefix for the file name
-	 * @return a file name
-	 */
-	protected String createUniqueFileName( String imageDir, String prefix )
-	{
-		return createUniqueFileName( imageDir, prefix, null );
-	}
-	
-	/**
 	 * creates a unique tempoary file to store an image
 	 * 
 	 * @param imageDir
@@ -134,7 +120,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 			uniCount = genUniqueCount( );
 			file = new File( imageDir + "/" + prefix + uniCount + postfix ); //$NON-NLS-1$
 		} while ( file.exists( ) );
-		
+
 		return prefix + uniCount + postfix;
 	}
 
@@ -203,18 +189,9 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 				return null;
 			}
 
-			String fileName;
-			File file;
 			String extension = image.getExtension( );
-			if ( extension != null && extension.length( ) > 0 )
-			{
-				fileName = createUniqueFileName( imageDir, prefix, extension ); //$NON-NLS-1$
-			}
-			else
-			{
-				fileName = createUniqueFileName( imageDir, prefix );
-			}
-			file = new File( imageDir, fileName ); //$NON-NLS-1$
+			String fileName = createUniqueFileName( imageDir, prefix, extension );
+			File file = new File(imageDir, fileName); //$NON-NLS-1$
 			try
 			{
 				image.writeImage( file );
@@ -329,8 +306,15 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 	public void getImage( OutputStream out, String imageDir, String imageID )
 			throws EngineException
 	{
-		File image = new File( imageDir, imageID );
-		if ( !image.exists( ) )
+		//As imageID is created by handleImage(), we need check the imageID first to avoid
+		//user uses this API read arbitrary file in disk.
+		if ( imageID.indexOf( "./" ) != -1 || imageID.indexOf( ".\\" ) != -1 )
+		{
+			throw new EngineException(
+					MessageConstants.MISSING_IMAGE_FILE_ERROR ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		File imageFile = new File( imageDir, imageID );
+		if ( !imageFile.exists( ) )
 		{
 			throw new EngineException(
 					MessageConstants.MISSING_IMAGE_FILE_ERROR ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -338,7 +322,7 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 		InputStream in = null;
 		try
 		{
-			in = new FileInputStream( image );
+			in = new FileInputStream( imageFile );
 			byte[] buffer = new byte[1024];
 			int size = 0;
 			do
