@@ -171,10 +171,31 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "DocumentProperties" );
 	}
 
+	/**
+	 * excel doesn't support time zone, so always output the date time in user's
+	 * time zone
+	 * 
+	 * @param value
+	 * @param dataType
+	 * @return
+	 */
+	private String format( Object value, int dataType )
+	{
+		if ( value == null )
+		{
+			return "";
+		}
+		if ( dataType == SheetData.DATE )
+		{
+			return ExcelUtil.formatDate( value, context.getTimeZone( ) );
+		}
+		return ExcelUtil.format( value, dataType );
+	}
+
 	private void writeText( int type, Object value,
 			StyleEntry style )
 	{
-		String txt = ExcelUtil.format( value, type );
+		String txt = format( value, type );
 		writer.openTag( "Data" );
 		if ( type == SheetData.NUMBER )
 		{

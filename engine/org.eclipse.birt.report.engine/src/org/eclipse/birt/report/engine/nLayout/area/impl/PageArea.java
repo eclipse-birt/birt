@@ -556,7 +556,7 @@ public class PageArea extends BlockContainerArea
 		rootLeft = getDimensionValue( pageContent,
 				pageContent.getMarginLeft( ), pageContentWidth );
 		rootTop = getDimensionValue( pageContent, pageContent.getMarginTop( ),
-				pageContentWidth );
+				pageContentHeight);
 		rootLeft = Math.max( 0, rootLeft );
 		rootLeft = Math.min( pageContentWidth, rootLeft );
 		rootTop = Math.max( 0, rootTop );

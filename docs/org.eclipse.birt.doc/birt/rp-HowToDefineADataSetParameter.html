@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
-    <title>Enabling&nbsp;the&nbsp;User to&nbsp;Filter&nbsp;Data&nbsp;</title>
+    <title>How to insert a parameter marker in the SQL query</title>
     <link rel="StyleSheet" href="css/parameter.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="webworks.css" type="text/css" media="all" />
@@ -20,7 +20,7 @@
       <table cellspacing="0" summary="">
         <tr>
           <td>
-            <a href="fl-HowToFilterAtTheGroupLevel.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
+            <a href="rp-HowToCreateABasicReportParameter.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
           </td>
           <td>
             <a href="rp-HowToUpdateAFilterConditionDynamicallyWhenTheReportRuns.html"><img src="images/next.gif" alt="Next" border="0" /></a>
@@ -30,172 +30,7 @@
     </div>
     <hr align="left" />
     <blockquote>
-      <h2 class="zTitleChapter"><a name="475215">Enabling&nbsp;the&nbsp;User to&nbsp;Filter&nbsp;Data&nbsp;</a></h2>
-      <p class="b_Body"><a name="475220">When you create a report, you build a data set and typically specify filter criteria to display a certain set of data in the report. When a user views the report, the user sees the information that you selected. As users become familiar with the report and recognize its potential as an analytical tool, they may want to view the data in different ways. For example, in a sales report, a user may want to view only sales in a particular region, or sales over a certain amount, or sales that closed in the last 30 days.</a></p>
-      <p class="b_Body"><a name="140779">The solution for this type of ad hoc reporting requirement is for the report to prompt the user to provide information that determines what data to display. You make this solution available by creating report parameters.</a></p>
-      <p class="b1i_Bullet1-intro"><a name="258724">To enable users to filter database data, </a>complete the following tasks in the recommended order. For detailed information about these tasks, see the corresponding topics later in this section.</p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="258726">Create report parameters to prompt the user to specify values that determine what rows to retrieve.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="258702">Insert parameter markers in the SQL query.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="140317">Create a data set parameter to supply a value for each parameter marker.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="140336">Bind the data set parameter to the report parameter, so that the data set parameter gets the user-specified value from the report parameter and passes it to the SQL query.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="140344">Determine how to present the report parameters.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="142788">Test the report parameters.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <h4 class="N_ht_HowTo"><a name="258758">How to create a basic report parameter </a></h4>
-      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <span class="zAuto_0023Format">1&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="258761">In Data Explorer, right-click Report Parameters, and choose New Parameter.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="258765">New Parameter appears, as shown in </a><a href="#538205" title="Enabling the User to Filter Data ">Figure&nbsp;11-1</a>.</div>
-      <p class="i2_Image2"><a name="258769"><img class="Default" src="images/newrptparam_big.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 12-1 New Parameter" /></a></p>
-      <div class="fc2_FigCall2TitleFirst">
-        <b class="Bold">Figure&nbsp;11-1&nbsp;&nbsp;</b><a name="538205">New Parameter</a></div>
-      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
-                <span class="zAuto_0023Format">2&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="298856">Specify the following basic properties:</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap">
-                <span class="zAuto_0023FormatGray">1&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="N_n2_NumList2_inner"><a name="298864">In Name, type a name for the parameter. It is good practice to use a prefix, such as RP, in the name to help distinguish report parameters from other parameter types, such as data set parameters. For example, a report parameter used to filter on a quantityinstock field might be named RP_quantityinstock. The value you specify in Name appears as </a>the prompt to the report user if you do not specify a value for the next property, Prompt text. Rather than specify only a Name value for the parameter, you should use a technically descriptive value in Name, and provide a user-friendly value in Prompt text. </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap">
-                <span class="zAuto_0023FormatGray">2&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="N_n2_NumList2_inner"><a name="298865">In Data type, select a data type for the parameter.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i2_Indent2"><a name="298851">The data type that you select for the report parameter determines the formatting options that are available if you choose to provide a default value or a list of values for the report parameter. The data type of the parameter does not have to match the data type of the field in the data source. Values in an orderID field, for example, can be stored as integers in the data source, but the report parameter that is associated with this field can be of string type.</a></div>
-      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap">
-                <span class="zAuto_0023FormatGray">3&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="N_n2_NumList2_inner"><a name="258789">Choose OK.</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i2_Indent2"><a name="258790">The parameter appears under Report Parameters in Data Explorer.</a></div>
-      <h4 class="N_ht_HowTo"><a name="192655">How to insert a parameter marker in the SQL query</a></h4>
+      <h4 class="N_hth_HowToHelp"><a name="192655">How to insert a parameter marker in the SQL query</a></h4>
       <p class="b_Body"><a name="192660">This procedure assumes that you already created a data set. </a></p>
       <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
@@ -228,8 +63,8 @@
       <div class="cfi_CodeFirstIndent"><a name="140401">WHERE quantityinstock &lt; ?</a></div>
       <div class="cfi_CodeFirstIndent"><a name="140402">WHERE quantityinstock &lt;= ? AND productvendor = ?</a></div>
       <div class="cfi_CodeFirstIndent"><a name="142269">WHERE quantityinstock &lt;= ? OR productline LIKE ?</a></div>
-      <div class="N_i_Indent1"><a href="#250464" title="Enabling the User to Filter Data " name="140403">Figure&nbsp;11-2</a> shows an example of a query with two parameter markers.</div>
-      <p class="i2_Image2"><a name="140407"><img class="Default" src="images/querywithmarker_03.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 12-2 Query with two parameter markers" /></a></p>
+      <div class="N_i_Indent1"><a href="#250464" title="How to insert a parameter marker in the SQL query" name="140403">Figure&nbsp;11-2</a> shows an example of a query with two parameter markers.</div>
+      <p class="i2_Image2"><a name="140407"><img class="Default" src="images/querywithmarker_03.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 11-2 Query with two parameter markers" /></a></p>
       <div class="fc2_FigCall2Title">
         <b class="Bold">Figure&nbsp;11-2&nbsp;&nbsp;</b><a name="250464">Query with two parameter markers</a></div>
       <p class="b_Body"><a name="511208">At this point, you are ready to define a data set parameter for each ?&nbsp;parameter marker. The next section describes this task.</a></p>
@@ -347,8 +182,8 @@
           </tr>
         </table>
       </div>
-      <div class="N_i2_Indent2"><a href="#298979" title="Enabling the User to Filter Data " name="441596">Figure&nbsp;11-3</a> shows an example of a data set parameter definition where the data set parameter, DSP_quantityinstock, is linked to a report parameter, RP_quantityinstock.</div>
-      <p class="i3_Image3"><a name="298952"><img class="Default" src="images/newdsparam.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 12-3 Data set parameter definition" /></a></p>
+      <div class="N_i2_Indent2"><a href="#298979" title="How to insert a parameter marker in the SQL query" name="441596">Figure&nbsp;11-3</a> shows an example of a data set parameter definition where the data set parameter, DSP_quantityinstock, is linked to a report parameter, RP_quantityinstock.</div>
+      <p class="i3_Image3"><a name="298952"><img class="Default" src="images/newdsparam.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 11-3 Data set parameter definition" /></a></p>
       <div class="fc3_FigCall3Title">
         <b class="Bold">Figure&nbsp;11-3&nbsp;&nbsp;</b><a name="298979">Data set parameter definition</a></div>
       <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
@@ -374,7 +209,7 @@
               </div>
             </td>
             <td width="100%">
-              <div class="N_n1_NumList1_inner"><a name="259664">Repeat steps </a><a href="#298937" title="Enabling the User to Filter Data ">3</a> and <a href="#141938" title="Enabling the User to Filter Data ">4</a> to define additional data set parameters for any other parameter markers in the SQL query. </div>
+              <div class="N_n1_NumList1_inner"><a name="259664">Repeat steps </a><a href="#298937" title="How to insert a parameter marker in the SQL query">3</a> and <a href="#141938" title="How to insert a parameter marker in the SQL query">4</a> to define additional data set parameters for any other parameter markers in the SQL query. </div>
             </td>
           </tr>
         </table>
@@ -435,8 +270,8 @@
           </tr>
         </table>
       </div>
-      <div class="N_i2_Indent2"><a name="455130">Enter Parameters displays all the report parameters you created. </a><a href="#455139" title="Enabling the User to Filter Data ">Figure&nbsp;11-4</a> shows example report parameters, RP_quantityinstock and RP_productvendor. The parameter names appear because values were not supplied for the Prompt text property.</div>
-      <p class="i3_Image3"><a name="455137"><img class="Default" src="images/enter_quantityinstock_parm.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 12-4 Enter Parameters" /></a></p>
+      <div class="N_i2_Indent2"><a name="455130">Enter Parameters displays all the report parameters you created. </a><a href="#455139" title="How to insert a parameter marker in the SQL query">Figure&nbsp;11-4</a> shows example report parameters, RP_quantityinstock and RP_productvendor. The parameter names appear because values were not supplied for the Prompt text property.</div>
+      <p class="i3_Image3"><a name="455137"><img class="Default" src="images/enter_quantityinstock_parm.png" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 11-4 Enter Parameters" /></a></p>
       <div class="fc3_FigCall3Title">
         <b class="Bold">Figure&nbsp;11-4&nbsp;&nbsp;</b><a name="455139">Enter Parameters</a></div>
       <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.lang.reflect.Method;
+
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.StructureSource;
@@ -72,6 +74,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Widget;
 
 /**
  * 
@@ -476,6 +479,8 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		private Group grpSize;
 
 		boolean isPressingKey = false;
+		
+		private Widget focusedComposite;
 
 		private final String[] typeDisplayNameSet = markerTypeSet.getDisplayNames( );
 		private final String[] typeNameSet = markerTypeSet.getNames( );
@@ -512,6 +517,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				btnMarkerVisible.addListener( SWT.FocusOut, this );
 				btnMarkerVisible.addListener( SWT.KeyDown, this );
 				btnMarkerVisible.addListener( SWT.Traverse, this );
+				btnMarkerVisible.addListener( SWT.FocusIn, this );
 				btnMarkerVisible.setFocus( );
 			}
 
@@ -528,6 +534,9 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			btnAutotype.setText( Messages.getString( "ItemLabel.Auto" ) );//$NON-NLS-1$
 			btnAutotype.setSelection( !getMarker( ).isSetType( ) );
 			btnAutotype.addListener( SWT.Selection, this );
+			btnAutotype.addListener( SWT.FocusOut, this );
+			btnAutotype.addListener( SWT.Traverse, this );
+			btnAutotype.addListener( SWT.FocusIn, this );
 			btnAutotype.setVisible( context.getUIFactory( ).supportAutoUI( ) );
 			
 			cmpType = new Composite( grpType, SWT.NONE );
@@ -545,6 +554,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				cmpType.addListener( SWT.Traverse, this );
 				cmpType.addListener( SWT.KeyDown, this );
 				cmpType.addListener( SWT.FocusOut, this );
+				cmpType.addListener( SWT.FocusIn, this );
 			}
 			
 			int modifiedSize = ( typeDisplayNameSet.length
@@ -574,6 +584,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.horizontalSpan = 2;
 				grpSize.setLayoutData( gd );
+				grpSize.addListener( SWT.Traverse, this );
 				grpSize.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Size" ) ); //$NON-NLS-1$
 			}
 
@@ -592,6 +603,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				iscMarkerSize.getWidget().setSelection( getMarker( ).getSize( ) );
 				iscMarkerSize.addListener( SWT.Selection, this );
 				iscMarkerSize.addListener( SWT.FocusOut, this );
+				iscMarkerSize.addListener( SWT.FocusIn, this );
 				iscMarkerSize.addListener( SWT.Traverse, this );
 			}
 			
@@ -616,6 +628,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				
 				btnOutline.addListener( SWT.Selection, this );
 				btnOutline.addListener( SWT.FocusOut, this );
+				btnOutline.addListener( SWT.FocusIn, this );
 				btnOutline.addListener( SWT.KeyDown, this );
 				btnOutline.addListener( SWT.Traverse, this );
 
@@ -870,26 +883,47 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			}
 
 			getMarker( ).setType( newType );
+			
+			updateMarkerPreview( );
+		}
+		
+		/**
+		 * redraw only in windows platform according to bugzilla 276447
+		 * @param oldIndex
+		 */
+		private void redrawMarkers(int newMarkerTypeIndex )
+		{
 			// 276447, there's no need to redraw the markers composite since it
 			// will be closed after type changed, and it will be disposed when
 			// the icon dialog overlaps the markers composite on linux.
-			// Control[] children = cmpType.getChildren( );
-			// children[newMarkerTypeIndex].redraw( );
-			// children[markerTypeIndex].redraw( );
-			updateMarkerPreview( );
+			if ( cmpType != null && !cmpType.isDisposed( ) )
+			{
+				Control[] children = cmpType.getChildren( );
+				if ( children == null
+						|| children[newMarkerTypeIndex] == null
+						|| children[markerTypeIndex] == null )
+				{
+					return;
+				}
+				children[newMarkerTypeIndex].redraw( );
+				children[markerTypeIndex].redraw( );
+			}
 		}
 
 		void mouseDown( MouseEvent e )
 		{
 			if ( e.widget instanceof Canvas )
 			{
-				int markerIndex = ( (Integer) e.widget.getData( ) ).intValue( );
-				switchMarkerType( markerIndex );
-
-				if ( !this.isDisposed( ) && !this.getShell( ).isDisposed( ) )
+				if ( e.widget.getData( ) != null )
 				{
-					this.getShell( ).close( );
-				}
+					int markerIndex = ( (Integer) e.widget.getData( ) ).intValue( );
+					switchMarkerType( markerIndex );
+
+					if ( !this.isDisposed( ) && !this.getShell( ).isDisposed( ) )
+					{
+						this.getShell( ).close( );
+					}
+				}			
 			}
 		}
 
@@ -901,6 +935,10 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 					focusLost( new FocusEvent( event ) );
 					break;
 
+				case SWT.FocusIn:
+					focusedComposite = event.widget;
+					break;
+					
 				case SWT.MouseDown :
 					mouseDown( new MouseEvent( event ) );
 					break;
@@ -916,54 +954,99 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 					}
 					else if ( event.widget == cmpType )
 					{
+						int newIndex;
 						if ( event.keyCode == SWT.ARROW_LEFT )
 						{
 							if ( markerTypeIndex - 1 >= 0 )
 							{
-								switchMarkerType( markerTypeIndex - 1 );
+								newIndex = markerTypeIndex - 1;
+								switchMarkerType( newIndex );
+								redrawMarkers( newIndex );
 							}
 						}
 						else if ( event.keyCode == SWT.ARROW_RIGHT )
 						{
 							if ( markerTypeIndex + 1 < typeNameSet.length )
 							{
-								switchMarkerType( markerTypeIndex + 1 );
+								newIndex = markerTypeIndex + 1;
+								switchMarkerType( newIndex );
+								redrawMarkers( newIndex );
 							}
 						}
 						else if ( event.keyCode == SWT.ARROW_UP )
 						{
 							if ( markerTypeIndex - MARKER_ROW_MAX_NUMBER >= 0 )
 							{
-								switchMarkerType( markerTypeIndex
-										- MARKER_ROW_MAX_NUMBER );
+								newIndex = markerTypeIndex
+										- MARKER_ROW_MAX_NUMBER;
+								switchMarkerType( newIndex );
+								redrawMarkers( newIndex );
 							}
 						}
 						else if ( event.keyCode == SWT.ARROW_DOWN )
 						{
 							if ( markerTypeIndex + MARKER_ROW_MAX_NUMBER < typeNameSet.length )
 							{
-								switchMarkerType( markerTypeIndex
-										+ MARKER_ROW_MAX_NUMBER );
+								newIndex = markerTypeIndex
+										+ MARKER_ROW_MAX_NUMBER;
+								switchMarkerType( newIndex );
+								redrawMarkers( newIndex );
 							}
 						}
 					}
 					break;
 
 				case SWT.Traverse :
-					switch ( event.detail )
+					// Indicates getting focus control rather than
+					// cursor control
+					if ( event.detail == SWT.TRAVERSE_TAB_NEXT
+							|| event.detail == SWT.TRAVERSE_TAB_PREVIOUS )
 					{
-						case SWT.TRAVERSE_TAB_NEXT :
-						case SWT.TRAVERSE_TAB_PREVIOUS :
-							// Indicates getting focus control rather than
-							// cursor control
-							event.doit = true;
-							isPressingKey = true;
+						event.doit = true;
+						isPressingKey = true;
 					}
-					break;
-
+					else if ( event.keyCode == getMnemonicByText( grpSize.getText( ) ) )
+					{
+						updateIsPressingKey( iscMarkerSize );
+					}
+					else if ( event.keyCode == getMnemonicByText( btnOutline.getButton( )
+							.getText( ) ) )
+					{
+						updateIsPressingKey( btnOutline );
+					}
+					else if ( event.keyCode == getMnemonicByText( btnMarkerVisible.getButton( )
+							.getText( ) ) )
+					{
+						updateIsPressingKey( btnMarkerVisible );
+					}
 			}
 		}
 		
+		private char getMnemonicByText( String string )
+		{
+			int index = 0;
+			int length = string.length( );
+			do
+			{
+				while ( index < length && string.charAt( index ) != '&' )
+					index++;
+				if ( ++index >= length )
+					return '\0';
+				if ( string.charAt( index ) != '&' )
+					return string.toLowerCase( ).charAt( index );
+				index++;
+			} while ( index < length );
+			return '\0';
+		}
+		
+		private void updateIsPressingKey( Widget widget )
+		{
+			if ( widget != focusedComposite )
+			{
+				isPressingKey = true;
+			}
+		}
+
 		private void updateOutlineBtn()
 		{
 			btnOutline.setEnabled( context.getUIFactory( ).canEnableUI( btnMarkerVisible ) );

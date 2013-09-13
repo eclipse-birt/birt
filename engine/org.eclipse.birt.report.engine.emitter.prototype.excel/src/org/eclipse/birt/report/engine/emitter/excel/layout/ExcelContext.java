@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 
@@ -40,6 +41,7 @@ public class ExcelContext
 	private String officeVersion = "office2003";
 	private String tempFileDir;
 	private ULocale locale;
+	private TimeZone timeZone;
 	private Boolean hideGridlines = false;
 	private boolean enableMultipleSheet = true;
 	private boolean ignoreImage = true;
@@ -77,6 +79,11 @@ public class ExcelContext
 			Locale locale = reportContext.getLocale( );
 			this.locale = locale == null ? ULocale.getDefault( ) : ULocale
 					.forLocale( locale );
+			this.timeZone = reportContext.getTimeZone( );
+			if ( timeZone == null )
+			{
+				timeZone = TimeZone.getDefault( );
+			}
 		}
 		IRenderOption renderOption = service.getRenderOption( );
 		Object option = renderOption
@@ -244,6 +251,11 @@ public class ExcelContext
 	public ULocale getLocale( )
 	{
 		return this.locale;
+	}
+
+	public TimeZone getTimeZone( )
+	{
+		return this.timeZone;
 	}
 
 	public boolean isEnableMultipleSheet( )
