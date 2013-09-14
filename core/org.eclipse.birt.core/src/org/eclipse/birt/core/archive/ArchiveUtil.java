@@ -722,5 +722,73 @@ public class ArchiveUtil
 		}
 		return true;
 	}
+
+	public final static IDocArchiveReader createReader(
+			final IDocArchiveWriter writer )
+	{
+		return new IDocArchiveReader( ) {
+
+			@Override
+			public String getName( )
+			{
+				return writer.getName( );
+			}
+
+			@Override
+			public void open( ) throws IOException
+			{
+			}
+
+			@Override
+			public RAInputStream getStream( String relativePath )
+					throws IOException
+			{
+				return writer.getInputStream( relativePath );
+			}
+
+			@Override
+			public RAInputStream getInputStream( String relativePath )
+					throws IOException
+			{
+				return writer.getInputStream( relativePath );
+			}
+
+			@Override
+			public boolean exists( String relativePath )
+			{
+				return writer.exists( relativePath );
+			}
+
+			@Override
+			public List<String> listStreams( String relativeStoragePath )
+					throws IOException
+			{
+				return writer.listStreams( relativeStoragePath );
+			}
+
+			@Override
+			public List<String> listAllStreams( ) throws IOException
+			{
+				return writer.listAllStreams( );
+			}
+
+			@Override
+			public void close( ) throws IOException
+			{
+			}
+
+			@Override
+			public Object lock( String stream ) throws IOException
+			{
+				return writer.lock( stream );
+			}
+
+			@Override
+			public void unlock( Object locker )
+			{
+				writer.unlock( locker );
+			}
+		};
+	}
 	
 }
