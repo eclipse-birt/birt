@@ -99,14 +99,15 @@ public class AttributesBuilder
 				{
 					typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{GuiExtensionManager.getExtensionDisplayName( selection.get( 0 ) )} ); //$NON-NLS-1$
 				}
-				if( DEFAULT_NONE.equals( typeInfo ) )
+				if ( DEFAULT_NONE.equals( typeInfo ) )
 				{
-					if( element instanceof DesignElementHandle )
+					if ( element instanceof DesignElementHandle )
 					{
-						String displayName = ( (DesignElementHandle) element ).getDefn( ).getDisplayName( );
-						if( displayName != null && !displayName.equals( "" ) )
+						String displayName = ( (DesignElementHandle) element ).getDefn( )
+								.getDisplayName( );
+						if ( displayName != null && !displayName.equals( "" ) )
 						{
-							typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{ displayName });//$NON-NLS-1$
+							typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{displayName} );//$NON-NLS-1$
 						}
 					}
 				}
@@ -150,6 +151,10 @@ public class AttributesBuilder
 							&& pageGenerator.getControl( ) != null
 							&& !pageGenerator.getControl( ).isDisposed( ) )
 					{
+						if ( pageGenerator instanceof AbstractPageGenerator )
+						{
+							( (AbstractPageGenerator) pageGenerator ).dispose( );
+						}
 						pageGenerator.getControl( ).dispose( );
 					}
 					pageGenerator = ng;
@@ -182,7 +187,13 @@ public class AttributesBuilder
 			if ( pageGenerator != null
 					&& pageGenerator.getControl( ) != null
 					&& !pageGenerator.getControl( ).isDisposed( ) )
+			{
+				if ( pageGenerator instanceof AbstractPageGenerator )
+				{
+					( (AbstractPageGenerator) pageGenerator ).dispose( );
+				}
 				pageGenerator.getControl( ).dispose( );
+			}
 			pageGenerator = (IPageGenerator) pageGeneratorClass.newInstance( );
 			if ( pageGenerator instanceof TabPageGenerator )
 			{
@@ -271,7 +282,7 @@ public class AttributesBuilder
 		{
 			// this is to populate the wrapped type info
 			getGeneratorClass( ( (ModelClassWrapper) obj ).getElement( ) );
-			
+
 			return MessagePageGenerator.class;
 		}
 		else if ( type == LabelHandle.class )
@@ -336,8 +347,9 @@ public class AttributesBuilder
 		}
 		else if ( obj instanceof ModuleHandle )
 		{
-			typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{ ( (DesignElementHandle) obj ).getDefn( ) //$NON-NLS-1$
-					.getDisplayName( )} );
+			typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{( (DesignElementHandle) obj ).getDefn( ) //$NON-NLS-1$
+								.getDisplayName( )
+					} );
 			return CategoryPageGenerator.class;
 		}
 		else
