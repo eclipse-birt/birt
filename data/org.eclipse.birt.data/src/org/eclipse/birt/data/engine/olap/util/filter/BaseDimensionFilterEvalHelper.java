@@ -30,6 +30,8 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.util.DataJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
@@ -159,47 +161,78 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	private DimLevel[] getAggregateOnLevels( String bindingName )
 			throws DataException
 	{
-		for ( Iterator it = queryDefn.getBindings( ).iterator( ); it.hasNext( ); )
+		List bindingList = new ArrayList( );
+		List bindingForNestList = new ArrayList( );
+		bindingList.addAll( queryDefn.getBindings( ) );
+		if ( this.queryDefn instanceof PreparedCubeQueryDefinition )
+		{
+			bindingForNestList.addAll( ( (PreparedCubeQueryDefinition) this.queryDefn ).getBindingsForNestAggregation( ) );
+		}
+		
+		for ( Iterator it = bindingList.iterator( ); it.hasNext( ); )
 		{
 			IBinding binding = (IBinding) it.next( );
 			if ( binding.getBindingName( ).equals( bindingName ) )
 			{
-				List aggrs = binding.getAggregatOns( );
-				if ( aggrs.size( ) == 0 )
+				return getAggregationOnsForBinding( binding );
+			}
+		}
+		for( Iterator it = bindingForNestList.iterator( ); it.hasNext( ); )
+		{
+			IBinding binding = (IBinding) it.next( );
+			if ( binding.getBindingName( ).equals( bindingName ) )
+			{
+				if( CubeQueryDefinitionUtil.isRunnnigAggr( binding.getAggrFunction( ) ) )
 				{
-					if ( OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
-							ScriptConstants.DIMENSION_SCRIPTABLE ) != null )
-						return null;
-					
-					IBinding directReferenceBinding = OlapExpressionUtil.getDirectMeasureBinding( binding, queryDefn.getBindings( ) );
-					if ( directReferenceBinding != null && directReferenceBinding!= binding )
-					{
-						return getAggregateOnLevels( directReferenceBinding.getBindingName( ) );
-					}
-					// get all level names in the query definition
-					List levelList = new ArrayList( );
-					// get all levels from the row edge and column edge
-					IEdgeDefinition rowEdge = queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE );
-					populateDimLevel( levelList, rowEdge );
-					IEdgeDefinition colEdge = queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
-					populateDimLevel( levelList, colEdge );
-					DimLevel[] levels = new DimLevel[levelList.size( )];
-					levelList.toArray( levels );
-					return levels;
+					List fullAggrOnLevels = OlapExpressionUtil.getFullLevelsForRunningAggregation( binding,
+							bindingList );
+					return (DimLevel[]) fullAggrOnLevels.toArray( new DimLevel[]{} );
 				}
 				else
 				{
-					DimLevel[] levels = new DimLevel[aggrs.size( )];
-					for ( int i = 0; i < aggrs.size( ); i++ )
-					{
-						levels[i] = OlapExpressionUtil.getTargetDimLevel( aggrs.get( i )
-								.toString( ) );
-					}
-					return levels;
+					getAggregationOnsForBinding( binding );
 				}
 			}
 		}
 		return null;
+	}
+
+	private DimLevel[] getAggregationOnsForBinding( IBinding binding )
+			throws DataException
+	{
+		List aggrs = binding.getAggregatOns( );
+		if ( aggrs.size( ) == 0 )
+		{
+			if ( OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
+					ScriptConstants.DIMENSION_SCRIPTABLE ) != null )
+				return null;
+
+			IBinding directReferenceBinding = OlapExpressionUtil.getDirectMeasureBinding( binding, queryDefn.getBindings( ) );
+			if ( directReferenceBinding != null && directReferenceBinding!= binding )
+			{
+				return getAggregateOnLevels( directReferenceBinding.getBindingName( ) );
+			}
+			// get all level names in the query definition
+			List levelList = new ArrayList( );
+			// get all levels from the row edge and column edge
+			IEdgeDefinition rowEdge = queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE );
+			populateDimLevel( levelList, rowEdge );
+			IEdgeDefinition colEdge = queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
+			populateDimLevel( levelList, colEdge );
+			DimLevel[] levels = new DimLevel[levelList.size( )];
+			levelList.toArray( levels );
+			return levels;
+		}
+		else
+		{
+			DimLevel[] levels = new DimLevel[aggrs.size( )];
+			for ( int i = 0; i < aggrs.size( ); i++ )
+			{
+				levels[i] = OlapExpressionUtil.getTargetDimLevel( aggrs.get( i )
+						.toString( ) );
+			}
+			return levels;
+		}
 	}
 
 	/**

@@ -320,16 +320,21 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			DataException exception = null;
 			
 			QuerySpecification combinedQuerySpec = null;
-			IQueryOptimizeHints queryOptimizeHints = (IQueryOptimizeHints)this.getAppContext( ).get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT );
-			if ( queryOptimizeHints != null )
+			IQueryOptimizeHints queryOptimizeHints = null;
+			if ( this.getAppContext( ) != null )
 			{
-				Map<String, QuerySpecification> optimizedDataSets = queryOptimizeHints.getOptimizedCombinedQuerySpec( );
-				if ( optimizedDataSets != null )
+				queryOptimizeHints = (IQueryOptimizeHints) this.getAppContext( )
+						.get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT );
+				if ( queryOptimizeHints != null )
 				{
-					for ( Map.Entry<String, QuerySpecification> entry : optimizedDataSets.entrySet( ) )
+					Map<String, QuerySpecification> optimizedDataSets = queryOptimizeHints.getOptimizedCombinedQuerySpec( );
+					if ( optimizedDataSets != null )
 					{
-						if ( entry.getKey( ).equals( extDataSet.getName( ) ) )
-							combinedQuerySpec = entry.getValue( );
+						for ( Map.Entry<String, QuerySpecification> entry : optimizedDataSets.entrySet( ) )
+						{
+							if ( entry.getKey( ).equals( extDataSet.getName( ) ) )
+								combinedQuerySpec = entry.getValue( );
+						}
 					}
 				}
 			}
