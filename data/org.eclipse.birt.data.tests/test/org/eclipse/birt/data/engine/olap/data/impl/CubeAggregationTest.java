@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
@@ -62,11 +63,13 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeElementFactory;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.JSFacttableFilterEvalHelper;
 import org.mozilla.javascript.ImporterTopLevel;
 
 import testutil.BaseTestCase;
@@ -1207,7 +1210,52 @@ public class CubeAggregationTest extends BaseTestCase
 		}
 	}
 	
-	
+	/**
+	 * add this test for ted 65288, filter refered to mutilple dimensions
+	 * @throws IOException
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	public void testCube1AggrFilter10(  ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+		//add aggregation filter on level21
+		IBinding level21_sum = new Binding( "level21_sum" );
+		level21_sum.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		level21_sum.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		level21_sum.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
+		cubeQuery.addBinding( level21_sum );
+		
+		ScriptExpression expr = new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]>1 && dimension[\"dimension3\"][\"level31\"]>1" );
+		JSFacttableFilterEvalHelper filterHelper = new JSFacttableFilterEvalHelper( baseScope, cx,
+				new FilterDefinition( expr ) , null, null );
+		
+		
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[1];
+		sortType[0] = IDimensionSortDefn.SORT_ASC;
+		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", null, null, IBuildInAggregation.TOTAL_SUM_FUNC, filterHelper );
+		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
+		
+		cubeQueryExcutorHelper.setCubeQueryExecutor( new CubeQueryExecutor( null,
+				cubeQuery,
+				engine.getSession( ),
+				new ImporterTopLevel( ),
+				engine.getContext( ) ) );
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		
+		for ( int i = 0; i < resultSet.length; i++ )
+		{
+			resultSet[i].close( );
+		}
+	}
 	
 	private void createCube2( ) throws IOException, BirtException
 	{
