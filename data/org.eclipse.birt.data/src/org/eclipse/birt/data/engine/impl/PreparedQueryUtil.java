@@ -241,16 +241,22 @@ public class PreparedQueryUtil
 	
 	private static void optimizeForTransientQuery( Map appContext, IQueryDefinition query ) throws DataException
 	{
-		IQueryOptimizeHints hints = (IQueryOptimizeHints)appContext.get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT );
-		if( hints == null || !( query instanceof QueryDefinition) )
-			return;
-		
-		query.getQueryExecutionHints( ).setEnablePushDown( hints.enablePushDownForTransientQuery( ) );
-		
-		Map<String, List<IFilterDefinition>> filters = hints.getFiltersInAdvance( );
-		if ( filters != null && filters.get( query.getDataSetName( ) ) != null )
+		if ( appContext != null )
 		{
-			query.getFilters( ).addAll( filters.get( query.getDataSetName( ) ) );
+			IQueryOptimizeHints hints = (IQueryOptimizeHints) appContext.get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT );
+			if ( hints == null || !( query instanceof QueryDefinition ) )
+				return;
+
+			query.getQueryExecutionHints( )
+					.setEnablePushDown( hints.enablePushDownForTransientQuery( ) );
+
+			Map<String, List<IFilterDefinition>> filters = hints.getFiltersInAdvance( );
+			if ( filters != null
+					&& filters.get( query.getDataSetName( ) ) != null )
+			{
+				query.getFilters( )
+						.addAll( filters.get( query.getDataSetName( ) ) );
+			}
 		}
 	}
 	
