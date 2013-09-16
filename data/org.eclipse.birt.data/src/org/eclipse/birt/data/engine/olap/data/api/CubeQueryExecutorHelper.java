@@ -521,9 +521,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 										.getCubeQueryDefinition().getBindings());
 						if (dimLevelSet.size() > 0) 
 						{
-							if ( OlapExpressionCompiler
-									.getReferencedScriptObject( expr,
-											ExpressionUtil.MEASURE_INDICATOR ) != null )
+							if ( OlapExpressionCompiler.getReferencedScriptObject( expr,
+									ExpressionUtil.MEASURE_INDICATOR ) != null
+									|| containsMultiDimension( dimLevelSet ) )
 							{
 								applyMerge = false;
 								break;
@@ -577,6 +577,20 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		}
 		return rs;
 	}
+	
+	private boolean containsMultiDimension( Set dimLevelSet )
+	{
+		HashSet dimSet = new HashSet();
+	    for ( Object dimLevel : dimLevelSet )
+	    {
+	    	if ( dimLevel instanceof DimLevel )
+	    	{
+	    		dimSet.add( dimLevel );
+	    	}
+	    }
+		return dimSet.size( ) > 1;
+	}
+	
 	
 	private int[] getKeyLevelIndexs( DimLevel[] keyLevels, IAggregationResultSet rs ) throws DataException
 	{
