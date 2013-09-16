@@ -2,7 +2,9 @@
 package org.eclipse.birt.report.designer.ui.views.attributes;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
@@ -124,4 +126,19 @@ public class AbstractPageGenerator extends CategoryPageGenerator
 		}
 	}
 
+	public void dispose( )
+	{
+		if ( itemMap != null && itemMap.values( ) != null )
+		{
+			Iterator<Object> iter = itemMap.values( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Object value = iter.next( );
+				if ( value instanceof AttributePage )
+				{
+					( (AttributePage) value ).dispose( );
+				}
+			}
+		}
+	}
 }
