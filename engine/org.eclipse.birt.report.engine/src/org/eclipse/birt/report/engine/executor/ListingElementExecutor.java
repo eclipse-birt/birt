@@ -69,7 +69,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	protected int getMaxPageBreakInterval( )
 	{
 		@SuppressWarnings("rawtypes")
-		Map appContext = executorContext.getAppContext( );
+		Map appContext = context.getAppContext( );
 		if ( appContext != null )
 		{
 			Object maxPageBreakObject = appContext
