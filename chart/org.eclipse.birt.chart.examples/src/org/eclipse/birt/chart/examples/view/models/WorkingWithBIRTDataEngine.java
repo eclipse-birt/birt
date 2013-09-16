@@ -236,7 +236,7 @@ public class WorkingWithBIRTDataEngine
 		OdaDataSetDesign odaDataSet = newDataSet( odaDataSource );
 
 		// Create query definition.
-		QueryDefinition query = createQueryDefinition( odaDataSet, expressions );
+		QueryDefinition query = createQueryDefinition( chart, odaDataSet );
 
 		// Create data engine and execute query.
 		DataEngine dataEngine = newDataEngine( );
@@ -262,13 +262,12 @@ public class WorkingWithBIRTDataEngine
 	/**
 	 * Create query definition.
 	 * 
+	 * @param chart
 	 * @param odaDataSet
-	 * @param expressions
 	 * @return
 	 * @throws ChartException
 	 */
-	private QueryDefinition createQueryDefinition(
-			OdaDataSetDesign odaDataSet, String[] expressions )
+	private QueryDefinition createQueryDefinition( Chart chart,  OdaDataSetDesign odaDataSet )
 			throws ChartException
 	{
 
@@ -279,42 +278,32 @@ public class WorkingWithBIRTDataEngine
 		{
 			initDefaultBindings( queryDefn );
 
+			SeriesDefinition baseSD = ChartUtil.getBaseSeriesDefinitions( chart ).get( 0 );
+			SeriesDefinition orthSD = ChartUtil.getAllOrthogonalSeriesDefinitions( chart ).get( 0 );
+			String categoryExpr = baseSD.getDesignTimeSeries( ).getDataDefinition( ).get( 0 ).getDefinition( );
+			
 			// Add group definitions and aggregation binding.
 			String groupName = "Group_Country"; //$NON-NLS-1$
 			GroupDefinition gd = new GroupDefinition( groupName );
-			gd.setKeyExpression( expressions[0] );
+			gd.setKeyExpression( categoryExpr );
 			gd.setInterval( IGroupDefinition.NO_INTERVAL );
 			gd.setIntervalRange( 0 );
-
-			// Add expression bindings.
-
-			for ( int i = 0; i < expressions.length; i++ )
-			{
-				String expr = expressions[i];
-				
-				Binding colBinding = null;
-				if ( i == 1 )
-				{
-					String newStr = ChartUtil.escapeSpecialCharacters( expr
-							+ "_" + "Count" ); //$NON-NLS-1$ //$NON-NLS-2$
-					colBinding = new Binding( newStr );
-					colBinding.setExpression( null );
-					colBinding.setAggrFunction( IBuildInAggregation.TOTAL_COUNT_FUNC );
-					colBinding.addAggregateOn( groupName );
-					colBinding.addArgument( new ScriptExpression( expressions[i] ) );
-					
-					expressionMap.put( ExpressionUtil.createRowExpression( newStr ), newStr );
-				}
-				else
-				{
-					colBinding = new Binding( expr );
-					colBinding.setExpression( new ScriptExpression( expr ) );
-				}
-
-				queryDefn.addBinding( colBinding );
-			}
-
 			queryDefn.addGroup( gd );
+			
+			// Add expression bindings.
+			Binding colBinding = new Binding( categoryExpr );
+			colBinding.setExpression( new ScriptExpression( categoryExpr ) );
+			queryDefn.addBinding( colBinding );
+			
+			String valueBinding = ChartUtil.generateBindingNameOfValueSeries( orthSD.getDesignTimeSeries( ).getDataDefinition( ).get( 0 ), orthSD, baseSD, true );
+			colBinding = new Binding( valueBinding );
+			colBinding.setExpression( null );
+			colBinding.setAggrFunction( IBuildInAggregation.TOTAL_COUNT_FUNC );
+			colBinding.addAggregateOn( groupName );
+			colBinding.addArgument( new ScriptExpression( orthSD.getDesignTimeSeries( ).getDataDefinition( ).get( 0 ).getDefinition( ) ) );
+			
+			expressionMap.put( ExpressionUtil.createRowExpression( valueBinding ), valueBinding );
+			queryDefn.addBinding( colBinding );
 		}
 		catch ( DataException e )
 		{
