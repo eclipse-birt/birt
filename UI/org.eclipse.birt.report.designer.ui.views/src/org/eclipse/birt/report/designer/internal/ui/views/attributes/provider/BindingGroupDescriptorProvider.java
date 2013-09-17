@@ -49,6 +49,12 @@ import org.eclipse.jface.window.Window;
 public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 {
 
+	public static final String NONE = Messages.getString( "BindingPage.None" ); //$NON-NLS-1$
+
+	public static final BindingInfo NullDatasetChoice = new BindingInfo( ReportItemHandle.DATABINDING_TYPE_NONE,
+			NONE,
+			true );
+
 	public ILabelProvider getDataSetLabelProvider( )
 	{
 		return new LabelProvider( ) {
@@ -61,7 +67,7 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 				{
 					if ( !NONE.equals( datasetName ) )
 					{
-						datasetName += Messages.getString("BindingGroupDescriptorProvider.Flag.DataModel"); //$NON-NLS-1$
+						datasetName += Messages.getString( "BindingGroupDescriptorProvider.Flag.DataModel" ); //$NON-NLS-1$
 					}
 				}
 				return datasetName;
@@ -121,9 +127,7 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 	}
 
 	private Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
-	private BindingInfo NullDatasetChoice = new BindingInfo( ReportItemHandle.DATABINDING_TYPE_NONE,
-			NONE,
-			true );
+
 	private String NullReportItemChoice = NONE;
 
 	public Object load( )
@@ -484,8 +488,6 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 			return code;
 		}
 	}
-
-	public static final String NONE = Messages.getString( "BindingPage.None" ); //$NON-NLS-1$
 
 	public boolean isEnable( )
 	{
