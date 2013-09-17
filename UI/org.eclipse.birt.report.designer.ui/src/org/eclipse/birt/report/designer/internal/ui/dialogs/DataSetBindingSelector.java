@@ -23,9 +23,9 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.AutoResizeTableLa
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
@@ -58,7 +58,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableColumn;
 
-
 public class DataSetBindingSelector extends BaseDialog
 {
 
@@ -68,7 +67,7 @@ public class DataSetBindingSelector extends BaseDialog
 	private String dataSetName;
 	private DataSetHandle datasetHandle;
 	private String[] columns;
-	private boolean validateEmptyResults=false;
+	private boolean validateEmptyResults = false;
 	private List<DataSetHandle> datasets;
 
 	private static final IChoice[] DATA_TYPE_CHOICES = DEUtil.getMetaDataDictionary( )
@@ -147,9 +146,10 @@ public class DataSetBindingSelector extends BaseDialog
 	protected Control createContents( Composite parent )
 	{
 		Control control = super.createContents( parent );
-		enableOKButton();
-		return  control;
+		enableOKButton( );
+		return control;
 	}
+
 	protected void createColumnBindingContents( Composite parent )
 	{
 		columnViewers = CheckboxTableViewer.newCheckList( parent, SWT.CHECK
@@ -175,17 +175,16 @@ public class DataSetBindingSelector extends BaseDialog
 		layout.addColumnData( new ColumnWeightData( 47, true ) );
 		layout.addColumnData( new ColumnWeightData( 47, true ) );
 		columnViewers.getTable( ).setLayout( layout );
-		columnViewers.addSelectionChangedListener(new ISelectionChangedListener() {
-		      public void selectionChanged(SelectionChangedEvent event) {
-		    	  enableOKButton();
-		      }
-		    });
+		columnViewers.addSelectionChangedListener( new ISelectionChangedListener( ) {
+
+			public void selectionChanged( SelectionChangedEvent event )
+			{
+				enableOKButton( );
+			}
+		} );
 		DataSetColumnProvider provider = new DataSetColumnProvider( );
 		columnViewers.setLabelProvider( provider );
 		columnViewers.setContentProvider( provider );
-
-		
-		
 
 		Composite buttonContainer = new Composite( parent, SWT.NONE );
 		data = new GridData( GridData.FILL_HORIZONTAL );
@@ -203,7 +202,7 @@ public class DataSetBindingSelector extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				columnViewers.setAllChecked( true );
-				enableOKButton();
+				enableOKButton( );
 			}
 		} );
 
@@ -214,7 +213,7 @@ public class DataSetBindingSelector extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				columnViewers.setAllChecked( false );
-				enableOKButton();
+				enableOKButton( );
 			}
 		} );
 
@@ -251,8 +250,13 @@ public class DataSetBindingSelector extends BaseDialog
 			Label dateSetLabel = new Label( parent, SWT.NONE );
 			dateSetLabel.setText( Messages.getString( "DataSetBindingSelector.Combo.DataSet" ) ); //$NON-NLS-1$
 			dataSetCombo = new Combo( parent, SWT.BORDER | SWT.READ_ONLY );
-			initDateSetHandles();
-			dataSetCombo.setItems(getDataSetComboList());
+			ModuleHandle handle = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
+			datasets = UIUtil.getVisibleDataSetHandles( handle );
+			for ( int i = 0; i < datasets.size( ); i++ )
+			{
+				dataSetCombo.add( datasets.get( i ).getQualifiedName( ) );
+			}
 			dataSetCombo.select( 0 );
 			GridData data = new GridData( GridData.FILL_HORIZONTAL );
 			dataSetCombo.setLayoutData( data );
@@ -269,40 +273,27 @@ public class DataSetBindingSelector extends BaseDialog
 
 	}
 
-	private void initDateSetHandles() {
-		ModuleHandle handle = SessionHandleAdapter.getInstance()
-				.getReportDesignHandle();
-		datasets = org.eclipse.birt.report.designer.internal.ui.util.UIUtil
-				.getVisibleDataSetHandles(handle);
+	private DataSetHandle getSelectedDataSet( )
+	{
+		return (DataSetHandle) datasets.get( dataSetCombo.getSelectionIndex( ) );
 	}
 
-	private String[] getDataSetComboList() {
-		String[] comboList = new String[datasets.size() + 1];
-		comboList[0] = NONE;
-		for (int i = 0; i < datasets.size(); i++) {
-			comboList[i + 1] = datasets.get(i).getQualifiedName();
-		}
-		return comboList;
-	}
-
-	private DataSetHandle getSelectedDataSet() {
-		if (dataSetCombo.getSelectionIndex() > 0) {
-			return (DataSetHandle) datasets.get(dataSetCombo
-					.getSelectionIndex() - 1);
-		}
-		return null;
-	}
 	protected void handleDatasetComboSelectedEvent( )
 	{
 		Iterator iter = null;
-		DataSetHandle handle=null;
-		if(datasetHandle!=null){
-			handle=datasetHandle;
-		}else if(dataSetName!=null){
-			handle=DataUtil.findDataSet(dataSetName);
-		}else{
-			handle =getSelectedDataSet();
-		}		
+		DataSetHandle handle = null;
+		if ( datasetHandle != null )
+		{
+			handle = datasetHandle;
+		}
+		else if ( dataSetName != null )
+		{
+			handle = DataUtil.findDataSet( dataSetName );
+		}
+		else
+		{
+			handle = getSelectedDataSet( );
+		}
 		if ( handle != null )
 		{
 			try
@@ -314,7 +305,7 @@ public class DataSetBindingSelector extends BaseDialog
 			{
 				ExceptionHandler.handle( e );
 			}
-			
+
 		}
 		else
 		{
@@ -335,9 +326,9 @@ public class DataSetBindingSelector extends BaseDialog
 
 	protected void okPressed( )
 	{
-	
+
 		result = new Object[3];
-		if ( dataSetName != null || dataSetCombo.getSelectionIndex( ) > 0 )
+		if ( dataSetName != null || dataSetCombo.getSelectionIndex( ) > -1 )
 		{
 			if ( dataSetName == null )
 			{
@@ -394,9 +385,30 @@ public class DataSetBindingSelector extends BaseDialog
 		return result;
 	}
 
-	public void setDataSet( String dataSetName )
+	public void setDataSet( String dataSetName, boolean isDataSet )
 	{
 		this.dataSetName = dataSetName;
+		if ( isDataSet )
+		{
+			datasetHandle = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.findDataSet( dataSetName );
+		}
+		else
+		{
+			LinkedDataSetAdapter adapter = new LinkedDataSetAdapter( );
+			for ( Iterator iterator = adapter.getVisibleLinkedDataSetsDataSetHandles( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ) )
+					.iterator( ); iterator.hasNext( ); )
+			{
+				DataSetHandle dataSetHandle = (DataSetHandle) iterator.next( );
+				if ( dataSetHandle.getQualifiedName( ).equals( dataSetName ) )
+				{
+					this.datasetHandle = dataSetHandle;
+					break;
+				}
+			}
+		}
 	}
 
 	private String getDataTypeDisplayName( String dataType )
@@ -412,30 +424,38 @@ public class DataSetBindingSelector extends BaseDialog
 		return dataType;
 	}
 
-	private void enableOKButton() {
-		if (getOkButton() != null && !getOkButton().isDisposed()) {
-			if(validateEmptyResults){
-				getOkButton().setEnabled(columnViewers.getCheckedElements().length >0);
+	private void enableOKButton( )
+	{
+		if ( getOkButton( ) != null && !getOkButton( ).isDisposed( ) )
+		{
+			if ( validateEmptyResults )
+			{
+				getOkButton( ).setEnabled( columnViewers.getCheckedElements( ).length > 0 );
 			}
 		}
 	}
+
 	public void setColumns( String[] columns )
 	{
 		this.columns = columns;
 	}
 
-	public void setValidateEmptyResults(boolean validateEmptyResults) {
+	public void setValidateEmptyResults( boolean validateEmptyResults )
+	{
 		this.validateEmptyResults = validateEmptyResults;
 	}
 
-	public DataSetHandle getDatasetHandle() {
+	public DataSetHandle getDatasetHandle( )
+	{
 		return datasetHandle;
 	}
 
-	public void setDatasetHandle(DataSetHandle datasetHandle) {
-		if(datasetHandle!=null){
+	public void setDatasetHandle( DataSetHandle datasetHandle )
+	{
+		if ( datasetHandle != null )
+		{
 			this.datasetHandle = datasetHandle;
-			this.dataSetName=datasetHandle.getQualifiedName();
+			this.dataSetName = datasetHandle.getQualifiedName( );
 		}
 	}
 
