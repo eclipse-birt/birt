@@ -1362,7 +1362,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 *            element handle
 	 */
 
-	public final void rename( DesignElementHandle containerHandle,
+	public void rename( DesignElementHandle containerHandle,
 			DesignElementHandle elementHandle )
 	{
 		if ( elementHandle == null )
