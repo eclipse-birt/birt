@@ -260,7 +260,7 @@ public class ReportContextImpl implements IReportContext
 		IEngineTask task = context.getEngineTask( );
 		if ( task != null )
 		{
-			task.cancelBy( msg );
+			task.cancel( msg );
 		}
 	}
 

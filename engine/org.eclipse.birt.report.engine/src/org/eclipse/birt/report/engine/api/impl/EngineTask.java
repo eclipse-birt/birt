@@ -1369,39 +1369,39 @@ public abstract class EngineTask implements IEngineTask
 		changeStatusToStopped();
 	}
 	
-	public void cancelBy( String reason )
+	public void cancel( String reason )
 	{
 		cancelReason = reason;
 		cancel( );
 	}
 
-	public void cancel( Object signal )
-	{
-		if ( signal == null )
-		{
-			throw new IllegalArgumentException( "signal can not be null" );
-		}
-		cancelFlag = true;
-		long waitingTime = 0;
-		do
-		{
-			waitingTime += 100;
-			try
-			{
-				Thread.sleep( 100 );
-			}
-			catch ( Exception ex )
-			{
-			}
-			if ( runningStatus != STATUS_RUNNING )
-			{
-				return;
-			}
-		} while ( waitingTime < 5000 );
-		disposeResourceLocator( );
-		changeStatusToStopped();
-		return;
-	}
+//	public void cancel( Object signal )
+//	{
+//		if ( signal == null )
+//		{
+//			throw new IllegalArgumentException( "signal can not be null" );
+//		}
+//		cancelFlag = true;
+//		long waitingTime = 0;
+//		do
+//		{
+//			waitingTime += 100;
+//			try
+//			{
+//				Thread.sleep( 100 );
+//			}
+//			catch ( Exception ex )
+//			{
+//			}
+//			if ( runningStatus != STATUS_RUNNING )
+//			{
+//				return;
+//			}
+//		} while ( waitingTime < 5000 );
+//		disposeResourceLocator( );
+//		changeStatusToStopped();
+//		return;
+//	}
 
 	public boolean getCancelFlag( )
 	{
