@@ -605,7 +605,6 @@
             <Action>
               <Type>Show_Tooltip</Type>
               <Value xsi:type="attribute:TooltipValue">
-                <Text></Text>
                 <Delay>200</Delay>
               </Value>
             </Action>
