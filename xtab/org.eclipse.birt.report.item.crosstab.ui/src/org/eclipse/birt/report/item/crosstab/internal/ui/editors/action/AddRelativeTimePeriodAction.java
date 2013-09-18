@@ -37,11 +37,9 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -169,28 +167,6 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 			return false;
 		}
 		
-		if( CrosstabUtil.isBoundToLinkedDataSet( reportHandle) )
-		{
-			for( int i = 0; i < reportHandle.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE); i++ )
-			{
-				DimensionHandle dimension = reportHandle.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i).getCubeDimension();
-				if( dimension != null && dimension.isTimeType() )
-				{
-					return true;
-				}
-			}
-			for( int i = 0; i < reportHandle.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE); i++ )
-			{
-				DimensionHandle dimension = reportHandle.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE, i).getCubeDimension();
-				if( dimension != null && dimension.isTimeType() )
-				{
-					return true;
-				}
-			}
-			
-			return false;
-		}
-		
 		CubeHandle cube = reportHandle.getCube( );
 		if (cube == null)
 		{
@@ -201,7 +177,20 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 			return false;
 		}
 		List list = cube.getContents( ICubeModel.DIMENSIONS_PROP );
-		
+		if( CrosstabUtil.isBoundToLinkedDataSet( reportHandle) )
+		{
+			list.clear( );
+			for( int i = 0; i < reportHandle.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE); i++ )
+			{
+				DimensionHandle dimension = reportHandle.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i).getCubeDimension();
+				list.add( dimension );
+			}
+			for( int i = 0; i < reportHandle.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE); i++ )
+			{
+				DimensionHandle dimension = reportHandle.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE, i).getCubeDimension();
+				list.add( dimension );
+			}
+		}
 		for (int i=0; i<list.size( ); i++)
 		{
 			DimensionHandle dimension = (DimensionHandle)list.get( i );
