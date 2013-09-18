@@ -292,10 +292,10 @@ public class InteractiveRenderer
 		if ( fill instanceof ColorDefinition )
 		{
 			ColorDefinition cd = ( (ColorDefinition) fill );
-			saveColor( cd );
 			cd.setRed( ( cd.getRed( ) + 255 ) / 2 );
 			cd.setGreen( ( cd.getGreen( ) + 255 ) / 2 );
 			cd.setBlue( ( cd.getBlue( ) + 255 ) / 2 );
+			saveColor( cd );			
 		}
 		else if ( fill instanceof Gradient )
 		{
