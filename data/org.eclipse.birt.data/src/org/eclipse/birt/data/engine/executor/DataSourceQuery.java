@@ -276,6 +276,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     @SuppressWarnings("restriction")
     public IPreparedDSQuery prepare() throws DataException
     {
+    	long start = System.currentTimeMillis( );
         if ( odaStatement != null )
             throw new DataException( ResourceConstants.QUERY_HAS_PREPARED );
 
@@ -388,7 +389,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
             // Assume metadata not available at prepare time; ignore the exception
         	resultMetadata = null;
         }
-        
+        logger.fine( "Prepare ODA Query uses:" + ( System.currentTimeMillis( ) - start) + " ms " );
         return this;
     }
 
@@ -978,6 +979,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		QueryContextVisitorUtil.populateEffectiveQueryText( qcv,
 				odaStatement.getEffectiveQueryText( ) );
 		
+		logger.fine( "Effective Query Text:" + odaStatement.getEffectiveQueryText( ) );
 		if ( queryCanceller.collectException( ) != null )
 		{
 			if ( !( queryCanceller.collectException( ).getCause( ) instanceof UnsupportedOperationException ) )
