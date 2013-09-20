@@ -1394,7 +1394,19 @@ public final class Bar extends AxesRenderer
 						ex );
 			}
 						
-			if ( laDataPoint.isVisible( ) && ( dHeight != 0 || bShowOutside ) )
+			boolean zeroBarLength = ChartUtil.mathEqual( dHeight, 0 );
+			boolean zeroBarWidth = ChartUtil.mathEqual( dWidth, 0 );
+			
+			if (cwa.isTransposed( ))
+			{
+				boolean tmpBoolean = zeroBarLength;
+				zeroBarLength = zeroBarWidth;
+				zeroBarWidth = tmpBoolean;
+			}
+
+			if ( laDataPoint.isVisible( )
+					&& ( !zeroBarLength || bShowOutside )
+					&& !zeroBarWidth )
 			{
 				// Only render the label that is inside
 				if ( !dpha[i].isOutside( ) )
