@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.HighlightHandleProvider;
@@ -245,6 +246,20 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		{
 			expressionProvider = new CrosstabBindingExpressionProvider( designHandle,
 					null );
+			expressionProvider.addFilter( new ExpressionFilter( ) {
+
+				public boolean select( Object parentElement, Object element )
+				{
+					if ( ExpressionFilter.CATEGORY.equals( parentElement )
+							&& (ExpressionProvider.CURRENT_CUBE.equals( element )
+									|| ExpressionProvider.DATASETS.equals( element )) )
+					{
+						return false;
+					}
+					return true;
+				}
+
+			} );
 		}
 		return expressionProvider;
 	}
