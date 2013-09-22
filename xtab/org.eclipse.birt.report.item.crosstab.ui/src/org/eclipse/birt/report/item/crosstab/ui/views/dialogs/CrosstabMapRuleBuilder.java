@@ -23,13 +23,12 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.CubeValueSelector;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
-import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
-import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.MapHandleProvider;
@@ -251,6 +250,20 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 		{
 			expressionProvider = new CrosstabBindingExpressionProvider( designHandle,
 					null );
+			expressionProvider.addFilter( new ExpressionFilter( ) {
+
+				public boolean select( Object parentElement, Object element )
+				{
+					if ( ExpressionFilter.CATEGORY.equals( parentElement )
+							&& (ExpressionProvider.CURRENT_CUBE.equals( element )
+									|| ExpressionProvider.DATASETS.equals( element )) )
+					{
+						return false;
+					}
+					return true;
+				}
+
+			} );
 		}
 		return expressionProvider;
 	}
