@@ -250,13 +250,8 @@ public class DataSetBindingSelector extends BaseDialog
 			Label dateSetLabel = new Label( parent, SWT.NONE );
 			dateSetLabel.setText( Messages.getString( "DataSetBindingSelector.Combo.DataSet" ) ); //$NON-NLS-1$
 			dataSetCombo = new Combo( parent, SWT.BORDER | SWT.READ_ONLY );
-			ModuleHandle handle = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
-			datasets = UIUtil.getVisibleDataSetHandles( handle );
-			for ( int i = 0; i < datasets.size( ); i++ )
-			{
-				dataSetCombo.add( datasets.get( i ).getQualifiedName( ) );
-			}
+			initDateSetHandles();
+			dataSetCombo.setItems(getDataSetComboList());
 			dataSetCombo.select( 0 );
 			GridData data = new GridData( GridData.FILL_HORIZONTAL );
 			dataSetCombo.setLayoutData( data );
@@ -273,9 +268,36 @@ public class DataSetBindingSelector extends BaseDialog
 
 	}
 
-	private DataSetHandle getSelectedDataSet( )
-	{
-		return (DataSetHandle) datasets.get( dataSetCombo.getSelectionIndex( ) );
+	private ModuleHandle getModel() {
+		return SessionHandleAdapter.getInstance().getReportDesignHandle();
+	}
+
+	private void initDateSetHandles() {
+
+		datasets = org.eclipse.birt.report.designer.internal.ui.util.UIUtil
+				.getVisibleDataSetHandles(getModel());
+	}
+
+	private String[] getDataSetComboList() {
+		ModuleHandle handle = getModel();
+		String[] comboList = new String[datasets.size() + 1];
+		comboList[0] = NONE;
+		for (int i = 0; i < datasets.size(); i++) {
+			comboList[i + 1] = datasets.get(i).getQualifiedName();
+			if (handle.findDataSet(comboList[i + 1]) != datasets.get(i)) {
+				comboList[i + 1] += Messages
+						.getString("BindingGroupDescriptorProvider.Flag.DataModel");
+			}
+		}
+		return comboList;
+	}
+
+	private DataSetHandle getSelectedDataSet() {
+		if (dataSetCombo.getSelectionIndex() > 0) {
+			return (DataSetHandle) datasets.get(dataSetCombo
+					.getSelectionIndex() - 1);
+		}
+		return null;
 	}
 
 	protected void handleDatasetComboSelectedEvent( )
@@ -328,15 +350,15 @@ public class DataSetBindingSelector extends BaseDialog
 	{
 
 		result = new Object[3];
-		if ( dataSetName != null || dataSetCombo.getSelectionIndex( ) > -1 )
+		if ( dataSetName != null || dataSetCombo.getSelectionIndex( ) > 0 )
 		{
 			if ( dataSetName == null )
 			{
-				result[0] = dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) );
+				result[0] = getSelectedDataSet();
 			}
 			else
 			{
-				result[0] = dataSetName;
+				result[0] = datasetHandle;
 			}
 			if ( columnViewers.getCheckedElements( ) != null )
 			{
