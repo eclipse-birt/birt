@@ -123,10 +123,11 @@
          </propertyVisibility>
          <property
                canInherit="true"
+               defaultDisplayName="PDF tag type"
                defaultValue="Figure"
                isEncryptable="false"
                isList="false"
-               name="role"
+               name="tagType"
                type="string">
          </property>
          <property
