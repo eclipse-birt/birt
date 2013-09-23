@@ -126,6 +126,7 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 		assert designModule != null;
 
 		Map parameters = new HashMap( );
+		paramsProp = new ReportParameters( parameters, this );
 		List paramsList = designModule.getAllParameters( );
 		for ( int i = 0; i < paramsList.size( ); i++ )
 		{
@@ -171,7 +172,6 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 				}
 			}
 		}
-		paramsProp = new ReportParameters( parameters, this );
 		return paramsProp;
 	}
 	
