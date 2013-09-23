@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.data.oda.mongodb.internal.impl;
 
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,9 +30,12 @@ import java.util.logging.Level;
 
 import org.bson.BSON;
 import org.eclipse.birt.data.oda.mongodb.impl.MDbConnection;
+import org.eclipse.birt.data.oda.mongodb.impl.MDbQuery;
+import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties.CommandOperationType;
 import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
 import com.mongodb.Bytes;
 import com.mongodb.DB;
@@ -56,6 +60,17 @@ public class MDbMetaData
     
     private static final String SYSTEM_NAMESPACE_PREFIX = "system."; //$NON-NLS-1$
     static final String FIELD_FULL_NAME_SEPARATOR = "."; //$NON-NLS-1$
+
+    private static final Integer NULL_NATIVE_DATA_TYPE = Integer.valueOf(BSON.NULL);
+    private static final Integer STRING_NATIVE_DATA_TYPE = Integer.valueOf(BSON.STRING);
+    private static final Integer BOOLEAN_NATIVE_DATA_TYPE = Integer.valueOf(BSON.BOOLEAN);
+    private static final Integer NUMBER_NATIVE_DATA_TYPE = Integer.valueOf(BSON.NUMBER);
+    private static final Integer NUMBER_INT_NATIVE_DATA_TYPE = Integer.valueOf(BSON.NUMBER_INT);
+    private static final Integer DATE_NATIVE_DATA_TYPE = Integer.valueOf(BSON.DATE);
+    private static final Integer TIMESTAMP_NATIVE_DATA_TYPE = Integer.valueOf(BSON.TIMESTAMP);
+    private static final Integer BINARY_NATIVE_DATA_TYPE = Integer.valueOf(BSON.BINARY);
+    private static final Integer ARRAY_NATIVE_DATA_TYPE = Integer.valueOf(BSON.ARRAY);
+    private static final Integer OBJECT_NATIVE_DATA_TYPE = Integer.valueOf(BSON.OBJECT);
 
     private DB m_connectedDB;
     
@@ -384,6 +399,63 @@ public class MDbMetaData
         }
         return newMetaData;
     }
+
+    private static Integer getPreferredScalarNativeDataType( Set<Integer> nativeDataTypes )
+    {
+        if( nativeDataTypes.isEmpty() )
+            return NULL_NATIVE_DATA_TYPE;          // none available
+        if( nativeDataTypes.size() == 1 )
+            return nativeDataTypes.iterator().next();   // return the only data type available
+        
+        // more than one native data types in field
+
+        if( nativeDataTypes.contains( STRING_NATIVE_DATA_TYPE ) )
+            return STRING_NATIVE_DATA_TYPE;    // String data type takes precedence over other scalar types
+        
+        // check if any of the native data types map to an ODA String
+        Set<Integer> nonStringNativeDataTypes = new HashSet<Integer>( nativeDataTypes.size() );
+        for( Integer nativeDataType : nativeDataTypes )
+        {
+            if( nativeDataType == NULL_NATIVE_DATA_TYPE || 
+                    nativeDataType == ARRAY_NATIVE_DATA_TYPE || nativeDataType == OBJECT_NATIVE_DATA_TYPE )
+                continue;   // skip non-scalar data types
+            int odaDataType = ManifestExplorer.getInstance( ).getDefaultOdaDataTypeCode( nativeDataType, 
+                                MongoDBDriver.ODA_DATA_SOURCE_ID, MDbQuery.ODA_DATA_SET_ID );
+            if( odaDataType == Types.CHAR )     // maps to ODA String data type
+                return nativeDataType;    // String data type takes precedence over other scalar types
+
+            nonStringNativeDataTypes.add( nativeDataType );
+        }
+        
+        if( nonStringNativeDataTypes.isEmpty() )
+            return NULL_NATIVE_DATA_TYPE;          // none available
+        if( nonStringNativeDataTypes.size() == 1 )
+            return nonStringNativeDataTypes.iterator().next();   // return first element by default
+        
+        // more than one native data types in field are not mapped to ODA String;
+        // check if they have mixed data type categories.
+        boolean isNumeric = nonStringNativeDataTypes.contains( NUMBER_NATIVE_DATA_TYPE ) ||
+                    nonStringNativeDataTypes.contains( NUMBER_INT_NATIVE_DATA_TYPE ) ||
+                    nonStringNativeDataTypes.contains( BOOLEAN_NATIVE_DATA_TYPE);
+        boolean isDatetime = nonStringNativeDataTypes.contains( DATE_NATIVE_DATA_TYPE ) ||
+                    nonStringNativeDataTypes.contains( TIMESTAMP_NATIVE_DATA_TYPE );
+        boolean isBinary = nonStringNativeDataTypes.contains( BINARY_NATIVE_DATA_TYPE );
+
+        if( isNumeric && !isDatetime && !isBinary )     // numeric only
+        {
+            if( nonStringNativeDataTypes.contains( NUMBER_NATIVE_DATA_TYPE ) )
+                return NUMBER_NATIVE_DATA_TYPE;     // Number takes precedence over other numeric data types
+            return NUMBER_INT_NATIVE_DATA_TYPE;     // Integer takes precedence over Boolean
+        }
+
+        if( !isNumeric && isDatetime && !isBinary )    // Date and Timestamp data types only
+        {
+            return TIMESTAMP_NATIVE_DATA_TYPE;      // Timestamp takes precedence over Date
+        }
+        
+        // multiple non-String native data types must be of mixed data type categories
+        return STRING_NATIVE_DATA_TYPE;     // use String to handle mixed data types
+    }
     
     /**
      * The metadata of all fields discovered in one or more documents 
@@ -690,7 +762,7 @@ public class MDbMetaData
         {
             Set<Integer> nativeDataTypes = getNativeDataTypes();
             if( nativeDataTypes.isEmpty() )
-                return Integer.valueOf(BSON.NULL);    // none available
+                return NULL_NATIVE_DATA_TYPE;    // none available
 
             // determine the preferred data type of a nested array
             if( hasArrayDataType() )
@@ -702,15 +774,13 @@ public class MDbMetaData
                     if( ! hasDocumentDataType() )
                         return getScalarNativeDataType();
                 }
-                return Integer.valueOf(BSON.ARRAY);
+                return ARRAY_NATIVE_DATA_TYPE;
             }
        
             if( hasDocumentDataType() )
-                return Integer.valueOf(BSON.OBJECT);
-            if( getNativeDataTypes().contains( Integer.valueOf(BSON.STRING) ) )
-                return Integer.valueOf(BSON.STRING);    // String data type takes precedence over other scalar types
+                return OBJECT_NATIVE_DATA_TYPE;
             
-            return nativeDataTypes.iterator().next();   // return first element by default
+            return getPreferredScalarNativeDataType( nativeDataTypes );
         }
 
         /**
@@ -730,14 +800,15 @@ public class MDbMetaData
         private Integer getScalarNativeDataType()
         {
             Set<Integer> nativeDataTypes = getNativeDataTypes();
+            Set<Integer> scalarNativeDataTypes = new HashSet<Integer>( nativeDataTypes.size() );
             for( Integer nativeDataType : nativeDataTypes )
             {
-                if( nativeDataType == Integer.valueOf(BSON.ARRAY) ||
-                    nativeDataType == Integer.valueOf(BSON.OBJECT) )
+                if( nativeDataType == ARRAY_NATIVE_DATA_TYPE ||
+                    nativeDataType == OBJECT_NATIVE_DATA_TYPE )
                     continue;   // skip complex types
-                return nativeDataType;  // return the first found scalar data type
+                scalarNativeDataTypes.add( nativeDataType );
             }
-            return null;    // no scalar type found
+            return getPreferredScalarNativeDataType( scalarNativeDataTypes );
         }
 
         public boolean isArrayOfScalarValues()
@@ -756,12 +827,12 @@ public class MDbMetaData
         
         public boolean hasDocumentDataType()
         {
-            return getNativeDataTypes().contains( Integer.valueOf(BSON.OBJECT) );
+            return getNativeDataTypes().contains( OBJECT_NATIVE_DATA_TYPE );
         }
 
         public boolean hasArrayDataType()
         {
-            return getNativeDataTypes().contains( Integer.valueOf(BSON.ARRAY) );
+            return getNativeDataTypes().contains( ARRAY_NATIVE_DATA_TYPE );
         }
 
         public boolean isDescendantOfArrayField()

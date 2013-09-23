@@ -50,6 +50,8 @@ public class Messages extends NLS
     public static String mDbOp_mapReduceCmdFailed;
     public static String mDbOp_noCmdResults;
 
+    public static String mDbResultSet_cannotConvertFieldData;
+
     public static String queryModel_emptyExprErrorMsg;
     public static String queryModel_invalidCollectionName;
     public static String queryModel_invalidDbCmdKeyValue;
