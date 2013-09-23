@@ -101,6 +101,7 @@ import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider.BindingInfo;
 import org.eclipse.birt.report.designer.ui.IReportClasspathResolver;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
@@ -164,6 +165,30 @@ import com.ibm.icu.util.ULocale;
 public class ReportDataServiceProvider implements IDataServiceProvider
 {
 
+	/**
+	 * DataSetInfo
+	 */
+	public static class DataSetInfo extends BindingInfo
+	{
+
+		public DataSetInfo( int type, String value )
+		{
+			super( type, value );
+		}
+
+		public DataSetInfo( int type, String value, boolean isDataSet )
+		{
+			super( type, value, isDataSet );
+		}
+
+		public String getDisplayName( )
+		{
+			return this.isDataSet( ) ? this.getBindingValue( )
+					: this.getBindingValue( )
+							+ Messages.getString( "ReportDataServiceProvider.Label.DataModel" ); //$NON-NLS-1$
+		}
+	}
+	
 	protected ExtendedItemHandle itemHandle;
 
 	protected ChartWizardContext context;
@@ -336,17 +361,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	@SuppressWarnings("unchecked")
-	protected String[] getAllDataSets( )
+	protected DataSetInfo[] getAllDataSets( )
 	{
 		List<DataSetHandle> list = getReportDesignHandle( ).getVisibleDataSets( );
-		String[] names = new String[list.size( )];
+		DataSetInfo[] dataInfos = new DataSetInfo[list.size( )];
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			names[i] = list.get( i ).getQualifiedName( );
+			dataInfos[i] = new DataSetInfo( ReportItemHandle.DATABINDING_TYPE_DATA,
+					list.get( i ).getQualifiedName( ),
+					true );
 		}
-		return names;
+		return dataInfos;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	protected String[] getAllDataCubes( )
 	{
@@ -932,6 +959,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return itemHandle.getDataSet( ).getQualifiedName( );
 	}
 
+	public DataSetInfo getDataSetInfo( )
+	{
+		if ( itemHandle.getDataSet( ) == null )
+		{
+			return null;
+		}
+		return new DataSetInfo( ReportItemHandle.DATABINDING_TYPE_DATA,
+				itemHandle.getDataSet( ).getQualifiedName( ),
+				true );
+	}
+	
 	/**
 	 * Checks if only inheritance allowed.
 	 * 
@@ -990,7 +1028,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return null;
 	}
 
-	public void setDataSet( String datasetName )
+	public void setDataSet( DataSetInfo dataSetInfo )
 	{
 		try
 		{
@@ -1004,7 +1042,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			itemHandle.setCube( null );
 
-			if ( datasetName == null )
+			if ( dataSetInfo == null )
 			{
 
 				if ( getDataSet( ) != null )
@@ -1017,7 +1055,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 			else
 			{
-				DataSetHandle dataset = getReportDesignHandle( ).findDataSet( datasetName );
+				DataSetHandle dataset = getReportDesignHandle( ).findDataSet( dataSetInfo.getBindingValue( ) );
 				if ( isPreviousDataBindingReference
 						|| itemHandle.getDataSet( ) != dataset )
 				{
@@ -1942,6 +1980,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @throws BirtException
 	 */
+	@SuppressWarnings("unchecked")
 	protected IDataRowExpressionEvaluator createCubeEvaluator( CubeHandle cube,
 			final Chart cm, List<String> columnExpression )
 			throws BirtException
