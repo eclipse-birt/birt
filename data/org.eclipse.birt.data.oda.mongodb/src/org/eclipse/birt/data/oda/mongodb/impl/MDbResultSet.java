@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.bson.types.BSONTimestamp;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.DriverUtil;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties;
@@ -39,6 +41,7 @@ import org.eclipse.datatools.connectivity.oda.impl.Blob;
 import com.mongodb.BasicDBList;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.util.Base64Codec;
 
 /**
  * Implementation class of IResultSet for the MongoDB ODA runtime driver.
@@ -197,6 +200,9 @@ public class MDbResultSet implements IResultSet
             }
         }
 
+        if( columnValue instanceof byte[] )
+            return convertToString( (byte[])columnValue );
+
 	    return columnValue != null ? columnValue.toString() : null;
 	}
 
@@ -215,18 +221,22 @@ public class MDbResultSet implements IResultSet
 	{
         Object columnValue = getFieldValue( columnName );
         columnValue = tryConvertToDataType( columnValue, Integer.class );
-        if( columnValue instanceof Integer )
-            return (Integer)columnValue;
 
         if( columnValue instanceof List )
-            return (Integer)getFirstFieldValue( (List<?>)columnValue, Integer.class, columnName );
+            columnValue = getFirstFieldValue( (List<?>)columnValue, Integer.class, columnName );
+       if( columnValue instanceof Integer )
+            return (Integer)columnValue;
 
-        // trace logging
-        if( columnValue != null && getLogger().isLoggable( Level.FINE ) )
-            getLogger().fine( 
-                Messages.bind( "Unable to get int value from the {0} field, whose fetched value is of {1} data type.",  //$NON-NLS-1$
-                        columnName, columnValue.getClass().getSimpleName() ));
-
+        // not convertible
+        if( columnValue != null )
+        { 
+            String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+                    new Object[]{ columnName, columnValue, columnValue.getClass().getSimpleName(), "integer" }); //$NON-NLS-1$
+            getLogger().severe( errMsg );
+            throw new OdaException( errMsg );
+        }
+        
+        // null value
 	    return 0;
 	}
 
@@ -245,19 +255,23 @@ public class MDbResultSet implements IResultSet
 	{
         Object columnValue = getFieldValue( columnName );
         columnValue = tryConvertToDataType( columnValue, Double.class );
+ 
+        if( columnValue instanceof List )
+            columnValue = getFirstFieldValue( (List<?>)columnValue, Double.class, columnName );
         if( columnValue instanceof Double )
             return (Double)columnValue;
 
-        if( columnValue instanceof List )
-            return (Double)getFirstFieldValue( (List<?>)columnValue, Double.class, columnName );
+        // not convertible
+        if( columnValue != null )
+        { 
+            String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+                    new Object[]{ columnName, columnValue, columnValue.getClass().getSimpleName(), "double" }); //$NON-NLS-1$
+            getLogger().severe( errMsg );
+            throw new OdaException( errMsg );
+        }
 
-        // trace logging
-        if( columnValue != null && getLogger().isLoggable( Level.FINE ) )
-            getLogger().fine( 
-                Messages.bind( "Unable to get double value from the {0} field, whose fetched value is of {1} data type.",  //$NON-NLS-1$
-                        columnName, columnValue.getClass().getSimpleName() ));
-
-        return 0;
+        // null value
+        return 0d;
     }
 
 	/*
@@ -281,11 +295,15 @@ public class MDbResultSet implements IResultSet
         if( columnValue instanceof List )
             return (BigDecimal)getFirstFieldValue( (List<?>)columnValue, BigDecimal.class, 
                                 columnName );        
-        // trace logging
-        if( columnValue != null && getLogger().isLoggable( Level.FINE ) )
-            getLogger().fine( 
-                Messages.bind( "Unable to get BigDecimal value from the {0} field, whose fetched value is of {1} data type.",  //$NON-NLS-1$
-                        columnName, columnValue.getClass().getSimpleName() ));
+
+        // not convertible
+        if( columnValue != null )
+        { 
+            String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+                    new Object[]{ columnName, columnValue, columnValue.getClass().getSimpleName(), "BigDecimal" }); //$NON-NLS-1$
+            getLogger().severe( errMsg );
+            throw new OdaException( errMsg );
+        }
 
         return null;
     }
@@ -309,24 +327,19 @@ public class MDbResultSet implements IResultSet
             return (Date)columnValue;
 
         if( columnValue instanceof List )
-            return convertToSqlDate( 
-                        (java.util.Date)getFirstFieldValue( (List<?>)columnValue, java.util.Date.class, columnName ));
+            return (Date)getFirstFieldValue( (List<?>)columnValue, Date.class, columnName );
 
-        // trace logging
-        if( columnValue != null && getLogger().isLoggable( Level.FINE ) )
-            getLogger().fine( 
-                Messages.bind( "Unable to get Date value from the {0} field, whose fetched value is of {1} data type.",  //$NON-NLS-1$
-                        columnName, columnValue.getClass().getSimpleName() ));
+        // not convertible
+        if( columnValue != null )
+        { 
+            String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+                    new Object[]{ columnName, columnValue, columnValue.getClass().getSimpleName(), "Date" }); //$NON-NLS-1$
+            getLogger().severe( errMsg );
+            throw new OdaException( errMsg );
+        }
 
         return null;
     }
-
-	private static Date convertToSqlDate( java.util.Date utilDateValue )
-	{
-	    if( utilDateValue == null )
-	        return null;
-        return new Date( utilDateValue.getTime() );
-	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTime(int)
@@ -362,30 +375,22 @@ public class MDbResultSet implements IResultSet
 	{
         Object columnValue = getFieldValue( columnName );
         columnValue = tryConvertToDataType( columnValue, Timestamp.class );
+
+        if( columnValue instanceof List )
+            columnValue = getFirstFieldValue( (List<?>)columnValue, Timestamp.class, columnName );
         if( columnValue instanceof Timestamp )
             return (Timestamp)columnValue;
 
-        if( columnValue instanceof BSONTimestamp )
-            return convertToSqlTimestamp( (BSONTimestamp)columnValue );
-
-        if( columnValue instanceof List )
-            return convertToSqlTimestamp( 
-                    (BSONTimestamp)getFirstFieldValue( (List<?>)columnValue, BSONTimestamp.class, 
-                            columnName ));
-        // trace logging
-        if( columnValue != null && getLogger().isLoggable( Level.FINE ) )
-            getLogger().fine( 
-                Messages.bind( "Unable to get Timestamp value from the {0} field, whose fetched value is of {1} data type.",  //$NON-NLS-1$
-                        columnName, columnValue.getClass().getSimpleName() ));
+        // not convertible
+        if( columnValue != null )
+        { 
+            String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+                    new Object[]{ columnName, columnValue, columnValue.getClass().getSimpleName(), "Timestamp" }); //$NON-NLS-1$
+            getLogger().severe( errMsg );
+            throw new OdaException( errMsg );
+        }
 
         return null;
-    }
-
-    private static Timestamp convertToSqlTimestamp( BSONTimestamp ts )
-    {
-        if( ts == null )
-            return null;
-        return new Timestamp( ts.getTime() * 1000L );
     }
 
     /* 
@@ -402,16 +407,21 @@ public class MDbResultSet implements IResultSet
     public IBlob getBlob( String columnName ) throws OdaException
     {
         Object columnValue = getFieldValue( columnName );
+        columnValue = tryConvertToDataType( columnValue, byte[].class );
+
         if( columnValue instanceof List )
             columnValue = getFirstFieldValue( (List<?>)columnValue, byte[].class, columnName );
         if( columnValue instanceof byte[] )
             return new Blob( (byte[])columnValue );
 
-        // trace logging
-        if( columnValue != null && getLogger().isLoggable( Level.FINE ) )
-            getLogger().fine( 
-                Messages.bind( "Unable to get IBlob value from the {0} field, whose fetched value is of {1} data type.",  //$NON-NLS-1$
-                        columnName, columnValue.getClass().getSimpleName() ));
+        // not convertible
+        if( columnValue != null )
+        { 
+            String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+                    new Object[]{ columnName, columnValue, columnValue.getClass().getSimpleName(), "Blob" }); //$NON-NLS-1$
+            getLogger().severe( errMsg );
+            throw new OdaException( errMsg );
+        }
 
         return null;
     }
@@ -447,19 +457,23 @@ public class MDbResultSet implements IResultSet
     {
         Object columnValue = getFieldValue( columnName );
         columnValue = tryConvertToDataType( columnValue, Boolean.class );
+
+        if( columnValue instanceof List )
+            columnValue = getFirstFieldValue( (List<?>)columnValue, Boolean.class, columnName );
         if( columnValue instanceof Boolean )
             return (Boolean)columnValue;
 
-        if( columnValue instanceof List )
-            return (Boolean)getFirstFieldValue( (List<?>)columnValue, Boolean.class, 
-                                    columnName );
-        // trace logging
-        if( columnValue != null && getLogger().isLoggable( Level.FINE ) )
-            getLogger().fine( 
-                Messages.bind( "Unable to get boolean value from the {0} field, whose fetched value is of {1} data type.",  //$NON-NLS-1$
-                        columnName, columnValue.getClass().getSimpleName() ));
-
-        return false;
+        // not convertible
+        if( columnValue != null )
+        { 
+            String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+                    new Object[]{ columnName, columnValue, columnValue.getClass().getSimpleName(), "boolean" }); //$NON-NLS-1$
+            getLogger().severe( errMsg );
+            throw new OdaException( errMsg );
+        }
+        
+        // null value
+        return false;   
     }
     
     /* (non-Javadoc)
@@ -519,17 +533,25 @@ public class MDbResultSet implements IResultSet
     }
 
     /* Get specified type of value from the first element in an array;
-     * handles nested arrays
+     * handles nested arrays.
+     * Returns a null value if not able to return value in the specified valueDataType.
      */
     private Object getFirstFieldValue( List<?> valuesList, Class<?> valueDataType,
-            String logColumnName )
+            String logColumnName ) throws OdaException
     {
         Object value = getFirstElementFromList( valuesList, logColumnName );
+        value = tryConvertToDataType( value, valueDataType );
         if( valueDataType.isInstance( value ) )
             return value;
         if( value instanceof List ) // nested array
             return getFirstFieldValue( (List<?>)value, valueDataType, logColumnName );
-        
+
+        // not convertible
+        if( value != null && getLogger().isLoggable( Level.FINE ) )
+            getLogger().fine( 
+                    Messages.bind( "Unable to get the '{0}' field's first array value ({1}) in {2} data type as a {3} value.",  //$NON-NLS-1$
+                    new Object[]{ logColumnName, value, value.getClass().getSimpleName(), valueDataType.getSimpleName() }));
+
         m_wasNull = true;
         return null;
     }
@@ -549,49 +571,126 @@ public class MDbResultSet implements IResultSet
         return firstValue;
     }
 
-    private static Object tryConvertToDataType( Object value, Class<?> valueDataType ) throws OdaException
+    private static Object tryConvertToDataType( Object value, Class<?> toDataType ) throws OdaException
     {
-        if( value == null || valueDataType.isInstance( value ) ) // already in specified data type
+        if( value == null || toDataType.isInstance( value ) ) // already in specified data type
             return value;
         
-        if( value instanceof String )
+        try
         {
-            String stringValue = (String)value;
-            try
+            if( value instanceof String )
             {
-                if( valueDataType == Integer.class )
+                String stringValue = (String)value;
+                if( toDataType == Integer.class )
                     return Integer.valueOf( stringValue );
-                if( valueDataType == Double.class )
+                if( toDataType == Double.class )
                     return Double.valueOf( stringValue );
-                if( valueDataType == BigDecimal.class )
+                if( toDataType == BigDecimal.class )
                     return new BigDecimal( stringValue );
-                if( valueDataType == Boolean.class ) 
+                if( toDataType == Boolean.class ) 
                     return Boolean.valueOf( stringValue );
-                if( valueDataType == Date.class ) 
+                if( toDataType == Date.class ) 
                     return Date.valueOf( stringValue );
-                if( valueDataType == Timestamp.class )
+                if( toDataType == Timestamp.class )
                     return Timestamp.valueOf( stringValue );
+                if( toDataType == byte[].class )
+                    return tryConvertToBytes( stringValue );
             }
-            catch( NumberFormatException ex )
+
+            if( value instanceof java.util.Date )   // the object type returned by MongoDB for a Date field
             {
-                throw new OdaException( ex );
+                long msTime = ((java.util.Date)value).getTime();
+                if( toDataType == Date.class ) 
+                    return new Date( msTime );
+                if( toDataType == Timestamp.class )
+                    return new Timestamp( msTime );
             }
-            catch( IllegalArgumentException ex )
+ 
+            if( value instanceof BSONTimestamp )
             {
-                throw new OdaException( ex );
+                long msTime = ((BSONTimestamp)value).getTime() * 1000L;
+                if( toDataType == Date.class ) 
+                    return new Date( msTime );
+                if( toDataType == Timestamp.class )
+                    return new Timestamp( msTime );
             }
+
+            if( toDataType == Integer.class )
+                return tryConvertToInteger( value );
+            if( toDataType == Double.class )
+                return tryConvertToDouble( value );
+            if( toDataType == Boolean.class )
+                return tryConvertToBoolean( value );
+        }
+        catch( Exception ex )
+        {
+            String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+                    new Object[]{ DriverUtil.EMPTY_STRING, value, value.getClass().getSimpleName(), toDataType.getSimpleName() });
+            getLogger().severe( errMsg );
+
+            OdaException odaEx = new OdaException( errMsg );
+            odaEx.initCause( ex );
+            throw odaEx;
         }
 
-        if( value instanceof java.util.Date )   // the object type returned by MongoDB for a Date field
-        {
-            java.util.Date utilDateValue = (java.util.Date)value;
-            if( valueDataType == Date.class ) 
-                return convertToSqlDate( utilDateValue );
-            if( valueDataType == Timestamp.class )
-                return new Timestamp( utilDateValue.getTime() );
-        }
-        
+        // non-handled data type conversion; return value as is
+        return value;
+    }
+
+    private static Object tryConvertToInteger( Object value )
+    {
+        if( value instanceof Number )
+            return Integer.valueOf( ((Number)value).intValue() );
+        if( value instanceof Boolean )
+            return ((Boolean)value) ? Integer.valueOf(1) : Integer.valueOf(0);
         return value;   // not able to convert; return value as is
+    }
+
+    private static Object tryConvertToDouble( Object value )
+    {
+        if( value instanceof Number )
+            return Double.valueOf( ((Number)value).doubleValue() );
+        if( value instanceof Boolean )
+            return ((Boolean)value) ? Double.valueOf(1d) : Double.valueOf(0d);
+        return value;   // not able to convert; return value as is
+    }
+
+    private static Object tryConvertToBoolean( Object value )
+    {
+        if( value instanceof Number )
+            return ((Number)value).doubleValue() != 0 ? Boolean.TRUE : Boolean.FALSE;
+        return value;   // not able to convert; return value as is
+    }
+
+    private static Object tryConvertToBytes( String stringValue )
+    {
+        try
+        {
+            return DatatypeConverter.parseBase64Binary( stringValue );
+        }
+        catch( Exception ex )
+        {   
+            // DatatypeConverter could be un-initialized,
+            // log and continue; note that Base64Codec#decode might be unavailable in some versions
+            if( getLogger().isLoggable( Level.FINE ) )
+                getLogger().fine( 
+                        Messages.bind( "Unable to convert the String field value ({0}) to a bytes[] value.\n Cause: {1}",  //$NON-NLS-1$
+                                    stringValue, ex.getMessage() ));
+        }
+        return stringValue;   // not able to convert; return value as is
+    }
+
+    private static String convertToString( byte[] value )
+    {
+        try
+        {
+            return DatatypeConverter.printBase64Binary( value );
+        }
+        catch( Exception ex )
+        {
+            // DatatypeConverter could be un-initialized; retry with Base64Codec
+            return (new Base64Codec()).encode( value );
+        }
     }
 
     private static void logFetchedFirstElementFromArray( String columnName, int arraySize )

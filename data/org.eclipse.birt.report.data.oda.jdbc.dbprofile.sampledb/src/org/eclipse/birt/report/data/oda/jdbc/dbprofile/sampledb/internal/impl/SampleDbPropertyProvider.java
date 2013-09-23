@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2011 Actuate Corporation.
+ * Copyright (c) 2011, 2013 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,9 +17,11 @@ package org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.internal.impl;
 import java.util.Properties;
 
 import org.eclipse.datatools.connectivity.ConnectionProfileConstants;
+import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.drivers.jdbc.IJDBCConnectionProfileConstants;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.services.IPropertyProvider;
+import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
 
 /**
@@ -36,16 +38,37 @@ public class SampleDbPropertyProvider implements IPropertyProvider
     {
         // adjusts transient SampleDb profile properties;
         // expects specified candidateProperties to be in db profile property keys
+
         if( ! isTransientSampleDbProfile( candidateProperties ) )
             return candidateProperties;     // use the properties as is
 
-        // adds the default persisted SampleDb profile name to the profile properties,
-        // so it will use the default persisted profile for BIRT SampleDB
-        Properties effectiveProps = new Properties();
-        effectiveProps.putAll( candidateProperties );
-        effectiveProps.setProperty( ConnectionProfileProperty.PROFILE_NAME_PROP_KEY,
+        // Adopts the properties in the default persisted profile that has the local SampleDb path 
+
+        /* BIRT SampleDB uses Embedded Derby, whose DerbyEmbeddedJDBCConnection implementation 
+         * tracks connection reference count, which conflicts with how a shared connection profile instance 
+         * tracks its connection state.
+         * Thus this will create a separate transient connection profile instance, instead of sharing 
+         * the default persisted profile instance for BIRT SampleDB.
+         */
+        // specifies the SampleDb profile name to lookup the default persisted profile instance
+        // for BIRT SampleDB
+        Properties defaultProfileProps = new Properties();
+        defaultProfileProps.setProperty( ConnectionProfileProperty.PROFILE_NAME_PROP_KEY,
                                          SampleDbFactory.SAMPLEDB_DEFAULT_PROFILE_NAME );
-        return effectiveProps;  // returns a new instance for the adjusted profile properties
+        IConnectionProfile sampleDbProfile = OdaProfileExplorer.getInstance()
+                                        .getProfileByName( defaultProfileProps, appContext );
+
+        // if found, adopts its properties to create a new transient profile
+        if( sampleDbProfile != null )  
+        {
+            defaultProfileProps.clear();
+            defaultProfileProps.putAll( candidateProperties );
+            defaultProfileProps.putAll( sampleDbProfile.getBaseProperties() );  // override with persisted profile properties
+            return defaultProfileProps;
+        }
+
+        // not able to find the default persisted SampleDb profile
+        return candidateProperties;     // use the properties as is 
     }
 
     /*
@@ -68,7 +91,7 @@ public class SampleDbPropertyProvider implements IPropertyProvider
             return false;
 
         String dbUrl = dbProfileProps.getProperty( IJDBCConnectionProfileConstants.URL_PROP_ID, null );
-        if( dbUrl == null || ! dbUrl.endsWith( SampleDbFactory.SAMPLEDB_URL_RELATIVE_SUFFIX ) )
+        if( dbUrl == null || ! dbUrl.replace( '\\', '/' ).endsWith( SampleDbFactory.SAMPLEDB_URL_RELATIVE_SUFFIX ) )
             return false;
 
         return true;
