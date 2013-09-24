@@ -71,7 +71,7 @@ public class ImageDialog extends TrayDialog
 
 	private final static String DATA_BASE64 = "data:;base64,"; //$NON-NLS-1$
 
-	protected Button embedded, resource, uri, browseButton, previewButton;
+	protected Button embedded, resource, uri, local, browseButton, previewButton;
 
 	protected List list;
 
@@ -88,6 +88,8 @@ public class ImageDialog extends TrayDialog
 	private boolean bEmbeddedImageEnabled;
 
 	private boolean bResourceImageEnabled;
+	
+	private boolean bLocalImageEnabled;
 
 	protected String imageData;
 
@@ -96,6 +98,8 @@ public class ImageDialog extends TrayDialog
 	protected ChartWizardContext context;
 
 	private static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.composites" ); //$NON-NLS-1$
+	
+	protected SelectType selectType;
 
 	/**
 	 * The constructor.
@@ -113,6 +117,24 @@ public class ImageDialog extends TrayDialog
 		this.bEmbeddedImageEnabled = bEmbeddedImageEnabled;
 		this.bResourceImageEnabled = bResourceImageEnabled;
 	}
+	
+	/**
+	 * The constructor.
+	 * 
+	 * @param parentShell
+	 */
+	public ImageDialog( Shell parentShell, Fill fCurrent,
+			ChartWizardContext context, boolean bEmbeddedImageEnabled,
+			boolean bResourceImageEnabled, boolean bLocalImageEnabled )
+	{
+		this( parentShell,
+				fCurrent,
+				context,
+				bEmbeddedImageEnabled,
+				bResourceImageEnabled );
+		this.bLocalImageEnabled = bLocalImageEnabled;
+	}
+	
 
 	@Override
 	protected Control createContents( Composite parent )
@@ -202,6 +224,20 @@ public class ImageDialog extends TrayDialog
 				}
 			} );
 		}
+		
+		if ( bLocalImageEnabled )
+		{
+			local = new Button( selectionArea, SWT.RADIO );
+			local.setText( Messages.getString( "ImageDialog.label.LocalImage" ) ); //$NON-NLS-1$
+			local.addSelectionListener( new SelectionAdapter( ) {
+
+				@Override
+				public void widgetSelected( SelectionEvent e )
+				{
+					switchTo( SelectType.LOCAL_TYPE );
+				}
+			} );
+		}
 
 		return selectionArea;
 	}
@@ -219,6 +255,8 @@ public class ImageDialog extends TrayDialog
 
 	protected void switchTo( SelectType selectedType )
 	{
+		if ( selectedType.equals( this.selectType ) )
+			return;
 		this.selectedHandle = getSelectTypeHandle( selectedType );
 		switchTo( selectedHandle );
 	}
@@ -345,8 +383,14 @@ public class ImageDialog extends TrayDialog
 		boolean isResource = bResourceImageEnabled
 				&& fCurrent instanceof Image
 				&& ( (Image) fCurrent ).getSource( ) == ImageSourceType.FILE;
-
-		SelectType selectType = SelectType.URI_TYPE;
+		
+		boolean isLocal = bLocalImageEnabled
+				&& fCurrent instanceof Image
+				&& ( (Image) fCurrent ).getSource( ) == ImageSourceType.STATIC
+				&& ( (Image) fCurrent ).getURL( ) != null
+				&& ( (Image) fCurrent ).getURL( ).indexOf( "file:" ) == 0;
+		
+		selectType = SelectType.URI_TYPE;
 
 		if ( isEmbedded )
 		{
@@ -356,6 +400,10 @@ public class ImageDialog extends TrayDialog
 		{
 			selectType = SelectType.RESOURCE_TYPE;
 		}
+		else if ( isLocal )
+		{
+			selectType = SelectType.LOCAL_TYPE;
+		} 
 
 		this.selectedHandle = getSelectTypeHandle( selectType );
 		selectedHandle.initDialog( );
@@ -376,7 +424,14 @@ public class ImageDialog extends TrayDialog
 			{
 				imageData = ( (EmbeddedImage) fCurrent ).getData( );
 			}
+			
+			if ( selectType == SelectType.URI_TYPE
+					&& ( ( (Image) fCurrent ).getURL( ).indexOf( "file:" ) == 0 || ( (Image) fCurrent ).getSource( ) == ImageSourceType.FILE ) ) //$NON-NLS-1$
+			{
+				uri = ""; //$NON-NLS-1$
+			}
 		}
+		
 
 		uriEditor.setText( uri );
 		uriEditor.setFocus( );
@@ -799,9 +854,108 @@ public class ImageDialog extends TrayDialog
 		}
 
 	}
+	
+	private class LocalSelectTypeHandleImpl implements SelectTypeHandle{
+
+		@Override
+		public void initDialog( )
+		{
+			local.setSelection( true );
+			switchTo( this );
+			initURIEditor( );
+			preview( );
+		}
+
+		@Override
+		public void createInputInnerComposite( )
+		{
+			title.setText( Messages.getString( "ImageDialog.label.EnterLocal" )  ); //$NON-NLS-1$
+			createURIEditor( );
+			Composite innerComp = createInnerComposite( );
+			createLocalBrowseButton( innerComp );
+			createPreviewButton( innerComp );
+		}
+
+		@Override
+		public void preview( )
+		{
+			if ( this.isComplete( ) )
+			{
+				String uri = removeQuote( uriEditor.getText( ) );
+				previewCanvas.updateCanvas( uri );
+			}
+		}
+
+		@Override
+		public boolean isComplete( )
+		{
+			boolean complete;
+
+			try
+			{
+				// handle double quotation
+				URL url = new URL( removeQuote( uriEditor.getText( ).trim( ) ) );
+
+				File file = new File( url.getPath( ) );
+				complete = file.exists( ) && file.isAbsolute( );
+			}
+			catch ( Exception e )
+			{
+				complete = false;
+			}
+
+			return complete;
+		}
+
+		@Override
+		public void performOKPressed( )
+		{
+			fCurrent = ImageImpl.create( removeQuote( uriEditor.getText( )
+					.trim( ) ) );
+		}
+		
+		private void createLocalBrowseButton( Composite innerComp )
+		{
+			browseButton = new Button( innerComp, SWT.PUSH );
+			browseButton.setText( Messages.getString( "ImageDialog.label.Browse" ) ); //$NON-NLS-1$
+			browseButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+			browseButton.addSelectionListener( new SelectionAdapter( ) {
+
+				@Override
+				public void widgetSelected( SelectionEvent event )
+				{
+					FileDialog fileChooser = new FileDialog( getShell( ),
+							SWT.OPEN );
+					fileChooser.setText( Messages.getString( "ImageDialog.label.SelectFile" ) ); //$NON-NLS-1$
+					fileChooser.setFilterExtensions( new String[]{
+							"*.gif", "*.jpg", "*.png" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					} );
+					try
+					{
+						String fullPath = fileChooser.open( );
+						if ( fullPath != null )
+						{
+							String fileName = fileChooser.getFileName( );
+							if ( fileName != null )
+							{
+								imageData = null;
+								fullPath = new StringBuffer( "file:///" ).append( fullPath ).toString( ); //$NON-NLS-1$
+								uriEditor.setText( fullPath );
+							}
+						}
+					}
+					catch ( Throwable e )
+					{
+						e.printStackTrace( );
+					}
+				}
+			} );
+		}
+		
+	}
 
 	private enum SelectType {
-		URI_TYPE, RESOURCE_TYPE, EMBEDDED_TYPE
+		URI_TYPE, RESOURCE_TYPE, EMBEDDED_TYPE, LOCAL_TYPE
 	}
 
 	private boolean checkURIEditorTextIsEmpty( )
@@ -820,6 +974,8 @@ public class ImageDialog extends TrayDialog
 				return new ResourceSelectTypeHandleImpl( );
 			case EMBEDDED_TYPE :
 				return getEmbeddedSelectTypeHandle( );
+			case LOCAL_TYPE:
+				return new LocalSelectTypeHandleImpl( );
 		}
 		return null;
 	}

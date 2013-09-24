@@ -860,13 +860,13 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		{
 			if ( newType == MarkerType.ICON_LITERAL )
 			{
-				MarkerIconDialog iconDialog = (MarkerIconDialog) context.getUIFactory( )
+				ImageDialog iconDialog = (ImageDialog) context.getUIFactory( )
 						.createChartMarkerIconDialog( new Shell( ),
 								getMarker( ).getFill( ),
 								context );
 				if ( iconDialog.open( ) == Window.OK )
 				{
-					Fill resultFill = iconDialog.getFill( );
+					Fill resultFill = iconDialog.getResult( );
 					if ( resultFill.eAdapters( ).isEmpty( ) )
 					{
 						// Add adapters to new EObject
