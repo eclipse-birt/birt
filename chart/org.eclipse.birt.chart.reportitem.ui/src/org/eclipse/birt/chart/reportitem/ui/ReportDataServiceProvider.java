@@ -2009,6 +2009,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					true,
 					true );
 		}
+		else if ( isPartChart( ) )
+		{
+			qd = createPartChartQuery( cm );
+		}
 		else
 		{
 			qd = new ChartCubeQueryHelper( itemHandle,
@@ -2072,6 +2076,16 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				isSharingXtab,
 				cm );
 		return bcrse;
+	}
+
+	protected IBaseCubeQueryDefinition createPartChartQuery( final Chart cm )
+			throws BirtException
+	{
+		IBaseCubeQueryDefinition qd;
+		qd = new ChartCubeQueryHelper( itemHandle,
+				cm,
+				session.getModelAdaptor( ) ).createCubeQuery( null );
+		return qd;
 	}
 
 	protected BIRTCubeResultSetEvaluator executeCubeQuery(
