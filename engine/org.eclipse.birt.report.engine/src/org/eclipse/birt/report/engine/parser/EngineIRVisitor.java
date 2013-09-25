@@ -218,7 +218,7 @@ public class EngineIRVisitor extends DesignVisitor
 	/**
 	 * default script language
 	 */
-	protected String defaultScriptLanguage;
+	protected String defaultScriptLanguage = "javascript";
 
 	/**
 	 * report design handle
@@ -294,9 +294,7 @@ public class EngineIRVisitor extends DesignVisitor
 	 */
 	public void visitReportDesign( ReportDesignHandle handle )
 	{
-		// 
-		this.defaultScriptLanguage = "javascript";
-
+		
 		Map<String, Expression> userProperties = createUserProperties( handle );
 		if ( userProperties != null && !userProperties.isEmpty( ) )
 		{
