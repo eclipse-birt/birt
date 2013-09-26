@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
@@ -184,7 +185,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 		List list = cube.getContents( ICubeModel.DIMENSIONS_PROP );
 		if( CrosstabUtil.isBoundToLinkedDataSet( reportHandle) )
 		{
-			list.clear( );
+			list = new ArrayList();
 			for( int i = 0; i < reportHandle.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE); i++ )
 			{
 				DimensionHandle dimension = reportHandle.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i).getCubeDimension();
