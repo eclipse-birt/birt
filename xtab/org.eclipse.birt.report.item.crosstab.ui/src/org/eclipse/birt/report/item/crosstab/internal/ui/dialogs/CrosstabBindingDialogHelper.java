@@ -60,6 +60,7 @@ import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -563,10 +564,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		int count = crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE );
 		for ( int i = 0; i < count; i++ )
 		{
-			if ( crosstab.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE, i )
-					.getCubeDimension( )
-					.getName( )
-					.equals( dimensionName ) )
+			DimensionHandle cubeDim = crosstab.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE, i ).getCubeDimension( );
+			if( cubeDim == null )
+			{
+				continue;
+			}
+			if ( cubeDim.getName( ).equals( dimensionName ) )
 			{
 				inUseDimsion = true;
 			}
@@ -575,10 +578,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		count = crosstab.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE );
 		for ( int i = 0; i < count; i++ )
 		{
-			if ( crosstab.getDimension( ICrosstabConstants.ROW_AXIS_TYPE, i )
-					.getCubeDimension( )
-					.getName( )
-					.equals( dimensionName ) )
+			DimensionHandle cubeDim = crosstab.getDimension( ICrosstabConstants.ROW_AXIS_TYPE, i ).getCubeDimension( );
+			if( cubeDim == null )
+			{
+				continue;
+			}
+			if ( cubeDim.getName( ).equals( dimensionName ) )
 			{
 				inUseDimsion = true;
 			}
@@ -1388,6 +1393,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			return new String[0];
 		}
 		List list = cube.getContents( ICubeModel.DIMENSIONS_PROP );
+		if( list == null )
+		{
+			return new String[0];
+		}
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			DimensionHandle dimension = (DimensionHandle) list.get( i );
@@ -1794,6 +1803,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				for (int i = 0; i < xtabHandle.getMeasureCount( ); i++)
 				{
+					if( xtabHandle.getMeasure( i ) instanceof ComputedMeasureViewHandle )
+					{
+						continue;
+					}
 					String str = ExpressionUtil.createDataSetRowExpression( xtabHandle.getMeasure( i ).getCubeMeasureName( ) );
 					if ( !measures.contains( str ) )
 					{
@@ -1804,6 +1817,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			else if ( cubeHandle != null )
 			{	
 				List children = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+				if( children == null )
+				{
+					return new ArrayList<String>();
+				}
 				for ( int i = 0; i < children.size( ); i++ )
 				{
 					MeasureGroupHandle group = (MeasureGroupHandle) children.get( i );
