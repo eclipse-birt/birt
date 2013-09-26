@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -1243,12 +1244,33 @@ public final class CrosstabUtil implements ICrosstabConstants
 			ComputedColumnHandle ch = getMeasureBindingColumnHandle( mv );
 			if( ch != null 
 					&& ch.getAggregateFunction() != null 
-					&& !ch.getAggregateFunction().isEmpty()
-					&& ch.getCalculationType() == null )
+					&& !ch.getAggregateFunction().isEmpty() )
 			{	
 				ExpressionHandle expr = ch
 						.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );		
-				String expression = expr.getStringExpression( );
+				String expression = (expr != null) ? expr.getStringExpression( ) : null;
+				if( expression == null )
+				{
+					Iterator it = ch.argumentsIterator( );
+					while( it.hasNext( ) )
+					{
+						Object obj = it.next( );
+						if( obj instanceof AggregationArgumentHandle )
+						{
+							AggregationArgumentHandle arg = (AggregationArgumentHandle)obj;
+							if( ComputedColumn.EXPRESSION_MEMBER.equalsIgnoreCase( arg.getName( ) ) )
+							{
+								expr = arg.getExpressionProperty( AggregationArgument.VALUE_MEMBER );
+								if( expr != null )
+								{
+									expression = arg.getValue( );
+									break;
+								}
+							}
+						}
+					}
+				}
+				
 				if( expression != null )
 				{
 					Pattern p = null;
