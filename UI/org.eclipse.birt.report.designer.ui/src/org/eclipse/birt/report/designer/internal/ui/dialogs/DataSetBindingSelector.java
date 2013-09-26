@@ -30,7 +30,6 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedData
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -69,6 +68,7 @@ public class DataSetBindingSelector extends BaseDialog
 	private String[] columns;
 	private boolean validateEmptyResults = false;
 	private List<DataSetHandle> datasets;
+	private Object[] result;
 
 	private static final IChoice[] DATA_TYPE_CHOICES = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
@@ -217,7 +217,7 @@ public class DataSetBindingSelector extends BaseDialog
 			}
 		} );
 
-		handleDatasetComboSelectedEvent( );
+		handleDataSetComboSelectedEvent( );
 
 		if ( columns != null )
 		{
@@ -250,8 +250,9 @@ public class DataSetBindingSelector extends BaseDialog
 			Label dateSetLabel = new Label( parent, SWT.NONE );
 			dateSetLabel.setText( Messages.getString( "DataSetBindingSelector.Combo.DataSet" ) ); //$NON-NLS-1$
 			dataSetCombo = new Combo( parent, SWT.BORDER | SWT.READ_ONLY );
-			initDateSetHandles();
-			dataSetCombo.setItems(getDataSetComboList());
+			datasets = UIUtil.getVisibleDataSetHandles( SessionHandleAdapter.getInstance( )
+					.getModule( ) );
+			dataSetCombo.setItems( getDataSetComboList( ) );
 			dataSetCombo.select( 0 );
 			GridData data = new GridData( GridData.FILL_HORIZONTAL );
 			dataSetCombo.setLayoutData( data );
@@ -260,7 +261,7 @@ public class DataSetBindingSelector extends BaseDialog
 
 				public void widgetSelected( SelectionEvent e )
 				{
-					handleDatasetComboSelectedEvent( );
+					handleDataSetComboSelectedEvent( );
 				}
 
 			} );
@@ -268,39 +269,33 @@ public class DataSetBindingSelector extends BaseDialog
 
 	}
 
-	private ModuleHandle getModel() {
-		return SessionHandleAdapter.getInstance().getReportDesignHandle();
-	}
-
-	private void initDateSetHandles() {
-
-		datasets = org.eclipse.birt.report.designer.internal.ui.util.UIUtil
-				.getVisibleDataSetHandles(getModel());
-	}
-
-	private String[] getDataSetComboList() {
-		ModuleHandle handle = getModel();
-		String[] comboList = new String[datasets.size() + 1];
+	private String[] getDataSetComboList( )
+	{
+		String[] comboList = new String[datasets.size( ) + 1];
 		comboList[0] = NONE;
-		for (int i = 0; i < datasets.size(); i++) {
-			comboList[i + 1] = datasets.get(i).getQualifiedName();
-			if (handle.findDataSet(comboList[i + 1]) != datasets.get(i)) {
-				comboList[i + 1] += Messages
-						.getString("BindingGroupDescriptorProvider.Flag.DataModel");
+		for ( int i = 0; i < datasets.size( ); i++ )
+		{
+			comboList[i + 1] = datasets.get( i ).getQualifiedName( );
+			if ( SessionHandleAdapter.getInstance( )
+					.getModule( )
+					.findDataSet( comboList[i + 1] ) != datasets.get( i ) )
+			{
+				comboList[i + 1] += Messages.getString( "BindingGroupDescriptorProvider.Flag.DataModel" );
 			}
 		}
 		return comboList;
 	}
 
-	private DataSetHandle getSelectedDataSet() {
-		if (dataSetCombo.getSelectionIndex() > 0) {
-			return (DataSetHandle) datasets.get(dataSetCombo
-					.getSelectionIndex() - 1);
+	private DataSetHandle getSelectedDataSet( )
+	{
+		if ( dataSetCombo.getSelectionIndex( ) > 0 )
+		{
+			return (DataSetHandle) datasets.get( dataSetCombo.getSelectionIndex( ) - 1 );
 		}
 		return null;
 	}
 
-	protected void handleDatasetComboSelectedEvent( )
+	protected void handleDataSetComboSelectedEvent( )
 	{
 		Iterator iter = null;
 		DataSetHandle handle = null;
@@ -344,8 +339,6 @@ public class DataSetBindingSelector extends BaseDialog
 
 	}
 
-	private Object[] result;
-
 	protected void okPressed( )
 	{
 
@@ -354,7 +347,7 @@ public class DataSetBindingSelector extends BaseDialog
 		{
 			if ( dataSetName == null )
 			{
-				result[0] = getSelectedDataSet();
+				result[0] = getSelectedDataSet( );
 			}
 			else
 			{
@@ -405,6 +398,11 @@ public class DataSetBindingSelector extends BaseDialog
 	public Object getResult( )
 	{
 		return result;
+	}
+
+	public void setDataSet( String dataSetName )
+	{
+		setDataSet( dataSetName, true );
 	}
 
 	public void setDataSet( String dataSetName, boolean isDataSet )
