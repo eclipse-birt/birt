@@ -178,6 +178,10 @@ public class IOUtil
 	{
 		int ch1 = inputStream.read( );
 		int ch2 = inputStream.read( );
+		if ( ch1 == -1 || ch2 == -1 )
+		{
+			throw new EOFException( );
+		}
 
 		return (short) ( ( ch1 << 8 ) + ch2 );
 	}
@@ -210,6 +214,10 @@ public class IOUtil
 		int ch2 = inputStream.read( );
 		int ch3 = inputStream.read( );
 		int ch4 = inputStream.read( );
+		if ( ch1 == -1 || ch2 == -1 || ch3 == -1 || ch4 == -1 )
+		{
+			throw new EOFException( );
+		}
 
 		return ( ( ch1 << 24 ) + ( ch2 << 16 ) + ( ch3 << 8 ) + ( ch4 << 0 ) );
 	}
@@ -312,7 +320,12 @@ public class IOUtil
 	public final static boolean readBool( InputStream inputStream )
 			throws IOException
 	{
-		return inputStream.read( ) == 0 ? false : true;
+		int v = inputStream.read( );
+		if ( v == -1 )
+		{
+			throw new EOFException( );
+		}
+		return v == 0 ? false : true;
 	}
 
 	/**
