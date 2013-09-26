@@ -42,16 +42,16 @@ public class PrimitiveDiskArray extends BaseDiskArray
 	{
 		if ( object == null )
 		{
-			randomAccessFile.writeShort( NULL_VALUE );
+			getRandomAccessFile( ).writeShort( NULL_VALUE );
 			return;
 		}
-		randomAccessFile.writeShort( NORMAL_VALUE );
+		getRandomAccessFile( ).writeShort( NORMAL_VALUE );
 		if ( fieldWriter == null )
 		{
 			fieldWriter = IOUtil.getRandomWriter( DataType.getDataType( object.getClass( ) ) );
 			fieldReader = IOUtil.getRandomReader( DataType.getDataType( object.getClass( ) ) );
 		}
-		fieldWriter.write( randomAccessFile, object );
+		fieldWriter.write( getRandomAccessFile( ), object );
 	}
 
 	/*
@@ -60,13 +60,13 @@ public class PrimitiveDiskArray extends BaseDiskArray
 	 */
 	protected Object readObject( ) throws IOException
 	{
-		short fieldCount = randomAccessFile.readShort( );
+		short fieldCount = getRandomAccessFile( ).readShort( );
 		if ( fieldCount == NULL_VALUE )
 		{
 			return null;
 		}
 
-		return fieldReader.read( randomAccessFile );
+		return fieldReader.read( getRandomAccessFile( ) );
 	}
 
 	/*

@@ -47,12 +47,12 @@ public class StructureDiskArray extends BaseDiskArray
 	{
 		if ( object == null )
 		{
-			randomAccessFile.writeShort( NULL_VALUE );
+			getRandomAccessFile( ).writeShort( NULL_VALUE );
 			return;
 		}
 		IStructure cachedObject = (IStructure) object;
 		Object[] objects = cachedObject.getFieldValues( );
-		randomAccessFile.writeShort( (short) objects.length );
+		getRandomAccessFile( ).writeShort( (short) objects.length );
 		if ( fieldWriters == null || fieldWriters.length < objects.length )
 		{
 			createReadersAndWriters( objects.length );
@@ -61,11 +61,11 @@ public class StructureDiskArray extends BaseDiskArray
 		{
 			if( i >= fieldWriters.length )
 			{
-				fieldWriters[fieldWriters.length-1].write( randomAccessFile, objects[i] );
+				fieldWriters[fieldWriters.length-1].write( getRandomAccessFile( ), objects[i] );
 			}
 			else
 			{
-				fieldWriters[i].write( randomAccessFile, objects[i] );
+				fieldWriters[i].write( getRandomAccessFile( ), objects[i] );
 			}
 		}
 	}
@@ -120,7 +120,7 @@ public class StructureDiskArray extends BaseDiskArray
 	 */
 	protected Object readObject( ) throws IOException
 	{
-		short fieldCount = randomAccessFile.readShort( );
+		short fieldCount = getRandomAccessFile( ).readShort( );
 		if ( fieldCount == NULL_VALUE )
 		{
 			return null;
@@ -132,11 +132,11 @@ public class StructureDiskArray extends BaseDiskArray
 				fieldReaders[i].setDataType( fieldWriters[i].getDataType( ) );
 			if( i >= fieldReaders.length )
 			{
-				objects[i] = fieldReaders[fieldReaders.length-1].read( randomAccessFile );
+				objects[i] = fieldReaders[fieldReaders.length-1].read( getRandomAccessFile( ) );
 			}
 			else
 			{
-				objects[i] = fieldReaders[i].read( randomAccessFile );
+				objects[i] = fieldReaders[i].read( getRandomAccessFile( ) );
 			}
 		}
 		return creator.createInstance( objects );
