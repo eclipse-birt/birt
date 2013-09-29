@@ -175,6 +175,16 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				listener.onCreated( type, model );
 			}
 		}
+		else
+		{
+			try
+			{
+				// Perform default creation action
+				new DefaultCrosstabUpdateContext( ).performDefaultCreation( type, model, extras );
+			}
+			catch ( SemanticException e )
+			{}
+		}
 	}
 
 	/**
@@ -202,6 +212,16 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			{
 				listener.onValidate( type, model );
 			}
+		}
+		else
+		{
+			try
+			{
+				// Perform default validation action
+				new DefaultCrosstabUpdateContext( ).performDefaultValidation( type, model, extras );
+			}
+			catch ( SemanticException e )
+			{}
 		}
 	}
 
