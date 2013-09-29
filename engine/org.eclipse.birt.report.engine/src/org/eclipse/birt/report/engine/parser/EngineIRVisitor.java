@@ -817,11 +817,6 @@ public class EngineIRVisitor extends DesignVisitor
 			image.setAction( createAction( action ) );
 		}
 
-		// Alternative text for image
-		ExpressionHandle altTextExpr = handle.getExpressionProperty( ImageHandle.ALT_TEXT_PROP );
-		image.setAltText( createExpression(altTextExpr) );
-		image.setAltTextKey( handle.getAltTextKey( ) );
-
 		// Help text for image
 		image.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );
 
@@ -869,6 +864,14 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 
 		setCurrentElement( image );
+	}
+
+	private void handleAltText( ReportItemHandle handle, ReportItemDesign design )
+	{
+		ExpressionHandle altTextExpr = handle
+				.getExpressionProperty( IReportItemModel.ALT_TEXT_PROP );
+		design.setAltText( createExpression( altTextExpr ) );
+		design.setAltTextKey( handle.getAltTextKey( ) );
 	}
 
 	public void visitTable( TableHandle handle )
@@ -1681,9 +1684,6 @@ public class EngineIRVisitor extends DesignVisitor
 		ExtendedItemDesign extendedItem = new ExtendedItemDesign( );
 		setupReportItem( extendedItem, obj );
 		
-		// Alternative text for extendedItem
-		extendedItem.setAltText( obj.getAltTextKey( ), obj.getAltText( ) );
-		
 		handleExtendedItemChildren( extendedItem, obj );
 		
 		setCurrentElement( extendedItem );
@@ -1958,6 +1958,8 @@ public class EngineIRVisitor extends DesignVisitor
 		{
 			item.setUseCachedResult( true );
 		}
+		
+		handleAltText( handle, item );
 	}
 
 	/**

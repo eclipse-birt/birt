@@ -58,16 +58,6 @@ public class ImageItemDesign extends ReportItemDesign
 	 * image type, used if source type EXPR.
 	 */
 	protected Expression imageFormat;
-
-	/**
-	 * Text associated with this image, used for default locale.
-	 */
-	protected Expression altText;
-	/**
-	 * Text Resource Key used for altText localization.
-	 */
-	protected String altTextKey;
-	
 	/**
 	 * help text
 	 */
@@ -193,35 +183,6 @@ public class ImageItemDesign extends ReportItemDesign
 		imageUri = file;
 	}
 
-	/**
-	 * @param altText
-	 *            The altText to set.
-	 */
-	public void setAltText( Expression altText )
-	{
-		this.altText = altText;
-	}
-	
-	public void setAltTextKey( String altTextKey )
-	{
-		this.altTextKey = altTextKey;
-	}
-
-	/**
-	 * @return Returns the altTextKey.
-	 */
-	public String getAltTextKey( )
-	{
-		return altTextKey;
-	}
-
-	/**
-	 * @return Returns the altText.
-	 */
-	public Expression getAltText( )
-	{
-		return altText;
-	}
 	/**
 	 * set the help info.
 	 * 

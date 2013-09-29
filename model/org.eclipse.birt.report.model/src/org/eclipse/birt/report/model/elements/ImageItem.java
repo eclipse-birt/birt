@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -148,7 +149,12 @@ public class ImageItem extends ReportItem implements IImageItemModel
 
 	public String getAltText( ReportDesign design )
 	{
-		return getStringProperty( design, ALT_TEXT_PROP );
+		Expression expr = (Expression) getProperty( design, ALT_TEXT_PROP );
+		if ( expr != null )
+		{
+			return expr.getStringExpression( );
+		}
+		return null;
 	}
 
 	/*

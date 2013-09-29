@@ -111,6 +111,26 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	{
 		return content.getHeight( );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getAltText()
+	 */
+	public String getAltText( )
+	{
+		return content.getAltText( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#getAltTextKey()
+	 */
+	public String getAltTextKey( )
+	{
+		return content.getAltTextKey( );
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -291,6 +311,26 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	public void setHeight( DimensionType height )
 	{
 		content.setHeight( height );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setAltText(java.lang.String)
+	 */
+	public void setAltText( String alt )
+	{
+		content.setAltText( alt );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setAltTextKey(java.lang.String)
+	 */
+	public void setAltTextKey( String altKey )
+	{
+		content.setAltText( altKey );
 	}
 
 	/*

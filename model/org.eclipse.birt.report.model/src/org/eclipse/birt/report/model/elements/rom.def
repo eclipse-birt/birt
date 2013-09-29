@@ -2609,6 +2609,8 @@
     	<Trigger validator="ThemeReferenceValidator"/>
     </Property>
     <Property displayNameID="Element.ReportItem.language" name="language" since="4.3" type="string"/>
+    <Property displayNameID="Element.ReportItem.altText" name="altText" since="4.3" type="expression"/>
+    <Property displayNameID="Element.ReportItem.altTextID" name="altTextID" since="4.3" type="resourceKey"/>
     <Property displayNameID="Element.ReportItem.order" name="order" since="4.3" type="integer"/>
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 
@@ -2700,7 +2702,6 @@
     <Property displayNameID="Element.Label.tagType" name="tagType" since="4.3" type="string">
     	<Default>p</Default>
     </Property>
-    <Property displayNameID="Element.Label.altText" name="altText" since="4.3" type="expression"/>
     <Method context="startup" displayNameID="Element.Label.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Label.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Label.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.ILabel"/>
       <Argument name="reportContext" tagID="Element.Label.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -2804,7 +2805,6 @@
     <Property displayNameID="Element.Data.tagType" name="tagType" since="4.3" type="string">
     	<Default>p</Default>
     </Property>
-    <Property displayNameID="Element.Data.altText" name="altText" since="4.3" type="expression"/>
     <Method context="startup" displayNameID="Element.Data.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Data.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Data.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IDataItem"/>
       <Argument name="reportContext" tagID="Element.Data.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -2893,7 +2893,6 @@
     <Property displayNameID="Element.Text.tagType" name="tagType" since="4.3" type="string">
     	<Default>p</Default>
     </Property>
-    <Property displayNameID="Element.Text.altText" name="altText" since="4.3" type="expression"/>
     <Method context="startup" displayNameID="Element.Text.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Text.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Text.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.ITextItem"/>
       <Argument name="reportContext" tagID="Element.Text.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -3048,7 +3047,6 @@
     <Property displayNameID="Element.List.tagType" name="tagType" since="4.3" type="string">
     	<Default>sect</Default>
     </Property>
-    <Property displayNameID="Element.List.altText" name="altText" since="4.3" type="expression"/>
     <Slot displayNameID="Element.List.slot.header" multipleCardinality="true" name="header" selector="list-header" since="1.0" xmlName="header">
       <Type name="FreeForm"/>
       <Type name="Text"/>
@@ -3365,6 +3363,7 @@
     </Property>
     <Property displayNameID="Element.Cell.language" name="language" since="4.3" type="string"/>
     <Property displayNameID="Element.Cell.altText" name="altText" since="4.3" type="expression"/>
+    <Property displayNameID="Element.ReportItem.altTextID" name="altTextID" since="4.3" type="resourceKey"/>
     <PropertyGroup displayNameID="Element.Cell.diagonal">
     	<Property displayNameID="Element.Cell.diagonalNumber" name="diagonalNumber" runtimeSettable="false" since="2.3" type="integer" validator="NonNegativeValueValidator">
     		<Default>0</Default>
@@ -3432,8 +3431,6 @@
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Image" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ImageItem" name="Image" selector="image" since="1.0" xmlName="image">
-    <Property displayNameID="Element.Image.altText" name="altText" runtimeSettable="false" since="1.0" type="expression"/>
-    <Property displayNameID="Element.Image.altTextID" name="altTextID" since="1.0" type="resourceKey"/>
     <Property displayNameID="Element.Image.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Image.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
     <Property detailType="imageSize" displayNameID="Element.Image.size" name="size" since="1.0" type="choice">
@@ -3603,7 +3600,6 @@
     <Property displayNameID="Element.TextData.tagType" name="tagType" since="4.3" type="string">
     	<Default>p</Default>
     </Property>
-    <Property displayNameID="Element.TextData.altText" name="altText" since="4.3" type="expression"/>
 	<Method context="startup" displayNameID="Element.TextData.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.TextData.onPrepare.toolTip">
       <Argument name="this" tagID="Element.TextData.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IDynamicText"/>
       <Argument name="reportContext" tagID="Element.TextData.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -3677,8 +3673,6 @@
     <StyleProperty name="orphans"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.ExtendedItem" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ExtendedItem" name="ExtendedItem" since="1.0" xmlName="extended-item">
-    <Property displayNameID="Element.ExtendedItem.altText" name="altText" runtimeSettable="false" since="2.1" type="string"/>
-    <Property displayNameID="Element.ExtendedItem.altTextID" name="altTextID" since="2.1" type="resourceKey"/>
     <Property displayNameID="Element.ExtendedItem.extensionName" isIntrinsic="true" name="extensionName" since="1.0" type="string"/>
     <Property displayNameID="Element.ExtendedItem.extensionVersion" name="extensionVersion" since="2.2" type="string"/>
     <Property detailType="FilterCondition" displayNameID="Element.ExtendedItem.filter" isList="true" name="filter" runtimeSettable="false" since="2.0" type="structure"/>	  
