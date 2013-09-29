@@ -72,7 +72,9 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 	
 	public boolean isEnabled( )
 	{
-		return !DEUtil.isReferenceElement( viewHandle.getCrosstabHandle( ) );
+		
+		return !DEUtil.isReferenceElement( viewHandle.getCrosstabHandle( ) )
+				&& findDimension( CrosstabAdaptUtil.getLevelViewHandle( CrosstabAdaptUtil.getExtendedItemHandle( getHandle() ) ).getCubeLevel( ) ) != null;
 	}
 
 	/*
