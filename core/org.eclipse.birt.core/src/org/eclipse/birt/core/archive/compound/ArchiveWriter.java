@@ -39,7 +39,17 @@ public class ArchiveWriter implements IDocArchiveWriter
 		shareArchive = true;
 	}
 
+	/**
+	 * @deprecated
+	 * use getArchiveFile instead
+	 * @return
+	 */
 	public IArchiveFile getArchive( )
+	{
+		return archive;
+	}
+	
+	public IArchiveFile getArchiveFile( )
 	{
 		return archive;
 	}
