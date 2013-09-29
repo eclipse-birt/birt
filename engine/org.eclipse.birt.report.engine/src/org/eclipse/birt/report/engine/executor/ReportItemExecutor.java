@@ -713,8 +713,25 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		InstanceID id = getInstanceID( );
 		content.setInstanceID( id );
 		content.setGenerateBy( design );
+		if ( design instanceof ReportItemDesign)
+		{
+			processAltText( (ReportItemDesign)design, content );
+		}
 	}
 
+	protected void processAltText( ReportItemDesign design, IContent content )
+	{
+		Expression altTextExpr = design.getAltText( );
+		if ( altTextExpr != null )
+		{
+			Object altText = evaluate( altTextExpr );
+			if ( altText != null )
+			{
+				content.setAltText( altText.toString( ) );
+				content.setAltTextKey( design.getAltTextKey( ) );
+			}
+		}
+	}
 	
 	TOCEntry getParentTOCEntry()
 	{

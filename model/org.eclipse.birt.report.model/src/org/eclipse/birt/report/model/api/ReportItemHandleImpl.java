@@ -1411,27 +1411,25 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	/**
 	 * Returns the alternate text of this label item.
 	 * 
-	 * @return the alternate text
+	 * @return the alternate text expression.
 	 */
-
-	public String getAltText( )
+	public ExpressionHandle getAltTextExpression( )
 	{
-		return getStringProperty( ALTTEXT_PROP );
+		return getExpressionProperty( ALT_TEXT_PROP );
 	}
 
 	/**
 	 * Sets the alternate text of this label item.
 	 * 
-	 * @param resourceKey
-	 *            the alternate text
+	 * @param altText
+	 *            the alternate text expression.
 	 * 
 	 * @throws SemanticException
 	 *            if the property is locked.
 	 */
-
-	public void setAltText( String altText ) throws SemanticException
+	public void setAltTextExpression( Expression altText ) throws SemanticException
 	{
-		setStringProperty( ALTTEXT_PROP, altText );
+		setExpressionProperty( ALT_TEXT_PROP, altText );
 	}
 	
 	/**
@@ -1485,5 +1483,29 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	public void setURL( String url ) throws SemanticException
 	{
 		setStringProperty( URL_PROP, url );
+	}
+	
+	/**
+	 * Returns the resource key of the alternate text of this image.
+	 * 
+	 * @return the resource key of the alternate text
+	 */
+
+	public String getAltTextKey( )
+	{
+		return getStringProperty( IReportItemModel.ALT_TEXT_KEY_PROP );
+	}
+
+	/**
+	 * Sets the resource key of the alternate text of this image.
+	 * 
+	 * @param altTextKey
+	 *            the alternate text key
+	 * @throws SemanticException
+	 */
+
+	public void setAltTextKey( String altTextKey ) throws SemanticException
+	{
+		setProperty( IReportItemModel.ALT_TEXT_KEY_PROP, altTextKey );
 	}
 }

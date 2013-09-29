@@ -1823,7 +1823,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		
 		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
-		property( obj, IReportItemModel.ALTTEXT_PROP );
 		property( obj, IReportItemModel.ORDER_PROP );
 
 		writeActions( obj, IDataItemModel.ACTION_PROP );
@@ -1855,7 +1854,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		
 		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
-		property( obj, IReportItemModel.ALTTEXT_PROP );
 		property( obj, IReportItemModel.ORDER_PROP );
 
 		writer.endElement( );
@@ -1886,8 +1884,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 			super.visitExtendedItem( obj );
 
-			resourceKey( obj, IExtendedItemModel.ALT_TEXT_KEY_PROP,
-					IExtendedItemModel.ALT_TEXT_PROP );
+			resourceKey( obj, IReportItemModel.ALT_TEXT_KEY_PROP,
+					IReportItemModel.ALT_TEXT_PROP );
 
 			// write filter properties for the extended item
 
@@ -2019,7 +2017,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		
 		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
-		property( obj, IReportItemModel.ALTTEXT_PROP );
 		property( obj, IReportItemModel.ORDER_PROP );
 
 		writer.endElement( );
@@ -2049,7 +2046,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		
 		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
-		property( obj, IReportItemModel.ALTTEXT_PROP );
 		property( obj, IReportItemModel.ORDER_PROP );
 
 		writeActions( obj, ILabelModel.ACTION_PROP );
@@ -2110,7 +2106,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				
 		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
-		property( obj, IReportItemModel.ALTTEXT_PROP );
 
 		writer.endElement( );
 	}
@@ -2336,7 +2331,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		
 		property( obj, ICellModel.TAG_TYPE_PROP );
 		property( obj, ICellModel.LANGUAGE_PROP );
-		property( obj, ICellModel.ALTTEXT_PROP );
+		property( obj, ICellModel.ALT_TEXT_PROP );
+		property( obj, ICellModel.ALT_TEXT_KEY_PROP );
 
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
@@ -3130,9 +3126,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			property( obj, IImageItemModel.TYPE_EXPR_PROP );
 			property( obj, IImageItemModel.VALUE_EXPR_PROP );
 		}
-
-		property( obj, IImageItemModel.ALT_TEXT_PROP );
-		property( obj, IImageItemModel.ALT_TEXT_KEY_PROP );
+		
 		resourceKey( obj, IImageItemModel.HELP_TEXT_ID_PROP,
 				IImageItemModel.HELP_TEXT_PROP );
 
@@ -3404,6 +3398,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		visitSpecialProperty( obj, IReportItemModel.HEIGHT_PROP );
 		visitSpecialProperty( obj, IReportItemModel.WIDTH_PROP );
+		
+		property( obj, IReportItemModel.ALT_TEXT_PROP );
+		property( obj, IReportItemModel.ALT_TEXT_KEY_PROP );
 
 		property( obj, IReportItemModel.DATA_SET_PROP );
 		property( obj, IReportItemModel.CUBE_PROP );

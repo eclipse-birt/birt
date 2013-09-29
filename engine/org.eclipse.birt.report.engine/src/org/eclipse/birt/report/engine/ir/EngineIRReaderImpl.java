@@ -633,6 +633,22 @@ public class EngineIRReaderImpl implements IOConstants
 				Expression onPageBreak = readExpression( in );
 				design.setOnPageBreak( onPageBreak );
 				break;
+				
+			case FIELD_ALT_TEXT :
+				String altTextKey = IOUtil.readString( in );
+				Expression altTextExpr;
+				if( version < ENGINE_IR_VERSION_9)
+				{
+					String altText = IOUtil.readString( in );
+					altTextExpr = Expression.newConstant( altText );
+				}
+				else
+				{
+					altTextExpr = readExpression(in);
+				}
+				design.setAltText( altTextExpr );
+				design.setAltTextKey( altTextKey );
+				break;
 
 			case FIELD_VISIBILITY :
 				VisibilityDesign visibility = readVisibility( in );
@@ -1355,21 +1371,6 @@ public class EngineIRReaderImpl implements IOConstants
 								+ imageSource );
 				}
 				break;
-			case FIELD_ALT_TEXT :
-				String altTextKey = IOUtil.readString( in );
-				Expression altTextExpr;
-				if( version < ENGINE_IR_VERSION_9)
-				{
-					String altText = IOUtil.readString( in );
-					altTextExpr = Expression.newConstant( altText );
-				}
-				else
-				{
-					altTextExpr = readExpression(in);
-				}
-				image.setAltText( altTextExpr );
-				image.setAltTextKey( altTextKey );
-				break;
 			case FIELD_HELP_TEXT :
 				String helpTextKey = IOUtil.readString( in );
 				String helpText = IOUtil.readString( in );
@@ -1400,17 +1401,7 @@ public class EngineIRReaderImpl implements IOConstants
 	protected void readExtendedField( DataInputStream in,
 			ExtendedItemDesign extended, short fieldType ) throws IOException
 	{
-		switch ( fieldType )
-		{
-			case FIELD_ALT_TEXT :
-				String altTextKey = IOUtil.readString( in );
-				String altText = IOUtil.readString( in );
-				extended.setAltText( altTextKey, altText );
-				break;
-			default :
-				readReportItemField( in, extended, fieldType );
-		}
-
+		readReportItemField( in, extended, fieldType );
 	}
 
 	protected void readAutoText( DataInputStream in, AutoTextItemDesign autoText )
