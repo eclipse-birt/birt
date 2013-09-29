@@ -600,7 +600,7 @@ public final class Bar extends AxesRenderer
 				// width is null
 				// this is due to the difference in rounding (ceil vs floor) for
 				// transposed axes.
-				bInverted = dWidth < 0;
+				bInverted = dWidth <= 0;
 				if ( bInverted )
 				{
 					dX = dBaseLocation;
