@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
@@ -369,5 +370,10 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 			}
 		}
 		return streams;
+	}
+	
+	public IArchiveFile getArchiveFile( )
+	{
+		throw new UnsupportedOperationException("getArchiveFile is not supported on this FolderAchiveWriter");
 	}
 }
