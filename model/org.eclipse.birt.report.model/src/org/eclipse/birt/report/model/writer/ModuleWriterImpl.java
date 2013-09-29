@@ -1884,8 +1884,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 			super.visitExtendedItem( obj );
 
-			resourceKey( obj, IReportItemModel.ALT_TEXT_KEY_PROP,
-					IReportItemModel.ALT_TEXT_PROP );
+			resourceKey( obj, IReportItemModel.ALTTEXT_KEY_PROP,
+					IReportItemModel.ALTTEXT_PROP );
 
 			// write filter properties for the extended item
 
@@ -3399,8 +3399,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		visitSpecialProperty( obj, IReportItemModel.HEIGHT_PROP );
 		visitSpecialProperty( obj, IReportItemModel.WIDTH_PROP );
 		
-		property( obj, IReportItemModel.ALT_TEXT_PROP );
-		property( obj, IReportItemModel.ALT_TEXT_KEY_PROP );
+		property( obj, IReportItemModel.ALTTEXT_PROP );
+		property( obj, IReportItemModel.ALTTEXT_KEY_PROP );
 
 		property( obj, IReportItemModel.DATA_SET_PROP );
 		property( obj, IReportItemModel.CUBE_PROP );

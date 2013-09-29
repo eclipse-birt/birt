@@ -150,7 +150,7 @@ public class ImageItem extends ReportItem implements IImageItemModel
 
 	public String getAltText( ReportDesign design )
 	{
-		Expression expr = (Expression) getProperty( design, IInternalReportItemModel.ALT_TEXT_PROP );
+		Expression expr = (Expression) getProperty( design, IInternalReportItemModel.ALTTEXT_PROP );
 		if ( expr != null )
 		{
 			return expr.getStringExpression( );
