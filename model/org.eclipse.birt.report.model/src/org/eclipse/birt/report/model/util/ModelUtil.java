@@ -1775,7 +1775,7 @@ public class ModelUtil extends ModelUtilBase
 	 */
 	public static boolean supportConstantExpression( IPropertyDefn defn )
 	{
-		if( IReportItemModel.ALT_TEXT_PROP.equals( defn.getName( ) ) )
+		if( IReportItemModel.ALTTEXT_PROP.equals( defn.getName( ) ) )
 			return true;
 		return false;
 	}
