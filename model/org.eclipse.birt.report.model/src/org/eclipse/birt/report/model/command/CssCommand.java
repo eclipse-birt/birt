@@ -145,6 +145,8 @@ public class CssCommand extends AbstractElementCommand
 				throw ModelUtil.convertSheetExceptionToCssException( module,
 						cssStruct, fileName, e );
 			}
+			sheet.setUseExternalCss( cssStruct.isUseExternalCss( ) );
+			sheet.setExternalCssURI( externalCSSURI );
 		}
 
 		doAddCssSheet( cssStruct, sheet, APPEND_POS );
