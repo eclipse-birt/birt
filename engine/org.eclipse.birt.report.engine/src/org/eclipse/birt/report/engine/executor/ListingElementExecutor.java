@@ -93,7 +93,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		{
 			getLogger( )
 					.log( Level.WARNING,
-							"Page Break Intervel for listing element {0}  is {1}. Reset it to {1} to prevent OOM",
+							"Page Break Interval for listing element {0}  is {1}. Reset it to {2} to prevent OOM",
 							new Object[]{getInstanceID( ).toString( ),
 									pageBreakInterval, maxPageBreakInterval} );
 			pageBreakInterval = maxPageBreakInterval;
