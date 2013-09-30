@@ -12,10 +12,12 @@
 package org.eclipse.birt.data.oda.pojo.util;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -97,35 +99,52 @@ public class URLParser
 				//a relative path
 				try
 				{
-					uri = new URI( enableURI( path ));
+					uri = new URI( resolveURI( path ));
 				}
 				catch ( URISyntaxException e )
 				{
 					throw new OdaException( e );
 				}
-				
-				URI resovledUri = null;
 				if ( resourceIdentifiers != null )
 				{
-					resovledUri = ResourceIdentifiers.resolveApplResource( resourceIdentifiers, uri );
+					URI resovledUri = ResourceIdentifiers.resolveApplResource( resourceIdentifiers, uri );
 					if ( resovledUri == null )
 					{
 						logger.log( Level.WARNING, "Failed to resolve path:" + uri //$NON-NLS-1$
 								+ " from app resource folder(" + ResourceIdentifiers.getApplResourceBaseURI( resourceIdentifiers ) + ')');  //$NON-NLS-1$
-						
-						//then, try to resolve it from design resource
+					
+					//then, try to resolve it from design resource
 						resovledUri = ResourceIdentifiers.resolveDesignResource( resourceIdentifiers, uri );
 					}
-				}
-				if ( resovledUri == null )
-				{
-					logger.log( Level.WARNING, "Failed to resolve path:" + uri ); //$NON-NLS-1$
+					if ( resovledUri == null )
+					{
+						logger.log( Level.WARNING, "Failed to resolve path:" + uri ); //$NON-NLS-1$
+					}
+					else
+					{
+						try
+						{
+							try 
+							{
+								String urlpath = enableURI( URLDecoder.decode( resovledUri.toString(), "UTF-8" ) );
+								urls.add( new URL( urlpath ) );
+							}
+							catch ( UnsupportedEncodingException e ) 
+							{
+								urls.add( resovledUri.toURL( ) );
+							}
+						}
+						catch ( MalformedURLException e )
+						{
+							throw new OdaException( e );
+						}
+					}
 				}
 				else
 				{
 					try
 					{
-						urls.add( resovledUri.toURL( ) );
+						urls.add( uri.toURL( ) );
 					}
 					catch ( MalformedURLException e )
 					{
@@ -137,15 +156,10 @@ public class URLParser
 		return urls.toArray( new URL[0] );
 	}
 	
-	private String enableURI( String location )
+
+	private String resolveURI( String location )
 	{
-		String result = location.replace( " ", "%20" ); //$NON-NLS-1$ //$NON-NLS-2$
-		if ( File.separatorChar != '/' )
-		{
-			//'\', the File.separatorChar in Windows, is an invalid char for URI 
-			//see java.io.File.toURI() method
-			result = result.replace( File.separatorChar, '/' );
-		}
+		String result = enableURI( location );
 		if ( !result.endsWith( ".jar" ) //$NON-NLS-1$
 				&& !result.endsWith( ".zip" )) //$NON-NLS-1$
 		{
@@ -155,6 +169,36 @@ public class URLParser
 			{
 				 result += "/"; //$NON-NLS-1$
 			}
+		}
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param location
+	 * @return
+	 */
+	private String enableURI( String location )
+	{
+		String result = location;
+		try
+		{
+			if ( File.separatorChar != '/' )
+				location = location.replace( File.separatorChar, '/' );
+			if( location.startsWith( "/" ) )
+			{
+				result = new File( location ).toURI( )
+						.toASCIIString( )
+						.replace( new File( "/" ).toURI( ).toASCIIString( ), "/" );				
+			}
+			else
+				result = new File( location ).toURI( )
+					.toASCIIString( )
+					.replace( new File( "" ).toURI( ).toASCIIString( ), "" );
+		}
+		catch ( Exception e )
+		{
+			return location;
 		}
 		return result;
 	}

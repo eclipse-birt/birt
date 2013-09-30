@@ -43,6 +43,11 @@ public class ClassMethodFieldBuffer
 	
 	public static ClassMethodFieldBuffer getInstance( )
 	{
+		 synchronized( ClassMethodFieldBuffer.class )
+		 {
+	         if( instance == null )
+	        	 instance = new ClassMethodFieldBuffer( );
+        }
 		return instance;
 	}
 	
