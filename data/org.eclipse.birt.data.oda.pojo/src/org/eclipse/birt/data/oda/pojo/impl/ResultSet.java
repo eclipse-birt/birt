@@ -138,10 +138,6 @@ public class ResultSet implements IResultSet
         {
         	pojoDataSet.close( );
         }
-        if ( pojoClassLoader != null )
-        {
-        	pojoClassLoader.close( );
-        }
 	}
 
 	/*
