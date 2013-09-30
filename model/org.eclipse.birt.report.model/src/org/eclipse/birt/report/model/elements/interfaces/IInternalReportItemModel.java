@@ -148,12 +148,12 @@ public interface IInternalReportItemModel {
 	/**
 	 * Name of the altText property.
 	 */
-	public static final String ALT_TEXT_PROP = "altText"; //$NON-NLS-1$
+	public static final String ALTTEXT_PROP = "altText"; //$NON-NLS-1$
 	
 	/**
 	 * Name of the altText key property.
 	 */
-	public static final String ALT_TEXT_KEY_PROP = "altTextID"; //$NON-NLS-1$
+	public static final String ALTTEXT_KEY_PROP = "altTextID"; //$NON-NLS-1$
 	
 	/**
 	 * Name of the order property.

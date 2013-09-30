@@ -219,7 +219,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public String getAltText( )
 	{
-		return getStringProperty( ALT_TEXT_PROP );
+		return getStringProperty( ALTTEXT_PROP );
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public String getAltTextKey( )
 	{
-		return getStringProperty( ALT_TEXT_KEY_PROP );
+		return getStringProperty( ALTTEXT_KEY_PROP );
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public void setAltText( String altText ) throws SemanticException
 	{
-		setStringProperty( ALT_TEXT_PROP, altText );
+		setStringProperty( ALTTEXT_PROP, altText );
 	}
 
 	/**
@@ -260,7 +260,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public void setAltTextKey( String altTextKey ) throws SemanticException
 	{
-		setStringProperty( ALT_TEXT_KEY_PROP, altTextKey );
+		setStringProperty( ALTTEXT_KEY_PROP, altTextKey );
 	}
 
 	/**

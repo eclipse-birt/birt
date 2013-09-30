@@ -143,7 +143,7 @@ public class TextPropertyState extends AbstractPropertyState
 		else
 		{
 			// backward compatible
-			if( IReportItemModel.ALT_TEXT_PROP.equals( name ))
+			if( IReportItemModel.ALTTEXT_PROP.equals( name ))
 				setProperty( name, new Expression(value, ExpressionType.CONSTANT) );
 			else
 				setProperty( name, value );
