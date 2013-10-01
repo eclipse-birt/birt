@@ -76,7 +76,12 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 					.get( EngineConstants.APPCONTEXT_MAX_PAGE_BREAK_INTERVAL );
 			if ( maxPageBreakObject instanceof Number )
 			{
-				return ( (Number) maxPageBreakObject ).intValue( );
+				int maxPageBreakInterval = ( (Number) maxPageBreakObject )
+						.intValue( );
+				if ( maxPageBreakInterval > 0 )
+				{
+					return maxPageBreakInterval;
+				}
 			}
 		}
 		return MAX_PAGE_BREAK_INTERVAL;
@@ -89,7 +94,13 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		pageBreakInterval = ( (ListingDesign) design )
 				.getPageBreakInterval( );
 		int maxPageBreakInterval = getMaxPageBreakInterval( );
-		if ( pageBreakInterval <= 0 || pageBreakInterval > maxPageBreakInterval )
+		// pageBreakInterval -1 or 0 is a default value, we shouldn't output
+		// warning message
+		if ( pageBreakInterval <= 0 )
+		{
+			pageBreakInterval = maxPageBreakInterval;
+		}
+		if ( pageBreakInterval > maxPageBreakInterval )
 		{
 			getLogger( )
 					.log( Level.WARNING,
