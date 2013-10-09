@@ -295,7 +295,7 @@ public class SimpleResultSet implements IResultIterator
 	{
 		AggrDefnManager manager = new AggrDefnManager( handler.getAggrDefinitions( ) );
 		this.aggrHelper = lookForward
-				? new ProgressiveAggregationHelper( manager,
+				? new ProgressiveAggregationHelper( handler.getColumnBindings( ), manager,
 						session.getTempDir( ),
 						session.getSharedScope( ),
 						session.getEngineContext( ).getScriptContext( ),
