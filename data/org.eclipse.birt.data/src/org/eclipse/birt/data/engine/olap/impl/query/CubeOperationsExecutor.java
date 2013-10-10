@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -55,14 +56,15 @@ public class CubeOperationsExecutor
 	 * @throws BirtException
 	 */
 	public IAggregationResultSet[] execute( IAggregationResultSet[] source,
-			StopSign stopSign ) throws IOException,
+			StopSign stopSign, IBindingValueFetcher fetcher ) throws IOException,
 			BirtException
 	{
 		IAggregationResultSet[] currentResult = source;
 		for ( IPreparedCubeOperation co : cubeOperations )
 		{
-			currentResult = co.execute(
+			currentResult = co.execute( cubeQueryDefinition,
 					currentResult,
+					fetcher,
 					scope,
 					cx,
 					stopSign );
