@@ -57,6 +57,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -2051,7 +2052,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionProvider getExpressionProvider( )
 			{
-				return new ExpressionProvider( inputParameter );
+				ExpressionProvider provider = new ExpressionProvider( inputParameter );
+				provider.addFilter( new ParameterVariableFilter());
+				return provider;
 			}
 
 			public String getExpressionType( )
@@ -2488,7 +2491,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionProvider getExpressionProvider( )
 			{
-				return new ParameterDataSetExpressionProvider( inputParameter );
+//				return new ParameterDataSetExpressionProvider( inputParameter );
+				ExpressionProvider provider = new ParameterDataSetExpressionProvider( inputParameter );
+				provider.addFilter( new ParameterVariableFilter());
+				
+				return provider;
 			}
 
 			public IExpressionContextFactory getExpressionContextFactory( )
@@ -2537,8 +2544,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionProvider getExpressionProvider( )
 			{
-				return new ParameterExpressionProvider( inputParameter,
+				ExpressionProvider provider =  new ParameterExpressionProvider( inputParameter,
 						dataSetChooser.getText( ) );
+				provider.addFilter( new ParameterVariableFilter() );
+				return provider;
+				
 			}
 
 			public IExpressionContextFactory getExpressionContextFactory( )
@@ -3085,7 +3095,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionProvider getExpressionProvider( )
 			{
-				return new ExpressionProvider( inputParameter );
+				ExpressionProvider provider =  new ExpressionProvider( inputParameter );
+				provider.addFilter(new ParameterVariableFilter());
+				return provider;
 			}
 
 			public String getExpressionType( )
@@ -4740,5 +4752,24 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 			return categoryList;
 		}
+	}
+	
+	private static class ParameterVariableFilter extends ExpressionFilter
+	{
+
+		@Override
+		public boolean select( Object parentElement, Object element )
+		{
+			if(parentElement != null && element != null &&
+					parentElement instanceof String && element instanceof String)
+			{
+				if(ExpressionFilter.CATEGORY.equals( parentElement ) && ExpressionProvider.VARIABLES.equals( element ) )
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		
 	}
 }
