@@ -14,6 +14,8 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
@@ -55,6 +57,8 @@ public class AggregationResultSetSaveUtil
 		}
 		dataOutputStream.writeInt( resultSets.length );
 		dataOutputStream.close( );
+		
+		resultSets = sortRsBeforeSaving( resultSets );
 		for( int i=0;i<resultSets.length;i++)
 		{
 			outputStream = writer.createRandomAccessStream( name + PREFIX_RESULTSET + i );
@@ -63,6 +67,27 @@ public class AggregationResultSetSaveUtil
 			dataOutputStream.close( );
 		}
 	}
+	
+	private static IAggregationResultSet[] sortRsBeforeSaving( IAggregationResultSet[] rs )
+	{
+		List<IAggregationResultSet> sortedAggregateRs = new ArrayList<IAggregationResultSet>( );
+		for( IAggregationResultSet result: rs )
+		{
+			if( result.getAggregationDefinition( ).getDrilledInfo( ) == null )
+			{
+				sortedAggregateRs.add( result );
+			}
+		}
+		for( IAggregationResultSet result: rs )
+		{
+			if( result.getAggregationDefinition( ).getDrilledInfo( ) != null )
+			{
+				sortedAggregateRs.add( result );
+			}
+		}
+		return sortedAggregateRs.toArray( new IAggregationResultSet[0]);
+	}
+
 	
 	/**
 	 * 

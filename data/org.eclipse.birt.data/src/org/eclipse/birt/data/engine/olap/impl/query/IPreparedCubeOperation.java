@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.query.view.AggregationRegisterTable;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
@@ -77,6 +78,7 @@ public interface IPreparedCubeOperation
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	IAggregationResultSet[] execute( IAggregationResultSet[] sources, Scriptable scope, ScriptContext cx, StopSign stopSign )
+	IAggregationResultSet[] execute( ICubeQueryDefinition cubeQueryDefn,
+			IAggregationResultSet[] sources, IBindingValueFetcher fetcher, Scriptable scope, ScriptContext cx, StopSign stopSign )
 			throws IOException, BirtException;
 }

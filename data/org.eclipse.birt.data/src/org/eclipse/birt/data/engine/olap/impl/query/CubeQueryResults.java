@@ -113,7 +113,7 @@ public class CubeQueryResults implements ICubeQueryResults
 		{
 			if ( this.session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_PRESENTATION )
 			{
-				this.cubeCursor = createCursor( null );
+				this.cubeCursor = createCursor( null, null );
 				return this.cubeCursor;
 			}
 
@@ -122,6 +122,28 @@ public class CubeQueryResults implements ICubeQueryResults
 			Set<String> derivedMeasureNames = OlapExpressionUtil.getDerivedMeasureNames( this.cubeQueryDefinition.getBindings( ) );
 			List<IBinding> bindingSet = new ArrayList<IBinding>();
 			bindingSet.addAll( this.cubeQueryDefinition.getBindings( ) );
+			CubeQueryExecutorHints hints = new CubeQueryExecutorHints( );
+
+			if( this.cubeQueryDefinition instanceof PreparedCubeQueryDefinition )
+			{
+				Set<IBinding> binding4NestedAggr = ((PreparedCubeQueryDefinition) this.cubeQueryDefinition).getBindingsForNestAggregation( );
+				binding4NestedAggr.addAll( org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil.getNewBindingsFromCubeOperations( this.cubeQueryDefinition ) );
+				for( IBinding binding: binding4NestedAggr )
+				{
+					if( OlapExpressionUtil.isAggregationBinding( binding )  )
+					{
+						IBaseExpression expr = binding.getExpression( );
+						involvedDerivedMeasure.addAll( this.getInvolvedDerivedMeasure( expr,
+								derivedMeasureNames, this.cubeQueryDefinition.getBindings( ) ) );
+						if( !involvedDerivedMeasure.isEmpty( ) )
+						{
+							hints.executeCubeOperation( false );
+							hints.executeDrillOperation( false );							
+						}
+					}
+				}				
+			}			
+			
 			if( this.cubeQueryDefinition instanceof PreparedCubeQueryDefinition )
 			{
 				Set<IBinding> binding4NestedAggr = ((PreparedCubeQueryDefinition) this.cubeQueryDefinition).getBindingsForNestAggregation( );
@@ -158,7 +180,7 @@ public class CubeQueryResults implements ICubeQueryResults
 
 			if ( involvedDerivedMeasure.isEmpty( ) )
 			{
-				this.cubeCursor = createCursor( null );
+				this.cubeCursor = createCursor( null, hints );
 			}
 			else
 			{
@@ -186,7 +208,8 @@ public class CubeQueryResults implements ICubeQueryResults
 				this.cubeQueryDefinition.getFilters( )
 						.removeAll( derivedMeasureFilters );
 				this.cubeQueryDefinition.getSorts( ).clear( );
-				this.cubeCursor = createCursor( null );
+				hints.needSaveToDoc( false );
+				this.cubeCursor = createCursor( null, hints );
 				this.cubeQueryDefinition.getFilters( ).clear( );
 				this.cubeQueryDefinition.getFilters( ).addAll( filterTemp );
 				this.cubeQueryDefinition.getSorts( ).addAll( sortTemp );
@@ -194,7 +217,10 @@ public class CubeQueryResults implements ICubeQueryResults
 						this.cubeQueryDefinition,
 						candidateBindingOfInteresting,
 						bindingDimLevels );
-				this.cubeCursor = createCursor( fetcher );
+				hints.executeCubeOperation( true );
+				hints.needSaveToDoc( true );
+				hints.executeDrillOperation( true );
+				this.cubeCursor = createCursor( fetcher, hints );
 			}
 			return this.cubeCursor;
 
@@ -270,7 +296,7 @@ public class CubeQueryResults implements ICubeQueryResults
 		return result;
 	}
 	
-	private ICubeCursor createCursor( IBindingValueFetcher fetcher ) throws DataException, IOException,
+	private ICubeCursor createCursor( IBindingValueFetcher fetcher, CubeQueryExecutorHints hints ) throws DataException, IOException,
 			OLAPException
 	{
 		ICubeCursor cursor;
@@ -294,7 +320,8 @@ public class CubeQueryResults implements ICubeQueryResults
 			throw new DataException( ResourceConstants.FAIL_LOAD_CUBE, ex );
 		}
 
-		BirtCubeView bcv = new BirtCubeView( executor, cube, appContext, fetcher );		
+		BirtCubeView bcv = new BirtCubeView( executor, cube, appContext, fetcher );
+		bcv.setCubeQueryExecutionHints( hints );
 		CubeCursor cubeCursor = bcv.getCubeCursor( stopSign, cube );
 		if ( cube != null )
 			cube.close( );
