@@ -2606,6 +2606,12 @@ public class UIUtil
 	public static void processSessionResourceFolder( IEditorInput input,
 			IProject project, ModuleHandle handle )
 	{
+		processSessionResourceFolder( input, project, handle, false );
+	}
+
+	public static void processSessionResourceFolder( IEditorInput input,
+			IProject project, ModuleHandle handle, boolean useThreadLocal )
+	{
 		String resourceFolder = "";//$NON-NLS-1$
 
 		if ( input != null )
@@ -2638,7 +2644,7 @@ public class UIUtil
 				resourceFolder );
 
 		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
+				.getSessionHandle( useThreadLocal )
 				.setResourceFolder( resourceFolder );
 	}
 
