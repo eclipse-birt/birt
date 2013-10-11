@@ -428,6 +428,11 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 											ex.getLocalizedMessage( ),
 											ex );
 								}
+								catch( Throwable e )
+								{
+									logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+									throw new DataException( ResourceConstants.FAIL_PUSH_DOWM_FILTER, e );
+								}
 							}
 						}
 						catch ( DataException e )
