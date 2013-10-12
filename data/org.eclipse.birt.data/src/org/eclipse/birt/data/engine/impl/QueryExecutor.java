@@ -865,12 +865,14 @@ public abstract class QueryExecutor implements IQueryExecutor
 		computedColumns = this.dataSet.getComputedColumns( );
 		if ( computedColumns == null )
 			computedColumns = new ArrayList( );
-		
-		if ( computedColumns.size( ) > 0 )
+
+		if ( computedColumns.size( ) > 0
+				&& this.getAppContext( ) != null
+				&& getAppContext( ).containsKey( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT ) )
 		{
 			List<IColumnDefinition> trimmedColumns = ( (IQueryOptimizeHints) getAppContext( ).get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT ) ).getTrimmedColumns( )
 					.get( dataSet.getName( ) );
-			if( trimmedColumns != null )
+			if ( trimmedColumns != null )
 			{
 				Set<String> trimmedNames = new HashSet<String>( );
 				for ( IColumnDefinition col : trimmedColumns )
