@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.data.aggregation.impl.rank;
 
+import java.io.File;
+
 import org.eclipse.birt.data.aggregation.impl.RunningAccumulator;
-import org.eclipse.birt.data.aggregation.impl.TempDir;
+import org.eclipse.birt.data.engine.api.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.cache.BasicCachedArray;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
@@ -35,11 +38,23 @@ public abstract class BaseTopBottomAccumulator extends RunningAccumulator {
 	private static Boolean falseValue = Boolean.FALSE;
 	private String tempDir;
 	
-	
-	public BaseTopBottomAccumulator(  )
+	public BaseTopBottomAccumulator( )
 	{
-		this.tempDir = TempDir.getInstance( ).getPath( );
-		targetValue = new BasicCachedArray(tempDir, 0);
+		if ( DataEngineThreadLocal.getInstance( ).getPathManager( ) != null )
+		{
+			tempDir = DataEngineThreadLocal.getInstance( )
+					.getPathManager( )
+					.getTempFileName( "AggregationPlugin_temp",
+							this.hashCode( ),
+							null ) + File.separator;
+		}
+		else
+		{
+			tempDir = System.getProperty( "java.io.tmpdir" )
+					+ "AggregationPlugin_temp" + this.hashCode( )
+					+ File.separator;
+		}
+		targetValue = new BasicCachedArray( tempDir, 0 );
 	}
 
 	/*
@@ -158,4 +173,60 @@ public abstract class BaseTopBottomAccumulator extends RunningAccumulator {
 	 * @return
 	 */
 	protected abstract int adjustNValue( double N );
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#finish()
+	 */
+	public void finish( )
+	{
+		//the calculation has been finish, so we can release the resources
+		if( this.passNo >1 )
+		{
+			File tempFile = new File( tempDir );
+			if ( !FileSecurity.fileExist( tempFile )
+					|| !FileSecurity.fileIsDirectory( tempFile ) )
+			{
+				return;
+			}
+			deleteDirectory( tempFile );			
+		}
+	}
+		
+	/**
+	 * 
+	 * @param dir
+	 */
+	private static void deleteDirectory( File dir )
+	{
+		File[] subFiles = FileSecurity.fileListFiles( dir );
+		if( subFiles != null )
+		{
+			for( int i = 0; i < subFiles.length; i++ )
+			{
+				if( FileSecurity.fileIsDirectory( subFiles[i] ) )
+				{
+					deleteDirectory( subFiles[i] );
+				}
+				else
+				{
+					safeDelete( subFiles[i] );
+				}
+			}
+		}
+		safeDelete( dir );
+	}
+	
+	
+	/**
+	 * 
+	 * @param file
+	 */
+	private static void safeDelete( File file )
+	{
+		if( !FileSecurity.fileDelete( file ) )
+		{
+			FileSecurity.fileDeleteOnExit( file );
+		}
+	}
 }
