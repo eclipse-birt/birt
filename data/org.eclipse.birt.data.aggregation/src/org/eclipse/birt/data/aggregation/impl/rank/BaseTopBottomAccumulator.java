@@ -12,9 +12,11 @@
 package org.eclipse.birt.data.aggregation.impl.rank;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.birt.data.aggregation.impl.RunningAccumulator;
 import org.eclipse.birt.data.engine.api.DataEngineThreadLocal;
+import org.eclipse.birt.data.engine.api.ICloseListener;
 import org.eclipse.birt.data.engine.cache.BasicCachedArray;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
@@ -24,7 +26,8 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  * The most common part of all Top and Bottom accumulator.
  * 
  */
-public abstract class BaseTopBottomAccumulator extends RunningAccumulator {
+public abstract class BaseTopBottomAccumulator extends RunningAccumulator implements ICloseListener
+{
 
 	//
 	protected BasicCachedListExt cachedValues;
@@ -55,6 +58,7 @@ public abstract class BaseTopBottomAccumulator extends RunningAccumulator {
 					+ File.separator;
 		}
 		targetValue = new BasicCachedArray( tempDir, 0 );
+		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
 
 	/*
@@ -67,7 +71,7 @@ public abstract class BaseTopBottomAccumulator extends RunningAccumulator {
 		passNo++;
 		
 		if (passNo == 1) {
-			cachedValues = new BasicCachedListExt(tempDir);
+			cachedValues = new BasicCachedListExt( tempDir );
 			N = -1;
 		}
 		else
@@ -173,24 +177,20 @@ public abstract class BaseTopBottomAccumulator extends RunningAccumulator {
 	 * @return
 	 */
 	protected abstract int adjustNValue( double N );
-	
+		
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#finish()
+	 * @see org.eclipse.birt.data.engine.api.ICloseListener#close()
 	 */
-	public void finish( )
+	public void close( ) throws IOException
 	{
-		//the calculation has been finish, so we can release the resources
-		if( this.passNo >1 )
+		File tempFile = new File( tempDir );
+		if ( !FileSecurity.fileExist( tempFile )
+				|| !FileSecurity.fileIsDirectory( tempFile ) )
 		{
-			File tempFile = new File( tempDir );
-			if ( !FileSecurity.fileExist( tempFile )
-					|| !FileSecurity.fileIsDirectory( tempFile ) )
-			{
-				return;
-			}
-			deleteDirectory( tempFile );			
+			return;
 		}
+		deleteDirectory( tempFile );
 	}
 		
 	/**
