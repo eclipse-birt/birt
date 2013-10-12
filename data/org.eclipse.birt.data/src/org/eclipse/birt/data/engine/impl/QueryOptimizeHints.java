@@ -2,6 +2,7 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -45,6 +46,11 @@ public class QueryOptimizeHints implements IQueryOptimizeHints
 	}
 
 	public Map<String, List<String>> getOptimizedFilterExpr( )
+	{
+		return null;
+	}
+
+	public Map<String, Set<Integer>> getPositionsInCombinedQuery( )
 	{
 		return null;
 	}
