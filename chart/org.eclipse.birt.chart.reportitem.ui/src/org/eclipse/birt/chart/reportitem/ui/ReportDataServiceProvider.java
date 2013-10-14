@@ -2092,6 +2092,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			IBaseCubeQueryDefinition qd, boolean isSharingXtab, final Chart cm )
 			throws BirtException
 	{
+		// Cube doesn't support row limit, clear row limit for cube in case the
+		// row limit is set for data set query.
+		dteAdapter.unsetRowLimit( session );
+		
 		// Always cube query returned
 		ICubeQueryResults cqr = dteAdapter.executeQuery( session,
 				(ICubeQueryDefinition) qd );
