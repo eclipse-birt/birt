@@ -93,6 +93,7 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -344,37 +345,40 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		treeViewer.setLabelProvider( provider );
 		treeViewer.setContentProvider( provider );
 		treeViewer.setInput( getCube( ) );
-
-		final DragSource dragSource = new DragSource( treeViewer.getTree( ),
-				DND.DROP_COPY );
-		dragSource.setTransfer( new Transfer[]{
-			SimpleTextTransfer.getInstance( )
-		} );
-		dragSource.addDragListener( new DragSourceListener( ) {
-
-			private String text = null;
-
-			public void dragFinished( DragSourceEvent event )
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			public void dragSetData( DragSourceEvent event )
-			{
-				event.data = text;
-			}
-
-			public void dragStart( DragSourceEvent event )
-			{
-				text = getDraggableCubeExpression( );
-				if ( text == null )
+		
+		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		{
+			final DragSource dragSource = new DragSource( treeViewer.getTree( ),
+					DND.DROP_COPY );
+			dragSource.setTransfer( new Transfer[]{
+				SimpleTextTransfer.getInstance( )
+			} );
+			dragSource.addDragListener( new DragSourceListener( ) {
+	
+				private String text = null;
+	
+				public void dragFinished( DragSourceEvent event )
 				{
-					event.doit = false;
+					// TODO Auto-generated method stub
+	
 				}
-			}
-		} );
-
+	
+				public void dragSetData( DragSourceEvent event )
+				{
+					event.data = text;
+				}
+	
+				public void dragStart( DragSourceEvent event )
+				{
+					text = getDraggableCubeExpression( );
+					if ( text == null )
+					{
+						event.doit = false;
+					}
+				}
+			} );
+		}
+	
 		treeViewer.getTree( ).addListener( SWT.MouseDown, new Listener( ) {
 
 			public void handleEvent( Event event )
@@ -584,14 +588,17 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			}
 		} );
 
-		// Set drag/drop.
-		DragSource ds = new DragSource( table, DND.DROP_COPY | DND.DROP_MOVE );
-		ds.setTransfer( new Transfer[]{
-			SimpleTextTransfer.getInstance( )
-		} );
-		ColumnNamesTableDragListener dragSourceAdapter = new ColumnNamesTableDragListener( table,
-				itemHandle );
-		ds.addDragListener( dragSourceAdapter );
+		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		{
+			// Set drag/drop.
+			DragSource ds = new DragSource( table, DND.DROP_COPY | DND.DROP_MOVE );
+			ds.setTransfer( new Transfer[]{
+				SimpleTextTransfer.getInstance( )
+			} );
+			ColumnNamesTableDragListener dragSourceAdapter = new ColumnNamesTableDragListener( table,
+					itemHandle );
+			ds.addDragListener( dragSourceAdapter );
+		}
 
 		tableViewerColumns.setContentProvider( new IStructuredContentProvider( ) {
 
