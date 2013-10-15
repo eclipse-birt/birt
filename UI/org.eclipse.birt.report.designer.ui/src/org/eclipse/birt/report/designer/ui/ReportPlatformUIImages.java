@@ -715,6 +715,10 @@ public class ReportPlatformUIImages
 				+ OBJ16_PATH
 				+ "autotext.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_AUTOTEXT_LARGE, ICONS_PATH
+				+ OBJ16_PATH
+				+ "autotext_large.png" ); //$NON-NLS-1$
+
 		// Parameter dialog icon
 		declareImage( IReportGraphicConstants.ICON_DEFAULT, ICONS_PATH
 				+ OBJ16_PATH

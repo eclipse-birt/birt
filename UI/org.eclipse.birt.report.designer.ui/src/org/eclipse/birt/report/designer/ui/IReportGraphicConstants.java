@@ -301,6 +301,9 @@ public interface IReportGraphicConstants
 	// auto text icon
 	public final static String ICON_AUTOTEXT = "AutoText"; //$NON-NLS-1$
 
+	public final static String ICON_AUTOTEXT_LARGE = ICON_AUTOTEXT
+			+ "_" + LARGE; //$NON-NLS-1$
+
 	public final static String ICON_AUTOTEXT_PAGE = "Page"; //$NON-NLS-1$
 
 	public final static String ICON_AUTOTEXT_DATE = "Date"; //$NON-NLS-1$
