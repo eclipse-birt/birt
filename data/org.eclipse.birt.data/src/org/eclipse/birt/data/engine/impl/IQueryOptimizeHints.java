@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
@@ -28,4 +29,6 @@ public interface IQueryOptimizeHints
 	public Map<String, List<IFilterDefinition>> getFiltersInAdvance( );
 	
 	public Map<String, Set<Integer>> getPositionsInCombinedQuery( );
+	
+	public List<IComputedColumn> getUnpushedDownComputedColumnInCombinedQuery( );
 }
