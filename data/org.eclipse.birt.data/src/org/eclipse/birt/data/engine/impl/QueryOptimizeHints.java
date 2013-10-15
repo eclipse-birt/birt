@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
@@ -18,6 +19,7 @@ public class QueryOptimizeHints implements IQueryOptimizeHints
 	public void setEnablePushDownForTransientQuery(
 			boolean enablePushDownForTransientQuery )
 	{
+		
 	}
 
 	public Map<String, QuerySpecification> getOptimizedCombinedQuerySpec( )
@@ -51,6 +53,11 @@ public class QueryOptimizeHints implements IQueryOptimizeHints
 	}
 
 	public Map<String, Set<Integer>> getPositionsInCombinedQuery( )
+	{
+		return null;
+	}
+
+	public List<IComputedColumn> getUnpushedDownComputedColumnInCombinedQuery( )
 	{
 		return null;
 	}
