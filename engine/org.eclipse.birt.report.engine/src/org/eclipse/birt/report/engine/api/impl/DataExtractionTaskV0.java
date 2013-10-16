@@ -876,7 +876,6 @@ public class DataExtractionTaskV0 extends EngineTask
 		newQuery.setMaxRows( query.getMaxRows( ) );
 		
 		newQuery.setDataSetName( query.getDataSetName( ) );
-		newQuery.setAutoBinding( query.needAutoBinding( ) );
 		newQuery.setColumnProjection( query.getColumnProjection( ) );
 		
 		return newQuery;

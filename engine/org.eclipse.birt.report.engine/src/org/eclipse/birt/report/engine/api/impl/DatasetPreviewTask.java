@@ -370,15 +370,27 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			return this.query;
 		QueryDefinition query = new QueryDefinition( );
 		query.setDataSetName( dataset.getQualifiedName( ) );
-		query.setAutoBinding( true );
 		Set<String> existBindings = new HashSet<String>( );
-		if ( this.selectedColumns != null )
+
+		if ( this.selectedColumns == null )
+		{
+			List<String> columnNames = QueryUtil.getColumnNames( dataset );
+			for ( String column : columnNames )
+			{
+				if ( !existBindings.contains( column ) )
+				{
+					QueryUtil.addBinding( query, column );
+					existBindings.add( column );
+				}
+			}
+		}
+		else
 		{
 			for ( String column : selectedColumns )
 			{
 				if ( !existBindings.contains( column ) )
 				{
-					addBinding( query, column );
+					QueryUtil.addBinding( query, column );
 					existBindings.add( column );
 				}
 			}
@@ -422,7 +434,8 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			{
 				if ( !existBindings.contains( col ) )
 				{
-					addBinding( query, col );
+					QueryUtil.addBinding( query, col );
+					existBindings.add( col );
 				}
 			}
 		}
@@ -507,15 +520,6 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 						i.next( ) );
 			}
 		}
-	}
-
-	private void addBinding( QueryDefinition query, String column )
-			throws DataException
-	{
-		ScriptExpression expr = new ScriptExpression(
-				ExpressionUtil.createDataSetRowExpression( column ) );
-		IBinding binding = new Binding( column, expr );
-		query.addBinding( binding );
 	}
 
 	protected IModelAdapter getModelAdapter( ) throws BirtException
