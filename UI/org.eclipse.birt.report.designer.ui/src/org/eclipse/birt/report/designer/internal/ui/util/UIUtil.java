@@ -1954,13 +1954,15 @@ public class UIUtil
 	public static String getColumnAnalysis( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+		
+		List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+		
+		for( ColumnHintHandle columnHint : columnHints )
 		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
+					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
 			{
-				return element.getAnalysis( );
+				return columnHint.getAnalysis( );
 			}
 		}
 		return null;
@@ -1997,13 +1999,15 @@ public class UIUtil
 	public static ActionHandle getColumnAction( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+		
+		List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+		
+		for ( ColumnHintHandle columnHint : columnHints )
 		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
+					||  column.getColumnName( ).equals( columnHint.getAlias( ) ) )
 			{
-				return element.getActionHandle( );
+				return columnHint.getActionHandle( );
 			}
 		}
 		return null;
