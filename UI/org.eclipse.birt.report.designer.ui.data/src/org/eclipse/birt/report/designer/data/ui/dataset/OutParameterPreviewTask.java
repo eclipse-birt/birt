@@ -36,7 +36,6 @@ public class OutParameterPreviewTask extends DatasetPreviewTask
 			throws DataException
 	{
 		QueryDefinition query = super.constructQuery( dataset );
-		query.setAutoBinding( false );
 
 		PropertyHandle propertyHandle = dataset.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
 		int paramsSize = propertyHandle.getListValue( ).size( );
