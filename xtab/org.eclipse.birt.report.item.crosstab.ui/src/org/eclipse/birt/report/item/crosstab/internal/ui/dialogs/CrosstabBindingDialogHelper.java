@@ -13,6 +13,9 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -609,6 +612,14 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		times = TimeFunctionManager.getCalculationTypes( handle,
 				getUseLevels( dimensionName ),
 				isStatic );
+		
+		Collections.sort(times, new Comparator<ITimeFunction>() {
+
+			public int compare(ITimeFunction o1, ITimeFunction o2) 
+			{
+				return o1.getDisplayName().compareTo(o2.getDisplayName());
+			}
+		});
 		String[] items = new String[times.size( )];
 		String[] names = new String[times.size( )];
 		for ( int i = 0; i < times.size( ); i++ )
