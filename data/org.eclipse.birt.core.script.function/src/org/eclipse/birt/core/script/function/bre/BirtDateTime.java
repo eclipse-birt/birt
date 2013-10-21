@@ -1417,6 +1417,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		Date newDate = new Date( );
 		Calendar calendar = getCalendar( newDate );
 		calendar.set( year, month, day, hours, minutes, seconds );
+		calendar.set( Calendar.MILLISECOND, 0 );
 		return calendar.getTime( );
 	}
 	/**
