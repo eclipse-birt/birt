@@ -519,14 +519,36 @@ public class Statement implements IQuery
 		{
 			if( this.preStat!= null )
 			{
-				System.out.println( "cancel is called" );
 				this.preStat.cancel( );
 			}
 		}
-		catch ( SQLException e )
+		catch ( Exception e )
 		{
-			throw new OdaException( e );
+			
 		}
+       	
+       	try
+       	{
+       		if( this.conn != null )
+       		{
+       			this.conn.close( );
+       		}
+       	}
+       	catch( Exception e )
+       	{
+       		
+       	}
+       	
+       	try
+       	{
+	       	IConnectionPoolManager manager = ConnectionPoolFactory.getInstance();
+	       	if( manager!= null )
+	       		manager.closeConnection( this.conn );
+       	}
+       	catch( Exception e )
+       	{
+       		
+       	}
     }
 
     /*

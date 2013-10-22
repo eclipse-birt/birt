@@ -64,7 +64,6 @@ import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
@@ -146,6 +145,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 			boolean needSorting, boolean needFilter ) throws BirtException
 	{
 		ICubeQueryDefinition cubeQuery = getCubeElementFactory( ).createCubeQuery( crosstabItem.getCubeName( ) );
+		cubeQuery.setID( String.valueOf(crosstabItem.getModelHandle( ).getID( )) );
 		
 		boolean isBoundToLinkedDataSet = CrosstabUtil.isBoundToLinkedDataSet( crosstabItem ) ;
 		

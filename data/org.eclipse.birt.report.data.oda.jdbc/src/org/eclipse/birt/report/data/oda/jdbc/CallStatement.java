@@ -610,8 +610,36 @@ public class CallStatement implements IAdvancedQuery
      */
     public void cancel() throws OdaException, UnsupportedOperationException
     {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException();
+    	try
+    	{
+    		if( this.callStat != null )
+    			this.callStat.cancel();
+    	}
+    	catch( Exception e )
+    	{}
+    	
+     	try
+       	{
+       		if( this.conn != null )
+       		{
+       			this.conn.close( );
+       		}
+       	}
+       	catch( Exception e )
+       	{
+       		
+       	}
+     	
+    	try
+       	{
+	       	IConnectionPoolManager manager = ConnectionPoolFactory.getInstance();
+	       	if( manager!= null )
+	       		manager.closeConnection( this.conn );
+       	}
+       	catch( Exception e )
+       	{
+       		
+       	}
     }
 
 	/*

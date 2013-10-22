@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2013 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,9 +21,9 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.ChildrenAllowedNode;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.DBNodeUtil;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.FilterConfig;
-import org.eclipse.birt.report.data.oda.jdbc.ui.model.FilterConfig.Type;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.IDBNode;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.RootNode;
+import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableType;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
@@ -121,7 +121,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private Button showSystemTableCheckBox = null;
 	private Button showAliasCheckBox = null;
 	private Button includeSchemaCheckBox = null;
-	private DataSetDesign dataSetDesign;
 	private Exception prepareException = null;
 	private Group sqlOptionGroup = null;
 	private Group selectTableGroup = null;
@@ -130,7 +129,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 	private int maxSchemaCount;
 	private int maxTableCountPerSchema;
-	private int timeOutLimit;
 	private boolean enableCodeAssist;
 	boolean prefetchSchema;
 
@@ -138,6 +136,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 	String formerQueryTxt;
 
+	protected int timeOutLimit;
+	protected DataSetDesign dataSetDesign;
 	private OdaConnectionProvider odaConnectionProvider;
 
 	String metadataBidiFormatStr = null; // bidi_hcg
@@ -680,7 +680,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					BidiConstants.DEFAULT_BIDI_FORMAT_STR,
 					metadataBidiFormatStr );
 		}
-		Type type = getSelectedFilterType( );
+		TableType type = getSelectedFilterType( );
 		String namePattern = searchTxt.getText( );
 		boolean isShowSystemTable = showSystemTableCheckBox.isEnabled( )
 				? showSystemTableCheckBox.getSelection( ) : false;
@@ -795,20 +795,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		{
 			return;
 		}
-
-		List<FilterConfig.Type> types = new ArrayList<FilterConfig.Type>( );
-		
-		// Populate the Types of Data bases objects which can be retrieved
-		types.add( Type.ALL );
-		types.add( Type.TABLE );
-		types.add( Type.VIEW );
-		if ( supportsProcedure )
-		{
-			types.add( Type.PROCEDURE );
-		}
 		filterComboViewer.setContentProvider( new IStructuredContentProvider( ) {
 
-			@SuppressWarnings("unchecked")
 			public Object[] getElements( Object inputElement )
 			{
 				return ( (List) inputElement ).toArray( );
@@ -829,12 +817,14 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 			public String getText( Object inputElement )
 			{
-				FilterConfig.Type type = (FilterConfig.Type) inputElement;
-				return FilterConfig.getTypeDisplayText( type );
+				TableType type = (TableType) inputElement;
+				return type.getDisplayName( );
 			}
 
 		} );
 
+
+		List<TableType> types = getTableTypes( supportsProcedure );
 		filterComboViewer.setInput( types );
 
 		// Set the Default selection to the First Item , which is "All"
@@ -844,8 +834,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 					public void widgetSelected( SelectionEvent e )
 					{
-						Type type = getSelectedFilterType( );
-						if ( type == Type.ALL || type == Type.TABLE )
+						TableType type = getSelectedFilterType( );
+						if ( type == TableType.ALL || type == TableType.TABLE )
 						{
 							showSystemTableCheckBox.setEnabled( true );
 							showAliasCheckBox.setEnabled( true );
@@ -859,19 +849,33 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				} );
 	}
 
+	protected List<TableType> getTableTypes( boolean supportsProcedure )
+	{
+		List<TableType> types = new ArrayList<TableType>( );
+
+		// Populate the Types of Data bases objects which can be retrieved
+		types.add( TableType.ALL );
+		types.add( TableType.TABLE );
+		types.add( TableType.VIEW );
+		if ( supportsProcedure )
+		{
+			types.add( TableType.PROCEDURE );
+		}
+		return types;
+	}
+
 	/**
 	 * 
 	 * @return The Type of the object selected in the type combo
 	 */
-	private FilterConfig.Type getSelectedFilterType( )
+	private TableType getSelectedFilterType( )
 	{
 		IStructuredSelection selection = (IStructuredSelection) filterComboViewer.getSelection( );
-		FilterConfig.Type type = Type.ALL;
 		if ( selection != null && selection.getFirstElement( ) != null )
 		{
-			return (Type) selection.getFirstElement( );
+			return (TableType) selection.getFirstElement( );
 		}
-		return type;
+		return TableType.ALL;
 	}
 
 	/**

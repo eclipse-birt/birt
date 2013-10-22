@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008, 2013 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.model;
@@ -122,10 +122,14 @@ public class RootNode extends ChildrenAllowedNode
 		String[] tableTypes = fc.getTableTypesForJDBC( );
 		if ( tableTypes != null )
 		{
+			if ( tableTypes.length == 1
+					&& TableType.NO_LIMIT.getTypeName( ).equals( tableTypes[0] ) )
+				tableTypes = null;
+
 			ResultSet rs = JdbcMetaDataProvider.getInstance( )
 					.getAlltables( fc.getSchemaName( ),
 							fc.getNamePattern( ),
-							fc.getTableTypesForJDBC( ) );
+							tableTypes );
 			if ( rs != null )
 			{
 				try
@@ -137,7 +141,7 @@ public class RootNode extends ChildrenAllowedNode
 						String type = rs.getString( "TABLE_TYPE" );//$NON-NLS-1$
 						TableNode table = new TableNode( schemaName,
 								tableName,
-								"VIEW".equalsIgnoreCase( type ) );
+								FilterConfig.JDBC_TYPE_VIEW.equalsIgnoreCase( type ) );
 						TablesAndProcedures tap = schemas.get( schemaName );
 						if ( tap == null )
 						{

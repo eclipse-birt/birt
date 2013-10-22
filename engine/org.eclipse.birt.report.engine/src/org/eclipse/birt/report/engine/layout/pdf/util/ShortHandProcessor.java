@@ -121,7 +121,7 @@ public abstract class ShortHandProcessor
 								break;
 							case 4 :
 								buildPadding( buffer, vs[0], vs[1], vs[2],
-										vs[4] );
+										vs[3] );
 								break;
 						}
 					}

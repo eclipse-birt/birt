@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2006, 2007 Actuate Corporation.
+ * Copyright (c) 2006, 2013 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -163,7 +163,7 @@ public class JdbcMetaDataProvider
 			catch ( Exception e )
 			{
 				logger.log( Level.WARNING, e.getMessage( ), e );
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 			try
 			{
@@ -172,11 +172,11 @@ public class JdbcMetaDataProvider
 			catch ( SQLException e )
 			{
 				logger.log( Level.WARNING, e.getMessage( ), e );
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 			catch ( Exception ex )
 			{
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 		}
 		try
@@ -193,7 +193,7 @@ public class JdbcMetaDataProvider
 			catch ( Exception e1 )
 			{
 				logger.log( Level.WARNING, e.getMessage( ), e );
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 		}
 	}
@@ -421,6 +421,101 @@ public class JdbcMetaDataProvider
 		}
 	}
 	
+	public String[] getTableTypeNames( long milliSeconds )
+	{
+		class TempThread extends Thread
+		{
+
+			private List<String> names = new ArrayList<String>( );
+
+			public void run( )
+			{
+				ResultSet rs = JdbcMetaDataProvider.this.getTableTypes( );
+				if ( rs != null )
+				{
+					try
+					{
+						while ( rs.next( ) )
+						{
+							names.add( rs.getString( "TABLE_TYPE" ) ); //$NON-NLS-1$
+						}
+					}
+					catch ( SQLException e )
+					{
+						logger.log( Level.WARNING, e.getMessage( ), e );
+					}
+				}
+			}
+
+			public String[] getResult( )
+			{
+				return names.toArray( new String[0] );
+			}
+		}
+		TempThread tt = new TempThread( );
+		tt.start( );
+		try
+		{
+			tt.join( milliSeconds );
+		}
+		catch ( InterruptedException e )
+		{
+		}
+		return tt.getResult( );
+	}
+	
+	public ResultSet getTableTypes( )
+	{
+		if ( connection == null )
+		{
+			try
+			{
+				reconnect( );
+			}
+			catch ( Exception e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+				return null;
+			}
+			try
+			{
+				return connection.getMetaData( ).getTableTypes( );
+			}
+			catch ( SQLException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+				return null;
+			}
+			catch ( Exception ex )
+			{
+				return null;
+			}
+		}
+		try
+		{
+			return connection.getMetaData( ).getTableTypes( );
+		}
+		catch ( SQLException e )
+		{
+			try
+			{
+				reconnect( );
+				return connection.getMetaData( ).getTableTypes( );
+			}
+			catch ( SQLException ex )
+			{
+				logger.log( Level.WARNING, ex.getMessage( ), ex );
+				return null;
+			}
+			catch ( OdaException ex )
+			{
+				logger.log( Level.WARNING, ex.getMessage( ), ex );
+				return null;
+			}
+		}
+	}
+
+	
 	public ResultSet getProcedureColumns( String schemaPattern, 
 			String procedureNamePattern, String columnNamePattern )
 	{
@@ -600,7 +695,7 @@ public class JdbcMetaDataProvider
 					{
 						while ( rs.next( ) )
 						{
-							names.add( rs.getString( "TABLE_SCHEM" ) );
+							names.add( rs.getString( "TABLE_SCHEM" ) ); //$NON-NLS-1$
 						}
 					}
 					catch ( SQLException e )
