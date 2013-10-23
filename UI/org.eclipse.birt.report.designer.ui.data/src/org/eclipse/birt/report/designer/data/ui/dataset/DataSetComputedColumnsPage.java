@@ -457,6 +457,21 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		if ( validateAllComputedColumns( ) )
 			getContainer( ).setMessage( Messages.getString( "dataset.editor.computedColumns" ), //$NON-NLS-1$
 					IMessageProvider.NONE );
+		
+		updateColumnCache( );
+
+	}
+
+	protected void updateColumnCache( )
+	{
+		try
+		{
+			DataSetUIUtil.updateColumnCache( (DataSetHandle) getContainer( ).getModel( ) );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
 	}
 
 	protected ComputedColumn getStructure( Object structureOrHandle )
