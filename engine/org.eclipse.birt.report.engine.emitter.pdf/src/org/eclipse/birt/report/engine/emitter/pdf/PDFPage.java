@@ -570,6 +570,8 @@ public class PDFPage extends AbstractPage
 				|| "_self".equalsIgnoreCase( target ) )
 		// Opens the target in a new window.
 		{
+			if ( hyperlink == null )
+				hyperlink = "";
 			boolean isUrl = hyperlink.startsWith( "http" );
 			if ( !isUrl )
 			{
