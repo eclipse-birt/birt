@@ -14,12 +14,15 @@ package org.eclipse.birt.data.engine.executor.aggregation;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
@@ -77,6 +80,8 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	private ScriptContext sc;
 	private DummyJSResultSetRow jsRow;
 	private IExecutorHelper helper;
+	private int currentRowIndex;
+	private Map columnBindings;
 	
 	/**
 	 * For the given odi resultset, calcaulate the value of aggregate from
@@ -86,8 +91,9 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	 * @param odiResult
 	 * @throws DataException 
 	 */
-	public ProgressiveAggregationHelper( IAggrDefnManager manager, String tempDir, Scriptable currentScope, ScriptContext sc,  IExecutorHelper helper) throws DataException
+	public ProgressiveAggregationHelper( Map columnBindings, IAggrDefnManager manager, String tempDir, Scriptable currentScope, ScriptContext sc,  IExecutorHelper helper) throws DataException
 	{
+		this.columnBindings = columnBindings;
 		this.manager = manager;
 		this.currentRoundAggrValue = new List[0];
 		this.accumulators = new ArrayList<Accumulator>();
@@ -103,7 +109,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 		}
 		this.currentScope.setParentScope( currentScope );
 		this.jsRow = new DummyJSResultSetRow();
-		this.currentScope.put( "row", this.currentScope, this.jsRow );
+		this.currentScope.put( "row", this.currentScope, new JSColumnBindingRow( ) );
 		this.currentScope.put( "dataSetRow", this.currentScope, this.jsRow );
 		this.populateAggregations( tempDir );
 		this.helper = helper;
@@ -140,6 +146,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 			throws DataException
 	{
 		this.jsRow.currentRow = ro;
+		this.currentRowIndex = currentRowIndex;
 		for ( int i = 0; i < this.manager.getAggrCount( ); i++ )
 		{
 			this.onRow( i,
@@ -534,8 +541,70 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 		
 		public String getClassName( )
 		{
+			return "dataSetRow";
+		}
+	}
+	
+	private class JSColumnBindingRow extends ScriptableObject
+	{
+		
+		/*
+		 * @see org.mozilla.javascript.ScriptableObject#get(int, org.mozilla.javascript.Scriptable)
+		 */
+		public Object get( int index, Scriptable start )
+		{
+			return this.get( String.valueOf( index ), start );
+		}		
+		
+		/*
+		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
+		 */
+		public Object get( String name, Scriptable start )
+		{
+			try
+			{
+				if( ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase( name ))
+				{
+					if( helper.getParent( )!= null)
+						return helper.getParent( ).getScriptable( );
+					else
+						throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
+				}
+				IBinding binding = ( IBinding )columnBindings.get( name );
+				IBaseExpression dataExpr = binding.getExpression( );
+				if ( dataExpr == null )
+				{
+					throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.INVALID_BOUND_COLUMN_NAME, new String[]{name} ) );
+				}
+				try
+				{
+					Object value = ExprEvaluateUtil.evaluateValue( dataExpr,
+							currentRowIndex,
+							jsRow.currentRow,
+							currentScope,
+							sc);
+					value = JavascriptEvalUtil.convertToJavascriptValue( DataTypeUtil.convert( value,
+							binding.getDataType( ) ),
+							currentScope );
+					return value;
+				}
+				catch ( BirtException e )
+				{
+					throw Context.reportRuntimeError( e.getLocalizedMessage( ) );
+				}
+			}
+			catch ( DataException e )
+			{
+				return null;
+			}
+		}
+
+		@Override
+		public String getClassName( )
+		{
 			return "row";
 		}
+		
 	}
 	
 }

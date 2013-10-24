@@ -49,15 +49,15 @@
       </dataSourceUI>
        <dataSetUI
              id="org.eclipse.birt.report.data.oda.hive.JdbcSelectDataSet"
-             initialPageId="org.eclipse.birt.report.data.oda.jdbc.ui.dataset"
+             initialPageId="org.eclipse.birt.report.data.oda.hive.ui.dataset"
              supportsInParameters="true"
              supportsOutParameters="false">
 		    <dataSetWizard
             class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizard"
             windowTitle="%wizard.data.set.title"/>
             <dataSetPage
-                  id="org.eclipse.birt.report.data.oda.jdbc.ui.dataset"
-                  wizardPageClass="org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage"
+                  id="org.eclipse.birt.report.data.oda.hive.ui.dataset"
+                  wizardPageClass="org.eclipse.birt.report.data.oda.hive.ui.profile.HiveDataSetWizardPage"
                   displayName="%dataset.editor.page.query"
                   path="/"/>
        </dataSetUI>

@@ -31,6 +31,7 @@ import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -123,7 +124,11 @@ public class DataEngineSession
 
 			public void dataEngineShutdown( )
 			{
-				classLoaderHolder.set( null );
+				int count = DataEngineThreadLocal.getInstance( ).getCloseListener( ).getActivateDteCount( );
+				if( count == 1 )
+				{
+					classLoaderHolder.set( null );
+				}
 				//TODO refactor me
 				if( mode != DataEngineContext.DIRECT_PRESENTATION )
 					versionForQuRsHolder.set( null );

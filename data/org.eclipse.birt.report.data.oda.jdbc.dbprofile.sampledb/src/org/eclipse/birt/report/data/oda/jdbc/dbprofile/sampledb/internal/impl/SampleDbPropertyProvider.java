@@ -91,7 +91,8 @@ public class SampleDbPropertyProvider implements IPropertyProvider
             return false;
 
         String dbUrl = dbProfileProps.getProperty( IJDBCConnectionProfileConstants.URL_PROP_ID, null );
-        if( dbUrl == null || ! dbUrl.replace( '\\', '/' ).endsWith( SampleDbFactory.SAMPLEDB_URL_RELATIVE_SUFFIX ) )
+        if( dbUrl == null || 
+                dbUrl.replace( '\\', '/' ).indexOf( SampleDbFactory.SAMPLEDB_URL_RELATIVE_SUFFIX ) == -1 )
             return false;
 
         return true;

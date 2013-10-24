@@ -21,5 +21,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.data.oda.jdbc.ui;x-internal:=true,
  org.eclipse.birt.report.data.oda.jdbc.ui.dialogs;x-internal:=true,
  org.eclipse.birt.report.data.oda.jdbc.ui.editors;x-internal:=true,
+ org.eclipse.birt.report.data.oda.jdbc.ui.model;x-internal:=true,
  org.eclipse.birt.report.data.oda.jdbc.ui.profile;x-internal:=true,
+ org.eclipse.birt.report.data.oda.jdbc.ui.provider;x-internal:=true,
  org.eclipse.birt.report.data.oda.jdbc.ui.util;x-internal:=true

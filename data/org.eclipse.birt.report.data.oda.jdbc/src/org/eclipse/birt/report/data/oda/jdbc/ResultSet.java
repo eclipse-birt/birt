@@ -13,6 +13,7 @@ package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -550,47 +551,74 @@ public class ResultSet implements IResultSet
 			java.sql.Blob blob = rs.getBlob( columnName );
 			return new Blob( blob );
 		}
-		// especially for MS Access, which does not support getBlob method
-		catch ( UnsupportedOperationException e1 )
+		// bugzilla 375294
+		catch ( Exception e )
 		{
-			try
+			Exception e1 = null;
+
+			if ( e.getClass( ).getName( ).equals( "org.jboss.util.NestedSQLException" ) )
 			{
-				InputStream inputStream = rs.getBinaryStream( columnName );
-				return new Blob( SqlBlobUtil.newBlob( inputStream ) );
-			}
-			catch ( SQLException e2 )
-			{
-				logger.log( Level.WARNING, e2.getLocalizedMessage( ) );
+				Class cls = e.getClass( );
+				Method meth = null;
+				try
+				{
+					meth = cls.getMethod( "getNested", null );
+					e1 = (Exception) meth.invoke( e, null );
+				}
+				catch ( Exception e2 )
+				{
+
+				}
+				logger.log( Level.WARNING, e.getLocalizedMessage( ) );
 				return null;
 			}
-		}
-		catch ( SQLException e )
-		{
-			// especially for the PostgreSQL driver, which does blobs via byte
-			// array
-			try
+			else
 			{
-				byte[] bytes = rs.getBytes( columnName );
-				if( bytes == null )
-					return null;
-				return new Blob( SqlBlobUtil.newBlob( new ByteArrayInputStream( bytes ) ) );
+				e1 = e;
 			}
-			catch ( SQLException e2 )
+			// especially for MS Access, which does not support getBlob method
+			if ( e1 instanceof UnsupportedOperationException )
 			{
 				try
 				{
-					Object value = rs.getObject( columnName );
-					if ( value instanceof IBlob )
-						return (IBlob) value;
+					InputStream inputStream = rs.getBinaryStream( columnName );
+					return new Blob( SqlBlobUtil.newBlob( inputStream ) );
 				}
-				catch ( SQLException ex )
+				catch ( SQLException e2 )
 				{
+					logger.log( Level.WARNING, e2.getLocalizedMessage( ) );
+					return null;
 				}
+			}
+			else if ( e1 instanceof SQLException )
+			{
+				// especially for the PostgreSQL driver, which does blobs via byte
+				// array
+				try
+				{
+					byte[] bytes = rs.getBytes( columnName );
+					if ( bytes == null )
+						return null;
+					return new Blob( SqlBlobUtil.newBlob( new ByteArrayInputStream( bytes ) ) );
+				}
+				catch ( SQLException e2 )
+				{
+					try
+					{
+						Object value = rs.getObject( columnName );
+						if ( value instanceof IBlob )
+							return (IBlob) value;
+					}
+					catch ( SQLException ex )
+					{
+					}
 
-				logger.log( Level.WARNING, e2.getLocalizedMessage( ) );
-				return null;
+					logger.log( Level.WARNING, e2.getLocalizedMessage( ) );
+					return null;
+				}
 			}
 		}
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -604,47 +632,74 @@ public class ResultSet implements IResultSet
 			java.sql.Blob blob = rs.getBlob( index );
 			return new Blob( blob );
 		}
-		// especially for MS Access, which does not support getBlob method
-		catch ( UnsupportedOperationException e1 )
+		// bugzilla 375294
+		catch ( Exception e )
 		{
-			try
+			Exception e1 = null;
+
+			if ( e.getClass( ).getName( ).equals( "org.jboss.util.NestedSQLException" ) )
 			{
-				InputStream inputStream = rs.getBinaryStream( index );
-				return new Blob( SqlBlobUtil.newBlob( inputStream ) );
-			}
-			catch ( SQLException e2 )
-			{
-				logger.log( Level.WARNING, e2.getLocalizedMessage( ) );
-				return null;
-			}
-		}
-		catch ( SQLException e )
-		{
-			// especially for the PostgreSQL driver, which does blobs via byte
-			// array
-			try
-			{
-				byte[] bytes = rs.getBytes( index );
-				if ( bytes == null )
-					return null;
-				return new Blob( SqlBlobUtil.newBlob( new ByteArrayInputStream( bytes ) ) );
-			}
-			catch ( SQLException e2 )
-			{
+				Class cls = e.getClass( );
+				Method meth = null;
 				try
 				{
-					Object value = rs.getObject( index );
-					if ( value instanceof IBlob )
-						return (IBlob) value;
+					meth = cls.getMethod( "getNested", null );
+					e1 = (Exception) meth.invoke( e, null );
 				}
-				catch ( SQLException ex )
+				catch ( Exception e2 )
 				{
-				}
 
+				}
 				logger.log( Level.WARNING, e.getLocalizedMessage( ) );
 				return null;
 			}
+			else
+			{
+				e1 = e;
+			}
+			// especially for MS Access, which does not support getBlob method
+			if ( e1 instanceof UnsupportedOperationException )
+			{
+				try
+				{
+					InputStream inputStream = rs.getBinaryStream( index );
+					return new Blob( SqlBlobUtil.newBlob( inputStream ) );
+				}
+				catch ( SQLException e2 )
+				{
+					logger.log( Level.WARNING, e2.getLocalizedMessage( ) );
+					return null;
+				}
+			}
+			else if ( e1 instanceof SQLException )
+			{
+				// especially for the PostgreSQL driver, which does blobs via byte
+				// array
+				try
+				{
+					byte[] bytes = rs.getBytes( index );
+					if ( bytes == null )
+						return null;
+					return new Blob( SqlBlobUtil.newBlob( new ByteArrayInputStream( bytes ) ) );
+				}
+				catch ( SQLException e2 )
+				{
+					try
+					{
+						Object value = rs.getObject( index );
+						if ( value instanceof IBlob )
+							return (IBlob) value;
+					}
+					catch ( SQLException ex )
+					{
+					}
+
+					logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+					return null;
+				}
+			}
 		}
+		return null;
 	}
 
 	/* (non-Javadoc)
