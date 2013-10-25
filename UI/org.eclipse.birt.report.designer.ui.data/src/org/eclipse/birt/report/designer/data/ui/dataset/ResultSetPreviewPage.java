@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetExceptionHandler;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -361,6 +362,11 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 						identifiers.setDesignResourceBaseURI( DTPUtil.getInstance( ).getReportDesignPath( ) );
 						appContext.put( resouceIDs,identifiers);
 					
+						if(ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null)
+						{
+							appContext.putAll( ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ).getAppContext( ));
+						}
+						
 						AppContextPopulator.populateApplicationContext( dsHandle, appContext );
 						previewer.open( appContext, getEngineConfig( handle ) );
 						IResultIterator itr = previewer.preview( ) ;
