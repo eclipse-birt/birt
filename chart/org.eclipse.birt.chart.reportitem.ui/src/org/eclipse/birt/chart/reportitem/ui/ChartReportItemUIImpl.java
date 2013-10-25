@@ -17,8 +17,10 @@ import java.util.Map;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
@@ -30,6 +32,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemFigureProvider;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -39,7 +42,10 @@ import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.widgets.Display;
+
+import com.ibm.icu.text.NumberFormat;
 
 /**
  * 
@@ -130,6 +136,16 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 					addDeleteListenerToHostChart( hostChart, listener );
 				}
 			}
+			else
+			{
+				// Mark this figure need resize to auto fit container
+				final Chart cm = (Chart) iri.getProperty( ChartReportItemConstants.PROPERTY_CHART );
+				final Bounds bo = cm.getBlock( ).getBounds( );
+				if ( bo == null || bo.getWidth( ) == 0 || bo.getHeight( ) == 0 )
+				{
+					dr.needFitContainer = true;
+				}
+			}
 
 			return dr;
 		}
@@ -160,20 +176,37 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemUI#updateFigure(org.eclipse.birt.report.model.api.ExtendedItemHandle,
 	 *      org.eclipse.draw2d.IFigure)
 	 */
-	public final void updateFigure( ExtendedItemHandle eih, IFigure ifg )
+	public final void updateFigure( final ExtendedItemHandle eih, final IFigure ifg )
 	{
 		try
 		{
+			// USE THE SWT DISPLAY SERVER TO CONVERT POINTS TO PIXELS
+			final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( );
+			final int dpi = idsSWT.getDpiResolution( );
+			
 			eih.loadExtendedElement( );
 			// UPDATE THE MODEL
+			final ChartReportItemImpl iri = (ChartReportItemImpl) eih.getReportItem( );
+			final DesignerRepresentation dr = (DesignerRepresentation)iri.getDesignerRepresentation( );
+			// Resizes chart to fit container via async execution. The flag
+			// needFitContainer makes sure it's executed only once.
+			if ( dr.needFitContainer )
+			{
+				dr.needFitContainer = false;
+				Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+					@Override
+					public void run( )
+					{
+						resizeToFitContainer( eih, ifg, dpi );
+					}
+				} );
+			}
 			eih.getReportItem( ).setHandle( eih );
 
 			ChartReportItemUIUtil.refreshBackground( eih,
 					(ReportElementFigure) ifg );
 
-			// USE THE SWT DISPLAY SERVER TO CONVERT POINTS TO PIXELS
-			final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( );
-			final int dpi = idsSWT.getDpiResolution( );
 			Bounds bounds = ChartItemUtil.computeChartBounds( eih, dpi );
 			if ( bounds == null )
 			{
@@ -201,6 +234,52 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		{
 			logger.log( ex );
 		}
+	}
+	
+	private void resizeToFitContainer( ExtendedItemHandle eih, IFigure ifg, int dpi )
+	{
+		Chart cm = ChartItemUtil.getChartFromHandle( eih );
+
+		Chart cmNew = cm.copyInstance( );
+		final CommandStack commandStack = eih.getRoot( ).getCommandStack( );
+		final String TRANS_NAME = Messages.getString("ChartReportItemUIImpl.Command.ResizeChart"); //$NON-NLS-1$
+		commandStack.startTrans( TRANS_NAME );
+
+		final Rectangle parentCA = ifg.getParent( ).getClientArea( );
+		final Bounds parentBounds = BoundsImpl.create( 0,
+				0,
+				parentCA.width,
+				parentCA.height ).scaledInstance( 72d / dpi );
+		// The width is the container's width, the height is max value of
+		// default height (130pt) and the min value of container's height and
+		// width's half.
+		parentBounds.setHeight( Math.max( ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT,
+				Math.min( parentBounds.getHeight( ),
+						parentBounds.getWidth( ) / 2 ) ) );
+		// ChartItemUtil.createDefaultChartBounds( eih, cm )
+		cmNew.getBlock( ).setBounds( parentBounds );
+
+		// Modified to fix Bugzilla #99331
+		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
+		try
+		{
+			// Update chart model
+			( (ChartReportItemImpl) eih.getReportItem( ) ).executeSetModelCommand( eih,
+					cm,
+					cmNew );
+			// Update handle
+			eih.setWidth( nf.format( parentBounds.getWidth( ) ) + "pt" ); //$NON-NLS-1$
+			eih.setHeight( nf.format( parentBounds.getHeight( ) ) + "pt" ); //$NON-NLS-1$
+		}
+		catch ( BirtException e )
+		{
+			logger.log( e );
+		}
+		finally
+		{
+			commandStack.commit( );
+		}
+
 	}
 
 	/*

@@ -485,17 +485,14 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			// for setProperty
 			crii.executeSetModelCommand( eih, cmOld, cmNew );
 
-			// Resizes chart with a default value when the size is zero or null
-			if ( cmNew.getBlock( ).getBounds( ) == null
-					|| cmNew.getBlock( ).getBounds( ).getWidth( ) == 0
-					|| cmNew.getBlock( ).getBounds( ).getHeight( ) == 0 )
+			Bounds bo = cmNew.getBlock( ).getBounds( );
+			
+			// If bounds is zero, do not set default value to Chart model at
+			// this time, and will fit container's size when figure updated.
+			if ( bo == null || bo.getWidth( ) == 0 || bo.getHeight( ) == 0 )
 			{
-				cmNew.getBlock( )
-						.setBounds( ChartItemUtil.createDefaultChartBounds( eih,
-								cmNew ) );
+				bo = ChartItemUtil.createDefaultChartBounds( eih, cmNew );
 			}
-
-			final Bounds bo = cmNew.getBlock( ).getBounds( );
 
 			// Modified to fix Bugzilla #99331
 			NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
