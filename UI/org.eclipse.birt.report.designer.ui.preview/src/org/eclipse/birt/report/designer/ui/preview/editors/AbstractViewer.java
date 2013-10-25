@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.preview.editors;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -21,6 +22,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.ui.preview.extension.IViewer;
 import org.eclipse.birt.report.designer.ui.preview.parameter.ParameterFactory;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -87,7 +89,12 @@ public abstract class AbstractViewer implements IViewer
 			{
 				runTask.setParameterValues( parameters );
 			}
-			runTask.setAppContext( Collections.EMPTY_MAP );
+			Map appContext = new HashMap();
+			if(ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null)
+			{
+				appContext = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ).getAppContext( );
+			}
+			runTask.setAppContext( appContext );
 			runTask.run( archive );
 		}
 		catch ( EngineException e )
@@ -124,6 +131,12 @@ public abstract class AbstractViewer implements IViewer
 		{
 			task.setRenderOption( renderOption );
 			task.setPageNumber( pageNumber );
+			Map appContext = Collections.EMPTY_MAP;
+			if(ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null)
+			{
+				appContext = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ).getAppContext( );
+			}
+			task.setAppContext( appContext );
 			task.render( );
 		}
 		catch ( EngineException e )
