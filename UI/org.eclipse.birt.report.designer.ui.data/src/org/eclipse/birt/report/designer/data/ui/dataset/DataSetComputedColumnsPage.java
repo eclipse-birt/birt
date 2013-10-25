@@ -458,8 +458,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			getContainer( ).setMessage( Messages.getString( "dataset.editor.computedColumns" ), //$NON-NLS-1$
 					IMessageProvider.NONE );
 		
-		updateColumnCache( );
-
 	}
 
 	protected void updateColumnCache( )
@@ -780,7 +778,12 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 
 	public boolean canLeave( )
 	{
-		return validateAllComputedColumns( );
+		if( validateAllComputedColumns( ) )
+		{
+			updateColumnCache( );
+			return true;
+		}
+		return false;
 	}
 
 	/*
