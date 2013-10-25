@@ -941,11 +941,11 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		if ( handle.getMeasure( ) > 0
 				&& handle.getUnits( ).trim( ).length( ) > 0 )
 		{
-			if ( handle.getUnits( ) == DesignChoiceConstants.UNITS_PT )
+			if ( DesignChoiceConstants.UNITS_PT.equalsIgnoreCase( handle.getUnits( ) ) )
 			{
 				retValue = handle.getMeasure( );
 			}
-			else if ( handle.getUnits( ) == DesignChoiceConstants.UNITS_PX )
+			else if ( DesignChoiceConstants.UNITS_PX.equalsIgnoreCase( handle.getUnits( ) ) )
 			{
 				retValue = ( handle.getMeasure( ) * 72d ) / dpi;
 			}
