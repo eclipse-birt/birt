@@ -2749,11 +2749,12 @@ public class ChartUtil
 
 
 	/**
-	 * Set related label for action.
+	 * Set related label for action in locale.
 	 * 
 	 * @param action
+	 * @param locale
 	 */
-	public static void setLabelTo( Action action )
+	public static void setLabelTo( Action action, ULocale locale )
 	{
 		if ( action == null )
 		{
@@ -2767,7 +2768,15 @@ public class ChartUtil
 		{
 			
 			String expr = "ActionType." + action.getType( ).getName( ) + ".DisplayName"; //$NON-NLS-1$ //$NON-NLS-2$
-			String displayName = Messages.getString( expr );
+			String displayName;
+			if ( locale == null )
+			{
+				displayName = Messages.getString( expr );
+			}
+			else
+			{
+				displayName = Messages.getString( expr, locale );
+			}
 			if ( displayName != null )
 			{
 				Label l = LabelImpl.create( );

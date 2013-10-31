@@ -2832,8 +2832,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				for ( Action subAction : mas.getActions( ) )
 				{
-					ActionValue av = subAction.getValue( );
-					ChartUtil.setLabelTo( subAction );
+					ChartUtil.setLabelTo( subAction, rtc.getULocale( ) );
 					if ( subAction.getValue( ) instanceof URLValue )
 						buildMultiURL( valueHints,
 								(URLValue) subAction.getValue( ) );
