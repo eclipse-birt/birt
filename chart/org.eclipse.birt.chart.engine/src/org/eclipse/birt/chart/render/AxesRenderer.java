@@ -1058,6 +1058,11 @@ public abstract class AxesRenderer extends BaseRenderer
 					double maxLimit = boPlotClientArea.getLeft( )
 							+ boPlotClientArea.getWidth( );
 					double minLimit = boPlotClientArea.getLeft( );
+					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
+					{
+						maxLimit -= pwa.getSeriesThickness( );
+						minLimit -= pwa.getSeriesThickness( );
+					}
 
 					dMax = Math.min( dMax, maxLimit );
 					dMin = Math.min( dMin, maxLimit );
@@ -1075,6 +1080,11 @@ public abstract class AxesRenderer extends BaseRenderer
 					double minLimit = boPlotClientArea.getTop( );
 					double maxLimit = boPlotClientArea.getTop( )
 							+ boPlotClientArea.getHeight( );
+					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
+					{
+						maxLimit += pwa.getSeriesThickness( );
+						minLimit += pwa.getSeriesThickness( );
+					}
 
 					dMax = Math.min( dMax, maxLimit );
 					dMin = Math.min( dMin, maxLimit );
@@ -2611,18 +2621,20 @@ public abstract class AxesRenderer extends BaseRenderer
 						LineRenderEvent.class );
 				if ( iOrientation == Orientation.HORIZONTAL )
 				{
+					double dLeft = pwa.getDimension( ) == IConstants.TWO_5_D ? boPlotClientArea.getLeft( )
+							- pwa.getSeriesThickness( )
+							: boPlotClientArea.getLeft( );
+
 					// RESTRICT RIGHT EDGE
-					if ( dCoordinate > boPlotClientArea.getLeft( )
-							+ boPlotClientArea.getWidth( ) )
+					if ( dCoordinate > dLeft + boPlotClientArea.getWidth( ) )
 					{
-						dCoordinate = boPlotClientArea.getLeft( )
-								+ boPlotClientArea.getWidth( );
+						dCoordinate = dLeft + boPlotClientArea.getWidth( );
 					}
 
 					// RESTRICT LEFT EDGE
-					if ( dCoordinate < boPlotClientArea.getLeft( ) )
+					if ( dCoordinate < dLeft )
 					{
-						dCoordinate = boPlotClientArea.getLeft( );
+						dCoordinate = dLeft;
 					}
 
 					// SETUP THE TWO POINTS
@@ -2632,18 +2644,20 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				else
 				{
+					double dTop = pwa.getDimension( ) == IConstants.TWO_5_D ? boPlotClientArea.getTop( )
+							+ pwa.getSeriesThickness( )
+							: boPlotClientArea.getTop( );
+
 					// RESTRICT TOP EDGE
-					if ( dCoordinate < boPlotClientArea.getTop( ) )
+					if ( dCoordinate < dTop )
 					{
-						dCoordinate = boPlotClientArea.getTop( );
+						dCoordinate = dTop;
 					}
 
 					// RESTRICT BOTTOM EDGE
-					if ( dCoordinate > boPlotClientArea.getTop( )
-							+ boPlotClientArea.getHeight( ) )
+					if ( dCoordinate > dTop + boPlotClientArea.getHeight( ) )
 					{
-						dCoordinate = boPlotClientArea.getTop( )
-								+ boPlotClientArea.getHeight( );
+						dCoordinate = dTop + boPlotClientArea.getHeight( );
 					}
 
 					// SETUP THE TWO POINTS
