@@ -139,7 +139,6 @@ public class JDBCSelectionPageHelper
 
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 4;
-		layout.verticalSpacing = 10;
 		layout.marginBottom = 300;
 		content.setLayout(layout);
 
@@ -148,7 +147,7 @@ public class JDBCSelectionPageHelper
 		// List if all supported data bases
 		new Label( content, SWT.RIGHT ).setText( JdbcPlugin.getResourceString( "wizard.label.driverClass" ) );//$NON-NLS-1$
 		driverChooserCombo = new ComboViewer( content, SWT.DROP_DOWN );
-		gridData = new GridData( GridData.FILL_BOTH );
+		gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalSpan = 3; // bidi_hcg
 		driverChooserCombo.getControl( ).setLayoutData( gridData );
 
