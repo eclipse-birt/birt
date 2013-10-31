@@ -370,7 +370,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 	}
 
-	public void onPageBreak( boolean isHorizontalPageBreak)
+	public void onPageBreak( boolean isHorizontalPageBreak, boolean isFixedlayoutPageBreak )
 	{
 		if ( !isHorizontalPageBreak )
 		{
@@ -379,6 +379,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			{
 				next( );
 				addAfterBreak = false;
+			}
+			else if ( isFixedlayoutPageBreak )
+			{
+				next( );
 			}
 			else
 			{
