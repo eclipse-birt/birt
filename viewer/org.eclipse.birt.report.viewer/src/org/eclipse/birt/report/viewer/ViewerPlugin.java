@@ -21,6 +21,7 @@ import java.util.TimeZone;
 import java.util.TreeMap;
 
 
+import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
@@ -171,6 +172,9 @@ public class ViewerPlugin extends Plugin
 
 		plugin.getPluginPreferences( ).setDefault( WebViewer.BIDI_ORIENTATION,
 				WebViewer.BIDI_ORIENTATION_AUTO );
+
+		plugin.getPluginPreferences( )
+				.setDefault( BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY, true );
 
 		// set viewer plugin working path
 		if ( plugin.getStateLocation( ) != null )
