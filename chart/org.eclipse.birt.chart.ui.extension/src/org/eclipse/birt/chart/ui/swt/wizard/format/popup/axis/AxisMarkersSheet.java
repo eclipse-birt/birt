@@ -426,12 +426,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		lblRangeFill.setLayoutData( gdLBLRangeFill );
 		lblRangeFill.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.Fill" ) ); //$NON-NLS-1$
 
-		int fillStyles = FillChooserComposite.ENABLE_GRADIENT
-				| FillChooserComposite.ENABLE_IMAGE
-				| FillChooserComposite.ENABLE_TRANSPARENT
-				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
-		fillStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
-				: fillStyles;
+		int fillStyles = getPatternAndImageFill( );
 		fccRange = new FillChooserComposite( cmpRange,
 				SWT.NONE,
 				fillStyles,
@@ -1405,4 +1400,16 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 				ColorDefinitionImpl.TRANSPARENT( ),
 				ColorDefinitionImpl.RED( ) );
 	}
+	
+	protected int getPatternAndImageFill( )
+	{
+		int fillStyles = FillChooserComposite.ENABLE_GRADIENT
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+				| FillChooserComposite.ENABLE_IMAGE;
+		fillStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+				: fillStyles;
+		return fillStyles;
+	}
+
 }
