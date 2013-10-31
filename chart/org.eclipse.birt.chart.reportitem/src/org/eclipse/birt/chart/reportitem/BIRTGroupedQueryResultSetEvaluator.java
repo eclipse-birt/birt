@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.engine.data.dte.QueryResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -71,6 +72,14 @@ public class BIRTGroupedQueryResultSetEvaluator
 		fQueryResultSet = resultSet;
 	}
 
+	public BIRTGroupedQueryResultSetEvaluator(
+			IResultIterator resultIterator, boolean hasAggregation,
+			boolean isSubQuery, Chart cm,
+			ExtendedItemHandle handle ) throws ChartException
+	{
+		super( resultIterator, hasAggregation, isSubQuery, cm, handle );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -78,7 +87,10 @@ public class BIRTGroupedQueryResultSetEvaluator
 	 */
 	public void close( )
 	{
-		fQueryResultSet.close( );
+		if ( fQueryResultSet != null )
+		{
+			fQueryResultSet.close( );
+		}
 	}
 
 	/*
@@ -88,6 +100,10 @@ public class BIRTGroupedQueryResultSetEvaluator
 	 */
 	public Object evaluate( String expression )
 	{
+		if ( fQueryResultSet == null )
+		{
+			return super.evaluate( expression );
+		}
 		try
 		{
 			exprCodec.decode( expression );

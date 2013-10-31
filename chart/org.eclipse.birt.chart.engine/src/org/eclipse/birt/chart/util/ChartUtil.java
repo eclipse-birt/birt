@@ -2182,6 +2182,9 @@ public class ChartUtil
 					break;
 				case GroupingUnitType.WEEKS :
 				case GroupingUnitType.DAYS :
+				case GroupingUnitType.WEEK_OF_MONTH:
+				case GroupingUnitType.DAY_OF_MONTH:
+				case GroupingUnitType.DAY_OF_WEEK:
 					fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier( );
 					( (DateFormatSpecifier) fs ).setDetail( DateFormatDetail.DATE_LITERAL );
 					( (DateFormatSpecifier) fs ).setType( DateFormatType.MEDIUM_LITERAL );
