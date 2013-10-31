@@ -2091,6 +2091,10 @@ public abstract class EngineTask implements IEngineTask
 		{
 			errorList.add( fatalError );
 		}
+		if ( cancelReason != null )
+		{
+			errorList.add( new EngineException( cancelReason ) );
+		}
 		errorList.addAll( executionContext.getErrors( ) );
 		return errorList;
 	}
