@@ -32,11 +32,11 @@ public class ContextPageBreakHandler implements ILayoutPageHandler
 		if ( pageContext instanceof HTMLLayoutContext )
 		{
 			context.firePageBreakEvent( ( (HTMLLayoutContext) pageContext )
-					.isHorizontalPageBreak( ) );
+					.isHorizontalPageBreak( ), false );
 		}
 		else
 		{
-			context.firePageBreakEvent( false );
+			context.firePageBreakEvent( false, true );
 		}
 	}
 
