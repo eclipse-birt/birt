@@ -24,13 +24,13 @@ public class PrimitiveDiskSortedStack extends BaseDiskSortedStack
 	public PrimitiveDiskSortedStack( int bufferSize, boolean isAscending,
 			boolean forceDistinct )
 	{
-		super( bufferSize, isAscending, forceDistinct );
+		super( bufferSize, isAscending, forceDistinct, null );
 	}
 	
 	public PrimitiveDiskSortedStack( int bufferSize, boolean forceDistinct,
 			Comparator comparator )
 	{
-		super( bufferSize, forceDistinct, comparator );
+		super( bufferSize, forceDistinct, comparator, null );
 	}
 	
 	/*
