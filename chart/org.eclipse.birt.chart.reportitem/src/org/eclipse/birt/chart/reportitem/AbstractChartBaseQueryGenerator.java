@@ -733,7 +733,9 @@ public abstract class AbstractChartBaseQueryGenerator
 		}
 
 		if ( sortKey == null
-				|| yGroupingDefinition.getKeyExpression( ).equals( sortKey ) )
+				|| ( ( orthSD.getQuery( ) != null && sortKey.equals( orthSD.getQuery( )
+						.getDefinition( ) ) ) || yGroupingDefinition.getKeyExpression( )
+						.equals( sortKey ) ) )
 		{
 			// Sort key is group expression.
 			sortDefinition.setExpression( yGroupingDefinition.getKeyExpression( ) );
