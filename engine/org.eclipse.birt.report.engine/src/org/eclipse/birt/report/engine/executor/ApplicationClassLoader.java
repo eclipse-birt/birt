@@ -69,6 +69,15 @@ public class ApplicationClassLoader extends ClassLoader
 			designClassLoader = null;
 		}
 	}
+	
+	public URLClassLoader getDesignClassLoader()
+	{
+		if ( designClassLoader == null )
+		{
+			createDesignClassLoader( );
+		}
+		return designClassLoader;
+	}
 
 	public Class loadClass( String className ) throws ClassNotFoundException
 	{
