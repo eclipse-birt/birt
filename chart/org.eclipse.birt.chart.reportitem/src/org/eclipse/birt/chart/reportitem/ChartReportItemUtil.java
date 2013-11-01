@@ -816,6 +816,10 @@ public class ChartReportItemUtil extends ChartItemUtil
 	public static boolean isKeepCubeHierarchyAndNotCubeTopLevelOnCategory(
 			Chart model, CubeHandle cubeHandle, ReportItemHandle itemHandle )
 	{
+		if ( model == null )
+		{
+			return false;
+		}
 		boolean isKeepCubeHierarchy = isKeepCubeHierarchyOnCategory( model );
 
 		if ( !isKeepCubeHierarchy )
@@ -839,6 +843,11 @@ public class ChartReportItemUtil extends ChartItemUtil
 	public static boolean isKeepCubeHierarchyAndNotCubeTopLevelOnSeries(
 			Chart model, CubeHandle cubeHandle, ReportItemHandle itemHandle )
 	{
+		if ( model == null )
+		{
+			return false;
+		}
+		
 		boolean isKeepCubeHierarchy = isKeepCubeHierarchyOnSeries( model );
 
 		if ( !isKeepCubeHierarchy )
