@@ -25,14 +25,14 @@ public class DiskSortedStack extends BaseDiskSortedStack
 	public DiskSortedStack( int bufferSize, boolean isAscending,
 			boolean forceDistinct, IStructureCreator creator )
 	{
-		super( bufferSize, isAscending, forceDistinct);
+		super( bufferSize, isAscending, forceDistinct, creator);
 		this.creator = creator;
 	}
 	
 	public DiskSortedStack( int bufferSize, boolean forceDistinct,
 			Comparator comparator, IStructureCreator creator )
 	{
-		super( bufferSize, forceDistinct, comparator );
+		super( bufferSize, forceDistinct, comparator, creator );
 		this.creator = creator;
 	}
 

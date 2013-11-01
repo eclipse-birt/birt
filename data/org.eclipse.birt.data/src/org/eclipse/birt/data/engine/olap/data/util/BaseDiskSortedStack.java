@@ -21,9 +21,10 @@ import java.util.List;
  * A disk stack. This util class can be used to sort a arry.
  */
 
-abstract public class BaseDiskSortedStack
+public class BaseDiskSortedStack
 {
 	private static final int DEFAULT_BUFFER_SIZE = 1000;
+	private static final int MAX_NUMBER_OF_SEGMENT = 100;
 	private ValueIndex mValueIndex = null;
 	protected List segments = null;
 	protected Object[] buffer = null;
@@ -36,7 +37,7 @@ abstract public class BaseDiskSortedStack
 	private boolean forceDistinct = false;
 	private Object lastPopObject = null;
 	private int size = 0;
-	
+	private IStructureCreator creator;
 	private boolean useMemoryOnly = false;
 
 	/**
@@ -46,9 +47,9 @@ abstract public class BaseDiskSortedStack
 	 * @param forceDistinct
 	 */
 	public BaseDiskSortedStack( int bufferSize, boolean isAscending,
-			boolean forceDistinct )
+			boolean forceDistinct, IStructureCreator creator )
 	{
-		this( bufferSize, forceDistinct, createComparator( isAscending ) );
+		this( bufferSize, forceDistinct, createComparator( isAscending ), creator );
 	}
 	
 	/**
@@ -58,7 +59,7 @@ abstract public class BaseDiskSortedStack
 	 * @param comparator
 	 */
 	public BaseDiskSortedStack( int bufferSize, boolean forceDistinct,
-			Comparator comparator )
+			Comparator comparator, IStructureCreator creator )
 	{
 		if ( bufferSize <= 0 )
 		{
@@ -73,8 +74,19 @@ abstract public class BaseDiskSortedStack
 		this.forceDistinct = forceDistinct;
 		mValueIndex = new ValueIndex( null, 0, comparator );
 		this.size = 0;
+		this.creator = creator;
 	}
 
+	private BaseDiskSortedStack( boolean forceDistinct, List segments, Comparator comparator, Object[] buffer, int bufferPos )
+	{
+		this.forceDistinct = forceDistinct;
+		this.segments = segments;
+		this.comparator = comparator;
+		this.buffer = buffer;
+		this.bufferPos = bufferPos;
+		this.mValueIndex = new ValueIndex( null, 0, comparator );
+	}
+	
 	public void setBufferSize( int bufferSize )
 	{
 		buffer = new Object[bufferSize];
@@ -145,17 +157,33 @@ abstract public class BaseDiskSortedStack
 		else
 		{
 			sort( buffer );
-			if ( forceDistinct )
-			{
-				int endIndex = removeDuplicated( buffer );
+			
+			if( this.segments.size() < MAX_NUMBER_OF_SEGMENT )
+			{	
+				int endIndex = buffer.length -1;
+				if ( forceDistinct )
+				{
+					endIndex = removeDuplicated( buffer );
+				}
 				saveToDisk( 0, endIndex );
 			}
 			else
 			{
-				saveToDisk( 0, buffer.length - 1 );
+				BaseDiskSortedStack temp = new BaseDiskSortedStack( this.forceDistinct, segments, this.comparator, this.buffer, this.bufferPos );
+				BaseDiskArray diskArray = this.creator == null ? new PrimitiveDiskArray():new StructureDiskArray( this.creator );
+				Object next = null;
+				while( ( next = temp.pop() )!= null )
+				{
+					diskArray.add( next );
+				}
+				temp.close();
+				this.segments.clear();
+				this.segments.add( diskArray );
 			}
+			
 			buffer[0] = o;
 			bufferPos = 1;
+			
 		}
 		size++;
 	}
@@ -174,8 +202,10 @@ abstract public class BaseDiskSortedStack
 	 * 
 	 * 
 	 */
-	abstract protected void saveToDisk( int fromIndex, int toIndex ) throws IOException;
-
+	protected void saveToDisk( int fromIndex, int toIndex ) throws IOException
+	{
+		throw new UnsupportedOperationException();
+	}
 	/**
 	 * Sort an array of ResultObjects using stored comparator.
 	 * 

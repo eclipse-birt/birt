@@ -146,6 +146,80 @@ public class DiskSortedStackTest extends TestCase
 		}
 	}
 	
+	public void testDistinctAsc3( ) throws IOException
+	{
+		try
+		{
+			int objectNumber = 10001;
+			DiskSortedStack stack = new DiskSortedStack( 10,
+					true,
+					true,
+					MemberForTest2.getMemberCreator( ) );
+			stack.push( createMember( 200 ) );
+			stack.push( createMember( 250 ) );
+			stack.push( createMember( 208 ) );
+			stack.push( createMember( 211 ) );
+			stack.push( createMember( 211 ) );
+			stack.push( createMember( 213 ) );
+			for ( int i = objectNumber-1; i >= 0; i-- )
+			{
+				stack.push( createMember( i ) );
+			}
+			// assertEquals( stack.size( ), objectNumber );
+
+			for ( int i = 0; i < objectNumber; i++ )
+			{
+				assertEquals( stack.pop( ), createMember( i ) );
+			}
+			stack.close( );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
+		}
+	}
+	
+	public void testNotDistinctAsc3( ) throws IOException
+	{
+		try
+		{
+			int objectNumber = 10001;
+			DiskSortedStack stack = new DiskSortedStack( 10,
+					true,
+					false,
+					MemberForTest2.getMemberCreator( ) );
+			stack.push( createMember( 100200 ) );
+			stack.push( createMember( 100250 ) );
+			stack.push( createMember( 100208 ) );
+			stack.push( createMember( 100211 ) );
+			stack.push( createMember( 100211 ) );
+			stack.push( createMember( 100213 ) );
+			for ( int i = objectNumber-1; i >= 0; i-- )
+			{
+				stack.push( createMember( i ) );
+			}
+			// assertEquals( stack.size( ), objectNumber );
+
+			for ( int i = 0; i < objectNumber; i++ )
+			{
+				assertEquals( stack.pop( ), createMember( i ) );
+			}
+
+			assertEquals( stack.pop( ), createMember( 100200 ) );
+			assertEquals( stack.pop( ), createMember( 100208 ) );
+			assertEquals( stack.pop( ), createMember( 100211 ) );
+			assertEquals( stack.pop( ), createMember( 100211 ) );
+			assertEquals( stack.pop( ), createMember( 100213 ) );
+			assertEquals( stack.pop( ), createMember( 100250 ) );
+
+			
+			stack.close( );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
+		}
+	}
 	public void testStess( ) throws IOException
 	{
 		try
