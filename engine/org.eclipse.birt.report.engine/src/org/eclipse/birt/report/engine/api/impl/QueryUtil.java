@@ -610,7 +610,6 @@ public class QueryUtil
 		newQuery.setMaxRows( query.getMaxRows( ) );
 
 		newQuery.setDataSetName( query.getDataSetName( ) );
-		newQuery.setAutoBinding( query.needAutoBinding( ) );
 		newQuery.setColumnProjection( query.getColumnProjection( ) );
 
 		newQuery.setName( query.getName( ) );
