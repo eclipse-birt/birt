@@ -398,7 +398,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * 
 	 * @return data cube name
 	 */
-	String getInheritedCube( )
+	protected String getInheritedCube( )
 	{
 		CubeHandle cube = null;
 		DesignElementHandle container = itemHandle.getContainer( );
