@@ -337,8 +337,8 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected IExtractionResults extractQuery( DataSetHandle dataset )
 			throws BirtException
 	{
-		QueryDefinition newQuery = constructQuery( dataset );
 		DataRequestSession session = executionContext.getDataEngine( ).getDTESession( );
+		QueryDefinition newQuery = constructQuery( dataset, session );
 		ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter(
 				executionContext );
 		apiAdapter.defineDataSet( dataset, session );
@@ -361,11 +361,16 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		return dataset.getModuleHandle( );
 	}
 	
-	protected QueryDefinition constructQuery( DataSetHandle dataset )
-			throws DataException
+	protected QueryDefinition constructQuery( DataSetHandle dataset, DataRequestSession session )
+			throws BirtException
 	{
 		if ( this.query != null )
 			return this.query;
+		if ( dataset
+				.getCachedMetaDataHandle( ) == null )
+		{
+			session.refreshMetaData( dataset );
+		}
 		QueryDefinition query = new QueryDefinition( );
 		query.setDataSetName( dataset.getQualifiedName( ) );
 		Set<String> existBindings = new HashSet<String>( );
