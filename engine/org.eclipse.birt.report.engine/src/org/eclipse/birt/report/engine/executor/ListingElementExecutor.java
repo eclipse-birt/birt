@@ -385,6 +385,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 	public void onPageBreak( boolean isHorizontalPageBreak, boolean isFixedlayoutPageBreak )
 	{
+		//FIXME refactor
 		if ( !isHorizontalPageBreak )
 		{
 			pageRowCount = 0;
@@ -393,12 +394,12 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				next( );
 				addAfterBreak = false;
 			}
-			else if ( isFixedlayoutPageBreak )
-			{
-				next( );
-			}
 			else
 			{
+				if ( isFixedlayoutPageBreak )
+				{
+					next( );
+				}
 				//this onPagebreak is caused by fixed-layout
 				if ( softBreakBefore )
 				{
