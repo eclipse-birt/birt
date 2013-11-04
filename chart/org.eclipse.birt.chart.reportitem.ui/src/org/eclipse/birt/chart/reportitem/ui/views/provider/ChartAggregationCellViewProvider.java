@@ -210,7 +210,7 @@ public class ChartAggregationCellViewProvider extends
 					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType );
 		}
 
-		ChartWithAxes cm = ChartWithAxesImpl.create( );
+		ChartWithAxes cm = ChartWithAxesImpl.createDefault( );
 		cm.setType( "Bar Chart" );//$NON-NLS-1$
 		cm.setSubType( "Side-by-side" );//$NON-NLS-1$
 		cm.setUnits( "Points" ); //$NON-NLS-1$
@@ -252,9 +252,8 @@ public class ChartAggregationCellViewProvider extends
 
 		// Add base series
 		Axis xAxis = cm.getBaseAxes( )[0];
-		SeriesDefinition sdBase = SeriesDefinitionImpl.create( );
-		sdBase.getSeriesPalette( ).shift( 0 );
-		Series series = SeriesImpl.create( );
+		SeriesDefinition sdBase = SeriesDefinitionImpl.createDefault( );
+		Series series = SeriesImpl.createDefault( );
 		sdBase.getSeries( ).add( series );
 		xAxis.setCategoryAxis( true );
 		xAxis.getSeriesDefinitions( ).add( sdBase );
@@ -266,9 +265,8 @@ public class ChartAggregationCellViewProvider extends
 
 		// Add orthogonal series
 		Axis yAxis = cm.getOrthogonalAxes( xAxis, true )[0];
-		SeriesDefinition sdOrth = SeriesDefinitionImpl.create( );
-		sdOrth.getSeriesPalette( ).shift( 0 );
-		series = BarSeriesImpl.create( );
+		SeriesDefinition sdOrth = SeriesDefinitionImpl.createDefault( );
+		series = BarSeriesImpl.createDefault( );
 		sdOrth.getSeries( ).add( series );
 		yAxis.getSeriesDefinitions( ).add( sdOrth );
 		if ( bDateTypeMeasure )
