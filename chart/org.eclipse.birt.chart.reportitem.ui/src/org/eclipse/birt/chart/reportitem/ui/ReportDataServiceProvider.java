@@ -1128,9 +1128,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	@SuppressWarnings("unchecked")
 	protected DataSetHandle getDataSetFromHandle( )
 	{
-		if ( itemHandle.getDataSet( ) != null )
+		DataSetHandle handle = ChartReportItemHelper.instance( ).getBindingDataSetHandle( itemHandle );
+		if ( handle != null )
 		{
-			return itemHandle.getDataSet( );
+			return handle;
 		}
 		// TODO HENG 2013.03.14
 //		else if ( itemHandle.getDataBindingReference( ) != null
