@@ -43,6 +43,17 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	}
 	
 	/**
+	 * This constructor can only be used in DTE, other module should not call this constructor to pass the autobinding.
+	 * @param autoBinding
+	 */
+	public QueryDefinition( boolean autoBinding )
+	{
+		super( null );
+		this.autoBinding = autoBinding;
+	}
+	
+	
+	/**
 	 * Constructs a  query that is nested within another query. The outer query (parent)
 	 * can be another query, or a sub query.
 	 * @param parent The outer query or subquery
@@ -50,6 +61,17 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	public QueryDefinition( BaseQueryDefinition parent)
 	{
 		super(parent);
+	}
+	
+	/**
+	 * This constructor can only be used in DTE, other module should not call this constructor to pass the autobinding.
+	 * @param parent
+	 * @param autoBinding
+	 */
+	public QueryDefinition( BaseQueryDefinition parent, boolean autoBinding )
+	{
+		super( parent );
+		this.autoBinding = autoBinding;
 	}
 	
 	/**
@@ -74,14 +96,6 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	public boolean needAutoBinding( )
 	{
 		return this.autoBinding;
-	}
-	
-	/**
-	 * @param autoBinding
-	 */
-	public void setAutoBinding( boolean autoBinding )
-	{
-		this.autoBinding = autoBinding;
 	}
 	
 	/*

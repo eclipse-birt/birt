@@ -534,9 +534,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private IQueryResults populatePreparedQuery( IQueryResults outer, boolean isLeftDataSet, String dataSetName ) throws DataException
 	{
 		List conditions = PreparedJointDataSourceQuery.this.dataSet.getJoinConditions( );
-		QueryDefinition queryDefinition = new QueryDefinition( );
+		QueryDefinition queryDefinition = new QueryDefinition( true );
 		queryDefinition.setAsTempQuery( );
-		queryDefinition.setAutoBinding( true );
 		queryDefinition.setDataSetName( dataSetName );
 		setParameterBindings( dataEngine,
 				dataSetName,
