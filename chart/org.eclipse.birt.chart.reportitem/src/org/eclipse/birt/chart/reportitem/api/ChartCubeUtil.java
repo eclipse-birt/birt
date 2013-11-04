@@ -93,13 +93,13 @@ public class ChartCubeUtil extends ChartItemUtil
 		if ( element instanceof ReportItemHandle )
 		{
 			CubeHandle cube = ( (ReportItemHandle) element ).getCube( );
-			if ( cube != null )
-			{
-				return cube;
-			}
-			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
 				return getBindingCube( ( (ReportItemHandle) element ).getDataBindingReference( ) );
+			}
+			else if ( cube != null )
+			{
+				return cube;
 			}
 			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
 			{
