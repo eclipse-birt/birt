@@ -544,11 +544,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 		// Run a query with the provided binding information. Group by bound
 		// column so we can
 		// retrieve distinct values using the grouping feature
-		QueryDefinition query = new QueryDefinition( );
+		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( dataSet.getQualifiedName( ) );
 		if ( columnBindings == null || !columnBindings.hasNext( ) )
 		{
-			query.setAutoBinding( true );
 			useDataSetFilter = false;
 		}
 

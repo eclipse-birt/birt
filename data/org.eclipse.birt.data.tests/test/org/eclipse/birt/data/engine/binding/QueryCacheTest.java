@@ -45,9 +45,8 @@ public class QueryCacheTest extends APITestCase
 	 */
 	public void testBasicCache( ) throws Exception
 	{
-		QueryDefinition query = new QueryDefinition();
+		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
-		query.setAutoBinding( true );
 		query.setCacheQueryResults( true );
 		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
 		String id = queryResults.getID( );
@@ -65,9 +64,8 @@ public class QueryCacheTest extends APITestCase
 	
 	public void testBasicCache1( ) throws Exception
 	{
-		QueryDefinition query = new QueryDefinition();
+		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
-		query.setAutoBinding( true );
 		query.setCacheQueryResults( true );
 		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
 		String id = queryResults.getID( );
@@ -93,9 +91,8 @@ public class QueryCacheTest extends APITestCase
 	
 	public void testCacheEmptyResultSet( ) throws Exception
 	{
-		QueryDefinition query = new QueryDefinition();
+		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
-		query.setAutoBinding( true );
 		query.setCacheQueryResults( true );
 		query.addFilter( new FilterDefinition( new ScriptExpression("false")) );
 		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
@@ -104,9 +101,8 @@ public class QueryCacheTest extends APITestCase
 	
 	public void testCacheEmptyResultSet1( ) throws Exception
 	{
-		QueryDefinition query = new QueryDefinition();
+		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
-		query.setAutoBinding( true );
 		query.setCacheQueryResults( true );
 		query.addFilter( new FilterDefinition( new ScriptExpression("false")) );
 		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
@@ -126,9 +122,8 @@ public class QueryCacheTest extends APITestCase
 	
 	public void testSubqueryCache( ) throws Exception
 	{
-		QueryDefinition query = new QueryDefinition();
+		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
-		query.setAutoBinding( true );
 		query.setCacheQueryResults( true );
 		
 		SubqueryDefinition sub = new SubqueryDefinition( "test", query );
@@ -162,9 +157,8 @@ public class QueryCacheTest extends APITestCase
 	
 	public void testUseDetailsCache( ) throws Exception
 	{
-		QueryDefinition query = new QueryDefinition();
+		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
-		query.setAutoBinding( true );
 		query.setCacheQueryResults( true );
 		query.setUsesDetails( false );
 		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );

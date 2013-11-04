@@ -1485,8 +1485,7 @@ public class ViewingTest extends RDTestCase
 	
 	public void testSourceQueryWithDistinctAndAutoBinding( ) throws BirtException
 	{
-		QueryDefinition sourceQuery = newReportQuery( );
-		sourceQuery.setAutoBinding( true );
+		QueryDefinition sourceQuery = newReportQuery( true );
 		
 		QueryDefinition qd = new QueryDefinition( );
 		qd.setDistinctValue( true );
