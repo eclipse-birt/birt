@@ -510,7 +510,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param categoryGroupDefinition
 	 * @param valueExprMap
 	 */
-	private void bindSortOnCategorySeries( BaseQueryDefinition query,
+	protected void bindSortOnCategorySeries( BaseQueryDefinition query,
 			SeriesDefinition categorySD,
 			GroupDefinition categoryGroupDefinition,
 			Map<String, String[]> valueExprMap,
@@ -699,7 +699,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		return valueExprMap;
 	}
 
-	private void bindSortOnOptionalY( GroupDefinition yGroupingDefinition, SeriesDefinition orthSD,
+	protected void bindSortOnOptionalY( GroupDefinition yGroupingDefinition, SeriesDefinition orthSD,
 			Axis[] orthAxisArray, SeriesDefinition categorySD, BaseQueryDefinition query )
 			throws ChartException
 	{
