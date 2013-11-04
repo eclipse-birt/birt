@@ -166,13 +166,13 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		if ( element instanceof ReportItemHandle )
 		{
 			DataSetHandle dataSet = ( (ReportItemHandle) element ).getDataSet( );
-			if ( dataSet != null )
-			{
-				return dataSet;
-			}
-			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
 				return getBindingDataSet( ( (ReportItemHandle) element ).getDataBindingReference( ) );
+			}
+			else if ( dataSet != null )
+			{
+				return dataSet;
 			}
 			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
 			{
