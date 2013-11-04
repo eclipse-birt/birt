@@ -974,9 +974,14 @@ public class ReportQueryBuilder
 		
 		private void setUsesDetails( BaseQueryDefinition baseQuery )
 		{
-			if( baseQuery != null && !baseQuery.cacheQueryResults( ) )
+			if ( baseQuery instanceof QueryDefinition )
+			{
+				( (QueryDefinition) baseQuery ).setIsSummaryQuery( true );
+			}
+			if ( baseQuery != null && !baseQuery.cacheQueryResults( ) )
 			{
 				baseQuery.setUsesDetails( false );
+
 			}
 		}
 
