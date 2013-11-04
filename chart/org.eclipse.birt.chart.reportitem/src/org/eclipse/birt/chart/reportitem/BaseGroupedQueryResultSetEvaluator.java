@@ -464,7 +464,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			
 			Query q = sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
 			String expr = q.getDefinition( );
-			int index = getGroupIndex( expr, groupDefinitions );
+			int index = getGroupIndex( expr, groupDefinitions, true );
 
 			if ( index >= 0 )
 			{
@@ -491,7 +491,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			}
 
 			String expr = q.getDefinition( );
-			int index = getGroupIndex( expr, groupDefinitions );
+			int index = getGroupIndex( expr, groupDefinitions,false );
 			if ( index >= 0 )
 			{
 				faEnabledGroups[index] = true;
@@ -525,11 +525,12 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 *            specified expression.
 	 * @param groupDefinitions
 	 *            list of <code>GroupDefinition</code>
+	 * @param isCategory
 	 * @return
 	 * @throws ChartException
 	 */
 	private int getGroupIndex( String expr,
-			List<IGroupDefinition> groupDefinitions ) throws ChartException
+			List<IGroupDefinition> groupDefinitions, boolean isCategory ) throws ChartException
 	{
 		if (expr==null)
 		{
@@ -541,34 +542,70 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		
 		boolean isJavaScript = ExpressionCodec.JAVASCRIPT.equals( exprCodec.getType( ) );
 		// Check if the expression is group expression.
-		for ( int i = 0; i < groupDefinitions.size( ); i++ )
-
+		if ( isCategory )
 		{
-			IGroupDefinition gd = groupDefinitions.get( i );
-			String exprGroupKey = gd.getKeyExpression( );
-			if ( isJavaScript )
-			{
-				// If specified expr contains group expression, the expr is used as group key.
-				if ( expr.indexOf( exprGroupKey ) >= 0 )
-				{
-					return i;
-				}
-			}
-			
-			if ( !bindingNameSet.isEmpty( ) )
-			{
-				Set<String> grpBindings = exprCodec.getRowBindingNameSet( exprGroupKey );
+			// Category uses revised order to seek group index to ensure getting correct index when
+			// category and optional Y have same expressions to group.
+			for ( int i = groupDefinitions.size( ) - 1; i >= 0; i-- )
 
-				for ( String grpBinding : grpBindings )
+			{
+				IGroupDefinition gd = groupDefinitions.get( i );
+				String exprGroupKey = gd.getKeyExpression( );
+				if ( isJavaScript )
 				{
-					if ( bindingNameSet.contains( grpBinding ) )
+					// If specified expr contains group expression, the expr is
+					// used as group key.
+					if ( expr.indexOf( exprGroupKey ) >= 0 )
 					{
 						return i;
 					}
 				}
+
+				if ( !bindingNameSet.isEmpty( ) )
+				{
+					Set<String> grpBindings = exprCodec.getRowBindingNameSet( exprGroupKey );
+
+					for ( String grpBinding : grpBindings )
+					{
+						if ( bindingNameSet.contains( grpBinding ) )
+						{
+							return i;
+						}
+					}
+				}
 			}
 		}
-			
+		else
+		{
+			for ( int i = 0; i < groupDefinitions.size( ); i++ )
+
+			{
+				IGroupDefinition gd = groupDefinitions.get( i );
+				String exprGroupKey = gd.getKeyExpression( );
+				if ( isJavaScript )
+				{
+					// If specified expr contains group expression, the expr is
+					// used as group key.
+					if ( expr.indexOf( exprGroupKey ) >= 0 )
+					{
+						return i;
+					}
+				}
+
+				if ( !bindingNameSet.isEmpty( ) )
+				{
+					Set<String> grpBindings = exprCodec.getRowBindingNameSet( exprGroupKey );
+
+					for ( String grpBinding : grpBindings )
+					{
+						if ( bindingNameSet.contains( grpBinding ) )
+						{
+							return i;
+						}
+					}
+				}
+			}
+		}
 		return -1;
 	}
 	
