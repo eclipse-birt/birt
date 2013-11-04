@@ -121,6 +121,13 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 			IEdgeDefinition rowED = cqd.getEdge( ICubeQueryDefinition.ROW_EDGE );
 			IEdgeDefinition colED = cqd.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
 			
+			// Swap the row edge and col edge if row edge is null. 
+			if ( rowED == null && colED != null )
+			{
+				rowED = colED;
+				colED = null;
+			}
+			
 			// Gets cube binding expressions map.
 			Map<String, String> cubeBindingMap = new HashMap<String, String>();
 			List bindingList = cqd.getBindings( );
