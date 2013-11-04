@@ -68,7 +68,7 @@ public class DefineDataSourceSetUtil
 			}
 
 		}
-		if ( dataSet instanceof DerivedDataSetHandle )
+		else if ( dataSet instanceof DerivedDataSetHandle )
 		{
 			List inputDataSet = ( (DerivedDataSetHandle) dataSet ).getInputDataSets( );
 			for ( int i = 0; i < inputDataSet.size( ); i++ )
@@ -114,7 +114,7 @@ public class DefineDataSourceSetUtil
 			}
 
 		}
-		if ( dataSet instanceof DerivedDataSetHandle )
+		else if ( dataSet instanceof DerivedDataSetHandle )
 		{
 			List inputDataSet = ( (DerivedDataSetHandle) dataSet ).getInputDataSets( );
 			for ( int i = 0; i < inputDataSet.size( ); i++ )
@@ -165,11 +165,12 @@ public class DefineDataSourceSetUtil
 		final IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
 		if ( dataSetInterceptor != null )
 		{
-			dataSetInterceptor.preDefineDataSet( dContext,
-					dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
+			dataSetInterceptor.preDefineDataSet( dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
 					design,
 					queryDefn,
-					registedQueries );
+					registedQueries,
+					dContext,
+					dataEngine.getSession( ).getTempDir( ) );
 			dataEngine.addShutdownListener( new IShutdownListener( ) {
 
 				public void dataEngineShutdown( )
