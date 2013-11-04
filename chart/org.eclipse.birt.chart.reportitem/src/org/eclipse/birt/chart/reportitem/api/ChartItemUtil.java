@@ -1235,6 +1235,11 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		{
 			return false;
 		}
+		if ( ChartReportItemHelper.instance( ).getBindingCubeHandle( handle ) == null )
+		{
+			return false;
+		}
+
 		return true;
 	}
 
