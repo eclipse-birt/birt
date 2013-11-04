@@ -61,4 +61,9 @@ public class QueryOptimizeHints implements IQueryOptimizeHints
 	{
 		return null;
 	}
+
+	public Map<String,List<String>> getCombinedDataSets( )
+	{
+		return null;
+	}
 }
