@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.command.NameException;
@@ -141,7 +143,7 @@ public class LabelItemParserTest extends ParserTestCase
 		
 		assertEquals( "Div", labelHandle.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", labelHandle.getLanguage( ) ); //$NON-NLS-1$
-		assertEquals( "Alt Text", labelHandle.getAltText( ) ); //$NON-NLS-1$
+		assertEquals( "Alt Text", labelHandle.getAltTextExpression( ).getStringExpression( ) ); //$NON-NLS-1$
 		assertEquals( 1, labelHandle.getOrder( ) ); //$NON-NLS-1$
 
 		// make sure that this label exists in the body slot.
@@ -260,7 +262,7 @@ public class LabelItemParserTest extends ParserTestCase
 		
 		labelHandle.setTagType( "Div" ); //$NON-NLS-1$
 		labelHandle.setLanguage( "English" ); //$NON-NLS-1$
-		labelHandle.setAltText( "Alt Text" ); //$NON-NLS-1$
+		labelHandle.setAltTextExpression( new Expression("Alt Text", ExpressionType.CONSTANT) ); //$NON-NLS-1$
 		labelHandle.setOrder( 1 ); //$NON-NLS-1$
 
 		labelHandle.setCustomXml( "new custom <text> </text> for bodyLabel" ); //$NON-NLS-1$

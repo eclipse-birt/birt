@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.TextItem;
@@ -77,7 +79,7 @@ public class TextItemParseTest extends BaseTestCase
 		text.setHasExpression( false );
 		text.setTagType( "Div" ); //$NON-NLS-1$
 		text.setLanguage( "English" ); //$NON-NLS-1$
-		text.setAltText( "Alt Text" ); //$NON-NLS-1$
+		text.setAltTextExpression( new Expression("Alt Text", ExpressionType.CONSTANT) ); //$NON-NLS-1$
 		text.setOrder( 1 ); //$NON-NLS-1$
 
 		text = (TextItemHandle) designHandle.findElement( "text2" ); //$NON-NLS-1$
@@ -116,7 +118,7 @@ public class TextItemParseTest extends BaseTestCase
 		
 		assertEquals( "Div", text.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", text.getLanguage( ) ); //$NON-NLS-1$
-		assertEquals( "Alt Text", text.getAltText( ) ); //$NON-NLS-1$
+		assertEquals( "Alt Text", text.getAltTextExpression( ).getStringExpression( ) ); //$NON-NLS-1$
 		assertEquals( 1, text.getOrder( ) ); //$NON-NLS-1$
 
 		text = (TextItemHandle) designHandle.findElement( "text2" ); //$NON-NLS-1$
