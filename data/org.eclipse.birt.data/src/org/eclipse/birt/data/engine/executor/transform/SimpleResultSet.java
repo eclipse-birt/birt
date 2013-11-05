@@ -51,7 +51,6 @@ import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
-import org.eclipse.birt.data.engine.impl.IQueryOptimizeHints;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
@@ -509,23 +508,20 @@ public class SimpleResultSet implements IResultIterator
 
 	private List<IBinding> getRequestColumnMap( )
 	{
-		IQueryOptimizeHints hints = null;
-		
-		if ( handler.getAppContext( ) != null )
+		try
 		{
-			hints = (IQueryOptimizeHints) handler.getAppContext( )
-					.get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT );
+			if ( DataSetStore.isDataMartStore( handler.getAppContext( ),
+					this.session ) )
+			{
+				return null;
+			}
 		}
-		if ( hints != null )
+		catch ( DataException e )
 		{
-			return null;
 		}
-		else
-		{
-			return ( this.query instanceof IQueryDefinition )
-					&& ( (IQueryDefinition) this.query ).needAutoBinding( )
-					? null : this.handler.getAllColumnBindings( );
-		}
+		return ( this.query instanceof IQueryDefinition )
+				&& ( (IQueryDefinition) this.query ).needAutoBinding( ) ? null
+				: this.handler.getAllColumnBindings( );
 	}
 	
 	/*
