@@ -328,14 +328,18 @@ class PropertyState extends AbstractPropertyState
 			value = deEscape( (String) value );
 			setProperty( name, value );
 		}
-		// backward compatible
-		else if ( IReportItemModel.ALTTEXT_PROP.equals( name ) )
-		{
-			setProperty( name, new Expression( value, ExpressionType.CONSTANT ) );
-		}
 		else
 		{
 			setProperty( name, value );
+		}
+		backwardCompatible( value );
+	}
+	
+	protected void backwardCompatible( Object value )
+	{
+		if ( IReportItemModel.ALTTEXT_PROP.equals( name ) )
+		{
+			setProperty( name, new Expression( value, ExpressionType.CONSTANT ) );
 		}
 	}
 
