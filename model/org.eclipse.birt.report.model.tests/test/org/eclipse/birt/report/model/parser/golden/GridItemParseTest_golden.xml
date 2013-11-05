@@ -80,7 +80,7 @@
         			<expression name="headers">new headers for cell</expression>
                     <property name="tagType">Cell Role</property>
 		            <property name="language">English</property>
-		            <expression name="altText">Alt Text</expression>
+		            <expression name="altText" type="constant">Alt Text</expression>
                     <property name="style">My-Style</property>
                     <property name="backgroundColor">red</property>
                     <property name="borderTopColor">yellow</property>
