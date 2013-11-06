@@ -38,7 +38,8 @@ public interface IDataSetInterceptor
 	void preDefineDataSet( IBaseDataSourceDesign dsource,
 			IBaseDataSetDesign dset, IDataQueryDefinition query,
 			IDataQueryDefinition[] registedQueries,
-			DataSessionContext dContext, String tempDir )
+			DataSessionContext dContext, String tempDir,
+			IDataSetInterceptorContext interceptorContext )
 			throws BirtException;
 
 	/**
