@@ -167,7 +167,14 @@ class BirtMath implements IScriptFunctionExecutor
 		 */
 		protected Object getValue( final Object[] args ) throws BirtException
 		{
-			return MathUtil.divide( args[0], args[1] );
+			try
+			{
+				return MathUtil.divide( args[0], args[1] );
+			}
+			catch ( java.lang.ArithmeticException e )
+			{
+				return Double.NaN;
+			}
 		}
 	}	
 	
