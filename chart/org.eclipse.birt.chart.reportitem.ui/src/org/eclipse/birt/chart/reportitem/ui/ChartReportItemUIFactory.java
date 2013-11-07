@@ -15,15 +15,19 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
+import org.eclipse.birt.chart.reportitem.ui.views.attributes.ChartPageGenerator;
 import org.eclipse.birt.chart.ui.swt.ChartUIFactory;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IImageServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelper;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.designer.ui.preferences.IStatusChangeListener;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.core.resources.IProject;
 
@@ -137,6 +141,18 @@ public class ChartReportItemUIFactory extends ChartUIFactory
 			IProject project){
 		return new ChartConfigurationBlock( context,
 				project );
+	}
+
+	public AbstractFilterHandleProvider getFilterProvider( Object handle,
+			ReportDataServiceProvider dataServiceProvider )
+	{
+		AbstractFilterHandleProvider baseProvider = AbstractFilterHandleProvider.class.cast( ElementAdapterManager.getAdapter( new ChartPageGenerator( ),
+				AbstractFilterHandleProvider.class ) );
+		if ( baseProvider == null )
+		{
+			baseProvider = new FilterHandleProvider( );
+		}
+		return baseProvider;
 	}
 
 }
