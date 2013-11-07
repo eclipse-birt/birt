@@ -910,7 +910,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	 * 
 	 * @return
 	 */
-	private boolean isDirectCubeReference( )
+	protected boolean isCubeTreeView( )
 	{
 		boolean bCube = this.getDataServiceProvider( ).getBindingCubeHandle( ) != null;
 		if ( bCube )
@@ -931,7 +931,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	 */
 	private void refreshDataPreviewPane( )
 	{
-		if ( isDirectCubeReference( ) )
+		if ( isCubeTreeView( ) )
 		{
 			return;
 		}
@@ -1197,7 +1197,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		ExtendedItemFilterDialog page = new ExtendedItemFilterDialog( handle );
 
 		AbstractFilterHandleProvider provider = ChartFilterProviderDelegate.createFilterProvider( handle,
-				handle );
+				handle, dataProvider );
 		if ( provider instanceof ChartCubeFilterHandleProvider )
 		{
 			( (ChartCubeFilterHandleProvider) provider ).setContext( getContext( ) );

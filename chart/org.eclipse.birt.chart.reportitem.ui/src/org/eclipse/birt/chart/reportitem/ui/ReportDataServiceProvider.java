@@ -1777,6 +1777,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return ChartReportItemUtil.getColumnDataBindings( handle,
 				true );
 	}
+	
+	public List<ComputedColumnHandle> getAvailableBindingsList(
+			ExtendedItemHandle handle )
+	{
+		Iterator<ComputedColumnHandle> itr = getUsedDataSetBindings( null,
+				handle );
+		List<ComputedColumnHandle> columnsList = new ArrayList<ComputedColumnHandle>( );
+		while ( itr.hasNext( ) )
+		{
+			ComputedColumnHandle curColumn = itr.next( );
+			columnsList.add( curColumn );
+		}
+		return columnsList;
+	}
 
 	/**
 	 * Create a simple expression evaluator, it will causes chart engine using

@@ -16,7 +16,8 @@ import java.util.List;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
-import org.eclipse.birt.chart.reportitem.ui.views.attributes.ChartPageGenerator;
+import org.eclipse.birt.chart.reportitem.ui.ChartReportItemUIFactory;
+import org.eclipse.birt.chart.reportitem.ui.ReportDataServiceProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
@@ -257,6 +258,12 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 	public static AbstractFilterHandleProvider createFilterProvider(
 			Object input, Object providerInput )
 	{
+		return createFilterProvider(input, providerInput, null);
+	}
+	
+	public static AbstractFilterHandleProvider createFilterProvider(
+			Object input, Object providerInput, ReportDataServiceProvider dataServiceProvider )
+	{
 		AbstractFilterHandleProvider currentProvider = null;
 
 		Object handle = null;
@@ -269,12 +276,7 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 			handle = input;
 		}
 
-		AbstractFilterHandleProvider baseProvider = getAdapter( new ChartPageGenerator( ),
-				AbstractFilterHandleProvider.class );
-		if ( baseProvider == null )
-		{
-			baseProvider = new FilterHandleProvider( );
-		}
+		AbstractFilterHandleProvider baseProvider = ChartReportItemUIFactory.instance( ).getFilterProvider( handle, dataServiceProvider );
 
 		if ( handle instanceof ReportItemHandle
 				&& ChartReportItemHelper.instance( )
@@ -325,7 +327,7 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 
 		return currentProvider;
 	}
-
+	
 	private static <T> T getAdapter( Object adaptable, Class<T> type )
 	{
 		return type.cast( ElementAdapterManager.getAdapter( adaptable, type ) );
@@ -392,4 +394,5 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 	{
 		baseProvider.reset( );
 	}
+
 }

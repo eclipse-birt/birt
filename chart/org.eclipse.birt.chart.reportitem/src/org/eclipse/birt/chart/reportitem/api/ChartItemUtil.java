@@ -71,6 +71,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
+import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -1683,7 +1684,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 
 	}
 	
-	protected static boolean loadExpressionFromHandle(
+	public static boolean loadExpressionFromHandle(
 			ExpressionCodec exprCodec, Expression expression )
 	{
 		if ( expression != null && expression.getStringExpression( ) != null )
@@ -1738,6 +1739,17 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return false;
 	}
 
+	public static boolean loadExpression( ExpressionCodec exprCodec,
+			FilterConditionHandle fceh )
+	{
+		if ( exprCodec != null )
+		{
+			ExpressionHandle eh = fceh.getExpressionProperty( FilterCondition.EXPR_MEMBER );
+			return loadExpressionFromHandle( exprCodec, eh );
+		}
+		return false;
+	}
+	
 	/**
 	 * Loads the expression from a ComputedColumnHandle into the
 	 * ExpressionCodec.
