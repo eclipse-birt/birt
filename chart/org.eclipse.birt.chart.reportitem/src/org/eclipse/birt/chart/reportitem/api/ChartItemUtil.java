@@ -1684,7 +1684,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 
 	}
 	
-	protected static boolean loadExpressionFromHandle(
+	public static boolean loadExpressionFromHandle(
 			ExpressionCodec exprCodec, Expression expression )
 	{
 		if ( expression != null && expression.getStringExpression( ) != null )
