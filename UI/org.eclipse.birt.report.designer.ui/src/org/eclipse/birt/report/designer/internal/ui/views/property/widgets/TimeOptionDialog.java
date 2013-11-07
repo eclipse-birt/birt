@@ -71,6 +71,7 @@ public class TimeOptionDialog extends SelectionStatusDialog
 	public TimeOptionDialog( Shell parentShell )
 	{
 		super( parentShell );
+		setHelpAvailable( false );
 	}
 
 	/*

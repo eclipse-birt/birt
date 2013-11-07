@@ -75,7 +75,7 @@ public class BaseTitleAreaDialog extends TitleAreaDialog
 	public BaseTitleAreaDialog( Shell parentShell )
 	{
 		super( parentShell );
-
+		setHelpAvailable( false );
 		setShellStyle( getShellStyle( ) | SWT.RESIZE );
 	}
 

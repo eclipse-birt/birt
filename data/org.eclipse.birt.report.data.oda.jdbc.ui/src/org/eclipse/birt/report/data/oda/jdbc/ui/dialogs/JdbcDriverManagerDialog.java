@@ -129,6 +129,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
 	public JdbcDriverManagerDialog( Shell parentShell )
 	{
 		super( parentShell );
+		setHelpAvailable( false );
 
 		setShellStyle( SWT.CLOSE
 				| SWT.TITLE

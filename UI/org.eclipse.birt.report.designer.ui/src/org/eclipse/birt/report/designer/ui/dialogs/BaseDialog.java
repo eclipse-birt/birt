@@ -57,7 +57,7 @@ public abstract class BaseDialog extends TrayDialog
 	 * <code>BaseDialog( Shell parentShell, String title, true )</code>.
 	 * 
 	 * @param title
-	 * 		the title of the dialog
+	 *            the title of the dialog
 	 */
 
 	protected BaseDialog( String title )
@@ -65,18 +65,24 @@ public abstract class BaseDialog extends TrayDialog
 		this( UIUtil.getDefaultShell( ), title );
 	}
 
+	protected BaseDialog( Shell parentShell )
+	{
+		this( parentShell, null );
+	}
+
 	/**
 	 * Creates a dialog under the parent shell with the given title
 	 * 
 	 * @param parentShell
-	 * 		the parent shell
+	 *            the parent shell
 	 * @param title
-	 * 		the title of the dialog
+	 *            the title of the dialog
 	 */
 
 	protected BaseDialog( Shell parentShell, String title )
 	{
 		super( parentShell );
+		setHelpAvailable( false );
 		setShellStyle( getShellStyle( ) | SWT.RESIZE );
 		this.title = title;
 	}
@@ -120,7 +126,7 @@ public abstract class BaseDialog extends TrayDialog
 	 * it.
 	 * 
 	 * @return Returns true if the dialog is initialized correctly, or false if
-	 * 	failed
+	 *         failed
 	 */
 	protected boolean initDialog( )
 	{
@@ -136,7 +142,7 @@ public abstract class BaseDialog extends TrayDialog
 	 * </p>
 	 * 
 	 * @param shell
-	 * 		the shell
+	 *            the shell
 	 */
 	protected void configureShell( Shell shell )
 	{
@@ -216,15 +222,15 @@ public abstract class BaseDialog extends TrayDialog
 	 * 
 	 * 
 	 * @param parent
-	 * 		the parent composite
+	 *            the parent composite
 	 * @param id
-	 * 		the id of the button (see <code>IDialogConstants.*_ID</code>
-	 * 		constants for standard dialog button ids)
+	 *            the id of the button (see <code>IDialogConstants.*_ID</code>
+	 *            constants for standard dialog button ids)
 	 * @param label
-	 * 		the label from the button
+	 *            the label from the button
 	 * @param defaultButton
-	 * 		<code>true</code> if the button is to be the default button, and
-	 * 		<code>false</code> otherwise
+	 *            <code>true</code> if the button is to be the default button,
+	 *            and <code>false</code> otherwise
 	 * 
 	 * @return the new button
 	 * 
@@ -258,7 +264,7 @@ public abstract class BaseDialog extends TrayDialog
 	 */
 	private IDialogSettings loadDialogSettings( )
 	{
-		if ( !needRememberLastSize( ))
+		if ( !needRememberLastSize( ) )
 		{
 			return null;
 		}
@@ -323,7 +329,7 @@ public abstract class BaseDialog extends TrayDialog
 	 * Override this method to get the default size of current dialog.
 	 * 
 	 * @return a Point object which encapsulate the width and height of the
-	 * 	dialog.
+	 *         dialog.
 	 */
 	protected Point getDefaultSize( )
 	{
@@ -337,20 +343,23 @@ public abstract class BaseDialog extends TrayDialog
 	 */
 	protected void initializeBounds( )
 	{
-		Shell shell = getShell();
-		if (shell != null) {
-			if (shell.getDisplay().getDismissalAlignment() == SWT.RIGHT) {
+		Shell shell = getShell( );
+		if ( shell != null )
+		{
+			if ( shell.getDisplay( ).getDismissalAlignment( ) == SWT.RIGHT )
+			{
 				// make the default button the right-most button
-				Button defaultButton = shell.getDefaultButton();
-				if (defaultButton != null
-						&& isContained(buttonBar, defaultButton)) {
-					defaultButton.moveBelow(null);
-					((Composite) buttonBar).layout();
+				Button defaultButton = shell.getDefaultButton( );
+				if ( defaultButton != null
+						&& isContained( buttonBar, defaultButton ) )
+				{
+					defaultButton.moveBelow( null );
+					( (Composite) buttonBar ).layout( );
 				}
 			}
 		}
 		Point size;
-		if (  !needRememberLastSize( ) )
+		if ( !needRememberLastSize( ) )
 		{
 			size = getShell( ).computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
 		}
@@ -364,11 +373,14 @@ public abstract class BaseDialog extends TrayDialog
 				size.x,
 				size.y ) ) );
 	}
-	
-	private boolean isContained(Control container, Control control) {
+
+	private boolean isContained( Control container, Control control )
+	{
 		Composite parent;
-		while ((parent = control.getParent()) != null) {
-			if (parent == container) {
+		while ( ( parent = control.getParent( ) ) != null )
+		{
+			if ( parent == container )
+			{
 				return true;
 			}
 			control = parent;

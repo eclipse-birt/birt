@@ -111,7 +111,8 @@ public class ImageDialog extends TrayDialog
 			boolean bResourceImageEnabled )
 	{
 		super( parentShell );
-
+		setHelpAvailable( false );
+		
 		this.fCurrent = fCurrent;
 		this.context = context;
 		this.bEmbeddedImageEnabled = bEmbeddedImageEnabled;

@@ -47,6 +47,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
@@ -85,7 +86,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElement
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -127,7 +127,7 @@ import org.eclipse.ui.PlatformUI;
  *  
  * @since 2.3
  */
-public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
+public class ChartCubeFilterConditionBuilder extends BaseTitleAreaDialog
 {
 
 	protected static final Logger logger = Logger.getLogger( FilterConditionBuilder.class.getName( ) );

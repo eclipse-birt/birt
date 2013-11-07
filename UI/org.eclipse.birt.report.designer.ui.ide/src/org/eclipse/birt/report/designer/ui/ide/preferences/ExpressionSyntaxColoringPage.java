@@ -86,7 +86,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
 import com.ibm.icu.text.Collator;
@@ -250,9 +249,7 @@ public final class ExpressionSyntaxColoringPage extends
 		fDefaultForeground = UIUtil.getEclipseEditorForeground( );
 		fDefaultBackground = UIUtil.getEclipseEditorBackground( );
 		Composite pageComponent = createComposite( parent, 2 );
-		PlatformUI.getWorkbench( )
-				.getHelpSystem( )
-				.setHelp( pageComponent,
+		UIUtil.bindHelp( pageComponent,
 						IHelpContextIds.PREFERENCE_BIRT_EXPRESSION_SYNTAX_COLOR_ID );
 
 		Link link = new Link( pageComponent, SWT.WRAP );
