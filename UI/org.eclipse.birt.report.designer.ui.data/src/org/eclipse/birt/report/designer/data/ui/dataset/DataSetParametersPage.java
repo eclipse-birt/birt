@@ -1229,6 +1229,14 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		{
 			this.modelChanged = false;
 			( (DataSetEditor) getContainer( ) ).updateDataSetDesign( this );
+			try
+			{
+				DataSetUIUtil.updateColumnCache( (DataSetHandle) getContainer( ).getModel( ) );
+			}
+			catch ( SemanticException e )
+			{
+				e.printStackTrace( );
+			}
 		}
 		return true;
 	}
