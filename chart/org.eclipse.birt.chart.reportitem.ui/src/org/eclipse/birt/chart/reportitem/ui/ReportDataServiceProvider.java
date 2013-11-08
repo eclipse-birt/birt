@@ -1731,10 +1731,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @param queryDefn
 	 * @throws AdapterException
 	 * @throws DataException
-	 * @throws ChartException 
 	 */
 	protected void setQueryDefinitionWithDataSet( Chart cm, ExtendedItemHandle handle,
-			QueryDefinition queryDefn ) throws AdapterException, DataException, ChartException
+			QueryDefinition queryDefn ) throws AdapterException, DataException
 	{
 		// Iterate parameter bindings to check if its expression is a
 		// explicit
@@ -1744,13 +1743,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		// Add bindings and filters from report handle.
 		Iterator<?> bindingIt = getUsedDataSetBindings( cm,  handle );
-		if ( bindingIt == null || !bindingIt.hasNext( ) )
-		{
-			throw new ChartException( ChartReportItemPlugin.ID,
-					ChartException.DATA_BINDING,
-					Messages.getString( "exception.no.valid.binding" ) ); //$NON-NLS-1$
-		}
-		while ( bindingIt.hasNext( ) )
+		while ( bindingIt != null && bindingIt.hasNext( ) )
 		{
 			Object computedBinding = bindingIt.next( );
 			IBinding binding = session.getModelAdaptor( )
