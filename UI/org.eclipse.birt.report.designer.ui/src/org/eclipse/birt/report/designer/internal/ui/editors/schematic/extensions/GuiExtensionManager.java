@@ -223,7 +223,7 @@ public class GuiExtensionManager
 					new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_EXTENDED
 							+ point.getExtensionName( ) ),
 					icon,
-					icon,
+					iconLarge,
 					BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName( getExtendedPalletTemplateName( point ) ) );
 			PaletteContainer entry = findCategory( list, category );
 			if ( entry == null )
