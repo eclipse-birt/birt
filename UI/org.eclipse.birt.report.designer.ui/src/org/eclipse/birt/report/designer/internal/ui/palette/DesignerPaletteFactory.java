@@ -30,6 +30,7 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.dnd.DND;
+import org.eclipse.ui.ISharedImages;
 
 /**
  * Factory to populate report graphical editor palette root.
@@ -103,8 +104,8 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 
 		PaletteCategory quickTools = new PaletteCategory( IPreferenceConstants.PALETTE_CONTENT,
 				Messages.getString( "DesignerPaletteFactory.quicktool.title" ), //$NON-NLS-1$
-				null );
-		ReportElementFactory factory = new ReportElementFactory( AGG_TEMPLATE ); //$NON-NLS-1$
+				ReportPlatformUIImages.getImageDescriptor( ISharedImages.IMG_OBJ_FOLDER ) );
+		ReportElementFactory factory = new ReportElementFactory( AGG_TEMPLATE );
 		CombinedTemplateCreationEntry combined = new QuickToolsCombinedTemplateCreationEntry( Messages.getString( "DesignerPaletteFactory.quicktool.agg.title" ), //$NON-NLS-1$
 				Messages.getString( "DesignerPaletteFactory.quicktool.agg.toolTip" ), //$NON-NLS-1$
 				AGG_TEMPLATE, 
@@ -200,8 +201,8 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 	{
 		PaletteCategory category = new PaletteCategory( IPreferenceConstants.PALETTE_CONTENT,
 				REPORT_ITEMS_LABEL,
-				null );
-		List entries = new ArrayList( );
+				ReportPlatformUIImages.getImageDescriptor( ISharedImages.IMG_OBJ_FOLDER ) );
+		List<CombinedTemplateCreationEntry> entries = new ArrayList<CombinedTemplateCreationEntry>( );
 
 		CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_LABEL,
 				TOOL_TIP_LABEL_REPORT_ITEM,

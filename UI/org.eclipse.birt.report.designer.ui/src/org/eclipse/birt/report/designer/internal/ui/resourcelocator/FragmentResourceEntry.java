@@ -26,6 +26,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
@@ -201,9 +202,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	public Image getImage( )
 	{
 		if ( this.isRoot || !isFile( ) )
-			return PlatformUI.getWorkbench( )
-					.getSharedImages( )
-					.getImage( ISharedImages.IMG_OBJ_FOLDER );
+			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJ_FOLDER );
 		return super.getImage( );
 	}
 
