@@ -33,4 +33,6 @@ public interface IQueryOptimizeHints
 	public List<IComputedColumn> getUnpushedDownComputedColumnInCombinedQuery( );
 	
 	public Map<String, List<String>> getCombinedDataSets( );
+	
+	public Map<String, Set<String>> getInvalidAliasDataSetNames( );
 }
