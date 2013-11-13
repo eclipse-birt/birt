@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2008, 2011 Actuate Corporation.
+ * Copyright (c) 2008, 2013 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -51,19 +51,30 @@ public class SampleDbFactory implements IExecutableExtension
     private static final String SAMPLE_DB_SEG = "seg0"; //$NON-NLS-1$
     private static final String PATH_SEPARATOR = "/"; //$NON-NLS-1$
     
-    // key and name of pre-defined driver definition, as specified in the 
-    // org.eclipse.datatools.connectivity.ProfileManagerInitializationProvider extension
-    private static final String DRIVER_DEFN_NAME_KEY = "%driver.definition.name"; //$NON-NLS-1$
+    // key and name of pre-defined driver and profile definition, as specified in the 
+    // org.eclipse.datatools.connectivity.ProfileManagerInitializationProvider extension and plugin.properties
+    private static final String DRIVER_DEFN_NAME_RESOURCE_KEY = "%driver.definition.name"; //$NON-NLS-1$
     private static final String SAMPLEDB_DRIVER_DEFN_DEFAULT_NAME = "BIRT SampleDb Derby Embedded Driver"; //$NON-NLS-1$
     private static final String SAMPLEDB_DRIVER_DEFN_RESOURCE_KEY = 
-        DRIVER_DEFN_NAME_KEY + " " + SAMPLEDB_DRIVER_DEFN_DEFAULT_NAME; //$NON-NLS-1$
+        DRIVER_DEFN_NAME_RESOURCE_KEY + " " + SAMPLEDB_DRIVER_DEFN_DEFAULT_NAME; //$NON-NLS-1$
 
-    static final String SAMPLEDB_DRIVER_DEFN_ID =
-            "DriverDefn." + PLUGIN_ID + ".driverTemplate." + SAMPLEDB_DRIVER_DEFN_DEFAULT_NAME; //$NON-NLS-1$ //$NON-NLS-2$
+    private static final String SAMPLEDB_DRIVER_DEFN_ID_PREFIX =
+            "DriverDefn." + PLUGIN_ID + ".driverTemplate." ; //$NON-NLS-1$ //$NON-NLS-2$
+    static final String SAMPLEDB_DEFAULT_DRIVER_DEFN_ID = 
+            SAMPLEDB_DRIVER_DEFN_ID_PREFIX + SAMPLEDB_DRIVER_DEFN_DEFAULT_NAME;
+
+    private static final String PROFILE_NAME_RESOURCE_KEY = "%connection.profile.name"; //$NON-NLS-1$
+    private static final String SAMPLEDB_DEFAULT_PROFILE_NAME = "BIRT Classic Models Sample Database"; //$NON-NLS-1$
+    private static final String SAMPLEDB_PROFILE_NAME_RESOURCE_KEY = 
+            PROFILE_NAME_RESOURCE_KEY + " " + SAMPLEDB_DEFAULT_PROFILE_NAME; //$NON-NLS-1$
+
     static final String SAMPLEDB_URL_RELATIVE_SUFFIX = PLUGIN_ID + PATH_SEPARATOR +
                 SAMPLE_DB_HOME_SUBDIR + PATH_SEPARATOR + SAMPLE_DB_NAME;
-    static final String SAMPLEDB_DEFAULT_PROFILE_NAME = "BIRT Classic Models Sample Database"; //$NON-NLS-1$
 
+    private static String sm_nlsDriverDefinitionId;
+    private static String sm_nlsDriverDefinitionName = getLocalizedDriverDefinitionNameImpl();
+    private static String sm_nlsSampleDbProfileName = getLocalizedSampleDbProfileNameImpl();
+    
     /* (non-Javadoc)
      * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
      */
@@ -190,11 +201,44 @@ public class SampleDbFactory implements IExecutableExtension
     
     private void removeObsoleteDriverDefinition()
     {
-        String driverDefnName = 
-            PluginResourceLocator.getResourceString( PLUGIN_ID, SAMPLEDB_DRIVER_DEFN_RESOURCE_KEY );
+        String driverDefnName = getLocalizedDriverDefinitionName();
 
         // remove the driver definition instance if it is invalid
         ProfileDriverUtil.removeInvalidDriverDefinition( driverDefnName );
     }
     
+    private static String getLocalizedDriverDefinitionName()
+    {
+        return sm_nlsDriverDefinitionName;
+    }
+    
+    private static String getLocalizedDriverDefinitionNameImpl()
+    {
+        return PluginResourceLocator.getResourceString( PLUGIN_ID, SAMPLEDB_DRIVER_DEFN_RESOURCE_KEY );
+    }
+
+    static String getLocalizedSampleDbProfileName()
+    {
+        return sm_nlsSampleDbProfileName;
+    }
+
+    private static String getLocalizedSampleDbProfileNameImpl()
+    {
+        return PluginResourceLocator.getResourceString( PLUGIN_ID, SAMPLEDB_PROFILE_NAME_RESOURCE_KEY );        
+    }
+
+    static String getLocalizedDriverDefinitionId()
+    {
+        if( sm_nlsDriverDefinitionId == null )
+        {
+            synchronized( SampleDbFactory.class )
+            {
+                if( sm_nlsDriverDefinitionId == null )
+                    sm_nlsDriverDefinitionId =
+                            SAMPLEDB_DRIVER_DEFN_ID_PREFIX + getLocalizedDriverDefinitionName();
+            }
+        }
+        return sm_nlsDriverDefinitionId;
+    }
+
 }
