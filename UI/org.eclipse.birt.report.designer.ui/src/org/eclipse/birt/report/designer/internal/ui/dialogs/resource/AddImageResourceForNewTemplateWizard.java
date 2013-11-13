@@ -11,26 +11,19 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
-import java.io.File;
-
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 
 /**
- * 
+ * AddImageResourceForNewTemplateWizard
  */
-
 public class AddImageResourceForNewTemplateWizard extends
 		AddImageResourceFileFolderSelectionDialog
 {
@@ -46,8 +39,8 @@ public class AddImageResourceForNewTemplateWizard extends
 	{
 		ResourceEntry systemResource = new FragmentResourceEntry( fileNamePattern );
 		ResourceEntry templateResource = new FragmentResourceEntry( fileNamePattern,
-				Messages.getString( "FragmentTemplateResourceEntry.RootName" ),
-				Messages.getString( "FragmentTemplateResourceEntry.RootDisplayName" ),
+				Messages.getString( "FragmentTemplateResourceEntry.RootName" ), //$NON-NLS-1$
+				Messages.getString( "FragmentTemplateResourceEntry.RootDisplayName" ), //$NON-NLS-1$
 				FragmentResourceEntry.TEMPLATE_ROOT );
 		ResourceEntry sharedResource = null;
 		String resourceFolder = getResourceFolder( );
