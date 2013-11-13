@@ -755,11 +755,14 @@ public class ChartCubeQueryHelper
 			}
 
 			registeredMeasures.put( bindingName, mDef );
-			String aggFun = DataAdapterUtil.adaptModelAggregationType( cube.getMeasure( measure )
-					.getFunction( ) );
-			mDef.setAggrFunction( aggFun );
-			// AggregateOn has been added in binding when initializing
-			// column bindings
+			if ( cube.getMeasure( measure ) != null )
+			{
+				String aggFun = DataAdapterUtil.adaptModelAggregationType( cube.getMeasure( measure )
+						.getFunction( ) );
+				mDef.setAggrFunction( aggFun );
+				// AggregateOn has been added in binding when initializing
+				// column bindings
+			}
 		}
 		else if ( exprCodec.isDimensionExpresion( ) )
 		{
@@ -1147,10 +1150,13 @@ public class ChartCubeQueryHelper
 		for ( int i = 0; i < measureCount; i++ )
 		{
 			MeasureViewHandle measureView = crossTab.getMeasure( i );
-			Iterator<FilterConditionElementHandle> iter = measureView.filtersIterator( );
-			while ( iter.hasNext( ) )
+			if ( measureView != null )
 			{
-				list.add( iter.next( ) );
+				Iterator<FilterConditionElementHandle> iter = measureView.filtersIterator( );
+				while ( iter.hasNext( ) )
+				{
+					list.add( iter.next( ) );
+				}
 			}
 		}
 
