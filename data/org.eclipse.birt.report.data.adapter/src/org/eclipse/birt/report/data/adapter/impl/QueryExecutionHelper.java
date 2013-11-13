@@ -98,10 +98,10 @@ class QueryExecutionHelper
 	 * @return
 	 * @throws BirtException
 	 */
-	IQueryResults executeQuery( IQueryDefinition queryDefn )
+	IQueryResults executeQuery( IQueryDefinition queryDefn, IDataSetInterceptorContext context )
 			throws BirtException
 	{
-		return executeQuery( queryDefn, null, null, null, null , null );
+		return executeQuery( queryDefn, null, null, null, null , context );
 	}
 	
 	/**
