@@ -341,6 +341,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog
 						new String[]{
 								"*.css", "*.CSS" //$NON-NLS-1$ //$NON-NLS-2$
 						} );
+				dialog.setAllowImportFile( true );
 				dialog.setTitle( DIALOG_BROWSE );
 				dialog.setMessage( DIALOG_BROWSE_TITLE );
 				ResourceSelectionValidator validator = new ResourceSelectionValidator( new String[]{
