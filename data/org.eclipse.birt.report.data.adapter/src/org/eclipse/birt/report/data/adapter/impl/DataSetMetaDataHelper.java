@@ -29,6 +29,7 @@ import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptorContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
@@ -181,16 +182,18 @@ public class DataSetMetaDataHelper
 		
 		//First clear all property bindings so that the data set can be executed against design time properties
 		clearPropertyBindingMap( handle, dataSetBindingMap, dataSourceBindingMap );
+		IDataSetInterceptorContext context = new DataSetInterceptorContext();
 		try 
 		{
 			QueryDefinition query = new QueryDefinition( true );
 			query.setDataSetName( dataSetHandle.getQualifiedName( ) );
 			query.setMaxRows( 1 );
+			
 			IResultMetaData metaData = new QueryExecutionHelper( dataEngine,
 					modelAdaptor,
 					sessionContext,
 					false,
-					this.session ).executeQuery( query ).getResultMetaData( );
+					this.session ).executeQuery( query, context ).getResultMetaData( );
 			addResultSetColumn( dataSetHandle, metaData );
 	
 			if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
@@ -199,12 +202,13 @@ public class DataSetMetaDataHelper
 						modelAdaptor,
 						sessionContext,
 						true,
-						this.session ).executeQuery( query ).getResultMetaData( );
+						this.session ).executeQuery( query, context ).getResultMetaData( );
 			}
 			return metaData;
 		}
 		finally
 		{
+			context.close( );
 			//restore property bindings
 			resetPropertyBinding( handle, dataSetBindingMap, dataSourceBindingMap );
 		}
