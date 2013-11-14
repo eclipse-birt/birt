@@ -211,7 +211,12 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		boolean needComboField = true;
 		
 		IDataServiceProvider provider = context.getDataServiceProvider( );
-		
+		// fix regression of #66704, keep the status.
+		final boolean needComboStatus = ( predefinedQuery != null
+				&& predefinedQuery.length > 0 && ( provider.checkState( IDataServiceProvider.SHARE_QUERY )
+				|| provider.checkState( IDataServiceProvider.HAS_CUBE )
+				|| ( provider.checkState( IDataServiceProvider.INHERIT_CUBE ) && !provider.checkState( IDataServiceProvider.PART_CHART ) ) || provider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) ) )
+				&& !isSharingChart;
 		boolean hasContentAssist = ( !isSharingChart && predefinedQuery != null && predefinedQuery.length > 0 );
 		IAssistField assistField = null;
 		if ( needComboField )
@@ -275,7 +280,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 						( (ChartWithAxes) context.getModel( ) ).setTransposed( cmbDefinition.getSelectionIndex( ) > 0 );
 					}
 
-					if ( predefinedQuery.length == 0
+					if ( needComboStatus
+							&& predefinedQuery.length == 0
 							&& ( getQuery( ).getDefinition( ) == null || getQuery( ).getDefinition( )
 									.equals( "" ) ) ) //$NON-NLS-1$
 					{
@@ -335,7 +341,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			WizardBase.displayException( e );
 		}
 
-		if ( needComboField )
+		if ( needComboStatus )
 		{
 			if ( ( predefinedQuery == null || predefinedQuery.length == 0 )
 					&& ( getQuery( ).getDefinition( ) == null || getQuery( ).getDefinition( )
@@ -391,7 +397,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			// Sharing query with crosstab allows user to edit category and Y
 			// optional expression, so here doesn't disable the text field if it
 			// is SHARE_CROSSTAB_QUERY.
-			if ( txtDefinition != null
+			if ( !needComboStatus && cmbDefinition != null
 					&& ( !context.getDataServiceProvider( )
 							.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) || isSharingChart ) )
 			{
@@ -401,7 +407,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 						|| getQuery( ).getDefinition( ) == null
 						|| getQuery( ).getDefinition( ).trim( ).length( ) == 0 )
 				{
-					txtDefinition.setEnabled( false );
+					cmbDefinition.setEnabled( false );
 					btnBuilder.setEnabled( false );
 				}
 			}
