@@ -54,7 +54,16 @@ public class ArchiveUtil
 	// we define the neutual is the unix seperator.
 	public static String UNIX_SEPERATOR = "/";
 	
+	/**
+	 * 1. support the same name for file and folder in the same path, and conent suffix for file
+	 * 2. escape DOUBLE_COLON to ESCAPE_DOUBLE_COLON
+	 * TODO Should create a full mapping to support all string as file path.
+	 */
 	public final static String CONTNET_SUFFIX = ".content";
+	
+	public final static String DOUBLE_COLON = "::";
+	
+	public final static String ESCAPE_DOUBLE_COLON = "_D__C_";
 
 	/**
 	 * @param rootPath -
@@ -87,7 +96,25 @@ public class ArchiveUtil
 	
 	public static String generateFullContentPath( String rootPath, String relativePath )
 	{
-		return generateFullPath( rootPath, relativePath + CONTNET_SUFFIX );
+		return escapeDoubleColon(generateFullPath( rootPath, relativePath + CONTNET_SUFFIX ));
+	}
+	
+	public static String escapeDoubleColon(String path)
+	{
+		if ( path != null )
+		{
+			return path.replaceAll( DOUBLE_COLON, ESCAPE_DOUBLE_COLON );
+		}
+		return path;
+	}
+	
+	public static String unEscapeDoubleColon(String path)
+	{
+		if ( path != null )
+		{
+			return path.replaceAll( ESCAPE_DOUBLE_COLON, DOUBLE_COLON );
+		}
+		return path;
 	}
 
 	/**
@@ -119,14 +146,16 @@ public class ArchiveUtil
 		return relativePath;
 	}
 	
-	public static String generateRelativeContentPath( String rootPath, String fullPath )
+	public static String generateRelativeContentPath( String rootPath,
+			String fullPath )
 	{
-		String path = generateRelativePath(rootPath, fullPath);
-		if(path.endsWith( CONTNET_SUFFIX ))
+		String path = generateRelativePath( rootPath, fullPath );
+		if ( path.endsWith( CONTNET_SUFFIX ) )
 		{
-			return path.substring( 0, path.length( ) - CONTNET_SUFFIX.length( ) );
+			return unEscapeDoubleColon( path.substring( 0, path.length( )
+					- CONTNET_SUFFIX.length( ) ) );
 		}
-		return path;
+		return unEscapeDoubleColon( path );
 	}
 
 	/**
