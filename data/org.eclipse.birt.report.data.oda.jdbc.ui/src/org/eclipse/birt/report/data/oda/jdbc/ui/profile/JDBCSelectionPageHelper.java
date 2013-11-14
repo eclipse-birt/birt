@@ -510,8 +510,12 @@ public class JDBCSelectionPageHelper
 
 		Point size = content.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		content.setSize( size.x, size.y );
+		
+		scrollContent.setExpandHorizontal(true);
+		scrollContent.setMinWidth( size.x + 20 );
+		scrollContent.setExpandVertical(true);
+		scrollContent.setMinHeight(size.y + 20 );
 
-		scrollContent.setMinWidth( size.x + 10 );
 
 		scrollContent.setContent( content );
 
