@@ -70,6 +70,29 @@ public class CacheIDFetcher
 		return null;
 	}
 	
+	public boolean enableSampleDataPreivew( Map appContext )
+	{
+		try
+		{
+			if ( appContext == null )
+				return false;
+			//Only apply to memory cache
+			Object option = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
+			if( option == null )
+				return false;
+			Object o = appContext.get( DataEngine.QUERY_EXECUTION_SESSION_ENABLE_SAMPLEDATAPREVIEW );
+			if ( o != null )
+			{
+				Boolean enableSamplePreivew = Boolean.valueOf( o.toString( ) );
+				return enableSamplePreivew.booleanValue( );
+			}
+		}
+		catch ( Exception e )
+		{
+		}
+		return false;
+	}
+	
 	private class CacheIDPurgeTimeTask extends TimerTask
 	{
 
