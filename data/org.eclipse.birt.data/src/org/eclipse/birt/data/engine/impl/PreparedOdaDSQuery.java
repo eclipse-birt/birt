@@ -35,6 +35,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.CacheIDFetcher;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.QuerySpecHelper;
@@ -485,7 +486,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 				//TODO enhance me. For some cases, data set cache should be considered to be reused, need to compare query spec is same or not.
 				if( querySpec!= null && querySpec.getResultSetSpecification( )!= null && !querySpec.getResultSetSpecification( ).isEmpty( ) )
 				{
-					if( appContext.get( DataEngine.QUERY_EXECUTION_SESSION_ID ) == null )
+					if( !CacheIDFetcher.getInstance( ).enableSampleDataPreivew( appContext ) )
 					{
 						dataEngine.getSession( ).getDataSetCacheManager( ).clearCache( dataEngine.getDataSourceDesign( this.dataSet.getDesign( ).getDataSourceName( ) ), this.dataSet.getDesign( ) );						
 					}
