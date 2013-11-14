@@ -1258,7 +1258,8 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		DesignElementHandle container = itemHandle.getContainer( );
 		if ( container instanceof CellHandle
 				|| container instanceof ListHandle
-				|| container instanceof ListGroupHandle )
+				|| container instanceof ListGroupHandle
+				|| ( container instanceof ExtendedItemHandle && "CrosstabCell".equals( ( (ExtendedItemHandle) container ).getExtensionName( ) ) ) ) //$NON-NLS-1$
 		{
 			while ( container != null )
 			{
@@ -1267,6 +1268,11 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 					return true;
 				}
 				else if ( container instanceof GridHandle )
+				{
+					return true;
+				}
+				else if ( container instanceof ExtendedItemHandle
+						&& "Crosstab".equals( ( (ExtendedItemHandle) container ).getExtensionName( ) ) ) //$NON-NLS-1$
 				{
 					return true;
 				}
@@ -1301,10 +1307,12 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	public static ReportItemHandle getInheritedHandle(
 			ReportItemHandle itemHandle )
 	{
-		if ( itemHandle.getDataSet( ) == null && isContainerInheritable( itemHandle ) )
+		if ( itemHandle.getDataSet( ) == null && itemHandle.getCube( ) == null && isContainerInheritable( itemHandle ) )
 		{
 			DesignElementHandle handle = itemHandle.getContainer( );
-			while ( handle != null && !( handle instanceof ListingHandle || handle instanceof GridHandle ) )
+			while ( handle != null
+					&& !( handle instanceof ListingHandle
+							|| handle instanceof GridHandle || ( handle instanceof ExtendedItemHandle && "Crosstab".equals( ( (ExtendedItemHandle) handle ).getExtensionName( ) ) ) ) ) //$NON-NLS-1$
 			{
 				handle = handle.getContainer( );
 			}
@@ -1319,6 +1327,11 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			else if ( handle instanceof GridHandle )
 			{
 				return (GridHandle) handle;
+			}
+			else if ( handle instanceof ExtendedItemHandle
+					&& "Crosstab".equals( ( (ExtendedItemHandle) handle ).getExtensionName( ) ) ) //$NON-NLS-1$
+			{
+				return (ExtendedItemHandle) handle;
 			}
 		}
 		return null;

@@ -867,9 +867,19 @@ public class ChartReportItemUtil extends ChartItemUtil
 		return !isCubeTopLevel( query, itemHandle );
 	}
 	
-	public static ExpressionCodec getDimensionExpresion(String definition,ReportItemHandle itemHandle){
-		ExpressionCodec exprc = ChartModelHelper.instance( )
-				.createExpressionCodec( );
+	public static ExpressionCodec getDimensionExpresion( String definition,
+			ReportItemHandle itemHandle )
+	{
+		ExpressionCodec exprc = null;
+		if ( itemHandle instanceof ExtendedItemHandle )
+		{
+			exprc = ChartReportItemHelper.instance( )
+					.createExpressionCodec( (ExtendedItemHandle) itemHandle );
+		}
+		else
+		{
+			exprc = ChartModelHelper.instance( ).createExpressionCodec( );
+		}
 		String bindName = exprc.getBindingName( definition );
 		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
 		while ( iterator.hasNext( ) )
