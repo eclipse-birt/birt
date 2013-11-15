@@ -1277,50 +1277,7 @@ public class TaskSelectType extends SimpleTask implements
 				series );
 
 		// Select the appropriate current series type if overlay series exists
-		if ( this.chartModel instanceof ChartWithAxes )
-		{
-			Axis xAxis = ( ( (ChartWithAxes) chartModel ).getAxes( )
-					.get( 0 ) );
-			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
-			{
-				// Set series name from cache or model
-				String lastType = ChartCacheManager.getInstance( )
-						.findSeriesType( );
-
-				Axis overlayAxis = xAxis.getAssociatedAxes( ).get( 1 );
-				if ( !overlayAxis.getSeriesDefinitions( ).isEmpty( ) )
-				{
-					Series oseries = ( overlayAxis.getSeriesDefinitions( )
-							.get( 0 ) ).getDesignTimeSeries( );
-					String sDisplayName = oseries.getDisplayName( );
-					if ( lastType != null )
-					{
-						cbSeriesType.setText( lastType );
-					}
-					else
-					{
-						cbSeriesType.setText( sDisplayName );
-					}
-
-					String seriesName = ChartUtil.stringValue( oseries.getSeriesIdentifier( ) );
-					if ( seriesName != null
-							&& seriesName.trim( ).length( ) != 0 )
-					{
-						Iterator<Entry<String, Series>> itr = htSeriesNames.entrySet( )
-								.iterator( );
-						while ( itr.hasNext( ) )
-						{
-							Entry<String, Series> entry = itr.next( );
-							entry.getValue( ).setSeriesIdentifier( seriesName );
-						}
-					}
-
-				}
-
-				// Update overlay series
-				changeOverlaySeriesType( );
-			}
-		}
+		updateOverlaySeriesType( );
 	}
 
 	/**
@@ -2236,5 +2193,51 @@ public class TaskSelectType extends SimpleTask implements
 		}
 
 		return refDimension;
+	}
+
+	protected void updateOverlaySeriesType( )
+	{
+		if ( this.chartModel instanceof ChartWithAxes )
+		{
+			Axis xAxis = ( ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ) );
+			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
+			{
+				// Set series name from cache or model
+				String lastType = ChartCacheManager.getInstance( )
+						.findSeriesType( );
+
+				Axis overlayAxis = xAxis.getAssociatedAxes( ).get( 1 );
+				if ( !overlayAxis.getSeriesDefinitions( ).isEmpty( ) )
+				{
+					Series oseries = ( overlayAxis.getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
+					String sDisplayName = oseries.getDisplayName( );
+					if ( lastType != null )
+					{
+						cbSeriesType.setText( lastType );
+					}
+					else
+					{
+						cbSeriesType.setText( sDisplayName );
+					}
+
+					String seriesName = ChartUtil.stringValue( oseries.getSeriesIdentifier( ) );
+					if ( seriesName != null
+							&& seriesName.trim( ).length( ) != 0 )
+					{
+						Iterator<Entry<String, Series>> itr = htSeriesNames.entrySet( )
+								.iterator( );
+						while ( itr.hasNext( ) )
+						{
+							Entry<String, Series> entry = itr.next( );
+							entry.getValue( ).setSeriesIdentifier( seriesName );
+						}
+					}
+
+				}
+
+				// Update overlay series
+				changeOverlaySeriesType( );
+			}
+		}
 	}
 }
