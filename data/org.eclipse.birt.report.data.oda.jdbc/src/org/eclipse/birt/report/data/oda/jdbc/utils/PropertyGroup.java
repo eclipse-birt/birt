@@ -9,7 +9,7 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.data.oda.jdbc.ui.util;
+package org.eclipse.birt.report.data.oda.jdbc.utils;
 
 import java.util.List;
 
