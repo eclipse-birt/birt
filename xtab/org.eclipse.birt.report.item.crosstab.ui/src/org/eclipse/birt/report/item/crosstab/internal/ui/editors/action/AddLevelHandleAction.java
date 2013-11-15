@@ -29,12 +29,15 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabA
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
@@ -232,6 +235,15 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
 		cellHandle.addContent( dataHandle );
+		
+		ActionHandle actionHandle = levelHandle.getActionHandle( );
+		if ( actionHandle != null )
+		{
+			List source = new ArrayList( );
+			source.add( actionHandle.getStructure( ) );
+			List newAction = ModelUtil.cloneStructList( source );
+			dataHandle.setAction( (Action) newAction.get( 0 ) );
+		}
 		
 		CrosstabUtil.addLabelToHeader( levelViewHandle );
 
