@@ -78,7 +78,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 	{
 		super( parent, new LabelProvider( ), new ContentProvider( extensions ) );
 		setHelpAvailable( false );
-		
+
 		assert rootFolder != null;
 
 		this.setValidator( new SelectionValidator( ) );
@@ -146,7 +146,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 					}
 
 					importFile( targetFile, srcFile );
-					
+
 					refreshResource( targetFile );
 
 					getTreeViewer( ).refresh( targetFolder );
@@ -159,7 +159,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 	private void refreshResource( File file )
 	{
 		IPath resPath = Path.fromOSString( file.getAbsolutePath( ) );
-		
+
 		IResource[] res = ResourcesPlugin.getWorkspace( )
 				.getRoot( )
 				.findFilesForLocation( resPath );
@@ -309,10 +309,16 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 				ArrayList<String> filters = new ArrayList<String>( );
 				for ( int i = 0; i < extensionFilter.length; i++ )
 				{
-					String ext = extensionFilter[i].toLowerCase( Locale.US );
-					if ( ALL_EXT.equals( ext ) )
-						continue;
-					filters.add( ext.substring( 1 ) );
+					String[] regxs = extensionFilter[i].split( ";" ); //$NON-NLS-1$
+
+					for ( String regx : regxs )
+					{
+						String ext = regx.toLowerCase( Locale.US );
+						if ( ALL_EXT.equals( regx ) )
+							continue;
+						
+						filters.add( ext.substring( 1 ) );
+					}
 				}
 				exts = filters.toArray( new String[]{} );
 			}
