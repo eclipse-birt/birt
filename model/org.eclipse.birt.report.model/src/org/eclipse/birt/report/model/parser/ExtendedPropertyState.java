@@ -11,13 +11,20 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
+import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * Parses the "ex-property" tag. We use the "ex-property" tag if the element
@@ -29,6 +36,8 @@ import org.xml.sax.Attributes;
 public class ExtendedPropertyState extends StructureState
 {
 
+	protected String encryptionID = null;
+	
 	/**
 	 * 
 	 * @param theHandler
@@ -87,7 +96,48 @@ public class ExtendedPropertyState extends StructureState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		super.parseAttrs( attrs );
+		encryptionID = attrs
+				.getValue( DesignSchemaConstants.ENCRYPTION_ID_ATTRIB );
+		((ExtendedProperty)struct).setEncryptionID( encryptionID );
 		assert struct instanceof ExtendedProperty;
+	}
+	
+	public void end( ) throws SAXException
+	{
+		super.end( );
+		String encryptionID = ( (ExtendedProperty) struct ).getEncryptionID( );
+		String value = ( (ExtendedProperty) struct ).getValue( );
+
+		if ( !StringUtil.isBlank( encryptionID ) && !StringUtil.isBlank( value ) )
+		{
+			String name = ( (ExtendedProperty) struct ).getName( );
+			boolean isEncryptable = false;
+			ODAExtensionElementDefn oda = (ODAExtensionElementDefn) ( element.getDefn( ) );
+			List<IElementPropertyDefn> hidePrivatePropsList = oda.getHidePrivateProps( );
+			IElementPropertyDefn oadPropertyDefn = null;
+			if ( hidePrivatePropsList != null
+					&& hidePrivatePropsList.size( ) > 0 )
+			{
+				for ( IElementPropertyDefn defn : hidePrivatePropsList )
+				{
+					if ( name.equals( defn.getName( ) ) && defn.isEncryptable( ) )
+					{
+						isEncryptable = true;
+						oadPropertyDefn = defn;
+						break;
+					}
+				}
+			}
+
+			if ( isEncryptable )
+			{
+				String valueToSet = StringUtil.trimString( value );
+				valueToSet = (String) EncryptionUtil.decrypt( (PropertyDefn) oadPropertyDefn,
+						encryptionID,valueToSet );
+				PropertyDefn pd = (PropertyDefn) ( struct.getDefn( ).findProperty( ExtendedProperty.VALUE_MEMBER ) );
+				struct.setProperty( pd, valueToSet );
+			}
+		}
 	}
 
 }
