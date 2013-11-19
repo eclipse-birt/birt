@@ -48,7 +48,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
@@ -93,13 +92,11 @@ public class AggregationDropAdapter implements IDropAdapter
 					{
 						return DNDService.LOGIC_FALSE;
 					}
-					if ( cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ) == null )
+					List list = cube.getContents( CubeHandle.DIMENSIONS_PROP );
+					if ( list == null )
 					{
 						return DNDService.LOGIC_FALSE;
 					}
-
-					List list = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP )
-							.getContents( );
 					for ( int i = 0; i < list.size( ); i++ )
 					{
 						DimensionHandle dimension = (DimensionHandle) list.get( i );
