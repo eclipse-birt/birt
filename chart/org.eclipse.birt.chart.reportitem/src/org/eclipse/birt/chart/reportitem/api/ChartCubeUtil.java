@@ -805,6 +805,18 @@ public class ChartCubeUtil extends ChartItemUtil
 	 */
 	public static String generateComputedColumnName( AggregationCellHandle cell, String expressionIndicator )
 	{
+		// Re-use the binding in measure view
+		if ( cell.getContents( ).size( ) > 0
+				&& cell.getContents( ).get( 0 ) instanceof DataItemHandle )
+		{
+			DataItemHandle dataItem = (DataItemHandle) cell.getContents( )
+					.get( 0 );
+			String bindingName = dataItem.getResultSetColumn( );
+			if ( bindingName != null )
+			{
+				return bindingName;
+			}
+		}
 		MeasureViewHandle measureView = (MeasureViewHandle) cell.getContainer( );
 		LevelHandle rowLevelHandle = cell.getAggregationOnRow( );
 		LevelHandle colLevelHandle = cell.getAggregationOnColumn( );
@@ -896,7 +908,7 @@ public class ChartCubeUtil extends ChartItemUtil
 				return getRollUpAggregationFunction( func );
 			}
 		}
-
+		// TODO default function should be not always SUM
 		return DesignChoiceConstants.MEASURE_FUNCTION_SUM;
 	}
 
