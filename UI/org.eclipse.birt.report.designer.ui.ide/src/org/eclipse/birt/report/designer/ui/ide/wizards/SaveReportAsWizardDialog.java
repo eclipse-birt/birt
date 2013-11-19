@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.ide.wizards;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Shell;
  * A WizardDialog witch can return a select path.
  */
 
-public class SaveReportAsWizardDialog extends WizardDialog
+public class SaveReportAsWizardDialog extends BaseWizardDialog
 {
 
 	private IPath saveAsPath;
@@ -30,6 +30,7 @@ public class SaveReportAsWizardDialog extends WizardDialog
 	public SaveReportAsWizardDialog( Shell parentShell, IWizard newWizard )
 	{
 		super( parentShell, newWizard );
+		setHelpAvailable( false );
 	}
 
 	/*

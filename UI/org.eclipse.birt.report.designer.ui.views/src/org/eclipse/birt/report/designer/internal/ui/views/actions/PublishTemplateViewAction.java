@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.PublishTemplateWizard;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -78,7 +79,7 @@ public class PublishTemplateViewAction extends AbstractViewAction
 	public void run( )
 	{
 
-		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+		WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
 				new PublishTemplateWizard( (ReportDesignHandle) getSelection( ) ) );
 		dialog.setPageSize( 500, 250 );
 		dialog.open( );

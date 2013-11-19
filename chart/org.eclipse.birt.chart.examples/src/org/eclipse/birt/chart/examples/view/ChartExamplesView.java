@@ -15,13 +15,13 @@ import org.eclipse.birt.chart.examples.view.util.OpenJavaSourceAction;
 import org.eclipse.birt.chart.examples.view.util.SaveXMLAction;
 import org.eclipse.birt.chart.examples.view.util.Tools;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 
 /**
@@ -45,7 +45,7 @@ public class ChartExamplesView extends ViewPart
 	 */
 	public void createPartControl( Composite parent )
 	{
-		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( parent,
+		ChartUIUtil.bindHelp( parent,
 				ChartHelpContextIds.VIEW_CHART_EXAMPLE );
 		
 		instance = new ChartExamples( parent );

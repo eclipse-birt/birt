@@ -222,7 +222,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 	private void prepareJDBCMetaDataProvider( DataSetDesign dataSetDesign )
 	{
-		JdbcMetaDataProvider.createInstance( dataSetDesign );
+		JdbcMetaDataProvider.createInstance( dataSetDesign, this.getHostResourceIdentifiers( ) );
 
 		class TempThread extends Thread
 		{

@@ -45,6 +45,7 @@ public interface IExtensionConstants
 	String ATTRIBUTE_EXTENSION_NAME = "extensionName"; //$NON-NLS-1$
 	String ATTRIBUTE_NAME = "name"; //$NON-NLS-1$
 	String ATTRIBUTE_ICON = "icon"; //$NON-NLS-1$
+	String ATTRIBUTE_ICON_LARGE = "largeIcon"; //$NON-NLS-1$
 	String ATTRIBUTE_PALETTE_CATEGORY = "category"; //$NON-NLS-1$
 	String ATTRIBUTE_PALETTE_CATEGORY_DISPLAYNAME = "categoryDisplayName"; //$NON-NLS-1$
 	String ATTRIBUTE_EDITOR_CAN_RESIZE = "canResize"; //$NON-NLS-1$
@@ -57,6 +58,7 @@ public interface IExtensionConstants
 
 	/** Attribute keys */
 	String ATTRIBUTE_KEY_PALETTE_ICON = "paletteIcon"; //$NON-NLS-1$
+	String ATTRIBUTE_KEY_PALETTE_ICON_LARGE = "paletteIconLarge"; //$NON-NLS-1$
 	String ATTRIBUTE_KEY_OUTLINE_ICON = "outlineIcon"; //$NON-NLS-1$
 	String ATTRIBUTE_KEY_DESCRIPTION = "description"; //$NON-NLS-1$
 

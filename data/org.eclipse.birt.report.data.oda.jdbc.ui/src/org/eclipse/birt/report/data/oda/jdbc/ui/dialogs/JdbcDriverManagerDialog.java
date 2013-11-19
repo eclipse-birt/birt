@@ -28,10 +28,10 @@ import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverInfo;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JarFile;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
+import org.eclipse.birt.report.data.oda.jdbc.utils.JDBCDriverInformation;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -129,6 +129,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
 	public JdbcDriverManagerDialog( Shell parentShell )
 	{
 		super( parentShell );
+		setHelpAvailable( false );
 
 		setShellStyle( SWT.CLOSE
 				| SWT.TITLE

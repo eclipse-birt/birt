@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea.TableLayoutInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
@@ -791,7 +792,13 @@ public class TableLayout
 		IContent content = (IContent) area.getContent( );
 		if ( content != null )
 		{
-			return content.getHeight( ) != null;
+			DimensionType cHeight = content.getHeight( );
+			if ( cHeight != null
+					&& !cHeight.getUnits( ).equals(
+							DimensionType.UNITS_PERCENTAGE ) )
+			{
+				return true;
+			}
 		}
 		return false;
 	}

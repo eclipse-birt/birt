@@ -957,7 +957,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @since 2.5.3
 	 */
-	boolean isInheritCube( )
+	protected boolean isInheritCube( )
 	{
 		return getDataSet( ) == null
 				&& getDataCube( ) == null
@@ -1777,6 +1777,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return ChartReportItemUtil.getColumnDataBindings( handle,
 				true );
 	}
+	
+	public List<ComputedColumnHandle> getAvailableBindingsList(
+			ExtendedItemHandle handle )
+	{
+		Iterator<ComputedColumnHandle> itr = getUsedDataSetBindings( null,
+				handle );
+		List<ComputedColumnHandle> columnsList = new ArrayList<ComputedColumnHandle>( );
+		while ( itr.hasNext( ) )
+		{
+			ComputedColumnHandle curColumn = itr.next( );
+			columnsList.add( curColumn );
+		}
+		return columnsList;
+	}
 
 	/**
 	 * Create a simple expression evaluator, it will causes chart engine using
@@ -1980,13 +1994,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		else if ( isPartChart( ) )
 		{
-			qd = createPartChartQuery( cm );
+			qd = createPartChartCubeQuery( cm );
 		}
 		else
 		{
-			qd = new ChartCubeQueryHelper( itemHandle,
-					cm,
-					session.getModelAdaptor( ) ).createCubeQuery( null );
+			qd = createCubeQuery( cm );
 
 		}
 		
@@ -2047,7 +2059,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return bcrse;
 	}
 
-	protected IBaseCubeQueryDefinition createPartChartQuery( final Chart cm )
+	protected IBaseCubeQueryDefinition createCubeQuery( final Chart cm )
+			throws BirtException
+	{
+		return new ChartCubeQueryHelper( itemHandle,
+				cm,
+				session.getModelAdaptor( ) ).createCubeQuery( null );
+	}
+
+	protected IBaseCubeQueryDefinition createPartChartCubeQuery( final Chart cm )
 			throws BirtException
 	{
 		IBaseCubeQueryDefinition qd;

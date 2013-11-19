@@ -330,6 +330,12 @@ public class ExtensionPointManager implements IPreferenceChangeListener
 			loadIconAttribute( newPoint,
 					element,
 					IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON,
+					IExtensionConstants.ATTRIBUTE_ICON,
+					false );
+			loadIconAttribute( newPoint,
+					element,
+					IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON_LARGE,
+					IExtensionConstants.ATTRIBUTE_ICON_LARGE,
 					false );
 			loadStringAttribute( newPoint,
 					element,
@@ -361,6 +367,7 @@ public class ExtensionPointManager implements IPreferenceChangeListener
 			loadIconAttribute( newPoint,
 					element,
 					IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON,
+					IExtensionConstants.ATTRIBUTE_ICON,
 					true );
 		}
 		else if ( IExtensionConstants.ELEMENT_DESCRIPTION.equals( elementName ) )
@@ -401,11 +408,11 @@ public class ExtensionPointManager implements IPreferenceChangeListener
 
 	}
 
-	private ImageDescriptor getImageDescriptor( IConfigurationElement element )
+	private ImageDescriptor getImageDescriptor( IConfigurationElement element, String attrName )
 	{
 		assert element != null;
 		IExtension extension = element.getDeclaringExtension( );
-		String iconPath = element.getAttribute( IExtensionConstants.ATTRIBUTE_ICON );
+		String iconPath = element.getAttribute( attrName );
 		if ( iconPath == null )
 		{
 			return null;
@@ -444,19 +451,19 @@ public class ExtensionPointManager implements IPreferenceChangeListener
 	}
 
 	private void loadIconAttribute( ExtendedElementUIPoint newPoint,
-			IConfigurationElement element, String attributeName, boolean shared )
+			IConfigurationElement element, String keyName, String attributeName, boolean shared )
 	{
-		ImageDescriptor imageDescriptor = getImageDescriptor( element );
+		ImageDescriptor imageDescriptor = getImageDescriptor( element, attributeName );
 		if ( imageDescriptor != null )
 		{
 			if ( shared )
 			{
 				String symbolName = ReportPlatformUIImages.getIconSymbolName( newPoint.getExtensionName( ),
-						attributeName );
+						keyName );
 				ReportPlatformUIImages.declareImage( symbolName,
 						imageDescriptor );
 			}
-			newPoint.setAttribute( attributeName, imageDescriptor );
+			newPoint.setAttribute( keyName, imageDescriptor );
 		}
 	}
 

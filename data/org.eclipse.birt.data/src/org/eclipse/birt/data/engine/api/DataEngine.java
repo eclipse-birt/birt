@@ -95,9 +95,14 @@ abstract public class DataEngine
 	
 	/**
 	 * Indicates the session id of which a set of queries will be executed. 
-	 * If the id is set, we will match the cache based on session id and data source/data set name. We will also generate dummy data to avoid. 
 	 */
 	public static String QUERY_EXECUTION_SESSION_ID = "org.eclipse.birt.data.query.session.id";
+	
+	/**
+	 * Indicates whether enable sample data preview in current session.
+	 * If the setting is set to true, we will match the cache based on session id and data source/data set name. We will also generate dummy data to avoid. 
+	 */
+	public static String QUERY_EXECUTION_SESSION_ENABLE_SAMPLEDATAPREVIEW = "org.eclipse.birt.data.query.session.enableSampleDataPreview";
 	
 	/**
 	 * Indicates data engine memory usage hint level

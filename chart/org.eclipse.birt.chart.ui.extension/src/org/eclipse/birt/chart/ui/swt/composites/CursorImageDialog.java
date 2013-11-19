@@ -61,6 +61,7 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 	{
 		super( parentShell );
 		this.cursor = cursor;
+		setHelpAvailable( false );
 	}
 	
 	protected Control createContents( Composite parent )

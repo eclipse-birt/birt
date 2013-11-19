@@ -70,6 +70,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 	 */
 	public DimensionBuilderDialog(Shell parent) {
 		super(parent);
+		setHelpAvailable( false );
 		this.setTitle(TITLE);
 	}
 

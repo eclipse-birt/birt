@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.eclipse.birt.report.designer.internal.ui.actions.ProjectFilterAction;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseElementTreeSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FileContentProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FileLabelProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FilePathEntry;
@@ -60,13 +61,12 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
  * ProjectFileDialog
  */
-public class ProjectFileDialog extends ElementTreeSelectionDialog
+public class ProjectFileDialog extends BaseElementTreeSelectionDialog
 {
 
 	protected String newFileName = ""; //$NON-NLS-1$

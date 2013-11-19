@@ -17,10 +17,10 @@ import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.editors.wizards.NewReportPageSupport;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -35,7 +35,7 @@ import org.eclipse.ui.IEditorInput;
  * SaveAs dialogue for report designer
  */
 
-public class SaveAsDialog extends TitleAreaDialog
+public class SaveAsDialog extends BaseTitleAreaDialog
 {
 
 	private static final String DEFAULT_MESSAGE = Messages.getString( "SaveAsDialog.message" ); //$NON-NLS-1$

@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
+import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptorContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -145,7 +146,7 @@ public class DefineDataSourceSetUtil
 	 * @throws BirtException
 	 */
 	public static void prepareForTransientQuery( DataSessionContext dContext, DataEngineImpl dataEngine, DataSetHandle handle,
-			IQueryDefinition queryDefn, IDataQueryDefinition[] registedQueries ) throws BirtException 
+			IQueryDefinition queryDefn, IDataQueryDefinition[] registedQueries, IDataSetInterceptorContext interceptorContext ) throws BirtException 
 	{
 		IBaseDataSetDesign design = null;
 		if( handle == null )
@@ -170,7 +171,8 @@ public class DefineDataSourceSetUtil
 					queryDefn,
 					registedQueries,
 					dContext,
-					dataEngine.getSession( ).getTempDir( ) );
+					dataEngine.getSession( ).getTempDir( ),
+					interceptorContext );
 			dataEngine.addShutdownListener( new IShutdownListener( ) {
 
 				public void dataEngineShutdown( )
@@ -196,7 +198,7 @@ public class DefineDataSourceSetUtil
 				DataSetHandle childDataSet = (DataSetHandle) iter.next( );
 				if ( childDataSet != null )
 				{
-					prepareForTransientQuery( dContext, dataEngine, childDataSet, queryDefn, registedQueries );
+					prepareForTransientQuery( dContext, dataEngine, childDataSet, queryDefn, registedQueries, interceptorContext );
 				}
 			}
 
@@ -206,7 +208,7 @@ public class DefineDataSourceSetUtil
 			List<DataSetHandle>  inputDataSet = ( (DerivedDataSetHandle) handle ).getInputDataSets( );
 			for ( int i = 0; i < inputDataSet.size( ); i++ )
 			{
-				prepareForTransientQuery( dContext, dataEngine, inputDataSet.get(i), queryDefn, registedQueries );
+				prepareForTransientQuery( dContext, dataEngine, inputDataSet.get(i), queryDefn, registedQueries, interceptorContext );
 			}
 		}
 	}

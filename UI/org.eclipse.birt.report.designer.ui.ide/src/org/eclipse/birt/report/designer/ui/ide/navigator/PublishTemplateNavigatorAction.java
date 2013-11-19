@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.ide.navigator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.wizards.PublishTemplateWizard;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -90,7 +91,7 @@ public class PublishTemplateNavigatorAction implements IViewActionDelegate
 					}
 				}
 
-				WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+				WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
 						new PublishTemplateWizard( (ReportDesignHandle) handle ) );
 				dialog.setPageSize( 500, 250 );
 				dialog.open( );

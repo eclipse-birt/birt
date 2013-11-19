@@ -256,7 +256,13 @@ public class JDBCDriverManager
 			if ( logger.isLoggable( Level.FINER ))
 				logger.finer( "Calling IConnectionFactory.getConnection. driverClass=" + driverClass + //$NON-NLS-1$
 						", url=" + LogUtil.encryptURL( url ) ); //$NON-NLS-1$
-			return factory.getConnection( driverClass, url, connectionProperties );
+			try
+			{
+				Connection cn = factory.getConnection( driverClass, url, connectionProperties );
+				return cn;
+			}
+			catch( Exception e )
+			{}
 		}
         
         // no driverinfo extension for driverClass connectionFactory       

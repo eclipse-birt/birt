@@ -48,7 +48,6 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.ui.actions.CopyTemplateAction;
 import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.gef.ui.actions.EditorPartAction;
-import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.RedoAction;
 import org.eclipse.gef.ui.actions.SaveAction;
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -57,23 +56,15 @@ import org.eclipse.gef.ui.actions.UndoAction;
 import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
-import org.eclipse.gef.ui.palette.CustomizeAction;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
-import org.eclipse.gef.ui.palette.LayoutAction;
-import org.eclipse.gef.ui.palette.PaletteContextMenuProvider;
 import org.eclipse.gef.ui.palette.PaletteEditPartFactory;
 import org.eclipse.gef.ui.palette.PaletteViewer;
-import org.eclipse.gef.ui.palette.PaletteViewerPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
-import org.eclipse.gef.ui.palette.SettingsAction;
-import org.eclipse.gef.ui.palette.customize.PaletteSettingsDialog;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.gef.ui.views.palette.PaletteViewerPage;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -127,7 +118,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	// editor part.
 	private static boolean shellActiveFlag = false;
 
-	// record the last activated shell, used for dataset or datasource selection.
+	// record the last activated shell, used for dataset or datasource
+	// selection.
 	private static Shell lastActiveShell = null;
 
 	// Used for multiple window case. When the shell is activated and it's not
@@ -287,77 +279,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 
 			protected void configurePaletteViewer( final PaletteViewer viewer )
 			{
-				// super.configurePaletteViewer( viewer );
-
-				/**
-				 * Hack to remove the Change Icon Size menu item and relative
-				 * dialog components.
-				 */
-				viewer.setContextMenu( new PaletteContextMenuProvider( viewer ) {
-
-					public void buildContextMenu( IMenuManager menu )
-					{
-						GEFActionConstants.addStandardActionGroups( menu );
-
-						List lst = getPaletteViewer( ).getSelectedEditParts( );
-
-						if ( lst.size( ) == 0 )
-						{
-							return;
-						}
-
-						menu.appendToGroup( GEFActionConstants.GROUP_VIEW,
-								new LayoutAction( getPaletteViewer( ).getPaletteViewerPreferences( ) ) );
-						if ( getPaletteViewer( ).getCustomizer( ) != null )
-						{
-							menu.appendToGroup( GEFActionConstants.GROUP_REST,
-									new CustomizeAction( getPaletteViewer( ) ) );
-						}
-
-						final PaletteViewer paletteViewer = getPaletteViewer( );
-
-						menu.appendToGroup( GEFActionConstants.GROUP_REST,
-								new SettingsAction( paletteViewer ) {
-
-									public void run( )
-									{
-										final PaletteViewerPreferences prefs = paletteViewer.getPaletteViewerPreferences( );
-
-										Dialog settings = new PaletteSettingsDialog( paletteViewer.getControl( )
-												.getShell( ),
-												prefs ) {
-
-											protected Control createLayoutSettings(
-													Composite parent )
-											{
-												Composite composite = new Composite( parent,
-														SWT.NONE );
-												composite.setFont( parent.getFont( ) );
-												GridLayout layout = new GridLayout( 1,
-														false );
-												composite.setLayout( layout );
-
-												Control layoutOptions = createLayoutOptions( composite );
-												GridData data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
-												layoutOptions.setLayoutData( data );
-
-												handleLayoutSettingChanged( prefs.getLayoutSetting( ) );
-
-												return composite;
-											}
-
-											protected void handleLayoutSettingChanged(
-													int newSetting )
-											{
-												prefs.setLayoutSetting( newSetting );
-											}
-										};
-
-										settings.open( );
-									}
-								} );
-					}
-				} );
+				super.configurePaletteViewer( viewer );
 
 				viewer.addDragSourceListener( new TemplateTransferDragSourceListener( viewer ) );
 

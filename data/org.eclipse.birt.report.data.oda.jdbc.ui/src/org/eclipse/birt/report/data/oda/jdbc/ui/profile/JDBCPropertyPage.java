@@ -67,6 +67,7 @@ public class JDBCPropertyPage extends DataSourceEditorPage
 		m_pageHelper.addBidiSettingsButton( content, profileProps );
 		this.setPingButtonVisible( false );
 		m_pageHelper.initCustomControl( profileProps );
+		m_pageHelper.setResourceIdentifier( this.getHostResourceIdentifiers( ) );
 	}
 	
 	/*

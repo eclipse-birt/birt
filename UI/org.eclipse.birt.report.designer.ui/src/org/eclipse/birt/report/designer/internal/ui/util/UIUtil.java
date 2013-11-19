@@ -1615,15 +1615,16 @@ public class UIUtil
 	 */
 	public static void bindHelp( Control control, String contextId )
 	{
-		try
-		{
-			IWorkbench workbench = PlatformUI.getWorkbench( );
-			workbench.getHelpSystem( ).setHelp( control, contextId );
-		}
-		catch ( RuntimeException e )
-		{
-			// Do nothing since there's no workbench
-		}
+		// disable the help
+		// try
+		// {
+		// IWorkbench workbench = PlatformUI.getWorkbench( );
+		// workbench.getHelpSystem( ).setHelp( control, contextId );
+		// }
+		// catch ( RuntimeException e )
+		// {
+		// // Do nothing since there's no workbench
+		// }
 	}
 
 	/**
@@ -1954,10 +1955,10 @@ public class UIUtil
 	public static String getColumnAnalysis( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		
+
 		List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
-		
-		for( ColumnHintHandle columnHint : columnHints )
+
+		for ( ColumnHintHandle columnHint : columnHints )
 		{
 			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
 					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
@@ -1999,13 +2000,13 @@ public class UIUtil
 	public static ActionHandle getColumnAction( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		
+
 		List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
-		
+
 		for ( ColumnHintHandle columnHint : columnHints )
 		{
 			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
-					||  column.getColumnName( ).equals( columnHint.getAlias( ) ) )
+					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
 			{
 				return columnHint.getActionHandle( );
 			}

@@ -61,6 +61,7 @@ public class DataSetCacheManager
 	private Collection parameterHints;
 	private Map appContext;
 	private String cacheID;
+	private boolean enableSamplePreview;
 	// map manager instance
 	private CacheMapManager jvmLevelCacheMapManager;
 	private CacheMapManager dteLevelCacheMapManager;
@@ -153,7 +154,8 @@ public class DataSetCacheManager
 		this.parameterHints = parameterHints;
 		this.appContext = appContext;
 		this.cacheID = CacheIDFetcher.getInstance( ).getCacheID( appContext );
-	}	
+		this.enableSamplePreview =  CacheIDFetcher.getInstance( ).enableSampleDataPreivew( appContext );
+	}
 
 	/**
 	 * @return
@@ -169,7 +171,7 @@ public class DataSetCacheManager
 		switchCacheMap( dataSetDesign );
 		return cacheMapManager.doesSaveToCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterHints, this.cacheID ),
+				this.parameterHints, this.cacheID, this.enableSamplePreview ),
 				dscc);
 	}
 
@@ -207,7 +209,7 @@ public class DataSetCacheManager
 		switchCacheMap( dataSetDesign );
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				dataSetDesign,
-				parameterHints, this.cacheID ),
+				parameterHints, this.cacheID, this.enableSamplePreview ),
 				dscc.getCacheCapability( ));
 	}
 
@@ -285,7 +287,7 @@ public class DataSetCacheManager
 
 		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( dataSourceDesign,
 				dataSetDesign,
-				null, this.cacheID );
+				null, this.cacheID, this.enableSamplePreview );
 		//switchCacheMap( dataSetDesign );
 		//cacheMapManager.clearCache( ds );
 		jvmLevelCacheMapManager.clearCache( ds );
@@ -309,7 +311,7 @@ public class DataSetCacheManager
 				
 		IDataSetCacheObject cached = cacheMapManager.getSavedCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterHints, this.cacheID ) ); 
+				this.parameterHints, this.cacheID, this.enableSamplePreview ) ); 
 		if( this.cacheID != null && cached instanceof MemoryDataSetCacheObject && ((MemoryDataSetCacheObject)cached).getSize( ) > 0 )
 		{
 			cached = new DataSetCacheObjectWithDummyData( dataSetDesign, cached );
@@ -327,7 +329,7 @@ public class DataSetCacheManager
 		
 		cacheMapManager.saveFinishOnCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterHints, this.cacheID ), dsco );
+				this.parameterHints, this.cacheID, this.enableSamplePreview ), dsco );
 	}
 	
 	/**
@@ -341,7 +343,7 @@ public class DataSetCacheManager
 		
 		cacheMapManager.loadStart( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterHints, this.cacheID ) );
+				this.parameterHints, this.cacheID, this.enableSamplePreview ) );
 	}
 	
 	/**
@@ -354,7 +356,7 @@ public class DataSetCacheManager
 		
 		cacheMapManager.loadFinishOnCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterHints, this.cacheID ) );
+				this.parameterHints, this.cacheID, this.enableSamplePreview ) );
 	}
 	
 	/**
@@ -367,7 +369,7 @@ public class DataSetCacheManager
 				
 		IDataSetCacheObject cached = cacheMapManager.getloadedCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterHints, this.cacheID ) ); 
+				this.parameterHints, this.cacheID, this.enableSamplePreview ) ); 
 		if( this.cacheID != null && cached instanceof MemoryDataSetCacheObject && ((MemoryDataSetCacheObject)cached).getSize( ) > 0 )
 		{
 			cached = new DataSetCacheObjectWithDummyData( dataSetDesign, cached );
@@ -391,7 +393,7 @@ public class DataSetCacheManager
 		switchCacheMap( dataSetDesign );
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterHints, this.cacheID ),
+				this.parameterHints, this.cacheID, this.enableSamplePreview ),
 				dscc.getCacheCapability( ));
 	}
 
@@ -424,7 +426,7 @@ public class DataSetCacheManager
 		//meta data is always from jvmLevelCacheMapManager
 		IResultClass resultClass = this.jvmLevelCacheMapManager.getCachedResultClass( DataSourceAndDataSet.newInstance( dataSource,
 				dataSet,
-				null, this.cacheID ) );
+				null, this.cacheID, this.enableSamplePreview ) );
 		if ( resultClass != null )
 			return new ResultMetaData( resultClass );
 		else

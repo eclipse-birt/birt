@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTempla
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
@@ -42,6 +43,7 @@ import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.ISharedImages;
 
 import com.ibm.icu.text.Collator;
 
@@ -184,8 +186,6 @@ public class GuiExtensionManager
 			}
 			String category = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY );
 
-			ImageDescriptor icon = (ImageDescriptor) point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON );
-
 			IReportItemFigureProvider UI = point.getReportItemUI( );
 			if ( UI == null )
 			{
@@ -194,7 +194,7 @@ public class GuiExtensionManager
 
 			if ( PALETTE_DESIGNER.equals( type ) )
 			{
-				if(!UIUtil.isVisibleExtensionElement( point ))
+				if ( !UIUtil.isVisibleExtensionElement( point ) )
 					continue;
 			}
 			else if ( PALETTE_MASTERPAGE.equals( type ) )
@@ -205,6 +205,15 @@ public class GuiExtensionManager
 					continue;
 				}
 			}
+
+			ImageDescriptor icon = (ImageDescriptor) point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON );
+
+			ImageDescriptor iconLarge = (ImageDescriptor) point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON_LARGE );
+			if ( iconLarge == null )
+			{
+				iconLarge = icon;
+			}
+
 			String displayName = DEUtil.getMetaDataDictionary( )
 					.getExtension( point.getExtensionName( ) )
 					.getDisplayName( );
@@ -214,7 +223,7 @@ public class GuiExtensionManager
 					new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_EXTENDED
 							+ point.getExtensionName( ) ),
 					icon,
-					icon,
+					iconLarge,
 					BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName( getExtendedPalletTemplateName( point ) ) );
 			PaletteContainer entry = findCategory( list, category );
 			if ( entry == null )
@@ -224,7 +233,9 @@ public class GuiExtensionManager
 				{
 					categoryLabel = category;
 				}
-				entry = new PaletteCategory( category, categoryLabel, null );
+				entry = new PaletteCategory( category,
+						categoryLabel,
+						ReportPlatformUIImages.getImageDescriptor( ISharedImages.IMG_OBJ_FOLDER ) );
 				root.add( entry );
 			}
 			// entry.add( combined );
@@ -253,7 +264,9 @@ public class GuiExtensionManager
 				{
 					categoryLabel = category;
 				}
-				entry = new PaletteCategory( category, categoryLabel, null );
+				entry = new PaletteCategory( category,
+						categoryLabel,
+						ReportPlatformUIImages.getImageDescriptor( ISharedImages.IMG_OBJ_FOLDER ) );
 				root.add( entry );
 			}
 

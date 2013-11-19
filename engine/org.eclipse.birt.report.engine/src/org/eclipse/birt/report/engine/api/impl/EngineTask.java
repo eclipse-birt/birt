@@ -33,6 +33,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.script.ParameterAttribute;
+import org.eclipse.birt.core.util.LocaleUtil;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -296,7 +297,7 @@ public abstract class EngineTask implements IEngineTask
 		log.log( Level.FINE,
 				"EngineTask.setLocale: locale={0}",
 				locale.getDisplayName( ) );
-		doSetLocale( ULocale.forLocale( locale ) );
+		doSetLocale( LocaleUtil.forLocale( locale ) );
 	}
 
 	private void doSetLocale( ULocale locale )

@@ -71,6 +71,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
+import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -1257,7 +1258,8 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		DesignElementHandle container = itemHandle.getContainer( );
 		if ( container instanceof CellHandle
 				|| container instanceof ListHandle
-				|| container instanceof ListGroupHandle )
+				|| container instanceof ListGroupHandle
+				|| ( container instanceof ExtendedItemHandle && "CrosstabCell".equals( ( (ExtendedItemHandle) container ).getExtensionName( ) ) ) ) //$NON-NLS-1$
 		{
 			while ( container != null )
 			{
@@ -1266,6 +1268,11 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 					return true;
 				}
 				else if ( container instanceof GridHandle )
+				{
+					return true;
+				}
+				else if ( container instanceof ExtendedItemHandle
+						&& "Crosstab".equals( ( (ExtendedItemHandle) container ).getExtensionName( ) ) ) //$NON-NLS-1$
 				{
 					return true;
 				}
@@ -1300,10 +1307,12 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	public static ReportItemHandle getInheritedHandle(
 			ReportItemHandle itemHandle )
 	{
-		if ( itemHandle.getDataSet( ) == null && isContainerInheritable( itemHandle ) )
+		if ( itemHandle.getDataSet( ) == null && itemHandle.getCube( ) == null && isContainerInheritable( itemHandle ) )
 		{
 			DesignElementHandle handle = itemHandle.getContainer( );
-			while ( handle != null && !( handle instanceof ListingHandle || handle instanceof GridHandle ) )
+			while ( handle != null
+					&& !( handle instanceof ListingHandle
+							|| handle instanceof GridHandle || ( handle instanceof ExtendedItemHandle && "Crosstab".equals( ( (ExtendedItemHandle) handle ).getExtensionName( ) ) ) ) ) //$NON-NLS-1$
 			{
 				handle = handle.getContainer( );
 			}
@@ -1318,6 +1327,11 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			else if ( handle instanceof GridHandle )
 			{
 				return (GridHandle) handle;
+			}
+			else if ( handle instanceof ExtendedItemHandle
+					&& "Crosstab".equals( ( (ExtendedItemHandle) handle ).getExtensionName( ) ) ) //$NON-NLS-1$
+			{
+				return (ExtendedItemHandle) handle;
 			}
 		}
 		return null;
@@ -1683,7 +1697,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 
 	}
 	
-	protected static boolean loadExpressionFromHandle(
+	public static boolean loadExpressionFromHandle(
 			ExpressionCodec exprCodec, Expression expression )
 	{
 		if ( expression != null && expression.getStringExpression( ) != null )
@@ -1738,6 +1752,17 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return false;
 	}
 
+	public static boolean loadExpression( ExpressionCodec exprCodec,
+			FilterConditionHandle fceh )
+	{
+		if ( exprCodec != null )
+		{
+			ExpressionHandle eh = fceh.getExpressionProperty( FilterCondition.EXPR_MEMBER );
+			return loadExpressionFromHandle( exprCodec, eh );
+		}
+		return false;
+	}
+	
 	/**
 	 * Loads the expression from a ComputedColumnHandle into the
 	 * ExpressionCodec.
