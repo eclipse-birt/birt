@@ -48,6 +48,9 @@ public class ExtendedProperty extends Structure
 	 */
 
 	public final static String VALUE_MEMBER = "value"; //$NON-NLS-1$
+	
+	
+	public final static String ENCRYPTION_ID_MEMBER = "encryptionID"; //$NON-NLS-1$
 
 	/**
 	 * The Extended property name.
@@ -60,6 +63,10 @@ public class ExtendedProperty extends Structure
 	 */
 
 	private String value = null;
+	
+	
+	private String encryptionID = null;	
+	
 
 	/**
 	 * Default constructor.
@@ -83,6 +90,13 @@ public class ExtendedProperty extends Structure
 		this.name = name;
 		this.value = value;
 	}
+	
+	public ExtendedProperty( String name, String value,String  encryptionID)
+	{
+		this.name = name;
+		this.value = value;
+		this.encryptionID = encryptionID;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -105,6 +119,8 @@ public class ExtendedProperty extends Structure
 			return name;
 		else if ( propName.equals( VALUE_MEMBER ) )
 			return value;
+		else if ( propName.equals( encryptionID ) )
+			this.encryptionID = (String) value;
 
 		assert false;
 		return null;
@@ -120,6 +136,8 @@ public class ExtendedProperty extends Structure
 			name = (String) value;
 		else if ( propName.equals( VALUE_MEMBER ) )
 			this.value = (String) value;
+		else if ( propName.equals( encryptionID ) )
+			this.encryptionID = (String) value;
 		else
 			assert false;
 	}
@@ -168,6 +186,17 @@ public class ExtendedProperty extends Structure
 	public void setValue( String value )
 	{
 		this.value = value;
+	}
+	
+	public String getEncryptionID( )
+	{
+		return encryptionID;
+	}
+
+
+	public void setEncryptionID( String encryptionID )
+	{
+		this.encryptionID = encryptionID;
 	}
 
 	/*
