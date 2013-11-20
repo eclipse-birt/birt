@@ -900,6 +900,21 @@ public class LocalizedContentVisitor
 		{
 			buffer.append( timeZone.getID( ) );
 		}
+		// Add size to cache ID
+		DimensionType heightDimension = content.getHeight( );
+		String heightUnits = heightDimension == null ? ""
+				: heightDimension.getUnits( );
+		double heightValue = heightDimension == null ? 0
+				: heightDimension.getMeasure( );
+		DimensionType widthDimension = content.getWidth( );
+		String widthUnits = widthDimension == null ? ""
+				: widthDimension.getUnits( );
+		double widthValue = widthDimension == null ? 0
+				: widthDimension.getMeasure( );
+		buffer.append( heightValue);
+		buffer.append( heightUnits);
+		buffer.append( widthValue);
+		buffer.append( widthUnits);
 		return buffer.toString( );
 	}
 	
