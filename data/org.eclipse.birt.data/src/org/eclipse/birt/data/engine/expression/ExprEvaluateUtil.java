@@ -382,12 +382,6 @@ public class ExprEvaluateUtil
 			{
 				JSResultSetRow resultSetRow = (JSResultSetRow)scriptable;
 				IBinding b = resultSetRow.getBinding( rowName );
-				if ( resultSetRow.getOdiResult( ).getCurrentResult( ).getResultClass( ).getFieldIndex( rowName ) >= 0 )
-				{
-					//row["xxx"] is already evaluated
-					Object value = resultSetRow.getOdiResult( ).getCurrentResult( ).getFieldValue( rowName );
-					return DataTypeUtil.convert( value, b.getDataType( ) );
-				}
 				if ( b != null && b.getAggrFunction( ) == null )
 				{
 					IBaseExpression expr = b.getExpression( );
