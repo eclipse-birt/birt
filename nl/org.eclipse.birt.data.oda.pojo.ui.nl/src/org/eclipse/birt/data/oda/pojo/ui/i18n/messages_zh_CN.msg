@@ -1,0 +1,157 @@
+###############################################################################
+# Copyright (c) 2013 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation  - initial API and implementation
+###############################################################################
+# data source messages
+DataSource.RuntimeProperty=&Runtime Properties
+DataSource.DataSetClassPath=Shared &Location of Custom POJO Data Set Classes
+
+DataSource.AddRelativeJars0=&Add Jars(Relative Path)...
+DataSource.AddAbsoluteJars0=Add &Jars(Absolute Path)...
+
+#To avoid duplicate short-cut keys
+DataSource.AddRelativeJars1=Add Jar&s(Relative Path)...
+DataSource.AddAbsoluteJars1=Add Jars(A&bsolute Path)...
+DataSource.AddRelativeClassFolder1=Add Class Fold&er(Relative Path)...
+DataSource.AddAbsoluteClassFolder1=Add Class Folder(Absol&ute Path)...
+
+DataSource.button.tooltip.AddJar.TwoItems=Add jars to the class paths.\nRelative Path: the relative path based on the resource folder.\nAbsolute Path: the absolute path of the file system.
+DataSource.button.tooltip.AddJar.OneItems=Add jars to the class paths.\nAbsolute Path: the absolute path of the file system.
+
+DataSource.PojoClassPath=Shared L&ocation of POJO Classes
+
+DataSource.MissDataSetPojoClassPath.runtime=The runtime shared location of custom POJO data set classes is missing.
+DataSource.MissDataSetPojoClassPath.designtime=The shared location of custom POJO data set classes used in design time is missing.
+DataSource.PageMessage=POJO Data Source Properties
+DataSource.POJOClasses.tab.runtime=&Runtime Properties
+DataSource.POJOClasses.tab.designTime=Design Time &Properties
+DataSource.POJOClassTabFolderPage.promptLabel.runtime=Shared &Location of Custom POJO Data Set Classes
+DataSource.POJOClassTabFolderPage.promptLabel.designtime=Shared &Location of Custom POJO Classes
+DataSource.POJOClassTabFolderPage.button.edit=&Edit...
+DataSource.POJOClassTabFolderPage.button.up=&Up
+DataSource.POJOClassTabFolderPage.button.down=&Down
+DataSource.POJOClassTabFolderPage.button.remove=Remo&ve
+DataSource.POJOClassTabFolderPage.menuButton.addJar=Add Jars
+DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=Relative path
+DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=Absolute path
+DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=Error
+DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=Failed to get the application resource base URI!
+
+DataSource.ClassPathPage.synchronize.checkbox.message=Use Runtime Properties for both Runtime and Designtime
+DataSource.ClassPathPage.synchronize.checkbox.tooltip=If the option is ticked on, then the Designtime Properties Editor will be disabled to edit.
+DataSource.ClassPathPage.synchronize.PrompMessage=Note: If the option is ticked on, the Designtime Properties Settings will be ignored.
+DataSource.ClassPathPage.testConnection.failed.runtime=Failed to create connection with "{0}" of the runtime property!
+DataSource.ClassPathPage.testConnection.failed.designtime=Failed to create connection with "{0}" of the design time property!
+
+
+# data set messages
+DataSet.PojoDataSetClass=&POJO Data Set Class Name
+DataSet.AppContextKey=&Application Context Key
+DataSet.PojoRootClass=POJO &Class Name
+DataSet.Browse=&Browse...
+DataSet.Browse.tooltip=Browse to select a class.
+
+#To avoid duplicate short-cut key
+DataSet.Browse1=B&rowse...
+DataSet.DataType.Object=Java Object
+
+DataSet.FailedParseQueryTitle=Failed to Parse Query Text
+DataSet.FailedParseQueryMsg=Query text: "{0}".
+DataSet.FailedToSaveTitle=Failed to Save Data Set
+DataSet.FailedToSaveMsg=Exception occurs during saving data set.
+DataSet.Label.MethodNameFilter=&Method Name Filter(? = any character,* = any string):
+DataSet.MissPojoRootClass=POJO Class is not provided.
+DataSet.Apply=Appl&y
+DataSet.ClassStructure=POJO Class Structure
+DataSet.ColumnMapping=&Column Mapping
+DataSet.Add=&Add...
+DataSet.Edit=&Edit...
+DataSet.Remove=&Remove
+DataSet.Up=&Up
+DataSet.Down=&Down
+DataSet.Label.POJOClassName=POJO Class Name
+DataSet.Label.prompt.ClassName=Select methods and &fields to create data set columns.
+DataSet.button.addColumn.tooltip.mapColumn=Add the selected item to be the column.
+DataSet.button.removeColumn.tooltip.mapColumn=Remove the selected item from the columns table.
+DataSet.button.tooltip.Add=Add a new column.
+DataSet.button.tooltip.Edit=Edit the current column.
+DataSet.button.tooltip.Remove=Remove the current column.
+DataSet.button.tooltip.Up=Move up the current column.
+DataSet.button.tooltip.Down=Move down the current column.
+DataSet.ShowSampleData=&Show Sample Data
+DataSet.button.tooltip.ShowSampleData=Show sample data.
+DataSet.FailedToLoadClassTitle=Failed to load class.
+DataSet.FailedToLoadPojoClassMsg=Failed to load POJO class:"{0}".
+
+ColumnMappingPage.table.head.columnName=Name
+ColumnMappingPage.table.head.MethodField=Method/Field
+ColumnMappingPage.table.head.columnType=Type
+
+ColumnMappingWizardPage.error.getQueryText=Failed to parse original query text.
+ColumnMappingWizardPage.button.apply.text=A&pply
+ColumnMappingWizardPage.button.apply.tooltip=Apply the input POJO class name to generate the method tree.
+
+ColumnMappingDialog.Label.ColumnName=&Column Name: 
+ColumnMappingDialog.Label.ColumnMethodField=&Method/Field:
+ColumnMappingDialog.Label.Type=Column &Type:
+ColumnMappingDialog.table.promptLabel=Select method &arguments mapped to the parameter:
+ColumnMappingDialog.table.head.mapped=Mapped
+ColumnMappingDialog.table.head.name=Name
+ColumnMappingDialog.table.head.value=Value
+ColumnMappingDialog.table.head.dataType=Java Data Type
+ColumnMappingDialog.button.edit=&Edit...
+ColumnMappingDialog.button.selectAll=&Select All
+ColumnMappingDialog.button.deselectAll=&Deselect All
+ColumnMappingDialog.Label.methodHierarchy=Method call hierarchy:
+ColumnMappingDialog.error.DuplicatedColumnName=The column name has already been used!
+ColumnMappingDialog.error.EmptyColumnName=The column name cannot be empty!
+ColumnMappingDialog.error.EmptyMappingPath=The column mapping path cannot be empty!
+ColumnMappingDialog.MenuItem.remove=Remove
+ColumnMappingDialog.MenuItem.removeAll=Remove All
+
+MethodParameterDialog.edit.title=Edit Method Parameter
+MethodParameterDialog.label.name=&Name:
+MethodParameterDialog.label.value=&Value:
+MethodParameterDialog.label.dataType=&Java Data Type:
+MethodParameterDialog.checkBox.message=Set the argument mapped to the parameter.
+MethodParameterDialog.error.missingName=The mapped parameter must be specified a name!
+MethodParameterDialog.error.missingValue=The constant parameter must be specified a constant value!
+MethodParameterDialog.error.invalidParamName=The parameter has already been specified a different data type!
+MethodParameterDialog.error.missingDataType=The parameter data type cannot be empty!
+
+DataSet.DataType.String=String
+DataSet.DataType.Integer=Integer
+#make the display label consistent with BIRT data type 
+DataSet.DataType.Double=Float
+DataSet.DataType.Decimal=Decimal 
+DataSet.DataType.Date=Date 
+DataSet.DataType.Time=Time 
+#make the display label consistent with BIRT data type 
+DataSet.DataType.Timestamp=Date Time 
+DataSet.DataType.Boolean=Boolean 
+DataSet.DataType.Blob=Blob 
+DataSet.AddColumnMapping=Add Column Mapping
+DataSet.EditColumnMapping=Edit Column Mapping
+DataSet.InvalidColumnMappingPath=Invalid Method/Field Format:"{0}".
+DataSet.InvalidMethodName=Invalid Method Name:"{0}".
+DataSet.InvalidFieldName=Invalid Field Name:"{0}".
+DataSet.JarsSelectDlg.Title=Select Jars / Zips
+DataSet.ClassFoldersSelectDlg.Title=Select Class Folders
+DataSet.PropertyPageMsg=POJO Data Set Properties
+DataSet.ColumnMappingPageMsg=Column Mapping
+DataSet.NoColumnMappingErrorMsg=No Column Mapping.
+DataSet.ClassNameFilter=&Class Name Filter(? = any character,* = any string):
+DataSet.MatchingItems=&Matching Items:
+DataSet.ClassInputDialogTitle=Choose Class
+DataSet.PreviewDialogTitle=Sample Data
+DataSet.FailedFetchSampleData=Failed to Fetch Sample Data
+
+ExceptionDialog.title.erro=Error
+ExceptionDialog.DataSource.AddDuplicatedJar=The same jar cannot be added multiple times.
+error.PojoDataSet.emptyClassName=Class name can not be empty.
