@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.data.oda.mongodb.ui.i18n.Messages;
 import org.eclipse.birt.data.oda.mongodb.ui.util.FieldEntryWrapper;
+import org.eclipse.birt.data.oda.mongodb.ui.util.IHelpConstants;
 import org.eclipse.birt.data.oda.mongodb.ui.util.UIHelper;
 import org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler;
 import org.eclipse.datatools.connectivity.oda.IConnection;
@@ -194,6 +195,9 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 		resetLabelWidth( );
 
 		modelChanged = false;
+
+		UIHelper.setSystemHelp( getControl( ),
+				IHelpConstants.CONTEXT_ID_WIZARD_DATASET_MONGODB );
 	}
 
 	private void createBottomArea( Composite mainComposite )
