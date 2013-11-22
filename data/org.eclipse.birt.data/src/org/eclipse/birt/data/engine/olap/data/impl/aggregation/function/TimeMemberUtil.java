@@ -58,8 +58,13 @@ public class TimeMemberUtil
 	{
 		ILevel[] levels = timeDimension.getHierarchy( ).getLevels();
 		String[] levelType = null;
-		if( referenceDate != null )
-			levelType = new String[levels.length - 1];
+		if ( referenceDate != null )
+		{
+			if ( levels.length > 1 )
+				levelType = new String[levels.length - 1];
+			else
+				levelType = new String[levels.length];
+		}
 		else
 		{
 			levelType = new String[getLowestLevelIndex(timeDimension, cellTimeMember)+1];
