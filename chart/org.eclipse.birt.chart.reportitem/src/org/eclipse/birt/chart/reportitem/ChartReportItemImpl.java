@@ -1091,7 +1091,7 @@ public class ChartReportItemImpl extends ReportItem implements
 		// Get all bindings
 		Iterator<ComputedColumnHandle> allBindings = ChartItemUtil.getAllColumnBindingsIterator( handle );
 		ReportItemHandle bindingHolder = ChartItemUtil.getBindingHolder( handle );
-		if ( bindingHolder.getCube( ) == null  )
+		if ( bindingHolder == null || bindingHolder.getCube( ) == null )
 		{
 			return allBindings;
 		}
