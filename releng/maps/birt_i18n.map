@@ -64,3 +64,9 @@ fragment@org.eclipse.birt.report.item.crosstab.ui.nl1=GIT,tag=master,repo=git://
 fragment@org.eclipse.birt.report.model.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.report.model.nl
 fragment@org.eclipse.birt.report.viewers.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.report.viewer.nl
 fragment@org.eclipse.birt.resources.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.resources.nl
+fragment@org.eclipse.birt.data.oda.mongodb.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.data.oda.mongodb.nl
+fragment@org.eclipse.birt.data.oda.mongodb.ui.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.data.oda.mongodb.ui.nl
+fragment@org.eclipse.birt.data.oda.pojo.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.data.oda.pojo.nl
+fragment@org.eclipse.birt.data.oda.pojo.ui.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.data.oda.pojo.ui.nl
+fragment@org.eclipse.birt.report.engine.emitter.config.docx.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.report.engine.emitter.config.docx.nl
+fragment@org.eclipse.birt.report.engine.emitter.config.pptx.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.report.engine.emitter.config.pptx.nl
