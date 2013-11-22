@@ -131,7 +131,10 @@ public class TimeFunctionCalculator
 		}
 		if( existReferenceDate )
 		{
-			endLevelIndex = cubeDimensionReader.getlowestLevelIndex( tDimName ) - 1;
+			if ( cubeDimensionReader.getlowestLevelIndex( tDimName ) == 0 )
+				endLevelIndex = 0;
+			else
+				endLevelIndex = cubeDimensionReader.getlowestLevelIndex( tDimName ) - 1;
 		}
 		else
 		{
