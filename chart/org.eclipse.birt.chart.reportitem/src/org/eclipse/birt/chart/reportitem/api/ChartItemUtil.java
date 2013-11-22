@@ -2093,7 +2093,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	{
 		return getBooleanProperty( cm,
 				EXTENDED_PROPERTY_HIERARCHY_CATEGORY,
-				true );
+				ChartUtil.compareVersion( cm.getVersion( ), "2.5.3" ) > 0 ); //$NON-NLS-1$
 	}
 
 	/**
@@ -2105,7 +2105,9 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	 */
 	public static boolean isKeepCubeHierarchyOnSeries( Chart cm )
 	{
-		return getBooleanProperty( cm, EXTENDED_PROPERTY_HIERARCHY_SERIES, true );
+		return getBooleanProperty( cm,
+				EXTENDED_PROPERTY_HIERARCHY_SERIES,
+				ChartUtil.compareVersion( cm.getVersion( ), "2.5.3" ) > 0 ); //$NON-NLS-1$
 	}
 
 	/**
