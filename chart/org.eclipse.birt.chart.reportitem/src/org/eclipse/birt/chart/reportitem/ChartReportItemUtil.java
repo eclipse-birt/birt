@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -18,12 +19,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.Serializer;
+import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
@@ -50,6 +53,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -66,12 +70,15 @@ import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionListHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
@@ -93,7 +100,8 @@ public class ChartReportItemUtil extends ChartItemUtil
 	 */
 	public static final int REVISE_REFERENCE_REPORT_ITEM = 1;
 	private static final IChartReportItemFactory baseFactory = new ChartReportItemFactoryBase( );
-
+	private final static String DATA_BASE64 = "data:;base64,"; //$NON-NLS-1$
+	
 	/**
 	 * Revise chart model.
 	 * 
@@ -1125,6 +1133,148 @@ public class ChartReportItemUtil extends ChartItemUtil
 		}
 
 		return false;
+	}
+	
+	/**
+	 * get absolute  url
+	 * @param image
+	 * @param handle
+	 * @param reportContext
+	 * @return url
+	 */
+	public static String getImageAbsoluteURL( Image image,
+			ExtendedItemHandle handle, IReportContext reportContext )
+	{
+		if ( reportContext == null )
+		{
+			return getImageAbsoluteURL( image, handle );
+		}
+		else
+		{
+			return getImageAbsoluteURL( image, reportContext );
+		}
+	}
+	
+	/**
+	 * get absolute local url
+	 * @param image
+	 * @param handle
+	 * @return local url
+	 */
+	public static String getImageAbsoluteURL( Image image,
+			ExtendedItemHandle handle )
+	{
+		if ( handle == null )
+		{
+			return null;
+		}
+		
+		switch ( image.getSource( ) )
+		{
+			case STATIC :
+				// url case
+				return image.getURL( );
+			case FILE :
+				// resource case
+				URL url = handle.getModuleHandle( )
+						.findResource( image.getURL( ), IResourceLocator.IMAGE );
+				if ( url != null )
+				{
+					return url.toExternalForm( );
+				}
+				return null;
+			case REPORT :
+				// embedded case
+				EmbeddedImage embeddedImage = handle.getModuleHandle( )
+						.findImage( image.getURL( ) );
+				if ( embeddedImage != null )
+				{
+					return DATA_BASE64
+							+ new String( Base64.encodeBase64( embeddedImage.getData( handle.getModuleHandle( )
+									.getModule( ) ) ) );
+				}
+				return null;
+			default :
+				return null;
+		}
+	}
+	
+	/**
+	 * get absolute server url
+	 * @param image
+	 * @param reportContext
+	 * @return web url
+	 */
+	public static String getImageAbsoluteURL( Image image,
+			IReportContext reportContext )
+	{
+		
+		if ( image == null
+				|| reportContext == null
+				|| reportContext.getRenderOption( ) == null
+				|| reportContext.getDesignHandle( ) == null
+				|| image.getURL( ) == null )
+		{
+			return null;
+		}
+		
+		IHTMLImageHandler imageHandler = reportContext.getRenderOption( )
+				.getImageHandler( );
+		String filePath = image.getURL( );
+		ReportDesignHandle reportDesign = reportContext.getDesignHandle( );
+		String uri = null;
+		switch ( image.getSource( ) )
+		{
+			case STATIC :
+				// url case
+				return image.getURL( );
+			case FILE :
+				// resource case
+				filePath = image.getURL( );
+				if ( filePath == null )
+				{
+					return null;
+				}
+				URL url = reportDesign.findResource( filePath,
+						IResourceLocator.IMAGE );
+				if ( url != null )
+				{
+					filePath = url.toExternalForm( );
+				}
+
+				uri = imageHandler.onCustomImage( new org.eclipse.birt.report.engine.api.impl.Image( filePath ),
+						reportContext );
+
+				if ( uri != null )
+				{
+					image.setURL( uri );
+				}
+
+				return uri;
+			case REPORT :
+				// embedded case
+				EmbeddedImage embeddedImage = reportDesign.getModuleHandle( )
+						.findImage( filePath );
+
+				if ( embeddedImage != null )
+				{
+					org.eclipse.birt.report.engine.api.impl.Image imageParam = new org.eclipse.birt.report.engine.api.impl.Image( embeddedImage.getData( reportDesign.getModule( ) ),
+							filePath );
+
+					uri = imageHandler.onCustomImage( imageParam, reportContext );
+
+					if ( uri != null )
+					{
+						image.setURL( uri );
+					}
+
+					return uri;
+				}
+				return null;
+			default :
+				return null;
+
+		}	
 	}
 
 }
