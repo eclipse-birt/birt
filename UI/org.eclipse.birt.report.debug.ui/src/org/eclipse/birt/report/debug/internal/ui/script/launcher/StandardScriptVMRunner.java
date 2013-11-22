@@ -138,6 +138,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner
 		}
 
 		delegate.helper.addParameterArgs( arguments );
+		delegate.helper.addDataLimitArgs(arguments);
 		delegate.helper.addEngineHomeArgs( arguments );
 		delegate.helper.addResourceFolder( arguments );
 		delegate.helper.addFileNameArgs( arguments );

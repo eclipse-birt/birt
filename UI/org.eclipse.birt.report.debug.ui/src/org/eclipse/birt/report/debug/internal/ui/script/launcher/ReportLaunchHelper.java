@@ -176,6 +176,18 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 				list.add( buff.toString( ) );
 			}
 		}
+		
+	}
+	
+	void addDataLimitArgs(List list)
+	{
+		String value = ReportPlugin.getDefault( ).getPluginPreferences( ).getString( ReportPlugin.DATA_MODEL_MEMORY_LIMIT_PREFERENCE );
+		StringBuffer buff = new StringBuffer( );
+		buff.append( "-D" ); //$NON-NLS-1$
+		buff.append( ATTR_DATA_LIMIT_SIZE );//$NON-NLS-1$
+		buff.append( "=" ); //$NON-NLS-1$
+		buff.append( value );
+		list.add( buff.toString( ) );
 	}
 
 	void addTypeArgs( List list )

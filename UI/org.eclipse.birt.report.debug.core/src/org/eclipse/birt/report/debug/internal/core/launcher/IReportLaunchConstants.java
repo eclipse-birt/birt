@@ -89,7 +89,7 @@ public interface IReportLaunchConstants
 	
 	String ATTR_MULPARAMRTER = "mulparam:"; //$NON-NLS-1$
 	
-
+	String ATTR_DATA_LIMIT_SIZE = "data.limit";//$NON-NLS-1$
 	/**
 	 * Debug type for java classes.
 	 */

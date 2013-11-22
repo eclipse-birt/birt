@@ -66,6 +66,7 @@ public class ReportOSGiLaunchDelegate extends
 		helper.addResourceFolder( arguments );
 		helper.addTempFolder( arguments );
 		helper.addTypeArgs( arguments );
+		helper.addDataLimitArgs(arguments);
 		helper.addParameterArgs( arguments );
 
 		return (String[]) arguments.toArray( new String[arguments.size( )] );
