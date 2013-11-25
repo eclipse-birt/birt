@@ -109,9 +109,28 @@ public class DateFormatWrapperFactory
 				}
 				break;
 			case Calendar.DATE :
-			case Calendar.WEEK_OF_YEAR :
-				df = new CommonDateFormatWrapper( DateFormat.getDateInstance( DateFormat.MEDIUM,
+				if ( keepHierarchy )
+				{
+					df = new CommonDateFormatWrapper( DateFormat.getDateInstance( DateFormat.MEDIUM,
 						locale ) );
+				}
+				else
+				{
+					df = new CommonDateFormatWrapper( new SimpleDateFormat( "D", //$NON-NLS-1$
+							locale ) );
+				}
+				break;
+			case Calendar.WEEK_OF_YEAR :
+				if ( keepHierarchy )
+				{
+					df = new CommonDateFormatWrapper( DateFormat.getDateInstance( DateFormat.MEDIUM,
+						locale ) );
+				}
+				else
+				{
+					df = new CommonDateFormatWrapper( new SimpleDateFormat( "w", //$NON-NLS-1$
+							locale ) );
+				}
 				break;
 			case Calendar.HOUR_OF_DAY :
 				df = new CommonDateFormatWrapper( new SimpleDateFormat( "HH:mm", //$NON-NLS-1$
