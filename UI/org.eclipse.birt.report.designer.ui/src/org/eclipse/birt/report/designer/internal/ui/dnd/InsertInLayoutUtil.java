@@ -823,7 +823,8 @@ public class InsertInLayoutUtil
 							for ( Object o : slotHandle.getContents( ) )
 							{
 								GroupHandle group = (GroupHandle) o;
-								if ( group.getName( ).equals( str ) )
+								//if ( group.getName( ).equals( str ) )
+								if ( group.getName( ).equals( temp.getColumnName() ) ||  group.getName( ).equals( temp.getAlias()))
 									hasGroup = true;
 							}
 							if ( !hasGroup )
