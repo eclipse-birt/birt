@@ -846,6 +846,7 @@ public class CDateTime extends GregorianCalendar
 		return 0;
 	}
 
+	
 	/**
 	 * Zeroes out all units for this datetime instance below a specified unit.
 	 * If it's full date time, no trim because original value should be used to
@@ -937,6 +938,53 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.MILLISECOND, 0 );
 		}
 	}
+	
+	/**
+	 * Reset year units for this datetime instance above a specified unit.
+	 * 
+	 * @param iUnit
+	 *            The unit above which year values are to be reset
+	 */
+	public final void clearAbove( int iUnit )
+	{
+		clearAbove( iUnit, false );
+	}
+	
+	/**
+	 * Reset year units for this datetime instance above a specified unit.
+	 * 
+	 * @param iUnit
+	 *            The unit above which year values are to be reset
+	 * @param always
+	 *            indicates if it's always trimmed no matter if it's full date
+	 *            time
+	 */
+	public final void clearAbove( int iUnit, boolean always )
+	{
+		if ( !always && isFullDateTime( ) )
+		{
+			// Do not clear below because of timezone issue
+			return;
+		}
+		if ( iUnit == YEAR )
+		{
+			return;
+		}
+		else if ( iUnit == MONTH || iUnit == GroupingUnitType.QUARTERS )
+		{
+			set( Calendar.YEAR, 2000 ); // No more sense here for 2000, just set 2000 as uniform year to group month, quarter and so on without keeping hierarchy.
+		}
+		else if ( iUnit == DATE )
+		{
+			set( Calendar.YEAR, 2000 );
+		}
+		else if ( iUnit == WEEK_OF_YEAR )
+		{
+			set( Calendar.YEAR, 2000 );
+		}
+		return;
+	}
+	
 	
 	/**
 	 * returns a CDateTime, whose value equals to the unit start of the current
