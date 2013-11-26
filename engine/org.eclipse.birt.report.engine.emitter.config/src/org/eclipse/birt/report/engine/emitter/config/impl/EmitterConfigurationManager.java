@@ -34,9 +34,9 @@ public class EmitterConfigurationManager implements
 	/** The extension point ID of emitter config. */
 	private static final String EXTENSION_EMITTER_CONFIG_CONTRIBUTOR = "org.eclipse.birt.report.engine.emitter.config"; //$NON-NLS-1$
 
-	private volatile Map<String, IConfigurationElement> configCache;
+	private Map<String, IConfigurationElement> configCache;
 
-	private volatile Map<String, IEmitterDescriptor> descriptorCache;
+	private Map<String, IEmitterDescriptor> descriptorCache;
 
 	/**
 	 * The default constructor
@@ -147,38 +147,30 @@ public class EmitterConfigurationManager implements
 	 *            the emitter ID.
 	 * @return an emitter descriptor with the specified emitter ID.
 	 */
-	public IEmitterDescriptor getEmitterDescriptor( String emitterID )
+	public synchronized IEmitterDescriptor getEmitterDescriptor( String emitterID )
 	{
 		if ( emitterID == null )
 		{
 			return null;
 		}
 
-		IEmitterDescriptor desc = descriptorCache.get( emitterID );
+		IEmitterDescriptor desc = getCachedEmitterDescriptor( emitterID );
 
 		if ( desc == null )
 		{
-			synchronized ( descriptorCache )
+			IConfigurationElement element = configCache.get( emitterID );
+
+			if ( element != null )
 			{
-				desc = descriptorCache.get( emitterID );
-
-				if ( desc == null )
+				try
 				{
-					IConfigurationElement element = configCache.get( emitterID );
+					desc = (IEmitterDescriptor) element.createExecutableExtension( "class" ); //$NON-NLS-1$
 
-					if ( element != null )
-					{
-						try
-						{
-							desc = (IEmitterDescriptor) element.createExecutableExtension( "class" ); //$NON-NLS-1$
-
-							descriptorCache.put( emitterID, desc );
-						}
-						catch ( FrameworkException e )
-						{
-							e.printStackTrace( );
-						}
-					}
+					descriptorCache.put( emitterID, desc );
+				}
+				catch ( FrameworkException e )
+				{
+					e.printStackTrace( );
 				}
 			}
 		}
@@ -186,34 +178,30 @@ public class EmitterConfigurationManager implements
 		return desc;
 	}
 
-	public IEmitterDescriptor getEmitterDescriptor( String emitterID, Locale locale )
+	public synchronized IEmitterDescriptor getEmitterDescriptor( String emitterID, Locale locale )
 	{
 		if ( emitterID == null )
 		{
 			return null;
 		}
 
-		IEmitterDescriptor desc = null;
-
-		IConfigurationElement element = configCache.get( emitterID );
-		if ( element != null )
-		{
-			try
-			{
-				desc = (IEmitterDescriptor) element.createExecutableExtension( "class" ); //$NON-NLS-1$
-				if ( desc != null )
-				{
-					desc.setLocale( locale );
-				}
-			}
-			catch ( FrameworkException e )
-			{
-				e.printStackTrace( );
-			}
+		IEmitterDescriptor desc = getEmitterDescriptor( emitterID );
 		
+		if ( desc != null )
+		{
+			desc.setLocale( locale );
 		}
 
 		return desc;
+	}
+	
+	public synchronized IEmitterDescriptor getCachedEmitterDescriptor( String emitterID )
+	{
+		if ( emitterID != null )
+		{
+			return descriptorCache.get( emitterID );
+		}
+		return null;
 	}
 	
 	/**
@@ -222,6 +210,7 @@ public class EmitterConfigurationManager implements
 	 * 
 	 * @param descriptor
 	 */
+	@Deprecated
 	public synchronized void registerEmitterDescriptor(
 			IEmitterDescriptor descriptor )
 	{
@@ -239,6 +228,7 @@ public class EmitterConfigurationManager implements
 	 * 
 	 * @param descriptor
 	 */
+	@Deprecated
 	public synchronized void deregisterEmitterDescriptor(
 			IEmitterDescriptor descriptor )
 	{
