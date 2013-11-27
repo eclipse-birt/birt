@@ -1549,20 +1549,9 @@ public class DataProcessor
 
 		if ( dtGrouping == DataType.DATE_TIME_LITERAL && bIsSumAggr )
 		{
-			// Check keep hierarchy.
-			ExtendedProperty property = ChartUtil.getExtendedProperty( cm,
-					"keep.hierarchy.category" ); //$NON-NLS-1$
-			boolean notKeepHierarchy = false;
-			try
-			{
-				notKeepHierarchy = ( property != null )
-						&& !Boolean.valueOf( property.getValue( ) )
-								.booleanValue( );
-			}
-			catch ( Exception e )
-			{
-				// Do nothing.
-			}
+
+			boolean useNonHierarchyCategoryData = ( rtc != null ) ? rtc.useNonHierarchyCategoryData( )
+					: false;
 			
 			int cunit = GroupingUtil.groupingUnit2CDateUnit( sg.getGroupingUnit( ) );
 			CDateTime baseReference = null;
@@ -1577,7 +1566,7 @@ public class DataProcessor
 					baseReference = (CDateTime) obj;
 					// Always trimmed for category grouping
 					baseReference.clearBelow( cunit, true );
-					if ( notKeepHierarchy )
+					if ( useNonHierarchyCategoryData )
 					{
 						// Need to clear above values to get correct groups on chart category.
 						baseReference.clearAbove( cunit, true );

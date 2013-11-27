@@ -89,6 +89,11 @@ public interface IDataServiceProvider
 	public static final int IS_CUBE_AND_SERIES_NOT_TOP_LEVEL = 1 << 16;
 
 	/**
+	 * Indicates if category data is non hierarchy values.
+	 */
+	public static final int USE_NON_HIERARCHY_CATEGORY_DATA = 1 << 17;
+	
+	/**
 	 * Does some initialization works in this method.
 	 * @throws ChartException
 	 */
