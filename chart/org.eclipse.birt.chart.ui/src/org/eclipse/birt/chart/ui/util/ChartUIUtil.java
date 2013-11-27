@@ -98,8 +98,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
 
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.ULocale;
@@ -593,6 +591,7 @@ public class ChartUIUtil
 		RunTimeContext context = new RunTimeContext( );
 		context.setULocale( ULocale.getDefault( ) );
 		context.setSharingQuery( isSharingQuery );
+		context.enableNonHierarchyCategoryData( dataProvider.checkState( IDataServiceProvider.USE_NON_HIERARCHY_CATEGORY_DATA ) );
 		dataProvider.update( ChartUIConstants.UPDATE_MODEL, cmRunTime );
 		Generator.instance( ).bindData( evaluator, iae, cmRunTime, context );
 
