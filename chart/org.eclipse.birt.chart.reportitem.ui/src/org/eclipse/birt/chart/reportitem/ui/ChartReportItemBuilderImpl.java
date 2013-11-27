@@ -661,6 +661,14 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		}
 	}
 
+	protected ExpressionProvider createExpressionProvider( int command,
+			final Object context )
+	{
+		return new ChartExpressionProvider( (ExtendedItemHandle) context,
+				wizardContext,
+				ChartReportItemUIUtil.getExpressionBuilderStyle( command ) );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -670,9 +678,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	public String invoke( int command, String value, final Object context,
 			String sTitle ) throws ChartException
 	{
-		final ExpressionProvider ep = new ChartExpressionProvider( (ExtendedItemHandle) context,
-				wizardContext,
-				ChartReportItemUIUtil.getExpressionBuilderStyle( command ) );
+		final ExpressionProvider ep = createExpressionProvider( command,
+				context );
 		Shell shell = null;
 
 		switch ( command )
