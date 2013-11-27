@@ -38,7 +38,7 @@ public class ChartExpressionProvider extends ExpressionProvider
 
 	public static final String CHART_VARIABLES = Messages.getString( "ChartExpressionProvider.Category.ChartVariables" );//$NON-NLS-1$
 
-	private static final String DATA_POINTS = Messages.getString( "ChartExpressionProvider.ChartVariables.DataPoints" );//$NON-NLS-1$
+	public static final String DATA_POINTS = Messages.getString( "ChartExpressionProvider.ChartVariables.DataPoints" );//$NON-NLS-1$
 
 	private static final String LEGEND_ITEMS = Messages.getString( "ChartExpressionProvider.ChartVariables.LegendItems" );//$NON-NLS-1$
 
