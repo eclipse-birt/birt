@@ -257,7 +257,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 					}
 					else
 					{
-						datasetCombo.setSelection( new StructuredSelection( info ) );
+						selectDatasetType( info );
 					}
 					break;
 				}
