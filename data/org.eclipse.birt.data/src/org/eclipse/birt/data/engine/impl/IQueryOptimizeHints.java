@@ -35,4 +35,6 @@ public interface IQueryOptimizeHints
 	public Map<String, List<String>> getCombinedDataSets( );
 	
 	public Map<String, Set<String>> getInvalidAliasDataSetNames( );
+	
+	public Map<String, List<Integer>> getPushedDownDataSetFilters( );
 }
