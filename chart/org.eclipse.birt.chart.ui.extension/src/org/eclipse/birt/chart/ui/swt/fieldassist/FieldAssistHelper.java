@@ -209,7 +209,7 @@ public final class FieldAssistHelper
 		{
 			return KeyStroke.getInstance( triggerKey );
 		}
-		catch ( ParseException e )
+		catch ( Exception e ) // Catch all exceptions to avoid breaking UI.
 		{
 			return KeyStroke.getInstance( SWT.F10 );
 		}
