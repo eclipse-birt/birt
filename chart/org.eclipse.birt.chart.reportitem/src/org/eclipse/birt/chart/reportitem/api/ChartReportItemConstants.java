@@ -51,6 +51,11 @@ public interface ChartReportItemConstants
 	public static final String EXTENDED_PROPERTY_HIERARCHY_CATEGORY = "keep.hierarchy.category"; //$NON-NLS-1$
 	public static final String EXTENDED_PROPERTY_HIERARCHY_SERIES = "keep.hierarchy.series";//$NON-NLS-1$
 
+	public static final String PROPERTY_OUTPUT_FORMAT_PNG = "PNG"; //$NON-NLS-1$
+	public static final String PROPERTY_OUTPUT_FORMAT_JPG = "JPG";//$NON-NLS-1$
+	public static final String PROPERTY_OUTPUT_FORMAT_BMP = "BMP";//$NON-NLS-1$
+	public static final String PROPERTY_OUTPUT_FORMAT_SVG = "SVG";//$NON-NLS-1$
+	
 	/**
 	 * Specifies the chart type in xtab
 	 * 
