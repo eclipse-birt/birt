@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb;
 
 import java.util.ArrayList;
@@ -129,7 +130,9 @@ public abstract class BreadcrumbViewer extends StructuredViewer
 
 			public void widgetDisposed( DisposeEvent e )
 			{
-				fGradientBackground.dispose( );
+				if ( fGradientBackground != null
+						&& !fGradientBackground.isDisposed( ) )
+					fGradientBackground.dispose( );
 			}
 		} );
 
@@ -466,12 +469,12 @@ public abstract class BreadcrumbViewer extends StructuredViewer
 	 */
 	protected void internalRefresh( Object element )
 	{
-		
+
 		disableRedraw( );
 		try
 		{
 			BreadcrumbItem item = (BreadcrumbItem) doFindItem( element );
-			if ( item == null ||  this.getRoot( ).equals( element ))
+			if ( item == null || this.getRoot( ).equals( element ) )
 			{
 				for ( int i = 0, size = fBreadcrumbItems.size( ); i < size; i++ )
 				{
