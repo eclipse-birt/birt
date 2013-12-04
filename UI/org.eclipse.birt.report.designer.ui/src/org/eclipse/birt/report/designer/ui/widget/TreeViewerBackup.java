@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.osgi.service.environment.Constants;
 
 
 public class TreeViewerBackup implements ITreeViewerBackup
@@ -48,7 +50,9 @@ public class TreeViewerBackup implements ITreeViewerBackup
 	 */
 	public void updateCollapsedStatus( TreeViewer treeViewer, Object data )
 	{
-		treeViewer.collapseToLevel( data, TreeViewer.ALL_LEVELS );
+		if(!Constants.OS_MACOSX.equalsIgnoreCase( Platform.getOS( ) )){//collapse all sub nodes if not in MacOS
+			treeViewer.collapseToLevel( data, TreeViewer.ALL_LEVELS );
+		}
 		updateStatus( treeViewer );
 	}
 	

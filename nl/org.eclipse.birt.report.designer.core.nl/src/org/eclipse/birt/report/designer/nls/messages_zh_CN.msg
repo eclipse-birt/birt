@@ -1611,7 +1611,7 @@ ExpressionTreeSupport.Category.Global=全局
 
 ExpressionValueCellEditor.buildExpressionAction=<构建表达式...>
 ExpressionValueCellEditor.selectValueAction=<选择值...>
-ExpressionValueCellEditor.title=<选择值...>
+ExpressionValueCellEditor.title=选择值
 
 ###########################################################
 #ExtendedEditPart properties
