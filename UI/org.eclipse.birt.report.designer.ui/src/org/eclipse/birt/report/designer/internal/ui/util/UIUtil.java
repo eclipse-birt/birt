@@ -1801,6 +1801,32 @@ public class UIUtil
 		return null;
 	}
 
+	
+	public static String getHeadColumnDisplayName(List<ColumnHintHandle> list, ResultSetColumnHandle column )
+	{
+		for ( ColumnHintHandle element : list )
+		{
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				if ( element.getHeading( ) != null )
+				{
+					return element.getHeading( );
+				}
+				if ( element.getDisplayNameKey( ) != null )
+				{
+					String displayName = element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
+							ColumnHint.DISPLAY_NAME_MEMBER );
+					if ( displayName != null )
+						return displayName;
+				}
+				return element.getDisplayName( ) == null ? column.getColumnName( )
+						: element.getDisplayName( );
+			}
+		}
+		return column.getColumnName( );
+	}
+	
 	public static String getHeadColumnDisplayName( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
@@ -1828,7 +1854,27 @@ public class UIUtil
 		}
 		return column.getColumnName( );
 	}
-
+	
+	public static String getColumnDisplayName( List<ColumnHintHandle> list,  ResultSetColumnHandle column)
+	{
+		for ( ColumnHintHandle element : list )
+		{
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				if ( element.getDisplayNameKey( ) != null )
+				{
+					String displayName = element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
+							ColumnHint.DISPLAY_NAME_MEMBER );
+					if ( displayName != null )
+						return displayName;
+				}
+				return element.getDisplayName( ) == null ? column.getColumnName( )
+						: element.getDisplayName( );
+			}
+		}
+		return column.getColumnName( );
+	}
 	/**
 	 * Return the display name of dataset column
 	 * 
@@ -1859,6 +1905,19 @@ public class UIUtil
 		return column.getColumnName( );
 	}
 
+	
+	public static String getColumnDisplayNameKey(  List<ColumnHintHandle> list, ResultSetColumnHandle column )
+	{
+		for ( ColumnHintHandle element : list )
+		{
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getDisplayNameKey( );
+			}
+		}
+		return null;
+	}
 	/**
 	 * Return the display name of dataset column
 	 * 
@@ -1881,6 +1940,20 @@ public class UIUtil
 		return null;
 	}
 
+	
+	public static String getColumnHeaderDisplayNameKey(
+			 List<ColumnHintHandle> list, ResultSetColumnHandle column )
+	{
+		for ( ColumnHintHandle element : list )
+		{
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getHeadingKey( );
+			}
+		}
+		return null;
+	}
 	public static String getColumnHeaderDisplayNameKey(
 			ResultSetColumnHandle column )
 	{
@@ -1991,6 +2064,19 @@ public class UIUtil
 		return null;
 	}
 
+	public static ActionHandle getColumnAction(List<ColumnHintHandle> list,  ResultSetColumnHandle column )
+	{
+
+		for ( ColumnHintHandle columnHint : list )
+		{
+			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
+					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
+			{
+				return columnHint.getActionHandle( );
+			}
+		}
+		return null;
+	}
 	/**
 	 * Return the action property of dataset column from column hint
 	 * 
