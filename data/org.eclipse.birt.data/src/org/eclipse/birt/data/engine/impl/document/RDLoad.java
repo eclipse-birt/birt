@@ -318,6 +318,7 @@ public class RDLoad
 		// TODO Pass in filter rowIds as sorted list.
 		IDataSetReader reader = DataSetStore.createReader( streamManager,
 				targetResultClass,
+				includeInnerID,
 				appContext );
 		if ( reader != null )
 			return reader.load( preFilteredRowIds == null
