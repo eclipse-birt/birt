@@ -21,3 +21,4 @@ Build=@BUILD@
 QuickEditView=Editor de propiedades
 ReportViews=Diseño de informe
 DataExplorerView=Explorador de datos
+Variable.Actions=Nueva &variable

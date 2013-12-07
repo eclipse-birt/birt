@@ -57,7 +57,7 @@ extension.odadatasource=ODA 데이터 원본 확장점
 publish.template=새 보고서 마법사를 템플릿에 등록(&Z)...
 publish.library=공유 리소스 폴더로 라이브러리 복사(&B)...
 
-ActionSet.Publish=게시
+ActionSet.Publish=리소스 게시
 Dummy.label=
 preference.classpath=클래스 경로
 

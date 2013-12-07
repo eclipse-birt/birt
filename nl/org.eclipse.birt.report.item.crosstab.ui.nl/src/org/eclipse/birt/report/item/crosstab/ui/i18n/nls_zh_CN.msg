@@ -14,7 +14,7 @@ DeleteDimensionViewHandleAction.DisplayName=删除(&V)
 DeleteMeasureHandleAction.DisplayName=删除(&V)
 DeleteMeasureHandleAction.TransName=删除度量
 
-AddComputedMesureHandleAction.DisplayName=添加衍生度量(&M)
+AddComputedMesureHandleAction.DisplayName=添加衍生度量(&S)
 AddComputedMesureHandleAction.TransName=添加衍生度量
 AddComputedSummaryDialog.Title=衍生度量
 AddComputedSummaryDialog.Label.Name=名称(&N):
@@ -28,23 +28,19 @@ ShowAsViewAction.DisplayName=显示为
 ShowAsViewAction.TransName=显示为
 
 MeasureComboPropertyDescriptorProvider.TransName=更改交叉表方向
-MeasureHandleDropAdapter_trans_name=添加度量
 
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=添加维
 AddMeasureViewHandleCommand.TransName=添加度量
-AddRelativeTimePeriodAction_action_label=添加相对时间周期(&L)
-AddRelativeTimePeriodAction_trans_label=添加相对时间周期
+AddRelativeTimePeriodAction_action_label=添加相对时间周期
+AddRelativeTimePeriodAction_trans_label=添加相对时间周期 
 ChangeAreaCommand.TransName=废弃维
 ChangeMeasureOrderCommand.TransName=更改度量顺序
 CreateDimensionViewCommand.TransName=创建维
 CreateMeasureViewCommand.TransName=创建度量
 
-MergeCrosstabHeaderCellAction_name=合并标题单元格(&M)
-SplitCrosstabHeadCellAction_name=拆分标题单元格(&S)
 
-ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
 
 ###########################################################
 # Crosstab EditPart
@@ -69,6 +65,8 @@ SubTotalProvider.Column.Position=位置
 SubTotalProvider.ShowAs=显示为 {0}
 LevelViewDialog.Title=显示/隐藏组级别
 LevelViewDialog.Label.Info=选择要在交叉表上显示的级别:
+LevelViewDialog.Button.Regular.Text=常规组(&R)
+LevelViewDialog.Button.Date.Text=日期组(&D)
 AggregationDialog.Title=总计
 AggregationDialog.Label.Grand=总计:
 AggregationDialog.Label.Sub=小计:
@@ -358,3 +356,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=列区域
 VirtualCrosstabCellNodeProvider.Display.DetailArea=详细信息区域
 VirtualCrosstabCellNodeProvider.Display.RowArea=行区域
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=未知区域
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (数据模型)

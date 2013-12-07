@@ -25,6 +25,7 @@ OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Salida de varias páginas
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Aumentar tamaño de página
 OptionDisplayValue.FontSubstitution=Sustitución de fuente
 OptionDisplayValue.ChartDpi=Diagrama DPI
+OptionDisplayValue.Export2Office2010And2013=Exportar archivo para Microsoft Office 2010/2013
 
 ###########################################################
 #Option Description
@@ -33,6 +34,7 @@ OptionDescription.TextWrapping=Indica si el texto se puede autoajustar.
 OptionDescription.PageOverFlow=Controla cómo se va a mostrar el contenido.
 OptionDescription.FontSubstitution=Selecciona fuentes automáticamente cuando la fuente especificada no puede mostrar el carácter.
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
+OptionDescription.Export2Office2010And2013=Admite el formato .mht en ppt al usar Office 2010/2013.
 
 ###########################################################
 #tooltip

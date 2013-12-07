@@ -42,6 +42,7 @@ Element.choice.before=Vor
 Element.choice.after=Nach
 Element.RowPageBreakInterval=Zeilenintervall für Seitenumbruch
 Element.ColumnPageBreakInterval=Spaltenintervall für Seitenumbruch
+Element.TagType=Tag-Typ
 
 Method.onPrepare=Beim Vorbereiten
 Method.onCreate=Beim Erstellen
@@ -131,6 +132,7 @@ DimensionViewTask.msg.insert.level=Ebene einfügen
 MeasureViewTask.msg.remove.header=Maßeinheiten-Kopfzeile entfernen
 MeasureViewTask.msg.add.header=Maßeinheiten-Kopfzeile hinzufügen
 
+CrosstabViewTask.msg.add.dimension=Dimension hinzufügen
 CrosstabViewTask.msg.remove.dimension=Dimension entfernen
 CrosstabViewTask.msg.remove.grandtotal=Gesamtsumme entfernen
 CrosstabViewTask.msg.add.grandtotal=Gesamtsumme hinzufügen

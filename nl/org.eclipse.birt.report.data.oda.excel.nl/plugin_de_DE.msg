@@ -15,7 +15,7 @@ data.source.name=Excel-Datenquelle
 data.set.name=Excel-Datensatz
 connection.profile.name=Excel-Datenquellen-Verbindungsprofil
 
-datasource.property.uri=&URI
+datasource.property.uri=U&RI
 datasource.property.incltypeline=Zweite Zeile als &Datentypindikator verwenden
 datasource.property.inclcolumnnameline=Erste Zeile als Spalten&namenindikator verwenden
 
@@ -25,7 +25,7 @@ datasource.property.yes=JA
 ###############################################################################
 #	Date Set Properties
 datasource.property.excelFile=Wählen Sie die Excel-Datei.
-datasource.property.worksheets=Arbei&tsblätter
+datasource.property.worksheets=Arbeitsblätter
 dataset.property.worksheets.dateFormat=Datenformat
 #
 ###############################################################################

@@ -57,7 +57,7 @@ extension.odadatasource=Punto de extensión de fuente de datos ODA
 publish.template=Registrar plantilla con el as&istente de nuevos informes...
 publish.library=Copiar Li&brería para compartir carpeta de recursos...
 
-ActionSet.Publish=Publicar
+ActionSet.Publish=Publicar recursos
 Dummy.label=
 preference.classpath=Classpath
 

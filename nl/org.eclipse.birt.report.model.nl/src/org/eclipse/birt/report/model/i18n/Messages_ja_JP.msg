@@ -445,7 +445,7 @@ Choices.exportType.if-realized=ˆê’v‚µ‚½ƒy[ƒW
 Choices.exportType.always=‹­§
 
 #56. analysisType
-Choices.analysisType.dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“
+Choices.analysisType.dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“
 Choices.analysisType.attribute=‘®«
 Choices.analysisType.measure=ƒƒWƒƒ[
 
@@ -1288,13 +1288,13 @@ Class.Color.cssValue.toolTip=F‚ğ CSS ‚Åİ’è‰Â”\‚ÈŒ`® (CSS ƒJƒ‰[–¼‚Ü‚½‚Í RGB ’
 #12. Dimension
 
 Class.Dimension=Dimension ƒNƒ‰ƒX
-Class.Dimension.toolTip=ƒfƒBƒƒ“ƒVƒ‡ƒ“ƒvƒƒpƒeƒBƒIƒuƒWƒFƒNƒg‚É‚æ‚Á‚ÄACSS ƒfƒBƒƒ“ƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚Ì‰ğÍ‚ªˆ—‚³‚ê‚Ü‚·
+Class.Dimension.toolTip=ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒvƒƒpƒeƒBƒIƒuƒWƒFƒNƒg‚É‚æ‚Á‚ÄACSS ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒvƒƒpƒeƒB‚Ì‰ğÍ‚ªˆ—‚³‚ê‚Ü‚·
 Class.Dimension.value=value
-Class.Dimension.value.toolTip=CSS ‚ÆŒİŠ·«‚Ì‚ ‚éƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ì’l‚ğ•Ô‚µ‚Ü‚·
+Class.Dimension.value.toolTip=CSS ‚ÆŒİŠ·«‚Ì‚ ‚éƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì’l‚ğ•Ô‚µ‚Ü‚·
 Class.Dimension.measure=measure
-Class.Dimension.measure.toolTip=ƒfƒBƒƒ“ƒVƒ‡ƒ“‚ÌƒƒWƒƒ[•”•ª‚ğæ“¾‚µ‚Ü‚·BƒfƒBƒƒ“ƒVƒ‡ƒ“‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
+Class.Dimension.measure.toolTip=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚ÌƒƒWƒƒ[•”•ª‚ğæ“¾‚µ‚Ü‚·BƒfƒBƒƒ“ƒWƒ‡ƒ“‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
 Class.Dimension.units=units
-Class.Dimension.units.toolTip=ƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ì’PˆÊ•”•ª‚ğæ“¾‚µ‚Ü‚·BƒfƒBƒƒ“ƒVƒ‡ƒ“‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
+Class.Dimension.units.toolTip=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì’PˆÊ•”•ª‚ğæ“¾‚µ‚Ü‚·BƒfƒBƒƒ“ƒWƒ‡ƒ“‚ª’è”‚ğg—p‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍANull ‚ğ•Ô‚µ‚Ü‚·
 
 #13. PropertyDefn
 
@@ -1495,9 +1495,9 @@ Class.ResultSetColumn.helpText.toolTip=—ñ‚ÌÚ×‚Èà–¾‚ğ’ñ‹Ÿ‚·‚é©—RŒ`®‚Ì•¶š—ñ
 Class.ResultSetColumn.lineage=lineage
 Class.ResultSetColumn.lineage.toolTip=—ñ’l‚ÌŒ³‚Ìƒ\[ƒX‚É–¼‘O‚ğ•t‚¯‚é©—RŒ`®‚Ì•¶š—ñ 
 Class.ResultSetColumn.axis=axis
-Class.ResultSetColumn.axis.toolTip=—ñ‚ªƒ}ƒ‹ƒ`ƒfƒBƒƒ“ƒVƒ‡ƒ“ƒf[ƒ^ƒ\[ƒX‚©‚çæ“¾‚³‚ê‚½ê‡‚É“K—p‚³‚ê‚Ü‚·
+Class.ResultSetColumn.axis.toolTip=—ñ‚ªƒ}ƒ‹ƒ`ƒfƒBƒƒ“ƒWƒ‡ƒ“ƒf[ƒ^ƒ\[ƒX‚©‚çæ“¾‚³‚ê‚½ê‡‚É“K—p‚³‚ê‚Ü‚·
 Class.ResultSetColumn.axisType=axisType
-Class.ResultSetColumn.axisType.toolTip=‚»‚Ì’l‚ÍAƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ìƒƒ“ƒoAƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ì‘®«A‚Ü‚½‚ÍƒƒWƒƒ[‚Ì‚¢‚¸‚ê‚©‚Å‚·
+Class.ResultSetColumn.axisType.toolTip=‚»‚Ì’l‚ÍAƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ìƒƒ“ƒoAƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì‘®«A‚Ü‚½‚ÍƒƒWƒƒ[‚Ì‚¢‚¸‚ê‚©‚Å‚·
 Class.ResultSetColumn.onColumnLayout=onColumnLayout
 Class.ResultSetColumn.onColumnLayout.toolTip=‚±‚Ì—ñ‚ğƒŒƒ|[ƒgo—Í‚É”z’u‚·‚é•û–@‚É‚Â‚¢‚Ä‚Ìƒqƒ“ƒg
 Class.ResultSetColumn.DIMENSION_MEMBER=DIMENSION_MEMBER
@@ -1822,7 +1822,7 @@ Class.GlobalBirt.appContext.toolTip=‚±‚ÌƒŒƒ|[ƒg‚ÉŠÖ˜A‚µ‚½ƒRƒ“ƒeƒLƒXƒg
 Class.DataSource=DataSource ƒNƒ‰ƒX
 Class.DataSource.toolTip=Factory Às‚Ìó‘Ô‚Ìƒf[ƒ^ƒ\[ƒX‚É‚ÍAƒf[ƒ^ƒ\[ƒX‚ÌƒNƒ‰ƒX‚ğg‚Á‚ÄƒAƒNƒZƒX‚µ‚Ü‚·BDataSource ƒIƒuƒWƒFƒNƒg‚É‚ÍA‚»‚ÌƒIƒuƒWƒFƒNƒg‚ğg—p‚·‚é DataSet ƒIƒuƒWƒFƒNƒg‚ğg—p‚µ‚ÄƒAƒNƒZƒX‚µ‚Ü‚·B
 Class.DataSource.extensionID=extensionID
-Class.DataSource.extensionID.toolTip=ODA ƒhƒ‰ƒCƒoŠg’£‚Å’è‹`‚³‚ê‚Ä‚¢‚é ODAƒf[ƒ^ƒ\[ƒX‚Ì extensionID ‚Ì’l‚ğ•Ô‚µ‚Ü‚·BextensionID ‚ÍABIRT ŠÂ‹«‚Ìƒf[ƒ^ƒ\[ƒX‚Ìƒ†ƒj[ƒN‚ÈŒ^‚ğ¯•Ê‚µ‚Ü‚·B‚±‚ÌƒvƒƒpƒeƒB‚ÍXV‚Å‚«‚Ü‚¹‚ñB
+Class.DataSource.extensionID.toolTip=ODA ƒhƒ‰ƒCƒoŠg’£‚Å’è‹`‚³‚ê‚Ä‚¢‚é ODA ƒf[ƒ^ƒ\[ƒX‚Ì extensionID ‚Ì’l‚ğ•Ô‚µ‚Ü‚·BextensionID ‚ÍABIRT ŠÂ‹«‚Ìƒf[ƒ^ƒ\[ƒX‚Ìƒ†ƒj[ƒN‚ÈŒ^‚ğ¯•Ê‚µ‚Ü‚·B‚±‚ÌƒvƒƒpƒeƒB‚ÍXV‚Å‚«‚Ü‚¹‚ñB
 Class.DataSource.isOpen=isOpen
 Class.DataSource.isOpen.toolTip=ƒf[ƒ^ƒ\[ƒX‚ªÚ‘±‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·˜_—’l‚ğ•Ô‚µ‚Ü‚·B
 Class.DataSource.extensionProperties=extensionProperties
@@ -1910,7 +1910,7 @@ Structure.ParameterFormatValue=ƒpƒ‰ƒƒ^‚Ì‘®‚Ì’l
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=ƒXƒNƒŠƒvƒgƒ‰ƒCƒuƒ‰ƒŠ
 Structure.IncludedCssStyleSheet=ƒCƒ“ƒNƒ‹[ƒh‚³‚ê‚Ä‚¢‚é CSS ƒXƒ^ƒCƒ‹ƒV[ƒg
-Structure.DimensionJoinCondition=ƒfƒBƒƒ“ƒVƒ‡ƒ“‚ÌƒWƒ‡ƒCƒ“ğŒ
+Structure.DimensionJoinCondition=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚ÌƒWƒ‡ƒCƒ“ğŒ
 Structure.FormatValue =‘®‚Ì’l
 Structure.CalculationArgument=ŒvZ‚Ìˆø”
 
@@ -1943,8 +1943,6 @@ Structure.HighlightRule.border.right.style=í—Ş
 Structure.HighlightRule.border.right.width=•
 Structure.HighlightRule.border.right.color=ƒJƒ‰[
 Structure.HighlightRule.background.color=”wŒiF
-Structure.HighlightRule.background.image=”wŒiƒCƒ[ƒW
-Structure.HighlightRule.backgroundRepeat=”wŒi‚ğŒJ‚è•Ô‚·
 Structure.HighlightRule.format.dateTime=“ú•t/ŠÔ‚Ì‘®
 Structure.HighlightRule.format.number=”’l‚Ì‘®
 Structure.HighlightRule.format.number.align=”’l‚Ì”z’u  
@@ -1958,10 +1956,6 @@ Structure.HighlightRule.font.color=ƒJƒ‰[
 Structure.HighlightRule.font.textUnderline=‰ºü
 Structure.HighlightRule.font.textOverline=ãü
 Structure.HighlightRule.font.textLineThrough=æ‚èÁ‚µü
-Structure.HighlightRule.padding.top=ƒpƒfƒBƒ“ƒO (ã)
-Structure.HighlightRule.padding.left=ƒpƒfƒBƒ“ƒO (¶)
-Structure.HighlightRule.padding.bottom=ƒpƒfƒBƒ“ƒO (‰º)
-Structure.HighlightRule.padding.right=ƒpƒfƒBƒ“ƒO (‰E)
 Structure.HighlightRule.text.align=•¶š—ñ‚ÌˆÊ’u‘µ‚¦
 Structure.HighlightRule.text.indent=•¶š—ñ‚ÌƒCƒ“ƒfƒ“ƒg
 Structure.HighlightRule.text.transform=•¶š—ñ‚ÌˆÊ’u•ÏX
@@ -2054,7 +2048,7 @@ Structure.ComputedColumn.calculationType=ŒvZ‚Ìí—Ş
 Structure.ComputedColumn.calculationArguments=ŒvZ‚Ìˆø”
 Structure.ComputedColumn.refDateType=QÆ“ú‚Ìí—Ş
 Structure.ComputedColumn.refDateValue=QÆ“ú‚Ì’l
-Structure.ComputedColumn.timeDimension=ŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“
+Structure.ComputedColumn.timeDimension=ŠÔ‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=—ñ–¼
@@ -2097,7 +2091,6 @@ Structure.IncludedLibrary.namespace=–¼‘O‹óŠÔ
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=ƒtƒ@ƒCƒ‹–¼
 Structure.IncludedCssStyleSheet.externalCssURI=ŠO•”‚Ì CSS URI
-Structure.IncludedCssStyleSheet.useExternalCss=ŠO•” CSS ‚ğg—p
 
 #15. DataSetParam
 Structure.DataSetParam.name=–¼‘O
@@ -2260,7 +2253,7 @@ Structure.TOC.text.transform=•¶š—ñ‚ÌˆÊ’u•ÏX
 Structure.TOC.text.direction=•¶š—ñ‚ÌŒü‚«
 
 #29. DimensionCondition
-Structure.DimensionCondition=ƒfƒBƒƒ“ƒVƒ‡ƒ“ğŒ
+Structure.DimensionCondition=ƒfƒBƒƒ“ƒWƒ‡ƒ“ğŒ
 Structure.DimensionCondition.joinConditions=ƒWƒ‡ƒCƒ“‚ÌğŒ
 Structure.DimensionCondition.hierarchy=ŠK‘w
 
@@ -2381,19 +2374,19 @@ Element.TemplateReportItem=ƒeƒ“ƒvƒŒ[ƒg‚ÌƒŒƒ|[ƒg€–Ú
 Element.TemplateDataSet=ƒeƒ“ƒvƒŒ[ƒg‚Ìƒf[ƒ^ƒZƒbƒg
 Element.JointDataSet=ƒWƒ‡ƒCƒ“ƒf[ƒ^ƒZƒbƒg
 Element.Cube=ƒLƒ…[ƒu
-Element.Dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“
+Element.Dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“
 Element.Hierarchy=ŠK‘w
 Element.Level=ƒŒƒxƒ‹
 Element.Measure=ƒƒWƒƒ[
 Element.MeasureGroup=ƒƒWƒƒ[ƒOƒ‹[ƒv
 Element.TabularCube=ƒe[ƒuƒ‹Œ`®‚ÌƒLƒ…[ƒu
-Element.TabularDimension=ƒe[ƒuƒ‹Œ`®‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“
+Element.TabularDimension=ƒe[ƒuƒ‹Œ`®‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“
 Element.TabularHierarchy=ƒe[ƒuƒ‹Œ`®‚ÌŠK‘w
 Element.TabularLevel=ƒe[ƒuƒ‹Œ`®‚ÌƒŒƒxƒ‹
 Element.TabularMeasure=ƒe[ƒuƒ‹Œ`®‚ÌƒƒWƒƒ[
 Element.TabularMeasureGroup=ƒe[ƒuƒ‹Œ`®‚ÌƒƒWƒƒ[ƒOƒ‹[ƒv
 Element.OdaCube=ODA ƒLƒ…[ƒu
-Element.OdaDimension=ODA ƒfƒBƒƒ“ƒVƒ‡ƒ“
+Element.OdaDimension=ODA ƒfƒBƒƒ“ƒWƒ‡ƒ“
 Element.OdaHierarchy=ODA ŠK‘w
 Element.OdaLevel=ODA ƒŒƒxƒ‹
 Element.OdaMeasure=ODA ƒƒWƒƒ[
@@ -2407,13 +2400,22 @@ Element.VariableElement=•Ï”
 Element.DataGroup=ƒf[ƒ^ƒOƒ‹[ƒv
 Element.DerivedDataSet=”h¶ƒf[ƒ^ƒZƒbƒg
 Element.DataMart=ƒf[ƒ^ƒIƒuƒWƒFƒNƒg
-Element.DataMartDataSource=ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒf[ƒ^ƒ\[ƒX
+Element.DataMartDataSource=ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^ƒ\[ƒX
 Element.DataMartDataSet=ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^ƒZƒbƒg
 Element.DataMartCube=ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒLƒ…[ƒu
-Element.TimeDimension=ŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“
+Element.TimeDimension=ŠÔ‚ÌƒfƒBƒƒ“ƒWƒ‡ƒ“
 Element.ReportItemTheme=ƒŒƒ|[ƒg€–Úƒe[ƒ}
 Element.AbstractTheme=’ŠÛƒe[ƒ}
-Element.DataMartLinkedDataModel=Data Object Linked Data Set
+Element.DataMartLinkedDataModel=ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒf[ƒ^ƒ‚ƒfƒ‹
+Element.AliasDataSet =ƒGƒCƒŠƒAƒXƒf[ƒ^ƒZƒbƒg
+Element.LinkedDataModel =ƒŠƒ“ƒN‚³‚ê‚½ƒf[ƒ^ƒ‚ƒfƒ‹
+Element.LinkedDataModel.pushDown=ƒf[ƒ^ƒ‚ƒfƒ‹ƒvƒbƒVƒ… (‰º‚Ö)
+Element.Category = ƒJƒeƒSƒŠ
+Element.ColumnLink = —ñƒŠƒ“ƒN
+Element.ColumnLinkPath = —ñƒŠƒ“ƒN‚ÌƒpƒX
+Element.DrillPath = ƒhƒŠƒ‹ƒpƒX
+Element.LinkedDataModelCube = ƒŠƒ“ƒN‚³‚ê‚½ƒf[ƒ^ƒ‚ƒfƒ‹ƒLƒ…[ƒu
+Element.LinkedDataModelDataSet = ƒŠƒ“ƒN‚³‚ê‚½ƒf[ƒ^ƒ‚ƒfƒ‹ƒf[ƒ^ƒZƒbƒg
 
 ###########################################################
 # Element property names
@@ -2524,11 +2526,10 @@ Element.ReportDesign.onPageEnd=ƒy[ƒW‚ÌI—¹
 Element.ReportDesign.dataMarts=DataMarts
 Element.ReportDesign.onPrepare=€”õ
 Element.ReportDesign.onPrepare.this=ƒŒƒ|[ƒgƒfƒUƒCƒ“
-Element.ReportDesign.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.ReportDesign.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B ‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB ‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.ReportDesign.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
-Element.ReportDesign.onContentUpdate= “à—e‚ÌXV
-Element.ReportDesign.onContentUpdate.toolTip=BIRT Viewer ‚ÅƒŒƒ|[ƒg‚Ì“à—e‚ªXV‚³‚ê‚é‚Æ‚«‚ÉƒNƒ‰ƒCƒAƒ“ƒg‘¤‚ÅÀs‚µ‚Ü‚·B
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.language=Œ¾Œê
+Element.ReportDesign.PDFAccessible=ƒAƒNƒZƒX‰Â”\‚È PDF
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=•\¦–¼
@@ -2743,8 +2744,6 @@ Element.Style.widows=ƒEƒBƒhƒE
 Element.Style.orphans=ƒI[ƒtƒ@ƒ“
 Element.Style.wordSpacing=’PŒêŠÔ‚ÌŠÔŠu
 Element.Style.overflow=ƒI[ƒo[ƒtƒ[
-Element.Style.height=‚‚³
-Element.Style.width=•
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=ƒuƒbƒNƒ}[ƒN
@@ -2768,6 +2767,11 @@ Element.ReportItem.cascadeACL=ACL ‚ğd‚Ë‚Ä•\¦
 Element.ReportItem.allowExport=ƒGƒNƒXƒ|[ƒg‚ğ‹–‰Â‚·‚é
 Element.ReportItem.pushDown=ƒvƒbƒVƒ… (‰º‚Ö)
 Element.ReportItem.theme=ƒe[ƒ}
+Element.ReportItem.language=Œ¾Œê
+Element.ReportItem.order=‡˜
+Element.ReportItem.altText=‘ã‘ÖƒeƒLƒXƒg
+Element.ReportItem.altTextID=‘ã‘ÖƒeƒLƒXƒgƒL[
+Element.ReportItem.linkedDataModel=ƒŠƒ“ƒN‚³‚ê‚½ƒf[ƒ^ƒ‚ƒfƒ‹
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=ƒRƒ“ƒeƒ“ƒc
@@ -2777,7 +2781,7 @@ Element.Label.helpText=ƒwƒ‹ƒvƒeƒLƒXƒg
 Element.Label.action=Às
 Element.Label.onPrepare=€”õ
 Element.Label.onPrepare.this=ƒ‰ƒxƒ‹
-Element.Label.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.Label.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.Label.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Label.onCreate=ì¬  
 Element.Label.onCreate.toolTip=ƒtƒ@ƒNƒgƒŠ‚Å—v‘f‚ğì¬‚·‚éÛ‚ÉƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·B
@@ -2788,9 +2792,11 @@ Element.Label.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚
 Element.Label.onRender.this=ƒ‰ƒxƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Label.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Label.onPageBreak=‰üƒy[ƒW
-Element.Label.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.Label.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.Label.onPageBreak.this=ƒ‰ƒxƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Label.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
+Element.Label.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.Label.altText=‘ã‘ÖƒeƒLƒXƒg
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=ƒŒƒ|[ƒg€–Ú
@@ -2804,7 +2810,7 @@ Element.Data.helpText=ƒwƒ‹ƒvƒeƒLƒXƒg
 Element.Data.helpTextID=ƒwƒ‹ƒvƒeƒLƒXƒgƒL[
 Element.Data.action=Às
 Element.Data.onPrepare=€”õ
-Element.Data.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.Data.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.Data.onPrepare.this=ƒf[ƒ^
 Element.Data.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Data.onCreate=ì¬  
@@ -2816,16 +2822,18 @@ Element.Data.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚É
 Element.Data.onRender.this=ƒf[ƒ^ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Data.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Data.onPageBreak=‰üƒy[ƒW
-Element.Data.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.Data.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.Data.onPageBreak.this=ƒf[ƒ^ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Data.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
+Element.Data.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.Data.altText=‘ã‘ÖƒeƒLƒXƒg
   
 #14.Text  ( prefix  Element.Text )
 Element.Text.content=ƒRƒ“ƒeƒ“ƒc
 Element.Text.contentType=ƒRƒ“ƒeƒ“ƒc‚Ìí—Ş
 Element.Text.contentID=ƒRƒ“ƒeƒ“ƒcƒL[
 Element.Text.onPrepare=€”õ
-Element.Text.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.Text.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.Text.onPrepare.this=ƒeƒLƒXƒg
 Element.Text.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Text.onCreate=ì¬  
@@ -2837,10 +2845,12 @@ Element.Text.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚É
 Element.Text.onRender.this=Text instance
 Element.Text.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Text.onPageBreak=‰üƒy[ƒW
-Element.Text.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.Text.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.Text.onPageBreak.this=ƒeƒLƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Text.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Text.hasExpression=®‚ ‚è
+Element.Text.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.Text.altText=‘ã‘ÖƒeƒLƒXƒg
   
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=ƒL[‚Ì®
@@ -2889,7 +2899,7 @@ Element.List.slot.groups=ƒOƒ‹[ƒv
 Element.List.slot.detail=Ú×
 Element.List.slot.footer=ƒtƒbƒ^
 Element.List.onPrepare=€”õ
-Element.List.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.List.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.List.onPrepare.this=ƒŠƒXƒg
 Element.List.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.List.onCreate=ì¬  
@@ -2901,19 +2911,21 @@ Element.List.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚É
 Element.List.onRender.this=ƒŠƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.List.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.List.onPageBreak=‰üƒy[ƒW
-Element.List.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.List.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.List.onPageBreak.this=ƒŠƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.List.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
+Element.List.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.List.altText=‘ã‘ÖƒeƒLƒXƒg
   
 #17.ListGroup  ( prefix  Element.ListGroup )
 Element.ListGroup.slot.header=ƒwƒbƒ_
 Element.ListGroup.slot.footer=ƒtƒbƒ^
 Element.ListGroup.onPrepare=€”õ
-Element.ListGroup.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.ListGroup.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.ListGroup.onPrepare.this=ƒŠƒXƒgƒOƒ‹[ƒv
 Element.ListGroup.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.ListGroup.onPageBreak=‰üƒy[ƒW
-Element.ListGroup.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.ListGroup.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.ListGroup.onPageBreak.this=ƒŠƒXƒgƒOƒ‹[ƒv
 Element.ListGroup.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
   
@@ -2928,7 +2940,7 @@ Element.Table.slot.detail=Ú×
 Element.Table.slot.footer=ƒtƒbƒ^
 Element.Table.slot.columns=—ñ
 Element.Table.onPrepare=€”õ
-Element.Table.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.Table.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.Table.onPrepare.this=ƒe[ƒuƒ‹
 Element.Table.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Table.onPrepare.object=ƒIƒuƒWƒFƒNƒg
@@ -2943,19 +2955,20 @@ Element.Table.onRender.this=ƒe[ƒuƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Table.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Table.onRender.object=ƒIƒuƒWƒFƒNƒg
 Element.Table.onPageBreak=‰üƒy[ƒW
-Element.Table.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.Table.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.Table.onPageBreak.this=ƒe[ƒuƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Table.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
+Element.Table.tagType=PDF ƒ^ƒO‚Ìí—Ş
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=ƒwƒbƒ_
 Element.TableGroup.slot.footer=ƒtƒbƒ^
 Element.TableGroup.onPrepare=€”õ
-Element.TableGroup.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.TableGroup.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.TableGroup.onPrepare.this=ƒe[ƒuƒ‹ƒOƒ‹[ƒv
 Element.TableGroup.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.TableGroup.onPageBreak=‰üƒy[ƒW
-Element.TableGroup.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.TableGroup.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.TableGroup.onPageBreak.this=ƒe[ƒuƒ‹ƒOƒ‹[ƒv
 Element.TableGroup.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
   
@@ -2976,7 +2989,7 @@ Element.Row.eventHandlerClass=ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰‚ÌƒNƒ‰ƒX
 Element.Row.newHandlerOnEachEvent=ŠeƒCƒxƒ“ƒg‚ÌV‚µ‚¢ƒnƒ“ƒhƒ‰
 Element.Row.slot.cells=ƒZƒ‹
 Element.Row.onPrepare=€”õ
-Element.Row.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.Row.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.Row.onPrepare.this=s
 Element.Row.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Row.onCreate=ì¬
@@ -2990,6 +3003,8 @@ Element.Row.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Row.suppressDuplicates=d•¡‚ğ•\¦‚µ‚È‚¢
 Element.Row.viewAction=ƒAƒNƒVƒ‡ƒ“‚Ì•\¦
 Element.Row.repeatable=”½•œ‰Â”\
+Element.Row.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.Row.language=Œ¾Œê
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=—ñ
@@ -3007,7 +3022,7 @@ Element.Cell.bookmark=ƒuƒbƒNƒ}[ƒN
 Element.Cell.bookmarkDisplayName=•\¦–¼‚ÌƒuƒbƒNƒ}[ƒN
 Element.Cell.headers=ƒwƒbƒ_
 Element.Cell.onPrepare=€”õ
-Element.Cell.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.Cell.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.Cell.onPrepare.this=ƒZƒ‹
 Element.Cell.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Cell.onCreate=ì¬
@@ -3028,6 +3043,9 @@ Element.Cell.antidiagonalThickness=”ñ‘ÎŠpü‚Ì•
 Element.Cell.diagonalStyle=‘ÎŠpü‚ÌƒXƒ^ƒCƒ‹
 Element.Cell.antidiagonalStyle=”ñ‘ÎŠpü‚ÌƒXƒ^ƒCƒ‹
 Element.Cell.antidiagonalColor=”ñ‘ÎŠpü‚ÌF
+Element.Cell.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.Cell.language=Œ¾Œê
+Element.Cell.altText=‘ã‘ÖƒeƒLƒXƒg
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=‘ã‘ÖƒeƒLƒXƒg
@@ -3043,7 +3061,7 @@ Element.Image.valueExpr=’l®
 Element.Image.typeExpr=®‚Ì“ü—Í
 Element.Image.action=Às
 Element.Image.onPrepare=€”õ
-Element.Image.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.Image.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.Image.onPrepare.this=ƒCƒ[ƒW
 Element.Image.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Image.onCreate=ì¬  
@@ -3056,17 +3074,18 @@ Element.Image.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚
 Element.Image.onRender.this=ƒCƒ[ƒWƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Image.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Image.onPageBreak=‰üƒy[ƒW
-Element.Image.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.Image.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.Image.onPageBreak.this=ƒCƒ[ƒWƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Image.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Image.fitToContainer=ƒRƒ“ƒeƒi‚É‡‚í‚¹‚é
 Element.Image.proportionalScale=ƒvƒƒ|[ƒVƒ‡ƒiƒ‹ƒXƒP[ƒ‹
+Element.Image.tagType=PDF ƒ^ƒO‚Ìí—Ş
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=—ñ
 Element.Grid.slot.rows=s
 Element.Grid.onPrepare=€”õ
-Element.Grid.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.Grid.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.Grid.onPrepare.this=ƒOƒŠƒbƒh
 Element.Grid.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Grid.onCreate=ì¬  
@@ -3079,12 +3098,13 @@ Element.Grid.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚É
 Element.Grid.onRender.this=ƒOƒŠƒbƒhƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Grid.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Grid.onPageBreak=‰üƒy[ƒW
-Element.Grid.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.Grid.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.Grid.onPageBreak.this=ƒOƒŠƒbƒhƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Grid.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Grid.caption=ƒLƒƒƒvƒVƒ‡ƒ“
 Element.Grid.captionID=ƒLƒƒƒvƒVƒ‡ƒ“ƒL[
 Element.Grid.summary=ƒTƒ}ƒŠ
+Element.Grid.tagType=PDF ƒ^ƒO‚Ìí—Ş
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Œü‚«
@@ -3093,7 +3113,7 @@ Element.Line.orientation=Œü‚«
 Element.TextData.valueExpr=’l®
 Element.TextData.contentType=ƒRƒ“ƒeƒ“ƒc‚Ìí—Ş
 Element.TextData.onPrepare=€”õ
-Element.TextData.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.TextData.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.TextData.onPrepare.this=ƒ_ƒCƒiƒ~ƒbƒNƒeƒLƒXƒg
 Element.TextData.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.TextData.onPrepare.object=ƒIƒuƒWƒFƒNƒg
@@ -3107,10 +3127,12 @@ Element.TextData.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO
 Element.TextData.onRender.this=ƒ_ƒCƒiƒ~ƒbƒNƒeƒLƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.TextData.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.TextData.onPageBreak=‰üƒy[ƒW
-Element.TextData.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.TextData.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.TextData.onPageBreak.this=ƒ_ƒCƒiƒ~ƒbƒNƒeƒLƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.TextData.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.TextData.hasExpression=®‚ ‚è
+Element.TextData.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.TextData.altText=‘ã‘ÖƒeƒLƒXƒg
 
 #27.ExtendedItem   ( prefix  Element.ExtendedItem )
 Element.ExtendedItem.altText=‘ã‘ÖƒeƒLƒXƒg
@@ -3118,7 +3140,7 @@ Element.ExtendedItem.altTextID=‘ã‘ÖƒeƒLƒXƒgƒL[
 Element.ExtendedItem.extensionName=Šg’£q–¼ :
 Element.ExtendedItem.filter=ƒtƒBƒ‹ƒ^
 Element.ExtendedItem.onPrepare=€”õ
-Element.ExtendedItem.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.ExtendedItem.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.ExtendedItem.onPrepare.this=Šg’£€–Ú
 Element.ExtendedItem.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.ExtendedItem.onCreate=ì¬    
@@ -3130,7 +3152,7 @@ Element.ExtendedItem.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠ
 Element.ExtendedItem.onRender.this=Šg’£€–ÚƒCƒ“ƒXƒ^ƒ“ƒX
 Element.ExtendedItem.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.ExtendedItem.onPageBreak=‰üƒy[ƒW
-Element.ExtendedItem.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.ExtendedItem.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.ExtendedItem.onPageBreak.this=Šg’£€–ÚƒCƒ“ƒXƒ^ƒ“ƒX
 Element.ExtendedItem.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.ExtendedItem.extensionVersion=Extension version
@@ -3260,7 +3282,7 @@ Element.TemplateReportItem.visibility=‰Â‹«
 Element.AutoText.type = ’èŒ^‹å‚Ìí—Ş
 Element.AutoText.onPrepare=€”õ
 Element.AutoText.onPrepare.this=’èŒ^‹å
-Element.AutoText.onPrepare.toolTip=—v‘f‚Ìİ’è’†‚ÉÀs‚µ‚Ü‚·B ‚±‚±‚Å—v‘f‚ÌİŒv‚ğ•ÏX‚µ‚Ü‚·B ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚Ü‚¾g—p‚Å‚«‚Ü‚¹‚ñB
+Element.AutoText.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü‚¾ƒf[ƒ^ƒoƒCƒ“ƒh‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚±‚Å—v‘f‚ÌƒfƒUƒCƒ“‚ğ•ÏX‚Å‚«‚Ü‚·B
 Element.AutoText.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.AutoText.onCreate=ì¬
 Element.AutoText.onCreate.toolTip=ƒtƒ@ƒNƒgƒŠ‚Å—v‘f‚ğì¬‚·‚éÛ‚ÉƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·B
@@ -3271,7 +3293,7 @@ Element.AutoText.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO
 Element.AutoText.onRender.this=’èŒ^‹å‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
 Element.AutoText.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.AutoText.onPageBreak=‰üƒy[ƒW
-Element.AutoText.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
+Element.AutoText.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉAƒy[ƒWã‚Ì‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄƒXƒNƒŠƒvƒg‚ªÀs‚³‚ê‚Ü‚·
 Element.AutoText.onPageBreak.this=’èŒ^‹å‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
 Element.AutoText.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.AutoText.pageVariable=ƒy[ƒW•Ï”
@@ -3324,12 +3346,12 @@ Element.MeasureGroup.measures=ƒƒWƒƒ[
 Element.TabularCube.dataSet=ƒf[ƒ^ƒZƒbƒg
 Element.TabularCube.dimensions=ƒTƒCƒY
 Element.TabularCube.measureGroups=ƒƒWƒƒ[ƒOƒ‹[ƒv
-Element.TabularCube.dimensionConditions=ƒfƒBƒƒ“ƒVƒ‡ƒ“ğŒ
+Element.TabularCube.dimensionConditions=ƒfƒBƒƒ“ƒWƒ‡ƒ“ğŒ
 Element.TabularCube.autoKey=©“®ƒvƒ‰ƒCƒ}ƒŠƒL[
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=ŠK‘w
-Element.TabularDimension.internalDimensionRef=“à•”ƒfƒBƒƒ“ƒVƒ‡ƒ“‚ÌQÆ
+Element.TabularDimension.internalDimensionRef=“à•”ƒfƒBƒƒ“ƒWƒ‡ƒ“‚ÌQÆ
 
 #53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=ƒf[ƒ^ƒZƒbƒg
@@ -3418,6 +3440,7 @@ Element.DerivedDataSet.extensionID=Šg’£ ID
 Element.AbstractScalarParameter.isRequired=•K{
 Element.AbstractScalarParameter.dynamicList=“®“I‚ÈƒŠƒXƒg
 Element.AbstractScalarParameter.dynamicList.dataSetName=ƒf[ƒ^ƒZƒbƒg–¼
+Element.AbstractScalarParameter.dynamicList.linkedDataModelName=ƒŠƒ“ƒN‚³‚ê‚½ƒf[ƒ^ƒ‚ƒfƒ‹–¼
 Element.AbstractScalarParameter.dynamicList.valueExpr=’l®
 Element.AbstractScalarParameter.dynamicList.labelExpr=ƒ‰ƒxƒ‹®
 Element.AbstractScalarParameter.listLimit=ˆê——‚Ì§ŒÀ
@@ -3442,7 +3465,7 @@ Element.DataMart.slot.dataSources=ƒf[ƒ^ƒ\[ƒX
 Element.DataMart.slot.dataSets=ƒf[ƒ^ƒZƒbƒg
 Element.DataMart.slot.cubes=ƒLƒ…[ƒu
 Element.DataMart.slot.parameters=ƒpƒ‰ƒƒ^
-Element.DataMart.slot.dimensions=‹¤—LƒfƒBƒƒ“ƒVƒ‡ƒ“
+Element.DataMart.slot.dimensions=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“
 Element.DataMart.enableACL=ƒf[ƒ^ƒZƒLƒ…ƒŠƒeƒB‚Ì—LŒø‰»
 Element.DataMart.ACLExpression=ACL ®
 Element.DataMart.enableIncrementalUpdate=‘•ªXV‚ğ—LŒø‚É‚·‚é
@@ -3467,9 +3490,6 @@ Element.TimeDimension.startTimePoint=ŠJnƒ|ƒCƒ“ƒg
 Element.TimeDimension.endTimePoint=I—¹ƒ|ƒCƒ“ƒg
 Element.TimeDimension.hierarchies=ŠK‘w
 
-#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
-Element.DataMartLinkedDataModel.dataSource=ƒf[ƒ^ƒ\[ƒX
-Element.DataMartLinkedDataModel.dataObject=ƒf[ƒ^ƒIƒuƒWƒFƒNƒg
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=í—Ş
@@ -3478,6 +3498,17 @@ Element.ReportItemTheme.customValues=ƒJƒXƒ^ƒ€’l
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=CSS ƒXƒ^ƒCƒ‹ƒV[ƒg
+
+#Category
+Element.Category.helpText = ƒwƒ‹ƒvƒeƒLƒXƒg
+Element.Category.helpTextKey = ƒwƒ‹ƒvƒeƒLƒXƒgƒŠƒ\[ƒXƒL[
+
+#Category Column
+Element.CategoryColumn.aggregationFunction = WŒvŠÖ”
+Element.CategoryColumn.aliasDataSet = ƒGƒCƒŠƒAƒXƒf[ƒ^ƒZƒbƒg
+Element.CategoryColumn.dataType = ƒf[ƒ^Œ^
+Element.CategoryColumn.expression = ®
+Element.CategoryColumn.resultSetColumnName = Œ‹‰ÊƒZƒbƒg‚Ì—ñ–¼
 
 ###########################################################
 # Predefined style
@@ -3735,8 +3766,8 @@ New.TabularLevel=V‹Kƒe[ƒuƒ‹Œ`®‚ÌƒŒƒxƒ‹
 New.TabularMeasure=V‹Kƒe[ƒuƒ‹Œ`®‚ÌƒƒWƒƒ[
 New.TabularMeasureGroup=ƒTƒ}ƒŠƒtƒB[ƒ‹ƒh
 New.OdaCube=V‹KODAƒLƒ…[ƒu
-New.OdaDimension=V‹KODAƒfƒBƒƒ“ƒVƒ‡ƒ“
-New.OdaHierarchy=V‹KODAƒfƒBƒƒ“ƒVƒ‡ƒ“
+New.OdaDimension=V‹KODAƒfƒBƒƒ“ƒWƒ‡ƒ“
+New.OdaHierarchy=V‹KODAƒfƒBƒƒ“ƒWƒ‡ƒ“
 New.OdaLevel=V‹KODAƒŒƒxƒ‹
 New.OdaMeasure=V‹KODAƒƒWƒƒ[
 New.OdaMeasureGroup=V‹KODAƒƒWƒƒ[ƒOƒ‹[ƒv
@@ -3746,7 +3777,7 @@ New.DataMartDataSource=V‹K DataMart ƒf[ƒ^ƒ\[ƒX
 New.DataMartDataSet=V‹K DataMart ƒf[ƒ^ƒZƒbƒg
 New.DataMartCube=V‹K DataMart ƒLƒ…[ƒu
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=V‹KƒŒƒ|[ƒg€–Úƒe[ƒ}
+New.ReportItemTheme=ƒŒƒ|[ƒg€–Úƒe[ƒ}‚ÌV‹Kì¬
 
 ###########################################################
 #Default theme name.
@@ -3774,7 +3805,7 @@ Error.ContentException.GROUPS_CHANGE_FORBIDDEN=—v‘f "{0}" ‚É‚Í‹¤—L‚ÌƒŒƒ|[ƒg€–Ú
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=ƒRƒs[‚Í‚Å‚«‚È‚¢‚½‚ßA{0} ‚ÌƒXƒƒbƒg {1} ‚É“\‚è•t‚¯‚ç‚ê‚Ü‚¹‚ñB
 Error.ContentException.CONTENT_ALREADY_INSERTED=—v‘f "{0}" ‚Í‚·‚Å‚ÉƒfƒUƒCƒ“ƒcƒŠ[‚É‘¶İ‚·‚é‚½‚ß "{1}" ‚Ì ({2}) ‚É’Ç‰Á‚Å‚«‚Ü‚¹‚ñB
 Error.ContentException.INVALID_POSITION=ˆÊ’u‚ª”ÍˆÍŠO‚©–³Œø‚Å‚·B
-Error.ContentException.SHARE_DIMENSION_NOT_EXIST=ƒŒƒ|[ƒg / ƒ‰ƒCƒuƒ‰ƒŠ‚É—v‘f [{0}] ‚ğ‘}“ü‚Å‚«‚Ü‚¹‚ñB‹¤—LƒfƒBƒƒ“ƒVƒ‡ƒ“ [{1}] ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
+Error.ContentException.SHARE_DIMENSION_NOT_EXIST=ƒŒƒ|[ƒg / ƒ‰ƒCƒuƒ‰ƒŠ‚É—v‘f [{0}] ‚ğ‘}“ü‚Å‚«‚Ü‚¹‚ñB‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“ [{1}] ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=•ÏŠ·î•ñ‚ÌƒŠƒ\[ƒXƒL[‚ª•K—v‚Å‚·B
@@ -4018,7 +4049,6 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=ƒ‰ƒCƒuƒ‰ƒŠ‚Å‚ÍA‚±‚ê‚ç‚Ìƒ
 Info.VersionInfo.INVALID_DESIGN_FILE=ŠJ‚±‚¤‚Æ‚µ‚½ƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍA—LŒø‚ÈƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚Å‚Í‚È‚¢‚©Aƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 Info.VersionInfo.CONVERT_INFO=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Info.VersionInfo.INVALID_VERSION=ƒo[ƒWƒ‡ƒ“ "{0}" ‚ÌƒŒƒ|[ƒgƒtƒ@ƒCƒ‹‚Íg—p‚Å‚«‚Ü‚¹‚ñB
-Info.VersionInfo.LATER_VERSION=ƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍŒã”­ƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B [OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Info.VersionInfo.EXTENSION_COMPATIBILITY =ŠJ‚¢‚Ä‚¢‚éƒfƒUƒCƒ“‚âƒ‰ƒCƒuƒ‰ƒŠ‚Ü‚½‚Í‚»‚ê‚ç‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰ºˆÊŒİŠ·‚ª“K—p‚³‚ê‚½‚ ‚Æ‚ÅA‚»‚ÌƒfƒUƒCƒ“‚Ü‚½‚Íƒ‰ƒCƒuƒ‰ƒŠ‚É•ÏX‚ª‰Á‚¦‚ç‚ê‚½‰Â”\«‚ª‚ ‚è‚Ü‚·B
 
 #EncryptionException

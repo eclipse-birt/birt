@@ -57,7 +57,7 @@ extension.odadatasource=ODA-Datenquellen-Erweiterungspunkt
 publish.template=Vorlage mit Ass&istent für neuen Bericht registrieren...
 publish.library=&Bibliothek in Ordner für gemeinsame Ressourcen kopieren...
 
-ActionSet.Publish=Veröffentlichen
+ActionSet.Publish=Ressourcen veröffentlichen
 Dummy.label=
 preference.classpath=Klassenpfad
 

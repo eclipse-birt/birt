@@ -11,15 +11,15 @@
 #
 # User messages for the Excel File ODA Designer
 
-wizard.defaultMessage.selectExcelFile=Wählen Sie einen Excel-Datenquellendateipfad oder URI, oder geben Sie einen ein.
-wizard.defaultMessage.selectDataSet=Wählen Sie das Arbeitsblatt und die Spalten für den Datensatz aus.
+wizard.defaultMessage.selectExcelFile=Select or enter an Excel data source file path or URI.
+wizard.defaultMessage.selectDataSet=Wählen Sie das Arbeitsblatt und die Spalten aus, die der Datensatz umfassen soll.
 connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Excel-Datenquellendatei kann im ausgewählten Ordner nicht geöffnet werden. 
-ui.ExcelFileNotFound=Die angegebene Excel-Datenquellendatei wurde nicht gefunden. 
+ui.ExcelFileNotFound=Die angegebene Excel-Datenquellendatei oder der angegebene Excel-Datenquellenordner wurde nicht gefunden. 
 label.selectFolder=Ordner aus&wählen: 
 label.selectFile=Date&i auswählen:
-label.selectworksheet=Wählen Sie ein &Arbeitsblatt:
-label.includeTypeLine=Zweite Zeile als &Datentypindikator verwenden.
-label.includeColumnNameLine = Erste Zeile &als Spaltennamenindikator verwenden.
+label.selectworksheet=Arbeitsblatt:
+label.includeTypeLine=Zweite Zeile enthält &Datentypen.
+label.includeColumnNameLine=Erste Zeile enth&ält Spaltennamen.
 
 button.selectFolder.browse=Du&rchsuchen...
 button.moveUp=Nach &oben
@@ -49,13 +49,13 @@ tooltip.button.down=Ausgewähltes Element nach unten verschieben.
 tooltip.button.delete=Ausgewähltes Objekt löschen.
 tooltip.trailNull=Spalten mit Nullen in Endposition beim Lesen von Datenzeilen. 
 error.selectFolder=Wählen Sie einen gültigen Ordner aus.
-error.selectWorksheet=Wählen Sie ein Arbeitsblatt für den Datensatz aus.
-error.selectColumns=Wählen Sie für diesen Datensatz mindestens eine Spalte aus.
+error.selectWorksheet=Please select a worksheet for the data set.
+error.selectColumns=Please select at least one column for this data set.
 error.emptyPath=Geben Sie einen Pfad ein.
 error.unexpectedError=Es ist ein unbekannter Fehler aufgetreten.
 error.invalidConnectionFilePath=Der angegebene Quellpfad "{0}" für das Verbindungsprofil ist nicht vorhanden.
 error.errorExist=Fehler auf aktueller Seite.  Trotzdem speichern?
-error.noFile=Die Excel-Datenquellendatei ({0}) existiert nicht.
+error.noFile=The Excel data source file ({0}) does not exist.
 error.invalidFilePath=Der Dateipfad ist ungültig.  Möchten Sie fortfahren?
 error.emptyFilePath=Der Dateipfad ist leer.  Möchten Sie fortfahren?
 error.duplicatedNameValueOrEmpty=Doppelter Namenswert oder leer
@@ -69,4 +69,8 @@ confirm.reselectFileTitle=Bestätigen Sie zum Auswählen einer anderen Datei.
 confirm.reselectFileMessage=Bei Auswahl einer anderen Datei werden vorherige Vorgänge nicht gespeichert.\n\nTrotzdem fortfahren?
 
 RelativeFolderSelectionDialog.Title.SelectFolder=Wählen Sie einen Ordner aus.
-SelectFile.Title=Datei auswählen
+RelativeFileSelectionDialog.button.importFile=Importdatei...
+RelativeFileSelectionDialog.title.error=Fehler
+RelativeFileSelectionDialog.title.overwrite=Überschreiben
+RelativeFileSelectionDialog.overwrite.msg=Eine Datei mit diesem Namen ist bereits vorhanden. Soll sie überschrieben werden?
+RelativeFileSelectionDialog.import.msg=Datei wird importiert:

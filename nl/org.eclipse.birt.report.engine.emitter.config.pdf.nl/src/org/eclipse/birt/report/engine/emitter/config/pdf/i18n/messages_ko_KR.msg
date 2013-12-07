@@ -28,6 +28,8 @@ OptionDisplayValue.FontSubstitution=글꼴 대체
 OptionDisplayValue.EmbeddedFont=포함 글꼴
 OptionDisplayValue.ChartDpi=차트 DPI
 OptionDisplayValue.RenderChartInSVG=벡터 그래픽 차트 렌더링
+OptionDisplayValue.DisableFlashAnimation=인쇄에 플래시 애니메이션 사용 안 함
+OptionDisplayValue.DisablePrint=인쇄 사용 안 함
 
 ###########################################################
 #Option Description
@@ -39,6 +41,8 @@ OptionDescription.FontSubstitution=지정된 글꼴이 문자를 표시하지 못하는 경우 자�
 OptionDescription.EmbeddedFont=트루타입 글꼴은 생성된 PDF 파일에 포함됩니다.
 OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.
 OptionDescription.RenderChartInSVG=벡터 그래픽 차트를 렌더링합니다.
+OptionDescription.DisableFlashAnimation=인쇄에 플래시 애니메이션을 사용하지 않습니다.
+OptionDescription.DisablePrint=인쇄를 사용하지 않습니다.
 
 ###########################################################
 #tooltip

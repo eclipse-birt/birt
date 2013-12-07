@@ -21,3 +21,4 @@ Build=@BUILD@
 QuickEditView=プロパティエディタ
 ReportViews=レポートデザイン
 DataExplorerView=データエクスプローラ
+Variable.Actions=新しい変数(&V)

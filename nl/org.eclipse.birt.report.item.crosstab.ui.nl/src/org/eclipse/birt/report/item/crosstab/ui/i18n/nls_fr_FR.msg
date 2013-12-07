@@ -14,7 +14,7 @@ DeleteDimensionViewHandleAction.DisplayName=Suppri&mer
 DeleteMeasureHandleAction.DisplayName=Suppri&mer
 DeleteMeasureHandleAction.TransName=Supprimer la mesure
 
-AddComputedMesureHandleAction.DisplayName=Ajouter une &mesure dérivée
+AddComputedMesureHandleAction.DisplayName=Ajouter une me&sure dérivée
 AddComputedMesureHandleAction.TransName=Ajouter une mesure dérivée
 AddComputedSummaryDialog.Title=Mesure dérivée
 AddComputedSummaryDialog.Label.Name=&Nom :
@@ -28,23 +28,19 @@ ShowAsViewAction.DisplayName=Afficher sous
 ShowAsViewAction.TransName=Afficher sous
 
 MeasureComboPropertyDescriptorProvider.TransName=Modifier l'orientation du tableau croisé
-MeasureHandleDropAdapter_trans_name=Ajouter une mesure
 
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Ajouter une dimension
 AddMeasureViewHandleCommand.TransName=Ajouter une mesure
-AddRelativeTimePeriodAction_action_label=Ajouter la période de temps re&latif
-AddRelativeTimePeriodAction_trans_label=Ajouter la période de temps relatif
+AddRelativeTimePeriodAction_action_label=Ajouter la période de temps relatif
+AddRelativeTimePeriodAction_trans_label=Ajouter la période de temps relatif 
 ChangeAreaCommand.TransName=Ignorer la dimension
 ChangeMeasureOrderCommand.TransName=Modifier l'ordre de mesure
 CreateDimensionViewCommand.TransName=Créer une dimension
 CreateMeasureViewCommand.TransName=Créer une mesure
 
-MergeCrosstabHeaderCellAction_name=&Fusionner les cellules d'en-tête
-SplitCrosstabHeadCellAction_name=F&ractionner les cellules d'en-tête
 
-ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
 
 ###########################################################
 # Crosstab EditPart
@@ -69,6 +65,8 @@ SubTotalProvider.Column.Position=Position
 SubTotalProvider.ShowAs=Afficher sous {0}
 LevelViewDialog.Title=Afficher/Masquer les niveaux de groupe
 LevelViewDialog.Label.Info=Sélectionner les niveaux à afficher sur le tableau croisé :
+LevelViewDialog.Button.Regular.Text=Groupe &normal
+LevelViewDialog.Button.Date.Text=Groupe de &dates
 AggregationDialog.Title=Totaux
 AggregationDialog.Label.Grand=Totaux généraux :
 AggregationDialog.Label.Sub=Sous-totaux :
@@ -358,3 +356,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=Zone de colonne
 VirtualCrosstabCellNodeProvider.Display.DetailArea=Zone de détails
 VirtualCrosstabCellNodeProvider.Display.RowArea=Zone de ligne
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=Zone inconnue
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (Modèle de données)

@@ -42,6 +42,7 @@ Element.choice.before=이전
 Element.choice.after=이후
 Element.RowPageBreakInterval=행 페이지 간격 나누기
 Element.ColumnPageBreakInterval=열 페이지 간격 나누기
+Element.TagType=태그 형식
 
 Method.onPrepare=준비 시
 Method.onCreate=생성 시
@@ -131,6 +132,7 @@ DimensionViewTask.msg.insert.level=수준 삽입
 MeasureViewTask.msg.remove.header=측정값 머리글 제거
 MeasureViewTask.msg.add.header=측정값 머리글 추가
 
+CrosstabViewTask.msg.add.dimension=차원 추가
 CrosstabViewTask.msg.remove.dimension=차원 제거
 CrosstabViewTask.msg.remove.grandtotal=총합계 제거
 CrosstabViewTask.msg.add.grandtotal=총합계 추가

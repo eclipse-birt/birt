@@ -1943,8 +1943,6 @@ Structure.HighlightRule.border.right.style=Estilo
 Structure.HighlightRule.border.right.width=Ancho
 Structure.HighlightRule.border.right.color=Color
 Structure.HighlightRule.background.color=Color de fondo
-Structure.HighlightRule.background.image=Imagen de fondo
-Structure.HighlightRule.backgroundRepeat=Repetición de fondo
 Structure.HighlightRule.format.dateTime=Formato de fecha/hora
 Structure.HighlightRule.format.number=Formato de número
 Structure.HighlightRule.format.number.align=Alineación de número  
@@ -1958,10 +1956,6 @@ Structure.HighlightRule.font.color=Color
 Structure.HighlightRule.font.textUnderline=Subrayado
 Structure.HighlightRule.font.textOverline=Línea superior
 Structure.HighlightRule.font.textLineThrough=Tachado
-Structure.HighlightRule.padding.top=Relleno superior
-Structure.HighlightRule.padding.left=Relleno izquierdo
-Structure.HighlightRule.padding.bottom=Relleno inferior
-Structure.HighlightRule.padding.right=Relleno derecho
 Structure.HighlightRule.text.align=Alineación de texto
 Structure.HighlightRule.text.indent=Sangrado de texto
 Structure.HighlightRule.text.transform=Transformación de texto
@@ -2097,7 +2091,6 @@ Structure.IncludedLibrary.namespace=Espacio de nombres
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=Nombre de archivo:
 Structure.IncludedCssStyleSheet.externalCssURI=URI con CSS externo
-Structure.IncludedCssStyleSheet.useExternalCss=Usar CSS externo
 
 #15. DataSetParam
 Structure.DataSetParam.name=Nombre
@@ -2413,7 +2406,16 @@ Element.DataMartCube=Cubo de objeto de datos
 Element.TimeDimension=Dimensión de tiempo
 Element.ReportItemTheme=Tema de elemento de informe
 Element.AbstractTheme=Tema abstracto
-Element.DataMartLinkedDataModel=Data Object Linked Data Set
+Element.DataMartLinkedDataModel=Modelo de datos del objeto de datos
+Element.AliasDataSet =Alias de conjunto de datos
+Element.LinkedDataModel =Modelo de datos vinculados
+Element.LinkedDataModel.pushDown=Reducción del modelo de datos
+Element.Category = Categoría
+Element.ColumnLink = Vínculo de columna
+Element.ColumnLinkPath = Ruta del vínculo de columna
+Element.DrillPath = Ruta subir
+Element.LinkedDataModelCube = Cubo de modelo de datos vinculados
+Element.LinkedDataModelDataSet = Conjunto de datos de modelo de datos vinculados
 
 ###########################################################
 # Element property names
@@ -2524,11 +2526,10 @@ Element.ReportDesign.onPageEnd=Al final de la página
 Element.ReportDesign.dataMarts=Data Marts
 Element.ReportDesign.onPrepare=Al preparar
 Element.ReportDesign.onPrepare.this=Diseño de informe
-Element.ReportDesign.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.ReportDesign.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento aquí.
 Element.ReportDesign.onPrepare.reportContext=Contexto de informe
-Element.ReportDesign.onContentUpdate= En actualización de contenidos
-Element.ReportDesign.onContentUpdate.toolTip=El cliente lo ejecuta cuando se actualiza el contenido de informe en BIRT Viewer.
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.language=Idioma
+Element.ReportDesign.PDFAccessible=PDF accesible
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nombre en pantalla
@@ -2743,8 +2744,6 @@ Element.Style.widows=Viudas
 Element.Style.orphans=Huérfanas
 Element.Style.wordSpacing=Separación de palabras
 Element.Style.overflow=Desbordamiento
-Element.Style.height=Altura
-Element.Style.width=Ancho
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Marcador
@@ -2768,6 +2767,11 @@ Element.ReportItem.cascadeACL=Cascada ACL
 Element.ReportItem.allowExport=Permitir exportación
 Element.ReportItem.pushDown=Oprimir
 Element.ReportItem.theme=Tema
+Element.ReportItem.language=Idioma
+Element.ReportItem.order=Orden
+Element.ReportItem.altText=Texto alternativo
+Element.ReportItem.altTextID=Clave de texto alternativo
+Element.ReportItem.linkedDataModel=Modelo de datos vinculados
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenido
@@ -2777,7 +2781,7 @@ Element.Label.helpText=Texto de ayuda
 Element.Label.action=Acción
 Element.Label.onPrepare=En preparación
 Element.Label.onPrepare.this=Etiqueta
-Element.Label.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.Label.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.Label.onPrepare.reportContext=Contexto de informe
 Element.Label.onCreate=Al crear
 Element.Label.onCreate.toolTip=Script ejecutado al crear el elemento en la fábrica.
@@ -2788,9 +2792,11 @@ Element.Label.onRender.toolTip=Script ejecutado al preparar el elemento para el 
 Element.Label.onRender.this=Instancia de etiqueta
 Element.Label.onRender.reportContext=Contexto de informe
 Element.Label.onPageBreak=En el salto de página
-Element.Label.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.Label.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.Label.onPageBreak.this=Instancia de etiqueta
 Element.Label.onPageBreak.reportContext=Contexto de informe
+Element.Label.tagType=Tipo de etiqueta de PDF
+Element.Label.altText=Texto alternativo
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=Elementos de informe
@@ -2804,7 +2810,7 @@ Element.Data.helpText=Texto de ayuda
 Element.Data.helpTextID=Clave de texto de ayuda:
 Element.Data.action=Acción
 Element.Data.onPrepare=En preparación
-Element.Data.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.Data.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.Data.onPrepare.this=Datos
 Element.Data.onPrepare.reportContext=Contexto de informe
 Element.Data.onCreate=Al crear
@@ -2816,16 +2822,18 @@ Element.Data.onRender.toolTip=Script ejecutado al preparar el elemento para el p
 Element.Data.onRender.this=Instancia de datos
 Element.Data.onRender.reportContext=Contexto de informe
 Element.Data.onPageBreak=En el salto de página
-Element.Data.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.Data.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.Data.onPageBreak.this=Instancia de datos
 Element.Data.onPageBreak.reportContext=Contexto de informe
+Element.Data.tagType=Tipo de etiqueta de PDF
+Element.Data.altText=Texto alternativo
   
 #14.Text  ( prefix  Element.Text )
 Element.Text.content=Contenido
 Element.Text.contentType=Tipo de contenido
 Element.Text.contentID=Clave de contenido
 Element.Text.onPrepare=En preparación
-Element.Text.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.Text.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.Text.onPrepare.this=Texto
 Element.Text.onPrepare.reportContext=Contexto de informe
 Element.Text.onCreate=Al crear
@@ -2837,10 +2845,12 @@ Element.Text.onRender.toolTip=Script ejecutado al preparar el elemento para el p
 Element.Text.onRender.this=Text instance
 Element.Text.onRender.reportContext=Contexto de informe
 Element.Text.onPageBreak=En el salto de página
-Element.Text.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.Text.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.Text.onPageBreak.this=Instancia de texto
 Element.Text.onPageBreak.reportContext=Contexto de informe
 Element.Text.hasExpression=Tiene la expresión
+Element.Text.tagType=Tipo de etiqueta de PDF
+Element.Text.altText=Texto alternativo
   
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=Expresión clave:
@@ -2889,7 +2899,7 @@ Element.List.slot.groups=Grupos
 Element.List.slot.detail=Detalle
 Element.List.slot.footer=Pie de página
 Element.List.onPrepare=En preparación
-Element.List.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.List.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.List.onPrepare.this=Lista
 Element.List.onPrepare.reportContext=Contexto de informe
 Element.List.onCreate=Al crear
@@ -2901,19 +2911,21 @@ Element.List.onRender.toolTip=Script ejecutado al preparar el elemento para el p
 Element.List.onRender.this=Instancia de lista
 Element.List.onRender.reportContext=Contexto de informe
 Element.List.onPageBreak=En el salto de página
-Element.List.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.List.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.List.onPageBreak.this=Instancia de lista
 Element.List.onPageBreak.reportContext=Contexto de informe
+Element.List.tagType=Tipo de etiqueta de PDF
+Element.List.altText=Texto alternativo
   
 #17.ListGroup  ( prefix  Element.ListGroup )
 Element.ListGroup.slot.header=Encabezado
 Element.ListGroup.slot.footer=Pie de página
 Element.ListGroup.onPrepare=En preparación
-Element.ListGroup.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.ListGroup.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.ListGroup.onPrepare.this=Grupo de listas
 Element.ListGroup.onPrepare.reportContext=Contexto de informe
 Element.ListGroup.onPageBreak=En el salto de página
-Element.ListGroup.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.ListGroup.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.ListGroup.onPageBreak.this=Grupo de listas
 Element.ListGroup.onPageBreak.reportContext=Contexto de informe
   
@@ -2928,7 +2940,7 @@ Element.Table.slot.detail=Detalle
 Element.Table.slot.footer=Pie de página
 Element.Table.slot.columns=Columnas
 Element.Table.onPrepare=En preparación
-Element.Table.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.Table.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.Table.onPrepare.this=Tabla
 Element.Table.onPrepare.reportContext=Contexto de informe
 Element.Table.onPrepare.object=Objeto
@@ -2943,19 +2955,20 @@ Element.Table.onRender.this=Instancia de tabla
 Element.Table.onRender.reportContext=Contexto de informe
 Element.Table.onRender.object=Objeto
 Element.Table.onPageBreak=En el salto de página
-Element.Table.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.Table.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.Table.onPageBreak.this=Instancia de tabla
 Element.Table.onPageBreak.reportContext=Contexto de informe
+Element.Table.tagType=Tipo de etiqueta de PDF
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=Encabezado
 Element.TableGroup.slot.footer=Pie de página
 Element.TableGroup.onPrepare=En preparación
-Element.TableGroup.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.TableGroup.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.TableGroup.onPrepare.this=Grupo de tablas
 Element.TableGroup.onPrepare.reportContext=Contexto de informe
 Element.TableGroup.onPageBreak=En el salto de página
-Element.TableGroup.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.TableGroup.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.TableGroup.onPageBreak.this=Grupo de tablas
 Element.TableGroup.onPageBreak.reportContext=Contexto de informe
   
@@ -2976,7 +2989,7 @@ Element.Row.eventHandlerClass=Clase de controlador de evento
 Element.Row.newHandlerOnEachEvent=Nuevo controlador en cada evento
 Element.Row.slot.cells=Celdas
 Element.Row.onPrepare=En preparación
-Element.Row.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.Row.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.Row.onPrepare.this=Fila
 Element.Row.onPrepare.reportContext=Contexto de informe
 Element.Row.onCreate=Al crear
@@ -2990,6 +3003,8 @@ Element.Row.onRender.reportContext=Contexto de informe
 Element.Row.suppressDuplicates=Suprimir duplicados
 Element.Row.viewAction=Ver acción
 Element.Row.repeatable=Repetible
+Element.Row.tagType=Tipo de etiqueta de PDF
+Element.Row.language=Idioma
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=Columna
@@ -3007,7 +3022,7 @@ Element.Cell.bookmark=Marcador
 Element.Cell.bookmarkDisplayName=Nombre en pantalla del marcador
 Element.Cell.headers=Encabezados
 Element.Cell.onPrepare=En preparación
-Element.Cell.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.Cell.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.Cell.onPrepare.this=Celda
 Element.Cell.onPrepare.reportContext=Contexto de informe
 Element.Cell.onCreate=Al crear
@@ -3028,6 +3043,9 @@ Element.Cell.antidiagonalThickness=Grosor de diagonal secundaria
 Element.Cell.diagonalStyle=Estilo de diagonal
 Element.Cell.antidiagonalStyle=Estilo de diagonal secundaria
 Element.Cell.antidiagonalColor=Color de diagonal secundaria
+Element.Cell.tagType=Tipo de etiqueta de PDF
+Element.Cell.language=Idioma
+Element.Cell.altText=Texto alternativo
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Texto alternativo
@@ -3043,7 +3061,7 @@ Element.Image.valueExpr=Expresión de valor
 Element.Image.typeExpr=Expresión de tipo
 Element.Image.action=Acción
 Element.Image.onPrepare=En preparación
-Element.Image.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.Image.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.Image.onPrepare.this=Imagen
 Element.Image.onPrepare.reportContext=Contexto de informe
 Element.Image.onCreate=Al crear
@@ -3056,17 +3074,18 @@ Element.Image.onRender.toolTip=Script ejecutado al preparar el elemento para el 
 Element.Image.onRender.this=Instancia de imagen
 Element.Image.onRender.reportContext=Contexto de informe
 Element.Image.onPageBreak=En el salto de página
-Element.Image.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.Image.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.Image.onPageBreak.this=Instancia de imagen
 Element.Image.onPageBreak.reportContext=Contexto de informe
 Element.Image.fitToContainer=Ajusta a contenedor
 Element.Image.proportionalScale=Escala proporcional
+Element.Image.tagType=Tipo de etiqueta de PDF
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=Columnas
 Element.Grid.slot.rows=Filas
 Element.Grid.onPrepare=En preparación
-Element.Grid.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.Grid.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.Grid.onPrepare.this=Cuadrícula
 Element.Grid.onPrepare.reportContext=Contexto de informe
 Element.Grid.onCreate=Al crear
@@ -3079,12 +3098,13 @@ Element.Grid.onRender.toolTip=Script ejecutado al preparar el elemento para el p
 Element.Grid.onRender.this=Instancia de cuadrícula
 Element.Grid.onRender.reportContext=Contexto de informe
 Element.Grid.onPageBreak=En el salto de página
-Element.Grid.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.Grid.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.Grid.onPageBreak.this=Instancia de cuadrícula
 Element.Grid.onPageBreak.reportContext=Contexto de informe
 Element.Grid.caption=Título
 Element.Grid.captionID=Clave de título
 Element.Grid.summary=Resumen
+Element.Grid.tagType=Tipo de etiqueta de PDF
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientación
@@ -3093,7 +3113,7 @@ Element.Line.orientation=Orientación
 Element.TextData.valueExpr=Expresión de valor
 Element.TextData.contentType=Tipo de contenido
 Element.TextData.onPrepare=En preparación
-Element.TextData.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.TextData.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.TextData.onPrepare.this=Texto dinámico
 Element.TextData.onPrepare.reportContext=Contexto de informe
 Element.TextData.onPrepare.object=Objeto
@@ -3107,10 +3127,12 @@ Element.TextData.onRender.toolTip=Script ejecutado al preparar el elemento para 
 Element.TextData.onRender.this=Instancia de texto dinámico
 Element.TextData.onRender.reportContext=Contexto de informe
 Element.TextData.onPageBreak=En el salto de página
-Element.TextData.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.TextData.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.TextData.onPageBreak.this=Instancia de texto dinámico
 Element.TextData.onPageBreak.reportContext=Contexto de informe
 Element.TextData.hasExpression=Tiene la expresión
+Element.TextData.tagType=Tipo de etiqueta de PDF
+Element.TextData.altText=Texto alternativo
 
 #27.ExtendedItem   ( prefix  Element.ExtendedItem )
 Element.ExtendedItem.altText=Texto alternativo
@@ -3118,7 +3140,7 @@ Element.ExtendedItem.altTextID=Clave de texto alternativo
 Element.ExtendedItem.extensionName=Nombre de extensión
 Element.ExtendedItem.filter=Filtrar
 Element.ExtendedItem.onPrepare=En preparación
-Element.ExtendedItem.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.ExtendedItem.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.ExtendedItem.onPrepare.this=Elemento ampliado
 Element.ExtendedItem.onPrepare.reportContext=Contexto de informe
 Element.ExtendedItem.onCreate=Al crear  
@@ -3130,7 +3152,7 @@ Element.ExtendedItem.onRender.toolTip=Ejecutado al preparar el elemento para pro
 Element.ExtendedItem.onRender.this=Instancia de elemento ampliado
 Element.ExtendedItem.onRender.reportContext=Contexto de informe
 Element.ExtendedItem.onPageBreak=En el salto de página
-Element.ExtendedItem.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.ExtendedItem.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.ExtendedItem.onPageBreak.this=Instancia de elemento ampliado
 Element.ExtendedItem.onPageBreak.reportContext=Contexto de informe
 Element.ExtendedItem.extensionVersion=Extension version
@@ -3260,7 +3282,7 @@ Element.TemplateReportItem.visibility=Visibilidad
 Element.AutoText.type = Tipo de autotexto
 Element.AutoText.onPrepare=En preparación
 Element.AutoText.onPrepare.this=AutoText
-Element.AutoText.onPrepare.toolTip=Se ejecuta durante la configuración del elemento. Cambie el diseño de un elemento aquí. Los enlaces de datos aún no están disponibles.
+Element.AutoText.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
 Element.AutoText.onPrepare.reportContext=Contexto de informe
 Element.AutoText.onCreate=Al crear
 Element.AutoText.onCreate.toolTip=Script ejecutado al crear el elemento en la fábrica.
@@ -3271,7 +3293,7 @@ Element.AutoText.onRender.toolTip=Script ejecutado al preparar el elemento para 
 Element.AutoText.onRender.this=Instancia de AutoText
 Element.AutoText.onRender.reportContext=Contexto de informe
 Element.AutoText.onPageBreak=En el salto de página
-Element.AutoText.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
+Element.AutoText.onPageBreak.toolTip=El script se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.AutoText.onPageBreak.this=Instancia de AutoText
 Element.AutoText.onPageBreak.reportContext=Contexto de informe
 Element.AutoText.pageVariable=Variable de página
@@ -3418,6 +3440,7 @@ Element.DerivedDataSet.extensionID=ID de extensión
 Element.AbstractScalarParameter.isRequired=Es necesario
 Element.AbstractScalarParameter.dynamicList=Lista dinámica
 Element.AbstractScalarParameter.dynamicList.dataSetName=Nombre del conjunto de datos
+Element.AbstractScalarParameter.dynamicList.linkedDataModelName=Nombre de modelo de datos vinculados
 Element.AbstractScalarParameter.dynamicList.valueExpr=Expresión de valor
 Element.AbstractScalarParameter.dynamicList.labelExpr=Expresión de etiqueta
 Element.AbstractScalarParameter.listLimit=Límite de lista
@@ -3467,9 +3490,6 @@ Element.TimeDimension.startTimePoint=Punto de inicio
 Element.TimeDimension.endTimePoint=Punto de finalización
 Element.TimeDimension.hierarchies=Jerarquías
 
-#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
-Element.DataMartLinkedDataModel.dataSource=Fuente de datos
-Element.DataMartLinkedDataModel.dataObject=Objeto de datos
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=Estilos
@@ -3478,6 +3498,17 @@ Element.ReportItemTheme.customValues=Valores personalizados
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=Hojas de estilos CSS
+
+#Category
+Element.Category.helpText = Texto de ayuda
+Element.Category.helpTextKey = Clave de recursos del texto de ayuda
+
+#Category Column
+Element.CategoryColumn.aggregationFunction = Función de agregación
+Element.CategoryColumn.aliasDataSet = Alias de conjunto de datos
+Element.CategoryColumn.dataType = Tipo de datos
+Element.CategoryColumn.expression = Expresión
+Element.CategoryColumn.resultSetColumnName = Nombre de columna de conjunto de resultados
 
 ###########################################################
 # Predefined style
@@ -4018,7 +4049,6 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Los elementos de plantill
 Info.VersionInfo.INVALID_DESIGN_FILE=El archivo de diseño de apertura no es un archivo de diseño válido o el archivo no existe.
 Info.VersionInfo.CONVERT_INFO=El archivo de diseño fue creado por una versión anterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
 Info.VersionInfo.INVALID_VERSION=La versión del archivo de informe "{0}" no es compatible.
-Info.VersionInfo.LATER_VERSION=El archivo de diseño fue creado con una versión posterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =Puede que diseño/librería hayan cambiado ya que la compatibilidad retroactiva se aplica al diseño de apertura/librería o las librerías incluidas.
 
 #EncryptionException

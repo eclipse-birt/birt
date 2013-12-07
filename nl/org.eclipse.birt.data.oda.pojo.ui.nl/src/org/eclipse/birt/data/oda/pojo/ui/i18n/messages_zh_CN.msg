@@ -9,149 +9,155 @@
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
 # data source messages
-DataSource.RuntimeProperty=&Runtime Properties
-DataSource.DataSetClassPath=Shared &Location of Custom POJO Data Set Classes
+DataSource.RuntimeProperty=运行时属性(&R)
+DataSource.DataSetClassPath=自定义 POJO 数据集类的共享位置(&L)
 
-DataSource.AddRelativeJars0=&Add Jars(Relative Path)...
-DataSource.AddAbsoluteJars0=Add &Jars(Absolute Path)...
+DataSource.AddRelativeJars0=添加 Jar (相对路径)(&A)...
+DataSource.AddAbsoluteJars0=添加 Jar (绝对路径)(&J)...
 
 #To avoid duplicate short-cut keys
-DataSource.AddRelativeJars1=Add Jar&s(Relative Path)...
-DataSource.AddAbsoluteJars1=Add Jars(A&bsolute Path)...
-DataSource.AddRelativeClassFolder1=Add Class Fold&er(Relative Path)...
-DataSource.AddAbsoluteClassFolder1=Add Class Folder(Absol&ute Path)...
+DataSource.AddRelativeJars1=添加 Jar (相对路径)(&S)...
+DataSource.AddAbsoluteJars1=添加 Jar (绝对路径)(&B)...
+DataSource.AddRelativeClassFolder1=添加类文件夹 (相对路径)(&E)...
+DataSource.AddAbsoluteClassFolder1=添加类文件夹 (绝对路径)(&U)...
 
-DataSource.button.tooltip.AddJar.TwoItems=Add jars to the class paths.\nRelative Path: the relative path based on the resource folder.\nAbsolute Path: the absolute path of the file system.
-DataSource.button.tooltip.AddJar.OneItems=Add jars to the class paths.\nAbsolute Path: the absolute path of the file system.
+DataSource.button.tooltip.AddJar.TwoItems=向类路径添加 Jar。\n相对路径: 基于资源文件夹的相对路径。\n绝对路径: 文件系统的绝对路径。
+DataSource.button.tooltip.AddJar.OneItems=向类路径添加 Jar。\n绝对路径: 文件系统的绝对路径。
 
-DataSource.PojoClassPath=Shared L&ocation of POJO Classes
+DataSource.PojoClassPath=POJO 类的共享位置(&O)
 
-DataSource.MissDataSetPojoClassPath.runtime=The runtime shared location of custom POJO data set classes is missing.
-DataSource.MissDataSetPojoClassPath.designtime=The shared location of custom POJO data set classes used in design time is missing.
-DataSource.PageMessage=POJO Data Source Properties
-DataSource.POJOClasses.tab.runtime=&Runtime Properties
-DataSource.POJOClasses.tab.designTime=Design Time &Properties
-DataSource.POJOClassTabFolderPage.promptLabel.runtime=Shared &Location of Custom POJO Data Set Classes
-DataSource.POJOClassTabFolderPage.promptLabel.designtime=Shared &Location of Custom POJO Classes
-DataSource.POJOClassTabFolderPage.button.edit=&Edit...
-DataSource.POJOClassTabFolderPage.button.up=&Up
-DataSource.POJOClassTabFolderPage.button.down=&Down
-DataSource.POJOClassTabFolderPage.button.remove=Remo&ve
-DataSource.POJOClassTabFolderPage.menuButton.addJar=Add Jars
-DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=Relative path
-DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=Absolute path
-DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=Error
-DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=Failed to get the application resource base URI!
+DataSource.MissDataSetPojoClassPath.runtime=缺少自定义 POJO 数据集类的运行时共享位置。
+DataSource.MissDataSetPojoClassPath.designtime=缺少设计时使用的自定义 POJO 数据集类的共享位置。
+DataSource.PageMessage=POJO 数据源属性
+DataSource.POJOClasses.tab.runtime=运行时属性(&R)
+DataSource.POJOClasses.tab.designTime=设计时属性(&P)
+DataSource.POJOClassTabFolderPage.promptLabel.runtime=自定义 POJO 数据集类的共享位置(&L)
+DataSource.POJOClassTabFolderPage.promptLabel.designtime=自定义 POJO 类的共享位置(&L)
+DataSource.POJOClassTabFolderPage.button.edit=编辑(&E)...
+DataSource.POJOClassTabFolderPage.button.up=上移(&U)
+DataSource.POJOClassTabFolderPage.button.down=下移(&D)
+DataSource.POJOClassTabFolderPage.button.remove=删除(&V)
+DataSource.POJOClassTabFolderPage.menuButton.addJar=添加 Jar
+DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=相对路径
+DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=绝对路径
+DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=错误
+DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=无法获得应用程序资源基本 URI！
 
-DataSource.ClassPathPage.synchronize.checkbox.message=Use Runtime Properties for both Runtime and Designtime
-DataSource.ClassPathPage.synchronize.checkbox.tooltip=If the option is ticked on, then the Designtime Properties Editor will be disabled to edit.
-DataSource.ClassPathPage.synchronize.PrompMessage=Note: If the option is ticked on, the Designtime Properties Settings will be ignored.
-DataSource.ClassPathPage.testConnection.failed.runtime=Failed to create connection with "{0}" of the runtime property!
-DataSource.ClassPathPage.testConnection.failed.designtime=Failed to create connection with "{0}" of the design time property!
+DataSource.ClassPathPage.synchronize.checkbox.message=运行时属性可用于运行时和设计时
+DataSource.ClassPathPage.synchronize.checkbox.tooltip=如果勾选此选项，设计时属性编辑器将禁止编辑。
+DataSource.ClassPathPage.synchronize.PrompMessage=注意：如果勾选此选项，将忽略设计时属性设置。
+DataSource.ClassPathPage.testConnection.failed.runtime=无法创建与运行时属性的“{0}”的连接！
+DataSource.ClassPathPage.testConnection.failed.designtime=无法创建与设计时属性的“{0}”的连接！
 
 
 # data set messages
-DataSet.PojoDataSetClass=&POJO Data Set Class Name
-DataSet.AppContextKey=&Application Context Key
-DataSet.PojoRootClass=POJO &Class Name
-DataSet.Browse=&Browse...
-DataSet.Browse.tooltip=Browse to select a class.
+DataSet.PojoDataSetClass=POJO 数据集类名称(&P)
+DataSet.AppContextKey=应用程序上下文关键字(&A)
+DataSet.PojoRootClass=POJO 类名称(&C)
+DataSet.Browse=浏览(&B)...
+DataSet.Browse.tooltip=浏览以选择一个类。
 
 #To avoid duplicate short-cut key
-DataSet.Browse1=B&rowse...
-DataSet.DataType.Object=Java Object
+DataSet.Browse1=浏览(&R)...
+DataSet.DataType.Object=Java 对象
 
-DataSet.FailedParseQueryTitle=Failed to Parse Query Text
-DataSet.FailedParseQueryMsg=Query text: "{0}".
-DataSet.FailedToSaveTitle=Failed to Save Data Set
-DataSet.FailedToSaveMsg=Exception occurs during saving data set.
-DataSet.Label.MethodNameFilter=&Method Name Filter(? = any character,* = any string):
-DataSet.MissPojoRootClass=POJO Class is not provided.
-DataSet.Apply=Appl&y
-DataSet.ClassStructure=POJO Class Structure
-DataSet.ColumnMapping=&Column Mapping
-DataSet.Add=&Add...
-DataSet.Edit=&Edit...
-DataSet.Remove=&Remove
-DataSet.Up=&Up
-DataSet.Down=&Down
-DataSet.Label.POJOClassName=POJO Class Name
-DataSet.Label.prompt.ClassName=Select methods and &fields to create data set columns.
-DataSet.button.addColumn.tooltip.mapColumn=Add the selected item to be the column.
-DataSet.button.removeColumn.tooltip.mapColumn=Remove the selected item from the columns table.
-DataSet.button.tooltip.Add=Add a new column.
-DataSet.button.tooltip.Edit=Edit the current column.
-DataSet.button.tooltip.Remove=Remove the current column.
-DataSet.button.tooltip.Up=Move up the current column.
-DataSet.button.tooltip.Down=Move down the current column.
-DataSet.ShowSampleData=&Show Sample Data
-DataSet.button.tooltip.ShowSampleData=Show sample data.
-DataSet.FailedToLoadClassTitle=Failed to load class.
-DataSet.FailedToLoadPojoClassMsg=Failed to load POJO class:"{0}".
+DataSet.FailedParseQueryTitle=无法分析查询文本
+DataSet.FailedParseQueryMsg=查询文本:“{0}”。
+DataSet.FailedToSaveTitle=无法保存数据集
+DataSet.FailedToSaveMsg=保存数据集时发生异常。
+DataSet.Label.MethodNameFilter=方法名称筛选器(? = 任意字符，* = 任意字符串)(&M):
+DataSet.MissPojoRootClass=未提供 POJO 类。
+DataSet.Apply=应用(&Y)
+DataSet.ClassStructure=POJO 类结构
+DataSet.ColumnMapping=列映射(&C)
+DataSet.Add=添加(&A)...
+DataSet.Edit=编辑(&E)...
+DataSet.Remove=删除(&R)
+DataSet.Up=上移(&U)
+DataSet.Down=下移(&D)
+DataSet.Label.POJOClassName=POJO 类名称
+DataSet.Label.prompt.ClassName=选择创建数据集列的方法和字段(&F)。
+DataSet.button.addColumn.tooltip.mapColumn=添加要选作列的项目。
+DataSet.button.removeColumn.tooltip.mapColumn=从列表中删除选定项目。
+DataSet.button.tooltip.Add=添加新列。
+DataSet.button.tooltip.Edit=编辑当前列。
+DataSet.button.tooltip.Remove=删除当前列。
+DataSet.button.tooltip.Up=上移当前列。
+DataSet.button.tooltip.Down=下移当前列。
+DataSet.ShowSampleData=显示示例数据(&S)
+DataSet.button.tooltip.ShowSampleData=显示示例数据。
+DataSet.FailedToLoadClassTitle=无法加载类。
+DataSet.FailedToLoadPojoClassMsg=无法加载 POJO 类:“{0}”。
 
-ColumnMappingPage.table.head.columnName=Name
-ColumnMappingPage.table.head.MethodField=Method/Field
-ColumnMappingPage.table.head.columnType=Type
+ColumnMappingPage.table.head.columnName=名称
+ColumnMappingPage.table.head.MethodField=方法/字段
+ColumnMappingPage.table.head.columnType=类型
 
-ColumnMappingWizardPage.error.getQueryText=Failed to parse original query text.
-ColumnMappingWizardPage.button.apply.text=A&pply
-ColumnMappingWizardPage.button.apply.tooltip=Apply the input POJO class name to generate the method tree.
+ColumnMappingWizardPage.error.getQueryText=无法分析原查询文本。
+ColumnMappingWizardPage.button.apply.text=应用(&P)
+ColumnMappingWizardPage.button.apply.tooltip=应用输入 POJO 类名称以生成方法树。
 
-ColumnMappingDialog.Label.ColumnName=&Column Name: 
-ColumnMappingDialog.Label.ColumnMethodField=&Method/Field:
-ColumnMappingDialog.Label.Type=Column &Type:
-ColumnMappingDialog.table.promptLabel=Select method &arguments mapped to the parameter:
-ColumnMappingDialog.table.head.mapped=Mapped
-ColumnMappingDialog.table.head.name=Name
-ColumnMappingDialog.table.head.value=Value
-ColumnMappingDialog.table.head.dataType=Java Data Type
-ColumnMappingDialog.button.edit=&Edit...
-ColumnMappingDialog.button.selectAll=&Select All
-ColumnMappingDialog.button.deselectAll=&Deselect All
-ColumnMappingDialog.Label.methodHierarchy=Method call hierarchy:
-ColumnMappingDialog.error.DuplicatedColumnName=The column name has already been used!
-ColumnMappingDialog.error.EmptyColumnName=The column name cannot be empty!
-ColumnMappingDialog.error.EmptyMappingPath=The column mapping path cannot be empty!
-ColumnMappingDialog.MenuItem.remove=Remove
-ColumnMappingDialog.MenuItem.removeAll=Remove All
+ColumnMappingDialog.Label.ColumnName=列名称(&C): 
+ColumnMappingDialog.Label.ColumnMethodField=方法/字段(&M):
+ColumnMappingDialog.Label.Type=列类型(&T):
+ColumnMappingDialog.table.promptLabel=选择已映射至参数的方法参数(&A):
+ColumnMappingDialog.table.head.mapped=映射
+ColumnMappingDialog.table.head.name=名称
+ColumnMappingDialog.table.head.value=值
+ColumnMappingDialog.table.head.dataType=Java 数据类型
+ColumnMappingDialog.button.edit=编辑(&E)...
+ColumnMappingDialog.button.selectAll=全选(&S)
+ColumnMappingDialog.button.deselectAll=取消全选(&D)
+ColumnMappingDialog.Label.methodHierarchy=方法调用层次结构:
+ColumnMappingDialog.error.DuplicatedColumnName=该列名称已被使用!
+ColumnMappingDialog.error.EmptyColumnName=列名称不能为空!
+ColumnMappingDialog.error.EmptyMappingPath=列映射路径不能为空!
+ColumnMappingDialog.MenuItem.remove=删除
+ColumnMappingDialog.MenuItem.removeAll=全部删除
 
-MethodParameterDialog.edit.title=Edit Method Parameter
-MethodParameterDialog.label.name=&Name:
-MethodParameterDialog.label.value=&Value:
-MethodParameterDialog.label.dataType=&Java Data Type:
-MethodParameterDialog.checkBox.message=Set the argument mapped to the parameter.
-MethodParameterDialog.error.missingName=The mapped parameter must be specified a name!
-MethodParameterDialog.error.missingValue=The constant parameter must be specified a constant value!
-MethodParameterDialog.error.invalidParamName=The parameter has already been specified a different data type!
-MethodParameterDialog.error.missingDataType=The parameter data type cannot be empty!
+MethodParameterDialog.edit.title=编辑方法参数
+MethodParameterDialog.label.name=名称(&N):
+MethodParameterDialog.label.value=值(&V):
+MethodParameterDialog.label.dataType=Java 数据类型(&J):
+MethodParameterDialog.checkBox.message=将该参数设置为映射至参数。
+MethodParameterDialog.error.missingName=必须为已映射的参数指定名称!
+MethodParameterDialog.error.missingValue=必须为常量参数指定常量值!
+MethodParameterDialog.error.invalidParamName=已为该参数指定了一个不同的数据类型!
+MethodParameterDialog.error.missingDataType=参数数据类型不能为空!
 
-DataSet.DataType.String=String
-DataSet.DataType.Integer=Integer
+DataSet.DataType.String=字符串
+DataSet.DataType.Integer=整型
 #make the display label consistent with BIRT data type 
-DataSet.DataType.Double=Float
-DataSet.DataType.Decimal=Decimal 
-DataSet.DataType.Date=Date 
-DataSet.DataType.Time=Time 
+DataSet.DataType.Double=浮点
+DataSet.DataType.Decimal=小数 
+DataSet.DataType.Date=日期 
+DataSet.DataType.Time=时间 
 #make the display label consistent with BIRT data type 
-DataSet.DataType.Timestamp=Date Time 
-DataSet.DataType.Boolean=Boolean 
+DataSet.DataType.Timestamp=日期时间 
+DataSet.DataType.Boolean=布尔 
 DataSet.DataType.Blob=Blob 
-DataSet.AddColumnMapping=Add Column Mapping
-DataSet.EditColumnMapping=Edit Column Mapping
-DataSet.InvalidColumnMappingPath=Invalid Method/Field Format:"{0}".
-DataSet.InvalidMethodName=Invalid Method Name:"{0}".
-DataSet.InvalidFieldName=Invalid Field Name:"{0}".
-DataSet.JarsSelectDlg.Title=Select Jars / Zips
-DataSet.ClassFoldersSelectDlg.Title=Select Class Folders
-DataSet.PropertyPageMsg=POJO Data Set Properties
-DataSet.ColumnMappingPageMsg=Column Mapping
-DataSet.NoColumnMappingErrorMsg=No Column Mapping.
-DataSet.ClassNameFilter=&Class Name Filter(? = any character,* = any string):
-DataSet.MatchingItems=&Matching Items:
-DataSet.ClassInputDialogTitle=Choose Class
-DataSet.PreviewDialogTitle=Sample Data
-DataSet.FailedFetchSampleData=Failed to Fetch Sample Data
+DataSet.AddColumnMapping=添加列映射
+DataSet.EditColumnMapping=编辑列映射
+DataSet.InvalidColumnMappingPath=无效方法/字段格式:“{0}”。
+DataSet.InvalidMethodName=无效方法名称:“{0}”。
+DataSet.InvalidFieldName=无效字段名称:“{0}”。
+DataSet.JarsSelectDlg.Title=选择 Jar/Zip
+DataSet.ClassFoldersSelectDlg.Title=选择类文件夹
+DataSet.PropertyPageMsg=POJO 数据集属性
+DataSet.ColumnMappingPageMsg=列映射
+DataSet.NoColumnMappingErrorMsg=无列映射。
+DataSet.ClassNameFilter=类名称筛选器(? = 任意字符，* = 任意字符串)(&C):
+DataSet.MatchingItems=匹配项(&M):
+DataSet.ClassInputDialogTitle=选择类
+DataSet.PreviewDialogTitle=示例数据
+DataSet.FailedFetchSampleData=无法获取示例数据
 
-ExceptionDialog.title.erro=Error
-ExceptionDialog.DataSource.AddDuplicatedJar=The same jar cannot be added multiple times.
-error.PojoDataSet.emptyClassName=Class name can not be empty.
+ExceptionDialog.title.erro=错误
+ExceptionDialog.DataSource.AddDuplicatedJar=不能多次添加相同 jar。
+error.PojoDataSet.emptyClassName=类名称不能为空。
+
+JarsSelectionDialog.button.importFile=导入文件...
+JarsSelectionDialog.title.error=错误
+JarsSelectionDialog.title.overwrite=覆盖
+JarsSelectionDialog.overwrite.msg=具有此名称的文件已经存在，是否要覆盖它?
+JarsSelectionDialog.import.msg=正在导入文件...

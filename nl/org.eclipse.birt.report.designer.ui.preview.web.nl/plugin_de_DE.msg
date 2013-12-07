@@ -6,6 +6,7 @@ designer.preview.previewcascadingmenugroup.label=&Bericht anzeigen
 document.preview.previewtoolbarmenuaction.label=Dokument anzeigen
 document.preview.previewmenugroup.label=&Dokument anzeigen
 ActionSet.Preview=Vorschau
+ActionSet.PreviewWithSecurity=Dokumentenvorschau
 Action.GenDocument=&Dokument erstellen
 
 template.preview=Vor&schau

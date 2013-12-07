@@ -11,15 +11,15 @@
 #
 # User messages for the Excel File ODA Designer
 
-wizard.defaultMessage.selectExcelFile=Sélectionnez ou saisissez le chemin du fichier de la source de données Excel ou son URI.
-wizard.defaultMessage.selectDataSet=Sélectionnez le classeur et les colonnes pour le jeu de données.
+wizard.defaultMessage.selectExcelFile=Select or enter an Excel data source file path or URI.
+wizard.defaultMessage.selectDataSet=Sélectionnez le classeur et les colonnes à inclure dans votre jeu de données.
 connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Impossible d'ouvrir la source de données Excel dans le dossier sélectionné. 
-ui.ExcelFileNotFound=Impossible de trouver le fichier de la source de données Excel demandé 
+ui.ExcelFileNotFound=Impossible de trouver le fichier ou de le dossier de la source de données Excel demandé 
 label.selectFolder=Sél&ectionnez un dossier : 
 label.selectFile=Sélectionnez un f&ichier :
-label.selectworksheet=Sélectionnez un &classeur :
-label.includeTypeLine=Utilisez la deuxième ligne comme indicateur du type de &données.
-label.includeColumnNameLine = Utilisez la première ligne en t&ant qu'indicateur de nom de colonne.
+label.selectworksheet=Classeur :
+label.includeTypeLine=La deuxième ligne contient les types de &données.
+label.includeColumnNameLine=La première ligne cont&ient les noms de colonnes.
 
 button.selectFolder.browse=Pa&rcourir...
 button.moveUp=Vers le ha&ut
@@ -49,13 +49,13 @@ tooltip.button.down=Déplacer l'élément sélectionné vers le bas.
 tooltip.button.delete=Supprimer l'élément sélectionné.
 tooltip.trailNull=Colonnes avec valeurs nulles à la fin lors de la lecture des lignes de données. 
 error.selectFolder=Sélectionnez un dossier valide.
-error.selectWorksheet=Veuillez sélectionner un classeur pour le jeu de données.
-error.selectColumns=Veuillez sélectionner une colonne minimum pour ce jeu de données.
+error.selectWorksheet=Please select a worksheet for the data set.
+error.selectColumns=Please select at least one column for this data set.
 error.emptyPath=Entrez un chemin.
 error.unexpectedError=Une erreur inattendue s'est produite.
 error.invalidConnectionFilePath=Le chemin d''accès source au profil de connexion spécifié, "{0}", n'existe pas.
 error.errorExist=Erreur sur la page actuelle.  Souhaitez-vous l'enregistrer quand même ?
-error.noFile=Le fichier de la source de données Excel ({0}) n'existe pas.
+error.noFile=The Excel data source file ({0}) does not exist.
 error.invalidFilePath=Le chemin du fichier est incorrect.  Voulez-vous continuer ?
 error.emptyFilePath=Le chemin du fichier est vide.  Voulez-vous continuer ?
 error.duplicatedNameValueOrEmpty=Valeur de nom dupliquée ou vide
@@ -69,4 +69,8 @@ confirm.reselectFileTitle=Confirmez pour sélectionner un autre fichier.
 confirm.reselectFileMessage=La sélection d'une autre feuille ne permettra pas l'enregistrement des opérations précédentes.\n\nVoulez-vous continuer ?
 
 RelativeFolderSelectionDialog.Title.SelectFolder=Sélectionner un dossier
-SelectFile.Title=Sélectionnez un fichier
+RelativeFileSelectionDialog.button.importFile=Fichier d'importation...
+RelativeFileSelectionDialog.title.error=Erreur
+RelativeFileSelectionDialog.title.overwrite=Ecraser
+RelativeFileSelectionDialog.overwrite.msg=Un fichier portant ce nom existe déjà. Voulez-vous l'écraser ?
+RelativeFileSelectionDialog.import.msg=Importation du fichier...

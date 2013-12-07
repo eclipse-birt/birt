@@ -25,6 +25,7 @@ OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=여러 페이지로 출력
 OptionDisplayValue.ENLARGE_PAGE_SIZE=페이지 크기 확대
 OptionDisplayValue.FontSubstitution=글꼴 대체
 OptionDisplayValue.ChartDpi=차트 DPI
+OptionDisplayValue.Export2Office2010And2013=Microsoft Office 2010/2013 형식으로 파일 내보내기
 
 ###########################################################
 #Option Description
@@ -33,6 +34,7 @@ OptionDescription.TextWrapping=텍스트 줄 바꿈 가능 여부를 나타냅니다.
 OptionDescription.PageOverFlow=내용 출력 방식을 제어합니다.
 OptionDescription.FontSubstitution=지정된 글꼴이 문자를 표시하지 못하는 경우 자동으로 글꼴을 선택합니다.
 OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.
+OptionDescription.Export2Office2010And2013=Office 2010/2013 사용 시 PPT에서 .mht 형식을 지원합니다.
 
 ###########################################################
 #tooltip

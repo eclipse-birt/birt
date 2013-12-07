@@ -1,5 +1,6 @@
 ChartCubeQueryHelper.Error.MustBindCube=Diagramm muss einen Quader zur Dateneinspeisung binden.
 ChartReportItemPresentationImpl.error.NoData=Vom mit dem Diagramm verbundene Datensatz wurden keine Zeilen zurückgegeben.
+ChartReportItemPresentationImpl.error.InvalidCubeBinding=Der Datensatz, den dieses Diagramm verwendet, wurde geändert. Dieses Diagramm kann nicht länger dargestellt werden.
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=Berichtobjekt-Wrapper für Diagrammobjekt kann nicht gefunden werden.
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl: onRowSets(...) – Start
 ChartReportItemPresentationImpl.log.onRowSetsBuilding=ChartReportItemPresentationImpl: onRowSets(...) – Diagramm wird erstellt

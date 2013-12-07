@@ -1943,8 +1943,6 @@ Structure.HighlightRule.border.right.style=Style
 Structure.HighlightRule.border.right.width=Largeur
 Structure.HighlightRule.border.right.color=Couleur
 Structure.HighlightRule.background.color=Couleur d'arrière-plan
-Structure.HighlightRule.background.image=Image d'arrière-plan
-Structure.HighlightRule.backgroundRepeat=Répétition de l'arrière-plan
 Structure.HighlightRule.format.dateTime=Format Date/Heure
 Structure.HighlightRule.format.number=Format des nombres
 Structure.HighlightRule.format.number.align=Alignement des nombres  
@@ -1958,10 +1956,6 @@ Structure.HighlightRule.font.color=Couleur
 Structure.HighlightRule.font.textUnderline=Texte souligné
 Structure.HighlightRule.font.textOverline=Texte surligné
 Structure.HighlightRule.font.textLineThrough=Texte barré
-Structure.HighlightRule.padding.top=Remplissage supérieur
-Structure.HighlightRule.padding.left=Remplissage de gauche
-Structure.HighlightRule.padding.bottom=Remplissage inférieur
-Structure.HighlightRule.padding.right=Remplissage de droite
 Structure.HighlightRule.text.align=Alignement du texte
 Structure.HighlightRule.text.indent=Retrait du texte
 Structure.HighlightRule.text.transform=Transformation du texte
@@ -2097,7 +2091,6 @@ Structure.IncludedLibrary.namespace=Espace nom
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=Nom du fichier
 Structure.IncludedCssStyleSheet.externalCssURI=URI de CSS externe.
-Structure.IncludedCssStyleSheet.useExternalCss=Utiliser CSS externe
 
 #15. DataSetParam
 Structure.DataSetParam.name=Nom
@@ -2413,7 +2406,16 @@ Element.DataMartCube=Cube de l'objet de données
 Element.TimeDimension=Dimension de temps
 Element.ReportItemTheme=Thème d'élément d'état
 Element.AbstractTheme=Thème abstrait
-Element.DataMartLinkedDataModel=Data Object Linked Data Set
+Element.DataMartLinkedDataModel=Modèle de données d'objet de données
+Element.AliasDataSet =Jeux de données d'alias
+Element.LinkedDataModel =Jeu de données lié
+Element.LinkedDataModel.pushDown=Modèle de données Poussée vers le bas
+Element.Category = Catégorie
+Element.ColumnLink = Lien de la colonne
+Element.ColumnLinkPath = Chemin du lien de la colonne
+Element.DrillPath = Chemin de zoom
+Element.LinkedDataModelCube = Cube de modèle de données lié
+Element.LinkedDataModelDataSet = Jeu de données de modèle de données lié
 
 ###########################################################
 # Element property names
@@ -2524,11 +2526,10 @@ Element.ReportDesign.onPageEnd=A la fermeture de la page
 Element.ReportDesign.dataMarts=DataMarts
 Element.ReportDesign.onPrepare=En préparation
 Element.ReportDesign.onPrepare.this=Modèle d'état
-Element.ReportDesign.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.ReportDesign.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.ReportDesign.onPrepare.reportContext=Contexte d'état
-Element.ReportDesign.onContentUpdate= Mise à jour sur le contenu
-Element.ReportDesign.onContentUpdate.toolTip=S'exécute du côté client lorsque le contenu de l'état est mis à jour dans BIRT Viewer.
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.language=Langue
+Element.ReportDesign.PDFAccessible=Accessibilité PDF
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nom d'affichage
@@ -2743,8 +2744,6 @@ Element.Style.widows=Veuves
 Element.Style.orphans=Orphelins
 Element.Style.wordSpacing=Espacement des mots
 Element.Style.overflow=Dépassement
-Element.Style.height=Hauteur
-Element.Style.width=Largeur
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Signet
@@ -2768,6 +2767,11 @@ Element.ReportItem.cascadeACL=Cascade ACL
 Element.ReportItem.allowExport=Autoriser l'exportation
 Element.ReportItem.pushDown=Déplacer vers le bas
 Element.ReportItem.theme=Thème
+Element.ReportItem.language=Langue
+Element.ReportItem.order=Ordre
+Element.ReportItem.altText=Texte de remplacement
+Element.ReportItem.altTextID=Clé de texte de remplacement
+Element.ReportItem.linkedDataModel=Modèle de données lié
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenu
@@ -2777,7 +2781,7 @@ Element.Label.helpText=Texte d'aide
 Element.Label.action=Action
 Element.Label.onPrepare=A la préparation
 Element.Label.onPrepare.this=Etiquette
-Element.Label.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.Label.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.Label.onPrepare.reportContext=Contexte d'état
 Element.Label.onCreate=A la création
 Element.Label.onCreate.toolTip=Script exécuté quand l'élément est créé pendant le processus de génération.
@@ -2788,9 +2792,11 @@ Element.Label.onRender.toolTip=Script exécuté quand l'élément est préparé pour l
 Element.Label.onRender.this=Instance d'étiquette
 Element.Label.onRender.reportContext=Contexte d'état
 Element.Label.onPageBreak=Saut de page
-Element.Label.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.Label.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.Label.onPageBreak.this=Instance d'étiquette
 Element.Label.onPageBreak.reportContext=Contexte d'état
+Element.Label.tagType=Type de balise PDF
+Element.Label.altText=Texte de remplacement
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=Eléments d'état
@@ -2804,7 +2810,7 @@ Element.Data.helpText=Texte d'aide
 Element.Data.helpTextID=Clé du texte d'aide
 Element.Data.action=Action
 Element.Data.onPrepare=A la préparation
-Element.Data.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.Data.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.Data.onPrepare.this=Données
 Element.Data.onPrepare.reportContext=Contexte d'état
 Element.Data.onCreate=A la création
@@ -2816,16 +2822,18 @@ Element.Data.onRender.toolTip=Script exécuté quand l'élément est préparé pour le
 Element.Data.onRender.this=Instance de données
 Element.Data.onRender.reportContext=Contexte d'état
 Element.Data.onPageBreak=Saut de page
-Element.Data.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.Data.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.Data.onPageBreak.this=Instance de données
 Element.Data.onPageBreak.reportContext=Contexte d'état
+Element.Data.tagType=Type de balise PDF
+Element.Data.altText=Texte de remplacement
   
 #14.Text  ( prefix  Element.Text )
 Element.Text.content=Contenu
 Element.Text.contentType=Type de contenu
 Element.Text.contentID=Clé de contenu
 Element.Text.onPrepare=A la préparation
-Element.Text.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.Text.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.Text.onPrepare.this=Texte
 Element.Text.onPrepare.reportContext=Contexte d'état
 Element.Text.onCreate=A la création
@@ -2837,10 +2845,12 @@ Element.Text.onRender.toolTip=Script exécuté quand l'élément est préparé pour le
 Element.Text.onRender.this=Text instance
 Element.Text.onRender.reportContext=Contexte d'état
 Element.Text.onPageBreak=Saut de page
-Element.Text.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.Text.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.Text.onPageBreak.this=Instance de texte
 Element.Text.onPageBreak.reportContext=Contexte d'état
 Element.Text.hasExpression=Est doté de l'expression
+Element.Text.tagType=Type de balise PDF
+Element.Text.altText=Texte de remplacement
   
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=Expression clé
@@ -2889,7 +2899,7 @@ Element.List.slot.groups=Groupes
 Element.List.slot.detail=Détails
 Element.List.slot.footer=Pied de page
 Element.List.onPrepare=A la préparation
-Element.List.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.List.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.List.onPrepare.this=Liste
 Element.List.onPrepare.reportContext=Contexte d'état
 Element.List.onCreate=A la création
@@ -2901,19 +2911,21 @@ Element.List.onRender.toolTip=Script exécuté quand l'élément est préparé pour le
 Element.List.onRender.this=Instance de liste
 Element.List.onRender.reportContext=Contexte d'état
 Element.List.onPageBreak=Saut de page
-Element.List.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.List.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.List.onPageBreak.this=Instance de liste
 Element.List.onPageBreak.reportContext=Contexte d'état
+Element.List.tagType=Type de balise PDF
+Element.List.altText=Texte de remplacement
   
 #17.ListGroup  ( prefix  Element.ListGroup )
 Element.ListGroup.slot.header=En-tête
 Element.ListGroup.slot.footer=Pied de page
 Element.ListGroup.onPrepare=A la préparation
-Element.ListGroup.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.ListGroup.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.ListGroup.onPrepare.this=Groupe de listes
 Element.ListGroup.onPrepare.reportContext=Contexte d'état
 Element.ListGroup.onPageBreak=Saut de page
-Element.ListGroup.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.ListGroup.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.ListGroup.onPageBreak.this=Groupe de listes
 Element.ListGroup.onPageBreak.reportContext=Contexte d'état
   
@@ -2928,7 +2940,7 @@ Element.Table.slot.detail=Détails
 Element.Table.slot.footer=Pied de page
 Element.Table.slot.columns=Colonnes
 Element.Table.onPrepare=A la préparation
-Element.Table.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.Table.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.Table.onPrepare.this=Table
 Element.Table.onPrepare.reportContext=Contexte d'état
 Element.Table.onPrepare.object=Objet
@@ -2943,19 +2955,20 @@ Element.Table.onRender.this=Instance de table
 Element.Table.onRender.reportContext=Contexte d'état
 Element.Table.onRender.object=Objet
 Element.Table.onPageBreak=Saut de page
-Element.Table.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.Table.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.Table.onPageBreak.this=Instance de table
 Element.Table.onPageBreak.reportContext=Contexte d'état
+Element.Table.tagType=Type de balise PDF
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=En-tête
 Element.TableGroup.slot.footer=Pied de page
 Element.TableGroup.onPrepare=A la préparation
-Element.TableGroup.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.TableGroup.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.TableGroup.onPrepare.this=Groupe de tables
 Element.TableGroup.onPrepare.reportContext=Contexte d'état
 Element.TableGroup.onPageBreak=Saut de page
-Element.TableGroup.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.TableGroup.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.TableGroup.onPageBreak.this=Groupe de tables
 Element.TableGroup.onPageBreak.reportContext=Contexte d'état
   
@@ -2976,7 +2989,7 @@ Element.Row.eventHandlerClass=Classe de gestionnaire d'événements
 Element.Row.newHandlerOnEachEvent=Nouveau gestionnaire pour chaque événement
 Element.Row.slot.cells=Cellules
 Element.Row.onPrepare=A la préparation
-Element.Row.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.Row.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.Row.onPrepare.this=Ligne
 Element.Row.onPrepare.reportContext=Contexte d'état
 Element.Row.onCreate=A la création
@@ -2990,6 +3003,8 @@ Element.Row.onRender.reportContext=Contexte d'état
 Element.Row.suppressDuplicates=Supprimer les doubles
 Element.Row.viewAction=Afficher l'action
 Element.Row.repeatable=Répétable
+Element.Row.tagType=Type de balise PDF
+Element.Row.language=Langue
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=Colonne
@@ -3007,7 +3022,7 @@ Element.Cell.bookmark=Signet
 Element.Cell.bookmarkDisplayName=Mettre en signet le nom d'affichage
 Element.Cell.headers=En-têtes
 Element.Cell.onPrepare=A la préparation
-Element.Cell.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.Cell.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.Cell.onPrepare.this=Cellule
 Element.Cell.onPrepare.reportContext=Contexte d'état
 Element.Cell.onCreate=A la création
@@ -3028,6 +3043,9 @@ Element.Cell.antidiagonalThickness=Epaisseur antidiagonale
 Element.Cell.diagonalStyle=Style diagonal
 Element.Cell.antidiagonalStyle=Style antidiagonal
 Element.Cell.antidiagonalColor=Couleur antidiagonale
+Element.Cell.tagType=Type de balise PDF
+Element.Cell.language=Langue
+Element.Cell.altText=Texte de remplacement
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Autre texte
@@ -3043,7 +3061,7 @@ Element.Image.valueExpr=Expression de valeur
 Element.Image.typeExpr=Expression de type
 Element.Image.action=Action
 Element.Image.onPrepare=A la préparation
-Element.Image.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.Image.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.Image.onPrepare.this=Image
 Element.Image.onPrepare.reportContext=Contexte d'état
 Element.Image.onCreate=A la création
@@ -3056,17 +3074,18 @@ Element.Image.onRender.toolTip=Script exécuté quand l'élément est préparé pour l
 Element.Image.onRender.this=Instance d'image
 Element.Image.onRender.reportContext=Contexte d'état
 Element.Image.onPageBreak=Saut de page
-Element.Image.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.Image.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.Image.onPageBreak.this=Instance d'image
 Element.Image.onPageBreak.reportContext=Contexte d'état
 Element.Image.fitToContainer=Ajuster au conteneur
 Element.Image.proportionalScale=Echelle proportionnelle
+Element.Image.tagType=Type de balise PDF
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=Colonnes
 Element.Grid.slot.rows=Lignes
 Element.Grid.onPrepare=A la préparation
-Element.Grid.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.Grid.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.Grid.onPrepare.this=Grille
 Element.Grid.onPrepare.reportContext=Contexte d'état
 Element.Grid.onCreate=A la création
@@ -3079,12 +3098,13 @@ Element.Grid.onRender.toolTip=Script exécuté quand l'élément est préparé pour le
 Element.Grid.onRender.this=Instance de grille
 Element.Grid.onRender.reportContext=Contexte d'état
 Element.Grid.onPageBreak=Saut de page
-Element.Grid.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.Grid.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.Grid.onPageBreak.this=Instance de grille
 Element.Grid.onPageBreak.reportContext=Contexte d'état
 Element.Grid.caption=Légende
 Element.Grid.captionID=Clé de légende
 Element.Grid.summary=Résumé
+Element.Grid.tagType=Type de balise PDF
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientation
@@ -3093,7 +3113,7 @@ Element.Line.orientation=Orientation
 Element.TextData.valueExpr=Expression de valeur
 Element.TextData.contentType=Type de contenu
 Element.TextData.onPrepare=A la préparation
-Element.TextData.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.TextData.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.TextData.onPrepare.this=Texte dynamique
 Element.TextData.onPrepare.reportContext=Contexte d'état
 Element.TextData.onPrepare.object=Objet
@@ -3107,10 +3127,12 @@ Element.TextData.onRender.toolTip=Script exécuté quand l'élément est préparé pou
 Element.TextData.onRender.this=Instance de texte dynamique
 Element.TextData.onRender.reportContext=Contexte d'état
 Element.TextData.onPageBreak=Saut de page
-Element.TextData.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.TextData.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.TextData.onPageBreak.this=Instance de texte dynamique
 Element.TextData.onPageBreak.reportContext=Contexte d'état
 Element.TextData.hasExpression=Est doté de l'expression
+Element.TextData.tagType=Type de balise PDF
+Element.TextData.altText=Texte de remplacement
 
 #27.ExtendedItem   ( prefix  Element.ExtendedItem )
 Element.ExtendedItem.altText=Autre texte
@@ -3118,7 +3140,7 @@ Element.ExtendedItem.altTextID=Clé d'autre texte :
 Element.ExtendedItem.extensionName=Nom d'extension
 Element.ExtendedItem.filter=Filtre
 Element.ExtendedItem.onPrepare=A la préparation
-Element.ExtendedItem.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.ExtendedItem.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.ExtendedItem.onPrepare.this=Elément étendu
 Element.ExtendedItem.onPrepare.reportContext=Contexte d'état
 Element.ExtendedItem.onCreate=A la création  
@@ -3130,7 +3152,7 @@ Element.ExtendedItem.onRender.toolTip=Action exécutée quand l'élément est prépar
 Element.ExtendedItem.onRender.this=Instance d'élément étendu
 Element.ExtendedItem.onRender.reportContext=Contexte d'état
 Element.ExtendedItem.onPageBreak=Saut de page
-Element.ExtendedItem.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.ExtendedItem.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.ExtendedItem.onPageBreak.this=Instance d'élément étendu
 Element.ExtendedItem.onPageBreak.reportContext=Contexte d'état
 Element.ExtendedItem.extensionVersion=Extension version
@@ -3260,7 +3282,7 @@ Element.TemplateReportItem.visibility=Visibilité
 Element.AutoText.type = Type d'autotext
 Element.AutoText.onPrepare=A la préparation
 Element.AutoText.onPrepare.this=AutoText
-Element.AutoText.onPrepare.toolTip=S'exécute durant la configuration de l'élément. Modifier le modèle d'un élément ici. Les liaisons de données ne sont pas encore disponibles.
+Element.AutoText.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.AutoText.onPrepare.reportContext=Contexte d'état
 Element.AutoText.onCreate=A la création
 Element.AutoText.onCreate.toolTip=Script exécuté quand l'élément est créé pendant le processus de génération.
@@ -3271,7 +3293,7 @@ Element.AutoText.onRender.toolTip=Script exécuté quand l'élément est préparé pou
 Element.AutoText.onRender.this=Instance AutoText
 Element.AutoText.onRender.reportContext=Contexte d'état
 Element.AutoText.onPageBreak=Saut de page
-Element.AutoText.onPageBreak.toolTip=S'exécute pour tous les éléments d'état sur une page lorsqu'un saut de page est appliqué
+Element.AutoText.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d'état présents sur une page lors du saut de page
 Element.AutoText.onPageBreak.this=Instance AutoText
 Element.AutoText.onPageBreak.reportContext=Contexte d'état
 Element.AutoText.pageVariable=Variable de la page
@@ -3418,6 +3440,7 @@ Element.DerivedDataSet.extensionID=ID d'extension
 Element.AbstractScalarParameter.isRequired=Est requis
 Element.AbstractScalarParameter.dynamicList=Liste dynamique
 Element.AbstractScalarParameter.dynamicList.dataSetName=Nom du jeu de données
+Element.AbstractScalarParameter.dynamicList.linkedDataModelName=Nom de modèle de données lié
 Element.AbstractScalarParameter.dynamicList.valueExpr=Expression de valeur
 Element.AbstractScalarParameter.dynamicList.labelExpr=Expression d'étiquette
 Element.AbstractScalarParameter.listLimit=Limite de liste
@@ -3467,9 +3490,6 @@ Element.TimeDimension.startTimePoint=Limite pour l'heure de début
 Element.TimeDimension.endTimePoint=Limite pour l'heure de fin
 Element.TimeDimension.hierarchies=Hiérarchies
 
-#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
-Element.DataMartLinkedDataModel.dataSource=Source de données
-Element.DataMartLinkedDataModel.dataObject=Objet de données :
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=Styles
@@ -3478,6 +3498,17 @@ Element.ReportItemTheme.customValues=Personnaliser les valeurs
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=Feuilles de style CSS
+
+#Category
+Element.Category.helpText = Texte d'aide
+Element.Category.helpTextKey = Clé de ressource du texte d'aide
+
+#Category Column
+Element.CategoryColumn.aggregationFunction = Fonction d'agrégation
+Element.CategoryColumn.aliasDataSet = Jeu de données d'alias
+Element.CategoryColumn.dataType = Type de données
+Element.CategoryColumn.expression = Expression
+Element.CategoryColumn.resultSetColumnName = Nom de la colonne de jeu de résultats
 
 ###########################################################
 # Predefined style
@@ -4018,7 +4049,6 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Les éléments de modèle ne
 Info.VersionInfo.INVALID_DESIGN_FILE=Le fichier modèle d'ouverture n'est pas un fichier modèle valide ou le fichier n'existe pas.
 Info.VersionInfo.CONVERT_INFO=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
 Info.VersionInfo.INVALID_VERSION=Le fichier d''état de la version "{0}" n''est pas pris en charge.
-Info.VersionInfo.LATER_VERSION=Le fichier de modèle a été créé à l'aide d'une version ultérieure de BIRT. Cliquez sur OK pour le convertir dans un format compatible avec la version actuelle du produit.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =Il est possible de modifier la bibliothèque de modèles, la compatibilité descendante étant appliquée à la bibliothèque de modèles en cours d'ouverture ou aux bibliothèques qui lui sont associées.
 
 #EncryptionException

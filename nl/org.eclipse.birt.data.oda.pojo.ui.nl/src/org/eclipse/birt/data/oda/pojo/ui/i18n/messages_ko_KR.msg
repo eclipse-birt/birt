@@ -9,149 +9,155 @@
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
 # data source messages
-DataSource.RuntimeProperty=&Runtime Properties
-DataSource.DataSetClassPath=Shared &Location of Custom POJO Data Set Classes
+DataSource.RuntimeProperty=런타임 속성(&R)
+DataSource.DataSetClassPath=사용자 지정 POJO 데이터 집합 클래스의 공유 위치(&L)
 
-DataSource.AddRelativeJars0=&Add Jars(Relative Path)...
-DataSource.AddAbsoluteJars0=Add &Jars(Absolute Path)...
+DataSource.AddRelativeJars0=Jar 추가(상대 경로)(&A)...
+DataSource.AddAbsoluteJars0=Jar 추가(절대 경로)(&J)...
 
 #To avoid duplicate short-cut keys
-DataSource.AddRelativeJars1=Add Jar&s(Relative Path)...
-DataSource.AddAbsoluteJars1=Add Jars(A&bsolute Path)...
-DataSource.AddRelativeClassFolder1=Add Class Fold&er(Relative Path)...
-DataSource.AddAbsoluteClassFolder1=Add Class Folder(Absol&ute Path)...
+DataSource.AddRelativeJars1=Jar 추가(상대 경로)(&S)...
+DataSource.AddAbsoluteJars1=Jar 추가(절대 경로)(&B)...
+DataSource.AddRelativeClassFolder1=클래스 폴더 추가(상대 경로)(&E)...
+DataSource.AddAbsoluteClassFolder1=클래스 폴더 추가(절대 경로)(&U)...
 
-DataSource.button.tooltip.AddJar.TwoItems=Add jars to the class paths.\nRelative Path: the relative path based on the resource folder.\nAbsolute Path: the absolute path of the file system.
-DataSource.button.tooltip.AddJar.OneItems=Add jars to the class paths.\nAbsolute Path: the absolute path of the file system.
+DataSource.button.tooltip.AddJar.TwoItems=클래스 경로에 jar를 추가합니다.\n상대 경로: 리소스 폴더에 따른 상대 경로입니다.\n절대 경로: 파일 시스템의 절대 경로입니다.
+DataSource.button.tooltip.AddJar.OneItems=클래스 경로에 jar를 추가합니다.\n절대 경로: 파일 시스템의 절대 경로입니다.
 
-DataSource.PojoClassPath=Shared L&ocation of POJO Classes
+DataSource.PojoClassPath=POJO 클래스 공유 위치(&O)
 
-DataSource.MissDataSetPojoClassPath.runtime=The runtime shared location of custom POJO data set classes is missing.
-DataSource.MissDataSetPojoClassPath.designtime=The shared location of custom POJO data set classes used in design time is missing.
-DataSource.PageMessage=POJO Data Source Properties
-DataSource.POJOClasses.tab.runtime=&Runtime Properties
-DataSource.POJOClasses.tab.designTime=Design Time &Properties
-DataSource.POJOClassTabFolderPage.promptLabel.runtime=Shared &Location of Custom POJO Data Set Classes
-DataSource.POJOClassTabFolderPage.promptLabel.designtime=Shared &Location of Custom POJO Classes
-DataSource.POJOClassTabFolderPage.button.edit=&Edit...
-DataSource.POJOClassTabFolderPage.button.up=&Up
-DataSource.POJOClassTabFolderPage.button.down=&Down
-DataSource.POJOClassTabFolderPage.button.remove=Remo&ve
-DataSource.POJOClassTabFolderPage.menuButton.addJar=Add Jars
-DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=Relative path
-DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=Absolute path
-DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=Error
-DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=Failed to get the application resource base URI!
+DataSource.MissDataSetPojoClassPath.runtime=런타임에 사용되는 사용자 지정 POJO 데이터 집합 클래스의 공유 위치가 없습니다.
+DataSource.MissDataSetPojoClassPath.designtime=디자인 시간에 사용되는 사용자 지정 POJO 데이터 집합 클래스의 공유 위치가 없습니다.
+DataSource.PageMessage=POJO 데이터 원본 속성
+DataSource.POJOClasses.tab.runtime=런타임 속성(&R)
+DataSource.POJOClasses.tab.designTime=디자인 시간 속성(&P)
+DataSource.POJOClassTabFolderPage.promptLabel.runtime=사용자 지정 POJO 데이터 집합 클래스의 공유 위치(&L)
+DataSource.POJOClassTabFolderPage.promptLabel.designtime=사용자 지정 POJO 클래스의 공유 위치(&L)
+DataSource.POJOClassTabFolderPage.button.edit=편집(&E)...
+DataSource.POJOClassTabFolderPage.button.up=위로(&U)
+DataSource.POJOClassTabFolderPage.button.down=아래로(&D)
+DataSource.POJOClassTabFolderPage.button.remove=제거(&V)
+DataSource.POJOClassTabFolderPage.menuButton.addJar=Jar 추가
+DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=상대 경로
+DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=절대 경로
+DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=오류
+DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=응용 프로그램 리소스 기본 URI를 가져오지 못했습니다!
 
-DataSource.ClassPathPage.synchronize.checkbox.message=Use Runtime Properties for both Runtime and Designtime
-DataSource.ClassPathPage.synchronize.checkbox.tooltip=If the option is ticked on, then the Designtime Properties Editor will be disabled to edit.
-DataSource.ClassPathPage.synchronize.PrompMessage=Note: If the option is ticked on, the Designtime Properties Settings will be ignored.
-DataSource.ClassPathPage.testConnection.failed.runtime=Failed to create connection with "{0}" of the runtime property!
-DataSource.ClassPathPage.testConnection.failed.designtime=Failed to create connection with "{0}" of the design time property!
+DataSource.ClassPathPage.synchronize.checkbox.message=런타임 및 디자인 타임 모두에 대해 런타임 속성을 사용합니다.
+DataSource.ClassPathPage.synchronize.checkbox.tooltip=이 옵션을 선택하면 디자인 타임 속성 편집기를 사용하여 편집할 수 없습니다.
+DataSource.ClassPathPage.synchronize.PrompMessage=참고: 옵션을 선택하면 디자인 타임 속성 설정이 무시됩니다.
+DataSource.ClassPathPage.testConnection.failed.runtime=런타임 속성의 "{0}"과(와)의 연결을 만들지 못했습니다!
+DataSource.ClassPathPage.testConnection.failed.designtime=디자인 시간 속성의 "{0}"과(와)의 연결을 만들지 못했습니다!
 
 
 # data set messages
-DataSet.PojoDataSetClass=&POJO Data Set Class Name
-DataSet.AppContextKey=&Application Context Key
-DataSet.PojoRootClass=POJO &Class Name
-DataSet.Browse=&Browse...
-DataSet.Browse.tooltip=Browse to select a class.
+DataSet.PojoDataSetClass=POJO 데이터 집합 클래스 이름(&P)
+DataSet.AppContextKey=응용 프로그램 컨텍스트 키(&A)
+DataSet.PojoRootClass=POJO 클래스 이름(&C)
+DataSet.Browse=찾아보기(&B)...
+DataSet.Browse.tooltip=클래스를 찾아 선택합니다.
 
 #To avoid duplicate short-cut key
-DataSet.Browse1=B&rowse...
-DataSet.DataType.Object=Java Object
+DataSet.Browse1=찾아보기(&R)...
+DataSet.DataType.Object=Java 개체
 
-DataSet.FailedParseQueryTitle=Failed to Parse Query Text
-DataSet.FailedParseQueryMsg=Query text: "{0}".
-DataSet.FailedToSaveTitle=Failed to Save Data Set
-DataSet.FailedToSaveMsg=Exception occurs during saving data set.
-DataSet.Label.MethodNameFilter=&Method Name Filter(? = any character,* = any string):
-DataSet.MissPojoRootClass=POJO Class is not provided.
-DataSet.Apply=Appl&y
-DataSet.ClassStructure=POJO Class Structure
-DataSet.ColumnMapping=&Column Mapping
-DataSet.Add=&Add...
-DataSet.Edit=&Edit...
-DataSet.Remove=&Remove
-DataSet.Up=&Up
-DataSet.Down=&Down
-DataSet.Label.POJOClassName=POJO Class Name
-DataSet.Label.prompt.ClassName=Select methods and &fields to create data set columns.
-DataSet.button.addColumn.tooltip.mapColumn=Add the selected item to be the column.
-DataSet.button.removeColumn.tooltip.mapColumn=Remove the selected item from the columns table.
-DataSet.button.tooltip.Add=Add a new column.
-DataSet.button.tooltip.Edit=Edit the current column.
-DataSet.button.tooltip.Remove=Remove the current column.
-DataSet.button.tooltip.Up=Move up the current column.
-DataSet.button.tooltip.Down=Move down the current column.
-DataSet.ShowSampleData=&Show Sample Data
-DataSet.button.tooltip.ShowSampleData=Show sample data.
-DataSet.FailedToLoadClassTitle=Failed to load class.
-DataSet.FailedToLoadPojoClassMsg=Failed to load POJO class:"{0}".
+DataSet.FailedParseQueryTitle=쿼리 텍스트 구문 분석 실패
+DataSet.FailedParseQueryMsg=쿼리 텍스트: "{0}".
+DataSet.FailedToSaveTitle=데이터 집합 저장 실패
+DataSet.FailedToSaveMsg=데이터 집합을 저장하는 동안 예외가 발생했습니다.
+DataSet.Label.MethodNameFilter=메서드 이름 필터(? = 모든 문자, * = 모든 문자열)(&M):
+DataSet.MissPojoRootClass=POJO 클래스가 제공되지 않았습니다.
+DataSet.Apply=적용(&Y)
+DataSet.ClassStructure=POJO 클래스 구조
+DataSet.ColumnMapping=열 매핑(&C)
+DataSet.Add=추가(&A)...
+DataSet.Edit=편집(&E)...
+DataSet.Remove=제거(&R)
+DataSet.Up=위로(&U)
+DataSet.Down=아래로(&D)
+DataSet.Label.POJOClassName=POJO 클래스 이름
+DataSet.Label.prompt.ClassName=데이터 집합 열을 만들려면 메서드와 필드를 선택하십시오(&F).
+DataSet.button.addColumn.tooltip.mapColumn=선택한 항목을 열에 추가합니다.
+DataSet.button.removeColumn.tooltip.mapColumn=열 테이블에서 선택한 항목을 제거합니다.
+DataSet.button.tooltip.Add=새 열을 추가합니다.
+DataSet.button.tooltip.Edit=현재 열을 편집합니다.
+DataSet.button.tooltip.Remove=현재 열을 제거합니다.
+DataSet.button.tooltip.Up=현재 열 위로 이동합니다.
+DataSet.button.tooltip.Down=현재 열 아래로 이동합니다.
+DataSet.ShowSampleData=샘플 데이터 표시(&S)
+DataSet.button.tooltip.ShowSampleData=샘플 데이터를 표시합니다.
+DataSet.FailedToLoadClassTitle=클래스 로드 실패
+DataSet.FailedToLoadPojoClassMsg=POJO 클래스를 로드하지 못했습니다:"{0}".
 
-ColumnMappingPage.table.head.columnName=Name
-ColumnMappingPage.table.head.MethodField=Method/Field
-ColumnMappingPage.table.head.columnType=Type
+ColumnMappingPage.table.head.columnName=이름
+ColumnMappingPage.table.head.MethodField=메서드/필드
+ColumnMappingPage.table.head.columnType=형식
 
-ColumnMappingWizardPage.error.getQueryText=Failed to parse original query text.
-ColumnMappingWizardPage.button.apply.text=A&pply
-ColumnMappingWizardPage.button.apply.tooltip=Apply the input POJO class name to generate the method tree.
+ColumnMappingWizardPage.error.getQueryText=원본 쿼리 텍스트를 구문 분석하지 못했습니다.
+ColumnMappingWizardPage.button.apply.text=적용(&P)
+ColumnMappingWizardPage.button.apply.tooltip=입력 POJO 클래스 이름을 적용하여 메서드 트리를 생성합니다.
 
-ColumnMappingDialog.Label.ColumnName=&Column Name: 
-ColumnMappingDialog.Label.ColumnMethodField=&Method/Field:
-ColumnMappingDialog.Label.Type=Column &Type:
-ColumnMappingDialog.table.promptLabel=Select method &arguments mapped to the parameter:
-ColumnMappingDialog.table.head.mapped=Mapped
-ColumnMappingDialog.table.head.name=Name
-ColumnMappingDialog.table.head.value=Value
-ColumnMappingDialog.table.head.dataType=Java Data Type
-ColumnMappingDialog.button.edit=&Edit...
-ColumnMappingDialog.button.selectAll=&Select All
-ColumnMappingDialog.button.deselectAll=&Deselect All
-ColumnMappingDialog.Label.methodHierarchy=Method call hierarchy:
-ColumnMappingDialog.error.DuplicatedColumnName=The column name has already been used!
-ColumnMappingDialog.error.EmptyColumnName=The column name cannot be empty!
-ColumnMappingDialog.error.EmptyMappingPath=The column mapping path cannot be empty!
-ColumnMappingDialog.MenuItem.remove=Remove
-ColumnMappingDialog.MenuItem.removeAll=Remove All
+ColumnMappingDialog.Label.ColumnName=열 이름(&C): 
+ColumnMappingDialog.Label.ColumnMethodField=메서드/필드(&M):
+ColumnMappingDialog.Label.Type=열 형식(&T):
+ColumnMappingDialog.table.promptLabel=매개 변수에 매핑된 메서드 인수 선택(&A):
+ColumnMappingDialog.table.head.mapped=매핑됨
+ColumnMappingDialog.table.head.name=이름
+ColumnMappingDialog.table.head.value=값
+ColumnMappingDialog.table.head.dataType=Java 데이터 형식
+ColumnMappingDialog.button.edit=편집(&E)...
+ColumnMappingDialog.button.selectAll=모두 선택(&S)
+ColumnMappingDialog.button.deselectAll=모두 선택 취소(&D)
+ColumnMappingDialog.Label.methodHierarchy=메서드 호출 계층:
+ColumnMappingDialog.error.DuplicatedColumnName=열 이름이 이미 사용되었습니다.
+ColumnMappingDialog.error.EmptyColumnName=열 이름을 입력해야 합니다.
+ColumnMappingDialog.error.EmptyMappingPath=열 매핑 경로를 입력해야 합니다.
+ColumnMappingDialog.MenuItem.remove=제거
+ColumnMappingDialog.MenuItem.removeAll=모두 제거
 
-MethodParameterDialog.edit.title=Edit Method Parameter
-MethodParameterDialog.label.name=&Name:
-MethodParameterDialog.label.value=&Value:
-MethodParameterDialog.label.dataType=&Java Data Type:
-MethodParameterDialog.checkBox.message=Set the argument mapped to the parameter.
-MethodParameterDialog.error.missingName=The mapped parameter must be specified a name!
-MethodParameterDialog.error.missingValue=The constant parameter must be specified a constant value!
-MethodParameterDialog.error.invalidParamName=The parameter has already been specified a different data type!
-MethodParameterDialog.error.missingDataType=The parameter data type cannot be empty!
+MethodParameterDialog.edit.title=메서드 매개 변수 편집
+MethodParameterDialog.label.name=이름(&N):
+MethodParameterDialog.label.value=값(&V):
+MethodParameterDialog.label.dataType=Java 데이터 형식(&J):
+MethodParameterDialog.checkBox.message=매개 변수에 매핑된 인수를 설정합니다.
+MethodParameterDialog.error.missingName=매핑된 매개 변수에 이름을 지정해야 합니다.
+MethodParameterDialog.error.missingValue=상수 매개 변수에는 상수 값을 지정해야 합니다.
+MethodParameterDialog.error.invalidParamName=매개 변수에 이미 다른 데이터 형식이 지정되어 있습니다.
+MethodParameterDialog.error.missingDataType=매개 변수 데이터 형식을 입력해야 합니다.
 
-DataSet.DataType.String=String
-DataSet.DataType.Integer=Integer
+DataSet.DataType.String=문자열
+DataSet.DataType.Integer=정수
 #make the display label consistent with BIRT data type 
-DataSet.DataType.Double=Float
-DataSet.DataType.Decimal=Decimal 
-DataSet.DataType.Date=Date 
-DataSet.DataType.Time=Time 
+DataSet.DataType.Double=고정 해제
+DataSet.DataType.Decimal=십진수 
+DataSet.DataType.Date=날짜 
+DataSet.DataType.Time=시간 
 #make the display label consistent with BIRT data type 
-DataSet.DataType.Timestamp=Date Time 
-DataSet.DataType.Boolean=Boolean 
+DataSet.DataType.Timestamp=날짜 시간 
+DataSet.DataType.Boolean=부울 
 DataSet.DataType.Blob=Blob 
-DataSet.AddColumnMapping=Add Column Mapping
-DataSet.EditColumnMapping=Edit Column Mapping
-DataSet.InvalidColumnMappingPath=Invalid Method/Field Format:"{0}".
-DataSet.InvalidMethodName=Invalid Method Name:"{0}".
-DataSet.InvalidFieldName=Invalid Field Name:"{0}".
-DataSet.JarsSelectDlg.Title=Select Jars / Zips
-DataSet.ClassFoldersSelectDlg.Title=Select Class Folders
-DataSet.PropertyPageMsg=POJO Data Set Properties
-DataSet.ColumnMappingPageMsg=Column Mapping
-DataSet.NoColumnMappingErrorMsg=No Column Mapping.
-DataSet.ClassNameFilter=&Class Name Filter(? = any character,* = any string):
-DataSet.MatchingItems=&Matching Items:
-DataSet.ClassInputDialogTitle=Choose Class
-DataSet.PreviewDialogTitle=Sample Data
-DataSet.FailedFetchSampleData=Failed to Fetch Sample Data
+DataSet.AddColumnMapping=열 매핑 추가
+DataSet.EditColumnMapping=열 매핑 편집
+DataSet.InvalidColumnMappingPath=잘못된 메서드/필드 형식:"{0}".
+DataSet.InvalidMethodName=잘못된 메서드 이름:"{0}".
+DataSet.InvalidFieldName=잘못된 필드 이름:"{0}".
+DataSet.JarsSelectDlg.Title=Jar/Zip 선택
+DataSet.ClassFoldersSelectDlg.Title=클래스 폴더 선택
+DataSet.PropertyPageMsg=POJO 데이터 집합 속성
+DataSet.ColumnMappingPageMsg=열 매핑
+DataSet.NoColumnMappingErrorMsg=열 매핑이 없습니다.
+DataSet.ClassNameFilter=클래스 이름 필터(? = 모든 문자, * = 모든 문자열)(&C):
+DataSet.MatchingItems=일치하는 항목(&M):
+DataSet.ClassInputDialogTitle=클래스 선택
+DataSet.PreviewDialogTitle=샘플 데이터
+DataSet.FailedFetchSampleData=샘플 데이터를 가져오지 못했습니다.
 
-ExceptionDialog.title.erro=Error
-ExceptionDialog.DataSource.AddDuplicatedJar=The same jar cannot be added multiple times.
-error.PojoDataSet.emptyClassName=Class name can not be empty.
+ExceptionDialog.title.erro=오류
+ExceptionDialog.DataSource.AddDuplicatedJar=같은 jar를 여러 번 추가할 수 없습니다.
+error.PojoDataSet.emptyClassName=클래스 이름을 입력해야 합니다.
+
+JarsSelectionDialog.button.importFile=파일 가져오기...
+JarsSelectionDialog.title.error=오류
+JarsSelectionDialog.title.overwrite=덮어쓰기
+JarsSelectionDialog.overwrite.msg=같은 이름의 파일이 이미 있습니다. 덮어쓰시겠습니까?
+JarsSelectionDialog.import.msg=파일을 가져오는 중...

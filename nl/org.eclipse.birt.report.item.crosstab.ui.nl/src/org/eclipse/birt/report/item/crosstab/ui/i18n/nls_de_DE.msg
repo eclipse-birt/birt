@@ -14,7 +14,7 @@ DeleteDimensionViewHandleAction.DisplayName=Entf&ernen
 DeleteMeasureHandleAction.DisplayName=Entf&ernen
 DeleteMeasureHandleAction.TransName=Maßeinheit löschen
 
-AddComputedMesureHandleAction.DisplayName=Abgeleitete &Maßeinheit hinzufügen
+AddComputedMesureHandleAction.DisplayName=Abgeleitete Maß&einheit hinzufügen
 AddComputedMesureHandleAction.TransName=Abgeleitete Maßeinheit hinzufügen
 AddComputedSummaryDialog.Title=Abgeleitete Maßeinheit
 AddComputedSummaryDialog.Label.Name=&Name:
@@ -28,23 +28,19 @@ ShowAsViewAction.DisplayName=Anzeigen als
 ShowAsViewAction.TransName=Anzeigen als
 
 MeasureComboPropertyDescriptorProvider.TransName=Kreuztabellen-Ausrichtung ändern
-MeasureHandleDropAdapter_trans_name=Maßeinheit hinzufügen
 
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Dimension hinzufügen
 AddMeasureViewHandleCommand.TransName=Maßeinheit hinzufügen
-AddRelativeTimePeriodAction_action_label=Re&lative Zeitperiode hinzufügen
-AddRelativeTimePeriodAction_trans_label=Relatives Zeitintervall hinzufügen
+AddRelativeTimePeriodAction_action_label=Relatives Zeitintervall hinzufügen
+AddRelativeTimePeriodAction_trans_label=Relatives Zeitintervall hinzufügen 
 ChangeAreaCommand.TransName=Dimension verwerfen
 ChangeMeasureOrderCommand.TransName=Reihenfolge der Maßeinheiten ändern
 CreateDimensionViewCommand.TransName=Dimension erstellen
 CreateMeasureViewCommand.TransName=Maßeinheit erstellen
 
-MergeCrosstabHeaderCellAction_name=&Kopfzeilen verbinden
-SplitCrosstabHeadCellAction_name=Kopfzeile &teilen
 
-ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
 
 ###########################################################
 # Crosstab EditPart
@@ -69,6 +65,8 @@ SubTotalProvider.Column.Position=Position
 SubTotalProvider.ShowAs=Anzeigen als {0}
 LevelViewDialog.Title=Gruppenebenen einblenden/ausblenden
 LevelViewDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
+LevelViewDialog.Button.Regular.Text=&Reguläre Gruppe
+LevelViewDialog.Button.Date.Text=&Datumsgruppe
 AggregationDialog.Title=Summen
 AggregationDialog.Label.Grand=Gesamtsummen:
 AggregationDialog.Label.Sub=Zwischensumme:
@@ -358,3 +356,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=Spaltenbereich
 VirtualCrosstabCellNodeProvider.Display.DetailArea=Detailbereich
 VirtualCrosstabCellNodeProvider.Display.RowArea=Zeilenbereich
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unbekannter Bereich
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (Datenmodell)

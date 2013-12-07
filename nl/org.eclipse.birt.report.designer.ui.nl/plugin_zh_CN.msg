@@ -57,7 +57,7 @@ extension.odadatasource=ODA 数据源扩展点
 publish.template=使用新建报表向导来注册模板(&Z)...
 publish.library=将库复制到共享资源文件夹...
 
-ActionSet.Publish=发布
+ActionSet.Publish=发布资源
 Dummy.label=
 preference.classpath=类路径
 

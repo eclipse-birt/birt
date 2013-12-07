@@ -9,12 +9,12 @@ AddSubTotalAction.TransName=合計の編集
 AddSubTotalAction.DisplayName=合計(&L)
 AddSubTotalAction.TotalName=合計
 CrosstabMenuBuilder.EditCubeAction.DisplayName=データキューブの編集(&E)
-DeleteDimensionViewHandleAction.TransName=ディメンションの削除
+DeleteDimensionViewHandleAction.TransName=ディメンジョンの削除
 DeleteDimensionViewHandleAction.DisplayName=削除(&V)
 DeleteMeasureHandleAction.DisplayName=削除(&V)
 DeleteMeasureHandleAction.TransName=メジャーの削除
 
-AddComputedMesureHandleAction.DisplayName=派生メジャーの追加(&M)
+AddComputedMesureHandleAction.DisplayName=派生メジャーの追加(&S)
 AddComputedMesureHandleAction.TransName=派生メジャーの追加
 AddComputedSummaryDialog.Title=派生メジャー
 AddComputedSummaryDialog.Label.Name=名前(&N) :
@@ -28,23 +28,19 @@ ShowAsViewAction.DisplayName=表示形式
 ShowAsViewAction.TransName=表示形式
 
 MeasureComboPropertyDescriptorProvider.TransName=クロスタブの向きを変更する
-MeasureHandleDropAdapter_trans_name=メジャーの追加
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=ディメンションの追加
+AddDimensionViewHandleCommand.TransName=ディメンジョンの追加
 AddMeasureViewHandleCommand.TransName=メジャーの追加
-AddRelativeTimePeriodAction_action_label=相対期間の追加(&L)
-AddRelativeTimePeriodAction_trans_label=相対期間の追加
-ChangeAreaCommand.TransName=ディメンションの削除
+AddRelativeTimePeriodAction_action_label=相対期間の追加
+AddRelativeTimePeriodAction_trans_label=相対期間の追加 
+ChangeAreaCommand.TransName=ディメンジョンの削除
 ChangeMeasureOrderCommand.TransName=メジャー順の変更
-CreateDimensionViewCommand.TransName=ディメンションの作成
+CreateDimensionViewCommand.TransName=ディメンジョンの作成
 CreateMeasureViewCommand.TransName=メジャーの作成
 
-MergeCrosstabHeaderCellAction_name=ヘッダセルの結合(&M)
-SplitCrosstabHeadCellAction_name=ヘッダセルの分割(&S)
 
-ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
 
 ###########################################################
 # Crosstab EditPart
@@ -69,6 +65,8 @@ SubTotalProvider.Column.Position=位置
 SubTotalProvider.ShowAs={0} として表示
 LevelViewDialog.Title=グループレベルの表示/非表示
 LevelViewDialog.Label.Info=クロスタブに表示するレベルの選択 :
+LevelViewDialog.Button.Regular.Text=通常グループ(&R)
+LevelViewDialog.Button.Date.Text=日付グループ(&D)
 AggregationDialog.Title=合計
 AggregationDialog.Label.Grand=総計 :
 AggregationDialog.Label.Sub=小計 :
@@ -196,7 +194,7 @@ CrosstabFilterConditionBuilder.Button.Measure=メジャー(&U)
 CrosstabFilterConditionBuilder.Button.Cube=キューブ(&C)
 
 FilterbyTree.Bindings.Catogory.Measures=メジャー
-FilterbyTree.Bindings.Catogory.Dimension=ディメンション
+FilterbyTree.Bindings.Catogory.Dimension=ディメンジョン
 FilterbyTree.Bindings.Catogory.GrandTotal=総計
 FilterbyTree.Bindings.Catogory.SubTotal=小計
 FilterbyTree.Bindings.Catogory.OtherType=その他の種類
@@ -334,7 +332,7 @@ InsertCubeInLayoutAction.action.message=キューブからクロスタブを作成
 MapRuleBuilderDialog.MsgDlg.Title=警告
 MapRuleBuilderDialog.MsgDlg.Msg=値は空にできません。
 
-LevelHandleDropAdapter.ActionText=ディメンションの追加
+LevelHandleDropAdapter.ActionText=ディメンジョンの追加
 LevelPropertyDialog.MSG.CreateNew=
 
 
@@ -358,3 +356,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=列領域
 VirtualCrosstabCellNodeProvider.Display.DetailArea=詳細の領域
 VirtualCrosstabCellNodeProvider.Display.RowArea=行領域
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=不明な領域
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (データモデル)

@@ -6,6 +6,7 @@ designer.preview.previewcascadingmenugroup.label=보고서 보기(&R)
 document.preview.previewtoolbarmenuaction.label=문서 보기
 document.preview.previewmenugroup.label=문서 보기(&D)
 ActionSet.Preview=미리 보기
+ActionSet.PreviewWithSecurity=문서 미리 보기
 Action.GenDocument=문서 생성(&D)
 
 template.preview=미리 보기(&V)
