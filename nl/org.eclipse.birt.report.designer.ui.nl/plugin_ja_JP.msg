@@ -57,7 +57,7 @@ extension.odadatasource=ODA データソースの拡張ポイント
 publish.template=テンプレートをレポートの新規作成ウィザードに登録(&Z)...
 publish.library=共有リソースフォルダへのライブラリのコピー(&B)...
 
-ActionSet.Publish=公開
+ActionSet.Publish=リソースの公開
 Dummy.label=
 preference.classpath=Classpath
 

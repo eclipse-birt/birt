@@ -1,4 +1,3 @@
-#
 #************************************************************************
 # Copyright (c) 2013 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
@@ -11,45 +10,46 @@
 #  
 #************************************************************************
 #
-mDbConnection_failedToOpenConn=Unable to open connection with the specified properties.
-mDbConnection_invalidDatabaseName=The specified database ({0}) does not exist.
-mDbConnection_missingValueDBName=Missing required value in the Database Name property.
-mDbConnection_noConnection=No opened connection to prepare query.
-mDbDriver_missingValueServerHost=Missing required value in the Server Host property.
-mDbDriver_nonDefinedDataType=Non-defined
-mDbDriver_readPrefNearest=nearest
-mDbDriver_readPrefPrimary=primary
+mDbConnection_failedToOpenConn=Kann Verbindung mit den angegebenen Eigenschaften nicht öffnen.
+mDbConnection_invalidDatabaseName=Die angegebene Datenbank ({0}) existiert nicht.
+mDbConnection_missingValueDBName=Fehlender erforderlicher Wert in der Eigenschaft 'Datenbankname'.
+mDbConnection_noConnection=Keine offene Verbindung zum Vorbereiten der Abfrage.
+mDbDriver_missingValueServerHost=Fehlender erforderlicher Wert in der Eigenschaft 'Server-Host'.
+mDbDriver_nonDefinedDataType=Nicht definiert
+mDbDriver_readPrefNearest=nächstes
+mDbDriver_readPrefPrimary=primär
 mDbDriver_readPrefPrimaryPreferred=primaryPreferred
-mDbDriver_readPrefSecondary=secondary
+mDbDriver_readPrefSecondary=sekundär
 mDbDriver_readPrefSecondaryPreferred=secondaryPreferred
-mDbDSMetaData_dataSourceName=MongoDB Data Source
-mDbMetaData_invalidCollectionName=Invalid collection name: {0}
-mDbMetaData_missingCmdExprText=Missing expression for the {0} command operation.
-mDbQuery_invalidQueryExecQuery=The query is invalid and unable to execute.
-mDbQuery_invalidQueryGetMD=The query is invalid and unable to prepare result set metadata.
-driverUtil_invalidExpr=Unexpected expression type: {0}.
-driverUtil_parsingError=Error in parsing the JSON expression: {0}
-mDbOp_aggrCmdFailed=Unable to run the Aggregate command operation. \nCheck that your connected MongoDB server is version 2.2 or later.
-mDbOp_dbCmdFailed=Unable to run the command operation ({0})
-mDbOp_invalidQueryExpr=Invalid query expression; unable to execute query.
-mDbOp_mapReduceCmdFailed=Unable to run the MapReduce command operation ({0})
-mDbOp_noCmdResults=No command results available.
-queryModel_emptyExprErrorMsg=<empty expression>
-queryModel_invalidCollectionName=Invalid collection name (${0}).
-queryModel_invalidDbCmdKeyValue=The database command ({0}) is only supported with: \n    {1}
-queryModel_invalidModelToExec=Invalid query definition; unable to execute query.
-queryModel_invalidModelToPrepare=Invalid query definition; unable to prepare query.
-queryModel_invalidPipelineOp=Invalid pipeline operation: {0}
-queryModel_invalidQuerySortExpr=A query sort expression must specify a positive or negative value for the sort order: \n    {0}
-queryModel_invalidSortAggrValue=A {0} pipeline operation must specify a value of 1 or -1 in the sort key: \n    {1}
-queryModel_missingCollectionName=No MongoDB collection is defined in data set query.
-queryModel_missingGroupAggrKey=A {0} pipeline operation must specify an {1} field: \n    {2}
-queryModel_missingMapReduceKey=The command expression is missing the required key: {0}
-queryModel_missingMapReduceValue=The command expression key {0} requires a value.
-queryModel_missingQueryProps=No query is defined in data set.
-queryModel_nonSupportedDbCmd=The database command type is not supported: \n    {0}
-queryProperties_aggrCmdName=Aggregate
-queryProperties_dbCmdName=Run Database Command
-queryProperties_errDeSerializeDBObject=Unable to de-serialize MongoDB expression: {0}
+mDbDSMetaData_dataSourceName=MongoDB-Datenquelle
+mDbMetaData_invalidCollectionName=Ungültiger Sammlungsname: {0}
+mDbMetaData_missingCmdExprText=Fehlender Ausdruck für den {0} Befehlsvorgang.
+mDbQuery_invalidQueryExecQuery=Die Abfrage ist ungültig und kann nicht ausgeführt werden.
+mDbQuery_invalidQueryGetMD=Die Abfrage ist ungültig und kann die Metadata-Ergebnisse nicht vorbereiten.
+driverUtil_invalidExpr=Unerwarteter Ausdruckstyp: {0}.
+driverUtil_parsingError=Fehler bei der Analyse des JSON-Ausdrucks: {0}
+mDbOp_aggrCmdFailed=Ausführen des Aggregatbefehlsvorgangs nicht möglich. \nPrüfen Sie, ob der verbundene MongoDB-Server Version 2.2 oder höher ist.
+mDbOp_dbCmdFailed=Ausführen des Befehlsvorgangs ({0}) nicht möglich
+mDbOp_invalidQueryExpr=Ungültiger Abfrageausdruck; Ausführen der Abfrage nicht möglich.
+mDbOp_mapReduceCmdFailed=Ausführen des MapReduce-Befehlsvorgangs ({0}) nicht möglich
+mDbOp_noCmdResults=Keine Befehlsergebnisse verfügbar.
+mDbResultSet_cannotConvertFieldData=Unable to convert the '{0}' field value ({1}) in {2} data type to a {3} value
+queryModel_emptyExprErrorMsg=<leerer Ausdruck>
+queryModel_invalidCollectionName=Ungültiger Sammlungsname (${0}).
+queryModel_invalidDbCmdKeyValue=Der Datenbankbefehl ({0}) wird nur unterstützt mit: \n {1}
+queryModel_invalidModelToExec=Ungültige Abfragedefinition; Ausführen der Abfrage nicht möglich.
+queryModel_invalidModelToPrepare=Ungültige Abfragedefinition; Vorbereiten der Abfrage nicht möglich.
+queryModel_invalidPipelineOp=Ungültiger Pipeline-Vorgang: {0}
+queryModel_invalidQuerySortExpr=Ein Abfragesortierungsausdruck muss einen positiven oder negativen Wert für die Sortierungsreihenfolge angeben: \n {0}
+queryModel_invalidSortAggrValue=Ein {0} Pipeline-Vorgang muss einen Wert von 1 oder -1 im Sortierschlüssel festlegen: \n {1}
+queryModel_missingCollectionName=Es ist keine MongoDB-Sammlung in der Datensatz-Abfrage definiert.
+queryModel_missingGroupAggrKey=Ein {0} Pipeline-Vorgang muss ein {1} Feld festlegen: \n {2}
+queryModel_missingMapReduceKey=Der Befehlsausdruck fehlt im erforderlichen Schlüssel: {0}
+queryModel_missingMapReduceValue=Der Befehlsausdrucksschlüssel {0} erfordert einen Wert.
+queryModel_missingQueryProps=Es ist keine Abfrage im Datensatz definiert.
+queryModel_nonSupportedDbCmd=Der Datenbankbefehlstyp wird nicht unterstützt: \n {0}
+queryProperties_aggrCmdName=Aggregat
+queryProperties_dbCmdName=Befehl 'Datenbank ausführen'
+queryProperties_errDeSerializeDBObject=Deserialisieren des MongoDB-Ausdrucks nicht möglich: {0}
 queryProperties_mapReduceCmdName=MapReduce
-resultDataHandler_invalidFieldName=Invalid field name: {0}
+resultDataHandler_invalidFieldName=Ungültiger Feldname: {0}

@@ -42,6 +42,7 @@ Element.choice.before=之前
 Element.choice.after=之后
 Element.RowPageBreakInterval=行分页符间隔
 Element.ColumnPageBreakInterval=列分页符间隔
+Element.TagType=标记类型
 
 Method.onPrepare=准备时
 Method.onCreate=创建时
@@ -131,6 +132,7 @@ DimensionViewTask.msg.insert.level=插入级别
 MeasureViewTask.msg.remove.header=删除度量标题
 MeasureViewTask.msg.add.header=添加度量标题
 
+CrosstabViewTask.msg.add.dimension=添加维
 CrosstabViewTask.msg.remove.dimension=删除维
 CrosstabViewTask.msg.remove.grandtotal=删除总计
 CrosstabViewTask.msg.add.grandtotal=添加总计

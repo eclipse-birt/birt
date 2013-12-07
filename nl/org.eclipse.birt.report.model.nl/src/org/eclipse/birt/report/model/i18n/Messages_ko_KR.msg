@@ -1943,8 +1943,6 @@ Structure.HighlightRule.border.right.style=스타일
 Structure.HighlightRule.border.right.width=너비
 Structure.HighlightRule.border.right.color=색상
 Structure.HighlightRule.background.color=배경색
-Structure.HighlightRule.background.image=배경 이미지
-Structure.HighlightRule.backgroundRepeat=배경 반복
 Structure.HighlightRule.format.dateTime=날짜 시간 형식
 Structure.HighlightRule.format.number=숫자 형식
 Structure.HighlightRule.format.number.align=숫자 맞춤  
@@ -1958,10 +1956,6 @@ Structure.HighlightRule.font.color=색상
 Structure.HighlightRule.font.textUnderline=밑줄
 Structure.HighlightRule.font.textOverline=윗줄
 Structure.HighlightRule.font.textLineThrough=가운데 줄
-Structure.HighlightRule.padding.top=안쪽 여백 위쪽
-Structure.HighlightRule.padding.left=안쪽 여백 왼쪽
-Structure.HighlightRule.padding.bottom=안쪽 여백 아래쪽
-Structure.HighlightRule.padding.right=안쪽 여백 오른쪽
 Structure.HighlightRule.text.align=텍스트 맞춤
 Structure.HighlightRule.text.indent=텍스트 들여쓰기
 Structure.HighlightRule.text.transform=텍스트 변환
@@ -2097,7 +2091,6 @@ Structure.IncludedLibrary.namespace=네임스페이스
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=파일 이름
 Structure.IncludedCssStyleSheet.externalCssURI=외부 CSS URI
-Structure.IncludedCssStyleSheet.useExternalCss=외부 CSS 사용
 
 #15. DataSetParam
 Structure.DataSetParam.name=이름
@@ -2413,7 +2406,16 @@ Element.DataMartCube=데이터 개체 큐브
 Element.TimeDimension=시간 차원
 Element.ReportItemTheme=보고서 항목 테마
 Element.AbstractTheme=추상적 테마
-Element.DataMartLinkedDataModel=Data Object Linked Data Set
+Element.DataMartLinkedDataModel=데이터 개체 데이터 모델
+Element.AliasDataSet =별칭 데이터 집합
+Element.LinkedDataModel =링크된 데이터 모델
+Element.LinkedDataModel.pushDown=데이터 모델 아래로 밀어내기
+Element.Category = 범주
+Element.ColumnLink = 열 링크
+Element.ColumnLinkPath = 열 링크 경로
+Element.DrillPath = 드릴 경로
+Element.LinkedDataModelCube = 링크된 데이터 모델 큐브
+Element.LinkedDataModelDataSet = 링크된 데이터 모델 데이터 집합
 
 ###########################################################
 # Element property names
@@ -2524,11 +2526,10 @@ Element.ReportDesign.onPageEnd=페이지 종료 시
 Element.ReportDesign.dataMarts=데이터 마트
 Element.ReportDesign.onPrepare=준비 시
 Element.ReportDesign.onPrepare.this=보고서 디자인
-Element.ReportDesign.onPrepare.toolTip=요소 설정 중 실행합니다. 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.ReportDesign.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.ReportDesign.onPrepare.reportContext=보고서 컨텍스트
-Element.ReportDesign.onContentUpdate= 내용 업데이트 시
-Element.ReportDesign.onContentUpdate.toolTip=BIRT Viewer에서 보고서 내용이 업데이트될 때 클라이언트 측에서 실행합니다.
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.language=언어
+Element.ReportDesign.PDFAccessible=Accessible PDF
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=표시 이름
@@ -2743,8 +2744,6 @@ Element.Style.widows=창
 Element.Style.orphans=고아
 Element.Style.wordSpacing=단어 간격
 Element.Style.overflow=오버플로
-Element.Style.height=높이
-Element.Style.width=너비
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=책갈피
@@ -2768,6 +2767,11 @@ Element.ReportItem.cascadeACL=계단식 ACL
 Element.ReportItem.allowExport=내보내기 허용
 Element.ReportItem.pushDown=아래로 밀어내기
 Element.ReportItem.theme=테마
+Element.ReportItem.language=언어
+Element.ReportItem.order=순서
+Element.ReportItem.altText=대체 텍스트
+Element.ReportItem.altTextID=대체 텍스트 키
+Element.ReportItem.linkedDataModel=링크된 데이터 모델
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=내용
@@ -2777,7 +2781,7 @@ Element.Label.helpText=도움말 텍스트
 Element.Label.action=작업
 Element.Label.onPrepare=준비 중
 Element.Label.onPrepare.this=레이블
-Element.Label.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.Label.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.Label.onPrepare.reportContext=보고서 컨텍스트
 Element.Label.onCreate=생성 시  
 Element.Label.onCreate.toolTip=공장에서 요소가 생성될 때 스크립트가 실행됩니다.
@@ -2788,9 +2792,11 @@ Element.Label.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때
 Element.Label.onRender.this=레이블 인스턴스
 Element.Label.onRender.reportContext=보고서 컨텍스트
 Element.Label.onPageBreak=페이지 나누기
-Element.Label.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.Label.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.Label.onPageBreak.this=레이블 인스턴스
 Element.Label.onPageBreak.reportContext=보고서 컨텍스트
+Element.Label.tagType=PDF 태그 형식
+Element.Label.altText=대체 텍스트
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=보고서 항목
@@ -2804,7 +2810,7 @@ Element.Data.helpText=도움말 텍스트
 Element.Data.helpTextID=도움말 텍스트 키
 Element.Data.action=작업
 Element.Data.onPrepare=준비 중
-Element.Data.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.Data.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.Data.onPrepare.this=데이터
 Element.Data.onPrepare.reportContext=보고서 컨텍스트
 Element.Data.onCreate=생성 시  
@@ -2816,16 +2822,18 @@ Element.Data.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때 
 Element.Data.onRender.this=데이터 인스턴스
 Element.Data.onRender.reportContext=보고서 컨텍스트
 Element.Data.onPageBreak=페이지 나누기
-Element.Data.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.Data.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.Data.onPageBreak.this=데이터 인스턴스
 Element.Data.onPageBreak.reportContext=보고서 컨텍스트
+Element.Data.tagType=PDF 태그 형식
+Element.Data.altText=대체 텍스트
   
 #14.Text  ( prefix  Element.Text )
 Element.Text.content=내용
 Element.Text.contentType=내용 형식
 Element.Text.contentID=내용 키
 Element.Text.onPrepare=준비 중
-Element.Text.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.Text.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.Text.onPrepare.this=텍스트
 Element.Text.onPrepare.reportContext=보고서 컨텍스트
 Element.Text.onCreate=생성 시  
@@ -2837,10 +2845,12 @@ Element.Text.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때 
 Element.Text.onRender.this=Text instance
 Element.Text.onRender.reportContext=보고서 컨텍스트
 Element.Text.onPageBreak=페이지 나누기
-Element.Text.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.Text.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.Text.onPageBreak.this=텍스트 인스턴스
 Element.Text.onPageBreak.reportContext=보고서 컨텍스트
 Element.Text.hasExpression=식 값
+Element.Text.tagType=PDF 태그 형식
+Element.Text.altText=대체 텍스트
   
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=키 식
@@ -2889,7 +2899,7 @@ Element.List.slot.groups=그룹
 Element.List.slot.detail=상세 정보
 Element.List.slot.footer=바닥글
 Element.List.onPrepare=준비 중
-Element.List.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.List.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.List.onPrepare.this=목록
 Element.List.onPrepare.reportContext=보고서 컨텍스트
 Element.List.onCreate=생성 시  
@@ -2901,19 +2911,21 @@ Element.List.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때 
 Element.List.onRender.this=목록 인스턴스
 Element.List.onRender.reportContext=보고서 컨텍스트
 Element.List.onPageBreak=페이지 나누기
-Element.List.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.List.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.List.onPageBreak.this=목록 인스턴스
 Element.List.onPageBreak.reportContext=보고서 컨텍스트
+Element.List.tagType=PDF 태그 형식
+Element.List.altText=대체 텍스트
   
 #17.ListGroup  ( prefix  Element.ListGroup )
 Element.ListGroup.slot.header=머리글
 Element.ListGroup.slot.footer=바닥글
 Element.ListGroup.onPrepare=준비 중
-Element.ListGroup.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.ListGroup.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.ListGroup.onPrepare.this=목록 그룹
 Element.ListGroup.onPrepare.reportContext=보고서 컨텍스트
 Element.ListGroup.onPageBreak=페이지 나누기
-Element.ListGroup.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.ListGroup.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.ListGroup.onPageBreak.this=목록 그룹
 Element.ListGroup.onPageBreak.reportContext=보고서 컨텍스트
   
@@ -2928,7 +2940,7 @@ Element.Table.slot.detail=상세 정보
 Element.Table.slot.footer=바닥글
 Element.Table.slot.columns=열
 Element.Table.onPrepare=준비 중
-Element.Table.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.Table.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.Table.onPrepare.this=테이블
 Element.Table.onPrepare.reportContext=보고서 컨텍스트
 Element.Table.onPrepare.object=객체
@@ -2943,19 +2955,20 @@ Element.Table.onRender.this=테이블 인스턴스
 Element.Table.onRender.reportContext=보고서 컨텍스트
 Element.Table.onRender.object=객체
 Element.Table.onPageBreak=페이지 나누기
-Element.Table.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.Table.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.Table.onPageBreak.this=테이블 인스턴스
 Element.Table.onPageBreak.reportContext=보고서 컨텍스트
+Element.Table.tagType=PDF 태그 형식
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=머리글
 Element.TableGroup.slot.footer=바닥글
 Element.TableGroup.onPrepare=준비 중
-Element.TableGroup.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.TableGroup.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.TableGroup.onPrepare.this=테이블 그룹
 Element.TableGroup.onPrepare.reportContext=보고서 컨텍스트
 Element.TableGroup.onPageBreak=페이지 나누기
-Element.TableGroup.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.TableGroup.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.TableGroup.onPageBreak.this=테이블 그룹
 Element.TableGroup.onPageBreak.reportContext=보고서 컨텍스트
   
@@ -2976,7 +2989,7 @@ Element.Row.eventHandlerClass=이벤트 처리기 클래스
 Element.Row.newHandlerOnEachEvent=각 이벤트 시 새 처리기
 Element.Row.slot.cells=셀
 Element.Row.onPrepare=준비 중
-Element.Row.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.Row.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.Row.onPrepare.this=행
 Element.Row.onPrepare.reportContext=보고서 컨텍스트
 Element.Row.onCreate=생성 중
@@ -2990,6 +3003,8 @@ Element.Row.onRender.reportContext=보고서 컨텍스트
 Element.Row.suppressDuplicates=중복 항목 숨기기
 Element.Row.viewAction=작업 보기
 Element.Row.repeatable=반복 가능
+Element.Row.tagType=PDF 태그 형식
+Element.Row.language=언어
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=열
@@ -3007,7 +3022,7 @@ Element.Cell.bookmark=책갈피
 Element.Cell.bookmarkDisplayName=책갈피 표시 이름
 Element.Cell.headers=머리글
 Element.Cell.onPrepare=준비 중
-Element.Cell.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.Cell.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.Cell.onPrepare.this=셀
 Element.Cell.onPrepare.reportContext=보고서 컨텍스트
 Element.Cell.onCreate=생성 중
@@ -3028,6 +3043,9 @@ Element.Cell.antidiagonalThickness=반대각선 두께
 Element.Cell.diagonalStyle=대각선 스타일
 Element.Cell.antidiagonalStyle=반대각선 스타일
 Element.Cell.antidiagonalColor=주 대각선 색
+Element.Cell.tagType=PDF 태그 형식
+Element.Cell.language=언어
+Element.Cell.altText=대체 텍스트
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=대체 텍스트
@@ -3043,7 +3061,7 @@ Element.Image.valueExpr=값 식
 Element.Image.typeExpr=식 입력
 Element.Image.action=작업
 Element.Image.onPrepare=준비 중
-Element.Image.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.Image.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.Image.onPrepare.this=이미지
 Element.Image.onPrepare.reportContext=보고서 컨텍스트
 Element.Image.onCreate=생성 시  
@@ -3056,17 +3074,18 @@ Element.Image.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때
 Element.Image.onRender.this=이미지 인스턴스
 Element.Image.onRender.reportContext=보고서 컨텍스트
 Element.Image.onPageBreak=페이지 나누기
-Element.Image.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.Image.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.Image.onPageBreak.this=이미지 인스턴스
 Element.Image.onPageBreak.reportContext=보고서 컨텍스트
 Element.Image.fitToContainer=컨테이너에 맞추기
 Element.Image.proportionalScale=비례 배율
+Element.Image.tagType=PDF 태그 형식
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=열
 Element.Grid.slot.rows=행
 Element.Grid.onPrepare=준비 중
-Element.Grid.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.Grid.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.Grid.onPrepare.this=눈금
 Element.Grid.onPrepare.reportContext=보고서 컨텍스트
 Element.Grid.onCreate=생성 시  
@@ -3079,12 +3098,13 @@ Element.Grid.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때 
 Element.Grid.onRender.this=눈금 인스턴스
 Element.Grid.onRender.reportContext=보고서 컨텍스트
 Element.Grid.onPageBreak=페이지 나누기
-Element.Grid.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.Grid.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.Grid.onPageBreak.this=눈금 인스턴스
 Element.Grid.onPageBreak.reportContext=보고서 컨텍스트
 Element.Grid.caption=캡션
 Element.Grid.captionID=캡션 키
 Element.Grid.summary=요약
+Element.Grid.tagType=PDF 태그 형식
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=방향
@@ -3093,7 +3113,7 @@ Element.Line.orientation=방향
 Element.TextData.valueExpr=값 식
 Element.TextData.contentType=내용 형식
 Element.TextData.onPrepare=준비 중
-Element.TextData.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.TextData.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.TextData.onPrepare.this=동적 텍스트
 Element.TextData.onPrepare.reportContext=보고서 컨텍스트
 Element.TextData.onPrepare.object=객체
@@ -3107,10 +3127,12 @@ Element.TextData.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을
 Element.TextData.onRender.this=동적 텍스트 인스턴스
 Element.TextData.onRender.reportContext=보고서 컨텍스트
 Element.TextData.onPageBreak=페이지 나누기
-Element.TextData.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.TextData.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.TextData.onPageBreak.this=동적 텍스트 인스턴스
 Element.TextData.onPageBreak.reportContext=보고서 컨텍스트
 Element.TextData.hasExpression=식 값
+Element.TextData.tagType=PDF 태그 형식
+Element.TextData.altText=대체 텍스트
 
 #27.ExtendedItem   ( prefix  Element.ExtendedItem )
 Element.ExtendedItem.altText=대체 텍스트
@@ -3118,7 +3140,7 @@ Element.ExtendedItem.altTextID=대체 텍스트 키:
 Element.ExtendedItem.extensionName=확장 이름
 Element.ExtendedItem.filter=필터
 Element.ExtendedItem.onPrepare=준비 중
-Element.ExtendedItem.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.ExtendedItem.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.ExtendedItem.onPrepare.this=확장 항목
 Element.ExtendedItem.onPrepare.reportContext=보고서 컨텍스트
 Element.ExtendedItem.onCreate=생성 시    
@@ -3130,7 +3152,7 @@ Element.ExtendedItem.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되
 Element.ExtendedItem.onRender.this=확장 항목 인스턴스
 Element.ExtendedItem.onRender.reportContext=보고서 컨텍스트
 Element.ExtendedItem.onPageBreak=페이지 나누기
-Element.ExtendedItem.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.ExtendedItem.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.ExtendedItem.onPageBreak.this=확장 항목 인스턴스
 Element.ExtendedItem.onPageBreak.reportContext=보고서 컨텍스트
 Element.ExtendedItem.extensionVersion=Extension version
@@ -3260,7 +3282,7 @@ Element.TemplateReportItem.visibility=표시 유형
 Element.AutoText.type = AutoText 형식
 Element.AutoText.onPrepare=준비 중
 Element.AutoText.onPrepare.this=AutoText
-Element.AutoText.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
+Element.AutoText.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.AutoText.onPrepare.reportContext=보고서 컨텍스트
 Element.AutoText.onCreate=생성 중
 Element.AutoText.onCreate.toolTip=공장에서 요소가 생성될 때 스크립트가 실행됩니다.
@@ -3271,7 +3293,7 @@ Element.AutoText.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을
 Element.AutoText.onRender.this=AutoText 인스턴스
 Element.AutoText.onRender.reportContext=보고서 컨텍스트
 Element.AutoText.onPageBreak=페이지 나누기
-Element.AutoText.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
+Element.AutoText.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든 보고서 항목에 대해 실행됩니다.
 Element.AutoText.onPageBreak.this=AutoText 인스턴스
 Element.AutoText.onPageBreak.reportContext=보고서 컨텍스트
 Element.AutoText.pageVariable=페이지 변수
@@ -3418,6 +3440,7 @@ Element.DerivedDataSet.extensionID=확장 ID
 Element.AbstractScalarParameter.isRequired=필요
 Element.AbstractScalarParameter.dynamicList=동적 목록
 Element.AbstractScalarParameter.dynamicList.dataSetName=데이터 집합 이름
+Element.AbstractScalarParameter.dynamicList.linkedDataModelName=연결된 데이터 모델 이름
 Element.AbstractScalarParameter.dynamicList.valueExpr=값 식
 Element.AbstractScalarParameter.dynamicList.labelExpr=레이블 식
 Element.AbstractScalarParameter.listLimit=목록 제한
@@ -3467,9 +3490,6 @@ Element.TimeDimension.startTimePoint=시작 시점
 Element.TimeDimension.endTimePoint=종료 시점
 Element.TimeDimension.hierarchies=계층
 
-#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
-Element.DataMartLinkedDataModel.dataSource=데이터 원본
-Element.DataMartLinkedDataModel.dataObject=데이터 개체
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=스타일
@@ -3478,6 +3498,17 @@ Element.ReportItemTheme.customValues=사용자 지정 값
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=CSS 스타일시트
+
+#Category
+Element.Category.helpText = 도움말 텍스트
+Element.Category.helpTextKey = 도움말 텍스트 리소스 키
+
+#Category Column
+Element.CategoryColumn.aggregationFunction = 집계 함수
+Element.CategoryColumn.aliasDataSet = 별칭 데이터 집합
+Element.CategoryColumn.dataType = 데이터 형식
+Element.CategoryColumn.expression = 식
+Element.CategoryColumn.resultSetColumnName = 결과 집합 열 이름
 
 ###########################################################
 # Predefined style
@@ -4018,7 +4049,6 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=템플릿 요소가 라이브러리�
 Info.VersionInfo.INVALID_DESIGN_FILE=열린 디자인 파일이 올바른 디자인 파일이 아니거나 해당 파일이 없습니다.
 Info.VersionInfo.CONVERT_INFO=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
 Info.VersionInfo.INVALID_VERSION=버전 {0}의 보고서 파일이 지원되지 않습니다.
-Info.VersionInfo.LATER_VERSION=최신 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오.
 Info.VersionInfo.EXTENSION_COMPATIBILITY =열린 디자인/라이브러리 또는 포함된 라이브러리는 이전 버전과 호환되므로 디자인/라이브러리가 변경될 수 있습니다.
 
 #EncryptionException

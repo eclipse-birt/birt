@@ -9,23 +9,23 @@
 # Actuate Corporation - initial API and implementation
 ###############################################################################
 #
-MetaData.ProductName=POJO ODA Driver
-Query.Closed=Query is closed.
-Query.NoQueryText=Query text is missing.
-Query.FailedToParse=Failed to parse POJO Query: [{0}].
-Query.MissAttributeInElement=Attribute "{0}" is empty or missing in a "{1}" element.
-Query.Miss2Elements=Neither "{0}" nor "{1}" sub-element exists in a "{2}" element. 
-Driver.UnkownDataTypeCode=Unknown data type code: {0}.
-Driver.UnkownDataTypeName=Unknown data type name: {0}.
-ResultSet.InvalidAppContextValue=The type of AppContext "{0}" value is "{1}", not Array, Iterator or Collection. 
-ResultSet.MissDataSetClassName=POJO data set class name is missing.
-PojoDataSetFromCustomerClass.WrongReturnTypeForNextMethod=The return type of "next()" method is void or primitive.
-ReferenceGraph.DuplicateColumnName=Duplicate column name: {0}.
-ReferenceGraph.DuplicateColumnIndex=Duplicate column index: {0}.
-ReferenceGraph.InexistentColumnName=Inexistent column name: {0}.
-ResultSetFromPojoInstance.Invalid1ToNMaps=Exists two 1-to-n maps where one is not transitional from the other.
-QueryParameters.OneMethodParameterWith2Types=Method parameter "{0}" cannot be with 2 types: "{1}", "{2}".
-QueryParameters.InexistentParameter=Non-existing parameter: "{0}".
-MethodSource.MissingPrameterValue=The value of parameter "{0}" is not yet set.
-DataTypeUtil.FailToTransferType=Failed to transfer "{0}" to the target type: {1}.
-IllegalArgument.errorMessage=Illegal argument defined for method: 
+MetaData.ProductName=POJO ODA-Treiber
+Query.Closed=Abfrage ist geschlossen.
+Query.NoQueryText=Abfragetext fehlt.
+Query.FailedToParse=Fehler bei Analyse von POJO-Abfrage: [{0}].
+Query.MissAttributeInElement=Attribut '{0}' ist leer oder fehlt in einem Element '{1}'.
+Query.Miss2Elements=Weder Unterelement '{0}' noch '{1}' in einem Element '{2}' vorhanden. 
+Driver.UnkownDataTypeCode=Unbekannter Datentypcode: {0}.
+Driver.UnkownDataTypeName=Unbekannter Datentypname: {0}.
+ResultSet.InvalidAppContextValue=Der Typ des Werts von AppContext '{0}' ist '{1}', nicht Array, Iteration oder Sammlung. 
+ResultSet.MissDataSetClassName=POJO-Datensatzklassenname fehlt.
+PojoDataSetFromCustomerClass.WrongReturnTypeForNextMethod=Der Ausgabetyp von Methode 'next()' ist ungültig oder primitiv.
+ReferenceGraph.DuplicateColumnName=Doppelter Spaltenname: {0}.
+ReferenceGraph.DuplicateColumnIndex=Doppelter Spaltenindex: {0}.
+ReferenceGraph.InexistentColumnName=Nicht vorhandener Spaltenname: {0}.
+ResultSetFromPojoInstance.Invalid1ToNMaps=Es sind zwei nicht vorübergehende 1-zu-n-Zuordnungen vorhanden.
+QueryParameters.OneMethodParameterWith2Types=Methodenparameter '{0}' darf nicht 2 Typen haben: '{1}', '{2}'.
+QueryParameters.InexistentParameter=Nicht vorhandener Parameter: '{0}'.
+MethodSource.MissingPrameterValue=Parameterwert '{0}' wurde noch nicht festgelegt.
+DataTypeUtil.FailToTransferType=Fehler bei Übertragung von '{0}' zum Zieltyp: {1}.
+IllegalArgument.errorMessage=Unzulässiges Argument definiert für Methode: 

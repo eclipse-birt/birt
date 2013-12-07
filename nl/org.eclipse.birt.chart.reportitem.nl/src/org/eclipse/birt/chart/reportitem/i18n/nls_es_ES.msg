@@ -1,5 +1,6 @@
 ChartCubeQueryHelper.Error.MustBindCube=El diagrama debe vincular un cubo a los datos de alimentación.
 ChartReportItemPresentationImpl.error.NoData=El conjunto de datos enlazado al diagrama no ha devuelto ninguna fila.
+ChartReportItemPresentationImpl.error.InvalidCubeBinding=El conjunto de datos que utiliza este diagrama se ha modificado. Ya no se puede procesar este diagrama.
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=No se puede localizar el empaquetador de elementos de informe para el objeto de diagrama.
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl: onRowSets(...) - inicio
 ChartReportItemPresentationImpl.log.onRowSetsBuilding=ChartReportItemPresentationImpl: onRowSets(...) - diagrama de compilación

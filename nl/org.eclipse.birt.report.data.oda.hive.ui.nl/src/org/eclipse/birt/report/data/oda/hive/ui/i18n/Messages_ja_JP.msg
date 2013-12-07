@@ -1,4 +1,4 @@
-datasource.page.title=${odadesignerid.ds.displayname} データソースの定義
+datasource.page.title=Hive データソースの新規作成
 datasource.page.msg=Hive に接続する JDBC データソースです。
 datasource.page.driver.class=ドライバクラス :
 datasource.page.url=データベースの URL : 
@@ -7,4 +7,9 @@ datasource.upgrade.msg.firstLine=このデータセットで使用しているデータソース ({0}
 datasource.upgrade.msg.secondLine=データソースの定義を更新する必要があります。 \n\nデータソース {0} を今すぐ更新するには、[OK] をクリックしてください。 
 datasource.upgrade.msg.thirdLine=更新した後で、このデータセットエディタをもう一度開いてください。
 datasource.propertyPage.tooltip=HIVE データソース
-datasource.addfile=Add File ステートメント
+datasource.addfile=ファイルステートメントの追加(&D): 
+datasource.group.text=Hive Server
+datasource.label.ServerType=サーバタイプ(&S): 
+datasource.ServerType.type1=HiveServer1
+datasource.ServerType.type2=HiveServer2
+datasource.error.EmptyURL=データベース URL を空白にすることはできません。 

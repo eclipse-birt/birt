@@ -25,6 +25,7 @@ OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Répartir sur plusieurs pages
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Agrandir la taille de la page
 OptionDisplayValue.FontSubstitution=Changement de police
 OptionDisplayValue.ChartDpi=DPI de graphique
+OptionDisplayValue.Export2Office2010And2013=Fichier d'exportation pour Microsoft Office 2010/2013
 
 ###########################################################
 #Option Description
@@ -33,6 +34,7 @@ OptionDescription.TextWrapping=Indique si le retour à la ligne est autorisé pour
 OptionDescription.PageOverFlow=Contrôle le mode de répartition du contenu.
 OptionDescription.FontSubstitution=Sélectionne des polices automatiquement lorsque la police spécifiée ne peut pas afficher le caractère.
 OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
+OptionDescription.Export2Office2010And2013=Prend en charge le format .mht dans ppt lorsque Office 2010/2013 est utilisé.
 
 ###########################################################
 #tooltip

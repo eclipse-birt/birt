@@ -1943,8 +1943,6 @@ Structure.HighlightRule.border.right.style=Stil
 Structure.HighlightRule.border.right.width=Breite
 Structure.HighlightRule.border.right.color=Farbe
 Structure.HighlightRule.background.color=Hintergrundfarbe
-Structure.HighlightRule.background.image=Hindergrundbild
-Structure.HighlightRule.backgroundRepeat=Hintergrundwiederholung
 Structure.HighlightRule.format.dateTime=Datum-/Uhrzeitformat
 Structure.HighlightRule.format.number=Zahlenformat
 Structure.HighlightRule.format.number.align=Zahlenausrichtung  
@@ -1958,10 +1956,6 @@ Structure.HighlightRule.font.color=Farbe
 Structure.HighlightRule.font.textUnderline=Unterstreichen
 Structure.HighlightRule.font.textOverline=Überstreichen
 Structure.HighlightRule.font.textLineThrough=Durchstreichen
-Structure.HighlightRule.padding.top=Umrandungsfüllung (oben)
-Structure.HighlightRule.padding.left=Umrandungsfüllung (links)
-Structure.HighlightRule.padding.bottom=Umrandungsfüllung (unten)
-Structure.HighlightRule.padding.right=Umrandungsfüllung (rechts)
 Structure.HighlightRule.text.align=Textausrichtung
 Structure.HighlightRule.text.indent=Texteinzug
 Structure.HighlightRule.text.transform=Textumwandlung
@@ -2097,7 +2091,6 @@ Structure.IncludedLibrary.namespace=Namespace
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=Dateiname
 Structure.IncludedCssStyleSheet.externalCssURI=Externer CSS-URI
-Structure.IncludedCssStyleSheet.useExternalCss=Externes CSS verwenden
 
 #15. DataSetParam
 Structure.DataSetParam.name=Name
@@ -2413,7 +2406,16 @@ Element.DataMartCube=Datenobjektquader
 Element.TimeDimension=Zeitliche Dimension
 Element.ReportItemTheme=Berichtobjektthema
 Element.AbstractTheme=Abstraktes Thema
-Element.DataMartLinkedDataModel=Data Object Linked Data Set
+Element.DataMartLinkedDataModel=Datenobjekt-Datenmodell
+Element.AliasDataSet =Alias-Datensatz
+Element.LinkedDataModel =Verknüpftes Datenmodell
+Element.LinkedDataModel.pushDown=Datenmodell-Push-Down
+Element.Category = Kategorie
+Element.ColumnLink = Spaltenverknüpfung
+Element.ColumnLinkPath = Spaltenverknüpfungspfad
+Element.DrillPath = Drill-Pfad
+Element.LinkedDataModelCube = Verknüpfter Datenmodell-Quader
+Element.LinkedDataModelDataSet = Verknüpfter Datenmodellsatz
 
 ###########################################################
 # Element property names
@@ -2524,11 +2526,10 @@ Element.ReportDesign.onPageEnd=Am Seitenende
 Element.ReportDesign.dataMarts=DataMarts
 Element.ReportDesign.onPrepare=Beim Vorbereiten
 Element.ReportDesign.onPrepare.this=Berichtdesign
-Element.ReportDesign.onPrepare.toolTip=Die Ausführung findet während dem Setup des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.ReportDesign.onPrepare.toolTip=Für eine Skript-Startphase. Noch keine Datenbindung. Das Design eines Elements kann hier geändert werden.
 Element.ReportDesign.onPrepare.reportContext=Berichtkontext
-Element.ReportDesign.onContentUpdate= Bei Inhaltsaktualisierung
-Element.ReportDesign.onContentUpdate.toolTip=Die Ausführung findet auf der Client-Seite statt, wenn der Berichtinhalt im BIRT Viewer aktualisiert wird.
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.language=Sprache
+Element.ReportDesign.PDFAccessible=Barrierefreies PDF
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Anzeigename
@@ -2743,8 +2744,6 @@ Element.Style.widows=Witwen
 Element.Style.orphans=Waisenkinder
 Element.Style.wordSpacing=Wortabstand
 Element.Style.overflow=Überlauf
-Element.Style.height=Höhe
-Element.Style.width=Breite
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Lesezeichen
@@ -2768,6 +2767,11 @@ Element.ReportItem.cascadeACL=Verschachtelung 'ACL'
 Element.ReportItem.allowExport=Export zulassen
 Element.ReportItem.pushDown=Push Down
 Element.ReportItem.theme=Thema
+Element.ReportItem.language=Sprache
+Element.ReportItem.order=Reihenfolge
+Element.ReportItem.altText=Alternativtext
+Element.ReportItem.altTextID=Schlüssel für Alternativtext
+Element.ReportItem.linkedDataModel=Verknüpftes Datenmodell
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Inhalt
@@ -2777,7 +2781,7 @@ Element.Label.helpText=Hilfetext
 Element.Label.action=Aktion
 Element.Label.onPrepare=Beim Vorbereiten
 Element.Label.onPrepare.this=Beschriftung
-Element.Label.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.Label.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.Label.onPrepare.reportContext=Berichtkontext
 Element.Label.onCreate=Beim Erstellen
 Element.Label.onCreate.toolTip=Das Skript wird beim Erstellen des Elements in der Factory ausgeführt.
@@ -2788,9 +2792,11 @@ Element.Label.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum
 Element.Label.onRender.this=Beschriftungsinstanz
 Element.Label.onRender.reportContext=Berichtkontext
 Element.Label.onPageBreak=Bei Seitenumbruch
-Element.Label.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.Label.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.Label.onPageBreak.this=Beschriftungsinstanz
 Element.Label.onPageBreak.reportContext=Berichtkontext
+Element.Label.tagType=PDF-Tag-Typ
+Element.Label.altText=Alternativtext
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=Berichtobjekte
@@ -2804,7 +2810,7 @@ Element.Data.helpText=Hilfetext
 Element.Data.helpTextID=Hilfetextschlüssel
 Element.Data.action=Aktion
 Element.Data.onPrepare=Beim Vorbereiten
-Element.Data.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.Data.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.Data.onPrepare.this=Daten
 Element.Data.onPrepare.reportContext=Berichtkontext
 Element.Data.onCreate=Beim Erstellen
@@ -2816,16 +2822,18 @@ Element.Data.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum 
 Element.Data.onRender.this=Dateninstanz
 Element.Data.onRender.reportContext=Berichtkontext
 Element.Data.onPageBreak=Bei Seitenumbruch
-Element.Data.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.Data.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.Data.onPageBreak.this=Dateninstanz
 Element.Data.onPageBreak.reportContext=Berichtkontext
+Element.Data.tagType=PDF-Tag-Typ
+Element.Data.altText=Alternativtext
   
 #14.Text  ( prefix  Element.Text )
 Element.Text.content=Inhalt
 Element.Text.contentType=Inhaltstyp
 Element.Text.contentID=Inhaltsschlüssel
 Element.Text.onPrepare=Beim Vorbereiten
-Element.Text.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.Text.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.Text.onPrepare.this=Text
 Element.Text.onPrepare.reportContext=Berichtkontext
 Element.Text.onCreate=Beim Erstellen
@@ -2837,10 +2845,12 @@ Element.Text.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum 
 Element.Text.onRender.this=Text instance
 Element.Text.onRender.reportContext=Berichtkontext
 Element.Text.onPageBreak=Bei Seitenumbruch
-Element.Text.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.Text.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.Text.onPageBreak.this=Textinstanz
 Element.Text.onPageBreak.reportContext=Berichtkontext
 Element.Text.hasExpression=Enthält Ausdruck
+Element.Text.tagType=PDF-Tag-Typ
+Element.Text.altText=Alternativtext
   
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=Schlüsselausdruck
@@ -2889,7 +2899,7 @@ Element.List.slot.groups=Gruppen
 Element.List.slot.detail=Detail
 Element.List.slot.footer=Fußzeile
 Element.List.onPrepare=Beim Vorbereiten
-Element.List.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.List.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.List.onPrepare.this=Liste
 Element.List.onPrepare.reportContext=Berichtkontext
 Element.List.onCreate=Beim Erstellen
@@ -2901,19 +2911,21 @@ Element.List.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum 
 Element.List.onRender.this=Listeninstanz
 Element.List.onRender.reportContext=Berichtkontext
 Element.List.onPageBreak=Bei Seitenumbruch
-Element.List.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.List.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.List.onPageBreak.this=Listeninstanz
 Element.List.onPageBreak.reportContext=Berichtkontext
+Element.List.tagType=PDF-Tag-Typ
+Element.List.altText=Alternativtext
   
 #17.ListGroup  ( prefix  Element.ListGroup )
 Element.ListGroup.slot.header=Kopfzeile
 Element.ListGroup.slot.footer=Fußzeile
 Element.ListGroup.onPrepare=Beim Vorbereiten
-Element.ListGroup.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.ListGroup.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.ListGroup.onPrepare.this=Listengruppe
 Element.ListGroup.onPrepare.reportContext=Berichtkontext
 Element.ListGroup.onPageBreak=Bei Seitenumbruch
-Element.ListGroup.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.ListGroup.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.ListGroup.onPageBreak.this=Listengruppe
 Element.ListGroup.onPageBreak.reportContext=Berichtkontext
   
@@ -2928,7 +2940,7 @@ Element.Table.slot.detail=Detail
 Element.Table.slot.footer=Fußzeile
 Element.Table.slot.columns=Spalten
 Element.Table.onPrepare=Beim Vorbereiten
-Element.Table.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.Table.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.Table.onPrepare.this=Tabelle
 Element.Table.onPrepare.reportContext=Berichtkontext
 Element.Table.onPrepare.object=Objekt
@@ -2943,19 +2955,20 @@ Element.Table.onRender.this=Tabelleninstanz
 Element.Table.onRender.reportContext=Berichtkontext
 Element.Table.onRender.object=Objekt
 Element.Table.onPageBreak=Bei Seitenumbruch
-Element.Table.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.Table.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.Table.onPageBreak.this=Tabelleninstanz
 Element.Table.onPageBreak.reportContext=Berichtkontext
+Element.Table.tagType=PDF-Tag-Typ
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=Kopfzeile
 Element.TableGroup.slot.footer=Fußzeile
 Element.TableGroup.onPrepare=Beim Vorbereiten
-Element.TableGroup.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.TableGroup.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.TableGroup.onPrepare.this=Tabellengruppe
 Element.TableGroup.onPrepare.reportContext=Berichtkontext
 Element.TableGroup.onPageBreak=Bei Seitenumbruch
-Element.TableGroup.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.TableGroup.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.TableGroup.onPageBreak.this=Tabellengruppe
 Element.TableGroup.onPageBreak.reportContext=Berichtkontext
   
@@ -2976,7 +2989,7 @@ Element.Row.eventHandlerClass=Ereignis-Handler-Klasse
 Element.Row.newHandlerOnEachEvent=Neuer Handler für jedes Ereignis
 Element.Row.slot.cells=Zellen
 Element.Row.onPrepare=Beim Vorbereiten
-Element.Row.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.Row.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.Row.onPrepare.this=Zeile
 Element.Row.onPrepare.reportContext=Berichtkontext
 Element.Row.onCreate=Beim Erstellen
@@ -2990,6 +3003,8 @@ Element.Row.onRender.reportContext=Berichtkontext
 Element.Row.suppressDuplicates=Duplikate unterdrücken
 Element.Row.viewAction=Aktion anzeigen
 Element.Row.repeatable=Wiederholbar
+Element.Row.tagType=PDF-Tag-Typ
+Element.Row.language=Sprache
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=Spalte
@@ -3007,7 +3022,7 @@ Element.Cell.bookmark=Lesezeichen
 Element.Cell.bookmarkDisplayName=Anzeigename für Lesezeichen
 Element.Cell.headers=Kopfzeilen
 Element.Cell.onPrepare=Beim Vorbereiten
-Element.Cell.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.Cell.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.Cell.onPrepare.this=Zelle
 Element.Cell.onPrepare.reportContext=Berichtkontext
 Element.Cell.onCreate=Beim Erstellen
@@ -3028,6 +3043,9 @@ Element.Cell.antidiagonalThickness=Stärke Antidiagonal
 Element.Cell.diagonalStyle=Stil Diagonal
 Element.Cell.antidiagonalStyle=Stil Antidiagonal
 Element.Cell.antidiagonalColor=Farbe Antidiagonal
+Element.Cell.tagType=PDF-Tag-Typ
+Element.Cell.language=Sprache
+Element.Cell.altText=Alternativtext
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Alternativer Text
@@ -3043,7 +3061,7 @@ Element.Image.valueExpr=Wertausdruck
 Element.Image.typeExpr=Typausdruck
 Element.Image.action=Aktion
 Element.Image.onPrepare=Beim Vorbereiten
-Element.Image.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.Image.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.Image.onPrepare.this=Bild
 Element.Image.onPrepare.reportContext=Berichtkontext
 Element.Image.onCreate=Beim Erstellen
@@ -3056,17 +3074,18 @@ Element.Image.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum
 Element.Image.onRender.this=Bildinstanz
 Element.Image.onRender.reportContext=Berichtkontext
 Element.Image.onPageBreak=Bei Seitenumbruch
-Element.Image.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.Image.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.Image.onPageBreak.this=Bildinstanz
 Element.Image.onPageBreak.reportContext=Berichtkontext
 Element.Image.fitToContainer=An Container anpassen
 Element.Image.proportionalScale=Proportionale Skalierung
+Element.Image.tagType=PDF-Tag-Typ
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=Spalten
 Element.Grid.slot.rows=Zeilen
 Element.Grid.onPrepare=Beim Vorbereiten
-Element.Grid.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.Grid.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.Grid.onPrepare.this=Raster
 Element.Grid.onPrepare.reportContext=Berichtkontext
 Element.Grid.onCreate=Beim Erstellen
@@ -3079,12 +3098,13 @@ Element.Grid.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum 
 Element.Grid.onRender.this=Rasterinstanz
 Element.Grid.onRender.reportContext=Berichtkontext
 Element.Grid.onPageBreak=Bei Seitenumbruch
-Element.Grid.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.Grid.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.Grid.onPageBreak.this=Rasterinstanz
 Element.Grid.onPageBreak.reportContext=Berichtkontext
 Element.Grid.caption=Beschriftung
 Element.Grid.captionID=Beschriftungsschlüssel
 Element.Grid.summary=Zusammenfassung
+Element.Grid.tagType=PDF-Tag-Typ
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Seitenausrichtung
@@ -3093,7 +3113,7 @@ Element.Line.orientation=Seitenausrichtung
 Element.TextData.valueExpr=Wertausdruck
 Element.TextData.contentType=Inhaltstyp
 Element.TextData.onPrepare=Beim Vorbereiten
-Element.TextData.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.TextData.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.TextData.onPrepare.this=Dynamischer Text
 Element.TextData.onPrepare.reportContext=Berichtkontext
 Element.TextData.onPrepare.object=Objekt
@@ -3107,10 +3127,12 @@ Element.TextData.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements 
 Element.TextData.onRender.this=Instanz für dynamischen Text
 Element.TextData.onRender.reportContext=Berichtkontext
 Element.TextData.onPageBreak=Bei Seitenumbruch
-Element.TextData.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.TextData.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.TextData.onPageBreak.this=Instanz für dynamischen Text
 Element.TextData.onPageBreak.reportContext=Berichtkontext
 Element.TextData.hasExpression=Enthält Ausdruck
+Element.TextData.tagType=PDF-Tag-Typ
+Element.TextData.altText=Alternativtext
 
 #27.ExtendedItem   ( prefix  Element.ExtendedItem )
 Element.ExtendedItem.altText=Alternativer Text
@@ -3118,7 +3140,7 @@ Element.ExtendedItem.altTextID=Schlüssel für alternativen Text
 Element.ExtendedItem.extensionName=Name der Erweiterung
 Element.ExtendedItem.filter=Filter
 Element.ExtendedItem.onPrepare=Beim Vorbereiten
-Element.ExtendedItem.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.ExtendedItem.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.ExtendedItem.onPrepare.this=Erweitertes Objekt
 Element.ExtendedItem.onPrepare.reportContext=Berichtkontext
 Element.ExtendedItem.onCreate=Beim Erstellen  
@@ -3130,7 +3152,7 @@ Element.ExtendedItem.onRender.toolTip=Wird beim Vorbereiten des Elements zum Ren
 Element.ExtendedItem.onRender.this=Instanz für erweitertes Objekt
 Element.ExtendedItem.onRender.reportContext=Berichtkontext
 Element.ExtendedItem.onPageBreak=Bei Seitenumbruch
-Element.ExtendedItem.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.ExtendedItem.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.ExtendedItem.onPageBreak.this=Instanz für erweitertes Objekt
 Element.ExtendedItem.onPageBreak.reportContext=Berichtkontext
 Element.ExtendedItem.extensionVersion=Extension version
@@ -3260,7 +3282,7 @@ Element.TemplateReportItem.visibility=Sichtbarkeit
 Element.AutoText.type = AutoText-Typ
 Element.AutoText.onPrepare=Beim Vorbereiten
 Element.AutoText.onPrepare.this=AutoText
-Element.AutoText.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
+Element.AutoText.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
 Element.AutoText.onPrepare.reportContext=Berichtkontext
 Element.AutoText.onCreate=Beim Erstellen
 Element.AutoText.onCreate.toolTip=Das Skript wird beim Erstellen des Elements in der Factory ausgeführt.
@@ -3271,7 +3293,7 @@ Element.AutoText.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements 
 Element.AutoText.onRender.this=AutoText-Instanz
 Element.AutoText.onRender.reportContext=Berichtkontext
 Element.AutoText.onPageBreak=Bei Seitenumbruch
-Element.AutoText.onPageBreak.toolTip=Die Ausführung findet bei einem Seitenumbruch für alle Berichtobjekte auf einer Seite statt.
+Element.AutoText.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Berichtobjekte auf einer Seite ausgeführt
 Element.AutoText.onPageBreak.this=AutoText-Instanz
 Element.AutoText.onPageBreak.reportContext=Berichtkontext
 Element.AutoText.pageVariable=Seitenvariable
@@ -3418,6 +3440,7 @@ Element.DerivedDataSet.extensionID=ID der Erweiterung
 Element.AbstractScalarParameter.isRequired=Erforderlich
 Element.AbstractScalarParameter.dynamicList=Dynamische Liste
 Element.AbstractScalarParameter.dynamicList.dataSetName=Datensatzname
+Element.AbstractScalarParameter.dynamicList.linkedDataModelName=Name für verknüpftes Datenmodell
 Element.AbstractScalarParameter.dynamicList.valueExpr=Wertausdruck
 Element.AbstractScalarParameter.dynamicList.labelExpr=Beschriftungsausdruck
 Element.AbstractScalarParameter.listLimit=Listenbegrenzung
@@ -3453,582 +3476,83 @@ Element.DataMartDataSource.datamartVersion=Data Mart-Version
 Element.DataMartDataSource.paramBindings=Parameterbindungen
 Element.DataMartDataSource.accessType=Zugriffstyp
 
-#80 DataMartDataSet ( prefix Element.DataMartDataSet )
-Element.DataMartDataSet.dataSource=Datenquelle
-Element.DataMartDataSet.dataObject=Datenobjekt
-Element.DataMartDataSet.selectedColumns=Ausgewählte Spalten
 
-#81 DataMartCube ( prefix Element.DataMartCube )
-Element.DataMartCube.dataSource=Datenquelle
-Element.DataMartCube.dataObject=Datenobjekt
 
-#82 TimeDimension ( prefix Element.TimeDimension )
-Element.TimeDimension.startTimePoint=Startzeitpunkt
-Element.TimeDimension.endTimePoint=Endzeitpunkt
-Element.TimeDimension.hierarchies=Hierarchien
 
-#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
-Element.DataMartLinkedDataModel.dataSource=Datenquelle
-Element.DataMartLinkedDataModel.dataObject=Datenobjekt
 
-#63 ReportItemTheme ( Prefix Element.ReportItemTheme )
-Element.ReportItemTheme.slot.styles=Stile
-Element.ReportItemTheme.type=Typ
-Element.ReportItemTheme.customValues=Benutzerdefinierte Werte
 
-#64 AbstractTheme ( Prefix Element.AbstractTheme )
-Element.AbstractTheme.cssStyleSheets=CSS-Stilvorlagen
+
+#Category
+Element.Category.helpText = Hilfetext
+Element.Category.helpTextKey = Hilfetext-Ressourcenschlüssel
+
+#Category Column
+Element.CategoryColumn.aggregationFunction = Aggregatfunktion
+Element.CategoryColumn.aliasDataSet = Alias-Datensatz
+Element.CategoryColumn.dataType = Datentyp
+Element.CategoryColumn.expression = Ausdruck
+Element.CategoryColumn.resultSetColumnName = Ergebnisspaltenname
 
 ###########################################################
-# Predefined style
-Style.Report=Bericht
-Style.List=Liste
 
-Style.GroupHeader1=GroupHeader1
-Style.GroupHeader2=GroupHeader1
-Style.GroupHeader3=GroupHeader1
-Style.GroupHeader4=GroupHeader1
-Style.GroupHeader5=GroupHeader1
-Style.GroupHeader6=GroupHeader1
-Style.GroupHeader7=GroupHeader1
-Style.GroupHeader8=GroupHeader8
-Style.GroupHeader9=GroupHeader9
-Style.GroupFooter1=GroupFooter1
-Style.GroupFooter2=GroupFooter2
-Style.GroupFooter3=GroupFooter3
-Style.GroupFooter4=GroupFooter4
-Style.GroupFooter5=GroupFooter5
-Style.GroupFooter6=GroupFooter6
-Style.GroupFooter7=GroupFooter7
-Style.GroupFooter8=GroupFooter8
-Style.GroupFooter9=GroupFooter9
 
-Style.ListHeader=ListHeader
-Style.ListFooter=ListFooter
 
-Style.ListGroupHeader1=ListGroupHeader1
-Style.ListGroupHeader2=ListGroupHeader2
-Style.ListGroupHeader3=ListGroupHeader3
-Style.ListGroupHeader4=ListGroupHeader4
-Style.ListGroupHeader5=ListGroupHeader5
-Style.ListGroupHeader6=ListGroupHeader6
-Style.ListGroupHeader7=ListGroupHeader7
-Style.ListGroupHeader8=ListGroupHeader8
-Style.ListGroupHeader9=ListGroupHeader9
 
-Style.ListGroupFooter1=ListGroupFooter1
-Style.ListGroupFooter2=ListGroupFooter2
-Style.ListGroupFooter3=ListGroupFooter3
-Style.ListGroupFooter4=ListGroupFooter4
-Style.ListGroupFooter5=ListGroupFooter5
-Style.ListGroupFooter6=ListGroupFooter6
-Style.ListGroupFooter7=ListGroupFooter7
-Style.ListGroupFooter8=ListGroupFooter8
-Style.ListGroupFooter9=ListGroupFooter9
 
-Style.ListDetail=ListDetail
-Style.Table=Tabelle
-Style.TableHeader=TableHeader
-Style.TableHeaderCell=TableHeaderCell
-Style.TableFooter=TableFooter
-Style.TableFooterCell=TableFooterCell
 
-Style.TableGroupHeader1=TableGroupHeader1
-Style.TableGroupHeader2=TableGroupHeader2
-Style.TableGroupHeader3=TableGroupHeader3
-Style.TableGroupHeader4=TableGroupHeader4
-Style.TableGroupHeader5=TableGroupHeader5
-Style.TableGroupHeader6=TableGroupHeader6
-Style.TableGroupHeader7=TableGroupHeader7
-Style.TableGroupHeader8=TableGroupHeader8
-Style.TableGroupHeader9=TableGroupHeader9
 
-Style.TableGroupHeaderCell=TableGroupHeaderCell
 
-Style.TableGroupFooter1=TableGroupFooter1
-Style.TableGroupFooter2=TableGroupFooter2
-Style.TableGroupFooter3=TableGroupFooter3
-Style.TableGroupFooter4=TableGroupFooter4
-Style.TableGroupFooter5=TableGroupFooter5
-Style.TableGroupFooter6=TableGroupFooter6
-Style.TableGroupFooter7=TableGroupFooter7
-Style.TableGroupFooter8=TableGroupFooter8
-Style.TableGroupFooter9=TableGroupFooter9
 
-Style.TableGroupFooterCell=TableGroupFooterCell
 
-Style.TableColumnHeader=TableColumnHeader
-Style.TableDetail=TableDetail
-Style.TableDetailCell=TableDetailCell
-Style.Page=Seite
-Style.Matrix=Matrix
 
-Style.MatrixRowHeader1=MatrixRowHeader1
-Style.MatrixRowHeader2=MatrixRowHeader2
-Style.MatrixRowHeader3=MatrixRowHeader3
-Style.MatrixRowHeader4=MatrixRowHeader4
-Style.MatrixRowHeader5=MatrixRowHeader5
-Style.MatrixRowHeader6=MatrixRowHeader6
-Style.MatrixRowHeader7=MatrixRowHeader7
-Style.MatrixRowHeader8=MatrixRowHeader8
-Style.MatrixRowHeader9=MatrixRowHeader9
 
-Style.MatrixRowFooter1=MatrixRowFooter1
-Style.MatrixRowFooter2=MatrixRowFooter2
-Style.MatrixRowFooter3=MatrixRowFooter3
-Style.MatrixRowFooter4=MatrixRowFooter4
-Style.MatrixRowFooter5=MatrixRowFooter5
-Style.MatrixRowFooter6=MatrixRowFooter6
-Style.MatrixRowFooter7=MatrixRowFooter7
-Style.MatrixRowFooter8=MatrixRowFooter8
-Style.MatrixRowFooter9=MatrixRowFooter9
 
-Style.MatrixColumnHeader1=MatrixColumnHeader1
-Style.MatrixColumnHeader2=MatrixColumnHeader2
-Style.MatrixColumnHeader3=MatrixColumnHeader3
-Style.MatrixColumnHeader4=MatrixColumnHeader4
-Style.MatrixColumnHeader5=MatrixColumnHeader5
-Style.MatrixColumnHeader6=MatrixColumnHeader6
-Style.MatrixColumnHeader7=MatrixColumnHeader7
-Style.MatrixColumnHeader8=MatrixColumnHeader8
-Style.MatrixColumnHeader9=MatrixColumnHeader9
 
-Style.MatrixColumnFooter1=MatrixColumnFooter1
-Style.MatrixColumnFooter2=MatrixColumnFooter2
-Style.MatrixColumnFooter3=MatrixColumnFooter3
-Style.MatrixColumnFooter4=MatrixColumnFooter4
-Style.MatrixColumnFooter5=MatrixColumnFooter5
-Style.MatrixColumnFooter6=MatrixColumnFooter6
-Style.MatrixColumnFooter7=MatrixColumnFooter7
-Style.MatrixColumnFooter8=MatrixColumnFooter8
-Style.MatrixColumnFooter9=MatrixColumnFooter9
 
-Style.MatrixCell=MatrixCell
-Style.Chart=Diagramm
-Style.ChartTitle=ChartTitle
-Style.ChartLegend=ChartLegend
-Style.ChartValue=ChartValue
-Style.ChartAxis=ChartAxis
-Style.Label=Beschriftung
-Style.Data=Daten
-Style.Number=Nummer
-Style.String=Zeichenfolge
-Style.Text=Text
-Style.Grid=Raster
 
-Style.Toc=TOC Level0
-Style.Toc1=TOC Level1
-Style.Toc2=TOC Level2
-Style.Toc3=TOC Level3
-Style.Toc4=TOC Level4
-Style.Toc5=TOC Level5
-Style.Toc6=TOC Level6
-Style.Toc7=TOC Level7
-Style.Toc8=TOC Level8
-Style.Toc9=TOC Level9
 
-Style.FreeForm=FreeForm
-Style.Line=Linie
-Style.Rectangle=Rechteck
-Style.TextData=TextData
-Style.ExtendedItem=ExtendedItem
-Style.Image=Bild
 
 ###########################################################
-# Messages.
-Message.NamePrefixNew=Neu
-Message.ChangeProperty=Eigenschaft ändern:{0}
-Message.ChangePropertyDefinition=Eigenschaftsdefinition ändern
-Message.MoveItem=Objekt verschieben
-Message.AddTranslation=Übersetzung hinzufügen
-Message.DropTranslation=Übersetzung verwerfen
-Message.ChangeTranslation=Übersetzung ändern
-Message.MoveContent=Inhalt verschieben
-Message.AddProperty=Eigenschaft hinzufügen
-Message.DropProperty=Eigenschaft verwerfen
-Message.SetName=Namen festlegen
-Message.AddElement=Element hinzufügen    
-Message.DropElement=Element verwerfen    
-Message.SetStyle=Stil festlegen
-Message.ReplaceItem=Objekt ersetzen
-Message.SetLocale=Gebietsschema festlegen
-Message.SetTranslationText=Übersetzungstext festlegen
-Message.MoveElement=Element verschieben
-Message.InsertElement=Element einfügen
-Message.DeleteElement=Element löschen
-Message.SetExtends=Erweiterungen löschen
-Message.ChangeItem=Objekt ändern
-Message.AddItem=Objekt hinzufügen
-Message.InsertItem=Objekt einfügen
-Message.RemoveItem=Objekt entfernen
-Message.ReplaceElement=Element ersetzen
-Message.SetTheme=Thema festlegen
-Message.ChangePropertyEncryption=Verschlüsselung ändern für Eigenschaft:{0}
-Message.RenameCSSFile=CSS-Datei umbenennen
-Message.ImportCSSStyles=CSS-Stile importieren 
 
-Message.InsertAndPasteColumnBand=(Kopierte) Spalte einfügen 
-Message.PasteColumnBand=Kopierte Spalte einfügen 
-Message.ShiftColumnBand=Spalte verschieben 
-Message.InsertColumnBand=Spalte einfügen 
 
-Message.InsertRow=Zeile einfügen 
-Message.InsertAndPasteRow=(Kopierte) Zeile einfügen 
-Message.PasteRow=Kopierte Zeile einfügen 
-Message.ShiftRow=Zeile verschieben 
 
-Message.ClearProperties=Eigenschaften löschen
 
-Message.CreateTemplateElement=Vorlagenelement erstellen
-Message.TransformToReportItem=In Berichtobjekt umwandeln
-Message.TransformToDataSet=In Datensatz umwandeln
-Message.ExportElementToLibrary=Element in Bibliothek exportieren
-Message.ExportElementToDataMart=Element in DataMart exportieren
 
 ###########################################################
-#Element new names.
 
-New.ReportDesign=Neues_Berichtdesign
-New.Parameter=Neuer_Parameter
-New.CascadingParameterGroup=Neue_Verschachtelungsparametergruppe
-New.ScalarParameter=Neuer_Parameter
-New.DynamicFilterParameter=Neuer dynamischer Filterparameter
-New.ParameterGroup=Neue_Parametergruppe
-New.Style=Neuer_Stil
-New.MasterPage=Neue_Master-Seite
-New.ReportItem=Neues_Berichtobjekt
-New.Label=Neue_Beschriftung
-New.FreeForm=Neue_Freiform
-New.Data=Neue_Daten
-New.Text=Neuer_Text
-New.ListingGroup=Neue_Listengruppe
-New.List=Neue_Liste
-New.ListGroup=Neue_Listengruppe
-New.Listint=Neue_Liste
-New.Table=Neue_Tabelle
-New.TableGroup=Neue_Tabellengruppe
-New.Column=Neue_Spalte
-New.Row=Neue_Zeile
-New.Cell=Neue_Zelle
-New.Image=Neues_Bild
-New.Grid=Neues_Raster
-New.Line=Neue_Linie
-New.Tile=Neues_Feld
-New.Rectangle=Neues_Rechteck
-New.GraphicMasterPage=Neue_Grafik-Master-Seite
-New.SimpleMasterPage=Neue_einfache_Master-Seite
-New.TextData=Neue_Textdaten
-New.ExtendedItem=Neues_erweitertes_Objekt
-New.ScriptDataSource=Neue_Skript-Datenquelle
-New.ScriptDataSet=Neuer_Skript-Datensatz
-New.OdaDataSource=Neue_ODA-Datenquelle
-New.OdaDataSet=Neuer_ODA-Datensatz
-New.TemplateParameterDefinition=Neue_Parameterdefinition_für_Vorlage
-New.TemplateDataSet=Neuer_Datensatz_für_Vorlage
-New.TemplateReportItem=Neues_Berichtobjekt_für_Vorlage
-New.Theme=Neues_Thema
-New.AutoText=NewAutoText
-New.TabularCube=Datenquader
-New.TabularDimension=Gruppieren
-New.TabularHierarchy=NeueTabellenhierarchie
-New.TabularLevel=NeueTabellenebene
-New.TabularMeasure=NeueTabelleneinheit
-New.TabularMeasureGroup=Zusammenfassungsfeld
-New.OdaCube=NewOdaCube
-New.OdaDimension=NewOdaDimension
-New.OdaHierarchy=NewOdaHierarchy
-New.OdaLevel=NewOdaLevel
-New.OdaMeasure=NewOdaMeasure
-New.OdaMeasureGroup=NewOdaMeasureGroup
-New.DerivedDataSet=NewDerivedDataSet
-New.VariableElement=NewVariableElement
-New.DataMartDataSource=NewDataMartDataSource
-New.DataMartDataSet=NewDataMartDataSet
-New.DataMartCube=NewDataMartCube
-New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=NeuesBerichtobjektthema
 
 ###########################################################
-#Default theme name.
-Theme.defaultThemeName=Standardthema
 
 ###########################################################
-# Error Messages
 
-#ContentException
-Error.ContentException.SLOT_NOT_FOUND={0} hat kein Feld (ID:{1}) definiert.
-Error.ContentException.WRONG_TYPE={1} ist in Feld ({2}) von {0} nicht zulässig.
-Error.ContentException.CONTENT_NOT_FOUND={0} wird nicht im Feld ({1}) von {2} angezeigt.
-Error.ContentException.NOT_CONTAINER={0} ist kein Container.
-Error.ContentException.SLOT_IS_FULL=Feld ({0}) von {1} ist voll.
-Error.ContentException.RECURSIVE={0} hat {1} auf einer Ebene enthalten, sodass ersteres Element nicht in letzteres verschoben werden kann.
-Error.ContentException.HAS_NO_CONTAINER={0} verfügt über keinen Container, sodass eine Aufnahme in den Bericht nicht möglich ist.
-Error.ContentException.MOVE_FORBIDDEN={0} kann nicht verschoben werden, da Verweise auf den darin enthaltenen Inhalt bestehen.
-Error.ContentException.HAS_DESCENDENTS={0} kann weder verschoben noch gelöscht werden, da es untergeordnete Elemente aufweist.
-Error.ContentException.INVALID_CONTEXT_CONTAINMENT={0} ist direkt oder indirekt im Feld ({2}) von {1} nicht zulässig.
-Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN=Die Struktur von Element "{0}" kann nicht geändert werden, da es sich um ein untergeordnetes oder virtuelles Element (innerhalb des untergeordneten Elements) handelt.
-Error.ContentException.CONTENT_NAME_REQUIRED={0} hat keinen Namen und darf Feld {2} von {1} daher nicht hinzugefügt werden.
-Error.ContentException.INVALID_TEMPLATE_ELEMENT=Für {0} gibt es keine explizite Definition für Vorlagenparameter. Es kann daher nicht in Feld ({2}) von {1} eingefügt werden.
-Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=Das Element darf nicht in eine Vorlage umgewandelt werden.
-Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element '{0}' gibt Berichtobjekte frei und kann seine Gruppen nicht hinzufügen, entfernen oder verschieben.
-Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=Die Kopie kann nicht in Feld {1} von {0} eingefügt werden, weil sie ungültig ist.
-Error.ContentException.CONTENT_ALREADY_INSERTED=Element '{0}' kann nicht zu ({2}) von '{1}' hinzugefügt werden, da es sich bereits in der Designstruktur befindet.
-Error.ContentException.INVALID_POSITION=Die Position befindet sich außerhalb des zulässigen Bereichs und ist daher ungültig.
-Error.ContentException.SHARE_DIMENSION_NOT_EXIST=Element [{0}] kann nicht in den Bericht/die Bibliothek eingefügt werden, da die gemeinsame Dimension [{1}] nicht vorhanden ist.
 
-#CustomMsgException
-Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Der Ressourcenschlüssel der Übersetzung muss bereitgestellt werden.
-Error.CustomMsgException.DUPLICATE_LOCALE=Die Übersetzung des Gebietsschemas "{0}" der Ressource "{1}" ist bereits definiert.
-Error.CustomMsgException.INVALID_LOCALE=Das Gebietsschema "{0}" ist eine ungültige Gebietsschemabezeichnung.
-Error.CustomMsgException.TRANSLATION_NOT_FOUND=Die Übersetzung des Gebietsschemas "{0}" der Ressource "{1}" wurde nicht gefunden.
 
     
-#ExtendsException
 
-#InvalidParentException
-Error.InvalidParentException.NO_PARENT=Das Element "{0}" hat kein übergeordnetes Element. Es kann nicht lokalisiert werden. 
-Error.InvalidParentException.PARENT_NOT_FOUND=Das übergeordnete Element "{0}" ist nicht vorhanden.
-Error.InvalidParentException.UNNAMED_PARENT=Das übergeordnete Element wurde nicht benannt.
-Error.InvalidParentException.PARENT_NOT_INCLUDE=Die Bibliothek des übergeordneten Elements "{0}" ist nicht enthalten.
 
-#WrongTypeException
-Error.WrongTypeException.WRONG_TYPE=Das übergeordnete Element {0} ist ein anderer Elementtyp mit dem Ziel {1}.
-Error.WrongTypeException.WRONG_EXTENSION_TYPE=Das übergeordnete Element {0} ist ein anderer Erweiterungstyp mit Ziel {1}.
 
-#CircularExtendsException
-Error.CircularExtendsException.SELF_EXTEND={0} kann sich nicht selbst erweitern.
-Error.CircularExtendsException.CIRCULAR=Eine Kreiserweiterung wurde gefunden, weil {0} bereits durch {1} erweitert wird.
-
-#ExtendsForbiddenException
-Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=Das übergeordnete Element "{0}" ist in Komponenten kein Berichtobjekt auf oberster Ebene.
-Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=Element "{0}" kann nicht erweitert werden. Es befindet sich innerhalb eines untergeordneten Elements oder hat bereits ein übergeordnetes Element.
-Error.ExtendsForbiddenException.CANT_EXTEND=Das Element "{0}" darf keine Ableitungen aufweisen.
-Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=Das freigegebene Ergebnis-Berichtsobjekt "{0}" darf nicht abweichen.
-    
-#NameException
-Error.NameException.NAME_REQUIRED=Der Name von {0} ist erforderlich.
-Error.NameException.NAME_FORBIDDEN={0} darf keinen Namen aufweisen.
-Error.NameException.DUPLICATE=Der Name "{0}" ist bereits vorhanden. Bitte wählen Sie einen anderen Namen aus.
-Error.NameException.HAS_REFERENCES={0} verfügt über ein abgeleitetes Element, der Name kann nicht gelöscht werden.
-Error.NameException.INVALID_NAME=Der Name "{0}" ist unzulässig, da er eines der folgenden Zeichen enthält: ".", "/", "\", "!", ";", ",".
-Error.NameException.INVALID_STYLE_NAME=Stilname '{0}' ist nach CSS2-Spezifikationen ungültig.
-    
-#PropertyNameException
-Error.PropertyNameException.PROPERTY_NOT_VALID=Die Eigenschaft "{0}" für Element "{1}" ist ungültig.
-Error.PropertyNameException.MEMBER_NOT_VALID=Das Mitglied "{0}" ist für Struktur "{1}" ungültig.
 
     
-#PropertyValueException
-Error.PropertyValueException.INVALID_VALUE=Der Wert "{0}" mit dem Typ "{1}" ist ungültig.
-Error.PropertyValueException.PROPERTY_CHANGE_FORBIDDEN=Wert für Eigenschaft "{0}" kann nicht verändert werden, da "{1}" Teil eines untergeordneten Elements ist. 
-Error.PropertyValueException.CHOICE_NOT_FOUND=Der Auswahlwert "{0}" wurde nicht gefunden.
-Error.PropertyValueException.NOT_LIST_TYPE=Die Eigenschaft "{0}" ist kein Listentyp.
-Error.PropertyValueException.ITEM_NOT_FOUND=Die festgelegte Struktur wurde in der Eigenschaft "{0}" nicht gefunden.
-Error.PropertyValueException.WRONG_ELEMENT_TYPE="{0}" ist kein gültiger Elementverweistyp.
-Error.PropertyValueException.VALUE_EXISTS=Der Wert "{0}" existiert bereits.
-Error.PropertyValueException.VALUE_REQUIRED=Der Wert der Eigenschaft "{0}" ist erforderlich.
-Error.PropertyValueException.VALUE_LOCKED=Der Wert der Eigenschaft "{0}" kann nicht festgelegt werden, weil sie gesperrt ist.
-Error.PropertyValueException.UNIT_NOT_ALLOWED=Die Einheit "{0}" ist für die Eigenschaft "{1}" nicht zulässig. 
-Error.PropertyValueException.CHOICE_NOT_ALLOWED=Der Auswahlwert "{0}" ist nicht zulässig.
-Error.PropertyValueException.WRONG_ITEM_TYPE=Der Strukturtyp lautet "{0}", nicht "{1}".
-Error.PropertyValueException.NEGATIVE_VALUE=Wert "{0}" für die Eigenschaft "{1}" ist ungültig, es kann sich nicht um einen Negativwert handeln.
-Error.PropertyValueException.NON_POSITIVE_VALUE=Wert "{0}" für die Eigenschaft "{1}" ist ungültig, es muss sich um einen Positivwert handeln.
-Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=Die Eigenschaft "{0}" von erweitertem Element "{1}" darf nicht von Befehlen festgelegt werden.
-Error.PropertyValueException.DOT_FORBIDDEN=Der Name "{0}" ist unzulässig, da er das Zeichen "." enthält.
-Error.PropertyValueException.NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE=Das Berichtselement Thementyp '{0}' wird nicht unterstützt.
     
-#SemanticError
-Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=Die Tabelle "{0}" weist eine nicht gleich bleibende Spaltenanzahl auf.
-Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT_COZ_DROP=Widersprüchliche Spaltenanzahl in Tabelle "{0}", weil einige Zellen in der Gruppenkopfzeile die Eigenschaft zum Verwerfen aufweisen.
-Error.SemanticError.INCONSISTENT_GRID_COL_COUNT=Das Raster "{0}" weist eine nicht gleich bleibende Spaltenanzahl auf.
-Error.SemanticError.OVERLAPPING_CELLS=Die Zeile in {0} enthält sich überschneidende Zellen.
-Error.SemanticError.INCONSISTENT_TABLE_DROP_HEADINGS=Für die Tabelle "{0}" wurden ungültige vertikale Verbindungen von Kopfzeilen festgelegt.
-Error.SemanticError.INVALID_PAGE_SIZE=Die Master-Seite "{0}" weist eine ungültige Seitengröße auf.
-Error.SemanticError.MISSING_PAGE_SIZE=Die Größe der Master-Seite "{0}" ist erforderlich, da der Seitentyp benutzerdefiniert ist.
-Error.SemanticError.CANNOT_SPECIFY_PAGE_SIZE=Die Größe der Master-Seite "{0}" kann nicht festgelegt werden, da der Seitentyp nicht benutzerdefiniert ist. 
-Error.SemanticError.INVALID_PAGE_MARGINS=Die Master-Seite "{0}" hat einen ungültigen Randwert.
-Error.SemanticError.MISSING_MASTER_PAGE=Der Bericht muss mindestens eine Master-Seite aufweisen.
-Error.SemanticError.INVALID_MULTI_COLUMN=Der Spaltenbereich der Master-Seite "{0}" liegt außerhalb des Seiteninhalts.
-Error.SemanticError.INVALID_ELEMENT_REF=Das Element '{0}' besitzt die Eigenschaft '{1}', die auf ein undefiniertes Element oder auf sich selbst verweist: '{2}'.
-Error.SemanticError.INVALID_DATA_BINDING_REF=Das Element "{0}" besitzt die Eigenschaft "dataBindingRef", die auf ein Element "{1}" verweist, das der Container oder Inhalt des Elements ist.
-Error.SemanticError.MISSING_SQL_STMT=Der JDBC-Auswahldatensatz "{0}" muss eine SQL-Anweisung aufweisen.
-Error.SemanticError.MISSING_DATA_SET={0} muss auf einen Datensatz zugreifen können.
-Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=Der Skalierwert des Bildes "{0}" muss positiv sein.
-Error.SemanticError.IMAGE_FILE_NOT_FOUND=Die im Bild "{1}" definierte Datei "{0}" konnte nicht gefunden werden.
-Error.SemanticError.NEGATIVE_REPORT_REFRESH_RATE=Bei der Aktualisierungsrate des Berichts muss es sich um einen nicht negativen Wert handeln.
-Error.SemanticError.NEGATIVE_CELL_COLUMN=In dem Raster bzw. der Tabelle oder Tabellengruppe "{0}" beginnt eine Zelle mit einer negativen Startspalte.
-Error.SemanticError.NEGATIVE_WIDTH=Das Element "{0}" oder dessen Inhalt kann keine negative Breite aufweisen.
-Error.SemanticError.NEGATIVE_HEIGHT=Das Element "{0}" oder dessen Inhalt kann keine negative Höhe aufweisen.
-Error.SemanticError.INVALID_COLUMN_REPEAT=Die Tabelle "{0}" weist eine Spalte auf, deren Wiederholung kleiner als 1 ist.
-Error.SemanticError.INVALID_PAGE_COLUMNS=Die Master-Seite "{0}" weist eine Spalte auf, die kleiner als 1 ist.
-Error.SemanticError.NEGATIVE_FONT_SIZE=Der Stil "{0}" kann keine negative Schriftgröße aufweisen.
-Error.SemanticError.NEGATIVE_BORDER_WIDTH=Der Stil "{0}" kann keine negative Rahmenbreite aufweisen.
-Error.SemanticError.INVALID_PROPERTY_NAME=Die Eigenschaft "{0}" im Element "{1}" ist nicht definiert.
-Error.SemanticError.UNSUPPORTED_ELEMENT=Das Element {0} wird noch nicht unterstützt.
-Error.SemanticError.AT_LEAST_ONE_COLUMN=Das Ergebnis des Datensatzes "{0}" muss mindestens eine Ergebnisspalte aufweisen.
-Error.SemanticError.NEGATIVE_LINE_HEIGHT=Die Linienhöhe von Element "{0}" muss einen nicht negativen Wert aufweisen.
-Error.SemanticError.DUPLICATE_GROUP_NAME=Die Tabelle/Liste "{0}" weist den doppelten Gruppennamen "{1}" auf.
-Error.SemanticError.INVALID_CUSTOM_COLOR_NAME=Der Name der benutzerdefinierten Farbe "{0}" kann nicht verwendet werden, da es sich um einen standardmäßigen CSS-Farbennamen handelt.
-Error.SemanticError.DUPLICATE_CUSTOM_COLOR_NAME=Die Farbpalette weist den doppelten benutzerdefinierten Farbennamen "{0}" auf.
-Error.SemanticError.EXTENSION_NOT_FOUND=Der Erweiterungsname "{0}" des Elements "{1}" wurde nicht gefunden.
-Error.SemanticError.MISSING_EXTENSION=Der Erweiterungsname des Elements "{0}" muss definiert werden.
-Error.SemanticError.PROPERTY_COPY_FORBIDDEN=Das Kopieren der Eigenschaft "{0}" ist unzulässig.
-Error.SemanticError.COLUMN_COPY_FORBIDDEN=Das Kopieren in der Spalte "{0}" beim Element "{1}" ist unzulässig.
-Error.SemanticError.COLUMN_PASTE_FORBIDDEN=Das Einfügen beim Element "{1}" ist unzulässig.
-Error.SemanticError.COLUMN_PASTE_DIFFERENT_LAYOUT=Der Einfügebereich besitzt ein anderes Layout als der kopierte Bereich.
-Error.SemanticError.INVALID_STRUCTURE_REF=Das Element "{0}" besitzt die Eigenschaft "{1}", die auf eine undefinierte Struktur "{2}" verweist.
-Error.SemanticError.INVALID_SCALAR_PARAMETER_TYPE=Bei dem skalaren Parametertyp "{0}" handelt es sich nicht um einen gültigen Typ. Parameter, die Teil einer Gruppe kaskadierender Parameter sind, müssen dynamische Parameter sein.  
-Error.SemanticError.MISSING_TEMPLATE_PARAMETER_TYPE=Das Element {0} muss eindeutig einen "allowedType" definieren. 
-Error.SemanticError.INCONSISTENT_TEMPLATE_PARAMETER_TYPE=Das Standardelement {1} in Element {0} ist kein {2}.
-Error.SemanticError.INVALID_LIBRARY_REFERENCE=Der Bibliotheksverweis "{2}" von {0} "{1}" ist unzulässig, da die angegebene Struktur nicht vorhanden ist. 
-Error.SemanticError.INVALID_PROPERTY_BINDING_ID=Die Eigenschaftenbindung "{1}" in {0} bezieht sich auf ein nicht vorhandenes Element.
-Error.SemanticError.PROPERTY_BINDING_FORBIDDEN=Das Element "{0}" befindet sich nicht in der Designstruktur und kann daher nicht für Eigenschaftenbindungen verwendet werden.
-Error.SemanticError.INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT=Tabelle oder Liste ist in der Master-Seite "{0}" weder direkt noch indirekt zulässig. 
-Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET = Der Datensatz "{1}" fehlt im Verknüpfungsdatensatz "{0}".
-Error.SemanticError.MISSING_COLUMN_BINDING = Die Spaltenbindung für die Daten "{0}" mit dem Spaltennamen "{1}" ist nicht definiert.
-Error.SemanticError.COLUMN_INSERT_FORBIDDEN=Das Einfügen beim Element "{0}" ist unzulässig.
-Error.SemanticError.CANNOT_SPECIFY_VALUE=Das Element "{0}" kann den Wert \"{1}\" für die Eigenschaft \"{2}\" aufgrund des Werts \"{3}\" von \"{4}\" nicht angeben.
 
-Error.SemanticError.ROW_COPY_FORBIDDEN=Das Kopieren beim Element "{0}" ist unzulässig.
-Error.SemanticError.ROW_PASTE_FORBIDDEN=Das Einfügen beim Element "{0}" ist unzulässig.
-Error.SemanticError.ROW_INSERT_FORBIDDEN=Das Einfügen beim Element "{0}" ist unzulässig.
-Error.SemanticError.ROW_SHIFT_FORBIDDEN=Das Verschieben beim Element "{0}" ist unzulässig.
-Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Das Einfügen beim Element "{0}" ist unzulässig.
-
-Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Der Zirkelbezug auf das Element wird gefunden, weil {0} sich bereits auf {1} verweist.
-Error.SemanticError.INCONSISTENT_DATA_GROUP=Der Datenbindungsverweis des Elements {0} verfügt über verschiedene Anzahlen von Gruppen mit dem Element {1}, auf das er verweist.
-Error.SemanticError.INVALID_MANIFEST=Das Verzeichnis des Elements {0} ist ungültig.
-Error.SemanticError.VALUE_FORBIDDEN=Die Listeneigenschaft '{0}' ist leer und kann kein Element enthalten.
-
-Error.SemanticError.TABLE_NO_COLUMN_FOUND = Die Breite der Tabelle kann nicht berechnet werden, da keine Spalte gefunden wurde.
-Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = Die Breite der Tabelle kann nicht berechnet werden, da die Breite der Spalte bei Index {0} nicht definiert ist.
-Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = Die Breite der Tabelle kann nicht berechnet werden, da sie mehrere Spalten in sowohl absoluten als auch relativen Einheiten außer Prozent enthält.
-Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = Die Breite der Tabelle kann nicht berechnet werden, da sie mehrere Spalten in verschiedenen relativen Einheiten enthält.
-Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = Die Breite der Tabelle kann nicht berechnet werden, da die Summe der Spaltenbreiten in Prozent größer als oder gleich 100 % ist.
-Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=Das Berichtobjekt '{0}' kann nicht Quader oder Datensatz angeben, weil das äußere Berichtobjekt einen anderen Quader oder Datensatz und Mehrfachansichten definieren kann. 
-
-#SemanticException
-Error.SemanticException.EXPORT_ELEMENT_FAIL=Doppelter Elementname in der Zielbibliothek. Element {0} kann nicht exportiert werden. Ändern Sie den Namen für das zu exportierende Element.
-
-#StyleException
-Error.StyleException.FORBIDDEN={0} kann keinen Stil aufweisen.
-Error.StyleException.NOT_FOUND=Der von {1} verwendete Stil "{0}" wurde nicht gefunden.
     
-#ThemeException
-Error.ThemeException.NOT_FOUND=Das von {1} verwendete Thema "{0}" wurde nicht gefunden.
-Error.ThemeException.WRONG_TYPE=Das von {1} verwendete Thema "{0}" ist nicht das korrekte Berichtobjektthema.    
     
-#DesignParserException
-Error.DesignParserException.FILE_NOT_FOUND=Die Datei "{0}" wurde nicht gefunden.
-Error.DesignParserException.FILE_FORMAT_NOT_SUPPORT=Das Format der Datei "{0}" wird nicht unterstützt.
-Error.DesignParserException.RGB_REQUIRED=Eine benutzerdefinierte Farbe muss einen korrekten RGB-Wert aufweisen.
-Error.DesignParserException.COLOR_NAME_REQUIRED=Eine benutzerdefinierte Farbe muss einen Farbennamen aufweisen.
-Error.DesignParserException.ILLEGAL_EXTENDS=Das Element kann nicht erweitert werden.
-Error.DesignParserException.IMAGE_REF_CONFLICT=Das Bild verfügt über einen widersprüchlichen Bezug.
-Error.DesignParserException.INVALID_IMAGEREF_EXPR_VALUE=Der Ausdruckswert für den Bildbezug ist ungültig.
-Error.DesignParserException.INVALID_IMAGE_URL_VALUE=Der URL-Wert des Bildes ist ungültig.
-Error.DesignParserException.INVALID_IMAGE_NAME_VALUE=Der Namenswert des Bildes ist ungültig.
-Error.DesignParserException.ACTION_REPORTNAME_REQUIRED=Der Berichtsname ist erforderlich für die Aktion.
-Error.DesignParserException.ACTION_PARAMETER_NAME_REQUIRED=Der Parametername ist für die Aktion erforderlich.
-Error.DesignParserException.CHOICE_RESTRICTION_VIOLATION=Es wurde gegen die Auswahlbeschränkung verstoßen.
-Error.DesignParserException.MESSAGE_KEY_REQUIRED=Die benutzerdefinierte Nachricht muss den Wert für den Schlüssel angeben.
-Error.DesignParserException.DUPLICATE_TRANSLATION_LOCALE=Zwei Übersetzungen mit demselben Gebietsschema werden in einer benutzerdefinierten Nachricht angezeigt.
-Error.DesignParserException.NAME_REQUIRED=Der Eigenschaftsname des Elements oder Mitgliedname der Struktur ist erforderlich.
-Error.DesignParserException.WRONG_STRUCTURE_LIST_TYPE=Elementeigenschaften oder Strukturmitglieder dieser Art sind kein Strukturlistentyp.
-Error.DesignParserException.WRONG_EXTENDED_PROPERTY_TYPE=Die Eigenschaft ist keine erweiterte Eigenschaft.
-Error.DesignParserException.INVALID_STRUCTURE_NAME=Der Name ist kein Strukturname.
-Error.DesignParserException.INVALID_PROPERTY_SYNTAX=Die Eigenschaft muss als Attribut eines Elements definiert werden.
-Error.DesignParserException.UNDEFINED_PROPERTY=Die Eigenschaft "{0}" ist nicht definiert.
-Error.DesignParserException.UNSUPPORTED_ENCODING=Das Codierungsformat dieser XML-Datei wird nicht unterstützt.
-Error.DesignParserException.PROPERTY_IS_NOT_ENCRYPTABLE=Die Eigenschaft "{0}"kann nicht verschlüsselt werden.
-Error.DesignParserException.UNSUPPORTED_VERSION=Die Berichtdatei für Version '{0}' ist ungültig, da sie größer als die neueste unterstützte Berichtdatei ist.
-Error.DesignParserException.INVALID_VERSION=Die Berichtversion {0} ist ungültig.
-Error.DesignParserException.INVALID_ELEMENT_ID=Die ID {1} in {0} ist ungültig.
-Error.DesignParserException.VIRTUAL_PARENT_NOT_FOUND=BaseID "{0}" kann nicht auf ein virtuelles übergeordnetes Element verweisen, oder das angegebene Element befindet sich nicht im übergeordneten Element.  
-Error.DesignParserException.DUPLICATE_ELEMENT_ID=ID von {0} wird bereits von {1} verwendet.  
-Error.DesignParserException.INCONSISTENT_TEMPLATE_ELEMENT_TYPE=Das Vorlagenelement {0} stimmt nicht mit dem Standardelement der Parameterdefinition {1} für die Referenzvorlage überein.
-Error.DesignParserException.MISSING_TEMPLATE_PARAMETER_DEFAULT=Das Element {0} muss explizit ein Standardelement definieren.
-Error.DesignParserException.WRONG_SIMPLE_LIST_TYPE=Eine solche Elementeigenschaft gilt nicht als einfacher Listentyp.
 
-#DesignFileException
-Error.DesignFileException.SYNTAX_ERROR=Syntaxfehler gefunden, Fehlerdetails einsehen.
-Error.DesignFileException.SEMANTIC_WARNING=Semantikwarnung gefunden, Warnungsdetails einsehen.
-Error.DesignFileException.SEMANTIC_ERROR=Semantikfehler gefunden, Fehlerdetails einsehen.
-Error.DesignFileException.INVALID_XML=Die Designdatei ist eine ungültige XML-Datei.
 
-#XMLParserException
-Error.XMLParserException.UNKNOWN_TAG=Die XML-Datei enthält ein nicht unterstütztes Element.
-Error.XMLParserException.SAX_ERROR=SAX hat einen Fehler in der grundlegenden XML-Syntax der Datei entdeckt.
-Error.XMLParserException.INVALID_BOOLEAN=Ein Boolesches Attribut enthält keinen gültigen Wert.
-Error.XMLParserException.WARNINGS_FOUND=Die Analyse ist abgeschlossen, es sind jedoch widerrufbare Fehler aufgetreten.
-Error.XMLParserException.EXCEPTION=Eine generische Ausnahme ist aufgetreten.
-Error.XMLParserException.INVALID_INTEGER=Ein Ganzzahl-Attribut enthält einen ungültigen Wert.
+
+
+
     
-#UserPropertyException
-Error.UserPropertyException.NAME_REQUIRED=Eine Benutzereigenschaft muss einen Namen aufweisen.
-Error.UserPropertyException.DUPLICATE_NAME=Eine Benutzereigenschaft mit dem Namen "{0}" ist bereits vorhanden.
-Error.UserPropertyException.INVALID_TYPE=Der Benutzereigenschaftstyp ist ungültig. 
-Error.UserPropertyException.MISSING_CHOICES=Der Benutzereigenschaftstyp ist eine Auswahl, wurde aber nicht festgelegt.
-Error.UserPropertyException.INVALID_DISPLAY_ID=Weder die Anzeigenamen-ID noch der Anzeigename wurden in der Benutzereigenschaft "{0}" festgelegt.
-Error.UserPropertyException.NOT_FOUND=Die Benutzereigenschaft "{0}" kann nicht gefunden werden.
-Error.UserPropertyException.USER_PROP_DISALLOWED={0} kann keine Benutzereigenschaft aufweisen.
-Error.UserPropertyException.CHOICE_VALUE_REQUIRED=Der Wert der benutzerdefinierten Auswahl ist erforderlich in der Benutzereigenschaft "{0}".
-Error.UserPropertyException.CHOICE_NAME_REQUIRED=Der Name der benutzerdefinierten Auswahl ist erforderlich in der Benutzereigenschaft "{0}".
-Error.UserPropertyException.INVALID_CHOICE_VALUE=Der Wert der Auswahl ist für den Typ der Benutzereigenschaft "{0}" ungültig.
-Error.UserPropertyException.INVALID_DEFINITION=Die Benutzereigenschaftsdefinition ist ungültig.
-Error.UserPropertyException.INVALID_DEFAULT_VALUE=Standardwert "{2}" der Benutzereigenschaft "{1}" in {0} ist für Typ "{3}" nicht zulässig.
+    
 
-#MetaDataReaderException
-Error.MetaDataReaderException.META_DATA_ERROR=Die Metadaten sind ungültig.
 
-#LibraryException
-Error.LibraryException.LIBRARY_NOT_FOUND=Die Bibliothek mit dem Namespace "{0}" wurde nicht gefunden.
-Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=Der Bibliothek-Namespace "{0}" ist bereits vorhanden.
-Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=Die Bibliothek mit dem Namespace "{0}" ist rekursiv einbezogen.
-Error.LibraryException.LIBRARY_HAS_DESCENDENTS=Die Bibliothek '{0}' kann nicht abgelegt werden, da sie im aktuellen Modul untergeordnete Elemente '{1}' aufweist.
-Error.LibraryException.LIBRARY_ALREADY_INCLUDED=Die Bibliothek "{0}" ist bereits enthalten. Bibliotheken können nicht doppelt hinzugefügt werden.
-Error.LibraryException.INVALID_LIBRARY_NAMESPACE=Der Namespace "{0}" der Bibliothek ist ungültig, da er leer ist oder ungültige Zeichen enthält.
+    
 
-#StyleSheetException
-Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=Die Stilvorlagen-Ressource wurde nicht gefunden.
-Error.StyleSheetException.SYNTAX_ERROR=Syntaxfehler aufgrund von Inkonsistenzen mit CSS2.
 
-#IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=Die Stilvorlage mit dem Namen "{0}" konnte nicht gefunden werden.
-Error.CSSException.DUPLICATE_CSS=Die CSS-Stilvorlage mit dem Namen "{0}" ist bereits vorhanden.
-Error.CSSException.BADCSSFILE=In der Datei "{0}" gibt es einige Syntaxfehler.
-Error.CssException.READONLY=Stil in Datei "{0}" ist schreibgeschützt.
 
-#StyleSheetParserException
-Error.StyleSheetParserException.RULE_NOT_SUPPORTED=Die Regel "{0}" wird nicht unterstützt.
-Error.StyleSheetParserException.STYLE_NOT_SUPPORTED=Der Stil "{0}" wird nicht unterstützt.
-Error.StyleSheetParserException.PROPERTY_NOT_SUPPORTED=Der Wert "{1}" für die CSS2-Eigenschaft "{0}" wird nicht unterstützt.
-Error.StyleSheetParserException.INVALID_SHORT_HAND_CSSPROPERTY_VALUE=Der Wert "{1}" für die zusammengefasste Eigenschaft "{0}" ist in der CSS2-Grammatik nicht zulässig.
-Error.StyleSheetParserException.INVALID_SIMPLE_CSSPROPERTY_VALUE=Der Wert "{1}" für die Eigenschaft "{0}" ist ungültig.		
-	
-#TemplateException
-Error.TemplateException.INVALID_TEMPLATE_ELEMENT_TYPE={0} ist kein Berichtobjekt oder Datensatzelement. Es kann daher nicht in ein Vorlagenobjekt umgewandelt werden.
-Error.TemplateException.TRANSFORM_TO_REPORT_ITEM_FORBIDDEN=Für {0} ist keine explizite Vorlagenparameterdefinition vorhanden. Es kann daher nicht in ein Berichtelement umgewandelt werden.
-Error.TemplateException.TRANSFORM_TO_DATA_SET_FORBIDDEN=Für {0} ist keine explizite Vorlagenparameterdefinition vorhanden. Es kann daher nicht in einen Datensatz umgewandelt werden.
-Error.TemplateException.REVERT_TO_TEMPLATE_FORBIDDEN=Für {0} ist keine explizite Vorlagenparameterdefinition vorhanden. Es kann daher nicht zu einem Vorlagenelement zurückgesetzt werden.
-Error.TemplateException.CREATE_TEMPLATE_ELEMENT_FORBIDDEN={0} ist nicht im Bericht enthalten. Eine Umwandlung ist daher nicht möglich.
-Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Die Elemente der Vorlage werden nicht in Bibliotheken unterstützt.
 
-#VersionInfo
-Info.VersionInfo.INVALID_DESIGN_FILE=Die zu öffnende Designdatei ist keine gültige Designdatei oder nicht vorhanden.
-Info.VersionInfo.CONVERT_INFO=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
-Info.VersionInfo.INVALID_VERSION=Die Berichtdatei für Version {0} wird nicht unterstützt.
-Info.VersionInfo.LATER_VERSION=Die Design-Datei wurde mit einer höheren Version von BIRT erstellt. Klicken Sie auf 'OK', um sie in ein Format zu konvertieren, das von der aktuell verwendeten Produktversion unterstützt wird.
-Info.VersionInfo.EXTENSION_COMPATIBILITY =Das Design/die Bibliothek kann geändert werden, da auf das zu öffnende Design/die zu öffnende Bibliothek oder deren enthaltene Bibliotheken Rückwärtskompatibilität angewendet wird.
 
-#EncryptionException
-Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=Die Eigenschaft {1} in {0} kann nicht verschlüsselt werden. Daher kann die Verschlüsselung nicht geändert werden.
-Error.EncryptionException.INVALID_ENCRYPTION=Die Verschlüsselungs-ID '{0}' ist ungültig, da keine entsprechende Verschlüsselung existiert.
 
-#Dashboard Exporter
-Message.ExportGadgetToSharedGadgetFile=Gadget in Datei mit gemeinsamen Gadgets exportieren.
-Message.ExportTabToSharedTabFile=Tab in Datei mit gemeinsamen Tabs exportieren.
 
-#Dashboard Exception
-Error.ExternalGadgetFileIncludedRecursively=Externes Gadget rekursiv einbezogen. 
-Error.NotFoundExporter=Dashboard-Exporter nicht gefunden.
+
+

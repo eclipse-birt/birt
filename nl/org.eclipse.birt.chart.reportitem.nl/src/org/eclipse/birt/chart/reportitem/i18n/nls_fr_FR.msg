@@ -1,5 +1,6 @@
 ChartCubeQueryHelper.Error.MustBindCube=Le graphique doit lier un cube à des données d'alimentation.
 ChartReportItemPresentationImpl.error.NoData=Le jeu de données lié au graphique n'a renvoyé aucune ligne.
+ChartReportItemPresentationImpl.error.InvalidCubeBinding=Le jeu de données utilisé par ce graphique a été modifié. Le rendu de ce tableau ne peut plus être effectué.
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=Impossible de localiser le wrapper d'élément d'état pour l'objet de graphique.
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl: onRowSets(...) - début
 ChartReportItemPresentationImpl.log.onRowSetsBuilding=ChartReportItemPresentationImpl: onRowSets(...) - création du graphique

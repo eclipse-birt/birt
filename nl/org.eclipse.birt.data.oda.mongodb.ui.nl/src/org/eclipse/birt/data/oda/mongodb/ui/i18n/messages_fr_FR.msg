@@ -10,102 +10,105 @@
 #  
 #*************************************************************************
 #
-MongoDBDataSourceWizardPage.message.default=Mongo Database Data Source Connection Properties
-MongoDBDataSourceWizardPage.GroupTitle.URIElements=Mongo Database URI Elements
-MongoDBDataSourceWizardPage.text.label.ServerHost=Server &Host:
-MongoDBDataSourceWizardPage.text.label.ServerPort=Server P&ort:
-MongoDBDataSourceWizardPage.text.label.DatabaseName=&Database Name:
-MongoDBDataSourceWizardPage.text.label.UserName=U&ser Name:
-MongoDBDataSourceWizardPage.text.label.Password=Pass&word:
-MongoDBDataSourceWizardPage.RadioButton.label.DatabaseURI=&Mongo Database URI:
-MongoDBDataSourceWizardPage.GroupTitle.SupplementalSetting=Supplemental &Client Settings
-MongoDBDataSourceWizardPage.checkbox.label.SocketAlive=Keep Socket &Alive
-MongoDBDataSourceWizardPage.checkbox.label.RequestSession=Consistent &Request Session
+MongoDBDataSourceWizardPage.message.default=Propriétés de connexion de la source de la base de données Mongo
+MongoDBDataSourceWizardPage.GroupTitle.URIElements=Eléments Uniform Resource Identifier de la base de données Mongo
+MongoDBDataSourceWizardPage.text.label.ServerHost=&Hôte du serveur :
+MongoDBDataSourceWizardPage.text.label.ServerPort=&Port du serveur :
+MongoDBDataSourceWizardPage.text.label.DatabaseName=Nom de la base de don&nées :
+MongoDBDataSourceWizardPage.text.label.UserName=Nom d'utili&sateur :
+MongoDBDataSourceWizardPage.text.label.Password=&Mot de passe :
+MongoDBDataSourceWizardPage.RadioButton.label.DatabaseURI=URI de la base de données &Mongo :
+MongoDBDataSourceWizardPage.GroupTitle.SupplementalSetting=Paramètres supplémentaires et paramètres du &client
+MongoDBDataSourceWizardPage.checkbox.label.SocketAlive=Garder l'interface de connexion &active
+MongoDBDataSourceWizardPage.checkbox.label.RequestSession=Session de &requête consistante
 
-MongoDBDataSourceWizardPage.error.MissingConnectionProperty=Missing required connection property!
+MongoDBDataSourceWizardPage.error.MissingConnectionProperty=Propriété requise manquante pour la connexion !
 
 #
-MongoDBDataSetWizardPage.label.DBName=Mon&go database:
-MongoDBDataSetWizardPage.label.DBCollection=MongoDB &Collection
-MongoDBDataSetWizardPage.Button.text.IncludeSystemCollection=&Include system collection
-MongoDBDataSetWizardPage.Button.Refresh=&Refresh
-MongoDBDataSetWizardPage.label.DocumentNumber=Nu&mber of Documents to search for fields:
-MongoDBDataSetWizardPage.group.text=Command &Operation
-MongoDBDataSetWizardPage.label.OperationType=Command &type:
-MongoDBDataSetWizardPage.Button.FindFields=Fin&d Fields
+MongoDBDataSetWizardPage.label.DBName=Base de données Mon&go :
+MongoDBDataSetWizardPage.label.DBCollection=&Collection MongoDB
+MongoDBDataSetWizardPage.Button.text.IncludeSystemCollection=&Inclure la collection du système
+MongoDBDataSetWizardPage.Button.Refresh=&Actualiser
+MongoDBDataSetWizardPage.label.DocumentNumber=No&mbre de documents à chercher pour les champs :
+MongoDBDataSetWizardPage.group.text=&Opération de commande
+MongoDBDataSetWizardPage.label.OperationType=&Type de commande :
+MongoDBDataSetWizardPage.Button.FindFields=Trouver &des champs
 MongoDBDataSetWizardPage.Button.text.CommandExpression=&Expression...
-MongoDBDataSetWizardPage.Button.tooltip.CommandExpression=Edit the command expression.
-MongoDBDataSetWizardPage.Button.QueryExpression=$&query Expression...
-MongoDBDataSetWizardPage.Button.SortExpression=&Sort Expression...
-MongoDBDataSetWizardPage.Button.AdvancedSettings=Ad&vanced Settings...
-MongoDBDataSetWizardPage.label.AvailableFields=&Available Fields:
-MongoDBDataSetWizardPage.label.SelectedFields=&Selected Fields:
-MongoDBDataSetWizardPage.HeaderText.SelectedFields=Field Display Name
-MongoDBDataSetWizardPage.menuItem.remove=Re&move
-MongoDBDataSetWizardPage.menuItem.removeAll=Remove A&ll
+MongoDBDataSetWizardPage.Button.tooltip.CommandExpression=Modifier l'expression de la commande.
+MongoDBDataSetWizardPage.Button.QueryExpression=Expressi&on de re$quête...
+MongoDBDataSetWizardPage.Button.SortExpression=Expre&ssion de tri...
+MongoDBDataSetWizardPage.Button.AdvancedSettings=Paramètres a&vancés...
+MongoDBDataSetWizardPage.label.AvailableFields=&Champs disponibles :
+MongoDBDataSetWizardPage.label.SelectedFields=&Champs sélectionnés :
+MongoDBDataSetWizardPage.HeaderText.SelectedFields=Nom d'affichage du champ
+MongoDBDataSetWizardPage.menuItem.remove=Suppri&mer
+MongoDBDataSetWizardPage.menuItem.removeAll=Supprimer tou&t
 
-MongoDBDataSetWizardPage.message.default=Select the desired fields for the data set columns
-MongoDBDataSetWizardPage.MessageBox.title.PromptToKeepSelections=Confirm to continue
-MongoDBDataSetWizardPage.MessageBox.message.PromptToKeepSelections=Selecting another collection would discard the current Selected Fields.  Do you want to continue?
-MongoDBDataSetWizardPage.MessageBox.title.PromptToRefreshAvailableFields=Confirm to refresh
-MongoDBDataSetWizardPage.MessageBox.message.PromptToRefreshAvailableFields=Do you want to refresh the Available Fields based on the changed Command Expression?
+MongoDBDataSetWizardPage.message.default=Sélectionnez les champs désirés pour les colonnes de jeu de données
+MongoDBDataSetWizardPage.MessageBox.title.PromptToKeepSelections=Confirmez pour continuer
+MongoDBDataSetWizardPage.MessageBox.message.PromptToKeepSelections=Si vous sélectionnez une autre collection, les champs actuellement sélectionnés seront supprimés.  Voulez-vous continuer ?
+MongoDBDataSetWizardPage.MessageBox.title.PromptToRefreshAvailableFields=Confirmez pour actualiser
+MongoDBDataSetWizardPage.MessageBox.message.PromptToRefreshAvailableFields=Voulez-vous actualiser les champs disponibles selon l'expression modifiée de la commande ?
 
-MongoDBDataSetWizardPage.MessageDialog.title.GeneralError=Error
-MongoDBDataSetWizardPage.MessageDialog.ErrorMessage.InitPage=Unable to obtain the list of collections from the MongoDB data source.
+MongoDBDataSetWizardPage.MessageDialog.title.GeneralError=Erreur
+MongoDBDataSetWizardPage.MessageDialog.ErrorMessage.InitPage=Impossible d'obtenir la liste de collections à partir de la source de données MongoDB.
 
-MongoDBDataSetWizardPage.ExceptionDialog.title=Error
-MongoDBDataSetWizardPage.ExceptionDialog.message.FindFields=Unable to find available fields.
-MongoDBDataSetWizardPage.ExceptionDialog.message.NoMetaData=No active data source connection.
-MongoDBDataSetWizardPage.ExceptionDialog.message.SavaPage=Error occurred when updating the MongoDB data set.
-MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidCommandExpression=Invalid command expression.
-MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidQueryExpression=Invalid query expression.
-MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidSortExpression=Invalid sort expression.
+MongoDBDataSetWizardPage.ExceptionDialog.title=Erreur
+MongoDBDataSetWizardPage.ExceptionDialog.message.FindFields=Impossible de trouver les champs disponibles.
+MongoDBDataSetWizardPage.ExceptionDialog.message.NoMetaData=Aucune connexion à une source de données active.
+MongoDBDataSetWizardPage.ExceptionDialog.message.SavaPage=Une erreur s'est produite lors de la mise à jour du jeu de données MongoDB.
+MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidCommandExpression=Expression de la commande non valide.
+MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidQueryExpression=Expression de la requête non valide.
+MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidSortExpression=Expression de tri non valide.
 
-MongoDBDataSetWizardPage.message.error.MissingCollectionName=The collection name cannot be empty.
-MongoDBDataSetWizardPage.message.error.InvalidDocumentNumber=Enter an integer value for the number of documents to find fields
-MongoDBDataSetWizardPage.message.error.SelectedFieldNotFound=The selected field "{0}" does not exist.
-MongoDBDataSetWizardPage.message.error.MissingCommandExpression=The command expression must not be empty.
-MongoDBDataSetWizardPage.message.error.MissingSelectedField=At least one field must be selected.
+MongoDBDataSetWizardPage.message.error.MissingCollectionName=Le nom de la collection doit être renseigné.
+MongoDBDataSetWizardPage.message.error.InvalidDocumentNumber=Saisissez un nombre entier pour le nombre de documents afin de trouver les champs
+MongoDBDataSetWizardPage.message.error.SelectedFieldNotFound=Le champ sélectionné "{0}" n'existe pas.
+MongoDBDataSetWizardPage.message.error.MissingCommandExpression=L'expression de la commande ne doit pas être vide.
+MongoDBDataSetWizardPage.message.error.MissingSelectedField=Sélectionnez au moins un champ.
 
-MongoDBAdvancedSettingsDialog.dialogTitle=Advanced Data Set Run-time Properties
-MongoDBAdvancedSettingsDialog.Label.MaxResultObjects=Maximum result objects in a &batch: 
-MongoDBAdvancedSettingsDialog.Tooltip.MaxResultObjects=The maximum number of result objects fetched in one batch\n by the MongoDB cursor.  Default value = 100
-MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSearch=Maximum documents to search for &metadata:
-MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSearch=The number of documents to process to obtain a query\n result set metadata at runtime.  Default value = 10
-MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSkip=Maximum documents to s&kip:
-MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSkip=Skip first n documents in result set; integer data type.\nDefault value = 0
-MongoDBAdvancedSettingsDialog.Label.IndexHintExpression=Index &hint expression:
-MongoDBAdvancedSettingsDialog.Tooltip.IndexHintExpression=One of more index keys that the query must use for query optimization.\n Use Mongo JSON hint expression syntax to list the indexed keys.
-MongoDBAdvancedSettingsDialog.Group.text.QueryCursorPreference=Query cursor read preference
-MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.Mode=Mo&de:
-MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.Mode=The read preference mode of a query cursor operation.
-MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.TagSet=Ta&g set(s):
-MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.TagSet=Set(s) of required tags configured for a member node.\n  Alternate tag sets may be specified as documents in an array.
-MongoDBAdvancedSettingsDialog.Button.text.NoCursorTimeOut=&No cursor time out 
-MongoDBAdvancedSettingsDialog.Button.tooltip.NoCursorTimeOut=The server normally times out idle cursors after an inactivity period (10 minutes) to prevent excess memory use.\n Enabling this option would prevent that. 
-MongoDBAdvancedSettingsDialog.Button.text.AllowPartialResults=Allows &partial results
-MongoDBAdvancedSettingsDialog.Button.tooltip.AllowPartialResults=When used with sharding (mongos), allows partial results from a sharded system if any shards\n are down/missing from the cluster.  If not enabled, an error will be returned from the mongos server. 
-MongoDBAdvancedSettingsDialog.Button.text.FlattenNestedDocuments=&Flatten nested collections
-MongoDBAdvancedSettingsDialog.Button.tooltip.FlattenNestedDocuments=An user option to flatten a nested collection of fields into multiple data set rows. 
-MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxResultObjects=Requires an integer value for "Maximum result objects"!
-MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSearch=Requires an integer value for "Maximum document to search"!
-MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSkip=Requires an integer value for "Maximum document to skip"!
+MongoDBAdvancedSettingsDialog.dialogTitle=Propriétés d'exécution avancées du jeu de données
+MongoDBAdvancedSettingsDialog.Label.MaxResultObjects=Nombre maximum d'objets de résultat par &lot : 
+MongoDBAdvancedSettingsDialog.Tooltip.MaxResultObjects=Nombre maximum d'objets de résultat extraits par lot\n par le curseur MongoDB.  Valeur par défaut = 100
+MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSearch=Nombre maximum de documents à chercher pour les métado&nnées :
+MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSearch=Nombre de documents à traiter pour obtenir les\n métadonnées du jeu de résultats de requête à l'exécution.  Valeur par défaut = 10
+MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSkip=Nombre maximum de documents à i&gnorer :
+MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSkip=Ignorer les n premiers documents du jeu de résultats ; type de données entier. \nValeur par défaut valeur = 0
+MongoDBAdvancedSettingsDialog.Label.IndexHintExpression=Expression d'astu&ce d'index :
+MongoDBAdvancedSettingsDialog.Tooltip.IndexHintExpression=L'une des clés d'index que la requête doit utiliser pour l'optimisation de la requête.\n Utilisez la syntaxe d'expression d'astuce JSON Mongo pour lister les clés indexées.
+MongoDBAdvancedSettingsDialog.Group.text.QueryCursorPreference=Préférences de lecture pour le curseur de requête
+MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.Mode=Mo&de :
+MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.Mode=Mode de préférence de lecture d'une opération de curseur de requête.
+MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.TagSet=Je&u(x) de balises :
+MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.TagSet=Jeu(x) de balises requises configurées pour un nœud membre.\n D'autres jeux de balises peuvent être spécifiés en tant que documents dans une matrice.
+MongoDBAdvancedSettingsDialog.Button.text.NoCursorTimeOut=Aucu&ne expiration de délai pour le curseur 
+MongoDBAdvancedSettingsDialog.Button.tooltip.NoCursorTimeOut=Le délai d'inactivité des curseurs du serveur expire après une période d'inactivité (10 minutes) pour éviter une utilisation excessive de la mémoire.\n L'activation de cette option vous permet d'éviter une utilisation excessive de la mémoire. 
+MongoDBAdvancedSettingsDialog.Button.text.AllowPartialResults=Autorise les résultats &partiels
+MongoDBAdvancedSettingsDialog.Button.tooltip.AllowPartialResults=Utilisée avec le partitionnement (mongos), cette option autorise des résultats partiels à partir d'un système partitionné, si des partitions\n ont disparu ou ont été supprimées du groupe.  Si cette option n'est pas activée, le serveur mongos renverra un message d'erreur. 
+MongoDBAdvancedSettingsDialog.Button.text.FlattenNestedDocuments=&Aplatir les collections imbriquées
+MongoDBAdvancedSettingsDialog.Button.tooltip.FlattenNestedDocuments=Cette option utilisateur permet d'aplatir une collection imbriquée de champs en plusieurs lignes de jeu de données. 
+MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxResultObjects=Nécessite un nombre entier pour "Nombre maximum d'objets de résultats".
+MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSearch=Nécessite un nombre entier pour "Nombre maximum de documents à chercher".
+MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSkip=Nécessite un nombre entier pour "Nombre maximum de documents à ignorer".
+MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.title=Reset Design Setting
+MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.button=OK
+MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.message=The design-time value of "Number of Documents to search for fields" is reset to match the "Maximum documents to search for metadata" run-time property value.
 
-MongoDBExpressionBuilder.dialogTitle.default=Expression Builder
-MongoDBExpressionBuilder.ExprssionText.label=E&xpression Text:
-MongoDBExpressionBuilder.Button.import=I&mport...
-MongoDBExpressionBuilder.Button.tooltip.import=Import expression text from a local file
-MongoDBExpressionBuilder.Button.export=&Export...
-MongoDBExpressionBuilder.Button.tooltip.export=Export the expression text to a local file
-MongoDBExpressionBuilder.Button.ValidateSyntax=&Validate Syntax
-MongoDBExpressionBuilder.Button.tooltip.ValidateSyntax=Validate the syntax of the expression text.
-MongoDBExpressionBuilder.InfoDialog.title.validateSyntax=Expression Text Validation
-MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.IsValid=Valid expression syntax.
-MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.Invalid=Invalid expression syntax.
-MongoDBExpressionBuilder.CommandExpression.DialogTitle=Command Expression Builder
-MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression=Expression text must not be empty!
-MongoDBExpressionBuilder.QueryExpression.DialogTitle=Query Expression Builder
-MongoDBExpressionBuilder.SortExpression.DialogTitle=Sort Expression Builder
+MongoDBExpressionBuilder.dialogTitle.default=Générateur d'expression
+MongoDBExpressionBuilder.ExprssionText.label=Texte de l'e&xpression :
+MongoDBExpressionBuilder.Button.import=I&mportation...
+MongoDBExpressionBuilder.Button.tooltip.import=Importer une expression à partir d'un fichier local
+MongoDBExpressionBuilder.Button.export=&Exportation...
+MongoDBExpressionBuilder.Button.tooltip.export=Exporter l'expression vers un fichier local
+MongoDBExpressionBuilder.Button.ValidateSyntax=&Valider la syntaxe
+MongoDBExpressionBuilder.Button.tooltip.ValidateSyntax=Valider la syntaxe du texte de l'expression.
+MongoDBExpressionBuilder.InfoDialog.title.validateSyntax=Validation du texte de l'expression.
+MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.IsValid=Syntaxe de l'expression valide.
+MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.Invalid=Syntaxe de l'expression non valide.
+MongoDBExpressionBuilder.CommandExpression.DialogTitle=Générateur d'expression de commande
+MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression=Le texte de l'expression ne doit pas être vide.
+MongoDBExpressionBuilder.QueryExpression.DialogTitle=Générateur d'expression de requête
+MongoDBExpressionBuilder.SortExpression.DialogTitle=Générateur d'expression de tri
 
 
 

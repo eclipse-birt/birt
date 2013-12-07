@@ -190,7 +190,7 @@ Choices.mapOperator.bottom-percent=最低百分比
 Choices.mapOperator.not-like=非类似于
 Choices.mapOperator.not-match=不匹配
 Choices.mapOperator.not-in=不属于
-Choices.mapOperator.in=属于
+Choices.mapOperator.in=在其中
   
 #15.imageRefType
 Choices.imageRefType.none=无图像
@@ -411,7 +411,7 @@ Choices.filterOperator.bottom-percent=最低百分比
 Choices.filterOperator.any=任何
 Choices.filterOperator.match=匹配
 Choices.filterOperator.not-match=不匹配
-Choices.filterOperator.in=属于
+Choices.filterOperator.in=在其中
 Choices.filterOperator.not-in=不属于
 
 #53. propertyMaskType
@@ -1943,8 +1943,6 @@ Structure.HighlightRule.border.right.style=样式
 Structure.HighlightRule.border.right.width=宽度
 Structure.HighlightRule.border.right.color=颜色
 Structure.HighlightRule.background.color=背景色
-Structure.HighlightRule.background.image=背景图像
-Structure.HighlightRule.backgroundRepeat=背景重复
 Structure.HighlightRule.format.dateTime=日期时间格式
 Structure.HighlightRule.format.number=数值格式
 Structure.HighlightRule.format.number.align=数值对齐  
@@ -1958,10 +1956,6 @@ Structure.HighlightRule.font.color=颜色
 Structure.HighlightRule.font.textUnderline=下划线
 Structure.HighlightRule.font.textOverline=上划线
 Structure.HighlightRule.font.textLineThrough=删除线
-Structure.HighlightRule.padding.top=顶部间隙
-Structure.HighlightRule.padding.left=左侧间隙
-Structure.HighlightRule.padding.bottom=底部间隙
-Structure.HighlightRule.padding.right=右侧间隙
 Structure.HighlightRule.text.align=文本对齐
 Structure.HighlightRule.text.indent=文本缩进
 Structure.HighlightRule.text.transform=文本转换
@@ -2097,7 +2091,6 @@ Structure.IncludedLibrary.namespace=名称空间
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=文件名
 Structure.IncludedCssStyleSheet.externalCssURI=外部 CSS URI
-Structure.IncludedCssStyleSheet.useExternalCss=使用外部 CSS
 
 #15. DataSetParam
 Structure.DataSetParam.name=名称
@@ -2413,7 +2406,16 @@ Element.DataMartCube=数据对象多维数据集
 Element.TimeDimension=时间维
 Element.ReportItemTheme=报表项布景主题
 Element.AbstractTheme=抽象布景主题
-Element.DataMartLinkedDataModel=Data Object Linked Data Set
+Element.DataMartLinkedDataModel=数据对象数据模型
+Element.AliasDataSet =别名数据集
+Element.LinkedDataModel =链接的数据模型
+Element.LinkedDataModel.pushDown=数据模型下推
+Element.Category = 类别
+Element.ColumnLink = 列链接
+Element.ColumnLinkPath = 列链接路径
+Element.DrillPath = 钻取路径
+Element.LinkedDataModelCube = 链接的数据模型多维数据集
+Element.LinkedDataModelDataSet = 链接的数据模型数据集
 
 ###########################################################
 # Element property names
@@ -2524,11 +2526,10 @@ Element.ReportDesign.onPageEnd=页面终止时
 Element.ReportDesign.dataMarts=DataMarts
 Element.ReportDesign.onPrepare=准备时
 Element.ReportDesign.onPrepare.this=报表设计
-Element.ReportDesign.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.ReportDesign.onPrepare.toolTip=用于脚本启动阶段。 尚无数据绑定。 可以在此处更改元素的设计。
 Element.ReportDesign.onPrepare.reportContext=报表上下文
-Element.ReportDesign.onContentUpdate= 在内容更新时
-Element.ReportDesign.onContentUpdate.toolTip=当在 BIRT Viewer 中更新报表内容时在客户端上执行。
-Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.language=语言
+Element.ReportDesign.PDFAccessible=可访问 PDF
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=显示名称
@@ -2743,8 +2744,6 @@ Element.Style.widows=弧行
 Element.Style.orphans=孤行
 Element.Style.wordSpacing=字间距
 Element.Style.overflow=溢出
-Element.Style.height=高度
-Element.Style.width=宽度
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=书签
@@ -2768,6 +2767,11 @@ Element.ReportItem.cascadeACL=层叠 ACL
 Element.ReportItem.allowExport=允许导出
 Element.ReportItem.pushDown=下推
 Element.ReportItem.theme=布景主题
+Element.ReportItem.language=语言
+Element.ReportItem.order=顺序
+Element.ReportItem.altText=替代文本
+Element.ReportItem.altTextID=替代文本关键字
+Element.ReportItem.linkedDataModel=链接的数据模型
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=内容
@@ -2777,7 +2781,7 @@ Element.Label.helpText=帮助文本
 Element.Label.action=操作
 Element.Label.onPrepare=准备时
 Element.Label.onPrepare.this=标签
-Element.Label.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.Label.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.Label.onPrepare.reportContext=报表上下文
 Element.Label.onCreate=创建时  
 Element.Label.onCreate.toolTip=在工厂中创建该元素时执行的脚本。
@@ -2788,9 +2792,11 @@ Element.Label.onRender.toolTip=准备该元素以便在展示引擎中呈现时执行的脚本。
 Element.Label.onRender.this=标签实例
 Element.Label.onRender.reportContext=报表上下文
 Element.Label.onPageBreak=出现分页符时
-Element.Label.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.Label.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.Label.onPageBreak.this=标签实例
 Element.Label.onPageBreak.reportContext=报表上下文
+Element.Label.tagType=PDF 标记类型
+Element.Label.altText=替代文本
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=报表项
@@ -2804,7 +2810,7 @@ Element.Data.helpText=帮助文本
 Element.Data.helpTextID=帮助文本关键字
 Element.Data.action=操作
 Element.Data.onPrepare=准备时
-Element.Data.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.Data.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.Data.onPrepare.this=数据
 Element.Data.onPrepare.reportContext=报表上下文
 Element.Data.onCreate=创建时  
@@ -2816,16 +2822,18 @@ Element.Data.onRender.toolTip=准备该元素以便在展示引擎中呈现时执行的脚本。
 Element.Data.onRender.this=数据实例
 Element.Data.onRender.reportContext=报表上下文
 Element.Data.onPageBreak=出现分页符时
-Element.Data.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.Data.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.Data.onPageBreak.this=数据实例
 Element.Data.onPageBreak.reportContext=报表上下文
+Element.Data.tagType=PDF 标记类型
+Element.Data.altText=替代文本
   
 #14.Text  ( prefix  Element.Text )
 Element.Text.content=内容
 Element.Text.contentType=内容类型
 Element.Text.contentID=内容关键字
 Element.Text.onPrepare=准备时
-Element.Text.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.Text.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.Text.onPrepare.this=文本
 Element.Text.onPrepare.reportContext=报表上下文
 Element.Text.onCreate=创建时  
@@ -2837,10 +2845,12 @@ Element.Text.onRender.toolTip=准备该元素以便在展示引擎中呈现时执行的脚本。
 Element.Text.onRender.this=Text instance
 Element.Text.onRender.reportContext=报表上下文
 Element.Text.onPageBreak=出现分页符时
-Element.Text.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.Text.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.Text.onPageBreak.this=文本实例
 Element.Text.onPageBreak.reportContext=报表上下文
 Element.Text.hasExpression=具有表达式
+Element.Text.tagType=PDF 标记类型
+Element.Text.altText=替代文本
   
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=关键字表达式
@@ -2889,7 +2899,7 @@ Element.List.slot.groups=组
 Element.List.slot.detail=详细资料
 Element.List.slot.footer=脚注
 Element.List.onPrepare=准备时
-Element.List.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.List.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.List.onPrepare.this=列表
 Element.List.onPrepare.reportContext=报表上下文
 Element.List.onCreate=创建时  
@@ -2901,19 +2911,21 @@ Element.List.onRender.toolTip=准备该元素以便在展示引擎中呈现时执行的脚本。
 Element.List.onRender.this=列表实例
 Element.List.onRender.reportContext=报表上下文
 Element.List.onPageBreak=出现分页符时
-Element.List.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.List.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.List.onPageBreak.this=列表实例
 Element.List.onPageBreak.reportContext=报表上下文
+Element.List.tagType=PDF 标记类型
+Element.List.altText=替代文本
   
 #17.ListGroup  ( prefix  Element.ListGroup )
 Element.ListGroup.slot.header=题头
 Element.ListGroup.slot.footer=页脚
 Element.ListGroup.onPrepare=准备时
-Element.ListGroup.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.ListGroup.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.ListGroup.onPrepare.this=列表组
 Element.ListGroup.onPrepare.reportContext=报表上下文
 Element.ListGroup.onPageBreak=出现分页符时
-Element.ListGroup.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.ListGroup.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.ListGroup.onPageBreak.this=列表组
 Element.ListGroup.onPageBreak.reportContext=报表上下文
   
@@ -2928,7 +2940,7 @@ Element.Table.slot.detail=详细资料
 Element.Table.slot.footer=脚注
 Element.Table.slot.columns=列
 Element.Table.onPrepare=准备时
-Element.Table.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.Table.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.Table.onPrepare.this=表
 Element.Table.onPrepare.reportContext=报表上下文
 Element.Table.onPrepare.object=对象
@@ -2943,19 +2955,20 @@ Element.Table.onRender.this=表实例
 Element.Table.onRender.reportContext=报表上下文
 Element.Table.onRender.object=对象
 Element.Table.onPageBreak=出现分页符时
-Element.Table.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.Table.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.Table.onPageBreak.this=表实例
 Element.Table.onPageBreak.reportContext=报表上下文
+Element.Table.tagType=PDF 标记类型
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=题头
 Element.TableGroup.slot.footer=脚注
 Element.TableGroup.onPrepare=准备时
-Element.TableGroup.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.TableGroup.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.TableGroup.onPrepare.this=表组
 Element.TableGroup.onPrepare.reportContext=报表上下文
 Element.TableGroup.onPageBreak=出现分页符时
-Element.TableGroup.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.TableGroup.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.TableGroup.onPageBreak.this=表组
 Element.TableGroup.onPageBreak.reportContext=报表上下文
   
@@ -2976,7 +2989,7 @@ Element.Row.eventHandlerClass=事件处理程序类
 Element.Row.newHandlerOnEachEvent=在每个事件上新建处理程序
 Element.Row.slot.cells=单元格
 Element.Row.onPrepare=准备时
-Element.Row.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.Row.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.Row.onPrepare.this=行
 Element.Row.onPrepare.reportContext=报表上下文
 Element.Row.onCreate=创建时
@@ -2990,6 +3003,8 @@ Element.Row.onRender.reportContext=报表上下文
 Element.Row.suppressDuplicates=抑制重复
 Element.Row.viewAction=查看操作
 Element.Row.repeatable=可重复
+Element.Row.tagType=PDF 标记类型
+Element.Row.language=语言
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=列
@@ -3007,7 +3022,7 @@ Element.Cell.bookmark=书签
 Element.Cell.bookmarkDisplayName=书签显示名称
 Element.Cell.headers=页眉
 Element.Cell.onPrepare=准备时
-Element.Cell.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.Cell.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.Cell.onPrepare.this=单元格
 Element.Cell.onPrepare.reportContext=报表上下文
 Element.Cell.onCreate=创建时
@@ -3028,6 +3043,9 @@ Element.Cell.antidiagonalThickness=反对角线粗细
 Element.Cell.diagonalStyle=对角线样式
 Element.Cell.antidiagonalStyle=反对角线样式
 Element.Cell.antidiagonalColor=反对角线颜色
+Element.Cell.tagType=PDF 标记类型
+Element.Cell.language=语言
+Element.Cell.altText=替代文本
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=替代文本
@@ -3043,7 +3061,7 @@ Element.Image.valueExpr=值表达式
 Element.Image.typeExpr=类型表达式
 Element.Image.action=操作
 Element.Image.onPrepare=准备时
-Element.Image.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.Image.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.Image.onPrepare.this=图像
 Element.Image.onPrepare.reportContext=报表上下文
 Element.Image.onCreate=创建时  
@@ -3056,17 +3074,18 @@ Element.Image.onRender.toolTip=准备该元素以便在展示引擎中呈现时执行的脚本。
 Element.Image.onRender.this=图像实例
 Element.Image.onRender.reportContext=报表上下文
 Element.Image.onPageBreak=出现分页符时
-Element.Image.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.Image.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.Image.onPageBreak.this=图像实例
 Element.Image.onPageBreak.reportContext=报表上下文
 Element.Image.fitToContainer=适合容器
 Element.Image.proportionalScale=比例尺
+Element.Image.tagType=PDF 标记类型
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=列
 Element.Grid.slot.rows=行
 Element.Grid.onPrepare=准备时
-Element.Grid.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.Grid.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.Grid.onPrepare.this=网格
 Element.Grid.onPrepare.reportContext=报表上下文
 Element.Grid.onCreate=创建时  
@@ -3079,12 +3098,13 @@ Element.Grid.onRender.toolTip=准备该元素以便在展示引擎中呈现时执行的脚本。
 Element.Grid.onRender.this=网格实例
 Element.Grid.onRender.reportContext=报表上下文
 Element.Grid.onPageBreak=出现分页符时
-Element.Grid.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.Grid.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.Grid.onPageBreak.this=网格实例
 Element.Grid.onPageBreak.reportContext=报表上下文
 Element.Grid.caption=标题
 Element.Grid.captionID=标题关键字
 Element.Grid.summary=摘要
+Element.Grid.tagType=PDF 标记类型
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=方向
@@ -3093,7 +3113,7 @@ Element.Line.orientation=方向
 Element.TextData.valueExpr=值表达式
 Element.TextData.contentType=内容类型
 Element.TextData.onPrepare=准备时
-Element.TextData.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.TextData.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.TextData.onPrepare.this=动态文本
 Element.TextData.onPrepare.reportContext=报表上下文
 Element.TextData.onPrepare.object=对象
@@ -3107,10 +3127,12 @@ Element.TextData.onRender.toolTip=准备该元素以便在展示引擎中呈现时执行的脚本。
 Element.TextData.onRender.this=动态文本实例
 Element.TextData.onRender.reportContext=报表上下文
 Element.TextData.onPageBreak=出现分页符时
-Element.TextData.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.TextData.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.TextData.onPageBreak.this=动态文本实例
 Element.TextData.onPageBreak.reportContext=报表上下文
 Element.TextData.hasExpression=具有表达式
+Element.TextData.tagType=PDF 标记类型
+Element.TextData.altText=替代文本
 
 #27.ExtendedItem   ( prefix  Element.ExtendedItem )
 Element.ExtendedItem.altText=替代文本
@@ -3118,7 +3140,7 @@ Element.ExtendedItem.altTextID=替代文本关键字
 Element.ExtendedItem.extensionName=扩展名
 Element.ExtendedItem.filter=筛选
 Element.ExtendedItem.onPrepare=准备时
-Element.ExtendedItem.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.ExtendedItem.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.ExtendedItem.onPrepare.this=扩展项
 Element.ExtendedItem.onPrepare.reportContext=报表上下文
 Element.ExtendedItem.onCreate=创建时    
@@ -3130,7 +3152,7 @@ Element.ExtendedItem.onRender.toolTip=准备该元素以便在展示引擎中呈现时执行。
 Element.ExtendedItem.onRender.this=扩展项实例
 Element.ExtendedItem.onRender.reportContext=报表上下文
 Element.ExtendedItem.onPageBreak=出现分页符时
-Element.ExtendedItem.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.ExtendedItem.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.ExtendedItem.onPageBreak.this=扩展项实例
 Element.ExtendedItem.onPageBreak.reportContext=报表上下文
 Element.ExtendedItem.extensionVersion=Extension version
@@ -3260,7 +3282,7 @@ Element.TemplateReportItem.visibility=可见性
 Element.AutoText.type = 自动图文集的类型
 Element.AutoText.onPrepare=准备时
 Element.AutoText.onPrepare.this=自动图文集
-Element.AutoText.onPrepare.toolTip=在元素设置过程中执行。 在此更改元素设计。 数据绑定尚不可用。
+Element.AutoText.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
 Element.AutoText.onPrepare.reportContext=报表上下文
 Element.AutoText.onCreate=创建时
 Element.AutoText.onCreate.toolTip=在工厂中创建该元素时执行的脚本。
@@ -3271,7 +3293,7 @@ Element.AutoText.onRender.toolTip=准备该元素以便在展示引擎中呈现时执行的脚本。
 Element.AutoText.onRender.this=自动图文集实例
 Element.AutoText.onRender.reportContext=报表上下文
 Element.AutoText.onPageBreak=出现分页符时
-Element.AutoText.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
+Element.AutoText.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.AutoText.onPageBreak.this=自动图文集实例
 Element.AutoText.onPageBreak.reportContext=报表上下文
 Element.AutoText.pageVariable=页面变量
@@ -3418,6 +3440,7 @@ Element.DerivedDataSet.extensionID=扩展 ID
 Element.AbstractScalarParameter.isRequired=必需
 Element.AbstractScalarParameter.dynamicList=动态列表
 Element.AbstractScalarParameter.dynamicList.dataSetName=数据集名称
+Element.AbstractScalarParameter.dynamicList.linkedDataModelName=链接的数据模型名称
 Element.AbstractScalarParameter.dynamicList.valueExpr=值表达式
 Element.AbstractScalarParameter.dynamicList.labelExpr=标签表达式
 Element.AbstractScalarParameter.listLimit=列表限制
@@ -3467,9 +3490,6 @@ Element.TimeDimension.startTimePoint=开始时间
 Element.TimeDimension.endTimePoint=结束时间
 Element.TimeDimension.hierarchies=层次结构
 
-#83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
-Element.DataMartLinkedDataModel.dataSource=数据源
-Element.DataMartLinkedDataModel.dataObject=数据对象
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=样式
@@ -3478,6 +3498,17 @@ Element.ReportItemTheme.customValues=自定义值
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=CSS 样式表
+
+#Category
+Element.Category.helpText = 帮助文本
+Element.Category.helpTextKey = 帮助文本资源关键字
+
+#Category Column
+Element.CategoryColumn.aggregationFunction = 聚合函数
+Element.CategoryColumn.aliasDataSet = 别名数据集
+Element.CategoryColumn.dataType = 数据类型
+Element.CategoryColumn.expression = 表达式
+Element.CategoryColumn.resultSetColumnName = 结果集列名称
 
 ###########################################################
 # Predefined style
@@ -4018,7 +4049,6 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=模板元素在库中不受支持。
 Info.VersionInfo.INVALID_DESIGN_FILE=正在打开的设计文件不是有效的设计文件，或者该文件不存在。
 Info.VersionInfo.CONVERT_INFO=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
 Info.VersionInfo.INVALID_VERSION=不支持版本“{0}”的报表文件。
-Info.VersionInfo.LATER_VERSION=设计文件由较高版本的 BIRT 创建。 单击“确定”将其转换为该产品当前版本支持的格式。
 Info.VersionInfo.EXTENSION_COMPATIBILITY =设计/库可能已被更改，因为对正在打开的设计/库或其包含的库应用了后向兼容性。
 
 #EncryptionException

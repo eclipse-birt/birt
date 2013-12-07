@@ -15,7 +15,7 @@ data.source.name=Excel 数据源
 data.set.name=Excel 数据集
 connection.profile.name=Excel 数据源连接配置文件
 
-datasource.property.uri=URI(&U)
+datasource.property.uri=URI(&R)
 datasource.property.incltypeline=将第二行用作数据类型指示器(&D)
 datasource.property.inclcolumnnameline=使用第一行作为列名称指示器(&N)
 
@@ -25,7 +25,7 @@ datasource.property.yes=YES（是）
 ###############################################################################
 #	Date Set Properties
 datasource.property.excelFile=选择 Excel 文件
-datasource.property.worksheets=工作表(&H)
+datasource.property.worksheets=工作表
 dataset.property.worksheets.dateFormat=日期格式
 #
 ###############################################################################

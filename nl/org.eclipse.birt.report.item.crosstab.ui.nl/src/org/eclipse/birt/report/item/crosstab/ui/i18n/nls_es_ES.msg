@@ -28,23 +28,19 @@ ShowAsViewAction.DisplayName=Mostrar como
 ShowAsViewAction.TransName=Mostrar como
 
 MeasureComboPropertyDescriptorProvider.TransName=Cambiar la orientación de la tabla de referencias cruzadas
-MeasureHandleDropAdapter_trans_name=Añadir medida
 
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Añadir dimensión
 AddMeasureViewHandleCommand.TransName=Añadir medida
-AddRelativeTimePeriodAction_action_label=Añadir período de tiempo re&lativo
-AddRelativeTimePeriodAction_trans_label=Añadir período de tiempo relativo
+AddRelativeTimePeriodAction_action_label=Añadir período de tiempo relativo
+AddRelativeTimePeriodAction_trans_label=Añadir período de tiempo relativo 
 ChangeAreaCommand.TransName=Suprimir dimensión
 ChangeMeasureOrderCommand.TransName=Cambiar orden de medida
 CreateDimensionViewCommand.TransName=Crear dimensión
 CreateMeasureViewCommand.TransName=Crear medida
 
-MergeCrosstabHeaderCellAction_name=&Combinar celdas de encabezado
-SplitCrosstabHeadCellAction_name=&Dividir celda de encabezado
 
-ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
 
 ###########################################################
 # Crosstab EditPart
@@ -69,6 +65,8 @@ SubTotalProvider.Column.Position=Posición
 SubTotalProvider.ShowAs=Mostrar como {0}
 LevelViewDialog.Title=Mostrar/ocultar niveles de grupo
 LevelViewDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referencias cruzadas:
+LevelViewDialog.Button.Regular.Text=G&rupo regular
+LevelViewDialog.Button.Date.Text=&Grupo de fecha
 AggregationDialog.Title=Totales
 AggregationDialog.Label.Grand=Totales generales:
 AggregationDialog.Label.Sub=Subtotales:
@@ -358,3 +356,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=Área de columna
 VirtualCrosstabCellNodeProvider.Display.DetailArea=Área de detalle
 VirtualCrosstabCellNodeProvider.Display.RowArea=Área de fila
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=Área desconocida
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (Modelo de datos)

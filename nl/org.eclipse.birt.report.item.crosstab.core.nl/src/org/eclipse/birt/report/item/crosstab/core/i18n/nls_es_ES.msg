@@ -42,6 +42,7 @@ Element.choice.before=Antes
 Element.choice.after=Después
 Element.RowPageBreakInterval=Intervalo de salto de página en fila
 Element.ColumnPageBreakInterval=Intervalo de salto de página en columna
+Element.TagType=Tipo de etiqueta
 
 Method.onPrepare=Al preparar
 Method.onCreate=Al crear
@@ -131,6 +132,7 @@ DimensionViewTask.msg.insert.level=Insertar nivel
 MeasureViewTask.msg.remove.header=Quitar encabezado de medidas
 MeasureViewTask.msg.add.header=Añadir encabezado de medidas
 
+CrosstabViewTask.msg.add.dimension=Añadir dimensión
 CrosstabViewTask.msg.remove.dimension=Eliminar dimensión
 CrosstabViewTask.msg.remove.grandtotal=Eliminar total general
 CrosstabViewTask.msg.add.grandtotal=Añadir total general

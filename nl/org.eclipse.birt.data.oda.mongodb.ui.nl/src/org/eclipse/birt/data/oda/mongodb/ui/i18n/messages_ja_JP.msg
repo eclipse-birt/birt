@@ -10,102 +10,105 @@
 #  
 #*************************************************************************
 #
-MongoDBDataSourceWizardPage.message.default=Mongo Database Data Source Connection Properties
-MongoDBDataSourceWizardPage.GroupTitle.URIElements=Mongo Database URI Elements
-MongoDBDataSourceWizardPage.text.label.ServerHost=Server &Host:
-MongoDBDataSourceWizardPage.text.label.ServerPort=Server P&ort:
-MongoDBDataSourceWizardPage.text.label.DatabaseName=&Database Name:
-MongoDBDataSourceWizardPage.text.label.UserName=U&ser Name:
-MongoDBDataSourceWizardPage.text.label.Password=Pass&word:
-MongoDBDataSourceWizardPage.RadioButton.label.DatabaseURI=&Mongo Database URI:
-MongoDBDataSourceWizardPage.GroupTitle.SupplementalSetting=Supplemental &Client Settings
-MongoDBDataSourceWizardPage.checkbox.label.SocketAlive=Keep Socket &Alive
-MongoDBDataSourceWizardPage.checkbox.label.RequestSession=Consistent &Request Session
+MongoDBDataSourceWizardPage.message.default=Mongo データベースデータソース接続プロファイル
+MongoDBDataSourceWizardPage.GroupTitle.URIElements=Mongo データベース URI 要素
+MongoDBDataSourceWizardPage.text.label.ServerHost=サーバホスト(&H):
+MongoDBDataSourceWizardPage.text.label.ServerPort=サーバのポート(&O):
+MongoDBDataSourceWizardPage.text.label.DatabaseName=データベース名(&D):
+MongoDBDataSourceWizardPage.text.label.UserName=ユーザ名(&U):
+MongoDBDataSourceWizardPage.text.label.Password=パスワード(&W):
+MongoDBDataSourceWizardPage.RadioButton.label.DatabaseURI=Mongo データベース URI(&M):
+MongoDBDataSourceWizardPage.GroupTitle.SupplementalSetting=追加のクライアント設定(&C)
+MongoDBDataSourceWizardPage.checkbox.label.SocketAlive=ソケットの保存(&A)
+MongoDBDataSourceWizardPage.checkbox.label.RequestSession=一貫した要求セッション(&R)
 
-MongoDBDataSourceWizardPage.error.MissingConnectionProperty=Missing required connection property!
+MongoDBDataSourceWizardPage.error.MissingConnectionProperty=必要な接続プロパティが見つかりません!
 
 #
-MongoDBDataSetWizardPage.label.DBName=Mon&go database:
-MongoDBDataSetWizardPage.label.DBCollection=MongoDB &Collection
-MongoDBDataSetWizardPage.Button.text.IncludeSystemCollection=&Include system collection
-MongoDBDataSetWizardPage.Button.Refresh=&Refresh
-MongoDBDataSetWizardPage.label.DocumentNumber=Nu&mber of Documents to search for fields:
-MongoDBDataSetWizardPage.group.text=Command &Operation
-MongoDBDataSetWizardPage.label.OperationType=Command &type:
-MongoDBDataSetWizardPage.Button.FindFields=Fin&d Fields
-MongoDBDataSetWizardPage.Button.text.CommandExpression=&Expression...
-MongoDBDataSetWizardPage.Button.tooltip.CommandExpression=Edit the command expression.
-MongoDBDataSetWizardPage.Button.QueryExpression=$&query Expression...
-MongoDBDataSetWizardPage.Button.SortExpression=&Sort Expression...
-MongoDBDataSetWizardPage.Button.AdvancedSettings=Ad&vanced Settings...
-MongoDBDataSetWizardPage.label.AvailableFields=&Available Fields:
-MongoDBDataSetWizardPage.label.SelectedFields=&Selected Fields:
-MongoDBDataSetWizardPage.HeaderText.SelectedFields=Field Display Name
-MongoDBDataSetWizardPage.menuItem.remove=Re&move
-MongoDBDataSetWizardPage.menuItem.removeAll=Remove A&ll
+MongoDBDataSetWizardPage.label.DBName=Mongo データベース(&G):
+MongoDBDataSetWizardPage.label.DBCollection=MongoDB コレクション(&C)
+MongoDBDataSetWizardPage.Button.text.IncludeSystemCollection=システムコレクションを含める(&I)
+MongoDBDataSetWizardPage.Button.Refresh=更新(&R)
+MongoDBDataSetWizardPage.label.DocumentNumber=フィールドを検索する文書数(&M):
+MongoDBDataSetWizardPage.group.text=コマンドオペレーション(&O)
+MongoDBDataSetWizardPage.label.OperationType=コマンドタイプ(&T):
+MongoDBDataSetWizardPage.Button.FindFields=フィールドの検索(&D)
+MongoDBDataSetWizardPage.Button.text.CommandExpression=式(&E)...
+MongoDBDataSetWizardPage.Button.tooltip.CommandExpression=コマンド式を編集します。
+MongoDBDataSetWizardPage.Button.QueryExpression=クエリ式(&Q)...
+MongoDBDataSetWizardPage.Button.SortExpression=ソート式(&S)...
+MongoDBDataSetWizardPage.Button.AdvancedSettings=詳細設定(&V)...
+MongoDBDataSetWizardPage.label.AvailableFields=選択可能なフィールド(&A):
+MongoDBDataSetWizardPage.label.SelectedFields=選択済みフィールド(&S):
+MongoDBDataSetWizardPage.HeaderText.SelectedFields=フィールドの表示名
+MongoDBDataSetWizardPage.menuItem.remove=削除(&M)
+MongoDBDataSetWizardPage.menuItem.removeAll=すべて削除(&L)
 
-MongoDBDataSetWizardPage.message.default=Select the desired fields for the data set columns
-MongoDBDataSetWizardPage.MessageBox.title.PromptToKeepSelections=Confirm to continue
-MongoDBDataSetWizardPage.MessageBox.message.PromptToKeepSelections=Selecting another collection would discard the current Selected Fields.  Do you want to continue?
-MongoDBDataSetWizardPage.MessageBox.title.PromptToRefreshAvailableFields=Confirm to refresh
-MongoDBDataSetWizardPage.MessageBox.message.PromptToRefreshAvailableFields=Do you want to refresh the Available Fields based on the changed Command Expression?
+MongoDBDataSetWizardPage.message.default=データセット列のフィールドを選択してください。
+MongoDBDataSetWizardPage.MessageBox.title.PromptToKeepSelections=確認して続行
+MongoDBDataSetWizardPage.MessageBox.message.PromptToKeepSelections=別のコレクションを選択すると現在選択されているフィールドが破棄されます。  続行しますか ?
+MongoDBDataSetWizardPage.MessageBox.title.PromptToRefreshAvailableFields=確認して更新
+MongoDBDataSetWizardPage.MessageBox.message.PromptToRefreshAvailableFields=変更されたコマンド式を基にして選択可能なフィールドを更新しますか ?
 
-MongoDBDataSetWizardPage.MessageDialog.title.GeneralError=Error
-MongoDBDataSetWizardPage.MessageDialog.ErrorMessage.InitPage=Unable to obtain the list of collections from the MongoDB data source.
+MongoDBDataSetWizardPage.MessageDialog.title.GeneralError=エラー
+MongoDBDataSetWizardPage.MessageDialog.ErrorMessage.InitPage=MongoDB データソースからコレクションのリストを取得できません。
 
-MongoDBDataSetWizardPage.ExceptionDialog.title=Error
-MongoDBDataSetWizardPage.ExceptionDialog.message.FindFields=Unable to find available fields.
-MongoDBDataSetWizardPage.ExceptionDialog.message.NoMetaData=No active data source connection.
-MongoDBDataSetWizardPage.ExceptionDialog.message.SavaPage=Error occurred when updating the MongoDB data set.
-MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidCommandExpression=Invalid command expression.
-MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidQueryExpression=Invalid query expression.
-MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidSortExpression=Invalid sort expression.
+MongoDBDataSetWizardPage.ExceptionDialog.title=エラー
+MongoDBDataSetWizardPage.ExceptionDialog.message.FindFields=選択可能なフィールドが見つかりません。
+MongoDBDataSetWizardPage.ExceptionDialog.message.NoMetaData=アクティブなデータソースの接続がありません。
+MongoDBDataSetWizardPage.ExceptionDialog.message.SavaPage=MongoDB データセットの更新中にエラーが発生しました。
+MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidCommandExpression=コマンド式が無効です。
+MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidQueryExpression=クエリ式が無効です。
+MongoDBDataSetWizardPage.ExceptionDialog.message.InvalidSortExpression=ソート式が無効です。
 
-MongoDBDataSetWizardPage.message.error.MissingCollectionName=The collection name cannot be empty.
-MongoDBDataSetWizardPage.message.error.InvalidDocumentNumber=Enter an integer value for the number of documents to find fields
-MongoDBDataSetWizardPage.message.error.SelectedFieldNotFound=The selected field "{0}" does not exist.
-MongoDBDataSetWizardPage.message.error.MissingCommandExpression=The command expression must not be empty.
-MongoDBDataSetWizardPage.message.error.MissingSelectedField=At least one field must be selected.
+MongoDBDataSetWizardPage.message.error.MissingCollectionName=コレクション名は空白にできません。
+MongoDBDataSetWizardPage.message.error.InvalidDocumentNumber=フィールドを検索する文書数の整数値を入力してください。
+MongoDBDataSetWizardPage.message.error.SelectedFieldNotFound=選択したフィールド "{0}" は存在しません。
+MongoDBDataSetWizardPage.message.error.MissingCommandExpression=コマンド式は空白にできません。
+MongoDBDataSetWizardPage.message.error.MissingSelectedField=少なくとも 1 つのフィールドを選択してください。
 
-MongoDBAdvancedSettingsDialog.dialogTitle=Advanced Data Set Run-time Properties
-MongoDBAdvancedSettingsDialog.Label.MaxResultObjects=Maximum result objects in a &batch: 
-MongoDBAdvancedSettingsDialog.Tooltip.MaxResultObjects=The maximum number of result objects fetched in one batch\n by the MongoDB cursor.  Default value = 100
-MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSearch=Maximum documents to search for &metadata:
-MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSearch=The number of documents to process to obtain a query\n result set metadata at runtime.  Default value = 10
-MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSkip=Maximum documents to s&kip:
-MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSkip=Skip first n documents in result set; integer data type.\nDefault value = 0
-MongoDBAdvancedSettingsDialog.Label.IndexHintExpression=Index &hint expression:
-MongoDBAdvancedSettingsDialog.Tooltip.IndexHintExpression=One of more index keys that the query must use for query optimization.\n Use Mongo JSON hint expression syntax to list the indexed keys.
-MongoDBAdvancedSettingsDialog.Group.text.QueryCursorPreference=Query cursor read preference
-MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.Mode=Mo&de:
-MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.Mode=The read preference mode of a query cursor operation.
-MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.TagSet=Ta&g set(s):
-MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.TagSet=Set(s) of required tags configured for a member node.\n  Alternate tag sets may be specified as documents in an array.
-MongoDBAdvancedSettingsDialog.Button.text.NoCursorTimeOut=&No cursor time out 
-MongoDBAdvancedSettingsDialog.Button.tooltip.NoCursorTimeOut=The server normally times out idle cursors after an inactivity period (10 minutes) to prevent excess memory use.\n Enabling this option would prevent that. 
-MongoDBAdvancedSettingsDialog.Button.text.AllowPartialResults=Allows &partial results
-MongoDBAdvancedSettingsDialog.Button.tooltip.AllowPartialResults=When used with sharding (mongos), allows partial results from a sharded system if any shards\n are down/missing from the cluster.  If not enabled, an error will be returned from the mongos server. 
-MongoDBAdvancedSettingsDialog.Button.text.FlattenNestedDocuments=&Flatten nested collections
-MongoDBAdvancedSettingsDialog.Button.tooltip.FlattenNestedDocuments=An user option to flatten a nested collection of fields into multiple data set rows. 
-MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxResultObjects=Requires an integer value for "Maximum result objects"!
-MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSearch=Requires an integer value for "Maximum document to search"!
-MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSkip=Requires an integer value for "Maximum document to skip"!
+MongoDBAdvancedSettingsDialog.dialogTitle=高度なデータセットランタイムプロパティ
+MongoDBAdvancedSettingsDialog.Label.MaxResultObjects=バッチ内の結果オブジェクトの最大数(&B): 
+MongoDBAdvancedSettingsDialog.Tooltip.MaxResultObjects=MongoDB カーソルによって 1 つのバッチで取得される結果オブジェクトの最大数\n  デフォルト値 = 100
+MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSearch=メタデータを検索するドキュメントの最大数(&M):
+MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSearch=実行時にクエリの結果セットメタデータを取得するために\n処理する文書数  デフォルト値 = 10
+MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSkip=スキップするドキュメントの最大数(&K):
+MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSkip=結果セットの最初のnドキュメントをスキップ。整数のデータ型。\nデフォルト値 = 0
+MongoDBAdvancedSettingsDialog.Label.IndexHintExpression=索引ヒント式(&H):
+MongoDBAdvancedSettingsDialog.Tooltip.IndexHintExpression=クエリの最適化のためにクエリで使用する必要がある 1 つ以上のインデックスキー。\n インデックス付きのキーを一覧表示するには、Mongo JSON ヒント式の構文を使用します。
+MongoDBAdvancedSettingsDialog.Group.text.QueryCursorPreference=クエリカーソル読取設定
+MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.Mode=モード(&D):
+MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.Mode=クエリカーソル操作の読取設定モード。
+MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.TagSet=タグセット(&G):
+MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.TagSet=メンバノードに設定されている必要なタグのセット。\n  アレイ内のドキュメントとして代替タグセットを指定することができます。
+MongoDBAdvancedSettingsDialog.Button.text.NoCursorTimeOut=カーソルタイムアウトがありません(&N) 
+MongoDBAdvancedSettingsDialog.Button.tooltip.NoCursorTimeOut=過剰なメモリの使用を防ぐために、サーバでは通常、アイドル時間 (10 分) の経過後にアイドル状態のカーソルがタイムアウトになります。 
+MongoDBAdvancedSettingsDialog.Button.text.AllowPartialResults=結果の一部を許可(&P)
+MongoDBAdvancedSettingsDialog.Button.tooltip.AllowPartialResults=共有 (Mongo) と共に使用するときには、クラスタのいずれかの共有がダウンしているか見つからない場合、共有システムからの\n結果の一部が許可されます。  有効になっていない場合、Mongo サーバからエラーが返されます。 
+MongoDBAdvancedSettingsDialog.Button.text.FlattenNestedDocuments=ネストされたコレクションをフラット化(&F)
+MongoDBAdvancedSettingsDialog.Button.tooltip.FlattenNestedDocuments=フィールドのネストされたコレクションを複数のデータセット行にフラット化するためのユーザオプション。 
+MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxResultObjects=[結果オブジェクトの最大数] の整数値が必要です。
+MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSearch=[検索するドキュメントの最大数] の整数値が必要です。
+MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSkip=[スキップするドキュメントの最大数] の整数値が必要です。
+MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.title=Reset Design Setting
+MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.button=OK
+MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.message=The design-time value of "Number of Documents to search for fields" is reset to match the "Maximum documents to search for metadata" run-time property value.
 
-MongoDBExpressionBuilder.dialogTitle.default=Expression Builder
-MongoDBExpressionBuilder.ExprssionText.label=E&xpression Text:
-MongoDBExpressionBuilder.Button.import=I&mport...
-MongoDBExpressionBuilder.Button.tooltip.import=Import expression text from a local file
-MongoDBExpressionBuilder.Button.export=&Export...
-MongoDBExpressionBuilder.Button.tooltip.export=Export the expression text to a local file
-MongoDBExpressionBuilder.Button.ValidateSyntax=&Validate Syntax
-MongoDBExpressionBuilder.Button.tooltip.ValidateSyntax=Validate the syntax of the expression text.
-MongoDBExpressionBuilder.InfoDialog.title.validateSyntax=Expression Text Validation
-MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.IsValid=Valid expression syntax.
-MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.Invalid=Invalid expression syntax.
-MongoDBExpressionBuilder.CommandExpression.DialogTitle=Command Expression Builder
-MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression=Expression text must not be empty!
-MongoDBExpressionBuilder.QueryExpression.DialogTitle=Query Expression Builder
-MongoDBExpressionBuilder.SortExpression.DialogTitle=Sort Expression Builder
+MongoDBExpressionBuilder.dialogTitle.default=式ビルダ
+MongoDBExpressionBuilder.ExprssionText.label=式テキスト(&X):
+MongoDBExpressionBuilder.Button.import=インポート(&M)...
+MongoDBExpressionBuilder.Button.tooltip.import=ローカルファイルから式のテキストをインポートする
+MongoDBExpressionBuilder.Button.export=エクスポート(&E)...
+MongoDBExpressionBuilder.Button.tooltip.export=ローカルファイルに式のテキストをエクスポートする
+MongoDBExpressionBuilder.Button.ValidateSyntax=構文を検証(&V)
+MongoDBExpressionBuilder.Button.tooltip.ValidateSyntax=式のテキストの構文を検証します。
+MongoDBExpressionBuilder.InfoDialog.title.validateSyntax=式のテキストの検証
+MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.IsValid=式の構文が有効です。
+MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.Invalid=式の構文が無効です。
+MongoDBExpressionBuilder.CommandExpression.DialogTitle=コマンド式ビルダ
+MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression=式のテキストは空白にできません。
+MongoDBExpressionBuilder.QueryExpression.DialogTitle=クエリ式ビルダ
+MongoDBExpressionBuilder.SortExpression.DialogTitle=ソート式ビルダ
 
 
 

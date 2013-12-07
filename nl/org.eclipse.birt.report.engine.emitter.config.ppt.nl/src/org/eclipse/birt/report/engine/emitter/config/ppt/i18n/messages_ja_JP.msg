@@ -25,6 +25,7 @@ OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=複数ページに出力
 OptionDisplayValue.ENLARGE_PAGE_SIZE=ページサイズを大きくする
 OptionDisplayValue.FontSubstitution=フォントの置き換え
 OptionDisplayValue.ChartDpi=グラフの DPI
+OptionDisplayValue.Export2Office2010And2013=Microsoft Office 2010/2013 のファイルをエクスポートする
 
 ###########################################################
 #Option Description
@@ -33,6 +34,7 @@ OptionDescription.TextWrapping=文字列を折り返すかどうかを示します。
 OptionDescription.PageOverFlow=コンテンツの出力方法を制御します。
 OptionDescription.FontSubstitution=指定されたフォントで表示できない文字がある場合は、フォントを自動的に選択します。
 OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
+OptionDescription.Export2Office2010And2013=Office 2010/2013 を使用するときに PPT 内の .mht 形式をサポートします。
 
 ###########################################################
 #tooltip

@@ -16,11 +16,11 @@ oda.data.source.id=org.eclipse.birt.data.oda.pojo
 # NLS strings
 #
 plugin.name=BIRT POJO Data Source ODA Designer
-newwizard.name=BIRT POJO Data Source
-newwizard.description=Create a BIRT POJO Data Source connection profile
-wizard.window.title=New BIRT POJO Data Source Profile
-wizard.data.source.page.title=BIRT POJO Data Source
-profile.propertypage.name=BIRT POJO Data Source Connection Properties
-wizard.data.set.window.title=New BIRT POJO Data Set
-wizard.data.set.propertiesPage.title=Properties
-wizard.data.set.columnMappingPage.title=Column Mapping
+newwizard.name=BIRT POJO データソース
+newwizard.description=BIRT POJO データソース接続プロファイルの作成
+wizard.window.title=BIRT POJO データソースプロファイルの新規作成
+wizard.data.source.page.title=BIRT POJO データソース
+profile.propertypage.name=BIRT POJO データソース接続プロパティ
+wizard.data.set.window.title=BIRT POJO データセットの新規作成
+wizard.data.set.propertiesPage.title=プロパティ
+wizard.data.set.columnMappingPage.title=列マッピング

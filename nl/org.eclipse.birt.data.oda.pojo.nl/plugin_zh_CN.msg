@@ -16,9 +16,9 @@ oda.data.source.id=org.eclipse.birt.data.oda.pojo
 # NLS String
 ###############################################################################
 #
-plugin.name=POJO Data Source ODA Runtime Driver
-data.source.name=POJO Data Source
-data.set.name=POJO Data Set
-connection.profile.name=POJO Data Source Connection Profile
-datasource.property.pojoDataSetClassPath=Shared &Location of Custom POJO Data Set Classes
-datasource.property.pojoClassPath=Shared Location of POJO Classes
+plugin.name=POJO 数据源 ODA 运行时驱动程序
+data.source.name=POJO 数据源
+data.set.name=POJO 数据集
+connection.profile.name=POJO 数据源连接配置文件
+datasource.property.pojoDataSetClassPath=自定义 POJO 数据集类的共享位置(&L)
+datasource.property.pojoClassPath=POJO 类的共享位置

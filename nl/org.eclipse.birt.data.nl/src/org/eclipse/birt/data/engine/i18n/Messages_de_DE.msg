@@ -47,7 +47,7 @@ data.engine.InvalidExprHandle=Ungültiges Ausdruck-Handle.
 data.engine.InvalidAggrGroupExpression=Falscher Gruppenausdruck für Aggregatfunktion: {0}.
 data.engine.InvalidSortKeyColumn=Ungültige Sortierschlüsselspalte: {0}.
 data.engine.InvalidGroupLevel= Die Gruppenebene im Aggregat {0} ist ungültig. 
-data.engine.InvalidGroupKeyName=Gruppierung nach Spalte: {0} ist kein unterstützter Vorgang.
+data.engine.InvalidGroupKeyName=Ungültiger Gruppenschlüssel-Spaltenname: {0}.
 data.engine.BadCloseScript=CloseScript in CustomDataSet konnte nicht ausgewertet werden.
 data.engine.InvalidCustomFieldIdx=Ungültiger Index für benutzerdefiniertes Feld: {0}.
 data.engine.InvalidGroupName=Der Gruppenname ist ungültig.
@@ -66,7 +66,7 @@ data.engine.DupColumnName=Doppelter Spaltenname: {0}.
 data.engine.DupAlias=Doppelter Spaltenname oder -alias: {0}.
 data.engine.InvalidFieldIndex=Ungültiger Feldindex: {0}.
 data.engine.fail.prepareExecution=Abfrageausführung konnte nicht vorbereitet werden für Datensatz: {0}
-data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Unzulässiger Gruppenaktualisierungsstatus: aktuelle Gruppe <{0}> größer als Verarbeitungsgruppe <{1}>.
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
 
 data.engine.MatchError=Überprüfen Sie die Syntax des Musters. Fehler beim Abgleichen der Zeichenfolge mit dem Muster: {0}.
 
@@ -108,13 +108,13 @@ data.engine.InvalidAggrLevelKeyInSummaryQuery=Das Aggregat: {0} verweist auf ein
 #computed column value
 data.engine.BadCompColExpr=Der Ausdruck für die berechnete Spalte "{0}" ist ungültig.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Wert für berechnete Spalte "{0}" konnte nicht berechnet werden.
-data.engine.ScriptResult.WrongSystemComputedColumn=Bewertung von Sorte, Gruppierung, Filter oder Bindungsausdruck nicht möglich. Ein Datenfeld, das beim Ausdruck verwendet wird, ist im Datensatz nicht vorhanden.
+data.engine.ScriptResult.WrongSystemComputedColumn=Wert aus Sortierungs-, Gruppen- oder Filterausdruck konnte nicht berechnet werden.
 data.engine.ComputedColumnCycle=Berechnete Spalte "{0}" hat einen Abhängigkeitszyklus.
 
 data.engine.SortOnAggregation=Sortieren nach nicht-gruppierendem Aggregat oder berechneter Spalte für Aggregat '{0}' wird nicht unterstützt.
 
 data.engine.BadFilterExpr=Der Filterausdruck "{0}" ist ungültig.
-data.engine.BadFilterDefn=Der auf dem Ausdruck '{0}' basierende Filter konnte nicht ausgewertet werden.
+data.engine.BadFilterDefn=Der auf dem Ausdruck '{0}' basierende Filter konnte nicht evaluiert werden.
 
 #clob and blob error
 data.engine.opencloberror=Fehler beim Öffnen eines CLOB-Zeichenstroms.
@@ -374,13 +374,13 @@ data.olap.FacttableNullMeasureValue=Der Wert einer Einheitsspalte ist Null. "{0}
 data.olap.InvalidDimensionPositionFacttableRow=Die Faktentabelle des Quaders '{0}' verfügt über eine ungültige Datenzeile, in der der Schlüsselwert '{1}' der Dimension '{2}' ist, obwohl '{2}' nicht in Dimension '{3}' enthalten ist.
 data.olap.measureNameNotFound=Der Einheitsname "{0}" wurde nicht gefunden.
 data.olap.levelNameNotFound=Der Ebenenname "{0}" wurde nicht gefunden.
-data.olap.dimensionNameNotFound=Dimension "{0}" kann in Quaderanfrage nicht gefunden werden; die Dimension existiert nicht oder ist ungültig.
+data.olap.dimensionNameNotFound=Der Dimensionsname "{0}" wurde nicht gefunden.
 data.olap.ReferencedDimensionNotFound=Dimensionsdefinition {0}, auf die verwiesen wird, ist nicht vorhanden.
 data.olap.ReferencedLevelNotFound=Ebene, auf die verwiesen wird, ist nicht vorhanden.
 data.olap.cursorPositionError=Der Cursor kann nicht zur Zielposition navigieren.
 data.olap.cursorSeekError=Der Cursor kann nicht zur Wunschposition navigieren.
 data.olap.CannotGetMeasureValue=Definition der Maßeinheit "{0}" in Quader nicht gefunden. Die Maßeinheit existiert nicht oder ist ungültig.
-data.olap.CannotFindLevel=Ebenendefinition '{0}' kann nicht in Dimension '{1}' gefunden werden.
+data.olap.CannotFindLevel=Ebenendefinition "{0}" kann nicht unter Hierarchie "{1}" in Dimension "{2}" gefunden werden.
 data.olap.tryToAddIdenticalAggrGroup=Der Wert "{0}" ist bereits im Aggregat auf der Liste der Bindung "{1}" vorhanden;
 data.olap.NoEdgeDefinitionFound=Ausführung der Abfrage ist fehlgeschlagen, da weder Zeilen- noch Spaltenrand enthalten ist. Mindestens ein Rand muss definiert sein.
 data.olap.invalidSortDefinition=Die Sortierdefinition ist ungültig. 
@@ -406,7 +406,7 @@ data.olap.UnsupportedFunction=Nicht unterstützte Funktion:
 data.olap.UnspecifiedBindingName=Bindungsname nicht angegeben.
 data.olap.NotNestAggregationBinding=Aggregatsbindung nicht mit Quader verschachteln: {0}
 data.olap.InvalidNestAggregationExpression=Der Ausdruck eines Quader-Verschachtelungsaggregats ist ungültig.
-data.olap.InvalidNestAggregationOn=Verschachtelungsaggregat '{0}' konnte aufgrund seines Aggregats auf Ebenen, die in seinen basierten Aggregaten nicht vorhanden sind, nicht berechnet werden.
+data.olap.InvalidNestAggregationOn=Aggregat in '{0}' in Quader-Verschachtelungsaggregat '{1}' ist nicht in basierten Aggregaten vorhanden.
 data.olap.InvalidAggregationFilterExpr=Der Filterausdruck '{0}' ist ungültig. Das Aggregat auf der Liste der Aggregatsbindung '{1}' enthält nicht den Dimensionsebenensatz '{2}', auf den verwiesen wird. 
 data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur eine Ebene enthalten.
 data.olap.query.noCubeBinding=Fehler bei Ausführung der Quaderanfrage: Keine Quaderbindung verfügbar.
@@ -442,8 +442,6 @@ data.derivedDataSet.invalidQueryText=Ungültiger Abfragetext.
 data.datamart.failLoadDataSet = Fehler beim Laden von Datenobjekt-Datensatz '{0}'.
 data.datamart.originalDataSetNotExist = Schrittweise Aktualisierung fehlgeschlagen. Der Originaldatensatz '{0}' ist nicht vorhanden.
 data.datamart.incrementalDatasetMetaDataError = Schrittweise Aktualisierung fehlgeschlagen. Die Metadaten des zusätzlichen Datensatzes '{0}' unterscheiden sich von denen des Originaldatensatzes. 
-data.datamart.collation=Beim Vorgängerprodukt wird Kollation beim Datenobjektindex nicht verwendet, auch wenn dies von Ihnen festgelegt wurde. Wir unterstützen jetzt Kollation, deshalb müssen Sie das Datenobjekt neu erzeugen, wenn im Datensatz Kollation festgelegt ist.  
 
 
-data.filter.pushDownFail= Fehler beim Push Down für Filter, der nur von der ODA-Erweiterung unterstützt wird.
-data.query.exprReferInvalidColumn=Cannot execute query because: the query contains an invalid expression which references an invalid dataset column "{0}".
+data.query.invalidColumnBinding=Die Spaltenbindung '{0}' ist ungültig.

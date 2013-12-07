@@ -9,23 +9,23 @@
 # Actuate Corporation - initial API and implementation
 ###############################################################################
 #
-MetaData.ProductName=POJO ODA Driver
-Query.Closed=Query is closed.
-Query.NoQueryText=Query text is missing.
-Query.FailedToParse=Failed to parse POJO Query: [{0}].
-Query.MissAttributeInElement=Attribute "{0}" is empty or missing in a "{1}" element.
-Query.Miss2Elements=Neither "{0}" nor "{1}" sub-element exists in a "{2}" element. 
-Driver.UnkownDataTypeCode=Unknown data type code: {0}.
-Driver.UnkownDataTypeName=Unknown data type name: {0}.
-ResultSet.InvalidAppContextValue=The type of AppContext "{0}" value is "{1}", not Array, Iterator or Collection. 
-ResultSet.MissDataSetClassName=POJO data set class name is missing.
-PojoDataSetFromCustomerClass.WrongReturnTypeForNextMethod=The return type of "next()" method is void or primitive.
-ReferenceGraph.DuplicateColumnName=Duplicate column name: {0}.
-ReferenceGraph.DuplicateColumnIndex=Duplicate column index: {0}.
-ReferenceGraph.InexistentColumnName=Inexistent column name: {0}.
-ResultSetFromPojoInstance.Invalid1ToNMaps=Exists two 1-to-n maps where one is not transitional from the other.
-QueryParameters.OneMethodParameterWith2Types=Method parameter "{0}" cannot be with 2 types: "{1}", "{2}".
-QueryParameters.InexistentParameter=Non-existing parameter: "{0}".
-MethodSource.MissingPrameterValue=The value of parameter "{0}" is not yet set.
-DataTypeUtil.FailToTransferType=Failed to transfer "{0}" to the target type: {1}.
-IllegalArgument.errorMessage=Illegal argument defined for method: 
+MetaData.ProductName=POJO ODA 驱动程序
+Query.Closed=查询已关闭。
+Query.NoQueryText=缺少查询文本。
+Query.FailedToParse=无法分析 POJO 查询: [{0}]。
+Query.MissAttributeInElement=元素“{1}”中的属性“{0}”为空或丢失。
+Query.Miss2Elements=“{2}”元素中既不存在“{0}”，也不存在“{1}”子元素。 
+Driver.UnkownDataTypeCode=未知数据类型代码: {0}。
+Driver.UnkownDataTypeName=未知数据类型名称:{0}。
+ResultSet.InvalidAppContextValue=AppContext“{0}”值类型为“{1}”，不是数组、迭代函数或集合。 
+ResultSet.MissDataSetClassName=缺少 POJO 数据集类名称。
+PojoDataSetFromCustomerClass.WrongReturnTypeForNextMethod="next()" 方法的返回类型为 void 或 primitive。
+ReferenceGraph.DuplicateColumnName=重复的列名称: {0}。
+ReferenceGraph.DuplicateColumnIndex=重复的列索引: {0}。
+ReferenceGraph.InexistentColumnName=不存在的列名称: {0}。
+ResultSetFromPojoInstance.Invalid1ToNMaps=存在 2 个 1 到 n 映射，其中一个不能从另一个转换而来。
+QueryParameters.OneMethodParameterWith2Types=方法参数“{0}”不能具有两种类型:“{1}”、“{2}”。
+QueryParameters.InexistentParameter=不存在的参数:“{0}”。
+MethodSource.MissingPrameterValue=尚未设置参数“{0}”的值。
+DataTypeUtil.FailToTransferType=无法将“{0}”传送到目标类型: {1}。
+IllegalArgument.errorMessage=为方法定义的参数非法: 

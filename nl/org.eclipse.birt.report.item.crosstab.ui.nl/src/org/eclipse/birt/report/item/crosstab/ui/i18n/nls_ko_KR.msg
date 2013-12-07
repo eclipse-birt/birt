@@ -14,7 +14,7 @@ DeleteDimensionViewHandleAction.DisplayName=제거(&V)
 DeleteMeasureHandleAction.DisplayName=제거(&V)
 DeleteMeasureHandleAction.TransName=측정값 삭제
 
-AddComputedMesureHandleAction.DisplayName=파생 측정값 추가(&M)
+AddComputedMesureHandleAction.DisplayName=파생 측정값 추가(&S)
 AddComputedMesureHandleAction.TransName=파생 측정값 추가
 AddComputedSummaryDialog.Title=파생 측정값
 AddComputedSummaryDialog.Label.Name=이름(&N):
@@ -28,23 +28,19 @@ ShowAsViewAction.DisplayName=표시
 ShowAsViewAction.TransName=표시
 
 MeasureComboPropertyDescriptorProvider.TransName=크로스 탭 방향 변경
-MeasureHandleDropAdapter_trans_name=측정값 추가
 
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=차원 추가
 AddMeasureViewHandleCommand.TransName=측정값 추가
-AddRelativeTimePeriodAction_action_label=상대 시간 추가(&L)
-AddRelativeTimePeriodAction_trans_label=상대 시간 추가
+AddRelativeTimePeriodAction_action_label=상대 시간 추가
+AddRelativeTimePeriodAction_trans_label=상대 시간 추가 
 ChangeAreaCommand.TransName=차원 놓기
 ChangeMeasureOrderCommand.TransName=측정값 순서 변경
 CreateDimensionViewCommand.TransName=차원 생성
 CreateMeasureViewCommand.TransName=측정값 생성
 
-MergeCrosstabHeaderCellAction_name=머리글 셀 병합(&M)
-SplitCrosstabHeadCellAction_name=머리글 셀 분할(&S)
 
-ExtendedDataColumnXtabDropAdapter.trans.add=Add {0}
 
 ###########################################################
 # Crosstab EditPart
@@ -69,6 +65,8 @@ SubTotalProvider.Column.Position=위치
 SubTotalProvider.ShowAs={0}(으)로 표시
 LevelViewDialog.Title=그룹 수준 표시/숨기기
 LevelViewDialog.Label.Info=크로스 탭에 표시할 수준 선택:
+LevelViewDialog.Button.Regular.Text=일반 그룹(&R)
+LevelViewDialog.Button.Date.Text=날짜 그룹(&D)
 AggregationDialog.Title=전체
 AggregationDialog.Label.Grand=총합계:
 AggregationDialog.Label.Sub=부분합:
@@ -358,3 +356,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=열 영역
 VirtualCrosstabCellNodeProvider.Display.DetailArea=세부 영역
 VirtualCrosstabCellNodeProvider.Display.RowArea=행 영역
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=알 수 없는 영역
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\(데이터 모델)

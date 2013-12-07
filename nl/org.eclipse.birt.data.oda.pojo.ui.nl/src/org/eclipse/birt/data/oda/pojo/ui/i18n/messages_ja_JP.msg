@@ -9,121 +9,121 @@
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
 # data source messages
-DataSource.RuntimeProperty=&Runtime Properties
-DataSource.DataSetClassPath=Shared &Location of Custom POJO Data Set Classes
+DataSource.RuntimeProperty=ランタイムプロパティ(&R)
+DataSource.DataSetClassPath=カスタム POJO データセットクラスの共有先(&L)
 
-DataSource.AddRelativeJars0=&Add Jars(Relative Path)...
-DataSource.AddAbsoluteJars0=Add &Jars(Absolute Path)...
+DataSource.AddRelativeJars0=Jar の追加 (相対パス)(&A)...
+DataSource.AddAbsoluteJars0=Jar の追加 (絶対パス)(&J)...
 
 #To avoid duplicate short-cut keys
-DataSource.AddRelativeJars1=Add Jar&s(Relative Path)...
-DataSource.AddAbsoluteJars1=Add Jars(A&bsolute Path)...
-DataSource.AddRelativeClassFolder1=Add Class Fold&er(Relative Path)...
-DataSource.AddAbsoluteClassFolder1=Add Class Folder(Absol&ute Path)...
+DataSource.AddRelativeJars1=Jar の追加 (相対パス)(&S)...
+DataSource.AddAbsoluteJars1=Jar の追加 (絶対パス)(&B)...
+DataSource.AddRelativeClassFolder1=クラスフォルダの追加 (相対パス)(&E)...
+DataSource.AddAbsoluteClassFolder1=クラスフォルダの追加 (絶対パス)(&U)...
 
-DataSource.button.tooltip.AddJar.TwoItems=Add jars to the class paths.\nRelative Path: the relative path based on the resource folder.\nAbsolute Path: the absolute path of the file system.
-DataSource.button.tooltip.AddJar.OneItems=Add jars to the class paths.\nAbsolute Path: the absolute path of the file system.
+DataSource.button.tooltip.AddJar.TwoItems=jar をクラスパスに追加します。\n相対パス: リソースフォルダを基準とした相対パスです。\n絶対パス: ファイルシステムの絶対パスです。
+DataSource.button.tooltip.AddJar.OneItems=jar をクラスパスに追加します。\n絶対パス: ファイルシステムの絶対パスです。
 
-DataSource.PojoClassPath=Shared L&ocation of POJO Classes
+DataSource.PojoClassPath=POJO クラスの共有先(&O)
 
-DataSource.MissDataSetPojoClassPath.runtime=The runtime shared location of custom POJO data set classes is missing.
-DataSource.MissDataSetPojoClassPath.designtime=The shared location of custom POJO data set classes used in design time is missing.
-DataSource.PageMessage=POJO Data Source Properties
-DataSource.POJOClasses.tab.runtime=&Runtime Properties
-DataSource.POJOClasses.tab.designTime=Design Time &Properties
-DataSource.POJOClassTabFolderPage.promptLabel.runtime=Shared &Location of Custom POJO Data Set Classes
-DataSource.POJOClassTabFolderPage.promptLabel.designtime=Shared &Location of Custom POJO Classes
-DataSource.POJOClassTabFolderPage.button.edit=&Edit...
-DataSource.POJOClassTabFolderPage.button.up=&Up
-DataSource.POJOClassTabFolderPage.button.down=&Down
-DataSource.POJOClassTabFolderPage.button.remove=Remo&ve
-DataSource.POJOClassTabFolderPage.menuButton.addJar=Add Jars
-DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=Relative path
-DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=Absolute path
-DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=Error
-DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=Failed to get the application resource base URI!
+DataSource.MissDataSetPojoClassPath.runtime=カスタム POJO データセットクラスのランタイム共有先が見つかりません。
+DataSource.MissDataSetPojoClassPath.designtime=デザイン時に使用されるカスタム POJO データセットクラスの共有先が見つかりません。
+DataSource.PageMessage=POJO データソースのプロパティ
+DataSource.POJOClasses.tab.runtime=ランタイムプロパティ(&R)
+DataSource.POJOClasses.tab.designTime=デザイン時プロパティ(&P)
+DataSource.POJOClassTabFolderPage.promptLabel.runtime=カスタム POJO データセットクラスの共有先(&L)
+DataSource.POJOClassTabFolderPage.promptLabel.designtime=カスタム POJO クラスの共有先(&L)
+DataSource.POJOClassTabFolderPage.button.edit=編集(&E)...
+DataSource.POJOClassTabFolderPage.button.up=上へ(&U)
+DataSource.POJOClassTabFolderPage.button.down=下へ(&D)
+DataSource.POJOClassTabFolderPage.button.remove=削除(&V)
+DataSource.POJOClassTabFolderPage.menuButton.addJar=Jar を追加
+DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=相対パス
+DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=絶対パス
+DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=エラー
+DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=アプリケーションリソースのベース URI を取得できません。
 
-DataSource.ClassPathPage.synchronize.checkbox.message=Use Runtime Properties for both Runtime and Designtime
-DataSource.ClassPathPage.synchronize.checkbox.tooltip=If the option is ticked on, then the Designtime Properties Editor will be disabled to edit.
-DataSource.ClassPathPage.synchronize.PrompMessage=Note: If the option is ticked on, the Designtime Properties Settings will be ignored.
-DataSource.ClassPathPage.testConnection.failed.runtime=Failed to create connection with "{0}" of the runtime property!
-DataSource.ClassPathPage.testConnection.failed.designtime=Failed to create connection with "{0}" of the design time property!
+DataSource.ClassPathPage.synchronize.checkbox.message=実行時とデザイン時の両方でランタイムプロパティを使用する
+DataSource.ClassPathPage.synchronize.checkbox.tooltip=このオプションをオンにした場合、Designtime Properties Editor で編集できなくなります。
+DataSource.ClassPathPage.synchronize.PrompMessage=注: このオプションをオンにした場合、デザイン時プロパティの設定は無視されます。
+DataSource.ClassPathPage.testConnection.failed.runtime=ランタイムプロパティの "{0}" への接続を作成できません。
+DataSource.ClassPathPage.testConnection.failed.designtime=デザイン時プロパティの "{0}" への接続を作成できません。
 
 
 # data set messages
-DataSet.PojoDataSetClass=&POJO Data Set Class Name
-DataSet.AppContextKey=&Application Context Key
-DataSet.PojoRootClass=POJO &Class Name
-DataSet.Browse=&Browse...
-DataSet.Browse.tooltip=Browse to select a class.
+DataSet.PojoDataSetClass=POJO データセットのクラス名(&P)
+DataSet.AppContextKey=アプリケーションのコンテキストキー(&A)
+DataSet.PojoRootClass=POJO クラス名(&C)
+DataSet.Browse=参照(&B)...
+DataSet.Browse.tooltip=参照してクラスを選択します。
 
 #To avoid duplicate short-cut key
-DataSet.Browse1=B&rowse...
-DataSet.DataType.Object=Java Object
+DataSet.Browse1=参照(&R)...
+DataSet.DataType.Object=Java オブジェクト
 
-DataSet.FailedParseQueryTitle=Failed to Parse Query Text
-DataSet.FailedParseQueryMsg=Query text: "{0}".
-DataSet.FailedToSaveTitle=Failed to Save Data Set
-DataSet.FailedToSaveMsg=Exception occurs during saving data set.
-DataSet.Label.MethodNameFilter=&Method Name Filter(? = any character,* = any string):
-DataSet.MissPojoRootClass=POJO Class is not provided.
-DataSet.Apply=Appl&y
-DataSet.ClassStructure=POJO Class Structure
-DataSet.ColumnMapping=&Column Mapping
-DataSet.Add=&Add...
-DataSet.Edit=&Edit...
-DataSet.Remove=&Remove
-DataSet.Up=&Up
-DataSet.Down=&Down
-DataSet.Label.POJOClassName=POJO Class Name
-DataSet.Label.prompt.ClassName=Select methods and &fields to create data set columns.
-DataSet.button.addColumn.tooltip.mapColumn=Add the selected item to be the column.
-DataSet.button.removeColumn.tooltip.mapColumn=Remove the selected item from the columns table.
-DataSet.button.tooltip.Add=Add a new column.
-DataSet.button.tooltip.Edit=Edit the current column.
-DataSet.button.tooltip.Remove=Remove the current column.
-DataSet.button.tooltip.Up=Move up the current column.
-DataSet.button.tooltip.Down=Move down the current column.
-DataSet.ShowSampleData=&Show Sample Data
-DataSet.button.tooltip.ShowSampleData=Show sample data.
-DataSet.FailedToLoadClassTitle=Failed to load class.
-DataSet.FailedToLoadPojoClassMsg=Failed to load POJO class:"{0}".
+DataSet.FailedParseQueryTitle=クエリテキストを解析できません
+DataSet.FailedParseQueryMsg=クエリテキスト: "{0}"
+DataSet.FailedToSaveTitle=データセットを保存できません
+DataSet.FailedToSaveMsg=データセットの保存中に例外が発生しました。
+DataSet.Label.MethodNameFilter=メソッド名フィルタ (? は任意の 1 文字、* =は任意の文字列を示します)(&M):
+DataSet.MissPojoRootClass=POJO クラスが指定されていません。
+DataSet.Apply=適用(&Y)
+DataSet.ClassStructure=POJO クラスの構造
+DataSet.ColumnMapping=列マッピング(&C)
+DataSet.Add=追加(&A)...
+DataSet.Edit=編集(&E)...
+DataSet.Remove=削除(&R)
+DataSet.Up=上へ(&U)
+DataSet.Down=下へ(&D)
+DataSet.Label.POJOClassName=POJO クラス名
+DataSet.Label.prompt.ClassName=データセット列を作成する場合は、メソッドとフィールドを選択します。(&F)
+DataSet.button.addColumn.tooltip.mapColumn=選択した項目を列に追加します。
+DataSet.button.removeColumn.tooltip.mapColumn=選択した項目を列テーブルから削除します。
+DataSet.button.tooltip.Add=新しい列を追加します。
+DataSet.button.tooltip.Edit=現在の列を編集します。
+DataSet.button.tooltip.Remove=現在の列を削除します。
+DataSet.button.tooltip.Up=現在の列を上へ移動します。
+DataSet.button.tooltip.Down=現在の列を下へ移動します。
+DataSet.ShowSampleData=サンプルデータを表示(&S)
+DataSet.button.tooltip.ShowSampleData=サンプルデータを表示します。
+DataSet.FailedToLoadClassTitle=クラスを読み込めません。
+DataSet.FailedToLoadPojoClassMsg=POJO クラスを読み込めません: "{0}"
 
-ColumnMappingPage.table.head.columnName=Name
-ColumnMappingPage.table.head.MethodField=Method/Field
-ColumnMappingPage.table.head.columnType=Type
+ColumnMappingPage.table.head.columnName=名前
+ColumnMappingPage.table.head.MethodField=メソッド / フィールド
+ColumnMappingPage.table.head.columnType=種類
 
-ColumnMappingWizardPage.error.getQueryText=Failed to parse original query text.
-ColumnMappingWizardPage.button.apply.text=A&pply
-ColumnMappingWizardPage.button.apply.tooltip=Apply the input POJO class name to generate the method tree.
+ColumnMappingWizardPage.error.getQueryText=元のクエリテキストを解析できません。
+ColumnMappingWizardPage.button.apply.text=適用(&P)
+ColumnMappingWizardPage.button.apply.tooltip=入力 POJO クラス名を適用して、メソッドツリーを生成します。
 
-ColumnMappingDialog.Label.ColumnName=&Column Name: 
-ColumnMappingDialog.Label.ColumnMethodField=&Method/Field:
-ColumnMappingDialog.Label.Type=Column &Type:
-ColumnMappingDialog.table.promptLabel=Select method &arguments mapped to the parameter:
-ColumnMappingDialog.table.head.mapped=Mapped
-ColumnMappingDialog.table.head.name=Name
-ColumnMappingDialog.table.head.value=Value
-ColumnMappingDialog.table.head.dataType=Java Data Type
-ColumnMappingDialog.button.edit=&Edit...
-ColumnMappingDialog.button.selectAll=&Select All
-ColumnMappingDialog.button.deselectAll=&Deselect All
-ColumnMappingDialog.Label.methodHierarchy=Method call hierarchy:
-ColumnMappingDialog.error.DuplicatedColumnName=The column name has already been used!
-ColumnMappingDialog.error.EmptyColumnName=The column name cannot be empty!
-ColumnMappingDialog.error.EmptyMappingPath=The column mapping path cannot be empty!
-ColumnMappingDialog.MenuItem.remove=Remove
-ColumnMappingDialog.MenuItem.removeAll=Remove All
+ColumnMappingDialog.Label.ColumnName=列名(&C): 
+ColumnMappingDialog.Label.ColumnMethodField=メソッド / フィールド(&M):
+ColumnMappingDialog.Label.Type=列の種類(&T):
+ColumnMappingDialog.table.promptLabel=パラメタにマッピングするメソッド引数を選択します(&A):
+ColumnMappingDialog.table.head.mapped=マッピング済み
+ColumnMappingDialog.table.head.name=名前
+ColumnMappingDialog.table.head.value=値
+ColumnMappingDialog.table.head.dataType=Java のデータ型
+ColumnMappingDialog.button.edit=編集(&E)...
+ColumnMappingDialog.button.selectAll=すべて選択(&S)
+ColumnMappingDialog.button.deselectAll=すべて選択解除(&D)
+ColumnMappingDialog.Label.methodHierarchy=メソッド呼び出し階層:
+ColumnMappingDialog.error.DuplicatedColumnName=この列名はすでに使用されています。
+ColumnMappingDialog.error.EmptyColumnName=列名は空白にできません。
+ColumnMappingDialog.error.EmptyMappingPath=列マッピングパスは空白にできません。
+ColumnMappingDialog.MenuItem.remove=削除
+ColumnMappingDialog.MenuItem.removeAll=すべて削除
 
-MethodParameterDialog.edit.title=Edit Method Parameter
-MethodParameterDialog.label.name=&Name:
-MethodParameterDialog.label.value=&Value:
-MethodParameterDialog.label.dataType=&Java Data Type:
-MethodParameterDialog.checkBox.message=Set the argument mapped to the parameter.
-MethodParameterDialog.error.missingName=The mapped parameter must be specified a name!
-MethodParameterDialog.error.missingValue=The constant parameter must be specified a constant value!
-MethodParameterDialog.error.invalidParamName=The parameter has already been specified a different data type!
-MethodParameterDialog.error.missingDataType=The parameter data type cannot be empty!
+MethodParameterDialog.edit.title=メソッドパラメタの編集
+MethodParameterDialog.label.name=名前(&N):
+MethodParameterDialog.label.value=値(&V):
+MethodParameterDialog.label.dataType=Java のデータ型(&J):
+MethodParameterDialog.checkBox.message=パラメタにマッピングする引数を設定します。
+MethodParameterDialog.error.missingName=マッピングされたパラメタには名前が指定されている必要があります。
+MethodParameterDialog.error.missingValue=定数パラメタには定数値が指定されている必要があります。
+MethodParameterDialog.error.invalidParamName=このパラメタにはすでに別のデータ型が指定されています。
+MethodParameterDialog.error.missingDataType=パラメタのデータ型は空白にできません。
 
 DataSet.DataType.String=String
 DataSet.DataType.Integer=Integer
@@ -136,22 +136,28 @@ DataSet.DataType.Time=Time
 DataSet.DataType.Timestamp=Date Time 
 DataSet.DataType.Boolean=Boolean 
 DataSet.DataType.Blob=Blob 
-DataSet.AddColumnMapping=Add Column Mapping
-DataSet.EditColumnMapping=Edit Column Mapping
-DataSet.InvalidColumnMappingPath=Invalid Method/Field Format:"{0}".
-DataSet.InvalidMethodName=Invalid Method Name:"{0}".
-DataSet.InvalidFieldName=Invalid Field Name:"{0}".
-DataSet.JarsSelectDlg.Title=Select Jars / Zips
-DataSet.ClassFoldersSelectDlg.Title=Select Class Folders
-DataSet.PropertyPageMsg=POJO Data Set Properties
-DataSet.ColumnMappingPageMsg=Column Mapping
-DataSet.NoColumnMappingErrorMsg=No Column Mapping.
-DataSet.ClassNameFilter=&Class Name Filter(? = any character,* = any string):
-DataSet.MatchingItems=&Matching Items:
-DataSet.ClassInputDialogTitle=Choose Class
-DataSet.PreviewDialogTitle=Sample Data
-DataSet.FailedFetchSampleData=Failed to Fetch Sample Data
+DataSet.AddColumnMapping=列マッピングの追加
+DataSet.EditColumnMapping=列マッピングの編集
+DataSet.InvalidColumnMappingPath=メソッド / フィールドの形式が無効です: "{0}"
+DataSet.InvalidMethodName=メソッド名が無効です: "{0}"
+DataSet.InvalidFieldName=フィールド名が無効です: "{0}"
+DataSet.JarsSelectDlg.Title=JAR/Zip の選択
+DataSet.ClassFoldersSelectDlg.Title=クラスフォルダの選択
+DataSet.PropertyPageMsg=POJO データセットのプロパティ
+DataSet.ColumnMappingPageMsg=列マッピング
+DataSet.NoColumnMappingErrorMsg=列マッピングがありません。
+DataSet.ClassNameFilter=クラス名フィルタ (? は任意の 1 文字、* =は任意の文字列を示します)(&C):
+DataSet.MatchingItems=一致項目(&M):
+DataSet.ClassInputDialogTitle=クラスの選択
+DataSet.PreviewDialogTitle=サンプルデータ
+DataSet.FailedFetchSampleData=サンプルデータをフェッチできません
 
-ExceptionDialog.title.erro=Error
-ExceptionDialog.DataSource.AddDuplicatedJar=The same jar cannot be added multiple times.
-error.PojoDataSet.emptyClassName=Class name can not be empty.
+ExceptionDialog.title.erro=エラー
+ExceptionDialog.DataSource.AddDuplicatedJar=同じ JAR を何度も追加できません。
+error.PojoDataSet.emptyClassName=クラス名は空白にできません。
+
+JarsSelectionDialog.button.importFile=ファイルのインポート...
+JarsSelectionDialog.title.error=エラー
+JarsSelectionDialog.title.overwrite=上書き
+JarsSelectionDialog.overwrite.msg=この名前のファイルはすでに存在します。上書きしますか ?
+JarsSelectionDialog.import.msg=ファイルのインポート中...
