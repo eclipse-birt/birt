@@ -191,7 +191,8 @@ class ColumnBandShiftAction extends ColumnBandAction
 				{
 					CellContextInfo cell = (CellContextInfo)iter.next( );
 					if ( cell.getSlotId( ) == invalidCell.getSlotId( )
-							&& cell.getRowIndex( ) == invalidCell.getRowIndex( ) )
+							&& cell.getRowIndex( ) == invalidCell.getRowIndex( )
+							&& cell.getGroupId( ) == invalidCell.getGroupId( ) )
 						iter.remove( );
 				}
 			}			
