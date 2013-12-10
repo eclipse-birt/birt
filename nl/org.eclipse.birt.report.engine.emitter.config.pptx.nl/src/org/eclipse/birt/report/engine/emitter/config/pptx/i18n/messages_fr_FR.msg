@@ -1,5 +1,5 @@
 #/*******************************************************************************
-# * Copyright (c) 2013 Actuate Corporation.
+# * Copyright (c) 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
@@ -17,11 +17,11 @@ PPTXEmitter.DisplayName=PowerPoint (PPTX)
 ###########################################################
 #Option Display Value
 OptionDisplayValue.BidiProcessing=Traitement BIDI
-OptionDisplayValue.TextWrapping=Retour ï¿½ la ligne automatique
-OptionDisplayValue.PageOverFlow=Traitement du dï¿½passement de page
+OptionDisplayValue.TextWrapping=Retour à la ligne automatique
+OptionDisplayValue.PageOverFlow=Traitement du dépassement de page
 OptionDisplayValue.CLIP_CONTENT=Recadrer le contenu
-OptionDisplayValue.FIT_TO_PAGE_SIZE=Adapter ï¿½ la taille de la page
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Rï¿½partir sur plusieurs pages
+OptionDisplayValue.FIT_TO_PAGE_SIZE=Adapter à la taille de la page
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Répartir sur plusieurs pages
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Agrandir la taille de la page
 OptionDisplayValue.FontSubstitution=Changement de police
 OptionDisplayValue.ChartDpi=DPI de graphique
@@ -29,11 +29,11 @@ OptionDisplayValue.ChartDpi=DPI de graphique
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=Prend en charge le texte bidirectionnel.
-OptionDescription.TextWrapping=Indique si le retour ï¿½ la ligne est autorisï¿½ pour le texte.
-OptionDescription.PageOverFlow=Contrï¿½le le mode de rï¿½partition du contenu.
-OptionDescription.FontSubstitution=Sï¿½lectionne des polices automatiquement lorsque la police spï¿½cifiï¿½e ne peut pas afficher le caractï¿½re.
-OptionDescription.ChartDpi=DPI utilisï¿½ pour gï¿½nï¿½rer un graphique.
+OptionDescription.TextWrapping=Indique si le retour à la ligne est autorisé pour le texte.
+OptionDescription.PageOverFlow=Contrôle le mode de répartition du contenu.
+OptionDescription.FontSubstitution=Sélectionne des polices automatiquement lorsque la police spécifiée ne peut pas afficher le caractère.
+OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=DPI utilisï¿½ par le moteur de graphique pour gï¿½nï¿½rer des graphiques. Par exemple, 192.
+Tooltip.ChartDpi=DPI utilisé par le moteur de graphique pour générer des graphiques. Par exemple, 192.
