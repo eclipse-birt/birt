@@ -267,9 +267,12 @@ BlockPreferencePage.displayname.Title=Bloc de texte
 
 ###########################################################
 #BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Taille
 
 ###########################################################
+#BorderCanvas properties
 
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -522,6 +525,7 @@ dataset.editor.dataSource=Source de données
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Le nouveau nom ou alias de colonne ({0}) est déjà utilisé par la colonne à l''index {1}.
 dataset.editor.error.computedColumnNameAlreadyUsed=Le nouveau nom de la colonne de calcul ({0}) est déjà utilisé comme alias pour la colonne ({1}) dans les Colonnes de sortie.
 dataset.editor.error.duplicateParameterName=Nom de paramètre en double.
+dataset.editor.error.nonemptyDefaultvalue=La valeur par défaut ne peut pas être nulle.
 dataset.editor.error.emptyName=Le nom ne doit pas rester vierge. 
 dataset.editor.error.missingComputedColumnExpression=L''expression de la colonne de calcul {0} ne peut être ni nulle, ni vide.
 dataset.editor.error.missingComputedColumnName=Le nom de la colonne de calcul ne peut être ni nul, ni vide.
@@ -610,12 +614,16 @@ DataSetBasePage.ScriptedDataSet.name=Jeu de données nécessitant un script
 DataSetBasePage.ScriptedDataSource.name=Source de données nécessitant un script
 DataSetBasePage.Group.DataSourceSelection=Sélection de source de données
 
+DataSetBasePage.CassandraScriptedDataSet.name=Jeu de données Cassandra nécessitant un script
+DataSetBasePage.CassandraScriptedDataSource.name=Source de données Cassandra nécessitant un script
 DataSetBindingSelector.Button.DeselectAll=&Tout désélectionner
 DataSetBindingSelector.Button.SelectAll=&Sélectionner tout
 DataSetBindingSelector.Combo.DataSet=&Jeu de données :
 DataSetBindingSelector.Label.SelectBindingColumns=Sélectionnez les colonnes de liaison.
 DataSetBindingSelectorPage.Label.SelectBindingColumns=Sélectionnez les colonnes de liaison.
 DataSetBindingSelectorPage.Title=Liaison de jeu de données
+CassandraScriptedDataSource.display.name=Source de données Cassandra nécessitant un script
+CassandraScriptedDataSource.error.classNotFound=Impossible de trouver les JARS de la bibliothèque client Hector pour prendre en charge la source de données Cassandra nécessitant un script.
 
 ###########################################################
 #JointDataSetPage properties
@@ -646,6 +654,7 @@ DerivedDataSet.action.error.message.InvalidNumber.DataSet=Le nombre de jeux de d
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Définissez les colonnes de calcul. 
 DataSetComputedColumnsPage.description=Définir des colonnes de calcul :
 DataSetComputedColumnsPage.duplicatedName=Nom de colonne en double.
+DataSetComputedColumnsPage.numberName=Le nom de la colonne ne doit pas être un chiffre.
 DataSetComputedColumnsPage.toolTipText.Down=Déplacer la colonne de calcul vers le bas.
 DataSetComputedColumnsPage.toolTipText.Up=Déplacer la colonne de calcul vers le haut.
 DataSetComputedColumnsPage.toolTipText.Remove=Supprimer la colonne de calcul.
@@ -1405,6 +1414,8 @@ Element.Style.pageBreakInside=&A l'intérieur :
 Element.Style.section=Section :
 Element.Style.showIfBlank=&Afficher si vierge :
 Element.Style.text.align=A&lignement du texte :
+Element.Style.width=&Largeur :
+Element.Style.height=&Hauteur :
 #bidi_hcg
 Element.Style.text.direction=Direction du texte &Bidi :
 Element.Style.text.indent=Retrait du te&xte :
@@ -1825,6 +1836,7 @@ FormPage.Button.Up=Déplacer vers le &haut
 FormPage.Button.Up.Alt1=Déplacer vers le ha&ut
 FormPage.Button.Up.Alt2=Déplacer v&ers le haut
 FormPage.Button.Binding.Refresh=Ac&tualiser
+FormPage.Button.Binding.Clear=Effa&cer
 FormPage.Menu.ModifyProperty=Modifier la propriété
 FormPage.toolTipText.Up=Déplacer vers le haut
 FormPage.toolTipText.Down=Déplacer vers le bas
@@ -2529,7 +2541,7 @@ MapPreferencePage.displayname.Title=Mappage
 MapPreferencePage.text.Add=&Ajouter...
 MapPreferencePage.text.Delete=&Supprimer
 MapPreferencePage.text.Description=Règles de mappage :
-MapPreferencePage.text.Edit=&Modifier...
+MapPreferencePage.text.Edit=Modifi&er...
 MapPreferencePage.toolTipText.Up=Déplacer la règle de mappage vers le haut
 MapPreferencePage.toolTipText.Down=Déplacer la règle de mappage vers le bas
 MapPreferencePage.text.Duplicate=Du&pliquer
@@ -3653,6 +3665,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI :
 
 UseCssInThemeDialog.TitleArea.Title=Utiliser le fichier CSS dans la bibliothèque d'états
 UseCssInThemeDialog.TitleArea.Message=Sélectionnez un thème dans lequel les styles du fichier CSS doivent être placés.
+CssStyleSheetNodeProvider.Label.FromServer=A partir du serveur
 CssStyleSheetNodeProvider.Tooltip.URI=(Appliqué à l'heure d'affichage)
 
 
@@ -4146,6 +4159,7 @@ WizardTemplateChoicePage.label.Description=Description :
 WizardTemplateChoicePage.label.Preview=Aperçu :
 WizardTemplateChoicePage.label.ReportTemplates=Modèles d'état :
 WizardTemplateChoicePage.label.ShowCheatSheets=&Afficher la feuille de fraude de création d'état
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Inclure les thèmes par défaut
 WizardTemplateChoicePage.message.BlankReport=Créez un état vierge sans aucun contenu prédéfini.
 WizardTemplateChoicePage.message.ChartListing=Créez un état groupé avec un graphique fournissant une représentation visuelle de chaque donnée de groupe.
 WizardTemplateChoicePage.message.DualColumnChartListing=Créez un état groupé avec deux sous-groupes "Graphiques et listes".
@@ -4338,6 +4352,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ ou
 GeneralPage.Library.Included=Bibliothèque :
 GeneralPage.Library.Modified.Note=REMARQUE : cet élément d'état provenant de la bibliothèque a été modifié. Pour restaurer l'élément d'état d'origine, cliquez sur {0} "Restaurer les propriétés"
 
+#BookMarkPage
+BookMarkPage.Modified.Note=Le signet contient des caractères spéciaux différents de (A-Z, a-z, 0-9, '-', '_', ':', '.'). Cela peut poser problème lors de l'exécution.
+BookMarkPage.Modified.WithoutQuotes=Le signet n'est pas entouré de guillemets doubles. Cela peut poser problème lors de l'exécution.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4646,13 +4663,15 @@ BindingDialogHelper.text.Grid=Grille
 BindingDialogHelper.text.Group=Gr&oupe
 BindingDialogHelper.text.Expression=&Expression :
 BindingDialogHelper.text.displayName=&Nom d'affichage :
-BindingDialogHelper.text.allowExport=Autoriser l'exp&ortation :
+BindingDialogHelper.text.allowExport=Exp&orter :
+BindingDialogHelper.text.allowExport.button=Autoriser l'exportation
 BindingDialogHelper.text.displayNameID=ID du nom d'affi&chage :
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
 BindingDialogHelper.error.nameduplicate=Une liaison de colonne appelée {0} existe déjà.
 BindingDialogHelper.error.improperexpression=L'agrégation sur la mesure de cube ne peut pas être du type : "{0}".
 BindingDialogHelper.error.empty={0} est requis.
+BindingDialogHelper.error.text.Name=Column Binding Name
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Le type de données requis pour la fonction actuelle est "{0}". Voulez-vous vraiment conserver le type de données sélectionné ?
 BindingDialogHelper.warning.parameter=Le type de données de retour de l'expression "{0}" n'est pas pris en charge pour le paramètre "{1}". Voulez-vous vraiment le conserver ?
@@ -4666,6 +4685,7 @@ BindingGroupDescriptorProvider.DataSetBindingSelector.Title.DataSet=Liaison de j
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Attein&dre l'élément d'état
+ScriptObjectNode_0=&Réinitialiser le script
 
 ReportPage.PreviewImage.Button.ToolTip=Gérer la miniature
 
@@ -4673,10 +4693,13 @@ ReportPage.PreviewImage.Button.ToolTip=Gérer la miniature
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Tous
 CrosstabBindingDialogHelper.bindngName.timeperiod=Période
-CrosstabBindingDialogHelper.recentday.description=Date la plus récente dans la dimension de temps
+CrosstabBindingDialogHelper.calculation.label=Intervalle de tem&ps :
+CrosstabBindingDialogHelper.calculation.group=Intervalle de temps
+CrosstabBindingDialogHelper.recentday.description=Dernière date de la période
 CrosstabBindingDialogHelper.referencedate.label=Date de &référence :
 CrosstabBindingDialogHelper.thisdate.label=Cette date :
-CrosstabBindingDialogHelper.thisdate.example.label=Saisissez les valeurs de dates selon le modèle suivant : AAAA-MM-JJ
+CrosstabBindingDialogHelper.thisdate.example.label=Veuillez insérer la valeur de date fournie entre guillemets.\nPar exemple : "2012-01-23", "1/23/2012".
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Par exemple : 2012-01-23, 1/23/2012.
 CrosstabBindingDialogHelper.timedimension.label=Dimension de te&mps :
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Cette dimension ne prend pas en charge la date de référence récente 
 CrosstabBindingDialogHelper.today.label=Aujourd'hui
@@ -4748,6 +4771,8 @@ InsertAggregationAction.text=&Agrégation
 
 
 ###########################################################
+#InsertRelativeTimePeriodAction
+InsertRelativeTimePeriodAction.text=Période de temps relati&f
 
 ###########################################################
 #Multiple views
@@ -4782,7 +4807,10 @@ GeneralConfigurationBlock.message.general.description=Paramètres généraux pour l
 GeneralConfigurationBlock.button.text.enable.gradient=Activer la sélection du &dégradé 
 GeneralConfigurationBlock.button.text.enable.animation=Activer la sélection des éléments a&nimés
 GeneralConfigurationBlock.group.label=Invite
+GeneralConfigurationBlock.group.defaultThemes=Bibliothèque de thèmes par défaut
 GeneralConfigurationBlock.button.text.prompt=Afficher l'&invite après ouverture du fichier de bibliothèque.
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Activer la bibliothèque de &thèmes par défaut
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Inclure les thèmes par défaut
 GeneralConfigurationBlock.move.binding.group=Déplacer les liaisons locales vers le parent pour améliorer les performances
 GeneralConfigurationBlock.move.binding.always=&Toujours
 GeneralConfigurationBlock.move.binding.never=Ja&mais
@@ -4899,6 +4927,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par déf&aut :
 ExpressionEditor.Error.EmptyExpression=L'expression doit être renseignée.
 ExpressionEditor.Label.Expression=&Expression :
 ExpressionEditor.Title=Modifier l'expression
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Outil de sélection de la couleur de l'arrière-plan
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Outil de sélection de la couleur du premier plan
+ExpressionSyntaxColoringPage.Button.Bold=&Gras
+ExpressionSyntaxColoringPage.Button.Enable=Activer
+ExpressionSyntaxColoringPage.Button.Italic=&Italique
+ExpressionSyntaxColoringPage.Button.Restore=&Restaurer les paramètres par défaut
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Barré
+ExpressionSyntaxColoringPage.Button.Underline=&Texte souligné
+ExpressionSyntaxColoringPage.Decscription=Personnalisez le repérage de la syntaxe en sélectionnant le type de texte correspondant au style que vous souhaitez modifier depuis la liste ou la zone d'exemple de texte, par exemple.
+ExpressionSyntaxColoringPage.Element.Comment=Commentaires
+ExpressionSyntaxColoringPage.Element.Default=Par défaut
+ExpressionSyntaxColoringPage.Element.Keyword=Mot-clé
+ExpressionSyntaxColoringPage.Element.String=Chaîne
+ExpressionSyntaxColoringPage.Label.Background=Arr&ière-plan :
+ExpressionSyntaxColoringPage.Label.Foreground=&Premier plan :
+ExpressionSyntaxColoringPage.Label.SampleText=&Exemple de texte :
+ExpressionSyntaxColoringPage.Label.SyntaxElement=Eléments de s&yntaxe :
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Les couleurs et la police par défaut peuvent être configurés dans la page <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Editeurs de texte</a> et dans la page de préférences <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Couleurs et polices</a> .
 
 ###########################################################
 #VariableDropAdapter

@@ -25,7 +25,7 @@ datasource.property.yes=YES
 ###############################################################################
 #	Date Set Properties
 datasource.property.excelFile=Sélectionnez un fichier Excel
-datasource.property.worksheets=Classeur(s)
+datasource.property.worksheets=Cla&sseur(s)
 dataset.property.worksheets.dateFormat=Format de date
 #
 ###############################################################################

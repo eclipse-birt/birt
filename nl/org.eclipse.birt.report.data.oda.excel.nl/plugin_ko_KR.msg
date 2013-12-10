@@ -25,7 +25,7 @@ datasource.property.yes=예
 ###############################################################################
 #	Date Set Properties
 datasource.property.excelFile=Excel 파일 선택
-datasource.property.worksheets=워크시트
+datasource.property.worksheets=워크시트(&H)
 dataset.property.worksheets.dateFormat=날짜 형식
 #
 ###############################################################################

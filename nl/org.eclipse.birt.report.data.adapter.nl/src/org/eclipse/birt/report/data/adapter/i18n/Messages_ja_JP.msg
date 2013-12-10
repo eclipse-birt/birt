@@ -18,6 +18,7 @@ invalid.cache.option=データアダプタのオプション値 {0} が無効です。
 
 datasource.null.error=データセット "{0}" のデータソースが見つかりませんでした。
 datasource.exid.error=データソース定義 {0} に拡張 ID がありません。
+datasource.cassandra.error=Cassandra スクリプト記述済みのデータソースをサポートする Hector クライアントライブラリの Jar が見つかりません。.
 
 datasethandle.null.error=DataSetHandle は NULL にできません。
 datasethandle.invalidColumnIndex=列のインデックスが無効です。
@@ -25,15 +26,16 @@ adapter.invalid.datetimetype=日時型 "{0}" が無効です。
 adapter.invalid.aggregationfunctionname=集計関数 {0} が無効です。
 
 invalid.datetime.value=日時の値 "{0}" が無効です。
-missing.join.condition=キューブ "{2}" のプライマリデータセット "{0}" とディメンジョン "{1}" との間にジョイン条件がありません。
+missing.join.condition=キューブ "{2}" のプライマリデータセット "{0}" とディメンション "{1}" との間にジョイン条件がありません。
 exception.error=処理中に例外が発生しました。詳しくは次のメッセージを参照してください :
 invalid.level.expression=レベル名 "{0}" が見つかりません。
 invalid.measure.expression=メジャー "{0}" の式は null にできません。
 invalid.data.type=データ型が無効です : {0} 
+invalid.binding.expression=式が無効です : {0}
 invalid.computedColumn.expression=計算列 "{0}" は無効なデータセット列 "{1}" を参照しているため無効です。
 
 cube.error.createhierarchy=階層 {0} の作成中にエラーが発生しました。
-cube.error.createdimension=ディメンジョン {0} の作成中にエラーが発生しました。
+cube.error.createdimension=ディメンション {0} の作成中にエラーが発生しました。
 cube.error.createmeasure=メジャー要素の作成中にエラーが発生しました。
 cube.error.datasetmiss=関連するデータセットが見つからないため、キューブを作成できません。
 cube.jointColumnNotInLevels=結合列 "{0}" はディメンション "{1}" のいずれのレベルのキーフィールドとしても定義されていません。
@@ -114,28 +116,34 @@ timeFunction.PERIOD1.displayName = 最初の期間(&F)
 timeFunction.PERIOD2.displayName = 2 番目の期間(&R)
 timeFunction.N1.displayName = 過去の期間数
 timeFunction.N2.displayName = 参照元(&O)
+timeFunction.N1.next.displayName = 次へ(&N)
+timeFunction.N2.Ago.displayName=前(&A)
+timeFunction.N1.current.displayName=現在のページ(&U)
+timeFunction.N1.period.displayName= 期間(&P)
+timeFunction.trailing.N1.period.displayName=過去(&I)
+timeFunction.trailing.N1.Month.displayName= 過去の月数(&N)
  
-timeFunction.N1.Year.displayName = 過去の年数
-timeFunction.N2.Year.displayName = 過去の年数
+timeFunction.N1.Year.displayName = 過去の年数(&N)
+timeFunction.N2.Year.displayName = 過去の年数(&N)
 timeFunction.N1.Year = 過去の期間数の N 値
 timeFunction.N2.Year = 過去の期間数の N 値
 
-timeFunction.N1.Month.displayName = 過去の月数
-timeFunction.N2.Month.displayName = 過去の月数
+timeFunction.N1.Month.displayName = 過去の月数(&N)
+timeFunction.N2.Month.displayName = 過去の月数(&N)
 timeFunction.N1.Month = 過去の月数の N 値
 timeFunction.N2.Month = 過去の月数の N 値
 
-timeFunction.N1.Quarter.displayName = 過去の四半期数
-timeFunction.N2.Quarter.displayName = 過去の四半期数
+timeFunction.N1.Quarter.displayName = 過去の四半期数(&N)
+timeFunction.N2.Quarter.displayName = 過去の四半期数(&N)
 timeFunction.N1.Quarter = 過去の四半期数の N 値
 timeFunction.N2.Quarter = 過去の四半期数の N 値
 
-timeFunction.N1.Week.displayName = 過去の週数
-timeFunction.N2.Week.displayName = 過去の週数
+timeFunction.N1.Week.displayName = 過去の週数(&N)
+timeFunction.N2.Week.displayName = 過去の週数(&N)
 timeFunction.N1.Week = 過去の週数の N 値
 timeFunction.N2.Week = 過去の週数の N 値
 
-timeFunction.N1.Day.displayName = 過去の日数
+timeFunction.N1.Day.displayName = 過去の日数(&N)
 
 timeFunction.PERIODCHOICE.YEAR_displayName =年
 timeFunction.PERIODCHOICE.QUARTER_displayName =四半期
@@ -170,6 +178,7 @@ invalid.cache.option=データアダプタのオプション値 {0} が無効です。
 
 datasource.null.error=データセット "{0}" のデータソースが見つかりませんでした。
 datasource.exid.error=データソース定義 {0} に拡張 ID がありません。
+datasource.cassandra.error=Cassandra スクリプト記述済みのデータソースをサポートする Hector クライアントライブラリの Jar が見つかりません。.
 
 datasethandle.null.error=DataSetHandle は NULL にできません。
 datasethandle.invalidColumnIndex=列のインデックスが無効です。
@@ -177,14 +186,15 @@ adapter.invalid.datetimetype=日時型 "{0}" が無効です。
 adapter.invalid.aggregationfunctionname=集計関数 {0} が無効です。
 
 invalid.datetime.value=日時の値 "{0}" が無効です。
-missing.join.condition=キューブ "{2}" のプライマリデータセット "{0}" とディメンジョン "{1}" との間にジョイン条件がありません。
+missing.join.condition=キューブ "{2}" のプライマリデータセット "{0}" とディメンション "{1}" との間にジョイン条件がありません。
 exception.error=処理中に例外が発生しました。詳しくは次のメッセージを参照してください :
 invalid.level.expression=レベル名 "{0}" が見つかりません。
 invalid.measure.expression=メジャー "{0}" の式は null にできません。
 invalid.data.type=データ型が無効です : {0} 
+invalid.binding.expression=式が無効です : {0}
 
 cube.error.createhierarchy=階層 {0} の作成中にエラーが発生しました。
-cube.error.createdimension=ディメンジョン {0} の作成中にエラーが発生しました。
+cube.error.createdimension=ディメンション {0} の作成中にエラーが発生しました。
 cube.error.createmeasure=メジャー要素の作成中にエラーが発生しました。
 cube.error.datasetmiss=関連するデータセットが見つからないため、キューブを作成できません。
 cube.jointColumnNotInLevels=結合列 "{0}" はディメンション "{1}" のいずれのレベルのキーフィールドとしても定義されていません。
@@ -265,28 +275,34 @@ timeFunction.PERIOD1.displayName = 最初の期間(&F)
 timeFunction.PERIOD2.displayName = 2 番目の期間(&R)
 timeFunction.N1.displayName = 過去の期間数
 timeFunction.N2.displayName = 参照元(&O)
+timeFunction.N1.next.displayName = 次へ(&N)
+timeFunction.N2.Ago.displayName=前(&A)
+timeFunction.N1.current.displayName=現在のページ(&U)
+timeFunction.N1.period.displayName= 期間(&P)
+timeFunction.trailing.N1.period.displayName=過去(&I)
+timeFunction.trailing.N1.Month.displayName= 過去の月数(&N)
  
-timeFunction.N1.Year.displayName = 過去の年数
-timeFunction.N2.Year.displayName = 過去の年数
+timeFunction.N1.Year.displayName = 過去の年数(&N)
+timeFunction.N2.Year.displayName = 過去の年数(&N)
 timeFunction.N1.Year = 過去の期間数の N 値
 timeFunction.N2.Year = 過去の期間数の N 値
 
-timeFunction.N1.Month.displayName = 過去の月数
-timeFunction.N2.Month.displayName = 過去の月数
+timeFunction.N1.Month.displayName = 過去の月数(&N)
+timeFunction.N2.Month.displayName = 過去の月数(&N)
 timeFunction.N1.Month = 過去の月数の N 値
 timeFunction.N2.Month = 過去の月数の N 値
 
-timeFunction.N1.Quarter.displayName = 過去の四半期数
-timeFunction.N2.Quarter.displayName = 過去の四半期数
+timeFunction.N1.Quarter.displayName = 過去の四半期数(&N)
+timeFunction.N2.Quarter.displayName = 過去の四半期数(&N)
 timeFunction.N1.Quarter = 過去の四半期数の N 値
 timeFunction.N2.Quarter = 過去の四半期数の N 値
 
-timeFunction.N1.Week.displayName = 過去の週数
-timeFunction.N2.Week.displayName = 過去の週数
+timeFunction.N1.Week.displayName = 過去の週数(&N)
+timeFunction.N2.Week.displayName = 過去の週数(&N)
 timeFunction.N1.Week = 過去の週数の N 値
 timeFunction.N2.Week = 過去の週数の N 値
 
-timeFunction.N1.Day.displayName = 過去の日数
+timeFunction.N1.Day.displayName = 過去の日数(&N)
 
 timeFunction.PERIODCHOICE.YEAR_displayName =年
 timeFunction.PERIODCHOICE.QUARTER_displayName =四半期

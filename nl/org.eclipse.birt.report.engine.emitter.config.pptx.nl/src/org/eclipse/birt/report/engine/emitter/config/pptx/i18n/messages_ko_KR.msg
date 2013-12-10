@@ -1,5 +1,5 @@
 #/*******************************************************************************
-# * Copyright (c) 2013 Actuate Corporation.
+# * Copyright (c) 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
@@ -11,29 +11,29 @@
 
 ###########################################################
 #PPT Emitter
-PPTXEmitter.Description=ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(MHTML) ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+PPTXEmitter.Description=À¥ º¸°ü ÆÄÀÏ(MHTML) Çü½ÄÀÇ º¸°í¼­ ·»´õ¸µ ¿É¼ÇÀ» ±¸¼ºÇÕ´Ï´Ù.
 PPTXEmitter.DisplayName=PowerPoint(PPTX)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=BIDI Ã³ï¿½ï¿½
-OptionDisplayValue.TextWrapping=ï¿½Ø½ï¿½Æ® ï¿½ï¿½Ä¡
-OptionDisplayValue.PageOverFlow=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ Ã³ï¿½ï¿½
-OptionDisplayValue.CLIP_CONTENT=ï¿½ï¿½ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½
-OptionDisplayValue.FIT_TO_PAGE_SIZE=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¿¡ ï¿½ï¿½ï¿½ß±ï¿½
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
-OptionDisplayValue.ENLARGE_PAGE_SIZE=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ È®ï¿½ï¿½
-OptionDisplayValue.FontSubstitution=ï¿½Û²ï¿½ ï¿½ï¿½Ã¼
-OptionDisplayValue.ChartDpi=ï¿½ï¿½Æ® DPI
+OptionDisplayValue.BidiProcessing=BIDI Ã³¸®
+OptionDisplayValue.TextWrapping=ÅØ½ºÆ® ¹èÄ¡
+OptionDisplayValue.PageOverFlow=ÆäÀÌÁö ¿À¹öÇÃ·Î Ã³¸®
+OptionDisplayValue.CLIP_CONTENT=³»¿ë ÀÚ¸£±â
+OptionDisplayValue.FIT_TO_PAGE_SIZE=ÆäÀÌÁö Å©±â¿¡ ¸ÂÃß±â
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=¿©·¯ ÆäÀÌÁö·Î Ãâ·Â
+OptionDisplayValue.ENLARGE_PAGE_SIZE=ÆäÀÌÁö Å©±â È®´ë
+OptionDisplayValue.FontSubstitution=±Û²Ã ´ëÃ¼
+OptionDisplayValue.ChartDpi=Â÷Æ® DPI
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
-OptionDescription.TextWrapping=ï¿½Ø½ï¿½Æ® ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½Ï´ï¿½.
-OptionDescription.PageOverFlow=ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
-OptionDescription.FontSubstitution=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û²ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û²ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
-OptionDescription.ChartDpi=DPIï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+OptionDescription.BidiProcessing=¾ç¹æÇâ ÅØ½ºÆ®¸¦ Áö¿øÇÕ´Ï´Ù.
+OptionDescription.TextWrapping=ÅØ½ºÆ® ÁÙ ¹Ù²Þ °¡´É ¿©ºÎ¸¦ ³ªÅ¸³À´Ï´Ù.
+OptionDescription.PageOverFlow=³»¿ë Ãâ·Â ¹æ½ÄÀ» Á¦¾îÇÕ´Ï´Ù.
+OptionDescription.FontSubstitution=ÁöÁ¤µÈ ±Û²ÃÀÌ ¹®ÀÚ¸¦ Ç¥½ÃÇÏÁö ¸øÇÏ´Â °æ¿ì ÀÚµ¿À¸·Î ±Û²ÃÀ» ¼±ÅÃÇÕ´Ï´Ù.
+OptionDescription.ChartDpi=DPI´Â Â÷Æ®¸¦ »ý¼ºÇÏ´Â µ¥ »ç¿ëÇÕ´Ï´Ù.
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ DPIï¿½Ô´Ï´ï¿½. ï¿½ï¿½: 192.
+Tooltip.ChartDpi=Â÷Æ® ¿£Áø¿¡¼­ Â÷Æ®¸¦ »ý¼ºÇÏ´Â µ¥ »ç¿ëÇÏ´Â DPIÀÔ´Ï´Ù. ¿¹: 192.

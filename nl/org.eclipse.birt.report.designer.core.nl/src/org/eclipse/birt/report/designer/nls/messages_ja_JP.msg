@@ -267,9 +267,12 @@ BlockPreferencePage.displayname.Title=テキストブロック
 
 ###########################################################
 #BlockPreferencePage properties
+SizePreferencePage.displayname.Title=サイズ
 
 ###########################################################
+#BorderCanvas properties
 
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -522,6 +525,7 @@ dataset.editor.dataSource=データソース
 dataset.editor.error.columnOrAliasNameAlreadyUsed=新しい列の名前またはエイリアス ({0}) は、すでにインデックス {1} の列で使用されています。
 dataset.editor.error.computedColumnNameAlreadyUsed=新しい計算列の名前 ({0}) は、すでに [出力列] の列のエイリアス ({1}) として使用されています。
 dataset.editor.error.duplicateParameterName=パラメタ名が重複しています。
+dataset.editor.error.nonemptyDefaultvalue=デフォルト値をなくすことはできません。
 dataset.editor.error.emptyName=名前は空白にできません。 
 dataset.editor.error.missingComputedColumnExpression=計算列 {0} の式は null または空白にできません。
 dataset.editor.error.missingComputedColumnName=計算列名は null または空白にできません。
@@ -610,12 +614,16 @@ DataSetBasePage.ScriptedDataSet.name=スクリプトデータセット
 DataSetBasePage.ScriptedDataSource.name=スクリプト記述済みのデータソース
 DataSetBasePage.Group.DataSourceSelection=データソースの選択
 
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra スクリプト記述済みのデータセット
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra スクリプト記述済みのデータソース
 DataSetBindingSelector.Button.DeselectAll=すべての選択解除(&A)
 DataSetBindingSelector.Button.SelectAll=すべて選択(&S)
 DataSetBindingSelector.Combo.DataSet=データセット(&D) :
 DataSetBindingSelector.Label.SelectBindingColumns=バインド列を選択してください。
 DataSetBindingSelectorPage.Label.SelectBindingColumns=バインド列を選択してください。
 DataSetBindingSelectorPage.Title=データセットのバインド
+CassandraScriptedDataSource.display.name=Cassandra スクリプト記述済みのデータソース
+CassandraScriptedDataSource.error.classNotFound=Cassandra スクリプト記述済みのデータソースをサポートする Hector クライアントライブラリの Jar が見つかりません。.
 
 ###########################################################
 #JointDataSetPage properties
@@ -646,6 +654,7 @@ DerivedDataSet.action.error.message.InvalidNumber.DataSet=使用可能なデータセット
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=計算列の定義。
 DataSetComputedColumnsPage.description=計算列の定義 :
 DataSetComputedColumnsPage.duplicatedName=列名が重複しています。
+DataSetComputedColumnsPage.numberName=列名を数字にすることはできません。
 DataSetComputedColumnsPage.toolTipText.Down=計算列を下に移動します。
 DataSetComputedColumnsPage.toolTipText.Up=計算列を上に移動します。
 DataSetComputedColumnsPage.toolTipText.Remove=計算列を削除します。
@@ -910,8 +919,8 @@ designer.preview.preference.locale.description=ロケールの選択(&C) :
 designer.preview.preference.timezone.description=タイムゾーン(&T) :
 designer.preview.preference.resultset.sqldatasetpage.group.title=クエリページ
 designer.preview.preference.resultset.previewpage.group.title=プレビューページ
-designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=行制限設定のプレビュー
-designer.preview.preference.resultset.NoLimitOfDispalyRow=表示できる行数制限はありません(&N)。
+designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=プレビュー行制限設定
+designer.preview.preference.resultset.NoLimitOfDispalyRow=表示行数制限なし(&N)
 designer.preview.preference.resultset.maxNoOfSchema.description=表示するスキーマの最大数(&S) :
 designer.preview.preference.resultset.maxNoOfTable.description=各スキーマに表示するテーブルの最大数(&T) :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=最大スキーマ数には、0 から {0} までの数を入力してください。
@@ -922,7 +931,7 @@ designer.preview.preference.resultset.maxrowlevelmember.description=各行レベルに
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=行レベルメンバの最大数には、1 から {0} までの数を入力してください。
 designer.preview.preference.resultset.maxcolumnlevelmember.description=各列レベルに表示するメンバ数(&C) :
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=列レベルメンバの最大数には、1 から {0} までの数を入力してください。
-designer.preview.preference.resultset.maxinmemorycubesize.description=メモリ内のキューブサイズ (MB)(&S) :
+designer.preview.preference.resultset.maxinmemorycubesize.description=インメモリキューブのサイズ(MB)(&S) :
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=メモリ内の最大キューブサイズには、1 から {0} までの数を入力してください。
 designer.preview.preference.server.description=内部アプリケーションサーバの設定。サーバは、BIRT Report Designer\nPreview Framework 内部で使用されます。
 designer.preview.preference.server.hostDescription=ローカルマシンのホスト名または IP アドレス(&H)\n自動的に決定するには、空白のままにしてください。
@@ -1033,7 +1042,7 @@ DesignerPaletteFactory.quicktool.timeperiod.toolTip=TimePeriod 項目の挿入
 
 DimensionBuilderDialog.LabelMeasure=メジャー(&M) :
 DimensionBuilderDialog.LabelUnit=単位(&U) :
-DimensionBuilderDialog.Title=ディメンジョンビルダ
+DimensionBuilderDialog.Title=ディメンションビルダ
 
 ###########################################################
 #DNDUtil properties
@@ -1405,6 +1414,8 @@ Element.Style.pageBreakInside=要素内(&I) :
 Element.Style.section=セクション :
 Element.Style.showIfBlank=空白でも表示(&W)
 Element.Style.text.align=文字列の位置揃え(&L) :
+Element.Style.width=幅(&W): 
+Element.Style.height=高さ(&H): 
 #bidi_hcg
 Element.Style.text.direction=双方向テキスト(&B) :
 Element.Style.text.indent=文字列のインデント(&X) :
@@ -1825,6 +1836,7 @@ FormPage.Button.Up=上に移動(&U)
 FormPage.Button.Up.Alt1=上に移動(&P)
 FormPage.Button.Up.Alt2=上に移動(&E)
 FormPage.Button.Binding.Refresh=再表示(&F)
+FormPage.Button.Binding.Clear=クリア(&C)
 FormPage.Menu.ModifyProperty=プロパティの変更
 FormPage.toolTipText.Up=上に移動
 FormPage.toolTipText.Down=下に移動
@@ -2529,7 +2541,7 @@ MapPreferencePage.displayname.Title=マップ
 MapPreferencePage.text.Add=追加(&A)...
 MapPreferencePage.text.Delete=削除(&R)
 MapPreferencePage.text.Description=マップ規則 :
-MapPreferencePage.text.Edit=編集(&D)...
+MapPreferencePage.text.Edit=編集(&E)...
 MapPreferencePage.toolTipText.Up=マップの規則を上に移動
 MapPreferencePage.toolTipText.Down=マップの規則を下に移動
 MapPreferencePage.text.Duplicate=複製(&D)
@@ -3653,6 +3665,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U) :
 
 UseCssInThemeDialog.TitleArea.Title=レポートライブラリで CSS ファイルを使用
 UseCssInThemeDialog.TitleArea.Message=CSS ファイルのスタイルを配置するテーマを選択してください。
+CssStyleSheetNodeProvider.Label.FromServer=サーバから
 CssStyleSheetNodeProvider.Tooltip.URI=(表示時に適用)
 
 
@@ -4146,6 +4159,7 @@ WizardTemplateChoicePage.label.Description=説明 :
 WizardTemplateChoicePage.label.Preview=プレビュー :
 WizardTemplateChoicePage.label.ReportTemplates=レポートテンプレート :
 WizardTemplateChoicePage.label.ShowCheatSheets=レポート作成ガイドの表示(&S)
+WizardTemplateChoicePage.label.EnableDefaultThemes=デフォルトのテーマを含める(&I)
 WizardTemplateChoicePage.message.BlankReport=内容が定義されていない空白のレポートを作成します。
 WizardTemplateChoicePage.message.ChartListing=グループ化されたレポートを作成します。グラフは、それぞれのグループのデータを視覚的に表します。
 WizardTemplateChoicePage.message.DualColumnChartListing=グラフとリストのサブグループを 2 つ持つグループ化されたレポートを作成します。
@@ -4338,6 +4352,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ または
 GeneralPage.Library.Included=ライブラリ :
 GeneralPage.Library.Modified.Note=注 : このレポート項目はライブラリで編集されています。元に戻すには、{0}[プロパティの復元] をクリックしてください。
 
+#BookMarkPage
+BookMarkPage.Modified.Note=ブックマークに、A～Z、a～z、0～9、-、_、:、. 以外の特殊文字が含まれており、このために実行時に問題が発生する可能性があります。
+BookMarkPage.Modified.WithoutQuotes=ブックマークが二重引用符で囲まれていないため、実行時に問題が発生する可能性があります。
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4646,13 +4663,15 @@ BindingDialogHelper.text.Grid=グリッド
 BindingDialogHelper.text.Group=グループ(&O)
 BindingDialogHelper.text.Expression=式(&E) :
 BindingDialogHelper.text.displayName=表示名(&N) :
-BindingDialogHelper.text.allowExport=エクスポートを許可する(&O) :
+BindingDialogHelper.text.allowExport=エクスポート(&O) :
+BindingDialogHelper.text.allowExport.button=エクスポートを許可する
 BindingDialogHelper.text.displayNameID=表示名 ID(&S) :
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。
 BindingDialogHelper.error.improperexpression=キューブのメジャーに対する集計ではこの型は使用できません : "{0}"
 BindingDialogHelper.error.empty={0} を指定してください。
+BindingDialogHelper.error.text.Name=列バインドの名前
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=現在の関数に推奨されるデータ型は "{0}" です。選択したデータ型を保存しますか ?
 BindingDialogHelper.warning.parameter=式 "{0}" の戻り値のデータ型は、パラメタ "{1}" ではサポートされていません。このデータ型を保存しますか ?
@@ -4666,6 +4685,7 @@ BindingGroupDescriptorProvider.DataSetBindingSelector.Title.DataSet=データセット
 #Scripts Node
 Scripts.Node.DisplayName=スクリプト
 ScriptElementNode.Action.Text=レポート要素にジャンプ(&G)
+ScriptObjectNode_0=スクリプトのリセット(&R)
 
 ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 
@@ -4673,10 +4693,13 @@ ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=すべて
 CrosstabBindingDialogHelper.bindngName.timeperiod=期間
-CrosstabBindingDialogHelper.recentday.description=時間のディメンション内の最新の日付
+CrosstabBindingDialogHelper.calculation.label=期間(&P) :
+CrosstabBindingDialogHelper.calculation.group=期間
+CrosstabBindingDialogHelper.recentday.description=期間内の最後の日付
 CrosstabBindingDialogHelper.referencedate.label=参照日(&R) :
 CrosstabBindingDialogHelper.thisdate.label=使用する日付 :
-CrosstabBindingDialogHelper.thisdate.example.label=日付は、yyyy-MM-dd の形式で入力してください
+CrosstabBindingDialogHelper.thisdate.example.label=指定された日付値を二重引用符で囲んでください。\n例 : "2012-01-23"、"1/23/2012"。
+CrosstabBindingDialogHelper.thisdate.example.label.constant=例 : 2012-01-23、1/23/2012。
 CrosstabBindingDialogHelper.timedimension.label=時間のディメンション(&M) :
 CrosstabBindingDialogHelper.timeperiod.wrongdate=このディメンションは最近の参照日をサポートしていません 
 CrosstabBindingDialogHelper.today.label=今日
@@ -4748,6 +4771,8 @@ InsertAggregationAction.text=集計(&A)
 
 
 ###########################################################
+#InsertRelativeTimePeriodAction
+InsertRelativeTimePeriodAction.text=相対期間(&V)
 
 ###########################################################
 #Multiple views
@@ -4782,7 +4807,10 @@ GeneralConfigurationBlock.message.general.description=レポートデザイナの一般的な
 GeneralConfigurationBlock.button.text.enable.gradient=グラデーションの選択を有効にする(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=アニメーションの選択を有効にする(&N)
 GeneralConfigurationBlock.group.label=確認する
+GeneralConfigurationBlock.group.defaultThemes=デフォルトのテーマライブラリ
 GeneralConfigurationBlock.button.text.prompt=ライブラリのファイルを開いた後に確認メッセージを表示する(&P)
+GeneralConfigurationBlock.button.text.defaultTheme.enable=デフォルトのテーマライブラリを有効にする(&T)
+GeneralConfigurationBlock.button.text.defaultTheme.include=デフォルトのテーマを含める(&I)
 GeneralConfigurationBlock.move.binding.group=パフォーマンスを向上させるためにローカルバインドを親に移動する
 GeneralConfigurationBlock.move.binding.always=常に続行する(&W)
 GeneralConfigurationBlock.move.binding.never=続行しない(&V)
@@ -4899,6 +4927,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=デフォルトの構文(&F) :
 ExpressionEditor.Error.EmptyExpression=式は空白にできません。
 ExpressionEditor.Label.Expression=式(&E) :
 ExpressionEditor.Title=式の編集
+ExpressionSyntaxColoringPage.Accessible.Name.Background=背景色セレクタ
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=前景色セレクタ
+ExpressionSyntaxColoringPage.Button.Bold=太字(&B)
+ExpressionSyntaxColoringPage.Button.Enable=有効化
+ExpressionSyntaxColoringPage.Button.Italic=斜体(&I)
+ExpressionSyntaxColoringPage.Button.Restore=デフォルトに戻す(&R)
+ExpressionSyntaxColoringPage.Button.Strikethrough=取り消し線(&S)
+ExpressionSyntaxColoringPage.Button.Underline=下線(&U)
+ExpressionSyntaxColoringPage.Decscription=リストまたはテキスト領域のサンプルから、スタイルをカスタマイズしたいテキストの種類を選択することで、構文の強調表示をカスタマイズします。
+ExpressionSyntaxColoringPage.Element.Comment=コメント
+ExpressionSyntaxColoringPage.Element.Default=デフォルト
+ExpressionSyntaxColoringPage.Element.Keyword=キーワード
+ExpressionSyntaxColoringPage.Element.String=文字列
+ExpressionSyntaxColoringPage.Label.Background=背景(&O) :
+ExpressionSyntaxColoringPage.Label.Foreground=前景(&F) :
+ExpressionSyntaxColoringPage.Label.SampleText=サンプル文字列(&S) :
+ExpressionSyntaxColoringPage.Label.SyntaxElement=構文の要素(&Y) :
+ExpressionSyntaxColoringPage.Link.ColorAndFont=デフォルトのフォントと色を <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">テキストエディタ</a> および <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">フォントと色</a> 環境設定ページで設定することができます。
 
 ###########################################################
 #VariableDropAdapter
