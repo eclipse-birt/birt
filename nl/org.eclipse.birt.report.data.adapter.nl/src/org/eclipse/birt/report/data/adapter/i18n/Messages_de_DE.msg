@@ -18,6 +18,7 @@ invalid.cache.option=Der Optionswert {0} des Datenadapter-Kontexts ist ungültig.
 
 datasource.null.error=Datenquelle von Datensatz '{0}' nicht gefunden.
 datasource.exid.error=Fehlende Erweiterungs-ID in Datenquellendefinition: {0}.
+datasource.cassandra.error=Hector Clientbibliothek JARs zur Unterstützung der geskripteten Datenquelle Cassandra wurden nicht gefunden.
 
 datasethandle.null.error=Datensatz-Handle darf nicht Null sein.
 datasethandle.invalidColumnIndex=Ungültiger Spaltenindex.
@@ -30,6 +31,7 @@ exception.error=Ein Ausnahmefehler ist während der Verarbeitung aufgetreten. Näh
 invalid.level.expression=Der Ebenenname "{0}" wurde nicht gefunden.
 invalid.measure.expression=Der Ausdruck für die Maßeinheit "{0}" darf nicht Null sein.
 invalid.data.type=Ungültiger Datentyp: {0}. 
+invalid.binding.expression=Ungültiger Ausdruck: {0}.
 invalid.computedColumn.expression=Ungültige berechnete Spalte '{0}', die sich auf eine ungültige Datensatzspalte '{1}' bezieht.
 
 cube.error.createhierarchy=Fehler beim Erstellen von Hierarchie:{0}.
@@ -114,28 +116,34 @@ timeFunction.PERIOD1.displayName = Erstes Zeitinter&vall
 timeFunction.PERIOD2.displayName = Zweites Zeitinte&rvall
 timeFunction.N1.displayName = Anzahl (Zeitintervall) zurückliegend
 timeFunction.N2.displayName = Vo&n
+timeFunction.N1.next.displayName = &Weiter
+timeFunction.N2.Ago.displayName=&Zurückliegend
+timeFunction.N1.current.displayName=A&ktuelle Seite
+timeFunction.N1.period.displayName= &Periode
+timeFunction.trailing.N1.period.displayName=Nac&hgestellt
+timeFunction.trailing.N1.Month.displayName= &Anzahl Monate nachgestellt
  
-timeFunction.N1.Year.displayName = Anzahl Jahre zurückliegend
-timeFunction.N2.Year.displayName = Anzahl Jahre zurückliegend
+timeFunction.N1.Year.displayName = &Anzahl Jahre zurückliegend
+timeFunction.N2.Year.displayName = &Anzahl Jahre zurückliegend
 timeFunction.N1.Year = N-Wert für Anzahl Jahre zurückliegend
 timeFunction.N2.Year = N-Wert für Anzahl Jahre zurückliegend
 
-timeFunction.N1.Month.displayName = Anzahl Monate zurückliegend
-timeFunction.N2.Month.displayName = Anzahl Monate zurückliegend
+timeFunction.N1.Month.displayName = &Anzahl Monate zurückliegend
+timeFunction.N2.Month.displayName = &Anzahl Monate zurückliegend
 timeFunction.N1.Month = N-Wert für Anzahl Monate zurückliegend
 timeFunction.N2.Month = N-Wert für Anzahl Monate zurückliegend
 
-timeFunction.N1.Quarter.displayName = Anzahl Quartale zurückliegend
-timeFunction.N2.Quarter.displayName = Anzahl Quartale zurückliegend
+timeFunction.N1.Quarter.displayName = &Anzahl Quartale zurückliegend
+timeFunction.N2.Quarter.displayName = &Anzahl Quartale zurückliegend
 timeFunction.N1.Quarter = N-Wert für Anzahl Quartale zurückliegend
 timeFunction.N2.Quarter = N-Wert für Anzahl Quartale zurückliegend
 
-timeFunction.N1.Week.displayName = Anzahl Wochen zurückliegend
-timeFunction.N2.Week.displayName = Anzahl Wochen zurückliegend
+timeFunction.N1.Week.displayName = &Anzahl Wochen zurückliegend
+timeFunction.N2.Week.displayName = &Anzahl Wochen zurückliegend
 timeFunction.N1.Week = N-Wert für Anzahl Wochen zurückliegend
 timeFunction.N2.Week = N-Wert für Anzahl Wochen zurückliegend
 
-timeFunction.N1.Day.displayName = Anzahl Tag(e) zurückliegend
+timeFunction.N1.Day.displayName = &Anzahl Tag(e) zurückliegend
 
 timeFunction.PERIODCHOICE.YEAR_displayName =JAHR
 timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTAL
@@ -170,6 +178,7 @@ invalid.cache.option=Der Optionswert {0} des Datenadapter-Kontexts ist ungültig.
 
 datasource.null.error=Datenquelle von Datensatz '{0}' nicht gefunden.
 datasource.exid.error=Fehlende Erweiterungs-ID in Datenquellendefinition: {0}.
+datasource.cassandra.error=Hector Clientbibliothek JARs zur Unterstützung der geskripteten Datenquelle Cassandra wurden nicht gefunden.
 
 datasethandle.null.error=Datensatz-Handle darf nicht Null sein.
 datasethandle.invalidColumnIndex=Ungültiger Spaltenindex.
@@ -182,6 +191,7 @@ exception.error=Ein Ausnahmefehler ist während der Verarbeitung aufgetreten. Näh
 invalid.level.expression=Der Ebenenname "{0}" wurde nicht gefunden.
 invalid.measure.expression=Der Ausdruck für die Maßeinheit "{0}" darf nicht Null sein.
 invalid.data.type=Ungültiger Datentyp: {0}. 
+invalid.binding.expression=Ungültiger Ausdruck: {0}.
 
 cube.error.createhierarchy=Fehler beim Erstellen von Hierarchie:{0}.
 cube.error.createdimension=Fehler beim Erstellen von Dimension:{0}.
@@ -265,28 +275,34 @@ timeFunction.PERIOD1.displayName = Erstes Zeitinter&vall
 timeFunction.PERIOD2.displayName = Zweites Zeitinte&rvall
 timeFunction.N1.displayName = Anzahl (Zeitintervall) zurückliegend
 timeFunction.N2.displayName = Vo&n
+timeFunction.N1.next.displayName = &Weiter
+timeFunction.N2.Ago.displayName=&Zurückliegend
+timeFunction.N1.current.displayName=A&ktuelle Seite
+timeFunction.N1.period.displayName= &Periode
+timeFunction.trailing.N1.period.displayName=Nac&hgestellt
+timeFunction.trailing.N1.Month.displayName= &Anzahl Monate nachgestellt
  
-timeFunction.N1.Year.displayName = Anzahl Jahre zurückliegend
-timeFunction.N2.Year.displayName = Anzahl Jahre zurückliegend
+timeFunction.N1.Year.displayName = &Anzahl Jahre zurückliegend
+timeFunction.N2.Year.displayName = &Anzahl Jahre zurückliegend
 timeFunction.N1.Year = N-Wert für Anzahl Jahre zurückliegend
 timeFunction.N2.Year = N-Wert für Anzahl Jahre zurückliegend
 
-timeFunction.N1.Month.displayName = Anzahl Monate zurückliegend
-timeFunction.N2.Month.displayName = Anzahl Monate zurückliegend
+timeFunction.N1.Month.displayName = &Anzahl Monate zurückliegend
+timeFunction.N2.Month.displayName = &Anzahl Monate zurückliegend
 timeFunction.N1.Month = N-Wert für Anzahl Monate zurückliegend
 timeFunction.N2.Month = N-Wert für Anzahl Monate zurückliegend
 
-timeFunction.N1.Quarter.displayName = Anzahl Quartale zurückliegend
-timeFunction.N2.Quarter.displayName = Anzahl Quartale zurückliegend
+timeFunction.N1.Quarter.displayName = &Anzahl Quartale zurückliegend
+timeFunction.N2.Quarter.displayName = &Anzahl Quartale zurückliegend
 timeFunction.N1.Quarter = N-Wert für Anzahl Quartale zurückliegend
 timeFunction.N2.Quarter = N-Wert für Anzahl Quartale zurückliegend
 
-timeFunction.N1.Week.displayName = Anzahl Wochen zurückliegend
-timeFunction.N2.Week.displayName = Anzahl Wochen zurückliegend
+timeFunction.N1.Week.displayName = &Anzahl Wochen zurückliegend
+timeFunction.N2.Week.displayName = &Anzahl Wochen zurückliegend
 timeFunction.N1.Week = N-Wert für Anzahl Wochen zurückliegend
 timeFunction.N2.Week = N-Wert für Anzahl Wochen zurückliegend
 
-timeFunction.N1.Day.displayName = Anzahl Tag(e) zurückliegend
+timeFunction.N1.Day.displayName = &Anzahl Tag(e) zurückliegend
 
 timeFunction.PERIODCHOICE.YEAR_displayName =JAHR
 timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTAL

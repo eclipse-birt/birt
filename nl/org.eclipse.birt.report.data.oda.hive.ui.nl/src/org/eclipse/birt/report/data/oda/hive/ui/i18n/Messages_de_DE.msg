@@ -1,4 +1,4 @@
-datasource.page.title=Neue Hive-Datenquelle
+datasource.page.title=Datenquelle für ${odadesignerid.ds.displayname} definieren
 datasource.page.msg=Eine JDBC-Datenquelle, die mit Hive verknüpft ist.
 datasource.page.driver.class=Treiberklasse:
 datasource.page.url=Datenbank-URL: 

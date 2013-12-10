@@ -47,7 +47,7 @@ data.engine.InvalidExprHandle=Controlador de expresión no válido.
 data.engine.InvalidAggrGroupExpression=Expresión de grupo incorrecta para la función de agregación: {0}.
 data.engine.InvalidSortKeyColumn=Columna de clave de ordenación no válida: {0}.
 data.engine.InvalidGroupLevel= El nivel de grupo en agregación: {0} no es válido. 
-data.engine.InvalidGroupKeyName=Nombre de columna de clave de grupo no válido: {0}.
+data.engine.InvalidGroupKeyName=Agrupar en columna: {0} no es una operación admitida.
 data.engine.BadCloseScript=Error al evaluar closeScript en CustomDataSet.
 data.engine.InvalidCustomFieldIdx=Índice de campo personalizado no válido:{0}.
 data.engine.InvalidGroupName=El nombre de grupo no es válido.
@@ -66,7 +66,7 @@ data.engine.DupColumnName=Nombre de columna duplicado: {0}.
 data.engine.DupAlias=Nombre o alias de columna duplicado: {0}.
 data.engine.InvalidFieldIndex=Índice de campo no válido: {0}.
 data.engine.fail.prepareExecution=Error al preparar la ejecución de la consulta para el conjunto de datos: {0}
-data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Estado de actualización de grupo no válido: grupo actual <{0}> mayor que el grupo de procesos <{1}>.
 
 data.engine.MatchError=Compruebe la sintaxis del patrón. Error al hacer coincidir el string con el patrón: {0}.
 
@@ -108,13 +108,13 @@ data.engine.InvalidAggrLevelKeyInSummaryQuery=La agregación {0} hace referenciar
 #computed column value
 data.engine.BadCompColExpr=La expresión de la columna procesada "{0}" no es válida.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Error al procesar el valor para la columna procesada "{0}".
-data.engine.ScriptResult.WrongSystemComputedColumn=Error al procesar el valor de la expresión de filtro, grupo u orden.
+data.engine.ScriptResult.WrongSystemComputedColumn=No es posible evaluar la expresión de ordenación, agrupamiento, filtro o enlace. Un campo de datos utilizado en la expresión no existe en el conjunto de datos.
 data.engine.ComputedColumnCycle=La columna procesada "{0}" tiene ciclo de dependencia.
 
 data.engine.SortOnAggregation=El orden en la agregación sin agrupación o en la columna procesada que se refiere a la agregación "{0}" no es compatible.
 
 data.engine.BadFilterExpr=La expresión de filtro "{0}" no es válida.
-data.engine.BadFilterDefn=Error al evaluar el filtro basado en la expresión "{0}".
+data.engine.BadFilterDefn=No se puede evaluar el filtro basado en la expresión "{0}".
 
 #clob and blob error
 data.engine.opencloberror=Error de apertura de secuencia de caracteres CLOB.
@@ -374,13 +374,13 @@ data.olap.FacttableNullMeasureValue=El valor de una columna de medida es nulo "{
 data.olap.InvalidDimensionPositionFacttableRow=La tabla de datos del cubo "{0}" tiene una fila de datos no válida en la que el valor de clave de dimensión "{1}" es "{2}", que sin embargo no existe en la dimensión "{3}".
 data.olap.measureNameNotFound=No se ha encontrado el nombre de medida "{0}".
 data.olap.levelNameNotFound=No se ha encontrado el nombre de nivel "{0}".
-data.olap.dimensionNameNotFound=No se ha encontrado el nombre de dimensión "{0}".
+data.olap.dimensionNameNotFound=No se puede encontrar la dimensión"{0}" en la consulta de cubo; la dimensión no existe o no es válida.
 data.olap.ReferencedDimensionNotFound=Definición de la dimensión a la que se hace referencia:{0} no existe.
 data.olap.ReferencedLevelNotFound=El nivel de referencia no existe.
 data.olap.cursorPositionError=El cursor no puede navegar a la posición objetivo.
 data.olap.cursorSeekError=El cursor no puede navegar a la posición de búsqueda.
 data.olap.CannotGetMeasureValue=No se puede encontrar la definición "{0}" de medida en el cubo, la medida no existe o no es válida.
-data.olap.CannotFindLevel=No se puede encontrar el nivel de definición "{0}" en la jerarquía "{1}" de la dimensión "{2}".
+data.olap.CannotFindLevel=No se puede encontrar el nivel de definición "{0}" en la dimensión "{1}".
 data.olap.tryToAddIdenticalAggrGroup=El valor "{0}" ya existe en la adición de la lista de enlace "{1}";
 data.olap.NoEdgeDefinitionFound=Error al ejecutar la consulta, ya que no contiene ni extremo de fila, ni extremo de columna. Se precisa la definición de un extremo como mínimo.
 data.olap.invalidSortDefinition=La definición de orden no es válida. 
@@ -406,7 +406,7 @@ data.olap.UnsupportedFunction=Función no admitida:
 data.olap.UnspecifiedBindingName=Nombre de enlace no especificado.
 data.olap.NotNestAggregationBinding=Sin enlace de agregación de nido de cubo: {0}
 data.olap.InvalidNestAggregationExpression=La expresión de una agregación de nido de cubo no es válida.
-data.olap.InvalidNestAggregationOn="{0}" añadido a la agregación de nido de cubo "{1}" no existe en su agregación de base.
+data.olap.InvalidNestAggregationOn=Error al calcular la agregación de nido "{0}" ya que su agregación en niveles no existe en sus agregaciones de base.
 data.olap.InvalidAggregationFilterExpr=La expresión de filtro "{0}" no es válida. la aldición de la lista de enlace "{1}" no contiene el nivel de la dimensión a la que se hace referencia "{2}". 
 data.olap.sort.exprError=El nivel de la dimensión a la que se hace referencia establecido sólo debería contener un nivel.
 data.olap.query.noCubeBinding=Error al ejecutar la consulta de cubo porque no hay disponible ningún enlace de cubo.
@@ -442,6 +442,9 @@ data.derivedDataSet.invalidQueryText=Texto de consulta no válido.
 data.datamart.failLoadDataSet = Error al cargar el conjunto de datos de objeto de datos "{0}".
 data.datamart.originalDataSetNotExist = Error en la actualización incremental. El conjunto de datos original "{0}" no existe.
 data.datamart.incrementalDatasetMetaDataError = Error en la actualización incremental. Los metadatos del conjunto de datos original "{0}" son distintos del conjunto de datos originales. 
+data.datamart.collation=En el producto anterior, no se utiliza la intercalación en el índice de objeto de datos incluso si la establece. Ahora se ofrece la intercalación, por lo que necesita regenerar el objeto de datos cuando la intercalación se establece en el conjunto de datos.  
 
 
+data.filter.pushDownFail= Error al reducir el filtro que solo es compatible con la extnsión ODA.
+data.query.exprReferInvalidColumn=Cannot execute query because: the query contains an invalid expression which references an invalid dataset column "{0}".
 data.query.invalidColumnBinding=El enlace de columna "{0}" no es válido.

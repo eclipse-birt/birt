@@ -1,4 +1,4 @@
-datasource.page.title=새 Hive 데이터 원본
+datasource.page.title=${odadesignerid.ds.displayname} 데이터 원본 정의
 datasource.page.msg=Hive에 연결하는 JDBC 데이터 원본
 datasource.page.driver.class=드라이버 클래스:
 datasource.page.url=데이터베이스 URL: 

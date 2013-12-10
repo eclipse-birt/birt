@@ -1,4 +1,4 @@
-datasource.page.title=Nueva fuente de datos Hive
+datasource.page.title=Definir la fuente de datos de ${odadesignerid.ds.displayname}
 datasource.page.msg=Una fuente de datos JDBC que se conecta a Hive.
 datasource.page.driver.class=Clase de controlador:
 datasource.page.url=Base de datos de URL: 

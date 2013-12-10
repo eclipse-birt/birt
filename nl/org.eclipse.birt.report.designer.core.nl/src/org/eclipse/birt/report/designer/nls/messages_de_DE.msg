@@ -267,9 +267,12 @@ BlockPreferencePage.displayname.Title=Textblock
 
 ###########################################################
 #BlockPreferencePage properties
+SizePreferencePage.displayname.Title=Größe
 
 ###########################################################
+#BorderCanvas properties
 
+BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
 #BorderPreferencePage properties
@@ -522,6 +525,7 @@ dataset.editor.dataSource=Datenquelle
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Der neue Spaltenname oder -alias ({0}) wird bereits von der Spalte bei Index {1} verwendet.
 dataset.editor.error.computedColumnNameAlreadyUsed=Der neu berechnete Spaltenname ({0}) wird unter "Ausgabespalten" bereits als Spaltenalias für Spalte ({1}) verwendet.
 dataset.editor.error.duplicateParameterName=Parameternamen doppelt vergeben.
+dataset.editor.error.nonemptyDefaultvalue=Standardwert darf nicht leer sein.
 dataset.editor.error.emptyName=Der Name darf nicht leer sein. 
 dataset.editor.error.missingComputedColumnExpression=Der Ausdruck der berechneten Spalte {0} darf nicht leer oder gleich Null sein.
 dataset.editor.error.missingComputedColumnName=Der berechnete Spaltenname darf nicht leer oder gleich Null sein.
@@ -610,12 +614,16 @@ DataSetBasePage.ScriptedDataSet.name=Geskripteter Datensatz
 DataSetBasePage.ScriptedDataSource.name=Geskriptete Datenquelle
 DataSetBasePage.Group.DataSourceSelection=Datenquellenauswahl
 
+DataSetBasePage.CassandraScriptedDataSet.name=Geskripteter Cassandra-Datensatz
+DataSetBasePage.CassandraScriptedDataSource.name=Geskriptete Cassandra-Datenquelle
 DataSetBindingSelector.Button.DeselectAll=&Auswahl aufheben
 DataSetBindingSelector.Button.SelectAll=&Alles markieren
 DataSetBindingSelector.Combo.DataSet=&Datensatz:
 DataSetBindingSelector.Label.SelectBindingColumns=Wählen Sie Bindungsspalten aus.
 DataSetBindingSelectorPage.Label.SelectBindingColumns=Wählen Sie Bindungsspalten aus.
 DataSetBindingSelectorPage.Title=Datensatzbindung
+CassandraScriptedDataSource.display.name=Geskriptete Cassandra-Datenquelle
+CassandraScriptedDataSource.error.classNotFound=Hector Clientbibliothek JARs zur Unterstützung der geskripteten Datenquelle Cassandra wurden nicht gefunden.
 
 ###########################################################
 #JointDataSetPage properties
@@ -646,6 +654,7 @@ DerivedDataSet.action.error.message.InvalidNumber.DataSet=Die Anzahl der verfügb
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Geben Sie die berechneten Spalten an. 
 DataSetComputedColumnsPage.description=Berechnete Spalten definieren:
 DataSetComputedColumnsPage.duplicatedName=Doppelter Spaltenname.
+DataSetComputedColumnsPage.numberName=Der Spaltenname darf keine Zahl sein.
 DataSetComputedColumnsPage.toolTipText.Down=Berechnete Spalte nach unten verschieben.
 DataSetComputedColumnsPage.toolTipText.Up=Berechnete Spalte nach oben verschieben.
 DataSetComputedColumnsPage.toolTipText.Remove=Berechnete Spalte entfernen.
@@ -1405,6 +1414,8 @@ Element.Style.pageBreakInside=&Innen:
 Element.Style.section=Abschnitt:
 Element.Style.showIfBlank=&Anzeigen, wenn leer
 Element.Style.text.align=Texta&usrichtung:
+Element.Style.width=&Breite:
+Element.Style.height=&Höhe:
 #bidi_hcg
 Element.Style.text.direction=&Bidirektionale Textrichtung:
 Element.Style.text.indent=&Texteinzug:
@@ -1825,6 +1836,7 @@ FormPage.Button.Up=Nach &oben
 FormPage.Button.Up.Alt1=Nach o&ben
 FormPage.Button.Up.Alt2=Na&ch oben
 FormPage.Button.Binding.Refresh=A&ktualisieren
+FormPage.Button.Binding.Clear=Lös&chen
 FormPage.Menu.ModifyProperty=Eigenschaft modifizieren
 FormPage.toolTipText.Up=Nach oben
 FormPage.toolTipText.Down=Nach unten
@@ -3653,6 +3665,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
 UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der CSS-Datei platziert werden sollen.
+CssStyleSheetNodeProvider.Label.FromServer=Vom Server
 CssStyleSheetNodeProvider.Tooltip.URI=(Übernahme während der Anzeige)
 
 
@@ -4146,6 +4159,7 @@ WizardTemplateChoicePage.label.Description=Beschreibung:
 WizardTemplateChoicePage.label.Preview=Vorschau:
 WizardTemplateChoicePage.label.ReportTemplates=Berichtvorlagen:
 WizardTemplateChoicePage.label.ShowCheatSheets=&Spickzettel für Berichterstellung anzeigen
+WizardTemplateChoicePage.label.EnableDefaultThemes=Standardthemen e&inschließen
 WizardTemplateChoicePage.message.BlankReport=Einen leeren Bericht ohne vordefinierten Inhalt erstellen.
 WizardTemplateChoicePage.message.ChartListing=Einen gruppierten Bericht mit einem Diagramm mit visueller Darstellung der Gruppendaten erstellen.
 WizardTemplateChoicePage.message.DualColumnChartListing=Einen gruppierten Bericht mit zwei Untergruppen des Typs 'Diagramm und Liste' erstellen.
@@ -4338,6 +4352,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ oder
 GeneralPage.Library.Included=Bibliothek:
 GeneralPage.Library.Modified.Note=HINWEIS: Dieses Berichtobjekt aus der Bibliothek wurde geändert. Klicken Sie zum Wiederherstellen des Objekts aus der Bibliothek auf{0}"Eigenschaften wiederherstellen".
 
+#BookMarkPage
+BookMarkPage.Modified.Note=Das Lesezeichen enthält Sonderzeichen statt der folgenden Zeichen(A-Z, a-z, 0-9, '-', '_', ':', '.'). Dies kann zu Problemen während der Laufzeit führen.
+BookMarkPage.Modified.WithoutQuotes=Das Lesezeichen steht nicht in doppelten Anführungszeichen. Dies kann zu Problemen während der Laufzeit führen.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4646,13 +4663,15 @@ BindingDialogHelper.text.Grid=Raster
 BindingDialogHelper.text.Group=Gr&uppe
 BindingDialogHelper.text.Expression=&Ausdruck:
 BindingDialogHelper.text.displayName=Anzeige&name:
-BindingDialogHelper.text.allowExport=Exp&ort zulassen:
+BindingDialogHelper.text.allowExport=Exp&ortieren:
+BindingDialogHelper.text.allowExport.button=Export zulassen
 BindingDialogHelper.text.displayNameID=Namen-ID an&zeigen:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden.
 BindingDialogHelper.error.improperexpression=Ungültiger Typ für Aggregat in Quadereinheit: '{0}'.
 BindingDialogHelper.error.empty={0} ist erforderlich.
+BindingDialogHelper.error.text.Name=Column Binding Name
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Der empfohlene Datentyp für die aktuelle Funktion ist '{0}'. Möchten Sie den ausgewählten Datentypen wirklich beibehalten?
 BindingDialogHelper.warning.parameter=Der Ausgabedatentyp des Ausdrucks '{0}' wird für den Parameter '{1}' nicht unterstützt. Möchten Sie ihn wirklich beibehalten?
@@ -4666,6 +4685,7 @@ BindingGroupDescriptorProvider.DataSetBindingSelector.Title.DataSet=Datensatzbin
 #Scripts Node
 Scripts.Node.DisplayName=Skripte
 ScriptElementNode.Action.Text=Zu Berichtselement &wechseln
+ScriptObjectNode_0=&Skript zurücksetzen
 
 ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 
@@ -4673,10 +4693,13 @@ ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Alles
 CrosstabBindingDialogHelper.bindngName.timeperiod=Periode
-CrosstabBindingDialogHelper.recentday.description=Jüngstes Datum in zeitlicher Dimension
+CrosstabBindingDialogHelper.calculation.label=Zeit&intervall:
+CrosstabBindingDialogHelper.calculation.group=Zeitintervall
+CrosstabBindingDialogHelper.recentday.description=Letztes Datum im Zeitintervall
 CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
 CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:
-CrosstabBindingDialogHelper.thisdate.example.label=Datumswerte im folgenden Format eingeben: jjjj-MM-tt
+CrosstabBindingDialogHelper.thisdate.example.label=Bitte schließen Sie den angegebenen Datumswert in Anführungszeichen ein.\nBeispiel: "2012-01-23", "1/23/2012".
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Beispiel: 2012-01-23, 1/23/2012.
 CrosstabBindingDialogHelper.timedimension.label=Zeitliche Di&mension:
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Diese Dimension unterstützt das aktuelle Bezugdatum nicht 
 CrosstabBindingDialogHelper.today.label=Heute
@@ -4748,6 +4771,8 @@ InsertAggregationAction.text=&Aggregat
 
 
 ###########################################################
+#InsertRelativeTimePeriodAction
+InsertRelativeTimePeriodAction.text=Relati&ves Zeitintervall
 
 ###########################################################
 #Multiple views
@@ -4782,7 +4807,10 @@ GeneralConfigurationBlock.message.general.description=Allgemeine Einstellungen f
 GeneralConfigurationBlock.button.text.enable.gradient=&Verlaufsauswahl aktivieren 
 GeneralConfigurationBlock.button.text.enable.animation=A&nimierte Auswahl aktivieren
 GeneralConfigurationBlock.group.label=Eingabeaufforderung
+GeneralConfigurationBlock.group.defaultThemes=Bibliothek der Standardthemen
 GeneralConfigurationBlock.button.text.prompt=&Eingabeaufforderung nach Öffnen der Bibliotheksdatei anzeigen
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Bibliothek der Standard&themen aktivieren
+GeneralConfigurationBlock.button.text.defaultTheme.include=Standardthemen e&inschließen
 GeneralConfigurationBlock.move.binding.group=Lokale Bindungen für eine verbesserte Leistung zu übergeordnetem Element verschieben
 GeneralConfigurationBlock.move.binding.always=I&mmer
 GeneralConfigurationBlock.move.binding.never=N&ie
@@ -4899,6 +4927,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=&Standardsyntax:
 ExpressionEditor.Error.EmptyExpression=Ausdruck darf nicht leer sein.
 ExpressionEditor.Label.Expression=&Ausdruck:
 ExpressionEditor.Title=Ausdruck bearbeiten
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Hintergrundfarbauswahl
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Vordergrundfarbauswahl
+ExpressionSyntaxColoringPage.Button.Bold=&Fett
+ExpressionSyntaxColoringPage.Button.Enable=Aktivieren
+ExpressionSyntaxColoringPage.Button.Italic=&Kursiv
+ExpressionSyntaxColoringPage.Button.Restore=&Standardwert wiederherstellen
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Durchgestrichen
+ExpressionSyntaxColoringPage.Button.Underline=&Unterstrichen
+ExpressionSyntaxColoringPage.Decscription=Um die Kennzeichnung der Syntax anzupassen, wählen Sie den Texttyp aus der Liste oder dem Beispieltextbereich aus, dessen Stil Sie anpassen möchten.
+ExpressionSyntaxColoringPage.Element.Comment=Kommentar
+ExpressionSyntaxColoringPage.Element.Default=Standard
+ExpressionSyntaxColoringPage.Element.Keyword=Schlüsselwort
+ExpressionSyntaxColoringPage.Element.String=Zeichenfolge
+ExpressionSyntaxColoringPage.Label.Background=Hintergr&und:
+ExpressionSyntaxColoringPage.Label.Foreground=&Vordergrund:
+ExpressionSyntaxColoringPage.Label.SampleText=&Beispieltext:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntaxelement:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Standardfarben und -schriftarten können auf der Voreinstellungsseite <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">'Texteditor'</a> und <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">'Schriftarten und Farben'</a> konfiguriert werden.
 
 ###########################################################
 #VariableDropAdapter

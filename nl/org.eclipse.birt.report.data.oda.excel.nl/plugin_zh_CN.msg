@@ -25,7 +25,7 @@ datasource.property.yes=YES（是）
 ###############################################################################
 #	Date Set Properties
 datasource.property.excelFile=选择 Excel 文件
-datasource.property.worksheets=工作表
+datasource.property.worksheets=工作表(&H)
 dataset.property.worksheets.dateFormat=日期格式
 #
 ###############################################################################

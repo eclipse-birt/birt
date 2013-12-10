@@ -18,6 +18,7 @@ invalid.cache.option=La valeur de mode {0} pour le contexte de l'adaptateur de d
 
 datasource.null.error=Impossible de trouver les sources de données du jeu de données {0}".
 datasource.exid.error=ID d'extension manquant dans la définition de la source de données {0}.
+datasource.cassandra.error=Impossible de trouver les JARS de la bibliothèque client Hector pour prendre en charge la source de données Cassandra nécessitant un script.
 
 datasethandle.null.error=DataSetHandle ne doit pas être nul.
 datasethandle.invalidColumnIndex=L'index de colonne n'est pas valide.
@@ -30,6 +31,7 @@ exception.error=Une exception s'est produite au cours du traitement. Pour plus d
 invalid.level.expression=Le nom de niveau "{0}" est introuvable.
 invalid.measure.expression=L'expression de mesure"{0}" ne peut pas être nulle.
 invalid.data.type=Type de données incorrect : {0}. 
+invalid.binding.expression=Expression {0} non valide.
 invalid.computedColumn.expression=Colonne de calcul "{0}" incorrecte, qui fait référence à une colonne de jeu de données non valide "{1}".
 
 cube.error.createhierarchy=Une erreur s''est produite lors de la création de la hiérarchie : {0}.
@@ -114,27 +116,33 @@ timeFunction.PERIOD1.displayName = La pre&mière période
 timeFunction.PERIOD2.displayName = La deuxième pé&riode
 timeFunction.N1.displayName = Nombre de périodes écoulées depuis
 timeFunction.N2.displayName = &De
-timeFunction.N1.Year.displayName = Nombre d'années écoulées depuis
-timeFunction.N2.Year.displayName = Nombre d'années écoulées depuis
+timeFunction.N1.next.displayName = &Suivant
+timeFunction.N2.Ago.displayName=Il &y a
+timeFunction.N1.current.displayName=&Actuel
+timeFunction.N1.period.displayName= &Période
+timeFunction.trailing.N1.period.displayName=De &fin
+timeFunction.trailing.N1.Month.displayName= &Nombre de mois de fin
+timeFunction.N1.Year.displayName = &Nombre d'années écoulées depuis
+timeFunction.N2.Year.displayName = &Nombre d'années écoulées depuis
 timeFunction.N1.Year = Valeur N pour le nombre d'années écoulées depuis
 timeFunction.N2.Year = Valeur N pour le nombre d'années écoulées depuis
 
-timeFunction.N1.Month.displayName = Nombre de mois écoulés depuis
-timeFunction.N2.Month.displayName = Nombre de mois écoulés depuis
+timeFunction.N1.Month.displayName = &Nombre de mois écoulés depuis
+timeFunction.N2.Month.displayName = &Nombre de mois écoulés depuis
 timeFunction.N1.Month = Valeur N pour le nombre de mois écoulés depuis
 timeFunction.N2.Month = Valeur N pour le nombre de mois écoulés depuis
 
-timeFunction.N1.Quarter.displayName = Nombre de trimestres écoulés depuis
-timeFunction.N2.Quarter.displayName = Nombre de trimestres écoulés depuis
+timeFunction.N1.Quarter.displayName = &Nombre de trimestres écoulés depuis
+timeFunction.N2.Quarter.displayName = &Nombre de trimestres écoulés depuis
 timeFunction.N1.Quarter = Valeur N pour le nombre de trimestres écoulés depuis
 timeFunction.N2.Quarter = Valeur N pour le nombre de trimestres écoulés depuis
 
-timeFunction.N1.Week.displayName = Nombre de semaines écoulées depuis
-timeFunction.N2.Week.displayName = Nombre de semaines écoulées depuis
+timeFunction.N1.Week.displayName = &Nombre de semaines écoulées depuis
+timeFunction.N2.Week.displayName = &Nombre de semaines écoulées depuis
 timeFunction.N1.Week = Valeur N pour le nombre de semaines écoulées depuis
 timeFunction.N2.Week = Valeur N pour le nombre de semaines écoulées depuis
 
-timeFunction.N1.Day.displayName = Nombre de jours écoulés depuis
+timeFunction.N1.Day.displayName = &Nombre de jours écoulés depuis
 
 timeFunction.PERIODCHOICE.YEAR_displayName =ANNÉE
 timeFunction.PERIODCHOICE.QUARTER_displayName =TRIMESTRE
@@ -149,7 +157,7 @@ timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Semaine jusqu'à la date
 
 timeFunction.toolTip.to=A
 
- # Localized messages for the DTE Engine. Messages here give =The report item does not contain all the time levels to calculate this relative time period with a reference date.
+ # Localized messages for the DTE Engine. Messages here give =
 # the text of Design Engine exceptions.
 
 ###########################################################
@@ -169,6 +177,7 @@ invalid.cache.option=La valeur de mode {0} pour le contexte de l'adaptateur de d
 
 datasource.null.error=Impossible de trouver les sources de données du jeu de données {0}".
 datasource.exid.error=ID d'extension manquant dans la définition de la source de données {0}.
+datasource.cassandra.error=Impossible de trouver les JARS de la bibliothèque client Hector pour prendre en charge la source de données Cassandra nécessitant un script.
 
 datasethandle.null.error=DataSetHandle ne doit pas être nul.
 datasethandle.invalidColumnIndex=L'index de colonne n'est pas valide.
@@ -181,6 +190,7 @@ exception.error=Une exception s'est produite au cours du traitement. Pour plus d
 invalid.level.expression=Le nom de niveau "{0}" est introuvable.
 invalid.measure.expression=L'expression de mesure"{0}" ne peut pas être nulle.
 invalid.data.type=Type de données incorrect : {0}. 
+invalid.binding.expression=Expression {0} non valide.
 
 cube.error.createhierarchy=Une erreur s''est produite lors de la création de la hiérarchie : {0}.
 cube.error.createdimension=Une erreur s''est produite lors de la création de la dimension : {0}.
@@ -264,27 +274,33 @@ timeFunction.PERIOD1.displayName = La pre&mière période
 timeFunction.PERIOD2.displayName = La deuxième pé&riode
 timeFunction.N1.displayName = Nombre de périodes écoulées depuis
 timeFunction.N2.displayName = &De
-timeFunction.N1.Year.displayName = Nombre d'années écoulées depuis
-timeFunction.N2.Year.displayName = Nombre d'années écoulées depuis
+timeFunction.N1.next.displayName = &Suivant
+timeFunction.N2.Ago.displayName=Il &y a
+timeFunction.N1.current.displayName=&Actuel
+timeFunction.N1.period.displayName= &Période
+timeFunction.trailing.N1.period.displayName=De &fin
+timeFunction.trailing.N1.Month.displayName= &Nombre de mois de fin
+timeFunction.N1.Year.displayName = &Nombre d'années écoulées depuis
+timeFunction.N2.Year.displayName = &Nombre d'années écoulées depuis
 timeFunction.N1.Year = Valeur N pour le nombre d'années écoulées depuis
 timeFunction.N2.Year = Valeur N pour le nombre d'années écoulées depuis
 
-timeFunction.N1.Month.displayName = Nombre de mois écoulés depuis
-timeFunction.N2.Month.displayName = Nombre de mois écoulés depuis
+timeFunction.N1.Month.displayName = &Nombre de mois écoulés depuis
+timeFunction.N2.Month.displayName = &Nombre de mois écoulés depuis
 timeFunction.N1.Month = Valeur N pour le nombre de mois écoulés depuis
 timeFunction.N2.Month = Valeur N pour le nombre de mois écoulés depuis
 
-timeFunction.N1.Quarter.displayName = Nombre de trimestres écoulés depuis
-timeFunction.N2.Quarter.displayName = Nombre de trimestres écoulés depuis
+timeFunction.N1.Quarter.displayName = &Nombre de trimestres écoulés depuis
+timeFunction.N2.Quarter.displayName = &Nombre de trimestres écoulés depuis
 timeFunction.N1.Quarter = Valeur N pour le nombre de trimestres écoulés depuis
 timeFunction.N2.Quarter = Valeur N pour le nombre de trimestres écoulés depuis
 
-timeFunction.N1.Week.displayName = Nombre de semaines écoulées depuis
-timeFunction.N2.Week.displayName = Nombre de semaines écoulées depuis
+timeFunction.N1.Week.displayName = &Nombre de semaines écoulées depuis
+timeFunction.N2.Week.displayName = &Nombre de semaines écoulées depuis
 timeFunction.N1.Week = Valeur N pour le nombre de semaines écoulées depuis
 timeFunction.N2.Week = Valeur N pour le nombre de semaines écoulées depuis
 
-timeFunction.N1.Day.displayName = Nombre de jours écoulés depuis
+timeFunction.N1.Day.displayName = &Nombre de jours écoulés depuis
 
 timeFunction.PERIODCHOICE.YEAR_displayName =ANNÉE
 timeFunction.PERIODCHOICE.QUARTER_displayName =TRIMESTRE

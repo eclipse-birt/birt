@@ -18,6 +18,7 @@ invalid.cache.option=数据适配器上下文的选项值 {0} 无效。
 
 datasource.null.error=找不到数据集“{0}”的数据源。
 datasource.exid.error=数据源定义中缺少扩展 ID: {0}。
+datasource.cassandra.error=无法找到 Hector 客户端库 jar 以支持 Cassandra 脚本化数据源。
 
 datasethandle.null.error=DataSetHandle 不能为空。
 datasethandle.invalidColumnIndex=列索引无效。
@@ -30,6 +31,7 @@ exception.error=处理过程中出错。有关详情，请参阅下列消息:
 invalid.level.expression=找不到级别名称“{0}”。
 invalid.measure.expression=度量“{0}”的度量表达式不能为空。
 invalid.data.type=无效数据类型: {0}。 
+invalid.binding.expression=无效表达式: {0}。
 invalid.computedColumn.expression=引用了无效数据集列“{1}”的无效计算列“{0}”。
 
 cube.error.createhierarchy=创建层次结构时出现错误: {0}。
@@ -114,28 +116,34 @@ timeFunction.PERIOD1.displayName = 第一个周期(&F)
 timeFunction.PERIOD2.displayName = 第一个周期(&R)
 timeFunction.N1.displayName = N 周期前
 timeFunction.N2.displayName = 自(&O)
+timeFunction.N1.next.displayName = 下一步(&N)
+timeFunction.N2.Ago.displayName=先前(&A)
+timeFunction.N1.current.displayName=当前(&U)
+timeFunction.N1.period.displayName= 周期(&U)
+timeFunction.trailing.N1.period.displayName=尾随(&I)
+timeFunction.trailing.N1.Month.displayName= 尾随月数(&N)
  
-timeFunction.N1.Year.displayName = N 年前
-timeFunction.N2.Year.displayName = N 年前
+timeFunction.N1.Year.displayName = N 年前(&N)
+timeFunction.N2.Year.displayName = N 年前(&N)
 timeFunction.N1.Year = N 年前中的 N 值
 timeFunction.N2.Year = N 年前中的 N 值
 
-timeFunction.N1.Month.displayName = N 月前
-timeFunction.N2.Month.displayName = N 月前
+timeFunction.N1.Month.displayName = N 月前(&N)
+timeFunction.N2.Month.displayName = N 月前(&N)
 timeFunction.N1.Month = N 月前中的 N 值
 timeFunction.N2.Month = N 月前中的 N 值
 
-timeFunction.N1.Quarter.displayName = N 季度前
-timeFunction.N2.Quarter.displayName = N 季度前
+timeFunction.N1.Quarter.displayName = N 季前(&N)
+timeFunction.N2.Quarter.displayName = N 季前(&N)
 timeFunction.N1.Quarter = N 季度前中的 N 值
 timeFunction.N2.Quarter = N 季度前中的 N 值
 
-timeFunction.N1.Week.displayName = N 周前
-timeFunction.N2.Week.displayName = N 周前
+timeFunction.N1.Week.displayName = N 周前(&N)
+timeFunction.N2.Week.displayName = N 周前(&N)
 timeFunction.N1.Week = N 周前中的 N 值
 timeFunction.N2.Week = N 周前中的 N 值
 
-timeFunction.N1.Day.displayName = N 天前
+timeFunction.N1.Day.displayName = N 天前(&N)
 
 timeFunction.PERIODCHOICE.YEAR_displayName =年
 timeFunction.PERIODCHOICE.QUARTER_displayName =季度
@@ -170,6 +178,7 @@ invalid.cache.option=数据适配器上下文的选项值 {0} 无效。
 
 datasource.null.error=找不到数据集“{0}”的数据源。
 datasource.exid.error=数据源定义中缺少扩展 ID: {0}。
+datasource.cassandra.error=无法找到 Hector 客户端库 jar 以支持 Cassandra 脚本化数据源。
 
 datasethandle.null.error=DataSetHandle 不能为空。
 datasethandle.invalidColumnIndex=列索引无效。
@@ -182,6 +191,7 @@ exception.error=处理过程中出错。有关详情，请参阅下列消息:
 invalid.level.expression=找不到级别名称“{0}”。
 invalid.measure.expression=度量“{0}”的度量表达式不能为空。
 invalid.data.type=无效数据类型: {0}。 
+invalid.binding.expression=无效表达式: {0}。
 
 cube.error.createhierarchy=创建层次结构时出现错误: {0}。
 cube.error.createdimension=创建维时出现错误: {0}。
@@ -265,28 +275,34 @@ timeFunction.PERIOD1.displayName = 第一个周期(&F)
 timeFunction.PERIOD2.displayName = 第一个周期(&R)
 timeFunction.N1.displayName = N 周期前
 timeFunction.N2.displayName = 自(&O)
+timeFunction.N1.next.displayName = 下一步(&N)
+timeFunction.N2.Ago.displayName=先前(&A)
+timeFunction.N1.current.displayName=当前(&U)
+timeFunction.N1.period.displayName= 周期(&U)
+timeFunction.trailing.N1.period.displayName=尾随(&I)
+timeFunction.trailing.N1.Month.displayName= 尾随月数(&N)
  
-timeFunction.N1.Year.displayName = N 年前
-timeFunction.N2.Year.displayName = N 年前
+timeFunction.N1.Year.displayName = N 年前(&N)
+timeFunction.N2.Year.displayName = N 年前(&N)
 timeFunction.N1.Year = N 年前中的 N 值
 timeFunction.N2.Year = N 年前中的 N 值
 
-timeFunction.N1.Month.displayName = N 月前
-timeFunction.N2.Month.displayName = N 月前
+timeFunction.N1.Month.displayName = N 月前(&N)
+timeFunction.N2.Month.displayName = N 月前(&N)
 timeFunction.N1.Month = N 月前中的 N 值
 timeFunction.N2.Month = N 月前中的 N 值
 
-timeFunction.N1.Quarter.displayName = N 季度前
-timeFunction.N2.Quarter.displayName = N 季度前
+timeFunction.N1.Quarter.displayName = N 季前(&N)
+timeFunction.N2.Quarter.displayName = N 季前(&N)
 timeFunction.N1.Quarter = N 季度前中的 N 值
 timeFunction.N2.Quarter = N 季度前中的 N 值
 
-timeFunction.N1.Week.displayName = N 周前
-timeFunction.N2.Week.displayName = N 周前
+timeFunction.N1.Week.displayName = N 周前(&N)
+timeFunction.N2.Week.displayName = N 周前(&N)
 timeFunction.N1.Week = N 周前中的 N 值
 timeFunction.N2.Week = N 周前中的 N 值
 
-timeFunction.N1.Day.displayName = N 天前
+timeFunction.N1.Day.displayName = N 天前(&N)
 
 timeFunction.PERIODCHOICE.YEAR_displayName =年
 timeFunction.PERIODCHOICE.QUARTER_displayName =季度

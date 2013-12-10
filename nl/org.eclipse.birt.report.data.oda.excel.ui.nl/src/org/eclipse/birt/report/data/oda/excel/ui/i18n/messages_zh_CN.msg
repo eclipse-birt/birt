@@ -11,19 +11,19 @@
 #
 # User messages for the Excel File ODA Designer
 
-wizard.defaultMessage.selectExcelFile=Select or enter an Excel data source file path or URI.
-wizard.defaultMessage.selectDataSet=选择要在数据集中包含的工作表和列。
+wizard.defaultMessage.selectExcelFile=选择或输入 Excel 数据源文件路径或 URI。
+wizard.defaultMessage.selectDataSet=为数据集选择工作表和列。
 connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=无法在选择的文件夹中打开 Excel 数据源文件。 
-ui.ExcelFileNotFound=无法定位指定的 Excel 数据源文件或文件夹 
+ui.ExcelFileNotFound=无法定位指定的 Excel 数据源文件 
 label.selectFolder=选择文件夹(&E): 
 label.selectFile=选择文件(&I):
-label.selectworksheet=工作表:
-label.includeTypeLine=第二行包含数据类型(&D)。
-label.includeColumnNameLine=第一行包含列名称(&A)。
+label.selectworksheet=选择工作表(&H):
+label.includeTypeLine=将第二行用作数据类型指示器(&D)。
+label.includeColumnNameLine = 将第一行用作列名称指示器(&A)。
 
 button.selectFolder.browse=浏览(&R)...
 button.moveUp=上移(&U)
-button.moveDown=下移(&W)
+button.moveDown=下移(&O)
 button.delete=删除(&E)
 button.selectFileURI.menuItem.relativePath=相对路径(&R)
 button.selectFileURI.menuItem.absolutePath=绝对路径(&A)
@@ -49,13 +49,13 @@ tooltip.button.down=下移选定项目。
 tooltip.button.delete=删除选定项目。
 tooltip.trailNull=读取数据行时出现空后缀列。 
 error.selectFolder=请选择有效文件夹。
-error.selectWorksheet=Please select a worksheet for the data set.
-error.selectColumns=Please select at least one column for this data set.
+error.selectWorksheet=请为该数据集选择工作表。
+error.selectColumns=请至少为此数据集选择一个列。
 error.emptyPath=请输入路径。
 error.unexpectedError=发生意外错误。
 error.invalidConnectionFilePath=指定的连接配置文件源路径“{0}”不存在。
 error.errorExist=当前页存在错误。  是否仍要保存?
-error.noFile=The Excel data source file ({0}) does not exist.
+error.noFile=Excel 数据源文件 ({0}) 不存在。
 error.invalidFilePath=文件路径无效。  是否继续?
 error.emptyFilePath=文件路径为空。  是否继续?
 error.duplicatedNameValueOrEmpty=名称值重复或为空
@@ -69,8 +69,4 @@ confirm.reselectFileTitle=确认选择另一文件。
 confirm.reselectFileMessage=选择另一文件将不保存以上操作。\n\n您确定吗？
 
 RelativeFolderSelectionDialog.Title.SelectFolder=选择文件夹
-RelativeFileSelectionDialog.button.importFile=导入文件...
-RelativeFileSelectionDialog.title.error=错误
-RelativeFileSelectionDialog.title.overwrite=覆盖
-RelativeFileSelectionDialog.overwrite.msg=具有此名称的文件已经存在，是否要覆盖它?
-RelativeFileSelectionDialog.import.msg=正在导入文件...
+SelectFile.Title=选择文件
