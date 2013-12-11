@@ -24,7 +24,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -435,7 +434,24 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 												querySpec.getResultSetSpecification( )
 														.getResultProjection( )
 														.hideResultColumn( new ColumnIdentifier( col.getColumnName( ) ) );
+												Iterator iter = extDataSet.getResultSetHints( ).iterator( );
+												while ( iter.hasNext( ) )
+												{
+													IColumnDefinition columnDefn = (IColumnDefinition) iter.next( );
+													if( columnDefn.getColumnName( ).equals( col.getColumnName( ) ))
+													{
+														extDataSet.getResultSetHints( ).remove( columnDefn );
+														break;
+													}
+												}
 											}
+											
+											Iterator iter = extDataSet.getResultSetHints( ).iterator( );
+											while ( iter.hasNext( ) )
+											{
+												ColumnDefinition columnDefn = (ColumnDefinition) iter.next( );
+												columnDefn.setColumnPosition( 0 );
+											}											
 										}
 									}
 									//querySpec.getBaseQuery( )
