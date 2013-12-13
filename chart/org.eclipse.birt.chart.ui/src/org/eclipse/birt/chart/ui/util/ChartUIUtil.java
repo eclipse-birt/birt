@@ -703,11 +703,32 @@ public class ChartUIUtil
 				if ( sd.getQuery( ) != null )
 				{
 					sd.getQuery( ).setDefinition( queryDefinition );
+					if ( sds.get( 0 ).getQuery( ).getGrouping( ) != null )
+					{
+						sd.getQuery( ).setGrouping( sds.get( 0 )
+								.getQuery( )
+								.getGrouping( )
+								.copyInstance( ) );
+						sd.getQuery( )
+								.getGrouping( )
+								.eAdapters( )
+								.addAll( sd.getQuery( ).eAdapters( ) );
+					}
 				}
 				else
 				{
 					Query query = QueryImpl.create( queryDefinition );
 					query.eAdapters( ).addAll( sd.eAdapters( ) );
+					if ( sds.get( 0 ).getQuery( ).getGrouping( ) != null )
+					{
+						query.setGrouping( sds.get( 0 )
+								.getQuery( )
+								.getGrouping( )
+								.copyInstance( ) );
+						query.getGrouping( )
+								.eAdapters( )
+								.addAll( query.eAdapters( ) );
+					}
 					sd.setQuery( query );
 				}
 			}
