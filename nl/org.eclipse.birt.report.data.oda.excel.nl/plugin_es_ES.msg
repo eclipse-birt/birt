@@ -15,7 +15,7 @@ data.source.name=Fuente de datos de Excel
 data.set.name=Conjunto de datos de Excel
 connection.profile.name=Perfil de conexión de fuente de datos de Excel
 
-datasource.property.uri=&URI
+datasource.property.uri=U&RI
 datasource.property.incltypeline=Utilizar la segunda línea como indicador de tipo de &datos
 datasource.property.inclcolumnnameline=Utilizar la primera línea como indicador del &nombre de la columna.
 

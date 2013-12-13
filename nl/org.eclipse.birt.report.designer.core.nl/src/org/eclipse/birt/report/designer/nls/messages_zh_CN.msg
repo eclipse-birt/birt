@@ -225,6 +225,8 @@ BgImageFieldEditor.displayname.Browse=浏览(&W)...
 #BindingPage properties
 
 BindingPage.Dataset.Label=数据集(&T):
+BindingPage.DataSetBindingSelector.Title.DataSet=数据设置绑定
+BindingPage.DataSetBindingSelector.Title.LinkModel=数据模型绑定
 BindingPage.ReportItem.Label=报表项(&I):
 BindingPage.ReportItem.NoName=无名称
 BindingPage.Label.Binding=绑定
@@ -270,7 +272,6 @@ SizePreferencePage.displayname.Title=大小
 ###########################################################
 #BorderCanvas properties
 
-BorderCanvas.Inherited0=(已继承)
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -613,9 +614,15 @@ DataSetBasePage.ScriptedDataSet.name=脚本化数据集
 DataSetBasePage.ScriptedDataSource.name=脚本化数据源
 DataSetBasePage.Group.DataSourceSelection=数据源选择
 
-DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
-DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
-CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra 脚本化数据集
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra 脚本化数据源
+DataSetBindingSelector.Button.DeselectAll=取消全选(&A)
+DataSetBindingSelector.Button.SelectAll=全选(&S)
+DataSetBindingSelector.Combo.DataSet=数据集(&D):
+DataSetBindingSelector.Label.SelectBindingColumns=请选择绑定列。
+DataSetBindingSelectorPage.Label.SelectBindingColumns=请选择绑定列。
+DataSetBindingSelectorPage.Title=数据设置绑定
+CassandraScriptedDataSource.display.name=Cassandra 脚本化数据源
 CassandraScriptedDataSource.error.classNotFound=无法找到 Hector 客户端库 jar 以支持 Cassandra 脚本化数据源。
 
 ###########################################################
@@ -656,7 +663,7 @@ DataSetComputedColumnsPage.toolTipText.Edit=编辑计算列。
 DataSetComputedColumnsPage.InputDialog.title.New=新建计算列
 DataSetComputedColumnsPage.InputDialog.title.Edit=编辑计算列
 DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=聚合表达式不能包含聚合计算列!
-DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Computed Column
+DataSetComputedColumnsPage.title.ComputedColumnInputDialog=计算列
 
 ###########################################################
 #DataSetFiltersPage properties
@@ -731,6 +738,8 @@ PropertyBindingPage.dataset.queryText=查询文本(&T)
 PropertyBindingPage.property.tooltip=为运行时定义属性绑定。
 PropertyBindingPage.button.tooltip=打开表达式生成器以输入 {0} 值。
 PropertyBindingPage.label.colon=:
+PropertyBindingPage.label.LeftParenthesis=(
+PropertyBindingPage.label.RightParenthesis=)
 
 ###########################################################
 #DataSetProcess properties
@@ -1106,7 +1115,7 @@ Element.Container.slot.reportItems=报表项:
 Element.Data.action=操作:
 Element.Data.helpText=帮助文本:
 Element.Data.helpTextID=帮助文本关键字
-Element.TextData.valueExpr=值表达式(&V):
+Element.TextData.valueExpr=值表达式(&U):
 Element.DataSet.afterClose.toolTip=仅在关闭数据集之后调用。
 Element.DataSet.afterClose=关闭后:
 Element.DataSet.afterOpen.toolTip=仅在打开数据集之后调用。
@@ -1182,7 +1191,7 @@ Element.Listing.onRow.toolTip=为从此元素的数据集中检索出的每行调用，但在为该行创
 Element.Listing.onRow=遇到行时:
 Element.Listing.onStart.toolTip=在打开数据集之后、在创建题头区段之前并且在从此元素的数据集检索首行之前调用。 
 Element.Listing.onStart=启动时:
-Element.Listing.pageBreakInterval=分页符间隔(&P):
+Element.Listing.pageBreakInterval=分页符间隔(&K):
 Element.Listing.sorting=排序:
 Element.ListingGroup.filter=筛选器:
 Element.ListingGroup.groupName=名称
@@ -1284,7 +1293,7 @@ Element.ReportElement.extends=扩展:
 Element.ReportElement.javaClass=Java 类:
 Element.ReportElement.name=名称(&N):
 Element.ReportElement.propertyMask=属性掩码:
-Element.ReportElement.style=样式(&T):
+Element.ReportElement.style=样式(&Y):
 Element.ReportItem.bookmark=书签(&B):
 Element.ReportItem.dataSet=数据集:
 Element.ReportItem.height=高度(&H):
@@ -1365,9 +1374,9 @@ Element.Style.border.vmiddle.style=边框垂直中间样式:
 Element.Style.border.vmiddle.width=边框垂直中间宽度:
 Element.Style.border=边框:
 Element.Style.box=框:
-Element.Style.canShrink=可以缩小(&S)
+Element.Style.canShrink=可以缩小(&K)
 Element.Style.color=颜色(&C):
-Element.Style.display=显示(&Y):
+Element.Style.display=显示(&P):
 Element.Style.font.family=字体(&F):
 Element.Style.font.size=大小(&Z):
 Element.Style.font.style=样式(&T):
@@ -1388,11 +1397,11 @@ Element.Style.letterSpacing=字母间距(&T):
 Element.Style.lineHeight=行高(&N):
 Element.Style.map.rules=映射规则:
 Element.Style.map.testExpr=映射测试表达式:
-Element.Style.margin.bottom=下(&O):
+Element.Style.margin.bottom=下(&B):
 Element.Style.margin.left=左(&E):
 Element.Style.margin.right=右(&I)
 Element.Style.margin.top=上(&P):
-Element.Style.masterPage=主页(&M):
+Element.Style.masterPage=主页(&P):
 Element.Style.orphans=孤行(&O):
 Element.Style.padding.bottom=下(&B):
 Element.Style.padding.left=左(&L):
@@ -1412,7 +1421,7 @@ Element.Style.text.direction=双向文本方向(&B):
 Element.Style.text.indent=文本缩进(&X):
 Element.Style.text.transform=文本转换(&R):
 Element.Style.text=文本:
-Element.Style.verticalAlign=垂直对齐(&V):
+Element.Style.verticalAlign=垂直对齐(&A):
 Element.Style.whiteSpace=空格(&I):
 Element.Style.widows=窗口(&D):
 Element.Style.wordSpacing=字间距(&W):
@@ -1470,15 +1479,15 @@ error.invalidName=名称“{0}”无效，因为它包含字符 "."、"/"、"\\"、"!"、";" 和 ",
 
 ExceptionHandler.Label.ErrorCode=错误代码
 ExceptionHandler.Label.ErrorMessage=错误消息
-ExceptionHandler.Label.PluginId=Plug-in ID:
-ExceptionHandler.Label.PluginName=Plug-in Name:
-ExceptionHandler.Label.PluginProvider=Plug-in Provider:
-ExceptionHandler.Label.PluginVersion=Version:
-ExceptionHandler.Label.UnknownPlugin=Unknown plug-in
+ExceptionHandler.Label.PluginId=插件 ID:
+ExceptionHandler.Label.PluginName=插件名称:
+ExceptionHandler.Label.PluginProvider=插件提供程序:
+ExceptionHandler.Label.PluginVersion=版本:
+ExceptionHandler.Label.UnknownPlugin=未知插件
 ExceptionHandler.Meesage.UnexceptedExceptionOccur=发生意外的内部异常。详情请参阅日志。
 ExceptionHandler.Message.BirtExceptionOccur=发生 BIRT 异常。
 ExceptionHandler.Message.CausedBy=Caused by {0}。
-ExceptionHandler.Message.FileNotFound=File not found:
+ExceptionHandler.Message.FileNotFound=未找到文件:
 ExceptionHandler.Message.OutOfMemory=内存不足。
 ExceptionHandler.Message.PartInitError=部分初始化失败。
 ExceptionHandler.Message.SemanticFail=语义检查失败。
@@ -1488,6 +1497,7 @@ ExceptionHandler.Title.Error=错误
 ExceptionHandler.Title.FileNotFound=未找到文件。
 ExceptionHandler.Title.PartInitError=部分初始化错误。
 ExceptionHandler.Title.UnknownHost=未知主机
+ExceptionHandler.Meesage.ExceptionOccur=发生异常。 详情请参阅日志。
 
 ###########################################################
 #ExportAction properties
@@ -1611,7 +1621,7 @@ ExpressionTreeSupport.Category.Global=全局
 
 ExpressionValueCellEditor.buildExpressionAction=<构建表达式...>
 ExpressionValueCellEditor.selectValueAction=<选择值...>
-ExpressionValueCellEditor.title=<选择值...>
+ExpressionValueCellEditor.title=选择值
 
 ###########################################################
 #ExtendedEditPart properties
@@ -1693,7 +1703,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = 设置日期时间格式。
 ###########################################################
 #FormatDateTimePage properties
 
-FormatDateTimePage.label.custom.settings.label=示例格式(单击下面要复制的一项，然后进行修改)(&S):
+FormatDateTimePage.label.custom.settings.label=格式示例 (单击下面要复制的一项，然后进行修改)(&P):
 FormatDateTimePage.label.custom.settings=自定义设置
 FormatDateTimePage.label.format.code=格式代码(&C):
 FormatDateTimePage.label.format.page=格式为(&F):
@@ -1732,7 +1742,7 @@ FormatNumberPage.currency.symbol.none=无符号
 FormatNumberPage.label.currency.settings=货币设置
 FormatNumberPage.label.custom.preview.group=预览
 FormatNumberPage.label.custom.preview.label=带格式预览:
-FormatNumberPage.label.custom.settings.lable=示例格式(单击下面要复制的一项，然后进行修改)(&S):
+FormatNumberPage.label.custom.settings.lable=格式示例 (单击下面要复制的一项，然后进行修改)(&P):
 FormatNumberPage.label.custom.settings=自定义设置
 FormatNumberPage.label.decimal.places=小数位(&D): 
 FormatNumberPage.label.rounding.mode=舍入模式(&R):
@@ -1746,25 +1756,25 @@ FormatNumberPage.label.percent.settings=百分比设置
 FormatNumberPage.label.preview.number=要预览的数值(&P): 
 FormatNumberPage.label.scientific.settings=科学记数设置
 FormatNumberPage.label.symbol.position=符号位置(&Y): 
-FormatNumberPage.label.symbol=符号(&S): 
+FormatNumberPage.label.symbol=符号(&B): 
 FormatNumberPage.label.table.column.format.code=示例格式
 FormatNumberPage.label.table.column.format.result=示例格式结果
 FormatNumberPage.label.use1000sSeparator=使用千位分隔符(&1)
 FormatNumberPage.label.useLeadingZero=使用前导零
-FormatNumberPage.label.useSymbolSpace=使用符号空间(&M)
+FormatNumberPage.label.useSymbolSpace=使用符号空间(&U)
 FormatNumberPage.preview.invalidFormatCode=无效格式代码
 FormatNumberPage.preview.invalidNumber=要预览的数值无效
 FormatNumberPage.symblePos.after=之后
 FormatNumberPage.symblePos.before=之前
 
-FormatNumberPage.roundingMode.halfUp=Half Up
-FormatNumberPage.roundingMode.halfDown=Half Down
-FormatNumberPage.roundingMode.halfEven=Half Even
-FormatNumberPage.roundingMode.up=Up
-FormatNumberPage.roundingMode.down=Down
-FormatNumberPage.roundingMode.ceiling=Ceiling
-FormatNumberPage.roundingMode.floor=Floor
-FormatNumberPage.roundingMode.unnecessary=Unnecessary
+FormatNumberPage.roundingMode.halfUp=向最近的一边舍入，距离相等时向上舍入
+FormatNumberPage.roundingMode.halfDown=向最近的一边舍入，距离相等时向下舍入
+FormatNumberPage.roundingMode.halfEven=向最近的一边舍入，距离相等时向偶数边舍入
+FormatNumberPage.roundingMode.up=上移
+FormatNumberPage.roundingMode.down=下移
+FormatNumberPage.roundingMode.ceiling=向正无穷方向舍入
+FormatNumberPage.roundingMode.floor=向负无穷方向舍入
+FormatNumberPage.roundingMode.unnecessary=不需要舍入
 
 ###########################################################
 #FormatNumberPreferencePage properties
@@ -1786,13 +1796,13 @@ FormatStringAttributePage.Trans.SetStringFormat = 设置字符串格式。
 
 FormatStringPage.default.preview.text=我的字符串
 FormatStringPage.label.custom.preview.label=带格式预览:
-FormatStringPage.label.custom.settings.label=示例格式(单击下面要复制的一项，然后进行修改)(&S):
+FormatStringPage.label.custom.settings.label=格式示例 (单击下面要复制的一项，然后进行修改)(&P):
 FormatStringPage.label.customSettings=自定义设置
 FormatStringPage.label.format.code=格式代码(&C):
 FormatStringPage.label.formatStringAs=格式为(&F):
 FormatStringPage.label.locale=区域设置(&L):
 FormatStringPage.label.preview.group=预览
-FormatStringPage.label.preview.string=要预览的字符串(&P): 
+FormatStringPage.label.preview.string=要预览的字符串(&R): 
 FormatStringPage.label.previewWithFormat=带格式预览
 FormatStringPage.label.table.collumn.exampleFormatCode=示例格式
 FormatStringPage.label.table.collumn.exampleFormatResult=示例格式结果
@@ -3198,7 +3208,7 @@ PublishTemplateAction.wizard.page.label.image=模板图像(&I):
 PublishTemplateAction.wizard.page.title=发布模板
 PublishTemplateAction.wizard.title=发布模板
 PublishTemplateAction.wizard.errorTitle=错误
-PublishTemplateAction.wizard.message=Unable to publish the template to the directory where it exists, please choose another directory to publish.
+PublishTemplateAction.wizard.message=无法将模板发布到其所在的目录，请选择其它目录进行发布。
 PublishTemplateAction.wizard.msgDirErr=目标目录不存在，但无法创建。 
 PublishTemplateAction.wizard.notvalidfolder=首选项中定义的模板文件夹无效。
 PublishTemplateAction.wizard.page.nameInfo=必须提供显示名称
@@ -3213,7 +3223,7 @@ PublishTemplateAction.SaveBeforeGenerating.dialog.button.no=否(&N)
 ###########################################################
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=错误
-PublishLibraryAction.wizard.message=Unable to publish the library to the directory where it exists, please choose another directory to publish.
+PublishLibraryAction.wizard.message=无法将库发布到其所在的目录，请选择其它目录进行发布。
 PublishLibraryAction.wizard.msgDirErr=目标目录不存在，但无法创建。 
 PublishLibraryAction.wizard.message.SourceFileNotExist=源文件不存在。
 PublishLibraryAction.wizard.notvalidfolder=首选项中定义的库文件夹无效。
@@ -3261,7 +3271,7 @@ ReloadCssStylesAction.Action.Text=重新加载 CSS 文件(&R)
 #ReferencePage properties
 
 ReferencePage.Button.Edit=编辑(&D)...
-ReferencePage.Label.Source=源(&S):
+ReferencePage.Label.Source=源(&C):
 
 ###########################################################
 #RefreshAction properties
@@ -3544,7 +3554,7 @@ RowProvider.action.text.below=在下方插入行(&B)
 #SaveAsDialog properties
 
 SaveAsDialog.message=将文件保存至另一个位置。
-SaveAsDialog.overwriteQuestion=The file ''{0}'' already exists. Do you want to replace the existing file?
+SaveAsDialog.overwriteQuestion=文件“{0}”已存在。 是否要替换现有的文件？
 SaveAsDialog.Question=问题
 SaveAsDialog.text=另存为
 SaveAsDialog.title=另存为
@@ -3676,7 +3686,7 @@ SelectValueDialog.SelectValue.NullValue=<空值>
 ###########################################################
 #SetConstraintCommand properties
 
-SetConstraintCommand.Error.SetConstraintError=An error occured when setting a constraint to the model.
+SetConstraintCommand.Error.SetConstraintError=对模型设置约束时出错。
 SetConstraintCommand.transLabel.setConstraint=设置约束
 SetConstraintCommand.commandLabel.ResizeCommand=重设大小
 ###########################################################
@@ -3688,7 +3698,16 @@ ProjectFilterAction.text=筛选...
 #ResourceFileFolderSelectionAction properties
 
 ResourceFileFolderSelectionAction.text=筛选...
+
+###########################################################
+#ResourceFileFolderSelectionDialog properties
+
 ResourceFileFolderSelectionDialog.Text.Menu=菜单
+ResourceFileFolderSelectionDialog.button.importFile=导入文件...
+ResourceFileFolderSelectionDialog.title.error=错误
+ResourceFileFolderSelectionDialog.title.overwrite=覆盖
+ResourceFileFolderSelectionDialog.overwrite.msg=具有此名称的文件已经存在，是否要覆盖它?
+ResourceFileFolderSelectionDialog.import.msg=正在导入文件...
 
 ###########################################################
 #ShowPropertyAction properties
@@ -3703,7 +3722,7 @@ SortingHandleProvider.Label.SortOn=排序依据:
 ###########################################################
 #Spinner properties
 
-Spinner.DialogTitle.InvalidNumber=Invalid number
+Spinner.DialogTitle.InvalidNumber=无效数字
 
 ###########################################################
 #SplitAction properties
@@ -3809,6 +3828,7 @@ TableOptionDialog.title.InsertGrid=插入网格
 TableOptionDialog.title.InsertTable=插入表
 TableOptionDialog.text.DataSet=数据集(&S):
 TableOptionDialog.text.AutoSummary=自动汇总条件(&M)
+TableOptionPage.Title=插入表
 
 ###########################################################
 #TablePageGenerator properties
@@ -3983,7 +4003,7 @@ TextPageGenerator.List.Visibility=可见性
 ###########################################################
 #TextPropertyDescriptor properties
 
-TextPropertyDescriptor.Message.Version=Eclipse BIRT Designer Version {0} Build <{1}>
+TextPropertyDescriptor.Message.Version=Eclipse BIRT Designer 版本 {0} 内部版本 <{1}>
 
 ###########################################################
 #AutoTextPageGenerator properties
@@ -4032,8 +4052,8 @@ UndoAction.Tooltip=撤销 {0}
 ###########################################################
 #UnitPropertyDescriptor properties
 
-UnitPropertyDescriptor.error.message=Please enter a smaller value\!
-UnitPropertyDescriptor.error.title=Too Big Value
+UnitPropertyDescriptor.error.message=请输入较小的值\!
+UnitPropertyDescriptor.error.title=值太大
 
 ###########################################################
 #UseLibraryAction properties
@@ -4069,10 +4089,10 @@ VisibilityPage.Check.HTML=H&TML
 VisibilityPage.Check.PDF=&PDF
 VisibilityPage.Label.DetailAll=详细资料（所有输出）
 VisibilityPage.Label.DetailSpecific=详细资料（特定输出）
-VisibilityPage.Label.Expression=表达式(&E):
+VisibilityPage.Label.Expression=表达式:
 VisibilityPage.menu.SaveHides=保存隐藏内容
 VisibilityPage.Radio.AllOutputs=适用于所有输出(&A)
-VisibilityPage.Radio.SpecificOutputs=适用于特定输出(&S)...
+VisibilityPage.Radio.SpecificOutputs=对于特定输出(&C)...
 
 ###########################################################
 #WidgetUtil properties
@@ -4151,6 +4171,8 @@ WizardTemplateChoicePage.message.MailingLabels=邮寄标签
 WizardTemplateChoicePage.message.SideBySideChartListing=创建一个分组报表，其中每个组都并排包含一个图表和一个列表。
 WizardTemplateChoicePage.message.SimpleListing=使用数据源中的字段创建列表报表。
 WizardTemplateChoicePage.message.Crosstab=使用教程构建交叉表报表
+WizardTemplateChoicePage.message.BlankAuto=空白报表模板，查看时会以交互方式自动启用。
+WizardTemplateChoicePage.title.BlankAuto=空白自动交互式报表
 WizardTemplateChoicePage.title.BlankReport=空白报表
 WizardTemplateChoicePage.title.ChartListing=图表和列表
 WizardTemplateChoicePage.title.DualColumnChartListing=双列图表和列表
@@ -4295,6 +4317,7 @@ DataSetColumnBindingsFormHandleProvider.Column.Name=名称
 DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=显示名称 ID
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=显示名称
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=数据列绑定:
+DataSetColumnBindingsFormHandleProvider.RefreshBindingColumns=刷新绑定列
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=可用列绑定:
 DataSetColumnBindingsFormHandleProvider.NewBinding=新绑定  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=数据类型
@@ -4303,7 +4326,10 @@ DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=聚合条件
 DataSetColumnBindingsFormHandleProvider.Column.Filter=筛选器
 DataSetColumnBindingsFormHandleProvider.Column.Function=函数
 DataSetColumnBindingsFormHandleProvider.ALL=全部
+DataSetColumnBindingsFormHandleProvider.GenerateBindingColumns=生成绑定列
 DataSetColumnBindingsFormHandleProvider.NONE=不适用
+DataSetColumnBindingsFormHandleProvider.Trans.GenerateBindingColumns=生成绑定列
+DataSetColumnBindingsFormHandleProvider.Trans.RefreshBindingColumns=刷新绑定列
 
 ###########################################################
 #DataSetColumnBindingsFormPage
@@ -4651,6 +4677,9 @@ BindingDialogHelper.warning.function=当前函数的建议数据类型为“{0}”，是否要保留
 BindingDialogHelper.warning.parameter=参数“{1}”不支持表达式“{0}”的返回数据类型，是否要保留?
 BindingDialogHelper.warning.button.yes=是
 BindingDialogHelper.warning.button.no=否
+BindingGroupDescriptorProvider.Flag.DataModel=\ (数据模型)
+BindingGroupDescriptorProvider.DataSetBindingSelector.Title.LinkModel=数据模型绑定
+BindingGroupDescriptorProvider.DataSetBindingSelector.Title.DataSet=数据设置绑定
 
 ###########################################################
 #Scripts Node

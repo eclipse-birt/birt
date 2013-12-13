@@ -2413,7 +2413,16 @@ Element.DataMartCube=ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒLƒ…[ƒu
 Element.TimeDimension=ŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“
 Element.ReportItemTheme=ƒŒƒ|[ƒg€–Úƒe[ƒ}
 Element.AbstractTheme=’ŠÛƒe[ƒ}
-Element.DataMartLinkedDataModel=Data Object Linked Data Set
+Element.DataMartLinkedDataModel=ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒf[ƒ^ƒ‚ƒfƒ‹
+Element.AliasDataSet =ƒGƒCƒŠƒAƒXƒf[ƒ^ƒZƒbƒg
+Element.LinkedDataModel =ƒŠƒ“ƒN‚³‚ê‚½ƒf[ƒ^ƒ‚ƒfƒ‹
+Element.LinkedDataModel.pushDown=ƒf[ƒ^ƒ‚ƒfƒ‹ƒvƒbƒVƒ… (‰º‚Ö)
+Element.Category = ƒJƒeƒSƒŠ
+Element.ColumnLink = —ñƒŠƒ“ƒN
+Element.ColumnLinkPath = —ñƒŠƒ“ƒN‚ÌƒpƒX
+Element.DrillPath = ƒhƒŠƒ‹ƒpƒX
+Element.LinkedDataModelCube = ƒŠƒ“ƒN‚³‚ê‚½ƒf[ƒ^ƒ‚ƒfƒ‹ƒLƒ…[ƒu
+Element.LinkedDataModelDataSet = ƒŠƒ“ƒN‚³‚ê‚½ƒf[ƒ^ƒ‚ƒfƒ‹ƒf[ƒ^ƒZƒbƒg
 
 ###########################################################
 # Element property names
@@ -2529,6 +2538,8 @@ Element.ReportDesign.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.ReportDesign.onContentUpdate= “à—e‚ÌXV
 Element.ReportDesign.onContentUpdate.toolTip=BIRT Viewer ‚ÅƒŒƒ|[ƒg‚Ì“à—e‚ªXV‚³‚ê‚é‚Æ‚«‚ÉƒNƒ‰ƒCƒAƒ“ƒg‘¤‚ÅÀs‚µ‚Ü‚·B
 Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.language=Œ¾Œê
+Element.ReportDesign.PDFAccessible=ƒAƒNƒZƒX‰Â”\‚È PDF
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=•\¦–¼
@@ -2768,6 +2779,11 @@ Element.ReportItem.cascadeACL=ACL ‚ğd‚Ë‚Ä•\¦
 Element.ReportItem.allowExport=ƒGƒNƒXƒ|[ƒg‚ğ‹–‰Â‚·‚é
 Element.ReportItem.pushDown=ƒvƒbƒVƒ… (‰º‚Ö)
 Element.ReportItem.theme=ƒe[ƒ}
+Element.ReportItem.language=Œ¾Œê
+Element.ReportItem.order=‡˜
+Element.ReportItem.altText=‘ã‘ÖƒeƒLƒXƒg
+Element.ReportItem.altTextID=‘ã‘ÖƒeƒLƒXƒgƒL[
+Element.ReportItem.linkedDataModel=ƒŠƒ“ƒN‚³‚ê‚½ƒf[ƒ^ƒ‚ƒfƒ‹
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=ƒRƒ“ƒeƒ“ƒc
@@ -2791,6 +2807,8 @@ Element.Label.onPageBreak=‰üƒy[ƒW
 Element.Label.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
 Element.Label.onPageBreak.this=ƒ‰ƒxƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Label.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
+Element.Label.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.Label.altText=‘ã‘ÖƒeƒLƒXƒg
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=ƒŒƒ|[ƒg€–Ú
@@ -2819,6 +2837,8 @@ Element.Data.onPageBreak=‰üƒy[ƒW
 Element.Data.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
 Element.Data.onPageBreak.this=ƒf[ƒ^ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Data.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
+Element.Data.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.Data.altText=‘ã‘ÖƒeƒLƒXƒg
   
 #14.Text  ( prefix  Element.Text )
 Element.Text.content=ƒRƒ“ƒeƒ“ƒc
@@ -2841,6 +2861,8 @@ Element.Text.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘
 Element.Text.onPageBreak.this=ƒeƒLƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Text.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Text.hasExpression=®‚ ‚è
+Element.Text.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.Text.altText=‘ã‘ÖƒeƒLƒXƒg
   
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=ƒL[‚Ì®
@@ -2904,6 +2926,8 @@ Element.List.onPageBreak=‰üƒy[ƒW
 Element.List.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
 Element.List.onPageBreak.this=ƒŠƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.List.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
+Element.List.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.List.altText=‘ã‘ÖƒeƒLƒXƒg
   
 #17.ListGroup  ( prefix  Element.ListGroup )
 Element.ListGroup.slot.header=ƒwƒbƒ_
@@ -2946,6 +2970,7 @@ Element.Table.onPageBreak=‰üƒy[ƒW
 Element.Table.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–Ú‚É‘Î‚µ‚ÄÀs‚³‚ê‚Ü‚·
 Element.Table.onPageBreak.this=ƒe[ƒuƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Table.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
+Element.Table.tagType=PDF ƒ^ƒO‚Ìí—Ş
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=ƒwƒbƒ_
@@ -2990,6 +3015,8 @@ Element.Row.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Row.suppressDuplicates=d•¡‚ğ•\¦‚µ‚È‚¢
 Element.Row.viewAction=ƒAƒNƒVƒ‡ƒ“‚Ì•\¦
 Element.Row.repeatable=”½•œ‰Â”\
+Element.Row.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.Row.language=Œ¾Œê
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=—ñ
@@ -3028,6 +3055,9 @@ Element.Cell.antidiagonalThickness=”ñ‘ÎŠpü‚Ì•
 Element.Cell.diagonalStyle=‘ÎŠpü‚ÌƒXƒ^ƒCƒ‹
 Element.Cell.antidiagonalStyle=”ñ‘ÎŠpü‚ÌƒXƒ^ƒCƒ‹
 Element.Cell.antidiagonalColor=”ñ‘ÎŠpü‚ÌF
+Element.Cell.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.Cell.language=Œ¾Œê
+Element.Cell.altText=‘ã‘ÖƒeƒLƒXƒg
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=‘ã‘ÖƒeƒLƒXƒg
@@ -3061,6 +3091,7 @@ Element.Image.onPageBreak.this=ƒCƒ[ƒWƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Image.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Image.fitToContainer=ƒRƒ“ƒeƒi‚É‡‚í‚¹‚é
 Element.Image.proportionalScale=ƒvƒƒ|[ƒVƒ‡ƒiƒ‹ƒXƒP[ƒ‹
+Element.Image.tagType=PDF ƒ^ƒO‚Ìí—Ş
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=—ñ
@@ -3085,6 +3116,7 @@ Element.Grid.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Grid.caption=ƒLƒƒƒvƒVƒ‡ƒ“
 Element.Grid.captionID=ƒLƒƒƒvƒVƒ‡ƒ“ƒL[
 Element.Grid.summary=ƒTƒ}ƒŠ
+Element.Grid.tagType=PDF ƒ^ƒO‚Ìí—Ş
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Œü‚«
@@ -3111,6 +3143,8 @@ Element.TextData.onPageBreak.toolTip=‰üƒy[ƒW‚ª”­¶‚·‚éÛ‚ÉA‚·‚×‚Ä‚ÌƒŒƒ|[ƒg€–
 Element.TextData.onPageBreak.this=ƒ_ƒCƒiƒ~ƒbƒNƒeƒLƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.TextData.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.TextData.hasExpression=®‚ ‚è
+Element.TextData.tagType=PDF ƒ^ƒO‚Ìí—Ş
+Element.TextData.altText=‘ã‘ÖƒeƒLƒXƒg
 
 #27.ExtendedItem   ( prefix  Element.ExtendedItem )
 Element.ExtendedItem.altText=‘ã‘ÖƒeƒLƒXƒg
@@ -3418,6 +3452,7 @@ Element.DerivedDataSet.extensionID=Šg’£ ID
 Element.AbstractScalarParameter.isRequired=•K{
 Element.AbstractScalarParameter.dynamicList=“®“I‚ÈƒŠƒXƒg
 Element.AbstractScalarParameter.dynamicList.dataSetName=ƒf[ƒ^ƒZƒbƒg–¼
+Element.AbstractScalarParameter.dynamicList.linkedDataModelName=ƒŠƒ“ƒN‚³‚ê‚½ƒf[ƒ^ƒ‚ƒfƒ‹–¼
 Element.AbstractScalarParameter.dynamicList.valueExpr=’l®
 Element.AbstractScalarParameter.dynamicList.labelExpr=ƒ‰ƒxƒ‹®
 Element.AbstractScalarParameter.listLimit=ˆê——‚Ì§ŒÀ
@@ -3478,6 +3513,17 @@ Element.ReportItemTheme.customValues=ƒJƒXƒ^ƒ€’l
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=CSS ƒXƒ^ƒCƒ‹ƒV[ƒg
+
+#Category
+Element.Category.helpText = ƒwƒ‹ƒvƒeƒLƒXƒg
+Element.Category.helpTextKey = ƒwƒ‹ƒvƒeƒLƒXƒgƒŠƒ\[ƒXƒL[
+
+#Category Column
+Element.CategoryColumn.aggregationFunction = WŒvŠÖ”
+Element.CategoryColumn.aliasDataSet = ƒGƒCƒŠƒAƒXƒf[ƒ^ƒZƒbƒg
+Element.CategoryColumn.dataType = ƒf[ƒ^Œ^
+Element.CategoryColumn.expression = ®
+Element.CategoryColumn.resultSetColumnName = Œ‹‰ÊƒZƒbƒg‚Ì—ñ–¼
 
 ###########################################################
 # Predefined style

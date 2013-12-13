@@ -1,6 +1,6 @@
 dataset.editor.page.query=Requête
 dataset.new.query=Définir le texte de la requête SQL à l'aide des éléments disponibles.
-dataset.new.query.hive=Définir le texte de la requête hql à l'aide des éléments disponibles.
+dataset.new.query.hive=Définissez le texte de la requête HQL à l'aide des éléments disponibles.
 dataset.new=Nouveau jeu de données
 dataset.editor.page.query.error.schemaNotExisted=Le nom du schéma n'existe pas.
 datasource.new=Nouvelle source de données
@@ -58,6 +58,7 @@ wizard.label.manageDriver=&Gérer les pilotes...
 wizard.label.bidiSettings=Paramètre&s Bidi...
 wizard.label.search=Rechercher :
 wizard.label.filter=Filtre :
+wizard.label.SSL.EncryptionMethod= Pour activer la connexion SSL, spécifiez la méthode de chiffrement, par exemple "SSL". \n "Aucun chiffrement" est le paramètre par défaut pour désactiver la connexion SSL.
 tablepage.label.selecttype=&Type :
 tablepage.filter.warning=Spécifiez un filtre.
 wizard.message.createDataSource=Créer une nouvelle source de données.

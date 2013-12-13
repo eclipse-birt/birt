@@ -69,6 +69,8 @@ SubTotalProvider.Column.Position=位置
 SubTotalProvider.ShowAs=显示为 {0}
 LevelViewDialog.Title=显示/隐藏组级别
 LevelViewDialog.Label.Info=选择要在交叉表上显示的级别:
+LevelViewDialog.Button.Regular.Text=常规组(&R)
+LevelViewDialog.Button.Date.Text=日期组(&D)
 AggregationDialog.Title=总计
 AggregationDialog.Label.Grand=总计:
 AggregationDialog.Label.Sub=小计:
@@ -358,3 +360,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=列区域
 VirtualCrosstabCellNodeProvider.Display.DetailArea=详细信息区域
 VirtualCrosstabCellNodeProvider.Display.RowArea=行区域
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=未知区域
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (数据模型)

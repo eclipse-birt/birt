@@ -2413,7 +2413,16 @@ Element.DataMartCube=데이터 개체 큐브
 Element.TimeDimension=시간 차원
 Element.ReportItemTheme=보고서 항목 테마
 Element.AbstractTheme=추상적 테마
-Element.DataMartLinkedDataModel=Data Object Linked Data Set
+Element.DataMartLinkedDataModel=데이터 개체 데이터 모델
+Element.AliasDataSet =별칭 데이터 집합
+Element.LinkedDataModel =링크된 데이터 모델
+Element.LinkedDataModel.pushDown=데이터 모델 아래로 밀어내기
+Element.Category = 범주
+Element.ColumnLink = 열 링크
+Element.ColumnLinkPath = 열 링크 경로
+Element.DrillPath = 드릴 경로
+Element.LinkedDataModelCube = 링크된 데이터 모델 큐브
+Element.LinkedDataModelDataSet = 링크된 데이터 모델 데이터 집합
 
 ###########################################################
 # Element property names
@@ -2529,6 +2538,8 @@ Element.ReportDesign.onPrepare.reportContext=보고서 컨텍스트
 Element.ReportDesign.onContentUpdate= 내용 업데이트 시
 Element.ReportDesign.onContentUpdate.toolTip=BIRT Viewer에서 보고서 내용이 업데이트될 때 클라이언트 측에서 실행합니다.
 Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.language=언어
+Element.ReportDesign.PDFAccessible=Accessible PDF
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=표시 이름
@@ -2768,6 +2779,11 @@ Element.ReportItem.cascadeACL=계단식 ACL
 Element.ReportItem.allowExport=내보내기 허용
 Element.ReportItem.pushDown=아래로 밀어내기
 Element.ReportItem.theme=테마
+Element.ReportItem.language=언어
+Element.ReportItem.order=순서
+Element.ReportItem.altText=대체 텍스트
+Element.ReportItem.altTextID=대체 텍스트 키
+Element.ReportItem.linkedDataModel=링크된 데이터 모델
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=내용
@@ -2791,6 +2807,8 @@ Element.Label.onPageBreak=페이지 나누기
 Element.Label.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
 Element.Label.onPageBreak.this=레이블 인스턴스
 Element.Label.onPageBreak.reportContext=보고서 컨텍스트
+Element.Label.tagType=PDF 태그 형식
+Element.Label.altText=대체 텍스트
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=보고서 항목
@@ -2819,6 +2837,8 @@ Element.Data.onPageBreak=페이지 나누기
 Element.Data.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
 Element.Data.onPageBreak.this=데이터 인스턴스
 Element.Data.onPageBreak.reportContext=보고서 컨텍스트
+Element.Data.tagType=PDF 태그 형식
+Element.Data.altText=대체 텍스트
   
 #14.Text  ( prefix  Element.Text )
 Element.Text.content=내용
@@ -2841,6 +2861,8 @@ Element.Text.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보
 Element.Text.onPageBreak.this=텍스트 인스턴스
 Element.Text.onPageBreak.reportContext=보고서 컨텍스트
 Element.Text.hasExpression=식 값
+Element.Text.tagType=PDF 태그 형식
+Element.Text.altText=대체 텍스트
   
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=키 식
@@ -2904,6 +2926,8 @@ Element.List.onPageBreak=페이지 나누기
 Element.List.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
 Element.List.onPageBreak.this=목록 인스턴스
 Element.List.onPageBreak.reportContext=보고서 컨텍스트
+Element.List.tagType=PDF 태그 형식
+Element.List.altText=대체 텍스트
   
 #17.ListGroup  ( prefix  Element.ListGroup )
 Element.ListGroup.slot.header=머리글
@@ -2946,6 +2970,7 @@ Element.Table.onPageBreak=페이지 나누기
 Element.Table.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모든 보고서 항목에 대해 실행합니다.
 Element.Table.onPageBreak.this=테이블 인스턴스
 Element.Table.onPageBreak.reportContext=보고서 컨텍스트
+Element.Table.tagType=PDF 태그 형식
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=머리글
@@ -2990,6 +3015,8 @@ Element.Row.onRender.reportContext=보고서 컨텍스트
 Element.Row.suppressDuplicates=중복 항목 숨기기
 Element.Row.viewAction=작업 보기
 Element.Row.repeatable=반복 가능
+Element.Row.tagType=PDF 태그 형식
+Element.Row.language=언어
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=열
@@ -3028,6 +3055,9 @@ Element.Cell.antidiagonalThickness=반대각선 두께
 Element.Cell.diagonalStyle=대각선 스타일
 Element.Cell.antidiagonalStyle=반대각선 스타일
 Element.Cell.antidiagonalColor=주 대각선 색
+Element.Cell.tagType=PDF 태그 형식
+Element.Cell.language=언어
+Element.Cell.altText=대체 텍스트
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=대체 텍스트
@@ -3061,6 +3091,7 @@ Element.Image.onPageBreak.this=이미지 인스턴스
 Element.Image.onPageBreak.reportContext=보고서 컨텍스트
 Element.Image.fitToContainer=컨테이너에 맞추기
 Element.Image.proportionalScale=비례 배율
+Element.Image.tagType=PDF 태그 형식
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=열
@@ -3085,6 +3116,7 @@ Element.Grid.onPageBreak.reportContext=보고서 컨텍스트
 Element.Grid.caption=캡션
 Element.Grid.captionID=캡션 키
 Element.Grid.summary=요약
+Element.Grid.tagType=PDF 태그 형식
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=방향
@@ -3111,6 +3143,8 @@ Element.TextData.onPageBreak.toolTip=페이지가 나누어질 때 해당 페이지에 있는 모�
 Element.TextData.onPageBreak.this=동적 텍스트 인스턴스
 Element.TextData.onPageBreak.reportContext=보고서 컨텍스트
 Element.TextData.hasExpression=식 값
+Element.TextData.tagType=PDF 태그 형식
+Element.TextData.altText=대체 텍스트
 
 #27.ExtendedItem   ( prefix  Element.ExtendedItem )
 Element.ExtendedItem.altText=대체 텍스트
@@ -3418,6 +3452,7 @@ Element.DerivedDataSet.extensionID=확장 ID
 Element.AbstractScalarParameter.isRequired=필요
 Element.AbstractScalarParameter.dynamicList=동적 목록
 Element.AbstractScalarParameter.dynamicList.dataSetName=데이터 집합 이름
+Element.AbstractScalarParameter.dynamicList.linkedDataModelName=연결된 데이터 모델 이름
 Element.AbstractScalarParameter.dynamicList.valueExpr=값 식
 Element.AbstractScalarParameter.dynamicList.labelExpr=레이블 식
 Element.AbstractScalarParameter.listLimit=목록 제한
@@ -3478,6 +3513,17 @@ Element.ReportItemTheme.customValues=사용자 지정 값
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=CSS 스타일시트
+
+#Category
+Element.Category.helpText = 도움말 텍스트
+Element.Category.helpTextKey = 도움말 텍스트 리소스 키
+
+#Category Column
+Element.CategoryColumn.aggregationFunction = 집계 함수
+Element.CategoryColumn.aliasDataSet = 별칭 데이터 집합
+Element.CategoryColumn.dataType = 데이터 형식
+Element.CategoryColumn.expression = 식
+Element.CategoryColumn.resultSetColumnName = 결과 집합 열 이름
 
 ###########################################################
 # Predefined style

@@ -1,6 +1,6 @@
 dataset.editor.page.query=查询
 dataset.new.query=使用可用项来定义 sql 查询文本。
-dataset.new.query.hive=使用可用数据项定义 hql 查询文本。
+dataset.new.query.hive=使用可用数据项定义 HQL 查询文本。
 dataset.new=新建数据集
 dataset.editor.page.query.error.schemaNotExisted=架构名称不存在。
 datasource.new=新建数据源
@@ -58,6 +58,7 @@ wizard.label.manageDriver=管理驱动程序(&M)...
 wizard.label.bidiSettings=双向设置(&S)...
 wizard.label.search=搜索:
 wizard.label.filter=筛选器:
+wizard.label.SSL.EncryptionMethod= 要启用 SSL 连接，请指定加密方法 (例如，"SSL")。\n "noEncryption" 是禁用 SSL 连接的默认设置。
 tablepage.label.selecttype=类型(&T):
 tablepage.filter.warning=请指定筛选器。
 wizard.message.createDataSource=创建新的数据源。

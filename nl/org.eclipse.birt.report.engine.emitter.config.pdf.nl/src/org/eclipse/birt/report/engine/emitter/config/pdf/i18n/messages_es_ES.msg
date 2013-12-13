@@ -28,6 +28,8 @@ OptionDisplayValue.FontSubstitution=Sustitución de fuente
 OptionDisplayValue.EmbeddedFont=Fuente incrustada
 OptionDisplayValue.ChartDpi=Diagrama DPI
 OptionDisplayValue.RenderChartInSVG=Procesar diagrama en los gráficos vectoriales
+OptionDisplayValue.DisableFlashAnimation=Desactivar animación Flash para impresión
+OptionDisplayValue.DisablePrint=Desactivar impresión
 
 ###########################################################
 #Option Description
@@ -39,6 +41,8 @@ OptionDescription.FontSubstitution=Selecciona fuentes automáticamente cuando la 
 OptionDescription.EmbeddedFont=La fuente de tipo true estará incrustada en el archivo PDF generado.
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
 OptionDescription.RenderChartInSVG=Procesar diagrama en los gráficos vectoriales.
+OptionDescription.DisableFlashAnimation=Desactive la animación Flash para la impresión.
+OptionDescription.DisablePrint=Desactive la impresión.
 
 ###########################################################
 #tooltip

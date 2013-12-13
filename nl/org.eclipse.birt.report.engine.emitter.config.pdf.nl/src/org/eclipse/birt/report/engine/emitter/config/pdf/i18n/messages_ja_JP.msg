@@ -28,6 +28,8 @@ OptionDisplayValue.FontSubstitution=ƒtƒHƒ“ƒg‚Ì’u‚«Š·‚¦
 OptionDisplayValue.EmbeddedFont=–„‚ß‚İƒtƒHƒ“ƒg
 OptionDisplayValue.ChartDpi=ƒOƒ‰ƒt‚Ì DPI
 OptionDisplayValue.RenderChartInSVG=ƒxƒNƒ^[ƒOƒ‰ƒtƒBƒbƒN‚ÅƒOƒ‰ƒt‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO
+OptionDisplayValue.DisableFlashAnimation=ˆóü‚Ìƒtƒ‰ƒbƒVƒ…ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ–³Œø‚É‚·‚é
+OptionDisplayValue.DisablePrint=ˆóü‚ğ–³Œø‚É‚·‚é
 
 ###########################################################
 #Option Description
@@ -39,6 +41,8 @@ OptionDescription.FontSubstitution=w’è‚³‚ê‚½ƒtƒHƒ“ƒg‚Å•\¦‚Å‚«‚È‚¢•¶š‚ª‚ ‚éê
 OptionDescription.EmbeddedFont=¶¬‚³‚ê‚é PDF ƒtƒ@ƒCƒ‹‚É‚ÍATrueType ƒtƒHƒ“ƒg‚ª–„‚ß‚Ü‚ê‚Ü‚·B
 OptionDescription.ChartDpi=ƒOƒ‰ƒt‚Ì¶¬‚Ég—p‚·‚é DPI ‚Å‚·B
 OptionDescription.RenderChartInSVG=ƒxƒNƒ^[ƒOƒ‰ƒtƒBƒbƒN‚ÅƒOƒ‰ƒt‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO‚µ‚Ü‚·B
+OptionDescription.DisableFlashAnimation=ˆóü‚Ìƒtƒ‰ƒbƒVƒ…ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ–³Œø‚É‚µ‚Ü‚·B
+OptionDescription.DisablePrint=ˆóü‚ğ–³Œø‚É‚µ‚Ü‚·B
 
 ###########################################################
 #tooltip

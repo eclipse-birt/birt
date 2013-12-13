@@ -6,6 +6,7 @@ designer.preview.previewcascadingmenugroup.label=Affiche&r l'état
 document.preview.previewtoolbarmenuaction.label=Afficher le document
 document.preview.previewmenugroup.label=Afficher le &document
 ActionSet.Preview=Aperçu
+ActionSet.PreviewWithSecurity=Aperçu du document
 Action.GenDocument=Générer le &document
 
 template.preview=&Aperçu

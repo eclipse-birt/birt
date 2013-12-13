@@ -28,6 +28,8 @@ OptionDisplayValue.FontSubstitution=字体替代
 OptionDisplayValue.EmbeddedFont=嵌入字体
 OptionDisplayValue.ChartDpi=图表 DPI
 OptionDisplayValue.RenderChartInSVG=以向量图形呈现图表
+OptionDisplayValue.DisableFlashAnimation=禁用打印 Flash 动画
+OptionDisplayValue.DisablePrint=禁用打印
 
 ###########################################################
 #Option Description
@@ -39,6 +41,8 @@ OptionDescription.FontSubstitution=指定的字体无法显示该字符时自动选择字体。
 OptionDescription.EmbeddedFont=TrueType 字体将嵌入到生成的 PDF 文件中。
 OptionDescription.ChartDpi=DPI 用于生成图表。
 OptionDescription.RenderChartInSVG=以向量图形呈现图表。
+OptionDescription.DisableFlashAnimation=禁用打印 Flash 动画。
+OptionDescription.DisablePrint=禁用打印。
 
 ###########################################################
 #tooltip

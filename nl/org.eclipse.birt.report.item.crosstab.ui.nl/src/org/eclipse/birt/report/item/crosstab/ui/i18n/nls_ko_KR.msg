@@ -69,6 +69,8 @@ SubTotalProvider.Column.Position=위치
 SubTotalProvider.ShowAs={0}(으)로 표시
 LevelViewDialog.Title=그룹 수준 표시/숨기기
 LevelViewDialog.Label.Info=크로스 탭에 표시할 수준 선택:
+LevelViewDialog.Button.Regular.Text=일반 그룹(&R)
+LevelViewDialog.Button.Date.Text=날짜 그룹(&D)
 AggregationDialog.Title=전체
 AggregationDialog.Label.Grand=총합계:
 AggregationDialog.Label.Sub=부분합:
@@ -358,3 +360,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=열 영역
 VirtualCrosstabCellNodeProvider.Display.DetailArea=세부 영역
 VirtualCrosstabCellNodeProvider.Display.RowArea=행 영역
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=알 수 없는 영역
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\(데이터 모델)

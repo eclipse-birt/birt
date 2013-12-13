@@ -15,7 +15,7 @@ data.source.name=Excel-Datenquelle
 data.set.name=Excel-Datensatz
 connection.profile.name=Excel-Datenquellen-Verbindungsprofil
 
-datasource.property.uri=&URI
+datasource.property.uri=U&RI
 datasource.property.incltypeline=Zweite Zeile als &Datentypindikator verwenden
 datasource.property.inclcolumnnameline=Erste Zeile als Spalten&namenindikator verwenden
 

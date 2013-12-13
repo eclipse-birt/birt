@@ -57,7 +57,7 @@ extension.odadatasource=Point d'extension de la source de données ODA
 publish.template=Enregistrer le modèle avec l'&assistant Nouvel état...
 publish.library=Copier la bi&bliothèque dans le dossier de ressources partagées...
 
-ActionSet.Publish=Publier
+ActionSet.Publish=Publier les ressources
 Dummy.label=
 preference.classpath=Classpath
 

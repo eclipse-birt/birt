@@ -447,3 +447,4 @@ data.datamart.collation=Beim Vorgängerprodukt wird Kollation beim Datenobjektind
 
 data.filter.pushDownFail= Fehler beim Push Down für Filter, der nur von der ODA-Erweiterung unterstützt wird.
 data.query.exprReferInvalidColumn=Cannot execute query because: the query contains an invalid expression which references an invalid dataset column "{0}".
+data.query.invalidColumnBinding=Die Spaltenbindung '{0}' ist ungültig.

@@ -447,3 +447,4 @@ data.datamart.collation=以前の製品では、照合を設定した場合でもデータオブジェクト
 
 data.filter.pushDownFail= ODA 拡張側でのみサポートされるフィルタをプッシュ (下へ) できませんでした。
 data.query.exprReferInvalidColumn=Cannot execute query because: the query contains an invalid expression which references an invalid dataset column "{0}".
+data.query.invalidColumnBinding=列バインド "{0}" が無効です。

@@ -1,5 +1,5 @@
 #/*******************************************************************************
-# * Copyright (c) 2013 Actuate Corporation.
+# * Copyright (c) 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
@@ -17,11 +17,14 @@ DocxEmitter.DisplayName=Word (DOCX)
 ###########################################################
 #Option Display Value
 OptionDisplayValue.ChartDpi=DPI de graphique
+OptionDisplayValue.EmbedHtml=Incorporer HTML
 
 ###########################################################
 #Option Description
-OptionDescription.ChartDpi=DPI utilisï¿½ pour gï¿½nï¿½rer un graphique.
+OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
+OptionDescription.EmbedHtml=Autoriser DOCX à utiliser du code HTML incorporé
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=DPI utilisï¿½ par le moteur de graphique pour gï¿½nï¿½rer des graphiques. Par exemple, 192.
+Tooltip.ChartDpi=DPI utilisé par le moteur de graphique pour générer des graphiques. Par exemple, 192.
+Tooltip.EmbedHtml=Si le contenu HTML doit être directement incorporé à la sortie DOCX

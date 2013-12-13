@@ -447,3 +447,4 @@ data.datamart.collation=Dans le produit précédent, le classement n'est pas utili
 
 data.filter.pushDownFail= Impossible d'aligner le filtre pris en charge uniquement par un côté de l'extension ODA.
 data.query.exprReferInvalidColumn=Cannot execute query because: the query contains an invalid expression which references an invalid dataset column "{0}".
+data.query.invalidColumnBinding=La liaison de colonnes "{0}" est incorrecte.

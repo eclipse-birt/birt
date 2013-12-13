@@ -1,6 +1,6 @@
 dataset.editor.page.query=Consulta
 dataset.new.query=Definir un texto de consulta sql con los elementos disponibles.
-dataset.new.query.hive=Definir un texto de consulta hql con los elementos disponibles.
+dataset.new.query.hive=Definir un texto de consulta HQL con los elementos disponibles.
 dataset.new=Nuevo conjunto de datos
 dataset.editor.page.query.error.schemaNotExisted=El nombre de esquema no existe.
 datasource.new=Nueva fuente de datos
@@ -58,6 +58,7 @@ wizard.label.manageDriver=&Administrar controladores...
 wizard.label.bidiSettings=&Ajustes bidimensionales...
 wizard.label.search=Búsqueda:
 wizard.label.filter=Filtrar:
+wizard.label.SSL.EncryptionMethod= Para activar la conexión SSL, especifique el método de cifrado, por ejemplo, "SSL".\n "noEncryption" es el parámetro predeterminado para desactivar la conexión SSL.
 tablepage.label.selecttype=&Tipo:
 tablepage.filter.warning=Especifique un filtro.
 wizard.message.createDataSource=Cree una nueva fuente de datos.

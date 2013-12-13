@@ -225,6 +225,8 @@ BgImageFieldEditor.displayname.Browse=찾아보기(&W)...
 #BindingPage properties
 
 BindingPage.Dataset.Label=데이터 집합(&T):
+BindingPage.DataSetBindingSelector.Title.DataSet=데이터 집합 바인딩
+BindingPage.DataSetBindingSelector.Title.LinkModel=데이터 모델 바인딩
 BindingPage.ReportItem.Label=보고서 항목(&I):
 BindingPage.ReportItem.NoName=이름 없음
 BindingPage.Label.Binding=바인딩
@@ -270,7 +272,6 @@ SizePreferencePage.displayname.Title=크기
 ###########################################################
 #BorderCanvas properties
 
-BorderCanvas.Inherited0=(상속됨)
 BorderCanvas.Label.Inherited=(Inherited)
 
 ###########################################################
@@ -613,9 +614,15 @@ DataSetBasePage.ScriptedDataSet.name=스크립트된 데이터 집합
 DataSetBasePage.ScriptedDataSource.name=스크립트 데이터 원본
 DataSetBasePage.Group.DataSourceSelection=데이터 원본 선택
 
-DataSetBasePage.CassandraScriptedDataSet.name=Cassandra Scripted Data Set
-DataSetBasePage.CassandraScriptedDataSource.name=Cassandra Scripted Data Source
-CassandraScriptedDataSource.display.name=Cassandra Scripted Data Source
+DataSetBasePage.CassandraScriptedDataSet.name=Cassandra 스크립트 데이터 집합
+DataSetBasePage.CassandraScriptedDataSource.name=Cassandra 스크립트 데이터 원본
+DataSetBindingSelector.Button.DeselectAll=모두 선택(&A)
+DataSetBindingSelector.Button.SelectAll=모두 선택(&S)
+DataSetBindingSelector.Combo.DataSet=데이터 집합(&D):
+DataSetBindingSelector.Label.SelectBindingColumns=바인딩 열을 선택하십시오.
+DataSetBindingSelectorPage.Label.SelectBindingColumns=바인딩 열을 선택하십시오.
+DataSetBindingSelectorPage.Title=데이터 집합 바인딩
+CassandraScriptedDataSource.display.name=Cassandra 스크립트 데이터 원본
 CassandraScriptedDataSource.error.classNotFound=Cassandra 스크립트 데이터 원본을 지원하는 Hector 클라이언트 라이브러리 jar를 찾을 수 없습니다.
 
 ###########################################################
@@ -731,6 +738,8 @@ PropertyBindingPage.dataset.queryText=쿼리 텍스트(&T)
 PropertyBindingPage.property.tooltip=런타임 속성 바인딩 정의
 PropertyBindingPage.button.tooltip=식 빌더를 열어 {0}의 값을 입력하십시오.
 PropertyBindingPage.label.colon=:
+PropertyBindingPage.label.LeftParenthesis=(
+PropertyBindingPage.label.RightParenthesis=)
 
 ###########################################################
 #DataSetProcess properties
@@ -1106,7 +1115,7 @@ Element.Container.slot.reportItems=보고서 항목:
 Element.Data.action=작업:
 Element.Data.helpText=도움말 텍스트:
 Element.Data.helpTextID=도움말 텍스트 키
-Element.TextData.valueExpr=값 식(&V):
+Element.TextData.valueExpr=값 식(&U):
 Element.DataSet.afterClose.toolTip=데이터 집합을 닫은 직후 호출됩니다.
 Element.DataSet.afterClose=닫기 이후:
 Element.DataSet.afterOpen.toolTip=데이터 집합을 연 직후 호출됩니다.
@@ -1182,7 +1191,7 @@ Element.Listing.onRow.toolTip=이 요소에 대한 데이터 집합에서 검색된 각 행에 대해
 Element.Listing.onRow=행에서:
 Element.Listing.onStart.toolTip=데이터 원본을 연 후, 머리글 밴드가 생성되기 전, 첫 번째 행이 이 요소에 대한 데이터 집합에서 검색되기 전에 호출됩니다. 
 Element.Listing.onStart=시작 시:
-Element.Listing.pageBreakInterval=페이지 나누기 간격(&P):
+Element.Listing.pageBreakInterval=페이지 나누기 간격(&K):
 Element.Listing.sorting=정렬:
 Element.ListingGroup.filter=필터:
 Element.ListingGroup.groupName=이름
@@ -1284,7 +1293,7 @@ Element.ReportElement.extends=확장:
 Element.ReportElement.javaClass=Java 클래스:
 Element.ReportElement.name=이름(&N):
 Element.ReportElement.propertyMask=속성 마스크:
-Element.ReportElement.style=스타일(&T):
+Element.ReportElement.style=스타일(&Y)
 Element.ReportItem.bookmark=책갈피(&B):
 Element.ReportItem.dataSet=데이터 집합:
 Element.ReportItem.height=높이(&H):
@@ -1365,9 +1374,9 @@ Element.Style.border.vmiddle.style=테두리 세로 중간 스타일:
 Element.Style.border.vmiddle.width=테두리 세로 중간 너비:
 Element.Style.border=테두리:
 Element.Style.box=상자:
-Element.Style.canShrink=축소 가능(&S)
+Element.Style.canShrink=축소 가능(&K)
 Element.Style.color=색상(&C):
-Element.Style.display=표시(&Y):
+Element.Style.display=표시(&P):
 Element.Style.font.family=글꼴(&F):
 Element.Style.font.size=크기(&Z):
 Element.Style.font.style=스타일(&T):
@@ -1388,11 +1397,11 @@ Element.Style.letterSpacing=문자 간격(&T):
 Element.Style.lineHeight=줄 높이(&N):
 Element.Style.map.rules=맵 규칙:
 Element.Style.map.testExpr=맵 테스트 식:
-Element.Style.margin.bottom=아래(&O):
+Element.Style.margin.bottom=아래(&B):
 Element.Style.margin.left=왼쪽(&E):
 Element.Style.margin.right=오른쪽(&I):
 Element.Style.margin.top=위(&P):
-Element.Style.masterPage=마스터 페이지(&M):
+Element.Style.masterPage=마스터 페이지(&P):
 Element.Style.orphans=첫 줄 분리(&O):
 Element.Style.padding.bottom=아래(&B):
 Element.Style.padding.left=왼쪽(&L):
@@ -1412,7 +1421,7 @@ Element.Style.text.direction=양방향 텍스트 방향(&B):
 Element.Style.text.indent=텍스트 들여쓰기(&X):
 Element.Style.text.transform=텍스트 변환(&R):
 Element.Style.text=텍스트:
-Element.Style.verticalAlign=세로 맞춤(&V):
+Element.Style.verticalAlign=세로 맞춤(&A):
 Element.Style.whiteSpace=공백(&I):
 Element.Style.widows=마지막 줄 분리(&D):
 Element.Style.wordSpacing=단어 간격(&W):
@@ -1470,15 +1479,15 @@ error.invalidName=이름 "{0}"이(가) 잘못되었습니다. 이름에는 ".", "/", "\\", "!",
 
 ExceptionHandler.Label.ErrorCode=오류 코드
 ExceptionHandler.Label.ErrorMessage=오류 메시지
-ExceptionHandler.Label.PluginId=Plug-in ID:
-ExceptionHandler.Label.PluginName=Plug-in Name:
-ExceptionHandler.Label.PluginProvider=Plug-in Provider:
-ExceptionHandler.Label.PluginVersion=Version:
-ExceptionHandler.Label.UnknownPlugin=Unknown plug-in
+ExceptionHandler.Label.PluginId=플러그인 ID:
+ExceptionHandler.Label.PluginName=플러그인 이름:
+ExceptionHandler.Label.PluginProvider=플러그인 공급자:
+ExceptionHandler.Label.PluginVersion=버전:
+ExceptionHandler.Label.UnknownPlugin=알 수 없는 플러그인
 ExceptionHandler.Meesage.UnexceptedExceptionOccur=예기치 못한 내부 예외가 발생했습니다. 자세한 내용은 로그 파일을 확인하십시오.
 ExceptionHandler.Message.BirtExceptionOccur=BIRT 예외가 발생했습니다.
 ExceptionHandler.Message.CausedBy=Caused by {0}.
-ExceptionHandler.Message.FileNotFound=File not found:
+ExceptionHandler.Message.FileNotFound=파일 없음:
 ExceptionHandler.Message.OutOfMemory=메모리가 부족합니다.
 ExceptionHandler.Message.PartInitError=부분 초기화 실패.
 ExceptionHandler.Message.SemanticFail=의미 확인 실패.
@@ -1488,6 +1497,7 @@ ExceptionHandler.Title.Error=오류
 ExceptionHandler.Title.FileNotFound=파일 없음.
 ExceptionHandler.Title.PartInitError=부분 초기화 오류.
 ExceptionHandler.Title.UnknownHost=알 수 없는 호스트
+ExceptionHandler.Meesage.ExceptionOccur=예기치 않은 예외가 발생했습니다. 자세한 내용은 로그를 참조하십시오.
 
 ###########################################################
 #ExportAction properties
@@ -1693,7 +1703,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = 날짜 시간 형식을 설정합니�
 ###########################################################
 #FormatDateTimePage properties
 
-FormatDateTimePage.label.custom.settings.label=예 형식(하나를 클릭하여 아래 복사한 다음 수정)(&S):
+FormatDateTimePage.label.custom.settings.label=예 형식(하나를 클릭하여 아래 복사한 다음 수정)(&P):
 FormatDateTimePage.label.custom.settings=사용자 지정 설정
 FormatDateTimePage.label.format.code=형식 코드(&C):
 FormatDateTimePage.label.format.page=다음으로 형식 지정(&F):
@@ -1732,7 +1742,7 @@ FormatNumberPage.currency.symbol.none=기호 없음
 FormatNumberPage.label.currency.settings=통화 설정
 FormatNumberPage.label.custom.preview.group=미리 보기
 FormatNumberPage.label.custom.preview.label=형식 미리 보기:
-FormatNumberPage.label.custom.settings.lable=예 형식(하나를 클릭하여 아래 복사한 다음 수정)(&S):
+FormatNumberPage.label.custom.settings.lable=예 형식(하나를 클릭하여 아래 복사한 다음 수정)(&P):
 FormatNumberPage.label.custom.settings=사용자 지정 설정
 FormatNumberPage.label.decimal.places=소수 자릿수(&D): 
 FormatNumberPage.label.rounding.mode=반올림 모드(&R):
@@ -1746,25 +1756,25 @@ FormatNumberPage.label.percent.settings=백분율 설정
 FormatNumberPage.label.preview.number=미리 볼 숫자(&P): 
 FormatNumberPage.label.scientific.settings=공학용 설정
 FormatNumberPage.label.symbol.position=기호 위치(&Y): 
-FormatNumberPage.label.symbol=기호(&S): 
+FormatNumberPage.label.symbol=기호(&B): 
 FormatNumberPage.label.table.column.format.code=예 형식
 FormatNumberPage.label.table.column.format.result=예 형식 결과
 FormatNumberPage.label.use1000sSeparator=1000단위 구분 기호 사용(&1)
 FormatNumberPage.label.useLeadingZero=선행 0 사용
-FormatNumberPage.label.useSymbolSpace=기호 공백 사용(&M)
+FormatNumberPage.label.useSymbolSpace=기호 공백 사용(&U)
 FormatNumberPage.preview.invalidFormatCode=잘못된 형식 코드
 FormatNumberPage.preview.invalidNumber=잘못된 숫자 미리 보기
 FormatNumberPage.symblePos.after=이후
 FormatNumberPage.symblePos.before=이전
 
-FormatNumberPage.roundingMode.halfUp=Half Up
-FormatNumberPage.roundingMode.halfDown=Half Down
-FormatNumberPage.roundingMode.halfEven=Half Even
+FormatNumberPage.roundingMode.halfUp=반올림
+FormatNumberPage.roundingMode.halfDown=반내림
+FormatNumberPage.roundingMode.halfEven=짝수로 반올림
 FormatNumberPage.roundingMode.up=위로
 FormatNumberPage.roundingMode.down=아래로
-FormatNumberPage.roundingMode.ceiling=Ceiling
-FormatNumberPage.roundingMode.floor=Floor
-FormatNumberPage.roundingMode.unnecessary=Unnecessary
+FormatNumberPage.roundingMode.ceiling=정수로 올림
+FormatNumberPage.roundingMode.floor=정수로 내림
+FormatNumberPage.roundingMode.unnecessary=필요 없음
 
 ###########################################################
 #FormatNumberPreferencePage properties
@@ -1786,13 +1796,13 @@ FormatStringAttributePage.Trans.SetStringFormat = 문자열 형식을 설정합니다.
 
 FormatStringPage.default.preview.text=내 문자열
 FormatStringPage.label.custom.preview.label=형식 미리 보기:
-FormatStringPage.label.custom.settings.label=예 형식(하나를 클릭하여 아래 복사한 다음 수정)(&S):
+FormatStringPage.label.custom.settings.label=예 형식(하나를 클릭하여 아래 복사한 다음 수정)(&P):
 FormatStringPage.label.customSettings=사용자 지정 설정
 FormatStringPage.label.format.code=형식 코드(&C):
 FormatStringPage.label.formatStringAs=다음으로 형식 지정(&F):
 FormatStringPage.label.locale=로케일(&L):
 FormatStringPage.label.preview.group=미리 보기
-FormatStringPage.label.preview.string=미리 볼 문자열(&P): 
+FormatStringPage.label.preview.string=미리 볼 문자열(&R): 
 FormatStringPage.label.previewWithFormat=형식 미리 보기
 FormatStringPage.label.table.collumn.exampleFormatCode=예 형식
 FormatStringPage.label.table.collumn.exampleFormatResult=예 형식 결과
@@ -3198,7 +3208,7 @@ PublishTemplateAction.wizard.page.label.image=템플릿 이미지(&I):
 PublishTemplateAction.wizard.page.title=템플릿 게시
 PublishTemplateAction.wizard.title=템플릿 게시
 PublishTemplateAction.wizard.errorTitle=오류
-PublishTemplateAction.wizard.message=Unable to publish the template to the directory where it exists, please choose another directory to publish.
+PublishTemplateAction.wizard.message=템플릿이 이미 들어 있는 디렉터리에 템플릿을 게시할 수 없습니다. 게시할 다른 디렉터리를 선택하십시오.
 PublishTemplateAction.wizard.msgDirErr=대상 디렉터리가 없지만 만들 수 없습니다. 
 PublishTemplateAction.wizard.notvalidfolder=기본 설정에 정의한 템플릿 폴더가 올바르지 않습니다.
 PublishTemplateAction.wizard.page.nameInfo=표시 이름이 필요함
@@ -3213,7 +3223,7 @@ PublishTemplateAction.SaveBeforeGenerating.dialog.button.no=아니요(&N)
 ###########################################################
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=오류
-PublishLibraryAction.wizard.message=Unable to publish the library to the directory where it exists, please choose another directory to publish.
+PublishLibraryAction.wizard.message=라이브러리가 이미 들어 있는 디렉터리에 라이브러리를 게시할 수 없습니다. 게시할 다른 디렉터리를 선택하십시오.
 PublishLibraryAction.wizard.msgDirErr=대상 디렉터리가 없지만 만들 수 없습니다. 
 PublishLibraryAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
 PublishLibraryAction.wizard.notvalidfolder=기본 설정에 정의한 라이브러리 폴더가 올바르지 않습니다.
@@ -3261,7 +3271,7 @@ ReloadCssStylesAction.Action.Text=CSS 파일 다시 로드(&R)
 #ReferencePage properties
 
 ReferencePage.Button.Edit=편집(&D)...
-ReferencePage.Label.Source=원본(&S):
+ReferencePage.Label.Source=원본(&C):
 
 ###########################################################
 #RefreshAction properties
@@ -3544,7 +3554,7 @@ RowProvider.action.text.below=아래에 행 삽입(&B)
 #SaveAsDialog properties
 
 SaveAsDialog.message=다른 위치에 파일을 저장합니다.
-SaveAsDialog.overwriteQuestion=The file ''{0}'' already exists. Do you want to replace the existing file?
+SaveAsDialog.overwriteQuestion=파일 ''{0}''이(가) 이미 있습니다. 기존 파일을 바꾸시겠습니까?
 SaveAsDialog.Question=질문
 SaveAsDialog.text=다른 이름으로 저장
 SaveAsDialog.title=다른 이름으로 저장
@@ -3676,7 +3686,7 @@ SelectValueDialog.SelectValue.NullValue=<널(null) 값>
 ###########################################################
 #SetConstraintCommand properties
 
-SetConstraintCommand.Error.SetConstraintError=An error occured when setting a constraint to the model.
+SetConstraintCommand.Error.SetConstraintError=모델에 제약 조건을 설정할 때 오류가 발생했습니다.
 SetConstraintCommand.transLabel.setConstraint=제약 조건 설정
 SetConstraintCommand.commandLabel.ResizeCommand=크기 조정
 ###########################################################
@@ -3688,7 +3698,16 @@ ProjectFilterAction.text=필터...
 #ResourceFileFolderSelectionAction properties
 
 ResourceFileFolderSelectionAction.text=필터...
+
+###########################################################
+#ResourceFileFolderSelectionDialog properties
+
 ResourceFileFolderSelectionDialog.Text.Menu=메뉴
+ResourceFileFolderSelectionDialog.button.importFile=파일 가져오기...
+ResourceFileFolderSelectionDialog.title.error=오류
+ResourceFileFolderSelectionDialog.title.overwrite=덮어쓰기
+ResourceFileFolderSelectionDialog.overwrite.msg=같은 이름의 파일이 이미 있습니다. 덮어쓰시겠습니까?
+ResourceFileFolderSelectionDialog.import.msg=파일을 가져오는 중...
 
 ###########################################################
 #ShowPropertyAction properties
@@ -3703,7 +3722,7 @@ SortingHandleProvider.Label.SortOn=정렬 방법:
 ###########################################################
 #Spinner properties
 
-Spinner.DialogTitle.InvalidNumber=Invalid number
+Spinner.DialogTitle.InvalidNumber=잘못된 숫자
 
 ###########################################################
 #SplitAction properties
@@ -3809,6 +3828,7 @@ TableOptionDialog.title.InsertGrid=눈금 삽입
 TableOptionDialog.title.InsertTable=테이블 삽입
 TableOptionDialog.text.DataSet=데이터 집합(&S):
 TableOptionDialog.text.AutoSummary=자동 요약 대상(&M)
+TableOptionPage.Title=테이블 삽입
 
 ###########################################################
 #TablePageGenerator properties
@@ -3983,7 +4003,7 @@ TextPageGenerator.List.Visibility=표시 유형
 ###########################################################
 #TextPropertyDescriptor properties
 
-TextPropertyDescriptor.Message.Version=Eclipse BIRT Designer Version {0} Build <{1}>
+TextPropertyDescriptor.Message.Version=Eclipse BIRT Designer 버전 {0} 빌드 <{1}>
 
 ###########################################################
 #AutoTextPageGenerator properties
@@ -4032,8 +4052,8 @@ UndoAction.Tooltip={0} 실행 취소
 ###########################################################
 #UnitPropertyDescriptor properties
 
-UnitPropertyDescriptor.error.message=Please enter a smaller value\!
-UnitPropertyDescriptor.error.title=Too Big Value
+UnitPropertyDescriptor.error.message=더 작은 값을 입력하십시오\!
+UnitPropertyDescriptor.error.title=값이 너무 큽니다.
 
 ###########################################################
 #UseLibraryAction properties
@@ -4069,10 +4089,10 @@ VisibilityPage.Check.HTML=HTML(&T)
 VisibilityPage.Check.PDF=PDF(&P)
 VisibilityPage.Label.DetailAll=상세 정보(모든 출력)
 VisibilityPage.Label.DetailSpecific=상세 정보(특정 출력)
-VisibilityPage.Label.Expression=식(&E):
+VisibilityPage.Label.Expression=식:
 VisibilityPage.menu.SaveHides=숨김 저장
 VisibilityPage.Radio.AllOutputs=모든 출력(&A)
-VisibilityPage.Radio.SpecificOutputs=특정 출력(&S)...
+VisibilityPage.Radio.SpecificOutputs=특정 출력(&C)...
 
 ###########################################################
 #WidgetUtil properties
@@ -4151,6 +4171,8 @@ WizardTemplateChoicePage.message.MailingLabels=전자 우편 레이블
 WizardTemplateChoicePage.message.SideBySideChartListing=그룹화한 보고서를 만들며, 각 그룹은 연속 목록 및 차트를 포함합니다.
 WizardTemplateChoicePage.message.SimpleListing=데이터 원본 필드를 사용하여 목록 보고서를 생성합니다.
 WizardTemplateChoicePage.message.Crosstab=크로스 탭 보고서 작성 시 자습서 사용
+WizardTemplateChoicePage.message.BlankAuto=볼 때 자동으로 대화형 작업을 사용하는 빈 보고서 템플릿입니다.
+WizardTemplateChoicePage.title.BlankAuto=빈 자동 대화형 보고서
 WizardTemplateChoicePage.title.BlankReport=빈 보고서
 WizardTemplateChoicePage.title.ChartListing=차트 및 목록
 WizardTemplateChoicePage.title.DualColumnChartListing=이중 열 차트 및 목록
@@ -4295,6 +4317,7 @@ DataSetColumnBindingsFormHandleProvider.Column.Name=이름
 DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=표시 이름 ID
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=표시 이름
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=데이터 열 바인딩:
+DataSetColumnBindingsFormHandleProvider.RefreshBindingColumns=바인딩 열 새로 고침
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=사용 가능한 열 바인딩:
 DataSetColumnBindingsFormHandleProvider.NewBinding=새 바인딩  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=데이터 형식
@@ -4303,7 +4326,10 @@ DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=집계 대상
 DataSetColumnBindingsFormHandleProvider.Column.Filter=필터
 DataSetColumnBindingsFormHandleProvider.Column.Function=함수
 DataSetColumnBindingsFormHandleProvider.ALL=모두
+DataSetColumnBindingsFormHandleProvider.GenerateBindingColumns=바인딩 열 생성
 DataSetColumnBindingsFormHandleProvider.NONE=해당 없음
+DataSetColumnBindingsFormHandleProvider.Trans.GenerateBindingColumns=바인딩 열 생성
+DataSetColumnBindingsFormHandleProvider.Trans.RefreshBindingColumns=바인딩 열 새로 고침
 
 ###########################################################
 #DataSetColumnBindingsFormPage
@@ -4651,6 +4677,9 @@ BindingDialogHelper.warning.function=현재 함수에 대해 권장되는 날짜 형식은 "{0}"
 BindingDialogHelper.warning.parameter=식 "{0}"의 반환 데이터 형식이 매개 변수 "{1}"에서 지원되지 않습니다. 그대로 유지하시겠습니까?
 BindingDialogHelper.warning.button.yes=예
 BindingDialogHelper.warning.button.no=아니오
+BindingGroupDescriptorProvider.Flag.DataModel=\(데이터 모델)
+BindingGroupDescriptorProvider.DataSetBindingSelector.Title.LinkModel=데이터 모델 바인딩
+BindingGroupDescriptorProvider.DataSetBindingSelector.Title.DataSet=데이터 집합 바인딩
 
 ###########################################################
 #Scripts Node

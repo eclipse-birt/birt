@@ -58,6 +58,7 @@ wizard.label.manageDriver=&Treiber verwalten...
 wizard.label.bidiSettings=Bidirektionale Einstellungen...
 wizard.label.search=Suchen:
 wizard.label.filter=Filter:
+wizard.label.SSL.EncryptionMethod= um die SSL-Verbindung zu ermöglichen, geben Sie die Verschlüsselungsmethode an, z.B. 'SSL'.\n 'noEncryption' ist die Standardeinstellung, mit der die SSL-Verbindung deaktiviert ist.
 tablepage.label.selecttype=&Typ:
 tablepage.filter.warning=Legen Sie einen Filter fest.
 wizard.message.createDataSource=Neue Datenquelle erstellen.

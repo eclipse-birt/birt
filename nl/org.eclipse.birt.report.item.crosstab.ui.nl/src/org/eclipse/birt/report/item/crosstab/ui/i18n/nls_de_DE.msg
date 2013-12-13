@@ -69,6 +69,8 @@ SubTotalProvider.Column.Position=Position
 SubTotalProvider.ShowAs=Anzeigen als {0}
 LevelViewDialog.Title=Gruppenebenen einblenden/ausblenden
 LevelViewDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
+LevelViewDialog.Button.Regular.Text=&Reguläre Gruppe
+LevelViewDialog.Button.Date.Text=&Datumsgruppe
 AggregationDialog.Title=Summen
 AggregationDialog.Label.Grand=Gesamtsummen:
 AggregationDialog.Label.Sub=Zwischensumme:
@@ -358,3 +360,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=Spaltenbereich
 VirtualCrosstabCellNodeProvider.Display.DetailArea=Detailbereich
 VirtualCrosstabCellNodeProvider.Display.RowArea=Zeilenbereich
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unbekannter Bereich
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (Datenmodell)

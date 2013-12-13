@@ -28,6 +28,8 @@ OptionDisplayValue.FontSubstitution=Schriftart ersetzen
 OptionDisplayValue.EmbeddedFont=Eingebettete Schriftart
 OptionDisplayValue.ChartDpi=Diagramm-DPI
 OptionDisplayValue.RenderChartInSVG=Diagramm in Vektorgrafiken rendern
+OptionDisplayValue.DisableFlashAnimation=Zum Drucken Flash-Animation deaktivieren
+OptionDisplayValue.DisablePrint=Drucken deaktivieren
 
 ###########################################################
 #Option Description
@@ -39,6 +41,8 @@ OptionDescription.FontSubstitution=Wählt Schriftarten automatisch aus, wenn die 
 OptionDescription.EmbeddedFont=Die TrueType-Schrift wird in die erstellte PDF-Datei eingebettet.
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
 OptionDescription.RenderChartInSVG=Diagramm in Vektorgrafiken rendern.
+OptionDescription.DisableFlashAnimation=Zum Drucken Flash-Animation deaktivieren.
+OptionDescription.DisablePrint=Drucken deaktivieren.
 
 ###########################################################
 #tooltip

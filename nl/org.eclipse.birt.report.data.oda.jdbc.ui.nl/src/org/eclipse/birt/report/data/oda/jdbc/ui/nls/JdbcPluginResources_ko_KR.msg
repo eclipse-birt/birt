@@ -58,6 +58,7 @@ wizard.label.manageDriver=드라이버 관리(&M)...
 wizard.label.bidiSettings=양방향 설정(&S)...
 wizard.label.search=검색:
 wizard.label.filter=필터:
+wizard.label.SSL.EncryptionMethod= SSL 연결을 사용하려면 암호화 방법을 지정하십시오(예: "SSL").\n "noEncryption"은 기본 설정으로서 SSL 연결을 사용하지 않습니다.
 tablepage.label.selecttype=형식(&T):
 tablepage.filter.warning=필터를 지정하십시오.
 wizard.message.createDataSource=새 데이터 원본을 생성합니다.

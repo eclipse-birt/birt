@@ -1,5 +1,6 @@
 ChartCubeQueryHelper.Error.MustBindCube=ƒOƒ‰ƒt‚É‚ÍAƒf[ƒ^‚ğƒtƒB[ƒh‚·‚éƒLƒ…[ƒu‚ğŠÖ˜A•t‚¯‚é•K—v‚ª‚ ‚è‚Ü‚·B
 ChartReportItemPresentationImpl.error.NoData=ƒOƒ‰ƒt‚ÉƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚éƒf[ƒ^ƒZƒbƒg‚©‚ç‚Ís‚ª•Ô‚³‚ê‚Ü‚¹‚ñB.
+ChartReportItemPresentationImpl.error.InvalidCubeBinding=‚±‚ÌƒOƒ‰ƒt‚Åg—p‚·‚éƒf[ƒ^ƒZƒbƒg‚ª•ÏX‚³‚ê‚Ü‚µ‚½B ‚±‚ÌƒOƒ‰ƒt‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒO‚Å‚«‚È‚­‚È‚è‚Ü‚·B
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=ƒOƒ‰ƒtƒIƒuƒWƒFƒNƒg‚ÌƒŒƒ|[ƒg€–Úƒ‰ƒbƒp[‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl : onRowSets(...) - ŠJn
 ChartReportItemPresentationImpl.log.onRowSetsBuilding=ChartReportItemPresentationImpl : onRowSets(...) - ƒOƒ‰ƒt‚ğ\’z
@@ -44,13 +45,13 @@ QueryHelper.InconsitentDataTypesForAxis=“¯‚¶ Y ²‚É‚ ‚é‚·‚×‚Ä‚Ìƒf[ƒ^’è‹`‚É‚Í“¯‚
 QueryHelper.InconsitentDataTypesForValueSeries=’lŒn—ñ‚Ì‚·‚×‚Ä‚Ìƒf[ƒ^’è‹`‚É‚Í“¯‚¶ƒf[ƒ^Œ^‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 ChartElementCommandImpl.editChart=ƒOƒ‰ƒt‚Ì•ÒW
-ChartElementCommandImpl.setProperty.chart.dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ìİ’è
+ChartElementCommandImpl.setProperty.chart.dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ìİ’è
 ChartElementCommandImpl.setProperty.chart.instance=ƒOƒ‰ƒt‚Ìƒ‚ƒfƒ‹‚ğİ’è
 ChartElementCommandImpl.setProperty.plot.transposed=’u‚«Š·‚¦Œã‚Ìİ’è
 ChartElementCommandImpl.setProperty.script=ƒOƒ‰ƒtƒXƒNƒŠƒvƒg‚Ì•ÒW
 ChartElementCommandImpl.setProperty.onRender=ƒOƒ‰ƒtƒXƒNƒŠƒvƒg‚Ì•ÒW
 
-ChartImpl.error.DimensionUnitNotSupported=Chart Simple API ‚Å‚ÍƒfƒBƒƒ“ƒVƒ‡ƒ“‚Ì’PˆÊ ({0}) ‚ğg—p‚Å‚«‚Ü‚¹‚ñB
+ChartImpl.error.DimensionUnitNotSupported=Chart Simple API ‚Å‚ÍƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì’PˆÊ ({0}) ‚ğg—p‚Å‚«‚Ü‚¹‚ñB
 
 ################################################
 # Display names for report model extension 
@@ -74,7 +75,7 @@ property.label.title.value=ƒ^ƒCƒgƒ‹ :
 property.label.title.font.rotation=ƒ^ƒCƒgƒ‹‚Ì‰ñ“] :
 property.label.legend.position=–}—á‚ÌˆÊ’u :
 property.label.legend.anchor=–}—á‚ÌƒAƒ“ƒJ[ :
-property.label.chart.dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“ :
+property.label.chart.dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“ :
 property.label.chart.plot.transposed=’u‚«Š·‚¦Œã
 property.script=ƒXƒNƒŠƒvƒg
 property.onRender=onRender

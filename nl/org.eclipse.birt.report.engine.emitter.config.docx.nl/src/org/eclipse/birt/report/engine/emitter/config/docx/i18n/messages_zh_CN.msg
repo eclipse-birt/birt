@@ -1,5 +1,5 @@
 #/*******************************************************************************
-# * Copyright (c) 2013 Actuate Corporation.
+# * Copyright (c) 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
@@ -11,17 +11,20 @@
 
 ###########################################################
 #Docx Emitter
-DocxEmitter.Description=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ XML Document 2007 ï¿½ï¿½Ê½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½î¡£
+DocxEmitter.Description=ÅäÖÃÓÃÓÚÒÔ XML Document 2007 ¸ñÊ½³ÊÏÖ±¨±íµÄÑ¡Ïî¡£
 DocxEmitter.DisplayName=Word (DOCX)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.ChartDpi=Í¼ï¿½ï¿½ DPI
+OptionDisplayValue.ChartDpi=Í¼±í DPI
+OptionDisplayValue.EmbedHtml=Ç¶Èë HTML
 
 ###########################################################
 #Option Description
-OptionDescription.ChartDpi=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ DPIï¿½ï¿½
+OptionDescription.ChartDpi=ÓÃÓÚÉú³ÉÍ¼±íµÄ DPI¡£
+OptionDescription.EmbedHtml=ÔÊÐí DOCX Ê¹ÓÃÒÑÇ¶ÈëµÄ HTML
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ DPIï¿½ï¿½ ï¿½ï¿½ï¿½ç£¬192ï¿½ï¿½
+Tooltip.ChartDpi=Í¼±íÒýÇæÓÃÓÚÉú³ÉÍ¼±íµÄ DPI¡£ ÀýÈç£¬192¡£
+Tooltip.EmbedHtml=HTML ÄÚÈÝÊÇ·ñÓ¦Ö±½ÓÇ¶Èëµ½ DOCX Êä³ö

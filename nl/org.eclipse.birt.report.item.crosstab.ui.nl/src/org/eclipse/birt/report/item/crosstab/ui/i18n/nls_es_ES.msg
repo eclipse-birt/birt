@@ -69,6 +69,8 @@ SubTotalProvider.Column.Position=Posición
 SubTotalProvider.ShowAs=Mostrar como {0}
 LevelViewDialog.Title=Mostrar/ocultar niveles de grupo
 LevelViewDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referencias cruzadas:
+LevelViewDialog.Button.Regular.Text=G&rupo regular
+LevelViewDialog.Button.Date.Text=&Grupo de fecha
 AggregationDialog.Title=Totales
 AggregationDialog.Label.Grand=Totales generales:
 AggregationDialog.Label.Sub=Subtotales:
@@ -358,3 +360,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=Área de columna
 VirtualCrosstabCellNodeProvider.Display.DetailArea=Área de detalle
 VirtualCrosstabCellNodeProvider.Display.RowArea=Área de fila
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=Área desconocida
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (Modelo de datos)

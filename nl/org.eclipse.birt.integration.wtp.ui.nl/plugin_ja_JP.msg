@@ -16,4 +16,4 @@ BirtResourcesDefinition= BIRT Web アプリケーションリソースの定義
 
 birt.action.importruntime.name=BIRT ランタイムコンポーネントのインポート(&B)...
 
-plugin.version=4.2.2
+plugin.version=4.3.1

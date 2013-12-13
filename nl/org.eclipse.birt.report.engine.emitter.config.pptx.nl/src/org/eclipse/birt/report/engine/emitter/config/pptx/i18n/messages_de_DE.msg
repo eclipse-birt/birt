@@ -1,5 +1,5 @@
 #/*******************************************************************************
-# * Copyright (c) 2013 Actuate Corporation.
+# * Copyright (c) 2008 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
@@ -18,20 +18,20 @@ PPTXEmitter.DisplayName=PowerPoint (PPTX)
 #Option Display Value
 OptionDisplayValue.BidiProcessing=BIDI-Verarbeitung
 OptionDisplayValue.TextWrapping=Zeilenumbruch
-OptionDisplayValue.PageOverFlow=Seitenï¿½berlauf-Verarbeitung
+OptionDisplayValue.PageOverFlow=Seitenüberlauf-Verarbeitung
 OptionDisplayValue.CLIP_CONTENT=Inhalt zuschneiden
-OptionDisplayValue.FIT_TO_PAGE_SIZE=An Seitengrï¿½ï¿½e anpassen
+OptionDisplayValue.FIT_TO_PAGE_SIZE=An Seitengröße anpassen
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Mehrere Seiten ausgeben
-OptionDisplayValue.ENLARGE_PAGE_SIZE=Seite vergrï¿½ï¿½ern
+OptionDisplayValue.ENLARGE_PAGE_SIZE=Seite vergrößern
 OptionDisplayValue.FontSubstitution=Schriftart ersetzen
 OptionDisplayValue.ChartDpi=Diagramm-DPI
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=Unterstï¿½tzt bidirektionalen Text.
-OptionDescription.TextWrapping=Gibt an, ob der Text Zeilenumbrï¿½che enthï¿½lt.
+OptionDescription.BidiProcessing=Unterstützt bidirektionalen Text.
+OptionDescription.TextWrapping=Gibt an, ob der Text Zeilenumbrüche enthält.
 OptionDescription.PageOverFlow=Legt fest, wie der Inhalt ausgegeben wird.
-OptionDescription.FontSubstitution=Wï¿½hlt Schriftarten automatisch aus, wenn die angegebene Schriftart das Zeichen nicht darstellen kann.
+OptionDescription.FontSubstitution=Wählt Schriftarten automatisch aus, wenn die angegebene Schriftart das Zeichen nicht darstellen kann.
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
 
 ###########################################################

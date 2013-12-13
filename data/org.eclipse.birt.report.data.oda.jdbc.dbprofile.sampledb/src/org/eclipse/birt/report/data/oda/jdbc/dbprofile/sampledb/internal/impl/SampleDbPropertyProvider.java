@@ -54,7 +54,7 @@ public class SampleDbPropertyProvider implements IPropertyProvider
         // for BIRT SampleDB
         Properties defaultProfileProps = new Properties();
         defaultProfileProps.setProperty( ConnectionProfileProperty.PROFILE_NAME_PROP_KEY,
-                                         SampleDbFactory.SAMPLEDB_DEFAULT_PROFILE_NAME );
+                                         SampleDbFactory.getLocalizedSampleDbProfileName() );
         IConnectionProfile sampleDbProfile = OdaProfileExplorer.getInstance()
                                         .getProfileByName( defaultProfileProps, appContext );
 
@@ -87,7 +87,8 @@ public class SampleDbPropertyProvider implements IPropertyProvider
         String driverDefnId = dbProfileProps.getProperty(
                 ConnectionProfileConstants.PROP_DRIVER_DEFINITION_ID, null );
         if( driverDefnId == null ||
-            ! driverDefnId.equalsIgnoreCase( SampleDbFactory.SAMPLEDB_DRIVER_DEFN_ID ) )
+            ! ( driverDefnId.equalsIgnoreCase( SampleDbFactory.SAMPLEDB_DEFAULT_DRIVER_DEFN_ID ) ||
+                driverDefnId.equalsIgnoreCase( SampleDbFactory.getLocalizedDriverDefinitionId() ) ))
             return false;
 
         String dbUrl = dbProfileProps.getProperty( IJDBCConnectionProfileConstants.URL_PROP_ID, null );

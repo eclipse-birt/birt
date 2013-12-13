@@ -2413,7 +2413,16 @@ Element.DataMartCube=数据对象多维数据集
 Element.TimeDimension=时间维
 Element.ReportItemTheme=报表项布景主题
 Element.AbstractTheme=抽象布景主题
-Element.DataMartLinkedDataModel=Data Object Linked Data Set
+Element.DataMartLinkedDataModel=数据对象数据模型
+Element.AliasDataSet =别名数据集
+Element.LinkedDataModel =链接的数据模型
+Element.LinkedDataModel.pushDown=数据模型下推
+Element.Category = 类别
+Element.ColumnLink = 列链接
+Element.ColumnLinkPath = 列链接路径
+Element.DrillPath = 钻取路径
+Element.LinkedDataModelCube = 链接的数据模型多维数据集
+Element.LinkedDataModelDataSet = 链接的数据模型数据集
 
 ###########################################################
 # Element property names
@@ -2529,6 +2538,8 @@ Element.ReportDesign.onPrepare.reportContext=报表上下文
 Element.ReportDesign.onContentUpdate= 在内容更新时
 Element.ReportDesign.onContentUpdate.toolTip=当在 BIRT Viewer 中更新报表内容时在客户端上执行。
 Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.language=语言
+Element.ReportDesign.PDFAccessible=可访问 PDF
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=显示名称
@@ -2768,6 +2779,11 @@ Element.ReportItem.cascadeACL=层叠 ACL
 Element.ReportItem.allowExport=允许导出
 Element.ReportItem.pushDown=下推
 Element.ReportItem.theme=布景主题
+Element.ReportItem.language=语言
+Element.ReportItem.order=顺序
+Element.ReportItem.altText=替代文本
+Element.ReportItem.altTextID=替代文本关键字
+Element.ReportItem.linkedDataModel=链接的数据模型
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=内容
@@ -2791,6 +2807,8 @@ Element.Label.onPageBreak=出现分页符时
 Element.Label.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
 Element.Label.onPageBreak.this=标签实例
 Element.Label.onPageBreak.reportContext=报表上下文
+Element.Label.tagType=PDF 标记类型
+Element.Label.altText=替代文本
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=报表项
@@ -2819,6 +2837,8 @@ Element.Data.onPageBreak=出现分页符时
 Element.Data.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
 Element.Data.onPageBreak.this=数据实例
 Element.Data.onPageBreak.reportContext=报表上下文
+Element.Data.tagType=PDF 标记类型
+Element.Data.altText=替代文本
   
 #14.Text  ( prefix  Element.Text )
 Element.Text.content=内容
@@ -2841,6 +2861,8 @@ Element.Text.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
 Element.Text.onPageBreak.this=文本实例
 Element.Text.onPageBreak.reportContext=报表上下文
 Element.Text.hasExpression=具有表达式
+Element.Text.tagType=PDF 标记类型
+Element.Text.altText=替代文本
   
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=关键字表达式
@@ -2904,6 +2926,8 @@ Element.List.onPageBreak=出现分页符时
 Element.List.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
 Element.List.onPageBreak.this=列表实例
 Element.List.onPageBreak.reportContext=报表上下文
+Element.List.tagType=PDF 标记类型
+Element.List.altText=替代文本
   
 #17.ListGroup  ( prefix  Element.ListGroup )
 Element.ListGroup.slot.header=题头
@@ -2946,6 +2970,7 @@ Element.Table.onPageBreak=出现分页符时
 Element.Table.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
 Element.Table.onPageBreak.this=表实例
 Element.Table.onPageBreak.reportContext=报表上下文
+Element.Table.tagType=PDF 标记类型
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=题头
@@ -2990,6 +3015,8 @@ Element.Row.onRender.reportContext=报表上下文
 Element.Row.suppressDuplicates=抑制重复
 Element.Row.viewAction=查看操作
 Element.Row.repeatable=可重复
+Element.Row.tagType=PDF 标记类型
+Element.Row.language=语言
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=列
@@ -3028,6 +3055,9 @@ Element.Cell.antidiagonalThickness=反对角线粗细
 Element.Cell.diagonalStyle=对角线样式
 Element.Cell.antidiagonalStyle=反对角线样式
 Element.Cell.antidiagonalColor=反对角线颜色
+Element.Cell.tagType=PDF 标记类型
+Element.Cell.language=语言
+Element.Cell.altText=替代文本
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=替代文本
@@ -3061,6 +3091,7 @@ Element.Image.onPageBreak.this=图像实例
 Element.Image.onPageBreak.reportContext=报表上下文
 Element.Image.fitToContainer=适合容器
 Element.Image.proportionalScale=比例尺
+Element.Image.tagType=PDF 标记类型
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=列
@@ -3085,6 +3116,7 @@ Element.Grid.onPageBreak.reportContext=报表上下文
 Element.Grid.caption=标题
 Element.Grid.captionID=标题关键字
 Element.Grid.summary=摘要
+Element.Grid.tagType=PDF 标记类型
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=方向
@@ -3111,6 +3143,8 @@ Element.TextData.onPageBreak.toolTip=遇到分页符时，对页面中的所有报表项执行
 Element.TextData.onPageBreak.this=动态文本实例
 Element.TextData.onPageBreak.reportContext=报表上下文
 Element.TextData.hasExpression=具有表达式
+Element.TextData.tagType=PDF 标记类型
+Element.TextData.altText=替代文本
 
 #27.ExtendedItem   ( prefix  Element.ExtendedItem )
 Element.ExtendedItem.altText=替代文本
@@ -3418,6 +3452,7 @@ Element.DerivedDataSet.extensionID=扩展 ID
 Element.AbstractScalarParameter.isRequired=必需
 Element.AbstractScalarParameter.dynamicList=动态列表
 Element.AbstractScalarParameter.dynamicList.dataSetName=数据集名称
+Element.AbstractScalarParameter.dynamicList.linkedDataModelName=链接的数据模型名称
 Element.AbstractScalarParameter.dynamicList.valueExpr=值表达式
 Element.AbstractScalarParameter.dynamicList.labelExpr=标签表达式
 Element.AbstractScalarParameter.listLimit=列表限制
@@ -3478,6 +3513,17 @@ Element.ReportItemTheme.customValues=自定义值
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=CSS 样式表
+
+#Category
+Element.Category.helpText = 帮助文本
+Element.Category.helpTextKey = 帮助文本资源关键字
+
+#Category Column
+Element.CategoryColumn.aggregationFunction = 聚合函数
+Element.CategoryColumn.aliasDataSet = 别名数据集
+Element.CategoryColumn.dataType = 数据类型
+Element.CategoryColumn.expression = 表达式
+Element.CategoryColumn.resultSetColumnName = 结果集列名称
 
 ###########################################################
 # Predefined style

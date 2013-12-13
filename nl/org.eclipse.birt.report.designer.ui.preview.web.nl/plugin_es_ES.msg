@@ -6,6 +6,7 @@ designer.preview.previewcascadingmenugroup.label=Ver &Informe
 document.preview.previewtoolbarmenuaction.label=Ver documento
 document.preview.previewmenugroup.label=Ver &documento
 ActionSet.Preview=Vista previa
+ActionSet.PreviewWithSecurity=Previsualizar documento
 Action.GenDocument=Generar &documento
 
 template.preview=&Vista previa

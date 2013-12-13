@@ -58,6 +58,7 @@ wizard.label.manageDriver=ドライバの管理(&M)...
 wizard.label.bidiSettings=双方向の設定(&S)...
 wizard.label.search=検索方向 :
 wizard.label.filter=フィルタ :
+wizard.label.SSL.EncryptionMethod= SSL 接続を有効にするには、暗号化方法 ("SSL" など) を指定してください。\n デフォルトの設定は "noEncryption" で、SSL 接続は無効になります。
 tablepage.label.selecttype=型(&T) :
 tablepage.filter.warning=フィルタを指定してください。
 wizard.message.createDataSource=新しいデータソースを作成します。

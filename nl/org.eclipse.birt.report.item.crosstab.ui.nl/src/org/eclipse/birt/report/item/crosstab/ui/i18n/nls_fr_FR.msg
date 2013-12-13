@@ -69,6 +69,8 @@ SubTotalProvider.Column.Position=Position
 SubTotalProvider.ShowAs=Afficher sous {0}
 LevelViewDialog.Title=Afficher/Masquer les niveaux de groupe
 LevelViewDialog.Label.Info=Sélectionner les niveaux à afficher sur le tableau croisé :
+LevelViewDialog.Button.Regular.Text=Groupe &normal
+LevelViewDialog.Button.Date.Text=Groupe de &dates
 AggregationDialog.Title=Totaux
 AggregationDialog.Label.Grand=Totaux généraux :
 AggregationDialog.Label.Sub=Sous-totaux :
@@ -358,3 +360,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=Zone de colonne
 VirtualCrosstabCellNodeProvider.Display.DetailArea=Zone de détails
 VirtualCrosstabCellNodeProvider.Display.RowArea=Zone de ligne
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=Zone inconnue
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (Modèle de données)

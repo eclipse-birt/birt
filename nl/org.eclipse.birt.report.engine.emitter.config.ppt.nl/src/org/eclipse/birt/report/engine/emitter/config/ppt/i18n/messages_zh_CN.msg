@@ -25,6 +25,7 @@ OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=输出多页
 OptionDisplayValue.ENLARGE_PAGE_SIZE=扩大页面大小
 OptionDisplayValue.FontSubstitution=字体替代
 OptionDisplayValue.ChartDpi=图表 DPI
+OptionDisplayValue.Export2Office2010And2013=导出 Microsoft Office 2010/2013 文件
 
 ###########################################################
 #Option Description
@@ -33,6 +34,7 @@ OptionDescription.TextWrapping=表示文本是否可自动换行。
 OptionDescription.PageOverFlow=控制如何输出内容。
 OptionDescription.FontSubstitution=指定的字体无法显示该字符时自动选择字体。
 OptionDescription.ChartDpi=DPI 用于生成图表。
+OptionDescription.Export2Office2010And2013=使用 Office 2010/2013 时，ppt 支持 .mht 格式。
 
 ###########################################################
 #tooltip

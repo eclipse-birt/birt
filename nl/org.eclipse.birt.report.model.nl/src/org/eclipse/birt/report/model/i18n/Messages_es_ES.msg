@@ -2413,7 +2413,16 @@ Element.DataMartCube=Cubo de objeto de datos
 Element.TimeDimension=Dimensión de tiempo
 Element.ReportItemTheme=Tema de elemento de informe
 Element.AbstractTheme=Tema abstracto
-Element.DataMartLinkedDataModel=Data Object Linked Data Set
+Element.DataMartLinkedDataModel=Modelo de datos del objeto de datos
+Element.AliasDataSet =Alias de conjunto de datos
+Element.LinkedDataModel =Modelo de datos vinculados
+Element.LinkedDataModel.pushDown=Reducción del modelo de datos
+Element.Category = Categoría
+Element.ColumnLink = Vínculo de columna
+Element.ColumnLinkPath = Ruta del vínculo de columna
+Element.DrillPath = Ruta subir
+Element.LinkedDataModelCube = Cubo de modelo de datos vinculados
+Element.LinkedDataModelDataSet = Conjunto de datos de modelo de datos vinculados
 
 ###########################################################
 # Element property names
@@ -2529,6 +2538,8 @@ Element.ReportDesign.onPrepare.reportContext=Contexto de informe
 Element.ReportDesign.onContentUpdate= En actualización de contenidos
 Element.ReportDesign.onContentUpdate.toolTip=El cliente lo ejecuta cuando se actualiza el contenido de informe en BIRT Viewer.
 Element.ReportDesign.onContentUpdate.this=Report design
+Element.ReportDesign.language=Idioma
+Element.ReportDesign.PDFAccessible=PDF accesible
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nombre en pantalla
@@ -2768,6 +2779,11 @@ Element.ReportItem.cascadeACL=Cascada ACL
 Element.ReportItem.allowExport=Permitir exportación
 Element.ReportItem.pushDown=Oprimir
 Element.ReportItem.theme=Tema
+Element.ReportItem.language=Idioma
+Element.ReportItem.order=Orden
+Element.ReportItem.altText=Texto alternativo
+Element.ReportItem.altTextID=Clave de texto alternativo
+Element.ReportItem.linkedDataModel=Modelo de datos vinculados
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenido
@@ -2791,6 +2807,8 @@ Element.Label.onPageBreak=En el salto de página
 Element.Label.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.Label.onPageBreak.this=Instancia de etiqueta
 Element.Label.onPageBreak.reportContext=Contexto de informe
+Element.Label.tagType=Tipo de etiqueta de PDF
+Element.Label.altText=Texto alternativo
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=Elementos de informe
@@ -2819,6 +2837,8 @@ Element.Data.onPageBreak=En el salto de página
 Element.Data.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.Data.onPageBreak.this=Instancia de datos
 Element.Data.onPageBreak.reportContext=Contexto de informe
+Element.Data.tagType=Tipo de etiqueta de PDF
+Element.Data.altText=Texto alternativo
   
 #14.Text  ( prefix  Element.Text )
 Element.Text.content=Contenido
@@ -2841,6 +2861,8 @@ Element.Text.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe d
 Element.Text.onPageBreak.this=Instancia de texto
 Element.Text.onPageBreak.reportContext=Contexto de informe
 Element.Text.hasExpression=Tiene la expresión
+Element.Text.tagType=Tipo de etiqueta de PDF
+Element.Text.altText=Texto alternativo
   
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=Expresión clave:
@@ -2904,6 +2926,8 @@ Element.List.onPageBreak=En el salto de página
 Element.List.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.List.onPageBreak.this=Instancia de lista
 Element.List.onPageBreak.reportContext=Contexto de informe
+Element.List.tagType=Tipo de etiqueta de PDF
+Element.List.altText=Texto alternativo
   
 #17.ListGroup  ( prefix  Element.ListGroup )
 Element.ListGroup.slot.header=Encabezado
@@ -2946,6 +2970,7 @@ Element.Table.onPageBreak=En el salto de página
 Element.Table.onPageBreak.toolTip=Se ejecuta con todos los elementos de informe de una página cuando se produce un salto de página
 Element.Table.onPageBreak.this=Instancia de tabla
 Element.Table.onPageBreak.reportContext=Contexto de informe
+Element.Table.tagType=Tipo de etiqueta de PDF
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=Encabezado
@@ -2990,6 +3015,8 @@ Element.Row.onRender.reportContext=Contexto de informe
 Element.Row.suppressDuplicates=Suprimir duplicados
 Element.Row.viewAction=Ver acción
 Element.Row.repeatable=Repetible
+Element.Row.tagType=Tipo de etiqueta de PDF
+Element.Row.language=Idioma
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=Columna
@@ -3028,6 +3055,9 @@ Element.Cell.antidiagonalThickness=Grosor de diagonal secundaria
 Element.Cell.diagonalStyle=Estilo de diagonal
 Element.Cell.antidiagonalStyle=Estilo de diagonal secundaria
 Element.Cell.antidiagonalColor=Color de diagonal secundaria
+Element.Cell.tagType=Tipo de etiqueta de PDF
+Element.Cell.language=Idioma
+Element.Cell.altText=Texto alternativo
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Texto alternativo
@@ -3061,6 +3091,7 @@ Element.Image.onPageBreak.this=Instancia de imagen
 Element.Image.onPageBreak.reportContext=Contexto de informe
 Element.Image.fitToContainer=Ajusta a contenedor
 Element.Image.proportionalScale=Escala proporcional
+Element.Image.tagType=Tipo de etiqueta de PDF
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=Columnas
@@ -3085,6 +3116,7 @@ Element.Grid.onPageBreak.reportContext=Contexto de informe
 Element.Grid.caption=Título
 Element.Grid.captionID=Clave de título
 Element.Grid.summary=Resumen
+Element.Grid.tagType=Tipo de etiqueta de PDF
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientación
@@ -3111,6 +3143,8 @@ Element.TextData.onPageBreak.toolTip=Se ejecuta con todos los elementos de infor
 Element.TextData.onPageBreak.this=Instancia de texto dinámico
 Element.TextData.onPageBreak.reportContext=Contexto de informe
 Element.TextData.hasExpression=Tiene la expresión
+Element.TextData.tagType=Tipo de etiqueta de PDF
+Element.TextData.altText=Texto alternativo
 
 #27.ExtendedItem   ( prefix  Element.ExtendedItem )
 Element.ExtendedItem.altText=Texto alternativo
@@ -3418,6 +3452,7 @@ Element.DerivedDataSet.extensionID=ID de extensión
 Element.AbstractScalarParameter.isRequired=Es necesario
 Element.AbstractScalarParameter.dynamicList=Lista dinámica
 Element.AbstractScalarParameter.dynamicList.dataSetName=Nombre del conjunto de datos
+Element.AbstractScalarParameter.dynamicList.linkedDataModelName=Nombre de modelo de datos vinculados
 Element.AbstractScalarParameter.dynamicList.valueExpr=Expresión de valor
 Element.AbstractScalarParameter.dynamicList.labelExpr=Expresión de etiqueta
 Element.AbstractScalarParameter.listLimit=Límite de lista
@@ -3478,6 +3513,17 @@ Element.ReportItemTheme.customValues=Valores personalizados
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=Hojas de estilos CSS
+
+#Category
+Element.Category.helpText = Texto de ayuda
+Element.Category.helpTextKey = Clave de recursos del texto de ayuda
+
+#Category Column
+Element.CategoryColumn.aggregationFunction = Función de agregación
+Element.CategoryColumn.aliasDataSet = Alias de conjunto de datos
+Element.CategoryColumn.dataType = Tipo de datos
+Element.CategoryColumn.expression = Expresión
+Element.CategoryColumn.resultSetColumnName = Nombre de columna de conjunto de resultados
 
 ###########################################################
 # Predefined style

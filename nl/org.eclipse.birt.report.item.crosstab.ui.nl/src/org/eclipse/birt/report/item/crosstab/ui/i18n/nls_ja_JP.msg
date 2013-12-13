@@ -69,6 +69,8 @@ SubTotalProvider.Column.Position=位置
 SubTotalProvider.ShowAs={0} として表示
 LevelViewDialog.Title=グループレベルの表示/非表示
 LevelViewDialog.Label.Info=クロスタブに表示するレベルの選択 :
+LevelViewDialog.Button.Regular.Text=通常グループ(&R)
+LevelViewDialog.Button.Date.Text=日付グループ(&D)
 AggregationDialog.Title=合計
 AggregationDialog.Label.Grand=総計 :
 AggregationDialog.Label.Sub=小計 :
@@ -358,3 +360,6 @@ VirtualCrosstabCellNodeProvider.Display.ColumnArea=列領域
 VirtualCrosstabCellNodeProvider.Display.DetailArea=詳細の領域
 VirtualCrosstabCellNodeProvider.Display.RowArea=行領域
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=不明な領域
+
+
+CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (データモデル)

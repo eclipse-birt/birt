@@ -36,7 +36,8 @@ public interface IDeviceRenderer extends
 {
 
 	/**
-	 * A property name that identifies a device-specific file identifier
+	 * A property name that identifies a device-specific file identifier. The
+	 * value can be either file path or instance of output stream.
 	 */
 	public static final String FILE_IDENTIFIER = "device.file.identifier"; //$NON-NLS-1$
 
