@@ -76,4 +76,9 @@ public class QueryOptimizeHints implements IQueryOptimizeHints
 	{
 		return null;
 	}
+
+	public List<IFilterDefinition> getFilterNeededMerge( )
+	{
+		return null;
+	}
 }
