@@ -81,6 +81,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
@@ -937,8 +938,12 @@ public class ChartReportItemUtil extends ChartItemUtil
 		// Add row/column edge
 		String[] levels = exprc.getLevelNames( );
 		String dimensionName = levels[0];
-		HierarchyHandle hieHandle = cube.getDimension( dimensionName )
-				.getDefaultHierarchy( );
+		DimensionHandle dimHandle = cube.getDimension( dimensionName );
+		if ( dimHandle == null )
+		{
+			return false;
+		}
+		HierarchyHandle hieHandle = dimHandle.getDefaultHierarchy( );
 
 		// If not multi-dimension return true;If multi-dimension,
 		// return true if is parent top level
@@ -949,10 +954,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 		{
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	public static boolean validateCubeResultSetBinding(
