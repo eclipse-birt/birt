@@ -531,8 +531,6 @@ public class DataProcessor
 		// POPULATE THE BASE RUNTIME SERIES
 		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions( );
 		final SeriesDefinition sdBase = elSD.get( 0 );
-		final SortOption baseSorting = sdBase.isSetSorting( )
-				? sdBase.getSorting( ) : null;
 		final Series seBaseDesignSeries = sdBase.getDesignTimeSeries( );
 		final Series seBaseRuntimeSeries = seBaseDesignSeries.copyInstance( );
 
@@ -615,8 +613,10 @@ public class DataProcessor
 		else
 		{
 			// compute all base values.
+			// Do not sort category in chart engine, since
+			// the sorting has been applied in data engine layer.
 			Object[] oa = rsw.getMergedGroupingBaseValues( iBaseColumnIndex,
-					baseSorting, true ); // Chart without axis has no category axis, keep as before.
+					null, true ); // Chart without axis has no category axis, keep as before.
 
 			List baseValues = (List) oa[0];
 			List idxList = (List) oa[1];
