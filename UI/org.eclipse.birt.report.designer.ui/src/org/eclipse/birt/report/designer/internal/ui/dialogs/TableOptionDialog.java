@@ -37,33 +37,33 @@ import org.eclipse.swt.widgets.Spinner;
 public class TableOptionDialog extends BaseDialog
 {
 
-	private static final String MSG_DATA_SET = Messages.getString( "TableOptionDialog.text.DataSet" ); //$NON-NLS-1$
+	protected static final String MSG_DATA_SET = Messages.getString( "TableOptionDialog.text.DataSet" ); //$NON-NLS-1$
 
-	private static final String MSG_REMEMBER_DIMENSIONS_FOR_NEW_GRIDS = Messages.getString( "TableOptionDialog.message.RememberGrid" ); //$NON-NLS-1$
+	protected static final String MSG_REMEMBER_DIMENSIONS_FOR_NEW_GRIDS = Messages.getString( "TableOptionDialog.message.RememberGrid" ); //$NON-NLS-1$
 
-	private static final String MSG_REMEMBER_DIMENSIONS_FOR_NEW_TABLES = Messages.getString( "TableOptionDialog.message.RememberTable" ); //$NON-NLS-1$
+	protected static final String MSG_REMEMBER_DIMENSIONS_FOR_NEW_TABLES = Messages.getString( "TableOptionDialog.message.RememberTable" ); //$NON-NLS-1$
 
-	private static final String MSG_NUMBER_OF_GRID_ROWS = Messages.getString( "TableOptionDialog.text.GridRow" ); //$NON-NLS-1$
+	protected static final String MSG_NUMBER_OF_GRID_ROWS = Messages.getString( "TableOptionDialog.text.GridRow" ); //$NON-NLS-1$
 
-	private static final String MSG_NUMBER_OF_TABLE_ROWS = Messages.getString( "TableOptionDialog.text.TableDetail" ); //$NON-NLS-1$
+	protected static final String MSG_NUMBER_OF_TABLE_ROWS = Messages.getString( "TableOptionDialog.text.TableDetail" ); //$NON-NLS-1$
 
-	private static final String MSG_NUMBER_OF_COLUMNS = Messages.getString( "TableOptionDialog.text.Column" ); //$NON-NLS-1$
+	protected static final String MSG_NUMBER_OF_COLUMNS = Messages.getString( "TableOptionDialog.text.Column" ); //$NON-NLS-1$
 
-	private static final String MSG_GRID_SIZE = Messages.getString( "TableOptionDialog.text.GridSize" ); //$NON-NLS-1$
+	protected static final String MSG_GRID_SIZE = Messages.getString( "TableOptionDialog.text.GridSize" ); //$NON-NLS-1$
 
-	private static final String MSG_TABLE_SIZE = Messages.getString( "TableOptionDialog.text.TableSize" ); //$NON-NLS-1$
+	protected static final String MSG_TABLE_SIZE = Messages.getString( "TableOptionDialog.text.TableSize" ); //$NON-NLS-1$
 
-	private static final String MSG_INSERT_GRID = Messages.getString( "TableOptionDialog.title.InsertGrid" ); //$NON-NLS-1$
+	protected static final String MSG_INSERT_GRID = Messages.getString( "TableOptionDialog.title.InsertGrid" ); //$NON-NLS-1$
 
-	private static final String MSG_INSERT_TABLE = Messages.getString( "TableOptionDialog.title.InsertTable" ); //$NON-NLS-1$
+	protected static final String MSG_INSERT_TABLE = Messages.getString( "TableOptionDialog.title.InsertTable" ); //$NON-NLS-1$
 
-	private static final String NONE = Messages.getString( "BindingPage.None" );//$NON-NLS-1$
+	protected static final String NONE = Messages.getString( "BindingPage.None" );//$NON-NLS-1$
 
-	private static final int DEFAULT_TABLE_ROW_COUNT = 1;
+	protected static final int DEFAULT_TABLE_ROW_COUNT = 1;
 
-	private static final int DEFAULT_ROW_COUNT = 3;
+	protected static final int DEFAULT_ROW_COUNT = 3;
 
-	private static final int DEFAULT_COLUMN_COUNT = 3;
+	protected static final int DEFAULT_COLUMN_COUNT = 3;
 
 	/**
 	 * Comment for <code>DEFAULT_TABLE_ROW_COUNT_KEY</code>
@@ -85,21 +85,21 @@ public class TableOptionDialog extends BaseDialog
 	 */
 	public static final String DEFAULT_GRID_COLUMN_COUNT_KEY = "Default grid column count"; //$NON-NLS-1$
 
-	private Spinner rowEditor;
+	protected Spinner rowEditor;
 
-	private Spinner columnEditor;
+	protected Spinner columnEditor;
 
-	private Button chkbox;
+	protected Button chkbox;
 
-	private int rowCount, columnCount;
+	protected int rowCount, columnCount;
 
-	private boolean insertTable = true;
+	protected boolean insertTable = true;
 
-	private Combo dataSetCombo;
+	protected Combo dataSetCombo;
 
-	private Button autoChk;
+	protected Button autoChk;
 
-	private boolean showDataSetOption = true;
+	protected boolean showDataSetOption = true;
 
 	/**
 	 * The constructor.
@@ -113,7 +113,7 @@ public class TableOptionDialog extends BaseDialog
 		this.insertTable = insertTable;
 	}
 
-	private void loadPreference( )
+	protected void loadPreference( )
 	{
 		if ( insertTable )
 		{
@@ -146,7 +146,7 @@ public class TableOptionDialog extends BaseDialog
 
 	}
 
-	private void savePreference( )
+	protected void savePreference( )
 	{
 		if ( insertTable )
 		{
