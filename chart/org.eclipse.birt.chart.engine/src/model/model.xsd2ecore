@@ -3,11 +3,11 @@
     xmlns:xsd2ecore="http://www.eclipse.org/emf/2002/XSD2Ecore" inputs="../../xsd/attribute.xsd#/ ../../xsd/component.xsd#/ ../../xsd/data.xsd#/ ../../xsd/type.xsd#/ ../../xsd/layout.xsd#/ ../../xsd/model.xsd#/"
     outputs="org.eclipse.birt.chart.model.attribute.ecore#/ org.eclipse.birt.chart.model.component.ecore#/ org.eclipse.birt.chart.model.data.ecore#/ org.eclipse.birt.chart.model.type.ecore#/ org.eclipse.birt.chart.model.layout.ecore#/ org.eclipse.birt.chart.model.ecore#/"
     topToBottom="true">
-  <nested inputs="bundleentry://1529.fwk24622029/cache/www.w3.org/2001/XMLSchema.xsd#//string;XSDSimpleTypeDefinition=9"
+  <nested inputs="bundleentry://1518.fwk12099866/cache/www.w3.org/2001/XMLSchema.xsd#//string;XSDSimpleTypeDefinition=9"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//String"/>
-  <nested inputs="bundleentry://1529.fwk24622029/cache/www.w3.org/2001/XMLSchema.xsd#//float;XSDSimpleTypeDefinition=11"
+  <nested inputs="bundleentry://1518.fwk12099866/cache/www.w3.org/2001/XMLSchema.xsd#//float;XSDSimpleTypeDefinition=11"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//Float"/>
-  <nested inputs="bundleentry://1529.fwk24622029/cache/www.w3.org/2001/XMLSchema.xsd#//boolean;XSDSimpleTypeDefinition=10"
+  <nested inputs="bundleentry://1518.fwk12099866/cache/www.w3.org/2001/XMLSchema.xsd#//boolean;XSDSimpleTypeDefinition=10"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
   <nested inputs="../../xsd/attribute.xsd#//HorizontalAlignment;XSDSimpleTypeDefinition=12"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//HorizontalAlignment">
@@ -34,7 +34,7 @@
     <nested inputs="../../xsd/attribute.xsd#//TextAlignment;XSDComplexTypeDefinition=9/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//TextAlignment/verticalAlignment"/>
   </nested>
-  <nested inputs="bundleentry://1529.fwk24622029/cache/www.w3.org/2001/XMLSchema.xsd#//double;XSDSimpleTypeDefinition=12"
+  <nested inputs="bundleentry://1518.fwk12099866/cache/www.w3.org/2001/XMLSchema.xsd#//double;XSDSimpleTypeDefinition=12"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//Double"/>
   <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=25"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition">
@@ -57,7 +57,7 @@
     <nested inputs="../../xsd/attribute.xsd#//FontDefinition;XSDComplexTypeDefinition=25/XSDParticle/XSDModelGroup/XSDParticle=8"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//FontDefinition/rotation"/>
   </nested>
-  <nested inputs="bundleentry://1529.fwk24622029/cache/www.w3.org/2001/XMLSchema.xsd#//int;XSDSimpleTypeDefinition=44"
+  <nested inputs="bundleentry://1518.fwk12099866/cache/www.w3.org/2001/XMLSchema.xsd#//int;XSDSimpleTypeDefinition=44"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//Int"/>
   <nested inputs="../../xsd/attribute.xsd#//Fill;XSDComplexTypeDefinition=19" outputs="org.eclipse.birt.chart.model.attribute.ecore#//Fill">
     <nested inputs="../../xsd/attribute.xsd#//Fill;XSDComplexTypeDefinition=19/XSDParticle/XSDModelGroup/XSDParticle"
@@ -241,6 +241,16 @@
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/String"/>
     <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=9"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/StringPrefix"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=10"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/WeekOfMonth"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=11"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/WeekOfYear"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=12"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/DayOfWeek"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=13"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/DayOfMonth"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=14"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/DayOfYear"/>
   </nested>
   <nested inputs="../../xsd/data.xsd#//DataElement;XSDComplexTypeDefinition=9" outputs="org.eclipse.birt.chart.model.data.ecore#//DataElement"/>
   <nested inputs="../../xsd/attribute.xsd#//DataType;XSDSimpleTypeDefinition=28" outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataType">
@@ -276,7 +286,7 @@
     <nested inputs="../../xsd/data.xsd#//Query;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle=2"
         outputs="org.eclipse.birt.chart.model.data.ecore#//Query/grouping"/>
   </nested>
-  <nested inputs="bundleentry://1529.fwk24622029/cache/www.w3.org/2001/MagicXMLSchema.xsd#//anySimpleType;XSDSimpleTypeDefinition=1"
+  <nested inputs="bundleentry://1518.fwk12099866/cache/www.w3.org/2001/MagicXMLSchema.xsd#//anySimpleType;XSDSimpleTypeDefinition=1"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//AnySimpleType"/>
   <nested inputs="../../xsd/attribute.xsd#//DataPointComponentType;XSDSimpleTypeDefinition=7"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataPointComponentType">
@@ -809,7 +819,7 @@
     <nested inputs="../../xsd/data.xsd#//BaseSampleData;XSDComplexTypeDefinition=19/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.data.ecore#//BaseSampleData/dataSetRepresentation"/>
   </nested>
-  <nested inputs="bundleentry://1529.fwk24622029/cache/www.w3.org/2001/XMLSchema.xsd#//decimal;XSDSimpleTypeDefinition=13"
+  <nested inputs="bundleentry://1518.fwk12099866/cache/www.w3.org/2001/XMLSchema.xsd#//decimal;XSDSimpleTypeDefinition=13"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//Decimal"/>
   <nested inputs="../../xsd/data.xsd#//BigNumberDataElement;XSDComplexTypeDefinition=22"
       outputs="org.eclipse.birt.chart.model.data.ecore#//BigNumberDataElement">
@@ -1111,7 +1121,7 @@
     <nested inputs="../../xsd/attribute.xsd#//DateFormatSpecifier;XSDComplexTypeDefinition=27/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//DateFormatSpecifier/detail"/>
   </nested>
-  <nested inputs="bundleentry://1529.fwk24622029/cache/www.w3.org/2001/XMLSchema.xsd#//long;XSDSimpleTypeDefinition=43"
+  <nested inputs="bundleentry://1518.fwk12099866/cache/www.w3.org/2001/XMLSchema.xsd#//long;XSDSimpleTypeDefinition=43"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//Long"/>
   <nested inputs="../../xsd/data.xsd#//DateTimeDataElement;XSDComplexTypeDefinition=11"
       outputs="org.eclipse.birt.chart.model.data.ecore#//DateTimeDataElement">
