@@ -446,8 +446,10 @@ enabled, by default it's true.</xsd:documentation>
 			<xsd:enumeration value="String" />
 			<xsd:enumeration value="StringPrefix" />
 			<xsd:enumeration value="WeekOfMonth"></xsd:enumeration>
+			<xsd:enumeration value="WeekOfYear"></xsd:enumeration>
 			<xsd:enumeration value="DayOfWeek"></xsd:enumeration>
 			<xsd:enumeration value="DayOfMonth"></xsd:enumeration>
+			<xsd:enumeration value="DayOfYear"></xsd:enumeration>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="UnitsOfMeasurement">

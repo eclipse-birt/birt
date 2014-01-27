@@ -56,7 +56,7 @@ public class CDateTime extends GregorianCalendar
 			Calendar.YEAR
 	};
 
-	public static final int QUARTER = GroupingUnitType.QUARTERS;
+	public static final int QUARTER = 999;
 	
 	private static int[] iaCalendarUnits = {
 			Calendar.SECOND,
