@@ -899,7 +899,7 @@ public class CDateTime extends GregorianCalendar
 				set( Calendar.MONTH, ( getMonth( ) / 3 ) * 3 );
 			}
 		}
-		else if ( iUnit == WEEK_OF_YEAR )
+		else if ( iUnit == WEEK_OF_YEAR || iUnit == WEEK_OF_MONTH )
 		{
 			set( Calendar.MILLISECOND, 0 );
 			set( Calendar.SECOND, 0 );
@@ -912,7 +912,10 @@ public class CDateTime extends GregorianCalendar
 			int weekDay = get( DAY_OF_WEEK );
 			add( DATE, 1 - weekDay );
 		}
-		else if ( iUnit == DATE )
+		else if ( iUnit == DATE
+				|| iUnit == DAY_OF_MONTH
+				|| iUnit == DAY_OF_WEEK
+				|| iUnit == DAY_OF_YEAR )
 		{
 			set( Calendar.MILLISECOND, 0 );
 			set( Calendar.SECOND, 0 );
@@ -973,11 +976,14 @@ public class CDateTime extends GregorianCalendar
 		{
 			set( Calendar.YEAR, 2000 ); // No more sense here for 2000, just set 2000 as uniform year to group month, quarter and so on without keeping hierarchy.
 		}
-		else if ( iUnit == DATE )
+		else if ( iUnit == DATE
+				|| iUnit == DAY_OF_MONTH
+				|| iUnit == DAY_OF_WEEK
+				|| iUnit == DAY_OF_YEAR )
 		{
 			set( Calendar.YEAR, 2000 );
 		}
-		else if ( iUnit == WEEK_OF_YEAR )
+		else if ( iUnit == WEEK_OF_YEAR || iUnit == WEEK_OF_MONTH )
 		{
 			set( Calendar.YEAR, 2000 );
 		}
