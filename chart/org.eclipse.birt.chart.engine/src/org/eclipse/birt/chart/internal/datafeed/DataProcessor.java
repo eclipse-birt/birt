@@ -613,10 +613,27 @@ public class DataProcessor
 		else
 		{
 			// compute all base values.
-			// Do not sort category in chart engine, since
-			// the sorting has been applied in data engine layer.
+			SortOption baseSorting = sdBase.isSetSorting( ) ? sdBase.getSorting( )
+					: null;
+			if ( baseSorting != null )
+			{
+				// #71171 If the sorting key is different, do not sort category
+				// in chart engine, since the sorting has been applied in data
+				// engine layer.
+				Query baseQuery = sdBase.getDesignTimeSeries( )
+						.getDataDefinition( )
+						.get( 0 );
+				Query baseSortingKey = sdBase.getSortKey( );
+				if ( baseQuery.isDefined( )
+						&& baseSortingKey.isDefined( )
+						&& !baseQuery.getDefinition( )
+								.equals( baseSortingKey.getDefinition( ) ) )
+				{
+					baseSorting = null;
+				}
+			}
 			Object[] oa = rsw.getMergedGroupingBaseValues( iBaseColumnIndex,
-					null, true ); // Chart without axis has no category axis, keep as before.
+					baseSorting, true ); // Chart without axis has no category axis, keep as before.
 
 			List baseValues = (List) oa[0];
 			List idxList = (List) oa[1];
@@ -844,10 +861,27 @@ public class DataProcessor
 		else
 		{
 			// compute all base values.
-			// Do not sort category in chart engine, since
-			// the sorting has been applied in data engine layer.
+			SortOption baseSorting = sdBase.isSetSorting( ) ? sdBase.getSorting( )
+					: null;
+			if ( baseSorting != null )
+			{
+				// #71171 If the sorting key is different, do not sort category
+				// in chart engine, since the sorting has been applied in data
+				// engine layer.
+				Query baseQuery = sdBase.getDesignTimeSeries( )
+						.getDataDefinition( )
+						.get( 0 );
+				Query baseSortingKey = sdBase.getSortKey( );
+				if ( baseQuery.isDefined( )
+						&& baseSortingKey.isDefined( )
+						&& !baseQuery.getDefinition( )
+								.equals( baseSortingKey.getDefinition( ) ) )
+				{
+					baseSorting = null;
+				}
+			}
 			Object[] oa = rsw.getMergedGroupingBaseValues( iBaseColumnIndex,
-					null,
+					baseSorting,
 					cwa.getAxes( ).get( 0 ).isCategoryAxis( )
 							|| !cwa.getAxes( ).get( 0 ).isSetCategoryAxis( )
 							|| cwa.getAxes( ).get( 0 ).getType( ) == AxisType.TEXT_LITERAL );
