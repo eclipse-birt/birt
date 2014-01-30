@@ -18,7 +18,6 @@ import java.util.Locale;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 import com.ibm.icu.text.SimpleDateFormat;
@@ -886,7 +885,7 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.AM_PM, AM );
 			set( Calendar.MONTH, 0 );
 		}
-		else if ( iUnit == MONTH || iUnit == GroupingUnitType.QUARTERS )
+		else if ( iUnit == MONTH || iUnit == QUARTER )
 		{
 			set( Calendar.MILLISECOND, 0 );
 			set( Calendar.SECOND, 0 );
@@ -895,7 +894,7 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.AM_PM, AM );
 			set( Calendar.DATE, 1 );
 
-			if ( iUnit == GroupingUnitType.QUARTERS )
+			if ( iUnit == QUARTER )
 			{
 				set( Calendar.MONTH, ( getMonth( ) / 3 ) * 3 );
 			}
@@ -970,7 +969,7 @@ public class CDateTime extends GregorianCalendar
 		{
 			return;
 		}
-		else if ( iUnit == MONTH || iUnit == GroupingUnitType.QUARTERS )
+		else if ( iUnit == MONTH || iUnit == QUARTER )
 		{
 			set( Calendar.YEAR, 2000 ); // No more sense here for 2000, just set 2000 as uniform year to group month, quarter and so on without keeping hierarchy.
 		}
