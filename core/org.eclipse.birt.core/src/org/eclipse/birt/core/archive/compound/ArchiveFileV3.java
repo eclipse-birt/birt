@@ -189,6 +189,24 @@ public class ArchiveFileV3 implements IArchiveFile
 		}
 	}
 
+	public long getSize( )
+	{
+		long result = 0;
+		List<String> entries = listEntries( null );
+		for( String entry : entries )
+		{
+			try
+			{
+				result += openEntry( entry ).getLength( );
+			}
+			catch ( IOException e )
+			{
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
 	synchronized public void unlockEntry( Object locker ) throws IOException
 	{
 		assert ( locker instanceof Ext2Entry );
