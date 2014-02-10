@@ -1355,6 +1355,17 @@
 				<attribute name="Manifest-Version" value="1.0" />
 			</manifest>
 		</buildJar>
+		<!-- exclude this jar from jar signing by adding META-INF/eclipse.inf -->
+                <mkdir dir="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}"/>
+		<unzip src="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}.jar" dest="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}"/>
+                <echo message="jarprocessor.exclude.sign=true" file="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}/META-INF/eclipse.inf"/>
+		<delete file="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}.jar" failonerror="false"/>
+                <!-- zip up the new jar --> 
+                <jar destfile="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}.jar"
+  		   basedir="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}"
+                   manifest="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}/META-INF/MANIFEST.MF"
+                /> 
+		<delete dir="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}"/>
 
 		<!-- comment out 3.7.0 release -->
 		<!-- <echo message="DTP plugins location: ${dtp.buildOutputDir} "/> <buildJar 
