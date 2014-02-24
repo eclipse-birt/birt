@@ -319,7 +319,7 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $uni
 -Dbasebuilder=$WORKING_DIR/org.eclipse.releng.basebuilder \
 -Dtest.dir=$WORKING_DIR/unittest -Dp4.home=$WORKING_DIR/P4 \
 -Djvm15_home=$jvm15_home  -DmapTag.properties=$builderDir/mapTag.properties \
--Dbuild.date=$builddate -Dpackage.version=4_2_2 -DBranchVersion=4.2.2 -Dant.dir=$ANT_HOME/bin \
+-Dbuild.date=$builddate -Dpackage.version=4_4_0 -DBranchVersion=4.4.0 -Dant.dir=$ANT_HOME/bin \
 -DmapVersionTag=$BranchName \
 -Ddtp.mapVersionTag=$dtp_BranchName \
 -Dusername.sign=$signUsername -Dpassword.sign=$signPassword -Dhostname.sign=$signServer \
