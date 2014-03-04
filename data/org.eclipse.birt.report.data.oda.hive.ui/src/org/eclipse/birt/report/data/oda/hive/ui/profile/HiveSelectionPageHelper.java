@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2005, 2012 Actuate Corporation.
+ * Copyright (c) 2005, 2014 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -61,7 +61,7 @@ public class HiveSelectionPageHelper
 	private WizardPage m_wizardPage;
 	private PreferencePage m_propertyPage;
 	private Button manageButton, testButton;
-	private final String CONEXT_ID_DATASOURCE_HIVE = "org.eclipse.birt.cshelp.Wizard_DatasourceProfile_ID";//$NON-NLS-1$
+	private final String CONTEXT_ID_DATASOURCE_HIVE = "org.eclipse.birt.cshelp.Wizard_Hive_Datasource_ID";//$NON-NLS-1$
 	private Label m_driverClass, serverTypeLabel, driverClassLabel,
 			jdbcUrlLabel, userNameLabel, passwordLabel, addFileLabel;
 	// Text of url, name and password
@@ -150,7 +150,7 @@ public class HiveSelectionPageHelper
 
 		PlatformUI.getWorkbench( )
 				.getHelpSystem( )
-				.setHelp( getControl( ), CONEXT_ID_DATASOURCE_HIVE );
+				.setHelp( getControl( ), CONTEXT_ID_DATASOURCE_HIVE );
 	}
 
 	private void createButtonArea( Composite content )
