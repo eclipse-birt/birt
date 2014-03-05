@@ -89,7 +89,9 @@
             name="%preference.preview.data">
       </page>
    </extension>
-<extension
+   
+<!-- Disable the preview tab - Bugzilla 421879
+	<extension
          point="org.eclipse.birt.report.designer.ui.editors.multiPageEditorContributor">
       <targetEditor targetEditorId="org.eclipse.birt.report.designer.ui.editors.ReportEditor">
       <formPage
@@ -109,8 +111,9 @@
             relative="org.eclipse.birt.report.designer.ui.editors.xmlsource"
             visible="true"/>
       </targetEditor>
-   </extension>
-
+	</extension>
+-->
+	
 	<extension point="org.eclipse.ui.popupMenus"> 
 		<viewerContribution 
 		      id="org.eclipse.birt.report.designer.ui.ide.Report"
