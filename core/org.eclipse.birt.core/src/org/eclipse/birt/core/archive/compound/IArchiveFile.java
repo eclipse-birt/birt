@@ -49,5 +49,5 @@ public interface IArchiveFile
 
 	public void save( ) throws IOException;
 	
-	public long getSize( );
+	public long getLength( );
 }
