@@ -681,4 +681,9 @@ public class Ext2FileSystem
 			}
 		}
 	}
+
+	public long length( )
+	{
+		return length;
+	}
 }
