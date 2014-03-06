@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2014 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */ 
@@ -177,8 +177,15 @@ public class QueryResults implements IQueryResults, IQueryService
 				long startTime = System.currentTimeMillis( );
 				org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( );
 				long endTime = System.currentTimeMillis( );
-				logger.log( Level.INFO, "ODI query execution: "
-						+ ( endTime - startTime ) + " ms" );
+
+				if( logger.isLoggable( Level.FINE ) )
+				{
+					String dataSetName = queryService.getDataSetRuntime() != null ?
+										queryService.getDataSetRuntime().getName() : null;
+					logger.log( Level.FINE, "ODI query execution time: " + 
+							( endTime - startTime ) + " ms;\n   Executed data set: " + dataSetName );
+				}
+
 				if( queryService.getQueryDefn( ) instanceof IQueryDefinition && ! ((QueryDefinition)queryService.getQueryDefn()).isTempQuery())
 				{
 					iterator = QueryResultsUtil.processOdiResult( session,
