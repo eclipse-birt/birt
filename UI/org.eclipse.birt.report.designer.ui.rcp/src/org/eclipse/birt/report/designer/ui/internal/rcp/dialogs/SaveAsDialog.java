@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2014 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.internal.rcp.dialogs;
@@ -198,10 +198,10 @@ public class SaveAsDialog extends TitleAreaDialog
 
 	/**
 	 * Sets the completion state of this dialog and adjusts the enable state of
-	 * the Ok button accordingly.
+	 * the OK button accordingly.
 	 * 
 	 * @param value
-	 *            <code>true</code> if this dialog is compelete, and
+	 *            <code>true</code> if this dialog is complete, and
 	 *            <code>false</code> otherwise
 	 */
 	protected void setDialogComplete( boolean value )
@@ -218,8 +218,8 @@ public class SaveAsDialog extends TitleAreaDialog
 		IPath path = support.getFileLocationFullPath( )
 				.append( support.getFileName( ) );
 
-		// If the user does not supply a file extension and if the save
-		// as dialog was provided a default file name append the extension
+		// If the user does not supply a file extension and the save
+		// as dialog was provided a default file name, then append the extension
 		// of the default filename to the new name
 		if ( !ReportPlugin.getDefault( )
 				.isReportDesignFile( path.toOSString( ) ) )
