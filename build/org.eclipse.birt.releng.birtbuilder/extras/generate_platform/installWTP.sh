@@ -21,22 +21,17 @@ case "$1" in
        export P2_OS=linux
        export P2_WS=gtk
        export P2_ARCH=x86;;
-  mac)
-       export PACKAGE_TYPE=mac
-       export P2_OS=macosx
-       export P2_WS=cocoa
-       export P2_ARCH=x86;;
   *)
        echo >&2 "$usage"
        exit 1;;
 esac
 
-export Profile=PlatformProfile
-#export Profile=SDKProfile
+#export Profile=PlatformProfile
+export Profile=SDKProfile
 
 #export WTP_REPO_URL=http://download.eclipse.org/webtools/downloads/drops/R3.3.0/S-3.3.0RC2-20110520234832/repository/
 
-export WTP_REPO_URL=jar:file://$REPO_LOCATION/wtp4x-repo-M-3.4.2RC4-20130208151217.zip!/
+export WTP_REPO_URL=jar:file://$REPO_LOCATION/wtp4x-repo-M-3.5.1RC4-20130913223750.zip!/
 
 #==================== COMMON SET UP ================================
 

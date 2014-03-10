@@ -21,21 +21,16 @@ case "$1" in
        export P2_OS=linux
        export P2_WS=gtk
        export P2_ARCH=x86;;
-  mac)
-       export PACKAGE_TYPE=mac
-       export P2_OS=macosx
-       export P2_WS=cocoa
-       export P2_ARCH=x86;;
   *)
        echo >&2 "$usage"
        exit 1;;
 esac
 
-export Profile=PlatformProfile
-#export Profile=SDKProfile
+#export Profile=PlatformProfile
+export Profile=SDKProfile
 
 #export MYLYN_REPO_URL=http://download.eclipse.org/mylyn/snapshots/indigo/
-export MYLYN_REPO_URL=jar:file://$REPO_LOCATION/mylyn-3.8.3.v20130107-0100.zip!/
+export MYLYN_REPO_URL=jar:file://$REPO_LOCATION/mylyn-3.9.1.v20130917-0100.zip!/
 
 #==================== COMMON SET UP ================================
 

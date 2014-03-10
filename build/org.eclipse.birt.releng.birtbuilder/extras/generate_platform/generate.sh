@@ -21,18 +21,13 @@ case "$1" in
        export P2_OS=linux
        export P2_WS=gtk
        export P2_ARCH=x86;;
-  mac)
-       export PACKAGE_TYPE=mac
-       export P2_OS=macosx
-       export P2_WS=cocoa
-       export P2_ARCH=x86;;
   *)
        echo >&2 "$usage"
        exit 1;;
 esac
 
-export Profile=PlatformProfile
-#export Profile=SDKProfile
+#export Profile=PlatformProfile
+export Profile=SDKProfile
 
 #export ECLIPSE_CVS_URL=http://download.eclipse.org/eclipse/updates/3.7milestones/S-3.7RC2-201105191138/
 #export ECLIPSE_JDT_URL=http://download.eclipse.org/eclipse/updates/3.7milestones/S-3.7RC2-201105191138/
@@ -40,11 +35,11 @@ export Profile=PlatformProfile
 #export EMF_XSD_URL=http://download.eclipse.org/modeling/emf/emf/updates/2.7milestones/
 #export GEF_URL=http://download.eclipse.org/tools/gef/updates/milestones/
 
-export ECLIPSE_CVS_URL=jar:file://$REPO_LOCATION/org.eclipse.cvs-M20130204-1200.zip!/
-export ECLIPSE_JDT_URL=jar:file://$REPO_LOCATION/org.eclipse.jdt-M20130204-1200.zip!/
-export ECLIPSE_PDE_URL=jar:file://$REPO_LOCATION/org.eclipse.pde-M20130204-1200.zip!/
-export EMF_XSD_URL=jar:file://$REPO_LOCATION/emf-xsd-Update-2.8.3RC2.zip!/
-export GEF_URL=jar:file://$REPO_LOCATION/GEF-Update-3.8.2.zip!/
+export ECLIPSE_CVS_URL=jar:file://$REPO_LOCATION/org.eclipse.cvs-4.3.1RC4.zip!/
+export ECLIPSE_JDT_URL=jar:file://$REPO_LOCATION/org.eclipse.jdt-4.3.1RC4.zip!/
+export ECLIPSE_PDE_URL=jar:file://$REPO_LOCATION/org.eclipse.pde-4.3.1RC4.zip!/
+export EMF_XSD_URL=jar:file://$REPO_LOCATION/emf-xsd-Update-2.9.1.zip!/
+export GEF_URL=jar:file://$REPO_LOCATION/GEF-Update-3.9.1RC1.zip!/
 
 #==================== COMMON SET UP ================================
 
