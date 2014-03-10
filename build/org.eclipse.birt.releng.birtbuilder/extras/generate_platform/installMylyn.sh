@@ -26,9 +26,8 @@ case "$1" in
        exit 1;;
 esac
 
-#export MYLYN_REPO_URL=http://download.eclipse.org/tools/mylyn/update/maintenance/
-export MYLYN_REPO_URL=jar:file://$REPO_LOCATION/mylyn-3.4.2.v20100916-0100-e3.4.zip!/
-
+#export MYLYN_REPO_URL=http://download.eclipse.org/mylyn/snapshots/indigo/
+export MYLYN_REPO_URL=jar:file://$REPO_LOCATION/mylyn-3.6.5.I20120208-0946.zip!/
 
 #==================== COMMON SET UP ================================
 

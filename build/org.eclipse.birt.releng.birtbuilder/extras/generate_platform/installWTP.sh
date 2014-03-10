@@ -26,8 +26,9 @@ case "$1" in
        exit 1;;
 esac
 
-#export WTP_REPO_URL=http://download.eclipse.org/webtools/downloads/drops/R3.2.3/M-3.2.3-20110113194837/repository/
-export WTP_REPO_URL=jar:file://$REPO_LOCATION/wst-sdk-buildrepo-R-3.2.2-20100915173744.zip!/
+#export WTP_REPO_URL=http://download.eclipse.org/webtools/downloads/drops/R3.3.0/S-3.3.0RC2-20110520234832/repository/
+
+export WTP_REPO_URL=jar:file://$REPO_LOCATION/wtp-repo-M-3.3.2-20120210195245.zip!/
 
 #==================== COMMON SET UP ================================
 

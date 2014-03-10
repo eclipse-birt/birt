@@ -26,17 +26,17 @@ case "$1" in
        exit 1;;
 esac
 
-#export ECLIPSE_CVS_URL=http://download.eclipse.org/eclipse/updates/3.6.x/
-#export ECLIPSE_JDT_URL=http://download.eclipse.org/eclipse/updates/3.6.x/
-#export ECLIPSE_PDE_URL=http://download.eclipse.org/eclipse/updates/3.6.x/
-#export EMF_XSD_URL=http://download.eclipse.org/modeling/emf/emf/updates/2.6/
-#export GEF_URL=http://download.eclipse.org/tools/gef/updates/interim/
+#export ECLIPSE_CVS_URL=http://download.eclipse.org/eclipse/updates/3.7milestones/S-3.7RC2-201105191138/
+#export ECLIPSE_JDT_URL=http://download.eclipse.org/eclipse/updates/3.7milestones/S-3.7RC2-201105191138/
+#export ECLIPSE_PDE_URL=http://download.eclipse.org/eclipse/updates/3.7milestones/S-3.7RC2-201105191138/
+#export EMF_XSD_URL=http://download.eclipse.org/modeling/emf/emf/updates/2.7milestones/
+#export GEF_URL=http://download.eclipse.org/tools/gef/updates/milestones/
 
-export ECLIPSE_CVS_URL=jar:file://$REPO_LOCATION/org.eclipse.cvs-3.6.1.zip!/
-export ECLIPSE_JDT_URL=jar:file://$REPO_LOCATION/org.eclipse.jdt-3.6.1.zip!/
-export ECLIPSE_PDE_URL=jar:file://$REPO_LOCATION/org.eclipse.pde-3.6.1.zip!/
-export EMF_XSD_URL=jar:file://$REPO_LOCATION/emf-xsd-Update-2.6.1.zip!/
-export GEF_URL=jar:file://$REPO_LOCATION/GEF-Update-3.6.1.zip!/
+export ECLIPSE_CVS_URL=jar:file://$REPO_LOCATION/org.eclipse.cvs-M20120208-0800.zip!/
+export ECLIPSE_JDT_URL=jar:file://$REPO_LOCATION/org.eclipse.jdt-M20120208-0800.zip!/
+export ECLIPSE_PDE_URL=jar:file://$REPO_LOCATION/org.eclipse.pde-M20120208-0800.zip!/
+export EMF_XSD_URL=jar:file://$REPO_LOCATION/emf-xsd-Update-M201201231045.zip!/
+export GEF_URL=jar:file://$REPO_LOCATION/GEF-Update-3.7.2.zip!/
 
 #==================== COMMON SET UP ================================
 
@@ -135,7 +135,8 @@ $ECLIPSE_RUNNER \
  -p2.os  $P2_OS \
  -p2.ws  $P2_WS \
  -p2.arch $P2_ARCH \
- -roaming -vmargs \ -Declipse.p2.data.area=$TARGET_LOCATION/$PACKAGE_TYPE/eclipse/p2
+ -roaming -vmargs \
+ -Declipse.p2.data.area=$TARGET_LOCATION/$PACKAGE_TYPE/eclipse/p2
 
 $ECLIPSE_RUNNER \
  -application org.eclipse.equinox.p2.director \
