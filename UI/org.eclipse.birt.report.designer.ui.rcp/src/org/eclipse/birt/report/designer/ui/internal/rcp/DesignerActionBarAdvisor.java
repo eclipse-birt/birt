@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation .
+ * Copyright (c) 2004, 2014 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.internal.rcp;
@@ -47,7 +47,7 @@ import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
 /**
- * Class for configuring the action bart of BIRT RCP designer.
+ * Class for configuring the action part of the BIRT RCP designer.
  */
 public class DesignerActionBarAdvisor extends ActionBarAdvisor
 {
@@ -61,7 +61,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 
 	private IWorkbenchAction newLibraryAction;
 	
-	private IWorkbenchAction[] newActios;
+	private IWorkbenchAction[] newActions;
 
 	private IWorkbenchAction newReportTemplateAction;
 
@@ -87,7 +87,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 
 	private IWorkbenchAction forwardHistoryAction;
 
-	// generic retarget actions
+	// generic re-target actions
 	private IWorkbenchAction undoAction;
 
 	private IWorkbenchAction redoAction;
@@ -235,9 +235,9 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		newMenu.add(newReportAction);
 		newMenu.add(newLibraryAction);
 		newMenu.add(newReportTemplateAction);
-		for (int i=0; i<newActios.length; i++)
+		for (int i=0; i<newActions.length; i++)
 		{
-			newMenu.add(newActios[i]);
+			newMenu.add(newActions[i]);
 		}
 		menu.add(newMenu);
 		
@@ -332,7 +332,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		MenuManager menu = new MenuManager( DesignerWorkbenchMessages.Workbench_help,
 				IWorkbenchActionConstants.M_HELP );
 
-		// See if a welcome or intro page is specified
+		// See if a welcome or introduction page is specified
 		if ( introAction != null )
 			menu.add( introAction );
 //		else if ( quickStartAction != null )
@@ -369,9 +369,9 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		newLibraryAction = null;
 		newReportTemplateAction = null;
 		
-		for (int i=0; i<newActios.length; i++)
+		for (int i=0; i<newActions.length; i++)
 		{
-			newActios[i] = null;
+			newActions[i] = null;
 		}
 		closeAction = null;
 		closeAllAction = null;
@@ -416,7 +416,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 	}
 
 	/**
-	 * Return whether or not given id matches the id of the coolitems that the
+	 * Return whether or not given id matches the id of the cool items that the
 	 * workbench creates.
 	 */
 	public boolean isWorkbenchCoolItemId( String id )
@@ -519,7 +519,7 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		quitAction = ActionFactory.QUIT.create( window );
 		register( quitAction );
 		
-		//regist the new action
+		//register the new actions
 		Object[] adapters = ElementAdapterManager.getAdapters( this,
 				IExtensionFile.class );
 		List<IWorkbenchAction> tempList= new ArrayList<IWorkbenchAction>();
@@ -539,11 +539,11 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 				tempList.add( action );
 			}
 			
-			newActios =  tempList.toArray( new IWorkbenchAction[tempList.size( )] );
+			newActions =  tempList.toArray( new IWorkbenchAction[tempList.size( )] );
 		}
 		else
 		{
-			newActios = new IWorkbenchAction[0];
+			newActions = new IWorkbenchAction[0];
 		}
 
 		if ( window.getWorkbench( ).getIntroManager( ).hasIntro( ) )

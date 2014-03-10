@@ -166,7 +166,7 @@
       </perspectiveExtension>
    </extension>
  <extension
-       point="org.eclipse.core.runtime.contentTypes">
+       point="org.eclipse.core.contenttype.contentTypes">
     <file-association
           content-type="org.eclipse.birt.report.designer.ui.editors.reportdesign"
           file-extensions="rptdesign"/>
