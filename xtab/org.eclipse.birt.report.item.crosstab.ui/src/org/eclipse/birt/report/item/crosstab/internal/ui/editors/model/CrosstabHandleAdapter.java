@@ -1690,7 +1690,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 			{
 				return 1;
 			}
-			else if ( part1.getColumnNumber( ) > part2.getColumnNumber( ) )
+			else if ( part1.getColumnNumber( ) < part2.getColumnNumber( ) )
 			{
 				return -1;
 			}
