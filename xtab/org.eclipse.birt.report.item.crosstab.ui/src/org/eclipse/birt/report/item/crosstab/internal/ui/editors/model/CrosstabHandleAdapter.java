@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2014 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
@@ -56,7 +56,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	private int adjustGrandColumn, adjustGrandRow;
 
 	/**
-	 * Record the infomation of the model structure.
+	 * Record the information of the model structure.
 	 */
 	private HashMap map = new HashMap( );
 
@@ -88,7 +88,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	public List getModelList( )
 	{
 		init( );
-		// there are four part to ctraet model
+		// there are four parts to create model
 		List list = new ArrayList( );
 
 		List columns = buildColumnArea( );
@@ -487,7 +487,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		int columnSpanBase = ( (Integer) map.get( COLUMNAREA_COLUMN ) ).intValue( );
 		int measureBase = getCrosstabReportItemHandle( ).getMeasureCount( );
 		int rowBase = ( (Integer) map.get( ROWAREA_ROW ) ).intValue( );
-		// first adjust the rowspna and columnspan if there are some virtual
+		// first adjust the rowSpan and columnSpan if there are some virtual
 		// editpart in the crosstab
 		// only need adjust column area and measure
 		if ( columnSpanBase > 1 && details.size( ) == 1 )
@@ -569,7 +569,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 			retValue.add( adapter );
 
-			// bulid the AggregationCellHandle
+			// build the AggregationCellHandle
 			int addregationCellCount = measureHandle.getAggregationCount( );
 
 			for ( int j = 0; j < addregationCellCount; j++ )
@@ -673,7 +673,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		}
 		// int columnNumber = Math.max( measureCount, 1 );
 
-		// now add the mearsure cell
+		// now add the measure cell
 		// if ( count != 0 )
 		// {
 		// addMesureHeaderInColumn( retValue, 0 );
@@ -710,7 +710,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				CrosstabCellHandle cellHandle = levelHandle.getCell( );
 				String type = j == 0 ? ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE
 						: ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE;
-				// add the levelhandle cell
+				// add the levelHandle cell
 				CrosstabCellAdapter cellAdapter = factory.createCrosstabCellAdapter( type,
 						cellHandle,
 						1,
@@ -836,7 +836,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		}
 		// int columnNumber = Math.max( measureCount, 1 );
 
-		// now add the mearsure cell
+		// now add the measure cell
 		// if ( count != 0 )
 		// {
 		// addMesureHeaderInColumn( retValue, 0 );
@@ -872,7 +872,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				CrosstabCellHandle cellHandle = levelHandle.getCell( );
 				String type = j == 0 ? ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE
 						: ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE;
-				// add the levelhandle cell
+				// add the levelHandle cell
 				CrosstabCellAdapter cellAdapter = factory.createCrosstabCellAdapter( type,
 						cellHandle,
 						rowNumber,
@@ -907,7 +907,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 								false );
 
 						retValue.add( preCellAdapter );
-						// add subtotal measure handle
+						// add subTotal measure handle
 						// if ( measureCount != 0 )
 						// {
 						int addCount = addMesureHeader( retValue,
@@ -948,7 +948,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 						false );
 
 				retValue.add( grandCellAdapter );
-				// add subtotal measure handle
+				// add subTotal measure handle
 				int addCount = addMesureHeader( retValue,
 						columnNumber,
 						ICrosstabConstants.COLUMN_AXIS_TYPE,
@@ -1174,7 +1174,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	// }
 
 	/**
-	 * return the previous levelviewhandle
+	 * return the previous LevelViewHandle
 	 * 
 	 * @return
 	 */
@@ -1203,7 +1203,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	}
 
 	/**
-	 * Use the old model add to model list, so the no new editpart creat
+	 * Use the old model add to model list, so the no new editpart create
 	 * 
 	 * @param list
 	 * @param adapter
@@ -1678,23 +1678,14 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		{
 			CrosstabCellAdapter part1 = (CrosstabCellAdapter) o1;
 			CrosstabCellAdapter part2 = (CrosstabCellAdapter) o2;
-			if ( part1.getRowNumber( ) > part2.getRowNumber( ) )
+			
+			int part1Row = part1.getRowNumber( );
+			int part2Row = part2.getRowNumber( );
+			if ( part1Row != part2Row )
 			{
-				return 1;
+				return part1Row - part2Row;
 			}
-			else if ( part1.getRowNumber( ) < part2.getRowNumber( ) )
-			{
-				return -1;
-			}
-			else if ( part1.getColumnNumber( ) > part2.getColumnNumber( ) )
-			{
-				return 1;
-			}
-			else if ( part1.getColumnNumber( ) > part2.getColumnNumber( ) )
-			{
-				return -1;
-			}
-			return 0;
+			return part1.getColumnNumber( ) - part2.getColumnNumber( );
 		}
 	}
 

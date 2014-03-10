@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2003, 2004 IBM Corporation and others.
+ * Copyright (c) 2003, 2014 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     IBM Corporation - initial API and implementation
- *     Actuate Corporation - Change the code to fit BIRT requirement
+ *     Actuate Corporation - Change the code to fit BIRT requirements
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
@@ -777,6 +777,30 @@ public class EditorRulerComposite extends Composite
 		{
 			size = new Dimension( MetricUtility.inchToPixel( 8.3, 11.7 ).x,
 					MetricUtility.inchToPixel( 8.3, 11.7 ).y );
+		}
+		else if ( masterPage.getPageType( )
+				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_A3 ) )
+		{
+			size = new Dimension( MetricUtility.inchToPixel( 11.7, 16.5 ).x,
+					MetricUtility.inchToPixel( 11.7, 16.5 ).y );
+		}
+		else if ( masterPage.getPageType( )
+				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_A5 ) )
+		{
+			size = new Dimension( MetricUtility.inchToPixel( 5.8, 8.3 ).x,
+					MetricUtility.inchToPixel( 5.8, 8.3 ).y );
+		}
+		else if ( masterPage.getPageType( )
+				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_US_LEDGER ) )
+		{
+			size = new Dimension( MetricUtility.inchToPixel( 11, 17 ).x,
+					MetricUtility.inchToPixel( 11, 17 ).y );
+		}
+		else if ( masterPage.getPageType( )
+						.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_US_SUPER_B ) )
+		{
+			size = new Dimension( MetricUtility.inchToPixel( 11, 17 ).x,
+					MetricUtility.inchToPixel( 13, 19 ).y );
 		}
 		else if ( masterPage.getPageType( )
 				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )

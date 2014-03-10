@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2007 Actuate Corporation and others.
+ * Copyright (c) 2007, 2014 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -46,9 +46,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.editors.text.IFoldingCommandIds;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 import org.eclipse.ui.texteditor.AbstractMarkerAnnotationModel;
+import org.eclipse.ui.texteditor.ChainedPreferenceStore;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
@@ -67,7 +69,7 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 {
 
 	/**
-	 * The javascript syntax context, provides methods to access avaible Type
+	 * The Javascript syntax context, provides methods to access available Type
 	 * meta-data.
 	 */
 	private final JSSyntaxContext context = new JSSyntaxContext( );
@@ -119,7 +121,8 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 			IPreferenceStore store = ( (PreferenceWrapper) preferences ).getPrefsStore( );
 			if ( store != null )
 			{
-				setPreferenceStore( store );
+				IPreferenceStore baseEditorPrefs = EditorsUI.getPreferenceStore();
+				setPreferenceStore( new ChainedPreferenceStore(new IPreferenceStore[]{store, baseEditorPrefs}) );
 			}
 		}
 	}
@@ -564,7 +567,7 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 		if ( getSourceViewer( ) != null )
 		{
 			sourceViewerConfiguration.resetScannerColor( );
-			// reset textwidget text
+			// reset text widget text
 			getSourceViewer( ).getTextWidget( )
 					.setText( getSourceViewer( ).getTextWidget( ).getText( ) );
 			sourceViewerConfiguration.getPresentationReconciler( getSourceViewer( ) )
