@@ -21,13 +21,21 @@ case "$1" in
        export P2_OS=linux
        export P2_WS=gtk
        export P2_ARCH=x86;;
+  mac)
+       export PACKAGE_TYPE=mac
+       export P2_OS=macosx
+       export P2_WS=cocoa
+       export P2_ARCH=x86;;
   *)
        echo >&2 "$usage"
        exit 1;;
 esac
 
+export Profile=PlatformProfile
+#export Profile=SDKProfile
+
 #export MYLYN_REPO_URL=http://download.eclipse.org/mylyn/snapshots/indigo/
-export MYLYN_REPO_URL=jar:file://$REPO_LOCATION/mylyn-3.6.5.I20120208-0946.zip!/
+export MYLYN_REPO_URL=jar:file://$REPO_LOCATION/mylyn-3.8.3.v20130107-0100.zip!/
 
 #==================== COMMON SET UP ================================
 
@@ -38,7 +46,7 @@ $ECLIPSE_RUNNER \
  -artifactRepository $MYLYN_REPO_URL \
  -installIU org.eclipse.mylyn.ide_feature.feature.group \
  -destination $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
- -profile PlatformProfile \
+ -profile $Profile \
  -bundlepool $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
  -p2.os  $P2_OS \
  -p2.ws  $P2_WS \
@@ -53,7 +61,7 @@ $ECLIPSE_RUNNER \
  -artifactRepository $MYLYN_REPO_URL \
  -installIU org.eclipse.mylyn.java_feature.feature.group \
  -destination $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
- -profile PlatformProfile \
+ -profile $Profile \
  -bundlepool $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
  -p2.os  $P2_OS \
  -p2.ws  $P2_WS \
@@ -68,7 +76,7 @@ $ECLIPSE_RUNNER \
  -artifactRepository $MYLYN_REPO_URL \
  -installIU org.eclipse.mylyn.bugzilla_feature.feature.group \
  -destination $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
- -profile PlatformProfile \
+ -profile $Profile \
  -bundlepool $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
  -p2.os  $P2_OS \
  -p2.ws  $P2_WS \
@@ -83,7 +91,7 @@ $ECLIPSE_RUNNER \
  -artifactRepository $MYLYN_REPO_URL \
  -installIU org.eclipse.mylyn.context_feature.feature.group \
  -destination $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
- -profile PlatformProfile \
+ -profile $Profile \
  -bundlepool $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
  -p2.os  $P2_OS \
  -p2.ws  $P2_WS \
@@ -98,7 +106,7 @@ $ECLIPSE_RUNNER \
  -artifactRepository $MYLYN_REPO_URL \
  -installIU org.eclipse.mylyn_feature.feature.group \
  -destination $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
- -profile PlatformProfile \
+ -profile $Profile \
  -bundlepool $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
  -p2.os  $P2_OS \
  -p2.ws  $P2_WS \
@@ -113,7 +121,7 @@ $ECLIPSE_RUNNER \
  -artifactRepository $MYLYN_REPO_URL \
  -installIU org.eclipse.mylyn.wikitext_feature.feature.group \
  -destination $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
- -profile PlatformProfile \
+ -profile $Profile \
  -bundlepool $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
  -p2.os  $P2_OS \
  -p2.ws  $P2_WS \
