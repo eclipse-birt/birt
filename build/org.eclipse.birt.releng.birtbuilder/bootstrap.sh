@@ -296,19 +296,25 @@ echo $sign >> $LOG_FILE
 # speed up the build process.
 # Please set $birtLocal to the same value as $birtEclipse if you are 
 # building outside BIRT. Do the same to $dtpLocal and $orbitLocal.
+#-Dbirt.url.token=$birtEclipse \
+#-Dbirt.url.newvalue=$birtLocal \
+#-Ddtp.url.token=$dtpEclipse \
+#-Ddtp.url.newvalue=$dtpLocal \
+#-Dorbit.url.token=$orbitEclipse \
+#-Dorbit.url.newvalue=$orbitLocal \
 ########################################################################
-birtEclipse=git://git.eclipse.org
-birtLocal=git://192.168.218.226
-dtpEclipse=git://git.eclipse.org
-dtpLocal=git://192.168.218.226
-orbitEclipse=download.eclipse.org/tools
-orbitLocal=buildsha-win/software/platform
+#birtEclipse=git://git.eclipse.org
+#birtLocal=git://192.168.218.226
+#dtpEclipse=git://git.eclipse.org
+#dtpLocal=git://192.168.218.226
+#orbitEclipse=download.eclipse.org/tools
+#orbitLocal=buildsha-win/software/platform
 
 ########################################################################
 # Set up the full build command
 ########################################################################
 buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $unitTest $CheckNewJars $skipNL \
--Dbuild.runtimeOSGI=true \
+-Dbuild.runtimeOSGI=true  -DallowBinaryCycles=true\
 -DpostingDirectory=$postingDirectory \
 -Dbootclasspath=$bootclasspath_16 -DbuildType=$buildType -D$buildType=true \
 -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipTest $tagMaps \
@@ -327,12 +333,6 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $uni
 -Dbuilder.dir=$builderDir -DupdateSiteConfig=gtk.linux.x86 \
 -DmapGitRoot=$GitRoot \
 -Ddtp.mapGitRoot=$GitRoot_DTP \
--Dbirt.url.token=$birtEclipse \
--Dbirt.url.newvalue=$birtLocal \
--Ddtp.url.token=$dtpEclipse \
--Ddtp.url.newvalue=$dtpLocal \
--Dorbit.url.token=$orbitEclipse \
--Dorbit.url.newvalue=$orbitLocal \
 -DBirtRepoCache=git___192_168_218_226_gitroot_birt_org_eclipse_birt_git"
 
 
