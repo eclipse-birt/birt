@@ -257,6 +257,11 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 	private Object getPropertyFromColumn( Module module, TableColumn column,
 			ElementPropertyDefn prop )
 	{
+		if ( prop.getName( ).equals( IStyleModel.WIDTH_PROP ) )
+		{
+			return null;
+		}
+
 		if ( column != null )
 		{
 			return column.getStrategy( ).getPropertyFromElement( module,
