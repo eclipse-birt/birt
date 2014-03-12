@@ -53,6 +53,7 @@ bootclasspath="/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_13/
 bootclasspath_15="/usr/local/jdk1.5.0_09/jre/lib/rt.jar:/usr/local/jdk1.5.0_09/jre/lib/jsse.jar"
 bootclasspath_16="/usr/local/jdk1.6.0/jre/lib/rt.jar:/usr/local/jdk1.6.0/jre/lib/jsse.jar"
 jvm15_home="/usr/local/jdk1.5.0_09"
+jvm16_home="/usr/local/jdk1.6.0"
 
 proc=$$
 
@@ -295,6 +296,12 @@ echo $sign >> $LOG_FILE
 # speed up the build process.
 # Please set $birtLocal to the same value as $birtEclipse if you are 
 # building outside BIRT. Do the same to $dtpLocal and $orbitLocal.
+#-Dbirt.url.token=$birtEclipse \
+#-Dbirt.url.newvalue=$birtLocal \
+#-Ddtp.url.token=$dtpEclipse \
+#-Ddtp.url.newvalue=$dtpLocal \
+#-Dorbit.url.token=$orbitEclipse \
+#-Dorbit.url.newvalue=$orbitLocal \
 ########################################################################
 #-Dbirt.url.token=$birtEclipse \
 #-Dbirt.url.newvalue=$birtLocal \
@@ -313,7 +320,7 @@ echo $sign >> $LOG_FILE
 # Set up the full build command
 ########################################################################
 buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $unitTest $CheckNewJars $skipNL \
--Dbuild.runtimeOSGI=true \
+-Dbuild.runtimeOSGI=true  -DallowBinaryCycles=true \
 -DpostingDirectory=$postingDirectory \
 -Dbootclasspath=$bootclasspath_16 -DbuildType=$buildType -D$buildType=true \
 -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipTest $tagMaps \
@@ -323,7 +330,7 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $uni
 -DgroupConfiguration=true -DjavacVerbose=true \
 -Dbasebuilder=$WORKING_DIR/org.eclipse.releng.basebuilder \
 -Dtest.dir=$WORKING_DIR/unittest -Dp4.home=$WORKING_DIR/P4 \
--Djvm15_home=$jvm15_home  -DmapTag.properties=$builderDir/mapTag.properties \
+-Djvm15_home=$jvm15_home -Djvm16_home=$jvm16_home -DmapTag.properties=$builderDir/mapTag.properties \
 -Dbuild.date=$builddate -Dpackage.version=4_4_0 -DBranchVersion=4.4.0 -Dant.dir=$ANT_HOME/bin \
 -DmapVersionTag=$BranchName \
 -Ddtp.mapVersionTag=$dtp_BranchName \
@@ -332,6 +339,7 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $uni
 -Dbuilder.dir=$builderDir -DupdateSiteConfig=gtk.linux.x86 \
 -DmapGitRoot=$GitRoot \
 -Ddtp.mapGitRoot=$GitRoot_DTP \
+-Dskip.unit.test=true \
 -DBirtRepoCache=git___git_eclipse_org_gitroot_birt_org_eclipse_birt_git"
 
 
