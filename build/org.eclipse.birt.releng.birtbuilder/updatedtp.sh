@@ -6,7 +6,7 @@ LD_LIBRARY_PATH=.
 BASH_ENV=$HOME/.bashrc
 USERNAME=`whoami`
 xhost +$HOSTNAME
-DISPLAY=:0.0
+DISPLAY=:1.0
 export DISPLAY
 
 CVS_RSH=ssh
@@ -20,19 +20,9 @@ export PATH=${PATH}:${ANT_HOME}/bin:/usr/local/bin
 proc=$$
 
 # directory in which to export builder projects
-builderDir=/home/adb/releng.250/org.eclipse.birt.releng.birtbuilder/
+workspace=/home/adb/releng.440
 
-# buildtype determines whether map file tags are used as entered or are replaced with HEAD
-buildType=I
-
-# directory where to copy build
-postingDirectory=/home/adb/releng/BIRTOutput/BIRT2.5-download
-
-# flag to indicate if test build
-testBuild=""
-
-# path to javadoc executable
-javadoc=""
+builderDir=$workspace/org.eclipse.birt.releng.birtbuilder/
 
 # value used in buildLabel and for text replacement in index.php template file
 builddate=`date +%Y%m%d`
@@ -75,10 +65,6 @@ baseBuilderTag=$buildProjectTags
 # tag for exporting the custom builder
 customBuilderTag=$buildProjectTags
 
-# directory where features and plugins will be compiled
-buildDirectory=/home/adb/farrah/BIRT_Build_Dir
-
-
 cd $builderDir
 
 chmod -R 755 $builderDir
@@ -88,7 +74,7 @@ bootclasspath="/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_13/
 bootclasspath_15="/usr/local/jdk1.5.0_02/jre/lib/rt.jar"
 jvm15_home="/usr/local/jdk1.5.0_02"
 
-cd /home/adb/releng.250/org.eclipse.birt.releng.birtbuilder
+cd $workspace/org.eclipse.birt.releng.birtbuilder
 
 #the base command used to run AntRunner headless
 antRunner="/usr/local/jdk1.5.0_02/bin/java -Xmx500m -jar ../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
