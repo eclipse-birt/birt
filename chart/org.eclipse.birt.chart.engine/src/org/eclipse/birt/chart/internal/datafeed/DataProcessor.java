@@ -624,7 +624,9 @@ public class DataProcessor
 						.getDataDefinition( )
 						.get( 0 );
 				Query baseSortingKey = sdBase.getSortKey( );
-				if ( baseQuery.isDefined( )
+				if ( baseQuery != null
+						&& baseQuery.isDefined( )
+						&& baseSortingKey != null
 						&& baseSortingKey.isDefined( )
 						&& !baseQuery.getDefinition( )
 								.equals( baseSortingKey.getDefinition( ) ) )
@@ -872,7 +874,9 @@ public class DataProcessor
 						.getDataDefinition( )
 						.get( 0 );
 				Query baseSortingKey = sdBase.getSortKey( );
-				if ( baseQuery.isDefined( )
+				if ( baseQuery != null
+						&& baseQuery.isDefined( )
+						&& baseSortingKey != null
 						&& baseSortingKey.isDefined( )
 						&& !baseQuery.getDefinition( )
 								.equals( baseSortingKey.getDefinition( ) ) )
