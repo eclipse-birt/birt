@@ -280,7 +280,7 @@ public abstract class AbstractChartBaseQueryGenerator
 							String bindingName = ChartUtil.generateBindingNameOfValueSeries( qry,
 									orthSD,
 									baseSD,
-									true );
+									false );
 							if ( !query.getBindings( ).containsKey( bindingName )
 									&& !fNameSet.contains( bindingName ) )
 							{
