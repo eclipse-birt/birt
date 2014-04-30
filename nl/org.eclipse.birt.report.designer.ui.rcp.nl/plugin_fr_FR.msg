@@ -13,20 +13,32 @@
 # Build Info
 ###############################################################################
 Build=@BUILD@
+
 About=Business Intelligence and Reporting Tools
 ApplicationName=BIRT Report Designer
 ReportPerspective=BIRT Report Designer
 CHEAT_SHEETS=Feuilles de fraude
+
 CHEAT_SHEETS_MENU=&Feuilles de fraude...
+
 ReportEditor=Editeur d'état
+
 ReportDocumentEditor=Editeur d'état
+
 LibraryEditor=Editeur de bibliothèque
+
 TemplateEditor=Editeur de modèles
 
-WizardCategoryName=Outils de reporting et de Business Intelligence
+
+WizardCategoryName=Business Intelligence and Reporting Tools
 ReportWizard=Etat
+
 ReportWizardDescription=Cet assistant crée un nouvel état BIRT à partir d'un modèle prédéfini.
+
 TemplateWizard=Modèle
+
 TemplateWizardDescription=Cet assistant crée un nouveau modèle BIRT.
+
 LibraryWizard=Bibliothèque
+
 LibraryWizardDescription=Cet assistant crée une nouvelle bibliothèque d'états BIRT.

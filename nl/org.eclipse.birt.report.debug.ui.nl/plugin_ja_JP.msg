@@ -9,18 +9,30 @@
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
 
-report.debug=BIRT レポート
+report.debug=BIRT Report
 script.debug=レポート
-LaunchActionSet.label=レポートのデバッグ(&E) 
+
+LaunchActionSet.label=レポートのデバッグ(&E)
+
 Script.source.locator=レポートスクリプトのソースロケータ
+
 Debug.jsEditor=レポートデバッグ JavaScript エディタ
-javaSourceLocatorName=Java ソースのロケータ
+
+javaSourceLocatorName=Java Source Locator
 Watch.label=ウォッチに追加
+
 ReportActionSet=レポートのアクションセット
+
 Run=実行(&R)
+
 ScriptLaunchShortcut.label=レポート
+
 DebugReportLaunchShortcut.description=レポートのデバッグ
+
 EnableBreakpoint.label=ブレークポイントの有効化
+
 ToggleBreakpoint.label=ブレークポイントの切り替え
+
 Action.DebugReport=デバッグレポート
+
 Menu.Report=レポート

@@ -10,11 +10,17 @@
 ###############################################################################
 #Summary aggregates.
 Sum.displayName=Somme
+
 Average.displayName=Moyenne
+
 Count.displayName=Nombre
+
 DistinctCount.displayName=Nombre distinct
+
 First.displayName=Premier
+
 Last.displayName=Dernier
+
 Min.displayName=Minimum
 Max.displayName=Maximum
 WeightedAverage.displayName=Moyenne pondérée
@@ -30,7 +36,7 @@ Quartile.displayName=Quartile
 #Running aggregates.
 MovingAverage.displayName=Moyenne mobile
 RunningSum.displayName=Cumul
-RunningNPV.displayName=NPV
+RunningNPV.displayName=VAN
 Rank.displayName=Titre
 Top.displayName=Is-Top-N
 TopPercent.displayName=Is-Top-N-Percent

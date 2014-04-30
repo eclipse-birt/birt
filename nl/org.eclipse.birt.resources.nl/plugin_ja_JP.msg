@@ -1,9 +1,16 @@
-cheatsheet.category=ビジネスインテリジェンスとレポート作成ツール
+cheatsheet.category=Business Intelligence and Reporting Tools
 cheatsheet.simplelisting=簡易リストレポート
+
 cheatsheet.groupedlisting=グループごとのリストレポート
+
 cheatsheet.dualcolumnlisting=カラムリストの同時表示レポート
+
 cheatsheet.chartlisting=グラフとリストレポート
+
 cheatsheet.sidebysidechartlisting=グラフとリストの並列表示レポート
+
 cheatsheet.dualcolumnchartlisting=カラムグラフとリストの同時表示レポート
+
 cheatsheet.firstreport=はじめてのレポート
+
 cheatsheet.crosstab=クロスタブレポート

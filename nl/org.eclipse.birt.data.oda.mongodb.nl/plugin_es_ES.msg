@@ -11,44 +11,44 @@ oda.data.source.id=org.eclipse.birt.data.oda.mongodb
 # NLS Strings
 ###############################################################################
 #
-plugin.name=Controlador de tiempo de ejecución ODA de fuente de datos MongoDB
-data.source.name=Fuente de datos MongoDB
-data.set.name=Conjunto de datos MongoDB
-connection.profile.name=Perfil de conexión de fuente de datos MongoDB
+plugin.name=MongoDB Data Source ODA Runtime Driver
+data.source.name=MongoDB Data Source
+data.set.name=MongoDB Data Set
+connection.profile.name=MongoDB Data Source Connection Profile
 
 # Data source properties
-datasource.property.mongoDbUri=URI de base de datos &Mongo
-datasource.property.ignoreURI=&Omitir URI
-datasource.property.serverHost=&Anfitrión del servidor
-datasource.property.serverPort=P&uerto del servidor:
-datasource.property.databaseName=&Nombre de base de datos
-datasource.property.userName=Nombre de u&suario
-datasource.property.password=Cont&raseña
-datasource.property.socketKeepAlive=Mantener socket &activo
-datasource.property.useRequestSession=Sesión de &solicitud coherente
-datasource.property.group.uriElements=&Elementos URI de base de datos Mongo
-datasource.property.group.options=&Ajustes suplementarios del cliente
+datasource.property.mongoDbUri=&Mongo Database URI
+datasource.property.ignoreURI=&Ignore URI
+datasource.property.serverHost=Server &Host
+datasource.property.serverPort=Server P&ort
+datasource.property.databaseName=&Database Name
+datasource.property.userName=U&ser Name
+datasource.property.password=Pass&word
+datasource.property.socketKeepAlive=Keep Socket &Alive
+datasource.property.useRequestSession=Consistent &Request Session
+datasource.property.group.uriElements=Mongo Database URI &Elements
+datasource.property.group.options=Supplemental Client &Setting(s)
 
 # Data set properties - query definition
-dataset.property.collectionName=Nombre de &colección
-dataset.property.operationType=Tipo de &operación de comando
-dataset.property.operationExpr=&Expresión de comando
-dataset.property.selectedFields=Campos se&leccionados
-dataset.property.findQueryExpr=&Expresión de consulta
-dataset.property.sortExpr=&Expresión de ordenación
+dataset.property.collectionName=&Collection name
+dataset.property.operationType=Command &operation type
+dataset.property.operationExpr=Command &expression
+dataset.property.selectedFields=Se&lected fields
+dataset.property.findQueryExpr=&Query expression
+dataset.property.sortExpr=&Sort expression
 # Data set properties - advanced runtime properties
-dataset.property.batchSize=Máximo de objetos de resultado en un &lote
-dataset.property.rtMDSearchLimit=Máximo de documentos para buscar para &metadatos de tiempo de ejecución
-dataset.property.numSkipDocuments=Máximo de documentos para o&mitir
-dataset.property.indexHints=Expresión de sugeren&cia de índice
-dataset.property.queryReadPreference=Preferencia de lectu&ra de cursor de consultas
-dataset.property.queryReadPreferenceTags=Conjuntos de eti&quetas de preferencia de lectura
-dataset.property.noTimeOut=&Sin límite de tiempo de cursor
-dataset.property.allowsPartialResults=Permite resultados &parciales
-dataset.property.flattenCollections=&Contraer colecciones anidadas
+dataset.property.batchSize=Maximum result objects in a &batch
+dataset.property.rtMDSearchLimit=Maximum documents to search for runtime &metadata
+dataset.property.numSkipDocuments=Maximum documents to s&kip
+dataset.property.indexHints=Index &hint expression
+dataset.property.queryReadPreference=Query cursor &read preference
+dataset.property.queryReadPreferenceTags=Read preference ta&g set(s)
+dataset.property.noTimeOut=&No cursor time out
+dataset.property.allowsPartialResults=Allows &partial results
+dataset.property.flattenCollections=&Flatten nested collections
 #
-dataset.property.value.readPrefPrimary=primario
-dataset.property.value.readPrefPrimaryPreferred=primario preferido
-dataset.property.value.readPrefSecondary=secundario
-dataset.property.value.readPrefSecondaryPreferred=secundario preferido
-dataset.property.value.readPrefNearest=más cercano
+dataset.property.value.readPrefPrimary=primary
+dataset.property.value.readPrefPrimaryPreferred=primaryPreferred
+dataset.property.value.readPrefSecondary=secondary
+dataset.property.value.readPrefSecondaryPreferred=secondaryPreferred
+dataset.property.value.readPrefNearest=nearest

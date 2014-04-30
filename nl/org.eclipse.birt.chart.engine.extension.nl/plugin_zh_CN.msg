@@ -10,21 +10,27 @@
 ###############################################################################
 #Summary aggregates.
 Sum.displayName=求和
+
 Average.displayName=平均值
+
 Count.displayName=计数
+
 DistinctCount.displayName=特异计数
+
 First.displayName=第一
+
 Last.displayName=最后
+
 Min.displayName=最小值
 Max.displayName=最大值
 WeightedAverage.displayName=加权平均
 Median.displayName=中位数
-Mode.displayName=模式
-STDDEV.displayName=标准偏差
+Mode.displayName=众数
+STDDEV.displayName=STDDEV
 Variance.displayName=方差
-Irr.displayName=内部收益率
-Mirr.displayName=修正内部收益率
-NPV.displayName=净现值
+Irr.displayName=Irr
+Mirr.displayName=Mirr
+NPV.displayName=NPV
 Percentile.displayName=百分位
 Quartile.displayName=四分位数
 #Running aggregates.
