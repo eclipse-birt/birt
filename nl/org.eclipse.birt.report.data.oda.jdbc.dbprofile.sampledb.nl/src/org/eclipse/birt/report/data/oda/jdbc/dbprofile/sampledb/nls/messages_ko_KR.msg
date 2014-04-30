@@ -12,4 +12,5 @@
 #************************************************************************
 #
 sampleDbFactory_invalidDirectory={0}에 샘플 데이터베이스를 만들 수 없습니다.
-sampleDbFactory_noSampleDbJarFile=내부 오류: 샘플 데이터베이스 jar 파일({0})을(를) 찾을 수 없습니다. 
+
+sampleDbFactory_noSampleDbJarFile=내부 오류: 샘플 데이터베이스 jar 파일({0})을(를) 찾을 수 없습니다.

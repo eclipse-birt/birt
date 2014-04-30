@@ -5,16 +5,16 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 #
 ###############################################################################
 # NLS String
-dataset.editor.page.query=Consulta
-datasource.name=Base de datos de muestra Classic Models Inc.
-select.dataset.name=Consulta de selección de SQL
-jdbc.driver.name=Controlador de bases de datos de muestra Classic Models Inc.
-dataset.property.queryTimeOut=Tiem&po límite de consulta (en segundos)
-dataset.property.rowFetchSize=Tamaño de recuperación de &fila
+dataset.editor.page.query=Query
+datasource.name=Classic Models Inc. Sample Database
+select.dataset.name=SQL Select Query
+jdbc.driver.name=Classic Models Inc. SampleDB Driver
+dataset.property.queryTimeOut=&Query Time Out (in seconds)
+dataset.property.rowFetchSize=&Row Fetch Size
 #
-oda.data.source.name=Base de datos de muestra Classic Models Inc.
-connection.profile.name=Perfil de conexión de fuente de datos de base de datos de muestra BIRT
+oda.data.source.name=Classic Models Inc. Sample Database
+connection.profile.name=BIRT Sample DB Data Source Connection Profile
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
-oda.connection.factory.name=Fábrica de conexión ODA
+oda.connection.factory.name=ODA Connection Factory

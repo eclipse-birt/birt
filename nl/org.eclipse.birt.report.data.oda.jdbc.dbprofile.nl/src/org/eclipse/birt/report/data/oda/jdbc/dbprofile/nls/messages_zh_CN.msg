@@ -12,5 +12,7 @@
 #************************************************************************
 #
 connection_nullProfile=找不到数据源连接属性引用的连接配置文件。
+
 connection_openFailed=无法通过数据库连接配置文件打开连接。
+
 dBProfileStatement_nullPropertyNameArg={0} 中指定的属性名称参数为空。

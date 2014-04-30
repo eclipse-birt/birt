@@ -10,11 +10,17 @@
 ###############################################################################
 #Summary aggregates.
 Sum.displayName=Suma
+
 Average.displayName=Media
+
 Count.displayName=Recuento
+
 DistinctCount.displayName=Recuento diferenciado
+
 First.displayName=Primero
+
 Last.displayName=Último
+
 Min.displayName=Mínimo
 Max.displayName=Máximo
 WeightedAverage.displayName=Media ponderada

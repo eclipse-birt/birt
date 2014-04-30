@@ -17,29 +17,33 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 ###############################################################################
 # NLS String
 ###############################################################################
-datasource.name=JDBC µ¥ÀÌÅÍ ¿øº»
-oda.data.source.name=JDBC µ¥ÀÌÅÍ ¿øº»
-connection.profile.name=BIRT JDBC µ¥ÀÌÅÍ ¿øº» ¿¬°á ÇÁ·ÎÇÊ
+datasource.name=JDBC Data Source
+oda.data.source.name=JDBC Data Source
+connection.profile.name=BIRT JDBC Data Source Connection Profile
 
-datasource.property.odaDriverClass=JDBC µå¶óÀÌ¹ö Å¬·¡½º(&C)
-datasource.property.odaURL=JDBC µå¶óÀÌ¹ö URL(&R)
-datasource.property.odaDataSource=µ¥ÀÌÅÍ ¿øº»
-datasource.property.odaUser=»ç¿ëÀÚ ÀÌ¸§(&N)
-datasource.property.odaPassword=¾ÏÈ£(&W)
+datasource.property.odaDriverClass=JDBC Driver &Class
+datasource.property.odaURL=JDBC Driver U&RL
+datasource.property.odaDataSource=Data Source
+datasource.property.odaUser=User &Name
+datasource.property.odaPassword=Pass&word
 datasource.property.odaJndiURL=&JNDI URL
-datasource.property.autocommit= ÀÚµ¿ Ä¿¹Ô(&A)
-datasource.property.isolationmode=°İ¸® ¸ğµå(&I)
-dataset.query.sqltype=SQL Select Äõ¸®
-dataset.query.sptype=SQL ÀúÀåµÈ ÇÁ·Î½ÃÀú Äõ¸®
-dataset.property.queryTimeOut=Äõ¸® ½Ã°£ Á¦ÇÑ(ÃÊ)(&Q)
-dataset.property.rowFetchSize=Çà ÀÎÃâ Å©±â(&R)
-dataset.connection.autocommit.false=°ÅÁş
-dataset.connection.autocommit.true=Âü
-dataset.connection.isolationmode.read-uncommitted=Ä¿¹ÔµÇÁö ¾ÊÀº ÀĞ±â
-dataset.connection.isolationmode.read-committed=Ä¿¹ÔµÈ ÀĞ±â
-dataset.connection.isolationmode.repeatable-read=¹İº¹ ÀĞ±â
-dataset.connection.isolationmode.serializable=Á÷·ÄÈ­
+datasource.property.autocommit= &Auto Commit
+datasource.property.isolationmode=&Isolation Mode
+dataset.query.sqltype=SQL Select Query
+dataset.query.sptype=SQL Stored Procedure Query
+dataset.property.queryTimeOut=&Query Time Out (in seconds)
+dataset.property.rowFetchSize=&Row Fetch Size
+dataset.connection.autocommit.false=ê±°ì§“
+dataset.connection.autocommit.true=ì°¸
+dataset.connection.isolationmode.read-uncommitted=read-uncommitted
+dataset.connection.isolationmode.read-committed=read-committed
+dataset.connection.isolationmode.repeatable-read=repeatable-read
+dataset.connection.isolationmode.serializable=ì§ë ¬í™”
+               
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
-oda.connection.factory.name=ODA ¿¬°á ÆÑÅä¸®
+oda.connection.factory.name=ODA Connection Factory
+datasource.property.ssl.trustStorePassword=TrustStore ì•”í˜¸(&D):
+datasource.property.ssl.keyStorePassword=KeyStore ì•”í˜¸(&Y):
+

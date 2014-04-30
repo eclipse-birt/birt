@@ -10,18 +10,24 @@
 ###############################################################################
 #Summary aggregates.
 Sum.displayName=Summe
+
 Average.displayName=Durchschnitt
+
 Count.displayName=Anzahl
+
 DistinctCount.displayName=Distinct-Anzahl
+
 First.displayName=Erste
+
 Last.displayName=Letzte
+
 Min.displayName=Minimum
 Max.displayName=Maximum
 WeightedAverage.displayName=Gewichteter Durchschnitt
 Median.displayName=Median
 Mode.displayName=Modus
 STDDEV.displayName=STDDEV
-Variance.displayName=Varianz
+Variance.displayName=Abweichung
 Irr.displayName=Irr
 Mirr.displayName=Mirr
 NPV.displayName=NPV
