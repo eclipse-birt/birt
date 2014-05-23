@@ -1420,6 +1420,7 @@
 
 	<target name="InformQA" depends="checkOS">
 		<property file="${eclipse.build.configs}/../../config.properties" />
+		<echo>INFO: Today's build (BuildId: ${buildId}) is available.</echo>
 		<mail failonerror="false" mailport="${mail.port}" tolist="${QA.members}"
 			from="${mail.from}" replyto="${replyto.address}"
 			subject="${BranchVersion} Build on ${mapVersionTag} Branch Is Ready on ${hostname}(BuildId: ${buildId})">
@@ -1561,6 +1562,7 @@
 
 	<target name="checkDTPVersion" depends="getDTPVersionProperty"
 		unless="latest.dtp.version">
+		<echo>WARNING: The installed DTP build is not the latest version.</echo>
 		<mail failonerror="false" mailport="${mail.port}"
 			subject="WARNING: The installed DTP build is not the latest version"
 			tolist="${build.engineer}">
@@ -1595,6 +1597,7 @@
 	<target name="checkcompileerror">
 		<property file="${eclipse.build.configs}/../../config.properties" />
 		<property file="${eclipse.build.configs}/../../monitor.properties" />
+		<echo>ERROR: Compile errors are found in today's BIRT build(BuildId: ${buildId}).</echo>
 		<mail failonerror="false" mailport="${mail.port}"
 			subject="Compile errors found on ${mapVersionTag} Branch in Today's Build (BuildId: ${buildId} ) "
 			tolist="${COMPILE.ERROR.RECIPIENTS}">
@@ -1644,6 +1647,7 @@
 
 	<target name="NoDiskSpace">
 		<property file="${eclipse.build.configs}/../../config.properties" />
+		<echo>ERROR: No enough disk space for build, build has been stopped.</echo>
 		<mail failonerror="false" mailport="${mail.port}"
 			subject="No enough disk space for build on ${local.hostname}" tolist="${build.engineer},${QA.leaders}">
 			<from address="${mail.from}" />
@@ -1661,6 +1665,7 @@
 
 	<target name="DiskSpaceWarning">
 		<property file="${eclipse.build.configs}/../../config.properties" />
+		<echo>WARNING: Disk space usage of build server is less than 7GB.</echo>
 		<mail failonerror="false" mailport="${mail.port}"
 			subject="Disk space warning on ${local.hostname}" tolist="${build.engineer}">
 			<from address="${mail.from}" />
@@ -1678,6 +1683,7 @@
 
 	<target name="ThirdPartyJarCheckNotification" if="CheckThirdpartylog">
 		<property file="${eclipse.build.configs}/../../config.properties" />
+		<echo>ERROR: ThirdPartyJars matching failed.</echo>
 		<mail failonerror="false" mailport="${mail.port}"
 			subject="ThirdPartyJars matching failed on ${local.hostname} ${package.version} build (BuildId: ${buildId} )"
 			tolist="${build.engineer}">
@@ -1701,6 +1707,7 @@
 
 	<target name="InformNoSign" if="CompareSignPack2">
 		<property file="${eclipse.build.configs}/../../config.properties" />
+		<echo>ERROR: ${target.dir}/${target.name} hasn't been signed.</echo>
 		<mail failonerror="false" mailport="${mail.port}"
 			subject="No sign in today's ${BranchVersion} build (BuildId: ${buildId} )"
 			tolist="${build.engineer}">

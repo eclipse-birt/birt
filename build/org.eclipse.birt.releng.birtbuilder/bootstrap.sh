@@ -30,11 +30,12 @@ export DISPLAY
 ulimit -c unlimited
 export USERNAME BASH_ENV LD_LIBRARY_PATH DISPLAY
 
-GitRoot=ssh://xgu@git.eclipse.org/gitroot/birt
+GitRoot=ssh://git@github.com/eclipse
 GitRoot_DTP=ssh://xgu@git.eclipse.org/gitroot/datatools
 BranchName=Luna
 dtp_BranchName=master
 
+# Remember to change this to match the real working directory
 WORKING_DIR=/home/adb/releng.440
 LOG_FILE=adb.log
 
@@ -62,7 +63,7 @@ proc=$$
 ##########################################################################
 sign=""
 signDirectory=/home/data/httpd/download-staging.priv/birt
-signHomeDir=/home/data/users/xgu
+signHomeDir=/home/data/users/zqian
 signUsername=$SIGN_USER
 signPassword=$SIGN_PASSWD
 signServer=build.eclipse.org
@@ -161,12 +162,42 @@ echo "======[dtp_BranchName]: $dtp_BranchName " >> $LOG_FILE
 ###############################################################
 # Sync build script from branch $BranchName before build starts
 ###############################################################
-rm -rf build
-git archive --format=tar --remote=$GitRoot/org.eclipse.birt.git $BranchName build/org.eclipse.birt.releng.birtbuilder | tar -xf -
-cp -f build/org.eclipse.birt.releng.birtbuilder/buildAll.xml ./
-cp -f build/org.eclipse.birt.releng.birtbuilder/build.xml ./
-cp -rf build/org.eclipse.birt.releng.birtbuilder/eclipse ./
-cp -rf build/org.eclipse.birt.releng.birtbuilder/extras ./
+
+#Pull or clone a branch from a repository
+#Usage: pull repositoryURL  branch
+pull() {
+        mkdir -p $builderDir/gitClones
+        pushd $builderDir/gitClones
+        directory=$(basename $1 .git)
+        if [ ! -d $directory ]; then
+                echo git clone $1
+                git clone $1
+        fi
+        popd
+        pushd $builderDir/gitClones/$directory
+	    
+	echo ">>git fetch"
+        git fetch
+        echo ">>git checkout $2"
+        git checkout $2
+        echo ">>git pull origin $2"
+        git pull origin $2
+        popd
+}
+
+#rm -rf build
+
+# github doesn't support the "archive" command, we have to do a clone instead. 
+#git archive --format=tar --remote=$GitRoot/birt.git $BranchName build/org.eclipse.birt.releng.birtbuilder | tar -xf -
+
+echo ">>pulling latest source from $GitRoot/birt.git"
+pull $GitRoot/birt.git $BranchName
+
+# update build script from repo
+#cp -f build/org.eclipse.birt.releng.birtbuilder/buildAll.xml ./
+#cp -f build/org.eclipse.birt.releng.birtbuilder/build.xml ./
+#cp -rf build/org.eclipse.birt.releng.birtbuilder/eclipse ./
+#cp -rf build/org.eclipse.birt.releng.birtbuilder/extras ./
 chmod -R +x buildAll.xml eclipse extras
 
 
@@ -203,27 +234,6 @@ cd $builderDir
 
 mkdir -p $postingDirectory/$buildId
 
-#Pull or clone a branch from a repository
-#Usage: pull repositoryURL  branch
-pull() {
-        mkdir -p $builderDir/gitClones
-        pushd $builderDir/gitClones
-        directory=$(basename $1 .git)
-        if [ ! -d $directory ]; then
-                echo git clone $1
-                git clone $1
-        fi
-        popd
-        pushd $builderDir/gitClones/$directory
-	    
-	    echo git fetch
-        git fetch
-        echo git checkout $2
-        git checkout $2
-        echo git pull origin $2
-        git pull origin $2
-        popd
-}
 
 ###############################################################
 # Auto tagging BIRT plugins and update mapfiles for I build
@@ -237,14 +247,14 @@ else
 
         #remove comments
         rm -f repos-clean.txt clones.txt
-        echo "$GitRoot/org.eclipse.birt.git $BranchName" > repos-clean.txt
+        echo "$GitRoot/birt.git $BranchName" > repos-clean.txt
 
 	    #clone or pull each repository and checkout the appropriate branch
         while read line; do
                 #each line is of the form <repository> <branch>
                 set -- $line
                 pull $1 $2
-                echo $1 | sed 's/ssh:.*@git.eclipse.org/git:\/\/git.eclipse.org/g' >> clones.txt
+                echo $1 | sed 's/ssh:.*@github.com/git:\/\/github.com/g' >> clones.txt
         done < repos-clean.txt
 
         cat clones.txt| xargs /bin/bash extras/git-map.sh $builderDir/gitClones \
@@ -318,6 +328,7 @@ echo $sign >> $LOG_FILE
 
 ########################################################################
 # Set up the full build command
+# *remove the '-q' option if you want to see verbose info in the log*
 ########################################################################
 buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $unitTest $CheckNewJars $skipNL \
 -Dbuild.runtimeOSGI=true  -DallowBinaryCycles=true \
@@ -340,7 +351,7 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $uni
 -DmapGitRoot=$GitRoot \
 -Ddtp.mapGitRoot=$GitRoot_DTP \
 -Dskip.unit.test=true \
--DBirtRepoCache=git___git_eclipse_org_gitroot_birt_org_eclipse_birt_git"
+-DBirtRepoCache=git___github_com_eclipse_birt_git"
 
 
 #capture command used to run the build
