@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
@@ -298,6 +299,14 @@ public class ChartReportItemUIUtil
 				column.setDataType( resultSetColumn.getDataType( ) );
 				ExpressionUtility.setBindingColumnExpression( resultSetColumn,
 						column );
+
+				column.setDisplayName( UIUtil.getColumnDisplayName( resultSetColumn ) );
+				String displayKey = UIUtil.getColumnDisplayNameKey( resultSetColumn );
+				if ( displayKey != null )
+				{
+					column.setDisplayNameID( displayKey );
+				}
+				
 				columnList.add( column );
 			}
 			return columnList;

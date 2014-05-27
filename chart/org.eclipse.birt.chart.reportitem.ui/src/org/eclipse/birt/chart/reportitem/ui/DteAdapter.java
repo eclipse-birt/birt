@@ -212,10 +212,15 @@ public class DteAdapter
 	 * @return query result.
 	 * @throws BirtException
 	 */
-	public IQueryResults executeQuery(DataRequestSession session, IQueryDefinition queryDefn ) throws BirtException
+	public IQueryResults executeQuery( DataRequestSession session,
+			IQueryDefinition queryDefn ) throws BirtException
 	{
 		IPreparedQuery pq = session.prepare( queryDefn );
-		return (IQueryResults) session.execute( pq, null, new ScriptContext( ) );
+		return (IQueryResults) session.execute( pq,
+				null,
+				session.getDataSessionContext( )
+						.getDataEngineContext( )
+						.getScriptContext( ) );
 	}
 
 	/**

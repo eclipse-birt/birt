@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2011 Actuate Corporation.
+ * Copyright (c) 2004, 2013 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.jdbc;
@@ -64,6 +64,9 @@ public class JDBCDriverManager
 	public static final String JDBC_USER_PROP_NAME = "user"; //$NON-NLS-1$
     public static final String JDBC_PASSWORD_PROP_NAME = "password"; //$NON-NLS-1$
 
+    private static final String INVALID_AUTH_SQL_STATE = "28000";  // X/Open SQL State //$NON-NLS-1$
+    private static final String EMPTY_STRING = "";      //$NON-NLS-1$
+
     // Driver classes that we have registered with JDBC DriverManager
 	private HashMap<String, Driver> registeredDrivers = new HashMap<String, Driver>();
 
@@ -92,8 +95,8 @@ public class JDBCDriverManager
 	{
 		logger.logp( java.util.logging.Level.FINE,
 		        JDBCDriverManager.class.getName( ),
-				"JDBCDriverManager",
-				"JDBCDriverManager starts up" );
+				"JDBCDriverManager", //$NON-NLS-1$
+				"JDBCDriverManager starts up" ); //$NON-NLS-1$
 	}
 	
 	public synchronized static JDBCDriverManager getInstance()
@@ -168,8 +171,8 @@ public class JDBCDriverManager
 		validateConnectionProperties( driverClass, url, null );
 		if ( logger.isLoggable( Level.FINEST ) )
 		{
-			logger.fine( "Request JDBC Connection: driverClass="
-					+ ( driverClass == null ? "" : driverClass ) + "; url="
+			logger.fine( "Request JDBC Connection: driverClass=" //$NON-NLS-1$
+					+ ( driverClass == null ? EMPTY_STRING : driverClass ) + "; URL=" //$NON-NLS-1$
 					+ LogUtil.encryptURL( url ) );
 		}
 		return doConnect( driverClass, url, null, connectionProperties, driverClassPath );
@@ -195,10 +198,10 @@ public class JDBCDriverManager
 	{
 		validateConnectionProperties( driverClass, url, null );
 		if ( logger.isLoggable( Level.FINEST ) )
-			logger.fine( "Request JDBC Connection: driverClass="
-					+ ( driverClass == null ? "" : driverClass ) + "; url="
-					+ LogUtil.encryptURL( url ) + "; user="
-					+ ( ( user == null ) ? "" : user ) );
+			logger.fine( "Request JDBC Connection: driverClass=" //$NON-NLS-1$
+					+ ( driverClass == null ? EMPTY_STRING : driverClass ) + "; URL=" //$NON-NLS-1$
+					+ LogUtil.encryptURL( url ) + "; user=" //$NON-NLS-1$
+					+ ( ( user == null ) ? EMPTY_STRING : user ) );
 		
 		// Construct a Properties list with user/password properties
 		props = addUserAuthenticationProperties( props, user, password );
@@ -226,8 +229,8 @@ public class JDBCDriverManager
 		validateConnectionProperties( driverClass, url, jndiNameUrl );
         if ( logger.isLoggable( Level.FINEST ) )
             logger.fine( "Request JDBC Connection: driverClass=" + driverClass +  //$NON-NLS-1$
-                        "; url=" + LogUtil.encryptURL( url )+            //$NON-NLS-1$
-                        "; jndi name url=" + jndiNameUrl );  //$NON-NLS-1$
+                        "; URL=" + LogUtil.encryptURL( url )+            //$NON-NLS-1$
+                        "; JNDI name URL=" + jndiNameUrl );  //$NON-NLS-1$
         
         return doConnect( driverClass, url, jndiNameUrl, connectionProperties, driverClassPath );
     }
@@ -250,39 +253,62 @@ public class JDBCDriverManager
 			return jndiDSConnection; // done
 		
 		IConnectionFactory factory = getDriverConnectionFactory (driverClass);
+		Exception connFactoryEx = null;
 		if ( factory != null )
 		{
 			// Use connection factory for connection
 			if ( logger.isLoggable( Level.FINER ))
 				logger.finer( "Calling IConnectionFactory.getConnection. driverClass=" + driverClass + //$NON-NLS-1$
-						", url=" + LogUtil.encryptURL( url ) ); //$NON-NLS-1$
+						", URL=" + LogUtil.encryptURL( url ) ); //$NON-NLS-1$
 			try
 			{
 				Connection cn = factory.getConnection( driverClass, url, connectionProperties );
 				return cn;
 			}
-			catch( Exception e )
-			{}
+			catch( Exception ex )
+			{
+	            // if it was an invalid authorization specification, i.e. not a driver issue,
+			    // go ahead and throw the exception 
+	            if ( ex instanceof SQLException && INVALID_AUTH_SQL_STATE.equals( ((SQLException)ex).getSQLState() ))
+	                throw (SQLException) ex;
+	            connFactoryEx = ex;    // track the caught exception
+			}
 		}
         
         // no driverinfo extension for driverClass connectionFactory       
         // no JNDI Data Source URL defined, or 
         // not able to get a JNDI data source connection, 
         // use the JDBC DriverManager instead to get a JDBC connection
-		loadAndRegisterDriver( driverClass, driverClassPath );
-		if ( logger.isLoggable( Level.FINER ))
-			logger.finer( "Calling DriverManager.getConnection. url=" + LogUtil.encryptURL( url ) ); //$NON-NLS-1$
+		try
+        {
+            loadAndRegisterDriver( driverClass, driverClassPath );
+        }
+        catch( OdaException loadDriverEx )
+        {
+            // no appropriate JDBC driver available,
+            // throw the original exception thrown by IConnectionFactory, if exists
+            if( connFactoryEx != null )
+            {
+                if ( connFactoryEx instanceof SQLException )
+                    throw (SQLException)connFactoryEx;
+                throw new OdaException( connFactoryEx );
+            }
 
+            throw loadDriverEx;
+        }
+
+		if ( logger.isLoggable( Level.FINER ))
+			logger.finer( "Calling DriverManager to connect; URL=" + LogUtil.encryptURL( url ) ); //$NON-NLS-1$
 		try
 		{
 			Driver driver = DriverManager.getDriver( url );
-			if( driver!= null )
+			if( driver != null )
 				return driver.connect( url, connectionProperties );
 		}
 		catch ( SQLException e1 )
 		{
-			//First try to identify the authorization info. 28000 is xOpen standard for login failure
-			if( "28000".equals( e1.getSQLState( )))
+			// first try to identify if it was due to invalid authorization spec.
+			if( INVALID_AUTH_SQL_STATE.equals( e1.getSQLState() ))
 				throw e1;
 		}
 
@@ -344,7 +370,7 @@ public class JDBCDriverManager
 					case ';' : findBoundary = true; break;
 				}
 			}
-			message = message.substring( 0, i ) + " ...";
+			message = message.substring( 0, i ) + " ..."; //$NON-NLS-1$
 		}
 		return message;
 	}
@@ -363,7 +389,7 @@ public class JDBCDriverManager
             return null;    // no JNDI Data Source URL defined
         
         if ( logger.isLoggable( Level.FINER ))
-            logger.finer( "Calling getJndiDSConnection: JNDI name url=" + jndiNameUrl ); //$NON-NLS-1$
+            logger.finer( "Calling getJndiDSConnection: JNDI name URL=" + jndiNameUrl ); //$NON-NLS-1$
 
         IConnectionFactory factory = new JndiDataSource();            
         Connection jndiDSConnection = null;
@@ -470,8 +496,8 @@ public class JDBCDriverManager
 					{
 						factory = (IConnectionFactory) ( (IConfigurationElement) driverInfo ).createExecutableExtension( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_CONNFACTORY );
 
-						logger.fine( "Created connection factory class "
-								+ factoryClass + " for driverClass "
+						logger.fine( "Created connection factory class " //$NON-NLS-1$
+								+ factoryClass + " for driverClass " //$NON-NLS-1$
 								+ driverClass );
 					}
 					catch ( CoreException e )
@@ -482,7 +508,7 @@ public class JDBCDriverManager
 										factoryClass, driverClass
 								} );
 						logger.log( Level.WARNING,
-								"Failed to instantiate connection factory for driverClass "
+								"Failed to instantiate connection factory for driverClass " //$NON-NLS-1$
 										+ driverClass,
 								ex );
 						throw ex;
@@ -548,8 +574,8 @@ public class JDBCDriverManager
 								OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_DRIVERCLASS );
 						String connectionFactory = configElems[i].getAttribute( 
 								OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_CONNFACTORY );
-						logger.info("Found JDBC driverinfo extension: driverClass=" + driverClass +
-								", connectionFactory=" + connectionFactory );
+						logger.info("Found JDBC driverinfo extension: driverClass=" + driverClass + //$NON-NLS-1$
+								", connectionFactory=" + connectionFactory ); //$NON-NLS-1$
 						if ( driverClass != null && driverClass.length() > 0 &&
 							 connectionFactory != null && connectionFactory.length() > 0 )
 						{
@@ -815,15 +841,15 @@ public class JDBCDriverManager
 		{
 			driverClass = Class.forName( className );
 			// Driver class in class path
-			logger.info( "Loaded JDBC driver class in class path: " + className );
+			logger.info( "Loaded JDBC driver class in class path: " + className ); //$NON-NLS-1$
 		}
 		catch ( ClassNotFoundException e )
 		{
 			if ( logger.isLoggable( Level.FINE ) )
 			{
-				logger.info( "Driver class not in class path: "
+				logger.info( "Driver class not in class path: " //$NON-NLS-1$
 						+ className
-						+ ". Trying to locate driver in drivers directory" );
+						+ ". Trying to locate driver in drivers directory" ); //$NON-NLS-1$
 			}
 
 			// Driver not in plugin class path; find it in drivers directory
@@ -848,7 +874,7 @@ public class JDBCDriverManager
 		}
 		if ( driverClass == null )
 		{
-			logger.warning( "Failed to load JDBC driver class: " + className );
+			logger.warning( "Failed to load JDBC driver class: " + className ); //$NON-NLS-1$
 			throw new JDBCException( ResourceConstants.CANNOT_LOAD_DRIVER,
 					null,
 					className );
@@ -860,7 +886,7 @@ public class JDBCDriverManager
 		}
 		catch ( Exception e )
 		{
-			logger.log( Level.WARNING, "Failed to create new instance of JDBC driver:" + className, e);
+			logger.log( Level.WARNING, "Failed to create new instance of JDBC driver:" + className, e); //$NON-NLS-1$
 			throw new JDBCException( ResourceConstants.CANNOT_INSTANTIATE_DRIVER, null, className );
 		}
 		return driver;
@@ -889,7 +915,7 @@ public class JDBCDriverManager
 			try
 			{
 				if (logger.isLoggable(Level.FINER))
-					logger.finer("Registering with DriverManager: wrapped driver for " + className );
+					logger.finer("Registering with DriverManager: wrapped driver for " + className ); //$NON-NLS-1$
 
 				synchronized( registeredDrivers )
 				{
@@ -903,7 +929,7 @@ public class JDBCDriverManager
 			{
 				// This shouldn't happen
 				logger.log( Level.WARNING, 
-						"Failed to deRegister wrapped driver instance.", e);
+						"Failed to deRegister wrapped driver instance.", e); //$NON-NLS-1$
 			}
 		}
 		return true;
@@ -921,7 +947,7 @@ public class JDBCDriverManager
 
 		if ( logger.isLoggable( Level.FINEST ))
 		{
-			logger.info( "Loading JDBC driver class: " + className );
+			logger.info( "Loading JDBC driver class: " + className ); //$NON-NLS-1$
 		}
 
 		try
@@ -975,7 +1001,7 @@ public class JDBCDriverManager
 		try
 		{
 			if (logger.isLoggable(Level.FINER))
-				logger.finer("Registering with DriverManager: wrapped driver for " + className );
+				logger.finer("Registering with DriverManager: wrapped driver for " + className ); //$NON-NLS-1$
 
 			synchronized ( registeredDrivers )
 			{
@@ -987,7 +1013,7 @@ public class JDBCDriverManager
 		{
 			// This shouldn't happen
 			logger.log( Level.WARNING,
-					"Failed to register wrapped driver instance from DriverManager.", e);
+					"Failed to register wrapped driver instance from DriverManager.", e); //$NON-NLS-1$
 		}
 	}
 
@@ -1018,7 +1044,7 @@ public class JDBCDriverManager
 						catch ( SQLException ignore )
 						{
 							logger.log( Level.WARNING,
-									"Failed to deregister wrapped driver instance from DriverManager.", ignore );
+									"Failed to deregister wrapped driver instance from DriverManager.", ignore ); //$NON-NLS-1$
 						}
 					}
 					registeredDrivers.clear( );
@@ -1036,16 +1062,16 @@ public class JDBCDriverManager
 		}
 		catch ( ClassNotFoundException e )
 		{
-			logger.log( Level.SEVERE, "DriverClassLoader failed to load class: " + className, e );
-			logger.log( Level.SEVERE, "refreshUrlsWhenFail: " +  refreshUrlsWhenFail);
-			logger.log( Level.SEVERE, "driverClassPath: " +  driverClassPath);
+			logger.log( Level.SEVERE, "DriverClassLoader failed to load class: " + className, e ); //$NON-NLS-1$
+			logger.log( Level.SEVERE, "refreshUrlsWhenFail: " +  refreshUrlsWhenFail); //$NON-NLS-1$
+			logger.log( Level.SEVERE, "driverClassPath: " +  driverClassPath); //$NON-NLS-1$
 			
 			StringBuffer sb = new StringBuffer();
 			for (URL url : extraDriverLoader.getURLs( ))
 			{
-				sb.append( "[" ).append( url ).append( "]" );
+				sb.append( "[" ).append( url ).append( "]" ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			logger.log( Level.SEVERE, "Registered URLs: " + sb.toString( ) );
+			logger.log( Level.SEVERE, "Registered URLs: " + sb.toString( ) ); //$NON-NLS-1$
 			
 			//re-scan the driver directory. This re-scan is added for users would potentially 
 			//set their own jdbc drivers, which would be copied to driver directory as well
@@ -1056,7 +1082,7 @@ public class JDBCDriverManager
 			}
 			
 			// no new driver found; give up
-			logger.log( Level.FINER, "Driver class not found in drivers directory: " + className );
+			logger.log( Level.FINER, "Driver class not found in drivers directory: " + className ); //$NON-NLS-1$
 			return null;
 		}
 	}
@@ -1068,7 +1094,7 @@ public class JDBCDriverManager
 		public DriverClassLoader( Collection<String> driverClassPath, ClassLoader parent ) throws OdaException
 		{
 			super( new URL[0], parent != null ? parent:DriverClassLoader.class.getClassLoader() );
-			logger.entering( DriverClassLoader.class.getName(), "constructor()" );
+			logger.entering( DriverClassLoader.class.getName(), "constructor()" ); //$NON-NLS-1$
 			this.driverClassPath = driverClassPath;
 			refreshURLs();
 		}
@@ -1153,8 +1179,8 @@ public class JDBCDriverManager
 							hasNewDriver = true;
 							URL driverUrl = driverFile.toURI( ).toURL( );
 							addURL( driverUrl );
-							logger.info( "JDBCDriverManager: found JAR file "
-									+ fileName + ". URL=" + driverUrl );
+							logger.info( "JDBCDriverManager: found JAR file " //$NON-NLS-1$
+									+ fileName + ". URL=" + driverUrl ); //$NON-NLS-1$
 						}
 						catch ( MalformedURLException ex )
 						{
@@ -1216,7 +1242,7 @@ public class JDBCDriverManager
 		
 		WrappedDriver( Driver d, String driverClass )
 		{
-			logger.entering( WrappedDriver.class.getName(), "WrappedDriver", driverClass );
+			logger.entering( WrappedDriver.class.getName(), "WrappedDriver", driverClass ); //$NON-NLS-1$
 			this.driver = d;
 			this.driverClass = driverClass;
 		}
@@ -1228,8 +1254,8 @@ public class JDBCDriverManager
 		{
 			boolean res = this.driver.acceptsURL( u );
 			if ( logger.isLoggable( Level.FINER ))
-				logger.log( Level.FINER, "WrappedDriver(" + driverClass + 
-						").acceptsURL(" + LogUtil.encryptURL( u )+ ")returns: " + res);
+				logger.log( Level.FINER, "WrappedDriver(" + driverClass +  //$NON-NLS-1$
+						").acceptsURL(" + LogUtil.encryptURL( u )+ ")returns: " + res);  //$NON-NLS-1$//$NON-NLS-2$
 			return res;
 		}
 
@@ -1238,8 +1264,8 @@ public class JDBCDriverManager
 		 */
 		public java.sql.Connection connect( String u, Properties p ) throws SQLException
 		{
-			logger.entering( WrappedDriver.class.getName() + ":" + driverClass, 
-					"connect", LogUtil.encryptURL( u ) );
+			logger.entering( WrappedDriver.class.getName() + ":" + driverClass,  //$NON-NLS-1$
+					"connect", LogUtil.encryptURL( u ) ); //$NON-NLS-1$
 			try
 			{
 				return this.driver.connect( u, p );

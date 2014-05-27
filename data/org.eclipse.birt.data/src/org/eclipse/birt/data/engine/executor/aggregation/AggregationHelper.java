@@ -702,7 +702,9 @@ public class AggregationHelper implements IAggrValueHolder
 			if( cachedAcc.size() == 0 )
 			{
 				cachedAcc.add( aggregation.newAccumulator() );
+				cursor++;
 			}
+	
 			return (Accumulator)cachedAcc.get(cursor);
 		}
 		

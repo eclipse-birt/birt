@@ -979,8 +979,8 @@ public class TextEditor extends BaseDialog
 		}
 		switch ( index )
 		{
-			// Creates tags of formatting.
-			// case 0 :
+		// Creates tags of formatting.
+		// case 0 :
 			case FORMAT_CHOICE_INDEX_FORMATTING :
 			{
 				tag = new HTMLTag( "<H1>", true ); //$NON-NLS-1$
@@ -1039,9 +1039,9 @@ public class TextEditor extends BaseDialog
 				toolBar.getParent( ).layout( true, true );
 				break;
 			}
-				// Creates tags of layout.
+			// Creates tags of layout.
 			case FORMAT_CHOICE_INDEX_LAYOUT :
-				// case 1 :
+			// case 1 :
 			{
 				tag = new HTMLTag( "<CENTER>", true ); //$NON-NLS-1$
 				tag.setToolTipText( TOOL_TIP_TAG_CENTER );
@@ -1067,8 +1067,8 @@ public class TextEditor extends BaseDialog
 				toolBar.getParent( ).layout( true, true );
 				break;
 			}
-				// Creates tags of content.
-				// case 2 :
+			// Creates tags of content.
+			// case 2 :
 			case FORMAT_CHOICE_INDEX_CONTENT :
 			{
 				tag = new HTMLTag( "<IMG>", false ); //$NON-NLS-1$
@@ -1104,9 +1104,9 @@ public class TextEditor extends BaseDialog
 				toolBar.getParent( ).layout( true, true );
 				break;
 			}
-				// Creates tags of list.
+			// Creates tags of list.
 			case FORMAT_CHOICE_INDEX_LISTS :
-				// case 3 :
+			// case 3 :
 			{
 				tag = new HTMLTag( "<DL>", true ); //$NON-NLS-1$
 				tag.setToolTipText( TOOL_TIP_TAG_DL );
@@ -1132,8 +1132,8 @@ public class TextEditor extends BaseDialog
 				toolBar.getParent( ).layout( true, true );
 				break;
 			}
-				// Creates tags for Dynamic Text.
-				// case 4 :
+			// Creates tags for Dynamic Text.
+			// case 4 :
 			case FORMAT_CHOICE_INDEX_DYNAMIC_TEXT :
 			{
 				final ToolItem value = new ToolItem( toolBar, SWT.NONE );
@@ -1166,19 +1166,20 @@ public class TextEditor extends BaseDialog
 					}
 				} );
 
-				final ToolItem formatHTML = new ToolItem( toolBar, SWT.NONE );
-				formatHTML.setText( "<VALUE-OF Format HTML>" ); //$NON-NLS-1$
-				formatHTML.setToolTipText( TOOL_TIP_FORMAT_HTML );
-				formatHTML.addSelectionListener( new SelectionAdapter( ) {
-
-					public void widgetSelected( SelectionEvent e )
-					{
-						String result = " format=\"HTML\""; //$NON-NLS-1$
-						textEditor.insert( result );
-					}
-				} );
-
-				new ToolItem( toolBar, SWT.SEPARATOR );
+				// final ToolItem formatHTML = new ToolItem( toolBar, SWT.NONE
+				// );
+				//				formatHTML.setText( "<VALUE-OF Format HTML>" ); //$NON-NLS-1$
+				// formatHTML.setToolTipText( TOOL_TIP_FORMAT_HTML );
+				// formatHTML.addSelectionListener( new SelectionAdapter( ) {
+				//
+				// public void widgetSelected( SelectionEvent e )
+				// {
+				//						String result = " format=\"HTML\""; //$NON-NLS-1$
+				// textEditor.insert( result );
+				// }
+				// } );
+				//
+				// new ToolItem( toolBar, SWT.SEPARATOR );
 
 				formatParent = new Composite( toolBar.getParent( ), SWT.NONE );
 				GridLayout gdLayout = new GridLayout( );
@@ -1198,6 +1199,7 @@ public class TextEditor extends BaseDialog
 						.getDisplay( )
 						.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 				combo.setItems( new String[]{
+						Messages.getString( "TextEditDialog.action.item.formatHTML" ), //$NON-NLS-1$
 						Messages.getString( "TextEditDialog.action.item.formatNumber" ), //$NON-NLS-1$
 						Messages.getString( "TextEditDialog.action.item.formatString" ), //$NON-NLS-1$
 						Messages.getString( "TextEditDialog.action.item.formatDateTime" ), //$NON-NLS-1$
@@ -1586,12 +1588,16 @@ public class TextEditor extends BaseDialog
 		switch ( index )
 		{
 			case 0 :
-				insertFormat( FormatBuilder.NUMBER );
+				String result = " format=\"HTML\""; //$NON-NLS-1$
+				textEditor.insert( result );
 				break;
 			case 1 :
-				insertFormat( FormatBuilder.STRING );
+				insertFormat( FormatBuilder.NUMBER );
 				break;
 			case 2 :
+				insertFormat( FormatBuilder.STRING );
+				break;
+			case 3 :
 				insertFormat( FormatBuilder.DATETIME );
 				break;
 			default :
