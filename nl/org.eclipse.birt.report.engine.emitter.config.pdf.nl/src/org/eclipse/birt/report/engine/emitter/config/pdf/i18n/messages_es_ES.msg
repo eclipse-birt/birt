@@ -11,7 +11,7 @@
 
 ###########################################################
 #PDF Emitter
-PDFEmitter.Description=Configure las opciones para presentar un informe en formato PDF (Portable Document Format).
+PDFEmitter.Description=Configure las opciones para procesar un informe en formato PDF (Portable Document Format).
 PDFEmitter.DisplayName=PDF
 
 ###########################################################
@@ -28,6 +28,7 @@ OptionDisplayValue.FontSubstitution=Sustitución de fuente
 OptionDisplayValue.EmbeddedFont=Fuente incrustada
 OptionDisplayValue.ChartDpi=Diagrama DPI
 OptionDisplayValue.RenderChartInSVG=Procesar diagrama en los gráficos vectoriales
+OptionDisplayValue.RepaginateForPDF=Repaginar mientras se procesa el PDF
 OptionDisplayValue.DisableFlashAnimation=Desactivar animación Flash para impresión
 OptionDisplayValue.DisablePrint=Desactivar impresión
 
@@ -41,8 +42,9 @@ OptionDescription.FontSubstitution=Selecciona fuentes automáticamente cuando la 
 OptionDescription.EmbeddedFont=La fuente de tipo true estará incrustada en el archivo PDF generado.
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
 OptionDescription.RenderChartInSVG=Procesar diagrama en los gráficos vectoriales.
-OptionDescription.DisableFlashAnimation=Desactive la animación Flash para la impresión.
-OptionDescription.DisablePrint=Desactive la impresión.
+OptionDescription.RepaginateForPDF=Repaginar mientras se procesa el PDF.
+OptionDescription.DisableFlashAnimation=Desactivar la animación Flash para la impresión.
+OptionDescription.DisablePrint=Desactivar la impresión.
 
 ###########################################################
 #tooltip

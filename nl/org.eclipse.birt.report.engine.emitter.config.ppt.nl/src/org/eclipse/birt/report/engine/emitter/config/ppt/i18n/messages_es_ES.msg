@@ -11,7 +11,7 @@
 
 ###########################################################
 #PPT Emitter
-PPTEmitter.Description=Configure las opciones para presentar un informe en formato de archivo único de página Web (MHTML).
+PPTEmitter.Description=Configurar las opciones para procesar un informe en formato de archivo único de página Web (MHTML).
 PPTEmitter.DisplayName=PowerPoint (PPT)
 
 ###########################################################

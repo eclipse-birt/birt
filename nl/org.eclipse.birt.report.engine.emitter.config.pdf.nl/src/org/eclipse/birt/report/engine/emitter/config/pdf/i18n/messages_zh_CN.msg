@@ -11,39 +11,41 @@
 
 ###########################################################
 #PDF Emitter
-PDFEmitter.Description=ÅäÖÃÓÃÓÚÒÔ PDF (¿ÉÒÆÖ²ÎÄµµ¸ñÊ½)¸ñÊ½³ÊÏÖ±¨±íµÄÑ¡Ïî¡£
+PDFEmitter.Description=é…ç½®ç”¨äºä»¥ PDFï¼ˆå¯ç§»æ¤æ–‡æ¡£æ ¼å¼ï¼‰æ ¼å¼å‘ˆç°æŠ¥è¡¨çš„é€‰é¡¹ã€‚
 PDFEmitter.DisplayName=PDF
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=BIDI ´¦Àí
-OptionDisplayValue.TextWrapping=×Ô¶¯»»ĞĞ
-OptionDisplayValue.TextHyphenation=ÎÄ±¾Á¬½Ó
-OptionDisplayValue.PageOverFlow=Ò³ÃæÒç³ö´¦Àí
-OptionDisplayValue.CLIP_CONTENT=¼ô²ÃÄÚÈİ
-OptionDisplayValue.FIT_TO_PAGE_SIZE=ÊÊºÏ´óĞ¡
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Êä³ö¶àÒ³
-OptionDisplayValue.ENLARGE_PAGE_SIZE=À©´óÒ³Ãæ´óĞ¡
-OptionDisplayValue.FontSubstitution=×ÖÌåÌæ´ú
-OptionDisplayValue.EmbeddedFont=Ç¶Èë×ÖÌå
-OptionDisplayValue.ChartDpi=Í¼±í DPI
-OptionDisplayValue.RenderChartInSVG=ÒÔÏòÁ¿Í¼ĞÎ³ÊÏÖÍ¼±í
-OptionDisplayValue.DisableFlashAnimation=½ûÓÃ´òÓ¡ Flash ¶¯»­
-OptionDisplayValue.DisablePrint=½ûÓÃ´òÓ¡
+OptionDisplayValue.BidiProcessing=BIDI å¤„ç†
+OptionDisplayValue.TextWrapping=æ–‡å­—ç¯ç»•
+OptionDisplayValue.TextHyphenation=æ–‡æœ¬è¿æ¥
+OptionDisplayValue.PageOverFlow=é¡µé¢æº¢å‡ºå¤„ç†
+OptionDisplayValue.CLIP_CONTENT=å‰ªåˆ‡å†…å®¹
+OptionDisplayValue.FIT_TO_PAGE_SIZE=é€‚åˆé¡µé¢å¤§å°
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=è¾“å‡ºå¤šé¡µ
+OptionDisplayValue.ENLARGE_PAGE_SIZE=å¢åŠ é¡µé¢å¤§å°
+OptionDisplayValue.FontSubstitution=å­—ä½“æ›¿æ¢
+OptionDisplayValue.EmbeddedFont=åµŒå…¥å­—ä½“
+OptionDisplayValue.ChartDpi=å›¾è¡¨ DPI
+OptionDisplayValue.RenderChartInSVG=ä»¥å‘é‡å›¾å½¢å‘ˆç°å›¾è¡¨
+OptionDisplayValue.RepaginateForPDF=å‘ˆç° PDF æ—¶é‡æ ‡é¡µç 
+OptionDisplayValue.DisableFlashAnimation=ç¦ç”¨æ‰“å° Flash åŠ¨ç”»
+OptionDisplayValue.DisablePrint=ç¦ç”¨æ‰“å°
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=Ö§³ÖË«ÏòÎÄ±¾¡£
-OptionDescription.TextHyphenation=Ö§³ÖÎÄ±¾Á¬½Ó¡£
-OptionDescription.TextWrapping=±íÊ¾ÎÄ±¾ÊÇ·ñ¿É×Ô¶¯»»ĞĞ¡£
-OptionDescription.PageOverFlow=¿ØÖÆÈçºÎÊä³öÄÚÈİ¡£
-OptionDescription.FontSubstitution=Ö¸¶¨µÄ×ÖÌåÎŞ·¨ÏÔÊ¾¸Ã×Ö·ûÊ±×Ô¶¯Ñ¡Ôñ×ÖÌå¡£
-OptionDescription.EmbeddedFont=TrueType ×ÖÌå½«Ç¶Èëµ½Éú³ÉµÄ PDF ÎÄ¼şÖĞ¡£
-OptionDescription.ChartDpi=DPI ÓÃÓÚÉú³ÉÍ¼±í¡£
-OptionDescription.RenderChartInSVG=ÒÔÏòÁ¿Í¼ĞÎ³ÊÏÖÍ¼±í¡£
-OptionDescription.DisableFlashAnimation=½ûÓÃ´òÓ¡ Flash ¶¯»­¡£
-OptionDescription.DisablePrint=½ûÓÃ´òÓ¡¡£
+OptionDescription.BidiProcessing=æ”¯æŒåŒå‘æ–‡å­—ã€‚
+OptionDescription.TextHyphenation=æ”¯æŒæ–‡æœ¬è¿æ¥ã€‚
+OptionDescription.TextWrapping=è¡¨ç¤ºæ–‡å­—å¯å¦ç¯ç»•ã€‚
+OptionDescription.PageOverFlow=æ§åˆ¶å†…å®¹è¾“å‡ºæ–¹å¼ã€‚
+OptionDescription.FontSubstitution=æŒ‡å®šçš„å­—ä½“æ— æ³•æ˜¾ç¤ºè¯¥å­—ç¬¦æ—¶è‡ªåŠ¨é€‰æ‹©å­—ä½“ã€‚
+OptionDescription.EmbeddedFont=TrueType å­—ä½“å°†åµŒå…¥åˆ°ç”Ÿæˆçš„ PDF æ–‡ä»¶ä¸­ã€‚
+OptionDescription.ChartDpi=ç”¨äºç”Ÿæˆå›¾è¡¨çš„ DPIã€‚
+OptionDescription.RenderChartInSVG=ä»¥å‘é‡å›¾å½¢å‘ˆç°å›¾è¡¨ã€‚
+OptionDescription.RepaginateForPDF=å‘ˆç° PDF æ—¶é‡æ ‡é¡µç ã€‚
+OptionDescription.DisableFlashAnimation=ç¦ç”¨æ‰“å° Flash åŠ¨ç”»ã€‚
+OptionDescription.DisablePrint=ç¦ç”¨æ‰“å°ã€‚
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=Í¼±íÒıÇæÓÃÓÚÉú³ÉÍ¼±íµÄ DPI¡£ ÀıÈç£¬192¡£
+Tooltip.ChartDpi=å›¾è¡¨å¼•æ“ç”¨äºç”Ÿæˆå›¾è¡¨çš„ DPIã€‚ä¾‹å¦‚ï¼Œ192ã€‚
