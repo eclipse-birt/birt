@@ -28,6 +28,7 @@ OptionDisplayValue.FontSubstitution=Changement de police
 OptionDisplayValue.EmbeddedFont=Police intégrée
 OptionDisplayValue.ChartDpi=DPI de graphique
 OptionDisplayValue.RenderChartInSVG=Afficher le graphique en image vectorielle
+OptionDisplayValue.RepaginateForPDF=Nouvelle mise en page lors du rendu PDF
 OptionDisplayValue.DisableFlashAnimation=Désactiver l'animation Flash pour l'impression
 OptionDisplayValue.DisablePrint=Désactiver l'impression
 
@@ -41,6 +42,7 @@ OptionDescription.FontSubstitution=Sélectionne des polices automatiquement lorsq
 OptionDescription.EmbeddedFont=La police TrueType sera intégrée au fichier PDF généré.
 OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
 OptionDescription.RenderChartInSVG=Afficher le graphique en image vectorielle.
+OptionDescription.RepaginateForPDF=Nouvelle mise en page lors du rendu PDF.
 OptionDescription.DisableFlashAnimation=Désactiver l'animation Flash pour l'impression.
 OptionDescription.DisablePrint=Désactiver l'impression.
 

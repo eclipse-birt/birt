@@ -11,7 +11,7 @@
 
 ###########################################################
 #Postscript Emitter
-PostscriptEmitter.Description=Configure las opciones para presentar un informe en formato PostScript.
+PostscriptEmitter.Description=Configure las opciones para procesar un informe en formato PostScript.
 PostscriptEmitter.DisplayName=PostScript (PS)
 
 ###########################################################
@@ -24,9 +24,9 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=Ajustar a tamaño de página
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Salida de varias páginas
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Aumentar tamaño de página
 OptionDisplayValue.FontSubstitution=Sustitución de fuente
-OptionDisplayValue.Copies=Número de copias:
+OptionDisplayValue.Copies=Número de copias
 OptionDisplayValue.Collate=Intercalar
-OptionDisplayValue.Duplex=Doble cara:
+OptionDisplayValue.Duplex=Doble cara
 OptionDisplayValue.PaperSize=Tamaño de papel
 OptionDisplayValue.PaperTray=Bandeja de papel
 OptionDisplayValue.ChartDpi=Diagrama DPI
