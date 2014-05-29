@@ -8,6 +8,6 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
-
 TOO_SMALL_CHART_DPI=图表 DPI 不应小于 96，否则执行上下文中将使用呈现 DPI 来处理图表。
+
 INVALID_CHART_DPI=无法识别图表 DPI\!
