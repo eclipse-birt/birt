@@ -17,6 +17,9 @@ encoding//org.eclipse.birt.report.engine.emitter.config.odt.nl/src/org/eclipse/b
 encoding//org.eclipse.birt.report.engine.emitter.config.odt.nl/src/org/eclipse/birt/report/engine/emitter/config/odt/i18n/messages_ja_JP.msg=UTF-8
 encoding//org.eclipse.birt.report.engine.emitter.config.odt.nl/src/org/eclipse/birt/report/engine/emitter/config/odt/i18n/messages_ko_KR.msg=UTF-8
 encoding//org.eclipse.birt.report.engine.emitter.config.odt.nl/src/org/eclipse/birt/report/engine/emitter/config/odt/i18n/messages_zh_CN.msg=UTF-8
+encoding//org.eclipse.birt.report.engine.emitter.config.pdf.nl/src/org/eclipse/birt/report/engine/emitter/config/pdf/i18n/messages_ja_JP.msg=UTF-8
+encoding//org.eclipse.birt.report.engine.emitter.config.pdf.nl/src/org/eclipse/birt/report/engine/emitter/config/pdf/i18n/messages_ko_KR.msg=UTF-8
+encoding//org.eclipse.birt.report.engine.emitter.config.pdf.nl/src/org/eclipse/birt/report/engine/emitter/config/pdf/i18n/messages_zh_CN.msg=UTF-8
 encoding//org.eclipse.birt.report.engine.emitter.config.pptx.nl/src/org/eclipse/birt/report/engine/emitter/config/pptx/i18n/messages_ja_JP.msg=UTF-8
 encoding//org.eclipse.birt.report.engine.emitter.config.pptx.nl/src/org/eclipse/birt/report/engine/emitter/config/pptx/i18n/messages_ko_KR.msg=UTF-8
 encoding//org.eclipse.birt.report.engine.emitter.config.pptx.nl/src/org/eclipse/birt/report/engine/emitter/config/pptx/i18n/messages_zh_CN.msg=UTF-8
