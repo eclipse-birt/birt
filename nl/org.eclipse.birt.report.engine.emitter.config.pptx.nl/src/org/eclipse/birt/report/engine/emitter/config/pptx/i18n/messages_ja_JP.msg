@@ -51,7 +51,6 @@ OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
 
 OptionDescription.RepaginateForPPTX=PPTX のレンダリングのページ数再割り当て。
 
-
 ###########################################################
 #tooltip
 Tooltip.ChartDpi=グラフエンジンがグラフの生成に使用する DPI です。例: 192。
