@@ -30,12 +30,15 @@ export DISPLAY
 ulimit -c unlimited
 export USERNAME BASH_ENV LD_LIBRARY_PATH DISPLAY
 
+# no user name needed for github url, login credential controlled in local ssh config
 GitRoot=ssh://git@github.com/eclipse
 GitRoot_DTP=ssh://xgu@git.eclipse.org/gitroot/datatools
+
+# change the branch name for different build
 BranchName=Luna
 dtp_BranchName=master
 
-# Remember to change this to match the real working directory
+# change this when you change the build working folder
 WORKING_DIR=/home/adb/releng.440
 LOG_FILE=adb.log
 
@@ -62,8 +65,11 @@ proc=$$
 # sets sign Ant property
 ##########################################################################
 sign=""
+# remote target folder for BIRT
 signDirectory=/home/data/httpd/download-staging.priv/birt
+# remote working folder, change if you use a different signer account.
 signHomeDir=/home/data/users/zqian
+# credential is in local bash config
 signUsername=$SIGN_USER
 signPassword=$SIGN_PASSWD
 signServer=build.eclipse.org
