@@ -35,6 +35,7 @@ CssErrDialog.Message=Message :
 CssErrDialog.FatalError=Erreur fatale
 
 CssErrDialog.Error=Erreur
+
 CssErrDialog.Warning=Avertissement
 
 ###########################################################
@@ -54,6 +55,7 @@ AddLibraryAction.Error.FileIsNotLibrary=Le fichier ''{0}'' ne se termine pas par
 AddLibraryAction.Error.Message=Ce fichier existe déjà.
 
 AddLibraryAction.Error.Title=Erreur
+
 AddLibraryAction.Text=Ajouter une bibliothèque...
 
 AddLibraryAction.Dialog.Tilte=Sélectionnez une bibliothèque
@@ -73,6 +75,7 @@ AddResourceAction.Error.Message=Ce fichier existe déjà.
 AddResourceAction.Error.FileNotFound=Fichier ''{0}'' introuvable.
 
 AddResourceAction.Error.Title=Erreur
+
 AddResourceAction.Error.FileIsNotResource=Le fichier "{0}" n'est pas une ressource.
 
 ###########################################################
@@ -100,6 +103,7 @@ NewLibraryDialog.label.NewLibrary=Nom de la nouvelle bibliothèque
 ###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=Erreur
+
 PublishCSSAction.wizard.message=Impossible de publier le fichier CSS dans son propre répertoire ; sélectionnez un autre répertoire pour procéder à la publication.
 
 PublishCSSAction.wizard.msgDirErr=Le répertoire cible n'existe pas, mais ne peut pas être créé.
@@ -253,6 +257,7 @@ AttributeView.dialg.Message.Warning=Avertissement
 AttributeView.dialg.Message.Yes=&Oui
 
 AttributeView.dialg.Message.No=&Non
+
 AttributeView.dialg.Message.Cancel=&Annuler
 
 AttributeView.dialg.Message.PromptMsg=Voulez-vous vraiment supprimer toutes les propriétés locales ?
@@ -341,6 +346,7 @@ BindingPage.None=Aucun
 BindingPage.TableColumn.DataType=Type de données
 
 BindingPage.TableColumn.Parameter=Paramètre
+
 BindingPage.TableColumn.Value=Valeur
 
 ColumnBingingDialog.Label.Warn=La modification du jeu de données ou de la référence de l'élément d'état risque d'invalider toutes les expressions de colonne de jeu de résultats.
@@ -348,10 +354,13 @@ ColumnBingingDialog.Label.Warn=La modification du jeu de données ou de la référe
 ColumnBindingDialog.Label.DataSet=Jeu de données :
 
 ColumnBindingDialog.Column.Expression=Expression
+
 ColumnBindingDialog.DialogTitle=Sélectionner la liaison de données
 
 ColumnBindingDialog.Column.Name=Nom
+
 ColumnBindingDialog.Column.Filter=Filtrer
+
 ColumnBindingDialog.Column.Function=Fonction
 
 ColumnBindingDialog.Column.DisplayName=Nom d'affichage
@@ -400,7 +409,9 @@ BorderCanvas.Label.Inherited=(Hérité)
 ###########################################################
 #BorderPreferencePage properties
 BorderPreferencePage.displayname.Color=Couleur
+
 BorderPreferencePage.displayname.Style=Style
+
 BorderPreferencePage.displayname.Title=Bordure
 
 BorderPreferencePage.displayname.Width=Largeur
@@ -418,6 +429,7 @@ BorderPreferencePage.text.Top=Haut :
 BordersPage.Label.Borders=&Bordures :
 
 BordersPage.Label.Color=&Couleur :
+
 BordersPage.Label.Presets=Valeurs par défaut :
 
 BordersPage.Label.Style=St&yle :
@@ -463,6 +475,7 @@ CommentsPreferencePage.displayname.Title=Commentaires
 ButtonPaneComposite.tooltip.MasterPage=Page maître
 
 ButtonPaneComposite.tooltip.Normal=Normal
+
 ButtonPaneComposite.tooltip.Ruler=Règle
 
 ###########################################################
@@ -508,6 +521,7 @@ CascadingParametersDialog.Label.column.displayText=Texte d'affichage
 CascadingParametersDialog.Label.column.dataSet=Jeu de données
 
 CascadingParametersDialog.Label.column.name=Nom
+
 CascadingParametersDialog.Label.column.value=Valeur
 
 CascadingParametersDialog.Label.createNewParam=<Créer un nouveau paramètre...>
@@ -523,6 +537,7 @@ CascadingParametersDialog.Label.displayType=Type d'a&ffichage :
 CascadingParametersDialog.Label.formatAs=Format :
 
 CascadingParametersDialog.Label.group.general=Général
+
 CascadingParametersDialog.Label.group.moreOptions=Autres options
 
 CascadingParametersDialog.Label.group.properties=Propriétés
@@ -534,6 +549,7 @@ CascadingParametersDialog.Label.listLimit=&Limite de liste :
 CascadingParametersDialog.Label.NoColumnAvailable=<Aucune colonne disponible>
 
 CascadingParametersDialog.Label.param.name=&Nom :
+
 CascadingParametersDialog.Label.parameters=Paramètres
 
 CascadingParametersDialog.Label.preview=Aperçu au format
@@ -592,6 +608,7 @@ CellPageGenerator.List.General=Général
 ###########################################################
 #ChoiceSetFactory properties
 ChoiceSetFactory.choice.Auto=Auto
+
 ChoiceSetFactory.choice.None=Aucun
 
 ###########################################################
@@ -601,9 +618,11 @@ CodePageAction.actionText.code=Script
 ###########################################################
 #ColorBuilder properties
 ColorBuilder.text.Auto=Auto
+
 ColorBuilder.Button.ChooseColor=Ouvrir la palette des couleurs
 
 ColorSelector.ColorDialog.Title=Couleur
+
 ColorSelector.Name=Sélecteur de couleurs
 ###########################################################
 #ColumnPageGenerator properties
@@ -614,6 +633,7 @@ ColumnPageGenerator.List.CellPadding=Marge intérieure
 ColumnPageGenerator.List.Font=Police
 
 ColumnPageGenerator.List.General=Général
+
 ColumnPageGenerator.List.Visibility=Visibilité
 
 ###########################################################
@@ -663,6 +683,7 @@ dataBinding.message.haveNoName=L'élément que vous avez sélectionné n'a pas de no
 dataBinding.title.haveNoName=Elément sans nom ?
 
 dataBinding.button.OK=&OK
+
 parameterBinding.title=&Liaison de paramètre du jeu de données...
 
 ParameterBindingDialog.title=Liaison de paramètre du jeu de données
@@ -676,6 +697,7 @@ dataBinding.msg.generateOutputParam=Le jeu de données comporte au moins un param
 DataEditPart.Figure.Dafault=Données
 
 DataEditPart.Figure.Expression=expression
+
 DataEditPart.stackMsg.edit=Modifier la liaison de données
 
 DataEditPart.text.AggregateOn=Regrouper par
@@ -693,7 +715,9 @@ DataPageGenerator.List.Borders=Bordure
 DataPageGenerator.List.Duplicates=Doublons
 
 DataPageGenerator.List.Expression=Expression
+
 DataPageGenerator.List.Format=Format
+
 DataPageGenerator.List.formatDateTime=Date/heure
 
 DataPageGenerator.List.formatNumber=Nombre
@@ -701,9 +725,11 @@ DataPageGenerator.List.formatNumber=Nombre
 DataPageGenerator.List.formatString=Chaîne
 
 DataPageGenerator.List.General=Général
+
 DataPageGenerator.List.Highlights=Surbrillances
 
 DataPageGenerator.List.HyperLink=Lien hypertexte
+
 DataPageGenerator.List.Margin=Marge
 
 DataPageGenerator.List.Padding=Remplissage
@@ -787,6 +813,7 @@ dataset.editor.preview=Prévisualiser les résultats
 dataset.editor.outputparameters=Prévisualiser les paramètres de sortie
 
 dataset.editor.title.alias=Alias
+
 dataset.editor.title.columnName=Nom de colonne
 
 dataset.editor.title.dataType=Type de données
@@ -794,6 +821,7 @@ dataset.editor.title.dataType=Type de données
 dataset.editor.title.defaultValue=Valeur par défaut
 
 dataset.editor.title.direction=Direction
+
 DataSetParameterPage.editor.title.linkToSalarParameter=Lié au paramètre d'état
 
 dataset.editor.title.displayName=Nom d'affichage
@@ -801,10 +829,13 @@ dataset.editor.title.displayName=Nom d'affichage
 dataset.editor.title.displayNameKey=Clé de nom d'affichage
 
 dataset.editor.title.expression=Expression
+
 dataset.editor.title.aggrFunc=Agrégation
 
 dataset.editor.title.aggrArgu=A&rgument
+
 dataset.editor.title.filter=Filtrer
+
 dataset.editor.title.helpText=Texte d'aide
 
 dataset.editor.title.isInput=Est une entrée
@@ -812,13 +843,17 @@ dataset.editor.title.isInput=Est une entrée
 dataset.editor.title.isNullable=Autorise une valeur nulle
 
 dataset.editor.title.isOptional=Facultatif
+
 dataset.editor.title.isOutput=Est une sortie
 
 dataset.editor.title.name=Nom
+
 dataset.editor.title.nativeName=Nom natif
 
 dataset.editor.title.operator=Opérateur
+
 dataset.editor.title.type=Type
+
 dataset.editor.title.value1=Valeur 1
 
 dataset.editor.title.value2=Valeur 2
@@ -828,27 +863,35 @@ dataset.editor.inputDialog.displayName=Nom &d'affichage
 dataset.editor.inputDialog.displayNameKey=&Clé de nom d'affichage
 
 dataset.editor.inputDialog.name=&Nom
+
 dataset.editor.inputDialog.nativeName=Nom n&atif
 
 dataset.editor.inputDialog.type=&Type
+
 dataset.editor.inputDialog.alias=&Alias
+
 dataset.editor.inputDialog.columnName=Nom de &colonne
 
 dataset.editor.inputDialog.dataType=Type de &données
 
 dataset.editor.inputDialog.expression=&Expression
+
 dataset.editor.inputDialog.aggrArgu=A&rgument
+
 dataset.editor.inputDialog.aggrFunc=A&grégation
 
 dataset.editor.inputDialog.filter=&Filtre
+
 dataset.editor.inputDialog.value1=Valeur &1
 
 dataset.editor.inputDialog.value2=Valeur &2
 
 dataset.editor.inputDialog.operator=&Opérateur
+
 dataset.editor.inputDialog.defaultValue=&Valeur par défaut
 
 dataset.editor.inputDialog.direction=&Direction
+
 dataset.editor.historybar.backward=Précédent
 
 dataset.editor.historybar.forward=Suivant
@@ -890,6 +933,7 @@ dataset.wizard.label.dataSource=&Source de données :
 dataSourceSelectionPage.title=Lien avec la source de données.
 
 dataset.error.title.noReportDesign=Erreur
+
 dataset.error.msg.noReportDesign=Aucun modèle d'état disponible.
 
 dataset.warning.invalidReponseStatus=Réponse de conception de la page ODA personnalisée non valide. Etat de la réponse de session de conception ODA : {0}.
@@ -931,9 +975,13 @@ JointDataSetPage.pageName=Jeu de données de jointure
 JointDataSetPage.page.detail=Sélectionner un jeu de données et une colonne de chaque côté pour définir une jointure.
 
 JointDataSetPage.button.innerJoin=Jointure &interne
+
 JointDataSetPage.button.leftJoin=&Jointure externe gauche
+
 JointDataSetPage.button.rightJoin=&Jointure externe droite
+
 JointDataSetPage.button.fullJoin=J&ointure externe complète
+
 JointDataSetPage.joinType=Types de jointures
 
 JointDataSetPage.error.nodataset.title=Aucun jeu de données n'a été trouvé.
@@ -1001,6 +1049,7 @@ DataSetFiltersPage.toolTipText.New=Nouveau filtre.
 DataSetFiltersPage.toolTipText.Edit=Modifier le filtre.
 
 DataSetFiltersPage.title.FilterInputDialog=Filtrer
+
 DataSetFiltersPage.messages.selectVauleUnavailable=Liste de valeurs non disponible avec l'expression spécifiée.
 
 DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=Le paramètre dynamique lié "{0}" du filtre dynamique n'existe pas.
@@ -1036,6 +1085,7 @@ DataSetParametersPage.ParameterButton.Tooltip.Edit=Modifier le paramètre d'état
 DataSetParametersPage.ParameterButton.Tooltip.New=Nouveau paramètre d'état
 
 DataSetParametersPage.Prompt.new=<Nouveau paramètre ici...>
+
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Aucun
 
@@ -1046,6 +1096,7 @@ DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Si l'utilisateu
 DataSetParameterPage.cell.linkToSalarParameter=&Lié au paramètre d'état
 
 DataSetParameterPage.title.ParameterInputDialog=Paramètre
+
 DataSetParameterPage.toolTipText.New=Nouveau paramètre
 
 DataSetParameterPage.toolTipText.Edit=Modifier le paramètre
@@ -1071,6 +1122,7 @@ DataSetParameterPage.updateReportParameter.message=Voulez-vous mettre à jour le 
 DataSetParameterPage.updateReportParameter.promptButtonYes=Oui
 
 DataSetParameterPage.updateReportParameter.promptButtonNo=Non
+
 DataSetParameterPage.updateReportParameter.propmtText=Mémoriser ma décision
 
 PromptParameterDialog.title=Confirmer la mise à jour des attributs de modèle
@@ -1082,6 +1134,7 @@ PromptParameterDialog.parameterGroup.title=Attributs des modèles de paramètres
 PromptParameterDialog.parameterGroup.label=Mettre à jour les paramètres sélectionnés avec la ou les valeurs d'attributs révisées par le modèle du jeu de données édité.
 
 PromptParameterDialog.parameterGroup.nameColumn=Nom
+
 PromptParameterDialog.parameterGroup.previousValue=Valeur précédente
 
 PromptParameterDialog.parameterGroup.revisedValue=Valeur révisée
@@ -1111,6 +1164,7 @@ DataSetProcess.action.Edit=Modifier le jeu de données
 DataSetProcess.action.Preview=Aperçu
 
 DataSetProcess.text.DisplayName=Jeu de données
+
 DataSetProcess.text.Prefix=Le(s) jeu(x) de données suivant(s) utilise(nt) cette source de données :
 
 DataSetProcess.text.Show=Affiche la page de l'éditeur de jeu de données pour ce jeu de données.
@@ -1144,6 +1198,7 @@ datasource.editor.property=Liaison de propriété
 datasource.editor.duplicatedName=Le nom de la source de données "{0}" est dupliqué.
 
 datasource.error.title.noReportDesign=Erreur
+
 datasource.error.msg.noReportDesign=Aucun modèle d'état disponible.
 
 datasource.exprotToCP.title=Exporter
@@ -1157,6 +1212,7 @@ datasource.exportToCP.externalCheckBox=&Utilisez le profil de connexion external
 datasource.exportToCP.label.specifyName=Nom du profil de conn&exion :
 
 datasource.exportToCP.errorBox.button.OK=OK
+
 datasource.exportToCP.error.emptyFileName=Vous devez indiquer un nom de profil de connexion non vide !
 
 datasource.exportToCP.error.invalidFileName=Le nom du profil de connexion indiqué contient un ou des caractères non valides !
@@ -1192,9 +1248,11 @@ DataSourcesSlotOutlineProcess.action.New=Nouvelle source de données
 datatypes.any=Indifféremment
 
 datatypes.auto=Auto
+
 datatypes.dateTime=Date Heure
 
 datatypes.decimal=Décimal
+
 datatypes.float=Flottante
 
 datatypes.integer=Entier
@@ -1248,6 +1306,7 @@ DefaultNodeProvider.Tree.DataSets=Jeux de données
 DefaultNodeProvider.Tree.DataSources=Sources de données
 
 DefaultNodeProvider.Tree.Detail=Détails
+
 DefaultNodeProvider.Tree.Footer=Pied de page
 
 DefaultNodeProvider.Tree.Groups=Groupes
@@ -1268,6 +1327,7 @@ DefaultNodeProvider.Tree.Reference=Avertissement
 DefaultNodeProvider.Tree.Scratch=Zone de travail
 
 DefaultNodeProvider.Tree.Styles=Styles
+
 DefaultNodeProvider.Tree.Themes=Thèmes
 
 DefaultNodeProvider.WarningDialog.Title=Avertissement
@@ -1325,15 +1385,21 @@ designer.preview.preference.appcontextkey=&Utiliser un contexte d'application pe
 designer.preview.preference.browser.useExternal=&Toujours utiliser des navigateurs externes
 
 designer.preview.preference.elementname.columnwidth=125
+
 designer.preview.preference.elementname.customname.Enabled=vrai
+
 designer.preview.preference.elementname.customname=Nom par défaut
 
 designer.preview.preference.elementname.defaultname.Enabled=faux
+
 designer.preview.preference.elementname.defaultname=Nom de l'élément
 
 designer.preview.preference.elementname.description.Enabled=faux
+
 designer.preview.preference.elementname.description=Description
+
 designer.preview.preference.elementname.Enabled=vrai
+
 designer.preview.preference.locale.description=&Choisir vos informations locales :
 
 designer.preview.preference.timezone.description=&Fuseau horaire :
@@ -1383,6 +1449,7 @@ designer.preview.preference.server.requireRestart=Si le serveur est déjà en cour
 designer.preview.preference.bidiOrientation.label=Orientation &Bidi :
 
 designer.preview.preference.bidiOrientation.auto=Auto
+
 designer.preview.preference.bidiOrientation.ltr=Gauche à droite
 
 designer.preview.preference.bidiOrientation.rtl=Droite à gauche
@@ -1408,6 +1475,7 @@ designer.preview.previewaction.ErrorMessage=La fonction de génération de PDF n'e
 designer.preview.previewaction.ErrorMessage.title=Avertissement
 
 designer.preview.run.webviewer=Dans le visualiseur Web
+
 designer.preview.run=Comme {0}
 
 ###########################################################
@@ -1443,9 +1511,11 @@ DesignerActionBarContributor.menu.element.editDataBinding=Modifier la liaison de
 DesignerActionBarContributor.menu.element=E&lément
 
 DesignerActionBarContributor.menu.format=Format
+
 DesignerActionBarContributor.menu.insert=&Insérer
 
 DesignerActionBarContributor.menu.page=Pa&ge
+
 DesignerActionBarContributor.menu.style-rule-apply=A&ppliquer un style
 
 DesignerActionBarContributor.menu.style-rule-edit=Mo&difier le style
@@ -1467,6 +1537,7 @@ DesignerActionBarContributor.menu.element.insert=&Insérer
 DesignerActionBarContributor.menu.element.group=&Groupe
 
 DesignerActionBarContributor.menu.element.style=St&yle
+
 DesignerActionBarContributor.menu.zoomCombo.tooltip=Niveau de zoom
 ###########################################################
 #DesignerOutlinePage properties
@@ -1495,23 +1566,29 @@ DesignerPaletteFactory.elementLabel.data=Données
 DesignerPaletteFactory.elementLabel.grid=Grille
 
 DesignerPaletteFactory.elementLabel.image=Image
+
 DesignerPaletteFactory.elementLabel.label=Etiquette
 
 DesignerPaletteFactory.elementLabel.list=Liste
 
 DesignerPaletteFactory.elementLabel.tabel=Table
+
 DesignerPaletteFactory.elementLabel.text=Texte
+
 DesignerPaletteFactory.elementName.data=Données
 
 DesignerPaletteFactory.elementName.grid=Grille
 
 DesignerPaletteFactory.elementName.image=Image
+
 DesignerPaletteFactory.elementName.label=Etiquette
 
 DesignerPaletteFactory.elementName.list=Liste
 
 DesignerPaletteFactory.elementName.table=Table
+
 DesignerPaletteFactory.elementName.text=Texte
+
 DesignerPaletteFactory.elementName.textdata=Texte dynamique
 
 DesignerPaletteFactory.toolTip.dataReportItem=Insérez une colonne de jeu de données ou le résultat d'une expression.
@@ -1601,6 +1678,7 @@ DeleteGroupAction.stackMsg.deleteGroup=Supprimer le groupe
 EditLabelAction.text=&Modifier
 
 EditorDragGuidePolicy.pixels.label=pixels
+
 EditorGuide.bottom.label=Bas :
 
 EditorGuide.left.label=Gauche :
@@ -1674,6 +1752,7 @@ Element.DataSet.computedColumns=Colonnes de calcul :
 Element.DataSet.dataSource=Source de données :
 
 Element.DataSet.filter=Filtre :
+
 Element.DataSet.inputParameters=Paramètres d'entrée :
 
 Element.DataSet.onFetch.toolTip=Commande appelée juste avant la récupération d'une ligne de données du jeu de données.
@@ -1763,6 +1842,7 @@ Element.Label.helpText=Texte d'aide :
 Element.Label.helpTextID=Clé du texte d'aide
 
 Element.Label.text=Texte :
+
 Element.Label.textID=Clé de &texte :
 
 Element.Line.orientation=orientation :
@@ -1781,6 +1861,7 @@ Element.ListGroup.slot.footer=pied de page :
 Element.ListGroup.slot.header=en-tête :
 
 Element.Listing.filter=Filtre :
+
 Element.Listing.onFinish.toolTip=Commande appelée après la lecture de la dernière ligne du jeu de données pour cet élément, mais avant la création de la bande du pied de page.
 
 Element.Listing.onFinish=A la fin :
@@ -1798,7 +1879,9 @@ Element.Listing.pageBreakInterval=Intervalle de sau&t de page :
 Element.Listing.sorting=Tri :
 
 Element.ListingGroup.filter=Filtre :
+
 Element.ListingGroup.groupName=Nom
+
 Element.ListingGroup.interval=Intervalle :
 
 Element.ListingGroup.intervalRange=Plage d'intervalles :
@@ -1854,6 +1937,7 @@ Element.MasterPage.width=&Largeur :
 Element.Module.author=A&uteur :
 
 Element.Module.base=Base :
+
 Element.Module.colorPalette=Palette de couleurs :
 
 Element.Module.comments=&Commentaires :
@@ -1899,7 +1983,9 @@ Element.OdaDataSet.privateDriverProperties=Propriétés de pilote privé :
 Element.OdaDataSet.publicDriverProperties=Propriétés de pilote public :
 
 Element.OdaDataSet.queryScript.toolTip=A définir :
+
 Element.OdaDataSet.queryScript=Script :
+
 Element.OdaDataSet.queryText=Requête :
 
 Element.OdaDataSet.resultSetName=Nom de jeu de résultats :
@@ -1985,9 +2071,11 @@ Element.ReportElement.displayName=Nom d'a&ffichage :
 Element.ReportElement.displayNameID=Clé de nom d'affichage :
 
 Element.ReportElement.extends=Etend :
+
 Element.ReportElement.javaClass=Classe Java :
 
 Element.ReportElement.name=&Nom :
+
 Element.ReportElement.propertyMask=Masque de propriété :
 
 Element.ReportElement.style=St&yle :
@@ -2019,7 +2107,9 @@ Element.ReportItem.x=X :
 Element.ReportItem.y=Y :
 
 Element.ReportItem.altText=Texte de remplacement
+
 Element.ReportItem.altTextID=Clé de texte de remplacement
+
 Element.Row.bookmark=Signet :
 
 Element.Row.height=&Hauteur :
@@ -2049,6 +2139,7 @@ Element.ScalarParameter.dynamicList.valueExpr=Expression de valeur :
 Element.ScalarParameter.dynamicList=Liste dynamique :
 
 Element.ScalarParameter.format=Format :
+
 Element.ScalarParameter.selectionList.fixedOrder=Ordre fixe :
 
 Element.ScalarParameter.selectionList.mustMatch=Doit correspondre :
@@ -2156,6 +2247,7 @@ Element.Style.box=Zone :
 Element.Style.canShrink=Rétrécissement poss&ible
 
 Element.Style.color=&Couleur :
+
 Element.Style.display=Affic&hage :
 
 Element.Style.font.family=&Police :
@@ -2183,7 +2275,9 @@ Element.Style.format.number.align=Alignement des nombres formatés :
 Element.Style.format.number=Numéro :
 
 Element.Style.format.string=Chaîne :
+
 Element.Style.format=Format :
+
 Element.Style.highlight.rules=Mettre les règles en surbrillance :
 
 Element.Style.highlight.testExpr=Mettre l'expression de test en surbrillance :
@@ -2241,9 +2335,11 @@ Element.Style.text.indent=Retrait du te&xte :
 Element.Style.text.transform=T&ransformation du texte :
 
 Element.Style.text=Texte :
+
 Element.Style.verticalAlign=&Alignement vertical :
 
 Element.Style.whiteSpace=&Espace :
+
 Element.Style.widows=&Veuves :
 
 Element.Style.wordSpacing=&Espacement des mots :
@@ -2276,8 +2372,11 @@ Element.Text.contentID=&Clé de contenu :
 Element.Text.contentType=Ty&pe de contenu :
 
 Element.TemplateElement.name=&Nom
+
 Element.Toc.Sytle=St&yle
+
 Element.VariableElement.name=&Nom :
+
 Element.VariableElement.type=&Type :
 
 Element.VariableElement.value=&Valeur :
@@ -2325,6 +2424,7 @@ ExceptionHandler.Label.PluginName=Nom du plug-in :
 ExceptionHandler.Label.PluginProvider=Fournisseur du plug-in :
 
 ExceptionHandler.Label.PluginVersion=Version :
+
 ExceptionHandler.Label.UnknownPlugin=Plug-in inconnu
 
 ExceptionHandler.Meesage.UnexceptedExceptionOccur=Une exception interne inattendue s'est produite. Pour plus de détails, consultez le fichier journal.
@@ -2332,6 +2432,7 @@ ExceptionHandler.Meesage.UnexceptedExceptionOccur=Une exception interne inattend
 ExceptionHandler.Message.BirtExceptionOccur=Une exception BIRT s'est produite.
 
 ExceptionHandler.Message.CausedBy=Cause {0}.
+
 ExceptionHandler.Message.FileNotFound=Fichier introuvable :
 
 ExceptionHandler.Message.OutOfMemory=Mémoire insuffisante.
@@ -2345,6 +2446,7 @@ ExceptionHandler.Message.UnexceptedExceptionOccur=Une exception interne s'est pr
 ExceptionHandler.Message.UnknownHost=Hôte inconnu :
 
 ExceptionHandler.Title.Error=Erreur
+
 ExceptionHandler.Title.FileNotFound=Fichier introuvable.
 
 ExceptionHandler.Title.PartInitError=Erreur de l'initialisation.
@@ -2364,6 +2466,7 @@ ExportToLibraryAction.action.text=E&xporter vers la bibliothèque...
 ExportToLibraryAction.Button.Cancel=Annuler
 
 ExportToLibraryAction.Button.No=Non
+
 ExportToLibraryAction.Button.Yes=Oui
 
 ExportToLibraryAction.Dialog.Message=\nIl se peut que la bibliothèque cible dispose du même élément de modèle. Souhaitez-vous l'écraser ?
@@ -2433,6 +2536,7 @@ ExpressionBuilder.Script.Confirm=\nLe script actuel comporte une erreur de synta
 ExpressionBuilder.toolTipText.calendar=Calendrier
 
 ExpressionBuilder.Calendar.Button.OK=OK
+
 ExpressionButtonProvider.Constant=Constante
 
 ExpressionButtonProvider.Javascript=Syntaxe JavaScript
@@ -2460,6 +2564,7 @@ ExpressionProvider.Category.Parameters=Paramètres de l'état
 ExpressionProvider.Category.DataCubes=Cube de données actuel
 
 ExpressionProvider.Category.Variables=Variables
+
 ExpressionProvider.Label.All=---Tout---
 
 ExpressionProvider.Operator.Add=Ajoute deux valeurs ensemble.
@@ -2527,9 +2632,11 @@ ExpressionProvider.Operators.Logical=Logique
 ExpressionProvider.EditBindings=Modification des liaisons...
 
 ExpressionProvider.Expression.RowNumName=RowNum
+
 ExpressionProvider.Expression.RowNumTooltip=Expression qui renvoie le nombre de lignes actuel.
 
 ExpressionProvider.Variables=Variables
+
 ExpressionProvider.Variables.Report=Variables de l'état
 
 ExpressionProvider.Variables.Page=Variables de la page
@@ -2569,6 +2676,7 @@ filters.empty.columnName=L'expression ne peut pas être vide.
 filters.error.title=Entrée non valide.
 
 filters.operators.any=est indifféremment
+
 filters.operators.between=Est compris entre
 
 filters.operators.bottomN=(n) éléments du bas
@@ -2576,19 +2684,33 @@ filters.operators.bottomN=(n) éléments du bas
 filters.operators.bottomPercent=(n) pourcentage du bas
 
 filters.operators.equal=est égal à
+
 filters.operators.false=est faux
+
 filters.operators.greaterThan=est supérieur à
+
 filters.operators.greaterThanEqual=est supérieur ou égal à
+
 filters.operators.lessThan=est inférieur à
+
 filters.operators.lessThanEqual=est inférieur ou égal à
+
 filters.operators.like=est identique à
+
 filters.operators.notBetween=n'est pas compris entre
+
 filters.operators.notEqual=n'est pas égal à
+
 filters.operators.notNull=n'est pas nul
+
 filters.operators.null=est nul
+
 filters.operators.topN=fait partie des (n) premiers éléments
+
 filters.operators.topPercent=fait partie des (n) premiers pourcentages
+
 filters.operators.true=est vrai
+
 filters.prompt.new=<Nouveau filtre ici...>
 
 ###########################################################
@@ -2616,6 +2738,7 @@ FontSizeBuilder.displayname.Auto=Auto
 ###########################################################
 #FormatBuilder properties
 FormatAdapter.DisplayName.None=Auto
+
 FormatBuilder.Title=Générateur de format
 
 ###########################################################
@@ -2706,6 +2829,7 @@ FormatNumberPage.label.scientific.settings=Paramètres scientifiques
 FormatNumberPage.label.symbol.position=Position du s&ymbole :
 
 FormatNumberPage.label.symbol=Sym&bole :
+
 FormatNumberPage.label.table.column.format.code=Format exemple
 
 FormatNumberPage.label.table.column.format.result=Exemple de résultat de format
@@ -2725,14 +2849,19 @@ FormatNumberPage.symblePos.after=Après
 FormatNumberPage.symblePos.before=Avant
 
 FormatNumberPage.roundingMode.halfUp=Moitié supérieure
+
 FormatNumberPage.roundingMode.halfDown=Moitié inférieure
+
 FormatNumberPage.roundingMode.halfEven=Moitié au plus près
+
 FormatNumberPage.roundingMode.up=Vers le haut
 
 FormatNumberPage.roundingMode.down=Vers le bas
 
 FormatNumberPage.roundingMode.ceiling=Plafond
+
 FormatNumberPage.roundingMode.floor=Base
+
 FormatNumberPage.roundingMode.unnecessary=Inutile(s)
 
 ###########################################################
@@ -2837,11 +2966,13 @@ GeneralInsertMenuAction.text.DynamicText=Texte d&ynamique
 GeneralInsertMenuAction.text.Grid=&Grille
 
 GeneralInsertMenuAction.text.Image=&Image
+
 GeneralInsertMenuAction.text.Label=&Etiquette
 
 GeneralInsertMenuAction.text.List=&Liste
 
 GeneralInsertMenuAction.text.Table=Ta&ble
+
 GeneralInsertMenuAction.text.Text=&Texte
 
 ###########################################################
@@ -2855,6 +2986,7 @@ GeneralPreferencePage.label.styleNamePredefind=Le nom de style "{0}" est prédéfi
 GeneralPreferencePage.label.customStyle=&Style personnalisé
 
 GeneralPreferencePage.Label.CustomStyle=Nom :
+
 GeneralPreferencePage.Label.Note=REMARQUE : * appliquez les propriétés de style à un type spécifique d'élément d'état.
 
 GeneralPreferencePage.Label.PreDefinedStyle=Sélectionner élément d'état :
@@ -2896,6 +3028,7 @@ GridPageGenerator.List.Borders=Bordure
 GridPageGenerator.List.Font=Police
 
 GridPageGenerator.List.General=Général
+
 GridPageGenerator.List.Margin=Marge
 
 GridPageGenerator.List.Section=Saut de page
@@ -2949,6 +3082,7 @@ GroupDialog.PageBreakInside=&A l'intérieur :
 GroupDialog.Label.IntervalBase=Utiliser une valeur de base fi&xe pour l'intervalle :
 
 GroupDialog.Label.Name=No&m :
+
 GroupDialog.Label.Range=Gamm&e :
 
 GroupDialog.Tab.Binding=Liaisons de données
@@ -3017,6 +3151,7 @@ HightlightRuleBuilder.MsgDlg.Msg=Avertissement
 HightlightRuleBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.
 
 HightlightRuleBuilder.text.AND=ET
+
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=Valeur de l'élément de données
 
 HighlightRuleBuilderDialog.text.AND=ET
@@ -3028,7 +3163,9 @@ HighlightRuleBuilderDialog.text.BackgroundColor=&Couleur d'arrière-plan :
 HighlightRuleBuilderDialog.text.Between=Est compris entre
 
 HighlightRuleBuilderDialog.text.Color=&Couleur :
+
 HighlightRuleBuilderDialog.text.Default=Auto
+
 HighlightRuleBuilderDialog.text.ET=est égal à
 
 HighlightRuleBuilderDialog.text.False=est faux
@@ -3079,6 +3216,7 @@ HighlightRuleBuilderDialog.displayText.None=Aucun
 HighlightRuleBuilderDialog.text.Description=Appliquer un formatage conditionnel dans {0}. Spécifier l'expression conditionnelle et le format.\nLe format sera appliqué si l'expression est True.
 
 HighlightRuleBuilderDialog.text.Description.Element.Table=table
+
 HighlightRuleBuilderDialog.text.Description.Element.Grid=grille
 
 HighlightRuleBuilderDialog.text.Description.Element.List=liste
@@ -3092,7 +3230,9 @@ HighlightRuleBuilderDialog.text.Description.Element.DataItem=élément de données
 HighlightRuleBuilderDialog.text.Description.Element.Cell=cellule
 
 HighlightRuleBuilderDialog.text.Group.Condition=Con&dition
+
 HighlightRuleBuilderDialog.text.Group.Format=Format
+
 HighlightRuleBuilderDialog.text.Description.Element.ReportElement=élément d'état
 
 ###########################################################
@@ -3108,6 +3248,7 @@ HighlightsPage.Dialog.NewHighlight=Nouvelle mise en surbrillance
 HighlightsPage.Label.Highlights=Liste de surbrillance :
 
 HighlightsPage.TableColumn.Condition=Condition
+
 HighlightsPage.TableColumn.Preview=Aperçu :
 
 HighlightsPage.trans.Add=Ajouter la règle de surbrillance
@@ -3133,6 +3274,7 @@ HighlightsPage.trans.Duplicate=Dupliquer la règle de surbrillance
 ###########################################################
 #HighlightsPreferencePage properties
 HighlightsPreferencePage.displayname.Condition=Condition
+
 HighlightsPreferencePage.displayname.Preview=Aperçu
 
 HighlightsPreferencePage.displayname.Title=Surbrillances
@@ -3205,6 +3347,7 @@ HyperlinkBuilder.DrillThroughLinkExpression=&Expression de lien :
 HyperlinkBuilder.Label.Bookmark=&Signet :
 
 HyperlinkBuilder.Label.Format=Format :
+
 HyperlinkBuilder.Label.LinkedExpression=&Expression liée :
 
 HyperlinkBuilder.DrillThroughTargetToc=Entrée de la ta&ble des matières dans l'état cible
@@ -3238,6 +3381,7 @@ HyperlinkBuilder.Radio.Bookmark=Si&gnet interne
 
 HyperlinkBuilder.DrillThroughPdf=PDF
 HyperlinkBuilder.Radio.DrillThrough=&Extraire
+
 HyperlinkBuilder.ReportDesignButton=&Modèle d'état :
 
 HyperlinkBuilder.ReportDocumentButton=Do&cument d'état :
@@ -3258,6 +3402,7 @@ HyperlinkBuilder.Button.RemoveParam=Suppri&mer
 HyperlinkBuilder.OpenExpression=Ouvrir le Générateur d'expression
 
 HyperlinkBuilder.FileNameError.Title=Erreur
+
 HyperlinkBuilder.FileNameError.Message=Le fichier sélectionné n'est pas valide.
 
 HyperlinkBuilder.TargetReportFormat=&Formatage de l'état cible dans :
@@ -3265,11 +3410,13 @@ HyperlinkBuilder.TargetReportFormat=&Formatage de l'état cible dans :
 HyperlinkParameterBuilder.Label.DataType=Type de données :
 
 HyperlinkParameterBuilder.Label.Parameter=&Paramètre :
+
 HyperlinkParameterBuilder.Label.Value=&Valeur :
 
 HyperlinkParameterBuilder.Lable.Required=Obligatoire :
 
 HyperlinkParameterBuilder.Required.Choice.No=Non
+
 HyperlinkParameterBuilder.Required.Choice.Yes=Oui
 
 ###########################################################
@@ -3360,7 +3507,9 @@ ImagePageGenerator.List.Bookmark=Signet
 ImagePageGenerator.List.Borders=Bordure
 
 ImagePageGenerator.List.General=Général
+
 ImagePageGenerator.List.HyperLink=Lien hypertexte
+
 ImagePageGenerator.List.Reference=Référence
 
 ImagePageGenerator.List.Section=Saut de page
@@ -3461,6 +3610,7 @@ InputParameterDialog.ErrorMessage.InvalidFile=Cet état contient une erreur.
 InputParameterDailog.parameter.null=Valeur nulle
 
 InputParameterDialog.ErrorTitle.Error=Erreur
+
 InputParameterDialog.boolean.checked=Oui
 
 ###########################################################
@@ -3554,6 +3704,7 @@ JSDocumentProvider.document.newName=Nouveau contenu
 JSEditor.cmb.NewEventFunction=Nouvelle fonction d'événement...
 
 JSEditor.Label.Script=Script :
+
 JSEditor.Button.Validate=Valider le script
 
 JSEditor.Button.Reset=Réinitialiser le script
@@ -3567,12 +3718,15 @@ JSEditor.Display.NoExpression=Cet élément ne contient pas de méthode.
 JSEditor.Input.trial=évaluation
 
 JSEditor.Text.NoText=Aucun texte
+
 JSEditor.Text.NoDescription=Cette méthode ne comporte pas de description.
 
 JSEditor.Validate.Title=Validation
+
 JSEditor.Validate.NoError=Aucune erreur de syntaxe n'a été trouvée dans le script actuel.
 
 JSEditor.Folding.Group=Pliage
+
 JSEditor.Folding.ExpandAll.label=Tout développer
 
 JSEditor.Folding.CollapseAll.label=Tout réduire
@@ -3590,6 +3744,7 @@ label.input=Entrée
 label.inputOutput=Entrée/Sortie
 
 label.no=Non
+
 label.output=Sortie
 
 label.redo=Rétablir
@@ -3609,7 +3764,9 @@ LabelPageGenerator.List.Bookmark=Signet
 LabelPageGenerator.List.Borders=Bordure
 
 LabelPageGenerator.List.General=Général
+
 LabelPageGenerator.List.HyperLink=Lien hypertexte
+
 LabelPageGenerator.List.I18n=Localisation
 
 LabelPageGenerator.List.Margin=Marge
@@ -3625,6 +3782,7 @@ LabelPageGenerator.List.Visibility=Visibilité
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=Auto
+
 LayoutConfigurationBlock.Default.Unit.Label=Unité par déf&aut :
 
 ###########################################################
@@ -3632,6 +3790,7 @@ LayoutConfigurationBlock.Default.Unit.Label=Unité par déf&aut :
 LayoutEditor.ErrorMessage.OpenError=Une erreur s'est produite lors de l'ouverture de l'éditeur.
 
 LayoutEditor.Page.Layout=Normal
+
 LayoutEditor.Page.MasterPage=Page maître
 
 LayoutEditor.Page.Source=Source XML
@@ -3655,6 +3814,7 @@ LibraryExplorerProvider.FolderNotExist=Le dossier de ressources BIRT défini dans
 ###########################################################
 #LibraryPage properties
 LibraryPage.Label.Namespace=Espace &nom :
+
 LibraryPage.Label.Path=&Chemin :
 
 ###########################################################
@@ -3682,10 +3842,13 @@ ListBandProvider.action.text=I&nsérer le groupe
 ###########################################################
 #ListBandProxy properties
 ListBandProxy.list.detail=Détails
+
 ListBandProxy.list.footer=Pied de page
 
 ListBandProxy.list.groupFooter=PPG
+
 ListBandProxy.list.groupHeader=ETG
+
 ListBandProxy.list.header=En-tête
 
 ###########################################################
@@ -3717,6 +3880,7 @@ ListPageGenerator.List.Borders=Bordure
 ListPageGenerator.List.Font=Police
 
 ListPageGenerator.List.General=Général
+
 ListPageGenerator.List.Section=Saut de page
 
 ListPageGenerator.List.TOC=Table des matières
@@ -3729,6 +3893,7 @@ ListPageGenerator.List.Visibility=Visibilité
 MapPage.label.add=&Ajouter...
 
 MapPage.label.condition=Condition
+
 MapPage.label.delete=&Supprimer
 
 MapPage.label.displayValue=Valeur d'affichage :
@@ -3758,6 +3923,7 @@ MapPage.transName.Duplicate=Dupliquer la règle de mappage
 ###########################################################
 #MapPreferencePage properties
 MapPreferencePage.displayname.Condition=Condition
+
 MapPreferencePage.displayname.DisplayValue=Valeur d'affichage
 
 MapPreferencePage.displayname.Title=Mappage
@@ -3817,6 +3983,7 @@ MapRuleBuilder.MsgDlg.Msg=Avertissement
 MapRuleBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.
 
 MapRuleBuilder.text.AND=ET
+
 MapRuleBuilderDialog.text.Between=est compris entre
 
 MapRuleBuilderDialog.text.Condition=S&i la condition suivante est vraie :
@@ -3872,7 +4039,9 @@ SortkeyBuilder.Label.Strength=&Intensité :
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Ouvrir le Générateur d'expression
 
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Erreur
+
 SortkeyBuilder.Locale.Auto=Auto
+
 SortkeyBuilder.Strength.ASCII=ASCII
 SortkeyBuilder.Strength.PRIMARY=Primaire
 
@@ -3961,6 +4130,7 @@ MasterPageAction.actionText.masterPage=Page maître
 MasterPageGenerator.List.Columns=Colonnes
 
 MasterPageGenerator.List.General=Général
+
 MasterPageGenerator.List.Borders=Bordure
 
 MasterPageGenerator.List.Header&Footer=En-tête/Pied de page
@@ -3984,12 +4154,14 @@ MasterPagePaletteFactory.Autotext.CreatedBy=Création par
 MasterPagePaletteFactory.Autotext.CreatedOn=Création le
 
 MasterPagePaletteFactory.Autotext.Date=Date
+
 MasterPagePaletteFactory.Autotext.Filename=Nom de fichier
 
 MasterPagePaletteFactory.Autotext.Label=AutoText
 MasterPagePaletteFactory.Autotext.LastPrinted=Dernière impression
 
 MasterPagePaletteFactory.Autotext.Page=Page
+
 MasterPagePaletteFactory.Autotext.PageXofY=Page n sur m
 
 MasterPagePaletteFactory.AutotextTooltip.TotalPageCount=Elément d'état - Nombre total de pages
@@ -4021,11 +4193,13 @@ MasterPagePaletteFactory.elementLabel.createdBy=Création par
 MasterPagePaletteFactory.elementLabel.createdOn=Création le
 
 MasterPagePaletteFactory.elementLabel.date=Date
+
 MasterPagePaletteFactory.elementLabel.fileName=Nom de fichier
 
 MasterPagePaletteFactory.elementLabel.lastPrinted=Dernière impression
 
 MasterPagePaletteFactory.elementLabel.page=Page
+
 MasterPagePaletteFactory.elementLabel.pageOf=Page n sur m
 
 MasterPagePaletteFactory.paletteDrawerName.autoText=AutoText
@@ -4034,6 +4208,7 @@ MasterPagePaletteFactory.ToolTip.Grid=Elément d'état Grille
 MasterPagePaletteFactory.ToolTip.Text=Elément d'état Texte
 
 MasterPagePaletteFactory.Autotext.Variable=Variable
+
 MasterPagePaletteFactory.AutotextTooltip.Variable=Elément variable
 
 ###########################################################
@@ -4114,6 +4289,7 @@ NewLibraryWizard.text.SwitchPerspective=Ce type de fichier est associé à la pers
 NewLibraryWizard.title.Choose=Choisir le mode de création de la bibliothèque
 
 NewLibraryWizard.title.Error=Erreur
+
 NewLibraryWizard.title.New=Nouvelle bibliothèque
 
 NewLibraryWizard.title.Report=Bibliothèque
@@ -4186,6 +4362,7 @@ NewReportWizard.text.SwitchPerspective=Ce type de fichier est associé à la persp
 NewReportWizard.title.Choose=Choisissez le mode de création de l'état.
 
 NewReportWizard.title.Error=Erreur
+
 NewReportWizard.title.New=Nouvel état
 
 NewReportWizard.title.Report=Etat
@@ -4244,6 +4421,7 @@ NewSectionDialog.displayname.Data=Données
 NewSectionDialog.displayname.Grid=Grille
 
 NewSectionDialog.displayname.Image=Image
+
 NewSectionDialog.displayname.Label=Etiquette
 
 NewSectionDialog.displayname.Line=Ligne
@@ -4251,8 +4429,11 @@ NewSectionDialog.displayname.Line=Ligne
 NewSectionDialog.displayname.List=Liste
 
 NewSectionDialog.displayname.Rectangle=Rectangle
+
 NewSectionDialog.displayname.Table=Table
+
 NewSectionDialog.displayname.Text=Texte
+
 NewSectionDialog.text.Prefix=Sections disponibles :
 
 NewSectionDialog.title.insertElement=Insérer un élément
@@ -4360,11 +4541,15 @@ PageBreakPreferencePage.displayname.Title=Saut de page
 ###########################################################
 #PageSetAction properties
 PageSetAction.text.code=&Script
+
 PageSetAction.Text.EditCode=Modifier le &script...
 
 PageSetAction.text.layout=&Mise en page
+
 PageSetAction.text.master=&Principal
+
 PageSetAction.text.normal=&Normal
+
 PageSetAction.text.preview=&Aperçu
 
 ###########################################################
@@ -4380,7 +4565,9 @@ PageSetupOutlineProcess.text.Switch=Bascule vers l'éditeur maître de page
 ###########################################################
 #ParameterDialog properties
 ParameterDialog.Boolean.False=Faux
+
 ParameterDialog.Boolean.True=Vrai
+
 ParameterDialog.Button.ChangeFormat=&Modifier...
 
 ParameterDialog.Button.CreateDataSet=&Créer...
@@ -4484,9 +4671,11 @@ ParameterDialog.Label.ListOfValue=Valeurs de la liste de sélection
 ParameterDialog.Label.SortGroup=Trier
 
 ParameterDialog.Label.Name=&Nom :
+
 ParameterDialog.Label.None=<Aucun>
 
 ParameterDialog.Label.Null=Nul
+
 ParameterDialog.Label.Preview=Aperçu au format
 
 ParameterDialog.Label.PromptText=&Texte de l'invite :
@@ -4567,6 +4756,7 @@ ParameterDropListener.Command.Move=Déplacer l'élément
 ###########################################################
 #ParameterGroupDialog properties
 ParameterGroupDialog.Page.Title=Général
+
 ParameterGroupDialog.pageTitle.general=Général
 
 ###########################################################
@@ -4619,6 +4809,7 @@ ParameterProcess.action.Delete=Supprimer le paramètre
 ParameterProcess.action.Edit=Modifier le paramètre
 
 ParameterProcess.text.DisplayName=Paramètre
+
 ParameterProcess.text.Show=affiche la page de l'éditeur de source de données
 
 ###########################################################
@@ -4627,9 +4818,11 @@ parameters.datatypes.boolean=Booléen
 
 parameters.datatypes.dateTime=DateTime
 parameters.datatypes.decimal=Décimal
+
 parameters.datatypes.float=Flottante
 
 parameters.datatypes.string=Chaîne
+
 parameters.menuItem.reset=Réinitialiser
 
 ###########################################################
@@ -4659,7 +4852,9 @@ ParametersOutlineProcess.text.Show=affiche la page de l'éditeur de jeu de donnée
 ###########################################################
 #PasteAction properties
 PasteAction.dlg.title=Informations
+
 PasteAction.ok=OK
+
 PasteAction.text=&Coller
 
 ###########################################################
@@ -4759,6 +4954,7 @@ PublishTemplateAction.wizard.page.title=Publier le modèle
 PublishTemplateAction.wizard.title=Publier le modèle
 
 PublishTemplateAction.wizard.errorTitle=Erreur
+
 PublishTemplateAction.wizard.message=Impossible de publier le modèle dans son propre répertoire ; sélectionnez un autre répertoire pour procéder à la publication.
 
 PublishTemplateAction.wizard.msgDirErr=Le répertoire cible n'existe pas, mais ne peut pas être créé.
@@ -4785,6 +4981,7 @@ PublishTemplateAction.SaveBeforeGenerating.dialog.button.no=&Non
 ###########################################################
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=Erreur
+
 PublishLibraryAction.wizard.message=Impossible de publier la bibliothèque dans son propre répertoire ; sélectionnez un autre répertoire pour procéder à la publication.
 
 PublishLibraryAction.wizard.msgDirErr=Le répertoire cible n'existe pas, mais ne peut pas être créé.
@@ -4930,6 +5127,7 @@ report.designer.ui.preferences.dialogtitle=Ouvrir une bibliothèque
 report.designer.ui.preferences.errormessage=Cette bibliothèque existe déjà.
 
 report.designer.ui.preferences.errortitle=Erreur
+
 report.designer.ui.preferences.extensions=*.rptlibrary
 report.designer.ui.preferences.labeltitle=Ajouter/Supprimer des bibliothèques
 
@@ -5030,7 +5228,9 @@ ReportEditor.Error.Open=Erreur à l'ouverture
 ReportEditor.Error.OpenEditor=Impossible d'ouvrir le fichier.
 
 ReportEditor.Page.Code=Script
+
 ReportEditor.Page.Layout=Mise en page
+
 ReportEditor.Page.MasterPage=MasterPage
 ReportEditor.Page.Preview=Aperçu
 
@@ -5065,9 +5265,11 @@ ReportPage.text.Thumbnail=Miniat&ure...
 ReportPageGenerator.List.Comments=Commentaires
 
 ReportPageGenerator.List.Description=Description
+
 ReportPageGenerator.List.EventHandler=Gestionnaire d'événements
 
 ReportPageGenerator.List.General=Général
+
 ReportPageGenerator.List.Measurement=Mesure
 
 ReportPageGenerator.List.NamedExpressions=Expressions nommées
@@ -5085,14 +5287,17 @@ DataSourcePageGenerator.List.General=Général
 
 #OdaDataSetGenerator properties
 DataSetPageGenerator.List.General=Général
+
 DataSetPageGenerator.DataSourceName=Source de &données
 
 #ScalarParameterPageGenerator properties
 ScalarParameterPageGenerator.List.General=Général
+
 ScalarParameterPageGenerator.List.I18n=Localisation
 
 #TemplateReportItemPageGenerator properties
 TemplateReportItemPageGenerator.List.General=Général
+
 TemplateReportItemPage.description.Label.Instructions=&Instructions :
 
 TemplateReportItemPageGenerator.List.I18n=Localisation
@@ -5106,6 +5311,7 @@ ReportPropertySheetPage.Column.Title.Property=Propriété
 ReportPropertySheetPage.Column.Title.Value=Valeur
 
 ReportPropertySheetPage.Root.Default.Title=Infos
+
 ReportPropertySheetPage.Tooltip.Alphabetic=Trier par ordre alphabétique
 
 ReportPropertySheetPage.Tooltip.Group=Trier par groupe
@@ -5131,6 +5337,7 @@ ResourceEditDialog.text.Add=&Ajouter
 ResourceEditDialog.text.AddWarningMsg=Les clés doivent être renseignées.
 
 ResourceEditDialog.text.AddWarningTitle=Avertissement
+
 ResourceEditDialog.text.Delete=&Supprimer
 
 ResourceEditDialog.text.Key.TableColumn=Clé
@@ -5207,6 +5414,7 @@ RowPageGenerator.List.CellPadding=Marge intérieure
 RowPageGenerator.List.Font=Police
 
 RowPageGenerator.List.General=Général
+
 RowPageGenerator.List.Visibility=Visibilité
 
 ###########################################################
@@ -5222,6 +5430,7 @@ SaveAsDialog.message=Enregistrer le fichier à un autre emplacement.
 SaveAsDialog.overwriteQuestion=Le fichier ''{0}'' existe déjà. Voulez-vous remplacer le fichier existant ?
 
 SaveAsDialog.Question=Question
+
 SaveAsDialog.text=Enregistrer sous
 
 SaveAsDialog.title=Enregistrer sous
@@ -5261,6 +5470,7 @@ SchematicContextMenuProvider.Menu.List=Liste
 SchematicContextMenuProvider.Menu.Show=Afficher
 
 SchematicContextMenuProvider.Menu.Style=St&yle
+
 SchematicContextMenuProvider.Menu.Style.Apply=A&ppliquer un style
 
 SchematicContextMenuProvider.Menu.Theme=Thè&me
@@ -5318,6 +5528,7 @@ SectionProcess.displayname.GroupProcess=Groupe
 SectionProcess.displayname.ListProcess=Liste
 
 SectionProcess.displayname.TableProcess=Table
+
 SectionProcess.displayname.TableRowProcess=Ligne
 
 SectionProcess.type.Container=(Conteneur)
@@ -5325,6 +5536,7 @@ SectionProcess.type.Container=(Conteneur)
 SectionProcess.type.Data=(Données)
 
 SectionProcess.type.Image=(Image)
+
 SectionProcess.type.Label=(Etiquette)
 
 SectionProcess.type.List=(Liste)
@@ -5332,6 +5544,7 @@ SectionProcess.type.List=(Liste)
 SectionProcess.type.Prefix=Colonne
 
 SectionProcess.type.Table=(Table)
+
 SectionProcess.type.Text=(Texte)
 
 ###########################################################
@@ -5359,6 +5572,7 @@ UseCssInReportDialog.Wizard.Filename=&Nom de fichier :
 UseCssInReportDialog.Label.Styles=&Styles disponibles à partir de {0}
 
 UseCssInReportDialog.Label.notifications=&Notifications
+
 UseCssInReportDialog.TitleArea.Title=Utiliser le fichier CSS dans le modèle d'état
 
 UseCssInReportDialog.TitleArea.Message=Sélectionnez un fichier CSS dans le dossier des bibliothèques partagées et utilisez ses styles dans le modèle d'état.
@@ -5378,6 +5592,7 @@ UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Inclure fichier CSS à l'heu
 UseCssInReportDialog.Dialog.Label.viewTimeLb=Afficher fuseau horaire du fichier CSS :
 
 UseCssInReportDialog.Dialog.Label.example=http://mondomaine/test.css, mondossier/test/css, par exemple
+
 UseCssInReportDialog.Dialog.Label.Theme.Text=&Thème :
 
 UseCssInReportDialog.Dialog.Text.uri=&URI:
@@ -5430,9 +5645,11 @@ ResourceFileFolderSelectionAction.text=Filtre...
 ###########################################################
 #ResourceFileFolderSelectionDialog properties
 ResourceFileFolderSelectionDialog.Text.Menu=menu
+
 ResourceFileFolderSelectionDialog.button.importFile=Fichier d'importation...
 
 ResourceFileFolderSelectionDialog.title.error=Erreur
+
 ResourceFileFolderSelectionDialog.title.overwrite=Ecraser
 
 ResourceFileFolderSelectionDialog.overwrite.msg=Un fichier portant ce nom existe déjà. Voulez-vous l'écraser ?
@@ -5470,6 +5687,7 @@ StyleBuilder.Edit.Info=Modifiez les propriétés de style souhaitées. Tous les élé
 StyleBuilder.New.Info=Créez un nouveau style en sélectionnant une catégorie de propriété sur la gauche et en spécifiant les valeurs de la propriété.
 
 StyleBuilder.Title=Style
+
 SytleBuilder.DialogTitle.New=Nouveau style
 
 SytleBuilder.DialogTitle.Edit=Modifier le style
@@ -5513,7 +5731,9 @@ TableBandProvider.action.text.row=In&sérer une ligne
 ###########################################################
 #TableEditPart properties
 TableEditPart.GUIDEHANDLE_TEXT =Table
+
 TableEditPart.Label.Merge=Fusionner les cellules
+
 TableEditPart.Label.ResizeColumn=Redimensionner la colonne
 
 TableEditPart.Label.ResizeRow=Redimensionner la ligne
@@ -5521,6 +5741,7 @@ TableEditPart.Label.ResizeRow=Redimensionner la ligne
 ###########################################################
 #TableFigure properties
 TableFigure.BORDER_TEXT=Table
+
 TableArea.Button.New=&Nouveau...
 
 TableArea.Button.Edit=&Modifier...
@@ -5598,6 +5819,7 @@ TablePageGenerator.List.CellPadding=Marge intérieure
 TablePageGenerator.List.Font=Police
 
 TablePageGenerator.List.General=Général
+
 TablePageGenerator.List.Marign=Marge
 
 TablePageGenerator.List.Section=Saut de page
@@ -5611,11 +5833,13 @@ TablePageGenerator.List.Visibility=Visibilité
 TemplateReportItemPropertiesDialog.errorMessage=Le texte d'invite ne peut pas être vierge.
 
 TemplateReportItemPropertiesDialog.errorTitle=Erreur
+
 TemplateReportItemPropertiesDialog.group=Propriétés de l'élément d'état modèle
 
 TemplateReportItemPropertiesDialog.objectType=Type d'élément :
 
 TemplateReportItemPropertiesDialog.nameText=&Nom :
+
 TemplateReportItemPropertiesDialog.promptText=&Instructions :
 
 TemplateReportItemPropertiesDialog.title=Créer un élément d'état modèle
@@ -5623,6 +5847,7 @@ TemplateReportItemPropertiesDialog.title=Créer un élément d'état modèle
 ###########################################################
 #performCreatePlaceHolder action
 performCreatePlaceHolder.errorMessage.title=Erreur
+
 performCreatePlaceHolder.errorMessage.content=Le nom spécifié existe déjà. Veuillez en choisir un autre ou laisser ce champ vierge.
 
 ###########################################################
@@ -5712,11 +5937,13 @@ TextEditDialog.action.text.formatNumber=&Nombre
 TextEditDialog.action.text.formatString=&Chaîne de format
 
 TextEditDialog.action.text.formatHTML=Format &HTML
+
 TextEditDialog.choice.HTML=Texte HTML/Texte dynamique
 
 TextEditDialog.choice.plainText=Texte brut
 
 TextEditDialog.choice.Auto=Auto
+
 TextEditDialog.comboText.formattingAndLayout=Formatage et mise en page
 
 TextEditDialog.format.dynamicText=Texte dynamique
@@ -5736,6 +5963,7 @@ TextEditDialog.formatChoice.dynamicText=Texte dynamique
 TextEditDialog.formatChoice.formatting=Formatage
 
 TextEditDialog.formatChoice.layout=Mise en page
+
 TextEditDialog.formatChoice.lists=Listes
 
 TextEditDialog.toolTip.tag.a=Ancre
@@ -5779,11 +6007,13 @@ TextEditDialog.toolTip.tag.h6=Niveau de titre 6
 TextEditDialog.toolTip.tag.i=Style de texte en italique
 
 TextEditDialog.toolTip.tag.img=Référence d'image HTML standard
+
 TextEditDialog.toolTip.tag.ins=Texte inséré
 
 TextEditDialog.toolTip.tag.li=Elément de liste
 
 TextEditDialog.toolTip.tag.p=Paragraphe
+
 TextEditDialog.toolTip.tag.pre=Texte préformaté
 
 TextEditDialog.toolTip.tag.strong=Accentuation renforcée
@@ -5799,6 +6029,7 @@ TextEditDialog.toolTip.tag.u=Style de texte souligné
 TextEditDialog.toolTip.tag.ul=Liste non numérotée
 
 TextEditDialog.toolTip.valueOf=Valeur de
+
 TextEditDialog.toolTipText.copy=Copier
 
 TextEditDialog.toolTipText.cut=Couper
@@ -5812,6 +6043,7 @@ TextEditDialog.toolTipText.redo=Rétablir
 TextEditDialog.toolTipText.undo=Annuler
 
 TextEditDialog.toolTip.formatHTML=format HTML
+
 TextEditDialog.toolTipText.fx=Ouvrir le générateur d'expression
 
 TextEditDialog.action.item.formatDateTime=Format de date/heure
@@ -5827,6 +6059,7 @@ TextEditDialog.title.DlgEdit=Modifier l'élément de texte
 ###########################################################
 #TextEditPart properties
 TextEditPart.Figure.Dafault=Texte
+
 TextEditPart.trans.editText=Modifier l'élément de texte
 
 ###########################################################
@@ -5840,6 +6073,7 @@ TextPageGenerator.List.Bookmark=Signet
 TextPageGenerator.List.Borders=Bordure
 
 TextPageGenerator.List.General=Général
+
 TextPageGenerator.List.I18n=Localisation
 
 TextPageGenerator.List.Margin=Marge
@@ -5863,6 +6097,7 @@ AutoTextPageGenerator.List.Bookmark=Signet
 AutoTextPageGenerator.List.Borders=Bordure
 
 AutoTextPageGenerator.List.General=Général
+
 AutoTextPageGenerator.List.Margin=Marge
 
 AutoTextPageGenerator.List.Padding=Remplissage
@@ -5886,6 +6121,7 @@ NewThemeDialog.DialogMessage=Saisissez le nom
 ###########################################################
 #TimeOptionDialog properties
 TimeOptionDialog.Label.Format=Format
+
 TimeOptionDialog.Label.TimeZone=TimeZone
 
 ###########################################################
@@ -5899,6 +6135,7 @@ ToggleMarginVisibilityAction.text.Tooltip=Basculer les marges
 TwinExpressionDialog.Dialog.Title=Sélectionner des valeurs
 
 TwinExpressionDialog.lable.value1=Valeur1 :
+
 TwinExpressionDialog.lable.value2=Valeur2 :
 
 ###########################################################
@@ -5932,7 +6169,9 @@ UserPropertyBuilder.ErrorMessage.DuplicatedName=Le nom spécifié est déjà utilisé
 UserPropertyBuilder.ErrorMessage.NoName=Veuillez spécifier un nom.
 
 UserPropertiesHandleProvier.Column.Name=Nom
+
 UserPropertiesHandleProvier.Column.Type=Type
+
 UserPropertyBuilder.Label.DefaultValue=&Valeur par défaut :
 
 UserPropertyBuilder.Label.ExpressionName=&Nom de l'expression :
@@ -6038,6 +6277,7 @@ WizardSelectCssStylePage.msg.FileNameEmpty=Le nom du fichier doit être renseigné
 WizardSelectCssStylePage.text.cannot.import.style=\ - Impossible d'importer le style.
 
 WizardSelectCssStylePage.FileNameError.Title=Erreur
+
 WizardSelectCssStylePage.FileNameError.Message=Le fichier sélectionné n'est pas valide.
 
 ###########################################################
@@ -6091,6 +6331,7 @@ WizardTemplateChoicePage.title.FirstReport=Mon premier état
 WizardTemplateChoicePage.title.GroupedListing=Listes groupées
 
 WizardTemplateChoicePage.title.Letter=Lettre
+
 WizardTemplateChoicePage.title.MailingLabels=Etiquettes de publipostage
 
 WizardTemplateChoicePage.title.SideBySideChartListing=Graphiques et listes juxtaposés
@@ -6114,11 +6355,13 @@ XMLSourcePage.Error.Dialog.Message.InvalidFile=Une erreur dans la page XML sourc
 XMLSourcePage.Error.Dialog.Message.SaveFile=La page XML source a été modifiée. Les autres pages ne pourront être utilisées qu'une fois la source XML enregistrée.
 
 XMLSourcePage.Error.Dialog.title=Erreur
+
 XMLSourcePage.Error.Dialog.Message.PromptMsg=La source du modèle d'état XML a été modifiée. Voulez-vous enregistrer les modifications ?
 
 XMLSourcePage.Error.Dialog.Message.Yes=Oui
 
 XMLSourcePage.Error.Dialog.Message.No=Non
+
 XMLSourcePage.Error.Dialog.Message.Cancel=Annuler
 
 ###########################################################
@@ -6154,6 +6397,7 @@ WizardReportSettingPage.Error.Library=Le nom de fichier doit se terminer par .rp
 WizardSaveAsPage.FileLabel=&Nom de fichier :
 
 WizardSaveAsPage.Question=Question
+
 WizardSaveAsPage.FolderEmpty=\ Le dossier est vide.
 
 WizardSaveAsPage.NoProject=\ Le projet spécifié n'existe pas.
@@ -6177,15 +6421,19 @@ WizardSaveAsPage.ContainerGroup=\ &Entrer ou sélectionner le dossier parent :
 Library.DND.messages.outofsync = La bibliothèque utilisée dans l'état a probablement été modifiée ; fermez l'état puis ouvrez-le de nouveau pour utiliser la bibliothèque mise à jour.
 
 NamedExpressionsHandleProvier.Column.Name=Nom
+
 NamedExpressionsHandleProvier.Column.DefaultValue=Valeur par défaut
 
 Library.DND.messages.cannotApplyTheme=Le thème ne peut pas être appliqué.
 
 JarFileFormProvider.Column.Name=Nom
+
 JsFileFormProvider.Column.Name=Nom
+
 ReportPageGenerator.List.Resources.JsFile=Fichiers Javascript :
 
 PropertiesFileFormProvider.Column.Name=Nom
+
 ReportPageGenerator.List.Resources.PropertiesFile=Fichiers de propriétés :
 
 ###########################################################
@@ -6292,11 +6540,13 @@ IDEResourcePageHelper.Dialog.Title=Sélection du répertoire
 IDEResourcePageHelper.File.Button=&Système de fichiers...
 
 IDEResourcePageHelper.Varible.Button=Varia&bles...
+
 IDEResourcePageHelper.WorkSpace.Button=&Espace de travail...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nom
+
 DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=ID du nom d'affichage
 
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=Nom d'affichage
@@ -6312,9 +6562,11 @@ DataSetColumnBindingsFormHandleProvider.NewBinding=Nouvelle liaison
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Type de données
 
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Expression
+
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=Regrouper par
 
 DataSetColumnBindingsFormHandleProvider.Column.Filter=Filtrer
+
 DataSetColumnBindingsFormHandleProvider.Column.Function=Fonction
 
 DataSetColumnBindingsFormHandleProvider.ALL=Tous
@@ -6443,6 +6695,7 @@ PublishCSSDialog.ErrorMessage.SelectFolder=Sélectionner un dossier
 PublishCSSDialog.Dialog.FileSeclect.Tilte=Sélectionner un fichier CSS
 
 PublishCSSDialog.Error.Exception.Title=Erreur
+
 PublishCSSDialog.Error.FileNotFound=Fichier ''{0}'' introuvable.
 
 PublishCSSDialog.Error.FileIsNotCSSFile=Le fichier ''{0}'' ne se termine pas par ''{1}''.
@@ -6478,6 +6731,7 @@ PublishResourceDialog.AddText=Ajouter une ressource
 PublishResourceDialog.AddMessage=Ajouter une ressource dans le dossier Ressources
 
 PublishResourceAction.wizard.errorTitle=Erreur
+
 PublishResourceAction.wizard.message=Impossible de publier la ressource dans son propre répertoire ; sélectionnez un autre répertoire pour procéder à la publication.
 
 PublishResourceAction.wizard.message.SourceFileNotExist=Le fichier source n'existe pas.
@@ -6509,6 +6763,7 @@ PublishResourceDialog.Message.FolderEmpty=Dossier de publication requis.
 ###########################################################
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=Erreur
+
 EmbeddedImagesNodeProvider.FileNameError.Message=Le fichier sélectionné n'est pas une image.
 
 EmbeddedImagesNodeProvider.stackMsg.insert=Insérer l'image
@@ -6567,6 +6822,7 @@ AddImageResourceFileFolderSelectionDialog.Message=Veuillez sélectionner une imag
 ###########################################################
 #DataItemBindingDialog properties
 DataItemBindingDialog.text.Name=Nom :
+
 DataItemBindingDialog.text.displayName=Nom d'affichage :
 
 DataItemBindingDialog.text.DataType=Type de données :
@@ -6589,7 +6845,9 @@ DataItemBindingDialog.title.EditDataItem=Modifier la liaison d'élément de donnée
 DataItemBindingDialog.text.Function=Fonction :
 
 DataItemBindingDialog.text.Filter=Filtre :
+
 DataItemBindingDialog.text.ArgumentList=Argument :
+
 DataItemBindingDialog.Button.Add=Ajouter
 
 DataItemBindingDialog.Button.Edit=Modifier
@@ -6613,6 +6871,7 @@ DataColumnBindingDialog.NewBindingDialogMessage=Cette liaison de données est uti
 DataColumnBindingDialog.NewBindingDialogButtonYes=Oui
 
 DataColumnBindingDialog.NewBindingDialogButtonNo=Non
+
 DataColumnBindingDialog.NewBindingDialogButtonCancel=Annuler
 
 DataColumnBindingDialog.NewBindingDialogTitle=Créer une nouvelle liaison de données ?
@@ -6640,6 +6899,7 @@ ThumbnailBuilder.Button.Text.Browse=& Parcourir...
 ThumbnailBuilder.FileDialog.Title=Sélectionner un fichier image
 
 ThumbnailBuilder.FileDialog.FileNameError.Title=Erreur
+
 ThumbnailBuilder.FileDialog.FileNameError.Message=Le fichier sélectionné n'est pas une image.
 
 ThumbnailBuilder.Button.GenerateFromReport=Gé&nérer à partir de l'état
@@ -6658,6 +6918,7 @@ ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=Vous avez sélectionné une ima
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=Fragments
+
 FragmentResourceEntry.RootDisplayName=Ressources système
 
 
@@ -6691,6 +6952,7 @@ ResourceFilter.Description.EmptyFolder=Masque les dossiers vides
 ###########################################################
 #BIRTGotoMarker properties
 BIRTGotoMarker.Error.Title=Erreur
+
 BIRTGotoMarker.Error.Message=L'élément d'état n'existe pas.
 
 ###########################################################
@@ -6706,7 +6968,9 @@ SampleReportsView.Text.Explorer=Exemples d'états
 SampleReportsView.Text.Preview=Aperçu
 
 SampleReportsView.Text.Description=Description
+
 SampleReportsView.MessageDialog.Title=Question
+
 SampleReportsView.MessageDialog.Message=''{0}'' existe déjà. Voulez-vous le remplacer ?
 
 SampleReportsView.Action.exportSampleReport=&Exporter
@@ -6734,6 +6998,7 @@ EditUseCssStyleAction.EditCssAreaTitle.Libary=Modifier le fichier CSS dans la bi
 ###########################################################
 #GrossTabPageGenerator properties
 CrosstabPageGenerator.List.General=Général
+
 CrosstabPageGenerator.List.Margin=Marge
 
 CrosstabPageGenerator.List.Font=Police
@@ -6763,6 +7028,7 @@ CrosstabPageGenerator.List.PageBreak=Saut de page
 ###########################################################
 #CubePageGenerator properties
 CubePageGenerator.List.General=Général
+
 CubePageGenerator.List.Comments=Commentaires
 
 CubePageGenerator.List.AdvancedProperty=Avancé
@@ -6811,6 +7077,7 @@ BindingDialogHelper.text.Filter=&Condition de filtre :
 BindingDialogHelper.text.AggOn=Re&grouper par :
 
 BindingDialogHelper.text.Table=Tab&le
+
 BindingDialogHelper.text.List=&Liste
 
 BindingDialogHelper.text.Grid=Grille
@@ -6838,6 +7105,7 @@ BindingDialogHelper.error.improperexpression=L'agrégation sur la mesure de cube 
 BindingDialogHelper.error.empty={0} est requis.
 
 BindingDialogHelper.error.text.Name=Nom de la liaison de colonne
+
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Le type de données requis pour la fonction actuelle est "{0}". Voulez-vous vraiment conserver le type de données sélectionné ?
 
@@ -6846,6 +7114,7 @@ BindingDialogHelper.warning.parameter=Le type de données de retour de l'expressi
 BindingDialogHelper.warning.button.yes=Oui
 
 BindingDialogHelper.warning.button.no=Non
+
 BindingGroupDescriptorProvider.Flag.DataModel=\ (Modèle de données)
 
 BindingGroupDescriptorProvider.DataSetBindingSelector.Title.LinkModel=Liaison de modèle de données
@@ -6855,6 +7124,7 @@ BindingGroupDescriptorProvider.DataSetBindingSelector.Title.DataSet=Liaison de j
 ###########################################################
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
+
 ScriptElementNode.Action.Text=Attein&dre l'élément d'état
 
 ScriptObjectNode_0=&Réinitialiser le script
@@ -6888,6 +7158,7 @@ CrosstabBindingDialogHelper.timeperiod.wrongdate=Cette dimension ne prend pas en
 CrosstabBindingDialogHelper.today.label=Aujourd'hui
 
 AddEditCascadingParameterDialog.label.name=&Nom :
+
 AddEditCascadingParameterDialog.label.dataset=&Jeu de données :
 
 AddEditCascadingParameterDialog.label.value=&Valeur :
@@ -6913,6 +7184,7 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=Jour du mois
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=Jour de l'année moyen
 
 FormatDateTimePattern.datetiem_format_type_minutes=Minutes
+
 FormatDateTimePattern.datetiem_format_type_secontds=Secondes
 
 FormatDateTimePattern.datetiem_format_type_general_time=Heure standard
@@ -6925,17 +7197,29 @@ FormatDateTimePattern.datetiem_format_type_general_time=Heure standard
 # instead of "ahh:mm:ss.SSS".
 #
 FormatDateTimePattern.pattern.datetiem_format_type_year=yyyy
+
 FormatDateTimePattern.pattern.datetiem_format_type_short_year=yy
+
 FormatDateTimePattern.pattern.datetiem_format_type_long_month_year=MMMM yyyy
+
 FormatDateTimePattern.pattern.datetiem_format_type_shot_month_year=MMM yy
+
 FormatDateTimePattern.pattern.datetiem_format_type_month=MMMM
+
 FormatDateTimePattern.pattern.datetiem_format_type_long_day_of_week=EEEE
+
 FormatDateTimePattern.pattern.datetiem_format_type_day_of_month=dd
+
 FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, yy
+
 FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
+
 FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
+
 FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
+
 FormatDescriptorProvider.DisplayName.None=Auto
+
 ReportExamples.ContributeSamples.description=Veuillez soumettre une entrée bugzilla {0}Soumettre un bug à BIRT{1}.\nJoignez le fichier du modèle d''état et une capture d''écran de la sortie d''état.\n\n Remarque : La capture d''écran doit être :\n  1. Au format *.png ;\n  2. A une résolution de 800*600 ;\n  3. A une taille inférieure ou égale à 250 Ko.
 
 ReportExamples.ContributeSamples.title=Exemples de contribution
@@ -6943,6 +7227,7 @@ ReportExamples.ContributeSamples.title=Exemples de contribution
 ReportExamples.ContributeSamples.messages=Les informations suivantes vont vous guider vers des exemples de contribution.
 
 ReportExamples.OpenBrowser.Error.title=Erreur
+
 ReportExamples.OpenBrowser.Error.message=Impossible d'ouvrir le navigateur Web.
 
 ###########################################################
@@ -7050,7 +7335,9 @@ ReportDocumentEditor.1=Editeur d'état
 ReportDocumentEditor.2=Informations sur le document
 
 ReportDocumentEditor.3=Nom :
+
 ReportDocumentEditor.4=Version :
+
 ReportDocumentEditor.5=Nombre de pages :
 
 ReportDocumentEditor.errorMessage=Une erreur s'est produite lors de l'ouverture du document dans l'éditeur.
@@ -7090,8 +7377,11 @@ AdvancePropertyDescriptorProvider.Tooltip.Group=Trier par groupe
 AdvancePropertyDescriptorProvider.Tooltip.Local=Afficher les propriétés locales
 
 PropertyEditorFactory.Boolean.True=vrai
+
 PropertyEditorFactory.Boolean.False=faux
+
 PropertyEditorFactory.Value.Auto=Auto
+
 ExportElementToLibraryAction.waring=Avertissement
 
 ExportElementToLibraryAction.waringMsg=L'élément ne porte pas de nom, mais il est impossible d'en définir un.
@@ -7165,6 +7455,7 @@ VariableDialog.DataType=&Type de données :
 VariableDialog.DefaultValue=&Valeur par défaut :
 
 VariableDialog.Name=&Nom :
+
 VariableDialog.PageVariable=Variable de la &page
 
 VariableDialog.ReportVariable=Va&riable de l'état
@@ -7210,6 +7501,7 @@ ExpressionSyntaxColoringPage.Element.Default=Par défaut
 ExpressionSyntaxColoringPage.Element.Keyword=Mot-clé
 
 ExpressionSyntaxColoringPage.Element.String=Chaîne
+
 ExpressionSyntaxColoringPage.Label.Background=Arr&ière-plan :
 
 ExpressionSyntaxColoringPage.Label.Foreground=&Premier plan :

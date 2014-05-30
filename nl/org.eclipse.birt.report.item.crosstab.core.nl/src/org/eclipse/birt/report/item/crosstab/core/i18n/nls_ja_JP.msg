@@ -40,6 +40,7 @@ Element.CrosstabView=クロスタブビュー
 
 Element.Cube=Cube
 Element.Dimension=ディメンション
+
 Element.Level=レベル
 
 Element.Measure=メジャー
@@ -71,7 +72,9 @@ Element.SpanOverOnColumn=列にスパン
 Element.SpanOverOnRow=行にスパン
 
 Element.Direction.Horizontal=横
+
 Element.Direction.Vertical=縦
+
 Element.choice.before=要素前
 
 Element.choice.after=要素後
@@ -229,6 +232,7 @@ CrosstabReportItemTask.msg.pivot.dimension=ディメンジョンの回転
 CrosstabReportItemTask.msg.insert.dimension=ディメンジョンの挿入
 
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=ミラー化開始レベルの設定
+
 CrosstabReportItemTask.msg.pivot.crosstab=クロスタブを回転します。
 
 CrosstabReportItemHandle.Error.HasNoCube=クロスタブは、1 つのキューブにアクセスできる必要があります。

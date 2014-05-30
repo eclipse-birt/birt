@@ -41,18 +41,23 @@ button.selectFileURI.menuItem.relativePath=&Relativer Pfad
 button.selectFileURI.menuItem.absolutePath=&Absoluter Pfad
 
 editor.title.name=Name
+
 editor.title.originalName=Ursprünglicher Name
 
 editor.title.type=Typ
+
 datatypes.dateTime=Datum/Uhrzeit
 
 datatypes.decimal=Decimal
+
 datatypes.float=Gleitkomma
 
 datatypes.integer=Ganzzahl
 
 datatypes.string=Zeichenfolge
+
 datatypes.date=Datum
+
 datatypes.time=Zeit
 
 datatypes.boolean=Boolesch
@@ -110,8 +115,13 @@ confirm.reselectFileMessage=Bei Auswahl einer anderen Datei werden vorherige Vor
 RelativeFolderSelectionDialog.Title.SelectFolder=Wählen Sie einen Ordner aus.
 
 RelativeFileSelectionDialog.button.importFile=Importdatei...
+
 RelativeFileSelectionDialog.title.error=Fehler
+
 RelativeFileSelectionDialog.title.overwrite=Überschreiben
+
 RelativeFileSelectionDialog.overwrite.msg=Eine Datei mit diesem Namen ist bereits vorhanden. Soll sie überschrieben werden?
+
 RelativeFileSelectionDialog.import.msg=Datei wird importiert...
+
 SelectFile.Title=Datei auswählen

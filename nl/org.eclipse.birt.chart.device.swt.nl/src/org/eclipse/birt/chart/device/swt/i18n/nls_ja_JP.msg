@@ -13,6 +13,7 @@ SwtTextRenderer.exception.undefined.text.color=–¢’è‹`‚ÌF‚ğg—p‚µ‚Ä‚¢‚éƒeƒLƒXƒg‚
 SwtDisplayServer.exception.display.server=SWT Display Server ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
 
 SwtDisplayServer.info.display.server=SWT Display Server: {0} v{1}
+
 SwtEventHandler.info.toggle.visibility=•\¦‚Æ”ñ•\¦‚ÌØ‚è‘Ö‚¦ : {0}
 
 SwtEventHandler.info.toggle.datapoint.visibility=ƒf[ƒ^ƒ|ƒCƒ“ƒg‚Ì•\¦‚Æ”ñ•\¦‚ğØ‚è‘Ö‚¦‚é : {0}

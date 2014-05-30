@@ -12,18 +12,23 @@
 ###########################################################
 #Excel Emitter
 OdsEmitter.Description=Configure las opciones para procesar un informe en formato de hoja de cálculo OpenDocument.
+
 OdsEmitter.DisplayName=Hoja de cálculo OpenDocument
 
 ###########################################################
 #Option Display Value
 OptionDisplayValue.WrappingText=Autoajuste de texto
+
 OptionDisplayValue.ChartDpi=Diagrama DPI
+
 OptionDisplayValue.HideGridlines=Ocultar líneas de cuadrícula
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=Indica si el texto se puede autoajustar.
+
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
+
 OptionDescription.HideGridlines=Ocultar líneas de cuadrícula.
 
 ###########################################################

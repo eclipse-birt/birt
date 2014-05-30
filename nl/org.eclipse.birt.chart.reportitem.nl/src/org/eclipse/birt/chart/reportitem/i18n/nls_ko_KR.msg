@@ -33,6 +33,7 @@ ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: 
 ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp={1}에서 {0} 임시 파일이 삭제되었습니다.
 
 ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) - end
+
 ChartWithoutAxesImpl.exception.3DNotSupported=ChartWithoutAxes에서는 3D를 지원하지 않습니다.
 
 ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) - 시작
@@ -40,9 +41,11 @@ ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl:
 ChartReportItemPresentationImpl.log.CouldNotDeleteTemp={1}에서 만들어진 {0} 임시 파일을 삭제할 수 없습니다.
 
 ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) - exception
+
 ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) - 종료
 
 ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) - start
+
 ChartReportItemQueryImpl.exception.getReportQueries=보고서 쿼리를 가져오는 중
 
 ChartReportItemQueryImpl.log.UnableToLocate=차트 개체에 대한 보고서 항목 래퍼를 찾을 수 없습니다.
@@ -104,6 +107,7 @@ Element.Chart.xmlRepresentation=XML 모델
 Element.Chart.outputFormat=출력 형식
 
 Element.Chart.action=작업
+
 Element.Chart.altText=대체 텍스트
 
 Element.Chart.altTextID=대체 텍스트 키
@@ -114,7 +118,9 @@ choice.chart.dimension.two_dimensional_with_depth=2D(깊이)
 
 choice.chart.dimension.three_dimensional=3D
 property.category.general=일반
+
 property.category.types=형식
+
 property.label.title.value=제목:
 
 property.label.title.font.rotation=제목 회전:
@@ -124,10 +130,13 @@ property.label.legend.position=범례 위치:
 property.label.legend.anchor=범례 앵커:
 
 property.label.chart.dimension=차원:
+
 property.label.chart.plot.transposed=바꿈
 
 property.script=스크립트
+
 property.onRender=onRender
+
 exception.no.cube.edge=데이터 큐브 커서에 가장자리가 없습니다. 쿼리 문이 올바른지 확인하십시오.
 
 exception.script.syntaxError=스크립트 구문 오류: {0}

@@ -12,6 +12,7 @@
 ###########################################################
 #OpenDocument Text Emitter
 OdtEmitter.Description=Optionen zum Rendern eines Berichts im OpenDocument Text-Format konfigurieren.
+
 OdtEmitter.DisplayName=OpenDocument Text
 
 ###########################################################

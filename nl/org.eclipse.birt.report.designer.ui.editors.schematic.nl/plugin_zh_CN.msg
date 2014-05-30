@@ -9,15 +9,19 @@
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
 design.layout=布局(&O)
+
 design.masterPage=主页(&M)
 
 design.script=脚本(&S)
+
 design.xmlsource=XML 源(&X)
 
 template.layout=布局(&O)
+
 template.masterPage=主页(&M)
 
 template.script=脚本(&S)
+
 template.xmlsource=XML 源(&X)
 
 pageSet.layout=布局页(&L)

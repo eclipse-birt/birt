@@ -3,6 +3,7 @@ RadarSeriesImpl.displayName=Radardatenreihe
 RadarChart.Txt.DefaultRadarChartTitle=Radardiagrammtitel
 
 RadarChart.Txt.DisplayName=Radar
+
 RadarChart.SubType.Standard=Standardradardiagramm
 
 RadarChart.SubType.Spider=Netzradardiagramm
@@ -20,6 +21,7 @@ RadarChart.Txt.SpiderDescription=Netzradardiagramme enthalten ein polygonales Ra
 RadarChart.Txt.BullseyeDescription=Punktradardiagramme enthalten ein zirkuläres, gefülltes Raster, das von einem oder mehreren Reihenpolygonen bzw. einer oder mehreren Reihenlinien überlagert wird.
 
 RadarSeriesAttributeComposite.Lbl.Radius=Radi&us:
+
 RadarSeriesAttributeComposite.Lbl.StartAngle=&Startwinkel:
 
 RadarSeriesAttributeComposite.Lbl.StopAngle=Endwink&el:
@@ -57,6 +59,7 @@ RadarSeriesMarkerSheet.Label.Web=Konfiguration der Radarlinie
 RadarSeriesMarkerSheet.Label.Series=Reihenlinienkonfiguration
 
 Radar.Composite.Label.ScaleCount.MinMaxWarning=Anzahl der Schritte muss im Bereich { 0}?{ 1 } liegen!
+
 Radar.Composite.Label.ScaleCount=A&nzahl der Schritte
 
 Radar.Composite.Label.ScaleCountToolTip=Anzahl Skalenschritte zum Erstellen im Diagramm
@@ -102,11 +105,19 @@ Radar.Composite.Label.ScaleMin=Minimalwert für Skalierung
 Radar.Composite.Label.ScaleMinToolTip=Minimalwert für Skalierung des Charts festlegen
 
 Radar.Composite.Label.PlotPercentageToolTip=Prozentsatz der Zeichnungsfläche, der für den Radar erforderlich ist
+
 ItemLabel.Visible=Sichtbar:
+
 ItemLabel.Auto=Automatisch
+
 ItemLabel.True=True
+
 ItemLabel.False=False
+
 ItemLabel.Show=Anzeigen
+
 ItemLabel.Hide=Ausblenden
+
 ItemLabel.Enable=Aktivieren
+
 ItemLabel.Disable=Deaktivieren

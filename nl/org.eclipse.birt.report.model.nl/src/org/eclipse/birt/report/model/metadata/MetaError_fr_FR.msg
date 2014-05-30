@@ -118,11 +118,15 @@ REPORT_MISSING=L'élément racine Modèle d'état n'est pas défini.
 INVALID_CHOICE_VALUE=La valeur de choix "{0}" de la propriété "{1}" est incorrecte.
 
 MISSING_SUB_TYPE=La propriété de liste "{0}" n''a aucun sous-type.
+
 UNSUPPORTED_SUB_TYPE=Le sous-type "{1}" de la propriété de liste "{0}" n''est pas pris en charge.
+
 SUB_TYPE_FORBIDDEN=La propriété "{0}" n''est pas une propriété de liste ; le sous-type doit donc être nul.
+
 MISSING_XML_NAME=L''élément concret "{0}" ne définit pas le nom xml.
 
 DUPLICATE_XML_NAME=Le nom xml "{0}" de l'élément "{1}" est en conflit avec les noms existants.
+
 INVALID_ELEMENT_TYPE=Le type d''élément "{0}" est incorrect.
 
 INVALID_CHOICE_PROPERTY=Propriété de choix "{0}" dans l'extension "{1}" incorrecte car elle définit à la fois le type de détails et sa propre liste de choix.
@@ -132,4 +136,5 @@ EXTENDED_ITEM_MISSING=Elément étendu manquant dans le dictionnaire de métadonnée
 DEFAULT_ENCRYPTION_EXIST=Le chiffrement "{0}" ne peut pas être défini comme chiffrement par défaut, car le chiffrement par défaut "{1}" existe déjà.
 
 DEFAULT_EMPTY_STYLE_NAME=Le style par défaut pour l'élément d'extension	"{0}" ne doit pas être vierge.
+
 EMPTY_DELTA_ROM_STREAM=L'entrée delta-rom renvoyée par la classe "{1}" depuis l'élément d'extension "{0}" ne doit pas être vide.

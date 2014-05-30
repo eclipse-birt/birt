@@ -40,6 +40,7 @@ Element.CrosstabView=交叉表视图
 
 Element.Cube=Cube
 Element.Dimension=维
+
 Element.Level=级别
 
 Element.Measure=度量
@@ -71,7 +72,9 @@ Element.SpanOverOnColumn=跨列
 Element.SpanOverOnRow=跨行
 
 Element.Direction.Horizontal=水平
+
 Element.Direction.Vertical=垂直
+
 Element.choice.before=之前
 
 Element.choice.after=之后
@@ -229,6 +232,7 @@ CrosstabReportItemTask.msg.pivot.dimension=透视维
 CrosstabReportItemTask.msg.insert.dimension=插入维
 
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=设置镜像起始级别
+
 CrosstabReportItemTask.msg.pivot.crosstab=透视交叉表
 
 CrosstabReportItemHandle.Error.HasNoCube=交叉表必须能够访问一个多维。

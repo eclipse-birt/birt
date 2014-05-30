@@ -20,6 +20,7 @@ sqbWizPage_dataSourceDesignError=Erreur de conception de la source de données
 sqbWizPage_dbErrorMsg=Message d'erreur de la base de données :
 
 sqbWizPage_defaultMessage=Créer une requête de sélection SQL.
+
 sqbWizPage_detectExternalSqlTextChangedMsg=Le texte de la requête SQL a été modifié en externe dans la conception du jeu de données. Voulez-vous remplacer le contenu du générateur de requête SQL par ces modifications ?
 
 sqbWizPage_detectSqlTextChangedTitle=Le texte de la requête SQL a été modifié

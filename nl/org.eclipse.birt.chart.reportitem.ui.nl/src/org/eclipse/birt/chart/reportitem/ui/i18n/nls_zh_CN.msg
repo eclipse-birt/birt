@@ -5,6 +5,7 @@ ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=选择数据绑定:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=数据 - 选择数据集
 
 ChartPageGenerator.List.General=常规
+
 ChartPageGenerator.List.AltText=替代文本
 
 ChartDataBindingPage.Lbl.Parameter=参数
@@ -26,6 +27,7 @@ ChartDataBindingPage.Lbl.SaveDataSet=更改数据集
 ChartDataBindingPage.Msg.AskSaveDataSet=是否要更改绑定数据集?
 
 DesignerRepresentation.error.Error=错误:
+
 DesignerRepresentation.log.UnableToFind=设计器中执行呈现操作时无法找到图表模型
 
 DesignerRepresentation.msg.InvalidChart=当前图表无效。如果要继续使用此图表，请先删除它。
@@ -49,6 +51,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=条形图标题
 ChartReportItemViewProvider.ChartViewName=图表
 
 ChartExpressionProvider.Category.ChartVariables=变量
+
 ChartExpressionProvider.ChartVariables.DataPoints=图表数据点
 
 ChartExpressionProvider.ChartVariables.LegendItems=图表图例
@@ -81,6 +84,7 @@ ReportDataServiceProvider.Label.DataModel=(数据模型)
 ReportDataServiceProvider.Option.None=<无>
 
 ReportDataServiceProvider.Option.Inherits=<容器的 {0}>
+
 ReportDataServiceProvider.Tooltip.Aggregate=聚合:
 
 ReportDataServiceProvider.Tooltip.GroupExpression=组表达式:
@@ -138,6 +142,7 @@ StandardChartDataSheet.Label.CubeTree=多维数据集: 组和摘要
 StandardChartDataSheet.Label.Overlay=覆盖
 
 StandardChartDataSheet.Label.Series=系列
+
 StandardChartDataSheet.Label.ShareCrossTab=在值 (Y) 系列下，单击箭头按钮并从列表中选择一个度量
 
 StandardChartDataSheet.Label.ShowDataPreview=显示数据预览(&S)

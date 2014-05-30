@@ -40,6 +40,7 @@ Element.CrosstabView=크로스 탭 보기
 
 Element.Cube=Cube
 Element.Dimension=차원
+
 Element.Level=수준
 
 Element.Measure=측정
@@ -71,7 +72,9 @@ Element.SpanOverOnColumn=열에서 길이 재기
 Element.SpanOverOnRow=행에서 길이 재기
 
 Element.Direction.Horizontal=가로
+
 Element.Direction.Vertical=세로
+
 Element.choice.before=이전
 
 Element.choice.after=이후
@@ -229,6 +232,7 @@ CrosstabReportItemTask.msg.pivot.dimension=차원 피벗
 CrosstabReportItemTask.msg.insert.dimension=차원 삽입
 
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=미러된 시작 수준 설정
+
 CrosstabReportItemTask.msg.pivot.crosstab=피벗 크로스 탭
 
 CrosstabReportItemHandle.Error.HasNoCube=크로스 탭은 하나의 큐브에 액세스할 수 있어야 합니다.

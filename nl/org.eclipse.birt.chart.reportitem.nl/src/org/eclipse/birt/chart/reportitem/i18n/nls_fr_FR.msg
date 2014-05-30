@@ -33,6 +33,7 @@ ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: 
 ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp=Le fichier {0} temporaire sous {1} a été supprimé.
 
 ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) - fin
+
 ChartWithoutAxesImpl.exception.3DNotSupported=3D n'est pas pris en charge par ChartWithoutAxes.
 
 ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) - début
@@ -40,9 +41,11 @@ ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl:
 ChartReportItemPresentationImpl.log.CouldNotDeleteTemp=Impossible de supprimer le fichier {0} temporaire créé sous {1}.
 
 ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) - exception
+
 ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) - fin
 
 ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) - début
+
 ChartReportItemQueryImpl.exception.getReportQueries=Récupération des requêtes d'état
 
 ChartReportItemQueryImpl.log.UnableToLocate=Impossible de localiser le wrapper d'élément d'état pour l'objet de graphique.
@@ -104,6 +107,7 @@ Element.Chart.xmlRepresentation=Modèle XML
 Element.Chart.outputFormat=Format de sortie
 
 Element.Chart.action=Action
+
 Element.Chart.altText=Autre texte
 
 Element.Chart.altTextID=Clé d'autre texte
@@ -114,7 +118,9 @@ choice.chart.dimension.two_dimensional_with_depth=Profondeur 2D
 
 choice.chart.dimension.three_dimensional=3D
 property.category.general=Général
+
 property.category.types=Types
+
 property.label.title.value=Titre :
 
 property.label.title.font.rotation=Rotation du titre :
@@ -124,10 +130,13 @@ property.label.legend.position=Position de la légende :
 property.label.legend.anchor=Ancre de la légende :
 
 property.label.chart.dimension=Dimension :
+
 property.label.chart.plot.transposed=Transposé
 
 property.script=Script
+
 property.onRender=onRender
+
 exception.no.cube.edge=Le curseur du cube de données n'a pas de bord. Vérifiez que les expressions des requêtes sont correctes.
 
 exception.script.syntaxError=Erreur de syntaxe de script : {0}

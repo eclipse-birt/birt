@@ -118,11 +118,15 @@ REPORT_MISSING=루트 요소: 보고서 디자인이 정의되지 않았습니다.
 INVALID_CHOICE_VALUE=속성 "{1}"의 선택 값 "{0}"이(가) 잘못되었습니다.
 
 MISSING_SUB_TYPE=목록 속성 "{0}"에 하위 형식이 없습니다.
+
 UNSUPPORTED_SUB_TYPE=목록 속성 "{0}"에 들어 있는 하위 형식 "{1}"은 지원되지 않습니다.
+
 SUB_TYPE_FORBIDDEN=속성 "{0}"이(가) 목록 속성이 아니므로 하위 속성은 널(null)이어야 합니다.
+
 MISSING_XML_NAME=구체적인 요소 "{0}"은(는) xml 이름을 정의하지 않습니다.
 
 DUPLICATE_XML_NAME=요소 "{1}"의 XML 이름 "{0}"이(가) 기존 이름과 충돌합니다.
+
 INVALID_ELEMENT_TYPE=요소 형식 "{0}" 이(가) 잘못되었습니다.
 
 INVALID_CHOICE_PROPERTY=상세 정보 형식과 그 고유의 선택 목록 모두를 정의하므로 "{0}" 선택 속성("{1}" 확장명 내)이 잘못되었습니다.
@@ -132,4 +136,5 @@ EXTENDED_ITEM_MISSING=메타데이터 사전 내의 누락된 확장 항목
 DEFAULT_ENCRYPTION_EXIST=기본 암호화 "{1}"이(가) 존재하므로 암호화 "{0}"은(는) 기본값으로 설정될 수 없습니다.
 
 DEFAULT_EMPTY_STYLE_NAME=확장 요소	"{0}"의 기본 스타일은 비워둘 수 없습니다.
+
 EMPTY_DELTA_ROM_STREAM=클래스 "{1}"에서 확장 요소 "{0}"(으)로부터 반환한 델타-롬 입력 스트림은 비워둘 수 없습니다.

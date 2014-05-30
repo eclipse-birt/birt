@@ -7,7 +7,9 @@ SampleReportsView.Text.Explorer=示例报表
 SampleReportsView.Text.Preview=预览
 
 SampleReportsView.Text.Description=描述
+
 SampleReportsView.MessageDialog.Title=问题
+
 SampleReportsView.MessageDialog.Message=“{0}”已存在。要替换它吗?
 
 SampleReportsView.Action.exportSampleReport=保存

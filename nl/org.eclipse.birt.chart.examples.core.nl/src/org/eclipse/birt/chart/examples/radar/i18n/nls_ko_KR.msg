@@ -3,6 +3,7 @@ RadarSeriesImpl.displayName=방사형 계열
 RadarChart.Txt.DefaultRadarChartTitle=방사형 차트 제목
 
 RadarChart.Txt.DisplayName=방사형
+
 RadarChart.SubType.Standard=표준 방사형 차트
 
 RadarChart.SubType.Spider=스파이더 방사형 차트
@@ -20,6 +21,7 @@ RadarChart.Txt.SpiderDescription=스파이더 방사형 차트에는 하나 이상의 다각형/선 
 RadarChart.Txt.BullseyeDescription=동그라미 방사형 차트에는 하나 이상의 다각형/선 계열과 겹치는 채워진 원형 눈금이 포함됩니다.
 
 RadarSeriesAttributeComposite.Lbl.Radius=반경(&U):
+
 RadarSeriesAttributeComposite.Lbl.StartAngle=시작 각도(&G):
 
 RadarSeriesAttributeComposite.Lbl.StopAngle=중지 각도(&E):
@@ -57,6 +59,7 @@ RadarSeriesMarkerSheet.Label.Web=방사형 선 구성
 RadarSeriesMarkerSheet.Label.Series=계열 선 구성
 
 Radar.Composite.Label.ScaleCount.MinMaxWarning=단계 수는 {0} - {1} 사이여야 합니다.
+
 Radar.Composite.Label.ScaleCount=단계 수(&N)
 
 Radar.Composite.Label.ScaleCountToolTip=차트에서 만들 숫자 배율 단계
@@ -102,11 +105,19 @@ Radar.Composite.Label.ScaleMin=최소 배율
 Radar.Composite.Label.ScaleMinToolTip=차트 최소 배율을 설정합니다.
 
 Radar.Composite.Label.PlotPercentageToolTip=방사형에서 사용할 플롯 영역의 백분율
+
 ItemLabel.Visible=표시:
+
 ItemLabel.Auto=자동
+
 ItemLabel.True=참
+
 ItemLabel.False=거짓
+
 ItemLabel.Show=표시
+
 ItemLabel.Hide=숨기기
+
 ItemLabel.Enable=사용
+
 ItemLabel.Disable=사용 안 함

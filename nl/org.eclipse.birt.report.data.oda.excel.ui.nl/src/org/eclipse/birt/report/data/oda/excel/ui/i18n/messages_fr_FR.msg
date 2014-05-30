@@ -41,18 +41,23 @@ button.selectFileURI.menuItem.relativePath=Chemin d'accès &relatif
 button.selectFileURI.menuItem.absolutePath=Chemin d'accès &absolu
 
 editor.title.name=Nom
+
 editor.title.originalName=Nom d'origine
 
 editor.title.type=Type
+
 datatypes.dateTime=Date Heure
 
 datatypes.decimal=Décimal
+
 datatypes.float=Flottant
 
 datatypes.integer=Entier
 
 datatypes.string=Chaîne
+
 datatypes.date=Date
+
 datatypes.time=Heure
 
 datatypes.boolean=Booléen
@@ -110,8 +115,13 @@ confirm.reselectFileMessage=La sélection d'une autre feuille ne permettra pas l'
 RelativeFolderSelectionDialog.Title.SelectFolder=Sélectionner un dossier
 
 RelativeFileSelectionDialog.button.importFile=Fichier d'importation...
+
 RelativeFileSelectionDialog.title.error=Erreur
+
 RelativeFileSelectionDialog.title.overwrite=Ecraser
+
 RelativeFileSelectionDialog.overwrite.msg=Un fichier portant ce nom existe déjà. Voulez-vous l'écraser ?
+
 RelativeFileSelectionDialog.import.msg=Importation du fichier...
+
 SelectFile.Title=Sélectionnez un fichier

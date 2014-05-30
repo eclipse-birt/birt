@@ -31,12 +31,15 @@ report.bidi.properties.externalbidiformat.textdirection.tooltip = Wert für Textr
 report.bidi.properties.externalbidiformat.symswap.tooltip = Wert für symmetrische Spiegelung wählen
 
 report.bidi.properties.externalbidiformat.symswap.true=True
+
 report.bidi.properties.externalbidiformat.symswap.false=False
+
 report.bidi.properties.externalbidiformat.shaping.tooltip = Wert für Textform wählen
 
 report.bidi.properties.externalbidiformat.numshaping.tooltip = Numerische Form wählen
 
 report.bidi.properties.externalbidiformat.orderingscheme.visual =Visuell
+
 report.bidi.properties.externalbidiformat.orderingscheme.logical =Logisch
 
 report.bidi.properties.externalbidiformat.textdirection.ltr=Von links nach rechts
@@ -48,10 +51,15 @@ report.bidi.properties.externalbidiformat.textdirection.contextltr=Kontextuell l
 report.bidi.properties.externalbidiformat.textdirection.contextrtl=Kontextuell rechts nach links
 
 report.bidi.properties.externalbidiformat.shaping.shaped=Geformt
+
 report.bidi.properties.externalbidiformat.shaping.nominal=Nominell
+
 report.bidi.properties.externalbidiformat.numshaping.national=National
+
 report.bidi.properties.externalbidiformat.numshaping.nominal=Nominell
+
 report.bidi.properties.externalbidiformat.numshaping.contextual=Kontextuell
+
 report.bidi.properties.externalbidiformat = Externes bidirektionales Format
 
 report.bidi.properties.nonbididirection = Von links nach rechts

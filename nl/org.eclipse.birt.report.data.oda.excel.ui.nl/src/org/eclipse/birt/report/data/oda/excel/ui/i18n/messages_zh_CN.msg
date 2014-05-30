@@ -41,18 +41,23 @@ button.selectFileURI.menuItem.relativePath=相对路径(&R)
 button.selectFileURI.menuItem.absolutePath=绝对路径(&A)
 
 editor.title.name=名称
+
 editor.title.originalName=原始名称
 
 editor.title.type=类型
+
 datatypes.dateTime=日期时间
 
 datatypes.decimal=小数
+
 datatypes.float=浮点
 
 datatypes.integer=整型
 
 datatypes.string=字符串
+
 datatypes.date=日期
+
 datatypes.time=时间
 
 datatypes.boolean=布尔
@@ -110,8 +115,13 @@ confirm.reselectFileMessage=选择另一文件将不保存以上操作。\n\n您确定吗？
 RelativeFolderSelectionDialog.Title.SelectFolder=选择文件夹
 
 RelativeFileSelectionDialog.button.importFile=导入文件...
+
 RelativeFileSelectionDialog.title.error=错误
+
 RelativeFileSelectionDialog.title.overwrite=覆盖
+
 RelativeFileSelectionDialog.overwrite.msg=具有此名称的文件已经存在，是否要覆盖它?
+
 RelativeFileSelectionDialog.import.msg=正在导入文件...
+
 SelectFile.Title=选择文件

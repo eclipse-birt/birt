@@ -12,7 +12,8 @@
 ###########################################################
 #Word Emitter
 WordEmitter.Description=XML 문서 2003 형식의 보고서 렌더링 옵션을 구성합니다.
-WordEmitter.DisplayName=Word(DOC)
+
+WordEmitter.DisplayName=Word (DOC)
 
 ###########################################################
 #Option Display Value

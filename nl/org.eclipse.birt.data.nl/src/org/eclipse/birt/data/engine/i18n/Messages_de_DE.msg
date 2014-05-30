@@ -34,11 +34,13 @@ data.engine.UnsupportedSortOnClobAndBLOB=Sortierung nach CLOB- oder BLOB-Daten "
 data.engine.EndOfGroupOnly=Dieser Aggregatausdruck ist nur am Ende einer Gruppe verfügbar.
 
 data.engine.InvalidAggregation=Die Aggregatdefinition ist ungültig:{0}.
+
 data.engine.InvalidAggrGroup=Ungültige Gruppierungsebene für Aggregatfunktion: {0}.
 
 data.engine.WrongNumAggrArgs=Falsche Anzahl von Argumenten für Aggregatfunktion: {0}.
 
 data.engine.AggrParamGroupLevelInconsistent=In verschachtelten Aggregaten '{0}' müssen alle nicht konstanten Ausdrücke derselben Gruppenebene angehören.
+
 data.engine.DupPropertyName=Doppelter Eigenschaftsname gefunden: {0}.
 
 data.engine.NoSubQueryName=Teilabfrage mit Namen konnte nicht gefunden werden: {0}.
@@ -304,6 +306,7 @@ data.engine.incorrectGroupKeyValues=Das angegebene Werte-Array der Gruppenschlüs
 data.engine.NoExpressionProcessorAvailable=Kein Ausdruck-Prozessor verfügbar.
 
 data.engine.InconvertibleDatatype=Der ursprüngliche Datentyp von Wert {0} lautet {1} und kann nicht in den zugewiesenen Datentyp {2} konvertiert werden.
+
 data.engine.ConvertToDataTypeError={0} kann nicht in {1} umgewandelt werden.
 
 data.engine.NoRowUpdate=Die Datenzeile kann momentan nicht aktualisiert werden.
@@ -379,6 +382,7 @@ data.engine.acl.cubeDimensionCannotBeAccessed=Benutzer hat keine Berechtigung fü
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
 
 odaconsumer.ColumnPositionIsOneBased=Spaltenposition basiert auf 1 und darf nicht kleiner als 1 sein.
+
 odaconsumer.ColumnAliasCannotBeEmpty=Bei dem Spaltenalias darf es sich nicht um eine leere Zeichenfolge handeln.
 
 odaconsumer.CannotProcessDriverConfig=Konfiguration der Datenquellenerweiterung von {0}-Treiber kann nicht gefunden oder verarbeitet werden.
@@ -754,6 +758,7 @@ data.executor.configFileParser.getQueryTextByID=Der Abfragetext konnte anhand de
 data.executor.configFileParser.getParametersByID=Der Parameter konnte anhand des angegebenen Datensatznamens nicht aus der Konfigurationsdatei abgerufen werden.
 
 data.aggregation.expression.displayName=Ausdruck
+
 data.aggregation.argumentError=Der Ausdruck des Arguments \"{0}\" für Aggregat \"{1}\" ist Null oder leer.
 
 data.olap.InvalidAggrTypeOnMeasure=Ungültiger Typ für Aggregat in Quadereinheit: '{0}'.
@@ -785,4 +790,5 @@ data.datamart.collation=Beim Vorgängerprodukt wird Kollation beim Datenobjektind
 data.filter.pushDownFail= Fehler beim Push Down für Filter, der nur von der ODA-Erweiterung unterstützt wird.
 
 data.query.exprReferInvalidColumn=Abfrage kann nicht ausgeführt werden. Grund: Die Abfrage enthält einen ungültigen Ausdruck, der sich auf eine ungültige Datensatzspalte "{0}" bezieht.
+
 data.query.invalidColumnBinding=Die Spaltenbindung '{0}' ist ungültig.

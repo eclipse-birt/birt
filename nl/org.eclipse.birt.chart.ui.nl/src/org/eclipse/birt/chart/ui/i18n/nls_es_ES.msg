@@ -3,6 +3,7 @@ DimensionType.2DWithDepth=2D con profundidad
 
 DimensionType.3D=3D
 Shared.Lbl.OK=\ \ \ Aceptar
+
 Shared.Lbl.Cancel=Cancelar
 
 ButtonPanel.Lbl.SelectChartType=<< Seleccionar tipo de diagrama
@@ -22,6 +23,7 @@ ChartDlg.Msg.ValidationErrors=Se han encontrado errores al verificar la definici
 ChartDlg.Msg.AskCorrectLater=\n¿Desea cerrar el compilador de diagramas\ny solucionar los problemas más tarde?
 
 ChartDlg.Info.ChartDimension=Dimensión:
+
 ChartDlg.Info.AxisOrientation=\tOrientación:
 
 ChartSelector.Lbl.ChartTypes2=Tipos de diagrama
@@ -57,7 +59,9 @@ ChartDlg.Title.ChartBuilder=Cuadro de diálogo de diagrama
 DefaultChartTypeImpl.Label.ValueDefinitionName=Serie (&Y) del valor:
 
 DefaultUIServiceProviderImpl.Warn.Placeholder=DefaultUIServiceProviderImpl : Se trata de una clase de marcador de posición y no realiza ninguna acción.
+
 SheetPlaceHolder.Lbl.Placeholder=Es un marcador de posición para {0}
+
 ChartDlg.Info.ChartStart=--------------------------- Inicio de propiedades de diagrama -------------------------
 
 ChartDlg.Info.ChartType=Tipo:
@@ -101,6 +105,7 @@ ChartDlg.Info.ChartType2=Tipo:
 ChartSelector.Lbl.Accept=Aceptar
 
 ChartWizard.Title.ChartBuilder=Compilador de diagramas
+
 ChartWizard.Title.NewChart=Nuevo diagrama
 
 ChartWizard.Title.EditChart=Editar diagrama
@@ -110,12 +115,15 @@ ChartUIUtil.SeriesLabel=Serie {0}
 ChartUIUtil.StockExp.Low=Baja
 
 ChartUIUtil.Font.Auto=Automático
+
 ChartDlg.Info.ChartSubType2=Subtipo:
 
 ChartSelector.Lbl.Dimension=&Dimensión:
+
 ChartSelector.Lbl.EditChart=Editar diagrama >>
 
 ChartDlg.Info.Dimension=Dimensión:
+
 ChartDlg.Info.SeriesCount2=Nº de series:
 
 ChartDlg.Info.SeriesStart2=--------------------------- Información de series ----------------------------

@@ -258,7 +258,9 @@ info.datapoint.to.string={0}:{1}
 info.stdenv.creating.dsp=(スタンドアローン環境) DSP {0} の作成中
 
 constant.undefined.string=<指定されていません>
+
 constant.null.string=null
+
 error.invalid.enumerator=値 ''{0}'' は ''{1}'' の有効な列挙値ではありません。
 
 error.invalid.classifier=データ型 ''{0}'' は有効な分類子ではありません。
@@ -306,11 +308,16 @@ error.eclenv.cannot.find.display=(ECLIPSE 環境) {0} の Display Server の実装が見
 error.stdenv.cannot.find.display=(スタンドアローン環境) {0} の Display Server の実装が見つかりません。
 
 info.log.script=[スクリプト]: {0}
+
 info.render.series={0}: renderSeries() [{1}/{2}]
 info.log.info=[情報]: {0}
+
 info.log.warn=[警告]: {0}
+
 info.log.err=[エラー]: {0}
+
 info.log.fatal=[重大]: {0}
+
 prefix.marker.range.caption=[
 separator.marker.range.caption=\ ～
 
@@ -374,18 +381,22 @@ GanttSeriesImpl.displayName=ガントの系列
 DifferenceSeriesImpl.displayName=差分の系列
 
 AxisType.Linear.displayName=線形
+
 AxisType.Logarithmic.displayName=対数
 
 AxisType.Text.displayName=テキスト
-AxisType.DateTime.displayName=DateTime
 
+AxisType.DateTime.displayName=DateTime
 IntersectionType.Min.displayName=Min
+
 IntersectionType.Max.displayName=Max
+
 IntersectionType.Value.displayName=値
 
 ScaleUnitType.Seconds.displayName=秒
 
 ScaleUnitType.Minutes.displayName=分
+
 ScaleUnitType.Hours.displayName=時間
 
 ScaleUnitType.Days.displayName=日
@@ -433,6 +444,7 @@ TriggerCondition.onkeyup.displayName=キーを放す
 TriggerCondition.onload.displayName=読み込み
 
 ActionType.URLRedirect.displayName=ハイパーリンク
+
 ActionType.ShowTooltip.displayName=ツールチップを表示する
 
 ActionType.ToggleVisibility.displayName=表示と非表示を切り替える
@@ -470,6 +482,7 @@ LeaderLineStyle.StretchToSide.displayName=対象に合わせて伸縮
 MarkerType.Crosshair.displayName=十字線
 
 MarkerType.Triangle.displayName=三角形
+
 MarkerType.Box.displayName=ボックス
 
 MarkerType.Circle.displayName=円形
@@ -477,16 +490,19 @@ MarkerType.Circle.displayName=円形
 MarkerType.Icon.displayName=アイコン
 
 MarkerType.Nabla.displayName=ナブラ
+
 MarkerType.Diamond.displayName=菱形
 
 MarkerType.FourDiamonds.displayName=菱形 (4 つ)
 
 MarkerType.Ellipse.displayName=楕円
+
 MarkerType.SemiCircle.displayName=半円
 
 MarkerType.Hexagon.displayName=六角形
 
 MarkerType.Rectangle.displayName=四角形
+
 MarkerType.Star.displayName=星形
 
 MarkerType.Column.displayName=列
@@ -494,7 +510,9 @@ MarkerType.Column.displayName=列
 MarkerType.Cross.displayName=交差
 
 RiserType.Rectangle.displayName=四角形
+
 RiserType.Triangle.displayName=三角形
+
 RiserType.Tube.displayName=円筒
 
 RiserType.Cone.displayName=円錐
@@ -532,12 +550,17 @@ AutoScale.Exception.IsInfiite=\ は無限です。
 AutoScale.Exception.IsNaN=\ は NaN (非数値) です。
 
 AutoScale.ValueName.StepSize=ステップのサイズ
+
 Stretch.Horizontal.displayName=横
+
 Stretch.Vertical.displayName=縦
+
 Stretch.Both.displayName=両方
 
 Orientation.Horizontal.displayName=横
+
 Orientation.Vertical.displayName=縦
+
 Direction.LeftRight.displayName=左右
 
 Direction.TopBottom.displayName=上下
@@ -559,7 +582,9 @@ Position.Inside.displayName=内側
 Position.Outside.displayName=外側
 
 UnitsOfMeasurement.Pixels.displayName=ピクセル
+
 UnitsOfMeasurement.Points.displayName=ポイント
+
 UnitsOfMeasurement.Inches.displayName=インチ
 
 UnitsOfMeasurement.Centimeters.displayName=センチメートル
@@ -568,9 +593,11 @@ DataType.Numeric.displayName=数値
 
 DataType.DateTime.displayName=DateTime
 DataType.Text.displayName=テキスト
+
 GroupingUnitType.Seconds.displayName=秒
 
 GroupingUnitType.Minutes.displayName=分
+
 GroupingUnitType.Hours.displayName=時間
 
 GroupingUnitType.Days.displayName=日
@@ -584,9 +611,11 @@ GroupingUnitType.Years.displayName=年
 GroupingUnitType.Quarters.displayName=四半期
 
 GroupingUnitType.String.displayName=文字列
+
 GroupingUnitType.StringPrefix.displayName=頭文字
 
 DateFormatType.Long.displayName=Long 型
+
 DateFormatType.Short.displayName=Short 型
 
 DateFormatType.Medium.displayName=Medium 型
@@ -594,16 +623,19 @@ DateFormatType.Medium.displayName=Medium 型
 DateFormatType.Full.displayName=Full 型
 
 DateFormatDetail.Date.displayName=日付
+
 DateFormatDetail.DateTime.displayName=日時
 
 DefaultValueProvider_BaseSeries=基本系列
 
 DefaultValueProvider_ChartSubType.Standard=標準
+
 DefaultValueProvider_ChartSubType.StandardMeterChart=標準メーターグラフ
 
 DefaultValueProvider_ChartTitle=グラフのタイトル
 
 DefaultValueProvider_ChartUnits.Points=ポイント
+
 LegendBehaviorType.None.displayName=なし
 
 LegendBehaviorType.ToggleSerieVisibility.displayName=系列の表示と非表示を切り替える
@@ -612,14 +644,17 @@ LegendBehaviorType.HighlightSerie.displayName=系列を強調表示する
 
 # Defines cursor display names.
 Cursor.Auto.displayName=自動
+
 Cursor.Crosshair.displayName=十字線
 
 Cursor.Default.displayName=デフォルト
 
 Cursor.Pointer.displayName=手動
+
 Cursor.Move.displayName=移動
 
 Cursor.Text.displayName=テキスト
+
 Cursor.Wait.displayName=待ち状態
 
 Cursor.EResize.displayName=東

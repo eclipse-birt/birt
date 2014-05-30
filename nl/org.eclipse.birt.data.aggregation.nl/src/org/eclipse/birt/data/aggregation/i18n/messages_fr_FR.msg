@@ -8,41 +8,53 @@
 
 #Aggregation function UI information
 Constants.Expression=&Expression
+
 TotalAve.description=fonction Total.AVE()
 
 TotalAve.displayName=MOYENNE
+
 TotalCount.description=fonction Total.COUNT()
 
 TotalCount.displayName=NOMBRE
+
 TotalCountDistinct.description=fonction Total.COUNTDISTINCT()
 
 TotalCountDistinct.displayName=NOMBRE DISTINCT
+
 TotalFirst.description=fonction Total.FIRST()
 
 TotalFirst.displayName=PREMIER
+
 TotalIrr.description=fonction Total.IRR()
 
 TotalIrr.displayName=IRR
+
 TotalIrr.param.intrate=Taux de rentabilité &interne
+
 TotalLast.description=fonction Total.LAST()
 
 TotalLast.displayName=DERNIER
+
 TotalMax.description=fonction Total.MAX()
 
 TotalMax.displayName=MAX
+
 TotalMax.exception.cannot_get_max_value=impossible d'obtenir la valeur max\!
 
 TotalMedian.description=fonction Total.median()
 
 TotalMedian.displayName=MEDIANE
+
 TotalMin.description=fonction Total.MIN()
 
 TotalMin.displayName=MIN
+
 TotalMin.exception.cannot_get_max_value=impossible d'obtenir la valeur max\!
 
 TotalMirr.description=fonction Total.MIRR()
 
 TotalMirr.displayName=MIRR
+
 TotalMirr.param.finance_rate=Taux de &financement
 
 TotalMirr.param.reinvestment_rate=Taux de réi&nvestissement
@@ -50,72 +62,99 @@ TotalMirr.param.reinvestment_rate=Taux de réi&nvestissement
 TotalMode.description=fonction Total.mode()
 
 TotalMode.displayName=MODE
+
 TotalMovingAve.description=fonction Total.MOVINGAVE()
 
 TotalMovingAve.displayName=MOVINGAVE
+
 TotalMovingAve.param.window=&Fenêtre
 
 TotalNpv.description=fonction Total.NPV()
 
 TotalNpv.displayName=NPV
+
 TotalNpv.param.rate=&Taux
+
 TotalRunningCount.description=fonction Total.RUNNINGCOUNT()
 
 TotalRunningCount.displayName=RUNNINGCOUNT
+
 TotalRunningNpv.description=fonction Total.RUNNINGNPV()
 
 TotalRunningNpv.displayName=RUNNINGNPV
+
 TotalRunningNpv.param.rate=&Taux
+
 TotalRunningSum.description=fonction Total.RUNNINGSUM()
 
 TotalRunningSum.displayName=CUMUL
+
 TotalStdDev.description=fonction Total.STDDEV()
 
 TotalStdDev.displayName=STDDEV
+
 TotalSum.description=fonction Total.sum()
 
 TotalSum.displayName=SOMME
+
 TotalVariance.description=fonction Total.variance()
 
 TotalVariance.displayName=VARIANCE
+
 TotalWeightedAve.description=fonction Total.WEIGHTEDAVE()
 
 TotalWeightedAve.displayName=MOYENNE PONDEREE
+
 TotalWeightedAve.param.weight=&Epaisseur
+
 BaseTopBottomAggregation.param.n=&N
+
 TotalIsBottomN.description=fonction Total.IsBottomN()
 
 TotalIsBottomN.displayName=IS-BOTTOM-N
+
 TotalIsBottomNPercent.description=fonction Total.IsBottomNPcent()
 
 TotalIsBottomNPercent.displayName=IS-BOTTOM-N-PERCENT
+
 TotalIsTopN.description=fonction Total.isTopN()
 
 TotalIsTopN.displayName=IS-TOP-N
+
 TotalIsTopNPercent.description=fonction Total.isTopNPercent
 
 TotalIsTopNPercent.displayName=IS-TOP-N-PERCENT
+
 TotalPercentile.description=fonction Total.PERCENTILE()
 
 TotalPercentile.displayName=CENTILE
+
 TotalPercentile.param.percentage=Pour&centage
+
 TotalPercentRank.description=fonction Total.PERCENTRANK()
 
 TotalPercentRank.displayName=PERCENTRANK
+
 TotalPercentSum.description=fonction Total.PERCENTSUM()
 
 TotalPercentSum.displayName=PERCENTSUM
+
 TotalQuartile.description=fonction Total.QUARTILE()
 
 TotalQuartile.displayName=QUARTILE
+
 TotalQuartile.param.quart=&Quartile
+
 TotalRank.description=fonction Total.RANK()
 
 TotalRank.displayName=RANG
+
 TotalRank.param.ascending=Croiss&ant
 
 TotalConcatenate.description=fonction Total.CONCATENATE()
+
 TotalConcatenate.displayName=CONCATENATE
+
 TotalConcatenate.param.separator=Séparat&eur
 
 TotalConcatenate.param.maxLength=Longueur ma&ximale

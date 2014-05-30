@@ -1,4 +1,5 @@
 Shared.Lbl.OK=\ \ \ OK
+
 Shared.Lbl.Cancel=ƒLƒƒƒ“ƒZƒ‹
 
 Shared.Lbl.Triggers=ƒgƒŠƒK
@@ -6,12 +7,15 @@ Shared.Lbl.Triggers=ƒgƒŠƒK
 Shared.Tooltip.FormatSpecifier=‘®İ’èƒTƒuƒGƒfƒBƒ^‚Ì‹N“®
 
 Shared.mne.Visibile_v=‰Â‹(&V)
+
 Shared.mne.Visibile_s=‰Â‹(&S)
+
 Shared.mne.Background_K=”wŒi (&K):
 
 ChartWithAxesImpl.Z_Axis.title=Z ²‚Ìƒ^ƒCƒgƒ‹
 
 ChartSheetImpl.Buttom.Auto=©“®(&U)
+
 ChartSheetImpl.Button.AutoHide=ƒf[ƒ^‚ª‚È‚¢ƒOƒ‰ƒt‚ğ”ñ•\¦‚É‚·‚é(&D)
 
 ChartSheetImpl.Button.EnableStudyLayout=•â•ƒŒƒCƒAƒEƒg‚ğ—LŒø‚É‚·‚é
@@ -25,10 +29,13 @@ ChartSheetImpl.Group.EmptyMessage&=‰Â‹«(&V)
 ChartSheetImpl.Label.Outline=ŠO˜g :
 
 ChartLegendImpl.Group.Rotation=‰ñ“]
+
 ChartPlotSheetImpl.Label.Outline=ŠO˜g :
 
 ChartPlotSheetImpl.Label.Visible=‰Â‹(&V)
+
 ChartPlotSheetImpl.Label.Visible2=‰Â‹(&I)
+
 ChartPlotSheetImpl.Label.PlotArea=ƒvƒƒbƒg‚Ì—Ìˆæ
 
 ChartPlotSheetImpl.Label.AreaFormat=—Ìˆæ‚Ì‘®İ’è
@@ -44,6 +51,7 @@ ChartTitleSheetImpl.Titel.Tooltip=ƒ^ƒCƒgƒ‹‚Ìƒc[ƒ‹ƒ`ƒbƒv
 ChartTitleSheetImpl.Label.Tooltip=ƒc[ƒ‹ƒ`ƒbƒv :
 
 ScriptSheetImpl.Lbl.Script=ƒXƒNƒŠƒvƒg:
+
 ScriptSheetImpl.Lbl.Update=XV
 
 ScriptSheetImpl.Title.SheetTitle=ƒXƒNƒŠƒvƒg - ƒOƒ‰ƒt‚ÌƒXƒNƒŠƒvƒg‚Ìİ’è‚Æ•ÒW
@@ -93,6 +101,7 @@ AbstractScaleSheet.AutoExpand=©“®’²ß(&U)
 AbstractScaleSheet.Label.Step=ƒXƒeƒbƒvƒOƒ‰ƒt
 
 AbstractScaleSheet.Label.Auto=©“®(&A)
+
 AbstractScaleSheet.Label.Factor=ƒtƒ@ƒNƒ^ (’l/ƒ|ƒCƒ“ƒg)(&F) :
 
 BaseAxisDataSheetImpl.Lbl.Minimum=Å¬ (&M):
@@ -195,6 +204,7 @@ BaseSeriesDataSheetImpl.Lbl.DataSorting=ƒf[ƒ^‚Ìƒ\[ƒg(&S) :
 BaseSeriesDataSheetImpl.Lbl.YSeriesCount=Y Œn—ñ‚Ì” :
 
 BaseSeriesAttributeSheetImpl.Lbl.Palette=ƒpƒŒƒbƒg
+
 BaseAxisDataSheetImpl.Exception.IllegalArgument=²‚Ì‘®«ƒV[ƒg‚Ìˆø”‚ª–³Œø‚Å‚·BƒOƒ‰ƒt‚ÍAChartWithAxes Œ^‚Éw’è‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
 
 BaseSeriesAttributeSheetImpl.Lbl.SeriesType=Œn—ñ :
@@ -289,12 +299,17 @@ OrthogonalAxisMarkerAttributeSheetImpl.Lbl.EndValue=I—¹’l :
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.ForAxis=\ - {0} ²
 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry=ƒGƒ“ƒgƒŠ‚Ìíœ
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.StartValue=ŠJn’l:
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RangeOutline=”ÍˆÍ‚ÌŠO˜g
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLine=MarkerLine {0,number,integer} {1}
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerRange=MarkerRange 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Fill=“h‚è‚Â‚Ô‚µ:
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerProperties=ƒ}[ƒJ‚ÌƒvƒƒpƒeƒB
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLineAttributes=ƒ}[ƒJü‚Ì‘®«
 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=ƒ}[ƒJƒ‰ƒxƒ‹‚ÌƒvƒƒpƒeƒB
@@ -306,15 +321,19 @@ OrthogonalSeriesAttributeSheetImpl.Lbl.Remove=íœ(&R)
 OrthogonalSeriesAttributeSheetImpl.Lbl.Add=’Ç‰Á(&A)
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Up=ã‚Ö(&U)
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.Down=‰º‚Ö(&D)
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix=Ú“ª« (&F):
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix=Ú”ö«(&X):
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesType=Œn—ñ :
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.HideSeries=Œn—ñ‚Ì”ñ•\¦
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Palette=ƒpƒŒƒbƒg
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.DataPoint=ƒf[ƒ^ƒ|ƒCƒ“ƒg
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Separator=‹æØ‚è•¶š(&E) :
@@ -322,6 +341,7 @@ OrthogonalSeriesAttributeSheetImpl.Lbl.Separator=‹æØ‚è•¶š(&E) :
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDetails=Œn—ñ‚ÌÚ×
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPoint=Œn—ñ‚Ìƒf[ƒ^ƒ|ƒCƒ“ƒg
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPointComponent=Œn—ñ‚Ìƒf[ƒ^ƒ|ƒCƒ“ƒgƒRƒ“ƒ|[ƒlƒ“ƒg - {0}
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.StackSeriesElements=Ï‚İã‚°Œn—ñ‚Ì—v‘f
@@ -379,6 +399,7 @@ AreaSeriesUIProvider.Lbl.SeriesDefinition=Œn—ñ‚Ì’è‹`
 MeterChart.Txt.DefaultMeterChartTitle=ƒ[ƒ^[ƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
 
 MeterChart.Txt.DisplayName=ƒ[ƒ^[
+
 MeterChart.SubType.Standard=•W€ƒ[ƒ^[ƒOƒ‰ƒt
 
 MeterChart.SubType.Superimposed=d‚Ë‡‚í‚¹ƒ[ƒ^[ƒOƒ‰ƒt
@@ -392,6 +413,7 @@ MeterChart.Txt.Description=•W€ƒ[ƒ^[ƒOƒ‰ƒt‚É‚ÍA1‚Â‚Ìƒ_ƒCƒ„ƒ‹‚ªŠÜ‚Ü‚ê‚Ü‚·B\n
 MeterChart.Txt.SuperimposedDescription=d‚Ë‡‚í‚¹ƒ[ƒ^[ƒOƒ‰ƒt‚É‚ÍA“¯‚¶—Ìˆæ‚ğ‚Â•¡”‚Ìƒ_ƒCƒ„ƒ‹‚ªŠÜ‚Ü‚ê‚Ü‚·B\nŠeƒ_ƒCƒ„ƒ‹‚Íd‚È‚è‡‚¢A1‚Â‚Ì—Ìˆæ‚É•¡”‚Ìj‚ğ•\¦‚Å‚«‚Ü‚·B
 
 MeterSeriesAttributeComposite.Lbl.Radius=”¼Œa(&U):
+
 MeterSeriesAttributeComposite.Lbl.StartAngle=Šîü‚ÌŠp“x (&G):
 
 MeterSeriesAttributeComposite.Lbl.StopAngle=I’[‚ÌŠp“x (&E):
@@ -457,6 +479,7 @@ LineAttributesComposite.Lbl.Style=ƒXƒ^ƒCƒ‹ :
 LineAttributesComposite.Lbl.Width=• :
 
 LineAttributesComposite.Lbl.Color=ƒJƒ‰[:
+
 LineAttributesComposite.Lbl.IsVisible=‰Â‹
 
 LineSeriesUIProvider.Lbl.SeriesDefinition=Œn—ñ‚Ì’è‹`
@@ -468,6 +491,7 @@ LineSeriesAttributeComposite.Lbl.Marker=ƒ}[ƒJ
 LineChart.Txt.PercentStackedDescription=Ï‚İã‚°üƒOƒ‰ƒt (Š„‡)BÏ‚İã‚°üƒOƒ‰ƒt‚Ì‚‚³‚Ì‡Œv\n(Še’PˆÊ‚ÌÅ’á“_‚©‚çÅ‚“_‚Ü‚Å) ‚Í 100 ‚É‚È‚è‚Ü‚·B
 
 LineSeriesAttributeComposite.Lbl.IsVisible=‰Â‹(&V)
+
 LineSeriesAttributeComposite.Lbl.Type=Œ^ :
 
 LineSeriesAttributeComposite.Lbl.Size=ƒTƒCƒY (&S):
@@ -633,6 +657,7 @@ PieLeftAreaComponent.Label.SliceSizeDefinition=ƒXƒ‰ƒCƒX‚ÌƒTƒCƒY :
 PieSeriesAttributeComposite.Exception.IllegalArgument={0} Œ^‚ÌŒn—ñ‚ÍAPieSeriesAttributeComposite ‚Ìˆø”‚Æ‚µ‚Ä‚Íg—p‚Å‚«‚Ü‚¹‚ñB
 
 PieSeriesAttributeComposite.InnerRadiusType.Points=ƒ|ƒCƒ“ƒg
+
 PieSeriesAttributeComposite.Lbl.Explosion=Ø‚èo‚µ :
 
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=ƒpƒC‚Ì‰ñ“] : Å‰‚ÌƒpƒCƒXƒ‰ƒCƒX‚ÌŠJnŠp“x
@@ -666,9 +691,11 @@ SeriesUIProvider.Lbl.BasePrefix=ƒJƒeƒSƒŠ
 SeriesSheetImpl.Label.Title=ƒ^ƒCƒgƒ‹
 
 SeriesSheetImpl.Label.Visible=•\¦
+
 SeriesSheetImpl.Label.Stacked=Ï‚İã‚°
 
 SeriesSheetImpl.Label.Series=Œn—ñ
+
 SeriesYSheetImpl.Label.Needles=j
 
 SeriesYSheetImpl.Label.Needles&=j(&N)
@@ -706,6 +733,7 @@ SeriesYSheetImpl.Label.Decoration=ƒ^ƒXƒN
 SeriesYSheetImpl.Label.Decoration&=ƒ^ƒXƒNƒ‰ƒxƒ‹(&T)
 
 SeriesLabelSheet.Label.Format=‘®
+
 SeriesLabelSheet.Label.Values=’l
 
 SeriesGroupingComposite.Lbl.Type=í—Ş (&T):
@@ -737,6 +765,7 @@ SeriesYSheetImpl.Label.DataPoint=ƒf[ƒ^ƒ|ƒCƒ“ƒg
 SeriesTrendlineSheet.Label.Outline=ŠO˜g
 
 SeriesTrendlineSheet.SeriesTrendlineSheet.Lbl.IsVisible=‰Â‹(&I)
+
 SeriesGroupingComposite.Lbl.Interval=ŠÔŠu (&V):
 
 SeriesYSheetImpl.Label.ShowLabels=Œn—ñƒ‰ƒxƒ‹‚ğ•\¦‚·‚é(&S)
@@ -756,6 +785,7 @@ SeriesGroupingComposite.Lbl.AggregateExpression=WŒv® (&A):
 SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping=ƒOƒ‹[ƒv‰»‚ÌŠÔŠu‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B‚±‚ÌƒtƒB[ƒ‹ƒh‚É 0 ‚ğw’è‚·‚é‚ÆAX ² (ƒJƒeƒSƒŠ’l) ‚ÉŠî‚Ã‚¢‚ÄƒOƒ‹[ƒv‰»‚³‚ê‚Ü‚·B
 
 SeriesPaletteSheet.Label.Auto=©“®(&T)
+
 SeriesPaletteSheet.Tab.Axis=²
 
 SeriesPaletteSheet.Tab.Series=Œn—ñ
@@ -837,8 +867,11 @@ LabelBlockAttributeSheetImpl.Lbl.Background=”wŒi :
 LabelBlockAttributeSheetImpl.Lbl.Insets=ƒCƒ“ƒZƒbƒg
 
 LabelAttributesComposite.Lbl.IsVisible=‰Â‹(&V)
+
 LabelAttributesComposite.Lbl.IsVisible2=‰Â‹(&E)
+
 LabelAttributesComposite.Lbl.Position=ˆÊ’u(&P):
+
 LabelAttributesComposite.Lbl.Background=”wŒi(&B) :
 
 LabelAttributesComposite.Lbl.Outline=ŠO˜g
@@ -853,6 +886,7 @@ DataDefinitionComposite.Tooltip.InvokeExpressionBuilder=ŒvZ®ƒrƒ‹ƒ_‚Ì‹N“®
 DataDefinitionSelector.Exception.NotSupportedForMultipleAxes=\ ‚ÍA•¡”²‚É‚Íg—p‚Å‚«‚Ü‚¹‚ñB\
 
 DataDefinitionComposite.Tooltip.InvokeRuleEditor=‹K‘¥ƒGƒfƒBƒ^‚Ì‹N“®
+
 RuleEditorDialog.Title.RuleEditor=‹K‘¥ƒGƒfƒBƒ^ - {0}
 
 RuleEditorDialog.Lbl.Rules=‹K‘¥
@@ -870,7 +904,9 @@ RuleEditorDialog.Lbl.Update=XV
 RuleEditorDialog.Exception.InvalidRule=ƒGƒ‰[ : –³Œø‚È‹K‘¥ƒCƒ“ƒfƒbƒNƒX‚ª“n‚³‚ê‚Ü‚µ‚½B
 
 FillCanvas.Transparent=“§–¾
+
 FillCanvas.Auto=©“®
+
 FillChooserComposite.Button.Pattern=ƒpƒ^[ƒ“
 
 FillChooserComposite.Lbl.Opacity=“§–¾“x : {0, number, integer}
@@ -878,12 +914,15 @@ FillChooserComposite.Lbl.Opacity=“§–¾“x : {0, number, integer}
 FillChooserComposite.Lbl.Gradient=ƒOƒ‰ƒf[ƒVƒ‡ƒ“
 
 FillChooserComposite.Lbl.Transparent=“§–¾
+
 FillChooserComposite.Lbl.CustomColor=ƒJƒXƒ^ƒ€ƒJƒ‰[
 
 FillChooserComposite.Lbl.Image=ƒCƒ[ƒW
+
 FillChooserComposite.Lbl.PositiveNegative=³”/•‰”
 
 FillChooserComposite.Lbl.Auto=©“®
+
 ClientAreaAttributeComposite.Lbl.Background=”wŒi :
 
 ClientAreaAttributeComposite.Lbl.Shadow=‰e(&D) :
@@ -925,12 +964,15 @@ ExternalizedTextEditorDialog.Lbl.Value=<ƒL[‚Ì’l ''{0}''>
 Format.Button.Label=‘®
 
 Format.Button.Lbl&=‘®(&M)
+
 FormatSpecifierComposite.error.Title=‘®w’èq‚ÌƒGƒ‰[
 
 FormatSpecifierComposite.error.Message=–³Œø‚È‘®w’èq‚Ìƒpƒ‰ƒƒ^’l : "{0}"
 
 FormatSpecifierComposite.Label.DenominatorDigits=•ª•ê‚ÌŒ…
+
 FormatSpecifierComposite.Label.NumeratorValue=•ªq‚Ì’l
+
 FormatSpecifierComposite.Lbl.DataType=ƒf[ƒ^Œ^ (&D):
 
 FormatSpecifierComposite.Lbl.DateTime=“ú•t / ŠÔ
@@ -940,7 +982,9 @@ FormatSpecifierComposite.Lbl.Undefined=‚È‚µ(&N)
 FormatSpecifierComposite.Lbl.Numerator=•ªq‚Ì’l(&V)(1 ` 100):
 
 FormatSpecifierComposite.Lbl.Standard=•W€(&S)
+
 FormatSpecifierComposite.Lbl.String=•¶š—ñ
+
 FormatSpecifierComposite.Lbl.Type=Œ^ (&Y):
 
 FormatSpecifierComposite.Lbl.None=<‚È‚µ>
@@ -958,6 +1002,7 @@ FormatSpecifierComposite.Lbl.Preview=ƒvƒŒƒrƒ…[ :
 FormatSpecifierComposite.Lbl.Approximate=‹ß— (&R):
 
 FormatSpecifierComposite.Lbl.Suffix=Ú”ö«(&X):
+
 FormatSpecifierComposite.Lbl.Number=”’l
 
 FormatSpecifierPreview.Lbl.NoFormat=Œ`®‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
@@ -973,6 +1018,7 @@ FormatSpecifierComposite.Tooltip.FractionDigits=ƒvƒƒpƒeƒB‚ÌÚ×İ’è : ‹ß—’l‚Ì
 FormatSpecifierComposite.Lbl.MaxRecursionTimes=•ª•ê‚ÌÅ‘åŒ…”(&O)(1 ` 8) :
 
 FormatSpecifierComposite.Lbl.Fraction=•ª”(&F)
+
 FormatSpecifierDialog.Title.EditFormat=‘®‚Ì•ÒW
 
 FormatSpecifierComposite.Lbl.Advanced=Ú×İ’è(&A)
@@ -1004,7 +1050,9 @@ GridAttributesComposite.Lbl.Style=í—Ş :
 GradientEditorDialog.Lbl.EndColor=I—¹F :
 
 GradientEditorDialog.Lbl.Rotation=‰ñ“]
+
 FontDefinitionDialog.Lbl.Rotation=‰ñ“]:
+
 FontDefinitionDialog.Tooltip.Accept=Šm”F
 
 FontDefinitionDialog.Tooltip.Bold=‘¾š
@@ -1028,9 +1076,11 @@ FontDefinitionDialog.Lbl.Font=ƒtƒHƒ“ƒg–¼ (&F):
 FontDefinitionDialog.Lbl.Size=ƒTƒCƒY (&Z):
 
 FontDefinitionDialog.Lbl.Color=ƒJƒ‰[(&C):
+
 FontDefinitionDialog.Lbl.Style=í—Ş :
 
 FontDefinitionDialog.Lbl.Format=‘®:
+
 FontDefinitionDialog.Lbl.Wrap=Ü‚è•Ô‚µ
 
 FontDefinitionDialog.Lbl.Preview=ƒvƒŒƒrƒ…[:
@@ -1052,6 +1102,7 @@ FontDefinitionDialog.Tooltip.AlignBottomCenter=”z’u - ’†‰›‰º
 FontDefinitionDialog.Tooltip.AlignBottomRight=”z’u - ‰E‰º
 
 FontDefinitionDialog.Lbl.Strikethrough=æ‚èÁ‚µü(&S)
+
 FontDefinitionComposite.Tooltip.FontDialog=ƒtƒHƒ“ƒgƒGƒfƒBƒ^‚Ì‹N“®
 
 TriggerEditorDialog.Title.TriggerEditor=ƒCƒ“ƒ^ƒ‰ƒNƒVƒ‡ƒ“ƒGƒfƒBƒ^ - {0}
@@ -1093,7 +1144,9 @@ TriggerDataComposite.Lbl.ParameterNames=ƒIƒvƒVƒ‡ƒ“‚Ìƒf[ƒ^ƒ|ƒCƒ“ƒg‚Ì URL ƒpƒ‰ƒƒ
 TriggerDataComposite.Lbl.CategorySeries=ƒJƒeƒSƒŠŒn—ñ(&C) :
 
 TriggerDataComposite.Lbl.Cursor=ƒJ[ƒ\ƒ‹(&S):
+
 TriggerDataComposite.TemporaryName.Hyperlink=ƒnƒCƒp[ƒŠƒ“ƒN
+
 TriggerDataComposite.Text.EditBaseURL=ƒx[ƒX URL ‚Ì•ÒW(&U)...
 
 TriggerDataComposite.Text.Advanced=Ú×İ’è(&A) >>
@@ -1147,6 +1200,7 @@ TriggerDataComposite.Lbl.None.onmouseup=<‚È‚µ>
 TriggerDataComposite.Lbl.Action=ƒAƒNƒVƒ‡ƒ“ (&C):
 
 TriggerDataComposite.Lbl.Script=ƒXƒNƒŠƒvƒg(&P):
+
 TriggerDataComposite.Lbl.Target=ƒ^[ƒQƒbƒg :
 
 TriggerEditorComposite.Lbl.Update=<< XV(&U)
@@ -1154,9 +1208,11 @@ TriggerEditorComposite.Lbl.Update=<< XV(&U)
 TriggerDataComposite.Lbl.TooltipText=ƒc[ƒ‹ƒ`ƒbƒv‚ÌƒeƒLƒXƒg (&X):
 
 TriggerDataComposite.Btn.Format=‘®İ’è(&F)
+
 TriggerDataComposite.Lbl.BaseURL=ƒx[ƒX URL ‚Ì•ÒW :
 
 TriggerDataComposite.Lbl.Image=ƒCƒ[ƒW(&I)
+
 GradientEditorDialog.Lbl.GradientEditor=ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒGƒfƒBƒ^
 
 GradientEditorDialog.Lbl.StartColor=ŠJnF :
@@ -1164,6 +1220,7 @@ GradientEditorDialog.Lbl.StartColor=ŠJnF :
 GradientEditorDialog.Lbl.Preview=ƒvƒŒƒrƒ…[
 
 PaletteEditorComposite.Label.EditColor=ƒJƒ‰[‚Ì•ÒW
+
 PaletteEditorComposite.Lbl.Add=’Ç‰Á(&A)
 
 PaletteEditorComposite.Lbl.Remove=íœ(&R)
@@ -1175,7 +1232,9 @@ PaletteEditorComposite.Lbl.Down=‰º‚Ö
 PatternImageEditorDialog.Button.Cancel=ƒLƒƒƒ“ƒZƒ‹(&C)
 
 PatternImageEditorDialog.Button.OK=OK(&O)
+
 PatternImageEditorDialog.Group.Color=ƒJƒ‰[:
+
 PatternImageEditorDialog.Group.Pattern=ƒpƒ^[ƒ“ :
 
 PatternImageEditorDialog.Label.Background=”wŒi(&B) :
@@ -1183,6 +1242,7 @@ PatternImageEditorDialog.Label.Background=”wŒi(&B) :
 PatternImageEditorDialog.Label.Foreground=‘OŒi(&F) :
 
 PatternImageEditorDialog.Title.PatternFillEditor=Pattern Image Editor
+
 LabelAttributesComposite.Lbl.Label=ƒ‰ƒxƒ‹
 
 LabelAttributesComposite.Lbl.Font=ƒtƒHƒ“ƒg(&O) :
@@ -1212,6 +1272,7 @@ BlockAttributeComposite.Lbl.Orientation=Œü‚« (&O):
 BlockAttributeComposite.Lbl.Direction=•ûŒü (&D):
 
 BlockAttributeComposite.Lbl.Position=ˆÊ’u(&P):
+
 BlockAttributeComposite.Lbl.ItemType=€–Ú‚ÌŒ^ :
 
 BlockAttributeComposite.Title.PlotBlock=ƒvƒƒbƒgƒuƒƒbƒN
@@ -1277,6 +1338,7 @@ HyperlinkEditorDialog.ErrorMessage.NullText=–¼‘O‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñ\!
 HyperlinkEditorDialog.HyperlinkName.Title.Warning=Œx
 
 HyperlinkEditorDialog.Text.MenuLabel=–¼‘O(&N):
+
 HyperlinkEditorDialog.Title.HyperlinkEditor=ƒnƒCƒp[ƒŠƒ“ƒNƒGƒfƒBƒ^
 
 TaskSelectType.TaskExp=ƒOƒ‰ƒt‚Ìí—Ş‚Ì‘I‘ğ
@@ -1314,6 +1376,7 @@ TaskSelectType.Exception.NotSupportedForMultipleAxes=\ ‚ÍA•¡”²‚É‚Íg—p‚Å‚«‚Ü‚
 TaskSelectType.Label.ChartTypes=ƒOƒ‰ƒt‚Ìí—Ş
 
 TaskSelectType.Label.Dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“(&D):
+
 TaskSelectType.Label.ChartSubtypes=ƒOƒ‰ƒt‚ÌƒTƒuƒ^ƒCƒv
 
 TaskSelectData.TaskExp=ƒf[ƒ^‚Ì‘I‘ğ
@@ -1355,6 +1418,7 @@ TaskSelectData.Label.Component=\ ƒRƒ“ƒ|[ƒlƒ“ƒg
 TaskSelectData.Label.Overlay=ƒI[ƒo[ƒŒƒC
 
 TaskSelectData.Label.Series=Œn—ñ
+
 TaskSelectData.Label.UseAsCategoryXAxis=ƒJƒeƒSƒŠ² (X) ‚Æ‚µ‚Äg—p‚·‚é
 
 TaskSelectData.Label.UseAsCategorySeries=ƒJƒeƒSƒŠŒn—ñ‚Æ‚µ‚Äg—p‚·‚é
@@ -1394,6 +1458,7 @@ AbstractSelectDataCustomizeUI.Label.SeriesGrouping=Œn—ñ‚ÌƒOƒ‹[ƒv‰»
 AbstractSelectDataCustomizeUI.Label.YAxis=Y ²
 
 AbstractSelectDataCustomizeUI.Label.Series=Œn—ñ
+
 AbstractScaleSheet.Label.ShowValuesOutside=²‚Ì”ÍˆÍŠO‚Ì’l‚ğ•\¦‚·‚é(&O)
 
 MultipleHyperlinksComposite.Btn.Add=’Ç‰Á(&A)
@@ -1409,6 +1474,7 @@ MultipleHyperlinksComposite.Btn.Properties=ƒvƒƒpƒeƒB(&P)
 MultipleHyperlinksComposite.Btn.Up=ã‚Ö(&U)
 
 MultipleHyperlinksComposite.Group.Hyperlinks=ƒnƒCƒp[ƒŠƒ“ƒN
+
 MultipleHyperlinksComposite.Label.Tooltip=ƒc[ƒ‹ƒqƒ“ƒg(&T) :
 
 MultipleSeriesComponent.Label.OptionalYSeriesGrouping=Y Œn—ñ‚ÌƒOƒ‹[ƒv‰» (ƒIƒvƒVƒ‡ƒ“)(&O) :
@@ -1422,8 +1488,11 @@ MultipleSeriesComponent.Label.GroupSorting=ƒOƒ‹[ƒv‚Ìƒ\[ƒg(&S) :
 SelectDataChartWithAxisUI.Label.ValueYSeries=’lŒn—ñ (Y) :
 
 MultipleSeriesComponent.Label.Series=Œn—ñ
+
 SelectDataChartWithoutAxisUI.Label.Series=Œn—ñ
+
 DataDefinitionSelector.Label.Series=Œn—ñ
+
 DataDefinitionSelector.Text.NewSeries=<Œn—ñ‚ÌV‹Kì¬...>
 
 DataDefinitionSelector.Text.NewAxis=<²‚ÌV‹Kì¬...>
@@ -1437,7 +1506,9 @@ DataDefinitionSelector.Label.YAxis=Y ²
 DataDefinitionSelector.Label.Axis=²
 
 DataDefinitionSelector.Label.DeleteAxis=²‚Ìíœ
+
 DataDefinitionSelector.Label.DeleteSeries=Œn—ñ‚Ìíœ
+
 DialBottomAreaComponent.Label.Dial=ƒ_ƒCƒ„ƒ‹
 
 DialBottomAreaComponent.Label.GaugeValueDefinition=ƒ[ƒ^[’l‚Ì’è‹` :
@@ -1447,9 +1518,13 @@ PieBottomAreaComponent.Label.TheExplosionCondition=Ø‚èo‚·ğŒ‚ÍAƒXƒ‰ƒCƒX 1 –‡
 PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion=Ø‚èo‚µ‚ÌU•‚É‚æ‚èAƒXƒ‰ƒCƒX‚ğ‚Ç‚Ì’ö“xØ‚èo‚·‚©‚ğw’è‚µ‚Ü‚·B
 
 AxisGridLinesSheet.MajorLabel.LineIsVisible=‰Â‹(&V)
+
 AxisGridLinesSheet.MajorLabel.TickIsVisible=‰Â‹(&I)
+
 AxisGridLinesSheet.MinorLabel.LineIsVisible=‰Â‹(&S)
+
 AxisGridLinesSheet.MinorLabel.TickIsVisible=‰Â‹(&L)
+
 AxisLabelSheet.Label.Ellipsis=È—ª‹L†(&I) :
 
 AxisLabelSheet.Label.Ellipsis.Tooltip=’·‚¢•¶š—ñ‚Ìê‡‚ÍA‚±‚±‚Åw’è‚·‚é•¶š”‚ÅØ‚èÌ‚ÄAÈ—ª‹L†‚ğ•\¦‚µ‚Ü‚·B
@@ -1461,12 +1536,15 @@ AxisSheetImpl.Label.Axis=²
 AxisSheetImpl.Label.AxisPercent=²‚Ìƒp[ƒZƒ“ƒg
 
 AxisSheetImpl.Label.Visible=•\¦
+
 AxisSheetImpl.Label.ValueY=’l (Y)
 
 AxisYSheetImpl.Label.Labels=ƒ‰ƒxƒ‹(&A) :
 
 AxisSheetImpl.Label.Type=í—Ş
+
 AxisSheetImpl.Label.Color=ƒJƒ‰[
+
 AxisYSheetImpl.Label.Title=ƒ^ƒCƒgƒ‹ (&E):
 
 AxisYSheetImpl.Label.Scale=²ƒXƒP[ƒ‹
@@ -1480,6 +1558,7 @@ AxisSheetImpl.Label.AncillaryZ=•â• (Z)
 AxisSheetImpl.Label.SideBySide=•À—ñ
 
 AxisXSheetImpl.Label.Visible=•\¦
+
 AxisYSheetImpl.Label.LabelFormat=²ƒ‰ƒxƒ‹
 
 AxisYSheetImpl.Label.LabelFormat&=ƒ‰ƒxƒ‹(&L)
@@ -1497,6 +1576,7 @@ AbstractAxisSubtask.Button.Fixed=ŒÅ’è
 AbstractAxisSubtask.Lbl.IsCategoryAxis=ƒJƒeƒSƒŠ²(&X)
 
 AbstractAxisSubtask.Label.Visible2=‰Â‹(&I)
+
 AbstractScaleSheet.Label.StepNumber=ƒXƒeƒbƒv”(&N) :
 
 AxisYSheetImpl.Label.Markers=²ƒ}[ƒJ
@@ -1504,6 +1584,7 @@ AxisYSheetImpl.Label.Markers=²ƒ}[ƒJ
 AxisYSheetImpl.Label.Markers&=ƒ}[ƒJ(&M)
 
 AxisZSheetImpl.Label.Visible=‰Â‹(&V)
+
 AxisXSheetImpl.Label.AxisData=²ƒf[ƒ^
 
 AbstractAxisSubtask.Label.Stagger=‚¸‚ç‚·(&G)
@@ -1513,6 +1594,7 @@ AbstractAxisSubtask.Label.Interactivity=²‚Ì‘ŠŒİì—p
 AbstractAxisSubtask.Label.LabelSpan=ƒ‰ƒxƒ‹‚Ì•(&N) :
 
 AbstractAxisSubtask.Label.Points=(ƒ|ƒCƒ“ƒg)
+
 AbstractAxisSubtask.Label.ReverseCategory=ƒJƒeƒSƒŠ‚ğ‹t‡‚É‚·‚é(&C)
 
 AxisTextSheet.Label.Interval=ŠÔŠu (&E):
@@ -1534,17 +1616,21 @@ ChartPlotSheetImpl.Label.Background2=”wŒi(&G) :
 ChartPlotSheetImpl.Label.ClientArea=ƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ
 
 ChartTitleSheetImpl.Text.Auto=©“®(&A)
+
 ChartTitleSheetImpl.Text.TitleLayout=ƒ^ƒCƒgƒ‹‚ÌƒŒƒCƒAƒEƒg
 
 ChartTitleSheetImpl.Text.Layout&=ƒŒƒCƒAƒEƒg(&L)
+
 ChartTitleSheetImpl.Text.TitleText=ƒ^ƒCƒgƒ‹ƒeƒLƒXƒg
 
 ChartTitleSheetImpl.Text.TitleText&=ƒeƒLƒXƒg(&T)
+
 ChartSheetImpl.Title.ChartTitle=ƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
 
 ChartSheetImpl.Title.ChartArea=ƒOƒ‰ƒt‚Ì—Ìˆæ
 
 ChartSheetImpl.Label.Visible=‰Â‹(&V)
+
 ChartSheetImpl.Label.ColorBy=F•t‚¯‚ÌŠî€ (&C):
 
 ChartSheetImpl.Label.Coverage=”ÍˆÍ(&A) :
@@ -1564,6 +1650,7 @@ ChartLegendSheetImpl.Title.LegendEntries=–}—á‚ÌƒGƒ“ƒgƒŠ
 ChartLegendSheetImpl.Title.LegendTitle=–}—á‚Ìƒ^ƒCƒgƒ‹
 
 ChartLegendSheetImpl.Label.Layout=ƒŒƒCƒAƒEƒg(&A)
+
 ChartLegendSheetImpl.Label.Legend=–}—á
 
 ChartLegendSheetImpl.Label.Title=ƒ^ƒCƒgƒ‹(&L) :
@@ -1609,12 +1696,15 @@ ChartSheetImpl.Label.Interactivity=ƒOƒ‰ƒt—Ìˆæ‚Ì‘ŠŒİì—p
 ChartSheetImpl.Label.InteractivityEnable=ƒOƒ‰ƒt‚Ì‘ŠŒİì—p‚ğ—LŒø‚É‚·‚é(&E)
 
 ChartSheetImpl.Label.Text=ƒeƒLƒXƒg(&X):
+
 ChartLegendSheetImpl.Label.LegendBehaviorType=“®ì(&O) :
 
 ChartLivePreviewThread_Text.PleaseWait=‚µ‚Î‚ç‚­‚¨‘Ò‚¿‚­‚¾‚³‚¢...
 
 ChartLivePreviewThread.ErrorMessage.NoDataEngine=ƒf[ƒ^‚ğˆ—‚·‚éƒf[ƒ^ƒGƒ“ƒWƒ“‚ª‚ ‚è‚Ü‚¹‚ñBÚ‚µ‚­‚ÍˆÈ‘O‚É”­¶‚µ‚½—áŠO‚ğQÆ‚µ‚Ä‚­‚¾‚³‚¢B
+
 SeriesSheetImpl.Label.Type=í—Ş
+
 SeriesSheetImpl.Label.ZOrder=Z‡˜
 
 LegendTextSheet.Label.Ellipsis=È—ª‹L†(&E) :
@@ -1646,6 +1736,7 @@ MoreOptionsChartPlotSheet.Label.Stretch=Šg‘å (&S):
 TitlePropertiesSheet.Label.Title=ƒ^ƒCƒgƒ‹(&T)
 
 TitlePropertiesSheet.Label.Visible=•\¦
+
 TitlePropertiesSheet.Label.Anchor=ƒAƒ“ƒJ[ (&A):
 
 TitlePropertiesSheet.Label.Stretch=Šg‘å (&S):
@@ -1653,6 +1744,7 @@ TitlePropertiesSheet.Label.Stretch=Šg‘å (&S):
 TitlePropertiesSheet.Label.Outline=ŠO˜g
 
 TitlePropertiesSheet.Label.Text=ƒeƒLƒXƒg
+
 BaseDataDefinitionComponent.Text.SpecifyDataDefinition=ƒf[ƒ^’è‹`‚Ìw’è
 
 BaseDataDefinitionComponent.Label.EditGroupSorting=ƒOƒ‹[ƒv‚Æƒ\[ƒg‚Ì•ÒW
@@ -1668,6 +1760,7 @@ BaseGroupSortingDialog.Label.SortOn=ƒ\[ƒg(&O) :
 MarkerEditorComposite.Button.Outline=ŠO˜g(&O)
 
 MarkerEditorComposite.Label.MarkerType=í—Ş
+
 MarkerIconDialog.Button.EmbeddedImage=–„‚ß‚Ü‚ê‚½ƒCƒ[ƒW(&M)
 
 MarkerIconDialog.Title.MarkerIconSelector=ƒ}[ƒJ‚ÌƒAƒCƒRƒ“ƒZƒŒƒNƒ^
@@ -1677,7 +1770,9 @@ MarkerIconDialog.Label.Description.EmbeddedImage=ƒ}[ƒJ[‚ÌƒAƒCƒRƒ“‚Éw’è‚·‚é–„‚
 MarkerIconDialog.Lbl.SelectIconFrom=ƒAƒCƒRƒ“‚Ì‘I‘ğŒ³ :
 
 MarkerIconDialog.Lbl.URL=URL(&U)
+
 MarkerIconDialog.Lbl.Local=ƒ[ƒJƒ‹(&L)
+
 MarkerIconDialog.Lbl.EnterURL=URL ‚Ì“ü—Í(&E) :
 
 MarkerIconDialog.Lbl.Browse=QÆ(&B)
@@ -1703,6 +1798,7 @@ MarkerIconDialog.ImageNotAvailableWarningMessage=‚±‚Ì‚Ü‚Üg—p‚µ‚Ü‚·‚© ?
 exception.data.DataBindingsAreNull=1 ‚Â‚Ü‚½‚Í•¡”‚Ìƒf[ƒ^ƒoƒCƒ“ƒh‚ª NULL ‚Å‚·B
 
 DialLabelSheet.Label.Format=‘®:
+
 ImageDialog.AddImage=ƒCƒ[ƒW‚Ì’Ç‰Á(&A)...
 
 ImageDialog.FileExist=‚±‚Ìƒtƒ@ƒCƒ‹–¼‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B•Ê‚Ì–¼‘O‚ğw’è‚µ‚ÄÄƒ[ƒh‚µ‚Ä‚­‚¾‚³‚¢B
@@ -1738,7 +1834,9 @@ ImageDialog.label.EnterLocal=ƒ[ƒJƒ‹ƒCƒ[ƒW‚ÌƒpƒX‚ğ“ü—Í‚µ‚Ü‚·(&E):
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=®”A¬”‚Ü‚½‚Í•ª”‚Ì’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 
 PlotClientAreaSheet.Btn.Auto=©“®(&U)
+
 PlotClientAreaSheet.Btn.Auto2=©“®(&O)
+
 PlotClientAreaSheet.Label.HeightHint=‚‚³‚Ìƒqƒ“ƒg (&N):
 
 PlotClientAreaSheet.Label.WidthHint=•‚Ìƒqƒ“ƒg (&T):
@@ -1749,6 +1847,7 @@ AxisMarkersSheet.MarkerRange.displayName=MarkerRange
 AxisMarkersSheet.Label.Interactivity=‘ŠŒİì—p(&I)
 
 AxisMarkersSheet.Label.IsVisible=‰Â‹(&S)
+
 AbstractPopupSheet.Label.Close=•Â‚¶‚é
 
 AbstractPopupSheet.Label.Help=ƒwƒ‹ƒv
@@ -1764,6 +1863,7 @@ AggregateEditorComposite.AggregateParameterDefinition.Title=ƒpƒ‰ƒƒ^‚Ì’è‹`‚ÌWŒv
 AggregateEditorComposite.Button.Cancel=ƒLƒƒƒ“ƒZƒ‹
 
 AggregateEditorComposite.Button.OK=OK
+
 AggregateEditorComposite.Tooltip.SetAggregateFunction=WŒvŠÖ”‚Ìİ’è
 
 LocalizedNumberEditorComposite.error.Title=”’l‚Ì‘®‚ÌƒGƒ‰[
@@ -1771,6 +1871,7 @@ LocalizedNumberEditorComposite.error.Title=”’l‚Ì‘®‚ÌƒGƒ‰[
 LocalizedNumberEditorComposite.error.Message=”’l "{0}" ‚Í–³Œø‚Å‚·B
 
 SeriesRegionSheet.message.dialRegion=ƒ_ƒCƒ„ƒ‹—Ìˆæ -
+
 GroupSortingDialog.Composite.Group.Sorting=ƒ\[ƒg
 
 GroupSortingDialog.Composite.Label.SortLocale=ƒƒP[ƒ‹(&L) :
@@ -1780,6 +1881,7 @@ GroupSortingDialog.Composite.Label.SortStrength=—Dæ‡ˆÊ(&H) :
 GroupSortingDialog.Label.GroupAndSorting=ƒOƒ‹[ƒv‚Æƒ\[ƒg
 
 GroupSortingDialog.Sort.Locale.Auto=©“®
+
 GroupSortingDialog.Sort.Strength.ASCII=ASCII
 GroupSortingDialog.Sort.Strength.IDENTICAL=“¯‚¶
 
@@ -1800,6 +1902,7 @@ GanttSeriesAttributeComposite.Exception.IllegalArgument={0} Œ^‚ÌŒn—ñ‚ÍAGanttSer
 GanttChart.Txt.DefaultGanttChartTitle=ƒKƒ“ƒgƒ`ƒƒ[ƒg‚Ìƒ^ƒCƒgƒ‹
 
 GanttChart.Txt.DisplayName=ƒKƒ“ƒgƒ`ƒƒ[ƒg
+
 GanttChart.Txt.Description=•W€‚ÌƒKƒ“ƒgƒ`ƒƒ[ƒg‚Å‚ÍAŠJn‚ÆI—¹‚Ìƒ}[ƒJ‚ğŒ‹‚Ôü‚ª•\¦‚³‚ê‚Ü‚·B
 
 GanttChart.Txt.HelpText=ƒKƒ“ƒgƒ`ƒƒ[ƒg‚ÍAì‹Æ‚âŠˆ“®‚É‚©‚©‚Á‚½ŠÔ‚ğ•\‚·‚½‚ß‚ÌƒOƒ‰ƒt‚Å‚·B
@@ -1837,6 +1940,7 @@ BubbleSeriesAttributeComposite.Lbl.ShadowColor=‰e(&H) :
 BubbleSeriesAttributeComposite.Lbl.Marker=ƒ}[ƒJ
 
 BubbleSeriesAttributeComposite.Lbl.IsVisible=•\¦
+
 BubbleSeriesAttributeComposite.Lbl.Type=í—Ş :
 
 BubbleSeriesAttributeComposite.Lbl.Size=ƒTƒCƒY :
@@ -1852,6 +1956,7 @@ BubbleSeriesAttributeComposite.Exception.IllegalArgument={0} Œ^‚ÌŒn—ñ‚ÍABubbleS
 BubbleSeriesAttributeComposite.Lbl.ShowLinesAsCurves=ü‚ğ‹Èü‚Å•\¦‚·‚é(&V)
 
 BubbleSeriesAttributeComposite.Lbl.Orientation=Œü‚«(&O)
+
 DifferenceChart.Txt.DefaultDifferenceChartTitle=·•ªƒ`ƒƒ[ƒg‚Ìƒ^ƒCƒgƒ‹
 
 DifferenceChart.Txt.Description=·•ªƒ`ƒƒ[ƒg‚Å‚ÍA2 F‚Ì“h‚è‚Â‚Ô‚µ‚Å³”‚Æ•‰”‚Ì”ÍˆÍ‚ğ¦‚µ‚Ü‚·B
@@ -1946,6 +2051,7 @@ MenuStyleDialog.Column.Properties=ƒvƒƒpƒeƒB
 MenuStyleDialog.Column.Value=’l
 
 MenuStyleDialog.Style.Menu=ƒƒjƒ…[
+
 MenuStyleDialog.Style.MenuItem=ƒƒjƒ…[€–Ú
 
 MenuStyleDialog.Style.OnMouseOver=ƒ}ƒEƒX‚Åƒ|ƒCƒ“ƒg‚µ‚Ä‚¢‚é‚Æ‚«

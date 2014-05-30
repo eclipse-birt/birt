@@ -18,6 +18,7 @@ birt.core.Javascript.variableNotExist=보고서 변수 "{0}"이(가) 없습니다.
 birt.core.Javascript.nativeNotFound={0}을(를) 찾을 수 없습니다.
 
 birt.core.BirtComp.invalidRegularExpression=잘못된 정규식입니다.
+
 error.NoSuchScriptExtension = 스크립트 확장명이 없습니다: {0}.
 
 error.InvalidSeekOffset = 위치 {0}이(가) 잘못되었습니다.

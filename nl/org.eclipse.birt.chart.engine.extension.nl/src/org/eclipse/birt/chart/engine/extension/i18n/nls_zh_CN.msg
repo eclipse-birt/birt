@@ -134,17 +134,31 @@ exception.unsupported.aggregate.function.input=聚合函数 {0} 遇到不支持的数据类型
 exception.illegal.datapoint.position.bar3d=三维条形图不支持内部系列标签。
 
 Irr.AggregateFunction.Parameters.Label.Intrate=迭代
+
 Mirr.AggregateFunction.Parameters.Label.FinanceRate=财务比率
+
 Mirr.AggregateFunction.Parameters.Label.ReinvestmentRate=再投资率
+
 Npv.AggregateFunction.Parameters.Label.Rate=比率
+
 Percentile.AggregateFunction.Parameters.Label.Percentage=百分比
+
 Quartile.AggregateFunction.Parameters.Label.Quart=四分位
+
 WeightedAverage.AggregateFunction.Parameters.Label.Weight=权重
+
 MovingAverage.AggregateFunction.Parameters.Label.Window=窗口
+
 RunningNpv.AggregateFunction.Parameters.Label.Rate=比率
+
 Rank.AggregateFunction.Parameters.Label.Ascending=升序
+
 Top.AggregateFunction.Parameters.Label.N=前 n 个
+
 TopPercent.AggregateFunction.Parameters.Label.Percentage=百分比
+
 Bottom.AggregateFunction.Parameters.Label.N=后 n 个
+
 BottomPercent.AggregateFunction.Parameters.Label.Percentage=百分比
+
 DataSetProcessorImpl_exception.dataset.receivednumeric=接收此类型的数据类型应为数值。

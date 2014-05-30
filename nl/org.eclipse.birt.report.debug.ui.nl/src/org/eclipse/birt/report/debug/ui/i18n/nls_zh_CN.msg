@@ -15,6 +15,7 @@ ScriptMainTab.msg.task.type=任务类型
 ScriptMainTab.msg.output=输出
 
 ScriptMainTab.msg.format=格式:
+
 ScriptMainTab.msg.debug.type.all=全部
 
 ScriptMainTab.msg.debug.type.java=Java
@@ -70,6 +71,7 @@ ScriptMainTab.msg.select.report.file=选择报表文件
 ScriptMainTab.button.text.search=搜索...
 
 ScriptMainTab.button.text.variables=变量...
+
 ScriptMainTab.msg.open.target.file=完成时打开生成的文件
 
 ScriptMainTab.msg.use.default.engine.home=使用默认引擎主页

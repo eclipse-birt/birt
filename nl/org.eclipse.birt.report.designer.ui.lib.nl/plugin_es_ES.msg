@@ -26,7 +26,9 @@ LibraryProjectWizard=Proyecto de librería
 LibraryProjectWizardDescription=Crea un nuevo proyecto de librería.
 
 library.layout=Diseñ&o
+
 library.script=&Script
+
 library.xmlsource=&Fuente XML
 
 design.masterPage=&Página maestra

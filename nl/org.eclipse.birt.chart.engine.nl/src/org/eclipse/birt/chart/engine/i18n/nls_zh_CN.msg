@@ -258,7 +258,9 @@ info.datapoint.to.string={0}:{1}
 info.stdenv.creating.dsp=（独立环境）正在创建 dsp {0}
 
 constant.undefined.string=<未定义>
+
 constant.null.string=null
+
 error.invalid.enumerator=值 ''{0}'' 不是 ''{1}'' 的有效枚举器
 
 error.invalid.classifier=数据类型 ''{0}'' 不是有效的分类器
@@ -306,11 +308,16 @@ error.eclenv.cannot.find.display=（日蚀式环境）无法找到 {0} 的显示服务器 impl
 error.stdenv.cannot.find.display=（独立环境）无法找到 {0} 的显示服务器 impl
 
 info.log.script=[脚本]: {0}
+
 info.render.series={0}: renderSeries() [{1}/{2}]
 info.log.info=[信息]: {0}
+
 info.log.warn=[警告]: {0}
+
 info.log.err=[错误]: {0}
+
 info.log.fatal=[致命错误]: {0}
+
 prefix.marker.range.caption=[
 separator.marker.range.caption=\ 至
 
@@ -374,18 +381,22 @@ GanttSeriesImpl.displayName=甘特图系列
 DifferenceSeriesImpl.displayName=差异系列
 
 AxisType.Linear.displayName=线性
+
 AxisType.Logarithmic.displayName=对数
 
 AxisType.Text.displayName=文本
-AxisType.DateTime.displayName=DateTime
 
+AxisType.DateTime.displayName=DateTime
 IntersectionType.Min.displayName=Min
+
 IntersectionType.Max.displayName=Max
+
 IntersectionType.Value.displayName=值
 
 ScaleUnitType.Seconds.displayName=秒
 
 ScaleUnitType.Minutes.displayName=分钟
+
 ScaleUnitType.Hours.displayName=小时
 
 ScaleUnitType.Days.displayName=日
@@ -433,6 +444,7 @@ TriggerCondition.onkeyup.displayName=键释放
 TriggerCondition.onload.displayName=加载
 
 ActionType.URLRedirect.displayName=超级链接
+
 ActionType.ShowTooltip.displayName=显示工具提示
 
 ActionType.ToggleVisibility.displayName=切换可见性
@@ -470,6 +482,7 @@ LeaderLineStyle.StretchToSide.displayName=侧向伸展
 MarkerType.Crosshair.displayName=交叉线
 
 MarkerType.Triangle.displayName=三角形
+
 MarkerType.Box.displayName=箱形
 
 MarkerType.Circle.displayName=圆形
@@ -477,16 +490,19 @@ MarkerType.Circle.displayName=圆形
 MarkerType.Icon.displayName=图标
 
 MarkerType.Nabla.displayName=倒三角形
+
 MarkerType.Diamond.displayName=菱形
 
 MarkerType.FourDiamonds.displayName=四个菱形
 
 MarkerType.Ellipse.displayName=椭圆
+
 MarkerType.SemiCircle.displayName=半圆形
 
 MarkerType.Hexagon.displayName=六边形
 
 MarkerType.Rectangle.displayName=矩形
+
 MarkerType.Star.displayName=星形
 
 MarkerType.Column.displayName=圆柱形
@@ -494,7 +510,9 @@ MarkerType.Column.displayName=圆柱形
 MarkerType.Cross.displayName=十字形
 
 RiserType.Rectangle.displayName=矩形
+
 RiserType.Triangle.displayName=三角形
+
 RiserType.Tube.displayName=管形
 
 RiserType.Cone.displayName=圆锥
@@ -532,12 +550,17 @@ AutoScale.Exception.IsInfiite=\ 无限制
 AutoScale.Exception.IsNaN=\ 不是数值
 
 AutoScale.ValueName.StepSize=步长
+
 Stretch.Horizontal.displayName=水平
+
 Stretch.Vertical.displayName=垂直
+
 Stretch.Both.displayName=水平和垂直
 
 Orientation.Horizontal.displayName=水平
+
 Orientation.Vertical.displayName=垂直
+
 Direction.LeftRight.displayName=左右
 
 Direction.TopBottom.displayName=上下
@@ -559,7 +582,9 @@ Position.Inside.displayName=内部
 Position.Outside.displayName=外部
 
 UnitsOfMeasurement.Pixels.displayName=像素
+
 UnitsOfMeasurement.Points.displayName=点
+
 UnitsOfMeasurement.Inches.displayName=英寸
 
 UnitsOfMeasurement.Centimeters.displayName=厘米
@@ -568,9 +593,11 @@ DataType.Numeric.displayName=数值
 
 DataType.DateTime.displayName=DateTime
 DataType.Text.displayName=文本
+
 GroupingUnitType.Seconds.displayName=秒
 
 GroupingUnitType.Minutes.displayName=分钟
+
 GroupingUnitType.Hours.displayName=小时
 
 GroupingUnitType.Days.displayName=日
@@ -584,9 +611,11 @@ GroupingUnitType.Years.displayName=年
 GroupingUnitType.Quarters.displayName=季
 
 GroupingUnitType.String.displayName=字符串
+
 GroupingUnitType.StringPrefix.displayName=字符串前缀
 
 DateFormatType.Long.displayName=长
+
 DateFormatType.Short.displayName=短
 
 DateFormatType.Medium.displayName=中等
@@ -594,16 +623,19 @@ DateFormatType.Medium.displayName=中等
 DateFormatType.Full.displayName=完全
 
 DateFormatDetail.Date.displayName=日期
+
 DateFormatDetail.DateTime.displayName=日期时间
 
 DefaultValueProvider_BaseSeries=基本系列
 
 DefaultValueProvider_ChartSubType.Standard=标准
+
 DefaultValueProvider_ChartSubType.StandardMeterChart=标准仪表图
 
 DefaultValueProvider_ChartTitle=图表标题
 
 DefaultValueProvider_ChartUnits.Points=点
+
 LegendBehaviorType.None.displayName=无
 
 LegendBehaviorType.ToggleSerieVisibility.displayName=切换系列可见性
@@ -612,14 +644,17 @@ LegendBehaviorType.HighlightSerie.displayName=突出显示系列
 
 # Defines cursor display names.
 Cursor.Auto.displayName=自动
+
 Cursor.Crosshair.displayName=交叉线
 
 Cursor.Default.displayName=默认
 
 Cursor.Pointer.displayName=手
+
 Cursor.Move.displayName=移动
 
 Cursor.Text.displayName=文本
+
 Cursor.Wait.displayName=等待
 
 Cursor.EResize.displayName=东

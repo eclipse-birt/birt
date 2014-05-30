@@ -20,6 +20,7 @@ sqbWizPage_dataSourceDesignError=データソースデザインエラー
 sqbWizPage_dbErrorMsg=データベースエラーメッセージ :
 
 sqbWizPage_defaultMessage=SQL Select クエリを構築します。
+
 sqbWizPage_detectExternalSqlTextChangedMsg=SQL クエリテキストが、データセットデザインにて外部で変更されました。SQL クエリビルダのコンテンツをこの変更内容と置換しますか？
 
 sqbWizPage_detectSqlTextChangedTitle=SQL クエリテキストが変更されました。

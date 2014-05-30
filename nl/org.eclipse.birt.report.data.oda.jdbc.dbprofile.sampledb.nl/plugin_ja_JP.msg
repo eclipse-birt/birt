@@ -17,10 +17,17 @@ driver.template.name=BIRT SampleDb Derby Embedded JDBC Driver
 driver.definition.name=BIRT SampleDb Derby Embedded Driver
 #
 driver.template.property.class =ドライバクラス
+
 driver.template.property.vendor =ベンダ
+
 driver.template.property.version =バージョン
+
 driver.template.property.dbname =データベース
+
 driver.template.property.connection.url =接続 URL
+
 driver.template.property.user =ユーザ名
+
 driver.template.property.password =パスワード
+
 driver.template.property.save.password =パスワードの保存

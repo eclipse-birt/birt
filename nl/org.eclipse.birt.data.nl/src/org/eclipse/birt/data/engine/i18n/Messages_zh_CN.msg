@@ -34,11 +34,13 @@ data.engine.UnsupportedSortOnClobAndBLOB=不支持对 CLOB 或 BLOB 数据 "{0}" 排序。
 data.engine.EndOfGroupOnly=此聚合表达式仅可用于组结尾。
 
 data.engine.InvalidAggregation=聚合定义无效:{0}。
+
 data.engine.InvalidAggrGroup=无效的聚合函数分组级别: {0}。
 
 data.engine.WrongNumAggrArgs=错误的聚合函数参数数: {0}。
 
 data.engine.AggrParamGroupLevelInconsistent=在嵌套聚合“{0}”中，所有非常量表达式均必须具有相同组级别。
+
 data.engine.DupPropertyName=找到重复属性名称: {0}。
 
 data.engine.NoSubQueryName=无法找到具有以下名称的子查询: {0}。
@@ -304,6 +306,7 @@ data.engine.incorrectGroupKeyValues=给定的组键值数组不正确。
 data.engine.NoExpressionProcessorAvailable=没有可用的 ExpressionProcessor。
 
 data.engine.InconvertibleDatatype=值 {0} 的原数据类型是 {1}，它无法转换为分配的数据类型 {2}。
+
 data.engine.ConvertToDataTypeError={0} 无法转换为 {1}。
 
 data.engine.NoRowUpdate=此时无法更新数据行。
@@ -379,6 +382,7 @@ data.engine.acl.cubeDimensionCannotBeAccessed=用户没有权限访问此维“{0}”
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
 
 odaconsumer.ColumnPositionIsOneBased=列位置最小为 1，不能小于 1。
+
 odaconsumer.ColumnAliasCannotBeEmpty=列别名不能为空字符串。
 
 odaconsumer.CannotProcessDriverConfig=找不到或无法处理 {0} 驱动程序的数据源扩展配置。
@@ -754,6 +758,7 @@ data.executor.configFileParser.getQueryTextByID=无法按配置文件中指定的数据集名称
 data.executor.configFileParser.getParametersByID=无法按配置文件中指定的数据集名称获得参数。
 
 data.aggregation.expression.displayName=表达式
+
 data.aggregation.argumentError=聚合“{1}”的参数“{0}”的表达式为 null 或空!
 
 data.olap.InvalidAggrTypeOnMeasure=多维数据集度量聚合不能为此类型:“{0}”。
@@ -785,4 +790,5 @@ data.datamart.collation=在以前的产品中，即使设置了整理操作，也不将其用于数据对象
 data.filter.pushDownFail= 下推仅支持 ODA 扩展端的筛选器失败。
 
 data.query.exprReferInvalidColumn=无法执行查询，因为: 此查询包含引用了无效数据集列“{0}”的无效表达式。
+
 data.query.invalidColumnBinding=列绑定“{0}”无效。

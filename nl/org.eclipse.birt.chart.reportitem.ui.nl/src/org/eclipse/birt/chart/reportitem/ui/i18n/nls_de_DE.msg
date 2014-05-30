@@ -5,6 +5,7 @@ ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=Datenbindung auswählen:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=Daten - Datensatz auswählen
 
 ChartPageGenerator.List.General=Allgemein
+
 ChartPageGenerator.List.AltText=Alternativer Text
 
 ChartDataBindingPage.Lbl.Parameter=Parameter
@@ -26,6 +27,7 @@ ChartDataBindingPage.Lbl.SaveDataSet=Datensatz ändern
 ChartDataBindingPage.Msg.AskSaveDataSet=Möchten Sie den gebundenen Datensatz ändern?
 
 DesignerRepresentation.error.Error=Fehler:
+
 DesignerRepresentation.log.UnableToFind=Diagrammmodel konnte während des Renderns im Designer nicht gefunden werden.
 
 DesignerRepresentation.msg.InvalidChart=Das aktuelle Diagramm ist ungültig. Wenn Sie an diesem Diagramm weiterarbeiten möchten, müssen Sie es zuerst löschen.
@@ -49,6 +51,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=Balkendiagrammtitel:
 ChartReportItemViewProvider.ChartViewName=Diagramm
 
 ChartExpressionProvider.Category.ChartVariables=Variablen
+
 ChartExpressionProvider.ChartVariables.DataPoints=Diagramm-Datenpunkt
 
 ChartExpressionProvider.ChartVariables.LegendItems=Diagrammlegende
@@ -81,6 +84,7 @@ ReportDataServiceProvider.Label.DataModel=(Datenmodell)
 ReportDataServiceProvider.Option.None=<keine>
 
 ReportDataServiceProvider.Option.Inherits=<{0} von Container>
+
 ReportDataServiceProvider.Tooltip.Aggregate=Aggregat:
 
 ReportDataServiceProvider.Tooltip.GroupExpression=Gruppenausdruck:
@@ -138,6 +142,7 @@ StandardChartDataSheet.Label.CubeTree=Datenquader: Gruppen und Zusammenfassungen
 StandardChartDataSheet.Label.Overlay=Überlagerung
 
 StandardChartDataSheet.Label.Series=Datenreihe
+
 StandardChartDataSheet.Label.ShareCrossTab=Klicken Sie unter 'Wert-Datenreihe (Y-Achse)' auf die Pfeilschaltfläche, und wählen Sie eine Maßeinheit aus der Liste aus.
 
 StandardChartDataSheet.Label.ShowDataPreview=Datenvor&schau anzeigen

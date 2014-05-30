@@ -11,11 +11,15 @@
 
 birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=Navigation
+
 birt.viewer.title.error=Fehler
+
 birt.viewer.title.complete=Abgeschlossen
 
 birt.viewer.title.message=Meldung
+
 birt.viewer.parameter=Parameter
+
 birt.viewer.runreport=Bericht ausführen
 
 birt.viewer.required=Mit <FONT COLOR="red">*</FONT> gekennzeichnete Parameter sind erforderlich.
@@ -39,6 +43,7 @@ birt.viewer.error.unknownerror=Unbekannter Fehler.
 birt.viewer.error.generatereportfirst=Berichtdokument muss zuerst generiert werden.
 
 birt.viewer.error.copiesnumber=Geben Sie eine gültige Anzahl von Kopien ein.
+
 birt.viewer.error.parameterrequired=Der Wert des erforderlichen Parameters [{0}] wurde nicht festgelegt.
 
 birt.viewer.error.parameternotallowblank=Der Parameter "{0}" darf nicht leer sein.
@@ -108,6 +113,7 @@ birt.viewer.progressbar.confirmcanceltask=Soll der aktuelle Vorgang abgebrochen 
 # Dialog 
 ###############################################################################
 birt.viewer.dialog.ok=OK
+
 birt.viewer.dialog.cancel=Abbrechen
 
 birt.viewer.dialog.run=Bericht ausführen
@@ -115,6 +121,7 @@ birt.viewer.dialog.run=Bericht ausführen
 birt.viewer.dialog.close=Schließ.en
 
 birt.viewer.dialog.page=Seiten
+
 birt.viewer.dialog.page.all=Alle Seiten
 
 birt.viewer.dialog.page.current=Aktuelle Seite
@@ -129,9 +136,11 @@ birt.viewer.dialog.page.error.invalidpagerange=Ungültiger Seitenbereich
 # Dialog title
 ###############################################################################
 birt.viewer.dialog.exception.title=Ausnahme
+
 birt.viewer.dialog.exportReport.title=Bericht exportieren
 
 birt.viewer.dialog.parameter.title=Parameter
+
 birt.viewer.dialog.simpleExportData.title=Daten exportieren
 
 birt.viewer.dialog.printReport.title=Bericht drucken
@@ -154,7 +163,9 @@ birt.viewer.dialog.export.modified=Bericht mit aktuellen Änderungen exportieren
 birt.viewer.dialog.export.modified.detail=Es werden nur sichtbare Daten exportiert. Herausgefilterte oder<br>ausgeblendete Daten werden nicht exportiert.
 
 birt.viewer.dialog.export.pdf.fitto=Anpassen
+
 birt.viewer.dialog.export.pdf.fittoauto=Automatisch
+
 birt.viewer.dialog.export.pdf.fittoactual=Tatsächliche Größe
 
 birt.viewer.dialog.export.pdf.fittowidth=An Seitenbreite anpassen
@@ -178,6 +189,7 @@ birt.viewer.dialog.printserver.onserver=Ausgabedokument auf dem Server drucken
 birt.viewer.dialog.printserver.printer=Drucker:
 
 birt.viewer.dialog.printserver.status=Status:
+
 birt.viewer.dialog.printserver.model=Modell:
 
 birt.viewer.dialog.printserver.description=Beschreibung:
@@ -185,6 +197,7 @@ birt.viewer.dialog.printserver.description=Beschreibung:
 birt.viewer.dialog.printserver.status.acceptingjobs=Aufträge werden angenommen
 
 birt.viewer.dialog.printserver.status.notacceptingjobs=Aufträge werden nicht angenommen
+
 birt.viewer.dialog.printserver.settings=Druckeinstellungen festlegen
 
 birt.viewer.dialog.printserver.settings.copies=Anzahl der Exemplare:
@@ -196,10 +209,15 @@ birt.viewer.dialog.printserver.settings.mode=Modus:
 birt.viewer.dialog.printserver.settings.mode.bw=Schwarzweiß
 
 birt.viewer.dialog.printserver.settings.mode.color=Farbe
+
 birt.viewer.dialog.printserver.settings.duplex=Duplex:
+
 birt.viewer.dialog.printserver.settings.duplex.simplex=Simplex
+
 birt.viewer.dialog.printserver.settings.duplex.horizontal=Horizontal
+
 birt.viewer.dialog.printserver.settings.duplex.vertical=Vertikal
+
 birt.viewer.dialog.printserver.settings.pagesize=Seitengröße:
 
 birt.viewer.dialog.printserver.settings.print=Drucken:
@@ -252,6 +270,7 @@ birt.viewer.dialog.exportdata.datatype=Spalten-Datenytpen exportieren
 birt.viewer.dialog.exportdata.localeneutral=Spalte als gebietsschemaneutral exportieren
 
 birt.viewer.dialog.exportdata.carriage_return=Daten mit Zeilenumbruch exportieren
+
 birt.viewer.sep.0=Komma (,)
 
 birt.viewer.sep.1=Semikolon (;)
@@ -305,6 +324,7 @@ birt.viewer.actionException.INVALID_BOOKMARK=Das Lesezeichen {0} ist ungültig. B
 birt.viewer.actionException.INVALID_PAGE_NUMBER=Ungültige Seitennummer {0} von {1}.
 
 birt.viewer.actionException.PAGE_NUMBER_PARSE_ERROR=Die Seitennummer {0} ist ungültig.
+
 birt.viewer.actionException.INVALID_ID_FORMAT=Ungültiges ID-Format. Id={0}.
 
 birt.viewer.actionException.DOCUMENT_FILE_NO_EXIST=Sitzung wegen Zeitüberschreitung abgebrochen bzw. keine Dokumentdatei verfügbar.

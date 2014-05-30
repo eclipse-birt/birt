@@ -12,6 +12,7 @@
 ###########################################################
 #OpenDocument Text Emitter
 OdtEmitter.Description=OpenDocument テキスト形式でレポートをレンダリングするためのオプションを設定します。
+
 OdtEmitter.DisplayName=OpenDocument テキスト
 
 ###########################################################

@@ -21,35 +21,35 @@ OptionDisplayValue.BidiProcessing=BIDI-Verarbeitung
 
 OptionDisplayValue.TextWrapping=Zeilenumbruch
 
-OptionDisplayValue.PageOverFlow=SeitenÃ¼berlauf-Verarbeitung
+OptionDisplayValue.PageOverFlow=Seitenüberlauf-Verarbeitung
 
 OptionDisplayValue.CLIP_CONTENT=Inhalt zuschneiden
 
-OptionDisplayValue.FIT_TO_PAGE_SIZE=An SeitengrÃ¶ÃŸe anpassen
+OptionDisplayValue.FIT_TO_PAGE_SIZE=An Seitengröße anpassen
 
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Mehrere Seiten ausgeben
 
-OptionDisplayValue.ENLARGE_PAGE_SIZE=Seite vergrÃ¶ÃŸern
+OptionDisplayValue.ENLARGE_PAGE_SIZE=Seite vergrößern
 
 OptionDisplayValue.FontSubstitution=Schriftart ersetzen
 
 OptionDisplayValue.ChartDpi=Diagramm-DPI
 
-OptionDisplayValue.RepaginateForPPTX=WÃ¤hrend des Renderns der PPTX neu paginieren
+OptionDisplayValue.RepaginateForPPTX=Während des Renderns der PPTX neu paginieren
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=UnterstÃ¼tzt bidirektionalen Text.
+OptionDescription.BidiProcessing=Unterstützt bidirektionalen Text.
 
-OptionDescription.TextWrapping=Gibt an, ob der Text ZeilenumbrÃ¼che enthÃ¤lt.
+OptionDescription.TextWrapping=Gibt an, ob der Text Zeilenumbrüche enthält.
 
 OptionDescription.PageOverFlow=Legt fest, wie der Inhalt ausgegeben wird.
 
-OptionDescription.FontSubstitution=WÃ¤hlt Schriftarten automatisch aus, wenn die angegebene Schriftart das Zeichen nicht darstellen kann.
+OptionDescription.FontSubstitution=Wählt Schriftarten automatisch aus, wenn die angegebene Schriftart das Zeichen nicht darstellen kann.
 
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
 
-OptionDescription.RepaginateForPPTX=WÃ¤hrend des Renderns der PPTX neu paginieren.
+OptionDescription.RepaginateForPPTX=Während des Renderns der PPTX neu paginieren.
 
 ###########################################################
 #tooltip
