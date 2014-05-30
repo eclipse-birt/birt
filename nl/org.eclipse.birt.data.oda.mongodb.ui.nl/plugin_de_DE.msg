@@ -19,8 +19,11 @@ oda.data.source.id=org.eclipse.birt.data.oda.mongodb
 plugin.name=MongoDB Data Source ODA Designer
 newwizard.name=MongoDB Data Source
 newwizard.description=Ein MongoDB-Datenquellen-Verbindungsprofil erstellen
+
 wizard.window.title=Neues MongoDB-Datenquellenprofil
+
 wizard.data.source.page.title=MongoDB Data Source
 profile.propertypage.name=MongoDB Data Source Connection Properties
 wizard.data.set.window.title=Neuer MongoDB-Datensatz
+
 wizard.data.set.page.title=Abfrage

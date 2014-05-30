@@ -15,6 +15,7 @@ AddSubTotalAction.TransName=합계 편집
 AddSubTotalAction.DisplayName=합계(&L)
 
 AddSubTotalAction.TotalName=합계
+
 CrosstabMenuBuilder.EditCubeAction.DisplayName=데이터 큐브 편집(&E)
 
 DeleteDimensionViewHandleAction.TransName=차원 삭제
@@ -32,6 +33,7 @@ AddComputedMesureHandleAction.TransName=파생 측정값 추가
 AddComputedSummaryDialog.Title=파생 측정값
 
 AddComputedSummaryDialog.Label.Name=이름(&N):
+
 AddComputedSummaryDialog.Label.Expression=식(&E):
 
 AddComputedSummaryDialog.Label.DataType=데이터 형식(&D):
@@ -88,6 +90,7 @@ GrandTotalProvider.Column.DataField=데이터 필드
 GrandTotalProvider.Column.View=보기
 
 GrandTotalProvider.Column.Position=위치
+
 GrandTotalProvider.Column.Function=함수
 
 GrandTotalProvider.ViewStatus=현재 보기 유지
@@ -105,6 +108,7 @@ SubTotalProvider.Column.ViewStatus=현재 보기 유지
 SubTotalProvider.Column.View=보기
 
 SubTotalProvider.Column.Position=위치
+
 SubTotalProvider.ShowAs={0}(으)로 표시
 
 LevelViewDialog.Title=그룹 수준 표시/숨기기
@@ -157,14 +161,17 @@ CrossTabCellNodeProvider.Cell=셀
 CrossTabLevelNodeProvider.Level=수준 -
 
 CrossTabMeasureNodeProvider.Detail=상세 정보 -
+
 MeasureSubNodeProvider.Header=머리글
 
 MeasureSubNodeProvider.Detail=상세 정보
+
 MeasureSubNodeProvider.Aggregation=집계
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=그룹 수준
 
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
+
 SortkeyBuilder.DialogTitle.Label.Key=키(&K):
 
 CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=대상
@@ -184,6 +191,7 @@ SortkeyBuilder.Locale.Auto=자동
 ###########################################################
 #GrossTabPageGenerator properties
 CrosstabPageGenerator.List.General=일반
+
 CrosstabPageGenerator.List.Margin=여백
 
 CrosstabPageGenerator.List.Font=글꼴
@@ -260,7 +268,9 @@ CategoryPageGenerator.TabItem.Attributes=속성
 ###########################################################
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogMessage.Edit=
+
 FilterConditionBuilder.DialogMessage.New=
+
 FilterConditionBuilder.DialogTitle.New=새 필터 조건
 
 FilterConditionBuilder.DialogTitle.Edit=필터 조건 편집
@@ -296,6 +306,7 @@ FilterConditionBuilder.button.add.tooltip=값 목록에 값 추가
 CrosstabFilterConditionBuilder.Item.Decorator=--------
 
 CrosstabFilterConditionBuilder.Button.Detal=상세 정보(&D)
+
 CrosstabFilterConditionBuilder.Item.SelectLevel=---수준 선택---
 
 CrosstabFilterConditionBuilder.Item.SelectMeasure=---측정값 선택---
@@ -313,9 +324,11 @@ CrosstabFilterConditionBuilder.Button.GroupLevel=그룹 수준(&G)
 CrosstabFilterConditionBuilder.Button.Measure=측정값(&U)
 
 CrosstabFilterConditionBuilder.Button.Cube=큐브(&C)
+
 FilterbyTree.Bindings.Catogory.Measures=측정
 
 FilterbyTree.Bindings.Catogory.Dimension=차원
+
 FilterbyTree.Bindings.Catogory.GrandTotal=총합계
 
 FilterbyTree.Bindings.Catogory.SubTotal=부분합
@@ -548,4 +561,5 @@ VirtualCrosstabCellNodeProvider.Display.RowArea=행 영역
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=알 수 없는 영역
 
 CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\(데이터 모델)
+
 CrosstabBindingRefresh.action.message=크로스 탭 바인딩 새로 고침

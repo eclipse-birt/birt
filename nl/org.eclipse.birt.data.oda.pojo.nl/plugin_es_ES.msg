@@ -21,4 +21,5 @@ data.source.name=POJO Data Source
 data.set.name=POJO Data Set
 connection.profile.name=POJO Data Source Connection Profile
 datasource.property.pojoDataSetClassPath=&Ubicación compartida de las clases de conjuntos de datos POJO personalizadas
+
 datasource.property.pojoClassPath=Ubicación compartida de las clases POJO

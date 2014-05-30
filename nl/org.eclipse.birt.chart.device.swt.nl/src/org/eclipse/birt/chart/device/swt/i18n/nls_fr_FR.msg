@@ -13,6 +13,7 @@ SwtTextRenderer.exception.undefined.text.color=Rendu de texte impossible avec un
 SwtDisplayServer.exception.display.server=Echec de l'instance SWTDisplayServer
 
 SwtDisplayServer.info.display.server=Serveur d''affichage SWT : {0} version {1}
+
 SwtEventHandler.info.toggle.visibility=Basculer la visibilité : {0}
 
 SwtEventHandler.info.toggle.datapoint.visibility=Basculer la visibilité du point de données : {0}

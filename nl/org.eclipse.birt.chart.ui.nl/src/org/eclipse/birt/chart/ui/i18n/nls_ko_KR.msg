@@ -3,6 +3,7 @@ DimensionType.2DWithDepth=2D(깊이)
 
 DimensionType.3D=3D
 Shared.Lbl.OK=\ \ \ 확인
+
 Shared.Lbl.Cancel=취소
 
 ButtonPanel.Lbl.SelectChartType=<< 차트 형식 선택
@@ -22,6 +23,7 @@ ChartDlg.Msg.ValidationErrors=차트 정의를 확인하는 중에 오류가 발견되었습니다.\n
 ChartDlg.Msg.AskCorrectLater=\n차트 빌더를 닫고\n이 문제를 나중에 해결하시겠습니까?
 
 ChartDlg.Info.ChartDimension=차원:
+
 ChartDlg.Info.AxisOrientation=\t방향:
 
 ChartSelector.Lbl.ChartTypes2=차트 형식
@@ -57,7 +59,9 @@ ChartDlg.Title.ChartBuilder=차트 대화 상자
 DefaultChartTypeImpl.Label.ValueDefinitionName=값 (&Y) 계열:
 
 DefaultUIServiceProviderImpl.Warn.Placeholder=DefaultUIServiceProviderImpl : 자리 표시자 클래스이며 아무런 작업도 수행하지 않습니다.
+
 SheetPlaceHolder.Lbl.Placeholder={0}의 자리 표시자입니다.
+
 ChartDlg.Info.ChartStart=--------------------------- 차트 속성 시작 -------------------------
 
 ChartDlg.Info.ChartType=형식:
@@ -101,6 +105,7 @@ ChartDlg.Info.ChartType2=형식:
 ChartSelector.Lbl.Accept=수락
 
 ChartWizard.Title.ChartBuilder=차트 빌더
+
 ChartWizard.Title.NewChart=새 차트
 
 ChartWizard.Title.EditChart=차트 편집
@@ -110,12 +115,15 @@ ChartUIUtil.SeriesLabel=계열 {0}
 ChartUIUtil.StockExp.Low=낮음
 
 ChartUIUtil.Font.Auto=자동
+
 ChartDlg.Info.ChartSubType2=하위 형식:
 
 ChartSelector.Lbl.Dimension=차원(&D):
+
 ChartSelector.Lbl.EditChart=차트 편집 >>
 
 ChartDlg.Info.Dimension=차원:
+
 ChartDlg.Info.SeriesCount2=계열 수:
 
 ChartDlg.Info.SeriesStart2=--------------------------- 계열 정보 ----------------------------

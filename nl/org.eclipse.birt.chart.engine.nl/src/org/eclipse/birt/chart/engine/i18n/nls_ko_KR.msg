@@ -258,7 +258,9 @@ info.datapoint.to.string={0}:{1}
 info.stdenv.creating.dsp=(독립 실행형 환경) DataSetProcessor {0}을(를) 만드는 중입니다.
 
 constant.undefined.string=<정의되지 않음>
+
 constant.null.string=널(null)
+
 error.invalid.enumerator=''{0}'' 값은 올바른 ''{1}'' 열거자가 아닙니다.
 
 error.invalid.classifier=''{0}'' 데이터 형식은 올바른 분류자가 아닙니다.
@@ -306,11 +308,16 @@ error.eclenv.cannot.find.display=(이클립스 환경) {0}에 대한 디스플레이 서버 구현
 error.stdenv.cannot.find.display=(독립 실행형 환경) {0}에 대한 디스플레이 서버 구현을 찾을 수 없습니다.
 
 info.log.script=[SCRIPT]: {0}
+
 info.render.series={0}: renderSeries() [{1}/{2}]
 info.log.info=[INFO]: {0}
+
 info.log.warn=[WARN]: {0}
+
 info.log.err=[ERR]: {0}
+
 info.log.fatal=[FATAL]: {0}
+
 prefix.marker.range.caption=[
 separator.marker.range.caption=\ -
 
@@ -374,18 +381,22 @@ GanttSeriesImpl.displayName=Gantt 계열
 DifferenceSeriesImpl.displayName=차이 계열
 
 AxisType.Linear.displayName=선형
+
 AxisType.Logarithmic.displayName=로그
 
 AxisType.Text.displayName=텍스트
-AxisType.DateTime.displayName=DateTime
 
+AxisType.DateTime.displayName=DateTime
 IntersectionType.Min.displayName=Min
+
 IntersectionType.Max.displayName=Max
+
 IntersectionType.Value.displayName=값
 
 ScaleUnitType.Seconds.displayName=초
 
 ScaleUnitType.Minutes.displayName=분
+
 ScaleUnitType.Hours.displayName=시간
 
 ScaleUnitType.Days.displayName=일
@@ -433,6 +444,7 @@ TriggerCondition.onkeyup.displayName=키 누르지 않은 상태
 TriggerCondition.onload.displayName=로드
 
 ActionType.URLRedirect.displayName=하이퍼링크
+
 ActionType.ShowTooltip.displayName=도구 설명 표시
 
 ActionType.ToggleVisibility.displayName=표시 유형 전환
@@ -470,6 +482,7 @@ LeaderLineStyle.StretchToSide.displayName=측면에 맞춤
 MarkerType.Crosshair.displayName=십자 기호
 
 MarkerType.Triangle.displayName=삼각형
+
 MarkerType.Box.displayName=상자
 
 MarkerType.Circle.displayName=원
@@ -477,16 +490,19 @@ MarkerType.Circle.displayName=원
 MarkerType.Icon.displayName=아이콘
 
 MarkerType.Nabla.displayName=나블라
+
 MarkerType.Diamond.displayName=다이아몬드
 
 MarkerType.FourDiamonds.displayName=4개의 다이아몬드
 
 MarkerType.Ellipse.displayName=타원
+
 MarkerType.SemiCircle.displayName=반원
 
 MarkerType.Hexagon.displayName=육각형
 
 MarkerType.Rectangle.displayName=사각형
+
 MarkerType.Star.displayName=별형
 
 MarkerType.Column.displayName=열
@@ -494,7 +510,9 @@ MarkerType.Column.displayName=열
 MarkerType.Cross.displayName=교차
 
 RiserType.Rectangle.displayName=사각형
+
 RiserType.Triangle.displayName=삼각형
+
 RiserType.Tube.displayName=튜브
 
 RiserType.Cone.displayName=원뿔
@@ -532,12 +550,17 @@ AutoScale.Exception.IsInfiite=\ 무한대
 AutoScale.Exception.IsNaN=\ NaN
 
 AutoScale.ValueName.StepSize=step size
+
 Stretch.Horizontal.displayName=가로
+
 Stretch.Vertical.displayName=세로
+
 Stretch.Both.displayName=모두
 
 Orientation.Horizontal.displayName=가로
+
 Orientation.Vertical.displayName=세로
+
 Direction.LeftRight.displayName=왼쪽/오른쪽
 
 Direction.TopBottom.displayName=위쪽/아래쪽
@@ -559,7 +582,9 @@ Position.Inside.displayName=안쪽
 Position.Outside.displayName=바깥쪽
 
 UnitsOfMeasurement.Pixels.displayName=픽셀
+
 UnitsOfMeasurement.Points.displayName=포인트
+
 UnitsOfMeasurement.Inches.displayName=인치
 
 UnitsOfMeasurement.Centimeters.displayName=센티미터
@@ -568,9 +593,11 @@ DataType.Numeric.displayName=숫자
 
 DataType.DateTime.displayName=DateTime
 DataType.Text.displayName=텍스트
+
 GroupingUnitType.Seconds.displayName=초
 
 GroupingUnitType.Minutes.displayName=분
+
 GroupingUnitType.Hours.displayName=시간
 
 GroupingUnitType.Days.displayName=일
@@ -584,9 +611,11 @@ GroupingUnitType.Years.displayName=연
 GroupingUnitType.Quarters.displayName=분기
 
 GroupingUnitType.String.displayName=문자열
+
 GroupingUnitType.StringPrefix.displayName=문자열 접두사
 
 DateFormatType.Long.displayName=Long
+
 DateFormatType.Short.displayName=짧게
 
 DateFormatType.Medium.displayName=중간
@@ -594,16 +623,19 @@ DateFormatType.Medium.displayName=중간
 DateFormatType.Full.displayName=전체
 
 DateFormatDetail.Date.displayName=날짜
+
 DateFormatDetail.DateTime.displayName=날짜/시간
 
 DefaultValueProvider_BaseSeries=기본 계열
 
 DefaultValueProvider_ChartSubType.Standard=표준
+
 DefaultValueProvider_ChartSubType.StandardMeterChart=표준 측정기 차트
 
 DefaultValueProvider_ChartTitle=차트 제목
 
 DefaultValueProvider_ChartUnits.Points=포인트
+
 LegendBehaviorType.None.displayName=없음
 
 LegendBehaviorType.ToggleSerieVisibility.displayName=계열 표시 유형 전환
@@ -612,14 +644,17 @@ LegendBehaviorType.HighlightSerie.displayName=계열 강조
 
 # Defines cursor display names.
 Cursor.Auto.displayName=자동
+
 Cursor.Crosshair.displayName=십자 기호
 
 Cursor.Default.displayName=기본
 
 Cursor.Pointer.displayName=손 모양
+
 Cursor.Move.displayName=이동
 
 Cursor.Text.displayName=텍스트
+
 Cursor.Wait.displayName=검색 중
 
 Cursor.EResize.displayName=동

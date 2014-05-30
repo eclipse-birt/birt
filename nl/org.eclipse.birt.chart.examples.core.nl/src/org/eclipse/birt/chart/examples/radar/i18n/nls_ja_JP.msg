@@ -3,6 +3,7 @@ RadarSeriesImpl.displayName=ƒŒ[ƒ_[Œn—ñ
 RadarChart.Txt.DefaultRadarChartTitle=ƒŒ[ƒ_[ƒ`ƒƒ[ƒg‚Ìƒ^ƒCƒgƒ‹
 
 RadarChart.Txt.DisplayName=ƒŒ[ƒ_[
+
 RadarChart.SubType.Standard=•W€ƒŒ[ƒ_[ƒ`ƒƒ[ƒg
 
 RadarChart.SubType.Spider=ƒXƒpƒCƒ_[ƒŒ[ƒ_[ƒ`ƒƒ[ƒg
@@ -20,6 +21,7 @@ RadarChart.Txt.SpiderDescription=ƒXƒpƒCƒ_[ƒŒ[ƒ_[ƒ`ƒƒ[ƒgB‘½ŠpŒ`‚ÌƒOƒŠƒbƒhã‚
 RadarChart.Txt.BullseyeDescription=ƒuƒ‹ƒYƒAƒCƒŒ[ƒ_[ƒ`ƒƒ[ƒgB‰~Œ`‚Ì“h‚è‚Â‚Ô‚³‚ê‚½ƒOƒŠƒbƒhã‚É‘½ŠpŒ`‚Æü‚ğd‚Ë‡‚í‚¹‚Ä•\¦‚µ‚Ü‚·B
 
 RadarSeriesAttributeComposite.Lbl.Radius=”¼Œa(&U):
+
 RadarSeriesAttributeComposite.Lbl.StartAngle=n“_‚ÌŠp“x(&G) :
 
 RadarSeriesAttributeComposite.Lbl.StopAngle=I’[‚ÌŠp“x(&E) :
@@ -57,6 +59,7 @@ RadarSeriesMarkerSheet.Label.Web=ƒŒ[ƒ_[‚Ìü‚Ìİ’è
 RadarSeriesMarkerSheet.Label.Series=Œn—ñ‚Ìü‚Ìİ’è
 
 Radar.Composite.Label.ScaleCount.MinMaxWarning=ƒXƒeƒbƒv”‚Í {0} ? {1} ˆÈ“à‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·!
+
 Radar.Composite.Label.ScaleCount=ƒXƒeƒbƒv”(&N)
 
 Radar.Composite.Label.ScaleCountToolTip=ƒOƒ‰ƒt‚Åg—p‚·‚é–Ú·‚ğİ’è
@@ -102,11 +105,19 @@ Radar.Composite.Label.ScaleMin=ƒXƒP[ƒ‹‚ÌÅ¬’l
 Radar.Composite.Label.ScaleMinToolTip=ƒOƒ‰ƒt‚ÌƒTƒCƒY‚ğÅ¬‚Éİ’è
 
 Radar.Composite.Label.PlotPercentageToolTip=ƒŒ[ƒ_[ƒ`ƒƒ[ƒg‚Åg—p‚·‚éƒvƒƒbƒg—Ìˆæ‚ÌŠ„‡
+
 ItemLabel.Visible=‰Â‹:
+
 ItemLabel.Auto=©“®
+
 ItemLabel.True=True
+
 ItemLabel.False=False
+
 ItemLabel.Show=•\¦
+
 ItemLabel.Hide=”ñ•\¦
+
 ItemLabel.Enable=—LŒø‰»
+
 ItemLabel.Disable=–³Œø‰»

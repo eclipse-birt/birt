@@ -11,46 +11,46 @@
 
 ###########################################################
 #PPT Emitter
-PPTXEmitter.Description=単一ファイル Web アーカイブ (MHTML) 形式でレポートをレンダリングするためのオプションを設定します。
+PPTXEmitter.Description=�P��t�@�C�� Web �A�[�J�C�u (MHTML) �`���Ń��|�[�g�������_�����O���邽�߂̃I�v�V������ݒ肵�܂��B
 
 PPTXEmitter.DisplayName=PowerPoint (PPTX)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=双方向テキストの処理
+OptionDisplayValue.BidiProcessing=�o�����e�L�X�g�̏���
 
-OptionDisplayValue.TextWrapping=文字列の折り返し
+OptionDisplayValue.TextWrapping=������̐܂�Ԃ�
 
-OptionDisplayValue.PageOverFlow=オーバーフローしているページの処理
+OptionDisplayValue.PageOverFlow=�I�[�o�[�t���[���Ă���y�[�W�̏���
 
-OptionDisplayValue.CLIP_CONTENT=コンテンツのクリッピング
+OptionDisplayValue.CLIP_CONTENT=�R���e���c�̃N���b�s���O
 
-OptionDisplayValue.FIT_TO_PAGE_SIZE=ページサイズに合わせる
+OptionDisplayValue.FIT_TO_PAGE_SIZE=�y�[�W�T�C�Y�ɍ��킹��
 
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=複数ページを出力
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=�����y�[�W���o��
 
-OptionDisplayValue.ENLARGE_PAGE_SIZE=ページサイズを大きくする
+OptionDisplayValue.ENLARGE_PAGE_SIZE=�y�[�W�T�C�Y��傫������
 
-OptionDisplayValue.FontSubstitution=フォントの置き換え
+OptionDisplayValue.FontSubstitution=�t�H���g�̒u������
 
-OptionDisplayValue.ChartDpi=グラフの DPI
+OptionDisplayValue.ChartDpi=�O���t�� DPI
 
-OptionDisplayValue.RepaginateForPPTX=PPTX のレンダリングのページ数再割り当て
+OptionDisplayValue.RepaginateForPPTX=PPTX �̃����_�����O�̃y�[�W���Ċ��蓖��
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=双方向テキストをサポートします。
+OptionDescription.BidiProcessing=�o�����e�L�X�g���T�|�[�g���܂��B
 
-OptionDescription.TextWrapping=文字列を折り返すことができるかどうかを示します。
+OptionDescription.TextWrapping=�������܂�Ԃ����Ƃ��ł��邩�ǂ����������܂��B
 
-OptionDescription.PageOverFlow=コンテンツの出力方法を制御します。
+OptionDescription.PageOverFlow=�R���e���c�̏o�͕��@�𐧌䂵�܂��B
 
-OptionDescription.FontSubstitution=指定されたフォントで表示できない文字がある場合は、フォントを自動的に選択します。
+OptionDescription.FontSubstitution=�w�肳�ꂽ�t�H���g�ŕ\���ł��Ȃ�����������ꍇ�́A�t�H���g�������I�ɑI�����܂��B
 
-OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
+OptionDescription.ChartDpi=�O���t�̐����Ɏg�p���� DPI �ł��B
 
-OptionDescription.RepaginateForPPTX=PPTX のレンダリングのページ数再割り当て。
+OptionDescription.RepaginateForPPTX=PPTX �̃����_�����O�̃y�[�W���Ċ��蓖�āB
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=グラフエンジンがグラフの生成に使用する DPI です。例: 192。
+Tooltip.ChartDpi=�O���t�G���W�����O���t�̐����Ɏg�p���� DPI �ł��B��: 192�B

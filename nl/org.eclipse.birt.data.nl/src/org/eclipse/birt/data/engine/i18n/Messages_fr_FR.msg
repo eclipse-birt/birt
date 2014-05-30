@@ -34,11 +34,13 @@ data.engine.UnsupportedSortOnClobAndBLOB=Le tri par données CLOB ou BLOB [{0}] n
 data.engine.EndOfGroupOnly=Cette expression d'agrégats n'est disponible qu'à la fin d'un groupe.
 
 data.engine.InvalidAggregation=La définition d'agrégation est incorrecte :{0}.
+
 data.engine.InvalidAggrGroup=Niveau de regroupement incorrect pour la fonction d'agrégation : {0}.
 
 data.engine.WrongNumAggrArgs=Nombre d'arguments incorrect pour la fonction d'agrégation : {0}.
 
 data.engine.AggrParamGroupLevelInconsistent=Dans l'agrégation imbriquée "{0}", toutes les expressions non constantes doivent avoir le même niveau de groupe.
+
 data.engine.DupPropertyName=Nom de propriété en double trouvé : {0}.
 
 data.engine.NoSubQueryName=Impossible de trouver une sous-requête portant le nom : {0}.
@@ -304,6 +306,7 @@ data.engine.incorrectGroupKeyValues=Le tableau des valeurs clés de groupe donné 
 data.engine.NoExpressionProcessorAvailable=Aucun ExpressionProcessor disponible.
 
 data.engine.InconvertibleDatatype=Le type de données d'origine de la valeur {0} est {1}, qui ne peut pas être converti en type de données {2}.
+
 data.engine.ConvertToDataTypeError={0} ne peut pas être converti en {1}.
 
 data.engine.NoRowUpdate=Impossible de mettre à jour la ligne de données pour le moment.
@@ -379,6 +382,7 @@ data.engine.acl.cubeDimensionCannotBeAccessed=L'utilisateur ne dispose pas des a
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
 
 odaconsumer.ColumnPositionIsOneBased=La position de la colonne est basée sur 1 et ne peut pas être inférieure à 1.
+
 odaconsumer.ColumnAliasCannotBeEmpty=L'alias de colonne ne peut pas être une chaîne vide.
 
 odaconsumer.CannotProcessDriverConfig=Impossible de trouver ou de traiter la configuration de l'extension de la source de données du pilote {0}.
@@ -754,6 +758,7 @@ data.executor.configFileParser.getQueryTextByID=Impossible d''obtenir le texte d
 data.executor.configFileParser.getParametersByID=Impossible d''obtenir les paramètres à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
 
 data.aggregation.expression.displayName=Expression
+
 data.aggregation.argumentError=L'expression de l'argument \"{0}\" de l'agrégation \"{1}\" est nulle ou vide.
 
 data.olap.InvalidAggrTypeOnMeasure=L''agrégation sur la mesure de cube ne peut pas être du type : "{0}".
@@ -785,4 +790,5 @@ data.datamart.collation=Dans le produit précédent, le classement n'est pas utili
 data.filter.pushDownFail= Impossible d'aligner le filtre pris en charge uniquement par un côté de l'extension ODA.
 
 data.query.exprReferInvalidColumn=Impossible d'exécuter la requête car : la requête contient une expression non valide qui fait référence à une colonne de données incorrecte "{0}".
+
 data.query.invalidColumnBinding=La liaison de colonnes "{0}" est incorrecte.

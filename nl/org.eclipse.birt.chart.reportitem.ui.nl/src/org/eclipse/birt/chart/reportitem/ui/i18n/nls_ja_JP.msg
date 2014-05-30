@@ -5,6 +5,7 @@ ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=データバインドの選択 :
 ChartDataSetBindingSheetImpl.Title.SheetTitle=データ - データセットの選択
 
 ChartPageGenerator.List.General=全般
+
 ChartPageGenerator.List.AltText=代替テキスト
 
 ChartDataBindingPage.Lbl.Parameter=パラメタ
@@ -26,6 +27,7 @@ ChartDataBindingPage.Lbl.SaveDataSet=データセットの変更
 ChartDataBindingPage.Msg.AskSaveDataSet=バインドされたデータセットを変更しますか ?
 
 DesignerRepresentation.error.Error=エラー:
+
 DesignerRepresentation.log.UnableToFind=デザイナで描画中に、グラフのモデルが見つかりません。
 
 DesignerRepresentation.msg.InvalidChart=現在のグラフは無効です。このグラフの作業を続ける場合は、いったん削除してください。
@@ -49,6 +51,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=棒グラフのタイトル
 ChartReportItemViewProvider.ChartViewName=グラフ
 
 ChartExpressionProvider.Category.ChartVariables=変数
+
 ChartExpressionProvider.ChartVariables.DataPoints=グラフのデータポイント
 
 ChartExpressionProvider.ChartVariables.LegendItems=グラフの凡例
@@ -81,6 +84,7 @@ ReportDataServiceProvider.Label.DataModel=(データモデル)
 ReportDataServiceProvider.Option.None=<なし>
 
 ReportDataServiceProvider.Option.Inherits=<Container''s {0}>
+
 ReportDataServiceProvider.Tooltip.Aggregate=集計 :
 
 ReportDataServiceProvider.Tooltip.GroupExpression=グループ式 :
@@ -138,6 +142,7 @@ StandardChartDataSheet.Label.CubeTree=データキューブ : グループとサマリ
 StandardChartDataSheet.Label.Overlay=オーバーレイ
 
 StandardChartDataSheet.Label.Series=系列
+
 StandardChartDataSheet.Label.ShareCrossTab=値系列 (Y) の下の矢印ボタンをクリックし、一覧からメジャー要素を選択します。
 
 StandardChartDataSheet.Label.ShowDataPreview=データプレビューの表示(&S)

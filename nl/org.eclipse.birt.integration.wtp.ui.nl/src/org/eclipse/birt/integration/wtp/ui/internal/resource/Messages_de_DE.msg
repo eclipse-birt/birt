@@ -93,14 +93,23 @@ BIRTConfiguration_cubememsize_label=Maximale Speicherg&röße zum Erstellen von Qu
 BIRTConfiguration_loglevel_label=Protokolle&bene auswählen:
 
 BIRTConfiguration_loglevel_all=ALLE
+
 BIRTConfiguration_loglevel_severe=SCHWER
+
 BIRTConfiguration_loglevel_warning=WARNUNG
+
 BIRTConfiguration_loglevel_info=INFO
+
 BIRTConfiguration_loglevel_config=KONFIGURATION
+
 BIRTConfiguration_loglevel_fine=FEIN
+
 BIRTConfiguration_loglevel_finer=FEINER
+
 BIRTConfiguration_loglevel_finest=SEHR FEIN
+
 BIRTConfiguration_loglevel_off=AUS
+
 BIRTConfiguration_printserver_label=&Bericht auf Server drucken:
 
 BIRTConfiguration_import_clear_message=&Alte BIRT Runtime-Dateien löschen.

@@ -17,10 +17,17 @@ driver.template.name=BIRT SampleDb Derby Embedded JDBC Driver
 driver.definition.name=BIRT SampleDb Derby Embedded Driver
 #
 driver.template.property.class =Clase de controlador
+
 driver.template.property.vendor =Proveedor
+
 driver.template.property.version =Versión
+
 driver.template.property.dbname =Base de datos
+
 driver.template.property.connection.url =URL de conexión
+
 driver.template.property.user =Nombre de usuario
+
 driver.template.property.password =Contraseña
+
 driver.template.property.save.password =Guardar contraseña

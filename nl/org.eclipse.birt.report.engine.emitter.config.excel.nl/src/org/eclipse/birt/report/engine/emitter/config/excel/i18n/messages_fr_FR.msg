@@ -12,21 +12,27 @@
 ###########################################################
 #Excel Emitter
 ExcelEmitter.Description=Configurez les options pour un rendu de rapport au format feuille de calcul XML 2003.
+
 ExcelEmitter.DisplayName=Excel (XLS)
 
 ###########################################################
 #Option Display Value
 OptionDisplayValue.WrappingText=Activer le retour à la ligne automatique
+
 OptionDisplayValue.OfficeVersion=Version de sortie :
+
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 OptionDisplayValue.ChartDpi=DPI de graphique
+
 OptionDisplayValue.HideGridlines=Cacher les lignes de la grille
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=Indique si le retour à la ligne est autorisé pour le texte.
+
 OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
+
 OptionDescription.HideGridlines=Cacher les lignes de la grille.
 
 ###########################################################

@@ -93,14 +93,23 @@ BIRTConfiguration_cubememsize_label=Taille maximale de la mémoire ré&servée à la
 BIRTConfiguration_loglevel_label=Sélectionnez le ni&veau de journalisation :
 
 BIRTConfiguration_loglevel_all=TOUT
+
 BIRTConfiguration_loglevel_severe=SEVERE
+
 BIRTConfiguration_loglevel_warning=AVERTISSEMENT
+
 BIRTConfiguration_loglevel_info=INFOS
+
 BIRTConfiguration_loglevel_config=CONFIG
+
 BIRTConfiguration_loglevel_fine=FIN
+
 BIRTConfiguration_loglevel_finer=MIEUX
+
 BIRTConfiguration_loglevel_finest=PLUS FIN
+
 BIRTConfiguration_loglevel_off=DESACTIVE
+
 BIRTConfiguration_printserver_label=Im&primer l'état sur le serveur :
 
 BIRTConfiguration_import_clear_message=&Effacer les anciens fichiers d'exécution BIRT.

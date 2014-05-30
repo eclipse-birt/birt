@@ -41,18 +41,23 @@ button.selectFileURI.menuItem.relativePath=&Ruta relativa
 button.selectFileURI.menuItem.absolutePath=&Ruta absoluta
 
 editor.title.name=Nombre
+
 editor.title.originalName=Nombre original
 
 editor.title.type=Tipo
+
 datatypes.dateTime=Fecha Hora
 
 datatypes.decimal=Decimal
+
 datatypes.float=Flotante
 
 datatypes.integer=Entero
 
 datatypes.string=String
+
 datatypes.date=Fecha
+
 datatypes.time=Hora
 
 datatypes.boolean=Booleano
@@ -110,8 +115,13 @@ confirm.reselectFileMessage=Si selecciona un archivo diferente no se guardarán l
 RelativeFolderSelectionDialog.Title.SelectFolder=Seleccionar una carpeta
 
 RelativeFileSelectionDialog.button.importFile=Importar archivo...
+
 RelativeFileSelectionDialog.title.error=Error
+
 RelativeFileSelectionDialog.title.overwrite=Sobrescribir
+
 RelativeFileSelectionDialog.overwrite.msg=Ya existe un archivo con este nombre, ¿desea sobrescribirlo?
+
 RelativeFileSelectionDialog.import.msg=Importando archivo...
+
 SelectFile.Title=Seleccionar archivo

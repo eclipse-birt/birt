@@ -40,6 +40,7 @@ Element.CrosstabView=Kreuztabellenansicht
 
 Element.Cube=Cube
 Element.Dimension=Dimension
+
 Element.Level=Ebene
 
 Element.Measure=Maßeinheit
@@ -71,7 +72,9 @@ Element.SpanOverOnColumn=Spalte überspannen
 Element.SpanOverOnRow=Zeile überspannen
 
 Element.Direction.Horizontal=Horizontal
+
 Element.Direction.Vertical=Vertikal
+
 Element.choice.before=Vor
 
 Element.choice.after=Nach
@@ -229,6 +232,7 @@ CrosstabReportItemTask.msg.pivot.dimension=Pivot-Dimension
 CrosstabReportItemTask.msg.insert.dimension=Dimension einfügen
 
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Gespiegelte Anfangsebene festlegen
+
 CrosstabReportItemTask.msg.pivot.crosstab=Pivot-Kreuztabelle
 
 CrosstabReportItemHandle.Error.HasNoCube=Die Kreuztabelle muss auf einen Quader zugreifen können.

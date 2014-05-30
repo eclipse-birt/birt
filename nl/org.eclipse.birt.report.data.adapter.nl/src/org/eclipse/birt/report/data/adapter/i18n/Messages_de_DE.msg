@@ -266,7 +266,6 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Monat bis Datum
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Woche bis Datum
 
-
 timeFunction.toolTip.to=To
 
  # Localized messages for the DTE Engine. Messages here give 
@@ -534,7 +533,6 @@ timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quartal bis Datum
 timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Monat bis Datum
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Woche bis Datum
-
 
 timeFunction.toolTip.to=To
 RelativeTimePeriod.TimeLevelNotEnough=Das Berichtselement enthält nicht alle zeitlichen Ebenen für die Berechnung dieses relativen Zeitintervalls mit einem Bezugsdatum.

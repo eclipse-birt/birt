@@ -266,7 +266,6 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =現在までの 1 か月
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =現在までの 1 週間
 
-
 timeFunction.toolTip.to=To
 
  # Localized messages for the DTE Engine. Messages here give 
@@ -534,7 +533,6 @@ timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =現在までの四半期
 timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =現在までの 1 か月
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =現在までの 1 週間
-
 
 timeFunction.toolTip.to=To
 RelativeTimePeriod.TimeLevelNotEnough=レポート項目に、参照日でこの相対期間を計算するための時間レベルが一部しか含まれていません。

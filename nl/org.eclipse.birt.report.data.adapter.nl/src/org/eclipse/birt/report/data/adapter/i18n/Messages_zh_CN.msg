@@ -266,7 +266,6 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =月初至今
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =周初至今
 
-
 timeFunction.toolTip.to=To
 
  # Localized messages for the DTE Engine. Messages here give 
@@ -534,7 +533,6 @@ timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =季度初至今
 timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =月初至今
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =周初至今
-
 
 timeFunction.toolTip.to=To
 RelativeTimePeriod.TimeLevelNotEnough=报表项不包含通过参考日期计算此相对时间周期需要的所有时间级别。

@@ -150,6 +150,7 @@ DefaultDescription=カテゴリからサンプルを 1 つ選択してください。
 ###########################################################
 #Example View labels
 ChartExamples.Description=説明
+
 ChartExamples.Preview=プレビュー
 
 ChartExamples.SelectExamples=サンプルの選択
@@ -204,6 +205,7 @@ SampleChartName.Bubble=バブルチャート
 SampleChartName.Difference=差分チャート
 
 SampleChartName.Gantt=ガントチャート
+
 SampleChartName.Tube=円筒グラフ
 
 SampleChartName.Cone=円錐グラフ

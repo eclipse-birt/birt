@@ -40,6 +40,7 @@ Element.CrosstabView=Visualización de tablas de referencias cruzadas
 
 Element.Cube=Cube
 Element.Dimension=Dimensión
+
 Element.Level=Nivel
 
 Element.Measure=Medida
@@ -71,7 +72,9 @@ Element.SpanOverOnColumn=Extender en columna
 Element.SpanOverOnRow=Extender en fila
 
 Element.Direction.Horizontal=Horizontal
+
 Element.Direction.Vertical=Vertical
+
 Element.choice.before=Antes
 
 Element.choice.after=Después
@@ -229,6 +232,7 @@ CrosstabReportItemTask.msg.pivot.dimension=Dimensión dinámica
 CrosstabReportItemTask.msg.insert.dimension=Insertar dimensión
 
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Establecer nivel de inicio reflejado
+
 CrosstabReportItemTask.msg.pivot.crosstab=Tabla de referencias cruzadas del eje
 
 CrosstabReportItemHandle.Error.HasNoCube=La tabla de referencias cruzadas debe poder acceder a un cubo.

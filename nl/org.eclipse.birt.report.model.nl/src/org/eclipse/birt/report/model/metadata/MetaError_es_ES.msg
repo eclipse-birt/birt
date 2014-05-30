@@ -118,11 +118,15 @@ REPORT_MISSING=Elemento raíz: el diseño de informe no está definido.
 INVALID_CHOICE_VALUE=El valor de selección "{0}" de la propiedad "{1}" no es válido.
 
 MISSING_SUB_TYPE=La propiedad de lista "{0}" no tiene ningún subtipo.
+
 UNSUPPORTED_SUB_TYPE=No se admite el subtipo "{1}" de la propiedad de lista "{0}".
+
 SUB_TYPE_FORBIDDEN=La propiedad "{0}" no es una propiedad de lista, por tanto, el subtipo debe ser nulo.
+
 MISSING_XML_NAME=El elemento concreto "{0}" no define el nombre xml.
 
 DUPLICATE_XML_NAME=El nombre xml "{0}" del elemento "{1}" entra en conflicto con los nombres existentes.
+
 INVALID_ELEMENT_TYPE=El tipo de elemento [{0}] no es válido.
 
 INVALID_CHOICE_PROPERTY=La propiedad de selección "{0}" de la extensión "{1}" no es válida, ya que define tanto el detalle-tipo como su propia lista de selección.
@@ -132,4 +136,5 @@ EXTENDED_ITEM_MISSING=Falta un elemento ampliado en el diccionario de metadatos.
 DEFAULT_ENCRYPTION_EXIST=La encriptación "{0}" no se puede configurar de forma predeterminada, ya que existe la encriptación predeterminada"{1}".
 
 DEFAULT_EMPTY_STYLE_NAME=El estilo predeterminado del elemento de extensión	"{0}" no puede estar vacío.
+
 EMPTY_DELTA_ROM_STREAM=La secuencia de entrada delta-rom devuelta por clase "{1}" del elemento de extensión "{0}" no debe estar vacía.

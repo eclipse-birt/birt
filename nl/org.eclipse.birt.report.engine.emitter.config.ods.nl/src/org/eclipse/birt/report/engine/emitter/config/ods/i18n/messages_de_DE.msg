@@ -12,18 +12,23 @@
 ###########################################################
 #Excel Emitter
 OdsEmitter.Description=Optionen zum Rendern eines Berichts im OpenDocument Spreadsheet-Format konfigurieren.
+
 OdsEmitter.DisplayName=OpenDocument Spreadsheet
 
 ###########################################################
 #Option Display Value
 OptionDisplayValue.WrappingText=Zeilenumbruch
+
 OptionDisplayValue.ChartDpi=Diagramm-DPI
+
 OptionDisplayValue.HideGridlines=Rasterlinien ausblenden
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=Gibt an, ob der Text Zeilenumbrüche enthält.
+
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
+
 OptionDescription.HideGridlines=Rasterlinien ausblenden.
 
 ###########################################################

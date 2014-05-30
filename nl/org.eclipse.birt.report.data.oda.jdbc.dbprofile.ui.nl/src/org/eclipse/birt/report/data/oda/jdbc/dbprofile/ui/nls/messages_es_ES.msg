@@ -20,6 +20,7 @@ sqbWizPage_dataSourceDesignError=Error de diseño de fuente de datos
 sqbWizPage_dbErrorMsg=Mensaje de error de la base de datos:
 
 sqbWizPage_defaultMessage=Compilar una consulta de selección de SQL.
+
 sqbWizPage_detectExternalSqlTextChangedMsg=Se ha modificado externamente el texto de la consulta SQL en el diseño del conjunto de datos. ¿Desea reemplazar el contenido del compilador de consultas SQL con estos cambios?
 
 sqbWizPage_detectSqlTextChangedTitle=Texto modificado en la consulta SQL

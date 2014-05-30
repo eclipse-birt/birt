@@ -61,6 +61,7 @@ DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=‘Š‘ÎƒpƒX
 DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=â‘ÎƒpƒX
 
 DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=ƒGƒ‰[
+
 DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒŠƒ\[ƒX‚Ìƒx[ƒX URI ‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 
 DataSource.ClassPathPage.synchronize.checkbox.message=Às‚ÆƒfƒUƒCƒ“‚Ì—¼•û‚Åƒ‰ƒ“ƒ^ƒCƒ€ƒvƒƒpƒeƒB‚ğg—p‚·‚é
@@ -145,9 +146,11 @@ DataSet.FailedToLoadClassTitle=ƒNƒ‰ƒX‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB
 DataSet.FailedToLoadPojoClassMsg=POJO ƒNƒ‰ƒX‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñ: "{0}"
 
 ColumnMappingPage.table.head.columnName=–¼‘O
+
 ColumnMappingPage.table.head.MethodField=ƒƒ\ƒbƒh / ƒtƒB[ƒ‹ƒh
 
 ColumnMappingPage.table.head.columnType=í—Ş
+
 ColumnMappingWizardPage.error.getQueryText=Œ³‚ÌƒNƒGƒŠƒeƒLƒXƒg‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB
 
 ColumnMappingWizardPage.button.apply.text=“K—p(&P)
@@ -165,6 +168,7 @@ ColumnMappingDialog.table.promptLabel=ƒpƒ‰ƒƒ^‚Éƒ}ƒbƒsƒ“ƒO‚·‚éƒƒ\ƒbƒhˆø”‚ğ‘I‘ğ
 ColumnMappingDialog.table.head.mapped=ƒ}ƒbƒsƒ“ƒOÏ‚İ
 
 ColumnMappingDialog.table.head.name=–¼‘O
+
 ColumnMappingDialog.table.head.value=’l
 
 ColumnMappingDialog.table.head.dataType=Java ‚Ìƒf[ƒ^Œ^
@@ -190,6 +194,7 @@ ColumnMappingDialog.MenuItem.removeAll=‚·‚×‚Äíœ
 MethodParameterDialog.edit.title=ƒƒ\ƒbƒhƒpƒ‰ƒƒ^‚Ì•ÒW
 
 MethodParameterDialog.label.name=–¼‘O(&N):
+
 MethodParameterDialog.label.value=’l(&V):
 
 MethodParameterDialog.label.dataType=Java ‚Ìƒf[ƒ^Œ^(&J):
@@ -205,16 +210,23 @@ MethodParameterDialog.error.invalidParamName=‚±‚Ìƒpƒ‰ƒƒ^‚É‚Í‚·‚Å‚É•Ê‚Ìƒf[ƒ^Œ^‚
 MethodParameterDialog.error.missingDataType=ƒpƒ‰ƒƒ^‚Ìƒf[ƒ^Œ^‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 
 DataSet.DataType.String=•¶š—ñ
+
 DataSet.DataType.Integer=®”
 #make the display label consistent with BIRT data type 
 DataSet.DataType.Double=•‚“®
+
 DataSet.DataType.Decimal=10 i”’l
+
 DataSet.DataType.Date=“ú•t
+
 DataSet.DataType.Time=ŠÔ
 #make the display label consistent with BIRT data type 
 DataSet.DataType.Timestamp=“ú•t / ŠÔ
+
 DataSet.DataType.Boolean=ƒu[ƒŠƒAƒ“
+
 DataSet.DataType.Blob=Blob
+
 DataSet.AddColumnMapping=—ñƒ}ƒbƒsƒ“ƒO‚Ì’Ç‰Á
 
 DataSet.EditColumnMapping=—ñƒ}ƒbƒsƒ“ƒO‚Ì•ÒW
@@ -246,6 +258,7 @@ DataSet.PreviewDialogTitle=ƒTƒ“ƒvƒ‹ƒf[ƒ^
 DataSet.FailedFetchSampleData=ƒTƒ“ƒvƒ‹ƒf[ƒ^‚ğƒtƒFƒbƒ`‚Å‚«‚Ü‚¹‚ñ
 
 ExceptionDialog.title.erro=ƒGƒ‰[
+
 ExceptionDialog.DataSource.AddDuplicatedJar=“¯‚¶ JAR ‚ğ‰½“x‚à’Ç‰Á‚Å‚«‚Ü‚¹‚ñB
 
 error.PojoDataSet.emptyClassName=ƒNƒ‰ƒX–¼‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
@@ -253,6 +266,7 @@ error.PojoDataSet.emptyClassName=ƒNƒ‰ƒX–¼‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 JarsSelectionDialog.button.importFile=ƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒ|[ƒg...
 
 JarsSelectionDialog.title.error=ƒGƒ‰[
+
 JarsSelectionDialog.title.overwrite=ã‘‚«
 
 JarsSelectionDialog.overwrite.msg=‚±‚Ì–¼‘O‚Ìƒtƒ@ƒCƒ‹‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·Bã‘‚«‚µ‚Ü‚·‚© ?

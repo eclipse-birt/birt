@@ -15,6 +15,7 @@ AddSubTotalAction.TransName=Modifier les totaux
 AddSubTotalAction.DisplayName=Tota&ux
 
 AddSubTotalAction.TotalName=TOTAL
+
 CrosstabMenuBuilder.EditCubeAction.DisplayName=&Modifier un cube de données
 
 DeleteDimensionViewHandleAction.TransName=Supprimer la dimension
@@ -32,6 +33,7 @@ AddComputedMesureHandleAction.TransName=Ajouter une mesure dérivée
 AddComputedSummaryDialog.Title=Mesure dérivée
 
 AddComputedSummaryDialog.Label.Name=&Nom :
+
 AddComputedSummaryDialog.Label.Expression=&Expression :
 
 AddComputedSummaryDialog.Label.DataType=Type de &données :
@@ -88,6 +90,7 @@ GrandTotalProvider.Column.DataField=Champ de données
 GrandTotalProvider.Column.View=Vue
 
 GrandTotalProvider.Column.Position=Position
+
 GrandTotalProvider.Column.Function=Fonctions
 
 GrandTotalProvider.ViewStatus=Conserver la Vue actuelle
@@ -105,6 +108,7 @@ SubTotalProvider.Column.ViewStatus=Conserver la Vue actuelle
 SubTotalProvider.Column.View=Affichage
 
 SubTotalProvider.Column.Position=Position
+
 SubTotalProvider.ShowAs=Afficher sous {0}
 
 LevelViewDialog.Title=Afficher/Masquer les niveaux de groupe
@@ -157,14 +161,17 @@ CrossTabCellNodeProvider.Cell=Cellule
 CrossTabLevelNodeProvider.Level=Niveau -
 
 CrossTabMeasureNodeProvider.Detail=Détails -
+
 MeasureSubNodeProvider.Header=En-tête
 
 MeasureSubNodeProvider.Detail=Détails
+
 MeasureSubNodeProvider.Aggregation=Agrégation
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=Niveau de groupe
 
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Erreur
+
 SortkeyBuilder.DialogTitle.Label.Key=&Clé :
 
 CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Cible
@@ -184,6 +191,7 @@ SortkeyBuilder.Locale.Auto=Auto
 ###########################################################
 #GrossTabPageGenerator properties
 CrosstabPageGenerator.List.General=Général
+
 CrosstabPageGenerator.List.Margin=Marge
 
 CrosstabPageGenerator.List.Font=Police
@@ -260,7 +268,9 @@ CategoryPageGenerator.TabItem.Attributes=Propriétés
 ###########################################################
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogMessage.Edit=
+
 FilterConditionBuilder.DialogMessage.New=
+
 FilterConditionBuilder.DialogTitle.New=Nouvelle condition de filtre
 
 FilterConditionBuilder.DialogTitle.Edit=Modifier la condition de filtre
@@ -296,6 +306,7 @@ FilterConditionBuilder.button.add.tooltip=Ajouter la valeur à la liste
 CrosstabFilterConditionBuilder.Item.Decorator=--------
 
 CrosstabFilterConditionBuilder.Button.Detal=&Détails
+
 CrosstabFilterConditionBuilder.Item.SelectLevel=---Sélectionner un niveau---
 
 CrosstabFilterConditionBuilder.Item.SelectMeasure=---Sélectionner une mesure---
@@ -313,9 +324,11 @@ CrosstabFilterConditionBuilder.Button.GroupLevel=Niveau de &groupe
 CrosstabFilterConditionBuilder.Button.Measure=Mes&ure
 
 CrosstabFilterConditionBuilder.Button.Cube=&Cube
+
 FilterbyTree.Bindings.Catogory.Measures=Mesure
 
 FilterbyTree.Bindings.Catogory.Dimension=Dimension
+
 FilterbyTree.Bindings.Catogory.GrandTotal=Total global
 
 FilterbyTree.Bindings.Catogory.SubTotal=Sous-total
@@ -548,4 +561,5 @@ VirtualCrosstabCellNodeProvider.Display.RowArea=Zone de ligne
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=Zone inconnue
 
 CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (Modèle de données)
+
 CrosstabBindingRefresh.action.message=Réactualiser les liaisons de tableau croisé

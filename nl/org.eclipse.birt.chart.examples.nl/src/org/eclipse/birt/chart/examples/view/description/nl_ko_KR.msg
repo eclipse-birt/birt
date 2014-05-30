@@ -150,6 +150,7 @@ DefaultDescription=범주에서 예를 선택하십시오.
 ###########################################################
 #Example View labels
 ChartExamples.Description=설명
+
 ChartExamples.Preview=미리 보기
 
 ChartExamples.SelectExamples=예제 선택
@@ -204,6 +205,7 @@ SampleChartName.Bubble=거품형
 SampleChartName.Difference=차이
 
 SampleChartName.Gantt=간트
+
 SampleChartName.Tube=튜브
 
 SampleChartName.Cone=원뿔

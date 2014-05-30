@@ -94,6 +94,7 @@ GroupsPage.Title=×éºÍÕªÒª
 LinkGroupsPage.Title=Á´½Ó×é
 
 DatasetPage.Label.Name=Ãû³Æ(&N):
+
 DateGroupDialog.Title=Ìí¼Ó/±à¼­×é¼¶±ğ
 
 DateGroupDialog.Message.NumericName=×éÃû²»ÄÜÎª´¿Êı
@@ -111,6 +112,7 @@ DateLevelDialog.Title=±à¼­ÈÕÆÚ¼¶±ğ
 DatasetPage.Label.PrimaryDataset=Ö÷Êı¾İ¼¯(&P):
 
 DatasetPage.Button.Filter=É¸Ñ¡Æ÷(&F)...
+
 DatasetPage.Button.Joint=Ìí¼ÓÁª½ÓÊı¾İ¼¯...
 
 DatasetPage.Title.Title=Êı¾İ¼¯
@@ -144,6 +146,7 @@ SimpleCubeBuilder.Title.Message=Í¨¹ıÖ¸¶¨·Ö×é²ã´Î½á¹¹ºÍÕªÒªÊı¾İ×Ö¶ÎÀ´Îª½»²æ±í×éÖ¯
 SimpleCubeBuilder.Title=½»²æ±í¶àÎ¬Êı¾İ¼¯Éú³ÉÆ÷
 
 SimpleCubeBuilder.Label.Name=Ãû³Æ:
+
 DatasetSelectionPage.Label.Auto.Primary.Key=Ñ¡ÖĞ´ËÑ¡ÏîÒÔÔÚ¶àÎ¬Êı¾İ¼¯Éú³É¹ı³Ì±ÜÃâÖ÷Êı¾İ¼¯µÄÔ¤ÏÈ¾ÛºÏ(&C)¡£
 
 DatasetSelectionPage.Text.Auto.Primary.Key=ÌáÊ¾ - Èç¹ûÑ¡ÖĞ´ËÑ¡Ïî£¬BIRT ÔÚ¶àÎ¬Êı¾İ¼¯Éú³É¹ı³ÌÖĞ½«Ìø¹ı·Ö×éºÍ¾ÛºÏ¼ÆËã£¬ÒÔÊµÏÖ¸ü¼ÑµÄ¶àÎ¬Êı¾İ¼¯Éú³ÉĞÔÄÜ¡£
@@ -191,6 +194,7 @@ LinkGroupsPage.Title.Message=Òª½«ÁíÒ»¸öÊı¾İ¼¯ÄÚµÄÒ»¸ö×éÁ´½Óµ½Ö÷Êı¾İ¼¯£¬Çë½«×éÖĞµ
 LevelDialog.Title=ÊôĞÔ
 
 LevelDialog.Label.Name=Ãû³Æ:
+
 LevelDialog.Label.Field=Ñ¡Ôñ×Ö¶Î:
 
 LevelDialog.Label.DataType=Êı¾İÀàĞÍ:
@@ -210,6 +214,7 @@ MeasureDialog.Button.Text.Edit=±à¼­(&E)...
 MeasureDialog.Title=ÊôĞÔ
 
 MeasureDialog.Label.Name=Ãû³Æ(&N):
+
 MeasureDialog.Label.DisplayName=ÏÔÊ¾Ãû³Æ(&A):
 
 MeasureDialog.Label.Function=º¯Êı(&F):
@@ -269,6 +274,7 @@ LevelPropertyDialog.None=ÎŞ
 LevelPropertyDialog.GroupBy=·Ö×éÒÀ¾İ:
 
 LevelPropertyDialog.Name=Ãû³Æ(&N):
+
 LevelPropertyDialog.MSG.Static.CreateNew=<´´½¨ĞÂµÄ³ÉÔ±>
 
 LevelPropertyDialog.Shell.Title=×é¼¶±ğ
@@ -358,10 +364,13 @@ DateLevelDialog.Shell.Title=±à¼­ÈÕÆÚ¼¶±ğ
 DateLevelDialog.Interval.Base=¶Ô¼ä¸ôÊ¹ÓÃ¹Ì¶¨»ùÖµ:
 
 DateGroupDialog.Name=Ãû³Æ(&N):
+
 DateLevelDialog.Name=Ãû³Æ(&N):
+
 DateLevelDialog.Type=ÀàĞÍ(&T):
 
 DateLevelDialog.Format=¸ñÊ½(&F):
+
 DateLevelDialog.KeyField=¼ü×Ö¶Î:
 
 DateLevelDialog.Label.LinkTo=Á´½ÓÖÁ(&L):
@@ -383,6 +392,7 @@ CubePageGenerator.List.General=³£¹æ
 ############################################################
 #FilterListDialog properties
 FilterListDialog.Shell.Title=É¸Ñ¡Æ÷
+
 FilterListDialog.Menu.ModifyProperty=ĞŞ¸ÄÊôĞÔ
 
 FilterListDialog.Button.AddWithDialog=Ìí¼Ó(&A)...

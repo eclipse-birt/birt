@@ -31,12 +31,15 @@ report.bidi.properties.externalbidiformat.textdirection.tooltip = 텍스트 방향 값
 report.bidi.properties.externalbidiformat.symswap.tooltip = 대칭 변경 값 선택
 
 report.bidi.properties.externalbidiformat.symswap.true=참
+
 report.bidi.properties.externalbidiformat.symswap.false=거짓
+
 report.bidi.properties.externalbidiformat.shaping.tooltip = 텍스트 모양 값 선택
 
 report.bidi.properties.externalbidiformat.numshaping.tooltip = 숫자 모양 선택
 
 report.bidi.properties.externalbidiformat.orderingscheme.visual =시각적
+
 report.bidi.properties.externalbidiformat.orderingscheme.logical =논리적
 
 report.bidi.properties.externalbidiformat.textdirection.ltr=왼쪽에서 오른쪽
@@ -48,10 +51,15 @@ report.bidi.properties.externalbidiformat.textdirection.contextltr=문맥에 따라 �
 report.bidi.properties.externalbidiformat.textdirection.contextrtl=문맥에 따라 오른쪽에서 왼쪽
 
 report.bidi.properties.externalbidiformat.shaping.shaped=Shaped
+
 report.bidi.properties.externalbidiformat.shaping.nominal=Nominal
+
 report.bidi.properties.externalbidiformat.numshaping.national=National
+
 report.bidi.properties.externalbidiformat.numshaping.nominal=Nominal
+
 report.bidi.properties.externalbidiformat.numshaping.contextual=Contextual
+
 report.bidi.properties.externalbidiformat = 외부 양방향 형식
 
 report.bidi.properties.nonbididirection = 왼쪽에서 오른쪽

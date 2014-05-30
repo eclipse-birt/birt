@@ -3,6 +3,7 @@ RadarSeriesImpl.displayName=Série en radar
 RadarChart.Txt.DefaultRadarChartTitle=Titre du graphique en radar
 
 RadarChart.Txt.DisplayName=Graphique en radar
+
 RadarChart.SubType.Standard=Graphique en radar standard
 
 RadarChart.SubType.Spider=Graphique en radar avec toile d'araignée
@@ -20,6 +21,7 @@ RadarChart.Txt.SpiderDescription=Les graphiques en radar avec toile d'araignée c
 RadarChart.Txt.BullseyeDescription=Les graphiques en radar avec cercles concentriques contiennent une grille circulaire superposée à un ou plusieurs polygones/lignes de série
 
 RadarSeriesAttributeComposite.Lbl.Radius=Ray&on :
+
 RadarSeriesAttributeComposite.Lbl.StartAngle=An&gle de début :
 
 RadarSeriesAttributeComposite.Lbl.StopAngle=An&gle de fin :
@@ -57,6 +59,7 @@ RadarSeriesMarkerSheet.Label.Web=Configuration des lignes en radar
 RadarSeriesMarkerSheet.Label.Series=Configuration des lignes de série
 
 Radar.Composite.Label.ScaleCount.MinMaxWarning=Le nombre d'étapes doit être compris entre {0} et {1}.
+
 Radar.Composite.Label.ScaleCount=&Nombre d'étapes
 
 Radar.Composite.Label.ScaleCountToolTip=Numéroter les étapes (échelles) à partir desquelles créer le graphique
@@ -102,11 +105,19 @@ Radar.Composite.Label.ScaleMin=Echelle minimale
 Radar.Composite.Label.ScaleMinToolTip=Définir l'échelle du graphique au minimum
 
 Radar.Composite.Label.PlotPercentageToolTip=Pourcentage de zone de tracé occupée par le graphique en radar
+
 ItemLabel.Visible=Visible :
+
 ItemLabel.Auto=Auto
+
 ItemLabel.True=Vrai
+
 ItemLabel.False=Faux
+
 ItemLabel.Show=Afficher
+
 ItemLabel.Hide=Masquer
+
 ItemLabel.Enable=Activer
+
 ItemLabel.Disable=Désactiver

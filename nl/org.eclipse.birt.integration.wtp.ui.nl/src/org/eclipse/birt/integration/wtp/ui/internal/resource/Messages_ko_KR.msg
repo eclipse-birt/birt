@@ -93,14 +93,23 @@ BIRTConfiguration_cubememsize_label=큐브 생성에 필요한 최대 메모리 크기(&Z):
 BIRTConfiguration_loglevel_label=로그 수준 선택(&V):
 
 BIRTConfiguration_loglevel_all=모두
+
 BIRTConfiguration_loglevel_severe=심각
+
 BIRTConfiguration_loglevel_warning=경고
+
 BIRTConfiguration_loglevel_info=정보
+
 BIRTConfiguration_loglevel_config=구성
+
 BIRTConfiguration_loglevel_fine=양호
+
 BIRTConfiguration_loglevel_finer=아주 양호
+
 BIRTConfiguration_loglevel_finest=가장 양호
+
 BIRTConfiguration_loglevel_off=끄기
+
 BIRTConfiguration_printserver_label=서버 쪽에서 보고서 인쇄(&P):
 
 BIRTConfiguration_import_clear_message=오래된 BIRT 런타임 파일 지우기(&C)

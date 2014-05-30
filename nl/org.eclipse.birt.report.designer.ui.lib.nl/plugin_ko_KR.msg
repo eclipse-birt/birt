@@ -26,7 +26,9 @@ LibraryProjectWizard=라이브러리 프로젝트
 LibraryProjectWizardDescription=새 라이브러리 프로젝트를 만듭니다.
 
 library.layout=레이아웃(&O)
+
 library.script=스크립트(&S)
+
 library.xmlsource=XML 소스(&X)
 
 design.masterPage=마스터 페이지(&M)

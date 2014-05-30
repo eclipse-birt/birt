@@ -52,6 +52,7 @@ MongoDBDataSetWizardPage.label.OperationType=ÃüÁîÀàĞÍ(&T):
 MongoDBDataSetWizardPage.Button.FindFields=²éÕÒ×Ö¶Î(&D)
 
 MongoDBDataSetWizardPage.Button.text.CommandExpression=±í´ïÊ½(&E)...
+
 MongoDBDataSetWizardPage.Button.tooltip.CommandExpression=±à¼­ÃüÁî±í´ïÊ½¡£
 
 MongoDBDataSetWizardPage.Button.QueryExpression=$²éÑ¯±í´ïÊ½(&Q)...
@@ -81,9 +82,11 @@ MongoDBDataSetWizardPage.MessageBox.title.PromptToRefreshAvailableFields=È·ÈÏÒÔË
 MongoDBDataSetWizardPage.MessageBox.message.PromptToRefreshAvailableFields=ÊÇ·ñÒª¸ù¾İ¸ü¸ÄµÄ¡°ÃüÁî±í´ïÊ½¡±Ë¢ĞÂ¡°¿ÉÓÃ×Ö¶Î¡±?
 
 MongoDBDataSetWizardPage.MessageDialog.title.GeneralError=´íÎó
+
 MongoDBDataSetWizardPage.MessageDialog.ErrorMessage.InitPage=ÎŞ·¨´Ó MongoDB Êı¾İÔ´»ñÈ¡¼¯ºÏÁĞ±í¡£
 
 MongoDBDataSetWizardPage.ExceptionDialog.title=´íÎó
+
 MongoDBDataSetWizardPage.ExceptionDialog.message.FindFields=ÕÒ²»µ½¿ÉÓÃ×Ö¶Î¡£
 
 MongoDBDataSetWizardPage.ExceptionDialog.message.NoMetaData=ÎŞ»î¶¯Êı¾İÔ´Á¬½Ó¡£
@@ -153,8 +156,11 @@ MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSearch=¡°ÒªËÑË
 MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSkip=¡°ÒªÌø¹ıµÄ×î´óÎÄµµÊı¡±ĞèÒªÒ»¸öÕûÊıÖµ!
 
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.title=ÖØÖÃÉè¼ÆÉèÖÃ
+
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.button=È·¶¨
+
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.message=ÒÑÖØÖÃ¡°ËÑË÷×Ö¶ÎµÄÎÄµµÊı¡±µÄÉè¼ÆÊ±Öµ£¬ÒÔÓë¡°ËÑË÷ÔªÊı¾İµÄ×î´óÎÄµµÊı¡±ÔËĞĞÊ±ÊôĞÔÖµÏàÆ¥Åä¡£
+
 MongoDBExpressionBuilder.dialogTitle.default=±í´ïÊ½Éú³ÉÆ÷
 
 MongoDBExpressionBuilder.ExprssionText.label=±í´ïÊ½ÎÄ±¾(&X)£º

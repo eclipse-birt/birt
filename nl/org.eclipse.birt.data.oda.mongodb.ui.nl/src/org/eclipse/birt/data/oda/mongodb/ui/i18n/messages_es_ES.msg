@@ -52,6 +52,7 @@ MongoDBDataSetWizardPage.label.OperationType=&Tipo de comando:
 MongoDBDataSetWizardPage.Button.FindFields=Busca&r campos
 
 MongoDBDataSetWizardPage.Button.text.CommandExpression=&Expresión...
+
 MongoDBDataSetWizardPage.Button.tooltip.CommandExpression=Editar la expresión de comando.
 
 MongoDBDataSetWizardPage.Button.QueryExpression=Expresión de $&consulta...
@@ -81,9 +82,11 @@ MongoDBDataSetWizardPage.MessageBox.title.PromptToRefreshAvailableFields=Confirm
 MongoDBDataSetWizardPage.MessageBox.message.PromptToRefreshAvailableFields=¿Desea actualizar los campos disponibles según la expresión de comando modificada?
 
 MongoDBDataSetWizardPage.MessageDialog.title.GeneralError=Error
+
 MongoDBDataSetWizardPage.MessageDialog.ErrorMessage.InitPage=No es posible obtener la lista de colecciones de la fuente de datos MongoDB.
 
 MongoDBDataSetWizardPage.ExceptionDialog.title=Error
+
 MongoDBDataSetWizardPage.ExceptionDialog.message.FindFields=No es posible encontrar los campos disponibles.
 
 MongoDBDataSetWizardPage.ExceptionDialog.message.NoMetaData=Ninguna conexión de fuente de datos activa.
@@ -153,8 +156,11 @@ MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSearch=Requier
 MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSkip=Requiere un valor entero para "máximo de objetos para omitir".
 
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.title=Restablecer ajustes de diseño
+
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.button=Aceptar
+
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.message=El valor de tiempo de diseño de "Número de documentos para buscar campos" se ha restablecido para que coincida con el valor de propiedad de tiepo de ejecución "Máximo de documentos para buscar metadatos".
+
 MongoDBExpressionBuilder.dialogTitle.default=Compilador de expresiones
 
 MongoDBExpressionBuilder.ExprssionText.label=Texto de la e&xpresión:

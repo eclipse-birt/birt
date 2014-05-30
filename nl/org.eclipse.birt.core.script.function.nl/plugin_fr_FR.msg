@@ -2,13 +2,20 @@
 Bundle-Name.0 = Plug-in de la fonction
 
 dataType.String=Chaîne
+
 dataType.Any=Indifférent
+
 dataType.DateTime=DateTime
 dataType.Integer=Entier
+
 dataType.Double=Double
+
 dataType.Number=Numéro
+
 dataType.Boolean=Booléen
+
 dataType.DoubleArray=Double[]
+
 FunctionDesc.charLength=Renvoie le nombre de caractères de la chaîne.
 
 FunctionDesc.concat=Renvoie la chaîne concaténée par toutes les chaînes données.

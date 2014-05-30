@@ -11,11 +11,15 @@
 
 birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=导航　
+
 birt.viewer.title.error=错误
+
 birt.viewer.title.complete=完成
 
 birt.viewer.title.message=消息
+
 birt.viewer.parameter=参数
+
 birt.viewer.runreport=运行报表
 
 birt.viewer.required=需要带有 <FONT COLOR="red">*</FONT> 标记的参数。
@@ -39,6 +43,7 @@ birt.viewer.error.unknownerror=未知错误。
 birt.viewer.error.generatereportfirst=应首先生成报表文档。
 
 birt.viewer.error.copiesnumber=请输入有效份数。
+
 birt.viewer.error.parameterrequired=未指定所需参数 [{0}] 的值。
 
 birt.viewer.error.parameternotallowblank=参数“{0}”不能为空白。
@@ -108,6 +113,7 @@ birt.viewer.progressbar.confirmcanceltask=您要取消当前操作吗?
 # Dialog 
 ###############################################################################
 birt.viewer.dialog.ok=确定
+
 birt.viewer.dialog.cancel=取消
 
 birt.viewer.dialog.run=运行报表
@@ -115,6 +121,7 @@ birt.viewer.dialog.run=运行报表
 birt.viewer.dialog.close=关闭
 
 birt.viewer.dialog.page=页
+
 birt.viewer.dialog.page.all=所有页
 
 birt.viewer.dialog.page.current=当前页
@@ -129,9 +136,11 @@ birt.viewer.dialog.page.error.invalidpagerange=无效页范围
 # Dialog title
 ###############################################################################
 birt.viewer.dialog.exception.title=异常
+
 birt.viewer.dialog.exportReport.title=导出报表
 
 birt.viewer.dialog.parameter.title=参数
+
 birt.viewer.dialog.simpleExportData.title=导出数据
 
 birt.viewer.dialog.printReport.title=打印报表
@@ -154,7 +163,9 @@ birt.viewer.dialog.export.modified=导出具有当前修改的报表
 birt.viewer.dialog.export.modified.detail=将只导出可见数据。将不导出<BR>已被筛选掉或隐藏的数据。
 
 birt.viewer.dialog.export.pdf.fitto=适合
+
 birt.viewer.dialog.export.pdf.fittoauto=自动
+
 birt.viewer.dialog.export.pdf.fittoactual=实际大小
 
 birt.viewer.dialog.export.pdf.fittowidth=适合页面宽度
@@ -178,6 +189,7 @@ birt.viewer.dialog.printserver.onserver=在服务器上打印输出文档文件
 birt.viewer.dialog.printserver.printer=打印机:
 
 birt.viewer.dialog.printserver.status=状态:
+
 birt.viewer.dialog.printserver.model=型号:
 
 birt.viewer.dialog.printserver.description=描述:
@@ -185,6 +197,7 @@ birt.viewer.dialog.printserver.description=描述:
 birt.viewer.dialog.printserver.status.acceptingjobs=正在接受作业
 
 birt.viewer.dialog.printserver.status.notacceptingjobs=未接受作业
+
 birt.viewer.dialog.printserver.settings=请指定打印设置
 
 birt.viewer.dialog.printserver.settings.copies=份数:
@@ -196,10 +209,15 @@ birt.viewer.dialog.printserver.settings.mode=模式:
 birt.viewer.dialog.printserver.settings.mode.bw=黑白
 
 birt.viewer.dialog.printserver.settings.mode.color=颜色
+
 birt.viewer.dialog.printserver.settings.duplex=双面:
+
 birt.viewer.dialog.printserver.settings.duplex.simplex=单面
+
 birt.viewer.dialog.printserver.settings.duplex.horizontal=水平
+
 birt.viewer.dialog.printserver.settings.duplex.vertical=垂直
+
 birt.viewer.dialog.printserver.settings.pagesize=页面大小:
 
 birt.viewer.dialog.printserver.settings.print=打印:
@@ -252,6 +270,7 @@ birt.viewer.dialog.exportdata.datatype=导出列的数据类型
 birt.viewer.dialog.exportdata.localeneutral=不分区域设置导出列
 
 birt.viewer.dialog.exportdata.carriage_return=使用回车符导出数据
+
 birt.viewer.sep.0=逗号 ( , )
 
 birt.viewer.sep.1=分号 ( ; )
@@ -305,6 +324,7 @@ birt.viewer.actionException.INVALID_BOOKMARK=书签: {0} 无效。请检查并重置链接。
 birt.viewer.actionException.INVALID_PAGE_NUMBER=无效页码第 {0} 页，共 {1} 页。
 
 birt.viewer.actionException.PAGE_NUMBER_PARSE_ERROR=页码: {0} 无效。
+
 birt.viewer.actionException.INVALID_ID_FORMAT=无效 id 格式。Id={0}。
 
 birt.viewer.actionException.DOCUMENT_FILE_NO_EXIST=会话超时或没有可用的文档文件。

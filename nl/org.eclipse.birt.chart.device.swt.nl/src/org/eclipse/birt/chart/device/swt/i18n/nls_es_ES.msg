@@ -13,6 +13,7 @@ SwtTextRenderer.exception.undefined.text.color=No se puede procesar el texto con
 SwtDisplayServer.exception.display.server=Error al obtener una instancia de SWT Display Server
 
 SwtDisplayServer.info.display.server=SWT Display Server: {0} v{1}
+
 SwtEventHandler.info.toggle.visibility=Alternar visibilidad: {0}
 
 SwtEventHandler.info.toggle.datapoint.visibility=Alternar visibilidad del punto de datos: {0}

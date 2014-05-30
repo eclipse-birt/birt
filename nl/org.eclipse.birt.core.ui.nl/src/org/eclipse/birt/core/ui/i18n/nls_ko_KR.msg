@@ -39,6 +39,7 @@ ErrorDialog.text.ShowTrace=추적 표시...
 ErrorDialog.text.StackTrace=추적 누적:
 
 ErrorDialog.text.Ok=\ \ \ \ \ 확인
+
 ErrorDialog.text.CausedBy=\n\n발생 원인:
 
 SubtaskHistory.Tooltip.Back={0}(으)로 돌아가기

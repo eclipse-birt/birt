@@ -62,6 +62,7 @@ preference.commenttemplates=Kommentarvorlage
 preference.bidiproperties=Bidirektionale Eigenschaften
 
 preference.layout=Layout
+
 preference.expressionsyntax=Ausdruckssyntax
 
 designer.action.undo.label=Rückgängig
@@ -77,5 +78,7 @@ publish.library=&Bibliothek in Ordner für gemeinsame Ressourcen kopieren...
 ActionSet.Publish=Ressourcen veröffentlichen
 
 Dummy.label=
+
 preference.classpath=Klassenpfad
+
 parameter.actions=Neuer Bericht&parameter

@@ -52,6 +52,7 @@ MongoDBDataSetWizardPage.label.OperationType=&Type de commande :
 MongoDBDataSetWizardPage.Button.FindFields=Trouver &des champs
 
 MongoDBDataSetWizardPage.Button.text.CommandExpression=&Expression...
+
 MongoDBDataSetWizardPage.Button.tooltip.CommandExpression=Modifier l'expression de la commande.
 
 MongoDBDataSetWizardPage.Button.QueryExpression=Expressi&on de re$quête...
@@ -81,9 +82,11 @@ MongoDBDataSetWizardPage.MessageBox.title.PromptToRefreshAvailableFields=Confirm
 MongoDBDataSetWizardPage.MessageBox.message.PromptToRefreshAvailableFields=Voulez-vous actualiser les champs disponibles selon l'expression modifiée de la commande ?
 
 MongoDBDataSetWizardPage.MessageDialog.title.GeneralError=Erreur
+
 MongoDBDataSetWizardPage.MessageDialog.ErrorMessage.InitPage=Impossible d'obtenir la liste de collections à partir de la source de données MongoDB.
 
 MongoDBDataSetWizardPage.ExceptionDialog.title=Erreur
+
 MongoDBDataSetWizardPage.ExceptionDialog.message.FindFields=Impossible de trouver les champs disponibles.
 
 MongoDBDataSetWizardPage.ExceptionDialog.message.NoMetaData=Aucune connexion à une source de données active.
@@ -153,8 +156,11 @@ MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSearch=Nécessi
 MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSkip=Nécessite un nombre entier pour "Nombre maximum de documents à ignorer".
 
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.title=Réinitialiser le paramètre de modèle de création
+
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.button=OK
+
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.message=La valeur de l'heure de conception du champ "Nombre de documents à chercher pour les champs" est réinitialisée pour correspondre à la valeur d'heure d'exécution du champ "Nombre maximum de documents à chercher pour les métadonnées".
+
 MongoDBExpressionBuilder.dialogTitle.default=Générateur d'expression
 
 MongoDBExpressionBuilder.ExprssionText.label=Texte de l'e&xpression :

@@ -52,6 +52,7 @@ MongoDBDataSetWizardPage.label.OperationType=명령 형식(&T):
 MongoDBDataSetWizardPage.Button.FindFields=필드 찾기(&D)
 
 MongoDBDataSetWizardPage.Button.text.CommandExpression=식(&E)...
+
 MongoDBDataSetWizardPage.Button.tooltip.CommandExpression=명령 식을 편집합니다.
 
 MongoDBDataSetWizardPage.Button.QueryExpression=$쿼리 식(&Q)...
@@ -81,9 +82,11 @@ MongoDBDataSetWizardPage.MessageBox.title.PromptToRefreshAvailableFields=새로 고
 MongoDBDataSetWizardPage.MessageBox.message.PromptToRefreshAvailableFields=변경된 명령 식을 기반으로 사용 가능한 필드를 새로 고치시겠습니까?
 
 MongoDBDataSetWizardPage.MessageDialog.title.GeneralError=오류
+
 MongoDBDataSetWizardPage.MessageDialog.ErrorMessage.InitPage=MongoDB 데이터 원본에서 컬렉션 목록을 가져오지 못했습니다.
 
 MongoDBDataSetWizardPage.ExceptionDialog.title=오류
+
 MongoDBDataSetWizardPage.ExceptionDialog.message.FindFields=사용 가능한 필드를 찾을 수 없습니다.
 
 MongoDBDataSetWizardPage.ExceptionDialog.message.NoMetaData=활성 데이터 원본에 연결되지 않았습니다.
@@ -153,8 +156,11 @@ MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSearch="검색할
 MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSkip="건너뛸 최대 문서 수"의 정수 값이 필요합니다!
 
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.title=디자인 설정 재설정
+
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.button=확인
+
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.message="필드를 검색할 문서 수"의 디자인 타임 값이 "메타데이터를 검색할 최대 문서 수" 런타임 속성 값과 일치하도록 재설정했습니다.
+
 MongoDBExpressionBuilder.dialogTitle.default=연산식 빌더
 
 MongoDBExpressionBuilder.ExprssionText.label=식 텍스트(&X):

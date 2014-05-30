@@ -266,7 +266,6 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =월별 누계
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =주간 누계
 
-
 timeFunction.toolTip.to=To
 
  # Localized messages for the DTE Engine. Messages here give 
@@ -534,7 +533,6 @@ timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =분기별 누계
 timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =월별 누계
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =주간 누계
-
 
 timeFunction.toolTip.to=To
 RelativeTimePeriod.TimeLevelNotEnough=보고서에는 참조 날짜를 사용하여 이 상대 시간을 계산하는 데 필요한 시간 수준이 모두 포함되어 있지는 않습니다.

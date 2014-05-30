@@ -41,18 +41,23 @@ button.selectFileURI.menuItem.relativePath=상대 경로(&R)
 button.selectFileURI.menuItem.absolutePath=절대 경로(&A)
 
 editor.title.name=이름
+
 editor.title.originalName=원본 이름
 
 editor.title.type=형식
+
 datatypes.dateTime=날짜 시간
 
 datatypes.decimal=십진수
+
 datatypes.float=고정 해제
 
 datatypes.integer=정수
 
 datatypes.string=문자열
+
 datatypes.date=날짜
+
 datatypes.time=시간
 
 datatypes.boolean=부울
@@ -110,8 +115,13 @@ confirm.reselectFileMessage=다른 파일을 선택하면 저장되지 않은 이전 작업이 손실�
 RelativeFolderSelectionDialog.Title.SelectFolder=폴더 선택
 
 RelativeFileSelectionDialog.button.importFile=파일 가져오기...
+
 RelativeFileSelectionDialog.title.error=오류
+
 RelativeFileSelectionDialog.title.overwrite=덮어쓰기
+
 RelativeFileSelectionDialog.overwrite.msg=같은 이름의 파일이 이미 있습니다. 덮어쓰시겠습니까?
+
 RelativeFileSelectionDialog.import.msg=파일을 가져오는 중...
+
 SelectFile.Title=파일 선택

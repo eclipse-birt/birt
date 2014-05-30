@@ -20,6 +20,7 @@ sqbWizPage_dataSourceDesignError=数据源设计错误
 sqbWizPage_dbErrorMsg=数据库错误消息:
 
 sqbWizPage_defaultMessage=生成 SQL 选择查询。
+
 sqbWizPage_detectExternalSqlTextChangedMsg=SQL 查询文本已在数据集设计外部更改。是否要使用这些更改替换 SQL 查询生成器内容?
 
 sqbWizPage_detectSqlTextChangedTitle=SQL 查询文本已更改

@@ -93,14 +93,23 @@ BIRTConfiguration_cubememsize_label=Tamaño de memoria má&ximo para crear el cubo
 BIRTConfiguration_loglevel_label=&Seleccionar nivel de registro:
 
 BIRTConfiguration_loglevel_all=ALL
+
 BIRTConfiguration_loglevel_severe=GRAVE
+
 BIRTConfiguration_loglevel_warning=ADVERTENCIA
+
 BIRTConfiguration_loglevel_info=INFORMACIÓN
+
 BIRTConfiguration_loglevel_config=CONFIG.
+
 BIRTConfiguration_loglevel_fine=BUENO
+
 BIRTConfiguration_loglevel_finer=MEJOR
+
 BIRTConfiguration_loglevel_finest=ÓPTIMO
+
 BIRTConfiguration_loglevel_off=DESACTIVAR
+
 BIRTConfiguration_printserver_label=&Imprimir informe en el servidor:
 
 BIRTConfiguration_import_clear_message=Eliminar los ar&chivos de tiempo de ejecución BIRT antiguos.

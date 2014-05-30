@@ -94,6 +94,7 @@ GroupsPage.Title=Groupes et résumés
 LinkGroupsPage.Title=Lier les groupes
 
 DatasetPage.Label.Name=&Nom :
+
 DateGroupDialog.Title=Ajouter/Modifier le niveau de groupe
 
 DateGroupDialog.Message.NumericName=Le nom du groupe ne doit pas être constitué uniquement de chiffres
@@ -111,6 +112,7 @@ DateLevelDialog.Title=Modifier le niveau de date
 DatasetPage.Label.PrimaryDataset=Jeu de données &principal :
 
 DatasetPage.Button.Filter=&Filtre...
+
 DatasetPage.Button.Joint=Ajouter des jeux de données de jointure...
 
 DatasetPage.Title.Title=Jeu de données
@@ -144,6 +146,7 @@ SimpleCubeBuilder.Title.Message=Organisez vos données du tableau croisé en préci
 SimpleCubeBuilder.Title=Générateur de cube de tableau croisé
 
 SimpleCubeBuilder.Label.Name=Nom :
+
 DatasetSelectionPage.Label.Auto.Primary.Key=Vérifiez cette option pour éviter la préagrégation dans le jeu de données principal lors de la génération du &cube.
 
 DatasetSelectionPage.Text.Auto.Primary.Key=Astuce : si cette option est activée, BIRT ignorera le calcul de regroupement et d'agrégation lors de la génération du cube pour améliorer les performances de la génération du cube.
@@ -191,6 +194,7 @@ LinkGroupsPage.Title.Message=Pour établir une liaison entre un groupe d'un autre
 LevelDialog.Title=Propriété
 
 LevelDialog.Label.Name=Nom :
+
 LevelDialog.Label.Field=Sélection de champ :
 
 LevelDialog.Label.DataType=Type de données :
@@ -210,6 +214,7 @@ MeasureDialog.Button.Text.Edit=Modifi&er...
 MeasureDialog.Title=Propriétés
 
 MeasureDialog.Label.Name=&Nom :
+
 MeasureDialog.Label.DisplayName=Nom d'&affichage :
 
 MeasureDialog.Label.Function=&Fonction :
@@ -269,6 +274,7 @@ LevelPropertyDialog.None=Aucun
 LevelPropertyDialog.GroupBy=Grouper par :
 
 LevelPropertyDialog.Name=&Nom :
+
 LevelPropertyDialog.MSG.Static.CreateNew=<Créer un nouveau membre>
 
 LevelPropertyDialog.Shell.Title=Niveau de groupe
@@ -358,10 +364,13 @@ DateLevelDialog.Shell.Title=Modifier le niveau de date
 DateLevelDialog.Interval.Base=Utiliser une valeur de base fixe pour l'intervalle :
 
 DateGroupDialog.Name=&Nom :
+
 DateLevelDialog.Name=&Nom :
+
 DateLevelDialog.Type=&Type :
 
 DateLevelDialog.Format=&Format :
+
 DateLevelDialog.KeyField=Champ clé :
 
 DateLevelDialog.Label.LinkTo=&Lien vers :
@@ -383,6 +392,7 @@ CubePageGenerator.List.General=Général
 ############################################################
 #FilterListDialog properties
 FilterListDialog.Shell.Title=Filtrer
+
 FilterListDialog.Menu.ModifyProperty=Modifier la propriété
 
 FilterListDialog.Button.AddWithDialog=&Ajouter...

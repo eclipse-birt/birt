@@ -94,6 +94,7 @@ GroupsPage.Title=ƒOƒ‹[ƒv‚ÆƒTƒ}ƒŠ
 LinkGroupsPage.Title=ƒŠƒ“ƒNƒOƒ‹[ƒv
 
 DatasetPage.Label.Name=–¼‘O(&N):
+
 DateGroupDialog.Title=ƒOƒ‹[ƒvƒŒƒxƒ‹‚Ì’Ç‰Á‚Æ•ÒW
 
 DateGroupDialog.Message.NumericName=ƒOƒ‹[ƒv–¼‚É”š‚Ì‚İ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB
@@ -111,6 +112,7 @@ DateLevelDialog.Title=“ú•tƒŒƒxƒ‹‚Ì•ÒW
 DatasetPage.Label.PrimaryDataset=ƒvƒ‰ƒCƒ}ƒŠƒf[ƒ^ƒZƒbƒg(&P) :
 
 DatasetPage.Button.Filter=ƒtƒBƒ‹ƒ^(&F)...
+
 DatasetPage.Button.Joint=ƒWƒ‡ƒCƒ“ƒf[ƒ^ƒZƒbƒg‚Ì’Ç‰Á...
 
 DatasetPage.Title.Title=ƒf[ƒ^ƒZƒbƒg
@@ -144,6 +146,7 @@ SimpleCubeBuilder.Title.Message=ƒOƒ‹[ƒv‰»‚ÌŠK‘w‚ÆƒTƒ}ƒŠƒf[ƒ^ƒtƒB[ƒ‹ƒh‚ğw’è‚µ
 SimpleCubeBuilder.Title=ƒNƒƒXƒ^ƒuƒLƒ…[ƒuƒrƒ‹ƒ_
 
 SimpleCubeBuilder.Label.Name=–¼‘O:
+
 DatasetSelectionPage.Label.Auto.Primary.Key=ƒLƒ…[ƒu¶¬’†‚Éƒvƒ‰ƒCƒ}ƒŠƒf[ƒ^ƒZƒbƒg“à‚Å‚Ì–‘OWŒv‚ğ‰ñ”ğ‚·‚éê‡A‚±‚ÌƒIƒvƒVƒ‡ƒ“‚ğƒIƒ“‚É‚·‚é(&C)
 
 DatasetSelectionPage.Text.Auto.Primary.Key=ƒqƒ“ƒg - ‚±‚ÌƒIƒvƒVƒ‡ƒ“‚ªƒIƒ“‚Ìê‡ABIRT ‚ÍƒLƒ…[ƒu¶¬ƒpƒtƒH[ƒ}ƒ“ƒX‚ğŒüã‚³‚¹‚é‚½‚ßAƒLƒ…[ƒu¶¬’†‚ÌƒOƒ‹[ƒv‰»EWŒv‚ÌŒvZ‚ğƒXƒLƒbƒv‚µ‚Ü‚·B
@@ -191,6 +194,7 @@ LinkGroupsPage.Title.Message=ƒOƒ‹[ƒv‚ğ•Ê‚Ìƒf[ƒ^ƒZƒbƒg‚©‚çƒvƒ‰ƒCƒ}ƒŠƒf[ƒ^ƒZƒbƒ
 LevelDialog.Title=ƒvƒƒpƒeƒB
 
 LevelDialog.Label.Name=–¼‘O:
+
 LevelDialog.Label.Field=ƒtƒB[ƒ‹ƒh‚Ì‘I‘ğ :
 
 LevelDialog.Label.DataType=ƒf[ƒ^Œ^ :
@@ -210,6 +214,7 @@ MeasureDialog.Button.Text.Edit=•ÒW(&E)...
 MeasureDialog.Title=ƒvƒƒpƒeƒB
 
 MeasureDialog.Label.Name=–¼‘O(&N):
+
 MeasureDialog.Label.DisplayName=•\¦–¼(&A) :
 
 MeasureDialog.Label.Function=ŠÖ”(&F) :
@@ -269,6 +274,7 @@ LevelPropertyDialog.None=‚È‚µ
 LevelPropertyDialog.GroupBy=ƒOƒ‹[ƒv‰» :
 
 LevelPropertyDialog.Name=–¼‘O(&N):
+
 LevelPropertyDialog.MSG.Static.CreateNew=<V‚µ‚¢ƒƒ“ƒo‚ğì¬>
 
 LevelPropertyDialog.Shell.Title=ƒOƒ‹[ƒvƒŒƒxƒ‹
@@ -358,10 +364,13 @@ DateLevelDialog.Shell.Title=“ú•tƒŒƒxƒ‹‚Ì•ÒW
 DateLevelDialog.Interval.Base=ŠÛ‚ß‚½”’l‚ğŠÔŠu‚ÌŠî€’l‚Æ‚µ‚Äg—p‚·‚é :
 
 DateGroupDialog.Name=–¼‘O(&N):
+
 DateLevelDialog.Name=–¼‘O(&N):
+
 DateLevelDialog.Type=Œ^(&T) :
 
 DateLevelDialog.Format=‘®(&F):
+
 DateLevelDialog.KeyField=ƒL[ƒtƒB[ƒ‹ƒh :
 
 DateLevelDialog.Label.LinkTo=ƒŠƒ“ƒNæ(&L) :
@@ -383,6 +392,7 @@ CubePageGenerator.List.General=‘S”Ê
 ############################################################
 #FilterListDialog properties
 FilterListDialog.Shell.Title=ƒtƒBƒ‹ƒ^
+
 FilterListDialog.Menu.ModifyProperty=ƒvƒƒpƒeƒB‚Ì•ÏX
 
 FilterListDialog.Button.AddWithDialog=’Ç‰Á(&A)...

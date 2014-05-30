@@ -13,6 +13,7 @@ SwtTextRenderer.exception.undefined.text.color=[SDL]텍스트를 정의되지 않은 색으�
 SwtDisplayServer.exception.display.server=[SDL]SWT Display Server 인스턴스를 가져오지 못했습니다.
 
 SwtDisplayServer.info.display.server=SWT Display Server: {0} v{1}
+
 SwtEventHandler.info.toggle.visibility=[SDL]표시 유형 전환: {0}
 
 SwtEventHandler.info.toggle.datapoint.visibility=[SDL]데이터 요소 표시 유형 전환: {0}

@@ -10,34 +10,51 @@ Error.Msg001={0} nicht gefunden in {1}.
 ###########################################################
 # Boolean type names
 Property.Boolean.True=wahr
+
 Property.Boolean.False=falsch
 
 ###########################################################
 # Property type names
 Property.boolean=Boolean
+
 Property.choice=Auswahl
+
 Property.float=Float
+
 Property.color=Farbe
+
 Property.dateTime=DateTime
 Property.dimension=Dimension
+
 Property.expression=Ausdruck
+
 Property.html=Html
 Property.integer=Integer
+
 Property.messageId=Nachrichten-ID
+
 Property.name=Name
+
 Property.number=Number
+
 Property.points=Punkte
+
 Property.string=Zeichenfolge
+
 Property.uri=Uri
 Property.xml=Xml
 Property.elementRef=Elementverweis
 
 Property.column=Spalte
+
 Property.variant=Variante
+
 Property.structList=Strukturliste
 
 Property.extends=Wird erweitert
+
 Property.script=Skript
+
 Property.list=Liste
 
 Property.memberKey=Mitgliederschlüssel
@@ -45,6 +62,7 @@ Property.memberKey=Mitgliederschlüssel
 Property.literalString=Literalzeichenfolge
 
 Property.element=Element
+
 Property.structRef=Strukturbezug
 
 Property.contentElement=Element als Eigenschaftswert
@@ -62,6 +80,7 @@ Choices.colors.maroon=Kastanienbraun
 Choices.colors.red=Rot
 
 Choices.colors.orange=Orange
+
 Choices.colors.yellow=Gelb
 
 Choices.colors.olive=Olivgrün
@@ -69,6 +88,7 @@ Choices.colors.olive=Olivgrün
 Choices.colors.purple=Lila
 
 Choices.colors.fuchsia=Pink
+
 Choices.colors.white=Weiß
 
 Choices.colors.lime=Gelbgrün
@@ -91,6 +111,7 @@ Choices.colors.gray=Grau
   
 #1.fontWeight
 Choices.fontWeight.normal=Normal
+
 Choices.fontWeight.bold=Fett
 
 Choices.fontWeight.bolder=Fetter
@@ -130,6 +151,7 @@ Choices.lineStyle.dotted=Gepunktet
 Choices.lineStyle.dashed=Gestrichelt
 
 Choices.lineStyle.double=Doppelt
+
 Choices.lineStyle.groove=Gerillt
 
 Choices.lineStyle.ridge=Gezahnt
@@ -140,20 +162,30 @@ Choices.lineStyle.outset=Hochstehend
   
 #4.units
 Choices.units.in=in
+
 Choices.units.cm=cm
+
 Choices.units.mm=mm
+
 Choices.units.pt=Punkte
+
 Choices.units.pc=Pica
+
 Choices.units.em=em
+
 Choices.units.ex=ex
+
 Choices.units.px=Pixel
+
 Choices.units.%=%
 
 #5.paramDataType
 Choices.paramType.string=Zeichenfolge
+
 Choices.paramType.float=Gleitkomma
 
 Choices.paramType.decimal=Decimal
+
 Choices.paramType.dateTime=Datum/Uhrzeit
 
 Choices.paramType.boolean=Boolesch
@@ -163,6 +195,7 @@ Choices.paramType.integer=Ganzzahl
 Choices.paramType.any=Beliebig
 
 Choices.paramType.date=Datum
+
 Choices.paramType.time=zurücksetzen
 
 Choices.paramType.javaObject=Java-Objekt
@@ -191,16 +224,21 @@ Choices.textAlign.justify=Ausrichten
 Choices.pageSize.custom=Benutzerdefiniert
 
 Choices.pageSize.us-letter=US Letter
+
 Choices.pageSize.us-legal=US Legal
+
 Choices.pageSize.a4=A4
 Choices.pageSize.a3=A3
 Choices.pageSize.a5=A5
 Choices.pageSize.us-ledger=US Ledger
+
 Choices.pageSize.us-super-b=US Super B
   
 #9.pageOrientation
 Choices.pageOrientation.auto=Automatisch
+
 Choices.pageOrientation.portrait=Hochformat
+
 Choices.pageOrientation.landscape=Querformat
    
 #12.interval
@@ -221,6 +259,7 @@ Choices.interval.day=Tag
 Choices.interval.hour=Stunde
 
 Choices.interval.minute=Minute
+
 Choices.interval.second=Sekunde
 
 Choices.interval.interval=Intervall
@@ -255,9 +294,13 @@ Choices.mapOperator.between=Zwischen
 Choices.mapOperator.notBetween=Nicht zwischen
 
 Choices.mapOperator.isNull=Ist null
+
 Choices.mapOperator.isNotNull=Ist nicht null
+
 Choices.mapOperator.isTrue=Ist True
+
 Choices.mapOperator.isFalse=Ist False
+
 Choices.mapOperator.like=Wie
 
 Choices.mapOperator.match=Übereinstimmung
@@ -287,15 +330,19 @@ Choices.imageRefType.url=URL
 Choices.imageRefType.file=DATEI
 
 Choices.imageRefType.expr=Ausdruck
+
 Choices.imageRefType.embed=Eingebettetes Bild
   
 #16.imageSize
 Choices.imageSize.size-to-image=Größenmäßig an Bild anpassen
+
 Choices.imageSize.scale-to-item=Zum Objekt skalieren
+
 Choices.imageSize.clip=Schneiden
   
 #17.lineOrientation
 Choices.lineOrientation.horizontal=Horizontal
+
 Choices.lineOrientation.vertical=Vertikal
   
 #18.rowAlign
@@ -316,17 +363,26 @@ Choices.sectionAlign.right=Rechts
 Choices.dropType.none=Keine
 
 Choices.dropType.detail=Detail
+
 Choices.dropType.all=Alle
     
 #22.imageType
 Choices.imageType.image/bmp=image/bmp
+
 Choices.imageType.image/gif=image/gif
+
 Choices.imageType.image/png=image/png
+
 Choices.imageType.image/x-png=image/x-png
+
 Choices.imageType.image/jpeg=image/jpeg
+
 Choices.imageType.image/ico=Bild (ico)
+
 Choices.imageType.image/tiff=Bild (tiff)
+
 Choices.imageType.image/svg+xml=Bild (svg+xml)
+
 Choices.imageType.image/x-icon=Bild/x-Symbol
   
 #23.lineSpacing
@@ -347,6 +403,7 @@ Choices.lineType.double=Doppelt
   
 #25.pageBreakBefore
 Choices.pageBreakBefore.auto=Automatisch
+
 Choices.pageBreakBefore.always=Immer
 
 Choices.pageBreakBefore.avoid=Vermeiden
@@ -355,6 +412,7 @@ Choices.pageBreakBefore.alwaysExcludingFirst=Erstes Objekt immer ignorieren
 
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=Automatisch
+
 Choices.pageBreakAfter.always=Immer
 
 Choices.pageBreakAfter.avoid=Vermeiden
@@ -401,19 +459,25 @@ Choices.fontSize.smaller=Kleiner
 
 #30.fontFamily
 Choices.fontFamily.serif=Serif
+
 Choices.fontFamily.sans-serif=Sans Serif
+
 Choices.fontFamily.cursive=Kursiv
+
 Choices.fontFamily.fantasy=Fantasy
+
 Choices.fontFamily.monospace=Monospace
 
 #31.fontStyle
 Choices.fontStyle.normal=Normal
+
 Choices.fontStyle.italic=Kursiv
 
 Choices.fontStyle.oblique=Schräg
 
 #32.fontVariant
 Choices.fontVariant.normal=Normal
+
 Choices.fontVariant.small-caps=Kapitälchen
 
 #33.backgroundRepeat
@@ -475,12 +539,14 @@ Choices.verticalAlign.text-bottom=Textende
 
 #40.whiteSpace
 Choices.whiteSpace.normal=Normal
+
 Choices.whiteSpace.pre=Vorformatiert
 
 Choices.whiteSpace.nowrap=Kein Zeilenumbruch
 
 #41.display
 Choices.display.block=Block
+
 Choices.display.inline=Im Text
 
 Choices.display.none=Keine Anzeige
@@ -515,6 +581,7 @@ Choices.inherit.inherit=Vererben
 
 #50. textContentType
 Choices.textContentType.auto=Automatisch
+
 Choices.textContentType.plain=Einfach
 
 Choices.textContentType.html=HTML
@@ -524,13 +591,17 @@ Choices.textContentType.rtf=RTF
 Choices.formatType.all=Alle
 
 Choices.formatType.viewer=Viewer
+
 Choices.formatType.email=E-Mail-Format
 
 Choices.formatType.print=Druckformat
 
 Choices.formatType.pdf=PDF
+
 Choices.formatType.rtf=RTF
+
 Choices.formatType.reportlet=Reportlet
+
 Choices.formatType.excel=Excel
 Choices.formatType.word=Word
 Choices.formatType.powerpoint=Powerpoint
@@ -579,6 +650,7 @@ Choices.filterOperator.match=Übereinstimmung
 Choices.filterOperator.not-match=Stimmt nicht überein
 
 Choices.filterOperator.in=In
+
 Choices.filterOperator.not-in=Nicht in
 
 #53. propertyMaskType
@@ -592,19 +664,27 @@ Choices.propertyMaskType.hide=Ausblenden
 Choices.columnDataType.any=Beliebig
 
 Choices.columnDataType.integer=Integer
+
 Choices.columnDataType.string=Zeichenfolge
+
 Choices.columnDataType.date-time=Datum/Zeit
 
 Choices.columnDataType.decimal=Decimal
+
 Choices.columnDataType.float=Gleitkomma
 
 Choices.columnDataType.structure=Structure
+
 Choices.columnDataType.table=Tabelle
+
 Choices.columnDataType.boolean=Boolesch
 
 Choices.columnDataType.time=Zeit
+
 Choices.columnDataType.date=Datum
+
 Choices.columnDataType.blob=Blob
+
 Choices.columnDataType.javaObject=Java-Objekt
 
 #54. searchType
@@ -623,12 +703,14 @@ Choices.exportType.always=Immer
 
 #56. analysisType
 Choices.analysisType.dimension=Dimension
+
 Choices.analysisType.attribute=Attribut
 
 Choices.analysisType.measure=Maßeinheit
 
 #57. scalarParamAlign
 Choices.scalarParamAlign.auto=Automatisch
+
 Choices.scalarParamAlign.left=Links
 
 Choices.scalarParamAlign.center=Zentriert
@@ -699,6 +781,7 @@ Choices.numberFormat.percent=Prozent
 Choices.numberFormat.scientific=Wissenschaftlich
 
 Choices.numberFormat.standard=Standard
+
 Choices.numberFormat.custom=Benutzerdefiniert
     
 #59. StringFormat
@@ -724,10 +807,12 @@ Choices.targetNames.blank=Leer
 Choices.targetNames.self=Selbst
 
 Choices.targetNames.parent=Übergeordnet
+
 Choices.targetNames.top=Oben
 
 #50. textDataContentType
 Choices.textDataContentType.auto=Automatisch
+
 Choices.textDataContentType.plain=Einfach
 
 Choices.textDataContentType.html=HTML
@@ -735,21 +820,25 @@ Choices.textDataContentType.rtf=RTF
 
 #51. paramaValueType
 Choices.paramValueType.static=Statisch
+
 Choices.paramValueType.dynamic=Dynamisch
 
 #52. templateElementType
 Choices.templateElementType.table=Tabelle
+
 Choices.templateElementType.freeForm=FreeForm
 Choices.templateElementType.data=Daten
 
 Choices.templateElementType.grid=Raster
 
 Choices.templateElementType.image=Bild
+
 Choices.templateElementType.label=Beschriftung
 
 Choices.templateElementType.list=Liste
 
 Choices.templateElementType.text=Text
+
 Choices.templateElementType.extendedItem=ExtendedItem
 Choices.templateElementType.textData=TextData
 Choices.templateElementType.dataSet=DataSet
@@ -763,8 +852,11 @@ Choices.sortType.complexSort=Komplexe Sortierung
 
 #62. joinType
 Choices.joinType.inner=Inner Join
+
 Choices.joinType.leftOut=Left Out Join
+
 Choices.joinType.rightOut=Right Out Join
+
 Choices.joinType.fullOut=Full Out Join
 
 #63. joinOperator
@@ -814,33 +906,61 @@ Choices.viewAction.Deleted=Gelöscht
 
 #70. aggregationFunction
 Choices.aggregationFunction.sum=SUMME
+
 Choices.aggregationFunction.count=ANZAHL
+
 Choices.aggregationFunction.min=MIN
+
 Choices.aggregationFunction.max=MAX
+
 Choices.aggregationFunction.average=DURCHSCHNITT
+
 Choices.aggregationFunction.weighted-avg=WEIGHTEDAVG
+
 Choices.aggregationFunction.stddev=STDDEV
+
 Choices.aggregationFunction.first=ERSTE
+
 Choices.aggregationFunction.last=LETZTE
+
 Choices.aggregationFunction.mode=MODUS
+
 Choices.aggregationFunction.moving-ave=MOVINGAVE
+
 Choices.aggregationFunction.median=MEDIAN
+
 Choices.aggregationFunction.variance=ABWEICHUNG
+
 Choices.aggregationFunction.running-sum=RUNNINGSUM
+
 Choices.aggregationFunction.irr=IRR
+
 Choices.aggregationFunction.mirr=MIRR
+
 Choices.aggregationFunction.npv=NPV
+
 Choices.aggregationFunction.running-npv=RUNNINGNPV
+
 Choices.aggregationFunction.count-distinct=COUNTDISTINCT
+
 Choices.aggregationFunction.running-count=RUNNINGCOUNT
+
 Choices.aggregationFunction.is-top-n=IS-TOP-N
+
 Choices.aggregationFunction.is-bottom-n=IS-BOTTOM-N
+
 Choices.aggregationFunction.is-top-n-percent=IS-TOP-N-PERCENT
+
 Choices.aggregationFunction.is-bottom-n-percent=IS-BOTTOM-N-PERCENT
+
 Choices.aggregationFunction.percent-rank=PERCENT-RANK
+
 Choices.aggregationFunction.percentile=PERCENTILE
+
 Choices.aggregationFunction.quartile=QUARTIL
+
 Choices.aggregationFunction.percent-sum=PERCENT-SUM
+
 Choices.aggregationFunction.rank=RANK
 
 #71. levelType
@@ -883,10 +1003,12 @@ Choices.dateTimeLevelType.dayOfYear=Tag des Jahres
 Choices.dateTimeLevelType.hour=Stunde
 
 Choices.dateTimeLevelType.minute=Minute
+
 Choices.dateTimeLevelType.second=Sekunde
 
 #76. scalarParamType
 Choices.scalarParamType.simple=Einfach
+
 Choices.scalarParamType.multi-value=Mehrere Werte
 
 #77. bidiLayoutOrientation   
@@ -896,6 +1018,7 @@ Choices.bidiDirection.ltr=Von links nach rechts
 
 #78. backgroundSize
 Choices.backgroundSize.auto=Automatisch
+
 Choices.backgroundSize.contain=Enthalten
 
 Choices.backgroundSize.cover=Abdecken
@@ -911,6 +1034,7 @@ Choices.scopeType.colgroup=Spaltengruppe
 
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=Einfach
+
 Choices.dynamicFilterChoice.advanced=Erweitert
 
 #81 variableType
@@ -922,6 +1046,7 @@ Choices.variableType.page=Seitenvariable
 Choices.nullValueOrderingType.unknown=Unbekannt
 
 Choices.nullValueOrderingType.nullIsFirst=NullIsFirst
+
 Choices.nullValueOrderingType.nullIsLast=NullIsLast
 
 #83 dataVersion
@@ -933,15 +1058,21 @@ Choices.dataVersion.latest=Neueste Version
 Choices.selectorType.list=Liste
 
 Choices.selectorType.dropdown=Dropdown
+
 Choices.selectorType.slider=Schieber
+
 Choices.selectorType.checkBox=Kontrollkästchen
+
 Choices.selectorType.radioButton=RadioButton
 Choices.selectorType.textBox=Textfeld
+
 Choices.selectorType.calendar=Kalender
+
 Choices.selectorType.currentSelections=Aktuelle Auswahl
 
 #85 thumbType
 Choices.thumbType.single=Einzeln
+
 Choices.thumbType.dual=Dual
 
 #86
@@ -953,6 +1084,7 @@ Choices.accessType.specificVersion=SpecificVersion
 
 #87 overflow
 Choices.overflow.visible=Sichtbar
+
 Choices.overflow.hidden=Ausgeblendet
 
 Choices.overflow.scroll=Scrollen
@@ -963,13 +1095,16 @@ Choices.overflow.auto=Automatisch
 Choices.gadgetContentType.html=HTML
 Choices.gadgetContentType.url=URL
 Choices.gadgetContentType.video=Video
+
 Choices.gadgetContentType.videourl=Video-URL
 
 Choices.gadgetContentType.text=Text
+
 Choices.gadgetContentType.image=Bild
 
 #89 WindowStatus
 Choices.windowStatus.normal=Normal
+
 Choices.windowStatus.maximized=Maximiert
 
 #90 reportItemThemeType
@@ -988,6 +1123,7 @@ Choices.nullsOrdering.excludeNulls=Nullwerte ausschließen
 
 #92 filterConditionType
 Choices.filterConditionType.slicer=Slicer
+
 Choices.filterConditionType.simple=Einfach
 
 #93 flyoutPosition
@@ -1013,63 +1149,81 @@ Class.String=Zeichenkettenfunktionen
 Class.String.toolTip=Mitglied des Typs 'Objekt' und Instanz des integrierten Zeichenfolge-Objekts
 
 Class.String.String=Zeichenfolge
+
 Class.String.String.toolTip=Gibt einen Zeichenfolgewert zurück, der mit 'ToString(value)' berechnet wurde
 
 Class.String.length=Länge
+
 Class.String.length.toolTip=Gibt die Länge einer Zeichenfolge zurück
 
 Class.String.fromCharCode=fromCharCode
 Class.String.fromCharCode.toolTip=Gibt eine Zeichenfolge aus einer Reihe von Unicode-Zeichenwerten zurück
 
 Class.String.charAt=charAt
+
 Class.String.charAt.toolTip=Gibt das Zeichen zurück, das sich am angegebenen Index im Zeichenfolge-Objekt befindet
 
 Class.String.charCodeAt=charCodeAt
+
 Class.String.charCodeAt.toolTip=Gibt eine Ganzzahl zurück, die der Unicode-Codierung des Zeichens an der angegebenen Position in einem Zeichenfolge-Objekt entspricht
 
 Class.String.concat=concat
+
 Class.String.concat.toolTip=Gibt eine Zeichenfolge zurück, in der die aktuelle Zeichenfolge mit der oder den bereitgestellten Zeichenfolgen verbunden ist
 
 Class.String.indexOf=indexOf
+
 Class.String.indexOf.toolTip=Gibt das erste Auftreten einer Teilzeichenkette innerhalb eines Zeichenfolge-Objekts zurück
 
 Class.String.lastIndexOf=lastIndexOf
+
 Class.String.lastIndexOf.toolTip=Gibt das letzte Auftreten einer Teilzeichenkette innerhalb eines Zeichenfolge-Objekts zurück
 
 Class.String.localeCompare=localeCompare
 Class.String.localeCompare.toolTip=Gibt einen Wert zurück, aus dem hervorgeht, ob zwei Zeichenfolgen nach dem aktuellen Gebietsschema identisch sind
 
 Class.String.match=stimmen überein mit
+
 Class.String.match.toolTip=Führt eine Suche in einer Zeichenfolge mithilfe eines Standardausdrucks durch und gibt ein Array mit den Ergebnissen dieser Suche zurück
 
 Class.String.replace=Ersetzen
+
 Class.String.replace.toolTip=Gibt eine Kopie einer Zeichenfolge zurück, in der Text durch einen Standardausdruck oder einen Suchbegriff ersetzt wurde
 
 Class.String.search=Suchen
+
 Class.String.search.toolTip=Gibt die Position der ersten Übereinstimmung mit einer Teilzeichenfolge in einer Suche mit Standardausdruck zurück
 
 Class.String.slice=Segmentieren
+
 Class.String.slice.toolTip=Gibt eine Teilzeichenfolge zurück, die sich aus der Umwandlung dieses Objekts in eine Zeichenfolge ergibt
 
 Class.String.split=Teilen
+
 Class.String.split.toolTip=Gibt das Array von Zeichenfolgen zurück, das entsteht, wenn eine Zeichenfolge in Teilzeichenfolgen aufgeteilt wird
 
 Class.String.substr=substr
+
 Class.String.substr.toolTip=Gibt eine Teilzeichenfolge zurück, die an der angegebenen Position beginnt und eine bestimmte Länge besitzt
 
 Class.String.substring=Teilzeichenfolge
+
 Class.String.substring.toolTip=Gibt die Teilzeichenfolge zurück, die sich an der angegebenen Position im Zeichenfolge-Objekt befindet
 
 Class.String.toLowerCase=toLowerCase
+
 Class.String.toLowerCase.toolTip=Wandelt die Zeichen in der Zeichenfolge einzeln nacheinander in Kleinbuchstaben um
 
 Class.String.toLocaleLowerCase=toLocaleLowerCase
+
 Class.String.toLocaleLowerCase.toolTip=Gibt eine Zeichenfolge zurück, in der alle Buchstaben unter Berücksichtigung des aktuellen Gebietsschemas der Host-Umgebung durch Kleinbuchstaben ersetzt wurden
 
 Class.String.toUpperCase=toUpperCase
+
 Class.String.toUpperCase.toolTip=Wandelt die Zeichen in der Zeichenfolge einzeln nacheinander in Großbuchstaben um
 
 Class.String.toLocaleUpperCase=toLocaleUpperCase
+
 Class.String.toLocaleUpperCase.toolTip=Gibt eine Zeichenfolge zurück, in der alle Buchstaben unter Berücksichtigung des aktuellen Gebietsschemas der Host-Umgebung durch Großbuchstaben ersetzt wurden
 
 Class.String.toString=toString
@@ -1081,25 +1235,43 @@ Class.String.valueOf.toolTip=Gibt diesen Zeichenfolgewert zurück
 Class.String.String.object=Objekt
 
 Class.String.fromCharCode.c=c
+
 Class.String.charAt.n=n
 Class.String.charCodeAt.n=n
 Class.String.concat.value=Wert
+
 Class.String.indexOf.substring=Teilzeichenfolge
+
 Class.String.indexOf.start=starten
+
 Class.String.lastIndexOf.substring=Teilzeichenfolge
+
 Class.String.lastIndexOf.start=starten
+
 Class.String.localeCompare.target=Ziel
+
 Class.String.match.regexp=regexp
+
 Class.String.replace.regexp=regexp
+
 Class.String.replace.replacement=Ersetzung
+
 Class.String.search.regexp=regexp
+
 Class.String.slice.start=starten
+
 Class.String.slice.end=Ende
+
 Class.String.split.delimitor=Trennzeichen
+
 Class.String.split.limit=Grenzwert
+
 Class.String.substr.start=starten
+
 Class.String.substr.length=Länge
+
 Class.String.substring.from=von
+
 Class.String.substring.to=nach
 
 #1.Global
@@ -1108,12 +1280,15 @@ Class.Global=Globale Funktionen
 Class.Global.toolTip=Intrinsisches Objekt, mit dem globale Methoden in einem einzigen Objekt zusammengefasst werden
 
 Class.Global.NaN=NaN
+
 Class.Global.NaN.toolTip=Der Ausgangswert ist keine Zahl
 
 Class.Global.Infinity=Unendlich
+
 Class.Global.Infinity.toolTip=Gibt den Wert für 'Number.POSITIVE_INFINITY' zurück (einen Wert, der höher ist als die höchste Zahl ('Number.MAX_VALUE'), die in JScript dargestellt werden kann)
 
 Class.Global.undefined=nicht definiert
+
 Class.Global.undefined.toolTip=Der Ausgangswert ist nicht definiert
 
 Class.Global.decodeURI=decodeURI
@@ -1129,12 +1304,15 @@ Class.Global.encodeURIComponent=encodeURIComponent
 Class.Global.encodeURIComponent.toolTip=Gibt eine Zeichenfolge zurück, die als gültige Komponente eines Uniform Resource Identifier (URI) codiert ist
 
 Class.Global.escape=Escape-Zeichen
+
 Class.Global.escape.toolTip=Gibt ein codiertes Zeichenfolgeobjekt zurück, das auf allen Computern gelesen werden kann
 
 Class.Global.eval=Eval.
+
 Class.Global.eval.toolTip=Wertet JScript-Code aus und führt diesen Code aus
 
 Class.Global.isNaN=isNaN
+
 Class.Global.isNaN.toolTip=Übernimmt 'ToNumber' in das Argument und gibt dann 'True' (wahr) zurück, wenn das Ergebnis keine Zahl ist
 
 Class.Global.isFinite=isFinite
@@ -1144,23 +1322,32 @@ Class.Global.parseFloat=parseFloat
 Class.Global.parseFloat.toolTip=Gibt eine Gleitkommazahl zurück, die aus einer Zeichenfolge konvertiert wurde
 
 Class.Global.parseInt=parseInt
+
 Class.Global.parseInt.toolTip=Gibt eine Ganzzahl zurück, die aus einer Zeichenfolge konvertiert wurde
 
 Class.Global.unescape=Escape-Zeichen entfernen
+
 Class.Global.unescape.toolTip=Gibt eine Zeichenfolge zurück, die aus einem mit der Auslassungsmethode codierten Zeichenfolgeobjekt decodiert wurde
 
 
 Class.Global.decodeURI.uri=uri
 Class.Global.decodeURIComponent.s=Sek.
+
 Class.Global.encodeURI.uri=uri
 Class.Global.encodeURIComponent.s=Sek.
+
 Class.Global.escape.s=Sek.
+
 Class.Global.eval.code=Code
+
 Class.Global.isNaN.x=x
 Class.Global.isFinite.n=n
 Class.Global.parseFloat.s=Sek.
+
 Class.Global.parseInt.s=Sek.
+
 Class.Global.parseInt.radix=Basis
+
 Class.Global.unescape.s=Sek.
 
 #2.Array
@@ -1169,36 +1356,47 @@ Class.Array=Array-Funktionen
 Class.Array.toolTip=Bietet Unterstützung für größenveränderbare Arrays eines beliebigen Datentyps
 
 Class.Array.Array=Array
+
 Class.Array.Array.toolTip=Erstellt und initialisiert ein neues Array-Objekt
 
 Class.Array.length=Länge
+
 Class.Array.length.toolTip=Gibt einen Ganzzahl-Wert zurück, der um 1 höher ist als das höchste in einem Array definierte Element
 
 Class.Array.concat=concat
+
 Class.Array.concat.toolTip=Gibt ein neues Array zurück, das aus einer Kombination des aktuellen Arrays und beliebigen zusätzlichen Elementen besteht
 
 Class.Array.join=Knotenpunkt
+
 Class.Array.join.toolTip=Gibt eine Zeichenfolge zurück, das aus einer Verbindung aller Elemente eines Arrays besteht und in dem die Elemente durch das angegebene Trennzeichen voneinander getrennt sind
 
 Class.Array.pop=Pop
+
 Class.Array.pop.toolTip=Das letzte Element des Arrays wird aus dem Array entfernt und anschließend zurückgegeben
 
 Class.Array.push=Drücken
+
 Class.Array.push.toolTip=Die Argumente werden in der Reihenfolge, in der sie auftreten, an das Ende des Arrays angehängt
 
 Class.Array.reverse=Umkehren
+
 Class.Array.reverse.toolTip=Die Elemente des Arrays werden in umgekehrter Reihenfolge angeordnet
 
 Class.Array.shift=Umschalten
+
 Class.Array.shift.toolTip=Das erste Element des Arrays wird aus dem Array entfernt und anschließend zurückgegeben
 
 Class.Array.slice=Segmentieren
+
 Class.Array.slice.toolTip=Gibt ein Array zurück, das einen Ausschnitt des Arrays enthält
 
 Class.Array.sort=Sortieren
+
 Class.Array.sort.toolTip=Die Elemente dieses Arrays sind sortiert
 
 Class.Array.splice=Verbinden
+
 Class.Array.splice.toolTip=Entfernt Elemente aus einem Array und fügt ggf. neue Elemente an deren Stelle ein; die gelöschten Elemente werden zurückgegeben.Gibt die aus dem Array gelöschten Elemente zurück
 
 Class.Array.toLocaleString=toLocaleString
@@ -1208,18 +1406,27 @@ Class.Array.toString=toString
 Class.Array.toString.toolTip=Gibt dasselbe Ergebnis zurück, das entstünde, wenn die integrierte Verbindungsmethode ohne Argumente für dieses Objekt aufgerufen würde
 
 Class.Array.unshift=Umschalten rückgängig machen
+
 Class.Array.unshift.toolTip=Die Argumente werden so dem Anfang des Arrays vorangestellt, dass ihre Reihenfolge im Array mit der Reihenfolge in der Argumentliste übereinstimmt
 
 Class.Array.Array.size=Größe
+
 Class.Array.Array.element=Element
+
 Class.Array.concat.value=Wert
+
 Class.Array.join.separator=Trennzeichen
 
 Class.Array.push.value=Wert
+
 Class.Array.slice.start=starten
+
 Class.Array.slice.end=Ende
+
 Class.Array.sort.orderfunc=orderfunc
+
 Class.Array.splice.start=starten
+
 Class.Array.splice.deleteCount=deleteCount
 Class.Array.unshift.value=Wert
 
@@ -1229,6 +1436,7 @@ Class.Boolean=Boolesche Funktionen
 Class.Boolean.toolTip=Mitglied des Typs 'Objekt' und Instanz des integrierten Booleschen Objekts
 
 Class.Boolean.Boolean=Boolean
+
 Class.Boolean.Boolean.toolTip=Gibt einen Booleschen Wert zurück, der mit 'ToBoolean(value)' berechnet wurde
 
 Class.Boolean.toString=toString
@@ -1245,6 +1453,7 @@ Class.Date=Datumsfunktionen
 Class.Date.toolTip=Objekt, das einfache Speichervorgänge und das Abrufen von Datums- und Uhrzeitangaben ermöglicht
 
 Class.Date.Date=Datum
+
 Class.Date.Date.toolTip=Gibt eine Zeichenfolge für die aktuelle Uhrzeit zurück
 
 Class.Date.getDate=getDate
@@ -1305,6 +1514,7 @@ Class.Date.getYear=getYear
 Class.Date.getYear.toolTip=Gibt den Wert für die Jahresangabe in einem Datumsobjekt zurück
 
 Class.Date.parse=Analysieren
+
 Class.Date.parse.toolTip=Analysiert eine Zeichenfolge, in der sich ein Datum befindet, und gibt die Anzahl der Millisekunden zurück
 
 Class.Date.setDate=setDate
@@ -1386,57 +1596,107 @@ Class.Date.valueOf=valueOf
 Class.Date.valueOf.toolTip=Gibt eine Zahl zurück, die dem Wert für diese Uhrzeitangabe entspricht
 
 Class.Date.Date.milliseconds=Millisekunden
+
 Class.Date.Date.datestring=datestring
+
 Class.Date.Date.year=Jahr
+
 Class.Date.Date.month=Monat
+
 Class.Date.Date.day=Tag
+
 Class.Date.Date.hours=Stunden
+
 Class.Date.Date.minutes=Minuten
+
 Class.Date.Date.seconds=Sekunden
+
 Class.Date.Date.ms=ms
+
 Class.Date.parse.date=Datum
+
 Class.Date.setDate.day_of_month=day_of_month
 Class.Date.setFullYear.year=Jahr
+
 Class.Date.setFullYear.month=Monat
+
 Class.Date.setFullYear.minutes=Minuten
+
 Class.Date.setFullYear.day=Tag
+
 Class.Date.setHours.hours=Stunden
+
 Class.Date.setHours.minutes=Minuten
+
 Class.Date.setHours.seconds=Sekunden
+
 Class.Date.setHours.millis=Millisekunden
+
 Class.Date.setMilliseconds.millis=Millisekunden
+
 Class.Date.setMinutes.minutes=Minuten
+
 Class.Date.setMinutes.seconds=Sekunden
+
 Class.Date.setMinutes.millis=Millisekunden
+
 Class.Date.setMonth.month=Monat
+
 Class.Date.setMonth.day=Tag
+
 Class.Date.setSeconds.seconds=Sekunden
+
 Class.Date.setSeconds.millis=Millisekunden
+
 Class.Date.setTime.millis=Millisekunden
+
 Class.Date.setUTCDate.day_of_month=day_of_month
 Class.Date.setUTCFullYear.year=Jahr
+
 Class.Date.setUTCFullYear.month=Monat
+
 Class.Date.setUTCFullYear.minutes=Minuten
+
 Class.Date.setUTCFullYear.day=Tag
+
 Class.Date.setUTCHours.hours=Stunden
+
 Class.Date.setUTCHours.minutes=Minuten
+
 Class.Date.setUTCHours.seconds=Sekunden
+
 Class.Date.setUTCHours.millis=Millisekunden
+
 Class.Date.setUTCMilliseconds.millis=Millisekunden
+
 Class.Date.setUTCMinutes.minutes=Minuten
+
 Class.Date.setUTCMinutes.seconds=Sekunden
+
 Class.Date.setUTCMinutes.millis=Millisekunden
+
 Class.Date.setUTCMonth.month=Monat
+
 Class.Date.setUTCMonth.day=Tag
+
 Class.Date.setUTCSeconds.seconds=Sekunden
+
 Class.Date.setUTCSeconds.millis=Millisekunden
+
 Class.Date.setYear.year=Jahr
+
 Class.Date.UTC.year=Jahr
+
 Class.Date.UTC.month=Monat
+
 Class.Date.UTC.day=Tag
+
 Class.Date.UTC.hours=Stunden
+
 Class.Date.UTC.minutes=Minuten
+
 Class.Date.UTC.seconds=Sekunden
+
 Class.Date.UTC.ms=ms
 
 #5. Math
@@ -1445,81 +1705,106 @@ Class.Math=Mathematische Funktionen
 Class.Math.toolTip=Intrinsisches Objekt, das grundlegende mathematische Funktionen und Konstanten bietet
 
 Class.Math.E=E
+
 Class.Math.E.toolTip=Der numerische Wert für die Eulersche Zahl e ist ungefähr gleich 2,7182818284590452354
 
 Class.Math.LN10=LN10
+
 Class.Math.LN10.toolTip=Der numerische Wert für den natürlichen Logarithmus von 10 (ungefähr gleich 2,302585092994046)
 
 Class.Math.LN2=LN2
+
 Class.Math.LN2.toolTip=Der numerische Wert für den natürlichen Logarithmus von 2 (ungefähr gleich 0,6931471805599453)
 
 Class.Math.LOG10E=LOG10E
+
 Class.Math.LOG10E.toolTip=Der numerische Wert für den Logarithmus von e zur Basis 10 (ungefähr gleich 0,4342944819032518)
 
 Class.Math.LOG2E=LOG2E
+
 Class.Math.LOG2E.toolTip=Der numerische Wert für den Logarithmus von e zur Basis 2 (ungefähr gleich 1,4426950408889634)
 
 Class.Math.PI=PI
+
 Class.Math.PI.toolTip=Der numerische Wert für Pi, also das Verhältnis des Umfangs eines Kreises zu seinem Durchmesser (ungefähr gleich 3,1415926535897932)
 
 Class.Math.SQRT1_2=SQRT1_2
 Class.Math.SQRT1_2.toolTip=Der numerische Wert für die Quadratwurzel aus 0,5 (ungefähr gleich 0,7071067811865476)
 
 Class.Math.SQRT2=SQRT2
+
 Class.Math.SQRT2.toolTip=Der numerische Wert für die Quadratwurzel aus 2 (ungefähr gleich 1.4142135623730951)
 
 Class.Math.abs=abs
+
 Class.Math.abs.toolTip=Gibt den Betrag zurück.
 
 Class.Math.acos=arccos
+
 Class.Math.acos.toolTip=Gibt eine implementierungsabhängige Näherung an den Arcuscosinus zurück
 
 Class.Math.asin=arcsin
+
 Class.Math.asin.toolTip=Gibt eine implementierungsabhängige Näherung an den Arcussinus zurück
 
 Class.Math.atan=arctan
+
 Class.Math.atan.toolTip=Gibt eine implementierungsabhängige Näherung an den Arcustangens zurück
 
 Class.Math.atan2=arctan2
+
 Class.Math.atan2.toolTip=Gibt eine implementierungsabhängige Näherung an den Arcustangens des Quotienten y/x mit den Argumenten y und x zurück, wobei der Quadrant des Resultats mithilfe der Vorzeichen für y und x bestimmt wird
 
 Class.Math.ceil=Verschalen
+
 Class.Math.ceil.toolTip=Gibt den kleinsten numerischen Wert zurück, der nicht kleiner ist als x und gleich einer mathematischen Ganzzahl ist
 
 Class.Math.cos=cos
+
 Class.Math.cos.toolTip=Gibt eine implementierungsabhängige Näherung an den Cosinus zurück
 
 Class.Math.exp=exp
+
 Class.Math.exp.toolTip=Gibt eine implementierungsabhängige Näherung an die Exponentialfunktion zurück
 
 Class.Math.floor=Boden
+
 Class.Math.floor.toolTip=Gibt den größten numerischen Wert zurück, der nicht größer ist als x und gleich einer mathematischen Ganzzahl ist
 
 Class.Math.log=log
+
 Class.Math.log.toolTip=Gibt eine implementierungsabhängige Näherung an den natürlichen Algorithmus zurück
 
 Class.Math.max=Maximum
+
 Class.Math.max.toolTip=Gibt den größten der resultierenden Werte zurück
 
 Class.Math.min=Min.
+
 Class.Math.min.toolTip=Gibt den kleinsten der resultierenden Werte zurück
 
 Class.Math.pow=pow
+
 Class.Math.pow.toolTip=Gibt eine implementierungsabhängige Näherung an das Resultat von x potenziert mit y zurück
 
 Class.Math.random=Zufällig
+
 Class.Math.random.toolTip=Gibt einen numerischen Wert mit positivem Vorzeichen zurück, der größer oder gleich 0 ist, jedoch kleiner als 1
 
 Class.Math.round=Runde
+
 Class.Math.round.toolTip=Gibt den numerischen Wert zurück, der x am nächsten liegt und gleich einer mathematischen Ganzzahl ist
 
 Class.Math.sin=sin
+
 Class.Math.sin.toolTip=Gibt eine implementierungsabhängige Näherung an den Sinus zurück
 
 Class.Math.sqrt=sqrt
+
 Class.Math.sqrt.toolTip=Gibt eine implementierungsabhängige Näherung an die Quadratwurzel zurück
 
 Class.Math.tan=apricot
+
 Class.Math.tan.toolTip=Gibt eine implementierungsabhängige Näherung an den Tangens zurück
 
 
@@ -1528,6 +1813,7 @@ Class.Math.acos.x=x
 Class.Math.asin.x=x
 Class.Math.atan.x=x
 Class.Math.atan2.y=y
+
 Class.Math.atan2.x=x
 Class.Math.ceil.x=x
 Class.Math.cos.x=x
@@ -1535,9 +1821,12 @@ Class.Math.exp.x=x
 Class.Math.floor.x=x
 Class.Math.log.x=x
 Class.Math.max.args=args
+
 Class.Math.min.args=args
+
 Class.Math.pow.x=x
 Class.Math.pow.y=y
+
 Class.Math.round.x=x
 Class.Math.sin.x=x
 Class.Math.sqrt.x=x
@@ -1550,6 +1839,7 @@ Class.Number=Zahlenfunktionen
 Class.Number.toolTip=Darstellung numerischer Daten als Objekt sowie Platzhalter für numerische Konstanten
 
 Class.Number.Number=Number
+
 Class.Number.Number.toolTip=Gibt einen numerischen Wert zurück, der mit 'ToNumber(value)' berechnet wurde
 
 Class.Number.MAX_VALUE=MAX_VALUE
@@ -1559,6 +1849,7 @@ Class.Number.MIN_VALUE=MIN_VALUE
 Class.Number.MIN_VALUE.toolTip=Der größte positive endliche numerische Wert (ungefähr gleich 5.00E-324)
 
 Class.Number.NaN=NaN
+
 Class.Number.NaN.toolTip=Keine Zahl
 
 Class.Number.NEGATIVE_INFINITY=NEGATIVE_INFINITY
@@ -1568,15 +1859,18 @@ Class.Number.POSITIVE_INFINITY=POSITIVE_INFINITY
 Class.Number.POSITIVE_INFINITY.toolTip=Gibt einen Wert zurück, der höher ist als die höchste Zahl ('Number.MAX_VALUE'), die in JScript dargestellt werden kann)
 
 Class.Number.toExponential=toExponential
+
 Class.Number.toExponential.toolTip=Gibt eine Zeichenfolge mit einer Zahl in Exponentialschreibweise zurück
 
 Class.Number.toFixed=toFixed
+
 Class.Number.toFixed.toolTip=Gibt eine Zeichenfolge mit einer Zahl in Festkommaschreibweise zurück
 
 Class.Number.toLocaleString=toLocaleString
 Class.Number.toLocaleString.toolTip=Gibt einen Wert als Zeichenfolgewert gemäß dem aktuellen Gebietsschema der Host-Umgebung zurück
 
 Class.Number.toPrecision=toPrecision
+
 Class.Number.toPrecision.toolTip=Gibt eine Zeichenfolge mit einer Zahl in Exponential- oder Festkommaschreibweise und einer bestimmten Anzahl an Stellen zurück
 
 Class.Number.toString=toString
@@ -1586,9 +1880,13 @@ Class.Number.valueOf=valueOf
 Class.Number.valueOf.toolTip=Gibt den Stammfunktionswert des angegebenen Objekts zurück
 
 Class.Number.Number.value=Wert
+
 Class.Number.toExpoential.digits=Ziffern
+
 Class.Number.toFixed.digits=Ziffern
+
 Class.Number.toPrecision.precision=Präzision
+
 Class.Number.toString.radix=Basis
 
 #7. Object
@@ -1601,9 +1899,11 @@ Class.Object.Object=Objekt
 Class.Object.Object.toolTip=Erstellt ein Objekt
 
 Class.Object.hasOwnProperty=hasOwnProperty
+
 Class.Object.hasOwnProperty.toolTip=Gibt einen Booleschen Wert zurück, aus dem hervorgeht, ob ein Objekt eine Eigenschaft mit der angegebenen Bezeichnung besitzt
 
 Class.Object.isPrototypeOf=isPrototypeOf
+
 Class.Object.isPrototypeOf.toolTip=Gibt einen Booleschen Wert zurück, aus dem hervorgeht, ob ein Objekt in der Prototypkette eines anderen Objekts vorliegt
 
 Class.Object.propertyIsEnumerable=propertyIsEnumerable
@@ -1619,8 +1919,11 @@ Class.Object.valueOf=valueOf
 Class.Object.valueOf.toolTip=Gibt ein Datum zurück, das gemäß dem aktuellen Gebietsschema in eine Zeichenfolge konvertiert wurde
 
 Class.Object.Object.value=Wert
+
 Class.Object.hasOwnProperty.propname=Eigenschaftsname
+
 Class.Object.isPrototypeOf.o=o
+
 Class.Object.propertyIsEnumerable.propname=Eigenschaftsname
 
 #8. RegExp
@@ -1629,9 +1932,11 @@ Class.RegExp=RegExp-Funktionen
 Class.RegExp.toolTip=Liefert Unterstützung für einfache reguläre Ausdrucke
 
 Class.RegExp.RegExp=Ganzer Ausdruck
+
 Class.RegExp.RegExp.toolTip=Wendet die Grammatik auf die Eingabe-Musterzeichenfolge an
 
 Class.RegExp.global=Global
+
 Class.RegExp.global.toolTip=Legt einen Booleschen Wert fest (oder gibt einen Booleschen Wert zurück), aus dem hervorgeht, ob ein Muster mit allen Auftreten in einem vollständigen Suchbegriff übereinstimmen soll oder nur mit dem ersten Auftreten
 
 Class.RegExp.ignoreCase=ignoreCase
@@ -1641,20 +1946,26 @@ Class.RegExp.lastIndex=lastIndex
 Class.RegExp.lastIndex.toolTip=Ganzzahl, die die Position in der Zeichenfolge angibt, an der die Suche nach der nächsten Übereinstimmung beginnen soll
 
 Class.RegExp.source=Quelle
+
 Class.RegExp.source.toolTip=Zeichenfolge in Form eines Musters, das den aktuellen regulären Ausdruck darstellt
 
 Class.RegExp.exec=ausf
+
 Class.RegExp.exec.toolTip=Vergleicht eine Zeichenfolge mit dem regulären Ausdruck
 
 Class.RegExp.test=Test
+
 Class.RegExp.test.toolTip=Führt eine Suche mit einem regulären Ausdruck in einer angegebenen Zeichenfolge aus und gibt einen Booleschen Wert zurück, aus dem hervorgeht, ob eine Musterübereinstimmung aufgefunden wurde
 
 Class.RegExp.toString=toString
 Class.RegExp.toString.toolTip=Konvertiert die Daten in eine Zeichenfolge in Form eines Musters, das den aktuellen regulären Ausdruck darstellt
 
 Class.RegExp.RegExp.pattern=Muster
+
 Class.RegExp.RegExp.attributes=Attribute
+
 Class.RegExp.exec.string=Zeichenfolge
+
 Class.RegExp.test.string=Zeichenfolge
 
 #9.  ElementDefn
@@ -1663,6 +1974,7 @@ Class.ElementDefn=ElementDefn-Klasse
 Class.ElementDefn.toolTip=Liefert Designinformationen für ein Berichtselement
 
 Class.ElementDefn.name=Name
+
 Class.ElementDefn.name.toolTip=Liefert den Namen des Elements
 
 Class.ElementDefn.extendsElement=extendsElement
@@ -1678,9 +1990,11 @@ Class.ElementDefn.property=[anyProperty]
 Class.ElementDefn.property.toolTip=Liefert den Wert einer Entwurfszeiteigenschaft mit diesem Namen
 
 Class.ElementDefn.properties=Eigenschaften
+
 Class.ElementDefn.properties.toolTip=Array mit Eigenschaftswerten, die nach dem Eigenschaftsnamen indiziert sind
 
 Class.ElementDefn.slots=Steckplätze
+
 Class.ElementDefn.slots.toolTip=Zahlreiche Elemente fungieren als Container: Sie enthalten andere Berichtselemente
 
 Class.ElementDefn.allowsUserProperties=allowsUserProperties
@@ -1690,6 +2004,7 @@ Class.ElementDefn.hasStyle=hasStyle
 Class.ElementDefn.hasStyle.toolTip=Wahr, wenn das Element einen Stil aufweist, ansonsten falsch
 
 Class.ElementDefn.container=Behälter
+
 Class.ElementDefn.container.toolTip=Gibt die Elementdefinition zurück (falls vorhanden), die dieses Element enthält
 
 Class.ElementDefn.containerSlot=containerSlot
@@ -1702,15 +2017,19 @@ Class.ElementState=ElementState
 Class.ElementState.toolTip=Stellt den Laufzeitstatus eines Berichtselements dar
 
 Class.ElementState.design=Design
+
 Class.ElementState.design.toolTip=Gibt das Elementdefinitionsobjekt für diese Instanz zurück
 
 Class.ElementState.property=Eigenschaft
+
 Class.ElementState.property.toolTip=Ermöglicht das Abrufen oder Festlegen des Laufzeitwerts für die Berichtelementeigenschaft mit der angegebenen Bezeichnung durch die Anwendung
 
 Class.ElementState.container=Behälter
+
 Class.ElementState.container.toolTip=Gibt das Elementstatusobjekt zurück (falls vorhanden), das dieses Element enthält
 
 Class.ElementState.slot=Steckplatz
+
 Class.ElementState.slot.toolTip=Ermöglicht den Zugriff auf die Elemente, die dieses Element enthält
 
 #11. Color
@@ -1719,6 +2038,7 @@ Class.Color=Farbklasse
 Class.Color.toolTip=Bietet Möglichkeiten für den Einsatz von als Namen dargestellten Farbwerten (RGB-Werten)
 
 Class.Color.transparent=Transparent
+
 Class.Color.transparent.toolTip=Gibt 'True' (wahr) zurück, wenn die Eigenschaft auf den CSS-Transparentwert gesetzt wurde
 
 Class.Color.rgb=RGB
@@ -1726,6 +2046,7 @@ Class.Color.rgb=RGB
 Class.Color.rgb.toolTip=Ruft die Farbe als RGB-Wert ab.
 
 Class.Color.value=Wert
+
 Class.Color.value.toolTip=Ruft die Farbe als Name ab (sofern als Name festgelegt) bzw. als CSS-RGB-Zeichenfolge (sofern als RGB festgelegt)
 
 Class.Color.cssValue=cssValue
@@ -1738,12 +2059,15 @@ Class.Dimension=Dimensionsklasse
 Class.Dimension.toolTip=Das Dimensionseigenschaftsobjekt übernimmt die Analyse einer CSS-Dimensionseigenschaft
 
 Class.Dimension.value=Wert
+
 Class.Dimension.value.toolTip=Gibt den CSS-kompatiblen Dimensionswert zurück
 
 Class.Dimension.measure=Maßeinheit
+
 Class.Dimension.measure.toolTip=Ruft den Größenwert einer Dimension ab bzw. ist gleich Null, wenn die Dimension mithilfe einer Konstante definiert ist
 
 Class.Dimension.units=Einheiten
+
 Class.Dimension.units.toolTip=Ruft die Einheit einer Dimension ab bzw. ist gleich Null, wenn die Dimension mithilfe einer Konstante definiert ist
 
 #13. PropertyDefn
@@ -1755,9 +2079,11 @@ Class.PropertyDefn.isUserProperty=isUserProperty
 Class.PropertyDefn.isUserProperty.toolTip=Wahr, wenn eine benutzerdefinierte Eigenschaft vorliegt, falsch bei systemdefinierten Eigenschaften
 
 Class.PropertyDefn.name=Name
+
 Class.PropertyDefn.name.toolTip=Interner Eigenschaftsname
 
 Class.PropertyDefn.group=Gruppe
+
 Class.PropertyDefn.group.toolTip=Name der Gruppe, die die Eigenschaft enthält
 
 Class.PropertyDefn.canInherit=canInherit
@@ -1767,9 +2093,11 @@ Class.PropertyDefn.isStyle=isStyle
 Class.PropertyDefn.isStyle.toolTip=Wahr, wenn die Eigenschaft zum Elementstil gehört, ansonsten falsch
 
 Class.PropertyDefn.type=Typ
+
 Class.PropertyDefn.type.toolTip=Eigenschaftstyp.
 
 Class.PropertyDefn.choices=Auswahl
+
 Class.PropertyDefn.choices.toolTip=Array mit Auswahlmöglichkeiten für die Eigenschaft
 
 Class.PropertyDefn.defaultValue=defaultValue
@@ -1781,21 +2109,26 @@ Class.Report=Berichtsklasse
 Class.Report.toolTip=Ermöglicht den Zugriff auf alle Informationen zum Bericht und zum Kontext, in dem der Bericht ausgeführt wird
 
 Class.Report.design=Design
+
 Class.Report.design.toolTip=Gibt ein Berichtsdefinitionsobjekt (ReportDefn) zurück, das das Design des Berichts beschreibt
 
 Class.Report.document=Dokument
+
 Class.Report.document.toolTip=Gibt ein Berichtsdokumentobjekt zurück, das Informationen zum Berichtsdokument enthält, das derzeit in der Factory erstellt oder in der Präsentations-Engine gelesen wird
 
 Class.Report.params=Parameter
+
 Class.Report.params.toolTip=Gibt ein Objekt-Array mit Parameterwerten zurück, die an den Bericht übergeben wurden
 
 Class.Report.dataSets=Datensätze
+
 Class.Report.dataSets.toolTip=Gibt das Array der Datensätze zurück, die im Bericht definiert sind
 
 Class.Report.dataSources=dataSources
 Class.Report.dataSources.toolTip=Gibt ein Array von Datenquellen (Verbindungen) zurück, die im Bericht definiert sind
 
 Class.Report.config=config
+
 Class.Report.config.toolTip=Gibt ein Array mit Konfigurationsvariablen zurück, die im Bericht zur Verfügung stehen
 
 Class.Report.reportContext=reportContext
@@ -1803,18 +2136,22 @@ Class.Report.reportContext.toolTip=Der zu diesem Bericht gehörende Kontext
 
 #15. ReportDoc
 Class.ReportDoc=ReportDoc
+
 Class.ReportDoc.toolTip=Liefert Informationen zum Bericht, der derzeit erstellt oder angezeigt wird
 
 Class.ReportDoc.design=Design
+
 Class.ReportDoc.design.toolTip=Gibt das Stammdesignobjekt für diese Instanz zurück
 
 Class.ReportDoc.fileName=fileName
 Class.ReportDoc.fileName.toolTip=Name der Datei (falls vorhanden), in die diese Datei geschrieben wird
 
 Class.ReportDoc.destination=Ziel
+
 Class.ReportDoc.destination.toolTip=Art des Ziels, z. B. Dateisystem oder temporär
 
 Class.ReportDoc.body=Text
+
 Class.ReportDoc.body.toolTip=Liste der Abschnitte im Text
 
 
@@ -1851,9 +2188,11 @@ Class.DataSet=DataSet-Klasse
 Class.DataSet.toolTip=Liefert sowohl Designinformationen als auch Laufzeitinformationen zu einem Datensatz
 
 Class.DataSet.row=Zeile
+
 Class.DataSet.row.toolTip=Stellt die aktuelle innerste Zeile dar
 
 Class.DataSet.rows=Zeilen verwenden
+
 Class.DataSet.rows.toolTip=Ermöglicht den Zugriff auf Zeilen innerhalb dieser Hierarchie
 
 Class.DataSet.queryText=queryText
@@ -1863,6 +2202,7 @@ Class.DataSet.columnDefns=columnDefns
 Class.DataSet.columnDefns.toolTip=Array mit Spaltendefinitionen
 
 Class.DataSet.schema=Schema
+
 Class.DataSet.schema.toolTip=Datensatzparameter-Metadaten-Objekt (DataSetParamMetadata), das Schemainformationen zu einer ODA-Datenquelle liefert
 
 Class.DataSet.inputParams=inputParams
@@ -1887,20 +2227,27 @@ Class.DataRow=DataRow-Klasse
 Class.DataRow.toolTip=Stellt eine Zeile dar, die aus einem Datensatz abgerufen wurde
 
 Class.DataRow.DataRow=DataRow
+
 Class.DataRow.DataRow.toolTip=Erstellen Sie eine leere Datenzeile mit einem Datensatz oder eine Datenzeile, die eine Kopie einer anderen Datenzeile ist
 
 Class.DataRow.DataRow.ds=ds
+
 Class.DataRow.DataRow.r=r
+
 Class.DataRow.column=Spalte
+
 Class.DataRow.column.toolTip=Gibt den Wert einer Spalte mit einem bestimmten Spaltennamen zurück
 
 Class.DataRow.rowNo=rowNo
+
 Class.DataRow.rowNo.toolTip=Position der Zeile im Ergebnis
 
 Class.DataRow.dataSet=dataSet
+
 Class.DataRow.dataSet.toolTip=Gibt das Datensatzobjekt (DataSet) zurück, mit dem die Zeile erstellt wurde
 
 Class.DataRow.schema=Schema
+
 Class.DataRow.schema.toolTip=Gibt ein Array mit Spaltenbeschreibungen für die Datenzeile zurück
 
 Class.DataRow.columnDefns=columnDefns
@@ -1912,33 +2259,43 @@ Class.ColumnDefn=ColumnDefn-Klasse
 Class.ColumnDefn.toolTip=Beschreibt Metadaten für eine Datenzeilenspalte
 
 Class.ColumnDefn.index=Index
+
 Class.ColumnDefn.index.toolTip=Gibt den Index der Spalte in der Ergebnis-Datenzeile für den Datensatz zurück
 
 Class.ColumnDefn.name=Name
+
 Class.ColumnDefn.name.toolTip=Gibt den Namen der Spalte zurück, wie dieser im Datensatz definiert ist
 
 Class.ColumnDefn.type=Typ
+
 Class.ColumnDefn.type.toolTip=Gibt den Datentyp der Spalte zurück
 
 Class.ColumnDefn.expr=Ausdruck
+
 Class.ColumnDefn.expr.toolTip=Eine Spalte kann mithilfe eines BIRT-Ausdrucks definiert werden
 
 Class.ColumnDefn.INTEGER=INTEGER
+
 Class.ColumnDefn.INTEGER.toolTip=Konstante für Ganzzahlen-Spalten
 
 Class.ColumnDefn.FLOAT=FLOAT
+
 Class.ColumnDefn.FLOAT.toolTip=Konstante für Gleitkommazahlen-Spalten
 
 Class.ColumnDefn.DECIMAL=DECIMAL
+
 Class.ColumnDefn.DECIMAL.toolTip=Konstante für Dezimalzahlen mit fester Genauigkeit
 
 Class.ColumnDefn.BOOLEAN=BOOLESCH
+
 Class.ColumnDefn.BOOLEAN.toolTip=Konstante für Boolesche Werte
 
 Class.ColumnDefn.STRING=ZEICHENFOLGE
+
 Class.ColumnDefn.STRING.toolTip=Konstante für Zeichenfolgen-Spalten
 
 Class.ColumnDefn.BLOB=BLOB
+
 Class.ColumnDefn.BLOB.toolTip=Konstante für BLOB-Spalten (Binary Large OBject)
 
 
@@ -1948,6 +2305,7 @@ Class.DataSetParamMetaData=DataSetParamMetaData-Klasse
 Class.DataSetParamMetaData.toolTip=Liefert Informationen zu den Eingabe- und Ausgabeparametern für den ODA-Datensatz
 
 Class.DataSetParamMetaData.description=Beschreibung
+
 Class.DataSetParamMetaData.description.toolTip=Datensatzbeschreibung, die durch den ODA-Datenanbieter geliefert wurde
 
 Class.DataSetParamMetaData.resultSets=resultSets
@@ -1961,25 +2319,32 @@ Class.DataSetParamMetaData.outputParams.toolTip=Array mit Ausgabeparameterdefini
 
 #21. ResultSetDefn
 Class.ResultSetDefn=ResultSetDefn
+
 Class.ResultSetDefn.toolTip=Liefert ein Array mit Spaltendefinitionen
 
 Class.ResultSetDefn.name=Name
+
 Class.ResultSetDefn.name.toolTip=Name des Ergebnisses
 
 Class.ResultSetDefn.columns=Spalten
+
 Class.ResultSetDefn.columns.toolTip=ODA-Datensätze besitzen einen bestimmten Satz an Spalten, den sie zurückgeben
 
 Class.ResultSetDefn.dataSet=dataSet
+
 Class.ResultSetDefn.dataSet.toolTip=Verweis zurück zum Datensatz, der dieses Ergebnis geliefert hat
 
 #22. ResultSetColumn
 Class.ResultSetColumn=ResultSetColumn
+
 Class.ResultSetColumn.toolTip=Beschreibt eine Spalte in einem ODA-Ergebnis
 
 Class.ResultSetColumn.name=Name
+
 Class.ResultSetColumn.name.toolTip=Externer eindeutiger Name für eine Datenzeile/-spalte
 
 Class.ResultSetColumn.position=Position
+
 Class.ResultSetColumn.position.toolTip=1-basierte Indexposition (Reihenfolge von links nach rechts) einer Spalte im Ergebnis
 
 Class.ResultSetColumn.displayName=displayName
@@ -2001,24 +2366,29 @@ Class.ResultSetColumn.horizAlign=horizAlign
 Class.ResultSetColumn.horizAlign.toolTip=Enumerierter Wert, aus dem hervorgeht, ob der Spaltenwert standardmäßig linksbündig, zentriert, rechtsbündig oder im Blocksatz angezeigt werden soll
 
 Class.ResultSetColumn.heading=Überschrift
+
 Class.ResultSetColumn.heading.toolTip=Freiform-Zeichenfolge, die eine Spalte in einer Spaltenüberschrift bezeichnet
 
 Class.ResultSetColumn.description=Beschreibung
+
 Class.ResultSetColumn.description.toolTip=Freiform-Zeichenfolge, die eine ausführlichere Beschreibung der Spalte liefert
 
 Class.ResultSetColumn.helpText=helpText
 Class.ResultSetColumn.helpText.toolTip=Freiform-Zeichenfolge, die eine ausführlichere Beschreibung der Spalte liefert
 
 Class.ResultSetColumn.lineage=Herkunft
+
 Class.ResultSetColumn.lineage.toolTip=Freiform-Zeichenfolge, aus der die ursprüngliche Quelle des Spaltenwerts hervorgeht
 
 Class.ResultSetColumn.axis=Achse
+
 Class.ResultSetColumn.axis.toolTip=Anwendbar, wenn eine Spalte aus einer mehrdimensionalen Datenquelle abgerufen wird
 
 Class.ResultSetColumn.axisType=axisType
 Class.ResultSetColumn.axisType.toolTip=Der Wert ist vom Typ "Dimensionsmitglied", "Dimensionsattribut" oder "Maßeinheit"
 
 Class.ResultSetColumn.onColumnLayout=onColumnLayout
+
 Class.ResultSetColumn.onColumnLayout.toolTip=Tipp, wie diese Spalte in einer Berichtsausgabe angeordnet werden sollte
 
 Class.ResultSetColumn.DIMENSION_MEMBER=DIMENSION_MEMBER
@@ -2028,6 +2398,7 @@ Class.ResultSetColumn.DIMENSION_ATTRIBUTE=DIMENSION_ATTRIBUTE
 Class.ResultSetColumn.DIMENSION_ATTRIBUTE.toolTip=Auswahlmöglichkeit für die Eigenschaft 'axisType'
 
 Class.ResultSetColumn.MEASURE=MEASURE
+
 Class.ResultSetColumn.MEASURE.toolTip=Auswahlmöglichkeit für die Eigenschaft 'axisType'
 
 
@@ -2037,12 +2408,15 @@ Class.DataSetInputParam=DataSetInputParam-Klasse
 Class.DataSetInputParam.toolTip=Beschreibt einen Eingabeparameter für einen ODA-Datensatz
 
 Class.DataSetInputParam.name=Name
+
 Class.DataSetInputParam.name.toolTip=Eindeutiger Name eines Eingabeparameters
 
 Class.DataSetInputParam.displayName=DataSetInputParam
+
 Class.DataSetInputParam.displayName.toolTip=Geschäftsname eines Eingabeparameters
 
 Class.DataSetInputParam.description=Beschreibung
+
 Class.DataSetInputParam.description.toolTip=Freiform-Zeichenfolge, die eine ausführlichere Beschreibung des Parameters liefert
 
 Class.DataSetInputParam.nativeTypeCode=nativeTypeCode
@@ -2062,12 +2436,14 @@ Class.DataSetOutputParam=DataSetOutputParam-Klasse
 Class.DataSetOutputParam.toolTip=Beschreibt einen Ausgabeparameter für einen ODA-Datensatz
 
 Class.DataSetOutputParam.name=Name
+
 Class.DataSetOutputParam.name.toolTip=Eindeutiger Name eines Ausgabeparameters
 
 Class.DataSetOutputParam.displayName=displayName
 Class.DataSetOutputParam.displayName.toolTip=Geschäftsname eines Ausgabeparameters
 
 Class.DataSetOutputParam.description=Beschreibung
+
 Class.DataSetOutputParam.description.toolTip=Freiform-Zeichenfolge, die eine ausführlichere Beschreibung des Parameters liefert
 
 Class.DataSetOutputParam.nativeTypeCode=nativeTypeCode
@@ -2086,9 +2462,11 @@ Class.ItemState=ItemState
 Class.ItemState.toolTip=Stellt den Laufzeitstatus eines Berichtselements dar
 
 Class.ItemState.row=Zeile
+
 Class.ItemState.row.toolTip=Stellt die aktuelle innerste Zeile dar
 
 Class.ItemState.rows=Zeilen verwenden
+
 Class.ItemState.rows.toolTip=Ermöglicht den Zugriff auf Zeilen innerhalb dieser Hierarchie
 
 
@@ -2098,18 +2476,22 @@ Class.Total=Total(Aggregate)-Funktionen
 Class.Total.toolTip=Behälter für die Aggregatfunktionen
 
 Class.Total.OVERALL=OVERALL
+
 Class.Total.OVERALL.toolTip=Konstante für das Gruppenargument, mit dem die Gesamtsumme für den Datensatz angefordert wird
 
 Class.Total.NO_FILTER=NO_FILTER
 Class.Total.NO_FILTER.toolTip=Konstante für das Filterargument für Aggregatfunktionen, mit der angezeigt wird, dass kein Filter vorhanden ist
 
 Class.Total.sum=Summe
+
 Class.Total.sum.toolTip=Summe einer Zahlenfolge
 
 Class.Total.runningSum=runningSum
+
 Class.Total.runningSum.toolTip=Ähnlich wie eine Summe, zeigt jedoch die laufende Summe bis zu einem bestimmten Punkt im Bericht
 
 Class.Total.count=Anzahl
+
 Class.Total.count.toolTip=Anzahl der Zeilen
 
 Class.Total.runningCount=runningCount
@@ -2119,41 +2501,55 @@ Class.Total.countDistinct=countDistinct
 Class.Total.countDistinct.toolTip=Anzahl der Distinct-Werte
 
 Class.Total.max=Maximum
+
 Class.Total.max.toolTip=Größter Wert in einer Folge von Zahlen, Zeichenfolgen oder Datumsangaben
 
 Class.Total.min=Min.
+
 Class.Total.min.toolTip=Kleinster Wert in einer Folge von Zahlen, Zeichenfolgen oder Datumsangaben
 
 Class.Total.ave=dsch
+
 Class.Total.ave.toolTip=Durchschnittlicher Wert in einer Folge von Zahlen oder Datumsangaben
 
 Class.Total.weightedAve=weightedAve
+
 Class.Total.weightedAve.toolTip=Gewichteter Durchschnitt einer Zahlenfolge
 
 Class.Total.weightedAve.weight=Gewichtung
+
 Class.Total.movingAve=movingAve
+
 Class.Total.movingAve.toolTip=Laufender Durchschnitt einer Zahlenfolge, bei dem der Benutzer die Anzahl der Werte festlegt, die für die Berechnung des Durchschnitts berücksichtigt werden sollen
 
 Class.Total.movingAve.window=Fenster
+
 Class.Total.median=Median
+
 Class.Total.median.toolTip=Mathematischer Medianwert einer Zahlenfolge
 
 Class.Total.mode=Modus
+
 Class.Total.mode.toolTip=Mathematischer Modalwert einer Zahlenfolge
 
 Class.Total.stdDev=stdDev
+
 Class.Total.stdDev.toolTip=Mathematische Standardabweichung einer Zahlenfolge
 
 Class.Total.variance=Abweichung
+
 Class.Total.variance.toolTip=Mathematische Varianz einer Zahlenfolge
 
 Class.Total.first=1.
+
 Class.Total.first.toolTip=Erster Wert in einer Folge
 
 Class.Total.last=letzter
+
 Class.Total.last.toolTip=Letzter Wert in einer Folge
 
 Class.Total.rank=Rang
+
 Class.Total.rank.toolTip=Gibt den Rang einer Nummer, einer Zeichenfolge oder eines Datum-/Zeitwerts in einer Serie zurück, beginnend bei 1.
 
 Class.Total.rank.ascending=Aufsteigend
@@ -2162,31 +2558,39 @@ Class.Total.percentRank=percentRank
 Class.Total.percentRank.toolTip=Gibt den Prozent-Rang eines Werts zurück. Rückgabewert befindet sich innerhalb des Bereichs [0..1]
 
 Class.Total.percentile=Perzentil
+
 Class.Total.percentile.toolTip=Gibt den Perzentilwert zurück (Prozentbereich von 0 bis 1). Beträgt der Wert 0, ist der Rückgabewert gleich Total.min(expr). Beträgt der Wert 1, ist der Rückgabewert gleich Total.max(expr).
 
 Class.Total.percentile.pct=Prozentsatz
 
 Class.Total.quartile=Quartil
+
 Class.Total.quartile.toolTip=Gibt den Quartilwert zurück (Ganzzahlbereich von 1 bis 4). Beträgt der Wert 1, ist der Rückgabewert gleich Total.percentile(expr,0,25); beträgt der Wert 2, ist der Rückgabewert gleich Total.percentile(expr,0,5) usw.
 
 Class.Total.quartile.quart=Quart
+
 Class.Total.percentSum=percentSum
+
 Class.Total.percentSum.toolTip=Prozentsatz des Gesamten. Ist gleich expr/Total.sum(expr, [group])
 
 Class.Total.isTopN=isTopN
+
 Class.Total.isTopN.toolTip=Gibt den Wert 'Wahr' zurück, wenn der Wert einer der obersten n-Werte in der Gruppe ist, bzw. andernfalls den Wert 'Falsch'.
 
 Class.Total.isTopN.n=n
 Class.Total.isTopNPercent=isTopNPercent
+
 Class.Total.isTopNPercent.toolTip=Gibt den Wert 'Wahr' zurück, wenn der Wert einer der obersten Prozentwerte (% * 100) in der Gruppe ist, bzw. andernfalls den Wert 'Falsch'.
 
 Class.Total.isTopNPercent.pct=Prozentsatz
 
 Class.Total.isBottomN=isBottomN
+
 Class.Total.isBottomN.toolTip=Gibt den Wert 'Wahr' zurück, wenn der Wert einer der untersten n-Werte in der Gruppe ist, bzw. andernfalls den Wert 'Falsch'.
 
 Class.Total.isBottomN.n=n
 Class.Total.isBottomNPercent=isBottomNPercent
+
 Class.Total.isBottomNPercent.toolTip=Gibt den Wert 'Wahr' zurück, wenn der Wert einer der untersten Prozentwerte (% * 100) in der Gruppe ist, bzw. andernfalls den Wert 'Falsch'.
 
 Class.Total.isBottomNPercent.pct=Prozentsatz
@@ -2197,6 +2601,7 @@ Class.Finance=Finanzfunktionen
 Class.Finance.toolTip=Sammlung statischer Finanzfunktionen
 
 Class.Finance.ddb=gda
+
 Class.Finance.ddb.toolTip=Abschreibung eines Wirtschaftsguts über einen gegebenen, einzelnen Zeitraum mithilfe der degressiven Doppelratenabschreibung
 
 Class.Finance.ddb.initialCost=initialCost
@@ -2204,12 +2609,14 @@ Class.Finance.ddb.salvageValue=salvageValue
 Class.Finance.ddb.assetLifespan=assetLifespan
 Class.Finance.ddb.singlePeriod=singlePeriod
 Class.Finance.sln=lia
+
 Class.Finance.sln.toolTip=Lineare Abschreibung eines Wirtschaftsguts über einen einzelnen Zeitraum
 
 Class.Finance.sln.initialCost=initialCost
 Class.Finance.sln.salvageValue=salvageValue
 Class.Finance.sln.assetLifespan=assetLifespan 
 Class.Finance.syd=dia
+
 Class.Finance.syd.toolTip=Geometrisch-degressive Abschreibung eines Wirtschaftsguts über einen bestimmten Zeitraum hinweg
 
 Class.Finance.syd.initialCost=initialCost
@@ -2217,89 +2624,129 @@ Class.Finance.syd.salvageValue=salvageValue
 Class.Finance.syd.assetLifespan=assetLifespan
 Class.Finance.syd.singlePeriod=singlePeriod
 Class.Finance.fv=fv
+
 Class.Finance.fv.toolTip=Künftiger Wert einer Annuität auf der Grundlage regelmäßiger, gleich bleibender Zahlungen und eines unveränderlichen Zinssatzes
 
 Class.Finance.fv.ratePerPeriod=ratePerPeriod
+
 Class.Finance.fv.numberPayPeriods=numberPayPeriods
+
 Class.Finance.fv.eachPmt=eachPmt
+
 Class.Finance.fv.presentValue=presentValue
 Class.Finance.fv.whenDue=whenDue
+
 Class.Finance.ipmt=zinsz
+
 Class.Finance.ipmt.toolTip=Zinszahlung für einen bestimmten Zeitraum einer Annuität auf der Grundlage regelmäßiger, gleich bleibender Zahlungen und eines unveränderlichen Zinssatzes
 
 Class.Finance.ipmt.ratePerPeriod=ratePerPeriod
+
 Class.Finance.ipmt.singlePeriod=singlePeriod
 Class.Finance.ipmt.numberPayPeriods=numberPayPeriods
+
 Class.Finance.ipmt.presentValue=presentValue
 Class.Finance.ipmt.futureValue=futureValue
 Class.Finance.ipmt.whenDue=whenDue
+
 Class.Finance.nper=zzr
+
 Class.Finance.nper.toolTip=Anzahl der Perioden für eine Annuität auf der Grundlage regelmäßiger, gleich bleibender Zahlungen und eines unveränderlichen Zinssatzes
 
 Class.Finance.nper.ratePerPeriod=ratePerPeriod
+
 Class.Finance.nper.eachPmt=eachPmt
+
 Class.Finance.nper.presentValue=presentValue
 Class.Finance.nper.futureValue=futureValue
 Class.Finance.nper.whenDue=whenDue
+
 Class.Finance.pmt=rmz
+
 Class.Finance.pmt.toolTip=Zahlung für eine Annuität auf der Grundlage regelmäßiger, gleich bleibender Zahlungen und eines unveränderlichen Zinssatzes
 
 Class.Finance.pmt.ratePerPeriod=ratePerPeriod
+
 Class.Finance.pmt.numberPayPeriods=numberPayPeriods
+
 Class.Finance.pmt.presentValue=presentValue
 Class.Finance.pmt.futureValue=futureValue
 Class.Finance.pmt.whenDue=whenDue
+
 Class.Finance.ppmt=kapz
+
 Class.Finance.ppmt.toolTip=Kapitalzahlung für einen bestimmten Zeitraum einer Annuität auf der Grundlage regelmäßiger, gleich bleibender Zahlungen und eines unveränderlichen Zinssatzes
 
 Class.Finance.ppmt.ratePerPeriod=ratePerPeriod
+
 Class.Finance.ppmt.singlePeriod=singlePeriod
 Class.Finance.ppmt.numberPayPeriods=numberPayPeriods
+
 Class.Finance.ppmt.presentValue=presentValue
 Class.Finance.ppmt.futureValue=futureValue
 Class.Finance.ppmt.whenDue=whenDue
+
 Class.Finance.pv=bw
+
 Class.Finance.pv.toolTip=Derzeitiger Wert einer Annuität auf der Grundlage regelmäßiger, gleich bleibender, in der Zukunft zu leistender Zahlungen und eines unveränderlichen Zinssatzes
 
 Class.Finance.pv.ratePerPeriod=ratePerPeriod
+
 Class.Finance.pv.numberPayPeriods=numberPayPeriods
+
 Class.Finance.pv.eachPmt=eachPmt
+
 Class.Finance.pv.futureValue=futureValue
 Class.Finance.pv.whenDue=whenDue
+
 Class.Finance.rate=Rate
+
 Class.Finance.rate.toolTip=Zinssatz pro Periode für eine Annuität
 
 Class.Finance.rate.numberPayPeriods=numberPayPeriods
+
 Class.Finance.rate.eachPmt=eachPmt
+
 Class.Finance.rate.presentValue=presentValue
 Class.Finance.rate.futureValue=futureValue
 Class.Finance.rate.whenDue=whenDue
+
 Class.Finance.rate.startingGuess=startingGuess
 Class.Finance.irr=irr
+
 Class.Finance.irr.toolTip=Interne Ertragsrate für eine Reihe periodischer Finanzströme (Zahlungen und Zahlungseingänge) in einem vorhandenen Array
 
 Class.Finance.irr.cashArray=cashArray
 Class.Finance.irr.startingGuess=startingGuess
 Class.Finance.npv=nbw
+
 Class.Finance.npv.toolTip=Derzeitiger Nettowert einer veränderlichen Reihe von Finanzströmen (sowohl positiv als auch negativ) zu einem bestimmten Zinssatz
 
 Class.Finance.npv.rate=Rate
+
 Class.Finance.npv.cashArray=cashArray 
 Class.Finance.runningnpv=nbw
+
 Class.Finance.runningnpv.toolTip=Derzeitiger Nettowert einer veränderlichen Reihe von Finanzströmen (sowohl positiv als auch negativ) zu einem bestimmten Zinssatz
 
 Class.Finance.runningnpv.rate=Rate
+
 Class.Finance.runningnpv.cashArray=cashArray 
 Class.Finance.mirr=mirr
+
 Class.Finance.mirr.toolTip=Überarbeitete interne Ertragsrate für eine Reihe periodischer Finanzströme (Zahlungen und Zahlungseingänge) in einem vorhandenen Array
 
 Class.Finance.mirr.cashArray=cashArray
 Class.Finance.mirr.rate=Rate
+
 Class.Finance.percent=Prozent
+
 Class.Finance.percent.toolTip=Berechnet das prozentuale Verhältnis zweier Zahlen
 
 Class.Finance.percent.denom=denom
+
 Class.Finance.percent.num=Zahl
+
 Class.Finance.percent.rate=Rate
 
 #28. DateTimeSpan
@@ -2308,31 +2755,37 @@ Class.DateTimeSpan=DateTimeSpan-Funktionen
 Class.DateTimeSpan.toolTip=Sammlung von Funktionen für die Zeitspanne zwischen zwei Datums- oder Uhrzeitangaben
 
 Class.DateTimeSpan.years=Jahre
+
 Class.DateTimeSpan.years.toolTip=Gibt die Anzahl der ganzen Jahre zwischen zwei Datumsangaben zurück
 
 Class.DateTimeSpan.years.startDate=startDate
 Class.DateTimeSpan.years.endDate=endDate
 Class.DateTimeSpan.months=Monate
+
 Class.DateTimeSpan.months.toolTip=Gibt die Anzahl der ganzen Monate zwischen zwei Datumsangaben zurück
 
 Class.DateTimeSpan.months.startDate=startDate
 Class.DateTimeSpan.months.endDate=endDate
 Class.DateTimeSpan.days=Tage
+
 Class.DateTimeSpan.days.toolTip=Gibt den Zeitraum in Tagen zwischen zwei Datumsangaben zurück
 
 Class.DateTimeSpan.days.startDate=startDate
 Class.DateTimeSpan.days.endDate=endDate
 Class.DateTimeSpan.hours=Stunden
+
 Class.DateTimeSpan.hours.toolTip=Gibt den Zeitraum in Stunden zwischen zwei Datumsangaben zurück
 
 Class.DateTimeSpan.hours.startDate=startDate
 Class.DateTimeSpan.hours.endDate=endDate
 Class.DateTimeSpan.minutes=Minuten
+
 Class.DateTimeSpan.minutes.toolTip=Gibt den Zeitraum in Minuten zwischen zwei Datumsangaben zurück
 
 Class.DateTimeSpan.minutes.startDate=startDate
 Class.DateTimeSpan.minutes.endDate=endDate
 Class.DateTimeSpan.seconds=Sekunden
+
 Class.DateTimeSpan.seconds.toolTip=Gibt den Zeitraum in Sekunden zwischen zwei Datumsangaben zurück
 
 Class.DateTimeSpan.seconds.startDate=startDate
@@ -2343,8 +2796,11 @@ Class.DateTimeSpan.addDate.toolTip=Rechnet einen bestimmten Zeitraum in Jahren, 
 
 Class.DateTimeSpan.addDate.startDate=startDate
 Class.DateTimeSpan.addDate.years=Jahre
+
 Class.DateTimeSpan.addDate.months=Monate
+
 Class.DateTimeSpan.addDate.days=Tage
+
 
 
 Class.DateTimeSpan.addTime=addTime
@@ -2352,16 +2808,22 @@ Class.DateTimeSpan.addTime.toolTip=Rechnet einen bestimmten Zeitraum in Stunden,
 
 Class.DateTimeSpan.addTime.startDate=startDate
 Class.DateTimeSpan.addTime.hours=Stunden
+
 Class.DateTimeSpan.addTime.minutes=Minuten
+
 Class.DateTimeSpan.addTime.seconds=Sekunden
+
 
 Class.DateTimeSpan.subDate=subDate
 Class.DateTimeSpan.subDate.toolTip=Rechnet einen bestimmten Zeitraum in Jahren, Monaten oder Tagen von einem Datum ab
 
 Class.DateTimeSpan.subDate.startDate=startDate
 Class.DateTimeSpan.subDate.years=Jahre
+
 Class.DateTimeSpan.subDate.months=Monate
+
 Class.DateTimeSpan.subDate.days=Tage
+
 
 
 Class.DateTimeSpan.subTime=subTime
@@ -2369,7 +2831,9 @@ Class.DateTimeSpan.subTime.toolTip=Rechnet einen bestimmten Zeitraum in Stunden,
 
 Class.DateTimeSpan.subTime.startDate=startDate
 Class.DateTimeSpan.subTime.hours=Stunden
+
 Class.DateTimeSpan.subTime.minutes=Minuten
+
 Class.DateTimeSpan.subTime.seconds=Sekunden
 
 #29.GlobalBirt
@@ -2378,21 +2842,27 @@ Class.GlobalBirt=Globale Variablen
 Class.GlobalBirt.toolTip=Liefert eine Reihe globaler Variablen, mit denen Ausdrücke und Skripte auf Datenzeilen und Informationen zum Bericht zugreifen können
 
 Class.GlobalBirt.datasets=Birt-Datensätze
+
 Class.GlobalBirt.datasets.toolTip=Gibt das Array der Datensätze zurück, die im Bericht definiert sind
 
 Class.GlobalBirt.params=Birt-Parameter
+
 Class.GlobalBirt.params.toolTip=Gibt ein Objekt-Array mit Parameterwerten zurück, die an den Bericht übergeben wurden
 
 Class.GlobalBirt.row=Birt-Zeile
+
 Class.GlobalBirt.row.toolTip=Aktuelle Datenzeile für einen Datensatz oder ein Berichtselement
 
 Class.GlobalBirt.rows=Birt-Zeilen
+
 Class.GlobalBirt.rows.toolTip=Stapel mit Zeilen, der für den aktuellen Kontext definiert ist
 
 Class.GlobalBirt.config=Birt-Konfig
+
 Class.GlobalBirt.config.toolTip=Gibt ein Array mit Konfigurationsvariablen zurück, die im Bericht zur Verfügung stehen. Darstellung erfolgt als Name-/Wert-Paar
 
 Class.GlobalBirt.report=Birt-Bericht
+
 Class.GlobalBirt.report.toolTip=Ermöglicht den Zugriff auf alle Informationen zum Bericht und zum Kontext, in dem der Bericht ausgeführt wird
 
 Class.GlobalBirt.CurrentPage=Aktuelle Seitenzahl
@@ -2404,6 +2874,7 @@ Class.GlobalBirt.TotalPage=Anzahl der Seiten insgesamt
 Class.GlobalBirt.TotalPage.toolTip=Gibt die Anzahl der Seiten insgesamt an.
 
 Class.GlobalBirt.this=Dieses Objekt
+
 Class.GlobalBirt.this.toolTip=Dieses Objekt repräsentieren
 
 Class.GlobalBirt.appContext=AppContext
@@ -2415,9 +2886,11 @@ Class.DataSource=Datenquellenklasse
 Class.DataSource.toolTip=Die Datenquellenklasse bietet Zugriff auf den Factory-Zeitstatus der Datenquelle. Auf das Datenquellenobjekt kann über das von ihm verwendete Datensatzobjekt zugegriffen werden.
 
 Class.DataSource.extensionID=extensionID
+
 Class.DataSource.extensionID.toolTip=Gibt den Wert der Erweiterungs-ID der ODA-Datenquelle zurück, wie von der ODA-Treibererweiterung definiert. Die Erweiterungs-ID identifiziert einen Datenquellentyp in der BIRT-Umgebung eindeutig. Diese Eigenschaft kann nicht aktualisiert werden.
 
 Class.DataSource.isOpen=isOpen
+
 Class.DataSource.isOpen.toolTip=Gibt einen Booleschen Wert zurück, der angibt, ob eine Verbindung mit der Datenquelle besteht
 
 Class.DataSource.extensionProperties=extensionProperties
@@ -2429,52 +2902,70 @@ Class.BirtComp=BirtComp
 Class.BirtComp.toolTip=Unterstützung für BIRT-Datenvergleich bereitstellen
 
 Class.BirtComp.equalTo=equalsTo
+
 Class.BirtComp.equalTo.toolTip=x ist gleich y
 
 Class.BirtComp.equalTo.x=x
 Class.BirtComp.equalTo.y=y
+
 Class.BirtComp.greaterThan=greaterThan
 Class.BirtComp.greaterThan.toolTip=x ist größer als y
 
 Class.BirtComp.greaterThan.x=x
 Class.BirtComp.greaterThan.y=y
+
 Class.BirtComp.lessThan=lessThan
 Class.BirtComp.lessThan.toolTip=x ist kleiner als y
 
 Class.BirtComp.lessThan.x=x
 Class.BirtComp.lessThan.y=y
+
 Class.BirtComp.greaterOrEqual=greaterOrEqual
+
 Class.BirtComp.greaterOrEqual.toolTip=x ist größer als oder gleich y
 
 Class.BirtComp.greaterOrEqual.x=x
 Class.BirtComp.greaterOrEqual.y=y
+
 Class.BirtComp.lessOrEqual=lessOrEqual
+
 Class.BirtComp.lessOrEqual.toolTip=x ist kleiner als oder gleich y
 
 Class.BirtComp.lessOrEqual.x=x
 Class.BirtComp.lessOrEqual.y=y
+
 Class.BirtComp.notEqual=notEqual
 Class.BirtComp.notEqual.toolTip=x ist nicht gleich y
 
 Class.BirtComp.notEqual.x=x
 Class.BirtComp.notEqual.y=y
+
 Class.BirtComp.between=zwischen
+
 Class.BirtComp.between.toolTip=Wert ist größer als oder gleich r1 und kleiner als oder gleich r2
 
 Class.BirtComp.between.val=Wert
+
 Class.BirtComp.between.r1=r1
+
 Class.BirtComp.between.r2=r2
+
 Class.BirtComp.like=Wie
+
 Class.BirtComp.like.toolTip=x stimmt mit dem SQL-Muster y überein
 
 Class.BirtComp.like.x=x
 Class.BirtComp.like.y=y
+
 Class.BirtComp.match=stimmen überein mit
+
 Class.BirtComp.match.toolTip=x stimmt mit dem Javascript-Muster y überein
 
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
+
 Class.BirtComp.anyOf=anyOf
+
 Class.BirtComp.anyOf.toolTip=ob sich der Wert innerhalb des Bereichs folgender Argumente befindet
 
 Class.BirtComp.anyOf.val=Wert
@@ -2486,7 +2977,9 @@ Structure.MapRule=MapRule
 Structure.HighlightRule=HighlightRule
 Structure.CustomColor=CustomColor
 Structure.SearchKey=SearchKey
+
 Structure.Action=Aktion
+
 Structure.UserProperty=UserProperty
 Structure.SortKey=Sortierschlüssel
 
@@ -2539,6 +3032,7 @@ Structure.JoinCondition=Verknüpfungsbedingung
 Structure.ParameterFormatValue=Wert für Parameterformat
 
 Structure.OdaDesignerState=ODA-Designzustand
+
 Structure.ScriptLib=Skriptbibliothek
 
 Structure.IncludedCssStyleSheet=Enthaltene CSS-Stilvorlage
@@ -2552,6 +3046,7 @@ Structure.CalculationArgument=Berechnungsargument
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
 Structure.MapRule.operator=Operator
+
 Structure.MapRule.value1=Wert1
 
 Structure.MapRule.value2=Wert2
@@ -2564,6 +3059,7 @@ Structure.MapRule.isDesignTime=Gleich Designzeit
   
 #1.HighlightRule
 Structure.HighlightRule.operator=Operator
+
 Structure.HighlightRule.isDesignTime=Gleich Designzeit
 
 Structure.HighlightRule.value1=Wert 1
@@ -2572,22 +3068,31 @@ Structure.HighlightRule.value2=Wert 2
 
 Structure.HighlightRule.testExpr = TestExpression
 Structure.HighlightRule.strikethrough=Durchgestrichen
+
 Structure.HighlightRule.border.top.style=Stil
+
 Structure.HighlightRule.border.top.width=Breite
 
 Structure.HighlightRule.border.top.color=Farbe
+
 Structure.HighlightRule.border.left.style=Stil
+
 Structure.HighlightRule.border.left.width=Breite
 
 Structure.HighlightRule.border.left.color=Farbe
+
 Structure.HighlightRule.border.bottom.style=Stil
+
 Structure.HighlightRule.border.bottom.width=Breite
 
 Structure.HighlightRule.border.bottom.color=Farbe
+
 Structure.HighlightRule.border.right.style=Stil
+
 Structure.HighlightRule.border.right.width=Breite
 
 Structure.HighlightRule.border.right.color=Farbe
+
 Structure.HighlightRule.background.color=Hintergrundfarbe
 
 Structure.HighlightRule.background.image=Hindergrundbild
@@ -2613,6 +3118,7 @@ Structure.HighlightRule.font.weight=Strichstärke
 Structure.HighlightRule.font.variant=Schriftartvariante
 
 Structure.HighlightRule.font.color=Farbe
+
 Structure.HighlightRule.font.textUnderline=Unterstreichen
 
 Structure.HighlightRule.font.textOverline=Überstreichen
@@ -2634,11 +3140,14 @@ Structure.HighlightRule.text.indent=Texteinzug
 Structure.HighlightRule.text.transform=Textumwandlung
 
 Structure.HighlightRule.style=Stil
+
 Structure.HighlightRule.text.direction=Textrichtung
 
 #2.CustomColor
 Structure.CustomColor.name=Name
+
 Structure.CustomColor.color=Farbe
+
 Structure.CustomColor.displayName=Anzeigename
 
 Structure.CustomColor.displayNameID=Namensschlüssel anzeigen
@@ -2648,7 +3157,9 @@ Structure.SearchKey.expression=Ausdruck
   
 #5.UserProperty
 Structure.UserProperty.name=Name
+
 Structure.UserProperty.type=Typ
+
 Structure.UserProperty.isVisible=Ist sichtbar
 
 Structure.UserProperty.displayNameID=Namensschlüssel anzeigen
@@ -2657,6 +3168,7 @@ Structure.UserProperty.displayName=Anzeigename
 
 #6.ConfigVar
 Structure.ConfigVar.name=Name
+
 Structure.ConfigVar.value=Wert
 
 #7. SortKey
@@ -2670,6 +3182,7 @@ Structure.SortKey.locale=Sortierungsgebietsschema
 
 #8. Hide
 Structure.HideRule.format=Format
+
 Structure.HideRule.valueExpr=Ausdruck
 
 #9. IncludeScript
@@ -2677,14 +3190,18 @@ Structure.IncludeScript.fileName=Dateiname
 
 #10.EmbeddedImage
 Structure.EmbeddedImage.name=Name
+
 Structure.EmbeddedImage.type=Typ
+
 Structure.EmbeddedImage.data=Daten
 
 Structure.EmbeddedImage.libReference=Bibliotheksverweis
 
 #11.FilterCondition
 Structure.FilterCondition.operator=Operator
+
 Structure.FilterCondition.expr=Ausdruck
+
 Structure.FilterCondition.value1=Wert 1
 
 Structure.FilterCondition.value2=Wert 2
@@ -2698,17 +3215,21 @@ Structure.FilterCondition.extensionName=Name der Erweiterung
 Structure.FilterCondition.extensionExprId=Erweiterungsausdruck-ID
 
 Structure.FilterCondition.pushDown=Push Down
+
 Structure.FilterCondition.dynamicFilterParameter=Dynamischer Filterparameter
 
 Structure.FilterCondition.type=Typ
+
 Structure.FilterCondition.updateAggregation=Aggregat aktualisieren
 
 #10. PropertyMask
 Structure.PropertyMask.name=Name
+
 Structure.PropertyMask.mask=Maske
 
 #11.OdaProperty
 Structure.OdaProperty.name=Name
+
 Structure.OdaProperty.value=Wert
 
 #13. ParamBinding
@@ -2718,7 +3239,9 @@ Structure.ParamBinding.expression=Ausdruck
 
 #14. ResultSetColumn
 Structure.ResultSetColumn.position=Position
+
 Structure.ResultSetColumn.name=Name
+
 Structure.ResultSetColumn.dataType=Datentyp
 
 Structure.ResultSetColumn.nativeDataType=Programmeigener Datentypcode
@@ -2731,6 +3254,7 @@ Structure.ComputedColumn.displayName=Spaltenanzeigename
 Structure.ComputedColumn.displayNameID=Spaltenanzeigenamen-ID
 
 Structure.ComputedColumn.expression=Ausdruck
+
 Structure.ComputedColumn.dataType=Datentyp
 
 Structure.ComputedColumn.aggregateOn=Ausdruck "AggregateOn"
@@ -2757,6 +3281,7 @@ Structure.ComputedColumn.timeDimension=Zeitliche Dimension
 Structure.ColumnHint.columnName=Spaltenname
 
 Structure.ColumnHint.alias=Alias
+
 Structure.ColumnHint.searching=Suche läuft...
 
 Structure.ColumnHint.export=Exportieren
@@ -2766,6 +3291,7 @@ Structure.ColumnHint.analysis=Analyse
 Structure.ColumnHint.parentLevel=Übergeordnete Ebene
 
 Structure.ColumnHint.format=Format
+
 Structure.ColumnHint.helpText=Hilfetext
 
 Structure.ColumnHint.helpTextID=Hilfetext-Ressourcenschlüssel
@@ -2789,9 +3315,11 @@ Structure.ColumnHint.wordWrap=Zeilenumbruch
 Structure.ColumnHint.textFormat=Textformat
 
 Structure.ColumnHint.description=Beschreibung
+
 Structure.ColumnHint.descriptionID=Beschreibungs-Ressourcenschlüssel
 
 Structure.ColumnHint.action=Aktion
+
 Structure.ColumnHint.ACLExpression=Ausdruck 'ACL'
 
 Structure.ColumnHint.analysisColumn=Analysespalte
@@ -2825,9 +3353,11 @@ Structure.IncludedCssStyleSheet.useExternalCss=Externes CSS verwenden
 
 #15. DataSetParam
 Structure.DataSetParam.name=Name
+
 Structure.DataSetParam.dataType=Datentyp
 
 Structure.DataSetParam.position=Position
+
 Structure.DataSetParam.defaultValue=Standardwert
 
 Structure.DataSetParam.isOptional=Ist optional
@@ -2853,10 +3383,12 @@ Structure.DataSetParam.helpText=Hilfetext
 Structure.DataSetParam.helpTextID=Hilfetext-Ressourcenschlüssel
 
 Structure.DataSetParam.description=Beschreibung
+
 Structure.DataSetParam.descriptionID=Beschreibungs-Ressourcenschlüssel
 
 #16. ExtendedProperty
 Structure.ExtendedProperty.name=Name
+
 Structure.ExtendedProperty.value=Wert
 
 #17. Action
@@ -2929,6 +3461,7 @@ Structure.UserMethod.name=Name
 
 #23. PropertyBinding
 Structure.PropertyBinding.name=Name
+
 Structure.PropertyBinding.id=Element-ID
 
 Structure.PropertyBinding.value=Wert
@@ -2955,13 +3488,18 @@ Structure.ParameterFormatValue.locale=Gebietsschema
 
 #26. OdaDesignerState
 Structure.OdaDesignerState.version=Version
+
 Structure.OdaDesignerState.stateContentAsString=Inhalt als Zeichenfolge darstellen
+
 Structure.OdaDesignerState.stateContentAsBlob=Inhalt als BLOB darstellen
 
 #27. OdaResultSetColumn
 Structure.OdaResultSetColumn=OdaResultSetColumn
+
 Structure.OdaResultSetColumn.position=Position
+
 Structure.OdaResultSetColumn.name=Name
+
 Structure.OdaResultSetColumn.nativeName=Programmeigener Name
 
 Structure.OdaResultSetColumn.dataType=Datentyp
@@ -2970,7 +3508,9 @@ Structure.OdaResultSetColumn.nativeDataType=Programmeigener Datentypcode
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=OdaDataSetParam
+
 Structure.OdaDataSetParam.name=Name
+
 Structure.OdaDataSetParam.paramName=Parametername
 
 Structure.OdaDataSetParam.nativeName=Programmeigener Name
@@ -2980,6 +3520,7 @@ Structure.OdaDataSetParam.dataType=Datentyp
 Structure.OdaDataSetParam.nativeDataType=Programmeigener Datentypcode
 
 Structure.OdaDataSetParam.position=Position
+
 Structure.OdaDataSetParam.defaultValue=Standardwert
 
 Structure.OdaDataSetParam.isOptional=Ist optional
@@ -3003,6 +3544,7 @@ Structure.OdaDataSetParam.helpText=Hilfetext
 Structure.OdaDataSetParam.helpTextID=Hilfetext-Ressourcenschlüssel
 
 Structure.OdaDataSetParam.description=Beschreibung
+
 Structure.OdaDataSetParam.descriptionID=Beschreibungs-Ressourcenschlüssel
 
 #27. ScriptLib
@@ -3012,6 +3554,7 @@ Structure.ScriptLib.name =Name der Skriptbibliothek
 Structure.TOC=Inhaltsverzeichnis
 
 Structure.TOC.Expression=Ausdruck
+
 Structure.TOC.TOCStyle=Stil für Inhaltsverzeichnis
 
 Structure.TOC.border.top.style=Stil für oberen Rahmen
@@ -3092,12 +3635,14 @@ Structure.Rule.displayExpre=Ausdruck anzeigen
 Structure.LevelAttribute=Ebenenattribut
 
 Structure.LevelAttribute.name=Name
+
 Structure.LevelAttribute.dataType=Datentyp
 
 #32. OdaLevelAttribute
 Structure.OdaLevelAttribute=ODA-Ebenenattribut
 
 Structure.OdaLevelAttribute.name=Name
+
 Structure.OdaLevelAttribute.dataType=Datentyp
 
 Structure.OdaLevelAttribute.nativeName=Programmeigener Name
@@ -3120,7 +3665,9 @@ Structure.AggregationArgument.value=Argumentwert
 
 #35. Variable
 Structure.Variable=Variable
+
 Structure.Variable.name=Name
+
 Structure.Variable.value=Wert
 
 #36. SortHint
@@ -3165,6 +3712,7 @@ Structure.CalculationArgument.value=Berechnungsargumentwert
 ###########################################################
 # Element names
 Element.Module=Modul
+
 Element.LayoutModule=Layout-Modul
 
 Element.ReportDesign=Berichtdesign
@@ -3184,6 +3732,7 @@ Element.SimpleDataSet=Einfacher Datensatz
 Element.JdbcSelectDataSet=JDBC-Datensatz auswählen
 
 Element.Parameter=Parameter
+
 Element.AbstractScalarParameter=Abstrakter Skalargrößen-Parameter
 
 Element.ScalarParameter=ScalarParameter
@@ -3194,6 +3743,7 @@ Element.ParameterGroup=Parametergruppe
 Element.CascadingParameterGroup=Gruppe kaskadierender Parameter
 
 Element.Style=Stil
+
 Element.MasterPage=MasterPage
 Element.ReportItem=Berichtsobjekt
 
@@ -3204,7 +3754,9 @@ Element.FreeForm=FreeForm
 Element.Data=Daten
 
 Element.Text=Text
+
 Element.Library=Bibliothek
+
 Element.ListingGroup=Listengruppe
 
 Element.List=Liste
@@ -3214,6 +3766,7 @@ Element.ListGroup=Listengruppe
 Element.Listint=Liste
 
 Element.Table=Tabelle
+
 Element.TableGroup=Tabellengruppe
 
 Element.Column=Spalte
@@ -3223,6 +3776,7 @@ Element.Row=Zeile
 Element.Cell=Zelle
 
 Element.Image=Bild
+
 Element.Grid=Raster
 
 Element.Line=Linie
@@ -3230,6 +3784,7 @@ Element.Line=Linie
 Element.Tile=Feld
 
 Element.Rectangle=Rechteck
+
 Element.GraphicMasterPage=Grafik-Master-Seite
 
 Element.SimpleMasterPage=Einfache Master-Seite
@@ -3262,6 +3817,7 @@ Element.JointDataSet=Verknüpfungsdatensatz
 
 Element.Cube=Cube
 Element.Dimension=Dimension
+
 Element.Hierarchy=Hierarchie
 
 Element.Level=Stufe
@@ -3305,6 +3861,7 @@ Element.AbstractMultiViews=Abstrakte Mehrfachansichten
 Element.MultiViews=Mehrfachansichten
 
 Element.VariableElement=Variable
+
 Element.DataGroup=Datengruppe
 
 Element.DerivedDataSet=Abgeleiteter Datensatz
@@ -3330,6 +3887,7 @@ Element.AliasDataSet =Alias-Datensatz
 Element.LinkedDataModel =Verknüpftes Datenmodell
 
 Element.CategoryColumn =Kategoriespalte
+
 Element.LinkedDataModel.pushDown=Datenmodell-Push-Down
 
 Element.Category = Kategorie
@@ -3355,6 +3913,7 @@ Element.Module.title=Titel
 Element.Module.titleID=Titelschlüssel
 
 Element.Module.description=Beschreibung
+
 Element.Module.descriptionID=Beschreibungsschlüssel
 
 Element.Module.comments=Kommentare
@@ -3381,9 +3940,11 @@ Element.LayoutModule.colorPalette=Farbpalette
 Element.LayoutModule.configVars=Variablen konfigurieren
 
 Element.LayoutModule.images=Bilder
+
 Element.LayoutModule.libraries=Bibliotheken
 
 Element.LayoutModule.base=Basis
+
 Element.LayoutModule.units=Einheiten
 
 Element.LayoutModule.theme=Thema
@@ -3391,6 +3952,7 @@ Element.LayoutModule.theme=Thema
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=Stile
+
 Element.Library.slot.parameters=Parameter
 
 Element.Library.slot.dataSources=Datenquellen
@@ -3463,6 +4025,7 @@ Element.ReportDesign.iconFile=Symboldatei
 Element.ReportDesign.cheatSheet=Spickzettel
 
 Element.ReportDesign.thumbnail=Miniatur
+
 Element.ReportDesign.layoutPreference=Layoutvoreinstellungen
 
 Element.ReportDesign.bidiLayoutOrientation=Berichtseitenausrichtung
@@ -3488,6 +4051,7 @@ Element.ReportDesign.onPageStart.toolTip=Am Seitenanfang aufgerufen.
 Element.ReportDesign.onPageEnd.toolTip=Am Seitenende aufgerufen.
 
 Element.ReportDesign.slot.styles=Stile
+
 Element.ReportDesign.slot.parameters=Parameter
 
 Element.ReportDesign.slot.dataSources=Datenquellen
@@ -3521,6 +4085,7 @@ Element.ReportDesign.enableACL=Datensicherheit aktivieren
 Element.ReportDesign.ACLExpression=Ausdruck 'ACL'
 
 Element.ReportDesign.cascadeACL=Verschachtelung 'ACL'
+
 Element.ReportDesign.imageDPI=Bild-DPI
 
 Element.ReportDesign.pageVariables=Seitenvariablen
@@ -3547,9 +4112,13 @@ Element.ReportDesign.onContentUpdate= Bei Inhaltsaktualisierung
 Element.ReportDesign.onContentUpdate.toolTip=Die Ausführung findet auf der Client-Seite statt, wenn der Berichtinhalt im BIRT Viewer aktualisiert wird.
 
 Element.ReportDesign.onContentUpdate.this=Berichtdesign
+
 Element.ReportDesign.clientInitialize=Client-Initialisierung
+
 Element.ReportDesign.clientInitialize.toolTip=Clientseitige JavaScript-Bibliotheken laden.
+
 Element.ReportDesign.clientInitialize.this=Berichtdesign
+
 Element.ReportDesign.language=Sprache
 
 Element.ReportDesign.PDFAccessible=Barrierefreies PDF
@@ -3564,8 +4133,11 @@ Element.ReportElement.comments=Kommentare
 Element.ReportElement.propertyMask=Eigenschaftsmaske
 
 Element.ReportElement.name=Name
+
 Element.ReportElement.extends=Wird erweitert
+
 Element.ReportElement.style=Stil
+
 Element.ReportElement.eventHandlerClass=Ereignis-Handler-Klasse
 
 Element.ReportElement.newHandlerOnEachEvent=Neuer Handler für jedes Ereignis
@@ -3574,6 +4146,7 @@ Element.ReportElement.viewAction=Aktion anzeigen
 
 #3. JdbcDataSource  ( prefix  Element.JdbcDataSource )
 Element.JdbcDataSource.url=URL
+
 Element.JdbcDataSource.userName=Benutzername
 
 Element.JdbcDataSource.password=Kennwort
@@ -3588,6 +4161,7 @@ Element.DataSet.resultSetHints=Ergebnishinweise
 Element.DataSet.computedColumns=Berechnete Spalten
 
 Element.DataSet.filter=Filter
+
 Element.DataSet.columnHints=Spaltenhinweise
 
 Element.DataSet.cachedMetaData=Zwischengespeicherte Metadaten
@@ -3605,6 +4179,7 @@ Element.DataSet.ACLExpression=Ausdruck 'ACL'
 Element.DataSet.RowACLExpression=Zeilenausdruck 'ACL'
 
 Element.DataSet.isVisible=Sichtbar
+
 Element.DataSet.locale=Gebietsschema
 
 Element.DataSet.nullsOrdering=Reihenfolge für Nullwerte
@@ -3673,6 +4248,7 @@ Element.Parameter.helpTextID=Hilfetextschlüssel
 Element.Parameter.hidden=Ausgeblendet
 
 Element.Parameter.validate=Gültigkeit
+
 Element.Parameter.validate.reportContext=Berichtkontext
 
 Element.Parameter.validate.toolTip=Gibt "True" oder "False" für die benutzerdefinierte Validierung des Parameters zurück
@@ -3689,6 +4265,7 @@ Element.ScalarParameter.displayPrompt=Anzeige-Aufforderung
 Element.ScalarParameter.concealValue=Wert verbergen
 
 Element.ScalarParameter.format=Format
+
 Element.ScalarParameter.controlType=Steuerelementtyp
 
 Element.ScalarParameter.alignment=Ausrichtung
@@ -3739,11 +4316,13 @@ Element.CascadingParameterGroup.slot.parameters=Parameter
 
 #9. MasterPage ( Prefix = Element.MasterPage )
 Element.MasterPage.type=Typ
+
 Element.MasterPage.height=Höhe
 
 Element.MasterPage.width=Breite
 
 Element.MasterPage.orientation=Orientierung
+
 Element.MasterPage.columns=Spalten
 
 Element.MasterPage.columnSpacing=Spaltenabstand
@@ -3864,6 +4443,7 @@ Element.Style.font.variant=Schriftartvariante
 Element.Style.font.weight=Schriftschnitt
 
 Element.Style.format=Format
+
 Element.Style.format.dateTime=Datum-/Uhrzeitformat
 
 Element.Style.format.date=Datumsformat
@@ -3913,9 +4493,11 @@ Element.Style.pageBreakAfter=Seitenumbruch nach
 Element.Style.pageBreakInside=Seitenumbruch in
 
 Element.Style.section=Bereich
+
 Element.Style.showIfBlank=Anzeigen, wenn leer
 
 Element.Style.text=Text
+
 Element.Style.text.align=Textausrichtung
 
 Element.Style.text.direction=Textrichtung
@@ -3927,6 +4509,7 @@ Element.Style.text.transform=Textumwandlung
 Element.Style.verticalAlign=Vertikale Anpassung
 
 Element.Style.whiteSpace=Whitespace
+
 Element.Style.widows=Witwen
 
 Element.Style.orphans=Waisenkinder
@@ -3973,6 +4556,7 @@ Element.ReportItem.multiViews=Mehrfachansichten
 Element.ReportItem.ACLExpression=Ausdruck 'ACL'
 
 Element.ReportItem.cascadeACL=Verschachtelung 'ACL'
+
 Element.ReportItem.allowExport=Export zulassen
 
 Element.ReportItem.pushDown=Push Down
@@ -3999,6 +4583,7 @@ Element.Label.helpTextID=Hilfetextschlüssel
 Element.Label.helpText=Hilfetext
 
 Element.Label.action=Aktion
+
 Element.Label.onPrepare=Beim Vorbereiten
 
 Element.Label.onPrepare.this=Beschriftung
@@ -4049,6 +4634,7 @@ Element.Data.helpText=Hilfetext
 Element.Data.helpTextID=Hilfetextschlüssel
 
 Element.Data.action=Aktion
+
 Element.Data.onPrepare=Beim Vorbereiten
 
 Element.Data.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
@@ -4097,6 +4683,7 @@ Element.Text.onPrepare=Beim Vorbereiten
 Element.Text.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
 
 Element.Text.onPrepare.this=Text
+
 Element.Text.onPrepare.reportContext=Berichtkontext
 
 Element.Text.onCreate=Beim Erstellen
@@ -4112,6 +4699,7 @@ Element.Text.onRender=Beim Rendern
 Element.Text.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum Rendern in der Präsentations-Engine ausgeführt.
 
 Element.Text.onRender.this=Textinstanz
+
 Element.Text.onRender.reportContext=Berichtkontext
 
 Element.Text.onPageBreak=Bei Seitenumbruch
@@ -4142,6 +4730,7 @@ Element.ListingGroup.toc=Inhalt
 Element.ListingGroup.hideDetail=Details ausblenden
 
 Element.ListingGroup.groupName=Name
+
 Element.ListingGroup.Interval=Intervall
 
 Element.ListingGroup.intervalBase=Intervallbasis
@@ -4163,6 +4752,7 @@ Element.ListingGroup.pageBreakAfter=Seitenumbruch nach
 Element.ListingGroup.pageBreakInside=Seitenumbruch in
 
 Element.ListingGroup.filter=Filter
+
 Element.ListingGroup.repeatHeader=Kopfzeile wiederholen
 
 Element.ListingGroup.onStart=Beim Starten
@@ -4202,6 +4792,7 @@ Element.ListingGroup.onRender.reportContext=Berichtkontext
 Element.ListingGroup.ACLExpression=Ausdruck 'ACL'
 
 Element.ListingGroup.cascadeACL=Verschachtelung 'ACL'
+
 Element.ListingGroup.showDetailFilter=Detailfilter anzeigen
 
 #16.List  ( prefix  Element.List )
@@ -4210,6 +4801,7 @@ Element.List.slot.header=Kopfzeile
 Element.List.slot.groups=Gruppen
 
 Element.List.slot.detail=Detail
+
 Element.List.slot.footer=Fußzeile
 
 Element.List.onPrepare=Beim Vorbereiten
@@ -4283,6 +4875,7 @@ Element.Table.slot.header=Kopfzeile
 Element.Table.slot.groups=Gruppen
 
 Element.Table.slot.detail=Detail
+
 Element.Table.slot.footer=Fußzeile
 
 Element.Table.slot.columns=Spalten
@@ -4292,6 +4885,7 @@ Element.Table.onPrepare=Beim Vorbereiten
 Element.Table.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
 
 Element.Table.onPrepare.this=Tabelle
+
 Element.Table.onPrepare.reportContext=Berichtkontext
 
 Element.Table.onPrepare.object=Objekt
@@ -4465,6 +5059,7 @@ Element.Cell.onRender.reportContext=Berichtkontext
 Element.Cell.viewAction=Aktion anzeigen
 
 Element.Cell.diagonal=Diagonal
+
 Element.Cell.diagonalNumber=Anzahl Diagonal
 
 Element.Cell.antidiagonalNumber=Anzahl Antidiagonal
@@ -4501,6 +5096,7 @@ Element.Image.size=Größe
 Element.Image.scale=Skalierung
 
 Element.Image.source=Quelle
+
 Element.Image.uri=URI
 Element.Image.imageName=Bildname
 
@@ -4509,11 +5105,13 @@ Element.Image.valueExpr=Wertausdruck
 Element.Image.typeExpr=Typausdruck
 
 Element.Image.action=Aktion
+
 Element.Image.onPrepare=Beim Vorbereiten
 
 Element.Image.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
 
 Element.Image.onPrepare.this=Bild
+
 Element.Image.onPrepare.reportContext=Berichtkontext
 
 Element.Image.onCreate=Beim Erstellen
@@ -4653,6 +5251,7 @@ Element.ExtendedItem.altTextID=Schlüssel für alternativen Text
 Element.ExtendedItem.extensionName=Name der Erweiterung
 
 Element.ExtendedItem.filter=Filter
+
 Element.ExtendedItem.onPrepare=Beim Vorbereiten
 
 Element.ExtendedItem.onPrepare.toolTip=Die Ausführung findet während des Setups des Elements statt. Das Design eines Elements kann hier geändert werden. Datenbindungen sind noch nicht verfügbar.
@@ -4772,6 +5371,7 @@ Element.ScriptDataSet.resultSetHints=Ergebnishinweise
 Element.Listing.sorting=Sortierung
 
 Element.Listing.filter=Filter
+
 Element.Listing.repeatHeader=Kopfzeile wiederholen
 
 Element.Listing.pageBreakInterval=Intervall für Seitenumbruch
@@ -4821,11 +5421,13 @@ Element.OdaDataSource.designerState=Designzustand
 
 #36 OdaDataSet ( Prefix Element.OdaDataSet )
 Element.OdaDataSet.extensionID=ID der Erweiterung
+
 Element.OdaDataSet.resultSet=Ergebnis Satzspalten
 
 Element.OdaDataSet.queryText=Abfrage
 
 Element.OdaDataSet.type=Typ
+
 Element.OdaDataSet.resultSetName=Name des Ergebnisses
 
 Element.OdaDataSet.publicDriverProperties=Eigenschaften des öffentlichen Treibers
@@ -4833,6 +5435,7 @@ Element.OdaDataSet.publicDriverProperties=Eigenschaften des öffentlichen Treiber
 Element.OdaDataSet.privateDriverProperties=Eigenschaften des privaten Treibers
 
 Element.OdaDataSet.designerState=Designzustand
+
 Element.OdaDataSet.designerValues=Designer-Werte
 
 Element.OdaDataSet.resultSetNumber=Ergebnisnummer
@@ -4851,15 +5454,18 @@ Element.Theme.slot.styles=Stile
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=Name
+
 Element.TemplateParameterDefinition.allowedType=Zulässiger Typ
 
 Element.TemplateParameterDefinition.description=Beschreibung
+
 Element.TemplateParameterDefinition.descriptionID=ID der Beschreibung
 
 Element.TemplateParameterDefinition.slot.default=Standard
 
 #40 TemplateElement ( Prefix Element.TemplateElement )
 Element.TemplateElement.name=Name
+
 Element.TemplateElement.refTemplateParameter=Referenzvorlagenparameter
 
 Element.TemplateElement.displayName=Anzeigename
@@ -4957,13 +5563,16 @@ Element.Level.ACLExpression=Ausdruck 'ACL'
 Element.Level.MemberACLExpression=Mitgliedsausdruck 'ACL'
 
 Element.Level.action=Aktion
+
 Element.Level.format=Format
+
 Element.Level.alignment=Ausrichtung
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Funktion
 
 Element.Measure.isCalculated=Wird berechnet
+
 Element.Measure.measureExpression=Ausdruck für Maßeinheit
 
 Element.Measure.dataType=Datentyp
@@ -4971,7 +5580,9 @@ Element.Measure.dataType=Datentyp
 Element.Measure.ACLExpression=Ausdruck 'ACL'
 
 Element.Measure.action=Aktion
+
 Element.Measure.format=Format
+
 Element.Measure.alignment=Ausrichtung
 
 Element.Measure.isVisible=Ist sichtbar
@@ -4983,6 +5594,7 @@ Element.MeasureGroup.measures=Einheiten
 Element.TabularCube.dataSet=Datensatz
 
 Element.TabularCube.dimensions=Abmessungen
+
 Element.TabularCube.measureGroups=Maßeinheitsgruppen
 
 Element.TabularCube.dimensionConditions=Dimensionsbedingungen
@@ -5010,6 +5622,7 @@ Element.TabularLevel.attributes=Attribute
 
 #55. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=Abmessungen
+
 Element.OdaCube.measureGroups=Maßeinheitsgruppen
 
 Element.OdaCube.nativeName=Programmeigener Name
@@ -5040,6 +5653,7 @@ Element.MemberValue.filter=Filter
 Element.SortElement.key=Schlüssel
 
 Element.SortElement.direction=Richtung
+
 Element.SortElement.member=Mitglied
 
 Element.SortElement.strength=Sortierungsstärke
@@ -5048,9 +5662,13 @@ Element.SortElement.locale=Sortierungsgebietsschema
 
 #61. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=Operator
+
 Element.FilterConditionElement.expr=Ausdruck
+
 Element.FilterConditionElement.value1=Wert1
+
 Element.FilterConditionElement.value2=Wert2
+
 Element.FilterConditionElement.filterTarget=Ziel filtern
 
 Element.FilterConditionElement.member=Mitglied
@@ -5062,8 +5680,11 @@ Element.FilterConditionElement.extensionName=Name der Erweiterung
 Element.FilterConditionElement.extensionExprId=Erweiterungsausdruck-ID
 
 Element.FilterConditionElement.pushDown=Push Down
+
 Element.FilterConditionElement.dynamicFilterParameter=Dynamischer Filterparameter
+
 Element.FilterConditionElement.type=Typ
+
 Element.FilterConditionElement.updateAggregation=Aggregat aktualisieren
 
 
@@ -5075,17 +5696,20 @@ Element.MultiViews.views=Ansichten
 
 #64. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=Name
+
 Element.VariableElement.value=Wert
 
 Element.VariableElement.type=Typ
 
 #65. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=Name
+
 Element.DataGroup.keyExpr=Schlüsselausdruck
 
 Element.DataGroup.sort=Sortieren
 
 Element.DataGroup.filter=Filter
+
 Element.DataGroup.Interval=Intervall
 
 Element.DataGroup.interval=Intervall
@@ -5153,6 +5777,7 @@ Element.DataMart.slot.dataSources=Datenquellen
 Element.DataMart.slot.dataSets=Datensätze
 
 Element.DataMart.slot.cubes=Quader
+
 Element.DataMart.slot.parameters=Parameter
 
 Element.DataMart.slot.dimensions=Gemeinsame Dimensionen
@@ -5165,6 +5790,7 @@ Element.DataMart.enableIncrementalUpdate=Schrittweise Aktualisierung aktivieren
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
 Element.DataMartDataSource.datamartURL =Data Mart-URL
+
 Element.DataMartDataSource.datamartVersion=Data Mart-Version
 
 Element.DataMartDataSource.paramBindings=Parameterbindungen
@@ -5197,7 +5823,9 @@ Element.DataMartLinkedDataModel.dataObject=Datenobjekt
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=Stile
+
 Element.ReportItemTheme.type=Typ
+
 Element.ReportItemTheme.customValues=Benutzerdefinierte Werte
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
@@ -5216,14 +5844,23 @@ Element.CategoryColumn.aliasDataSet = Alias-Datensatz
 Element.CategoryColumn.dataType = Datentyp
 
 Element.CategoryColumn.expression =Ausdruck
+
 Element.CategoryColumn.resultSetColumnName = Ergebnisspaltenname
+
 Element.CategoryColumn.helpText =Hilfetext
+
 Element.CategoryColumn.ACLExpression =Ausdruck 'ACL'
+
 Element.CategoryColumn.heading =Überschrift
+
 Element.CategoryColumn.horizontalAlign =Horizontale Ausrichtung
+
 Element.CategoryColumn.format =Format
+
 Element.CategoryColumn.valueFormat =Werteformat
+
 Element.CategoryColumn.action =Aktion
+
 Element.CategoryColumn.analysis =Analyse
 
 ###########################################################
@@ -5255,92 +5892,169 @@ Style.GroupFooter9=GroupFooter9
 Style.ListHeader=ListHeader
 Style.ListFooter=ListFooter
 Style.ListGroupHeader1=ListGroupHeader1
+
 Style.ListGroupHeader2=ListGroupHeader2
+
 Style.ListGroupHeader3=ListGroupHeader3
+
 Style.ListGroupHeader4=ListGroupHeader4
+
 Style.ListGroupHeader5=ListGroupHeader5
+
 Style.ListGroupHeader6=ListGroupHeader6
+
 Style.ListGroupHeader7=ListGroupHeader7
+
 Style.ListGroupHeader8=ListGroupHeader8
+
 Style.ListGroupHeader9=ListGroupHeader9
+
 Style.ListGroupFooter1=ListGroupFooter1
+
 Style.ListGroupFooter2=ListGroupFooter2
+
 Style.ListGroupFooter3=ListGroupFooter3
+
 Style.ListGroupFooter4=ListGroupFooter4
+
 Style.ListGroupFooter5=ListGroupFooter5
+
 Style.ListGroupFooter6=ListGroupFooter6
+
 Style.ListGroupFooter7=ListGroupFooter7
+
 Style.ListGroupFooter8=ListGroupFooter8
+
 Style.ListGroupFooter9=ListGroupFooter9
+
 
 Style.ListDetail=ListDetail
 Style.Table=Tabelle
+
 Style.TableHeader=TableHeader
 Style.TableHeaderCell=TableHeaderCell
 Style.TableFooter=TableFooter
 Style.TableFooterCell=TableFooterCell
 Style.TableGroupHeader1=TableGroupHeader1
+
 Style.TableGroupHeader2=TableGroupHeader2
+
 Style.TableGroupHeader3=TableGroupHeader3
+
 Style.TableGroupHeader4=TableGroupHeader4
+
 Style.TableGroupHeader5=TableGroupHeader5
+
 Style.TableGroupHeader6=TableGroupHeader6
+
 Style.TableGroupHeader7=TableGroupHeader7
+
 Style.TableGroupHeader8=TableGroupHeader8
+
 Style.TableGroupHeader9=TableGroupHeader9
+
 Style.TableGroupHeaderCell=TableGroupHeaderCell
+
 Style.TableGroupFooter1=TableGroupFooter1
+
 Style.TableGroupFooter2=TableGroupFooter2
+
 Style.TableGroupFooter3=TableGroupFooter3
+
 Style.TableGroupFooter4=TableGroupFooter4
+
 Style.TableGroupFooter5=TableGroupFooter5
+
 Style.TableGroupFooter6=TableGroupFooter6
+
 Style.TableGroupFooter7=TableGroupFooter7
+
 Style.TableGroupFooter8=TableGroupFooter8
+
 Style.TableGroupFooter9=TableGroupFooter9
+
 Style.TableGroupFooterCell=TableGroupFooterCell
+
 
 Style.TableColumnHeader=TableColumnHeader
 Style.TableDetail=TableDetail
 Style.TableDetailCell=TableDetailCell
 Style.Page=Seite
+
 Style.Matrix=Matrix
+
 Style.MatrixRowHeader1=MatrixRowHeader1
+
 Style.MatrixRowHeader2=MatrixRowHeader2
+
 Style.MatrixRowHeader3=MatrixRowHeader3
+
 Style.MatrixRowHeader4=MatrixRowHeader4
+
 Style.MatrixRowHeader5=MatrixRowHeader5
+
 Style.MatrixRowHeader6=MatrixRowHeader6
+
 Style.MatrixRowHeader7=MatrixRowHeader7
+
 Style.MatrixRowHeader8=MatrixRowHeader8
+
 Style.MatrixRowHeader9=MatrixRowHeader9
+
 Style.MatrixRowFooter1=MatrixRowFooter1
+
 Style.MatrixRowFooter2=MatrixRowFooter2
+
 Style.MatrixRowFooter3=MatrixRowFooter3
+
 Style.MatrixRowFooter4=MatrixRowFooter4
+
 Style.MatrixRowFooter5=MatrixRowFooter5
+
 Style.MatrixRowFooter6=MatrixRowFooter6
+
 Style.MatrixRowFooter7=MatrixRowFooter7
+
 Style.MatrixRowFooter8=MatrixRowFooter8
+
 Style.MatrixRowFooter9=MatrixRowFooter9
+
 Style.MatrixColumnHeader1=MatrixColumnHeader1
+
 Style.MatrixColumnHeader2=MatrixColumnHeader2
+
 Style.MatrixColumnHeader3=MatrixColumnHeader3
+
 Style.MatrixColumnHeader4=MatrixColumnHeader4
+
 Style.MatrixColumnHeader5=MatrixColumnHeader5
+
 Style.MatrixColumnHeader6=MatrixColumnHeader6
+
 Style.MatrixColumnHeader7=MatrixColumnHeader7
+
 Style.MatrixColumnHeader8=MatrixColumnHeader8
+
 Style.MatrixColumnHeader9=MatrixColumnHeader9
+
 Style.MatrixColumnFooter1=MatrixColumnFooter1
+
 Style.MatrixColumnFooter2=MatrixColumnFooter2
+
 Style.MatrixColumnFooter3=MatrixColumnFooter3
+
 Style.MatrixColumnFooter4=MatrixColumnFooter4
+
 Style.MatrixColumnFooter5=MatrixColumnFooter5
+
 Style.MatrixColumnFooter6=MatrixColumnFooter6
+
 Style.MatrixColumnFooter7=MatrixColumnFooter7
+
 Style.MatrixColumnFooter8=MatrixColumnFooter8
+
 Style.MatrixColumnFooter9=MatrixColumnFooter9
+
 
 Style.MatrixCell=MatrixCell
 Style.Chart=Diagramm
@@ -5356,24 +6070,37 @@ Style.Data=Daten
 Style.Number=Nummer
 
 Style.String=Zeichenfolge
+
 Style.Text=Text
+
 Style.Grid=Raster
 
 Style.Toc=TOC Level0
+
 Style.Toc1=TOC Level1
+
 Style.Toc2=TOC Level2
+
 Style.Toc3=TOC Level3
+
 Style.Toc4=TOC Level4
+
 Style.Toc5=TOC Level5
+
 Style.Toc6=TOC Level6
+
 Style.Toc7=TOC Level7
+
 Style.Toc8=TOC Level8
+
 Style.Toc9=TOC Level9
+
 
 Style.FreeForm=FreeForm
 Style.Line=Linie
 
 Style.Rectangle=Rechteck
+
 Style.TextData=TextData
 Style.ExtendedItem=ExtendedItem
 Style.Image=Bild
@@ -5533,6 +6260,7 @@ New.TabularMeasure=NewTabularMeasure
 New.TabularMeasureGroup=Zusammenfassungsfeld
 
 New.OdaCube=NewOdaCube
+
 New.OdaDimension=NewOdaDimension
 New.OdaHierarchy=NewOdaHierarchy
 New.OdaLevel=NewOdaLevel
@@ -5545,6 +6273,7 @@ New.DataMartDataSet=NewDataMartDataSet
 New.DataMartCube=NewDataMartCube
 New.TimeDimension=NewTimeDimension
 New.ReportItemTheme=NeuesBerichtobjektthema
+
 New.CategoryColumn=NewCategoryColumn
 
 ###########################################################

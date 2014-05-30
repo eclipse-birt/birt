@@ -3,6 +3,7 @@ RadarSeriesImpl.displayName=Serie radial
 RadarChart.Txt.DefaultRadarChartTitle=Título de diagrama radial
 
 RadarChart.Txt.DisplayName=Radial
+
 RadarChart.SubType.Standard=Diagrama radial estándar
 
 RadarChart.SubType.Spider=Diagrama radial de araña
@@ -20,6 +21,7 @@ RadarChart.Txt.SpiderDescription=Los diagramas radiales de araña contienen una c
 RadarChart.Txt.BullseyeDescription=Los diagramas radiales de ojo de buey contienen una cuadrícula circular rellena a la que se superponen series de líneas o polígonos
 
 RadarSeriesAttributeComposite.Lbl.Radius=Radi&o:
+
 RadarSeriesAttributeComposite.Lbl.StartAngle=Án&gulo de inicio:
 
 RadarSeriesAttributeComposite.Lbl.StopAngle=Áng&ulo de detención:
@@ -57,6 +59,7 @@ RadarSeriesMarkerSheet.Label.Web=Configuración de línea radial
 RadarSeriesMarkerSheet.Label.Series=Configuración de línea de serie
 
 Radar.Composite.Label.ScaleCount.MinMaxWarning=Él número de pasos debe estar entre {0} - {1}!
+
 Radar.Composite.Label.ScaleCount=&Número de pasos
 
 Radar.Composite.Label.ScaleCountToolTip=Numero de pasos de escala con los que crear el diagrama
@@ -102,11 +105,19 @@ Radar.Composite.Label.ScaleMin=Mín. de escala
 Radar.Composite.Label.ScaleMinToolTip=Establecer el mínimo de escala del diagrama
 
 Radar.Composite.Label.PlotPercentageToolTip=Porcentaje de área de dibujo que consumirá el radial
+
 ItemLabel.Visible=Visible:
+
 ItemLabel.Auto=Automático
+
 ItemLabel.True=True
+
 ItemLabel.False=False
+
 ItemLabel.Show=Mostrar
+
 ItemLabel.Hide=Ocultar
+
 ItemLabel.Enable=Activar
+
 ItemLabel.Disable=Desactivar

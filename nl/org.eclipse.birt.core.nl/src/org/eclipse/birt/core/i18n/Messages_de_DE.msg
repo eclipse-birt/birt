@@ -18,6 +18,7 @@ birt.core.Javascript.variableNotExist=Berichtvariable '{0}' nicht vorhanden.
 birt.core.Javascript.nativeNotFound={0} nicht gefunden.
 
 birt.core.BirtComp.invalidRegularExpression=Ungültiger Standardausdruck.
+
 error.NoSuchScriptExtension = Skript-Erweiterung nicht vorhanden: {0}.
 
 error.InvalidSeekOffset = Ungültige Position {0}.

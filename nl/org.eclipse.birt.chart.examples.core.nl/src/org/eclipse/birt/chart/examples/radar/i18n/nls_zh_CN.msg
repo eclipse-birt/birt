@@ -3,6 +3,7 @@ RadarSeriesImpl.displayName=雷达图系列
 RadarChart.Txt.DefaultRadarChartTitle=雷达图标题
 
 RadarChart.Txt.DisplayName=雷达图
+
 RadarChart.SubType.Standard=标准雷达图
 
 RadarChart.SubType.Spider=星形雷达图
@@ -20,6 +21,7 @@ RadarChart.Txt.SpiderDescription=星形雷达图包含由一个或多个系列多边形/线段覆盖的
 RadarChart.Txt.BullseyeDescription=靶眼雷达图包含由一个或多个系列多边形/线段覆盖的圆形填充网格
 
 RadarSeriesAttributeComposite.Lbl.Radius=半径(&U):
+
 RadarSeriesAttributeComposite.Lbl.StartAngle=起始角度(&G):
 
 RadarSeriesAttributeComposite.Lbl.StopAngle=停止角度(&E):
@@ -57,6 +59,7 @@ RadarSeriesMarkerSheet.Label.Web=雷达线配置
 RadarSeriesMarkerSheet.Label.Series=系列线配置
 
 Radar.Composite.Label.ScaleCount.MinMaxWarning=步数必须介于 {0} - {1} 之间!
+
 Radar.Composite.Label.ScaleCount=步数(&N)
 
 Radar.Composite.Label.ScaleCountToolTip=在图表中创建时所用的数标步进值
@@ -102,11 +105,19 @@ Radar.Composite.Label.ScaleMin=比例最小值
 Radar.Composite.Label.ScaleMinToolTip=设置图表比例最小值
 
 Radar.Composite.Label.PlotPercentageToolTip=雷达图在绘图区中所占百分比
+
 ItemLabel.Visible=可见:
+
 ItemLabel.Auto=自动
+
 ItemLabel.True=真
+
 ItemLabel.False=假
+
 ItemLabel.Show=显示
+
 ItemLabel.Hide=隐藏
+
 ItemLabel.Enable=启用
+
 ItemLabel.Disable=禁用

@@ -1,4 +1,5 @@
 Series=계열
+
 ValueYSeries=값 (Y) 계열
 
 CategorySeries=범주 계열

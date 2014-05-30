@@ -13,6 +13,7 @@ SwtTextRenderer.exception.undefined.text.color=无法用未定义的颜色绘制文本
 SwtDisplayServer.exception.display.server=获取 SWT Display Server 实例失败
 
 SwtDisplayServer.info.display.server=SWT 显示服务器: {0} v{1}
+
 SwtEventHandler.info.toggle.visibility=切换可见性: {0}
 
 SwtEventHandler.info.toggle.datapoint.visibility=切换数据点可见性: {0}

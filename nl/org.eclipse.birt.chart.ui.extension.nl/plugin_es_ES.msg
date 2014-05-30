@@ -1,4 +1,5 @@
 Series=Series
+
 ValueYSeries=Serie (Y) del valor
 
 CategorySeries=Serie de categoría

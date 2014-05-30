@@ -39,6 +39,7 @@ ErrorDialog.text.ShowTrace=Mostrar rastreo...
 ErrorDialog.text.StackTrace=Apilar rastreo:
 
 ErrorDialog.text.Ok=\ \ \ \ \ Aceptar
+
 ErrorDialog.text.CausedBy=\n\nCausado por:
 
 SubtaskHistory.Tooltip.Back=Volver a {0}

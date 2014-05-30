@@ -33,6 +33,7 @@ ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: 
 ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp=Temporäre {0}-Datei unter {1} erfolgreich gelöscht.
 
 ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) ? Ende
+
 ChartWithoutAxesImpl.exception.3DNotSupported=3D wird für achsenlose Diagramme nicht unterstützt.
 
 ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) – Start
@@ -40,9 +41,11 @@ ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl:
 ChartReportItemPresentationImpl.log.CouldNotDeleteTemp=Temporäre unter {1} erstellte {0}-Datei konnte nicht gelöscht werden.
 
 ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) ? Ausnahme
+
 ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) – Ende
 
 ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) ? Start
+
 ChartReportItemQueryImpl.exception.getReportQueries=Berichtabfragen werden abgerufen
 
 ChartReportItemQueryImpl.log.UnableToLocate=Berichtobjekt-Wrapper für Diagrammobjekt kann nicht gefunden werden.
@@ -104,6 +107,7 @@ Element.Chart.xmlRepresentation=XML-Modell
 Element.Chart.outputFormat=Ausgabeformat
 
 Element.Chart.action=Aktion
+
 Element.Chart.altText=Alternativer Text
 
 Element.Chart.altTextID=Schlüssel für alternativen Text
@@ -114,7 +118,9 @@ choice.chart.dimension.two_dimensional_with_depth=2D mit Tiefe
 
 choice.chart.dimension.three_dimensional=3D
 property.category.general=Allgemein
+
 property.category.types=Typen
+
 property.label.title.value=Titel:
 
 property.label.title.font.rotation=Titelrotation:
@@ -124,10 +130,13 @@ property.label.legend.position=Position der Legende:
 property.label.legend.anchor=Anker für Legende:
 
 property.label.chart.dimension=Dimension:
+
 property.label.chart.plot.transposed=Transponiert
 
 property.script=Skript
+
 property.onRender=onRender
+
 exception.no.cube.edge=Datenquadercursor hat keinen Rand. Prüfen Sie, ob die Abfrageausdrücke korrekt sind.
 
 exception.script.syntaxError=Skript-Syntaxfehler: {0}

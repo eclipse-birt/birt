@@ -1,4 +1,5 @@
 Shared.Lbl.OK=\ \ \ OK
+
 Shared.Lbl.Cancel=Abbrechen
 
 Shared.Lbl.Triggers=Interaktivität
@@ -6,12 +7,15 @@ Shared.Lbl.Triggers=Interaktivität
 Shared.Tooltip.FormatSpecifier=Formatbezeichner-Editor öffnen
 
 Shared.mne.Visibile_v=&Sichtbar
+
 Shared.mne.Visibile_s=Si&chtbar
+
 Shared.mne.Background_K=&Hintergrund:
 
 ChartWithAxesImpl.Z_Axis.title=Titel der Z-Achse
 
 ChartSheetImpl.Buttom.Auto=A&uto
+
 ChartSheetImpl.Button.AutoHide=Diagramm ausblen&den, wenn keine anzuzeigenden Daten vorhanden sind
 
 ChartSheetImpl.Button.EnableStudyLayout=Studienlayout aktivieren
@@ -25,10 +29,13 @@ ChartSheetImpl.Group.EmptyMessage&=&Sichtbarkeit
 ChartSheetImpl.Label.Outline=Umriss:
 
 ChartLegendImpl.Group.Rotation=Rotation
+
 ChartPlotSheetImpl.Label.Outline=Umriss:
 
 ChartPlotSheetImpl.Label.Visible=&Sichtbar
+
 ChartPlotSheetImpl.Label.Visible2=S&ichtbar
+
 ChartPlotSheetImpl.Label.PlotArea=Zeichnungsfläche
 
 ChartPlotSheetImpl.Label.AreaFormat=Flächenformat
@@ -44,6 +51,7 @@ ChartTitleSheetImpl.Titel.Tooltip=QuickInfo für Titel
 ChartTitleSheetImpl.Label.Tooltip=QuickInfo:
 
 ScriptSheetImpl.Lbl.Script=Skript:
+
 ScriptSheetImpl.Lbl.Update=Aktualisieren
 
 ScriptSheetImpl.Title.SheetTitle=Scripte - Scripte für das Diagramm festlegen/bearbeiten
@@ -93,6 +101,7 @@ AbstractScaleSheet.AutoExpand=A&utomatisch erweitern
 AbstractScaleSheet.Label.Step=Schritt
 
 AbstractScaleSheet.Label.Auto=&Auto
+
 AbstractScaleSheet.Label.Factor=&Faktor (Wert/Punkte):
 
 BaseAxisDataSheetImpl.Lbl.Minimum=&Min.:
@@ -195,6 +204,7 @@ BaseSeriesDataSheetImpl.Lbl.DataSorting=Daten&sortierung:
 BaseSeriesDataSheetImpl.Lbl.YSeriesCount=Anzahl der Y-Datenreihen:
 
 BaseSeriesAttributeSheetImpl.Lbl.Palette=Palette
+
 BaseAxisDataSheetImpl.Exception.IllegalArgument=Ungültiges Argument für Achsen-Attributblatt... Diagrammtyp sollte ein Diagramm mit Achsen sein
 
 BaseSeriesAttributeSheetImpl.Lbl.SeriesType=Datenreihentyp:
@@ -289,12 +299,17 @@ OrthogonalAxisMarkerAttributeSheetImpl.Lbl.EndValue=Endwert:
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.ForAxis=\ für Achse {0}
 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry=Eintrag entfernen
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.StartValue=Startwert:
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RangeOutline=Bereichsumriss
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLine=MarkerLine {0,number,integer} {1}
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerRange=MarkerRange 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Fill=Füllung:
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerProperties=Markierungseigenschaften
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLineAttributes=Markierungslinien-Attribute
 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=Markierungsbeschriftungs-Eigenschaften
@@ -306,15 +321,19 @@ OrthogonalSeriesAttributeSheetImpl.Lbl.Remove=&Entfernen
 OrthogonalSeriesAttributeSheetImpl.Lbl.Add=&Hinzufügen
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Up=Nach &oben
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.Down=&Nach unten
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix=Prä&fix:
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix=Suffi&x:
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesType=Datenreihentyp:
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.HideSeries=Datenreihe ausblenden
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Palette=Palette
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.DataPoint=Datenpunkt
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Separator=T&rennzeichen:
@@ -322,6 +341,7 @@ OrthogonalSeriesAttributeSheetImpl.Lbl.Separator=T&rennzeichen:
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDetails=Datenreihendetails
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPoint=Datenreihen-Datenpunkt
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPointComponent=Datenreihen-Datenpunktkomponente - {0}
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.StackSeriesElements=Datenreihenelemente stapeln
@@ -379,6 +399,7 @@ AreaSeriesUIProvider.Lbl.SeriesDefinition=Datenreihendefinition
 MeterChart.Txt.DefaultMeterChartTitle=Tachometerdiagrammtitel
 
 MeterChart.Txt.DisplayName=Tachometer
+
 MeterChart.SubType.Standard=Standard-Tachometerdiagramm
 
 MeterChart.SubType.Superimposed=Überlagertes Tachometerdiagramm
@@ -392,6 +413,7 @@ MeterChart.Txt.Description=Standard-Tachometerdiagramme verfügen über eine einzi
 MeterChart.Txt.SuperimposedDescription=Überlagerte Tachometerdiagramme haben mehrere Skalen mit identischen Bereichen. \nDa die Skalen überlappen, können mehrere Nadeln innerhalb desselben Bereichs dargestellt werden.
 
 MeterSeriesAttributeComposite.Lbl.Radius=Radi&us:
+
 MeterSeriesAttributeComposite.Lbl.StartAngle=Anfan&gswinkel:
 
 MeterSeriesAttributeComposite.Lbl.StopAngle=Endwink&el:
@@ -457,6 +479,7 @@ LineAttributesComposite.Lbl.Style=Stil:
 LineAttributesComposite.Lbl.Width=Breite:
 
 LineAttributesComposite.Lbl.Color=Farbe:
+
 LineAttributesComposite.Lbl.IsVisible=Sichtbar
 
 LineSeriesUIProvider.Lbl.SeriesDefinition=Datenreihendefinition
@@ -468,6 +491,7 @@ LineSeriesAttributeComposite.Lbl.Marker=Markierung
 LineChart.Txt.PercentStackedDescription=Gestapelte Liniendiagramme (100 %) stellen übereinander gestapelte Linien dar, \nso dass die Gesamthöhe der gestapelten Linien (vom niedrigsten zum höchsten Punkt jeder Einheit) stets 100 beträgt.
 
 LineSeriesAttributeComposite.Lbl.IsVisible=&Sichtbar
+
 LineSeriesAttributeComposite.Lbl.Type=Typ:
 
 LineSeriesAttributeComposite.Lbl.Size=&Größe:
@@ -633,6 +657,7 @@ PieLeftAreaComponent.Label.SliceSizeDefinition=Definition der Segmentgröße:
 PieSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} ist ein ungültiges Argument für PieSeriesAttributeComposite.
 
 PieSeriesAttributeComposite.InnerRadiusType.Points=Punkte
+
 PieSeriesAttributeComposite.Lbl.Explosion=Ausrückung:
 
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=Kreisrotation: Der Startwinkel des ersten Kreissegments
@@ -666,9 +691,11 @@ SeriesUIProvider.Lbl.BasePrefix=Kategorie
 SeriesSheetImpl.Label.Title=Titel
 
 SeriesSheetImpl.Label.Visible=Sichtbar
+
 SeriesSheetImpl.Label.Stacked=Gestapelt
 
 SeriesSheetImpl.Label.Series=Datenreihe
+
 SeriesYSheetImpl.Label.Needles=Nadeln
 
 SeriesYSheetImpl.Label.Needles&=&Nadeln
@@ -706,6 +733,7 @@ SeriesYSheetImpl.Label.Decoration=Aufgaben
 SeriesYSheetImpl.Label.Decoration&=Beschriftungen für &Aufgaben
 
 SeriesLabelSheet.Label.Format=Format
+
 SeriesLabelSheet.Label.Values=Werte
 
 SeriesGroupingComposite.Lbl.Type=&Typ:
@@ -737,6 +765,7 @@ SeriesYSheetImpl.Label.DataPoint=Datenpunkt
 SeriesTrendlineSheet.Label.Outline=Umriss
 
 SeriesTrendlineSheet.SeriesTrendlineSheet.Lbl.IsVisible=S&ichtbar
+
 SeriesGroupingComposite.Lbl.Interval=Inter&vall:
 
 SeriesYSheetImpl.Label.ShowLabels=Datenreihenbe&schriftungen anzeigen
@@ -756,6 +785,7 @@ SeriesGroupingComposite.Lbl.AggregateExpression=&Aggregatausdruck:
 SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping=Wählen Sie das Intervall für die Gruppierung. "0" bedeutet eine Gruppierung nach X-/Kategoriewert.
 
 SeriesPaletteSheet.Label.Auto=Au&to
+
 SeriesPaletteSheet.Tab.Axis=Achse
 
 SeriesPaletteSheet.Tab.Series=Datenreihe
@@ -837,8 +867,11 @@ LabelBlockAttributeSheetImpl.Lbl.Background=Hintergrund:
 LabelBlockAttributeSheetImpl.Lbl.Insets=Einsätze
 
 LabelAttributesComposite.Lbl.IsVisible=&Sichtbar
+
 LabelAttributesComposite.Lbl.IsVisible2=Sichtb&ar
+
 LabelAttributesComposite.Lbl.Position=&Position:
+
 LabelAttributesComposite.Lbl.Background=&Hintergrund:
 
 LabelAttributesComposite.Lbl.Outline=Umriss
@@ -854,6 +887,7 @@ DataDefinitionComposite.Tooltip.InvokeExpressionBuilder=Ausdruckserstellung öffn
 DataDefinitionSelector.Exception.NotSupportedForMultipleAxes=\ wird für mehrere Achsen nicht unterstützt\!
 
 DataDefinitionComposite.Tooltip.InvokeRuleEditor=Regel-Editor öffnen
+
 RuleEditorDialog.Title.RuleEditor=Regel-Editor - {0}
 
 RuleEditorDialog.Lbl.Rules=Regeln
@@ -871,7 +905,9 @@ RuleEditorDialog.Lbl.Update=Aktualisieren
 RuleEditorDialog.Exception.InvalidRule=FEHLER\! Ungültiger Regelindex übergeben.
 
 FillCanvas.Transparent=Transparent
+
 FillCanvas.Auto=Automatisch
+
 FillChooserComposite.Button.Pattern=Muster
 
 FillChooserComposite.Lbl.Opacity=Deckkraft: {0, number, integer}
@@ -879,12 +915,15 @@ FillChooserComposite.Lbl.Opacity=Deckkraft: {0, number, integer}
 FillChooserComposite.Lbl.Gradient=Verlauf
 
 FillChooserComposite.Lbl.Transparent=Transparent
+
 FillChooserComposite.Lbl.CustomColor=Benutzerdefinierte Farbe
 
 FillChooserComposite.Lbl.Image=Bild
+
 FillChooserComposite.Lbl.PositiveNegative=Positiv/Negativ
 
 FillChooserComposite.Lbl.Auto=Automatisch
+
 ClientAreaAttributeComposite.Lbl.Background=Hintergrund:
 
 ClientAreaAttributeComposite.Lbl.Shadow=Scha&tten:
@@ -926,12 +965,15 @@ ExternalizedTextEditorDialog.Lbl.Value=<Wert von Schlüssel ''{0}''>
 Format.Button.Label=Format
 
 Format.Button.Lbl&=For&mat
+
 FormatSpecifierComposite.error.Title=Formatbezeichner-Fehler
 
 FormatSpecifierComposite.error.Message=Ungültiger Formatbezeichner-Parameterwert: "{0}"
 
 FormatSpecifierComposite.Label.DenominatorDigits=Ziffern im Nenner
+
 FormatSpecifierComposite.Label.NumeratorValue=Zählerwert
+
 FormatSpecifierComposite.Lbl.DataType=&Datentyp:
 
 FormatSpecifierComposite.Lbl.DateTime=Datum/Uhrzeit
@@ -941,7 +983,9 @@ FormatSpecifierComposite.Lbl.Undefined=&Keine
 FormatSpecifierComposite.Lbl.Numerator=Zähler&wert (1-100):
 
 FormatSpecifierComposite.Lbl.Standard=&Standard
+
 FormatSpecifierComposite.Lbl.String=Zeichenfolge
+
 FormatSpecifierComposite.Lbl.Type=T&yp:
 
 FormatSpecifierComposite.Lbl.None=<Keine>
@@ -959,6 +1003,7 @@ FormatSpecifierComposite.Lbl.Preview=Vorschau:
 FormatSpecifierComposite.Lbl.Approximate=&Ungefähr:
 
 FormatSpecifierComposite.Lbl.Suffix=Suffi&x:
+
 FormatSpecifierComposite.Lbl.Number=Nummer
 
 FormatSpecifierPreview.Lbl.NoFormat=Kein Format angegeben
@@ -974,6 +1019,7 @@ FormatSpecifierComposite.Tooltip.FractionDigits=Erweiterte Eigenschaften: zur Be
 FormatSpecifierComposite.Lbl.MaxRecursionTimes=&Max. Ziffernanzahl im Nenner (1-8):
 
 FormatSpecifierComposite.Lbl.Fraction=&Bruch
+
 FormatSpecifierDialog.Title.EditFormat=Format bearbeiten
 
 FormatSpecifierComposite.Lbl.Advanced=&Erweitert
@@ -1005,7 +1051,9 @@ GridAttributesComposite.Lbl.Style=Stil:
 GradientEditorDialog.Lbl.EndColor=Endfarbe:
 
 GradientEditorDialog.Lbl.Rotation=Rotation
+
 FontDefinitionDialog.Lbl.Rotation=Drehung:
+
 FontDefinitionDialog.Tooltip.Accept=Annehmen
 
 FontDefinitionDialog.Tooltip.Bold=Fett
@@ -1029,9 +1077,11 @@ FontDefinitionDialog.Lbl.Font=&Schriftart:
 FontDefinitionDialog.Lbl.Size=G&röße:
 
 FontDefinitionDialog.Lbl.Color=&Farbe:
+
 FontDefinitionDialog.Lbl.Style=Stil:
 
 FontDefinitionDialog.Lbl.Format=Format:
+
 FontDefinitionDialog.Lbl.Wrap=Umbrechen
 
 FontDefinitionDialog.Lbl.Preview=Vorschau:
@@ -1053,6 +1103,7 @@ FontDefinitionDialog.Tooltip.AlignBottomCenter=Ausrichtung - Unten zentriert
 FontDefinitionDialog.Tooltip.AlignBottomRight=Ausrichtung - Unten rechts
 
 FontDefinitionDialog.Lbl.Strikethrough=&Durchgestrichen
+
 FontDefinitionComposite.Tooltip.FontDialog=Schriftart-Editor öffnen
 
 TriggerEditorDialog.Title.TriggerEditor=Interaktions-Editor - {0}
@@ -1094,7 +1145,9 @@ TriggerDataComposite.Lbl.ParameterNames=Optionale Datenpunkt-URL-Parameter
 TriggerDataComposite.Lbl.CategorySeries=&Kategorie-Datenreihe:
 
 TriggerDataComposite.Lbl.Cursor=Cur&sor:
+
 TriggerDataComposite.TemporaryName.Hyperlink=Hyperlink
+
 TriggerDataComposite.Text.EditBaseURL=Basis-&URL bearbeiten...
 
 TriggerDataComposite.Text.Advanced=&Erweitert>>
@@ -1148,6 +1201,7 @@ TriggerDataComposite.Lbl.None.onmouseup=<Keine>
 TriggerDataComposite.Lbl.Action=A&ktion:
 
 TriggerDataComposite.Lbl.Script=Skri&pt:
+
 TriggerDataComposite.Lbl.Target=Ziel:
 
 TriggerEditorComposite.Lbl.Update=<< &Aktualisieren
@@ -1155,9 +1209,11 @@ TriggerEditorComposite.Lbl.Update=<< &Aktualisieren
 TriggerDataComposite.Lbl.TooltipText=QuickInfo-Te&xt:
 
 TriggerDataComposite.Btn.Format=&Format
+
 TriggerDataComposite.Lbl.BaseURL=Basis-URL bearbeiten:
 
 TriggerDataComposite.Lbl.Image=B&ild
+
 GradientEditorDialog.Lbl.GradientEditor=Verlaufs-Editor
 
 GradientEditorDialog.Lbl.StartColor=Startfarbe:
@@ -1165,6 +1221,7 @@ GradientEditorDialog.Lbl.StartColor=Startfarbe:
 GradientEditorDialog.Lbl.Preview=Vorschau
 
 PaletteEditorComposite.Label.EditColor=Farbe bearbeiten
+
 PaletteEditorComposite.Lbl.Add=&Hinzufügen
 
 PaletteEditorComposite.Lbl.Remove=&Entfernen
@@ -1176,7 +1233,9 @@ PaletteEditorComposite.Lbl.Down=Abwärts
 PatternImageEditorDialog.Button.Cancel=&Abbrechen
 
 PatternImageEditorDialog.Button.OK=&OK
+
 PatternImageEditorDialog.Group.Color=Farbe:
+
 PatternImageEditorDialog.Group.Pattern=Muster:
 
 PatternImageEditorDialog.Label.Background=&Hintergrund:
@@ -1184,6 +1243,7 @@ PatternImageEditorDialog.Label.Background=&Hintergrund:
 PatternImageEditorDialog.Label.Foreground=&Vordergrund:
 
 PatternImageEditorDialog.Title.PatternFillEditor=Musterbildeditor
+
 LabelAttributesComposite.Lbl.Label=Beschriftung
 
 LabelAttributesComposite.Lbl.Font=S&chriftart:
@@ -1213,6 +1273,7 @@ BlockAttributeComposite.Lbl.Orientation=&Ausrichtung:
 BlockAttributeComposite.Lbl.Direction=&Richtung:
 
 BlockAttributeComposite.Lbl.Position=&Position:
+
 BlockAttributeComposite.Lbl.ItemType=Objekttyp:
 
 BlockAttributeComposite.Title.PlotBlock=Diagrammblock
@@ -1278,6 +1339,7 @@ HyperlinkEditorDialog.ErrorMessage.NullText=Name darf nicht leer sein.
 HyperlinkEditorDialog.HyperlinkName.Title.Warning=Warnung
 
 HyperlinkEditorDialog.Text.MenuLabel=&Name:
+
 HyperlinkEditorDialog.Title.HyperlinkEditor=Hyperlink-Editor
 
 TaskSelectType.TaskExp=Diagrammtyp auswählen
@@ -1315,6 +1377,7 @@ TaskSelectType.Exception.NotSupportedForMultipleAxes=\ wird für mehrere Achsen n
 TaskSelectType.Label.ChartTypes=Diagrammtypen
 
 TaskSelectType.Label.Dimension=&Dimension:
+
 TaskSelectType.Label.ChartSubtypes=Diagramm-Untertypen
 
 TaskSelectData.TaskExp=Daten auswählen
@@ -1356,6 +1419,7 @@ TaskSelectData.Label.Component=\ Komponente
 TaskSelectData.Label.Overlay=Überlagerung
 
 TaskSelectData.Label.Series=Datenreihe
+
 TaskSelectData.Label.UseAsCategoryXAxis=Als Kategorien-Achse (X-Achse) verwenden
 
 TaskSelectData.Label.UseAsCategorySeries=Als Kategorie-Datenreihe verwenden
@@ -1395,6 +1459,7 @@ AbstractSelectDataCustomizeUI.Label.SeriesGrouping=Datenreihen-Gruppierung
 AbstractSelectDataCustomizeUI.Label.YAxis=Y-Achse
 
 AbstractSelectDataCustomizeUI.Label.Series=Datenreihe
+
 AbstractScaleSheet.Label.ShowValuesOutside=Werte a&ußerhalb des Achsenbereichs anzeigen
 
 MultipleHyperlinksComposite.Btn.Add=&Hinzufügen
@@ -1410,6 +1475,7 @@ MultipleHyperlinksComposite.Btn.Properties=&Eigenschaften
 MultipleHyperlinksComposite.Btn.Up=Nach &oben
 
 MultipleHyperlinksComposite.Group.Hyperlinks=Hyperlinks
+
 MultipleHyperlinksComposite.Label.Tooltip=Kon&texthilfe:
 
 MultipleSeriesComponent.Label.OptionalYSeriesGrouping=&Optionale Gruppierung von Datenreihe (Y-Achse):
@@ -1423,8 +1489,11 @@ MultipleSeriesComponent.Label.GroupSorting=Nach Gruppen &sortieren:
 SelectDataChartWithAxisUI.Label.ValueYSeries=Wert-Datenreihe (Y-Achse):
 
 MultipleSeriesComponent.Label.Series=Datenreihe
+
 SelectDataChartWithoutAxisUI.Label.Series=Datenreihe
+
 DataDefinitionSelector.Label.Series=Datenreihe
+
 DataDefinitionSelector.Text.NewSeries=<Neue Datenreihe...>
 
 DataDefinitionSelector.Text.NewAxis=<Neue Achse...>
@@ -1438,7 +1507,9 @@ DataDefinitionSelector.Label.YAxis=Y-Achse
 DataDefinitionSelector.Label.Axis=Achse
 
 DataDefinitionSelector.Label.DeleteAxis=Achse löschen
+
 DataDefinitionSelector.Label.DeleteSeries=Serie löschen
+
 DialBottomAreaComponent.Label.Dial=Tachometer
 
 DialBottomAreaComponent.Label.GaugeValueDefinition=Definition für Messwert:
@@ -1448,9 +1519,13 @@ PieBottomAreaComponent.Label.TheExplosionCondition=Die Ausrückungsbedingung ermö
 PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion=Der Ausrückungsabstand gibt an, wie weit das Segment ausgerückt wird.
 
 AxisGridLinesSheet.MajorLabel.LineIsVisible=&Sichtbar
+
 AxisGridLinesSheet.MajorLabel.TickIsVisible=S&ichtbar
+
 AxisGridLinesSheet.MinorLabel.LineIsVisible=Si&chtbar
+
 AxisGridLinesSheet.MinorLabel.TickIsVisible=Sicht&bar
+
 AxisLabelSheet.Label.Ellipsis=Ell&ipse:
 
 AxisLabelSheet.Label.Ellipsis.Tooltip=Legt die Mindestanzahl von Zeichen fest, die vor der Ellipse angezeigt werden.
@@ -1462,12 +1537,15 @@ AxisSheetImpl.Label.Axis=Achse
 AxisSheetImpl.Label.AxisPercent=Prozent Achse
 
 AxisSheetImpl.Label.Visible=Sichtbar
+
 AxisSheetImpl.Label.ValueY=Wert (Y)
 
 AxisYSheetImpl.Label.Labels=Be&schriftungen:
 
 AxisSheetImpl.Label.Type=Typ
+
 AxisSheetImpl.Label.Color=Farbe
+
 AxisYSheetImpl.Label.Title=Tit&el:
 
 AxisYSheetImpl.Label.Scale=Achsenskala
@@ -1481,6 +1559,7 @@ AxisSheetImpl.Label.AncillaryZ=Zusatz (Z)
 AxisSheetImpl.Label.SideBySide=Nebeneinander
 
 AxisXSheetImpl.Label.Visible=Sichtbar
+
 AxisYSheetImpl.Label.LabelFormat=Achsenbeschriftung
 
 AxisYSheetImpl.Label.LabelFormat&=&Beschriftung
@@ -1498,6 +1577,7 @@ AbstractAxisSubtask.Button.Fixed=Fest
 AbstractAxisSubtask.Lbl.IsCategoryAxis=Ist Kategoriena&chse
 
 AbstractAxisSubtask.Label.Visible2=S&ichtbar
+
 AbstractScaleSheet.Label.StepNumber=A&nzahl der Schritte:
 
 AxisYSheetImpl.Label.Markers=Achsenmarkierungen
@@ -1505,6 +1585,7 @@ AxisYSheetImpl.Label.Markers=Achsenmarkierungen
 AxisYSheetImpl.Label.Markers&=&Markierungen
 
 AxisZSheetImpl.Label.Visible=&Sichtbar
+
 AxisXSheetImpl.Label.AxisData=Daten für Achse
 
 AbstractAxisSubtask.Label.Stagger=Versetzt anzei&gen
@@ -1514,6 +1595,7 @@ AbstractAxisSubtask.Label.Interactivity=Achseninteraktivität
 AbstractAxisSubtask.Label.LabelSpan=Beschriftu&ngsbereich:
 
 AbstractAxisSubtask.Label.Points=(Punkte)
+
 AbstractAxisSubtask.Label.ReverseCategory=&Kategorien umkehren
 
 AxisTextSheet.Label.Interval=Int&ervall:
@@ -1535,17 +1617,21 @@ ChartPlotSheetImpl.Label.Background2=Hinter&grund:
 ChartPlotSheetImpl.Label.ClientArea=Client-Fläche
 
 ChartTitleSheetImpl.Text.Auto=&Auto
+
 ChartTitleSheetImpl.Text.TitleLayout=Titellayout
 
 ChartTitleSheetImpl.Text.Layout&=&Layout
+
 ChartTitleSheetImpl.Text.TitleText=Titeltext
 
 ChartTitleSheetImpl.Text.TitleText&=&Text
+
 ChartSheetImpl.Title.ChartTitle=Diagrammtitel
 
 ChartSheetImpl.Title.ChartArea=Diagrammfläche
 
 ChartSheetImpl.Label.Visible=&Sichtbar
+
 ChartSheetImpl.Label.ColorBy=&Farbe nach:
 
 ChartSheetImpl.Label.Coverage=Flächen&anteil:
@@ -1565,6 +1651,7 @@ ChartLegendSheetImpl.Title.LegendEntries=Legendeneinträge
 ChartLegendSheetImpl.Title.LegendTitle=Legendentitel
 
 ChartLegendSheetImpl.Label.Layout=L&ayout
+
 ChartLegendSheetImpl.Label.Legend=Legende
 
 ChartLegendSheetImpl.Label.Title=&Titel:
@@ -1610,12 +1697,15 @@ ChartSheetImpl.Label.Interactivity=Interaktivität des Diagrammbereichs
 ChartSheetImpl.Label.InteractivityEnable=Interaktivität für Diagramm aktivi&eren
 
 ChartSheetImpl.Label.Text=Te&xt:
+
 ChartLegendSheetImpl.Label.LegendBehaviorType=&Verhalten:
 
 ChartLivePreviewThread_Text.PleaseWait=, bitte warten...
 
 ChartLivePreviewThread.ErrorMessage.NoDataEngine=Keine Datenengine zur Datenverarbeitung, Details in vorheriger Ausnahme.
+
 SeriesSheetImpl.Label.Type=Typ
+
 SeriesSheetImpl.Label.ZOrder=Z-Reihenfolge
 
 LegendTextSheet.Label.Ellipsis=&Ellipse:
@@ -1647,6 +1737,7 @@ MoreOptionsChartPlotSheet.Label.Stretch=&Strecken:
 TitlePropertiesSheet.Label.Title=&Titel
 
 TitlePropertiesSheet.Label.Visible=Sichtbar
+
 TitlePropertiesSheet.Label.Anchor=&Anker:
 
 TitlePropertiesSheet.Label.Stretch=&Strecken:
@@ -1654,6 +1745,7 @@ TitlePropertiesSheet.Label.Stretch=&Strecken:
 TitlePropertiesSheet.Label.Outline=Umriss
 
 TitlePropertiesSheet.Label.Text=Text
+
 BaseDataDefinitionComponent.Text.SpecifyDataDefinition=Datendefinition angeben
 
 BaseDataDefinitionComponent.Label.EditGroupSorting=Gruppe und Sortierung bearbeiten
@@ -1669,6 +1761,7 @@ BaseGroupSortingDialog.Label.SortOn=Sortieren &nach:
 MarkerEditorComposite.Button.Outline=&Umriss
 
 MarkerEditorComposite.Label.MarkerType=Typ
+
 MarkerIconDialog.Button.EmbeddedImage=Ei&ngebettetes Bild
 
 MarkerIconDialog.Title.MarkerIconSelector=Auswahl für Markierungssymbol
@@ -1678,7 +1771,9 @@ MarkerIconDialog.Label.Description.EmbeddedImage=Wählen Sie ein eingebettetes Bi
 MarkerIconDialog.Lbl.SelectIconFrom=Symbol wählen aus:
 
 MarkerIconDialog.Lbl.URL=&URL
+
 MarkerIconDialog.Lbl.Local=&Lokal
+
 MarkerIconDialog.Lbl.EnterURL=URL &eingeben:
 
 MarkerIconDialog.Lbl.Browse=&Durchsuchen
@@ -1704,6 +1799,7 @@ MarkerIconDialog.ImageNotAvailableWarningMessage=Möchten Sie es trotzdem verwend
 exception.data.DataBindingsAreNull=Mindestens eine Datenbindung lautet "Null"\!
 
 DialLabelSheet.Label.Format=Format:
+
 ImageDialog.AddImage=Bild &hinzufügen...
 
 ImageDialog.FileExist=Dateiname bereits vorhanden. Bitte ändern und neu laden.
@@ -1739,7 +1835,9 @@ ImageDialog.label.EnterLocal=&Geben Sie den Pfad für das lokale Bild ein:
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=Ganzzahl-, Dezimal- oder Bruchwert eingeben
 
 PlotClientAreaSheet.Btn.Auto=A&uto
+
 PlotClientAreaSheet.Btn.Auto2=Aut&o
+
 PlotClientAreaSheet.Label.HeightHint=Höhenhi&nweis:
 
 PlotClientAreaSheet.Label.WidthHint=Brei&tenhinweis:
@@ -1750,6 +1848,7 @@ AxisMarkersSheet.MarkerRange.displayName=MarkerRange
 AxisMarkersSheet.Label.Interactivity=&Interaktivität
 
 AxisMarkersSheet.Label.IsVisible=Si&chtbar
+
 AbstractPopupSheet.Label.Close=Schließ.en
 
 AbstractPopupSheet.Label.Help=Hilfe
@@ -1765,6 +1864,7 @@ AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregat-Parameterde
 AggregateEditorComposite.Button.Cancel=Abbrechen
 
 AggregateEditorComposite.Button.OK=OK
+
 AggregateEditorComposite.Tooltip.SetAggregateFunction=Aggregatfunktion festlegen
 
 LocalizedNumberEditorComposite.error.Title=Fehler beim Zahlenformat
@@ -1772,6 +1872,7 @@ LocalizedNumberEditorComposite.error.Title=Fehler beim Zahlenformat
 LocalizedNumberEditorComposite.error.Message=Ungültiger numerischer Wert: ''{0}''
 
 SeriesRegionSheet.message.dialRegion=DialRegion -
+
 GroupSortingDialog.Composite.Group.Sorting=Sortierung
 
 GroupSortingDialog.Composite.Label.SortLocale=&Gebietsschema:
@@ -1781,6 +1882,7 @@ GroupSortingDialog.Composite.Label.SortStrength=Stär&ke:
 GroupSortingDialog.Label.GroupAndSorting=Gruppe und Sortierung
 
 GroupSortingDialog.Sort.Locale.Auto=Automatisch
+
 GroupSortingDialog.Sort.Strength.ASCII=ASCII
 GroupSortingDialog.Sort.Strength.IDENTICAL=IDENTISCH
 
@@ -1801,6 +1903,7 @@ GanttSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} i
 GanttChart.Txt.DefaultGanttChartTitle=Gantt-Diagrammtitel
 
 GanttChart.Txt.DisplayName=Gantt
+
 GanttChart.Txt.Description=Die Standard-Gantt-Diagramme enthalten eine Verbindungslinie mit Start- und Endmarkierungen.
 
 GanttChart.Txt.HelpText=Das Gantt-Diagramm zeigt die jeweiligen Aufgaben und Aktivitäten, die im Laufe der Zeit zu erledigen sind.
@@ -1838,6 +1941,7 @@ BubbleSeriesAttributeComposite.Lbl.ShadowColor=Sc&hatten:
 BubbleSeriesAttributeComposite.Lbl.Marker=Markierung
 
 BubbleSeriesAttributeComposite.Lbl.IsVisible=Sichtbar
+
 BubbleSeriesAttributeComposite.Lbl.Type=Typ:
 
 BubbleSeriesAttributeComposite.Lbl.Size=Schriftgrad:
@@ -1853,6 +1957,7 @@ BubbleSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} 
 BubbleSeriesAttributeComposite.Lbl.ShowLinesAsCurves=Linien als Kur&ven anzeigen
 
 BubbleSeriesAttributeComposite.Lbl.Orientation=&Ausrichtung
+
 DifferenceChart.Txt.DefaultDifferenceChartTitle=Differenz-Diagrammtitel
 
 DifferenceChart.Txt.Description=Bei den Differenz-Diagrammen werden zwei Füllungen verwendet, welche die Positiv- und Negativbereiche darstellen.
@@ -1947,6 +2052,7 @@ MenuStyleDialog.Column.Properties=Eigenschaften
 MenuStyleDialog.Column.Value=Wert
 
 MenuStyleDialog.Style.Menu=Menü
+
 MenuStyleDialog.Style.MenuItem=Menüoption
 
 MenuStyleDialog.Style.OnMouseOver=Bei Mouseover

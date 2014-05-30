@@ -12,18 +12,23 @@
 ###########################################################
 #Excel Emitter
 OdsEmitter.Description=Configurez les options pour un rendu de rapport au format Feuille de calcul OpenDocument.
+
 OdsEmitter.DisplayName=Feuille de calcul OpenDocument
 
 ###########################################################
 #Option Display Value
 OptionDisplayValue.WrappingText=Retour à la ligne automatique
+
 OptionDisplayValue.ChartDpi=DPI de graphique
+
 OptionDisplayValue.HideGridlines=Cacher les lignes de la grille
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=Indique si le retour à la ligne est autorisé pour le texte.
+
 OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
+
 OptionDescription.HideGridlines=Cacher les lignes de la grille.
 
 ###########################################################

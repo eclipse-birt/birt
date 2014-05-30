@@ -93,14 +93,23 @@ BIRTConfiguration_cubememsize_label=用于创建多维数据集的最大内存大小(&Z):
 BIRTConfiguration_loglevel_label=选择日志级别(&V):
 
 BIRTConfiguration_loglevel_all=全部
+
 BIRTConfiguration_loglevel_severe=严重
+
 BIRTConfiguration_loglevel_warning=警告
+
 BIRTConfiguration_loglevel_info=信息
+
 BIRTConfiguration_loglevel_config=配置
+
 BIRTConfiguration_loglevel_fine=精细
+
 BIRTConfiguration_loglevel_finer=更精细
+
 BIRTConfiguration_loglevel_finest=最精细
+
 BIRTConfiguration_loglevel_off=关
+
 BIRTConfiguration_printserver_label=在服务器端打印报表(&P):
 
 BIRTConfiguration_import_clear_message=清除旧的 BIRT 运行时文件(&C)。

@@ -20,6 +20,7 @@ sqbWizPage_dataSourceDesignError=Datenquellen-Designfehler
 sqbWizPage_dbErrorMsg=Datenbank-Fehlermeldung:
 
 sqbWizPage_defaultMessage=SQL Select-Abfrage erstellen.
+
 sqbWizPage_detectExternalSqlTextChangedMsg=Der SQL-Abfragetext wurde extern im Datensatz-Design geändert. Möchten Sie die Inhalte der SQL-Abfrageerstellung mit diesen Änderungen ersetzen?
 
 sqbWizPage_detectSqlTextChangedTitle=SQL-Abfragetext geändert

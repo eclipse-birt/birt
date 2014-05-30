@@ -40,6 +40,7 @@ Element.CrosstabView=Affichage du tableau croisé
 
 Element.Cube=Cube
 Element.Dimension=Dimension
+
 Element.Level=Niveau
 
 Element.Measure=Mesure
@@ -71,7 +72,9 @@ Element.SpanOverOnColumn=Couvrir une colonne
 Element.SpanOverOnRow=Couvrir une ligne
 
 Element.Direction.Horizontal=Horizontale
+
 Element.Direction.Vertical=Verticale
+
 Element.choice.before=Avant
 
 Element.choice.after=Après
@@ -229,6 +232,7 @@ CrosstabReportItemTask.msg.pivot.dimension=Faire pivoter la dimension
 CrosstabReportItemTask.msg.insert.dimension=Insérer une dimension
 
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Définir le niveau de départ de la mise en miroir
+
 CrosstabReportItemTask.msg.pivot.crosstab=Faire pivoter le tableau croisé
 
 CrosstabReportItemHandle.Error.HasNoCube=Le tableau croisé doit pouvoir accéder à un cube.

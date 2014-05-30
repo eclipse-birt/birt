@@ -18,32 +18,50 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 # NLS String
 ###############################################################################
 datasource.name=JDBC Data Source
-oda.data.source.name=JDBC Data Source
-connection.profile.name=BIRT JDBC Data Source Connection Profile
 
+oda.data.source.name=JDBC Data Source
+
+connection.profile.name=BIRT JDBC Data Source Connection Profile
 datasource.property.odaDriverClass=JDBC Driver &Class
+
 datasource.property.odaURL=JDBC Driver U&RL
+
 datasource.property.odaDataSource=Data Source
+
 datasource.property.odaUser=User &Name
+
 datasource.property.odaPassword=Pass&word
+
 datasource.property.odaJndiURL=&JNDI URL
 datasource.property.autocommit= &Auto Commit
+
 datasource.property.isolationmode=&Isolation Mode
+
 dataset.query.sqltype=SQL Select Query
+
 dataset.query.sptype=SQL Stored Procedure Query
+
 dataset.property.queryTimeOut=&Query Time Out (in seconds)
+
 dataset.property.rowFetchSize=&Row Fetch Size
+
 dataset.connection.autocommit.false=faux
+
 dataset.connection.autocommit.true=vrai
+
 dataset.connection.isolationmode.read-uncommitted=read-uncommitted
+
 dataset.connection.isolationmode.read-committed=read-committed
+
 dataset.connection.isolationmode.repeatable-read=repeatable-read
-dataset.connection.isolationmode.serializable=sÃ©rialisable
+
+dataset.connection.isolationmode.serializable=sérialisable
                
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
 oda.connection.factory.name=ODA Connection Factory
 datasource.property.ssl.trustStorePassword=Mot&DePasseTrustStore :
+
 datasource.property.ssl.keyStorePassword=MotDePasseKe&yStore :
 

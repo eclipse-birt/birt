@@ -9,15 +9,19 @@
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
 design.layout=Lay&out
+
 design.masterPage=&Master-Seite
 
 design.script=&Skript
+
 design.xmlsource=&XML-Quelldatei
 
 template.layout=Lay&out
+
 template.masterPage=&Master-Seite
 
 template.script=&Skript
+
 template.xmlsource=&XML-Quelldatei
 
 pageSet.layout=&Layout-Seite

@@ -18,6 +18,7 @@ birt.core.Javascript.variableNotExist=レポート変数 "{0}" は存在しません。
 birt.core.Javascript.nativeNotFound={0} が見つかりません。
 
 birt.core.BirtComp.invalidRegularExpression=無効な正規表現です。
+
 error.NoSuchScriptExtension = スクリプト拡張 {0} が見つかりません。
 
 error.InvalidSeekOffset = 位置 {0} は無効です。
