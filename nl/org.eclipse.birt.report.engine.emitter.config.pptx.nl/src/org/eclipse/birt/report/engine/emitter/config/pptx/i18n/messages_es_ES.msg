@@ -35,7 +35,7 @@ OptionDisplayValue.FontSubstitution=Sustitución de fuente
 
 OptionDisplayValue.ChartDpi=Diagrama DPI
 
-OptionDisplayValue.RepaginateForPPTX=Repaginar mientras se procesa el PPTX
+OptionDisplayValue.RepaginateForPDF=Repaginar mientras se procesa el PPTX
 
 ###########################################################
 #Option Description
@@ -49,7 +49,7 @@ OptionDescription.FontSubstitution=Selecciona fuentes automáticamente cuando la 
 
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
 
-OptionDescription.RepaginateForPPTX=Repaginar mientras se procesa el PPTX.
+OptionDescription.RepaginateForPDF=Repaginar mientras se procesa el PPTX.
 
 ###########################################################
 #tooltip

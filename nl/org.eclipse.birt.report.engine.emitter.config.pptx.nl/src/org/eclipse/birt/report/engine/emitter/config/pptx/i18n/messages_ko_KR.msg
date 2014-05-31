@@ -35,7 +35,7 @@ OptionDisplayValue.FontSubstitution=글꼴 대체
 
 OptionDisplayValue.ChartDpi=차트 DPI
 
-OptionDisplayValue.RepaginateForPPTX=PPTX 렌더링 도중 페이지 새로 매기기
+OptionDisplayValue.RepaginateForPDF=PPTX 렌더링 도중 페이지 새로 매기기
 
 ###########################################################
 #Option Description
@@ -49,7 +49,7 @@ OptionDescription.FontSubstitution=지정된 글꼴이 문자를 표시하지 못하는 경우 자�
 
 OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.
 
-OptionDescription.RepaginateForPPTX=PPTX를 렌더링하는 도중 페이지를 새로 매깁니다.
+OptionDescription.RepaginateForPDF=PPTX를 렌더링하는 도중 페이지를 새로 매깁니다.
 
 ###########################################################
 #tooltip
