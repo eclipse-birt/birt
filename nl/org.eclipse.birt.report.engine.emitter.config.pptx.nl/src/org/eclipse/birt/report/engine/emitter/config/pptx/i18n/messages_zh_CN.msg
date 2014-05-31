@@ -35,7 +35,7 @@ OptionDisplayValue.FontSubstitution=字体替换
 
 OptionDisplayValue.ChartDpi=图表 DPI
 
-OptionDisplayValue.RepaginateForPPTX=呈现 PPTX 时重标页码
+OptionDisplayValue.RepaginateForPDF=呈现 PPTX 时重标页码
 
 ###########################################################
 #Option Description
@@ -49,7 +49,7 @@ OptionDescription.FontSubstitution=指定的字体无法显示该字符时自动选择字体。
 
 OptionDescription.ChartDpi=用于生成图表的 DPI。
 
-OptionDescription.RepaginateForPPTX=呈现 PPTX 时重标页码。
+OptionDescription.RepaginateForPDF=呈现 PPTX 时重标页码。
 
 ###########################################################
 #tooltip

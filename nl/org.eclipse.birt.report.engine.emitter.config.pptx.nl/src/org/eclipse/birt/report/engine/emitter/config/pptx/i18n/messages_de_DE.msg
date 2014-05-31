@@ -35,7 +35,7 @@ OptionDisplayValue.FontSubstitution=Schriftart ersetzen
 
 OptionDisplayValue.ChartDpi=Diagramm-DPI
 
-OptionDisplayValue.RepaginateForPPTX=Während des Renderns der PPTX neu paginieren
+OptionDisplayValue.RepaginateForPDF=Während des Renderns der PPTX neu paginieren
 
 ###########################################################
 #Option Description
@@ -49,7 +49,7 @@ OptionDescription.FontSubstitution=Wählt Schriftarten automatisch aus, wenn die 
 
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
 
-OptionDescription.RepaginateForPPTX=Während des Renderns der PPTX neu paginieren.
+OptionDescription.RepaginateForPDF=Während des Renderns der PPTX neu paginieren.
 
 ###########################################################
 #tooltip
