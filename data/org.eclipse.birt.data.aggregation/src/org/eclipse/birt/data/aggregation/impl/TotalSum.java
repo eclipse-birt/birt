@@ -123,7 +123,7 @@ public class TotalSum extends AggrFunction
 		 */
 		public Object getSummaryValue( )
 		{
-			return sum;
+			return Double.valueOf(sum.doubleValue());
 		}
 
 	}
