@@ -107,6 +107,8 @@ public class SlideMaster extends Component
 		writer.openTag( "p:bodyStyle" );
 		writer.closeTag( "p:bodyStyle" );
 		writer.openTag( "p:otherStyle" );
+		writer.openTag( "a:lvl1pPr" );
+		writer.closeTag( "a:lvl1pPr" );
 		writer.closeTag( "p:otherStyle" );
 		writer.closeTag( "p:txStyles" );
 		writer.closeTag( "p:sldMaster" );
