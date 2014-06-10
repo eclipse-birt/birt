@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.ooxml.constants.ContentTypes;
 import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;
 import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
 import org.eclipse.birt.report.engine.ooxml.util.OOXmlUtil;
+import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
 import com.lowagie.text.Font;
 
@@ -722,5 +723,10 @@ public class Slide extends Component
 	public void endClip( )
 	{
 		clipStack.pop( );
+	}
+	
+	public OOXmlWriter getWriter( ) 
+	{
+		return writer;
 	}
 }
