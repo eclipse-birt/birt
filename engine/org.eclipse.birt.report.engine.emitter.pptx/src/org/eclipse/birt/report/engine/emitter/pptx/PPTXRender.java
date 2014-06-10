@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil;
+import org.eclipse.birt.report.engine.emitter.pptx.writer.Slide;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
@@ -159,5 +160,15 @@ public class PPTXRender extends PageDeviceRender {
 		startContainer(text);
 		visitChildren(text);
 		endContainer(text);
+	}
+
+	public PPTXPage getGraphic( ) 
+	{
+		return (PPTXPage)pageGraphic;
+	}
+	
+	public Slide getSlide( ) 
+	{
+		return ((PPTXPage) pageGraphic).getSlide( );
 	}
 }

@@ -128,4 +128,9 @@ public class PPTXPage implements IPage
 	{
 		// PPTX currently does not support popup tooltips.
 	}
+
+	public Slide getSlide( ) 
+	{
+		return slide;
+	}
 }
