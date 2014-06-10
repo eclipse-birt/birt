@@ -14,6 +14,8 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.CompressionMode;
+import org.eclipse.birt.report.engine.api.DocxRenderOption;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -21,15 +23,13 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil;
+import org.eclipse.birt.report.engine.emitter.pptx.writer.Slide;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-
-import org.eclipse.birt.report.engine.api.CompressionMode;
-import org.eclipse.birt.report.engine.api.DocxRenderOption;
 
 /**
  * The PPT render class.
@@ -138,5 +138,15 @@ public class PPTXRender extends PageDeviceRender
 	{
 		pageGraphic.drawText( text.getLogicalOrderText( ), x, y, width, height,
 				textStyle );
+	}
+
+	public PPTXPage getGraphic( ) 
+	{
+		return (PPTXPage)pageGraphic;
+	}
+	
+	public Slide getSlide( ) 
+	{
+		return ((PPTXPage) pageGraphic).getSlide( );
 	}
 }
