@@ -42,7 +42,7 @@ public class PPTXRender extends PageDeviceRender {
 
 	private OutputStream out = null;
 
-	private String tempFileDir;
+	private final String tempFileDir;
 
 	/** The default output PPT file name. */
 	public static final String REPORT_FILE = "Report.pptx"; //$NON-NLS-1$
@@ -54,6 +54,7 @@ public class PPTXRender extends PageDeviceRender {
 		tempFileDir = services.getReportEngine().getConfig().getTempDir();
 	}
 
+	@Override
 	public IPageDevice createPageDevice(String title, String author,
 			String subject, String description, IReportContext context,
 			IReportContent report) throws Exception {
@@ -83,6 +84,7 @@ public class PPTXRender extends PageDeviceRender {
 	 * 
 	 * @return the output format
 	 */
+	@Override
 	public String getOutputFormat() {
 		return "pptx";
 	}
@@ -107,6 +109,7 @@ public class PPTXRender extends PageDeviceRender {
 		this.out = EmitterUtil.getOuputStream(services, REPORT_FILE);
 	}
 
+	@Override
 	public void visitImage(IImageArea imageArea) {
 		PPTXPage page = (PPTXPage) pageGraphic;
 		page.setLink(PPTUtil.getHyperlink(imageArea, services, reportRunnable,
@@ -124,6 +127,7 @@ public class PPTXRender extends PageDeviceRender {
 		page.setLink(null);
 	}
 
+	@Override
 	protected void drawTextAt(ITextArea text, int x, int y, int width,
 			int height, TextStyle textStyle) {
 		pageGraphic.drawText(text.getLogicalOrderText(), x, y, width, height,
@@ -170,5 +174,30 @@ public class PPTXRender extends PageDeviceRender {
 	public Slide getSlide( ) 
 	{
 		return ((PPTXPage) pageGraphic).getSlide( );
+	}
+	
+	public int getCurrentX()
+	{
+		return currentX;
+	}
+	
+	public int getCurrentY()
+	{
+		return currentY;
+	}
+		
+	public void setCurrentX( int x )
+	{
+		 currentX = x;
+	}
+	
+	public void setCurrentY( int y )
+	{
+		currentY = y;
+	}
+
+	public float getScale()
+	{
+		return scale;
 	}
 }

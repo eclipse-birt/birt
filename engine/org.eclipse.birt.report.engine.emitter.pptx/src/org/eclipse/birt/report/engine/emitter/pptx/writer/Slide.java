@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
+import org.eclipse.birt.report.engine.emitter.pptx.TableWriter;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
@@ -50,6 +51,8 @@ public class Slide extends Component
 	private boolean isClosed = false;
 	private ImageManager imageManager;
 
+	private TableWriter table = null;
+	
 	public Slide( Presentation presentation, int slideIndex )
 			throws IOException
 	{
@@ -105,31 +108,8 @@ public class Slide extends Component
 	public void drawLine( int startX, int startY, int endX, int endY,
 			int width, Color color, int lineStyle )
 	{
-		if ( color == null || width == 0f
-				|| lineStyle==BorderInfo.BORDER_STYLE_NONE  )
-		{
-			return;
-		}
-		writer.openTag( "p:cxnSp" );
-		writer.openTag( "p:nvCxnSpPr" );
-		writer.openTag( "p:cNvPr" );
-		int shapeId = nextShapeId( );
-		writer.attribute( "id", shapeId );
-		writer.attribute( "name", "Line " + shapeId );
-		writer.closeTag( "p:cNvPr" );
-		writer.openTag( "p:cNvCxnSpPr" );
-		writer.closeTag( "p:cNvCxnSpPr" );
-		writer.openTag( "p:nvPr" );
-		writer.closeTag( "p:nvPr" );
-		writer.closeTag( "p:nvCxnSpPr" );
-		writer.openTag( "p:spPr" );
-		setPosition( startX, startY, endX - startX, endY - startY );
-		writer.openTag( "a:prstGeom" );
-		writer.attribute( "prst", "line" );
-		writer.closeTag( "a:prstGeom" );
-		setProperty( color, width, lineStyle );
-		writer.closeTag( "p:spPr" );
-		writer.closeTag( "p:cxnSp" );
+		table.drawLine(startX, startY, endX, endY, width, color, lineStyle);
+
 	}
 
 	public void drawText( String text, int textX, int textY, int width,
@@ -588,7 +568,7 @@ public class Slide extends Component
 		}
 	}
 
-	private void setPosition( int startX, int startY, int width, int height )
+	public void setPosition( int startX, int startY, int width, int height )
 	{
 		writer.openTag( "a:xfrm" );
 		writer.openTag( "a:off" );
@@ -602,7 +582,7 @@ public class Slide extends Component
 		writer.closeTag( "a:xfrm" );
 	}
 
-	private void setProperty( Color color, int width, int style )
+	public void setProperty( Color color, int width, int style )
 	{
 		writer.openTag( "a:ln" );
 		writer.attribute( "w", width );
@@ -662,7 +642,7 @@ public class Slide extends Component
 		}
 	}
 
-	private int nextShapeId( )
+	public int nextShapeId( ) //change to public
 	{
 		return shapeCount++;
 	}
@@ -728,5 +708,9 @@ public class Slide extends Component
 	public OOXmlWriter getWriter( ) 
 	{
 		return writer;
+	}
+
+	public void setTable( TableWriter table){
+		this.table = table;
 	}
 }

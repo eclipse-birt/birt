@@ -253,12 +253,15 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		if ( container instanceof RowArea )
 		{
+			System.out.println("read a row...");
 			rowStyleStack.push( container.getBoxStyle( ) );
 		}
 		else if ( container instanceof CellArea )
 		{
+			System.out.println("read a cell...");
 			drawCell( (CellArea) container );
 		}
+		
 		else
 		{
 			drawContainer( container );
@@ -644,7 +647,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		this.extendDirection |= direction;
 	}
 
-	private void startClip( IArea area )
+	public void startClip( IArea area )
 	{
 		int startX = currentX + getX( area );
 		int startY = currentY + getY( area );
@@ -674,7 +677,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param height
 	 *            container height
 	 */
-	private void drawBackgroundImage( BackgroundImageInfo bi, int startX,
+	public void drawBackgroundImage( BackgroundImageInfo bi, int startX,
 			int startY, int width, int height )
 	{
 		try
@@ -697,7 +700,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param container
 	 *            the containerArea whose border and background need to be drew
 	 */
-	protected void drawContainer( IContainerArea container )
+	public void drawContainer( IContainerArea container )
 	{
 		// get the style of the container
 		BoxStyle style = container.getBoxStyle( );
@@ -805,7 +808,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		return null;
 	}
 
-	private BorderInfo[] cacheBorderInfo( IContainerArea container )
+	public BorderInfo[] cacheBorderInfo( IContainerArea container )
 	{
 		// get the style of the container
 		BoxStyle style = container.getBoxStyle( );
@@ -1144,7 +1147,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param borders
 	 *            the border info
 	 */
-	private void drawBorder( BorderInfo[] borders )
+	public void drawBorder( BorderInfo[] borders )
 	{
 		if ( borders == null )
 			return;
@@ -1322,7 +1325,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 //		return getScaledValue( PropertyUtil.getDimensionValue( cssValue ) );
 //	}
 
-	protected void drawTableBorder( TableArea table )
+	public void drawTableBorder( TableArea table )
 	{
 		TableBorder tb = new TableBorder( table.getX( ), table.getY( ) );
 		traverseRows( tb, table, tb.tableX, tb.tableY );
