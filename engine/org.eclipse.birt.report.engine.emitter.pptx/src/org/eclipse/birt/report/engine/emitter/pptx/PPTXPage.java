@@ -21,16 +21,32 @@ import org.eclipse.birt.report.engine.emitter.pptx.writer.Slide;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
-
+/**
+ * accept draw command, output to PPTXCanvas.
+ * 
+ * The graphic operations do following processing: 
+ * <ol>
+ * <li>dimension transformation, convert point to enums. 
+ * <li>call canvas to export PPTX operations.
+ * </ol>
+ */
 public class PPTXPage implements IPage
 {
 
-	private Slide slide = null;
+	private Slide slide;
+	private PPTXCanvas canvas;
 	private HyperlinkDef link = null;
 
 	public PPTXPage( Slide slide )
 	{
 		this.slide = slide;
+		this.canvas = slide.getCanvas( );
+	}
+
+	public PPTXPage( PPTXCanvas canvas )
+	{
+		this.canvas = canvas;
+		this.slide = null;
 	}
 
 	public void drawBackgroundColor( Color color, int x, int y, int width,
@@ -40,12 +56,12 @@ public class PPTXPage implements IPage
 		y = PPTXUtil.convertToEnums( y );
 		width = PPTXUtil.convertToEnums( width );
 		height = PPTXUtil.convertToEnums( height );
-		slide.drawBackgroundColor( color, x, y, width, height );
+		canvas.drawBackgroundColor( color, x, y, width, height );
 	}
 
 	public void drawBackgroundImage( int x, int y, int width, int height,
-			int imageWidth, int imageHeight, int repeat, String imageUrl, byte[] imageData,
-			int absPosX, int absPosY ) throws IOException
+			int imageWidth, int imageHeight, int repeat, String imageUrl,
+			byte[] imageData, int absPosX, int absPosY ) throws IOException
 	{
 		x = PPTXUtil.convertToPointer( x );
 		y = PPTXUtil.convertToPointer( y );
@@ -55,8 +71,8 @@ public class PPTXPage implements IPage
 		absPosY = PPTXUtil.convertToPointer( absPosY );
 		imageWidth = PPTXUtil.convertToPointer( imageWidth );
 		imageHeight = PPTXUtil.convertToPointer( imageHeight );
-		slide.drawBackgroundImage( x, y, width, height, imageWidth, imageHeight, repeat, imageUrl,
-				imageData, absPosX, absPosY );
+		canvas.drawBackgroundImage( x, y, width, height, imageWidth,
+				imageHeight, repeat, imageUrl, imageData, absPosX, absPosY );
 	}
 
 	public void drawImage( String imageId, byte[] imageData, String extension,
@@ -67,8 +83,8 @@ public class PPTXPage implements IPage
 		imageY = PPTXUtil.convertToEnums( imageY );
 		width = PPTXUtil.convertToEnums( width );
 		height = PPTXUtil.convertToEnums( height );
-		slide.drawImage( imageId, imageData, extension, imageX, imageY, height,
-				width, helpText, link );
+		canvas.drawImage( imageId, imageData, extension, imageX, imageY,
+				height, width, helpText, link );
 	}
 
 	public void drawImage( String uri, String extension, int imageX,
@@ -79,7 +95,7 @@ public class PPTXPage implements IPage
 		imageY = PPTXUtil.convertToEnums( imageY );
 		width = PPTXUtil.convertToEnums( width );
 		height = PPTXUtil.convertToEnums( height );
-		slide.drawImage( uri, extension, imageX, imageY, height, width,
+		canvas.drawImage( uri, extension, imageX, imageY, height, width,
 				helpText, link );
 	}
 
@@ -91,7 +107,7 @@ public class PPTXPage implements IPage
 		endX = PPTXUtil.convertToEnums( endX );
 		endY = PPTXUtil.convertToEnums( endY );
 		width = PPTXUtil.convertToEnums( width );
-		slide.drawLine( startX, startY, endX, endY, width, color, lineStyle );
+		canvas.drawLine( startX, startY, endX, endY, width, color, lineStyle );
 	}
 
 	public void drawText( String text, int textX, int textY, int width,
@@ -101,22 +117,31 @@ public class PPTXPage implements IPage
 		textY = PPTXUtil.convertToEnums( textY );
 		width = PPTXUtil.convertToEnums( width );
 		height = PPTXUtil.convertToEnums( height );
-		slide.drawText( text, textX, textY, width + 1, height, textStyle, link );
+		canvas.drawText( text, textX, textY, width + 1, height, textStyle, link );
 	}
 
 	public void startClip( int startX, int startY, int width, int height )
 	{
-		slide.startClip( startX, startY, width, height );
+		startX = PPTXUtil.convertToEnums( startX );
+		startY = PPTXUtil.convertToEnums( startY );
+		width = PPTXUtil.convertToEnums( width );
+		height = PPTXUtil.convertToEnums( height );
+		canvas.startClip( startX, startY, width, height );
 	}
 
 	public void endClip( )
 	{
-		slide.endClip( );
+		canvas.endClip( );
 	}
 
 	public void dispose( )
 	{
-		slide.dispose( );
+		if ( slide != null )
+		{
+			slide.dispose( );
+		}
+		slide = null;
+		canvas = null;
 	}
 
 	public void setLink( HyperlinkDef link )
@@ -129,8 +154,8 @@ public class PPTXPage implements IPage
 		// PPTX currently does not support popup tooltips.
 	}
 
-	public Slide getSlide( ) 
+	public PPTXCanvas getCanvas( )
 	{
-		return slide;
+		return canvas;
 	}
 }

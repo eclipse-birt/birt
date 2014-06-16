@@ -56,6 +56,8 @@ public class Presentation extends Component
 	private List<Slide> slides = new ArrayList<Slide>( );
 	private String author, title, description, subject;
 	
+	private int shapeId;
+	
 	public Presentation( OutputStream out, String tempFileDir,
 			int compressionMode )
 	{
@@ -227,5 +229,10 @@ public class Presentation extends Component
 	public void setSubject( String subject )
 	{
 		this.subject = subject;
+	}
+
+	public int nextShapeId( )
+	{
+		return shapeId++;
 	}
 }
