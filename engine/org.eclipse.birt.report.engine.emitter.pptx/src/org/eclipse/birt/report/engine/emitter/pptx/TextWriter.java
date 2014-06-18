@@ -264,6 +264,12 @@ public class TextWriter
 		writer.attribute( "prst", "rect" );
 		writer.closeTag( "a:prstGeom" );
 		
+		Color color = text.getBoxStyle( ).getBackgroundColor( );
+		if( color != null)
+		{
+			setColor( color );
+		}
+		
 		writeLineStyle( );
 		
 		writer.closeTag( "p:spPr" );
