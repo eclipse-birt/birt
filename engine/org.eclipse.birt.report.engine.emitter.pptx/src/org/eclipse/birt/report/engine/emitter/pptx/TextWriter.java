@@ -73,7 +73,7 @@ public class TextWriter
 			return;
 		}
 			
-		parseText(text);
+		parseBlockTextArea(text);
 		
 		startX = PPTXUtil.convertToEnums( startX );
 		startY = PPTXUtil.convertToEnums( startY );
@@ -93,7 +93,7 @@ public class TextWriter
 		if(needGroup)endGroup();
 	}
 	
-	private void parseText( BlockTextArea text )
+	private void parseBlockTextArea( BlockTextArea text )
 	{
 		if( text.getParent( ) instanceof CellArea)
 		{
@@ -339,9 +339,13 @@ public class TextWriter
 				writer.closeTag( "a:fontRef" );
 				writer.closeTag( "p:style" );
 			}
+			writer.openTag( "p:txBody" );
 		}
-		
-		writer.openTag( "p:txBody" );
+		else{
+			writer.openTag( "a:txBody" );
+		}
+
+		writer.openTag( "a:txBody" );
 		writer.openTag( "a:bodyPr" );
 		//writer.attribute( "wrap", "none" );
 		writer.attribute( "wrap", "square" );
@@ -354,11 +358,17 @@ public class TextWriter
 		writer.openTag( "a:p" );			
 	}
 
-	private void endBlockText(BlockTextArea text) {
+	private void endBlockText( BlockTextArea text )
+	{
 		writer.closeTag( "a:p" );
-		writer.closeTag( "p:txBody" );
-		if(needShape)writer.closeTag( "p:sp" );
+		if ( needShape )
+		{
+			writer.closeTag( "p:txBody" );
+			writer.closeTag( "p:sp" );
+		}
+		else{
+			writer.closeTag( "a:txBody" );
+		}
 	}
-	
 	
 }
