@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.core.namespace;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.core.IAccessControl;
@@ -19,6 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.CaseInsensitiveNameSpace;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
@@ -42,7 +44,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * The array of the name contexts.
 	 */
 
-	protected INameContext nameContexts[] = null;
+	private HashMap<String, INameContext> nameContexts;
 
 	/**
 	 * The array of name spaces to cache some element names. The meanings of
@@ -51,39 +53,17 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * MetaDataConstants}.
 	 */
 
-	protected NameSpace cachedNameSpaces[] = null;
+	private HashMap<String, NameSpace> cachedNameSpaces;
 
 	/**
 	 * 
 	 */
 	public AbstractNameHelper( )
 	{
-		// init cached name spaces
-		initCachedNameSpaces( );
+		cachedNameSpaces = new HashMap<String, NameSpace>( );
+		nameContexts = new HashMap<String, INameContext>( );
 	}
 
-	/**
-	 * 
-	 */
-	protected void initCachedNameSpaces( )
-	{
-		cachedNameSpaces = new NameSpace[getNameSpaceCount( )];
-		for ( int i = 0; i < getNameSpaceCount( ); i++ )
-		{
-			cachedNameSpaces[i] = new NameSpace( );
-		}
-	}
-
-	/**
-	 * Initializes all the name context and name manager of this helper.
-	 */
-	abstract protected void initialize( );
-
-	/**
-	 * 
-	 * @return count of all the name space
-	 */
-	protected abstract int getNameSpaceCount( );
 
 	/**
 	 * Gets the name context with the given id.
@@ -91,12 +71,18 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * @param nameSpaceID
 	 * @return the name context for specified id
 	 */
-	public INameContext getNameContext( int nameSpaceID )
+	public INameContext getNameContext( String nameSpaceID )
 	{
-		if ( nameSpaceID >= 0 && nameSpaceID < getNameSpaceCount( ) )
-			return this.nameContexts[nameSpaceID];
-		return new DummyNameContext( );
+		INameContext nameContext = nameContexts.get( nameSpaceID );
+		if ( nameContext == null )
+		{
+			nameContext = createNameContext(nameSpaceID);
+			nameContexts.put( nameSpaceID, nameContext );
+		}
+		return nameContext;
 	}
+	
+	abstract protected INameContext createNameContext(String namespace); 
 
 	/*
 	 * (non-Javadoc)
@@ -106,7 +92,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 
 	public void clear( )
 	{
-		initCachedNameSpaces( );
+		cachedNameSpaces.clear( );
 	}
 
 	/**
@@ -117,13 +103,28 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * @return the cached namespace with the given id
 	 */
 
-	public NameSpace getCachedNameSpace( int id )
+	public NameSpace getCachedNameSpace( String id )
 	{
-		assert id >= 0 && id < getNameSpaceCount( );
-		return cachedNameSpaces[id];
+		NameSpace namespace = cachedNameSpaces.get( id);
+		if ( namespace == null )
+		{
+			namespace = createNameSpace(id);
+			cachedNameSpaces.put( id, namespace );
+		}
+		return namespace;
 	}
 
-	public final void dropElement( int namespaceId, DesignElement element )
+	protected NameSpace createNameSpace( String id )
+	{
+		// now name of the parameter and style is case-insensitive
+		if ( Module.STYLE_NAME_SPACE.equals( id )
+				|| Module.PARAMETER_NAME_SPACE.equals( id ) )
+			return new CaseInsensitiveNameSpace( );
+		else
+			return new NameSpace( );
+	}
+
+	public final void dropElement( String namespaceId, DesignElement element )
 	{
 		if ( element == null )
 			return;
@@ -144,17 +145,17 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getNameSpace
 	 * (int)
 	 */
-	public NameSpace getNameSpace( int nameSpaceID )
+	public NameSpace getNameSpace( String nameSpaceID )
 	{
 		return getNameContext( nameSpaceID ).getNameSpace( );
 	}
 	
-	public void makeUniqueName( int namespaceId, DesignElement element )
+	public void makeUniqueName( String namespaceId, DesignElement element )
 	{
 		this.makeUniqueName( namespaceId, element, null );
 	}
 	
-	public void makeUniqueName( int namespaceId, DesignElement element, String prefix )
+	public void makeUniqueName( String namespaceId, DesignElement element, String prefix )
 	{
 		if ( element == null )
 			return;
@@ -212,7 +213,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		// definition type, then just call find and return
 		if ( getElement( ).getDefn( ).isKindOf( nameContainerDefn ) )
 		{
-			int id = targetDefn.getNameSpaceID( );
+			String id = targetDefn.getNameSpaceID( );
 			return getNameContext( id ).resolve( focus, elementName, propDefn,
 					(ElementDefn) elementDefn );
 		}
@@ -279,7 +280,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		// definition type, then just call find and return
 		if ( getElement( ).getDefn( ).isKindOf( nameContainerDefn ) )
 		{
-			int id = targetDefn.getNameSpaceID( );
+			String id = targetDefn.getNameSpaceID( );
 			return getNameContext( id ).resolve( focus, element, propDefn,
 					(ElementDefn) elementDefn );
 		}
@@ -303,7 +304,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#canContain(int,
 	 * java.lang.String)
 	 */
-	public boolean canContain( int nameSpaceID, String elementName )
+	public boolean canContain( String nameSpaceID, String elementName )
 	{
 		return getNameContext( nameSpaceID ).canContain( elementName );
 	}
@@ -315,7 +316,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getElements(int,
 	 * int)
 	 */
-	public List<DesignElement> getElements( int nameSpaceID, int level )
+	public List<DesignElement> getElements( String nameSpaceID, int level )
 	{
 		return getNameContext( nameSpaceID ).getElements( level );
 	}
@@ -442,7 +443,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 			// if root infor is found, then do the resolve
 			if ( rootInfor != null )
 			{
-				int id = rootInfor.elementDefn.getNameSpaceID( );
+				String id = rootInfor.elementDefn.getNameSpaceID( );
 				AbstractNameHelper nameHelper = (AbstractNameHelper) root
 						.getNameHelper( );
 				ElementRefValue refValue = nameHelper.getNameContext( id )
@@ -531,7 +532,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		}
 	}
 
-	public String getUniqueName( int namespaceId, DesignElement element,
+	public String getUniqueName( String namespaceId, DesignElement element,
 			String namePrefix )
 	{
 		if ( element == null )
@@ -561,7 +562,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 
 		// If the element already has a unique name, return it.
 		NameSpace nameSpace = getCachedNameSpace( namespaceId );
-		NameSpace moduleNameSpace = nameContexts[namespaceId].getNameSpace( );
+		NameSpace moduleNameSpace = getNameContext(namespaceId).getNameSpace( );
 		if ( name != null && isValidInNameSpace( nameSpace, element, name )
 				&& isValidInNameSpace( moduleNameSpace, element, name ) )
 			return name;
@@ -595,7 +596,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
 	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public final String getUniqueName( int namespaceId, DesignElement element )
+	public final String getUniqueName( String namespaceId, DesignElement element )
 	{
 		return getUniqueName( namespaceId, element, null );
 	}

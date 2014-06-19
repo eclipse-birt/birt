@@ -71,6 +71,11 @@ public class NameSpace implements Cloneable
 		names.put( element.getName( ), element );
 	}
 
+	public void insert( String name, DesignElement element )
+	{
+		names.put( name, element );
+	}
+
 	/**
 	 * Removes an element from the name space. The caller must have validated
 	 * that the element is in the name space.
@@ -84,6 +89,11 @@ public class NameSpace implements Cloneable
 		assert element.getName( ) != null;
 		assert names.get( element.getName( ) ) == element;
 		names.remove( element.getName( ) );
+	}
+
+	public void remove( String name )
+	{
+		names.remove( name );
 	}
 
 	/**

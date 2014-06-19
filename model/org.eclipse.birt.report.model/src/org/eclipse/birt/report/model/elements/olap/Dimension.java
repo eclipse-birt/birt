@@ -45,12 +45,7 @@ public abstract class Dimension extends ReferenceableElement
 	/**
 	 * Level name space id.
 	 */
-	public static final int LEVEL_NAME_SPACE = 0;
-
-	/**
-	 * Name space count in the dimension.
-	 */
-	public static final int NAME_SPACE_COUNT = 1;
+	public static final String LEVEL_NAME_SPACE = "dimension-level";
 
 	protected INameHelper nameHelper = null;
 

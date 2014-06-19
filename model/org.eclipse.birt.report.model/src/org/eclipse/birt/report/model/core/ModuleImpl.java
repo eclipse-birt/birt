@@ -117,63 +117,58 @@ public abstract class ModuleImpl extends DesignElement
 	/**
 	 * Identifier for the shared style name space.
 	 */
-	public static final int STYLE_NAME_SPACE = 0;
+	public static final String STYLE_NAME_SPACE = "style";
 
 	/**
 	 * Identifier of the name space that stores layout elements that appear in
 	 * the Body slot.
 	 */
-	public static final int ELEMENT_NAME_SPACE = 1;
+	public static final String ELEMENT_NAME_SPACE = "element";
 
 	/**
 	 * Identifier for the parameter name space.
 	 */
-	public static final int PARAMETER_NAME_SPACE = 2;
+	public static final String PARAMETER_NAME_SPACE = "parameter";
 
 	/**
 	 * Identifier for the data source name space.
 	 */
-	public static final int DATA_SOURCE_NAME_SPACE = 3;
+	public static final String DATA_SOURCE_NAME_SPACE = "datasource";
 
 	/**
 	 * Identifier for the data set name space.
 	 */
-	public static final int DATA_SET_NAME_SPACE = 4;
+	public static final String DATA_SET_NAME_SPACE = "dataset";
 
 	/**
 	 * Identifier for the master page name space.
 	 */
-	public static final int PAGE_NAME_SPACE = 5;
+	public static final String PAGE_NAME_SPACE = "page";
 
 	/**
 	 * Identifier for the theme name space.
 	 */
-	public static final int THEME_NAME_SPACE = 6;
+	public static final String THEME_NAME_SPACE = "theme";
 
 	/**
 	 * Identifier for the template parameter definition name space.
 	 */
-	public static final int TEMPLATE_PARAMETER_NAME_SPACE = 7;
+	public static final String TEMPLATE_PARAMETER_NAME_SPACE = "template";
 
 	/**
 	 * Identifier for the cube element name space.
 	 */
-	public static final int CUBE_NAME_SPACE = 8;
+	public static final String CUBE_NAME_SPACE = "cube";
 
 	/**
 	 * Identifier for the variable element name space.
 	 */
-	public static final int VARIABLE_ELEMENT_NAME_SPACE = 9;
+	public static final String VARIABLE_ELEMENT_NAME_SPACE = "variable";
 
 	/**
 	 * Identifier for the dimension element name space.
 	 */
-	public static final int DIMENSION_NAME_SPACE = 10;
-
-	/**
-	 * Number of defined name spaces.
-	 */
-	public static int NAME_SPACE_COUNT = 11;
+	public static final String DIMENSION_NAME_SPACE = "dimension";
 
 	/**
 	 * The session that owns this module.
@@ -1249,7 +1244,7 @@ public abstract class ModuleImpl extends DesignElement
 	 */
 
 	protected final DesignElement resolveNativeElement( String elementName,
-			int nameSpace )
+			String nameSpace )
 	{
 		NameSpace namespace = nameHelper.getNameSpace( nameSpace );
 		return namespace.getElement( elementName );

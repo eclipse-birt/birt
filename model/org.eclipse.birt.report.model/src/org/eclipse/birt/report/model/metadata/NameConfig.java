@@ -26,7 +26,7 @@ public class NameConfig
 	 * Indicates the name space in which instances of this element reside.
 	 */
 
-	protected int nameSpaceID = MetaDataConstants.NO_NAME_SPACE;
+	protected String nameSpaceID = MetaDataConstants.NO_NAME_SPACE;
 
 	/**
 	 * Definition of the element where the name resides.
@@ -62,7 +62,7 @@ public class NameConfig
 	 * 
 	 * @return the name space ID
 	 */
-	public int getNameSpaceID( )
+	public String getNameSpaceID( )
 	{
 		return nameSpaceID;
 	}

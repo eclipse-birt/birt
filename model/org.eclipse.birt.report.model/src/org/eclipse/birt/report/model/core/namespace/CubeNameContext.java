@@ -53,7 +53,7 @@ public class CubeNameContext extends GeneralModuleNameContext
 	 *            the name space ID
 	 */
 
-	CubeNameContext( Module module, int nameSpaceID )
+	CubeNameContext( Module module, String nameSpaceID )
 	{
 		super( module, nameSpaceID );
 	}
@@ -78,9 +78,9 @@ public class CubeNameContext extends GeneralModuleNameContext
 			return super.resolve( focus, element, propDefn, elementDefn );
 
 		// dimension to shared dimension case
-		int nameSpaceID = targetDefn.getNameSpaceID( );
+		String nameSpaceID = targetDefn.getNameSpaceID( );
 
-		if ( nameSpaceID == Module.DIMENSION_NAME_SPACE )
+		if ( Module.DIMENSION_NAME_SPACE.equals( nameSpaceID) )
 		{
 			if ( focus instanceof Dimension )
 				return super.resolve( focus, element, propDefn, elementDefn );
@@ -178,9 +178,9 @@ public class CubeNameContext extends GeneralModuleNameContext
 			return super.resolve( focus, elementName, propDefn, elementDefn );
 
 		// dimension to shared dimension case
-		int nameSpaceID = targetDefn.getNameSpaceID( );
+		String nameSpaceID = targetDefn.getNameSpaceID( );
 
-		if ( nameSpaceID == Module.DIMENSION_NAME_SPACE )
+		if ( Module.DIMENSION_NAME_SPACE.equals( nameSpaceID ) )
 		{
 			if ( focus instanceof Dimension )
 				return super
