@@ -562,7 +562,7 @@ public class PPTXCanvas
 		writer.closeTag( "a:cs" );
 	}
 
-	private void setColor( Color color )
+	public void setColor( Color color )
 	{
 		if ( color != null )
 		{
@@ -576,7 +576,12 @@ public class PPTXCanvas
 
 	public void setPosition( int startX, int startY, int width, int height )
 	{
-		writer.openTag( "a:xfrm" );
+		setPosition( 'a', startX, startY, width, height );
+	}
+
+	public void setPosition( char tagtype, int startX, int startY, int width, int height )
+	{
+		writer.openTag( tagtype+":xfrm" );
 		writer.openTag( "a:off" );
 		writer.attribute( "x", startX );
 		writer.attribute( "y", startY );
@@ -585,7 +590,7 @@ public class PPTXCanvas
 		writer.attribute( "cx", width );
 		writer.attribute( "cy", height );
 		writer.closeTag( "a:ext" );
-		writer.closeTag( "a:xfrm" );
+		writer.closeTag( tagtype+":xfrm" );
 	}
 
 	public void setProperty( Color color, int width, int style )
@@ -703,4 +708,11 @@ public class PPTXCanvas
 		return writer;
 	}
 
+	protected void writeMarginProperties( int top, int right, int bottom, int left )
+	{
+		writer.attribute( "marL", left );
+		writer.attribute( "marR", right );
+		writer.attribute( "marT", top );
+		writer.attribute( "marB", bottom );
+	}
 }
