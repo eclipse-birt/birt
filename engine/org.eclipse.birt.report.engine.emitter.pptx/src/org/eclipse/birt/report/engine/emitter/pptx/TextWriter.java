@@ -345,7 +345,6 @@ public class TextWriter
 			writer.openTag( "a:txBody" );
 		}
 
-		writer.openTag( "a:txBody" );
 		writer.openTag( "a:bodyPr" );
 		//writer.attribute( "wrap", "none" );
 		writer.attribute( "wrap", "square" );
@@ -370,5 +369,4 @@ public class TextWriter
 			writer.closeTag( "a:txBody" );
 		}
 	}
-	
 }
