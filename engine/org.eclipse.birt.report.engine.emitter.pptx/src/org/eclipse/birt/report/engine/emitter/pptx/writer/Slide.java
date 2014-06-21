@@ -10,10 +10,8 @@
 
 package org.eclipse.birt.report.engine.emitter.pptx.writer;
 
-import java.awt.Color;
 import java.io.IOException;
 
-import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.pptx.PPTXCanvas;
 import org.eclipse.birt.report.engine.ooxml.constants.ContentTypes;
 import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;
@@ -29,13 +27,7 @@ public class Slide extends Component
 	private Presentation presentation;
 	private boolean isClosed = false;
 
-	public Slide( Presentation presentation, int slideIndex )
-			throws IOException
-	{
-		this( presentation, slideIndex, null );
-	}
-
-	public Slide( Presentation presentation, int slideIndex, Color bgColor )
+	public Slide( Presentation presentation, int slideIndex, SlideLayout slideLayout )
 			throws IOException
 	{
 		this.index = slideIndex;
@@ -44,19 +36,17 @@ public class Slide extends Component
 		String relationShipType = RelationshipTypes.SLIDE;
 		String type = ContentTypes.SLIDE;
 		initialize( presentation.getPart( ), uri, type, relationShipType );
-		new SlideLayout( this, index );
+		referTo(slideLayout);
 		writer.startWriter( );
 		writer.openTag( TAG_SLIDE );
 		writer.nameSpace( "a", NameSpaces.DRAWINGML );
 		writer.nameSpace( "r", NameSpaces.RELATIONSHIPS );
 		writer.nameSpace( "p", NameSpaces.PRESENTATIONML );
 		writer.openTag( "p:cSld" );
-		if ( bgColor != null )
-			drawSlideBackgroundColor( bgColor );
 		writer.openTag( "p:spTree" );
 		writer.openTag( "p:nvGrpSpPr" );
 		writer.openTag( "p:cNvPr" );
-		writer.attribute( "id", presentation.nextShapeId( ) );
+		writer.attribute( "id", presentation.getNextShapeId( ) );
 		writer.attribute( "name", "" );
 		writer.closeTag( "p:cNvPr" );
 		writer.openTag( "p:cNvGrpSpPr" );
@@ -68,21 +58,6 @@ public class Slide extends Component
 		writer.closeTag( "p:grpSpPr" );
 	}
 
-	private void drawSlideBackgroundColor( Color color )
-	{
-		writer.openTag( "p:bg" );
-		writer.openTag( "p:bgPr" );
-		writer.openTag( "a:solidFill" );
-		writer.openTag( "a:srgbClr" );
-		writer.attribute( "val", EmitterUtil.getColorString( color ) );
-		writer.closeTag( "a:srgbClr" );
-		writer.closeTag( "a:solidFill" );
-		writer.openTag( "a:effectLst" );
-		writer.closeTag( "a:effectLst" );
-		writer.closeTag( "p:bgPr" );
-		writer.closeTag( "p:bg" );
-	}
-	
 	public Presentation getPresentation( )
 	{
 		return presentation;

@@ -10,13 +10,15 @@
 
 package org.eclipse.birt.report.engine.emitter.pptx.writer;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.ooxml.IPart;
 import org.eclipse.birt.report.engine.ooxml.ImageManager;
 import org.eclipse.birt.report.engine.ooxml.Package;
@@ -48,16 +50,22 @@ public class Presentation extends Component
 
 	private static final String TAG_SLIDE_MASTER_ID_LIST = "p:sldMasterIdLst";
 
+	private int slideMasterId = 1;
+	private int slideLayoutId = 1;
+	
+	private long globalId = 2147483648L;
+
 	private int width = 0, height = 0;
 
 	private Package pkg;
 
-	private SlideMaster slideMaster;
+	private Theme theme;
+	private HashMap<String, SlideMaster> slideMasters = new HashMap<String, SlideMaster>();
 	private List<Slide> slides = new ArrayList<Slide>( );
 	private String author, title, description, subject;
 	
 	private int shapeId;
-	
+
 	public Presentation( OutputStream out, String tempFileDir,
 			int compressionMode )
 	{
@@ -71,9 +79,9 @@ public class Presentation extends Component
 		{
 			writer = part.getCacheWriter( );
 			initialize( );
-			Theme theme = new Theme( part );
-			createSlideMaster( );
-			slideMaster.referTo( theme );
+			theme = new Theme( part );
+			//createSlideMaster( );
+			//slideMaster.referTo( theme );
 		}
 		catch ( IOException e )
 		{
@@ -81,17 +89,33 @@ public class Presentation extends Component
 		}
 	}
 
-	private void createSlideMaster( ) throws IOException
+	public SlideMaster getSlideMaster( String name ) throws IOException
 	{
-		slideMaster = new SlideMaster( this );
-		writer.openTag( TAG_SLIDE_MASTER_ID_LIST );
-		writer.openTag( TAG_SLIDE_MASTER_ID );
-		writer.attribute( TAG_ID, "2147483648" );
-		writer.attribute( TAG_RELATIONSHIP_ID, slideMaster.getPart( )
-				.getRelationshipId( ) );
-		writer.closeTag( TAG_SLIDE_MASTER_ID );
-		writer.closeTag( TAG_SLIDE_MASTER_ID_LIST );
+		return slideMasters.get(name);
+	}
 
+	public SlideMaster createSlideMaster(String name, PageArea area) throws IOException
+	{
+		SlideMaster slideMaster = new SlideMaster( this, area );
+		slideMaster.referTo( theme );
+		slideMasters.put( name, slideMaster);
+		return slideMaster;
+	}
+
+	private void outputSlideMasters() throws IOException
+	{
+		writer.openTag( TAG_SLIDE_MASTER_ID_LIST );
+		for (Map.Entry<String, SlideMaster> entry : slideMasters.entrySet())
+		{
+			SlideMaster slideMaster = entry.getValue();
+			writer.openTag( TAG_SLIDE_MASTER_ID );
+			writer.attribute( TAG_ID, String.valueOf( getNextGlobalId() ) );
+			writer.attribute( TAG_RELATIONSHIP_ID, slideMaster.getPart( )
+					.getRelationshipId( ) );
+			writer.closeTag( TAG_SLIDE_MASTER_ID );
+			slideMaster.close( );
+		}
+		writer.closeTag( TAG_SLIDE_MASTER_ID_LIST );
 	}
 
 	public void initialize( )
@@ -110,7 +134,7 @@ public class Presentation extends Component
 		this.height = height;
 	}
 
-	public Slide createSlide( int pageWidth, int pageHeight, Color bgColor )
+	public Slide createSlide( SlideMaster master, int pageWidth, int pageHeight, PageArea area  )
 			throws IOException
 	{
 		if ( pageWidth > width )
@@ -121,13 +145,8 @@ public class Presentation extends Component
 		{
 			height = pageHeight;
 		}
-		return createSlide( bgColor );
-	}
-
-	public Slide createSlide( Color bgColor ) throws IOException
-	{
 		int slideIndex = slides.size( ) + 1;
-		Slide slide = new Slide( this, slideIndex, bgColor );
+		Slide slide = new Slide( this, slideIndex, master.getSlideLayout());
 		slides.add( slide );
 		return slide;
 	}
@@ -149,7 +168,7 @@ public class Presentation extends Component
 	public void close( ) throws IOException
 	{
 		new Core( this, author, title, description, subject );
-		slideMaster.close( );
+		outputSlideMasters();
 		outputSlides( );
 		writer.openTag( TAG_SLIDE_SZ );
 		// Set default page size to A4.
@@ -182,7 +201,7 @@ public class Presentation extends Component
 	{
 		String url = "ppt/" + propFile + ".xml";
 		String type = "application/vnd.openxmlformats-officedocument.presentationml."
-                  + propFile + "+xml";
+				+ propFile + "+xml";
 		IPart part = pkg.getPart( url, type, null );
 		copyPartContent( propFile + ".xml", part );
 	}
@@ -206,11 +225,6 @@ public class Presentation extends Component
 		return pkg;
 	}
 
-	public SlideMaster getSlideMaster( )
-	{
-		return slideMaster;
-	}
-	
 	public void setAuthor( String author )
 	{
 		this.author = author;
@@ -231,8 +245,21 @@ public class Presentation extends Component
 		this.subject = subject;
 	}
 
-	public int nextShapeId( )
+	public int getNextShapeId( )
 	{
 		return shapeId++;
+	}
+
+	public int getNextSlideMasterId() {
+		return slideMasterId++;
+	}
+	
+	public int getNextSlideLayoutId() {
+		return slideLayoutId++;
+	}
+	
+	public long getNextGlobalId( )
+	{
+		return globalId++;
 	}
 }

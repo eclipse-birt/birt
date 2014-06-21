@@ -1,6 +1,8 @@
 
 package org.eclipse.birt.report.engine.emitter.pptx;
 
+import org.eclipse.birt.report.engine.emitter.pptx.writer.SlideMaster;
+import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 
 public class SlideWriter
@@ -13,9 +15,25 @@ public class SlideWriter
 		this.render = render;
 	}
 
-	public void outputSlide( PageArea pageArea )
+	public void writeSlideMaster( SlideMaster slide, PageArea pageArea )
 	{
-		render.visitPage( pageArea );
+		PPTXRender masterRender = new PPTXRender( this.render,
+				slide.getCanvas( ) );
+		
+		IContainerArea pageHeader = pageArea.getHeader( );
+		if ( pageHeader != null )
+		{
+			pageHeader.accept( masterRender );
+		}
+		IContainerArea pageFooter = pageArea.getFooter( );
+		if ( pageFooter != null )
+		{
+			pageFooter.accept( masterRender );
+		}
 	}
 
+	public void writeSlide( PageArea pageArea )
+	{
+		pageArea.getBody( ).accept( render );
+	}
 }

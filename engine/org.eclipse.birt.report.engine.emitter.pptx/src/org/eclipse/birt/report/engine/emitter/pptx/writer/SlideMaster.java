@@ -10,10 +10,12 @@
 
 package org.eclipse.birt.report.engine.emitter.pptx.writer;
 
+import java.awt.Color;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.emitter.pptx.PPTXCanvas;
+import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.ooxml.constants.ContentTypes;
 import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;
 import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
@@ -21,29 +23,122 @@ import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
 
 public class SlideMaster extends Component
 {
+	
+	private Presentation presentation;
+	private SlideLayout slideLayout;
 
-	private List<SlideLayout> slideLayouts = new ArrayList<SlideLayout>( );
-
-	public SlideMaster( Presentation presentation ) throws IOException
+	public SlideMaster( Presentation presentation , PageArea area ) throws IOException
 	{
+		this.presentation = presentation;
 		String type = ContentTypes.SLIDE_MASTER;
 		String relationshipType = RelationshipTypes.SLIDE_MASTER;
-		String uri = "slideMasters/slideMaster1.xml";
+		String uri = "slideMasters/slideMaster" + presentation.getNextSlideMasterId() + ".xml";
 		initialize( presentation.getPart( ), uri, type, relationshipType );
+		writePage(area);
+		
+		slideLayout = new SlideLayout(presentation, this);
+	}
+
+	public Presentation getPresentation() {
+		return presentation;
+	}
+	
+	public void close( ) throws IOException
+	{
+		writer.closeTag( "p:spTree" );
+		writer.closeTag( "p:cSld" );
+		writer.openTag( "p:clrMap" );
+		writer.attribute( "bg1", "lt1" );
+		writer.attribute( "tx1", "dk1" );
+		writer.attribute( "bg2", "lt2" );
+		writer.attribute( "tx2", "dk2" );
+		writer.attribute( "accent1", "accent1" );
+		writer.attribute( "accent2", "accent2" );
+		writer.attribute( "accent3", "accent3" );
+		writer.attribute( "accent4", "accent4" );
+		writer.attribute( "accent5", "accent5" );
+		writer.attribute( "accent6", "accent6" );
+		writer.attribute( "hlink", "hlink" );
+		writer.attribute( "folHlink", "folHlink" );
+		writer.closeTag( "p:clrMap" );
+		outputSlideLayouts( );
+		writer.openTag( "p:txStyles" );
+		writer.openTag( "p:titleStyle" );
+		writer.closeTag( "p:titleStyle" );
+		writer.openTag( "p:bodyStyle" );
+		writer.closeTag( "p:bodyStyle" );
+		writer.openTag( "p:otherStyle" );
+		writer.openTag( "a:lvl1pPr" );
+		writer.closeTag( "a:lvl1pPr" );
+		writer.closeTag( "p:otherStyle" );
+		writer.closeTag( "p:txStyles" );
+		writer.closeTag( "p:sldMaster" );
+		writer.endWriter( );
+		writer.close( );
+		this.writer = null;
+	}
+
+	private void outputSlideLayouts( )
+	{
+		writer.openTag( "p:sldLayoutIdLst" );
+
+		long id = presentation.getNextGlobalId( );
+		String relationshipId = referTo( slideLayout ).getRelationshipId( );
+		writer.openTag( "p:sldLayoutId" );
+		writer.attribute( "id", String.valueOf( id ) );
+		writer.attribute( "r:id", relationshipId );
+		writer.closeTag( "p:sldLayoutId" );
+
+		writer.closeTag( "p:sldLayoutIdLst" );
+	}
+
+	private void drawSlideBackgroundColor( Color color )
+	{
+		writer.openTag( "p:bg" );
+		writer.openTag( "p:bgPr" );
+		setColor( color );
+		writer.openTag( "a:effectLst" );
+		writer.closeTag( "a:effectLst" );
+		writer.closeTag( "p:bgPr" );
+		writer.closeTag( "p:bg" );
+	}
+
+	private void setColor( Color color )
+	{
+		if ( color != null )
+		{
+			writer.openTag( "a:solidFill" );
+			writer.openTag( "a:srgbClr" );
+			writer.attribute( "val", EmitterUtil.getColorString( color ) );
+			writer.closeTag( "a:srgbClr" );
+			writer.closeTag( "a:solidFill" );
+		}
+	}
+
+	
+	public void writePage( PageArea pageArea )
+	{
+		
 		writer.startWriter( );
 		writer.openTag( "p:sldMaster" );
 		writer.nameSpace( "a", NameSpaces.DRAWINGML );
 		writer.nameSpace( "r", NameSpaces.RELATIONSHIPS );
 		writer.nameSpace( "p", NameSpaces.PRESENTATIONML );
 		writer.openTag( "p:cSld" );
-		writer.openTag( "p:bg" );
-		writer.openTag( "p:bgRef" );
-		writer.attribute( "idx", "1001" );
-		writer.openTag( "a:schemeClr" );
-		writer.attribute( "val", "bg1" );
-		writer.closeTag( "a:schemeClr" );
-		writer.closeTag( "p:bgRef" );
-		writer.closeTag( "p:bg" );
+		Color color = pageArea.getBoxStyle( ).getBackgroundColor( );
+		if(color != null)
+			drawSlideBackgroundColor(color);
+		else {
+			// slidemaster need some defalut color
+			writer.openTag( "p:bg" );
+			writer.openTag( "p:bgRef" );
+			writer.attribute( "idx", "1001" );
+			writer.openTag( "a:schemeClr" );
+			writer.attribute( "val", "bg1" );
+			writer.closeTag( "a:schemeClr" );
+			writer.closeTag( "p:bgRef" );
+			writer.closeTag( "p:bg" );
+		}
 		writer.openTag( "p:spTree" );
 		writer.openTag( "p:nvGrpSpPr" );
 		writer.openTag( "p:cNvPr" );
@@ -75,62 +170,15 @@ public class SlideMaster extends Component
 		writer.closeTag( "a:chExt" );
 		writer.closeTag( "a:xfrm" );
 		writer.closeTag( "p:grpSpPr" );
-		writer.closeTag( "p:spTree" );
-		writer.closeTag( "p:cSld" );
-		writer.openTag( "p:clrMap" );
-		writer.attribute( "bg1", "lt1" );
-		writer.attribute( "tx1", "dk1" );
-		writer.attribute( "bg2", "lt2" );
-		writer.attribute( "tx2", "dk2" );
-		writer.attribute( "accent1", "accent1" );
-		writer.attribute( "accent2", "accent2" );
-		writer.attribute( "accent3", "accent3" );
-		writer.attribute( "accent4", "accent4" );
-		writer.attribute( "accent5", "accent5" );
-		writer.attribute( "accent6", "accent6" );
-		writer.attribute( "hlink", "hlink" );
-		writer.attribute( "folHlink", "folHlink" );
-		writer.closeTag( "p:clrMap" );
 	}
 
-	public void addSlideLayout( SlideLayout slideLayout ) throws IOException
+	public SlideLayout getSlideLayout( )
 	{
-		slideLayouts.add( slideLayout );
+		return slideLayout;
 	}
-
-	public void close( ) throws IOException
+	
+	public PPTXCanvas getCanvas()
 	{
-		outputSlideLayouts( );
-		writer.openTag( "p:txStyles" );
-		writer.openTag( "p:titleStyle" );
-		writer.closeTag( "p:titleStyle" );
-		writer.openTag( "p:bodyStyle" );
-		writer.closeTag( "p:bodyStyle" );
-		writer.openTag( "p:otherStyle" );
-		writer.openTag( "a:lvl1pPr" );
-		writer.closeTag( "a:lvl1pPr" );
-		writer.closeTag( "p:otherStyle" );
-		writer.closeTag( "p:txStyles" );
-		writer.closeTag( "p:sldMaster" );
-		writer.endWriter( );
-		writer.close( );
-		this.writer = null;
-	}
-
-	private void outputSlideLayouts( )
-	{
-		writer.openTag( "p:sldLayoutIdLst" );
-		int layoutCount = 1;
-		for ( SlideLayout slideLayout : slideLayouts )
-		{
-			long id = 2147483648l + layoutCount;
-			String relationshipId = referTo( slideLayout ).getRelationshipId( );
-			writer.openTag( "p:sldLayoutId" );
-			writer.attribute( "id", String.valueOf( id ) );
-			writer.attribute( "r:id", relationshipId );
-			writer.closeTag( "p:sldLayoutId" );
-			layoutCount++;
-		}
-		writer.closeTag( "p:sldLayoutIdLst" );
+		return new PPTXCanvas( presentation, this.part, writer);
 	}
 }
