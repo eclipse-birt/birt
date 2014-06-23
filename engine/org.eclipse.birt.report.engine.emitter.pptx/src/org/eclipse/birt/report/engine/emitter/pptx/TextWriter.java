@@ -133,7 +133,7 @@ public class TextWriter
 	
 	private void startGroup(int startX, int startY, int width, int height)
 	{	
-		int shapeId = canvas.getPresentation( ).nextShapeId( );
+		int shapeId = canvas.getPresentation( ).getNextShapeId( );
 		writer.openTag( "p:grpSp" );
 		writer.openTag( "p:nvGrpSpPr" );
 		writer.openTag( "p:cNvPr" );
@@ -284,7 +284,7 @@ public class TextWriter
 			writer.openTag( "p:sp" );
 			writer.openTag( "p:nvSpPr" );
 			writer.openTag( "p:cNvPr" );
-			int shapeId = canvas.getPresentation( ).nextShapeId( );
+			int shapeId = canvas.getPresentation( ).getNextShapeId( );
 			writer.attribute( "id", shapeId );
 			writer.attribute( "name", "TextBox " + shapeId );
 			writer.closeTag( "p:cNvPr" );
