@@ -569,6 +569,11 @@ public class Slide extends Component
 		writer.attribute( "pitchFamily", "18" );
 		writer.attribute( "charset", "0" );
 		writer.closeTag( "a:latin" );
+		writer.openTag( "a:ea" );
+		writer.attribute( "typeface", fontName );
+		writer.attribute( "pitchFamily", "18" );
+		writer.attribute( "charset", "0" );
+		writer.closeTag( "a:ea" );
 		writer.openTag( "a:cs" );
 		writer.attribute( "typeface", fontName );
 		writer.attribute( "pitchFamily", "18" );
