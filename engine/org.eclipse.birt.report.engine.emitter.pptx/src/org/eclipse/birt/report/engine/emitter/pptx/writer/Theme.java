@@ -21,12 +21,12 @@ import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
 
 public class Theme extends Component
 {
-
-	public Theme( IPart parent ) throws IOException
+	
+	public Theme( IPart parent, Presentation presentation ) throws IOException
 	{
 		String type = ContentTypes.THEME;
 		String relationship = RelationshipTypes.THEME;
-		String uri = "theme/theme1.xml";
+		String uri = "theme/theme" + presentation.getNextThemeId( ) + "xml";
 		initialize( parent, uri, type, relationship, false );
 		writer.startWriter( );
 		writer.openTag( "a:theme" );
@@ -112,19 +112,19 @@ public class Theme extends Component
 		writer.closeTag( "a:cs" );
 		writer.openTag( "a:font" );
 		writer.attribute( "script", "Jpan" );
-		writer.attribute( "typeface", "ＭＳ Ｐゴシック" );
+		writer.attribute( "typeface", "ï¼­ï¼³ ï¼°ã‚´ã‚·ãƒƒã‚¯" );
 		writer.closeTag( "a:font" );
 		writer.openTag( "a:font" );
 		writer.attribute( "script", "Hang" );
-		writer.attribute( "typeface", "맑은 고딕" );
+		writer.attribute( "typeface", "ë§‘ì�€ ê³ ë”•" );
 		writer.closeTag( "a:font" );
 		writer.openTag( "a:font" );
 		writer.attribute( "script", "Hans" );
-		writer.attribute( "typeface", "宋体" );
+		writer.attribute( "typeface", "å®‹ä½“" );
 		writer.closeTag( "a:font" );
 		writer.openTag( "a:font" );
 		writer.attribute( "script", "Hant" );
-		writer.attribute( "typeface", "新細明體" );
+		writer.attribute( "typeface", "æ–°ç´°æ˜Žé«”" );
 		writer.closeTag( "a:font" );
 		writer.openTag( "a:font" );
 		writer.attribute( "script", "Arab" );
@@ -239,19 +239,19 @@ public class Theme extends Component
 		writer.closeTag( "a:cs" );
 		writer.openTag( "a:font" );
 		writer.attribute( "script", "Jpan" );
-		writer.attribute( "typeface", "ＭＳ Ｐゴシック" );
+		writer.attribute( "typeface", "ï¼­ï¼³ ï¼°ã‚´ã‚·ãƒƒã‚¯" );
 		writer.closeTag( "a:font" );
 		writer.openTag( "a:font" );
 		writer.attribute( "script", "Hang" );
-		writer.attribute( "typeface", "맑은 고딕" );
+		writer.attribute( "typeface", "ë§‘ì�€ ê³ ë”•" );
 		writer.closeTag( "a:font" );
 		writer.openTag( "a:font" );
 		writer.attribute( "script", "Hans" );
-		writer.attribute( "typeface", "宋体" );
+		writer.attribute( "typeface", "å®‹ä½“" );
 		writer.closeTag( "a:font" );
 		writer.openTag( "a:font" );
 		writer.attribute( "script", "Hant" );
-		writer.attribute( "typeface", "新細明體" );
+		writer.attribute( "typeface", "æ–°ç´°æ˜Žé«”" );
 		writer.closeTag( "a:font" );
 		writer.openTag( "a:font" );
 		writer.attribute( "script", "Arab" );

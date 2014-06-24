@@ -52,6 +52,7 @@ public class Presentation extends Component
 
 	private int slideMasterId = 1;
 	private int slideLayoutId = 1;
+	private int themeId = 1;
 	
 	private long globalId = 2147483648L;
 
@@ -59,7 +60,6 @@ public class Presentation extends Component
 
 	private Package pkg;
 
-	private Theme theme;
 	private HashMap<String, SlideMaster> slideMasters = new HashMap<String, SlideMaster>();
 	private List<Slide> slides = new ArrayList<Slide>( );
 	private String author, title, description, subject;
@@ -79,9 +79,6 @@ public class Presentation extends Component
 		{
 			writer = part.getCacheWriter( );
 			initialize( );
-			theme = new Theme( part );
-			//createSlideMaster( );
-			//slideMaster.referTo( theme );
 		}
 		catch ( IOException e )
 		{
@@ -96,6 +93,7 @@ public class Presentation extends Component
 
 	public SlideMaster createSlideMaster(String name, PageArea area) throws IOException
 	{
+		Theme theme = new Theme( part, this );
 		SlideMaster slideMaster = new SlideMaster( this, area );
 		slideMaster.referTo( theme );
 		slideMasters.put( name, slideMaster);
@@ -252,6 +250,10 @@ public class Presentation extends Component
 
 	public int getNextSlideMasterId() {
 		return slideMasterId++;
+	}
+	
+	public int getNextThemeId() {
+		return themeId++;
 	}
 	
 	public int getNextSlideLayoutId() {
