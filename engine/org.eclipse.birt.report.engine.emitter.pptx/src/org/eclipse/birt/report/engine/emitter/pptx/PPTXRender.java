@@ -50,15 +50,28 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 public class PPTXRender extends PageDeviceRender
 {
 
-	private OutputStream out = null;
-
-	private final String tempFileDir;
-
+	/**
+	 * option to define if export PPTX in edit mode.
+	 * 
+	 * TRUE: mapping BIRT style properties to PPTX properties, so the final
+	 * layout may be difference to PDF.
+	 * 
+	 * FALSE: the content exactly follows layout constrains, so it has same
+	 * layout with PDF.
+	 * 
+	 * the default value is TRUE.
+	 */
+	public static final String OPTION_EDIT_MODE = "org.eclipse.birt.report.emitter.PPTX.editMode";
+	
 	/** The default output PPT file name. */
 	public static final String REPORT_FILE = "Report.pptx"; //$NON-NLS-1$
 
-	private RenderOption renderOption = null;
+	private OutputStream out;
+	private final String tempFileDir;
+
+	private RenderOption renderOption;
 	private TableWriter tableWriter;
+	private boolean editMode;
 
 	public PPTXRender( IEmitterServices services ) throws EngineException
 	{
@@ -140,6 +153,8 @@ public class PPTXRender extends PageDeviceRender
 					.getDesignHandle( );
 		}
 		this.context = services.getReportContext( );
+		this.editMode = renderOption.getBooleanOption( OPTION_EDIT_MODE,
+				true);
 	}
 
 	@Override
@@ -181,45 +196,11 @@ public class PPTXRender extends PageDeviceRender
 		}
 		else if ( container instanceof TableArea )
 		{
-			if ( tableWriter == null )
-			{
-				tableWriter = new TableWriter( this );
-				tableWriter.outputTable( (TableArea) container );
-				tableWriter = null;
-			}
-			else
-			{
-				ByteArrayOutputStream out = new ByteArrayOutputStream( );
-				OOXmlWriter writer = new OOXmlWriter( );
-				writer.open( out );;
-				PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
-				PPTXRender render = new PPTXRender( this, canvas );
-				container.accept( render );
-				writer.close( );
-				// append the out to current buffer
-				try
-				{
-					this.getCanvas( ).getWriter( )
-							.print( out.toString( "utf-8" ) );
-				}
-				catch ( IOException ex )
-				{
-					logger.log( Level.WARNING, "failed to output table", ex );
-				}
-			}
+			outputTable( (TableArea) container );
 		}
 		else if ( container instanceof BlockTextArea )
 		{
-			int x = currentX + getX( container );
-			int y = currentY + getY( container );
-			int width = getWidth( container );
-			int height = getHeight( container );
-			// startContainer(container);
-			new TextWriter( this ).writeBlockText( x, y, width, height,
-					(BlockTextArea) container );
-			// new TextWriter(this).writeBlockText( currentX, currentY, width,
-			// height, (BlockTextArea) container);
-			// endContainer(container);
+			outputText( (BlockTextArea) container );
 		}
 		else
 		{
@@ -227,6 +208,55 @@ public class PPTXRender extends PageDeviceRender
 			visitChildren( container );
 			endContainer( container );
 		}
+	}
+
+	private void outputTable( TableArea table )
+	{
+		if ( !editMode )
+		{
+			visitTable( table );
+			return;
+		}
+		if ( tableWriter == null )
+		{
+			tableWriter = new TableWriter( this );
+			tableWriter.outputTable( table );
+			tableWriter = null;
+		}
+		else
+		{
+			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			OOXmlWriter writer = new OOXmlWriter( );
+			writer.open( out );;
+			PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
+			PPTXRender render = new PPTXRender( this, canvas );
+			table.accept( render );
+			writer.close( );
+			// append the out to current buffer
+			try
+			{
+				this.getCanvas( ).getWriter( ).print( out.toString( "utf-8" ) );
+			}
+			catch ( IOException ex )
+			{
+				logger.log( Level.WARNING, "failed to output table", ex );
+			}
+		}
+	}
+
+	private void outputText( BlockTextArea text )
+	{
+		if ( !editMode )
+		{
+			visitText( text );
+			return;
+		}
+		int x = currentX + getX( text );
+		int y = currentY + getY( text );
+		int width = getWidth( text );
+		int height = getHeight( text );
+		// startContainer(container);
+		new TextWriter( this ).writeBlockText( x, y, width, height, text );
 	}
 
 	@Override
