@@ -26,7 +26,7 @@ public class Theme extends Component
 	{
 		String type = ContentTypes.THEME;
 		String relationship = RelationshipTypes.THEME;
-		String uri = "theme/theme" + presentation.getNextThemeId( ) + "xml";
+		String uri = "theme/theme" + presentation.getNextThemeId( ) + ".xml";
 		initialize( parent, uri, type, relationship, false );
 		writer.startWriter( );
 		writer.openTag( "a:theme" );
