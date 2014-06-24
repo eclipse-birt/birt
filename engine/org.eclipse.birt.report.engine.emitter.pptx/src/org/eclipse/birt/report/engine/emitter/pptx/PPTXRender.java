@@ -34,7 +34,11 @@ import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.BlockContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.InlineTextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.LineArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
@@ -198,9 +202,15 @@ public class PPTXRender extends PageDeviceRender
 		{
 			outputTable( (TableArea) container );
 		}
-		else if ( container instanceof BlockTextArea )
+		else if ( TextWriter.isSingleTextControl( container ) )
 		{
-			outputText( (BlockTextArea) container );
+
+			int x = currentX + getX( container );
+			int y = currentY + getY( container );
+			int width = getWidth( container );
+			int height = getHeight( container );
+			new TextWriter( this ).writeTextBlock( x, y, width, height,
+					(ContainerArea) container );
 		}
 		else
 		{
