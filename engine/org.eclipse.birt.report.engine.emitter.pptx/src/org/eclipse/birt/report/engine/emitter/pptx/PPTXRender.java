@@ -34,11 +34,8 @@ import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
-import org.eclipse.birt.report.engine.nLayout.area.impl.BlockContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
-import org.eclipse.birt.report.engine.nLayout.area.impl.InlineTextArea;
-import org.eclipse.birt.report.engine.nLayout.area.impl.LineArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
@@ -204,13 +201,7 @@ public class PPTXRender extends PageDeviceRender
 		}
 		else if ( TextWriter.isSingleTextControl( container ) )
 		{
-
-			int x = currentX + getX( container );
-			int y = currentY + getY( container );
-			int width = getWidth( container );
-			int height = getHeight( container );
-			new TextWriter( this ).writeTextBlock( x, y, width, height,
-					(ContainerArea) container );
+			outputText( (ContainerArea) container );
 		}
 		else
 		{
@@ -254,19 +245,22 @@ public class PPTXRender extends PageDeviceRender
 		}
 	}
 
-	private void outputText( BlockTextArea text )
+	private void outputText( ContainerArea text )
 	{
-		if ( !editMode )
+		if ( editMode )
 		{
-			visitText( text );
-			return;
+			int x = currentX + getX( text );
+			int y = currentY + getY( text );
+			int width = getWidth( text );
+			int height = getHeight( text );
+			new TextWriter( this ).writeTextBlock( x, y, width, height, text );
 		}
-		int x = currentX + getX( text );
-		int y = currentY + getY( text );
-		int width = getWidth( text );
-		int height = getHeight( text );
-		// startContainer(container);
-		new TextWriter( this ).writeBlockText( x, y, width, height, text );
+		else
+		{
+			startContainer( text );
+			visitChildren( text );
+			endContainer( text );
+		}
 	}
 
 	@Override

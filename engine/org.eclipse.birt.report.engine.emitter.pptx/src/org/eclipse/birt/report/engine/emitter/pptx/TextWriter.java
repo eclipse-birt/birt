@@ -90,7 +90,7 @@ public class TextWriter
 		return true;
 	}
 
-	void writeTextBlock( int startX,int startY, int width, int height, ContainerArea container )
+	public void writeTextBlock( int startX,int startY, int width, int height, ContainerArea container )
 	{
 		parseBlockTextArea(container);
 		
