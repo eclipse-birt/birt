@@ -8,7 +8,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 public class SlideWriter
 {
 
-	private PPTXRender render;
+	private final PPTXRender render;
 
 	public SlideWriter( PPTXRender render )
 	{
@@ -19,7 +19,8 @@ public class SlideWriter
 	{
 		PPTXRender masterRender = new PPTXRender( this.render,
 				slide.getCanvas( ) );
-		
+		masterRender.setCurrentX( pageArea.getRoot( ).getX( ) );
+		masterRender.setCurrentY( pageArea.getRoot( ).getY() );
 		IContainerArea pageHeader = pageArea.getHeader( );
 		if ( pageHeader != null )
 		{
@@ -34,6 +35,8 @@ public class SlideWriter
 
 	public void writeSlide( PageArea pageArea )
 	{
+		render.setCurrentX( pageArea.getRoot( ).getX( ) );
+		render.setCurrentY( pageArea.getRoot( ).getY() );
 		pageArea.getBody( ).accept( render );
 	}
 }

@@ -67,7 +67,7 @@ public class PPTXRender extends PageDeviceRender
 	/** The default output PPT file name. */
 	public static final String REPORT_FILE = "Report.pptx"; //$NON-NLS-1$
 
-	private OutputStream out;
+	private final OutputStream out;
 	private final String tempFileDir;
 
 	private RenderOption renderOption;
@@ -328,6 +328,7 @@ public class PPTXRender extends PageDeviceRender
 		return "";
 	}
 
+	@Override
 	protected void newPage( IContainerArea area )
 	{
 		assert ( area instanceof PageArea );
@@ -341,7 +342,7 @@ public class PPTXRender extends PageDeviceRender
 			int height = PPTXUtil.convertToPointer( pageHeight );
 			Presentation presentation = ( (PPTXPageDevice) pageDevice )
 					.getPresentation( );
-			String masterPageName = getMasterPageName( (PageArea) pageArea );
+			String masterPageName = getMasterPageName( pageArea );
 			SlideMaster master = presentation.getSlideMaster( masterPageName );
 			if ( master == null )
 			{
