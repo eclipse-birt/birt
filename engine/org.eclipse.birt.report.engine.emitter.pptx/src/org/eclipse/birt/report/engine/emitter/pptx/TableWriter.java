@@ -127,10 +127,24 @@ public class TableWriter
 	{
 		numOfColumns = tablearea.getColumnCount( );
 		int columnWidth = 0;
+		int cellwidth = 0;
 		writer.openTag( "a:tblGrid" );
 		for( int i = 0; i< numOfColumns; i++)
 		{
-			columnWidth = PPTXUtil.convertToEnums(  tablearea.getCellWidth( i, i+1 ));
+			cellwidth = tablearea.getCellWidth( i, i+1 );
+			if( cellwidth <= 0 )
+			{
+				//if empty take first row, cell:
+				CellArea ca = ((RowArea) tablearea.getChild( 0 )).getCell( i );
+				if( ca != null )
+				{
+					cellwidth = ca.getWidth( );					
+				}
+			}
+			if( cellwidth > 0 )
+			{
+				columnWidth = PPTXUtil.convertToEnums( cellwidth );
+			}
 			writer.openTag( "a:gridCol" );
 			writer.attribute( "w", columnWidth );
 			writer.closeTag( "a:gridCol" );
@@ -172,7 +186,7 @@ public class TableWriter
 	{
 		writer.closeTag( "a:tr" );
 	}
-	
+
 	protected void drawCell( CellArea cell)
 	{
 
@@ -260,7 +274,6 @@ public class TableWriter
 			}
 			writer.attribute( "vMerge", 1 );
 			writer.openTag( "a:tcPr" );
-			//TODO: add emtpy cell properties:
 			canvas.writeMarginProperties(0,0,0,0);
 			writer.closeTag( "a:tcPr" );
 			writer.closeTag( "a:tc" );
@@ -287,7 +300,6 @@ public class TableWriter
 					writer.attribute( "vMerge", 1 );
 				}
 				writer.openTag( "a:tcPr" );
-				//TODO: add emtpy cell properties:
 				canvas.writeMarginProperties(0,0,0,0);
 				writer.closeTag( "a:tcPr" );
 				writer.closeTag( "a:tc" );
@@ -348,7 +360,7 @@ public class TableWriter
 
 		if ( bgimginfo != null && bgimginfo.getRepeatedMode( ) == BackgroundImageInfo.REPEAT )
 		{
-			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ), 0, 0);	
+			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ), 0, 0 );	
 		}		
 		else if ( backgroundcolor != null )
 		{
