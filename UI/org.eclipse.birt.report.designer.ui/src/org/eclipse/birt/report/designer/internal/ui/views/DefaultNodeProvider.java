@@ -690,6 +690,9 @@ public class DefaultNodeProvider implements INodeProvider
 			ElementDetailHandle slotHandle, String type, Map extendData )
 			throws Exception
 	{
+		// Delegate to the old createElement() method to keep compatibility.
+		// Sub-class who want to access 'extendData' should explicitly overwrite
+		// this method.
 		return createElement( slotHandle, type );
 	}
 
