@@ -257,7 +257,7 @@ public class PPTXRender extends PageDeviceRender
 	private void outputText( ContainerArea text )
 	{
 		if ( editMode )
-		{
+		{  
 			int x = currentX + getX( text );
 			int y = currentY + getY( text );
 			int width = getWidth( text );

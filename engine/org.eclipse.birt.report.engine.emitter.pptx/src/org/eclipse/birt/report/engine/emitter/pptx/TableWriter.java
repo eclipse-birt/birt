@@ -138,7 +138,7 @@ public class TableWriter
 				CellArea ca = ((RowArea) tablearea.getChild( 0 )).getCell( i );
 				if( ca != null )
 				{
-					cellwidth = ca.getWidth( );					
+					cellwidth = ca.getWidth( );
 				}
 			}
 			if( cellwidth > 0 )
@@ -186,7 +186,7 @@ public class TableWriter
 	{
 		writer.closeTag( "a:tr" );
 	}
-
+	
 	protected void drawCell( CellArea cell)
 	{
 
@@ -360,7 +360,7 @@ public class TableWriter
 
 		if ( bgimginfo != null && bgimginfo.getRepeatedMode( ) == BackgroundImageInfo.REPEAT )
 		{
-			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ), 0, 0 );	
+			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ), 0, 0);	
 		}		
 		else if ( backgroundcolor != null )
 		{
@@ -527,10 +527,12 @@ public class TableWriter
 		{
 			return rows;
 		}
+
 		public int getNumColumns()
 		{
 			return columns;
 		}
+		
 		public void removeARow()
 		{
 			rows--;
