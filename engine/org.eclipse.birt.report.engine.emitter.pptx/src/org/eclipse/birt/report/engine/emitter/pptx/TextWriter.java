@@ -38,6 +38,7 @@ public class TextWriter
 	private boolean needDrawLineBorder = false;
 	private boolean needDrawSquareBorder = false;
 	private BorderInfo[] borders = null;
+	private String hAlign = "l";
 
 	public TextWriter( PPTXRender render )
 	{
@@ -205,6 +206,11 @@ public class TextWriter
 	private void startTextLineArea()
 	{
 		writer.openTag( "a:p" );
+		if(!hAlign.equals("l")){
+			writer.openTag("a:pPr");
+			writer.attribute("algn", hAlign);
+			writer.closeTag( "a:pPr" );
+		}
 	}
 	
 	private void endTextLineArea( TextLineArea line)
@@ -427,6 +433,10 @@ public class TextWriter
 		String vAlign = container.getContent().getComputedStyle( ).getVerticalAlign( );
 		if(vAlign.equals( "bottom"))writer.attribute("anchor", "b");
 		else if(vAlign.equals("middle"))writer.attribute("anchor", "ctr");
+		
+		hAlign = container.getContent( ).getComputedStyle( ).getTextAlign( );
+		if(hAlign.equals("right"))hAlign = "r";
+		else if(hAlign.equals("center"))hAlign = "ctr";
 		
 		writer.closeTag( "a:bodyPr" );
 	}
