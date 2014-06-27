@@ -163,11 +163,25 @@ public class PPTXRender extends PageDeviceRender
 	@Override
 	public void visitImage( IImageArea imageArea )
 	{
+		if ( !needBufferOutput )
+		{
 		PPTXPage page = (PPTXPage) pageGraphic;
 		page.setLink( PPTUtil.getHyperlink( imageArea, services,
 				reportRunnable, context ) );
 		super.visitImage( imageArea );
 		page.setLink( null );
+		}
+		else
+		{
+			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			bufferedOuptuts.add( out );
+			OOXmlWriter writer = new OOXmlWriter( );
+			writer.open( out );
+			PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
+			PPTXRender render = new PPTXRender( this, canvas );
+			imageArea.accept( render );
+			writer.close( );
+		}
 	}
 
 	@Override
