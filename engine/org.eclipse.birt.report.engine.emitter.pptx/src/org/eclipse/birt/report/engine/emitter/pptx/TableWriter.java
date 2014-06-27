@@ -112,6 +112,13 @@ public class TableWriter
 		writer.openTag("a:graphicData");
 		writer.attribute("uri", "http://schemas.openxmlformats.org/drawingml/2006/table");
 		writer.openTag("a:tbl");
+
+		writer.openTag( "a:tblPr" );
+		writer.openTag( "a:tableStyleId" );
+		//use transparent table style:		
+		canvas.writeText("{2D5ABB26-0587-4C30-8999-92F81FD0307C}");
+		writer.closeTag( "a:tableStyleId" );
+		writer.closeTag( "a:tblPr" );
 		writeColumnsWidth(tablearea);
 	}
 
@@ -156,7 +163,12 @@ public class TableWriter
 	{
 		currentX += getX( row);
 		currentY += getY( row);
-		rowStyleStack.push( row.getParent( ).getBoxStyle( ) );
+		BoxStyle style = row.getBoxStyle( );
+		if( style == null )
+		{
+			style = row.getParent( ).getBoxStyle( );
+		}
+		rowStyleStack.push( style );
 		startRow( row ); //tags
 		Iterator<IArea> iter = row.getChildren( );
 		currentCol = 0;
@@ -360,7 +372,7 @@ public class TableWriter
 
 		if ( bgimginfo != null && bgimginfo.getRepeatedMode( ) == BackgroundImageInfo.REPEAT )
 		{
-			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ), 0, 0);	
+			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ), 0, 0 );	
 		}		
 		else if ( backgroundcolor != null )
 		{
