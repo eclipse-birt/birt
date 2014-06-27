@@ -206,7 +206,7 @@ public class TextWriter
 	private void startTextLineArea()
 	{
 		writer.openTag( "a:p" );
-		if(!hAlign.equals("l")){
+		if(hAlign != null){
 			writer.openTag("a:pPr");
 			writer.attribute("algn", hAlign);
 			writer.closeTag( "a:pPr" );
@@ -430,13 +430,25 @@ public class TextWriter
 		writer.attribute( "rIns", rightPadding );
 		writer.attribute( "bIns", bottomPadding );
 		writer.attribute( "rtlCol", "0" );
-		String vAlign = container.getContent().getComputedStyle( ).getVerticalAlign( );
-		if(vAlign.equals( "bottom"))writer.attribute("anchor", "b");
-		else if(vAlign.equals("middle"))writer.attribute("anchor", "ctr");
 		
+		String vAlign = container.getContent( ).getComputedStyle( )
+				.getVerticalAlign( );
+		if ( vAlign != null )
+		{
+			if ( vAlign.equals( "bottom" ) )
+				writer.attribute( "anchor", "b" );
+			else if ( vAlign.equals( "middle" ) )
+				writer.attribute( "anchor", "ctr" );
+		}
+
 		hAlign = container.getContent( ).getComputedStyle( ).getTextAlign( );
-		if(hAlign.equals("right"))hAlign = "r";
-		else if(hAlign.equals("center"))hAlign = "ctr";
+		if ( hAlign != null )
+		{
+			if ( hAlign.equals( "right" ) )
+				hAlign = "r";
+			else if ( hAlign.equals( "center" ) )
+				hAlign = "ctr";
+		}
 		
 		writer.closeTag( "a:bodyPr" );
 	}
