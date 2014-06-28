@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
-import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.emitter.pptx.writer.Presentation;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
@@ -676,11 +675,6 @@ public class PPTXCanvas
 
 	public void startClip( int startX, int startY, int width, int height )
 	{
-		startX = PPTXUtil.convertToEnums( startX );
-		startY = PPTXUtil.convertToEnums( startY );
-		width = PPTXUtil.convertToEnums( width );
-		height = PPTXUtil.convertToEnums( height );
-
 		if ( clipStack.isEmpty( ) )
 		{
 			clipStack.push( new ClipArea( startX, startY, width, height ) );

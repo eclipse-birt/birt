@@ -163,7 +163,7 @@ public class PPTXRender extends PageDeviceRender
 	@Override
 	public void visitImage( IImageArea imageArea )
 	{
-		if ( !needBufferOutput )
+		if ( !needBufferOutput  || !editMode )
 		{
 		PPTXPage page = (PPTXPage) pageGraphic;
 		page.setLink( PPTUtil.getHyperlink( imageArea, services,
