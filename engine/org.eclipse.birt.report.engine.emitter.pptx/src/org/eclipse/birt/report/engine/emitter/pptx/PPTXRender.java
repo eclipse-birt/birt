@@ -163,25 +163,11 @@ public class PPTXRender extends PageDeviceRender
 	@Override
 	public void visitImage( IImageArea imageArea )
 	{
-		if ( !needBufferOutput  || !editMode )
-		{
-		PPTXPage page = (PPTXPage) pageGraphic;
-		page.setLink( PPTUtil.getHyperlink( imageArea, services,
-				reportRunnable, context ) );
-		super.visitImage( imageArea );
-		page.setLink( null );
-		}
-		else
-		{
-			ByteArrayOutputStream out = new ByteArrayOutputStream( );
-			bufferedOuptuts.add( out );
-			OOXmlWriter writer = new OOXmlWriter( );
-			writer.open( out );
-			PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
-			PPTXRender render = new PPTXRender( this, canvas );
-			imageArea.accept( render );
-			writer.close( );
-		}
+			PPTXPage page = (PPTXPage) pageGraphic;
+			page.setLink( PPTUtil.getHyperlink( imageArea, services,
+					reportRunnable, context ) );
+			super.visitImage( imageArea );
+			page.setLink( null );
 	}
 
 	@Override
@@ -219,11 +205,22 @@ public class PPTXRender extends PageDeviceRender
 		{
 			outputText( (ContainerArea) container );
 		}
+		else if( needBufferOutput && editMode )
+		{//other cases inside table buffer out
+			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			bufferedOuptuts.add( out );
+			OOXmlWriter writer = new OOXmlWriter( );
+			writer.open( out );
+			PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
+			PPTXRender render = new PPTXRender( this, canvas );
+			render.visitContainer( container );
+			writer.close( );
+		}
 		else
 		{
 			startContainer( container );
 			visitChildren( container );
-			endContainer( container );
+			endContainer( container );			
 		}
 	}
 
@@ -304,6 +301,24 @@ public class PPTXRender extends PageDeviceRender
 		startContainer( text );
 		visitChildren( text );
 		endContainer( text );
+	}
+	
+	public void visitTextBuffer( BlockTextArea text )
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		bufferedOuptuts.add( out );
+		OOXmlWriter writer = new OOXmlWriter( );
+		writer.open( out );
+		PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
+		PPTXRender render = new PPTXRender( this, canvas );
+		int x = currentX + getX( text );
+		int y = currentY + getY( text );
+		int width = getWidth( text );
+		int height = getHeight( text );
+		TextWriter tw = new TextWriter( render );
+		tw.setNotFirstTextInCell();
+		tw.writeTextBlock( x, y, width, height, text );
+		writer.close( );
 	}
 
 	public PPTXPage getGraphic( )

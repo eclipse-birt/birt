@@ -10,7 +10,9 @@ import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableGroupArea;
@@ -69,6 +71,8 @@ public class TableWriter
 
 		currentX += getX( table );
 		currentY += getY( table );
+		parseTableExtraSpanRows( table );
+		
 		startTable( table );
 
 		iterateOnRows( table );
@@ -101,13 +105,52 @@ public class TableWriter
 				currentRow++;
 			}
 			else
-			{
-				// TableGroupArea
+			{// TableGroupArea:
 				iterateOnRows( (TableGroupArea) child );
 				currentRow = internalRowCount + 1;
 			}
 		}
 
+	}
+	
+	/**
+	 * precond: TableGroupArea do not have outside merging in
+	 * @param table
+	 */
+	private void parseTableExtraSpanRows( ContainerArea table )
+	{
+		int additionalrowheight = 0;
+		int additionalrowspan = 0;
+		for ( int rowidx = table.getChildrenCount( ) - 1; rowidx >= 0; rowidx-- )
+		{
+			ContainerArea child = (ContainerArea) table
+					.getChild( rowidx );
+			if ( child instanceof TableGroupArea )
+			{
+				parseTableExtraSpanRows( child );
+			}
+			else
+			{
+				RowArea row = (RowArea) child;
+				if ( row.getChildrenCount( ) == 0 )
+				{
+					additionalrowheight += row.getHeight( );
+					additionalrowspan++;
+				}
+				else if ( additionalrowspan > 0 )
+				{
+					row.setHeight( additionalrowheight + row.getHeight( ) );
+					Iterator<IArea> iter = row.getChildren( );
+					while ( iter.hasNext( ) )
+					{
+						CellArea cell = (CellArea) iter.next( );
+						cell.setRowSpan( cell.getRowSpan( ) - additionalrowspan );
+					}
+					additionalrowheight = 0;
+					additionalrowspan = 0;
+				}
+			}
+		}
 	}
 
 	private void startTable( TableArea tablearea )
@@ -185,6 +228,10 @@ public class TableWriter
 
 	protected void drawRow( RowArea row )
 	{
+		if ( row.getChildrenCount( ) == 0 )
+		{
+			return;
+		}
 		currentX += getX( row );
 		currentY += getY( row );
 		BoxStyle style = row.getBoxStyle( );
@@ -197,7 +244,6 @@ public class TableWriter
 		Iterator<IArea> iter = row.getChildren( );
 		currentCol = 0;
 
-		// verify first cell is merged:
 		fillEmptyMergeCells( 0, 0, 0 );
 		while ( iter.hasNext( ) )
 		{
@@ -357,10 +403,27 @@ public class TableWriter
 	{
 		updateRenderXY( );
 		Iterator<IArea> iter = container.getChildren( );
+		boolean notFirstTextBox = false;
 		while ( iter.hasNext( ) )
 		{
 			IArea child = iter.next( );
-			child.accept( render );
+			if ( child instanceof BlockTextArea )
+			{
+				if ( notFirstTextBox )
+				{
+					render.visitTextBuffer( (BlockTextArea) child );
+				}
+				else
+				{
+					child.accept( render );
+				}
+				notFirstTextBox = true;
+			}
+			else
+			{
+				child.accept( render );
+			}
+
 		}
 		updateRenderXY( );
 	}

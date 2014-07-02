@@ -21,18 +21,20 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
+
 import com.lowagie.text.Font;
 
 public class TextWriter
 {
 
-	private PPTXRender render;
-	private PPTXCanvas canvas;
-	private OOXmlWriter writer;
+	private final PPTXRender render;
+	private final PPTXCanvas canvas;
+	private final OOXmlWriter writer;
 	private boolean needShape = true;
 	private boolean needGroup = false;
 	private boolean needDrawLineBorder = false;
 	private boolean needDrawSquareBorder = false;
+	private boolean firstTextInCell = true;
 	private BorderInfo[] borders = null;
 	private String hAlign = "l";
 
@@ -119,7 +121,7 @@ public class TextWriter
 	
 	private void parseBlockTextArea( ContainerArea container )
 	{
-		if( container.getParent( ) instanceof CellArea)
+		if( container.getParent( ) instanceof CellArea && firstTextInCell )
 		{
 			needShape = false;
 			return;
@@ -525,5 +527,10 @@ public class TextWriter
 		writer.attribute( "rtlCol", "0" );
 
 		writer.closeTag( "a:bodyPr" );
+	}
+
+	public void setNotFirstTextInCell( )
+	{
+		firstTextInCell = false;
 	}
 }
