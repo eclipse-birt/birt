@@ -44,6 +44,7 @@ public class TableWriter
 	private int currentRow;
 	private int colspan;
 	private int rowspan;
+	private TextWriter emptytextboxwriter;
 
 	public TableWriter( PPTXRender render )
 	{
@@ -235,7 +236,7 @@ public class TableWriter
 		currentX += getX( row );
 		currentY += getY( row );
 		BoxStyle style = row.getBoxStyle( );
-		if ( style == null )
+		if ( style.getBackgroundColor( ) == null && style.getBackgroundImage( ) == null )
 		{
 			style = row.getParent( ).getBoxStyle( );
 		}
@@ -275,9 +276,18 @@ public class TableWriter
 		currentX += getX( cell );
 		currentY += getY( cell );
 		startCell( cell );
-
+		if( cell.getChildrenCount( ) == 0 )
+		{//draw emtpy textbox for size of cell to remain, use font size 8
+			if( emptytextboxwriter == null )
+			{
+				emptytextboxwriter = new TextWriter(render);
+			}
+			emptytextboxwriter.writeBlankTextBlock( 800 );
+		}
+		else
+		{
 		visitChildren( cell );
-
+		}
 		endCell( cell );
 		currentX -= getX( cell );
 		currentY -= getY( cell );
@@ -553,7 +563,6 @@ public class TableWriter
 		}
 		else
 		{ // draw if border is empty:
-			// get adjacent cell and read its leftborderinfo
 			CellArea nextcell = ( (RowArea) container.getParent( ) )
 					.getCell( currentCol + colspan );
 			if ( nextcell != null )
@@ -573,20 +582,16 @@ public class TableWriter
 		}
 		else
 		{ // draw if border is empty:
-			// get cell below this and get its topborderinfo
-			// issue not test if there is merge
 			IArea nextcontainer = container.getParent( ).getParent( )
 					.getChild( currentRow + 1 );
 			RowArea ra = null;
-			if ( nextcontainer instanceof TableGroupArea )
+			while ( nextcontainer instanceof TableGroupArea )
 			{
-				ra = (RowArea) ( (TableGroupArea) nextcontainer )
+				nextcontainer = ( (TableGroupArea) nextcontainer )
 						.getFirstChild( );
 			}
-			else
-			{
-				ra = (RowArea) nextcontainer;
-			}
+			ra = (RowArea) nextcontainer;
+
 			CellArea belowCell = null;
 			if ( ra != null )
 			{
