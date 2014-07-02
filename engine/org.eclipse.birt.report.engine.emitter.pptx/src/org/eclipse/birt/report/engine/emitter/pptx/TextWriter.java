@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
-import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -21,10 +20,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.TextLineArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
-import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
-import org.eclipse.birt.report.model.css.CSSValue;
-
 import com.lowagie.text.Font;
 
 public class TextWriter
@@ -97,6 +93,11 @@ public class TextWriter
 
 	public void writeTextBlock( int startX,int startY, int width, int height, ContainerArea container )
 	{
+		startX = PPTXUtil.convertToEnums( startX );
+		startY = PPTXUtil.convertToEnums( startY );
+		width = PPTXUtil.convertToEnums( width );
+		height = PPTXUtil.convertToEnums( height );
+
 		parseBlockTextArea(container);
 		
 		startX = PPTXUtil.convertToEnums( startX );
@@ -104,14 +105,13 @@ public class TextWriter
 		width = PPTXUtil.convertToEnums( width );
 		height = PPTXUtil.convertToEnums( height );
 
-
 		if(needGroup){
-			startGroup(startX, startY, width + 1, height);
+			startGroup(startX, startY, width, height);
 			startX = 0;
 			startY = 0;
 		}
 		drawLineBorder( container );
-		startBlockText( startX, startY, width + 1, height, container );
+		startBlockText( startX, startY, width, height, container );
 		drawBlockTextChildren( container );
 		endBlockText( container );
 		if(needGroup)endGroup();
@@ -170,7 +170,7 @@ public class TextWriter
 		writer.closeTag( "p:nvPr" );
 		writer.closeTag( "p:nvGrpSpPr" );
 		writer.openTag( "p:grpSpPr" );
-		canvas.setPosition( startX, startY, width + 1, height );
+		canvas.setPosition( startX, startY, width, height );
 		writer.closeTag( "p:grpSpPr" );
 	}
 	
@@ -280,7 +280,7 @@ public class TextWriter
 		}
 	}
 	
-	
+/*	
 	private void fillRectangleWithImage( ImagePart imageInfo, int x, int y,
 			int width, int height, int offsetX, int offsetY )
 	{
@@ -305,6 +305,7 @@ public class TextWriter
 		writer.closeTag( "a:blipFill" );
 
 	}
+	*/
 	
 	private void setTextFont( String fontName )
 	{
@@ -345,7 +346,7 @@ public class TextWriter
 			writer.closeTag( "p:nvPr" );
 			writer.closeTag( "p:nvSpPr" );
 			writer.openTag( "p:spPr" );
-			canvas.setPosition( startX, startY, width + 1, height );
+			canvas.setPosition( startX, startY, width, height );
 			writer.openTag( "a:prstGeom" );
 			writer.attribute( "prst", "rect" );
 			writer.closeTag( "a:prstGeom" );
@@ -444,7 +445,9 @@ public class TextWriter
 		hAlign = container.getContent( ).getComputedStyle( ).getTextAlign( );
 		if ( hAlign != null )
 		{
-			if ( hAlign.equals( "right" ) )
+			if(hAlign.equals("left"))
+				hAlign = "l";
+			else if ( hAlign.equals( "right" ) )
 				hAlign = "r";
 			else if ( hAlign.equals( "center" ) )
 				hAlign = "ctr";
@@ -463,5 +466,64 @@ public class TextWriter
 		else{
 			writer.closeTag( "a:txBody" );
 		}
+	}
+	
+	public void writeBlankTextBlock(int startX, int startY, int width, int height)
+	{
+		needShape = false;
+		startBlankBlockText(startX, startY, width, height);
+		writer.openTag( "a:p" );
+		writer.openTag( "a:r" );
+		//setTextProperty( "a:rPr", text.getStyle( ) );
+		writer.openTag( "a:t" );
+		canvas.writeText("");
+		writer.closeTag( "a:t" );
+		writer.closeTag( "a:r" );
+		writer.closeTag( "a:p" );
+		writer.closeTag( "p:txBody" );
+		writer.closeTag( "p:sp" );
+	}
+
+	private void startBlankBlockText( int startX, int startY, int width,
+			int height )
+	{
+		writer.openTag( "p:sp" );
+		writer.openTag( "p:nvSpPr" );
+		writer.openTag( "p:cNvPr" );
+		int shapeId = canvas.getPresentation( ).getNextShapeId( );
+		writer.attribute( "id", shapeId );
+		writer.attribute( "name", "TextBox " + shapeId );
+		writer.closeTag( "p:cNvPr" );
+		writer.openTag( "p:cNvSpPr" );
+		writer.attribute( "txBox", "1" );
+		writer.closeTag( "p:cNvSpPr" );
+		writer.openTag( "p:nvPr" );
+		writer.closeTag( "p:nvPr" );
+		writer.closeTag( "p:nvSpPr" );
+		writer.openTag( "p:spPr" );
+		canvas.setPosition( startX, startY, width, height );
+		writer.openTag( "a:prstGeom" );
+		writer.attribute( "prst", "rect" );
+		writer.closeTag( "a:prstGeom" );
+
+		writer.closeTag( "p:spPr" );
+
+		writer.openTag( "p:txBody" );
+
+		int leftPadding = 0;
+		int rightPadding = 0;
+		int topPadding = 0;
+		int bottomPadding = 0;
+
+		writer.openTag( "a:bodyPr" );
+		// writer.attribute( "wrap", "none" );
+		writer.attribute( "wrap", "square" );
+		writer.attribute( "lIns", leftPadding );
+		writer.attribute( "tIns", topPadding );
+		writer.attribute( "rIns", rightPadding );
+		writer.attribute( "bIns", bottomPadding );
+		writer.attribute( "rtlCol", "0" );
+
+		writer.closeTag( "a:bodyPr" );
 	}
 }
