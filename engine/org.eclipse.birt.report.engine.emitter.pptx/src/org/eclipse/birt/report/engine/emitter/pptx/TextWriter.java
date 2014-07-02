@@ -96,11 +96,6 @@ public class TextWriter
 	public void writeTextBlock( int startX,int startY, int width, int height, ContainerArea container )
 	{
 		parseBlockTextArea(container);
-		
-		startX = PPTXUtil.convertToEnums( startX );
-		startY = PPTXUtil.convertToEnums( startY );
-		width = PPTXUtil.convertToEnums( width );
-		height = PPTXUtil.convertToEnums( height );
 
 		if(needGroup){
 			startGroup(startX, startY, width, height);
@@ -464,34 +459,16 @@ public class TextWriter
 			writer.closeTag( "a:txBody" );
 		}
 	}
-	
-	public void writeBlankTextBlock(int startX, int startY, int width, int height, int fontSize)
+
+	public void writeBlankTextBlock( int fontSize )
 	{
 		writer.openTag( "a:txBody" );
 		writer.openTag( "a:bodyPr" );
-		writer.attribute( "wrap", "square" );
-		writer.attribute( "lIns", "0" );
-		writer.attribute( "tIns", "0" );
-		writer.attribute( "rIns", "0" );
-		writer.attribute( "bIns", "0" );
-		writer.attribute( "rtlCol", "0" );
-
 		writer.closeTag( "a:bodyPr" );
 		writer.openTag( "a:p" );
-		writer.openTag( "a:r" );
-		
-		writer.openTag( "a:rPr" ); 
-		writer.attribute( "lang", "en-US" );
-		writer.attribute( "altLang", "zh-CN" );
-		writer.attribute( "dirty", "0" );
-		writer.attribute( "smtClean", "0" );
-		writer.attribute( "sz",  fontSize );
-		writer.closeTag( "a:rPr" );
-		
-		writer.openTag( "a:t" );
-		canvas.writeText("");
-		writer.closeTag( "a:t" );
-		writer.closeTag( "a:r" );
+		writer.openTag( "a:endParaRPr" );
+		writer.attribute( "sz", fontSize );
+		writer.closeTag( "a:endParaRPr" );
 		writer.closeTag( "a:p" );
 		writer.closeTag( "a:txBody" );
 	}
