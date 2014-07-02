@@ -445,7 +445,9 @@ public class TextWriter
 		hAlign = container.getContent( ).getComputedStyle( ).getTextAlign( );
 		if ( hAlign != null )
 		{
-			if ( hAlign.equals( "right" ) )
+			if(hAlign.equals("left"))
+				hAlign = "l";
+			else if ( hAlign.equals( "right" ) )
 				hAlign = "r";
 			else if ( hAlign.equals( "center" ) )
 				hAlign = "ctr";
