@@ -95,11 +95,6 @@ public class TextWriter
 
 	public void writeTextBlock( int startX,int startY, int width, int height, ContainerArea container )
 	{
-		startX = PPTXUtil.convertToEnums( startX );
-		startY = PPTXUtil.convertToEnums( startY );
-		width = PPTXUtil.convertToEnums( width );
-		height = PPTXUtil.convertToEnums( height );
-
 		parseBlockTextArea(container);
 		
 		startX = PPTXUtil.convertToEnums( startX );
