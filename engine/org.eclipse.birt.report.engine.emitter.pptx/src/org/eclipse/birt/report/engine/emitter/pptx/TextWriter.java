@@ -470,63 +470,35 @@ public class TextWriter
 		}
 	}
 	
-	public void writeBlankTextBlock(int startX, int startY, int width, int height)
+	public void writeBlankTextBlock(int startX, int startY, int width, int height, int fontSize)
 	{
-		needShape = false;
-		startBlankBlockText(startX, startY, width, height);
+		writer.openTag( "a:txBody" );
+		writer.openTag( "a:bodyPr" );
+		writer.attribute( "wrap", "square" );
+		writer.attribute( "lIns", "0" );
+		writer.attribute( "tIns", "0" );
+		writer.attribute( "rIns", "0" );
+		writer.attribute( "bIns", "0" );
+		writer.attribute( "rtlCol", "0" );
+
+		writer.closeTag( "a:bodyPr" );
 		writer.openTag( "a:p" );
 		writer.openTag( "a:r" );
-		//setTextProperty( "a:rPr", text.getStyle( ) );
+		
+		writer.openTag( "a:rPr" ); 
+		writer.attribute( "lang", "en-US" );
+		writer.attribute( "altLang", "zh-CN" );
+		writer.attribute( "dirty", "0" );
+		writer.attribute( "smtClean", "0" );
+		writer.attribute( "sz",  fontSize );
+		writer.closeTag( "a:rPr" );
+		
 		writer.openTag( "a:t" );
 		canvas.writeText("");
 		writer.closeTag( "a:t" );
 		writer.closeTag( "a:r" );
 		writer.closeTag( "a:p" );
-		writer.closeTag( "p:txBody" );
-		writer.closeTag( "p:sp" );
-	}
-
-	private void startBlankBlockText( int startX, int startY, int width,
-			int height )
-	{
-		writer.openTag( "p:sp" );
-		writer.openTag( "p:nvSpPr" );
-		writer.openTag( "p:cNvPr" );
-		int shapeId = canvas.getPresentation( ).getNextShapeId( );
-		writer.attribute( "id", shapeId );
-		writer.attribute( "name", "TextBox " + shapeId );
-		writer.closeTag( "p:cNvPr" );
-		writer.openTag( "p:cNvSpPr" );
-		writer.attribute( "txBox", "1" );
-		writer.closeTag( "p:cNvSpPr" );
-		writer.openTag( "p:nvPr" );
-		writer.closeTag( "p:nvPr" );
-		writer.closeTag( "p:nvSpPr" );
-		writer.openTag( "p:spPr" );
-		canvas.setPosition( startX, startY, width, height );
-		writer.openTag( "a:prstGeom" );
-		writer.attribute( "prst", "rect" );
-		writer.closeTag( "a:prstGeom" );
-
-		writer.closeTag( "p:spPr" );
-
-		writer.openTag( "p:txBody" );
-
-		int leftPadding = 0;
-		int rightPadding = 0;
-		int topPadding = 0;
-		int bottomPadding = 0;
-
-		writer.openTag( "a:bodyPr" );
-		// writer.attribute( "wrap", "none" );
-		writer.attribute( "wrap", "square" );
-		writer.attribute( "lIns", leftPadding );
-		writer.attribute( "tIns", topPadding );
-		writer.attribute( "rIns", rightPadding );
-		writer.attribute( "bIns", bottomPadding );
-		writer.attribute( "rtlCol", "0" );
-
-		writer.closeTag( "a:bodyPr" );
+		writer.closeTag( "a:txBody" );
 	}
 
 	public void setNotFirstTextInCell( )
