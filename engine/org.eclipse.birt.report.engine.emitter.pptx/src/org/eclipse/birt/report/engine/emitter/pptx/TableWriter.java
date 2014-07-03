@@ -72,6 +72,7 @@ public class TableWriter
 
 		currentX += getX( table );
 		currentY += getY( table );
+		updateRenderXY( );	
 		parseTableExtraSpanRows( table );
 		
 		startTable( table );
@@ -82,13 +83,14 @@ public class TableWriter
 		{
 			// end clip...
 		}
-		updateRenderXY( );
+
 		if ( table.needClip( ) )
 		{
 			graphics.endClip( );
 		}
 		currentX -= getX( table );
 		currentY -= getY( table );
+		updateRenderXY( );		
 		endTable( );
 	}
 
@@ -107,7 +109,13 @@ public class TableWriter
 			}
 			else
 			{// TableGroupArea:
+				currentX += getX( table );
+				currentY += getY( table );
+				updateRenderXY( );				
 				iterateOnRows( (TableGroupArea) child );
+				currentX -= getX( table );
+				currentY -= getY( table );
+				updateRenderXY( );					
 				currentRow = internalRowCount + 1;
 			}
 		}
@@ -275,22 +283,24 @@ public class TableWriter
 
 		currentX += getX( cell );
 		currentY += getY( cell );
+		updateRenderXY( );
 		startCell( cell );
-		if( cell.getChildrenCount( ) == 0 )
-		{//draw emtpy textbox for size of cell to remain, use font size 8
-			if( emptytextboxwriter == null )
+		if ( cell.getChildrenCount( ) == 0 )
+		{// draw emtpy textbox for size of cell to remain, use font size 8
+			if ( emptytextboxwriter == null )
 			{
-				emptytextboxwriter = new TextWriter(render);
+				emptytextboxwriter = new TextWriter( render );
 			}
 			emptytextboxwriter.writeBlankTextBlock( 800 );
 		}
 		else
 		{
-		visitChildren( cell );
+			visitChildren( cell );
 		}
 		endCell( cell );
 		currentX -= getX( cell );
 		currentY -= getY( cell );
+		updateRenderXY( );
 	}
 
 	/**
@@ -411,7 +421,6 @@ public class TableWriter
 
 	protected void visitChildren( IContainerArea container )
 	{
-		updateRenderXY( );
 		Iterator<IArea> iter = container.getChildren( );
 		boolean notFirstTextBox = false;
 		while ( iter.hasNext( ) )
@@ -435,7 +444,6 @@ public class TableWriter
 			}
 
 		}
-		updateRenderXY( );
 	}
 
 	/**
