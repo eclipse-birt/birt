@@ -29,6 +29,7 @@ public class TableWriter
 	private static final String LEFTBORDERLINE = "a:lnL";
 	private static final String TOPBORDERLINE = "a:lnT";
 	private static final String BOTTOMBORDERLINE = "a:lnB";
+	private static final int DIAGONAL_THICKNESS_MEDIUM = 3000;
 	private int currentX;
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
@@ -442,7 +443,6 @@ public class TableWriter
 			{
 				child.accept( render );
 			}
-
 		}
 	}
 
@@ -497,54 +497,33 @@ public class TableWriter
 	protected void drawCellDiagonal( CellArea cell )
 	{
 		DiagonalInfo diagonalInfo = cell.getDiagonalInfo( );
-		if ( diagonalInfo != null )
-		{
-			int startX = currentX;
-			int startY = currentY;
+		if ( diagonalInfo != null && diagonalInfo.getDiagonalNumber( ) == 1 )
+		{// only support single line : width should be the same as borders
 
-			// the dimension of the container
-			int width = getWidth( cell );
-			int height = getHeight( cell );
-			int dw = diagonalInfo.getDiagonalWidth( );
-			int ds = diagonalInfo.getDiagonalStyle( );
-			// support double style, use solid style instead.
-			if ( ds == DiagonalInfo.BORDER_STYLE_DOUBLE )
-			{
-				ds = DiagonalInfo.BORDER_STYLE_SOLID;
-			}
-			switch ( diagonalInfo.getDiagonalNumber( ) )
-			{
-				case 2 :
-					graphics.drawLine( startX + width / 2, startY, startX
-							+ width, startY + height - dw / 2,
-							getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ), ds );
-					graphics.drawLine( startX, startY + height / 2, startX
-							+ width, startY + height - dw / 2,
-							getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ), ds );
-					break;
-				case 1 :
-					graphics.drawLine( startX, startY + dw / 2, startX + width,
-							startY + height - dw / 2, getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ), ds );
-					break;
-
-				default :
-					graphics.drawLine( startX, startY + dw / 2, startX + width,
-							startY + height - dw / 2, getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ), ds );
-					graphics.drawLine( startX + width / 2, startY + dw / 2,
-							startX + width, startY + height - dw / 2,
-							getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ), ds );
-					graphics.drawLine( startX, startY + height / 2, startX
-							+ width, startY + height - dw / 2,
-							getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ), ds );
-					break;
-			}
-
+			writer.openTag( "a:lnTlToBr" );
+			int width = PPTXUtil.convertToEnums( diagonalInfo
+					.getDiagonalWidth( ) );
+			writer.attribute( "w", width );
+			writer.attribute( "cap", "flat" );
+			writer.attribute( "algn", "ctr" );
+			canvas.setColor( diagonalInfo.getDiagonalColor( ) );
+			writer.openTag( "a:prstDash" );
+			writer.attribute( "val",
+					PPTXUtil.parseStyle( diagonalInfo.getDiagonalStyle( ) ) );
+			writer.closeTag( "a:prstDash" );
+			writer.openTag( "a:round" );
+			writer.closeTag( "a:round" );
+			writer.openTag( "a:headEnd" );
+			writer.attribute( "type", "none" );
+			writer.attribute( "w", "med" );
+			writer.attribute( "len", "med" );
+			writer.closeTag( "a:headEnd" );
+			writer.openTag( "a:tailEnd" );
+			writer.attribute( "type", "none" );
+			writer.attribute( "w", "med" );
+			writer.attribute( "len", "med" );
+			writer.closeTag( "a:tailEnd" );
+			writer.closeTag( "a:lnTlToBr" );
 		}
 	}
 
