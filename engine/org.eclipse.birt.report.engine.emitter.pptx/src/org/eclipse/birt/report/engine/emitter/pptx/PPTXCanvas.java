@@ -465,8 +465,9 @@ public class PPTXCanvas
 		writer.attribute( "prst", "rect" );
 		writer.closeTag( "a:prstGeom" );
 
-		setBackgroundImg( imageInfo.getPart( ).getRelationshipId( ), offsetX, offsetY );
-		//hardcore the repeat type
+		setBackgroundImg( imageInfo.getPart( ).getRelationshipId( ), offsetX,
+				offsetY, BackgroundImageInfo.NO_REPEAT );
+		// hardcore the repeat type
 		writer.openTag( "a:ln" );
 		writer.openTag( "a:noFill" );
 		writer.closeTag( "a:noFill" );
@@ -475,12 +476,15 @@ public class PPTXCanvas
 		writer.closeTag( "p:sp" );
 	}
 
-	public void setBackgroundImg( String relationshipid,  int offsetX, int offsetY )
+	public void setBackgroundImg( String relationshipid, int offsetX,
+			int offsetY )
 	{
-		setBackgroundImg( relationshipid, offsetX, offsetY, BackgroundImageInfo.REPEAT);
+		setBackgroundImg( relationshipid, offsetX, offsetY,
+				BackgroundImageInfo.REPEAT );
 	}
-	
-	public void setBackgroundImg( String relationshipid,  int offsetX, int offsetY, int repeatmode )
+
+	public void setBackgroundImg( String relationshipid, int offsetX,
+			int offsetY, int repeatmode )
 	{
 		if ( repeatmode < BackgroundImageInfo.NO_REPEAT
 				|| repeatmode > BackgroundImageInfo.REPEAT

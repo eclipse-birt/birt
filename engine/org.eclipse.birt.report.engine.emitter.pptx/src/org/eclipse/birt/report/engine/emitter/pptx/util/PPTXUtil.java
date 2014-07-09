@@ -50,8 +50,9 @@ public class PPTXUtil
 	public static int pixelToEmu( int pixels, int dpi )
 	{
 		if ( dpi == 0 )
-			return 0;
-
+		{//default resolution:
+			dpi = 96;
+		}
 		return pixels * (int) ( (float) 914400 / dpi );
 
 	}
