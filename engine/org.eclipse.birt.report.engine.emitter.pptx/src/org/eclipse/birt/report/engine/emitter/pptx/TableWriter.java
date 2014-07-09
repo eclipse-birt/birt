@@ -481,11 +481,30 @@ public class TableWriter
 		// String imageUrl = EmitterUtil.getBackgroundImageUrl(
 		// style,reportDesign );
 
-		if ( bgimginfo != null
-				&& bgimginfo.getRepeatedMode( ) == BackgroundImageInfo.REPEAT )
+		if ( bgimginfo != null )
 		{
+			float offsetY = 0;
+			float offsetX = 0;
+			int repeatmode = bgimginfo.getRepeatedMode( );
+
+			if ( repeatmode == BackgroundImageInfo.NO_REPEAT )
+			{
+				int imgheight = PPTXUtil.pixelToEmu( (int) bgimginfo
+						.getImageInstance( ).getHeight( ), bgimginfo
+						.getImageInstance( ).getDpiY( ) );
+				int imgwidth = PPTXUtil.pixelToEmu( (int) bgimginfo
+						.getImageInstance( ).getWidth( ), bgimginfo
+						.getImageInstance( ).getDpiX( ) );
+				int cellheight = PPTXUtil.convertToEnums( getScaledValue( cell
+						.getHeight( ) ) );
+				int cellwidth = PPTXUtil.convertToEnums( getScaledValue( cell
+						.getWidth( ) ) );
+				offsetY = PPTXUtil
+						.parsePercentageOffset( cellheight, imgheight );
+				offsetX = PPTXUtil.parsePercentageOffset( cellwidth, imgwidth );
+			}
 			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ),
-					0, 0 );
+					(int) offsetX, (int) offsetY, repeatmode );
 		}
 		else if ( backgroundcolor != null )
 		{
@@ -616,16 +635,6 @@ public class TableWriter
 	private int getX( IContainerArea area )
 	{
 		return getScaledValue( area.getX( ) );
-	}
-
-	private int getHeight( CellArea area )
-	{
-		return getScaledValue( area.getHeight( ) );
-	}
-
-	private int getWidth( CellArea area )
-	{
-		return getScaledValue( area.getWidth( ) );
 	}
 
 	protected int getScaledValue( int value )
