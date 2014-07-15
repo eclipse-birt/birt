@@ -29,7 +29,6 @@ public class TableWriter
 	private static final String LEFTBORDERLINE = "a:lnL";
 	private static final String TOPBORDERLINE = "a:lnT";
 	private static final String BOTTOMBORDERLINE = "a:lnB";
-	private static final int DIAGONAL_THICKNESS_MEDIUM = 3000;
 	private int currentX;
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
@@ -112,11 +111,12 @@ public class TableWriter
 			{// TableGroupArea:
 				currentX += getX( table );
 				currentY += getY( table );
-				updateRenderXY( );				
+				internalRowCount = currentRow;
+				updateRenderXY( );
 				iterateOnRows( (TableGroupArea) child );
 				currentX -= getX( table );
 				currentY -= getY( table );
-				updateRenderXY( );					
+				updateRenderXY( );
 				currentRow = internalRowCount + 1;
 			}
 		}
@@ -213,22 +213,17 @@ public class TableWriter
 		int columnWidth = 0;
 		int cellwidth = 0;
 		writer.openTag( "a:tblGrid" );
+		int defaultwidth = tablearea.getWidth( ) / numOfColumns;
 		for ( int i = 0; i < numOfColumns; i++ )
 		{
 			cellwidth = tablearea.getCellWidth( i, i + 1 );
 			if ( cellwidth <= 0 )
 			{
-				// if empty take first row, cell:
-				CellArea ca = ( (RowArea) tablearea.getChild( 0 ) ).getCell( i );
-				if ( ca != null )
-				{
-					cellwidth = ca.getWidth( );
-				}
+				cellwidth = defaultwidth;
 			}
-			if ( cellwidth > 0 )
-			{
-				columnWidth = PPTXUtil.convertToEnums( cellwidth );
-			}
+
+			columnWidth = PPTXUtil.convertToEnums( getScaledValue( cellwidth ) );
+
 			writer.openTag( "a:gridCol" );
 			writer.attribute( "w", columnWidth );
 			writer.closeTag( "a:gridCol" );
@@ -238,6 +233,7 @@ public class TableWriter
 
 	protected void drawRow( RowArea row )
 	{
+		row.setRowID( currentRow );
 		if ( row.getChildrenCount( ) == 0 )
 		{
 			return;
@@ -281,7 +277,6 @@ public class TableWriter
 
 	protected void drawCell( CellArea cell )
 	{
-
 		currentX += getX( cell );
 		currentY += getY( cell );
 		updateRenderXY( );
@@ -557,15 +552,14 @@ public class TableWriter
 		if ( style == null )
 			return;
 
-		BorderInfo baseborderinfo = style.getLeftBorder( );
+		BorderInfo currentborderinfo = style.getLeftBorder( );
 
-		writeSingleBorder( LEFTBORDERLINE, baseborderinfo );
+		writeSingleBorder( LEFTBORDERLINE, currentborderinfo );
 
-		BorderInfo currentborderinfo = style.getRightBorder( );
+		currentborderinfo = style.getRightBorder( );
 		if ( currentborderinfo != null )
 		{
 			writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
-			baseborderinfo = currentborderinfo;
 		}
 		else
 		{ // draw if border is empty:
@@ -579,35 +573,46 @@ public class TableWriter
 		}
 
 		writeSingleBorder( TOPBORDERLINE, style.getTopBorder( ) );
-		baseborderinfo = currentborderinfo;
 
-		currentborderinfo = style.getBottomBorder( );
-		if ( currentborderinfo != null )
+		//check below cell first for bottomline
+		currentborderinfo = null;
+		RowArea currentRowArea = (RowArea) container.getParent( );
+		ContainerArea grandparent = currentRowArea.getParent( );
+		
+		IArea nextcontainer = grandparent.getChild( currentRowArea.getRowID( ) + 1 );
+		while ( nextcontainer == null && grandparent instanceof TableGroupArea )
+		{// end of table grouparea
+			IArea currentTableGroup = grandparent;
+			grandparent = grandparent.getParent( );
+			// get next child after currenttablegroup
+			Iterator<IArea> rowiter = grandparent.getChildren( );
+			while ( rowiter.hasNext( )
+					&& !( rowiter.next( ).equals( currentTableGroup ) ) );
+			if ( rowiter.hasNext( ) )
+			{
+				nextcontainer = rowiter.next( );
+			}
+		}
+		RowArea ra = null;
+		while ( nextcontainer instanceof TableGroupArea )
+		{
+			nextcontainer = ( (TableGroupArea) nextcontainer ).getFirstChild( );
+		}
+		ra = (RowArea) nextcontainer;
+
+		CellArea belowCell = null;
+		if ( ra != null )
+		{
+			belowCell = ra.getCell( currentCol );
+			if ( belowCell != null )
+			{
+				currentborderinfo = belowCell.getBoxStyle( ).getTopBorder( );
+				writeSingleBorder( BOTTOMBORDERLINE, currentborderinfo );
+			}
+		}
+		if ( currentborderinfo == null )
 		{
 			writeSingleBorder( BOTTOMBORDERLINE, style.getBottomBorder( ) );
-		}
-		else
-		{ // draw if border is empty:
-			IArea nextcontainer = container.getParent( ).getParent( )
-					.getChild( currentRow + 1 );
-			RowArea ra = null;
-			while ( nextcontainer instanceof TableGroupArea )
-			{
-				nextcontainer = ( (TableGroupArea) nextcontainer )
-						.getFirstChild( );
-			}
-			ra = (RowArea) nextcontainer;
-
-			CellArea belowCell = null;
-			if ( ra != null )
-			{
-				belowCell = ra.getCell( currentCol );
-				if ( belowCell != null )
-				{
-					writeSingleBorder( BOTTOMBORDERLINE, belowCell
-							.getBoxStyle( ).getTopBorder( ) );
-				}
-			}
 		}
 	}
 

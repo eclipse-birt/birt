@@ -262,7 +262,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		{
 			drawCell( (CellArea) container );
 		}
-		
 		else
 		{
 			drawContainer( container );
@@ -678,7 +677,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param height
 	 *            container height
 	 */
-	public void drawBackgroundImage( BackgroundImageInfo bi, int startX,
+	private void drawBackgroundImage( BackgroundImageInfo bi, int startX,
 			int startY, int width, int height )
 	{
 		try
@@ -701,7 +700,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param container
 	 *            the containerArea whose border and background need to be drew
 	 */
-	public void drawContainer( IContainerArea container )
+	protected void drawContainer( IContainerArea container )
 	{
 		// get the style of the container
 		BoxStyle style = container.getBoxStyle( );
@@ -809,7 +808,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		return null;
 	}
 
-	public BorderInfo[] cacheBorderInfo( IContainerArea container )
+	private BorderInfo[] cacheBorderInfo( IContainerArea container )
 	{
 		// get the style of the container
 		BoxStyle style = container.getBoxStyle( );
@@ -1148,7 +1147,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param borders
 	 *            the border info
 	 */
-	public void drawBorder( BorderInfo[] borders )
+	private void drawBorder( BorderInfo[] borders )
 	{
 		if ( borders == null )
 			return;
@@ -1326,7 +1325,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 //		return getScaledValue( PropertyUtil.getDimensionValue( cssValue ) );
 //	}
 
-	public void drawTableBorder( TableArea table )
+	protected void drawTableBorder( TableArea table )
 	{
 		TableBorder tb = new TableBorder( table.getX( ), table.getY( ) );
 		traverseRows( tb, table, tb.tableX, tb.tableY );
