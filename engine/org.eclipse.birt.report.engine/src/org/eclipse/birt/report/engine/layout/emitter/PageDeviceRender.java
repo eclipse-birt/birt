@@ -808,7 +808,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		return null;
 	}
 
-	private BorderInfo[] cacheBorderInfo( IContainerArea container )
+	public BorderInfo[] cacheBorderInfo( IContainerArea container )
 	{
 		// get the style of the container
 		BoxStyle style = container.getBoxStyle( );
@@ -1147,7 +1147,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param borders
 	 *            the border info
 	 */
-	private void drawBorder( BorderInfo[] borders )
+	public void drawBorder( BorderInfo[] borders )
 	{
 		if ( borders == null )
 			return;
