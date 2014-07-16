@@ -772,7 +772,7 @@ public class FactTableAccessor
 				'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
 		};
 
-		private static char[] buffer = new char[100];
+		private static char[] buffer = new char[500];
 
 		public static String getDocumentObjectName( String factTableName, int[] subDimensionNumber )
 		{
