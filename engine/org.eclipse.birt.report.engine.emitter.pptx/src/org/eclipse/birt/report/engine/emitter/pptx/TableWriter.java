@@ -29,6 +29,7 @@ public class TableWriter
 	private static final String LEFTBORDERLINE = "a:lnL";
 	private static final String TOPBORDERLINE = "a:lnT";
 	private static final String BOTTOMBORDERLINE = "a:lnB";
+	private static final int DEFAULT_EMPTYCELL_FONTSIZE = 100;
 	private int currentX;
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
@@ -287,7 +288,7 @@ public class TableWriter
 			{
 				emptytextboxwriter = new TextWriter( render );
 			}
-			emptytextboxwriter.writeBlankTextBlock( 800 );
+			emptytextboxwriter.writeBlankTextBlock( DEFAULT_EMPTYCELL_FONTSIZE );
 		}
 		else
 		{
