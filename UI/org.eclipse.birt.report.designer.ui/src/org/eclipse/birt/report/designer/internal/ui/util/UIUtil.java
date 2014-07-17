@@ -1358,6 +1358,13 @@ public class UIUtil
 		return false;
 	}
 
+	public static boolean includeLibrary( ModuleHandle moduleHandle,
+			LibraryHandle libraryHandle ) throws DesignFileException,
+			SemanticException
+	{
+		return includeLibrary( moduleHandle, libraryHandle, false );
+	}
+	
 	/**
 	 * Includes the library into within the given module.
 	 * 
@@ -1369,13 +1376,13 @@ public class UIUtil
 	 *         failed.
 	 */
 	public static boolean includeLibrary( ModuleHandle moduleHandle,
-			LibraryHandle libraryHandle ) throws DesignFileException,
+			LibraryHandle libraryHandle, boolean isDefault ) throws DesignFileException,
 			SemanticException
 	{
 		if ( moduleHandle != libraryHandle
 				&& !moduleHandle.isInclude( libraryHandle ) )
 		{
-			return includeLibrary( moduleHandle, libraryHandle.getFileName( ) );
+			return includeLibrary( moduleHandle, libraryHandle.getFileName( ), isDefault );
 		}
 		return true;
 	}

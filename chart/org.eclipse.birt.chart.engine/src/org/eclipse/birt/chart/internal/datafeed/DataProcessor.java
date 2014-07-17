@@ -531,8 +531,6 @@ public class DataProcessor
 		// POPULATE THE BASE RUNTIME SERIES
 		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions( );
 		final SeriesDefinition sdBase = elSD.get( 0 );
-		final SortOption baseSorting = sdBase.isSetSorting( )
-				? sdBase.getSorting( ) : null;
 		final Series seBaseDesignSeries = sdBase.getDesignTimeSeries( );
 		final Series seBaseRuntimeSeries = seBaseDesignSeries.copyInstance( );
 
@@ -615,6 +613,27 @@ public class DataProcessor
 		else
 		{
 			// compute all base values.
+			SortOption baseSorting = sdBase.isSetSorting( ) ? sdBase.getSorting( )
+					: null;
+			if ( baseSorting != null )
+			{
+				// #71171 If the sorting key is different, do not sort category
+				// in chart engine, since the sorting has been applied in data
+				// engine layer.
+				Query baseQuery = sdBase.getDesignTimeSeries( )
+						.getDataDefinition( )
+						.get( 0 );
+				Query baseSortingKey = sdBase.getSortKey( );
+				if ( baseQuery != null
+						&& baseQuery.isDefined( )
+						&& baseSortingKey != null
+						&& baseSortingKey.isDefined( )
+						&& !baseQuery.getDefinition( )
+								.equals( baseSortingKey.getDefinition( ) ) )
+				{
+					baseSorting = null;
+				}
+			}
 			Object[] oa = rsw.getMergedGroupingBaseValues( iBaseColumnIndex,
 					baseSorting, true ); // Chart without axis has no category axis, keep as before.
 
@@ -747,8 +766,6 @@ public class DataProcessor
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
 		EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions( );
 		final SeriesDefinition sdBase = elSD.get( 0 );
-		final SortOption baseSorting = sdBase.isSetSorting( )
-				? sdBase.getSorting( ) : null;
 		final Series seBaseDesignSeries = sdBase.getDesignTimeSeries( );
 		final Series seBaseRuntimeSeries = seBaseDesignSeries.copyInstance( );
 
@@ -846,6 +863,27 @@ public class DataProcessor
 		else
 		{
 			// compute all base values.
+			SortOption baseSorting = sdBase.isSetSorting( ) ? sdBase.getSorting( )
+					: null;
+			if ( baseSorting != null )
+			{
+				// #71171 If the sorting key is different, do not sort category
+				// in chart engine, since the sorting has been applied in data
+				// engine layer.
+				Query baseQuery = sdBase.getDesignTimeSeries( )
+						.getDataDefinition( )
+						.get( 0 );
+				Query baseSortingKey = sdBase.getSortKey( );
+				if ( baseQuery != null
+						&& baseQuery.isDefined( )
+						&& baseSortingKey != null
+						&& baseSortingKey.isDefined( )
+						&& !baseQuery.getDefinition( )
+								.equals( baseSortingKey.getDefinition( ) ) )
+				{
+					baseSorting = null;
+				}
+			}
 			Object[] oa = rsw.getMergedGroupingBaseValues( iBaseColumnIndex,
 					baseSorting,
 					cwa.getAxes( ).get( 0 ).isCategoryAxis( )

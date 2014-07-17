@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.ooxml.constants.ContentTypes;
 import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;
 import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
 import org.eclipse.birt.report.engine.ooxml.util.OOXmlUtil;
+import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
 import com.lowagie.text.Font;
 
@@ -568,6 +569,11 @@ public class Slide extends Component
 		writer.attribute( "pitchFamily", "18" );
 		writer.attribute( "charset", "0" );
 		writer.closeTag( "a:latin" );
+		writer.openTag( "a:ea" );
+		writer.attribute( "typeface", fontName );
+		writer.attribute( "pitchFamily", "18" );
+		writer.attribute( "charset", "0" );
+		writer.closeTag( "a:ea" );
 		writer.openTag( "a:cs" );
 		writer.attribute( "typeface", fontName );
 		writer.attribute( "pitchFamily", "18" );
@@ -722,5 +728,10 @@ public class Slide extends Component
 	public void endClip( )
 	{
 		clipStack.pop( );
+	}
+	
+	public OOXmlWriter getWriter( ) 
+	{
+		return writer;
 	}
 }

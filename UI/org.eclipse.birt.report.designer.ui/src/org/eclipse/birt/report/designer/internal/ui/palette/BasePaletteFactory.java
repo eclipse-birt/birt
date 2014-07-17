@@ -18,9 +18,8 @@ import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionWizard;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.ExtendedElementToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
@@ -63,7 +62,6 @@ import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.WizardDialog;
 
 /**
  * is the base class of Palette factory. Creates default tools here.
@@ -103,7 +101,7 @@ public class BasePaletteFactory
 	{
 		PaletteGroup controlGroup = new PaletteGroup( PALETTE_GROUP_TEXT );
 
-		List entries = new ArrayList( );
+		List<ToolEntry> entries = new ArrayList<ToolEntry>( );
 
 		ToolEntry tool = new PanningSelectionToolEntry( POINTER_SELECT_LABEL,
 				TOOL_TIP_POINTER_SELECT );
@@ -135,60 +133,89 @@ public class BasePaletteFactory
 			CreateRequest request = getRequest( );
 			if ( IReportElementConstants.REPORT_ELEMENT_TABLE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
-				TableOptionWizard wizard = new TableOptionWizard( );
-				WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-						wizard );
+				TableOptionBindingDialog dialog = new TableOptionBindingDialog( UIUtil.getDefaultShell( ) );
+
 				if ( dialog.open( ) == Window.OK )
 				{
-					Object[] result = (Object[]) wizard.getResult( );
+					Object[] result = (Object[]) dialog.getResult( );
 
 					Object[] data = (Object[]) result[0];
 
 					boolean isSummaryTable = data.length > 2
 							&& data[2] != null
 							&& ( (Boolean) data[2] ).booleanValue( );
+
+					Object[] datasetInfo = (Object[]) result[1];
+
+					int columnCount = ( (Integer) data[1] ).intValue( );
+					int bindingCount = 0;
+
+					if ( datasetInfo != null
+							&& datasetInfo[1] instanceof Object[] )
+					{
+						bindingCount = ( (Object[]) datasetInfo[1] ).length;
+
+						if ( bindingCount > 0 )
+						{
+							columnCount = bindingCount;
+						}
+					}
+
 					TableHandle table = DesignElementFactory.getInstance( )
 							.newTableItem( null,
-									( (Integer) data[1] ).intValue( ),
+									columnCount,
 									1,
 									isSummaryTable ? 0
 											: ( (Integer) data[0] ).intValue( ),
 									1 );
 					InsertInLayoutUtil.setInitWidth( table );
 
-					Object[] datasetInfo = (Object[]) result[1];
-
 					if ( datasetInfo != null && datasetInfo[0] != null )
 					{
 						try
 						{
 							DataSetHandle dataSet = (DataSetHandle) datasetInfo[0];
-//							if ( dataSet != null )
-//							{
-								( (ReportItemHandle) table ).setDataSet(dataSet);
-//							}
-//							else
-//							{
-//								new LinkedDataSetAdapter( ).setLinkedDataModel( table,
-//										datasetInfo[0].toString( ) );
-//							}
+							// if ( dataSet != null )
+							// {
+							( (ReportItemHandle) table ).setDataSet( dataSet );
+							// }
+							// else
+							// {
+							// new LinkedDataSetAdapter( ).setLinkedDataModel(
+							// table,
+							// datasetInfo[0].toString( ) );
+							// }
 							DataSetColumnBindingsFormHandleProvider provider = new DataSetColumnBindingsFormHandleProvider( );
 							provider.setBindingObject( table );
 
 							if ( datasetInfo[1] instanceof Object[] )
 							{
-								provider.generateBindingColumns( (Object[]) datasetInfo[1] );
+								Object[] selectedColumns = (Object[]) datasetInfo[1];
+								provider.generateBindingColumns( selectedColumns );
 
-								dataSet = table.getDataSet( );
-								if ( dataSet != null )
+								if ( bindingCount > 0 )
 								{
-									ResultSetColumnHandle[] handles = new ResultSetColumnHandle[( (Object[]) datasetInfo[1] ).length];
-									for ( int i = 0; i < handles.length; i++ )
+									ResultSetColumnHandle[] columns = new ResultSetColumnHandle[bindingCount];
+									for ( int i = 0; i < selectedColumns.length; i++ )
 									{
-										handles[i] = (ResultSetColumnHandle) ( (Object[]) datasetInfo[1] )[i];
+										columns[i] = (ResultSetColumnHandle) selectedColumns[i];
+									}
+
+									InsertInLayoutUtil.insertToCell( dataSet,
+											table,
+											table.getHeader( ),
+											columns,
+											true );
+
+									if ( !isSummaryTable )
+									{
+										InsertInLayoutUtil.insertToCell( dataSet,
+												table,
+												table.getDetail( ),
+												columns,
+												false );
 									}
 								}
-
 							}
 						}
 						catch ( Exception e )
@@ -196,6 +223,7 @@ public class BasePaletteFactory
 							ExceptionHandler.handle( e );
 						}
 					}
+
 					if ( isSummaryTable )
 					{
 						try
@@ -509,7 +537,7 @@ public class BasePaletteFactory
 					}
 					else
 					{
-						String pluginVersion = (String) ReportPlugin.getDefault( )
+						String pluginVersion = ReportPlugin.getDefault( )
 								.getBundle( )
 								.getHeaders( )
 								.get( org.osgi.framework.Constants.BUNDLE_VERSION );

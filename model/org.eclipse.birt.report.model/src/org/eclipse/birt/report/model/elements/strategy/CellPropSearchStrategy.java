@@ -70,6 +70,15 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 		// Get property from the container of this cell. If the container
 		// has column, get property from column.
 
+		if ( "width".equals( prop.getName( ) )
+				|| "height".equals( prop.getName( ) ) )
+		{
+			// table cell shouldn't inherit size from column as:
+			// * height shouldn't be defined on column
+			// * width is not correct if column span is not equals to 1
+			return super.getPropertyRelatedToContainer( module, cell, prop );
+		}
+
 		DesignElement e = cell.getContainer( );
 		while ( e != null )
 		{

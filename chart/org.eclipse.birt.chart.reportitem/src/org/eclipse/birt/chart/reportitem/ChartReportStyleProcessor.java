@@ -1164,13 +1164,25 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			{
 				gut = GroupingUnitType.MONTHS_LITERAL;
 			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( dtLevelType ) )
+			{
+				gut = GroupingUnitType.WEEK_OF_MONTH_LITERAL;
+			}
 			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( dtLevelType ) )
 			{
-				gut = GroupingUnitType.WEEKS_LITERAL;
+				gut = GroupingUnitType.WEEK_OF_YEAR_LITERAL;
 			}
 			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( dtLevelType ) )
 			{
-				gut = GroupingUnitType.DAYS_LITERAL;
+				gut = GroupingUnitType.DAY_OF_YEAR_LITERAL;
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( dtLevelType ) )
+			{
+				gut = GroupingUnitType.DAY_OF_MONTH_LITERAL;
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( dtLevelType ) )
+			{
+				gut = GroupingUnitType.DAY_OF_WEEK_LITERAL;
 			}
 			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( dtLevelType ) )
 			{
