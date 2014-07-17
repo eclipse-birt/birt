@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -39,6 +39,7 @@ public class TextWriter
 	private BorderInfo[] borders = null;
 	private String hAlign = "l";
 	private boolean hasParagraph = false;
+	private HyperlinkDef link = null;
 
 	public TextWriter( PPTXRender render )
 	{
@@ -306,52 +307,12 @@ public class TextWriter
 		{
 			writer.attribute( "b", 1 );
 		}
-		setBackgroundColor( style.getColor( ) );
+		canvas.setBackgroundColor( style.getColor( ) );
 		setTextFont( info.getFontName( ) );
-		canvas.setHyperlink( render.getGraphic( ).getLink() );
+		canvas.setHyperlink( link );
 		writer.closeTag( tag );
 	}
-	
 
-	private void setBackgroundColor( Color color )
-	{
-		if ( color != null )
-		{
-			writer.openTag( "a:solidFill" );
-			writer.openTag( "a:srgbClr" );
-			writer.attribute( "val", EmitterUtil.getColorString( color ) );
-			writer.closeTag( "a:srgbClr" );
-			writer.closeTag( "a:solidFill" );
-		}
-	}
-	
-/*	
-	private void fillRectangleWithImage( ImagePart imageInfo, int x, int y,
-			int width, int height, int offsetX, int offsetY )
-	{
-		writer.openTag( "a:blipFill" );
-		writer.attribute( "dpi", "0" );
-		writer.attribute( "rotWithShape", "1" );
-		writer.openTag( "a:blip" );
-		writer.attribute( "r:embed", imageInfo.getPart( ).getRelationshipId( ) );
-		writer.closeTag( "a:blip" );
-
-		// To stretch
-		//writer.openTag( "a:stretch" );
-		//writer.openTag( "a:fillRect" );
-		//writer.closeTag( "a:fillRect" );
-		//writer.closeTag( "a:stretch" );
-
-		// To tile
-		writer.openTag( "a:tile" );
-		writer.attribute( "tx", offsetX );
-		writer.attribute( "ty", offsetY );
-		writer.closeTag( "a:tile" );
-		writer.closeTag( "a:blipFill" );
-
-	}
-	*/
-	
 	private void setTextFont( String fontName )
 	{
 		writer.openTag( "a:latin" );
@@ -376,7 +337,6 @@ public class TextWriter
 	{
 		if ( needShape )
 		{
-
 			writer.openTag( "p:sp" );
 			writer.openTag( "p:nvSpPr" );
 			writer.openTag( "p:cNvPr" );
@@ -401,7 +361,7 @@ public class TextWriter
 			BackgroundImageInfo image = style.getBackgroundImage( );
 			if ( color != null )
 			{
-				setBackgroundColor( color );
+				canvas.setBackgroundColor( color );
 			}
 			if(image != null){
 				canvas.setBackgroundImg( canvas.getImageRelationship( image ), 0, 0);	
@@ -459,9 +419,13 @@ public class TextWriter
 				rightPadding = width - leftPadding - PPTXUtil.convertToEnums(firstChild.getWidth( ));
 				topPadding = PPTXUtil.convertToEnums( firstChild.getY( ));
 			}
-			IArea lastChild = container.getChild( container.getChildrenCount() - 1 );
-			if(lastChild != null){
-				bottomPadding = height - PPTXUtil.convertToEnums(lastChild.getY( )) - PPTXUtil.convertToEnums(lastChild.getHeight( ));
+			IArea lastChild = container
+					.getChild( container.getChildrenCount( ) - 1 );
+			if ( lastChild != null )
+			{
+				bottomPadding = height
+						- PPTXUtil.convertToEnums( lastChild.getY( ) )
+						- PPTXUtil.convertToEnums( lastChild.getHeight( ) );
 			}
 			
 		}
@@ -477,27 +441,33 @@ public class TextWriter
 		
 		IContent content = container.getContent( );
 		String vAlign = null;
-		if(content != null)vAlign = container.getContent( ).getComputedStyle( )
-				.getVerticalAlign( );
-		if ( vAlign != null )
+		if ( content != null )
 		{
-			if ( vAlign.equals( "bottom" ) )
-				writer.attribute( "anchor", "b" );
-			else if ( vAlign.equals( "middle" ) )
-				writer.attribute( "anchor", "ctr" );
-		}
+			vAlign = content.getComputedStyle( ).getVerticalAlign( );
+			if ( vAlign != null )
+			{
+				if ( vAlign.equals( "bottom" ) )
+					writer.attribute( "anchor", "b" );
+				else if ( vAlign.equals( "middle" ) )
+					writer.attribute( "anchor", "ctr" );
+			}
 
-		if(content != null)hAlign = container.getContent( ).getComputedStyle( ).getTextAlign( );
-		if ( hAlign != null )
-		{
-			if(hAlign.equals("left"))
-				hAlign = "l";
-			else if ( hAlign.equals( "right" ) )
-				hAlign = "r";
-			else if ( hAlign.equals( "center" ) )
-				hAlign = "ctr";
-		}
-		
+			hAlign = content.getComputedStyle( ).getTextAlign( );
+
+			if ( hAlign != null )
+			{
+				if ( hAlign.equals( "left" ) )
+					hAlign = "l";
+				else if ( hAlign.equals( "right" ) )
+					hAlign = "r";
+				else if ( hAlign.equals( "center" ) )
+					hAlign = "ctr";
+				else if ( hAlign.equals( "justify" ) )
+					hAlign = "just";
+				else
+					hAlign = "l";
+			}
+		}	
 		writer.closeTag( "a:bodyPr" );
 	}
 
@@ -529,5 +499,15 @@ public class TextWriter
 	public void setNotFirstTextInCell( )
 	{
 		firstTextInCell = false;
+	}
+	
+	public void setLink( HyperlinkDef link )
+	{
+		this.link = link;
+	}
+	
+	public HyperlinkDef getLink()
+	{
+		return link;
 	}
 }

@@ -68,16 +68,13 @@ public class TableWriter
 		if ( table.needClip( ) )
 		{
 			render.startClip( table );
-
 		}
 
 		currentX += getX( table );
 		currentY += getY( table );
 		updateRenderXY( );	
 		parseTableExtraSpanRows( table );
-		
 		startTable( table );
-
 		iterateOnRows( table );
 
 		if ( table.needClip( ) )
@@ -504,7 +501,7 @@ public class TableWriter
 		}
 		else if ( backgroundcolor != null )
 		{
-			canvas.setColor( backgroundcolor );
+			canvas.setBackgroundColor( backgroundcolor );
 		}
 
 	}
@@ -521,7 +518,7 @@ public class TableWriter
 			writer.attribute( "w", width );
 			writer.attribute( "cap", "flat" );
 			writer.attribute( "algn", "ctr" );
-			canvas.setColor( diagonalInfo.getDiagonalColor( ) );
+			canvas.setBackgroundColor( diagonalInfo.getDiagonalColor( ) );
 			writer.openTag( "a:prstDash" );
 			writer.attribute( "val",
 					PPTXUtil.parseStyle( diagonalInfo.getDiagonalStyle( ) ) );
@@ -626,7 +623,7 @@ public class TableWriter
 		writer.openTag( borderSide );
 		int width = PPTXUtil.convertToEnums( borderinfo.getWidth( ) );
 		writer.attribute( "w", width );
-		canvas.setColor( borderinfo.getColor( ) );
+		canvas.setBackgroundColor( borderinfo.getColor( ) );
 		writer.openTag( "a:prstDash" );
 		writer.attribute( "val", PPTXUtil.parseStyle( borderinfo.getStyle( ) ) );
 		writer.closeTag( "a:prstDash" );

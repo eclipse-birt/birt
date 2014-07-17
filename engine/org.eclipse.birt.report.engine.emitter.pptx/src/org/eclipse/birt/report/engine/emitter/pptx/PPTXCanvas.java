@@ -359,7 +359,7 @@ public class PPTXCanvas
 			writer.openTag( "a:prstGeom" );
 			writer.attribute( "prst", "rect" );
 			writer.closeTag( "a:prstGeom" );
-			setColor( color );
+			setBackgroundColor( color );
 			writer.closeTag( "p:spPr" );
 			writer.closeTag( "p:sp" );
 		}
@@ -549,7 +549,7 @@ public class PPTXCanvas
 		{
 			writer.attribute( "b", 1 );
 		}
-		setColor( color );
+		setBackgroundColor( color );
 		setTextFont( fontName );
 		setHyperlink( link );
 		writer.closeTag( "a:rPr" );
@@ -592,7 +592,7 @@ public class PPTXCanvas
 		writer.closeTag( "a:cs" );
 	}
 
-	public void setColor( Color color )
+	public void setBackgroundColor( Color color )
 	{
 		if ( color != null )
 		{
@@ -631,7 +631,7 @@ public class PPTXCanvas
 		if(style == org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOUBLE){
 			writer.attribute( "cmpd", "dbl" );
 		}
-		setColor( color );
+		setBackgroundColor( color );
 
 		// the other line styles, e.g. 'ridge', 'outset', 'groove', 'insert'
 		// is NOT supported now and all regarded with default style, i.e, solid.
