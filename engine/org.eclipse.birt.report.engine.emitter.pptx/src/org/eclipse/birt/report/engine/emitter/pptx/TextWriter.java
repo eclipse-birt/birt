@@ -11,6 +11,7 @@ import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.BlockContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
@@ -63,7 +64,20 @@ public class TextWriter
 			if(hasNonEmptyTextArea(container))return true;
 			else return false;
 		}
-		if(container instanceof LineArea)
+		else if(container instanceof BlockContainerArea)
+		{
+			Iterator<IArea> iter = container.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				IArea area = iter.next( );
+				if ( !(area instanceof LineArea)) {
+					return false;
+				}
+			}
+			if(hasNonEmptyTextArea(container))return true;
+			else return false;
+		}
+		else if(container instanceof LineArea)
 		{
 			Iterator<IArea> iter = container.getChildren( );
 			while ( iter.hasNext( ) )
@@ -76,7 +90,7 @@ public class TextWriter
 			if(hasNonEmptyTextArea(container))return true;
 			else return false;
 		}
-		if( container instanceof InlineTextArea )
+		else if( container instanceof InlineTextArea )
 		{
 			Iterator<IArea> iter = container.getChildren( );
 			while ( iter.hasNext( ) )
@@ -91,19 +105,25 @@ public class TextWriter
 		}
 		return false;
 	}
+	
 	private static boolean hasNonEmptyTextArea(IArea container)
 	{
-		if(container instanceof TextArea){
-			if(((TextArea)container).getText( ) != null)return true;
-			else return false;
+		if ( container instanceof TextArea )
+		{
+			if ( ( (TextArea) container ).getText( ) != null )
+				return true;
+			else
+				return false;
 		}
-		
-		if(!(container instanceof IContainerArea))return false;
-		Iterator<IArea> iter = ((IContainerArea)container).getChildren( );
+
+		if ( !( container instanceof IContainerArea ) )
+			return false;
+		Iterator<IArea> iter = ( (IContainerArea) container ).getChildren( );
 		while ( iter.hasNext( ) )
 		{
 			IArea area = iter.next( );
-			if ( hasNonEmptyTextArea(area))return true;
+			if ( hasNonEmptyTextArea( area ) )
+				return true;
 		}
 		return false;
 	}
@@ -212,10 +232,13 @@ public class TextWriter
 	
 	private void drawBlockTextChildren( IArea child)
 	{
-		if(child instanceof TextArea)writeTextRun((TextArea)child);
-		else if(child instanceof TextLineArea)
+		if ( child instanceof TextArea )
 		{
-			Iterator<IArea> iter = ( (TextLineArea) child ).getChildren( );
+			writeTextRun( (TextArea) child );
+		}
+		else if ( child instanceof TextLineArea || child instanceof LineArea )
+		{
+			Iterator<IArea> iter = ( (ContainerArea) child ).getChildren( );
 			startTextLineArea( );
 			hasParagraph = true;
 			while ( iter.hasNext( ) )
@@ -223,7 +246,16 @@ public class TextWriter
 				IArea area = iter.next( );
 				drawBlockTextChildren( area );
 			}
-			endTextLineArea( ((TextArea)(((TextLineArea)child).getChild( ((TextLineArea)child).getChildrenCount( )-1 ))) );
+			
+			IArea lastchild = child;
+			do
+			{
+				lastchild = ( (ContainerArea) lastchild ).getLastChild( );
+			} while ( lastchild != null && !( lastchild instanceof TextArea ) );
+			if ( lastchild != null )
+			{
+				endTextLineArea( (TextArea) lastchild );
+			}
 			hasParagraph = false;
 		}
 		else if ( child instanceof ContainerArea )
@@ -253,26 +285,21 @@ public class TextWriter
 		writer.closeTag( "a:p" );
 	}
 	
-	private void writeTextRun( TextArea text) {
-		if(!hasParagraph)startTextLineArea();
+	private void writeTextRun( TextArea text )
+	{
+		if ( !hasParagraph )
+			startTextLineArea( );
 		writer.openTag( "a:r" );
 		setTextProperty( "a:rPr", text.getStyle( ) );
 		writer.openTag( "a:t" );
-		canvas.writeText(text.getText( ));
+		canvas.writeText( text.getText( ) );
 		writer.closeTag( "a:t" );
 		writer.closeTag( "a:r" );
-		if(!hasParagraph)endTextLineArea(text);
+		if ( !hasParagraph )
+		{
+			endTextLineArea( text );
+		}
 	}
-/*	
-	private void writeEmptyTextRun() {
-		writer.openTag( "a:r" );
-		setTextProperty( "a:rPr", text.getStyle( ) );
-		writer.openTag( "a:t" );
-		canvas.writeText( "" );
-		writer.closeTag( "a:t" );
-		writer.closeTag( "a:r" );
-	}
-	*/
 	
 	private void writeTextLineBreak( TextStyle style)
 	{

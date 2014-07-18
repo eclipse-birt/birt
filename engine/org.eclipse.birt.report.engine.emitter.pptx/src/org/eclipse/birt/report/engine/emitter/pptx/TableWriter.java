@@ -280,7 +280,7 @@ public class TableWriter
 		updateRenderXY( );
 		startCell( cell );
 		if ( cell.getChildrenCount( ) == 0 )
-		{// draw emtpy textbox for size of cell to remain, use font size 8
+		{// draw emtpy textbox for size of cell to remain, use font size 1
 			if ( emptytextboxwriter == null )
 			{
 				emptytextboxwriter = new TextWriter( render );
@@ -416,13 +416,12 @@ public class TableWriter
 	protected void visitChildren( IContainerArea container )
 	{
 		Iterator<IArea> iter = container.getChildren( );
-		boolean notFirstTextBox = false;
 		while ( iter.hasNext( ) )
 		{
 			IArea child = iter.next( );
 			if ( child instanceof BlockTextArea )
 			{
-				if ( notFirstTextBox )
+				if ( container.getChildrenCount( ) > 1 )
 				{
 					render.visitTextBuffer( (BlockTextArea) child );
 				}
@@ -430,7 +429,7 @@ public class TableWriter
 				{
 					child.accept( render );
 				}
-				notFirstTextBox = true;
+
 			}
 			else
 			{
