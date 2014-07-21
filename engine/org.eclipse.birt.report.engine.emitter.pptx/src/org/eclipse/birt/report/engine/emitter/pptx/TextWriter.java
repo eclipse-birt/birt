@@ -11,7 +11,6 @@ import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
-import org.eclipse.birt.report.engine.nLayout.area.impl.BlockContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
@@ -64,19 +63,19 @@ public class TextWriter
 			if(hasNonEmptyTextArea(container))return true;
 			else return false;
 		}
-		else if(container instanceof BlockContainerArea)
-		{
-			Iterator<IArea> iter = container.getChildren( );
-			while ( iter.hasNext( ) )
-			{
-				IArea area = iter.next( );
-				if ( !(area instanceof LineArea)) {
-					return false;
-				}
-			}
-			if(hasNonEmptyTextArea(container))return true;
-			else return false;
-		}
+//		else if(container instanceof BlockContainerArea)
+//		{
+//			Iterator<IArea> iter = container.getChildren( );
+//			while ( iter.hasNext( ) )
+//			{
+//				IArea area = iter.next( );
+//				if ( !(area instanceof LineArea)) {
+//					return false;
+//				}
+//			}
+//			if(hasNonEmptyTextArea(container))return true;
+//			else return false;
+//		}
 		else if(container instanceof LineArea)
 		{
 			Iterator<IArea> iter = container.getChildren( );
