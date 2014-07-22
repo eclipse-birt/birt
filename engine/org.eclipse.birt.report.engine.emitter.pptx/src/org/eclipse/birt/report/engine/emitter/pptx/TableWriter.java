@@ -99,7 +99,7 @@ public class TableWriter
 		Iterator<IArea> iter = table.getChildren( );
 		while ( iter.hasNext( ) )
 		{
-			IArea child = iter.next( );
+			IContainerArea child = (IContainerArea) iter.next( );
 			if ( child instanceof RowArea )
 			{
 				drawRow( (RowArea) child );
@@ -107,13 +107,13 @@ public class TableWriter
 			}
 			else
 			{// TableGroupArea:
-				currentX += getX( table );
-				currentY += getY( table );
+				currentX += getX(  child );
+				currentY += getY( child );
 				internalRowCount = currentRow;
 				updateRenderXY( );
-				iterateOnRows( (TableGroupArea) child );
-				currentX -= getX( table );
-				currentY -= getY( table );
+				iterateOnRows( child );
+				currentX -= getX( child );
+				currentY -= getY( child );
 				updateRenderXY( );
 				currentRow = internalRowCount + 1;
 			}
@@ -238,6 +238,7 @@ public class TableWriter
 		}
 		currentX += getX( row );
 		currentY += getY( row );
+		updateRenderXY();
 		BoxStyle style = row.getBoxStyle( );
 		if ( style.getBackgroundColor( ) == null && style.getBackgroundImage( ) == null )
 		{
@@ -259,6 +260,7 @@ public class TableWriter
 		rowStyleStack.pop( );
 		currentX -= getX( row );
 		currentY -= getY( row );
+		updateRenderXY();		
 	}
 
 	private void startRow( RowArea row )
