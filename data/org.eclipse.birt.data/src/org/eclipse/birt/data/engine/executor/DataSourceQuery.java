@@ -976,16 +976,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		
 		QueryContextVisitorUtil.populateEffectiveQueryText( qcv,
 				odaStatement.getEffectiveQueryText( ) );
-		Set obj = (Set) eventHandler.getAppContext( )
-				.get( "org.eclipse.birt.data.engine.internal.dataSetQueryContextVisitor" );
-		if ( obj == null )
-		{
-			obj = new HashSet( );
-			eventHandler.getAppContext( )
-					.put( "org.eclipse.birt.data.engine.internal.dataSetQueryContextVisitor",
-							obj );
-		}
-		obj.add( qcv );
 		
 		if ( queryCanceller.collectException( ) != null )
 		{
