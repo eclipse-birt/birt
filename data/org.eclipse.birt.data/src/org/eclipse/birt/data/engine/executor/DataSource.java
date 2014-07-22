@@ -234,7 +234,7 @@ class DataSource implements IDataSource
      * Find a connection available for new statements in the pool, or create
      * a new one if none available 
      */
-    private CacheConnection getAvailableConnection() throws DataException
+    public CacheConnection getAvailableConnection() throws DataException
 	{
     	Iterator it = this.getOdaConnections( true ).iterator();
     	while ( it.hasNext() )
@@ -443,11 +443,21 @@ class DataSource implements IDataSource
 
 
     // Information about an open oda connection
-	static private final class CacheConnection
+	static final class CacheConnection
 	{
 		Connection odaConn;
 		int maxStatements = Integer.MAX_VALUE; // max # of supported concurrent statements
 		int currentStatements = 0; // # of currently active statements
+		
+		public void close( ) throws DataException
+		{
+			if( odaConn != null )
+			{
+				odaConn.close();
+				odaConn = null;
+			}
+			
+		}
 	}
 	
 	static private final class ConnectionProp
