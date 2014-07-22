@@ -43,6 +43,7 @@ public class ExportDataSourceDialog extends StatusDialog
 	protected ExportDataSourceDialog( Shell parentShell, String title )
 	{
 		super( parentShell );
+		setHelpAvailable( false );
 		setTitle( title );
 	}
 

@@ -55,6 +55,7 @@ public class ProjectSelectionDialog extends SelectionStatusDialog
 	public ProjectSelectionDialog( Shell parentShell, Set projectsWithSpecifics )
 	{
 		super( parentShell );
+		setHelpAvailable( false );
 		setTitle( Messages.getString("ProjectSelectionDialog.Title") ); //$NON-NLS-1$
 		setMessage( Messages.getString("ProjectSelectionDialog.Message") ); //$NON-NLS-1$
 		fProjectsWithSpecifics = projectsWithSpecifics;
