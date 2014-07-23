@@ -63,6 +63,34 @@ public class TextWriter
 			if(hasNonEmptyTextArea(container))return true;
 			else return false;
 		}
+		else if( container instanceof InlineTextArea )
+		{
+			Iterator<IArea> iter = container.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				IArea area = iter.next( );
+				if ( !(area instanceof TextArea)) {
+					return false;
+				}
+			}
+			if(hasNonEmptyTextArea(container))return true;
+			else return false;
+		}
+		else if(container instanceof LineArea)
+		{
+			Iterator<IArea> iter = container.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				IArea area = iter.next( );
+				if ( !(area instanceof InlineTextArea)) {
+					return false;
+				}
+			}
+			if ( hasNonEmptyTextArea( container ) )
+				return true;
+			else
+				return false;
+		}		
 //		else if(container instanceof BlockContainerArea)
 //		{
 //			Iterator<IArea> iter = container.getChildren( );
@@ -76,32 +104,7 @@ public class TextWriter
 //			if(hasNonEmptyTextArea(container))return true;
 //			else return false;
 //		}
-		else if(container instanceof LineArea)
-		{
-			Iterator<IArea> iter = container.getChildren( );
-			while ( iter.hasNext( ) )
-			{
-				IArea area = iter.next( );
-				if ( !(area instanceof InlineTextArea)) {
-					return false;
-				}
-			}
-			if(hasNonEmptyTextArea(container))return true;
-			else return false;
-		}
-		else if( container instanceof InlineTextArea )
-		{
-			Iterator<IArea> iter = container.getChildren( );
-			while ( iter.hasNext( ) )
-			{
-				IArea area = iter.next( );
-				if ( !(area instanceof TextLineArea)) {
-					return false;
-				}
-			}
-			if(hasNonEmptyTextArea(container))return true;
-			else return false;
-		}
+
 		return false;
 	}
 	

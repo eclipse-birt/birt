@@ -282,12 +282,8 @@ public class TableWriter
 		updateRenderXY( );
 		startCell( cell );
 		if ( cell.getChildrenCount( ) == 0 )
-		{// draw emtpy textbox for size of cell to remain, use font size 1
-			if ( emptytextboxwriter == null )
-			{
-				emptytextboxwriter = new TextWriter( render );
-			}
-			emptytextboxwriter.writeBlankTextBlock( DEFAULT_EMPTYCELL_FONTSIZE );
+		{
+			drawEmptyTextBox( );
 		}
 		else
 		{
@@ -355,6 +351,15 @@ public class TableWriter
 		int nxtCol = currentCol + 1;
 		fillEmptyMergeCells( nxtCol, colspan, rowspan );
 		currentCol++;
+	}
+	
+	private void drawEmptyTextBox( )
+	{
+		if ( emptytextboxwriter == null )
+		{
+			emptytextboxwriter = new TextWriter( render );
+		}
+		emptytextboxwriter.writeBlankTextBlock( DEFAULT_EMPTYCELL_FONTSIZE );
 	}
 
 	private void fillEmptyMergeCells( int nxtCol, int icolspan, int irowspan )
@@ -435,6 +440,10 @@ public class TableWriter
 			}
 			else
 			{
+				if( child instanceof TableArea )
+				{
+					drawEmptyTextBox();
+				}
 				child.accept( render );
 			}
 		}
