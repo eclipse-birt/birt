@@ -88,9 +88,10 @@ public class PPTXRender extends PageDeviceRender
 		initialize( render.services );
 		this.out = render.out;
 		this.tempFileDir = render.tempFileDir;
+		this.scale = render.scale;
+		canvas.setScale( scale );		
 		this.currentX = render.currentX;
 		this.currentY = render.currentY;
-		this.scale = render.scale;
 		this.pageDevice = render.pageDevice;
 		this.pageGraphic = new PPTXPage( canvas );
 	}
@@ -392,6 +393,7 @@ public class PPTXRender extends PageDeviceRender
 			}
 			this.pageGraphic = new PPTXPage( presentation.createSlide( master,
 					width, height, pageArea ) );
+			( (PPTXPage) pageGraphic ).getCanvas( ).setScale( scale );
 		}
 		catch ( IOException e )
 		{

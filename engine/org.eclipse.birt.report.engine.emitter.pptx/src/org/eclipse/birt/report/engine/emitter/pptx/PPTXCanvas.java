@@ -53,6 +53,7 @@ public class PPTXCanvas
 	private final IPart part;
 	private final ImageManager imageManager;
 	private final OOXmlWriter writer;
+	private float scale = 1;
 
 	public PPTXCanvas( Presentation presentation, IPart part, OOXmlWriter writer )
 	{
@@ -776,5 +777,15 @@ public class PPTXCanvas
 		}
 
 		return relationshipid;
+	}
+	
+	protected int getScaledValue( float value )
+	{
+		return (int) ( value * scale );
+	}
+	
+	public void setScale( float newscale )
+	{
+		scale = newscale;
 	}
 }

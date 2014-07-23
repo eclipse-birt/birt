@@ -220,7 +220,7 @@ public class TableWriter
 				cellwidth = defaultwidth;
 			}
 
-			columnWidth = PPTXUtil.convertToEnums( getScaledValue( cellwidth ) );
+			columnWidth = PPTXUtil.convertToEnums( canvas.getScaledValue( cellwidth ) );
 
 			writer.openTag( "a:gridCol" );
 			writer.attribute( "w", columnWidth );
@@ -266,7 +266,7 @@ public class TableWriter
 	private void startRow( RowArea row )
 	{
 		writer.openTag( "a:tr" );
-		writer.attribute( "h", PPTXUtil.convertToEnums( row.getHeight( ) ) );
+		writer.attribute( "h", PPTXUtil.convertToEnums( canvas.getScaledValue( row.getHeight( )) ) );
 
 	}
 
@@ -420,15 +420,20 @@ public class TableWriter
 		}
 	}
 
-	protected void visitChildren( IContainerArea container )
+	protected void visitChildren( CellArea container )
 	{
 		Iterator<IArea> iter = container.getChildren( );
+		int childrencount = container.getChildrenCount( );
+		if ( childrencount > 1 || !(container.getFirstChild( ) instanceof BlockTextArea) )
+		{
+			drawEmptyTextBox();
+		}
 		while ( iter.hasNext( ) )
 		{
 			IArea child = iter.next( );
 			if ( child instanceof BlockTextArea )
 			{
-				if ( container.getChildrenCount( ) > 1 )
+				if ( childrencount > 1 )
 				{
 					render.visitTextBuffer( (BlockTextArea) child );
 				}
@@ -498,9 +503,9 @@ public class TableWriter
 				int imgwidth = PPTXUtil.pixelToEmu( (int) bgimginfo
 						.getImageInstance( ).getWidth( ), bgimginfo
 						.getImageInstance( ).getDpiX( ) );
-				int cellheight = PPTXUtil.convertToEnums( getScaledValue( cell
+				int cellheight = PPTXUtil.convertToEnums( canvas.getScaledValue( cell
 						.getHeight( ) ) );
-				int cellwidth = PPTXUtil.convertToEnums( getScaledValue( cell
+				int cellwidth = PPTXUtil.convertToEnums( canvas.getScaledValue( cell
 						.getWidth( ) ) );
 				offsetY = PPTXUtil
 						.parsePercentageOffset( cellheight, imgheight );
@@ -642,17 +647,12 @@ public class TableWriter
 
 	private int getY( IContainerArea area )
 	{
-		return getScaledValue( area.getY( ) );
+		return canvas.getScaledValue( area.getY( ) );
 	}
 
 	private int getX( IContainerArea area )
 	{
-		return getScaledValue( area.getX( ) );
-	}
-
-	protected int getScaledValue( int value )
-	{
-		return (int) ( value * scale );
+		return canvas.getScaledValue( area.getX( ) );
 	}
 
 	protected void updateRenderXY( )

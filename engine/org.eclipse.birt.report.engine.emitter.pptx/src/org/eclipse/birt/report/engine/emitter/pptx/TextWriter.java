@@ -15,7 +15,6 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.InlineTextArea;
-import org.eclipse.birt.report.engine.nLayout.area.impl.LineArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextLineArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
@@ -76,35 +75,6 @@ public class TextWriter
 			if(hasNonEmptyTextArea(container))return true;
 			else return false;
 		}
-		else if(container instanceof LineArea)
-		{
-			Iterator<IArea> iter = container.getChildren( );
-			while ( iter.hasNext( ) )
-			{
-				IArea area = iter.next( );
-				if ( !(area instanceof InlineTextArea)) {
-					return false;
-				}
-			}
-			if ( hasNonEmptyTextArea( container ) )
-				return true;
-			else
-				return false;
-		}		
-//		else if(container instanceof BlockContainerArea)
-//		{
-//			Iterator<IArea> iter = container.getChildren( );
-//			while ( iter.hasNext( ) )
-//			{
-//				IArea area = iter.next( );
-//				if ( !(area instanceof LineArea)) {
-//					return false;
-//				}
-//			}
-//			if(hasNonEmptyTextArea(container))return true;
-//			else return false;
-//		}
-
 		return false;
 	}
 	
@@ -238,7 +208,7 @@ public class TextWriter
 		{
 			writeTextRun( (TextArea) child );
 		}
-		else if ( child instanceof TextLineArea || child instanceof LineArea )
+		else if ( child instanceof TextLineArea || child instanceof InlineTextArea )
 		{
 			Iterator<IArea> iter = ( (ContainerArea) child ).getChildren( );
 			startTextLineArea( );
@@ -249,15 +219,8 @@ public class TextWriter
 				drawBlockTextChildren( area );
 			}
 			
-			IArea lastchild = child;
-			do
-			{
-				lastchild = ( (ContainerArea) lastchild ).getLastChild( );
-			} while ( lastchild != null && !( lastchild instanceof TextArea ) );
-			if ( lastchild != null )
-			{
-				endTextLineArea( (TextArea) lastchild );
-			}
+			IArea lastchild = ( (ContainerArea) child ).getLastChild( );
+			endTextLineArea( (TextArea) lastchild );
 			hasParagraph = false;
 		}
 		else if ( child instanceof ContainerArea )
@@ -325,7 +288,7 @@ public class TextWriter
 		{
 			writer.attribute( "u", "sng" );
 		}
-		writer.attribute( "sz", (int) ( info.getFontSize( ) * 100 ) );
+		writer.attribute( "sz",  canvas.getScaledValue( info.getFontSize( ) * 100 ) );
 		boolean isItalic = ( info.getFontStyle( ) & Font.ITALIC ) != 0;
 		boolean isBold = ( info.getFontStyle( ) & Font.BOLD ) != 0;
 		if ( isItalic )
@@ -380,7 +343,7 @@ public class TextWriter
 			writer.closeTag( "p:nvPr" );
 			writer.closeTag( "p:nvSpPr" );
 			writer.openTag( "p:spPr" );
-			canvas.setPosition( startX, startY, width, height );
+			canvas.setPosition( startX, startY, width + 1, height );
 			writer.openTag( "a:prstGeom" );
 			writer.attribute( "prst", "rect" );
 			writer.closeTag( "a:prstGeom" );
@@ -460,8 +423,7 @@ public class TextWriter
 		}
 		
 		writer.openTag( "a:bodyPr" );
-		//writer.attribute( "wrap", "none" );
-		writer.attribute( "wrap", "square" );
+		writer.attribute( "wrap", "none" );
 		writer.attribute( "lIns", leftPadding );
 		writer.attribute( "tIns", topPadding );
 		writer.attribute( "rIns", rightPadding );
