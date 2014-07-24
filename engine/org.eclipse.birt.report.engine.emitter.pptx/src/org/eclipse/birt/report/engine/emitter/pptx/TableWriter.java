@@ -424,31 +424,20 @@ public class TableWriter
 	{
 		Iterator<IArea> iter = container.getChildren( );
 		int childrencount = container.getChildrenCount( );
-		if ( childrencount > 1 || !(container.getFirstChild( ) instanceof BlockTextArea) )
+		if ( childrencount > 1
+				|| !( container.getFirstChild( ) instanceof BlockTextArea ) )
 		{
-			drawEmptyTextBox();
+			drawEmptyTextBox( );
 		}
 		while ( iter.hasNext( ) )
 		{
 			IArea child = iter.next( );
-			if ( child instanceof BlockTextArea )
+			if ( child instanceof BlockTextArea && childrencount > 1 )
 			{
-				if ( childrencount > 1 )
-				{
-					render.visitTextBuffer( (BlockTextArea) child );
-				}
-				else
-				{
-					child.accept( render );
-				}
-
+				render.visitTextBuffer( (BlockTextArea) child );
 			}
 			else
 			{
-				if( child instanceof TableArea )
-				{
-					drawEmptyTextBox();
-				}
 				child.accept( render );
 			}
 		}
