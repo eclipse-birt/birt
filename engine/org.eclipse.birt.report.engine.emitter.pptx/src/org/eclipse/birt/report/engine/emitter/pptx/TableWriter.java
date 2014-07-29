@@ -30,10 +30,10 @@ public class TableWriter
 	private static final String TOPBORDERLINE = "a:lnT";
 	private static final String BOTTOMBORDERLINE = "a:lnB";
 	private static final int DEFAULT_EMPTYCELL_FONTSIZE = 100;
+	private static final int MINIMUM_ROW_HEIGHT = 4000;
 	private int currentX;
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
-	private final float scale;
 	private final PPTXRender render;
 	private final PPTXPage graphics;
 	private final PPTXCanvas canvas;
@@ -53,7 +53,6 @@ public class TableWriter
 		this.graphics = render.getGraphic( );
 		this.canvas = render.getCanvas( );
 		this.writer = canvas.getWriter( );
-		scale = render.getScale( );
 		currentX = render.getCurrentX( );
 		currentY = render.getCurrentY( );
 	}
@@ -165,8 +164,10 @@ public class TableWriter
 	{
 		int X = PPTXUtil.convertToEnums( currentX );
 		int Y = PPTXUtil.convertToEnums( currentY );
-		int width = PPTXUtil.convertToEnums( tablearea.getWidth( ) );
-		int height = PPTXUtil.convertToEnums( tablearea.getHeight( ) );
+		int width = canvas.getScaledValue( PPTXUtil.convertToEnums( tablearea
+				.getWidth( ) ) );
+		int height = canvas.getScaledValue( PPTXUtil.convertToEnums( tablearea
+				.getHeight( ) ) );
 		writer.openTag( "p:graphicFrame" );
 		writer.openTag( "p:nvGraphicFramePr" );
 		writer.openTag( "p:cNvPr" );
@@ -266,8 +267,17 @@ public class TableWriter
 	private void startRow( RowArea row )
 	{
 		writer.openTag( "a:tr" );
-		writer.attribute( "h", PPTXUtil.convertToEnums( canvas.getScaledValue( row.getHeight( )) ) );
-
+		int height = row.getHeight( );
+		if ( height < MINIMUM_ROW_HEIGHT )
+		{//if lower than minimum height set to zero:
+			height = 0;
+		}
+		else
+		{
+			height = canvas.getScaledValue( PPTXUtil
+					.convertToEnums( height ) );
+		}
+		writer.attribute( "h", height );
 	}
 
 	private void endRow( )
@@ -625,7 +635,8 @@ public class TableWriter
 			return;
 		}
 		writer.openTag( borderSide );
-		int width = PPTXUtil.convertToEnums( borderinfo.getWidth( ) );
+		int width = canvas.getScaledValue( PPTXUtil.convertToEnums( borderinfo
+				.getWidth( ) ) );
 		writer.attribute( "w", width );
 		canvas.setBackgroundColor( borderinfo.getColor( ) );
 		writer.openTag( "a:prstDash" );

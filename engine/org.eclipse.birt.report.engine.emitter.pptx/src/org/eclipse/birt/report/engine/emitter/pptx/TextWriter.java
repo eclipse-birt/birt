@@ -404,11 +404,16 @@ public class TextWriter
 		int bottomPadding = 0;
 		
 		if(container instanceof BlockTextArea){
-			IArea firstChild = container.getChild( 0 );
+			IArea firstChild = container.getFirstChild( );
 			if( firstChild != null )
 			{
 				leftPadding = PPTXUtil.convertToEnums( firstChild.getX( ));
-				rightPadding = width - leftPadding - PPTXUtil.convertToEnums(firstChild.getWidth( ));
+				rightPadding = width - leftPadding
+						- PPTXUtil.convertToEnums( firstChild.getWidth( ) );
+				if ( rightPadding < 0 )
+				{
+					rightPadding = 0;
+				}
 				topPadding = PPTXUtil.convertToEnums( firstChild.getY( ));
 			}
 			IArea lastChild = container
@@ -418,6 +423,10 @@ public class TextWriter
 				bottomPadding = height
 						- PPTXUtil.convertToEnums( lastChild.getY( ) )
 						- PPTXUtil.convertToEnums( lastChild.getHeight( ) );
+				if( bottomPadding < 0 )
+				{
+					bottomPadding = 0;
+				}
 			}
 			
 		}
