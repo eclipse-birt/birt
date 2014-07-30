@@ -78,11 +78,6 @@ public class TableWriter
 
 		if ( table.needClip( ) )
 		{
-			// end clip...
-		}
-
-		if ( table.needClip( ) )
-		{
 			graphics.endClip( );
 		}
 		currentX -= getX( table );
@@ -267,15 +262,14 @@ public class TableWriter
 	private void startRow( RowArea row )
 	{
 		writer.openTag( "a:tr" );
-		int height = row.getHeight( );
+		int height = canvas.getScaledValue( row.getHeight( ) );
 		if ( height < MINIMUM_ROW_HEIGHT )
-		{//if lower than minimum height set to zero:
+		{// if lower than minimum height set to zero:
 			height = 0;
 		}
 		else
 		{
-			height = canvas.getScaledValue( PPTXUtil
-					.convertToEnums( height ) );
+			height = PPTXUtil.convertToEnums( height );
 		}
 		writer.attribute( "h", height );
 	}
