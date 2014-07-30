@@ -31,6 +31,7 @@ public class TableWriter
 	private static final String BOTTOMBORDERLINE = "a:lnB";
 	private static final int DEFAULT_EMPTYCELL_FONTSIZE = 100;
 	private static final int MINIMUM_ROW_HEIGHT = 4000;
+	private static final int MINIMUM_COLUMN_WIDTH = 2000;
 	private int currentX;
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
@@ -207,20 +208,21 @@ public class TableWriter
 		int columnWidth = 0;
 		int cellwidth = 0;
 		writer.openTag( "a:tblGrid" );
-		int defaultwidth = tablearea.getWidth( ) / numOfColumns;
 		for ( int i = 0; i < numOfColumns; i++ )
 		{
 			cellwidth = tablearea.getCellWidth( i, i + 1 );
-			if ( cellwidth <= 0 )
+			if ( cellwidth > 0 )
 			{
-				cellwidth = defaultwidth;
+				if ( cellwidth < MINIMUM_COLUMN_WIDTH )
+				{
+					cellwidth = MINIMUM_COLUMN_WIDTH;
+				}
+				columnWidth = canvas.getScaledValue( PPTXUtil
+						.convertToEnums( cellwidth ) );
+				writer.openTag( "a:gridCol" );
+				writer.attribute( "w", columnWidth );
+				writer.closeTag( "a:gridCol" );
 			}
-
-			columnWidth = PPTXUtil.convertToEnums( canvas.getScaledValue( cellwidth ) );
-
-			writer.openTag( "a:gridCol" );
-			writer.attribute( "w", columnWidth );
-			writer.closeTag( "a:gridCol" );
 		}
 		writer.closeTag( "a:tblGrid" );
 	}
@@ -281,6 +283,11 @@ public class TableWriter
 
 	protected void drawCell( CellArea cell )
 	{
+		if( cell.getWidth( ) == 0 )
+		{
+			currentCol++;
+			return;
+		}
 		currentX += getX( cell );
 		currentY += getY( cell );
 		updateRenderXY( );

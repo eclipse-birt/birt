@@ -65,6 +65,7 @@ public class TableArea extends RepeatableArea
 	{
 		super( table );
 		layout = table.layout;
+		layoutInfo = table.layoutInfo;
 	}
 
 	public boolean contains( RowArea row )
@@ -89,6 +90,7 @@ public class TableArea extends RepeatableArea
 		return 0;
 	}
 
+	@Override
 	protected boolean needRepeat( )
 	{
 		ITableContent table = (ITableContent) content;
@@ -99,6 +101,7 @@ public class TableArea extends RepeatableArea
 		return false;
 	}
 
+	@Override
 	public TableArea cloneArea( )
 	{
 		return new TableArea( this );
@@ -123,6 +126,7 @@ public class TableArea extends RepeatableArea
 		return false;
 	}
 
+	@Override
 	protected void buildProperties( IContent content, LayoutContext context )
 	{
 		IStyle style = content.getStyle( );
@@ -184,6 +188,7 @@ public class TableArea extends RepeatableArea
 		action = content.getHyperlinkAction( );
 	}
 
+	@Override
 	public void initialize( ) throws BirtException
 	{
 		calculateSpecifiedWidth( content );
@@ -286,6 +291,7 @@ public class TableArea extends RepeatableArea
 		return true;
 	}
 
+	@Override
 	public SplitResult split( int height, boolean force ) throws BirtException
 	{
 		SplitResult result = super.split( height, force );
@@ -338,7 +344,7 @@ public class TableArea extends RepeatableArea
 		{
 			for ( int i = 0; i < row.cells.length; i++ )
 			{
-				AbstractArea area = (AbstractArea) row.cells[i];
+				AbstractArea area = row.cells[i];
 				String style = null;
 				if ( area instanceof DummyCell )
 				{
@@ -640,6 +646,7 @@ public class TableArea extends RepeatableArea
 		}
 	}
 
+	@Override
 	public void close( ) throws BirtException
 	{
 		/*
@@ -713,6 +720,7 @@ public class TableArea extends RepeatableArea
 						.resolveFixedLayout( parentMaxWidth - marginWidth ) );
 	}
 	
+	@Override
 	protected int getDimensionValue( IContent content, DimensionType d,
 			int referenceLength )
 	{
