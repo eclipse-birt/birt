@@ -39,6 +39,7 @@ public class TextWriter
 	private String hAlign = "l";
 	private boolean hasParagraph = false;
 	private HyperlinkDef link = null;
+	private boolean needClip = false;
 
 	public TextWriter( PPTXRender render )
 	{
@@ -122,7 +123,7 @@ public class TextWriter
 	public void writeTextBlock( int startX,int startY, int width, int height, ContainerArea container )
 	{
 		parseBlockTextArea(container);
-		
+		needClip = container.needClip( );
 		startX = PPTXUtil.convertToEnums( startX );
 		startY = PPTXUtil.convertToEnums( startY );
 		width = PPTXUtil.convertToEnums( width );
@@ -432,7 +433,15 @@ public class TextWriter
 		}
 		
 		writer.openTag( "a:bodyPr" );
-		writer.attribute( "wrap", "none" );
+		if ( needClip )
+		{
+			writer.attribute( "vertOverflow", "clip" );
+			writer.attribute( "wrap", "square" );
+		}
+		else
+		{
+			writer.attribute( "wrap", "none" );
+		}
 		writer.attribute( "lIns", leftPadding );
 		writer.attribute( "tIns", topPadding );
 		writer.attribute( "rIns", rightPadding );

@@ -285,14 +285,7 @@ public class TableWriter
 		currentY += getY( cell );
 		updateRenderXY( );
 		startCell( cell );
-		if ( cell.getChildrenCount( ) == 0 )
-		{
-			drawEmptyTextBox( );
-		}
-		else
-		{
-			visitChildren( cell );
-		}
+		visitChildren( cell );
 		endCell( cell );
 		currentX -= getX( cell );
 		currentY -= getY( cell );
@@ -429,7 +422,7 @@ public class TableWriter
 		Iterator<IArea> iter = container.getChildren( );
 		int childrencount = container.getChildrenCount( );
 		if ( childrencount > 1
-				|| !( container.getFirstChild( ) instanceof BlockTextArea ) )
+				|| childrencount == 0 || !( container.getFirstChild( ) instanceof BlockTextArea ) )
 		{
 			drawEmptyTextBox( );
 		}
@@ -437,7 +430,12 @@ public class TableWriter
 		{
 			IArea child = iter.next( );
 			if ( child instanceof BlockTextArea && childrencount > 1 )
+			{// if the text is clipped
+				render.visitTextBuffer( (BlockTextArea) child );
+			}
+			else if ( needStyleORClip( child ) )
 			{
+				drawEmptyTextBox( );
 				render.visitTextBuffer( (BlockTextArea) child );
 			}
 			else
@@ -445,6 +443,36 @@ public class TableWriter
 				child.accept( render );
 			}
 		}
+	}
+
+	private boolean needStyleORClip( IArea blocktext )
+	{
+		// TODO Auto-generated method stub
+		if( !(blocktext instanceof BlockTextArea) )
+		{
+			return false;
+		}
+		BlockTextArea textarea = (BlockTextArea) blocktext;
+		if ( textarea.needClip( ) )
+		{
+			return true;
+		}
+
+		BoxStyle style = textarea.getBoxStyle( );
+
+		if ( style != null
+				&& ( style.getBackgroundColor( ) != null
+						|| style.getBackgroundImage( ) != null
+						|| style.getBottomBorder( ) != null
+						|| style.getLeftBorder( ) != null
+						|| style.getRightBorder( ) != null || style
+						.getTopBorder( ) != null ) )
+		{
+			return true;
+		}
+		//TODO: add clipping
+		
+		return false;
 	}
 
 	/**
