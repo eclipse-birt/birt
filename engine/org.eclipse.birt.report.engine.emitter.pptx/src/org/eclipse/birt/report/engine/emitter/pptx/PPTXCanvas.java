@@ -70,6 +70,7 @@ public class PPTXCanvas
 		this.part = canvas.part;
 		this.imageManager = canvas.imageManager;
 		this.writer = writer;
+		this.clipStack = canvas.clipStack;
 	}
 
 	/**
@@ -699,8 +700,8 @@ public class PPTXCanvas
 				textStyle.isLinethrough( ), link );
 	}
 
-	private final Stack<ClipArea> clipStack = new Stack<ClipArea>( );
-
+	private Stack<ClipArea> clipStack = new Stack<ClipArea>( );
+	
 	private class ClipArea
 	{
 

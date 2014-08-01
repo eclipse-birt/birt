@@ -225,6 +225,10 @@ public class PPTXRender extends PageDeviceRender
 		}
 	}
 
+	protected void endclip(){
+		pageGraphic.endClip( );
+	}
+	
 	private void outputTable( TableArea table )
 	{
 		if ( !editMode )

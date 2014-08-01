@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.engine.emitter.pptx;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
@@ -36,7 +37,6 @@ public class TableWriter
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
 	private final PPTXRender render;
-	private final PPTXPage graphics;
 	private final PPTXCanvas canvas;
 	protected OOXmlWriter writer;
 	private static int TableIndex = 1;
@@ -46,12 +46,13 @@ public class TableWriter
 	private int currentRow;
 	private int colspan;
 	private int rowspan;
+	private final ArrayList<Integer> zeroColumnList = new ArrayList<Integer>();
 	private TextWriter emptytextboxwriter;
+	private final HashMap<Integer,Integer> mapignorecolumns = new HashMap<Integer,Integer>();
 
 	public TableWriter( PPTXRender render )
 	{
 		this.render = render;
-		this.graphics = render.getGraphic( );
 		this.canvas = render.getCanvas( );
 		this.writer = canvas.getWriter( );
 		currentX = render.getCurrentX( );
@@ -72,14 +73,14 @@ public class TableWriter
 
 		currentX += getX( table );
 		currentY += getY( table );
-		updateRenderXY( );	
+		updateRenderXY( );
+		startTable( table );		
 		parseTableExtraSpanRows( table );
-		startTable( table );
 		iterateOnRows( table );
 
 		if ( table.needClip( ) )
 		{
-			graphics.endClip( );
+			render.endclip( );
 		}
 		currentX -= getX( table );
 		currentY -= getY( table );
@@ -124,6 +125,7 @@ public class TableWriter
 	{
 		int additionalrowheight = 0;
 		int additionalrowspan = 0;
+		boolean fistrowrun = true;
 		for ( int rowidx = table.getChildrenCount( ) - 1; rowidx >= 0; rowidx-- )
 		{
 			ContainerArea child = (ContainerArea) table
@@ -135,10 +137,68 @@ public class TableWriter
 			else
 			{
 				RowArea row = (RowArea) child;
-				if ( row.getChildrenCount( ) == 0 )
+				int numOfCells = row.getChildrenCount( );
+				if ( numOfCells == 0 )
 				{
 					additionalrowheight += row.getHeight( );
 					additionalrowspan++;
+				}
+				else if ( !zeroColumnList.isEmpty( ) )
+				{
+					if ( numOfColumns != numOfCells )
+					{// there is colspan, go one by one and then reduce grid if
+						// the column fall in range
+						Iterator<Integer> iterzero = zeroColumnList.iterator( );
+						Iterator<IArea> itercell = row.getChildren( );
+						int zerocolumn = iterzero.next( );
+						while ( itercell.hasNext( ) )
+						{
+							CellArea cell = (CellArea) itercell.next( );
+							int thiscolspan = cell.getColSpan( );
+							if ( thiscolspan > 1 )
+							{
+								int thiscolumn = cell.getColumnID( );
+								while ( iterzero.hasNext( )
+										&& zerocolumn < thiscolumn )
+								{
+									zerocolumn = iterzero.next( );
+								}
+								while ( zerocolumn <= ( thiscolumn
+										+ thiscolspan - 1 ) )
+								{
+									cell.setColSpan( --thiscolspan );
+									if ( fistrowrun )
+									{
+										int numOfigncol = 0;
+										Integer numofIng = mapignorecolumns
+												.get( thiscolumn );
+										if ( numofIng == null )
+										{
+											numOfigncol = 1;
+										}
+										else
+										{
+											numOfigncol = numofIng + 1;
+										}
+										mapignorecolumns.put( thiscolumn,
+												numOfigncol );
+									}
+									if ( iterzero.hasNext( ) )
+									{
+										zerocolumn = iterzero.next( );
+									}
+									else
+									{
+										break;
+									}
+								}
+								if ( zerocolumn < ( thiscolumn + thiscolspan ) )
+								{
+									break;
+								}
+							}
+						}
+					}
 				}
 				else if ( additionalrowspan > 0 )
 				{
@@ -223,6 +283,9 @@ public class TableWriter
 				writer.attribute( "w", columnWidth );
 				writer.closeTag( "a:gridCol" );
 			}
+			else{
+				zeroColumnList.add( i );
+			}
 		}
 		writer.closeTag( "a:tblGrid" );
 	}
@@ -234,6 +297,12 @@ public class TableWriter
 		{
 			return;
 		}
+		
+		if ( row.needClip( ) )
+		{
+			render.startClip( row );
+		}
+		
 		currentX += getX( row );
 		currentY += getY( row );
 		updateRenderXY();
@@ -258,7 +327,12 @@ public class TableWriter
 		rowStyleStack.pop( );
 		currentX -= getX( row );
 		currentY -= getY( row );
-		updateRenderXY();		
+		updateRenderXY();
+		
+		if ( row.needClip( ) )
+		{
+			render.endclip( );
+		}		
 	}
 
 	private void startRow( RowArea row )
@@ -288,6 +362,12 @@ public class TableWriter
 			currentCol++;
 			return;
 		}
+		
+		if ( cell.needClip( ) )
+		{
+			render.startClip( cell );
+		}
+		
 		currentX += getX( cell );
 		currentY += getY( cell );
 		updateRenderXY( );
@@ -297,6 +377,11 @@ public class TableWriter
 		currentX -= getX( cell );
 		currentY -= getY( cell );
 		updateRenderXY( );
+		
+		if ( cell.needClip( ) )
+		{
+			render.endclip( );
+		}
 	}
 
 	/**
@@ -454,7 +539,6 @@ public class TableWriter
 
 	private boolean needStyleORClip( IArea blocktext )
 	{
-		// TODO Auto-generated method stub
 		if( !(blocktext instanceof BlockTextArea) )
 		{
 			return false;
@@ -477,8 +561,7 @@ public class TableWriter
 		{
 			return true;
 		}
-		//TODO: add clipping
-		
+
 		return false;
 	}
 
@@ -593,24 +676,27 @@ public class TableWriter
 		if ( style == null )
 			return;
 
-		BorderInfo currentborderinfo = style.getLeftBorder( );
+		writeSingleBorder( LEFTBORDERLINE, style.getLeftBorder( ) );
 
-		writeSingleBorder( LEFTBORDERLINE, currentborderinfo );
-
-		currentborderinfo = style.getRightBorder( );
-		if ( currentborderinfo != null )
+		BorderInfo currentborderinfo = null;
+		int additionalcol = 0;
+		int drawcurrentcolid = container.getColumnID( );
+		Integer additionalColSpan = mapignorecolumns.get( drawcurrentcolid );
+		if( additionalColSpan != null )
 		{
+			additionalcol = additionalColSpan;
+		}
+		CellArea nextcell = ( (RowArea) container.getParent( ) )
+				.getCell( drawcurrentcolid + colspan + additionalcol);
+		if ( nextcell != null )
+		{
+			currentborderinfo = nextcell.getBoxStyle( ).getLeftBorder( );
 			writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
 		}
-		else
-		{ // draw if border is empty:
-			CellArea nextcell = ( (RowArea) container.getParent( ) )
-					.getCell( currentCol + colspan );
-			if ( nextcell != null )
-			{
-				writeSingleBorder( RIGHTBORDERLINE, nextcell.getBoxStyle( )
-						.getLeftBorder( ) );
-			}
+		
+		if( currentborderinfo == null )
+		{
+			writeSingleBorder( RIGHTBORDERLINE, style.getRightBorder( ) );
 		}
 
 		writeSingleBorder( TOPBORDERLINE, style.getTopBorder( ) );
