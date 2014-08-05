@@ -39,11 +39,33 @@ public class Formatter implements IScriptFunctionExecutor
 	/**
 	 * utilities used in the report execution.
 	 */
-	private HashMap<String, StringFormatter> stringFormatters = new HashMap<String, StringFormatter>( );
 
-	private HashMap<String, NumberFormatter> numberFormatters = new HashMap<String, NumberFormatter>( );
+	private ThreadLocal<HashMap<String, StringFormatter>> stringFormatters = new ThreadLocal<HashMap<String, StringFormatter>>( ) {
 
-	private HashMap<String, DateFormatter> dateFormatters = new HashMap<String, DateFormatter>( );
+		@Override
+		protected HashMap<String, StringFormatter> initialValue( )
+		{
+			return new HashMap<String, StringFormatter>( );
+		}
+	};
+
+	private ThreadLocal<HashMap<String, NumberFormatter>> numberFormatters = new ThreadLocal<HashMap<String, NumberFormatter>>( ) {
+
+		@Override
+		protected HashMap<String, NumberFormatter> initialValue( )
+		{
+			return new HashMap<String, NumberFormatter>( );
+		}
+	};
+
+	private ThreadLocal<HashMap<String, DateFormatter>> dateFormatters = new ThreadLocal<HashMap<String, DateFormatter>>( ) {
+
+		@Override
+		protected HashMap<String, DateFormatter> initialValue( )
+		{
+			return new HashMap<String, DateFormatter>( );
+		}
+	};
 
 	Formatter( String functionName ) throws BirtException
 	{
@@ -56,11 +78,11 @@ public class Formatter implements IScriptFunctionExecutor
 	public DateFormatter getDateFormatter( String pattern )
 	{
 		String key = pattern + ":" + locale.toString( );
-		DateFormatter fmt = dateFormatters.get( key );
+		DateFormatter fmt = dateFormatters.get( ).get( key );
 		if ( fmt == null )
 		{
 			fmt = new DateFormatter( pattern, locale, timeZone );
-			dateFormatters.put( key, fmt );
+			dateFormatters.get( ).put( key, fmt );
 		}
 		return fmt;
 	}
@@ -86,11 +108,11 @@ public class Formatter implements IScriptFunctionExecutor
 	public StringFormatter getStringFormatter( String pattern )
 	{
 		String key = pattern + ":" + locale.toString( );
-		StringFormatter fmt = stringFormatters.get( key );
+		StringFormatter fmt = stringFormatters.get( ).get( key );
 		if ( fmt == null )
 		{
 			fmt = new StringFormatter( pattern, locale );
-			stringFormatters.put( key, fmt );
+			stringFormatters.get( ).put( key, fmt );
 		}
 		return fmt;
 	}
@@ -98,11 +120,11 @@ public class Formatter implements IScriptFunctionExecutor
 	public NumberFormatter getNumberFormatter( String pattern )
 	{
 		String key = pattern + ":" + locale.toString( );
-		NumberFormatter fmt = numberFormatters.get( key );
+		NumberFormatter fmt = numberFormatters.get( ).get( key );
 		if ( fmt == null )
 		{
 			fmt = new NumberFormatter( pattern, locale );
-			numberFormatters.put( key, fmt );
+			numberFormatters.get( ).put( key, fmt );
 		}
 		return fmt;
 	}
