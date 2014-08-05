@@ -473,23 +473,27 @@ public class ArchiveUtil
 		archive( folder, null, file );
 	}
 	
-	static public void convertFolderArchive(String folder, String file)  throws IOException
+	static public void convertFolderArchive(String folder, String file )  throws IOException
 	{
-		FolderArchiveReader reader = null;
+		convertArchive(folder, file, true );
+	}
+
+	static public void convertArchive(String source, String dest, boolean isFolder )  throws IOException
+	{
+		IDocArchiveReader reader = null;
 		InputStream inputStream = null;
 		DataInputStream dataInput = null;
 		try
 		{
-			archive( folder, null, file, true );
-			String folderName = new File( folder ).getCanonicalPath( );
-			reader = new FolderArchiveReader( folderName, true );
+			archive( source, null, dest, true, isFolder );
+			String folderName = new File( source ).getCanonicalPath( );
+			reader = createArchiveReader(folderName, true, isFolder );
 			if ( reader.exists( FolderArchiveFile.METEDATA ) )
 			{
 				inputStream = reader.getInputStream( FolderArchiveFile.METEDATA );
 				dataInput = new DataInputStream( inputStream );
 				Map properties = IOUtil.readMap( dataInput );
-				IArchiveFileFactory factory = new ArchiveFileFactory( );
-				ArchiveFileV3 archive = new ArchiveFileV3( file, "rw+" );
+				ArchiveFileV3 archive = new ArchiveFileV3( dest, "rw+" );
 				if ( properties.containsKey( ArchiveFileV3.PROPERTY_DEPEND_ID ) )
 				{
 					archive.setDependId( properties.get(
@@ -521,6 +525,11 @@ public class ArchiveUtil
 		}
 		
 		
+	}
+
+	private static IDocArchiveReader createArchiveReader(String file, boolean contentEscape, boolean isFolder)
+			throws IOException {
+		return isFolder ? new FolderArchiveReader( file, contentEscape ) : new ArchiveReader(file);
 	}
 
 	/**
@@ -586,12 +595,12 @@ public class ArchiveUtil
 	 * @return Whether the compound file was created successfully.
 	 */
 	static public void archive( String folderName, IStreamSorter sorter,
-			String fileName, boolean contentEscape ) throws IOException
+			String fileName, boolean contentEscape, boolean isFolder ) throws IOException
 	{
 		// Delete existing file or folder that has the same
 		// name of the file archive.
 		folderName = new File( folderName ).getCanonicalPath( );
-		FolderArchiveReader reader = new FolderArchiveReader( folderName, contentEscape );
+		IDocArchiveReader reader = createArchiveReader( folderName, contentEscape, isFolder );
 		try
 		{
 			reader.open( );
