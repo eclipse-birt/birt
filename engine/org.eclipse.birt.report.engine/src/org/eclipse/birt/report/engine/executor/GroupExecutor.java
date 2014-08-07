@@ -91,6 +91,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 						return true;
 					}
 				}
+				else break;
 			}
 		}
 		catch ( BirtException ex )
