@@ -75,6 +75,7 @@ public class PPTXRender extends PageDeviceRender
 	private boolean needBufferOutput;
 	private final ArrayList<ByteArrayOutputStream> bufferedOuptuts = new ArrayList<ByteArrayOutputStream>();
 	private boolean editMode;
+	private boolean isRTL = false;
 
 	public PPTXRender( IEmitterServices services ) throws EngineException
 	{
@@ -89,10 +90,11 @@ public class PPTXRender extends PageDeviceRender
 		this.out = render.out;
 		this.tempFileDir = render.tempFileDir;
 		this.scale = render.scale;
-		canvas.setScale( scale );		
+		canvas.setScale( scale );
 		this.currentX = render.currentX;
 		this.currentY = render.currentY;
 		this.pageDevice = render.pageDevice;
+		this.isRTL = render.isRTL;
 		this.pageGraphic = new PPTXPage( canvas );
 	}
 
@@ -155,6 +157,7 @@ public class PPTXRender extends PageDeviceRender
 		{
 			reportDesign = (ReportDesignHandle) reportRunnable
 					.getDesignHandle( );
+			isRTL = reportDesign.isDirectionRTL( );
 		}
 		this.context = services.getReportContext( );
 		this.editMode = renderOption.getBooleanOption( OPTION_EDIT_MODE,
@@ -164,11 +167,18 @@ public class PPTXRender extends PageDeviceRender
 	@Override
 	public void visitImage( IImageArea imageArea )
 	{
-			PPTXPage page = (PPTXPage) pageGraphic;
-			page.setLink( PPTUtil.getHyperlink( imageArea, services,
-					reportRunnable, context ) );
-			super.visitImage( imageArea );
-			page.setLink( null );
+		PPTXPage page = (PPTXPage) pageGraphic;
+		page.setLink( PPTUtil.getHyperlink( imageArea, services,
+				reportRunnable, context ) );
+		String bmk = imageArea.getBookmark( );
+		if ( bmk != null )
+		{// addbookmarks
+			Presentation presentation = page.getCanvas( ).getPresentation( );
+			int currentslide = presentation.getCurrentSlideIdx( );
+			presentation.addBookmark( bmk, currentslide );
+		}
+		super.visitImage( imageArea );
+		page.setLink( null );
 	}
 
 	@Override
@@ -403,5 +413,10 @@ public class PPTXRender extends PageDeviceRender
 		{
 			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 		}
+	}
+	
+	public boolean isRTL()
+	{
+		return isRTL;
 	}
 }

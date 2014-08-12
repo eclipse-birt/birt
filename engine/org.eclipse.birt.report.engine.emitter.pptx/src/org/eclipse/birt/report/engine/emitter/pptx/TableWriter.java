@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
+import org.eclipse.birt.report.engine.emitter.pptx.writer.Presentation;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
@@ -46,6 +47,7 @@ public class TableWriter
 	private int currentRow;
 	private int colspan;
 	private int rowspan;
+	private boolean isRTL = false;
 	private final ArrayList<Integer> zeroColumnList = new ArrayList<Integer>();
 	private TextWriter emptytextboxwriter;
 	private final HashMap<Integer,Integer> mapignorecolumns = new HashMap<Integer,Integer>();
@@ -57,6 +59,7 @@ public class TableWriter
 		this.writer = canvas.getWriter( );
 		currentX = render.getCurrentX( );
 		currentY = render.getCurrentY( );
+		isRTL = render.isRTL( );
 	}
 
 	public void outputTable( TableArea table )
@@ -69,6 +72,13 @@ public class TableWriter
 		if ( table.needClip( ) )
 		{
 			render.startClip( table );
+		}
+		String bmk = table.getBookmark( );
+		if ( bmk != null )
+		{
+			Presentation presentation = canvas.getPresentation( );
+			int currentslide = presentation.getCurrentSlideIdx( );
+			presentation.addBookmark( bmk, currentslide );
 		}
 
 		currentX += getX( table );
@@ -246,6 +256,10 @@ public class TableWriter
 		writer.openTag( "a:tbl" );
 
 		writer.openTag( "a:tblPr" );
+		if ( isRTL )
+		{
+			writer.attribute( "rtl", 1 );
+		}
 		writer.openTag( "a:tableStyleId" );
 		// use transparent table style:
 		canvas.writeText( "{2D5ABB26-0587-4C30-8999-92F81FD0307C}" );
@@ -675,28 +689,43 @@ public class TableWriter
 		BoxStyle style = container.getBoxStyle( );
 		if ( style == null )
 			return;
-
-		writeSingleBorder( LEFTBORDERLINE, style.getLeftBorder( ) );
-
 		BorderInfo currentborderinfo = null;
 		int additionalcol = 0;
 		int drawcurrentcolid = container.getColumnID( );
 		Integer additionalColSpan = mapignorecolumns.get( drawcurrentcolid );
-		if( additionalColSpan != null )
+		if ( additionalColSpan != null )
 		{
 			additionalcol = additionalColSpan;
 		}
 		CellArea nextcell = ( (RowArea) container.getParent( ) )
-				.getCell( drawcurrentcolid + colspan + additionalcol);
-		if ( nextcell != null )
-		{
-			currentborderinfo = nextcell.getBoxStyle( ).getLeftBorder( );
-			writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
-		}
+				.getCell( drawcurrentcolid + colspan + additionalcol );
 		
-		if( currentborderinfo == null )
-		{
-			writeSingleBorder( RIGHTBORDERLINE, style.getRightBorder( ) );
+		if ( !isRTL )
+		{//normal flow
+			writeSingleBorder( LEFTBORDERLINE, style.getLeftBorder( ) );
+
+			if ( nextcell != null )
+			{
+				currentborderinfo = nextcell.getBoxStyle( ).getLeftBorder( );
+				writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
+			}
+			if ( currentborderinfo == null )
+			{
+				writeSingleBorder( RIGHTBORDERLINE, style.getRightBorder( ) );
+			}
+		}
+		else
+		{//RTL
+			writeSingleBorder( LEFTBORDERLINE, style.getRightBorder( ) );
+			if ( nextcell != null )
+			{
+				currentborderinfo = nextcell.getBoxStyle( ).getRightBorder( );
+				writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
+			}
+			if ( currentborderinfo == null )
+			{
+				writeSingleBorder( RIGHTBORDERLINE, style.getLeftBorder( ) );
+			}
 		}
 
 		writeSingleBorder( TOPBORDERLINE, style.getTopBorder( ) );

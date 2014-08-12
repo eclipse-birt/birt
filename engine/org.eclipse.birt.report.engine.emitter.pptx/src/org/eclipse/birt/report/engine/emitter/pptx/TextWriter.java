@@ -5,8 +5,10 @@ import java.awt.Color;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
+import org.eclipse.birt.report.engine.emitter.pptx.writer.Presentation;
 import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -36,10 +38,12 @@ public class TextWriter
 	private boolean needDrawSquareBorder = false;
 	private boolean firstTextInCell = true;
 	private BorderInfo[] borders = null;
-	private String hAlign = "l";
+	private static String DEFAULT_HALIGNMENT = "l"; 
+	private String hAlign = DEFAULT_HALIGNMENT;
 	private boolean hasParagraph = false;
 	private HyperlinkDef link = null;
 	private boolean needClip = false;
+	private String bmk_relationshipid = null;
 
 	public TextWriter( PPTXRender render )
 	{
@@ -122,6 +126,21 @@ public class TextWriter
 
 	public void writeTextBlock( int startX,int startY, int width, int height, ContainerArea container )
 	{
+		IHyperlinkAction linkact = container.getAction( );
+		if ( linkact != null )
+		{//add links
+			String bmk = linkact.getBookmark( );
+			bmk_relationshipid = canvas.getPresentation( ).getCurrentSlide( )
+					.getRelationshipBookmark( bmk );
+		}
+		String bmk = container.getBookmark( );
+		if ( bmk != null )
+		{//addbookmarks
+			Presentation presentation = canvas.getPresentation( );
+			int currentslide = presentation.getCurrentSlideIdx( );
+			presentation.addBookmark( bmk, currentslide );
+		}
+
 		parseBlockTextArea(container);
 		needClip = container.needClip( );
 		startX = PPTXUtil.convertToEnums( startX );
@@ -238,9 +257,17 @@ public class TextWriter
 	private void startTextLineArea()
 	{
 		writer.openTag( "a:p" );
-		if(hAlign != null){
-			writer.openTag("a:pPr");
-			writer.attribute("algn", hAlign);
+		if ( hAlign != null || render.isRTL( ) )
+		{
+			writer.openTag( "a:pPr" );
+			if ( hAlign != null )
+			{
+				writer.attribute( "algn", hAlign );
+			}
+			if ( render.isRTL( ) )
+			{
+				writer.attribute( "rtl", 1 );
+			}
 			writer.closeTag( "a:pPr" );
 		}
 	}
@@ -303,6 +330,7 @@ public class TextWriter
 		canvas.setBackgroundColor( style.getColor( ) );
 		setTextFont( info.getFontName( ) );
 		canvas.setHyperlink( link );
+		canvas.setBookmark( bmk_relationshipid);
 		writer.closeTag( tag );
 	}
 
@@ -478,7 +506,7 @@ public class TextWriter
 				else if ( hAlign.equals( "justify" ) )
 					hAlign = "just";
 				else
-					hAlign = "l";
+					hAlign = DEFAULT_HALIGNMENT;
 			}
 		}	
 		writer.closeTag( "a:bodyPr" );

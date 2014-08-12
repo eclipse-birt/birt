@@ -82,6 +82,10 @@ public abstract class PartContainer implements IPartContainer
 	{
 		return getHyperlinkId( url, RelationshipTypes.HYPERLINK );
 	}
+	
+	public String getBookmarkId( String bmk ){
+		return getHyperlinkId( bmk, RelationshipTypes.SLIDE );
+	}
 
 	public String getExternalImageId( String url )
 	{
@@ -185,8 +189,16 @@ public abstract class PartContainer implements IPartContainer
 					String relationshipId = OOXmlUtil.getRelationShipId( entry
 					        .getValue( ) );
 					String type = hyperlink.type;
-					writeRelationshipEntry( writer, url, relationshipId, type,
-							"External" );
+					if ( type.equals( RelationshipTypes.HYPERLINK ) )
+					{
+						writeRelationshipEntry( writer, url, relationshipId,
+								type, "External" );
+					}
+					else
+					{
+						writeRelationshipEntry( writer, url, relationshipId,
+								type );
+					}
 				}
 			}
 			writer.closeTag( "Relationships" );
@@ -285,5 +297,14 @@ public abstract class PartContainer implements IPartContainer
 			hyperlinks.clear( );
 			hyperlinks = null;
 		}
+	}
+	
+	public void updateBmk( String wrngurl, String realurl )
+	{
+		Hyperlink link = new Hyperlink(wrngurl, RelationshipTypes.SLIDE );
+		Integer relationshipid = hyperlinks.get( link );
+		hyperlinks.remove( link );
+		link = new Hyperlink(realurl, RelationshipTypes.SLIDE );
+		hyperlinks.put( link, relationshipid );
 	}
 }
