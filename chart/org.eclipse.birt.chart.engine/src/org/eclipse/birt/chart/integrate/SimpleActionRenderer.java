@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
@@ -36,7 +37,9 @@ public class SimpleActionRenderer extends ActionRendererAdapter
 		this.evaluator = evaluator;
 	}
 
-	public void processAction( Action action, StructureSource source )
+	@Override
+	public void processAction(Action action, StructureSource source,
+			RunTimeContext rtc)
 	{
 		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
 		{
