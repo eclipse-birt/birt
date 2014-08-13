@@ -21,16 +21,17 @@ import org.eclipse.birt.chart.model.data.Action;
 public class ActionRendererAdapter implements IActionRenderer
 {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.render.IActionRenderer#processAction(org.eclipse.birt.chart.model.data.Action,
-	 *      org.eclipse.birt.chart.event.StructureSource)
-	 */
+	@Override
 	public void processAction( Action action, StructureSource source,
 			RunTimeContext rtc )
 	{
-		// Doing nothing.
+		// To override.
+	}
+
+	@Override
+	public void processAction( Action action, StructureSource source ) 
+	{
+		this.processAction( action, source, new RunTimeContext( ) );
 	}
 
 }
