@@ -301,10 +301,13 @@ public abstract class PartContainer implements IPartContainer
 	
 	public void updateBmk( String wrngurl, String realurl )
 	{
-		Hyperlink link = new Hyperlink(wrngurl, RelationshipTypes.SLIDE );
-		Integer relationshipid = hyperlinks.get( link );
-		hyperlinks.remove( link );
-		link = new Hyperlink(realurl, RelationshipTypes.SLIDE );
-		hyperlinks.put( link, relationshipid );
+		if ( realurl != null )
+		{//set default or leave it dummy link
+			Hyperlink link = new Hyperlink( wrngurl, RelationshipTypes.SLIDE );
+			Integer relationshipid = hyperlinks.get( link );
+			hyperlinks.remove( link );
+			link = new Hyperlink( realurl, RelationshipTypes.SLIDE );
+			hyperlinks.put( link, relationshipid );
+		}
 	}
 }

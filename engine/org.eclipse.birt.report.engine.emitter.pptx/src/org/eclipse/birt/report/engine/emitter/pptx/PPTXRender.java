@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ImageBlockContainer;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
@@ -170,13 +171,7 @@ public class PPTXRender extends PageDeviceRender
 		PPTXPage page = (PPTXPage) pageGraphic;
 		page.setLink( PPTUtil.getHyperlink( imageArea, services,
 				reportRunnable, context ) );
-		String bmk = imageArea.getBookmark( );
-		if ( bmk != null )
-		{// addbookmarks
-			Presentation presentation = page.getCanvas( ).getPresentation( );
-			int currentslide = presentation.getCurrentSlideIdx( );
-			presentation.addBookmark( bmk, currentslide );
-		}
+
 		super.visitImage( imageArea );
 		page.setLink( null );
 	}
@@ -229,6 +224,18 @@ public class PPTXRender extends PageDeviceRender
 		}
 		else
 		{
+			if ( container instanceof ImageBlockContainer )
+			{
+				// String bmk = imageArea.getBookmark( );
+				String bmk = container.getBookmark( );
+				if ( bmk != null )
+				{// addbookmarks
+					Presentation presentation = ( (PPTXPage) pageGraphic )
+							.getCanvas( ).getPresentation( );
+					int currentslide = presentation.getCurrentSlideIdx( );
+					presentation.addBookmark( bmk, currentslide );
+				}
+			}
 			startContainer( container );
 			visitChildren( container );
 			endContainer( container );			

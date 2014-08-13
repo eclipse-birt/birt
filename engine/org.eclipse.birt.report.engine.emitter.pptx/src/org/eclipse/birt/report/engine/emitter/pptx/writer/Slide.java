@@ -11,7 +11,6 @@
 package org.eclipse.birt.report.engine.emitter.pptx.writer;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.emitter.pptx.PPTXCanvas;
 import org.eclipse.birt.report.engine.ooxml.constants.ContentTypes;
@@ -27,9 +26,6 @@ public class Slide extends Component
 
 	private Presentation presentation;
 	private boolean isClosed = false;
-	private HashMap<String, String> bookmarkRelationlist;
-	private HashMap<String, String> disconnectbmklist;
-	private int disbmk = 0;
 
 	public Slide( Presentation presentation, int slideIndex, SlideLayout slideLayout )
 			throws IOException
@@ -103,42 +99,6 @@ public class Slide extends Component
 	public PPTXCanvas getCanvas()
 	{
 		return new PPTXCanvas( presentation, this.part, writer);
-	}
-
-	public String getRelationshipBookmark( String bmk )
-	{
-		String relationshipid = null;
-		if ( bookmarkRelationlist == null )
-		{
-			bookmarkRelationlist = new HashMap<String, String>( );
-		}
-		relationshipid = bookmarkRelationlist.get( bmk );
-		if ( relationshipid == null )
-		{
-			String slideurl = presentation.getBookmarkUrl( bmk );
-			if ( slideurl == null )
-			{
-				slideurl = "discon_url" + disbmk++;
-				if ( disconnectbmklist == null )
-				{
-					disconnectbmklist = new HashMap<String, String>( );
-				}
-				disconnectbmklist.put( slideurl, bmk );
-			}
-			relationshipid = part.getBookmarkId( slideurl );
-			bookmarkRelationlist.put( bmk, relationshipid );
-		}
-		return relationshipid;
-	}
-
-	public boolean hasDisconnectBookmark( )
-	{
-		return disconnectbmklist != null && !disconnectbmklist.isEmpty( );
-	}
-
-	public HashMap<String, String> getDisconnectBmkList( )
-	{
-		return disconnectbmklist;
 	}
 
 }
