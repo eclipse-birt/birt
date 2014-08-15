@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.executor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -45,11 +47,13 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 {
 
+	private static final int CONTENTS_CONVERTION_THRESHOLD = 16;
 	protected ExecutionContext executionContext;
 	protected IContentEmitter emitter;
 	protected PageContent pageContent;
 	protected boolean bufferAllContents;
-	protected ArrayList<IContent> contents;
+	private Collection<IContent> contents;
+
 
 	protected boolean existPageScript = false;
 
@@ -119,7 +123,7 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 				{
 					if ( !contents.contains( content ) )
 					{
-						contents.add( content );
+						doAddContent(content);
 					}
 				}
 			}
@@ -128,9 +132,17 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 		{
 			if ( !contents.contains( content ) )
 			{
-				contents.add( content );
+				doAddContent(content);
 			}
 		}
+	}
+
+	private void doAddContent(IContent content)
+	{
+		if (contents.size() == CONTENTS_CONVERTION_THRESHOLD) {
+			contents = new TreeSet<IContent>(contents);
+		}
+		contents.add( content );
 	}
 
 	private class PageBreakContentCollector implements IAreaVisitor
