@@ -18,6 +18,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableGroupArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
@@ -48,6 +49,7 @@ public class TableWriter
 	private int colspan;
 	private int rowspan;
 	private boolean isRTL = false;
+	private boolean isTextWrap = true;
 	private final ArrayList<Integer> zeroColumnList = new ArrayList<Integer>();
 	private TextWriter emptytextboxwriter;
 	private final HashMap<Integer,Integer> mapignorecolumns = new HashMap<Integer,Integer>();
@@ -60,6 +62,7 @@ public class TableWriter
 		currentX = render.getCurrentX( );
 		currentY = render.getCurrentY( );
 		isRTL = render.isRTL( );
+		isTextWrap = render.isTextWrap( );
 	}
 
 	public void outputTable( TableArea table )
@@ -562,6 +565,10 @@ public class TableWriter
 		{
 			return true;
 		}
+		else if ( !isTextWrap && childneedclip( textarea ) )
+		{
+			return true;
+		}
 
 		BoxStyle style = textarea.getBoxStyle( );
 
@@ -577,6 +584,40 @@ public class TableWriter
 		}
 
 		return false;
+	}
+	
+	private boolean childneedclip( ContainerArea container )
+	{
+		if ( container.needClip( ) )
+		{
+			return true;
+		}
+		Iterator<IArea> iter = container.getChildren( );
+		while ( iter.hasNext( ) )
+		{			
+			IArea child = iter.next( );
+			if( child instanceof TextArea )
+			{
+				if(( (TextArea) child).needClip( ))
+				{
+					return true;
+				}
+				else{
+					continue;
+				}
+			}
+			ContainerArea childcontainer = ( ContainerArea )child;
+			if ( childcontainer.needClip( ) )
+			{
+				return true;
+			}
+			else if ( !childcontainer.isEmpty( ) && childneedclip( childcontainer ) )
+			{
+				return true;
+			}
+		}
+		return false;
+
 	}
 
 	/**

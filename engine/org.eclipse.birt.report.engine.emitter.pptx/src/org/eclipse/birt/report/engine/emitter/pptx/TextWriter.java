@@ -465,7 +465,7 @@ public class TextWriter
 		}
 		
 		writer.openTag( "a:bodyPr" );
-		if ( needClip )
+		if ( needClip || !render.isTextWrap( ) )
 		{
 			writer.attribute( "vertOverflow", "clip" );
 			writer.attribute( "wrap", "square" );

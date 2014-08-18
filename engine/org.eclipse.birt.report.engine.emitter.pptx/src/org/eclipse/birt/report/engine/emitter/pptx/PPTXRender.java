@@ -77,6 +77,7 @@ public class PPTXRender extends PageDeviceRender
 	private final ArrayList<ByteArrayOutputStream> bufferedOuptuts = new ArrayList<ByteArrayOutputStream>();
 	private boolean editMode;
 	private boolean isRTL = false;
+	private boolean isTextWrap = true;
 
 	public PPTXRender( IEmitterServices services ) throws EngineException
 	{
@@ -96,6 +97,7 @@ public class PPTXRender extends PageDeviceRender
 		this.currentY = render.currentY;
 		this.pageDevice = render.pageDevice;
 		this.isRTL = render.isRTL;
+		this.isTextWrap = render.isTextWrap;
 		this.pageGraphic = new PPTXPage( canvas );
 	}
 
@@ -109,6 +111,7 @@ public class PPTXRender extends PageDeviceRender
 			int compressionMode = getCompressionMode( renderOption ).getValue( );
 			PPTXPageDevice pageDevice = new PPTXPageDevice( out, title, author,
 					description, subject, tempFileDir, compressionMode );
+			isTextWrap = renderOption.getBooleanOption( "pdfRenderOption.textWrapping", true );
 			return pageDevice;
 		}
 		catch ( Exception e )
@@ -425,5 +428,9 @@ public class PPTXRender extends PageDeviceRender
 	public boolean isRTL()
 	{
 		return isRTL;
+	}
+	public boolean isTextWrap()
+	{
+		return isTextWrap;
 	}
 }
