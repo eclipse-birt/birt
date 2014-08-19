@@ -59,16 +59,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	
 	protected List<String[]> metaInfo = new ArrayList<String[]>( );
 	
-	/**
-	 * store relations of various query ResultSet. Such as relations between
-	 * parent ResultSet and nested query ResultSet.
-	 * 
-	 * The user use
-	 * 
-	 * ParentResultId.rowId.queryName to access the result set id.
-	 */
-	protected ResultSetIndex rsetIndex = new ResultSetIndex( );
-	
 	protected IBaseResultSet[] reportletResults;
 	
 	protected IDocArchiveWriter writer;
@@ -271,17 +261,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 	}
 	
-	private void addResultSetRelation( String pRsetId, String rowId,
-			String queryId, String rsetId )
-	{
-		rsetIndex.addResultSet( queryId, pRsetId, rowId, rsetId );
-	}
-
-	public String getResultID( String pRsetId, String rawId, String queryId )
-	{
-		return rsetIndex.getResultSet( queryId, pRsetId, rawId );
-	}
-
 	public String getResultIDByRowID( String pRsetId, String rawId,
 			String queryId )
 	{
@@ -296,6 +275,42 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		queryIDMap.putAll( report.getQueryIDs( ) );
 	}
 	
+	/**
+	 * For a report with following group/data structure
+	 *   <table border=solid>
+	 *     <tr><td>group NO.</td><td>raw id</td><td>row id</td><td>data</td><td>sub/nested result set</td></tr>
+	 *     <tr><td rowspan=2>1</td><td>0</td><td>0</td><td>1</td><td>QuRs1</td></tr>
+	 *     <tr><td>1</td><td>1</td><td>2</td><td></td></tr>
+	 *     <tr><td rowspan=2>2</td><td>2</td><td>2</td><td>3</td><td>QuRs2</td></tr>
+	 *     <tr><td>3</td><td>3</td><td>4</td><td></td></tr>
+	 *   </table>
+	 * <br/>
+	 * The indices for result sets are saved in ResultSetIndex as:
+	 *   <table border=solid>
+	 *     <tr><td>raw id</td><td>sub/nested result set</td></tr>
+	 *     <tr><td>0</td><td>QuRs0</td></tr>
+	 *     <tr><td>2</td><td>QuRs1</td></tr>
+	 *   </table>
+	 * <br/>
+	 * If data column is sorted as descending, the data structure changed to:  
+	 *   <table border=solid>
+	 *     <tr><td>group NO.</td><td>raw id</td><td>row id</td><td>data</td><td>sub/nested result set</td></tr>
+	 *     <tr><td rowspan=2>1</td><td>1</td><td>0</td><td>2</td><td>QuRs1</td></tr>
+	 *     <tr><td>0</td><td>1</td><td>1</td><td></td></tr>
+	 *     <tr><td rowspan=2>2</td><td>3</td><td>2</td><td>4</td><td>QuRs2</td></tr>
+	 *     <tr><td>2</td><td>3</td><td>3</td><td></td></tr>
+	 *   </table>
+	 * The result set indices should keep same as before change because the algorithm for result set searching uses 
+	 * raw id and the result set for the max row which is less than or equals to the searching id is returned.
+	 * , i.e, if the raw id is 0, QuRs0 is returned, if raw id is 1, QuRs0(for 0) is returned.
+	 * <br/>
+	 * Following indices are incorrect because the result set for raw id 0 and 2 would be incorrect.  
+	 *   <table border=solid>
+	 *     <tr><td>raw id</td><td>sub/nested result set</td></tr>
+	 *     <tr><td>1</td><td>QuRs0</td></tr>
+	 *     <tr><td>3</td><td>QuRs1</td></tr>
+	 *   </table>
+	 */
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResult,
 			IQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
@@ -307,7 +322,9 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			parentQueryResults = parentResult.getQueryResults( );
 		}
 		
-		String resultSetID = loadResultSetID( parentResult, queryID );
+		String[] resultIdAndRawId = loadResultSetID( parentResult, queryID );
+		String resultSetID = resultIdAndRawId[0];
+		String originalRawId = resultIdAndRawId[1];
 		// in update mode, resultsetid isn't a must
 		/*
 		if ( resultSetID == null )
@@ -389,7 +406,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		// see DteResultSet
 		resultSet.setBaseRSetID( resultSetID );
 
-		storeDteMetaInfo( pRsetId, rawId, queryID, dteResults.getID( ), rowId );
+		storeDteMetaInfo( pRsetId, originalRawId, queryID, dteResults.getID( ), rowId );
 
 		return resultSet;
 	}
@@ -425,7 +442,9 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			parentQueryResults = parentResult.getQueryResults( );
 		}
 
-		String resultSetID = loadResultSetID( parentResult, queryID );
+		String[] resultIdAndRawId = loadResultSetID( parentResult, queryID );
+		String resultSetID = resultIdAndRawId[0];
+		String originalRawId = resultIdAndRawId[1];
 		// in update mode, resultsetid isn't a must
 		/*
 		if ( resultSetID == null )
@@ -508,7 +527,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		// FIXME:
 		// resultSet.setBaseRSetID( resultSetID );
 
-		storeDteMetaInfo( pRsetId, rawId, queryID, dteResults.getID( ), rowId );
+		storeDteMetaInfo( pRsetId, originalRawId, queryID, dteResults.getID( ), rowId );
 
 		// persist the queryResults witch need cached.
 		if ( query.cacheQueryResults( ) )
@@ -519,32 +538,32 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		return resultSet;
 	}
 	
-	private String loadResultSetID( IBaseResultSet parentResult, String queryID )
+	private String[] loadResultSetID( IBaseResultSet parentResult, String queryID )
 			throws BirtException
 	{
-		String resultSetID = null;
+		String[] result = null;
 		if ( parentResult == null )
 		{
 			// if the query is used in master page, the row id is set as page
 			// number
 			if ( context.isExecutingMasterPage( ) )
 			{
-				resultSetID = getResultID( null, "-1", queryID );
-				if ( resultSetID == null )
+				result = getResultIDWithRawId( null, "-1", queryID );
+				if ( result == null )
 				{
 					long pageNumber = context.getPageNumber( );
-					resultSetID = getResultID( null, String
+					result = getResultIDWithRawId( null, String
 							.valueOf( pageNumber ), queryID );
-					if ( resultSetID == null )
+					if ( result == null )
 					{
 						// try to find the query defined in page 1
-						resultSetID = getResultID( null, "1", queryID );
+						result = getResultIDWithRawId( null, "1", queryID );
 					}
 				}
 			}
 			else
 			{
-				resultSetID = getResultID( null, "-1", queryID );
+				result = getResultIDWithRawId( null, "-1", queryID );
 			}
 		}
 		else
@@ -561,9 +580,9 @@ public class DataInteractiveEngine extends AbstractDataEngine
 						.getQueryResultsID( );
 			}
 			String rowid = parentResult.getRawID( );
-			resultSetID = getResultID( pRsetId, rowid, queryID );
+			result = getResultIDWithRawId( pRsetId, rowid, queryID );
 		}
-		return resultSetID;
+		return result;
 	}
 	
 

@@ -429,7 +429,8 @@ public class DiskCache implements ResultSetCache
 			DataOutputStream rowLensStream,
 			Map<String, StringTable> stringTable,
 			Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
-			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
+			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators,
+			boolean saveRowId )
 			throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
@@ -451,10 +452,9 @@ public class DiskCache implements ResultSetCache
 				if( ro == null )
 					return;
 				IOUtil.writeLong( rowLensStream, offset );
-				offset += ResultSetUtil.writeResultObject( dos,
-						ro,
-						colCount,
-						resultSetNameSet, stringTable, map, i, version );
+				offset += ResultSetUtil.writeResultObject( dos, ro, colCount,
+						resultSetNameSet, stringTable, map, i, version,
+						saveRowId );
 				if ( auxiliaryIndexCreators != null )
 				{
 					for ( IAuxiliaryIndexCreator creator : auxiliaryIndexCreators )

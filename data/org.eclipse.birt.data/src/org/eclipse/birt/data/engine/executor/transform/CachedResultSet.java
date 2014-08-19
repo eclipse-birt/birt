@@ -368,7 +368,8 @@ public class CachedResultSet implements IResultIterator
 								.getAllColumnBindings( ),
 								streamsWrapper.getStreamManager( )
 								.getVersion( ),
-								streamsWrapper.getAuxiliaryIndexCreators( ) );
+								streamsWrapper.getAuxiliaryIndexCreators( ),
+								false);
 						for( StringTable stringTable : stringTables.values( ))
 						{
 							stringTable.close( );

@@ -175,7 +175,8 @@ public class MemoryCache implements ResultSetCache
 			Map<String, StringTable> stringTable,
 			Map<String, IIndexSerializer> index,
 			List<IBinding> cacheRequestMap, int version,
-			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
+			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators,
+			boolean saveInnerId )
 			throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
@@ -194,7 +195,7 @@ public class MemoryCache implements ResultSetCache
 				offset += ResultSetUtil.writeResultObject( dos,
 						resultObjects[i],
 						colCount,
-						resultSetNameSet, stringTable, index, i, version );
+						resultSetNameSet, stringTable, index, i, version, saveInnerId );
 				if ( auxiliaryIndexCreators != null )
 				{
 					for ( IAuxiliaryIndexCreator creator : auxiliaryIndexCreators )
