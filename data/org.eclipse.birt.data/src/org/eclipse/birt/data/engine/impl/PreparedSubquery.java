@@ -91,7 +91,7 @@ class PreparedSubquery implements IPreparedQueryService
 		this.preparedQuery = new PreparedQuery( session, context,
 				subquery,
 				this,
-				null );
+				queryService.getDataSourceQuery().appContext );
 		logger.exiting( PreparedSubquery.class.getName( ), "PreparedSubquery" );
 	}
 	
