@@ -63,7 +63,7 @@ public class JavaClassJSObject implements JSObjectMetaData
 		return new JavaClassMethod( mtd );
 	}
 
-	private List<JavaClassMethod> getMethods( Method[] methods )
+	protected List<JavaClassMethod> getMethods( Method[] methods )
 	{
 		List<JavaClassMethod> jsMehods = new ArrayList<JavaClassMethod>( );
 		List<String> setMethodList = new ArrayList<String>( );
@@ -125,7 +125,7 @@ public class JavaClassJSObject implements JSObjectMetaData
 		return jsFields.toArray( new JSField[jsFields.size( )] );
 	}
 
-	private List<JavaClassField> getFields( Class<?> clazz )
+	protected List<JavaClassField> getFields( Class<?> clazz )
 	{
 		Method[] methods = clazz.getMethods( );
 		List<JavaClassField> jsFields = new ArrayList<JavaClassField>( );
