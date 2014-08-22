@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.emitter.pptx.writer.Presentation;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -579,6 +581,12 @@ public class TableWriter
 						|| style.getLeftBorder( ) != null
 						|| style.getRightBorder( ) != null || style
 						.getTopBorder( ) != null ) )
+		{
+			return true;
+		}
+		
+		IContent ic = textarea.getContent( );
+		if ( ic != null && ic instanceof AutoTextContent )
 		{
 			return true;
 		}

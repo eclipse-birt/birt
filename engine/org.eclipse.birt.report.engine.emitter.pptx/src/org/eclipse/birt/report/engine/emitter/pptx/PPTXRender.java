@@ -408,12 +408,12 @@ public class PPTXRender extends PageDeviceRender
 			int height = PPTXUtil.convertToPointer( pageHeight );
 			Presentation presentation = ( (PPTXPageDevice) pageDevice )
 					.getPresentation( );
+			presentation.setRender( this );
 			String masterPageName = getMasterPageName( pageArea );
 			SlideMaster master = presentation.getSlideMaster( masterPageName );
 			if ( master == null )
 			{
 				master = presentation.createSlideMaster( masterPageName, pageArea );
-				new SlideWriter( this ).writeSlideMaster( master, pageArea );
 			}
 			this.pageGraphic = new PPTXPage( presentation.createSlide( master,
 					width, height, pageArea ) );
