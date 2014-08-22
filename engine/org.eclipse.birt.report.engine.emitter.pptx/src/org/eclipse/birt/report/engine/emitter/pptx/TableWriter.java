@@ -831,6 +831,10 @@ public class TableWriter
 		int width = canvas.getScaledValue( PPTXUtil.convertToEnums( borderinfo
 				.getWidth( ) ) );
 		writer.attribute( "w", width );
+		if( borderinfo.getStyle( ) == BoxStyle.BORDER_STYLE_DOUBLE)
+		{
+			writer.attribute( "cmpd", "dbl" );
+		}
 		canvas.setBackgroundColor( borderinfo.getColor( ) );
 		writer.openTag( "a:prstDash" );
 		writer.attribute( "val", PPTXUtil.parseStyle( borderinfo.getStyle( ) ) );
