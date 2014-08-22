@@ -49,4 +49,6 @@ public interface IPart extends IPartContainer
 	boolean isCached( );
 	
 	boolean isReference( );
+
+	String getBookmarkId( String bmkurl );
 }

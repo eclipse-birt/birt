@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
@@ -153,16 +152,19 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 	}
 
+	@Override
 	public void visitText( ITextArea textArea )
 	{
 		drawText( textArea );
 	}
 
+	@Override
 	public void visitImage( IImageArea imageArea )
 	{
 		drawImage( imageArea );
 	}
 
+	@Override
 	public void visitAutoText( ITemplateArea templateArea )
 	{
 	}
@@ -174,6 +176,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param offsetX
 	 * @param offsetY
 	 */
+	@Override
 	public void visitContainer( IContainerArea container )
 	{
 		if ( container instanceof PageArea )
@@ -644,7 +647,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		this.extendDirection |= direction;
 	}
 
-	private void startClip( IArea area )
+	public void startClip( IArea area )
 	{
 		int startX = currentX + getX( area );
 		int startY = currentY + getY( area );
@@ -805,7 +808,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		return null;
 	}
 
-	private BorderInfo[] cacheBorderInfo( IContainerArea container )
+	public BorderInfo[] cacheBorderInfo( IContainerArea container )
 	{
 		// get the style of the container
 		BoxStyle style = container.getBoxStyle( );
@@ -1144,7 +1147,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param borders
 	 *            the border info
 	 */
-	private void drawBorder( BorderInfo[] borders )
+	public void drawBorder( BorderInfo[] borders )
 	{
 		if ( borders == null )
 			return;
