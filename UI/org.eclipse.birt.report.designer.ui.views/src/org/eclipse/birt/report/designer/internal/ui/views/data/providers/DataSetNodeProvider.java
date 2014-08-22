@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
@@ -38,6 +40,16 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 public class DataSetNodeProvider extends DefaultNodeProvider
 {
 
+	private static Comparator<ResultSetColumnHandle> comp = new Comparator<ResultSetColumnHandle>() {
+			
+		@Override
+		public int compare(ResultSetColumnHandle r1, ResultSetColumnHandle r2) {
+			return r1.getColumnName().compareTo(r2.getColumnName());
+		}
+			
+	};	
+	
+	
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the menu.
@@ -105,6 +117,8 @@ public class DataSetNodeProvider extends DefaultNodeProvider
 			}
 		}
 
+		Collections.sort(columns, comp);
+		
 		PropertyHandle parameters = handle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
 		Iterator iter = parameters.iterator( );
 
