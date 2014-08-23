@@ -137,8 +137,11 @@ public class TextWriter
 		if ( linkact != null )
 		{//add links
 			String bmk = linkact.getBookmark( );
-			bmk_relationshipid = canvas.getPresentation( )
-					.getBookmarkRelationshipid( bmk );
+			if ( bmk != null )
+			{
+				bmk_relationshipid = canvas.getPresentation( )
+						.getBookmarkRelationshipid( bmk );
+			}
 		}
 		String bmk = container.getBookmark( );
 		if ( bmk != null )
