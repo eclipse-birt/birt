@@ -171,6 +171,10 @@ public abstract class ReportItemImpl extends ReferencableStyledElement
 	 * @return
 	 */
 	public AbstractTheme getTheme(Module module) {
+		if ( module == null )
+		{
+			return null;
+		}
 		ElementRefValue value = (ElementRefValue) getProperty( module,
 				THEME_PROP );
 		if ( value != null )
