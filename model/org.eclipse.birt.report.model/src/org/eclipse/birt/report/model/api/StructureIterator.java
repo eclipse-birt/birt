@@ -58,7 +58,7 @@ class StructureIterator implements Iterator
 	{
 		valueHandle = handle;
 		list = valueHandle.getListValue( );
-		index = 0;
+		index = -1;
 	}
 
 	/**
@@ -72,11 +72,12 @@ class StructureIterator implements Iterator
 
 	public void remove( )
 	{
-		if ( !hasNext( ) )
+		if ( index < 0 || index >= list.size() )
 			return;
 		try
 		{
 			valueHandle.removeItem( index );
+			list.remove(index--);
 		}
 		catch ( PropertyValueException e )
 		{
@@ -88,7 +89,7 @@ class StructureIterator implements Iterator
 
 	public boolean hasNext( )
 	{
-		return list != null && index < list.size( );
+		return list != null && index + 1 < list.size( );
 	}
 
 	/**
@@ -104,8 +105,8 @@ class StructureIterator implements Iterator
 		if ( !hasNext( ) )
 			return null;
 
-		Structure struct = list.get( index );
-		return struct.getHandle( valueHandle, index++ );
+		Structure struct = list.get( ++index );
+		return struct.getHandle( valueHandle, index );
 	}
 
 }
