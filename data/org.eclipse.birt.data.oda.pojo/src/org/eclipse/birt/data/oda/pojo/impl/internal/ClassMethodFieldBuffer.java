@@ -22,47 +22,31 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  * The buffer is created when Connection is opened and released when Connection is closed.
  */
 public class ClassMethodFieldBuffer 
-{
-	private static ClassMethodFieldBuffer instance;
+{	
+	@SuppressWarnings("unchecked")
+	private Map<Class, Map<MethodIdentifier, Method>> classMethods;
 	
 	@SuppressWarnings("unchecked")
-	private Map<Class, Map<MethodIdentifier, Method>> classMethods = new HashMap<Class, Map<MethodIdentifier, Method>>( );
+	private Map<Class, Map<String, Field>> classFields;
 	
-	@SuppressWarnings("unchecked")
-	private Map<Class, Map<String, Field>> classFields = new HashMap<Class, Map<String, Field>>( );
-	
-	private ClassMethodFieldBuffer( )
+	public ClassMethodFieldBuffer( )
 	{
-		
+		classMethods = new HashMap<Class, Map<MethodIdentifier, Method>>( );
+		classFields = new HashMap<Class, Map<String, Field>>( );
 	}
 	
-	public static void createInstance( )
+	public void release( )
 	{
-		instance = new ClassMethodFieldBuffer( );
-	}
-	
-	public static ClassMethodFieldBuffer getInstance( )
-	{
-		return instance;
-	}
-	
-	public static void release( )
-	{
-		if ( instance == null )
-		{
-			return; //already released
-		}
-		for ( Map<MethodIdentifier, Method> methods : instance.classMethods.values( ))
+		for ( Map<MethodIdentifier, Method> methods : classMethods.values( ))
 		{
 			methods.clear( );
 		}
-		instance.classMethods.clear( );
-		for ( Map<String, Field> fields : instance.classFields.values( ))
+		classMethods.clear( );
+		for ( Map<String, Field> fields : classFields.values( ))
 		{
 			fields.clear( );
 		}
-		instance.classFields.clear( );
-		instance = null;
+		classFields.clear( );
 	}
 	
 	@SuppressWarnings("unchecked")

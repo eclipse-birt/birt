@@ -31,6 +31,7 @@ import org.eclipse.birt.data.oda.pojo.api.PojoDataSetFromArray;
 import org.eclipse.birt.data.oda.pojo.api.PojoDataSetFromCollection;
 import org.eclipse.birt.data.oda.pojo.api.PojoDataSetFromIterator;
 import org.eclipse.birt.data.oda.pojo.i18n.Messages;
+import org.eclipse.birt.data.oda.pojo.impl.internal.ClassMethodFieldBuffer;
 import org.eclipse.birt.data.oda.pojo.impl.internal.PojoDataSetFromCustomClass;
 import org.eclipse.birt.data.oda.pojo.querymodel.PojoQuery;
 import org.eclipse.birt.data.oda.pojo.util.PojoQueryParser;
@@ -57,6 +58,8 @@ public class Query implements IQuery
 	
 	private PojoQuery pojoQuery;
 	
+	private Connection connection;
+	
 	private Map<String, Object> passedInParams = new HashMap<String, Object>( );
 	
 	@SuppressWarnings("unchecked")
@@ -65,6 +68,7 @@ public class Query implements IQuery
 	public Query( String pojoDataSetClassPath )
 	{
 		this.pojoDataSetClassPath = pojoDataSetClassPath;
+		this.connection = null;
 	}
 	
 	/*
@@ -78,6 +82,7 @@ public class Query implements IQuery
 			throw new OdaException( Messages.getString( "Query.NoQueryText" ) ); //$NON-NLS-1$
 		}
 		pojoQuery = PojoQueryParser.parse( queryText );
+		pojoQuery.setConnection(connection);
 	}
 	
 	/*
@@ -513,6 +518,11 @@ public class Query implements IQuery
     public String getEffectiveQueryText()
     {
         throw new UnsupportedOperationException( );
+    }
+    
+    public void setConnection( Connection connection )
+    {
+    	this.connection = connection;
     }
     
 	/**

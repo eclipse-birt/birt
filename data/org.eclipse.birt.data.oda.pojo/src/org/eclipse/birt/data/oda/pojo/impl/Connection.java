@@ -29,7 +29,9 @@ public class Connection implements IConnection
 {
     private boolean isOpen = false;
     
-    private String pojoDataSetClassPath;
+    private String pojoDataSetClassPath = null;
+    
+    private ClassMethodFieldBuffer classMethodFieldBuffer = null;
     
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#open(java.util.Properties)
@@ -44,7 +46,7 @@ public class Connection implements IConnection
 		pojoDataSetClassPath = 
 			connProperties == null ? null : connProperties.getProperty( Constants.POJO_DATA_SET_CLASS_PATH );
 	    isOpen = true;        
-	    ClassMethodFieldBuffer.createInstance( );
+	    classMethodFieldBuffer = new ClassMethodFieldBuffer();
  	}
 
 	/*
@@ -62,7 +64,8 @@ public class Connection implements IConnection
 	{
         // TODO replace with data source specific implementation
 	    isOpen = false;
-	    ClassMethodFieldBuffer.release( );
+	    classMethodFieldBuffer.release();
+	    classMethodFieldBuffer = null;
 	}
 
 	/*
@@ -90,7 +93,9 @@ public class Connection implements IConnection
 	{
         // this driver supports only one type of data set,
         // ignores the specified dataSetType
-		return new Query( pojoDataSetClassPath );
+		Query query = new Query( pojoDataSetClassPath );
+		query.setConnection(this);
+		return query;
 	}
 
 	/*
@@ -124,6 +129,11 @@ public class Connection implements IConnection
     {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
+    }
+    
+    public ClassMethodFieldBuffer getClassMethodFieldBuffer( )
+    {
+    	return classMethodFieldBuffer;
     }
     
 }

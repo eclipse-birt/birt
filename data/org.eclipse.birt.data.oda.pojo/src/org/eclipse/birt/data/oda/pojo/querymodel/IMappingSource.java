@@ -12,6 +12,7 @@ package org.eclipse.birt.data.oda.pojo.querymodel;
 
 import java.util.Map;
 
+import org.eclipse.birt.data.oda.pojo.impl.internal.ClassMethodFieldBuffer;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,7 +33,7 @@ public interface IMappingSource
 	 * @return the mapped value from the <code>from</code> object
 	 * @throws OdaException
 	 */
-	Object fetchValue( Object from, ClassLoader pojoClassLoader ) throws OdaException;
+	Object fetchValue( Object from, ClassLoader pojoClassLoader, ClassMethodFieldBuffer cmfbInstance ) throws OdaException;
 	
 	Element createElement( Document doc );
 	
