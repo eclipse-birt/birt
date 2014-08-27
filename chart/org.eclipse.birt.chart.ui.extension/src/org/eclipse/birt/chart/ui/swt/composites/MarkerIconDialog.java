@@ -512,7 +512,7 @@ public class MarkerIconDialog extends TrayDialog
 							| SWT.CANCEL );
 					mb.setText( Messages.getString( "MarkerIconDialog.ImageNotAvailableWarning" ) ); //$NON-NLS-1$
 					mb.setMessage( Messages.getString( "MarkerIconDialog.Exception.ImageNotAvailable" ) //$NON-NLS-1$
-							+ Messages.getString( "MarkerIconDialog.ImageNotAvailableWarningMessage" ) ); //$NON-NLS-1$
+							+ " " + Messages.getString( "MarkerIconDialog.ImageNotAvailableWarningMessage" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 					int messageResult = mb.open( );
 					if ( messageResult != SWT.OK )
 					{
