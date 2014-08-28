@@ -1,4 +1,4 @@
-plugin@org.eclipse.birt.data=GIT,tag=v201405191524,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data
+plugin@org.eclipse.birt.data=GIT,tag=v201408221743,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data
 plugin@org.eclipse.birt.data.aggregation=GIT,tag=v201405191524,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.aggregation
 plugin@org.eclipse.birt.report.data.adapter=GIT,tag=v201405191524,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.adapter
 plugin@org.eclipse.birt.core.script.function=GIT,tag=v201405191524,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.core.script.function
