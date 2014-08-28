@@ -53,19 +53,24 @@ import org.eclipse.birt.report.designer.nls.Messages;
 public class ResourceCloseManagement
 {
 	
-	public static boolean saveDirtyAndCloseOpenFile(File file) {
+	public static boolean saveDirtyAndCloseOpenFile( File file )
+	{
 		List<IResource> resources = new ArrayList<IResource>( );
 		String sFilePath = file.getAbsolutePath( );
-		IPath filePath = new Path(sFilePath);
-		IPath workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation( );
+		IPath filePath = new Path( sFilePath );
+		IPath workspacePath = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
+				.getLocation( );
 		int offset = workspacePath.segmentCount( );
-		
+
 		// get file path relative to its project
 		IPath fileRelativePath = filePath.removeFirstSegments( offset );
-		IResource res = ResourcesPlugin.getWorkspace().getRoot().getFile( fileRelativePath );
+		IResource res = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
+				.getFile( fileRelativePath );
 		resources.add( res );
-		
-		return saveDirtyAndCloseOpenFiles(resources);
+
+		return saveDirtyAndCloseOpenFiles( resources );
 	}
 
 	public static boolean saveDirtyAndCloseOpenFiles( List<IResource> resources )
