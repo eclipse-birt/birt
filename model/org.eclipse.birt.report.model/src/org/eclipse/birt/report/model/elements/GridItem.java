@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2014 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
+ *  Krzysztof Kazmierczyk (IBM) - [423106] text wrapping problem in merged cells
  *******************************************************************************/
 
 package org.eclipse.birt.report.model.elements;
@@ -373,13 +374,47 @@ public class GridItem extends ReportItem
 				pos = cellPos;
 
 			if ( cell == target )
-				return pos;
+				break;
 
 			pos = pos + cell.getColSpan( module );
 
 		}
 
+		//calculating spanned rows - see eclipse bug 423106
+		int cellRowNum = getRowNumber(row);
+		ContainerSlot rows = getSlot( ROW_SLOT );
+		for ( int currRowNum = 0; currRowNum < rows.getCount(); currRowNum++ )
+		{
+			TableRow currRow = (TableRow) rows.getContent( currRowNum );
+			if (row == currRow)	
+				break;
+			List<DesignElement> cells = currRow.getContentsSlot( );
+			for (int j = 0; j < pos; j++) {
+				Cell cell = (Cell) cells.get(j);
+				if (cell.getRowSpan(module) + currRowNum >= cellRowNum)
+					pos++;
+			}
+		}
+		
 		return pos;
+	}
+	
+	/**
+	 * 
+	 * Returns the number of the row in a grid 
+	 * 
+	 * @param row
+	 * 			row to find
+	 * @return row position
+	 */
+	private int getRowNumber(TableRow row) {
+		ContainerSlot rows = getSlot( ROW_SLOT );
+		for ( int i = 0; i < rows.getCount(); i++ ) {
+			TableRow curr = (TableRow) rows.getContent(i);
+			if (curr == row) 
+				return ++i;
+		}
+		return 0;
 	}
 
 	/*

@@ -70,10 +70,9 @@ public class MethodSource implements IMappingSource
 		}
 	}
 	
-
-	public Object fetchValue( Object from, ClassLoader pojoClassLoader ) throws OdaException
+	public Object fetchValue( Object from, ClassLoader pojoClassLoader, ClassMethodFieldBuffer cmfbInstance ) throws OdaException
 	{
-		if ( from == null )
+		if ( from == null || cmfbInstance == null )
 		{
 			return null;
 		}
@@ -81,7 +80,7 @@ public class MethodSource implements IMappingSource
 		{
 			mi = MethodIdentifier.newInstance( this, pojoClassLoader );
 		}
-		Method m = ClassMethodFieldBuffer.getInstance( ).getMethod( from.getClass( ), mi );
+		Method m = cmfbInstance.getMethod( from.getClass( ), mi );
 		try
 		{
 			return m.getReturnType( ).equals( Void.TYPE ) ? 
@@ -163,8 +162,5 @@ public class MethodSource implements IMappingSource
 			return false;
 		return true;
 	}
-	
-
-
 	
 }

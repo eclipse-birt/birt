@@ -126,13 +126,13 @@ public class ResultSetFromPojoInstance
 	private void fetchColumnReferenceNodeValue( ColumnReferenceNode crn, Object from ) throws OdaException
 	{
 		IMappingSource ms = crn.getReference( );
-		referenceValues.put( crn, ms.fetchValue( from, pojoClassLoader ) );
+		referenceValues.put( crn, ms.fetchValue( from, pojoClassLoader, query.getConnection().getClassMethodFieldBuffer() ) );
 	}
 	
 	private Object fetchRelayReferenceNodeValue( RelayReferenceNode rrn, Object from ) throws OdaException
 	{
 		IMappingSource ms = rrn.getReference( );
-		Object value = ms.fetchValue( from, pojoClassLoader );
+		Object value = ms.fetchValue( from, pojoClassLoader, query.getConnection().getClassMethodFieldBuffer() );
 		if ( Nextable.isNextable( value ))
 		{
 			Nextable n = Nextable.createNextable( value );
