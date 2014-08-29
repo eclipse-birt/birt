@@ -1,4 +1,4 @@
-workspace=releng.441_RC1
+workspace=releng.441
 pde_build_version=3.7.0.v20110512-1320
 
 rm -rf $workspace/src/plugins/*
