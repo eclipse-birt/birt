@@ -20,12 +20,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
@@ -635,10 +633,8 @@ public class WebViewer
 			}
 		}
 
-		String svgFlag = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( SVG_FLAG );
-		boolean bSVGFlag = false;
+		boolean bSVGFlag = Platform.getPreferencesService( )
+				.getBoolean( ViewerPlugin.PLUGIN_ID, SVG_FLAG, true, null );
 
 		// cube memory size
 		String cubeMemorySize = ViewerPlugin.getDefault( )
@@ -666,11 +662,6 @@ public class WebViewer
 		{
 			// detect rtl from eclipse
 			rtl = ( Window.getDefaultOrientation( ) == SWT.RIGHT_TO_LEFT );
-		}
-
-		if ( "true".equalsIgnoreCase( svgFlag ) ) //$NON-NLS-1$
-		{
-			bSVGFlag = true;
 		}
 
 		String masterPageContent = ViewerPlugin.getDefault( )
