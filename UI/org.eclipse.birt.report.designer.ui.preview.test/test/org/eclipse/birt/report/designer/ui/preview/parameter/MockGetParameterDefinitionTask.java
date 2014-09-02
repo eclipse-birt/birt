@@ -22,11 +22,14 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
+import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IStatusHandler;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -289,6 +292,70 @@ public class MockGetParameterDefinitionTask
 	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setTimeZone( TimeZone timeZone )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setParameterValue( String name, Object[] values )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setParameter( String name, Object[] values, String[] displayText )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setParameterDisplayText( String name, String[] text )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDataSource( IDocArchiveReader dataSource, String reportlet )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setUserACL( String[] acl )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setProgressMonitor( IProgressMonitor monitor )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setStatusHandler( IStatusHandler handler )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Collection getSelectionTreeForCascadingGroup(
+			String parameterGroupName )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -95,10 +95,11 @@ public class MockReportRunnable implements IReportRunnable
 		return null;
 	}
 
-	public void setDesignHandle( ReportDesignHandle handle )
+	@Override
+	public void setDesignHandle( DesignElementHandle handle )
 	{
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

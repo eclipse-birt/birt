@@ -5,5 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.preview.test
 Bundle-Version: 4.4.1.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Require-Bundle: org.eclipse.birt.report.designer.ui.preview,
- org.eclipse.birt.report.engine
+ org.eclipse.birt.report.engine,
+ org.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: com.ibm.icu.util
