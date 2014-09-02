@@ -8,3 +8,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.viewer
 Require-Bundle: org.junit;bundle-version="[3.8.1,4.0.0)";resolution:=optional;visibility:=reexport
 Bundle-Vendor: Eclipse BIRT Project
+Import-Package: javax.servlet.descriptor
