@@ -15,10 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -83,6 +83,16 @@ public class RenameResourceAction extends ResourceAction
 		}
 
 		File file = files.iterator( ).next( );
+		
+		Object adapter = ElementAdapterManager.getAdapter( this, IRenameChecker.class );
+		if (adapter != null) {
+			boolean saveAndClose = ((IRenameChecker) adapter).renameCheck( file );
+
+			if ( !saveAndClose ) {
+				return;
+			}	
+		}
+		
 		String newName = queryNewResourceName( file );
 
 		if ( newName == null || newName.length( ) <= 0 )
