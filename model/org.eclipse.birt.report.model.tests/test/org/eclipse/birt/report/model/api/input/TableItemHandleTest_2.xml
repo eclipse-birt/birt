@@ -144,6 +144,7 @@
             </column>            
         </table>                
         <table name="testTable10">
+        	<property name="width">3in</property>
             <property name="dataSet">dataSet</property>
             <column>
                 <property name="width">1in</property>
@@ -158,6 +159,7 @@
             <property name="dataSet">dataSet</property>
         </table>
         <table name="testTable12">        	
+        	<property name="width">3in</property>
         	<property name="dataSet">dataSet</property>
             <column>
                 <property name="width">1in</property>
@@ -169,7 +171,8 @@
                 <property name="width">100px</property>
             </column>            
         </table>
-        <table name="testTable13">        	
+        <table name="testTable13">      
+        	<property name="width">3in</property>  	
         	<property name="dataSet">dataSet</property>
             <column>
                 <property name="width">50px</property>
