@@ -13,6 +13,7 @@ package org.eclipse.birt.core.data;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -31,6 +32,7 @@ public class DateFormatISO8601
 {
 
 	private static Pattern T_PATTERN = Pattern.compile( "T" );
+	private static Pattern TIME_PART_PATTERN = Pattern.compile( "\\d\\d:\\d\\d:\\d\\d.\\d+" );
 	
 	/**
 	 * Parse a date/time string.
@@ -128,21 +130,25 @@ public class DateFormatISO8601
 			s = T_PATTERN.matcher( s ).replaceFirst( " " );//$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
-//		int zoneIndex = s.indexOf( "GMT" ); //$NON-NLS-1$
-//		if( zoneIndex > 0 )
-//		{
-//			return s.substring( 0, zoneIndex ).trim( );
-//		}
 		int zoneIndex = s.indexOf( 'Z' );
+		if ( zoneIndex == -1 )
+		{
+			zoneIndex = s.indexOf('z');
+		}
 		if ( zoneIndex == s.length( ) - 1 )
 		{
 			return s.substring( 0, zoneIndex ).trim( );
 		}
-//		zoneIndex = getZoneIndex( s );
-//		if ( zoneIndex > 0 )
-//		{
-//			return s.substring( 0, zoneIndex ).trim( );
-//		}
+		
+		Matcher m = TIME_PART_PATTERN.matcher(s);
+		if ( m.find( ) )
+		{
+			String timePart = m.group( );
+			if ( timePart.length( ) > 12 )
+			{
+				s = m.replaceFirst(timePart.substring( 0, 12 ) );
+			}
+		}
 		
 		return s;
 	}

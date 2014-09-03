@@ -28,9 +28,11 @@ import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
@@ -577,6 +579,11 @@ public class JDBCDataSourceUtil
 		public boolean jdbcCompliant( )
 		{
 			return this.driver.jdbcCompliant( );
+		}
+		
+		public Logger getParentLogger( ) throws SQLFeatureNotSupportedException
+		{
+			throw new SQLFeatureNotSupportedException( );
 		}
 	}
 	

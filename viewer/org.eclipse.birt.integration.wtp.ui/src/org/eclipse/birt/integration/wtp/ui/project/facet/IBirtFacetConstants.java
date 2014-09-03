@@ -21,5 +21,5 @@ public interface IBirtFacetConstants
 	// project facet id of Birt Runtime Component
 	public static final String BIRT_RUNTIME_FACET_ID = "birt.runtime"; //$NON-NLS-1$
 	
-	public static final String BIRT_RUNTIME_FACET_VERSION = "4.4.0"; //$NON-NLS-1$
+	public static final String BIRT_RUNTIME_FACET_VERSION = "4.4.1"; //$NON-NLS-1$
 }

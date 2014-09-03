@@ -39,7 +39,7 @@ BranchName=Luna
 dtp_BranchName=master
 
 # change this when you change the build working folder
-WORKING_DIR=/home/adb/releng.441_RC1
+WORKING_DIR=/home/adb/releng.441
 LOG_FILE=adb.log
 
 #set the monitor file name which is used for uploading builds to eclipse.org

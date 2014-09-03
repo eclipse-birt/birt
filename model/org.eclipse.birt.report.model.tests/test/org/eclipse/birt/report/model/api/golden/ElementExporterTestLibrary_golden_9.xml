@@ -13,10 +13,10 @@
     <components>
         <label name="libLabel" id="4"/>
         <label name="labelInMasterPage" id="5">
-            <property name="x">1mm</property>
-            <property name="y">0.5mm</property>
             <property name="height">0.25mm</property>
             <property name="width">2mm</property>
+            <property name="x">1mm</property>
+            <property name="y">0.5mm</property>            
             <text-property name="text">First Page</text-property>
         </label>
     </components>

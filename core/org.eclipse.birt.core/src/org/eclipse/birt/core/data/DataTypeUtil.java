@@ -1458,6 +1458,7 @@ public final class DataTypeUtil
 	 */
 	private static Date toDate( String source ) throws BirtException
 	{
+		source = source.trim( );
 		try
 		{
 			return toDateISO8601( source, null );
