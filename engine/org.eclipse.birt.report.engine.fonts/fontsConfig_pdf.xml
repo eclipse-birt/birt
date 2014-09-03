@@ -25,7 +25,8 @@
 	</font-encodings>
 	<composite-font name="all-fonts">
 		<font font-family="Times-Roman" catalog="Western" />
-		<font font-family="MSung-Light" catalog="Chinese" />
+		<font font-family="STSong-Light" catalog="Chinese_S" />
+		<font font-family="MSung-Light" catalog="Chinese_T" />
 		<font font-family="HeiseiKakuGo-W5" catalog="Japanese" />
 		<font font-family="HYGoThic-Medium" catalog="Korean" />
 	</composite-font>
