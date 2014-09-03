@@ -188,18 +188,16 @@
 	// <![CDATA[
 		var hasSVGSupport = false;
 		var useVBMethod = false;
-		if ( navigator.mimeTypes != null && navigator.mimeTypes.length > 0 )
-		{
-		    if ( navigator.mimeTypes["image/svg+xml"] != null )
-		    {
-		        hasSVGSupport = true;
-		    }
+		if ((!!document.createElementNS && !!document.createElementNS(
+				'http://www.w3.org/2000/svg', 'svg').createSVGRect)
+				|| navigator.mimeTypes != null
+				&& navigator.mimeTypes.length > 0
+				&& navigator.mimeTypes["image/svg+xml"] != null) {
+			hasSVGSupport = true;
+		} else {
+			useVBMethod = true;
 		}
-		else
-		{
-		    useVBMethod = true;
-		}
-		
+
 	// ]]>
 	</script>
 	
