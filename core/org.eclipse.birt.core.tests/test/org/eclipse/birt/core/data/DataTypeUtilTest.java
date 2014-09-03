@@ -1030,7 +1030,7 @@ public class DataTypeUtilTest extends TestCase
 	 */
 	public void testConvert( ) throws BirtException
 	{
-		java.sql.Date date = java.sql.Date.valueOf( "2006-1-1" );
+		java.sql.Date date = java.sql.Date.valueOf( "2006-01-01" );
 		Object ob = DataTypeUtil.convert( date, java.sql.Date.class );
 		assertEquals( date, ob );
 	}
@@ -1045,6 +1045,22 @@ public class DataTypeUtilTest extends TestCase
 		// Any type
 		Object ob = DataTypeUtil.convert( obj, 0 );
 		assertEquals( "I am an unwrapped object", ob );
+	}
+	
+	/**
+	 * 
+	 * @throws BirtException
+	 */
+	public void testToDate4( ) throws BirtException
+	{
+		try 
+		{
+			DataTypeUtil.toDate("2014-09-02 12:12:12.999999");
+		} 
+		catch (Exception e)
+		{
+			fail("Should not throw exception");
+		}
 	}
 
     /**
