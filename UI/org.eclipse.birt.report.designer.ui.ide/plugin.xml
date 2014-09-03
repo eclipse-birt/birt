@@ -172,6 +172,13 @@
                 type="org.eclipse.birt.report.designer.ui.editors.IPathEditorInputFactory">
           </adapter>
        </factory>
+      <factory
+            adaptableType="org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage"
+            class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.PathEditorInputFactory">
+         <adapter
+               type="org.eclipse.birt.report.designer.ui.editors.IPathEditorInputFactory">
+         </adapter>
+      </factory>
        <factory
              adaptableType="org.eclipse.birt.report.model.api.SlotHandle"
              class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEModelResourceAdapterFactory">
