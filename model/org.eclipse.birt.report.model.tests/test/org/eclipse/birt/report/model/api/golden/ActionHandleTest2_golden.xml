@@ -3,11 +3,11 @@
     <page-setup>
         <graphic-master-page name="My Page" id="2">
             <property name="type">custom</property>
-            <property name="height">11mm</property>
-            <property name="width">8.5mm</property>
-            <property name="orientation">auto</property>
+            <property name="orientation">auto</property>            
             <property name="columns">1</property>
             <property name="columnSpacing">0.25mm</property>
+            <property name="height">11mm</property>
+            <property name="width">8.5mm</property>            
         </graphic-master-page>
     </page-setup>
     <body>
