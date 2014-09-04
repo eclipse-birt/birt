@@ -21,10 +21,6 @@
             </list-property>
             <detail>
                 <label>
-                    <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
             </detail>
@@ -91,17 +87,9 @@
             <property name="columnSpacing">0.25mm</property>
             <detail>
                 <label>
-                    <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
                 <label>
-                    <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">1mm</property>
                     <text-property name="text">Today's Date</text-property>
                 </label>
                 <data>
@@ -120,10 +108,6 @@
            	</structure>
             <report-items>
                 <label>
-                    <property name="x">1mm</property>
-                    <property name="y">2mm</property>
-                    <property name="height">3mm</property>
-                    <property name="width">4mm</property>
                     <text-property name="text">Customer Name</text-property>
                 </label>
             </report-items>
