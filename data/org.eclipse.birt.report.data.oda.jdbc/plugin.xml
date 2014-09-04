@@ -142,6 +142,11 @@
                nativeDataType="TIMESTAMPTZ"
                nativeDataTypeCode="-101"
                odaScalarDataType="Timestamp"/>
+         <!--For Oracle TIMESTAMPLTZ type -->
+         <dataTypeMapping
+               nativeDataType="TIMESTAMPLTZ"
+               nativeDataTypeCode="-102"
+               odaScalarDataType="Timestamp"/>
          <dataTypeMapping
                nativeDataType="BOOLEAN"
                nativeDataTypeCode="16"
