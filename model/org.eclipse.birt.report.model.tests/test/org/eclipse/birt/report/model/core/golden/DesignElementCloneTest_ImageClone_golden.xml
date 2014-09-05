@@ -19,35 +19,22 @@
         <graphic-master-page name="My Page" id="3">
             <property name="style">My-Style</property>
             <contents>
-                <label id="4">
-                    <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
-                    <text-property name="text">First Page</text-property>
-                </label>
-                <label id="5">
-                    <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">1mm</property>
-                    <text-property name="text">Today's Date</text-property>
-                </label>
-                <image name="Image1" id="6">
+                <image name="Image1" id="4">
                     <property name="style">My-Style</property>
                     <property name="paddingTop">2mm</property>
                     <property name="size">scale-to-item</property>
                     <property name="scale">0.8</property>
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
-                    <text-property name="altText" key="help">Help Test For Image Item</text-property>
+                    <expression name="altText" type="constant">Help Test For Image Item</expression>
+                    <property name="altTextID">help</property>                    
                     <list-property name="action">
 	                    <structure>
 	                        <expression name="uri">http://localhost:8080/bluehero</expression>
 	                    </structure>
                     </list-property>
                 </image>
-                <image name="Image2" id="7">
+                <image name="Image2" id="5">
                     <property name="source">embed</property>
                     <property name="imageName">image2.jpg</property>
                     <text-property name="helpText" key="abc">Image2-Help-Text</text-property>
@@ -57,7 +44,7 @@
 	                    </structure>
                     </list-property>
                 </image>
-                <image name="Image3" id="8">
+                <image name="Image3" id="6">
                     <property name="source">expr</property>
                     <expression name="typeExpr">Type Expression</expression>
                     <expression name="valueExpr">Value Expression</expression>
@@ -68,26 +55,27 @@
 	                    </structure>
 	                </list-property>
                 </image>
-                <image name="Image4" id="9">
+                <image name="Image4" id="7">
                     <property name="source">expr</property>
                     <expression name="typeExpr">Type Expression</expression>
                     <expression name="valueExpr">Value Expression</expression>
                 </image>
-                <image name="Image11" id="11">
+                <image name="Image11" id="9">
                     <property name="style">My-Style</property>
                     <property name="paddingTop">2mm</property>
                     <property name="size">scale-to-item</property>
                     <property name="scale">0.8</property>
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
-                    <text-property name="altText" key="help">Help Test For Image Item</text-property>
+                    <expression name="altText" type="constant">Help Test For Image Item</expression>
+                    <property name="altTextID">help</property>
 	                <list-property name="action">
 	                    <structure>
 	                        <expression name="uri">http://localhost:8080/bluehero</expression>
 	                    </structure>
 	                </list-property>
                 </image>
-                <image name="Image31" id="12">
+                <image name="Image31" id="10">
                     <property name="source">expr</property>
                     <expression name="typeExpr">Type Expression</expression>
                     <expression name="valueExpr">Value Expression</expression>
@@ -102,7 +90,7 @@
         </graphic-master-page>
     </page-setup>
     <body>
-        <image name="Body Image" id="10">
+        <image name="Body Image" id="8">
             <property name="source">embed</property>
             <property name="imageName">bodyImage.jpg</property>
             <text-property name="helpText">BodyImage-Help-Text</text-property>
