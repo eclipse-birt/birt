@@ -89,6 +89,13 @@ public class UserDataSetProcessor
 						ds[k] = bDS;
 						break;
 						
+					case IConstants.ARRAY :
+						final Object[] arrayDataSet = new Object[(int) lRowCount];
+						DataSet arrayDS = DataFactory.eINSTANCE.createDataSet( );
+						arrayDS.setValues( arrayDataSet );
+						ds[k] = arrayDS;
+						break;						
+						
 					default :
 						boolean allNullValues = true;
 						while ( rsds.hasNext( ) )
@@ -127,6 +134,8 @@ public class UserDataSetProcessor
 					switch ( rsds.getDataType( k ) )
 					{
 						case IConstants.TEXT :
+						case IConstants.BOOLEAN :
+						case IConstants.ARRAY :
 							value = row[k];
 							break;
 
@@ -136,10 +145,6 @@ public class UserDataSetProcessor
 
 						case IConstants.NUMERICAL :
 							value = NumberUtil.convertNumber( row[k] );
-							break;
-							
-						case IConstants.BOOLEAN :
-							value = row[k];
 							break;
 							
 						default :

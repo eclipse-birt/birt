@@ -62,6 +62,8 @@ public interface IConstants
 	public final int PERCENT = 32;
 
 	public final int OTHER = 64;
+	
+	public final int ARRAY = 128;
 
 	public final int AXIS = 1;
 
