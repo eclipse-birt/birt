@@ -79,9 +79,9 @@
                             <property name="rowSpan">1</property>
                             <property name="textAlign">center</property>
                             <extended-item extensionName="TestingBox" name="NewTestingBox" id="39">
-								<property name="dataSet">Data Set</property>
                                 <property name="height">400pt</property>
-                                <property name="width">550pt</property>                                
+                                <property name="width">550pt</property>
+								<property name="dataSet">Data Set</property>                                                                
                                 <list-property name="paramBindings">
                                     <structure>
                                         <property name="paramName">param1</property>

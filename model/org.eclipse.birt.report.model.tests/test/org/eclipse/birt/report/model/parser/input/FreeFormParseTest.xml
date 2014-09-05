@@ -18,17 +18,6 @@
     </styles>
     <page-setup>
         <graphic-master-page name="My Page">
-            <property name="comments">Sample page</property>
-            <property name="type">custom</property>
-            <property name="height">11mm</property>
-            <property name="width">8.5mm</property>
-            <property name="orientation">auto</property>
-            <property name="topMargin">0.95mm</property>
-            <property name="leftMargin">0.8mm</property>
-            <property name="bottomMargin">0.75mm</property>
-            <property name="rightMargin">0.9mm</property>
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
             <contents>
                 <label>
                     <property name="x">1mm</property>
