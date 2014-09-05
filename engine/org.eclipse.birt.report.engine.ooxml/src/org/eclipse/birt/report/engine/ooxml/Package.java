@@ -34,10 +34,9 @@ public class Package extends PartContainer
 {
 	private static Logger logger = Logger.getLogger( Package.class.getName( ) );
 
-	private String tempFileName;
-	
 	private List<ContentType> contents = new ArrayList<ContentType>( );
 
+	private String tempFileName;
 	private ArchiveWriter archiveWriter;
 	private ArchiveFile archive;
 
@@ -50,20 +49,10 @@ public class Package extends PartContainer
 	public static Package createInstance( OutputStream out, String tempFileDir,
 			int compressionMode )
 	{
-		String name = "BIRT_OOXML_Temp_"
-				+ Thread.currentThread( ).getId( ) + System.nanoTime( );
-		if ( tempFileDir != null
-				&& !tempFileDir.endsWith( String.valueOf( File.separatorChar ) ) )
-		{
-			tempFileDir += File.separatorChar;
-		}
-		String fullFileName = tempFileDir + name;
 		try
 		{
-			ArchiveFile archive = new ArchiveFile( fullFileName, "rw" );
-			archive.setCacheSize( 4084 );
-			return new Package( archive, out, compressionMode, fullFileName );
-			
+			File tempFile = File.createTempFile("BIRT_OOXML_Temp_", "", new File(tempFileDir));
+			return new Package( tempFile.getAbsolutePath(), out, compressionMode);
 		}
 		catch ( IOException e )
 		{
@@ -72,12 +61,14 @@ public class Package extends PartContainer
 		return null;
 	}
 
-	private Package( ArchiveFile archive, OutputStream out, int compressionMode, String fileName )
+	private Package( String tempFileName, OutputStream out, int compressionMode )
 			throws IOException
 	{
 		super( "/" );
-		this.tempFileName = fileName;
-		this.archive = archive;
+		
+		this.tempFileName = tempFileName;
+		this.archive = new ArchiveFile( tempFileName, "rw" );
+		this.archive.setCacheSize( 4084 );
 		this.archiveWriter = new ArchiveWriter(archive);
 		zipStream = new ZipOutputStream( out );
 		zipStream.setLevel( compressionMode );

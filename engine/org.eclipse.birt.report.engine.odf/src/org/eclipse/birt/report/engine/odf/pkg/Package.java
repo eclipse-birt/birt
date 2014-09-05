@@ -12,13 +12,13 @@
 package org.eclipse.birt.report.engine.odf.pkg;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
@@ -39,11 +39,11 @@ public class Package
 	private static final String MANIFEST_URI = "META-INF/manifest.xml"; //$NON-NLS-1$
 	private static final String MIME_URI = "mimetype"; //$NON-NLS-1$
 
-	private static String tempFileName;
-
 	private Map<String, PackageEntry> entries;
 
+	private String tempFileName;
 	private ArchiveWriter archiveWriter;
+	private ArchiveFile archive;
 
 	private ZipOutputStream zipStream;
 
@@ -56,14 +56,11 @@ public class Package
 	public static Package createInstance( OutputStream out, String tempFileDir,
 			String rootMime )
 	{
-		String name = "/BIRT_ODF_Temp_" + System.currentTimeMillis( ) //$NON-NLS-1$
-				+ new Random( ).nextInt( 1000 );
-		tempFileName = tempFileDir + name;
 		try
 		{
-			ArchiveFile archive = new ArchiveFile( tempFileName, "rw" ); //$NON-NLS-1$
-			archive.setCacheSize( 4096 );
-			return new Package( archive, out, rootMime );
+			File tempFile = File.createTempFile("BIRT_ODF_Temp_", "",
+					new File(tempFileDir));
+			return new Package( tempFile.getAbsolutePath(), out, rootMime );
 		}
 		catch ( IOException e )
 		{
@@ -72,12 +69,17 @@ public class Package
 		return null;
 	}
 
-	private Package( ArchiveFile archive, OutputStream out, String rootMime )
+	private Package( String tempFileName, OutputStream out, String rootMime )
 			throws IOException
 	{
+		this.tempFileName = tempFileName;
+		this.archive = new ArchiveFile(tempFileName,
+				"rw"); //$NON-NLS-1$
+		this.archive.setCacheSize(4096);
+		this.archiveWriter = new ArchiveWriter( archive );
+		
 		this.rootMime = rootMime;
 		this.closed = false;
-		this.archiveWriter = new ArchiveWriter( archive );
 		entries = new HashMap<String, PackageEntry>( );
 		zipStream = new ZipOutputStream( out );
 		// zipStream.setLevel( compressionMode );
@@ -114,6 +116,7 @@ public class Package
 		return entry;
 	}
 
+
 	public void close( ) throws IOException
 	{
 		// save the files from the archive to the zip output
@@ -127,6 +130,13 @@ public class Package
 		{
 			zipStream.flush( );
 			zipStream.close( );
+		}
+		archiveWriter.flush();
+		archive.close();
+		File file = new File(tempFileName);
+		if (file.exists() && file.isFile()) 
+		{
+			file.delete();
 		}
 		closed = true;
 	}
