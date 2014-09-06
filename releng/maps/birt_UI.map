@@ -6,7 +6,7 @@ plugin@org.eclipse.birt.report.designer.ui=GIT,tag=v201408290142,repo=git://gith
 plugin@org.eclipse.birt.report.designer.ui.cubebuilder=GIT,tag=v201408290142,repo=git://github.com/eclipse/birt.git,path=UI/org.eclipse.birt.report.designer.ui.cubebuilder
 plugin@org.eclipse.birt.report.designer.ui.data=GIT,tag=v201408290142,repo=git://github.com/eclipse/birt.git,path=UI/org.eclipse.birt.report.designer.ui.data
 plugin@org.eclipse.birt.report.designer.ui.editor.script=GIT,tag=v201408290142,repo=git://github.com/eclipse/birt.git,path=UI/org.eclipse.birt.report.designer.ui.editor.script
-plugin@org.eclipse.birt.report.designer.ui.editor.xml.wtp=GIT,tag=v201408290142,repo=git://github.com/eclipse/birt.git,path=UI/org.eclipse.birt.report.designer.ui.editor.xml.wtp
+plugin@org.eclipse.birt.report.designer.ui.editor.xml.wtp=GIT,tag=v201409051615,repo=git://github.com/eclipse/birt.git,path=UI/org.eclipse.birt.report.designer.ui.editor.xml.wtp
 plugin@org.eclipse.birt.report.designer.ui.editors=GIT,tag=v201409031625,repo=git://github.com/eclipse/birt.git,path=UI/org.eclipse.birt.report.designer.ui.editors
 plugin@org.eclipse.birt.report.designer.ui.editors.schematic=GIT,tag=v201408290142,repo=git://github.com/eclipse/birt.git,path=UI/org.eclipse.birt.report.designer.ui.editors.schematic
 plugin@org.eclipse.birt.report.designer.ui.ide=GIT,tag=v201409031625,repo=git://github.com/eclipse/birt.git,path=UI/org.eclipse.birt.report.designer.ui.ide
