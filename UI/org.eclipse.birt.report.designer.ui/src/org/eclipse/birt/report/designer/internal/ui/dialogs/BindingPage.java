@@ -860,6 +860,7 @@ public class BindingPage extends Composite implements Listener
 				if ( dataset == null )
 				{
 					value = NullDatasetChoice.bindingValue;
+					type = NullDatasetChoice.bindingType;
 					isDataSet = true;
 				}
 				else
