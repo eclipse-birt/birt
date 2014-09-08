@@ -46,7 +46,6 @@ public class DataSetNodeProvider extends DefaultNodeProvider
 		
 		private Collator collator = Collator.getInstance( );
 		
-		@Override
 		public int compare(ResultSetColumnHandle r1, ResultSetColumnHandle r2) {
 			return collator.compare( r1.getColumnName( ), r2.getColumnName( ) );
 		}

@@ -310,7 +310,6 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 								Display.getCurrent( )
 										.asyncExec( new Runnable( ) {
 
-											@Override
 											public void run( )
 											{
 												try
