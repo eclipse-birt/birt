@@ -1407,6 +1407,7 @@
     <Member displayNameID="Structure.FilterCondition.updateAggregation" name="updateAggregation" runtimeSettable="false" since="3.7" type="boolean">
     	<Default>true</Default>
     </Member>
+	<Member displayNameID="Structure.FilterCondition.customValue" name="customValue" runtimeSettable="false" since="4.4" type="string"/>    
   </Structure>
   <Structure displayNameID="Structure.HideRule" name="HideRule" since="1.0">
     <Member detailType="formatType" displayNameID="Structure.HideRule.format" isIntrinsic="true" name="format" since="1.0" type="string">
