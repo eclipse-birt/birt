@@ -42,6 +42,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.EngineLoggerTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTaskTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.LogicalPageSequenceTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.LoggerSettingTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.PageSequenceParseTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.ParameterPromptTextTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.ReportDocumentReaderTest.class );

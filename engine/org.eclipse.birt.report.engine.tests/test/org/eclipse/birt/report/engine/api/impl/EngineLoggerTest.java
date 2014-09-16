@@ -79,13 +79,13 @@ public class EngineLoggerTest extends TestCase
 		setupRootLogger( "./utest/logger.txt", Level.FINE );
 		try
 		{
-			// start a default logger
-			EngineLogger.startEngineLogging( null, null, null, null, 0, 0 );
+			// start a default logger			
+			LoggerSetting setting = EngineLogger.createSetting(null, null, null, null, 0, 0);
 
 			// all the log should be output to the root logger
 			log( );
 
-			EngineLogger.stopEngineLogging( );
+			EngineLogger.removeSetting(setting);
 		}
 		finally
 		{
@@ -104,15 +104,14 @@ public class EngineLoggerTest extends TestCase
 	public void testFileLogger( ) throws Exception
 	{
 		// if the level is OFF, no file is created.
-		EngineLogger.startEngineLogging( null, "./utest/", "filelogger.txt",
-				Level.OFF, 0, 0 );
+		LoggerSetting setting = EngineLogger.createSetting(null, "./utest", "filelogger.txt", Level.OFF, 0, 0);
 		log( );
 		assertFalse( new File( "./utest/filelogger.txt" ).exists( ) );
 		// turn the level on, log file is created
-		EngineLogger.changeLogLevel( Level.WARNING );
+		EngineLogger.changeLogLevel( setting, Level.WARNING );
 		log( );
 		assertTrue( new File( "./utest/filelogger.txt" ).exists( ) );
-		EngineLogger.stopEngineLogging( );
+		EngineLogger.removeSetting(setting);
 		checkLogging( "./utest/filelogger.txt", 0, 0, 1 );
 	}
 
@@ -136,14 +135,13 @@ public class EngineLoggerTest extends TestCase
 			{
 
 				// start a default logger
-				EngineLogger.startEngineLogging( logger, null, null,
-						Level.FINE, 0, 0 );
+				LoggerSetting setting = EngineLogger.createSetting(logger, null, null, Level.FINE, 0, 0);
 
 				// all the log should be output to the root logger
 				log( );
-				EngineLogger.setLogger( null );
+				EngineLogger.setLogger( setting, null );
 				log( );
-				EngineLogger.stopEngineLogging( );
+				EngineLogger.removeSetting(setting);
 			}
 			finally
 			{
@@ -171,7 +169,7 @@ public class EngineLoggerTest extends TestCase
 		try
 		{
 			// start a default logger
-			EngineLogger.startEngineLogging( null, null, null, null, 0, 0 );
+			LoggerSetting setting =	EngineLogger.createSetting( null, null, null, null, 0, 0 );
 
 			logThread( "./utest/logger1.txt", Level.WARNING );
 			logThread( "./utest/logger2.txt", Level.FINE );
@@ -179,7 +177,7 @@ public class EngineLoggerTest extends TestCase
 			// all the log should be output to the root logger
 			log( );
 
-			EngineLogger.stopEngineLogging( );
+			EngineLogger.removeSetting(setting);
 		}
 		finally
 		{
