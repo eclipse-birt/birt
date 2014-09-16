@@ -20,7 +20,7 @@ public interface IQueryContext
 
 	/**
 	 * delegate to report engine to build query, the extened item may call this
-	 * api to build children��s query
+	 * api to build children's query
 	 */
 	IDataQueryDefinition[] createQuery( IDataQueryDefinition parent,
 			ReportElementHandle handle );
