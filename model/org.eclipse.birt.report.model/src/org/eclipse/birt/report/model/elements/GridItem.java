@@ -389,7 +389,11 @@ public class GridItem extends ReportItem
 			if (row == currRow)	
 				break;
 			List<DesignElement> cells = currRow.getContentsSlot( );
-			for (int j = 0; j < pos; j++) {
+			if (cells == null)
+				continue;
+			
+			int maxSize = Math.min(pos, cells.size());
+			for (int j = 0; j < maxSize; j++) {
 				Cell cell = (Cell) cells.get(j);
 				if (cell.getRowSpan(module) + currRowNum >= cellRowNum)
 					pos++;
