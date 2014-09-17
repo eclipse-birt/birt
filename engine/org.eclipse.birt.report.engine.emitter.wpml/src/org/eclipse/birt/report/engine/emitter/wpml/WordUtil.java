@@ -135,7 +135,7 @@ public class WordUtil
 	// unit change from milliPt to twips
 	public static int milliPt2Twips( float floatValue )
 	{
-		return (int) ( Math.round( floatValue / 1000 ) * PT_TWIPS );
+		return (int) Math.round( floatValue / 1000 * PT_TWIPS );
 	}
 
 	// unit change from milliPt to half a point

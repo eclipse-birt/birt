@@ -104,7 +104,10 @@ public class CategoryWrapper extends ScriptableObject
 				{
 					if ( scope == null )
 						return null;
-					Object obj = scope.getPrototype( ).get( "compare_locale", scope.getPrototype( ) );
+					Scriptable prototype = scope.getPrototype( );
+					Object obj = org.mozilla.javascript.UniqueTag.NOT_FOUND;
+					if( prototype != null )
+						obj = prototype.get( "compare_locale", prototype );
 					if ( obj == org.mozilla.javascript.UniqueTag.NOT_FOUND )
 					{
 						return getCollator( scope.getParentScope( ) );

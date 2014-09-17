@@ -45,15 +45,14 @@ public class FieldSource implements IMappingSource
 	{
 		return name;
 	}
-	
-
-	public Object fetchValue( Object from, ClassLoader pojoClassLoader ) throws OdaException
+		
+	public Object fetchValue( Object from, ClassLoader pojoClassLoader, ClassMethodFieldBuffer cmfbInstance ) throws OdaException
 	{
-		if ( from == null )
+		if ( from == null || cmfbInstance == null )
 		{
 			return null;
 		}
-		Field f = ClassMethodFieldBuffer.getInstance( ).getField( from.getClass( ), getName( ) );
+		Field f = cmfbInstance.getField( from.getClass( ), getName( ) );
 		try
 		{
 			return f.get( from );

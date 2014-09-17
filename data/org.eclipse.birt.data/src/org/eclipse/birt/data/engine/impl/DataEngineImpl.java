@@ -1,12 +1,12 @@
 /**************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2014 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  **************************************************************************/
 
@@ -632,7 +632,7 @@ public class DataEngineImpl extends DataEngine
 		}	
 
 		this.endTime = System.currentTimeMillis( );
-		logger.log( Level.INFO, "Data Engine lifetime: "
+		logger.log( Level.FINE, "Data Engine lifetime: "
 				+ ( this.endTime - this.startTime ) + " ms" );
 
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );

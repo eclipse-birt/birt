@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2009 Actuate Corporation.
+ * Copyright (c) 2004, 2014 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */ 
@@ -17,12 +17,10 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -971,8 +969,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			long startTime = System.currentTimeMillis( );
     		odaStatement.execute( );
 			long endTime = System.currentTimeMillis( );
-			logger.log( Level.INFO, "ODA query execution time: "
-					+ ( endTime - startTime ) + " ms" );
+			if( logger.isLoggable( Level.FINE ) )
+				logger.log( Level.FINE, "ODA query execution time: " + 
+					( endTime - startTime ) + " ms;\n   Executed query: " + odaStatement.getEffectiveQueryText() );
     	}
 		
 		QueryContextVisitorUtil.populateEffectiveQueryText( qcv,
@@ -1186,10 +1185,10 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	}
     
 	/**
-	 * In oda layer, it does not differentiate the value retrievation of input
-	 * parameter value and ouput parameter value. They will be put in a same
-	 * sequence list. However, in odi layer, we need to clearly distinguish them
-	 * since only retrieving output parameter is suppored and it should be based
+	 * In ODA layer, it references the index positions of input
+	 * parameters and output parameters in a single sequential list. 
+	 * However, in ODI layer, we need to clearly distinguish them
+	 * since only retrieving output parameter is supported and it should be based
 	 * on its own output parameter index. Therefore, this method will do such a
 	 * conversion from the output parameter index to the parameter index.
 	 * 
@@ -1280,7 +1279,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     }
     
     /**
-     * convert the String value to Object according to it's datatype.
+     * convert the String value to Object according to its data type.
      *  
      * @param inputValue
      * @param type

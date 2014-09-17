@@ -23,20 +23,23 @@ BASE_PATH=.:/bin:/usr/bin:/usr/bin/X11:/usr/local/bin:/usr/bin:/usr/X11R6/bin
 LD_LIBRARY_PATH=.
 BASH_ENV=$HOME/.bashrc
 USERNAME=`whoami`
-export HOSTNAME=qa-build.actuate.com
 xhost +$HOSTNAME
-DISPLAY=:0.0
+DISPLAY=:1.0
 export DISPLAY
 
 ulimit -c unlimited
 export USERNAME BASH_ENV LD_LIBRARY_PATH DISPLAY
 
-GitRoot=ssh://git@192.168.218.226/gitroot/birt
-GitRoot_DTP=ssh://git@192.168.218.226/gitroot/datatools
-BranchName=master
+# no user name needed for github url, login credential controlled in local ssh config
+GitRoot=ssh://git@github.com/eclipse
+GitRoot_DTP=ssh://xgu@git.eclipse.org/gitroot/datatools
+
+# change the branch name for different build
+BranchName=Luna
 dtp_BranchName=master
 
-WORKING_DIR=/home/adb/releng.420
+# change this when you change the build working folder
+WORKING_DIR=/home/adb/releng.440
 LOG_FILE=adb.log
 
 #set the monitor file name which is used for uploading builds to eclipse.org
@@ -54,6 +57,7 @@ bootclasspath="/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_13/
 bootclasspath_15="/usr/local/jdk1.5.0_09/jre/lib/rt.jar:/usr/local/jdk1.5.0_09/jre/lib/jsse.jar"
 bootclasspath_16="/usr/local/jdk1.6.0/jre/lib/rt.jar:/usr/local/jdk1.6.0/jre/lib/jsse.jar"
 jvm15_home="/usr/local/jdk1.5.0_09"
+jvm16_home="/usr/local/jdk1.6.0"
 
 proc=$$
 
@@ -61,10 +65,13 @@ proc=$$
 # sets sign Ant property
 ##########################################################################
 sign=""
+# remote target folder for BIRT
 signDirectory=/home/data/httpd/download-staging.priv/birt
-signHomeDir=/home/data/users/xgu
-signUsername=""
-signPassword=""
+# remote working folder, change if you use a different signer account.
+signHomeDir=/home/data/users/zqian
+# credential is in local bash config
+signUsername=$SIGN_USER
+signPassword=$SIGN_PASSWD
 signServer=build.eclipse.org
 
 tagMaps=""
@@ -79,14 +86,14 @@ compareMaps=""
 buildId=""
 
 # tag for build contribution project containing .map files
-mapVersionTag=HEAD
+mapVersionTag=$mapVersionTag
 
 # directory in which to export builder projects
 builderDir=$WORKING_DIR/org.eclipse.birt.releng.birtbuilder
 export builderDir
 
 # directory where to copy build
-postingDirectory=$WORKING_DIR/../releng/BIRTOutput/BIRT4.2-download/4.2.2
+postingDirectory=$WORKING_DIR/../releng/BIRTOutput/BIRT4.4-download/4.4.0
 
 # flag to indicate if test build
 testBuild=""
@@ -161,12 +168,42 @@ echo "======[dtp_BranchName]: $dtp_BranchName " >> $LOG_FILE
 ###############################################################
 # Sync build script from branch $BranchName before build starts
 ###############################################################
-rm -rf build
-git archive --format=tar --remote=$GitRoot/org.eclipse.birt.git $BranchName build/org.eclipse.birt.releng.birtbuilder | tar -xf -
-cp -f build/org.eclipse.birt.releng.birtbuilder/buildAll.xml ./
-cp -f build/org.eclipse.birt.releng.birtbuilder/build.xml ./
-cp -rf build/org.eclipse.birt.releng.birtbuilder/eclipse ./
-cp -rf build/org.eclipse.birt.releng.birtbuilder/extras ./
+
+#Pull or clone a branch from a repository
+#Usage: pull repositoryURL  branch
+pull() {
+        mkdir -p $builderDir/gitClones
+        pushd $builderDir/gitClones
+        directory=$(basename $1 .git)
+        if [ ! -d $directory ]; then
+                echo git clone $1
+                git clone $1
+        fi
+        popd
+        pushd $builderDir/gitClones/$directory
+	    
+	echo ">>git fetch"
+        git fetch
+        echo ">>git checkout $2"
+        git checkout $2
+        echo ">>git pull origin $2"
+        git pull origin $2
+        popd
+}
+
+#rm -rf build
+
+# github doesn't support the "archive" command, we have to do a clone instead. 
+#git archive --format=tar --remote=$GitRoot/birt.git $BranchName build/org.eclipse.birt.releng.birtbuilder | tar -xf -
+
+echo ">>pulling latest source from $GitRoot/birt.git"
+pull $GitRoot/birt.git $BranchName
+
+# update build script from repo
+#cp -f build/org.eclipse.birt.releng.birtbuilder/buildAll.xml ./
+#cp -f build/org.eclipse.birt.releng.birtbuilder/build.xml ./
+#cp -rf build/org.eclipse.birt.releng.birtbuilder/eclipse ./
+#cp -rf build/org.eclipse.birt.releng.birtbuilder/extras ./
 chmod -R +x buildAll.xml eclipse extras
 
 
@@ -203,27 +240,6 @@ cd $builderDir
 
 mkdir -p $postingDirectory/$buildId
 
-#Pull or clone a branch from a repository
-#Usage: pull repositoryURL  branch
-pull() {
-        mkdir -p $builderDir/gitClones
-        pushd $builderDir/gitClones
-        directory=$(basename $1 .git)
-        if [ ! -d $directory ]; then
-                echo git clone $1
-                git clone $1
-        fi
-        popd
-        pushd $builderDir/gitClones/$directory
-	    
-	    echo git fetch
-        git fetch
-        echo git checkout $2
-        git checkout $2
-        echo git pull origin $2
-        git pull origin $2
-        popd
-}
 
 ###############################################################
 # Auto tagging BIRT plugins and update mapfiles for I build
@@ -237,14 +253,14 @@ else
 
         #remove comments
         rm -f repos-clean.txt clones.txt
-        echo "$GitRoot/org.eclipse.birt.git $BranchName" > repos-clean.txt
+        echo "$GitRoot/birt.git $BranchName" > repos-clean.txt
 
 	    #clone or pull each repository and checkout the appropriate branch
         while read line; do
                 #each line is of the form <repository> <branch>
                 set -- $line
                 pull $1 $2
-                echo $1 | sed 's/ssh:.*@192.168.218.226/git:\/\/git.eclipse.org/g' >> clones.txt
+                echo $1 | sed 's/ssh:.*@github.com/git:\/\/github.com/g' >> clones.txt
         done < repos-clean.txt
 
         cat clones.txt| xargs /bin/bash extras/git-map.sh $builderDir/gitClones \
@@ -296,19 +312,32 @@ echo $sign >> $LOG_FILE
 # speed up the build process.
 # Please set $birtLocal to the same value as $birtEclipse if you are 
 # building outside BIRT. Do the same to $dtpLocal and $orbitLocal.
+#-Dbirt.url.token=$birtEclipse \
+#-Dbirt.url.newvalue=$birtLocal \
+#-Ddtp.url.token=$dtpEclipse \
+#-Ddtp.url.newvalue=$dtpLocal \
+#-Dorbit.url.token=$orbitEclipse \
+#-Dorbit.url.newvalue=$orbitLocal \
 ########################################################################
-birtEclipse=git://git.eclipse.org
-birtLocal=git://192.168.218.226
-dtpEclipse=git://git.eclipse.org
-dtpLocal=git://192.168.218.226
-orbitEclipse=download.eclipse.org/tools
-orbitLocal=buildsha-win/software/platform
+#-Dbirt.url.token=$birtEclipse \
+#-Dbirt.url.newvalue=$birtLocal \
+#-Ddtp.url.token=$dtpEclipse \
+#-Ddtp.url.newvalue=$dtpLocal \
+#-Dorbit.url.token=$orbitEclipse \
+#-Dorbit.url.newvalue=$orbitLocal \
+#birtEclipse=git://git.eclipse.org
+#birtLocal=git://192.168.218.226
+#dtpEclipse=git://git.eclipse.org
+#dtpLocal=git://192.168.218.226
+#orbitEclipse=download.eclipse.org/tools
+#orbitLocal=buildsha-win/software/platform
 
 ########################################################################
 # Set up the full build command
+# *remove the '-q' option if you want to see verbose info in the log*
 ########################################################################
 buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $unitTest $CheckNewJars $skipNL \
--Dbuild.runtimeOSGI=true \
+-Dbuild.runtimeOSGI=true  -DallowBinaryCycles=true \
 -DpostingDirectory=$postingDirectory \
 -Dbootclasspath=$bootclasspath_16 -DbuildType=$buildType -D$buildType=true \
 -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipTest $tagMaps \
@@ -318,8 +347,8 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $uni
 -DgroupConfiguration=true -DjavacVerbose=true \
 -Dbasebuilder=$WORKING_DIR/org.eclipse.releng.basebuilder \
 -Dtest.dir=$WORKING_DIR/unittest -Dp4.home=$WORKING_DIR/P4 \
--Djvm15_home=$jvm15_home  -DmapTag.properties=$builderDir/mapTag.properties \
--Dbuild.date=$builddate -Dpackage.version=4_2_2 -DBranchVersion=4.2.2 -Dant.dir=$ANT_HOME/bin \
+-Djvm15_home=$jvm15_home -Djvm16_home=$jvm16_home -DmapTag.properties=$builderDir/mapTag.properties \
+-Dbuild.date=$builddate -Dpackage.version=4_4_0 -DBranchVersion=4.4.0 -Dant.dir=$ANT_HOME/bin \
 -DmapVersionTag=$BranchName \
 -Ddtp.mapVersionTag=$dtp_BranchName \
 -Dusername.sign=$signUsername -Dpassword.sign=$signPassword -Dhostname.sign=$signServer \
@@ -327,13 +356,8 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $uni
 -Dbuilder.dir=$builderDir -DupdateSiteConfig=gtk.linux.x86 \
 -DmapGitRoot=$GitRoot \
 -Ddtp.mapGitRoot=$GitRoot_DTP \
--Dbirt.url.token=$birtEclipse \
--Dbirt.url.newvalue=$birtLocal \
--Ddtp.url.token=$dtpEclipse \
--Ddtp.url.newvalue=$dtpLocal \
--Dorbit.url.token=$orbitEclipse \
--Dorbit.url.newvalue=$orbitLocal \
--DBirtRepoCache=git___192_168_218_226_gitroot_birt_org_eclipse_birt_git"
+-Dskip.unit.test=true \
+-DBirtRepoCache=git___github_com_eclipse_birt_git"
 
 
 #capture command used to run the build

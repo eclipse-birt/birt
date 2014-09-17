@@ -40,7 +40,21 @@ public interface IActionRenderer
 	 *            Action Object.
 	 * @param source
 	 *            Source Object
+	 * @param rtc
+	 *            chart runtime context
 	 */
-	void processAction( Action action, StructureSource source,
-			RunTimeContext rtc );
+	void processAction(Action action, StructureSource source, RunTimeContext rtc);
+	
+	/**
+	 * Process the action with given source object.
+	 * 
+	 * @param action
+	 *            Action Object.
+	 * @param source
+	 *            Source Object
+	 * @deprecated use
+	 *             {@link #processAction(Action, StructureSource, RunTimeContext)}
+	 *             instead
+	 */
+	void processAction(Action action, StructureSource source);
 }

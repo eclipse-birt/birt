@@ -39,24 +39,27 @@
       <plugin id="javax.inject"/>
       <plugin id="javax.servlet"/>
       <plugin id="javax.servlet.jsp"/>
-      <plugin id="javax.wsdl"/>
+      <plugin id="javax.wsdl" version="1.5.1.qualifier"/>
       <plugin id="javax.xml"/>
       <plugin id="javax.xml.rpc"/>
       <plugin id="javax.xml.soap"/>
       <plugin id="javax.xml.stream"/>
       <plugin id="org.apache.axis"/>
-      <plugin id="org.apache.batik.bridge"/>
-      <plugin id="org.apache.batik.css"/>
-      <plugin id="org.apache.batik.dom"/>
-      <plugin id="org.apache.batik.dom.svg"/>
-      <plugin id="org.apache.batik.ext.awt"/>
-      <plugin id="org.apache.batik.parser"/>
-      <plugin id="org.apache.batik.pdf"/>
-      <plugin id="org.apache.batik.svggen"/>
-      <plugin id="org.apache.batik.transcoder"/>
-      <plugin id="org.apache.batik.util"/>
-      <plugin id="org.apache.batik.util.gui"/>
-      <plugin id="org.apache.batik.xml"/>
+      <plugin id="org.apache.batik.bridge"  version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.css" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.css" version="1.7.0.qualifier"/>
+      <plugin id="org.apache.batik.dom" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.dom.svg" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.ext.awt" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.parser" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.pdf" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.svggen" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.transcoder" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.util" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.util" version="1.7.0.qualifier"/>
+      <plugin id="org.apache.batik.util.gui" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.util.gui" version="1.7.0.qualifier"/>
+      <plugin id="org.apache.batik.xml" version="1.6.0.qualifier"/>
       <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.commons.discovery"/>
       <plugin id="org.apache.commons.logging"/>
@@ -93,7 +96,6 @@
       <plugin id="org.eclipse.birt.data.oda.mongodb.ui"/>
       <plugin id="org.eclipse.birt.doc"/>
       <plugin id="org.eclipse.birt.example"/>
-      <plugin id="org.eclipse.birt.jetty.overlay" fragment="true"/>
       <plugin id="org.eclipse.birt.me.prettyprint.hector"/>
       <plugin id="org.eclipse.birt.report.data.adapter"/>
       <plugin id="org.eclipse.birt.report.data.bidi.utils"/>
@@ -308,6 +310,7 @@
       <plugin id="org.w3c.css.sac"/>
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
+      <plugin id="org.w3c.dom.events"/>
       <plugin id="org.w3c.sac"/>
    </plugins>
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2012 Actuate Corporation.
+ * Copyright (c) 2012, 2014 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.ide.preferences;
@@ -86,7 +86,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
 import com.ibm.icu.text.Collator;
@@ -250,9 +249,7 @@ public final class ExpressionSyntaxColoringPage extends
 		fDefaultForeground = UIUtil.getEclipseEditorForeground( );
 		fDefaultBackground = UIUtil.getEclipseEditorBackground( );
 		Composite pageComponent = createComposite( parent, 2 );
-		PlatformUI.getWorkbench( )
-				.getHelpSystem( )
-				.setHelp( pageComponent,
+		UIUtil.bindHelp( getControl( ),
 						IHelpContextIds.PREFERENCE_BIRT_EXPRESSION_SYNTAX_COLOR_ID );
 
 		Link link = new Link( pageComponent, SWT.WRAP );
