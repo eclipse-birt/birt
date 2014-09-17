@@ -170,9 +170,9 @@ public class TableWriter
 						{
 							CellArea cell = (CellArea) itercell.next( );
 							int thiscolspan = cell.getColSpan( );
+							int thiscolumn = cell.getColumnID( );
 							if ( thiscolspan > 1 )
 							{
-								int thiscolumn = cell.getColumnID( );
 								while ( iterzero.hasNext( )
 										&& zerocolumn < thiscolumn )
 								{
@@ -212,8 +212,19 @@ public class TableWriter
 									break;
 								}
 							}
+							else if ( thiscolumn >= zerocolumn )
+							{
+								if ( iterzero.hasNext( ) )
+								{
+									zerocolumn = iterzero.next( );
+								}
+								else
+								{
+									break;
+								}
+							}
 						}
-					}
+					}	
 				}
 				else if ( additionalrowspan > 0 )
 				{
