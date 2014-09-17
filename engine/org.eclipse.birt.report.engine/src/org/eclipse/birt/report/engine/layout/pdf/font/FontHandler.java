@@ -68,7 +68,7 @@ public class FontHandler
 	 * @param textContent
 	 *            the textContent whose font need to be handled
 	 * @param fontSubstitution
-	 *            If it set to false, we needn��t check if the character exists
+	 *            If it set to false, we needn't check if the character exists
 	 *            in the selected font.
 	 * @param format
 	 *            the output format type

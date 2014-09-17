@@ -35,8 +35,8 @@ import org.eclipse.birt.report.model.core.PropertyStructure;
  * <li>A location within the target report as specified by a bookmark.</li>
  * </ul>
  * <p>
- * The Hyperlink property returns a standard web-style link with ¡°http:¡± or
- * ¡°mailto:¡± prefix. Expression hyperlinks can include special BIRT features
+ * The Hyperlink property returns a standard web-style link with 'http:' or
+ * 'mailto:' prefix. Expression hyperlinks can include special BIRT features
  * (search and so on), but only as encoded into a URL. If the link wants to jump
  * to a specific target within the document, encode that target within the URL
  * as defined by target document type. (For example:

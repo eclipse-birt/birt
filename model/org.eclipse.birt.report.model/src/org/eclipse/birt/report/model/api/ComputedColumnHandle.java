@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 /**
- * Represents the handle of computed column. A computed column is a ¡°virtual¡±
+ * Represents the handle of computed column. A computed column is a 'virtual'
  * column produced as an expression of other columns within the data set. It
  * includes the column name and the expression used to define a computed column.
  * 

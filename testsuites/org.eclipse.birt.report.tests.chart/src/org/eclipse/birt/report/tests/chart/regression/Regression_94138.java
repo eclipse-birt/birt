@@ -166,7 +166,7 @@ public class Regression_94138 extends ChartTestCase
 		cwaBar.setType( "Bar Chart" );
 
 		// Title
-		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue( "电脑硬件销售情况表" ); //$NON-NLS-1$
+		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue( "娴嬭瘯" ); //$NON-NLS-1$
 		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
 
 		// Plot

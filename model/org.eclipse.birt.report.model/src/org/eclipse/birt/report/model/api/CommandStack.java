@@ -65,7 +65,7 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * operation that has already done and succeeded is essential to be persistent
  * and not to be undone when the application call <code>rollback</code> or
  * <code>rollbackAll</code>. Considering that an Eclipse user select Eclipse ->
- * Search (Outer Dialog) -> Scope -> Choose¡­ -> Select Working Set (Inner
+ * Search (Outer Dialog) -> Scope -> Choose -> Select Working Set (Inner
  * Dialog) to do some searching, he or she customizes the working set and
  * succeeds, and then he or she clicks "cancel" button to quit the searching, it
  * is completely possible to rollback the transaction while the customized

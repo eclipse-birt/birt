@@ -55,7 +55,6 @@ then
         versionQualifier="-DforceContextQualifier=$buildId"
 fi
 
-
 # tag for eclipseInternalBuildTools on ottcvs1
 internalToolsTag=$buildProjectTags
 
@@ -67,8 +66,6 @@ customBuilderTag=$buildProjectTags
 
 cd $builderDir
 
-chmod -R 755 $builderDir
-
 #default value of the bootclasspath attribute used in ant javac calls.  
 bootclasspath="/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_13/jre/lib/jsse.jar"
 bootclasspath_15="/usr/local/jdk1.5.0_02/jre/lib/rt.jar"
@@ -78,9 +75,6 @@ cd $workspace/org.eclipse.birt.releng.birtbuilder
 
 #the base command used to run AntRunner headless
 antRunner="/usr/local/jdk1.5.0_02/bin/java -Xmx500m -jar ../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
-
-
-
 
 ant -buildfile eclipse/helper.xml getDTPDownloads.fromlocal -propertyfile build.properties -propertyfile config.properties > updatedtp.log
 

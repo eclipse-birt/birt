@@ -204,9 +204,6 @@ pull $GitRoot/birt.git $BranchName
 #cp -f build/org.eclipse.birt.releng.birtbuilder/build.xml ./
 #cp -rf build/org.eclipse.birt.releng.birtbuilder/eclipse ./
 #cp -rf build/org.eclipse.birt.releng.birtbuilder/extras ./
-chmod -R +x buildAll.xml eclipse extras
-
-
 
 # Set default buildId if none explicitly set
 if [ "$buildId" = "" ]

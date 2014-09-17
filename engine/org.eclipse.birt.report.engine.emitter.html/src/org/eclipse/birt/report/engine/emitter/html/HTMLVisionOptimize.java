@@ -290,7 +290,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	{
 		// Column's vertical-align property will be handled at the cell content
 		// with the CellMergedStyle.
-		// Column doesn��t support text-align in BIRT.
+		// Column doesn't support text-align in BIRT.
 	}
 
 	/**
@@ -530,7 +530,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	{
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = container.getStyle( );
-		// Container doesn��t support vertical-align.
+		// Container doesn't support vertical-align.
 		// Build the Text-Align property.
 		CSSValue hAlign = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
 		if ( null != hAlign )

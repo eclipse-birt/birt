@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertyStructure;
 
 /**
- * Represents one computed column. A computed column is a ��virtual��
+ * Represents one computed column. A computed column is a 'virtual'
  * column produced as an expression of other columns within the data set.
  * <p>
  * This is a managed object, meaning that all changes should be made though the

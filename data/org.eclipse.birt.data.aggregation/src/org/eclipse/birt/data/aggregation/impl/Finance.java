@@ -707,7 +707,7 @@ public class Finance
 	 *            payments, your loan has 4*12 (or 48) periods. You would enter
 	 *            48 into the formula for nper.
 	 * @param pv
-	 *            is the present value �� the total amount that a series of
+	 *            is the present value - the total amount that a series of
 	 *            future payments is worth now.
 	 * @param guess
 	 *            is your guess for what the rate will be. If you omit guess, it
