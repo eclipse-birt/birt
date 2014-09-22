@@ -224,7 +224,7 @@ public class TableWriter
 								}
 							}
 						}
-					}	
+					}
 				}
 				else if ( additionalrowspan > 0 )
 				{
@@ -447,8 +447,24 @@ public class TableWriter
 	{
 		writer.openTag( "a:tcPr" );
 		// it is set zero since no way to retrieve margin except to set public
-		// CELL_DEFAULT
-		canvas.writeMarginProperties( 0, 0, 0, 0 );
+		IArea cellchild = cell.getFirstChild( );
+		if ( cellchild instanceof BlockTextArea
+				&& cell.getChildrenCount( ) == 1 )
+		{
+			int marL = PPTXUtil.convertToEnums( cellchild.getX( ) );
+			int marT = PPTXUtil.convertToEnums( cellchild.getY( ) );
+			int marR = PPTXUtil.convertToEnums( cell.getWidth( )
+					- ( marL + cellchild.getWidth( ) ) );
+			int marB = PPTXUtil.convertToEnums( cell.getHeight( )
+					- ( marT + cellchild.getHeight( ) ) );
+			marR = marR < 0 ? 0 : marR;
+			marB = marB < 0 ? 0 : marB;
+			canvas.writeMarginProperties( marT, marR, marB, marL );
+		}
+		else
+		{// default behavior:
+			canvas.writeMarginProperties( 0, 0, 0, 0 );
+		}
 
 		ICellContent content = (ICellContent) cell.getContent( );
 		String valign = content.getComputedStyle( ).getVerticalAlign( );
