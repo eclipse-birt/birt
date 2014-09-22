@@ -56,7 +56,7 @@
 			</fileset>
 		</copy>
 		
-		<javac srcdir="${src.dir}" destdir="${build.dir}" source="1.4" target="1.4" >
+		<javac srcdir="${src.dir}" destdir="${build.dir}" source="1.5" target="1.5" >
             <classpath refid="class.path" />
         </javac>
 	</target>
