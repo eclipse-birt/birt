@@ -325,10 +325,12 @@ public class JDBCDriverManager
 				DriverClassLoader dl = new DriverClassLoader( driverClassPath, Thread.currentThread().getContextClassLoader() );
 				
 				Class dc = dl.loadClass( driverClass );
-				if( dc!= null )
-					return ((Driver)dc.newInstance()).connect(url,
-						connectionProperties);
-				
+				if( dc!= null ) {
+					Connection conn = ((Driver)dc.newInstance()).connect(url,
+							connectionProperties);
+					if (conn != null)
+						return conn;
+				}
 				throw new JDBCException(ResourceConstants.CONN_GET_ERROR, null,
 						truncate(e.getLocalizedMessage()));
 			}
