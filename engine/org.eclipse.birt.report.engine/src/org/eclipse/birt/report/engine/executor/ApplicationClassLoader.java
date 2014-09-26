@@ -137,6 +137,10 @@ public class ApplicationClassLoader extends ClassLoader
 			{
 				ScriptLibHandle lib = (ScriptLibHandle) iter.next( );
 				String libPath = lib.getName( );
+				if( libPath == null)
+				{
+					continue;
+				}
 				URL url = module.findResource( libPath,
 						IResourceLocator.LIBRARY, appContext );
 				if ( url != null )
