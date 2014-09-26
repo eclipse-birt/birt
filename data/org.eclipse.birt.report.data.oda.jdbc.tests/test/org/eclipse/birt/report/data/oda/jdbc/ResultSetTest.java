@@ -96,6 +96,10 @@ public class ResultSetTest extends TestCase
 	public void testResultValuesByIndex( ) throws Exception
 	{
 		assertEquals( rs.getRow( ), jdbcRs.getRow( ) );
+		/*
+		 * Behavior change, resultset will not throw exception for not invoking next() before getString()
+		 */
+		/*
 		String sqlState = null;
 		try
 		{
@@ -114,7 +118,7 @@ public class ResultSetTest extends TestCase
 		catch ( SQLException e )
 		{
 			assertEquals( e.getSQLState( ), sqlState );
-		}
+		}*/
 		while ( rs.next( ) )
 		{
 			jdbcRs.next( );
