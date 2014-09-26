@@ -337,9 +337,12 @@ public class TableWriter
 		currentY += getY( row );
 		updateRenderXY();
 		BoxStyle style = row.getBoxStyle( );
-		if ( style.getBackgroundColor( ) == null && style.getBackgroundImage( ) == null )
+		//change to while
+		ContainerArea parent = row;
+		while ( !(parent instanceof TableArea) && style.getBackgroundColor( ) == null && style.getBackgroundImage( ) == null )
 		{
-			style = row.getParent( ).getBoxStyle( );
+			parent = parent.getParent( );
+			style = parent.getBoxStyle( );
 		}
 		rowStyleStack.push( style );
 		startRow( row ); // tags
@@ -458,7 +461,10 @@ public class TableWriter
 			int marB = PPTXUtil.convertToEnums( cell.getHeight( )
 					- ( marT + cellchild.getHeight( ) ) );
 			marR = marR < 0 ? 0 : marR;
-			marB = marB < 0 ? 0 : marB;
+			if( marB < 0 || cell.getRowSpan( ) > 1 )
+			{
+				marB = 0;
+			}
 			canvas.writeMarginProperties( marT, marR, marB, marL );
 		}
 		else
