@@ -443,7 +443,7 @@ public class BorderPropertyDescriptor implements
 			builder.setColorValue( ColorUtil.format( ColorUtil.formRGB( rgb.red,
 					rgb.green,
 					rgb.blue ),
-					ColorUtil.CSS_ABSOLUTE_FORMAT ) );
+					ColorUtil.HTML_FORMAT ) );
 		}
 	}
 

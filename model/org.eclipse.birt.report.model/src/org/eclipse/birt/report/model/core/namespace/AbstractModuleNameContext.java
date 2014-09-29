@@ -24,7 +24,7 @@ public abstract class AbstractModuleNameContext extends AbstractNameContext
 
 	protected Module module = null;
 
-	protected int nameSpaceID = -1;
+	protected String nameSpaceID = null;
 
 	/**
 	 * Constructs the name space with module and name space ID.
@@ -34,14 +34,14 @@ public abstract class AbstractModuleNameContext extends AbstractNameContext
 	 * @param nameSpaceID
 	 */
 
-	public AbstractModuleNameContext( Module module, int nameSpaceID )
+	public AbstractModuleNameContext( Module module, String nameSpaceID )
 	{
 		super( );
 		this.module = module;
 		this.nameSpaceID = nameSpaceID;
 
 		// name of the parameter is case insensitive
-		if ( nameSpaceID == Module.PARAMETER_NAME_SPACE )
+		if ( Module.PARAMETER_NAME_SPACE.equals(  nameSpaceID ) )
 			this.namespace = new CaseInsensitiveNameSpace( );
 	}
 
@@ -63,7 +63,7 @@ public abstract class AbstractModuleNameContext extends AbstractNameContext
 	 * org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpaceID
 	 * ()
 	 */
-	public int getNameSpaceID( )
+	public String getNameSpaceID( )
 	{
 		return nameSpaceID;
 	}

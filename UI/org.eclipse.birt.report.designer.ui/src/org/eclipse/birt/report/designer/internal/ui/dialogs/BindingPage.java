@@ -196,7 +196,12 @@ public class BindingPage extends Composite implements Listener
 			public String getText( Object element )
 			{
 				BindingInfo info = (BindingInfo) element;
-				return info.getBindingValue( );
+				String datasetName = info.getBindingValue( );
+				if ( !info.isDataSet( ) && info != NullDatasetChoice )
+				{
+					datasetName += Messages.getString( "BindingGroupDescriptorProvider.Flag.DataModel" ); //$NON-NLS-1$
+				}
+				return datasetName;
 			}
 		} );
 		datasetCombo.setContentProvider( new ContentProvider( ) );
@@ -855,6 +860,7 @@ public class BindingPage extends Composite implements Listener
 				if ( dataset == null )
 				{
 					value = NullDatasetChoice.bindingValue;
+					type = NullDatasetChoice.bindingType;
 					isDataSet = true;
 				}
 				else

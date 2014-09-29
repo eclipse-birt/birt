@@ -34,8 +34,10 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -278,6 +280,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					propertyBindings );
 
 		// add report item themes to design tree
+		addThemes( );
 		addReportItemThemes( );
 
 		// add referenced style into report, also update the theme
@@ -1842,6 +1845,17 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		try
 		{
 			newTheme = (ReportItemTheme) sourceTheme.FlattenClone();
+			String newName = sourceTheme.getName( );
+			String namespace = sourceTheme.getRoot( ).getNamespace( );
+			if ( namespace == null )
+			{
+				newName += "-report";
+			}
+			else
+			{
+				newName += "-" + namespace;
+			}
+			newTheme.setName( newName );
 		}
 		catch ( CloneNotSupportedException e )
 		{
@@ -1892,9 +1906,35 @@ class ReportDesignSerializerImpl extends ElementVisitor
 								themeRef );
 					}
 				}
-
 			}
+		}
+	}
 
+	private void addThemes( )
+	{
+		Theme sourceTheme = sourceDesign.getTheme( );
+		if ( sourceTheme == null )
+			return;
+		String themeName = sourceTheme.getName( );
+		Theme newTheme = new Theme( );
+		String namespace = sourceTheme.getRoot( ).getNamespace( );
+		if ( namespace != null )
+		{
+			newTheme.setName( themeName + "-" + namespace );
+		}
+		// add external library theme
+		ContainerContext context = new ContainerContext( targetDesign,
+				IReportDesignModel.THEMES_SLOT );
+		addElement( targetDesign, context, newTheme );
+		targetDesign.manageId( newTheme, true );
+		ReportDesignHandle targetDesignHandle = (ReportDesignHandle) targetDesign
+				.getHandle( targetDesign );
+		try
+		{
+			targetDesignHandle.setThemeName( newTheme.getName( ) );
+		}
+		catch ( SemanticException ex )
+		{
 		}
 	}
 

@@ -117,7 +117,7 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 		// editors[0] = new TextCellEditor( table );
 		// editors[1] = new TextCellEditor( table );
 		// }
-		return null;
+		return new CellEditor[0];
 	}
 
 	/*

@@ -419,7 +419,7 @@ class ElementExporterImpl
 			{
 				AbstractNameHelper nameHelper = (AbstractNameHelper) executor
 						.getNameHelper( );
-				int namespaceId = executor.getNameSpaceId( );
+				String namespaceId = executor.getNameSpaceId( );
 				NameSpace nameSpace = nameHelper
 						.getCachedNameSpace( namespaceId );
 				duplicateElement = nameSpace.getElement( element.getName( ) );
@@ -488,9 +488,9 @@ class ElementExporterImpl
 		if ( element == null )
 			return null;
 
-		int nameSpaceID = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		if ( !( nameSpaceID == Module.CUBE_NAME_SPACE
-				|| nameSpaceID == Module.DIMENSION_NAME_SPACE || nameSpaceID == Module.ELEMENT_NAME_SPACE ) )
+		String nameSpaceID = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+		if ( !( Module.CUBE_NAME_SPACE.equals(  nameSpaceID )
+				|| Module.DIMENSION_NAME_SPACE.equals( nameSpaceID ) || Module.ELEMENT_NAME_SPACE.equals( nameSpaceID ) ) )
 			return element;
 
 		DesignElement container = element.getContainer( );

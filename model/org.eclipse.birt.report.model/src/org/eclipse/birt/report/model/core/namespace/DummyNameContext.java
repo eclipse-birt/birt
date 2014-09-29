@@ -108,9 +108,9 @@ public class DummyNameContext implements INameContext
 		return null;
 	}
 
-	public int getNameSpaceID( )
+	public String getNameSpaceID( )
 	{
-		return -1;
+		return "";
 	}
 
 }

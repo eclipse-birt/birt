@@ -108,6 +108,7 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
@@ -4448,6 +4449,17 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		super.visitReportItemTheme( obj );
 
 		property( obj, IReportItemThemeModel.CUSTOM_VALUES_PROP );
+
+		writeContents( obj, IAbstractThemeModel.STYLES_SLOT,
+				DesignSchemaConstants.STYLES_TAG );
+		writer.endElement( );
+	}
+
+	public void visitTheme( Theme obj )
+	{
+		writer.startElement( DesignSchemaConstants.THEME_TAG );
+
+		super.visitTheme( obj );
 
 		writeContents( obj, IAbstractThemeModel.STYLES_SLOT,
 				DesignSchemaConstants.STYLES_TAG );

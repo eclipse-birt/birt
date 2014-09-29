@@ -39,7 +39,7 @@ public class GeneralModuleNameContext extends AbstractModuleNameContext
 	 * @param module
 	 * @param nameSpaceID
 	 */
-	public GeneralModuleNameContext( Module module, int nameSpaceID )
+	public GeneralModuleNameContext( Module module, String nameSpaceID )
 	{
 		super( module, nameSpaceID );
 	}

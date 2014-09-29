@@ -1,8 +1,8 @@
 bin
 oda-jdbc.jar
 doc
-export
+target
 DTETest
 utestreports
 derby.log
-drivers
+driverstarget

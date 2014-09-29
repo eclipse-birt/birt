@@ -147,7 +147,7 @@ public class DEUtil
 	private static final String XMLDATE_PATTERN_DATE_ONLY = "yyyy-MM-dd"; //$NON-NLS-1$
 	private static final String XMLDATE_PATTERN_WITH_OUT_SECOND = "yyyy-MM-dd'T'HH:mm"; //$NON-NLS-1$
 	private static final String XMLDATE_PATTERN_WITH_OUT_MILLISECOND = "yyyy-MM-dd'T'HH:mm:ss"; //$NON-NLS-1$
-	public static final String DEFAULT_LIBRARY = "/ThemesReportItems3.rptlibrary"; //$NON-NLS-1$
+	public static final String DEFAULT_LIBRARY = "/ThemesReportItems31.rptlibrary"; //$NON-NLS-1$
 	private static List<String> paletteElementList = new ArrayList<String>( );
 
 	/**
@@ -2808,6 +2808,8 @@ public class DEUtil
 	 * @param handle
 	 *            the handle of the element.
 	 * @return the group list of the given element.
+	 * 
+	 * @deprecated Use {@link UIUtil.getGroups()}
 	 */
 	public static List getGroups( DesignElementHandle handle )
 	{
@@ -3306,28 +3308,62 @@ public class DEUtil
 	 */
 	public static void setDefaultTheme( DesignElementHandle elementHandle )
 	{
-		// System.out.println(elementHandle.getDefn( ).getName( ));
-		if ( elementHandle instanceof ReportItemHandle
+		// We dont' set the report item theme now, it will inherit from report
+		// level theme.
+		// if ( elementHandle instanceof ReportItemHandle
+		// && hasDefaultLibrary( elementHandle.getModuleHandle( ) ) )
+		// {
+		// ReportItemHandle reportItemHandle = (ReportItemHandle) elementHandle;
+		// PropertyHandle propertyHandle = reportItemHandle.getPropertyHandle(
+		// ReportItemHandle.THEME_PROP );
+		// List list = propertyHandle.getReferenceableElementList( );
+		// String preFileName = getDefultLibraryFileName( );
+		// for ( int i = 0; i < list.size( ); i++ )
+		// {
+		// ReportItemThemeHandle itemHandle = (ReportItemThemeHandle) list.get(
+		// i );
+		// if ( itemHandle.getQualifiedName( ).startsWith( preFileName ) )
+		// {
+		// try
+		// {
+		// if ( propertyHandle.getValue( ) == null )
+		// propertyHandle.setValue( itemHandle.getQualifiedName( ) );
+		// break;
+		// }
+		// catch ( SemanticException e )
+		// {
+		// // do nothing
+		// }
+		// }
+		// }
+		// }
+
+		// for report design we set the report level theme to the first one from
+		// default library if applicable
+		if ( elementHandle instanceof ReportDesignHandle
 				&& hasDefaultLibrary( elementHandle.getModuleHandle( ) ) )
 		{
-			ReportItemHandle reportItemHandle = (ReportItemHandle) elementHandle;
-			PropertyHandle propertyHandle = reportItemHandle.getPropertyHandle( ReportItemHandle.THEME_PROP );
-			List list = propertyHandle.getReferenceableElementList( );
-			String preFileName = getDefultLibraryFileName( );
-			for ( int i = 0; i < list.size( ); i++ )
+			ReportDesignHandle designHandle = (ReportDesignHandle) elementHandle;
+			PropertyHandle propertyHandle = designHandle.getPropertyHandle( ModuleHandle.THEME_PROP );
+			if ( propertyHandle.getValue( ) == null )
 			{
-				ReportItemThemeHandle itemHandle = (ReportItemThemeHandle) list.get( i );
-				if ( itemHandle.getQualifiedName( ).startsWith( preFileName ) )
+				List list = propertyHandle.getReferenceableElementList( );
+				String preFileName = getDefultLibraryFileName( );
+				for ( int i = 0; i < list.size( ); i++ )
 				{
-					try
+					ThemeHandle itemHandle = (ThemeHandle) list.get( i );
+					if ( itemHandle.getQualifiedName( )
+							.startsWith( preFileName ) )
 					{
-						if ( propertyHandle.getValue( ) == null )
+						try
+						{
 							propertyHandle.setValue( itemHandle.getQualifiedName( ) );
-						break;
-					}
-					catch ( SemanticException e )
-					{
-						// do nothing
+							break;
+						}
+						catch ( SemanticException e )
+						{
+							// do nothing
+						}
 					}
 				}
 			}

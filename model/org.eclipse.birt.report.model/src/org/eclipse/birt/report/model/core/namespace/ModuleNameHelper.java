@@ -11,28 +11,23 @@
 
 package org.eclipse.birt.report.model.core.namespace;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
-import org.eclipse.birt.report.model.core.CaseInsensitiveNameSpace;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -55,7 +50,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * used again to avoid the duplicate. This may be used when some extensions
 	 * is not well-parsed or other reasons.
 	 */
-	private List<String> cachedContentNames[];
+	private HashMap<String, Set<String>> cachedContentNames;
 
 	/**
 	 * This map to store all level elements for the backward compatibility after
@@ -72,56 +67,13 @@ public class ModuleNameHelper extends AbstractNameHelper
 	{
 		super( );
 		this.module = module;
-		initialize( );
+		cachedContentNames = new HashMap<String, Set<String>>();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.AbstractNameHelper#initialize
-	 * ()
-	 */
-	protected void initialize( )
+	protected INameContext createNameContext(String id)
 	{
-		int count = getNameSpaceCount( );
-		cachedContentNames = new ArrayList[count];
-		nameContexts = new INameContext[count];
-		for ( int i = 0; i < count; i++ )
-		{
-			nameContexts[i] = NameContextFactory.createModuleNameContext(
-					module, i );
-			cachedContentNames[i] = new ArrayList<String>( );
-		}
-	}
-
-	/**
-	 * 
-	 */
-	protected void initCachedNameSpaces( )
-	{
-		cachedNameSpaces = new NameSpace[getNameSpaceCount( )];
-		for ( int i = 0; i < getNameSpaceCount( ); i++ )
-		{
-			// now name of the parameter and style is case-insensitive
-			if ( i == Module.STYLE_NAME_SPACE
-					|| i == Module.PARAMETER_NAME_SPACE )
-				cachedNameSpaces[i] = new CaseInsensitiveNameSpace( );
-			else
-				cachedNameSpaces[i] = new NameSpace( );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getNameSpaceCount
-	 * ()
-	 */
-	public int getNameSpaceCount( )
-	{
-		return Module.NAME_SPACE_COUNT;
+		return
+				NameContextFactory.createModuleNameContext( module, id ) ;
 	}
 
 	/*
@@ -131,7 +83,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
 	 * (org.eclipse.birt.report.model.core.DesignElement, java.lang.String)
 	 */
-	public String getUniqueName( int namespaceId, DesignElement element, String namePrefix )
+	public String getUniqueName( String namespaceId, DesignElement element, String namePrefix )
 	{
 		if ( element == null )
 			return null;
@@ -165,8 +117,8 @@ public class ModuleNameHelper extends AbstractNameHelper
 
 		// If the element already has a unique name, return it.
 		NameSpace nameSpace = getCachedNameSpace( namespaceId );
-		List<String> cachedContentNames = getCachedContentNames( namespaceId );
-		NameSpace moduleNameSpace = nameContexts[namespaceId].getNameSpace( );
+		Set<String> cachedContentNames = getCachedContentNames( namespaceId );
+		NameSpace moduleNameSpace = getNameContext( namespaceId ).getNameSpace( );
 
 		String validName = name;
 		if ( element instanceof StyleElement )
@@ -250,12 +202,16 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 *            the name space id to get
 	 * @return the cached content name list with the given id
 	 */
-	List<String> getCachedContentNames( int id )
+	private Set<String> getCachedContentNames( String id )
 	{
-		assert id >= 0 && id < getNameSpaceCount( );
-		return cachedContentNames[id];
+		Set<String> cachedNames = cachedContentNames.get( id );
+		if ( cachedNames == null )
+		{
+			cachedNames = new HashSet<String>( );
+			cachedContentNames.put( id, cachedNames );
+		}
+		return cachedNames;
 	}
-
 	
 	/*
 	 * (non-Javadoc)
@@ -264,12 +220,12 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#addContentName
 	 * (int, java.lang.String)
 	 */
-	public void addContentName( int id, String name )
+	public void addContentName( String id, String name )
 	{
-		if ( id >= 0 && id < getNameSpaceCount( ) )
+		Set<String> cachedNames = getCachedContentNames( id );
+		if ( !cachedNames.contains( name ) )
 		{
-			if ( !cachedContentNames[id].contains( name ) )
-				cachedContentNames[id].add( name );
+			cachedNames.add( name );
 		}
 	}
 
