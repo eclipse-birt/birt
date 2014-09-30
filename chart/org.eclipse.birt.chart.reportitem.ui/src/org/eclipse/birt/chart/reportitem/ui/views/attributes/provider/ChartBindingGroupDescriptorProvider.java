@@ -48,7 +48,7 @@ public class ChartBindingGroupDescriptorProvider extends
 	protected List<ReportItemHandle> getAvailableDataBindingReferenceList(
 			ReportItemHandle element )
 	{
-		List<ReportItemHandle> availableList = element.getAvailableDataBindingReferenceList( );
+		List<ReportItemHandle> availableList = element.getNamedDataBindingReferenceList( );
 		List<ReportItemHandle> referenceList = new ArrayList<ReportItemHandle>( );
 		for ( ReportItemHandle handle : availableList )
 		{
