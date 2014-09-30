@@ -403,7 +403,9 @@ class DataSetAdapter extends AbstractDataAdapter
 		ResultSets requestResultSets = null;
 		if ( designerValues != null )
 		{
-			requestParameters = designerValues.getDataSetParameters( );
+			//Do not consider datasetparameters in designervalues.
+			//Parameters read from old version report is not null.
+			//requestParameters = designerValues.getDataSetParameters( );
 			requestResultSets = designerValues.getResultSets( );
 		}
 
