@@ -27,40 +27,10 @@
 		<antcall target="unzipPackages"/>
 		<antcall target="integrateSource"/>
 		<antcall target="zipSourcePlugin"/>
-		<antcall target="delete3rdPartyLib"/>
 		<antcall target="createRuntimeRepo"/>
 		<antcall target="createViewsevletRepo"/>
 	</target>
-	<target name="delete3rdPartyLib">
-		<propertyfile file="repoGen.properties"/>
-		<delete failonerror="false">
-			<fileset dir="${working.dir}">
-				<include name="**/dom4j-1.6.1"/>
-				<include name="**/flute.jar"/>
-				<include name="**/xmlbeans*.jar"/>
-				<include name="**/org.apache.commons.codec*.jar"/>
-				<include name="**/org.apache.commons.logging*.jar"/>
-				<include name="**/org.apache.poi*.jar"/>
-				<include name="**/commons-cli*.jar"/>
-			</fileset>
-	    </delete>
-		<mkdir dir="${libDir}/birt-runtime"/>
-		<unzip src="${libDir}/${rootFile}" dest="${libDir}/birt-runtime" />
-		<delete failonerror="false">
-			<fileset dir="${libDir}/birt-runtime">
-				<include name="org/apache/**"/>
-				<include name="org/dom4j/**"/>
-				<include name="org/openxmlformats/**"/>
-				<include name="org/w3c/**"/>
-				<include name="schemaorg_*/**"/>
-				<include name="schemasMicrosoft*/**"/>
-				<include name="META-INF/maven/**"/>
-		    </fileset>
-		</delete>
-		<delete file="${libDir}/${rootFile}"/>
-		<jar destfile="${libDir}/${rootFile}" basedir="${libDir}/birt-runtime" includes="**/*" manifest="${libDir}/birt-runtime/META-INF/MANIFEST.MF"/>
-	    <delete dir="${libDir}/birt-runtime"/>
-	</target>
+		
 	<target name="scpPackages">
         <echo message="Getting monitor.properties file from qa-build..."/>
         <scp file="${builder.user}:${builder.passwd}@${builder.host}:/home/adb/releng/BIRTOutput/${birt.output.dir}/monitor.properties" 
