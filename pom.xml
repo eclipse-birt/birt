@@ -7,7 +7,49 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <tycho.version>0.21.0</tycho.version>
+        <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.4/</eclipse.repo.url>
+        <emf.repo.url>http://download.eclipse.org/modeling/emf/updates/releases/</emf.repo.url>
+        <wtp.repo.url>http://download.eclipse.org/webtools/repository/luna/</wtp.repo.url>
+        <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
+        <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</orbit.repo.url>
+        <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
+    </properties>
+    <repositories>
+        <!-- BIRT need Eclipse/EMF/GEF/DTP/ORBIT/WTP-->
+        <repository>
+            <id>emf</id>
+            <url>${emf.repo.url}</url>
+            <layout>p2</layout>
+        </repository>
+        <repository>
+            <id>wtp</id>
+            <url>${wtp.repo.url}</url>
+            <layout>p2</layout>
+        </repository>
+        <repository>
+            <id>gef</id>
+            <url>${gef.repo.url}</url>
+            <layout>p2</layout>
+        </repository>
+        <repository>
+            <id>eclipse</id>
+            <url>${eclipse.repo.url}</url>
+            <layout>p2</layout>
+        </repository>
+        <repository>
+            <id>orbit</id>
+            <url>${orbit.repo.url}</url>
+            <layout>p2</layout>
+        </repository>
+        <repository>
+            <id>dtp</id>
+            <url>${dtp.repo.url}</url>
+            <layout>p2</layout>
+        </repository>
+    </repositories>
 
   <modules>
     <module>UI/org.eclipse.birt.report.debug.core</module>
@@ -29,7 +71,9 @@
     <module>UI/org.eclipse.birt.report.designer.ui.lib.explorer</module>
     <module>UI/org.eclipse.birt.report.designer.ui.preview</module>
     <module>UI/org.eclipse.birt.report.designer.ui.preview.static_html</module>
+	<!--
     <module>UI/org.eclipse.birt.report.designer.ui.preview.test</module>
+	-->
     <module>UI/org.eclipse.birt.report.designer.ui.preview.web</module>
     <module>UI/org.eclipse.birt.report.designer.ui.rcp</module>
     <module>UI/org.eclipse.birt.report.designer.ui.samples.ide</module>
@@ -50,8 +94,10 @@
     <module>chart/org.eclipse.birt.chart.device.swt</module>
     <module>chart/org.eclipse.birt.chart.engine</module>
     <module>chart/org.eclipse.birt.chart.engine.extension</module>
+	<!--
     <module>chart/org.eclipse.birt.chart.examples</module>
     <module>chart/org.eclipse.birt.chart.examples.core</module>
+	-->
     <module>chart/org.eclipse.birt.chart.integration.wtp.ui</module>
     <module>chart/org.eclipse.birt.chart.reportitem</module>
     <module>chart/org.eclipse.birt.chart.reportitem.ui</module>
@@ -288,7 +334,7 @@
     <module>viewer/org.eclipse.birt.report.viewer</module>
     <!-- 
     <module>viewer/org.eclipse.birt.report.viewer.tests</module>
-    -->Use similar wording when displaying list of supported templates
+    -->
     <module>xtab/org.eclipse.birt.report.item.crosstab.core</module>
     <!--
     <module>xtab/org.eclipse.birt.report.item.crosstab.core.tests</module>
@@ -296,54 +342,26 @@
     <module>xtab/org.eclipse.birt.report.item.crosstab.ui</module>
   </modules>
     
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tycho.version>0.19.0</tycho.version>
-        <!--
-        <luna-repo.url>/luna-repo.url>
-        -->
-        <luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
-    </properties>
-    <repositories>
-        <!-- BIRT need Eclipse/EMF/GEF/DTP/ORBIT/WTP-->
-        <repository>
-            <id>emf</id>
-            <url>http://download.eclipse.org/modeling/emf/updates/releases/</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>wtp</id>
-            <url>http://download.eclipse.org/webtools/repository/luna/</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>gef</id>
-            <url>http://download.eclipse.org/tools/gef/updates/releases/</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>luna</id>
-            <url>http://download.eclipse.org/eclipse/updates/4.4/</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>orbit</id>
-            <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>dtp</id>
-            <url>http://download.eclipse.org/datatools/updates/1.12</url>
-            <layout>p2</layout>
-        </repository>
-    </repositories>
     <build>
         <plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<pomDependencies>consider</pomDependencies>
+				</configuration>
+			</plugin>
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-maven-plugin</artifactId>
                 <version>${tycho.version}</version>
                 <extensions>true</extensions>
+            </plugin>
+            <plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-versions-plugin</artifactId>
+                <version>${tycho.version}</version>
             </plugin>
         </plugins>
     </build>
