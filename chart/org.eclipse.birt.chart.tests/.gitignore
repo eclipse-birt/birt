@@ -1,2 +1,3 @@
 bin
-src/org/eclipse/birt/chart/tests/device/outputtarget
+charttests.jar
+target

@@ -56,9 +56,9 @@
     <module>UI/org.eclipse.birt.report.debug.ui</module>
     <module>UI/org.eclipse.birt.report.designer.core</module>
     <module>UI/org.eclipse.birt.report.designer.samplereports</module>
-    <!--
+	<!--
     <module>UI/org.eclipse.birt.report.designer.tests</module>
-    -->
+	-->
     <module>UI/org.eclipse.birt.report.designer.ui</module>
     <module>UI/org.eclipse.birt.report.designer.ui.cubebuilder</module>
     <module>UI/org.eclipse.birt.report.designer.ui.data</module>
@@ -101,19 +101,15 @@
     <module>chart/org.eclipse.birt.chart.integration.wtp.ui</module>
     <module>chart/org.eclipse.birt.chart.reportitem</module>
     <module>chart/org.eclipse.birt.chart.reportitem.ui</module>
-    <!--
     <module>chart/org.eclipse.birt.chart.tests</module>
-    -->
     <module>chart/org.eclipse.birt.chart.ui</module>
     <module>chart/org.eclipse.birt.chart.ui.extension</module>
     <module>chart/org.eclipse.birt.chart.viewer</module>
     <module>common/org.apache.derby.core</module>
     <module>common/org.w3c.sac</module>
     <module>core/org.eclipse.birt.core</module>
-    <!--
     <module>core/org.eclipse.birt.core.testhelper</module>
     <module>core/org.eclipse.birt.core.tests</module>
-    -->
     <module>core/org.eclipse.birt.core.ui</module>
     <module>data/org.eclipse.birt.core.script.function</module>
     <module>data/org.eclipse.birt.data</module>
@@ -123,9 +119,7 @@
     <module>data/org.eclipse.birt.data.oda.pojo</module>
     <module>data/org.eclipse.birt.data.oda.pojo.tests</module>
     <module>data/org.eclipse.birt.data.oda.pojo.ui</module>
-    <!--
     <module>data/org.eclipse.birt.data.tests</module>
-    -->
     <module>data/org.eclipse.birt.me.prettyprint.hector</module>
     <module>data/org.eclipse.birt.report.data.adapter</module>
     <module>data/org.eclipse.birt.report.data.bidi.utils</module>
@@ -139,9 +133,7 @@
     <module>data/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb</module>
     <module>data/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui</module>
     <module>data/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui</module>
-    <!--
     <module>data/org.eclipse.birt.report.data.oda.jdbc.tests</module>
-    -->
     <module>data/org.eclipse.birt.report.data.oda.jdbc.ui</module>
     <module>data/org.eclipse.birt.report.data.oda.sampledb</module>
     <module>data/org.eclipse.birt.report.data.oda.sampledb.ui</module>
@@ -158,9 +150,7 @@
     <module>engine/org.eclipse.birt.report.engine</module>
     <module>engine/org.eclipse.birt.report.engine.dataextraction</module>
     <module>engine/org.eclipse.birt.report.engine.dataextraction.csv</module>
-    <!--    
     <module>engine/org.eclipse.birt.report.engine.dataextraction.csv.tests</module>
-    -->
     <module>engine/org.eclipse.birt.report.engine.emitter.config</module>
     <module>engine/org.eclipse.birt.report.engine.emitter.config.docx</module>
     <module>engine/org.eclipse.birt.report.engine.emitter.config.excel</module>
@@ -175,35 +165,24 @@
     <module>engine/org.eclipse.birt.report.engine.emitter.config.wpml</module>
     <module>engine/org.eclipse.birt.report.engine.emitter.docx</module>
     <module>engine/org.eclipse.birt.report.engine.emitter.html</module>
-    <!--
     <module>engine/org.eclipse.birt.report.engine.emitter.html.tests</module>
-    -->
     <module>engine/org.eclipse.birt.report.engine.emitter.odp</module>
     <module>engine/org.eclipse.birt.report.engine.emitter.ods</module>
     <module>engine/org.eclipse.birt.report.engine.emitter.odt</module>
     <module>engine/org.eclipse.birt.report.engine.emitter.pdf</module>
-    <!--
     <module>engine/org.eclipse.birt.report.engine.emitter.pdf.tests</module>
-    -->
     <module>engine/org.eclipse.birt.report.engine.emitter.postscript</module>
-    <!--
     <module>engine/org.eclipse.birt.report.engine.emitter.postscript.tests</module>
-    -->
     <module>engine/org.eclipse.birt.report.engine.emitter.ppt</module>
     <module>engine/org.eclipse.birt.report.engine.emitter.pptx</module>
     <module>engine/org.eclipse.birt.report.engine.emitter.prototype.excel</module>
- 
-    <!--   
     <module>engine/org.eclipse.birt.report.engine.emitter.prototype.excel.tests</module>
-    -->
     <module>engine/org.eclipse.birt.report.engine.emitter.wpml</module>
     <module>engine/org.eclipse.birt.report.engine.fonts</module>
     <module>engine/org.eclipse.birt.report.engine.odf</module>
     <module>engine/org.eclipse.birt.report.engine.ooxml</module>
-    <!--
     <module>engine/org.eclipse.birt.report.engine.testhelper</module>
     <module>engine/org.eclipse.birt.report.engine.tests</module>
-    -->
     <module>engine/uk.co.spudsoft.birt.emitters.excel</module>
     <!--
     <module>engine/uk.co.spudsoft.birt.emitters.excel.tests</module>
@@ -234,11 +213,9 @@
     -->
     <module>model/org.eclipse.birt.report.model</module>
     <module>model/org.eclipse.birt.report.model.adapter.oda</module>
-    <!--
     <module>model/org.eclipse.birt.report.model.testhelper</module>
     <module>model/org.eclipse.birt.report.model.adapter.oda.tests</module>
     <module>model/org.eclipse.birt.report.model.tests</module>
-    -->
 
     <module>model/org.eclipse.birt.resources</module>
     <!--
@@ -336,9 +313,7 @@
     <module>viewer/org.eclipse.birt.report.viewer.tests</module>
     -->
     <module>xtab/org.eclipse.birt.report.item.crosstab.core</module>
-    <!--
     <module>xtab/org.eclipse.birt.report.item.crosstab.core.tests</module>
-    -->
     <module>xtab/org.eclipse.birt.report.item.crosstab.ui</module>
   </modules>
     
