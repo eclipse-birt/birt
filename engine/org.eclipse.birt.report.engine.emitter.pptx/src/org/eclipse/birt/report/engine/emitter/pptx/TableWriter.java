@@ -451,6 +451,7 @@ public class TableWriter
 		writer.openTag( "a:tcPr" );
 		// it is set zero since no way to retrieve margin except to set public
 		IArea cellchild = cell.getFirstChild( );
+		String valign = null;
 		if ( cellchild instanceof BlockTextArea
 				&& cell.getChildrenCount( ) == 1 )
 		{
@@ -466,14 +467,17 @@ public class TableWriter
 				marB = 0;
 			}
 			canvas.writeMarginProperties( marT, marR, marB, marL );
+			valign = ((BlockTextArea) cellchild).getContent().getComputedStyle( ).getVerticalAlign( );
 		}
 		else
 		{// default behavior:
 			canvas.writeMarginProperties( 0, 0, 0, 0 );
 		}
 
-		ICellContent content = (ICellContent) cell.getContent( );
-		String valign = content.getComputedStyle( ).getVerticalAlign( );
+		if ( valign == null )
+		{
+			valign = cell.getContent( ).getComputedStyle( ).getVerticalAlign( );
+		}
 		if ( !( valign.equals( "baseline" ) || valign.equals( "top" ) ) )
 		{
 			if ( valign.equals( "middle" ) )
