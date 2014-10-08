@@ -136,8 +136,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 
 	protected JSExpression createJSExpression( )
 	{
-		return new JSExpression( context,
-				currentExpressionStr );
+		return new JSExpression( context, currentExpressionStr );
 	}
 
 	/**
@@ -241,14 +240,14 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 						null,
 						metas[i].getName( ),
 						null,
-						null ) );
+						metas[i].getDescription( ) ) );
 			}
 		}
 		return proposals.toArray( new CompletionProposal[proposals.size( )] );
 	}
 
-	protected CompletionProposal[] getCompletionProposals( JSObjectMetaData meta,
-			int offset )
+	protected CompletionProposal[] getCompletionProposals(
+			JSObjectMetaData meta, int offset )
 	{
 		List<CompletionProposal> proposals = new ArrayList<CompletionProposal>( );
 		int wordLength = currentWord == null ? 0 : currentWord.length( );
@@ -270,7 +269,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 							getMemberImage( members[i].getVisibility( ) ),
 							members[i].getDisplayText( ),
 							null,
-							null ) );
+							members[i].getDescription( ) ) );
 				}
 			}
 		}
@@ -298,7 +297,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 							getMethodImage( methods[i].getVisibility( ) ),
 							methods[i].getDisplayText( ),
 							null,
-							null ) );
+							methods[i].getDescription( ) ) );
 				}
 			}
 		}
@@ -344,8 +343,8 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#computeContextInformation(org.eclipse.jface.text.ITextViewer,
-	 *      int)
+	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
+	 * computeContextInformation(org.eclipse.jface.text.ITextViewer, int)
 	 */
 	public IContextInformation[] computeContextInformation( ITextViewer viewer,
 			int offset )
@@ -356,7 +355,8 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#getCompletionProposalAutoActivationCharacters()
+	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
+	 * getCompletionProposalAutoActivationCharacters()
 	 */
 	public char[] getCompletionProposalAutoActivationCharacters( )
 	{
@@ -368,7 +368,8 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#getContextInformationAutoActivationCharacters()
+	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
+	 * getContextInformationAutoActivationCharacters()
 	 */
 	public char[] getContextInformationAutoActivationCharacters( )
 	{
@@ -378,7 +379,9 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#getErrorMessage()
+	 * @see
+	 * org.eclipse.jface.text.contentassist.IContentAssistProcessor#getErrorMessage
+	 * ()
 	 */
 	public String getErrorMessage( )
 	{
@@ -388,7 +391,8 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#getContextInformationValidator()
+	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
+	 * getContextInformationValidator()
 	 */
 	public IContextInformationValidator getContextInformationValidator( )
 	{

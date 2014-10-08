@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.wtp.nl"
       label="%featureName"
-      version="4.4.0.qualifier"
+      version="4.2.3.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -19,8 +19,8 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.4"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/4.4"/>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/3.7"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/3.7"/>
    </url>
 
    <plugin

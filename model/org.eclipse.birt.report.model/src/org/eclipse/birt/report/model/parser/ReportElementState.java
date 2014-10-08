@@ -583,7 +583,7 @@ public abstract class ReportElementState extends DesignParseState
 		if ( name != null && isManagedByNameSpace )
 		{
 			NameExecutor executor = new NameExecutor( module, content );
-			int namespceId = executor.getNameSpaceId( );
+			String namespceId = executor.getNameSpaceId( );
 			NameSpace ns = executor.getNameSpace( );
 			DesignElement existedElement = executor.getElement( name );
 			if ( existedElement != null )

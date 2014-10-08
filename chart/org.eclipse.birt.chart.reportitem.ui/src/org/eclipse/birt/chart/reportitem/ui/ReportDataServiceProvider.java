@@ -1413,8 +1413,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	protected boolean isAvailableExtensionToReferenceDataBinding(
 			String extensionName )
 	{
-		return ChartReportItemConstants.CHART_EXTENSION_NAME.equals( extensionName )
-				|| ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( extensionName );
+		return ChartReportItemUtil.isAvailableExtensionToReferenceDataBinding( extensionName );
 	}
 
 	private String[] getAllReportItemReferences(

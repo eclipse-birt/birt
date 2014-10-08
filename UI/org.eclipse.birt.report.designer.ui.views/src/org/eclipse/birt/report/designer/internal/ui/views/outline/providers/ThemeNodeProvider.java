@@ -42,6 +42,8 @@ import org.eclipse.ui.PlatformUI;
 public class ThemeNodeProvider extends DefaultNodeProvider
 {
 
+	protected static final String NEW_STYLE_ACTION_ID = "org.eclipse.birt.report.designer.internal.ui.action.NewStyleAction"; //$NON-NLS-1$
+
 	/**
 	 * Creates the context menu for the given object.
 	 * 
@@ -55,8 +57,16 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 	{
 		if ( canContain( object ) )
 		{
-			menu.add( new InsertAction( object,
-					Messages.getString( "StylesNodeProvider.action.New" ) ) ); //$NON-NLS-1$
+			InsertAction newStyleAction = new InsertAction( object,
+					Messages.getString( "StylesNodeProvider.action.New" ) ) { //$NON-NLS-1$
+
+				@Override
+				public String getId( )
+				{
+					return NEW_STYLE_ACTION_ID;
+				}
+			};
+			menu.add( newStyleAction );
 		}
 
 		super.createContextMenu( sourceViewer, object, menu );
@@ -81,11 +91,12 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 		return ( (ThemeHandle) model ).getDisplayLabel( );
 	}
 
-	protected DesignElementHandle createElement( ElementDetailHandle slotHandle,
-			String type ) throws Exception
+	protected DesignElementHandle createElement(
+			ElementDetailHandle slotHandle, String type ) throws Exception
 	{
 		ThemeHandle theme = (ThemeHandle) slotHandle.getElementHandle( );
-		DesignElementFactory factory = DesignElementFactory.getInstance( );
+		DesignElementFactory factory = DesignElementFactory.getInstance( slotHandle.getElementHandle( )
+				.getModuleHandle( ) );
 		SharedStyleHandle handle = factory.newStyle( theme, null );
 
 		StyleBuilder builder = new StyleBuilder( PlatformUI.getWorkbench( )
@@ -102,7 +113,9 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.views.INodeProvider#getChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.views.INodeProvider#getChildren(java
+	 * .lang.Object)
 	 */
 	public Object[] getChildren( Object model )
 	{
