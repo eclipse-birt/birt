@@ -191,7 +191,7 @@ public class BirtCompTest extends TestCase
 				//greater than
 				{"BirtComp.greaterThan(100,10);", true},
 				{"BirtComp.greaterThan(null,null)", false},
-				{"BirtComp.greaterThan(\"aBC\",\"ABC\")", false},
+				{"BirtComp.greaterThan(\"aBC\",\"ABC\")", true},
 				{"BirtComp.greaterThan(new Date(99,9,10),\"1999-11-10\")", false},
 				{"BirtComp.greaterThan(\"1999-11-10\",new Date(99,9,10))", true},
 				{"BirtComp.greaterThan(20,100)", false},
@@ -199,7 +199,7 @@ public class BirtCompTest extends TestCase
 				//greater than or equal to
 				{"BirtComp.greaterOrEqual(100,10);", true},
 				{"BirtComp.greaterOrEqual(null,null)", true},
-				{"BirtComp.greaterOrEqual(\"aBC\",\"ABC\")", false},
+				{"BirtComp.greaterOrEqual(\"aBC\",\"ABC\")", true},
 				{"BirtComp.greaterOrEqual(new Date(99,9,10),\"1999-11-10\")", false},
 				{"BirtComp.greaterOrEqual(\"1999-11-10\",new Date(99,9,10))", true},
 				{"BirtComp.greaterOrEqual(20,100)", false},
@@ -207,15 +207,15 @@ public class BirtCompTest extends TestCase
 				//Less than
 				{"BirtComp.lessThan(10,100);", true},
 				{"BirtComp.lessThan(null,null)", false},
-				{"BirtComp.lessThan(\"aBC\",\"ABC\")", true},
+				{"BirtComp.lessThan(\"aBC\",\"ABC\")", false},
 				{"BirtComp.lessThan(new Date(99,9,10),\"1999-11-10\")", true},
 				{"BirtComp.lessThan(\"1999-11-10\",new Date(99,9,10))", false},
 				{"BirtComp.lessThan(20,100)", true},
 				
-				//greater than or equal to
+				//Less than or equal to
 				{"BirtComp.lessOrEqual(100,10);", false},
 				{"BirtComp.lessOrEqual(null,null)", true},
-				{"BirtComp.lessOrEqual(\"aBC\",\"ABC\")", true},
+				{"BirtComp.lessOrEqual(\"aBC\",\"ABC\")", false},
 				{"BirtComp.lessOrEqual(new Date(99,9,10),\"1999-11-10\")", true},
 				{"BirtComp.lessOrEqual(\"1999-11-10\",new Date(99,9,10))", false},
 				{"BirtComp.lessOrEqual(100,100)", true}
