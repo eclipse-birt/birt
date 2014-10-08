@@ -285,10 +285,11 @@ public class DataTypeUtilTest extends TestCase
 				new Double( Double.MAX_VALUE ),
 				new Double( Double.MIN_VALUE )
 		};
+		// Behavior change, will return null rather than throwing exception
 		resultObjectDecimal = new Object[]{
-				new Exception( "" ),
-				new Exception( "" ),
-				new Exception( "" ),
+				null,
+				null,
+				null,
 				new BigDecimal( new Double( Double.MAX_VALUE ).toString( ) ),
 				new BigDecimal( new Double( Double.MIN_VALUE ).toString( ) )
 		};
@@ -901,7 +902,7 @@ public class DataTypeUtilTest extends TestCase
 				}
 				
 				if( i == 9 )
-					assertEquals( result.replaceFirst( "\\Q+\\E.*", "" ), resultLocaleNeutralString[i] );
+					assertEquals( result.replaceFirst( "[+-]\\d{4}", "" ), resultLocaleNeutralString[i] );
 				else
 					assertEquals( result, resultLocaleNeutralString[i] );
 			}
@@ -955,7 +956,7 @@ public class DataTypeUtilTest extends TestCase
 		{
 		}
 		
-		dateStr = "2005-11-11";
+		dateStr = "2005/11/11";
 		locale = Locale.CHINA;		
 		try
 		{
@@ -963,7 +964,7 @@ public class DataTypeUtilTest extends TestCase
 		}
 		catch ( BirtException e )
 		{
-			fail("should throw Exception");
+			fail("should not throw Exception");
 		}
 		
 		dateStr = "11-11-2005";

@@ -761,7 +761,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		c2.setTime( d2 );
 		if ( c1.after( c2 ) )
 		{
-			return diffDay( c1, c2 ) * -1;
+			return -diffDay( c2, c1 ) ;
 		}
 		else
 		{
@@ -777,12 +777,6 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	static private long diffDay( Calendar d1, Calendar d2 )
 	{
-		if ( d1.after( d2 ) )
-		{ // swap dates so that d1 is start and d2 is end
-			Calendar swap = d1;
-			d1 = d2;
-			d2 = swap;
-		}
 		int days = d2.get( Calendar.DAY_OF_YEAR )
 				- d1.get( Calendar.DAY_OF_YEAR );
 		int y2 = d2.get( Calendar.YEAR );
@@ -829,13 +823,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static long diffHour( Date d1, Date d2 )
 	{
-		Calendar c = getClearedCalendarInstance( 0, 0, 1 );
-
-		return ( diffSecond( new Date( c.getTimeInMillis( ) ), d2 ) + 3000
-				* 60 * 60 * 24 * 7 )
-				/ ( 60 * 60 )
-				- ( diffSecond( new Date( c.getTimeInMillis( ) ), d1 ) + 3000
-						* 60 * 60 * 24 * 7 ) / ( 60 * 60 );
+		return diffSecond( d1, d2 ) / ( 60 * 60 );
 	}
 
 	private static class Function_DiffMinute extends Function_temp
@@ -870,13 +858,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static long diffMinute( Date d1, Date d2 )
 	{
-		Calendar c = getClearedCalendarInstance( 0, 0, 1  );
-
-		return ( diffSecond( new Date( c.getTimeInMillis( ) ), d2 ) + 3000
-				* 60 * 60 * 24 * 7 )
-				/ ( 60 )
-				- ( diffSecond( new Date( c.getTimeInMillis( ) ), d1 ) + 3000
-						* 60 * 60 * 24 * 7 ) / ( 60 );
+		return diffSecond( d1, d2 ) / 60;
 	}
 
 	/**
@@ -937,27 +919,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 		}
 		long diff = d2.getTime( ) - d1.getTime( );
-		try
-		{
-			if( timeZone != null && timeZone.inDaylightTime( d1 ) )
-				diff -= timeZone.getDSTSavings( );
-			if( timeZone != null && timeZone.inDaylightTime( d2 ) )
-				diff += timeZone.getDSTSavings( );
-		}
-		catch( NullPointerException ne )
-		{
-			// ICU TimeZone.inDaylightTime( ) may throw NPE in some case.
-			// This is ICU bug. We use java.util.TimeZone to fix this bug.
-			if( timeZone != null )
-			{
-				java.util.TimeZone jTimeZone = java.util.TimeZone.getTimeZone( timeZone.getID( ) );
-				jTimeZone.setRawOffset( timeZone.getRawOffset( ) );
-				if( jTimeZone.inDaylightTime( d1 ) )
-					diff -= jTimeZone.getDSTSavings( );
-				if( jTimeZone.inDaylightTime( d2 ) )
-					diff += jTimeZone.getDSTSavings( );
-			}
-		}
+
 		return   diff / 1000l ;
 	}
 
