@@ -644,15 +644,26 @@
 		<cvs dest="${buildDirectory}/maps/source/org.eclipse.birt.releng"
 			command="tag v${package.version}_${buildId}" />
 	</target>
-
+	
 	<target name="prepareMapFile" depends="checkLocal" unless="mapsLocal">
 
+		<!-- github doesn't support archive command, we cannot do this.
 		<exec executable="git" dir="${buildDirectory}/maps" output="${buildDirectory}/maps/maps.zip">
-			<arg line="archive --format=zip" />
-			<arg line="--remote=${mapGitRoot}/org.eclipse.birt.git" />
+			<arg line="archive - -format=zip" />
+			<arg line="- -remote=${mapGitRoot}/birt.git" />
 			<arg line="${mapVersionTag} releng/maps" />
 		</exec>
 		<unzip src="${buildDirectory}/maps/maps.zip" dest="${buildDirectory}/maps" />
+		-->
+		
+		<mkdir dir="${buildDirectory}/maps/releng/maps" />
+		
+		<!-- instead we simply copy the latest files from the cloned git repo -->
+		<!-- please update the path if you changed the repo -->
+		<echo>copy from: "${builder.dir}/gitClones/birt/releng/maps"</echo>
+		<copy todir="${buildDirectory}/maps/releng/maps" overwrite="true" failonerror="false">
+			<fileset dir="${builder.dir}/gitClones/birt/releng/maps" includes="**/*" />
+		</copy>
 
 		<!--compare the map files project -->
 		<antcall target="compareMapFiles" />
@@ -683,7 +694,6 @@
 
 	</target>
 
-
 	<target name="prepareSrc" if="prepare.src.flag">
 
 		<antcall target="logger">
@@ -697,12 +707,20 @@
 		</delete>
 		<mkdir dir="${buildDirectory}/source" />
 
+		<!-- github doesn't support archive command, we cannot do this.
 		<exec executable="git" dir="${buildDirectory}/source" output="${buildDirectory}/source/source.zip">
-			<arg line="archive --format=zip" />
-			<arg line="--remote=${mapGitRoot}/org.eclipse.birt.git" />
+			<arg line="archive - -format=zip" />
+			<arg line="- -remote=${mapGitRoot}/birt.git" />
 			<arg line="${mapVersionTag}" />
 		</exec>
 		<unzip src="${buildDirectory}/source/source.zip" dest="${buildDirectory}/source" />
+		-->
+		
+		<!-- instead we simply copy the latest files from the cloned git repo -->
+		<!-- please update the path if you changed the repo -->
+		<copy todir="${buildDirectory}/source" overwrite="true" failonerror="false">
+			<fileset dir="${builder.dir}/gitClones/birt" includes="**/*" />
+		</copy>
 
 		<antcall target="logger">
 			<param name="message" value="Finish to clone BIRT source" />
@@ -1355,6 +1373,17 @@
 				<attribute name="Manifest-Version" value="1.0" />
 			</manifest>
 		</buildJar>
+		<!-- exclude this jar from jar signing by adding META-INF/eclipse.inf -->
+                <mkdir dir="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}"/>
+		<unzip src="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}.jar" dest="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}"/>
+                <echo message="jarprocessor.exclude.sign=true" file="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}/META-INF/eclipse.inf"/>
+		<delete file="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}.jar" failonerror="false"/>
+                <!-- zip up the new jar --> 
+                <jar destfile="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}.jar"
+  		   basedir="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}"
+                   manifest="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}/META-INF/MANIFEST.MF"
+                /> 
+		<delete dir="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}"/>
 
 		<!-- comment out 3.7.0 release -->
 		<!-- <echo message="DTP plugins location: ${dtp.buildOutputDir} "/> <buildJar 
