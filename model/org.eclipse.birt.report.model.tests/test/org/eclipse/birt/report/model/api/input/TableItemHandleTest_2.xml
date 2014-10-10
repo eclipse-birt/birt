@@ -151,7 +151,7 @@
             </column>
             <column/>            
             <column>
-                <property name="width">20%</property>
+                <property name="width">0.6in</property>
             </column>            
         </table>
         <table name="testTable11">

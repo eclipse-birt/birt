@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -300,7 +301,7 @@ public class ParameterValidationUtilTest extends BaseTestCase
 
 		testDateTimeByFormat(
 				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE, value4 );
-		String value5 = "1970-01-01 20:01:44"; //$NON-NLS-1$
+		String value5 = "1970-01-01 19:01:44"; //$NON-NLS-1$
 		testDateTimeByFormat(
 				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME, value5 );
 		String value6 = "1970-01-01 20:01:44"; //$NON-NLS-1$
@@ -450,7 +451,7 @@ public class ParameterValidationUtilTest extends BaseTestCase
 						dateValue, ULocale.FRANCE ) );
 		// no format, then we display in (medium, short) pattern
 		assertEquals(
-				"Sep 13, 1998 8:01 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+				"Sep 13, 1998, 8:01 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
 								DesignChoiceConstants.PARAM_TYPE_DATETIME,
 								null, dateValue ) );
 
