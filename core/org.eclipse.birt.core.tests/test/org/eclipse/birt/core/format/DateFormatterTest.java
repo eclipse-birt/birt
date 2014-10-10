@@ -102,7 +102,7 @@ public class DateFormatterTest extends TestCase
 		SimpleDateFormat sampleJava = new SimpleDateFormat( "MM/dd/yy KK:mm aa", locale );
 		//assertEquals(sampleJava.format(date), sample.format(date));
 		sample.applyPattern( "MM/dd/yy KK:mm aa" );
-		assertEquals( "09/13/98 08:01 p.", sample.format( date ) );
+		assertEquals( "09/13/98 08:01 PM", sample.format( date ) );
 		sample = new DateFormatter( "Long Date", ULocale.forLocale(locale) );
 		assertEquals( "13 settembre 1998", sample.format( date ) );
 		assertTrue( true );
@@ -156,16 +156,25 @@ public class DateFormatterTest extends TestCase
 		sample.applyPattern( "d" );
 		assertEquals( "9/13/98", sample.format( date ) );
 		sample.applyPattern( "Long Time" );
-		assertEquals( true, sample.format( date ).startsWith( "8:01:44 PM GMT+" ) );
+		assertEquals( true, sample.format( date ).startsWith( "8:01:44 PM PDT" ) );
 		sample.applyPattern( "T" );
-		assertEquals( true, sample.format( date ).startsWith( "8:01:44 PM GMT+" ) );
+		assertEquals( true, sample.format( date ).startsWith( "8:01:44 PM PDT" ) );
+		
+		/*
+		 * Commented out below test code since ICU behavior changed, the result from ICU is no longer
+		 * the same as SimpleDateFormat.
+		 * ICU returns "September 13, 1998 at 8:01 PM" while SimepleDateFormat returns
+		 * 			   "September 13, 1998 8:01 PM"
+		 */
+		/*
 		SimpleDateFormat javaSample = (SimpleDateFormat) java.text.DateFormat
 				.getDateTimeInstance( java.text.DateFormat.LONG,
 						java.text.DateFormat.SHORT, locale );
-		sample.applyPattern( "f" );
+		sample.applyPattern( "f" );		
 		assertEquals( javaSample.format( date ), sample.format( date ) );
+		*/
 		sample.applyPattern( "General Date" );
-		assertEquals( true, sample.format( date ).startsWith( "September 13, 1998 8:01:44 PM GMT+" ) );
+		assertEquals( true, sample.format( date ).startsWith( "September 13, 1998 at 8:01:44 PM PDT" ) );
 
 		sample.applyPattern( "Short Time" );
 		assertEquals( "20:01", sample.format( date ) );
@@ -186,7 +195,7 @@ public class DateFormatterTest extends TestCase
 		String strTime = format.format( time );
 		String strDate = format.format( date );
 
-		assertEquals( "9/13/1998 8:01:44 PM", strDateTime );
+		assertEquals( "9/13/1998, 8:01:44 PM", strDateTime );
 		assertEquals( "9/13/1998", strDate );
 		assertEquals( "8:01:44 PM", strTime );
 		
@@ -226,7 +235,8 @@ public class DateFormatterTest extends TestCase
 		DateFormatter df = null;
 
 		Calendar dateCal = Calendar.getInstance( );
-		dateCal.set( 1998, 8, 13, 20, 1, 44 );
+		dateCal.setTimeZone(java.util.TimeZone.getTimeZone("PST"));
+		dateCal.set( 1998, 8, 13, 5, 1, 44 );
 		Date dateTime = dateCal.getTime( );
 		java.sql.Time sqlTime = new java.sql.Time( dateTime.getTime( ) );
 
