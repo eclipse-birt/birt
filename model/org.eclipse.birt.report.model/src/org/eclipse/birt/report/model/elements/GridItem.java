@@ -379,6 +379,7 @@ public class GridItem extends ReportItem
 			pos = pos + cell.getColSpan( module );
 
 		}
+		
 		//calculating spanned rows - see eclipse bug 423106
 		int cellRowNum = getRowNumber(row);
 		ContainerSlot rows = getSlot( ROW_SLOT );
