@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter
 import org.eclipse.core.resources.IProject;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.helper.DriverExtensionHelper;
+import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
@@ -164,6 +165,19 @@ public class DTPUtil
 			try
 			{
 				DataSetDesign design = response.getDataSetDesign( );
+				
+				// Check hint in column definition
+				if (design.getPrimaryResultSet( ) != null && design.getPrimaryResultSet().getResultSetColumns() != null) {
+					List<ColumnDefinition> resultColumnDefinitions = design.getPrimaryResultSet().getResultSetColumns().getResultColumnDefinitions();	
+					if (resultColumnDefinitions != null && !resultColumnDefinitions.isEmpty( )) {
+						Object hint = resultColumnDefinitions.get(0).getUsageHints();
+						if (hint == null) {
+							design.setPrimaryResultSet(null);
+							design.setResultSets( null );
+						}
+					}
+				}
+				
 				if ( ReportPlugin.getDefault( )
 						.getPluginPreferences( )
 						.getBoolean( DateSetPreferencePage.PROMPT_ENABLE ) == true )
