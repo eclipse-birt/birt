@@ -61,7 +61,7 @@ public class ElementDefnTest extends AbstractMetaTest
 		MetadataTestUtil.setHasStyle( def, true );
 		MetadataTestUtil.setName( def, "Name" ); //$NON-NLS-1$
 		MetadataTestUtil.setNameOption( def, 2 );
-		MetadataTestUtil.setNameSpaceID( def, 4 );
+		MetadataTestUtil.setNameSpaceID( def, "4" );
 
 		assertEquals( false, def.isAbstract( ) );
 		assertEquals( true, def.allowsUserProperties( ) );
@@ -71,7 +71,7 @@ public class ElementDefnTest extends AbstractMetaTest
 		assertEquals( true, def.hasStyle( ) );
 		assertEquals( "Name", def.getName( ) ); //$NON-NLS-1$
 		assertEquals( 2, def.getNameOption( ) );
-		assertEquals( 4, def.getNameSpaceID( ) );
+		assertEquals( "4", def.getNameSpaceID( ) );
 
 	}
 

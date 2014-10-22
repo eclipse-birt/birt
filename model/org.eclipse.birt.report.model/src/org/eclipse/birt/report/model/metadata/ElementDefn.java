@@ -1598,7 +1598,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * @return The name space ID.
 	 */
 
-	public int getNameSpaceID( )
+	public String getNameSpaceID( )
 	{
 		return nameConfig.nameSpaceID;
 	}
@@ -1790,11 +1790,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            The name space ID.
 	 */
 
-	void setNameSpaceID( int ns )
+	void setNameSpaceID( String ns )
 	{
 		assert !isBuilt;
 		nameConfig.nameSpaceID = ns;
-		if ( nameConfig.nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
+		if ( MetaDataConstants.NO_NAME_SPACE.equals(  nameConfig.nameSpaceID ) )
 			nameConfig.nameOption = MetaDataConstants.NO_NAME;
 	}
 

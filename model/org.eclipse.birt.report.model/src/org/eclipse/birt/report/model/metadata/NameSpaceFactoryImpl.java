@@ -49,7 +49,7 @@ class NameSpaceFactoryImpl
 	 * @param namespaceName
 	 * @return
 	 */
-	public int getNameSpaceID( String holdName, String namespaceName )
+	public String getNameSpaceID( String holdName, String namespaceName )
 	{
 		if ( ReportDesignConstants.DIMENSION_ELEMENT
 				.equalsIgnoreCase( holdName ) )
