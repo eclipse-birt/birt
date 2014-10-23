@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
 
-import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
@@ -37,6 +36,7 @@ public class TableWriter
 	private static final int DEFAULT_EMPTYCELL_FONTSIZE = 100;
 	private static final int MINIMUM_ROW_HEIGHT = 4000;
 	private static final int MINIMUM_COLUMN_WIDTH = 2000;
+	private static final int DEFAULT_RMARGIN = 19050;  // 0.02 inch margin
 	private int currentX;
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
@@ -461,7 +461,7 @@ public class TableWriter
 					- ( marL + cellchild.getWidth( ) ) );
 			int marB = PPTXUtil.convertToEnums( cell.getHeight( )
 					- ( marT + cellchild.getHeight( ) ) );
-			marR = marR < 0 ? 0 : marR;
+			marR = marR <= 0 ? DEFAULT_RMARGIN : marR;
 			if( marB < 0 || cell.getRowSpan( ) > 1 )
 			{
 				marB = 0;
