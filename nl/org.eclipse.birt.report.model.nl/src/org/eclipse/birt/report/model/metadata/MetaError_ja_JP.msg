@@ -118,11 +118,15 @@ REPORT_MISSING=ルート要素 : レポートデザインが定義されていません。
 INVALID_CHOICE_VALUE=プロパティ "{1}" に指定された選択値 "{0}" は無効です。
 
 MISSING_SUB_TYPE="{0}" はリスト型のプロパティですが、サブタイプがありません。
+
 UNSUPPORTED_SUB_TYPE=リスト型のプロパティ "{0}" にあるサブタイプ "{1}" は使用できません。
+
 SUB_TYPE_FORBIDDEN="{0}" はリスト型のプロパティではないため、サブタイプを null にしてください。
+
 MISSING_XML_NAME=具象要素 "{0}" で xml 名が定義されていません。
 
 DUPLICATE_XML_NAME=要素 "{1}" の xml 名 "{0}" は既存の名前と重複しています。
+
 INVALID_ELEMENT_TYPE=要素型 "{0}" が無効です。
 
 INVALID_CHOICE_PROPERTY=拡張 "{1}" の choice プロパティ "{0}" が無効です。detailType と、独自の選択リストの両方が定義されています。
@@ -132,4 +136,5 @@ EXTENDED_ITEM_MISSING=メタデータディクショナリに拡張項目が見つかりません。
 DEFAULT_ENCRYPTION_EXIST=デフォルトの暗号化はすでに "{1}" に指定されているため、"{0}" をデフォルトの暗号化には設定できません。
 
 DEFAULT_EMPTY_STYLE_NAME=拡張要素 "{0}" のデフォルトのスタイルは空白にできません。
+
 EMPTY_DELTA_ROM_STREAM=拡張子要素 "{0}" からクラス "{1}" で返された デルタ ROM 入力ストリームは空白にできません。

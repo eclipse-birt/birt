@@ -11,11 +11,15 @@
 
 birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=ƒiƒrƒQ[ƒVƒ‡ƒ“
+
 birt.viewer.title.error=ƒGƒ‰[
+
 birt.viewer.title.complete=Š®—¹
 
 birt.viewer.title.message=ƒƒbƒZ[ƒW
+
 birt.viewer.parameter=ƒpƒ‰ƒƒ^
+
 birt.viewer.runreport=ƒŒƒ|[ƒg‚ÌÀs
 
 birt.viewer.required=ƒAƒXƒ^ƒŠƒXƒN (<FONT COLOR="red">*</FONT>) ‚ª•t‚¢‚Ä‚¢‚éƒpƒ‰ƒƒ^‚Í•K{‚Å‚·B
@@ -39,6 +43,7 @@ birt.viewer.error.unknownerror=•s–¾‚ÈƒGƒ‰[‚Å‚·B
 birt.viewer.error.generatereportfirst=æ‚ÉƒŒƒ|[ƒg•¶‘‚ğ¶¬‚µ‚Ä‚­‚¾‚³‚¢B
 
 birt.viewer.error.copiesnumber=—LŒø‚ÈƒRƒs[”Ô†‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
+
 birt.viewer.error.parameterrequired=•K{ƒpƒ‰ƒƒ^ [{0}] ‚Ì’l‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 
 birt.viewer.error.parameternotallowblank=ƒpƒ‰ƒƒ^ "{0}" ‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
@@ -108,6 +113,7 @@ birt.viewer.progressbar.confirmcanceltask=Œ»İ‚Ìˆ—‚ğ’†~‚µ‚Ü‚·‚© ?
 # Dialog 
 ###############################################################################
 birt.viewer.dialog.ok=OK
+
 birt.viewer.dialog.cancel=ƒLƒƒƒ“ƒZƒ‹
 
 birt.viewer.dialog.run=ƒŒƒ|[ƒg‚ÌÀs
@@ -115,6 +121,7 @@ birt.viewer.dialog.run=ƒŒƒ|[ƒg‚ÌÀs
 birt.viewer.dialog.close=•Â‚¶‚é
 
 birt.viewer.dialog.page=ƒy[ƒW
+
 birt.viewer.dialog.page.all=‚·‚×‚Ä‚Ìƒy[ƒW
 
 birt.viewer.dialog.page.current=Œ»İ‚Ìƒy[ƒW
@@ -129,9 +136,11 @@ birt.viewer.dialog.page.error.invalidpagerange=ƒy[ƒW”ÍˆÍ‚ª–³Œø‚Å‚·B
 # Dialog title
 ###############################################################################
 birt.viewer.dialog.exception.title=—áŠO
+
 birt.viewer.dialog.exportReport.title=ƒŒƒ|[ƒg‚ÌƒGƒNƒXƒ|[ƒg
 
 birt.viewer.dialog.parameter.title=ƒpƒ‰ƒƒ^
+
 birt.viewer.dialog.simpleExportData.title=ƒf[ƒ^‚ÌƒGƒNƒXƒ|[ƒg
 
 birt.viewer.dialog.printReport.title=ƒŒƒ|[ƒg‚Ìˆóü
@@ -154,7 +163,9 @@ birt.viewer.dialog.export.modified=Œ»İ‚Ì•ÏX‚ğƒŒƒ|[ƒg‚É”½‰f‚µ‚ÄƒGƒNƒXƒ|[ƒg‚·‚
 birt.viewer.dialog.export.modified.detail=•\¦‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚¾‚¯‚ğƒGƒNƒXƒ|[ƒg‚µ‚Ü‚·B<BR>ƒtƒBƒ‹ƒ^‚É‚æ‚Á‚Ä‰B‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚ÍƒGƒNƒXƒ|[ƒg‚³‚ê‚Ü‚¹‚ñB
 
 birt.viewer.dialog.export.pdf.fitto=‡‚í‚¹‚é
+
 birt.viewer.dialog.export.pdf.fittoauto=©“®
+
 birt.viewer.dialog.export.pdf.fittoactual=À¡
 
 birt.viewer.dialog.export.pdf.fittowidth=ƒy[ƒW‚Ì•‚É‡‚í‚¹‚é
@@ -178,6 +189,7 @@ birt.viewer.dialog.printserver.onserver=o—Í•¶‘ƒtƒ@ƒCƒ‹‚ğƒT[ƒoã‚Åˆóü‚·‚é
 birt.viewer.dialog.printserver.printer=ƒvƒŠƒ“ƒ^ :
 
 birt.viewer.dialog.printserver.status=ó‘Ô:
+
 birt.viewer.dialog.printserver.model=ƒ‚ƒfƒ‹ :
 
 birt.viewer.dialog.printserver.description=à–¾ :
@@ -185,6 +197,7 @@ birt.viewer.dialog.printserver.description=à–¾ :
 birt.viewer.dialog.printserver.status.acceptingjobs=ƒWƒ‡ƒu‚ÌóM’†
 
 birt.viewer.dialog.printserver.status.notacceptingjobs=ƒWƒ‡ƒu‚ğ‹–‰Â‚µ‚È‚¢
+
 birt.viewer.dialog.printserver.settings=ˆóüİ’è‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 birt.viewer.dialog.printserver.settings.copies=•”” :
@@ -196,10 +209,15 @@ birt.viewer.dialog.printserver.settings.mode=ƒ‚[ƒh :
 birt.viewer.dialog.printserver.settings.mode.bw=ƒ‚ƒmƒNƒ
 
 birt.viewer.dialog.printserver.settings.mode.color=ƒJƒ‰[
+
 birt.viewer.dialog.printserver.settings.duplex=—¼–Êˆóü:
+
 birt.viewer.dialog.printserver.settings.duplex.simplex=•Ğ–Êˆóü
+
 birt.viewer.dialog.printserver.settings.duplex.horizontal=‰¡
+
 birt.viewer.dialog.printserver.settings.duplex.vertical=c
+
 birt.viewer.dialog.printserver.settings.pagesize=—p†ƒTƒCƒY :
 
 birt.viewer.dialog.printserver.settings.print=ˆóü :
@@ -252,6 +270,7 @@ birt.viewer.dialog.exportdata.datatype=—ñ‚Ìƒf[ƒ^Œ^‚ğƒGƒNƒXƒ|[ƒg‚·‚é
 birt.viewer.dialog.exportdata.localeneutral=ƒƒP[ƒ‹‚É’†—§“I‚ÈŒ`®‚ÅƒGƒNƒXƒ|[ƒg‚·‚é
 
 birt.viewer.dialog.exportdata.carriage_return=ƒf[ƒ^‚ğ•œ‹A‰üs•t‚«‚ÅƒGƒNƒXƒ|[ƒg
+
 birt.viewer.sep.0=ƒRƒ“ƒ} (,)
 
 birt.viewer.sep.1=ƒZƒ~ƒRƒƒ“ (;)
@@ -305,6 +324,7 @@ birt.viewer.actionException.INVALID_BOOKMARK=ƒuƒbƒNƒ}[ƒN {0} ‚ª–³Œø‚Å‚·BŠm”F‚µ
 birt.viewer.actionException.INVALID_PAGE_NUMBER=ƒy[ƒW”Ô† ({0}/{1}) ‚ª–³Œø‚Å‚·B
 
 birt.viewer.actionException.PAGE_NUMBER_PARSE_ERROR=ƒy[ƒW”Ô†: {0} ‚ª–³Œø‚Å‚·B
+
 birt.viewer.actionException.INVALID_ID_FORMAT=ID ‚ÌŒ`®‚ª–³Œø‚Å‚· (ID={0})B
 
 birt.viewer.actionException.DOCUMENT_FILE_NO_EXIST=ƒZƒbƒVƒ‡ƒ“‚ªƒ^ƒCƒ€ƒAƒEƒg‚É‚È‚Á‚½‚©A•¶‘ƒtƒ@ƒCƒ‹‚ª‚ ‚è‚Ü‚¹‚ñB

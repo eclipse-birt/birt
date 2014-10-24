@@ -7,7 +7,9 @@ SampleReportsView.Text.Explorer=Informes de muestras
 SampleReportsView.Text.Preview=Vista previa
 
 SampleReportsView.Text.Description=Descripción
+
 SampleReportsView.MessageDialog.Title=Pregunta
+
 SampleReportsView.MessageDialog.Message=El ''{0}'' ya existe. ¿Desea sustituirlo?
 
 SampleReportsView.Action.exportSampleReport=Guardar

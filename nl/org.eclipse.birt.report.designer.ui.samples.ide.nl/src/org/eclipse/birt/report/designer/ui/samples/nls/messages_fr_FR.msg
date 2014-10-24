@@ -7,7 +7,9 @@ SampleReportsView.Text.Explorer=Exemples d'états
 SampleReportsView.Text.Preview=Aperçu
 
 SampleReportsView.Text.Description=Description
+
 SampleReportsView.MessageDialog.Title=Question
+
 SampleReportsView.MessageDialog.Message=''{0}'' existe déjà. Voulez-vous le remplacer ?
 
 SampleReportsView.Action.exportSampleReport=Enregistrer

@@ -33,6 +33,7 @@ ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: 
 ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp=已成功删除 {1} 处的临时 {0} 文件。
 
 ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) - 结束
+
 ChartWithoutAxesImpl.exception.3DNotSupported=对于 ChartWithoutAxes，不支持 3D。
 
 ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) - 开始
@@ -40,9 +41,11 @@ ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl:
 ChartReportItemPresentationImpl.log.CouldNotDeleteTemp=无法删除在 {1} 处创建的临时 {0} 文件。
 
 ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) - 异常
+
 ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) - 结束
 
 ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) - 开始
+
 ChartReportItemQueryImpl.exception.getReportQueries=正在获取报表查询
 
 ChartReportItemQueryImpl.log.UnableToLocate=无法为图表对象找到报表项包装程序。
@@ -104,6 +107,7 @@ Element.Chart.xmlRepresentation=XML 模型
 Element.Chart.outputFormat=输出格式
 
 Element.Chart.action=操作
+
 Element.Chart.altText=替代文本
 
 Element.Chart.altTextID=替代文本关键字
@@ -114,7 +118,9 @@ choice.chart.dimension.two_dimensional_with_depth=二维并具有深度
 
 choice.chart.dimension.three_dimensional=3D
 property.category.general=常规
+
 property.category.types=类型
+
 property.label.title.value=标题:
 
 property.label.title.font.rotation=标题旋转:
@@ -124,10 +130,13 @@ property.label.legend.position=图例位置:
 property.label.legend.anchor=图例定位标记:
 
 property.label.chart.dimension=维:
+
 property.label.chart.plot.transposed=转置
 
 property.script=脚本
+
 property.onRender=呈现时
+
 exception.no.cube.edge=多维数据集游标没有边。请检查查询表达式是否正确。
 
 exception.script.syntaxError=脚本语法错误: {0}

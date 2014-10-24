@@ -12,18 +12,23 @@
 ###########################################################
 #Excel Emitter
 OdsEmitter.Description=OpenDocument スプレッドシート形式でレポートをレンダリングするためのオプションを設定します。
+
 OdsEmitter.DisplayName=OpenDocument スプレッドシート
 
 ###########################################################
 #Option Display Value
 OptionDisplayValue.WrappingText=文字列の折り返し
+
 OptionDisplayValue.ChartDpi=グラフの DPI
+
 OptionDisplayValue.HideGridlines=罫線を非表示
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=文字列を折り返すことができるかどうかを示します。
+
 OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
+
 OptionDescription.HideGridlines=罫線を非表示にします。
 
 ###########################################################

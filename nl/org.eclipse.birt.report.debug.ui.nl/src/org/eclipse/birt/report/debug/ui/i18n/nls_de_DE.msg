@@ -15,6 +15,7 @@ ScriptMainTab.msg.task.type=Aufgabentyp
 ScriptMainTab.msg.output=Ausgabe
 
 ScriptMainTab.msg.format=Format:
+
 ScriptMainTab.msg.debug.type.all=Alle
 
 ScriptMainTab.msg.debug.type.java=Java
@@ -70,6 +71,7 @@ ScriptMainTab.msg.select.report.file=Wählen Sie eine Berichtdatei.
 ScriptMainTab.button.text.search=Suchen...
 
 ScriptMainTab.button.text.variables=Variablen...
+
 ScriptMainTab.msg.open.target.file=Erstellte Datei nach dem Beenden öffnen
 
 ScriptMainTab.msg.use.default.engine.home=Standard-Engine-Stammverzeichnis verwenden

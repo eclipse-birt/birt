@@ -7,7 +7,9 @@ SampleReportsView.Text.Explorer=サンプルレポート
 SampleReportsView.Text.Preview=プレビュー
 
 SampleReportsView.Text.Description=説明
+
 SampleReportsView.MessageDialog.Title=質問
+
 SampleReportsView.MessageDialog.Message=''{0}'' はすでに存在します。置き換えますか ?
 
 SampleReportsView.Action.exportSampleReport=保存

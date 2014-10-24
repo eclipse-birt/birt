@@ -8,9 +8,12 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 
 datasource.name=Hive Data Source
 select.dataset.name=HQL Select Query
+
 jdbc.driver.name=Hive Driver
 dataset.property.queryTimeOut=&Query Time Out (in seconds)
+
 dataset.property.rowFetchSize=&Row Fetch Size
+
 dataset.property.addListFile=&Add List File
 #
 oda.data.source.name=Hive Data Source

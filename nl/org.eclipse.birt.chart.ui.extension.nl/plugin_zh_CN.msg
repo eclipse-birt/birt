@@ -1,4 +1,5 @@
 Series=系列
+
 ValueYSeries=值 (Y) 系列
 
 CategorySeries=类别系列

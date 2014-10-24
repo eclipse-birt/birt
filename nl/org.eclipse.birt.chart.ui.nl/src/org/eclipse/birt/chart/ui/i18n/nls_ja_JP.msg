@@ -3,6 +3,7 @@ DimensionType.2DWithDepth=2D 奥行き付き
 
 DimensionType.3D=3D
 Shared.Lbl.OK=\ \ \ OK
+
 Shared.Lbl.Cancel=キャンセル
 
 ButtonPanel.Lbl.SelectChartType=<< グラフの種類の選択
@@ -22,6 +23,7 @@ ChartDlg.Msg.ValidationErrors=グラフの定義にエラーが見つかりました。\nレポートを
 ChartDlg.Msg.AskCorrectLater=\nこのままグラフビルダを閉じて、\n後でエラーを修正しますか ?
 
 ChartDlg.Info.ChartDimension=ディメンション:
+
 ChartDlg.Info.AxisOrientation=\t向き :
 
 ChartSelector.Lbl.ChartTypes2=グラフの種類
@@ -57,7 +59,9 @@ ChartDlg.Title.ChartBuilder=グラフダイアログボックス
 DefaultChartTypeImpl.Label.ValueDefinitionName=値系列 (&Y) :
 
 DefaultUIServiceProviderImpl.Warn.Placeholder=DefaultUIServiceProviderImpl: これはプレースホルダークラスであり、何も動作しません。
+
 SheetPlaceHolder.Lbl.Placeholder=これは、{0} のプレースホルダーです。
+
 ChartDlg.Info.ChartStart=--------------------------- グラフの属性の開始 -------------------------
 
 ChartDlg.Info.ChartType=種類 :
@@ -101,6 +105,7 @@ ChartDlg.Info.ChartType2=種類 :
 ChartSelector.Lbl.Accept=確認
 
 ChartWizard.Title.ChartBuilder=グラフビルダ
+
 ChartWizard.Title.NewChart=グラフの新規作成
 
 ChartWizard.Title.EditChart=グラフの編集
@@ -110,12 +115,15 @@ ChartUIUtil.SeriesLabel=系列 {0}
 ChartUIUtil.StockExp.Low=最安値
 
 ChartUIUtil.Font.Auto=自動
+
 ChartDlg.Info.ChartSubType2=サブタイプ :
 
 ChartSelector.Lbl.Dimension=ディメンション(&D):
+
 ChartSelector.Lbl.EditChart=グラフの編集 >>
 
 ChartDlg.Info.Dimension=ディメンション:
+
 ChartDlg.Info.SeriesCount2=系列の数 :
 
 ChartDlg.Info.SeriesStart2=--------------------------- 系列の情報 ----------------------------

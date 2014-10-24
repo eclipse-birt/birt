@@ -150,6 +150,7 @@ DefaultDescription=Wählen Sie ein Beispiel aus den Kategorien aus.
 ###########################################################
 #Example View labels
 ChartExamples.Description=Beschreibung
+
 ChartExamples.Preview=Vorschau
 
 ChartExamples.SelectExamples=Beispiele auswählen
@@ -204,6 +205,7 @@ SampleChartName.Bubble=Blasen
 SampleChartName.Difference=Differenz
 
 SampleChartName.Gantt=Gantt
+
 SampleChartName.Tube=Röhre
 
 SampleChartName.Cone=Kegel

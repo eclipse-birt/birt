@@ -2,13 +2,20 @@
 Bundle-Name.0 = Complemento de la función
 
 dataType.String=String
+
 dataType.Any=Cualquiera
+
 dataType.DateTime=DateTime
 dataType.Integer=Entero
+
 dataType.Double=Doble
+
 dataType.Number=Número
+
 dataType.Boolean=Booleano
+
 dataType.DoubleArray=Doble[]
+
 FunctionDesc.charLength=Devuelve el número de caracteres del string.
 
 FunctionDesc.concat=Devuelve un string concatenado por todos los strings indicados.

@@ -2,13 +2,20 @@
 Bundle-Name.0 = Funktions-Plug-In
 
 dataType.String=Zeichenfolge
+
 dataType.Any=Any
+
 dataType.DateTime=DateTime
 dataType.Integer=Integer
+
 dataType.Double=Doppelt
+
 dataType.Number=Number
+
 dataType.Boolean=Boolean
+
 dataType.DoubleArray=Doppelt[]
+
 FunctionDesc.charLength=Gibt die Anzahl der Zeichen in der Zeichenfolge zurück.
 
 FunctionDesc.concat=Gibt eine Zeichenfolge zurück, die aus den angegebenen Zeichenfolgen zusammengesetzt ist.

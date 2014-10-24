@@ -15,6 +15,7 @@ AddSubTotalAction.TransName=合計の編集
 AddSubTotalAction.DisplayName=合計(&L)
 
 AddSubTotalAction.TotalName=合計
+
 CrosstabMenuBuilder.EditCubeAction.DisplayName=データキューブの編集(&E)
 
 DeleteDimensionViewHandleAction.TransName=ディメンションの削除
@@ -32,6 +33,7 @@ AddComputedMesureHandleAction.TransName=派生メジャーの追加
 AddComputedSummaryDialog.Title=派生メジャー
 
 AddComputedSummaryDialog.Label.Name=名前(&N) :
+
 AddComputedSummaryDialog.Label.Expression=式(&E) :
 
 AddComputedSummaryDialog.Label.DataType=データ型(&D) :
@@ -88,6 +90,7 @@ GrandTotalProvider.Column.DataField=データフィールド
 GrandTotalProvider.Column.View=ビュー
 
 GrandTotalProvider.Column.Position=位置
+
 GrandTotalProvider.Column.Function=関数
 
 GrandTotalProvider.ViewStatus=現在のビューの保存
@@ -105,6 +108,7 @@ SubTotalProvider.Column.ViewStatus=現在のビューの保存
 SubTotalProvider.Column.View=ビュー
 
 SubTotalProvider.Column.Position=位置
+
 SubTotalProvider.ShowAs={0} として表示
 
 LevelViewDialog.Title=グループレベルの表示/非表示
@@ -157,14 +161,17 @@ CrossTabCellNodeProvider.Cell=セル
 CrossTabLevelNodeProvider.Level=レベル -
 
 CrossTabMeasureNodeProvider.Detail=詳細 -
+
 MeasureSubNodeProvider.Header=ヘッダ
 
 MeasureSubNodeProvider.Detail=詳細
+
 MeasureSubNodeProvider.Aggregation=集計
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=グループレベル
 
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
+
 SortkeyBuilder.DialogTitle.Label.Key=キー(&K) :
 
 CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=ターゲット
@@ -184,6 +191,7 @@ SortkeyBuilder.Locale.Auto=自動
 ###########################################################
 #GrossTabPageGenerator properties
 CrosstabPageGenerator.List.General=全般
+
 CrosstabPageGenerator.List.Margin=余白
 
 CrosstabPageGenerator.List.Font=フォント
@@ -260,7 +268,9 @@ CategoryPageGenerator.TabItem.Attributes=プロパティ
 ###########################################################
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogMessage.Edit=
+
 FilterConditionBuilder.DialogMessage.New=
+
 FilterConditionBuilder.DialogTitle.New=フィルタ条件の新規作成
 
 FilterConditionBuilder.DialogTitle.Edit=フィルタ条件の編集
@@ -296,6 +306,7 @@ FilterConditionBuilder.button.add.tooltip=値リストに値を追加します。
 CrosstabFilterConditionBuilder.Item.Decorator=--------
 
 CrosstabFilterConditionBuilder.Button.Detal=詳細(&D)
+
 CrosstabFilterConditionBuilder.Item.SelectLevel=---レベルを選択---
 
 CrosstabFilterConditionBuilder.Item.SelectMeasure=---メジャーを選択---
@@ -313,9 +324,11 @@ CrosstabFilterConditionBuilder.Button.GroupLevel=グループレベル(&G)
 CrosstabFilterConditionBuilder.Button.Measure=メジャー(&U)
 
 CrosstabFilterConditionBuilder.Button.Cube=キューブ(&C)
+
 FilterbyTree.Bindings.Catogory.Measures=メジャー
 
 FilterbyTree.Bindings.Catogory.Dimension=ディメンション
+
 FilterbyTree.Bindings.Catogory.GrandTotal=総計
 
 FilterbyTree.Bindings.Catogory.SubTotal=小計
@@ -548,4 +561,5 @@ VirtualCrosstabCellNodeProvider.Display.RowArea=行領域
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=不明な領域
 
 CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (データモデル)
+
 CrosstabBindingRefresh.action.message=クロスタブのバインドの更新

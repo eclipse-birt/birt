@@ -7,7 +7,9 @@ SampleReportsView.Text.Explorer=샘플 보고서
 SampleReportsView.Text.Preview=미리 보기
 
 SampleReportsView.Text.Description=설명
+
 SampleReportsView.MessageDialog.Title=질문
+
 SampleReportsView.MessageDialog.Message=''{0}''이(가) 이미 있습니다. 바꾸시겠습니까?
 
 SampleReportsView.Action.exportSampleReport=저장

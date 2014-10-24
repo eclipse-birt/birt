@@ -22,26 +22,47 @@ First.displayName=Primero
 Last.displayName=Último
 
 Min.displayName=Mínimo
+
 Max.displayName=Máximo
+
 WeightedAverage.displayName=Media ponderada
+
 Median.displayName=Mediana
+
 Mode.displayName=Modo
+
 STDDEV.displayName=STDDEV
+
 Variance.displayName=Varianza
+
 Irr.displayName=Irr
+
 Mirr.displayName=Mirr
+
 NPV.displayName=NPV
+
 Percentile.displayName=Percentil
+
 Quartile.displayName=Cuartil
 #Running aggregates.
 MovingAverage.displayName=Media de traslado
+
 RunningSum.displayName=Suma en ejecución
+
 RunningNPV.displayName=NPV en ejecución
+
 Rank.displayName=Rango
+
 Top.displayName=Is-Top-N
+
 TopPercent.displayName=Is-Top-N-Percent
+
 Bottom.displayName=Is-Bottom-N
+
 BottomPercent.displayName=Is-Bottom-N-Percent
+
 PercentRank.displayName=Rango de porcentaje
+
 PercentSum.displayName=Suma de porcentaje
+
 RunningCount.displayName=Recuento en ejecución

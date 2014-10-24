@@ -33,6 +33,7 @@ ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: 
 ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp={1} から一時ファイル {0} を削除しました。
 
 ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) - 終了
+
 ChartWithoutAxesImpl.exception.3DNotSupported=ChartWithoutAxes では 3D を使用できません。
 
 ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) - 開始
@@ -40,9 +41,11 @@ ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl:
 ChartReportItemPresentationImpl.log.CouldNotDeleteTemp={1} に作成した一時ファイル {0} を削除できませんでした。
 
 ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) - 例外
+
 ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) - 終了
 
 ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) - 開始
+
 ChartReportItemQueryImpl.exception.getReportQueries=レポートクエリの取得
 
 ChartReportItemQueryImpl.log.UnableToLocate=グラフオブジェクトのレポート項目ラッパーが見つかりません。
@@ -104,6 +107,7 @@ Element.Chart.xmlRepresentation=XML モデル
 Element.Chart.outputFormat=出力書式
 
 Element.Chart.action=アクション
+
 Element.Chart.altText=代替テキスト
 
 Element.Chart.altTextID=代替テキストキー
@@ -114,7 +118,9 @@ choice.chart.dimension.two_dimensional_with_depth=2D 奥行き付き
 
 choice.chart.dimension.three_dimensional=3D
 property.category.general=全般
+
 property.category.types=型
+
 property.label.title.value=タイトル :
 
 property.label.title.font.rotation=タイトルの回転 :
@@ -124,10 +130,13 @@ property.label.legend.position=凡例の位置 :
 property.label.legend.anchor=凡例のアンカー :
 
 property.label.chart.dimension=ディメンション:
+
 property.label.chart.plot.transposed=置き換え後
 
 property.script=スクリプト
+
 property.onRender=onRender
+
 exception.no.cube.edge=データキューブのカーソルにエッジが定義されていません。クエリ式が正しいことを確認してください。
 
 exception.script.syntaxError=スクリプトの構文エラー : {0}

@@ -12,6 +12,7 @@
 ###########################################################
 #OpenDocument Text Emitter
 OdtEmitter.Description=Configurez les options pour un rendu de rapport au format Texte OpenDocument.
+
 OdtEmitter.DisplayName=Texte OpenDocument
 
 ###########################################################

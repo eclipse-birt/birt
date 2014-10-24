@@ -54,6 +54,7 @@ mDbOp_mapReduceCmdFailed=Impossible d'exécuter la commande RéduireCarte ({0})
 mDbOp_noCmdResults=Aucun résultat de commande disponible.
 
 mDbResultSet_cannotConvertFieldData=Impossible de convertir la valeur de champ '{0}' ({1}) de type de données {2} en valeur {3}
+
 queryModel_emptyExprErrorMsg=<expression vide>
 
 queryModel_invalidCollectionName=Nom de collection non valide (${0}).

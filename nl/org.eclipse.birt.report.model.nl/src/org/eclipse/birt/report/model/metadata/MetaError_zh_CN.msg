@@ -118,11 +118,15 @@ REPORT_MISSING=根元素: 未定义报表设计。
 INVALID_CHOICE_VALUE=属性 "{1}" 的选择值 "{0}" 无效。
 
 MISSING_SUB_TYPE=列表属性“{0}”没有子类型。
+
 UNSUPPORTED_SUB_TYPE=不支持列表属性“{0}”中的子类型“{1}”。
+
 SUB_TYPE_FORBIDDEN=属性“{0}”不是列表属性，因此子类型必须为空。
+
 MISSING_XML_NAME=实际元素“{0}”未定义 xml 名称。
 
 DUPLICATE_XML_NAME=元素“{1}”的 xml 名称“{0}”与现有名称冲突。
+
 INVALID_ELEMENT_TYPE=属性类型“{0}”无效。
 
 INVALID_CHOICE_PROPERTY=扩展“{1}”中的选项属性“{0}”无效，因为它同时定义了详细类型和它自己的选项列表。
@@ -132,4 +136,5 @@ EXTENDED_ITEM_MISSING=元数据词典中缺少扩展项。
 DEFAULT_ENCRYPTION_EXIST=加密“{0}”不能设置为默认值，因为默认加密“{1}”存在。
 
 DEFAULT_EMPTY_STYLE_NAME=扩展元素“{0}”的默认样式不应为空。
+
 EMPTY_DELTA_ROM_STREAM=类“{1}”从扩展元素“{0}”返回的 delta-rom 输入流不应为空。

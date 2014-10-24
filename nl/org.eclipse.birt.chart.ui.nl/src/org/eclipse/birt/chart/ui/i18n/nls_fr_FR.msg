@@ -3,6 +3,7 @@ DimensionType.2DWithDepth=Profondeur 2D
 
 DimensionType.3D=3D
 Shared.Lbl.OK=\ \ \ OK
+
 Shared.Lbl.Cancel=Annuler
 
 ButtonPanel.Lbl.SelectChartType=<< Sélectionner le type de graphique
@@ -22,6 +23,7 @@ ChartDlg.Msg.ValidationErrors=Erreurs détectées pendant la vérification de la dé
 ChartDlg.Msg.AskCorrectLater=\nSouhaitez-vous fermer le générateur de graphiques quand même\net corriger ces problèmes plus tard ?
 
 ChartDlg.Info.ChartDimension=Dimension :
+
 ChartDlg.Info.AxisOrientation=\tOrientation :
 
 ChartSelector.Lbl.ChartTypes2=Types de graphiques
@@ -57,7 +59,9 @@ ChartDlg.Title.ChartBuilder=Boîte de dialogue du graphique
 DefaultChartTypeImpl.Label.ValueDefinitionName=Séries (&Y) de valeur :
 
 DefaultUIServiceProviderImpl.Warn.Placeholder=DefaultUIServiceProviderImpl : ceci est une classe de marque de réservation et n'a pas de conséquence.
+
 SheetPlaceHolder.Lbl.Placeholder=Il s'agit d'une marque de réservation pour {0}
+
 ChartDlg.Info.ChartStart=--------------------------- Début des propriétés du graphique -------------------------
 
 ChartDlg.Info.ChartType=Type :
@@ -101,6 +105,7 @@ ChartDlg.Info.ChartType2=Type :
 ChartSelector.Lbl.Accept=Accepter
 
 ChartWizard.Title.ChartBuilder=Générateur de graphiques
+
 ChartWizard.Title.NewChart=Nouveau graphique
 
 ChartWizard.Title.EditChart=Modifier le graphique
@@ -110,12 +115,15 @@ ChartUIUtil.SeriesLabel=Série {0}
 ChartUIUtil.StockExp.Low=Faible
 
 ChartUIUtil.Font.Auto=Auto
+
 ChartDlg.Info.ChartSubType2=Sous-type :
 
 ChartSelector.Lbl.Dimension=&Dimension :
+
 ChartSelector.Lbl.EditChart=Modifier le graphique >>
 
 ChartDlg.Info.Dimension=Dimension :
+
 ChartDlg.Info.SeriesCount2=Nº de série :
 
 ChartDlg.Info.SeriesStart2=--------------------------- Infos série ----------------------------

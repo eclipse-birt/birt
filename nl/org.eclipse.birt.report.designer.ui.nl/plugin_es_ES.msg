@@ -62,6 +62,7 @@ preference.commenttemplates=Plantilla de comentario
 preference.bidiproperties=Propiedades bidireccionales
 
 preference.layout=Diseño
+
 preference.expressionsyntax=Sintaxis de expresión
 
 designer.action.undo.label=Deshacer
@@ -77,5 +78,7 @@ publish.library=Copiar Li&brería para compartir carpeta de recursos...
 ActionSet.Publish=Publicar recursos
 
 Dummy.label=
+
 preference.classpath=Classpath
+
 parameter.actions=Nuevo &parámetro de informe

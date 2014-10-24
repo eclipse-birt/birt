@@ -11,66 +11,66 @@
 
 ###########################################################
 #PDF Emitter
-PDFEmitter.Description=PDF (Portable Document Format) å½¢å¼ã§ãƒ¬ãƒãƒ¼ãƒˆã‚’ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã™ã‚‹ãŸã‚ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã—ã¾ã™ã€‚
+PDFEmitter.Description=PDF (Portable Document Format) Œ`Ž®‚ÅƒŒƒ|[ƒg‚ðƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚é‚½‚ß‚ÌƒIƒvƒVƒ‡ƒ“‚ðÝ’è‚µ‚Ü‚·B
 
 PDFEmitter.DisplayName=PDF
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=åŒæ–¹å‘ãƒ†ã‚­ã‚¹ãƒˆã®å‡¦ç†
+OptionDisplayValue.BidiProcessing=‘o•ûŒüƒeƒLƒXƒg‚Ìˆ—
 
-OptionDisplayValue.TextWrapping=æ–‡å­—åˆ—ã®æŠ˜ã‚Šè¿”ã—
+OptionDisplayValue.TextWrapping=•¶Žš—ñ‚ÌÜ‚è•Ô‚µ
 
-OptionDisplayValue.TextHyphenation=ãƒ†ã‚­ã‚¹ãƒˆã®ãƒã‚¤ãƒ•ãƒãƒ¼ã‚·ãƒ§ãƒ³
+OptionDisplayValue.TextHyphenation=ƒeƒLƒXƒg‚ÌƒnƒCƒtƒl[ƒVƒ‡ƒ“
 
-OptionDisplayValue.PageOverFlow=ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ã—ã¦ã„ã‚‹ãƒšãƒ¼ã‚¸ã®å‡¦ç†
+OptionDisplayValue.PageOverFlow=ƒI[ƒo[ƒtƒ[‚µ‚Ä‚¢‚éƒy[ƒW‚Ìˆ—
 
-OptionDisplayValue.CLIP_CONTENT=ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã®ã‚¯ãƒªãƒƒãƒ”ãƒ³ã‚°
+OptionDisplayValue.CLIP_CONTENT=ƒRƒ“ƒeƒ“ƒc‚ÌƒNƒŠƒbƒsƒ“ƒO
 
-OptionDisplayValue.FIT_TO_PAGE_SIZE=ãƒšãƒ¼ã‚¸ã‚µã‚¤ã‚ºã«åˆã‚ã›ã‚‹
+OptionDisplayValue.FIT_TO_PAGE_SIZE=ƒy[ƒWƒTƒCƒY‚É‡‚í‚¹‚é
 
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=è¤‡æ•°ãƒšãƒ¼ã‚¸ã‚’å‡ºåŠ›
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=•¡”ƒy[ƒW‚ðo—Í
 
-OptionDisplayValue.ENLARGE_PAGE_SIZE=ãƒšãƒ¼ã‚¸ã‚µã‚¤ã‚ºã‚’å¤§ããã™ã‚‹
+OptionDisplayValue.ENLARGE_PAGE_SIZE=ƒy[ƒWƒTƒCƒY‚ð‘å‚«‚­‚·‚é
 
-OptionDisplayValue.FontSubstitution=ãƒ•ã‚©ãƒ³ãƒˆã®ç½®ãæ›ãˆ
+OptionDisplayValue.FontSubstitution=ƒtƒHƒ“ƒg‚Ì’u‚«Š·‚¦
 
-OptionDisplayValue.EmbeddedFont=åŸ‹ã‚è¾¼ã¿ãƒ•ã‚©ãƒ³ãƒˆ
+OptionDisplayValue.EmbeddedFont=–„‚ßž‚ÝƒtƒHƒ“ƒg
 
-OptionDisplayValue.ChartDpi=ã‚°ãƒ©ãƒ•ã® DPI
+OptionDisplayValue.ChartDpi=ƒOƒ‰ƒt‚Ì DPI
 
-OptionDisplayValue.RenderChartInSVG=ãƒ™ã‚¯ã‚¿ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã§ã‚°ãƒ©ãƒ•ã‚’ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°
+OptionDisplayValue.RenderChartInSVG=ƒxƒNƒ^ƒOƒ‰ƒtƒBƒbƒN‚ÅƒOƒ‰ƒt‚ðƒŒƒ“ƒ_ƒŠƒ“ƒO
 
-OptionDisplayValue.RepaginateForPDF=PDF ã®ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã®ãƒšãƒ¼ã‚¸æ•°å†å‰²ã‚Šå½“ã¦
+OptionDisplayValue.RepaginateForPDF=PDF ‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ìƒy[ƒW”ÄŠ„‚è“–‚Ä
 
-OptionDisplayValue.DisableFlashAnimation=å°åˆ·æ™‚ã® Flash ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ç„¡åŠ¹ã«ã™ã‚‹
+OptionDisplayValue.DisableFlashAnimation=ˆóüŽž‚Ì Flash ƒAƒjƒ[ƒVƒ‡ƒ“‚ð–³Œø‚É‚·‚é
 
-OptionDisplayValue.DisablePrint=å°åˆ·ã‚’ç„¡åŠ¹ã«ã™ã‚‹
+OptionDisplayValue.DisablePrint=ˆóü‚ð–³Œø‚É‚·‚é
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=åŒæ–¹å‘ãƒ†ã‚­ã‚¹ãƒˆã‚’ã‚µãƒãƒ¼ãƒˆã—ã¾ã™ã€‚
+OptionDescription.BidiProcessing=‘o•ûŒüƒeƒLƒXƒg‚ðƒTƒ|[ƒg‚µ‚Ü‚·B
 
-OptionDescription.TextHyphenation=ãƒ†ã‚­ã‚¹ãƒˆã®ãƒã‚¤ãƒ•ãƒãƒ¼ã‚·ãƒ§ãƒ³ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¾ã™ã€‚
+OptionDescription.TextHyphenation=ƒeƒLƒXƒg‚ÌƒnƒCƒtƒl[ƒVƒ‡ƒ“‚ðƒTƒ|[ƒg‚µ‚Ü‚·B
 
-OptionDescription.TextWrapping=æ–‡å­—åˆ—ã‚’æŠ˜ã‚Šè¿”ã™ã“ã¨ãŒã§ãã‚‹ã‹ã©ã†ã‹ã‚’ç¤ºã—ã¾ã™ã€‚
+OptionDescription.TextWrapping=•¶Žš—ñ‚ðÜ‚è•Ô‚·‚±‚Æ‚ª‚Å‚«‚é‚©‚Ç‚¤‚©‚ðŽ¦‚µ‚Ü‚·B
 
-OptionDescription.PageOverFlow=ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã®å‡ºåŠ›æ–¹æ³•ã‚’åˆ¶å¾¡ã—ã¾ã™ã€‚
+OptionDescription.PageOverFlow=ƒRƒ“ƒeƒ“ƒc‚Ìo—Í•û–@‚ð§Œä‚µ‚Ü‚·B
 
-OptionDescription.FontSubstitution=æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚©ãƒ³ãƒˆã§è¡¨ç¤ºã§ããªã„æ–‡å­—ãŒã‚ã‚‹å ´åˆã¯ã€ãƒ•ã‚©ãƒ³ãƒˆã‚’è‡ªå‹•çš„ã«é¸æŠžã—ã¾ã™ã€‚
+OptionDescription.FontSubstitution=Žw’è‚³‚ê‚½ƒtƒHƒ“ƒg‚Å•\Ž¦‚Å‚«‚È‚¢•¶Žš‚ª‚ ‚éê‡‚ÍAƒtƒHƒ“ƒg‚ðŽ©“®“I‚É‘I‘ð‚µ‚Ü‚·B
 
-OptionDescription.EmbeddedFont=ç”Ÿæˆã•ã‚Œã‚‹ PDF ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ã€TrueType ãƒ•ã‚©ãƒ³ãƒˆãŒåŸ‹ã‚è¾¼ã¾ã‚Œã¾ã™ã€‚
+OptionDescription.EmbeddedFont=¶¬‚³‚ê‚é PDF ƒtƒ@ƒCƒ‹‚É‚ÍATrueType ƒtƒHƒ“ƒg‚ª–„‚ßž‚Ü‚ê‚Ü‚·B
 
-OptionDescription.ChartDpi=ã‚°ãƒ©ãƒ•ã®ç”Ÿæˆã«ä½¿ç”¨ã™ã‚‹ DPI ã§ã™ã€‚
+OptionDescription.ChartDpi=ƒOƒ‰ƒt‚Ì¶¬‚ÉŽg—p‚·‚é DPI ‚Å‚·B
 
-OptionDescription.RenderChartInSVG=ãƒ™ã‚¯ã‚¿ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã§ã‚°ãƒ©ãƒ•ã‚’ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã—ã¾ã™ã€‚
+OptionDescription.RenderChartInSVG=ƒxƒNƒ^ƒOƒ‰ƒtƒBƒbƒN‚ÅƒOƒ‰ƒt‚ðƒŒƒ“ƒ_ƒŠƒ“ƒO‚µ‚Ü‚·B
 
-OptionDescription.RepaginateForPDF=PDF ã®ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã®ãƒšãƒ¼ã‚¸æ•°å†å‰²ã‚Šå½“ã¦ã€‚
+OptionDescription.RepaginateForPDF=PDF ‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ìƒy[ƒW”ÄŠ„‚è“–‚ÄB
 
-OptionDescription.DisableFlashAnimation=å°åˆ·æ™‚ã® Flash ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ç„¡åŠ¹ã«ã—ã¾ã™ã€‚
+OptionDescription.DisableFlashAnimation=ˆóüŽž‚Ì Flash ƒAƒjƒ[ƒVƒ‡ƒ“‚ð–³Œø‚É‚µ‚Ü‚·B
 
-OptionDescription.DisablePrint=å°åˆ·ã‚’ç„¡åŠ¹ã«ã—ã¾ã™ã€‚
+OptionDescription.DisablePrint=ˆóü‚ð–³Œø‚É‚µ‚Ü‚·B
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=ã‚°ãƒ©ãƒ•ã‚¨ãƒ³ã‚¸ãƒ³ãŒã‚°ãƒ©ãƒ•ã®ç”Ÿæˆã«ä½¿ç”¨ã™ã‚‹ DPI ã§ã™ã€‚ä¾‹: 192ã€‚
+Tooltip.ChartDpi=ƒOƒ‰ƒtƒGƒ“ƒWƒ“‚ªƒOƒ‰ƒt‚Ì¶¬‚ÉŽg—p‚·‚é DPI ‚Å‚·B—á: 192B

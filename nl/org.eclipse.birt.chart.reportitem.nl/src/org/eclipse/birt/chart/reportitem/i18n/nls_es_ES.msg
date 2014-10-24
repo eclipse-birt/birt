@@ -33,6 +33,7 @@ ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: 
 ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp=Archivo {0} temporal eliminado con éxito en {1}.
 
 ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) - final
+
 ChartWithoutAxesImpl.exception.3DNotSupported=3D no compatible con ChartWithoutAxes.
 
 ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) - inicio
@@ -40,9 +41,11 @@ ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl:
 ChartReportItemPresentationImpl.log.CouldNotDeleteTemp=No se ha podido eliminar el archivo {0} temporal creado en {1}.
 
 ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) - excepción
+
 ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) - final
 
 ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) - inicio
+
 ChartReportItemQueryImpl.exception.getReportQueries=Obteniendo consultas de informe
 
 ChartReportItemQueryImpl.log.UnableToLocate=No se puede localizar el empaquetador de elementos de informe para el objeto de diagrama.
@@ -104,6 +107,7 @@ Element.Chart.xmlRepresentation=Modelo XML
 Element.Chart.outputFormat=Formato de salida
 
 Element.Chart.action=Acción
+
 Element.Chart.altText=Texto alternativo
 
 Element.Chart.altTextID=Clave de texto alternativo
@@ -114,7 +118,9 @@ choice.chart.dimension.two_dimensional_with_depth=2D con profundidad
 
 choice.chart.dimension.three_dimensional=3D
 property.category.general=General
+
 property.category.types=Tipos
+
 property.label.title.value=Título:
 
 property.label.title.font.rotation=Rotación de título:
@@ -124,10 +130,13 @@ property.label.legend.position=Posición de la leyenda:
 property.label.legend.anchor=Delimitador de la leyenda:
 
 property.label.chart.dimension=Dimensión:
+
 property.label.chart.plot.transposed=Transpuesto
 
 property.script=Script
+
 property.onRender=onRender
+
 exception.no.cube.edge=Cursor de cubo de datos sin extremo. Compruebe si las expresiones de la consulta son correctas.
 
 exception.script.syntaxError=Error de sintaxis de script: {0}

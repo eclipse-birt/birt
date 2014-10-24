@@ -61,6 +61,7 @@ DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=Relativer Pfad
 DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=Absoluter Pfad
 
 DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=Fehler
+
 DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=Basis-URI von Anwendungsressource konnte nicht abgerufen werden.
 
 DataSource.ClassPathPage.synchronize.checkbox.message=Verwenden Sie Laufzeit-Eigenschaften für Laufzeit und Designzeit
@@ -145,9 +146,11 @@ DataSet.FailedToLoadClassTitle=Fehler beim Laden von Klasse.
 DataSet.FailedToLoadPojoClassMsg=Fehler beim Laden von POJO-Klasse: '{0}'.
 
 ColumnMappingPage.table.head.columnName=Name
+
 ColumnMappingPage.table.head.MethodField=Methode/Feld
 
 ColumnMappingPage.table.head.columnType=Typ
+
 ColumnMappingWizardPage.error.getQueryText=Fehler bei Analyse von Originalabfragetext.
 
 ColumnMappingWizardPage.button.apply.text=Ü&bernehmen
@@ -165,6 +168,7 @@ ColumnMappingDialog.table.promptLabel=Zu Parameter zugeordnete Methoden&argument
 ColumnMappingDialog.table.head.mapped=Zugeordnet
 
 ColumnMappingDialog.table.head.name=Name
+
 ColumnMappingDialog.table.head.value=Wert
 
 ColumnMappingDialog.table.head.dataType=Java-Datentyp
@@ -190,6 +194,7 @@ ColumnMappingDialog.MenuItem.removeAll=Alle entfernen
 MethodParameterDialog.edit.title=Methodenparameter bearbeiten
 
 MethodParameterDialog.label.name=&Name:
+
 MethodParameterDialog.label.value=&Wert:
 
 MethodParameterDialog.label.dataType=&Java-Datentyp:
@@ -205,16 +210,23 @@ MethodParameterDialog.error.invalidParamName=Für den Parameter ist bereits ein a
 MethodParameterDialog.error.missingDataType=Der Parameterdatentyp darf nicht leer sein!
 
 DataSet.DataType.String=Zeichenfolge
+
 DataSet.DataType.Integer=Integer
 #make the display label consistent with BIRT data type 
 DataSet.DataType.Double=Float
+
 DataSet.DataType.Decimal=Decimal
+
 DataSet.DataType.Date=Datum
+
 DataSet.DataType.Time=Zeit
 #make the display label consistent with BIRT data type 
 DataSet.DataType.Timestamp=Datum/Uhrzeit
+
 DataSet.DataType.Boolean=Boolean
+
 DataSet.DataType.Blob=Blob
+
 DataSet.AddColumnMapping=Spaltenzuordnung hinzufügen
 
 DataSet.EditColumnMapping=Spaltenzuordnung bearbeiten
@@ -246,6 +258,7 @@ DataSet.PreviewDialogTitle=Beispieldaten
 DataSet.FailedFetchSampleData=Fehler beim Abrufen von Beispieldaten
 
 ExceptionDialog.title.erro=Fehler
+
 ExceptionDialog.DataSource.AddDuplicatedJar=Dieselbe JAR-Datei kann nicht mehrere Male hinzugefügt werden.
 
 error.PojoDataSet.emptyClassName=Der Klassenname darf nicht leer sein.
@@ -253,6 +266,7 @@ error.PojoDataSet.emptyClassName=Der Klassenname darf nicht leer sein.
 JarsSelectionDialog.button.importFile=Importdatei...
 
 JarsSelectionDialog.title.error=Fehler
+
 JarsSelectionDialog.title.overwrite=Überschreiben
 
 JarsSelectionDialog.overwrite.msg=Eine Datei mit diesem Namen ist bereits vorhanden. Soll sie überschrieben werden?

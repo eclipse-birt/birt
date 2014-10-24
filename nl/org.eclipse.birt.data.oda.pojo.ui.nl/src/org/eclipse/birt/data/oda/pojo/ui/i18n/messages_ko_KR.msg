@@ -61,6 +61,7 @@ DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=상대 경로
 DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=절대 경로
 
 DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=오류
+
 DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=응용 프로그램 리소스 기본 URI를 가져오지 못했습니다!
 
 DataSource.ClassPathPage.synchronize.checkbox.message=런타임 및 디자인 타임 모두에 대해 런타임 속성을 사용합니다.
@@ -145,9 +146,11 @@ DataSet.FailedToLoadClassTitle=클래스 로드 실패
 DataSet.FailedToLoadPojoClassMsg=POJO 클래스를 로드하지 못했습니다:"{0}".
 
 ColumnMappingPage.table.head.columnName=이름
+
 ColumnMappingPage.table.head.MethodField=메서드/필드
 
 ColumnMappingPage.table.head.columnType=형식
+
 ColumnMappingWizardPage.error.getQueryText=원본 쿼리 텍스트를 구문 분석하지 못했습니다.
 
 ColumnMappingWizardPage.button.apply.text=적용(&P)
@@ -165,6 +168,7 @@ ColumnMappingDialog.table.promptLabel=매개 변수에 매핑된 메서드 인수 선택(&A):
 ColumnMappingDialog.table.head.mapped=매핑됨
 
 ColumnMappingDialog.table.head.name=이름
+
 ColumnMappingDialog.table.head.value=값
 
 ColumnMappingDialog.table.head.dataType=Java 데이터 형식
@@ -190,6 +194,7 @@ ColumnMappingDialog.MenuItem.removeAll=모두 제거
 MethodParameterDialog.edit.title=메서드 매개 변수 편집
 
 MethodParameterDialog.label.name=이름(&N):
+
 MethodParameterDialog.label.value=값(&V):
 
 MethodParameterDialog.label.dataType=Java 데이터 형식(&J):
@@ -205,16 +210,23 @@ MethodParameterDialog.error.invalidParamName=매개 변수에 이미 다른 데이터 형식이
 MethodParameterDialog.error.missingDataType=매개 변수 데이터 형식을 입력해야 합니다.
 
 DataSet.DataType.String=문자열
+
 DataSet.DataType.Integer=정수
 #make the display label consistent with BIRT data type 
 DataSet.DataType.Double=고정 해제
+
 DataSet.DataType.Decimal=십진수
+
 DataSet.DataType.Date=날짜
+
 DataSet.DataType.Time=시간
 #make the display label consistent with BIRT data type 
 DataSet.DataType.Timestamp=날짜 시간
+
 DataSet.DataType.Boolean=부울
+
 DataSet.DataType.Blob=Blob
+
 DataSet.AddColumnMapping=열 매핑 추가
 
 DataSet.EditColumnMapping=열 매핑 편집
@@ -246,6 +258,7 @@ DataSet.PreviewDialogTitle=샘플 데이터
 DataSet.FailedFetchSampleData=샘플 데이터를 가져오지 못했습니다.
 
 ExceptionDialog.title.erro=오류
+
 ExceptionDialog.DataSource.AddDuplicatedJar=같은 jar를 여러 번 추가할 수 없습니다.
 
 error.PojoDataSet.emptyClassName=클래스 이름을 입력해야 합니다.
@@ -253,6 +266,7 @@ error.PojoDataSet.emptyClassName=클래스 이름을 입력해야 합니다.
 JarsSelectionDialog.button.importFile=파일 가져오기...
 
 JarsSelectionDialog.title.error=오류
+
 JarsSelectionDialog.title.overwrite=덮어쓰기
 
 JarsSelectionDialog.overwrite.msg=같은 이름의 파일이 이미 있습니다. 덮어쓰시겠습니까?

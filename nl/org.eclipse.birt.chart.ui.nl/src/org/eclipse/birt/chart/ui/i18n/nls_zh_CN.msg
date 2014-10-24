@@ -3,6 +3,7 @@ DimensionType.2DWithDepth=二维并具有深度
 
 DimensionType.3D=3D
 Shared.Lbl.OK=\ \ \ 确定
+
 Shared.Lbl.Cancel=取消
 
 ButtonPanel.Lbl.SelectChartType=<< 选择图表类型
@@ -22,6 +23,7 @@ ChartDlg.Msg.ValidationErrors=验证图表定义时发现错误\n请在查看报表前改正这些问题
 ChartDlg.Msg.AskCorrectLater=\n是否要关闭图表生成器\n并以后解决这些问题？
 
 ChartDlg.Info.ChartDimension=维:
+
 ChartDlg.Info.AxisOrientation=\t方向:
 
 ChartSelector.Lbl.ChartTypes2=图表类型
@@ -57,7 +59,9 @@ ChartDlg.Title.ChartBuilder=图表对话框
 DefaultChartTypeImpl.Label.ValueDefinitionName=值系列(&Y):
 
 DefaultUIServiceProviderImpl.Warn.Placeholder=DefaultUIServiceProviderImpl: 这是一个占位符号类，不会执行任何操作。
+
 SheetPlaceHolder.Lbl.Placeholder=这是 {0} 的一个占位符
+
 ChartDlg.Info.ChartStart=--------------------------- 图表属性开始 -------------------------
 
 ChartDlg.Info.ChartType=类型:
@@ -101,6 +105,7 @@ ChartDlg.Info.ChartType2=类型:
 ChartSelector.Lbl.Accept=接受
 
 ChartWizard.Title.ChartBuilder=图表生成器
+
 ChartWizard.Title.NewChart=新建图表
 
 ChartWizard.Title.EditChart=编辑图表
@@ -110,12 +115,15 @@ ChartUIUtil.SeriesLabel=系列 {0}
 ChartUIUtil.StockExp.Low=最低
 
 ChartUIUtil.Font.Auto=自动
+
 ChartDlg.Info.ChartSubType2=子类型:
 
 ChartSelector.Lbl.Dimension=维(&D):
+
 ChartSelector.Lbl.EditChart=编辑图表 >>
 
 ChartDlg.Info.Dimension=维:
+
 ChartDlg.Info.SeriesCount2=系列数:
 
 ChartDlg.Info.SeriesStart2=--------------------------- 系列信息 ----------------------------

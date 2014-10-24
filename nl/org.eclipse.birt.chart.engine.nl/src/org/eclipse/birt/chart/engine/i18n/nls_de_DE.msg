@@ -258,7 +258,9 @@ info.datapoint.to.string={0}:{1}
 info.stdenv.creating.dsp=(EINZELPLATZ-UMG) DataSetProcessor {0} wird erstellt
 
 constant.undefined.string=<nicht definiert>
+
 constant.null.string=Null
+
 error.invalid.enumerator=Der Wert ''{0}'' ist kein gültiger Zähler von ''{1}''
 
 error.invalid.classifier=Der Datentyp ''{0}'' ist kein gültiger Klassifikator
@@ -306,11 +308,16 @@ error.eclenv.cannot.find.display=(ECLIPSE-UMG) Anzeigeserver-Implementierung für
 error.stdenv.cannot.find.display=(EINZELPLATZ-UMG) Anzeigeserver-Implementierung für {0} nicht gefunden
 
 info.log.script=[SKRIPT]: {0}
+
 info.render.series={0}: renderSeries() [{1}/{2}]
 info.log.info=[INFO]: {0}
+
 info.log.warn=[WARN]: {0}
+
 info.log.err=[FEHLER]: {0}
+
 info.log.fatal=[NICHT BEHEBBAR]: {0}
+
 prefix.marker.range.caption=[
 separator.marker.range.caption=\ bis
 
@@ -374,18 +381,22 @@ GanttSeriesImpl.displayName=Gantt-Reihe
 DifferenceSeriesImpl.displayName=Differenz-Reihe
 
 AxisType.Linear.displayName=Linear
+
 AxisType.Logarithmic.displayName=Logarithmisch
 
 AxisType.Text.displayName=Text
-AxisType.DateTime.displayName=DateTime
 
+AxisType.DateTime.displayName=DateTime
 IntersectionType.Min.displayName=Min
+
 IntersectionType.Max.displayName=Max
+
 IntersectionType.Value.displayName=Wert
 
 ScaleUnitType.Seconds.displayName=Sekunden
 
 ScaleUnitType.Minutes.displayName=Minuten
+
 ScaleUnitType.Hours.displayName=Stunden
 
 ScaleUnitType.Days.displayName=Tage
@@ -433,6 +444,7 @@ TriggerCondition.onkeyup.displayName=Taste: Nach oben
 TriggerCondition.onload.displayName=Laden
 
 ActionType.URLRedirect.displayName=Hyperlink
+
 ActionType.ShowTooltip.displayName=QuickInfo anzeigen
 
 ActionType.ToggleVisibility.displayName=Sichtbarkeit ein/aus
@@ -470,6 +482,7 @@ LeaderLineStyle.StretchToSide.displayName=Seitlich strecken
 MarkerType.Crosshair.displayName=Fadenkreuz
 
 MarkerType.Triangle.displayName=Dreieck
+
 MarkerType.Box.displayName=Feld
 
 MarkerType.Circle.displayName=Kreis
@@ -477,16 +490,19 @@ MarkerType.Circle.displayName=Kreis
 MarkerType.Icon.displayName=Symbol
 
 MarkerType.Nabla.displayName=Nabla
+
 MarkerType.Diamond.displayName=Raute
 
 MarkerType.FourDiamonds.displayName=Vier Rauten
 
 MarkerType.Ellipse.displayName=Ellipse
+
 MarkerType.SemiCircle.displayName=Halbkreis
 
 MarkerType.Hexagon.displayName=Sechseck
 
 MarkerType.Rectangle.displayName=Rechteck
+
 MarkerType.Star.displayName=Stern
 
 MarkerType.Column.displayName=Reihe
@@ -494,7 +510,9 @@ MarkerType.Column.displayName=Reihe
 MarkerType.Cross.displayName=Kreuz
 
 RiserType.Rectangle.displayName=Rechteck
+
 RiserType.Triangle.displayName=Dreieck
+
 RiserType.Tube.displayName=Röhre
 
 RiserType.Cone.displayName=Kegel
@@ -532,12 +550,17 @@ AutoScale.Exception.IsInfiite=\ ist unendlich
 AutoScale.Exception.IsNaN=\ ist keine Zahl
 
 AutoScale.ValueName.StepSize=Schrittgröße
+
 Stretch.Horizontal.displayName=Horizontal
+
 Stretch.Vertical.displayName=Vertikal
+
 Stretch.Both.displayName=Beides
 
 Orientation.Horizontal.displayName=Horizontal
+
 Orientation.Vertical.displayName=Vertikal
+
 Direction.LeftRight.displayName=Von links nach rechts
 
 Direction.TopBottom.displayName=Von oben nach unten
@@ -559,7 +582,9 @@ Position.Inside.displayName=Innen
 Position.Outside.displayName=Außen
 
 UnitsOfMeasurement.Pixels.displayName=Pixel
+
 UnitsOfMeasurement.Points.displayName=Punkte
+
 UnitsOfMeasurement.Inches.displayName=Zoll
 
 UnitsOfMeasurement.Centimeters.displayName=Zentimeter
@@ -568,9 +593,11 @@ DataType.Numeric.displayName=Numerisch
 
 DataType.DateTime.displayName=DateTime
 DataType.Text.displayName=Text
+
 GroupingUnitType.Seconds.displayName=Sekunden
 
 GroupingUnitType.Minutes.displayName=Minuten
+
 GroupingUnitType.Hours.displayName=Stunden
 
 GroupingUnitType.Days.displayName=Tage
@@ -584,9 +611,11 @@ GroupingUnitType.Years.displayName=Jahre
 GroupingUnitType.Quarters.displayName=Quartale
 
 GroupingUnitType.String.displayName=Zeichenfolge
+
 GroupingUnitType.StringPrefix.displayName=Zeichenfolge-Präfix
 
 DateFormatType.Long.displayName=Lang
+
 DateFormatType.Short.displayName=Kurz
 
 DateFormatType.Medium.displayName=Mittel
@@ -594,16 +623,19 @@ DateFormatType.Medium.displayName=Mittel
 DateFormatType.Full.displayName=Vollständig
 
 DateFormatDetail.Date.displayName=Datum
+
 DateFormatDetail.DateTime.displayName=Datum/Uhrzeit
 
 DefaultValueProvider_BaseSeries=Basis-Datenreihe
 
 DefaultValueProvider_ChartSubType.Standard=Standard
+
 DefaultValueProvider_ChartSubType.StandardMeterChart=Standard-Tachometerdiagramm
 
 DefaultValueProvider_ChartTitle=Diagrammtitel
 
 DefaultValueProvider_ChartUnits.Points=Punkte
+
 LegendBehaviorType.None.displayName=Keine
 
 LegendBehaviorType.ToggleSerieVisibility.displayName=Sichtbarkeit der Datenreihe ein/aus
@@ -612,14 +644,17 @@ LegendBehaviorType.HighlightSerie.displayName=Datenreihe markieren
 
 # Defines cursor display names.
 Cursor.Auto.displayName=Automatisch
+
 Cursor.Crosshair.displayName=Fadenkreuz
 
 Cursor.Default.displayName=Standard
 
 Cursor.Pointer.displayName=Hand
+
 Cursor.Move.displayName=Verschieben
 
 Cursor.Text.displayName=Text
+
 Cursor.Wait.displayName=Warten
 
 Cursor.EResize.displayName=Osten

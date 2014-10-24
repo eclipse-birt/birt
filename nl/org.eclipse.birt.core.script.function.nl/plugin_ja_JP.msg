@@ -2,13 +2,20 @@
 Bundle-Name.0 = 関数プラグイン
 
 dataType.String=String
+
 dataType.Any=Any
+
 dataType.DateTime=DateTime
 dataType.Integer=Integer
+
 dataType.Double=Double
+
 dataType.Number=Number
+
 dataType.Boolean=Boolean
+
 dataType.DoubleArray=Double[]
+
 FunctionDesc.charLength=文字列内の文字数を返します。
 
 FunctionDesc.concat=指定したすべての文字列を結合した文字列を返します。

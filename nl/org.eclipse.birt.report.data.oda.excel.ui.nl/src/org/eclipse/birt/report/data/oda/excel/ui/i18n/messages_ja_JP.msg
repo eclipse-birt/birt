@@ -41,18 +41,23 @@ button.selectFileURI.menuItem.relativePath=相対パス(&R)
 button.selectFileURI.menuItem.absolutePath=絶対パス(&A)
 
 editor.title.name=名前
+
 editor.title.originalName=元の名前
 
 editor.title.type=種類
+
 datatypes.dateTime=日付 / 時刻
 
 datatypes.decimal=10 進数値
+
 datatypes.float=浮動
 
 datatypes.integer=整数
 
 datatypes.string=文字列
+
 datatypes.date=日付
+
 datatypes.time=時間
 
 datatypes.boolean=ブーリアン
@@ -110,8 +115,13 @@ confirm.reselectFileMessage=別のファイルを選択すると、これまでの作業が保存されず
 RelativeFolderSelectionDialog.Title.SelectFolder=フォルダの選択
 
 RelativeFileSelectionDialog.button.importFile=ファイルのインポート...
+
 RelativeFileSelectionDialog.title.error=エラー
+
 RelativeFileSelectionDialog.title.overwrite=上書き
+
 RelativeFileSelectionDialog.overwrite.msg=この名前のファイルはすでに存在します。上書きしますか ?
+
 RelativeFileSelectionDialog.import.msg=ファイルのインポート中...
+
 SelectFile.Title=ファイルの選択

@@ -150,6 +150,7 @@ DefaultDescription=请从类别中选择一个示例
 ###########################################################
 #Example View labels
 ChartExamples.Description=描述
+
 ChartExamples.Preview=预览
 
 ChartExamples.SelectExamples=选择示例
@@ -204,6 +205,7 @@ SampleChartName.Bubble=气泡图
 SampleChartName.Difference=差异图
 
 SampleChartName.Gantt=甘特图
+
 SampleChartName.Tube=管形图
 
 SampleChartName.Cone=锥形图

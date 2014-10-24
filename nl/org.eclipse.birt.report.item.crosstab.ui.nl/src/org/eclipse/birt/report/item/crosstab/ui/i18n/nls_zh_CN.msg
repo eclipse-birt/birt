@@ -15,6 +15,7 @@ AddSubTotalAction.TransName=编辑总计
 AddSubTotalAction.DisplayName=总计(&L)
 
 AddSubTotalAction.TotalName=合计
+
 CrosstabMenuBuilder.EditCubeAction.DisplayName=编辑多维数据集(&E)
 
 DeleteDimensionViewHandleAction.TransName=删除维
@@ -32,6 +33,7 @@ AddComputedMesureHandleAction.TransName=添加衍生度量
 AddComputedSummaryDialog.Title=衍生度量
 
 AddComputedSummaryDialog.Label.Name=名称(&N):
+
 AddComputedSummaryDialog.Label.Expression=表达式(&E):
 
 AddComputedSummaryDialog.Label.DataType=数据类型(&D):
@@ -88,6 +90,7 @@ GrandTotalProvider.Column.DataField=数据字段
 GrandTotalProvider.Column.View=视图
 
 GrandTotalProvider.Column.Position=位置
+
 GrandTotalProvider.Column.Function=函数
 
 GrandTotalProvider.ViewStatus=保留当前视图
@@ -105,6 +108,7 @@ SubTotalProvider.Column.ViewStatus=保留当前视图
 SubTotalProvider.Column.View=视图
 
 SubTotalProvider.Column.Position=位置
+
 SubTotalProvider.ShowAs=显示为 {0}
 
 LevelViewDialog.Title=显示/隐藏组级别
@@ -157,14 +161,17 @@ CrossTabCellNodeProvider.Cell=单元格
 CrossTabLevelNodeProvider.Level=级别 -
 
 CrossTabMeasureNodeProvider.Detail=详细资料 -
+
 MeasureSubNodeProvider.Header=页眉
 
 MeasureSubNodeProvider.Detail=详细资料
+
 MeasureSubNodeProvider.Aggregation=聚合
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=组级别
 
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
+
 SortkeyBuilder.DialogTitle.Label.Key=关键字(&K):
 
 CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=目标
@@ -184,6 +191,7 @@ SortkeyBuilder.Locale.Auto=自动
 ###########################################################
 #GrossTabPageGenerator properties
 CrosstabPageGenerator.List.General=常规
+
 CrosstabPageGenerator.List.Margin=边距
 
 CrosstabPageGenerator.List.Font=字体
@@ -260,7 +268,9 @@ CategoryPageGenerator.TabItem.Attributes=属性
 ###########################################################
 #FilterConditionBuilder dialog properties
 FilterConditionBuilder.DialogMessage.Edit=
+
 FilterConditionBuilder.DialogMessage.New=
+
 FilterConditionBuilder.DialogTitle.New=新建筛选条件
 
 FilterConditionBuilder.DialogTitle.Edit=编辑筛选条件
@@ -296,6 +306,7 @@ FilterConditionBuilder.button.add.tooltip=将值添加到值列表
 CrosstabFilterConditionBuilder.Item.Decorator=--------
 
 CrosstabFilterConditionBuilder.Button.Detal=详细资料(&D)
+
 CrosstabFilterConditionBuilder.Item.SelectLevel=---选择级别---
 
 CrosstabFilterConditionBuilder.Item.SelectMeasure=---选择度量---
@@ -313,9 +324,11 @@ CrosstabFilterConditionBuilder.Button.GroupLevel=组级别(&G)
 CrosstabFilterConditionBuilder.Button.Measure=度量(&U)
 
 CrosstabFilterConditionBuilder.Button.Cube=多维数据集(&C)
+
 FilterbyTree.Bindings.Catogory.Measures=度量
 
 FilterbyTree.Bindings.Catogory.Dimension=维
+
 FilterbyTree.Bindings.Catogory.GrandTotal=总计
 
 FilterbyTree.Bindings.Catogory.SubTotal=小计
@@ -548,4 +561,5 @@ VirtualCrosstabCellNodeProvider.Display.RowArea=行区域
 VirtualCrosstabCellNodeProvider.Display.UnknownArea=未知区域
 
 CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel=\ (数据模型)
+
 CrosstabBindingRefresh.action.message=刷新交叉表绑定

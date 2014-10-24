@@ -12,6 +12,7 @@
 ###########################################################
 #OpenDocument Text Emitter
 OdtEmitter.Description=Configure las opciones para procesar un informe en formato de texto OpenDocument.
+
 OdtEmitter.DisplayName=Texto OpenDocument
 
 ###########################################################

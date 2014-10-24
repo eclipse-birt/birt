@@ -62,6 +62,7 @@ preference.commenttemplates=コメントテンプレート
 preference.bidiproperties=双方向プロパティ
 
 preference.layout=レイアウト
+
 preference.expressionsyntax=式構文
 
 designer.action.undo.label=元に戻す
@@ -77,5 +78,7 @@ publish.library=共有リソースフォルダへのライブラリのコピー(&B)...
 ActionSet.Publish=リソースの公開
 
 Dummy.label=
+
 preference.classpath=クラスパス
+
 parameter.actions=レポートパラメタの新規作成(&P)

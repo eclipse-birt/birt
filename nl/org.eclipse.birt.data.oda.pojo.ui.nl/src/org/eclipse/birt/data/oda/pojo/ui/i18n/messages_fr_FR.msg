@@ -61,6 +61,7 @@ DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=Chemin d'accès re
 DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=Chemin d'accès absolu
 
 DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=Erreur
+
 DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=Impossible d'obtenir l'URI de base des ressources de l'application.
 
 DataSource.ClassPathPage.synchronize.checkbox.message=Utilisez les propriétés d'exécution pour l'heure d'exécution et l'heure de conception
@@ -145,9 +146,11 @@ DataSet.FailedToLoadClassTitle=Echec du chargement de la classe.
 DataSet.FailedToLoadPojoClassMsg=Echec du chargement de la classe POJO : "{0}".
 
 ColumnMappingPage.table.head.columnName=Nom
+
 ColumnMappingPage.table.head.MethodField=Méthode/Champ
 
 ColumnMappingPage.table.head.columnType=Type
+
 ColumnMappingWizardPage.error.getQueryText=Impossible d'analyser le texte de la requête d'origine.
 
 ColumnMappingWizardPage.button.apply.text=A&ppliquer
@@ -165,6 +168,7 @@ ColumnMappingDialog.table.promptLabel=Sélectionner les &arguments de la méthode 
 ColumnMappingDialog.table.head.mapped=Associé
 
 ColumnMappingDialog.table.head.name=Nom
+
 ColumnMappingDialog.table.head.value=Valeur
 
 ColumnMappingDialog.table.head.dataType=Type de données Java
@@ -190,6 +194,7 @@ ColumnMappingDialog.MenuItem.removeAll=Supprimer tout
 MethodParameterDialog.edit.title=Modifier le paramètre de méthode
 
 MethodParameterDialog.label.name=&Nom :
+
 MethodParameterDialog.label.value=&Valeur :
 
 MethodParameterDialog.label.dataType=Type de données &Java :
@@ -205,16 +210,23 @@ MethodParameterDialog.error.invalidParamName=Le paramètre a déjà été spécifié pa
 MethodParameterDialog.error.missingDataType=Le type de données du paramètre doit être renseigné.
 
 DataSet.DataType.String=Chaîne
+
 DataSet.DataType.Integer=Entier
 #make the display label consistent with BIRT data type 
 DataSet.DataType.Double=Flottant
+
 DataSet.DataType.Decimal=Décimal
+
 DataSet.DataType.Date=Date
+
 DataSet.DataType.Time=Heure
 #make the display label consistent with BIRT data type 
 DataSet.DataType.Timestamp=Date Heure
+
 DataSet.DataType.Boolean=Booléen
+
 DataSet.DataType.Blob=Blob
+
 DataSet.AddColumnMapping=Ajouter une mise en correspondance de colonne
 
 DataSet.EditColumnMapping=Modifier la mise en correspondance de colonne
@@ -246,6 +258,7 @@ DataSet.PreviewDialogTitle=Exemples de données
 DataSet.FailedFetchSampleData=Impossible de récupérer des exemples de données
 
 ExceptionDialog.title.erro=Erreur
+
 ExceptionDialog.DataSource.AddDuplicatedJar=Un même JAR ne peut pas être ajouté plusieurs fois.
 
 error.PojoDataSet.emptyClassName=Le nom de la classe ne peut pas être vide.
@@ -253,6 +266,7 @@ error.PojoDataSet.emptyClassName=Le nom de la classe ne peut pas être vide.
 JarsSelectionDialog.button.importFile=Fichier d'importation...
 
 JarsSelectionDialog.title.error=Erreur
+
 JarsSelectionDialog.title.overwrite=Ecraser
 
 JarsSelectionDialog.overwrite.msg=Un fichier portant ce nom existe déjà. Voulez-vous l'écraser ?

@@ -19,9 +19,15 @@ parent.category.id=org.eclipse.datatools.connectivity.db.category
 #
 plugin.name=JDBC Database Connection Data Source ODA Designer
 newwizard.name=查询生成器的 JDBC 数据库连接
+
 newwizard.description=创建 JDBC 数据库连接配置文件
+
 wizard.window.title=查询生成器的新 JDBC 数据库连接
+
 wizard.data.source.page.title=查询生成器的 JDBC 数据库连接
+
 profile.propertypage.name=JDBC 驱动程序连接详细信息
+
 wizard.data.set.window.title=新 SQL 选择查询 [Query Builder]
+
 wizard.data.set.page.title=SQL 选择查询

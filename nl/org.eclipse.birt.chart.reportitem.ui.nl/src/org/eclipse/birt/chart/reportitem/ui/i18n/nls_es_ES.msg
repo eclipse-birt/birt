@@ -5,6 +5,7 @@ ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=Seleccionar enlace de datos:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=Datos - Seleccionar conjunto de datos
 
 ChartPageGenerator.List.General=General
+
 ChartPageGenerator.List.AltText=Texto alternativo
 
 ChartDataBindingPage.Lbl.Parameter=Parámetros
@@ -26,6 +27,7 @@ ChartDataBindingPage.Lbl.SaveDataSet=Cambiar conjunto de datos
 ChartDataBindingPage.Msg.AskSaveDataSet=¿Desea cambiar el conjunto de datos enlazado?
 
 DesignerRepresentation.error.Error=Error:
+
 DesignerRepresentation.log.UnableToFind=No es posible encontrar el modelo de diagrama mientras se procesa en el diseñador.
 
 DesignerRepresentation.msg.InvalidChart=El diagrama actual no es válido. Si desea continuar trabajando en él, primero debe eliminarlo.
@@ -49,6 +51,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=Título del diagrama de barras
 ChartReportItemViewProvider.ChartViewName=Diagrama
 
 ChartExpressionProvider.Category.ChartVariables=Variables
+
 ChartExpressionProvider.ChartVariables.DataPoints=Punto de datos de diagrama
 
 ChartExpressionProvider.ChartVariables.LegendItems=Leyendas de diagrama
@@ -81,6 +84,7 @@ ReportDataServiceProvider.Label.DataModel=(Modelo de datos)
 ReportDataServiceProvider.Option.None=<Ninguno>
 
 ReportDataServiceProvider.Option.Inherits=<Container''s {0}>
+
 ReportDataServiceProvider.Tooltip.Aggregate=Total
 
 ReportDataServiceProvider.Tooltip.GroupExpression=Expresión de grupo:
@@ -138,6 +142,7 @@ StandardChartDataSheet.Label.CubeTree=Cubo de datos: Grupos y resúmenes
 StandardChartDataSheet.Label.Overlay=Superposición
 
 StandardChartDataSheet.Label.Series=Series
+
 StandardChartDataSheet.Label.ShareCrossTab=En la serie (Y) del valor, haga clic en el botón de flecha y seleccione una medida de la lista.
 
 StandardChartDataSheet.Label.ShowDataPreview=&Mostrar vista previa.

@@ -18,6 +18,7 @@ birt.core.Javascript.variableNotExist=报表变量“{0}”不存在。
 birt.core.Javascript.nativeNotFound=未找到 {0}。
 
 birt.core.BirtComp.invalidRegularExpression=正则表达式无效。
+
 error.NoSuchScriptExtension = 无此类脚本扩展: {0}。
 
 error.InvalidSeekOffset = 无效位置 {0}。

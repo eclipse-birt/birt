@@ -34,11 +34,13 @@ data.engine.UnsupportedSortOnClobAndBLOB=CLOB 또는 BLOB 데이터의 정렬 "{0}"은(는
 data.engine.EndOfGroupOnly=이 집계식은 그룹의 끝에서만 사용할 수 있습니다.
 
 data.engine.InvalidAggregation=잘못된 집계 정의: {0}.
+
 data.engine.InvalidAggrGroup=집계 함수에 대한 잘못된 그룹화 수준: {0}.
 
 data.engine.WrongNumAggrArgs=집계 함수에 대한 잘못된 인수의 수: {0}.
 
 data.engine.AggrParamGroupLevelInconsistent=중첩된 집계 "{0}"에서 상수가 아닌 식은 그룹 수준이 모두 동일해야 합니다.
+
 data.engine.DupPropertyName=중복된 속성 이름: {0}.
 
 data.engine.NoSubQueryName=하위 쿼리를 찾을 수 없습니다: {0}.
@@ -304,6 +306,7 @@ data.engine.incorrectGroupKeyValues=지정한 그룹 키 값 배열이 잘못되었습니다.
 data.engine.NoExpressionProcessorAvailable=사용 가능한 ExpressionProcessor가 없습니다.
 
 data.engine.InconvertibleDatatype=값 {0}의 원래 dataType은 지정된 dataType {2}(으)로 변환할 수 없는 {1}입니다.
+
 data.engine.ConvertToDataTypeError={0}은(는) {1}(으)로 변환할 수 없습니다.
 
 data.engine.NoRowUpdate=지금은 데이터 행을 업데이트할 수 없습니다.
@@ -379,6 +382,7 @@ data.engine.acl.cubeDimensionCannotBeAccessed=사용자는 이 차원 "{0}"에 액세스할 
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
 
 odaconsumer.ColumnPositionIsOneBased=열 위치는 1-기반이며 1 미만이 될 수 없습니다.
+
 odaconsumer.ColumnAliasCannotBeEmpty=열 별칭은 빈 문자열이 될 수 없습니다.
 
 odaconsumer.CannotProcessDriverConfig={0} 드라이버의 데이터 원본 확장 구성을 찾을 수 없거나 처리할 수 없습니다.
@@ -754,6 +758,7 @@ data.executor.configFileParser.getQueryTextByID=구성 파일의 지정된 데이터 집합 �
 data.executor.configFileParser.getParametersByID=구성 파일의 지정된 데이터 집합 이름으로 매개 변수를 가져오는 데 실패했습니다.
 
 data.aggregation.expression.displayName=식
+
 data.aggregation.argumentError=집계 \"{1}\"에 대한 인수 \"{0}\"의 식이 널(null)이거나 비어 있습니다!
 
 data.olap.InvalidAggrTypeOnMeasure=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습니다.
@@ -785,4 +790,5 @@ data.datamart.collation=이전 제품에서는 정렬을 설정했더라도 데이터 개체 인덱스에
 data.filter.pushDownFail= ODA 확장 측에서만 지원되는 필터를 아래로 밀어내지 못했습니다.
 
 data.query.exprReferInvalidColumn=쿼리에 잘못된 데이터 집합 열 "{0}"을(를) 참조하는 잘못된 식이 포함되어 있어 쿼리를 실행할 수 없습니다.
+
 data.query.invalidColumnBinding=열 바인딩 "{0}"이(가) 잘못되었습니다.

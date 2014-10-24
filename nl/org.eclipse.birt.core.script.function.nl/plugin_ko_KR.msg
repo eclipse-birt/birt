@@ -2,13 +2,20 @@
 Bundle-Name.0 = 함수 플러그인
 
 dataType.String=문자열
+
 dataType.Any=모두
+
 dataType.DateTime=DateTime
 dataType.Integer=정수
+
 dataType.Double=이중 실선
+
 dataType.Number=숫자
+
 dataType.Boolean=부울
+
 dataType.DoubleArray=Double[]
+
 FunctionDesc.charLength=문자열의 문자 수를 반환합니다.
 
 FunctionDesc.concat=지정된 모든 문자열에 의해 연결된 문자열을 반환합니다.

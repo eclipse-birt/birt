@@ -5,6 +5,7 @@ ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=데이터 바인딩 선택:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=데이터 - 데이터 집합 선택
 
 ChartPageGenerator.List.General=일반
+
 ChartPageGenerator.List.AltText=ALT 텍스트
 
 ChartDataBindingPage.Lbl.Parameter=매개 변수
@@ -26,6 +27,7 @@ ChartDataBindingPage.Lbl.SaveDataSet=데이터 집합 변경
 ChartDataBindingPage.Msg.AskSaveDataSet=바인딩된 데이터 집합을 변경하시겠습니까?
 
 DesignerRepresentation.error.Error=오류:
+
 DesignerRepresentation.log.UnableToFind=디자이너에서 렌더링하는 동안에는 차트 모델을 찾을 수 없습니다.
 
 DesignerRepresentation.msg.InvalidChart=현재 차트가 잘못되었습니다. 이 차트에서 작업을 계속하려면 먼저 삭제하십시오.
@@ -49,6 +51,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=막대 차트 제목
 ChartReportItemViewProvider.ChartViewName=차트
 
 ChartExpressionProvider.Category.ChartVariables=변수
+
 ChartExpressionProvider.ChartVariables.DataPoints=차트 데이터 요소
 
 ChartExpressionProvider.ChartVariables.LegendItems=차트 범례
@@ -81,6 +84,7 @@ ReportDataServiceProvider.Label.DataModel=(데이터 모델)
 ReportDataServiceProvider.Option.None=<없음>
 
 ReportDataServiceProvider.Option.Inherits=<컨테이너의 {0}>
+
 ReportDataServiceProvider.Tooltip.Aggregate=집계:
 
 ReportDataServiceProvider.Tooltip.GroupExpression=그룹 식:
@@ -138,6 +142,7 @@ StandardChartDataSheet.Label.CubeTree=데이터 큐브: 그룹 및 요약
 StandardChartDataSheet.Label.Overlay=이중
 
 StandardChartDataSheet.Label.Series=계열
+
 StandardChartDataSheet.Label.ShareCrossTab=값(Y) 계열에서 화살표 단추를 클릭하고 목록에서 측정값을 선택합니다.
 
 StandardChartDataSheet.Label.ShowDataPreview=미리 보기 표시(&S)

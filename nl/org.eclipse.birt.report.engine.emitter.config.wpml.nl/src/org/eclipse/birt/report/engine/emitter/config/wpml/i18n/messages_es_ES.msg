@@ -12,6 +12,7 @@
 ###########################################################
 #Word Emitter
 WordEmitter.Description=Configure las opciones para presentar un informe en formato de documento XML 2003.
+
 WordEmitter.DisplayName=Word (DOC)
 
 ###########################################################

@@ -13,6 +13,7 @@ SwtTextRenderer.exception.undefined.text.color=Text mit nicht definierter Farbe 
 SwtDisplayServer.exception.display.server=SWTDisplayServer-Instanz konnte nicht abgerufen werden
 
 SwtDisplayServer.info.display.server=SWT Anzeigeserver: {0} Version {1}
+
 SwtEventHandler.info.toggle.visibility=Sichtbarkeit ein/aus: {0}
 
 SwtEventHandler.info.toggle.datapoint.visibility=Datenpunkt-Sichtbarkeit ein/aus: {0}

@@ -11,11 +11,15 @@
 
 birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=Navigation
+
 birt.viewer.title.error=Erreur
+
 birt.viewer.title.complete=Terminé
 
 birt.viewer.title.message=Message
+
 birt.viewer.parameter=Paramètre
+
 birt.viewer.runreport=Exécuter l'état
 
 birt.viewer.required=Les paramètres portant un <FONT COLOR="red">*</FONT> sont requis.
@@ -39,6 +43,7 @@ birt.viewer.error.unknownerror=Erreur inconnue.
 birt.viewer.error.generatereportfirst=L'état doit être généré en premier.
 
 birt.viewer.error.copiesnumber=Saisissez un nombre de copies valide.
+
 birt.viewer.error.parameterrequired=La valeur du paramètre requis [{0}] n'est pas spécifiée.
 
 birt.viewer.error.parameternotallowblank=Le paramètre "{0}" doit être renseigné.
@@ -108,6 +113,7 @@ birt.viewer.progressbar.confirmcanceltask=Souhaitez-vous annuler l'opération en 
 # Dialog 
 ###############################################################################
 birt.viewer.dialog.ok=OK
+
 birt.viewer.dialog.cancel=Annuler
 
 birt.viewer.dialog.run=Exécuter l'état
@@ -115,6 +121,7 @@ birt.viewer.dialog.run=Exécuter l'état
 birt.viewer.dialog.close=Fermer
 
 birt.viewer.dialog.page=Pages
+
 birt.viewer.dialog.page.all=Toutes les pages
 
 birt.viewer.dialog.page.current=Page en cours
@@ -129,9 +136,11 @@ birt.viewer.dialog.page.error.invalidpagerange=Série de page incorrecte
 # Dialog title
 ###############################################################################
 birt.viewer.dialog.exception.title=Exception
+
 birt.viewer.dialog.exportReport.title=Exporter l'état
 
 birt.viewer.dialog.parameter.title=Paramètre
+
 birt.viewer.dialog.simpleExportData.title=Exporter les données
 
 birt.viewer.dialog.printReport.title=Imprimer l'état
@@ -154,7 +163,9 @@ birt.viewer.dialog.export.modified=Exporter l'état avec les modifications en cou
 birt.viewer.dialog.export.modified.detail=Seules les données visibles seront exportées. Les données<BR>filtrées ou masquées ne seront pas exportées.
 
 birt.viewer.dialog.export.pdf.fitto=Ajuster à
+
 birt.viewer.dialog.export.pdf.fittoauto=Auto
+
 birt.viewer.dialog.export.pdf.fittoactual=Taille réelle
 
 birt.viewer.dialog.export.pdf.fittowidth=Ajuster à la largeur de la page
@@ -178,6 +189,7 @@ birt.viewer.dialog.printserver.onserver=Imprimer le fichier du document de sorti
 birt.viewer.dialog.printserver.printer=Imprimante :
 
 birt.viewer.dialog.printserver.status=Etat :
+
 birt.viewer.dialog.printserver.model=Modèle :
 
 birt.viewer.dialog.printserver.description=Description :
@@ -185,6 +197,7 @@ birt.viewer.dialog.printserver.description=Description :
 birt.viewer.dialog.printserver.status.acceptingjobs=Acceptation des tâches
 
 birt.viewer.dialog.printserver.status.notacceptingjobs=Tâches non acceptées
+
 birt.viewer.dialog.printserver.settings=Spécifiez les paramètres d'impression
 
 birt.viewer.dialog.printserver.settings.copies=Nombre de copies :
@@ -196,10 +209,15 @@ birt.viewer.dialog.printserver.settings.mode=Mode :
 birt.viewer.dialog.printserver.settings.mode.bw=N&B
 
 birt.viewer.dialog.printserver.settings.mode.color=Couleur
+
 birt.viewer.dialog.printserver.settings.duplex=Recto verso :
+
 birt.viewer.dialog.printserver.settings.duplex.simplex=Recto
+
 birt.viewer.dialog.printserver.settings.duplex.horizontal=Horizontale
+
 birt.viewer.dialog.printserver.settings.duplex.vertical=Verticale
+
 birt.viewer.dialog.printserver.settings.pagesize=Format de papier :
 
 birt.viewer.dialog.printserver.settings.print=Imprimer :
@@ -252,6 +270,7 @@ birt.viewer.dialog.exportdata.datatype=Exporter le type de données de la colonne
 birt.viewer.dialog.exportdata.localeneutral=Exporter la colonne comme paramètres régionaux
 
 birt.viewer.dialog.exportdata.carriage_return=Exporter les données avec retour chariot
+
 birt.viewer.sep.0=Virgule ( , )
 
 birt.viewer.sep.1=Point-virgule ( ; )
@@ -305,6 +324,7 @@ birt.viewer.actionException.INVALID_BOOKMARK=Le signet {0} n''est pas valide. Vé
 birt.viewer.actionException.INVALID_PAGE_NUMBER=Numéro de page {0} sur {1} non valide.
 
 birt.viewer.actionException.PAGE_NUMBER_PARSE_ERROR=Le numéro de page : {0} n'est pas valide.
+
 birt.viewer.actionException.INVALID_ID_FORMAT=Format d'ID non valide. Id={0}.
 
 birt.viewer.actionException.DOCUMENT_FILE_NO_EXIST=Expiration de la session ou aucun fichier de document disponible.

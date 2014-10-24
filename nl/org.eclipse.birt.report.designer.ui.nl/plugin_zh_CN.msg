@@ -62,6 +62,7 @@ preference.commenttemplates=注释模板
 preference.bidiproperties=双向属性
 
 preference.layout=布局
+
 preference.expressionsyntax=表达式语法
 
 designer.action.undo.label=撤消
@@ -77,5 +78,7 @@ publish.library=将库复制到共享资源文件夹...
 ActionSet.Publish=发布资源
 
 Dummy.label=
+
 preference.classpath=类路径
+
 parameter.actions=新报表参数(&P)

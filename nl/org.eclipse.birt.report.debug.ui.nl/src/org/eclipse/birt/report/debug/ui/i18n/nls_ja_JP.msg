@@ -15,6 +15,7 @@ ScriptMainTab.msg.task.type=タスクの種類
 ScriptMainTab.msg.output=出力
 
 ScriptMainTab.msg.format=書式:
+
 ScriptMainTab.msg.debug.type.all=すべて
 
 ScriptMainTab.msg.debug.type.java=Java
@@ -70,6 +71,7 @@ ScriptMainTab.msg.select.report.file=レポートファイルを選択します
 ScriptMainTab.button.text.search=検索...
 
 ScriptMainTab.button.text.variables=変数...
+
 ScriptMainTab.msg.open.target.file=完了時に生成ファイルを開きます
 
 ScriptMainTab.msg.use.default.engine.home=デフォルトのエンジンのホームを使用します

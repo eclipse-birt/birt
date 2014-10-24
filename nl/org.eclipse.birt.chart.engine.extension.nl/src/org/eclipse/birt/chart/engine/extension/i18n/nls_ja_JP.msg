@@ -134,17 +134,31 @@ exception.unsupported.aggregate.function.input=集計関数 {0} で集計しようとしたデ
 exception.illegal.datapoint.position.bar3d=3D 棒グラフ内では、系列ラベルを使用できません。
 
 Irr.AggregateFunction.Parameters.Label.Intrate=内部利益率
+
 Mirr.AggregateFunction.Parameters.Label.FinanceRate=投資原価
+
 Mirr.AggregateFunction.Parameters.Label.ReinvestmentRate=再投資受取利率
+
 Npv.AggregateFunction.Parameters.Label.Rate=割引率
+
 Percentile.AggregateFunction.Parameters.Label.Percentage=割合 (%)
+
 Quartile.AggregateFunction.Parameters.Label.Quart=四分位
+
 WeightedAverage.AggregateFunction.Parameters.Label.Weight=重さ
+
 MovingAverage.AggregateFunction.Parameters.Label.Window=ウィンドウ
+
 RunningNpv.AggregateFunction.Parameters.Label.Rate=割引率
+
 Rank.AggregateFunction.Parameters.Label.Ascending=昇順
+
 Top.AggregateFunction.Parameters.Label.N=上位 n
+
 TopPercent.AggregateFunction.Parameters.Label.Percentage=割合 (%)
+
 Bottom.AggregateFunction.Parameters.Label.N=下位 n
+
 BottomPercent.AggregateFunction.Parameters.Label.Percentage=割合 (%)
+
 DataSetProcessorImpl_exception.dataset.receivednumeric=受信データのデータ型には数値を指定してください。

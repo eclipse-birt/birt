@@ -11,46 +11,46 @@
 
 ###########################################################
 #PPT Emitter
-PPTXEmitter.Description=ì›¹ ë³´ê´€ íŒŒì¼(MHTML) í˜•ì‹ì˜ ë³´ê³ ì„œ ë Œë”ë§ ì˜µì…˜ì„ êµ¬ì„±í•©ë‹ˆë‹¤.
+PPTXEmitter.Description=À¥ º¸°ü ÆÄÀÏ(MHTML) Çü½ÄÀÇ º¸°í¼­ ·»´õ¸µ ¿É¼ÇÀ» ±¸¼ºÇÕ´Ï´Ù.
 
 PPTXEmitter.DisplayName=PowerPoint (PPTX)
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=BIDI ì²˜ë¦¬
+OptionDisplayValue.BidiProcessing=BIDI Ã³¸®
 
-OptionDisplayValue.TextWrapping=í…ìŠ¤íŠ¸ ì¤„ ë°”ê¿ˆ
+OptionDisplayValue.TextWrapping=ÅØ½ºÆ® ÁÙ ¹Ù²Þ
 
-OptionDisplayValue.PageOverFlow=íŽ˜ì´ì§€ ì˜¤ë²„í”Œë¡œ ì²˜ë¦¬
+OptionDisplayValue.PageOverFlow=ÆäÀÌÁö ¿À¹öÇÃ·Î Ã³¸®
 
-OptionDisplayValue.CLIP_CONTENT=ë‚´ìš© ìžë¥´ê¸°
+OptionDisplayValue.CLIP_CONTENT=³»¿ë ÀÚ¸£±â
 
-OptionDisplayValue.FIT_TO_PAGE_SIZE=íŽ˜ì´ì§€ í¬ê¸°ì— ë§žì¶”ê¸°
+OptionDisplayValue.FIT_TO_PAGE_SIZE=ÆäÀÌÁö Å©±â¿¡ ¸ÂÃß±â
 
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=ì—¬ëŸ¬ íŽ˜ì´ì§€ë¡œ ì¶œë ¥
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=¿©·¯ ÆäÀÌÁö·Î Ãâ·Â
 
-OptionDisplayValue.ENLARGE_PAGE_SIZE=íŽ˜ì´ì§€ í¬ê¸° í™•ëŒ€
+OptionDisplayValue.ENLARGE_PAGE_SIZE=ÆäÀÌÁö Å©±â È®´ë
 
-OptionDisplayValue.FontSubstitution=ê¸€ê¼´ ëŒ€ì²´
+OptionDisplayValue.FontSubstitution=±Û²Ã ´ëÃ¼
 
-OptionDisplayValue.ChartDpi=ì°¨íŠ¸ DPI
+OptionDisplayValue.ChartDpi=Â÷Æ® DPI
 
-OptionDisplayValue.RepaginateForPPTX=PPTX ë Œë”ë§ ë„ì¤‘ íŽ˜ì´ì§€ ìƒˆë¡œ ë§¤ê¸°ê¸°
+OptionDisplayValue.RepaginateForPPTX=PPTX ·»´õ¸µ µµÁß ÆäÀÌÁö »õ·Î ¸Å±â±â
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=ì–‘ë°©í–¥ í…ìŠ¤íŠ¸ë¥¼ ì§€ì›í•©ë‹ˆë‹¤.
+OptionDescription.BidiProcessing=¾ç¹æÇâ ÅØ½ºÆ®¸¦ Áö¿øÇÕ´Ï´Ù.
 
-OptionDescription.TextWrapping=í…ìŠ¤íŠ¸ ì¤„ ë°”ê¿ˆ ê°€ëŠ¥ ì—¬ë¶€ë¥¼ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤.
+OptionDescription.TextWrapping=ÅØ½ºÆ® ÁÙ ¹Ù²Þ °¡´É ¿©ºÎ¸¦ ³ªÅ¸³À´Ï´Ù.
 
-OptionDescription.PageOverFlow=ë‚´ìš© ì¶œë ¥ ë°©ì‹ì„ ì œì–´í•©ë‹ˆë‹¤.
+OptionDescription.PageOverFlow=³»¿ë Ãâ·Â ¹æ½ÄÀ» Á¦¾îÇÕ´Ï´Ù.
 
-OptionDescription.FontSubstitution=ì§€ì •ëœ ê¸€ê¼´ì´ ë¬¸ìžë¥¼ í‘œì‹œí•˜ì§€ ëª»í•˜ëŠ” ê²½ìš° ìžë™ìœ¼ë¡œ ê¸€ê¼´ì„ ì„ íƒí•©ë‹ˆë‹¤.
+OptionDescription.FontSubstitution=ÁöÁ¤µÈ ±Û²ÃÀÌ ¹®ÀÚ¸¦ Ç¥½ÃÇÏÁö ¸øÇÏ´Â °æ¿ì ÀÚµ¿À¸·Î ±Û²ÃÀ» ¼±ÅÃÇÕ´Ï´Ù.
 
-OptionDescription.ChartDpi=DPIëŠ” ì°¨íŠ¸ë¥¼ ìƒì„±í•˜ëŠ” ë° ì‚¬ìš©í•©ë‹ˆë‹¤.
+OptionDescription.ChartDpi=DPI´Â Â÷Æ®¸¦ »ý¼ºÇÏ´Â µ¥ »ç¿ëÇÕ´Ï´Ù.
 
-OptionDescription.RepaginateForPPTX=PPTXë¥¼ ë Œë”ë§í•˜ëŠ” ë„ì¤‘ íŽ˜ì´ì§€ë¥¼ ìƒˆë¡œ ë§¤ê¹ë‹ˆë‹¤.
+OptionDescription.RepaginateForPPTX=PPTX¸¦ ·»´õ¸µÇÏ´Â µµÁß ÆäÀÌÁö¸¦ »õ·Î ¸Å±é´Ï´Ù.
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=ì°¨íŠ¸ ì—”ì§„ì—ì„œ ì°¨íŠ¸ë¥¼ ìƒì„±í•˜ëŠ” ë° ì‚¬ìš©í•˜ëŠ” DPIìž…ë‹ˆë‹¤. ì˜ˆ: 192.
+Tooltip.ChartDpi=Â÷Æ® ¿£Áø¿¡¼­ Â÷Æ®¸¦ »ý¼ºÇÏ´Â µ¥ »ç¿ëÇÏ´Â DPIÀÔ´Ï´Ù. ¿¹: 192.

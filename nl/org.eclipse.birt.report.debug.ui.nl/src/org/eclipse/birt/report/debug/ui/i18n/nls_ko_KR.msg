@@ -15,6 +15,7 @@ ScriptMainTab.msg.task.type=작업 형식
 ScriptMainTab.msg.output=결과
 
 ScriptMainTab.msg.format=형식:
+
 ScriptMainTab.msg.debug.type.all=모두
 
 ScriptMainTab.msg.debug.type.java=Java
@@ -70,6 +71,7 @@ ScriptMainTab.msg.select.report.file=보고서 파일 선택
 ScriptMainTab.button.text.search=검색...
 
 ScriptMainTab.button.text.variables=변수...
+
 ScriptMainTab.msg.open.target.file=완료되면 생성된 파일 열기
 
 ScriptMainTab.msg.use.default.engine.home=기본 엔진 홈 사용

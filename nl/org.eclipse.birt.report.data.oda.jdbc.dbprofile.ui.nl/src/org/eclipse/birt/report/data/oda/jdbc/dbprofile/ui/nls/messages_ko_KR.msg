@@ -20,6 +20,7 @@ sqbWizPage_dataSourceDesignError=데이터 원본 디자인 오류
 sqbWizPage_dbErrorMsg=데이터베이스 오류 메시지:
 
 sqbWizPage_defaultMessage=SQL Select 쿼리를 작성합니다.
+
 sqbWizPage_detectExternalSqlTextChangedMsg=데이터 집합 디자인의 SQL 쿼리 텍스트가 외부에서 변경되었습니다. SQL 쿼리 빌더의 내용을 이 변경 내용으로 바꾸시겠습니까?
 
 sqbWizPage_detectSqlTextChangedTitle=SQL 쿼리 텍스트 변경

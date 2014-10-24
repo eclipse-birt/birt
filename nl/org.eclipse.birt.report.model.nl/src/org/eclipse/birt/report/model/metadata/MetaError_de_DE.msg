@@ -118,11 +118,15 @@ REPORT_MISSING=Das Stammelement Berichtdesign ist nicht definiert.
 INVALID_CHOICE_VALUE=Der Auswahlwert "{0}" für Eigenschaft "{1}" ist ungültig.
 
 MISSING_SUB_TYPE=Listeneigenschaft "{0}" verfügt nicht über einen untergeordneten Typ.
+
 UNSUPPORTED_SUB_TYPE=Untergeordneter Typ "{1}" in Listeneigenschaft "{0}" wird nicht unterstützt.
+
 SUB_TYPE_FORBIDDEN=Eigenschaft "{0}" ist keine Listeneigenschaft. Der untergeordnete Typ muss gleich null sein.
+
 MISSING_XML_NAME=Der XML-Name wird nicht durch das konkrete Element "{0}" definiert.
 
 DUPLICATE_XML_NAME=Der XML-Name "{0}" des Elements "{1}" steht im Konflikt mit vorhandenen Namen.
+
 INVALID_ELEMENT_TYPE=Der Elementtyp "{0}" ist ungültig.
 
 INVALID_CHOICE_PROPERTY=Auswahleigenschaft "{0}" in der Erweiterung "{1}" ist ungültig, da sie sowohl den Detailtyp als auch ihre eigene Auswahlliste definiert.
@@ -132,4 +136,5 @@ EXTENDED_ITEM_MISSING=In der Metadatensammlung fehlt ein erweitertes Element.
 DEFAULT_ENCRYPTION_EXIST=Verschlüsselung "{0}" kann nicht als Standard eingestellt werden, da die Standardverschlüsselung "{1}" bereits vorhanden ist.
 
 DEFAULT_EMPTY_STYLE_NAME=Der Standardstil für das Erweiterungselement "{0}" darf nicht leer sein.
+
 EMPTY_DELTA_ROM_STREAM=Der von der Klasse '{1}' vom Erweiterungselement '{0}' zurückgegebene delta-ROM-Eingabe-Stream darf nicht leer sein.

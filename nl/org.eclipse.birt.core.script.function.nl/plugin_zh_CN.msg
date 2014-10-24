@@ -2,13 +2,20 @@
 Bundle-Name.0 = 函数插件
 
 dataType.String=字符串
+
 dataType.Any=任何
+
 dataType.DateTime=DateTime
 dataType.Integer=整型
+
 dataType.Double=双精度
+
 dataType.Number=数值
+
 dataType.Boolean=布尔
+
 dataType.DoubleArray=双精度[]
+
 FunctionDesc.charLength=返回字符串中的字符数。
 
 FunctionDesc.concat=返回所有给定字符串连接的字符串。

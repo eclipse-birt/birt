@@ -5,6 +5,7 @@ ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=Sélectionner la liaison de do
 ChartDataSetBindingSheetImpl.Title.SheetTitle=Données - Sélectionner un jeu de données
 
 ChartPageGenerator.List.General=Général
+
 ChartPageGenerator.List.AltText=Texte de légende
 
 ChartDataBindingPage.Lbl.Parameter=Paramètres
@@ -26,6 +27,7 @@ ChartDataBindingPage.Lbl.SaveDataSet=Modifier le jeu de données
 ChartDataBindingPage.Msg.AskSaveDataSet=Souhaitez-vous modifier le jeu de données lié ?
 
 DesignerRepresentation.error.Error=Erreur :
+
 DesignerRepresentation.log.UnableToFind=Impossible de trouver le modèle de graphique pendant le rendu dans Designer.
 
 DesignerRepresentation.msg.InvalidChart=Le graphique actuel est incorrect. Pour continuer à travailler sur ce graphique, veuillez commencer par le supprimer.
@@ -49,6 +51,7 @@ ChartReportItemViewProvider.BarChart.Text.Title=Titre du graphique à barres
 ChartReportItemViewProvider.ChartViewName=Graphique
 
 ChartExpressionProvider.Category.ChartVariables=Variables
+
 ChartExpressionProvider.ChartVariables.DataPoints=Point de données du graphique
 
 ChartExpressionProvider.ChartVariables.LegendItems=Légende du graphique
@@ -81,6 +84,7 @@ ReportDataServiceProvider.Label.DataModel=(Modèle de données)
 ReportDataServiceProvider.Option.None=<Aucun>
 
 ReportDataServiceProvider.Option.Inherits=<{0} du conteneur>
+
 ReportDataServiceProvider.Tooltip.Aggregate=Agrégat :
 
 ReportDataServiceProvider.Tooltip.GroupExpression=Expression de groupe :
@@ -138,6 +142,7 @@ StandardChartDataSheet.Label.CubeTree=Cube de données : Groupes et résumés
 StandardChartDataSheet.Label.Overlay=Superposition
 
 StandardChartDataSheet.Label.Series=Série
+
 StandardChartDataSheet.Label.ShareCrossTab=Dans la série verticale de valeurs, cliquez sur le bouton fléché et sélectionnez une mesure à partir de la liste.
 
 StandardChartDataSheet.Label.ShowDataPreview=&Afficher la prévisualisation des données

@@ -9,5 +9,7 @@
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
 preference.chart=Graphique
+
 menu.lable.chart=&Graphique
-preference.description=InsÃ©rer un Ã©lÃ©ment du graphique.
+
+preference.description=Insérer un élément du graphique.

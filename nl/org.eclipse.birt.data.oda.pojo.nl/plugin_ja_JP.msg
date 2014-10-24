@@ -21,4 +21,5 @@ data.source.name=POJO Data Source
 data.set.name=POJO Data Set
 connection.profile.name=POJO Data Source Connection Profile
 datasource.property.pojoDataSetClassPath=カスタム POJO データセットクラスの共有先(&L)
+
 datasource.property.pojoClassPath=POJO クラスの共有先

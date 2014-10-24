@@ -34,11 +34,13 @@ data.engine.UnsupportedSortOnClobAndBLOB=CLOB ƒf[ƒ^‚Ü‚½‚Í BLOB ƒf[ƒ^ "{0}" ‚Íƒ
 data.engine.EndOfGroupOnly=‚±‚ÌWŒv®‚ÍAƒOƒ‹[ƒv‚ÌÅŒã‚Å‚µ‚©g—p‚Å‚«‚Ü‚¹‚ñB
 
 data.engine.InvalidAggregation=WŒv‚Ì’è‹`‚ª–³Œø‚Å‚·: {0}B
+
 data.engine.InvalidAggrGroup=WŒvŠÖ”‚ÌƒOƒ‹[ƒvƒŒƒxƒ‹‚ª–³Œø‚Å‚· : {0}
 
 data.engine.WrongNumAggrArgs=WŒvŠÖ”‚Ìˆø”‚Ì”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñ : {0}
 
 data.engine.AggrParamGroupLevelInconsistent=ƒlƒXƒg‚³‚ê‚½WŒv "{0}" ‚Å‚ÍA’è”ˆÈŠO‚Ì‚·‚×‚Ä‚Ì®‚ª“¯‚¶ƒOƒ‹[ƒvƒŒƒxƒ‹‚Å‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB
+
 data.engine.DupPropertyName=ƒvƒƒpƒeƒB–¼‚ªd•¡‚µ‚Ä‚¢‚Ü‚· : {0}
 
 data.engine.NoSubQueryName={0} ‚Æ‚¢‚¤–¼‘O‚ÌƒTƒuƒNƒGƒŠ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
@@ -304,6 +306,7 @@ data.engine.incorrectGroupKeyValues=ƒOƒ‹[ƒvƒL[‚Ì’l‚Ì”z—ñ‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚·B
 data.engine.NoExpressionProcessorAvailable=ExpressionProcessor ‚ª‚ ‚è‚Ü‚¹‚ñB
 
 data.engine.InconvertibleDatatype=’l {0} ‚ÌŒ³‚Ìƒf[ƒ^Œ^‚Í {1} ‚Ì‚½‚ßAŠ„‚è“–‚Ä‚ç‚ê‚½Œ^ {2} ‚Ìƒf[ƒ^‚É‚Í•ÏŠ·‚Å‚«‚Ü‚¹‚ñB
+
 data.engine.ConvertToDataTypeError={0} ‚ğ {1} ‚É•ÏŠ·‚Å‚«‚Ü‚¹‚ñB
 
 data.engine.NoRowUpdate=Œ»“_‚Íƒf[ƒ^s‚ğXV‚Å‚«‚Ü‚¹‚ñB
@@ -379,6 +382,7 @@ data.engine.acl.cubeDimensionCannotBeAccessed=ƒ†[ƒU‚É‚ÍƒfƒBƒƒ“ƒVƒ‡ƒ“ "{0}" ‚Éƒ
 odaconsumer.ColumnNameCannotBeEmptyOrNull=—ñ–¼‚Í‹ó”’‚Ü‚½‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
 
 odaconsumer.ColumnPositionIsOneBased=—ñ‚ÌˆÊ’u‚Í 1 ƒx[ƒX‚Å‚ ‚èA1 ‚æ‚è¬‚³‚¢’l‚ğw’è‚Å‚«‚Ü‚¹‚ñB
+
 odaconsumer.ColumnAliasCannotBeEmpty=—ñ‚ÌƒGƒCƒŠƒAƒX‚ÍA‹ó”’•¶š—ñ‚É‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 
 odaconsumer.CannotProcessDriverConfig={0} ƒhƒ‰ƒCƒo‚Ìƒf[ƒ^ƒ\[ƒXŠg’£‚Ìİ’è‚ªŒ©‚Â‚©‚ç‚È‚¢‚©Aˆ—‚Å‚«‚Ü‚¹‚ñB
@@ -754,6 +758,7 @@ data.executor.configFileParser.getQueryTextByID=İ’èƒtƒ@ƒCƒ‹‚Åw’è‚µ‚½ƒf[ƒ^ƒZƒb
 data.executor.configFileParser.getParametersByID=İ’èƒtƒ@ƒCƒ‹‚Åw’è‚µ‚½ƒf[ƒ^ƒZƒbƒg–¼‚©‚çƒpƒ‰ƒƒ^‚ğæ“¾‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
 
 data.aggregation.expression.displayName=®
+
 data.aggregation.argumentError=WŒv \"{1}\" ‚Ìˆø”® \"{0}\" ‚ª null ‚Ü‚½‚Í‹ó”’‚Å‚·B
 
 data.olap.InvalidAggrTypeOnMeasure=ƒLƒ…[ƒu‚ÌƒƒWƒƒ[‚É‘Î‚·‚éWŒv‚Å‚Í‚±‚ÌŒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ : "{0}"
@@ -785,4 +790,5 @@ data.datamart.collation=ˆÈ‘O‚Ì»•i‚Å‚ÍAÆ‡‚ğİ’è‚µ‚½ê‡‚Å‚àƒf[ƒ^ƒIƒuƒWƒFƒNƒg
 data.filter.pushDownFail= ODA Šg’£‘¤‚Å‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éƒtƒBƒ‹ƒ^‚ğƒvƒbƒVƒ… (‰º‚Ö) ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
 
 data.query.exprReferInvalidColumn=ƒNƒGƒŠ‚ğÀs‚Å‚«‚Ü‚¹‚ñB——R: –³Œø‚Èƒf[ƒ^ƒZƒbƒg‚Ì—ñ "{0}" ‚ğQÆ‚·‚é–³Œø‚È®‚ªƒNƒGƒŠ‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚·B
+
 data.query.invalidColumnBinding=—ñƒoƒCƒ“ƒh "{0}" ‚ª–³Œø‚Å‚·B

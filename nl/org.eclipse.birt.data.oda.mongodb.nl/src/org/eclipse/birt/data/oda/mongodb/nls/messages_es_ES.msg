@@ -54,6 +54,7 @@ mDbOp_mapReduceCmdFailed=No es posible ejecutar la operación de comando MapReduc
 mDbOp_noCmdResults=No hay resultados de comando disponibles.
 
 mDbResultSet_cannotConvertFieldData=No se ha podido convertir el valor de campo '{0}' ({1}) en el tipo de datos {2} a un valor {3}
+
 queryModel_emptyExprErrorMsg=<expresión vacía>
 
 queryModel_invalidCollectionName=Nombre de colección no válido (${0}).

@@ -54,6 +54,7 @@ mDbOp_mapReduceCmdFailed=MapReduce 명령 연산({0})을 실행할 수 없습니다.
 mDbOp_noCmdResults=사용 가능한 명령 결과가 없습니다.
 
 mDbResultSet_cannotConvertFieldData={2} 데이터 형식의 '{0}' 필드 값 ({1})을(를) {3} 값으로 변환할 수 없습니다.
+
 queryModel_emptyExprErrorMsg=<비어 있는 식>
 
 queryModel_invalidCollectionName=잘못된 컬렉션 이름(${0})입니다.

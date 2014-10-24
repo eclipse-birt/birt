@@ -15,6 +15,7 @@ ScriptMainTab.msg.task.type=Tipo de tarea
 ScriptMainTab.msg.output=Salida
 
 ScriptMainTab.msg.format=Formato:
+
 ScriptMainTab.msg.debug.type.all=Todos
 
 ScriptMainTab.msg.debug.type.java=Java
@@ -70,6 +71,7 @@ ScriptMainTab.msg.select.report.file=Seleccione un archivo de informe
 ScriptMainTab.button.text.search=Búsqueda...
 
 ScriptMainTab.button.text.variables=Variables...
+
 ScriptMainTab.msg.open.target.file=Abrir archivo generado cuando haya finalizado
 
 ScriptMainTab.msg.use.default.engine.home=Usar inicio de motor predeterminado

@@ -12,6 +12,7 @@
 ###########################################################
 #OpenDocument Text Emitter
 OdtEmitter.Description=OpenDocument 텍스트 형식의 보고서 렌더링 옵션을 구성합니다.
+
 OdtEmitter.DisplayName=OpenDocument 텍스트
 
 ###########################################################

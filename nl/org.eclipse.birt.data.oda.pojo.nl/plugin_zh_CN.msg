@@ -21,4 +21,5 @@ data.source.name=POJO Data Source
 data.set.name=POJO Data Set
 connection.profile.name=POJO Data Source Connection Profile
 datasource.property.pojoDataSetClassPath=自定义 POJO 数据集类的共享位置(&L)
+
 datasource.property.pojoClassPath=POJO 类的共享位置

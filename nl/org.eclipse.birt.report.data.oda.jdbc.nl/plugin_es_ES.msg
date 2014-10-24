@@ -46,7 +46,9 @@ dataset.property.queryTimeOut=Tiem&po límite de consulta (en segundos)
 dataset.property.rowFetchSize=Tamaño de recuperación de &fila
 
 dataset.connection.autocommit.false=false
+
 dataset.connection.autocommit.true=true
+
 dataset.connection.isolationmode.read-uncommitted=lectura confirmada
 
 dataset.connection.isolationmode.read-committed=lectura no confirmada
@@ -60,5 +62,6 @@ dataset.connection.isolationmode.serializable=serializable
 #
 oda.connection.factory.name=ODA Connection Factory
 datasource.property.ssl.trustStorePassword=Contra&señadeTrustStore:
+
 datasource.property.ssl.keyStorePassword=ContraseñaKe&yStore:
 

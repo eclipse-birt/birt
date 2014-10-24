@@ -31,12 +31,15 @@ report.bidi.properties.externalbidiformat.textdirection.tooltip = •¶š—ñ‚ÌŒü‚«‚Ì
 report.bidi.properties.externalbidiformat.symswap.tooltip = ‘ÎÆ“I‚È’uŠ·‚Ì’l‚Ì‘I‘ğ
 
 report.bidi.properties.externalbidiformat.symswap.true=True
+
 report.bidi.properties.externalbidiformat.symswap.false=False
+
 report.bidi.properties.externalbidiformat.shaping.tooltip = •¶š—ñ®Œ`‚Ì’l‚Ì‘I‘ğ
 
 report.bidi.properties.externalbidiformat.numshaping.tooltip = ”’l®Œ`‚Ì‘I‘ğ
 
 report.bidi.properties.externalbidiformat.orderingscheme.visual =‹Šo
+
 report.bidi.properties.externalbidiformat.orderingscheme.logical =˜_—
 
 report.bidi.properties.externalbidiformat.textdirection.ltr=¶‚©‚ç‰E
@@ -48,10 +51,15 @@ report.bidi.properties.externalbidiformat.textdirection.contextltr=¶‚©‚ç‰E‚ÌƒRƒ
 report.bidi.properties.externalbidiformat.textdirection.contextrtl=‰E‚©‚ç¶‚ÌƒRƒ“ƒeƒLƒXƒg
 
 report.bidi.properties.externalbidiformat.shaping.shaped=®Œ`Ï‚İ
+
 report.bidi.properties.externalbidiformat.shaping.nominal=–¼‹`
+
 report.bidi.properties.externalbidiformat.numshaping.national=ƒiƒVƒ‡ƒiƒ‹
+
 report.bidi.properties.externalbidiformat.numshaping.nominal=–¼‹`
+
 report.bidi.properties.externalbidiformat.numshaping.contextual=ƒRƒ“ƒeƒLƒXƒg
+
 report.bidi.properties.externalbidiformat = ŠO•”‘o•ûŒüŒ`®
 
 report.bidi.properties.nonbididirection = ¶‚©‚ç‰E

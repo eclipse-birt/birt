@@ -26,7 +26,9 @@ LibraryProjectWizard=ライブラリプロジェクト
 LibraryProjectWizardDescription=新しいライブラリプロジェクトを作成します。
 
 library.layout=レイアウト(&O)
+
 library.script=スクリプト(&S)
+
 library.xmlsource=XML ソース(&X)
 
 design.masterPage=マスタページ(&M)

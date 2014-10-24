@@ -34,11 +34,13 @@ data.engine.UnsupportedSortOnClobAndBLOB=No se admite la clasificación en datos 
 data.engine.EndOfGroupOnly=Esta expresión de agregación sólo está disponible al final de un grupo.
 
 data.engine.InvalidAggregation=La definición de agregación no es válida:{0}.
+
 data.engine.InvalidAggrGroup=Nivel de agrupación no válido para la función de agregación: {0}.
 
 data.engine.WrongNumAggrArgs=Número de argumentos incorrecto para la función de agregación: {0}.
 
 data.engine.AggrParamGroupLevelInconsistent=En la agregación anidada "{0}", todas las expresiones no constantes deben tener el mismo nivel de grupo.
+
 data.engine.DupPropertyName=Se ha encontrado un nombre de propiedad duplicado: {0}.
 
 data.engine.NoSubQueryName=No se puede encontrar la subconsulta con el nombre: {0}.
@@ -304,6 +306,7 @@ data.engine.incorrectGroupKeyValues=La matriz de valores de clave de grupo dada 
 data.engine.NoExpressionProcessorAvailable=No hay ningún ExpressionProcessor disponible.
 
 data.engine.InconvertibleDatatype=El tipo de datos original del valor {0} es {1}, por lo que no puede convertirse al tipo de datos asignado, {2}.
+
 data.engine.ConvertToDataTypeError={0} no puede convertirse en {1}.
 
 data.engine.NoRowUpdate=La fila de datos no se puede actualizar en este momento.
@@ -379,6 +382,7 @@ data.engine.acl.cubeDimensionCannotBeAccessed=El usuario no dispone de permisos 
 odaconsumer.ColumnNameCannotBeEmptyOrNull=El nombre de columna no puede ser nulo ni estar vacío.
 
 odaconsumer.ColumnPositionIsOneBased=La posición de la columna  es de base 1 y no puede ser inferior a 1.
+
 odaconsumer.ColumnAliasCannotBeEmpty=El alias de columna no puede ser una cadena vacía.
 
 odaconsumer.CannotProcessDriverConfig=No se puede encontrar o procesar la configuración de extensión de fuente de datos del controlador {0}.
@@ -754,6 +758,7 @@ data.executor.configFileParser.getQueryTextByID=Error al obtener el texto de con
 data.executor.configFileParser.getParametersByID=Error al obtener los parámetros por el nombre de conjunto de datos especificados desde el archivo de configuración.
 
 data.aggregation.expression.displayName=Expresión
+
 data.aggregation.argumentError=Expresión del argumento \"{0}\" para la agregación \"{1}\" nula o vacía.
 
 data.olap.InvalidAggrTypeOnMeasure=La agregación en medidas de cubo no puede ser de este tipo: "{0}".
@@ -785,4 +790,5 @@ data.datamart.collation=En el producto anterior, no se utiliza la intercalación 
 data.filter.pushDownFail= Error al reducir el filtro que solo es compatible con la extnsión ODA.
 
 data.query.exprReferInvalidColumn=No se puede ejecutar la consulta porque la consulta contiene una expresión no válida que hace referencia a una columna de conjunto de datos no válida "{0}".
+
 data.query.invalidColumnBinding=El enlace de columna "{0}" no es válido.

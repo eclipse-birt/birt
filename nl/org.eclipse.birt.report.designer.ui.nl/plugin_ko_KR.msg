@@ -62,6 +62,7 @@ preference.commenttemplates=설명 템플릿
 preference.bidiproperties=양방향 속성
 
 preference.layout=레이아웃
+
 preference.expressionsyntax=식 구문
 
 designer.action.undo.label=실행 취소
@@ -77,5 +78,7 @@ publish.library=공유 리소스 폴더로 라이브러리 복사(&B)...
 ActionSet.Publish=리소스 게시
 
 Dummy.label=
+
 preference.classpath=클래스 경로
+
 parameter.actions=새 보고서 매개 변수(&P)

@@ -134,17 +134,31 @@ exception.unsupported.aggregate.function.input=집계 함수 {0}에 지원되지 않는 데�
 exception.illegal.datapoint.position.bar3d=3D 막대 차트는 차트 내에 계열 레이블을 사용할 수 없습니다.
 
 Irr.AggregateFunction.Parameters.Label.Intrate=INTRATE
+
 Mirr.AggregateFunction.Parameters.Label.FinanceRate=금융 금리
+
 Mirr.AggregateFunction.Parameters.Label.ReinvestmentRate=재투자 금리
+
 Npv.AggregateFunction.Parameters.Label.Rate=금리
+
 Percentile.AggregateFunction.Parameters.Label.Percentage=백분율
+
 Quartile.AggregateFunction.Parameters.Label.Quart=4분위수
+
 WeightedAverage.AggregateFunction.Parameters.Label.Weight=가중치
+
 MovingAverage.AggregateFunction.Parameters.Label.Window=창
+
 RunningNpv.AggregateFunction.Parameters.Label.Rate=금리
+
 Rank.AggregateFunction.Parameters.Label.Ascending=오름차순
+
 Top.AggregateFunction.Parameters.Label.N=상위 n
+
 TopPercent.AggregateFunction.Parameters.Label.Percentage=백분율
+
 Bottom.AggregateFunction.Parameters.Label.N=하위 n
+
 BottomPercent.AggregateFunction.Parameters.Label.Percentage=백분율
+
 DataSetProcessorImpl_exception.dataset.receivednumeric=받은 데이터 형식은 숫자여야 합니다.

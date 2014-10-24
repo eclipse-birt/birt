@@ -1,4 +1,5 @@
 Shared.Lbl.OK=\ \ \ 확인
+
 Shared.Lbl.Cancel=취소
 
 Shared.Lbl.Triggers=대화형 작업
@@ -6,12 +7,15 @@ Shared.Lbl.Triggers=대화형 작업
 Shared.Tooltip.FormatSpecifier=형식 지정자 편집기 호출
 
 Shared.mne.Visibile_v=표시(&V)
+
 Shared.mne.Visibile_s=표시(&S)
+
 Shared.mne.Background_K=배경(&K):
 
 ChartWithAxesImpl.Z_Axis.title=Z축 제목
 
 ChartSheetImpl.Buttom.Auto=자동(&U)
+
 ChartSheetImpl.Button.AutoHide=표시할 데이터가 없는 경우 차트 숨기기(&D)
 
 ChartSheetImpl.Button.EnableStudyLayout=학습 레이아웃 사용
@@ -25,10 +29,13 @@ ChartSheetImpl.Group.EmptyMessage&=표시 유형(&V)
 ChartSheetImpl.Label.Outline=윤곽선:
 
 ChartLegendImpl.Group.Rotation=회전
+
 ChartPlotSheetImpl.Label.Outline=윤곽선:
 
 ChartPlotSheetImpl.Label.Visible=표시(&V)
+
 ChartPlotSheetImpl.Label.Visible2=표시(&I)
+
 ChartPlotSheetImpl.Label.PlotArea=플롯 영역
 
 ChartPlotSheetImpl.Label.AreaFormat=영역 형식
@@ -44,6 +51,7 @@ ChartTitleSheetImpl.Titel.Tooltip=제목 도구 설명
 ChartTitleSheetImpl.Label.Tooltip=도구 설명:
 
 ScriptSheetImpl.Lbl.Script=스크립트:
+
 ScriptSheetImpl.Lbl.Update=업데이트
 
 ScriptSheetImpl.Title.SheetTitle=스크립트 - 차트에 대한 스크립트 설정/편집
@@ -93,6 +101,7 @@ AbstractScaleSheet.AutoExpand=자동 확대(&A)
 AbstractScaleSheet.Label.Step=단계형
 
 AbstractScaleSheet.Label.Auto=자동(&A)
+
 AbstractScaleSheet.Label.Factor=비율(값/포인트)(&F):
 
 BaseAxisDataSheetImpl.Lbl.Minimum=최소(&M):
@@ -195,6 +204,7 @@ BaseSeriesDataSheetImpl.Lbl.DataSorting=데이터 정렬(&S):
 BaseSeriesDataSheetImpl.Lbl.YSeriesCount=Y 계열 수:
 
 BaseSeriesAttributeSheetImpl.Lbl.Palette=색상표
+
 BaseAxisDataSheetImpl.Exception.IllegalArgument=축 특성 시트에 대한 인수가 잘못되었습니다. 차트는 ChartWithAxes 형식이어야 합니다.
 
 BaseSeriesAttributeSheetImpl.Lbl.SeriesType=계열 형식:
@@ -289,12 +299,17 @@ OrthogonalAxisMarkerAttributeSheetImpl.Lbl.EndValue=끝 값:
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.ForAxis=\ 축 {0}
 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry=항목 제거
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.StartValue=시작 값:
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RangeOutline=범위 윤곽선
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLine=MarkerLine {0,number,integer} {1}
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerRange=MarkerRange 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Fill=채우기:
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerProperties=표지 속성
+
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLineAttributes=표지선 특성
 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=표지 레이블 속성
@@ -306,15 +321,19 @@ OrthogonalSeriesAttributeSheetImpl.Lbl.Remove=제거(&R)
 OrthogonalSeriesAttributeSheetImpl.Lbl.Add=추가(&A)
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Up=위로(&U)
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.Down=아래로(&D)
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.Prefix=접두사(&F):
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Suffix=접미사(&X):
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesType=계열 형식:
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.HideSeries=계열 숨기기
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Palette=색상표
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.DataPoint=데이터 요소
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.Separator=구분 기호(&E):
@@ -322,6 +341,7 @@ OrthogonalSeriesAttributeSheetImpl.Lbl.Separator=구분 기호(&E):
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDetails=계열 상세 정보
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPoint=계열 DataPoint
+
 OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPointComponent=계열 DataPoint 구성 요소 - {0}
 
 OrthogonalSeriesAttributeSheetImpl.Lbl.StackSeriesElements=누적 계열 요소
@@ -379,6 +399,7 @@ AreaSeriesUIProvider.Lbl.SeriesDefinition=계열 정의
 MeterChart.Txt.DefaultMeterChartTitle=측정기 차트 제목
 
 MeterChart.Txt.DisplayName=측정기
+
 MeterChart.SubType.Standard=표준 측정기 차트
 
 MeterChart.SubType.Superimposed=중첩 측정기 차트
@@ -392,6 +413,7 @@ MeterChart.Txt.Description=표준 측정기 차트에는 영역을 포함한 단일 다이얼이 포함
 MeterChart.Txt.SuperimposedDescription=중첩 측정기 차트에는 동일한 영역을 포함한 다중 다이얼이 포함됩니다. \n다이얼이 동시에 겹치므로 단일 영역 내 여러 바늘을 나타낼 수 있습니다.
 
 MeterSeriesAttributeComposite.Lbl.Radius=반경(&U):
+
 MeterSeriesAttributeComposite.Lbl.StartAngle=시작 각도(&G):
 
 MeterSeriesAttributeComposite.Lbl.StopAngle=중지 각도(&E):
@@ -457,6 +479,7 @@ LineAttributesComposite.Lbl.Style=스타일:
 LineAttributesComposite.Lbl.Width=너비:
 
 LineAttributesComposite.Lbl.Color=색:
+
 LineAttributesComposite.Lbl.IsVisible=표시
 
 LineSeriesUIProvider.Lbl.SeriesDefinition=계열 정의
@@ -468,6 +491,7 @@ LineSeriesAttributeComposite.Lbl.Marker=표지
 LineChart.Txt.PercentStackedDescription=백분율 누적 선형 차트에는 누적된 선(각 단위에서 가장 낮은 점에서부터 가장 높은 점까지)의 \n총 높이가 100이 되도록 선이 서로 누적되어 표시됩니다.
 
 LineSeriesAttributeComposite.Lbl.IsVisible=표시(&V)
+
 LineSeriesAttributeComposite.Lbl.Type=형식:
 
 LineSeriesAttributeComposite.Lbl.Size=크기(&S):
@@ -633,6 +657,7 @@ PieLeftAreaComponent.Label.SliceSizeDefinition=조각 크기 정의:
 PieSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 PieSeriesAttributeComposite에 대한 잘못된 인수입니다.
 
 PieSeriesAttributeComposite.InnerRadiusType.Points=포인트
+
 PieSeriesAttributeComposite.Lbl.Explosion=급증:
 
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=파이 회전: 첫 파이 조각의 시작 각도
@@ -666,9 +691,11 @@ SeriesUIProvider.Lbl.BasePrefix=범주
 SeriesSheetImpl.Label.Title=제목
 
 SeriesSheetImpl.Label.Visible=표시
+
 SeriesSheetImpl.Label.Stacked=누적
 
 SeriesSheetImpl.Label.Series=계열
+
 SeriesYSheetImpl.Label.Needles=바늘
 
 SeriesYSheetImpl.Label.Needles&=바늘(&N)
@@ -706,6 +733,7 @@ SeriesYSheetImpl.Label.Decoration=작업
 SeriesYSheetImpl.Label.Decoration&=작업 레이블(&T)
 
 SeriesLabelSheet.Label.Format=형식
+
 SeriesLabelSheet.Label.Values=값
 
 SeriesGroupingComposite.Lbl.Type=형식(&T):
@@ -737,6 +765,7 @@ SeriesYSheetImpl.Label.DataPoint=데이터 요소
 SeriesTrendlineSheet.Label.Outline=윤곽선
 
 SeriesTrendlineSheet.SeriesTrendlineSheet.Lbl.IsVisible=표시(&I)
+
 SeriesGroupingComposite.Lbl.Interval=간격(&V):
 
 SeriesYSheetImpl.Label.ShowLabels=계열 레이블 표시(&S)
@@ -756,6 +785,7 @@ SeriesGroupingComposite.Lbl.AggregateExpression=집계식(&A):
 SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping=그룹화 간격을 선택하십시오. 0은 그룹화 기준이 X/범주 값임을 나타냅니다.
 
 SeriesPaletteSheet.Label.Auto=자동(&T)
+
 SeriesPaletteSheet.Tab.Axis=축
 
 SeriesPaletteSheet.Tab.Series=계열
@@ -837,8 +867,11 @@ LabelBlockAttributeSheetImpl.Lbl.Background=배경:
 LabelBlockAttributeSheetImpl.Lbl.Insets=음각
 
 LabelAttributesComposite.Lbl.IsVisible=표시(&V)
+
 LabelAttributesComposite.Lbl.IsVisible2=표시(&E)
+
 LabelAttributesComposite.Lbl.Position=위치(&P):
+
 LabelAttributesComposite.Lbl.Background=배경(&B):
 
 LabelAttributesComposite.Lbl.Outline=윤곽선
@@ -854,6 +887,7 @@ DataDefinitionComposite.Tooltip.InvokeExpressionBuilder=연산식 빌더 호출
 DataDefinitionSelector.Exception.NotSupportedForMultipleAxes=\ 다중 축에는 지원되지 않습니다\!
 
 DataDefinitionComposite.Tooltip.InvokeRuleEditor=규칙 편집기 호출
+
 RuleEditorDialog.Title.RuleEditor=규칙 편집기 - {0}
 
 RuleEditorDialog.Lbl.Rules=규칙
@@ -871,7 +905,9 @@ RuleEditorDialog.Lbl.Update=업데이트
 RuleEditorDialog.Exception.InvalidRule=오류\! 잘못된 규칙 인덱스가 전달되었습니다.
 
 FillCanvas.Transparent=투명
+
 FillCanvas.Auto=자동
+
 FillChooserComposite.Button.Pattern=패턴
 
 FillChooserComposite.Lbl.Opacity=불투명도: {0, number, integer}
@@ -879,12 +915,15 @@ FillChooserComposite.Lbl.Opacity=불투명도: {0, number, integer}
 FillChooserComposite.Lbl.Gradient=그라데이션
 
 FillChooserComposite.Lbl.Transparent=투명
+
 FillChooserComposite.Lbl.CustomColor=사용자 지정 색
 
 FillChooserComposite.Lbl.Image=이미지
+
 FillChooserComposite.Lbl.PositiveNegative=양수/음수
 
 FillChooserComposite.Lbl.Auto=자동
+
 ClientAreaAttributeComposite.Lbl.Background=배경:
 
 ClientAreaAttributeComposite.Lbl.Shadow=그림자(&D):
@@ -926,12 +965,15 @@ ExternalizedTextEditorDialog.Lbl.Value=<키 ''{0}''의 값>
 Format.Button.Label=형식
 
 Format.Button.Lbl&=형식(&M)
+
 FormatSpecifierComposite.error.Title=형식 지정자 오류
 
 FormatSpecifierComposite.error.Message=잘못된 형식 지정자 매개 변수 값: "{0}"
 
 FormatSpecifierComposite.Label.DenominatorDigits=분모 숫자
+
 FormatSpecifierComposite.Label.NumeratorValue=분자 값
+
 FormatSpecifierComposite.Lbl.DataType=데이터 형식(&D):
 
 FormatSpecifierComposite.Lbl.DateTime=날짜/시간
@@ -941,7 +983,9 @@ FormatSpecifierComposite.Lbl.Undefined=없음(&N)
 FormatSpecifierComposite.Lbl.Numerator=분자 값(1-100)(&V):
 
 FormatSpecifierComposite.Lbl.Standard=표준(&S)
+
 FormatSpecifierComposite.Lbl.String=문자열
+
 FormatSpecifierComposite.Lbl.Type=형식(&Y):
 
 FormatSpecifierComposite.Lbl.None=<없음>
@@ -959,6 +1003,7 @@ FormatSpecifierComposite.Lbl.Preview=미리 보기:
 FormatSpecifierComposite.Lbl.Approximate=근사값(&R):
 
 FormatSpecifierComposite.Lbl.Suffix=접미사(&X):
+
 FormatSpecifierComposite.Lbl.Number=번호
 
 FormatSpecifierPreview.Lbl.NoFormat=지정된 서식 없음
@@ -974,6 +1019,7 @@ FormatSpecifierComposite.Tooltip.FractionDigits=고급 속성: 근사값의 정밀도를 결�
 FormatSpecifierComposite.Lbl.MaxRecursionTimes=최대 분모 숫자(&O)(1-8):
 
 FormatSpecifierComposite.Lbl.Fraction=분수(&F)
+
 FormatSpecifierDialog.Title.EditFormat=형식 편집
 
 FormatSpecifierComposite.Lbl.Advanced=고급(&A)
@@ -1005,7 +1051,9 @@ GridAttributesComposite.Lbl.Style=스타일:
 GradientEditorDialog.Lbl.EndColor=끝 색:
 
 GradientEditorDialog.Lbl.Rotation=회전
+
 FontDefinitionDialog.Lbl.Rotation=회전:
+
 FontDefinitionDialog.Tooltip.Accept=수락
 
 FontDefinitionDialog.Tooltip.Bold=굵게
@@ -1029,9 +1077,11 @@ FontDefinitionDialog.Lbl.Font=글꼴(&F):
 FontDefinitionDialog.Lbl.Size=크기(&Z):
 
 FontDefinitionDialog.Lbl.Color=색(&C):
+
 FontDefinitionDialog.Lbl.Style=스타일:
 
 FontDefinitionDialog.Lbl.Format=형식:
+
 FontDefinitionDialog.Lbl.Wrap=랩
 
 FontDefinitionDialog.Lbl.Preview=미리 보기:
@@ -1053,6 +1103,7 @@ FontDefinitionDialog.Tooltip.AlignBottomCenter=맞춤 - 가운데 아래
 FontDefinitionDialog.Tooltip.AlignBottomRight=맞춤 - 오른쪽 아래
 
 FontDefinitionDialog.Lbl.Strikethrough=취소선(&S)
+
 FontDefinitionComposite.Tooltip.FontDialog=글꼴 편집기 호출
 
 TriggerEditorDialog.Title.TriggerEditor=상호작용 편집기 - {0}
@@ -1094,7 +1145,9 @@ TriggerDataComposite.Lbl.ParameterNames=옵션 데이터 요소 URL 매개 변수
 TriggerDataComposite.Lbl.CategorySeries=범주 계열(&C):
 
 TriggerDataComposite.Lbl.Cursor=커서(&S):
+
 TriggerDataComposite.TemporaryName.Hyperlink=하이퍼링크
+
 TriggerDataComposite.Text.EditBaseURL=기본 URL 편집(&U)...
 
 TriggerDataComposite.Text.Advanced=고급(&A)>>
@@ -1148,6 +1201,7 @@ TriggerDataComposite.Lbl.None.onmouseup=<없음>
 TriggerDataComposite.Lbl.Action=작업:(&C)
 
 TriggerDataComposite.Lbl.Script=스크립트(&P):
+
 TriggerDataComposite.Lbl.Target=대상:
 
 TriggerEditorComposite.Lbl.Update=<< 업데이트(&U)
@@ -1155,9 +1209,11 @@ TriggerEditorComposite.Lbl.Update=<< 업데이트(&U)
 TriggerDataComposite.Lbl.TooltipText=도구 설명 텍스트(&X):
 
 TriggerDataComposite.Btn.Format=서식(&F)
+
 TriggerDataComposite.Lbl.BaseURL=기본 URL 편집:
 
 TriggerDataComposite.Lbl.Image=이미지(&I)
+
 GradientEditorDialog.Lbl.GradientEditor=그라데이션 편집기
 
 GradientEditorDialog.Lbl.StartColor=시작 색:
@@ -1165,6 +1221,7 @@ GradientEditorDialog.Lbl.StartColor=시작 색:
 GradientEditorDialog.Lbl.Preview=미리 보기
 
 PaletteEditorComposite.Label.EditColor=색 편집
+
 PaletteEditorComposite.Lbl.Add=추가(&A)
 
 PaletteEditorComposite.Lbl.Remove=제거(&R)
@@ -1176,7 +1233,9 @@ PaletteEditorComposite.Lbl.Down=아래로
 PatternImageEditorDialog.Button.Cancel=취소(&C)
 
 PatternImageEditorDialog.Button.OK=확인(&O)
+
 PatternImageEditorDialog.Group.Color=색:
+
 PatternImageEditorDialog.Group.Pattern=패턴:
 
 PatternImageEditorDialog.Label.Background=배경(&B):
@@ -1184,6 +1243,7 @@ PatternImageEditorDialog.Label.Background=배경(&B):
 PatternImageEditorDialog.Label.Foreground=전경(&F):
 
 PatternImageEditorDialog.Title.PatternFillEditor=패턴 이미지 편집기
+
 LabelAttributesComposite.Lbl.Label=레이블
 
 LabelAttributesComposite.Lbl.Font=글꼴(&O):
@@ -1213,6 +1273,7 @@ BlockAttributeComposite.Lbl.Orientation=방향(&O):
 BlockAttributeComposite.Lbl.Direction=방향(&D):
 
 BlockAttributeComposite.Lbl.Position=위치(&P):
+
 BlockAttributeComposite.Lbl.ItemType=항목 형식:
 
 BlockAttributeComposite.Title.PlotBlock=플롯 블록
@@ -1278,6 +1339,7 @@ HyperlinkEditorDialog.ErrorMessage.NullText=이름은 비워둘 수 없습니다\!
 HyperlinkEditorDialog.HyperlinkName.Title.Warning=경고
 
 HyperlinkEditorDialog.Text.MenuLabel=이름(&N):
+
 HyperlinkEditorDialog.Title.HyperlinkEditor=하이퍼링크 편집기
 
 TaskSelectType.TaskExp=차트 형식 선택
@@ -1315,6 +1377,7 @@ TaskSelectType.Exception.NotSupportedForMultipleAxes=\ 다중 축에는 지원되지 않습
 TaskSelectType.Label.ChartTypes=차트 형식
 
 TaskSelectType.Label.Dimension=차원(&D):
+
 TaskSelectType.Label.ChartSubtypes=차트 하위 형식
 
 TaskSelectData.TaskExp=데이터 선택
@@ -1356,6 +1419,7 @@ TaskSelectData.Label.Component=\ 구성 요소
 TaskSelectData.Label.Overlay=이중
 
 TaskSelectData.Label.Series=계열
+
 TaskSelectData.Label.UseAsCategoryXAxis=범주 (X) 축으로 사용
 
 TaskSelectData.Label.UseAsCategorySeries=범주 계열로 사용
@@ -1395,6 +1459,7 @@ AbstractSelectDataCustomizeUI.Label.SeriesGrouping=계열 그룹화
 AbstractSelectDataCustomizeUI.Label.YAxis=Y축
 
 AbstractSelectDataCustomizeUI.Label.Series=계열
+
 AbstractScaleSheet.Label.ShowValuesOutside=축 범위 이외의 값 표시(&O)
 
 MultipleHyperlinksComposite.Btn.Add=추가(&A)
@@ -1410,6 +1475,7 @@ MultipleHyperlinksComposite.Btn.Properties=속성(&P)
 MultipleHyperlinksComposite.Btn.Up=위로(&U)
 
 MultipleHyperlinksComposite.Group.Hyperlinks=하이퍼링크
+
 MultipleHyperlinksComposite.Label.Tooltip=도구 설명(&T):
 
 MultipleSeriesComponent.Label.OptionalYSeriesGrouping=옵션 Y 계열 그룹화(&O):
@@ -1423,8 +1489,11 @@ MultipleSeriesComponent.Label.GroupSorting=그룹 정렬(&S):
 SelectDataChartWithAxisUI.Label.ValueYSeries=값 (Y) 계열:
 
 MultipleSeriesComponent.Label.Series=계열
+
 SelectDataChartWithoutAxisUI.Label.Series=계열
+
 DataDefinitionSelector.Label.Series=계열
+
 DataDefinitionSelector.Text.NewSeries=<새 계열...>
 
 DataDefinitionSelector.Text.NewAxis=<새 축...>
@@ -1438,7 +1507,9 @@ DataDefinitionSelector.Label.YAxis=Y축
 DataDefinitionSelector.Label.Axis=축
 
 DataDefinitionSelector.Label.DeleteAxis=축 삭제
+
 DataDefinitionSelector.Label.DeleteSeries=계열 삭제
+
 DialBottomAreaComponent.Label.Dial=다이얼
 
 DialBottomAreaComponent.Label.GaugeValueDefinition=미터 값 정의:
@@ -1448,9 +1519,13 @@ PieBottomAreaComponent.Label.TheExplosionCondition=쪼개짐 조건은 조건에 따라 조�
 PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion=쪼개짐의 크기는 조각이 얼마나 멀리 쪼개지는지 여부를 지정합니다.
 
 AxisGridLinesSheet.MajorLabel.LineIsVisible=표시(&V)
+
 AxisGridLinesSheet.MajorLabel.TickIsVisible=표시(&I)
+
 AxisGridLinesSheet.MinorLabel.LineIsVisible=표시(&S)
+
 AxisGridLinesSheet.MinorLabel.TickIsVisible=표시(&L)
+
 AxisLabelSheet.Label.Ellipsis=생략 부호(&I):
 
 AxisLabelSheet.Label.Ellipsis.Tooltip=생략 부호 앞에 표시할 최소 문자 수를 설정합니다.
@@ -1462,12 +1537,15 @@ AxisSheetImpl.Label.Axis=축
 AxisSheetImpl.Label.AxisPercent=축 백분율
 
 AxisSheetImpl.Label.Visible=표시
+
 AxisSheetImpl.Label.ValueY=값(Y)
 
 AxisYSheetImpl.Label.Labels=레이블(&A):
 
 AxisSheetImpl.Label.Type=형식
+
 AxisSheetImpl.Label.Color=색
+
 AxisYSheetImpl.Label.Title=제목(&E):
 
 AxisYSheetImpl.Label.Scale=축 배율
@@ -1481,6 +1559,7 @@ AxisSheetImpl.Label.AncillaryZ=보조(Z)
 AxisSheetImpl.Label.SideBySide=세로 정렬
 
 AxisXSheetImpl.Label.Visible=표시
+
 AxisYSheetImpl.Label.LabelFormat=축 레이블
 
 AxisYSheetImpl.Label.LabelFormat&=레이블(&L)
@@ -1498,6 +1577,7 @@ AbstractAxisSubtask.Button.Fixed=고정
 AbstractAxisSubtask.Lbl.IsCategoryAxis=범주 축(&X)
 
 AbstractAxisSubtask.Label.Visible2=표시(&I)
+
 AbstractScaleSheet.Label.StepNumber=단계 수(&N):
 
 AxisYSheetImpl.Label.Markers=축 마커
@@ -1505,6 +1585,7 @@ AxisYSheetImpl.Label.Markers=축 마커
 AxisYSheetImpl.Label.Markers&=마커(&M)
 
 AxisZSheetImpl.Label.Visible=표시(&V)
+
 AxisXSheetImpl.Label.AxisData=축 데이터
 
 AbstractAxisSubtask.Label.Stagger=교차(&G)
@@ -1514,6 +1595,7 @@ AbstractAxisSubtask.Label.Interactivity=축 대화형 작업
 AbstractAxisSubtask.Label.LabelSpan=레이블 범위(&N):
 
 AbstractAxisSubtask.Label.Points=(포인트)
+
 AbstractAxisSubtask.Label.ReverseCategory=역방향 범주(&C)
 
 AxisTextSheet.Label.Interval=간격(&E):
@@ -1535,17 +1617,21 @@ ChartPlotSheetImpl.Label.Background2=배경(&G):
 ChartPlotSheetImpl.Label.ClientArea=클라이언트 영역
 
 ChartTitleSheetImpl.Text.Auto=자동(&A)
+
 ChartTitleSheetImpl.Text.TitleLayout=제목 레이아웃
 
 ChartTitleSheetImpl.Text.Layout&=레이아웃(&L)
+
 ChartTitleSheetImpl.Text.TitleText=제목 텍스트
 
 ChartTitleSheetImpl.Text.TitleText&=텍스트(&T)
+
 ChartSheetImpl.Title.ChartTitle=차트 제목
 
 ChartSheetImpl.Title.ChartArea=차트 영역
 
 ChartSheetImpl.Label.Visible=표시(&V)
+
 ChartSheetImpl.Label.ColorBy=색상 기준(&C):
 
 ChartSheetImpl.Label.Coverage=적용 범위(&A):
@@ -1565,6 +1651,7 @@ ChartLegendSheetImpl.Title.LegendEntries=범례 항목
 ChartLegendSheetImpl.Title.LegendTitle=범례 제목
 
 ChartLegendSheetImpl.Label.Layout=레이아웃(&A)
+
 ChartLegendSheetImpl.Label.Legend=범례
 
 ChartLegendSheetImpl.Label.Title=제목(&L):
@@ -1610,12 +1697,15 @@ ChartSheetImpl.Label.Interactivity=차트 영역 대화형 작업
 ChartSheetImpl.Label.InteractivityEnable=차트 대화형 작업 사용(&E)
 
 ChartSheetImpl.Label.Text=텍스트(&X):
+
 ChartLegendSheetImpl.Label.LegendBehaviorType=동작(&O):
 
 ChartLivePreviewThread_Text.PleaseWait=. 잠시 기다려 주십시오.
 
 ChartLivePreviewThread.ErrorMessage.NoDataEngine=데이터를 처리할 데이터 엔진이 없습니다. 자세한 내용은 이전 예외를 참조하십시오.
+
 SeriesSheetImpl.Label.Type=형식
+
 SeriesSheetImpl.Label.ZOrder=Z 순서
 
 LegendTextSheet.Label.Ellipsis=생략 부호(&E):
@@ -1647,6 +1737,7 @@ MoreOptionsChartPlotSheet.Label.Stretch=맞춤(&S):
 TitlePropertiesSheet.Label.Title=제목(&T)
 
 TitlePropertiesSheet.Label.Visible=표시
+
 TitlePropertiesSheet.Label.Anchor=앵커(&A):
 
 TitlePropertiesSheet.Label.Stretch=맞춤(&S):
@@ -1654,6 +1745,7 @@ TitlePropertiesSheet.Label.Stretch=맞춤(&S):
 TitlePropertiesSheet.Label.Outline=윤곽선
 
 TitlePropertiesSheet.Label.Text=텍스트
+
 BaseDataDefinitionComponent.Text.SpecifyDataDefinition=데이터 정의 지정
 
 BaseDataDefinitionComponent.Label.EditGroupSorting=그룹 편집 및 정렬
@@ -1669,6 +1761,7 @@ BaseGroupSortingDialog.Label.SortOn=정렬 방법(&O):
 MarkerEditorComposite.Button.Outline=윤곽선(&O)
 
 MarkerEditorComposite.Label.MarkerType=형식
+
 MarkerIconDialog.Button.EmbeddedImage=포함된 이미지(&M)
 
 MarkerIconDialog.Title.MarkerIconSelector=표지 아이콘 선택기(Marker Icon Selector)
@@ -1678,7 +1771,9 @@ MarkerIconDialog.Label.Description.EmbeddedImage=마커 아이콘으로 포함된 이미지를
 MarkerIconDialog.Lbl.SelectIconFrom=다음에서 아이콘 선택:
 
 MarkerIconDialog.Lbl.URL=URL(&U)
+
 MarkerIconDialog.Lbl.Local=로컬(&L)
+
 MarkerIconDialog.Lbl.EnterURL=URL 입력(&E):
 
 MarkerIconDialog.Lbl.Browse=찾아보기(&B)
@@ -1704,6 +1799,7 @@ MarkerIconDialog.ImageNotAvailableWarningMessage=그래도 사용하시겠습니까?
 exception.data.DataBindingsAreNull=하나 이상의 데이터 바인딩이 널(null)입니다\!
 
 DialLabelSheet.Label.Format=형식:
+
 ImageDialog.AddImage=이미지 추가(&A)...
 
 ImageDialog.FileExist=파일 이름이 이미 있습니다. 이름을 변경하고 다시 로드하십시오.
@@ -1739,7 +1835,9 @@ ImageDialog.label.EnterLocal=로컬 이미지의 경로 입력(&E):
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=정수, 십진수 또는 분수 값을 입력합니다.
 
 PlotClientAreaSheet.Btn.Auto=자동(&U)
+
 PlotClientAreaSheet.Btn.Auto2=자동(&O)
+
 PlotClientAreaSheet.Label.HeightHint=높이 힌트(&N):
 
 PlotClientAreaSheet.Label.WidthHint=너비 힌트(&T):
@@ -1750,6 +1848,7 @@ AxisMarkersSheet.MarkerRange.displayName=MarkerRange
 AxisMarkersSheet.Label.Interactivity=대화형 작업(&I)
 
 AxisMarkersSheet.Label.IsVisible=표시(&S)
+
 AbstractPopupSheet.Label.Close=닫기
 
 AbstractPopupSheet.Label.Help=도움말
@@ -1765,6 +1864,7 @@ AggregateEditorComposite.AggregateParameterDefinition.Title=집계 매개 변수 정의
 AggregateEditorComposite.Button.Cancel=취소
 
 AggregateEditorComposite.Button.OK=확인
+
 AggregateEditorComposite.Tooltip.SetAggregateFunction=집계 함수 설정
 
 LocalizedNumberEditorComposite.error.Title=숫자 형식 오류
@@ -1772,6 +1872,7 @@ LocalizedNumberEditorComposite.error.Title=숫자 형식 오류
 LocalizedNumberEditorComposite.error.Message=잘못된 숫자 값: "{0}"
 
 SeriesRegionSheet.message.dialRegion=DialRegion -
+
 GroupSortingDialog.Composite.Group.Sorting=정렬
 
 GroupSortingDialog.Composite.Label.SortLocale=로케일(&L):
@@ -1781,6 +1882,7 @@ GroupSortingDialog.Composite.Label.SortStrength=수준(&H):
 GroupSortingDialog.Label.GroupAndSorting=그룹 및 정렬
 
 GroupSortingDialog.Sort.Locale.Auto=자동
+
 GroupSortingDialog.Sort.Strength.ASCII=ASCII
 GroupSortingDialog.Sort.Strength.IDENTICAL=동일
 
@@ -1801,6 +1903,7 @@ GanttSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 GanttS
 GanttChart.Txt.DefaultGanttChartTitle=Gantt 차트 제목
 
 GanttChart.Txt.DisplayName=간트
+
 GanttChart.Txt.Description=표준 간트 차트에는 시작 표지와 끝 표지를 잇는 연결선이 있습니다.
 
 GanttChart.Txt.HelpText=Gantt 차트는 작업 또는 활동의 시간이 초과된 경우 해당 시간을 표시합니다.
@@ -1838,6 +1941,7 @@ BubbleSeriesAttributeComposite.Lbl.ShadowColor=그림자(&H):
 BubbleSeriesAttributeComposite.Lbl.Marker=표지
 
 BubbleSeriesAttributeComposite.Lbl.IsVisible=표시
+
 BubbleSeriesAttributeComposite.Lbl.Type=형식:
 
 BubbleSeriesAttributeComposite.Lbl.Size=크기:
@@ -1853,6 +1957,7 @@ BubbleSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 Bubbl
 BubbleSeriesAttributeComposite.Lbl.ShowLinesAsCurves=선을 곡선으로 표시(&V)
 
 BubbleSeriesAttributeComposite.Lbl.Orientation=방향(&O)
+
 DifferenceChart.Txt.DefaultDifferenceChartTitle=차이 차트 제목
 
 DifferenceChart.Txt.Description=차이 차트는 두 개의 채우기를 사용하여 양수 및 음수 영역을 표시합니다.
@@ -1947,6 +2052,7 @@ MenuStyleDialog.Column.Properties=속성
 MenuStyleDialog.Column.Value=값
 
 MenuStyleDialog.Style.Menu=메뉴
+
 MenuStyleDialog.Style.MenuItem=메뉴 항목
 
 MenuStyleDialog.Style.OnMouseOver=마우스를 위에 놓았을 때

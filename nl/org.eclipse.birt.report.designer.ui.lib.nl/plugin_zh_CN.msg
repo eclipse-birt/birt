@@ -26,7 +26,9 @@ LibraryProjectWizard=库项目
 LibraryProjectWizardDescription=新建库项目。
 
 library.layout=布局(&O)
+
 library.script=脚本(&S)
+
 library.xmlsource=XML 源(&X)
 
 design.masterPage=主页(&M)

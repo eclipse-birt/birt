@@ -21,4 +21,5 @@ data.source.name=POJO Data Source
 data.set.name=POJO Data Set
 connection.profile.name=POJO Data Source Connection Profile
 datasource.property.pojoDataSetClassPath=사용자 지정 POJO 데이터 집합 클래스의 공유 위치(&L)
+
 datasource.property.pojoClassPath=POJO 클래스 공유 위치

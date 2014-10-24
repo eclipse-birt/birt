@@ -93,14 +93,23 @@ BIRTConfiguration_cubememsize_label=作成できるキューブの最大メモリサイズ(&Z) :
 BIRTConfiguration_loglevel_label=ログレベルの選択(&V) :
 
 BIRTConfiguration_loglevel_all=ALL
+
 BIRTConfiguration_loglevel_severe=SEVERE
+
 BIRTConfiguration_loglevel_warning=WARNING
+
 BIRTConfiguration_loglevel_info=INFO
+
 BIRTConfiguration_loglevel_config=CONFIG
+
 BIRTConfiguration_loglevel_fine=FINE
+
 BIRTConfiguration_loglevel_finer=FINER
+
 BIRTConfiguration_loglevel_finest=FINEST
+
 BIRTConfiguration_loglevel_off=OFF
+
 BIRTConfiguration_printserver_label=レポートをサーバサイドで印刷(&P) :
 
 BIRTConfiguration_import_clear_message=BIRT の古いランタイムファイルを削除する(&C)

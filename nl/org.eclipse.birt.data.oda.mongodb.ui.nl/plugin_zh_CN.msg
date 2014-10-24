@@ -19,8 +19,11 @@ oda.data.source.id=org.eclipse.birt.data.oda.mongodb
 plugin.name=MongoDB Data Source ODA Designer
 newwizard.name=MongoDB Data Source
 newwizard.description=创建 MongoDB 数据源连接配置文件
+
 wizard.window.title=新建 MongoDB 数据源配置文件
+
 wizard.data.source.page.title=MongoDB Data Source
 profile.propertypage.name=MongoDB Data Source Connection Properties
 wizard.data.set.window.title=新建 MongoDB 数据集
+
 wizard.data.set.page.title=查询

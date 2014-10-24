@@ -39,6 +39,7 @@ ErrorDialog.text.ShowTrace=Afficher la trace...
 ErrorDialog.text.StackTrace=Trace de la pile :
 
 ErrorDialog.text.Ok=\ \ \ \ \ OK
+
 ErrorDialog.text.CausedBy=\n\nCausé par :
 
 SubtaskHistory.Tooltip.Back=Revenir à {0}

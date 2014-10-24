@@ -21,4 +21,5 @@ data.source.name=POJO Data Source
 data.set.name=POJO Data Set
 connection.profile.name=POJO Data Source Connection Profile
 datasource.property.pojoDataSetClassPath=Gemeinsamer &Speicherort für benutzerdefinierte POJO-Datensatzklassen
+
 datasource.property.pojoClassPath=Gemeinsamer Speicherort von POJO-Klassen

@@ -94,6 +94,7 @@ GroupsPage.Title=그룹 및 요약
 LinkGroupsPage.Title=그룹 링크
 
 DatasetPage.Label.Name=이름(&N):
+
 DateGroupDialog.Title=그룹 수준 추가/편집
 
 DateGroupDialog.Message.NumericName=그룹 이름에 숫자만 입력하면 안 됩니다.
@@ -111,6 +112,7 @@ DateLevelDialog.Title=날짜 수준 편집
 DatasetPage.Label.PrimaryDataset=기본 데이터 집합(&P):
 
 DatasetPage.Button.Filter=필터(&F)...
+
 DatasetPage.Button.Joint=조인 데이터 집합 추가...
 
 DatasetPage.Title.Title=데이터 집합
@@ -144,6 +146,7 @@ SimpleCubeBuilder.Title.Message=그룹화 계층 및 요약 데이터 필드를 지정하여 크로�
 SimpleCubeBuilder.Title=크로스 탭 큐브 빌더
 
 SimpleCubeBuilder.Label.Name=이름:
+
 DatasetSelectionPage.Label.Auto.Primary.Key=이 옵션을 체크하여 큐브를 생성하는 동안 일차 데이터 세트의 사전집계를 방지합니다(&C).
 
 DatasetSelectionPage.Text.Auto.Primary.Key=힌트 - 이 옵션을 선택하면 BIRT는 큐브 생성 작업을 보다 수월하게 진행하기 위해 큐브 생성 중에 그룹화 및 집계 계산을 건너뜁니다.
@@ -191,6 +194,7 @@ LinkGroupsPage.Title.Message=다른 데이터 집합의 그룹을 기본 데이터 집합으로 연결
 LevelDialog.Title=속성
 
 LevelDialog.Label.Name=이름:
+
 LevelDialog.Label.Field=필드 선택:
 
 LevelDialog.Label.DataType=데이터 형식:
@@ -210,6 +214,7 @@ MeasureDialog.Button.Text.Edit=편집(&E)...
 MeasureDialog.Title=속성
 
 MeasureDialog.Label.Name=이름(&N):
+
 MeasureDialog.Label.DisplayName=표시 이름(&A):
 
 MeasureDialog.Label.Function=함수(&F):
@@ -269,6 +274,7 @@ LevelPropertyDialog.None=없음
 LevelPropertyDialog.GroupBy=묶는 방법:
 
 LevelPropertyDialog.Name=이름(&N):
+
 LevelPropertyDialog.MSG.Static.CreateNew=<새 구성원 생성>
 
 LevelPropertyDialog.Shell.Title=그룹 수준
@@ -358,10 +364,13 @@ DateLevelDialog.Shell.Title=날짜 수준 편집
 DateLevelDialog.Interval.Base=간격에 고정된 기본값 사용:
 
 DateGroupDialog.Name=이름(&N):
+
 DateLevelDialog.Name=이름(&N):
+
 DateLevelDialog.Type=형식(&T):
 
 DateLevelDialog.Format=서식(&F):
+
 DateLevelDialog.KeyField=키 필드:
 
 DateLevelDialog.Label.LinkTo=연결 대상(&L):
@@ -383,6 +392,7 @@ CubePageGenerator.List.General=일반
 ############################################################
 #FilterListDialog properties
 FilterListDialog.Shell.Title=필터
+
 FilterListDialog.Menu.ModifyProperty=속성 수정
 
 FilterListDialog.Button.AddWithDialog=추가(&A)...

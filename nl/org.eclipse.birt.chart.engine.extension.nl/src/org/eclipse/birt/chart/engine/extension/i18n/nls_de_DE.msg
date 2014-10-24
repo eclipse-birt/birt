@@ -134,17 +134,31 @@ exception.unsupported.aggregate.function.input=Bei der Aggregatfunktion {0} wurd
 exception.illegal.datapoint.position.bar3d=In 3D-Balkendiagrammen ist keine Datenreihenbeschriftung innerhalb der Balken möglich.
 
 Irr.AggregateFunction.Parameters.Label.Intrate=Intrate
+
 Mirr.AggregateFunction.Parameters.Label.FinanceRate=Finance Rate
+
 Mirr.AggregateFunction.Parameters.Label.ReinvestmentRate=Reinvestment Rate
+
 Npv.AggregateFunction.Parameters.Label.Rate=Rate
+
 Percentile.AggregateFunction.Parameters.Label.Percentage=Prozentsatz
+
 Quartile.AggregateFunction.Parameters.Label.Quart=Quart
+
 WeightedAverage.AggregateFunction.Parameters.Label.Weight=Gewichtung
+
 MovingAverage.AggregateFunction.Parameters.Label.Window=Fenster
+
 RunningNpv.AggregateFunction.Parameters.Label.Rate=Rate
+
 Rank.AggregateFunction.Parameters.Label.Ascending=Aufsteigend
+
 Top.AggregateFunction.Parameters.Label.N=Erste n
+
 TopPercent.AggregateFunction.Parameters.Label.Percentage=Prozentsatz
+
 Bottom.AggregateFunction.Parameters.Label.N=Letzte n
+
 BottomPercent.AggregateFunction.Parameters.Label.Percentage=Prozentsatz
+
 DataSetProcessorImpl_exception.dataset.receivednumeric=Der Typ des erhaltenen Datentyps muss numerisch sein.

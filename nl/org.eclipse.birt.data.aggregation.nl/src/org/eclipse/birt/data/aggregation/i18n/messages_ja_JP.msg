@@ -8,41 +8,53 @@
 
 #Aggregation function UI information
 Constants.Expression=式(&E)
+
 TotalAve.description=関数 - Total.AVE()
 
 TotalAve.displayName=AVE
+
 TotalCount.description=関数 - Total.COUNT()
 
 TotalCount.displayName=COUNT
+
 TotalCountDistinct.description=関数 - Total.COUNTDISTINCT()
 
 TotalCountDistinct.displayName=COUNTDISTINCT
+
 TotalFirst.description=関数 - Total.FIRST()
 
 TotalFirst.displayName=FIRST
+
 TotalIrr.description=関数 - Total.IRR()
 
 TotalIrr.displayName=IRR
+
 TotalIrr.param.intrate=内部利益率(&I)
+
 TotalLast.description=関数 - Total.LAST()
 
 TotalLast.displayName=LAST
+
 TotalMax.description=関数 - Total.MAX()
 
 TotalMax.displayName=MAX
+
 TotalMax.exception.cannot_get_max_value=最大値を取得できません。
 
 TotalMedian.description=関数 - Total.median()
 
 TotalMedian.displayName=MEDIAN
+
 TotalMin.description=関数 - Total.MIN()
 
 TotalMin.displayName=MIN
+
 TotalMin.exception.cannot_get_max_value=最大値を取得できません。
 
 TotalMirr.description=関数 - Total.MIRR()
 
 TotalMirr.displayName=MIRR
+
 TotalMirr.param.finance_rate=投資原価(&R)
 
 TotalMirr.param.reinvestment_rate=再投資受取利率(&I)
@@ -50,72 +62,99 @@ TotalMirr.param.reinvestment_rate=再投資受取利率(&I)
 TotalMode.description=関数 - Total.mode()
 
 TotalMode.displayName=MODE
+
 TotalMovingAve.description=関数 - Total.MOVINGAVE()
 
 TotalMovingAve.displayName=MOVINGAVE
+
 TotalMovingAve.param.window=ウィンドウ(&W)
 
 TotalNpv.description=関数 - Total.NPV()
 
 TotalNpv.displayName=NPV
+
 TotalNpv.param.rate=割引率(&R)
+
 TotalRunningCount.description=関数 - Total.RUNNINGCOUNT()
 
 TotalRunningCount.displayName=RUNNINGCOUNT
+
 TotalRunningNpv.description=関数 - Total.RUNNINGNPV()
 
 TotalRunningNpv.displayName=RUNNINGNPV
+
 TotalRunningNpv.param.rate=割引率(&R)
+
 TotalRunningSum.description=関数 - Total.RUNNINGSUM()
 
 TotalRunningSum.displayName=RUNNINGSUM
+
 TotalStdDev.description=関数 - Total.STDDEV()
 
 TotalStdDev.displayName=STDDEV
+
 TotalSum.description=関数 - Total.sum()
 
 TotalSum.displayName=SUM
+
 TotalVariance.description=関数 - Total.variance()
 
 TotalVariance.displayName=VARIANCE
+
 TotalWeightedAve.description=関数 - Total.WEIGHTEDAVE()
 
 TotalWeightedAve.displayName=WEIGHTEDAVE
+
 TotalWeightedAve.param.weight=重み(&W)
+
 BaseTopBottomAggregation.param.n=N 位(&N)
+
 TotalIsBottomN.description=関数 - Total.IsBottomN()
 
 TotalIsBottomN.displayName=IS-BOTTOM-N
+
 TotalIsBottomNPercent.description=関数 - Total.IsBottomNPcent()
 
 TotalIsBottomNPercent.displayName=IS-BOTTOM-N-PERCENT
+
 TotalIsTopN.description=関数 - Total.isTopN()
 
 TotalIsTopN.displayName=IS-TOP-N
+
 TotalIsTopNPercent.description=関数 - Total.isTopNPercent
 
 TotalIsTopNPercent.displayName=IS-TOP-N-PERCENT
+
 TotalPercentile.description=関数 - Total.PERCENTILE()
 
 TotalPercentile.displayName=PERCENTILE
+
 TotalPercentile.param.percentage=割合 (%)(&P)
+
 TotalPercentRank.description=関数 - Total.PERCENTRANK()
 
 TotalPercentRank.displayName=PERCENTRANK
+
 TotalPercentSum.description=関数 - Total.PERCENTSUM()
 
 TotalPercentSum.displayName=PERCENTSUM
+
 TotalQuartile.description=関数 - Total.QUARTILE()
 
 TotalQuartile.displayName=QUARTILE
+
 TotalQuartile.param.quart=四分位(&Q)
+
 TotalRank.description=関数 - Total.RANK()
 
 TotalRank.displayName=RANK
+
 TotalRank.param.ascending=昇順(&A)
 
 TotalConcatenate.description=funtion Total.CONCATENATE()
+
 TotalConcatenate.displayName=CONCATENATE
+
 TotalConcatenate.param.separator=区切り文字(&O)
 
 TotalConcatenate.param.maxLength=最大長(&X)

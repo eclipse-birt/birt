@@ -10,34 +10,51 @@ Error.Msg001={1}에 {0}이(가) 없습니다.
 ###########################################################
 # Boolean type names
 Property.Boolean.True=참
+
 Property.Boolean.False=거짓
 
 ###########################################################
 # Property type names
 Property.boolean=부울
+
 Property.choice=선택
+
 Property.float=고정 해제
+
 Property.color=색
+
 Property.dateTime=DateTime
 Property.dimension=차원
+
 Property.expression=식
+
 Property.html=Html
 Property.integer=정수
+
 Property.messageId=메시지 ID
+
 Property.name=이름
+
 Property.number=숫자
+
 Property.points=포인트
+
 Property.string=문자열
+
 Property.uri=Uri
 Property.xml=Xml
 Property.elementRef=요소 참조
 
 Property.column=열
+
 Property.variant=변형
+
 Property.structList=구조 목록
 
 Property.extends=확장
+
 Property.script=스크립트
+
 Property.list=목록
 
 Property.memberKey=구성원 키
@@ -45,6 +62,7 @@ Property.memberKey=구성원 키
 Property.literalString=리터럴 문자열
 
 Property.element=요소
+
 Property.structRef=구조 참조
 
 Property.contentElement=속성 값 요소
@@ -62,6 +80,7 @@ Choices.colors.maroon=적갈색
 Choices.colors.red=빨강
 
 Choices.colors.orange=주황
+
 Choices.colors.yellow=노랑
 
 Choices.colors.olive=올리브
@@ -69,6 +88,7 @@ Choices.colors.olive=올리브
 Choices.colors.purple=자주
 
 Choices.colors.fuchsia=밝은 자홍
+
 Choices.colors.white=흰색
 
 Choices.colors.lime=라임
@@ -91,6 +111,7 @@ Choices.colors.gray=회색
   
 #1.fontWeight
 Choices.fontWeight.normal=기본
+
 Choices.fontWeight.bold=굵게
 
 Choices.fontWeight.bolder=더 굵게
@@ -130,6 +151,7 @@ Choices.lineStyle.dotted=굵은 점선
 Choices.lineStyle.dashed=파선
 
 Choices.lineStyle.double=이중 실선
+
 Choices.lineStyle.groove=홈 음각
 
 Choices.lineStyle.ridge=홈 양각
@@ -140,20 +162,30 @@ Choices.lineStyle.outset=양각
   
 #4.units
 Choices.units.in=인치
+
 Choices.units.cm=cm
+
 Choices.units.mm=mm
+
 Choices.units.pt=points
+
 Choices.units.pc=picas
+
 Choices.units.em=ems
+
 Choices.units.ex=exs
+
 Choices.units.px=픽셀
+
 Choices.units.%=%
 
 #5.paramDataType
 Choices.paramType.string=문자열
+
 Choices.paramType.float=실수
 
 Choices.paramType.decimal=십진수
+
 Choices.paramType.dateTime=날짜 시간
 
 Choices.paramType.boolean=부울
@@ -163,6 +195,7 @@ Choices.paramType.integer=정수
 Choices.paramType.any=모두
 
 Choices.paramType.date=날짜
+
 Choices.paramType.time=시간
 
 Choices.paramType.javaObject=Java 개체
@@ -191,16 +224,21 @@ Choices.textAlign.justify=양쪽 맞춤
 Choices.pageSize.custom=사용자 지정
 
 Choices.pageSize.us-letter=US Letter
+
 Choices.pageSize.us-legal=US Legal
+
 Choices.pageSize.a4=A4
 Choices.pageSize.a3=A3
 Choices.pageSize.a5=A5
 Choices.pageSize.us-ledger=US Ledger
+
 Choices.pageSize.us-super-b=US Super B
   
 #9.pageOrientation
 Choices.pageOrientation.auto=자동
+
 Choices.pageOrientation.portrait=세로
+
 Choices.pageOrientation.landscape=가로
    
 #12.interval
@@ -221,6 +259,7 @@ Choices.interval.day=일
 Choices.interval.hour=시
 
 Choices.interval.minute=분
+
 Choices.interval.second=초
 
 Choices.interval.interval=간격
@@ -255,9 +294,13 @@ Choices.mapOperator.between=사이에 있음
 Choices.mapOperator.notBetween=사이에 있지 않음
 
 Choices.mapOperator.isNull=널(null)임
+
 Choices.mapOperator.isNotNull=널(null)이 아님
+
 Choices.mapOperator.isTrue=참
+
 Choices.mapOperator.isFalse=거짓
+
 Choices.mapOperator.like=유사
 
 Choices.mapOperator.match=일치
@@ -287,15 +330,19 @@ Choices.imageRefType.url=URL
 Choices.imageRefType.file=파일
 
 Choices.imageRefType.expr=식
+
 Choices.imageRefType.embed=내장된 이미지
   
 #16.imageSize
 Choices.imageSize.size-to-image=Size to Image
+
 Choices.imageSize.scale-to-item=Scale to Item
+
 Choices.imageSize.clip=자르기
   
 #17.lineOrientation
 Choices.lineOrientation.horizontal=가로
+
 Choices.lineOrientation.vertical=세로
   
 #18.rowAlign
@@ -316,17 +363,26 @@ Choices.sectionAlign.right=오른쪽
 Choices.dropType.none=없음
 
 Choices.dropType.detail=상세 정보
+
 Choices.dropType.all=모두
     
 #22.imageType
 Choices.imageType.image/bmp=image/bmp
+
 Choices.imageType.image/gif=image/gif
+
 Choices.imageType.image/png=image/png
+
 Choices.imageType.image/x-png=image/x-png
+
 Choices.imageType.image/jpeg=image/jpeg
+
 Choices.imageType.image/ico=이미지/ico
+
 Choices.imageType.image/tiff=이미지/tiff
+
 Choices.imageType.image/svg+xml=이미지/svg+xml
+
 Choices.imageType.image/x-icon=이미지/x 아이콘
   
 #23.lineSpacing
@@ -347,6 +403,7 @@ Choices.lineType.double=이중 실선
   
 #25.pageBreakBefore
 Choices.pageBreakBefore.auto=자동
+
 Choices.pageBreakBefore.always=항상
 
 Choices.pageBreakBefore.avoid=피하기
@@ -355,6 +412,7 @@ Choices.pageBreakBefore.alwaysExcludingFirst=항상 먼저 제외하기
 
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=자동
+
 Choices.pageBreakAfter.always=항상
 
 Choices.pageBreakAfter.avoid=피하기
@@ -401,19 +459,25 @@ Choices.fontSize.smaller=작게
 
 #30.fontFamily
 Choices.fontFamily.serif=Serif
+
 Choices.fontFamily.sans-serif=Sans Serif
+
 Choices.fontFamily.cursive=Cursive
+
 Choices.fontFamily.fantasy=Fantasy
+
 Choices.fontFamily.monospace=Monospace
 
 #31.fontStyle
 Choices.fontStyle.normal=기본
+
 Choices.fontStyle.italic=기울임꼴
 
 Choices.fontStyle.oblique=오블리크
 
 #32.fontVariant
 Choices.fontVariant.normal=기본
+
 Choices.fontVariant.small-caps=소문자를 작은 대문자로
 
 #33.backgroundRepeat
@@ -475,12 +539,14 @@ Choices.verticalAlign.text-bottom=텍스트 아래쪽
 
 #40.whiteSpace
 Choices.whiteSpace.normal=기본
+
 Choices.whiteSpace.pre=서식 설정되어 있음
 
 Choices.whiteSpace.nowrap=배치 안함
 
 #41.display
 Choices.display.block=블록
+
 Choices.display.inline=인라인
 
 Choices.display.none=표시 없음
@@ -515,6 +581,7 @@ Choices.inherit.inherit=상속
 
 #50. textContentType
 Choices.textContentType.auto=자동
+
 Choices.textContentType.plain=일반
 
 Choices.textContentType.html=HTML
@@ -524,13 +591,17 @@ Choices.textContentType.rtf=RTF
 Choices.formatType.all=모두
 
 Choices.formatType.viewer=뷰어
+
 Choices.formatType.email=전자 메일
 
 Choices.formatType.print=인쇄
 
 Choices.formatType.pdf=Pdf
+
 Choices.formatType.rtf=Rtf
+
 Choices.formatType.reportlet=리포틀릿
+
 Choices.formatType.excel=Excel
 Choices.formatType.word=Word
 Choices.formatType.powerpoint=Powerpoint
@@ -579,6 +650,7 @@ Choices.filterOperator.match=일치
 Choices.filterOperator.not-match=일치하지 않음
 
 Choices.filterOperator.in=포함
+
 Choices.filterOperator.not-in=포함 안 함
 
 #53. propertyMaskType
@@ -592,19 +664,27 @@ Choices.propertyMaskType.hide=숨기기
 Choices.columnDataType.any=모두
 
 Choices.columnDataType.integer=정수
+
 Choices.columnDataType.string=문자열
+
 Choices.columnDataType.date-time=날짜 시간
 
 Choices.columnDataType.decimal=십진수
+
 Choices.columnDataType.float=실수
 
 Choices.columnDataType.structure=구조
+
 Choices.columnDataType.table=테이블
+
 Choices.columnDataType.boolean=부울
 
 Choices.columnDataType.time=시간
+
 Choices.columnDataType.date=날짜
+
 Choices.columnDataType.blob=Blob
+
 Choices.columnDataType.javaObject=Java 개체
 
 #54. searchType
@@ -623,12 +703,14 @@ Choices.exportType.always=항상
 
 #56. analysisType
 Choices.analysisType.dimension=차원
+
 Choices.analysisType.attribute=특성
 
 Choices.analysisType.measure=측정
 
 #57. scalarParamAlign
 Choices.scalarParamAlign.auto=자동
+
 Choices.scalarParamAlign.left=왼쪽
 
 Choices.scalarParamAlign.center=가운데
@@ -699,6 +781,7 @@ Choices.numberFormat.percent=백분율
 Choices.numberFormat.scientific=공학용
 
 Choices.numberFormat.standard=표준
+
 Choices.numberFormat.custom=사용자 지정
     
 #59. StringFormat
@@ -724,10 +807,12 @@ Choices.targetNames.blank=비어 있음
 Choices.targetNames.self=자체
 
 Choices.targetNames.parent=상위
+
 Choices.targetNames.top=위쪽
 
 #50. textDataContentType
 Choices.textDataContentType.auto=자동
+
 Choices.textDataContentType.plain=일반
 
 Choices.textDataContentType.html=HTML
@@ -735,21 +820,25 @@ Choices.textDataContentType.rtf=RTF
 
 #51. paramaValueType
 Choices.paramValueType.static=정적
+
 Choices.paramValueType.dynamic=동적
 
 #52. templateElementType
 Choices.templateElementType.table=테이블
+
 Choices.templateElementType.freeForm=FreeForm
 Choices.templateElementType.data=데이터
 
 Choices.templateElementType.grid=눈금
 
 Choices.templateElementType.image=이미지
+
 Choices.templateElementType.label=레이블
 
 Choices.templateElementType.list=목록
 
 Choices.templateElementType.text=텍스트
+
 Choices.templateElementType.extendedItem=ExtendedItem
 Choices.templateElementType.textData=TextData
 Choices.templateElementType.dataSet=데이터 집합
@@ -763,8 +852,11 @@ Choices.sortType.complexSort=복합 정렬
 
 #62. joinType
 Choices.joinType.inner=내부 조인
+
 Choices.joinType.leftOut=왼쪽 외부 조인
+
 Choices.joinType.rightOut=오른쪽 외부 조인
+
 Choices.joinType.fullOut=완전 외부 조인
 
 #63. joinOperator
@@ -814,33 +906,61 @@ Choices.viewAction.Deleted=삭제됨
 
 #70. aggregationFunction
 Choices.aggregationFunction.sum=SUM
+
 Choices.aggregationFunction.count=COUNT
+
 Choices.aggregationFunction.min=MIN
+
 Choices.aggregationFunction.max=MAX
+
 Choices.aggregationFunction.average=AVERAGE
+
 Choices.aggregationFunction.weighted-avg=WEIGHTEDAVG
+
 Choices.aggregationFunction.stddev=STDDEV
+
 Choices.aggregationFunction.first=FIRST
+
 Choices.aggregationFunction.last=LAST
+
 Choices.aggregationFunction.mode=MODE
+
 Choices.aggregationFunction.moving-ave=MOVINGAVE
+
 Choices.aggregationFunction.median=MEDIAN
+
 Choices.aggregationFunction.variance=VARIANCE
+
 Choices.aggregationFunction.running-sum=RUNNINGSUM
+
 Choices.aggregationFunction.irr=IRR
+
 Choices.aggregationFunction.mirr=MIRR
+
 Choices.aggregationFunction.npv=NPV
+
 Choices.aggregationFunction.running-npv=RUNNINGNPV
+
 Choices.aggregationFunction.count-distinct=COUNTDISTINCT
+
 Choices.aggregationFunction.running-count=RUNNINGCOUNT
+
 Choices.aggregationFunction.is-top-n=IS-TOP-N
+
 Choices.aggregationFunction.is-bottom-n=IS-BOTTOM-N
+
 Choices.aggregationFunction.is-top-n-percent=IS-TOP-N-PERCENT
+
 Choices.aggregationFunction.is-bottom-n-percent=IS-BOTTOM-N-PERCENT
+
 Choices.aggregationFunction.percent-rank=PERCENT-RANK
+
 Choices.aggregationFunction.percentile=PERCENTILE
+
 Choices.aggregationFunction.quartile=QUARTILE
+
 Choices.aggregationFunction.percent-sum=PERCENT-SUM
+
 Choices.aggregationFunction.rank=RANK
 
 #71. levelType
@@ -883,10 +1003,12 @@ Choices.dateTimeLevelType.dayOfYear=한 해의 날
 Choices.dateTimeLevelType.hour=시
 
 Choices.dateTimeLevelType.minute=분
+
 Choices.dateTimeLevelType.second=초
 
 #76. scalarParamType
 Choices.scalarParamType.simple=단순
+
 Choices.scalarParamType.multi-value=복수 값
 
 #77. bidiLayoutOrientation   
@@ -896,6 +1018,7 @@ Choices.bidiDirection.ltr=왼쪽에서 오른쪽
 
 #78. backgroundSize
 Choices.backgroundSize.auto=자동
+
 Choices.backgroundSize.contain=포함
 
 Choices.backgroundSize.cover=덮어쓰기
@@ -911,6 +1034,7 @@ Choices.scopeType.colgroup=열 그룹
 
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=단순
+
 Choices.dynamicFilterChoice.advanced=고급
 
 #81 variableType
@@ -922,6 +1046,7 @@ Choices.variableType.page=페이지 변수
 Choices.nullValueOrderingType.unknown=알 수 없음
 
 Choices.nullValueOrderingType.nullIsFirst=Nulls First
+
 Choices.nullValueOrderingType.nullIsLast=Nulls Last
 
 #83 dataVersion
@@ -933,15 +1058,21 @@ Choices.dataVersion.latest=최신
 Choices.selectorType.list=목록
 
 Choices.selectorType.dropdown=드롭다운
+
 Choices.selectorType.slider=슬라이더
+
 Choices.selectorType.checkBox=확인란
+
 Choices.selectorType.radioButton=RadioButton
 Choices.selectorType.textBox=텍스트 상자
+
 Choices.selectorType.calendar=달력
+
 Choices.selectorType.currentSelections=현재 선택한 항목
 
 #85 thumbType
 Choices.thumbType.single=단일
+
 Choices.thumbType.dual=이중
 
 #86
@@ -953,6 +1084,7 @@ Choices.accessType.specificVersion=SpecificVersion
 
 #87 overflow
 Choices.overflow.visible=표시
+
 Choices.overflow.hidden=숨김
 
 Choices.overflow.scroll=스크롤
@@ -963,13 +1095,16 @@ Choices.overflow.auto=자동
 Choices.gadgetContentType.html=HTML
 Choices.gadgetContentType.url=URL
 Choices.gadgetContentType.video=비디오
+
 Choices.gadgetContentType.videourl=비디오 URL
 
 Choices.gadgetContentType.text=텍스트
+
 Choices.gadgetContentType.image=이미지
 
 #89 WindowStatus
 Choices.windowStatus.normal=기본
+
 Choices.windowStatus.maximized=최대화
 
 #90 reportItemThemeType
@@ -988,6 +1123,7 @@ Choices.nullsOrdering.excludeNulls=널(Null) 제외
 
 #92 filterConditionType
 Choices.filterConditionType.slicer=슬라이서
+
 Choices.filterConditionType.simple=단순
 
 #93 flyoutPosition
@@ -1013,63 +1149,81 @@ Class.String=문자열 함수
 Class.String.toolTip=객체 형식의 구성원이며 기본 제공 문자열 객체 인스턴스입니다
 
 Class.String.String=문자열
+
 Class.String.String.toolTip=ToString(값)에서 계산된 문자열 값을 반환합니다
 
 Class.String.length=길이
+
 Class.String.length.toolTip=문자열의 길이를 반환합니다
 
 Class.String.fromCharCode=fromCharCode
 Class.String.fromCharCode.toolTip=유니코드 문자 값에서 문자열을 반환합니다
 
 Class.String.charAt=charAt
+
 Class.String.charAt.toolTip=문자열 객체의 지정된 인덱스에 문자를 반환합니다
 
 Class.String.charCodeAt=charCodeAt
+
 Class.String.charCodeAt.toolTip=문자의 유니코드 인코딩을 나타내는 정수를 문자열 객체 내의 지정된 위치로 반환합니다
 
 Class.String.concat=concat
+
 Class.String.concat.toolTip=제공된 문자열과 현재 문자열의 연결을 포함한 문자열 값을 반환합니다
 
 Class.String.indexOf=indexOf
+
 Class.String.indexOf.toolTip=문자열 객체 내 부분 문자열의 첫 번째 항목을 반환합니다
 
 Class.String.lastIndexOf=lastIndexOf
+
 Class.String.lastIndexOf.toolTip=문자열 객체 내 부분 문자열의 마지막 항목을 반환합니다
 
 Class.String.localeCompare=localeCompare
 Class.String.localeCompare.toolTip=현재 로케일에서 두 문자열이 동일한지 여부를 나타내는 값을 반환합니다
 
 Class.String.match=일치
+
 Class.String.match.toolTip=정규식 패턴을 사용하는 문자열 검색을 실행하여, 검색 결과를 포함하는 배열을 반환합니다
 
 Class.String.replace=바꾸기
+
 Class.String.replace.toolTip=정규식 또는 검색 문자열을 사용하여 대체된 텍스트를 포함하는 문자열의 복사본을 반환합니다
 
 Class.String.search=검색
+
 Class.String.search.toolTip=정규식 검색에서 일치하는 첫 번째 부분 문자열 위치를 반환합니다
 
 Class.String.slice=조각
+
 Class.String.slice.toolTip=이 객체를 문자열로 변환시킨 결과의 부분 문자열을 반환합니다
 
 Class.String.split=분할
+
 Class.String.split.toolTip=하나의 문자열을 부분 문자열로 분리한 결과의 문자열 배열을 반환합니다
 
 Class.String.substr=substr
+
 Class.String.substr.toolTip=지정된 위치에서 시작하며 지정된 길이를 가지는 부분 문자열을 반환합니다
 
 Class.String.substring=부분 문자열
+
 Class.String.substring.toolTip=부분 문자열을 문자열 객체 내 지정된 위치로 반환합니다
 
 Class.String.toLowerCase=toLowerCase
+
 Class.String.toLowerCase.toolTip=문자열 내 문자를 차례로 소문자로 변환합니다.
 
 Class.String.toLocaleLowerCase=toLocaleLowerCase
+
 Class.String.toLocaleLowerCase.toolTip=호스트 환경의 현재 로케일에 따라 모든 영문자가 소문자로 변환된 문자열을 반환합니다
 
 Class.String.toUpperCase=toUpperCase
+
 Class.String.toUpperCase.toolTip=문자열 내 문자를 차례로 대문자로 변환합니다.
 
 Class.String.toLocaleUpperCase=toLocaleUpperCase
+
 Class.String.toLocaleUpperCase.toolTip=호스트 환경의 현재 로케일에 따라 모든 영문자가 대문자로 변환된 문자열을 반환합니다
 
 Class.String.toString=toString
@@ -1081,25 +1235,43 @@ Class.String.valueOf.toolTip=이 문자열 값을 반환합니다
 Class.String.String.object=객체
 
 Class.String.fromCharCode.c=c
+
 Class.String.charAt.n=n
 Class.String.charCodeAt.n=n
 Class.String.concat.value=값
+
 Class.String.indexOf.substring=부분 문자열
+
 Class.String.indexOf.start=시작
+
 Class.String.lastIndexOf.substring=부분 문자열
+
 Class.String.lastIndexOf.start=시작
+
 Class.String.localeCompare.target=대상
+
 Class.String.match.regexp=regexp
+
 Class.String.replace.regexp=regexp
+
 Class.String.replace.replacement=대체
+
 Class.String.search.regexp=regexp
+
 Class.String.slice.start=시작
+
 Class.String.slice.end=끝
+
 Class.String.split.delimitor=구분 기호
+
 Class.String.split.limit=제한
+
 Class.String.substr.start=시작
+
 Class.String.substr.length=길이
+
 Class.String.substring.from=시작
+
 Class.String.substring.to=끝
 
 #1.Global
@@ -1108,12 +1280,15 @@ Class.Global=전역 함수
 Class.Global.toolTip=전역 메서드를 하나의 객체로 수집하는 내장 객체입니다
 
 Class.Global.NaN=NaN
+
 Class.Global.NaN.toolTip=초기 값이 숫자가 아닙니다
 
 Class.Global.Infinity=무한대
+
 Class.Global.Infinity.toolTip=Number.POSITIVE_INFINITY(JScript에 표시될 수 있는 가장 큰 숫자(Number.MAX_VALUE)보다 큰 값) 값을 반환합니다
 
 Class.Global.undefined=정의되지 않음
+
 Class.Global.undefined.toolTip=초기 값이 정의되지 않았습니다
 
 Class.Global.decodeURI=decodeURI
@@ -1129,12 +1304,15 @@ Class.Global.encodeURIComponent=encodeURIComponent
 Class.Global.encodeURIComponent.toolTip=인코딩된 문자열을 올바른 URI(Uniform Resource Identifier) 구성 요소로 반환합니다
 
 Class.Global.escape=escape
+
 Class.Global.escape.toolTip=모든 컴퓨터에서 읽을 수 있는 인코딩된 문자열 객체를 반환합니다
 
 Class.Global.eval=eval
+
 Class.Global.eval.toolTip=JScript 코드를 계산하여 실행합니다
 
 Class.Global.isNaN=isNaN
+
 Class.Global.isNaN.toolTip=인수에 ToNumber를 적용하여 그 결과가 Nan이면 참 값을 반환합니다
 
 Class.Global.isFinite=isFinite
@@ -1144,23 +1322,32 @@ Class.Global.parseFloat=parseFloat
 Class.Global.parseFloat.toolTip=문자열에서 변환된 부동 소수점 숫자를 반환합니다
 
 Class.Global.parseInt=parseInt
+
 Class.Global.parseInt.toolTip=문자열에서 변환된 정수를 반환합니다
 
 Class.Global.unescape=unescape
+
 Class.Global.unescape.toolTip=이스케이프 메서드로 인코딩된 문자열 객체에서 디코딩된 문자열로 반환합니다
 
 
 Class.Global.decodeURI.uri=uri
 Class.Global.decodeURIComponent.s=S
+
 Class.Global.encodeURI.uri=uri
 Class.Global.encodeURIComponent.s=S
+
 Class.Global.escape.s=S
+
 Class.Global.eval.code=코드
+
 Class.Global.isNaN.x=x
 Class.Global.isFinite.n=n
 Class.Global.parseFloat.s=S
+
 Class.Global.parseInt.s=S
+
 Class.Global.parseInt.radix=radix
+
 Class.Global.unescape.s=S
 
 #2.Array
@@ -1169,36 +1356,47 @@ Class.Array=배열 함수
 Class.Array.toolTip=모든 데이터 형식의 크기 조정 가능 배열을 지원합니다.
 
 Class.Array.Array=배열
+
 Class.Array.Array.toolTip=신규 배열 개체를 생성 및 초기화합니다.
 
 Class.Array.length=길이
+
 Class.Array.length.toolTip=배열에서 정의된 최상위 요소보다 한 단계 높은 정수값을 반환합니다
 
 Class.Array.concat=concat
+
 Class.Array.concat.toolTip=현재 배열과 추가 항목의 조합으로 구성된 신규 배열을 반환합니다
 
 Class.Array.join=조인
+
 Class.Array.join.toolTip=지정된 구분 문자에 의해 함께 연결되고 분리된 모든 배열 요소로 구성된 문자열 값을 반환합니다
 
 Class.Array.pop=pop
+
 Class.Array.pop.toolTip=배열에서 마지막 배열 요소를 제거하여 반환합니다
 
 Class.Array.push=push
+
 Class.Array.push.toolTip=인수가 나타나는 순서대로 배열의 마지막에 추가됩니다
 
 Class.Array.reverse=역방향
+
 Class.Array.reverse.toolTip=배열 요소를 다시 정렬하여 순서를 역순으로 정렬합니다
 
 Class.Array.shift=이동
+
 Class.Array.shift.toolTip=배열의 처음 요소를 제거하여 반환합니다
 
 Class.Array.slice=조각
+
 Class.Array.slice.toolTip=배열 섹션을 포함하는 배열을 반환합니다
 
 Class.Array.sort=정렬
+
 Class.Array.sort.toolTip=이 배열의 요소가 정렬됩니다
 
 Class.Array.splice=겹쳐 잇기
+
 Class.Array.splice.toolTip=배열에서 요소를 제거하고 필요하면 그 자리에 신규 요소를 삽입하여 삭제된 요소를 반환합니다. 배열에서 제거된 요소를 반환합니다
 
 Class.Array.toLocaleString=toLocaleString
@@ -1208,18 +1406,27 @@ Class.Array.toString=toString
 Class.Array.toString.toolTip=인수가 없는 이 객체에 대해 기본 제공 조인 메서드를 호출한 것처럼 동일하게 반환합니다
 
 Class.Array.unshift=이동 취소
+
 Class.Array.unshift.toolTip=인수가 배열의 시작에 추가되어 배열 내 순서가 인수 목록에 나타난 것과 동일하도록 합니다
 
 Class.Array.Array.size=크기
+
 Class.Array.Array.element=요소
+
 Class.Array.concat.value=값
+
 Class.Array.join.separator=구분 기호
 
 Class.Array.push.value=값
+
 Class.Array.slice.start=시작
+
 Class.Array.slice.end=끝
+
 Class.Array.sort.orderfunc=orderfunc
+
 Class.Array.splice.start=시작
+
 Class.Array.splice.deleteCount=deleteCount
 Class.Array.unshift.value=값
 
@@ -1229,6 +1436,7 @@ Class.Boolean=부울 함수
 Class.Boolean.toolTip=객체 형식의 구성원이며 기본 제공 부울 객체 인스턴스입니다
 
 Class.Boolean.Boolean=부울
+
 Class.Boolean.Boolean.toolTip=ToBoolean(값)에서 계산된 부울 값을 반환합니다
 
 Class.Boolean.toString=toString
@@ -1245,6 +1453,7 @@ Class.Date=날짜 함수
 Class.Date.toolTip=날짜와 시간의 기본 저장 및 검색을 사용할 수 있도록 하는 객체입니다
 
 Class.Date.Date=날짜
+
 Class.Date.Date.toolTip=현재 시간을 표시하는 문자열을 반환합니다
 
 Class.Date.getDate=getDate
@@ -1305,6 +1514,7 @@ Class.Date.getYear=getYear
 Class.Date.getYear.toolTip=날짜 객체에서 연도 값을 반환합니다
 
 Class.Date.parse=parse
+
 Class.Date.parse.toolTip=날짜가 들어 있는 문자열을 구문 분석하여 밀리초 수를 반환합니다
 
 Class.Date.setDate=setDate
@@ -1386,57 +1596,107 @@ Class.Date.valueOf=valueOf
 Class.Date.valueOf.toolTip=이 시간 값인 숫자를 반환합니다
 
 Class.Date.Date.milliseconds=밀리초
+
 Class.Date.Date.datestring=날짜 문자열
+
 Class.Date.Date.year=연
+
 Class.Date.Date.month=월
+
 Class.Date.Date.day=일
+
 Class.Date.Date.hours=시
+
 Class.Date.Date.minutes=분
+
 Class.Date.Date.seconds=초
+
 Class.Date.Date.ms=ms
+
 Class.Date.parse.date=날짜
+
 Class.Date.setDate.day_of_month=day_of_month
 Class.Date.setFullYear.year=연
+
 Class.Date.setFullYear.month=월
+
 Class.Date.setFullYear.minutes=분
+
 Class.Date.setFullYear.day=일
+
 Class.Date.setHours.hours=시
+
 Class.Date.setHours.minutes=분
+
 Class.Date.setHours.seconds=초
+
 Class.Date.setHours.millis=밀리초
+
 Class.Date.setMilliseconds.millis=밀리초
+
 Class.Date.setMinutes.minutes=분
+
 Class.Date.setMinutes.seconds=초
+
 Class.Date.setMinutes.millis=밀리초
+
 Class.Date.setMonth.month=월
+
 Class.Date.setMonth.day=일
+
 Class.Date.setSeconds.seconds=초
+
 Class.Date.setSeconds.millis=밀리초
+
 Class.Date.setTime.millis=밀리초
+
 Class.Date.setUTCDate.day_of_month=day_of_month
 Class.Date.setUTCFullYear.year=연
+
 Class.Date.setUTCFullYear.month=월
+
 Class.Date.setUTCFullYear.minutes=분
+
 Class.Date.setUTCFullYear.day=일
+
 Class.Date.setUTCHours.hours=시
+
 Class.Date.setUTCHours.minutes=분
+
 Class.Date.setUTCHours.seconds=초
+
 Class.Date.setUTCHours.millis=밀리초
+
 Class.Date.setUTCMilliseconds.millis=밀리초
+
 Class.Date.setUTCMinutes.minutes=분
+
 Class.Date.setUTCMinutes.seconds=초
+
 Class.Date.setUTCMinutes.millis=밀리초
+
 Class.Date.setUTCMonth.month=월
+
 Class.Date.setUTCMonth.day=일
+
 Class.Date.setUTCSeconds.seconds=초
+
 Class.Date.setUTCSeconds.millis=밀리초
+
 Class.Date.setYear.year=연
+
 Class.Date.UTC.year=연
+
 Class.Date.UTC.month=월
+
 Class.Date.UTC.day=일
+
 Class.Date.UTC.hours=시
+
 Class.Date.UTC.minutes=분
+
 Class.Date.UTC.seconds=초
+
 Class.Date.UTC.ms=ms
 
 #5. Math
@@ -1445,81 +1705,106 @@ Class.Math=Math 함수
 Class.Math.toolTip=기본 수학 기능 및 상수를 제공하는 내장 객체입니다
 
 Class.Math.E=E
+
 Class.Math.E.toolTip=e에 대한 숫자 값은 대략 2.7182818284590452354입니다
 
 Class.Math.LN10=LN10
+
 Class.Math.LN10.toolTip=10의 자연 로그에 대한 숫자 값이며 대략 2.302585092994046입니다
 
 Class.Math.LN2=LN2
+
 Class.Math.LN2.toolTip=2의 자연 로그에 대한 숫자 값이며 대략 0.6931471805599453입니다
 
 Class.Math.LOG10E=LOG10E
+
 Class.Math.LOG10E.toolTip=밑수가 10인 e의 로그의 숫자 값은 대략 0.4342944819032518입니다
 
 Class.Math.LOG2E=LOG2E
+
 Class.Math.LOG2E.toolTip=밑수가 2인 e의 로그의 숫자 값은 대략 1.4426950408889634 입니다
 
 Class.Math.PI=PI
+
 Class.Math.PI.toolTip=PI, 즉 원주율의 숫자 값이며 대략 3.1415926535897932입니다
 
 Class.Math.SQRT1_2=SQRT1_2
 Class.Math.SQRT1_2.toolTip=1/2의 제곱근의 숫자 값이며 대략 0.7071067811865476입니다
 
 Class.Math.SQRT2=SQRT2
+
 Class.Math.SQRT2.toolTip=2의 제곱근의 숫자 값이며 대략 1.4142135623730951입니다
 
 Class.Math.abs=abs
+
 Class.Math.abs.toolTip=절대 값을 반환합니다
 
 Class.Math.acos=acos
+
 Class.Math.acos.toolTip=아크코사인에 대한 구현 종속 근사값을 반환합니다
 
 Class.Math.asin=asin
+
 Class.Math.asin.toolTip=아크사인에 대한 구현 종속 근사값을 반환합니다
 
 Class.Math.atan=atan
+
 Class.Math.atan.toolTip=아크탄젠트에 대한 구현 종속 근사값을 반환합니다
 
 Class.Math.atan2=atan2
+
 Class.Math.atan2.toolTip=인수 y와 x, 지수 y/x의 아크탄젠트에 대한 구현 종속 근사값을 반환합니다. 이때 y와 x의 기호를 사용하여 결과의 사분면을 결정합니다
 
 Class.Math.ceil=ceil
+
 Class.Math.ceil.toolTip=x보다 작지 않고 수치 정수와 같은 최소 숫자 값을 반환합니다
 
 Class.Math.cos=cos
+
 Class.Math.cos.toolTip=코사인에 대한 구현 종속 근사값을 반환합니다
 
 Class.Math.exp=exp
+
 Class.Math.exp.toolTip=지수 함수에 대한 구현 종속 근사값을 반환합니다
 
 Class.Math.floor=floor
+
 Class.Math.floor.toolTip=x보다 크지 않고 수치 정수와 같은 최대 숫자 값을 반환합니다
 
 Class.Math.log=log
+
 Class.Math.log.toolTip=자연 로그에 대한 구현 종속 근사값을 반환합니다
 
 Class.Math.max=max
+
 Class.Math.max.toolTip=가장 큰 결과 값을 반환합니다
 
 Class.Math.min=min
+
 Class.Math.min.toolTip=최소 결과 값을 반환합니다
 
 Class.Math.pow=pow
+
 Class.Math.pow.toolTip=x를 y제곱한 결과의 구현 종속 근사값을 반환합니다
 
 Class.Math.random=random
+
 Class.Math.random.toolTip=0보다 크거나 같고 1보다 작은 양수 숫자 값을 반환합니다
 
 Class.Math.round=round
+
 Class.Math.round.toolTip=x에 가장 가깝고 수치 정수와 같은 숫자 값을 반환합니다
 
 Class.Math.sin=sin
+
 Class.Math.sin.toolTip=사인에 대한 구현 종속 근사값을 반환합니다
 
 Class.Math.sqrt=sqrt
+
 Class.Math.sqrt.toolTip=제곱근에 대한 구현 종속 근사값을 반환합니다
 
 Class.Math.tan=tan
+
 Class.Math.tan.toolTip=탄젠트에 대한 구현 종속 근사값을 반환합니다
 
 
@@ -1528,6 +1813,7 @@ Class.Math.acos.x=x
 Class.Math.asin.x=x
 Class.Math.atan.x=x
 Class.Math.atan2.y=y
+
 Class.Math.atan2.x=x
 Class.Math.ceil.x=x
 Class.Math.cos.x=x
@@ -1535,9 +1821,12 @@ Class.Math.exp.x=x
 Class.Math.floor.x=x
 Class.Math.log.x=x
 Class.Math.max.args=args
+
 Class.Math.min.args=args
+
 Class.Math.pow.x=x
 Class.Math.pow.y=y
+
 Class.Math.round.x=x
 Class.Math.sin.x=x
 Class.Math.sqrt.x=x
@@ -1550,6 +1839,7 @@ Class.Number=숫자 함수
 Class.Number.toolTip=숫자 데이터 및 숫자 상수의 자리 표시자를 나타내는 객체입니다
 
 Class.Number.Number=숫자
+
 Class.Number.Number.toolTip=ToNumber(값)에서 계산된 숫자 값을 반환합니다
 
 Class.Number.MAX_VALUE=MAX_VALUE
@@ -1559,6 +1849,7 @@ Class.Number.MIN_VALUE=MIN_VALUE
 Class.Number.MIN_VALUE.toolTip=숫자 형식에 대한 최소 양수 값이며 대략 5.00E-324입니다
 
 Class.Number.NaN=NaN
+
 Class.Number.NaN.toolTip=숫자가 아닙니다
 
 Class.Number.NEGATIVE_INFINITY=NEGATIVE_INFINITY
@@ -1568,15 +1859,18 @@ Class.Number.POSITIVE_INFINITY=POSITIVE_INFINITY
 Class.Number.POSITIVE_INFINITY.toolTip=JScript에 표시될 수 있는 가장 큰 숫자(Number.MAX_VALUE)보다 더 큰 값을 반환합니다
 
 Class.Number.toExponential=toExponential
+
 Class.Number.toExponential.toolTip=지수 표기법으로 표시된 숫자를 포함하고 있는 문자열을 반환합니다
 
 Class.Number.toFixed=toFixed
+
 Class.Number.toFixed.toolTip=고정 소수점 표기법을 표시하는 문자열을 반환합니다
 
 Class.Number.toLocaleString=toLocaleString
 Class.Number.toLocaleString.toolTip=호스트 환경의 현재 로케일에 적절한 문자열 값으로 값을 반환합니다
 
 Class.Number.toPrecision=toPrecision
+
 Class.Number.toPrecision.toolTip=지수 표기법 또는 지정한 자릿수를 가지는 고정 소수점 표기법으로 표시된 숫자를 포함하고 있는 문자열을 반환합니다
 
 Class.Number.toString=toString
@@ -1586,9 +1880,13 @@ Class.Number.valueOf=valueOf
 Class.Number.valueOf.toolTip=지정한 객체의 기본 값을 반환합니다
 
 Class.Number.Number.value=값
+
 Class.Number.toExpoential.digits=숫자
+
 Class.Number.toFixed.digits=숫자
+
 Class.Number.toPrecision.precision=정밀도
+
 Class.Number.toString.radix=radix
 
 #7. Object
@@ -1601,9 +1899,11 @@ Class.Object.Object=객체
 Class.Object.Object.toolTip=객체를 생성합니다
 
 Class.Object.hasOwnProperty=hasOwnProperty
+
 Class.Object.hasOwnProperty.toolTip=객체가 지정한 이름의 속성을 가지는지 여부를 나타내는 부울 값을 반환합니다
 
 Class.Object.isPrototypeOf=isPrototypeOf
+
 Class.Object.isPrototypeOf.toolTip=다른 객체의 프로토타입 체인에 객체가 존재하는지 여부를 나타내는 부울 값을 반환합니다
 
 Class.Object.propertyIsEnumerable=propertyIsEnumerable
@@ -1619,8 +1919,11 @@ Class.Object.valueOf=valueOf
 Class.Object.valueOf.toolTip=현재 로케일을 사용하여 문자열로 변환한 날짜를 반환합니다
 
 Class.Object.Object.value=값
+
 Class.Object.hasOwnProperty.propname=propname
+
 Class.Object.isPrototypeOf.o=o
+
 Class.Object.propertyIsEnumerable.propname=propname
 
 #8. RegExp
@@ -1629,9 +1932,11 @@ Class.RegExp=RegExp 함수
 Class.RegExp.toolTip=간단한 정규식 지원을 제공합니다
 
 Class.RegExp.RegExp=RegExp
+
 Class.RegExp.RegExp.toolTip=입력 패턴 문자열에 문법을 적용합니다
 
 Class.RegExp.global=전역
+
 Class.RegExp.global.toolTip=패턴이 전체 검색 문자열의 모든 항목과 일치해야 하는지 아니면 첫번째 항목과 일치하면 되는지 여부를 나타내는 부울 값을 설정 또는 반환합니다
 
 Class.RegExp.ignoreCase=ignoreCase
@@ -1641,20 +1946,26 @@ Class.RegExp.lastIndex=lastIndex
 Class.RegExp.lastIndex.toolTip=다음 일치를 시작할 문자열 위치를 지정하는 정수입니다
 
 Class.RegExp.source=원본
+
 Class.RegExp.source.toolTip=현재 정규식을 나타내는 패턴 형식의 문자열입니다
 
 Class.RegExp.exec=exec
+
 Class.RegExp.exec.toolTip=정규식에 대해 문자열의 정규식 일치를 수행합니다
 
 Class.RegExp.test=테스트
+
 Class.RegExp.test.toolTip=지정한 문자열에 대해 정규식 검색을 실행하여 패턴 일치를 찾았는지 여부를 나타내는 부울 값을 반환합니다
 
 Class.RegExp.toString=toString
 Class.RegExp.toString.toolTip=현재 정규식을 나타내는 패턴 형식의 문자열로 변환합니다
 
 Class.RegExp.RegExp.pattern=pattern
+
 Class.RegExp.RegExp.attributes=특성
+
 Class.RegExp.exec.string=소문자 문자열
+
 Class.RegExp.test.string=소문자 문자열
 
 #9.  ElementDefn
@@ -1663,6 +1974,7 @@ Class.ElementDefn=ElementDefn 클래스
 Class.ElementDefn.toolTip=보고서 요소에 대한 디자인 정보를 제공합니다
 
 Class.ElementDefn.name=이름
+
 Class.ElementDefn.name.toolTip=요소의 이름을 제공합니다
 
 Class.ElementDefn.extendsElement=extendsElement
@@ -1678,9 +1990,11 @@ Class.ElementDefn.property=[anyProperty]
 Class.ElementDefn.property.toolTip=이 이름을 가진 디자인-시간 속성 값을 제공합니다
 
 Class.ElementDefn.properties=속성
+
 Class.ElementDefn.properties.toolTip=속성 이름으로 인덱스된 속성 값의 배열입니다
 
 Class.ElementDefn.slots=슬롯
+
 Class.ElementDefn.slots.toolTip=많은 요소가 컨테이너이며 이들은 다른 보고서 요소를 포함하고 있습니다
 
 Class.ElementDefn.allowsUserProperties=allowsUserProperties
@@ -1690,6 +2004,7 @@ Class.ElementDefn.hasStyle=hasStyle
 Class.ElementDefn.hasStyle.toolTip=요소에 스타일이 있는 경우 참 값이며, 그렇지 않은 경우 거짓 값입니다
 
 Class.ElementDefn.container=컨테이너
+
 Class.ElementDefn.container.toolTip=만약 있다면 이 요소를 포함하고 있는 있는 요소 정의를 반환합니다
 
 Class.ElementDefn.containerSlot=containerSlot
@@ -1702,15 +2017,19 @@ Class.ElementState=ElementState
 Class.ElementState.toolTip=보고서 요소의 런타임 상태를 나타냅니다
 
 Class.ElementState.design=디자인
+
 Class.ElementState.design.toolTip=이 인스턴스에 대한 요소 정의 객체를 반환합니다
 
 Class.ElementState.property=속성
+
 Class.ElementState.property.toolTip=주어진 이름을 가진 보고서 요소 속성의 런타임 값을 가져오거나 설정하는 응용 프로그램을 허용합니다
 
 Class.ElementState.container=컨테이너
+
 Class.ElementState.container.toolTip=있는 경우 이 요소를 포함하고 있는 요소 상태 객체를 반환합니다
 
 Class.ElementState.slot=슬롯
+
 Class.ElementState.slot.toolTip=이 요소를 포함하고 있는 요소들에 대한 액세스를 제공합니다
 
 #11. Color
@@ -1719,6 +2038,7 @@ Class.Color=색상 클래스
 Class.Color.toolTip=이름 또는 RGB 값으로 색 값을 사용하는 메서드를 제공합니다.
 
 Class.Color.transparent=투명
+
 Class.Color.transparent.toolTip=속성이 CSS 투명 값으로 설정된 경우 참 값을 반환합니다
 
 Class.Color.rgb=RGB
@@ -1726,6 +2046,7 @@ Class.Color.rgb=RGB
 Class.Color.rgb.toolTip=색을 RGB 값으로 가져옵니다
 
 Class.Color.value=값
+
 Class.Color.value.toolTip=이름(이름으로 설정되어 있을 경우) 또는 CSS RGB 문자열(RGB로 설정되어 있을 경우)로 색을 가져옵니다
 
 Class.Color.cssValue=cssValue
@@ -1738,12 +2059,15 @@ Class.Dimension=차원 클래스
 Class.Dimension.toolTip=차원 속성 객체는 CSS 차원 속성의 구문 분석을 처리합니다
 
 Class.Dimension.value=값
+
 Class.Dimension.value.toolTip=CSS와 호환되는 차원 값을 반환합니다
 
 Class.Dimension.measure=측정
+
 Class.Dimension.measure.toolTip=차원의 측정 부분을 가져옵니다. 차원이 상수를 사용하여 정의된 경우 널(null)입니다
 
 Class.Dimension.units=단위
+
 Class.Dimension.units.toolTip=차원의 단위 부분을 가져옵니다. 차원이 상수를 사용하여 정의된 경우 널(null)입니다
 
 #13. PropertyDefn
@@ -1755,9 +2079,11 @@ Class.PropertyDefn.isUserProperty=isUserProperty
 Class.PropertyDefn.isUserProperty.toolTip=사용자 정의 속성인 경우 참 값, 시스템 정의 속성인 경우 거짓 값입니다
 
 Class.PropertyDefn.name=이름
+
 Class.PropertyDefn.name.toolTip=내부 속성 이름
 
 Class.PropertyDefn.group=그룹
+
 Class.PropertyDefn.group.toolTip=속성을 포함하는 그룹 이름
 
 Class.PropertyDefn.canInherit=canInherit
@@ -1767,9 +2093,11 @@ Class.PropertyDefn.isStyle=isStyle
 Class.PropertyDefn.isStyle.toolTip=속성이 요소 스타일의 일부분인 경우 참 값, 그렇지 않은 경우 거짓 값입니다
 
 Class.PropertyDefn.type=형식
+
 Class.PropertyDefn.type.toolTip=속성 형식입니다
 
 Class.PropertyDefn.choices=선택
+
 Class.PropertyDefn.choices.toolTip=속성에 대한 선택 배열입니다
 
 Class.PropertyDefn.defaultValue=defaultValue
@@ -1781,21 +2109,26 @@ Class.Report=보고서 클래스
 Class.Report.toolTip=보고서가 실행 중인 보고서 및 컨텍스트에 대한 모든 정보에 대한 액세스를 제공합니다
 
 Class.Report.design=디자인
+
 Class.Report.design.toolTip=보고서 설계를 설명하는 보고서 정의 객체입니다
 
 Class.Report.document=문서
+
 Class.Report.document.toolTip=공장에서 생성되었거나 프리젠테이션 엔진에서 읽는 보고서 문서에 대한 정보를 제공하는 보고서 문서 객체를 반환합니다
 
 Class.Report.params=params
+
 Class.Report.params.toolTip=보고서에 전달된 매개 변수 값의 객체 배열을 반환합니다
 
 Class.Report.dataSets=datasets
+
 Class.Report.dataSets.toolTip=보고서에 정의된 데이터 집합의 배열을 반환합니다
 
 Class.Report.dataSources=dataSources
 Class.Report.dataSources.toolTip=보고서에 정의된 데이터 소스(연결)를 반환합니다
 
 Class.Report.config=config
+
 Class.Report.config.toolTip=보고서에 사용 가능한 구성 변수의 배열을 반환합니다
 
 Class.Report.reportContext=reportContext
@@ -1803,18 +2136,22 @@ Class.Report.reportContext.toolTip=이 보고서와 관련된 컨텍스트
 
 #15. ReportDoc
 Class.ReportDoc=ReportDoc
+
 Class.ReportDoc.toolTip=생성 중이거나 보고 있는 보고서에 대한 정보를 제공합니다
 
 Class.ReportDoc.design=디자인
+
 Class.ReportDoc.design.toolTip=이 인스턴스에 대한 루트 디자인 객체를 반환합니다
 
 Class.ReportDoc.fileName=fileName
 Class.ReportDoc.fileName.toolTip=이 파일에 대한 파일 이름(있을 경우)이 작성됩니다
 
 Class.ReportDoc.destination=대상
+
 Class.ReportDoc.destination.toolTip=파일 시스템 또는 임시와 같은 대상 종류입니다
 
 Class.ReportDoc.body=본문
+
 Class.ReportDoc.body.toolTip=본문 내 섹션 목록입니다
 
 
@@ -1851,9 +2188,11 @@ Class.DataSet=DataSet 클래스
 Class.DataSet.toolTip=데이터 집합에 대한 디자인 및 런타임 정보를 모두 제공합니다
 
 Class.DataSet.row=행
+
 Class.DataSet.row.toolTip=현재 가장 안쪽 행을 나타냅니다
 
 Class.DataSet.rows=행
+
 Class.DataSet.rows.toolTip=이 계층 내의 행에 대한 액세스를 허용합니다
 
 Class.DataSet.queryText=queryText
@@ -1863,6 +2202,7 @@ Class.DataSet.columnDefns=columnDefns
 Class.DataSet.columnDefns.toolTip=열 정의 배열입니다
 
 Class.DataSet.schema=스키마
+
 Class.DataSet.schema.toolTip=ODA 데이터 원본에 대한 스키마 정보를 제공하는 DataSetParamMetadata 객체입니다
 
 Class.DataSet.inputParams=inputParams
@@ -1887,20 +2227,27 @@ Class.DataRow=DataRow 클래스
 Class.DataRow.toolTip=데이터 집합에서 반입한 하나의 행을 나타냅니다
 
 Class.DataRow.DataRow=DataRow
+
 Class.DataRow.DataRow.toolTip=지정된 데이터 집합에서 빈 데이터 행을 만들거나 빈 데이터 행을 다른 데이터 행의 복사본으로 만드십시오
 
 Class.DataRow.DataRow.ds=ds
+
 Class.DataRow.DataRow.r=r
+
 Class.DataRow.column=열
+
 Class.DataRow.column.toolTip=지정한 열 이름의 열 값을 반환합니다
 
 Class.DataRow.rowNo=rowNo
+
 Class.DataRow.rowNo.toolTip=결과 집합 내 행의 위치입니다
 
 Class.DataRow.dataSet=dataSet
+
 Class.DataRow.dataSet.toolTip=행을 생성한 데이터 집합 객체를 반환합니다
 
 Class.DataRow.schema=스키마
+
 Class.DataRow.schema.toolTip=데이터 행에 대한 열 설명의 배열을 반환합니다
 
 Class.DataRow.columnDefns=columnDefns
@@ -1912,33 +2259,43 @@ Class.ColumnDefn=ColumnDefn 클래스
 Class.ColumnDefn.toolTip=데이터 행 열의 메타 데이터를 설명합니다
 
 Class.ColumnDefn.index=인덱스
+
 Class.ColumnDefn.index.toolTip=데이터 집합에 대한 결과 집합 데이터 행 내의 열 인덱스를 반환합니다
 
 Class.ColumnDefn.name=이름
+
 Class.ColumnDefn.name.toolTip=데이터 집합에서 정의된 열 이름을 반환합니다
 
 Class.ColumnDefn.type=형식
+
 Class.ColumnDefn.type.toolTip=열의 데이터 형식을 반환합니다
 
 Class.ColumnDefn.expr=expr
+
 Class.ColumnDefn.expr.toolTip=BIRT 식을 사용하여 열을 정의할 수 있습니다
 
 Class.ColumnDefn.INTEGER=INTEGER
+
 Class.ColumnDefn.INTEGER.toolTip=정수 열에 대한 상수입니다
 
 Class.ColumnDefn.FLOAT=FLOAT
+
 Class.ColumnDefn.FLOAT.toolTip=부동 소수점 열에 대한 상수입니다
 
 Class.ColumnDefn.DECIMAL=DECIMAL
+
 Class.ColumnDefn.DECIMAL.toolTip=고정 정밀도 10진수에 대한 상수입니다
 
 Class.ColumnDefn.BOOLEAN=BOOLEAN
+
 Class.ColumnDefn.BOOLEAN.toolTip=부울 값에 대한 상수입니다
 
 Class.ColumnDefn.STRING=STRING
+
 Class.ColumnDefn.STRING.toolTip=문자열 열에 대한 상수입니다
 
 Class.ColumnDefn.BLOB=BLOB
+
 Class.ColumnDefn.BLOB.toolTip=BLOB(Binary Large OBject) 열에 대한 상수입니다
 
 
@@ -1948,6 +2305,7 @@ Class.DataSetParamMetaData=DataSetParamMetaData 클래스
 Class.DataSetParamMetaData.toolTip=ODA 데이터 집합의 입력 및 출력 매개 변수에 대한 정보를 제공합니다
 
 Class.DataSetParamMetaData.description=설명
+
 Class.DataSetParamMetaData.description.toolTip=ODA 공급자가 공급한 데이터 집합 설명입니다
 
 Class.DataSetParamMetaData.resultSets=resultSets
@@ -1961,25 +2319,32 @@ Class.DataSetParamMetaData.outputParams.toolTip=DataSetOutputParam 객체 형식의 �
 
 #21. ResultSetDefn
 Class.ResultSetDefn=ResultSetDefn
+
 Class.ResultSetDefn.toolTip=열 정의 배열을 제공합니다
 
 Class.ResultSetDefn.name=이름
+
 Class.ResultSetDefn.name.toolTip=결과 집합의 이름입니다
 
 Class.ResultSetDefn.columns=열
+
 Class.ResultSetDefn.columns.toolTip=ODA 데이터 집합에 그들이 반환한 고정된 열 집합이 있습니다
 
 Class.ResultSetDefn.dataSet=dataSet
+
 Class.ResultSetDefn.dataSet.toolTip=이 결과 집합을 제공하는 데이터 집합에 대한 참조입니다
 
 #22. ResultSetColumn
 Class.ResultSetColumn=ResultSetColumn
+
 Class.ResultSetColumn.toolTip=ODA 결과 집합 내의 열을 설명합니다
 
 Class.ResultSetColumn.name=이름
+
 Class.ResultSetColumn.name.toolTip=데이터 행-열에 대한 외부 고유 이름입니다
 
 Class.ResultSetColumn.position=위치
+
 Class.ResultSetColumn.position.toolTip=결과 집합 내 열에 대한 1 기반의 인덱스 위치(왼쪽에서 오른쪽 순서)입니다
 
 Class.ResultSetColumn.displayName=displayName
@@ -2001,24 +2366,29 @@ Class.ResultSetColumn.horizAlign=horizAlign
 Class.ResultSetColumn.horizAlign.toolTip=열 값을 기본적으로 왼쪽, 중앙, 오른쪽 아니면 자동 맞춤으로 표시할지 여부를 나타내는 열거된 값입니다
 
 Class.ResultSetColumn.heading=heading
+
 Class.ResultSetColumn.heading.toolTip=열 머리글에서 열을 식별하는 자유 형식 문자열입니다
 
 Class.ResultSetColumn.description=설명
+
 Class.ResultSetColumn.description.toolTip=열에 대해 자세한 설명을 제공하는 자유 형식 문자열입니다
 
 Class.ResultSetColumn.helpText=helpText
 Class.ResultSetColumn.helpText.toolTip=열에 대해 자세한 설명을 제공하는 자유 형식 문자열입니다
 
 Class.ResultSetColumn.lineage=lineage
+
 Class.ResultSetColumn.lineage.toolTip=열 값의 원본을 명명하는 자유 형식 문자열입니다
 
 Class.ResultSetColumn.axis=축
+
 Class.ResultSetColumn.axis.toolTip=다중 차원 데이터 원본에서 열을 가져온 경우 적용할 수 있습니다
 
 Class.ResultSetColumn.axisType=axisType
 Class.ResultSetColumn.axisType.toolTip=값이 차원 구성원, 차원 특성 또는 측정 중 하나입니다
 
 Class.ResultSetColumn.onColumnLayout=onColumnLayout
+
 Class.ResultSetColumn.onColumnLayout.toolTip=보고서 출력에서 이 열을 어떻게 레이아웃하는지에 대한 힌트입니다
 
 Class.ResultSetColumn.DIMENSION_MEMBER=DIMENSION_MEMBER
@@ -2028,6 +2398,7 @@ Class.ResultSetColumn.DIMENSION_ATTRIBUTE=DIMENSION_ATTRIBUTE
 Class.ResultSetColumn.DIMENSION_ATTRIBUTE.toolTip=axisType 속성에 대한 선택입니다
 
 Class.ResultSetColumn.MEASURE=MEASURE
+
 Class.ResultSetColumn.MEASURE.toolTip=axisType 속성에 대한 선택입니다
 
 
@@ -2037,12 +2408,15 @@ Class.DataSetInputParam=DataSetInputParam 클래스
 Class.DataSetInputParam.toolTip=ODA 데이터 집합에 대해 하나의 입력 매개 변수를 설명합니다
 
 Class.DataSetInputParam.name=이름
+
 Class.DataSetInputParam.name.toolTip=입력 매개 변수의 고유 이름입니다
 
 Class.DataSetInputParam.displayName=DataSetInputParam
+
 Class.DataSetInputParam.displayName.toolTip=입력 매개 변수의 비즈니스 이름입니다
 
 Class.DataSetInputParam.description=설명
+
 Class.DataSetInputParam.description.toolTip=매개 변수에 대해 자세한 설명을 제공하는 자유 형식 문자열입니다
 
 Class.DataSetInputParam.nativeTypeCode=nativeTypeCode
@@ -2062,12 +2436,14 @@ Class.DataSetOutputParam=DataSetOutputParam 클래스
 Class.DataSetOutputParam.toolTip=ODA 데이터 집합에 대한 하나의 출력 매개 변수를 설명합니다
 
 Class.DataSetOutputParam.name=이름
+
 Class.DataSetOutputParam.name.toolTip=출력 매개 변수의 고유 이름입니다
 
 Class.DataSetOutputParam.displayName=displayName
 Class.DataSetOutputParam.displayName.toolTip=출력 매개 변수의 비즈니스 이름입니다
 
 Class.DataSetOutputParam.description=설명
+
 Class.DataSetOutputParam.description.toolTip=매개 변수에 대한 자세한 설명을 제공하는 자유 형식 문자열입니다
 
 Class.DataSetOutputParam.nativeTypeCode=nativeTypeCode
@@ -2086,9 +2462,11 @@ Class.ItemState=ItemState
 Class.ItemState.toolTip=보고서 요소에 대한 런타임 상태를 나타냅니다
 
 Class.ItemState.row=행
+
 Class.ItemState.row.toolTip=현재 가장 안쪽 행을 나타냅니다
 
 Class.ItemState.rows=행
+
 Class.ItemState.rows.toolTip=이 계층 내의 행에 대해 액세스를 허용합니다
 
 
@@ -2098,18 +2476,22 @@ Class.Total=합계(집계) 함수
 Class.Total.toolTip=집계 함수의 표시자입니다
 
 Class.Total.OVERALL=OVERALL
+
 Class.Total.OVERALL.toolTip=데이터 집합에 대한 전체 합계를 요청하는 그룹 인수에서 사용하는 상수입니다
 
 Class.Total.NO_FILTER=NO_FILTER
 Class.Total.NO_FILTER.toolTip=필터가 없음을 표시하기 위해 집계 함수의 필터 인수에 사용되는 상수
 
 Class.Total.sum=합
+
 Class.Total.sum.toolTip=숫자 시퀀스의 합계입니다
 
 Class.Total.runningSum=runningSum
+
 Class.Total.runningSum.toolTip=합계와 유사하지만 보고서의 지정된 지점에서 누계를 표시합니다
 
 Class.Total.count=수
+
 Class.Total.count.toolTip=행의 수입니다
 
 Class.Total.runningCount=runningCount
@@ -2119,41 +2501,55 @@ Class.Total.countDistinct=countDistinct
 Class.Total.countDistinct.toolTip=고유 값의 수입니다
 
 Class.Total.max=max
+
 Class.Total.max.toolTip=숫자 시퀀스, 문자열 또는 날짜의 최대값입니다
 
 Class.Total.min=min
+
 Class.Total.min.toolTip=숫자 시퀀스, 문자열 또는 날짜의 최소값입니다
 
 Class.Total.ave=ave
+
 Class.Total.ave.toolTip=숫자 시퀀스 또는 날짜의 평균값입니다
 
 Class.Total.weightedAve=weightedAve
+
 Class.Total.weightedAve.toolTip=숫자 시퀀스의 가중치입니다
 
 Class.Total.weightedAve.weight=weight
+
 Class.Total.movingAve=movingAve
+
 Class.Total.movingAve.toolTip=평균을 계산할 때 사용자가 숫자 값을 지정한 숫자 시퀀스의 누계입니다
 
 Class.Total.movingAve.window=window
+
 Class.Total.median=중앙값
+
 Class.Total.median.toolTip=숫자 시퀀스의 수치 중앙값입니다
 
 Class.Total.mode=모드
+
 Class.Total.mode.toolTip=값 시퀀스의 수치 모드입니다
 
 Class.Total.stdDev=stdDev
+
 Class.Total.stdDev.toolTip=숫자 시퀀스의 수치 표준 편차입니다
 
 Class.Total.variance=분산
+
 Class.Total.variance.toolTip=숫자 시퀀스의 수치 편차입니다
 
 Class.Total.first=처음
+
 Class.Total.first.toolTip=시퀀스의 첫 번째 값입니다
 
 Class.Total.last=마지막
+
 Class.Total.last.toolTip=시퀀스의 마지막 값입니다
 
 Class.Total.rank=등급
+
 Class.Total.rank.toolTip=계열의 숫자, 문자열 또는 날짜/시간 값의 등급(1부터 시작)을 반환합니다.
 
 Class.Total.rank.ascending=오름차순
@@ -2162,31 +2558,39 @@ Class.Total.percentRank=percentRank
 Class.Total.percentRank.toolTip=값의 비율 등급을 반환합니다. 반환값은 [0..1] 범위의 숫자입니다.
 
 Class.Total.percentile=백분위수
+
 Class.Total.percentile.toolTip=백분위수 값을 반환합니다. pct의 범위는 0에서 1까지입니다. pct가 0인 경우 Total.min(expr)와 같은 값을 반환하고, pct가 1인 경우 Total.max(expr)와 같은 값을 반환합니다.
 
 Class.Total.percentile.pct=백분율
 
 Class.Total.quartile=4분위수
+
 Class.Total.quartile.toolTip=백분위수 값을 반환합니다. 4분위수는 1에서 4까지의 정수 범위에 있습니다. 4분위수가 1이면 Total.percentile(expr,0.25)과 같은 값을 반환하고, 4분위수가  2이면 Total.percentile(expr,0.5)과 같은 값을 반환합니다
 
 Class.Total.quartile.quart=quart
+
 Class.Total.percentSum=percentSum
+
 Class.Total.percentSum.toolTip=Total.Equals 대 expr/Total.sum(expr, [group])의 백분율
 
 Class.Total.isTopN=isTopN
+
 Class.Total.isTopN.toolTip=해당 값이 그룹에 있는 상위 n 값 중 하나일 경우 참 값을 반환합니다.
 
 Class.Total.isTopN.n=n
 Class.Total.isTopNPercent=isTopNPercent
+
 Class.Total.isTopNPercent.toolTip=해당 값이 그룹에 있는 상위(pct * 100) 백분율 값 중 하나일 경우 참 값을 반환합니다. 그렇지 않은 경우 거짓 값을 반환합니다.
 
 Class.Total.isTopNPercent.pct=백분율
 
 Class.Total.isBottomN=isBottomN
+
 Class.Total.isBottomN.toolTip=해당 값이 그룹에 있는 하위 n 값 중 하나일 경우 참 값을 반환합니다. 그렇지 않은 경우 거짓 값을 반환합니다.
 
 Class.Total.isBottomN.n=n
 Class.Total.isBottomNPercent=isBottomNPercent
+
 Class.Total.isBottomNPercent.toolTip=해당 값이 그룹에 있는 하위(pct * 100) 백분율 값 중 하나일 경우 참 값을 반환합니다. 그렇지 않은 경우 거짓 값을 반환합니다.
 
 Class.Total.isBottomNPercent.pct=백분율
@@ -2197,6 +2601,7 @@ Class.Finance=재무 함수
 Class.Finance.toolTip=정적 재무 함수의 컬렉션입니다
 
 Class.Finance.ddb=ddb
+
 Class.Finance.ddb.toolTip=주어진 한 기간 동안 이중 체감법을 사용한 자산의 감가 상각액입니다
 
 Class.Finance.ddb.initialCost=initialCost
@@ -2204,12 +2609,14 @@ Class.Finance.ddb.salvageValue=salvageValue
 Class.Finance.ddb.assetLifespan=assetLifespan
 Class.Finance.ddb.singlePeriod=singlePeriod
 Class.Finance.sln=sln
+
 Class.Finance.sln.toolTip=한 기간 동안 정율법에 의한 자산의 감가 상각액입니다
 
 Class.Finance.sln.initialCost=initialCost
 Class.Finance.sln.salvageValue=salvageValue
 Class.Finance.sln.assetLifespan=assetLifespan 
 Class.Finance.syd=syd
+
 Class.Finance.syd.toolTip=주어진 기간 동안 연수 합계법에 의한 자산의 감가 상각액입니다
 
 Class.Finance.syd.initialCost=initialCost
@@ -2217,89 +2624,129 @@ Class.Finance.syd.salvageValue=salvageValue
 Class.Finance.syd.assetLifespan=assetLifespan
 Class.Finance.syd.singlePeriod=singlePeriod
 Class.Finance.fv=fv
+
 Class.Finance.fv.toolTip=주기적이고 고정적인 지급과 고정적인 이자율에 근거한 연금의 예측값입니다
 
 Class.Finance.fv.ratePerPeriod=ratePerPeriod
+
 Class.Finance.fv.numberPayPeriods=numberPayPeriods
+
 Class.Finance.fv.eachPmt=eachPmt
+
 Class.Finance.fv.presentValue=presentValue
 Class.Finance.fv.whenDue=whenDue
+
 Class.Finance.ipmt=ipmt
+
 Class.Finance.ipmt.toolTip=주기적이고 고정적인 지급과 고정적인 이자율에 근거한 주어진 기간 동안의 연금에 대한 이자 지급입니다
 
 Class.Finance.ipmt.ratePerPeriod=ratePerPeriod
+
 Class.Finance.ipmt.singlePeriod=singlePeriod
 Class.Finance.ipmt.numberPayPeriods=numberPayPeriods
+
 Class.Finance.ipmt.presentValue=presentValue
 Class.Finance.ipmt.futureValue=futureValue
 Class.Finance.ipmt.whenDue=whenDue
+
 Class.Finance.nper=nper
+
 Class.Finance.nper.toolTip=주기적이고 고정적인 지급과 고정적인 이자율에 근거한 연금에 대한 기간 수입니다
 
 Class.Finance.nper.ratePerPeriod=ratePerPeriod
+
 Class.Finance.nper.eachPmt=eachPmt
+
 Class.Finance.nper.presentValue=presentValue
 Class.Finance.nper.futureValue=futureValue
 Class.Finance.nper.whenDue=whenDue
+
 Class.Finance.pmt=pmt
+
 Class.Finance.pmt.toolTip=주기적이고 고정적인 지급과 고정적인 이자율에 근거한 연금에 대한 지급입니다
 
 Class.Finance.pmt.ratePerPeriod=ratePerPeriod
+
 Class.Finance.pmt.numberPayPeriods=numberPayPeriods
+
 Class.Finance.pmt.presentValue=presentValue
 Class.Finance.pmt.futureValue=futureValue
 Class.Finance.pmt.whenDue=whenDue
+
 Class.Finance.ppmt=ppmt
+
 Class.Finance.ppmt.toolTip=주기적이고 고정적인 지급과 고정적인 이자율에 근거한 주어진 기간 동안의 연금에 대한 원금 지급입니다
 
 Class.Finance.ppmt.ratePerPeriod=ratePerPeriod
+
 Class.Finance.ppmt.singlePeriod=singlePeriod
 Class.Finance.ppmt.numberPayPeriods=numberPayPeriods
+
 Class.Finance.ppmt.presentValue=presentValue
 Class.Finance.ppmt.futureValue=futureValue
 Class.Finance.ppmt.whenDue=whenDue
+
 Class.Finance.pv=pv
+
 Class.Finance.pv.toolTip=미래에 지불할 주기적이고 고정적인 지급과 고정적인 이자율에 근거한 연금에 대한 현재 값입니다
 
 Class.Finance.pv.ratePerPeriod=ratePerPeriod
+
 Class.Finance.pv.numberPayPeriods=numberPayPeriods
+
 Class.Finance.pv.eachPmt=eachPmt
+
 Class.Finance.pv.futureValue=futureValue
 Class.Finance.pv.whenDue=whenDue
+
 Class.Finance.rate=비율
+
 Class.Finance.rate.toolTip=연금에 대한 기간별 이자율입니다
 
 Class.Finance.rate.numberPayPeriods=numberPayPeriods
+
 Class.Finance.rate.eachPmt=eachPmt
+
 Class.Finance.rate.presentValue=presentValue
 Class.Finance.rate.futureValue=futureValue
 Class.Finance.rate.whenDue=whenDue
+
 Class.Finance.rate.startingGuess=startingGuess
 Class.Finance.irr=irr
+
 Class.Finance.irr.toolTip=기존 배열에서 일련의 주기적 현금 흐름, 지급 및 수금에 대한 내부 수익률입니다
 
 Class.Finance.irr.cashArray=cashArray
 Class.Finance.irr.startingGuess=startingGuess
 Class.Finance.npv=npv
+
 Class.Finance.npv.toolTip=주어진 이자율에서 일련의 여러 양수 값 및 음수 값의 주기적 현금 흐름에 대한 순 현재 가치입니다
 
 Class.Finance.npv.rate=비율
+
 Class.Finance.npv.cashArray=cashArray 
 Class.Finance.runningnpv=npv
+
 Class.Finance.runningnpv.toolTip=주어진 이자율에서 일련의 여러 주기적 현금 흐름(증가 또는 감소)에 대한 순 현재 가치입니다.
 
 Class.Finance.runningnpv.rate=비율
+
 Class.Finance.runningnpv.cashArray=cashArray 
 Class.Finance.mirr=mirr
+
 Class.Finance.mirr.toolTip=기존 배열에서 일련의 주기적 현금 흐름(지급 및 수금)에 대한 수정된 내부 수익률입니다
 
 Class.Finance.mirr.cashArray=cashArray
 Class.Finance.mirr.rate=비율
+
 Class.Finance.percent=percent
+
 Class.Finance.percent.toolTip=두 숫자의 백분율을 계산합니다
 
 Class.Finance.percent.denom=denom
+
 Class.Finance.percent.num=num
+
 Class.Finance.percent.rate=비율
 
 #28. DateTimeSpan
@@ -2308,31 +2755,37 @@ Class.DateTimeSpan=DateTimeSpan 함수
 Class.DateTimeSpan.toolTip=두 날짜 또는 시간 범위에서 작업하는 함수의 컬렉션입니다
 
 Class.DateTimeSpan.years=연
+
 Class.DateTimeSpan.years.toolTip=두 날짜 사이의 전체 연도 수를 반환합니다
 
 Class.DateTimeSpan.years.startDate=startDate
 Class.DateTimeSpan.years.endDate=endDate
 Class.DateTimeSpan.months=월
+
 Class.DateTimeSpan.months.toolTip=두 날짜 사이의 전체 월 수를 반환합니다
 
 Class.DateTimeSpan.months.startDate=startDate
 Class.DateTimeSpan.months.endDate=endDate
 Class.DateTimeSpan.days=일
+
 Class.DateTimeSpan.days.toolTip=두 날짜 사이의 날짜 수를 반환합니다
 
 Class.DateTimeSpan.days.startDate=startDate
 Class.DateTimeSpan.days.endDate=endDate
 Class.DateTimeSpan.hours=시
+
 Class.DateTimeSpan.hours.toolTip=두 날짜/시간 사이의 시간 수를 반환합니다
 
 Class.DateTimeSpan.hours.startDate=startDate
 Class.DateTimeSpan.hours.endDate=endDate
 Class.DateTimeSpan.minutes=분
+
 Class.DateTimeSpan.minutes.toolTip=두 날짜/시간 사이의 분 수를 반환합니다
 
 Class.DateTimeSpan.minutes.startDate=startDate
 Class.DateTimeSpan.minutes.endDate=endDate
 Class.DateTimeSpan.seconds=초
+
 Class.DateTimeSpan.seconds.toolTip=두 날짜/시간 사이의 초 수를 반환합니다
 
 Class.DateTimeSpan.seconds.startDate=startDate
@@ -2343,8 +2796,11 @@ Class.DateTimeSpan.addDate.toolTip=날짜에 연도 수, 월 수 또는 날짜 수를 추가합니
 
 Class.DateTimeSpan.addDate.startDate=startDate
 Class.DateTimeSpan.addDate.years=연
+
 Class.DateTimeSpan.addDate.months=월
+
 Class.DateTimeSpan.addDate.days=일
+
 
 
 Class.DateTimeSpan.addTime=addTime
@@ -2352,16 +2808,22 @@ Class.DateTimeSpan.addTime.toolTip=날짜/시간에 시간 수,분 수 또는 초 수를 추가합
 
 Class.DateTimeSpan.addTime.startDate=startDate
 Class.DateTimeSpan.addTime.hours=시
+
 Class.DateTimeSpan.addTime.minutes=분
+
 Class.DateTimeSpan.addTime.seconds=초
+
 
 Class.DateTimeSpan.subDate=subDate
 Class.DateTimeSpan.subDate.toolTip=날짜에서 연도 수, 월 수 또는 날짜 수를 뺍니다
 
 Class.DateTimeSpan.subDate.startDate=startDate
 Class.DateTimeSpan.subDate.years=연
+
 Class.DateTimeSpan.subDate.months=월
+
 Class.DateTimeSpan.subDate.days=일
+
 
 
 Class.DateTimeSpan.subTime=subTime
@@ -2369,7 +2831,9 @@ Class.DateTimeSpan.subTime.toolTip=날짜에서 시간 수, 분 수 또는 초 수를 뺍니다
 
 Class.DateTimeSpan.subTime.startDate=startDate
 Class.DateTimeSpan.subTime.hours=시
+
 Class.DateTimeSpan.subTime.minutes=분
+
 Class.DateTimeSpan.subTime.seconds=초
 
 #29.GlobalBirt
@@ -2378,21 +2842,27 @@ Class.GlobalBirt=전역 변수
 Class.GlobalBirt.toolTip=식과 스크립트가 데이터 행 및 보고서 정보에 대해 액세스 하도록 허용하는 전역 변수의 수를 제공합니다
 
 Class.GlobalBirt.datasets=Birt 데이터 집합
+
 Class.GlobalBirt.datasets.toolTip=보고서에 정의된 데이터 집합의 배열을 반환합니다
 
 Class.GlobalBirt.params=Birt 매개 변수
+
 Class.GlobalBirt.params.toolTip=보고서에 전달된 매개 변수 값의 객체 배열을 반환합니다
 
 Class.GlobalBirt.row=Birt 행
+
 Class.GlobalBirt.row.toolTip=데이터 집합 또는 보고서 요소에 대한 현재 데이터 행입니다
 
 Class.GlobalBirt.rows=Birt 행
+
 Class.GlobalBirt.rows.toolTip=현재 컨텍스트에 대해 정의된 행 스택입니다
 
 Class.GlobalBirt.config=Birt 구성
+
 Class.GlobalBirt.config.toolTip=보고서에서 사용 가능한 구성 변수의 배열을 반환합니다. 이름/값 쌍으로 표시합니다
 
 Class.GlobalBirt.report=Birt 보고서
+
 Class.GlobalBirt.report.toolTip=보고서에 대한 모든 정보 및 보고서가 실행하는 컨텍스트에 대한 액세스를 제공합니다
 
 Class.GlobalBirt.CurrentPage=현재 페이지 번호
@@ -2404,6 +2874,7 @@ Class.GlobalBirt.TotalPage=전체 페이지 수
 Class.GlobalBirt.TotalPage.toolTip=전체 페이지 수를 반환합니다.
 
 Class.GlobalBirt.this=개체
+
 Class.GlobalBirt.this.toolTip=개체를 표시합니다.
 
 Class.GlobalBirt.appContext=AppContext
@@ -2415,9 +2886,11 @@ Class.DataSource=데이터 원본 클래스
 Class.DataSource.toolTip=데이터 원본 클래스는 데이터 원본의 공장 시간 상태로의 액세스를 제공합니다. 데이터 원본 객체는 이 객체를 사용하는 데이터 집합 객체를 통해 액세스할 수 있습니다.
 
 Class.DataSource.extensionID=extensionID
+
 Class.DataSource.extensionID.toolTip=ODA 드라이버 확장명에서 정의한 바와 같이 ODA 데이터 원본의 extensionID 값을 반환합니다. extensionID는 BIRT 환경의 데이터 원본 형식을 고유하게 확인하며, 이 속성은 업데이트할 수 없습니다.
 
 Class.DataSource.isOpen=isOpen
+
 Class.DataSource.isOpen.toolTip=데이터 원본 연결 여부를 나타내는 부울 값을 반환합니다.
 
 Class.DataSource.extensionProperties=extensionProperties
@@ -2429,52 +2902,70 @@ Class.BirtComp=BirtComp
 Class.BirtComp.toolTip=Birt 데이터 비교 지원 제공
 
 Class.BirtComp.equalTo=equalsTo
+
 Class.BirtComp.equalTo.toolTip=x는 y와 같음
 
 Class.BirtComp.equalTo.x=x
 Class.BirtComp.equalTo.y=y
+
 Class.BirtComp.greaterThan=greaterThan
 Class.BirtComp.greaterThan.toolTip=x는 y보다 큼
 
 Class.BirtComp.greaterThan.x=x
 Class.BirtComp.greaterThan.y=y
+
 Class.BirtComp.lessThan=lessThan
 Class.BirtComp.lessThan.toolTip=x는 y보다 작음
 
 Class.BirtComp.lessThan.x=x
 Class.BirtComp.lessThan.y=y
+
 Class.BirtComp.greaterOrEqual=greaterOrEqual
+
 Class.BirtComp.greaterOrEqual.toolTip=x는 y보다 크거나 같음
 
 Class.BirtComp.greaterOrEqual.x=x
 Class.BirtComp.greaterOrEqual.y=y
+
 Class.BirtComp.lessOrEqual=lessOrEqual
+
 Class.BirtComp.lessOrEqual.toolTip=x는 y보다 작거나 같음
 
 Class.BirtComp.lessOrEqual.x=x
 Class.BirtComp.lessOrEqual.y=y
+
 Class.BirtComp.notEqual=notEqual
 Class.BirtComp.notEqual.toolTip=x는 y와 같지 않음
 
 Class.BirtComp.notEqual.x=x
 Class.BirtComp.notEqual.y=y
+
 Class.BirtComp.between=-
+
 Class.BirtComp.between.toolTip=값은 r1보다 크거나 같고 r2보다 작거나 같음
 
 Class.BirtComp.between.val=값
+
 Class.BirtComp.between.r1=r1
+
 Class.BirtComp.between.r2=r2
+
 Class.BirtComp.like=유사
+
 Class.BirtComp.like.toolTip=x는 SQL 패턴 y와 일치함
 
 Class.BirtComp.like.x=x
 Class.BirtComp.like.y=y
+
 Class.BirtComp.match=일치
+
 Class.BirtComp.match.toolTip=x는 Javascript 패턴 y와 일치함
 
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
+
 Class.BirtComp.anyOf=anyOf
+
 Class.BirtComp.anyOf.toolTip=값이 다음 인수에 있는지 확인
 
 Class.BirtComp.anyOf.val=값
@@ -2486,7 +2977,9 @@ Structure.MapRule=MapRule
 Structure.HighlightRule=HighlightRule
 Structure.CustomColor=CustomColor
 Structure.SearchKey=SearchKey
+
 Structure.Action=작업
+
 Structure.UserProperty=UserProperty
 Structure.SortKey=정렬 키
 
@@ -2539,6 +3032,7 @@ Structure.JoinCondition=조인 조건
 Structure.ParameterFormatValue=매개 변수 형식 값
 
 Structure.OdaDesignerState=ODA 디자이너 상태
+
 Structure.ScriptLib=스크립트 Lib
 
 Structure.IncludedCssStyleSheet=CSS 스타일시트 포함
@@ -2552,6 +3046,7 @@ Structure.CalculationArgument=계산 인수
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
 Structure.MapRule.operator=연산자
+
 Structure.MapRule.value1=value1
 
 Structure.MapRule.value2=value2
@@ -2564,6 +3059,7 @@ Structure.MapRule.isDesignTime=디자인 시간 여부
   
 #1.HighlightRule
 Structure.HighlightRule.operator=연산자
+
 Structure.HighlightRule.isDesignTime=디자인 시간 여부
 
 Structure.HighlightRule.value1=값 1
@@ -2572,22 +3068,31 @@ Structure.HighlightRule.value2=값 2
 
 Structure.HighlightRule.testExpr = TestExpression
 Structure.HighlightRule.strikethrough=취소선
+
 Structure.HighlightRule.border.top.style=스타일
+
 Structure.HighlightRule.border.top.width=너비
 
 Structure.HighlightRule.border.top.color=색
+
 Structure.HighlightRule.border.left.style=스타일
+
 Structure.HighlightRule.border.left.width=너비
 
 Structure.HighlightRule.border.left.color=색
+
 Structure.HighlightRule.border.bottom.style=스타일
+
 Structure.HighlightRule.border.bottom.width=너비
 
 Structure.HighlightRule.border.bottom.color=색
+
 Structure.HighlightRule.border.right.style=스타일
+
 Structure.HighlightRule.border.right.width=너비
 
 Structure.HighlightRule.border.right.color=색
+
 Structure.HighlightRule.background.color=배경색
 
 Structure.HighlightRule.background.image=배경 이미지
@@ -2613,6 +3118,7 @@ Structure.HighlightRule.font.weight=글꼴 두께
 Structure.HighlightRule.font.variant=글꼴 변형
 
 Structure.HighlightRule.font.color=색
+
 Structure.HighlightRule.font.textUnderline=밑줄
 
 Structure.HighlightRule.font.textOverline=윗줄
@@ -2634,11 +3140,14 @@ Structure.HighlightRule.text.indent=텍스트 들여쓰기
 Structure.HighlightRule.text.transform=텍스트 변환
 
 Structure.HighlightRule.style=스타일
+
 Structure.HighlightRule.text.direction=텍스트 방향
 
 #2.CustomColor
 Structure.CustomColor.name=이름
+
 Structure.CustomColor.color=색
+
 Structure.CustomColor.displayName=표시 이름
 
 Structure.CustomColor.displayNameID=표시 이름 키
@@ -2648,7 +3157,9 @@ Structure.SearchKey.expression=식
   
 #5.UserProperty
 Structure.UserProperty.name=이름
+
 Structure.UserProperty.type=형식
+
 Structure.UserProperty.isVisible=표시 여부
 
 Structure.UserProperty.displayNameID=표시 이름 키
@@ -2657,6 +3168,7 @@ Structure.UserProperty.displayName=표시 이름
 
 #6.ConfigVar
 Structure.ConfigVar.name=이름
+
 Structure.ConfigVar.value=값
 
 #7. SortKey
@@ -2670,6 +3182,7 @@ Structure.SortKey.locale=로케일 정렬
 
 #8. Hide
 Structure.HideRule.format=형식
+
 Structure.HideRule.valueExpr=식
 
 #9. IncludeScript
@@ -2677,14 +3190,18 @@ Structure.IncludeScript.fileName=파일 이름
 
 #10.EmbeddedImage
 Structure.EmbeddedImage.name=이름
+
 Structure.EmbeddedImage.type=형식
+
 Structure.EmbeddedImage.data=데이터
 
 Structure.EmbeddedImage.libReference=라이브러리 참조
 
 #11.FilterCondition
 Structure.FilterCondition.operator=연산자
+
 Structure.FilterCondition.expr=식
+
 Structure.FilterCondition.value1=값 1
 
 Structure.FilterCondition.value2=값 2
@@ -2698,17 +3215,21 @@ Structure.FilterCondition.extensionName=확장 이름
 Structure.FilterCondition.extensionExprId=확장 식 ID
 
 Structure.FilterCondition.pushDown=아래로 밀어내기
+
 Structure.FilterCondition.dynamicFilterParameter=동적 필터 매개 변수
 
 Structure.FilterCondition.type=형식
+
 Structure.FilterCondition.updateAggregation=집계 업데이트
 
 #10. PropertyMask
 Structure.PropertyMask.name=이름
+
 Structure.PropertyMask.mask=마스크
 
 #11.OdaProperty
 Structure.OdaProperty.name=이름
+
 Structure.OdaProperty.value=값
 
 #13. ParamBinding
@@ -2718,7 +3239,9 @@ Structure.ParamBinding.expression=식
 
 #14. ResultSetColumn
 Structure.ResultSetColumn.position=위치
+
 Structure.ResultSetColumn.name=이름
+
 Structure.ResultSetColumn.dataType=데이터 형식
 
 Structure.ResultSetColumn.nativeDataType=고유 데이터 형식 코드
@@ -2731,6 +3254,7 @@ Structure.ComputedColumn.displayName=열 표시 이름
 Structure.ComputedColumn.displayNameID=열 표시 이름 ID
 
 Structure.ComputedColumn.expression=식
+
 Structure.ComputedColumn.dataType=데이터 형식
 
 Structure.ComputedColumn.aggregateOn=AggregateOn 식
@@ -2757,6 +3281,7 @@ Structure.ComputedColumn.timeDimension=시간 차원
 Structure.ColumnHint.columnName=열 이름
 
 Structure.ColumnHint.alias=별칭
+
 Structure.ColumnHint.searching=검색
 
 Structure.ColumnHint.export=내보내기
@@ -2766,6 +3291,7 @@ Structure.ColumnHint.analysis=분석
 Structure.ColumnHint.parentLevel=상위 수준
 
 Structure.ColumnHint.format=형식
+
 Structure.ColumnHint.helpText=도움말 텍스트
 
 Structure.ColumnHint.helpTextID=도움말 텍스트 리소스 키
@@ -2789,9 +3315,11 @@ Structure.ColumnHint.wordWrap=자동 줄 바꿈
 Structure.ColumnHint.textFormat=텍스트 형식
 
 Structure.ColumnHint.description=설명
+
 Structure.ColumnHint.descriptionID=설명 리소스 키
 
 Structure.ColumnHint.action=작업
+
 Structure.ColumnHint.ACLExpression=ACL 식
 
 Structure.ColumnHint.analysisColumn=분석 열
@@ -2825,9 +3353,11 @@ Structure.IncludedCssStyleSheet.useExternalCss=외부 CSS 사용
 
 #15. DataSetParam
 Structure.DataSetParam.name=이름
+
 Structure.DataSetParam.dataType=데이터 형식
 
 Structure.DataSetParam.position=위치
+
 Structure.DataSetParam.defaultValue=기본값
 
 Structure.DataSetParam.isOptional=옵션 항목입니다.
@@ -2853,10 +3383,12 @@ Structure.DataSetParam.helpText=도움말 텍스트
 Structure.DataSetParam.helpTextID=도움말 텍스트 리소스 키
 
 Structure.DataSetParam.description=설명
+
 Structure.DataSetParam.descriptionID=설명 리소스 키
 
 #16. ExtendedProperty
 Structure.ExtendedProperty.name=이름
+
 Structure.ExtendedProperty.value=값
 
 #17. Action
@@ -2929,6 +3461,7 @@ Structure.UserMethod.name=이름
 
 #23. PropertyBinding
 Structure.PropertyBinding.name=이름
+
 Structure.PropertyBinding.id=요소 ID
 
 Structure.PropertyBinding.value=값
@@ -2955,13 +3488,18 @@ Structure.ParameterFormatValue.locale=로케일
 
 #26. OdaDesignerState
 Structure.OdaDesignerState.version=버전
+
 Structure.OdaDesignerState.stateContentAsString=상태 내용을 문자열로 표시
+
 Structure.OdaDesignerState.stateContentAsBlob=상태 내용을 BLOB로 표시
 
 #27. OdaResultSetColumn
 Structure.OdaResultSetColumn=OdaResultSetColumn
+
 Structure.OdaResultSetColumn.position=위치
+
 Structure.OdaResultSetColumn.name=이름
+
 Structure.OdaResultSetColumn.nativeName=고유 이름
 
 Structure.OdaResultSetColumn.dataType=데이터 형식
@@ -2970,7 +3508,9 @@ Structure.OdaResultSetColumn.nativeDataType=고유 데이터 형식 코드
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=OdaDataSetParam
+
 Structure.OdaDataSetParam.name=이름
+
 Structure.OdaDataSetParam.paramName=매개 변수 이름
 
 Structure.OdaDataSetParam.nativeName=고유 이름
@@ -2980,6 +3520,7 @@ Structure.OdaDataSetParam.dataType=데이터 형식
 Structure.OdaDataSetParam.nativeDataType=고유 데이터 형식 코드
 
 Structure.OdaDataSetParam.position=위치
+
 Structure.OdaDataSetParam.defaultValue=기본값
 
 Structure.OdaDataSetParam.isOptional=옵션 여부
@@ -3003,6 +3544,7 @@ Structure.OdaDataSetParam.helpText=도움말 텍스트
 Structure.OdaDataSetParam.helpTextID=도움말 텍스트 리소스 키
 
 Structure.OdaDataSetParam.description=설명
+
 Structure.OdaDataSetParam.descriptionID=설명 리소스 키
 
 #27. ScriptLib
@@ -3012,6 +3554,7 @@ Structure.ScriptLib.name =스크립트 Lib 이름
 Structure.TOC=목차
 
 Structure.TOC.Expression=식
+
 Structure.TOC.TOCStyle=TOC 스타일
 
 Structure.TOC.border.top.style=테두리 위쪽 스타일
@@ -3092,12 +3635,14 @@ Structure.Rule.displayExpre=표시 식
 Structure.LevelAttribute=수준 특성
 
 Structure.LevelAttribute.name=이름
+
 Structure.LevelAttribute.dataType=데이터 형식
 
 #32. OdaLevelAttribute
 Structure.OdaLevelAttribute=ODA 수준 특성
 
 Structure.OdaLevelAttribute.name=이름
+
 Structure.OdaLevelAttribute.dataType=데이터 형식
 
 Structure.OdaLevelAttribute.nativeName=고유 이름
@@ -3120,7 +3665,9 @@ Structure.AggregationArgument.value=인수 값
 
 #35. Variable
 Structure.Variable=변수
+
 Structure.Variable.name=이름
+
 Structure.Variable.value=값
 
 #36. SortHint
@@ -3165,6 +3712,7 @@ Structure.CalculationArgument.value=계산 인수 값
 ###########################################################
 # Element names
 Element.Module=모듈
+
 Element.LayoutModule=레이아웃 모듈
 
 Element.ReportDesign=보고서 디자인
@@ -3184,6 +3732,7 @@ Element.SimpleDataSet=단순 데이터 집합
 Element.JdbcSelectDataSet=JDBC 선택 데이터 집합
 
 Element.Parameter=매개 변수
+
 Element.AbstractScalarParameter=추상적 스칼라 매개 변수
 
 Element.ScalarParameter=ScalarParameter
@@ -3194,6 +3743,7 @@ Element.ParameterGroup=매개 변수 그룹
 Element.CascadingParameterGroup=계단식 매개변수 그룹
 
 Element.Style=스타일
+
 Element.MasterPage=MasterPage
 Element.ReportItem=보고서 항목
 
@@ -3204,7 +3754,9 @@ Element.FreeForm=FreeForm
 Element.Data=데이터
 
 Element.Text=텍스트
+
 Element.Library=라이브러리
+
 Element.ListingGroup=열거 그룹
 
 Element.List=목록
@@ -3214,6 +3766,7 @@ Element.ListGroup=목록 그룹
 Element.Listint=열거
 
 Element.Table=테이블
+
 Element.TableGroup=테이블 그룹
 
 Element.Column=열
@@ -3223,6 +3776,7 @@ Element.Row=행
 Element.Cell=셀
 
 Element.Image=이미지
+
 Element.Grid=눈금
 
 Element.Line=꺾은선형
@@ -3230,6 +3784,7 @@ Element.Line=꺾은선형
 Element.Tile=바둑판형
 
 Element.Rectangle=사각형
+
 Element.GraphicMasterPage=그래픽 마스터 페이지
 
 Element.SimpleMasterPage=단순 마스터 페이지
@@ -3262,6 +3817,7 @@ Element.JointDataSet=조인 데이터 집합
 
 Element.Cube=Cube
 Element.Dimension=차원
+
 Element.Hierarchy=계층
 
 Element.Level=수준
@@ -3305,6 +3861,7 @@ Element.AbstractMultiViews=요약 다중 보기
 Element.MultiViews=다중 보기
 
 Element.VariableElement=변수
+
 Element.DataGroup=데이터 그룹
 
 Element.DerivedDataSet=파생 데이터 집합
@@ -3330,6 +3887,7 @@ Element.AliasDataSet =별칭 데이터 집합
 Element.LinkedDataModel =링크된 데이터 모델
 
 Element.CategoryColumn =범주 열
+
 Element.LinkedDataModel.pushDown=데이터 모델 아래로 밀어내기
 
 Element.Category = 범주
@@ -3355,6 +3913,7 @@ Element.Module.title=제목
 Element.Module.titleID=제목 키
 
 Element.Module.description=설명
+
 Element.Module.descriptionID=설명 키
 
 Element.Module.comments=설명
@@ -3381,9 +3940,11 @@ Element.LayoutModule.colorPalette=색상표
 Element.LayoutModule.configVars=구성 변수
 
 Element.LayoutModule.images=이미지
+
 Element.LayoutModule.libraries=라이브러리
 
 Element.LayoutModule.base=기본
+
 Element.LayoutModule.units=단위
 
 Element.LayoutModule.theme=테마
@@ -3391,6 +3952,7 @@ Element.LayoutModule.theme=테마
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=스타일
+
 Element.Library.slot.parameters=매개 변수
 
 Element.Library.slot.dataSources=데이터 원본
@@ -3463,6 +4025,7 @@ Element.ReportDesign.iconFile=아이콘 파일
 Element.ReportDesign.cheatSheet=치트 시트
 
 Element.ReportDesign.thumbnail=Thumbnail
+
 Element.ReportDesign.layoutPreference=레이아웃 기본 설정
 
 Element.ReportDesign.bidiLayoutOrientation=보고서 방향
@@ -3488,6 +4051,7 @@ Element.ReportDesign.onPageStart.toolTip=페이지 시작 시 호출됩니다.
 Element.ReportDesign.onPageEnd.toolTip=페이지 종료 시 호출됩니다.
 
 Element.ReportDesign.slot.styles=스타일
+
 Element.ReportDesign.slot.parameters=매개 변수
 
 Element.ReportDesign.slot.dataSources=데이터 원본
@@ -3521,6 +4085,7 @@ Element.ReportDesign.enableACL=데이터 보안 설정 사용
 Element.ReportDesign.ACLExpression=ACL 식
 
 Element.ReportDesign.cascadeACL=ACL 하위 전달
+
 Element.ReportDesign.imageDPI=이미지 DPI
 
 Element.ReportDesign.pageVariables=페이지 변수
@@ -3547,9 +4112,13 @@ Element.ReportDesign.onContentUpdate= 내용 업데이트 시
 Element.ReportDesign.onContentUpdate.toolTip=BIRT Viewer에서 보고서 내용이 업데이트될 때 클라이언트 측에서 실행합니다.
 
 Element.ReportDesign.onContentUpdate.this=보고서 디자인
+
 Element.ReportDesign.clientInitialize=클라이언트 초기화
+
 Element.ReportDesign.clientInitialize.toolTip=클라이언트 측 Java 스크립트 라이브러리를 로드할 수 없습니다.
+
 Element.ReportDesign.clientInitialize.this=보고서 디자인
+
 Element.ReportDesign.language=언어
 
 Element.ReportDesign.PDFAccessible=Accessible PDF
@@ -3564,8 +4133,11 @@ Element.ReportElement.comments=설명
 Element.ReportElement.propertyMask=속성 마스크
 
 Element.ReportElement.name=이름
+
 Element.ReportElement.extends=확장
+
 Element.ReportElement.style=스타일
+
 Element.ReportElement.eventHandlerClass=이벤트 처리기 클래스
 
 Element.ReportElement.newHandlerOnEachEvent=각 이벤트 시 새 처리기
@@ -3574,6 +4146,7 @@ Element.ReportElement.viewAction=작업 보기
 
 #3. JdbcDataSource  ( prefix  Element.JdbcDataSource )
 Element.JdbcDataSource.url=Url
+
 Element.JdbcDataSource.userName=사용자 이름
 
 Element.JdbcDataSource.password=암호
@@ -3588,6 +4161,7 @@ Element.DataSet.resultSetHints=결과 집합 힌트
 Element.DataSet.computedColumns=계산 열
 
 Element.DataSet.filter=필터
+
 Element.DataSet.columnHints=열 힌트
 
 Element.DataSet.cachedMetaData=캐시된 메타데이터
@@ -3605,6 +4179,7 @@ Element.DataSet.ACLExpression=ACL 식
 Element.DataSet.RowACLExpression=행 ACL 식
 
 Element.DataSet.isVisible=표시
+
 Element.DataSet.locale=로케일
 
 Element.DataSet.nullsOrdering=널(Null) 순서
@@ -3673,6 +4248,7 @@ Element.Parameter.helpTextID=도움말 텍스트 키
 Element.Parameter.hidden=숨김
 
 Element.Parameter.validate=유효성 검사
+
 Element.Parameter.validate.reportContext=보고서 컨텍스트
 
 Element.Parameter.validate.toolTip=매개 변수의 사용자 지정 유효성 검사에 대해 참 또는 거짓 값을 반환합니다.
@@ -3689,6 +4265,7 @@ Element.ScalarParameter.displayPrompt=프롬프트 표시
 Element.ScalarParameter.concealValue=값 숨기기
 
 Element.ScalarParameter.format=형식
+
 Element.ScalarParameter.controlType=컨트롤 형식
 
 Element.ScalarParameter.alignment=맞춤
@@ -3739,11 +4316,13 @@ Element.CascadingParameterGroup.slot.parameters=매개 변수
 
 #9. MasterPage ( Prefix = Element.MasterPage )
 Element.MasterPage.type=형식
+
 Element.MasterPage.height=높이
 
 Element.MasterPage.width=너비
 
 Element.MasterPage.orientation=방향
+
 Element.MasterPage.columns=열
 
 Element.MasterPage.columnSpacing=열 간격
@@ -3864,6 +4443,7 @@ Element.Style.font.variant=글꼴 변형
 Element.Style.font.weight=글꼴 두께
 
 Element.Style.format=형식
+
 Element.Style.format.dateTime=날짜 시간 형식
 
 Element.Style.format.date=날짜 형식
@@ -3913,9 +4493,11 @@ Element.Style.pageBreakAfter=뒤에 페이지 나누기
 Element.Style.pageBreakInside=사이에 페이지 나누기
 
 Element.Style.section=섹션
+
 Element.Style.showIfBlank=비어있는 경우 표시
 
 Element.Style.text=텍스트
+
 Element.Style.text.align=텍스트 맞춤
 
 Element.Style.text.direction=텍스트 방향
@@ -3927,6 +4509,7 @@ Element.Style.text.transform=텍스트 변환
 Element.Style.verticalAlign=세로 맞춤
 
 Element.Style.whiteSpace=공백
+
 Element.Style.widows=창
 
 Element.Style.orphans=고아
@@ -3973,6 +4556,7 @@ Element.ReportItem.multiViews=다중 보기
 Element.ReportItem.ACLExpression=ACL 식
 
 Element.ReportItem.cascadeACL=ACL 하위 전달
+
 Element.ReportItem.allowExport=내보내기 허용
 
 Element.ReportItem.pushDown=아래로 밀어내기
@@ -3999,6 +4583,7 @@ Element.Label.helpTextID=도움말 텍스트 키
 Element.Label.helpText=도움말 텍스트
 
 Element.Label.action=작업
+
 Element.Label.onPrepare=준비 중
 
 Element.Label.onPrepare.this=레이블
@@ -4049,6 +4634,7 @@ Element.Data.helpText=도움말 텍스트
 Element.Data.helpTextID=도움말 텍스트 키
 
 Element.Data.action=작업
+
 Element.Data.onPrepare=준비 중
 
 Element.Data.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
@@ -4097,6 +4683,7 @@ Element.Text.onPrepare=준비 중
 Element.Text.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
 
 Element.Text.onPrepare.this=텍스트
+
 Element.Text.onPrepare.reportContext=보고서 컨텍스트
 
 Element.Text.onCreate=생성 시
@@ -4112,6 +4699,7 @@ Element.Text.onRender=렌더링 시
 Element.Text.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때 스크립트가 실행됩니다.
 
 Element.Text.onRender.this=텍스트 인스턴스
+
 Element.Text.onRender.reportContext=보고서 컨텍스트
 
 Element.Text.onPageBreak=페이지 나누기
@@ -4142,6 +4730,7 @@ Element.ListingGroup.toc=목차
 Element.ListingGroup.hideDetail=상세 정보 숨기기
 
 Element.ListingGroup.groupName=이름
+
 Element.ListingGroup.Interval=간격
 
 Element.ListingGroup.intervalBase=간격 기준
@@ -4163,6 +4752,7 @@ Element.ListingGroup.pageBreakAfter=뒤에 페이지 나누기
 Element.ListingGroup.pageBreakInside=사이에 페이지 나누기
 
 Element.ListingGroup.filter=필터
+
 Element.ListingGroup.repeatHeader=머리글 반복
 
 Element.ListingGroup.onStart=시작 시
@@ -4202,6 +4792,7 @@ Element.ListingGroup.onRender.reportContext=보고서 컨텍스트
 Element.ListingGroup.ACLExpression=ACL 식
 
 Element.ListingGroup.cascadeACL=ACL 하위 전달
+
 Element.ListingGroup.showDetailFilter=필터 상세 정보 표시
 
 #16.List  ( prefix  Element.List )
@@ -4210,6 +4801,7 @@ Element.List.slot.header=머리글
 Element.List.slot.groups=그룹
 
 Element.List.slot.detail=상세 정보
+
 Element.List.slot.footer=바닥글
 
 Element.List.onPrepare=준비 중
@@ -4283,6 +4875,7 @@ Element.Table.slot.header=머리글
 Element.Table.slot.groups=그룹
 
 Element.Table.slot.detail=상세 정보
+
 Element.Table.slot.footer=바닥글
 
 Element.Table.slot.columns=열
@@ -4292,6 +4885,7 @@ Element.Table.onPrepare=준비 중
 Element.Table.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
 
 Element.Table.onPrepare.this=테이블
+
 Element.Table.onPrepare.reportContext=보고서 컨텍스트
 
 Element.Table.onPrepare.object=객체
@@ -4465,6 +5059,7 @@ Element.Cell.onRender.reportContext=보고서 컨텍스트
 Element.Cell.viewAction=작업 보기
 
 Element.Cell.diagonal=대각선
+
 Element.Cell.diagonalNumber=대각선 수
 
 Element.Cell.antidiagonalNumber=반대각선 수
@@ -4501,6 +5096,7 @@ Element.Image.size=크기
 Element.Image.scale=배율
 
 Element.Image.source=원본
+
 Element.Image.uri=URI
 Element.Image.imageName=이미지 이름
 
@@ -4509,11 +5105,13 @@ Element.Image.valueExpr=값 식
 Element.Image.typeExpr=식 입력
 
 Element.Image.action=작업
+
 Element.Image.onPrepare=준비 중
 
 Element.Image.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
 
 Element.Image.onPrepare.this=이미지
+
 Element.Image.onPrepare.reportContext=보고서 컨텍스트
 
 Element.Image.onCreate=생성 시
@@ -4653,6 +5251,7 @@ Element.ExtendedItem.altTextID=대체 텍스트 키:
 Element.ExtendedItem.extensionName=확장 이름
 
 Element.ExtendedItem.filter=필터
+
 Element.ExtendedItem.onPrepare=준비 중
 
 Element.ExtendedItem.onPrepare.toolTip=요소 설정 중 실행 여기에서 요소 디자인을 변경합니다. 아직 데이터 바인딩을 실행할 수 없습니다.
@@ -4772,6 +5371,7 @@ Element.ScriptDataSet.resultSetHints=결과 집합 힌트
 Element.Listing.sorting=정렬
 
 Element.Listing.filter=필터
+
 Element.Listing.repeatHeader=머리글 반복
 
 Element.Listing.pageBreakInterval=페이지 나누기 간격
@@ -4821,11 +5421,13 @@ Element.OdaDataSource.designerState=디자이너 상태
 
 #36 OdaDataSet ( Prefix Element.OdaDataSet )
 Element.OdaDataSet.extensionID=확장 ID
+
 Element.OdaDataSet.resultSet=결과 집합 열
 
 Element.OdaDataSet.queryText=쿼리
 
 Element.OdaDataSet.type=형식
+
 Element.OdaDataSet.resultSetName=결과 집합 이름
 
 Element.OdaDataSet.publicDriverProperties=공용 드라이버 속성
@@ -4833,6 +5435,7 @@ Element.OdaDataSet.publicDriverProperties=공용 드라이버 속성
 Element.OdaDataSet.privateDriverProperties=개인 드라이버 속성
 
 Element.OdaDataSet.designerState=디자이너 상태
+
 Element.OdaDataSet.designerValues=디자이너 값
 
 Element.OdaDataSet.resultSetNumber=결과 집합 수
@@ -4851,15 +5454,18 @@ Element.Theme.slot.styles=스타일
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=이름
+
 Element.TemplateParameterDefinition.allowedType=허용된 형식
 
 Element.TemplateParameterDefinition.description=설명
+
 Element.TemplateParameterDefinition.descriptionID=설명 ID
 
 Element.TemplateParameterDefinition.slot.default=기본값
 
 #40 TemplateElement ( Prefix Element.TemplateElement )
 Element.TemplateElement.name=이름
+
 Element.TemplateElement.refTemplateParameter=참조 템플릿 매개 변수
 
 Element.TemplateElement.displayName=표시 이름
@@ -4957,13 +5563,16 @@ Element.Level.ACLExpression=ACL 식
 Element.Level.MemberACLExpression=구성원 ACL 식
 
 Element.Level.action=작업
+
 Element.Level.format=형식
+
 Element.Level.alignment=맞춤
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=함수
 
 Element.Measure.isCalculated=계산 조건
+
 Element.Measure.measureExpression=측정값 식
 
 Element.Measure.dataType=데이터 형식
@@ -4971,7 +5580,9 @@ Element.Measure.dataType=데이터 형식
 Element.Measure.ACLExpression=ACL 식
 
 Element.Measure.action=작업
+
 Element.Measure.format=형식
+
 Element.Measure.alignment=맞춤
 
 Element.Measure.isVisible=표시
@@ -4983,6 +5594,7 @@ Element.MeasureGroup.measures=측정값
 Element.TabularCube.dataSet=데이터 집합
 
 Element.TabularCube.dimensions=차원
+
 Element.TabularCube.measureGroups=측정값 그룹
 
 Element.TabularCube.dimensionConditions=차원 조건
@@ -5010,6 +5622,7 @@ Element.TabularLevel.attributes=특성
 
 #55. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=차원
+
 Element.OdaCube.measureGroups=측정값 그룹
 
 Element.OdaCube.nativeName=고유 이름
@@ -5040,6 +5653,7 @@ Element.MemberValue.filter=필터
 Element.SortElement.key=키
 
 Element.SortElement.direction=방향
+
 Element.SortElement.member=구성원
 
 Element.SortElement.strength=수준 정렬
@@ -5048,9 +5662,13 @@ Element.SortElement.locale=로케일 정렬
 
 #61. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=연산자
+
 Element.FilterConditionElement.expr=식
+
 Element.FilterConditionElement.value1=Value1
+
 Element.FilterConditionElement.value2=Value2
+
 Element.FilterConditionElement.filterTarget=대상 필터
 
 Element.FilterConditionElement.member=구성원
@@ -5062,8 +5680,11 @@ Element.FilterConditionElement.extensionName=확장 이름
 Element.FilterConditionElement.extensionExprId=확장 식 ID
 
 Element.FilterConditionElement.pushDown=아래로 밀어내기
+
 Element.FilterConditionElement.dynamicFilterParameter=동적 필터 매개 변수
+
 Element.FilterConditionElement.type=형식
+
 Element.FilterConditionElement.updateAggregation=집계 업데이트
 
 
@@ -5075,17 +5696,20 @@ Element.MultiViews.views=보기
 
 #64. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=이름
+
 Element.VariableElement.value=값
 
 Element.VariableElement.type=형식
 
 #65. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=이름
+
 Element.DataGroup.keyExpr=키 식
 
 Element.DataGroup.sort=정렬
 
 Element.DataGroup.filter=필터
+
 Element.DataGroup.Interval=간격
 
 Element.DataGroup.interval=간격
@@ -5153,6 +5777,7 @@ Element.DataMart.slot.dataSources=데이터 원본
 Element.DataMart.slot.dataSets=데이터 집합
 
 Element.DataMart.slot.cubes=큐브
+
 Element.DataMart.slot.parameters=매개 변수
 
 Element.DataMart.slot.dimensions=공유 차원
@@ -5165,6 +5790,7 @@ Element.DataMart.enableIncrementalUpdate=증분 업데이트 사용
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
 Element.DataMartDataSource.datamartURL =Data Mart URL
+
 Element.DataMartDataSource.datamartVersion=Data Mart 버전
 
 Element.DataMartDataSource.paramBindings=매개 변수 바인딩
@@ -5197,7 +5823,9 @@ Element.DataMartLinkedDataModel.dataObject=데이터 개체
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=스타일
+
 Element.ReportItemTheme.type=형식
+
 Element.ReportItemTheme.customValues=사용자 지정 값
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
@@ -5216,14 +5844,23 @@ Element.CategoryColumn.aliasDataSet = 별칭 데이터 집합
 Element.CategoryColumn.dataType = 데이터 형식
 
 Element.CategoryColumn.expression =식
+
 Element.CategoryColumn.resultSetColumnName = 결과 집합 열 이름
+
 Element.CategoryColumn.helpText =도움말 텍스트
+
 Element.CategoryColumn.ACLExpression =ACL 식
+
 Element.CategoryColumn.heading =머리글
+
 Element.CategoryColumn.horizontalAlign =가로 맞춤
+
 Element.CategoryColumn.format =형식
+
 Element.CategoryColumn.valueFormat =값 형식
+
 Element.CategoryColumn.action =작업
+
 Element.CategoryColumn.analysis =분석
 
 ###########################################################
@@ -5255,92 +5892,169 @@ Style.GroupFooter9=GroupFooter9
 Style.ListHeader=ListHeader
 Style.ListFooter=ListFooter
 Style.ListGroupHeader1=ListGroupHeader1
+
 Style.ListGroupHeader2=ListGroupHeader2
+
 Style.ListGroupHeader3=ListGroupHeader3
+
 Style.ListGroupHeader4=ListGroupHeader4
+
 Style.ListGroupHeader5=ListGroupHeader5
+
 Style.ListGroupHeader6=ListGroupHeader6
+
 Style.ListGroupHeader7=ListGroupHeader7
+
 Style.ListGroupHeader8=ListGroupHeader8
+
 Style.ListGroupHeader9=ListGroupHeader9
+
 Style.ListGroupFooter1=ListGroupFooter1
+
 Style.ListGroupFooter2=ListGroupFooter2
+
 Style.ListGroupFooter3=ListGroupFooter3
+
 Style.ListGroupFooter4=ListGroupFooter4
+
 Style.ListGroupFooter5=ListGroupFooter5
+
 Style.ListGroupFooter6=ListGroupFooter6
+
 Style.ListGroupFooter7=ListGroupFooter7
+
 Style.ListGroupFooter8=ListGroupFooter8
+
 Style.ListGroupFooter9=ListGroupFooter9
+
 
 Style.ListDetail=ListDetail
 Style.Table=테이블
+
 Style.TableHeader=TableHeader
 Style.TableHeaderCell=TableHeaderCell
 Style.TableFooter=TableFooter
 Style.TableFooterCell=TableFooterCell
 Style.TableGroupHeader1=TableGroupHeader1
+
 Style.TableGroupHeader2=TableGroupHeader2
+
 Style.TableGroupHeader3=TableGroupHeader3
+
 Style.TableGroupHeader4=TableGroupHeader4
+
 Style.TableGroupHeader5=TableGroupHeader5
+
 Style.TableGroupHeader6=TableGroupHeader6
+
 Style.TableGroupHeader7=TableGroupHeader7
+
 Style.TableGroupHeader8=TableGroupHeader8
+
 Style.TableGroupHeader9=TableGroupHeader9
+
 Style.TableGroupHeaderCell=TableGroupHeaderCell
+
 Style.TableGroupFooter1=TableGroupFooter1
+
 Style.TableGroupFooter2=TableGroupFooter2
+
 Style.TableGroupFooter3=TableGroupFooter3
+
 Style.TableGroupFooter4=TableGroupFooter4
+
 Style.TableGroupFooter5=TableGroupFooter5
+
 Style.TableGroupFooter6=TableGroupFooter6
+
 Style.TableGroupFooter7=TableGroupFooter7
+
 Style.TableGroupFooter8=TableGroupFooter8
+
 Style.TableGroupFooter9=TableGroupFooter9
+
 Style.TableGroupFooterCell=TableGroupFooterCell
+
 
 Style.TableColumnHeader=TableColumnHeader
 Style.TableDetail=TableDetail
 Style.TableDetailCell=TableDetailCell
 Style.Page=페이지
+
 Style.Matrix=매트릭스
+
 Style.MatrixRowHeader1=MatrixRowHeader1
+
 Style.MatrixRowHeader2=MatrixRowHeader2
+
 Style.MatrixRowHeader3=MatrixRowHeader3
+
 Style.MatrixRowHeader4=MatrixRowHeader4
+
 Style.MatrixRowHeader5=MatrixRowHeader5
+
 Style.MatrixRowHeader6=MatrixRowHeader6
+
 Style.MatrixRowHeader7=MatrixRowHeader7
+
 Style.MatrixRowHeader8=MatrixRowHeader8
+
 Style.MatrixRowHeader9=MatrixRowHeader9
+
 Style.MatrixRowFooter1=MatrixRowFooter1
+
 Style.MatrixRowFooter2=MatrixRowFooter2
+
 Style.MatrixRowFooter3=MatrixRowFooter3
+
 Style.MatrixRowFooter4=MatrixRowFooter4
+
 Style.MatrixRowFooter5=MatrixRowFooter5
+
 Style.MatrixRowFooter6=MatrixRowFooter6
+
 Style.MatrixRowFooter7=MatrixRowFooter7
+
 Style.MatrixRowFooter8=MatrixRowFooter8
+
 Style.MatrixRowFooter9=MatrixRowFooter9
+
 Style.MatrixColumnHeader1=MatrixColumnHeader1
+
 Style.MatrixColumnHeader2=MatrixColumnHeader2
+
 Style.MatrixColumnHeader3=MatrixColumnHeader3
+
 Style.MatrixColumnHeader4=MatrixColumnHeader4
+
 Style.MatrixColumnHeader5=MatrixColumnHeader5
+
 Style.MatrixColumnHeader6=MatrixColumnHeader6
+
 Style.MatrixColumnHeader7=MatrixColumnHeader7
+
 Style.MatrixColumnHeader8=MatrixColumnHeader8
+
 Style.MatrixColumnHeader9=MatrixColumnHeader9
+
 Style.MatrixColumnFooter1=MatrixColumnFooter1
+
 Style.MatrixColumnFooter2=MatrixColumnFooter2
+
 Style.MatrixColumnFooter3=MatrixColumnFooter3
+
 Style.MatrixColumnFooter4=MatrixColumnFooter4
+
 Style.MatrixColumnFooter5=MatrixColumnFooter5
+
 Style.MatrixColumnFooter6=MatrixColumnFooter6
+
 Style.MatrixColumnFooter7=MatrixColumnFooter7
+
 Style.MatrixColumnFooter8=MatrixColumnFooter8
+
 Style.MatrixColumnFooter9=MatrixColumnFooter9
+
 
 Style.MatrixCell=MatrixCell
 Style.Chart=차트
@@ -5356,24 +6070,37 @@ Style.Data=데이터
 Style.Number=번호
 
 Style.String=문자열
+
 Style.Text=텍스트
+
 Style.Grid=눈금
 
 Style.Toc=TOC 수준0
+
 Style.Toc1=TOC 수준1
+
 Style.Toc2=TOC 수준2
+
 Style.Toc3=TOC 수준3
+
 Style.Toc4=TOC 수준4
+
 Style.Toc5=TOC 수준5
+
 Style.Toc6=TOC 수준6
+
 Style.Toc7=TOC 수준7
+
 Style.Toc8=TOC 수준8
+
 Style.Toc9=TOC 수준9
+
 
 Style.FreeForm=FreeForm
 Style.Line=꺽은선형
 
 Style.Rectangle=사각형
+
 Style.TextData=TextData
 Style.ExtendedItem=ExtendedItem
 Style.Image=이미지
@@ -5533,6 +6260,7 @@ New.TabularMeasure=NewTabularMeasure
 New.TabularMeasureGroup=요약 필드
 
 New.OdaCube=NewOdaCube
+
 New.OdaDimension=NewOdaDimension
 New.OdaHierarchy=NewOdaHierarchy
 New.OdaLevel=NewOdaLevel
@@ -5545,6 +6273,7 @@ New.DataMartDataSet=NewDataMartDataSet
 New.DataMartCube=NewDataMartCube
 New.TimeDimension=NewTimeDimension
 New.ReportItemTheme=새 보고서 항목 테마
+
 New.CategoryColumn=NewCategoryColumn
 
 ###########################################################

@@ -3,6 +3,7 @@ DimensionType.2DWithDepth=2D mit Tiefe
 
 DimensionType.3D=3D
 Shared.Lbl.OK=\ \ \ OK
+
 Shared.Lbl.Cancel=Abbrechen
 
 ButtonPanel.Lbl.SelectChartType=<< Diagrammtyp auswählen
@@ -22,6 +23,7 @@ ChartDlg.Msg.ValidationErrors=Bei der Validierung der Diagrammdefinition wurden 
 ChartDlg.Msg.AskCorrectLater=\nMöchten Sie Chart Builder trotzdem\nschließen und die Probleme später beheben?
 
 ChartDlg.Info.ChartDimension=Dimension:
+
 ChartDlg.Info.AxisOrientation=\tAusrichtung:
 
 ChartSelector.Lbl.ChartTypes2=Diagrammtypen
@@ -57,7 +59,9 @@ ChartDlg.Title.ChartBuilder=Dialogfeld "Diagramm"
 DefaultChartTypeImpl.Label.ValueDefinitionName=Wert (&Y)-Datenreihe:
 
 DefaultUIServiceProviderImpl.Warn.Placeholder=DefaultUIServiceProviderImpl: Dies ist eine Platzhalterklasse ohne Funktion.
+
 SheetPlaceHolder.Lbl.Placeholder=Dies ist ein Platzhalter für {0}
+
 ChartDlg.Info.ChartStart=--------------------------- Diagrammeigenschaften - Start -------------------------
 
 ChartDlg.Info.ChartType=Typ:
@@ -101,6 +105,7 @@ ChartDlg.Info.ChartType2=Typ:
 ChartSelector.Lbl.Accept=Annehmen
 
 ChartWizard.Title.ChartBuilder=Diagrammerstellung
+
 ChartWizard.Title.NewChart=Neues Diagramm
 
 ChartWizard.Title.EditChart=Diagramm bearbeiten
@@ -110,12 +115,15 @@ ChartUIUtil.SeriesLabel=Serie {0}
 ChartUIUtil.StockExp.Low=Tief
 
 ChartUIUtil.Font.Auto=Automatisch
+
 ChartDlg.Info.ChartSubType2=Untertyp:
 
 ChartSelector.Lbl.Dimension=&Dimension:
+
 ChartSelector.Lbl.EditChart=Diagramm bearbeiten >>
 
 ChartDlg.Info.Dimension=Dimension:
+
 ChartDlg.Info.SeriesCount2=Anz. Datenreihen:
 
 ChartDlg.Info.SeriesStart2=--------------------------- Datenreihen-Informationen ----------------------------

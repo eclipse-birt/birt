@@ -52,6 +52,7 @@ MongoDBDataSetWizardPage.label.OperationType=Befehls&typ:
 MongoDBDataSetWizardPage.Button.FindFields=Felder suc&hen
 
 MongoDBDataSetWizardPage.Button.text.CommandExpression=&Ausdruck...
+
 MongoDBDataSetWizardPage.Button.tooltip.CommandExpression=Befehlsausdruck bearbeiten.
 
 MongoDBDataSetWizardPage.Button.QueryExpression=$&Abfrageausdruck...
@@ -81,9 +82,11 @@ MongoDBDataSetWizardPage.MessageBox.title.PromptToRefreshAvailableFields=Zum Akt
 MongoDBDataSetWizardPage.MessageBox.message.PromptToRefreshAvailableFields=Möchten Sie die verfügbaren Felder auf Basis des geänderten Befehlsausdrucks aktualisieren?
 
 MongoDBDataSetWizardPage.MessageDialog.title.GeneralError=Fehler
+
 MongoDBDataSetWizardPage.MessageDialog.ErrorMessage.InitPage=Abrufen der Liste der Sammlungen von der MongoDB-Datenquelle nicht möglich.
 
 MongoDBDataSetWizardPage.ExceptionDialog.title=Fehler
+
 MongoDBDataSetWizardPage.ExceptionDialog.message.FindFields=Verfügbare Felder wurden nicht gefunden.
 
 MongoDBDataSetWizardPage.ExceptionDialog.message.NoMetaData=Keine aktive Datenquellenverbindung.
@@ -153,8 +156,11 @@ MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSearch=Erforde
 MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSkip=Erfordert eine Ganzzahl für 'Maximale Anzahl Dokumente zum Überspringen'!
 
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.title=Entwurfseinstellung zurücksetzen
+
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.button=OK
+
 MongoDBAdvancedSettingsDialog.MessageDialog.synchronizeSearchLimit.message=Der Entwurfszeit-Wert von 'Anzahl der Dokumente zur Suche nach Feldern' wurde zurückgesetzt, um mit der Laufzeiteigenschaft 'Maximale Dokumente zur Suche nach Metadaten' übereinzustimmen.
+
 MongoDBExpressionBuilder.dialogTitle.default=Ausdruckserstellung
 
 MongoDBExpressionBuilder.ExprssionText.label=A&usdruckstext:

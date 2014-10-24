@@ -62,6 +62,7 @@ preference.commenttemplates=Modèle de commentaire
 preference.bidiproperties=Propriétés bidirectionnelles
 
 preference.layout=Mise en page
+
 preference.expressionsyntax=Syntaxe d'expression
 
 designer.action.undo.label=Annuler
@@ -77,5 +78,7 @@ publish.library=Copier la bi&bliothèque dans le dossier de ressources partagées.
 ActionSet.Publish=Publier les ressources
 
 Dummy.label=
+
 preference.classpath=Classpath
+
 parameter.actions=Nouveau &paramètre d'état

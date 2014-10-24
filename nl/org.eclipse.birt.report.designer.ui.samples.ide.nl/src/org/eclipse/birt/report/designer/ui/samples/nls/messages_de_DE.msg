@@ -7,7 +7,9 @@ SampleReportsView.Text.Explorer=Beispielberichte
 SampleReportsView.Text.Preview=Vorschau
 
 SampleReportsView.Text.Description=Beschreibung
+
 SampleReportsView.MessageDialog.Title=Frage
+
 SampleReportsView.MessageDialog.Message=''{0}'' ist bereits vorhanden. Ersetzen?
 
 SampleReportsView.Action.exportSampleReport=Speichern

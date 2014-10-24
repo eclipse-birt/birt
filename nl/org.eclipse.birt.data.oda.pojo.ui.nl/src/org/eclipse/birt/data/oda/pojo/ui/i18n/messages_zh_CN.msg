@@ -61,6 +61,7 @@ DataSource.POJOClassTabFolderPage.menuButton.item.relativePath=相对路径
 DataSource.POJOClassTabFolderPage.menuButton.item.absolutePath=绝对路径
 
 DataSource.POJOClassTabFolderPage.error.title.empty.resourceIdentifier=错误
+
 DataSource.POJOClassTabFolderPage.error.message.empty.resourceIdentifier=无法获得应用程序资源基本 URI！
 
 DataSource.ClassPathPage.synchronize.checkbox.message=运行时属性可用于运行时和设计时
@@ -145,9 +146,11 @@ DataSet.FailedToLoadClassTitle=无法加载类。
 DataSet.FailedToLoadPojoClassMsg=无法加载 POJO 类:“{0}”。
 
 ColumnMappingPage.table.head.columnName=名称
+
 ColumnMappingPage.table.head.MethodField=方法/字段
 
 ColumnMappingPage.table.head.columnType=类型
+
 ColumnMappingWizardPage.error.getQueryText=无法分析原查询文本。
 
 ColumnMappingWizardPage.button.apply.text=应用(&P)
@@ -165,6 +168,7 @@ ColumnMappingDialog.table.promptLabel=选择已映射至参数的方法参数(&A):
 ColumnMappingDialog.table.head.mapped=映射
 
 ColumnMappingDialog.table.head.name=名称
+
 ColumnMappingDialog.table.head.value=值
 
 ColumnMappingDialog.table.head.dataType=Java 数据类型
@@ -190,6 +194,7 @@ ColumnMappingDialog.MenuItem.removeAll=全部删除
 MethodParameterDialog.edit.title=编辑方法参数
 
 MethodParameterDialog.label.name=名称(&N):
+
 MethodParameterDialog.label.value=值(&V):
 
 MethodParameterDialog.label.dataType=Java 数据类型(&J):
@@ -205,16 +210,23 @@ MethodParameterDialog.error.invalidParamName=已为该参数指定了一个不同的数据类型!
 MethodParameterDialog.error.missingDataType=参数数据类型不能为空!
 
 DataSet.DataType.String=字符串
+
 DataSet.DataType.Integer=整型
 #make the display label consistent with BIRT data type 
 DataSet.DataType.Double=浮点
+
 DataSet.DataType.Decimal=小数
+
 DataSet.DataType.Date=日期
+
 DataSet.DataType.Time=时间
 #make the display label consistent with BIRT data type 
 DataSet.DataType.Timestamp=日期时间
+
 DataSet.DataType.Boolean=布尔
+
 DataSet.DataType.Blob=Blob
+
 DataSet.AddColumnMapping=添加列映射
 
 DataSet.EditColumnMapping=编辑列映射
@@ -246,6 +258,7 @@ DataSet.PreviewDialogTitle=示例数据
 DataSet.FailedFetchSampleData=无法获取示例数据
 
 ExceptionDialog.title.erro=错误
+
 ExceptionDialog.DataSource.AddDuplicatedJar=不能多次添加相同 jar。
 
 error.PojoDataSet.emptyClassName=类名称不能为空。
@@ -253,6 +266,7 @@ error.PojoDataSet.emptyClassName=类名称不能为空。
 JarsSelectionDialog.button.importFile=导入文件...
 
 JarsSelectionDialog.title.error=错误
+
 JarsSelectionDialog.title.overwrite=覆盖
 
 JarsSelectionDialog.overwrite.msg=具有此名称的文件已经存在，是否要覆盖它?
