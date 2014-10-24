@@ -11,39 +11,66 @@
 
 ###########################################################
 #PDF Emitter
-PDFEmitter.Description=PDF(Portable Document Format) Çü½ÄÀÇ º¸°í¼­ ·»´õ¸µ ¿É¼ÇÀ» ±¸¼ºÇÕ´Ï´Ù.
+PDFEmitter.Description=PDF(Portable Document Format) í˜•ì‹ì˜ ë³´ê³ ì„œ ë Œë”ë§ ì˜µì…˜ì„ êµ¬ì„±í•©ë‹ˆë‹¤.
+
 PDFEmitter.DisplayName=PDF
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=BIDI Ã³¸®
-OptionDisplayValue.TextWrapping=ÅØ½ºÆ® ¹èÄ¡
-OptionDisplayValue.TextHyphenation=ÅØ½ºÆ®¿¡ ÇÏÀÌÇÂ ³Ö±â
-OptionDisplayValue.PageOverFlow=ÆäÀÌÁö ¿À¹öÇÃ·Î Ã³¸®
-OptionDisplayValue.CLIP_CONTENT=³»¿ë ÀÚ¸£±â
-OptionDisplayValue.FIT_TO_PAGE_SIZE=ÆäÀÌÁö Å©±â¿¡ ¸ÂÃß±â
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=¿©·¯ ÆäÀÌÁö·Î Ãâ·Â
-OptionDisplayValue.ENLARGE_PAGE_SIZE=ÆäÀÌÁö Å©±â È®´ë
-OptionDisplayValue.FontSubstitution=±Û²Ã ´ëÃ¼
-OptionDisplayValue.EmbeddedFont=Æ÷ÇÔ ±Û²Ã
-OptionDisplayValue.ChartDpi=Â÷Æ® DPI
-OptionDisplayValue.RenderChartInSVG=º¤ÅÍ ±×·¡ÇÈ Â÷Æ® ·»´õ¸µ
-OptionDisplayValue.DisableFlashAnimation=ÀÎ¼â¿¡ ÇÃ·¡½Ã ¾Ö´Ï¸ŞÀÌ¼Ç »ç¿ë ¾È ÇÔ
-OptionDisplayValue.DisablePrint=ÀÎ¼â »ç¿ë ¾È ÇÔ
+OptionDisplayValue.BidiProcessing=BIDI ì²˜ë¦¬
+
+OptionDisplayValue.TextWrapping=í…ìŠ¤íŠ¸ ì¤„ ë°”ê¿ˆ
+
+OptionDisplayValue.TextHyphenation=í…ìŠ¤íŠ¸ì— í•˜ì´í”ˆ ë„£ê¸°
+
+OptionDisplayValue.PageOverFlow=í˜ì´ì§€ ì˜¤ë²„í”Œë¡œ ì²˜ë¦¬
+
+OptionDisplayValue.CLIP_CONTENT=ë‚´ìš© ìë¥´ê¸°
+
+OptionDisplayValue.FIT_TO_PAGE_SIZE=í˜ì´ì§€ í¬ê¸°ì— ë§ì¶”ê¸°
+
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=ì—¬ëŸ¬ í˜ì´ì§€ë¡œ ì¶œë ¥
+
+OptionDisplayValue.ENLARGE_PAGE_SIZE=í˜ì´ì§€ í¬ê¸° í™•ëŒ€
+
+OptionDisplayValue.FontSubstitution=ê¸€ê¼´ ëŒ€ì²´
+
+OptionDisplayValue.EmbeddedFont=í¬í•¨ ê¸€ê¼´
+
+OptionDisplayValue.ChartDpi=ì°¨íŠ¸ DPI
+
+OptionDisplayValue.RenderChartInSVG=ë²¡í„° ê·¸ë˜í”½ ì°¨íŠ¸ ë Œë”ë§
+
+OptionDisplayValue.RepaginateForPDF=PDF ë Œë”ë§ ë„ì¤‘ í˜ì´ì§€ ìƒˆë¡œ ë§¤ê¸°ê¸°
+
+OptionDisplayValue.DisableFlashAnimation=ì¸ì‡„ì— í”Œë˜ì‹œ ì• ë‹ˆë©”ì´ì…˜ ì‚¬ìš© ì•ˆ í•¨
+
+OptionDisplayValue.DisablePrint=ì¸ì‡„ ì‚¬ìš© ì•ˆ í•¨
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=¾ç¹æÇâ ÅØ½ºÆ®¸¦ Áö¿øÇÕ´Ï´Ù.
-OptionDescription.TextHyphenation=ÅØ½ºÆ®¿¡ ÇÏÀÌÇÂ ³Ö±â¸¦ Áö¿øÇÕ´Ï´Ù.
-OptionDescription.TextWrapping=ÅØ½ºÆ® ÁÙ ¹Ù²Ş °¡´É ¿©ºÎ¸¦ ³ªÅ¸³À´Ï´Ù.
-OptionDescription.PageOverFlow=³»¿ë Ãâ·Â ¹æ½ÄÀ» Á¦¾îÇÕ´Ï´Ù.
-OptionDescription.FontSubstitution=ÁöÁ¤µÈ ±Û²ÃÀÌ ¹®ÀÚ¸¦ Ç¥½ÃÇÏÁö ¸øÇÏ´Â °æ¿ì ÀÚµ¿À¸·Î ±Û²ÃÀ» ¼±ÅÃÇÕ´Ï´Ù.
-OptionDescription.EmbeddedFont=Æ®·çÅ¸ÀÔ ±Û²ÃÀº »ı¼ºµÈ PDF ÆÄÀÏ¿¡ Æ÷ÇÔµË´Ï´Ù.
-OptionDescription.ChartDpi=DPI´Â Â÷Æ®¸¦ »ı¼ºÇÏ´Â µ¥ »ç¿ëÇÕ´Ï´Ù.
-OptionDescription.RenderChartInSVG=º¤ÅÍ ±×·¡ÇÈ Â÷Æ®¸¦ ·»´õ¸µÇÕ´Ï´Ù.
-OptionDescription.DisableFlashAnimation=ÀÎ¼â¿¡ ÇÃ·¡½Ã ¾Ö´Ï¸ŞÀÌ¼ÇÀ» »ç¿ëÇÏÁö ¾Ê½À´Ï´Ù.
-OptionDescription.DisablePrint=ÀÎ¼â¸¦ »ç¿ëÇÏÁö ¾Ê½À´Ï´Ù.
+OptionDescription.BidiProcessing=ì–‘ë°©í–¥ í…ìŠ¤íŠ¸ë¥¼ ì§€ì›í•©ë‹ˆë‹¤.
+
+OptionDescription.TextHyphenation=í…ìŠ¤íŠ¸ì— í•˜ì´í”ˆ ë„£ê¸°ë¥¼ ì§€ì›í•©ë‹ˆë‹¤.
+
+OptionDescription.TextWrapping=í…ìŠ¤íŠ¸ ì¤„ ë°”ê¿ˆ ê°€ëŠ¥ ì—¬ë¶€ë¥¼ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤.
+
+OptionDescription.PageOverFlow=ë‚´ìš© ì¶œë ¥ ë°©ì‹ì„ ì œì–´í•©ë‹ˆë‹¤.
+
+OptionDescription.FontSubstitution=ì§€ì •ëœ ê¸€ê¼´ì´ ë¬¸ìë¥¼ í‘œì‹œí•˜ì§€ ëª»í•˜ëŠ” ê²½ìš° ìë™ìœ¼ë¡œ ê¸€ê¼´ì„ ì„ íƒí•©ë‹ˆë‹¤.
+
+OptionDescription.EmbeddedFont=íŠ¸ë£¨íƒ€ì… ê¸€ê¼´ì€ ìƒì„±ëœ PDF íŒŒì¼ì— í¬í•¨ë©ë‹ˆë‹¤.
+
+OptionDescription.ChartDpi=DPIëŠ” ì°¨íŠ¸ë¥¼ ìƒì„±í•˜ëŠ” ë° ì‚¬ìš©í•©ë‹ˆë‹¤.
+
+OptionDescription.RenderChartInSVG=ë²¡í„° ê·¸ë˜í”½ ì°¨íŠ¸ë¥¼ ë Œë”ë§í•©ë‹ˆë‹¤.
+
+OptionDescription.RepaginateForPDF=PDFë¥¼ ë Œë”ë§í•˜ëŠ” ë„ì¤‘ í˜ì´ì§€ë¥¼ ìƒˆë¡œ ë§¤ê¹ë‹ˆë‹¤.
+
+OptionDescription.DisableFlashAnimation=ì¸ì‡„ì— í”Œë˜ì‹œ ì• ë‹ˆë©”ì´ì…˜ì„ ì‚¬ìš©í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+
+OptionDescription.DisablePrint=ì¸ì‡„ë¥¼ ì‚¬ìš©í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=Â÷Æ® ¿£Áø¿¡¼­ Â÷Æ®¸¦ »ı¼ºÇÏ´Â µ¥ »ç¿ëÇÏ´Â DPIÀÔ´Ï´Ù. ¿¹: 192.
+Tooltip.ChartDpi=ì°¨íŠ¸ ì—”ì§„ì—ì„œ ì°¨íŠ¸ë¥¼ ìƒì„±í•˜ëŠ” ë° ì‚¬ìš©í•˜ëŠ” DPIì…ë‹ˆë‹¤. ì˜ˆ: 192.

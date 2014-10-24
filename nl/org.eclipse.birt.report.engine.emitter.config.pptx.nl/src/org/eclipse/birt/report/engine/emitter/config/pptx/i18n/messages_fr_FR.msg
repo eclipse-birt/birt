@@ -1,5 +1,5 @@
 #/*******************************************************************************
-# * Copyright (c) 2008 Actuate Corporation.
+# * Copyright (c) 2013 Actuate Corporation.
 # * All rights reserved. This program and the accompanying materials
 # * are made available under the terms of the Eclipse Public License v1.0
 # * which accompanies this distribution, and is available at
@@ -12,28 +12,45 @@
 ###########################################################
 #PPT Emitter
 PPTXEmitter.Description=Configurez les options pour un rendu de rapport au format MHTML (Single File Web Archive).
+
 PPTXEmitter.DisplayName=PowerPoint (PPTX)
 
 ###########################################################
 #Option Display Value
 OptionDisplayValue.BidiProcessing=Traitement BIDI
-OptionDisplayValue.TextWrapping=Retour à la ligne automatique
-OptionDisplayValue.PageOverFlow=Traitement du dépassement de page
+
+OptionDisplayValue.TextWrapping=Retour Ã  la ligne automatique
+
+OptionDisplayValue.PageOverFlow=Traitement du dÃ©passement de page
+
 OptionDisplayValue.CLIP_CONTENT=Recadrer le contenu
-OptionDisplayValue.FIT_TO_PAGE_SIZE=Adapter à la taille de la page
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Répartir sur plusieurs pages
+
+OptionDisplayValue.FIT_TO_PAGE_SIZE=Adapter Ã  la taille de la page
+
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=RÃ©partir sur plusieurs pages
+
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Agrandir la taille de la page
+
 OptionDisplayValue.FontSubstitution=Changement de police
+
 OptionDisplayValue.ChartDpi=DPI de graphique
+
+OptionDisplayValue.RepaginateForPPTX=Nouvelle mise en page lors du rendu PPTX
 
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=Prend en charge le texte bidirectionnel.
-OptionDescription.TextWrapping=Indique si le retour à la ligne est autorisé pour le texte.
-OptionDescription.PageOverFlow=Contrôle le mode de répartition du contenu.
-OptionDescription.FontSubstitution=Sélectionne des polices automatiquement lorsque la police spécifiée ne peut pas afficher le caractère.
-OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
+
+OptionDescription.TextWrapping=Indique si le retour Ã  la ligne est autorisÃ© pour le texte.
+
+OptionDescription.PageOverFlow=ContrÃ´le le mode de rÃ©partition du contenu.
+
+OptionDescription.FontSubstitution=SÃ©lectionne des polices automatiquement lorsque la police spÃ©cifiÃ©e ne peut pas afficher le caractÃ¨re.
+
+OptionDescription.ChartDpi=DPI utilisÃ© pour gÃ©nÃ©rer un graphique.
+
+OptionDescription.RepaginateForPPTX=Nouvelle mise en page lors du rendu PPTX.
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=DPI utilisé par le moteur de graphique pour générer des graphiques. Par exemple, 192.
+Tooltip.ChartDpi=DPI utilisÃ© par le moteur de graphique pour gÃ©nÃ©rer des graphiques. Par exemple, 192.

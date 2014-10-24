@@ -26,14 +26,12 @@ datasource.name=Source de données JDBC
 dataset.jdbcselect=SQL SELECT via JDBC
 datasource.editor.page.connection=Connexion à une source de données
 preference.datasetpreview=Jeu de données JDBC
-
-preference.bidi.datasource.title = Source de données JDBC
-
+preference.bidi.datasource.title =Source de données JDBC
 wizard.data.set.title=Nouveau jeu de données
 
 plugin.name=BIRT JDBC UI Plug-in
-newwizard.name=Source de données JDBC BIRT
+newwizard.name=BIRT JDBC Data Source
 newwizard.description=Créer un profil de connexion JDBC BIRT
 wizard.window.title=Nouveau profil de source de données JDBC
 wizard.data.source.page.title=Créer une nouvelle source de données
-profile.propertypage.name=Source de données JDBC BIRT
+profile.propertypage.name=BIRT JDBC Data Source

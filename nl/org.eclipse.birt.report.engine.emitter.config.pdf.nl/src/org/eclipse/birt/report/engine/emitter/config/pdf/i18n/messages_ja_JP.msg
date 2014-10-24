@@ -11,39 +11,66 @@
 
 ###########################################################
 #PDF Emitter
-PDFEmitter.Description=PDF (Portable Document Format) �`���Ń��|�[�g�������_�����O���邽�߂̃I�v�V������ݒ肵�܂��B
+PDFEmitter.Description=PDF (Portable Document Format) 形式でレポートをレンダリングするためのオプションを設定します。
+
 PDFEmitter.DisplayName=PDF
 
 ###########################################################
 #Option Display Value
-OptionDisplayValue.BidiProcessing=�o�����e�L�X�g�̏���
-OptionDisplayValue.TextWrapping=������̐܂�Ԃ�
-OptionDisplayValue.TextHyphenation=�e�L�X�g�̃n�C�t�l�[�V����
-OptionDisplayValue.PageOverFlow=�I�[�o�[�t���[���Ă���y�[�W�̏���
-OptionDisplayValue.CLIP_CONTENT=�R���e���c�̐؂蔲��
-OptionDisplayValue.FIT_TO_PAGE_SIZE=�y�[�W�T�C�Y�ɍ��킹��
-OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=�����y�[�W�ɏo��
-OptionDisplayValue.ENLARGE_PAGE_SIZE=�y�[�W�T�C�Y��傫������
-OptionDisplayValue.FontSubstitution=�t�H���g�̒u������
-OptionDisplayValue.EmbeddedFont=���ߍ��݃t�H���g
-OptionDisplayValue.ChartDpi=�O���t�� DPI
-OptionDisplayValue.RenderChartInSVG=�x�N�^�[�O���t�B�b�N�ŃO���t�������_�����O
-OptionDisplayValue.DisableFlashAnimation=������̃t���b�V���A�j���[�V�����𖳌��ɂ���
-OptionDisplayValue.DisablePrint=����𖳌��ɂ���
+OptionDisplayValue.BidiProcessing=双方向テキストの処理
+
+OptionDisplayValue.TextWrapping=文字列の折り返し
+
+OptionDisplayValue.TextHyphenation=テキストのハイフネーション
+
+OptionDisplayValue.PageOverFlow=オーバーフローしているページの処理
+
+OptionDisplayValue.CLIP_CONTENT=コンテンツのクリッピング
+
+OptionDisplayValue.FIT_TO_PAGE_SIZE=ページサイズに合わせる
+
+OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=複数ページを出力
+
+OptionDisplayValue.ENLARGE_PAGE_SIZE=ページサイズを大きくする
+
+OptionDisplayValue.FontSubstitution=フォントの置き換え
+
+OptionDisplayValue.EmbeddedFont=埋め込みフォント
+
+OptionDisplayValue.ChartDpi=グラフの DPI
+
+OptionDisplayValue.RenderChartInSVG=ベクタグラフィックでグラフをレンダリング
+
+OptionDisplayValue.RepaginateForPDF=PDF のレンダリングのページ数再割り当て
+
+OptionDisplayValue.DisableFlashAnimation=印刷時の Flash アニメーションを無効にする
+
+OptionDisplayValue.DisablePrint=印刷を無効にする
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=�o�����e�L�X�g���T�|�[�g���܂��B
-OptionDescription.TextHyphenation=�e�L�X�g�̃n�C�t�l�[�V�������T�|�[�g���܂��B
-OptionDescription.TextWrapping=�������܂�Ԃ����ǂ����������܂��B
-OptionDescription.PageOverFlow=�R���e���c�̏o�͕��@�𐧌䂵�܂��B
-OptionDescription.FontSubstitution=�w�肳�ꂽ�t�H���g�ŕ\���ł��Ȃ�����������ꍇ�́A�t�H���g�������I�ɑI�����܂��B
-OptionDescription.EmbeddedFont=��������� PDF �t�@�C���ɂ́ATrueType �t�H���g�����ߍ��܂�܂��B
-OptionDescription.ChartDpi=�O���t�̐����Ɏg�p���� DPI �ł��B
-OptionDescription.RenderChartInSVG=�x�N�^�[�O���t�B�b�N�ŃO���t�������_�����O���܂��B
-OptionDescription.DisableFlashAnimation=������̃t���b�V���A�j���[�V�����𖳌��ɂ��܂��B
-OptionDescription.DisablePrint=����𖳌��ɂ��܂��B
+OptionDescription.BidiProcessing=双方向テキストをサポートします。
+
+OptionDescription.TextHyphenation=テキストのハイフネーションをサポートします。
+
+OptionDescription.TextWrapping=文字列を折り返すことができるかどうかを示します。
+
+OptionDescription.PageOverFlow=コンテンツの出力方法を制御します。
+
+OptionDescription.FontSubstitution=指定されたフォントで表示できない文字がある場合は、フォントを自動的に選択します。
+
+OptionDescription.EmbeddedFont=生成される PDF ファイルには、TrueType フォントが埋め込まれます。
+
+OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
+
+OptionDescription.RenderChartInSVG=ベクタグラフィックでグラフをレンダリングします。
+
+OptionDescription.RepaginateForPDF=PDF のレンダリングのページ数再割り当て。
+
+OptionDescription.DisableFlashAnimation=印刷時の Flash アニメーションを無効にします。
+
+OptionDescription.DisablePrint=印刷を無効にします。
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=�O���t�G���W�����O���t�̐����Ɏg�p���� DPI �ł��B �� : 192
+Tooltip.ChartDpi=グラフエンジンがグラフの生成に使用する DPI です。例: 192。
