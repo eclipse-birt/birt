@@ -52,9 +52,9 @@ public class MultiPass_NestedQueryTest extends APITestCase
 
 		FilterDefinition filterDefn = new FilterDefinition(
 				new ConditionalExpression(
-						"Total.sum( Total.ave( dataSetRow.AMOUNT,null,1 ),null,1)",
+						"Total.percentSum( dataSetRow.AMOUNT )",
 						IConditionalExpression.OP_GT,
-						"0.2" ) );
+						"0" ) );
 
 		// FilterDefinition filterDefn = new FilterDefinition (
 		// new
@@ -73,7 +73,7 @@ public class MultiPass_NestedQueryTest extends APITestCase
 			queryDefn.addResultSetExpression( names[i], expressions[i] );
 		}
 
-		// queryDefn.addFilter( filterDefn );
+		queryDefn.addFilter( filterDefn );
 
 		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
 		IQueryResults queryResult = preparedQuery.execute( null );

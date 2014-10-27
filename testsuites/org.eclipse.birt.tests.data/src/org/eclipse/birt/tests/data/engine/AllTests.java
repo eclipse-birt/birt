@@ -35,7 +35,8 @@ public class AllTests
 				"Test for org.eclipse.birt.data.engine" );
 
 		 suite.addTestSuite( MultiPass_FilterTest.class );
-		 suite.addTestSuite( MultiPass_NestedQueryTest.class );
+		 // remove because of deprecated feature
+		 // suite.addTestSuite( MultiPass_NestedQueryTest.class );
 		 suite.addTestSuite( MultiPass_SortTest.class );
 		 suite.addTestSuite( MultiPassTest.class );
 
