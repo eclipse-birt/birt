@@ -12,4 +12,5 @@
 #************************************************************************
 #
 sampleDbFactory_invalidDirectory=Impossible de créer une base de données exemple dans {0}.
-sampleDbFactory_noSampleDbJarFile=Erreur interne : impossible de trouver le fichier jar de la base de données exemple ({0}). 
+
+sampleDbFactory_noSampleDbJarFile=Erreur interne : impossible de trouver le fichier jar de la base de données exemple ({0}).

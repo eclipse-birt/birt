@@ -14,7 +14,9 @@
 # NLS String
 ###############################################################################
 datasource.name=Fuente de datos XML de versión antigua de BIRT 2.1.x
+
 dataset.name=Conjunto de datos XML BIRT 2.1.x
 
 datasource.property.xmlFile=Archivo de fuente de datos XML
+
 datasource.property.schemaFile=Archivo del esquema XML

@@ -12,15 +12,27 @@
 #************************************************************************
 #
 sqbWizPage_cannotOpenConnectionMsg=Aufbau einer Verbindung zur Erstellung einer SQL-Abfrage nicht möglich. Überprüfen Sie die Datenquellen-Verbindungseigenschaften.
+
 sqbWizPage_cannotOpenConnectionTitle=Verbindungsfehler
+
 sqbWizPage_dataSourceDesignError=Datenquellen-Designfehler
-sqbWizPage_dbErrorMsg=Datenbank-Fehlermeldung: 
-sqbWizPage_defaultMessage=Build a SQL Select Query.
+
+sqbWizPage_dbErrorMsg=Datenbank-Fehlermeldung:
+
+sqbWizPage_defaultMessage=SQL Select-Abfrage erstellen.
+
 sqbWizPage_detectExternalSqlTextChangedMsg=Der SQL-Abfragetext wurde extern im Datensatz-Design geändert. Möchten Sie die Inhalte der SQL-Abfrageerstellung mit diesen Änderungen ersetzen?
+
 sqbWizPage_detectSqlTextChangedTitle=SQL-Abfragetext geändert
+
 sqbWizPage_inputFailOnOpenAskUserMessage=Möchten Sie fortfahren?
+
 sqbWizPage_invalidSqbStateMsg=SQL-Abfrageerstellung kann nicht in vorherigen Zustand zurückgesetzt werden.
+
 sqbWizPage_invalidSqbStateTitle=SQL-Abfrageerstellung - Ungültiger Zustand
+
 sqbWizPage_noConnProfileMsg=Das Datenbankverbindungsprofil ist nicht vorhanden oder ungültig. Öffnen der SQL-Abfrageerstellung nicht möglich.
+
 sqbWizPage_connectingDB=Verbindung zur Datenbank wird hergestellt...
+
 sqbDesignState_invalidSqbStateVersion=Ungültige Version im gespeicherten SQL-Abfrageerstellungszustand

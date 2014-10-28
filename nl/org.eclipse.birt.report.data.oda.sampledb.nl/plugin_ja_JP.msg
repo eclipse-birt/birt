@@ -5,16 +5,21 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 #
 ###############################################################################
 # NLS String
-dataset.editor.page.query=クエリ
-datasource.name=Classic Models Inc. サンプルデータベース
-select.dataset.name=SQL Select クエリ
+dataset.editor.page.query=Query
+
+datasource.name=Classic Models Inc. Sample Database
+
+select.dataset.name=SQL Select Query
+
 jdbc.driver.name=Classic Models Inc. SampleDB Driver
-dataset.property.queryTimeOut=クエリのタイムアウト (秒)(&Q)
-dataset.property.rowFetchSize=フェッチする行サイズ(&R)
+dataset.property.queryTimeOut=&Query Time Out (in seconds)
+
+dataset.property.rowFetchSize=&Row Fetch Size
 #
-oda.data.source.name=Classic Models Inc. サンプルデータベース
-connection.profile.name=BIRT サンプルデータベースデータソース接続プロファイル
+oda.data.source.name=Classic Models Inc. Sample Database
+
+connection.profile.name=BIRT Sample DB Data Source Connection Profile
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
-oda.connection.factory.name=ODA 接続ファクトリ
+oda.connection.factory.name=ODA Connection Factory

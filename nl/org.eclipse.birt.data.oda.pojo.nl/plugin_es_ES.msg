@@ -16,9 +16,10 @@ oda.data.source.id=org.eclipse.birt.data.oda.pojo
 # NLS String
 ###############################################################################
 #
-plugin.name=Controlador de tiempo de ejecución ODA de fuente de datos POJO
-data.source.name=Fuente de datos POJO
-data.set.name=Conjunto de datos POJO
-connection.profile.name=Perfil de conexión de fuente de datos POJO
-datasource.property.pojoDataSetClassPath=&Ubicación compartida de las clases de conjuntos de datos POJO personalizadas
-datasource.property.pojoClassPath=Ubicación compartida de las clases POJO
+plugin.name=POJO Data Source ODA Runtime Driver
+data.source.name=POJO Data Source
+data.set.name=POJO Data Set
+connection.profile.name=POJO Data Source Connection Profile
+datasource.property.pojoDataSetClassPath=&UbicaciÃ³n compartida de las clases de conjuntos de datos POJO personalizadas
+
+datasource.property.pojoClassPath=UbicaciÃ³n compartida de las clases POJO

@@ -1,54 +1,98 @@
 ChartCubeQueryHelper.Error.MustBindCube=ƒOƒ‰ƒt‚É‚ÍAƒf[ƒ^‚ğƒtƒB[ƒh‚·‚éƒLƒ…[ƒu‚ğŠÖ˜A•t‚¯‚é•K—v‚ª‚ ‚è‚Ü‚·B
+
 ChartReportItemPresentationImpl.error.NoData=ƒOƒ‰ƒt‚ÉƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚éƒf[ƒ^ƒZƒbƒg‚©‚ç‚Ís‚ª•Ô‚³‚ê‚Ü‚¹‚ñB.
+
 ChartReportItemPresentationImpl.error.InvalidCubeBinding=‚±‚ÌƒOƒ‰ƒt‚Åg—p‚·‚éƒf[ƒ^ƒZƒbƒg‚ª•ÏX‚³‚ê‚Ü‚µ‚½B ‚±‚ÌƒOƒ‰ƒt‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒO‚Å‚«‚È‚­‚È‚è‚Ü‚·B
+
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=ƒOƒ‰ƒtƒIƒuƒWƒFƒNƒg‚ÌƒŒƒ|[ƒg€–Úƒ‰ƒbƒp[‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl : onRowSets(...) - ŠJn
+
 ChartReportItemPresentationImpl.log.onRowSetsBuilding=ChartReportItemPresentationImpl : onRowSets(...) - ƒOƒ‰ƒt‚ğ\’z
+
 ChartReportItemPresentationImpl.log.WritingFile={1} ‚Ì {0} ƒtƒ@ƒCƒ‹‚É‘‚«‚İ’†‚Å‚·B
+
 ChartReportItemPresentationImpl.exception.tmpPngFileCreation=ˆêƒtƒ@ƒCƒ‹ (PNG) ‚Ìì¬
+
 ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚Åg—p‚·‚é”ÍˆÍ : {0}
+
 ChartReportItemPresentationImpl.log.onRowSetsRendering=ChartReportItemPresentationImpl: onRowSets(...) - ƒOƒ‰ƒt‚ğ•`‰æ
+
 ChartReportItemPresentationImpl.exception.inputStreamCreation=“ü—ÍƒXƒgƒŠ[ƒ€‚Ìì¬
+
 ChartReportItemPresentationImpl.log.onRowSetsFailed=ChartReportItemPresentationImpl: onRowSets(...) - ¸”s
+
 ChartReportItemPresentationImpl.exception.UnexpectedError=—\Šú‚µ‚È‚¢ƒGƒ‰[
+
 ChartReportItemPresentationImpl.onRowSetsEnd=ChartReportItemPresentationImpl: onRowSets(...) - I—¹
+
 ChartReportItemPresentationImpl.log.getSizeStart=ChartReportItemPresentationImpl: getSize(...) - ŠJn
+
 ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: getSize(...) - I—¹
-ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp={1} ‚©‚çˆêƒtƒ@ƒCƒ‹ {0} ‚ğíœ‚µ‚Ü‚µ‚½B 
+
+ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp={1} ‚©‚çˆêƒtƒ@ƒCƒ‹ {0} ‚ğíœ‚µ‚Ü‚µ‚½B
+
 ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) - I—¹
+
 ChartWithoutAxesImpl.exception.3DNotSupported=ChartWithoutAxes ‚Å‚Í 3D ‚ğg—p‚Å‚«‚Ü‚¹‚ñB
+
 ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) - ŠJn
+
 ChartReportItemPresentationImpl.log.CouldNotDeleteTemp={1} ‚Éì¬‚µ‚½ˆêƒtƒ@ƒCƒ‹ {0} ‚ğíœ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
+
 ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) - —áŠO
+
 ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) - I—¹
+
 ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) - ŠJn
+
 ChartReportItemQueryImpl.exception.getReportQueries=ƒŒƒ|[ƒgƒNƒGƒŠ‚Ìæ“¾
+
 ChartReportItemQueryImpl.log.UnableToLocate=ƒOƒ‰ƒtƒIƒuƒWƒFƒNƒg‚ÌƒŒƒ|[ƒg€–Úƒ‰ƒbƒp[‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 
 ChartReportItemImpl.log.validate=ŒŸØ’† (...)
+
 ChartReportItemImpl.log.getProperty=getProperty(...) - {0}
 ChartReportItemImpl.log.CannotSetState=²‚Ì‚È‚¢ƒOƒ‰ƒt‚É‚ÍA'’u‚«Š·‚¦Œã' ƒXƒe[ƒ^ƒX‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
-ChartReportItemImpl.log.UnexpectedChoiceName=—\Šú‚µ‚È‚¢‘I‘ğ–¼‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½ : 
+
+ChartReportItemImpl.log.UnexpectedChoiceName=—\Šú‚µ‚È‚¢‘I‘ğ–¼‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½ :
+
 ChartReportItemImpl.log.RequestForPropertyDefn=ƒ‚ƒfƒ‹‚ªì¬‚³‚ê‚é‘O‚Éó‚¯æ‚Á‚½ƒvƒƒpƒeƒB‚Ì’è‹`‚ğƒŠƒNƒGƒXƒg‚µ‚Ü‚·B
+
 ChartReportItemImpl.log.RequestForScriptPropertyDefn=ƒXƒNƒŠƒvƒgƒvƒƒpƒeƒB‚Ì’è‹`‚ÌƒŠƒNƒGƒXƒg
+
 ChartReportItemImpl.log.checkProperty=CheckProperty(...) - ’l {1} ‚ğ‚Â {0}
+
 ChartReportItemImpl.log.setProperty=SetProperty(...) - ’l {1} ‚ğ‚Â {0}
 
 QueryHelper.exception.UnexpectedNull=Šg’£ƒtƒŒ[ƒ€ƒ[ƒN‚É‚æ‚Á‚Ä—\Šú‚µ‚È‚¢ 'null' ƒNƒGƒŠ’è‹`‚ªw’è‚³‚ê‚Ü‚µ‚½ - ƒŒƒ|[ƒgƒGƒ“ƒWƒ“ / ¶¬
+
 QueryHelper.Text.CategroySeries=ƒJƒeƒSƒŠŒn—ñ
+
 QueryHelper.Text.ValueSeries=’lŒn—ñ
+
 QueryHelper.Text.XSeries=X Œn—ñ
+
 QueryHelper.Text.YSeries=Y Œn—ñ
+
 QueryHelper.NoDataDefinitionFor={0} ‚É‚ÍAƒf[ƒ^’è‹`ƒGƒ“ƒgƒŠ‚ª‚ ‚è‚Ü‚¹‚ñB
+
 QueryHelper.dataDefnUndefined={0} ‚Ìƒf[ƒ^’è‹`ƒGƒ“ƒgƒŠ‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
+
 QueryHelper.InconsitentDataTypesForAxis=“¯‚¶ Y ²‚É‚ ‚é‚·‚×‚Ä‚Ìƒf[ƒ^’è‹`‚É‚Í“¯‚¶ƒf[ƒ^Œ^‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
+
 QueryHelper.InconsitentDataTypesForValueSeries=’lŒn—ñ‚Ì‚·‚×‚Ä‚Ìƒf[ƒ^’è‹`‚É‚Í“¯‚¶ƒf[ƒ^Œ^‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 ChartElementCommandImpl.editChart=ƒOƒ‰ƒt‚Ì•ÒW
+
 ChartElementCommandImpl.setProperty.chart.dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ìİ’è
+
 ChartElementCommandImpl.setProperty.chart.instance=ƒOƒ‰ƒt‚Ìƒ‚ƒfƒ‹‚ğİ’è
+
 ChartElementCommandImpl.setProperty.plot.transposed=’u‚«Š·‚¦Œã‚Ìİ’è
+
 ChartElementCommandImpl.setProperty.script=ƒOƒ‰ƒtƒXƒNƒŠƒvƒg‚Ì•ÒW
+
 ChartElementCommandImpl.setProperty.onRender=ƒOƒ‰ƒtƒXƒNƒŠƒvƒg‚Ì•ÒW
 
 ChartImpl.error.DimensionUnitNotSupported=Chart Simple API ‚Å‚ÍƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì’PˆÊ ({0}) ‚ğg—p‚Å‚«‚Ü‚¹‚ñB
@@ -56,30 +100,44 @@ ChartImpl.error.DimensionUnitNotSupported=Chart Simple API ‚Å‚ÍƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì’
 ################################################
 # Display names for report model extension 
 ################################################
-
 Element.Chart=ƒOƒ‰ƒt
+
 Element.Chart.xmlRepresentation=XML ƒ‚ƒfƒ‹
+
 Element.Chart.outputFormat=o—Í‘®
-Element.Chart.action=Às
+
+Element.Chart.action=ƒAƒNƒVƒ‡ƒ“
+
 Element.Chart.altText=‘ã‘ÖƒeƒLƒXƒg
+
 Element.Chart.altTextID=‘ã‘ÖƒeƒLƒXƒgƒL[
+
 
 choice.chart.dimension.two_dimensional=2D
 choice.chart.dimension.two_dimensional_with_depth=2D ‰œs‚«•t‚«
-choice.chart.dimension.three_dimensional=3D
 
+choice.chart.dimension.three_dimensional=3D
 property.category.general=‘S”Ê
+
 property.category.types=Œ^
 
 property.label.title.value=ƒ^ƒCƒgƒ‹ :
+
 property.label.title.font.rotation=ƒ^ƒCƒgƒ‹‚Ì‰ñ“] :
+
 property.label.legend.position=–}—á‚ÌˆÊ’u :
+
 property.label.legend.anchor=–}—á‚ÌƒAƒ“ƒJ[ :
-property.label.chart.dimension=ƒfƒBƒƒ“ƒWƒ‡ƒ“ :
+
+property.label.chart.dimension=ƒfƒBƒƒ“ƒVƒ‡ƒ“:
+
 property.label.chart.plot.transposed=’u‚«Š·‚¦Œã
+
 property.script=ƒXƒNƒŠƒvƒg
+
 property.onRender=onRender
 
 exception.no.cube.edge=ƒf[ƒ^ƒLƒ…[ƒu‚ÌƒJ[ƒ\ƒ‹‚ÉƒGƒbƒW‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñBƒNƒGƒŠ®‚ª³‚µ‚¢‚±‚Æ‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢B
+
 exception.script.syntaxError=ƒXƒNƒŠƒvƒg‚Ì\•¶ƒGƒ‰[ : {0}
 

@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2010 Actuate Corporation.
+# Copyright (c) 2008, 2011 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -12,15 +12,22 @@
 # NLS Strings
 #
 plugin.name=BIRT Sample Database Connection Profile Plug-in
-connection.profile.name=BIRT Classic Models Ê¾ÀıÊı¾İ¿â
-driver.template.name=BIRT SampleDb Derby Ç¶ÈëÊ½ JDBC Çı¶¯³ÌĞò
-driver.definition.name=BIRT SampleDb Derby Ç¶ÈëÊ½Çı¶¯³ÌĞò
+connection.profile.name=BIRT Classic Models Sample Database
+driver.template.name=BIRT SampleDb Derby Embedded JDBC Driver
+driver.definition.name=BIRT SampleDb Derby Embedded Driver
 #
-driver.template.property.class = Çı¶¯³ÌĞòÀà
-driver.template.property.vendor = ¹©Ó¦ÉÌ
-driver.template.property.version = °æ±¾
-driver.template.property.dbname = Êı¾İ¿â
-driver.template.property.connection.url = Á¬½Ó URL
-driver.template.property.user = ÓÃ»§Ãû
-driver.template.property.password = ÃÜÂë
-driver.template.property.save.password = ±£´æÃÜÂë
+driver.template.property.class =é©±åŠ¨ç¨‹åºç±»
+
+driver.template.property.vendor =ä¾›åº”å•†
+
+driver.template.property.version =ç‰ˆæœ¬
+
+driver.template.property.dbname =æ•°æ®åº“
+
+driver.template.property.connection.url =è¿æ¥ URL
+
+driver.template.property.user =ç”¨æˆ·å
+
+driver.template.property.password =å¯†ç 
+
+driver.template.property.save.password =ä¿å­˜å¯†ç 

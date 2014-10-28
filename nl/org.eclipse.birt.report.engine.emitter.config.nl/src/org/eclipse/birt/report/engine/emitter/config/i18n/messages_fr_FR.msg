@@ -8,6 +8,6 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
-
 TOO_SMALL_CHART_DPI=Le DPI de graphique doit être supérieur à 96. Dans le cas contraire, le graphique sera traité avec le DPI du rendu dans le contexte d'exécution.
+
 INVALID_CHART_DPI=Le DPI de graphique n'est pas reconnu\!

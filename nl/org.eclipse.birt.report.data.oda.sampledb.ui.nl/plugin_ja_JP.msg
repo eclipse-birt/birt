@@ -8,8 +8,11 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.sampledb
 # NLS messages
 #
 plugin.name=BIRT Sample DB Designer
-newwizard.name=BIRT サンプルデータベースデータソース
+newwizard.name=BIRT Sample DB Data Source
 newwizard.description=BIRT サンプルデータベースの接続プロファイルを作成します。
-wizard.window.title=サンプルデータベースデータソースプロファイルの新規作成
+
+wizard.window.title=サンプルデータベースのデータソースプロファイルの新規作成
+
 wizard.data.source.page.title=Classic Models Inc. 新規サンプルデータソース
-profile.propertypage.name=BIRT サンプルデータベースデータソース接続のプロパティ
+
+profile.propertypage.name=BIRT Sample DB Data Source Connection Properties
