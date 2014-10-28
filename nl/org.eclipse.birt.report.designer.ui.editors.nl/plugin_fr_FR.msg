@@ -8,9 +8,8 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 contenttype.design=Modèle d'état
-
-contenttype.library=Report Library
+contenttype.library=Bibliothèque d'états
 contenttype.template=Modèle d'état
-
 contenttype.document=Etat

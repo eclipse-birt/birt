@@ -8,8 +8,5 @@
 # Contributors:
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
+
 preference.chart=차트
-
-menu.lable.chart=차트(&C)
-
-preference.description=차트 항목을 삽입합니다.

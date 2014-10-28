@@ -287,6 +287,14 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.birt.report.designer.ui.samplesview.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.birt.report.designer.ui.preview.web.nl1"
          download-size="0"
          install-size="0"
@@ -368,6 +376,14 @@
 
    <plugin
          id="org.eclipse.birt.report.designer.ui.editors.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.designer.ui.samples.ide.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"

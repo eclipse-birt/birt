@@ -14,9 +14,7 @@
 # NLS String
 ###############################################################################
 datasource.name=BIRT 2.1.x XML の旧データソース
-
 dataset.name=BIRT 2.1.x XML のデータセット
 
 datasource.property.xmlFile=XML データソースファイル
-
 datasource.property.schemaFile=XML スキーマファイル

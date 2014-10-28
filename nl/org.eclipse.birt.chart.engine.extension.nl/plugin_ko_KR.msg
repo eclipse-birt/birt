@@ -10,59 +10,32 @@
 ###############################################################################
 #Summary aggregates.
 Sum.displayName=합
-
 Average.displayName=평균
-
 Count.displayName=카운트
-
 DistinctCount.displayName=고유 카운트
-
 First.displayName=첫째
-
 Last.displayName=마지막
-
 Min.displayName=최소값
-
 Max.displayName=최대값
-
 WeightedAverage.displayName=가중 평균
-
 Median.displayName=중앙값
-
 Mode.displayName=최빈값
-
-STDDEV.displayName=STDDEV
-
+STDDEV.displayName=표준 편차
 Variance.displayName=분산
-
 Irr.displayName=IRR
-
 Mirr.displayName=MIRR
-
 NPV.displayName=NPV
-
 Percentile.displayName=백분위수
-
-Quartile.displayName=사분위수
+Quartile.displayName=4분위수
 #Running aggregates.
 MovingAverage.displayName=이동 평균
-
 RunningSum.displayName=누적 합계
-
 RunningNPV.displayName=누적 NPV
-
-Rank.displayName=등급
-
+Rank.displayName=순위
 Top.displayName=상위 N
-
 TopPercent.displayName=상위 N 백분율
-
 Bottom.displayName=하위 N
-
 BottomPercent.displayName=하위 N 백분율
-
-PercentRank.displayName=백분율 등급
-
+PercentRank.displayName=백분율 순위
 PercentSum.displayName=백분율 합계
-
 RunningCount.displayName=누적 카운트

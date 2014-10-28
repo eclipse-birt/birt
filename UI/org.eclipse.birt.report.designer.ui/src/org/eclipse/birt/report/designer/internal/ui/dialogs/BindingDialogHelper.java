@@ -143,7 +143,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private Text txtDisplayName, txtDisplayNameID;
 	private ComputedColumn newBinding;
 	private CLabel messageLine;
-	private Combo cmbName;
+	private Combo cmbName, cmbDataField;
 	private Label lbName, lbDisplayNameID;
 
 	private boolean isCreate;
@@ -914,7 +914,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
 		paramsComposite.setLayout( layout );
 
-		createFilterCondition( composite, gd );
+		createFilterCondition(composite, gd);
 
 		final Label lblAggOn = new Label( composite, SWT.NONE );
 		lblAggOn.setText( AGGREGATE_ON );
@@ -1024,8 +1024,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			btnGroup.setEnabled( false );
 		}
 	}
-
-	private void createFilterCondition( Composite composite, GridData gd )
+	
+	private void createFilterCondition( Composite composite,GridData gd)
 	{
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER | SWT.MULTI );
@@ -1035,9 +1035,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				* 2;
 		gd.horizontalSpan = 2;
 		txtFilter.setLayoutData( gd );
-
+		
 		txtFilter.addModifyListener( new ModifyListener( ) {
-
+			
 			public void modifyText( ModifyEvent arg0 )
 			{
 				modifyDialogContent( );
@@ -1122,7 +1122,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			setErrorMessage( Messages.getFormattedString( "BindingDialogHelper.error.empty", //$NON-NLS-1$
 					new Object[]{
-						NAME_LABEL
+					NAME_LABEL
 					} ) );
 			dialog.setCanFinish( false );
 			return;
@@ -1200,11 +1200,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 								dialog.setCanFinish( false );
 								setErrorMessage( Messages.getFormattedString( "BindingDialogHelper.error.empty", //$NON-NLS-1$
 										new String[]{
-											param.getDisplayName( )
-													.replaceAll( "\\(&[a-zA-Z0-9]\\)",
-															"" )
-													.replaceAll( "&", "" )
-										} ) );
+											param.getDisplayName( ).replaceAll("\\(&[a-zA-Z0-9]\\)", "").replaceAll("&", "") 
+										} ));
 								return;
 							}
 						}
@@ -1292,8 +1289,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 					if ( param.isDataField( ) )
 					{
-						final Combo cmbDataField = new Combo( paramsComposite,
-								SWT.BORDER );
+						cmbDataField = new Combo( paramsComposite, SWT.BORDER );
 						cmbDataField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 								| GridData.GRAB_HORIZONTAL ) );
 						cmbDataField.setVisibleItemCount( 30 );
@@ -1319,7 +1315,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 							public void widgetSelected( SelectionEvent e )
 							{
-								String expr = getColumnBindingExpressionByName( cmbDataField );
+								String expr = getColumnBindingExpressionByName( cmbDataField.getText( ) );
 								if ( expr != null )
 								{
 									cmbDataField.setText( expr );
@@ -1410,13 +1406,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 		if ( expressionProvider == null )
 		{
-			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( )
-					.getAdapter( );
-			if ( adapter != null
-					&& adapter.getBoundExtendedData( this.bindingHolder ) != null )
+			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+			if(adapter != null && adapter.getBoundExtendedData( this.bindingHolder ) != null)
 			{
-				expressionProvider = adapter.getBindingExpressionProvider( this.bindingHolder,
-						this.binding );
+				expressionProvider = adapter.getBindingExpressionProvider( this.bindingHolder, this.binding );
 			}
 			else
 			{
@@ -1436,15 +1429,54 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
-	private String getColumnBindingExpressionByName( Combo combo )
+	private String getColumnBindingExpressionByName( String name )
 	{
 		List elementsList = DEUtil.getVisiableColumnBindingsList( this.bindingHolder );
 		for ( Iterator iterator = elementsList.iterator( ); iterator.hasNext( ); )
 		{
 			ComputedColumnHandle binding = (ComputedColumnHandle) iterator.next( );
-			if ( binding.getName( ).equals( combo.getText( ) ) )
-				return ExpressionButtonUtil.getCurrentExpressionConverter( combo )
-						.getBindingExpression( combo.getText( ) );
+			if ( binding.getName( ).equals( name ) )
+				return ExpressionButtonUtil.getCurrentExpressionConverter( cmbDataField )
+						.getBindingExpression( name );
+		}
+		return null;
+	}
+
+	private String getArgumentByDisplayName( String function, String argument )
+	{
+		try
+		{
+			IAggrFunction info = DataUtil.getAggregationManager( )
+					.getAggregation( function );
+			for ( IParameterDefn param : info.getParameterDefn( ) )
+			{
+				if ( param.getDisplayName( ).equals( argument ) )
+					return param.getName( );
+			}
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		return null;
+	}
+
+	private String getArgumentDisplayNameByName( String function,
+			String argument )
+	{
+		try
+		{
+			IAggrFunction info = DataUtil.getAggregationManager( )
+					.getAggregation( function );
+			for ( IParameterDefn param : info.getParameterDefn( ) )
+			{
+				if ( param.getName( ).equals( argument ) )
+					return param.getDisplayName( );
+			}
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
 		}
 		return null;
 	}
@@ -1484,9 +1516,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			catch ( AdapterException e )
 			{
 			}
-
+			
 			if ( !expressionEquals( binding.getExpressionProperty( ComputedColumn.FILTER_MEMBER ),
-					txtFilter ) )
+				txtFilter ) )
 				return true;
 			if ( btnTable.getSelection( ) == ( binding.getAggregateOn( ) != null ) )
 				return true;

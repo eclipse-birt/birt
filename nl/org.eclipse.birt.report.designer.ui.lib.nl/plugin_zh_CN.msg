@@ -15,20 +15,13 @@
 ###############################################################################
 LibPerspective=Lib Design
 LibraryEditor=库编辑器
-
-WizardCategoryName=Business Intelligence and Reporting Tools
+WizardCategoryName=商业智能及报表工具
 LibraryWizard=库
-
 LibraryWizardDescription=此向导创建新库。
-
 LibraryProjectWizard=库项目
-
 LibraryProjectWizardDescription=新建库项目。
 
 library.layout=布局(&O)
-
 library.script=脚本(&S)
-
 library.xmlsource=XML 源(&X)
-
 design.masterPage=主页(&M)

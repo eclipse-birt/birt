@@ -12,7 +12,5 @@
 #************************************************************************
 #
 connection_nullProfile=データソースの接続プロパティで参照された接続プロファイルが見つかりません。
-
 connection_openFailed=データベース接続プロファイルとの接続を開くことができません。
-
 dBProfileStatement_nullPropertyNameArg={0} にはNull プロパティ名引数が指定されています。
