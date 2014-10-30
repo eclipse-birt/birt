@@ -29,11 +29,11 @@ import org.eclipse.birt.report.engine.emitter.config.pdf.i18n.Messages;
 public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 {
 
-	private static final String FONT_SUBSTITUTION = "FontSubstitution";
-	private static final String BIDI_PROCESSING = "BIDIProcessing";
-	private static final String TEXT_WRAPPING = "TextWrapping";
-	private static final String TEXT_HYPHENATION = "TextHyphenation";
-	private static final String EMBEDDED_FONT = "EmbeddedFont";
+	private static final String FONT_SUBSTITUTION = "pdfRenderOption.fontSubstitution";
+	private static final String BIDI_PROCESSING = "pdfRenderOption.bidiProcessing";
+	private static final String TEXT_WRAPPING = "pdfRenderOption.textWrapping";
+	private static final String TEXT_HYPHENATION = "pdfRenderOption.hyphenation";
+	private static final String EMBEDDED_FONT = "pdfRenderOption.embeddedFonts";
 	private static final String CHART_DPI = "ChartDpi";
 	private static final String RENDER_CHART_IN_SVG = "RenderChartInSVG";
 	private static final String REPAGINATE_FOR_PDF = "repaginateForPDF";
