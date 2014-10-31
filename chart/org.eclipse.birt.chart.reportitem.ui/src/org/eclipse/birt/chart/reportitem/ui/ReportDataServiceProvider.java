@@ -693,7 +693,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			queryDefn.setMaxRows( getMaxRow( ) );
 			queryDefn.setDataSetName( datasetHandle.getQualifiedName( ) );
 
-			setQueryDefinitionWithDataSet( itemHandle, queryDefn );
+				setQueryDefinitionWithDataSet( null, itemHandle, queryDefn );
 
 			// For script data set in report library, since there is not
 			// execution context in report library, just use data set preview
@@ -1665,7 +1665,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		try
 		{
-			setQueryDefinitionWithDataSet( handle, queryDefn );
+			setQueryDefinitionWithDataSet( cm, handle, queryDefn );
 
 			processQueryDefinition( queryDefn );
 
@@ -1725,7 +1725,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws AdapterException
 	 * @throws DataException
 	 */
-	private void setQueryDefinitionWithDataSet( ExtendedItemHandle handle,
+	private void setQueryDefinitionWithDataSet( Chart cm, ExtendedItemHandle handle,
 			QueryDefinition queryDefn ) throws AdapterException, DataException
 	{
 		// Iterate parameter bindings to check if its expression is a
@@ -1735,8 +1735,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		resetParametersForDataPreview( getDataSetFromHandle( ), queryDefn );
 
 		// Add bindings and filters from report handle.
-		Iterator<?> bindingIt = ChartReportItemUtil.getColumnDataBindings( handle,
-				true );
+		Iterator<?> bindingIt = getUsedDataSetBindings( cm,  handle );
 		while ( bindingIt != null && bindingIt.hasNext( ) )
 		{
 			Object computedBinding = bindingIt.next( );
@@ -1763,6 +1762,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		handleGroup( queryDefn, handle, session.getModelAdaptor( ) );
+	}
+
+	protected Iterator<ComputedColumnHandle> getUsedDataSetBindings(
+			Chart cm, ExtendedItemHandle handle )
+	{
+		return ChartReportItemUtil.getColumnDataBindings( handle,
+				true );
 	}
 
 	/**
@@ -3602,14 +3608,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return property != null && property.isSet( );
 	}
 
-	boolean isInheritColumnsOnly( )
+	protected boolean isInheritColumnsOnly( )
 	{
 		return itemHandle.getDataSet( ) == null
 				&& ChartReportItemUtil.isContainerInheritable( itemHandle )
 				&& context.isInheritColumnsOnly( );
 	}
 
-	boolean isInheritColumnsGroups( )
+	protected boolean isInheritColumnsGroups( )
 	{
 		return itemHandle.getDataSet( ) == null
 				&& ChartReportItemUtil.isContainerInheritable( itemHandle )
