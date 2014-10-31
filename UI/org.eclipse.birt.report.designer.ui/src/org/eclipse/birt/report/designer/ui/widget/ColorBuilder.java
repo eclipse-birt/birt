@@ -567,7 +567,7 @@ public class ColorBuilder extends Composite
 
 		return ColorUtil.format( ColorUtil.formRGB( rgb.red,
 				rgb.green,
-				rgb.blue ), ColorUtil.CSS_ABSOLUTE_FORMAT );
+				rgb.blue ), ColorUtil.HTML_FORMAT );
 	}
 
 	public Point computeSize( int wHint, int hHint, boolean changed )

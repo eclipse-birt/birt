@@ -189,15 +189,15 @@ public abstract class PartContainer implements IPartContainer
 					String relationshipId = OOXmlUtil.getRelationShipId( entry
 					        .getValue( ) );
 					String type = hyperlink.type;
-					if ( type.equals( RelationshipTypes.HYPERLINK ) )
+					if ( type.equals( RelationshipTypes.SLIDE) )
 					{
 						writeRelationshipEntry( writer, url, relationshipId,
-								type, "External" );
+								type );
 					}
 					else
 					{
 						writeRelationshipEntry( writer, url, relationshipId,
-								type );
+								type, "External" );
 					}
 				}
 			}

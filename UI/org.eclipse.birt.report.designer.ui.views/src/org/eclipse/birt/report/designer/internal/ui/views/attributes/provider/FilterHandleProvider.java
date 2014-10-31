@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.FilterModelProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DataGroupHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -188,6 +189,13 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 			{
 				dialog.setReportElement( (ReportItemHandle) ( (GroupHandle) item ).getContainer( ) );
 			}
+			else if ( item instanceof DataGroupHandle )
+			{
+				if ( ( (DataGroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
+				{
+					dialog.setReportElement( (ReportItemHandle) ( (DataGroupHandle) item ).getContainer( ) );
+				}
+			}
 			if ( dialog.open( ) == Dialog.CANCEL )
 			{
 				return false;
@@ -228,6 +236,13 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 			else if ( item instanceof GroupHandle )
 			{
 				dialog.setReportElement( (ReportItemHandle) ( (GroupHandle) item ).getContainer( ) );
+			}
+			else if ( item instanceof DataGroupHandle )
+			{
+				if ( ( (DataGroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
+				{
+					dialog.setReportElement( (ReportItemHandle) ( (DataGroupHandle) item ).getContainer( ) );
+				}
 			}
 			if ( dialog.open( ) == Dialog.CANCEL )
 			{

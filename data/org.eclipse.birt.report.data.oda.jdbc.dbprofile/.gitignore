@@ -3,3 +3,4 @@ download
 *.jar
 *.zip
 .settings
+target

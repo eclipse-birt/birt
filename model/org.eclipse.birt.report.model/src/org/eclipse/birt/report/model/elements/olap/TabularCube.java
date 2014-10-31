@@ -146,7 +146,7 @@ public class TabularCube extends Cube
 			return null;
 
 		ElementDefn targetDefn = (ElementDefn) type;
-		int nameSpaceID = targetDefn.getNameSpaceID( );
+		String nameSpaceID = targetDefn.getNameSpaceID( );
 
 		NameSpace tmpNS = root.getNameHelper( ).getNameSpace( nameSpaceID );
 		DesignElement tmpSharedElement = tmpNS.getElement( name );

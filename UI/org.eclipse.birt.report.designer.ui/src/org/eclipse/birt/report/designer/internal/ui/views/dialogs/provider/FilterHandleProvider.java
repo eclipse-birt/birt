@@ -271,6 +271,13 @@ public class FilterHandleProvider implements IFormHandleProvider
 					dialog.setReportElement( (ReportItemHandle) ( (GroupHandle) item ).getContainer( ) );
 				}
 			}
+			else if ( item instanceof DataGroupHandle )
+			{
+				if ( ( (DataGroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
+				{
+					dialog.setReportElement( (ReportItemHandle) ( (DataGroupHandle) item ).getContainer( ) );
+				}
+			}
 			if ( dialog.open( ) == Dialog.CANCEL )
 			{
 				return false;

@@ -346,7 +346,7 @@ public class NameCommand extends AbstractElementCommand
 		INameHelper nameHelper = executor.getNameHelper( );
 		if ( nameHelper != null )
 		{
-			int ns = executor.getNameSpaceId( );
+			String ns = executor.getNameSpaceId( );
 			NameSpace namespace = executor.getNameSpace( );
 			if ( namespace.getElement( element.getName( ) ) != element )
 				return;
@@ -422,7 +422,7 @@ public class NameCommand extends AbstractElementCommand
 							element );
 					INameHelper nameHelper = nameExecutor.getNameHelper( );
 					NameSpace namespace = nameExecutor.getNameSpace( );
-					int namespaceId = nameExecutor.getNameSpaceId( );
+					String namespaceId = nameExecutor.getNameSpaceId( );
 					DesignElement existedElement = namespace.getElement( name );
 					if ( existedElement == null )
 					{

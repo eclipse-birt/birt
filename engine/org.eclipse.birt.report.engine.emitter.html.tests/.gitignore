@@ -1,1 +1,5 @@
 bin
+target
+emitterhtmltests.jar
+html-reportemitter-test
+

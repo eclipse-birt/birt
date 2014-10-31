@@ -137,8 +137,11 @@ public class TextWriter
 		if ( linkact != null )
 		{//add links
 			String bmk = linkact.getBookmark( );
-			bmk_relationshipid = canvas.getPresentation( )
-					.getBookmarkRelationshipid( bmk );
+			if ( bmk != null )
+			{
+				bmk_relationshipid = canvas.getPresentation( )
+						.getBookmarkRelationshipid( bmk );
+			}
 		}
 		String bmk = container.getBookmark( );
 		if ( bmk != null )
@@ -547,7 +550,7 @@ public class TextWriter
 		if ( content != null )
 		{
 			vAlign = content.getComputedStyle( ).getVerticalAlign( );
-			if ( vAlign != null )
+			if ( vAlign != null && needShape )
 			{
 				if ( vAlign.equals( "bottom" ) )
 					writer.attribute( "anchor", "b" );

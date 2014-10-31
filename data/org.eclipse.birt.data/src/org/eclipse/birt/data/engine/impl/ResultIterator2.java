@@ -374,7 +374,12 @@ class ResultIterator2 extends ResultIterator
 				if ( ob == null )
 					cachedRowId = -1;
 				else
-					cachedRowId = ( (Integer) ob.getFieldValue( rowIDUtil.getRowIdPos( ) ) ).intValue( );
+				{
+					if(ob.getFieldValue( rowIDUtil.getRowIdPos( ) ) != null)
+						cachedRowId = ( (Integer) ob.getFieldValue( rowIDUtil.getRowIdPos( ) ) ).intValue( );
+					else
+						cachedRowId = -1;
+				}
 			}
 		}
 

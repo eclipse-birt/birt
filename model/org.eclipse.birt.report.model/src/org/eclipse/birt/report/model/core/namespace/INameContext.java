@@ -126,5 +126,5 @@ public interface INameContext
 	 * 
 	 * @return the name space id
 	 */
-	public int getNameSpaceID( );
+	public String getNameSpaceID( );
 }

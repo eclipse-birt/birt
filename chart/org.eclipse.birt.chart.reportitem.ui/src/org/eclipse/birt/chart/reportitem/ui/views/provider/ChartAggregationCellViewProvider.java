@@ -202,12 +202,13 @@ public class ChartAggregationCellViewProvider extends
 		boolean bDateTypeMeasure = false;
 		if ( info.getMeasureInfo( ) != null )
 		{
-			String dataType = info.getCrosstab( )
+			MeasureHandle measure = info.getCrosstab( )
 					.getCube( )
-					.getMeasure( info.getMeasureInfo( ).getMeasureName( ) )
-					.getDataType( );
-			bDateTypeMeasure = DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dataType )
-					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType );
+					.getMeasure( info.getMeasureInfo( ).getMeasureName( ) );
+			String dataType = measure.getDataType( );
+			String function = measure.getFunction( );
+			bDateTypeMeasure = !( DesignChoiceConstants.AGGREGATION_FUNCTION_COUNT.equals( function ) || DesignChoiceConstants.AGGREGATION_FUNCTION_COUNTDISTINCT.equals( function ) )
+					&& ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dataType ) || DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType ) );
 		}
 
 		ChartWithAxes cm = ChartWithAxesImpl.createDefault( );

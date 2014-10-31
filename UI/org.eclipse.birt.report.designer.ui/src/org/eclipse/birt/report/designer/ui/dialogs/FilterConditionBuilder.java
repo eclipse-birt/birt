@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -49,7 +50,6 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
-import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
@@ -1572,12 +1572,12 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		return selectValueList;
 	}
 	
-	private Iterator getGroupIterator()
+	private Iterator<GroupHandle> getGroupIterator()
 	{
 		//if add a new group ,and at same time to add filter,then remove current added group 
 		//because pass this new group to DTE,will cause Exception;
 		//if edit a group ,then do nothing
-		List groupList = DEUtil.getGroups( designHandle );
+		List<GroupHandle> groupList = UIUtil.getGroups( designHandle );
 		if(groupList == null)
 		{
 			return null;

@@ -216,6 +216,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		loadScripts( );
 		doValidateParameters( );
 		ReportDesignHandle design = executionContext.getReportDesign( );
+		initReportVariable( );
+		loadDesign( );
+		prepareDesign( );
 		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
 				.equals( design.getLayoutPreference( ) ) )
 		{
@@ -223,9 +226,6 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			setupRenderOption( );
 			updateRtLFlag( );
 		}
-		initReportVariable( );
-		loadDesign( );
-		prepareDesign( );
 		startFactory( );
 		openReportDocument( );
 		ArrayList<String> errList = new ArrayList<String>( );

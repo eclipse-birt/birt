@@ -42,6 +42,7 @@ import org.eclipse.swt.widgets.Display;
  */
 public class ThemesNodeProvider extends DefaultNodeProvider
 {
+
 	protected static final String NEW_THEME_ACTION_ID = "org.eclipse.birt.report.designer.internal.ui.action.NewThemeAction"; //$NON-NLS-1$
 
 	/**
@@ -65,7 +66,7 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 					ReportDesignConstants.THEME_ITEM );
 			menu.add( newThemeAction );
 		}
-		
+
 		super.createContextMenu( sourceViewer, object, menu );
 
 	}
@@ -113,7 +114,8 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 					.getCustomName( ReportDesignConstants.THEME_ITEM ) );
 
 			Module module = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ).getModule( );
+					.getReportDesignHandle( )
+					.getModule( );
 			NameExecutor executor = new NameExecutor( module, theme );
 			executor.makeUniqueName( );
 			executor.dropElement( );
@@ -141,7 +143,7 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 
 	public Object[] getChildren( Object model )
 	{
-		List list = new ArrayList( );
+		List<Object> list = new ArrayList<Object>( );
 		list.addAll( ( (SlotHandle) model ).getElementHandle( )
 				.getModuleHandle( )
 				.getVisibleThemes( IAccessControl.NATIVE_LEVEL ) );

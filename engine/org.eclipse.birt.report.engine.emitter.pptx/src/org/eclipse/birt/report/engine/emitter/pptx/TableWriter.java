@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
 
-import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
@@ -37,6 +36,7 @@ public class TableWriter
 	private static final int DEFAULT_EMPTYCELL_FONTSIZE = 100;
 	private static final int MINIMUM_ROW_HEIGHT = 4000;
 	private static final int MINIMUM_COLUMN_WIDTH = 2000;
+	private static final int DEFAULT_RMARGIN = 19050;  // 0.02 inch margin
 	private int currentX;
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
@@ -170,9 +170,9 @@ public class TableWriter
 						{
 							CellArea cell = (CellArea) itercell.next( );
 							int thiscolspan = cell.getColSpan( );
+							int thiscolumn = cell.getColumnID( );
 							if ( thiscolspan > 1 )
 							{
-								int thiscolumn = cell.getColumnID( );
 								while ( iterzero.hasNext( )
 										&& zerocolumn < thiscolumn )
 								{
@@ -208,6 +208,17 @@ public class TableWriter
 									}
 								}
 								if ( zerocolumn < ( thiscolumn + thiscolspan ) )
+								{
+									break;
+								}
+							}
+							else if ( thiscolumn >= zerocolumn )
+							{
+								if ( iterzero.hasNext( ) )
+								{
+									zerocolumn = iterzero.next( );
+								}
+								else
 								{
 									break;
 								}
@@ -326,9 +337,12 @@ public class TableWriter
 		currentY += getY( row );
 		updateRenderXY();
 		BoxStyle style = row.getBoxStyle( );
-		if ( style.getBackgroundColor( ) == null && style.getBackgroundImage( ) == null )
+		//change to while
+		ContainerArea parent = row;
+		while ( !(parent instanceof TableArea) && style.getBackgroundColor( ) == null && style.getBackgroundImage( ) == null )
 		{
-			style = row.getParent( ).getBoxStyle( );
+			parent = parent.getParent( );
+			style = parent.getBoxStyle( );
 		}
 		rowStyleStack.push( style );
 		startRow( row ); // tags
@@ -436,11 +450,34 @@ public class TableWriter
 	{
 		writer.openTag( "a:tcPr" );
 		// it is set zero since no way to retrieve margin except to set public
-		// CELL_DEFAULT
-		canvas.writeMarginProperties( 0, 0, 0, 0 );
+		IArea cellchild = cell.getFirstChild( );
+		String valign = null;
+		if ( cellchild instanceof BlockTextArea
+				&& cell.getChildrenCount( ) == 1 )
+		{
+			int marL = PPTXUtil.convertToEnums( cellchild.getX( ) );
+			int marT = PPTXUtil.convertToEnums( cellchild.getY( ) );
+			int marR = PPTXUtil.convertToEnums( cell.getWidth( )
+					- ( marL + cellchild.getWidth( ) ) );
+			int marB = PPTXUtil.convertToEnums( cell.getHeight( )
+					- ( marT + cellchild.getHeight( ) ) );
+			marR = marR <= 0 ? DEFAULT_RMARGIN : marR;
+			if( marB < 0 || cell.getRowSpan( ) > 1 )
+			{
+				marB = 0;
+			}
+			canvas.writeMarginProperties( marT, marR, marB, marL );
+			valign = ((BlockTextArea) cellchild).getContent().getComputedStyle( ).getVerticalAlign( );
+		}
+		else
+		{// default behavior:
+			canvas.writeMarginProperties( 0, 0, 0, 0 );
+		}
 
-		ICellContent content = (ICellContent) cell.getContent( );
-		String valign = content.getComputedStyle( ).getVerticalAlign( );
+		if ( valign == null )
+		{
+			valign = cell.getContent( ).getComputedStyle( ).getVerticalAlign( );
+		}
 		if ( !( valign.equals( "baseline" ) || valign.equals( "top" ) ) )
 		{
 			if ( valign.equals( "middle" ) )

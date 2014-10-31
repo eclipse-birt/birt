@@ -332,6 +332,8 @@ public class PPTXCanvas
 			int pWidth = Math.min( imageX + width, clip.x + clip.width ) - pX;
 			int pHeight = Math.min( imageY + height, clip.y + clip.height )
 					- pY;
+			pHeight = pHeight < 0 ? 0 : pHeight;
+			pWidth = pWidth < 0 ? 0 : pWidth;
 			setPosition( pX, pY, pWidth, pHeight );
 		}
 		writer.openTag( "a:prstGeom" );
