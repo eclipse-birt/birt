@@ -1,3 +1,8 @@
 bin
 target
 reportenginetests.jar
+design.rptdesign
+design1
+originalReport.rptdocument
+reportdocument.folder
+utest

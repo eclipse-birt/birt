@@ -550,7 +550,7 @@ public class TextWriter
 		if ( content != null )
 		{
 			vAlign = content.getComputedStyle( ).getVerticalAlign( );
-			if ( vAlign != null )
+			if ( vAlign != null && needShape )
 			{
 				if ( vAlign.equals( "bottom" ) )
 					writer.attribute( "anchor", "b" );
