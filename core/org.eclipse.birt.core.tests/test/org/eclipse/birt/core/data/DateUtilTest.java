@@ -162,9 +162,10 @@ public class DateUtilTest extends TestCase
 		assertTrue( isValid );
 		
 		// ------------test of Locale.CHINA
+		// Because of ICU behavior change, replace "-" for "/"
 		locale = ULocale.CHINA; //yy-M-d
 		df = DateFormat.getDateInstance( DateFormat.SHORT, locale.toLocale( ) );		
-		dateStr = "2005-3-3";
+		dateStr = "2005/3/3";
 		try
 		{
 			df.parse( dateStr );
@@ -176,7 +177,7 @@ public class DateUtilTest extends TestCase
 		isValid = DateUtil.checkValid( df, dateStr );
 		assertTrue( isValid );
 		
-		dateStr = "2005-13-6"; // invalid MM
+		dateStr = "2005/13/6"; // invalid MM
 		try
 		{
 			df.parse( dateStr );
@@ -188,7 +189,7 @@ public class DateUtilTest extends TestCase
 		isValid = DateUtil.checkValid( df, dateStr );
 		assertFalse( isValid );
 		
-		dateStr = "2005-11-36"; // invalid dd
+		dateStr = "2005/11/36"; // invalid dd
 		try
 		{
 			df.parse( dateStr );
@@ -200,7 +201,7 @@ public class DateUtilTest extends TestCase
 		isValid = DateUtil.checkValid( df, dateStr );
 		assertFalse( isValid );
 		
-		dateStr = "5-13-2005"; // invalid dd
+		dateStr = "5/13/2005"; // invalid dd
 		try
 		{
 			df.parse( dateStr );
@@ -212,7 +213,7 @@ public class DateUtilTest extends TestCase
 		isValid = DateUtil.checkValid( df, dateStr );		
 		assertFalse( isValid );
 		
-		dateStr = "2005-11-31"; // invalid dd to MM
+		dateStr = "2005/11/31"; // invalid dd to MM
 		try
 		{
 			df.parse( dateStr );
@@ -223,7 +224,7 @@ public class DateUtilTest extends TestCase
 		}
 		isValid = DateUtil.checkValid( df, dateStr );
 		
-		dateStr = "2005-2-29"; // invalid dd to MM
+		dateStr = "2005/2/29"; // invalid dd to MM
 		try
 		{
 			df.parse( dateStr );
@@ -235,7 +236,7 @@ public class DateUtilTest extends TestCase
 		isValid = DateUtil.checkValid( df, dateStr );		
 		assertFalse( isValid );
 		
-		dateStr = "2005-2-28"; // invalid dd to MM
+		dateStr = "2005/2/28"; // invalid dd to MM
 		try
 		{
 			df.parse( dateStr );

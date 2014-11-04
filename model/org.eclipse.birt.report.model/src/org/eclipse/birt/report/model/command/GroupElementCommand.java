@@ -350,7 +350,7 @@ public class GroupElementCommand extends ContentCommand
 			// the scope of its container table/list. Do not support undo/redo.
 
 			NameExecutor executor = new NameExecutor( module, content );
-			assert executor.hasNamespace( );
+
 			String name = executor.getUniqueName( );
 
 			// if the flag is true, means current group is shared data group.

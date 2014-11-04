@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
-import java.text.Collator;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -29,6 +28,7 @@ import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.birt.report.viewer.browsers.custom.CustomBrowser;
 import org.eclipse.birt.report.viewer.utilities.AppContextUtil;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.IPreferenceNode;
@@ -182,9 +182,11 @@ public class PreviewPreferencePage extends PreferencePage implements
 		svgFlag = new Button( mainComposite, SWT.CHECK );
 		svgFlag.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
 		svgFlag.setText( Messages.getString( "designer.preview.preference.browser.svg" ) ); //$NON-NLS-1$
-		svgFlag.setSelection( ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getBoolean( WebViewer.SVG_FLAG ) );
+		svgFlag.setSelection( Platform.getPreferencesService( )
+				.getBoolean( ViewerPlugin.PLUGIN_ID,
+						WebViewer.SVG_FLAG,
+						true,
+						null ) );
 
 		// Show mastet page or not.
 		masterPageContent = new Button( mainComposite, SWT.CHECK );

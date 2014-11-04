@@ -172,6 +172,13 @@
                 type="org.eclipse.birt.report.designer.ui.editors.IPathEditorInputFactory">
           </adapter>
        </factory>
+      <factory
+            adaptableType="org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage"
+            class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.PathEditorInputFactory">
+         <adapter
+               type="org.eclipse.birt.report.designer.ui.editors.IPathEditorInputFactory">
+         </adapter>
+      </factory>
        <factory
              adaptableType="org.eclipse.birt.report.model.api.SlotHandle"
              class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEModelResourceAdapterFactory">
@@ -229,6 +236,14 @@
               class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEEditputProvider"
               id="org.eclipse.birt.report.designer.ui.ide.editinput"
               type="org.eclipse.birt.report.designer.internal.ui.extension.IEditputProvider">
+        </adapter>
+     </adaptable>
+     <adaptable
+           class="org.eclipse.birt.report.designer.ui.lib.explorer.action.RenameResourceAction">
+        <adapter
+              class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.ResourceViewRenameChecker"
+              id="org.eclipse.birt.report.designer.internal.ui.ide.adapters.ResourceViewRenameChecker"
+              type="org.eclipse.birt.report.designer.ui.lib.explorer.action.IRenameChecker">
         </adapter>
      </adaptable>
    </extension>
@@ -348,4 +363,7 @@
             id="org.eclipse.birt.report.designer.ui.preferences.ExpressionSyntaxColoringPreferencePage">
       </page>
    </extension>
-</plugin>
+   
+   
+   
+ </plugin>

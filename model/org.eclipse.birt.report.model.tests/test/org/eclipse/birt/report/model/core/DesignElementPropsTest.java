@@ -160,12 +160,12 @@ public class DesignElementPropsTest extends BaseTestCase
 	 *         line of the golden file.
 	 * @throws Exception
 	 */
-	private boolean compareListWithGoldenFile( List list, String goldenFile )
+	private boolean compareListWithGoldenFile( List<PropertyDefn> list, String goldenFile )
 			throws Exception
 	{
 		boolean isIdentical = true;
-		goldenFile = GOLDEN_FOLDER + goldenFile;
-		InputStream is = getResourceAStream( goldenFile );
+		String fullGoldenFile = GOLDEN_FOLDER + goldenFile;
+		InputStream is = getResourceAStream( fullGoldenFile );
 		BufferedReader reader = new BufferedReader( new InputStreamReader( is ) );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
@@ -180,10 +180,21 @@ public class DesignElementPropsTest extends BaseTestCase
 				break;
 			}
 		}
+		
+		if (!isIdentical)
+		{
+			StringBuilder sb = new StringBuilder();
+			for (PropertyDefn one: list ) 
+				sb.append(one.getName() + "\n");
+			
+			saveOutputFile( goldenFile, sb.toString());
+		}
+		
 		// System.out.println( "\n" ); //$NON-NLS-1$
 		String line = reader.readLine( );
 		if ( line != null )
 			return false;
+		
 		return isIdentical;
 	}
 

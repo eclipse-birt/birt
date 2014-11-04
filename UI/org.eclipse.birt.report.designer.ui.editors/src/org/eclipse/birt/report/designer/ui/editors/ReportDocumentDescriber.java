@@ -10,6 +10,7 @@
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.editors;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -17,25 +18,22 @@ import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.content.IContentDescriber;
 import org.eclipse.core.runtime.content.IContentDescription;
 
-
-
 /**
- * 
+ * ReportDocumentDescriber
  */
-
-public class ReportDocumentDescript implements IContentDescriber
+public class ReportDocumentDescriber implements IContentDescriber
 {
 
-	/**
-	 * Constructor
-	 */
-	public ReportDocumentDescript( )
+	public ReportDocumentDescriber( )
 	{
-		super();
+		super( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.runtime.content.IContentDescriber#describe(java.io.InputStream, org.eclipse.core.runtime.content.IContentDescription)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.runtime.content.IContentDescriber#describe(java.io.
+	 * InputStream, org.eclipse.core.runtime.content.IContentDescription)
 	 */
 	public int describe( InputStream contents, IContentDescription description )
 			throws IOException
@@ -43,8 +41,11 @@ public class ReportDocumentDescript implements IContentDescriber
 		return VALID;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.runtime.content.IContentDescriber#getSupportedOptions()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.runtime.content.IContentDescriber#getSupportedOptions()
 	 */
 	public QualifiedName[] getSupportedOptions( )
 	{

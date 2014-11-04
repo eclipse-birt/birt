@@ -46,7 +46,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	/**
 	 * Logger for this handler.
 	 */
-	private Logger log = Logger.getLogger( ViewerHTMLActionHandler.class.getName( ) );
+	private Logger log = Logger.getLogger( ViewerHTMLActionHandler.class
+			.getName( ) );
 
 	/**
 	 * Document instance.
@@ -298,7 +299,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 		if ( this.document != null )
 		{
-			long pageNumber = this.document.getPageNumber( action.getBookmark( ) );
+			long pageNumber = this.document
+					.getPageNumber( action.getBookmark( ) );
 			realBookmark = ( pageNumber == this.page && !isEmbeddable );
 		}
 
@@ -358,44 +360,48 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 		if ( locale != null )
 		{
-			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_LOCALE,
-					locale.toString( ) ) );
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_LOCALE, locale.toString( ) ) );
 		}
 
 		if ( timeZone != null )
 		{
-			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_TIMEZONE,
-					timeZone.getID( ) ) );
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_TIMEZONE, timeZone.getID( ) ) );
 		}
 
 		if ( isRtl )
 		{
-			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RTL,
-					String.valueOf( isRtl ) ) );
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
 		}
 
 		if ( svg != null )
 		{
-			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_SVG,
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_SVG,
 					String.valueOf( svg.booleanValue( ) ) ) );
 		}
 
 		if ( isDesigner != null )
 		{
-			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_DESIGNER,
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_DESIGNER,
 					String.valueOf( isDesigner ) ) );
 		}
 
 		if ( pageOverflow > 0 )
 		{
-			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_PAGE_OVERFLOW,
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_PAGE_OVERFLOW,
 					String.valueOf( pageOverflow ) ) );
 		}
 
 		// add isMasterPageContent
 		if ( isMasterPageContent != null )
 		{
-			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_MASTERPAGE,
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_MASTERPAGE,
 					String.valueOf( isMasterPageContent ) ) );
 		}
 
@@ -406,8 +412,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			{
 				String res = URLEncoder.encode( resourceFolder,
 						ParameterAccessor.UTF_8_ENCODE );
-				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RESOURCE_FOLDER,
-						res ) );
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_RESOURCE_FOLDER, res ) );
 			}
 		}
 		catch ( UnsupportedEncodingException e )
@@ -421,13 +427,13 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		}
 		else
 		{
-			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_BOOKMARK,
-					bookmark ) );
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_BOOKMARK, bookmark ) );
 
 			// Bookmark is TOC name.
 			if ( !action.isBookmark( ) )
-				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_ISTOC,
-						"true" ) ); //$NON-NLS-1$
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_ISTOC, "true" ) ); //$NON-NLS-1$
 		}
 
 		return link.toString( );
@@ -450,9 +456,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		Map params = UrlUtility.extractUriParameters( actionString );
 		String anchor = UrlUtility.getAnchor( actionString );
 
-		String encodedPathsString = (String) params.get( ParameterAccessor.PARAM_ENCODED_PATHS );
-		encodePaths = ( encodedPathsString != null && Boolean.valueOf( encodedPathsString )
-				.booleanValue( ) );
+		String encodedPathsString = (String) params
+				.get( ParameterAccessor.PARAM_ENCODED_PATHS );
+		encodePaths = ( encodedPathsString != null && Boolean.valueOf(
+				encodedPathsString ).booleanValue( ) );
 
 		// Get Base URL
 		String baseURL = getBaseUrl( context );
@@ -504,7 +511,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		{
 			if ( encodePaths )
 			{
-				resourceFolder = ParameterAccessor.encodeBase64( resourceFolder );
+				resourceFolder = ParameterAccessor
+						.encodeBase64( resourceFolder );
 			}
 
 			params.put( ParameterAccessor.PARAM_RESOURCE_FOLDER, resourceFolder );
@@ -529,8 +537,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	private String getBaseUrl( IReportContext context )
 	{
 		String baseURL = context.getRenderOption( ).getBaseURL( );
-		String servletPath = (String) context.getRenderOption( )
-				.getOption( IBirtConstants.SERVLET_PATH );
+		String servletPath = (String) context.getRenderOption( ).getOption(
+				IBirtConstants.SERVLET_PATH );
 
 		if ( servletPath == null )
 		{
@@ -547,6 +555,18 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		}
 
 		return baseURL;
+	}
+
+	private String encodeParamValue( String value )
+	{
+		try
+		{
+			return URLEncoder.encode( value, ParameterAccessor.UTF_8_ENCODE );
+		}
+		catch ( UnsupportedEncodingException ex )
+		{
+			return value;
+		}
 	}
 
 	/**
@@ -589,15 +609,14 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				format = hostFormat;
 			if ( format != null && format.length( ) > 0 )
 			{
-				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_FORMAT,
-						format ) );
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_FORMAT, format ) );
 			}
 
 			// Adds the parameters
 			if ( action.getParameterBindings( ) != null )
 			{
-				Iterator paramsIte = action.getParameterBindings( )
-						.entrySet( )
+				Iterator paramsIte = action.getParameterBindings( ).entrySet( )
 						.iterator( );
 				while ( paramsIte.hasNext( ) )
 				{
@@ -635,22 +654,31 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 							{
 								// TODO: here need the get the format from the
 								// parameter.
-								String value = DataUtil.getDisplayValue( values[i],
-										timeZone );
+								String value = DataUtil.getDisplayValue(
+										values[i], timeZone );
 
 								if ( value != null )
 								{
-									link.append( ParameterAccessor.getQueryParameterString( URLEncoder.encode( key,
-											ParameterAccessor.UTF_8_ENCODE ),
-											URLEncoder.encode( value,
-													ParameterAccessor.UTF_8_ENCODE ) ) );
+									link.append( ParameterAccessor.getQueryParameterString(
+											URLEncoder
+													.encode(
+															key,
+															ParameterAccessor.UTF_8_ENCODE ),
+											URLEncoder
+													.encode(
+															value,
+															ParameterAccessor.UTF_8_ENCODE ) ) );
 								}
 								else
 								{
 									// pass NULL value
-									link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_ISNULL,
-											URLEncoder.encode( key,
-													ParameterAccessor.UTF_8_ENCODE ) ) );
+									link.append( ParameterAccessor
+											.getQueryParameterString(
+													ParameterAccessor.PARAM_ISNULL,
+													URLEncoder
+															.encode(
+																	key,
+																	ParameterAccessor.UTF_8_ENCODE ) ) );
 								}
 							}
 						}
@@ -662,55 +690,62 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				}
 
 				// Adding overwrite.
-				if ( !reportName.toLowerCase( )
-						.endsWith( IBirtConstants.SUFFIX_REPORT_DOCUMENT )
-						&& baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0 )
+				if ( !reportName.toLowerCase( ).endsWith(
+						IBirtConstants.SUFFIX_REPORT_DOCUMENT )
+						&& baseURL
+								.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0 )
 				{
-					link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_OVERWRITE,
+					link.append( ParameterAccessor.getQueryParameterString(
+							ParameterAccessor.PARAM_OVERWRITE,
 							String.valueOf( true ) ) );
 				}
 			}
 
 			if ( locale != null )
 			{
-				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_LOCALE,
-						locale.toString( ) ) );
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_LOCALE, locale.toString( ) ) );
 			}
 
 			if ( timeZone != null )
 			{
-				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_TIMEZONE,
-						timeZone.getID( ) ) );
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_TIMEZONE,
+						encodeParamValue( timeZone.getID( ) ) ) );
 			}
 
 			if ( isRtl )
 			{
-				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RTL,
-						String.valueOf( isRtl ) ) );
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
 			}
 
 			if ( svg != null )
 			{
-				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_SVG,
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_SVG,
 						String.valueOf( svg.booleanValue( ) ) ) );
 			}
 
 			if ( isDesigner != null )
 			{
-				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_DESIGNER,
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_DESIGNER,
 						String.valueOf( isDesigner ) ) );
 			}
 
 			if ( pageOverflow > 0 )
 			{
-				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_PAGE_OVERFLOW,
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_PAGE_OVERFLOW,
 						String.valueOf( pageOverflow ) ) );
 			}
 
 			// add isMasterPageContent
 			if ( isMasterPageContent != null )
 			{
-				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_MASTERPAGE,
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_MASTERPAGE,
 						String.valueOf( isMasterPageContent ) ) );
 			}
 
@@ -721,8 +756,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				{
 					String res = URLEncoder.encode( resourceFolder,
 							ParameterAccessor.UTF_8_ENCODE );
-					link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RESOURCE_FOLDER,
-							res ) );
+					link.append( ParameterAccessor.getQueryParameterString(
+							ParameterAccessor.PARAM_RESOURCE_FOLDER, res ) );
 				}
 			}
 			catch ( UnsupportedEncodingException e )
@@ -738,22 +773,23 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				{
 					// In PREVIEW mode or pdf format, don't support bookmark as
 					// parameter
-					if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_PREVIEW ) > 0
-							|| IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format ) )
+					if ( baseURL
+							.lastIndexOf( IBirtConstants.SERVLET_PATH_PREVIEW ) > 0
+							|| IBirtConstants.PDF_RENDER_FORMAT
+									.equalsIgnoreCase( format ) )
 					{
 						// use TOC to find bookmark, only link to document file
 						if ( !action.isBookmark( )
-								&& reportName.toLowerCase( )
-										.endsWith( ".rptdocument" ) ) //$NON-NLS-1$
+								&& reportName.toLowerCase( ).endsWith(
+										".rptdocument" ) ) //$NON-NLS-1$
 						{
 							InputOptions options = new InputOptions( );
 							options.setOption( InputOptions.OPT_LOCALE, locale );
 							options.setOption( InputOptions.OPT_TIMEZONE,
 									timeZone );
-							bookmark = BirtReportServiceFactory.getReportService( )
-									.findTocByName( reportName,
-											bookmark,
-											options );
+							bookmark = BirtReportServiceFactory
+									.getReportService( ).findTocByName(
+											reportName, bookmark, options );
 						}
 
 						if ( bookmark != null )
@@ -767,13 +803,15 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 					{
 						bookmark = URLEncoder.encode( bookmark,
 								ParameterAccessor.UTF_8_ENCODE );
-						link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_BOOKMARK,
-								bookmark ) );
+						link.append( ParameterAccessor.getQueryParameterString(
+								ParameterAccessor.PARAM_BOOKMARK, bookmark ) );
 
 						// Bookmark is TOC name.
 						if ( !action.isBookmark( ) )
-							link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_ISTOC,
-									"true" ) ); //$NON-NLS-1$
+							link.append( ParameterAccessor
+									.getQueryParameterString(
+											ParameterAccessor.PARAM_ISTOC,
+											"true" ) ); //$NON-NLS-1$
 					}
 
 				}
@@ -827,12 +865,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 				if ( ParameterAccessor.isWorkingFolderAccessOnly( ) )
 				{
-					String fullPath = URIUtil.resolveAbsolutePath( moduleHandle.getSystemId( )
-							.toExternalForm( ),
-							reportName );
+					String fullPath = URIUtil.resolveAbsolutePath( moduleHandle
+							.getSystemId( ).toExternalForm( ), reportName );
 
-					reportName = URIUtil.getRelativePath( ParameterAccessor.workingFolder,
-							fullPath );
+					reportName = URIUtil.getRelativePath(
+							ParameterAccessor.workingFolder, fullPath );
 				}
 				else
 				{
@@ -923,8 +960,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		// append instance id
 		if ( action.getInstanceID( ) != null )
 		{
-			params.put( ParameterAccessor.PARAM_INSTANCEID,
-					action.getInstanceID( ).toUniqueString( ) );
+			params.put( ParameterAccessor.PARAM_INSTANCEID, action
+					.getInstanceID( ).toUniqueString( ) );
 		}
 
 		// append bookmark

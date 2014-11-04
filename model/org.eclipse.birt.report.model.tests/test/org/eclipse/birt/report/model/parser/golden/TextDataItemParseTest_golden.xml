@@ -29,7 +29,7 @@
             <property name="hasExpression">false</property>
             <property name="role">Div</property>
             <property name="language">English</property>
-            <property name="altText">Alt Text</property>
+            <expression name="altText">Alt Text</expression>
             <property name="order">1</property>
         </text-data>
         <text-data name="Text Data2" id="6"/>

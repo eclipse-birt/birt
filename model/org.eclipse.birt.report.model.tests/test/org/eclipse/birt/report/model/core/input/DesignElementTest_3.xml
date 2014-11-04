@@ -35,40 +35,19 @@
                     </column>
                     <row>
                         <cell>
-                            <property name="column">1</property>
-                            <property name="colSpan">2</property>
-                            <property name="rowSpan">1</property>
                             <label>
-                                <property name="x">1mm</property>
-                                <property name="y">2mm</property>
-                                <property name="height">3mm</property>
-                                <property name="width">4mm</property>
                             </label>
                         </cell>
                     </row>
                     <row>
                         <cell>
-                            <property name="column">1</property>
-                            <property name="colSpan">2</property>
-                            <property name="rowSpan">1</property>
                             <label>
-                                <property name="x">1mm</property>
-                                <property name="y">2mm</property>
-                                <property name="height">3mm</property>
-                                <property name="width">4mm</property>
                             </label>
                         </cell>
                     </row>
                     <row>
                         <cell>
-                            <property name="column">1</property>
-                            <property name="colSpan">2</property>
-                            <property name="rowSpan">1</property>
                             <label>
-                                <property name="x">1mm</property>
-                                <property name="y">2mm</property>
-                                <property name="height">3mm</property>
-                                <property name="width">4mm</property>
                             </label>
                         </cell>
                     </row>
@@ -77,13 +56,7 @@
                     <row>
                         <cell>
                             <property name="column">1</property>
-                            <property name="colSpan">1</property>
-                            <property name="rowSpan">1</property>
                             <label>
-                                <property name="x">1mm</property>
-                                <property name="y">2mm</property>
-                                <property name="height">3mm</property>
-                                <property name="width">4mm</property>
                             </label>
                         </cell>
                     </row>

@@ -23,6 +23,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -324,10 +325,12 @@ public class JDBCDriverManager
 				DriverClassLoader dl = new DriverClassLoader( driverClassPath, Thread.currentThread().getContextClassLoader() );
 				
 				Class dc = dl.loadClass( driverClass );
-				if( dc!= null )
-					return ((Driver)dc.newInstance()).connect(url,
-						connectionProperties);
-				
+				if( dc!= null ) {
+					Connection conn = ((Driver)dc.newInstance()).connect(url,
+							connectionProperties);
+					if (conn != null)
+						return conn;
+				}
 				throw new JDBCException(ResourceConstants.CONN_GET_ERROR, null,
 						truncate(e.getLocalizedMessage()));
 			}
@@ -1315,6 +1318,11 @@ public class JDBCDriverManager
 		public String toString( )
 		{
 			return driverClass;
+		}
+		
+		public Logger getParentLogger( ) throws SQLFeatureNotSupportedException
+		{
+			throw new SQLFeatureNotSupportedException( );
 		}
 	}
 }

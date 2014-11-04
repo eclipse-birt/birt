@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
 
 /**
  * This class represents a Graphic Master Page element in the report design. A
- * graphic master page describes a physical page free-form page ¡°decoration¡±.
+ * graphic master page describes a physical page free-form page 'decoration'.
  * The name of the master page is required and must be unique within the design.
  * The decoration can include simple headers and footers, but can also include
  * content within the left and right margins, as well as watermarks under the
@@ -33,7 +33,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
  * report, the content area is the area inside the margins defined by each
  * column. Note that each page has only one content area, though that content
  * area can be divided into multiple columns. That is, a page has one content
- * area. If a page has multiple columns, the column layout is ¡°overlayed¡± on
+ * area. If a page has multiple columns, the column layout is 'overlayed' on
  * top of the content area. Use the
  * {@link org.eclipse.birt.report.model.api.GraphicMasterPageHandle}class to
  * access the content slot of the graphic master page.

@@ -416,8 +416,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		if ( dataSource != null )
 		{
 			// TODO: potential bug
-			if ( !dataSource.isOpen( )
-					|| session.getDataSetCacheManager( ).needsToCache( ))
+			if ( !dataSource.isOpen( ) )
 			{
 				// Data source is not open; create an Odi Data Source and open it
 				// We should run the beforeOpen script now to give it a chance to modify
@@ -435,6 +434,21 @@ public abstract class QueryExecutor implements IQueryExecutor
 				dataSource.openOdiDataSource( odiDataSource );
 
 				dataSourceAfterOpen( );
+			}
+			else if ( session.getDataSetCacheManager( ).needsToCache( ) )
+			{
+				// bugzilla #439765, for cached dataset, we skip the scripting
+				// execution but still create a new odi data source
+				
+				// Let subclass create a new unopened odi data source
+				odiDataSource = createOdiDataSource( );
+
+				// Passes thru the prepared query executor's 
+				// context to the new odi data source
+				odiDataSource.setAppContext( queryAppContext );
+
+				// Open the odi data source
+				dataSource.openOdiDataSource( odiDataSource );
 			}
 			else
 			{

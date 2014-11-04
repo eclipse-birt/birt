@@ -76,8 +76,8 @@
                 <property name="width">45mm</property>
             </column>
             <column id="193">
-                <property name="width">80%</property>
                 <property name="textAlign">left</property>
+                <property name="width">80%</property>                
             </column>
             <detail>
                 <row id="305">
@@ -309,8 +309,8 @@
                                 </structure>
                             </list-property>
                             <column id="794">
-                                <property name="width">60mm</property>
                                 <property name="verticalAlign">top</property>
+                                <property name="width">60mm</property>                                
                             </column>
                             <column id="795">
                                 <property name="verticalAlign">top</property>

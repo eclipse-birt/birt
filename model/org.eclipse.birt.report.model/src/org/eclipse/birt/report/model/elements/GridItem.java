@@ -379,7 +379,7 @@ public class GridItem extends ReportItem
 			pos = pos + cell.getColSpan( module );
 
 		}
-		
+
 		//calculating spanned rows - see eclipse bug 423106
 		int cellRowNum = getRowNumber(row);
 		ContainerSlot rows = getSlot( ROW_SLOT );
@@ -389,8 +389,11 @@ public class GridItem extends ReportItem
 			if (row == currRow)	
 				break;
 			List<DesignElement> cells = currRow.getContentsSlot( );
-			int count = Math.min( pos, cells.size());
-			for (int j = 0; j < count; j++) {
+			if (cells == null)
+				continue;
+			
+			int maxSize = Math.min(pos, cells.size());
+			for (int j = 0; j < maxSize; j++) {
 				Cell cell = (Cell) cells.get(j);
 				if (cell.getRowSpan(module) + currRowNum >= cellRowNum)
 					pos++;

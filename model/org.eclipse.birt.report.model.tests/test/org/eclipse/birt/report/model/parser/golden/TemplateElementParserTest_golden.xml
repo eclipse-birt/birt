@@ -6,10 +6,10 @@
             <text-property name="description" key="new description key">click here to create new label</text-property>
             <default>
                 <label name="base" id="3">
-                    <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>
                     <property name="width">1mm</property>
+                    <property name="x">6mm</property>
+                    <property name="y">0.5mm</property>                    
                 </label>
             </default>
         </template-parameter-definition>
@@ -52,10 +52,10 @@
     </page-setup>
     <body>
         <label name="base" id="12">
-            <property name="x">6mm</property>
-            <property name="y">0.5mm</property>
             <property name="height">0.25mm</property>
             <property name="width">1mm</property>
+            <property name="x">6mm</property>
+            <property name="y">0.5mm</property>            
             <text-property name="text">First Page</text-property>
         </label>
         <template-report-item name="new templateLabel" id="13">

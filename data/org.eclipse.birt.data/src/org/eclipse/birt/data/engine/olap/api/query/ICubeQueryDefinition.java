@@ -173,7 +173,7 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 
 	/**
 	 * Add the filter. Currently we only support filters which are based on one
-	 * single level. The multiple filters defined in cube will have an �AND�
+	 * single level. The multiple filters defined in cube will have an 'AND'
 	 * relationship.
 	 * 
 	 * @param filter

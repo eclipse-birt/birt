@@ -25,14 +25,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.editors.EditorUtil;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.editors.IPathEditorInputFactory;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportElementEntry;
@@ -45,14 +44,9 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
@@ -60,12 +54,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * The base class for all actions in reource explorer.
@@ -629,29 +618,7 @@ public abstract class ResourceAction extends Action
 	 */
 	public static File convertToFile( URL url ) throws IOException
 	{
-		if ( url == null )
-		{
-			throw new IOException( Messages.getString( "ResourceAction.ConvertToFile.URLIsNull" ) ); //$NON-NLS-1$
-		}
-
-		URL fileURL = FileLocator.toFileURL( url );
-		IPath path = new Path( ( fileURL ).getPath( ) );
-		String ref = fileURL.getRef( );
-		String fullPath = path.toFile( ).getAbsolutePath( );
-
-		if ( ref != null )
-		{
-			ref = "#" + ref; //$NON-NLS-1$
-			if ( path.toString( ).endsWith( "/" ) ) //$NON-NLS-1$
-			{
-				return path.append( ref ).toFile( );
-			}
-			else
-			{
-				fullPath += ref;
-			}
-		}
-		return new File( fullPath );
+		return EditorUtil.convertToFile( url );
 	}
 
 	/**
@@ -743,45 +710,7 @@ public abstract class ResourceAction extends Action
 			{
 				try
 				{
-					IWorkbench workbench = PlatformUI.getWorkbench( );
-					IWorkbenchWindow window = workbench == null ? null
-							: workbench.getActiveWorkbenchWindow( );
-
-					IWorkbenchPage page = window == null ? null
-							: window.getActivePage( );
-
-					if ( page != null )
-					{
-						IEditorInput input = null;
-						Object adapter = Platform.getAdapterManager( )
-								.getAdapter( viewer,
-										IPathEditorInputFactory.class );
-
-						if ( adapter instanceof IPathEditorInputFactory )
-						{
-							input = ( (IPathEditorInputFactory) adapter ).create( new Path( file.getAbsolutePath( ) ) );
-							IFile file = (IFile) input.getAdapter( IFile.class );
-							if ( file != null )
-							{
-								try
-								{
-									file.refreshLocal( IResource.DEPTH_INFINITE,
-											null );
-								}
-								catch ( CoreException e )
-								{
-									// do nothing now
-								}
-							}
-						}
-
-						if ( input == null )
-						{
-							input = new ReportEditorInput( file );
-						}
-
-						page.openEditor( input, editorId, true );
-					}
+					EditorUtil.openEditor( viewer, file, editorId );
 				}
 				catch ( PartInitException e )
 				{

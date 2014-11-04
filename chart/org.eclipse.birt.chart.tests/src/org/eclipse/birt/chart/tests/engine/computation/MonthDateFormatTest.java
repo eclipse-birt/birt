@@ -34,17 +34,17 @@ public class MonthDateFormatTest extends TestCase
 		calendar.set( Calendar.DATE, 8 );
 		Date date = calendar.getTime( );
 		Hashtable<ULocale, String> locales = new Hashtable<ULocale, String>( );
-		locales.put( ULocale.CANADA, "2013-06" ); //$NON-NLS-1$
-		locales.put( ULocale.CHINA, "2013-6" ); //$NON-NLS-1$
+		locales.put( ULocale.CANADA, "Jun 2013" ); //$NON-NLS-1$
+		locales.put( ULocale.CHINA, "2013年6月" ); //$NON-NLS-1$
 		locales.put( ULocale.ENGLISH, "Jun 2013" ); //$NON-NLS-1$
 		locales.put( ULocale.FRANCE, "juin 2013" ); //$NON-NLS-1$
 		locales.put( ULocale.GERMAN, "06.2013" ); //$NON-NLS-1$
 		locales.put( ULocale.ITALY, "giu/2013" ); //$NON-NLS-1$
 		locales.put( ULocale.JAPAN, "2013/06" ); //$NON-NLS-1$
 		locales.put( ULocale.KOREA, "2013. 6" ); //$NON-NLS-1$
-		locales.put( ULocale.SIMPLIFIED_CHINESE, "2013-6" ); //$NON-NLS-1$
-		locales.put( ULocale.TAIWAN, "2013/6" ); //$NON-NLS-1$
-		locales.put( ULocale.TRADITIONAL_CHINESE, "2013/6" ); //$NON-NLS-1$
+		locales.put( ULocale.SIMPLIFIED_CHINESE, "2013年6月" ); //$NON-NLS-1$
+		locales.put( ULocale.TAIWAN, "2013年6月" ); //$NON-NLS-1$
+		locales.put( ULocale.TRADITIONAL_CHINESE, "2013年6月" ); //$NON-NLS-1$
 		locales.put( ULocale.UK, "Jun 2013" ); //$NON-NLS-1$
 
 		for ( Iterator<ULocale> itr = locales.keySet( ).iterator( ); itr.hasNext( ); )
@@ -53,7 +53,7 @@ public class MonthDateFormatTest extends TestCase
 			IDateFormatWrapper formatter = DateFormatWrapperFactory.getPreferredDateFormat( Calendar.MONTH,
 					locale,
 					true );
-			assertTrue( locales.get( locale ).equals( formatter.format( date ) ) );
+			assertEquals( locales.get( locale ), formatter.format( date ) );
 		}
 	}
 }

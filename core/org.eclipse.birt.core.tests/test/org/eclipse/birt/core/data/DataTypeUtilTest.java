@@ -285,10 +285,11 @@ public class DataTypeUtilTest extends TestCase
 				new Double( Double.MAX_VALUE ),
 				new Double( Double.MIN_VALUE )
 		};
+		// Behavior change, will return null rather than throwing exception
 		resultObjectDecimal = new Object[]{
-				new Exception( "" ),
-				new Exception( "" ),
-				new Exception( "" ),
+				null,
+				null,
+				null,
 				new BigDecimal( new Double( Double.MAX_VALUE ).toString( ) ),
 				new BigDecimal( new Double( Double.MIN_VALUE ).toString( ) )
 		};
@@ -901,7 +902,7 @@ public class DataTypeUtilTest extends TestCase
 				}
 				
 				if( i == 9 )
-					assertEquals( result.replaceFirst( "\\Q+\\E.*", "" ), resultLocaleNeutralString[i] );
+					assertEquals( result.replaceFirst( "[+-]\\d{4}", "" ), resultLocaleNeutralString[i] );
 				else
 					assertEquals( result, resultLocaleNeutralString[i] );
 			}
@@ -955,7 +956,7 @@ public class DataTypeUtilTest extends TestCase
 		{
 		}
 		
-		dateStr = "2005-11-11";
+		dateStr = "2005/11/11";
 		locale = Locale.CHINA;		
 		try
 		{
@@ -963,7 +964,7 @@ public class DataTypeUtilTest extends TestCase
 		}
 		catch ( BirtException e )
 		{
-			fail("should throw Exception");
+			fail("should not throw Exception");
 		}
 		
 		dateStr = "11-11-2005";
@@ -1030,7 +1031,7 @@ public class DataTypeUtilTest extends TestCase
 	 */
 	public void testConvert( ) throws BirtException
 	{
-		java.sql.Date date = java.sql.Date.valueOf( "2006-1-1" );
+		java.sql.Date date = java.sql.Date.valueOf( "2006-01-01" );
 		Object ob = DataTypeUtil.convert( date, java.sql.Date.class );
 		assertEquals( date, ob );
 	}
@@ -1045,6 +1046,22 @@ public class DataTypeUtilTest extends TestCase
 		// Any type
 		Object ob = DataTypeUtil.convert( obj, 0 );
 		assertEquals( "I am an unwrapped object", ob );
+	}
+	
+	/**
+	 * 
+	 * @throws BirtException
+	 */
+	public void testToDate4( ) throws BirtException
+	{
+		try 
+		{
+			DataTypeUtil.toDate("2014-09-02 12:12:12.999999");
+		} 
+		catch (Exception e)
+		{
+			fail("Should not throw exception");
+		}
 	}
 
     /**

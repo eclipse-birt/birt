@@ -39,7 +39,7 @@ BranchName=Luna
 dtp_BranchName=master
 
 # change this when you change the build working folder
-WORKING_DIR=/home/adb/releng.440
+WORKING_DIR=/home/adb/releng.442
 LOG_FILE=adb.log
 
 #set the monitor file name which is used for uploading builds to eclipse.org
@@ -93,7 +93,7 @@ builderDir=$WORKING_DIR/org.eclipse.birt.releng.birtbuilder
 export builderDir
 
 # directory where to copy build
-postingDirectory=$WORKING_DIR/../releng/BIRTOutput/BIRT4.4-download/4.4.0
+postingDirectory=$WORKING_DIR/../releng/BIRTOutput/BIRT4.4-download/4.4.2
 
 # flag to indicate if test build
 testBuild=""
@@ -204,9 +204,6 @@ pull $GitRoot/birt.git $BranchName
 #cp -f build/org.eclipse.birt.releng.birtbuilder/build.xml ./
 #cp -rf build/org.eclipse.birt.releng.birtbuilder/eclipse ./
 #cp -rf build/org.eclipse.birt.releng.birtbuilder/extras ./
-chmod -R +x buildAll.xml eclipse extras
-
-
 
 # Set default buildId if none explicitly set
 if [ "$buildId" = "" ]
@@ -348,7 +345,7 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $testBuild $compareMaps $uni
 -Dbasebuilder=$WORKING_DIR/org.eclipse.releng.basebuilder \
 -Dtest.dir=$WORKING_DIR/unittest -Dp4.home=$WORKING_DIR/P4 \
 -Djvm15_home=$jvm15_home -Djvm16_home=$jvm16_home -DmapTag.properties=$builderDir/mapTag.properties \
--Dbuild.date=$builddate -Dpackage.version=4_4_0 -DBranchVersion=4.4.0 -Dant.dir=$ANT_HOME/bin \
+-Dbuild.date=$builddate -Dpackage.version=4_4_2 -DBranchVersion=4.4.2 -Dant.dir=$ANT_HOME/bin \
 -DmapVersionTag=$BranchName \
 -Ddtp.mapVersionTag=$dtp_BranchName \
 -Dusername.sign=$signUsername -Dpassword.sign=$signPassword -Dhostname.sign=$signServer \

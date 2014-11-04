@@ -48,10 +48,6 @@
             <property name="columnSpacing">0.25mm</property>
             <contents>
                 <label name="label1" id="1197">
-                    <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
                 <label name="label2" id="1198">
@@ -59,10 +55,6 @@
                     <property name="fontFamily">"Times"</property>
                     <property name="fontSize">12in</property>
                     <property name="color">red</property>
-                    <property name="x">6mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">1mm</property>
                     <text-property name="text">Today's Date</text-property>
                 </label>
             </contents>

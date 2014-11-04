@@ -3,12 +3,6 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
     <page-setup>
         <graphic-master-page name="My Page">
-            <property name="type">custom</property>
-            <property name="height">11mm</property>
-            <property name="width">8.5mm</property>
-            <property name="orientation">auto</property>
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
         </graphic-master-page>
     </page-setup>
     <body>

@@ -75,6 +75,8 @@ public class CategoryWrapper extends ScriptableObject
 							{
 								if( "compare_locale".equals( name ) )
 									return collator;
+								if ( scriptFunctionContext == null )
+									return null;
 								return scriptFunctionContext.findProperty( name );
 							}
 						};

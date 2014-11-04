@@ -13,10 +13,10 @@
             id="org.eclipse.birt.report.designer.ui.editors.reportdesign"
             name="%contenttype.design"
             priority="normal">
-         <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber">
+         <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
             <parameter
                   name="element"
-                  value="report"/>
+                  value="{http://www.eclipse.org/birt/2005/design}report"/>
          </describer>
       </content-type>
       <content-type
@@ -25,10 +25,10 @@
             id="org.eclipse.birt.report.designer.ui.editors.reportlibrary"
             name="%contenttype.library"
             priority="normal">
-         <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber">
+         <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
             <parameter
                   name="element"
-                  value="library"/>
+                  value="{http://www.eclipse.org/birt/2005/design}library"/>
          </describer>
       </content-type>
       <content-type
@@ -37,10 +37,10 @@
             id="org.eclipse.birt.report.designer.ui.editors.reporttemplate"
             name="%contenttype.template"
             priority="normal">
-         <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber">
+         <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
             <parameter
                   name="element"
-                  value="template"/>
+                  value="{http://www.eclipse.org/birt/2005/design}template"/>
          </describer>
       </content-type>
       <content-type
@@ -49,7 +49,7 @@
             name="%contenttype.document"
             priority="normal">
          <describer
-               class="org.eclipse.birt.report.designer.ui.editors.ReportDocumentDescript">
+               class="org.eclipse.birt.report.designer.ui.editors.ReportDocumentDescriber">
          </describer>
       </content-type>
    </extension>

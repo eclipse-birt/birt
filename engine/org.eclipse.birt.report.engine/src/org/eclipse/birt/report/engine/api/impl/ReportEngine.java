@@ -113,6 +113,8 @@ public class ReportEngine implements IReportEngine
 	private String version;
 
 	private Map<String, Object> beans;
+	
+	private LoggerSetting loggerSetting;
 	/**
 	 * Create a Report Engine using a configuration.
 	 * 
@@ -220,7 +222,8 @@ public class ReportEngine implements IReportEngine
 			rollingSize = config.getLogRollingSize( );
 			maxBackupIndex = config.getLogMaxBackupIndex( );
 		}
-		EngineLogger.startEngineLogging( logger, dest, file, level,
+		
+		loggerSetting = EngineLogger.createSetting( logger, dest, file, level,
 				rollingSize, maxBackupIndex );
 	}
 	
@@ -275,7 +278,7 @@ public class ReportEngine implements IReportEngine
 	 */
 	public void changeLogLevel( Level newLevel )
 	{
-		EngineLogger.changeLogLevel( newLevel );
+		EngineLogger.changeLogLevel( loggerSetting, newLevel );
 	}
 
 	/**
@@ -479,7 +482,7 @@ public class ReportEngine implements IReportEngine
 			extensionManager.close( );
 			extensionManager = null;
 		}
-		EngineLogger.stopEngineLogging( );
+		EngineLogger.removeSetting( loggerSetting );
 
 		if ( engineClassLoader != null )
 		{
@@ -674,7 +677,7 @@ public class ReportEngine implements IReportEngine
 	{
 		if ( logger != null )
 		{
-			EngineLogger.setLogger( logger );
+			EngineLogger.setLogger( loggerSetting, logger );
 		}
 	}
 

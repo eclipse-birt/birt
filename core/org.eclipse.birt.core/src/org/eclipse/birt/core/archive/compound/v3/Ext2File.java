@@ -61,7 +61,7 @@ public class Ext2File
 	 */
 	private boolean enableCache;
 	/**
-	 * � the cached data block id
+	 * the cached data block id
 	 */
 	private int cachedBlockId;
 	/**

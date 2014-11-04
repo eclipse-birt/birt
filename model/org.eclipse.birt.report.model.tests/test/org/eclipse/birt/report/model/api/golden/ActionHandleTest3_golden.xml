@@ -9,7 +9,7 @@
                 <image name="Image1" id="3">
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
-                    <text-property name="altText">Help Test For Image Item</text-property>
+                    <expression name="altText" type="constant">Help Test For Image Item</expression>
                     <list-property name="action">
 	                    <structure>
 	                        <property name="linkType">hyperlink</property>
@@ -24,7 +24,7 @@
         <image name="Image" id="4">
             <property name="source">url</property>
             <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
-            <text-property name="altText">Help Test For Image Item</text-property>
+            <expression name="altText" type="constant">Help Test For Image Item</expression>
 	        <list-property name="action">
 	            <structure>
 	                <property name="formatType">userDefinedType</property>

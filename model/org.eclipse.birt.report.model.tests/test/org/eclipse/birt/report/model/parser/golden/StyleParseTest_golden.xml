@@ -280,10 +280,10 @@
             <property name="x">999mm</property>
             <report-items>
                 <label id="22">
-                    <property name="x">1mm</property>
-                    <property name="y">2mm</property>
                     <property name="height">3mm</property>
                     <property name="width">4mm</property>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>                    
                     <text-property name="text">Customer Name</text-property>
                 </label>
             </report-items>
@@ -318,10 +318,10 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label name="label1" id="31">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>                            
                             <text-property name="text">Address</text-property>
                         </label>
                     </cell>
@@ -332,10 +332,10 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label id="34">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>                            
                             <text-property name="text">Address</text-property>
                         </label>
                     </cell>
@@ -348,10 +348,10 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label id="37">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>                            
                             <text-property name="text">Address4</text-property>
                         </label>
                     </cell>
@@ -361,10 +361,10 @@
         <free-form name="My First Form" id="38">
             <report-items>
                 <label id="39">
-                    <property name="x">1mm</property>
-                    <property name="y">2mm</property>
                     <property name="height">3mm</property>
                     <property name="width">4mm</property>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>                    
                     <text-property name="text">Customer Name</text-property>
                 </label>
             </report-items>
@@ -373,10 +373,10 @@
             <report-items>
                 <label id="41">
                     <property name="style">My-Style</property>
-                    <property name="x">1mm</property>
-                    <property name="y">2mm</property>
                     <property name="height">3mm</property>
                     <property name="width">4mm</property>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>                    
                     <text-property name="text">Customer Name</text-property>
                 </label>
             </report-items>
@@ -384,10 +384,10 @@
         <free-form name="My Third Form" id="42">
             <report-items>
                 <label id="43">
-                    <property name="x">1mm</property>
-                    <property name="y">2mm</property>
                     <property name="height">3mm</property>
                     <property name="width">4mm</property>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>                    
                     <text-property name="text">Customer Name</text-property>
                 </label>
             </report-items>
@@ -397,10 +397,10 @@
                 <label id="45">
                     <property name="style">My-Style</property>
                     <property name="fontWeight">lighter</property>
-                    <property name="x">1mm</property>
-                    <property name="y">2mm</property>
                     <property name="height">3mm</property>
                     <property name="width">4mm</property>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>                    
                     <text-property name="text">Customer Name</text-property>
                 </label>
             </report-items>
@@ -409,10 +409,10 @@
             <report-items>
                 <label id="47">
                     <property name="fontWeight">100</property>
-                    <property name="x">1mm</property>
-                    <property name="y">2mm</property>
                     <property name="height">3mm</property>
                     <property name="width">4mm</property>
+                    <property name="x">1mm</property>
+                    <property name="y">2mm</property>                    
                     <text-property name="text">Customer Name</text-property>
                 </label>
             </report-items>
@@ -439,10 +439,10 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label id="56">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>                            
                             <text-property name="text">Address</text-property>
                         </label>
                     </cell>
@@ -463,10 +463,10 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label id="62">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>                            
                             <text-property name="text">Address4</text-property>
                         </label>
                     </cell>
@@ -488,10 +488,10 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label id="68">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>                            
                             <text-property name="text">Address4</text-property>
                         </label>
                     </cell>
@@ -512,10 +512,10 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label id="74">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>                            
                             <text-property name="text">Address4</text-property>
                         </label>
                     </cell>
@@ -550,10 +550,10 @@
                                         <property name="colSpan">2</property>
                                         <property name="rowSpan">1</property>
                                         <label id="85">
-                                            <property name="x">1.1mm</property>
-                                            <property name="y">2.2mm</property>
                                             <property name="height">3.3mm</property>
                                             <property name="width">4.4mm</property>
+                                            <property name="x">1.1mm</property>
+                                            <property name="y">2.2mm</property>                                            
                                             <text-property name="text">Address4</text-property>
                                         </label>
                                     </cell>
@@ -580,10 +580,10 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label id="91">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>                            
                             <text-property name="text">Address4</text-property>
                         </label>
                     </cell>
@@ -607,10 +607,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="98">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>                                
                                 <text-property name="text">Address4</text-property>
                             </label>
                         </cell>
@@ -626,10 +626,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="102">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>                                
                                 <text-property name="text">Address4</text-property>
                             </label>
                         </cell>
@@ -645,10 +645,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="106">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>                                
                                 <text-property name="text">Address4</text-property>
                             </label>
                         </cell>
@@ -664,10 +664,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="110">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>                                
                                 <text-property name="text">Address4</text-property>
                             </label>
                         </cell>
@@ -683,10 +683,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="114">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>                                
                                 <text-property name="text">Address4</text-property>
                             </label>
                         </cell>
@@ -702,10 +702,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="118">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>                                
                                 <text-property name="text">Address4</text-property>
                             </label>
                         </cell>
@@ -721,10 +721,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="122">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>                                
                                 <text-property name="text">Address4</text-property>
                             </label>
                         </cell>
@@ -740,10 +740,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="126">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>                                
                                 <text-property name="text">Address4</text-property>
                             </label>
                         </cell>
@@ -759,10 +759,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="130">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>                                
                                 <text-property name="text">Address4</text-property>
                             </label>
                         </cell>
@@ -778,10 +778,10 @@
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="134">
-                                <property name="x">1.1mm</property>
-                                <property name="y">2.2mm</property>
                                 <property name="height">3.3mm</property>
                                 <property name="width">4.4mm</property>
+                                <property name="x">1.1mm</property>
+                                <property name="y">2.2mm</property>                                
                                 <text-property name="text">Address4</text-property>
                             </label>
                         </cell>

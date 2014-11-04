@@ -25,13 +25,6 @@
     </styles>
     <page-setup>
         <graphic-master-page name="My Page" id="3">
-            <property name="comments">Sample page</property>
-            <property name="topMargin">0.95mm</property>
-            <property name="leftMargin">0.8mm</property>
-            <property name="bottomMargin">0.75mm</property>
-            <property name="rightMargin">0.9mm</property>
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
             <contents>
                 <rectangle id="4">
                     <property name="style">My-Style</property>
@@ -48,10 +41,10 @@
                     <property name="borderTopColor">white</property>
                     <property name="borderTopStyle">dotted</property>
                     <property name="borderTopWidth">1mm</property>
-                    <property name="x">12mm</property>
-                    <property name="y">39mm</property>
                     <property name="height">20mm</property>
                     <property name="width">100mm</property>
+                    <property name="x">12mm</property>
+                    <property name="y">39mm</property>                    
                 </rectangle>
             </contents>
         </graphic-master-page>

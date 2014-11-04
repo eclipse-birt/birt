@@ -112,7 +112,7 @@
             </footer>
             <property name="role">Sect</property>
             <property name="language">English</property>
-            <property name="altText">Alt Text</property>
+            <expression name="altText">Alt Text</expression>
         </list>
         <list name="My List2" id="12"/>
     </body>

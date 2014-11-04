@@ -1,3 +1,4 @@
 bin
 build.xml
 .settings
+/meta.log
