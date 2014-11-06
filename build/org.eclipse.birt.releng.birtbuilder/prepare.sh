@@ -1,4 +1,4 @@
-workspace=releng.442
+workspace=releng.450
 pde_build_version=3.7.0.v20110512-1320
 
 rm -rf $workspace/src/plugins/*
@@ -14,9 +14,9 @@ rm -f $workspace/src/*.txt
 rm -f $workspace/src/*.jar
 rm -f  $workspace/org.eclipse.birt.releng.birtbuilder/monitor.properties
 rm -f  $workspace/org.eclipse.birt.releng.birtbuilder/monitor.log
-rm -f downloads/4_4_2/*.zip
-rm -f downloads/4_4_2/*.txt
-rm -f downloads/4_4_2/*.gz
+rm -f downloads/4_5_0/*.zip
+rm -f downloads/4_5_0/*.txt
+rm -f downloads/4_5_0/*.gz
 
 rm -rf $workspace/src/scmCache
 rm -rf $workspace/org.eclipse.releng.basebuilder/plugins/org.eclipse.pde.build_$pde_build_version/scripts/productBuild/scmCache/*
