@@ -100,8 +100,7 @@ public class XlsxFileReader {
 	{
 		try
 		{
-			return XMLReaderFactory
-					.createXMLReader( PARSER_CLASS_NAME );
+			return XMLReaderFactory.createXMLReader( );
 		}
 		catch ( SAXException e )
 		{
@@ -114,7 +113,6 @@ public class XlsxFileReader {
 				throw e;
 			}
 		}
-		
 	}
 	
 	

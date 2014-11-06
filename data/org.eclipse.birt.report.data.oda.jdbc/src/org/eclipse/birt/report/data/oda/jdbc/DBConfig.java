@@ -1,20 +1,18 @@
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 
 
@@ -107,6 +105,7 @@ public class DBConfig
 class SaxParser extends DefaultHandler
 {
 	//
+	private static final Logger logger = Logger.getLogger( SaxParser.class.getName( ) );
 	private static final String TYPE = "type";
 	private static final String POLICY = "Policy";
 	private static final String NAME = "name";
@@ -155,157 +154,33 @@ class SaxParser extends DefaultHandler
 	/**
 	 * 
 	 */
-	public void parse()
+	public void parse( )
 	{
-		Object xmlReader;
+		if ( this.dbConfig.getConfigURL( ) == null )
+			return;
 		try
 		{
-			if( this.dbConfig.getConfigURL( ) == null )
-				return;
-			xmlReader = createXMLReader( );
-
-			setContentHandler( xmlReader );
-
-			setErrorHandler( xmlReader );
-
-			parse( xmlReader );
-
+			XMLReader xmlReader = XMLReaderFactory.createXMLReader( );
+			xmlReader.setContentHandler( this );
+			xmlReader.setErrorHandler( this );
+			InputStream is = new BufferedInputStream( this.dbConfig
+					.getConfigURL( ).openStream( ) );
+			try
+			{
+				InputSource source = new InputSource( is );
+				source.setEncoding( source.getEncoding( ) );
+				xmlReader.parse( source );
+			}
+			finally
+			{
+				is.close( );
+			}
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
+			logger.log( java.util.logging.Level.WARNING, "failed to parse"
+					+ dbConfig.getConfigURL( ), e );
 		}
 	}
-	
-	
-	/**
-	 * 
-	 * @param xmlReader
-	 * @throws NoSuchMethodException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 */
-	private void parse( Object xmlReader ) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
-	{
-		Method parse = this.getMethod( "parse",
-				xmlReader.getClass( ),
-				new Class[]{
-					InputSource.class
-				} );
-		InputStream is;
-		try
-		{
-			is = new BufferedInputStream( this.dbConfig.getConfigURL( )
-					.openStream( ) );
-			InputSource source = new InputSource( is );
-			source.setEncoding( source.getEncoding( ) );
-			parse.invoke( xmlReader, new Object[]{
-				source
-			} );
-			is.close( );
-		}
-		catch ( IOException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
 
-	}
-
-	/**
-	 * 
-	 * @param xmlReader
-	 * @throws NoSuchMethodException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 */
-	private void setErrorHandler( Object xmlReader ) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
-	{
-		Method setErrorHandler = this.getMethod( "setErrorHandler",
-				xmlReader.getClass( ),
-				new Class[]{
-					ErrorHandler.class
-				} );
-		this.invokeMethod( setErrorHandler, xmlReader, new Object[]{this} );
-	}
-
-	/**
-	 * 
-	 * @param xmlReader
-	 * @throws NoSuchMethodException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 */
-	private void setContentHandler( Object xmlReader ) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
-	{
-		Method setContentHandler = this.getMethod( "setContentHandler",
-				xmlReader.getClass( ),
-				new Class[]{
-					ContentHandler.class
-				} );
-		
-		this.invokeMethod( setContentHandler, xmlReader, new Object[]{
-				this
-			} );
-	}
-
-	/**
-	 * 
-	 * @return
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws ClassNotFoundException
-	 */
-	private Object createXMLReader( ) throws InstantiationException,
-			IllegalAccessException, ClassNotFoundException
-	{
-		try
-		{
-			Object xmlReader = Thread.currentThread( )
-					.getContextClassLoader( )
-					.loadClass( "org.apache.xerces.parsers.SAXParser" )
-					.newInstance( );
-			return xmlReader;
-		}
-		catch ( ClassNotFoundException e )
-		{
-			return Class.forName( "org.apache.xerces.parsers.SAXParser" )
-					.newInstance( );
-		}
-
-	}
-
-	/**
-	 * Return a method using reflect.
-	 * 
-	 * @param methodName
-	 * @param targetClass
-	 * @param argument
-	 * @return
-	 * @throws SecurityException
-	 * @throws NoSuchMethodException
-	 */
-	private Method getMethod(String methodName, Class targetClass, Class[] argument) throws SecurityException, NoSuchMethodException
-	{
-		assert methodName != null;
-		assert targetClass != null;
-		assert argument != null;
-		
-		return targetClass.getMethod( methodName, argument );
-	}
-	
-	/**
-	 * Invoke a method.
-	 * 
-	 * @param method
-	 * @param targetObject
-	 * @param argument
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 */
-	private void invokeMethod( Method method, Object targetObject, Object[] argument ) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException
-	{
-		method.invoke( targetObject, argument );
-	}
 }
