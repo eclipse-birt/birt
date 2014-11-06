@@ -266,7 +266,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			// Inherit xtab means container has cube but chart has no cube
 			boolean inheritXTab = getDataServiceProvider( ).checkState( IDataServiceProvider.INHERIT_CUBE )
-					&& !getDataServiceProvider( ).checkState( IDataServiceProvider.HAS_CUBE );
+					&& !( getDataServiceProvider( ).checkState( IDataServiceProvider.HAS_CUBE ) && !getDataServiceProvider( ).checkState( IDataServiceProvider.IN_MULTI_VIEWS ) );
 			if ( inheritXTab )
 			{
 				btnFilters.setEnabled( false );
