@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSetBindingSelector;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider;
@@ -31,6 +32,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 public class ChartBindingGroupDescriptorProvider extends
@@ -41,12 +43,14 @@ public class ChartBindingGroupDescriptorProvider extends
 
 	private static final String DATA_SETS_DEFAULT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartBindingGroupDescriptorProvider.DataSets.Default" ); //$NON-NLS-1$
 	
+	@SuppressWarnings("rawtypes")
 	protected List getAvailableDataBindingReferenceList(
 			ReportItemHandle element )
 	{
 		return element.getNamedDataBindingReferenceList( );
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Object load( )
 	{
 		ReportItemHandle element = getReportItemHandle( );
@@ -191,16 +195,18 @@ public class ChartBindingGroupDescriptorProvider extends
 						case 0 :
 							if ( getAvailableDatasets( ).contains( value ) )
 							{
-								resetDataSetReference( value, true );
+								resetDataSetReference( value, info, true );
 							}
 							else
+							{
 								resetCubeReference( value, true );
+							}
 							break;
 						// Doesn't clear binding info
 						case 1 :
 							if ( getAvailableDatasets( ).contains( value ) )
 							{
-								resetDataSetReference( value, false );
+								resetDataSetReference( value,  info, false );
 							}
 							else
 								resetCubeReference( value, false );
@@ -364,14 +370,14 @@ public class ChartBindingGroupDescriptorProvider extends
 		return newList;
 	}
 
-	private void resetDataSetReference( Object value, boolean clearHistory )
+	private void resetDataSetReference( Object value, BindingInfo info, boolean clearHistory )
 	{
 		try
 		{
 			startTrans( "" ); //$NON-NLS-1$
 			getReportItemHandle( ).setDataBindingReference( null );
 			DataSetHandle dataSet = null;
-			if ( value != null )
+			if ( value != null && info != null && info.isDataSet( ) )
 			{
 				dataSet = SessionHandleAdapter.getInstance( )
 						.getReportDesignHandle( )
@@ -383,10 +389,11 @@ public class ChartBindingGroupDescriptorProvider extends
 			}
 			getReportItemHandle( ).setCube( null );
 			
+			boolean isExtendedDataModel = false;
 			if ( dataSet == null && value != null )
 			{
 				getReportItemHandle( ).setDataSet( null );
-				new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+				isExtendedDataModel = new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
 						value );
 			}
 			else
@@ -401,7 +408,19 @@ public class ChartBindingGroupDescriptorProvider extends
 				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
 						.clearValue( );
 			}
-			getDependedProvider( ).generateAllBindingColumns( );
+			
+			if ( info != null )
+			{
+				DataSetBindingSelector selector = new DataSetBindingSelector( UIUtil.getDefaultShell( ),
+						isExtendedDataModel ? Messages.getString( "BindingGroupDescriptorProvider.DataSetBindingSelector.Title.LinkModel" )//$NON-NLS-1$
+								: Messages.getString( "BindingGroupDescriptorProvider.DataSetBindingSelector.Title.DataSet" ) ); //$NON-NLS-1$
+				selector.setDataSet( info.getBindingValue( ), info.isDataSet( ) );
+				if ( selector.open( ) == Dialog.OK )
+				{
+					Object[] columns = (Object[]) ( (Object[]) selector.getResult( ) )[1];
+					getDependedProvider( ).generateBindingColumns( columns );
+				}
+			}
 
 			commit( );
 		}
@@ -418,7 +437,7 @@ public class ChartBindingGroupDescriptorProvider extends
 		if ( value == null
 				&& this.getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
 		{
-			resetDataSetReference( null, true );
+			resetDataSetReference( null, null, true );
 		}
 		else
 		{

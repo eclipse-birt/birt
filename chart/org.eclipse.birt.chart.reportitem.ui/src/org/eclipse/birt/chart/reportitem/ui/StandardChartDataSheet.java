@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.ExpressionDescriptor;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.IExpressionDescriptor;
+import org.eclipse.birt.chart.reportitem.ui.ReportDataServiceProvider.DataSetInfo;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
@@ -171,8 +172,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private Button btnFilters = null;
 	private Button btnParameters = null;
 	private Button btnBinding = null;
-	private String currentDataReference = null;
-	private String previousDataReference = null;
+	private Object currentDataReference = null;
+	private Object previousDataReference = null;
 
 	public static final int SELECT_NONE = 1;
 	public static final int SELECT_NEXT = 2;
@@ -804,8 +805,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		btnShowDataPreviewB.setEnabled( true );
 
 		// Clear data preview setting if current data item was changed.
-		String pValue = ( previousDataReference == null ) ? "" : previousDataReference; //$NON-NLS-1$
-		String cValue = ( currentDataReference == null ) ? "" : currentDataReference; //$NON-NLS-1$
+		Object pValue = ( previousDataReference == null ) ? "" : previousDataReference; //$NON-NLS-1$
+		Object cValue = ( currentDataReference == null ) ? "" : currentDataReference; //$NON-NLS-1$
 		if ( !pValue.equals( cValue ) )
 		{
 			getContext( ).setShowingDataPreview( null );
@@ -1074,7 +1075,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		if ( itemHandle.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
 				&& itemHandle.getContainer( ) instanceof ModuleHandle )
 		{
-			String[] dataSets = dataProvider.getAllDataSets( );
+			DataSetInfo[] dataSets = dataProvider.getAllDataSets( );
 			if ( dataProvider.getAllDataCubes( ).length == 0
 					&& dataSets.length == 1 )
 			{
@@ -1328,7 +1329,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		cmbInherit.setEnabled( false );
 
-		cmbDataItems.setItems( createDataComboItems( ) );
+		List<Object> dataItems  = new ArrayList<Object>();
+		cmbDataItems.setItems( createDataComboItems( dataItems ) );
+		cmbDataItems.setData( dataItems );
 
 		// Select report item reference
 		// Since handle may have data set or data cube besides reference, always
@@ -1344,12 +1347,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 
 		// Select data set
-		String sDataSet = getDataServiceProvider( ).getDataSet( );
+		DataSetInfo sDataSet = getDataServiceProvider( ).getDataSetInfo( );
 		if ( sDataSet != null && !getDataServiceProvider( ).isInheritanceOnly( ) )
 		{
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
-			cmbDataItems.setText( sDataSet );
+			cmbDataItems.setText( sDataSet.getDisplayName( ) );
 			currentDataReference = sDataSet;
 			return;
 		}
@@ -1425,6 +1428,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void handleEvent( Event event )
 	{
 		// When user select expression in drop&down list of live preview
@@ -1599,15 +1603,16 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					switch ( selectState.intValue( ) )
 					{
 						case SELECT_DATA_SET :
+							DataSetInfo dataInfo = (DataSetInfo) ( (List<Object>) cmbDataItems.getData( ) ).get( selectedIndex );
+							
 							if ( getDataServiceProvider( ).getReportItemReference( ) == null
 									&& getDataServiceProvider( ).getDataSet( ) != null
-									&& getDataServiceProvider( ).getDataSet( )
-											.equals( cmbDataItems.getText( ) ) )
+									&& getDataServiceProvider( ).getDataSetInfo( ).equals( dataInfo ) )
 							{
 								return;
 							}
-							getDataServiceProvider( ).setDataSet( cmbDataItems.getText( ) );
-							currentDataReference = cmbDataItems.getText( );
+							getDataServiceProvider( ).setDataSet( dataInfo );
+							currentDataReference = dataInfo;
 							switchDataSet( );
 							setEnabledForButtons( );
 							updateDragDataSource( );
@@ -1697,18 +1702,30 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 								}
 								else
 								{
-									cmbDataItems.setText( currentDataReference );
+									cmbDataItems.setText( getDataSetName( currentDataReference ) );
 								}
 								return;
 							}
 
 							cmbDataItems.removeAll( );
-							cmbDataItems.setItems( createDataComboItems( ) );
+							List<Object> dataItems  = new ArrayList<Object>();
+							cmbDataItems.setItems( createDataComboItems( dataItems ) );
+							List<Object> oldDataItems = (List<Object>) cmbDataItems.getData( );
+							cmbDataItems.setData( dataItems );
+							
 							// select the newly created data set for user
-							String[] datasets = getDataServiceProvider( ).getAllDataSets( );
-							currentDataReference = datasets[datasets.length - 1];
-							getDataServiceProvider( ).setDataSet( currentDataReference );
-							cmbDataItems.setText( currentDataReference );
+							DataSetInfo[] datasets = getDataServiceProvider( ).getAllDataSets( );
+							int index = 0;
+							for ( index = datasets.length - 1; index >= 0; index-- )
+							{
+								if ( !oldDataItems.contains( datasets[index] ) )
+								{
+									break;
+								}
+							}
+							currentDataReference = datasets[index];
+							getDataServiceProvider( ).setDataSet( (DataSetInfo) currentDataReference );
+							cmbDataItems.setText( getDataSetName( currentDataReference ) );
 							setEnabledForButtons( );
 							updateDragDataSource( );
 							break;
@@ -1725,7 +1742,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 							String[] datacubes = getDataServiceProvider( ).getAllDataCubes( );
 							cmbDataItems.removeAll( );
-							cmbDataItems.setItems( createDataComboItems( ) );
+							dataItems  = new ArrayList<Object>();
+							cmbDataItems.setItems( createDataComboItems( dataItems ) );
+							cmbDataItems.setData( dataItems );
 							if ( datacubes.length == count )
 							{
 								if ( currentDataReference == null )
@@ -1734,15 +1753,15 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 								}
 								else
 								{
-									cmbDataItems.setText( currentDataReference );
+									cmbDataItems.setText( getDataSetName( currentDataReference ) );
 								}
 								return;
 							}
 
 							// select the newly created data cube for user.
 							currentDataReference = datacubes[datacubes.length - 1];
-							getDataServiceProvider( ).setDataCube( currentDataReference );
-							cmbDataItems.setText( currentDataReference );
+							getDataServiceProvider( ).setDataCube( currentDataReference.toString( ) );
+							cmbDataItems.setText( getDataSetName( currentDataReference ) );
 							updateDragDataSource( );
 							setEnabledForButtons( );
 							// Update preview via event
@@ -1769,6 +1788,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				ChartWizard.showException( ChartWizard.StaChartDSh_switch_ID,
 						e1.getLocalizedMessage( ) );
 			}
+		}
+	}
+
+	private String getDataSetName( Object dataRef )
+	{
+		if ( dataRef instanceof DataSetInfo )
+		{
+			return ( (DataSetInfo) currentDataReference ).getDisplayName( );
+		}
+		else
+		{
+			return dataRef.toString( ) ;
 		}
 	}
 
@@ -1835,7 +1866,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private void selectDataSet( )
 	{
-		String currentDS = getDataServiceProvider( ).getDataSet( );
+		DataSetInfo currentDS = getDataServiceProvider( ).getDataSetInfo( );
 		if ( currentDS == null )
 		{
 			cmbDataItems.select( 0 );
@@ -1843,7 +1874,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		else
 		{
-			cmbDataItems.setText( currentDS );
+			cmbDataItems.setText( currentDS.getDisplayName( ) );
 			currentDataReference = currentDS;
 		}
 	}
@@ -2702,46 +2733,58 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				|| ( iSupportedDataItems & type ) == type;
 	}
 
-	private String[] createDataComboItems( )
+	private String[] createDataComboItems( List<Object> dataItems )
 	{
-		List<String> items = new ArrayList<String>( );
+		List<Object> items = new ArrayList<Object>( );
+		if ( dataItems == null )
+		{
+			dataItems = new ArrayList<Object>();
+		}
+		dataItems.clear( );
+		
 		selectDataTypes.clear( );
-
+		
 		if ( isDataItemSupported( SELECT_NONE ) )
 		{
+			String item = null;
 			if ( DEUtil.getDataSetList( itemHandle.getContainer( ) ).size( ) > 0 )
 			{
-				items.add( Messages.getString( "ReportDataServiceProvider.Option.Inherits", //$NON-NLS-1$
+				item = Messages.getString( "ReportDataServiceProvider.Option.Inherits", //$NON-NLS-1$
 						( (DataSetHandle) DEUtil.getDataSetList( itemHandle.getContainer( ) )
-								.get( 0 ) ).getName( ) ) );
+								.get( 0 ) ).getName( ) ) ;
 			}
 			else
 			{
-				items.add( ReportDataServiceProvider.OPTION_NONE );
+				item = ReportDataServiceProvider.OPTION_NONE;
 			}
+			items.add( item );
+			dataItems.add( item );
 			selectDataTypes.add( Integer.valueOf( SELECT_NONE ) );
 		}
 
 		if ( isDataItemSupported( SELECT_DATA_SET ) )
 		{
-			String[] dataSets = getDataServiceProvider( ).getAllDataSets( );
+			DataSetInfo[] dataSets = getDataServiceProvider( ).getAllDataSets( );
 			if ( dataSets.length > 0 )
 			{
 				if ( isDataItemSupported( SELECT_NEXT ) )
 				{
 					items.add( Messages.getString( "StandardChartDataSheet.Combo.DataSets" ) ); //$NON-NLS-1$
+					dataItems.add( Messages.getString( "StandardChartDataSheet.Combo.DataSets" ) ); //$NON-NLS-1$
 					selectDataTypes.add( Integer.valueOf( SELECT_NEXT ) );
 				}
 
 				for ( int i = 0; i < dataSets.length; i++ )
 				{
-					items.add( dataSets[i] );
+					items.add( dataSets[i].getDisplayName( ) );
+					dataItems.add( dataSets[i] );
 					selectDataTypes.add( Integer.valueOf( SELECT_DATA_SET ) );
 				}
 			}
 			if ( isDataItemSupported( SELECT_NEW_DATASET ) )
 			{
 				items.add( Messages.getString( "StandardChartDataSheet.NewDataSet" ) ); //$NON-NLS-1$
+				dataItems.add( Messages.getString( "StandardChartDataSheet.NewDataSet" ) ); //$NON-NLS-1$
 				selectDataTypes.add( Integer.valueOf( SELECT_NEW_DATASET ) );
 			}
 		}
@@ -2754,17 +2797,20 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				if ( isDataItemSupported( SELECT_NEXT ) )
 				{
 					items.add( Messages.getString( "StandardChartDataSheet.Combo.DataCubes" ) ); //$NON-NLS-1$
+					dataItems.add( Messages.getString( "StandardChartDataSheet.Combo.DataCubes" ) ); //$NON-NLS-1$
 					selectDataTypes.add( Integer.valueOf( SELECT_NEXT ) );
 				}
 				for ( int i = 0; i < dataCubes.length; i++ )
 				{
 					items.add( dataCubes[i] );
+					dataItems.add( dataCubes[i] );
 					selectDataTypes.add( Integer.valueOf( SELECT_DATA_CUBE ) );
 				}
 			}
 			if ( isDataItemSupported( SELECT_NEW_DATACUBE ) )
 			{
 				items.add( Messages.getString( "StandardChartDataSheet.NewDataCube" ) ); //$NON-NLS-1$
+				dataItems.add( Messages.getString( "StandardChartDataSheet.NewDataCube" ) ); //$NON-NLS-1$
 				selectDataTypes.add( Integer.valueOf( SELECT_NEW_DATACUBE ) );
 			}
 		}
@@ -2778,6 +2824,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				if ( isDataItemSupported( SELECT_NEXT ) )
 				{
 					items.add( Messages.getString( "StandardChartDataSheet.Combo.ReportItems" ) ); //$NON-NLS-1$
+					dataItems.add( Messages.getString( "StandardChartDataSheet.Combo.ReportItems" ) ); //$NON-NLS-1$
 					selectDataTypes.add( Integer.valueOf( SELECT_NEXT ) );
 				}
 				for ( int i = 0; i < dataRefs.length; i++ )
@@ -2793,12 +2840,14 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						}
 					}
 					items.add( dataRefs[i] );
+					dataItems.add( dataRefs[i] );
 					selectDataTypes.add( Integer.valueOf( SELECT_REPORT_ITEM ) );
 				}
 				// didn't add any reportitem reference
 				if ( items.size( ) == curSize + 1 )
 				{
 					items.remove( curSize );
+					dataItems.remove( curSize );
 					selectDataTypes.remove( curSize );
 				}
 			}

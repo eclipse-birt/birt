@@ -18,8 +18,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ID
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SortingFormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.AggregateOnBindingsFormDescriptor;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabBindingsFormHandleProvider;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSimpleComboPropertyDescriptorProvider;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.CrosstabSimpleComboSection;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabBindingComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.CrosstabBindingComboSection;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
@@ -32,9 +32,9 @@ public class CrosstabBindingPage extends AggregateOnBindingPage
 
 	protected void applyCustomSections( )
 	{
-		IDescriptorProvider cubeProvider = new CrosstabSimpleComboPropertyDescriptorProvider( IReportItemModel.CUBE_PROP,
+		IDescriptorProvider cubeProvider = new CrosstabBindingComboPropertyDescriptorProvider( IReportItemModel.CUBE_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
-		CrosstabSimpleComboSection cubeSection = new CrosstabSimpleComboSection( cubeProvider.getDisplayName( ),
+		CrosstabBindingComboSection cubeSection = new CrosstabBindingComboSection( cubeProvider.getDisplayName( ),
 				getSectionContainer( ),
 				true );
 		cubeSection.setProvider( cubeProvider );
@@ -46,11 +46,11 @@ public class CrosstabBindingPage extends AggregateOnBindingPage
 		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) );
 		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( crosstabFormProvider );
 
-		if ( ( (CrosstabSimpleComboSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( ) != null )
+		if ( ( (CrosstabBindingComboSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( ) != null )
 		{
-			IDescriptorProvider crosstabProvider = ( (CrosstabSimpleComboSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( );
-			if ( cubeProvider instanceof CrosstabSimpleComboPropertyDescriptorProvider )
-				( (CrosstabSimpleComboPropertyDescriptorProvider) crosstabProvider ).setCrosstabSimpleComboSection( cubeSection );
+			IDescriptorProvider crosstabProvider = ( (CrosstabBindingComboSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( );
+			if ( cubeProvider instanceof CrosstabBindingComboPropertyDescriptorProvider )
+				( (CrosstabBindingComboPropertyDescriptorProvider) crosstabProvider ).setCrosstabSimpleComboSection( cubeSection );
 		}
 	}
 

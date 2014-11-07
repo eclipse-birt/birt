@@ -11,51 +11,46 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
-import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
-import org.eclipse.birt.report.designer.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.CrosstabSimpleComboSection;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.CrosstabBindingComboSection;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.custom.CCombo;
 
 /**
  * 
  */
-public class CrosstabSimpleComboPropertyDescriptorProvider extends
-		SimpleComboPropertyDescriptorProvider
+public class CrosstabBindingComboPropertyDescriptorProvider extends
+		PropertyDescriptorProvider
 {
 
 	private static final String NONE = Messages.getString( "BindingPage.None" ); //$NON-NLS-1$
 
-	public CrosstabSimpleComboPropertyDescriptorProvider( String property,
+	public CrosstabBindingComboPropertyDescriptorProvider( String property,
 			String element )
 	{
 		super( property, element );
 	}
 
-	public String[] getItems( )
+	public List<CubeHandle> getItems( )
 	{
-		String[] items = null;
-		items = super.getItems( );
-		if ( items != null )
-		{
-			return items;
-		}
+		List<CubeHandle> items = null;
+
 		Object selecteObj = input;
 		if ( input instanceof List )
 		{
@@ -65,31 +60,50 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 		ExtendedItemHandle handle = (ExtendedItemHandle) selecteObj;
 		if ( !handle.getExtensionName( ).equals( "Crosstab" ) ) //$NON-NLS-1$
 		{
-			return items;
+			return Collections.EMPTY_LIST;
 		}
 
-		String[] tmpItems = new String[0];
 		if ( IReportItemModel.CUBE_PROP.equals( getProperty( ) ) )
 		{
-			tmpItems = ChoiceSetFactory.getCubes( );
+			items = UIUtil.getVisibleCubeHandles( handle.getModuleHandle( ) );
 		}
 
-		items = new String[tmpItems.length + 1];
-		items[0] = Messages.getString( "ChoiceSetFactory.choice.None" ); //$NON-NLS-1$
-		System.arraycopy( tmpItems, 0, items, 1, tmpItems.length );
+		Collections.sort( items, new Comparator<CubeHandle>( ) {
 
+			public int compare( CubeHandle o1, CubeHandle o2 )
+			{
+				return o1.getQualifiedName( )
+						.compareTo( o2.getQualifiedName( ) );
+			}
+		} );
+
+		items.add( 0, null );
 		return items;
 	}
 
-	public boolean isSpecialProperty( )
+	public String[] getItemNames( )
 	{
-		if ( IReportItemModel.CUBE_PROP.equals( getProperty( ) ) )
-		{
-			return true;
-		}
-		else
-			return super.isSpecialProperty( );
+		List<CubeHandle> cubes = getItems( );
+		String[] items = new String[cubes.size( )];
 
+		for ( int i = 0; i < cubes.size( ); i++ )
+		{
+			CubeHandle cube = cubes.get( i );
+			if ( cube == null )
+			{
+				items[i] = NONE;
+			}
+			else
+			{
+				items[i] = cube.getQualifiedName( );
+				if ( getExtendedItemHandle( ).getModuleHandle( )
+						.findCube( items[i] ) != cube )
+				{
+					items[i] += Messages.getString( "CrosstabBindingComboPropertyDescriptorProvider.Flag.DataModel" ); //$NON-NLS-1$
+				}
+			}
+		}
+		return items;
 	}
 
 	public String getDisplayName( )
@@ -108,8 +122,10 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 	{
 		int ret = 0;
 		// If choose binding Cube as None
-		if ( !NONE.equals( getCubeName( ) ) )
+		if ( getCube( ) != null )
 		{
+			if ( getCube( ).equals( value ) )
+				return;
 			MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
 					Messages.getString( "CrosstabDataBinding.title.ChangeCube" ),//$NON-NLS-1$
 					null,
@@ -123,64 +139,46 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 			ret = prefDialog.open( );
 			switch ( ret )
 			{
-				// Clear binding info
+			// Clear binding info
 				case 0 :
-					resetCubeReference( value, true );
+					resetCubeReference( (CubeHandle) value, true );
 					break;
 				// Doesn't clear binding info
 				case 1 :
-					resetCubeReference( value, false );
+					resetCubeReference( (CubeHandle) value, false );
 					break;
 				// Cancel.
 				case 2 :
-					section.getSimpleComboControl( )
-							.setStringValue( getCubeName( ) );
+					int index = getItems( ).indexOf( getCube( ) );
+					if ( index > -1 )
+					{
+						( (CCombo) section.getComboControl( ).getControl( ) ).select( index );
+					}
+					else
+					{
+						( (CCombo) section.getComboControl( ).getControl( ) ).deselectAll( );
+					}
 					break;
 			}
 		}
 		else
 		{
-			resetCubeReference( value, false );
+			resetCubeReference( (CubeHandle) value, false );
 		}
 		// super.save( value );
 	}
 
 	public Object load( )
 	{
-		Object obj = super.load( );
-		
-		if (obj.toString( ).length( ) < 1)
-		{
-			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
-			if (adapter != null)
-			{
-				obj = adapter.getExtendedDataName( getExtendedItemHandle( ));
-			}
-			
-		}
-		
-		return obj;
+		return getCube( );
 	}
 
-	private String getCubeName( )
+	private CubeHandle getCube( )
 	{
-		String cubeName;
-		if ( getExtendedItemHandle( ).getCube( ) == null )
-		{
-			cubeName = NONE;
-		}
-		else
-		{
-			cubeName = getExtendedItemHandle( ).getCube( ).getQualifiedName( );
-		}
-		if ( StringUtil.isBlank( cubeName ) )
-		{
-			cubeName = NONE;
-		}
-		return cubeName;
+		return getExtendedItemHandle( ).getCube( );
 	}
 
-	private void resetCubeReference( Object value, boolean clearHistory )
+	private void resetCubeReference( CubeHandle value, boolean clearHistory )
 	{
 		try
 		{
@@ -188,18 +186,29 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 			CubeHandle cubeHandle = null;
 			if ( value != null )
 			{
-				cubeHandle = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findCube( value.toString( ) );
+				cubeHandle = getExtendedItemHandle( ).getModuleHandle( )
+						.findCube( value.getQualifiedName( ) );
 			}
-			if(cubeHandle == null && value != null)
-			{
-				new LinkedDataSetAdapter().setLinkedDataModel(getExtendedItemHandle( ), value.toString( ));
-				
-			}else
+			if ( value == null )
 			{
 				getExtendedItemHandle( ).setCube( cubeHandle );
-				new LinkedDataSetAdapter().setLinkedDataModel(getExtendedItemHandle( ), null);
+				new LinkedDataSetAdapter( ).setLinkedDataModel( getExtendedItemHandle( ),
+						null );
+			}
+			else
+			{
+				if ( cubeHandle != value )
+				{
+					getExtendedItemHandle( ).setCube( null );
+					new LinkedDataSetAdapter( ).setLinkedDataModel( getExtendedItemHandle( ),
+							value.getQualifiedName( ) );
+				}
+				else
+				{
+					new LinkedDataSetAdapter( ).setLinkedDataModel( getExtendedItemHandle( ),
+							null );
+					getExtendedItemHandle( ).setCube( cubeHandle );
+				}
 			}
 			if ( clearHistory )
 			{
@@ -242,10 +251,10 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 		getActionStack( ).rollback( );
 	}
 
-	private CrosstabSimpleComboSection section;
+	private CrosstabBindingComboSection section;
 
 	public void setCrosstabSimpleComboSection(
-			CrosstabSimpleComboSection section )
+			CrosstabBindingComboSection section )
 	{
 		this.section = section;
 	}
