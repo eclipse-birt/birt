@@ -54,6 +54,9 @@ import org.eclipse.swt.widgets.Text;
 /**
  * MarkerIconDialog is invoked when the user chooses "icon" from Marker Type
  * Combo box.
+ * 
+ * @deprecated This dialog is deprecated. Use the general image dialog
+ *             {@link org.eclipse.birt.chart.ui.swt.composites.ImageDialog}.
  */
 public class MarkerIconDialog extends TrayDialog
 		implements
