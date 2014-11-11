@@ -44,6 +44,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	static String chartMetadata1 = "<embed([^<>]* id=\"";
 	static String chartMetadata2 = "\"[^<>]*)>[^<>]*";
 
+	@Override
 	public String getWorkSpace( )
 	{
 		return "./metadataTest";
@@ -114,15 +115,15 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	{
 		String designFile = "org/eclipse/birt/report/engine/emitter/html/dataItemWithoutBookmarkMetadata_Test.xml";
 		String[][] bookmarksWithMetadata = {
-				{"__bookmark_1","DATA","176"},
-				{"__bookmark_2","TABLE","177"},
-				{"AUTOGENBOOKMARK_1","DATA","192"},
-				{"AUTOGENBOOKMARK_3","DATA","204"},
-				{"AUTOGENBOOKMARK_4","DATA","190"},
-				{"AUTOGENBOOKMARK_7","DATA","214"},
-				{"AUTOGENBOOKMARK_8","DATA","191"},
-				{"AUTOGENBOOKMARK_9","DATA","193"},
-				{"__bookmark_4","LIST","228"}};
+				{"AUTOGENBOOKMARK_1","DATA","176"},
+				{"__bookmark_1","TABLE","177"},
+				{"AUTOGENBOOKMARK_2","DATA","192"},
+				{"AUTOGENBOOKMARK_4","DATA","204"},
+				{"AUTOGENBOOKMARK_5","DATA","190"},
+				{"AUTOGENBOOKMARK_8","DATA","214"},
+				{"AUTOGENBOOKMARK_9","DATA","191"},
+				{"AUTOGENBOOKMARK_10","DATA","193"},
+				{"__bookmark_2","LIST","228"}};
 		String[][] bookmarksWithoutMetadata = {};
 		checkAllTask( designFile, bookmarksWithMetadata,
 				bookmarksWithoutMetadata );
