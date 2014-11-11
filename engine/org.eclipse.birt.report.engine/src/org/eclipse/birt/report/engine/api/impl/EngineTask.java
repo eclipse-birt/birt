@@ -2125,9 +2125,8 @@ public abstract class EngineTask implements IEngineTask
 			{
 				// using the default format and emitter
 				format = RenderOption.OUTPUT_FORMAT_HTML;
-				emitterID = engine.getConfig( ).getDefaultEmitter( format );
-			}
-			else if ( emitterID != null )
+			}		
+			if ( emitterID != null )
 			{
 				// the user use the emitter id to define the output format
 				if ( !extManager.isValidEmitterID( emitterID ) )

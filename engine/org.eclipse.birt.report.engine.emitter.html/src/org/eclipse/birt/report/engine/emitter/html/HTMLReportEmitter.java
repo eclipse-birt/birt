@@ -781,7 +781,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		fixRedirect( );		
 		// client initialize		
-		String clientInitialize = report.getDesign( ).getReportDesign( ).getClientInitialize( );
+		String clientInitialize = null;
+		if( report != null)
+		{
+			clientInitialize = report.getDesign( ).getReportDesign( ).getClientInitialize( );
+		}
 		if( !StringUtil.isBlank( clientInitialize ) )
 		{	
 			// get the value of birtJsUrl on ModuleOption
