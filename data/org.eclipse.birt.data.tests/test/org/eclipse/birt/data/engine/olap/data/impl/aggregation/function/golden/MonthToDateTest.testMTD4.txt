@@ -1,6 +1,4 @@
 year quarter month week-of-month 
-2002 1 2 0 
-year quarter month week-of-month 
 2002 1 2 1 
 year quarter month week-of-month 
 2002 1 2 2 

@@ -375,7 +375,7 @@ public class TrailingTest extends BaseTestCase
 	public void testTrailing18( ) throws IOException
 	{
 		int[] values = new int[]{
-				2011, 1, 0, 52
+				2011, 1, 1, 1
 		};
 		String[] types = new String[]{
 				TimeMember.TIME_LEVEL_TYPE_YEAR,
@@ -418,7 +418,7 @@ public class TrailingTest extends BaseTestCase
 	public void testTrailing20( ) throws IOException
 	{
 		int[] values = new int[]{
-				2010, 12, 5, 52
+				2010, 12, 5, 1
 		};
 		String[] types = new String[]{
 				TimeMember.TIME_LEVEL_TYPE_YEAR,
@@ -439,7 +439,7 @@ public class TrailingTest extends BaseTestCase
 	public void testTrailing21( ) throws IOException
 	{
 		int[] values = new int[]{
-				2004, 1, 1, 53
+				2004, 1, 1, 1
 		};
 		String[] types = new String[]{
 				TimeMember.TIME_LEVEL_TYPE_YEAR,
