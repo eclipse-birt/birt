@@ -8,8 +8,5 @@
 # Contributors:
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
+
 preference.chart=Diagramm
-
-menu.lable.chart=&Diagramm
-
-preference.description=Fügen Sie ein Diagrammelement ein.

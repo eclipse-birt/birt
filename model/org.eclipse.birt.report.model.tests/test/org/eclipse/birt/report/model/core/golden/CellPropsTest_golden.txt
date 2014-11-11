@@ -11,6 +11,9 @@ bookmark
 bookmarkDisplayName
 headers
 viewAction
+role
+language
+altText
 diagonalNumber
 antidiagonalNumber
 diagonalThickness

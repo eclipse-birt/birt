@@ -21,9 +21,6 @@ import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-import com.ibm.icu.util.TimeZone;
-import com.ibm.icu.util.ULocale;
-
 /**
  *
  */
@@ -461,7 +458,7 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
 				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 2, 7) )",
 				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 2, 8) )",
-				"BirtDateTime.diffDay(new Date(1793, 0, 1),new Date(1794, 2, 8) )"
+				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2007, 2, 8) )",
 		};
 
 		int[] values = new int[]{
@@ -490,7 +487,7 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
 				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 2, 7,11,2,0) )",
 				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 2, 8,22,0,0) )",
-				"BirtDateTime.diffHour(new Date(1793, 0, 1),new Date(1794, 2, 8) )"
+				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2007, 2, 8) )"
 		};
 
 		int[] values = new int[]{
@@ -832,25 +829,28 @@ public class BirtDateTimeTest extends TestCase
 
 		c.clear( );
 
-		c.set( 2005, 10, 22 );
+		c.set( 2005, 10, 15 );
+		c.add(Calendar.HOUR, 7 * 24);
 
 		Date d1 = new Date( c.getTimeInMillis( ) );
 
 		c.clear( );
 
-		c.set( 2006, 10, 5 );
+		c.set( 2006, 9, 15 );
+		c.add(Calendar.HOUR, 21 * 24);
 
 		Date d2 = new Date( c.getTimeInMillis( ) );
 
 		c.clear( );
 
-		c.set( 1995, 10, 15, 10, 0, 0 );
+		c.set( 1995, 10, 15 );
+		c.add(Calendar.HOUR, 10);
 
 		Date d3 = new Date( c.getTimeInMillis( ) );
 
 		c.clear( );
 
-		c.set( 1970, 0, 22, 0, 0, 0 );
+		c.add(Calendar.HOUR, 21 * 24);
 
 		c.clear( );
 
@@ -883,19 +883,22 @@ public class BirtDateTimeTest extends TestCase
 
 		c.clear( );
 
-		c.set( 2005, 10, 22 );
+		c.set( 2005, 10, 15 );
+		c.add(Calendar.MINUTE, 7 * 24 * 60);
 
 		Date d1 = new Date( c.getTimeInMillis( ) );
 
 		c.clear( );
 
-		c.set( 2006, 10, 5 );
+		c.set( 2006, 9, 15 );
+		c.add(Calendar.MINUTE, 21 * 24 * 60);
 
 		Date d2 = new Date( c.getTimeInMillis( ) );
 
 		c.clear( );
 
-		c.set( 1995, 10, 15, 10, 10, 0 );
+		c.set( 1995, 10, 15 );
+		c.add(Calendar.MINUTE, 10 * 60 + 10 );
 
 		Date d3 = new Date( c.getTimeInMillis( ) );
 
@@ -930,19 +933,22 @@ public class BirtDateTimeTest extends TestCase
 
 		c.clear( );
 
-		c.set( 2005, 10, 22 );
+		c.set( 2005, 10, 15 );
+		c.add(Calendar.SECOND, 7 * 24 * 60 * 60 );
 
 		Date d1 = new Date( c.getTimeInMillis( ) );
 
 		c.clear( );
 
-		c.set( 2006, 10, 5 );
+		c.set( 2006, 9, 15 );
+		c.add(Calendar.SECOND, 21 * 24 * 60 * 60 );
 
 		Date d2 = new Date( c.getTimeInMillis( ) );
 
 		c.clear( );
 
-		c.set( 1995, 10, 15, 10, 10, 9 );
+		c.set( 1995, 10, 15 );
+		c.add(Calendar.SECOND, ( 10 * 60 + 10) * 60 + 9 );
 
 		Date d3 = new Date( c.getTimeInMillis( ) );
 
@@ -1103,11 +1109,14 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.firstDayOfWeek(new Date(2011, 7, 15) )"
 		};
 
-		com.ibm.icu.util.Calendar c = com.ibm.icu.util.Calendar.getInstance( TimeZone.getDefault( ), ULocale.getDefault() );
+		//com.ibm.icu.util.Calendar c = com.ibm.icu.util.Calendar.getInstance( TimeZone.getDefault( ), ULocale.getDefault() );
+		Calendar c = Calendar.getInstance();
+		c.setTimeZone(java.util.TimeZone.getDefault());
 
 		c.clear( );
 		c.setMinimalDaysInFirstWeek( 1 );
 		c.set( 2011, 7, 25 );
+		c.get(Calendar.DAY_OF_WEEK);
 		c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek( ) );
 
 		Date d1 = c.getTime( );
@@ -1115,6 +1124,7 @@ public class BirtDateTimeTest extends TestCase
 		c.clear( );
 		c.setMinimalDaysInFirstWeek( 1 );
 		c.set( 2011, 7, 15 );
+		c.get(Calendar.DAY_OF_WEEK);
 		c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek( ) );
 		Date d2 =  c.getTime( );
 

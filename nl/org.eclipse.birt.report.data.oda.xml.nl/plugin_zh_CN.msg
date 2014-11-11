@@ -14,9 +14,7 @@
 # NLS String
 ###############################################################################
 datasource.name=旧式 BIRT 2.1.x XML 数据源
-
 dataset.name=BIRT 2.1.x XML 数据集
 
 datasource.property.xmlFile=XML 数据源文件
-
 datasource.property.schemaFile=XML 架构文件

@@ -94,7 +94,7 @@
             <text-property name="helpText" key="new help text key">new help text</text-property>
             <property name="role">Div</property>
             <property name="language">English</property>
-            <property name="altText">Alt Text</property>
+            <expression name="altText">Alt Text</expression>
             <property name="order">1</property>
         </label>
         <list name="My List" id="15">

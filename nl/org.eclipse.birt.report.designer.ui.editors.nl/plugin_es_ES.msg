@@ -8,9 +8,8 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 contenttype.design=Diseño de informe
-
-contenttype.library=Report Library
+contenttype.library=Librería de informes
 contenttype.template=Plantilla de informe
-
 contenttype.document=Documento de informe

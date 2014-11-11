@@ -15,20 +15,13 @@
 ###############################################################################
 LibPerspective=Lib Design
 LibraryEditor=Editeur de bibliothèque
-
-WizardCategoryName=Business Intelligence and Reporting Tools
+WizardCategoryName=Outils de reporting et de Business Intelligence
 LibraryWizard=Bibliothèque
-
 LibraryWizardDescription=Cet assistant crée une nouvelle bibliothèque.
-
 LibraryProjectWizard=Projet de bibliothèque
-
 LibraryProjectWizardDescription=Crée un projet de bibliothèque.
 
 library.layout=&Mise en page
-
 library.script=&Script
-
 library.xmlsource=Source &XML
-
 design.masterPage=&Page maître

@@ -899,7 +899,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Sets the master page name on which to start this section. If blank, the
 	 * normal page sequence is used. If defined, the section starts on a new
 	 * page, and the master page is the one defined here. The subsequent pages
-	 * are those defined by the report��s page sequence.
+	 * are those defined by the report's page sequence.
 	 * 
 	 * @param value
 	 *            the new master page name
@@ -1394,7 +1394,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Sets the widows property. A ��widow�� occurs when the last line of a
+	 * Sets the widows property. A 'widow' occurs when the last line of a
 	 * multi-line paragraph appears on its own at the top of a page due to a
 	 * page break. The input value is either an integer as as string or one of
 	 * constants defined in <code>DesignChoiceConstants</code>:

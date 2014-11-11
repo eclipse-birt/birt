@@ -123,7 +123,7 @@ public class NumberFormatterTest extends TestCase
 		Assert.assertEquals( "-1,002.20", numFormat.format( -1002.2 ) );
 		Assert.assertEquals( "0.00", numFormat.format( 0.004 ) );
 		Assert.assertEquals( "0.00", numFormat.format( 0.004123456 ) );
-		Assert.assertEquals( "0.00", numFormat.format( -0.004 ) );
+		Assert.assertEquals( "-0.00", numFormat.format( -0.004 ) );
 		Assert.assertEquals( "3,333,333,333.33", numFormat
 				.format( 3333333333.33 ) );
 		Assert.assertEquals( "0.00", numFormat.format( 0 ) );
@@ -233,47 +233,47 @@ public class NumberFormatterTest extends TestCase
 		double[] bigValues = { -0.51, -0.051, -0.0051, -0.00051, -0.00000051 };
 		
 		numFormat.applyPattern( "#" );
-		Assert.assertEquals( numFormat.format( smallValues[0] ), "0" );
+		Assert.assertEquals( numFormat.format( smallValues[0] ), "-0" );
 		Assert.assertEquals( numFormat.format( bigValues[0] ), "-1" );
 
 		numFormat.applyPattern( "0" );
-		Assert.assertEquals( numFormat.format( smallValues[0] ), "0" );
+		Assert.assertEquals( numFormat.format( smallValues[0] ), "-0" );
 		Assert.assertEquals( numFormat.format( bigValues[0] ), "-1" );
 
 		numFormat.applyPattern( "###,##0" );
-		Assert.assertEquals( numFormat.format( smallValues[3] ), "0" );
-		Assert.assertEquals( numFormat.format( bigValues[3] ), "0" );
+		Assert.assertEquals( numFormat.format( smallValues[3] ), "-0" );
+		Assert.assertEquals( numFormat.format( bigValues[3] ), "-0" );
 
 		numFormat.applyPattern( "#.0#" );
-		Assert.assertEquals( numFormat.format( smallValues[2] ), ".0" );
+		Assert.assertEquals( numFormat.format( smallValues[2] ), "-.0" );
 		Assert.assertEquals( numFormat.format( bigValues[2] ), "-.01" );
 
 		numFormat.applyPattern( "###,##0.00 'm/s'" );
-		Assert.assertEquals( numFormat.format( smallValues[2] ), "0.00 m/s" );
+		Assert.assertEquals( numFormat.format( smallValues[2] ), "-0.00 m/s" );
 		Assert.assertEquals( numFormat.format( bigValues[2] ), "-0.01 m/s" );
 
 		numFormat.applyPattern( "#.##" );
-		Assert.assertEquals( numFormat.format( smallValues[2] ), "0" );
+		Assert.assertEquals( numFormat.format( smallValues[2] ), "-0" );
 		Assert.assertEquals( numFormat.format( bigValues[2] ), "-0.01" );
 
 		numFormat.applyPattern( "###.#';'" );
-		Assert.assertEquals( numFormat.format( smallValues[1] ), "0;" );
+		Assert.assertEquals( numFormat.format( smallValues[1] ), "-0;" );
 		Assert.assertEquals( numFormat.format( bigValues[1] ), "-0.1;" );
 
 		numFormat.applyPattern( "###.#\';';#" );
-		Assert.assertEquals( numFormat.format( smallValues[1] ), "0;" );
-		Assert.assertEquals( numFormat.format( bigValues[1] ), "0.1" ); ///
+		Assert.assertEquals( numFormat.format( smallValues[1] ), "0" );
+		Assert.assertEquals( numFormat.format( bigValues[1] ), "0.1" );
 		
 		numFormat.applyPattern( "#.00%" );
 		Assert.assertEquals( numFormat.format( smallValues[2] ), "-.49%" );
 		Assert.assertEquals( numFormat.format( bigValues[2] ), "-.51%" );
 
 		numFormat.applyPattern( "Fixed" );
-		Assert.assertEquals( numFormat.format( smallValues[2] ), "0.00" );
+		Assert.assertEquals( numFormat.format( smallValues[2] ), "-0.00" );
 		Assert.assertEquals( numFormat.format( bigValues[2] ), "-0.01" );
 
 		numFormat.applyPattern( "Standard" );
-		Assert.assertEquals( numFormat.format( smallValues[2] ), "0.00" );
+		Assert.assertEquals( numFormat.format( smallValues[2] ), "-0.00" );
 		Assert.assertEquals( numFormat.format( bigValues[2] ), "-0.01" );
 
 		numFormat.applyPattern( "Percent" );

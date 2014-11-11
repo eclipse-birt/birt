@@ -169,72 +169,65 @@ public class BirtCompTest extends TestCase
 	 */
 	public void testCompare()
 	{
-		String[] script = new String[]{
+		Object[][] tests = new Object[][]{
 				//Equal to
-				"BirtComp.equalTo(100,100);",
-				"BirtComp.equalTo(null,null)",
-				"BirtComp.equalTo(\"ABC\",\"ABC\")",
-				"BirtComp.equalTo(new Date(99,10,10),\"1999-11-10\")",
-				"BirtComp.equalTo(\"1999-11-10\",new Date(99,10,10))",
-				"BirtComp.equalTo(20,100)",
-				"BirtComp.equalTo( new java.sql.Time(10,10,10), \"10:10:10.000\")",
-				"BirtComp.equalTo( new java.sql.Date(80,9,9), \"1980-10-9 12:14:25\")",
+				{"BirtComp.equalTo(100,100);", true},
+				{"BirtComp.equalTo(null,null)", true},
+				{"BirtComp.equalTo(\"ABC\",\"ABC\")", true},
+				{"BirtComp.equalTo(new Date(99,10,10),\"1999-11-10\")", true},
+				{"BirtComp.equalTo(\"1999-11-10\",new Date(99,10,10))", true},
+				{"BirtComp.equalTo(20,100)", false},
+				{"BirtComp.equalTo( new java.sql.Time(10,10,10), \"10:10:10.000\")", true},
+				{"BirtComp.equalTo( new java.sql.Date(80,9,9), \"1980-10-9 12:14:25\")", true},
 				
 				//NotEqual to
-				"BirtComp.notEqual(100,100);",
-				"BirtComp.notEqual(null,null)",
-				"BirtComp.notEqual(\"ABC\",\"ABC\")",
-				"BirtComp.notEqual(new Date(99,10,10),\"1999-11-10\")",
-				"BirtComp.notEqual(\"1999-11-10\",new Date(99,10,10))",
-				"BirtComp.notEqual(20,100)",
+				{"BirtComp.notEqual(100,100);", false},
+				{"BirtComp.notEqual(null,null)", false},
+				{"BirtComp.notEqual(\"ABC\",\"ABC\")", false},
+				{"BirtComp.notEqual(new Date(99,10,10),\"1999-11-10\")", false},
+				{"BirtComp.notEqual(\"1999-11-10\",new Date(99,10,10))", false},
+				{"BirtComp.notEqual(20,100)", true},
 				
 				//greater than
-				"BirtComp.greaterThan(100,10);",
-				"BirtComp.greaterThan(null,null)",
-				"BirtComp.greaterThan(\"aBC\",\"ABC\")",
-				"BirtComp.greaterThan(new Date(99,9,10),\"1999-11-10\")",
-				"BirtComp.greaterThan(\"1999-11-10\",new Date(99,9,10))",
-				"BirtComp.greaterThan(20,100)",
+				{"BirtComp.greaterThan(100,10);", true},
+				{"BirtComp.greaterThan(null,null)", false},
+				{"BirtComp.greaterThan(\"aBC\",\"ABC\")", true},
+				{"BirtComp.greaterThan(new Date(99,9,10),\"1999-11-10\")", false},
+				{"BirtComp.greaterThan(\"1999-11-10\",new Date(99,9,10))", true},
+				{"BirtComp.greaterThan(20,100)", false},
 				
 				//greater than or equal to
-				"BirtComp.greaterOrEqual(100,10);",
-				"BirtComp.greaterOrEqual(null,null)",
-				"BirtComp.greaterOrEqual(\"aBC\",\"ABC\")",
-				"BirtComp.greaterOrEqual(new Date(99,9,10),\"1999-11-10\")",
-				"BirtComp.greaterOrEqual(\"1999-11-10\",new Date(99,9,10))",
-				"BirtComp.greaterOrEqual(20,100)",
+				{"BirtComp.greaterOrEqual(100,10);", true},
+				{"BirtComp.greaterOrEqual(null,null)", true},
+				{"BirtComp.greaterOrEqual(\"aBC\",\"ABC\")", true},
+				{"BirtComp.greaterOrEqual(new Date(99,9,10),\"1999-11-10\")", false},
+				{"BirtComp.greaterOrEqual(\"1999-11-10\",new Date(99,9,10))", true},
+				{"BirtComp.greaterOrEqual(20,100)", false},
 				
 				//Less than
-				"BirtComp.lessThan(10,100);",
-				"BirtComp.lessThan(null,null)",
-				"BirtComp.lessThan(\"aBC\",\"ABC\")",
-				"BirtComp.lessThan(new Date(99,9,10),\"1999-11-10\")",
-				"BirtComp.lessThan(\"1999-11-10\",new Date(99,9,10))",
-				"BirtComp.lessThan(20,100)",
+				{"BirtComp.lessThan(10,100);", true},
+				{"BirtComp.lessThan(null,null)", false},
+				{"BirtComp.lessThan(\"aBC\",\"ABC\")", false},
+				{"BirtComp.lessThan(new Date(99,9,10),\"1999-11-10\")", true},
+				{"BirtComp.lessThan(\"1999-11-10\",new Date(99,9,10))", false},
+				{"BirtComp.lessThan(20,100)", true},
 				
-				//greater than or equal to
-				"BirtComp.lessOrEqual(100,10);",
-				"BirtComp.lessOrEqual(null,null)",
-				"BirtComp.lessOrEqual(\"aBC\",\"ABC\")",
-				"BirtComp.lessOrEqual(new Date(99,9,10),\"1999-11-10\")",
-				"BirtComp.lessOrEqual(\"1999-11-10\",new Date(99,9,10))",
-				"BirtComp.lessOrEqual(100,100)",
+				//Less than or equal to
+				{"BirtComp.lessOrEqual(100,10);", false},
+				{"BirtComp.lessOrEqual(null,null)", true},
+				{"BirtComp.lessOrEqual(\"aBC\",\"ABC\")", false},
+				{"BirtComp.lessOrEqual(new Date(99,9,10),\"1999-11-10\")", true},
+				{"BirtComp.lessOrEqual(\"1999-11-10\",new Date(99,9,10))", false},
+				{"BirtComp.lessOrEqual(100,100)", true}
 		};
 		
-		boolean[] result = new boolean[] { true, true, true, true, true, false,true,true,
-										   false,false,false,false,false,true,
-										   true, false, false, false, true, false,
-										   true, true, false, false, true, false,
-										   true, false, true, true, false, true,
-										   false, true, true, true, false, true};
-		
-		for( int i = 0; i < script.length; i++ )
+		for( int i = 0; i < tests.length; i++ )
 		{
 			assertTrue( ( (Boolean) cx.evaluateString( scope,
-				script[i],
+				( String ) tests[i][0],
 				"inline",
 				1,
-				null ) ).booleanValue( ) == result[i]);
+				null ) ).equals( ( Boolean ) tests[i][1]) );
 		}
 	}
 	

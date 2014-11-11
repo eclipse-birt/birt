@@ -27,10 +27,8 @@ import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemFigureProvider;
-import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -39,13 +37,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.SWTException;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -81,7 +74,7 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		{
 			final ChartReportItemImpl iri = (ChartReportItemImpl) eih.getReportItem( );
 			final DesignerRepresentation dr = ChartReportItemUIFactory.instance( ).createFigure( iri );
-			refreshBackgroundImage( eih, dr );
+			ChartReportItemUIUtil.refreshBackground( eih, dr );			
 			iri.setDesignerRepresentation( dr ); // UPDATE LINK
 
 			// Update the hostChart reference once plot chart is copied
@@ -174,9 +167,10 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			eih.loadExtendedElement( );
 			// UPDATE THE MODEL
 			eih.getReportItem( ).setHandle( eih );
-			
-			refreshBackgroundImage( eih, (ReportElementFigure) ifg );
-			
+
+			ChartReportItemUIUtil.refreshBackground( eih,
+					(ReportElementFigure) ifg );
+
 			// USE THE SWT DISPLAY SERVER TO CONVERT POINTS TO PIXELS
 			final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( );
 			final int dpi = idsSWT.getDpiResolution( );
@@ -267,87 +261,4 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		listenerMap.put( handleTarget, listener );
 		return listener;
 	}
-
-	/*
-	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
-	 * 
-	 */
-	private void refreshBackgroundImage( DesignElementHandle handle, ReportElementFigure figure )
-	{
-		String backGroundImage = ChartReportItemUIUtil.getBackgroundImage( handle );
-
-		if ( backGroundImage == null )
-		{
-			figure.setImage( null );
-		}
-		else
-		{
-			Image image = null;
-			try
-			{
-				image = ImageManager.getInstance( )
-						.getImage( handle.getModuleHandle( ),
-								backGroundImage );
-			}
-			catch ( SWTException e )
-			{
-				// Should not be ExceptionHandler.handle(e), see SCR#73730
-				image = null;
-			}
-
-			if ( image == null )
-			{
-				figure.setImage( null );
-				return;
-			}
-
-			figure.setImage( image );
-
-			Object[] backGroundPosition = ChartReportItemUIUtil.getBackgroundPosition( handle );
-			int backGroundRepeat = ChartReportItemUIUtil.getBackgroundRepeat( handle );
-
-			figure.setRepeat( backGroundRepeat );
-
-			Object xPosition = backGroundPosition[0];
-			Object yPosition = backGroundPosition[1];
-			Rectangle area = figure.getClientArea( );
-			org.eclipse.swt.graphics.Rectangle imageArea = image.getBounds( );
-			Point position = new Point( -1, -1 );
-			int alignment = 0;
-
-			if ( xPosition instanceof Integer )
-			{
-				position.x = ( (Integer) xPosition ).intValue( );
-			}
-			else if ( xPosition instanceof DimensionValue )
-			{
-				int percentX = (int) ( (DimensionValue) xPosition ).getMeasure( );
-
-				position.x = ( area.width - imageArea.width ) * percentX / 100;
-			}
-			else if ( xPosition instanceof String )
-			{
-				alignment |= DesignElementHandleAdapter.getPosition( (String) xPosition );
-			}
-
-			if ( yPosition instanceof Integer )
-			{
-				position.y = ( (Integer) yPosition ).intValue( );
-			}
-			else if ( yPosition instanceof DimensionValue )
-			{
-				int percentY = (int) ( (DimensionValue) yPosition ).getMeasure( );
-
-				position.y = ( area.width - imageArea.width ) * percentY / 100;
-			}
-			else if ( yPosition instanceof String )
-			{
-				alignment |= DesignElementHandleAdapter.getPosition( (String) yPosition );
-			}
-
-			figure.setAlignment( alignment );
-			figure.setPosition( position );
-		}
-	}
-	
 }

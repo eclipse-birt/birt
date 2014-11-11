@@ -67,9 +67,6 @@ public class HTMLProcessor
 	protected String rootPath;
 
 	private Map appContext;
-	
-	private ArrayList<String> bracketed = new ArrayList<String>( );
-
 
 	/**
 	 * Constructor
@@ -112,7 +109,9 @@ public class HTMLProcessor
 			String inlineStyle = ele.getAttribute( "style" ); //$NON-NLS-1$
 			if ( null != inlineStyle && !"".equals( inlineStyle ) ) //$NON-NLS-1$
 			{
-				// replace all bracketed content to avoid : and ; in the bracket.
+		
+				ArrayList<String> bracketed = new ArrayList<String>( );
+			    //replace all bracketed content to avoid : and ; in the bracket.
 				Matcher matcher = IN_BRACKET_PATTERN.matcher( inlineStyle );
 				while ( matcher.find( ) )
 				{

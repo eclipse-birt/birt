@@ -38,7 +38,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * within the result set.</dd>
  * 
  * <dt><strong>Alias </strong></dt>
- * <dd>a column hint has an optional alias. It provides an ¡°alias¡± name used
+ * <dd>a column hint has an optional alias. It provides an 'alias' name used
  * for the column within the report.</dd>
  * 
  * <dt><strong>Searching </strong></dt>
@@ -54,7 +54,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * used when exporting the data to an OLAP cube.</dd>
  * 
  * <dt><strong>Parent Level </strong></dt>
- * <dd>a column hint has an optional parent level. It is used when a column¡¯s
+ * <dd>a column hint has an optional parent level. It is used when a column's
  * <code>ANALYSIS_MEMBER</code> property is set to
  * <code>ANALYSIS_TYPE_DIMENSION</code> or <code>ANALYSIS_TYPE_DETAIL</code>.
  * For <code>ANALYSIS_TYPE_DIMENSION</code>, this property establishes the
@@ -102,7 +102,7 @@ public class ColumnHint extends PropertyStructure
 	public static final String COLUMN_NAME_MEMBER = "columnName"; //$NON-NLS-1$
 
 	/**
-	 * Name of the alias member. This member provides an ¡°alias¡± name used for
+	 * Name of the alias member. This member provides an 'alias' name used for
 	 * the column within the report.
 	 */
 

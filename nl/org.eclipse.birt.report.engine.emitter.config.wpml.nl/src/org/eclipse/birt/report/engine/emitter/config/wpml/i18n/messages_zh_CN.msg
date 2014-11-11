@@ -12,7 +12,6 @@
 ###########################################################
 #Word Emitter
 WordEmitter.Description=配置用于以 XML Document 2003 格式呈现报表的选项。
-
 WordEmitter.DisplayName=Word (DOC)
 
 ###########################################################

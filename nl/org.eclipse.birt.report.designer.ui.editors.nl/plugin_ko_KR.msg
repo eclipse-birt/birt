@@ -8,9 +8,8 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 contenttype.design=보고서 디자인
-
-contenttype.library=Report Library
+contenttype.library=보고서 라이브러리
 contenttype.template=보고서 템플릿
-
 contenttype.document=보고서 문서

@@ -12,7 +12,6 @@
 ###########################################################
 #Word Emitter
 WordEmitter.Description=Configurez les options pour un rendu de rapport au format document XML 2003.
-
 WordEmitter.DisplayName=Word (DOC)
 
 ###########################################################

@@ -17,10 +17,8 @@ Build=@BUILD@
 ###############################################################################
 # General Info
 ###############################################################################
+
 QuickEditView=Eigenschaftseditor
-
 ReportViews=Berichtdesign
-
 DataExplorerView=Daten-Explorer
-
 Variable.Actions=Neue &Variable

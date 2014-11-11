@@ -13,7 +13,9 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class DriverExt implements Driver
 {
@@ -56,4 +58,8 @@ public class DriverExt implements Driver
 		return this.driver.jdbcCompliant( );
 	}
 
+	public Logger getParentLogger( ) throws SQLFeatureNotSupportedException
+	{
+		throw new SQLFeatureNotSupportedException( );
+	}
 }

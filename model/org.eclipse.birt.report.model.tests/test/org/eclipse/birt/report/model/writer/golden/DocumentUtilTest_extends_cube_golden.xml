@@ -7,6 +7,7 @@
             <property name="odaUser">ClassicModels</property>
         </oda-data-source>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source1" id="20">
+        	<property name="externalConnectionName">Data Source</property>
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
             <property name="odaURL">jdbc:classicmodels:sampledb</property>
             <property name="odaUser">ClassicModels</property>

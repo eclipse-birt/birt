@@ -67,79 +67,36 @@ public class EngineLogger
 	 * the log record are delegated to the adapter handler
 	 */
 	static private AdapterHandler adapterHandler;
-
-	/**
-	 * This function should only called by the main application that starts
-	 * BIRT. It will add a new log handler to the global BIRT logger.
-	 * 
-	 * @param logger
-	 *            - the user defined logger.
-	 * @param directoryName
-	 *            - the directory name of the log file (e.g. C:\Log). The final
-	 *            file name will be the directory name plus an unique file name.
-	 *            For example, if the directory name is C:\Log, the log file
-	 *            name will be something like
-	 *            C:\Log\ReportEngine_2005_02_26_11_26_56.log
-	 * @param logLevel
-	 *            - the log level to be set. If logLevel is null, it will be
-	 *            ignored.
-	 * @param rollingSize
-	 * @param maxBackupIndex
-	 */
-	public static void startEngineLogging( Logger logger, String directoryName,
-			String fileName, Level logLevel, int rollingSize, int maxBackupIndex )
+	
+	private static void startEngineLogging( LoggerSetting setting )
 	{
 		// first setup the user defined logger
-		if ( logger != null )
-		{
-			if ( !isValidLogger( logger ) )
-			{
-				logger.log( Level.WARNING,
-						"the logger can't be the child of org.eclipse.birt" );
-			}
-			else
-			{
-				AdapterHandler adapter = getAdapterHandler( );
-				adapter.setUserLogger( logger );
-			}
-		}
+		AdapterHandler adapter = getAdapterHandler( );
+		adapter.setUserLoggers( setting.getUserLoggers( ) );
 		// then setup the file logger
-		if ( directoryName != null || fileName != null )
-		{
-			logFileName = generateUniqueLogFileName( directoryName, fileName );
-			logRollingSize = rollingSize;
-			logMaxBackupIndex = maxBackupIndex;
-			if ( logLevel != Level.OFF )
-			{
-				FileHandler fileHandler = createFileLogger( logFileName,
-						logRollingSize, logMaxBackupIndex, logLevel );
-				if ( fileHandler != null )
-				{
-					AdapterHandler adapter = getAdapterHandler( );
-					adapter.setFileHandler( fileHandler );
-				}
-			}
-		}
+		adapter.setFileHandlers( ( FileHandler[] ) setting.getHandlers( ) );
 
-		// finally we setup the log level, NULL means use the parent's level
+		// finally we setup the log level, NULL means use the parent's level		
 		for(Logger rootLogger : ROOT_LOGGERS)
 		{
-			rootLogger.setLevel( logLevel );
+			rootLogger.setLevel( setting.getLogLevel( ) );
 		}
 	}
 
-	public static void setLogger( Logger logger )
+	public static void setLogger( LoggerSetting loggerSetting, Logger logger )
 	{
 		if ( logger != null )
 		{
 			if ( !isValidLogger( logger ) )
 			{
 				logger.log( Level.WARNING,
-						"the logger can't be the child of org.eclipse.birt" );
+						"the logger can't be the child of org.eclipse.birt" );				
 			}
 		}
-		AdapterHandler adapter = getAdapterHandler( );
-		adapter.setUserLogger( logger );
+		
+		LoggerSettingManager lsmInst = LoggerSettingManager.getInstance( );
+		lsmInst.setLogger( loggerSetting, logger );
+		startEngineLogging( LoggerSettingManager.getInstance( ).getMergedSetting( ) );
 	}
 
 	public static boolean isValidLogger( Logger logger )
@@ -165,7 +122,7 @@ public class EngineLogger
 	 * file. Please see
 	 * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4775533 for detail.
 	 */
-	public static void stopEngineLogging( )
+	private static void stopEngineLogging( )
 	{
 		java.security.AccessController
 				.doPrivileged( new java.security.PrivilegedAction<Object>( ) {
@@ -195,108 +152,15 @@ public class EngineLogger
 		logMaxBackupIndex = 0;
 	}
 
-	/**
-	 * Change the log level to the newLevel
-	 * 
-	 * @param newLevel
-	 *            - new log level
-	 */
-	public static void changeLogLevel( Level newLevel )
+	public static void changeLogLevel( LoggerSetting loggerSetting, Level newLevel )
 	{
-		if ( logFileName != null && newLevel != Level.OFF )
-		{
-			AdapterHandler adapter = getAdapterHandler( );
-			if ( adapter.fileHandler == null )
-			{
-				FileHandler fileHandler = createFileLogger( logFileName,
-						logRollingSize, logMaxBackupIndex, newLevel );
-				if ( fileHandler != null )
-				{
-					adapter.setFileHandler( fileHandler );
-				}
-			}
-		}
+		LoggerSettingManager lsmInst = LoggerSettingManager.getInstance( );
+		lsmInst.changeSettingLevel( loggerSetting, newLevel );
+		startEngineLogging( lsmInst.getMergedSetting( ) );
 		for ( Logger rootLogger : ROOT_LOGGERS )
 		{
 			rootLogger.setLevel( newLevel );
 		}
-	}
-
-	/**
-	 * This is a utility function that will create an unique file name with the
-	 * timestamp information in the file name and append the file name into the
-	 * directory name. For example, if the directory name is C:\Log, the
-	 * returned file name will be C:\Log\ReportEngine_2005_02_26_11_26_56.log.
-	 * 
-	 * @param directoryName
-	 *            - the directory name of the log file.
-	 * @param fileName
-	 *            the log file name
-	 * @return An unique Log file name which is the directory name plus the file
-	 *         name.
-	 */
-	private static String generateUniqueLogFileName( String directoryName,
-			String fileName )
-	{
-		if ( fileName == null )
-		{
-			SimpleDateFormat df = new SimpleDateFormat( "yyyy_MM_dd_HH_mm_ss" ); //$NON-NLS-1$
-			String dateTimeString = df.format( new Date( ) );
-			fileName = "ReportEngine_" + dateTimeString + ".log"; //$NON-NLS-1$; $NON-NLS-2$;
-		}
-
-		if ( directoryName == null || directoryName.length( ) == 0 )
-		{
-			return fileName;
-		}
-
-		File folder = new File( directoryName );
-		File file = new File( folder, fileName );
-		return file.getPath( );
-	}
-
-	private static FileHandler createFileLogger( String fileName,
-			int rollingSize, int logMaxBackupIndex, Level level )
-	{
-		try
-		{
-			File path = new File( fileName ).getParentFile( );
-			if ( path != null )
-			{
-				path.mkdirs( );
-			}
-			if ( logMaxBackupIndex <= 0 )
-			{
-				logMaxBackupIndex = 1;
-			}
-			if ( rollingSize < 0 )
-			{
-				rollingSize = 0;
-			}
-			FileHandler logFileHandler = new FileHandler( fileName,
-					rollingSize, logMaxBackupIndex, true );
-			// In BIRT log, we should always use the simple format.
-			logFileHandler.setFormatter( new SimpleFormatter( ) );
-			if( level == null )
-			{
-				logFileHandler.setLevel( Level.WARNING );
-			}
-			else
-			{
-				logFileHandler.setLevel( level );
-			}
-			logFileHandler.setEncoding( "utf-8" );
-			return logFileHandler;
-		}
-		catch ( SecurityException e )
-		{
-			ROOT_LOGGER.log( Level.WARNING, e.getMessage( ), e );
-		}
-		catch ( IOException e )
-		{
-			ROOT_LOGGER.log( Level.WARNING, e.getMessage( ), e );
-		}
-		return null;
 	}
 
 	protected static AdapterHandler getAdapterHandler( )
@@ -334,8 +198,8 @@ public class EngineLogger
 	{
 
 		private Logger parent;
-		private Logger userLogger;
-		private Handler fileHandler;
+		private Logger[] userLoggers;
+		private Handler[] fileHandlers;
 		private ThreadLocal<Logger> threadLoggers;
 
 		public AdapterHandler( Logger logger )
@@ -343,14 +207,14 @@ public class EngineLogger
 			this.parent = logger;
 		}
 
-		public void setUserLogger( Logger logger )
+		public void setUserLoggers( Logger[] loggers )
 		{
-			this.userLogger = logger;
+			this.userLoggers = loggers;
 		}
 
-		public void setFileHandler( FileHandler fileHandler )
+		public void setFileHandlers( FileHandler[] fileHandlers )
 		{
-			this.fileHandler = fileHandler;
+			this.fileHandlers = fileHandlers;
 		}
 
 		public void setThreadLogger( Logger logger )
@@ -388,16 +252,17 @@ public class EngineLogger
 				}
 			}
 			// then try the user and file handler
-			if ( userLogger != null || fileHandler != null )
+			if ( userLoggers != null || fileHandlers != null )
 			{
-				if ( userLogger != null )
+				if ( userLoggers != null )
 				{
-					// publish using the logger's handler
-					publishToLogger( userLogger, record );
+					for ( Logger logger : userLoggers )
+						publishToLogger( logger, record );
 				}
-				if ( fileHandler != null )
+				if ( fileHandlers != null )
 				{
-					fileHandler.publish( record );
+					for ( Handler handler : fileHandlers )
+						handler.publish(record);				
 				}
 				return;
 			}
@@ -407,18 +272,24 @@ public class EngineLogger
 
 		public void close( ) throws SecurityException
 		{
-			if ( fileHandler != null )
+			if ( fileHandlers != null )
 			{
-				fileHandler.close( );
-				fileHandler = null;
+				fileHandlers = null;
+			}
+			if ( userLoggers != null )
+			{
+				userLoggers = null;
 			}
 		}
 
 		public void flush( )
 		{
-			if ( fileHandler != null )
+			if ( fileHandlers != null )
 			{
-				fileHandler.flush( );
+				for ( Handler handler : fileHandlers )
+				{
+					handler.flush();
+				}
 			}
 		}
 
@@ -490,5 +361,29 @@ public class EngineLogger
 			rootLogger.addHandler( adapterHandler );
 			rootLogger.setUseParentHandlers( false );
 		}		
+	}
+	
+	public static LoggerSetting createSetting( Logger logger, String directoryName,
+			String fileName, Level logLevel, int rollingSize, int maxBackupIndex )
+	{
+		LoggerSettingManager lsmInst = LoggerSettingManager.getInstance( );
+		LoggerSetting setting = lsmInst.createLoggerSetting( logger, directoryName, 
+				fileName, logLevel, rollingSize, maxBackupIndex );
+		startEngineLogging( lsmInst.getMergedSetting( ) );
+		
+		return setting;
+	}
+	
+	public static void removeSetting( LoggerSetting loggerSetting )
+	{
+		LoggerSettingManager lsmInst = LoggerSettingManager.getInstance( );
+		lsmInst.removeLoggerSetting( loggerSetting );
+		
+		LoggerSetting mergedSetting = lsmInst.getMergedSetting( );
+		
+		if ( mergedSetting != null )
+			startEngineLogging( lsmInst.getMergedSetting( ) );
+		else 
+			stopEngineLogging( );
 	}
 }

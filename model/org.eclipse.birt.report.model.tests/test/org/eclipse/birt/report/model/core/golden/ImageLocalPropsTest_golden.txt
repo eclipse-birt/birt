@@ -12,6 +12,7 @@ typeExpr
 action
 fitToContainer
 proportionalScale
+role
 onPrepare
 onCreate
 onRender

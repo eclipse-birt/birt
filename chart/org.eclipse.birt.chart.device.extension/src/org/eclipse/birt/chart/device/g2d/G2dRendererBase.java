@@ -397,7 +397,8 @@ public class G2dRendererBase extends DeviceAdapter
 						ilex );
 			}
 		}
-		else
+		else if ( ire.getImage( ).getSource( ) != ImageSourceType.FILE
+				&& ire.getImage( ).getSource( ) != ImageSourceType.REPORT )
 		{
 			try
 			{

@@ -101,7 +101,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 	}
 
 	/**
-	 * Tests whether allows the footer ¡°floats¡± after the last content on each
+	 * Tests whether allows the footer 'floats' after the last content on each
 	 * page.
 	 * 
 	 * @return <code>true</code> if the simple master page allows floating

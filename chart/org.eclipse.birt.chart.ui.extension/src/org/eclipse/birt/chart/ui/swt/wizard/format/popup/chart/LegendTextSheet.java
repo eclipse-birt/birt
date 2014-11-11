@@ -55,7 +55,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 	protected transient Composite cmpContent = null;
 
-	private transient FontDefinitionComposite fdcFont = null;
+	protected transient FontDefinitionComposite fdcFont = null;
 
 	private transient LineAttributesComposite lineSeparator;
 	
@@ -395,7 +395,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		fsp.updatePreview( fs );
 	}
 
-	private Legend getLegend( )
+	protected Legend getLegend( )
 	{
 		return getChart( ).getLegend( );
 	}

@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.outline;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +23,7 @@ import org.eclipse.birt.report.designer.core.mediator.IMediator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConverter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.editors.EditorUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.IReportPageBookViewPage;
@@ -39,6 +43,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryA
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDragListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.IDropConstraint;
+import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.ui.widget.ITreeViewerBackup;
@@ -46,6 +52,7 @@ import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -81,6 +88,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.RetargetAction;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
@@ -286,6 +294,43 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 					SessionHandleAdapter.getInstance( )
 							.getMediator( model )
 							.notifyRequest( r );
+					
+					// handle double-click for included library
+					if ( selectedObject instanceof LibraryHandle
+							&& selectedObject != getRoot( ) )
+					{
+						try
+						{
+							final File file = EditorUtil.convertToFile( new URL( ( (LibraryHandle) selectedObject ).getFileName( ) ) );
+
+							if ( file != null
+									&& file.exists( )
+									&& file.isFile( ) )
+							{
+								Display.getCurrent( )
+										.asyncExec( new Runnable( ) {
+
+											public void run( )
+											{
+												try
+												{
+													EditorUtil.openEditor( DesignerOutlinePage.this,
+															file,
+															IReportEditorContants.LIBRARY_EDITOR_ID );
+												}
+												catch ( PartInitException e )
+												{
+													ExceptionUtil.handle( e );
+												}
+											}
+										} );
+							}
+						}
+						catch ( IOException e1 )
+						{
+							//ignore
+						}
+					}
 
 					try
 					{

@@ -15,12 +15,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Locale;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+
 import junit.framework.AssertionFailedError;
 
 /**
@@ -578,6 +580,20 @@ public class HttpServletResponseSimulator implements HttpServletResponse
 	public void setOutputStream( OutputStream out )
 	{
 		this.out = out;
+	}
+
+	@Override
+	public Collection<String> getHeaders( String name )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<String> getHeaderNames( )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -26,13 +26,6 @@
     </styles>
     <page-setup>
         <graphic-master-page name="My Page">
-            <property name="comments">Sample page</property>
-            <property name="topMargin">0.95mm</property>
-            <property name="leftMargin">0.8mm</property>
-            <property name="bottomMargin">0.75mm</property>
-            <property name="rightMargin">0.9mm</property>
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
             <contents>
                 <rectangle>
                     <property name="style">My-Style</property>

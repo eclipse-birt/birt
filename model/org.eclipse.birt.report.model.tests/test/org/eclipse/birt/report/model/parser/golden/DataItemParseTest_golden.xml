@@ -48,7 +48,7 @@
                     <text-property name="helpText" key="New key">New help</text-property>
                     <property name="role">div new</property>
 		            <property name="language">English new</property>
-		            <property name="altText">Alt Text new</property>
+		            <expression name="altText">Alt Text new</expression>
 		            <property name="order">2</property>
                     <list-property name="action">
 		           		<structure>

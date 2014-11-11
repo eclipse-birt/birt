@@ -8,9 +8,8 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 contenttype.design=レポートデザイン
-
-contenttype.library=Report Library
+contenttype.library=レポートライブラリ
 contenttype.template=レポートテンプレート
-
 contenttype.document=レポート文書

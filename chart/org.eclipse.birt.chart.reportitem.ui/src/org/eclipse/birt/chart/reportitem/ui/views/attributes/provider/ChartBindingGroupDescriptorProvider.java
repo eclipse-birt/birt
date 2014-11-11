@@ -20,35 +20,41 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSetBindingSelector;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 public class ChartBindingGroupDescriptorProvider extends
 		BindingGroupDescriptorProvider
 {
 
-	private static final String DATA_CUBES_DEFAULT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartBindingGroupDescriptorProvider.DataCubes.Default" );
+	private static final String DATA_CUBES_DEFAULT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartBindingGroupDescriptorProvider.DataCubes.Default" ); //$NON-NLS-1$
 
-	private static final String DATA_SETS_DEFAULT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartBindingGroupDescriptorProvider.DataSets.Default" );
+	private static final String DATA_SETS_DEFAULT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartBindingGroupDescriptorProvider.DataSets.Default" ); //$NON-NLS-1$
 	
+	@SuppressWarnings("rawtypes")
 	protected List getAvailableDataBindingReferenceList(
 			ReportItemHandle element )
 	{
 		return element.getNamedDataBindingReferenceList( );
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Object load( )
 	{
 		ReportItemHandle element = getReportItemHandle( );
+		boolean isNotDataModel = false;;
 		int type = element.getDataBindingType( );
 		List referenceList = getAvailableDataBindingReferenceList( element );
 		String[] references = new String[referenceList.size( ) + 1];
@@ -57,19 +63,52 @@ public class ChartBindingGroupDescriptorProvider extends
 		{
 			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
 		}
-		setReferences(references);
-		Object value;
+		setReferences( references );
+		String value;
 		switch ( type )
 		{
 			case ReportItemHandle.DATABINDING_TYPE_DATA :
-				DataSetHandle dataset = ChartReportItemHelper.instance( ).getBindingDataSetHandle( element );
-				CubeHandle cube = ChartReportItemHelper.instance( ).getBindingCubeHandle( element );
+				DataSetHandle dataset = ChartReportItemHelper.instance( )
+						.getBindingDataSetHandle( element );
+				CubeHandle cube = ChartReportItemHelper.instance( )
+						.getBindingCubeHandle( element );
 				if ( dataset == null && cube == null )
-					value = NONE;
+				{
+					value = NullDatasetChoice.getBindingValue( );
+					isNotDataModel = true;
+				}
 				else if ( dataset != null )
+				{
+					List datasets = element.getModuleHandle( ).getAllDataSets( );
+					if ( datasets != null )
+					{
+						for ( int i = 0; i < datasets.size( ); i++ )
+						{
+							if ( datasets.get( i ) == dataset )
+							{
+								isNotDataModel = true;
+								break;
+							}
+						}
+					}
 					value = dataset.getQualifiedName( );
+				}
 				else
+				{
+					List cubes = element.getModuleHandle( ).getAllCubes( );
+					if ( cubes != null )
+					{
+						for ( int i = 0; i < cubes.size( ); i++ )
+						{
+							if ( cubes.get( i ) == cube )
+							{
+								isNotDataModel = true;
+								break;
+							}
+						}
+					}
 					value = cube.getName( );
+				}
 				break;
 			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
 				ReportItemHandle reference = element.getDataBindingReference( );
@@ -79,14 +118,20 @@ public class ChartBindingGroupDescriptorProvider extends
 					value = reference.getQualifiedName( );
 				break;
 			default :
-				value = NONE;
+			{
+				value = NullDatasetChoice.getBindingValue( );
+				isNotDataModel = true;
+			}
 		}
-		BindingInfo info = new BindingInfo( type, value );
-		
+
+		BindingInfo info = new BindingInfo( type, value, isNotDataModel );
+
 		// set correct binding info for chart in multi-view case.
 		if ( ChartReportItemUtil.isChildOfMultiViewsHandle( getReportItemHandle( ) ) )
 		{
-			Object name = element.getContainer( ).getContainer( ).getQualifiedName( );
+			String name = element.getContainer( )
+					.getContainer( )
+					.getQualifiedName( );
 			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF );
 			name = ( name == null ) ? NONE : name;
 			info.setBindingValue( name );
@@ -150,16 +195,18 @@ public class ChartBindingGroupDescriptorProvider extends
 						case 0 :
 							if ( getAvailableDatasets( ).contains( value ) )
 							{
-								resetDataSetReference( value, true );
+								resetDataSetReference( value, info, true );
 							}
 							else
+							{
 								resetCubeReference( value, true );
+							}
 							break;
 						// Doesn't clear binding info
 						case 1 :
 							if ( getAvailableDatasets( ).contains( value ) )
 							{
-								resetDataSetReference( value, false );
+								resetDataSetReference( value,  info, false );
 							}
 							else
 								resetCubeReference( value, false );
@@ -224,6 +271,20 @@ public class ChartBindingGroupDescriptorProvider extends
 				getReportItemHandle( ).setDataBindingReference( null );
 			}
 			getReportItemHandle( ).setDataSet( null );
+			
+			if ( cubeHandle == null && value != null )
+			{
+				getReportItemHandle( ).setDataSet( null );
+				new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						value );
+			}
+			else
+			{
+				new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						null );
+				getReportItemHandle( ).setCube( cubeHandle );
+			}
+			
 			getReportItemHandle( ).setCube( cubeHandle );
 			if ( clearHistory )
 			{
@@ -266,43 +327,57 @@ public class ChartBindingGroupDescriptorProvider extends
 
 		return (String[]) list.toArray( new String[0] );
 	}
-	
-	public String[] getAvailableDatasetItems( )
+
+	public BindingInfo[] getAvailableDatasetItems( )
 	{
-		String[] dataSets = ChoiceSetFactory.getDataSets( );
-		String[] cubes = getCubes( );
+		ModuleHandle handle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		List<DataSetHandle> dataSets = UIUtil.getVisibleDataSetHandles( handle );
+		List<CubeHandle> cubes = handle.getVisibleCubes( );
 		int length = 1;
-		if ( dataSets.length > 0 )
-			length += ( dataSets.length + 1 );
-		if ( cubes.length > 0 )
-			length += ( cubes.length + 1 );
-		String[] newList = new String[length];
-		newList[0] = NONE;
-		if ( dataSets.length > 0 )
+		if ( dataSets.size( ) > 0 )
+			length += ( dataSets.size( ) + 1 );
+		if ( cubes.size( ) > 0 )
+			length += ( cubes.size( ) + 1 );
+		BindingInfo[] newList = new BindingInfo[length];
+		newList[0] = NullDatasetChoice;
+		if ( dataSets.size( ) > 0 )
 		{
-			newList[1] = DATA_SETS_DEFAULT;
-			System.arraycopy( dataSets, 0, newList, 2, dataSets.length );
+			newList[1] = new BindingInfo( ReportItemHandle.DATABINDING_TYPE_DATA, DATA_SETS_DEFAULT, true);
+			for(int i=0;i<dataSets.size( );i++)
+			{
+				DataSetHandle dataSet = dataSets.get( i );
+				if(handle.findDataSet( dataSet.getQualifiedName( ) ) == dataSet)
+				{
+					newList[i+2] = new BindingInfo( ReportItemHandle.DATABINDING_TYPE_DATA, dataSet.getQualifiedName( ), true);
+				}
+				else
+				{
+					newList[i+2] = new BindingInfo( ReportItemHandle.DATABINDING_TYPE_DATA, dataSet.getQualifiedName( ), false);
+				}
+			}
 		}
-		if ( cubes.length > 0 )
+		if ( cubes.size( ) > 0 )
 		{
-			newList[newList.length - cubes.length - 1] = DATA_CUBES_DEFAULT;
-			System.arraycopy( cubes,
-					0,
-					newList,
-					newList.length - cubes.length,
-					cubes.length );
+			newList[newList.length - cubes.size( ) - 1] = new BindingInfo( ReportItemHandle.DATABINDING_TYPE_DATA, DATA_CUBES_DEFAULT, true);;
+			for(int i=0;i<cubes.size( );i++)
+			{
+				CubeHandle cube = cubes.get( i );
+				newList[i+ newList.length - cubes.size( )] = new BindingInfo( ReportItemHandle.DATABINDING_TYPE_DATA, cube.getQualifiedName( ), true);
+			}
 		}
 		return newList;
 	}
 
-	private void resetDataSetReference( Object value, boolean clearHistory )
+	private void resetDataSetReference( Object value, BindingInfo info, boolean clearHistory )
 	{
 		try
 		{
 			startTrans( "" ); //$NON-NLS-1$
 			getReportItemHandle( ).setDataBindingReference( null );
 			DataSetHandle dataSet = null;
-			if ( value != null )
+			if ( value != null && info != null && info.isDataSet( ) )
 			{
 				dataSet = SessionHandleAdapter.getInstance( )
 						.getReportDesignHandle( )
@@ -313,14 +388,39 @@ public class ChartBindingGroupDescriptorProvider extends
 				getReportItemHandle( ).setDataBindingReference( null );
 			}
 			getReportItemHandle( ).setCube( null );
-			getReportItemHandle( ).setDataSet( dataSet );
+			
+			boolean isExtendedDataModel = false;
+			if ( dataSet == null && value != null )
+			{
+				getReportItemHandle( ).setDataSet( null );
+				isExtendedDataModel = new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						value );
+			}
+			else
+			{
+				new LinkedDataSetAdapter( ).setLinkedDataModel( getReportItemHandle( ),
+						null );
+				getReportItemHandle( ).setDataSet( dataSet );
+			}
 			if ( clearHistory )
 			{
 				getReportItemHandle( ).getColumnBindings( ).clearValue( );
 				getReportItemHandle( ).getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
 						.clearValue( );
 			}
-			getDependedProvider( ).generateAllBindingColumns( );
+			
+			if ( info != null )
+			{
+				DataSetBindingSelector selector = new DataSetBindingSelector( UIUtil.getDefaultShell( ),
+						isExtendedDataModel ? Messages.getString( "BindingGroupDescriptorProvider.DataSetBindingSelector.Title.LinkModel" )//$NON-NLS-1$
+								: Messages.getString( "BindingGroupDescriptorProvider.DataSetBindingSelector.Title.DataSet" ) ); //$NON-NLS-1$
+				selector.setDataSet( info.getBindingValue( ), info.isDataSet( ) );
+				if ( selector.open( ) == Dialog.OK )
+				{
+					Object[] columns = (Object[]) ( (Object[]) selector.getResult( ) )[1];
+					getDependedProvider( ).generateBindingColumns( columns );
+				}
+			}
 
 			commit( );
 		}
@@ -337,7 +437,7 @@ public class ChartBindingGroupDescriptorProvider extends
 		if ( value == null
 				&& this.getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
 		{
-			resetDataSetReference( null, true );
+			resetDataSetReference( null, null, true );
 		}
 		else
 		{

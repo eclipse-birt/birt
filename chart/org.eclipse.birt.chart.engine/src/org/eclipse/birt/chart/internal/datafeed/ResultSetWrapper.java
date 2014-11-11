@@ -461,6 +461,10 @@ public final class ResultSetWrapper
 				{
 					iaDataTypes[i] = IConstants.BOOLEAN;
 				}
+				else if ( oaTuple[i] instanceof Object[] )
+				{
+					iaDataTypes[i] = IConstants.ARRAY;
+				}
 
 				for ( int j = 0; j < iColumnCount; j++ )
 				{

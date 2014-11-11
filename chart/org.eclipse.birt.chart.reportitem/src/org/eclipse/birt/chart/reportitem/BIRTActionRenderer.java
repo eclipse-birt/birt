@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -510,6 +511,14 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			{
 				evaluateResult = "\"" + evaluateResult + "\""; //$NON-NLS-1$//$NON-NLS-2$
 			}
+			else if( evaluateResult instanceof Date )
+			{
+				evaluateResult = "\"" + evaluateResult.toString( ) + "\""; //$NON-NLS-1$//$NON-NLS-2$
+			}
+			else if ( evaluateResult == null )
+			{
+				evaluateResult = "null"; //$NON-NLS-1$
+			}
 
 			script = Pattern.compile( expression, Pattern.LITERAL )
 					.matcher( script )
@@ -527,6 +536,10 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			if ( evaluateResult instanceof String )
 			{
 				evaluateResult = "\"" + evaluateResult + "\""; //$NON-NLS-1$//$NON-NLS-2$
+			}
+			else if ( evaluateResult == null )
+			{
+				evaluateResult = "null"; //$NON-NLS-1$
 			}
 
 			script = Pattern.compile( expression, Pattern.LITERAL )

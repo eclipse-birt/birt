@@ -21,10 +21,6 @@
             </list-property>
             <detail>
                 <label id="4">
-                    <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
             </detail>
@@ -97,10 +93,6 @@
             </structure>
             <report-items>
                 <label id="8">
-                    <property name="x">1mm</property>
-                    <property name="y">2mm</property>
-                    <property name="height">3mm</property>
-                    <property name="width">4mm</property>
                     <text-property name="text">Customer Name</text-property>
                 </label>
             </report-items>

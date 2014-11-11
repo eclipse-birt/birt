@@ -43,8 +43,6 @@
 		<TITLE><%= attributeBean.getReportTitle( ) %></TITLE>
 		<BASE href="<%= baseHref %>" >
 		
-		<!-- Mimics Internet Explorer 7, it just works on IE8. -->
-		<META HTTP-EQUIV="X-UA-Compatible" CONTENT="IE=EmulateIE7">
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8">
 		<LINK REL="stylesheet" HREF="birt/styles/style.css" TYPE="text/css">
 		<%
@@ -188,18 +186,16 @@
 	// <![CDATA[
 		var hasSVGSupport = false;
 		var useVBMethod = false;
-		if ( navigator.mimeTypes != null && navigator.mimeTypes.length > 0 )
-		{
-		    if ( navigator.mimeTypes["image/svg+xml"] != null )
-		    {
-		        hasSVGSupport = true;
-		    }
+		if ((!!document.createElementNS && !!document.createElementNS(
+				'http://www.w3.org/2000/svg', 'svg').createSVGRect)
+				|| navigator.mimeTypes != null
+				&& navigator.mimeTypes.length > 0
+				&& navigator.mimeTypes["image/svg+xml"] != null) {
+			hasSVGSupport = true;
+		} else {
+			useVBMethod = true;
 		}
-		else
-		{
-		    useVBMethod = true;
-		}
-		
+
 	// ]]>
 	</script>
 	

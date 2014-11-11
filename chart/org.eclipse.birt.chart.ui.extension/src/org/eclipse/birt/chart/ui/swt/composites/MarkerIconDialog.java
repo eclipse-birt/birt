@@ -54,6 +54,9 @@ import org.eclipse.swt.widgets.Text;
 /**
  * MarkerIconDialog is invoked when the user chooses "icon" from Marker Type
  * Combo box.
+ * 
+ * @deprecated This dialog is deprecated. Use the general image dialog
+ *             {@link org.eclipse.birt.chart.ui.swt.composites.ImageDialog}.
  */
 public class MarkerIconDialog extends TrayDialog
 		implements
@@ -512,7 +515,7 @@ public class MarkerIconDialog extends TrayDialog
 							| SWT.CANCEL );
 					mb.setText( Messages.getString( "MarkerIconDialog.ImageNotAvailableWarning" ) ); //$NON-NLS-1$
 					mb.setMessage( Messages.getString( "MarkerIconDialog.Exception.ImageNotAvailable" ) //$NON-NLS-1$
-							+ Messages.getString( "MarkerIconDialog.ImageNotAvailableWarningMessage" ) ); //$NON-NLS-1$
+							+ " " + Messages.getString( "MarkerIconDialog.ImageNotAvailableWarningMessage" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 					int messageResult = mb.open( );
 					if ( messageResult != SWT.OK )
 					{

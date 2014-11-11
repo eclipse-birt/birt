@@ -8,9 +8,8 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+
 contenttype.design=Berichtdesign
-
-contenttype.library=Report Library
+contenttype.library=Berichtbibliothek
 contenttype.template=Berichtvorlage
-
 contenttype.document=Berichtdokument

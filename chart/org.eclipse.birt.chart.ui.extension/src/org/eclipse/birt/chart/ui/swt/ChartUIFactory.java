@@ -30,7 +30,6 @@ import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineStyleChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineWidthChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.MarkerIconDialog;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory;
@@ -266,7 +265,7 @@ public class ChartUIFactory implements IChartUIFactory
 	public TrayDialog createChartMarkerIconDialog( Shell parent, Fill fill,
 			ChartWizardContext context )
 	{
-		return new MarkerIconDialog( parent, fill, context );
+		return new ImageDialog( parent, fill, context, true, false, true );
 	}
 
 	public TrayDialog createChartImageDialog( Shell parentShell, Fill fCurrent,

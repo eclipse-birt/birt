@@ -5,17 +5,6 @@
     </styles>
     <page-setup>
         <graphic-master-page name="My Page" id="3">
-            <property name="comments">Sample page</property>
-            <property name="type">custom</property>
-            <property name="height">11mm</property>
-            <property name="width">8.5mm</property>
-            <property name="orientation">auto</property>
-            <property name="topMargin">0.95mm</property>
-            <property name="leftMargin">0.8mm</property>
-            <property name="bottomMargin">0.75mm</property>
-            <property name="rightMargin">0.9mm</property>
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
             <contents>
                 <label id="4">
                     <property name="x">1mm</property>
@@ -32,18 +21,17 @@
     <body>
         <grid name="My grid" id="7">
             <column id="8">
-                <property name="width">2.5mm</property>
                 <property name="repeat">3</property>
                 <property name="style">My-Style</property>
+                <property name="width">2.5mm</property>                
             </column>
             <column id="9">
-                <property name="width">1.5mm</property>
                 <property name="style">My-Style</property>
+                <property name="width">1.5mm</property>                
             </column>
             <row id="27">
-                <property name="height">5mm</property>
-                <expression name="bookmark">This is bookmark for section.</expression>
                 <property name="style">My-Style</property>
+                <property name="height">5mm</property>                
                 <cell id="28">
                     <property name="column">1</property>
                     <property name="colSpan">1</property>
@@ -57,9 +45,9 @@
                     <property name="colSpan">3</property>
                     <property name="rowSpan">1</property>
                     <property name="drop">all</property>
-                    <property name="height">1.5mm</property>
-                    <property name="width">2mm</property>
                     <property name="style">My-Style</property>
+                    <property name="height">1.5mm</property>
+                    <property name="width">2mm</property>                    
                     <label name="address21" id="31">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>
@@ -67,9 +55,8 @@
                 </cell>
             </row>
             <row id="10">
-                <property name="height">5mm</property>
-                <expression name="bookmark">This is bookmark for section.</expression>
                 <property name="style">My-Style</property>
+                <property name="height">5mm</property>                
                 <cell id="11">
                     <property name="column">1</property>
                     <property name="colSpan">1</property>
@@ -83,9 +70,9 @@
                     <property name="colSpan">3</property>
                     <property name="rowSpan">1</property>
                     <property name="drop">all</property>
-                    <property name="height">1.5mm</property>
-                    <property name="width">2mm</property>
                     <property name="style">My-Style</property>
+                    <property name="height">1.5mm</property>
+                    <property name="width">2mm</property>                    
                     <label name="address" id="14">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>
@@ -109,9 +96,8 @@
                 <cell id="37"/>
             </row>
             <row id="19">
-                <property name="height">5mm</property>
-                <expression name="bookmark">This is bookmark for section.</expression>
                 <property name="style">My-Style</property>
+                <property name="height">5mm</property>                
                 <cell id="20">
                     <property name="column">1</property>
                     <property name="colSpan">1</property>
@@ -126,9 +112,9 @@
                     <property name="colSpan">4</property>
                     <property name="rowSpan">1</property>
                     <property name="drop">all</property>
-                    <property name="height">1.5mm</property>
-                    <property name="width">2mm</property>
                     <property name="style">My-Style</property>
+                    <property name="height">1.5mm</property>
+                    <property name="width">2mm</property>                    
                     <label name="address1" id="23">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>

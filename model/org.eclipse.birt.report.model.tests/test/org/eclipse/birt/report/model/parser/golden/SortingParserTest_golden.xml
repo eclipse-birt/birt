@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <page-setup>
-        <graphic-master-page name="My Page" id="2">
-            <property name="type">custom</property>
-            <property name="height">11mm</property>
-            <property name="width">8.5mm</property>
-            <property name="orientation">auto</property>
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
-        </graphic-master-page>
+        <graphic-master-page name="My Page" id="2"/>
     </page-setup>
     <body>
         <list name="My list" id="3">

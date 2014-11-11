@@ -97,6 +97,26 @@ public class ChartReportItemHelper
 		return null;
 	}
 	
+	/**
+	 * Returns all bindings used by chart.
+	 * 
+	 * @param cm
+	 * @param handle
+	 * @param validExtensionNames
+	 * @return all bindings used by chart.
+	 */
+	public Iterator<?> getAllUsedBindings( Chart cm, ReportItemHandle handle, List<String> validExtensionNames )
+	{
+		return handle.columnBindingsIterator( );
+	}
+	
+	/**
+	 * Returns all bindings used by chart.
+	 * 
+	 * @param cm
+	 * @param handle
+	 * @return all bindings used by chart.
+	 */
 	public Iterator<?> getAllUsedBindings( Chart cm, ReportItemHandle handle )
 	{
 		return handle.columnBindingsIterator( );

@@ -9,30 +9,18 @@
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
 
-report.debug=BIRT Report
+report.debug=Etat BIRT
 script.debug=Etat
-
-LaunchActionSet.label=Débogu&er le rapport
-
+LaunchActionSet.label=Débogu&er le rapport 
 Script.source.locator=Localisateur de source Script d'état
-
 Debug.jsEditor=Editeur JavaScript de débogage d'état
-
-javaSourceLocatorName=Java Source Locator
+javaSourceLocatorName=Localisateur de source Java
 Watch.label=Ajouter pour suivi
-
 ReportActionSet=Jeu d'actions d'état
-
 Run=Exécute&r
-
 ScriptLaunchShortcut.label=Etat
-
 DebugReportLaunchShortcut.description=Déboguer un état
-
 EnableBreakpoint.label=Activer point d'arrêt
-
 ToggleBreakpoint.label=Basculer point d'arrêt
-
 Action.DebugReport=Déboguer le rapport
-
 Menu.Report=Rapport

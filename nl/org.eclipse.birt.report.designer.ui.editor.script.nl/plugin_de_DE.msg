@@ -8,10 +8,8 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
-design.script=&Skript
 
+design.script=S&kript
 template.script=&Skript
-
 library.script=&Skript
-
 pageSet.script=&Skript-Seite

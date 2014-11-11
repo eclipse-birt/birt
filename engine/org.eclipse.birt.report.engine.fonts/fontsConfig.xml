@@ -60,8 +60,18 @@
 		<mapping name="fantasy" font-family="Times-Roman" />
 	</font-aliases>
 	<search-sequences>
+		<sequence locale="zh_CN">
+			<catalog name="Western" />
+			<catalog name="Chinese_S" />
+			<catalog name="Chinese_T" />
+			<catalog name="Chinese" />
+			<catalog name="Japanese" />
+			<catalog name="Korean" />
+		</sequence>
 		<sequence locale="zh">
 			<catalog name="Western" />
+			<catalog name="Chinese_T" />
+			<catalog name="Chinese_S" />
 			<catalog name="Chinese" />
 			<catalog name="Japanese" />
 			<catalog name="Korean" />
