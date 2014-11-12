@@ -108,6 +108,11 @@ public class ResultSetMetaData implements IResultSetMetaData
              * will return the actual name of the column, if it exists, and this name can *not* be used as input to
 			 * ResultSet.findColumn() or ResultSet.get...(String).
 			 */
+			String label = rsMetadata.getColumnLabel( index );
+			if ( label != null && label.length() > 0 )
+			{
+				return label;
+			}
 			return rsMetadata.getColumnName( index );
 		}
 		catch ( SQLException e )
