@@ -222,11 +222,30 @@ abstract public class AbstractMDX
 	
 	protected void retrieveWeek(List<TimeMember> list, Calendar cal, String[] levels, String type)
 	{
-		int endWeek = cal.get( Calendar.WEEK_OF_YEAR );
+		int endWeek;
 		int startWeek = 1;
 		int startMonth = 1;
 		Calendar startCal = (Calendar) cal.clone( );
 
+		/*
+		 *  Special case for week across year, etc the last week of 2011.
+		 *  Year will be 2011, Year_woy will be 2012, and week_of_year will
+		 *  be 1, which means the first week of 2012 rather than the 53rd
+		 *  week of 2011.
+		 *  Hence, in this case, we get the number of the last week but one,
+		 *  and plus one manually.
+		 */
+		
+		if ( cal.get( Calendar.YEAR ) != cal.get( Calendar.YEAR_WOY ) )
+		{
+			cal.add( Calendar.WEEK_OF_YEAR, -1 );
+			endWeek = cal.get( Calendar.WEEK_OF_YEAR ) + 1;
+			cal.add( Calendar.WEEK_OF_YEAR, 1 );
+		}
+		else 
+		{
+			endWeek = cal.get( Calendar.WEEK_OF_YEAR );
+		}
 		if ( type.equals( "yearToDate" ) )
 		{
 			startCal.set( Calendar.MONTH, 0 );
