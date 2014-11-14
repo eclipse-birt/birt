@@ -47,7 +47,6 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
-import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -2337,26 +2336,28 @@ public class ReportEngineService
 	public void clearCache( DataSetHandle dataSet ) throws BirtException
 	{
 		DataSessionContext context;
-		DataRequestSession requestSession=null;
-		try{
+		DataRequestSession requestSession = null;
+		try
+		{
 			context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 					dataSet.getModuleHandle( ),
 					null );
 			requestSession = DataRequestSession.newSession( context );
-	
+
 			IModelAdapter modelAdaptor = requestSession.getModelAdaptor( );
 			DataSourceHandle dataSource = dataSet.getDataSource( );
-	
+
 			IBaseDataSourceDesign sourceDesign = modelAdaptor.adaptDataSource( dataSource );
 			IBaseDataSetDesign dataSetDesign = modelAdaptor.adaptDataSet( dataSet );
-	
+
 			requestSession.clearCache( sourceDesign, dataSetDesign );
-		}catch(Exception e){
-			ExceptionUtil.handle( e );
-		}finally{
-			if(requestSession!=null){
-				requestSession.shutdown();
-			}		
+		}
+		finally
+		{
+			if ( requestSession != null )
+			{
+				requestSession.shutdown( );
+			}
 		}
 	}
 
