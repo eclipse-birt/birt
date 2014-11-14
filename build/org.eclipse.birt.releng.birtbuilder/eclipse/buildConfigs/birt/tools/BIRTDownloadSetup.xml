@@ -53,7 +53,7 @@
 	<property name="allinone.linux.zip.name"
 		value="birt-report-designer-all-in-one-${package.version}-linux-gtk.tar" />
 	<property name="allinone.mac.zip.name"
-		value="birt-report-designer-all-in-one-${package.version}-macosx-cocoa.tar.gz" />
+		value="birt-report-designer-all-in-one-${package.version}-macosx-cocoa-x86_64.tar.gz" />
 	<property name="runtime.zip.name" value="birt-runtime-${package.version}.zip" />
 	<property name="runtime.osgi.zip.name" value="birt-runtime-osgi-${package.version}.zip" />
 	<property name="wtp.runtime.zip.name" value="birt.zip" />
