@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
+import org.eclipse.birt.chart.model.attribute.PatternImage;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -363,7 +364,8 @@ public class FillChooserComposite extends Composite implements
 		GridData gdCNVSelection = new GridData( GridData.FILL_BOTH );
 		gdCNVSelection.heightHint = iSize;
 		cnvSelection.setLayoutData( gdCNVSelection );
-		cnvSelection.setFill( fCurrent );
+
+		initFill( );
 
 		// THE BUTTON
 		btnDown = new Button( cmpContentInner, SWT.ARROW | SWT.DOWN );
@@ -396,6 +398,18 @@ public class FillChooserComposite extends Composite implements
 			cnvSelection.addListener( textEvents[i], listener );
 		}
 
+	}
+
+	private void initFill( )
+	{
+		if ( ( !this.bPatternFillEnabled && fCurrent instanceof PatternImage ) )
+		{
+			cnvSelection.setFill( null );
+		}
+		else
+		{
+			cnvSelection.setFill( fCurrent );
+		}
 	}
 
 	void handleEventCanvas( Event event )

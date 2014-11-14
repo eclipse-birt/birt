@@ -632,8 +632,6 @@ public class ChartCubeQueryHelper
 			else if ( registeredMeasures.containsKey( sortKeyBinding ) )
 			{
 				// Add sorting on measures
-				IMeasureDefinition mDef = registeredMeasures.get( sortKeyBinding );
-
 				ExpressionCodec exprCodecTarget = ChartModelHelper.instance( )
 						.createExpressionCodec( );
 				exprCodecTarget.decode( targetQuery.getDefinition( ) );
@@ -651,7 +649,7 @@ public class ChartCubeQueryHelper
 						.getDimension( )
 						.getName( ),
 						level.getName( ) ) );
-				aggBinding.setAggrFunction( mDef.getAggrFunction( ) );
+				aggBinding.setAggrFunction( measureBinding.getAggrFunction( ) );
 				aggBinding.setExportable( false );
 				cubeQuery.addBinding( aggBinding );
 
