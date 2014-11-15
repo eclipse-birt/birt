@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.birt.report.data.oda.excel;bundle-version="[4.2.0,5.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.birt.report.data.oda.excel.ui.wizards
