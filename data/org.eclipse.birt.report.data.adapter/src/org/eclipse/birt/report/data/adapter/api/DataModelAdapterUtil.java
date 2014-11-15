@@ -172,4 +172,12 @@ public class DataModelAdapterUtil
 			}
 		}
 	}
+	
+	public static DataModelAdapterStatus validateRelativeTimePeriod(
+			ReportItemHandle reportItemHandle,
+			ComputedColumnHandle computedColumnHandle )
+	{
+		return new DataModelAdapterStatus( DataModelAdapterStatus.Status.SUCCESS,
+				"" );
+	}
 }
