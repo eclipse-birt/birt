@@ -1,13 +1,13 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Actuate Corporation.
-  * All rights reserved. This program and the accompanying materials
-  * are made available under the terms of the Eclipse Public License v1.0
-  * which accompanies this distribution, and is available at
-  * http://www.eclipse.org/legal/epl-v10.html
-  *
-  * Contributors:
-  *    Actuate Corporation - added support of relative file path
-  *******************************************************************************/
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel.ui.wizards;
 
@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 
 /**
- *
+ * 
  */
 
 public class MenuButton extends Composite
@@ -69,6 +69,12 @@ public class MenuButton extends Composite
 
 	private static final int WIDTH_MORE = 2 * MARGIN_GAP + TRIANGLE_WIDTH + 1;
 
+	public void setText( String text )
+	{
+		this.text = text;
+		button.setText( "" ); //$NON-NLS-1$
+		layoutControl( );
+	}
 
 	public void setToolTipText( String string )
 	{
@@ -90,7 +96,6 @@ public class MenuButton extends Composite
 		int height;
 
 		Button tmp = new Button( this, button.getStyle( ) );
-		String text = button.getText( );
 		if ( text != null )
 		{
 			tmp.setText( text );
@@ -165,41 +170,55 @@ public class MenuButton extends Composite
 		button.redraw( );
 	}
 
-	public MenuButton( Composite parent, int style, String text )
+	public MenuButton( Composite parent, int style )
 	{
-		this( parent, style, false, text );
+		this( parent, style, false );
 	}
 
 	private boolean isFixed = true;
 
 	private boolean mouseSelection = false;
 
-	public MenuButton( Composite parent, int style, boolean fixed, String text )
+	private boolean mouseDown = false;
+
+	public MenuButton( Composite parent, int style, boolean fixed )
 	{
-		super( parent, SWT.NONE );
+		super( parent, SWT.DOUBLE_BUFFERED );
 		isFixed = fixed;
 		GridLayout layout = new GridLayout( );
 		layout.marginHeight = layout.marginWidth = 0;
 		this.setLayout( layout );
 
-		button = new Button( this, style );
-		button.setText( text );
-		layoutControl( );
+		button = new Button( this, style | SWT.DOUBLE_BUFFERED ) {
+
+			protected void checkSubclass( )
+			{
+
+			}
+
+			public String getText( )
+			{
+				String text = MenuButton.this.getText( );
+				return text == null ? "" : text;
+			}
+		};
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		button.setLayoutData( gd );
 		button.addPaintListener( new PaintListener( ) {
 
-			public void paintControl( PaintEvent e )
+			public void paintControl( final PaintEvent e )
 			{
 				MenuButton.this.paintControl( e );
 			}
 		} );
+
 		button.addListener( SWT.MouseUp, new Listener( ) {
 
 			public void handleEvent( Event e )
 			{
-				if ( !button.isEnabled( ) || e.button != 1 )
+				if ( !button.isEnabled( ) || e.button != 1 || !mouseDown )
 					return;
+				mouseDown = false;
 				mouseSelection = true;
 				Rectangle size = button.getBounds( );
 				if ( !size.contains( e.x, e.y ) )
@@ -229,6 +248,21 @@ public class MenuButton extends Composite
 						menu.setVisible( true );
 					}
 				}
+			}
+
+		} );
+
+		button.addListener( SWT.MouseDown, new Listener( ) {
+
+			public void handleEvent( Event e )
+			{
+				if ( !button.isEnabled( ) || e.button != 1 )
+					return;
+				mouseSelection = true;
+				Rectangle size = button.getBounds( );
+				if ( !size.contains( e.x, e.y ) )
+					return;
+				mouseDown = true;
 			}
 
 		} );
@@ -262,33 +296,12 @@ public class MenuButton extends Composite
 				if ( listeners == null )
 					return;
 
-				// separate the mouse click from the key press event on the button
-                boolean keyPress = false;
-                if( e.widget instanceof Button )
-                {
-                    if( ((Button)e.widget).getParent() instanceof MenuButton )
-                    {
-                        if ( menu != null )
-                        {
-                            keyPress = true;
-                            Rectangle size = button.getBounds( );
-                            menu.setLocation( button.toDisplay( new Point( 0,
-                                    size.height - 1 ) ) );
-                            menu.setVisible( true );
-                        }
-                    }
-                }
+				e.widget = MenuButton.this;
 
-                if( !keyPress )
-                {
-                    e.widget = MenuButton.this;
-
-                    for ( int i = 0; i < listeners.size( ); i++ )
-                    {
-                        ( (SelectionListener) listeners.get( i ) ).widgetSelected( new SelectionEvent( e ) );
-                    }
-                }
-
+				for ( int i = 0; i < listeners.size( ); i++ )
+				{
+					( (SelectionListener) listeners.get( i ) ).widgetSelected( new SelectionEvent( e ) );
+				}
 			}
 
 		} );
@@ -301,12 +314,12 @@ public class MenuButton extends Composite
 		this.menu = menu;
 	}
 
-	private List<SelectionListener> listeners;
+	private List listeners;
 
 	public void addSelectionListener( SelectionListener listener )
 	{
 		if ( listeners == null )
-			listeners = new ArrayList<SelectionListener>( );
+			listeners = new ArrayList( );
 		listeners.add( listener );
 	}
 
@@ -317,6 +330,133 @@ public class MenuButton extends Composite
 			listeners.remove( listener );
 			if ( listeners.size( ) == 0 )
 				listeners = null;
+		}
+	}
+
+	protected void paintControl( PaintEvent e )
+	{
+		e.gc.setFont( getFont( ) );
+		Color fg = isEnabled( ) ? getForeground( )
+				: new Color( e.gc.getDevice( ),
+						blend( getBackground( ).getRGB( ),
+								getForeground( ).getRGB( ),
+								70 ) );
+		try
+		{
+			e.gc.setForeground( fg );
+			Color bgColor = e.gc.getBackground( );
+			e.gc.setBackground( e.gc.getForeground( ) );
+			Rectangle size = button.getBounds( );
+
+			if ( menu != null )
+			{
+				Rectangle rect = new Rectangle( size.width - 12,
+						0,
+						TRIANGLE_WIDTH,
+						size.height );
+				drawArrow( e.gc, rect, SWT.DOWN );
+			}
+
+			e.gc.setBackground( bgColor );
+
+			int height = e.gc.textExtent( "", DRAW_FLAGS ).y; //$NON-NLS-1$
+
+			if ( !isFixed && image != null )
+			{
+				int imageHeight = image.getImageData( ).height;
+				if ( height < imageHeight )
+					height = imageHeight;
+			}
+
+			if ( defaultSize.y > size.height )
+			{
+				height = height - ( defaultSize.y - size.height );
+				height = e.gc.textExtent( "", DRAW_FLAGS ).y > height ? e.gc.textExtent( "", //$NON-NLS-1$ //$NON-NLS-2$
+						DRAW_FLAGS ).y
+						: height;
+			}
+
+			int left = WIDTH_MORE + MARGIN_GAP - 1;
+
+			if ( menu == null )
+				left = MARGIN_GAP - 1;
+
+			if ( menu != null )
+			{
+				Color fgColor = e.gc.getForeground( );
+				e.gc.setForeground( getDisplay( ).getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
+				e.gc.drawLine( size.width - left,
+						( size.height - height ) / 2,
+						size.width - left,
+						( size.height - height ) / 2 + height );
+				e.gc.setForeground( fgColor );
+			}
+
+			if ( text != null && text.trim( ).length( ) > 0 )
+			{
+				int width = e.gc.textExtent( text, DRAW_FLAGS ).x;
+				int fontHeight = e.gc.textExtent( text, DRAW_FLAGS ).y;
+				left += ( MARGIN_GAP + width );
+				e.gc.drawText( text,
+						( size.width - left ) / 2 + MARGIN_GAP,
+						( size.height - fontHeight ) / 2,
+						DRAW_FLAGS | SWT.DRAW_TRANSPARENT );
+			}
+
+			if ( image != null )
+			{
+				int imageWidth = image.getImageData( ).width;
+				int imageHeight = image.getImageData( ).height;
+
+				Image imageTemp = null;
+
+				if ( !isEnabled( ) )
+					imageTemp = new Image( e.gc.getDevice( ),
+							image,
+							SWT.IMAGE_DISABLE );
+
+				if ( isFixed )
+				{
+					imageWidth = imageWidth > IMAGE_WIDTH ? IMAGE_WIDTH
+							: imageWidth;
+					imageHeight = imageHeight > IMAGE_HEIGHT ? IMAGE_HEIGHT
+							: imageHeight;
+				}
+
+				left += ( MARGIN_GAP + imageWidth );
+				if ( !isEnabled( ) )
+				{
+					e.gc.drawImage( imageTemp,
+							0,
+							0,
+							imageTemp.getImageData( ).width,
+							imageTemp.getImageData( ).height,
+							( size.width - left ) / 2 + MARGIN_GAP,
+							Math.round( ( (float) ( size.height - imageHeight ) / 2 ) ),
+							imageWidth,
+							imageHeight );
+
+					imageTemp.dispose( );
+				}
+				else
+				{
+					e.gc.drawImage( image,
+							0,
+							0,
+							image.getImageData( ).width,
+							image.getImageData( ).height,
+							( size.width - left ) / 2 + MARGIN_GAP,
+							Math.round( ( (float) ( size.height - imageHeight ) / 2 ) ),
+							imageWidth,
+							imageHeight );
+				}
+			}
+
+		}
+		finally
+		{
+			if ( !isEnabled( ) && fg != null )
+				fg.dispose( );
 		}
 	}
 
@@ -384,121 +524,5 @@ public class MenuButton extends Composite
 				break;
 		}
 
-	}
-
-	protected void paintControl( PaintEvent e )
-	{
-		e.gc.setFont( getFont( ) );
-		Color fg = isEnabled( ) ? getForeground( )
-				: new Color( e.gc.getDevice( ),
-						blend( getBackground( ).getRGB( ),
-								getForeground( ).getRGB( ),
-								70 ) );
-		try
-		{
-			e.gc.setForeground( fg );
-			Color bgColor = e.gc.getBackground( );
-			e.gc.setBackground( e.gc.getForeground( ) );
-			Rectangle size = button.getBounds( );
-
-			if ( menu != null )
-			{
-				Rectangle rect = new Rectangle( size.width - 12,
-						0,
-						TRIANGLE_WIDTH,
-						size.height );
-				drawArrow( e.gc, rect, SWT.DOWN );
-			}
-
-			e.gc.setBackground( bgColor );
-
-			int height = e.gc.textExtent( "", DRAW_FLAGS ).y; //$NON-NLS-1$
-
-			if ( !isFixed && image != null )
-			{
-				int imageHeight = image.getImageData( ).height;
-				if ( height < imageHeight )
-					height = imageHeight;
-			}
-
-			if ( defaultSize.y > size.height )
-			{
-				height = height - ( defaultSize.y - size.height );
-				height = e.gc.textExtent( "", DRAW_FLAGS ).y > height ? e.gc.textExtent( "",  //$NON-NLS-1$//$NON-NLS-2$
-						DRAW_FLAGS ).y
-						: height;
-			}
-
-			int left = WIDTH_MORE + MARGIN_GAP - 1;
-
-			if ( menu == null )
-				left = MARGIN_GAP - 1;
-
-			if ( menu != null )
-			{
-				Color fgColor = e.gc.getForeground( );
-				e.gc.setForeground( getDisplay( ).getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
-				e.gc.drawLine( size.width - left,
-						( size.height - height ) / 2,
-						size.width - left,
-						( size.height - height ) / 2 + height );
-				e.gc.setForeground( fgColor );
-			}
-
-			if ( text != null && text.trim( ).length( ) > 0 )
-			{
-				int width = e.gc.textExtent( text, DRAW_FLAGS ).x;
-				int fontHeight = e.gc.textExtent( text, DRAW_FLAGS ).y;
-				left += ( MARGIN_GAP + width );
-				e.gc.drawText( text,
-						( size.width - left ) / 2 + MARGIN_GAP,
-						( size.height - fontHeight ) / 2,
-						DRAW_FLAGS | SWT.DRAW_TRANSPARENT );
-			}
-
-			if ( image != null )
-			{
-				int imageWidth = image.getImageData( ).width;
-				int imageHeight = image.getImageData( ).height;
-
-				Image imageTemp;
-
-				if ( isEnabled( ) )
-					imageTemp = new Image( e.gc.getDevice( ),
-							image,
-							SWT.IMAGE_COPY );
-				else
-					imageTemp = new Image( e.gc.getDevice( ),
-							image,
-							SWT.IMAGE_DISABLE );
-
-				if ( isFixed )
-				{
-					imageWidth = imageWidth > IMAGE_WIDTH ? IMAGE_WIDTH
-							: imageWidth;
-					imageHeight = imageHeight > IMAGE_HEIGHT ? IMAGE_HEIGHT
-							: imageHeight;
-				}
-
-				left += ( MARGIN_GAP + imageWidth );
-				e.gc.drawImage( imageTemp,
-						0,
-						0,
-						imageTemp.getImageData( ).width,
-						imageTemp.getImageData( ).height,
-						( size.width - left ) / 2 + MARGIN_GAP,
-						Math.round( ( (float) ( size.height - imageHeight ) / 2 ) ),
-						imageWidth,
-						imageHeight );
-
-				imageTemp.dispose( );
-			}
-
-		}
-		finally
-		{
-			if ( !isEnabled( ) && fg != null )
-				fg.dispose( );
-		}
 	}
 }

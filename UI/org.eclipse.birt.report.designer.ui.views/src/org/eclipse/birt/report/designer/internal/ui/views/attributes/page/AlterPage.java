@@ -14,8 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
-import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -45,7 +45,7 @@ public class AlterPage extends AttributePage
 
 		// Defines provider.
 
-		IDescriptorProvider provider = new TextPropertyDescriptorProvider( ImageHandle.ALT_TEXT_PROP,
+		IDescriptorProvider provider = new TextPropertyDescriptorProvider( IImageItemModel.ALT_TEXT_PROP,
 				ReportDesignConstants.IMAGE_ITEM );
 
 		// Defines section.
@@ -61,7 +61,7 @@ public class AlterPage extends AttributePage
 		addSection( PageSectionId.ALTER_ALT_TEXT , section ); //$NON-NLS-1$
 		
 		
-		IDescriptorProvider keyProvider = new TextPropertyDescriptorProvider( ImageHandle.ALT_TEXT_KEY_PROP,
+		IDescriptorProvider keyProvider = new TextPropertyDescriptorProvider( IImageItemModel.ALT_TEXT_KEY_PROP,
 				ReportDesignConstants.IMAGE_ITEM );
 
 		// Defines section.
