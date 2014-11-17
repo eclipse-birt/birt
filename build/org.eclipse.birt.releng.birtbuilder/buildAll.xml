@@ -297,8 +297,8 @@
 			file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-linux-gtk.tar.gz"
 			tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}-linux-gtk.tar.gz" />
 		<move
-			file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-macosx-cocoa.tar.gz"
-			tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}-macosx-cocoa.tar.gz" />
+			file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-macosx-cocoa-x86_64.tar.gz"
+			tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}-macosx-cocoa-x86_64.tar.gz" />
 		<move
 			file="${postingDirectory}/${buildId}/birt-report-framework-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/birt-report-framework-${package.version}-${build.date}.zip" />
