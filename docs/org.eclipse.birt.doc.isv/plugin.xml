@@ -27,13 +27,6 @@
        </javadoc>
        <javadoc
              archive="true"
-             path="data/api/">
-          <plugin
-                id="org.eclipse.birt.data">
-          </plugin>
-       </javadoc>
-       <javadoc
-             archive="true"
              path="engine/api/,enginescipt/api">
           <plugin
                 id="../org.eclipse.birt.report.engine">

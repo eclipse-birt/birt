@@ -9,7 +9,6 @@
        <topic label="Report Core API Reference" href="core/api/index.html"/>
        <topic label="Report Core UI API Reference" href="coreui/api/index.html"/>
        <topic label="BIRT Report Scripting API Reference" href="enginescript/api/index.html"/>
-       <topic label="Data Engine API Reference" href="data/api/index.html"/>
     </topic>
     <topic label="Extension Points Reference" >
       <topic label="org_eclipse_birt_report_designer_ui_editors_multiPageEditorContributor" href="ref/ext/org_eclipse_birt_report_designer_ui_editors_multiPageEditorContributor.html" />

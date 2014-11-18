@@ -9,7 +9,6 @@
        <topic label="BIRT Report Scripting API Reference" href="enginescript/api/index.html"/>
        <topic label="Open Data Access (ODA) 2.0.2 API Reference" href="odaold/api/index.html"/>
        <!--topic label="Open Data Access (ODA) 3.0.0 API Reference" href="oda/api/index.html"/-->
-       <topic label="Data Engine API Reference" href="data/api/index.html"/>
        <topic label="Chart Engine API Reference" href="chart/api/index.html"/>
        <topic label="Chart User Interface API Reference" href="chartui/api/index.html"/>
     </topic>
