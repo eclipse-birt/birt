@@ -206,8 +206,7 @@ public class SwtRendererImpl extends DeviceAdapter
 						ilex );
 			}
 		}
-		else if ( pre.getImage( ).getSource( ) != ImageSourceType.FILE
-				&& pre.getImage( ).getSource( ) != ImageSourceType.REPORT )
+		else
 		{
 			try
 			{

@@ -945,6 +945,18 @@ public class ChartUtil
 		}
 	}
 	
+	private static String generateSeriesGroupingID( SeriesGrouping group )
+	{
+		if ( group == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		return group.getGroupType( ).getName( ) + "_" //$NON-NLS-1$
+				+ group.getGroupingUnit( ).getName( )
+				+ "_" //$NON-NLS-1$
+				+ group.getGroupingInterval( );
+	}
+	
 	/**
 	 * Returns a binding name for a value series.
 	 * 
@@ -1069,7 +1081,7 @@ public class ChartUtil
 						&& defs.get( 0 ).getDefinition( ) != null )
 				{
 					exprCodec.decode( defs.get( 0 ).getDefinition( ) );
-					key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ); //$NON-NLS-1$
+					key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ) + "_" + generateSeriesGroupingID( categorySD.getGrouping( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 			if ( orthoSD.getQuery( ) != null && !ChartUtil.isEmpty( orthoSD.getQuery( ).getDefinition( ) ) )
@@ -1080,7 +1092,7 @@ public class ChartUtil
 				{
 					sg = SeriesGroupingImpl.create( );
 				}
-				key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ); //$NON-NLS-1$
+				key += "/" + escapeSpecialCharacters( exprCodec.getExpression( ) ) + "_" + generateSeriesGroupingID( sg ); //$NON-NLS-1$//$NON-NLS-2$
 			}
 		}
 		return key;

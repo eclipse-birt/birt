@@ -600,7 +600,7 @@ public final class Bar extends AxesRenderer
 				// width is null
 				// this is due to the difference in rounding (ceil vs floor) for
 				// transposed axes.
-				bInverted = dWidth <= 0;
+				bInverted = dWidth < 0;
 				if ( bInverted )
 				{
 					dX = dBaseLocation;
@@ -1394,19 +1394,7 @@ public final class Bar extends AxesRenderer
 						ex );
 			}
 						
-			boolean zeroBarLength = ChartUtil.mathEqual( dHeight, 0 );
-			boolean zeroBarWidth = ChartUtil.mathEqual( dWidth, 0 );
-			
-			if (cwa.isTransposed( ))
-			{
-				boolean tmpBoolean = zeroBarLength;
-				zeroBarLength = zeroBarWidth;
-				zeroBarWidth = tmpBoolean;
-			}
-
-			if ( laDataPoint.isVisible( )
-					&& ( !zeroBarLength || bShowOutside )
-					&& !zeroBarWidth )
+			if ( laDataPoint.isVisible( ) && ( dHeight != 0 || bShowOutside ) )
 			{
 				// Only render the label that is inside
 				if ( !dpha[i].isOutside( ) )

@@ -12,15 +12,13 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider.BindingInfo;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider.BindingInfo;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -37,7 +35,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 	protected Composite container;
 	private Button datasetRadio;
 	private Button reportItemRadio;
-	private ComboViewer datasetCombo;
+	private CCombo datasetCombo;
 	private CCombo reportItemCombo;
 	private Button bindingButton;
 
@@ -64,7 +62,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 			{
 				refreshBinding( );
 				if ( datasetRadio.getSelection( )
-						&& getProvider( ).isBindingReference( )
+						&& getProvider( ).isBindingReference( ) 
 						&& ( DEUtil.getBindingHolder( getProvider( ).getReportItemHandle( ),
 								true ) == null || DEUtil.getBindingHolder( getProvider( ).getReportItemHandle( ),
 								true )
@@ -74,26 +72,22 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 
 		} );
 		if ( isFormStyle( ) )
-			datasetCombo = new ComboViewer( FormWidgetFactory.getInstance( )
-					.createCCombo( container, true ) );
+			datasetCombo = FormWidgetFactory.getInstance( )
+					.createCCombo( container, true );
 		else
-			datasetCombo = new ComboViewer( new CCombo( container,
-					SWT.READ_ONLY ) );
-		datasetCombo.setLabelProvider( getProvider( ).getDataSetLabelProvider( ) );
-		datasetCombo.setContentProvider( getProvider( ).getDataSetContentProvider( ) );
-		datasetCombo.getCCombo( )
-				.addSelectionListener( new SelectionAdapter( ) {
+			datasetCombo = new CCombo( container, SWT.READ_ONLY );
+		datasetCombo.addSelectionListener( new SelectionAdapter( ) {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						saveBinding( );
-					}
+			public void widgetSelected( SelectionEvent e )
+			{
+				saveBinding( );
+			}
 
-				} );
+		} );
 		GridData gd = new GridData( );
 		gd.widthHint = 300;
-		datasetCombo.getCCombo( ).setLayoutData( gd );
-		datasetCombo.getCCombo( ).setVisibleItemCount( 30 );
+		datasetCombo.setLayoutData( gd );
+		datasetCombo.setVisibleItemCount( 30 );
 		bindingButton = FormWidgetFactory.getInstance( )
 				.createButton( container, SWT.PUSH, isFormStyle( ) );
 		bindingButton.setText( getProvider( ).getText( 1 ) );
@@ -113,8 +107,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 			{
 				refreshBinding( );
 				if ( reportItemRadio.getSelection( )
-						&& getProvider( ).getReportItemHandle( )
-								.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA
+						&& getProvider( ).getReportItemHandle( ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA
 						&& ( DEUtil.getBindingHolder( getProvider( ).getReportItemHandle( ),
 								true ) == null || DEUtil.getBindingHolder( getProvider( ).getReportItemHandle( ),
 								true )
@@ -152,7 +145,8 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		BindingInfo info = new BindingInfo( );
 		if ( datasetRadio.getSelection( ) )
 		{
-			info = (BindingInfo) ( (StructuredSelection) datasetCombo.getSelection( ) ).getFirstElement( );
+			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_DATA );
+			info.setBindingValue( datasetCombo.getText( ) );
 		}
 		else
 		{
@@ -166,7 +160,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		}
 		catch ( SemanticException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionUtil.handle( e );
 		}
 	}
 
@@ -176,12 +170,12 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		{
 			datasetRadio.setEnabled( false );
 			datasetRadio.setSelection( false );
-			datasetCombo.getCCombo( ).setEnabled( false );
+			datasetCombo.setEnabled( false );
 			bindingButton.setEnabled( false );
 			reportItemRadio.setSelection( false );
 			reportItemRadio.setEnabled( false );
 			reportItemCombo.setEnabled( false );
-			datasetCombo.getCCombo( ).deselectAll( );
+			datasetCombo.deselectAll( );
 			reportItemCombo.deselectAll( );
 			return;
 		}
@@ -199,21 +193,20 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		if ( datasetRadio.getSelection( ) )
 		{
 			datasetRadio.setSelection( true );
-			datasetCombo.getCCombo( ).setEnabled( true );
+			datasetCombo.setEnabled( true );
 			bindingButton.setEnabled( getProvider( ).enableBindingButton( ) );
 			reportItemRadio.setSelection( false );
 			reportItemCombo.setEnabled( false );
-			if ( datasetCombo.getCCombo( ).getSelectionIndex( ) == -1 )
+			if ( datasetCombo.getSelectionIndex( ) == -1 )
 			{
-				BindingInfo[] infos = getProvider( ).getAvailableDatasetItems( );
-				datasetCombo.setInput( infos );
-				datasetCombo.setSelection( new StructuredSelection( infos[0] ) );
+				datasetCombo.setItems( getProvider( ).getAvailableDatasetItems( ) );
+				datasetCombo.select( 0 );
 			}
 		}
 		else
 		{
 			datasetRadio.setSelection( false );
-			datasetCombo.getCCombo( ).setEnabled( false );
+			datasetCombo.setEnabled( false );
 			bindingButton.setEnabled( false );
 			reportItemRadio.setSelection( true );
 			reportItemCombo.setEnabled( true );
@@ -226,12 +219,11 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 	}
 
 	private BindingInfo oldInfo;
-
 	private void refreshBindingInfo( BindingInfo info )
 	{
 		int type = info.getBindingType( );
 		Object value = info.getBindingValue( );
-		datasetCombo.setInput( getProvider( ).getAvailableDatasetItems( ) );
+		datasetCombo.setItems( getProvider( ).getAvailableDatasetItems( ) );
 		reportItemCombo.setItems( getProvider( ).getReferences( ) );
 		if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
 		{
@@ -245,24 +237,17 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		switch ( type )
 		{
 			case ReportItemHandle.DATABINDING_TYPE_NONE :
-				if ( oldInfo != null )
-				{
-					if ( oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
-					{
-						selectDatasetType( info );
+				if(oldInfo!=null){
+					if(oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA){
+						selectDatasetType( value );
 					}
-					else if ( oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
-					{
+					else if(oldInfo.getBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF){
 						selectReferenceType( info, value );
-					}
-					else
-					{
-						datasetCombo.setSelection( new StructuredSelection( info ) );
 					}
 					break;
 				}
 			case ReportItemHandle.DATABINDING_TYPE_DATA :
-				selectDatasetType( info );
+				selectDatasetType( value );
 				break;
 			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
 				selectReferenceType( info, value );
@@ -272,13 +257,13 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 	private void selectReferenceType( BindingInfo info, Object value )
 	{
 		datasetRadio.setSelection( false );
-		datasetCombo.getCCombo( ).setEnabled( false );
+		datasetCombo.setEnabled( false );
 		bindingButton.setEnabled( false );
-
+		
 		reportItemRadio.setSelection( true );
 		reportItemCombo.setEnabled( true );
 		reportItemCombo.setText( value.toString( ) );
-
+		
 		// From 2.3, Multi-view is supported to create related chart
 		// view with current table/crosstab, the chart query in
 		// multi-view is sharing table/crosstab, so it should be
@@ -291,11 +276,11 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		}
 	}
 
-	private void selectDatasetType( BindingInfo value )
+	private void selectDatasetType( Object value )
 	{
 		datasetRadio.setSelection( true );
-		datasetCombo.getCCombo( ).setEnabled( true );
-		datasetCombo.setSelection( new StructuredSelection( value ) );
+		datasetCombo.setEnabled( true );
+		datasetCombo.setText( value.toString( ) );
 		bindingButton.setEnabled( getProvider( ).enableBindingButton( ) );
 		reportItemRadio.setSelection( false );
 		reportItemCombo.setEnabled( false );
@@ -310,7 +295,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 
 	public void setDescriptorProvider( IDescriptorProvider provider )
 	{
-		this.descriptorProvider = (BindingGroupDescriptorProvider) provider;
+		this.descriptorProvider = (BindingGroupDescriptorProvider)provider;
 		if ( provider instanceof BindingGroupDescriptorProvider )
 			this.provider = (BindingGroupDescriptorProvider) provider;
 	}
@@ -319,7 +304,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 	{
 		return provider;
 	}
-
+	
 	public void setInput( Object handle )
 	{
 		super.setInput( handle );

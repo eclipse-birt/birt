@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 
 /**
  * Utility class to fetch all available value for filter use.
@@ -86,17 +85,6 @@ public class SelectValueFetcher
 				useDataSetFilter );
 	}
 
-	public static List getSelectValueList( Expression expression,
-			ModuleHandle moduleHandle, DataSetHandle dataSetHandle,
-			boolean useDataSetFilter )
-			throws BirtException
-	{
-		return DataService.getInstance( ).getSelectValueList( expression,
-				moduleHandle, dataSetHandle,
-				useDataSetFilter );
-	}
-	
-	
 	/**
 	 * Used in filter select value dialog in layout without group definition.
 	 * 
@@ -137,21 +125,7 @@ public class SelectValueFetcher
 						groupIterator,
 						useDataSetFilter );
 	}
-	
-	public static List getSelectValueFromBinding( Expression expression,
-			ModuleHandle moduleHandle, DataSetHandle dataSetHandle, Iterator binding,
-			Iterator groupIterator, boolean useDataSetFilter )
-			throws BirtException
-	{
-		return DataService.getInstance( )
-				.getSelectValueFromBinding( expression,
-						moduleHandle,
-						dataSetHandle,
-						binding,
-						groupIterator,
-						useDataSetFilter );
-	}
-	
+
 	/**
 	 * 
 	 * @param selectValueExpression

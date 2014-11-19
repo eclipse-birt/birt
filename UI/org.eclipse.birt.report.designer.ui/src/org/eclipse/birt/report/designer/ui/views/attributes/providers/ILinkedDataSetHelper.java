@@ -7,7 +7,6 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 public interface ILinkedDataSetHelper
 {
@@ -17,11 +16,7 @@ public interface ILinkedDataSetHelper
 	public boolean setLinkedDataModel( ReportItemHandle handle, Object value );
 
 	public Iterator getResultSetIterator( String datasetName );
-
-	public List<DataSetHandle> getVisibleLinkedDataSetsDataSetHandles(
-			ModuleHandle handle );
-
-	public List<CubeHandle> getVisibleLinkedDataSetsCubeHandles(
-			ModuleHandle handle );
+	
+	public List<DataSetHandle> getVisibleLinkedDataSetsDataSetHandles(ModuleHandle handle);
 
 }

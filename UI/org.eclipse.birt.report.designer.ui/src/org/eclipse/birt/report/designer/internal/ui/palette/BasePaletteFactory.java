@@ -163,16 +163,18 @@ public class BasePaletteFactory
 					{
 						try
 						{
-							DataSetHandle dataSet = (DataSetHandle) datasetInfo[0];
-//							if ( dataSet != null )
-//							{
-								( (ReportItemHandle) table ).setDataSet(dataSet);
-//							}
-//							else
-//							{
-//								new LinkedDataSetAdapter( ).setLinkedDataModel( table,
-//										datasetInfo[0].toString( ) );
-//							}
+							DataSetHandle dataSet = SessionHandleAdapter.getInstance( )
+									.getReportDesignHandle( )
+									.findDataSet( datasetInfo[0].toString( ) );
+							if ( dataSet != null )
+							{
+								( (ReportItemHandle) table ).setDataSet( dataSet );
+							}
+							else
+							{
+								new LinkedDataSetAdapter( ).setLinkedDataModel( table,
+										datasetInfo[0].toString( ) );
+							}
 							DataSetColumnBindingsFormHandleProvider provider = new DataSetColumnBindingsFormHandleProvider( );
 							provider.setBindingObject( table );
 

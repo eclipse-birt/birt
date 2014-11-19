@@ -9,33 +9,19 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 public class LinkedDataSetAdapter
 {
-
-	public List<DataSetHandle> getVisibleLinkedDataSetsDataSetHandles(
-			ModuleHandle handle )
+	
+	public List<DataSetHandle> getVisibleLinkedDataSetsDataSetHandles(ModuleHandle handle )
 	{
 		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
 				ILinkedDataSetHelper.class );
 		if ( helper != null )
 		{
-			return helper.getVisibleLinkedDataSetsDataSetHandles( handle );
+			return helper.getVisibleLinkedDataSetsDataSetHandles(handle);
 		}
 		return new ArrayList<DataSetHandle>( );
-	}
-
-	public List<CubeHandle> getVisibleLinkedDataSetsCubeHandles(
-			ModuleHandle handle )
-	{
-		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
-				ILinkedDataSetHelper.class );
-		if ( helper != null )
-		{
-			return helper.getVisibleLinkedDataSetsCubeHandles( handle );
-		}
-		return new ArrayList<CubeHandle>( );
 	}
 
 	public List<String> getVisibleLinkedDataSets( )
@@ -61,12 +47,12 @@ public class LinkedDataSetAdapter
 		return false;
 	}
 
-	public Iterator getDataSetResLinkedDataModel( String datasetName )
+	public Iterator getDataSetResLinkedDataModel(String datasetName)
 	{
-
+		
 		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
 				ILinkedDataSetHelper.class );
-		if ( helper != null )
+		if(helper != null)
 		{
 			return helper.getResultSetIterator( datasetName );
 		}

@@ -22,10 +22,9 @@ import org.eclipse.birt.report.data.adapter.api.timeFunction.ITimeFunction;
 import org.eclipse.birt.report.designer.internal.ui.data.function.layout.IArgumentLayout;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 
 /**
  * DataService
@@ -118,20 +117,6 @@ public class DataService
 		}
 		return Collections.EMPTY_LIST;
 	}
-	
-	public List getSelectValueList( Expression expression,
-			ModuleHandle moduleHandle, DataSetHandle dataSetHandle, boolean useDataSetFilter )
-			throws BirtException
-	{
-		if ( provider != null )
-		{
-			return provider.getSelectValueList( expression,
-					moduleHandle, dataSetHandle,
-					useDataSetFilter );
-		}
-		return Collections.EMPTY_LIST;
-	}
-	
 
 	public List getSelectValueFromBinding( Expression expression,
 			DataSetHandle dataSetHandle, Iterator binding,
@@ -141,24 +126,6 @@ public class DataService
 		if ( provider != null )
 		{
 			return provider.getSelectValueFromBinding( expression,
-					dataSetHandle,
-					binding,
-					groupIterator,
-					useDataSetFilter );
-		}
-		return Collections.EMPTY_LIST;
-	}
-	
-	public List getSelectValueFromBinding( Expression expression,
-			ModuleHandle moduleHandle, DataSetHandle dataSetHandle,
-			Iterator binding,
-			Iterator groupIterator, boolean useDataSetFilter )
-			throws BirtException
-	{
-		if ( provider != null )
-		{
-			return provider.getSelectValueFromBinding( expression,
-					moduleHandle,
 					dataSetHandle,
 					binding,
 					groupIterator,

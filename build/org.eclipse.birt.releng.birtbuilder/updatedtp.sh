@@ -20,7 +20,7 @@ export PATH=${PATH}:${ANT_HOME}/bin:/usr/local/bin
 proc=$$
 
 # directory in which to export builder projects
-workspace=/home/adb/releng.450
+workspace=/home/adb/releng.441
 
 builderDir=$workspace/org.eclipse.birt.releng.birtbuilder/
 

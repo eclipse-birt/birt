@@ -16,10 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.birt.report.data.adapter.api.DataModelAdapterStatus;
-import org.eclipse.birt.report.data.adapter.api.DataModelAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
-import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -34,7 +31,6 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -366,15 +362,6 @@ public class DataColumnBindingDialog extends BaseDialog
 				else
 					bindingColumn = dialogHelper.newBinding( DEUtil.getBindingHolder( bindingObject ),
 							null );
-			}
-			if( ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( DEUtil.getBindingHolder( bindingObject ) ) )
-			{
-				DataModelAdapterStatus status = DataModelAdapterUtil.validateRelativeTimePeriod(DEUtil.getBindingHolder( bindingObject ), bindingColumn);
-				if( status.getStatus( ) == DataModelAdapterStatus.Status.FAIL )
-				{
-					MessageDialog.openError( UIUtil.getDefaultShell( ), null, status.getMessage( ) );
-					return;
-				}
 			}
 			super.okPressed( );
 		}

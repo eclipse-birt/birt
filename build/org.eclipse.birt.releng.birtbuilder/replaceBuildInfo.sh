@@ -2,7 +2,7 @@
 # 
 #
 
-workspace=/home/adb/releng.450
+workspace=/home/adb/releng.441
 
 rm -f $workspace/PackageFiles/template/build_info_template_new.txt
 

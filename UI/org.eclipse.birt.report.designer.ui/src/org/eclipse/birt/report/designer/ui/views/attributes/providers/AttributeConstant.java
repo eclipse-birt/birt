@@ -12,10 +12,10 @@
 package org.eclipse.birt.report.designer.ui.views.attributes.providers;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 
 
 /**
@@ -211,7 +211,7 @@ public class AttributeConstant
 	public static final String FONT_SIZE = StyleHandle.FONT_SIZE_PROP;
 
 	//	public static final String TEXT_ALTERNATE = TextItem.HELP_TEXT_PROP;
-	public static final String IMAGE_ALTERNATE = IImageItemModel.ALT_TEXT_PROP;
+	public static final String IMAGE_ALTERNATE = ImageHandle.ALT_TEXT_PROP;
 
 	public static final String HORIZONTAL_ALIGN = "GUI_HORIZONTAL_ALIGN";//$NON-NLS-1$
 
