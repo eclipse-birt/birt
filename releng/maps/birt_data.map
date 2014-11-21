@@ -1,6 +1,6 @@
 plugin@org.eclipse.birt.data=GIT,tag=v201411051741,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data
 plugin@org.eclipse.birt.data.aggregation=GIT,tag=v201411051741,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.aggregation
-plugin@org.eclipse.birt.report.data.adapter=GIT,tag=v201411141709,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.adapter
+plugin@org.eclipse.birt.report.data.adapter=GIT,tag=v201411181634,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.adapter
 plugin@org.eclipse.birt.core.script.function=GIT,tag=v201411051741,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.core.script.function
 plugin@org.eclipse.birt.report.data.bidi.utils=GIT,tag=v201411051741,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.bidi.utils
 plugin@org.eclipse.birt.report.data.bidi.utils.ui=GIT,tag=v201411051741,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.bidi.utils.ui
@@ -18,7 +18,7 @@ plugin@org.eclipse.birt.report.data.oda.xml=GIT,tag=v201411051741,repo=git://git
 plugin@org.eclipse.birt.report.data.oda.xml.ui=GIT,tag=v201411051741,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.oda.xml.ui
 plugin@org.eclipse.birt.report.engine.script.javascript=GIT,tag=v201411051741,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.engine.script.javascript
 plugin@org.eclipse.birt.report.data.oda.excel=GIT,tag=v201411051741,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.oda.excel
-plugin@org.eclipse.birt.report.data.oda.excel.ui=GIT,tag=v201411141714,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.oda.excel.ui
+plugin@org.eclipse.birt.report.data.oda.excel.ui=GIT,tag=v201411181634,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.oda.excel.ui
 plugin@org.eclipse.birt.me.prettyprint.hector=GIT,tag=v201411051741,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.me.prettyprint.hector
 
 plugin@org.eclipse.birt.data.tests=GIT,tag=v201411051741,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.tests
