@@ -417,24 +417,9 @@ public class Statement implements IQuery
 	 */
 	private void getMetaUsingPolicy1( ) throws OdaException
 	{
-		try
-		{
-			this.cachedResultSet = executeQuery( );
-			if ( this.cachedResultSet != null )
-			{
-				cachedResultMetaData = this.cachedResultSet.getMetaData( );
-			}
-		}
-		catch ( OdaException e )
-		{
-			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
-			try
-			{
-				cachedResultMetaData = new ResultSetMetaData( this.preStat.getMetaData() );
-			} catch (SQLException e1) {
-				logger.log( Level.WARNING, e1.getLocalizedMessage( ), e1 );
-			}
-		}
+		this.cachedResultSet = executeQuery( );
+		if ( this.cachedResultSet != null )
+			cachedResultMetaData = this.cachedResultSet.getMetaData( );
 	}
 
 	private void getMetaUsingPolicy2( ) throws OdaException
