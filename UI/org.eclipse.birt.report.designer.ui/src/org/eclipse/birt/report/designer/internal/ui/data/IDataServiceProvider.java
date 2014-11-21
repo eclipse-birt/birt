@@ -20,9 +20,10 @@ import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.ITimeFunction;
 import org.eclipse.birt.report.designer.internal.ui.data.function.layout.IArgumentLayout;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 /**
  * IDataServiceProvider
@@ -41,6 +42,17 @@ public interface IDataServiceProvider
 
 	List getSelectValueFromBinding( Expression expression,
 			DataSetHandle dataSetHandle, Iterator binding,
+			Iterator groupIterator, boolean useDataSetFilter )
+			throws BirtException;
+	
+	List getSelectValueList( Expression expression,
+			ModuleHandle moduleHandle, DataSetHandle dataSetHandle,
+			boolean useDataSetFilter )
+			throws BirtException;
+
+	List getSelectValueFromBinding( Expression expression,
+			ModuleHandle moduleHandle, DataSetHandle dataSetHandle, 
+			Iterator binding,
 			Iterator groupIterator, boolean useDataSetFilter )
 			throws BirtException;
 	

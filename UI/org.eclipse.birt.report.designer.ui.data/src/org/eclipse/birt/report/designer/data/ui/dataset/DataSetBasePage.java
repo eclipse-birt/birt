@@ -84,10 +84,11 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
+
 /**
  * Base information page for dataset wizards
  * 
- *  
+ * 
  */
 
 public class DataSetBasePage extends WizardPage
@@ -105,24 +106,24 @@ public class DataSetBasePage extends WizardPage
 	private transient DataSourceHandle newDataSource = null;
 
 	private Hashtable htDataSetWizards = new Hashtable( 10 );
-	
+
 	// store latest selection data source
 	private ISelection dateSetTypeSelection = null;
 	private transient DataSetDesignSession m_designSession = null;
-	private boolean useODAV3 = false;	
+	private boolean useODAV3 = false;
 
 	private WizardFilter wizardFilter = null;
-	
+
 	private FilteredTree dataSourceFilteredTree;
 	private DataSetBasePageHelper helper;
-	
+
 	private IWizardPage nextPage;
 
 	private final static String SCRIPT_DATASET_NAME = Messages.getString( "DataSetBasePage.ScriptedDataSet.name" );//$NON-NLS-1$
-	private final static String SCRIPT_DATASOURCE_NAME =Messages.getString( "DataSetBasePage.ScriptedDataSource.name" ); //$NON-NLS-1$
+	private final static String SCRIPT_DATASOURCE_NAME = Messages.getString( "DataSetBasePage.ScriptedDataSource.name" ); //$NON-NLS-1$
 	private final static String CASSANDRA_DATASET_NAME = Messages.getString( "DataSetBasePage.CassandraScriptedDataSet.name" );//$NON-NLS-1$
-	private final static String CASSANDRA_DATASOURCE_NAME =Messages.getString( "DataSetBasePage.CassandraScriptedDataSource.name" ); //$NON-NLS-1$
-	
+	private final static String CASSANDRA_DATASOURCE_NAME = Messages.getString( "DataSetBasePage.CassandraScriptedDataSource.name" ); //$NON-NLS-1$
+
 	/**
 	 * Creates a new data set wizard page
 	 * 
@@ -174,23 +175,23 @@ public class DataSetBasePage extends WizardPage
 	public void createControl( Composite parent )
 	{
 		helper = new DataSetBasePageHelper( );
-		
-		//initialize the dialog layout
+
+		// initialize the dialog layout
 		Composite composite = new Composite( parent, SWT.NULL );
 		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		GridLayout layout = new GridLayout( );
 		composite.setLayout( layout );
-		
-		final Group group = new Group(composite, SWT.NONE);
-		group.setLayout(new GridLayout());
+
+		final Group group = new Group( composite, SWT.NONE );
+		group.setLayout( new GridLayout( ) );
 		group.setText( Messages.getString( "DataSetBasePage.Group.DataSourceSelection" ) ); //$NON-NLS-1$
-		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 8 ));//GridData.FILL_BOTH));
-	
+		group.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true, 1, 8 ) );// GridData.FILL_BOTH));
+
 		wizardFilter = new WizardFilter( );
-		dataSourceFilteredTree = new FilteredTree( group,
-				SWT.BORDER | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL,
-				this.wizardFilter,
-				true );
+		dataSourceFilteredTree = new FilteredTree( group, SWT.BORDER
+				| SWT.FULL_SELECTION
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL, this.wizardFilter, true );
 		GridData treeData = new GridData( GridData.FILL_BOTH );
 		treeData.grabExcessHorizontalSpace = true;
 		treeData.grabExcessVerticalSpace = true;
@@ -198,8 +199,9 @@ public class DataSetBasePage extends WizardPage
 		treeData.widthHint = 600;
 		dataSourceFilteredTree.setLayoutData( treeData );
 		SelectionListener listener = new SelectionListener( ) {
+
 			TreeItem parent = null;
-			
+
 			public void widgetDefaultSelected( SelectionEvent arg0 )
 			{
 			}
@@ -215,7 +217,8 @@ public class DataSetBasePage extends WizardPage
 						parent = ( (TreeItem) event.item ).getParentItem( );
 						doDataSourceSelectionChanged( parent.getData( ) );
 					}
-					setPageComplete( !hasWizard( ) && ( getMessageType( ) != ERROR ) );				 
+					setPageComplete( !hasWizard( )
+							&& ( getMessageType( ) != ERROR ) );
 				}
 				else
 				{
@@ -226,24 +229,29 @@ public class DataSetBasePage extends WizardPage
 				dataSourceFilteredTree.getViewer( ).getTree( ).setFocus( );
 			}
 		};
-		dataSourceFilteredTree.getViewer( ).getTree( ).addSelectionListener( listener );
+		dataSourceFilteredTree.getViewer( )
+				.getTree( )
+				.addSelectionListener( listener );
 		createDataSetTypeViewer( composite );
-		
-		setDataSourceTreeViewer( );		
+
+		setDataSourceTreeViewer( );
 		setPageStatus( );
 
-		//initialize name editor
+		// initialize name editor
 		new Label( composite, SWT.RIGHT ).setText( Messages.getString( "dataset.wizard.label.datasetName" ) );//$NON-NLS-1$
 		nameEditor = new Text( composite, SWT.BORDER );
-		String name = ReportPlugin.getDefault( ).getCustomName( ReportDesignConstants.DATA_SET_ELEMENT );
-		if(name != null)
+		String name = ReportPlugin.getDefault( )
+				.getCustomName( ReportDesignConstants.DATA_SET_ELEMENT );
+		if ( name != null )
 		{
 			nameEditor.setText( Utility.getUniqueDataSetName( name ) );
-		}else // can't get defaut name
+		}
+		else
+		// can't get defaut name
 		{
 			nameEditor.setText( Utility.getUniqueDataSetName( Messages.getString( "dataset.new.defaultName" ) ) );//$NON-NLS-1$			
 		}
-		
+
 		nameEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		nameEditor.setToolTipText( Messages.getString( "DataSetBasePage.tooltip" ) ); //$NON-NLS-1$
 		nameEditor.addModifyListener( new ModifyListener( ) {
@@ -271,11 +279,11 @@ public class DataSetBasePage extends WizardPage
 				{// everything is OK
 					setMessage( CREATE_PROMPT );
 				}
-				
+
 				setPageComplete( !hasWizard( )
 						&& ( getMessageType( ) != ERROR )
 						&& getSelectedDataSource( ) != null );
-				
+
 				nameEditor.setFocus( );
 			}
 		} );
@@ -284,7 +292,7 @@ public class DataSetBasePage extends WizardPage
 		Utility.setSystemHelp( getControl( ),
 				IHelpConstants.CONEXT_ID_DATASET_NEW );
 	}
-	
+
 	private void setDataSourceTreeViewer( )
 	{
 
@@ -356,52 +364,55 @@ public class DataSetBasePage extends WizardPage
 					}
 				} );
 
-		dataSourceFilteredTree.getViewer( ).setLabelProvider( new ILabelProvider( ) {
+		dataSourceFilteredTree.getViewer( )
+				.setLabelProvider( new ILabelProvider( ) {
 
-			public Image getImage( Object element )
-			{
-				return null;
-			}
+					public Image getImage( Object element )
+					{
+						return null;
+					}
 
-			public String getText( Object element )
-			{
-				if ( element instanceof DataSourceType )
-				{
-					return ( (DataSourceType) element ).getDataSourceDisplayName( );
-				}
-				else if ( element instanceof DataSourceHandle )
-				{
-					return ( (DataSourceHandle) element ).getName( );
-				}
-				return element.toString( );
-			}
+					public String getText( Object element )
+					{
+						if ( element instanceof DataSourceType )
+						{
+							return ( (DataSourceType) element ).getDataSourceDisplayName( );
+						}
+						else if ( element instanceof DataSourceHandle )
+						{
+							return ( (DataSourceHandle) element ).getName( );
+						}
+						return element.toString( );
+					}
 
-			public void addListener( ILabelProviderListener listener )
-			{
-			}
+					public void addListener( ILabelProviderListener listener )
+					{
+					}
 
-			public void dispose( )
-			{
-			}
+					public void dispose( )
+					{
+					}
 
-			public boolean isLabelProperty( Object element, String property )
-			{
-				return false;
-			}
+					public boolean isLabelProperty( Object element,
+							String property )
+					{
+						return false;
+					}
 
-			public void removeListener( ILabelProviderListener listener )
-			{
-			}
-		} );
-		
-		dataSourceFilteredTree.getViewer( ).addSelectionChangedListener( new ISelectionChangedListener( ) {
+					public void removeListener( ILabelProviderListener listener )
+					{
+					}
+				} );
 
-			public void selectionChanged( SelectionChangedEvent event )
-			{
-				setPageStatus( );
-			}
-		} );
-		
+		dataSourceFilteredTree.getViewer( )
+				.addSelectionChangedListener( new ISelectionChangedListener( ) {
+
+					public void selectionChanged( SelectionChangedEvent event )
+					{
+						setPageStatus( );
+					}
+				} );
+
 		dataSourceFilteredTree.getViewer( )
 				.setComparator( new ViewerComparator( new Comparator( ) {
 
@@ -430,7 +441,7 @@ public class DataSetBasePage extends WizardPage
 		}
 		setPageComplete( !hasWizard( ) && ( getMessageType( ) != ERROR ) );
 	}
-	
+
 	private void setPageStatus( )
 	{
 		if ( dataSourceFilteredTree == null
@@ -439,13 +450,13 @@ public class DataSetBasePage extends WizardPage
 						.getSelectionCount( ) <= 0 )
 			setPageComplete( false );
 	}
-	
+
 	private Map getDataSourceMap( )
 	{
 		List dataSources = Utility.getDataSources( );
 
 		Map sourceTypeMap = new HashMap( );
-		for( int i=0; i< dataSources.size( ); i++ )
+		for ( int i = 0; i < dataSources.size( ); i++ )
 		{
 			DataSourceHandle handle = (DataSourceHandle) dataSources.get( i );
 			if ( handle instanceof OdaDataSourceHandle )
@@ -486,7 +497,7 @@ public class DataSetBasePage extends WizardPage
 				}
 				else
 				{
-					DataSourceType sourceType = (DataSourceType)sourceTypeMap.get( type );
+					DataSourceType sourceType = (DataSourceType) sourceTypeMap.get( type );
 					sourceType.addDataSource( handle );
 				}
 			}
@@ -501,13 +512,12 @@ public class DataSetBasePage extends WizardPage
 			else
 			{
 				useODAV3 = false;
-				helper.addExternalDataSource( sourceTypeMap,
-						handle );
+				helper.addExternalDataSource( sourceTypeMap, handle );
 			}
 		}
 		return sourceTypeMap;
 	}
-	
+
 	private void getScriptDataSourceMap( DataSourceHandle handle,
 			Map sourceTypeMap, String DataSetName, String DataSourceName )
 	{
@@ -561,6 +571,8 @@ public class DataSetBasePage extends WizardPage
 
 	private String getDataSetName( )
 	{
+		if ( dataSetName != null )
+			return dataSetName;
 		return ( nameEditor.getText( ) );
 	}
 
@@ -585,8 +597,13 @@ public class DataSetBasePage extends WizardPage
 
 	protected final DataSourceHandle getSelectedDataSource( )
 	{
-		if ( ( (IStructuredSelection) dataSourceFilteredTree.getViewer( ).getSelection( ) ).getFirstElement( ) instanceof DataSourceHandle )
-			return (DataSourceHandle) ( (IStructuredSelection) dataSourceFilteredTree.getViewer( ).getSelection( ) ).getFirstElement( );
+		if ( dataSource != null )
+			return dataSource;
+
+		if ( ( (IStructuredSelection) dataSourceFilteredTree.getViewer( )
+				.getSelection( ) ).getFirstElement( ) instanceof DataSourceHandle )
+			return (DataSourceHandle) ( (IStructuredSelection) dataSourceFilteredTree.getViewer( )
+					.getSelection( ) ).getFirstElement( );
 		else
 			return null;
 	}
@@ -618,19 +635,40 @@ public class DataSetBasePage extends WizardPage
 		setPageComplete( true );
 		if ( ( (IStructuredSelection) dataSetTypeChooser.getSelection( ) ).getFirstElement( ) instanceof DataSetTypeElement )
 		{
-			if ( useODAV3 )
-			{
-				nextPage = getNextPageODAV3( );
-				return nextPage;
-			}
-			else
-			{
-				nextPage = getNextPageODAV2( );
-				return nextPage;
-			}
+			return getDataSetPage( );
 		}
 		// switch to script data set page
 		return super.getNextPage( );
+	}
+
+	public IWizardPage getDataSetPage( )
+	{
+		if ( useODAV3 )
+		{
+			nextPage = getNextPageODAV3( );
+			return nextPage;
+		}
+		else
+		{
+			nextPage = getNextPageODAV2( );
+			return nextPage;
+		}
+	}
+
+	private String dataSetID;
+	private DataSourceHandle dataSource;
+	private String dataSetName;
+
+	public IWizardPage getExtensionDataSetNextPage( String dataSourceID,
+			String dataSetID, DataSourceHandle dataSource, String dataSetName )
+	{
+		this.dataSetID = dataSetID;
+		this.dataSource = dataSource;
+		this.dataSetName = dataSetName;
+
+		setPageComplete( true );
+		isUseODAV3( dataSourceID );
+		return getDataSetPage( );
 	}
 
 	/**
@@ -641,19 +679,18 @@ public class DataSetBasePage extends WizardPage
 	private IWizardPage getNextPageODAV3( )
 	{
 		DataSourceDesign dataSourceDesign = new ModelOdaAdapter( ).createDataSourceDesign( (OdaDataSourceHandle) getSelectedDataSource( ) );
-		OdaDataSetTypeElement dataSetElement = (OdaDataSetTypeElement) getSelectedDataSet( ) ;
-		String dataSetID = dataSetElement.getDataSetType( ).getID( );
+		String dataSetID = getDataSetID( );
 		try
 		{
-			DTPUtil.getInstance( ).supplementDesignAttributes( dataSourceDesign );
+			DTPUtil.getInstance( )
+					.supplementDesignAttributes( dataSourceDesign );
 
-	        if ( m_designSession == null )
-				m_designSession = DataSetDesignSession.startNewDesign( nameEditor.getText( )
-						.trim( ),
+			if ( m_designSession == null )
+				m_designSession = DataSetDesignSession.startNewDesign( getDataSetName( ).trim( ),
 						dataSetID,
 						dataSourceDesign );
 			else
-				m_designSession.restartNewDesign( nameEditor.getText( ).trim( ),
+				m_designSession.restartNewDesign( getDataSetName( ).trim( ),
 						dataSetID,
 						dataSourceDesign );
 
@@ -670,7 +707,15 @@ public class DataSetBasePage extends WizardPage
 			return null;
 		}
 	}
-	
+
+	public String getDataSetID( )
+	{
+		if ( dataSetID != null )
+			return dataSetID;
+		OdaDataSetTypeElement dataSetElement = (OdaDataSetTypeElement) getSelectedDataSet( );
+		return dataSetElement.getDataSetType( ).getID( );
+	}
+
 	public void setPageFocus( )
 	{
 		if ( nameEditor != null && !nameEditor.isDisposed( ) )
@@ -678,23 +723,23 @@ public class DataSetBasePage extends WizardPage
 			nameEditor.setFocus( );
 		}
 	}
-	
+
 	public boolean canFinish( )
-	{		
-		if( !validStatus( ) )
+	{
+		if ( !validStatus( ) )
 			return false;
-		
+
 		try
 		{
 			if ( m_designSession != null )
 				return m_designSession.getNewWizard( ).canFinish( );
 			else
 			{
-				if( this.nextPage!= null )
+				if ( this.nextPage != null )
 				{
 					return nextPage.isPageComplete( );
 				}
-				return isPageComplete( );				
+				return isPageComplete( );
 			}
 		}
 		catch ( OdaException e )
@@ -702,7 +747,7 @@ public class DataSetBasePage extends WizardPage
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -712,11 +757,11 @@ public class DataSetBasePage extends WizardPage
 		// Get the currently selected Data Set type and invoke its wizard
 		// class
 		DataSetTypeElement dataSetElement = (DataSetTypeElement) ( (IStructuredSelection) dataSetTypeChooser.getSelection( ) ).getFirstElement( );
-		
+
 		if ( m_designSession != null )
 			m_designSession = null;
-		
-		if ( dataSetElement instanceof  OdaDataSetTypeElement )
+
+		if ( dataSetElement instanceof OdaDataSetTypeElement )
 		{
 			OdaDataSetTypeElement dElement = (OdaDataSetTypeElement) dataSetElement;
 			IConfigurationElement element = dElement.getIConfigurationElement( );
@@ -804,9 +849,9 @@ public class DataSetBasePage extends WizardPage
 	public boolean validStatus( )
 	{
 		return this.getMessageType( ) != ERROR
-				&& !StringUtil.isBlank( nameEditor.getText( ) )
-				&& getSelectedDataSource( ) != null
-				&& getSelectedDataSet( ) != null;
+				&& !StringUtil.isBlank( getDataSetName( ) )
+				&& ( getSelectedDataSource( ) != null || dataSource != null )
+				&& ( getSelectedDataSet( ) != null || dataSetID != null );
 	}
 
 	/**
@@ -822,17 +867,22 @@ public class DataSetBasePage extends WizardPage
 			dateSetTypeSelection = new StructuredSelection( types[0] );
 			dataSetTypeChooser.setSelection( dateSetTypeSelection );
 			String dataSourceID = ( (DataSourceType) data ).getDataSourceID( );
-			if ( isScriptDataSet( dataSourceID ) )
-			{
-				useODAV3 = false;
-			}
-			else
-			{
-				useODAV3 = DesignSessionUtil.hasValidOdaDesignUIExtension( dataSourceID );
-			}
+			isUseODAV3( dataSourceID );
 		}
 	}
-	
+
+	private void isUseODAV3( String dataSourceID )
+	{
+		if ( isScriptDataSet( dataSourceID ) )
+		{
+			useODAV3 = false;
+		}
+		else
+		{
+			useODAV3 = DesignSessionUtil.hasValidOdaDesignUIExtension( dataSourceID );
+		}
+	}
+
 	private Object getSelectedDataSet( )
 	{
 		return ( (IStructuredSelection) dataSetTypeChooser.getSelection( ) ).getFirstElement( );
@@ -841,7 +891,7 @@ public class DataSetBasePage extends WizardPage
 	private boolean hasWizard( )
 	{
 		DataSetTypeElement dTypeElement = (DataSetTypeElement) getSelectedDataSet( );
-		if( dTypeElement == null )
+		if ( dTypeElement == null )
 		{
 			return false;
 		}
@@ -875,7 +925,7 @@ public class DataSetBasePage extends WizardPage
 		return false;
 	}
 
-	DataSetHandle createSelectedDataSet( )
+	public DataSetHandle createSelectedDataSet( )
 	{
 		DataSetHandle dataSetHandle = null;
 
@@ -889,7 +939,7 @@ public class DataSetBasePage extends WizardPage
 			{
 				dataSetHandle = createDataSetODAV2( );
 			}
-			
+
 			if ( nameEditor != null && !nameEditor.isDisposed( ) )
 				dataSetHandle.setName( nameEditor.getText( ) );
 
@@ -911,7 +961,7 @@ public class DataSetBasePage extends WizardPage
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -919,7 +969,8 @@ public class DataSetBasePage extends WizardPage
 	 * @throws SemanticException
 	 * @throws IllegalStateException
 	 */
-	private DataSetHandle createDataSetODAV3( ) throws OdaException, SemanticException, IllegalStateException
+	private DataSetHandle createDataSetODAV3( ) throws OdaException,
+			SemanticException, IllegalStateException
 	{
 		DesignElementHandle parentHandle = Utility.getReportModuleHandle( );
 
@@ -930,8 +981,8 @@ public class DataSetBasePage extends WizardPage
 		m_designSession = null; // reset
 
 		return dataSetHandle;
-	}	
-	
+	}
+
 	/**
 	 * 
 	 * @return
@@ -979,7 +1030,7 @@ public class DataSetBasePage extends WizardPage
 		else
 			return helper.createDataSet( getDataSetName( ).trim( ), dataSetType );
 	}
-	
+
 	public String getScriptDataSetName( DataSourceHandle dataSourceHandle )
 	{
 		if ( dataSourceHandle instanceof ScriptDataSourceHandle )
@@ -1031,11 +1082,14 @@ class DataSetTypesProvider implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
+	 * .lang.Object)
 	 */
 	public Object[] getElements( Object inputElement )
 	{
-		if ( inputElement != null && ( inputElement instanceof DataSetTypeElement[] ) )
+		if ( inputElement != null
+				&& ( inputElement instanceof DataSetTypeElement[] ) )
 		{
 			return (Object[]) inputElement;
 		}
@@ -1054,8 +1108,9 @@ class DataSetTypesProvider implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer,
-	 *      java.lang.Object, java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
+	 * .viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
 	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
 	{
@@ -1089,7 +1144,9 @@ class DataSetTypesProvider implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+	 * @see
+	 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
+	 * jface.viewers.ILabelProviderListener)
 	 */
 	public void addListener( ILabelProviderListener listener )
 	{
@@ -1098,8 +1155,9 @@ class DataSetTypesProvider implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang
+	 * .Object, java.lang.String)
 	 */
 	public boolean isLabelProperty( Object element, String property )
 	{
@@ -1109,7 +1167,9 @@ class DataSetTypesProvider implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+	 * @see
+	 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+	 * .jface.viewers.ILabelProviderListener)
 	 */
 	public void removeListener( ILabelProviderListener listener )
 	{
@@ -1117,13 +1177,13 @@ class DataSetTypesProvider implements
 
 }
 
+class WizardFilter extends PatternFilter
+{
 
-class WizardFilter extends PatternFilter {
-	
 	public WizardFilter( )
 	{
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1151,8 +1211,9 @@ class WizardFilter extends PatternFilter {
 		}
 		return false;
 	}
-	
-	protected boolean isLeafMatch(Viewer viewer, Object element) {
+
+	protected boolean isLeafMatch( Viewer viewer, Object element )
+	{
 
 		String text;
 		if ( element instanceof DataSourceType )
@@ -1180,7 +1241,8 @@ class DataSourceType
 	private DataSetTypeElement[] dataSetType;
 	private List dataSourceList = new ArrayList( );
 
-	public DataSourceType( String dataSourceID, String dataSourceDisplayName, DataSetTypeElement[] dataSetType )
+	public DataSourceType( String dataSourceID, String dataSourceDisplayName,
+			DataSetTypeElement[] dataSetType )
 	{
 		this.dataSourceID = dataSourceID;
 		this.dataSourceDisplayName = dataSourceDisplayName;
@@ -1196,7 +1258,7 @@ class DataSourceType
 	{
 		return this.dataSetType;
 	}
-	
+
 	public String getDataSourceDisplayName( )
 	{
 		return this.dataSourceDisplayName;
@@ -1206,12 +1268,12 @@ class DataSourceType
 	{
 		dataSourceList.add( handle );
 	}
-	
+
 	public List getDataSourceList( )
 	{
 		return this.dataSourceList;
 	}
-	
+
 	/*
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -1250,7 +1312,7 @@ class DataSetTypeElement
 	{
 		this.name = name;
 	}
-	
+
 	public String getDataSetTypeName( )
 	{
 		return this.name;
@@ -1259,26 +1321,25 @@ class DataSetTypeElement
 
 class OdaDataSetTypeElement extends DataSetTypeElement
 {
+
 	private DataSetType dataSetType;
 	private IConfigurationElement configureElement;
-	
-	public OdaDataSetTypeElement( DataSetType dataSetType,  IConfigurationElement configureElement )
+
+	public OdaDataSetTypeElement( DataSetType dataSetType,
+			IConfigurationElement configureElement )
 	{
 		super( dataSetType.getDisplayName( ) );
 		this.dataSetType = dataSetType;
 		this.configureElement = configureElement;
 	}
-	
+
 	public DataSetType getDataSetType( )
 	{
 		return this.dataSetType;
 	}
-	
+
 	public IConfigurationElement getIConfigurationElement( )
 	{
 		return this.configureElement;
 	}
 }
-
-
-
