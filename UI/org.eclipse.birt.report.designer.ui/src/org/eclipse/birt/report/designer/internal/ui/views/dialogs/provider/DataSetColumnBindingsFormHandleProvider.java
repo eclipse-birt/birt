@@ -51,15 +51,18 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Table;
 
 /**
  * 
  */
 
 public class DataSetColumnBindingsFormHandleProvider implements
-		ISortingFormHandleProvider
+		IFormHandleProvider
 {
 
 	protected static final Logger logger = Logger.getLogger( DataSetColumnBindingsFormHandleProvider.class.getName( ) );
@@ -266,30 +269,12 @@ public class DataSetColumnBindingsFormHandleProvider implements
 
 	public int getOriginalIndex( int pos )
 	{
-		List children = new ArrayList( );
-		for ( Iterator iter = ( (ReportItemHandle) bindingObject ).getColumnBindings( )
-				.iterator( ); iter.hasNext( ); )
-		{
-			children.add( iter.next( ) );
-		}
-
-		Object[] arrays = children.toArray( );
-		Arrays.sort( arrays, new BindingComparator( ) );
-		return children.indexOf( Arrays.asList( arrays ).get( pos ) );
+		return pos;
 	}
 
 	public int getShowIndex( int pos )
 	{
-		List children = new ArrayList( );
-		for ( Iterator iter = ( (ReportItemHandle) bindingObject ).getColumnBindings( )
-				.iterator( ); iter.hasNext( ); )
-		{
-			children.add( iter.next( ) );
-		}
-
-		Object[] arrays = children.toArray( );
-		Arrays.sort( arrays, new BindingComparator( ) );
-		return Arrays.asList( arrays ).indexOf( children.get( pos ) );
+		return pos;
 	}
 
 	public String getColumnText( Object element, int columnIndex )
@@ -394,28 +379,9 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				}
 			}
 			Object[] arrays = children.toArray( );
-			Arrays.sort( arrays, new BindingComparator( ) );
 			return arrays;
 		}
 		return new Object[]{};
-	}
-
-	private class BindingComparator implements Comparator
-	{
-
-		public int compare( Object o1, Object o2 )
-		{
-			ComputedColumnHandle binding1 = (ComputedColumnHandle) o1;
-			ComputedColumnHandle binding2 = (ComputedColumnHandle) o2;
-			String columnText1 = getColumnText( binding1, sortingColumnIndex );
-			String columnText2 = getColumnText( binding2, sortingColumnIndex );
-			int result = ( columnText1 == null ? "" : columnText1 ).compareTo( ( columnText2 == null ? "" //$NON-NLS-1$ //$NON-NLS-2$
-					: columnText2 ) );
-			if ( sortDirection == SWT.UP )
-				return result;
-			else
-				return 0 - result;
-		}
 	}
 
 	public Object getValue( Object element, String property )
@@ -745,6 +711,75 @@ public class DataSetColumnBindingsFormHandleProvider implements
 	public void setSortDirection( int dir )
 	{
 		sortDirection = dir;
+	}
+
+	@Override
+	public CellEditor[] getEditors(Table table) {
+		return null;
+	}
+
+	@Override
+	public boolean doMoveItem(int oldPos, int newPos) throws Exception
+	{
+		if ( Math.abs( oldPos - newPos) > 1 )
+			return false;
+
+		ReportElementHandle elementHandle = this.getBindingObject();
+		if (elementHandle instanceof ReportItemHandle )
+		{
+			ReportItemHandle itemHandle = ( ReportItemHandle )elementHandle;
+			List<ComputedColumn> list = itemHandle.getColumnBindings().getItems();
+
+			ComputedColumn itemToMove = list.get( oldPos );
+			ComputedColumn displacedItem = list.get(newPos );
+
+			// Move the item that is moving
+			list.set( newPos, itemToMove );
+			// Restore the item that was displaced
+			list.set( oldPos, displacedItem );
+
+			// Wipe out all the bound columns
+			int size = list.size();
+			for (int index = 0; index < size; index++)
+			{
+				( (ReportItemHandle) bindingObject ).getColumnBindings( )
+				.getAt( 0 )
+				.drop( );
+//				itemHandle.getColumnBindings( ).getAt( 0 ).drop( );
+			}
+			
+			// Add back all the items in the new list order
+			Iterator<ComputedColumn> it = list.iterator();
+			while ( it.hasNext() )
+			{
+				ComputedColumn next = it.next();
+				itemHandle.addColumnBinding( next, true );
+			}
+
+			if ( viewer != null )
+			{
+				viewer.refresh( true );
+				viewer.getTable( ).setSelection( newPos );
+			}
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Image getImage(Object element, int columnIndex) {
+		return null;
+	}
+
+	@Override
+	public boolean canModify(Object element, String property) {
+		return false;
+	}
+
+	@Override
+	public boolean modify(Object data, String property, Object value)
+			throws Exception {
+		return false;
 	}
 
 }
