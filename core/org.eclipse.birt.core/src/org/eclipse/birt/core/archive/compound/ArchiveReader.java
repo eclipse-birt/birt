@@ -113,7 +113,7 @@ public class ArchiveReader implements IDocArchiveReader
 			if ( name.startsWith( namePattern )
 					&& !name.equalsIgnoreCase( namePattern ) )
 			{
-				String diffString = ArchiveUtil.generateRelativePath(
+				String diffString = ArchiveUtil.getRelativePath(
 						namePattern, name );
 				if ( diffString.lastIndexOf( ArchiveUtil.UNIX_SEPERATOR ) == 0 )
 				{
