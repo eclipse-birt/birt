@@ -431,8 +431,14 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 			parent = this.getClass( ).getClassLoader( );
 		}
 		ClassLoader customClassLoader = DataSetProvider.getCustomScriptClassLoader( parent, handle );
-		ec.getAppContext( ).put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
-				customClassLoader );
+		
+//		"customerClassLoader" should not be set into engine appContext, which results in using wrong
+//		classLoader later in JavascriptEvalUtil class. Comment the following lines can make data
+//		preview work correctly.
+		
+		
+//		ec.getAppContext( ).put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+//				customClassLoader );
 		return ec;
 	}
 
