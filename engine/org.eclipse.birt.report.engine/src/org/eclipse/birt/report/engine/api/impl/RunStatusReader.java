@@ -34,8 +34,11 @@ public class RunStatusReader
 {
 
 	protected RAInputStream runStatusStream;
-	static protected Logger logger = Logger.getLogger( RunStatusReader.class
+	protected static Logger logger = Logger.getLogger( RunStatusReader.class
 			.getName( ) );
+	
+	@SuppressWarnings("unchecked")
+	private List<String> errors = Collections.EMPTY_LIST;
 
 	public RunStatusReader( IReportDocument document )
 	{
@@ -49,6 +52,7 @@ public class RunStatusReader
 				runStatusStream = reader
 						.getStream( ReportDocumentConstants.RUN_STATUS_STREAM );
 			}
+			read( );
 		}
 		catch ( IOException e )
 		{
@@ -75,44 +79,19 @@ public class RunStatusReader
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<String> getGenerationErrors( )
 	{
-		if ( runStatusStream == null )
-		{
-			return Collections.EMPTY_LIST;
-		}
-		try
-		{
-			DataInputStream in = new DataInputStream( runStatusStream );
-			int errorSize = IOUtil.readInt( in );
-			if ( errorSize > 0 )
-			{
-				ArrayList<String> errors = new ArrayList<String>( );
-				for ( int i = 0; i < errorSize; i++ )
-				{
-					errors.add( IOUtil.readString( in ) );
-				}
-				return errors;
-			}
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.WARNING,
-					"Exception occured during reading run task status" ); //$NON-NLS-1$
-		}
-		return Collections.EMPTY_LIST;
+		return errors;
 	}
 
-	public String getStuats( )
+	public String getErrorsAsString( )
 	{
-		List<String> errList = getGenerationErrors( );
-		if ( errList == null || errList.isEmpty( ) )
+		if ( errors == null || errors.isEmpty( ) )
 		{
 			return null;
 		}
 		StringBuilder message = new StringBuilder( );
-		for ( String error : errList )
+		for ( String error : errors )
 		{
 			// we needn't use the system.line.property as:
 			// 1. system.getProperty is a security operation, it need
@@ -123,6 +102,24 @@ public class RunStatusReader
 			message.append( error ).append( "\n" );
 		}
 		return message.toString( );
+	}
+	
+	private void read( ) throws IOException
+	{
+		if ( runStatusStream == null )
+		{
+			return;
+		}
+		DataInputStream in = new DataInputStream( runStatusStream );
+		int errorSize = IOUtil.readInt( in );
+		if ( errorSize > 0 )
+		{
+			errors = new ArrayList<String>( );
+			for ( int i = 0; i < errorSize; i++ )
+			{
+				errors.add( IOUtil.readString( in ) );
+			}
+		}
 	}
 
 }
