@@ -54,12 +54,6 @@ class ProjectedColumns
 		{
 			String name = runtimeMetaData.getColumnName( i );
 			String label = runtimeMetaData.getColumnLabel( i );
-			
-			// If a SQL AS is specified, the column name should be label.
-			if (!name.equals(label)) {
-				name = label;
-			}
-			
 			Class driverDataType = runtimeMetaData.getColumnTypeAsJavaClass( i );
 			String nativeTypeName = runtimeMetaData.getColumnNativeTypeName( i );
 			ResultFieldMetadata column = 
