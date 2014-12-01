@@ -1,6 +1,4 @@
 year quarter month week-of-month 
-2011 3 9 0 
-year quarter month week-of-month 
 2011 3 9 1 
 year quarter month week-of-month 
 2011 3 9 2 

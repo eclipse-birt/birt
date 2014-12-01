@@ -375,7 +375,7 @@ public class TrailingTest extends BaseTestCase
 	public void testTrailing18( ) throws IOException
 	{
 		int[] values = new int[]{
-				2011, 1, 0, 52
+				2011, 1, 1, 1
 		};
 		String[] types = new String[]{
 				TimeMember.TIME_LEVEL_TYPE_YEAR,
@@ -418,7 +418,7 @@ public class TrailingTest extends BaseTestCase
 	public void testTrailing20( ) throws IOException
 	{
 		int[] values = new int[]{
-				2010, 12, 5, 52
+				2010, 12, 5, 1
 		};
 		String[] types = new String[]{
 				TimeMember.TIME_LEVEL_TYPE_YEAR,
@@ -439,7 +439,7 @@ public class TrailingTest extends BaseTestCase
 	public void testTrailing21( ) throws IOException
 	{
 		int[] values = new int[]{
-				2004, 1, 1, 53
+				2004, 1, 1, 1
 		};
 		String[] types = new String[]{
 				TimeMember.TIME_LEVEL_TYPE_YEAR,
@@ -450,6 +450,32 @@ public class TrailingTest extends BaseTestCase
 		TimeMember timeMember = new TimeMember( values, types );
 		
 		IPeriodsFunction periodsFunction =  TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				1 );
+		
+		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+	
+	
+	/**
+	 * Test for week of year, no any month/quarter output level.
+	 * In this case, weeks across year will be printed out, weeks
+	 * across month will not be printed out. 
+	 * @throws IOException
+	 */
+	public void testTrailing22( ) throws IOException
+	{
+		int[] values = new int[]{
+				2004, 1
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		
+		IPeriodsFunction periodsFunction =  TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_YEAR,
 				1 );
 		
 		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
