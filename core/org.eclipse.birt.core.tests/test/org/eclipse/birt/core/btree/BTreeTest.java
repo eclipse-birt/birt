@@ -21,6 +21,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 
+import org.junit.Ignore;
+import org.junit.Test;
+
 public class BTreeTest extends BTreeTestCase
 {
 
@@ -322,6 +325,8 @@ public class BTreeTest extends BTreeTestCase
 		}
 	}
 
+	@Test
+	@Ignore("long run test")
 	public void testHugeNumberOfEntries( ) throws Exception
 	{
 		int ENTRY_COUNT = 999999; // 1M

@@ -64,7 +64,7 @@ public class ArchiveRemoveTest extends TestCase
 
 		try
 		{
-			for ( int i = 0; i < 1024; i++ )
+			for ( int i = 0; i < 32; i++ )
 			{
 				createEntry( archive, "ENTRY", 9 + i * 2);
 				archive.removeEntry( "ENTRY" );
