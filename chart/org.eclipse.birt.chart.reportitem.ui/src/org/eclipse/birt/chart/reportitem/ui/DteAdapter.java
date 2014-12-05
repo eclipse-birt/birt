@@ -181,11 +181,31 @@ public class DteAdapter
 	}
 	
 	/**
+	 * Remove row limit from app context of session.
+	 * 
+	 * @param session
+	 */
+	@SuppressWarnings("unchecked")
+	public void unsetRowLimit( DataRequestSession session )
+	{
+		Map<String, Integer> appContext = session.getDataSessionContext( )
+				.getAppContext( );
+		if ( appContext == null )
+		{
+			return;
+		}
+
+		appContext.remove( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
+		appContext.remove( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE );
+		appContext.remove( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE );
+	}
+	
+	/**
 	 * Uses session to execute a query.
 	 * 
 	 * @param session
 	 * @param queryDefn
-	 * @return
+	 * @return query result.
 	 * @throws BirtException
 	 */
 	public IQueryResults executeQuery(DataRequestSession session, IQueryDefinition queryDefn ) throws BirtException
