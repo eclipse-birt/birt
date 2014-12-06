@@ -207,16 +207,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		final Object[] predefinedQuery = context.getPredefinedQuery( queryType );
 		sbHelper.reset( predefinedQuery );
 		
-		// If current is the sharing query case and predefined queries are not null,
-		// the input field should be a combo component.
+		// always use combo box #66704
+		boolean needComboField = true;
+		
 		IDataServiceProvider provider = context.getDataServiceProvider( );
-		boolean needComboField = predefinedQuery != null
-				&& predefinedQuery.length > 0
-				&& ( provider.checkState( IDataServiceProvider.SHARE_QUERY )
-						|| provider.checkState( IDataServiceProvider.HAS_CUBE )
-						|| (provider.checkState( IDataServiceProvider.INHERIT_CUBE )&&!provider.checkState( IDataServiceProvider.PART_CHART ))
-						|| provider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ));
-		needComboField &= !isSharingChart;
+		
 		boolean hasContentAssist = ( !isSharingChart && predefinedQuery != null && predefinedQuery.length > 0 );
 		IAssistField assistField = null;
 		if ( needComboField )
@@ -342,7 +337,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 		if ( needComboField )
 		{
-			if ( predefinedQuery.length == 0
+			if ( ( predefinedQuery == null || predefinedQuery.length == 0 )
 					&& ( getQuery( ).getDefinition( ) == null || getQuery( ).getDefinition( )
 							.equals( "" ) ) ) //$NON-NLS-1$
 			{
