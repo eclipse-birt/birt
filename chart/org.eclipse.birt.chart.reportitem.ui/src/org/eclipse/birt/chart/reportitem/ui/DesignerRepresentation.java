@@ -120,6 +120,9 @@ public class DesignerRepresentation extends ReportElementFigure
 	 * Prevent re-entrancy of the paint method
 	 */
 	private boolean bPainting = false;
+	
+	// Indicates if current figure needs to resize
+	boolean needFitContainer = false;
 
 	/**
 	 * 
