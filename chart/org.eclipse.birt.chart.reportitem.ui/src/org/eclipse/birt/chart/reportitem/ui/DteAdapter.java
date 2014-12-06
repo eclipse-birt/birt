@@ -30,12 +30,14 @@ import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 /**
@@ -59,7 +61,9 @@ public class DteAdapter
 	 * @throws AdapterException
 	 * @throws BirtException
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({
+			"unchecked", "rawtypes"
+	})
 	public void defineDataSet( DataSetHandle handle,
 			DataRequestSession session, boolean keepDataSetFilter,
 			boolean disAllowAggregation ) throws AdapterException,
@@ -219,7 +223,7 @@ public class DteAdapter
 	 * 
 	 * @param session
 	 * @param queryDefn
-	 * @return
+	 * @return cube query results.
 	 * @throws BirtException
 	 */
 	public ICubeQueryResults executeQuery(DataRequestSession session, ICubeQueryDefinition queryDefn ) throws BirtException
@@ -257,5 +261,41 @@ public class DteAdapter
 			DataRequestSession session ) throws BirtException
 	{
 		// Not implemented here, just used for override.
+	}
+	
+	/**
+	 * Registers session.
+	 * 
+	 * @param handle
+	 * @param session
+	 * @throws BirtException
+	 */
+	public void registerSession( ReportElementHandle handle,
+			DataRequestSession session ) throws BirtException
+	{
+		if ( handle instanceof DataSetHandle )
+		{
+			DataService.getInstance( ).registerSession( (DataSetHandle) handle,
+					session );
+		}
+		else if ( handle instanceof CubeHandle )
+		{
+			DataService.getInstance( ).registerSession( (CubeHandle) handle,
+					session );
+		}
+	}
+	
+	/**
+	 * Unregister session.
+	 * 
+	 * @param session
+	 * @throws BirtException
+	 */
+	public void unregisterSession( DataRequestSession session ) throws BirtException
+	{
+		if ( session != null )
+		{
+			DataService.getInstance( ).unRegisterSession( session );
+		}
 	}
 }

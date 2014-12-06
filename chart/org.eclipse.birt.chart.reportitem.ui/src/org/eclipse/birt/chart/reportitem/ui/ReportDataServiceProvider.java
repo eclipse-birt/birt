@@ -94,11 +94,9 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
-import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BindingGroupDescriptorProvider.BindingInfo;
@@ -109,12 +107,11 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
-import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
+import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -139,7 +136,6 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -212,16 +208,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	// These fields are used to execute query for live preview.
 	protected DataRequestSession session = null;
-	private ReportEngine engine = null;
-	private ChartDummyEngineTask engineTask = null;
+	protected ReportEngine engine = null;
+	protected ChartDummyEngineTask engineTask = null;
 	private Object dataSetReference = null;
 	private Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
 
 	protected ExpressionCodec exprCodec = null;
 
-	private IDatasetPreviewTask dataSetPreviewTask;
-
-	private ILogger logger = Logger.getLogger( "com.actuate.birt.chart.reportitem.ui/trace" ); //$NON-NLS-1$
+	protected ILogger logger = Logger.getLogger( "com.actuate.birt.chart.reportitem.ui/trace" ); //$NON-NLS-1$
 
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle )
 	{
@@ -231,7 +225,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		exprCodec = ChartReportItemHelper.instance( ).createExpressionCodec( itemHandle );
 	}
 
-	private String[] getDesignWorkspaceClasspath( )
+	protected String[] getDesignWorkspaceClasspath( )
 	{
 		IReportClasspathResolver provider = ReportPlugin.getDefault( )
 				.getReportClasspathResolverService( );
@@ -283,27 +277,24 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 			engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
-			
+
+			IReportRunnable rr = null;
 			if ( isReportDesignHandle( ) )
 			{
-				engineTask = new ChartDummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
-						itemHandle.getModuleHandle( ) );
-
-				session = engineTask.getDataSession( );
-				engineTask.run( );
-				dteAdapter.setExecutionContext( engineTask.getExecutionContext( ) );
+				rr = new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) );
 			}
 			else
 			{
-				// Create data set preview task to execute script data set query in report library.
-				ReportEngineHelper engineHelper = new ReportEngineHelper( engine );
-				dataSetPreviewTask = engineHelper.createDatasetPreviewTask( );
-				
-				DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-						getReportDesignHandle( ) );
-				session = DataRequestSession.newSession( dsc );
+				rr = new ReportRunnable( engine, itemHandle.getModuleHandle( ) );
 			}
+
+			engineTask = new ChartDummyEngineTask( engine,
+					rr,
+					itemHandle.getModuleHandle( ) );
+
+			session = engineTask.getDataSession( );
+			engineTask.run( );
+			dteAdapter.setExecutionContext( engineTask.getExecutionContext( ) );
 		}
 		catch ( BirtException e )
 		{
@@ -323,6 +314,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	}
 
+
 	/**
 	 * Disposes instance handles.
 	 */
@@ -332,7 +324,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			try
 			{
-				DataService.getInstance( ).unRegisterSession( session );
+				dteAdapter.unregisterSession( session );
 			}
 			catch ( BirtException e )
 			{
@@ -720,38 +712,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			queryDefn.setMaxRows( getMaxRow( ) );
 			queryDefn.setDataSetName( datasetHandle.getQualifiedName( ) );
 
-				setQueryDefinitionWithDataSet( null, itemHandle, queryDefn );
+			setQueryDefinitionWithDataSet( null, itemHandle, queryDefn );
 
-			// For script data set in report library, since there is not
-			// execution context in report library, just use data set preview
-			// task to execute query.
-			if ( isLibraryHandle( )
-					&& datasetHandle instanceof ScriptDataSetHandle )
-			{
-				dataSetPreviewTask.setQuery( queryDefn );
-				dataSetPreviewTask.setDataSet( datasetHandle );
-				IExtractionResults ier = dataSetPreviewTask.execute( );
-				if ( ier != null )
-				{
-					IResultIterator iter = ier.nextResultIterator( )
-							.getResultIterator( );
-					dataList = iterateDataSetResults( iter,
-							bindingNames,
-							isStringType );
-					ier.close( );
-				}
-			}
-			else
-			{
-				IQueryResults actualResultSet = executeDataSetQuery( queryDefn );
-				if ( actualResultSet != null )
-				{
-					IResultIterator iter = actualResultSet.getResultIterator( );
-					dataList = iterateDataSetResults( iter,
-							bindingNames,
-							isStringType );
-					actualResultSet.close( );
-				}
+			IQueryResults actualResultSet = executeDataSetQuery( queryDefn );
+			if ( actualResultSet != null ) {
+				IResultIterator iter = actualResultSet.getResultIterator( );
+				dataList = iterateDataSetResults( iter, bindingNames,
+						isStringType );
+				actualResultSet.close( );
 			}
 		}
 		catch ( BirtException e )
@@ -843,12 +811,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return DataTypeUtil.toString( source );
 	}
 
-	private boolean isReportDesignHandle( )
+	protected boolean isReportDesignHandle( )
 	{
 		return itemHandle.getModuleHandle( ) instanceof ReportDesignHandle;
 	}
 
-	private boolean isLibraryHandle( )
+	protected boolean isLibraryHandle( )
 	{
 		return itemHandle.getModuleHandle( ) instanceof LibraryHandle;
 	}
@@ -1748,7 +1716,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		DataSetHandle dataSetHandle = getBindingDataSetHandle( );
 		if ( needDefineDataSet( dataSetHandle ) )
 		{
-			DataService.getInstance( ).registerSession( dataSetHandle, session );
+			dteAdapter.registerSession( dataSetHandle, session );
 			dteAdapter.defineDataSet( dataSetHandle, session, true, false );
 		}
 
@@ -2120,7 +2088,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		if ( needDefineCube( cube ) )
 		{
-			DataService.getInstance( ).registerSession( cube, session );
+			dteAdapter.registerSession( cube, session );
 			session.defineCube( cube );
 		}
 	}
@@ -2839,7 +2807,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			DataSetHandle dataSetHandle = getBindingDataSetHandle( );
 			if ( needDefineDataSet( dataSetHandle ) )
 			{
-				DataService.getInstance( ).registerSession( dataSetHandle,
+				dteAdapter.registerSession( dataSetHandle,
 						session );
 				dteAdapter.defineDataSet( dataSetHandle, session, true, false );
 			}
