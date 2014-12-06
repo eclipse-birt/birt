@@ -16,10 +16,10 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
-import org.eclipse.birt.data.oda.pojo.impl.Query;
+import org.eclipse.birt.data.oda.pojo.api.Constants;
 import org.eclipse.birt.data.oda.pojo.impl.ResultSet;
-import org.eclipse.birt.data.oda.pojo.impl.internal.ClassMethodFieldBuffer;
 import org.eclipse.birt.data.oda.pojo.input.pojos.Course;
 import org.eclipse.birt.data.oda.pojo.input.pojos.CustomTeacherDataSet;
 import org.eclipse.birt.data.oda.pojo.input.pojos.Student;
@@ -39,7 +39,6 @@ import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-
 import junit.framework.TestCase;
 
 /**
@@ -58,7 +57,6 @@ public class ResultSetTest extends TestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		ClassMethodFieldBuffer.createInstance( );
 	}
 
 	/*
@@ -69,7 +67,6 @@ public class ResultSetTest extends TestCase
 	@Override
 	protected void tearDown( ) throws Exception
 	{
-		ClassMethodFieldBuffer.release( );
 		super.tearDown( );
 	}
 
@@ -80,7 +77,9 @@ public class ResultSetTest extends TestCase
 		List<Teacher> ts = PojoInstancesUtil.createTeachers( );
 		Map appContext = new HashMap( );
 		appContext.put( query.getAppContextKey( ), ts );
-		IQuery q = new Query( null );
+		Connection conn = new Connection();	
+		conn.open(null);
+		IQuery q = conn.newQuery(null);
 		q.setAppContext( appContext );
 		q.prepare( PojoQueryWriter.write( query ) );
 		ResultSet rs = (ResultSet)q.executeQuery( );
@@ -95,7 +94,11 @@ public class ResultSetTest extends TestCase
 		PojoQuery query = PojoQueryCreator.createWithA1tonMap( );
 		query.setDataSetClass( TeacherDataSet.class.getName( ) );
 		List<Teacher> ts = new TeacherDataSet( ).getTeachers( );
-		IQuery q = new Query( getAbsolutePath( ) );
+		Properties prop = new Properties();
+		prop.setProperty(Constants.POJO_DATA_SET_CLASS_PATH, getAbsolutePath( ));
+		Connection conn = new Connection();
+		conn.open(prop);
+		IQuery q = conn.newQuery(null);
 		q.prepare( PojoQueryWriter.write( query ) );
 		ResultSet rs = (ResultSet)q.executeQuery( );
 
@@ -109,7 +112,11 @@ public class ResultSetTest extends TestCase
 	{
 		PojoQuery query = PojoQueryCreator.createWithParameters( );
 		query.setDataSetClass( TeacherDataSet.class.getName( ) );
-		Query q = new Query( getAbsolutePath( ) );
+		Properties prop = new Properties();
+		prop.setProperty(Constants.POJO_DATA_SET_CLASS_PATH, getAbsolutePath( ));
+		Connection conn = new Connection();
+		conn.open(prop);
+		IQuery q = conn.newQuery(null);
 		q.prepare( PojoQueryWriter.write( query ) );
 		q.setBoolean( "sex", false );
 		q.setInt( "id", 1 );
@@ -151,7 +158,11 @@ public class ResultSetTest extends TestCase
 		PojoQuery query = PojoQueryCreator.createWithA1tonMap( );
 		query.setDataSetClass( CustomTeacherDataSet.class.getName( ) );
 		List<Teacher> ts = new TeacherDataSet( ).getTeachers( );
-		Query q = new Query( getAbsolutePath( ) );
+		Properties prop = new Properties();
+		prop.setProperty(Constants.POJO_DATA_SET_CLASS_PATH, getAbsolutePath( ));
+		Connection conn = new Connection();
+		conn.open(prop);
+		IQuery q = conn.newQuery(null);
 		q.prepare( PojoQueryWriter.write( query ) );
 		ResultSet rs = (ResultSet)q.executeQuery( );
 
@@ -167,7 +178,9 @@ public class ResultSetTest extends TestCase
 		ResultSet rs = null;
 		try
 		{
-			IQuery q = new Query( null );
+			Connection conn = new Connection();	
+			conn.open(null);
+			IQuery q = conn.newQuery(null);
 			q.prepare( PojoQueryWriter.write( query ) );
 			rs = (ResultSet)q.executeQuery( );
 			rs.next( );
@@ -196,7 +209,9 @@ public class ResultSetTest extends TestCase
 		Map appContext = new HashMap( );
 		appContext.put( query.getAppContextKey( ), ts );
 		
-		IQuery q = new Query( null );
+		Connection conn = new Connection();
+		conn.open(null);
+		IQuery q = conn.newQuery(null);
 		q.setAppContext( appContext );
 		q.prepare( PojoQueryWriter.write( query ) );
 		ResultSet rs = (ResultSet)q.executeQuery( );
@@ -226,7 +241,9 @@ public class ResultSetTest extends TestCase
 		// All Teachers currently has no course, so in fact, no 2 1-to-maps are
 		// checked during runtime.
 		// ResultSet should works
-		IQuery q = new Query( null );
+		Connection conn = new Connection();
+		conn.open(null);
+		IQuery q = conn.newQuery(null);
 		q.setAppContext( appContext );
 		q.prepare( PojoQueryWriter.write( query ) );
 		ResultSet rs = (ResultSet)q.executeQuery( );
@@ -238,7 +255,7 @@ public class ResultSetTest extends TestCase
 		ts.get( 1 ).addCourse( new Course( 1, "c1" ) );
 		try
 		{
-			q = new Query( null );
+			q = conn.newQuery(null);
 			q.setAppContext( appContext );
 			q.prepare( PojoQueryWriter.write( query ) );
 			rs = (ResultSet)q.executeQuery( );
@@ -400,7 +417,9 @@ public class ResultSetTest extends TestCase
 		Map appContext = new HashMap( );
 		appContext.put( query.getAppContextKey( ), ts );
 
-		IQuery q = new Query( null );
+		Connection conn = new Connection();	
+		conn.open(null);
+		IQuery q = conn.newQuery(null);
 		q.setAppContext( appContext );
 		q.prepare( PojoQueryWriter.write( query ) );
 		ResultSet rs = (ResultSet)q.executeQuery( );

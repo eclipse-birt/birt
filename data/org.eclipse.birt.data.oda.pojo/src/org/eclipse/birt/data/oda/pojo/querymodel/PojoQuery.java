@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.data.oda.pojo.impl.Connection;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
@@ -33,11 +34,14 @@ public class PojoQuery
 	
 	private QueryParameters qps;
 	
+	private Connection connection;
+	
 	public PojoQuery( String version, String dataSetClass, String appContextKey )
 	{
 		this.version = version;
 		this.dataSetClass = dataSetClass;
 		this.appContextKey = appContextKey;
+		this.connection = null;
 	}
 	
 	public String getVersion( )
@@ -132,6 +136,16 @@ public class PojoQuery
 		{
 			prepareParameterValues( rn, inputValues, pojoClassLoader );
 		}
+	}
+	
+	public void setConnection( Connection connection )
+	{
+		this.connection = connection;
+	}
+	
+	public Connection getConnection( )
+	{
+		return connection;
 	}
 	
 	private static void prepareParameterValues( ReferenceNode rn,
