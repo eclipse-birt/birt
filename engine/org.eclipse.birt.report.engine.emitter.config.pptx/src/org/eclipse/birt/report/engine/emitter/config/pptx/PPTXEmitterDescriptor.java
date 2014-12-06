@@ -100,7 +100,7 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 								IPDFRenderOption.ENLARGE_PAGE_SIZE,
 								getMessage( "OptionDisplayValue.ENLARGE_PAGE_SIZE" ) ) //$NON-NLS-1$
 				} );
-		pageOverFlow.setDefaultValue( IPDFRenderOption.CLIP_CONTENT );
+		pageOverFlow.setDefaultValue( IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES );
 		pageOverFlow.setToolTip( null );
 		pageOverFlow
 				.setDescription( getMessage( "OptionDescription.PageOverFlow" ) ); //$NON-NLS-1$
