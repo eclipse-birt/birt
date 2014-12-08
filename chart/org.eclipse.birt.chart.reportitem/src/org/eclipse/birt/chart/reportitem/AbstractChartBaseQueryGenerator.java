@@ -510,7 +510,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param categoryGroupDefinition
 	 * @param valueExprMap
 	 */
-	private void bindSortOnCategorySeries( BaseQueryDefinition query,
+	protected void bindSortOnCategorySeries( BaseQueryDefinition query,
 			SeriesDefinition categorySD,
 			GroupDefinition categoryGroupDefinition,
 			Map<String, String[]> valueExprMap,
@@ -699,7 +699,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		return valueExprMap;
 	}
 
-	private void bindSortOnOptionalY( GroupDefinition yGroupingDefinition, SeriesDefinition orthSD,
+	protected void bindSortOnOptionalY( GroupDefinition yGroupingDefinition, SeriesDefinition orthSD,
 			Axis[] orthAxisArray, SeriesDefinition categorySD, BaseQueryDefinition query )
 			throws ChartException
 	{
@@ -733,7 +733,9 @@ public abstract class AbstractChartBaseQueryGenerator
 		}
 
 		if ( sortKey == null
-				|| yGroupingDefinition.getKeyExpression( ).equals( sortKey ) )
+				|| ( ( orthSD.getQuery( ) != null && sortKey.equals( orthSD.getQuery( )
+						.getDefinition( ) ) ) || yGroupingDefinition.getKeyExpression( )
+						.equals( sortKey ) ) )
 		{
 			// Sort key is group expression.
 			sortDefinition.setExpression( yGroupingDefinition.getKeyExpression( ) );
