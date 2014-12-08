@@ -91,6 +91,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.emf.common.util.EList;
@@ -166,13 +167,13 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		if ( element instanceof ReportItemHandle )
 		{
 			DataSetHandle dataSet = ( (ReportItemHandle) element ).getDataSet( );
-			if ( dataSet != null )
-			{
-				return dataSet;
-			}
-			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
 				return getBindingDataSet( ( (ReportItemHandle) element ).getDataBindingReference( ) );
+			}
+			else if ( dataSet != null )
+			{
+				return dataSet;
 			}
 			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
 			{
@@ -1198,6 +1199,48 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return handle.getDataSet( ) == null
 				&& isContainerInheritable( handle )
 				&& handle.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
+	}
+	
+	/**
+	 * Check if chart inherits cube from container.
+	 * 
+	 * @param handle
+	 * @return true if chart inherits cube from container.
+	 */
+	public static boolean isChartInhertCube( ReportItemHandle handle )
+	{
+		boolean isChartInheritCube = ( handle.getDataSet( ) == null )
+				&& ( handle.getCube( ) == null );
+		if ( !isChartInheritCube )
+		{
+			return false;
+		}
+
+		CubeHandle cube = null;
+		DesignElementHandle container = handle.getContainer( );
+		while ( container != null )
+		{
+			if ( container instanceof ReportItemHandle )
+			{
+				cube = ( (ReportItemHandle) container ).getCube( );
+				if ( cube != null )
+				{
+					break;
+				}
+			}
+			container = container.getContainer( );
+		}
+
+		if ( cube == null )
+		{
+			return false;
+		}
+		if ( ChartReportItemHelper.instance( ).getBindingCubeHandle( handle ) == null )
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
