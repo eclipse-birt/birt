@@ -25,4 +25,4 @@ BirtResourcesDefinition= BIRT Web 应用程序资源定义
 birt.action.importruntime.name=导入 BIRT 运行时组件(&B)...
 
 
-plugin.version=4.3.1
+plugin.version=4.4.0

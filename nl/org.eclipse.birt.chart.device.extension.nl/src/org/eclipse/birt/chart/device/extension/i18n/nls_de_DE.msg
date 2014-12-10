@@ -63,4 +63,4 @@ SwingEventHandler.info.improper.callback.notifier=Benachrichtigung: [{0}] wurde 
 
 SwingEventHandler.info.redirect.url=Umleitung an URL: {0}
 
-SwingDisplayServer.info.display.server=SWING Anzeigeserver: {0} v{1}
+SwingDisplayServer.info.display.server=SWING-Anzeigeserver: {0} v{1}

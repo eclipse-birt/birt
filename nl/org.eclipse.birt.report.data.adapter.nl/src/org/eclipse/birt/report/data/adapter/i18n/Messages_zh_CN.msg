@@ -266,7 +266,7 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =月初至今
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =周初至今
 
-timeFunction.toolTip.to=To
+timeFunction.toolTip.to=至
 
  # Localized messages for the DTE Engine. Messages here give 
 # the text of Design Engine exceptions.
@@ -534,7 +534,7 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =月初至今
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =周初至今
 
-timeFunction.toolTip.to=To
+timeFunction.toolTip.to=至
 RelativeTimePeriod.TimeLevelNotEnough=报表项不包含通过参考日期计算此相对时间周期需要的所有时间级别。
  
  

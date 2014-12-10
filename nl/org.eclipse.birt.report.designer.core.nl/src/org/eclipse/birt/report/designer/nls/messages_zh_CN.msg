@@ -3567,7 +3567,7 @@ ImportValueDialog.Button.Remove.ToolTip=删除
 ImportValueDialog.Button.RemoveAll.ToolTip=全部删除
 ###########################################################
 #IncludeDetailAction properties
-IncludeDetailAction.actionMsg.includeDetail=详细资料(&D)
+IncludeDetailAction.actionMsg.includeDetail=详细信息(&D)
 
 ###########################################################
 #IncludeFooterAction properties
@@ -3784,6 +3784,8 @@ LabelPageGenerator.List.Visibility=可见性
 LayoutConfigurationBlock.Default.Unit.Auto=自动
 
 LayoutConfigurationBlock.Default.Unit.Label=默认单位(&F):
+LayoutConfigurationBlock.Default.Layout.Label=默认布局:
+LayoutConfigurationBlock.Default.Orientation.Label=默认方向:
 
 ###########################################################
 #LayoutEditor properties
@@ -6042,10 +6044,9 @@ TextEditDialog.toolTipText.redo=恢复
 
 TextEditDialog.toolTipText.undo=撤消
 
-TextEditDialog.toolTip.formatHTML=HTML 格式
-
 TextEditDialog.toolTipText.fx=打开表达式生成器
 
+TextEditDialog.action.item.formatHTML=HTML 格式
 TextEditDialog.action.item.formatDateTime=设置日期时间格式
 
 TextEditDialog.action.item.formatNumber=设置数字格式
@@ -7417,6 +7418,9 @@ ShowPropertiesViewMenu.ErrorTitle=错误
 ResetAttributePage.Style.Restore.TooltipText=将当前页的样式属性还原到默认设置
 
 ResetAttributePage.Style.Restore.Transaction.Name=还原样式
+ResetAttributePage.Style.Restore.Menu.Name=恢复默认样式
+ResetAttributePage.Style.Restore.All.Transaction.Name=恢复全部样式
+ResetAttributePage.Style.Restore.All.Menu.Name=在所有选项卡上恢复默认样式
 
 ###########################################################
 #TextEditor
@@ -7533,3 +7537,4 @@ ToggleBreadcrumbAction.tooltip.switch.breadcrumb=切换 Breadcrumb
 ReportHyperlinkParameterProvider.Category.Report=报表参数
 
 RenderHyperlinkParameterProvider.Category.Render=呈现选项
+ExceptionDialog.title=错误

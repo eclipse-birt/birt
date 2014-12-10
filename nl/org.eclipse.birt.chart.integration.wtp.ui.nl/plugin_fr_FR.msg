@@ -25,4 +25,4 @@ birtResourcesDefinition= Définition des ressources d'application Web de création
 birt.action.importruntime.name=Importer le &composant d'exécution de création de graphiques...
 
 ##################Do not externalize the version number
-runtime.version=4.3.1
+runtime.version=4.4.0

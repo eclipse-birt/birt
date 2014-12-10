@@ -3784,6 +3784,8 @@ LabelPageGenerator.List.Visibility=Visibilidad
 LayoutConfigurationBlock.Default.Unit.Auto=Automático
 
 LayoutConfigurationBlock.Default.Unit.Label=Unidad &predeterminada:
+LayoutConfigurationBlock.Default.Layout.Label=Diseño predeterminado:
+LayoutConfigurationBlock.Default.Orientation.Label=Orientación predeterminada:
 
 ###########################################################
 #LayoutEditor properties
@@ -5625,7 +5627,7 @@ SelectValueDialog.retrieving=Recuperando lista...
 
 SelectValueDialog.selectValue=Seleccionar valores
 
-SelectValueDialog.SelectValue.NullValue=<Valor nulo>
+SelectValueDialog.SelectValue.NullValue=<Null Value>
 
 ###########################################################
 #SetConstraintCommand properties
@@ -6042,10 +6044,9 @@ TextEditDialog.toolTipText.redo=Rehacer
 
 TextEditDialog.toolTipText.undo=Deshacer
 
-TextEditDialog.toolTip.formatHTML=formato HTML
-
 TextEditDialog.toolTipText.fx=Abrir el compilador de expresiones
 
+TextEditDialog.action.item.formatHTML=Formato HTML
 TextEditDialog.action.item.formatDateTime=Formato de fecha/hora
 
 TextEditDialog.action.item.formatNumber=Formato de número
@@ -7417,6 +7418,9 @@ ShowPropertiesViewMenu.ErrorTitle=Error
 ResetAttributePage.Style.Restore.TooltipText=Restaurar las propiedades de estilo de la página actual a los parámetros predeterminados
 
 ResetAttributePage.Style.Restore.Transaction.Name=Restaurar estilo
+ResetAttributePage.Style.Restore.Menu.Name=Restaurar estilos predeterminados
+ResetAttributePage.Style.Restore.All.Transaction.Name=Restaurar todos los estilos
+ResetAttributePage.Style.Restore.All.Menu.Name=Restaurar estilos predeterminados en todas las fichas
 
 ###########################################################
 #TextEditor
@@ -7533,3 +7537,4 @@ ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Alternar ruta de exploración
 ReportHyperlinkParameterProvider.Category.Report=Parámetros de informe
 
 RenderHyperlinkParameterProvider.Category.Render=Opciones de procesamiento
+ExceptionDialog.title=Error

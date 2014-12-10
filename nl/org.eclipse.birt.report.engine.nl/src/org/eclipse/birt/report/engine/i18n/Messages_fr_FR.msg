@@ -4,7 +4,7 @@
 
 ###########################################################
 #for test only
-Error.Msg001=En: There is a {0} in the {1}.
+Error.Msg001=Fr : Il y a un(e) {0} dans {1}.
 
 ###########################################################
 Error.OutputFormatNotSupported=Le format de sortie {0}n''est pas pris en charge.

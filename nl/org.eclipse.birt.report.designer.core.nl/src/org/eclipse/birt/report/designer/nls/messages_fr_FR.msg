@@ -3784,6 +3784,8 @@ LabelPageGenerator.List.Visibility=Visibilité
 LayoutConfigurationBlock.Default.Unit.Auto=Auto
 
 LayoutConfigurationBlock.Default.Unit.Label=Unité par déf&aut :
+LayoutConfigurationBlock.Default.Layout.Label=Mise en page par défaut :
+LayoutConfigurationBlock.Default.Orientation.Label=Orientation par défaut :
 
 ###########################################################
 #LayoutEditor properties
@@ -6042,10 +6044,9 @@ TextEditDialog.toolTipText.redo=Rétablir
 
 TextEditDialog.toolTipText.undo=Annuler
 
-TextEditDialog.toolTip.formatHTML=format HTML
-
 TextEditDialog.toolTipText.fx=Ouvrir le générateur d'expression
 
+TextEditDialog.action.item.formatHTML=Format HTML
 TextEditDialog.action.item.formatDateTime=Format de date/heure
 
 TextEditDialog.action.item.formatNumber=Format de nombre
@@ -6088,7 +6089,7 @@ TextPageGenerator.List.Visibility=Visibilité
 
 ###########################################################
 #TextPropertyDescriptor properties
-TextPropertyDescriptor.Message.Version=Eclipse BIRT Designer version {0} build <{1}>
+TextPropertyDescriptor.Message.Version=Eclipse BIRT Designer version {0} révision <{1}>
 
 ###########################################################
 #AutoTextPageGenerator properties
@@ -7417,6 +7418,9 @@ ShowPropertiesViewMenu.ErrorTitle=Erreur
 ResetAttributePage.Style.Restore.TooltipText=Restaurer les paramètres par défaut des propriétés de style de la page en cours
 
 ResetAttributePage.Style.Restore.Transaction.Name=Restaurer le style
+ResetAttributePage.Style.Restore.Menu.Name=Restaurer les styles par défaut
+ResetAttributePage.Style.Restore.All.Transaction.Name=Restaurer tous les styles
+ResetAttributePage.Style.Restore.All.Menu.Name=Restaurer les styles par défaut sur tous les onglets
 
 ###########################################################
 #TextEditor
@@ -7533,3 +7537,4 @@ ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Basculer la suite de liens
 ReportHyperlinkParameterProvider.Category.Report=Paramètres de l'état
 
 RenderHyperlinkParameterProvider.Category.Render=Options de rendu
+ExceptionDialog.title=Erreur

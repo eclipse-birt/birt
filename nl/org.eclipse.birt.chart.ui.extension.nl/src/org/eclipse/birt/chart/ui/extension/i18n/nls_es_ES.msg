@@ -780,8 +780,7 @@ SeriesYSheetImpl.Label.Interactivity&=Inte&ractividad
 
 SeriesYSheetImpl.Label.Interactivity=Interactividad de la serie
 
-SeriesGroupingComposite.Lbl.AggregateExpression=&Expresión de total:
-
+SeriesGroupingComposite.Lbl.AggregateExpression=&Función:
 SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping=Seleccione el intervalo para la agrupación. 0 indica una agrupación por valor de categoría/X
 
 SeriesPaletteSheet.Label.Auto=Au&tomático
@@ -1749,7 +1748,6 @@ TitlePropertiesSheet.Label.Text=Texto
 BaseDataDefinitionComponent.Text.SpecifyDataDefinition=Especificar definición de datos
 
 BaseDataDefinitionComponent.Label.EditGroupSorting=Editar agrupación y orden
-
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=Expresión del valor de entrada
 
 BaseDataDefinitionComponent.Text.EditFormat=Editar formato
@@ -1880,7 +1878,6 @@ GroupSortingDialog.Composite.Label.SortLocale=&Configuración regional:
 GroupSortingDialog.Composite.Label.SortStrength=Intensida&d:
 
 GroupSortingDialog.Label.GroupAndSorting=Agrupación y orden
-
 GroupSortingDialog.Sort.Locale.Auto=Automático
 
 GroupSortingDialog.Sort.Strength.ASCII=ASCII

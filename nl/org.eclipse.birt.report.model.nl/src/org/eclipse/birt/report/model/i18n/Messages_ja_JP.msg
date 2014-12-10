@@ -69,7 +69,7 @@ Property.contentElement=プロパティ値としての要素
 
 Property.locale=ロケール
 
-Property.struct=構造
+Property.struct=構造体
 
 ###########################################################
 # Choice values
@@ -388,7 +388,7 @@ Choices.imageType.image/x-icon=イメージ/x アイコン
 #23.lineSpacing
 Choices.lineSpacing.lines=線
 
-Choices.lineSpacing.exact=絶対位置
+Choices.lineSpacing.exact=固定値
   
 #24.lineType
 Choices.lineType.none=線種なし
@@ -841,7 +841,7 @@ Choices.templateElementType.text=テキスト
 
 Choices.templateElementType.extendedItem=ExtendedItem
 Choices.templateElementType.textData=TextData
-Choices.templateElementType.dataSet=DataSet
+Choices.templateElementType.dataSet=データセット
 
 #61. sortType
 Choices.sortType.none=ソート基準なし
@@ -1272,7 +1272,7 @@ Class.String.substr.length=length
 
 Class.String.substring.from=from
 
-Class.String.substring.to=to
+Class.String.substring.to=?
 
 #1.Global
 Class.Global=Global 関数
@@ -1428,7 +1428,7 @@ Class.Array.sort.orderfunc=orderfunc
 Class.Array.splice.start=start
 
 Class.Array.splice.deleteCount=deleteCount
-Class.Array.unshift.value=value
+Class.Array.unshift.value=値
 
 #3. Boolean
 Class.Boolean=Boolean 関数
@@ -1887,7 +1887,7 @@ Class.Number.toFixed.digits=桁
 
 Class.Number.toPrecision.precision=精度
 
-Class.Number.toString.radix=radix
+Class.Number.toString.radix=基数
 
 #7. Object
 Class.Object=Object 関数
@@ -2968,7 +2968,7 @@ Class.BirtComp.anyOf=anyOf
 
 Class.BirtComp.anyOf.toolTip=値が次の引数の範囲内にあるかどうか
 
-Class.BirtComp.anyOf.val=value
+Class.BirtComp.anyOf.val=値
 
 
 ###########################################################
@@ -3221,6 +3221,7 @@ Structure.FilterCondition.dynamicFilterParameter=動的フィルタパラメタ
 Structure.FilterCondition.type=種類
 
 Structure.FilterCondition.updateAggregation=集計の更新
+Structure.FilterCondition.customValue=カスタム値
 
 #10. PropertyMask
 Structure.PropertyMask.name=名前
@@ -5689,7 +5690,7 @@ Element.FilterConditionElement.updateAggregation=集計の更新
 
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
-Element.AbstractMultiViews.index=索引
+Element.AbstractMultiViews.index=インデックス
 
 #63. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=ビュー

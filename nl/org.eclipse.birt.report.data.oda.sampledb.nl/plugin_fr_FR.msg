@@ -14,11 +14,11 @@ select.dataset.name=SQL Select Query
 jdbc.driver.name=Classic Models Inc. SampleDB Driver
 dataset.property.queryTimeOut=&Query Time Out (in seconds)
 
-dataset.property.rowFetchSize=&Row Fetch Size
+dataset.property.rowFetchSize=Taille d'ext&raction de lignes
 #
 oda.data.source.name=Classic Models Inc. Sample Database
 
-connection.profile.name=BIRT Sample DB Data Source Connection Profile
+connection.profile.name=Profil de connexion à la source de données de la BD exemple BIRT
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #

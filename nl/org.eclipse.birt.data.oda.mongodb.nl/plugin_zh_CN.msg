@@ -16,7 +16,7 @@ plugin.name=MongoDB Data Source ODA Runtime Driver
 data.source.name=MongoDB Data Source
 data.set.name=MongoDB Data Set
 
-connection.profile.name=MongoDB Data Source Connection Profile
+connection.profile.name=MongoDB 数据源连接配置文件
 
 # Data source properties
 datasource.property.mongoDbUri=&Mongo Database URI
@@ -39,7 +39,7 @@ datasource.property.useRequestSession=Consistent &Request Session
 
 datasource.property.group.uriElements=Mongo Database URI &Elements
 
-datasource.property.group.options=Supplemental Client &Setting(s)
+datasource.property.group.options=补充的客户端设置(&S)
 
 # Data set properties - query definition
 dataset.property.collectionName=&Collection name
@@ -52,7 +52,7 @@ dataset.property.selectedFields=Se&lected fields
 
 dataset.property.findQueryExpr=&Query expression
 
-dataset.property.sortExpr=&Sort expression
+dataset.property.sortExpr=排序表达式(&S)
 # Data set properties - advanced runtime properties
 dataset.property.batchSize=Maximum result objects in a &batch
 
@@ -70,7 +70,7 @@ dataset.property.noTimeOut=&No cursor time out
 
 dataset.property.allowsPartialResults=Allows &partial results
 
-dataset.property.flattenCollections=&Flatten nested collections
+dataset.property.flattenCollections=串行化嵌套集合(&F)
 #
 dataset.property.value.readPrefPrimary=primary
 
@@ -78,4 +78,4 @@ dataset.property.value.readPrefPrimaryPreferred=primaryPreferred
 dataset.property.value.readPrefSecondary=secondary
 
 dataset.property.value.readPrefSecondaryPreferred=secondaryPreferred
-dataset.property.value.readPrefNearest=nearest
+dataset.property.value.readPrefNearest=最近

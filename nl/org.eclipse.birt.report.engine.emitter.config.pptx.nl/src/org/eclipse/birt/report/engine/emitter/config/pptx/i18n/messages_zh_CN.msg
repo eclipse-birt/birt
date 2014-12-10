@@ -34,8 +34,8 @@ OptionDisplayValue.ENLARGE_PAGE_SIZE=增加页面大小
 OptionDisplayValue.FontSubstitution=字体替换
 
 OptionDisplayValue.ChartDpi=图表 DPI
-
 OptionDisplayValue.RepaginateForPDF=呈现 PPTX 时重标页码
+OptionDisplayValue.EditMode=编辑模式
 
 ###########################################################
 #Option Description
@@ -48,8 +48,8 @@ OptionDescription.PageOverFlow=控制内容输出方式。
 OptionDescription.FontSubstitution=指定的字体无法显示该字符时自动选择字体。
 
 OptionDescription.ChartDpi=用于生成图表的 DPI。
-
 OptionDescription.RepaginateForPDF=呈现 PPTX 时重标页码。
+OptionDescription.EditMode=PPTX 中的可编辑组件
 
 ###########################################################
 #tooltip

@@ -4,7 +4,7 @@
 
 ###########################################################
 #for test only
-Error.Msg001=En: There is a {0} in the {1}.
+Error.Msg001=En: Es ist ein {0} im {1}.
 
 ###########################################################
 Error.OutputFormatNotSupported=Das Ausgabeformat {0} wird nicht unterstützt.

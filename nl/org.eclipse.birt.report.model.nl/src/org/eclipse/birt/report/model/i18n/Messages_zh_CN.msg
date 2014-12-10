@@ -399,7 +399,7 @@ Choices.lineType.dotted=点线
 
 Choices.lineType.dashed=虚线
 
-Choices.lineType.double=双精度
+Choices.lineType.double=双线
   
 #25.pageBreakBefore
 Choices.pageBreakBefore.auto=自动
@@ -466,7 +466,7 @@ Choices.fontFamily.cursive=Cursive
 
 Choices.fontFamily.fantasy=幻想
 
-Choices.fontFamily.monospace=Monospace
+Choices.fontFamily.monospace=等距
 
 #31.fontStyle
 Choices.fontStyle.normal=正常
@@ -961,7 +961,7 @@ Choices.aggregationFunction.quartile=QUARTILE
 
 Choices.aggregationFunction.percent-sum=PERCENT-SUM
 
-Choices.aggregationFunction.rank=RANK
+Choices.aggregationFunction.rank=排列
 
 #71. levelType
 Choices.levelType.dynamic=动态
@@ -1348,7 +1348,7 @@ Class.Global.parseInt.s=s
 
 Class.Global.parseInt.radix=基数
 
-Class.Global.unescape.s=s
+Class.Global.unescape.s=秒
 
 #2.Array
 Class.Array=数组函数
@@ -1697,7 +1697,7 @@ Class.Date.UTC.minutes=分钟
 
 Class.Date.UTC.seconds=秒
 
-Class.Date.UTC.ms=ms
+Class.Date.UTC.ms=毫秒
 
 #5. Math
 Class.Math=数学函数
@@ -3221,6 +3221,7 @@ Structure.FilterCondition.dynamicFilterParameter=动态筛选器参数
 Structure.FilterCondition.type=类型
 
 Structure.FilterCondition.updateAggregation=更新聚合
+Structure.FilterCondition.customValue=自定义值
 
 #10. PropertyMask
 Structure.PropertyMask.name=名称

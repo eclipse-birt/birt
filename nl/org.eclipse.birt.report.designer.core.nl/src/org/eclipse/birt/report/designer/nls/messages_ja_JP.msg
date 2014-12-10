@@ -2862,7 +2862,7 @@ FormatNumberPage.roundingMode.ceiling=Ceiling
 
 FormatNumberPage.roundingMode.floor=Floor
 
-FormatNumberPage.roundingMode.unnecessary=Unnecessary
+FormatNumberPage.roundingMode.unnecessary=不要
 
 ###########################################################
 #FormatNumberPreferencePage properties
@@ -3784,6 +3784,8 @@ LabelPageGenerator.List.Visibility=可視性
 LayoutConfigurationBlock.Default.Unit.Auto=自動
 
 LayoutConfigurationBlock.Default.Unit.Label=デフォルトの単位(&F) :
+LayoutConfigurationBlock.Default.Layout.Label=デフォルトのレイアウト:
+LayoutConfigurationBlock.Default.Orientation.Label=デフォルトの向き:
 
 ###########################################################
 #LayoutEditor properties
@@ -6042,10 +6044,9 @@ TextEditDialog.toolTipText.redo=やり直し
 
 TextEditDialog.toolTipText.undo=元に戻す
 
-TextEditDialog.toolTip.formatHTML=HTML の書式設定
-
 TextEditDialog.toolTipText.fx=式ビルダを開く
 
+TextEditDialog.action.item.formatHTML=HTML の書式設定
 TextEditDialog.action.item.formatDateTime=日時の書式設定
 
 TextEditDialog.action.item.formatNumber=数値の書式設定
@@ -7417,6 +7418,9 @@ ShowPropertiesViewMenu.ErrorTitle=エラー
 ResetAttributePage.Style.Restore.TooltipText=現在のページのスタイルプロパティをデフォルトの設定に戻す
 
 ResetAttributePage.Style.Restore.Transaction.Name=スタイルを元に戻す
+ResetAttributePage.Style.Restore.Menu.Name=デフォルトのスタイルを復元
+ResetAttributePage.Style.Restore.All.Transaction.Name=すべてのスタイルを復元
+ResetAttributePage.Style.Restore.All.Menu.Name=すべてのタブでデフォルトのスタイルを復元
 
 ###########################################################
 #TextEditor
@@ -7533,3 +7537,4 @@ ToggleBreadcrumbAction.tooltip.switch.breadcrumb=リンクの階層表示の切り替え
 ReportHyperlinkParameterProvider.Category.Report=レポートパラメタ
 
 RenderHyperlinkParameterProvider.Category.Render=レンダリングオプション
+ExceptionDialog.title=エラー

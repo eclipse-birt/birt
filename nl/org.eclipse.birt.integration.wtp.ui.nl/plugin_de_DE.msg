@@ -25,4 +25,4 @@ BirtResourcesDefinition= Ressourcendefinition für BIRT-Webanwendung
 birt.action.importruntime.name=&BIRT-Runtime-Komponente importieren...
 
 
-plugin.version=4.3.1
+plugin.version=4.4.0
