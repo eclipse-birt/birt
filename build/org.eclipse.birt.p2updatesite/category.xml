@@ -54,8 +54,8 @@
    <feature url="features/org.eclipse.birt.integration.wtp.source_4.4.0.qualifier.jar" id="org.eclipse.birt.integration.wtp.source" version="4.4.0.qualifier">
       <category name="wtpIntegration"/>
    </feature>
-   <category-def name="Birt" label="BIRT 4.2 Reporting SDK"/>
-   <category-def name="Chart" label="BIRT 4.2 Charting SDK"/>
-   <category-def name="OSGi" label="BIRT 4.2 Engine OSGi Runtime SDK"/>
-   <category-def name="wtpIntegration" label="BIRT 4.2 WTP Integration SDK"/>
+   <category-def name="Birt" label="BIRT 4.4 Reporting SDK"/>
+   <category-def name="Chart" label="BIRT 4.4 Charting SDK"/>
+   <category-def name="OSGi" label="BIRT 4.4 Engine OSGi Runtime SDK"/>
+   <category-def name="wtpIntegration" label="BIRT 4.4 WTP Integration SDK"/>
 </site>

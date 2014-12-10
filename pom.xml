@@ -10,12 +10,15 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tycho.version>0.21.0</tycho.version>
-        <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.3/</eclipse.repo.url>
-        <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.10/</emf.repo.url>
-        <wtp.repo.url>http://download.eclipse.org/webtools/repository/luna/</wtp.repo.url>
-        <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
+        <eclipse.repo.url>http://download.eclipse.org/releases/juno/</eclipse.repo.url>
+        <wtp.repo.url>http://download.eclipse.org/webtools/repository/juno/</wtp.repo.url>
         <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</orbit.repo.url>
+		<!-- DTP 1.12-->
         <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
+		<!-- GEF 3.8.2 -->
+        <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
+		<!-- EMF 2.8.3 -->
+        <emf.repo.url>http://download.eclipse.org/modeling/emf/updates/releases/</emf.repo.url>
     </properties>
 	
     <repositories>
@@ -84,7 +87,9 @@
     <module>build/org.eclipse.birt</module>
     <module>build/org.eclipse.birt.build</module>
     <module>build/org.eclipse.birt.chart</module>
+	-->
     <module>build/org.eclipse.birt.example</module>
+	<!--
     <module>build/org.eclipse.birt.releng.birtbuilder/extras</module>
     <module>build/org.eclipse.birt.sdk</module>
     -->
@@ -95,9 +100,7 @@
     <module>chart/org.eclipse.birt.chart.device.swt</module>
     <module>chart/org.eclipse.birt.chart.engine</module>
     <module>chart/org.eclipse.birt.chart.engine.extension</module>
-	<!--
     <module>chart/org.eclipse.birt.chart.examples</module>
-	-->
     <module>chart/org.eclipse.birt.chart.examples.core</module>
     <module>chart/org.eclipse.birt.chart.integration.wtp.ui</module>
     <module>chart/org.eclipse.birt.chart.reportitem</module>
@@ -198,8 +201,8 @@
     <module>features/org.eclipse.birt.cshelp.feature</module>
     <module>features/org.eclipse.birt.doc.feature</module>
     <module>features/org.eclipse.birt.doc.isv.feature</module>
-    <module>features/org.eclipse.birt.example.feature</module>
 	-->
+    <module>features/org.eclipse.birt.example.feature</module>
     <module>features/org.eclipse.birt.feature</module>
     <module>features/org.eclipse.birt.integration.wtp.feature</module>
     <module>features/org.eclipse.birt.integration.wtp.sdk.feature</module>
