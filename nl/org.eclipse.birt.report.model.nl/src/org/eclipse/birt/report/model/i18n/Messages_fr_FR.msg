@@ -321,7 +321,7 @@ Choices.mapOperator.not-match=Ne correspondant pas à
 
 Choices.mapOperator.not-in=Pas dans
 
-Choices.mapOperator.in=In
+Choices.mapOperator.in=Inclus
   
 #15.imageRefType
 Choices.imageRefType.none=Aucune image
@@ -3221,6 +3221,7 @@ Structure.FilterCondition.dynamicFilterParameter=Paramètre filtre dynamique
 Structure.FilterCondition.type=Type
 
 Structure.FilterCondition.updateAggregation=Mettre à jour l'agrégation
+Structure.FilterCondition.customValue=Personnaliser la valeur
 
 #10. PropertyMask
 Structure.PropertyMask.name=Nom

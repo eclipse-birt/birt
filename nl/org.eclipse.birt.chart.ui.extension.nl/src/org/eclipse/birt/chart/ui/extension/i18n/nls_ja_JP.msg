@@ -780,8 +780,7 @@ SeriesYSheetImpl.Label.Interactivity&=相互作用(&R)
 
 SeriesYSheetImpl.Label.Interactivity=系列の相互作用
 
-SeriesGroupingComposite.Lbl.AggregateExpression=集計式 (&A):
-
+SeriesGroupingComposite.Lbl.AggregateExpression=関数(&F):
 SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping=グループ化の間隔を選択してください。このフィールドに 0 を指定すると、X 軸 (カテゴリ値) に基づいてグループ化されます。
 
 SeriesPaletteSheet.Label.Auto=自動(&T)
@@ -1747,8 +1746,7 @@ TitlePropertiesSheet.Label.Text=テキスト
 
 BaseDataDefinitionComponent.Text.SpecifyDataDefinition=データ定義の指定
 
-BaseDataDefinitionComponent.Label.EditGroupSorting=グループとソートの編集
-
+BaseDataDefinitionComponent.Label.EditGroupSorting=グループ化とソートの編集
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=値式の入力
 
 BaseDataDefinitionComponent.Text.EditFormat=書式の編集
@@ -1878,8 +1876,7 @@ GroupSortingDialog.Composite.Label.SortLocale=ロケール(&L) :
 
 GroupSortingDialog.Composite.Label.SortStrength=優先順位(&H) :
 
-GroupSortingDialog.Label.GroupAndSorting=グループとソート
-
+GroupSortingDialog.Label.GroupAndSorting=グループ化とソート
 GroupSortingDialog.Sort.Locale.Auto=自動
 
 GroupSortingDialog.Sort.Strength.ASCII=ASCII

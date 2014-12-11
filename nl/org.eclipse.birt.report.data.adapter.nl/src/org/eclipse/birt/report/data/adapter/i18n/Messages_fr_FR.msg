@@ -266,7 +266,7 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Mois jusqu'à la date
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Semaine jusqu'à la date
 
-timeFunction.toolTip.to=To
+timeFunction.toolTip.to=A
 
  # Localized messages for the DTE Engine. Messages here give 
 # the text of Design Engine exceptions.
@@ -534,7 +534,7 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Mois jusqu'à la date
 
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Semaine jusqu'à la date
 
-timeFunction.toolTip.to=To
+timeFunction.toolTip.to=A
 RelativeTimePeriod.TimeLevelNotEnough=L'élément de rapport ne contient pas tous les niveaux temporels pour calculer cette période de temps relative avec une date de référence.
  
  

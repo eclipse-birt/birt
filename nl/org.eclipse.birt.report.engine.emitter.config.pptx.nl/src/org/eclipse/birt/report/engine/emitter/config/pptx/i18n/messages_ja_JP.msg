@@ -36,6 +36,7 @@ OptionDisplayValue.FontSubstitution=ƒtƒHƒ“ƒg‚Ì’u‚«Š·‚¦
 OptionDisplayValue.ChartDpi=ƒOƒ‰ƒt‚Ì DPI
 
 OptionDisplayValue.RepaginateForPDF=PPTX ‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ìƒy[ƒW”ÄŠ„‚è“–‚Ä
+OptionDisplayValue.EditMode=•ÒWƒ‚[ƒh
 
 ###########################################################
 #Option Description
@@ -50,6 +51,7 @@ OptionDescription.FontSubstitution=w’è‚³‚ê‚½ƒtƒHƒ“ƒg‚Å•\¦‚Å‚«‚È‚¢•¶š‚ª‚ ‚éê
 OptionDescription.ChartDpi=ƒOƒ‰ƒt‚Ì¶¬‚Ég—p‚·‚é DPI ‚Å‚·B
 
 OptionDescription.RepaginateForPDF=PPTX ‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ìƒy[ƒW”ÄŠ„‚è“–‚ÄB
+OptionDescription.EditMode=PPTX ‚É‚ ‚é•ÒW‰Â”\‚ÈƒRƒ“ƒ|[ƒlƒ“ƒg
 
 ###########################################################
 #tooltip

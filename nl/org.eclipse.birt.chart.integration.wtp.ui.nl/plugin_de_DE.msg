@@ -25,4 +25,4 @@ birtResourcesDefinition= Ressourcendefinition für Diagramm-Webanwendung
 birt.action.importruntime.name=&Diagramm-Runtime-Komponente importieren...
 
 ##################Do not externalize the version number
-runtime.version=4.3.1
+runtime.version=4.4.0

@@ -780,8 +780,7 @@ SeriesYSheetImpl.Label.Interactivity&=交互(&R)
 
 SeriesYSheetImpl.Label.Interactivity=系列交互
 
-SeriesGroupingComposite.Lbl.AggregateExpression=聚合表达式(&A):
-
+SeriesGroupingComposite.Lbl.AggregateExpression=函数(&F):
 SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping=选择分组间隔。0 表示按 X/类别值分组
 
 SeriesPaletteSheet.Label.Auto=自动(&T)
@@ -1748,8 +1747,7 @@ TitlePropertiesSheet.Label.Text=文本
 
 BaseDataDefinitionComponent.Text.SpecifyDataDefinition=指定数据定义
 
-BaseDataDefinitionComponent.Label.EditGroupSorting=编辑组和排序
-
+BaseDataDefinitionComponent.Label.EditGroupSorting=编辑分组和排序
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=输入值表达式
 
 BaseDataDefinitionComponent.Text.EditFormat=编辑格式
@@ -1879,8 +1877,7 @@ GroupSortingDialog.Composite.Label.SortLocale=区域设置(&L):
 
 GroupSortingDialog.Composite.Label.SortStrength=强度(&H):
 
-GroupSortingDialog.Label.GroupAndSorting=组和排序
-
+GroupSortingDialog.Label.GroupAndSorting=分组和排序
 GroupSortingDialog.Sort.Locale.Auto=自动
 
 GroupSortingDialog.Sort.Strength.ASCII=ASCII

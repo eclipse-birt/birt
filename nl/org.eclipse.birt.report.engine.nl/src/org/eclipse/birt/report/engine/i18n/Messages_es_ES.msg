@@ -4,7 +4,7 @@
 
 ###########################################################
 #for test only
-Error.Msg001=En: {0} en {1}.
+Error.Msg001=En: Hay una {0} en el {1}.
 
 ###########################################################
 Error.OutputFormatNotSupported=No se admite el formato de salida {0}.

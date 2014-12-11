@@ -69,7 +69,7 @@ Property.contentElement=Element als Eigenschaftswert
 
 Property.locale=Gebietsschema
 
-Property.struct=Structure
+Property.struct=Struktur
 
 ###########################################################
 # Choice values
@@ -3221,6 +3221,7 @@ Structure.FilterCondition.dynamicFilterParameter=Dynamischer Filterparameter
 Structure.FilterCondition.type=Typ
 
 Structure.FilterCondition.updateAggregation=Aggregat aktualisieren
+Structure.FilterCondition.customValue=Benutzerdefinierter Wert
 
 #10. PropertyMask
 Structure.PropertyMask.name=Name
@@ -5194,7 +5195,7 @@ Element.Grid.summary=Zusammenfassung
 Element.Grid.tagType=PDF-Tag-Typ
   
 #25.Line  ( prefix  Element.Line )
-Element.Line.orientation=Orientierung
+Element.Line.orientation=Ausrichtung
   
 #26.TextData  ( prefix  Element.TextData )
 Element.TextData.valueExpr=Wertausdruck

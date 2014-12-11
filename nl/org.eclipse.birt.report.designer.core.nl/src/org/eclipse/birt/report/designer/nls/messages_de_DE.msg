@@ -3784,6 +3784,8 @@ LabelPageGenerator.List.Visibility=Sichtbarkeit
 LayoutConfigurationBlock.Default.Unit.Auto=Automatisch
 
 LayoutConfigurationBlock.Default.Unit.Label=&Standardeinheit:
+LayoutConfigurationBlock.Default.Layout.Label=Standardlayout:
+LayoutConfigurationBlock.Default.Orientation.Label=Standardausrichtung:
 
 ###########################################################
 #LayoutEditor properties
@@ -6042,10 +6044,9 @@ TextEditDialog.toolTipText.redo=Wiederherstellen
 
 TextEditDialog.toolTipText.undo=Rückgängig
 
-TextEditDialog.toolTip.formatHTML=HTML formatieren
-
 TextEditDialog.toolTipText.fx=Ausdruckserstellung öffnen
 
+TextEditDialog.action.item.formatHTML=HTML formatieren
 TextEditDialog.action.item.formatDateTime=Datum/Uhrzeit formatieren
 
 TextEditDialog.action.item.formatNumber=Zahl formatieren
@@ -7417,6 +7418,9 @@ ShowPropertiesViewMenu.ErrorTitle=Fehler
 ResetAttributePage.Style.Restore.TooltipText=Standardstileigenschaften der aktuellen Seite wiederherstellen
 
 ResetAttributePage.Style.Restore.Transaction.Name=Stil wiederherstellen
+ResetAttributePage.Style.Restore.Menu.Name=Standardstile wiederherstellen
+ResetAttributePage.Style.Restore.All.Transaction.Name=Alle Stile wiederherstellen
+ResetAttributePage.Style.Restore.All.Menu.Name=Standardstile auf allen Registerkarten wiederherstellen
 
 ###########################################################
 #TextEditor
@@ -7533,3 +7537,4 @@ ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Brotkrume ein/aus
 ReportHyperlinkParameterProvider.Category.Report=Berichtparameter
 
 RenderHyperlinkParameterProvider.Category.Render=Render-Optionen
+ExceptionDialog.title=Fehler

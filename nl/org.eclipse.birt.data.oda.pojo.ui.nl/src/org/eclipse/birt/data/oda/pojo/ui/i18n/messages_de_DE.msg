@@ -211,7 +211,7 @@ MethodParameterDialog.error.missingDataType=Der Parameterdatentyp darf nicht lee
 
 DataSet.DataType.String=Zeichenfolge
 
-DataSet.DataType.Integer=Integer
+DataSet.DataType.Integer=Ganzzahl
 #make the display label consistent with BIRT data type 
 DataSet.DataType.Double=Float
 

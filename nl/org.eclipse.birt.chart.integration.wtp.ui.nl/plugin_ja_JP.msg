@@ -25,4 +25,4 @@ birtResourcesDefinition= グラフ作成用の Web アプリケーションリソースの定義
 birt.action.importruntime.name=グラフ作成用のランタイムコンポーネントのインポート(&C)...
 
 ##################Do not externalize the version number
-runtime.version=4.3.1
+runtime.version=4.4.0

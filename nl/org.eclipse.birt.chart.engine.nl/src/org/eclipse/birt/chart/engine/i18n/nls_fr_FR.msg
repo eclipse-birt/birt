@@ -626,6 +626,8 @@ DateFormatDetail.Date.displayName=Date
 
 DateFormatDetail.DateTime.displayName=Date Heure
 
+ChartUtil.Text.Day='D'
+ChartUtil.Text.Week='W'
 DefaultValueProvider_BaseSeries=Série de base
 
 DefaultValueProvider_ChartSubType.Standard=Standard

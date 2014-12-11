@@ -961,7 +961,7 @@ Choices.aggregationFunction.quartile=QUARTILE
 
 Choices.aggregationFunction.percent-sum=PERCENT-SUM
 
-Choices.aggregationFunction.rank=RANK
+Choices.aggregationFunction.rank=RANGO
 
 #71. levelType
 Choices.levelType.dynamic=Dinámico
@@ -3221,6 +3221,7 @@ Structure.FilterCondition.dynamicFilterParameter=Parámetro de filtro dinámico
 Structure.FilterCondition.type=Tipo
 
 Structure.FilterCondition.updateAggregation=Actualizar agregación
+Structure.FilterCondition.customValue=Valor personalizado
 
 #10. PropertyMask
 Structure.PropertyMask.name=Nombre
