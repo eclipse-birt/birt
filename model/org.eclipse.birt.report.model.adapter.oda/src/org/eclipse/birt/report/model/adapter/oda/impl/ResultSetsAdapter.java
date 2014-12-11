@@ -199,11 +199,7 @@ class ResultSetsAdapter
 				tmpCachedColumnDefn == null ? null : tmpCachedColumnDefn
 						.getMultiDimensionAttributes( ), newHint );
 
-		if ( StringUtil.isBlank( (String) newHint.getProperty( null,
-				ColumnHint.COLUMN_NAME_MEMBER ) ) )
-		{
-			newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, columnName );
-		}
+		newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, columnName );
 		return newHint;
 	}
 
@@ -905,101 +901,54 @@ class ResultSetsAdapter
 		if ( setColumns == null )
 			return null;
 
-		EList odaSetColumns = setColumns.getResultColumnDefinitions( );
+		EList<ColumnDefinition> odaSetColumns = setColumns.getResultColumnDefinitions( );
 		if ( odaSetColumns.isEmpty( ) )
 			return null;
-
+				
+		List<ColumnDefinition> oldColumnDefns = new ArrayList<ColumnDefinition>( );
+		if ( cachedSetColumns != null )
+		{
+			EList<ColumnDefinition> tmpDefns = cachedSetColumns.getResultColumnDefinitions( );
+			for ( int i = 0; i < tmpDefns.size( ); i++ )
+				oldColumnDefns.add( tmpDefns.get( i ) );
+		}
+		
+		List<OdaResultSetColumnHandle> oldColumns = new ArrayList<OdaResultSetColumnHandle>( );
+		for ( int i = 0; i < setDefinedResults.size( ); i++ )
+			oldColumns.add( ( OdaResultSetColumnHandle ) setDefinedResults.get( i ) );
+		
+		List<ColumnHintHandle> oldColumnHints = new ArrayList<ColumnHintHandle>( );
+		for ( int i = 0; i < setDefinedColumnHints.size( ); i++ )
+			oldColumnHints.add( ( ColumnHintHandle ) setDefinedColumnHints.get( i ) );
+		
+		List<ColumnDefinition> newColumnDefns = new ArrayList<ColumnDefinition>( );
+		for ( int i = 0; i < odaSetColumns.size(); i++ )
+			newColumnDefns.add( odaSetColumns.get( i ) );
+		
+		ROMResultSetsHelper resultSetHelper = new ROMResultSetsHelper( oldColumnDefns, oldColumns, 
+				oldColumnHints, newColumnDefns, setDesign.getOdaExtensionDataSourceId( ),
+				setDesign.getOdaExtensionDataSetId( ) );
+		
 		List<ResultSetColumnInfo> retList = new ArrayList<ResultSetColumnInfo>( );
-
 		ResultSetColumnInfo setInfo = null;
 		
-		Map<String, Boolean> duplicateColumnName = new HashMap<String, Boolean>();
+		for ( int i = 0; i < newColumnDefns.size(); i++ ) {			
+			ROMResultColumnHelper columnHelper = resultSetHelper.getColumnHelper( i );
+			OdaResultSetColumn newColumn = resultSetHelper.getNewColumn( i );
+			ColumnDefinition newColumnDefn = columnHelper.getNewColumnDefn();
+			ColumnHintHandle oldColumnHintHandle = columnHelper.getOldColumnHint();
+			ColumnHint oldColumnHint = oldColumnHintHandle == null ? null : ( ColumnHint ) oldColumnHintHandle.getStructure();
+			
+			
+			ColumnHint newColumnHint = newROMColumnHintFromColumnDefinition( 
+					newColumnDefn,
+					null,
+					oldColumnHint,
+					newColumn );
+			setInfo = new ResultSetColumnInfo( newColumn, newColumnHint );
+			retList.add(setInfo);
+		}
 		
-		for ( int i = 0; i < odaSetColumns.size( ); i++ )
-		{
-			DataElementAttributes dataAttrs = ( (ColumnDefinition) odaSetColumns
-					.get( i ) ).getAttributes( );
-			if ( dataAttrs != null)
-			{
-				String nativeName = dataAttrs.getName( );
-				Boolean exist = duplicateColumnName.get( nativeName );
-				if ( exist == null)
-				{
-					duplicateColumnName.put( nativeName, Boolean.FALSE );
-				}
-				else
-				{
-					duplicateColumnName.put( nativeName, Boolean.TRUE );
-				}
-			}
-		}
-		for ( int i = 0; i < odaSetColumns.size( ); i++ )
-		{
-
-			ColumnDefinition columnDefn = (ColumnDefinition) odaSetColumns
-					.get( i );
-
-			DataElementAttributes dataAttrs = columnDefn.getAttributes( );
-
-			ColumnDefinition cachedColumnDefn = null;
-			OdaResultSetColumnHandle oldColumn = null;
-			if ( dataAttrs != null )
-			{
-				String nativeName = dataAttrs.getName( );
-				Integer position = Integer.valueOf( dataAttrs.getPosition( ) );
-				cachedColumnDefn = findColumnDefinition( cachedSetColumns,
-						nativeName, position );
-
-				oldColumn = findOdaResultSetColumn(
-						setDefinedResults.iterator( ), nativeName, position,
-						Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ), 
-						duplicateColumnName.get( nativeName ) );
-			}
-
-			OdaResultSetColumn newColumn = null;
-
-			// to use old values if applies
-
-			if ( oldColumn == null )
-			{
-				// if the old column is not found, this means it can be removed.
-				// Only update.
-
-				newColumn = StructureFactory.createOdaResultSetColumn( );
-				cachedColumnDefn = null;
-			}
-			else
-				newColumn = (OdaResultSetColumn) oldColumn.getStructure( )
-						.copy( );
-
-			updateROMOdaResultSetColumnFromColumnDefinition( columnDefn,
-					cachedColumnDefn, newColumn,
-					setDesign.getOdaExtensionDataSourceId( ),
-					setDesign.getOdaExtensionDataSetId( ) );
-
-			ColumnHint oldHint = null;
-			ColumnHintHandle oldHintHandle = AdapterUtil.findColumnHint(
-					newColumn, setDefinedColumnHints.iterator( ) );
-			if ( oldHintHandle != null )
-				oldHint = (ColumnHint) oldHintHandle.getStructure( );
-
-			ColumnHint newHint = newROMColumnHintFromColumnDefinition(
-					columnDefn, cachedColumnDefn, oldHint, newColumn );
-
-			setInfo = new ResultSetColumnInfo( newColumn, newHint );
-			retList.add( setInfo );
-		}
-
-		List<OdaResultSetColumn> columns = new ArrayList<OdaResultSetColumn>( );
-
-		ResultSetColumnInfo.updateResultSetColumnList( retList, columns, null );
-
-		// create unique column names if native names is null or empty.
-
-		createUniqueResultSetColumnNames( retList );
-
-		// retrieve column hints for computed columns.
-
 		updateHintsForComputedColumn( );
 
 		return retList;

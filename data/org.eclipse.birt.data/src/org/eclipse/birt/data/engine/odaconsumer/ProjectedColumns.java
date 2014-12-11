@@ -15,7 +15,9 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.core.DataException;
@@ -101,7 +103,6 @@ class ProjectedColumns
 			String newColumnName = columnHint.getName( );
 			if ( newColumnName != null && newColumnName.length( ) > 0 )
 			{
-				validateNewNameOrAlias( newColumnName, driverIndex );
 				fieldMD.setName( newColumnName );
 			}
 			
@@ -381,6 +382,46 @@ class ProjectedColumns
 				throw ExceptionHandler.newException( ResourceConstants.COLUMN_NAME_OR_ALIAS_ALREADY_USED,
 				        				new Object[] { newColumnNameOrAlias, Integer.valueOf( i + 1 ) } );
 			}
+		}
+	}
+	
+	/**
+	 * Check if there is any duplicate naming on column names and alias.
+	 * Be noted: should only be called after finalizing the columns.
+	 * @throws DataException
+	 */
+	public void checkColumnsNaming( ) 
+			throws DataException
+	{
+		final String methodName = "checkColumnsNaming"; //$NON-NLS-1$
+		Set<String> nameSet = new HashSet<String>();
+		
+		for( int i = 0, n = m_columns.size(); i < n; i++ )
+		{
+			ResultFieldMetadata column = (ResultFieldMetadata) m_columns.get( i );
+			String name = column.getName();			
+			if ( nameSet.contains( name ) ) {
+				sm_logger.logp( 
+						Level.SEVERE, sm_className, methodName, 
+						"column name {0} is aready used by other column",  //$NON-NLS-1$
+						new Object[] { name } );
+				throw ExceptionHandler.newException( ResourceConstants.COLUMN_NAME_OR_ALIAS_ALREADY_USED,
+							new Object[] { name } );
+			}			
+			String alias = column.getAlias();
+			if ( alias != null ) {
+				if ( nameSet.contains( alias ) ) {
+					sm_logger.logp( 
+							Level.SEVERE, sm_className, methodName, 
+							"column alias {0} is aready used by other column",  //$NON-NLS-1$
+							new Object[] { name } );
+					throw ExceptionHandler.newException( ResourceConstants.COLUMN_NAME_OR_ALIAS_ALREADY_USED,
+								new Object[] { name } );
+				}				
+			}
+			nameSet.add(name);
+			if ( alias != null )
+				nameSet.add( alias );
 		}
 	}
 	
