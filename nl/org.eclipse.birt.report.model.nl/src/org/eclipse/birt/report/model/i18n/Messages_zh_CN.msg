@@ -549,7 +549,7 @@ Choices.display.block=块
 
 Choices.display.inline=嵌入式
 
-Choices.display.none=无显示
+Choices.display.none=不显示
 
 #43.pageBreakInside
 Choices.pageBreakInside.avoid=避免
