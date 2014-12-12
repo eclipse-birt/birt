@@ -215,11 +215,10 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		loadDataSource( );
 		loadScripts( );
 		doValidateParameters( );
+		ReportDesignHandle design = executionContext.getReportDesign( );
 		initReportVariable( );
 		loadDesign( );
 		prepareDesign( );
-		//get design after prepare in case prepare create a new instance.
-		ReportDesignHandle design = executionContext.getReportDesign( );
 		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
 				.equals( design.getLayoutPreference( ) ) )
 		{
