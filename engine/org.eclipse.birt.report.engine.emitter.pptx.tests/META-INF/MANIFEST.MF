@@ -12,3 +12,4 @@ Bundle-ClassPath: libs/dom4j-1.6.1.jar,
  libs/poi-3.10-FINAL-20140208.jar,
  libs/poi-ooxml-schemas-3.10-FINAL-20140208.jar,
  .
+Import-Package: org.eclipse.birt.report.engine.emitter.pptx

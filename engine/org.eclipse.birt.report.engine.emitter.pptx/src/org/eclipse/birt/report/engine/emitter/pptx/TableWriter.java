@@ -322,7 +322,6 @@ public class TableWriter
 
 	protected void drawRow( RowArea row )
 	{
-		row.setRowID( currentRow );
 		if ( row.getChildrenCount( ) == 0 )
 		{
 			return;
@@ -371,7 +370,17 @@ public class TableWriter
 	private void startRow( RowArea row )
 	{
 		writer.openTag( "a:tr" );
-		int height = canvas.getScaledValue( row.getHeight( ) );
+		//Row height is minimum of specific and parent height
+		int height = row.getSpecifiedHeight( );
+		if( height <= 0 )
+		{
+			height = row.getHeight( );
+		}
+		if( row.getParent( ) instanceof TableGroupArea )
+		{
+			height = Math.min( height, row.getParent( ).getHeight( ) );
+		}
+		height = canvas.getScaledValue( height );
 		if ( height < MINIMUM_ROW_HEIGHT )
 		{// if lower than minimum height set to zero:
 			height = 0;
@@ -816,46 +825,35 @@ public class TableWriter
 
 		writeSingleBorder( TOPBORDERLINE, style.getTopBorder( ) );
 
-		//check below cell first for bottomline
+		//check below cell first for bottomline style
 		currentborderinfo = null;
-		RowArea currentRowArea = (RowArea) container.getParent( );
-		ContainerArea grandparent = currentRowArea.getParent( );
 		
-		IArea nextcontainer = grandparent.getChild( currentRowArea.getRowID( ) + 1 );
-		while ( nextcontainer == null && grandparent instanceof TableGroupArea )
-		{// end of table grouparea
-			IArea currentTableGroup = grandparent;
-			grandparent = grandparent.getParent( );
-			// get next child after currenttablegroup
-			Iterator<IArea> rowiter = grandparent.getChildren( );
-			while ( rowiter.hasNext( )
-					&& !( rowiter.next( ).equals( currentTableGroup ) ) );
-			if ( rowiter.hasNext( ) )
-			{
-				nextcontainer = rowiter.next( );
-			}
-		}
-		RowArea ra = null;
-		while ( nextcontainer instanceof TableGroupArea )
+		RowArea rowbelow = getRowBelow( (RowArea)container.getParent( ), container.getRowSpan( ) );
+		
+		if ( rowbelow != null && rowbelow.getChildrenCount( ) > 0 )
 		{
-			nextcontainer = ( (TableGroupArea) nextcontainer ).getFirstChild( );
-		}
-		ra = (RowArea) nextcontainer;
-
-		CellArea belowCell = null;
-		if ( ra != null )
-		{
-			belowCell = ra.getCell( currentCol );
+			CellArea belowCell = (CellArea) rowbelow.getCell( drawcurrentcolid );
 			if ( belowCell != null )
 			{
 				currentborderinfo = belowCell.getBoxStyle( ).getTopBorder( );
-				writeSingleBorder( BOTTOMBORDERLINE, currentborderinfo );
 			}
+			writeSingleBorder( BOTTOMBORDERLINE, currentborderinfo );
 		}
 		if ( currentborderinfo == null )
 		{
 			writeSingleBorder( BOTTOMBORDERLINE, style.getBottomBorder( ) );
 		}
+	}
+
+
+	/**
+	 * @param container
+	 * @param spanRow
+	 * @return
+	 */
+	private RowArea getRowBelow( RowArea container, int spanRow )
+	{
+		return new TableVisitor( ).getNextRow( container, spanRow );
 	}
 
 	private void writeSingleBorder( String borderSide, BorderInfo borderinfo )

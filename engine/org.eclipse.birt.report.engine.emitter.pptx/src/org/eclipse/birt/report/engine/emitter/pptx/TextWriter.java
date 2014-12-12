@@ -42,6 +42,7 @@ public class TextWriter
 	private BorderInfo[] borders = null;
 	private static String DEFAULT_HALIGNMENT = "l"; 
 	private String hAlign = DEFAULT_HALIGNMENT;
+	private final int MAX_VAL = 158400;  //max size value for pptx val on Office Open XML
 	
 	private final String AUTOPAGENUMBER = "page-number";
 	private final String TOTALPAGE = "total-page";
@@ -246,7 +247,14 @@ public class TextWriter
 		else if ( child instanceof TextLineArea || child instanceof InlineTextArea )
 		{
 			Iterator<IArea> iter = ( (ContainerArea) child ).getChildren( );
-			startTextLineArea( );
+			IArea grandchild = ( (ContainerArea) child ).getFirstChild( );
+			if( grandchild instanceof TextArea )
+			{
+				//child.getHeight return value in 1/1000 pt
+				//startTextLineArea accept value in 1/100 pt.
+				startTextLineArea( grandchild.getHeight( ) / 10 );
+			}
+
 			hasParagraph = true;
 			while ( iter.hasNext( ) )
 			{
@@ -313,22 +321,29 @@ public class TextWriter
 		}
 	}
 	
-	private void startTextLineArea()
+	private void startTextLineArea( int lineHeight )
 	{
 		writer.openTag( "a:p" );
-		if ( hAlign != null || render.isRTL( ) )
+		writer.openTag( "a:pPr" );
+		if ( hAlign != null )
 		{
-			writer.openTag( "a:pPr" );
-			if ( hAlign != null )
-			{
-				writer.attribute( "algn", hAlign );
-			}
-			if ( render.isRTL( ) )
-			{
-				writer.attribute( "rtl", 1 );
-			}
-			writer.closeTag( "a:pPr" );
+			writer.attribute( "algn", hAlign );
 		}
+		if ( render.isRTL( ) )
+		{
+			writer.attribute( "rtl", 1 );
+		}
+		// add paragraph specific spacing
+		if ( lineHeight > 0 && lineHeight < MAX_VAL )
+		{
+			writer.openTag( "a:lnSpc" );
+			writer.openTag( "a:spcPts" );
+			writer.attribute( "val", canvas.getScaledValue( lineHeight ) );
+			writer.closeTag( "a:spcPts" );
+			writer.closeTag( "a:lnSpc" );
+		}
+		writer.closeTag( "a:pPr" );
+
 	}
 	
 	private void endTextLineArea( TextArea area)
@@ -340,7 +355,11 @@ public class TextWriter
 	private void writeTextRun( TextArea text )
 	{
 		if ( !hasParagraph )
-			startTextLineArea( );
+		{
+			// textHeight return value in 1/1000 pt, startTextLineArea need
+			// value in 1/100 pt.
+			startTextLineArea( text.getHeight( ) / 10 );
+		}
 		writer.openTag( "a:r" );
 		setTextProperty( "a:rPr", text.getStyle( ) );
 		writer.openTag( "a:t" );

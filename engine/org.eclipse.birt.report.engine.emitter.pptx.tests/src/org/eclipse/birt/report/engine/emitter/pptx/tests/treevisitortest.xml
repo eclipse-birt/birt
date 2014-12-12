@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TableArea>
+       <node name="node1">
+              <RowArea1 />
+			  <TableGroupArea>
+					<RowArea2 />
+			  </TableGroupArea>
+              <RowArea3 />
+              <RowArea4 />
+       </node>
+       <node name="node2" >
+              <RowArea5 />
+              <RowArea6 />
+              <RowArea7 />
+       </node>
+</TableArea>
+
