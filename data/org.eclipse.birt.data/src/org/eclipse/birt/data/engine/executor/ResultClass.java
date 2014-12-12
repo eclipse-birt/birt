@@ -263,15 +263,10 @@ public class ResultClass implements IResultClass
 				String columnName = projectedCols[i].getName( );
 				String columnAlias = projectedCols[i].getAlias( );
 				String columnLabel = projectedCols[i].getLabel( );
-				if ( requestNameSet.contains( columnName ) )
+				if ( requestNameSet.remove( columnName ) 
+						| requestNameSet.remove( columnAlias )
+						| requestNameSet.remove( columnLabel ) )
 					resultSetNameSet.add( columnName );
-				if ( requestNameSet.contains( columnAlias ) )
-					resultSetNameSet.add( columnName );
-				if ( requestNameSet.contains( columnLabel ) )
-					resultSetNameSet.add( columnName );
-				requestNameSet.remove( columnName );
-				requestNameSet.remove( columnAlias );
-				requestNameSet.remove( columnLabel );
 			}
 		}
 		int size = resultSetNameSet == null ? projectedCols.length
