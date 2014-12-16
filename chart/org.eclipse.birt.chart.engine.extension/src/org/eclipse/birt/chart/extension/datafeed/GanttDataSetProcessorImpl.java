@@ -284,7 +284,7 @@ public final class GanttDataSetProcessorImpl extends DataSetAdapter
 		StringTokenizer strTokComponents = null;
 		String strDataElement = null;
 		String strComponent = null;
-		Vector vData = new Vector( );
+		Vector<GanttEntry> vData = new Vector<GanttEntry>( );
 		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", ULocale.getDefault( ) ); //$NON-NLS-1$
 
 		int i = 1;
@@ -311,7 +311,7 @@ public final class GanttDataSetProcessorImpl extends DataSetAdapter
 						/ 20 );
 				vData.add( new GanttEntry( new CDateTime( startElement ),
 						new CDateTime( endElement ),
-						"Label" + i ) ); //$NON-NLS-1$
+						Messages.getString( "GanttDataSetProcessorImpl.data.label" ) + i ) ); //$NON-NLS-1$
 				
 				
 				i++;
@@ -417,7 +417,7 @@ public final class GanttDataSetProcessorImpl extends DataSetAdapter
 	 * chart types, such as bubble, stock...
 	 * 
 	 * @param series
-	 * @return
+	 * @return index array
 	 */
 	public int[] getDataDefIdsForGrouping( Series series )
 	{
