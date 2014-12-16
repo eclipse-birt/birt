@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter.pptx.util;
 
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.ooxml.util.OOXmlUtil;
 
@@ -63,5 +64,17 @@ public class PPTXUtil
 		float diffpercentage = (float) ( contianermeasure - contianersubmeasure )
 				/ contianermeasure;
 		return diffpercentage * 100000;
+	}
+	
+	/**
+	 * convert String dimension to pptx enum
+	 */
+	public static int convertCssToEnum( String cssDimension )
+	{
+		if( cssDimension == null || "0".equals( cssDimension )){
+			return 0;
+		}
+		return convertToEnums( DimensionType.parserUnit( cssDimension ).convertTo(
+				DimensionType.UNITS_PT ) * 1000 );
 	}
 }

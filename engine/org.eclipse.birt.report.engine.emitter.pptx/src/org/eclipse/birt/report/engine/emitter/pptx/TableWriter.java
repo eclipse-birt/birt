@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.emitter.pptx.writer.Presentation;
@@ -36,7 +37,7 @@ public class TableWriter
 	private static final int DEFAULT_EMPTYCELL_FONTSIZE = 100;
 	private static final int MINIMUM_ROW_HEIGHT = 4000;
 	private static final int MINIMUM_COLUMN_WIDTH = 2000;
-	private static final int DEFAULT_RMARGIN = 19050;  // 0.02 inch margin
+	private static final int DEFAULT_MARGIN = 12700;  // 1pt
 	private int currentX;
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
@@ -47,6 +48,7 @@ public class TableWriter
 	private int numOfColumns;
 	private HashMap<Integer, MergeCellDimension> rowSpanCounts;
 	private int currentCol;
+	private int currentRowHeight;
 	private int currentRow;
 	private int colspan;
 	private int rowspan;
@@ -347,8 +349,17 @@ public class TableWriter
 		startRow( row ); // tags
 		Iterator<IArea> iter = row.getChildren( );
 		currentCol = 0;
-
-		fillEmptyMergeCells( 0, 0, 0 );
+		int firstcellidx = ( (CellArea) row.getFirstChild( ) ).getColumnID( );
+		while ( currentCol != firstcellidx )
+		{// first columns has rowspan
+			int emptycol = currentCol;
+			// create empty rowspan cell
+			fillEmptyMergeCells( emptycol, 0, 0 );
+			if ( emptycol == currentCol )
+			{// no spanrow on column move to next one
+				currentCol++;
+			}
+		}
 		while ( iter.hasNext( ) )
 		{
 			IArea child = iter.next( );
@@ -389,6 +400,7 @@ public class TableWriter
 		{
 			height = PPTXUtil.convertToEnums( height );
 		}
+		currentRowHeight = height;
 		writer.attribute( "h", height );
 	}
 
@@ -458,28 +470,67 @@ public class TableWriter
 	private void endCell( CellArea cell )
 	{
 		writer.openTag( "a:tcPr" );
-		// it is set zero since no way to retrieve margin except to set public
 		IArea cellchild = cell.getFirstChild( );
 		String valign = null;
+		IStyle cellstyle = cell.getContent( ).getComputedStyle( );
 		if ( cellchild instanceof BlockTextArea
 				&& cell.getChildrenCount( ) == 1 )
 		{
-			int marL = PPTXUtil.convertToEnums( cellchild.getX( ) );
-			int marT = PPTXUtil.convertToEnums( cellchild.getY( ) );
-			int marR = PPTXUtil.convertToEnums( cell.getWidth( )
-					- ( marL + cellchild.getWidth( ) ) );
-			int marB = PPTXUtil.convertToEnums( cell.getHeight( )
-					- ( marT + cellchild.getHeight( ) ) );
-			marR = marR <= 0 ? DEFAULT_RMARGIN : marR;
-			if( marB < 0 || cell.getRowSpan( ) > 1 )
+			IStyle textboxstyle = ( (BlockTextArea) cellchild ).getContent( )
+					.getComputedStyle( );
+			if ( textboxstyle != null )
 			{
-				marB = 0;
+				int marL = canvas
+						.getScaledValue( PPTXUtil
+								.convertCssToEnum( textboxstyle.getMarginLeft( ) )
+								+ PPTXUtil.convertCssToEnum( cellstyle
+										.getPaddingLeft( ) ) );
+				int marT = canvas
+						.getScaledValue( PPTXUtil
+								.convertCssToEnum( textboxstyle.getMarginTop( ) )
+								+ PPTXUtil.convertCssToEnum( cellstyle
+										.getPaddingTop( ) ) );
+				int marR = canvas.getScaledValue( PPTXUtil
+						.convertCssToEnum( textboxstyle.getMarginRight( ) )
+						+ PPTXUtil.convertCssToEnum( cellstyle
+								.getPaddingRight( ) ) );
+				int marB = canvas.getScaledValue( PPTXUtil
+						.convertCssToEnum( textboxstyle.getMarginBottom( ) )
+						+ PPTXUtil.convertCssToEnum( cellstyle
+								.getPaddingBottom( ) ) );
+
+				int textboxheight = canvas.getScaledValue( PPTXUtil
+						.convertToEnums( ( cellchild.getHeight( ) ) ) );
+				if ( isRTL && marR <= 0 )
+				{
+					marR = DEFAULT_MARGIN;
+				}
+				else if ( !isRTL && marL <= 0 )
+				{
+					marL = DEFAULT_MARGIN;
+				}
+				if ( marT <= 0 )
+				{
+					marT = DEFAULT_MARGIN;
+				}
+				if ( marB <= 0 )
+				{
+					marB = DEFAULT_MARGIN;
+				}
+				if ( marT + textboxheight > currentRowHeight )
+				{
+					marT = currentRowHeight - textboxheight;
+					marB = 0;
+				}
+				else if ( marT + marB + textboxheight > currentRowHeight )
+				{
+					marB = currentRowHeight - ( marT + textboxheight );
+				}
+				canvas.writeMarginProperties( marT, marR, marB, marL );
 			}
-			canvas.writeMarginProperties( marT, marR, marB, marL );
-			valign = ((BlockTextArea) cellchild).getContent().getComputedStyle( ).getVerticalAlign( );
 		}
 		else
-		{// default behavior:
+		{// default behavior for empty cell
 			canvas.writeMarginProperties( 0, 0, 0, 0 );
 		}
 
