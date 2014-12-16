@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
-import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -172,29 +171,5 @@ public final class ChartReportItemPresentationAxisImpl extends
 	{
 		// Return a dummy data set since axis chart can render without data
 		return DUMMY_AXIS_CHART_EVALUATOR;
-	}
-
-	@Override
-	public Size getSize( )
-	{
-		Size sz = super.getSize( );
-		// Enlarge axis chart width to avoid label clipping
-		if ( "SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
-		{
-			sz.setWidth( sz.getWidth( ) + 10 );
-		}
-		return sz;
-	}
-
-	protected void prepareDeviceRenderer( ) throws ChartException
-	{
-		super.prepareDeviceRenderer( );
-
-		// Do not resize SVG here to avoid label clipping
-		if ( "SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
-		{
-			idr.setProperty( "resize.svg", Boolean.FALSE ); //$NON-NLS-1$
-		}
-
 	}
 }
