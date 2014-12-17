@@ -446,21 +446,10 @@
 		<property name="p2.repo.name" value="BIRT TEST" />
 		<mkdir dir="${repo}" />
 
-		<replace file="${eclipse.build.configs}/../../extras/pack200"
-			token="@pack200@" value="${jvm15_home}/bin/pack200" />
-		<chmod file="${eclipse.build.configs}/../../extras/pack200"
-			perm="755" />
-
-		<exec executable="dos2unix" dir="${eclipse.build.configs}/../../extras">
-			<arg line=" pack200" />
-		</exec>
-
 		<java
 			jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
 			fork="true" timeout="10800000" jvm="${jvm15_home}/bin/java"
 			failonerror="true" maxmemory="512m" dir="${updateJarWorkingDir}">
-			<jvmarg
-				value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras" />
 			<arg line="-application org.eclipse.update.core.siteOptimizer -verbose" />
 			<arg
 				line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack eclipse" />
