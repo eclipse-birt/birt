@@ -147,7 +147,7 @@ SimpleCubeBuilder.Title=Kreuztabellen-Cube Builder
 
 SimpleCubeBuilder.Label.Name=Name:
 
-DatasetSelectionPage.Label.Auto.Primary.Key=&Diese Option prüfen, um eine Vorverdichtung im primären Datensatz während der Quadererstellung zu vermeiden.
+DatasetSelectionPage.Label.Auto.Primary.Key=&Diese Option wählen, um eine Vorverdichtung im primären Datensatz während der Quadererstellung zu vermeiden.
 
 DatasetSelectionPage.Text.Auto.Primary.Key=Hinweis – Ist diese Option aktiviert, überspringt BIRT die Gruppierungs- und Aggregatberechnung beim Erstellen des Quaders, um eine bessere Leistung bei der Quadererstellung zu erzielen.
 
