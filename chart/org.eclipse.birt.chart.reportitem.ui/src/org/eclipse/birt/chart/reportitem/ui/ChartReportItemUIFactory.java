@@ -15,14 +15,21 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
@@ -188,6 +195,10 @@ public class ChartReportItemUIFactory extends ChartUIFactory
 		// Add orthogonal series
 		SeriesDefinition sdOrth = SeriesDefinitionImpl.createDefault( );
 		series = BarSeriesImpl.createDefault( );
+		Action a = ActionImpl.create( ActionType.SHOW_TOOLTIP_LITERAL,
+				TooltipValueImpl.create( 200, "" ) ); //$NON-NLS-1$
+		Trigger e = TriggerImpl.create( TriggerCondition.ONMOUSEOVER_LITERAL, a );
+		series.getTriggers( ).add( e );
 		sdOrth.getSeries( ).add( series );
 		cm.getOrthogonalAxes( cm.getBaseAxes( )[0], true )[0].getSeriesDefinitions( )
 				.add( sdOrth );
