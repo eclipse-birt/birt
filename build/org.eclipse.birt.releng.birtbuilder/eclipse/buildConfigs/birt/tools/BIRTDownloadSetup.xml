@@ -745,7 +745,7 @@
 		</exec>
 		<delete file="${OutputDir}/tmp/eclipse/eclipse" />
 		<symlink link="${OutputDir}/tmp/eclipse/eclipse" 
-		         resource="${OutputDir}/tmp/eclipse/Eclipse.app/Contents/MacOS/eclipse">
+		         resource="${OutputDir}/tmp/eclipse/Eclipse.app/Contents/MacOS/eclipse"/>
 		<exec executable="tar" dir="${OutputDir}/tmp">
 			<arg line="-czf ${OutputDir}/${allinone.mac.zip.name} eclipse/" />
 		</exec>
