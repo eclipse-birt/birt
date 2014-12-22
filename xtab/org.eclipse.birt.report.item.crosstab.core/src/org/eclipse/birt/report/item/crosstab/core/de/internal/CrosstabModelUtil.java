@@ -591,6 +591,12 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			}
 			
 			String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
+			// Count function should use integer data type
+			if ( DesignChoiceConstants.MEASURE_FUNCTION_COUNT.equals( defaultFunction ) )
+			{
+				dataType = DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER;
+				column.setDataType( dataType );
+			}
 			column.setAggregateFunction( function != null ? function
 					: defaultFunction );
 
@@ -747,6 +753,12 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
 		column.setAggregateFunction( function != null ? function
 				: defaultFunction );
+		// Count function should use integer data type
+		if ( DesignChoiceConstants.MEASURE_FUNCTION_COUNT.equals( defaultFunction ) )
+		{
+			dataType = DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER;
+			column.setDataType( dataType );
+		}
 
 		// When the function is not null,set the column set the correct data
 		// type

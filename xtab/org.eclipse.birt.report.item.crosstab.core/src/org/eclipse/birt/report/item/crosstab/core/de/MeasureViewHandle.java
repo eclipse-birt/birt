@@ -67,11 +67,20 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	public MeasureHandle getCubeMeasure( )
 	{
 		MeasureHandle cubeMeasure = (MeasureHandle) handle.getElementProperty( MEASURE_PROP );
-		if( cubeMeasure == null )
+		CubeHandle cube = this.getCrosstab( ).getCube( );
+		// Check if using the same cube
+		if ( cubeMeasure != null )
+		{
+			if ( cubeMeasure.getContainer( ) != null
+					&& cubeMeasure.getContainer( ).getContainer( ) != cube )
+			{
+				cubeMeasure = null;
+			}
+		}
+		if ( cubeMeasure == null )
 		{
 			String measureName = this.getCubeMeasureName( );
-			CubeHandle cube = this.getCrosstab( ).getCube( );
-			if( measureName != null && cube != null )
+			if ( measureName != null && cube != null )
 			{
 				cubeMeasure = cube.getMeasure( measureName );
 			}
