@@ -761,7 +761,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		return true;
 	}
 
-	private Object getDataPage( )
+	public Object getDataPage( )
 	{
 		if ( dataPage == null || dataPage.isDisposed( ) )
 		{
@@ -770,7 +770,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		return dataPage;
 	}
 
-	private Object getAttributePage( )
+	public Object getAttributePage( )
 	{
 		if ( attributePage == null || attributePage.isDisposed( ) )
 		{
@@ -795,7 +795,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		return outlinePage;
 	}
 
-	private Object getPalettePage( )
+	public Object getPalettePage( )
 	{
 		if ( fPalettePage == null || fPalettePage.isDisposed( ) )
 		{
