@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
@@ -290,6 +291,7 @@ public class DataColumnBindingDialog extends BaseDialog
 	{
 		try
 		{
+			ComputedColumnHandle newBindingColumn = null;
 			if ( bindingColumn != null )
 			{
 				if ( dialogHelper.differs( bindingColumn ) )
@@ -366,6 +368,7 @@ public class DataColumnBindingDialog extends BaseDialog
 				else
 					bindingColumn = dialogHelper.newBinding( DEUtil.getBindingHolder( bindingObject ),
 							null );
+				newBindingColumn = bindingColumn;
 			}
 			if( ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( DEUtil.getBindingHolder( bindingObject ) ) )
 			{
@@ -373,6 +376,7 @@ public class DataColumnBindingDialog extends BaseDialog
 				if( status.getStatus( ) == DataModelAdapterStatus.Status.FAIL )
 				{
 					MessageDialog.openError( UIUtil.getDefaultShell( ), null, status.getMessage( ) );
+					removeColumnBinding(newBindingColumn);
 					return;
 				}
 			}
@@ -382,6 +386,23 @@ public class DataColumnBindingDialog extends BaseDialog
 		{
 			ExceptionHandler.handle( e );
 		}
+	}
+	
+	private void removeColumnBinding(ComputedColumnHandle removeBindingColumn) throws SemanticException
+	{
+		if(removeBindingColumn == null)
+		{
+			return ;
+		}
+		if(bindSelf)
+		{
+			bindingObject.removedColumnBinding( removeBindingColumn.getName( ) );
+		}
+		else
+		{
+			DEUtil.getBindingHolder( bindingObject ).removedColumnBinding( removeBindingColumn.getName( )  );
+		}
+		bindingColumn = null;
 	}
 
 	private boolean isBindingMultipleReferenced( )
