@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Image;
-import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.ui.swt.interfaces.IImageServiceProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.util.ImageManager;
@@ -123,7 +123,7 @@ public class ChartImageServiceProvider implements IImageServiceProvider
 		}
 		else
 		{
-			return ChartItemUtil.getImageAbsoluteURL( image, extendedHandle );
+			return ChartReportItemUtil.getImageAbsoluteURL( image, extendedHandle );
 		}
 	}
 }
