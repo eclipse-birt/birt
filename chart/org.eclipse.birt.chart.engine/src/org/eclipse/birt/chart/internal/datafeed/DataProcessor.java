@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
@@ -1548,6 +1549,10 @@ public class DataProcessor
 
 		if ( dtGrouping == DataType.DATE_TIME_LITERAL && bIsSumAggr )
 		{
+
+			boolean useNonHierarchyCategoryData = ( rtc != null ) ? rtc.useNonHierarchyCategoryData( )
+					: false;
+			
 			int cunit = GroupingUtil.groupingUnit2CDateUnit( sg.getGroupingUnit( ) );
 			CDateTime baseReference = null;
 			for ( Iterator<Object[]> iter = rowSet.iterator( ); iter.hasNext( ); )
@@ -1561,6 +1566,11 @@ public class DataProcessor
 					baseReference = (CDateTime) obj;
 					// Always trimmed for category grouping
 					baseReference.clearBelow( cunit, true );
+					if ( useNonHierarchyCategoryData )
+					{
+						// Need to clear above values to get correct groups on chart category.
+						baseReference.clearAbove( cunit, true );
+					}
 					oaTuple[iBaseColumnIndex] = baseReference;
 				}
 			}

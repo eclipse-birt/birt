@@ -136,6 +136,8 @@ public final class RunTimeContext implements Serializable
 	
 	private TimeZone timeZone = null;
 	
+	private boolean useNonHierarchyCategoryData = false;
+	
 	/**
 	 * A default zero-arg public constructor used for object creation.
 	 */
@@ -769,5 +771,15 @@ public final class RunTimeContext implements Serializable
 	public void setTimeZone( TimeZone timeZone )
 	{
 		this.timeZone = timeZone;
+	}
+	
+	public void enableNonHierarchyCategoryData( boolean enabled )
+	{
+		useNonHierarchyCategoryData = enabled;
+	}
+	
+	public boolean useNonHierarchyCategoryData( )
+	{
+		return useNonHierarchyCategoryData;
 	}
 }

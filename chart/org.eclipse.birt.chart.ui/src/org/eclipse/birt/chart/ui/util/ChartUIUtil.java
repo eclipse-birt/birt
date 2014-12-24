@@ -593,6 +593,7 @@ public class ChartUIUtil
 		RunTimeContext context = new RunTimeContext( );
 		context.setULocale( ULocale.getDefault( ) );
 		context.setSharingQuery( isSharingQuery );
+		context.enableNonHierarchyCategoryData( dataProvider.checkState( IDataServiceProvider.USE_NON_HIERARCHY_CATEGORY_DATA ) );
 		dataProvider.update( ChartUIConstants.UPDATE_MODEL, cmRunTime );
 		Generator.instance( ).bindData( evaluator, iae, cmRunTime, context );
 
