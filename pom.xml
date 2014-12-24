@@ -7,56 +7,55 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tycho.version>0.21.0</tycho.version>
-        <eclipse.repo.url>http://download.eclipse.org/releases/juno/</eclipse.repo.url>
-        <wtp.repo.url>http://download.eclipse.org/webtools/repository/juno/</wtp.repo.url>
-        <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</orbit.repo.url>
-		<!-- DTP 1.12-->
-        <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
-		<!-- GEF 3.8.2 -->
-        <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
-		<!-- EMF 2.8.3 -->
-        <emf.repo.url>http://download.eclipse.org/modeling/emf/updates/releases/</emf.repo.url>
-    </properties>
-	
-    <repositories>
-        <!-- BIRT need Eclipse/EMF/GEF/DTP/ORBIT/WTP-->
-        <repository>
-            <id>emf</id>
-            <url>${emf.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>wtp</id>
-            <url>${wtp.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>gef</id>
-            <url>${gef.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>eclipse</id>
-            <url>${eclipse.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>orbit</id>
-            <url>${orbit.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>dtp</id>
-            <url>${dtp.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-    </repositories>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <tycho.version>0.21.0</tycho.version>
+    <eclipse.repo.url>http://download.eclipse.org/releases/juno/</eclipse.repo.url>
+    <wtp.repo.url>http://download.eclipse.org/webtools/repository/juno/</wtp.repo.url>
+    <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</orbit.repo.url>
+    <!-- DTP 1.12-->
+    <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
+    <!-- GEF 3.8.2 -->
+    <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
+    <!-- EMF 2.8.3 -->
+    <emf.repo.url>http://download.eclipse.org/modeling/emf/updates/releases/</emf.repo.url>
+  </properties>
+
+  <repositories>
+    <!-- BIRT need Eclipse/EMF/GEF/DTP/ORBIT/WTP-->
+    <repository>
+      <id>emf</id>
+      <url>${emf.repo.url}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>wtp</id>
+      <url>${wtp.repo.url}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>gef</id>
+      <url>${gef.repo.url}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>eclipse</id>
+      <url>${eclipse.repo.url}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>orbit</id>
+      <url>${orbit.repo.url}</url>
+      <layout>p2</layout>
+    </repository>
+    <repository>
+      <id>dtp</id>
+      <url>${dtp.repo.url}</url>
+      <layout>p2</layout>
+    </repository>
+  </repositories>
 
   <modules>
-	
     <module>UI/org.eclipse.birt.report.debug.core</module>
     <module>UI/org.eclipse.birt.report.debug.ui</module>
     <module>UI/org.eclipse.birt.report.designer.core</module>
@@ -74,9 +73,9 @@
     <module>UI/org.eclipse.birt.report.designer.ui.lib.explorer</module>
     <module>UI/org.eclipse.birt.report.designer.ui.preview</module>
     <module>UI/org.eclipse.birt.report.designer.ui.preview.static_html</module>
-	<!--
+  <!--
     <module>UI/org.eclipse.birt.report.designer.ui.preview.test</module>
-	-->
+  -->
     <module>UI/org.eclipse.birt.report.designer.ui.preview.web</module>
     <module>UI/org.eclipse.birt.report.designer.ui.rcp</module>
     <module>UI/org.eclipse.birt.report.designer.ui.samples.ide</module>
@@ -87,9 +86,9 @@
     <module>build/org.eclipse.birt</module>
     <module>build/org.eclipse.birt.build</module>
     <module>build/org.eclipse.birt.chart</module>
-	-->
+  -->
     <module>build/org.eclipse.birt.example</module>
-	<!--
+  <!--
     <module>build/org.eclipse.birt.releng.birtbuilder/extras</module>
     <module>build/org.eclipse.birt.sdk</module>
     -->
@@ -144,13 +143,13 @@
     <module>data/org.eclipse.birt.report.data.oda.xml</module>
     <module>data/org.eclipse.birt.report.data.oda.xml.ui</module>
     <module>data/org.eclipse.birt.report.engine.script.javascript</module>
-	<!--
+  <!--
     <module>docs/org.eclipse.birt.chart.cshelp</module>
     <module>docs/org.eclipse.birt.chart.doc.isv</module>
     <module>docs/org.eclipse.birt.cshelp</module>
     <module>docs/org.eclipse.birt.doc</module>
     <module>docs/org.eclipse.birt.doc.isv</module>
-	-->
+  -->
     <module>engine/org.eclipse.birt.report.engine</module>
     <module>engine/org.eclipse.birt.report.engine.dataextraction</module>
     <module>engine/org.eclipse.birt.report.engine.dataextraction.csv</module>
@@ -189,47 +188,47 @@
     <module>engine/org.eclipse.birt.report.engine.tests</module>
     <module>engine/uk.co.spudsoft.birt.emitters.excel</module>
     <module>engine/uk.co.spudsoft.birt.emitters.excel.tests</module>
-	<!--
+  <!--
     <module>features/org.eclipse.birt.chart.cshelp.feature</module>
     <module>features/org.eclipse.birt.chart.doc.isv.feature</module>
-	-->
+  -->
     <module>features/org.eclipse.birt.chart.feature</module>
     <module>features/org.eclipse.birt.chart.integration.wtp.feature</module>
     <module>features/org.eclipse.birt.chart.osgi.runtime</module>
     <module>features/org.eclipse.birt.chart.osgi.runtime.sdk</module>
-	<!--
+  <!--
     <module>features/org.eclipse.birt.cshelp.feature</module>
     <module>features/org.eclipse.birt.doc.feature</module>
     <module>features/org.eclipse.birt.doc.isv.feature</module>
-	-->
+  -->
     <module>features/org.eclipse.birt.example.feature</module>
     <module>features/org.eclipse.birt.feature</module>
     <module>features/org.eclipse.birt.integration.wtp.feature</module>
     <module>features/org.eclipse.birt.integration.wtp.sdk.feature</module>
-	<!--
+  <!--
     <module>features/org.eclipse.birt.nl.feature</module>
-	-->
+  -->
     <module>features/org.eclipse.birt.osgi.runtime</module>
     <module>features/org.eclipse.birt.osgi.runtime.sdk</module>
-	<!--
+  <!--
     <module>features/org.eclipse.birt.rcp.nl.feature</module>
-	-->
+  -->
     <module>features/org.eclipse.birt.report.designer.editor.xml.wtp.feature</module>
-	<!--
+  <!--
     <module>features/org.eclipse.birt.sdk.feature</module>
     <module>features/org.eclipse.birt.testhelper.feature</module>
     <module>features/org.eclipse.birt.tests.feature</module>
     <module>features/org.eclipse.birt.wtp.nl.feature</module>
-	-->
-	
+  -->
+
     <module>model/org.eclipse.birt.report.model</module>
     <module>model/org.eclipse.birt.report.model.adapter.oda</module>
     <module>model/org.eclipse.birt.report.model.testhelper</module>
     <module>model/org.eclipse.birt.report.model.adapter.oda.tests</module>
     <module>model/org.eclipse.birt.report.model.tests</module>
     <module>model/org.eclipse.birt.resources</module>
-	
-	<!--
+
+  <!--
     <module>nl/org.eclipse.birt.chart.device.extension.nl</module>
     <module>nl/org.eclipse.birt.chart.device.svg.nl</module>
     <module>nl/org.eclipse.birt.chart.device.swt.nl</module>
@@ -311,135 +310,134 @@
     <module>testsuites/org.eclipse.birt.tests.data</module>
     <module>tutorial/extension-tutorial-1</module>
     <module>tutorial/extension-tutorial-2</module>
-    -->
+  -->
     <module>viewer/org.eclipse.birt.axis.overlay</module>
     <module>viewer/org.eclipse.birt.integration.wtp.ui</module>
     <module>viewer/org.eclipse.birt.jetty.overlay</module>
     <module>viewer/org.eclipse.birt.report.viewer</module>
-	<!--
+  <!--
     <module>viewer/org.eclipse.birt.report.viewer.tests</module>
-	-->
+  -->
     <module>xtab/org.eclipse.birt.report.item.crosstab.core</module>
     <module>xtab/org.eclipse.birt.report.item.crosstab.core.tests</module>
     <module>xtab/org.eclipse.birt.report.item.crosstab.ui</module>
   </modules>
-    
-    <build>
-	    <pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.eclipse.tycho.extras</groupId>
-					<artifactId>tycho-source-feature-plugin</artifactId>
-					<version>${tycho.version}</version>
-					<configuration>
-						<excludes>
-							<plugin id="org.apache.axis"/>
-							<plugin id="org.apache.batik.pdf"/>
-							<plugin id="org.apache.commons.discovery"/>
-							<plugin id="org.apache.xerces"/>
-							<plugin id="org.apache.xml.resolver"/>
-							<plugin id="org.apache.xml.serializer"/>
-							<plugin id="javax.xml"/>
-							<pluign id="javax.xml.stream"/>
-							<plugin id="javax.xml.rpc"/>
-							<plugin id="javax.xml.soap"/>
-							<plugin id="javax.wsdl"/>
-							
-						</excludes>
-					</configuration>
-					<executions>
-						<execution>
-							<id>source-feature</id>
-							<phase>package</phase>
-							<goals>
-								<goal>source-feature</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.eclipse.tycho</groupId>
-					<artifactId>tycho-p2-plugin</artifactId>
-					<version>${tycho.version}</version>
-					<configuration>
-						<defaultP2Metadata>false</defaultP2Metadata>
-					</configuration>
-					<executions>
-						<execution>
-							<id>attached-p2-metadata</id>
-							<phase>package</phase>
-							<goals>
-								<goal>p2-metadata</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-        <plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>target-platform-configuration</artifactId>
-				<version>${tycho.version}</version>
-				<configuration>
-					<pomDependencies>consider</pomDependencies>
-					<environments>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>macosx</os>
-							<ws>cocoa</ws>
-							<arch>x86_64</arch>
-						</environment>
-					</environments>
-				</configuration>
-			</plugin>
-            <plugin>
-                <groupId>org.eclipse.tycho</groupId>
-                <artifactId>tycho-maven-plugin</artifactId>
-                <version>${tycho.version}</version>
-                <extensions>true</extensions>
-            </plugin>
-            <plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-versions-plugin</artifactId>
-                <version>${tycho.version}</version>
-            </plugin>
 
-			<!-- build source plugins -->
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-source-plugin</artifactId>
-				<version>${tycho.version}</version>
-				<executions>
-					<execution>
-						<id>plugin-source</id>
-						<goals>
-							<goal>plugin-source</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
-			<!-- build update site -->
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-p2-repository-plugin</artifactId>
-				<version>${tycho.version}</version>
-			</plugin>
-		</plugins>
-    </build>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.eclipse.tycho.extras</groupId>
+          <artifactId>tycho-source-feature-plugin</artifactId>
+          <version>${tycho.version}</version>
+          <configuration>
+            <excludes>
+              <plugin id="org.apache.axis"/>
+              <plugin id="org.apache.batik.pdf"/>
+              <plugin id="org.apache.commons.discovery"/>
+              <plugin id="org.apache.xerces"/>
+              <plugin id="org.apache.xml.resolver"/>
+              <plugin id="org.apache.xml.serializer"/>
+              <plugin id="javax.xml"/>
+              <pluign id="javax.xml.stream"/>
+              <plugin id="javax.xml.rpc"/>
+              <plugin id="javax.xml.soap"/>
+              <plugin id="javax.wsdl"/>
+            </excludes>
+          </configuration>
+          <executions>
+            <execution>
+              <id>source-feature</id>
+              <phase>package</phase>
+              <goals>
+                <goal>source-feature</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-p2-plugin</artifactId>
+          <version>${tycho.version}</version>
+          <configuration>
+            <defaultP2Metadata>false</defaultP2Metadata>
+          </configuration>
+          <executions>
+            <execution>
+              <id>attached-p2-metadata</id>
+              <phase>package</phase>
+              <goals>
+                <goal>p2-metadata</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <pomDependencies>consider</pomDependencies>
+          <environments>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+          </environments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-versions-plugin</artifactId>
+        <version>${tycho.version}</version>
+      </plugin>
+
+      <!-- build source plugins -->
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-source-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <executions>
+          <execution>
+            <id>plugin-source</id>
+            <goals>
+              <goal>plugin-source</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- build update site -->
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-p2-repository-plugin</artifactId>
+        <version>${tycho.version}</version>
+      </plugin>
+    </plugins>
+  </build>
 </project>
