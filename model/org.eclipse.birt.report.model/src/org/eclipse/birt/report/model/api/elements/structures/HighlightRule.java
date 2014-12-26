@@ -74,6 +74,7 @@ public class HighlightRule extends StyleRule
 	public static final String PADDING_BOTTOM_MEMBER = Style.PADDING_BOTTOM_PROP;
 	public static final String PADDING_RIGHT_MEMBER = Style.PADDING_RIGHT_PROP;
 	public static final String BACKGROUND_REPEAT_MEMBER = Style.BACKGROUND_REPEAT_PROP;
+	public static final String LINE_HEIGHT_MEMBER = Style.LINE_HEIGHT_PROP;	
 	/**
 	 * Name of this structure within the meta-data dictionary.
 	 */
