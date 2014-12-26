@@ -258,6 +258,8 @@ public class StyleUtil
 				StyleConstants.STYLE_PADDING_RIGHT );
 		ruleStyleName2Index.put( HighlightRule.BACKGROUND_REPEAT_MEMBER,
 				StyleConstants.STYLE_BACKGROUND_REPEAT );
+		ruleStyleName2Index.put( HighlightRule.LINE_HEIGHT_MEMBER,
+				StyleConstants.STYLE_LINE_HEIGHT );
 		
 		customName2Index = new HashMap<String, Integer>( );
 		customName2Index.put( BIRTConstants.BIRT_STYLE_DATA_FORMAT,

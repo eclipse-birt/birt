@@ -1103,4 +1103,15 @@ public class HighlightRuleHandle extends StyleRuleHandle
 		}
 		return null;
 	}
+	
+	/**
+	 * Returns a handle to work with the height of the line.
+	 * 
+	 * @return a DimensionHandle to deal with the height o f the line.
+	 */
+
+	public DimensionHandle getLineHeight( )
+	{
+		return doGetDimensionHandle( HighlightRule.LINE_HEIGHT_MEMBER );
+	}
 }

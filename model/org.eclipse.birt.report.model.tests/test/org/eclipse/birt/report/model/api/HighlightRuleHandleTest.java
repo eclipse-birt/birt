@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
@@ -56,6 +57,7 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		openDesign( inputFile );
 		StyleHandle style2 = designHandle.findStyle( "My-Style2" ); //$NON-NLS-1$
 		StyleHandle style3 = designHandle.findStyle( "My-Style3" ); //$NON-NLS-1$
+		StyleHandle style4 = designHandle.findStyle( "My-Style4" ); //$NON-NLS-1$
 		Iterator highlightRules = style2.highlightRulesIterator( );
 		assert ( highlightRules.hasNext( ) );
 
@@ -146,8 +148,14 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		HighlightRuleHandle style3Highlight = (HighlightRuleHandle) style3HighlightRules
 				.next( );
 
-		// highlight rule in style 3 cannot refers to style 2 again.
-		
+		// highlight rule in style 4 cannot refers to style 2 again.
+		Iterator style4HighlightRules = style4.highlightRulesIterator( );
+		assertTrue( style4HighlightRules.hasNext( ) );
+		HighlightRuleHandle style4Highlight = (HighlightRuleHandle) style4HighlightRules
+				.next( );
+		DimensionValue dv = (DimensionValue)style4Highlight.getLineHeight( ).getValue( );
+		assertEquals(10.0,dv.getMeasure( ));
+		assertEquals("in",dv.getUnits( ));
 		try
 		{
 			style3Highlight.setStyleName( "My-Style2" ); //$NON-NLS-1$
