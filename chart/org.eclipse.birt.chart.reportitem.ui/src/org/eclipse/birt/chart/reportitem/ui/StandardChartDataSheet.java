@@ -420,7 +420,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				dataPreviewDescription.setLayoutData( gd );
-				dataPreviewDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+				dataPreviewDescription.setText( getDataPreviewDescription( ) );
 			}
 		}
 
@@ -461,7 +461,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				columnListDescription.setLayoutData( gd );
-				columnListDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+				columnListDescription.setText( getDataPreviewDescription( ) );
 			}
 		}
 
@@ -805,7 +805,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				( (GridData) columnListDescription.getLayoutData( ) ).exclude = false;
 				columnListDescription.setVisible( true );
-				columnListDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+				columnListDescription.setText( getDataPreviewDescription( ) );
 				cmpColumnsList.layout( );
 			}
 		}
@@ -3203,5 +3203,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 
 		return dataDefinitions;
+	}
+
+	protected String getDataPreviewDescription( )
+	{
+		return Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ); //$NON-NLS-1$
 	}
 }
