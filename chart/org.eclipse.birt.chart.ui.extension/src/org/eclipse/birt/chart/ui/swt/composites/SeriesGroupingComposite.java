@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
@@ -742,8 +743,13 @@ public class SeriesGroupingComposite extends Composite implements
 				{
 					fExprBuilderWidgetsMap.put( btnBuilder, txtArg );
 					GridData gdBTNBuilder = new GridData( );
-					gdBTNBuilder.heightHint = 20;
-					gdBTNBuilder.widthHint = 20;
+					// TED 69967, the button size in mac is not as large as in windows,
+					// so the fixed image size can't display in mac, need use auto computing
+					if ( !Platform.OS_MACOSX.equals( Platform.getOS( ) ) )
+					{
+						gdBTNBuilder.heightHint = 20;
+						gdBTNBuilder.widthHint = 20;
+					}
 					btnBuilder.setLayoutData( gdBTNBuilder );
 					btnBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
 					
