@@ -2159,4 +2159,19 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 				locale );
 	}
 	
+	/**
+	 * Returns chart output format name, null if not find. 
+	 * 
+	 * @param chartHandle extended item handle contains chart.
+	 * @return chart output format name, null if not find.
+	 */
+	public static String getChartOutputFormat( ExtendedItemHandle chartHandle )
+	{
+		Object output = chartHandle.getProperty( PROPERTY_OUTPUT );
+		if ( output instanceof String )
+		{
+			return (String) output;
+		}
+		return null;
+	}
 }
