@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.fieldassist.preferences.FieldAssistPreferenceInitializer;
 import org.eclipse.birt.chart.ui.swt.fieldassist.preferences.PreferenceConstants;
 import org.eclipse.jface.bindings.keys.KeyStroke;
-import org.eclipse.jface.bindings.keys.ParseException;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.fieldassist.ContentProposalAdapter;
 import org.eclipse.jface.fieldassist.ControlDecoration;
@@ -209,7 +208,7 @@ public final class FieldAssistHelper
 		{
 			return KeyStroke.getInstance( triggerKey );
 		}
-		catch ( ParseException e )
+		catch ( Exception e ) // Catch all exceptions to avoid breaking UI.
 		{
 			return KeyStroke.getInstance( SWT.F10 );
 		}
