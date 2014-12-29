@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.adapter.oda.api;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
@@ -18,6 +21,9 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDesignerStateHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
@@ -173,9 +179,43 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 
 		assertNotNull( setHandle.getDataSource( ) );
 		assertEquals( "myDataSource1", setHandle.getDataSource( ).getName( ) ); //$NON-NLS-1$
-		save( );
+		
+		verifyODADataSetToROMDataSet();
+		/*save( );
 
-		assertTrue( compareTextFile( GOLDEN_FILE ) );
+		assertTrue( compareTextFile( GOLDEN_FILE ) );*/
+	}
+
+	private void verifyODADataSetToROMDataSet() throws Exception {
+		saveAndOpenDesign();
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" );
+		assertNotNull( setHandle );
+		assertEquals( "data set display name", setHandle.getDisplayName() );
+		assertEquals( DATA_SET_EXTENSIONID, setHandle.getProperty( "extensionID" ) );
+		
+		assertEquals( "new public query time out", setHandle.getProperty("queryTimeOut") );
+		assertEquals( "new private query time out", setHandle.getPrivateDriverProperty( "queryTimeOut" ) );
+		
+		List<Object> params = ( List<Object> ) setHandle.getProperty("parameters");
+		OdaDataSetParameter param = ( OdaDataSetParameter ) params.get(0);
+		assertEquals( "param1", param.getNativeName() );
+		assertFalse( param.allowNull() );
+		assertEquals( Integer.valueOf( 2 ), param.getPosition() );
+		assertEquals( Integer.valueOf( 1 ), param.getNativeDataType() );
+		assertEquals( true, param.isInput() );
+		assertEquals( true, param.isOutput() );
+		assertEquals( "default param value", param.getDefaultValue() );
+		
+		List<Object> resultSets = ( List<Object> ) setHandle.getProperty( "resultSet" );
+		OdaResultSetColumn column = ( OdaResultSetColumn ) resultSets.get(0);
+		assertEquals( "column1", column.getNativeName() );
+		assertEquals( Integer.valueOf(2), column.getPosition() );
+		assertEquals( Integer.valueOf(3), column.getNativeDataType() );
+		
+		assertEquals("resultset1", setHandle.getResultSetName() );
+		assertEquals("new query text", setHandle.getQueryText() );
+		
+		
 	}
 
 	/**
@@ -196,10 +236,12 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 
 		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
 				.findDataSet( "myDataSet1" ); //$NON-NLS-1$
-		DataSetDesign sourceDesign = createDataSetDesign( );
+		DataSetDesign setDesign = createDataSetDesign( );
 
-		new ModelOdaAdapter( ).updateDataSetHandle( sourceDesign, setHandle,
+		new ModelOdaAdapter( ).updateDataSetHandle( setDesign, setHandle,
 				true );
+		
+		String tmpFile2 = saveTempFile();
 
 		assertTrue( designHandle.getCommandStack( ).canUndo( ) );
 		assertFalse( designHandle.getCommandStack( ).canRedo( ) );
@@ -209,14 +251,16 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
 		assertTrue( designHandle.getCommandStack( ).canRedo( ) );
 
-		save(  );
-		assertTrue( compareTextFile( GOLDEN_FILE_WITH_EMPTY_PROPS ) );
+		/*save( );
+		assertTrue( compareTextFile( GOLDEN_FILE_WITH_EMPTY_PROPS ) );*/
+		verifyDataSourceAndDataSetWithEmptyProp();
+		
 
 		designHandle.getCommandStack( ).redo( );
 
 		save( );
-
-		assertTrue( compareTextFile( GOLDEN_FILE1_WITH_EMPTY_PROPS ) );
+		verifyODADataSetToROMDataSet();
+		//assertTrue( compareTextFile( GOLDEN_FILE1_WITH_EMPTY_PROPS ) );
 
 		openDesign( INPUT_FILE_WITH_LIB );
 
@@ -224,11 +268,23 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 
 		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" ); //$NON-NLS-1$
 
-		new ModelOdaAdapter( ).updateDataSetHandle( sourceDesign, setHandle,
+		new ModelOdaAdapter( ).updateDataSetHandle( setDesign, setHandle,
 				false );
 
 		assertEquals( "Library Data Source One", setHandle.getDataSource( ) //$NON-NLS-1$
 				.getDisplayName( ) );
+	}
+
+	private void verifyDataSourceAndDataSetWithEmptyProp() {
+		OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) designHandle.findDataSource( "myDataSource1" );
+		assertNotNull( sourceHandle );
+		assertNull( sourceHandle.getProperty("privateDriverProperties") );
+		assertNull( sourceHandle.getProperty("userProperties") );
+		
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle.findDataSet("myDataSet1");
+		assertNotNull( setHandle );
+		assertNull( setHandle.getProperty("privateDriverProperties") );
+		assertNull( setHandle.getProperty("userProperties") );
 	}
 
 	/**
@@ -412,8 +468,14 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 
 		adapter.updateDataSetHandle( dataSetDesign, dataSet, false );
 
-		save( ); 
-		assertTrue( compareTextFile( "CreateDataSetReferDataSource_golden.xml" ) ); //$NON-NLS-1$
+		/* save( ); 
+		assertTrue( compareTextFile( "CreateDataSetReferDataSource_golden.xml" ) ); //$NON-NLS-1$*/
+		saveAndOpenDesign();
+		OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) designHandle.findDataSource("testSource");
+		assertNotNull(sourceHandle);
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle.findDataSet( "testDataSet" );
+		assertNotNull(setHandle);
+		assertEquals( "new query text", setHandle.getQueryText() );
 	}
 
 }

@@ -66,8 +66,20 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 		values.setResultSets( setDesign.getResultSets( ) );
 
 		saveDesignValuesToFile( values );
+		save();
+		
+		saveAndOpenDesign();
+		setHandle = (OdaDataSetHandle) designHandle
+				.findDataSet( "myDataSet1" ); //$NON-NLS-1$
 
-		assertTrue( compareTextFile( "ResultSetsWithHint_golden.xml" ) ); //$NON-NLS-1$
+		setDesign = new ModelOdaAdapter( )
+				.createDataSetDesign( setHandle );
+		
+		String hint = setDesign.getResultSets().getResultSetDefinitions().get(0).getResultSetColumns().getResultColumnDefinitions().get(0).getUsageHints().getHelpText();
+		
+		assertEquals(hint, "Help me!");
+
+		//assertTrue( compareTextFile( "ResultSetsWithHint_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -104,13 +116,22 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 		ResultSetDefinition setDefn = (ResultSetDefinition) sets
 				.getResultSetDefinitions( ).get( 0 );
 
-		updateResultSetDefinition1( setDefn );
+		updateOrVerifyResultSetDefinition1( setDefn , true);
 
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
 		save( );
-		assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_golden.xml" ) ); //$NON-NLS-1$
+		saveAndOpenDesign();
+		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" ); //$NON-NLS-1$
+		setDesign = new ModelOdaAdapter( ).createDataSetDesign( setHandle );
+		sets = setDesign.getResultSets( );
+		setDefn = (ResultSetDefinition) sets.getResultSetDefinitions( ).get( 0 );
+		updateOrVerifyResultSetDefinition1( setDefn , false);
+		//assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_golden.xml" ) ); //$NON-NLS-1$
+		
+		
+		
 
 		openDesign( "OdaDataSetConvertResultSetsTest_1.xml" ); //$NON-NLS-1$
 		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" ); //$NON-NLS-1$
@@ -127,12 +148,18 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 		// oda data set design changed, update ROM values. still keep report
 		// parameter link.
 
-		updateResultSetDefinition1( setDefn );
+		updateOrVerifyResultSetDefinition1( setDefn , true);
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
 		save( );
-		assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_1_golden.xml" ) ); //$NON-NLS-1$
+		saveAndOpenDesign();
+		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" ); //$NON-NLS-1$
+		setDesign = new ModelOdaAdapter( ).createDataSetDesign( setHandle );
+		sets = setDesign.getResultSets( );
+		setDefn = (ResultSetDefinition) sets.getResultSetDefinitions( ).get( 0 );
+		updateOrVerifyResultSetDefinition1( setDefn , false);
+		//assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_1_golden.xml" ) ); //$NON-NLS-1$
 
 		// the oda data set design is not changed. ROM values are changed.
 		// Should keep rom values.
@@ -147,15 +174,23 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 		Iterator hints = setHandle.columnHintsIterator( );
 		Iterator columns = setHandle.resultSetIterator( );
 
-		updateResultSetColumnAndHint(
+		updateOrVerifyResultSetColumnAndHint(
 				(OdaResultSetColumnHandle) columns.next( ),
-				(ColumnHintHandle) hints.next( ) );
+				(ColumnHintHandle) hints.next( ) , true);
 
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
 		save( );
-		assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_2_golden.xml" ) ); //$NON-NLS-1$
+		saveAndOpenDesign();
+		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" ); //$NON-NLS-1$
+		setDesign = new ModelOdaAdapter( ).createDataSetDesign( setHandle );
+		hints = setHandle.columnHintsIterator( );
+		columns = setHandle.resultSetIterator( );
+		updateOrVerifyResultSetColumnAndHint(
+				(OdaResultSetColumnHandle) columns.next( ),
+				(ColumnHintHandle) hints.next( ) , false);
+		//assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_2_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -185,7 +220,14 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 				.updateDataSetHandle( setDesign, setHandle, false );
 
 		save( );
-		assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_3_golden.xml" ) ); //$NON-NLS-1$
+		saveAndOpenDesign();
+		setHandle = (OdaDataSetHandle) designHandle
+				.findDataSet( "myDataSet1" ); //$NON-NLS-1$
+		setDesign = new ModelOdaAdapter( )
+				.createDataSetDesign( setHandle );
+		int dataTypeCode = setDesign.getResultSets().getResultSetDefinitions().get(0).getResultSetColumns().getResultColumnDefinitions().get(0).getAttributes().getNativeDataTypeCode();
+		//assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_3_golden.xml" ) ); //$NON-NLS-1$
+		assertEquals(dataTypeCode, 2004);
 	}
 
 	/**
@@ -194,15 +236,24 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 	 * @param param
 	 */
 
-	private void updateResultSetColumnAndHint( OdaResultSetColumnHandle column,
-			ColumnHintHandle hint ) throws SemanticException
+	private void updateOrVerifyResultSetColumnAndHint( OdaResultSetColumnHandle column,
+			ColumnHintHandle hint, boolean update) throws SemanticException
 	{
-		column.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL );
-		hint.setDisplayName( "new display name for column 1" ); //$NON-NLS-1$
-		hint.setHelpText( "new help text for column 1" ); //$NON-NLS-1$
-		hint.setFormat( "new format " ); //$NON-NLS-1$
-		hint.setAnalysis( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE );
-		hint.setOnColumnLayout( true );
+		if ( update ) {
+			column.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL );
+			hint.setDisplayName( "new display name for column 1" ); //$NON-NLS-1$
+			hint.setHelpText( "new help text for column 1" ); //$NON-NLS-1$
+			hint.setFormat( "new format " ); //$NON-NLS-1$
+			hint.setAnalysis( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE );
+			hint.setOnColumnLayout( true );
+		} else {
+			assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL, column.getDataType() );
+			assertEquals("new display name for column 1", hint.getDisplayName());
+			assertEquals("new help text for column 1", hint.getHelpText());
+			assertEquals("new format", hint.getFormat());
+			assertEquals(DesignChoiceConstants.ANALYSIS_TYPE_MEASURE, hint.getAnalysis());
+			assertTrue(hint.isOnColumnLayout());
+		}
 	}
 
 	/**
@@ -211,7 +262,7 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 	 * @param param
 	 */
 
-	private void updateResultSetDefinition1( ResultSetDefinition setDefn )
+	private void updateOrVerifyResultSetDefinition1( ResultSetDefinition setDefn, boolean update)
 	{
 		List columns = setDefn.getResultSetColumns( )
 				.getResultColumnDefinitions( );
@@ -221,34 +272,59 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 
 		DataElementAttributes dataAttrs = column1.getAttributes( );
 		DataElementUIHints dataUIHints = dataAttrs.getUiHints( );
-		dataUIHints.setDisplayName( "new display name for column 1" ); //$NON-NLS-1$
+		if ( update )
+			dataUIHints.setDisplayName( "new display name for column 1" ); //$NON-NLS-1$
+		else
+			assertEquals("new display name for column 1", dataUIHints.getDisplayName( ) );
 
 		OutputElementAttributes usageHints = column1.getUsageHints( );
-		usageHints.setHelpText( "new help text for column 1" ); //$NON-NLS-1$
+		if (update)
+			usageHints.setHelpText( "new help text for column 1" ); //$NON-NLS-1$
+		else 
+			assertEquals("new help text for column 1", usageHints.getHelpText( ) );
 
-		usageHints.getFormattingHints( ).setDisplayFormat(
-				"new format for column 1" ); //$NON-NLS-1$
+		// Setting to null object
+		if (update)
+			usageHints.getFormattingHints( ).setDisplayFormat(
+					"new format for column 1" ); //$NON-NLS-1$
+		else
+			assertEquals(null, usageHints.getFormattingHints().getDisplayFormat());
 
-		AxisAttributes axisAttrs = DesignFactory.eINSTANCE.createAxisAttributes( );
-		axisAttrs.setAxisType( AxisType.DIMENSION_MEMBER_LITERAL );
-		axisAttrs.setOnColumnLayout( false );
-		column1.setMultiDimensionAttributes( axisAttrs );
+		if (update) {
+			AxisAttributes axisAttrs = DesignFactory.eINSTANCE.createAxisAttributes( );
+			axisAttrs.setAxisType( AxisType.DIMENSION_MEMBER_LITERAL );
+			axisAttrs.setOnColumnLayout( false );
+			column1.setMultiDimensionAttributes( axisAttrs );
+		} else {
+			AxisAttributes axisAttrs = column1.getMultiDimensionAttributes();
+			assertEquals(AxisType.DIMENSION_MEMBER_LITERAL, axisAttrs.getAxisType());
+			assertFalse(axisAttrs.isOnColumnLayout());
+		}
 		
 		// new display name and help text, etc.
+		if ( update ) {
+			dataUIHints = DesignFactory.eINSTANCE.createDataElementUIHints( );
+			dataUIHints.setDisplayName( "new display name for column 2" ); //$NON-NLS-1$
+			dataAttrs = column2.getAttributes( );
+			dataAttrs.setUiHints( dataUIHints );
+		} else {
+			dataUIHints = column2.getAttributes().getUiHints();
+			assertEquals("new display name for column 2", dataUIHints.getDisplayName( ) );
+		}
 
-		dataUIHints = DesignFactory.eINSTANCE.createDataElementUIHints( );
-		dataUIHints.setDisplayName( "new display name for column 2" ); //$NON-NLS-1$
-		dataAttrs = column2.getAttributes( );
-		dataAttrs.setUiHints( dataUIHints );
-
-		usageHints = DesignFactory.eINSTANCE.createOutputElementAttributes( );
-		usageHints.setHelpText( "new help text for column 2" ); //$NON-NLS-1$
-
-		ValueFormatHints format = DesignFactory.eINSTANCE
-				.createValueFormatHints( );
-		format.setDisplayFormat( "new format for column 2" ); //$NON-NLS-1$
-		usageHints.setFormattingHints( format );
-		column2.setUsageHints( usageHints );
+		if (update) {
+			usageHints = DesignFactory.eINSTANCE.createOutputElementAttributes( );
+			usageHints.setHelpText( "new help text for column 2" ); //$NON-NLS-1$
+			ValueFormatHints format = DesignFactory.eINSTANCE.createValueFormatHints( );
+			format.setDisplayFormat( "new format for column 2" ); //$NON-NLS-1$
+			usageHints.setFormattingHints( format );
+			column2.setUsageHints( usageHints );
+		} else {
+			usageHints = column2.getUsageHints();
+			assertEquals("new help text for column 2", usageHints.getHelpText());
+			ValueFormatHints format = usageHints.getFormattingHints();
+			assertEquals("new format for column 2", format.getDisplayFormat());
+		}
 
 	}
 
