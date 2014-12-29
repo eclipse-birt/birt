@@ -44,7 +44,6 @@
                     <property name="proportionalScale">false</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <expression name="altText" type="constant">Help Test For Image Item</expression>
-                    <!--Fixed BIRT Model support - Modifications to report item properties-->
                     <property name="altTextID">help</property>
                     <list-property name="action">
 		           		<structure>
