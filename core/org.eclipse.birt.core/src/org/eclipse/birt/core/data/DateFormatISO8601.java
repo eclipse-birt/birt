@@ -84,16 +84,16 @@ public class DateFormatISO8601
 		return resultDate;
 	}
 	
-	
 	/**
-	 * Parse a date/time string.
-	 * @param source
+	 * Format a date/time object.
+	 * 
+	 * @param date
+	 * @param timeZone
 	 * @return
-	 * @throws ParseException
+	 * @throws BirtException
 	 */
-	public static String format( Date date ) throws BirtException
+	public static String format( Date date, TimeZone timeZone ) throws BirtException
 	{
-		String result = null;
 		if ( date == null  )
 		{
 			return null;
@@ -104,8 +104,9 @@ public class DateFormatISO8601
 		{
 			try
 			{
-				result = ( (SimpleDateFormat) simpleDateFormatter ).format( date );
-				return result;
+				SimpleDateFormat sdf = ( (SimpleDateFormat) simpleDateFormatter );
+				sdf.setTimeZone( timeZone );
+				return sdf.format( date );
 			}
 			catch ( Exception e1 )
 			{
@@ -115,6 +116,17 @@ public class DateFormatISO8601
 		throw new CoreException( ResourceConstants.CONVERT_FAILS, new Object[]{
 				date.toString( ), "ISO8601 Format"
 		} );
+	}
+	
+	/**
+	 * Parse a date/time string.
+	 * @param source
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String format( Date date ) throws BirtException
+	{
+		return format( date, TimeZone.getDefault( ) );
 	}
 
 	/**
