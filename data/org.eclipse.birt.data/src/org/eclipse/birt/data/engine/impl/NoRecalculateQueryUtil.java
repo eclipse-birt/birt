@@ -95,11 +95,12 @@ public class NoRecalculateQueryUtil
 		if ( filters == null )
 			return null;
 		
+		//need pass group info due to need to prepare sub query etc.
 		NoRecalculateIVQuery query = new NoRecalculateIVQuery( newq,
 				oldq,
 				new LinkedList<ISortDefinition>( ),
 				filters,
-				new LinkedList(),
+				newq.getGroups( ),
 				queryResultID );
 
 		return query;
