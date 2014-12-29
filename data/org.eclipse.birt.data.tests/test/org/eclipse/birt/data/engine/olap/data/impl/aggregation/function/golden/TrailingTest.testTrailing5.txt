@@ -1,6 +1,6 @@
 year quarter month week-of-month week-of-year day-of-week day-of-month day-of-year 
 2011 3 9 4 39 5 22 265 
 year quarter month week-of-month week-of-year day-of-week day-of-month day-of-year 
-2011 3 9 3 38 6 23 266 
+2011 3 9 4 39 6 23 266 
 year quarter month week-of-month week-of-year day-of-week day-of-month day-of-year 
-2011 3 9 3 38 7 24 267 
+2011 3 9 4 39 7 24 267 

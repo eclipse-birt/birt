@@ -166,7 +166,7 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 	public void testFunctions7( ) throws IOException
 	{
 		int[] values = new int[]{
-				2002, 8, 3
+				2002, 8, 4
 		};
 		String[] levels = new String[]{
 				TimeMember.TIME_LEVEL_TYPE_YEAR,
