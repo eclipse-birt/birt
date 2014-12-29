@@ -90,6 +90,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -799,8 +800,12 @@ public class ChartCubeQueryHelper
 
 		IEdgeDefinition edge = cubeQuery.getEdge( edgeType );
 		IHierarchyDefinition hieDef = null;
-		HierarchyHandle hieHandle = cube.getDimension( dimensionName )
-				.getDefaultHierarchy( );
+		DimensionHandle dimHandle = cube.getDimension( dimensionName );
+		if ( dimHandle == null )
+		{
+			return;
+		}
+		HierarchyHandle hieHandle = dimHandle.getDefaultHierarchy( );
 		if ( edge == null )
 		{
 			// Only create one edge/dimension/hierarchy in one
