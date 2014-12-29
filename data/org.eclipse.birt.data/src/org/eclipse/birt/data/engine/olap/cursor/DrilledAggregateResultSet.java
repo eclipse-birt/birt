@@ -40,6 +40,7 @@ import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.query.view.DrillOnDimensionHierarchy;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
  * 
@@ -624,9 +625,16 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 		Object[] memberKeys = levelkey;
 		for ( Object obj : key )
 		{
-			if ( obj.toString( ).equals( memberKeys[0].toString( ) ) )
+			try
 			{
-				return true;
+				if( ScriptEvalUtil.compare( obj, memberKeys[0] )==0 )
+				{
+					return true;
+				}
+			}
+			catch ( DataException e )
+			{
+				//ignore it.
 			}
 		}
 		return false;
