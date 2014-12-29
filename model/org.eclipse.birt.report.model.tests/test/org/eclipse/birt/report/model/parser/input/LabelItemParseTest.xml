@@ -89,7 +89,7 @@
             <property name="y">0.5mm</property>
             <property name="height">0.25mm</property>
             <property name="width">1mm</property>
-            <property name="role">Div</property>
+            <property name="tagType">Div</property>
             <property name="language">English</property>
             <property name="altText">Alt Text</property>
             <property name="order">1</property>

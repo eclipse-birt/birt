@@ -2697,8 +2697,8 @@
     <Property displayNameID="Element.Label.textID" name="textID" since="1.0" type="resourceKey"/>
     <Property displayNameID="Element.Label.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Label.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
-    <Property displayNameID="Element.Label.role" name="role" since="4.3" type="string">
-    	<Default>div</Default>
+    <Property displayNameID="Element.Label.tagType" name="tagType" since="4.3" type="string">
+    	<Default>p</Default>
     </Property>
     <Property displayNameID="Element.Label.altText" name="altText" since="4.3" type="expression"/>
     <Method context="startup" displayNameID="Element.Label.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Label.onPrepare.toolTip">
@@ -2801,8 +2801,8 @@
     <Property displayNameID="Element.Data.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Data.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
     <Property detailType="Action" displayNameID="Element.Data.action" isList="true" name="action" runtimeSettable="false" since="1.0" type="structure"/>
-    <Property displayNameID="Element.Data.role" name="role" since="4.3" type="string">
-    	<Default>div</Default>
+    <Property displayNameID="Element.Data.tagType" name="tagType" since="4.3" type="string">
+    	<Default>p</Default>
     </Property>
     <Property displayNameID="Element.Data.altText" name="altText" since="4.3" type="expression"/>
     <Method context="startup" displayNameID="Element.Data.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Data.onPrepare.toolTip">
@@ -2890,8 +2890,8 @@
     <Property displayNameID="Element.Text.hasExpression" name="hasExpression" since="2.5" type="boolean">
       <Default>true</Default>
     </Property>
-    <Property displayNameID="Element.Text.role" name="role" since="4.3" type="string">
-    	<Default>div</Default>
+    <Property displayNameID="Element.Text.tagType" name="tagType" since="4.3" type="string">
+    	<Default>p</Default>
     </Property>
     <Property displayNameID="Element.Text.altText" name="altText" since="4.3" type="expression"/>
     <Method context="startup" displayNameID="Element.Text.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Text.onPrepare.toolTip">
@@ -3045,7 +3045,7 @@
     </Property>    
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.List" extends="Listing" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ListItem" name="List" selector="list" since="1.0" xmlName="list">
-    <Property displayNameID="Element.List.role" name="role" since="4.3" type="string">
+    <Property displayNameID="Element.List.tagType" name="tagType" since="4.3" type="string">
     	<Default>sect</Default>
     </Property>
     <Property displayNameID="Element.List.altText" name="altText" since="4.3" type="expression"/>
@@ -3162,7 +3162,7 @@
     <Property displayNameID="Element.Table.isSummaryTable" name="isSummaryTable" runtimeSettable="false" since="2.5" type="boolean">
       <Default>false</Default>    	
     </Property>
-     <Property displayNameID="Element.Table.role" name="role" since="4.3" type="string">
+     <Property displayNameID="Element.Table.tagType" name="tagType" since="4.3" type="string">
     	<Default>table</Default>
     </Property>
     <Slot displayNameID="Element.Table.slot.header" multipleCardinality="true" name="header" selector="table-header" since="1.0" xmlName="header">
@@ -3305,7 +3305,7 @@
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.Row.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>
-    <Property displayNameID="Element.Row.role" name="role" since="4.3" type="string">
+    <Property displayNameID="Element.Row.tagType" name="tagType" since="4.3" type="string">
     	<Default>tr</Default>
     </Property>
     <Property displayNameID="Element.Row.language" name="language" since="4.3" type="string"/>
@@ -3360,7 +3360,7 @@
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.Cell.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>
-    <Property displayNameID="Element.Cell.role" name="role" since="4.3" type="string">
+    <Property displayNameID="Element.Cell.tagType" name="tagType" since="4.3" type="string">
     	<Default>td</Default>
     </Property>
     <Property displayNameID="Element.Cell.language" name="language" since="4.3" type="string"/>
@@ -3457,7 +3457,7 @@
 	<Property displayNameID="Element.Image.proportionalScale" name="proportionalScale" runtimeSettable="true" since="2.6.3" type="boolean">
 		<Default>false</Default>
 	</Property>
-	<Property displayNameID="Element.Image.role" name="role" since="4.3" type="string">
+	<Property displayNameID="Element.Image.tagType" name="tagType" since="4.3" type="string">
     	<Default>figure</Default>
     </Property>
 	<Method context="startup" displayNameID="Element.Image.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Image.onPrepare.toolTip">
@@ -3523,7 +3523,7 @@
     <Property displayNameID="Element.Grid.caption" name="caption" runtimeSettable="false" since="2.3" type="string"/>
     <Property displayNameID="Element.Grid.captionID" name="captionID" since="2.3" type="resourceKey"/>
     <Property displayNameID="Element.Grid.summary" name="summary" runtimeSettable="false" since="2.3" type="string"/>
-    <Property displayNameID="Element.Grid.role" name="role" since="4.3" type="string">
+    <Property displayNameID="Element.Grid.tagType" name="tagType" since="4.3" type="string">
     	<Default>sect</Default>
     </Property>
     <Slot displayNameID="Element.Grid.slot.columns" multipleCardinality="true" name="columns" since="1.0">
@@ -3600,8 +3600,8 @@
     <Property displayNameID="Element.TextData.hasExpression" name="hasExpression" since="2.5" type="boolean">
     	<Default>true</Default>
     </Property>
-    <Property displayNameID="Element.TextData.role" name="role" since="4.3" type="string">
-    	<Default>div</Default>
+    <Property displayNameID="Element.TextData.tagType" name="tagType" since="4.3" type="string">
+    	<Default>p</Default>
     </Property>
     <Property displayNameID="Element.TextData.altText" name="altText" since="4.3" type="expression"/>
 	<Method context="startup" displayNameID="Element.TextData.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.TextData.onPrepare.toolTip">

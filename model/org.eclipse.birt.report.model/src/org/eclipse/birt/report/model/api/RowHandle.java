@@ -278,29 +278,29 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	}
 	
 	/**
-	 * Returns the role of this label item.
+	 * Returns the tag type of this label item.
 	 * 
-	 * @return the help text key
+	 * @return the tag type value
 	 */
 
-	public String getRole( )
+	public String getTagType( )
 	{
-		return getStringProperty( ROLE_PROP );
+		return getStringProperty( TAG_TYPE_PROP );
 	}
 
 	/**
-	 * Sets the role of this label item.
+	 * Sets the tag type of this label item.
 	 * 
-	 * @param role
-	 *            the role
+	 * @param tag type
+	 *            the tag type
 	 * 
 	 * @throws SemanticException
 	 *           if the property is locked.
 	 */
 
-	public void setRole( String role ) throws SemanticException
+	public void setTagType( String tagType ) throws SemanticException
 	{
-		setStringProperty( ROLE_PROP, role );
+		setStringProperty( TAG_TYPE_PROP, tagType );
 	}
 	
 	/**

@@ -218,7 +218,7 @@ public class TableItemParseTest extends ParserTestCase
 
 		assertEquals( 3, table.getColumnCount( ) );
 		
-		assertEquals( "Table", table.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "Table", table.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", table.getLanguage( ) ); //$NON-NLS-1$
 		assertEquals( 1, table.getOrder( ) ); //$NON-NLS-1$
 
@@ -291,14 +291,14 @@ public class TableItemParseTest extends ParserTestCase
 
 		assertEquals( "prepare on the row", row.getOnPrepare( ) ); //$NON-NLS-1$
 		
-		assertEquals( "TR", row.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "TR", row.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", row.getLanguage( ) ); //$NON-NLS-1$
 		
 		
 		SlotHandle headSlot = table.getHeader( );
 		RowHandle headRow = (RowHandle) headSlot.get( 0 );
 		// test default value of Role in Row
-		assertEquals( "tr", headRow.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "tr", headRow.getTagType( ) ); //$NON-NLS-1$
 
 		ColumnHandle column = (ColumnHandle) table.getColumns( ).get( 2 );
 
@@ -428,7 +428,7 @@ public class TableItemParseTest extends ParserTestCase
 		assertNotNull( table );
 		
 		// test default value of Role in Table
-		assertEquals( "table", table.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "table", table.getTagType( ) ); //$NON-NLS-1$
 
 		// reads in a table that exists in the scratch pad.
 
@@ -527,7 +527,7 @@ public class TableItemParseTest extends ParserTestCase
 		tableHandle.setSortByGroups( true );
 		tableHandle.setNewHandlerOnEachEvent( false );
 		
-		tableHandle.setRole( "Table" ); //$NON-NLS-1$
+		tableHandle.setTagType( "Table" ); //$NON-NLS-1$
 		tableHandle.setLanguage( "English" ); //$NON-NLS-1$
 		tableHandle.setOrder( 1 ); //$NON-NLS-1$
 
@@ -593,7 +593,7 @@ public class TableItemParseTest extends ParserTestCase
 		row.setBookmark( "row bookmark" ); //$NON-NLS-1$
 		row.setBookmarkDisplayName( "row bookmark display name" ); //$NON-NLS-1$
 		
-		row.setRole( "TR" ); //$NON-NLS-1$
+		row.setTagType( "TR" ); //$NON-NLS-1$
 		row.setLanguage( "English" ); //$NON-NLS-1$
 
 		SlotHandle cells = row.getCells( );

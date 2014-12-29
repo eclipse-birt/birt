@@ -36,7 +36,7 @@
             <property name="summary">summary</property>
             <text-property name="caption" key="blue he">bluehero</text-property>
             <property name="language">English</property>
-            <property name="role">Grid Role</property>
+            <property name="tagType">Grid Role</property>
             <property name="order">1</property>
             <column>
                 <property name="width">2.5mm</property>
@@ -71,7 +71,7 @@
                     <property name="height">1.5mm</property>
                     <property name="width">2mm</property>
                     <property name="style">My-Style</property>
-                    <property name="role">Cell Role</property>
+                    <property name="tagType">Cell Role</property>
 		            <property name="language">English</property>
 		            <property name="altText">Alt Text</property>
                     <property name="backgroundColor">red</property>

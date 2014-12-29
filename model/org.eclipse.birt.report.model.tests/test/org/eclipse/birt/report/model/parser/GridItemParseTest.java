@@ -131,7 +131,7 @@ public class GridItemParseTest extends ParserTestCase
 
 		assertEquals( "blue he", grid.getCaptionKey( ) ); //$NON-NLS-1$
 		
-		assertEquals( "Grid Role", grid.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "Grid Role", grid.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", grid.getLanguage( ) ); //$NON-NLS-1$
 		assertEquals( 1, grid.getOrder( ) ); //$NON-NLS-1$
 		// Test column properties
@@ -182,7 +182,7 @@ public class GridItemParseTest extends ParserTestCase
 				.getStringValue( ) );
 		
 		// test default value of Role in Cell
-		assertEquals( "td", cell.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "td", cell.getTagType( ) ); //$NON-NLS-1$
 		
 		cell = (CellHandle) cells.get( 1 );
 		assertEquals( 2, cell.getColumn( ) );
@@ -194,7 +194,7 @@ public class GridItemParseTest extends ParserTestCase
 		assertEquals(
 				"red", cell.getPrivateStyle( ).getBackgroundColor( ).getStringValue( ) ); //$NON-NLS-1$
 		
-		assertEquals( "Cell Role", cell.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "Cell Role", cell.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", cell.getLanguage( ) ); //$NON-NLS-1$
 		assertEquals( "Alt Text", cell.getAltText( ) ); //$NON-NLS-1$
 
@@ -227,7 +227,7 @@ public class GridItemParseTest extends ParserTestCase
 
 		grid = (GridHandle) designHandle.findElement( "componentsGrid" ); //$NON-NLS-1$
 		// test default value of Role in Grid
-		assertEquals( "sect", grid.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "sect", grid.getTagType( ) ); //$NON-NLS-1$
 
 		assertNotNull( grid );
 
@@ -303,7 +303,7 @@ public class GridItemParseTest extends ParserTestCase
 		grid.setCaptionKey( "new caption key" ); //$NON-NLS-1$
 		grid.setSummary( "new summary" ); //$NON-NLS-1$
 		
-		grid.setRole( "Grid Role" ); //$NON-NLS-1$
+		grid.setTagType( "Grid Role" ); //$NON-NLS-1$
 		grid.setLanguage( "English" ); //$NON-NLS-1$
 		grid.setOrder( 1 ); //$NON-NLS-1$
 
@@ -318,7 +318,7 @@ public class GridItemParseTest extends ParserTestCase
 		cell.setProperty( ICellModel.DIAGONAL_THICKNESS_PROP, "1.5mm" ); //$NON-NLS-1$
 		cell.setProperty( ICellModel.ANTIDIAGONAL_THICKNESS_PROP, "2.5mm" ); //$NON-NLS-1$
 		
-		cell.setRole( "Cell Role" ); //$NON-NLS-1$
+		cell.setTagType( "Cell Role" ); //$NON-NLS-1$
 		cell.setLanguage( "English" ); //$NON-NLS-1$
 		cell.setAltText( "Alt Text" ); //$NON-NLS-1$		l
 
