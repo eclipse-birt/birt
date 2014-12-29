@@ -48,6 +48,7 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
+import org.eclipse.datatools.connectivity.oda.spec.result.ColumnIdentifier;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -318,10 +319,46 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			
 			DataException exception = null;
 			
-			QuerySpecification combinedQuerySpec = extDataSet.getCombinedQuerySpecification( );
+			QuerySpecification combinedQuerySpec = null;
+			IQueryOptimizeHints queryOptimizeHints = (IQueryOptimizeHints)this.getAppContext( ).get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT );
+			if ( queryOptimizeHints != null )
+			{
+				Map<String, QuerySpecification> optimizedDataSets = queryOptimizeHints.getOptimizedCombinedQuerySpec( );
+				if ( optimizedDataSets != null )
+				{
+					for ( Map.Entry<String, QuerySpecification> entry : optimizedDataSets.entrySet( ) )
+					{
+						if ( entry.getKey( ).equals( extDataSet.getName( ) ) )
+							combinedQuerySpec = entry.getValue( );
+					}
+				}
+			}
 			if ( combinedQuerySpec != null )
 			{
 				querySpec = combinedQuerySpec;
+				if ( queryOptimizeHints != null )
+				{
+					Map<String, List<String>> computedColumnsMap = queryOptimizeHints.getPushedDownComputedColumns( );
+					if ( computedColumnsMap != null
+							&& computedColumnsMap.get( extDataSet.getName( ) ) != null )
+					{
+						List computedColumns = extDataSet.getComputedColumns( );
+						for ( int i = 0; i < computedColumns.size( ); i++ )
+						{
+							if ( computedColumnsMap.get( extDataSet.getName( ) )
+									.contains( ( (IComputedColumn) computedColumns.get( i ) ).getName( ) ) )
+							{
+								computedColumns.remove( i );
+							}
+						}
+					}
+
+					List<IColumnDefinition> resultSets = queryOptimizeHints.getResultSetsForCombinedQuery( );
+					if ( resultSets != null && resultSets.size( ) > 0 )
+					{
+						extDataSet.getResultSetHints( ).addAll( resultSets );
+					}
+				}
 			}
 			else
 			{
@@ -343,7 +380,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 						{
 							if ( validateStatus == ValidateStatus.unknown
 									|| validateStatus == ValidateStatus.ok )
-							{
+							{								
 								querySpec = OdaQueryOptimizationUtil.optimizeExecution( ( (OdaDataSourceRuntime) dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) ).getExtensionID( ),
 										validationContext,
 										(IOdaDataSetDesign) dataSetDesign,
@@ -352,12 +389,27 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 										appContext,
 										contextVisitor );
 							}
-
+												
 							if ( querySpec != null
 									&& validateStatus == ValidateStatus.unknown )
 							{
 								try
-								{
+								{				
+									if ( queryOptimizeHints != null )
+									{
+										List<IColumnDefinition> trimmedColumns = queryOptimizeHints.getTrimmedColumns( )
+												.get( extDataSet.getName( ) );
+
+										if ( trimmedColumns != null )
+										{
+											for ( IColumnDefinition col : trimmedColumns )
+											{
+												querySpec.getResultSetSpecification( )
+														.getResultProjection( )
+														.hideResultColumn( new ColumnIdentifier( col.getColumnName( ) ) );
+											}
+										}
+									}
 									querySpec.validate( validationContext );
 									validateStatus = validateStatus.ok;
 								}
@@ -369,7 +421,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 											ex.getLocalizedMessage( ),
 											ex );
 								}
-
 							}
 						}
 						catch ( DataException e )

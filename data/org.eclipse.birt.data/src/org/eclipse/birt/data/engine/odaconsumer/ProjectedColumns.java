@@ -187,6 +187,7 @@ class ProjectedColumns
 			new ResultFieldMetadata( -1, columnName, columnName, 
 			                         columnType, null /* nativeTypeName */, 
 									 true /* isCustom */ );
+		column.setCustomPosition( m_columns.size( ) + 1 );
 		m_columns.add( column );
 		
 		doGetCustomColumns().add( new PreparedStatement.CustomColumn( columnName,

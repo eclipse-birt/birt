@@ -58,6 +58,7 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -105,6 +106,8 @@ public class PreparedQueryUtil
 		{
 			addAllBindingAsSortKey( queryDefn );
 		}
+		
+		optimizeForTransientQuery( appContext, queryDefn );
 		
 		validateQuery(dataEngine, queryDefn);
 		FilterPrepareUtil.prepareFilters( queryDefn, dataEngine.getContext( ).getScriptContext( ) );
@@ -234,6 +237,21 @@ public class PreparedQueryUtil
 		}
 
 		return preparedQuery;
+	}
+	
+	private static void optimizeForTransientQuery( Map appContext, IQueryDefinition query ) throws DataException
+	{
+		IQueryOptimizeHints hints = (IQueryOptimizeHints)appContext.get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT );
+		if( hints == null || !( query instanceof QueryDefinition) )
+			return;
+		
+		query.getQueryExecutionHints( ).setEnablePushDown( hints.enablePushDownForTransientQuery( ) );
+		
+		Map<String, List<IFilterDefinition>> filters = hints.getFiltersInAdvance( );
+		if ( filters != null && filters.get( query.getDataSetName( ) ) != null )
+		{
+			query.getFilters( ).addAll( filters.get( query.getDataSetName( ) ) );
+		}
 	}
 	
 	private static void addAllBindingAsSortKey( IQueryDefinition queryDefn ) throws DataException
