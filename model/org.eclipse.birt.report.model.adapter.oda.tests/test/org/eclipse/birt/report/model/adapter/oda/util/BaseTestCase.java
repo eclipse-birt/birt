@@ -16,11 +16,14 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -701,6 +704,70 @@ public abstract class BaseTestCase extends TestCase
 		ContainerSlot styles = designHandle.getModule( ).getSlot(
 				ReportDesign.STYLE_SLOT );
 		styles.clear( );
+	}
+	
+	/**
+	 * Saves the output stream into the temp file for verification.
+	 * 
+	 * @param fileName
+	 *            the resource name. Based on the class folder.
+	 * @throws Exception
+	 */
+
+	protected String saveTempFile()
+	{
+		try {
+			save( );
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String folder = getTempFolder( ) + OUTPUT_FOLDER;		
+		File tmpFolder = new File( folder );
+		if ( !tmpFolder.exists( ) )
+			tmpFolder.mkdirs( );
+		
+		String fileName = folder + "tmp_" + os.hashCode();
+
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream( fileName );
+			fos.write( os.toString().getBytes( "UTF-8" ) ); //$NON-NLS-1$
+			fos.close( );
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return fileName;
+	}	
+	
+	/**
+	 * Save and open design
+	 * @param fileName
+	 * @param locale
+	 * @param inSingleJarMode
+	 * @throws Exception 
+	 */
+	protected void saveAndOpenDesign( ) throws Exception
+	{
+		String fileName = saveTempFile( );
+		File file = new File(fileName);
+
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( ULocale.getDefault( ) );
+		assertNotNull( sessionHandle );
+
+		designHandle = sessionHandle.openDesign( fileName );
+		
+		file.delete();
+
 	}
 
 }

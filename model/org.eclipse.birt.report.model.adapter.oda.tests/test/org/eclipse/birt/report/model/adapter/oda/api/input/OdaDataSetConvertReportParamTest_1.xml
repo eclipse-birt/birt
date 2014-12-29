@@ -78,7 +78,6 @@
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:defaultScalarValue>State</design:defaultScalarValue>
           <design:optional>false</design:optional>
           <design:masksValue>true</design:masksValue>
           <design:dynamicValueChoices>
