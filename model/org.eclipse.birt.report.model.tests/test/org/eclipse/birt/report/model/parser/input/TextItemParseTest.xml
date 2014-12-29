@@ -11,7 +11,7 @@
             <property name="contentType">html</property>
             <property name="hasExpression">true</property>
             <text-property name="content" key="static"><![CDATA[text & < > ' " static]]></text-property>
-            <property name="role">Div</property>
+            <property name="tagType">Div</property>
             <property name="language">English</property>
             <property name="altText">Alt Text</property>
             <property name="order">1</property>

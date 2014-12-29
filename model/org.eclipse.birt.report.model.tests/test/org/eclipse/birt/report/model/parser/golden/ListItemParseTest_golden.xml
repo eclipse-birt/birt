@@ -110,7 +110,7 @@
                     <text-property name="displayName">The Section</text-property>
                 </free-form>
             </footer>
-            <property name="role">Sect</property>
+            <property name="tagType">Sect</property>
             <property name="language">English</property>
             <expression name="altText">Alt Text</expression>
         </list>

@@ -27,7 +27,7 @@
             <expression name="valueExpr">new value expr</expression>
             <property name="contentType">rtf</property>
             <property name="hasExpression">false</property>
-            <property name="role">Div</property>
+            <property name="tagType">Div</property>
             <property name="language">English</property>
             <expression name="altText">Alt Text</expression>
             <property name="order">1</property>
