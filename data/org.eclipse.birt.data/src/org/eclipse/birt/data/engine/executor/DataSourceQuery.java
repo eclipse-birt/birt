@@ -848,6 +848,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				metadata.setDriverProvidedDataType( m_driverProvidedDataType );
 				metadata.setAlias( meta.getFieldMetaData( i ).getAlias( ) );
 				
+				if( m_isCustom )
+					metadata.setCustomPosition( meta.getFieldMetaData( i ).getCustomPosition( ) );
+				
 				list.add( metadata );
 			}
 		}
