@@ -55,7 +55,7 @@ public class JDBCSelectionWizardPage extends DataSourceWizardPage
         m_pageHelper.initCustomControl( m_folderProperties );   // in case init was called before create
         //bidi_hcg: add "Bidi Settings..." button to "Edit Data Source dialog"
 		m_pageHelper.addBidiSettingsButton( content, m_folderProperties );
-       
+        m_pageHelper.setResourceIdentifier( this.getHostResourceIdentifiers( ) );
         this.setPingButtonVisible( false );
     }
 

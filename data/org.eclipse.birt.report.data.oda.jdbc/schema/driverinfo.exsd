@@ -147,7 +147,7 @@ The extension class must implement interface org.eclipse.birt.report.data.oda.jd
          <attribute name="type">
             <annotation>
                <documentation>
-                  The type of property. It should be boolean, number or string. string is its default value.
+                  The type of property. It should be boolean, number, resource or string. string is its default value. If it is resource, it means it will locate to file path.
                </documentation>
             </annotation>
             <simpleType>
@@ -157,6 +157,8 @@ The extension class must implement interface org.eclipse.birt.report.data.oda.jd
                   <enumeration value="number">
                   </enumeration>
                   <enumeration value="string">
+                  </enumeration>
+                  <enumeration value="resource">
                   </enumeration>
                </restriction>
             </simpleType>
