@@ -183,11 +183,9 @@ public class DataSetMetaDataHelper
 		clearPropertyBindingMap( handle, dataSetBindingMap, dataSourceBindingMap );
 		try 
 		{
-			QueryDefinition query = new QueryDefinition( );
+			QueryDefinition query = new QueryDefinition( true );
 			query.setDataSetName( dataSetHandle.getQualifiedName( ) );
 			query.setMaxRows( 1 );
-			query.setAutoBinding( true );
-	
 			IResultMetaData metaData = new QueryExecutionHelper( dataEngine,
 					modelAdaptor,
 					sessionContext,

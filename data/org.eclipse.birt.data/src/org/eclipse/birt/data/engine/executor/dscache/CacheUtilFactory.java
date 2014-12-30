@@ -821,12 +821,11 @@ class CacheUtilFactory
 				return null;
 			}
 
-			QueryDefinition qd = new QueryDefinition( );
+			QueryDefinition qd = new QueryDefinition( true );
 			qd.setDataSetName( this.session.getDataSetCacheManager( ).getCurrentDataSetDesign( ).getName( ) );
 			
 			String queryBack = ( (OdaDataSetDesign) this.session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) ).getQueryText( );
 			//int savedCacheOption = this.session.getDataSetCacheManager( ).suspendCache( );
-			qd.setAutoBinding( true );
 			IResultIterator iterator = this.session.getEngine( ).prepare( qd, new HashMap() )
 					.execute( null )
 					.getResultIterator( );
