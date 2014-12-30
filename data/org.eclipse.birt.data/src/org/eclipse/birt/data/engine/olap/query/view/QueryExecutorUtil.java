@@ -171,8 +171,15 @@ public class QueryExecutorUtil
 							measureName = OlapExpressionUtil.getMeasure( referBinding.getExpression( ) );
 							bindingName = referBinding.getBindingName( );
 							aggrOns = referBinding.getAggregatOns( );
+							
+							if ( referBinding.getAggrFunction( ) == null
+									&& ( aggrOns == null || aggrOns.size( )==0 ) )
+							{
+								aggrOns =  CubeQueryDefinitionUtil.populateMeasureAggrOns( queryDefn );
+							}
 						}
 					}
+					
 					if ( aggrOns != null && aggrOns.size( ) > 0 )
 					{
 						aggrOnLevels = new DimLevel[aggrOns.size( )];
@@ -180,15 +187,6 @@ public class QueryExecutorUtil
 						{
 							aggrOnLevels[j] = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( j )
 									.toString( ) );
-						}
-					}
-					else if ( measureName != null )
-					{
-						List measureAggrOns = CubeQueryDefinitionUtil.populateMeasureAggrOns( queryDefn );
-						aggrOnLevels = new DimLevel[measureAggrOns.size( )];
-						for ( int k = 0; k < measureAggrOns.size( ); k++ )
-						{
-							aggrOnLevels[k] = (DimLevel) measureAggrOns.get( k );
 						}
 					}
 				}
