@@ -144,6 +144,7 @@ public class AggregationHelper implements IAggrValueHolder
 				for( int i=0; i<accumulatorManagers.length; i++ )
 				{
 					Accumulator a = accumulatorManagers[i].getCurrentAccumulator( );
+					a.start( );
 					a.finish( );
 					currentRoundAggrValue[i].add( a.getValue( ) );					
 				}
