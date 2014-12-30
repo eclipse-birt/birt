@@ -385,6 +385,9 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 					
 					if( queryOptimizeHints.getUnpushedDownComputedColumnInCombinedQuery( ).size( ) > 0 )
 						extDataSet.getComputedColumns( ).addAll( queryOptimizeHints.getUnpushedDownComputedColumnInCombinedQuery( ) );
+				
+					if( queryOptimizeHints.getFilterNeededMerge( ).size( ) > 0 )
+						extDataSet.getFilters( ).addAll( queryOptimizeHints.getFilterNeededMerge( ) );
 				}
 			}
 			else
