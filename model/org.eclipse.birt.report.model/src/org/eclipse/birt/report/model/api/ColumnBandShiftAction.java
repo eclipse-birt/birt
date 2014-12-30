@@ -288,6 +288,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 		int targetIndex = destIndex;
 
 		List destCells = adapter.getCellsUnderColumn( destIndex );
+		List destContexts = getCellsContextInfo( destCells );
 		// adds the copied cells to the destination.
 		
 		for ( int i = 0; i < cellInfos.size( ); i++ )
@@ -315,8 +316,11 @@ class ColumnBandShiftAction extends ColumnBandAction
 			}
 			else
 			{
-				newPosn = row.getCells( ).findPosn(
-						(CellHandle) destCells.get( i ) );
+				CellContextInfo destContext = findCorrespondingCell( destContexts, contextInfo );
+				if ( destContext == null )
+					continue;
+				CellHandle destCell = destContext.getCell( ).handle( adapter.getModule( ) );
+				newPosn = row.getCells( ).findPosn( destCell );
 				// adjust the position since the rule is first drop then add.
 
 				if ( oldPosn > newPosn + 1 )
@@ -331,6 +335,19 @@ class ColumnBandShiftAction extends ColumnBandAction
 			
 			
 		}
+	}
+	
+	private CellContextInfo findCorrespondingCell( List destContexts,
+			CellContextInfo srcCell )
+	{
+		for ( Object obj : destContexts )
+		{
+			CellContextInfo cell = (CellContextInfo) obj;
+			if ( cell.getSlotId( ) == srcCell.getSlotId( )
+					&& cell.getRowIndex( ) == srcCell.getRowIndex( ) )
+				return cell;
+		}
+		return null;
 	}
 
 	/**
