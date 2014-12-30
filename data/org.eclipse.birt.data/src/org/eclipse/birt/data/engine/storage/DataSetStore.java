@@ -28,7 +28,7 @@ public class DataSetStore
 {
 
 	public static IDataSetReader createReader( StreamManager manager,
-			IResultClass resultClass, Map<?, ?> appContext )
+			IResultClass resultClass, boolean includeInnerId, Map<?, ?> appContext )
 			throws DataException
 	{
 		return null;
