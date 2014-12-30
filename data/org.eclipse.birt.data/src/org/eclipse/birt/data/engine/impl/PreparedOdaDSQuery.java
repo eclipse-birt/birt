@@ -366,6 +366,9 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 						extDataSet.getResultSetHints( ).clear( );
 						extDataSet.getResultSetHints( ).addAll( resultSets );
 					}
+					
+					if( queryOptimizeHints.getUnpushedDownComputedColumnInCombinedQuery( ).size( ) > 0 )
+						extDataSet.getComputedColumns( ).addAll( queryOptimizeHints.getUnpushedDownComputedColumnInCombinedQuery( ) );
 				}
 			}
 			else
@@ -418,6 +421,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 											}
 										}
 									}
+									//querySpec.getBaseQuery( )
 									querySpec.validate( validationContext );
 									validateStatus = validateStatus.ok;
 								}
