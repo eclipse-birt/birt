@@ -12,12 +12,14 @@
 package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemModel;
 
 /**
  * This class represents an image item. Reports often display images in various
@@ -148,7 +150,12 @@ public class ImageItem extends ReportItem implements IImageItemModel
 
 	public String getAltText( ReportDesign design )
 	{
-		return getStringProperty( design, ALT_TEXT_PROP );
+		Expression expr = (Expression) getProperty( design, IInternalReportItemModel.ALTTEXT_PROP );
+		if ( expr != null )
+		{
+			return expr.getStringExpression( );
+		}
+		return null;
 	}
 
 	/*

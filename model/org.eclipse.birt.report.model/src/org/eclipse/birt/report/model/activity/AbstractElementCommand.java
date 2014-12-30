@@ -78,16 +78,4 @@ public abstract class AbstractElementCommand extends Command
 
 		return newPosn;
 	}
-	
-	//If the element is not added in to the Module, exclude from the activity stack.
-	public ActivityStack getActivityStack( )
-    {
-        Module root = element.getRoot( );
-        if ( root == null )
-        {
-        	//set null module to avoid clearing the name helper cache
-            return new ActivityStack( null );
-        }
-        return module.getActivityStack( );
-    }
 }

@@ -949,6 +949,15 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeShort( out, FIELD_USE_CACHED_RESULT );
 			IOUtil.writeBool( out, useCachedResult );
 		}
+		
+		Expression altText = design.getAltText( );
+		String altTextKey = design.getAltTextKey( );
+		if ( altText != null || altTextKey != null )
+		{
+			IOUtil.writeShort( out, FIELD_ALT_TEXT );
+			IOUtil.writeString( out, altTextKey );
+			writeExpression( out, altText );
+		}
 	}
 
 	protected void writeMasterPage( DataOutputStream out,
@@ -1568,17 +1577,8 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeBool( out, isProportionalScale );
 		}
 		
-		Expression altText = image.getAltText( );
-		String altTextKey = image.getAltTextKey( );
 		String helpText = image.getHelpText( );
 		String helpTextKey = image.getHelpTextKey( );
-
-		if ( altText != null || altTextKey != null )
-		{
-			IOUtil.writeShort( out, FIELD_ALT_TEXT );
-			IOUtil.writeString( out, altTextKey );
-			writeExpression( out, altText );
-		}
 		if ( helpText != null || helpTextKey != null )
 		{
 			IOUtil.writeShort( out, FIELD_HELP_TEXT );
@@ -1591,15 +1591,6 @@ public class EngineIRWriter implements IOConstants
 			ExtendedItemDesign extended ) throws IOException
 	{
 		writeReportItem( out, extended );
-		String altText = extended.getAltText( );
-		String altTextKey = extended.getAltTextKey( );
-		if ( altText != null || altTextKey != null )
-		{
-			IOUtil.writeShort( out, FIELD_ALT_TEXT );
-			IOUtil.writeString( out, altTextKey );
-			IOUtil.writeString( out, altText );
-		}
-
 	}
 
 	protected void writeAutoText( DataOutputStream out,
