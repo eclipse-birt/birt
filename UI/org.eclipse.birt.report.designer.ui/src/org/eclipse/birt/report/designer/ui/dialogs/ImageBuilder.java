@@ -624,6 +624,7 @@ public class ImageBuilder extends BaseDialog
 		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
 				true,
 				IMAGE_FILEFILTERS );
+		dialog.setAllowImportFile( true );
 		dialog.setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER );
 		dialog.setTitle( Messages.getString( "ImageBuilder.BrowserResourceDialog.Title" ) ); //$NON-NLS-1$
 		dialog.setMessage( Messages.getString( "ImageBuilder.BrowserResourceDialog.Message" ) ); //$NON-NLS-1$

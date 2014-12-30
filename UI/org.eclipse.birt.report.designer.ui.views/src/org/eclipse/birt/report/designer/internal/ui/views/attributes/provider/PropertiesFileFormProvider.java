@@ -99,6 +99,7 @@ public class PropertiesFileFormProvider extends AbstractFormHandleProvider
 	{
 
 		NewResourceFileDialog dialog = new NewResourceFileDialog( );
+		dialog.setAllowImportFile( true );
 
 		if ( dialog.open( ) != Window.OK )
 		{

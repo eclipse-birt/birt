@@ -125,7 +125,8 @@ public class ImportLibraryAction extends Action
 		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
 				LIBRARY_FILE_PATTERN );
 		dialog.setTitle( DIALOG_TITLE ); 
-		dialog.setMessage( DIALOG_MESSAGE ); 
+		dialog.setMessage( DIALOG_MESSAGE );
+		dialog.setAllowImportFile( true );
 		ResourceSelectionValidator validator = new ResourceSelectionValidator( LIBRARY_FILE_TYPE );
 		dialog.setValidator( validator );
 		
