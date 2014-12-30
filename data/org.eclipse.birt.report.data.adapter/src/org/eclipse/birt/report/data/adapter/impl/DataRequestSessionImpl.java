@@ -1664,7 +1664,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				dataSetInterceptor.preDefineDataSet( sessionContext,
 						dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
 						design,
-						null,
+						query,
 						this.registeredQueries );
 			}
 		}
