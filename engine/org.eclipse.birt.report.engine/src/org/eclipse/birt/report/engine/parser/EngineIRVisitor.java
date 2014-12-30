@@ -143,7 +143,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Constructs an internal representation of the report design for report
- * geenration and presentation, based on the internal representation that design
+ * generation and presentation, based on the internal representation that design
  * engine creates. The DE IR services both the designer UI and factory, and has
  * certain features that are not quite suitable for FPE use. In particular, this
  * step of the reconstruction is needed for several reasons:
@@ -218,7 +218,7 @@ public class EngineIRVisitor extends DesignVisitor
 	/**
 	 * default script language
 	 */
-	protected String defaultScriptLanguage;
+	protected String defaultScriptLanguage = "javascript";
 
 	/**
 	 * report design handle
@@ -294,9 +294,7 @@ public class EngineIRVisitor extends DesignVisitor
 	 */
 	public void visitReportDesign( ReportDesignHandle handle )
 	{
-		// 
-		this.defaultScriptLanguage = "javascript";
-
+		
 		Map<String, Expression> userProperties = createUserProperties( handle );
 		if ( userProperties != null && !userProperties.isEmpty( ) )
 		{
