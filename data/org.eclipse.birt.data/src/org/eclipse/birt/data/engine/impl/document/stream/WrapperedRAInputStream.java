@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.impl.document.stream;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -22,6 +23,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 public class WrapperedRAInputStream extends RAInputStream
 {
+	private static Logger logger = Logger.getLogger( WrapperedRAInputStream.class.getName( ) );
+
 	private RAInputStream raIn;
 	private long startOffset;
 	private long size;
@@ -31,12 +34,15 @@ public class WrapperedRAInputStream extends RAInputStream
 		this.raIn = input;
 		this.startOffset = startOffset;
 		this.size = size;
+		long length = 0;
 		try
 		{
+			length = this.raIn.length();
 			this.raIn.seek( this.startOffset );
 		}
 		catch ( IOException e )
 		{
+			logger.warning( "Available: " + length + "    Requests: " + this.startOffset );
 			throw new DataException( e.getLocalizedMessage( ));
 		}
 	}
