@@ -104,6 +104,8 @@ public class JDBCSelectionPageHelper
 	// constant string
 	final private static String EMPTY_DRIVER_CLASS_OR_URL = JdbcPlugin.getResourceString( "error.emptyDriverclassOrURL" );//$NON-NLS-1$
 
+	private final String ENCRYTPION_METHOD_DEFAULT_VALUE = "noEncryption"; //$NON-NLS-1$
+	
 	private final String JDBC_EXTENSION_ID = "org.eclipse.birt.report.data.oda.jdbc"; //$NON-NLS-1$
 
 	JDBCSelectionPageHelper( WizardPage page )
@@ -146,9 +148,8 @@ public class JDBCSelectionPageHelper
 		// List if all supported data bases
 		new Label( content, SWT.RIGHT ).setText( JdbcPlugin.getResourceString( "wizard.label.driverClass" ) );//$NON-NLS-1$
 		driverChooserCombo = new ComboViewer( content, SWT.DROP_DOWN );
-		gridData = new GridData( );
+		gridData = new GridData( GridData.FILL_BOTH );
 		gridData.horizontalSpan = 3; // bidi_hcg
-		gridData.horizontalAlignment = SWT.FILL;
 		driverChooserCombo.getControl( ).setLayoutData( gridData );
 
 		List driverListTmp1 = JdbcToolKit.getJdbcDriversFromODADir( JDBC_EXTENSION_ID );
@@ -339,12 +340,38 @@ public class JDBCSelectionPageHelper
 				{
 					propertyText = new Text( propertyGroup, SWT.BORDER );
 				}
+				
+				boolean isEncryptionMethod = Constants.DRIVER_INFO_PROPERTY_ENCRYPTION_METHOD.equals( propertyName );
 				if ( propertyContent != null )
 				{
 					propertyText.setText( propertyContent );
 					databaseProperties.put( propertyName,
 							propertyContent );
 				}
+				else if( isEncryptionMethod )
+				{
+					propertyText.setText( ENCRYTPION_METHOD_DEFAULT_VALUE );
+				}
+				
+				gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalSpan = 3; // bidi_hcg
+				propertyText.setLayoutData( gd );
+				
+				if( isEncryptionMethod )
+				{
+					Label blankLabel = new Label( propertyGroup, SWT.NONE );
+					GridData blankLabelGd = new GridData( );
+					blankLabelGd.horizontalSpan = 2;
+					blankLabel.setLayoutData( blankLabelGd );
+					
+					Label prompLabel = new Label( propertyGroup, SWT.NONE );
+					prompLabel.setText( JdbcPlugin.getResourceString( "wizard.label.SSL.EncryptionMethod" ) );			
+					
+					GridData labelGd = new GridData( GridData.FILL_HORIZONTAL );
+					labelGd.horizontalSpan = 3;
+					prompLabel.setLayoutData( labelGd );
+				}
+				
 				propertyText.addModifyListener( new ModifyListener( ) {
 
 					public void modifyText( ModifyEvent e )
@@ -353,10 +380,6 @@ public class JDBCSelectionPageHelper
 								propertyText.getText( ) );
 					}
 				} );
-				gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.horizontalSpan = 3; // bidi_hcg
-				gd.horizontalAlignment = SWT.FILL;
-				propertyText.setLayoutData( gd );
 				propertyText.getParent( ).layout( );
 			}
 
