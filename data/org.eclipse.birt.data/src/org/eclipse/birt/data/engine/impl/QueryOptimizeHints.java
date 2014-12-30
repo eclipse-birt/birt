@@ -71,4 +71,9 @@ public class QueryOptimizeHints implements IQueryOptimizeHints
 	{
 		return null;
 	}
+	
+	public Map<String, List<Integer>> getPushedDownDataSetFilters( )
+	{
+		return null;
+	}
 }

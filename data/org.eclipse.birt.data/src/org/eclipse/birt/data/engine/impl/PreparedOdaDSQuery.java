@@ -368,6 +368,22 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 						extDataSet.getResultSetHints( ).addAll( resultSets );
 					}
 					
+					Map<String, List<Integer>> filtersMap = queryOptimizeHints.getPushedDownDataSetFilters( );
+					if ( filtersMap != null
+							&& filtersMap.get( extDataSet.getName( ) ) != null )
+					{
+						List filters = extDataSet.getFilters( );
+						List toBeRemovedFilters = new ArrayList();
+						for ( int i = 0; i < filters.size( ); i++ )
+						{
+							if ( filtersMap.get( extDataSet.getName( ) ).contains( i ) )
+							{
+								toBeRemovedFilters.add( filters.get( i ) );
+							}
+						}
+						filters.removeAll( toBeRemovedFilters );
+					}
+					
 					if( queryOptimizeHints.getUnpushedDownComputedColumnInCombinedQuery( ).size( ) > 0 )
 						extDataSet.getComputedColumns( ).addAll( queryOptimizeHints.getUnpushedDownComputedColumnInCombinedQuery( ) );
 				}
