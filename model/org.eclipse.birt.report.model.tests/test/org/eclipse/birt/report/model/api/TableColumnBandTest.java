@@ -1087,6 +1087,16 @@ public class TableColumnBandTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "n1_golden.xml" ) ); //$NON-NLS-1$
 
+		openDesign( shiftFileName1 );
+		
+		table = (TableHandle) designHandle.findElement( "Table1" ); //$NON-NLS-1$
+		assertNotNull( table );
+		
+		table.shiftColumn( 3, 2 );
+		
+		save( );
+		assertTrue( compareFile( "n1_golden2.rptdesign" ) ); //$NON-NLS-1$
+		
 		openDesign( shiftWithColumnSpan );
 		
 		table = (TableHandle) designHandle.findElement( "Table1" ); //$NON-NLS-1$
@@ -1097,6 +1107,11 @@ public class TableColumnBandTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "rptWithColSpan_golden.rptdesign" ) ); //$NON-NLS-1$
 	}
+	
+	public void testShiftlast( ) throws Exception
+	{
+	}
+
 
 	/**
 	 * Tests the algorithm to shift one column to another in the same table.

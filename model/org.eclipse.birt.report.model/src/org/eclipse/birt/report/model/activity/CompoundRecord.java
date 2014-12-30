@@ -393,8 +393,10 @@ public class CompoundRecord extends ActivityRecord
 		for ( int i = recordList.size( ) - 1; i >= 0; i-- )
 		{
 			ActivityRecord record = recordList.get( i );
-			retList.addAll( record.getPostTasks( ) );
-
+			if( record != null )
+			{
+				retList.addAll( record.getPostTasks( ) );
+			}
 		}
 		return retList;
 	}
