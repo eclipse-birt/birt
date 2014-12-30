@@ -32,18 +32,6 @@ public interface IExtendedItemModel
 	public static final String FILTER_PROP = "filter"; //$NON-NLS-1$
 
 	/**
-	 * The property name of alt text.
-	 */
-
-	public static final String ALT_TEXT_PROP = "altText";//$NON-NLS-1$
-
-	/**
-	 * The property name of alt text id.
-	 */
-
-	public static final String ALT_TEXT_KEY_PROP = "altTextID";//$NON-NLS-1$
-
-	/**
 	 * Name of the property that defines the version of the extended element
 	 * model.
 	 */
