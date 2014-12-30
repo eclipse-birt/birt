@@ -1660,11 +1660,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 			final IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
 			if ( dataSetInterceptor != null )
 			{
-				dataSetInterceptor.preDefineDataSet( sessionContext,
-						dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
+				dataSetInterceptor.preDefineDataSet( dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
 						design,
 						query,
-						this.registeredQueries );
+						this.registeredQueries,
+						sessionContext,
+						dataEngine.getSession( ).getTempDir( ) );
 			}
 		}
 		refactorCubeQueryDefinition( query );

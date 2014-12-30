@@ -31,4 +31,6 @@ public interface IQueryOptimizeHints
 	public Map<String, Set<Integer>> getPositionsInCombinedQuery( );
 	
 	public List<IComputedColumn> getUnpushedDownComputedColumnInCombinedQuery( );
+	
+	public Map<String, List<String>> getCombinedDataSets( );
 }
