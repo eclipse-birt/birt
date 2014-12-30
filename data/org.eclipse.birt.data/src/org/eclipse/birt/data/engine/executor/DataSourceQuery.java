@@ -988,8 +988,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				throw queryCanceller.collectException( );
 		}
 		
-		this.session.getCancelManager( ).deregister( queryCanceller );
-		
 		ResultSet rs = null;
 		
 		if ( design != null )
