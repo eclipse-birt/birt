@@ -249,6 +249,7 @@ public class RowSaveUtil
 			int rowBytes = this.version >= VersionManager.VERSION_2_2_1_3
 					? this.initSave( map ) : this.saveExprValue( map );
 			IOUtil.writeInt( this.rowExprsDos, rowBytes );
+			this.rowExprsDos.flush( );
 		}
 		catch ( IOException e )
 		{
