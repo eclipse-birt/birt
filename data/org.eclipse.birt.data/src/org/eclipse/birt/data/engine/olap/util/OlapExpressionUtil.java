@@ -658,7 +658,7 @@ public class OlapExpressionUtil
 		return cubeAggrDefns.toArray( new CubeNestAggrDefn[0] );
 	}
 
-	private static List getFullLevelsForRunningAggregation( IBinding binding,
+	public static List getFullLevelsForRunningAggregation( IBinding binding,
 			List<IBinding> based ) throws DataException
 	{
 		List<String> referencedBindings = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),

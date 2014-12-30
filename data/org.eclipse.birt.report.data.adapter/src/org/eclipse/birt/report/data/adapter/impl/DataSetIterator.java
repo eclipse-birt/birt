@@ -516,6 +516,15 @@ public class DataSetIterator implements IDatasetIterator
 		
 		/**
 		 * 
+		 * @param type
+		 */
+		public void setType( int type )
+		{
+			this.type = type;
+		}
+		
+		/**
+		 * 
 		 * @return
 		 */
 		public IDataProcessor getDataProcessor()

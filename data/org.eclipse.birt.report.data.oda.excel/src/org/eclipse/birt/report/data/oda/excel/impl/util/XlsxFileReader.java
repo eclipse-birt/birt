@@ -95,10 +95,32 @@ public class XlsxFileReader {
 		}
 	}
 
+	
+	private XMLReader getXMLReader( ) throws SAXException
+	{
+		try
+		{
+			return XMLReaderFactory
+					.createXMLReader( PARSER_CLASS_NAME );
+		}
+		catch ( SAXException e )
+		{
+			try
+			{
+				return (XMLReader) Class.forName( PARSER_CLASS_NAME ).newInstance( );
+			}
+			catch ( Exception e1 )
+			{
+				throw e;
+			}
+		}
+		
+	}
+	
+	
 	private XMLReader fetchSheetParser(StylesTable st, SharedStringsTable sst,
 			XlsxRowCallBack callback, int xlsxRowsToRead) throws SAXException {
-		XMLReader parser = XMLReaderFactory
-				.createXMLReader( PARSER_CLASS_NAME );
+		XMLReader parser = getXMLReader( );
 		ContentHandler handler = new SheetHandler(st, sst, callback, xlsxRowsToRead);
 		parser.setContentHandler(handler);
 		return parser;
@@ -106,8 +128,8 @@ public class XlsxFileReader {
 
 	private XMLReader fetchWorkbookParser(LinkedHashMap<String, String> sheetMap)
 			throws SAXException {
-		XMLReader parser = XMLReaderFactory
-				.createXMLReader( PARSER_CLASS_NAME );
+		
+		XMLReader parser = getXMLReader( );
 		ContentHandler handler = new WorkbookHandler(sheetMap);
 		parser.setContentHandler(handler);
 		return parser;

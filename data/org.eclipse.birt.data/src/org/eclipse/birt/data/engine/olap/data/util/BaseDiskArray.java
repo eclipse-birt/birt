@@ -59,7 +59,7 @@ abstract class BaseDiskArray implements IDiskArray
 		this.buffer = new Object[bufferSize];
 		this.segmentOffsets = new ArrayList<Long>( );
 		this.segmentOffsets.add( Long.valueOf( 0L ) );
-		createRandomAccessFile( );
+//		createRandomAccessFile( );
 		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
 
@@ -102,7 +102,7 @@ abstract class BaseDiskArray implements IDiskArray
 	 */
 	private long getOffset( ) throws IOException
 	{
-		return randomAccessFile.getFilePointer( );
+		return getRandomAccessFile( ).getFilePointer( );
 	}
 
 	/**
@@ -157,7 +157,7 @@ abstract class BaseDiskArray implements IDiskArray
 	private void readObjects( long offset, int readSize )
 			throws IOException
 	{
-		this.randomAccessFile.seek( offset );
+		getRandomAccessFile( ).seek( offset );
 		for ( int i = 0; i < readSize; i++ )
 		{
 			this.buffer[i] = readObject( );
@@ -269,4 +269,16 @@ abstract class BaseDiskArray implements IDiskArray
 		this.segmentOffsets.add( Long.valueOf( 0L ) );
 		createRandomAccessFile( );
 	}
+
+	
+	public BufferedRandomAccessFile getRandomAccessFile( ) throws IOException
+	{
+		if(randomAccessFile == null)
+		{
+			createRandomAccessFile( );
+		}
+		return randomAccessFile;
+	}
+	
+	
 }

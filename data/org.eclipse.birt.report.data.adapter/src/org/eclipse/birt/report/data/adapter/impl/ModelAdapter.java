@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
@@ -418,27 +417,24 @@ public class ModelAdapter implements IModelAdapter
 						this.context.getDataEngineContext( ).getLocale( ) ) );
 				binding.setExportable( handle.allowExport( ) );
 				
+				ExpressionLocation location = el;
 				if ( handle.getElementHandle( ) instanceof ReportItemHandle
 						&& LinkedDataSetUtil.bindToLinkedDataSet( ( (ReportItemHandle) handle.getElementHandle( ) ) ) )
 				{
-					binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
-							.getValue( ),
-							ExpressionLocation.TABLE ) );
+					location = ExpressionLocation.TABLE;
 				}
-				else
-				{
-					binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
-							.getValue( ),
-							ExpressionLocation.CUBE ) );
-				}
-				binding.setDataType( DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 
+				binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
+						.getValue( ),
+						location ) );
 				if ( handle.getFilterExpression( ) != null )
 				{
 					binding.setFilter( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.FILTER_MEMBER )
 						.getValue( ),
-						ExpressionLocation.CUBE ) );
+						location ) );
 				}
+				
+				binding.setDataType( DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 
 				for ( Iterator argItr = handle.argumentsIterator( ); argItr.hasNext( ); )
 				{
@@ -447,7 +443,7 @@ public class ModelAdapter implements IModelAdapter
 					binding.addArgument( aah.getName( ),
 							adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
 									.getValue( ),
-									ExpressionLocation.CUBE ) );
+									location ) );
 				}
 
 			} 

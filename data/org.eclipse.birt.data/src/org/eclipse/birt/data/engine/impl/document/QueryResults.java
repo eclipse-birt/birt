@@ -317,7 +317,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	 * @return
 	 * @throws DataException
 	 */
-	private RDLoad getRDLoad( String subQueryName, String queryResultID ) throws DataException
+	public RDLoad getRDLoad( String subQueryName, String queryResultID ) throws DataException
 	{
 		String baseID = QueryResultIDUtil.get1PartID( queryResultID );
 		if ( baseID == null )

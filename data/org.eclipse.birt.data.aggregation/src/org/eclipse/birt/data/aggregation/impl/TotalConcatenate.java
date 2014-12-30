@@ -74,31 +74,35 @@ public class TotalConcatenate extends AggrFunction
 	 */
 	public IParameterDefn[] getParameterDefn( )
 	{
-		IParameterDefn paramDefn[] = new IParameterDefn[]{
-				new ParameterDefn( Constants.EXPRESSION_NAME,
+		IParameterDefn paramDefn[] = new IParameterDefn[] {
+				new ParameterDefn(
+						Constants.EXPRESSION_NAME,
 						Constants.EXPRESSION_DISPLAY_NAME,
 						false,
 						true,
 						SupportedDataTypes.ANY,
-						Messages.getString( "TotalConcatenate.paramDescription.expression" ) ),
-				new ParameterDefn( Messages.getString( "TotalConcatenate.param.separator" ),
-						Messages.getString( "TotalConcatenate.param.separator" ),
+						Messages.getString("TotalConcatenate.paramDescription.expression")),
+				new ParameterDefn(
+						Constants.SEPARATOR_NAME,
+						Constants.SEPARATOR_DISPLAY_NAME,
 						true,
 						false,
 						SupportedDataTypes.CALCULATABLE,
-						Messages.getString( "TotalConcatenate.paramDescription.separator" ) ),
-				new ParameterDefn( Messages.getString( "TotalConcatenate.param.maxLength" ),
-						Messages.getString( "TotalConcatenate.param.maxLength" ),
+						Messages.getString("TotalConcatenate.paramDescription.separator")),
+				new ParameterDefn(
+						Constants.MAXLENGTH_NAME,
+						Constants.MAXLENGTH__DISPLAY_NAME,
 						true,
 						false,
 						SupportedDataTypes.CALCULATABLE,
-						Messages.getString( "TotalConcatenate.paramDescription.maxLength" ) ),
-				new ParameterDefn( Messages.getString( "TotalConcatenate.param.showAllValues" ),
-						Messages.getString( "TotalConcatenate.param.showAllValues" ),
+						Messages.getString("TotalConcatenate.paramDescription.maxLength")),
+				new ParameterDefn(
+						Constants.SHOWALLVALUES_NAME,
+						Constants.SHOWALLVALUES_DISPLAY_NAME,
 						true,
 						false,
 						SupportedDataTypes.CALCULATABLE,
-						Messages.getString( "TotalConcatenate.paramDescription.showAllValues" ) )
+						Messages.getString("TotalConcatenate.paramDescription.showAllValues"))
 		};
 		return paramDefn;
 	}

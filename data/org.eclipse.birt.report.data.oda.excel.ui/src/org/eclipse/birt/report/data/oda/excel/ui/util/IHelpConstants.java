@@ -19,6 +19,6 @@ public interface IHelpConstants
 			+ "Wizard_ExcelDatasource_ID";//$NON-NLS-1$
 
 	public static final String CONEXT_ID_DATASET_EXCEL = PREFIX
-			+ "Dialog_SelectTableColumn_ID";//$NON-NLS-1$
+			+ "Dialog_SelectExcelColumn_ID";//$NON-NLS-1$
 
 }

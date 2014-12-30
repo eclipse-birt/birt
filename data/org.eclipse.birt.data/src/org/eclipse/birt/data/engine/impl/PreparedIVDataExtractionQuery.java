@@ -20,7 +20,6 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -32,6 +31,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 {
 
+	private static final String DATA_STREAM_POST_FIX = "TabularCursorData";
+	
 	PreparedIVDataExtractionQuery( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, Map appContext, IQueryContextVisitor visitor ) throws DataException
 	{
@@ -46,7 +47,19 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 			IBinding[] bindings = null;
 			if ( this.queryDefn.getSourceQuery( ) instanceof SubqueryLocator )
 			{
-				this.queryResults = engine.getQueryResults( getParentQueryResultsID( (SubqueryLocator) ( queryDefn.getSourceQuery( ) ) ) );
+				IQueryDefinition baseQueryDefn = getBaseQueryDefinition( (SubqueryLocator) ( queryDefn.getSourceQuery( ) ) );
+				// temp solution to get result from tabular cursor stream.
+				if ( engine.getContext( )
+						.getDocReader( )
+						.exists( baseQueryDefn.getQueryResultsID( )
+								+ "/" + DATA_STREAM_POST_FIX ) )
+				{
+					this.queryResults = PreparedQueryUtil.newInstance( engine,
+							baseQueryDefn,
+							this.appContext ).execute( null );
+				}
+				else
+					this.queryResults = engine.getQueryResults( baseQueryDefn.getQueryResultsID( ) );
 				IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
 						.getReportQueryDefn( );
 				if ( queryDefn.getSourceQuery( ) instanceof SubqueryLocator )
@@ -117,13 +130,13 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 	 * @param subqueryLocator
 	 * @return
 	 */
-	private String getParentQueryResultsID( SubqueryLocator subqueryLocator )
+	private IQueryDefinition getBaseQueryDefinition( SubqueryLocator subqueryLocator )
 	{
 		IBaseQueryDefinition baseQueryDefinition = subqueryLocator.getParentQuery( );
-		while ( !( baseQueryDefinition instanceof QueryDefinition ) )
+		while ( !( baseQueryDefinition instanceof IQueryDefinition ) )
 		{
 			baseQueryDefinition = baseQueryDefinition.getParentQuery( );
 		}
-		return ( (QueryDefinition) baseQueryDefinition ).getQueryResultsID( );
+		return ( (IQueryDefinition) baseQueryDefinition );
 	}
 }
