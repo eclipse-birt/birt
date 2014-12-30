@@ -156,14 +156,22 @@ public enum GroupingUnitType implements Enumerator {
 																 * @ordered
 																 */
 	WEEK_OF_MONTH_LITERAL(10, "WeekOfMonth", "WeekOfMonth"), /**
-																 * The '<em><b>Day Of Week</b></em>' literal object.
+																 * The '<em><b>Week Of Year</b></em>' literal object.
 																 * <!-- begin-user-doc -->
 																 * <!-- end-user-doc -->
-																 * @see #DAY_OF_WEEK
+																 * @see #WEEK_OF_YEAR
 																 * @generated
 																 * @ordered
 																 */
-	DAY_OF_WEEK_LITERAL(11, "DayOfWeek", "DayOfWeek"), /**
+	WEEK_OF_YEAR_LITERAL(11, "WeekOfYear", "WeekOfYear"), /**
+															 * The '<em><b>Day Of Week</b></em>' literal object.
+															 * <!-- begin-user-doc -->
+															 * <!-- end-user-doc -->
+															 * @see #DAY_OF_WEEK
+															 * @generated
+															 * @ordered
+															 */
+	DAY_OF_WEEK_LITERAL(12, "DayOfWeek", "DayOfWeek"), /**
 														 * The '<em><b>Day Of Month</b></em>' literal object.
 														 * <!-- begin-user-doc -->
 														 * <!-- end-user-doc -->
@@ -171,7 +179,15 @@ public enum GroupingUnitType implements Enumerator {
 														 * @generated
 														 * @ordered
 														 */
-	DAY_OF_MONTH_LITERAL(12, "DayOfMonth", "DayOfMonth");
+	DAY_OF_MONTH_LITERAL(13, "DayOfMonth", "DayOfMonth"), /**
+															 * The '<em><b>Day Of Year</b></em>' literal object.
+															 * <!-- begin-user-doc -->
+															 * <!-- end-user-doc -->
+															 * @see #DAY_OF_YEAR
+															 * @generated
+															 * @ordered
+															 */
+	DAY_OF_YEAR_LITERAL(14, "DayOfYear", "DayOfYear");
 
 	/**
 	 * The '<em><b>Seconds</b></em>' literal value.
@@ -311,6 +327,21 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int WEEK_OF_MONTH = 10;
 
 	/**
+	 * The '<em><b>Week Of Year</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Week Of Year</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #WEEK_OF_YEAR_LITERAL
+	 * @model name="WeekOfYear"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int WEEK_OF_YEAR = 11;
+
+	/**
 	 * The '<em><b>Day Of Week</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -323,7 +354,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int DAY_OF_WEEK = 11;
+	public static final int DAY_OF_WEEK = 12;
 
 	/**
 	 * The '<em><b>Day Of Month</b></em>' literal value.
@@ -338,7 +369,22 @@ public enum GroupingUnitType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int DAY_OF_MONTH = 12;
+	public static final int DAY_OF_MONTH = 13;
+
+	/**
+	 * The '<em><b>Day Of Year</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Day Of Year</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DAY_OF_YEAR_LITERAL
+	 * @model name="DayOfYear"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DAY_OF_YEAR = 14;
 
 	/**
 	 * An array of all the '<em><b>Grouping Unit Type</b></em>' enumerators.
@@ -357,8 +403,10 @@ public enum GroupingUnitType implements Enumerator {
 			STRING_LITERAL,
 			STRING_PREFIX_LITERAL,
 			WEEK_OF_MONTH_LITERAL,
+			WEEK_OF_YEAR_LITERAL,
 			DAY_OF_WEEK_LITERAL,
 			DAY_OF_MONTH_LITERAL,
+			DAY_OF_YEAR_LITERAL,
 	};
 
 	/**
@@ -436,10 +484,14 @@ public enum GroupingUnitType implements Enumerator {
 				return STRING_PREFIX_LITERAL;
 			case WEEK_OF_MONTH :
 				return WEEK_OF_MONTH_LITERAL;
+			case WEEK_OF_YEAR :
+				return WEEK_OF_YEAR_LITERAL;
 			case DAY_OF_WEEK :
 				return DAY_OF_WEEK_LITERAL;
 			case DAY_OF_MONTH :
 				return DAY_OF_MONTH_LITERAL;
+			case DAY_OF_YEAR :
+				return DAY_OF_YEAR_LITERAL;
 		}
 		return null;
 	}
