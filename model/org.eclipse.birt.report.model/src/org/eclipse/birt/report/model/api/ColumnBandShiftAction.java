@@ -191,7 +191,8 @@ class ColumnBandShiftAction extends ColumnBandAction
 				{
 					CellContextInfo cell = (CellContextInfo)iter.next( );
 					if ( cell.getSlotId( ) == invalidCell.getSlotId( )
-							&& cell.getRowIndex( ) == invalidCell.getRowIndex( ) )
+							&& cell.getRowIndex( ) == invalidCell.getRowIndex( )
+							&& cell.getGroupId( ) == invalidCell.getGroupId( ) )
 						iter.remove( );
 				}
 			}			
@@ -344,7 +345,8 @@ class ColumnBandShiftAction extends ColumnBandAction
 		{
 			CellContextInfo cell = (CellContextInfo) obj;
 			if ( cell.getSlotId( ) == srcCell.getSlotId( )
-					&& cell.getRowIndex( ) == srcCell.getRowIndex( ) )
+					&& cell.getRowIndex( ) == srcCell.getRowIndex( )
+					&& cell.getGroupId( ) == srcCell.getGroupId( ) )
 				return cell;
 		}
 		return null;

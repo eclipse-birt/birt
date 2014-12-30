@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
@@ -135,7 +137,7 @@ public class ListItemParseTest extends ParserTestCase
 		
 		assertEquals( "Sect", listHandle.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", listHandle.getLanguage( ) ); //$NON-NLS-1$
-		assertEquals( "Alt Text", listHandle.getAltText( ) ); //$NON-NLS-1$
+		assertEquals( "Alt Text", listHandle.getAltTextExpression( ).getStringExpression( ) ); //$NON-NLS-1$
 
 		assertEquals( 120, listHandle.getPageBreakInterval( ) );
 
@@ -284,7 +286,7 @@ public class ListItemParseTest extends ParserTestCase
 		
 		listHandle.setTagType( "Sect" ); //$NON-NLS-1$
 		listHandle.setLanguage( "English" ); //$NON-NLS-1$
-		listHandle.setAltText( "Alt Text" ); //$NON-NLS-1$
+		listHandle.setAltTextExpression( new Expression("Alt Text", ExpressionType.CONSTANT) ); //$NON-NLS-1$
 
 		GroupHandle groupHandle = (GroupHandle) listHandle.getGroups( ).get( 0 );
 		groupHandle.setGroupStart( "2006/01/01" ); //$NON-NLS-1$

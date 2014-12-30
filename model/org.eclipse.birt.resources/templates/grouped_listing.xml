@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cheatsheet title="Creation of a Grouped Listing Report">
-  <intro href="/org.eclipse.birt.doc/birt/sg-SortingAndGroupingData.html">
+  <intro>
     <description>This tutorial helps you create a grouped listing inside a BIRT report
     </description>
   </intro>
-  <item href="/org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForDatabaseOrOtherJDBCDataSource.html"
+  <item
   		title="Create a DataSource" skip="true">
      <description>Open the Data Explorer View. Right click on Data Sources and choose "New Data Source" </description>
      <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSourceAction"
      pluginId="org.eclipse.birt.report.designer.ui.data"/>
   </item>
-  <item href="/org.eclipse.birt.doc/birt/ds-HowToCreateASQLQueryToRetrieveDataFromJDBCDataSource.html"
+  <item
   		title="Create a DataSet" skip="true">
      <description>Open the Data Explorer View. Right click on Data Sets and choose "New Data Set" </description>
      <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSetAction"
      pluginId="org.eclipse.birt.report.designer.ui.data"/>
   </item>
-  <item href="/org.eclipse.birt.doc/birt/lay-LayingOutAReport.html"
+  <item
   		title="Bind the data to the table" skip="true">
      <description>Drag the fields you need in the table from the DataSet in the Data Explorer view to the table in the editor area</description>
   </item>
-  <item href="/org.eclipse.birt.doc/birt/sg-TutT5GroupCustomerDataByCreditLimit.html"
+  <item
   		title="Edit the group" skip="true">
   	 <description>Select the listing table, right click and choose "Edit Group".</description>
   	 <action class="org.eclipse.birt.report.designer.ui.actions.cheatsheets.TemplateEditGroupAction"
