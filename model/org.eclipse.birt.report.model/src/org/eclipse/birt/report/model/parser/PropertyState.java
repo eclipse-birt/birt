@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -326,6 +327,11 @@ class PropertyState extends AbstractPropertyState
 			// related characters.
 			value = deEscape( (String) value );
 			setProperty( name, value );
+		}
+		// backward compatible
+		else if ( IReportItemModel.ALTTEXT_PROP.equals( name ) )
+		{
+			setProperty( name, new Expression( value, ExpressionType.CONSTANT ) );
 		}
 		else
 		{
