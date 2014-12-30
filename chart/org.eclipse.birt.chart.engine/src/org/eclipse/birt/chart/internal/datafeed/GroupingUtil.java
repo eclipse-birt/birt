@@ -53,22 +53,27 @@ public final class GroupingUtil
 		{
 			switch ( groupingUnitType.getValue( ) )
 			{
-				case GroupingUnitType.SECONDS :
-					return Calendar.SECOND;
-				case GroupingUnitType.MINUTES :
-					return Calendar.MINUTE;
-				case GroupingUnitType.HOURS :
-					return Calendar.HOUR_OF_DAY;
-				case GroupingUnitType.DAYS :
-					return Calendar.DATE;
-				case GroupingUnitType.WEEKS :
-					return Calendar.WEEK_OF_YEAR;
-				case GroupingUnitType.MONTHS :
-					return Calendar.MONTH;
-				case GroupingUnitType.YEARS :
-					return Calendar.YEAR;
-				case GroupingUnitType.QUARTERS :
-					return GroupingUnitType.QUARTERS;
+				case GroupingUnitType.SECONDS : 		// 0
+					return Calendar.SECOND; 				// 13
+				case GroupingUnitType.MINUTES : 		// 1
+					return Calendar.MINUTE; 				// 12
+				case GroupingUnitType.HOURS : 			// 2
+					return Calendar.HOUR_OF_DAY; 			// 11
+				case GroupingUnitType.DAYS : 			// 3
+					return Calendar.DATE; 					// 5
+				case GroupingUnitType.WEEKS :	 		// 4
+					return Calendar.WEEK_OF_YEAR; 			// 3
+				case GroupingUnitType.MONTHS : 			// 5
+					return Calendar.MONTH; 					// 2
+				case GroupingUnitType.QUARTERS : 		// 6
+					return GroupingUnitType.QUARTERS; 		// 6
+				case GroupingUnitType.YEARS : 			// 7
+					return Calendar.YEAR; 					// 1
+				case GroupingUnitType.WEEK_OF_MONTH: 	// 10
+					return Calendar.WEEK_OF_YEAR; 			// 3
+				case GroupingUnitType.DAY_OF_WEEK: 		// 11
+				case GroupingUnitType.DAY_OF_MONTH: 	// 12
+					return Calendar.DATE; 					// 5
 			}
 		}
 
