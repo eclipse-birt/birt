@@ -309,7 +309,8 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 	
 	private static class GeneralDataSourceRuntime extends DataSourceRuntime
 	{
-
+		private Map<String, String> properties = new HashMap<String, String>( );
+		
 		protected GeneralDataSourceRuntime(
 				IBaseDataSourceDesign dataSourceDesign, Scriptable sharedScope,
 				ScriptContext cx )
@@ -319,27 +320,22 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 
 		public String getExtensionID( )
 		{
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		public String getExtensionProperty( String name )
 		{
-			// TODO Auto-generated method stub
-			return null;
+			return properties.get( name );
 		}
 
 		public void setExtensionProperty( String name, String value )
 		{
-			// TODO Auto-generated method stub
-			
+			properties.put( name, value );			
 		}
 
 		public Map getAllExtensionProperties( )
 		{
-			// TODO Auto-generated method stub
-			return new HashMap( );
-		}
-		
+			return properties;
+		}		
 	}
 }
