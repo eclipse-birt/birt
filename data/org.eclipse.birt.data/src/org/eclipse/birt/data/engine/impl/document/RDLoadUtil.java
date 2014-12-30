@@ -38,14 +38,8 @@ public class RDLoadUtil
 	{
 
 		int gNumber = 0;
-		List<RAInputStream> groupStreams = streamManager.getInStreams( DataEngineContext.PROGRESSIVE_VIEWING_GROUP_STREAM,
-				streamPos,
-				streamScope );
-		if ( !groupStreams.isEmpty( ) )
-		{
-			gNumber = groupStreams.size( );
-		}
-		else if ( streamManager.hasInStream( DataEngineContext.GROUP_INFO_STREAM,
+		List<RAInputStream> groupStreams = null;
+		if ( streamManager.hasInStream( DataEngineContext.GROUP_INFO_STREAM,
 					streamPos,
 					streamScope ))
 		{
@@ -86,6 +80,17 @@ public class RDLoadUtil
 				}
 			}
 		}
+		else
+		{
+			groupStreams = streamManager.getInStreams( DataEngineContext.PROGRESSIVE_VIEWING_GROUP_STREAM,
+					streamPos,
+					streamScope );
+			if ( !groupStreams.isEmpty( ) )
+			{
+				gNumber = groupStreams.size( );
+			}
+		}
+		
 		return new RDGroupUtil( tempDir,
 				gNumber,
 				groupStreams );

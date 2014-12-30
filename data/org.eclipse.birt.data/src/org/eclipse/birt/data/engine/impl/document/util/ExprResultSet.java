@@ -108,7 +108,13 @@ public class ExprResultSet implements IExprResultSet
 			aggrStreams = streamManager.getInStreams( DataEngineContext.AGGR_VALUE_STREAM,
 						StreamManager.ROOT_STREAM,
 						StreamManager.SELF_SCOPE ); 
-			if((!aggrStreams.isEmpty( )) || streamManager.hasInStream( DataEngineContext.COMBINED_AGGR_VALUE_STREAM, StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE ))
+			if ( streamManager.hasInStream( DataEngineContext.AGGR_INDEX_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE ) )
+			{
+				this.aggrUtil = new RDAggrUtil( streamManager, qd );
+			}
+			else if((!aggrStreams.isEmpty( )) || streamManager.hasInStream( DataEngineContext.COMBINED_AGGR_VALUE_STREAM, StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE ))
 			{
 				aggrIndexStreams = streamManager.getInStreams( DataEngineContext.AGGR_INDEX_STREAM,
 						StreamManager.ROOT_STREAM,
@@ -127,13 +133,6 @@ public class ExprResultSet implements IExprResultSet
 				
 				this.aggrUtil = new ProgressiveViewingRDAggrUtil( combinedAggrIndex, combinedAggrValue, aggrIndexStreams, aggrStreams );
 			}
-			else if ( streamManager.hasInStream( DataEngineContext.AGGR_INDEX_STREAM,
-					StreamManager.ROOT_STREAM,
-					StreamManager.SELF_SCOPE ) )
-			{
-				this.aggrUtil = new RDAggrUtil( streamManager, qd );
-			}
-			
 		}
 		if ( this.isBasedOnSecondRD == false )
 		{
