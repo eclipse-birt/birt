@@ -80,7 +80,7 @@ public class Image extends ReportItem implements IImage
 	@Deprecated
 	public void setAltText( String altText ) throws SemanticException
 	{
-		setProperty( IReportItemModel.ALT_TEXT_PROP, new Expression( altText,
+		setProperty( IReportItemModel.ALTTEXT_PROP, new Expression( altText,
 				ExpressionType.CONSTANT ) );
 	}
 
@@ -104,7 +104,7 @@ public class Image extends ReportItem implements IImage
 	 */
 	public void setAltTextKey( String altTextKey ) throws SemanticException
 	{
-		setProperty( IReportItemModel.ALT_TEXT_KEY_PROP, altTextKey );
+		setProperty( IReportItemModel.ALTTEXT_KEY_PROP, altTextKey );
 	}
 
 	/*

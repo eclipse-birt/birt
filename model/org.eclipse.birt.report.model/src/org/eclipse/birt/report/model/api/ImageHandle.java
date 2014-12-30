@@ -131,7 +131,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	@Deprecated
 	public void setAltText( String altText ) throws SemanticException
 	{
-		setProperty( IReportItemModel.ALT_TEXT_PROP, new Expression( altText,
+		setProperty( IReportItemModel.ALTTEXT_PROP, new Expression( altText,
 				ExpressionType.CONSTANT ) );
 	}
 

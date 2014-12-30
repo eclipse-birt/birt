@@ -1415,7 +1415,7 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 */
 	public ExpressionHandle getAltTextExpression( )
 	{
-		return getExpressionProperty( ALT_TEXT_PROP );
+		return getExpressionProperty( ALTTEXT_PROP );
 	}
 
 	/**
@@ -1429,7 +1429,7 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 */
 	public void setAltTextExpression( Expression altText ) throws SemanticException
 	{
-		setExpressionProperty( ALT_TEXT_PROP, altText );
+		setExpressionProperty( ALTTEXT_PROP, altText );
 	}
 	
 	/**
@@ -1493,7 +1493,7 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 
 	public String getAltTextKey( )
 	{
-		return getStringProperty( IReportItemModel.ALT_TEXT_KEY_PROP );
+		return getStringProperty( IReportItemModel.ALTTEXT_KEY_PROP );
 	}
 
 	/**
@@ -1506,6 +1506,6 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 
 	public void setAltTextKey( String altTextKey ) throws SemanticException
 	{
-		setProperty( IReportItemModel.ALT_TEXT_KEY_PROP, altTextKey );
+		setProperty( IReportItemModel.ALTTEXT_KEY_PROP, altTextKey );
 	}
 }

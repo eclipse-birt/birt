@@ -871,7 +871,7 @@ public class EngineIRVisitor extends DesignVisitor
 	private void handleAltText( ReportItemHandle handle, ReportItemDesign design )
 	{
 		ExpressionHandle altTextExpr = handle
-				.getExpressionProperty( IReportItemModel.ALT_TEXT_PROP );
+				.getExpressionProperty( IReportItemModel.ALTTEXT_PROP );
 		design.setAltText( createExpression( altTextExpr ) );
 		design.setAltTextKey( handle.getAltTextKey( ) );
 	}
