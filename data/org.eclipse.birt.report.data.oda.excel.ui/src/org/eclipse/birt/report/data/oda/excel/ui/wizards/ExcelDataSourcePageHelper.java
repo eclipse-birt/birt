@@ -75,14 +75,13 @@ public class ExcelDataSourcePageHelper
 	private static final Integer SELECT_RELATIVE_PATH = 1;
 	private static final Integer SELECT_ABSOLUTE_PATH = 2;
 
-	private static final String ALL_XLSX_EXTENSION = "*.xlsx"; //$NON-NLS-1$
-	private static final String ALL_XLS_EXTENSION = "*.xls"; //$NON-NLS-1$
-	private static final String ALL_EXTENSION = "*.*";
+	private static final String ALL_XLS_EXTENSION = "*.xls;*.xlsx"; //$NON-NLS-1$
+	private static final String ALL_EXTENSION = "*.*"; //$NON-NLS-1$
 
 	private ResourceIdentifiers ri;
 
 	private static final String[] fileExtensions = new String[]{
-			ALL_XLS_EXTENSION, ALL_XLSX_EXTENSION, ALL_EXTENSION
+			ALL_XLS_EXTENSION, ALL_EXTENSION
 	};
 
 	public ExcelDataSourcePageHelper( ExcelDataSourceWizardPage page )
