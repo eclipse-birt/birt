@@ -28,6 +28,7 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ICloseable;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -50,6 +51,7 @@ import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
+import org.eclipse.birt.data.engine.impl.IQueryOptimizeHints;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
@@ -505,6 +507,27 @@ public class SimpleResultSet implements IResultIterator
 		
 	}
 
+	private List<IBinding> getRequestColumnMap( )
+	{
+		IQueryOptimizeHints hints = null;
+		
+		if ( handler.getAppContext( ) != null )
+		{
+			hints = (IQueryOptimizeHints) handler.getAppContext( )
+					.get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT );
+		}
+		if ( hints != null )
+		{
+			return null;
+		}
+		else
+		{
+			return ( this.query instanceof IQueryDefinition )
+					&& ( (IQueryDefinition) this.query ).needAutoBinding( )
+					? null : this.handler.getAllColumnBindings( );
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper, boolean)
@@ -525,8 +548,7 @@ public class SimpleResultSet implements IResultIterator
 			if ( streamsWrapper.getStreamForResultClass( ) != null )
 			{
 				( (ResultClass) populateResultClass( getResultClass( ) ) ).doSave( streamsWrapper.getStreamForResultClass( ),
-						( this.query instanceof IQueryDefinition && ( (IQueryDefinition) this.query ).needAutoBinding( ) )
-								? null : this.handler.getAllColumnBindings( ),
+						getRequestColumnMap( ),
 						streamsWrapper.getStreamManager( ).getVersion( ) );
 				streamsWrapper.getStreamForResultClass( ).close( );
 			}

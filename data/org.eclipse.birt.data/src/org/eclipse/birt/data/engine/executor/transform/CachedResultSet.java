@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -33,6 +34,7 @@ import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
+import org.eclipse.birt.data.engine.impl.IQueryOptimizeHints;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
@@ -288,6 +290,28 @@ public class CachedResultSet implements IResultIterator
 				.getGroupInformationUtil( )
 				.getCurrentGroupInfo( groupLevel );
 	}
+	
+	private List<IBinding> getRequestColumnMap( )
+	{
+		IQueryOptimizeHints hints = null;
+		if ( resultSetPopulator.getEventHandler( ).getAppContext( ) != null )
+		{
+			hints = (IQueryOptimizeHints) resultSetPopulator.getEventHandler( )
+					.getAppContext( )
+					.get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT );
+		}
+		if ( hints != null )
+		{
+			return null;
+		}
+		else
+		{
+			return ( this.resultSetPopulator.getQuery( ).getQueryDefinition( ) != null && ( (IQueryDefinition) this.resultSetPopulator.getQuery( )
+					.getQueryDefinition( ) ).needAutoBinding( ) ) ? null
+					: resultSetPopulator.getEventHandler( )
+							.getAllColumnBindings( );
+		}
+	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper,
@@ -310,10 +334,7 @@ public class CachedResultSet implements IResultIterator
 		{
 			//If autobinding is set, all the data set columns should be saved.
 			( (ResultClass) populateResultClass( this.resultSetPopulator.getResultSetMetadata( ) ) ).doSave( streamsWrapper.getStreamForResultClass( ),
-					( this.resultSetPopulator.getQuery( ).getQueryDefinition( ) != null && ( (IQueryDefinition) this.resultSetPopulator.getQuery( )
-							.getQueryDefinition( ) ).needAutoBinding( ) )
-							? null : resultSetPopulator.getEventHandler( )
-									.getAllColumnBindings( ),
+					getRequestColumnMap( ),
 					streamsWrapper.getStreamManager( ).getVersion( ) );
 			try
 			{
