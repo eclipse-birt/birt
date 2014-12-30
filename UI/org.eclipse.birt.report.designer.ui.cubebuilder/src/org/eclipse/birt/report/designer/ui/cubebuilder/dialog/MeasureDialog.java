@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeACLExpressio
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeMeasureExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.LinkToCubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
@@ -52,7 +53,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -72,7 +72,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.ibm.icu.util.ULocale;
 
-public class MeasureDialog extends TitleAreaDialog
+public class MeasureDialog extends BaseTitleAreaDialog
 {
 
 	private boolean isEdit = false;

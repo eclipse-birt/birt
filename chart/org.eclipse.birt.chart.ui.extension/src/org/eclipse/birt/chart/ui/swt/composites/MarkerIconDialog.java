@@ -115,6 +115,7 @@ public class MarkerIconDialog extends TrayDialog
 	public MarkerIconDialog( Shell parent, Fill fill, ChartWizardContext context )
 	{
 		super( parent );
+		setHelpAvailable( false );
 		
 		icon = null;
 

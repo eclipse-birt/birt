@@ -1159,15 +1159,16 @@ public class ChartUIUtil
 	 */
 	public static void bindHelp( Control control, String contextId )
 	{
-		try
-		{
-			IWorkbench workbench = PlatformUI.getWorkbench( );
-			workbench.getHelpSystem( ).setHelp( control.getShell( ), contextId );
-		}
-		catch ( RuntimeException e )
-		{
-			// Do nothing since there's no workbench
-		}
+		// disable help
+		// try
+		// {
+		// IWorkbench workbench = PlatformUI.getWorkbench( );
+		// workbench.getHelpSystem( ).setHelp( control.getShell( ), contextId );
+		// }
+		// catch ( RuntimeException e )
+		// {
+		// // Do nothing since there's no workbench
+		// }
 	}
 
 	/**

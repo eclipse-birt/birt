@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.eclipse.birt.report.designer.internal.ui.actions.ResourceFileFolderSelectionAction;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseElementTreeSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
@@ -54,14 +55,13 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 
 /**
  * A dialog to select resource folder files or folder.
  */
 
 public class ResourceFileFolderSelectionDialog extends
-		ElementTreeSelectionDialog
+		BaseElementTreeSelectionDialog
 {
 
 	private File rootFile;

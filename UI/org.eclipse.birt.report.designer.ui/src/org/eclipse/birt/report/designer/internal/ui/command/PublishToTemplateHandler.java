@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.command;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.PublishTemplateWizard;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -36,7 +37,7 @@ public class PublishToTemplateHandler extends SelectionHandler
 		boolean retBoolean = true;
 		super.execute( event );
 
-		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+		WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
 				new PublishTemplateWizard( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 						.getReportDesignHandle( ) ) );
 		dialog.setPageSize( 500, 250 );

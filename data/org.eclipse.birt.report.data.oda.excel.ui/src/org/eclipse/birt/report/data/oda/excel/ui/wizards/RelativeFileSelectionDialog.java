@@ -56,7 +56,8 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 	public RelativeFileSelectionDialog( Shell parent, File rootFolder,String[] extensions )
 	{
 		super( parent, new LabelProvider( ), new ContentProvider( extensions ) );
-
+		setHelpAvailable( false );
+		
 		assert rootFolder != null;
 
 		this.setValidator( new SelectionValidator( ) );

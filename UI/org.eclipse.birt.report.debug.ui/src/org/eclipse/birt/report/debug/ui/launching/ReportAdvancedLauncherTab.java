@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;
 import org.eclipse.birt.report.debug.internal.ui.launcher.util.ReportLauncherUtils;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.resources.IProject;
@@ -55,7 +56,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * ReportAdvancedLauncherTab
@@ -242,7 +242,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		hookListeners( );
 		setControl( composite );
 		Dialog.applyDialogFont( composite );
-		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( composite,
+		UIUtil.bindHelp( composite,
 				"org.eclipse.pde.doc.user.launcher_advanced" ); //$NON-NLS-1$
 	}
 

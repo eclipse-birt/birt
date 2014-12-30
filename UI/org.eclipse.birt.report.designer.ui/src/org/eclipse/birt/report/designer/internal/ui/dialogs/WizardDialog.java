@@ -23,10 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * A dialog to show a wizard.
- * 
- *  
  */
-
 public class WizardDialog extends org.eclipse.jface.wizard.WizardDialog
 {
 
@@ -41,6 +38,7 @@ public class WizardDialog extends org.eclipse.jface.wizard.WizardDialog
 	public WizardDialog( Shell parentShell, AbstractWizard newWizard )
 	{
 		super( parentShell, newWizard );
+		setHelpAvailable( false );
 		setBlockOnOpen( true );
 		setShellStyle( getShellStyle( ) ^ SWT.RESIZE );
 	}

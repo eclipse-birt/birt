@@ -42,7 +42,8 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 	protected PropertyHandleInputDialog( Object structureOrHandle )
 	{
 		super( PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( ) );
-
+		setHelpAvailable( false );
+		
 		this.structureOrHandle = structureOrHandle;
 	}
 

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dialog.PublishResourceWizard;
@@ -73,7 +74,7 @@ public class AddResourceAction extends ResourceAction
 		}
 
 		final PublishResourceWizard publishLibrary = new PublishResourceWizard( container.getAbsolutePath( ) );
-		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+		WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
 				publishLibrary ) {
 
 			@Override

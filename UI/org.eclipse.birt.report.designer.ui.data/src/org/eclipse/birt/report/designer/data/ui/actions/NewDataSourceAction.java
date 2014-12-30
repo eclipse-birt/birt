@@ -15,6 +15,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.data.ui.datasource.DefaultDataSourceWizard;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -119,7 +120,7 @@ public class NewDataSourceAction extends Action implements UpdateAction
 		DefaultDataSourceWizard wizard = new DefaultDataSourceWizard( );
 		String wizardTitle = Messages.getString( "datasource.new" );//$NON-NLS-1$
 		wizard.setWindowTitle( wizardTitle );
-		WizardDialog dialog = new WizardDialog( PlatformUI.getWorkbench( )
+		WizardDialog dialog = new BaseWizardDialog( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), wizard );
 

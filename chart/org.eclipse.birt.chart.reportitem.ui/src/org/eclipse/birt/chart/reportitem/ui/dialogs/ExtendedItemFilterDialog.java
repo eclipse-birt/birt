@@ -21,8 +21,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Control;
  * The class is responsible to set filter conditions.
  * 
  */
-public class ExtendedItemFilterDialog extends TrayDialog
+public class ExtendedItemFilterDialog extends BaseDialog
 {
 
 	/** The report item handle. */

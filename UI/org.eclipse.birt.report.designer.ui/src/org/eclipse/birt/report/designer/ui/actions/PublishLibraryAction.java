@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.actions;
 import java.io.File;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.PublishLibraryWizard;
@@ -117,7 +118,7 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 					fileName,
 					ReportPlugin.getDefault( ).getResourceFolder( ) );
 
-			WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+			WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
 					publishLibrary );
 
 			dialog.setPageSize( 500, 250 );

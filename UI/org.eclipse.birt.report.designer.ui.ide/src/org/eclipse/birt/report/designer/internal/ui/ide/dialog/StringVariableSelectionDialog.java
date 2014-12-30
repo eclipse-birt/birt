@@ -55,6 +55,7 @@ public class StringVariableSelectionDialog extends ElementListSelectionDialog
 	public StringVariableSelectionDialog( Shell parent )
 	{
 		super( parent, new StringVariableLabelProvider( ) );
+		setHelpAvailable( false );
 		setShellStyle( getShellStyle( ) | SWT.RESIZE );
 		setTitle( TITLE );
 		setMessage( MESSAGE );

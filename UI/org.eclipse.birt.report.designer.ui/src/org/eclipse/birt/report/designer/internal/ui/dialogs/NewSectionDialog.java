@@ -62,7 +62,8 @@ public class NewSectionDialog extends SelectionDialog
 	public NewSectionDialog( Shell parent )
 	{
 		super( parent );
-		setTitle( TITLE ); //$NON-NLS-1$
+		setHelpAvailable( false );
+		setTitle( TITLE );
 	}
 
 	/**
