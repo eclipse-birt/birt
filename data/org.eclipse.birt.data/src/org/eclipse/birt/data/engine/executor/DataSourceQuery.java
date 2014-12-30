@@ -17,12 +17,10 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -978,17 +976,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		
 		QueryContextVisitorUtil.populateEffectiveQueryText( qcv,
 				odaStatement.getEffectiveQueryText( ) );
-		
-		Set obj = (Set) eventHandler.getAppContext( )
-				.get( "org.eclipse.birt.data.engine.internal.dataSetQueryContextVisitor" );
-		if ( obj == null )
-		{
-			obj = new HashSet( );
-			eventHandler.getAppContext( )
-					.put( "org.eclipse.birt.data.engine.internal.dataSetQueryContextVisitor",
-							obj );
-		}
-		obj.add( qcv );
 		
 		if ( queryCanceller.collectException( ) != null )
 		{
