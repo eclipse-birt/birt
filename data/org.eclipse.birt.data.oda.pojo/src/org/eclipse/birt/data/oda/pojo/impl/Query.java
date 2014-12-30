@@ -193,8 +193,9 @@ public class Query implements IQuery
 		URLParser up = new URLParser( appContext );
 		URL[] urls = up.parse( pojoDataSetClassPath );
 		logger.log( Level.INFO, "URLs from data set class path: [" + Arrays.toString( urls ) + "]" ); //$NON-NLS-1$ //$NON-NLS-2$
-		return new URLClassLoader( urls, Activator.class.getClassLoader( ) );
-    }
+		URLClassLoader loader = ClassLoaderProvider.getInstance( ).getClassLoader( urls );		
+		return loader;
+	}
     
     @SuppressWarnings("unchecked")
 	private IPojoDataSet getPojoDataSetFromAppContext( ) throws OdaException
