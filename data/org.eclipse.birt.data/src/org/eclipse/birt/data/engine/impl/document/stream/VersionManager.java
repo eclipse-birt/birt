@@ -96,6 +96,9 @@ public class VersionManager
 	//Add Columnized Storage Support
 	public final static int VERSION_4_2_2 = 300;
 
+	//Materialize nested aggregation for xtab query
+	public final static int VERSION_4_2_3 = 310;
+	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -238,6 +241,6 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_4_2_2;
+		return VERSION_4_2_3;
 	}
 }

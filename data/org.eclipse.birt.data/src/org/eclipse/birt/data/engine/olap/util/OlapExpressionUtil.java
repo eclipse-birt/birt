@@ -414,6 +414,18 @@ public class OlapExpressionUtil
 			return true;
 		else if ( expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )// data binding
 		{
+			List result;
+			try
+			{
+				result = ExpressionUtil.extractColumnExpressions( expr, "data" );
+				if ( result.size( ) > 1 )
+				{
+					return false;
+				}
+			}
+			catch ( BirtException e )
+			{
+			}
 			String bindingName = getBindingName( expr );
 			for ( IBinding binding : bindings )
 			{
