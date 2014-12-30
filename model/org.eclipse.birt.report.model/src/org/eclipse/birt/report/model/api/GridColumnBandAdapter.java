@@ -146,4 +146,10 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 		return list;
 	}
 
+	@Override
+	protected boolean isDroppingCell( CellContextInfo cell )
+	{
+		return false;
+	}
+
 }
