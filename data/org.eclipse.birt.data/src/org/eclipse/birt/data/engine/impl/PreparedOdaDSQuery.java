@@ -363,6 +363,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 					List<IColumnDefinition> resultSets = queryOptimizeHints.getResultSetsForCombinedQuery( );
 					if ( resultSets != null && resultSets.size( ) > 0 )
 					{
+						extDataSet.getResultSetHints( ).clear( );
 						extDataSet.getResultSetHints( ).addAll( resultSets );
 					}
 				}
