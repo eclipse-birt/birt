@@ -277,7 +277,12 @@ public interface IReportContext
 	/**
 	 * cancel the current engine task
 	 */
-	void cancel();
+	void cancel( );
+	
+	/**
+	 * cancel the current engine task
+	 */
+	void cancel( String reason );
 	
 	/**
 	 * check if the report document generation is finished. It should be used at render time.

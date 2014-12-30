@@ -73,6 +73,11 @@ public class DataExtractionTask implements IDataExtractionTask
 	{
 		task.cancel( signal );
 	}
+	
+	public void cancelBy( String reason )
+	{
+		task.cancelBy( reason );
+	}
 
 	public void close( )
 	{
