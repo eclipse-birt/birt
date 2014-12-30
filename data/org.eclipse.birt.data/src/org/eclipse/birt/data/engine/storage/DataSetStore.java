@@ -49,4 +49,10 @@ public class DataSetStore
 	{
 		return null;
 	}
+	
+	public static boolean isDataMartStore( Map<?, ?> appContext,
+			DataEngineSession session ) throws DataException
+	{
+		return false;
+	}
 }

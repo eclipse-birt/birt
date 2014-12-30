@@ -34,7 +34,6 @@ import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
-import org.eclipse.birt.data.engine.impl.IQueryOptimizeHints;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
@@ -293,24 +292,21 @@ public class CachedResultSet implements IResultIterator
 	
 	private List<IBinding> getRequestColumnMap( )
 	{
-		IQueryOptimizeHints hints = null;
-		if ( resultSetPopulator.getEventHandler( ).getAppContext( ) != null )
+		try
 		{
-			hints = (IQueryOptimizeHints) resultSetPopulator.getEventHandler( )
-					.getAppContext( )
-					.get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT );
+			if ( DataSetStore.isDataMartStore( this.resultSetPopulator.getEventHandler( )
+					.getAppContext( ),
+					this.resultSetPopulator.getSession( ) ) )
+			{
+				return null;
+			}
 		}
-		if ( hints != null )
+		catch ( DataException e )
 		{
-			return null;
 		}
-		else
-		{
-			return ( this.resultSetPopulator.getQuery( ).getQueryDefinition( ) != null && ( (IQueryDefinition) this.resultSetPopulator.getQuery( )
-					.getQueryDefinition( ) ).needAutoBinding( ) ) ? null
-					: resultSetPopulator.getEventHandler( )
-							.getAllColumnBindings( );
-		}
+		return ( this.resultSetPopulator.getQuery( ).getQueryDefinition( ) != null && ( (IQueryDefinition) this.resultSetPopulator.getQuery( )
+				.getQueryDefinition( ) ).needAutoBinding( ) ) ? null
+				: resultSetPopulator.getEventHandler( ).getAllColumnBindings( );
 	}
 
 	/*
