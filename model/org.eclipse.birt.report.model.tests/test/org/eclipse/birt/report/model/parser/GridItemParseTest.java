@@ -18,6 +18,8 @@ import org.eclipse.birt.report.model.api.ColorHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -196,7 +198,7 @@ public class GridItemParseTest extends ParserTestCase
 		
 		assertEquals( "Cell Role", cell.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", cell.getLanguage( ) ); //$NON-NLS-1$
-		assertEquals( "Alt Text", cell.getAltText( ) ); //$NON-NLS-1$
+		assertEquals( "Alt Text", cell.getAltTextExpression( ).getStringExpression( ) ); //$NON-NLS-1$
 
 		SlotHandle content = cell.getContent( );
 		LabelHandle label = (LabelHandle) content.get( 0 );
@@ -320,7 +322,7 @@ public class GridItemParseTest extends ParserTestCase
 		
 		cell.setTagType( "Cell Role" ); //$NON-NLS-1$
 		cell.setLanguage( "English" ); //$NON-NLS-1$
-		cell.setAltText( "Alt Text" ); //$NON-NLS-1$		l
+		cell.setAltTextExpression( new Expression("Alt Text", ExpressionType.CONSTANT) ); //$NON-NLS-1$
 
 		ColorHandle colorHandle = cell.getDiagonalColor( );
 		colorHandle.setStringValue( ColorPropertyType.YELLOW ); //$NON-NLS-1$
