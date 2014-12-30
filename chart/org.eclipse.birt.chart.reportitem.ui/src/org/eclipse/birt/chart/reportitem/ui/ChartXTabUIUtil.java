@@ -112,8 +112,8 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 			return true;
 		}
 		
-		ExpressionCodec exprCodec = ChartModelHelper.instance( )
-				.createExpressionCodec( );
+		ExpressionCodec exprCodec = ChartReportItemHelper.instance( )
+				.createExpressionCodec( itemHandle );
 
 		String categoryDimension = null;
 		String yOptionDimension = null;
@@ -181,7 +181,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle columnHandle = columnBindings.next( );
-			ChartItemUtil.loadExpression( exprCodec, columnHandle );
+			ChartReportItemHelper.instance( ).loadExpression( exprCodec, columnHandle );
 			String bindName = columnHandle.getName( );
 			if ( !exprCodec.isDimensionExpresion( ) )
 			{
