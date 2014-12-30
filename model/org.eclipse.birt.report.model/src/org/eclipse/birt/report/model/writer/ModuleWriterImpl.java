@@ -193,6 +193,8 @@ import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
@@ -650,8 +652,35 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			while ( iter.hasNext( ) )
 			{
 				ExtendedProperty property = (ExtendedProperty) iter.next( );
-
+				String encryptionID = null;
+				boolean isEncryptable = false;
+				ODAExtensionElementDefn oda = (ODAExtensionElementDefn) ( property.getElement( ).getDefn( ) );
+				List<IElementPropertyDefn> hidePrivatePropsList = oda.getHidePrivateProps( );
+				IElementPropertyDefn oadPropertyDefn = null;
+				if ( hidePrivatePropsList != null
+						&& hidePrivatePropsList.size( ) > 0 )
+				{
+					for ( IElementPropertyDefn defn : hidePrivatePropsList )
+					{
+						if ( property.getName( ).equals( defn.getName( ) )
+								&& defn.isEncryptable( ) )
+						{
+							isEncryptable = true;
+							oadPropertyDefn = defn;
+							encryptionID = property.getEncryptionID( );
+							if ( StringUtil.isBlank( encryptionID ) )
+							{
+								encryptionID = MetaDataDictionary.getInstance( )
+										.getDefaultEncryptionHelperID( );
+								property.setEncryptionID( encryptionID );
+							}
+							break;
+						}
+					}
+				}
 				writer.startElement( DesignSchemaConstants.EX_PROPERTY_TAG );
+				writer.attribute( DesignSchemaConstants.ENCRYPTION_ID_ATTRIB,
+						encryptionID );
 
 				if ( property.getName( ) != null )
 				{
@@ -663,7 +692,13 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				if ( property.getValue( ) != null )
 				{
 					writer.startElement( DesignSchemaConstants.VALUE_TAG );
-					writer.text( property.getValue( ) );
+					String value = property.getValue( );
+					if ( isEncryptable )
+					{
+						value = (String) EncryptionUtil.encrypt( (PropertyDefn) oadPropertyDefn,
+								encryptionID, value );
+					}
+					writer.text( value );
 					writer.endElement( );
 				}
 
