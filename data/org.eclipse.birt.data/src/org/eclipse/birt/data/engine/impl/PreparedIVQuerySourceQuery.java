@@ -530,7 +530,12 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 				resultIterator = getSubQueryIterator( (SubqueryLocator) subqueryLocator.getParentQuery( ),
 						sourceResultIterator );
 			}
-			resultIterator.moveTo( subqueryLocator.getRowId( ) );
+			if ( subqueryLocator.getRowId( ) <= -1 && resultIterator.isEmpty( ) )
+			{
+				return resultIterator.getSecondaryIterator( subqueryLocator.getName( ), queryScope );
+			}
+			else
+				resultIterator.moveTo( subqueryLocator.getRowId( ) );
 			return resultIterator.getSecondaryIterator( subqueryLocator.getName( ), queryScope );
 		}
 
