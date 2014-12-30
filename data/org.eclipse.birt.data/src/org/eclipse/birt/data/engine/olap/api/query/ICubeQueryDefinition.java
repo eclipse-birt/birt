@@ -225,5 +225,14 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 	 * @return all added cube operations, An empty array returned if no cube operation is added
 	 */
 	public ICubeOperation[] getCubeOperations( );
-
+	
+	/**
+	 * @return the ID of the report Item
+	 */
+	public String getID( );
+	
+	/**
+	 * @param the ID of the report Item
+	 */
+	public void setID(String ID);
 }
