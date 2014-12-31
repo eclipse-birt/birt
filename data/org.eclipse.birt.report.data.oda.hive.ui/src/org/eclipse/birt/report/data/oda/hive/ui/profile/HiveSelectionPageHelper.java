@@ -124,7 +124,7 @@ public class HiveSelectionPageHelper
 
 		new Label( content, SWT.LEFT ).setText( Messages.getMessage( "datasource.page.driver.class" ) ); //$NON-NLS-1$
 		m_driverClass = new Label( content, SWT.LEFT );
-		m_driverClass.setText( HiveConstants.HIVE_DRIVER_CLASS ); 
+		m_driverClass.setText( HiveConstants.HS2_JDBC_DRIVER_CLASS ); 
 		gridData = new GridData( );
 		gridData.horizontalSpan = 3; // bidi_hcg
 		gridData.horizontalAlignment = SWT.FILL;
@@ -152,7 +152,7 @@ public class HiveSelectionPageHelper
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		jdbcUrl.setLayoutData( gridData );
-		jdbcUrl.setText(HiveConstants.DRIVER_URL);
+		jdbcUrl.setText(HiveConstants.HS2_DEFAULT_URL);
 
 		// User Name
 		new Label( content, SWT.RIGHT ).setText( JdbcPlugin.getResourceString( "wizard.label.username" ) );//$NON-NLS-1$
@@ -271,7 +271,7 @@ public class HiveSelectionPageHelper
     private String getDriverClass( )
 	{
 
-		return HiveConstants.HIVE_DRIVER_CLASS;
+		return HiveConstants.HS2_JDBC_DRIVER_CLASS;
 	}
 
 	/**
@@ -421,7 +421,7 @@ public class HiveSelectionPageHelper
 		String url = jdbcUrl.getText( ).trim( );
 		String userid = userName.getText( ).trim( );
 		String passwd = password.getText( );
-		String driverName = HiveConstants.HIVE_DRIVER_CLASS;
+		String driverName = HiveConstants.HS2_JDBC_DRIVER_CLASS;
 
 		return DriverLoader.testConnection( driverName,
 				url,
