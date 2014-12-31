@@ -67,31 +67,68 @@ public final class PLSUtil
 				.getTargetGroupInstances( )
 				.size( ) == 0 )
 			return false;
+		PLSInfo plsInfo = readPLSInfo( manager );
+		int currentRequestedGroupLevel = getOutmostPlsGroupLevel( queryDefn );
+		return plsInfo.groupLevel == null || plsInfo.groupLevel < currentRequestedGroupLevel;
+	}
+
+	public static boolean isRowIdSaved( StreamManager manager )
+	{
+		return readPLSInfo( manager ).rowIdSaved;
+	}
+
+	private static PLSInfo readPLSInfo( StreamManager manager )
+	{
+		PLSInfo plsInfo = new PLSInfo( null, false );
 		RAInputStream in = null;
-		if( manager.hasInStream( DataEngineContext.PLS_GROUPLEVEL_STREAM,
-				StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE ))
-			in = manager.getInStream( DataEngineContext.PLS_GROUPLEVEL_STREAM,
-					StreamManager.ROOT_STREAM,
-					StreamManager.BASE_SCOPE );
 		try
 		{
-			if ( in == null )
+			if ( manager.hasInStream( DataEngineContext.PLS_GROUPLEVEL_STREAM,
+					StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE ) )
+				in = manager.getInStream(
+						DataEngineContext.PLS_GROUPLEVEL_STREAM,
+						StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
+			if ( in != null )
 			{
-				return true;
+				plsInfo.groupLevel = IOUtil.readInt( in );
+				try
+				{
+					plsInfo.rowIdSaved = IOUtil.readBool( in );
+				}
+				catch ( IOException e )
+				{
+					// This item might not exist if the stream is old version
+				}
 			}
-
-			int savedGroupLevel = IOUtil.readInt( in );
-			in.close( );
-			int currentRequestedGroupLevel = getOutmostPlsGroupLevel( queryDefn );
-			if ( savedGroupLevel < currentRequestedGroupLevel )
-				return true;
-			else
-				return false;
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
-			throw new DataException( e.getLocalizedMessage( ) );
+		}
+		finally
+		{
+			if ( in != null )
+			{
+				try
+				{
+					in.close( );
+				}
+				catch ( IOException e )
+				{
+				}
+			}
+		}
+		return plsInfo;
+	}
+
+	static class PLSInfo
+	{
+		public Integer groupLevel;
+		public boolean rowIdSaved;
+		
+		public PLSInfo( Integer groupLevel, boolean rowIdSaved )
+		{
+			this.groupLevel = groupLevel;
+			this.rowIdSaved = rowIdSaved;
 		}
 	}
 

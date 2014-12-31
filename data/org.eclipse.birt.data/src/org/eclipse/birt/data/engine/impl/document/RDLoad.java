@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.PLSUtil;
 import org.eclipse.birt.data.engine.impl.QueryDefinitionUtil;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
 import org.eclipse.birt.data.engine.impl.StringTable;
@@ -367,7 +368,8 @@ public class RDLoad
 				stringTableMap,
 				index,
 				adjustedVersion,
-				includeInnerID );
+				includeInnerID,
+				PLSUtil.isRowIdSaved( streamManager ) );
 	}
 	
 	

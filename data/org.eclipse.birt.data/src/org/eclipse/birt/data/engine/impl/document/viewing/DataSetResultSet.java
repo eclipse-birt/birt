@@ -56,6 +56,7 @@ public class DataSetResultSet implements IDataSetResultSet
 	private Map index;
 	private Map<String, StringTable> stringTableMap;
 	private boolean includeInnerID = true;
+	private boolean readInnerId = false;
 	private IOrderedIntSetIterator rowIdIterator;
 
 
@@ -75,7 +76,8 @@ public class DataSetResultSet implements IDataSetResultSet
 				stringTableMap,
 				index,
 				version,
-				true );
+				true,
+				false );
 	}
 	
 	/**
@@ -84,8 +86,9 @@ public class DataSetResultSet implements IDataSetResultSet
 	 */
 	public DataSetResultSet( RAInputStream inputStream,
 			RAInputStream lensStream, IResultClass rsMetaData,
-			IOrderedIntSet prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version, boolean includeInnerID )
-			throws DataException
+			IOrderedIntSet prefilteredRows,
+			Map<String, StringTable> stringTableMap, Map index, int version,
+			boolean includeInnerID, boolean readInnerId ) throws DataException
 	{
 		assert inputStream != null;
 		assert rsMetaData != null;
@@ -118,6 +121,7 @@ public class DataSetResultSet implements IDataSetResultSet
 		
 		this.index = index;
 		this.stringTableMap = stringTableMap;
+		this.readInnerId = readInnerId;
 		this.initLoad( );
 	}
 
@@ -178,8 +182,8 @@ public class DataSetResultSet implements IDataSetResultSet
 						rsMetaData,
 						colCount,
 						this.stringTableMap,
-						this.index, version );
-				if ( this.includeInnerID )
+						this.index, version, readInnerId );
+				if ( this.includeInnerID && !readInnerId )
 				{
 					this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
 							this.getCurrentIndex( ) );					
@@ -229,8 +233,8 @@ public class DataSetResultSet implements IDataSetResultSet
 							rsMetaData,
 							colCount,
 							this.stringTableMap,
-							this.index, version );
-					if ( this.includeInnerID )
+							this.index, version, readInnerId );
+					if ( this.includeInnerID && !readInnerId )
 					{
 						this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
 								this.getCurrentIndex( ) );

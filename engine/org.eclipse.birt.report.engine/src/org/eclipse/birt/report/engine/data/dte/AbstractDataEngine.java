@@ -102,6 +102,16 @@ public abstract class AbstractDataEngine implements IDataEngine
 	protected static Logger logger = Logger.getLogger( IDataEngine.class
 			.getName( ) );
 
+	/**
+	 * store relations of various query ResultSet. Such as relations between
+	 * parent ResultSet and nested query ResultSet.
+	 * 
+	 * The user use
+	 * 
+	 * ParentResultId.rowId.queryName to access the result set id.
+	 */
+	protected ResultSetIndex rsetIndex = new ResultSetIndex( );
+	
 	public AbstractDataEngine( DataEngineFactory factory, ExecutionContext context ) throws BirtException
 	{
 		this.factory = factory;
@@ -439,8 +449,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 		queryCache.putCachedQuery( query, id );
 	}
 
-	public abstract String getResultID( String parent, String rawId,
-			String queryId );
+	public String getResultID( String pRsetId, String rawId, String queryId )
+	{
+		return rsetIndex.getResultSet( queryId, pRsetId, rawId );
+	}
 
 	public abstract String getResultIDByRowID( String parent, String rowId,
 			String queryId );
@@ -453,6 +465,17 @@ public abstract class AbstractDataEngine implements IDataEngine
 	public ExecutionContext getContext( )
 	{
 		return context;
+	}
+
+	protected void addResultSetRelation( String pRsetId, String rawId,
+			String queryId, String rsetId )
+	{
+		rsetIndex.addResultSet( queryId, pRsetId, rawId, rsetId );
+	}
+
+	protected String[] getResultIDWithRawId( String pRsetId, String rawId, String queryId )
+	{
+		return rsetIndex.getResultSetWithRawId( queryId, pRsetId, rawId );
 	}
 
 }

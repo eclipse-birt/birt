@@ -39,16 +39,6 @@ import org.eclipse.birt.report.engine.ir.Report;
 
 public class DataPresentationEngine extends AbstractDataEngine
 {
-	/*
-	 * store relations of various query ResultSet. Such as relations between
-	 * parent ResultSet and nested query ResultSet.
-	 * 
-	 * The user use
-	 * 
-	 * ParentResultId.rowId.queryName to access the result set id.
-	 */
-	protected HashMap rsetRelations = new HashMap( );
-
 	protected HashMap rsetRelations2 = new HashMap( );
 
 	private boolean needAccessFactTable = false;
@@ -103,13 +93,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 				String queryId = rsetRelation[2];
 				String rsetId = rsetRelation[3];
 				String rowId = rsetRelation[4];
-				buffer.setLength( 0 );
-				buffer.append( pRsetId );
-				buffer.append( "." );
-				buffer.append( rawId );
-				buffer.append( "." );
-				buffer.append( queryId );
-				rsetRelations.put( buffer.toString( ), rsetId );
+				addResultSetRelation( pRsetId, rawId, queryId, rsetId );
 				buffer.setLength( 0 );
 				buffer.append( pRsetId );
 				buffer.append( "." );
@@ -122,19 +106,6 @@ public class DataPresentationEngine extends AbstractDataEngine
 	}
 
 	private StringBuffer keyBuffer = new StringBuffer( );
-
-	public String getResultID( String pRsetId, String rawId, String queryId )
-	{
-		keyBuffer.setLength( 0 );
-		keyBuffer.append( pRsetId );
-		keyBuffer.append( "." );
-		keyBuffer.append( rawId );
-		keyBuffer.append( "." );
-		keyBuffer.append( queryId );
-		// try to search the rset id
-		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );		
-		return rsetId;
-	}
 
 	public String getResultIDByRowID( String pRsetId, String rowId,
 			String queryId )

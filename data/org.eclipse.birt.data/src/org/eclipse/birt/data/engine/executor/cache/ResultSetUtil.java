@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IPushedDownExpression;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.impl.index.DataSetInMemoryStringIndex;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -53,8 +54,19 @@ public class ResultSetUtil
 	 * @throws DataException
 	 * @throws IOException
 	 */
+	public static int writeResultObject( DataOutputStream dos,
+			IResultObject resultObject, int count, Set nameSet,
+			Map<String, StringTable> stringTableMap,
+			Map<String, IIndexSerializer> index, int rowIndex, int version )
+			throws DataException, IOException
+	{
+		return writeResultObject( dos, resultObject, count, nameSet,
+				stringTableMap, index, rowIndex, version, false );
+	}
+	
 	public static int writeResultObject( DataOutputStream dos, IResultObject resultObject, int count, 
-			Set nameSet, Map<String, StringTable> stringTableMap, Map<String, IIndexSerializer> index, int rowIndex, int version )
+			Set nameSet, Map<String, StringTable> stringTableMap, Map<String, IIndexSerializer> index,
+			int rowIndex, int version, boolean saveRowId )
 			throws DataException, IOException
 	{
 		if ( resultObject.getResultClass( ) == null )
@@ -120,6 +132,11 @@ public class ResultSetUtil
 				}
 			}
 		}
+		if ( saveRowId )
+		{
+			IOUtil.writeInt( tempDos, (Integer) resultObject
+					.getFieldValue( ExprMetaUtil.POS_NAME ) );
+		}
 		tempDos.flush( );
 		tempBos.flush( );
 		tempBaos.flush( );
@@ -145,7 +162,8 @@ public class ResultSetUtil
 	public static IResultObject readResultObject( DataInputStream dis,
 			IResultClass rsMeta, int count,
 			Map<String, StringTable> stringTableMap,
-			Map<String, DataSetInMemoryStringIndex> index, int version ) throws DataException
+			Map<String, DataSetInMemoryStringIndex> index, int version,
+			boolean rowIdSaved ) throws DataException
 	{
 		int i = 0;
 		try
@@ -197,7 +215,13 @@ public class ResultSetUtil
 							DataEngineSession.getCurrentClassLoader( ) );
 				}
 			}
-			return new ResultObject( rsMeta, obs );
+			ResultObject resultObject = new ResultObject( rsMeta, obs );
+			if ( rowIdSaved )
+			{
+				resultObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
+						IOUtil.readInt( dis ) );
+			}
+			return resultObject;
 		}
 		catch ( IOException e )
 		{

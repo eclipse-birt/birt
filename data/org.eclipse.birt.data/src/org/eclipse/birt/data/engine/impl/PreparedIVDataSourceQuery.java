@@ -441,7 +441,10 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 					new HashMap(),
 					eventHandler.getAllColumnBindings( ),
 					manager.getVersion( ),
-					null );
+					null,
+					//Row id should keep unchanged even if some data are removed
+					//So we have to save the original row id.
+					true);
 			dataSetDataStream.flush( );
 			cache.close( );
 
@@ -451,6 +454,8 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 
 			IOUtil.writeInt( plsGroupLevelStream,
 					PLSUtil.getOutmostPlsGroupLevel( queryDefn ) );
+			//Write a flag to indicate that the row id is saved for each row.
+			IOUtil.writeBool( plsGroupLevelStream, true );
 			plsGroupLevelStream.close( );
 		}
 
