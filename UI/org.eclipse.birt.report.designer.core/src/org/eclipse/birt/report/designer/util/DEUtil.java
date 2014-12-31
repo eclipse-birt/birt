@@ -3298,28 +3298,62 @@ public class DEUtil
 	 */
 	public static void setDefaultTheme( DesignElementHandle elementHandle )
 	{
-		// System.out.println(elementHandle.getDefn( ).getName( ));
-		if ( elementHandle instanceof ReportItemHandle
+		// We dont' set the report item theme now, it will inherit from report
+		// level theme.
+		// if ( elementHandle instanceof ReportItemHandle
+		// && hasDefaultLibrary( elementHandle.getModuleHandle( ) ) )
+		// {
+		// ReportItemHandle reportItemHandle = (ReportItemHandle) elementHandle;
+		// PropertyHandle propertyHandle = reportItemHandle.getPropertyHandle(
+		// ReportItemHandle.THEME_PROP );
+		// List list = propertyHandle.getReferenceableElementList( );
+		// String preFileName = getDefultLibraryFileName( );
+		// for ( int i = 0; i < list.size( ); i++ )
+		// {
+		// ReportItemThemeHandle itemHandle = (ReportItemThemeHandle) list.get(
+		// i );
+		// if ( itemHandle.getQualifiedName( ).startsWith( preFileName ) )
+		// {
+		// try
+		// {
+		// if ( propertyHandle.getValue( ) == null )
+		// propertyHandle.setValue( itemHandle.getQualifiedName( ) );
+		// break;
+		// }
+		// catch ( SemanticException e )
+		// {
+		// // do nothing
+		// }
+		// }
+		// }
+		// }
+
+		// for report design we set the report level theme to the first one from
+		// default library if applicable
+		if ( elementHandle instanceof ReportDesignHandle
 				&& hasDefaultLibrary( elementHandle.getModuleHandle( ) ) )
 		{
-			ReportItemHandle reportItemHandle = (ReportItemHandle) elementHandle;
-			PropertyHandle propertyHandle = reportItemHandle.getPropertyHandle( ReportItemHandle.THEME_PROP );
-			List list = propertyHandle.getReferenceableElementList( );
-			String preFileName = getDefultLibraryFileName( );
-			for ( int i = 0; i < list.size( ); i++ )
+			ReportDesignHandle designHandle = (ReportDesignHandle) elementHandle;
+			PropertyHandle propertyHandle = designHandle.getPropertyHandle( ModuleHandle.THEME_PROP );
+			if ( propertyHandle.getValue( ) == null )
 			{
-				ReportItemThemeHandle itemHandle = (ReportItemThemeHandle) list.get( i );
-				if ( itemHandle.getQualifiedName( ).startsWith( preFileName ) )
+				List list = propertyHandle.getReferenceableElementList( );
+				String preFileName = getDefultLibraryFileName( );
+				for ( int i = 0; i < list.size( ); i++ )
 				{
-					try
+					ThemeHandle itemHandle = (ThemeHandle) list.get( i );
+					if ( itemHandle.getQualifiedName( )
+							.startsWith( preFileName ) )
 					{
-						if ( propertyHandle.getValue( ) == null )
+						try
+						{
 							propertyHandle.setValue( itemHandle.getQualifiedName( ) );
-						break;
-					}
-					catch ( SemanticException e )
-					{
-						// do nothing
+							break;
+						}
+						catch ( SemanticException e )
+						{
+							// do nothing
+						}
 					}
 				}
 			}
