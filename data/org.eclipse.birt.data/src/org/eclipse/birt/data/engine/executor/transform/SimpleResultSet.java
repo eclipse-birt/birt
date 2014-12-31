@@ -28,6 +28,7 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ICloseable;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -505,6 +506,24 @@ public class SimpleResultSet implements IResultIterator
 		
 	}
 
+	private List<IBinding> getRequestColumnMap( )
+	{
+		try
+		{
+			if ( DataSetStore.isDataMartStore( handler.getAppContext( ),
+					this.session ) )
+			{
+				return null;
+			}
+		}
+		catch ( DataException e )
+		{
+		}
+		return ( this.query instanceof IQueryDefinition )
+				&& ( (IQueryDefinition) this.query ).needAutoBinding( ) ? null
+				: this.handler.getAllColumnBindings( );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper, boolean)
@@ -512,6 +531,7 @@ public class SimpleResultSet implements IResultIterator
 	public void doSave( StreamWrapper streamsWrapper, boolean isSubQuery )
 			throws DataException
 	{
+		assert streamsWrapper == null;
 		this.streamsWrapper = streamsWrapper;
 		this.auxiliaryIndexCreators = streamsWrapper.getAuxiliaryIndexCreators( );
 		this.groupCalculator.doSave( streamsWrapper.getStreamManager( ) );
@@ -525,8 +545,7 @@ public class SimpleResultSet implements IResultIterator
 			if ( streamsWrapper.getStreamForResultClass( ) != null )
 			{
 				( (ResultClass) populateResultClass( getResultClass( ) ) ).doSave( streamsWrapper.getStreamForResultClass( ),
-						( this.query instanceof IQueryDefinition && ( (IQueryDefinition) this.query ).needAutoBinding( ) )
-								? null : this.handler.getAllColumnBindings( ),
+						getRequestColumnMap( ),
 						streamsWrapper.getStreamManager( ).getVersion( ) );
 				streamsWrapper.getStreamForResultClass( ).close( );
 			}
@@ -551,6 +570,8 @@ public class SimpleResultSet implements IResultIterator
 					}
 				}
 			}
+			//try to save the first row
+			saveDataSetResultSet(this.currResultObj, rowCount - 1);
 		}
 		catch ( IOException e )
 		{
@@ -737,7 +758,7 @@ public class SimpleResultSet implements IResultIterator
 		if( this.isFirstNextCall )
 		{
 			this.isFirstNextCall = false;
-			saveDataSetResultSet( currResultObj, 0 );			
+			//saveDataSetResultSet( currResultObj, 0 );			
 		}		
 		doNext( );
 		

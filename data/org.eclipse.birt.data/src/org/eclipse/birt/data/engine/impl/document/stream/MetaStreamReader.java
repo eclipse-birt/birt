@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.impl.document.stream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
@@ -27,6 +28,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 public class MetaStreamReader extends StreamReader
 {
+	private static Logger logger = Logger.getLogger( MetaStreamReader.class.getName( ) );
 
 	/**
 	 * 
@@ -83,15 +85,30 @@ public class MetaStreamReader extends StreamReader
 		}
 		else
 		{
-			OffsetInfo oi = (OffsetInfo)temp;
+			try{
+				
 			
-			long offset = oi.offset;
-			int size = oi.size;
-			RAInputStream metaStream = new WrapperedRAInputStream((RAInputStream)context.getInputStream( id.getStartStream( ),
+				OffsetInfo oi = (OffsetInfo)temp;
+				long offset = oi.offset;
+				int size = oi.size;
+				RAInputStream metaStream = new WrapperedRAInputStream((RAInputStream)context.getInputStream( id.getStartStream( ),
 					id.getSubQueryStream( ),
 					getCollectionStreamType() ), offset, size);
-			return metaStream;
-
+				return metaStream;
+			}
+			catch( Exception e )
+			{
+				String log = "Meta Info:\n";
+				for( Object o: this.streamMap.keySet())
+				{
+					log += ( o + ":" + this.streamMap.get( o ) + "\n");
+				}
+				
+				log += " Error while load (" + streamType + "):" + temp;
+				logger.warning( log );
+								
+				throw new DataException( e.getLocalizedMessage(), e );
+			}
 		}
 		
 	}
@@ -113,6 +130,11 @@ public class MetaStreamReader extends StreamReader
 		{
 			this.offset = offset;
 			this.size = size;
+		}
+		
+		public String toString( )
+		{
+			return "[" + this.offset + "," + this.size + "]";
 		}
 	}
 }

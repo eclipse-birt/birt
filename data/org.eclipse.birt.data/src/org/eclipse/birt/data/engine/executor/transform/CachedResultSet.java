@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -288,6 +289,25 @@ public class CachedResultSet implements IResultIterator
 				.getGroupInformationUtil( )
 				.getCurrentGroupInfo( groupLevel );
 	}
+	
+	private List<IBinding> getRequestColumnMap( )
+	{
+		try
+		{
+			if ( DataSetStore.isDataMartStore( this.resultSetPopulator.getEventHandler( )
+					.getAppContext( ),
+					this.resultSetPopulator.getSession( ) ) )
+			{
+				return null;
+			}
+		}
+		catch ( DataException e )
+		{
+		}
+		return ( this.resultSetPopulator.getQuery( ).getQueryDefinition( ) != null && ( (IQueryDefinition) this.resultSetPopulator.getQuery( )
+				.getQueryDefinition( ) ).needAutoBinding( ) ) ? null
+				: resultSetPopulator.getEventHandler( ).getAllColumnBindings( );
+	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper,
@@ -310,10 +330,7 @@ public class CachedResultSet implements IResultIterator
 		{
 			//If autobinding is set, all the data set columns should be saved.
 			( (ResultClass) populateResultClass( this.resultSetPopulator.getResultSetMetadata( ) ) ).doSave( streamsWrapper.getStreamForResultClass( ),
-					( this.resultSetPopulator.getQuery( ).getQueryDefinition( ) != null && ( (IQueryDefinition) this.resultSetPopulator.getQuery( )
-							.getQueryDefinition( ) ).needAutoBinding( ) )
-							? null : resultSetPopulator.getEventHandler( )
-									.getAllColumnBindings( ),
+					getRequestColumnMap( ),
 					streamsWrapper.getStreamManager( ).getVersion( ) );
 			try
 			{
@@ -351,7 +368,8 @@ public class CachedResultSet implements IResultIterator
 								.getAllColumnBindings( ),
 								streamsWrapper.getStreamManager( )
 								.getVersion( ),
-								streamsWrapper.getAuxiliaryIndexCreators( ) );
+								streamsWrapper.getAuxiliaryIndexCreators( ),
+								false);
 						for( StringTable stringTable : stringTables.values( ))
 						{
 							stringTable.close( );

@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionWizard;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
@@ -30,7 +31,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectVariableDialog;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -136,9 +136,8 @@ public class BasePaletteFactory
 			if ( IReportElementConstants.REPORT_ELEMENT_TABLE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
 				TableOptionWizard wizard = new TableOptionWizard( );
-				WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+				WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
 						wizard );
-				dialog.setHelpAvailable( true );
 				if ( dialog.open( ) == Window.OK )
 				{
 					Object[] result = (Object[]) wizard.getResult( );

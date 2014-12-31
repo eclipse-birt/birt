@@ -31,6 +31,8 @@ import java.util.zip.ZipFile;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
+import org.eclipse.birt.report.data.oda.jdbc.utils.JDBCDriverInfoManager;
+import org.eclipse.birt.report.data.oda.jdbc.utils.JDBCDriverInformation;
 import org.eclipse.ui.PlatformUI;
 
 public class JdbcToolKit
@@ -132,7 +134,7 @@ public class JdbcToolKit
 		JDBCDriverInformation ODBCJDBCInfo = null; 
 		
 		// Merge drivers from the driverInfo extension point
-		JDBCDriverInformation driverInfos[] = JDBCDriverInfoManager.getDrivers();
+		JDBCDriverInformation driverInfos[] = JDBCDriverInfoManager.getInstance( ).getDriversInfo( );
 		for (int i = 0; i < driverInfos.length; i++)
 		{
 			JDBCDriverInformation newInfo = driverInfos[i];

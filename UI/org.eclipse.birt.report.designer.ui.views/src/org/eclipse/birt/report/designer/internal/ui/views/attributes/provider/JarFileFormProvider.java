@@ -106,7 +106,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		AddResourceFileFolderSelectionDialog dialog = new AddResourceFileFolderSelectionDialog( new String[]{
 			"*.jar"}, new String[]{".jar"} ); //$NON-NLS-1$ //$NON-NLS-2$
 		dialog.setHelpDialogId( IHelpContextIds.ADD_JAR_FILES_DIALOG_ID );
-
+		dialog.setAllowImportFile( true );
 		dialog.setExistFiles( getElmentNames( inputElement ) );
 
 		if ( dialog.open( ) != Window.OK )

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseElementTreeSelectionDialog;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -21,12 +22,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 
 /**
  * TreeValueDialog
  */
-public class TreeValueDialog extends ElementTreeSelectionDialog
+public class TreeValueDialog extends BaseElementTreeSelectionDialog
 {
 
 	List<ListenerClass> listeners = new ArrayList<ListenerClass>( );

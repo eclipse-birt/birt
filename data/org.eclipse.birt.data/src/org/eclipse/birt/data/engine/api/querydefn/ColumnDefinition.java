@@ -219,4 +219,9 @@ public class ColumnDefinition implements IColumnDefinition
 	{
 		this.displayName = displayName;
 	}
+	
+	public void setColumnName( String columnName )
+	{
+		this.name = columnName;
+	}
 }

@@ -17,6 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +37,6 @@ import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IActionFilter;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * PathResourceEntry
@@ -56,7 +56,7 @@ public class PathResourceEntry extends BaseResourceEntity
 	private boolean isFolder;
 	private boolean isRoot;
 	private LibraryHandle library;
-	private ArrayList childrenList;
+	private List<ResourceEntry> childrenList;
 	private CssStyleSheetHandle cssStyleHandle;
 	private boolean isFile;
 
@@ -77,7 +77,7 @@ public class PathResourceEntry extends BaseResourceEntity
 
 	public PathResourceEntry( final String[] filePattern, String path )
 	{
-		this( filePattern, path, Messages.getString( "PathResourceEntry.RootName" ));
+		this( filePattern, path, Messages.getString( "PathResourceEntry.RootName" )); //$NON-NLS-1$
 	}
 
 	public PathResourceEntry( final String[] filePattern, String path,
@@ -224,7 +224,7 @@ public class PathResourceEntry extends BaseResourceEntity
 	{
 		if ( this.childrenList == null )
 		{
-			this.childrenList = new ArrayList( );
+			this.childrenList = new ArrayList<ResourceEntry>( );
 			if ( this.isRoot && this.path == null )
 				initRoot( );
 			try
@@ -251,7 +251,7 @@ public class PathResourceEntry extends BaseResourceEntity
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
-		return (ResourceEntry[]) childrenList.toArray( new ResourceEntry[childrenList.size( )] );
+		return childrenList.toArray( new ResourceEntry[childrenList.size( )] );
 	}
 
 	protected ResourceEntry createChildResourceEntry( String childPath,
@@ -314,6 +314,23 @@ public class PathResourceEntry extends BaseResourceEntity
 	{
 		return this.isRoot;
 	}
+	
+	public void refresh()
+	{
+		//TODO this is actually refreshing children, may need to refersh self in future.
+		
+		if ( childrenList != null )
+		{
+			for ( Iterator<ResourceEntry> iterator = childrenList.iterator( ); iterator.hasNext( ); )
+			{
+				ResourceEntry entry = iterator.next( );
+				entry.dispose( );
+			}
+			
+			childrenList.clear( );
+			childrenList = null;
+		}
+	}
 
 	public void dispose( )
 	{
@@ -330,9 +347,9 @@ public class PathResourceEntry extends BaseResourceEntity
 
 		if ( this.childrenList != null )
 		{
-			for ( Iterator iterator = this.childrenList.iterator( ); iterator.hasNext( ); )
+			for ( Iterator<ResourceEntry> iterator = this.childrenList.iterator( ); iterator.hasNext( ); )
 			{
-				ResourceEntry entry = (ResourceEntry) iterator.next( );
+				ResourceEntry entry = iterator.next( );
 				entry.dispose( );
 			}
 		}
@@ -341,7 +358,7 @@ public class PathResourceEntry extends BaseResourceEntity
 	public Object getAdapter( Class adapter )
 	{
 		if ( adapter == LibraryHandle.class
-				&& getURL( ).toString( ).toLowerCase( ).endsWith( "library" ) )
+				&& getURL( ).toString( ).toLowerCase( ).endsWith( "library" ) ) //$NON-NLS-1$
 		{
 			if ( !this.isFolder && this.library == null )
 			{
@@ -374,7 +391,7 @@ public class PathResourceEntry extends BaseResourceEntity
 			return library;
 		}
 		else if ( adapter == ReportDesignHandle.class
-				&& getURL( ).toString( ).toLowerCase( ).endsWith( "rptdesign" ) )
+				&& getURL( ).toString( ).toLowerCase( ).endsWith( "rptdesign" ) ) //$NON-NLS-1$
 		{
 			return getPath( );
 		}
@@ -408,7 +425,7 @@ public class PathResourceEntry extends BaseResourceEntity
 						String value )
 				{
 					if ( target instanceof PathResourceEntry
-							&& "extension".equals( name ) )
+							&& "extension".equals( name ) ) //$NON-NLS-1$
 					{
 						PathResourceEntry entry = (PathResourceEntry) target;
 						if ( entry.getURL( ) != null

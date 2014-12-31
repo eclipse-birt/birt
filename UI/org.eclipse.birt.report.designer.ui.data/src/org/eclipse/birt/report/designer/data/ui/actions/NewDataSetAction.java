@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.DefaultDataSetWizard;
 import org.eclipse.birt.report.designer.data.ui.datasource.DefaultDataSourceWizard;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -151,7 +152,7 @@ public class NewDataSetAction extends Action implements UpdateAction
 				DefaultDataSourceWizard wizard = new DefaultDataSourceWizard( );
 				String wizardTitle = Messages.getString( "datasource.new" );//$NON-NLS-1$
 				wizard.setWindowTitle( wizardTitle );
-				WizardDialog dialog = new WizardDialog( PlatformUI.getWorkbench( )
+				WizardDialog dialog = new BaseWizardDialog( PlatformUI.getWorkbench( )
 						.getDisplay( )
 						.getActiveShell( ),
 						wizard );
@@ -186,7 +187,7 @@ public class NewDataSetAction extends Action implements UpdateAction
 	{
 		DefaultDataSetWizard wizard = new DefaultDataSetWizard( );
 		wizard.setWindowTitle( Messages.getString( "dataset.new" ) );//$NON-NLS-1$
-		WizardDialog dialog = new WizardDialog( PlatformUI.getWorkbench( )
+		WizardDialog dialog = new BaseWizardDialog( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), wizard );
 

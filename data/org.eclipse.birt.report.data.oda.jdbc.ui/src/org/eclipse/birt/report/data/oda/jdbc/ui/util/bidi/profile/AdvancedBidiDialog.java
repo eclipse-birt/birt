@@ -62,6 +62,7 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 	public AdvancedBidiDialog( Shell parentShell, Object parentDialog )
 	{
 		super( parentShell );
+		setHelpAvailable( false );
 		this.parentDialog = parentDialog;
 		if ( parentDialog instanceof BidiSettingsSupport )
 		{

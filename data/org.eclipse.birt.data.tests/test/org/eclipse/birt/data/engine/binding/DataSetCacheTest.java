@@ -104,8 +104,7 @@ public class DataSetCacheTest extends APITestCase
 
 		assertFalse( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
 		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
-		QueryDefinition qd = this.newReportQuery( );
-		qd.setAutoBinding( true );
+		QueryDefinition qd = this.newReportQuery( true );
 		
 		IQueryResults qr = myDataEngine.prepare( qd, appContextMap ).execute( null );
 		IResultIterator itr = qr.getResultIterator( );

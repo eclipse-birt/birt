@@ -240,7 +240,8 @@ public class SimpleSmartCache implements ResultSetCache
 			Map<String, StringTable> stringTable,
 			Map<String, IIndexSerializer> index,
 			List<IBinding> cacheRequestMap, int version,
-			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
+			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators,
+			boolean saveRowId)
 			throws DataException
 	{
 		open( );
@@ -249,7 +250,7 @@ public class SimpleSmartCache implements ResultSetCache
 				rowLensStream,
 				stringTable,
 				index,
-				cacheRequestMap, version, auxiliaryIndexCreators );
+				cacheRequestMap, version, auxiliaryIndexCreators, saveRowId );
 	}
 
 	/*

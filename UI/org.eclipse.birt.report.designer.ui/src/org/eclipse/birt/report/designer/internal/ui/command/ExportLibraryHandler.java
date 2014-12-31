@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.command;
 
 import java.io.File;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
@@ -93,7 +94,7 @@ public class ExportLibraryHandler extends SelectionHandler
 		super.execute( event );
 		selection = (DesignElementHandle) getElementHandles( ).get( 0 );
 		ExportReportWizard exportReportWizard = new ExportReportWizard( );
-		WizardDialog wDialog = new WizardDialog( UIUtil.getDefaultShell( ),
+		WizardDialog wDialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
 				exportReportWizard );
 		wDialog.setPageSize( 500, 250 );
 		wDialog.open( );

@@ -207,7 +207,8 @@ public class SmartCache implements ResultSetCache
 			Map<String, StringTable> stringTable,
 			Map<String, IIndexSerializer> index,
 			List<IBinding> cacheRequestMap, int version,
-			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
+			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators, 
+			boolean saveRowId )
 			throws DataException
 	{
 		this.resultSetCache.doSave( outputStream,
@@ -216,7 +217,8 @@ public class SmartCache implements ResultSetCache
 				index,
 				cacheRequestMap,
 				version,
-				auxiliaryIndexCreators );
+				auxiliaryIndexCreators,
+				saveRowId );
 	}
 	
 	/*

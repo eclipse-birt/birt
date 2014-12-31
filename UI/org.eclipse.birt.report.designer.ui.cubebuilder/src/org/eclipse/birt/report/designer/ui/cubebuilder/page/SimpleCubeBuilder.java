@@ -40,6 +40,7 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 	public SimpleCubeBuilder( Shell parentShell )
 	{
 		super( parentShell );
+		setHelpAvailable( false );
 	}
 
 	private TabularCubeHandle cube;

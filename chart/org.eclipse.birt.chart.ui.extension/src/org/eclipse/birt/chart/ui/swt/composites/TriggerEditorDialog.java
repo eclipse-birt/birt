@@ -70,6 +70,7 @@ public class TriggerEditorDialog extends TrayDialog
 			String sTitle, int iInteractivityType, int optionalStyle )
 	{
 		super( shellParent );
+		setHelpAvailable( false );
 		this.triggers = triggers;
 		this.cursorContainer = cursorContainer;
 		this.wizardContext = wizardContext;

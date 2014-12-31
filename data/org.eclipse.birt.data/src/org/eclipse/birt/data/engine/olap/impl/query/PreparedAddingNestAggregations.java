@@ -3,7 +3,9 @@ package org.eclipse.birt.data.engine.olap.impl.query;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -19,14 +21,16 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSetWithOneMoreDummyAggr;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationHelper;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSetWithOneMoreBindingFetcher;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSetWithOneMoreDummyAggr;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.MergedAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.query.view.AggregationRegisterTable;
 import org.eclipse.birt.data.engine.olap.query.view.CalculatedMember;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
-import org.eclipse.birt.data.engine.olap.query.view.AggregationRegisterTable;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.CubeNestAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
@@ -76,7 +80,9 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 
 	@SuppressWarnings("unchecked")
 	public IAggregationResultSet[] execute(
-			IAggregationResultSet[] sources, 
+			ICubeQueryDefinition cubeQueryDefn,
+			IAggregationResultSet[] sources,
+			IBindingValueFetcher fetcher,
 			Scriptable scope,
 			ScriptContext cx, StopSign stopSign )
 			throws IOException, BirtException
@@ -121,13 +127,41 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 				}
 			}
 			
-			if( !matchedAggrOns )
+			if( !matchedAggrOns || newArs== null )
 			{
-				throw new DataException( ResourceConstants.INVALID_NEST_AGGREGATION_ON,
-						new Object[]{
-							cnaf.getName( )
-						} );
+				DimLevel[] targetDimLevels = null;
+				for( int i=0; i< referencedBindings.size( );i++ )
+				{
+					if( targetDimLevels == null )
+						targetDimLevels = CubeQueryDefinitionUtil.getAggregationLevels( referencedBindings.get( i ), cubeQueryDefn );
+					else
+					{
+						DimLevel[] candiateDimLevel = CubeQueryDefinitionUtil.getAggregationLevels( referencedBindings.get( i ), cubeQueryDefn );
+						if( !Arrays.deepEquals( targetDimLevels, candiateDimLevel ) )
+						{
+							throw new DataException( ResourceConstants.UNSUPPORT_OPERATION_EXCEPTION );						
+						}
+					}
+				}
+				
+				for ( int i=0; i<sources.length && !stopSign.isStopped( ); i++ )
+				{
+					IAggregationResultSet ars = sources[i];
+					if( ars.getAggregationCount( ) ==0 )
+						continue;
+					if ( fetcher!= null && Arrays.deepEquals( targetDimLevels , ars.getAllLevels( ) ) )
+					{
+						IAggregationResultSet based = new AggregationResultSetWithOneMoreBindingFetcher(
+								ars, cnaf.getName( ), cnaf.getBasedExpression( ), fetcher, scope, cx );
+						AggregationDefinition[] ads = CubeQueryDefinitionUtil.createAggregationDefinitons( 
+								new CalculatedMember[]{newMembers[index]}, cubeQueryDefn, scope, cx );
+						checkAggregateOns( ads[0], based);
+						newArs = AggregationHelper.execute( based, ads, stopSign )[0];
+						break;
+					}
+				}
 			}
+			
 			//referenced binding does not exist or not a aggregation which is not running type 
 			if ( newArs == null )
 			{

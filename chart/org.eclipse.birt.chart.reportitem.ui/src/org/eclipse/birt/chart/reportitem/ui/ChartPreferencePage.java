@@ -12,13 +12,13 @@
 package org.eclipse.birt.chart.reportitem.ui;
 
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.report.designer.ui.preferences.PropertyAndPreferencePage;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Preference page for Charting
@@ -61,7 +61,7 @@ public class ChartPreferencePage extends PropertyAndPreferencePage
 						getProject( ) );
 		super.createControl( parent );
 
-		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( getControl( ),
+		ChartUIUtil.bindHelp( getControl( ),
 				ChartHelpContextIds.PREFERENCE_CHART );
 
 	}

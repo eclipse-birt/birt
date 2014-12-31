@@ -312,6 +312,7 @@ public class MenuButton extends Composite
 	public void setDropDownMenu( Menu menu )
 	{
 		this.menu = menu;
+		layoutControl( );
 	}
 
 	private List listeners;

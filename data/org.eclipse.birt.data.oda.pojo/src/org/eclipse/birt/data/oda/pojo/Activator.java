@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.oda.pojo;
 
+import org.eclipse.birt.data.oda.pojo.impl.ClassLoaderProvider;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
@@ -46,6 +47,7 @@ public class Activator extends Plugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
+		ClassLoaderProvider.releaseInstance( );
 		super.stop(context);
 	}
 

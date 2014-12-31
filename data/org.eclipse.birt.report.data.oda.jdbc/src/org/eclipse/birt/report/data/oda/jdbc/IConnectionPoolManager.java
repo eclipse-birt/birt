@@ -35,4 +35,6 @@ public interface IConnectionPoolManager
 	java.sql.Connection getConnection( String driverClass, String url,
 			Properties connectionProps, Collection<String> driverClassPath,
 			Map appContext ) throws SQLException, OdaException;
+	
+	public void closeConnection( java.sql.Connection connection ) throws OdaException, SQLException;
 }

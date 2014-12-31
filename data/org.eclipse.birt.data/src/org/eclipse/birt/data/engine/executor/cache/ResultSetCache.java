@@ -100,7 +100,8 @@ public interface ResultSetCache
 			DataOutputStream lensStream, Map<String, StringTable> stringTable,
 			Map<String, IIndexSerializer> index,
 			List<IBinding> cacheRequestMapping, int version,
-			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
+			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators,
+			boolean saveRowId )
 			throws DataException;
 	
 	/**

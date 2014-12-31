@@ -9,7 +9,7 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.data.oda.jdbc.ui.util;
+package org.eclipse.birt.report.data.oda.jdbc.utils;
 
 import java.sql.Driver;
 import java.util.ArrayList;
@@ -152,7 +152,7 @@ public final class JDBCDriverInformation
     /**
      * @param urlFormat The urlFormat to set.
      */
-    protected void setUrlFormat(String urlFormat)
+    public void setUrlFormat(String urlFormat)
     {
         this.urlFormat = urlFormat;
     }
@@ -274,16 +274,16 @@ public final class JDBCDriverInformation
 			IConfigurationElement configElement )
 	{
 		PropertyElement element = new PropertyElement( );
-		element.setAttribute( Constants.DRIVER_INFO_PROPERTY_NAME,
-				configElement.getAttribute( Constants.DRIVER_INFO_PROPERTY_NAME ) );
-		element.setAttribute( Constants.DRIVER_INFO_PROPERTY_DISPLAYNAME,
-				configElement.getAttribute( Constants.DRIVER_INFO_PROPERTY_DISPLAYNAME ) );
-		element.setAttribute( Constants.DRIVER_INFO_PROPERTY_DEC,
-				configElement.getAttribute( Constants.DRIVER_INFO_PROPERTY_DEC ) );
-		element.setAttribute( Constants.DRIVER_INFO_PROPERTY_ENCRYPT,
-				configElement.getAttribute( Constants.DRIVER_INFO_PROPERTY_ENCRYPT ) );
-		element.setAttribute( Constants.DRIVER_INFO_PROPERTY_TYPE,
-				configElement.getAttribute( Constants.DRIVER_INFO_PROPERTY_TYPE ) );
+		element.setAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_NAME,
+				configElement.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_NAME ) );
+		element.setAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_DISPLAYNAME,
+				configElement.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_DISPLAYNAME ) );
+		element.setAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_DEC,
+				configElement.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_DEC ) );
+		element.setAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_ENCRYPT,
+				configElement.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_ENCRYPT ) );
+		element.setAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_TYPE,
+				configElement.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_TYPE ) );
 		return element;
 	}
 
@@ -294,13 +294,13 @@ public final class JDBCDriverInformation
 
 	public void populateProperties( IConfigurationElement configElement )
 	{
-		IConfigurationElement[] elements = configElement.getChildren( Constants.DRIVER_INFO_PROPERTY_GROUP );
+		IConfigurationElement[] elements = configElement.getChildren( DriverInfoConstants.DRIVER_INFO_PROPERTY_GROUP );
 		for( IConfigurationElement element:elements )
 		{			
-			String name = element.getAttribute( Constants.DRIVER_INFO_PROPERTY_GROUP_NAME );
-			String desc = element.getAttribute( Constants.DRIVER_INFO_PROPERTY_GROUP_DEC );
+			String name = element.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_GROUP_NAME );
+			String desc = element.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_GROUP_DEC );
 			PropertyGroup group = new PropertyGroup( name, desc );
-			IConfigurationElement[] propertiesConfigurationElements = element.getChildren( Constants.DRIVER_INFO_PROPERTY );
+			IConfigurationElement[] propertiesConfigurationElements = element.getChildren( DriverInfoConstants.DRIVER_INFO_PROPERTY );
 			List<PropertyElement> list = new ArrayList<PropertyElement>( );
 			for ( IConfigurationElement prElement:propertiesConfigurationElements )
 			{

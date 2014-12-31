@@ -92,6 +92,7 @@ public class GroupDialog extends TitleAreaDialog
 	public GroupDialog( )
 	{
 		super( UIUtil.getDefaultShell( ) );
+		setHelpAvailable( false );
 		setShellStyle( getShellStyle( ) | SWT.RESIZE | SWT.MAX );
 	}
 

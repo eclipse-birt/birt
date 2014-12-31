@@ -30,6 +30,7 @@ public class DataSourceAndDataSet
 	private IBaseDataSetDesign dataSetDesign;
 	private Collection paramterHints;
 	private String cacheScopeID;
+	private boolean enableSamplePreview = false;
 
 	/**
 	 * @param dataSourceDesign
@@ -38,13 +39,14 @@ public class DataSourceAndDataSet
 	 */
 	public static DataSourceAndDataSet newInstance(
 			IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign, Collection paramterHints, String cacheScopeID )
+			IBaseDataSetDesign dataSetDesign, Collection paramterHints, String cacheScopeID, boolean enableSamplePreview )
 	{
 		DataSourceAndDataSet dataSourceAndSet = new DataSourceAndDataSet( );
 		dataSourceAndSet.dataSourceDesign = dataSourceDesign;
 		dataSourceAndSet.dataSetDesign = dataSetDesign;
 		dataSourceAndSet.paramterHints = paramterHints;
 		dataSourceAndSet.cacheScopeID = cacheScopeID;
+		dataSourceAndSet.enableSamplePreview = enableSamplePreview;
 		return dataSourceAndSet;
 	}
 
@@ -148,6 +150,15 @@ public class DataSourceAndDataSet
 		//If not managed by cache scope id
 		if ( this.cacheScopeID == null || candidate.cacheScopeID == null )
 			return this.isDataSourceDataSetEqual((DataSourceAndDataSet)obj, true );
+		
+		//If managed by cache scope id
+		if ( !this.enableSamplePreview )
+		{
+			if( !this.cacheScopeID.equals( candidate.cacheScopeID  ) )
+				return false;
+			else
+				return this.isDataSourceDataSetEqual((DataSourceAndDataSet)obj, true );			
+		}
 		//If managed by cache scope id, we only evaluate the cache scope ID.
 		//If a cache has a scope id, then there is one and only one instance of cache for each Data Set exist in
 		//cache map. In that case, the clean of cache is managed by 

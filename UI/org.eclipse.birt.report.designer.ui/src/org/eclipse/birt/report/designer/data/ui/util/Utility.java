@@ -566,9 +566,7 @@ public class Utility
 	 */
 	public static void setSystemHelp( Control control, String contextId )
 	{
-		PlatformUI.getWorkbench( )
-				.getHelpSystem( )
-				.setHelp( control, contextId );
+		UIUtil.bindHelp( control, contextId );
 	}
 	
 	/**

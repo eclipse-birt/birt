@@ -65,8 +65,22 @@
                      defaultDisplayName="%datasource.property.odaJndiURL"
                      name="odaJndiName"
                      type="string"/>
+               <property
+                     isEncryptable="true"
+                     type="string"
+                     canInherit="true"
+                     defaultDisplayName="%datasource.property.ssl.trustStorePassword"
+                     name="TrustStorePassword"/>
+                <property
+                     isEncryptable="true"
+                     type="string"
+                     canInherit="true"
+                     defaultDisplayName="%datasource.property.ssl.keyStorePassword"
+                     name="KeyStorePassword"/>
             </propertyGroup>
             <propertyVisibility name="odaDataSource" visibility="hide"/>
+            <propertyVisibility name="TrustStorePassword" visibility="hide"/>
+            <propertyVisibility name="KeyStorePassword" visibility="hide"/>
          </properties>
       </dataSource>
       <dataSet

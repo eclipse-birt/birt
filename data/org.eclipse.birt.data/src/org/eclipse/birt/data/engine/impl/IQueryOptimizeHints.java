@@ -2,8 +2,10 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
@@ -25,4 +27,16 @@ public interface IQueryOptimizeHints
 	public List<IColumnDefinition> getResultSetsForCombinedQuery( );
 	
 	public Map<String, List<IFilterDefinition>> getFiltersInAdvance( );
+	
+	public Map<String, Set<Integer>> getPositionsInCombinedQuery( );
+	
+	public List<IComputedColumn> getUnpushedDownComputedColumnInCombinedQuery( );
+	
+	public Map<String, List<String>> getCombinedDataSets( );
+	
+	public Map<String, Set<String>> getInvalidAliasDataSetNames( );
+	
+	public Map<String, List<Integer>> getPushedDownDataSetFilters( );
+	
+	public List<IFilterDefinition> getFilterNeededMerge( );
 }

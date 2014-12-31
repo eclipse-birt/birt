@@ -29,14 +29,18 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInfoManager;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.PropertyElement;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.PropertyGroup;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.bidi.profile.BidiSettingsSupport;
+import org.eclipse.birt.report.data.oda.jdbc.utils.DriverInfoConstants;
+import org.eclipse.birt.report.data.oda.jdbc.utils.JDBCDriverInfoManager;
+import org.eclipse.birt.report.data.oda.jdbc.utils.JDBCDriverInformation;
+import org.eclipse.birt.report.data.oda.jdbc.utils.PropertyElement;
+import org.eclipse.birt.report.data.oda.jdbc.utils.PropertyGroup;
+import org.eclipse.birt.report.data.oda.jdbc.utils.ResourceLocator;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
@@ -107,6 +111,7 @@ public class JDBCSelectionPageHelper
 	private final String ENCRYTPION_METHOD_DEFAULT_VALUE = "noEncryption"; //$NON-NLS-1$
 	
 	private final String JDBC_EXTENSION_ID = "org.eclipse.birt.report.data.oda.jdbc"; //$NON-NLS-1$
+	private org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers resourceIdentifier;
 
 	JDBCSelectionPageHelper( WizardPage page )
 	{
@@ -139,7 +144,6 @@ public class JDBCSelectionPageHelper
 
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 4;
-		layout.verticalSpacing = 10;
 		layout.marginBottom = 300;
 		content.setLayout(layout);
 
@@ -148,12 +152,12 @@ public class JDBCSelectionPageHelper
 		// List if all supported data bases
 		new Label( content, SWT.RIGHT ).setText( JdbcPlugin.getResourceString( "wizard.label.driverClass" ) );//$NON-NLS-1$
 		driverChooserCombo = new ComboViewer( content, SWT.DROP_DOWN );
-		gridData = new GridData( GridData.FILL_BOTH );
+		gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalSpan = 3; // bidi_hcg
 		driverChooserCombo.getControl( ).setLayoutData( gridData );
 
 		List driverListTmp1 = JdbcToolKit.getJdbcDriversFromODADir( JDBC_EXTENSION_ID );
-		JDBCDriverInformation[] driverListTmp2 = JDBCDriverInfoManager.getDrivers( );
+		JDBCDriverInformation[] driverListTmp2 = JDBCDriverInfoManager.getInstance( ).getDriversInfo( );
 		List driverList = new ArrayList( );
 		for ( Object driverInfo : driverListTmp1 )
 		{
@@ -278,17 +282,17 @@ public class JDBCSelectionPageHelper
 					for ( int i = 0; i < propertyList.size( ); i++ )
 					{
 						final String propertyName = propertyList.get( i )
-								.getAttribute( Constants.DRIVER_INFO_PROPERTY_NAME );
+								.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_NAME );
 						Label propertyParam = new Label( propertyGroup,
 								SWT.NONE );
 						String propertyParamDisplayName = propertyList.get( i )
-								.getAttribute( Constants.DRIVER_INFO_PROPERTY_DISPLAYNAME );
+								.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_DISPLAYNAME );
 						if ( propertyParamDisplayName == null )
 						{
 							propertyParamDisplayName = propertyName;
 						}
 						propertyParam.setText( propertyParamDisplayName );
-						propertyParam.setToolTipText( propertyList.get( i ).getAttribute( Constants.DRIVER_INFO_PROPERTY_DEC ) );
+						propertyParam.setToolTipText( propertyList.get( i ).getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_DEC ) );
 						GridData gd = new GridData( );
 						gd.horizontalSpan = 2; // bidi_hcg
 						propertyParam.setLayoutData( gd );
@@ -300,8 +304,8 @@ public class JDBCSelectionPageHelper
 							propertyContent = getProfileproperty( propertyName );
 						}
 
-						if ( Constants.DRIVER_INFO_PROPERTY_TYPE_BOOLEN.equalsIgnoreCase( propertyList.get( i )
-								.getAttribute( Constants.DRIVER_INFO_PROPERTY_TYPE ) ) )
+						if ( DriverInfoConstants.DRIVER_INFO_PROPERTY_TYPE_BOOLEN.equalsIgnoreCase( propertyList.get( i )
+								.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_TYPE ) ) )
 						{
 							drawPropertyCombo( propertyGroup,
 									propertyName,
@@ -310,7 +314,7 @@ public class JDBCSelectionPageHelper
 						else
 						{
 							if ( Boolean.valueOf( propertyList.get( i )
-									.getAttribute( Constants.DRIVER_INFO_PROPERTY_ENCRYPT ) ) )
+									.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_ENCRYPT ) ) )
 							{
 								drawPropertyText( propertyGroup,
 										propertyName,
@@ -341,7 +345,7 @@ public class JDBCSelectionPageHelper
 					propertyText = new Text( propertyGroup, SWT.BORDER );
 				}
 				
-				boolean isEncryptionMethod = Constants.DRIVER_INFO_PROPERTY_ENCRYPTION_METHOD.equals( propertyName );
+				boolean isEncryptionMethod = DriverInfoConstants.DRIVER_INFO_PROPERTY_ENCRYPTION_METHOD.equals( propertyName );
 				if ( propertyContent != null )
 				{
 					propertyText.setText( propertyContent );
@@ -511,8 +515,12 @@ public class JDBCSelectionPageHelper
 
 		Point size = content.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		content.setSize( size.x, size.y );
+		
+		scrollContent.setExpandHorizontal(true);
+		scrollContent.setMinWidth( size.x + 20 );
+		scrollContent.setExpandVertical(true);
+		scrollContent.setMinHeight(size.y + 20 );
 
-		scrollContent.setMinWidth( size.x + 10 );
 
 		scrollContent.setContent( content );
 
@@ -979,6 +987,12 @@ public class JDBCSelectionPageHelper
 				bidiSupportObj = ( (JDBCPropertyPage) m_propertyPage ).getBidiSupport( );
 			}
 		}
+		
+		Properties privateProperties = collectSpecifiedProperties( );
+		Map appContext = new HashMap( );
+		appContext.put( org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS, this.resourceIdentifier );
+		ResourceLocator.resolveConnectionProperties( privateProperties, driverName, appContext );
+		
 		if ( bidiSupportObj != null )
 		{
 			return DriverLoader.testConnection( driverName,
@@ -986,14 +1000,16 @@ public class JDBCSelectionPageHelper
 					jndiNameValue,
 					userid,
 					passwd,
-					bidiSupportObj.getMetadataBidiFormat( ).toString( ),collectSpecifiedProperties( ) );
+					bidiSupportObj.getMetadataBidiFormat( ).toString( ),
+					privateProperties );
 		}
 
 		return DriverLoader.testConnection( driverName,
 				url,
 				jndiNameValue,
 				userid,
-				passwd,collectSpecifiedProperties( ) );
+				passwd,
+				privateProperties );
 	}
 
 	private Properties collectSpecifiedProperties( )
@@ -1236,4 +1252,11 @@ public class JDBCSelectionPageHelper
 		bidiSupportObj.drawBidiSettingsButton( parent, props );
 	}
 
+	public void setResourceIdentifier( ResourceIdentifiers identifiers )
+	{
+		if ( identifiers != null )
+		{
+			this.resourceIdentifier = DesignSessionUtil.createRuntimeResourceIdentifiers( identifiers );
+		}
+	}
 }

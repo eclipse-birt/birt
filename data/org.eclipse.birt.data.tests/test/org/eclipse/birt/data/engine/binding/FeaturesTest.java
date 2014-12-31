@@ -1075,9 +1075,8 @@ public class FeaturesTest extends APITestCase
 	{
 		try
 		{
-			QueryDefinition query = new QueryDefinition( );
+			QueryDefinition query = new QueryDefinition( true );
 			query.setDataSetName( this.dataSet.getName( ) );
-			query.setAutoBinding( true );
 
 			GroupDefinition group = new GroupDefinition( "G1" );
 			group.setKeyExpression( "row.SALE_DATE" );

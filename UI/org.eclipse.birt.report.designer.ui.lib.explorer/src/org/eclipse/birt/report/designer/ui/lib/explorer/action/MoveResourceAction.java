@@ -74,7 +74,6 @@ public class MoveResourceAction extends ResourceAction
 		}
 
 		SelectionDialog dialog = new MoveResourceDialog( files );
-		dialog.setHelpAvailable( true );
 
 		if ( dialog.open( ) == Window.OK )
 		{

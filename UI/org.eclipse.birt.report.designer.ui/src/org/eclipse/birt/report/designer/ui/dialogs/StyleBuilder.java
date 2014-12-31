@@ -116,6 +116,7 @@ public class StyleBuilder extends PreferenceDialog
 			AbstractThemeHandle theme, String title )
 	{
 		super( parentShell, createPreferenceManager( handle, theme ) );
+		setHelpAvailable( false );
 		IPreferenceNode[] nodes = this.getPreferenceManager( )
 				.getRootSubNodes( );
 		for ( int i = 0; i < nodes.length; i++ )

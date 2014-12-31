@@ -553,4 +553,13 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		cqd.setNeedAccessFactTable( needAccessFactTable );
 	}
 
+	public String getID( )
+	{
+		return this.cqd.getID( );
+	}
+
+	public void setID( String ID )
+	{
+		cqd.setID( ID );
+	}
 }

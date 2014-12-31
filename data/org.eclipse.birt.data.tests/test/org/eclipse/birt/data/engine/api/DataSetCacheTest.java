@@ -500,7 +500,7 @@ public class DataSetCacheTest extends APITestCase
 	 */
 	public void testJointDataSetCache( ) throws Exception
 	{
-		QueryDefinition queryDefn = prepareForJointDataSet( );
+		QueryDefinition queryDefn = prepareForJointDataSet( false );
 
 		prepareExprNameAndQuery( rowBeArray, totalBeArray, queryDefn );
 		IPreparedQuery preparedQuery = myDataEngine.prepare( queryDefn );
@@ -533,7 +533,7 @@ public class DataSetCacheTest extends APITestCase
 	 */
 	public void testJointDataSetCacheWithFilter( ) throws Exception
 	{
-		QueryDefinition queryDefn = prepareForJointDataSet( );
+		QueryDefinition queryDefn = prepareForJointDataSet( false);
 
 		prepareExprNameAndQuery( rowBeArray, totalBeArray, queryDefn );
 		IPreparedQuery preparedQuery = myDataEngine.prepare( queryDefn );
@@ -576,7 +576,7 @@ public class DataSetCacheTest extends APITestCase
 	 */
 	public void testJointDataSetCacheWithGroup( ) throws Exception
 	{
-		QueryDefinition queryDefn = prepareForJointDataSet( );
+		QueryDefinition queryDefn = prepareForJointDataSet( true );
 
 		prepareExprNameAndQuery( rowBeArray, totalBeArray, queryDefn );
 		IPreparedQuery preparedQuery = myDataEngine.prepare( queryDefn );
@@ -593,7 +593,6 @@ public class DataSetCacheTest extends APITestCase
 		gd.setKeyExpression( "row[\""
 				+ this.dataSet.getName( ) + "::COUNTRY\"]" );
 		queryDefn.addGroup( gd );
-		queryDefn.setAutoBinding( true );
 		preparedQuery = myDataEngine.prepare( queryDefn );
 		qr = preparedQuery.execute( null );
 		ri = qr.getResultIterator( );
@@ -639,7 +638,7 @@ public class DataSetCacheTest extends APITestCase
 	/**
 	 * @throws BirtException
 	 */
-	public QueryDefinition prepareForJointDataSet( ) throws BirtException
+	public QueryDefinition prepareForJointDataSet( boolean autoBinding ) throws BirtException
 	{
 		BaseDataSetDesign dataSet2 = newDateSet( (OdaDataSetDesign) ( this.dataSet ) );
 
@@ -666,7 +665,7 @@ public class DataSetCacheTest extends APITestCase
 				a );
 		myDataEngine.defineDataSet( dset3 );
 
-		QueryDefinition queryDefn = new QueryDefinition( );
+		QueryDefinition queryDefn = new QueryDefinition( autoBinding );
 		queryDefn.setDataSetName( dset3.getName( ) );
 		int num = 4;
 		rowBeArray = new IBaseExpression[num];

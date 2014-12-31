@@ -270,6 +270,14 @@ abstract public class APITestCase extends BaseTestCase
 		return queryDefn;
 	}
 	
+	protected QueryDefinition newReportQuery( boolean autoBinding)
+	{
+		QueryDefinition queryDefn = new QueryDefinition( autoBinding );
+		queryDefn.setDataSetName( this.dataSet.getName( ) );
+		
+		return queryDefn;
+	}
+	
 	/**
 	 * new a simple query with specified dataset
 	 * 
@@ -278,6 +286,17 @@ abstract public class APITestCase extends BaseTestCase
 	protected QueryDefinition newReportQuery( IBaseDataSetDesign dataset )
 	{
 		QueryDefinition queryDefn = new QueryDefinition( );
+		if ( dataset == null )
+			queryDefn.setDataSetName( this.dataSet.getName( ) );
+		else
+			queryDefn.setDataSetName( dataset.getName( ) );
+		
+		return queryDefn;
+	}
+	
+	protected QueryDefinition newReportQuery( IBaseDataSetDesign dataset, boolean autoBinding )
+	{
+		QueryDefinition queryDefn = new QueryDefinition( autoBinding );
 		if ( dataset == null )
 			queryDefn.setDataSetName( this.dataSet.getName( ) );
 		else

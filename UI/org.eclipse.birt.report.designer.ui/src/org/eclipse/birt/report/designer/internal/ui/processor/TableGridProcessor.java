@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.processor;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionWizard;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -69,9 +68,8 @@ public class TableGridProcessor extends AbstractElementProcessor
 		if ( isTable )
 		{
 			TableOptionWizard wizard = new TableOptionWizard( );
-			WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+			WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
 					wizard );
-			dialog.setHelpAvailable( true );
 			if ( dialog.open( ) == Window.OK )
 			{
 				Object[] result = (Object[]) wizard.getResult( );

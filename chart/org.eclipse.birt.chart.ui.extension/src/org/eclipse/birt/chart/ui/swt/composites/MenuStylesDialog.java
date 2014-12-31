@@ -78,6 +78,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener
 	public MenuStylesDialog( Shell shell, EMap<String, String> propertiesMap )
 	{
 		super( shell );
+		setHelpAvailable( false );
 		setShellStyle( SWT.DIALOG_TRIM | SWT.RESIZE );
 		fPropertiesMap = propertiesMap;
 	}

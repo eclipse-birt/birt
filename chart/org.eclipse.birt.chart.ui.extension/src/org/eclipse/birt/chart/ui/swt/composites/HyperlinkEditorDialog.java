@@ -79,6 +79,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 			int optionalStyle )
 	{
 		super( shell );
+		setHelpAvailable( false );
 		this.setShellStyle( SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL  );
 		fURLValue = urlValue;
 		fContext = context;

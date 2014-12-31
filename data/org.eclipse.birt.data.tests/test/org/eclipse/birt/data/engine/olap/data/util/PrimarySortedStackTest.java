@@ -74,6 +74,37 @@ public class PrimarySortedStackTest extends TestCase
 		}
 	}
 	
+	public void testDistinctAsc1( ) throws IOException
+	{
+		try
+		{
+			int objectNumber = 10001;
+			PrimitiveDiskSortedStack stack = new PrimitiveDiskSortedStack( 10,
+					true,
+					true );
+			stack.push( new Integer( 200 ) );
+			stack.push( new Integer( 250 ) );
+			stack.push( new Integer( 208 ) );
+			stack.push( new Integer( 211 ) );
+			stack.push( new Integer( 211 ) );
+			stack.push( new Integer( 213 ) );
+			for ( int i = 0; i < objectNumber; i++ )
+			{
+				stack.push( new Integer( i ) );
+			}
+			// assertEquals( stack.size( ), objectNumber );
+
+			for ( int i = 0; i < objectNumber; i++ )
+			{
+				assertEquals( stack.pop( ), new Integer( i ) );
+			}
+			stack.close( );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
+		}
+	}
 	public void testDistinctDesc( ) throws IOException
 	{
 		try

@@ -93,6 +93,7 @@ import org.eclipse.birt.report.data.adapter.api.IColumnValueIterator;
 import org.eclipse.birt.report.data.adapter.api.ICubeInterceptor;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
+import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptorContext;
 import org.eclipse.birt.report.data.adapter.api.IFilterUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
@@ -153,6 +154,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 	private CubeMaterializer cubeMaterializer;
 	private IDataQueryDefinition[] registeredQueries;
+	private IDataSetInterceptorContext interceptorContext;
 
 	private CubeMaterializer getCubeMaterializer( int cacheSize ) throws BirtException
 	{
@@ -192,6 +194,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		cubeHandleMap = new HashMap( );
 		cubeMetaDataHandleMap = new HashMap( );
 		createdDimensions = new HashMap<String, IDimension>( );
+		interceptorContext = new DataSetInterceptorContext( );
 		if( sessionContext!= null )
 		{
 			this.setModuleHandleToAppContext();
@@ -426,7 +429,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 				paramBindingIt,
 				filterIt,
 				bindingIt,
-				this.sessionContext.getTopScope( ) );
+				this.sessionContext.getTopScope( ),
+				this.interceptorContext );
 	}
 
 	/*
@@ -515,6 +519,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
 			}
 		}
+		if( interceptorContext != null )
+		{
+			interceptorContext.close( );
+		}
 		DataSessionConfig.finalize( this );
 		if ( dataEngine != null )
 		{
@@ -544,13 +552,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 		// Run a query with the provided binding information. Group by bound
 		// column so we can
 		// retrieve distinct values using the grouping feature
-		QueryDefinition query = new QueryDefinition( );
-		query.setDataSetName( dataSet.getQualifiedName( ) );
+		QueryDefinition query = null;
+		
 		if ( columnBindings == null || !columnBindings.hasNext( ) )
 		{
-			query.setAutoBinding( true );
+			query = new QueryDefinition( true );
 			useDataSetFilter = false;
 		}
+		else
+		{
+			query = new QueryDefinition( );
+		}
+		query.setDataSetName( dataSet.getQualifiedName( ) );
 
 		if ( groupDefns != null )
 		{
@@ -584,7 +597,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 				columnBindings,
 				useDataSetFilter,
 				false,
-				this.sessionContext.getTopScope());
+				this.sessionContext.getTopScope(),
+				this.interceptorContext );
 		return results;
 	}
 
@@ -1661,11 +1675,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 			final IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
 			if ( dataSetInterceptor != null )
 			{
-				dataSetInterceptor.preDefineDataSet( sessionContext,
-						dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
+				dataSetInterceptor.preDefineDataSet( dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
 						design,
-						null,
-						this.registeredQueries );
+						query,
+						this.registeredQueries,
+						sessionContext,
+						dataEngine.getSession( ).getTempDir( ), this.interceptorContext );
 			}
 		}
 		refactorCubeQueryDefinition( query );
@@ -2098,7 +2113,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 					dataEngine,
 					handle,
 					queryDefn,
-					this.registeredQueries );
+					this.registeredQueries,
+					this.interceptorContext );
 		}
 	}
 

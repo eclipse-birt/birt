@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectCssStyleWizard;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -34,7 +34,7 @@ public class ImpotCSSStyleHandler extends SelectionHandler
 		boolean retBoolean = true;
 		super.execute( event );
 
-		Dialog dialog = new WizardDialog( PlatformUI.getWorkbench( )
+		Dialog dialog = new BaseWizardDialog( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), new SelectCssStyleWizard( getSelection() ) );
 		dialog.open( );

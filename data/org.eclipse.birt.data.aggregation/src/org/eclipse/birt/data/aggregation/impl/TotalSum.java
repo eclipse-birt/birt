@@ -15,6 +15,7 @@
 package org.eclipse.birt.data.aggregation.impl;
 
 import org.eclipse.birt.core.data.DataType;
+import java.math.BigDecimal;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
@@ -123,7 +124,7 @@ public class TotalSum extends AggrFunction
 		 */
 		public Object getSummaryValue( )
 		{
-			return sum;
+			return new BigDecimal(sum.toString());
 		}
 
 	}

@@ -5365,4 +5365,8 @@ public class PreparedStatement extends ExceptionHandler
         }
 	}
 
+	public void checkColumnsNaming() throws DataException {
+		getProjectedColumns().checkColumnsNaming();
+	}
+
 }

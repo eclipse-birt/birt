@@ -75,7 +75,7 @@ public class AddImageResourceFileFolderSelectionDialog extends
 		setTitle( Messages.getString( "ReportPage.title.setPrewImg" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "AddImageResourceFileFolderSelectionDialog.Message" ) ); //$NON-NLS-1$
 
-		setSorter( new FileViewerSorter( ) );
+		setComparator( new FileViewerComparator( ) );
 	}
 	
     public int open() {

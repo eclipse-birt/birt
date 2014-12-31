@@ -46,14 +46,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
  *  
  */
 
-public class NewResourceFileDialog extends ElementTreeSelectionDialog
+public class NewResourceFileDialog extends BaseElementTreeSelectionDialog
 {
 	private Text text;
 

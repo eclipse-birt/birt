@@ -28,7 +28,7 @@ public class DataSetStore
 {
 
 	public static IDataSetReader createReader( StreamManager manager,
-			IResultClass resultClass, Map<?, ?> appContext )
+			IResultClass resultClass, boolean includeInnerId, Map<?, ?> appContext )
 			throws DataException
 	{
 		return null;
@@ -48,5 +48,11 @@ public class DataSetStore
 			List<IAuxiliaryIndexCreator> auxiliaryIndexs ) throws DataException
 	{
 		return null;
+	}
+	
+	public static boolean isDataMartStore( Map<?, ?> appContext,
+			DataEngineSession session ) throws DataException
+	{
+		return false;
 	}
 }

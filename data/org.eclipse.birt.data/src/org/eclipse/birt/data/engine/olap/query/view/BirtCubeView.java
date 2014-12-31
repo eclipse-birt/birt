@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -39,6 +40,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationFactory;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutorHints;
 import org.eclipse.birt.data.engine.olap.impl.query.IPreparedCubeOperation;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.mozilla.javascript.Scriptable;
@@ -59,12 +61,13 @@ public class BirtCubeView
 	private CubeQueryExecutor executor;
 	private Map appContext;
 	private Map measureMapping;
-	private QueryExecutor queryExecutor;
+	private IQueryExecutor queryExecutor;
 	private IResultSet parentResultSet;
 	private IPreparedCubeOperation[] preparedCubeOperations;
 	private CubeCursor cubeCursor;
 	private ICube cube;
 	private IBindingValueFetcher fetcher;
+	private CubeQueryExecutorHints executorHints;
 	private BirtCubeView( )
 	{
 	}
@@ -159,7 +162,7 @@ public class BirtCubeView
 	
 	/**
 	 * Constructor: construct the row/column/measure EdgeView.
-	 * 
+	 * for test usage
 	 * @param queryExecutor
 	 * @throws DataException 
 	 */
@@ -195,7 +198,14 @@ public class BirtCubeView
 	private CubeCursor createCubeCursor( StopSign stopSign,
 			ICubeQueryDefinition query, ICube cube  ) throws DataException, OLAPException
 	{
-		queryExecutor = new QueryExecutor( );
+		if( query.getQueryResultsID( )!= null )
+		{
+			int version = new VersionManager( executor.getContext( ) ).getVersion( query.getQueryResultsID( ) );
+			if( version< VersionManager.VERSION_4_2_3 )
+				queryExecutor = new QueryExecutorV0( );
+		}
+		if( queryExecutor == null )
+				queryExecutor = new QueryExecutorV1( );
 		try
 		{
 			parentResultSet = queryExecutor.execute( this, stopSign, cube, this.fetcher );
@@ -295,7 +305,7 @@ public class BirtCubeView
 	 * 
 	 * @return
 	 */
-	public QueryExecutor getQueryExecutor( )
+	public IQueryExecutor getQueryExecutor( )
 	{
 		return this.queryExecutor;
 	}
@@ -417,5 +427,15 @@ public class BirtCubeView
 	protected IPreparedCubeOperation[] getPreparedCubeOperations( )
 	{
 		return preparedCubeOperations;
+	}
+	
+	public CubeQueryExecutorHints getCubeQueryExecutionHints( )
+	{
+		return this.executorHints;
+	}
+	
+	public void setCubeQueryExecutionHints( CubeQueryExecutorHints hints )
+	{
+		this.executorHints = hints;
 	}
 }

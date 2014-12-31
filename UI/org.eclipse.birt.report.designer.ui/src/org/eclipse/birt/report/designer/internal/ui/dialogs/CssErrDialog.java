@@ -17,7 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Text;
  * 
  */
 
-public class CssErrDialog extends TitleAreaDialog
+public class CssErrDialog extends BaseTitleAreaDialog
 {
 
 	private List errorList;

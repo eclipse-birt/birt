@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013 Actuate Corporation.
+ * Copyright (c) 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,28 +9,21 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.data.oda.jdbc.ui.util;
+package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import java.util.Properties;
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Shell;
 
-public class PropertyElement
+/**
+ * BaseWizardDialog
+ */
+public class BaseWizardDialog extends WizardDialog
 {
 
-	private Properties properties;
-
-	public PropertyElement( )
+	public BaseWizardDialog( Shell parentShell, IWizard newWizard )
 	{
-		properties = new Properties( );
-	}
-
-	public String getAttribute( String name )
-	{
-		return properties.getProperty( name );
-	}
-
-	public void setAttribute( String name, String value )
-	{
-		if ( value != null )
-			properties.put( name, value );
+		super( parentShell, newWizard );
+		setHelpAvailable( false );
 	}
 }

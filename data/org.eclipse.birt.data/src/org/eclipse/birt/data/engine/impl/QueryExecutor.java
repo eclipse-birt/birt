@@ -15,9 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +33,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
@@ -876,6 +879,32 @@ public abstract class QueryExecutor implements IQueryExecutor
 		computedColumns = this.dataSet.getComputedColumns( );
 		if ( computedColumns == null )
 			computedColumns = new ArrayList( );
+
+		if ( computedColumns.size( ) > 0
+				&& this.getAppContext( ) != null
+				&& getAppContext( ).containsKey( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT ) )
+		{
+			List<IColumnDefinition> trimmedColumns = ( (IQueryOptimizeHints) getAppContext( ).get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT ) ).getTrimmedColumns( )
+					.get( dataSet.getName( ) );
+			if ( trimmedColumns != null )
+			{
+				Set<String> trimmedNames = new HashSet<String>( );
+				for ( IColumnDefinition col : trimmedColumns )
+				{
+					trimmedNames.add( col.getColumnName( ) );
+				}
+
+				List toBeRemovedComputedColumns = new ArrayList( );
+				for ( int i = 0; i < computedColumns.size( ); i++ )
+				{
+					if ( trimmedNames.contains( ( (IComputedColumn) computedColumns.get( i ) ).getName( ) ) )
+					{
+						toBeRemovedComputedColumns.add( computedColumns.get( i ) );
+					}
+				}
+				computedColumns.removeAll( toBeRemovedComputedColumns );
+			}
+		}
 		if ( computedColumns.size( ) > 0
 				|| temporaryComputedColumns.size( ) > 0 )
 		{

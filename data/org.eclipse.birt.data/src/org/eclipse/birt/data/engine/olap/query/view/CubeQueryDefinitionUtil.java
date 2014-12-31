@@ -49,6 +49,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
+import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefnOnMeasure;
 import org.eclipse.birt.data.engine.olap.util.CubeRunningNestAggrDefn;
@@ -1010,5 +1011,73 @@ public class CubeQueryDefinitionUtil
 		result.addAll( cubeQueryDefn.getBindings( ) );
 		result.addAll( getNewBindingsFromCubeOperations(cubeQueryDefn)  );
 		return result;
+	}
+	
+	public static DimLevel[] getAggregationLevels( String bindingName, ICubeQueryDefinition cubeQuery ) throws DataException
+	{
+		List bindingList = getAllBindings( cubeQuery );		
+		for ( Iterator it = bindingList.iterator( ); it.hasNext( ); )
+		{
+			IBinding binding = (IBinding) it.next( );
+			if ( binding.getBindingName( ).equals( bindingName ) )
+			{
+				return getAggregationOnsForBinding( binding, cubeQuery );
+			}
+		}
+		return new DimLevel[0];
+	}
+
+	public static DimLevel[] getAggregationOnsForBinding( IBinding binding, ICubeQueryDefinition cubeQuery )
+			throws DataException
+	{
+		List aggrs = binding.getAggregatOns( );
+		if ( aggrs.size( ) == 0 )
+		{
+			if ( OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
+					ScriptConstants.DIMENSION_SCRIPTABLE ) != null )
+				return null;
+
+			IBinding directReferenceBinding = OlapExpressionUtil.getDirectMeasureBinding( binding, cubeQuery.getBindings( ) );
+			if ( directReferenceBinding != null && directReferenceBinding!= binding )
+			{
+				return getAggregationLevels( directReferenceBinding.getBindingName( ), cubeQuery );
+			}
+			// get all level names in the query definition
+			return (DimLevel[])( CubeQueryDefinitionUtil.populateMeasureAggrOns( cubeQuery ).toArray( new DimLevel[0] ));
+		}
+		else
+		{
+			DimLevel[] levels = new DimLevel[aggrs.size( )];
+			for ( int i = 0; i < aggrs.size( ); i++ )
+			{
+				levels[i] = OlapExpressionUtil.getTargetDimLevel( aggrs.get( i )
+						.toString( ) );
+			}
+			return levels;
+		}
+	}
+
+	/**
+	 * 
+	 * @param levelList
+	 * @param edge
+	 */
+	private void populateDimLevel( List levelList, IEdgeDefinition edge )
+	{
+		if( edge == null )
+			return;
+		List rowDims = edge.getDimensions( );
+		for ( Iterator i = rowDims.iterator( ); i.hasNext( ); )
+		{
+			IDimensionDefinition dim = (IDimensionDefinition) i.next( );
+			IHierarchyDefinition hirarchy = (IHierarchyDefinition) dim.getHierarchy( )
+					.get( 0 );
+			for ( Iterator j = hirarchy.getLevels( ).iterator( ); j.hasNext( ); )
+			{
+				ILevelDefinition level = (ILevelDefinition) j.next( );
+				levelList.add( new DimLevel( dim.getName( ),
+						level.getName( ) ) );
+			}
+		}
 	}
 }

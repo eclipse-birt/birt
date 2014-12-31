@@ -1615,15 +1615,16 @@ public class UIUtil
 	 */
 	public static void bindHelp( Control control, String contextId )
 	{
-		try
-		{
-			IWorkbench workbench = PlatformUI.getWorkbench( );
-			workbench.getHelpSystem( ).setHelp( control, contextId );
-		}
-		catch ( RuntimeException e )
-		{
-			// Do nothing since there's no workbench
-		}
+		// disable the help
+		// try
+		// {
+		// IWorkbench workbench = PlatformUI.getWorkbench( );
+		// workbench.getHelpSystem( ).setHelp( control, contextId );
+		// }
+		// catch ( RuntimeException e )
+		// {
+		// // Do nothing since there's no workbench
+		// }
 	}
 
 	/**

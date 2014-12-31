@@ -48,6 +48,7 @@ public class CubeQueryDefinition extends NamedObject
 	private boolean cacheQueryResults;
 	private boolean needAccessFactTable;
 	private int breakHierarchyOption = 0;
+	private String ID;
 	
 	/**
 	 * Constructor. The name of CubeQueryDefinition must equal to the name
@@ -391,6 +392,16 @@ public class CubeQueryDefinition extends NamedObject
 	public void setNeedAccessFactTable( boolean needAccessFactTable )
 	{
 		this.needAccessFactTable = needAccessFactTable;
+	}
+
+	public String getID( )
+	{
+		return this.ID;
+	}
+
+	public void setID( String ID )
+	{
+		this.ID = ID;
 	}
 	
 	

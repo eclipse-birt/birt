@@ -60,6 +60,7 @@ public class PositiveNegativeColorDialog extends TrayDialog implements Listener
 			ColorDefinition selectedColor )
 	{
 		super( shellParent );
+		setHelpAvailable( false );
 		this.wizardContext = wizardContext;
 		if ( mSelected != null )
 		{

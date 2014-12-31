@@ -12,25 +12,41 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.channels.FileChannel;
+import java.text.Collator;
 import java.util.Arrays;
 import java.util.Comparator;
 
 import org.eclipse.birt.report.designer.internal.ui.actions.ResourceFileFolderSelectionAction;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseElementTreeSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -43,8 +59,10 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
@@ -54,44 +72,65 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 
 /**
  * A dialog to select resource folder files or folder.
  */
 
 public class ResourceFileFolderSelectionDialog extends
-		ElementTreeSelectionDialog
+		BaseElementTreeSelectionDialog
 {
 
-	private File rootFile;
+	protected static final String[] DEFAULT_FILTER = {
+		"*.*" //$NON-NLS-1$
+	};
 
-	protected static class FileViewerSorter extends ViewerSorter
+	private File rootFile;
+	private IResourceContentProvider provider;
+	private TreeViewerBackup treeViewerBackup;
+
+	private MenuManager menuManager;
+	private ToolItem toolItem;
+	private ToolBar toolBar;
+
+	private Button importButton;
+	private String[] fileNamePattern;
+
+	private Object input;
+
+	private boolean isShowEmptyFolderFilter = true;
+	private boolean allowImportFile = false;
+
+	protected static class FileViewerComparator extends ViewerComparator
 	{
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.ViewerSorter#category(java.lang.Object)
-		 */
+		public FileViewerComparator( )
+		{
+			super( Collator.getInstance( ) );
+		}
+
+		@Override
 		public int category( Object element )
 		{
-			if ( element instanceof File) 
+			if ( element instanceof File )
 			{
-				if(( (File) element ).isDirectory( ) )
+				if ( ( (File) element ).isDirectory( ) )
 				{
 					return 0;
-				}else
+				}
+				else
 				{
 					return 1;
-				}				
+				}
 			}
-			else if ( element instanceof ResourceEntry)
+			else if ( element instanceof ResourceEntry )
 			{
-				if (( (ResourceEntry) element ).isFile( ) ) // file, return 1;
+				if ( ( (ResourceEntry) element ).isFile( ) ) // file, return 1;
 				{
 					return 1;
-				}else // directory, return 0;
+				}
+				else
+				// directory, return 0;
 				{
 					return 0;
 				}
@@ -100,58 +139,47 @@ public class ResourceFileFolderSelectionDialog extends
 			return 1;
 		}
 
-		/**
-		 * Sorts the given elements in-place, modifying the given array.
-		 * <p>
-		 * The default implementation of this method uses the
-		 * java.util.Arrays#sort algorithm on the given array, calling
-		 * <code>compare</code> to compare elements.
-		 * </p>
-		 * <p>
-		 * Subclasses may reimplement this method to provide a more optimized
-		 * implementation.
-		 * </p>
-		 * 
-		 * @param viewer
-		 *            the viewer
-		 * @param elements
-		 *            the elements to sort
-		 */
+		@Override
 		public void sort( final Viewer viewer, Object[] elements )
 		{
 			Arrays.sort( elements, new Comparator<Object>( ) {
 
 				public int compare( Object a, Object b )
 				{
-					if(a instanceof FragmentResourceEntry)
+					if ( a instanceof FragmentResourceEntry )
 					{
-						if(b instanceof FragmentResourceEntry)
+						if ( b instanceof FragmentResourceEntry )
 						{
-							return FileViewerSorter.this.compare( viewer, a, b );
-						}else
+							return FileViewerComparator.this.compare( viewer,
+									a,
+									b );
+						}
+						else
 						{
 							return -1;
 						}
-					}else
-					if(a instanceof PathResourceEntry)
+					}
+					else if ( a instanceof PathResourceEntry )
 					{
-						if(b instanceof FragmentResourceEntry)
+						if ( b instanceof FragmentResourceEntry )
 						{
 							return 1;
-						}else
-						if( b instanceof PathResourceEntry )
+						}
+						else if ( b instanceof PathResourceEntry )
 						{
-							return FileViewerSorter.this.compare( viewer, a, b );
-						}else
+							return FileViewerComparator.this.compare( viewer,
+									a,
+									b );
+						}
+						else
 						{
 							return -1;
 						}
-					}else
-					{
-						return FileViewerSorter.this.compare( viewer, a, b );
 					}
-					
-
+					else
+					{
+						return FileViewerComparator.this.compare( viewer, a, b );
+					}
 				}
 			} );
 		}
@@ -208,6 +236,8 @@ public class ResourceFileFolderSelectionDialog extends
 				new ResourceFileLabelProvider( ),
 				contentProvider );
 
+		this.fileNamePattern = fileNamePattern;
+
 		if ( includeFragments )
 		{
 			this.input = ResourceLocator.getRootEntries( fileNamePattern );
@@ -220,13 +250,12 @@ public class ResourceFileFolderSelectionDialog extends
 		setInput( input );
 	}
 
-	private IResourceContentProvider provider;
 	protected ResourceFileFolderSelectionDialog( Shell parent,
 			ILabelProvider labelProvider,
 			IResourceContentProvider contentProvider )
 	{
 		super( parent, labelProvider, contentProvider );
-		setSorter( new FileViewerSorter( ) );
+		setComparator( new FileViewerComparator( ) );
 
 		this.provider = contentProvider;
 	}
@@ -237,8 +266,6 @@ public class ResourceFileFolderSelectionDialog extends
 		getTreeViewer( ).setInput( input );
 		handleTreeViewerRefresh( );
 	}
-
-	private TreeViewerBackup treeViewerBackup;
 
 	private void handleTreeViewerRefresh( )
 	{
@@ -253,14 +280,6 @@ public class ResourceFileFolderSelectionDialog extends
 			treeViewerBackup.updateStatus( getTreeViewer( ) );
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#setInput(java.lang.Object)
-	 */
-
-	private Object input;
 
 	public void setInput( Object input )
 	{
@@ -313,6 +332,12 @@ public class ResourceFileFolderSelectionDialog extends
 	{
 		UIUtil.bindHelp( parent, IHelpContextIds.RESOURCE_SELECT_DIALOG_ID );
 		Control control = super.createDialogArea( parent );
+
+		if ( allowImportFile( ) )
+		{
+			createImportFileArea( (Composite) control );
+		}
+
 		getTreeViewer( ).getTree( ).setFocus( );
 
 		TreeListener treeListener = new TreeListener( ) {
@@ -370,11 +395,202 @@ public class ResourceFileFolderSelectionDialog extends
 		return label;
 	}
 
-	private MenuManager menuManager;
+	@Override
+	protected void updateOKStatus( )
+	{
+		super.updateOKStatus( );
 
-	private ToolItem toolItem;
+		if ( importButton != null )
+		{
+			importButton.setEnabled( getSelectedFolder( ) != null );
+		}
+	}
 
-	private ToolBar toolBar;
+	protected void createImportFileArea( Composite parent )
+	{
+		importButton = new Button( parent, SWT.PUSH );
+		importButton.setText( Messages.getString( "ResourceFileFolderSelectionDialog.button.importFile" ) ); //$NON-NLS-1$
+		importButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( org.eclipse.swt.events.SelectionEvent e )
+			{
+				FileDialog dialog = new FileDialog( getShell( ) );
+				dialog.setFilterExtensions( fileNamePattern == null ? DEFAULT_FILTER
+						: fileNamePattern );
+
+				String selectedLocation = dialog.open( );
+				if ( selectedLocation != null )
+				{
+					File targetFolder = getSelectedFolder( );
+					File srcFile = new File( selectedLocation );
+					File targetFile = new File( targetFolder, srcFile.getName( ) );
+
+					if ( targetFile.exists( )
+							&& !MessageDialog.openConfirm( getShell( ),
+									Messages.getString( "ResourceFileFolderSelectionDialog.title.overwrite" ), //$NON-NLS-1$
+									Messages.getString( "ResourceFileFolderSelectionDialog.overwrite.msg" ) ) ) //$NON-NLS-1$
+					{
+						return;
+					}
+
+					importFile( targetFile, srcFile );
+					
+					IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+							.getResourceSynchronizerService( );
+
+					if ( synchronizer != null )
+					{
+						synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
+								Path.fromOSString( targetFile.getAbsolutePath( ) ),
+								IReportResourceChangeEvent.NewResource ) );
+					}
+					
+					Object[] selection = getResult( );
+					if ( selection != null
+							&& selection.length > 0
+							&& selection[0] instanceof PathResourceEntry )
+					{
+						PathResourceEntry entry = (PathResourceEntry) selection[0];
+
+						if ( entry.isFile( )
+								&& entry.getParent( ) instanceof PathResourceEntry )
+						{
+							entry = (PathResourceEntry) entry.getParent( );
+						}
+						entry.refresh( );
+
+						getTreeViewer( ).refresh( entry );
+						getTreeViewer( ).expandToLevel( entry, 1 );
+					}
+				}
+			};
+		} );
+
+	}
+
+	private void importFile( final File target, final File src )
+	{
+		try
+		{
+			new ProgressMonitorDialog( getShell( ) ).run( true,
+					false,
+					new IRunnableWithProgress( ) {
+
+						public void run( IProgressMonitor monitor )
+								throws InvocationTargetException,
+								InterruptedException
+						{
+							monitor.beginTask( Messages.getString( "ResourceFileFolderSelectionDialog.import.msg" ), //$NON-NLS-1$
+									1 );
+
+							try
+							{
+								doImport( target, src );
+							}
+							catch ( IOException e )
+							{
+								throw new InvocationTargetException( e );
+							}
+							finally
+							{
+								monitor.done( );
+							}
+						}
+					} );
+		}
+		catch ( Exception e )
+		{
+			MessageDialog.openError( getShell( ),
+					Messages.getString( "ResourceFileFolderSelectionDialog.title.error" ), //$NON-NLS-1$
+					e.getLocalizedMessage( ) );
+		}
+	}
+
+	private void doImport( File target, File src ) throws IOException
+	{
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		FileChannel fcin = null;
+		FileChannel fcout = null;
+
+		try
+		{
+			fis = new FileInputStream( src );
+			fos = new FileOutputStream( target );
+			fcin = fis.getChannel( );
+			fcout = fos.getChannel( );
+
+			fcin.transferTo( 0, fcin.size( ), fcout );
+		}
+		finally
+		{
+			if ( fis != null )
+			{
+				fis.close( );
+			}
+			if ( fos != null )
+			{
+				fos.close( );
+			}
+			if ( fcin != null )
+			{
+				fcin.close( );
+			}
+			if ( fcout != null )
+			{
+				fcout.close( );
+			}
+		}
+	}
+	
+	protected File getSelectedFolder( )
+	{
+		Object[] selection = getResult( );
+		if ( selection != null && selection.length > 0 )
+		{
+			if ( selection[0] instanceof File )
+			{
+				File f = (File) selection[0];
+
+				if ( f.isFile( ) )
+				{
+					return f.getParentFile( );
+				}
+				return f;
+			}
+			else if ( selection[0] instanceof PathResourceEntry )
+			{
+				PathResourceEntry re = (PathResourceEntry) selection[0];
+
+				String path = re.getPath( );
+
+				if ( path != null )
+				{
+					File f = new File( path );
+
+					if ( f.exists( ) )
+					{
+						if ( f.isFile( ) )
+						{
+							return f.getParentFile( );
+						}
+						return f;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	protected boolean allowImportFile( )
+	{
+		return allowImportFile;
+	}
+
+	public void setAllowImportFile( boolean value )
+	{
+		allowImportFile = value;
+	}
 
 	private void createViewMenu( Composite parent )
 	{
@@ -464,8 +680,6 @@ public class ResourceFileFolderSelectionDialog extends
 		} );
 		refreshRoot( );
 	}
-
-	private boolean isShowEmptyFolderFilter = true;
 
 	public boolean isShowEmptyFolderFilter( )
 	{

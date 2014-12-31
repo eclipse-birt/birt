@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.fieldassist.preferences;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -26,7 +27,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * This class represents a field assist preference page. By subclassing
@@ -61,7 +61,7 @@ public class FieldAssistPreferencePage extends FieldEditorPreferencePage impleme
 	 */
 	public void createControl(Composite parent) {
 		super.createControl( parent );
-		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( getControl(),
+		ChartUIUtil.bindHelp( getControl(),
 				ChartHelpContextIds.PREFERENCE_CHART_FIELD_ASSIST );
 	}
 	

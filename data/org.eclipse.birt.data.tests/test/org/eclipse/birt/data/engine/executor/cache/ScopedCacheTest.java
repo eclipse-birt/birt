@@ -58,8 +58,7 @@ public class ScopedCacheTest extends APITestCase
 		design.addResultSetHint( new ColumnDefinition( "COUNTRY" ) );
 		
 		this.dataEngine.defineDataSet( design );
-		QueryDefinition query = this.newReportQuery( design );
-		query.setAutoBinding( true );
+		QueryDefinition query = this.newReportQuery( design, true );
 		this.executeQuery( query, new String[]{"COUNTRY"} );
 		
 		this.testPrintln( "Cache Complete" );
@@ -69,8 +68,7 @@ public class ScopedCacheTest extends APITestCase
 		design.addResultSetHint( new ColumnDefinition( "CITY" ) );
 
 		this.dataEngine.defineDataSet( design );
-		query = this.newReportQuery( design );
-		query.setAutoBinding( true );
+		query = this.newReportQuery( design, true );
 
 		this.executeQuery( query, new String[]{"COUNTRY", "CITY"} );
 		checkOutputFile( );
@@ -83,8 +81,7 @@ public class ScopedCacheTest extends APITestCase
 		design.addResultSetHint( new ColumnDefinition( "COUNTRY" ) );
 		
 		this.dataEngine.defineDataSet( design );
-		QueryDefinition query = this.newReportQuery( design );
-		query.setAutoBinding( true );
+		QueryDefinition query = this.newReportQuery( design, true );
 		this.executeQuery( query, new String[]{"COUNTRY"} );
 		
 		this.testPrintln( "Cache Complete" );
@@ -96,8 +93,7 @@ public class ScopedCacheTest extends APITestCase
 		design.addResultSetHint( city );
 
 		this.dataEngine.defineDataSet( design );
-		query = this.newReportQuery( design );
-		query.setAutoBinding( true );
+		query = this.newReportQuery( design, true );
 
 		this.executeQuery( query, new String[]{"COUNTRY", "CITY"} );
 		checkOutputFile( );
@@ -110,8 +106,7 @@ public class ScopedCacheTest extends APITestCase
 		design.addResultSetHint( new ColumnDefinition( "COUNTRY" ) );
 		
 		this.dataEngine.defineDataSet( design );
-		QueryDefinition query = this.newReportQuery( design );
-		query.setAutoBinding( true );
+		QueryDefinition query = this.newReportQuery( design, true );
 		this.executeQuery( query, new String[]{"COUNTRY"} );
 		
 		this.testPrintln( "Cache Complete" );
@@ -123,8 +118,7 @@ public class ScopedCacheTest extends APITestCase
 		design.addResultSetHint( city );
 
 		this.dataEngine.defineDataSet( design );
-		query = this.newReportQuery( design );
-		query.setAutoBinding( true );
+		query = this.newReportQuery( design, true );
 
 		this.executeQuery( query, new String[]{"COUNTRY", "CITY"} );
 		
@@ -142,8 +136,7 @@ public class ScopedCacheTest extends APITestCase
 		design.addResultSetHint( new ColumnDefinition( "COUNTRY" ) );
 		
 		this.dataEngine.defineDataSet( design );
-		QueryDefinition query = this.newReportQuery( design );
-		query.setAutoBinding( true );
+		QueryDefinition query = this.newReportQuery( design, true );
 		this.executeQuery( query, new String[]{"COUNTRY"} );
 		
 		this.testPrintln( "Cache Complete" );
@@ -157,8 +150,7 @@ public class ScopedCacheTest extends APITestCase
 		design.addResultSetHint( amount );
 
 		this.dataEngine.defineDataSet( design );
-		query = this.newReportQuery( design );
-		query.setAutoBinding( true );
+		query = this.newReportQuery( design, true );
 
 		this.executeQuery( query, new String[]{"COUNTRY", "AMOUNT"} );
 		
@@ -176,8 +168,7 @@ public class ScopedCacheTest extends APITestCase
 		design.addResultSetHint( new ColumnDefinition( "COUNTRY" ) );
 		
 		this.dataEngine.defineDataSet( design );
-		QueryDefinition query = this.newReportQuery( design );
-		query.setAutoBinding( true );
+		QueryDefinition query = this.newReportQuery( design, true );
 		this.executeQuery( query, new String[]{"COUNTRY"} );
 		
 		this.testPrintln( "Cache Complete" );
@@ -191,8 +182,7 @@ public class ScopedCacheTest extends APITestCase
 		design.addResultSetHint( amount );
 
 		this.dataEngine.defineDataSet( design );
-		query = this.newReportQuery( design );
-		query.setAutoBinding( true );
+		query = this.newReportQuery( design, true );
 
 		this.executeQuery( query, new String[]{"COUNTRY", "AMOUNT"} );
 		

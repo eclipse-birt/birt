@@ -24,7 +24,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -35,6 +34,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.CacheIDFetcher;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.QuerySpecHelper;
@@ -363,8 +363,31 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 					List<IColumnDefinition> resultSets = queryOptimizeHints.getResultSetsForCombinedQuery( );
 					if ( resultSets != null && resultSets.size( ) > 0 )
 					{
+						extDataSet.getResultSetHints( ).clear( );
 						extDataSet.getResultSetHints( ).addAll( resultSets );
 					}
+					
+					Map<String, List<Integer>> filtersMap = queryOptimizeHints.getPushedDownDataSetFilters( );
+					if ( filtersMap != null
+							&& filtersMap.get( extDataSet.getName( ) ) != null )
+					{
+						List filters = extDataSet.getFilters( );
+						List toBeRemovedFilters = new ArrayList();
+						for ( int i = 0; i < filters.size( ); i++ )
+						{
+							if ( filtersMap.get( extDataSet.getName( ) ).contains( i ) )
+							{
+								toBeRemovedFilters.add( filters.get( i ) );
+							}
+						}
+						filters.removeAll( toBeRemovedFilters );
+					}
+					
+					if( queryOptimizeHints.getUnpushedDownComputedColumnInCombinedQuery( ).size( ) > 0 )
+						extDataSet.getComputedColumns( ).addAll( queryOptimizeHints.getUnpushedDownComputedColumnInCombinedQuery( ) );
+				
+					if( queryOptimizeHints.getFilterNeededMerge( ).size( ) > 0 )
+						extDataSet.getFilters( ).addAll( queryOptimizeHints.getFilterNeededMerge( ) );
 				}
 			}
 			else
@@ -414,9 +437,27 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 												querySpec.getResultSetSpecification( )
 														.getResultProjection( )
 														.hideResultColumn( new ColumnIdentifier( col.getColumnName( ) ) );
+												Iterator iter = extDataSet.getResultSetHints( ).iterator( );
+												while ( iter.hasNext( ) )
+												{
+													IColumnDefinition columnDefn = (IColumnDefinition) iter.next( );
+													if( columnDefn.getColumnName( ).equals( col.getColumnName( ) ))
+													{
+														extDataSet.getResultSetHints( ).remove( columnDefn );
+														break;
+													}
+												}
 											}
+											
+											Iterator iter = extDataSet.getResultSetHints( ).iterator( );
+											while ( iter.hasNext( ) )
+											{
+												ColumnDefinition columnDefn = (ColumnDefinition) iter.next( );
+												columnDefn.setColumnPosition( 0 );
+											}											
 										}
 									}
+									//querySpec.getBaseQuery( )
 									querySpec.validate( validationContext );
 									validateStatus = validateStatus.ok;
 								}
@@ -427,6 +468,11 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 									logger.log( Level.WARNING,
 											ex.getLocalizedMessage( ),
 											ex );
+								}
+								catch( Throwable e )
+								{
+									logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+									throw new DataException( ResourceConstants.FAIL_PUSH_DOWM_FILTER, e );
 								}
 							}
 						}
@@ -475,7 +521,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 				//TODO enhance me. For some cases, data set cache should be considered to be reused, need to compare query spec is same or not.
 				if( querySpec!= null && querySpec.getResultSetSpecification( )!= null && !querySpec.getResultSetSpecification( ).isEmpty( ) )
 				{
-					if( appContext.get( DataEngine.QUERY_EXECUTION_SESSION_ID ) == null )
+					if( !CacheIDFetcher.getInstance( ).enableSampleDataPreivew( appContext ) )
 					{
 						dataEngine.getSession( ).getDataSetCacheManager( ).clearCache( dataEngine.getDataSourceDesign( this.dataSet.getDesign( ).getDataSourceName( ) ), this.dataSet.getDesign( ) );						
 					}

@@ -52,6 +52,7 @@ public class FormatSpecifierDialog extends TrayDialog
 			FormatSpecifier formatspecifier, String sTitle )
 	{
 		super( shellParent );
+		setHelpAvailable( false );
 		if ( formatspecifier != null )
 		{
 			this.formatspecifier = formatspecifier.copyInstance( );

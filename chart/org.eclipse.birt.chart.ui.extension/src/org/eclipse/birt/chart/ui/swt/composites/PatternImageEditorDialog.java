@@ -64,6 +64,7 @@ public class PatternImageEditorDialog extends TrayDialog
 	protected PatternImageEditorDialog( Shell shell, Fill fill )
 	{
 		super( shell );
+		setHelpAvailable( false );
 		this.context = new Context( fill );
 	}
 

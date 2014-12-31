@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.PublishLibraryWizard;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -51,7 +52,7 @@ public class PublishToLibraryHandler extends SelectionHandler
 				fileName,
 				ReportPlugin.getDefault( ).getResourceFolder( ) );
 
-		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+		WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
 				publishLibrary );
 
 		dialog.setPageSize( 500, 250 );

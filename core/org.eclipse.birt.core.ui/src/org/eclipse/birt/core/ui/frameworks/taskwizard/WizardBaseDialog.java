@@ -82,7 +82,7 @@ public class WizardBaseDialog extends TitleAreaDialog implements
 	{
 		super( parentShell );
 		this.wizardBase = wizardBase;
-		setHelpAvailable( true );
+		setHelpAvailable( false );
 
 		this.iWizardWidthMinimum = iInitialWidth;
 		this.iWizardHeightMinimum = iInitialHeight;

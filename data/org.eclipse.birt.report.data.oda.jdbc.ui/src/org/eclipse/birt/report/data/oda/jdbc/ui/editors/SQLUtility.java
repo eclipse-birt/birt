@@ -212,6 +212,8 @@ public class SQLUtility
 	private static void setResultSetMetaData( DataSetDesign dataSetDesign,
 			IResultSetMetaData md ) throws OdaException
 	{
+		if ( md == null || dataSetDesign == null )
+			return;
 
 		ResultSetColumns columns = DesignSessionUtil.toResultSetColumnsDesign( md );
 

@@ -75,6 +75,7 @@ public class GradientEditorDialog extends TrayDialog implements
 			boolean bSupportAngle )
 	{
 		super( shellParent );
+		setHelpAvailable( false );
 
 		this.wizardContext = wizardContext;
 		this.bSupportAngle = bSupportAngle;

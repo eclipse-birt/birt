@@ -56,7 +56,7 @@ public class SimpleHyperlinkBuilder extends TrayDialog
 	protected SimpleHyperlinkBuilder( Shell shell )
 	{
 		super( shell );
-		// TODO Auto-generated constructor stub
+		setHelpAvailable( false );
 	}
 
 	/**

@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.impl.QueryContextVisitorUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
+import org.eclipse.birt.data.engine.odaconsumer.ExceptionHandler;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
 import org.eclipse.birt.data.engine.odaconsumer.QuerySpecHelper;
@@ -732,6 +733,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     		ColumnHint colHint = prepareOdiHint( (IDataSourceQuery.ResultFieldHint) it.next() );
    			stmt.addColumnHint( colHint );
     	}
+    	stmt.checkColumnsNaming();
 	}
 
     private void addColumnHints( String rsetName, PreparedStatement stmt ) throws DataException
@@ -745,6 +747,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     		ColumnHint colHint = prepareOdiHint( (IDataSourceQuery.ResultFieldHint) it.next() );
    			stmt.addColumnHint( rsetName, colHint );
     	}
+    	stmt.checkColumnsNaming();
 	}
 
     private void addColumnHints( int rsetNumber, PreparedStatement stmt ) throws DataException
@@ -758,6 +761,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     		ColumnHint colHint = prepareOdiHint( (IDataSourceQuery.ResultFieldHint) it.next() );
    			stmt.addColumnHint( rsetNumber, colHint );
     	}
+    	stmt.checkColumnsNaming();
 	}
 
 	private ColumnHint prepareOdiHint( IDataSourceQuery.ResultFieldHint odiHint )
@@ -847,6 +851,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 						m_nativeTypeName,m_isCustom, m_analysisType, m_analysisColumn, m_indexColumn, m_compressedColumn );
 				metadata.setDriverProvidedDataType( m_driverProvidedDataType );
 				metadata.setAlias( meta.getFieldMetaData( i ).getAlias( ) );
+				
+				if( m_isCustom )
+					metadata.setCustomPosition( meta.getFieldMetaData( i ).getCustomPosition( ) );
 				
 				list.add( metadata );
 			}
@@ -984,8 +991,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			if ( !( queryCanceller.collectException( ).getCause( ) instanceof UnsupportedOperationException ) )
 				throw queryCanceller.collectException( );
 		}
-		
-		this.session.getCancelManager( ).deregister( queryCanceller );
 		
 		ResultSet rs = null;
 		

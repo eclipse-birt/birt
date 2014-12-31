@@ -444,9 +444,15 @@ public class ScriptEvalUtil
 					return compareAsString( obj1, obj2, compareHints );
 				}
 			}
+			else if ( obj1 instanceof String || obj2 instanceof String )
+			{
+				return compareAsString( obj1, obj2, compareHints );
+			}
 			else
 				throw new DataException( ResourceConstants.BAD_COMPARE_EXPR,
-						new Object[]{obj1, obj2});
+						new Object[]{
+								obj1, obj2
+						} );
 		}
 		catch ( BirtException e )
 		{

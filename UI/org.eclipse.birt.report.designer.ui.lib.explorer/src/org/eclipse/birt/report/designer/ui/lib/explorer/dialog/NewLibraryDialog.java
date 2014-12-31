@@ -136,7 +136,6 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog
 		setMessage( Messages.getString( "NewLibraryDialog.Message" ) ); //$NON-NLS-1$
 		setDoubleClickSelects( true );
 		setAllowMultiple( false );
-		setHelpAvailable( true );
 		setValidator( new Validator( ) );
 		setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER );
 	}

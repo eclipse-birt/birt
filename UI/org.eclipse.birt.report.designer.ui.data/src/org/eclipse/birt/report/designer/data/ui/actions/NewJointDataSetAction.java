@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 import org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.JointDataSetWizard;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -123,7 +124,7 @@ public class NewJointDataSetAction extends Action
 
 			JointDataSetWizard wizard = new JointDataSetWizard( );
 			wizard.setWindowTitle( Messages.getString( "dataset.join.new" ) );//$NON-NLS-1$
-			WizardDialog dialog = new WizardDialog( PlatformUI.getWorkbench( )
+			WizardDialog dialog = new BaseWizardDialog( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ), wizard ){
 				

@@ -73,6 +73,7 @@ public class ExternalizedTextEditorDialog extends TrayDialog implements
 		this.keys = keys;
 		this.serviceprovider = serviceprovider;
 		this.defaultValue = defaultValue;
+		setHelpAvailable( false );
 	}
 
 	public String getResult( )

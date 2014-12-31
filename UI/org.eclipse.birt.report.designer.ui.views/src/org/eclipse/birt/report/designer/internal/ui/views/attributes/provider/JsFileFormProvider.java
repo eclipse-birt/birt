@@ -197,6 +197,7 @@ public class JsFileFormProvider extends AbstractFormHandleProvider
 					".js"
 				} );
 		dialog.setHelpDialogId( IHelpContextIds.ADD_JS_FILES_DIALOG_ID );
+		dialog.setAllowImportFile( true );
 		dialog.setExistFiles( getElmentNames( inputElement ) );
 
 		if ( dialog.open( ) != Window.OK )

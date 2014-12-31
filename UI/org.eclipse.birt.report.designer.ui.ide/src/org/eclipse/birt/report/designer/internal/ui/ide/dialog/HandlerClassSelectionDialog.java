@@ -45,6 +45,7 @@ public class HandlerClassSelectionDialog extends TwoPaneElementSelector
 	public HandlerClassSelectionDialog(Shell shell, IType[] types) {
 		super(shell, new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_BASICS | JavaElementLabelProvider.SHOW_OVERLAY_ICONS), 
 				new PackageRenderer());
+		setHelpAvailable( false );
 		fTypes= types;
 	}
 

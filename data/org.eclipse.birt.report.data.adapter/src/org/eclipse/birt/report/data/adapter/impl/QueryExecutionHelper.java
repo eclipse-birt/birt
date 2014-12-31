@@ -34,6 +34,7 @@ import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
+import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptorContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -64,6 +65,7 @@ class QueryExecutionHelper
 	//The major data set handle this QueryExecutionHelper deal with.
 	private DataSetHandle major;
 	private DataRequestSession session;
+
 	/**
 	 * @param dataEngine
 	 * @param modelAdaptor
@@ -96,10 +98,10 @@ class QueryExecutionHelper
 	 * @return
 	 * @throws BirtException
 	 */
-	IQueryResults executeQuery( IQueryDefinition queryDefn )
+	IQueryResults executeQuery( IQueryDefinition queryDefn, IDataSetInterceptorContext context )
 			throws BirtException
 	{
-		return executeQuery( queryDefn, null, null, null, null );
+		return executeQuery( queryDefn, null, null, null, null , context );
 	}
 	
 	/**
@@ -112,7 +114,7 @@ class QueryExecutionHelper
 	 * @throws BirtException
 	 */
 	IQueryResults executeQuery( IQueryDefinition queryDefn,
-			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt, Scriptable scope )
+			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt, Scriptable scope, IDataSetInterceptorContext interceptorContext )
 			throws BirtException
 	{
 		return executeQuery( queryDefn,
@@ -121,16 +123,16 @@ class QueryExecutionHelper
 				bindingIt,
 				true,
 				false,
-				scope );
+				scope, interceptorContext );
 	}
 
 	IQueryResults executeQuery( IQueryDefinition queryDefn,
 			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt,
-			boolean keepDataSetFilter, boolean disAllowAggregation, Scriptable scope ) throws BirtException
+			boolean keepDataSetFilter, boolean disAllowAggregation, Scriptable scope, IDataSetInterceptorContext interceptorContext ) throws BirtException
 	{
 		populateQueryDefn( queryDefn, paramBindingIt, filterIt, bindingIt, disAllowAggregation );
 
-		defineDataSourceDataSet( queryDefn, keepDataSetFilter, disAllowAggregation );
+		defineDataSourceDataSet( queryDefn, keepDataSetFilter, disAllowAggregation, interceptorContext );
 
 		return dataEngine.prepare( queryDefn, sessionContext.getAppContext( ) )
 				.execute( scope );
@@ -141,7 +143,7 @@ class QueryExecutionHelper
 	 * @throws AdapterException
 	 * @throws BirtException
 	 */
-	private void defineDataSourceDataSet( IQueryDefinition queryDefn, boolean keepDataSetFilter, boolean allowAggregation )
+	private void defineDataSourceDataSet( IQueryDefinition queryDefn, boolean keepDataSetFilter, boolean allowAggregation, IDataSetInterceptorContext interceptorContext  )
 			throws AdapterException, BirtException
 	{
 		String dataSetName = queryDefn.getDataSetName( );
@@ -163,7 +165,7 @@ class QueryExecutionHelper
 			}
 			major = handle;
 			defineDataSet( handle, new DataSetHandleProcessContext(major, useResultHints, keepDataSetFilter, allowAggregation) );
-			DefineDataSourceSetUtil.prepareForTransientQuery( sessionContext, (DataEngineImpl)dataEngine, handle, queryDefn, null );
+			DefineDataSourceSetUtil.prepareForTransientQuery( sessionContext, (DataEngineImpl)dataEngine, handle, queryDefn, null, interceptorContext );
 		}
 	}
 

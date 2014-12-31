@@ -747,9 +747,8 @@ public class ColumnBindingTest extends APITestCase
 	 */
 	public void testAutoBinding( ) throws Exception
 	{
-		QueryDefinition queryDefn = newReportQuery( );
+		QueryDefinition queryDefn = newReportQuery( true );
 		this.dataSet.addComputedColumn( new ComputedColumn("COUN\"TRY", "row[\"COUNTRY\"]") );
-		queryDefn.setAutoBinding( true );
 
 		// column mapping
 		String[] name = new String[]{

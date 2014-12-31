@@ -17,7 +17,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +28,11 @@ import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
 import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
+import org.eclipse.birt.report.data.oda.jdbc.utils.ResourceLocator;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
+import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 
 public class JdbcMetaDataProvider
@@ -69,7 +73,7 @@ public class JdbcMetaDataProvider
 		this.props = props;
 	}
 	
-	public static void createInstance( DataSetDesign dataSetDesign )
+	public static void createInstance( DataSetDesign dataSetDesign, ResourceIdentifiers resourceIdentifiers )
 	{
 		release( );
 		DataSourceDesign dataSourceDesign = dataSetDesign.getDataSourceDesign( );
@@ -87,6 +91,20 @@ public class JdbcMetaDataProvider
 		String password = props.getProperty( Constants.ODAPassword );
 		String url = props.getProperty( Constants.ODAURL );
 		String driverClass = props.getProperty( Constants.ODADriverClass );
+		
+		Map appContext = new HashMap( );
+		if ( resourceIdentifiers != null )
+		{
+			appContext.put( org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+					DesignSessionUtil.createRuntimeResourceIdentifiers( resourceIdentifiers ) );
+		}
+		try
+		{
+			ResourceLocator.resolveConnectionProperties( props, driverClass, appContext );
+		}
+		catch ( OdaException e )
+		{
+		}
 		
      	//bidi_hcg: if Bidi format is defined - perform required Bidi transformations
 		String metadataBidiFormatStr = props.getProperty(BidiConstants.METADATA_FORMAT_PROP_NAME);

@@ -136,6 +136,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 			ColorDefinition cdCurrent, boolean isAlignmentEnabled )
 	{
 		super( shellParent );
+		setHelpAvailable( false );
 
 		this.isAlignmentEnabled = isAlignmentEnabled;
 		this.wizardContext = wizardContext;
@@ -152,6 +153,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 			ColorDefinition cdCurrent, int optionalStyle )
 	{
 		super( shellParent );
+		setHelpAvailable( false );
 
 		this.isAlignmentEnabled = ( FontDefinitionComposite.ENABLE_ALIGNMENT & optionalStyle ) == FontDefinitionComposite.ENABLE_ALIGNMENT;
 		this.isRotationEnabled = ( FontDefinitionComposite.ENABLE_ROTATION & optionalStyle ) == FontDefinitionComposite.ENABLE_ROTATION;

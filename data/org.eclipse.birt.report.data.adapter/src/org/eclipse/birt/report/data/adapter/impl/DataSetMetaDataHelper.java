@@ -29,9 +29,11 @@ import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptorContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
@@ -180,18 +182,18 @@ public class DataSetMetaDataHelper
 		
 		//First clear all property bindings so that the data set can be executed against design time properties
 		clearPropertyBindingMap( handle, dataSetBindingMap, dataSourceBindingMap );
+		IDataSetInterceptorContext context = new DataSetInterceptorContext();
 		try 
 		{
-			QueryDefinition query = new QueryDefinition( );
+			QueryDefinition query = new QueryDefinition( true );
 			query.setDataSetName( dataSetHandle.getQualifiedName( ) );
 			query.setMaxRows( 1 );
-			query.setAutoBinding( true );
-	
+			
 			IResultMetaData metaData = new QueryExecutionHelper( dataEngine,
 					modelAdaptor,
 					sessionContext,
 					false,
-					this.session ).executeQuery( query ).getResultMetaData( );
+					this.session ).executeQuery( query, context ).getResultMetaData( );
 			addResultSetColumn( dataSetHandle, metaData );
 	
 			if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
@@ -200,12 +202,13 @@ public class DataSetMetaDataHelper
 						modelAdaptor,
 						sessionContext,
 						true,
-						this.session ).executeQuery( query ).getResultMetaData( );
+						this.session ).executeQuery( query, context ).getResultMetaData( );
 			}
 			return metaData;
 		}
 		finally
 		{
+			context.close( );
 			//restore property bindings
 			resetPropertyBinding( handle, dataSetBindingMap, dataSourceBindingMap );
 		}
@@ -406,10 +409,28 @@ public class DataSetMetaDataHelper
 			List columnList = new ArrayList( );
 			if ( rsMeta != null && rsMeta.getColumnCount( ) != 0 )
 			{
+				PropertyHandle columnHintList = dataSetHandle.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
 				for ( int i = 1; i <= rsMeta.getColumnCount( ); i++ )
 				{
 					ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
-					String columnName = getColumnName( rsMeta, i );
+					String columnName = null;
+					ColumnHintHandle matchedColumnHint = findColumnHint( rsMeta.getColumnName( i ),
+							columnHintList );
+					if( matchedColumnHint != null  )
+					{
+						String rsAlias = rsMeta.getColumnAlias( i );
+						if( rsAlias != null )
+						{
+							updateColumnHintValues( rsAlias, matchedColumnHint );
+						}
+						columnName = matchedColumnHint.getAlias( );
+					}
+					if ( columnName == null
+							|| columnName.trim( ).length( ) == 0 )
+					{
+						columnName = getColumnName( rsMeta, i );
+					}
+
 					if ( columnName == null
 							|| columnName.trim( ).length( ) == 0 )
 					{
@@ -495,7 +516,35 @@ public class DataSetMetaDataHelper
 		}
 		return rsMeta;
 	}
-
+	
+	private void updateColumnHintValues( String rsAlias,
+			ColumnHintHandle columnHint ) throws BirtException
+	{
+		if ( rsAlias != null && columnHint != null )
+		{
+			if ( columnHint.getAlias( ) == null
+					|| columnHint.getAlias( ).trim( ).length( ) == 0 )
+			{
+				columnHint.setAlias( rsAlias );
+			}
+		}
+	}
+	
+	private ColumnHintHandle findColumnHint( String columnName,
+			PropertyHandle columnHintList ) throws BirtException
+	{
+		for ( Iterator columns = columnHintList.iterator( ); columns.hasNext( ); )
+		{
+			ColumnHintHandle column = (ColumnHintHandle) columns.next( );
+			if ( columnName != null
+					&& ( columnName.equals( column.getColumnName( ) ) || columnName.equals( column.getAlias( ) ) ) )
+			{
+				return column;
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * 
 	 * @param dataSetHandle

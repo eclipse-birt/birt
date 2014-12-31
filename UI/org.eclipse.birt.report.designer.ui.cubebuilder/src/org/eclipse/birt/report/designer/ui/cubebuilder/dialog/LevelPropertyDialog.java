@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionPr
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.LinkToCubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -61,7 +62,6 @@ import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -101,7 +101,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.ibm.icu.util.ULocale;
 
-public class LevelPropertyDialog extends TitleAreaDialog
+public class LevelPropertyDialog extends BaseTitleAreaDialog
 {
 
 	private static final String DEFAULTVALUE_EDIT_LABEL = Messages.getString("LevelPropertyDialog.DefaultValue.Edit.Label"); //$NON-NLS-1$

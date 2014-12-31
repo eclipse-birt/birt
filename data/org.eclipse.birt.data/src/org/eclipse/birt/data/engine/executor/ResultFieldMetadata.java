@@ -11,13 +11,6 @@
 
 package org.eclipse.birt.data.engine.executor;
 
-import java.math.BigDecimal;
-import java.sql.Time;
-import java.sql.Timestamp;
-
-import org.eclipse.datatools.connectivity.oda.IBlob;
-import org.eclipse.datatools.connectivity.oda.IClob;
-
 /**
  * <code>ResultFieldMetadata</code> contains metadata about a 
  * column that is needed by <code>ResultClass</code>.
@@ -25,9 +18,9 @@ import org.eclipse.datatools.connectivity.oda.IClob;
 public class ResultFieldMetadata
 {
 	private int m_driverPosition;
-	private String m_name;
-	private String m_label;
-	private String m_alias;
+	private String m_name;		// column name defined in designed column
+	private String m_label;		// JDBC Label
+	private String m_alias;		// user-defined alias
 	private Class m_dataType;	// can be overwritten by column hints
 	private String m_nativeTypeName;
 	private boolean m_isCustom;

@@ -141,6 +141,13 @@ public class AggregationHelper implements IAggrValueHolder
 			assert ( this.getCurrentResult( ) == null || this.getCurrentResultIndex( ) == 0 );
 			if ( this.getCurrentResult( ) == null )
 			{
+				for( int i=0; i<accumulatorManagers.length; i++ )
+				{
+					Accumulator a = accumulatorManagers[i].getCurrentAccumulator( );
+					a.start( );
+					a.finish( );
+					currentRoundAggrValue[i].add( a.getValue( ) );					
+				}
 				// Empty result set; nothing to do
 				return;
 			}
@@ -695,7 +702,9 @@ public class AggregationHelper implements IAggrValueHolder
 			if( cachedAcc.size() == 0 )
 			{
 				cachedAcc.add( aggregation.newAccumulator() );
+				cursor++;
 			}
+	
 			return (Accumulator)cachedAcc.get(cursor);
 		}
 		
