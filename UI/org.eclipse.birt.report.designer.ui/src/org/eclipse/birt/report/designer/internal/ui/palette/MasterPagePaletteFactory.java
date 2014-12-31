@@ -187,12 +187,14 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 		AbstractToolHandleExtends preHandle = BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName(template);
 		
 		ImageDescriptor icon = ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_AUTOTEXT );
+		ImageDescriptor largeIcon = ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_AUTOTEXT_LARGE );
+		
 		CombinedTemplateCreationEntry entry = new ReportCombinedTemplateCreationEntry( label,
 				shortDesc,
 				template,
 				new ReportElementFactory( template ),
 				icon,
-				icon,
+				largeIcon,
 				preHandle );
 		return entry;
 	}
