@@ -119,9 +119,11 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 
 		if ( ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null )
 		{
-			bindingRef.addAll( ExtendedDataModelUIAdapterHelper.getInstance( )
+			List temp = ( ExtendedDataModelUIAdapterHelper.getInstance( )
 					.getAdapter( )
 					.getAvailableBindingReferenceList( element ) );
+			bindingRef.removeAll( temp );
+			bindingRef.addAll( temp );
 		}
 		return bindingRef;
 	}

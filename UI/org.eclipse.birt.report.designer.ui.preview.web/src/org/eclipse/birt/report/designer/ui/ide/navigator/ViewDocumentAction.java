@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
+import org.eclipse.birt.report.designer.ui.preview.PreviewUtil;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
@@ -31,11 +31,7 @@ public class ViewDocumentAction extends AbstractViewAction implements
 
 	protected boolean prePreview( )
 	{
-		System.clearProperty( IPreviewConstants.SID );
-		System.clearProperty( IPreviewConstants.DSID );
-		System.clearProperty( IPreviewConstants.MAX_DATASET_ROWS );
-//		System.clearProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS );
-//		System.clearProperty( IPreviewConstants.MAX_CUBE_COLUMN_LEVELS );
+		PreviewUtil.clearSystemProperties();
 		return true;
 	}
 

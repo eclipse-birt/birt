@@ -11,12 +11,13 @@ package org.eclipse.birt.report.designer.data.ui.dataset;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.impl.DatasetPreviewTask;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -32,10 +33,12 @@ public class OutParameterPreviewTask extends DatasetPreviewTask
 		super( engine );
 	}
 
-	protected QueryDefinition constructQuery( DataSetHandle dataset )
-			throws DataException
+	protected QueryDefinition constructQuery( DataSetHandle dataset, DataRequestSession session )
+			throws BirtException
 	{
-		QueryDefinition query = super.constructQuery( dataset );
+		QueryDefinition query = super.constructQuery( dataset, session );
+		
+		query.getBindings( ).clear( );
 
 		PropertyHandle propertyHandle = dataset.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
 		int paramsSize = propertyHandle.getListValue( ).size( );

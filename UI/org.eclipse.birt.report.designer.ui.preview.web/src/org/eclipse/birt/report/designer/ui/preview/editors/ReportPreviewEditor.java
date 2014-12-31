@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
+import org.eclipse.birt.report.designer.ui.preview.PreviewUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
@@ -581,14 +582,9 @@ public abstract class ReportPreviewEditor extends EditorPart
 				this.options.remove( WebViewer.SHOW_PARAMETER_PAGE_KEY );
 			}
 
-			System.clearProperty( IPreviewConstants.SID );
-			System.clearProperty( IPreviewConstants.DSID );
-
-			System.setProperty( IPreviewConstants.MAX_DATASET_ROWS,
-					ViewerPlugin.getDefault( )
-							.getPluginPreferences( )
-							.getString( WebViewer.PREVIEW_MAXROW ) );
-//			System.setProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS,
+			PreviewUtil.clearSystemProperties( );
+			PreviewUtil.setSystemProperties( );
+			//			System.setProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS,
 //					ViewerPlugin.getDefault( )
 //							.getPluginPreferences( )
 //							.getString( WebViewer.PREVIEW_MAXCUBEROWLEVEL ) );

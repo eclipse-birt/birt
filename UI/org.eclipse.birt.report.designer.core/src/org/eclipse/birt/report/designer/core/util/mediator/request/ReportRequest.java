@@ -167,7 +167,7 @@ public class ReportRequest extends Request implements
 
 	public Map<?, ?> getExtras( )
 	{
-		return null;
+		return getExtendedData( );
 	}
 
 }
