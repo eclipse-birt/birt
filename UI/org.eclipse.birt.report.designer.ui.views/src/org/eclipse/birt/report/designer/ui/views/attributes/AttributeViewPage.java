@@ -237,6 +237,12 @@ public class AttributeViewPage extends Page implements
 		selection = page.getSelection( );
 		page.addSelectionListener( this );
 
+		if ( selection == null && UIUtil.getActiveReportEditor( ) != null )
+		{
+			selection = (ISelection) UIUtil.getActiveReportEditor( )
+					.getAdapter( ISelection.class );
+		}
+
 		SessionHandleAdapter.getInstance( )
 				.getMediator( model )
 				.addColleague( this );
@@ -438,6 +444,10 @@ public class AttributeViewPage extends Page implements
 	 */
 	public void dispose( )
 	{
+		if ( pageGenerator instanceof AbstractPageGenerator )
+		{
+			( (AbstractPageGenerator) pageGenerator ).dispose( );
+		}
 		deRegisterEventManager( );
 		IWorkbenchPage page = getSite( ).getPage( );
 		page.removeSelectionListener( this );
