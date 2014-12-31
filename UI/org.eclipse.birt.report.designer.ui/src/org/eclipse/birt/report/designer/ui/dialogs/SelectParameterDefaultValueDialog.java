@@ -365,6 +365,20 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 				formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.SSS" ); //$NON-NLS-1$
 				return formatter.format( (Date) element );
 			}
+			//Nunmber format has "," ,such as 10000 to be 10,000
+			//In SelectValueDialog ,it call DataTypeUtil.toLocaleNeutralString( element )
+			//So add follow code to call DataTypeUtil.toLocaleNeutralString( element )
+			else if(element instanceof Number)
+			{
+				try
+				{
+					return DataTypeUtil.toLocaleNeutralString( element ); 
+				}
+				catch ( BirtException e )
+				{
+					return String.valueOf( element );
+				}
+			}
 			else
 			{
 				try
