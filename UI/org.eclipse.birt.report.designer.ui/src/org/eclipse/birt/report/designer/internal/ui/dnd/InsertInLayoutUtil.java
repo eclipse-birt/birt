@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.dnd;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -791,13 +790,13 @@ public class InsertInLayoutUtil
 							}
 						}
 
-						for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+						List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+						for( ColumnHintHandle columnHint : columnHints )
 						{
-							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-							if ( element.getColumnName( ).equals( str )
-									|| str.equals( element.getAlias( ) ) )
+							if ( str.equals( columnHint.getColumnName( ) )
+									|| str.equals( columnHint.getAlias( ) ) )
 							{
-								type = element.getAnalysis( );
+								type = columnHint.getAnalysis( );
 								break;
 							}
 						}
@@ -1728,16 +1727,17 @@ public class InsertInLayoutUtil
 					String type = "";
 					if ( str != null )
 					{
-						for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+						List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+						for( ColumnHintHandle columnHint : columnHints )
 						{
-							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-							if ( element.getColumnName( ).equals( str )
-									|| str.equals( element.getAlias( ) ) )
+							if ( str.equals( columnHint.getColumnName( ) )
+									|| str.equals( columnHint.getAlias( ) ) )
 							{
-								type = element.getAnalysis( );
+								type = columnHint.getAnalysis( );
 								break;
 							}
 						}
+						
 						if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( type ) )
 						{
 							GroupHandle findGroup = null;
@@ -2053,13 +2053,13 @@ public class InsertInLayoutUtil
 			ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+		List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+		for( ColumnHintHandle columnHint : columnHints )
 		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
+					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
 			{
-				return element;
+				return columnHint;
 			}
 		}
 		return null;
