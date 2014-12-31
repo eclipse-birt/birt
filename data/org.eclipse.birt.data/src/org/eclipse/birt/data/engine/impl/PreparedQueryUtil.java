@@ -210,7 +210,7 @@ public class PreparedQueryUtil
 			}
 			else
 			{
-				( (BaseDataSetDesign) dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) ).setQueryContextVisitor( contextVisitor );
+				( (BaseDataSetDesign) dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) ).setQueryContextVisitor( ( Object )contextVisitor );
 				preparedQuery = new PreparedOdaDSQuery( dataEngine,
 						queryDefn,
 						dset,
