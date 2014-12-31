@@ -671,4 +671,23 @@ public class FilterConditionHandle extends StructureHandle
 				Boolean.valueOf( updateAggregation ) );
 	}
 
+	/**
+	 * Returns the user specified value.
+	 * 
+	 * @return the flag to indicate updating aggregation or not.
+	 */
+	public String getCustomValue( )
+	{
+		return getStringProperty( FilterCondition.CUSTOM_VALUE );
+	}
+
+	/**
+	 * Sets the user specified value.
+	 * 
+	 */
+
+	public void setCustomValue( String customValue ) throws SemanticException
+	{
+		setProperty( FilterCondition.CUSTOM_VALUE, customValue );
+	}
 }

@@ -99,6 +99,7 @@
                     <property name="dynamicFilterParameter">DynamicFilterParam</property>
                     <property name="type">slicer</property>
                     <property name="updateAggregation">true</property>
+                    <property name="customValue">customed 1</property>                    
                 </structure>
                 <structure>
                     <property name="operator">gt</property>
