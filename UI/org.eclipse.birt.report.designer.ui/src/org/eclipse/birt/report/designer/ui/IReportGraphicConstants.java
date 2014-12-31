@@ -257,6 +257,8 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_NODE_THEMES = "Themes"; //$NON-NLS-1$
 
+	public final static String ICON_NODE_IMAGES = "Images"; //$NON-NLS-1$
+
 	// icons for layout
 	public final static String ICON_LAYOUT_NORMAL = "Layout Normal"; //$NON-NLS-1$
 

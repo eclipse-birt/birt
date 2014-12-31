@@ -467,7 +467,11 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_NODE_THEMES, ICONS_PATH
 				+ OBJ16_PATH
-				+ "theme.gif" ); //$NON-NLS-1$
+				+ "themes.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_NODE_IMAGES, ICONS_PATH
+				+ OBJ16_PATH
+				+ "images.gif" ); //$NON-NLS-1$
 
 		// layout icons
 		declareImage( IReportGraphicConstants.ICON_LAYOUT_NORMAL, ICONS_PATH
