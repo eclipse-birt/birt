@@ -281,6 +281,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			if( this.modelChanged )
 			{
 				( (DataSetEditor) this.getContainer( ) ).updateDataSetDesign( this );
+				updateColumnCache( );
 				this.modelChanged = false;
 			}
 			this.pageActivated = false;
@@ -288,6 +289,18 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		}
 		else
 			return false;
+	}
+	
+	protected void updateColumnCache( )
+	{
+		try
+		{
+			DataSetUIUtil.updateColumnCache( (DataSetHandle) getContainer( ).getModel( ) );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
 	}
 
 	/*
