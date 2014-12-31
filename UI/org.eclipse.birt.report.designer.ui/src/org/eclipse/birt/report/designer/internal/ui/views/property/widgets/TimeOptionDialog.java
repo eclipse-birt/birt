@@ -206,7 +206,7 @@ public class TimeOptionDialog extends SelectionStatusDialog
 
 	private void initComponent( Shell shell )
 	{
-		shell.setSize( 500, 220 );
+		//shell.setSize( 500, 220 );
 
 	}
 

@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.dnd;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -37,7 +36,6 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.model.api.ActionHandle;
-import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -792,13 +790,13 @@ public class InsertInLayoutUtil
 							}
 						}
 
-						for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+						List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+						for( ColumnHintHandle columnHint : columnHints )
 						{
-							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-							if ( element.getColumnName( ).equals( str )
-									|| str.equals( element.getAlias( ) ) )
+							if ( str.equals( columnHint.getColumnName( ) )
+									|| str.equals( columnHint.getAlias( ) ) )
 							{
-								type = element.getAnalysis( );
+								type = columnHint.getAnalysis( );
 								break;
 							}
 						}
@@ -1729,16 +1727,17 @@ public class InsertInLayoutUtil
 					String type = "";
 					if ( str != null )
 					{
-						for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+						List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+						for( ColumnHintHandle columnHint : columnHints )
 						{
-							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-							if ( element.getColumnName( ).equals( str )
-									|| str.equals( element.getAlias( ) ) )
+							if ( str.equals( columnHint.getColumnName( ) )
+									|| str.equals( columnHint.getAlias( ) ) )
 							{
-								type = element.getAnalysis( );
+								type = columnHint.getAnalysis( );
 								break;
 							}
 						}
+						
 						if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( type ) )
 						{
 							GroupHandle findGroup = null;
@@ -2009,6 +2008,10 @@ public class InsertInLayoutUtil
 		{
 			StyleHandle styleHandle = dataHandle.getPrivateStyle( );
 			ColumnHintHandle hintHandle = findColumnHintHandle( column );
+			if (hintHandle == null)
+			{
+				return;
+			}
 			if ( hintHandle != null
 					&& hintHandle.isLocal( ColumnHint.WORD_WRAP_MEMBER ) )
 			{
@@ -2023,13 +2026,13 @@ public class InsertInLayoutUtil
 				}
 			}
 
-			String aliment = UIUtil.getClolumnHandleAlignment( column );
+			String aliment = hintHandle.getHorizontalAlign( );
 			if ( aliment != null )
 			{
 				styleHandle.setTextAlign( aliment );
 			}
 
-			String helpText = UIUtil.getClolumnHandleHelpText( column );
+			String helpText = hintHandle.getHelpText( );
 			if ( helpText != null )
 			{
 				dataHandle.setHelpText( helpText );
@@ -2054,13 +2057,13 @@ public class InsertInLayoutUtil
 			ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+		List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+		for( ColumnHintHandle columnHint : columnHints )
 		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
+					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
 			{
-				return element;
+				return columnHint;
 			}
 		}
 		return null;

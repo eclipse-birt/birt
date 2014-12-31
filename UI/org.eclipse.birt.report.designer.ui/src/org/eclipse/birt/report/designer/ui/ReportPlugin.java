@@ -1300,25 +1300,34 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDefaultExpressionSyntaxColorPreference( )
 	{
+		final RGB[] rgb = new RGB[1];
+		Display.getDefault( ).syncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				rgb[0] = Display.getDefault( )
+						.getSystemColor( SWT.COLOR_LIST_FOREGROUND )
+						.getRGB( );
+			}
+		} );
+
 		PreferenceFactory.getInstance( )
-				.getPreferences( this )
+				.getPreferences( ReportPlugin.this )
 				.setDefault( EXPRESSION_CONTENT_COLOR_PREFERENCE,
-						ColorHelper.toRGBString( Display.getDefault( )
-								.getSystemColor( SWT.COLOR_LIST_FOREGROUND )
-								.getRGB( ) )
+						ColorHelper.toRGBString( rgb[0] )
 								+ " | null | false | false | false | false" );//$NON-NLS-1$
 		PreferenceFactory.getInstance( )
-				.getPreferences( this )
+				.getPreferences( ReportPlugin.this )
 				.setDefault( EXPRESSION_COMMENT_COLOR_PREFERENCE,
 						ColorHelper.toRGBString( ReportColorConstants.JSCOMMENTCOLOR.getRGB( ) )
 								+ " | null | false | false | false | false" );//$NON-NLS-1$
 		PreferenceFactory.getInstance( )
-				.getPreferences( this )
+				.getPreferences( ReportPlugin.this )
 				.setDefault( EXPRESSION_KEYWORD_COLOR_PREFERENCE,
 						ColorHelper.toRGBString( ReportColorConstants.JSKEYWORDCOLOR.getRGB( ) )
 								+ " | null | true | false | false | false" );//$NON-NLS-1$
 		PreferenceFactory.getInstance( )
-				.getPreferences( this )
+				.getPreferences( ReportPlugin.this )
 				.setDefault( EXPRESSION_STRING_COLOR_PREFERENCE,
 						ColorHelper.toRGBString( ReportColorConstants.JSSTRINGCOLOR.getRGB( ) )
 								+ " | null | false | false | false | false" );//$NON-NLS-1$
