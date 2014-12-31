@@ -57,8 +57,8 @@ abstract class PreviewSupport
 
 	private static final Map<String, String> typeMap = new HashMap<String, String>( );
 
-	private static final String IMG_FILE_DEFAULT = "icons/etool16/preview.gif"; //$NON-NLS-1$
-	private static final String IMG_FILE_WEB = "icons/etool16/preview.gif"; //$NON-NLS-1$
+	private static final String IMG_FILE_DEFAULT = "icons/etool16/preview_web.gif"; //$NON-NLS-1$
+	private static final String IMG_FILE_WEB = "icons/etool16/preview_web.gif"; //$NON-NLS-1$
 
 	static
 	{
