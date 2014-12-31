@@ -29,7 +29,7 @@ abstract class BaseDiskArray implements IDiskArray
 
 	private static final String fileNamePrefix = "BasicDiskList";
 	private static final int FILE_BUFFER_SIZE = 1024;
-	private static final int bufferSize = 100;
+	private static final int bufferSize = 1;
 	
 	protected static final short NORMAL_VALUE = 0;
 	protected static final short NULL_VALUE = -1;
