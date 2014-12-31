@@ -1077,7 +1077,7 @@ public class InsertInLayoutUtil
 				}
 			}
 			else if ( root.getDataSet( ) == dataSet
-					|| ( getAdapter( ) != null && getAdapter( ).resolveExtendedData( root.getDataSet( ) )
+					|| ( getAdapter( ) != null && root.getDataSet( )!=null && getAdapter( ).resolveExtendedData( root.getDataSet( ) )
 							.equals( getAdapter( ).resolveExtendedData( dataSet ) ) ) )
 			{
 				container = DEUtil.getBindingHolder( container );
