@@ -394,10 +394,15 @@ public class ResultIterator implements IResultIterator
 	private Set populateValidDataSetColumnNameSet( ) throws DataException
 	{
 		Set validDataSetColumnNames = new HashSet();
-		for( int i = 1; i <= this.odiResult.getResultClass( ).getFieldCount( ); i++ )
+		IResultClass rc = this.odiResult.getResultClass( );
+		for( int i = 1; i <= rc.getFieldCount( ); i++ )
 		{
-			validDataSetColumnNames.add( this.odiResult.getResultClass( ).getFieldName( i ) );
-			validDataSetColumnNames.add( this.odiResult.getResultClass( ).getFieldAlias( i ) );
+			validDataSetColumnNames.add( rc.getFieldName( i ) );
+			if ( rc.getFieldAlias(i) != null )
+				validDataSetColumnNames.add( rc.getFieldAlias( i ) );
+			// Best-effort support for jdbc alias
+			if ( rc.getFieldLabel(i) != null )
+				validDataSetColumnNames.add( rc.getFieldLabel( i ) );
 		}
 		return validDataSetColumnNames;
 	}

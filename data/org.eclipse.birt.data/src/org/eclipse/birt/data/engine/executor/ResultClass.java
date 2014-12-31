@@ -81,7 +81,6 @@ public class ResultClass implements IResultClass
 			if( column.getAlias()!= null )
 				columnNameSet.add(column.getAlias());
 		}
-			
 	}
 	
 	/**
@@ -130,6 +129,13 @@ public class ResultClass implements IResultClass
 			{
 				nameToIdMapping.put( upperCaseAlias, index );
 			}
+		}
+		// Best effort to support jdbc alias
+		for ( int i = 0; i < projectedCols.length; i++ )
+		{
+			String JDBCAlias = projectedCols[i].getLabel();
+			if ( !nameToIdMapping.containsKey( JDBCAlias ) )
+				nameToIdMapping.put( JDBCAlias, Integer.valueOf( i + 1 ) );
 		}
 	}
 
@@ -245,26 +251,28 @@ public class ResultClass implements IResultClass
 		assert outputStream != null;
 		
 		DataOutputStream dos = new DataOutputStream( outputStream );
-		Set resultSetNameSet = requestColumnMap == null ? null:ResultSetUtil.getRsColumnRequestMap( requestColumnMap );
+		// Set resultSetNameSet = requestColumnMap == null ? null:ResultSetUtil.getRsColumnRequestMap( requestColumnMap );
+		Set requestNameSet = requestColumnMap == null ? null:ResultSetUtil.getRsColumnRequestMap( requestColumnMap );
+		Set<String> resultSetNameSet = null;
 		
-		// If there are refrences on columnName and columnAlias in
-		// resultSetNameSet, size--;
-		int size = resultSetNameSet == null ? projectedCols.length
-				: resultSetNameSet.size( );
-		if ( resultSetNameSet != null )
+		if ( requestNameSet != null )
 		{
+			resultSetNameSet = new HashSet<String>();
 			for ( int i = 0; i < projectedCols.length; i++ )
 			{
 				String columnName = projectedCols[i].getName( );
 				String columnAlias = projectedCols[i].getAlias( );
-				if ( resultSetNameSet != null
-						&& columnName != null
-						&& !columnName.equals( columnAlias )
-						&& resultSetNameSet.contains( columnName )
-						&& resultSetNameSet.contains( columnAlias ) )
-					size--;
+				String columnLabel = projectedCols[i].getLabel( );
+				if ( requestNameSet.contains( columnName )
+						|| requestNameSet.contains( columnAlias )
+						|| requestNameSet.contains( columnLabel ) )
+				{
+					resultSetNameSet.add( columnName );
+				}
 			}
 		}
+		int size = resultSetNameSet == null ? projectedCols.length
+				: resultSetNameSet.size( );
 		try
 		{
 			IOUtil.writeInt( outputStream, size );
@@ -274,8 +282,7 @@ public class ResultClass implements IResultClass
 				ResultFieldMetadata column = projectedCols[i];
 				// check if result set contains the column, if exists, remove it
 				// from the result set for further invalid columns collecting
-				if (resultSetNameSet == null || resultSetNameSet.remove(column.getName())
-						|| resultSetNameSet.remove(column.getAlias()))
+				if (resultSetNameSet == null || resultSetNameSet.remove(column.getName()))
 				{
 					IOUtil.writeInt( dos, column.getDriverPosition( ) );
 					IOUtil.writeString( dos, column.getName( ) );
