@@ -38,7 +38,7 @@ public class NameContextFactoryImpl
 	 */
 
 	public static INameContext createModuleNameContext( Module module,
-			int nameSpaceID )
+			String nameSpaceID )
 	{
 		if ( nameSpaceID == Module.STYLE_NAME_SPACE )
 			return new StyleNameContext( module );
@@ -60,9 +60,9 @@ public class NameContextFactoryImpl
 	 * @return the dimension name context.
 	 */
 	public static INameContext createDimensionNameContext( Dimension dimension,
-			int nameSpaceID )
+			String nameSpaceID )
 	{
-		if ( nameSpaceID == Dimension.LEVEL_NAME_SPACE )
+		if ( Dimension.LEVEL_NAME_SPACE.equals( nameSpaceID ) )
 			return new DimensionNameContext( dimension );
 		return null;
 	}

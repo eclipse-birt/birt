@@ -55,7 +55,7 @@ public interface INameHelper
 	 * @return unique name of element.
 	 * 
 	 */
-	public String getUniqueName( int namespaceId, DesignElement element );
+	public String getUniqueName( String namespaceId, DesignElement element );
 	
 	/**
 	 * 
@@ -84,9 +84,9 @@ public interface INameHelper
 	 * @return unique name of element.
 	 * 
 	 */
-	public String getUniqueName( int namespaceId, DesignElement element, String namePrefix );
+	public String getUniqueName( String namespaceId, DesignElement element, String namePrefix );
 
-	public void makeUniqueName( int namespaceId, DesignElement element );
+	public void makeUniqueName( String namespaceId, DesignElement element );
 	
 	/**
 	 * make the unique name of element with the given name prefix
@@ -98,7 +98,7 @@ public interface INameHelper
 	 * @param prefix
 	 *        the name prefix
 	 */
-	public void makeUniqueName( int namespaceId, DesignElement element, String prefix );
+	public void makeUniqueName( String namespaceId, DesignElement element, String prefix );
 	
 	/**
 	 * remove a element from cached namespace
@@ -106,7 +106,7 @@ public interface INameHelper
 	 * @param namespace
 	 * @param element
 	 */
-	public void dropElement( int namespaceId, DesignElement element );
+	public void dropElement( String namespaceId, DesignElement element );
 	
 	/**
 	 * Adds a content name to this help. Generally, this content is not
@@ -116,7 +116,7 @@ public interface INameHelper
 	 * @param id
 	 * @param name
 	 */
-	public void addContentName( int namespaceId, String name );
+	public void addContentName( String namespaceId, String name );
 
 	/**
 	 * Gets the holder element of this name helper.
@@ -132,7 +132,7 @@ public interface INameHelper
 	 * 
 	 * @return the namespce instance with the specified id
 	 */
-	public NameSpace getNameSpace( int nameSpaceID );
+	public NameSpace getNameSpace( String nameSpaceID );
 
 	/**
 	 * Resolves the given element name to element reference value.
@@ -190,7 +190,7 @@ public interface INameHelper
 	 * @return all element in this namespace.
 	 */
 
-	public List<DesignElement> getElements( int nameSpaceID, int level );
+	public List<DesignElement> getElements( String nameSpaceID, int level );
 
 	/**
 	 * Checks whether the given element name is acceptable in this module name
@@ -203,7 +203,7 @@ public interface INameHelper
 	 * @return true if the given element is accepted, otherwise, return false.
 	 */
 
-	public boolean canContain( int nameSpaceID, String elementName );
+	public boolean canContain( String nameSpaceID, String elementName );
 
 	/**
 	 * Caches values for elements with names such as styles, etc.
