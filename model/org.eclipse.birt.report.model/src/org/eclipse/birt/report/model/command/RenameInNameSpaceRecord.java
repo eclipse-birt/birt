@@ -30,7 +30,7 @@ class RenameInNameSpaceRecord extends SimpleRecord
 	private DesignElement element = null;
 	private String oldName = null;
 	private String newName = null;
-	private int nameSpaceID;
+	private String nameSpaceID;
 	private INameHelper nameHelper = null;
 
 	/**

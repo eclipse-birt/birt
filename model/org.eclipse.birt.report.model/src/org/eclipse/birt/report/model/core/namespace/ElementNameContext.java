@@ -60,7 +60,7 @@ public abstract class ElementNameContext extends AbstractNameContext
 			{
 				elements
 						.addAll( ( (AbstractNameHelper) parent.getNameHelper( ) )
-								.getNameContext( 0 ).getElements( newLevel ) );
+								.getNameContext( Module.ELEMENT_NAME_SPACE ).getElements( newLevel ) );
 			}
 		}
 		return Collections.unmodifiableList( elements );
