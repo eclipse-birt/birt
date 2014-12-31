@@ -12,8 +12,11 @@
 package org.eclipse.birt.report.designer.internal.ui.extension;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.preferences.IStatusChangeListener;
+import org.eclipse.birt.report.designer.ui.preferences.OptionsConfigurationBlock;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -24,6 +27,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.core.resources.IProject;
 
 /**
  * The extended data adapter for extended report item
@@ -159,4 +163,17 @@ public interface IExtendedDataModelUIAdapter
 	 * @return the levels
 	 */
 	public List<LevelHandle> getLevelHints(DimensionHandle dimension);
+	
+	/**
+	 * Gets the display block for data model in the preference page.
+	 * @param listener The StatusChangeListener
+	 * @param project The project
+	 * @return The ConfigurationBlock
+	 */
+	public OptionsConfigurationBlock getDataModelConfigurationBlock( IStatusChangeListener listener, IProject project);
+	
+	/**
+	 * Gets application context settings for the engine tasks.
+	 */
+	public Map getAppContext();
 }

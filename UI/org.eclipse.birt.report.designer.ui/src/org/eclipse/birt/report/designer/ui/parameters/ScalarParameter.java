@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -134,6 +135,9 @@ public abstract class ScalarParameter implements IParameter
 				Object obj = itor.next( );
 				context.put( obj, taskContext.get( obj ) );
 			}
+			// TODO replace with DtE constant
+			context.put( "com.actuate.birt.data.linkeddatamodel.LinkedDataModelDataModeSize",
+					ReportPlugin.getDefault( ).getPluginPreferences( ).getString( ReportPlugin.DATA_MODEL_MEMORY_LIMIT_PREFERENCE ) );
 			task.setAppContext( context );
 			
 		}
