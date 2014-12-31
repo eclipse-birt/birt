@@ -55,6 +55,8 @@ import com.ibm.icu.util.ULocale;
 public class SessionHandleAdapter implements IMediatorStateConverter
 {
 
+	private ThreadLocal threadSession = new ThreadLocal( );
+
 	/**
 	 * @deprecated not used anymore
 	 */
@@ -138,6 +140,14 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 		return sessionAdapter;
 	}
 
+	public SessionHandle getSessionHandle( boolean useThreadLocal )
+	{
+		if ( useThreadLocal )
+			return getThreadLocalSessionHandle( );
+		else
+			return getSessionHandle( );
+	}
+
 	/**
 	 * Get session handle
 	 * 
@@ -165,6 +175,29 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 		return sessionHandle;
 	}
 
+	public SessionHandle getThreadLocalSessionHandle( )
+	{
+		SessionHandle s = (SessionHandle) threadSession.get( );
+		if ( s == null )
+		{
+			s = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.getDefault( ) );
+			try
+			{
+				if ( !CorePlugin.isUseNormalTheme( ) )
+				{
+					s.setDefaultValue( StyleHandle.COLOR_PROP,
+							DEUtil.getRGBInt( CorePlugin.ReportForeground.getRGB( ) ) );
+				}
+			}
+			catch ( PropertyValueException e )
+			{
+				// do nothing
+			}
+			threadSession.set( s );
+		}
+		return s;
+	}
+
 	/**
 	 * Open a design/library file.
 	 * 
@@ -177,14 +210,22 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	public ModuleHandle init( String fileName, InputStream input, Map properties )
 			throws DesignFileException
 	{
+
+		return init( fileName, input, properties, false );
+	}
+
+	public ModuleHandle init( String fileName, InputStream input,
+			Map properties, boolean useThreadLocal ) throws DesignFileException
+	{
 		ModuleHandle handle = null;
 		if ( properties == null )
 		{
-			handle = getSessionHandle( ).openModule( fileName, input );
+			handle = getSessionHandle( useThreadLocal ).openModule( fileName,
+					input );
 		}
 		else
 		{
-			handle = getSessionHandle( ).openModule( fileName,
+			handle = getSessionHandle( useThreadLocal ).openModule( fileName,
 					input,
 					new ModuleOption( properties ) );
 		}
