@@ -145,6 +145,11 @@ public class FilterCondition extends PropertyStructure
 	 */
 	public static final String UPDATE_AGGREGATION_MEMBER = "updateAggregation";
 
+	/**
+	 * Name of the member to save the any other user specified value.
+	 */
+	public static final String CUSTOM_VALUE = "customValue";
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -744,4 +749,23 @@ public class FilterCondition extends PropertyStructure
 				Boolean.valueOf( updateAggregation ) );
 	}
 
+	/**
+	 * Returns the user specified value.
+	 * 
+	 * @return the flag to indicate updating aggregation or not.
+	 */
+	public String getCustomValue( )
+	{
+		return getStringProperty(null, CUSTOM_VALUE);
+	}
+
+	/**
+	 * Sets the user specified value.
+	 * 
+	 */
+
+	public void setCustomValue( String customValue )
+	{
+		setProperty( CUSTOM_VALUE, customValue );
+	}
 }

@@ -139,7 +139,7 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.FILTER_CONDITION_TYPE_SLICER,
 				filterHandle.getType( ) );
 		assertTrue( filterHandle.updateAggregation( ) );
-
+		assertEquals("customed 1", filterHandle.getCustomValue()); //$NON-NLS-1$ 
 	}
 
 	/**
@@ -226,6 +226,7 @@ public class FilterAndSortParseTest extends BaseTestCase
 		tmpList.add( new Expression( "constant1", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
 		filterHandle.setValue1( tmpList );
 		filterHandle.setValue2( new Expression( "constant2", ExpressionType.CONSTANT ) ); //$NON-NLS-1$ )
+		filterHandle.setCustomValue("customed updated"); //$NON-NLS-1$ 
 		
 		save( );
 		assertTrue( compareFile( "FilterAndSortParseTest_golden.xml" ) ); //$NON-NLS-1$
