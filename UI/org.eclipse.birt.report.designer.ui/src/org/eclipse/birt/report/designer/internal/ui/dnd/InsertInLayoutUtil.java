@@ -37,7 +37,6 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.model.api.ActionHandle;
-import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -2023,13 +2022,13 @@ public class InsertInLayoutUtil
 				}
 			}
 
-			String aliment = UIUtil.getClolumnHandleAlignment( column );
+			String aliment = hintHandle.getHorizontalAlign( );
 			if ( aliment != null )
 			{
 				styleHandle.setTextAlign( aliment );
 			}
 
-			String helpText = UIUtil.getClolumnHandleHelpText( column );
+			String helpText = hintHandle.getHelpText( );
 			if ( helpText != null )
 			{
 				dataHandle.setHelpText( helpText );
