@@ -258,20 +258,22 @@ public class ResultClass implements IResultClass
 		if ( requestNameSet != null )
 		{
 			resultSetNameSet = new HashSet<String>();
+			// Try name and alias first, because they are unique.
 			for ( int i = 0; i < projectedCols.length; i++ )
 			{
 				String columnName = projectedCols[i].getName( );
-				String columnAlias = projectedCols[i].getAlias( );
+				String columnAlias = projectedCols[i].getAlias( );				
+				if ( requestNameSet.remove( columnName ) 
+						| requestNameSet.remove( columnAlias ) )
+					resultSetNameSet.add( columnName );
+			}
+			// Try JDBC alias then
+			for ( int i = 0; i < projectedCols.length; i++ )
+			{
+				String columnName = projectedCols[i].getName( );
 				String columnLabel = projectedCols[i].getLabel( );
-				if ( requestNameSet.contains( columnName ) )
+				if ( requestNameSet.remove( columnLabel ) )
 					resultSetNameSet.add( columnName );
-				if ( requestNameSet.contains( columnAlias ) )
-					resultSetNameSet.add( columnName );
-				if ( requestNameSet.contains( columnLabel ) )
-					resultSetNameSet.add( columnName );
-				requestNameSet.remove( columnName );
-				requestNameSet.remove( columnAlias );
-				requestNameSet.remove( columnLabel );
 			}
 		}
 		int size = resultSetNameSet == null ? projectedCols.length
