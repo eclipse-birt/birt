@@ -24,6 +24,7 @@ import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.ISharedImages;
 
 /**
  * Factory to populate Master Page graphical editor palette root.
@@ -110,7 +111,7 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 	{
 		PaletteCategory category = new PaletteCategory( IPreferenceConstants.PALETTE_AUTOTEXT,
 				AUTOTEXT_LABEL,
-				null );
+				ReportPlatformUIImages.getImageDescriptor( ISharedImages.IMG_OBJ_FOLDER ) );
 		List entries = new ArrayList( );
 
 		CombinedTemplateCreationEntry combined = null;
