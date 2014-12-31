@@ -98,17 +98,4 @@ public abstract class LibraryWriterImpl extends ModuleWriter
 	{
 		
 	}
-	
-	public void visitTheme( Theme obj )
-	{
-		writer.startElement( DesignSchemaConstants.THEME_TAG );
-	
-		super.visitTheme( obj );
-	
-		writeContents( obj, IAbstractThemeModel.STYLES_SLOT,
-				DesignSchemaConstants.STYLES_TAG );
-	
-		writer.endElement( );
-	}
-
 }
