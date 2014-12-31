@@ -25,6 +25,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 
 /**
  * The default PageGenerator implementation, only creates an empty
@@ -247,6 +248,7 @@ public class TabPageGenerator implements IPageGenerator
 	{
 		selectedTabText = tabKey;
 		showPropertiesPage( );
+		tabFolder.notifyListeners( SWT.Selection, new Event( ) );
 	}
 
 }
