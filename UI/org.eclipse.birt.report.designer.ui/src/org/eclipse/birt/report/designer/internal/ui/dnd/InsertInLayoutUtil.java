@@ -778,19 +778,35 @@ public class InsertInLayoutUtil
 					ResultSetColumnHandle newResultColumn = null;
 					if ( str != null )
 					{
+						List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+						ColumnHintHandle temp = null;
+						for ( int i = 0; i < columnHints.size( ); i++ )
+						{
+							ColumnHintHandle columnHintHandle = (ColumnHintHandle) columnHints.get( i );
+							if ( str.equals( columnHintHandle.getColumnName( ) ) || str.equals( columnHintHandle.getAlias( )))
+							{
+								temp = columnHintHandle;
+								break;
+							}
+						}
+						if (temp == null)
+						{
+							return dataHandle;
+						}
 						List columnList = DataUtil.getColumnList( dataset );
 
 						for ( int i = 0; i < columnList.size( ); i++ )
 						{
 							ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
-							if ( str.equals( resultSetColumn.getColumnName( ) ) )
+							if ( temp != null && (temp.getAlias().equals( resultSetColumn.getColumnName( ) ) 
+									|| temp.getColumnName().equals((resultSetColumn.getColumnName()))))
 							{
 								newResultColumn = resultSetColumn;
 								break;
 							}
 						}
 
-						List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+						
 						for( ColumnHintHandle columnHint : columnHints )
 						{
 							if ( str.equals( columnHint.getColumnName( ) )
