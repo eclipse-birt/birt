@@ -23,6 +23,8 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
  */
 public interface IReportGraphicConstants
 {
+	// Palette large icons
+	public final static String LARGE = "LARGE"; //$NON-NLS-1$
 
 	// common icons
 	public final static String ICON_NEW_REPORT = "New report"; //$NON-NLS-1$
@@ -56,6 +58,8 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_ELEMENT_DATA = ReportDesignConstants.DATA_ITEM;
 
+	public final static String ICON_ELEMENT_DATA_LARGE = ICON_ELEMENT_DATA + "_" + LARGE; //$NON-NLS-1$
+
 	public final static String ICON_ELEMENT_DATA_SET = ReportDesignConstants.DATA_SET_ELEMENT;
 
 	public final static String ICON_ELEMENT_DATA_SOURCE = ReportDesignConstants.DATA_SOURCE_ELEMENT;
@@ -73,23 +77,31 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_SCRIPT_DATA_SOURCE = ReportDesignConstants.SCRIPT_DATA_SOURCE;
 
 	//ReportDesignConstants.DATAMART_DATA_SET,	ReportDesignConstants.DATAMART_DATA_SOURCE
-	public final static String ICON_ELEMENT_DATAMART_DATA_SET = "DataMartDataSet";
+	public final static String ICON_ELEMENT_DATAMART_DATA_SET = "DataMartDataSet"; //$NON-NLS-1$
 	
-	public final static String ICON_ELEMENT_DATAMART_DATA_SOURCE = "DataMartDataSource";
+	public final static String ICON_ELEMENT_DATAMART_DATA_SOURCE = "DataMartDataSource"; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_JOINT_DATA_SET = ReportDesignConstants.JOINT_DATA_SET;
 
 	public final static String ICON_ELEMENT_GRID = ReportDesignConstants.GRID_ITEM;
 
+	public final static String ICON_ELEMENT_GRID_LARGE = ICON_ELEMENT_GRID + "_" + LARGE; //$NON-NLS-1$
+
 	public final static String ICON_ELEMENT_GROUP = "Group"; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_IMAGE = ReportDesignConstants.IMAGE_ITEM;
 
+	public final static String ICON_ELEMENT_IMAGE_LARGE = ICON_ELEMENT_IMAGE + "_" + LARGE; //$NON-NLS-1$
+
 	public final static String ICON_ELEMENT_LABEL = ReportDesignConstants.LABEL_ITEM;
+
+	public final static String ICON_ELEMENT_LABEL_LARGE = ICON_ELEMENT_LABEL + "_" + LARGE; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_LINE = ReportDesignConstants.LINE_ITEM;
 
 	public final static String ICON_ELEMENT_LIST = ReportDesignConstants.LIST_ITEM;
+
+	public final static String ICON_ELEMENT_LIST_LARGE = ICON_ELEMENT_LIST + "_" + LARGE; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_LIST_GROUP = ReportDesignConstants.LIST_GROUP_ELEMENT;
 
@@ -115,11 +127,17 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_ELEMENT_TABLE = ReportDesignConstants.TABLE_ITEM;
 
+	public final static String ICON_ELEMENT_TABLE_LARGE = ICON_ELEMENT_TABLE + "_" + LARGE; //$NON-NLS-1$
+
 	public final static String ICON_ELEMENT_TABLE_GROUP = ReportDesignConstants.TABLE_GROUP_ELEMENT;
 
 	public final static String ICON_ELEMENT_TEXT = ReportDesignConstants.TEXT_ITEM;
 
+	public final static String ICON_ELEMENT_TEXT_LARGE = ICON_ELEMENT_TEXT + "_" + LARGE; //$NON-NLS-1$
+
 	public final static String ICON_ELEMENT_TEXTDATA = ReportDesignConstants.TEXT_DATA_ITEM;
+
+	public final static String ICON_ELEMENT_TEXTDATA_LARGE = ICON_ELEMENT_TEXTDATA + "_" + LARGE; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_LIBRARY = ReportDesignConstants.LIBRARY_ELEMENT;
 
@@ -207,13 +225,9 @@ public interface IReportGraphicConstants
 			+ LINK;
 	
 	//ReportDesignConstants.DATAMART_DATA_SET, ReportDesignConstants.DATAMART_DATA_SOURCE
-	public final static String ICON_ELEMENT_DATAMART_DATA_SET_LINK = "DataMartDataSet"
-			+ "_" //$NON-NLS-1$
-			+ LINK;
+	public final static String ICON_ELEMENT_DATAMART_DATA_SET_LINK = ICON_ELEMENT_DATAMART_DATA_SET + "_" + LINK; //$NON-NLS-1$
 
-	public final static String ICON_ELEMENT_DATAMART_DATA_SOURCE_LINK = "DataMartDataSource"
-			+ "_" //$NON-NLS-1$
-			+ LINK;
+	public final static String ICON_ELEMENT_DATAMART_DATA_SOURCE_LINK = ICON_ELEMENT_DATAMART_DATA_SOURCE + "_" + LINK; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_JOINT_DATA_SET_LINK = ReportDesignConstants.JOINT_DATA_SET
 			+ "_" //$NON-NLS-1$
@@ -476,7 +490,12 @@ public interface IReportGraphicConstants
 
 	// Quick tools aggregation icon
 	public static final String ICON_ELEMENT_AGGREGATION = "aggregation";//$NON-NLS-1$
+
+	public static final String ICON_ELEMENT_AGGREGATION_LARGE = ICON_ELEMENT_AGGREGATION + "_" + LARGE; //$NON-NLS-1$
+
 	public static final String ICON_ELEMENT_TIMEPERIOD = "relativetime";//$NON-NLS-1$
+
+	public final static String ICON_ELEMENT_TIMEPERIOD_LARGE = ICON_ELEMENT_TIMEPERIOD + "_" + LARGE; //$NON-NLS-1$
 
 	public static final String REPORT_LAYOUT_PROPERTY = "layout";//$NON-NLS-1$
 
