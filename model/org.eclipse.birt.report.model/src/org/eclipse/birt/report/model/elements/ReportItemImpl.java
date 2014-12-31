@@ -5,6 +5,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -13,6 +14,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ContentIterator;
 
 public abstract class ReportItemImpl extends ReferencableStyledElement
@@ -171,10 +173,41 @@ public abstract class ReportItemImpl extends ReferencableStyledElement
 	public AbstractTheme getTheme(Module module) {
 		ElementRefValue value = (ElementRefValue) getProperty( module,
 				THEME_PROP );
-		if ( value == null )
-			return null;
-		return (ReportItemTheme) value.getElement( );
+		if ( value != null )
+			return (ReportItemTheme) value.getElement( );
+		return getDefaultTheme( module );
+	}
 	
+	/**
+	 * get the default theme of report item
+	 * 
+	 * return the one defined in report level. report level item theme is defined as:
+	 * 
+	 * theme_type '-' theme_name
+	 * 
+	 * for example, if report level theme is defined as "theme_1", the table's
+	 * default theme is "Table-theme_1"
+	 * 
+	 * @param module
+	 *            design module
+	 * @return
+	 */
+	private AbstractTheme getDefaultTheme( Module module )
+	{
+		String themeType = MetaDataDictionary.getInstance( ).getThemeType(
+				this.getDefn( ) );
+		if ( themeType == null )
+		{
+			return null;
+		}
+		Theme reportTheme = module.getTheme( );
+		if ( reportTheme != null )
+		{
+			String reportThemeName = reportTheme.getName( );
+			return reportTheme.getRoot( ).findReportItemTheme(
+					themeType + '-' + reportThemeName );
+		}
+		return null;
 	}
 
 	/**

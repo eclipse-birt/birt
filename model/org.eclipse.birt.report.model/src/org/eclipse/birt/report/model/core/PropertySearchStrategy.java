@@ -515,8 +515,7 @@ public class PropertySearchStrategy
 		{
 			if ( e instanceof ReportItem )
 			{
-				AbstractTheme theme = getReportItemTheme( module,
-						(ReportItem) e );
+				AbstractTheme theme = ( (ReportItem) e ).getTheme( module );
 				if ( theme != null )
 				{
 					StyleElement style = theme.findStyle( selector );
@@ -545,46 +544,6 @@ public class PropertySearchStrategy
 			return style.getLocalProperty( module, prop );
 		}
 
-		return null;
-	}
-
-	/**
-	 * get the theme of report item
-	 * 
-	 * If the report item has theme defined, return it. otherwise, return the
-	 * one defined in report level. report level item theme is defined as:
-	 * 
-	 * theme_type '-' theme_name
-	 * 
-	 * for example, if report level theme is defined as "theme_1", the table's
-	 * default theme is "Table-theme_1"
-	 * 
-	 * @param module
-	 *            design module
-	 * @param item
-	 *            item
-	 * @return
-	 */
-	private AbstractTheme getReportItemTheme( Module module, ReportItem item )
-	{
-		String themeType = MetaDataDictionary.getInstance( ).getThemeType(
-				item.getDefn( ) );
-		if ( themeType == null )
-		{
-			return null;
-		}
-		AbstractTheme theme = item.getTheme( item.getRoot( ) );
-		if ( theme != null )
-		{
-			return theme;
-		}
-		Theme reportTheme = module.getTheme( );
-		if ( reportTheme != null )
-		{
-			String reportThemeName = reportTheme.getName( );
-			return reportTheme.getRoot( ).findReportItemTheme(
-					themeType + '-' + reportThemeName );
-		}
 		return null;
 	}
 
