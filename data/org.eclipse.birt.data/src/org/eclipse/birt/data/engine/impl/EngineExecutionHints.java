@@ -21,9 +21,11 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.ICacheable;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 
@@ -68,10 +70,13 @@ public class EngineExecutionHints implements IEngineExecutionHints
 					if( dataSetName != null )
 					{
 						IBaseDataSetDesign design = dataEngine.getDataSetDesign( dataSetName );
-							
+						
+						if( design instanceof IScriptDataSetDesign)
+							continue;
+						
 						if( design instanceof ICacheable  )
 							DataSetDesignHelper.populateDataSetNames( dataEngine.getDataSetDesign( dataSetName ), dataEngine, temp2 );
-						
+												
 						if( qd.getParentQuery() != null && qd.getInputParamBindings().size() == 0 )
 						{
 							for ( int i = 0; i < temp2.size( ); i++ )
@@ -129,7 +134,7 @@ public class EngineExecutionHints implements IEngineExecutionHints
 			}
 		}
 	}
-		
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutionHints#needCacheDataSet(java.lang.String)
