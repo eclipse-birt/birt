@@ -198,6 +198,14 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		{
 			afterModel = after.getModel( );
 		}
+		if(child.getParent( ).getModel( ) instanceof ReportItemHandle)
+		{
+			ReportItemHandle reportHandle = (ReportItemHandle)child.getParent( ).getModel( );
+			if(reportHandle.getViews( ).contains( child.getModel( ) ))
+			{
+				return UnexecutableCommand.INSTANCE;
+			}
+		}
 		FlowMoveChildCommand command = new FlowMoveChildCommand( child.getModel( ),
 				afterModel,
 				child.getParent( ).getModel( ) );
