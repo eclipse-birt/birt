@@ -3321,6 +3321,7 @@
       <Argument name="reportContext" tagID="Element.Row.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>    
     <PropertyVisibility name="viewAction" visibility="hide"/>                                                      
+	<PropertyVisibility name="suppressDuplicates" visibility="hide"/>
     <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" since="1.0">
       <Type name="Cell"/>
       <Trigger validator="CellOverlappingValidator"/>
