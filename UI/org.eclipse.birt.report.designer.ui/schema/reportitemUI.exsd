@@ -140,6 +140,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="largeIcon" type="string">
+            <annotation>
+               <documentation>
+                  The large icon to show in the Palette
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="category" type="string">
             <annotation>
                <documentation>
