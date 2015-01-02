@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class APICompatibleTest extends BaseTestCase
 
 	/**
 	 * Supports the obsolete setValueExpr() method.
+	 * @throws IOException 
 	 * 
 	 * @throws Exception
 	 */
@@ -64,7 +66,8 @@ public class APICompatibleTest extends BaseTestCase
 		designHandle.getBody( ).add( table );
 
 		save( );
-		assertTrue( compareFile( "DataCompatibleValueExpr_golden.xml" ) ); //$NON-NLS-1$
+//		assertTrue( compareFile( "DataCompatibleValueExpr_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareDesignModel( "DataCompatibleValueExpr_golden.xml", new String[]{"id"} ) );
 	}
 
 	/**
@@ -167,7 +170,9 @@ public class APICompatibleTest extends BaseTestCase
 		textData.setValueExpr( "row[\"New Column\"]" ); //$NON-NLS-1$
 
 		save( );
-		assertTrue( compareFile( "CompatibleExpression_golden.xml" ) ); //$NON-NLS-1$
+//		assertTrue( compareFile( "CompatibleExpression_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareDesignModel( "CompatibleExpression_golden.xml",
+				new String[]{"id"} ) );
 	}
 
 	/**
@@ -201,7 +206,9 @@ public class APICompatibleTest extends BaseTestCase
 		table.getPropertyHandle( ListHandle.FILTER_PROP ).addItem( filter );
 
 		save( );
-		assertTrue( compareFile( "CompatibleExpression_golden_1.xml" ) ); //$NON-NLS-1$
+		//		assertTrue( compareFile( "CompatibleExpression_golden_1.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareDesignModel( "CompatibleExpression_golden_1.xml",
+				new String[]{"id"} ) );
 	}
 
 	/**
@@ -245,7 +252,9 @@ public class APICompatibleTest extends BaseTestCase
 		save( );
 
 		saveOutputFile( "CompatibleExpression_out_2.xml" );
-		assertTrue( compareFile( "CompatibleExpression_golden_2.xml" ) ); //$NON-NLS-1$		
+//		assertTrue( compareFile( "CompatibleExpression_golden_2.xml" ) ); //$NON-NLS-1$		
+		assertTrue( compareDesignModel( "CompatibleExpression_golden_2.xml",
+				new String[]{"id"} ) );
 	}
 
 	/**
