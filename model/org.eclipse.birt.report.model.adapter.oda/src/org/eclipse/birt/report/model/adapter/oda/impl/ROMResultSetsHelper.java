@@ -60,7 +60,25 @@ public class ROMResultSetsHelper {
 		linkWithOldColumnInfos();
 		generateNewColumnInfos();
 	}
-	
+
+	/**
+	 * get the name of column.
+	 * 
+	 * first try label, then name. for JDBC, the label is always exist, it may
+	 * be null sometimes for some other data sources.
+	 * 
+	 */
+	private String getColumnName( ColumnDefinition colDefn )
+	{
+		String name = colDefn.getUsageHints( ) != null ? colDefn
+				.getUsageHints( ).getLabel( ) : null;
+		if ( name == null )
+		{
+			name = colDefn.getAttributes( ).getName( );
+		}
+		return name;
+	}
+
 	private void generateNewColumnInfos() {
 		// TODO Auto-generated method stub
 		ROMResultColumnHelper tmpColumnHelper = null;
@@ -80,10 +98,7 @@ public class ROMResultSetsHelper {
 			newColumns.add(newColumn);
 			
 			newColumnDefn = tmpColumnHelper.getNewColumnDefn();
-			newDefinedLabel = newColumnDefn.getUsageHints() != null ?
-					newColumnDefn.getUsageHints().getLabel()
-					: newColumnDefn.getAttributes().getName();
-					
+			newDefinedLabel = getColumnName( newColumnDefn );
 			oldColumn = tmpColumnHelper.getOldColumn();
 			// newly added, wait for 2nd round
 			if ( oldColumn == null )
@@ -116,10 +131,8 @@ public class ROMResultSetsHelper {
 				continue;
 			
 			dataAttrs = newColumnDefn.getAttributes();
-			String newName = newColumnDefn.getUsageHints() != null ?
-					newColumnDefn.getUsageHints().getLabel()
-					: dataAttrs.getName( );
-					
+			
+			String newName = getColumnName( newColumnDefn );
 			newName = getUniqueName(nameSet, newName);
 			newColumn.setColumnName( newName );
 			newColumn.setNativeDataType( dataAttrs.getNativeDataTypeCode() );
