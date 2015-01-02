@@ -12,11 +12,13 @@
 package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.jface.action.Action;
@@ -56,8 +58,13 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 				&& !moduleHandle.isInclude( library )
 				&& ( library.getFileName( ) != null && !library.getFileName( )
 						.equals( moduleHandle.getFileName( ) ) );
+
+		if ( enabled )
+			enabled = testRun( library );
+
 		if ( library != null )
 			library.close( );
+
 		return enabled;
 	}
 
@@ -80,6 +87,28 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 				ExceptionUtil.handle( e );
 			}
 		}
+	}
+
+	/*
+	 * Need model to provide a new api to support it.
+	 */
+	@Deprecated
+	private boolean testRun( LibraryHandle library )
+	{
+		boolean enabled = false;
+		CommandStack commandStack = Utility.getCommandStack( );
+		commandStack.startTrans( "" );
+		try
+		{
+			UIUtil.includeLibrary( library );
+			enabled = true;
+		}
+		catch ( Exception e )
+		{
+			enabled = false;
+		}
+		commandStack.rollback( );
+		return enabled;
 	}
 
 	private LibraryHandle getSelectedLibrary( )
