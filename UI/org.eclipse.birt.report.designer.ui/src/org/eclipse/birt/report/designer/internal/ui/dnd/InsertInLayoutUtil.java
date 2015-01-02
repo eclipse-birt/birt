@@ -1940,11 +1940,16 @@ public class InsertInLayoutUtil
 			TableHandle tableHandle, SlotHandle slot,
 			ResultSetColumnHandle[] columns, boolean isLabel )
 	{
+		List<ColumnHintHandle> list = null;
 		for ( int i = 0; i < slot.getCount( ); i++ )
 		{
 			SlotHandle cells = ( (RowHandle) slot.get( i ) ).getCells( );
 			for ( int j = 0; j < cells.getCount( ) && j < columns.length; j++ )
 			{
+				if (list == null)
+				{
+					list = DataUtil.getColumnHints(model);
+				}
 				CellHandle cell = (CellHandle) cells.get( j );
 
 				try
@@ -1958,15 +1963,15 @@ public class InsertInLayoutUtil
 						// LabelHandle labelItemHandle =
 						// DesignElementFactory.getInstance( )
 						// .newLabel( null );
-						String labelText = UIUtil.getHeadColumnDisplayName( columns[j] );
+						String labelText = UIUtil.getHeadColumnDisplayName( list, columns[j] );
 						if ( labelText != null )
 						{
 							labelItemHandle.setText( labelText );
 						}
-						String displayKey = UIUtil.getColumnHeaderDisplayNameKey( columns[j] );
+						String displayKey = UIUtil.getColumnHeaderDisplayNameKey( list,columns[j] );
 						if ( displayKey == null )
 						{
-							displayKey = UIUtil.getColumnDisplayNameKey( columns[j] );
+							displayKey = UIUtil.getColumnDisplayNameKey( list, columns[j] );
 						}
 						if ( displayKey != null )
 						{
@@ -1985,7 +1990,7 @@ public class InsertInLayoutUtil
 						// .newDataItem( null );
 						dataHandle.setResultSetColumn( columns[j].getColumnName( ) );
 
-						formatDataHandle( dataHandle, columns[j] );
+						formatDataHandle( dataHandle, columns[j], list);
 						cell.addElement( dataHandle, cells.getSlotID( ) );
 
 						// add data binding to table.
@@ -1994,13 +1999,13 @@ public class InsertInLayoutUtil
 						bindingColumn.setDataType( columns[j].getDataType( ) );
 						ExpressionUtility.setBindingColumnExpression( columns[j],
 								bindingColumn );
-						bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( columns[j] ) );
-						String displayKey = UIUtil.getColumnDisplayNameKey( columns[j] );
+						bindingColumn.setDisplayName( UIUtil.getColumnDisplayName(list,  columns[j] ) );
+						String displayKey = UIUtil.getColumnDisplayNameKey(list, columns[j] );
 						if ( displayKey != null )
 							bindingColumn.setDisplayNameID( displayKey );
 						tableHandle.addColumnBinding( bindingColumn, false );
 
-						ActionHandle actionHandle = UIUtil.getColumnAction( columns[j] );
+						ActionHandle actionHandle = UIUtil.getColumnAction(list, columns[j] );
 						if ( actionHandle != null )
 						{
 							List source = new ArrayList( );
@@ -2017,18 +2022,18 @@ public class InsertInLayoutUtil
 			}
 		}
 	}
-
+	
 	private static void formatDataHandle( DataItemHandle dataHandle,
-			ResultSetColumnHandle column )
+			ResultSetColumnHandle column, ColumnHintHandle hintHandle )
 	{
+		if (hintHandle == null)
+		{
+			return;
+		}
 		try
 		{
 			StyleHandle styleHandle = dataHandle.getPrivateStyle( );
-			ColumnHintHandle hintHandle = findColumnHintHandle( column );
-			if (hintHandle == null)
-			{
-				return;
-			}
+			
 			if ( hintHandle != null
 					&& hintHandle.isLocal( ColumnHint.WORD_WRAP_MEMBER ) )
 			{
@@ -2069,7 +2074,36 @@ public class InsertInLayoutUtil
 		}
 
 	}
+	
+	private static void formatDataHandle( DataItemHandle dataHandle,
+			ResultSetColumnHandle column, List<ColumnHintHandle> list )
+	{
+		
+		ColumnHintHandle hintHandle = findColumnHintHandle( list, column );
+		formatDataHandle(dataHandle, column, hintHandle);	
 
+	}
+	private static void formatDataHandle( DataItemHandle dataHandle,
+			ResultSetColumnHandle column )
+	{
+		ColumnHintHandle hintHandle = findColumnHintHandle( column );
+		formatDataHandle(dataHandle, column, hintHandle);	
+	}
+
+	private static ColumnHintHandle findColumnHintHandle(List<ColumnHintHandle> columnHints,
+			ResultSetColumnHandle column )
+	{
+		for( ColumnHintHandle columnHint : columnHints )
+		{
+			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
+					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
+			{
+				return columnHint;
+			}
+		}
+		return null;
+	}
+	
 	private static ColumnHintHandle findColumnHintHandle(
 			ResultSetColumnHandle column )
 	{
