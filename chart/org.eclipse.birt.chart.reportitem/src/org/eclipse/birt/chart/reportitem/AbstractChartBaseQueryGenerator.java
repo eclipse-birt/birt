@@ -517,7 +517,9 @@ public abstract class AbstractChartBaseQueryGenerator
 			Axis[] orthAxisArray ) throws ChartException
 	{
 		String baseSortExpr = getValidSortExpr( categorySD );
-		if ( !categorySD.isSetSorting( ) || baseSortExpr == null )
+		if ( !categorySD.isSetSorting( )
+				|| baseSortExpr == null
+				|| categoryGroupDefinition == null )
 		{
 			return;
 		}
