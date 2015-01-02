@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.reportitem.api.IChartReportItem;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -1277,6 +1278,22 @@ public class ChartReportItemUtil extends ChartItemUtil
 				return null;
 
 		}	
+	}
+	
+	/**
+	 * Returns if reference binding can accept this type of extended item
+	 * 
+	 * @param extensionName
+	 *            extension name of item
+	 * @return true means reference binding can accept this type of extended
+	 *         item
+	 * @since 3.7
+	 */
+	public static boolean isAvailableExtensionToReferenceDataBinding(
+			String extensionName )
+	{
+		return ChartReportItemConstants.CHART_EXTENSION_NAME.equals( extensionName )
+				|| ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( extensionName );
 	}
 
 }

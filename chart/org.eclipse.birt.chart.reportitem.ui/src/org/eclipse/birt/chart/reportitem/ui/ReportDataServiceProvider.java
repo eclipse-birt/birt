@@ -1391,7 +1391,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( handle instanceof ExtendedItemHandle )
 			{
 				String extensionName = ( (ExtendedItemHandle) handle ).getExtensionName( );
-				if ( !isAvailableExtensionToReferenceDataBinding( extensionName ) )
+				if ( !ChartReportItemUtil.isAvailableExtensionToReferenceDataBinding( extensionName ) )
 				{
 					continue;
 				}
@@ -1399,22 +1399,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			referenceList.add( handle );
 		}
 		return getAllReportItemReferences( referenceList );
-	}
-
-	/**
-	 * Returns if reference binding can accept this type of extended item
-	 * 
-	 * @param extensionName
-	 *            extension name of item
-	 * @return true means reference binding can accept this type of extended
-	 *         item
-	 * @since 3.7
-	 */
-	protected boolean isAvailableExtensionToReferenceDataBinding(
-			String extensionName )
-	{
-		return ChartReportItemConstants.CHART_EXTENSION_NAME.equals( extensionName )
-				|| ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( extensionName );
 	}
 
 	private String[] getAllReportItemReferences(
