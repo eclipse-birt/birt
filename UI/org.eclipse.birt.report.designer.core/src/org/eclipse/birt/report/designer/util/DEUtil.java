@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -98,6 +100,7 @@ import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
@@ -3412,5 +3415,46 @@ public class DEUtil
 		}
 		defaulthandle.close( );
 		return false;
+	}
+
+	public static void resetAllStyleProperties( DesignElementHandle handle )
+			throws SemanticException
+	{
+		if ( handle == null )
+		{
+			return;
+		}
+
+		Field[] fields = IStyleModel.class.getFields( );
+		for ( int i = 0; i < fields.length; i++ )
+		{
+			if ( ( fields[i].getModifiers( ) & Modifier.STATIC ) != 0
+					&& ( fields[i].getModifiers( ) & Modifier.FINAL ) != 0 )
+			{
+				String propertyName = null;
+
+				try
+				{
+					propertyName = (String) fields[i].get( IStyleModel.class );
+				}
+				catch ( Exception e )
+				{
+					// ignore
+				}
+
+				if ( IStyleModel.WIDTH_PROP.equals( propertyName )
+						|| IStyleModel.HEIGHT_PROP.equals( propertyName ) )
+				{
+					continue;
+				}
+
+				if ( propertyName != null
+						&& handle.getPropertyDefn( propertyName ) != null
+						&& handle.getProperty( propertyName ) != null )
+				{
+					handle.setProperty( propertyName, null );
+				}
+			}
+		}
 	}
 }
