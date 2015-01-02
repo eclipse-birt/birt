@@ -358,4 +358,10 @@ public class MockGetParameterDefinitionTask
 		return null;
 	}
 
+	@Override
+	public void cancel(String reason) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

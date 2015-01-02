@@ -593,11 +593,11 @@ public class QueryUtil
 		QueryDefinition newQuery = null;
 		if ( parent instanceof BaseQueryDefinition )
 		{
-			newQuery = new QueryDefinition( (BaseQueryDefinition) parent );
+			newQuery = new QueryDefinition( (BaseQueryDefinition) parent, query.needAutoBinding() );
 		}
 		else
 		{
-			newQuery = new QueryDefinition( );
+			newQuery = new QueryDefinition( query.needAutoBinding() );
 		}
 		newQuery.getBindings( ).putAll( query.getBindings( ) );
 		newQuery.getFilters( ).addAll( query.getFilters( ) );
@@ -608,7 +608,6 @@ public class QueryUtil
 		newQuery.setMaxRows( query.getMaxRows( ) );
 
 		newQuery.setDataSetName( query.getDataSetName( ) );
-		newQuery.setAutoBinding( query.needAutoBinding( ) );
 		newQuery.setColumnProjection( query.getColumnProjection( ) );
 
 		newQuery.setName( query.getName( ) );
