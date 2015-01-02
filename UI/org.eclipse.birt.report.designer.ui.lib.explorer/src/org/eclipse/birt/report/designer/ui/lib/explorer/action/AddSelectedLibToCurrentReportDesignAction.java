@@ -53,7 +53,9 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 
 		boolean enabled = library != null
 				&& moduleHandle != null
-				&& !moduleHandle.isInclude( library );
+				&& !moduleHandle.isInclude( library )
+				&& ( library.getFileName( ) != null && !library.getFileName( )
+						.equals( moduleHandle.getFileName( ) ) );
 		if ( library != null )
 			library.close( );
 		return enabled;
@@ -83,7 +85,7 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 	private LibraryHandle getSelectedLibrary( )
 	{
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
-		if ( selection != null && selection.size( ) == 1)
+		if ( selection != null && selection.size( ) == 1 )
 		{
 			Object selected = selection.getFirstElement( );
 
@@ -91,9 +93,10 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 			{
 				return (LibraryHandle) selected;
 			}
-			else if ( selected instanceof ReportResourceEntry && ((ReportResourceEntry)selected).getReportElement( ) instanceof LibraryHandle )
+			else if ( selected instanceof ReportResourceEntry
+					&& ( (ReportResourceEntry) selected ).getReportElement( ) instanceof LibraryHandle )
 			{
-				return (LibraryHandle) ((ReportResourceEntry)selected).getReportElement( );
+				return (LibraryHandle) ( (ReportResourceEntry) selected ).getReportElement( );
 			}
 			else if ( selected instanceof ResourceEntryWrapper
 					&& ( (ResourceEntryWrapper) selected ).getType( ) == ResourceEntryWrapper.LIBRARY )
