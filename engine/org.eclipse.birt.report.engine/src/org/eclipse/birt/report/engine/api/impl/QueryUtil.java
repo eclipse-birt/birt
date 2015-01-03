@@ -617,6 +617,7 @@ public class QueryUtil
 		return newQuery;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static List<String> getColumnNames( DataSetHandle dataset )
 	{
 		CachedMetaDataHandle cachedMetaDataHandle = dataset
@@ -625,6 +626,10 @@ public class QueryUtil
 		{
 			List<ResultSetColumn> resultSetColumns = (List<ResultSetColumn>) cachedMetaDataHandle
 					.getProperty( CachedMetaData.RESULT_SET_MEMBER );
+			if ( resultSetColumns == null )
+			{
+				return Collections.EMPTY_LIST;
+			}
 			ArrayList<String> columnNames = new ArrayList<String>( );
 			for ( ResultSetColumn column : resultSetColumns )
 			{
