@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.data.adapter.api.DataModelAdapterStatus;
 import org.eclipse.birt.report.data.adapter.api.DataModelAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -58,6 +57,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -1427,10 +1427,10 @@ public class ColumnBindingDialog extends BaseDialog
 				}
 			}
 		}
-		if( getSelectColumnHandle( ) != null && ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( inputElement ) )
+		if( ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( inputElement ) )
 		{
-			DataModelAdapterStatus status = DataModelAdapterUtil.validateRelativeTimePeriod( inputElement, getSelectColumnHandle( ));
-			if( status.getStatus( ) == DataModelAdapterStatus.Status.FAIL )
+			IStatus status = DataModelAdapterUtil.validateRelativeTimePeriod( inputElement, getSelectColumnHandle( ));
+			if(status.getSeverity( ) == IStatus.ERROR)
 			{
 				MessageDialog.openError( UIUtil.getDefaultShell( ), null, status.getMessage( ) );
 				return;
