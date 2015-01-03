@@ -170,4 +170,18 @@ public final class UIHelper
 		return null;
 	}
 
+	public static Image getImage( String imgKey, ImageDescriptor descriptor )
+	{
+		ImageRegistry registry = JFaceResources.getImageRegistry( );
+		Image image = registry.get( imgKey );
+		if ( image == null )
+		{
+			image = descriptor.createImage( );
+			if ( image != null )
+			{
+				registry.put( imgKey, image );
+			}
+		}
+		return image;
+	}
 }
