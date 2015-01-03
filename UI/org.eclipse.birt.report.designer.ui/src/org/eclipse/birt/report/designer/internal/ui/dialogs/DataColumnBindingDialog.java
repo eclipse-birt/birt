@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.report.data.adapter.api.DataModelAdapterStatus;
 import org.eclipse.birt.report.data.adapter.api.DataModelAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
@@ -380,8 +381,8 @@ public class DataColumnBindingDialog extends BaseDialog
 			}
 			if( ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( DEUtil.getBindingHolder( bindingObject ) ) )
 			{
-				IStatus status = DataModelAdapterUtil.validateRelativeTimePeriod(DEUtil.getBindingHolder( bindingObject ), bindingColumn);
-				if(status.getSeverity( ) == IStatus.ERROR)
+				DataModelAdapterStatus status = DataModelAdapterUtil.validateRelativeTimePeriod(DEUtil.getBindingHolder( bindingObject ), bindingColumn);
+				if( status.getStatus( ) == DataModelAdapterStatus.Status.FAIL )
 				{
 					MessageDialog.openError( UIUtil.getDefaultShell( ), null, status.getMessage( ) );
 					return;

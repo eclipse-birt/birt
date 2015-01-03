@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.DataModelAdapterStatus;
 import org.eclipse.birt.report.data.adapter.api.DataModelAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -1429,8 +1430,8 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 		if( ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( inputElement ) )
 		{
-			IStatus status = DataModelAdapterUtil.validateRelativeTimePeriod( inputElement, getSelectColumnHandle( ));
-			if(status.getSeverity( ) == IStatus.ERROR)
+			DataModelAdapterStatus status = DataModelAdapterUtil.validateRelativeTimePeriod( inputElement, getSelectColumnHandle( ));
+			if( status.getStatus( ) == DataModelAdapterStatus.Status.FAIL )
 			{
 				MessageDialog.openError( UIUtil.getDefaultShell( ), null, status.getMessage( ) );
 				return;
