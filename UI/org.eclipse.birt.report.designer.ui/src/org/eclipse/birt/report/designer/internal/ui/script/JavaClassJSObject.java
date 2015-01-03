@@ -23,7 +23,7 @@ import java.util.List;
  * implementation should better done by Engine because Engine knows what the
  * properties and methods can be used in javascript better.
  */
-class JavaClassJSObject implements JSObjectMetaData
+public class JavaClassJSObject implements JSObjectMetaData
 {
 
 	private Class<?> clazz;
@@ -58,6 +58,11 @@ class JavaClassJSObject implements JSObjectMetaData
 		return jsMehods.toArray( new JSMethod[jsMehods.size( )] );
 	}
 
+	protected JavaClassMethod createJavaClassMethod( Method mtd )
+	{
+		return new JavaClassMethod( mtd );
+	}
+
 	private List<JavaClassMethod> getMethods( Method[] methods )
 	{
 		List<JavaClassMethod> jsMehods = new ArrayList<JavaClassMethod>( );
@@ -80,7 +85,7 @@ class JavaClassJSObject implements JSObjectMetaData
 				getMethodList.add( methods[i].getName( ).substring( 3 ) );
 				continue;
 			}
-			jsMehods.add( new JavaClassMethod( methods[i] ) );
+			jsMehods.add( createJavaClassMethod( methods[i] ) );
 		}
 
 		for ( int i = 0; i < methods.length; i++ )
@@ -92,7 +97,7 @@ class JavaClassJSObject implements JSObjectMetaData
 				if ( !getMethodList.contains( methods[i].getName( )
 						.substring( 3 ) ) )
 				{
-					jsMehods.add( new JavaClassMethod( methods[i] ) );
+					jsMehods.add( createJavaClassMethod( methods[i] ) );
 				}
 				continue;
 			}
@@ -104,7 +109,7 @@ class JavaClassJSObject implements JSObjectMetaData
 				if ( !setMethodList.contains( methods[i].getName( )
 						.substring( 3 ) ) )
 				{
-					jsMehods.add( new JavaClassMethod( methods[i] ) );
+					jsMehods.add( createJavaClassMethod( methods[i] ) );
 				}
 				continue;
 			}
@@ -173,7 +178,7 @@ class JavaClassJSObject implements JSObjectMetaData
 		return jsFields;
 	}
 
-	private String getFieldName( String methodName )
+	private static String getFieldName( String methodName )
 	{
 		if ( methodName.length( ) == 3 )
 		{
@@ -205,7 +210,7 @@ class JavaClassJSObject implements JSObjectMetaData
 	/**
 	 * JavaClassMethod
 	 */
-	private class JavaClassMethod implements JSMethod, Comparable
+	public static class JavaClassMethod implements JSMethod, Comparable<Object>
 	{
 
 		private Method method;
@@ -236,8 +241,8 @@ class JavaClassJSObject implements JSObjectMetaData
 
 		public JSObjectMetaData[] getArguments( )
 		{
-			//TODO impl real argument info, currently simply use argument type
-			
+			// TODO impl real argument info, currently simply use argument type
+
 			Class<?>[] types = method.getParameterTypes( );
 
 			if ( types.length > 0 )
@@ -333,7 +338,7 @@ class JavaClassJSObject implements JSObjectMetaData
 	/**
 	 * JavaClassField
 	 */
-	private class JavaClassField implements JSField, Comparable
+	public static class JavaClassField implements JSField, Comparable<Object>
 	{
 
 		private String name;
@@ -490,7 +495,7 @@ class JavaClassJSObject implements JSObjectMetaData
 
 	}
 
-	private String getSimpleName( Class<?> clazz )
+	private static String getSimpleName( Class<?> clazz )
 	{
 		String simpleName = null;
 		if ( clazz.isArray( ) )
@@ -513,7 +518,7 @@ class JavaClassJSObject implements JSObjectMetaData
 		return simpleName;
 	}
 
-	private String getSimpleName( String name )
+	private static String getSimpleName( String name )
 	{
 		return name.substring( name.lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
 	}
@@ -533,7 +538,7 @@ class JavaClassJSObject implements JSObjectMetaData
 	 *            the specified <code>Class</code> object.
 	 * @return the name of the specified <code>Class</code> object.
 	 */
-	private String getClazzName( Class<?> clazz )
+	private static String getClazzName( Class<?> clazz )
 	{
 		String name;
 
