@@ -1,0 +1,6 @@
+bin
+build.xml
+.settings
+meta.log
+target
+modeltests.jar
