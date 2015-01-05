@@ -17,7 +17,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
-import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -34,6 +33,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
@@ -85,7 +85,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		transStar( NAME );
 		try
 		{
-			LevelViewDialog dialog = new LevelViewDialog( UIUtil.getDefaultShell( ) );
+			LevelViewDialog dialog = new LevelViewDialog( true );
 			List showLevels = new ArrayList( );
 			List nullLevelHandle = new ArrayList( );
 			int viewCount = viewHandle.getLevelCount( );
@@ -101,7 +101,11 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 					showLevels.add( levelHandle.getCubeLevel( ) );
 				}
 			}
-			dialog.setInput( viewHandle.getCubeDimension( ), showLevels );
+			
+			ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( getHandle() );
+			LevelViewHandle levelViewHandle = CrosstabAdaptUtil.getLevelViewHandle( extendedHandle );
+			
+			dialog.setInput( findDimension( levelViewHandle.getCubeLevel( ) ), showLevels );
 			if ( dialog.open( ) == Window.OK )
 			{
 				CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
@@ -142,6 +146,21 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		transEnd( );
 	}
 
+	private DimensionHandle findDimension( DesignElementHandle element )
+	{
+		if(element == null )
+		{
+			return null;
+		}
+		
+		if(element.getContainer( ) instanceof DimensionHandle )
+		{
+			return (DimensionHandle) element.getContainer( );
+		}
+		
+		return findDimension(element.getContainer( ));
+	}
+	
 	private boolean processor( List ori, List newList, List nullLevelHandle, boolean doChange )
 			throws SemanticException
 	{
