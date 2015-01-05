@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
@@ -640,6 +642,29 @@ public class QueryUtil
 		}
 		return Collections.EMPTY_LIST;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static Map<String, ResultSetColumn> getResultSetColumns( DataSetHandle dataset )
+	{
+		CachedMetaDataHandle cachedMetaDataHandle = dataset
+				.getCachedMetaDataHandle( );
+		if ( cachedMetaDataHandle != null )
+		{
+			List<ResultSetColumn> resultSetColumns = (List<ResultSetColumn>) cachedMetaDataHandle
+					.getProperty( CachedMetaData.RESULT_SET_MEMBER );
+			if ( resultSetColumns == null )
+			{
+				return Collections.EMPTY_MAP;
+			}
+			Map<String, ResultSetColumn> retVal = new LinkedHashMap<String, ResultSetColumn>( );
+			for ( ResultSetColumn col : resultSetColumns )
+			{
+				retVal.put( col.getColumnName( ), col );
+			}
+			return retVal;
+		}
+		return Collections.EMPTY_MAP;
+	}
 
 	public static void addBinding( IQueryDefinition query, String column )
 			throws DataException
@@ -647,6 +672,16 @@ public class QueryUtil
 		ScriptExpression expr = new ScriptExpression(
 				ExpressionUtil.createDataSetRowExpression( column ) );
 		IBinding binding = new Binding( column, expr );
+		query.addBinding( binding );
+	}
+	
+	public static void addBinding( IQueryDefinition query, ResultSetColumn column )
+			throws DataException
+	{
+		ScriptExpression expr = new ScriptExpression(
+				ExpressionUtil.createDataSetRowExpression( column.getColumnName( ) ) );
+		IBinding binding = new Binding( column.getColumnName( ), expr );
+		binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
 		query.addBinding( binding );
 	}
 	
