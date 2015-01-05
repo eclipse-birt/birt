@@ -94,6 +94,28 @@
                   name="CrosstabCell">
             </elementType>
          </property>
+         <property
+               canInherit="true"
+               defaultValue="Table"
+               displayNameID="Element.TagType"
+               isEncryptable="false"
+               name="tagType"
+               type="string">
+         </property>
+         <property
+               canInherit="true"
+               displayNameID="Element.Language"
+               isEncryptable="false"
+               name="language"
+               type="string">
+         </property>        
+         <property
+               canInherit="true"
+               displayNameID="Element.Order"
+               isEncryptable="false"
+               name="order"
+               type="string">
+         </property>                  
          <propertyVisibility
                name="dataSet"
                visibility="hide">
@@ -633,6 +655,28 @@
                   name="ExtendedItem">
             </elementType>
          </property>
+         <property
+               canInherit="true"
+               defaultValue="TH"
+               displayNameID="Element.TagType"
+               isEncryptable="false"
+               name="tagType"
+               type="string">
+         </property>
+         <property
+               canInherit="true"
+               displayNameID="Element.Language"
+               isEncryptable="false"
+               name="language"
+               type="string">
+         </property>        
+         <property
+               canInherit="true"
+               displayNameID="Element.Order"
+               isEncryptable="false"
+               name="order"
+               type="string">
+         </property>
          <propertyVisibility
                name="content"
                visibility="hide">
@@ -713,6 +757,14 @@
                name="aggregationOnColumn"
                type="elementRef">
          </property>
+         <property
+               canInherit="true"
+               defaultValue="TD"
+               displayNameID="Element.TagType"
+               isEncryptable="false"
+               name="tagType"
+               type="string">
+         </property>         
          <overrideProperty
                propertyName="highlightRules"
                useOwnSearch="true">
