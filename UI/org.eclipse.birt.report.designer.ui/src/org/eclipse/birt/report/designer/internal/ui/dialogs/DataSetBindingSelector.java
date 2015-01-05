@@ -650,7 +650,6 @@ public class DataSetBindingSelector extends BaseDialog
 		{
 			handle = getSelectedDataSet( );
 		}
-
 		if ( handle != null )
 		{
 			try
@@ -701,7 +700,7 @@ public class DataSetBindingSelector extends BaseDialog
 	{
 
 		result = new Object[3];
-		if ( dataSetName != null || dataSetCombo.getSelectionIndex( ) > 0 )
+		if ( dataSetName != null || dataSetCombo.getSelectionIndex( ) > -1 )
 		{
 			if ( dataSetName == null )
 			{
