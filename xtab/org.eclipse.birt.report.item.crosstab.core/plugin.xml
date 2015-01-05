@@ -101,20 +101,6 @@
                isEncryptable="false"
                name="tagType"
                type="string">
-         </property>
-         <property
-               canInherit="true"
-               displayNameID="Element.Language"
-               isEncryptable="false"
-               name="language"
-               type="string">
-         </property>        
-         <property
-               canInherit="true"
-               displayNameID="Element.Order"
-               isEncryptable="false"
-               name="order"
-               type="string">
          </property>                  
          <propertyVisibility
                name="dataSet"
@@ -654,22 +640,7 @@
             <elementType
                   name="ExtendedItem">
             </elementType>
-         </property>
-         <property
-               canInherit="true"
-               defaultValue="TH"
-               displayNameID="Element.TagType"
-               isEncryptable="false"
-               name="tagType"
-               type="string">
-         </property>
-         <property
-               canInherit="true"
-               displayNameID="Element.Language"
-               isEncryptable="false"
-               name="language"
-               type="string">
-         </property>        
+         </property>      
          <property
                canInherit="true"
                displayNameID="Element.Order"
@@ -756,15 +727,7 @@
                isEncryptable="false"
                name="aggregationOnColumn"
                type="elementRef">
-         </property>
-         <property
-               canInherit="true"
-               defaultValue="TD"
-               displayNameID="Element.TagType"
-               isEncryptable="false"
-               name="tagType"
-               type="string">
-         </property>         
+         </property>       
          <overrideProperty
                propertyName="highlightRules"
                useOwnSearch="true">
