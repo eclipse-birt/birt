@@ -197,7 +197,7 @@ public abstract class RDTestCase extends APITestCase
 				try
 				{
 					if ( useFolder == true )
-						archiveReader = new FolderArchiveReader( fileName );
+						archiveReader = new FolderArchiveReader( fileName, true );
 					else
 						archiveReader = new FileArchiveReader( fileName );
 					archiveReader.open( );
