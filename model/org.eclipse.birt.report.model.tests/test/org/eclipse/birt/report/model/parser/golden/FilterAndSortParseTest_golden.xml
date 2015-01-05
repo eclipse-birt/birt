@@ -111,6 +111,7 @@
                     <property name="dynamicFilterParameter">new DynamicFilterParam</property>
                     <property name="type">simple</property>
                     <property name="updateAggregation">false</property>
+                    <property name="customValue">customed 1</property>                    
                 </structure>
                 <structure>
                     <property name="operator">gt</property>
@@ -119,6 +120,7 @@
                         <value type="constant">constant1</value>
                     </simple-property-list>
                     <expression name="value2" type="constant">constant2</expression>
+                    <property name="customValue">customed updated</property>                    
                 </structure>                
             </list-property>   
         </table>  

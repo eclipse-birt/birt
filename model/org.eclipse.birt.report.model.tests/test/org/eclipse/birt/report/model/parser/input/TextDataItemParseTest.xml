@@ -28,7 +28,7 @@
             <expression name="valueExpr">value expr</expression>
             <property name="contentType">auto</property>
             <property name="hasExpression">true</property>
-            <property name="role">Div</property>
+            <property name="tagType">Div</property>
             <property name="language">English</property>
             <property name="altText">Alt Text</property>
             <property name="order">1</property>

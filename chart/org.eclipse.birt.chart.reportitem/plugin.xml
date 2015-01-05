@@ -93,24 +93,6 @@
          </propertyVisibility>
          <property
                canInherit="true"
-               displayNameID="Element.Chart.altText"
-               hasOwnModel="true"
-               isEncryptable="false"
-               isList="false"
-               name="altText"
-               type="string">
-         </property>
-         <property
-               canInherit="true"
-               displayNameID="Element.Chart.altTextID"
-               hasOwnModel="true"
-               isEncryptable="false"
-               isList="false"
-               name="altTextID"
-               type="resourceKey">
-         </property>
-         <property
-               canInherit="true"
                defaultValue="true"
                isEncryptable="false"
                isList="false"
@@ -123,10 +105,11 @@
          </propertyVisibility>
          <property
                canInherit="true"
+               defaultDisplayName="PDF tag type"
                defaultValue="Figure"
                isEncryptable="false"
                isList="false"
-               name="role"
+               name="tagType"
                type="string">
          </property>
          <property

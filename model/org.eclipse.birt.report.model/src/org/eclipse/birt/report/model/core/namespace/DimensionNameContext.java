@@ -50,7 +50,7 @@ public class DimensionNameContext extends ElementNameContext
 	 * org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpaceID
 	 * ()
 	 */
-	public int getNameSpaceID( )
+	public String getNameSpaceID( )
 	{
 		return Dimension.LEVEL_NAME_SPACE;
 	}

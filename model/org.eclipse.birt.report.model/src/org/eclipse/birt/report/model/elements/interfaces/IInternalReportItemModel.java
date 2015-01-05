@@ -136,9 +136,9 @@ public interface IInternalReportItemModel {
 	public static final String THEME_PROP = ISupportThemeElementConstants.THEME_PROP;
 	
 	/**
-	 * Name of the role property.
+	 * Name of the tag type property.
 	 */
-	public static final String ROLE_PROP = "role"; //$NON-NLS-1$
+	public static final String TAG_TYPE_PROP = "tagType"; //$NON-NLS-1$
 	
 	/**
 	 * Name of the language property.
@@ -149,6 +149,11 @@ public interface IInternalReportItemModel {
 	 * Name of the altText property.
 	 */
 	public static final String ALTTEXT_PROP = "altText"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the altText key property.
+	 */
+	public static final String ALTTEXT_KEY_PROP = "altTextID"; //$NON-NLS-1$
 	
 	/**
 	 * Name of the order property.

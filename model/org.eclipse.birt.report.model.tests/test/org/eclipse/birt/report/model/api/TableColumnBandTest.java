@@ -38,6 +38,8 @@ public class TableColumnBandTest extends BaseTestCase
 	private String shiftFileName1 = "n1.rptdesign"; //$NON-NLS-1$
 
 	private String shiftFileName = "TableShiftColumnBandTest.xml"; //$NON-NLS-1$
+	
+	private String shiftWithColumnSpan = "rptWithColSpan.rptdesign";
 
 	/*
 	 * @see TestCase#setUp()
@@ -1085,7 +1087,31 @@ public class TableColumnBandTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "n1_golden.xml" ) ); //$NON-NLS-1$
 
+		openDesign( shiftFileName1 );
+		
+		table = (TableHandle) designHandle.findElement( "Table1" ); //$NON-NLS-1$
+		assertNotNull( table );
+		
+		table.shiftColumn( 3, 2 );
+		
+		save( );
+		assertTrue( compareFile( "n1_golden2.rptdesign" ) ); //$NON-NLS-1$
+		
+		openDesign( shiftWithColumnSpan );
+		
+		table = (TableHandle) designHandle.findElement( "Table1" ); //$NON-NLS-1$
+		assertNotNull( table );
+		
+		table.shiftColumn( 2, 3 );
+		
+		save( );
+		assertTrue( compareFile( "rptWithColSpan_golden.rptdesign" ) ); //$NON-NLS-1$
 	}
+	
+	public void testShiftlast( ) throws Exception
+	{
+	}
+
 
 	/**
 	 * Tests the algorithm to shift one column to another in the same table.
@@ -1163,7 +1189,7 @@ public class TableColumnBandTest extends BaseTestCase
 		assertFalse( table.canShiftColumn( 2, 0 ) );
 		try
 		{
-			table.shiftColumn( 2, 0 );
+			table.shiftColumn( 2, 0, false );
 			fail( );
 		}
 		catch ( SemanticException e )
@@ -1175,7 +1201,7 @@ public class TableColumnBandTest extends BaseTestCase
 		assertFalse( table.canShiftColumn( 1, 2 ) );
 		try
 		{
-			table.shiftColumn( 1, 2 );
+			table.shiftColumn( 1, 2, false );
 			fail( );
 		}
 		catch ( SemanticException e )
@@ -1190,7 +1216,7 @@ public class TableColumnBandTest extends BaseTestCase
 		assertFalse( table.canShiftColumn( 1, 2 ) );
 		try
 		{
-			table.shiftColumn( 1, 2 );
+			table.shiftColumn( 1, 2, false );
 			fail( );
 		}
 		catch ( SemanticException e )

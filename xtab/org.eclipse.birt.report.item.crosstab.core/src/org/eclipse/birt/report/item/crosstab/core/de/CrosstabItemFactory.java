@@ -38,7 +38,9 @@ public class CrosstabItemFactory extends ReportItemFactory implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.ReportItemFactory#getMessages()
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.ReportItemFactory#getMessages
+	 * ()
 	 */
 	public IMessages getMessages( )
 	{
@@ -48,7 +50,9 @@ public class CrosstabItemFactory extends ReportItemFactory implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.ReportItemFactory#newReportItem(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.ReportItemFactory#newReportItem
+	 * (org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
 	public IReportItem newReportItem( DesignElementHandle extendedItemHandle )
 	{
@@ -81,8 +85,9 @@ public class CrosstabItemFactory extends ReportItemFactory implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java.lang.String,
-	 *      java.util.Locale)
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java
+	 * .lang.String, java.util.Locale)
 	 */
 	public String getMessage( String key, Locale locale )
 	{
@@ -92,8 +97,9 @@ public class CrosstabItemFactory extends ReportItemFactory implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java.lang.String,
-	 *      com.ibm.icu.util.ULocale)
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java
+	 * .lang.String, com.ibm.icu.util.ULocale)
 	 */
 	public String getMessage( String key, ULocale locale )
 	{
@@ -102,13 +108,14 @@ public class CrosstabItemFactory extends ReportItemFactory implements
 
 	public IStyleDeclaration[] getFactoryStyles( String extensionName )
 	{
-		if ( CROSSTAB_EXTENSION_NAME.equals( extensionName ) )
-		{
-			return new IStyleDeclaration[]{
-					new CrosstabFactoryStyle( CROSSTAB_SELECTOR ),
-					new CrosstabFactoryStyle( CROSSTAB_CELL_SELECTOR )
-			};
-		}
+		// we dont' return the factory styles now, it'll be handled by theme
+		// if ( CROSSTAB_EXTENSION_NAME.equals( extensionName ) )
+		// {
+		// return new IStyleDeclaration[]{
+		// new CrosstabFactoryStyle( CROSSTAB_SELECTOR ),
+		// new CrosstabFactoryStyle( CROSSTAB_CELL_SELECTOR )
+		// };
+		// }
 
 		return null;
 	}

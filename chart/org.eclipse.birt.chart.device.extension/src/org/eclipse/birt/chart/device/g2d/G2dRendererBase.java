@@ -490,6 +490,12 @@ public class G2dRendererBase extends DeviceAdapter
 		// DRAW THE LINE
 		final Location loStart = lre.getStart( );
 		final Location loEnd = lre.getEnd( );
+		// Location may be beyond integer range and need long time to
+		// render
+		if ( !checkValidLocation( loStart ) || !checkValidLocation( loEnd ) )
+		{
+			return;
+		}
 		Stroke sPrevious = null, sCurrent = getCachedStroke( lia );
 		if ( sCurrent != null ) // SOME STROKE DEFINED?
 		{
@@ -507,6 +513,16 @@ public class G2dRendererBase extends DeviceAdapter
 		{
 			_g2d.setStroke( sPrevious );
 		}
+	}
+	
+	protected boolean checkValidLocation( Location lo )
+	{
+		// If the location is out of integer range, it needs endless time to
+		// render
+		return lo.getX( ) < Integer.MAX_VALUE
+				&& lo.getX( ) > Integer.MIN_VALUE
+				&& lo.getY( ) < Integer.MAX_VALUE
+				&& lo.getY( ) > Integer.MIN_VALUE;
 	}
 
 	@Override

@@ -429,20 +429,27 @@ enabled, by default it's true.</xsd:documentation>
 	</xsd:simpleType>
 	<xsd:simpleType name="GroupingUnitType">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="en">This type represents the possible units for grouping data.
+			<xsd:documentation xml:lang="en">
+				This type represents the possible units for grouping
+				data.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="Seconds"/>
-			<xsd:enumeration value="Minutes"/>
-			<xsd:enumeration value="Hours"/>
-			<xsd:enumeration value="Days"/>
-			<xsd:enumeration value="Weeks"/>
-			<xsd:enumeration value="Months"/>
-			<xsd:enumeration value="Quarters"/>
-			<xsd:enumeration value="Years"/>
-			<xsd:enumeration value="String"/>
-			<xsd:enumeration value="StringPrefix"/>
+			<xsd:enumeration value="Seconds" />
+			<xsd:enumeration value="Minutes" />
+			<xsd:enumeration value="Hours" />
+			<xsd:enumeration value="Days" />
+			<xsd:enumeration value="Weeks" />
+			<xsd:enumeration value="Months" />
+			<xsd:enumeration value="Quarters" />
+			<xsd:enumeration value="Years" />
+			<xsd:enumeration value="String" />
+			<xsd:enumeration value="StringPrefix" />
+			<xsd:enumeration value="WeekOfMonth"></xsd:enumeration>
+			<xsd:enumeration value="WeekOfYear"></xsd:enumeration>
+			<xsd:enumeration value="DayOfWeek"></xsd:enumeration>
+			<xsd:enumeration value="DayOfMonth"></xsd:enumeration>
+			<xsd:enumeration value="DayOfYear"></xsd:enumeration>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="UnitsOfMeasurement">

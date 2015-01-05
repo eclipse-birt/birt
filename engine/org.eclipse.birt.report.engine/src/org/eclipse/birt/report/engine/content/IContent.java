@@ -144,7 +144,21 @@ public interface IContent extends IElement, CSSStylableElement, IStyledElement
 	IHyperlinkAction getHyperlinkAction( );
 
 	void setHyperlinkAction( IHyperlinkAction hyperlink );
+	
+	/**
+	 * @return Returns the altText.
+	 */
+	String getAltText( );
 
+	void setAltText( String altText );
+
+	/**
+	 * @return Returns the altText key.
+	 */
+	String getAltTextKey( );
+
+	void setAltTextKey( String altTextKey );
+	
 	/**
 	 * @return Returns the helpText.
 	 */

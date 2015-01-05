@@ -44,7 +44,7 @@
                     <property name="proportionalScale">false</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <expression name="altText" type="constant">Help Test For Image Item</expression>
-                    <property name="altTextID">help</property>                    
+                    <property name="altTextID">help</property>
                     <list-property name="action">
 		           		<structure>
 	                        <expression name="uri">http://localhost:8080/bluehero</expression>
@@ -87,7 +87,7 @@
             <expression name="bookmark">No bookmark</expression>
             <property name="source">embed</property>
             <property name="fitToContainer">false</property>
-            <property name="role">Figure</property>
+            <property name="tagType">Figure</property>
             <property name="language">English</property>
             <property name="order">1</property>
             <property name="imageName">BodyImage</property>

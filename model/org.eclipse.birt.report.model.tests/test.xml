@@ -57,5 +57,4 @@
 	<!-- This target is the default one to run all the tests in the plugin -->
 	<target name="run" depends="init,unzipTestingPlugin,suite,cleanup">
 	</target>
-
 </project>

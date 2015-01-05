@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.dnd;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -37,7 +36,6 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.model.api.ActionHandle;
-import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -780,25 +778,41 @@ public class InsertInLayoutUtil
 					ResultSetColumnHandle newResultColumn = null;
 					if ( str != null )
 					{
+						List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+						ColumnHintHandle temp = null;
+						for ( int i = 0; i < columnHints.size( ); i++ )
+						{
+							ColumnHintHandle columnHintHandle = (ColumnHintHandle) columnHints.get( i );
+							if ( str.equals( columnHintHandle.getColumnName( ) ) || str.equals( columnHintHandle.getAlias( )))
+							{
+								temp = columnHintHandle;
+								break;
+							}
+						}
+						if (temp == null)
+						{
+							return dataHandle;
+						}
 						List columnList = DataUtil.getColumnList( dataset );
 
 						for ( int i = 0; i < columnList.size( ); i++ )
 						{
 							ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
-							if ( str.equals( resultSetColumn.getColumnName( ) ) )
+							if ( temp != null && (temp.getAlias().equals( resultSetColumn.getColumnName( ) ) 
+									|| temp.getColumnName().equals((resultSetColumn.getColumnName()))))
 							{
 								newResultColumn = resultSetColumn;
 								break;
 							}
 						}
 
-						for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+						
+						for( ColumnHintHandle columnHint : columnHints )
 						{
-							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-							if ( element.getColumnName( ).equals( str )
-									|| str.equals( element.getAlias( ) ) )
+							if ( str.equals( columnHint.getColumnName( ) )
+									|| str.equals( columnHint.getAlias( ) ) )
 							{
-								type = element.getAnalysis( );
+								type = columnHint.getAnalysis( );
 								break;
 							}
 						}
@@ -809,7 +823,8 @@ public class InsertInLayoutUtil
 							for ( Object o : slotHandle.getContents( ) )
 							{
 								GroupHandle group = (GroupHandle) o;
-								if ( group.getName( ).equals( str ) )
+								//if ( group.getName( ).equals( str ) )
+								if ( group.getName( ).equals( temp.getColumnName() ) ||  group.getName( ).equals( temp.getAlias()))
 									hasGroup = true;
 							}
 							if ( !hasGroup )
@@ -1079,7 +1094,7 @@ public class InsertInLayoutUtil
 				}
 			}
 			else if ( root.getDataSet( ) == dataSet
-					|| ( getAdapter( ) != null && getAdapter( ).resolveExtendedData( root.getDataSet( ) )
+					|| ( getAdapter( ) != null && root.getDataSet( )!=null && getAdapter( ).resolveExtendedData( root.getDataSet( ) )
 							.equals( getAdapter( ).resolveExtendedData( dataSet ) ) ) )
 			{
 				container = DEUtil.getBindingHolder( container );
@@ -1729,16 +1744,17 @@ public class InsertInLayoutUtil
 					String type = "";
 					if ( str != null )
 					{
-						for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+						List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+						for( ColumnHintHandle columnHint : columnHints )
 						{
-							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-							if ( element.getColumnName( ).equals( str )
-									|| str.equals( element.getAlias( ) ) )
+							if ( str.equals( columnHint.getColumnName( ) )
+									|| str.equals( columnHint.getAlias( ) ) )
 							{
-								type = element.getAnalysis( );
+								type = columnHint.getAnalysis( );
 								break;
 							}
 						}
+						
 						if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( type ) )
 						{
 							GroupHandle findGroup = null;
@@ -1924,11 +1940,16 @@ public class InsertInLayoutUtil
 			TableHandle tableHandle, SlotHandle slot,
 			ResultSetColumnHandle[] columns, boolean isLabel )
 	{
+		List<ColumnHintHandle> list = null;
 		for ( int i = 0; i < slot.getCount( ); i++ )
 		{
 			SlotHandle cells = ( (RowHandle) slot.get( i ) ).getCells( );
 			for ( int j = 0; j < cells.getCount( ) && j < columns.length; j++ )
 			{
+				if (list == null)
+				{
+					list = DataUtil.getColumnHints(model);
+				}
 				CellHandle cell = (CellHandle) cells.get( j );
 
 				try
@@ -1942,15 +1963,15 @@ public class InsertInLayoutUtil
 						// LabelHandle labelItemHandle =
 						// DesignElementFactory.getInstance( )
 						// .newLabel( null );
-						String labelText = UIUtil.getHeadColumnDisplayName( columns[j] );
+						String labelText = UIUtil.getHeadColumnDisplayName( list, columns[j] );
 						if ( labelText != null )
 						{
 							labelItemHandle.setText( labelText );
 						}
-						String displayKey = UIUtil.getColumnHeaderDisplayNameKey( columns[j] );
+						String displayKey = UIUtil.getColumnHeaderDisplayNameKey( list,columns[j] );
 						if ( displayKey == null )
 						{
-							displayKey = UIUtil.getColumnDisplayNameKey( columns[j] );
+							displayKey = UIUtil.getColumnDisplayNameKey( list, columns[j] );
 						}
 						if ( displayKey != null )
 						{
@@ -1969,7 +1990,7 @@ public class InsertInLayoutUtil
 						// .newDataItem( null );
 						dataHandle.setResultSetColumn( columns[j].getColumnName( ) );
 
-						formatDataHandle( dataHandle, columns[j] );
+						formatDataHandle( dataHandle, columns[j], list);
 						cell.addElement( dataHandle, cells.getSlotID( ) );
 
 						// add data binding to table.
@@ -1978,13 +1999,13 @@ public class InsertInLayoutUtil
 						bindingColumn.setDataType( columns[j].getDataType( ) );
 						ExpressionUtility.setBindingColumnExpression( columns[j],
 								bindingColumn );
-						bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( columns[j] ) );
-						String displayKey = UIUtil.getColumnDisplayNameKey( columns[j] );
+						bindingColumn.setDisplayName( UIUtil.getColumnDisplayName(list,  columns[j] ) );
+						String displayKey = UIUtil.getColumnDisplayNameKey(list, columns[j] );
 						if ( displayKey != null )
 							bindingColumn.setDisplayNameID( displayKey );
 						tableHandle.addColumnBinding( bindingColumn, false );
 
-						ActionHandle actionHandle = UIUtil.getColumnAction( columns[j] );
+						ActionHandle actionHandle = UIUtil.getColumnAction(list, columns[j] );
 						if ( actionHandle != null )
 						{
 							List source = new ArrayList( );
@@ -2001,14 +2022,18 @@ public class InsertInLayoutUtil
 			}
 		}
 	}
-
+	
 	private static void formatDataHandle( DataItemHandle dataHandle,
-			ResultSetColumnHandle column )
+			ResultSetColumnHandle column, ColumnHintHandle hintHandle )
 	{
+		if (hintHandle == null)
+		{
+			return;
+		}
 		try
 		{
 			StyleHandle styleHandle = dataHandle.getPrivateStyle( );
-			ColumnHintHandle hintHandle = findColumnHintHandle( column );
+			
 			if ( hintHandle != null
 					&& hintHandle.isLocal( ColumnHint.WORD_WRAP_MEMBER ) )
 			{
@@ -2023,13 +2048,13 @@ public class InsertInLayoutUtil
 				}
 			}
 
-			String aliment = UIUtil.getClolumnHandleAlignment( column );
+			String aliment = hintHandle.getHorizontalAlign( );
 			if ( aliment != null )
 			{
 				styleHandle.setTextAlign( aliment );
 			}
 
-			String helpText = UIUtil.getClolumnHandleHelpText( column );
+			String helpText = hintHandle.getHelpText( );
 			if ( helpText != null )
 			{
 				dataHandle.setHelpText( helpText );
@@ -2049,18 +2074,47 @@ public class InsertInLayoutUtil
 		}
 
 	}
+	
+	private static void formatDataHandle( DataItemHandle dataHandle,
+			ResultSetColumnHandle column, List<ColumnHintHandle> list )
+	{
+		
+		ColumnHintHandle hintHandle = findColumnHintHandle( list, column );
+		formatDataHandle(dataHandle, column, hintHandle);	
 
+	}
+	private static void formatDataHandle( DataItemHandle dataHandle,
+			ResultSetColumnHandle column )
+	{
+		ColumnHintHandle hintHandle = findColumnHintHandle( column );
+		formatDataHandle(dataHandle, column, hintHandle);	
+	}
+
+	private static ColumnHintHandle findColumnHintHandle(List<ColumnHintHandle> columnHints,
+			ResultSetColumnHandle column )
+	{
+		for( ColumnHintHandle columnHint : columnHints )
+		{
+			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
+					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
+			{
+				return columnHint;
+			}
+		}
+		return null;
+	}
+	
 	private static ColumnHintHandle findColumnHintHandle(
 			ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+		List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+		for( ColumnHintHandle columnHint : columnHints )
 		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
+					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
 			{
-				return element;
+				return columnHint;
 			}
 		}
 		return null;

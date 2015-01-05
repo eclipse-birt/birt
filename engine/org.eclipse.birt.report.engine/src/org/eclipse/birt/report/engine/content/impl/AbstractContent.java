@@ -69,6 +69,10 @@ abstract public class AbstractContent extends AbstractElement
 	protected IHyperlinkAction hyperlink;
 
 	protected String bookmark;
+	
+	protected String altText;
+	
+	protected String altTextKey;
 
 	protected String helpText;
 
@@ -136,6 +140,8 @@ abstract public class AbstractContent extends AbstractElement
 		this.name = content.getName( );
 		this.x = content.getX( );
 		this.y = content.getY( );
+		this.altText = content.getAltText( );
+		this.altTextKey = content.getAltTextKey( );
 		this.width = content.getWidth( );
 		this.height = content.getHeight( );
 		this.hyperlink = content.getHyperlinkAction( );
@@ -299,6 +305,19 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		return null;
 	}
+	
+	/**
+	 * @return Returns the altText.
+	 */
+	public String getAltText( )
+	{
+		return altText;
+	}
+	
+	public String getAltTextKey( )
+	{
+		return altTextKey;
+	}
 
 	/**
 	 * @return Returns the helpText.
@@ -438,6 +457,24 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			this.height = height;
 		}
+	}
+	
+	/**
+	 * @param altText
+	 *            The altText to set.
+	 */
+	public void setAltText( String altText )
+	{
+		this.altText = altText;
+	}
+
+	/**
+	 * @param key
+	 *            The altText key to set.
+	 */
+	public void setAltTextKey( String key )
+	{
+		altTextKey = key;
 	}
 
 	/**
@@ -602,6 +639,8 @@ abstract public class AbstractContent extends AbstractElement
 	final static short FIELD_CLASS_STYLE = 13;
 	final static short FIELD_USER_PROPERTIES = 14;
 	final static short FIELD_EXTENSIONS = 15;
+	final static short FIELD_ALTTEXT = 16;
+	final static short FIELD_ALTTEXTKEY = 17;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -639,6 +678,16 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			IOUtil.writeShort( out, FIELD_BOOKMARK );
 			IOUtil.writeString( out, bookmark );
+		}
+		if ( altText != null )
+		{
+			IOUtil.writeShort( out, FIELD_ALTTEXT );
+			IOUtil.writeString( out, altText );
+		}
+		if ( altTextKey != null )
+		{
+			IOUtil.writeShort( out, FIELD_ALTTEXTKEY );
+			IOUtil.writeString( out, altTextKey );
 		}
 		if ( helpText != null )
 		{
@@ -743,6 +792,12 @@ abstract public class AbstractContent extends AbstractElement
 				break;
 			case FIELD_BOOKMARK :
 				bookmark = IOUtil.readString( in );
+				break;
+			case FIELD_ALTTEXT :
+				altText = IOUtil.readString( in );
+				break;
+			case FIELD_ALTTEXTKEY :
+				altTextKey = IOUtil.readString( in );
 				break;
 			case FIELD_HELPTEXT :
 				helpText = IOUtil.readString( in );

@@ -243,7 +243,7 @@ public class MetadataTestUtil
 	 * @param element
 	 * @param id
 	 */
-	public static void setNameSpaceID( ElementDefn element, int id )
+	public static void setNameSpaceID( ElementDefn element, String id )
 	{
 		if ( element != null )
 			element.setNameSpaceID( id );

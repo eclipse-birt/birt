@@ -629,29 +629,29 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	}
 	
 	/**
-	 * Returns the role of this label item.
+	 * Returns the tag type of this label item.
 	 * 
-	 * @return the help text key
+	 * @return the tag type value
 	 */
 
-	public String getRole( )
+	public String getTagType( )
 	{
-		return getStringProperty( ROLE_PROP );
+		return getStringProperty( TAG_TYPE_PROP );
 	}
 
 	/**
-	 * Sets the role of this label item.
+	 * Sets the tag type of this label item.
 	 * 
-	 * @param role
-	 *            the role
+	 * @param tag type
+	 *            the tag type
 	 * 
 	 * @throws SemanticException
 	 *           if the property is locked.
 	 */
 
-	public void setRole( String role ) throws SemanticException
+	public void setTagType( String tagType ) throws SemanticException
 	{
-		setStringProperty( ROLE_PROP, role );
+		setStringProperty( TAG_TYPE_PROP, tagType );
 	}
 	
 	/**
@@ -686,23 +686,47 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 * @return the alternate text
 	 */
 
-	public String getAltText( )
+	public ExpressionHandle getAltTextExpression( )
 	{
-		return getStringProperty( ALTTEXT_PROP );
+		return getExpressionProperty( ALT_TEXT_PROP );
 	}
 
 	/**
 	 * Sets the alternate text of this label item.
 	 * 
-	 * @param resourceKey
-	 *            the alternate text
+	 * @param altText
+	 *            the alternate text expression.
 	 * 
 	 * @throws SemanticException
 	 *            if the property is locked.
 	 */
-
-	public void setAltText( String altText ) throws SemanticException
+	public void setAltTextExpression( Expression altText ) throws SemanticException
 	{
-		setStringProperty( ALTTEXT_PROP, altText );
-	}	
+		setExpressionProperty( ALT_TEXT_PROP, altText );
+
+	}
+
+	/**
+	 * Returns the resource key of the alternate text of this image.
+	 * 
+	 * @return the resource key of the alternate text
+	 */
+
+	public String getAltTextKey( )
+	{
+		return getStringProperty( ALT_TEXT_KEY_PROP );
+	}
+
+	/**
+	 * Sets the resource key of the alternate text of this image.
+	 * 
+	 * @param altTextKey
+	 *            the alternate text key
+	 * @throws SemanticException
+	 */
+
+	public void setAltTextKey( String altTextKey ) throws SemanticException
+	{
+		setProperty( ALT_TEXT_KEY_PROP, altTextKey );
+	}
 }

@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.command.NameException;
@@ -123,7 +125,7 @@ public class LabelItemParserTest extends ParserTestCase
 		assertEquals( "http://localhost:8080/", action.getURI( ) ); //$NON-NLS-1$
 		
 		// test default value of Role in Label
-		assertEquals( "div", labelHandle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "p", labelHandle.getTagType( ) ); //$NON-NLS-1$
 
 		// reads in a lable that exists in the body.
 
@@ -139,9 +141,9 @@ public class LabelItemParserTest extends ParserTestCase
 		assertEquals( "help key", labelHandle.getHelpTextKey( ) ); //$NON-NLS-1$
 		assertEquals( "text key", labelHandle.getTextKey( ) ); //$NON-NLS-1$
 		
-		assertEquals( "Div", labelHandle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "Div", labelHandle.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", labelHandle.getLanguage( ) ); //$NON-NLS-1$
-		assertEquals( "Alt Text", labelHandle.getAltText( ) ); //$NON-NLS-1$
+		assertEquals( "Alt Text", labelHandle.getAltTextExpression( ).getStringExpression( ) ); //$NON-NLS-1$
 		assertEquals( 1, labelHandle.getOrder( ) ); //$NON-NLS-1$
 
 		// make sure that this label exists in the body slot.
@@ -258,9 +260,9 @@ public class LabelItemParserTest extends ParserTestCase
 		labelHandle.setHelpText( "new help text" ); //$NON-NLS-1$
 		labelHandle.setHelpTextKey( "new help text key" ); //$NON-NLS-1$
 		
-		labelHandle.setRole( "Div" ); //$NON-NLS-1$
+		labelHandle.setTagType( "Div" ); //$NON-NLS-1$
 		labelHandle.setLanguage( "English" ); //$NON-NLS-1$
-		labelHandle.setAltText( "Alt Text" ); //$NON-NLS-1$
+		labelHandle.setAltTextExpression( new Expression("Alt Text", ExpressionType.CONSTANT) ); //$NON-NLS-1$
 		labelHandle.setOrder( 1 ); //$NON-NLS-1$
 
 		labelHandle.setCustomXml( "new custom <text> </text> for bodyLabel" ); //$NON-NLS-1$

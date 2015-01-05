@@ -39,7 +39,7 @@ public interface MetaDataConstants
 	 * Code for an element that does not appear in any name space.
 	 */
 	
-	public static final int NO_NAME_SPACE = -1;
+	public static final String NO_NAME_SPACE = "NONE";
 
 	/**
 	 * Code for an element that does not take a name.

@@ -32,36 +32,12 @@ public class DimensionNameHelper extends AbstractNameHelper
 	{
 		super( );
 		this.dimension = dimension;
-		initialize( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.birt.report.model.core.namespace.AbstractNameHelper#
-	 * getNameSpaceCount()
-	 */
-	protected int getNameSpaceCount( )
+	protected INameContext createNameContext( String name )
 	{
-		return Dimension.NAME_SPACE_COUNT;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.AbstractNameHelper#initialize
-	 * ()
-	 */
-	protected void initialize( )
-	{
-		int count = getNameSpaceCount( );
-		nameContexts = new INameContext[count];
-		for ( int i = 0; i < count; i++ )
-		{
-			nameContexts[i] = NameContextFactory.createDimensionNameContext(
-					dimension, i );
-		}
+		return NameContextFactory.createDimensionNameContext( dimension,
+				Dimension.LEVEL_NAME_SPACE );
 	}
 
 	/**
@@ -77,7 +53,7 @@ public class DimensionNameHelper extends AbstractNameHelper
 		if ( !dimension.getDefn( ).isKindOf(
 				defn.getNameConfig( ).getNameContainer( ) ) )
 			return;
-		int id = defn.getNameSpaceID( );
+		String id = defn.getNameSpaceID( );
 		NameSpace ns = getCachedNameSpace( id );
 		if ( !ns.contains( element.getName( ) ) )
 			ns.insert( element );
@@ -90,7 +66,7 @@ public class DimensionNameHelper extends AbstractNameHelper
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#addContentName
 	 * (int, java.lang.String)
 	 */
-	public void addContentName( int id, String name )
+	public void addContentName( String id, String name )
 	{
 		// do nothing
 	}

@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.core.model.IMixedHandle;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -25,6 +26,7 @@ import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -138,6 +140,40 @@ public class FlowMoveChildCommand extends Command
 						(DesignElementHandle) after,
 						slotID );
 			}
+			else if(container instanceof IMixedHandle)
+			{
+				IMixedHandle mixHandleInstance = (IMixedHandle)container;
+				if(child instanceof CubeHandle)
+				{
+					containerHandle = mixHandleInstance.getSlotHandle( ).getElementHandle( );
+					ElementDetailHandle slot = mixHandleInstance.getSlotHandle( );
+					if ( slot instanceof SlotHandle )
+					{
+						slotID = ((SlotHandle)slot).getSlotID( );
+					}
+					
+					pos = DEUtil.findInsertPosition( containerHandle,
+							(DesignElementHandle) adjustAfterObjectForSlotHandleInIMixedHandle( ),
+							slotID );
+					int cur = DEUtil.findInsertPosition( containerHandle,
+							(DesignElementHandle) child,
+							slotID );
+					if (cur < pos)
+					{
+						pos --;
+					}
+				}else
+				{
+					containerHandle = mixHandleInstance.getPropertyHandle( ).getElementHandle( );
+					contentString = DEUtil.getDefaultContentName( containerHandle );
+					pos = computePosForPropertyHandleInIMixedHandle( containerHandle, contentString );
+					int cur = DEUtil.findInsertPosition( containerHandle,(DesignElementHandle) child, contentString );
+					if (cur < pos)
+					{
+						pos --;
+					}
+				}
+			}
 
 			DesignElementHandle handle = (DesignElementHandle) child;
 
@@ -182,5 +218,25 @@ public class FlowMoveChildCommand extends Command
 		{
 			logger.log( Level.SEVERE,ee.getMessage( ), ee);
 		}
+	}
+	
+	private int computePosForPropertyHandleInIMixedHandle(DesignElementHandle containerHandle,String contentString)
+	{
+		if(after != null && after instanceof CubeHandle)
+		{
+			return 0;
+		}else{
+			return DEUtil.findInsertPosition( containerHandle,
+						(DesignElementHandle) after, contentString );
+		}
+	}
+	
+	private Object adjustAfterObjectForSlotHandleInIMixedHandle()
+	{
+		if(after != null && !(after instanceof CubeHandle))
+		{
+			return null;
+		}
+		return after;
 	}
 }

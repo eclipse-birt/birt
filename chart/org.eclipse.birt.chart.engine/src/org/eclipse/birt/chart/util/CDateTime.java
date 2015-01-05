@@ -18,7 +18,6 @@ import java.util.Locale;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 import com.ibm.icu.text.SimpleDateFormat;
@@ -56,7 +55,7 @@ public class CDateTime extends GregorianCalendar
 			Calendar.YEAR
 	};
 
-	public static final int QUARTER = GroupingUnitType.QUARTERS;
+	public static final int QUARTER = 999;
 	
 	private static int[] iaCalendarUnits = {
 			Calendar.SECOND,
@@ -886,7 +885,7 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.AM_PM, AM );
 			set( Calendar.MONTH, 0 );
 		}
-		else if ( iUnit == MONTH || iUnit == GroupingUnitType.QUARTERS )
+		else if ( iUnit == MONTH || iUnit == QUARTER )
 		{
 			set( Calendar.MILLISECOND, 0 );
 			set( Calendar.SECOND, 0 );
@@ -895,12 +894,12 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.AM_PM, AM );
 			set( Calendar.DATE, 1 );
 
-			if ( iUnit == GroupingUnitType.QUARTERS )
+			if ( iUnit == QUARTER )
 			{
 				set( Calendar.MONTH, ( getMonth( ) / 3 ) * 3 );
 			}
 		}
-		else if ( iUnit == WEEK_OF_YEAR )
+		else if ( iUnit == WEEK_OF_YEAR || iUnit == WEEK_OF_MONTH )
 		{
 			set( Calendar.MILLISECOND, 0 );
 			set( Calendar.SECOND, 0 );
@@ -913,7 +912,10 @@ public class CDateTime extends GregorianCalendar
 			int weekDay = get( DAY_OF_WEEK );
 			add( DATE, 1 - weekDay );
 		}
-		else if ( iUnit == DATE )
+		else if ( iUnit == DATE
+				|| iUnit == DAY_OF_MONTH
+				|| iUnit == DAY_OF_WEEK
+				|| iUnit == DAY_OF_YEAR )
 		{
 			set( Calendar.MILLISECOND, 0 );
 			set( Calendar.SECOND, 0 );
@@ -970,15 +972,18 @@ public class CDateTime extends GregorianCalendar
 		{
 			return;
 		}
-		else if ( iUnit == MONTH || iUnit == GroupingUnitType.QUARTERS )
+		else if ( iUnit == MONTH || iUnit == QUARTER )
 		{
 			set( Calendar.YEAR, 2000 ); // No more sense here for 2000, just set 2000 as uniform year to group month, quarter and so on without keeping hierarchy.
 		}
-		else if ( iUnit == DATE )
+		else if ( iUnit == DATE
+				|| iUnit == DAY_OF_MONTH
+				|| iUnit == DAY_OF_WEEK
+				|| iUnit == DAY_OF_YEAR )
 		{
 			set( Calendar.YEAR, 2000 );
 		}
-		else if ( iUnit == WEEK_OF_YEAR )
+		else if ( iUnit == WEEK_OF_YEAR || iUnit == WEEK_OF_MONTH )
 		{
 			set( Calendar.YEAR, 2000 );
 		}

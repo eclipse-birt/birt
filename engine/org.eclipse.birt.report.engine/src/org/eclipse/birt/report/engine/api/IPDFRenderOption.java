@@ -41,9 +41,13 @@ public interface IPDFRenderOption extends IRenderOption
 	 */
 	public static final String PAGE_OVERFLOW = "pdfRenderOption.pageOverflow";
 	
+	//disabled on ui
 	public static final int CLIP_CONTENT = 1;
+	//"Fit to whole page" on ui
 	public static final int FIT_TO_PAGE_SIZE = 2;
+	//"Auto" on ui
 	public static final int OUTPUT_TO_MULTIPLE_PAGES = 4;
+	//"Actual size" on ui
 	public static final int ENLARGE_PAGE_SIZE = 8;
 	
 	/**

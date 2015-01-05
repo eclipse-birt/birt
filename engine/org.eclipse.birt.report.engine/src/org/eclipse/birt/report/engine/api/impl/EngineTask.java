@@ -209,6 +209,8 @@ public abstract class EngineTask implements IEngineTask
 	
 	protected String[] userAcls;
 	
+	protected String cancelReason;
+	
 	private ResourceLocatorWrapper resourceLocator;
 	
 	/**
@@ -1366,34 +1368,40 @@ public abstract class EngineTask implements IEngineTask
 		disposeResourceLocator( );
 		changeStatusToStopped();
 	}
-
-	public void cancel( Object signal )
+	
+	public void cancel( String reason )
 	{
-		if ( signal == null )
-		{
-			throw new IllegalArgumentException( "signal can not be null" );
-		}
-		cancelFlag = true;
-		long waitingTime = 0;
-		do
-		{
-			waitingTime += 100;
-			try
-			{
-				Thread.sleep( 100 );
-			}
-			catch ( Exception ex )
-			{
-			}
-			if ( runningStatus != STATUS_RUNNING )
-			{
-				return;
-			}
-		} while ( waitingTime < 5000 );
-		disposeResourceLocator( );
-		changeStatusToStopped();
-		return;
+		cancelReason = reason;
+		cancel( );
 	}
+
+//	public void cancel( Object signal )
+//	{
+//		if ( signal == null )
+//		{
+//			throw new IllegalArgumentException( "signal can not be null" );
+//		}
+//		cancelFlag = true;
+//		long waitingTime = 0;
+//		do
+//		{
+//			waitingTime += 100;
+//			try
+//			{
+//				Thread.sleep( 100 );
+//			}
+//			catch ( Exception ex )
+//			{
+//			}
+//			if ( runningStatus != STATUS_RUNNING )
+//			{
+//				return;
+//			}
+//		} while ( waitingTime < 5000 );
+//		disposeResourceLocator( );
+//		changeStatusToStopped();
+//		return;
+//	}
 
 	public boolean getCancelFlag( )
 	{

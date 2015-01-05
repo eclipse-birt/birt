@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.3.v20130908-0200 Build &lt;4.2.3.v20130908-0200></property>
+    <property name="units">in</property>
+    <property name="layoutPreference">auto layout</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="sqlserver_datasource" id="403">
+            <property name="odaDriverClass">com.actuate.jdbc.sqlserver.SQLServerDriver</property>
+            <property name="odaURL">jdbc:actuate:sqlserver://dbsrv10-win:1433;databasename=classicmodels</property>
+            <property name="odaUser">actest</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">c3lzVGVzdA==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="orderDetails" id="235">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">ORDERNUMBER</property>
+                    <text-property name="displayName">ORDERNUMBER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PRODUCTCODE</property>
+                    <text-property name="displayName">PRODUCTCODE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">QUANTITYORDERED</property>
+                    <text-property name="displayName">QUANTITYORDERED</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PRICEEACH</property>
+                    <text-property name="displayName">PRICEEACH</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORDERLINENUMBER</property>
+                    <text-property name="displayName">ORDERLINENUMBER</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SUBTOTALPERLINE</property>
+                    <text-property name="displayName">SUBTOTALPERLINE</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">ORDERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">PRODUCTCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">QUANTITYORDERED</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">PRICEEACH</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">ORDERLINENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">SUBTOTALPERLINE</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">sqlserver_datasource</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">ORDERNUMBER</property>
+                    <property name="nativeName">ORDERNUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">PRODUCTCODE</property>
+                    <property name="nativeName">PRODUCTCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">QUANTITYORDERED</property>
+                    <property name="nativeName">QUANTITYORDERED</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">PRICEEACH</property>
+                    <property name="nativeName">PRICEEACH</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">6</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">ORDERLINENUMBER</property>
+                    <property name="nativeName">ORDERLINENUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">5</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">SUBTOTALPERLINE</property>
+                    <property name="nativeName">SUBTOTALPERLINE</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">6</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select 
+dbo.ORDERDETAILS.ORDERNUMBER,
+dbo.ORDERDETAILS.PRODUCTCODE,
+dbo.ORDERDETAILS.QUANTITYORDERED,
+dbo.ORDERDETAILS.PRICEEACH,
+dbo.ORDERDETAILS.ORDERLINENUMBER,
+dbo.ORDERDETAILS.QUANTITYORDERED * dbo.ORDERDETAILS.PRICEEACH as SUBTOTALPERLINE
+from 
+dbo.ORDERDETAILS
+where dbo.ORDERDETAILS.ORDERNUMBER<10135
+]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table name="Table1" id="292">
+            <property name="width">100%</property>
+            <property name="dataSet">orderDetails</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">ORDERNUMBER</property>
+                    <expression name="expression">dataSetRow["ORDERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">PRODUCTCODE</property>
+                    <expression name="expression">dataSetRow["PRODUCTCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">QUANTITYORDERED</property>
+                    <expression name="expression">dataSetRow["QUANTITYORDERED"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">PRICEEACH</property>
+                    <expression name="expression">dataSetRow["PRICEEACH"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">ORDERLINENUMBER</property>
+                    <expression name="expression">dataSetRow["ORDERLINENUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">SUBTOTALPERLINE</property>
+                    <expression name="expression">dataSetRow["SUBTOTALPERLINE"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">TotalPriceIntoQty</property>
+                    <expression name="expression">Total.sum( dataSetRow["SUBTOTALPERLINE"] )</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>NewTableGroup1</value>
+                    </simple-property-list>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">6</property>
+            <column id="305"/>
+            <column id="340"/>
+            <column id="306"/>
+            <column id="385"/>
+            <column id="307"/>
+            <header>
+                <row id="329">
+                    <property name="backgroundColor">#FFFFFF</property>
+                    <property name="fontWeight">bold</property>
+                    <cell id="330">
+                        <property name="colSpan">5</property>
+                        <property name="rowSpan">1</property>
+                        <grid id="359">
+                            <property name="width">100%</property>
+                            <column id="360">
+                                <property name="width">1.1458333333in</property>
+                            </column>
+                            <column id="361">
+                                <property name="width">5.1979166667in</property>
+                            </column>
+                            <row id="362">
+                                <cell id="363">
+                                    <image id="402">
+                                        <property name="source">embed</property>
+                                        <property name="imageName">classicModels-small.png</property>
+                                    </image>
+                                </cell>
+                                <cell id="365">
+                                    <property name="textAlign">left</property>
+                                    <property name="verticalAlign">middle</property>
+                                    <text id="366">
+                                        <property name="fontFamily">"Georgia"</property>
+                                        <property name="fontSize">xx-large</property>
+                                        <property name="fontWeight">bold</property>
+                                        <property name="color">#004080</property>
+                                        <property name="contentType">plain</property>
+                                        <text-property name="content"><![CDATA[Classic Models Corporation - Order Details]]></text-property>
+                                    </text>
+                                </cell>
+                            </row>
+                        </grid>
+                    </cell>
+                </row>
+            </header>
+            <group id="367">
+                <property name="groupName">NewTableGroup1</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["ORDERNUMBER"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue">row["ORDERNUMBER"]</expression>
+                </structure>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">auto</property>
+                <property name="pageBreakBefore">auto</property>
+                <header>
+                    <row id="388">
+                        <property name="backgroundColor">#FF8000</property>
+                        <cell id="389">
+                            <label id="394">
+                                <text-property name="text">Order #</text-property>
+                            </label>
+                        </cell>
+                        <cell id="390">
+                            <label id="395">
+                                <text-property name="text">Line #</text-property>
+                            </label>
+                        </cell>
+                        <cell id="391">
+                            <label id="396">
+                                <text-property name="text">Product Code</text-property>
+                            </label>
+                        </cell>
+                        <cell id="392">
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
+                            <label id="397">
+                                <text-property name="text">Qty</text-property>
+                            </label>
+                        </cell>
+                        <cell id="393">
+                            <label id="398">
+                                <text-property name="text">Unit Price</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                    <row id="368">
+                        <cell id="369">
+                            <data id="378">
+                                <property name="resultSetColumn">ORDERNUMBER</property>
+                            </data>
+                        </cell>
+                        <cell id="370"/>
+                        <cell id="371"/>
+                        <cell id="404"/>
+                        <cell id="372"/>
+                    </row>
+                </header>
+                <footer>
+                    <row id="373">
+                        <cell id="374">
+                            <label id="399">
+                                <text-property name="text">Total order amount:</text-property>
+                            </label>
+                        </cell>
+                        <cell id="375">
+                            <property name="colSpan">4</property>
+                            <property name="rowSpan">1</property>
+                            <data id="401">
+                                <structure name="numberFormat">
+                                    <property name="category">Currency</property>
+                                    <property name="pattern">$#,##0.00</property>
+                                </structure>
+                                <property name="resultSetColumn">TotalPriceIntoQty</property>
+                            </data>
+                        </cell>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row id="297">
+                    <cell id="298"/>
+                    <cell id="336">
+                        <data id="342">
+                            <property name="resultSetColumn">ORDERLINENUMBER</property>
+                        </data>
+                    </cell>
+                    <cell id="299">
+                        <data id="386">
+                            <property name="resultSetColumn">PRODUCTCODE</property>
+                        </data>
+                    </cell>
+                    <cell id="381">
+                        <data id="311">
+                            <property name="resultSetColumn">QUANTITYORDERED</property>
+                        </data>
+                    </cell>
+                    <cell id="300">
+                        <data id="313">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">$#,##0.00</property>
+                            </structure>
+                            <property name="resultSetColumn">PRICEEACH</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="301">
+                    <cell id="302"/>
+                    <cell id="339"/>
+                    <cell id="303"/>
+                    <cell id="384"/>
+                    <cell id="304"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+    <list-property name="images">
+        <structure>
+            <property name="name">classicModels-small.png</property>
+            <property name="data">
+                iVBORw0KGgoAAAANSUhEUgAAAEYAAAAvCAMAAABpC0wkAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
+                dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGAUExURS0wM9t4CRxTl4mIX+eomoaKimh4hNmBCVBK
+                MnWCg9trBTdFZNNOA1hib/39/U5XaZTE5nRsUuyzA/LMAOqoAo95SpmvzHF8hOFzCKd0K+KFBjU6RrW1
+                o6SJPQgICXKGct97ZvDHu8eOJFZshuiZBFx0hoppO0tkhLpmG0JFRS4rGvaoAomVrNA9BmNpaFVaXe68
+                AdyIeamro9Xb4/HY03t8Xmx4evfo5Ht7fWNrdEpSWG6IsFVURYhYLnmIkNFHG69fNmWdzG6AhMWdMjo3
+                JWpYRLFbFURKVRwkMpiWgxUXJJqjj0Z3r+rs8rvC0+j5/9lxDJdWHo82K1CFkYSOjtqeG/icAImQkHB9
+                pGNwhIyNhsHb7vj7/cNqFhxBhfTz9ZuemUhzh+Hj7j4+NHB1bOuMAtdoDBgXEXR7jzlXg0ZojuKrH9Jh
+                CJKgtGd4jXBvZnBrfh8gHEB0kmJhViUlJrh/InuOmlh9ieyqC/bg29NkR9xcBKOefb7Btt9+Cv////a9
+                a9sAAAfzSURBVHjajJWLX9rIFseH8EoCMcWKPAJqFU2DQqoWCzHCFoOhvkq7WgtVajdipLViSrAqLf7r
+                98wE3fv5tLv3/iaZnJk555szDwK6+51GHP3Se/dL31Dot5Ch++GLJx7PIsjjefLicDj0f2OI88hzz9Rt
+                Kdhn+yzb7weDpdspz80/QH6DgUygvvHclvrR1LPHDxpNRYPBW8/Nvde/YUacTJ5PlfrxURz8jJQH1CBY
+                mnpOXjXyLxhnWW+mMuwYxD77b42S+vHjsfPS4s3d/8LA7Sn1xyBslFxQOTU2sJ49TgVLnpG7XzDDjR1x
+                9ufmNpOCkOvRf9azVub25iF3Jx4ND8hwk5+U+pgxNjo21Dyurq+voR69JjYY8/3Sk+FCDlcTEevwNdzQ
+                78lER8euv4Dzl2scMP/lCybg+PlruL5czxPoKJuBiR1i1GsyQTypw/Ht7Ze7Lz8AJbs+vz/Zzu2vfM7t
+                /9m7dn/7lEulxtzJ+bHJ5Pz6N3F2fd796dP39fkTcfvRo9WPd4+2V5fx2gBqvPl+d/xrc9yT6VHiuzAV
+                7oWpudg0NeemKr05/1hKbKfWKXmdCkyHqenJZi/Unv6z+XbxZXPnNbW6u+zs1E67+RdmXQZbJ01qukd9
+                W49Rn9YBwzXj71Kp1L7YTE5SspuKze9TlclAap8KTba5txftncPt9vjhyBBDwSx3qbetfYpq5t7F2pQ/
+                1m73qDm53cKYaVGh2m0l3Oy9W8eYFtTlQPiIg7id1ea4M6nD99SjDx/GmzProUCMb4eT4WYomWvONedi
+                lDuZ9LeS7V6zApB2Z/0TFVtpJrebve/N5P53iHv0gVoYrs3Owvb2algX+crcuxgfEvm1GNx+fq41J4qy
+                v9WrxOd6PaXX48R2rBVWRD6WCvPtuWQgML6wvfrXwyn++NGTicf9g/ggDpe/FR8MWtiK+13xOG5DKw6V
+                nxiDeGuA2/FBxnO3M9xw8ot8UWJhdIBFnsR5QHqAPhj4HQO/yqn8ZIgtvRgePwezGIy7sDMUl38ApgsE
+                3rgBhsvpIvYAN/14HPoyi3d/Z3P3vMS6oq5atOZy1cAACxuuYYV7osS8v6EZJSNshnw3hpjFYK1WAwcA
+                QVWLRp0WCzbuqh1FcTe8wZGLdZFx6IF0HjAvSucsWzuFAg+WjbI14hyNsvBga72c9uYU92ysVWh67c3G
+                EbDZGnavncPq3GM8GYw4BdIpcM6PNu71FDQdzrk162nt6IgW9PrZRT0gGaENlmVPcTmFzRpxzs3IbbB2
+                en4KYs/frFW6J/l8schccpwiCUKla5tp2jRNy0ojLF3hA9WqtoH9ISp4O0KO3+Hd8wxhQOeamv26tLv8
+                8+tVndMFQbartmqZEyY9ATLNiWrVtq1Ny0aomr6PydwQDP7KnJ6D+uwb/v1C40yWUNWyrCpCgiCoFc0y
+                Tdp0MMjb0dVOVzKQrZ33IQrSgVk5azOV6cM/EdwbvC4gZOhyNp/3gpjjpVe5HzCfCsZAWijROXmVWNpq
+                HDOdNRwBykxhzO7u7h/3eiMpWW/jeGnpJyiR+HncSLzKdc10mkY4G7jzUqORA85SYqmxtoFjnm78sby8
+                jERR/DwU511aOobwxPFBI58vFE4us9lcKA2i1Yk0Xp4JSUddQxUMSe1sbcniZ3HmM5SZGTQjzsAFRYxs
+                JRJbDebkssBxhXqhDlK4TthIa2aoC1uFExJ0BdkCnnq1aki8SAQgNDMLMFxdbL3qyALP1S+KxSu4rood
+                hjtj3DSt5bpGWg2lrbSJeENQYMcDsPObNk8C8YVmZ2ZnZ+pQZXVdrPOcb+XSd1YsLnz9ulAsFq7OctlQ
+                qNPV0mnYd2sCFQRJkgRygJClzIIwBzD1i3odWnUhAPskCKiK7KpVFZAuF3xnV2fuhqHSaZMcnPSEwgnV
+                KsIFVQVDqc9CqK8+e4F8F3XfLGYJhqDLMs9lC5F8lpNlhecVWeZCBpLSmg2HB3bc0gPcyhnMKQC0KszK
+                NwulXgcMCJg+TudnVq7grJQvzs5gkUXOEa8U8qpcKHCyokgBPn/JAQNDqpubpj0DSfh89TKK+IgiCo9j
+                xboYgE3YRAJ4bZpwb1rD5ybMhucC0I9suDcnoN9SnGgfKkNV9kXKio0Cl7wu6QHBtm01R5NVNDQ49tjQ
+                NKTZQkBAQBM2gWFBV1rgIAu4cDbliC8CpiTpEvnhTGzatmZZmgGiaQM/ia0h3YZ4cp5taGqaQJKJlCNl
+                xEAFqHK5oNK0GeqoBoAQolVNUlVDwoWGSjM0C9mwzIYqwYFO0wDROQjF0REGYyIRBlrMiYy6CYvWuuCG
+                TEOCLwycXRMWx7ThgTM1cRK2O21aGOIjseX7bByVmRVZ+xGitR85+E2bUiKrdmn4KnQ7nZMTVel2EJw/
+                t2Za3R9wmiUuwuDQMqbgbCIMSabMlJmijCr5xA/NknRdOWm4vbluKKTSaqiiGmrHsNMTITcdekWbtlQo
+                Aga/u4wpeFIMNHALDCYraMiyJR48OAkvuqQoOvyIZDhBstxFsCi0ZcIOMTgXiAMExJcJBiAMZuI84Zxx
+                BRiH1gooEjljhopEiis6fETTgp4dzojBIOyMCI/MDL8g7zydsPLfNnP/ZvKWFezKkFk5vQw6aOyBvN49
+                KI2DPe/BgXcPurzk2ts7gG8pcXCajQMisA/2yPCB44VgnHiSJonGSO8Q7D1w3uFgvQ84r+PmPMHrPwIM
+                AObtDScjDCHgAAAAAElFTkSuQmCC
+</property>
+        </structure>
+    </list-property>
+</report>

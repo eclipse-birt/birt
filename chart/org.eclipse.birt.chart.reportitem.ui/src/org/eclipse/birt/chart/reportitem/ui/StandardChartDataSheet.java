@@ -264,7 +264,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	{
 		if ( isCubeMode( ) )
 		{
-			boolean inheritXTab = getDataServiceProvider( ).checkState( IDataServiceProvider.INHERIT_CUBE );
+			// Inherit xtab means container has cube but chart has no cube
+			boolean inheritXTab = getDataServiceProvider( ).checkState( IDataServiceProvider.INHERIT_CUBE )
+					&& !( getDataServiceProvider( ).checkState( IDataServiceProvider.HAS_CUBE ) && !getDataServiceProvider( ).checkState( IDataServiceProvider.IN_MULTI_VIEWS ) );
 			if ( inheritXTab )
 			{
 				btnFilters.setEnabled( false );
@@ -284,16 +286,24 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		else
 		{
-			btnFilters.setEnabled( hasDataSet( )
-					&& !getDataServiceProvider( ).isInheritColumnsGroups( ) );
-
+			boolean shareTable = getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_TABLE_QUERY );
+			if ( shareTable )
+			{
+				btnFilters.setEnabled( false );
+				btnBinding.setEnabled( false );
+			}
+			else
+			{
+				btnFilters.setEnabled( hasDataSet( )
+						&& !getDataServiceProvider( ).isInheritColumnsGroups( ) );
+				btnBinding.setEnabled( hasDataSet( )
+						&& !getDataServiceProvider( ).isInheritColumnsGroups( )
+						&& ( getDataServiceProvider( ).isInvokingSupported( ) || getDataServiceProvider( ).isSharedBinding( ) ) );
+			}
 			// Bugzilla#177704 Chart inheriting data from container doesn't
 			// support parameters due to limitation in DtE
 			btnParameters.setEnabled( getDataServiceProvider( ).getDataSet( ) != null
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			btnBinding.setEnabled( hasDataSet( )
-					&& !getDataServiceProvider( ).isInheritColumnsGroups( )
-					&& ( getDataServiceProvider( ).isInvokingSupported( ) || getDataServiceProvider( ).isSharedBinding( ) ) );
 		}
 	}
 

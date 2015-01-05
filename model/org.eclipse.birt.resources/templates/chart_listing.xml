@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cheatsheet title="Creation of a Chart and Listing Report">
-  <intro href="/org.eclipse.birt.doc/birt/lay-LayingOutAReport.html">
+  <intro>
     <description>This tutorial helps you create a chart and listing report using BIRT.
     </description>
   </intro>
-  <item href="/org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForDatabaseOrOtherJDBCDataSource.html"
-  		title="Create a Data Source" skip="true">
+  <item
+        skip="true"
+        title="Create a Data Source">
      <description>In the Data Explorer view, right-click Data Sources and choose New Data Source.
      </description>
      <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSourceAction"
      pluginId="org.eclipse.birt.report.designer.ui.data"/>
   </item>
-  <item href="/org.eclipse.birt.doc/birt/ds-HowToCreateASQLQueryToRetrieveDataFromJDBCDataSource.html"
-  		title="Create a Data Set" skip="true">
+  <item
+        skip="true"
+        title="Create a Data Set">
      <description>- In the Data Explorer view, right-click Data Sets and choose New Data Set.<br/> 
        - On New Data Set, Choose Next.<br/>
        - On Query, in Available Items, expand one or more tables in the ClassicModels database.<br/>
@@ -21,15 +23,17 @@
      <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSetAction"
      pluginId="org.eclipse.birt.report.designer.ui.data"/>
   </item>
-  <item href="/org.eclipse.birt.doc/birt/lay-HowToBindADataSetToATable.html"
-  		title="Bind the data to the table" skip="true">
+  <item
+        skip="true"
+        title="Bind the data to the table">
      <description>- In the layout editor, right-click the Table tab and choose Edit Data Binding.<br/>
       - On Data Binding, specify the data set to which the table binds.<br/>
       - Drag the fields that you want in the table from the Data Set in the Data Explorer view to the table in the layout editor.
      </description>
     </item>
-  <item href="/org.eclipse.birt.doc/birt/sg-TutT5GroupCustomerDataByCreditLimit.html"
-  		 title="Edit the group" skip="true">
+  <item
+        skip="true"
+        title="Edit the group">
   	 <description>- In the layout editor, select the Table tab, then right-click and choose Edit Group-NewTableGroup1.<br/>
   	  - On Edit Group, specify the group details.<br/>
   	 </description>
@@ -38,8 +42,9 @@
   	 param1="table1"
   	 param2="group"/>
   </item>
-  <item href="/org.eclipse.birt.doc/birt/ch-ChartsTutorialIntro.html"
-   		title="Edit the chart" skip="true">
+  <item
+        skip="true"
+        title="Edit the chart">
      <description>In the layout editor, double-click the chart to edit its properties.
      </description>
    </item>

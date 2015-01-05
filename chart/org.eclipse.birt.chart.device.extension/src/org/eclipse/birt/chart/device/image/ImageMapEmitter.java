@@ -521,7 +521,16 @@ public class ImageMapEmitter implements IImageMapEmitter
 
 	private double translateCoor( double d )
 	{
-		return d / dpi * 72d;
+		// Bugzilla 456382
+		// This function is supposed to translate the chart renderer coordinates
+		// (as the coordinates are obtained when rendering the chart renderers)
+		// to the browser display coordinates (as the image map is directly output
+		// as the <map> and <area> tag in the web page
+		// The unit is translated from pt in chart renderer to pixel in browser
+		// As we do not know the exact DPI for the client browser, we use 96 based
+		// on the experiment on most browsers
+		// refer to http://reeddesign.co.uk/test/points-pixels.html.
+		return d / dpi * 96d;
 	}
 
 	private boolean checkSupportedAction( Action action )

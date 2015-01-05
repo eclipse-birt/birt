@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -43,25 +44,41 @@ public class ChartBindingGroupDescriptorProvider extends
 
 	private static final String DATA_SETS_DEFAULT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartBindingGroupDescriptorProvider.DataSets.Default" ); //$NON-NLS-1$
 	
-	@SuppressWarnings("rawtypes")
-	protected List getAvailableDataBindingReferenceList(
+	@SuppressWarnings("unchecked")
+	protected List<ReportItemHandle> getAvailableDataBindingReferenceList(
 			ReportItemHandle element )
 	{
-		return element.getNamedDataBindingReferenceList( );
+		List<ReportItemHandle> availableList = element.getNamedDataBindingReferenceList( );
+		List<ReportItemHandle> referenceList = new ArrayList<ReportItemHandle>( );
+		for ( ReportItemHandle handle : availableList )
+		{
+			if ( handle instanceof ExtendedItemHandle )
+			{
+				String extensionName = ( (ExtendedItemHandle) handle ).getExtensionName( );
+				if ( !ChartReportItemUtil.isAvailableExtensionToReferenceDataBinding( extensionName ) )
+				{
+					continue;
+				}
+			}
+			referenceList.add( handle );
+		}
+		return referenceList;
 	}
 
+
+	
 	@SuppressWarnings("rawtypes")
 	public Object load( )
 	{
 		ReportItemHandle element = getReportItemHandle( );
 		boolean isNotDataModel = false;;
 		int type = element.getDataBindingType( );
-		List referenceList = getAvailableDataBindingReferenceList( element );
+		List<ReportItemHandle> referenceList = getAvailableDataBindingReferenceList( element );
 		String[] references = new String[referenceList.size( ) + 1];
 		references[0] = NONE;
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
+			references[i + 1] = referenceList.get( i ).getQualifiedName( );
 		}
 		setReferences( references );
 		String value;

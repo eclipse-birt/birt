@@ -23,19 +23,20 @@ public interface IImageItemModel
 	 */
 
 	public static final String IMAGE_NAME_PROP = "imageName"; //$NON-NLS-1$
-
+	
 	/**
 	 * Name of the optional text property, which is used to display in place of
 	 * the image in a web browser.
 	 */
-
+	
 	public static final String ALT_TEXT_PROP = "altText"; //$NON-NLS-1$
 
 	/**
 	 * Name of the optional text resource key property.
 	 */
-
+	
 	public static final String ALT_TEXT_KEY_PROP = "altTextID"; //$NON-NLS-1$
+
 
 	/**
 	 * Name of the size property, which defines how to manage the relationship

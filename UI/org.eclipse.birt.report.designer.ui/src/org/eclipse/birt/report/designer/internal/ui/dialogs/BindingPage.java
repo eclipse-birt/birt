@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
@@ -195,7 +196,12 @@ public class BindingPage extends Composite implements Listener
 			public String getText( Object element )
 			{
 				BindingInfo info = (BindingInfo) element;
-				return info.getBindingValue( );
+				String datasetName = info.getBindingValue( );
+				if ( !info.isDataSet( ) && info != NullDatasetChoice )
+				{
+					datasetName += Messages.getString( "BindingGroupDescriptorProvider.Flag.DataModel" ); //$NON-NLS-1$
+				}
+				return datasetName;
 			}
 		} );
 		datasetCombo.setContentProvider( new ContentProvider( ) );
@@ -397,10 +403,28 @@ public class BindingPage extends Composite implements Listener
 
 	protected Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
 
+	protected List getAvailableDataBindingReferenceList(
+			ReportItemHandle element )
+	{
+		List bindingRef = new ArrayList( );
+		bindingRef.addAll( element.getAvailableDataSetBindingReferenceList( ) );
+
+		if ( ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null )
+		{
+			List temp = ( ExtendedDataModelUIAdapterHelper.getInstance( )
+					.getAdapter( )
+					.getAvailableBindingReferenceList( element ) );
+			bindingRef.removeAll( temp );
+			bindingRef.addAll( temp );
+		}
+		return bindingRef;
+	}
+
 	protected String[] getReferences( )
 	{
 		ReportItemHandle element = getReportItemHandle( );
-		List referenceList = element.getAvailableDataSetBindingReferenceList( );
+		List referenceList = getAvailableDataBindingReferenceList( element );
+
 		String[] references = new String[referenceList.size( ) + 1];
 		references[0] = NullReportItemChoice;
 		referMap.put( references[0], null );

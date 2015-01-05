@@ -43,6 +43,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.ErrorStatus;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
@@ -146,6 +147,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -608,7 +610,7 @@ public class UIUtil
 					&& collapseLevel.trim( ).length( ) > 0
 					&& position >= 0 )
 			{
-				String[] levels = collapseLevel.split( "," );
+				String[] levels = collapseLevel.split( "," ); //$NON-NLS-1$
 				List<Integer> levelList = new ArrayList<Integer>( );
 				for ( int i = 0; i < levels.length; i++ )
 				{
@@ -861,7 +863,7 @@ public class UIUtil
 	 *         more than one table, or other non-table editpart. Cell editpart
 	 *         is also a type of table editpart.
 	 */
-	public static TableEditPart getTableEditPart( List editParts )
+	public static TableEditPart getTableEditPart( List<Object> editParts )
 	{
 		if ( editParts == null || editParts.isEmpty( ) )
 			return null;
@@ -906,7 +908,8 @@ public class UIUtil
 	 * @param editParts
 	 * @return
 	 */
-	public static ReportElementEditPart getTableMultipleEditPart( List editParts )
+	public static ReportElementEditPart getTableMultipleEditPart(
+			List<Object> editParts )
 	{
 		if ( editParts == null || editParts.isEmpty( ) )
 			return null;
@@ -953,7 +956,7 @@ public class UIUtil
 	 *         more than one list, or other list editpart. List band editpart is
 	 *         also a type of list editpart.
 	 */
-	public static ListEditPart getListEditPart( List editParts )
+	public static ListEditPart getListEditPart( List<Object> editParts )
 	{
 		if ( editParts == null || editParts.isEmpty( ) )
 			return null;
@@ -1093,7 +1096,7 @@ public class UIUtil
 		Bundle bundle = Platform.getBundle( pluginId );
 		if ( bundle != null )
 		{
-			return (String) bundle.getHeaders( ).get( key );
+			return bundle.getHeaders( ).get( key );
 		}
 		return null;
 	}
@@ -1101,7 +1104,7 @@ public class UIUtil
 	public static void resetViewSelection( final EditPartViewer viewer,
 			final boolean notifyToMedia )
 	{
-		final List list = new ArrayList( ( (StructuredSelection) viewer.getSelection( ) ).toList( ) );
+		final List<Object> list = new ArrayList<Object>( ( (StructuredSelection) viewer.getSelection( ) ).toList( ) );
 
 		boolean hasColumnOrRow = false;
 		for ( int i = 0; i < list.size( ); i++ )
@@ -1338,9 +1341,7 @@ public class UIUtil
 				catch ( MalformedURLException e )
 				{
 					ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
-							MessageFormat.format( MSG_DIALOG_MSG, new String[]{
-								libraryPath
-							} ),
+							MessageFormat.format( MSG_DIALOG_MSG, libraryPath ),
 							SWT.ICON_INFORMATION );
 				}
 			}
@@ -1358,6 +1359,13 @@ public class UIUtil
 		return false;
 	}
 
+	public static boolean includeLibrary( ModuleHandle moduleHandle,
+			LibraryHandle libraryHandle ) throws DesignFileException,
+			SemanticException
+	{
+		return includeLibrary( moduleHandle, libraryHandle, false );
+	}
+
 	/**
 	 * Includes the library into within the given module.
 	 * 
@@ -1369,13 +1377,15 @@ public class UIUtil
 	 *         failed.
 	 */
 	public static boolean includeLibrary( ModuleHandle moduleHandle,
-			LibraryHandle libraryHandle ) throws DesignFileException,
-			SemanticException
+			LibraryHandle libraryHandle, boolean isDefault )
+			throws DesignFileException, SemanticException
 	{
 		if ( moduleHandle != libraryHandle
 				&& !moduleHandle.isInclude( libraryHandle ) )
 		{
-			return includeLibrary( moduleHandle, libraryHandle.getFileName( ) );
+			return includeLibrary( moduleHandle,
+					libraryHandle.getFileName( ),
+					isDefault );
 		}
 		return true;
 	}
@@ -1452,7 +1462,7 @@ public class UIUtil
 		{
 			return null;
 		}
-		Iterator iterator = moduleHandle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL )
+		Iterator<?> iterator = moduleHandle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL )
 				.iterator( );
 
 		if ( iterator != null )
@@ -1801,10 +1811,36 @@ public class UIUtil
 		return null;
 	}
 
+	public static String getHeadColumnDisplayName( List<ColumnHintHandle> list,
+			ResultSetColumnHandle column )
+	{
+		for ( ColumnHintHandle element : list )
+		{
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				if ( element.getHeading( ) != null )
+				{
+					return element.getHeading( );
+				}
+				if ( element.getDisplayNameKey( ) != null )
+				{
+					String displayName = element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
+							ColumnHint.DISPLAY_NAME_MEMBER );
+					if ( displayName != null )
+						return displayName;
+				}
+				return element.getDisplayName( ) == null ? column.getColumnName( )
+						: element.getDisplayName( );
+			}
+		}
+		return column.getColumnName( );
+	}
+
 	public static String getHeadColumnDisplayName( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+		for ( Iterator<?> iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
@@ -1829,19 +1865,11 @@ public class UIUtil
 		return column.getColumnName( );
 	}
 
-	/**
-	 * Return the display name of dataset column
-	 * 
-	 * @param column
-	 * @return
-	 */
-	public static String getColumnDisplayName( ResultSetColumnHandle column )
+	public static String getColumnDisplayName( List<ColumnHintHandle> list,
+			ResultSetColumnHandle column )
 	{
-		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-				.iterator( ); iter.hasNext( ); )
+		for ( ColumnHintHandle element : list )
 		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
 			if ( element.getColumnName( ).equals( column.getColumnName( ) )
 					|| column.getColumnName( ).equals( element.getAlias( ) ) )
 			{
@@ -1865,10 +1893,54 @@ public class UIUtil
 	 * @param column
 	 * @return
 	 */
+	public static String getColumnDisplayName( ResultSetColumnHandle column )
+	{
+		DataSetHandle dataset = getDataSet( column );
+		for ( Iterator<?> iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				if ( element.getDisplayNameKey( ) != null )
+				{
+					String displayName = element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
+							ColumnHint.DISPLAY_NAME_MEMBER );
+					if ( displayName != null )
+						return displayName;
+				}
+				return element.getDisplayName( ) == null ? column.getColumnName( )
+						: element.getDisplayName( );
+			}
+		}
+		return column.getColumnName( );
+	}
+
+	public static String getColumnDisplayNameKey( List<ColumnHintHandle> list,
+			ResultSetColumnHandle column )
+	{
+		for ( ColumnHintHandle element : list )
+		{
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getDisplayNameKey( );
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Return the display name of dataset column
+	 * 
+	 * @param column
+	 * @return
+	 */
 	public static String getColumnDisplayNameKey( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+		for ( Iterator<?> iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
@@ -1882,10 +1954,24 @@ public class UIUtil
 	}
 
 	public static String getColumnHeaderDisplayNameKey(
+			List<ColumnHintHandle> list, ResultSetColumnHandle column )
+	{
+		for ( ColumnHintHandle element : list )
+		{
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getHeadingKey( );
+			}
+		}
+		return null;
+	}
+
+	public static String getColumnHeaderDisplayNameKey(
 			ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+		for ( Iterator<?> iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
@@ -1901,7 +1987,7 @@ public class UIUtil
 	public static boolean isWordWrap( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+		for ( Iterator<?> iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
@@ -1917,7 +2003,7 @@ public class UIUtil
 	public static String getClolumnHandleAlignment( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+		for ( Iterator<?> iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
@@ -1933,7 +2019,7 @@ public class UIUtil
 	public static String getClolumnHandleHelpText( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+		for ( Iterator<?> iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
@@ -1955,13 +2041,15 @@ public class UIUtil
 	public static String getColumnAnalysis( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+		
+		List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+		
+		for( ColumnHintHandle columnHint : columnHints )
 		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
+					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
 			{
-				return element.getAnalysis( );
+				return columnHint.getAnalysis( );
 			}
 		}
 		return null;
@@ -1976,7 +2064,7 @@ public class UIUtil
 	public static String getAnalysisColumn( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+		for ( Iterator<?> iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
 		{
 			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
@@ -1984,6 +2072,21 @@ public class UIUtil
 					|| column.getColumnName( ).equals( element.getAlias( ) ) )
 			{
 				return element.getAnalysisColumn( );
+			}
+		}
+		return null;
+	}
+
+	public static ActionHandle getColumnAction( List<ColumnHintHandle> list,
+			ResultSetColumnHandle column )
+	{
+
+		for ( ColumnHintHandle columnHint : list )
+		{
+			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
+					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
+			{
+				return columnHint.getActionHandle( );
 			}
 		}
 		return null;
@@ -1998,13 +2101,15 @@ public class UIUtil
 	public static ActionHandle getColumnAction( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		for ( Iterator iter = dataset.columnHintsIterator( ); iter.hasNext( ); )
+		
+		List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
+		
+		for ( ColumnHintHandle columnHint : columnHints )
 		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
+					||  column.getColumnName( ).equals( columnHint.getAlias( ) ) )
 			{
-				return element.getActionHandle( );
+				return columnHint.getActionHandle( );
 			}
 		}
 		return null;
@@ -2121,7 +2226,7 @@ public class UIUtil
 		String preference = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER_BY_PREFERENCE );
 		if ( preference != null )
 		{
-			String[] splits = preference.split( "/" );
+			String[] splits = preference.split( "/" ); //$NON-NLS-1$
 			if ( splits.length == 2 )
 			{
 				IPreferences wrapper = PreferenceFactory.getInstance( )
@@ -2364,7 +2469,7 @@ public class UIUtil
 			return false;
 		}
 		model.checkReport( );
-		List errorList = model.getErrorList( );
+		List<?> errorList = model.getErrorList( );
 		if ( errorList.size( ) > 0 )
 		{
 			ErrorStatus status = new ErrorStatus( ReportPlugin.REPORT_UI,
@@ -2452,7 +2557,7 @@ public class UIUtil
 	{
 		if ( object instanceof IStructuredSelection )
 		{
-			for ( Iterator itor = ( (IStructuredSelection) object ).iterator( ); itor.hasNext( ); )
+			for ( Iterator<?> itor = ( (IStructuredSelection) object ).iterator( ); itor.hasNext( ); )
 			{
 				Object obj = itor.next( );
 				if ( !canDelete( obj ) )
@@ -2464,7 +2569,7 @@ public class UIUtil
 		}
 		else if ( object instanceof List )
 		{
-			for ( Iterator itor = ( (List) object ).iterator( ); itor.hasNext( ); )
+			for ( Iterator<?> itor = ( (List<?>) object ).iterator( ); itor.hasNext( ); )
 			{
 				Object obj = itor.next( );
 				if ( !canDelete( obj ) )
@@ -2494,7 +2599,7 @@ public class UIUtil
 					{
 						return false;
 					}
-					for ( Iterator iter = ( (ParameterGroupHandle) handle ).getParameters( )
+					for ( Iterator<?> iter = ( (ParameterGroupHandle) handle ).getParameters( )
 							.iterator( ); iter.hasNext( ); )
 					{
 						Object obj = iter.next( );
@@ -2520,8 +2625,8 @@ public class UIUtil
 					}
 				}
 			}
-			ArrayList referenceList = new ArrayList( );
-			for ( Iterator itor = handle.clientsIterator( ); itor.hasNext( ); )
+			ArrayList<Object> referenceList = new ArrayList<Object>( );
+			for ( Iterator<?> itor = handle.clientsIterator( ); itor.hasNext( ); )
 			{
 				referenceList.add( itor.next( ) );
 			}
@@ -2607,6 +2712,12 @@ public class UIUtil
 	public static void processSessionResourceFolder( IEditorInput input,
 			IProject project, ModuleHandle handle )
 	{
+		processSessionResourceFolder( input, project, handle, false );
+	}
+
+	public static void processSessionResourceFolder( IEditorInput input,
+			IProject project, ModuleHandle handle, boolean useThreadLocal )
+	{
 		String resourceFolder = "";//$NON-NLS-1$
 
 		if ( input != null )
@@ -2639,7 +2750,7 @@ public class UIUtil
 				resourceFolder );
 
 		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
+				.getSessionHandle( useThreadLocal )
 				.setResourceFolder( resourceFolder );
 	}
 
@@ -2798,12 +2909,12 @@ public class UIUtil
 	{
 		for ( int i = 0; i < 10; i++ )
 		{
-			htmlCode[i] = "&#00" + i + ";";
+			htmlCode[i] = "&#00" + i + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		for ( int i = 10; i < 32; i++ )
 		{
-			htmlCode[i] = "&#0" + i + ";";
+			htmlCode[i] = "&#0" + i + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		for ( int i = 32; i < 128; i++ )
@@ -2812,16 +2923,16 @@ public class UIUtil
 		}
 
 		// Special characters
-		htmlCode['\t'] = "\t";
-		htmlCode['\n'] = "<br/>\n";
-		htmlCode['\"'] = "&quot;"; // double quote
-		htmlCode['&'] = "&amp;"; // ampersand
-		htmlCode['<'] = "&lt;"; // lower than
-		htmlCode['>'] = "&gt;"; // greater than
+		htmlCode['\t'] = "\t"; //$NON-NLS-1$
+		htmlCode['\n'] = "<br/>\n"; //$NON-NLS-1$
+		htmlCode['\"'] = "&quot;"; // double quote //$NON-NLS-1$
+		htmlCode['&'] = "&amp;"; // ampersand //$NON-NLS-1$
+		htmlCode['<'] = "&lt;"; // lower than //$NON-NLS-1$
+		htmlCode['>'] = "&gt;"; // greater than //$NON-NLS-1$
 
 		for ( int i = 128; i < 256; i++ )
 		{
-			htmlCode[i] = "&#" + i + ";";
+			htmlCode[i] = "&#" + i + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -2843,7 +2954,7 @@ public class UIUtil
 			else
 			{
 				// Improvement posted by Joachim Eyrich
-				buffer.append( "&#" ).append( (int) character ).append( ";" );
+				buffer.append( "&#" ).append( (int) character ).append( ";" ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 		return buffer.toString( ).trim( );
@@ -2949,9 +3060,8 @@ public class UIUtil
 	{
 		String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
 		String designerVersion = MessageFormat.format( VERSION_MESSAGE,
-				new String[]{
-						ReportPlugin.getVersion( ), ReportPlugin.getBuildInfo( )
-				} );
+				ReportPlugin.getVersion( ),
+				ReportPlugin.getBuildInfo( ) );
 		handle.setCreatedBy( designerVersion );
 	}
 
@@ -3206,7 +3316,7 @@ public class UIUtil
 
 	public static Color getEclipseEditorForeground( )
 	{
-		ScopedPreferenceStore preferenceStore = new ScopedPreferenceStore( new InstanceScope( ),
+		ScopedPreferenceStore preferenceStore = new ScopedPreferenceStore( InstanceScope.INSTANCE,
 				"org.eclipse.ui.editors" );//$NON-NLS-1$
 		Color color = null;
 		if ( preferenceStore != null )
@@ -3226,7 +3336,7 @@ public class UIUtil
 
 	public static Color getEclipseEditorBackground( )
 	{
-		ScopedPreferenceStore preferenceStore = new ScopedPreferenceStore( new InstanceScope( ),
+		ScopedPreferenceStore preferenceStore = new ScopedPreferenceStore( InstanceScope.INSTANCE,
 				"org.eclipse.ui.editors" );//$NON-NLS-1$
 		Color color = null;
 		if ( preferenceStore != null )
@@ -3326,7 +3436,7 @@ public class UIUtil
 			ModuleHandle handle )
 	{
 		ArrayList<DataSetHandle> list = new ArrayList<DataSetHandle>( );
-		for ( Iterator iterator = handle.getVisibleDataSets( ).iterator( ); iterator.hasNext( ); )
+		for ( Iterator<?> iterator = handle.getVisibleDataSets( ).iterator( ); iterator.hasNext( ); )
 		{
 			DataSetHandle dataSetHandle = (DataSetHandle) iterator.next( );
 			list.add( dataSetHandle );
@@ -3339,7 +3449,7 @@ public class UIUtil
 	public static List<CubeHandle> getVisibleCubeHandles( ModuleHandle handle )
 	{
 		ArrayList<CubeHandle> list = new ArrayList<CubeHandle>( );
-		for ( Iterator iterator = handle.getVisibleCubes( ).iterator( ); iterator.hasNext( ); )
+		for ( Iterator<?> iterator = handle.getVisibleCubes( ).iterator( ); iterator.hasNext( ); )
 		{
 			CubeHandle cubeHandle = (CubeHandle) iterator.next( );
 			list.add( cubeHandle );
@@ -3347,5 +3457,57 @@ public class UIUtil
 		LinkedDataSetAdapter adapter = new LinkedDataSetAdapter( );
 		list.addAll( adapter.getVisibleLinkedDataSetsCubeHandles( handle ) );
 		return list;
+	}
+
+	public static Image getElementIcon( String elementName )
+	{
+		if ( IReportElementConstants.REPORT_ELEMENT_LABEL.equals( elementName ) )
+		{
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_LABEL );
+		}
+		if ( IReportElementConstants.REPORT_ELEMENT_TEXT.equals( elementName ) )
+		{
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TEXT );
+		}
+		if ( IReportElementConstants.REPORT_ELEMENT_TEXTDATA.equals( elementName ) )
+		{
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TEXTDATA );
+		}
+		if ( IReportElementConstants.REPORT_ELEMENT_DATA.equals( elementName ) )
+		{
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_DATA );
+		}
+		if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equals( elementName ) )
+		{
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_IMAGE );
+		}
+		if ( IReportElementConstants.REPORT_ELEMENT_GRID.equals( elementName ) )
+		{
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_GRID );
+		}
+		if ( IReportElementConstants.REPORT_ELEMENT_LIST.equals( elementName ) )
+		{
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_LIST );
+		}
+		if ( IReportElementConstants.REPORT_ELEMENT_TABLE.equals( elementName ) )
+		{
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE );
+		}
+
+		ExtendedElementUIPoint uipoint = ExtensionPointManager.getInstance( )
+				.getExtendedElementPoint( elementName );
+		if ( uipoint != null )
+		{
+			ImageDescriptor descriptor = (ImageDescriptor) uipoint.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON );
+			return UIHelper.getImage( "element-icon-" + elementName, descriptor ); //$NON-NLS-1$
+		}
+
+		PaletteEntryExtension extension = EditpartExtensionManager.getPaletteEntry( elementName );
+		if ( extension != null )
+		{
+			return UIHelper.getImage( "element-icon-" + elementName, extension.getIcon( ) ); //$NON-NLS-1$
+		}
+
+		return null;
 	}
 }

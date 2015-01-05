@@ -16,6 +16,7 @@
     </page-setup>
     <body>
         <list name="My List" id="5">
+        	<expression name="altText" type="constant">Alt Text</expression>
             <property name="dataSet">firstDataSet</property>
             <method name="onPrepare"><![CDATA[new prepare on the list]]></method>
             <method name="onCreate"><![CDATA[new create on the list]]></method>
@@ -110,9 +111,8 @@
                     <text-property name="displayName">The Section</text-property>
                 </free-form>
             </footer>
-            <property name="role">Sect</property>
+            <property name="tagType">Sect</property>
             <property name="language">English</property>
-            <expression name="altText">Alt Text</expression>
         </list>
         <list name="My List2" id="12"/>
     </body>

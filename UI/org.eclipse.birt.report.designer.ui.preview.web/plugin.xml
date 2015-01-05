@@ -17,14 +17,12 @@
             </menu>
          <action
                class="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenuAction"
-               disabledIcon="icons/dtool16/preview_disabled.gif"
                enablesFor="*"
-               hoverIcon="icons/etool16/preview.gif"
                icon="icons/etool16/preview.gif"
                id="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenu"
                label="%designer.preview.previewtoolbarmenuaction.label"
                style="pulldown"
-               toolbarPath="previewGroup"
+               toolbarPath="org.eclipse.birt.report.designer.ui.publishActionSet/report"
                tooltip="%designer.preview.previewtoolbarmenuaction.label">
          </action>
             <action
@@ -37,7 +35,6 @@
             </action>
          <action
                class="org.eclipse.birt.report.designer.ui.actions.PreviewCascadingMenuGroup"
-               disabledIcon="icons/dtool16/preview_disabled.gif"
                icon="icons/etool16/preview.gif"
                id="org.eclipse.birt.report.designer.ui.actions.PreviewCascadingMenuGroup"
                label="%designer.preview.previewcascadingmenugroup.label"
@@ -48,21 +45,21 @@
       <actionSet
 			id="org.eclipse.birt.report.designer.ui.viewDocumentActionSet"
 			label="%ActionSet.PreviewWithSecurity" visible="false">
-			<menu id="org.eclipse.ui.run" label="%ActionSet.Run" path="additions">
+			<menu id="org.eclipse.ui.run" label="%menu.run" path="additions">
 				<groupMarker name="previewWithSecturity">
 				</groupMarker>
 			</menu>
 			<action
 				class="org.eclipse.birt.report.designer.ui.actions.ViewDocumentToolbarMenuAction"
-				enablesFor="*" hoverIcon="icons/etool16/preview.gif" icon="icons/etool16/preview.gif"
+				enablesFor="*" icon="icons/etool16/preview.gif"
 				id="org.eclipse.birt.report.designer.ui.actions.ViewDocumentToolbarMenu"
 				label="%document.preview.previewtoolbarmenuaction.label"
-				style="push" toolbarPath="previewGroup"
+				style="push" toolbarPath="org.eclipse.birt.report.designer.ui.publishActionSet/report"
 				tooltip="%document.preview.previewtoolbarmenuaction.label">
 			</action>
 			<action
 				class="org.eclipse.birt.report.designer.ui.actions.ViewDocumentToolbarMenuAction"
-				enablesFor="*" hoverIcon="icons/etool16/preview.gif" icon="icons/etool16/preview.gif"
+				enablesFor="*" icon="icons/etool16/preview.gif"
 				id="org.eclipse.birt.report.designer.ui.actions.ViewDocumentMenubarMenu"
 				label="%document.preview.previewmenugroup.label"
 				menubarPath="org.eclipse.ui.run/preview" style="push"
@@ -90,8 +87,8 @@
       </page>
    </extension>
    
-<!-- Disable the preview tab - Bugzilla 421879
-	<extension
+   <!-- disable the preview tab
+   <extension
          point="org.eclipse.birt.report.designer.ui.editors.multiPageEditorContributor">
       <targetEditor targetEditorId="org.eclipse.birt.report.designer.ui.editors.ReportEditor">
       <formPage
@@ -111,9 +108,9 @@
             relative="org.eclipse.birt.report.designer.ui.editors.xmlsource"
             visible="true"/>
       </targetEditor>
-	</extension>
--->
-	
+   </extension>
+   -->
+
 	<extension point="org.eclipse.ui.popupMenus"> 
 		<viewerContribution 
 		      id="org.eclipse.birt.report.designer.ui.ide.Report"

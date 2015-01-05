@@ -13,8 +13,9 @@
       <builder
          	class="org.eclipse.birt.chart.reportitem.ui.ChartReportItemBuilderProxy"/> 
       <palette
-               icon="icons/pal/palette_icon.gif"
-               category="Content"/>
+            category="Content"
+            icon="icons/pal/palette_icon.gif"
+            largeIcon="icons/pal/chart_large.png"/>
       <editor
               canResize="true"
               menuLabel="%menu.lable.chart"

@@ -110,6 +110,11 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Years"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/String"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/StringPrefix"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/WeekOfMonth"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/WeekOfYear"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/DayOfWeek"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/DayOfMonth"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/DayOfYear"/>
     </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//HorizontalAlignment">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//HorizontalAlignment/Left"/>

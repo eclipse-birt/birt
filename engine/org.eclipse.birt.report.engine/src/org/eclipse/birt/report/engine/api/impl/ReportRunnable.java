@@ -39,6 +39,11 @@ public class ReportRunnable extends DesignRunnable implements IReportRunnable
 	{
 		this.prepared = prepared;
 	}
+	
+	public boolean isPrepared( )
+	{
+		return this.prepared;
+	}
 
 	public Map<String, Map<String, ICompiledScript>> getScriptCache( )
 	{

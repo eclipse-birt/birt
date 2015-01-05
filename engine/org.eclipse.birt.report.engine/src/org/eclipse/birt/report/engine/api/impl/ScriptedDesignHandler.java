@@ -86,7 +86,7 @@ public class ScriptedDesignHandler extends ScriptedDesignVisitor
 	 * @param executionContext -
 	 *            the execution context to execute the onPrepare script
 	 */
-	ScriptedDesignHandler( ReportDesignHandle handle,
+	public ScriptedDesignHandler( ReportDesignHandle handle,
 			ExecutionContext executionContext )
 	{
 		super( handle );

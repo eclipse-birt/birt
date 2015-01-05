@@ -25,7 +25,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor
 	
 	protected boolean hasOnPrepareScript = false;
 
-	ScriptedDesignSearcher( ReportDesignHandle handle )
+	public ScriptedDesignSearcher( ReportDesignHandle handle )
 	{
 		super( handle );
 	}

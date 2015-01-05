@@ -235,7 +235,7 @@
                     <property name="newHandlerOnEachEvent">true</property>
                     <method name="onPrepare"><![CDATA[new prepare on row]]></method>
                     <method name="onCreate"><![CDATA[new create on row]]></method>
-                    <property name="role">TR</property>
+                    <property name="tagType">TR</property>
             		<property name="language">English</property>
                     <cell id="32">
                         <property name="colSpan">2</property>
@@ -278,7 +278,7 @@
                     </cell>
                 </row>
             </footer>
-             <property name="role">Table</property>
+             <property name="tagType">Table</property>
             <property name="language">English</property>
             <property name="order">1</property>
         </table>

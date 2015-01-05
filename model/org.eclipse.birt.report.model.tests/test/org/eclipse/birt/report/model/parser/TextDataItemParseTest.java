@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.parser;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -82,14 +84,14 @@ public class TextDataItemParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_AUTO,
 				dataHandle.getContentType( ) );
 		assertTrue( dataHandle.hasExpression( ) );
-		assertEquals( "Div", dataHandle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "Div", dataHandle.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", dataHandle.getLanguage( ) ); //$NON-NLS-1$
-		assertEquals( "Alt Text", dataHandle.getAltText( ) ); //$NON-NLS-1$
+		assertEquals( "Alt Text", dataHandle.getAltTextExpression( ).getStringExpression( ) ); //$NON-NLS-1$
 		assertEquals( 1, dataHandle.getOrder( ) ); //$NON-NLS-1$
 		
 		// test default value of Role in Text
 		TextDataHandle data2Handle = (TextDataHandle) designHandle.findElement( "Text Data2" ); //$NON-NLS-1$
-		assertEquals( "div", data2Handle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "p", data2Handle.getTagType( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -110,9 +112,9 @@ public class TextDataItemParseTest extends BaseTestCase
 		dataHandle
 				.setContentType( DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF );
 		dataHandle.setHasExpression( false );
-		dataHandle.setRole( "Div" ); //$NON-NLS-1$
+		dataHandle.setTagType( "Div" ); //$NON-NLS-1$
 		dataHandle.setLanguage( "English" ); //$NON-NLS-1$
-		dataHandle.setAltText( "Alt Text" ); //$NON-NLS-1$
+		dataHandle.setAltTextExpression( new Expression("Alt Text", ExpressionType.CONSTANT) ); //$NON-NLS-1$
 		dataHandle.setOrder( 1 ); //$NON-NLS-1$
 		save( );
 		assertTrue( compareFile( goldenFileName ) );

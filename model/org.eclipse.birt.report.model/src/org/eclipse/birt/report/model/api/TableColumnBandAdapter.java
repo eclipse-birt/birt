@@ -195,14 +195,7 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
 			CellContextInfo cellInfo = (CellContextInfo) cells.get( i );
-			String containerDefnName = cellInfo.getContainerDefnName( );
-			int slotId = cellInfo.getSlotId( );
-
-			if ( ReportDesignConstants.TABLE_GROUP_ELEMENT
-					.equals( containerDefnName )
-					&& slotId == IGroupElementModel.HEADER_SLOT
-					&& !DesignChoiceConstants.DROP_TYPE_NONE
-							.equalsIgnoreCase( cellInfo.getDrop( ) ) )
+			if( isDroppingCell( cellInfo ) )
 				return true;
 
 		}
@@ -227,5 +220,19 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 		list.add( element.getFooter( ) );
 
 		return list;
+	}
+
+	@Override
+	protected boolean isDroppingCell( CellContextInfo cellInfo )
+	{
+		String containerDefnName = cellInfo.getContainerDefnName( );
+		int slotId = cellInfo.getSlotId( );
+		if ( ReportDesignConstants.TABLE_GROUP_ELEMENT
+				.equals( containerDefnName )
+				&& slotId == IGroupElementModel.HEADER_SLOT
+				&& !DesignChoiceConstants.DROP_TYPE_NONE
+						.equalsIgnoreCase( cellInfo.getDrop( ) ) )
+			return true;
+		return false;
 	}
 }

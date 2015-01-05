@@ -4382,6 +4382,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( groupingUnitTypeEEnum, GroupingUnitType.STRING_LITERAL );
 		addEEnumLiteral( groupingUnitTypeEEnum,
 				GroupingUnitType.STRING_PREFIX_LITERAL );
+		addEEnumLiteral( groupingUnitTypeEEnum,
+				GroupingUnitType.WEEK_OF_MONTH_LITERAL );
+		addEEnumLiteral( groupingUnitTypeEEnum,
+				GroupingUnitType.WEEK_OF_YEAR_LITERAL );
+		addEEnumLiteral( groupingUnitTypeEEnum,
+				GroupingUnitType.DAY_OF_WEEK_LITERAL );
+		addEEnumLiteral( groupingUnitTypeEEnum,
+				GroupingUnitType.DAY_OF_MONTH_LITERAL );
+		addEEnumLiteral( groupingUnitTypeEEnum,
+				GroupingUnitType.DAY_OF_YEAR_LITERAL );
 
 		initEEnum( horizontalAlignmentEEnum,
 				HorizontalAlignment.class,

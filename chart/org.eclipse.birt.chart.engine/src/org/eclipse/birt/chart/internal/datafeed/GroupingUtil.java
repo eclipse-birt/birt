@@ -60,15 +60,23 @@ public final class GroupingUtil
 				case GroupingUnitType.HOURS :
 					return Calendar.HOUR_OF_DAY;
 				case GroupingUnitType.DAYS :
-					return Calendar.DATE;
+				case GroupingUnitType.DAY_OF_MONTH :
+					return Calendar.DAY_OF_MONTH;
+				case GroupingUnitType.DAY_OF_WEEK :
+					return Calendar.DAY_OF_WEEK;
+				case GroupingUnitType.DAY_OF_YEAR :
+					return Calendar.DAY_OF_YEAR;
 				case GroupingUnitType.WEEKS :
+				case GroupingUnitType.WEEK_OF_MONTH :
+					return Calendar.WEEK_OF_MONTH;
+				case GroupingUnitType.WEEK_OF_YEAR :
 					return Calendar.WEEK_OF_YEAR;
 				case GroupingUnitType.MONTHS :
 					return Calendar.MONTH;
-				case GroupingUnitType.YEARS :
-					return Calendar.YEAR;
 				case GroupingUnitType.QUARTERS :
-					return GroupingUnitType.QUARTERS;
+					return CDateTime.QUARTER;
+				case GroupingUnitType.YEARS :
+					return Calendar.YEAR;			
 			}
 		}
 

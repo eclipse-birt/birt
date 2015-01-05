@@ -15,6 +15,7 @@ import java.text.FieldPosition;
 import java.util.Date;
 
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
@@ -86,62 +87,25 @@ public class DateFormatWrapperFactory
 			ULocale locale, boolean keepHierarchy )
 	{
 		IDateFormatWrapper df = null;
+		String pattern = ChartUtil.createDefaultFormatPattern( iUnit,
+				keepHierarchy );
+		df = new CommonDateFormatWrapper( new SimpleDateFormat( pattern, locale ) );
+		// Special cases for dynamic patterns
 		switch ( iUnit )
 		{
-			case Calendar.YEAR :
-				df = new CommonDateFormatWrapper( new SimpleDateFormat( "yyyy", //$NON-NLS-1$
-						locale ) );
-				break;
-			case CDateTime.QUARTER :
-				df = new CommonDateFormatWrapper( new SimpleDateFormat( keepHierarchy ? "yyyy QQQ" //$NON-NLS-1$
-						: "QQQ", //$NON-NLS-1$
-						locale ) );
-				break;
 			case Calendar.MONTH :
 				if ( keepHierarchy )
 				{
 					df = new MonthDateFormat( locale );
 				}
-				else
-				{
-					df = new CommonDateFormatWrapper( new SimpleDateFormat( "MMM", //$NON-NLS-1$
-							locale ) );
-				}
 				break;
-			case Calendar.DATE :
+			case Calendar.DAY_OF_MONTH :// Same as DATE
 				if ( keepHierarchy )
 				{
 					df = new CommonDateFormatWrapper( DateFormat.getDateInstance( DateFormat.MEDIUM,
-						locale ) );
-				}
-				else
-				{
-					df = new CommonDateFormatWrapper( new SimpleDateFormat( "D", //$NON-NLS-1$
 							locale ) );
 				}
 				break;
-			case Calendar.WEEK_OF_YEAR :
-				if ( keepHierarchy )
-				{
-					df = new CommonDateFormatWrapper( DateFormat.getDateInstance( DateFormat.MEDIUM,
-						locale ) );
-				}
-				else
-				{
-					df = new CommonDateFormatWrapper( new SimpleDateFormat( "w", //$NON-NLS-1$
-							locale ) );
-				}
-				break;
-			case Calendar.HOUR_OF_DAY :
-				df = new CommonDateFormatWrapper( new SimpleDateFormat( "HH:mm", //$NON-NLS-1$
-						locale ) );
-				break;
-			case Calendar.MINUTE :
-			case Calendar.SECOND :
-				df = new CommonDateFormatWrapper( new SimpleDateFormat( "HH:mm:ss", //$NON-NLS-1$
-						locale ) );
-				break;
-
 		}
 		return df;
 	}

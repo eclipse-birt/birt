@@ -197,7 +197,7 @@ public class ImageItemParseTest extends BaseTestCase
 		assertTrue( scale == 0.8 );
 		
 		// test default value of Role in Image
-		assertEquals( "figure", handle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "figure", handle.getTagType( ) ); //$NON-NLS-1$
 
 		String size = handle.getSize( );
 		assertEquals( DesignChoiceConstants.IMAGE_SIZE_SCALE_TO_ITEM, size );
@@ -266,7 +266,7 @@ public class ImageItemParseTest extends BaseTestCase
 
 		assertTrue( handle.fitToContainer( ) );
 		
-		assertEquals( "Div", handle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "Div", handle.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", handle.getLanguage( ) ); //$NON-NLS-1$
 		assertEquals( 1, handle.getOrder( ) ); //$NON-NLS-1$
 	}
@@ -374,7 +374,7 @@ public class ImageItemParseTest extends BaseTestCase
 		handle.setHelpTextKey( "new resource key for body image help text" ); //$NON-NLS-1$
 		handle.setFitToContainer( false );
 		
-		handle.setRole( "Figure" ); //$NON-NLS-1$
+		handle.setTagType( "Figure" ); //$NON-NLS-1$
 		handle.setLanguage( "English" ); //$NON-NLS-1$
 		handle.setOrder( 1 ); //$NON-NLS-1$
 

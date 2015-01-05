@@ -58,7 +58,7 @@ public class NameSpaceRecord extends SimpleRecord
 	 * The name space to use.
 	 */
 
-	protected int nameSpaceID = 0;
+	protected String nameSpaceID = null;
 
 	/**
 	 * Whether to add or remove the element.
@@ -78,7 +78,7 @@ public class NameSpaceRecord extends SimpleRecord
 	 *            whether to add (true) or remove (false) the element.
 	 */
 
-	public NameSpaceRecord( INameHelper nameHelper, int ns,
+	public NameSpaceRecord( INameHelper nameHelper, String ns,
 			DesignElement symbol, boolean isAdd )
 	{
 		this.nameHelper = nameHelper;

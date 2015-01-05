@@ -37,12 +37,14 @@ import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModel
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedDataSetAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -463,5 +465,24 @@ public class DataUtil
 		}
 		
 		return dataSets;
+	}
+	
+	public static List<ColumnHintHandle> getColumnHints( DataSetHandle dataSet )
+	{
+		java.util.List<ColumnHintHandle> columnHints = new ArrayList<ColumnHintHandle>();
+		if ( dataSet != null )
+		{
+			PropertyHandle hintHandle = dataSet.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
+			if ( hintHandle != null )
+			{
+				Iterator iter = hintHandle.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					ColumnHintHandle columnHint = (ColumnHintHandle) iter.next( );
+					columnHints.add( columnHint );
+				}
+			}
+		}
+		return columnHints;
 	}
 }

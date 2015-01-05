@@ -58,7 +58,7 @@ class NameExecutorImpl
 	protected Module module;
 	
 	protected INameHelper nameHelper;
-	protected int namespaceId;
+	protected String namespaceId;
 
 	/**
 	 * 
@@ -91,7 +91,7 @@ class NameExecutorImpl
 	protected void findNameHelper( )
 	{
 		nameHelper = null;
-		namespaceId = -1;
+		namespaceId = null;
 		
 		ElementDefn focusDefn = (ElementDefn) focus.getDefn( );
 		if ( focusDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
@@ -239,13 +239,13 @@ class NameExecutorImpl
 		return null;
 	}
 
-	public final int getNameSpaceId( )
+	public final String getNameSpaceId( )
 	{
 		if ( nameHelper != null )
 		{
 			return namespaceId;
 		}
-		return -1;
+		return null;
 	}
 
 	public String getUniqueName( )

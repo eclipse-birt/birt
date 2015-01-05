@@ -250,12 +250,17 @@ public class ReportContextImpl implements IReportContext
 	}
 
 
-	public void cancel()
+	public void cancel( )
+	{
+		cancel( null );
+	}
+
+	public void cancel( String msg )
 	{
 		IEngineTask task = context.getEngineTask( );
 		if ( task != null )
 		{
-			task.cancel( );
+			task.cancel( msg );
 		}
 	}
 

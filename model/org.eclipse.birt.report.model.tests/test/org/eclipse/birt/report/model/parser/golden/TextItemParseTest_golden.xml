@@ -8,12 +8,12 @@
     </page-setup>
     <body>
         <text name="text1" id="3">
+            <expression name="altText" type="constant">Alt Text</expression>
             <property name="contentType">html</property>
             <text-property name="content" key="static"><![CDATA[new content hello <> <html></html>]]></text-property>
             <property name="hasExpression">false</property>
-            <property name="role">Div</property>
+            <property name="tagType">Div</property>
             <property name="language">English</property>
-            <expression name="altText">Alt Text</expression>
             <property name="order">1</property>
         </text>
         <text name="text2" id="4">

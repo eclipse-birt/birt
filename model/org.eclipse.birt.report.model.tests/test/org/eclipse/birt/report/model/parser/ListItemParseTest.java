@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
@@ -133,9 +135,9 @@ public class ListItemParseTest extends ParserTestCase
 		assertEquals( "my list on render", listHandle.getOnRender( ) ); //$NON-NLS-1$
 		assertEquals( "my list on page break", listHandle.getOnPageBreak( ) ); //$NON-NLS-1$
 		
-		assertEquals( "Sect", listHandle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "Sect", listHandle.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", listHandle.getLanguage( ) ); //$NON-NLS-1$
-		assertEquals( "Alt Text", listHandle.getAltText( ) ); //$NON-NLS-1$
+		assertEquals( "Alt Text", listHandle.getAltTextExpression( ).getStringExpression( ) ); //$NON-NLS-1$
 
 		assertEquals( 120, listHandle.getPageBreakInterval( ) );
 
@@ -260,7 +262,7 @@ public class ListItemParseTest extends ParserTestCase
 		ListItem list2 = (ListItem) design.findElement( "My List2" ); //$NON-NLS-1$
 		ListHandle list2Handle = list2.handle( design );
 		// test default value of Role in Text
-		assertEquals( "sect", list2Handle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "sect", list2Handle.getTagType( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -282,9 +284,9 @@ public class ListItemParseTest extends ParserTestCase
 		listHandle.setPageBreakInterval( 100 );
 		listHandle.setOnPageBreak( "new list page break" );//$NON-NLS-1$
 		
-		listHandle.setRole( "Sect" ); //$NON-NLS-1$
+		listHandle.setTagType( "Sect" ); //$NON-NLS-1$
 		listHandle.setLanguage( "English" ); //$NON-NLS-1$
-		listHandle.setAltText( "Alt Text" ); //$NON-NLS-1$
+		listHandle.setAltTextExpression( new Expression("Alt Text", ExpressionType.CONSTANT) ); //$NON-NLS-1$
 
 		GroupHandle groupHandle = (GroupHandle) listHandle.getGroups( ).get( 0 );
 		groupHandle.setGroupStart( "2006/01/01" ); //$NON-NLS-1$

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cheatsheet title="My First Report">
-  <intro href="/org.eclipse.birt.doc/birt/gs-Tut1BuildingASimpleListingReportIntro.html">
+  <intro>
     <description>
 The customer listing report tutorial helps you build your first report. It provides step-by-step instructions for building a report that lists customer names, phone numbers, and contact names. The report uses data from the sample database, ClassicModels
     </description>
   </intro>
-  <item href="/org.eclipse.birt.doc/birt/gs-Tut1BuildingASimpleListingReportIntro.html"
+  <item
   		title="Start the tutorial" skip="false"><description></description>
   <action class="org.eclipse.birt.report.designer.ui.actions.cheatsheets.OpenHelpAction"
      pluginId="org.eclipse.birt.report.designer.ui.editors.schematic"

@@ -108,6 +108,7 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
@@ -193,6 +194,8 @@ import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
@@ -650,8 +653,35 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			while ( iter.hasNext( ) )
 			{
 				ExtendedProperty property = (ExtendedProperty) iter.next( );
-
+				String encryptionID = null;
+				boolean isEncryptable = false;
+				ODAExtensionElementDefn oda = (ODAExtensionElementDefn) ( property.getElement( ).getDefn( ) );
+				List<IElementPropertyDefn> hidePrivatePropsList = oda.getHidePrivateProps( );
+				IElementPropertyDefn oadPropertyDefn = null;
+				if ( hidePrivatePropsList != null
+						&& hidePrivatePropsList.size( ) > 0 )
+				{
+					for ( IElementPropertyDefn defn : hidePrivatePropsList )
+					{
+						if ( property.getName( ).equals( defn.getName( ) )
+								&& defn.isEncryptable( ) )
+						{
+							isEncryptable = true;
+							oadPropertyDefn = defn;
+							encryptionID = property.getEncryptionID( );
+							if ( StringUtil.isBlank( encryptionID ) )
+							{
+								encryptionID = MetaDataDictionary.getInstance( )
+										.getDefaultEncryptionHelperID( );
+								property.setEncryptionID( encryptionID );
+							}
+							break;
+						}
+					}
+				}
 				writer.startElement( DesignSchemaConstants.EX_PROPERTY_TAG );
+				writer.attribute( DesignSchemaConstants.ENCRYPTION_ID_ATTRIB,
+						encryptionID );
 
 				if ( property.getName( ) != null )
 				{
@@ -663,7 +693,13 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				if ( property.getValue( ) != null )
 				{
 					writer.startElement( DesignSchemaConstants.VALUE_TAG );
-					writer.text( property.getValue( ) );
+					String value = property.getValue( );
+					if ( isEncryptable )
+					{
+						value = (String) EncryptionUtil.encrypt( (PropertyDefn) oadPropertyDefn,
+								encryptionID, value );
+					}
+					writer.text( value );
 					writer.endElement( );
 				}
 
@@ -1821,9 +1857,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		resourceKey( obj, IDataItemModel.HELP_TEXT_KEY_PROP,
 				IDataItemModel.HELP_TEXT_PROP );
 		
-		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
-		property( obj, IReportItemModel.ALTTEXT_PROP );
 		property( obj, IReportItemModel.ORDER_PROP );
 
 		writeActions( obj, IDataItemModel.ACTION_PROP );
@@ -1853,9 +1888,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, ITextDataItemModel.CONTENT_TYPE_PROP );
 		property( obj, ITextDataItemModel.HAS_EXPRESSION_PROP );
 		
-		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
-		property( obj, IReportItemModel.ALTTEXT_PROP );
 		property( obj, IReportItemModel.ORDER_PROP );
 
 		writer.endElement( );
@@ -1886,8 +1920,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 			super.visitExtendedItem( obj );
 
-			resourceKey( obj, IExtendedItemModel.ALT_TEXT_KEY_PROP,
-					IExtendedItemModel.ALT_TEXT_PROP );
+			resourceKey( obj, IReportItemModel.ALTTEXT_KEY_PROP,
+					IReportItemModel.ALTTEXT_PROP );
 
 			// write filter properties for the extended item
 
@@ -2017,9 +2051,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				ITextItemModel.CONTENT_PROP );
 		property( obj, ITextItemModel.HAS_EXPRESSION_PROP );
 		
-		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
-		property( obj, IReportItemModel.ALTTEXT_PROP );
 		property( obj, IReportItemModel.ORDER_PROP );
 
 		writer.endElement( );
@@ -2047,9 +2080,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		resourceKey( obj, ILabelModel.HELP_TEXT_ID_PROP,
 				ILabelModel.HELP_TEXT_PROP );
 		
-		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
-		property( obj, IReportItemModel.ALTTEXT_PROP );
 		property( obj, IReportItemModel.ORDER_PROP );
 
 		writeActions( obj, ILabelModel.ACTION_PROP );
@@ -2108,9 +2140,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		writeContents( obj, IListingElementModel.FOOTER_SLOT,
 				DesignSchemaConstants.FOOTER_TAG );
 				
-		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
-		property( obj, IReportItemModel.ALTTEXT_PROP );
 
 		writer.endElement( );
 	}
@@ -2179,7 +2210,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		writeContents( obj, IListingElementModel.FOOTER_SLOT,
 				DesignSchemaConstants.FOOTER_TAG );
 				
-		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
 		property( obj, IReportItemModel.ORDER_PROP );
 
@@ -2273,8 +2304,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, ITableRowModel.ON_CREATE_METHOD );
 		property( obj, ITableRowModel.ON_RENDER_METHOD );
 		
-		property( obj, IReportItemModel.ROLE_PROP );
-		property( obj, IReportItemModel.LANGUAGE_PROP );
+		property( obj, ITableRowModel.TAG_TYPE_PROP );
+		property( obj, ITableRowModel.LANGUAGE_PROP );
 
 		// write user property definitions and values
 
@@ -2334,9 +2365,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, ICellModel.ON_CREATE_METHOD );
 		property( obj, ICellModel.ON_RENDER_METHOD );
 		
-		property( obj, IReportItemModel.ROLE_PROP );
-		property( obj, IReportItemModel.LANGUAGE_PROP );
-		property( obj, IReportItemModel.ALTTEXT_PROP );
+		property( obj, ICellModel.TAG_TYPE_PROP );
+		property( obj, ICellModel.LANGUAGE_PROP );
+		property( obj, ICellModel.ALT_TEXT_PROP );
+		property( obj, ICellModel.ALT_TEXT_KEY_PROP );
 
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
@@ -2370,7 +2402,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		resourceKey( obj, IGridItemModel.CAPTION_KEY_PROP,
 				IGridItemModel.CAPTION_PROP );
 				
-		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
 		property( obj, IReportItemModel.ORDER_PROP );
 
@@ -3106,7 +3138,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IImageItemModel.FIT_TO_CONTAINER_PROP );
 		property( obj, IImageItemModel.PROPORTIONAL_SCALE_PROP );
 		
-		property( obj, IReportItemModel.ROLE_PROP );
+		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
 		property( obj, IReportItemModel.ORDER_PROP );
 
@@ -3130,9 +3162,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			property( obj, IImageItemModel.TYPE_EXPR_PROP );
 			property( obj, IImageItemModel.VALUE_EXPR_PROP );
 		}
-
-		property( obj, IImageItemModel.ALT_TEXT_PROP );
-		property( obj, IImageItemModel.ALT_TEXT_KEY_PROP );
+		
 		resourceKey( obj, IImageItemModel.HELP_TEXT_ID_PROP,
 				IImageItemModel.HELP_TEXT_PROP );
 
@@ -3404,6 +3434,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		visitSpecialProperty( obj, IReportItemModel.HEIGHT_PROP );
 		visitSpecialProperty( obj, IReportItemModel.WIDTH_PROP );
+		
+		property( obj, IReportItemModel.ALTTEXT_PROP );
+		property( obj, IReportItemModel.ALTTEXT_KEY_PROP );
 
 		property( obj, IReportItemModel.DATA_SET_PROP );
 		property( obj, IReportItemModel.CUBE_PROP );
@@ -4416,6 +4449,17 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		super.visitReportItemTheme( obj );
 
 		property( obj, IReportItemThemeModel.CUSTOM_VALUES_PROP );
+
+		writeContents( obj, IAbstractThemeModel.STYLES_SLOT,
+				DesignSchemaConstants.STYLES_TAG );
+		writer.endElement( );
+	}
+
+	public void visitTheme( Theme obj )
+	{
+		writer.startElement( DesignSchemaConstants.THEME_TAG );
+
+		super.visitTheme( obj );
 
 		writeContents( obj, IAbstractThemeModel.STYLES_SLOT,
 				DesignSchemaConstants.STYLES_TAG );

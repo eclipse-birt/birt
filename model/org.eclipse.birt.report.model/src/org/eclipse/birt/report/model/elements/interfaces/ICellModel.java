@@ -164,9 +164,9 @@ public interface ICellModel
 	public static final String HEADERS_PROP = "headers"; //$NON-NLS-1$
 	
 	/**
-	 * Name of the role property.
+	 * Name of the tag type property.
 	 */
-	public static final String ROLE_PROP = "role"; //$NON-NLS-1$
+	public static final String TAG_TYPE_PROP = "tagType"; //$NON-NLS-1$
 	
 	/**
 	 * Name of the language property.
@@ -176,6 +176,11 @@ public interface ICellModel
 	/**
 	 * Name of the altText property.
 	 */
-	public static final String ALTTEXT_PROP = "altText"; //$NON-NLS-1$
-
+	public static final String ALT_TEXT_PROP = "altText"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the altText key property.
+	 */
+	public static final String ALT_TEXT_KEY_PROP = "altTextID"; //$NON-NLS-1$
+	
 }

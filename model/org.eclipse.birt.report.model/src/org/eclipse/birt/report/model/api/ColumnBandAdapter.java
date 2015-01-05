@@ -173,6 +173,8 @@ abstract class ColumnBandAdapter
 	 */
 
 	abstract protected boolean hasDroppingCell( List cells );
+	
+	abstract protected boolean isDroppingCell( CellContextInfo cell );
 
 	/**
 	 * Returns copied cells with the column number.

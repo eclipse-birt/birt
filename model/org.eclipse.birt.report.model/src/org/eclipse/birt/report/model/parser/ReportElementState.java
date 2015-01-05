@@ -580,16 +580,11 @@ public abstract class ReportElementState extends DesignParseState
 			return;
 		}
 
-		if ( name == null || !isManagedByNameSpace )
+		if ( name != null && isManagedByNameSpace )
 		{
-			return;
-		}
-		NameExecutor executor = new NameExecutor( module, content );
-		int namespceId = executor.getNameSpaceId( );
-		if ( namespceId != MetaDataConstants.NO_NAME_SPACE )
-		{
+			NameExecutor executor = new NameExecutor( module, content );
+			String namespceId = executor.getNameSpaceId( );
 			NameSpace ns = executor.getNameSpace( );
-			assert (ns!= null);
 			DesignElement existedElement = executor.getElement( name );
 			if ( existedElement != null )
 			{

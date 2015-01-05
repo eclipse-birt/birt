@@ -19,9 +19,9 @@
         <list name="My List">
             <property name="dataSet">firstDataSet</property>
             <property name="pageBreakInterval">120</property>
-             <property name="role">Sect</property>
+             <property name="tagType">Sect</property>
             <property name="language">English</property>
-            <property name="altText">Alt Text</property>
+            <expression name="altText">Alt Text</expression>
             <method name="onCreate"><![CDATA[my list on create]]></method>
             <method name="onPrepare"><![CDATA[my list on prepare]]></method>
             <method name="onRender"><![CDATA[my list on render]]></method>

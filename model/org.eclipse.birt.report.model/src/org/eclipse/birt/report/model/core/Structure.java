@@ -436,10 +436,10 @@ public abstract class Structure implements IStructure
 
 	public StructureHandle getHandle( SimpleValueHandle valueHandle, int index )
 	{
-		if ( valueHandle == null || valueHandle.getListValue( ) == null )
+		if ( valueHandle == null )
 			return null;
-
-		if ( index < 0 || index >= valueHandle.getListValue( ).size( ) )
+		List valueList =  valueHandle.getListValue( );		 
+		if ( valueList == null || index < 0 || index >= valueList.size( ) )
 			return null;
 
 		return handle( valueHandle, index );

@@ -19,6 +19,8 @@ import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.DataItem;
@@ -94,14 +96,14 @@ public class DataItemParseTest extends BaseTestCase
 				actionHandle.getLinkType( ) );
 		assertEquals( "http://localhost:8080/", actionHandle.getURI( ) ); //$NON-NLS-1$
 		
-		assertEquals( "div", dataHandle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "p", dataHandle.getTagType( ) ); //$NON-NLS-1$
 		assertEquals( "English", dataHandle.getLanguage( ) ); //$NON-NLS-1$
-		assertEquals( "Alt Text", dataHandle.getAltText( ) ); //$NON-NLS-1$
+		assertEquals( "Alt Text", dataHandle.getAltTextExpression( ).getStringExpression( ) ); //$NON-NLS-1$
 		assertEquals( 1, dataHandle.getOrder( ) ); //$NON-NLS-1$
 
 		dataHandle = (DataItemHandle) designHandle.findElement( "Body Data" ); //$NON-NLS-1$
 		// test default value of Role in Data
-		assertEquals( "div", dataHandle.getRole( ) ); //$NON-NLS-1$
+		assertEquals( "p", dataHandle.getTagType( ) ); //$NON-NLS-1$
 				
 		// make sure that this data exists in the body slot.
 
@@ -209,9 +211,9 @@ public class DataItemParseTest extends BaseTestCase
 		ActionHandle action = dataHandle.getActionHandle( );
 		assertNotNull( action );
 		
-		dataHandle.setRole( "div new" ); //$NON-NLS-1$
+		dataHandle.setTagType( "div new" ); //$NON-NLS-1$
 		dataHandle.setLanguage( "English new" ); //$NON-NLS-1$
-		dataHandle.setAltText( "Alt Text new" ); //$NON-NLS-1$
+		dataHandle.setAltTextExpression( new Expression("Alt Text", ExpressionType.CONSTANT) ); //$NON-NLS-1$
 		dataHandle.setOrder( 2 ); //$NON-NLS-1$
 
 		dataHandle = (DataItemHandle) designHandle.findElement( "Body Data" ); //$NON-NLS-1$

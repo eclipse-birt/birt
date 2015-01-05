@@ -536,7 +536,7 @@ public class DesignElementCloneTest extends BaseTestCase
 	 *            the element type name of the element
 	 */
 
-	private void testNameSpace( Module module, Module clonedModule, int id,
+	private void testNameSpace( Module module, Module clonedModule, String id,
 			String name, String elementName )
 	{
 		assert module != null;

@@ -529,5 +529,24 @@ public class ClonedCellContent implements ICellContent
 	{
 		cellContent.setExtensions( properties );
 	}
-
+	
+	public String getAltText( )
+	{
+		return cellContent.getAltText( );
+	}
+	
+	public String getAltTextKey( )
+	{
+		return cellContent.getAltTextKey( );
+	}
+	
+	public void setAltText( String alt )
+	{
+		cellContent.setAltText( alt );
+	}
+	
+	public void setAltTextKey( String altKey )
+	{
+		cellContent.setAltText( altKey );
+	}
 }

@@ -692,6 +692,10 @@ public final class DNDUtil
 			}
 			return list.toArray( );
 		}
+		if ( source instanceof List )
+		{
+			return cloneSource( ( (List) source ).toArray( ) );
+		}
 		if ( source instanceof StructuredSelection )
 		{
 			return cloneSource( ( (StructuredSelection) source ).toArray( ) );

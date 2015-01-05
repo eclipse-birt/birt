@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -615,7 +616,31 @@ public abstract class BaseTestCase extends TestCase
 
 		return ok;
 	}
+	private InputStream getGoldenFileAsStream( String goldenFileName )
+	{
+		InputStream streamA = getResourceAStream( goldenFileName );
+		return streamA;
+	}
 
+	private InputStream getTestDesignFileAsStream( ByteArrayOutputStream byteOS )
+	{
+		InputStream streamB = new ByteArrayInputStream( byteOS.toByteArray( ) );
+		return streamB;
+	}
+
+	protected boolean compareDesignModel( String goldenFileName,
+			String[] ignoredAttrs ) throws Exception
+	{
+		InputStream goldenFileStream = getGoldenFileAsStream( GOLDEN_FOLDER
+				+ goldenFileName );
+		InputStream designFileStream = getTestDesignFileAsStream( os );
+		HashSet<String> ignoredSet = new HashSet<String>();
+		for (String s : ignoredAttrs){
+			ignoredSet.add(s);
+		}
+		return new DesignFileCompareUtil( ignoredSet ).compare( goldenFileStream,
+				designFileStream );
+	}
 	/**
 	 * Compares the two text files.
 	 * 

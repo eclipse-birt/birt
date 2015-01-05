@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cheatsheet title="Creation of a Dual Column Chart and Listing Report">
-  <intro href="/org.eclipse.birt.doc/birt/lay-LayingOutAReport.html">
+  <intro>
     <description>This tutorial helps you create a dual column chart and listing report using BIRT.
     </description>
   </intro>
-  <item href="/org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForDatabaseOrOtherJDBCDataSource.html"
+  <item
   		title="Create a Data Source" skip="true">
      <description>- In Data Explorer view, right-click Data Sources and choose New Data Source. New Data Source displays Classic Models Inc. Sample Database as the selected data source.<br/>
       - Choose Next.<br/>
@@ -13,7 +13,7 @@
      <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSourceAction"
      pluginId="org.eclipse.birt.report.designer.ui.data"/>
   </item>
-  <item href="/org.eclipse.birt.doc/birt/ds-HowToCreateASQLQueryToRetrieveDataFromJDBCDataSource.html"
+  <item
   		title="Create a Data Set" skip="true">
      <description>- In Data Explorer view, right-click Data Sets and choose New Data Set.<br/>
       - On New Data Set, Choose Next.<br/>
@@ -23,7 +23,7 @@
      <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSetAction"
      pluginId="org.eclipse.birt.report.designer.ui.data"/>
   </item>
-  <item href="/org.eclipse.birt.doc/birt/lay-HowToBindADataSetToATable.html"
+  <item
   		title="Bind the data to the list" skip="true">
      <description>Select the list element in the layout editor.<br/>
       In the Property Editor view:<br/>
@@ -32,7 +32,7 @@
          - Set data set parameter values if the data set contains parameters.
       </description>
   </item>
-  <item href="/org.eclipse.birt.doc/birt/sg-TutT5GroupCustomerDataByCreditLimit.html"
+  <item
   		title="Edit the list group" skip="true">
   	 <description>- Select the list element then right-click and choose Edit Group->NewListGroup1.<br/>
   	  - On Edit Group, specify the group details.<br/>
@@ -42,19 +42,19 @@
   	 param1="mainlist"
   	 param2="group"/>
   </item>
-  <item href="/org.eclipse.birt.doc/birt/gs-TutT5LayOutTheReport.html"
+  <item
      		title="Edit the left table" skip="true">
   	 <description>- Double-click the left table element in the layout editor.<br/>
       - Drag the fields you need from the Data Explorer view to the left table.
      </description>     		
   </item>
-     <item href="/org.eclipse.birt.doc/birt/gs-TutT5LayOutTheReport.html"
+     <item
      		title="Edit the right table" skip="true">
   	 <description>- Double-click the right table element in the layout editor.<br/>
       - Drag the fields you need from the Data Explorer view to the right table.
      </description>     		
   </item>
-  <item 	href="/org.eclipse.birt.doc/birt/ch-ChartsTutorialIntro.html"
+  <item
     		title="Edit the charts" skip="true">
      <description>Double-click each of the charts to edit its properties.
      </description>

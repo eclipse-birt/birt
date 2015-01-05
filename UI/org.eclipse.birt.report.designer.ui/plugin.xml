@@ -37,7 +37,8 @@
       <menuContribution
           locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
          <toolbar
-               id="undoredo.toolbar">
+               id="undoredo.toolbar"
+               label="Edit">
             <command
                   commandId="org.eclipse.ui.edit.undo"
                   id="undoredo.undo"

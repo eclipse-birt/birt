@@ -68,10 +68,10 @@ public class DataExtractionTask implements IDataExtractionTask
 	{
 		task.cancel( );
 	}
-
-	public void cancel( Object signal )
+	
+	public void cancel( String reason )
 	{
-		task.cancel( signal );
+		task.cancel( reason );
 	}
 
 	public void close( )

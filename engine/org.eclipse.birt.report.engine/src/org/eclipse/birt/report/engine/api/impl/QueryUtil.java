@@ -12,14 +12,17 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -27,7 +30,10 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -51,7 +57,11 @@ import org.eclipse.birt.report.engine.extension.engine.IDataExtension;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 
 public class QueryUtil
 {
@@ -583,11 +593,11 @@ public class QueryUtil
 		QueryDefinition newQuery = null;
 		if ( parent instanceof BaseQueryDefinition )
 		{
-			newQuery = new QueryDefinition( (BaseQueryDefinition) parent );
+			newQuery = new QueryDefinition( (BaseQueryDefinition) parent, query.needAutoBinding() );
 		}
 		else
 		{
-			newQuery = new QueryDefinition( );
+			newQuery = new QueryDefinition( query.needAutoBinding() );
 		}
 		newQuery.getBindings( ).putAll( query.getBindings( ) );
 		newQuery.getFilters( ).addAll( query.getFilters( ) );
@@ -598,7 +608,6 @@ public class QueryUtil
 		newQuery.setMaxRows( query.getMaxRows( ) );
 
 		newQuery.setDataSetName( query.getDataSetName( ) );
-		newQuery.setAutoBinding( query.needAutoBinding( ) );
 		newQuery.setColumnProjection( query.getColumnProjection( ) );
 
 		newQuery.setName( query.getName( ) );
@@ -606,6 +615,39 @@ public class QueryUtil
 
 		newQuery.setQueryExecutionHints( query.getQueryExecutionHints( ) );
 		return newQuery;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<String> getColumnNames( DataSetHandle dataset )
+	{
+		CachedMetaDataHandle cachedMetaDataHandle = dataset
+				.getCachedMetaDataHandle( );
+		if ( cachedMetaDataHandle != null )
+		{
+			List<ResultSetColumn> resultSetColumns = (List<ResultSetColumn>) cachedMetaDataHandle
+					.getProperty( CachedMetaData.RESULT_SET_MEMBER );
+			if ( resultSetColumns == null )
+			{
+				return Collections.EMPTY_LIST;
+			}
+			ArrayList<String> columnNames = new ArrayList<String>( );
+			for ( ResultSetColumn column : resultSetColumns )
+			{
+				String columnName = column.getColumnName( );
+				columnNames.add( columnName );
+			}
+			return columnNames;
+		}
+		return Collections.EMPTY_LIST;
+	}
+
+	public static void addBinding( IQueryDefinition query, String column )
+			throws DataException
+	{
+		ScriptExpression expr = new ScriptExpression(
+				ExpressionUtil.createDataSetRowExpression( column ) );
+		IBinding binding = new Binding( column, expr );
+		query.addBinding( binding );
 	}
 	
 	public static interface IResultSetIDProvider

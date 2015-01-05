@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
@@ -109,10 +110,15 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	 * 
 	 * @return the alternate text of the image item.
 	 */
-
+	@Deprecated
 	public String getAltText( )
 	{
-		return getStringProperty( IImageItemModel.ALT_TEXT_PROP );
+		ExpressionHandle expr = getAltTextExpression(  );
+		if ( expr != null )
+		{
+			return expr.getStringExpression( );
+		}
+		return null;
 	}
 
 	/**
@@ -122,34 +128,11 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	 *            the alternate text
 	 * @throws SemanticException
 	 */
-
+	@Deprecated
 	public void setAltText( String altText ) throws SemanticException
 	{
-		setProperty( IImageItemModel.ALT_TEXT_PROP, altText );
-	}
-
-	/**
-	 * Returns the resource key of the alternate text of this image.
-	 * 
-	 * @return the resource key of the alternate text
-	 */
-
-	public String getAltTextKey( )
-	{
-		return getStringProperty( IImageItemModel.ALT_TEXT_KEY_PROP );
-	}
-
-	/**
-	 * Sets the resource key of the alternate text of this image.
-	 * 
-	 * @param altTextKey
-	 *            the alternate text key
-	 * @throws SemanticException
-	 */
-
-	public void setAltTextKey( String altTextKey ) throws SemanticException
-	{
-		setProperty( IImageItemModel.ALT_TEXT_KEY_PROP, altTextKey );
+		setProperty( IReportItemModel.ALTTEXT_PROP, new Expression( altText,
+				ExpressionType.CONSTANT ) );
 	}
 
 	/**

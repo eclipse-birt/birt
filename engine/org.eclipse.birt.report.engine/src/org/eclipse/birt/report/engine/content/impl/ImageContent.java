@@ -28,9 +28,6 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 public class ImageContent extends AbstractContent implements IImageContent
 {
-
-	protected String altText;
-	protected String altTextKey;
 	protected String helpTextKey;
 	protected String extension;
 	protected String uri;
@@ -51,8 +48,6 @@ public class ImageContent extends AbstractContent implements IImageContent
 	ImageContent( IImageContent image )
 	{
 		super( image );
-		altText = image.getAltText( );
-		altTextKey = image.getAltTextKey( );
 		helpTextKey = image.getHelpKey( );
 		extension = image.getExtension( );
 		uri = image.getURI( );
@@ -380,16 +375,6 @@ public class ImageContent extends AbstractContent implements IImageContent
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
 		super.writeFields( out );
-		if ( altText != null )
-		{
-			IOUtil.writeShort( out, FIELD_ALTTEXT );
-			IOUtil.writeString( out, altText );
-		}
-		if ( altTextKey != null )
-		{
-			IOUtil.writeShort( out, FIELD_ALTTEXTKEY );
-			IOUtil.writeString( out, altTextKey );
-		}
 		if ( extension != null )
 		{
 			IOUtil.writeShort( out, FIELD_EXTENSEION );
@@ -441,12 +426,6 @@ public class ImageContent extends AbstractContent implements IImageContent
 	{
 		switch ( filedId )
 		{
-			case FIELD_ALTTEXT :
-				altText = IOUtil.readString( in );
-				break;
-			case FIELD_ALTTEXTKEY :
-				altTextKey = IOUtil.readString( in );
-				break;
 			case FIELD_EXTENSEION :
 				extension = IOUtil.readString( in );
 				break;

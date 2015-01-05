@@ -42,15 +42,11 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataType;
-import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
-import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.DateFormatType;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -120,6 +116,42 @@ public class ChartUtil
 	public static final String CHART_MAX_ROW = "CHART_MAX_ROW"; //$NON-NLS-1$	
 	
 	private static final NumberFormat DEFAULT_NUMBER_FORMAT = initDefaultNumberFormat( );
+	
+	private static final Map<Integer, String> mapPattern = new HashMap<Integer, String>( );
+	private static final Map<Integer, String> mapPatternHierarchy = new HashMap<Integer, String>( );
+	private static final String TEXT_WEEK = Messages.getString( "ChartUtil.Text.Week" ); //$NON-NLS-1$
+	private static final String TEXT_DAY = Messages.getString( "ChartUtil.Text.Day" ); //$NON-NLS-1$
+	static
+	{
+		// No hierarchy
+		mapPattern.put( Calendar.YEAR, "yyyy" ); //$NON-NLS-1$
+		mapPattern.put( CDateTime.QUARTER, "QQQ" ); //$NON-NLS-1$
+		mapPattern.put( Calendar.MONTH, "MMM" ); //$NON-NLS-1$
+		mapPattern.put( Calendar.WEEK_OF_MONTH, "W" ); //$NON-NLS-1$
+		mapPattern.put( Calendar.WEEK_OF_YEAR, "w" ); //$NON-NLS-1$
+		mapPattern.put( Calendar.DAY_OF_WEEK, "E" ); //$NON-NLS-1$
+		mapPattern.put( Calendar.DAY_OF_MONTH, "d" ); //$NON-NLS-1$
+		mapPattern.put( Calendar.DAY_OF_YEAR, "D" ); //$NON-NLS-1$
+		mapPattern.put( Calendar.HOUR_OF_DAY, "HH" ); //$NON-NLS-1$
+		mapPattern.put( Calendar.MINUTE, "mm" ); //$NON-NLS-1$
+		mapPattern.put( Calendar.SECOND, "ss" ); //$NON-NLS-1$
+
+		// Keep hierarchy
+		mapPatternHierarchy.put( Calendar.YEAR, "yyyy" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( CDateTime.QUARTER, "yyyy QQQ" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( Calendar.MONTH, "MMM yyyy" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( Calendar.WEEK_OF_MONTH, TEXT_WEEK
+				+ "W MMM, yyyy" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( Calendar.WEEK_OF_YEAR, TEXT_WEEK + "w, yyyy" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( Calendar.DAY_OF_WEEK, "E " //$NON-NLS-1$
+				+ TEXT_WEEK
+				+ "W MMM, yyyy" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( Calendar.DAY_OF_MONTH, "MMM dd, yyyy" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( Calendar.DAY_OF_YEAR, TEXT_DAY + "D, yyyy" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( Calendar.HOUR_OF_DAY, "HH:mm" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( Calendar.MINUTE, "HH:mm:ss" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( Calendar.SECOND, "HH:mm:ss" ); //$NON-NLS-1$
+	}
 	
 	/**
 	 * Returns if the given color definition is totally transparent. e.g.
@@ -2154,6 +2186,22 @@ public class ChartUtil
 	}
 	
 	/**
+	 * Creates default format pattern according to current datetime level.
+	 * 
+	 * @param datetimeLevel
+	 *            level such as Calendar.YEAR, CDateTime.QUARTER
+	 * @param keepHierarchy
+	 *            indicates if pattern includes hierarchy
+	 * @return format pattern
+	 */
+	public static String createDefaultFormatPattern( int datetimeLevel,
+			boolean keepHierarchy )
+	{
+		return keepHierarchy ? mapPatternHierarchy.get( datetimeLevel )
+				: mapPattern.get( datetimeLevel );
+	}
+	
+	/**
 	 * Creates default format specifier according to series grouping
 	 * 
 	 * @param sg
@@ -2169,31 +2217,9 @@ public class ChartUtil
 		FormatSpecifier fs = null;
 		if ( sg.getGroupType( ) == DataType.DATE_TIME_LITERAL )
 		{
-			switch ( sg.getGroupingUnit( ).getValue( ) )
-			{
-				case GroupingUnitType.YEARS :
-					fs = JavaDateFormatSpecifierImpl.create( "yyyy" ); //$NON-NLS-1$
-					break;
-				case GroupingUnitType.QUARTERS :
-					fs = JavaDateFormatSpecifierImpl.create( "yyyy QQQ" ); //$NON-NLS-1$
-					break;
-				case GroupingUnitType.MONTHS :
-					fs = JavaDateFormatSpecifierImpl.create( "MMM yyyy" ); //$NON-NLS-1$
-					break;
-				case GroupingUnitType.WEEKS :
-				case GroupingUnitType.DAYS :
-					fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier( );
-					( (DateFormatSpecifier) fs ).setDetail( DateFormatDetail.DATE_LITERAL );
-					( (DateFormatSpecifier) fs ).setType( DateFormatType.MEDIUM_LITERAL );
-					break;
-				case GroupingUnitType.HOURS :
-					fs = JavaDateFormatSpecifierImpl.create( "HH:mm" ); //$NON-NLS-1$
-					break;
-				case GroupingUnitType.SECONDS :
-				case GroupingUnitType.MINUTES :
-					fs = JavaDateFormatSpecifierImpl.create( "HH:mm:ss" ); //$NON-NLS-1$
-					break;
-			}
+			String pattern = createDefaultFormatPattern( GroupingUtil.groupingUnit2CDateUnit( sg.getGroupingUnit( ) ),
+					true );
+			fs = JavaDateFormatSpecifierImpl.create( pattern );
 		}
 		return fs;
 	}

@@ -1413,8 +1413,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	protected boolean isAvailableExtensionToReferenceDataBinding(
 			String extensionName )
 	{
-		return ChartReportItemConstants.CHART_EXTENSION_NAME.equals( extensionName )
-				|| ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( extensionName );
+		return ChartReportItemUtil.isAvailableExtensionToReferenceDataBinding( extensionName );
 	}
 
 	private String[] getAllReportItemReferences(
@@ -1662,7 +1661,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @throws ChartException
 	 */
-	private IDataRowExpressionEvaluator createBaseEvaluator(
+	protected IDataRowExpressionEvaluator createBaseEvaluator(
 			ExtendedItemHandle handle, Chart cm, List<String> columnExpression )
 			throws ChartException
 	{
@@ -1710,7 +1709,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws AdapterException
 	 * @throws BirtException
 	 */
-	private IQueryResults executeDataSetQuery( QueryDefinition queryDefn )
+	protected IQueryResults executeDataSetQuery( QueryDefinition queryDefn )
 			throws AdapterException, BirtException
 	{
 		IQueryResults actualResultSet;
@@ -1732,7 +1731,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws AdapterException
 	 * @throws DataException
 	 */
-	private void setQueryDefinitionWithDataSet( Chart cm, ExtendedItemHandle handle,
+	protected void setQueryDefinitionWithDataSet( Chart cm, ExtendedItemHandle handle,
 			QueryDefinition queryDefn ) throws AdapterException, DataException
 	{
 		// Iterate parameter bindings to check if its expression is a
@@ -1800,7 +1799,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @throws BirtException
 	 */
-	private IDataRowExpressionEvaluator createSimpleExpressionEvaluator(
+	protected IDataRowExpressionEvaluator createSimpleExpressionEvaluator(
 			IQueryResults actualResultSet ) throws BirtException
 	{
 		final IResultIterator resultIterator = actualResultSet.getResultIterator( );
@@ -2181,7 +2180,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * 
 	 * @since BIRT 2.3
 	 */
-	class BaseQueryHelper extends AbstractChartBaseQueryGenerator
+	protected class BaseQueryHelper extends AbstractChartBaseQueryGenerator
 	{
 
 		/**

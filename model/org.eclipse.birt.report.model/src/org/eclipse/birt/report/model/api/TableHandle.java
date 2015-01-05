@@ -555,9 +555,15 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public void shiftColumn( int sourceColumn, int destColumn )
 			throws SemanticException
 	{
+		shiftColumn( sourceColumn, destColumn, true );
+	}
+	
+	public void shiftColumn( int sourceColumn, int destColumn, boolean weakMode )
+			throws SemanticException
+	{
 		ColumnBandShiftAction shiftAction = new ColumnBandShiftAction(
-				new TableColumnBandAdapter( this ) );
-		shiftAction.shiftColumnBand( sourceColumn, destColumn );
+				new TableColumnBandAdapter( this ), weakMode );
+		shiftAction.shiftColumnBand( sourceColumn, destColumn );		
 	}
 
 	/**

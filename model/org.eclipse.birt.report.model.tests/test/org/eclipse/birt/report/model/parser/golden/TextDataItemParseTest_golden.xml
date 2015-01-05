@@ -24,12 +24,12 @@
     </page-setup>
     <body>
         <text-data name="Text Data" id="5">
+            <expression name="altText" type="constant">Alt Text</expression>
             <expression name="valueExpr">new value expr</expression>
             <property name="contentType">rtf</property>
             <property name="hasExpression">false</property>
-            <property name="role">Div</property>
+            <property name="tagType">Div</property>
             <property name="language">English</property>
-            <expression name="altText">Alt Text</expression>
             <property name="order">1</property>
         </text-data>
         <text-data name="Text Data2" id="6"/>

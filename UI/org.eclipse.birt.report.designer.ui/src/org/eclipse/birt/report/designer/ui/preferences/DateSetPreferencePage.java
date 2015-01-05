@@ -11,13 +11,14 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
-import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -32,7 +33,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
  * This class represents a preference page that is contributed to the
@@ -41,8 +41,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * plug-in class. That way, preferences can be accessed directly via the
  * preference store.
  */
-public class DateSetPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage
+public class DateSetPreferencePage extends PropertyAndPreferencePage
 {
 
 	private IntegerFieldEditor maxRowEditor;
@@ -70,6 +69,7 @@ public class DateSetPreferencePage extends PreferencePage implements
 	public static final String PROMPT_PARAM_UPDATE_OPTION_UPDATE = "update";//$NON-NLS-1$
 	public static final String PROMPT_PARAM_UPDATE_OPTION_IGNORE = "ignore";//$NON-NLS-1$
 	
+	private OptionsConfigurationBlock block = null;
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
 	 */
@@ -210,6 +210,11 @@ public class DateSetPreferencePage extends PreferencePage implements
 			updateButton.setSelection( false );
 		}
 		
+		if( getConfigBlock() != null )
+		{
+			getConfigBlock().createContents( mainComposite );
+		}
+		
 		return mainComposite;
 	}
 
@@ -235,9 +240,23 @@ public class DateSetPreferencePage extends PreferencePage implements
 		updateButton.setSelection( true );
 		ignoreButton.setSelection( false );
 		
+		if( getConfigBlock() != null )
+		{
+			getConfigBlock().performDefaults( );
+		}
+		
 		super.performDefaults( );
 	}
 
+	protected void performApply()
+	{
+		super.performApply( );
+		if( getConfigBlock() != null )
+		{
+			getConfigBlock().performApply( );
+		}
+	}
+	
 	/*
 	 * @see org.eclipse.jface.preference.IPreferencePage#performOk()
 	 */
@@ -266,7 +285,46 @@ public class DateSetPreferencePage extends PreferencePage implements
 
 		ReportPlugin.getDefault( ).savePluginPreferences( );
 
+		if( getConfigBlock() != null )
+		{
+			getConfigBlock().performOk( );
+		}
+		
 		return true;
+	}
+	
+	private OptionsConfigurationBlock getConfigBlock()
+	{
+		if( block == null )
+		{
+			if(ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null)
+			{
+				block = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( )
+						.getDataModelConfigurationBlock( getNewStatusChangedListener( ), null );
+			}
+		}
+		
+		return block;
+	}
+
+	protected Control createPreferenceContent( Composite composite )
+	{
+		return null;
+	}
+
+	protected boolean hasProjectSpecificOptions( IProject project )
+	{
+		return false;
+	}
+
+	protected String getPreferencePageID( )
+	{
+		return null;
+	}
+
+	protected String getPropertyPageID( )
+	{
+		return null;
 	}
 
 }

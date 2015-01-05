@@ -159,11 +159,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			// for it.
 			query = new QueryDefinition( parentQuery );
 			
-			// Check if it is summary table.
-			if ( fReportItemHandle instanceof TableHandle )
-			{
-				( (QueryDefinition) query ).setIsSummaryQuery( ( (TableHandle) fReportItemHandle ).isSummaryTable( ) );
-			}
+			( (QueryDefinition) query ).setIsSummaryQuery( needSummaryQuery( ) );
 			
 			( (QueryDefinition) query ).setDataSetName( dsHandle.getQualifiedName( ) );
 
@@ -578,5 +574,15 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			IModelAdapter modelAdapter )
 	{
 		return createSorts( group.sortsIterator( ), modelAdapter );
+	}
+	
+	protected boolean needSummaryQuery( )
+	{
+		// Check if it is summary table.
+		if ( fReportItemHandle instanceof TableHandle )
+		{
+			return ( (TableHandle) fReportItemHandle ).isSummaryTable( );
+		}
+		return false;
 	}
 }

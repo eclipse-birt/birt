@@ -265,6 +265,8 @@ public class LocalizedContentVisitor
 	private IListContent localizeList( IListContent list )
 	{
 		handleOnRender( list );
+		String altText = localize( list, list.getAltTextKey( ), list.getAltText( ) );
+		list.setAltText( altText );
 		return list;
 	}
 
@@ -288,8 +290,10 @@ public class LocalizedContentVisitor
 	}
 
 	private ICellContent localizeCell( ICellContent cell)
-	{
+	{	
 		handleOnRender( cell );
+		String altText = localize( cell, cell.getAltTextKey( ), cell.getAltText( ) );
+		cell.setAltText( altText );
 		return cell;
 	}
 
@@ -318,6 +322,8 @@ public class LocalizedContentVisitor
 	 */
 	protected void processData( IDataContent data )
 	{
+		String altText = localize( data, data.getAltTextKey( ), data.getAltText( ) );
+		data.setAltText( altText );
 		String helpText = localize( data, data.getHelpKey( ), data.getHelpText( ) );
 		data.setHelpText( helpText );
 		String text = ""; //$NON-NLS-1$
@@ -476,6 +482,9 @@ public class LocalizedContentVisitor
 	 */
 	protected void processLabel( ILabelContent label )
 	{
+		String altText = localize( label, label.getAltTextKey( ), label.getAltText( ) );
+		label.setAltText( altText );
+
 		String helpText = localize( label, label.getHelpKey( ), label.getHelpText( ) );
 		label.setHelpText( helpText );
 		
@@ -500,6 +509,8 @@ public class LocalizedContentVisitor
 	private ITextContent localizeText( ITextContent text )
 	{
 		handleOnRender( text );
+		String altText = localize( text, text.getAltTextKey( ), text.getAltText( ) );
+		text.setAltText( altText );
 		return text;
 	}
 

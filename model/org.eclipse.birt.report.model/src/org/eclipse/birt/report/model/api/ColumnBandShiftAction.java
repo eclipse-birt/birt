@@ -9,6 +9,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -28,6 +30,8 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 class ColumnBandShiftAction extends ColumnBandAction
 {
+	
+	private boolean weakMode;
 
 	/**
 	 * Constructs a default <code>ColumnBandShiftAction</code>.
@@ -39,6 +43,12 @@ class ColumnBandShiftAction extends ColumnBandAction
 	public ColumnBandShiftAction( ColumnBandAdapter adapter )
 	{
 		super( adapter );
+	}
+	
+	public ColumnBandShiftAction( ColumnBandAdapter adapter, boolean weakMode )
+	{
+		this( adapter );
+		this.weakMode = weakMode;
 	}
 
 	/**
@@ -81,22 +91,42 @@ class ColumnBandShiftAction extends ColumnBandAction
 
 		List cells = getCellsContextInfo( adapter
 				.getCellsUnderColumn( sourceIndex ) );
+		
+		if( weakMode )
+			cells = filter( cells, true );
 
 		data.setCells( cells );
 
-		if ( !isRectangleArea( cells, 1 ) )
+		if ( !weakMode && !isRectangleArea( cells, 1 ) )
 			throw new SemanticError( adapter.getElementHandle( ).getElement( ),
 					new String[]{Integer.toString( sourceIndex ),
 							adapter.getElementHandle( ).getName( )},
 					SemanticError.DESIGN_EXCEPTION_COLUMN_COPY_FORBIDDEN );
 
-		if ( adapter.hasDroppingCell( cells ) )
+		if ( !weakMode && adapter.hasDroppingCell( cells ) )
 			throw new SemanticError( adapter.getElementHandle( ).getElement( ),
 					new String[]{Integer.toString( sourceIndex ),
 							adapter.getElementHandle( ).getName( )},
 					SemanticError.DESIGN_EXCEPTION_COLUMN_COPY_FORBIDDEN );
 
 		return data;
+	}
+	
+	private List filter( List cellContextInfos, boolean valid )
+	{
+		List retval = new ArrayList();
+		for( Object obj : cellContextInfos )
+		{
+			CellContextInfo cellInfo = (CellContextInfo)obj;
+			if ( !( valid ^ isValid( cellInfo ) ) )
+				retval.add( cellInfo );
+		}
+		return retval;
+	}
+
+	private boolean isValid( CellContextInfo cellInfo )
+	{
+		return cellInfo.getColumnSpan( ) == 1 || adapter.isDroppingCell( cellInfo );
 	}
 
 	/**
@@ -148,10 +178,29 @@ class ColumnBandShiftAction extends ColumnBandAction
 		int newPosn = adjustDestPosn( sourceColumn, destColumn );
 		if ( newPosn == -1 )
 			return;
-
+		
+		if( weakMode )
+		{
+			List invalidCells = filter( getCellsContextInfo( adapter.getCellsUnderColumn( destColumn ) ),
+					false );
+			for( Object obj : invalidCells )
+			{
+				CellContextInfo invalidCell = (CellContextInfo)obj;
+				Iterator iter = data.getCells( ).iterator( );
+				while( iter.hasNext( ))
+				{
+					CellContextInfo cell = (CellContextInfo)iter.next( );
+					if ( cell.getSlotId( ) == invalidCell.getSlotId( )
+							&& cell.getRowIndex( ) == invalidCell.getRowIndex( )
+							&& cell.getGroupId( ) == invalidCell.getGroupId( ) )
+						iter.remove( );
+				}
+			}			
+		}
+		
 		// shift in the same table, the layout must be same.
 
-		if ( !checkTargetColumn( sourceColumn, destColumn ) )
+		if ( !weakMode && !checkTargetColumn( sourceColumn, destColumn ) )
 			throw new SemanticError( adapter.getElementHandle( ).getElement( ),
 					new String[]{Integer.toString( sourceColumn ),
 							adapter.getElementHandle( ).getName( )},
@@ -240,6 +289,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 		int targetIndex = destIndex;
 
 		List destCells = adapter.getCellsUnderColumn( destIndex );
+		List destContexts = getCellsContextInfo( destCells );
 		// adds the copied cells to the destination.
 		
 		for ( int i = 0; i < cellInfos.size( ); i++ )
@@ -267,8 +317,11 @@ class ColumnBandShiftAction extends ColumnBandAction
 			}
 			else
 			{
-				newPosn = row.getCells( ).findPosn(
-						(CellHandle) destCells.get( i ) );
+				CellContextInfo destContext = findCorrespondingCell( destContexts, contextInfo );
+				if ( destContext == null )
+					continue;
+				CellHandle destCell = destContext.getCell( ).handle( adapter.getModule( ) );
+				newPosn = row.getCells( ).findPosn( destCell );
 				// adjust the position since the rule is first drop then add.
 
 				if ( oldPosn > newPosn + 1 )
@@ -283,6 +336,20 @@ class ColumnBandShiftAction extends ColumnBandAction
 			
 			
 		}
+	}
+	
+	private CellContextInfo findCorrespondingCell( List destContexts,
+			CellContextInfo srcCell )
+	{
+		for ( Object obj : destContexts )
+		{
+			CellContextInfo cell = (CellContextInfo) obj;
+			if ( cell.getSlotId( ) == srcCell.getSlotId( )
+					&& cell.getRowIndex( ) == srcCell.getRowIndex( )
+					&& cell.getGroupId( ) == srcCell.getGroupId( ) )
+				return cell;
+		}
+		return null;
 	}
 
 	/**

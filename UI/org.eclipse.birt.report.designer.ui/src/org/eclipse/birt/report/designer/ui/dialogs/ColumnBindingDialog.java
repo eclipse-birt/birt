@@ -203,6 +203,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private boolean canAggregate = false;
 
+	// true if the binding column can be changed, or false if not.
 	private boolean canSelect = false;
 
 	private Composite composite;

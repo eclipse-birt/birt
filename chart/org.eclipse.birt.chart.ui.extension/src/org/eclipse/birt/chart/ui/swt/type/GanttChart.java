@@ -270,6 +270,11 @@ public class GanttChart extends DefaultChartTypeImpl
 				{
 					// Do nothing.
 				}
+				
+				ChartElementUtil.setEObjectAttribute( currentChart,
+						"dimension",//$NON-NLS-1$
+						getDimensionFor( sNewDimension ),
+						sNewDimension == null );
 				return currentChart;
 			}
 			else if ( currentChart.getType( ).equals( LineChart.TYPE_LITERAL )

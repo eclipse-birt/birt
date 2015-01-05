@@ -948,7 +948,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GroupingUnitType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents the possible units for grouping data.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;This type represents the possible units for grouping&#xA;&#x9;&#x9;&#x9;&#x9;data.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="GroupingUnitType"/>
@@ -963,6 +963,11 @@
     <eLiterals name="Years" value="7"/>
     <eLiterals name="String" value="8"/>
     <eLiterals name="StringPrefix" value="9"/>
+    <eLiterals name="WeekOfMonth" value="10"/>
+    <eLiterals name="WeekOfYear" value="11"/>
+    <eLiterals name="DayOfWeek" value="12"/>
+    <eLiterals name="DayOfMonth" value="13"/>
+    <eLiterals name="DayOfYear" value="14"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GroupingUnitTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

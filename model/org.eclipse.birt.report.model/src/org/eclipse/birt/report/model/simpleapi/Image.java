@@ -12,12 +12,16 @@
 package org.eclipse.birt.report.model.simpleapi;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.birt.report.model.api.simpleapi.IImage;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 public class Image extends ReportItem implements IImage
 {
@@ -55,10 +59,15 @@ public class Image extends ReportItem implements IImage
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.IImage#getAltText()
 	 */
-
+	@Deprecated
 	public String getAltText( )
 	{
-		return ( (ImageHandle) handle ).getAltText( );
+		ExpressionHandle expr = ( (ImageHandle) handle ).getAltTextExpression(  );
+		if ( expr != null )
+		{
+			return expr.getStringExpression( );
+		}
+		return null;
 	}
 
 	/*
@@ -68,10 +77,11 @@ public class Image extends ReportItem implements IImage
 	 * org.eclipse.birt.report.model.api.simpleapi.IImage#setAltText(java.lang
 	 * .String)
 	 */
+	@Deprecated
 	public void setAltText( String altText ) throws SemanticException
 	{
-
-		setProperty( IImageItemModel.ALT_TEXT_PROP, altText );
+		setProperty( IReportItemModel.ALTTEXT_PROP, new Expression( altText,
+				ExpressionType.CONSTANT ) );
 	}
 
 	/*
@@ -80,7 +90,6 @@ public class Image extends ReportItem implements IImage
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.element.IImage#getAltTextKey()
 	 */
-
 	public String getAltTextKey( )
 	{
 		return ( (ImageHandle) handle ).getAltTextKey( );
@@ -95,7 +104,7 @@ public class Image extends ReportItem implements IImage
 	 */
 	public void setAltTextKey( String altTextKey ) throws SemanticException
 	{
-		setProperty( IImageItemModel.ALT_TEXT_KEY_PROP, altTextKey );
+		setProperty( IReportItemModel.ALTTEXT_KEY_PROP, altTextKey );
 	}
 
 	/*

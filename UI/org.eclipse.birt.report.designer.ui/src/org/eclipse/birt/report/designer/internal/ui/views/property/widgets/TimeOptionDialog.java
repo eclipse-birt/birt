@@ -207,7 +207,7 @@ public class TimeOptionDialog extends SelectionStatusDialog
 
 	private void initComponent( Shell shell )
 	{
-		shell.setSize( 500, 220 );
+		//shell.setSize( 500, 220 );
 
 	}
 
@@ -261,25 +261,25 @@ public class TimeOptionDialog extends SelectionStatusDialog
 	{
 		Label formatLabel = new Label( composite, SWT.CENTER | SWT.SINGLE );
 		formatLabel.setText( LABEL_FORMAT );
-		formatLabel.setBounds( 0, 2, 60, 30 );
+		formatLabel.setBounds( 0, 8, 60, 30 );
 
 		combo = new Combo( composite, SWT.READ_ONLY | SWT.DROP_DOWN );
 		List list = TimeFormat.getDefaultFormat( ).getSupportList( );
 		String[] items = new String[list.size( )];
 		list.toArray( items );
-		combo.setBounds( 60, 2, 150, 200 );
+		combo.setBounds( 60, 2, 150, 30 );
 		combo.setVisibleItemCount( 30 );
 		combo.setItems( items );
 		combo.select( 0 );
 
 		Label zoneLabel = new Label( composite, SWT.CENTER );
 		zoneLabel.setText( LABEL_TIMEZONE );
-		zoneLabel.setBounds( 0, 102, 60, 30 );
+		zoneLabel.setBounds( 0, 108, 60, 30 );
 
 		zoneCombo = new Combo( composite, SWT.READ_ONLY | SWT.SINGLE );
 		zoneCombo.setVisibleItemCount( 30 );
 		items = TimeZone.getAvailableIDs( );
-		zoneCombo.setBounds( 60, 102, 150, 1000 );
+		zoneCombo.setBounds( 60, 102, 150, 30 );
 		zoneCombo.setItems( items );
 		zoneCombo.select( 0 );
 

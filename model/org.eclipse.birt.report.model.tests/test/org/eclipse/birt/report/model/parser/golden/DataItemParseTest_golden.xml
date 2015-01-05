@@ -38,6 +38,7 @@
         <free-form id="6">
             <report-items>
                 <data name="My First Data" id="7">
+                    <expression name="altText" type="constant">Alt Text</expression>
                     <list-property name="boundDataColumns">
                         <structure>
                             <property name="name">First data value</property>
@@ -46,9 +47,8 @@
                     </list-property>
                     <property name="resultSetColumn">First data value</property>
                     <text-property name="helpText" key="New key">New help</text-property>
-                    <property name="role">div new</property>
+                    <property name="tagType">div new</property>
 		            <property name="language">English new</property>
-		            <expression name="altText">Alt Text new</expression>
 		            <property name="order">2</property>
                     <list-property name="action">
 		           		<structure>

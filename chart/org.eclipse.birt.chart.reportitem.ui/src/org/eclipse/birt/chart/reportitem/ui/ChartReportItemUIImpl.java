@@ -186,6 +186,13 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 	{
 		try
 		{
+			eih.loadExtendedElement( );
+			// UPDATE THE MODEL
+			eih.getReportItem( ).setHandle( eih );
+
+			ChartReportItemUIUtil.refreshBackground( eih,
+					(ReportElementFigure) ifg );
+
 			// USE THE SWT DISPLAY SERVER TO CONVERT POINTS TO PIXELS
 			final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( );
 			final int dpi = idsSWT.getDpiResolution( );

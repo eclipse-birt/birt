@@ -230,9 +230,13 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 					}
 				}
 				CSSValue overflowValue = style.getProperty(IStyle.STYLE_OVERFLOW);
-				if(overflowValue == null)
+				if(overflowValue == null )
 				{
-					styleBuffer.append( " overflow:hidden;" );
+					//only inline table support it in Chrome and IE
+					if ( isInline )
+					{
+						styleBuffer.append( " overflow:hidden;" );
+					}
 				} 
 				else
 				{

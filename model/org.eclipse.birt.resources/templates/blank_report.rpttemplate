@@ -4,12 +4,6 @@
     <html-property name="description">WizardTemplateChoicePage.message.BlankReport</html-property>
     <text-property name="displayName">WizardTemplateChoicePage.title.BlankReport</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
-	<styles>
-        <style name="report" id="4">
-            <property name="fontFamily">sans-serif</property>
-            <property name="fontSize">10pt</property>
-        </style>
-	</styles>    
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">       
             <page-footer>

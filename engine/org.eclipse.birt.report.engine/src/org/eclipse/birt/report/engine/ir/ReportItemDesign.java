@@ -91,6 +91,16 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	protected Map<Integer, Expression> expressionStyles;
 
 	protected Object extensionData;
+	
+	/**
+	 * Text associated with this image, used for default locale.
+	 */
+	protected Expression altText;
+	
+	/**
+	 * Text Resource Key used for altText localization.
+	 */
+	protected String altTextKey;
 
 	public ReportItemDesign( )
 	{
@@ -354,4 +364,29 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	{
 		return this.extensionData;
 	}
+	
+	public Expression getAltText( )
+	{
+		return altText;
+	}
+	
+	public void setAltText( Expression altText )
+	{
+		this.altText = altText;
+	}
+	
+	/**
+	 * @return Returns the altTextKey.
+	 */
+	public String getAltTextKey( )
+	{
+		return altTextKey;
+	}
+	
+	public void setAltTextKey( String altTextKey )
+	{
+		this.altTextKey = altTextKey;
+	}
+
+	
 }

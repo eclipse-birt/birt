@@ -104,6 +104,9 @@ public class DocElement extends DocComposite
 
 	public String getNameSpace( )
 	{
+		return getElementDefn().getNameSpaceID( );
+		
+		/*
 		switch ( getElementDefn( ).getNameSpaceID( ) )
 		{
 			case Module.STYLE_NAME_SPACE:
@@ -120,7 +123,7 @@ public class DocElement extends DocComposite
 				return "Pages";
 			default:
 				return "None";
-		}
+		}*/
 	}
 
 	public String getNameRequirement( )

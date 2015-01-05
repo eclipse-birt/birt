@@ -34,7 +34,7 @@
         <grid name="My grid" id="9">
             <property name="summary">new summary</property>
             <text-property name="caption" key="new caption key">new caption</text-property>
-            <property name="role">Grid Role</property>
+            <property name="tagType">Grid Role</property>
             <property name="language">English</property>
             <property name="order">1</property>       
             <column id="10">
@@ -78,9 +78,9 @@
         			<property name="scope">col</property>
         			<expression name="bookmark">new bookmark for cell</expression>
         			<expression name="headers">new headers for cell</expression>
-                    <property name="role">Cell Role</property>
+                    <property name="tagType">Cell Role</property>
 		            <property name="language">English</property>
-		            <expression name="altText">Alt Text</expression>
+		            <expression name="altText" type="constant">Alt Text</expression>
                     <property name="style">My-Style</property>
                     <property name="backgroundColor">red</property>
                     <property name="borderTopColor">yellow</property>

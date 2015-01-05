@@ -259,4 +259,10 @@ class ExpressionState extends PropertyState
 
 		super.doEnd( toSet );
 	}
+	
+	@Override
+	protected void backwardCompatible( Object value )
+	{
+		
+	}
 }

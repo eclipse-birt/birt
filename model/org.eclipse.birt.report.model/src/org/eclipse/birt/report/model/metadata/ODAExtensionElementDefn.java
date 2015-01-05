@@ -185,4 +185,9 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 		}
 		return Collections.unmodifiableList( retList );
 	}
+	
+	public List<IElementPropertyDefn> getHidePrivateProps()
+	{
+		return hidePrivateProps;
+	}
 }

@@ -21,6 +21,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
@@ -143,7 +144,15 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		{
 			if ( generateBy instanceof ExtendedItemDesign )
 			{
-				return ( (ExtendedItemDesign) generateBy ).getAltText( );
+				// This is for backward compatibility. The alt text property was
+				// stored as string and will not be written in the content.
+				Expression expr = ( (ExtendedItemDesign) generateBy )
+						.getAltText( );
+				if ( expr != null && expr.getType( ) == Expression.CONSTANT )
+				{
+					return expr.getScriptText( );
+				}
+				return null;
 			}
 		}
 		return altText;

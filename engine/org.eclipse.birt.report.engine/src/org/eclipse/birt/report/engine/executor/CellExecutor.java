@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
 public class CellExecutor extends QueryItemExecutor
@@ -47,6 +48,7 @@ public class CellExecutor extends QueryItemExecutor
 		processStyle( cellDesign, cellContent );
 		processVisibility( cellDesign, cellContent );
 		processUserProperties( cellDesign, cellContent );
+		processAltText( cellDesign, cellContent );
 
 		//cellContent.setDisplayGroupIcon( cellDesign.getDisplayGroupIcon( ) );
 		
@@ -63,6 +65,19 @@ public class CellExecutor extends QueryItemExecutor
 		return content;
 	}
 
+	private void processAltText( CellDesign design, IContent content )
+	{
+		Expression altTextExpr = design.getAltText( );
+		if ( altTextExpr != null )
+		{
+			Object altText = evaluate( altTextExpr );
+			if ( altText != null )
+			{
+				content.setAltText( altText.toString( ) );
+			}
+		}
+	}
+	
 	private void processHeaders( CellDesign cellDesign, ICellContent cellContent )
 	{
 		String headers = evaluateString( cellDesign.getHeaders( ) );

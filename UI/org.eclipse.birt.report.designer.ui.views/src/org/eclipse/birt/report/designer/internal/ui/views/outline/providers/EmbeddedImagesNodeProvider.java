@@ -52,7 +52,7 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider
 
 	public String getIconName( Object model )
 	{
-		return IReportGraphicConstants.ICON_ELEMENT_IMAGE;
+		return IReportGraphicConstants.ICON_NODE_IMAGES;
 	}
 
 	public String getNodeDisplayName( Object model )

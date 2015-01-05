@@ -304,6 +304,11 @@ public final class DataSetProvider
 	{
 		IResultMetaData metaData = session.getDataSetMetaData( dataSetHandle,
 				true );
+		
+		if ( metaData == null )
+		{
+			return new DataSetViewData[0];
+		}
 
 		DataSetViewData[] items = new DataSetViewData[metaData.getColumnCount( )];
 

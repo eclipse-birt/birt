@@ -994,8 +994,9 @@ public interface DesignChoiceConstants
 	public static final String DATA_SELECTOR_TYPE_TEXT_BOX = "textBox";//$NON-NLS-1$
 	public static final String DATA_SELECTOR_TYPE_CALENDAR = "calendar";//$NON-NLS-1$
 	public static final String DATA_SELECTOR_TYPE_CURRENT_SELECTIONS = "currentSelections";//$NON-NLS-1$
-	public static final String DATA_SELECTOR_TYPE_LIST_GROUP = "listGroup";
-	public static final String DATA_SELECTOR_TYPE_DROPDOWN_GROUP = "dropdownGroup";
+	public static final String DATA_SELECTOR_TYPE_LIST_GROUP = "listGroup";//$NON-NLS-1$
+	public static final String DATA_SELECTOR_TYPE_CHECKBOXTREE_GROUP = "checkboxtreeGroup";//$NON-NLS-1$
+	public static final String DATA_SELECTOR_TYPE_DROPDOWN_GROUP = "dropdownGroup";//$NON-NLS-1$
 
 	/**
 	 * Choice constants for thumb type.

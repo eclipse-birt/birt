@@ -213,17 +213,14 @@ public interface IEngineTask {
 
 	/**
 	 * set the cancel flag if the task is running.
-	 * the task can re-run if it is cancedl.
+	 * the task can re-run if it was cancelled.
 	 */
 	public void cancel();
-
+	
 	/**
-	 * cancels the task with a signal.
-	 * you can't call this method in the same thread with runTask
-	 * The signal will be notified when the task finishes the cancel.
-	 * @deprecated user should use cancel() instead.
+	 * cancels the task by the given reason.
 	 */
-	public void cancel( Object signal );
+	public void cancel( String reason );
 
 	/**
 	 * return a flag if the user called cancel.

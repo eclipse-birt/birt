@@ -105,7 +105,6 @@ public class ImageItemExecutor extends QueryItemExecutor
 		processStyle( imageDesign, imageContent );
 		processVisibility( imageDesign, imageContent );
 		processUserProperties( imageDesign, imageContent );
-		processAltText( imageDesign, imageContent);
 		
 		try
 		{
@@ -127,22 +126,6 @@ public class ImageItemExecutor extends QueryItemExecutor
 		startTOCEntry( imageContent );
 		
 		return imageContent;
-	}
-
-	private void processAltText( ImageItemDesign imageDesign,
-			IImageContent imageContent )
-	{
-		Expression altTextExpr = imageDesign.getAltText( );
-		if(altTextExpr != null)
-		{
-			Object altText = evaluate( altTextExpr );
-			if( altText != null )
-			{
-				imageContent.setAltText( altText.toString( ) );
-				imageContent.setAltTextKey( imageDesign.getAltTextKey( ) );
-			}
-		}
-		
 	}
 
 	private void processProportionalScale( ImageItemDesign imageDesign,

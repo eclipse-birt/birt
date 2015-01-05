@@ -289,9 +289,7 @@ public class PathResourceEntry extends BaseResourceEntity
 			}
 		}
 		if ( this.isFolder || this.isRoot )
-			return PlatformUI.getWorkbench( )
-					.getSharedImages( )
-					.getImage( ISharedImages.IMG_OBJ_FOLDER );
+			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJ_FOLDER );
 		return super.getImage( );
 	}
 

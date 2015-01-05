@@ -126,8 +126,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	{
 		return new ImageMapEmitter( getShapeActions( ),
 				_bAltEnabled,
-				getULocale( ) ).getImageMap( );
-
+				getULocale( ),
+				getDisplayServer( ).getDpiResolution( ) ).getImageMap( );
 	}
 
 	/**
