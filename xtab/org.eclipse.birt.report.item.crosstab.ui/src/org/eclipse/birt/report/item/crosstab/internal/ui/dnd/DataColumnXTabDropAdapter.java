@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -74,11 +76,12 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 		if ( !isDataColumn( transfer ) )
 			return DNDService.LOGIC_UNKNOW;
 		DesignElementHandle handle = getExtendedItemHandle( target );
-		if ( handle != null )
+		if ( handle != null && handle instanceof ReportItemHandle )
 		{
 			// when xtab has not bind with Cube, data item can drop on
 			// everywhere in xtab.
 			if ( handle.getProperty( IReportItemModel.CUBE_PROP ) == null
+					&& !LinkedDataSetUtil.bindToLinkedDataSet( (ReportItemHandle) handle )
 					&& ( target instanceof CrosstabTableEditPart || target instanceof CrosstabCellEditPart ) )
 			{
 				return DNDService.LOGIC_TRUE;

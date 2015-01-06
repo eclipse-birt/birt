@@ -94,6 +94,14 @@
                   name="CrosstabCell">
             </elementType>
          </property>
+         <property
+               canInherit="true"
+               defaultValue="Table"
+               displayNameID="Element.TagType"
+               isEncryptable="false"
+               name="tagType"
+               type="string">
+         </property>                  
          <propertyVisibility
                name="dataSet"
                visibility="hide">
@@ -632,7 +640,7 @@
             <elementType
                   name="ExtendedItem">
             </elementType>
-         </property>
+         </property>      
          <propertyVisibility
                name="content"
                visibility="hide">
@@ -712,7 +720,7 @@
                isEncryptable="false"
                name="aggregationOnColumn"
                type="elementRef">
-         </property>
+         </property>       
          <overrideProperty
                propertyName="highlightRules"
                useOwnSearch="true">

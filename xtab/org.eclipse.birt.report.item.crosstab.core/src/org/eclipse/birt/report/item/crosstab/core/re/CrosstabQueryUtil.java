@@ -154,7 +154,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 		List<LevelViewHandle> levelViewList = new ArrayList<LevelViewHandle>( );
 		Map<String, ILevelDefinition> levelMapping = new HashMap<String, ILevelDefinition>( );
-
+		
 		if ( needMeasure )
 		{
 			// add measure definitions
@@ -206,6 +206,13 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 			}
 		}
 
+		// Crosstab binding expression map
+		Map<String, String> exprMap = new HashMap<String, String>();
+		if( isBoundToLinkedDataSet )
+		{
+			exprMap = CrosstabUtil.getBindingExpressMap( crosstabItem );
+		}
+		
 		// add row edge
 		if ( needRowDimension
 				&& crosstabItem.getDimensionCount( ROW_AXIS_TYPE ) > 0 )
@@ -216,6 +223,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					rowLevelNameList,
 					levelViewList,
 					levelMapping,
+					exprMap,
 					modelAdapter,
 					isBoundToLinkedDataSet );
 		}
@@ -230,6 +238,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					columnLevelNameList,
 					levelViewList,
 					levelMapping,
+					exprMap,
 					modelAdapter,
 					isBoundToLinkedDataSet );
 		}
@@ -352,7 +361,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 	private static void addEdgeDefinition( ICubeQueryDefinition cubeQuery,
 			CrosstabReportItemHandle crosstabItem, int axis,
 			List<String> levelNameList, List<LevelViewHandle> levelViewList,
-			Map<String, ILevelDefinition> levelMapping,
+			Map<String, ILevelDefinition> levelMapping, Map<String, String> exprMap,
 			IModelAdapter modelAdapter, boolean isBoundToLinkedDataSet ) throws BirtException
 	{
 		// TODO check visibility?
@@ -463,14 +472,15 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 						crosstabItem,
 						modelAdapter,
 						members,
-						levelMapping );
+						levelMapping,
+						exprMap );
 			}
 		}
 	}
 
 	private static void addEdgeMemberFilter( ICubeQueryDefinition cubeQuery, CrosstabReportItemHandle crosstabItem,
 			IModelAdapter modelAdapter, List<MemberValueHandle> members,
-			Map<String, ILevelDefinition> levelMapping )
+			Map<String, ILevelDefinition> levelMapping, Map<String, String> exprMap )
 			throws BirtException
 	{
 		List<List<IScriptExpression>> allTargetLevels = new ArrayList<List<IScriptExpression>>( );
@@ -511,6 +521,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 						memberFlags,
 						mvh,
 						levelMapping,
+						exprMap,
 						modelAdapter,
 						1,
 						new int[]{
@@ -638,6 +649,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 			List<List<IScriptExpression>> memberValues,
 			List<List<Boolean>> memberFlags, MemberValueHandle member,
 			Map<String, ILevelDefinition> levelMapping,
+			Map<String, String> exprMap,
 			IModelAdapter modelAdapter, int depth, int[] pos )
 			throws BirtException
 	{
@@ -670,12 +682,13 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				if( isLinkedDataModel )
 				{
 					DesignElementHandle deh = targetLevel.getContainer( ).getContainer( );
-					boolean isTimeDimension = (deh!= null && deh instanceof DimensionHandle) ? ((DimensionHandle)deh).isTimeType( ) : false;
-					String expr = ExpressionUtil.createDataSetRowExpression( targetDimDef.getName( ) );
-					if( isTimeDimension )
+					String levelBindingName = targetLevelDef.getName( );
+					String expr = exprMap.get( levelBindingName );
+					if( expr == null )
 					{
-						expr = expr + "[\"" + targetLevelDef.getName( ) + "\"]";
+						expr = ExpressionUtil.createDataSetRowExpression( targetDimDef.getName( ) );
 					}
+					
 					targetLevels.add( modelAdapter.adaptJSExpression( expr, targetDataType ) );
 				}
 				else
@@ -778,6 +791,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 							memberFlags,
 							child,
 							levelMapping,
+							exprMap,
 							modelAdapter,
 							depth + 1,
 							pos );

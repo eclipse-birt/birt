@@ -11,9 +11,10 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget;
 
+import java.util.Arrays;
+
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabBindingComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -80,12 +81,12 @@ public class CrosstabBindingComboPropertyDescriptor extends PropertyDescriptor
 	{
 		if ( isFormStyle( ) )
 		{
-			combo = FormWidgetFactory.getInstance( ).createCCombo( parent,
-					false );
+			combo = FormWidgetFactory.getInstance( )
+					.createCCombo( parent, true );
 		}
 		else
 		{
-			combo = new CCombo( parent, style );
+			combo = new CCombo( parent, style | SWT.READ_ONLY );
 			combo.setVisibleItemCount( 30 );
 		}
 		addListeners( );
@@ -227,7 +228,10 @@ public class CrosstabBindingComboPropertyDescriptor extends PropertyDescriptor
 	protected void refresh( CubeHandle value )
 	{
 		String[] items = ( (CrosstabBindingComboPropertyDescriptorProvider) getDescriptorProvider( ) ).getItemNames( );
-		combo.setItems( items );
+		if ( !Arrays.equals( combo.getItems( ), items ) )
+		{
+			combo.setItems( items );
+		}
 		int index = ( (CrosstabBindingComboPropertyDescriptorProvider) getDescriptorProvider( ) ).getItems( )
 				.indexOf( oldValue );
 		if ( index > -1 )
