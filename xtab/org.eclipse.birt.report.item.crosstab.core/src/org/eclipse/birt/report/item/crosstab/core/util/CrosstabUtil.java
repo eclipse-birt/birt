@@ -43,6 +43,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -1021,6 +1022,48 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Returns map which contains binding name and expression.
+	 * @param crosstabItem
+	 * @return
+	 */
+	public static Map<String, String> getBindingExpressMap( CrosstabReportItemHandle crosstabItem )
+	{
+		Map<String, String> exprMap = new HashMap<String, String>();
+		if( crosstabItem != null )
+		{
+			Iterator it = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).columnBindingsIterator( );
+			while( it.hasNext( ) )
+			{
+				ComputedColumnHandle column = (ComputedColumnHandle) it.next( );
+				String bindingName = column.getName( );
+				String expression = column.getExpression( );
+				if( expression == null )
+				{
+					Iterator argIt = column.argumentsIterator( );
+					while( argIt.hasNext( ) )
+					{
+						Object obj = argIt.next( );
+						if( obj instanceof AggregationArgumentHandle )
+						{
+							AggregationArgumentHandle arg = (AggregationArgumentHandle)obj;
+							String name = arg.getName( );
+							if( ComputedColumn.EXPRESSION_MEMBER.equalsIgnoreCase( name ) )
+							{
+								expression = arg.getValue( );
+								break;
+							}
+						}
+					}
+				}
+				
+				exprMap.put( bindingName, expression );
+			}	
+		}
+		
+		return exprMap;
 	}
 	
 	public static boolean validateBinding( ComputedColumnHandle column, String columnName )
