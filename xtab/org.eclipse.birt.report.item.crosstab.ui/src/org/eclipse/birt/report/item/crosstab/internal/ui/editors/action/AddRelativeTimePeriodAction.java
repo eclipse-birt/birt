@@ -119,14 +119,19 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 //							dimensionValue );
 				}
 				cell.addContent( dataHandle );
-
+				
+				reportHandle.getModuleHandle( ).getCommandStack( ).commit( );
 			}
 			catch ( SemanticException e )
 			{
 				reportHandle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
+				return;
 			}
 		}
-		reportHandle.getModuleHandle( ).getCommandStack( ).commit( );
+		else
+		{
+			reportHandle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
+		}
 	}
 	
 	@Override
