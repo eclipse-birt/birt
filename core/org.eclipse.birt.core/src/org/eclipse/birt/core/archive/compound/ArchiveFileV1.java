@@ -209,6 +209,24 @@ public class ArchiveFileV1 implements IArchiveFile
 		}
 	}
 
+	public long getSize( )
+	{
+		long result = 0;
+		List<String> entries = listEntries( null );
+		for( String entry : entries )
+		{
+			try
+			{
+				result += openEntry( entry ).getLength( );
+			}
+			catch ( IOException e )
+			{
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
 	synchronized int read( long pos, byte[] b, int off, int len )
 			throws IOException
 	{

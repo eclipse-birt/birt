@@ -454,6 +454,24 @@ public class ArchiveFile implements IArchiveFile
 		}
 	}
 
+	public long getSize( )
+	{
+		long result = 0;
+		List<String> entries = listEntries( null );
+		for( String entry : entries )
+		{
+			try
+			{
+				result += openEntry( entry ).getLength( );
+			}
+			catch ( IOException e )
+			{
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * upgrade the archive file to the latest version
 	 * 
