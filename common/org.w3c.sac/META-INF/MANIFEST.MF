@@ -11,3 +11,4 @@ Export-Package: org.w3c.flute.parser,
 Bundle-Vendor: Eclipse BIRT Project
 Require-Bundle: org.w3c.css.sac;bundle-version="[1.3.0,2.0.0)"
 Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Eclipse-BundleShape: dir

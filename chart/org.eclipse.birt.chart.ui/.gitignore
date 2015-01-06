@@ -1,2 +1,7 @@
 bin
+<<<<<<< HEAD
 ui.jar
+=======
+ui.jar
+target
+>>>>>>> b21b01e... 1. fix pom version 
