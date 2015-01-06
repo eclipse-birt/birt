@@ -451,9 +451,9 @@ public class ArchiveUtil
 		DataInputStream dataInput = null;
 		try
 		{
-			archive( folder, null, file );
+			archive( folder, null, file, true );
 			String folderName = new File( folder ).getCanonicalPath( );
-			reader = new FolderArchiveReader( folderName );
+			reader = new FolderArchiveReader( folderName, true );
 			if ( reader.exists( FolderArchiveFile.METEDATA ) )
 			{
 				inputStream = reader.getInputStream( FolderArchiveFile.METEDATA );
@@ -514,6 +514,55 @@ public class ArchiveUtil
 		// name of the file archive.
 		folderName = new File( folderName ).getCanonicalPath( );
 		FolderArchiveReader reader = new FolderArchiveReader( folderName );
+		try
+		{
+			reader.open( );
+			File file = new File( fileName );
+			if ( file.exists( ) )
+			{
+				if ( file.isFile( ) )
+				{
+					file.delete( );
+				}
+			}
+			FileArchiveWriter writer = new FileArchiveWriter( fileName );
+			try
+			{
+				writer.initialize( );
+				copy( reader, writer );
+			}
+			finally
+			{
+				writer.finish( );
+			}
+		}
+		finally
+		{
+			reader.close( );
+		}
+	}
+	
+	
+	/**
+	 * Compound File Format: <br>
+	 * 1long(stream section position) + 1long(entry number in lookup map) +
+	 * lookup map section + stream data section <br>
+	 * The Lookup map is a hash map. The key is the relative path of the stram.
+	 * The entry contains two long number. The first long is the start postion.
+	 * The second long is the length of the stream. <br>
+	 * 
+	 * @param tempFolder
+	 * @param fileArchiveName -
+	 *            the file archive name
+	 * @return Whether the compound file was created successfully.
+	 */
+	static public void archive( String folderName, IStreamSorter sorter,
+			String fileName, boolean contentEscape ) throws IOException
+	{
+		// Delete existing file or folder that has the same
+		// name of the file archive.
+		folderName = new File( folderName ).getCanonicalPath( );
+		FolderArchiveReader reader = new FolderArchiveReader( folderName, contentEscape );
 		try
 		{
 			reader.open( );

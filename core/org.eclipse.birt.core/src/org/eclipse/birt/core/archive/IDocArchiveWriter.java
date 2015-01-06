@@ -14,6 +14,8 @@ package org.eclipse.birt.core.archive;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
+
 /**
  * An interface that wraps around a report archive for reading. A report archive
  * may be, but is not limited to a zip file in compressed format, a folder in
@@ -144,4 +146,10 @@ public interface IDocArchiveWriter
 	 * @throws IOException
 	 */
 	public void unlock( Object locker );
+	
+	/**
+	 * Get archive file 
+	 * @return
+	 */
+	public IArchiveFile getArchiveFile ();
 }
