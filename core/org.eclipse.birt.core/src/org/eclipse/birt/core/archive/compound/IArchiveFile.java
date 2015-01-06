@@ -48,4 +48,6 @@ public interface IArchiveFile
 	public String getDependId( );
 
 	public void save( ) throws IOException;
+	
+	public long getSize( );
 }
