@@ -10,6 +10,6 @@
   </parent>
   <groupId>org.eclipse.birt.feature</groupId>
   <artifactId>org.eclipse.birt.chart.cshelp</artifactId>
-  <version>4.4.0-SNAPSHOT</version>
+  <version>4.5.0-SNAPSHOT</version>
   <packaging>eclipse-feature</packaging>
 </project>
