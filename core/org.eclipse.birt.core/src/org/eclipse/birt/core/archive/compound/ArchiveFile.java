@@ -454,6 +454,11 @@ public class ArchiveFile implements IArchiveFile
 		}
 	}
 
+	public long getLength( )
+	{
+		return af.getLength( );
+	}
+
 	/**
 	 * upgrade the archive file to the latest version
 	 * 

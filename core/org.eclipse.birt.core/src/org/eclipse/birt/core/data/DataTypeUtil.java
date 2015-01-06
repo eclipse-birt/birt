@@ -1106,7 +1106,19 @@ public final class DataTypeUtil
 	{
 		if ( source == null )
 			return null;
-		if ( source instanceof Date )
+		if ( source instanceof Time )
+		{
+			return toLocaleNeutralString( source );
+		}
+		else if ( source instanceof java.sql.Date )
+		{
+			return toLocaleNeutralString( source );
+		}
+		else if ( source instanceof Timestamp )
+		{
+			return toLocaleNeutralString( source );
+		}
+		else if ( source instanceof Date )
 		{
 			return DateFormatISO8601.format( (Date) source, zone );
 		}

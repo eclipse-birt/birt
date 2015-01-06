@@ -26,8 +26,8 @@ import com.ibm.icu.util.TimeZone;
 public class ScriptContext implements IScriptContext
 {
 
-	private Locale locale;
-	private TimeZone timeZone;
+	private Locale locale = Locale.getDefault( );
+	private TimeZone timeZone = TimeZone.getDefault( );
 	private ClassLoader applicationClassLoader;
 
 	private ScriptContext parent;
