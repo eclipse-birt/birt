@@ -641,13 +641,6 @@
                   name="ExtendedItem">
             </elementType>
          </property>      
-         <property
-               canInherit="true"
-               displayNameID="Element.Order"
-               isEncryptable="false"
-               name="order"
-               type="string">
-         </property>
          <propertyVisibility
                name="content"
                visibility="hide">
