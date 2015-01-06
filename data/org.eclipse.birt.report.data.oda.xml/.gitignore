@@ -1,2 +1,7 @@
 bin
+<<<<<<< HEAD
 utestreports
+=======
+utestreports
+target
+>>>>>>> b21b01e... 1. fix pom version 
