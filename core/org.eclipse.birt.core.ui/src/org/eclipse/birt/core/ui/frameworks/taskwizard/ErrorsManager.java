@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Shell;
+
 /**
  * 
  */
@@ -27,6 +31,10 @@ public class ErrorsManager
 
 	private WizardBase wizard = null;
 
+	private static final String LINE_SEPARATOR = System.getProperty( "line.separator" ); //$NON-NLS-1$
+	
+	private static final int WIDTH_OFFSET = 100;
+	
 	/**
 	 * This method returns the instance of ErrorsManager. If an instance does
 	 * not exist, one is created.
@@ -72,7 +80,54 @@ public class ErrorsManager
 			return;
 		}
 		
-		wizard.getDialog( ).setErrorMessage( errorMessage );
+		// fix T66267
+		wizard.getDialog( )
+				.setErrorMessage( addLineSeparator( wizard.getDialog( )
+						.getShell( ), errorMessage ) );
+	}
+
+	/**
+	 * format error message,separator line according to the Shell width
+	 * 
+	 * @param shell
+	 * @param errorMessage
+	 * @return
+	 */
+	private static String addLineSeparator( Shell shell, String errorMessage )
+	{
+		if ( errorMessage == null )
+		{
+			return null;
+		}
+
+		int width = shell.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x
+				- WIDTH_OFFSET;
+		GC gc = new GC( shell );
+		int maxChar = width / gc.getFontMetrics( ).getAverageCharWidth( );
+
+		StringBuffer sb = new StringBuffer( );
+		int currentLineLength = 0;
+		char[] chars = errorMessage.toCharArray( );
+		for ( char tempChar : chars )
+		{
+			sb.append( tempChar );
+			currentLineLength++;
+			if ( LINE_SEPARATOR.contains( new String( new char[]{
+				tempChar
+			} ) ) )
+			{
+				currentLineLength = 0;
+			}
+
+			if ( currentLineLength == maxChar )
+			{
+				// in windows, use '\n' instead of '\r\n'
+				sb.append( LINE_SEPARATOR.length( ) == 2 ? LINE_SEPARATOR.charAt( 1 )
+						: LINE_SEPARATOR );
+				currentLineLength = 0;
+			}
+		}
+		return sb.toString( );
 	}
 
 	/**
