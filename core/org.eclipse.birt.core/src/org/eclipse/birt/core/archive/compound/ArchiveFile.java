@@ -454,22 +454,9 @@ public class ArchiveFile implements IArchiveFile
 		}
 	}
 
-	public long getSize( )
+	public long getLength( )
 	{
-		long result = 0;
-		List<String> entries = listEntries( null );
-		for( String entry : entries )
-		{
-			try
-			{
-				result += openEntry( entry ).getLength( );
-			}
-			catch ( IOException e )
-			{
-				e.printStackTrace();
-			}
-		}
-		return result;
+		return af.getLength( );
 	}
 
 	/**

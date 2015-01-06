@@ -681,4 +681,11 @@ public class Ext2FileSystem
 			}
 		}
 	}
+
+	public long length( )
+	{
+		// field length is only updated when archive file is written to disk
+		// file, so can't use it directly.
+		return maxBlockId * BLOCK_SIZE;
+	}
 }
