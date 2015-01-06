@@ -8,21 +8,26 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
-	<groupId>org.eclipse.birt</groupId>
+	<groupId>org.eclipse.birt.feature</groupId>
 	<artifactId>org.eclipse.birt</artifactId>
-	<version>4.4.0-SNAPSHOT</version>
+	<version>4.5.0-SNAPSHOT</version>
 	<packaging>eclipse-feature</packaging>
 	
 	<build>
 		<plugins>
-			<!--
 			<plugin>
 				<groupId>org.eclipse.tycho.extras</groupId>
 				<artifactId>tycho-source-feature-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
 					<excludes>
-						<pluign id="javax.xml.stream"/>
+                                                <plugin id="org.apache.axis"/>
+                                                <plugin id="org.apache.batik.pdf"/>
+                                                <plugin id="org.apache.commons.discovery"/>
+                                                <plugin id="javax.xml.rpc"/>
+						<plugin id="javax.xml.stream"/>
+                                                <plugin id="javax.xml.soap"/>
+                                                <plugin id="javax.wsdl"/>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -31,7 +36,6 @@
 				<artifactId>tycho-p2-plugin</artifactId>
 				<version>${tycho.version}</version>
 			</plugin>
-			-->
 		</plugins>
 	</build>
 </project>
