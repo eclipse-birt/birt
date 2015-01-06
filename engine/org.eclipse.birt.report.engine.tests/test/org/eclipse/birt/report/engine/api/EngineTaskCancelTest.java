@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import java.util.List;
+
 import org.eclipse.birt.report.engine.EngineCase;
 
 /**
@@ -23,7 +25,7 @@ public class EngineTaskCancelTest extends EngineCase
 	static final String PAGE_HANDLER_CANCEL = "org/eclipse/birt/report/engine/api/six_pages_design.xml";
 	static final String REPORT_DESIGN = "design.rptdesign";
 	static final String REPORT_DOCUMENT = "./reportdocument.folder/";
-
+	static final String ERROR_MESSAGE = "cancel error message";
 	static final String SCRIPT_CANCEL = "org/eclipse/birt/report/engine/api/ScriptCancel.xml";
 
 	protected void setUp( ) throws Exception
@@ -52,6 +54,19 @@ public class EngineTaskCancelTest extends EngineCase
 		assertTrue( handler.status );
 		assertEquals( IEngineTask.STATUS_CANCELLED, runTask.getStatus( ) );
 		removeFile( REPORT_DESIGN );
+		
+		IReportDocument document = engine.openReportDocument( REPORT_DOCUMENT );
+		List<String> errorList = document.getDocumentErrors( );
+		int numberoferrormessage = 0;
+		for( String error : errorList )
+		{
+			if( ERROR_MESSAGE.equals( error ))
+			{
+				numberoferrormessage++;
+			}
+		}
+		assertEquals(1, numberoferrormessage );
+		
 		removeFile( REPORT_DOCUMENT );
 
 	}
