@@ -34,6 +34,7 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String BIDI_PROCESSING = "BIDIProcessing";
 	private static final String TEXT_WRAPPING = "TextWrapping";
 	private static final String CHART_DPI = "ChartDpi";
+	private static final String REPAGINATE_FOR_PDF = "repaginateForPDF";
 
 	protected void initOptions( )
 	{
@@ -109,9 +110,18 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 		chartDpi.setDefaultValue( new Integer( 192 ) );
 		chartDpi.setToolTip( getMessage( "Tooltip.ChartDpi" ) );
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
+		
+		// Initializes the option for repaginate for PDF.
+		ConfigurableOption repaginateForPDF = new ConfigurableOption( REPAGINATE_FOR_PDF );
+		repaginateForPDF.setDisplayName( getMessage( "OptionDisplayValue.RepaginateForPDF" ) );
+		repaginateForPDF.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		repaginateForPDF.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		repaginateForPDF.setDefaultValue( Boolean.FALSE );
+		repaginateForPDF.setToolTip( null );
+		repaginateForPDF.setDescription( getMessage( "OptionDescription.RepaginateForPDF" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				fontSubstitution, pageOverFlow, chartDpi};
+				fontSubstitution, pageOverFlow, repaginateForPDF, chartDpi};
 		
 		applyDefaultValues( );
 	}
@@ -167,6 +177,10 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( CHART_DPI.equals( name ) )
 		{
 			return IRenderOption.CHART_DPI;
+		}
+		if ( REPAGINATE_FOR_PDF.equals( name ) )
+		{
+			return IPDFRenderOption.REPAGINATE_FOR_PDF;
 		}
 		return name;
 	}
