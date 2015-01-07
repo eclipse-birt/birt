@@ -36,9 +36,7 @@ public class OutParameterPreviewTask extends DatasetPreviewTask
 	protected QueryDefinition constructQuery( DataSetHandle dataset, DataRequestSession session )
 			throws BirtException
 	{
-		QueryDefinition query = super.constructQuery( dataset );
-		
-		query.getBindings( ).clear( );
+		QueryDefinition query = super.constructQuery( dataset, session );
 
 		PropertyHandle propertyHandle = dataset.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
 		int paramsSize = propertyHandle.getListValue( ).size( );
