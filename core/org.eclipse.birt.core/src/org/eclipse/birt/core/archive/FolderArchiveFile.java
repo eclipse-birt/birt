@@ -327,4 +327,21 @@ public class FolderArchiveFile implements IArchiveFile
 		flush();
 	}
 
+	public long getLength( )
+	{
+		long result = 0;
+		List<String> entries = listEntries( null );
+		for( String entry : entries )
+		{
+			try
+			{
+				result += openEntry( entry ).getLength( );
+			}
+			catch ( IOException e )
+			{
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 }

@@ -54,7 +54,16 @@ public class ArchiveUtil
 	// we define the neutual is the unix seperator.
 	public static String UNIX_SEPERATOR = "/";
 	
+	/**
+	 * 1. support the same name for file and folder in the same path, and conent suffix for file
+	 * 2. escape DOUBLE_COLON to ESCAPE_DOUBLE_COLON
+	 * TODO Should create a full mapping to support all string as file path.
+	 */
 	public final static String CONTNET_SUFFIX = ".content";
+	
+	public final static String DOUBLE_COLON = "::";
+	
+	public final static String ESCAPE_DOUBLE_COLON = "_D__C_";
 
 	/**
 	 * @param rootPath -
@@ -87,7 +96,25 @@ public class ArchiveUtil
 	
 	public static String generateFullContentPath( String rootPath, String relativePath )
 	{
-		return generateFullPath( rootPath, relativePath + CONTNET_SUFFIX );
+		return escapeDoubleColon(generateFullPath( rootPath, relativePath + CONTNET_SUFFIX ));
+	}
+	
+	public static String escapeDoubleColon(String path)
+	{
+		if ( path != null )
+		{
+			return path.replaceAll( DOUBLE_COLON, ESCAPE_DOUBLE_COLON );
+		}
+		return path;
+	}
+	
+	public static String unEscapeDoubleColon(String path)
+	{
+		if ( path != null )
+		{
+			return path.replaceAll( ESCAPE_DOUBLE_COLON, DOUBLE_COLON );
+		}
+		return path;
 	}
 
 	/**
@@ -119,14 +146,16 @@ public class ArchiveUtil
 		return relativePath;
 	}
 	
-	public static String generateRelativeContentPath( String rootPath, String fullPath )
+	public static String generateRelativeContentPath( String rootPath,
+			String fullPath )
 	{
-		String path = generateRelativePath(rootPath, fullPath);
-		if(path.endsWith( CONTNET_SUFFIX ))
+		String path = generateRelativePath( rootPath, fullPath );
+		if ( path.endsWith( CONTNET_SUFFIX ) )
 		{
-			return path.substring( 0, path.length( ) - CONTNET_SUFFIX.length( ) );
+			return unEscapeDoubleColon( path.substring( 0, path.length( )
+					- CONTNET_SUFFIX.length( ) ) );
 		}
-		return path;
+		return unEscapeDoubleColon( path );
 	}
 
 	/**
@@ -444,23 +473,27 @@ public class ArchiveUtil
 		archive( folder, null, file );
 	}
 	
-	static public void convertFolderArchive(String folder, String file)  throws IOException
+	static public void convertFolderArchive(String folder, String file )  throws IOException
 	{
-		FolderArchiveReader reader = null;
+		convertArchive(folder, file, true );
+	}
+
+	static public void convertArchive(String source, String dest, boolean isFolder )  throws IOException
+	{
+		IDocArchiveReader reader = null;
 		InputStream inputStream = null;
 		DataInputStream dataInput = null;
 		try
 		{
-			archive( folder, null, file );
-			String folderName = new File( folder ).getCanonicalPath( );
-			reader = new FolderArchiveReader( folderName );
+			archive( source, null, dest, true, isFolder );
+			String folderName = new File( source ).getCanonicalPath( );
+			reader = createArchiveReader(folderName, true, isFolder );
 			if ( reader.exists( FolderArchiveFile.METEDATA ) )
 			{
 				inputStream = reader.getInputStream( FolderArchiveFile.METEDATA );
 				dataInput = new DataInputStream( inputStream );
 				Map properties = IOUtil.readMap( dataInput );
-				IArchiveFileFactory factory = new ArchiveFileFactory( );
-				ArchiveFileV3 archive = new ArchiveFileV3( file, "rw+" );
+				ArchiveFileV3 archive = new ArchiveFileV3( dest, "rw+" );
 				if ( properties.containsKey( ArchiveFileV3.PROPERTY_DEPEND_ID ) )
 				{
 					archive.setDependId( properties.get(
@@ -494,6 +527,11 @@ public class ArchiveUtil
 		
 	}
 
+	private static IDocArchiveReader createArchiveReader(String file, boolean contentEscape, boolean isFolder)
+			throws IOException {
+		return isFolder ? new FolderArchiveReader( file, contentEscape ) : new ArchiveReader(file);
+	}
+
 	/**
 	 * Compound File Format: <br>
 	 * 1long(stream section position) + 1long(entry number in lookup map) +
@@ -514,6 +552,55 @@ public class ArchiveUtil
 		// name of the file archive.
 		folderName = new File( folderName ).getCanonicalPath( );
 		FolderArchiveReader reader = new FolderArchiveReader( folderName );
+		try
+		{
+			reader.open( );
+			File file = new File( fileName );
+			if ( file.exists( ) )
+			{
+				if ( file.isFile( ) )
+				{
+					file.delete( );
+				}
+			}
+			FileArchiveWriter writer = new FileArchiveWriter( fileName );
+			try
+			{
+				writer.initialize( );
+				copy( reader, writer );
+			}
+			finally
+			{
+				writer.finish( );
+			}
+		}
+		finally
+		{
+			reader.close( );
+		}
+	}
+	
+	
+	/**
+	 * Compound File Format: <br>
+	 * 1long(stream section position) + 1long(entry number in lookup map) +
+	 * lookup map section + stream data section <br>
+	 * The Lookup map is a hash map. The key is the relative path of the stram.
+	 * The entry contains two long number. The first long is the start postion.
+	 * The second long is the length of the stream. <br>
+	 * 
+	 * @param tempFolder
+	 * @param fileArchiveName -
+	 *            the file archive name
+	 * @return Whether the compound file was created successfully.
+	 */
+	static public void archive( String folderName, IStreamSorter sorter,
+			String fileName, boolean contentEscape, boolean isFolder ) throws IOException
+	{
+		// Delete existing file or folder that has the same
+		// name of the file archive.
+		folderName = new File( folderName ).getCanonicalPath( );
+		IDocArchiveReader reader = createArchiveReader( folderName, contentEscape, isFolder );
 		try
 		{
 			reader.open( );
@@ -721,6 +808,74 @@ public class ArchiveUtil
 			return file.delete( );
 		}
 		return true;
+	}
+
+	public final static IDocArchiveReader createReader(
+			final IDocArchiveWriter writer )
+	{
+		return new IDocArchiveReader( ) {
+
+			@Override
+			public String getName( )
+			{
+				return writer.getName( );
+			}
+
+			@Override
+			public void open( ) throws IOException
+			{
+			}
+
+			@Override
+			public RAInputStream getStream( String relativePath )
+					throws IOException
+			{
+				return writer.getInputStream( relativePath );
+			}
+
+			@Override
+			public RAInputStream getInputStream( String relativePath )
+					throws IOException
+			{
+				return writer.getInputStream( relativePath );
+			}
+
+			@Override
+			public boolean exists( String relativePath )
+			{
+				return writer.exists( relativePath );
+			}
+
+			@Override
+			public List<String> listStreams( String relativeStoragePath )
+					throws IOException
+			{
+				return writer.listStreams( relativeStoragePath );
+			}
+
+			@Override
+			public List<String> listAllStreams( ) throws IOException
+			{
+				return writer.listAllStreams( );
+			}
+
+			@Override
+			public void close( ) throws IOException
+			{
+			}
+
+			@Override
+			public Object lock( String stream ) throws IOException
+			{
+				return writer.lock( stream );
+			}
+
+			@Override
+			public void unlock( Object locker )
+			{
+				writer.unlock( locker );
+			}
+		};
 	}
 	
 }
