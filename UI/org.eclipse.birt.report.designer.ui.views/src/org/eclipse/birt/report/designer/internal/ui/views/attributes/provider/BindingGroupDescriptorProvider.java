@@ -63,11 +63,11 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 			{
 				BindingInfo info = (BindingInfo) element;
 				String datasetName = info.getBindingValue( );
-				if ( !info.isDataSet( ) )
+				if ( !info.isDataSet() )
 				{
 					if ( !NONE.equals( datasetName ) )
 					{
-						datasetName += Messages.getString( "BindingGroupDescriptorProvider.Flag.DataModel" ); //$NON-NLS-1$
+						datasetName += Messages.getString("BindingGroupDescriptorProvider.Flag.DataModel"); //$NON-NLS-1$
 					}
 				}
 				return datasetName;
@@ -128,8 +128,8 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 	}
 
 	private Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
-
 	private String NullReportItemChoice = NONE;
+
 
 	public Object load( )
 	{
