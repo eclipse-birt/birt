@@ -69,17 +69,18 @@ public class CategoryWrapper extends ScriptableObject
 						final IScriptFunctionContext scriptFunctionContext = getIScriptFunctionContext( scope );
 						final Collator collator = getCollator( scope );
 
-						IScriptFunctionContext wrappedScriptFunctionContext = new IScriptFunctionContext( ) {
-
-							public Object findProperty( String name )
-							{
-								if( "compare_locale".equals( name ) )
-									return collator;
-								if ( scriptFunctionContext == null )
-									return null;
-								return scriptFunctionContext.findProperty( name );
-							}
-						};
+						IScriptFunctionContext wrappedScriptFunctionContext = scriptFunctionContext;
+						if ( scriptFunctionContext != null )
+						{
+							new IScriptFunctionContext( ) {
+								public Object findProperty( String name )
+								{
+									if ( "compare_locale".equals( name ) ) //$NON-NLS-1$
+										return collator;
+									return scriptFunctionContext.findProperty( name );
+								}
+							};
+						}
 						return function.execute( convertedArgs,
 								wrappedScriptFunctionContext );
 					}
