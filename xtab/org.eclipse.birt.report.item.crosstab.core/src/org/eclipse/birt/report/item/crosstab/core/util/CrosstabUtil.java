@@ -1222,11 +1222,16 @@ public final class CrosstabUtil implements ICrosstabConstants
 	
 	public static boolean isLinkedDataModelMeasureView( MeasureViewHandle mv )
 	{
-		String refColumn = getRefLinkedDataModelColumnName( mv );
+		String refColumn = getRefLinkedDataModelColumnName( mv, true );
 		return refColumn != null && !refColumn.isEmpty();
 	}
 	
 	public static String getRefLinkedDataModelColumnName( MeasureViewHandle mv )
+	{
+		return getRefLinkedDataModelColumnName( mv, false );
+	}
+	
+	public static String getRefLinkedDataModelColumnName( MeasureViewHandle mv, boolean ignoreRTP )
 	{
 		if( mv == null )
 		{
@@ -1246,6 +1251,12 @@ public final class CrosstabUtil implements ICrosstabConstants
 					&& ch.getAggregateFunction() != null 
 					&& !ch.getAggregateFunction().isEmpty() )
 			{	
+				if( ignoreRTP && ch.getCalculationType( ) != null )
+				{
+					// ignore RTP computed measure view
+					return null;
+				}
+				
 				ExpressionHandle expr = ch
 						.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );		
 				String expression = (expr != null) ? expr.getStringExpression( ) : null;
