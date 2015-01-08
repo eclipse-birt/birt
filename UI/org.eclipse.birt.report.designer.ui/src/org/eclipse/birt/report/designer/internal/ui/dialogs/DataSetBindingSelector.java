@@ -338,7 +338,7 @@ public class DataSetBindingSelector extends BaseDialog
 			}
 		} );
 
-		handleDataSetComboSelectedEvent( );
+		handleDataSetComboSelectedEvent( input );
 
 		if ( columns != null )
 		{
@@ -550,10 +550,45 @@ public class DataSetBindingSelector extends BaseDialog
 
 				public void widgetSelected( SelectionEvent e )
 				{
-					handleDataSetComboSelectedEvent( );
+					Object input = populateInput( );
+
+					if ( input instanceof Map )
+					{
+						if ( columnTreeViewer == null )
+						{
+							disposeChildren( contentPane );
+							columnTableViewer = null;
+							createColumnBindingTreeContents( contentPane, input );
+						}
+					}
+					else
+					{
+						if ( columnTableViewer == null )
+						{
+							disposeChildren( contentPane );
+							columnTreeViewer = null;
+							createColumnBindingTableContents( contentPane,
+									input );
+						}
+					}
+
+					handleDataSetComboSelectedEvent( input );
 				}
 
 			} );
+		}
+	}
+
+	private void disposeChildren( Composite parent )
+	{
+		Control[] cc = parent.getChildren( );
+
+		if ( cc != null )
+		{
+			for ( Control c : cc )
+			{
+				c.dispose( );
+			}
 		}
 	}
 
@@ -583,7 +618,7 @@ public class DataSetBindingSelector extends BaseDialog
 		return null;
 	}
 
-	protected void handleDataSetComboSelectedEvent( )
+	private Object populateInput( )
 	{
 		Object input = null;
 		DataSetHandle handle = null;
