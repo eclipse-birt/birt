@@ -806,7 +806,7 @@ public class InsertInLayoutUtil
 							}
 						}
 
-						
+						columnHints = DataUtil.getColumnHints( dataset );
 						for( ColumnHintHandle columnHint : columnHints )
 						{
 							if ( str.equals( columnHint.getColumnName( ) )

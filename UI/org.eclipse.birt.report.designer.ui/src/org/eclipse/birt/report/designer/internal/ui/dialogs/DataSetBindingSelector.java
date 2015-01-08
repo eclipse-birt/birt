@@ -33,7 +33,6 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.LinkedData
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -543,8 +542,6 @@ public class DataSetBindingSelector extends BaseDialog
 			datasets = UIUtil.getVisibleDataSetHandles( SessionHandleAdapter.getInstance( )
 					.getModule( ) );
 			dataSetCombo.setItems( getDataSetComboList( ) );
-			initDateSetHandles();
-			dataSetCombo.setItems(getDataSetComboList());
 			dataSetCombo.select( 0 );
 			GridData data = new GridData( GridData.FILL_HORIZONTAL );
 			dataSetCombo.setLayoutData( data );
@@ -595,15 +592,18 @@ public class DataSetBindingSelector extends BaseDialog
 		}
 	}
 
-	private String[] getDataSetComboList() {
-		ModuleHandle handle = getModel();
-		String[] comboList = new String[datasets.size() + 1];
+	private String[] getDataSetComboList( )
+	{
+		String[] comboList = new String[datasets.size( ) + 1];
 		comboList[0] = NONE;
-		for (int i = 0; i < datasets.size(); i++) {
-			comboList[i + 1] = datasets.get(i).getQualifiedName();
-			if (handle.findDataSet(comboList[i + 1]) != datasets.get(i)) {
-				comboList[i + 1] += Messages
-						.getString("BindingGroupDescriptorProvider.Flag.DataModel");
+		for ( int i = 0; i < datasets.size( ); i++ )
+		{
+			comboList[i + 1] = datasets.get( i ).getQualifiedName( );
+			if ( SessionHandleAdapter.getInstance( )
+					.getModule( )
+					.findDataSet( comboList[i + 1] ) != datasets.get( i ) )
+			{
+				comboList[i + 1] += Messages.getString( "BindingGroupDescriptorProvider.Flag.DataModel" );
 			}
 		}
 		return comboList;
@@ -616,16 +616,6 @@ public class DataSetBindingSelector extends BaseDialog
 			return (DataSetHandle) datasets.get( dataSetCombo.getSelectionIndex( ) - 1 );
 		}
 		return null;
-	}
-
-	private ModuleHandle getModel() {
-		return SessionHandleAdapter.getInstance().getReportDesignHandle();
-	}
-
-	private void initDateSetHandles() {
-
-		datasets = org.eclipse.birt.report.designer.internal.ui.util.UIUtil
-				.getVisibleDataSetHandles(getModel());
 	}
 
 	private Object populateInput( )
@@ -715,7 +705,6 @@ public class DataSetBindingSelector extends BaseDialog
 			if ( dataSetName == null )
 			{
 				result[0] = getSelectedDataSet( );
-				result[0] = getSelectedDataSet();
 			}
 			else
 			{
