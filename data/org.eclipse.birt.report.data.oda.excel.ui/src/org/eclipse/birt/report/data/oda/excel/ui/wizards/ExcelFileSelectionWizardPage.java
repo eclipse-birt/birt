@@ -2057,4 +2057,46 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	{
 		return currentSheetName;
 	}
+	
+	private Shell shell;
+
+	public void createControl( Composite parent )
+	{
+		shell = parent.getShell( );
+		super.createControl( parent );
+	}
+
+	public Shell getShell( )
+	{
+		Shell shell = super.getShell( );
+		if ( shell == null )
+			return this.shell;
+		else
+			return shell;
+	}
+
+	private java.util.List<IChangeListener> pageStatusChangedListeners = new ArrayList<IChangeListener>( );
+
+	public void addPageChangedListener( IChangeListener listener )
+	{
+		if ( listener != null
+				&& !pageStatusChangedListeners.contains( listener ) )
+		{
+			pageStatusChangedListeners.add( listener );
+		}
+	}
+
+	public void removePageChangedListener( IChangeListener listener )
+	{
+		pageStatusChangedListeners.remove( listener );
+	}
+
+	public void setPageComplete( boolean complete )
+	{
+		super.setPageComplete( complete );
+		for ( int i = 0; i < pageStatusChangedListeners.size( ); i++ )
+		{
+			pageStatusChangedListeners.get( i ).update( true );
+		}
+	}
 }

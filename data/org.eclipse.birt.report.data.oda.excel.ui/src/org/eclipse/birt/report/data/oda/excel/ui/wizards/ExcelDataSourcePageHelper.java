@@ -81,7 +81,7 @@ public class ExcelDataSourcePageHelper
 	private ResourceIdentifiers ri;
 
 	private static final String[] fileExtensions = new String[]{
-			ALL_XLS_EXTENSION, ALL_EXTENSION
+			ALL_XLS_EXTENSION, ALL_XLSX_EXTENSION, ALL_EXTENSION
 	};
 
 	public ExcelDataSourcePageHelper( ExcelDataSourceWizardPage page )
