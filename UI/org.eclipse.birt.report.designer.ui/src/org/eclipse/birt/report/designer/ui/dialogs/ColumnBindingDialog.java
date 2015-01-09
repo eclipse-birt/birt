@@ -58,7 +58,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -1428,7 +1427,7 @@ public class ColumnBindingDialog extends BaseDialog
 				}
 			}
 		}
-		if( ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( inputElement ) )
+		if( getSelectColumnHandle( ) != null && ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( inputElement ) )
 		{
 			DataModelAdapterStatus status = DataModelAdapterUtil.validateRelativeTimePeriod( inputElement, getSelectColumnHandle( ));
 			if( status.getStatus( ) == DataModelAdapterStatus.Status.FAIL )
