@@ -983,6 +983,10 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			return true;
 		}
+		if ( altText != null || altTextKey != null )
+		{
+			return true;
+		}
 		return false;
 	}
 
