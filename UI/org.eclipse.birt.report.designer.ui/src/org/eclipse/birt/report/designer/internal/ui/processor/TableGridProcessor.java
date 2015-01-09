@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.processor;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionBindingDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -66,8 +66,9 @@ public class TableGridProcessor extends AbstractElementProcessor
 		boolean isTable = ReportDesignConstants.TABLE_ITEM.equals( getElementType( ) );
 		if ( isTable )
 		{
-			TableOptionBindingDialog dialog = new TableOptionBindingDialog( UIUtil.getDefaultShell( ) );
-
+			TableOptionWizard wizard = new TableOptionWizard( );
+			WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
+					wizard );
 			if ( dialog.open( ) == Window.OK )
 			{
 				Object[] result = (Object[]) dialog.getResult( );

@@ -2043,10 +2043,10 @@ public class UIUtil
 	public static String getColumnAnalysis( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		
+
 		List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
-		
-		for( ColumnHintHandle columnHint : columnHints )
+
+		for ( ColumnHintHandle columnHint : columnHints )
 		{
 			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
 					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
@@ -2103,13 +2103,13 @@ public class UIUtil
 	public static ActionHandle getColumnAction( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
-		
+
 		List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataset );
-		
+
 		for ( ColumnHintHandle columnHint : columnHints )
 		{
 			if ( column.getColumnName( ).equals( columnHint.getColumnName( ) )
-					||  column.getColumnName( ).equals( columnHint.getAlias( ) ) )
+					|| column.getColumnName( ).equals( columnHint.getAlias( ) ) )
 			{
 				return columnHint.getActionHandle( );
 			}
