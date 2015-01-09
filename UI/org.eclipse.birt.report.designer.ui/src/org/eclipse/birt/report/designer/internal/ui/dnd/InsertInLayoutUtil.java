@@ -2033,7 +2033,11 @@ public class InsertInLayoutUtil
 		try
 		{
 			StyleHandle styleHandle = dataHandle.getPrivateStyle( );
-			
+			ColumnHintHandle hintHandle = findColumnHintHandle( column );
+			if (hintHandle == null)
+			{
+				return;
+			}
 			if ( hintHandle != null
 					&& hintHandle.isLocal( ColumnHint.WORD_WRAP_MEMBER ) )
 			{
