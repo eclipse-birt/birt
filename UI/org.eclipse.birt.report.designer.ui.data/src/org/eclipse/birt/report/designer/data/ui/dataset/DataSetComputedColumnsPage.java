@@ -458,8 +458,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			getContainer( ).setMessage( Messages.getString( "dataset.editor.computedColumns" ), //$NON-NLS-1$
 					IMessageProvider.NONE );
 		
-		updateColumnCache( );
-
 	}
 
 	protected void updateColumnCache( )
