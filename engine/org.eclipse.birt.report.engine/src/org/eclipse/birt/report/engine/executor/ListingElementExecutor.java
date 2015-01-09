@@ -257,6 +257,19 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 						return true;
 					}
 				}
+				else
+				{
+					ListingDesign listingDesign = (ListingDesign) getDesign( );
+					totalElements = 0;
+					currentElement = 0;
+					if ( listingDesign.getFooter( ) != null )
+					{
+						executableElements[totalElements++] = listingDesign
+								.getFooter( );
+					}
+					endOfListing = true;
+					return currentElement < totalElements;
+				}
 			}
 		}
 		catch ( BirtException ex )
