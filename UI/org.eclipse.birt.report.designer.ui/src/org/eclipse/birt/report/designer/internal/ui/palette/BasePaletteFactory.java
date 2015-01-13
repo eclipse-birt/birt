@@ -18,7 +18,7 @@ import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.ExtendedElementToolExtends;
@@ -133,9 +133,8 @@ public class BasePaletteFactory
 			CreateRequest request = getRequest( );
 			if ( IReportElementConstants.REPORT_ELEMENT_TABLE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
-				TableOptionWizard wizard = new TableOptionWizard( );
-				WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-						wizard );
+				TableOptionBindingDialog dialog = new TableOptionBindingDialog( UIUtil.getDefaultShell( ) );
+
 				if ( dialog.open( ) == Window.OK )
 				{
 					Object[] result = (Object[]) dialog.getResult( );

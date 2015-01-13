@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.designer.internal.ui.processor;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseWizardDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionWizard;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -26,6 +28,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 
 /**
  * The processor for gird and tables
@@ -66,9 +69,8 @@ public class TableGridProcessor extends AbstractElementProcessor
 		boolean isTable = ReportDesignConstants.TABLE_ITEM.equals( getElementType( ) );
 		if ( isTable )
 		{
-			TableOptionWizard wizard = new TableOptionWizard( );
-			WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-					wizard );
+			TableOptionBindingDialog dialog = new TableOptionBindingDialog( UIUtil.getDefaultShell( ) );
+
 			if ( dialog.open( ) == Window.OK )
 			{
 				Object[] result = (Object[]) dialog.getResult( );
