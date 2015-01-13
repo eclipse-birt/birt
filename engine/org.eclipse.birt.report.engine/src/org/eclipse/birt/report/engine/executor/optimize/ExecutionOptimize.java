@@ -715,6 +715,11 @@ public class ExecutionOptimize
 			{
 				node.execute = true;
 			}
+			//support alt text on report item
+			if ( item.getAltText( ) != null || item.getAltTextKey( ) != null )
+			{
+				node.execute = true;
+			}
 		}
 
 	}
