@@ -146,7 +146,7 @@ public class DEUtil
 	private static final String XMLDATE_PATTERN_DATE_ONLY = "yyyy-MM-dd"; //$NON-NLS-1$
 	private static final String XMLDATE_PATTERN_WITH_OUT_SECOND = "yyyy-MM-dd'T'HH:mm"; //$NON-NLS-1$
 	private static final String XMLDATE_PATTERN_WITH_OUT_MILLISECOND = "yyyy-MM-dd'T'HH:mm:ss"; //$NON-NLS-1$
-	public static final String DEFAULT_LIBRARY = "/ThemesReportItems31.rptlibrary"; //$NON-NLS-1$
+	public static final String DEFAULT_LIBRARY = "/ThemesReportItems3.rptlibrary"; //$NON-NLS-1$
 	private static List<String> paletteElementList = new ArrayList<String>( );
 
 	/**
