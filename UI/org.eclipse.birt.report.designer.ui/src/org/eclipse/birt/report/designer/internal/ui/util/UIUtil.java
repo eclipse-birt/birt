@@ -1341,7 +1341,9 @@ public class UIUtil
 				catch ( MalformedURLException e )
 				{
 					ExceptionHandler.openMessageBox( MSG_DIALOG_TITLE,
-							MessageFormat.format( MSG_DIALOG_MSG, libraryPath ),
+							MessageFormat.format( MSG_DIALOG_MSG, new String[]{
+								libraryPath
+							} ),
 							SWT.ICON_INFORMATION );
 				}
 			}
@@ -3060,8 +3062,9 @@ public class UIUtil
 	{
 		String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
 		String designerVersion = MessageFormat.format( VERSION_MESSAGE,
-				ReportPlugin.getVersion( ),
-				ReportPlugin.getBuildInfo( ) );
+				new String[]{
+						ReportPlugin.getVersion( ), ReportPlugin.getBuildInfo( )
+				} );
 		handle.setCreatedBy( designerVersion );
 	}
 

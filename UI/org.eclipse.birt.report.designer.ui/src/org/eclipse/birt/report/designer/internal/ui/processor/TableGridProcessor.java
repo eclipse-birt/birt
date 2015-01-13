@@ -121,6 +121,7 @@ public class TableGridProcessor extends AbstractElementProcessor
 						// table,
 						// datasetInfo[0].toString( ) );
 						// }
+							( (ReportItemHandle) table ).setDataSet( (DataSetHandle)datasetInfo[0] );
 						DataSetColumnBindingsFormHandleProvider provider = new DataSetColumnBindingsFormHandleProvider( );
 						provider.setBindingObject( table );
 

@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -376,15 +377,6 @@ public class DataColumnBindingDialog extends BaseDialog
 				{
 					MessageDialog.openError( UIUtil.getDefaultShell( ), null, status.getMessage( ) );
 					removeColumnBinding(newBindingColumn);
-					return;
-				}
-			}
-			if( ExtendedDataModelUIAdapterHelper.isBoundToExtendedData( DEUtil.getBindingHolder( bindingObject ) ) )
-			{
-				DataModelAdapterStatus status = DataModelAdapterUtil.validateRelativeTimePeriod(DEUtil.getBindingHolder( bindingObject ), bindingColumn);
-				if( status.getStatus( ) == DataModelAdapterStatus.Status.FAIL )
-				{
-					MessageDialog.openError( UIUtil.getDefaultShell( ), null, status.getMessage( ) );
 					return;
 				}
 			}

@@ -650,7 +650,6 @@ public class DataSetBindingSelector extends BaseDialog
 		{
 			handle = getSelectedDataSet( );
 		}
-
 		if ( handle != null )
 		{
 			try
