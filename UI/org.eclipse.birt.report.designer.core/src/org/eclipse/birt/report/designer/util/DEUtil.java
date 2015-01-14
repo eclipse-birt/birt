@@ -72,6 +72,7 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
@@ -2733,6 +2734,9 @@ public class DEUtil
 		{
 			if ( ( (ReportItemHandle) element ).getCube( ) != null )
 			{
+				if (( (ReportItemHandle) element ).getDataSet( ) != null && (element instanceof TableHandle)) {
+					return false;
+				}
 				return true;
 			}
 			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
