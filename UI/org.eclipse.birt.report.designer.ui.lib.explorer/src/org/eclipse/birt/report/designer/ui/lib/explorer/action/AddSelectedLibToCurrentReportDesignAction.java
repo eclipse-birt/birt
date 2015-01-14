@@ -58,10 +58,6 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 				&& !moduleHandle.isInclude( library )
 				&& ( library.getFileName( ) != null && !library.getFileName( )
 						.equals( moduleHandle.getFileName( ) ) );
-
-		if ( enabled )
-			enabled = testRun( library );
-
 		if ( library != null )
 			library.close( );
 
