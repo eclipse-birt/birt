@@ -476,6 +476,7 @@ public class ResourceFileFolderSelectionDialog extends
 					false,
 					new IRunnableWithProgress( ) {
 
+						@Override
 						public void run( IProgressMonitor monitor )
 								throws InvocationTargetException,
 								InterruptedException
