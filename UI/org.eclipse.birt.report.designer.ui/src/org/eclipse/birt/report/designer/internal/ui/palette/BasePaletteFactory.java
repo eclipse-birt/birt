@@ -185,7 +185,6 @@ public class BasePaletteFactory
 							// table,
 							// datasetInfo[0].toString( ) );
 							// }
-								( (ReportItemHandle) table ).setDataSet(dataSet);
 							DataSetColumnBindingsFormHandleProvider provider = new DataSetColumnBindingsFormHandleProvider( );
 							provider.setBindingObject( table );
 
