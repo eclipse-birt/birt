@@ -1367,7 +1367,7 @@ public class UIUtil
 	{
 		return includeLibrary( moduleHandle, libraryHandle, false );
 	}
-
+	
 	/**
 	 * Includes the library into within the given module.
 	 * 
@@ -1379,15 +1379,13 @@ public class UIUtil
 	 *         failed.
 	 */
 	public static boolean includeLibrary( ModuleHandle moduleHandle,
-			LibraryHandle libraryHandle, boolean isDefault )
-			throws DesignFileException, SemanticException
+			LibraryHandle libraryHandle, boolean isDefault ) throws DesignFileException,
+			SemanticException
 	{
 		if ( moduleHandle != libraryHandle
 				&& !moduleHandle.isInclude( libraryHandle ) )
 		{
-			return includeLibrary( moduleHandle,
-					libraryHandle.getFileName( ),
-					isDefault );
+			return includeLibrary( moduleHandle, libraryHandle.getFileName( ), isDefault );
 		}
 		return true;
 	}

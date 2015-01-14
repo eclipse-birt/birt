@@ -100,7 +100,11 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		commandStack.startTrans( "" );
 		try
 		{
-			UIUtil.includeLibrary( library );
+			// we set the flag "isDefault" to true here to mimic the behavior
+			// that the namespace cannot be changed, so renaming UI will not be
+			// triggered during this testing mode.
+			UIUtil.includeLibrary( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ), library, true );
 			enabled = true;
 		}
 		catch ( Exception e )
