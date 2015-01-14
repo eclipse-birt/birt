@@ -2807,6 +2807,8 @@ public class DEUtil
 	 * @param handle
 	 *            the handle of the element.
 	 * @return the group list of the given element.
+	 * 
+	 * @deprecated Use {@link UIUtil.getGroups()}
 	 */
 	public static List getGroups( DesignElementHandle handle )
 	{

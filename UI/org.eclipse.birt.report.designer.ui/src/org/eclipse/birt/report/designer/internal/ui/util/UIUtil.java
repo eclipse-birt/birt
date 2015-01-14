@@ -44,6 +44,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
+import org.eclipse.birt.report.designer.core.model.IGroupStructureProvider;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.ErrorStatus;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
@@ -99,6 +100,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -3519,5 +3521,51 @@ public class UIUtil
 		}
 
 		return null;
+	}
+
+	/**
+	 * @return Returns the groups for given element
+	 */
+	public static List<GroupHandle> getGroups( DesignElementHandle handle )
+	{
+		List<GroupHandle> groupList = new ArrayList<GroupHandle>( );
+		if ( handle instanceof ListingHandle )
+		{
+			SlotHandle groupSlotHandle = ( (ListingHandle) handle ).getGroups( );
+			for ( Iterator iter = groupSlotHandle.iterator( ); iter.hasNext( ); )
+			{
+				GroupHandle group = (GroupHandle) iter.next( );
+				groupList.add( group );
+			}
+			return groupList;
+		}
+
+		// if it's not listing element, try using adapter to get the group
+		// structure.
+		Object adapter = ElementAdapterManager.getAdapter( handle,
+				IGroupStructureProvider.class );
+		if ( adapter instanceof IGroupStructureProvider )
+		{
+			List<GroupHandle> groups = ( (IGroupStructureProvider) adapter ).getGroups( handle );
+
+			if ( groups != null && groups.size( ) > 0 )
+			{
+				return groups;
+			}
+		}
+
+		// otherwise try traversing up the parents in case it's the subelement.
+		DesignElementHandle result = handle.getContainer( );
+		if ( result != null )
+		{
+			if ( result instanceof GroupHandle )
+			{
+				groupList.add( (GroupHandle) result );
+				return groupList;
+			}
+			return getGroups( result );
+		}
+
+		return groupList;
 	}
 }
