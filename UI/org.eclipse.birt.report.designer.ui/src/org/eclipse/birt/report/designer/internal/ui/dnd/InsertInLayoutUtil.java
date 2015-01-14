@@ -2033,6 +2033,7 @@ public class InsertInLayoutUtil
 		try
 		{
 			StyleHandle styleHandle = dataHandle.getPrivateStyle( );
+			
 			if ( hintHandle != null
 					&& hintHandle.isLocal( ColumnHint.WORD_WRAP_MEMBER ) )
 			{

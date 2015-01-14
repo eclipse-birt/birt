@@ -1813,8 +1813,8 @@ public class UIUtil
 		return null;
 	}
 
-	public static String getHeadColumnDisplayName( List<ColumnHintHandle> list,
-			ResultSetColumnHandle column )
+	
+	public static String getHeadColumnDisplayName(List<ColumnHintHandle> list, ResultSetColumnHandle column )
 	{
 		for ( ColumnHintHandle element : list )
 		{
@@ -1838,7 +1838,7 @@ public class UIUtil
 		}
 		return column.getColumnName( );
 	}
-
+	
 	public static String getHeadColumnDisplayName( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
@@ -1866,9 +1866,8 @@ public class UIUtil
 		}
 		return column.getColumnName( );
 	}
-
-	public static String getColumnDisplayName( List<ColumnHintHandle> list,
-			ResultSetColumnHandle column )
+	
+	public static String getColumnDisplayName( List<ColumnHintHandle> list,  ResultSetColumnHandle column)
 	{
 		for ( ColumnHintHandle element : list )
 		{
@@ -1888,7 +1887,6 @@ public class UIUtil
 		}
 		return column.getColumnName( );
 	}
-
 	/**
 	 * Return the display name of dataset column
 	 * 
@@ -1919,8 +1917,8 @@ public class UIUtil
 		return column.getColumnName( );
 	}
 
-	public static String getColumnDisplayNameKey( List<ColumnHintHandle> list,
-			ResultSetColumnHandle column )
+	
+	public static String getColumnDisplayNameKey(  List<ColumnHintHandle> list, ResultSetColumnHandle column )
 	{
 		for ( ColumnHintHandle element : list )
 		{
@@ -1932,7 +1930,6 @@ public class UIUtil
 		}
 		return null;
 	}
-
 	/**
 	 * Return the display name of dataset column
 	 * 
@@ -1955,6 +1952,20 @@ public class UIUtil
 		return null;
 	}
 
+	
+	public static String getColumnHeaderDisplayNameKey(
+			 List<ColumnHintHandle> list, ResultSetColumnHandle column )
+	{
+		for ( ColumnHintHandle element : list )
+		{
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getHeadingKey( );
+			}
+		}
+		return null;
+	}
 	public static String getColumnHeaderDisplayNameKey(
 			List<ColumnHintHandle> list, ResultSetColumnHandle column )
 	{
@@ -2079,8 +2090,7 @@ public class UIUtil
 		return null;
 	}
 
-	public static ActionHandle getColumnAction( List<ColumnHintHandle> list,
-			ResultSetColumnHandle column )
+	public static ActionHandle getColumnAction(List<ColumnHintHandle> list,  ResultSetColumnHandle column )
 	{
 
 		for ( ColumnHintHandle columnHint : list )
@@ -2093,7 +2103,6 @@ public class UIUtil
 		}
 		return null;
 	}
-
 	/**
 	 * Return the action property of dataset column from column hint
 	 * 
