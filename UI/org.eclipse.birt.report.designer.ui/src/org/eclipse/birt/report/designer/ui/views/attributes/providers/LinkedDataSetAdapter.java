@@ -65,11 +65,6 @@ public class LinkedDataSetAdapter
 
 	public Iterator getLinkedDataModelResultSetColumns( String datasetName )
 	{
-		return getDataSetResLinkedDataModel(datasetName);
-	}
-
-	public Iterator getDataSetResLinkedDataModel( String datasetName )
-	{
 
 		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
 				ILinkedDataSetHelper.class );

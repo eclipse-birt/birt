@@ -144,15 +144,18 @@ public class DataSetBindingSelector extends BaseDialog
 	private static class GroupedColumnProvider implements ITreeContentProvider
 	{
 
+		@Override
 		public void dispose( )
 		{
 		}
 
+		@Override
 		public void inputChanged( Viewer viewer, Object oldInput,
 				Object newInput )
 		{
 		}
 
+		@Override
 		public Object[] getElements( Object inputElement )
 		{
 			if ( inputElement instanceof Map )
@@ -162,6 +165,7 @@ public class DataSetBindingSelector extends BaseDialog
 			return new Object[0];
 		}
 
+		@Override
 		public Object[] getChildren( Object parentElement )
 		{
 			if ( parentElement instanceof Entry )
@@ -171,11 +175,13 @@ public class DataSetBindingSelector extends BaseDialog
 			return new Object[0];
 		}
 
+		@Override
 		public Object getParent( Object element )
 		{
 			return null;
 		}
 
+		@Override
 		public boolean hasChildren( Object element )
 		{
 			Object[] cc = getChildren( element );
@@ -396,6 +402,7 @@ public class DataSetBindingSelector extends BaseDialog
 
 		columnTreeViewer.addCheckStateListener( new ICheckStateListener( ) {
 
+			@Override
 			public void checkStateChanged( CheckStateChangedEvent event )
 			{
 				Object element = event.getElement( );
@@ -650,6 +657,7 @@ public class DataSetBindingSelector extends BaseDialog
 		{
 			handle = getSelectedDataSet( );
 		}
+
 		if ( handle != null )
 		{
 			try
