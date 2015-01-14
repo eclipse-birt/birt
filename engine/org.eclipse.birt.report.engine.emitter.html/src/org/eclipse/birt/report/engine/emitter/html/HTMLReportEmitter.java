@@ -1696,33 +1696,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return;
 		}
 		needOutputBackgroundSize = true;
-		String backgroundPositionX = style.getBackgroundPositionX( );
-		if ( backgroundPositionX == null )
-		{
-			backgroundPositionX = "0px";
-		}
-		String backgroundPositionY = style.getBackgroundPositionY( );
-		if ( backgroundPositionY == null )
-		{
-			backgroundPositionY = "0px";
-		}
-
 		writer.openTag( HTMLTags.TAG_DIV );
-		writer.attribute( HTMLTags.ATTR_STYLE, "width:" + pageWidth
-				+ ";height:" + pageHeight + ";" );
-		writer.openTag( HTMLTags.TAG_IMAGE );
-		writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
-
-		image = handleStyleImage( image, true );
-		if ( image != null && image.length( ) > 0 )
-		{
-			writer.attribute( HTMLTags.ATTR_SRC, image );
-			writer.attribute( HTMLTags.ATTR_STYLE, "width:" + backgroundWidth
-					+ ";height:" + backgroundHeight
-					+ ";position:absolute;left:" + backgroundPositionX
-					+ ";top:" + backgroundPositionY + ";z-index:-1" );
-		}
-		writer.closeTag( HTMLTags.TAG_IMAGE );
+		StringBuffer sb = new StringBuffer();
+		sb.append("width:").append(pageWidth).append(";");
+		sb.append("height:").append(pageHeight).append(";" );
+		AttributeBuilder.buildBackground( sb, style, this);
+		sb.append( "background-size:" ).append( backgroundWidth ).append( " " ).append( backgroundHeight ).append( ";");
+		writer.attribute( HTMLTags.ATTR_STYLE, sb.toString( ) );
 	}
 
 	private String parseBackgroundSize( String backgroundHeight,
