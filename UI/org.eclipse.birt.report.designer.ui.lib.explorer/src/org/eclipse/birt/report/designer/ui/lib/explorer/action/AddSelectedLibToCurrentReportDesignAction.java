@@ -58,6 +58,10 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 				&& !moduleHandle.isInclude( library )
 				&& ( library.getFileName( ) != null && !library.getFileName( )
 						.equals( moduleHandle.getFileName( ) ) );
+
+		if ( enabled )
+			enabled = testRun( library );
+
 		if ( library != null )
 			library.close( );
 
@@ -96,11 +100,7 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		commandStack.startTrans( "" );
 		try
 		{
-			// we set the flag "isDefault" to true here to mimic the behavior
-			// that the namespace cannot be changed, so renaming UI will not be
-			// triggered during this testing mode.
-			UIUtil.includeLibrary( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ), library, true );
+			UIUtil.includeLibrary( library );
 			enabled = true;
 		}
 		catch ( Exception e )
