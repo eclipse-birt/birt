@@ -70,6 +70,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -112,6 +113,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String TABLE = Messages.getString( "BindingDialogHelper.text.Table" ); //$NON-NLS-1$
 	protected static final String LIST = Messages.getString( "BindingDialogHelper.text.List" ); //$NON-NLS-1$
 	protected static final String GRID = Messages.getString( "BindingDialogHelper.text.Grid" ); //$NON-NLS-1$
+	protected static final String ALL = Messages.getString( "CrosstabBindingDialogHelper.AggOn.All" ); //$NON-NLS-1$
 	protected static final String GROUP = Messages.getString( "BindingDialogHelper.text.Group" ); //$NON-NLS-1$
 	protected static final String EXPRESSION = Messages.getString( "BindingDialogHelper.text.Expression" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME = Messages.getString( "BindingDialogHelper.text.displayName" ); //$NON-NLS-1$
@@ -802,7 +804,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
-	private String[] getGroups( )
+	protected String[] getGroups( )
 	{
 		if ( getBindingHolder( ) instanceof ListingHandle )
 		{
@@ -940,6 +942,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			btnTable.setText( LIST );
 		else if ( getBindingHolder( ) instanceof GridHandle )
 			btnTable.setText( GRID );
+		else
+			btnTable.setText( ALL );
 
 		btnTable.addSelectionListener( new SelectionListener( ) {
 
@@ -1744,8 +1748,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			String type = getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
 					.getAggregation( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) )
 					.getDataType( ) ) );
-			if ( type != null && !type.equals( "" ) //$NON-NLS-1$
-					&& !type.equals( cmbType.getText( ) ) )
+			if ( !StringUtil.isEmpty( type) && !type.equals( cmbType.getText( ) ) )
 			{
 				if ( !canProcessFunctionTypeError( cmbFunction.getText( ),
 						cmbType.getText( ),
