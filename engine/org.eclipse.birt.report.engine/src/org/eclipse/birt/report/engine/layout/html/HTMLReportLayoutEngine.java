@@ -140,12 +140,11 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	//http://msdn.microsoft.com/en-us/library/ms537503%28v=vs.85%29.aspx
 	protected boolean isIE7( String userAgent )
 	{
-		if ( userAgent != null )
+		if ( ( userAgent != null ) && (! userAgent.contains( "; Trident/" )) )
 		{
-			if ( ( userAgent.contains( "; MSIE 5" )
+			if  ( userAgent.contains( "; MSIE 5" )
 					|| userAgent.contains( "; MSIE 6" )
 					|| userAgent.contains( "; MSIE 7" ))
-					&& (! userAgent.contains( "; Trident/" )))
 			{
 				return true;
 			}
