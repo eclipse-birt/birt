@@ -1954,19 +1954,6 @@ public class UIUtil
 
 	
 	public static String getColumnHeaderDisplayNameKey(
-			 List<ColumnHintHandle> list, ResultSetColumnHandle column )
-	{
-		for ( ColumnHintHandle element : list )
-		{
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
-			{
-				return element.getHeadingKey( );
-			}
-		}
-		return null;
-	}
-	public static String getColumnHeaderDisplayNameKey(
 			List<ColumnHintHandle> list, ResultSetColumnHandle column )
 	{
 		for ( ColumnHintHandle element : list )
