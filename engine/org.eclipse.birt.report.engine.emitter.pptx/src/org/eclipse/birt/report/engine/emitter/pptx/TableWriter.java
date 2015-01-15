@@ -471,7 +471,6 @@ public class TableWriter
 	{
 		writer.openTag( "a:tcPr" );
 		IArea cellchild = cell.getFirstChild( );
-		String valign = null;
 		IStyle cellstyle = cell.getContent( ).getComputedStyle( );
 		if ( cellchild instanceof BlockTextArea
 				&& cell.getChildrenCount( ) == 1 )
@@ -480,13 +479,11 @@ public class TableWriter
 					.getComputedStyle( );
 			if ( textboxstyle != null )
 			{
-				int marL = canvas
-						.getScaledValue( PPTXUtil
+				int marL = canvas.getScaledValue( PPTXUtil
 								.convertCssToEnum( textboxstyle.getMarginLeft( ) )
 								+ PPTXUtil.convertCssToEnum( cellstyle
-										.getPaddingLeft( ) ) );
-				int marT = canvas
-						.getScaledValue( PPTXUtil
+										.getPaddingLeft( ) ) );				
+				int marT = canvas.getScaledValue( PPTXUtil
 								.convertCssToEnum( textboxstyle.getMarginTop( ) )
 								+ PPTXUtil.convertCssToEnum( cellstyle
 										.getPaddingTop( ) ) );
@@ -528,18 +525,13 @@ public class TableWriter
 				}
 				canvas.writeMarginProperties( marT, marR, marB, marL );
 			}
-		}
-		else
-		{// default behavior for empty cell
-			canvas.writeMarginProperties( 0, 0, 0, 0 );
-		}
 
-		if ( valign == null )
-		{
-			valign = cell.getContent( ).getComputedStyle( ).getVerticalAlign( );
-		}
-		if ( !( valign.equals( "baseline" ) || valign.equals( "top" ) ) )
-		{
+			String valign = cellstyle.getVerticalAlign( );
+			if ( valign.equals( "baseline" ) && textboxstyle != null )
+			{
+				valign = textboxstyle.getVerticalAlign( );
+			}
+
 			if ( valign.equals( "middle" ) )
 			{
 				writer.attribute( "anchor", "ctr" );
@@ -549,6 +541,11 @@ public class TableWriter
 				writer.attribute( "anchor", "b" );
 			}
 		}
+		else
+		{// default behavior for empty cell
+			canvas.writeMarginProperties( 0, 0, 0, 0 );
+		}
+
 		drawCellBox( cell );
 		writer.closeTag( "a:tcPr" );
 		writer.closeTag( "a:tc" );
