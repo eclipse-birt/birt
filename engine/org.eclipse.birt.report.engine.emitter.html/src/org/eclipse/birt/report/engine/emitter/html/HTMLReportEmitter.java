@@ -3922,6 +3922,7 @@ class TableLayout
 		status.table = table;
 		status.cells = cells;
 		status.columnCount = columnCount;
+		status.columnHiddens = columnHiddens;
 		status.hasHiddenColumn = hasHiddenColumn;
 		status.currentCell = currentCell;
 		statuses.push( status );
