@@ -551,10 +551,10 @@ public class QueryExecutorV1 implements IQueryExecutor
 			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 			{
 				//If query definition has query result id, that means a cached document has been saved.
-				rs = AggregationResultSetSaveUtil.load( id,
-						new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" ),
-						VersionManager.getLatestVersion( ),
+				FileArchiveReader far = new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" );
+				rs = AggregationResultSetSaveUtil.load( id, far, VersionManager.getLatestVersion( ),
 						cubeQueryExecutorHelper.getMemoryCacheSize( ) );
+				far.close();
 				
 				if( view.getCubeQueryExecutionHints( ) == null )
 				{
@@ -626,19 +626,22 @@ public class QueryExecutorV1 implements IQueryExecutor
 		//If need save to local dir
 		if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 		{
-			File tmpDir = new File( executor.getSession( ).getTempDir( ) );
+			String tmpDirPath = executor.getSession( ).getTempDir( );
+			File tmpDir = new File( tmpDirPath );
 			if (!FileSecurity.fileExist( tmpDir ) || ! FileSecurity.fileIsDirectory( tmpDir ))
 			{
 				FileSecurity.fileMakeDirs( tmpDir );
 			}
-			ArchiveWriter writer = new ArchiveWriter( new ArchiveFile( executor.getSession( )
-					.getTempDir( )
-					+ "Cache",
-					"rw+" ) );
+			// To make the file rw+, an archive file need to be created first.
+			// And in this case, archive writer will leave the archive file open, we have
+			// to close it ourselves.
+			ArchiveFile aFile = new ArchiveFile( tmpDirPath + "Cache", "rw+" );
+			ArchiveWriter writer = new ArchiveWriter( aFile );
 			AggregationResultSetSaveUtil.save( queryResutID,
 					rs,
 					writer );
 			writer.finish( );
+			aFile.close();
 		}		
 		//only save the raw aggregation result into RD.
 		if ( saveToRD )
