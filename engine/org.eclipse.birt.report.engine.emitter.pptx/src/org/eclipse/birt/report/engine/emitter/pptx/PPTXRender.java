@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
-import org.eclipse.birt.report.engine.emitter.pptx.writer.Slide;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
@@ -35,7 +34,10 @@ import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
- * The PPT render class.
+ * The PPTX render class.
+ * 
+ * It visit a render area, output it to PPTXGrapchis.
+ *  
  */
 public class PPTXRender extends PageDeviceRender
 {
@@ -48,11 +50,26 @@ public class PPTXRender extends PageDeviceRender
 	public static final String REPORT_FILE = "Report.pptx"; //$NON-NLS-1$
 
 	private RenderOption renderOption = null;
+	private TableWriter tableWriter;
 
 	public PPTXRender( IEmitterServices services ) throws EngineException
 	{
 		initialize( services );
+		this.out = EmitterUtil.getOuputStream( services, REPORT_FILE );
 		tempFileDir = services.getReportEngine( ).getConfig( ).getTempDir( );
+	}
+
+	public PPTXRender( PPTXRender render, PPTXCanvas canvas )
+			throws EngineException
+	{
+		initialize( render.services );
+		this.out = render.out;
+		this.tempFileDir = render.tempFileDir;
+		this.currentX = render.currentX;
+		this.currentY = render.currentY;
+		this.scale = render.scale;
+		this.pageDevice = render.pageDevice;
+		this.pageGraphic = new PPTXPage( canvas );
 	}
 
 	@Override
@@ -106,6 +123,7 @@ public class PPTXRender extends PageDeviceRender
 	 * 
 	 * @param services
 	 *            the emitter services object.
+	 * @throws EngineException 
 	 * @throws BirtException
 	 */
 	public void initialize( IEmitterServices services ) throws EngineException
@@ -194,10 +212,10 @@ public class PPTXRender extends PageDeviceRender
 		return (PPTXPage) pageGraphic;
 	}
 
-	public Slide getSlide( )
-	{
-		return ( (PPTXPage) pageGraphic ).getSlide( );
-	}
+//	public Slide getSlide( )
+//	{
+//		return ( (PPTXPage) pageGraphic ).getSlide( );
+//	}
 
 	public int getCurrentX( )
 	{
@@ -223,5 +241,11 @@ public class PPTXRender extends PageDeviceRender
 	{
 		return scale;
 	}
-	
+
+	public PPTXCanvas getCanvas( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
