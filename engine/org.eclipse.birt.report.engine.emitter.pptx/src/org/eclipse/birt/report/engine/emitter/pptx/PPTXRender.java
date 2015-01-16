@@ -14,6 +14,8 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.CompressionMode;
+import org.eclipse.birt.report.engine.api.DocxRenderOption;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -23,73 +25,67 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
+import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-
-import org.eclipse.birt.report.engine.api.CompressionMode;
-import org.eclipse.birt.report.engine.api.DocxRenderOption;
 
 /**
  * The PPT render class.
  */
-public class PPTXRender extends PageDeviceRender
-{
+public class PPTXRender extends PageDeviceRender {
 
 	private OutputStream out = null;
 
-	private String tempFileDir;
+	private final String tempFileDir;
 
 	/** The default output PPT file name. */
 	public static final String REPORT_FILE = "Report.pptx"; //$NON-NLS-1$
 
 	private RenderOption renderOption = null;
 
-	public PPTXRender( IEmitterServices services ) throws EngineException
-	{
-		initialize( services );
-		tempFileDir = services.getReportEngine( ).getConfig( ).getTempDir( );
+	public PPTXRender(IEmitterServices services) throws EngineException {
+		initialize(services);
+		tempFileDir = services.getReportEngine().getConfig().getTempDir();
 	}
 
-	public IPageDevice createPageDevice( String title, String author,
+	@Override
+	public IPageDevice createPageDevice(String title, String author,
 			String subject, String description, IReportContext context,
-			IReportContent report ) throws Exception
-	{
-		try
-		{
-			int compressionMode = getCompressionMode( renderOption ).getValue( );
-			PPTXPageDevice pageDevice = new PPTXPageDevice( out, title, author,
-					description, subject, tempFileDir, compressionMode );
+			IReportContent report) throws Exception {
+		try {
+			int compressionMode = getCompressionMode(renderOption).getValue();
+			PPTXPageDevice pageDevice = new PPTXPageDevice(out, title, author,
+					description, subject, tempFileDir, compressionMode);
 			return pageDevice;
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ) );
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage());
 		}
 		return null;
 	}
 
-	private CompressionMode getCompressionMode( RenderOption renderOption )
-	{
+	private CompressionMode getCompressionMode(RenderOption renderOption) {
 		CompressionMode compressionMode = CompressionMode.BEST_COMPRESSION;
 		Object mode = renderOption
-				.getOption( DocxRenderOption.OPTION_COMPRESSION_MODE );
-		if ( mode instanceof CompressionMode )
-		{
+				.getOption(DocxRenderOption.OPTION_COMPRESSION_MODE);
+		if (mode instanceof CompressionMode) {
 			compressionMode = (CompressionMode) mode;
 		}
 		return compressionMode;
 	}
 
 	/**
-	 * Returns the output format, always is "ppt".
+	 * Returns the output format, always is "pptx".
 	 * 
 	 * @return the output format
 	 */
-	public String getOutputFormat( )
-	{
-		return "pptx";
+	@Override
+	public String getOutputFormat() {
+		return "pptx"; //$NON-NLS-1$
 	}
 
 	/**
@@ -97,46 +93,75 @@ public class PPTXRender extends PageDeviceRender
 	 * 
 	 * @param services
 	 *            the emitter services object.
-	 * @throws BirtException 
+	 * @throws BirtException
 	 */
-	public void initialize( IEmitterServices services ) throws EngineException
-	{
+	public void initialize(IEmitterServices services) throws EngineException {
 		this.services = services;
-		renderOption = (RenderOption) services.getRenderOption( );
-		reportRunnable = services.getReportRunnable( );
+		renderOption = (RenderOption) services.getRenderOption();
+		reportRunnable = services.getReportRunnable();
 
-		if ( reportRunnable != null )
-		{
+		if (reportRunnable != null) {
 			reportDesign = (ReportDesignHandle) reportRunnable
-					.getDesignHandle( );
+					.getDesignHandle();
 		}
-		this.context = services.getReportContext( );
-		this.out = EmitterUtil.getOuputStream( services, REPORT_FILE );
-	}
-
-	public void visitImage( IImageArea imageArea )
-	{
-		PPTXPage page = (PPTXPage) pageGraphic;
-		page.setLink( PPTUtil.getHyperlink( imageArea, services,
-				reportRunnable, context ) );
-		super.visitImage( imageArea );
-		page.setLink( null );
+		this.context = services.getReportContext();
+		this.out = EmitterUtil.getOuputStream(services, REPORT_FILE);
 	}
 
 	@Override
-	public void visitText( ITextArea textArea )
-	{
+	public void visitImage(IImageArea imageArea) {
 		PPTXPage page = (PPTXPage) pageGraphic;
-		page.setLink( PPTUtil.getHyperlink( textArea, services, reportRunnable,
-				context ) );
-		super.visitText( textArea );
-		page.setLink( null );
+		page.setLink(PPTUtil.getHyperlink(imageArea, services, reportRunnable,
+				context));
+		super.visitImage(imageArea);
+		page.setLink(null);
 	}
 
-	protected void drawTextAt( ITextArea text, int x, int y, int width,
-			int height, TextStyle textStyle )
-	{
-		pageGraphic.drawText( text.getLogicalOrderText( ), x, y, width, height,
-				textStyle );
+	@Override
+	public void visitText(ITextArea textArea) {
+		PPTXPage page = (PPTXPage) pageGraphic;
+		page.setLink(PPTUtil.getHyperlink(textArea, services, reportRunnable,
+				context));
+		super.visitText(textArea);
+		page.setLink(null);
+	}
+
+	@Override
+	protected void drawTextAt(ITextArea text, int x, int y, int width,
+			int height, TextStyle textStyle) {
+		pageGraphic.drawText(text.getLogicalOrderText(), x, y, width, height,
+				textStyle);
+	}
+
+	@Override
+	public void visitContainer(IContainerArea container) {
+		if (container instanceof PageArea) {
+			new SlideWriter(this).outputSlide((PageArea) container);
+		} else if (container instanceof TableArea) {
+			new TableWriter(this).outputTable((TableArea) container);
+		} else if (container instanceof BlockTextArea) {
+			new TextWriter(this).outputText((BlockTextArea) container);
+		} else {
+			startContainer(container);
+			visitChildren(container);
+			endContainer(container);
+		}
+	}
+
+	@Override
+	protected void visitPage(PageArea page) {
+		super.visitPage(page);
+	}
+
+	protected void visitTable(TableArea table) {
+		startContainer(table);
+		visitChildren(table);
+		endContainer(table);
+	}
+
+	protected void visitText(BlockTextArea text) {
+		startContainer(text);
+		visitChildren(text);
+		endContainer(text);
 	}
 }
