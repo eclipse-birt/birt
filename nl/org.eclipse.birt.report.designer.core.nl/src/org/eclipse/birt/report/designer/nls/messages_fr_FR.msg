@@ -5627,7 +5627,7 @@ SelectValueDialog.retrieving=Récupération de la liste...
 
 SelectValueDialog.selectValue=Sélectionner une valeur
 
-SelectValueDialog.SelectValue.NullValue=<Null Value>
+SelectValueDialog.SelectValue.NullValue=<Valeur nulle>
 
 ###########################################################
 #SetConstraintCommand properties
@@ -6546,6 +6546,7 @@ IDEResourcePageHelper.WorkSpace.Button=&Espace de travail...
 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
+DataSetColumnBindingsFormHandleProvider.Column.Position=Position
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nom
 
 DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=ID du nom d'affichage

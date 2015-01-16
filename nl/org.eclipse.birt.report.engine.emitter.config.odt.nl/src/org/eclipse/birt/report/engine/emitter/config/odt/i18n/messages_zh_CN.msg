@@ -13,7 +13,7 @@
 #OpenDocument Text Emitter
 OdtEmitter.Description=配置用于以 OpenDocument Text 格式呈现报表的选项。
 
-OdtEmitter.DisplayName=OpenDocument Text
+OdtEmitter.DisplayName=OpenDocument 文本
 
 ###########################################################
 #Option Display Value

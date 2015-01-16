@@ -13,7 +13,7 @@
 #ODP Emitter
 ODPEmitter.Description=Optionen zum Rendern eines Berichts im OpenDocument Presentation-Format konfigurieren.
 
-ODPEmitter.DisplayName=OpenDocument Presentation
+ODPEmitter.DisplayName=OpenDocument Präsentation
 
 ###########################################################
 #Option Display Value

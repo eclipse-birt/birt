@@ -13,7 +13,7 @@
 #ODP Emitter
 ODPEmitter.Description=配置用于以 OpenDocument Presentation 格式呈现报表的选项。
 
-ODPEmitter.DisplayName=OpenDocument Presentation
+ODPEmitter.DisplayName=OpenDocument 演示文稿
 
 ###########################################################
 #Option Display Value
