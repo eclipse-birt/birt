@@ -162,7 +162,7 @@ public class PPTXCanvas
 	 * 
 	 * @param text
 	 */
-	private void writeText( String text )
+	void writeText( String text )
 	{
 		int length = text.length( );
 		StringBuilder sb = new StringBuilder( length * 2 );
@@ -525,7 +525,7 @@ public class PPTXCanvas
 		writer.closeTag( "a:rPr" );
 	}
 
-	private void setHyperlink( HyperlinkDef link )
+	void setHyperlink( HyperlinkDef link )
 	{
 		if ( link != null )
 		{
@@ -590,21 +590,31 @@ public class PPTXCanvas
 
 	public void setProperty( Color color, int width, int style )
 	{
+		//module for outline line style
 		writer.openTag( "a:ln" );
 		writer.attribute( "w", width );
+		if(style == org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOUBLE){
+			writer.attribute( "cmpd", "dbl" );
+		}
 		setColor( color );
 
 		// the other line styles, e.g. 'ridge', 'outset', 'groove', 'insert'
 		// is NOT supported now and all regarded with default style, i.e, solid.
-		if ( style == BorderInfo.BORDER_STYLE_DOTTED )
+		switch(style)
 		{
-			setStyle( "sysDash" );
+			case org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOUBLE:
+				setStyle( "solid" );
+				break;
+			case org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DASHED:
+				setStyle( "dash" );
+				break;
+			case org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOTTED:
+				setStyle( "sysDash" );
+				break;
+			default:
+				setStyle( "solid" );
+				break;
 		}
-		else if ( style == BorderInfo.BORDER_STYLE_DASHED )
-		{
-			setStyle( "dash" );
-		}
-
 		writer.closeTag( "a:ln" );
 	}
 

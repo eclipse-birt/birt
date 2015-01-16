@@ -148,7 +148,12 @@ public class PPTXPage implements IPage
 	{
 		this.link = link;
 	}
-
+	
+	public HyperlinkDef getLink()
+	{
+		return link;
+	}
+	
 	public void showHelpText( String text, int x, int y, int width, int height )
 	{
 		// PPTX currently does not support popup tooltips.

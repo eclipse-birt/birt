@@ -177,7 +177,16 @@ public class PPTXRender extends PageDeviceRender
 		}
 		else if ( container instanceof BlockTextArea )
 		{
-			new TextWriter( this ).outputText( (BlockTextArea) container );
+			int x = currentX + getX( container );
+			int y = currentY + getY( container );
+			int width = getWidth( container );
+			int height = getHeight( container );
+			// startContainer(container);
+			new TextWriter( this ).writeBlockText( x, y, width, height,
+					(BlockTextArea) container );
+			// new TextWriter(this).writeBlockText( currentX, currentY, width,
+			// height, (BlockTextArea) container);
+			// endContainer(container);
 		}
 		else
 		{
