@@ -168,7 +168,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String EXPRESSION_STRING_COLOR_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.expression.string.color.preferencestore"; //$NON-NLS-1$
 	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
 	public static final String DATA_MODEL_MEMORY_LIMIT_PREFERENCE = "org.eclipse.birt.designer.ui.preference.datamodel.limit.preferencestore"; //$NON-NLS-1$
-	
+
 	private static final List<String> elementToFilter = Arrays.asList( new String[]{
 			ReportDesignConstants.AUTOTEXT_ITEM,
 			ReportDesignConstants.DATA_SET_ELEMENT,
@@ -301,13 +301,8 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
-				.setDefault( LIBRARY_DEFAULT_THEME_INCLUDE,
-						PREFERENCE_TRUE );
-		
-		PreferenceFactory.getInstance( )
-				.getPreferences( this )
 				.setDefault( DATA_MODEL_MEMORY_LIMIT_PREFERENCE, 0 );
-		
+
 		initCellCursor( );
 
 		setDefaultBiDiSettings( );

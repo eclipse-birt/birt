@@ -44,6 +44,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
+import org.eclipse.birt.report.designer.core.model.IGroupStructureProvider;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.ErrorStatus;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
@@ -99,6 +100,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -1367,7 +1369,7 @@ public class UIUtil
 	{
 		return includeLibrary( moduleHandle, libraryHandle, false );
 	}
-
+	
 	/**
 	 * Includes the library into within the given module.
 	 * 
@@ -1379,15 +1381,13 @@ public class UIUtil
 	 *         failed.
 	 */
 	public static boolean includeLibrary( ModuleHandle moduleHandle,
-			LibraryHandle libraryHandle, boolean isDefault )
-			throws DesignFileException, SemanticException
+			LibraryHandle libraryHandle, boolean isDefault ) throws DesignFileException,
+			SemanticException
 	{
 		if ( moduleHandle != libraryHandle
 				&& !moduleHandle.isInclude( libraryHandle ) )
 		{
-			return includeLibrary( moduleHandle,
-					libraryHandle.getFileName( ),
-					isDefault );
+			return includeLibrary( moduleHandle, libraryHandle.getFileName( ), isDefault );
 		}
 		return true;
 	}
@@ -1813,8 +1813,8 @@ public class UIUtil
 		return null;
 	}
 
-	public static String getHeadColumnDisplayName( List<ColumnHintHandle> list,
-			ResultSetColumnHandle column )
+	
+	public static String getHeadColumnDisplayName(List<ColumnHintHandle> list, ResultSetColumnHandle column )
 	{
 		for ( ColumnHintHandle element : list )
 		{
@@ -1838,7 +1838,7 @@ public class UIUtil
 		}
 		return column.getColumnName( );
 	}
-
+	
 	public static String getHeadColumnDisplayName( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
@@ -1866,9 +1866,8 @@ public class UIUtil
 		}
 		return column.getColumnName( );
 	}
-
-	public static String getColumnDisplayName( List<ColumnHintHandle> list,
-			ResultSetColumnHandle column )
+	
+	public static String getColumnDisplayName( List<ColumnHintHandle> list,  ResultSetColumnHandle column)
 	{
 		for ( ColumnHintHandle element : list )
 		{
@@ -1888,7 +1887,6 @@ public class UIUtil
 		}
 		return column.getColumnName( );
 	}
-
 	/**
 	 * Return the display name of dataset column
 	 * 
@@ -1919,8 +1917,8 @@ public class UIUtil
 		return column.getColumnName( );
 	}
 
-	public static String getColumnDisplayNameKey( List<ColumnHintHandle> list,
-			ResultSetColumnHandle column )
+	
+	public static String getColumnDisplayNameKey(  List<ColumnHintHandle> list, ResultSetColumnHandle column )
 	{
 		for ( ColumnHintHandle element : list )
 		{
@@ -1932,7 +1930,6 @@ public class UIUtil
 		}
 		return null;
 	}
-
 	/**
 	 * Return the display name of dataset column
 	 * 
@@ -1955,6 +1952,7 @@ public class UIUtil
 		return null;
 	}
 
+	
 	public static String getColumnHeaderDisplayNameKey(
 			List<ColumnHintHandle> list, ResultSetColumnHandle column )
 	{
@@ -2079,8 +2077,7 @@ public class UIUtil
 		return null;
 	}
 
-	public static ActionHandle getColumnAction( List<ColumnHintHandle> list,
-			ResultSetColumnHandle column )
+	public static ActionHandle getColumnAction(List<ColumnHintHandle> list,  ResultSetColumnHandle column )
 	{
 
 		for ( ColumnHintHandle columnHint : list )
@@ -2093,7 +2090,6 @@ public class UIUtil
 		}
 		return null;
 	}
-
 	/**
 	 * Return the action property of dataset column from column hint
 	 * 
@@ -3512,5 +3508,51 @@ public class UIUtil
 		}
 
 		return null;
+	}
+
+	/**
+	 * @return Returns the groups for given element
+	 */
+	public static List<GroupHandle> getGroups( DesignElementHandle handle )
+	{
+		List<GroupHandle> groupList = new ArrayList<GroupHandle>( );
+		if ( handle instanceof ListingHandle )
+		{
+			SlotHandle groupSlotHandle = ( (ListingHandle) handle ).getGroups( );
+			for ( Iterator iter = groupSlotHandle.iterator( ); iter.hasNext( ); )
+			{
+				GroupHandle group = (GroupHandle) iter.next( );
+				groupList.add( group );
+			}
+			return groupList;
+		}
+
+		// if it's not listing element, try using adapter to get the group
+		// structure.
+		Object adapter = ElementAdapterManager.getAdapter( handle,
+				IGroupStructureProvider.class );
+		if ( adapter instanceof IGroupStructureProvider )
+		{
+			List<GroupHandle> groups = ( (IGroupStructureProvider) adapter ).getGroups( handle );
+
+			if ( groups != null && groups.size( ) > 0 )
+			{
+				return groups;
+			}
+		}
+
+		// otherwise try traversing up the parents in case it's the subelement.
+		DesignElementHandle result = handle.getContainer( );
+		if ( result != null )
+		{
+			if ( result instanceof GroupHandle )
+			{
+				groupList.add( (GroupHandle) result );
+				return groupList;
+			}
+			return getGroups( result );
+		}
+
+		return groupList;
 	}
 }

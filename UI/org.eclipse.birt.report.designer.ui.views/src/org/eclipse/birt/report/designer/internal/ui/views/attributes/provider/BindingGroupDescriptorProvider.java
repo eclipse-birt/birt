@@ -63,7 +63,7 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 			{
 				BindingInfo info = (BindingInfo) element;
 				String datasetName = info.getBindingValue( );
-				if ( !info.isDataSet() )
+				if ( !info.isDataSet( ) )
 				{
 					if ( !NONE.equals( datasetName ) )
 					{
@@ -120,8 +120,7 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 		if ( ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null )
 		{
 			List temp = ( ExtendedDataModelUIAdapterHelper.getInstance( )
-					.getAdapter( )
-					.getAvailableBindingReferenceList( element ) );
+					.getAdapter( ).getAvailableBindingReferenceList( element ) );
 			bindingRef.removeAll( temp );
 			bindingRef.addAll( temp );
 		}

@@ -21,13 +21,14 @@ public interface ILinkedDataSetHelper
 
 	boolean setLinkedDataModel( ReportItemHandle handle, Object value );
 
-	public Iterator getResultSetIterator( String datasetName );
+	Iterator getResultSetIterator( String datasetName );
+
 	Map<String, List<ResultSetColumnHandle>> getGroupedResultSetColumns(
 			String datasetName );
 
-	public List<DataSetHandle> getVisibleLinkedDataSetsDataSetHandles(
+	List<DataSetHandle> getVisibleLinkedDataSetsDataSetHandles(
 			ModuleHandle handle );
 
-	public List<CubeHandle> getVisibleLinkedDataSetsCubeHandles(
-			ModuleHandle handle );
+	List<CubeHandle> getVisibleLinkedDataSetsCubeHandles( ModuleHandle handle );
+
 }
