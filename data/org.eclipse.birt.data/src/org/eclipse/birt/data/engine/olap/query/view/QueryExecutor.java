@@ -910,10 +910,11 @@ public class QueryExecutor
 			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 			{
 				//If query definition has query result id, that means a cached document has been saved.
-				rs = AggregationResultSetSaveUtil.load( id,
-						new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" ),
+				FileArchiveReader far = new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" );
+				rs = AggregationResultSetSaveUtil.load( id, far,
 						VersionManager.getLatestVersion( ),
 						cubeQueryExecutorHelper.getMemoryCacheSize( ) );
+				far.close();
 				initLoadedAggregationResultSets( rs, aggrDefns );
 				//TODO:Currently, share the same queryResultsID with the shared report item in the report document if the report document exists				
 			}
@@ -962,19 +963,19 @@ public class QueryExecutor
 		//If need save to local dir
 		if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 		{
-			File tmpDir = new File( executor.getSession( ).getTempDir( ) );
+			String tmpDirPath = executor.getSession( ).getTempDir( );
+			File tmpDir = new File( tmpDirPath );
 			if (!FileSecurity.fileExist( tmpDir ) || ! FileSecurity.fileIsDirectory( tmpDir ))
 			{
 				FileSecurity.fileMakeDirs( tmpDir );
 			}
-			ArchiveWriter writer = new ArchiveWriter( new ArchiveFile( executor.getSession( )
-					.getTempDir( )
-					+ "Cache",
-					"rw+" ) );
+			ArchiveFile aFile = new ArchiveFile( tmpDirPath + "Cache", "rw+" );
+			ArchiveWriter writer = new ArchiveWriter( aFile );
 			AggregationResultSetSaveUtil.save( queryResutID,
 					rs,
 					writer );
 			writer.finish( );
+			aFile.close();
 		}		
 		//only save the raw aggregation result into RD.
 		if ( saveToRD )
