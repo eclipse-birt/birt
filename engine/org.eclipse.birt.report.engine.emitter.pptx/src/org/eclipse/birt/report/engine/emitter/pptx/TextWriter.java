@@ -12,9 +12,11 @@ import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
+import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
 import com.lowagie.text.Font;
@@ -25,6 +27,7 @@ public class TextWriter
 	private PPTXRender render;
 	private PPTXCanvas canvas;
 	private OOXmlWriter writer;
+	private boolean needShape = true;
 	private boolean needGroup = false;
 	private boolean needDrawLineBorder = false;
 	private boolean needDrawSquareBorder = false;
@@ -70,7 +73,7 @@ public class TextWriter
 			return;
 		}
 			
-		parseText(text);
+		parseBlockTextArea(text);
 		
 		startX = PPTXUtil.convertToEnums( startX );
 		startY = PPTXUtil.convertToEnums( startY );
@@ -90,8 +93,13 @@ public class TextWriter
 		if(needGroup)endGroup();
 	}
 	
-	private void parseText( BlockTextArea text )
+	private void parseBlockTextArea( BlockTextArea text )
 	{
+		if( text.getParent( ) instanceof CellArea)
+		{
+			needShape = false;
+			return;
+		}
 		borders = render.cacheBorderInfo( text );
 		if( borders != null)
 		{
@@ -144,7 +152,6 @@ public class TextWriter
 	
 	private void endGroup()
 	{
-		if(!needGroup)return;	
 		writer.closeTag( "p:grpSp" );
 	}
 	
@@ -204,14 +211,14 @@ public class TextWriter
 		{
 			writer.attribute( "b", 1 );
 		}
-		setColor( color );
+		setBackgroundColor( color );
 		setTextFont( fontName );
 		canvas.setHyperlink( link );
 		writer.closeTag( "a:rPr" );
 	}
 	
 
-	private void setColor( Color color )
+	private void setBackgroundColor( Color color )
 	{
 		if ( color != null )
 		{
@@ -221,6 +228,32 @@ public class TextWriter
 			writer.closeTag( "a:srgbClr" );
 			writer.closeTag( "a:solidFill" );
 		}
+	}
+	
+	
+	private void fillRectangleWithImage( ImagePart imageInfo, int x, int y,
+			int width, int height, int offsetX, int offsetY )
+	{
+		writer.openTag( "a:blipFill" );
+		writer.attribute( "dpi", "0" );
+		writer.attribute( "rotWithShape", "1" );
+		writer.openTag( "a:blip" );
+		writer.attribute( "r:embed", imageInfo.getPart( ).getRelationshipId( ) );
+		writer.closeTag( "a:blip" );
+
+		// To stretch
+		//writer.openTag( "a:stretch" );
+		//writer.openTag( "a:fillRect" );
+		//writer.closeTag( "a:fillRect" );
+		//writer.closeTag( "a:stretch" );
+
+		// To tile
+		writer.openTag( "a:tile" );
+		writer.attribute( "tx", offsetX );
+		writer.attribute( "ty", offsetY );
+		writer.closeTag( "a:tile" );
+		writer.closeTag( "a:blipFill" );
+
 	}
 	
 	private void setTextFont( String fontName )
@@ -244,67 +277,75 @@ public class TextWriter
 	}
 	
 	private void startBlockText( int startX,int startY, int width, int height, BlockTextArea text)
-	{		
-		writer.openTag( "p:sp" );
-		writer.openTag( "p:nvSpPr" );
-		writer.openTag( "p:cNvPr" );
-		int shapeId = canvas.getPresentation( ).nextShapeId( );
-		writer.attribute( "id", shapeId );
-		writer.attribute( "name", "TextBox " + shapeId );
-		writer.closeTag( "p:cNvPr" );
-		writer.openTag( "p:cNvSpPr" );
-		writer.attribute( "txBox", "1" );
-		writer.closeTag( "p:cNvSpPr" );
-		writer.openTag( "p:nvPr" );
-		writer.closeTag( "p:nvPr" );
-		writer.closeTag( "p:nvSpPr" );
-		writer.openTag( "p:spPr" );
-		canvas.setPosition( startX, startY, width + 1, height );
-		writer.openTag( "a:prstGeom" );
-		writer.attribute( "prst", "rect" );
-		writer.closeTag( "a:prstGeom" );
-		
-		Color color = text.getBoxStyle( ).getBackgroundColor( );
-		if( color != null)
+	{
+		if ( needShape )
 		{
-			setColor( color );
+
+			writer.openTag( "p:sp" );
+			writer.openTag( "p:nvSpPr" );
+			writer.openTag( "p:cNvPr" );
+			int shapeId = canvas.getPresentation( ).nextShapeId( );
+			writer.attribute( "id", shapeId );
+			writer.attribute( "name", "TextBox " + shapeId );
+			writer.closeTag( "p:cNvPr" );
+			writer.openTag( "p:cNvSpPr" );
+			writer.attribute( "txBox", "1" );
+			writer.closeTag( "p:cNvSpPr" );
+			writer.openTag( "p:nvPr" );
+			writer.closeTag( "p:nvPr" );
+			writer.closeTag( "p:nvSpPr" );
+			writer.openTag( "p:spPr" );
+			canvas.setPosition( startX, startY, width + 1, height );
+			writer.openTag( "a:prstGeom" );
+			writer.attribute( "prst", "rect" );
+			writer.closeTag( "a:prstGeom" );
+
+			Color color = text.getBoxStyle( ).getBackgroundColor( );
+			if ( color != null )
+			{
+				setBackgroundColor( color );
+			}
+
+			writeLineStyle( );
+
+			writer.closeTag( "p:spPr" );
+
+			if ( needDrawSquareBorder )
+			{
+				writer.openTag( "p:style" );
+				writer.openTag( "a:lnRef" );
+				writer.attribute( "idx", "2" );
+				writer.openTag( "a:schemeClr" );
+				writer.attribute( "val", "dk1" );
+				writer.closeTag( "a:schemeClr" );
+				writer.closeTag( "a:lnRef" );
+				writer.openTag( "a:fillRef" );
+				writer.attribute( "idx", "1" );
+				writer.openTag( "a:schemeClr" );
+				writer.attribute( "val", "lt1" );
+				writer.closeTag( "a:schemeClr" );
+				writer.closeTag( "a:fillRef" );
+				writer.openTag( "a:effectRef" );
+				writer.attribute( "idx", "0" );
+				writer.openTag( "a:schemeClr" );
+				writer.attribute( "val", "dk1" );
+				writer.closeTag( "a:schemeClr" );
+				writer.closeTag( "a:effectRef" );
+				writer.openTag( "a:fontRef" );
+				writer.attribute( "idx", "minor" );
+				writer.openTag( "a:schemeClr" );
+				writer.attribute( "val", "dk1" );
+				writer.closeTag( "a:schemeClr" );
+				writer.closeTag( "a:fontRef" );
+				writer.closeTag( "p:style" );
+			}
+			writer.openTag( "p:txBody" );
 		}
-		
-		writeLineStyle( );
-		
-		writer.closeTag( "p:spPr" );
-		
-		if ( needDrawSquareBorder )
-		{
-			writer.openTag( "p:style" );
-			writer.openTag( "a:lnRef" );
-			writer.attribute( "idx", "2" );
-			writer.openTag( "a:schemeClr" );
-			writer.attribute( "val", "dk1" );
-			writer.closeTag( "a:schemeClr" );
-			writer.closeTag( "a:lnRef" );
-			writer.openTag( "a:fillRef" );
-			writer.attribute( "idx", "1" );
-			writer.openTag( "a:schemeClr" );
-			writer.attribute( "val", "lt1" );
-			writer.closeTag( "a:schemeClr" );
-			writer.closeTag( "a:fillRef" );
-			writer.openTag( "a:effectRef" );
-			writer.attribute( "idx", "0" );
-			writer.openTag( "a:schemeClr" );
-			writer.attribute( "val", "dk1" );
-			writer.closeTag( "a:schemeClr" );
-			writer.closeTag( "a:effectRef" );
-			writer.openTag( "a:fontRef" );
-			writer.attribute( "idx", "minor" );
-			writer.openTag( "a:schemeClr" );
-			writer.attribute( "val", "dk1" );
-			writer.closeTag( "a:schemeClr" );
-			writer.closeTag( "a:fontRef" );
-			writer.closeTag( "p:style" );
+		else{
+			writer.openTag( "a:txBody" );
 		}
-		
-		writer.openTag( "p:txBody" );
+
+		writer.openTag( "a:txBody" );
 		writer.openTag( "a:bodyPr" );
 		//writer.attribute( "wrap", "none" );
 		writer.attribute( "wrap", "square" );
@@ -317,11 +358,17 @@ public class TextWriter
 		writer.openTag( "a:p" );			
 	}
 
-	private void endBlockText(BlockTextArea text) {
+	private void endBlockText( BlockTextArea text )
+	{
 		writer.closeTag( "a:p" );
-		writer.closeTag( "p:txBody" );
-		writer.closeTag( "p:sp" );
+		if ( needShape )
+		{
+			writer.closeTag( "p:txBody" );
+			writer.closeTag( "p:sp" );
+		}
+		else{
+			writer.closeTag( "a:txBody" );
+		}
 	}
-	
 	
 }
