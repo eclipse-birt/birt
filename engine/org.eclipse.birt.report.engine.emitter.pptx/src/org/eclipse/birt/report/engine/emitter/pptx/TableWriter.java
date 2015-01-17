@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.util.Iterator;
 import java.util.Stack;
 
+import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
@@ -26,6 +27,7 @@ public class TableWriter
 	private final PPTXPage graphics;
 	private final PPTXCanvas canvas;
 	protected OOXmlWriter writer;
+	private static int TableIndex = 1;
 
 	public TableWriter( PPTXRender render )
 	{
@@ -50,6 +52,7 @@ public class TableWriter
 			render.startClip( table );
 
 		}
+		startTable( table );
 		currentX += getX( table );
 		currentY += getY( table );
 		Iterator<IArea> iter = table.getChildren( );
@@ -63,13 +66,67 @@ public class TableWriter
 			// end clip...
 		}
 		updateRenderXY( );
-		render.drawTableBorder( table );
 		if ( table.needClip( ) )
 		{
 			graphics.endClip( );
 		}
 		currentX -= getX( table );
 		currentY -= getY( table );
+		endTable( );
+	}
+
+	private void startTable( TableArea tablearea )
+	{
+
+		int X = PPTXUtil.convertToEnums( currentX );
+		int Y = PPTXUtil.convertToEnums( currentY );
+		int width = PPTXUtil.convertToEnums( tablearea.getWidth( ) );
+		int height = PPTXUtil.convertToEnums( tablearea.getHeight( ) );
+		writer.openTag( "p:graphicFrame" );
+		writer.openTag( "p:nvGraphicFramePr" );
+		writer.openTag( "p:cNvPr" );
+		writer.attribute( "id", canvas.getPresentation( ).nextShapeId( ) );
+		writer.attribute( "name", "Table " + TableIndex++ );
+		writer.closeTag( "p:cNvPr" );
+		writer.openTag( "p:cNvGraphicFramePr" );
+		writer.openTag( "a:graphicFrameLocks" );
+		writer.attribute( "noGrp", "1" );
+		writer.closeTag( "a:graphicFrameLocks" );
+		writer.closeTag( "p:cNvGraphicFramePr" );
+		writer.openTag( "p:nvPr" );
+		writer.closeTag( "p:nvPr" );
+		writer.closeTag( "p:nvGraphicFramePr" );
+		canvas.setPosition( 'p', X, Y, width, height );
+		writer.openTag( "a:graphic" );
+		writer.openTag( "a:graphicData" );
+		writer.attribute( "uri",
+				"http://schemas.openxmlformats.org/drawingml/2006/table" );
+		writer.openTag( "a:tbl" );
+		writeColumnsWidth( tablearea );
+	}
+
+	private void endTable( )
+	{
+		writer.closeTag( "a:tbl" );
+		writer.closeTag( "a:graphicData" );
+		writer.closeTag( "a:graphic" );
+		writer.closeTag( "p:graphicFrame" );
+	}
+
+	private void writeColumnsWidth( TableArea tablearea )
+	{
+		int numOfColumns = tablearea.getColumnCount( );
+		int columnWidth = 0;
+		writer.openTag( "a:tblGrid" );
+		for ( int i = 0; i < numOfColumns; i++ )
+		{
+			columnWidth = PPTXUtil.convertToEnums( tablearea.getCellWidth( i,
+					i + 1 ) );
+			writer.openTag( "a:gridCol" );
+			writer.attribute( "w", columnWidth );
+			writer.closeTag( "a:gridCol" );
+		}
+		writer.closeTag( "a:tblGrid" );
 	}
 
 	protected void drawRow( RowArea row )
@@ -77,25 +134,92 @@ public class TableWriter
 		currentX += getX( row );
 		currentY += getY( row );
 		rowStyleStack.push( row.getParent( ).getBoxStyle( ) );
+		startRow( row ); // tags
 		Iterator<IArea> iter = row.getChildren( );
 		while ( iter.hasNext( ) )
 		{
 			IArea child = iter.next( );
 			drawCell( (CellArea) child );
 		}
+		endRow( );
 		rowStyleStack.pop( );
 		currentX -= getX( row );
 		currentY -= getY( row );
+	}
+
+	private void startRow( RowArea row )
+	{
+		writer.openTag( "a:tr" );
+		writer.attribute( "h", PPTXUtil.convertToEnums( row.getHeight( ) ) );
+
+	}
+
+	private void endRow( )
+	{
+		writer.closeTag( "a:tr" );
+
 	}
 
 	protected void drawCell( CellArea cell )
 	{
 		currentX += getX( cell );
 		currentY += getY( cell );
-		drawCellBox( cell );
+		startCell( cell );
+
 		visitChildren( cell );
+
+		endCell( cell );
 		currentX -= getX( cell );
 		currentY -= getY( cell );
+	}
+
+	/**
+	 * start cell tag with all properties: styling
+	 * 
+	 * @param cell
+	 */
+	private void startCell( CellArea cell )
+	{
+		writer.openTag( "a:tc" );
+
+		int colspan = cell.getColSpan( );
+		if ( colspan > 1 )
+		{
+			writer.attribute( "gridSpan", colspan );
+		}
+		int rowspan = cell.getRowSpan( );
+		if ( rowspan > 1 )
+		{
+			writer.attribute( "rowSpan", rowspan );
+		}
+
+	}
+
+	private void endCell( CellArea cell )
+	{
+		writer.openTag( "a:tcPr" );
+		// it is set zero since no way to retrieve margin except to set public
+		// CELL_DEFAULT
+		canvas.writeMarginProperties( 0, 0, 0, 0 );
+		drawCellBox( cell );
+		writer.closeTag( "a:tcPr" );
+		writer.closeTag( "a:tc" );
+
+		// draw empty cells for colspan to fill
+		int colspan = cell.getColSpan( );
+		if ( colspan > 1 )
+		{
+			for ( int emtpycell = 1; emtpycell < colspan; emtpycell++ )
+			{
+				writer.openTag( "a:tc" );
+				writer.attribute( "hMerge", 1 );
+				writer.openTag( "a:tcPr" );
+				// TODO: add emtpy cell properties:
+				canvas.writeMarginProperties( 0, 0, 0, 0 );
+				writer.closeTag( "a:tcPr" );
+				writer.closeTag( "a:tc" );
+			}
+		}
 	}
 
 	protected void visitChildren( IContainerArea container )
@@ -130,8 +254,6 @@ public class TableWriter
 		BoxStyle style = cell.getBoxStyle( );
 		Color bc = style.getBackgroundColor( );
 		BackgroundImageInfo bi = style.getBackgroundImage( );
-		// String imageUrl = EmitterUtil.getBackgroundImageUrl(
-		// style,reportDesign );
 
 		if ( rowbc != null || rowbi != null || bc != null || bi != null )
 		{
@@ -164,7 +286,9 @@ public class TableWriter
 			{
 				// Draws background color for the container, if the background
 				// color is NOT set, draws nothing.
-				graphics.drawBackgroundColor( bc, startX, startY, width, height );
+				// graphics.drawBackgroundColor( bc, startX, startY, width,
+				// height );
+				canvas.setColor( bc );
 			}
 			if ( bi != null )
 			{
