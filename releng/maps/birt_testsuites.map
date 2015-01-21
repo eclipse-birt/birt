@@ -3,5 +3,5 @@ plugin@org.eclipse.birt.report.tests.engine=GIT,tag=v201410272105,repo=git://git
 plugin@org.eclipse.birt.report.tests.model=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=testsuites/org.eclipse.birt.report.tests.model
 plugin@org.eclipse.birt.report.tests.engine.emitter.html=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=testsuites/org.eclipse.birt.report.tests.engine.emitter.html
 plugin@org.eclipse.birt.tests.core=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=testsuites/org.eclipse.birt.tests.core
-plugin@org.eclipse.birt.tests.data=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=testsuites/org.eclipse.birt.tests.data
+plugin@org.eclipse.birt.tests.data=GIT,tag=v201412291450,repo=git://github.com/eclipse/birt.git,path=testsuites/org.eclipse.birt.tests.data
 plugin@org.eclipse.birt.tests=GIT,tag=v201409121334,repo=git://github.com/eclipse/birt.git,path=testsuites/org.eclipse.birt.tests
