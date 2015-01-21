@@ -1,5 +1,5 @@
-plugin@org.eclipse.birt.data=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data
-plugin@org.eclipse.birt.data.aggregation=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.aggregation
+plugin@org.eclipse.birt.data=GIT,tag=v201501161327,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data
+plugin@org.eclipse.birt.data.aggregation=GIT,tag=v201412150442,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.aggregation
 plugin@org.eclipse.birt.report.data.adapter=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.adapter
 plugin@org.eclipse.birt.core.script.function=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.core.script.function
 plugin@org.eclipse.birt.report.data.bidi.utils=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.bidi.utils
@@ -21,10 +21,10 @@ plugin@org.eclipse.birt.report.data.oda.excel=GIT,tag=v201410272105,repo=git://g
 plugin@org.eclipse.birt.report.data.oda.excel.ui=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.oda.excel.ui
 plugin@org.eclipse.birt.me.prettyprint.hector=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.me.prettyprint.hector
 
-plugin@org.eclipse.birt.data.tests=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.tests
+plugin@org.eclipse.birt.data.tests=GIT,tag=v201412291450,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.tests
 plugin@org.eclipse.birt.report.data.oda.jdbc.tests=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.tests
 
-plugin@org.eclipse.birt.data.oda.pojo=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.oda.pojo
+plugin@org.eclipse.birt.data.oda.pojo=GIT,tag=v201412291450,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.oda.pojo
 plugin@org.eclipse.birt.data.oda.pojo.test=GIT,tag=v201405191524,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.oda.pojo.test
 plugin@org.eclipse.birt.data.oda.pojo.ui=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.oda.pojo.ui
 plugin@org.eclipse.birt.data.oda.mongodb=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=data/org.eclipse.birt.data.oda.mongodb
