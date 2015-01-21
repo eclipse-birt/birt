@@ -1,5 +1,5 @@
 plugin@org.eclipse.birt.core=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=core/org.eclipse.birt.core
 plugin@org.eclipse.birt.core.ui=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=core/org.eclipse.birt.core.ui
 
-plugin@org.eclipse.birt.core.tests=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=core/org.eclipse.birt.core.tests
+plugin@org.eclipse.birt.core.tests=GIT,tag=v201412150442,repo=git://github.com/eclipse/birt.git,path=core/org.eclipse.birt.core.tests
 fragment@org.eclipse.birt.core.testhelper=GIT,tag=v201410272105,repo=git://github.com/eclipse/birt.git,path=core/org.eclipse.birt.core.testhelper
