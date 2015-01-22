@@ -642,7 +642,7 @@ public class PPTXCanvas
 
 	private int nextShapeId( ) // change to public
 	{
-		return presentation.nextShapeId( );
+		return presentation.getNextShapeId( );
 	}
 
 	public void drawText( String text, int textX, int textY, int width,
