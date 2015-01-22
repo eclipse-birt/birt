@@ -91,7 +91,7 @@ public class TableWriter
 		writer.openTag( "p:graphicFrame" );
 		writer.openTag( "p:nvGraphicFramePr" );
 		writer.openTag( "p:cNvPr" );
-		writer.attribute( "id", canvas.getPresentation( ).nextShapeId( ) );
+		writer.attribute( "id", canvas.getPresentation( ).getNextShapeId( ) );
 		writer.attribute( "name", "Table " + TableIndex++ );
 		writer.closeTag( "p:cNvPr" );
 		writer.openTag( "p:cNvGraphicFramePr" );
