@@ -12,6 +12,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.DiagonalInfo;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
@@ -19,6 +20,10 @@ import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 public class TableWriter
 {
 
+	private static final String RIGHTBORDERLINE = "a:lnR";
+	private static final String LEFTBORDERLINE = "a:lnL";
+	private static final String TOPBORDERLINE = "a:lnT";
+	private static final String BOTTOMBORDERLINE = "a:lnB";	
 	private int currentX;
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
@@ -55,6 +60,7 @@ public class TableWriter
 		startTable( table );
 		currentX += getX( table );
 		currentY += getY( table );
+		startTable(table);		
 		Iterator<IArea> iter = table.getChildren( );
 		while ( iter.hasNext( ) )
 		{
@@ -198,7 +204,6 @@ public class TableWriter
 	private void endCell( CellArea cell )
 	{
 		writer.openTag( "a:tcPr" );
-		// it is set zero since no way to retrieve margin except to set public
 		// CELL_DEFAULT
 		canvas.writeMarginProperties( 0, 0, 0, 0 );
 		drawCellBox( cell );
@@ -234,68 +239,53 @@ public class TableWriter
 		updateRenderXY( );
 	}
 
+	/**
+	 * draw the cells properties
+	 * @param cell
+	 */
 	protected void drawCellBox( CellArea cell )
 	{
+		drawBorders( cell );		
 		drawCellDiagonal( cell );
-		Color rowbc = null;
-		BackgroundImageInfo rowbi = null;
-		BoxStyle rowStyle = null;
-		// get the style of the row
-		if ( rowStyleStack.size( ) > 0 )
+
+		BoxStyle style = cell.getBoxStyle( );		
+		Color backgroundcolor = style.getBackgroundColor( );
+		BackgroundImageInfo bgimginfo = style.getBackgroundImage( );
+
+		if( !rowStyleStack.isEmpty( ) && (backgroundcolor == null || bgimginfo == null) )
 		{
-			rowStyle = rowStyleStack.peek( );
-			if ( rowStyle != null )
+			BoxStyle rowStyle = rowStyleStack.peek( );
+			if( rowStyle != null ) 
 			{
-				rowbc = rowStyle.getBackgroundColor( );
-				rowbi = rowStyle.getBackgroundImage( );
-			}
+				if( backgroundcolor == null )
+				{
+					backgroundcolor = rowStyle.getBackgroundColor( );
+				}
+				if(bgimginfo == null)
+				{
+					bgimginfo = rowStyle.getBackgroundImage( );
+				}
+			}			
 		}
 
-		BoxStyle style = cell.getBoxStyle( );
-		Color bc = style.getBackgroundColor( );
-		BackgroundImageInfo bi = style.getBackgroundImage( );
+		// the container's start position (the left top corner of the
+		// container)
+		int startX = currentX;
+		int startY = currentY;
+		// the dimension of the container
+		int width = getWidth( cell );
+		int height = getHeight( cell );
 
-		if ( rowbc != null || rowbi != null || bc != null || bi != null )
+		if ( backgroundcolor != null )
 		{
-			// the container's start position (the left top corner of the
-			// container)
-			int startX = currentX;
-			int startY = currentY;
-
-			// the dimension of the container
-			int width = getWidth( cell );
-			int height = getHeight( cell );
-
-			if ( rowbc != null )
-			{
-				graphics.drawBackgroundColor( rowbc,
-						startX,
-						startY,
-						width,
-						height );
-			}
-			if ( rowbi != null )
-			{
-				render.drawBackgroundImage( rowbi,
-						startX,
-						startY,
-						width,
-						height );
-			}
-			if ( bc != null )
-			{
-				// Draws background color for the container, if the background
-				// color is NOT set, draws nothing.
-				// graphics.drawBackgroundColor( bc, startX, startY, width,
-				// height );
-				canvas.setColor( bc );
-			}
-			if ( bi != null )
-			{
-				// Draws background image for the container. if the background
-				// image is NOT set, draws nothing.
-				render.drawBackgroundImage( bi, startX, startY, width, height );
-			}
+			canvas.setColor( backgroundcolor );
+		}
+		if ( bgimginfo != null )
+		{
+			render.drawBackgroundImage( bgimginfo, startX, startY,width, height );
+//			canvas.fillImage( bgimginfo., offsetX, offsetY, ToTile );
+			//call internal function to only get imagefill: 
+			//current implementation produce bug as it is inside shape tag
 		}
 
 	}
@@ -372,6 +362,70 @@ public class TableWriter
 			}
 
 		}
+	}
+
+	/**
+	 * assume leftborder is always draw
+	 * @param container
+	 */
+	protected void drawBorders( IContainerArea container )
+	{
+		BoxStyle style = container.getBoxStyle( );
+		if( style == null) return;
+
+		BorderInfo baseborderinfo = style.getLeftBorder( );
+
+		writeSingleBorder( LEFTBORDERLINE, baseborderinfo );		
+
+		BorderInfo currentborderinfo = style.getRightBorder( );
+		if( currentborderinfo != null)
+		{
+			writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
+			baseborderinfo = currentborderinfo;
+		}
+		else
+		{ //draw if border is empty:
+			writeSingleBorder( RIGHTBORDERLINE, baseborderinfo );
+		}
+
+		currentborderinfo = style.getTopBorder( );
+		if( currentborderinfo != null)
+		{
+			writeSingleBorder( TOPBORDERLINE, currentborderinfo);
+			baseborderinfo = currentborderinfo;
+		}
+		else
+		{ //draw if border is empty:
+			writeSingleBorder( TOPBORDERLINE, baseborderinfo );			
+		}
+
+		currentborderinfo = style.getBottomBorder();
+		if( currentborderinfo != null)
+		{	
+			writeSingleBorder( BOTTOMBORDERLINE, style.getBottomBorder());
+		}
+		else
+		{ //draw if border is empty:
+			writeSingleBorder( BOTTOMBORDERLINE, baseborderinfo );			
+		}		
+
+	}
+
+	private void writeSingleBorder( String borderSide, BorderInfo borderinfo )
+	{	
+		if( borderinfo == null)
+		{
+			return;
+		}
+		writer.openTag( borderSide );
+		int width = PPTXUtil.convertToEnums( borderinfo.getWidth( ));
+		writer.attribute( "w", width );  //convert to EMU
+		canvas.setColor( borderinfo.getColor( ) );
+		writer.openTag( "a:prstDash");
+		//TODO:  get the right style naming
+		writer.attribute( "val", PPTXUtil.parseStyle( borderinfo.getStyle( )) );
+		writer.closeTag( "a:prstDash" );
+		writer.closeTag( borderSide );
 	}
 
 	private int getY( IContainerArea area )
