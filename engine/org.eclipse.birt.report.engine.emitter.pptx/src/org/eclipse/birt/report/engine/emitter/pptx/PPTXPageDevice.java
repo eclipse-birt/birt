@@ -12,12 +12,9 @@
 package org.eclipse.birt.report.engine.emitter.pptx;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.emitter.pptx.writer.Presentation;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
@@ -41,26 +38,20 @@ public class PPTXPageDevice implements IPageDevice
 		presentation.setSubject( subject );
 	}
 
+	@Override
 	public void close( ) throws Exception
 	{
 		presentation.close( );
 	}
 
+	@Override
 	public IPage newPage( int width, int height, Color backgroundColor )
 	{
-		IPage page = null;
-		try
-		{
-			width = PPTXUtil.convertToPointer( width );
-			height = PPTXUtil.convertToPointer( height );
-			page = new PPTXPage( presentation.createSlide( width, height,
-					backgroundColor ) );
-			page.drawBackgroundColor( backgroundColor, 0, 0, width, height );
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
-		}
-		return page;
+		throw new IllegalStateException( "shouldn't invoke this method" );
+	}
+	
+	public Presentation getPresentation( )
+	{
+		return presentation;
 	}
 }
