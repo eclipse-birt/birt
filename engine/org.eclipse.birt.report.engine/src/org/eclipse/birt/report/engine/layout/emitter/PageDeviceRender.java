@@ -700,7 +700,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param container
 	 *            the containerArea whose border and background need to be drew
 	 */
-	public void drawContainer( IContainerArea container )
+	protected void drawContainer( IContainerArea container )
 	{
 		// get the style of the container
 		BoxStyle style = container.getBoxStyle( );
