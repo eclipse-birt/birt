@@ -7,7 +7,6 @@ import java.util.Iterator;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
-import org.eclipse.birt.report.engine.emitter.pptx.writer.Slide;
 import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -188,6 +187,7 @@ public class TextWriter
 			boolean isLineThrough, HyperlinkDef link )
 	{
 		writer.openTag( "a:rPr" );
+		//FIXME: retrieve language and not hard code values
 		writer.attribute( "lang", "en-US" );
 		writer.attribute( "altLang", "zh-CN" );
 		writer.attribute( "dirty", "0" );
@@ -263,6 +263,11 @@ public class TextWriter
 		writer.attribute( "pitchFamily", "18" );
 		writer.attribute( "charset", "0" );
 		writer.closeTag( "a:latin" );
+		writer.openTag( "a:ea" );
+		writer.attribute( "typeface", fontName );
+		writer.attribute( "pitchFamily", "18" );
+		writer.attribute( "charset", "0" );
+		writer.closeTag( "a:ea" );
 		writer.openTag( "a:cs" );
 		writer.attribute( "typeface", fontName );
 		writer.attribute( "pitchFamily", "18" );
