@@ -1041,7 +1041,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					
 				}
 				
-				return func;
+				return DataAdapterUtil.getRollUpAggregationName( func );
 			}
 			else
 			{
