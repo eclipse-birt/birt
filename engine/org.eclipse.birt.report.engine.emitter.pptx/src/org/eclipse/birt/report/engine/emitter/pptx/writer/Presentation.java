@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.ooxml.IPart;
@@ -52,16 +52,16 @@ public class Presentation extends Component
 
 	private int slideMasterId = 1;
 	private int slideLayoutId = 1;
+	private int themeId = 1;
 	
 	private long globalId = 2147483648L;
 
 	private int width = 0, height = 0;
 
-	private Package pkg;
+	private final Package pkg;
 
-	private Theme theme;
-	private HashMap<String, SlideMaster> slideMasters = new HashMap<String, SlideMaster>();
-	private List<Slide> slides = new ArrayList<Slide>( );
+	private final HashMap<String, SlideMaster> slideMasters = new HashMap<String, SlideMaster>();
+	private final List<Slide> slides = new ArrayList<Slide>( );
 	private String author, title, description, subject;
 	
 	private int shapeId;
@@ -79,9 +79,6 @@ public class Presentation extends Component
 		{
 			writer = part.getCacheWriter( );
 			initialize( );
-			theme = new Theme( part );
-			//createSlideMaster( );
-			//slideMaster.referTo( theme );
 		}
 		catch ( IOException e )
 		{
@@ -96,6 +93,7 @@ public class Presentation extends Component
 
 	public SlideMaster createSlideMaster(String name, PageArea area) throws IOException
 	{
+		Theme theme = new Theme( part, this );
 		SlideMaster slideMaster = new SlideMaster( this, area );
 		slideMaster.referTo( theme );
 		slideMasters.put( name, slideMaster);
@@ -250,11 +248,18 @@ public class Presentation extends Component
 		return shapeId++;
 	}
 
-	public int getNextSlideMasterId() {
+	public int getNextSlideMasterId( )
+	{
 		return slideMasterId++;
 	}
-	
-	public int getNextSlideLayoutId() {
+
+	public int getNextThemeId( )
+	{
+		return themeId++;
+	}
+
+	public int getNextSlideLayoutId( )
+	{
 		return slideLayoutId++;
 	}
 	
