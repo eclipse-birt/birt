@@ -241,17 +241,20 @@ public class PPTXRender extends PageDeviceRender
 
 	private void outputText( ContainerArea text )
 	{
-		if ( !editMode )
+		if ( editMode )
 		{
-			visitText( (BlockTextArea) text );
-			return;
+			int x = currentX + getX( text );
+			int y = currentY + getY( text );
+			int width = getWidth( text );
+			int height = getHeight( text );
+			new TextWriter( this ).writeTextBlock( x, y, width, height, text );
 		}
-		int x = currentX + getX( text );
-		int y = currentY + getY( text );
-		int width = getWidth( text );
-		int height = getHeight( text );
-		// startContainer(container);
-		new TextWriter( this ).writeTextBlock( x, y, width, height, text );
+		else
+		{
+			startContainer( text );
+			visitChildren( text );
+			endContainer( text );
+		}
 	}
 	
 	@Override

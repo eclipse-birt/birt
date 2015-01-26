@@ -90,18 +90,19 @@ public class TextWriter
 		return true;
 	}
 
-	void writeTextBlock( int startX,int startY, int width, int height, ContainerArea container )
+	public void writeTextBlock( int startX, int startY, int width, int height,
+			ContainerArea container )
 	{
-		parseBlockTextArea(container);
-		
+		parseBlockTextArea( container );
+
 		startX = PPTXUtil.convertToEnums( startX );
 		startY = PPTXUtil.convertToEnums( startY );
 		width = PPTXUtil.convertToEnums( width );
 		height = PPTXUtil.convertToEnums( height );
 
-
-		if(needGroup){
-			startGroup(startX, startY, width + 1, height);
+		if ( needGroup )
+		{
+			startGroup( startX, startY, width + 1, height );
 			startX = 0;
 			startY = 0;
 		}
@@ -109,7 +110,8 @@ public class TextWriter
 		startBlockText( startX, startY, width + 1, height, container );
 		drawBlockTextChildren( container );
 		endBlockText( container );
-		if(needGroup)endGroup();
+		if ( needGroup )
+			endGroup( );
 	}
 	
 	private void parseBlockTextArea( ContainerArea container )
