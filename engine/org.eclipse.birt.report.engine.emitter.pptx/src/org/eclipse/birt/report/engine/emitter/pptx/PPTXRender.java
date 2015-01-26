@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
@@ -192,9 +193,9 @@ public class PPTXRender extends PageDeviceRender
 		{
 			outputTable( (TableArea) container );
 		}
-		else if ( container instanceof BlockTextArea )
+		else if ( TextWriter.isSingleTextControl( container ) )
 		{
-			outputText( (BlockTextArea) container );
+			outputText( (ContainerArea) container );
 		}
 		else
 		{
@@ -238,11 +239,11 @@ public class PPTXRender extends PageDeviceRender
 		}
 	}
 
-	private void outputText( BlockTextArea text )
+	private void outputText( ContainerArea text )
 	{
 		if ( !editMode )
 		{
-			visitText( text );
+			visitText( (BlockTextArea) text );
 			return;
 		}
 		int x = currentX + getX( text );
@@ -250,7 +251,7 @@ public class PPTXRender extends PageDeviceRender
 		int width = getWidth( text );
 		int height = getHeight( text );
 		// startContainer(container);
-		new TextWriter( this ).writeBlockText( x, y, width, height, text );
+		new TextWriter( this ).writeTextBlock( x, y, width, height, text );
 	}
 	
 	@Override
