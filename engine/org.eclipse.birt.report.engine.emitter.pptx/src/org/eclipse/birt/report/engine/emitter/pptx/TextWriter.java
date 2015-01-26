@@ -5,15 +5,17 @@ import java.awt.Color;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
-import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.InlineTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.TextLineArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
@@ -23,9 +25,9 @@ import com.lowagie.text.Font;
 public class TextWriter
 {
 
-	private PPTXRender render;
-	private PPTXCanvas canvas;
-	private OOXmlWriter writer;
+	private final PPTXRender render;
+	private final PPTXCanvas canvas;
+	private final OOXmlWriter writer;
 	private boolean needShape = true;
 	private boolean needGroup = false;
 	private boolean needDrawLineBorder = false;
@@ -39,9 +41,33 @@ public class TextWriter
 		this.writer = canvas.getWriter();
 	}
 
-	private static boolean isSingleControl( BlockTextArea text )
-	{
-		return true;
+	public static boolean isSingleTextControl( IContainerArea container )
+ 	{
+		if ( container instanceof BlockTextArea)
+		{
+			Iterator<IArea> iter = container.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				IArea area = iter.next( );
+				if ( !(area instanceof TextLineArea)) {
+					return false;
+				}
+			}
+			return true;
+		}
+		if( container instanceof InlineTextArea )
+		{
+			Iterator<IArea> iter = container.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				IArea area = iter.next( );
+				if ( !(area instanceof TextLineArea)) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	private static boolean isSquareBorder(BorderInfo[] borders)
@@ -64,15 +90,9 @@ public class TextWriter
 		return true;
 	}
 
-	void writeBlockText( int startX,int startY, int width, int height, BlockTextArea text )
+	void writeTextBlock( int startX,int startY, int width, int height, ContainerArea container )
 	{
-		if(!isSingleControl( text ))
-		{
-			render.visitText( text );
-			return;
-		}
-			
-		parseBlockTextArea(text);
+		parseBlockTextArea(container);
 		
 		startX = PPTXUtil.convertToEnums( startX );
 		startY = PPTXUtil.convertToEnums( startY );
@@ -85,21 +105,21 @@ public class TextWriter
 			startX = 0;
 			startY = 0;
 		}
-		drawLineBorder( text );
-		startBlockText( startX, startY, width + 1, height, text );
-		drawBlockTextChildren(text);
-		endBlockText( text );
+		drawLineBorder( container );
+		startBlockText( startX, startY, width + 1, height, container );
+		drawBlockTextChildren( container );
+		endBlockText( container );
 		if(needGroup)endGroup();
 	}
 	
-	private void parseBlockTextArea( BlockTextArea text )
+	private void parseBlockTextArea( ContainerArea container )
 	{
-		if( text.getParent( ) instanceof CellArea)
+		if( container.getParent( ) instanceof CellArea)
 		{
 			needShape = false;
 			return;
 		}
-		borders = render.cacheBorderInfo( text );
+		borders = render.cacheBorderInfo( container );
 		if( borders != null)
 		{
 			if(isSquareBorder(borders))
@@ -116,10 +136,10 @@ public class TextWriter
 		}
 	}
 
-	private void drawLineBorder(BlockTextArea text)
+	private void drawLineBorder(ContainerArea container)
 	{
 		if(!needDrawLineBorder)return;
-		BorderInfo[] borders = render.cacheBorderInfo( text );
+		BorderInfo[] borders = render.cacheBorderInfo( container );
 		//set all the startX and startY to 0, since we wrap all the borders in a group
 		for(BorderInfo info: borders){
 			info.endX = info.endX - info.startX;
@@ -156,53 +176,86 @@ public class TextWriter
 	
 	private void drawBlockTextChildren( IArea child)
 	{
-		if(child instanceof TextArea)
-			writeTextRun( (TextArea)child );
-		else if(child instanceof ContainerArea)
-		{
-			Iterator<IArea> iter = ((ContainerArea)child).getChildren( );
+		if(child instanceof TextArea)writeTextRun((TextArea)child);
+		else if(child instanceof TextLineArea)
+		{	
+			startTextLineArea();
+			Iterator<IArea> iter = ((TextLineArea)child).getChildren( );
 			while ( iter.hasNext( ) )	
 			{
 				IArea area = iter.next( );
 				drawBlockTextChildren( area );
 			}
 			
+			endTextLineArea( (TextLineArea)child );
 		}
+		else if(child instanceof ContainerArea){
+			Iterator<IArea> iter = (((ContainerArea)child).getChildren( ));
+			while ( iter.hasNext( ) )	
+			{
+				IArea area = iter.next( );
+				drawBlockTextChildren(area);
+			}
+		}		
 	}
 	
-	private void writeTextRun( TextArea text) {
-		TextStyle style = text.getStyle( );
-		FontInfo info = style.getFontInfo( );
-		
+	private void startTextLineArea()
+	{
+		writer.openTag( "a:p" );
+	}
+	
+	private void endTextLineArea( TextLineArea line)
+	{
+		writeTextLineBreak( ((TextArea)(line.getChild( line.getChildrenCount( )-1 ))).getStyle());
+		writer.closeTag( "a:p" );
+ 	}	
+	
+	private void writeTextRun( TextArea text) 
+	{
+
 		writer.openTag( "a:r" );
-		setTextProperty( info.getFontName( ), info.getFontSize( ), info.getFontStyle( ), style.getColor(), style.isUnderline( ), style.isLinethrough( ), render.getGraphic( ).getLink() );
+		setTextProperty( "a:rPr", text.getStyle( ) );
 		writer.openTag( "a:t" );
-		canvas.writeText(text.getText( ));
+		canvas.writeText( text.getText( ) );
 		writer.closeTag( "a:t" );
 		writer.closeTag( "a:r" );
 	}
 	
-	private void setTextProperty( String fontName, float fontSize,
-			int fontStyle, Color color, boolean isUnderline,
-			boolean isLineThrough, HyperlinkDef link )
+	private void writeTextLineBreak( TextStyle style)
 	{
-		writer.openTag( "a:rPr" );
+		setTextProperty( "a:endParaRPr", style );
+	/*	
+		<a:endParaRPr lang="en-US" altLang="zh-CN" sz="1000" dirty="0" smtClean="0">
+		<a:solidFill>
+			<a:srgbClr val="000000"/>
+		</a:solidFill>
+		<a:latin typeface="Arial" pitchFamily="18" charset="0"/>
+		<a:cs typeface="Arial" pitchFamily="18" charset="0"/>
+		</a:endParaRPr>
+	*/
+	}
+	
+	private void setTextProperty( String tag, TextStyle style)
+	{
+		FontInfo info = style.getFontInfo( );
+
+		writer.openTag( tag ); 
 		//FIXME: retrieve language and not hard code values
 		writer.attribute( "lang", "en-US" );
 		writer.attribute( "altLang", "zh-CN" );
 		writer.attribute( "dirty", "0" );
 		writer.attribute( "smtClean", "0" );
-		if ( isLineThrough )
+		if ( style.isLinethrough( ) )
 		{
 			writer.attribute( "strike", "sngStrike" );
 		}
-		if ( isUnderline )
+		if ( style.isUnderline( ) )
 		{
 			writer.attribute( "u", "sng" );
 		}
-		writer.attribute( "sz", (int) ( fontSize * 100 ) );
-		boolean isItalic = ( fontStyle & Font.ITALIC ) != 0;
-		boolean isBold = ( fontStyle & Font.BOLD ) != 0;
+		writer.attribute( "sz", (int) ( info.getFontSize( ) * 100 ) );
+		boolean isItalic = ( info.getFontStyle( ) & Font.ITALIC ) != 0;
+		boolean isBold = ( info.getFontStyle( ) & Font.BOLD ) != 0;
 		if ( isItalic )
 		{
 			writer.attribute( "i", 1 );
@@ -211,10 +264,10 @@ public class TextWriter
 		{
 			writer.attribute( "b", 1 );
 		}
-		setBackgroundColor( color );
-		setTextFont( fontName );
-		canvas.setHyperlink( link );
-		writer.closeTag( "a:rPr" );
+		setBackgroundColor( style.getColor( ) );
+		setTextFont( info.getFontName( ) );
+		canvas.setHyperlink( render.getGraphic( ).getLink() );
+		writer.closeTag( tag );
 	}
 	
 
@@ -281,7 +334,7 @@ public class TextWriter
 		canvas.setProperty(borders[0].borderColor,  PPTXUtil.convertToEnums( borders[0].borderWidth ), borders[0].borderStyle);
 	}
 	
-	private void startBlockText( int startX,int startY, int width, int height, BlockTextArea text)
+	private void startBlockText( int startX,int startY, int width, int height, ContainerArea container)
 	{
 		if ( needShape )
 		{
@@ -305,7 +358,7 @@ public class TextWriter
 			writer.attribute( "prst", "rect" );
 			writer.closeTag( "a:prstGeom" );
 
-			Color color = text.getBoxStyle( ).getBackgroundColor( );
+			Color color = container.getBoxStyle( ).getBackgroundColor( );
 			if ( color != null )
 			{
 				setBackgroundColor( color );
@@ -353,18 +406,16 @@ public class TextWriter
 		writer.openTag( "a:bodyPr" );
 		//writer.attribute( "wrap", "none" );
 		writer.attribute( "wrap", "square" );
-		//writer.attribute( "lIns", "0" );
-		//writer.attribute( "tIns", "0" );
-		//writer.attribute( "rIns", "0" );
-		//writer.attribute( "bIns", "0" );
+		writer.attribute( "lIns", "0" );
+		writer.attribute( "tIns", "0" );
+		writer.attribute( "rIns", "0" );
+		writer.attribute( "bIns", "0" );
 		writer.attribute( "rtlCol", "0" );
-		writer.closeTag( "a:bodyPr" );
-		writer.openTag( "a:p" );			
+		writer.closeTag( "a:bodyPr" );		
 	}
 
-	private void endBlockText( BlockTextArea text )
+	private void endBlockText( ContainerArea container )
 	{
-		writer.closeTag( "a:p" );
 		if ( needShape )
 		{
 			writer.closeTag( "p:txBody" );
