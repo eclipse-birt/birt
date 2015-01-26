@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.ooxml.IPart;
@@ -194,7 +195,13 @@ public class PPTXCanvas
 		byte[] imageData = EmitterUtil.getImageData( uri );
 		IPart imagePart = imageManager.getImagePart( part, uri, imageData )
 				.getPart( );
-		drawImage( imagePart, imageX, imageY, height, width, helpText, true,
+		drawImage( imagePart,
+				imageX,
+				imageY,
+				height,
+				width,
+				helpText,
+				true,
 				link );
 	}
 
@@ -212,7 +219,13 @@ public class PPTXCanvas
 	{
 		IPart imagePart = imageManager.getImagePart( part, imageId, imageData )
 				.getPart( );
-		drawImage( imagePart, imageX, imageY, height, width, helpText, stretch,
+		drawImage( imagePart,
+				imageX,
+				imageY,
+				height,
+				width,
+				helpText,
+				stretch,
 				link );
 	}
 
@@ -381,19 +394,20 @@ public class PPTXCanvas
 		{
 			if ( !imageManager.hasImage( imageURI ) )
 			{
-				org.eclipse.birt.report.engine.layout.emitter.Image image = EmitterUtil
-						.parseImage( imageData, null, null );
+				org.eclipse.birt.report.engine.layout.emitter.Image image = EmitterUtil.parseImage( imageData,
+						null,
+						null );
 				imageData = image.getData( );
 			}
 
 			ImagePart imagePartInfo = imageManager.getImagePart( part,
-					imageURI, imageData );
+					imageURI,
+					imageData );
 			Image imageInfo = imagePartInfo.getImageInfo( );
 
-			float originalImageWidth = imageWidth != 0 ? imageWidth : imageInfo
-					.getWidth( );
-			float originalImageHeight = imageHeight != 0
-					? imageHeight
+			float originalImageWidth = imageWidth != 0 ? imageWidth
+					: imageInfo.getWidth( );
+			float originalImageHeight = imageHeight != 0 ? imageHeight
 					: imageInfo.getHeight( );
 
 			Position areaPosition = new Position( x, y );
@@ -401,22 +415,22 @@ public class PPTXCanvas
 			Position imagePosition = new Position( x + offsetX, y + offsetY );
 			Position imageSize = new Position( originalImageWidth,
 					originalImageHeight );
-			BackgroundImageLayout layout = new BackgroundImageLayout(
-					areaPosition, areaSize, imagePosition, imageSize );
+			BackgroundImageLayout layout = new BackgroundImageLayout( areaPosition,
+					areaSize,
+					imagePosition,
+					imageSize );
 			Collection positions = layout.getImagePositions( repeat );
 			Iterator iterator = positions.iterator( );
 			while ( iterator.hasNext( ) )
 			{
 				Position position = (Position) iterator.next( );
-				fillRectangleWithImage(
-						imagePartInfo,
+				fillRectangleWithImage( imagePartInfo,
 						(int) OOXmlUtil.convertPointerToEmus( position.getX( ) ),
 						(int) OOXmlUtil.convertPointerToEmus( position.getY( ) ),
-						(int) OOXmlUtil
-								.convertPointerToEmus( originalImageWidth ),
-						(int) OOXmlUtil
-								.convertPointerToEmus( originalImageHeight ),
-						0, 0 );
+						(int) OOXmlUtil.convertPointerToEmus( originalImageWidth ),
+						(int) OOXmlUtil.convertPointerToEmus( originalImageHeight ),
+						0,
+						0 );
 			}
 		}
 		catch ( IOException e )
@@ -464,31 +478,30 @@ public class PPTXCanvas
 		writer.openTag( "a:prstGeom" );
 		writer.attribute( "prst", "rect" );
 		writer.closeTag( "a:prstGeom" );
-		writer.openTag( "a:blipFill" );
-		writer.attribute( "dpi", "0" );
-		writer.attribute( "rotWithShape", "1" );
-		writer.openTag( "a:blip" );
-		writer.attribute( "r:embed", imageInfo.getPart( ).getRelationshipId( ) );
-		writer.closeTag( "a:blip" );
 
-		// To stretch
-		writer.openTag( "a:stretch" );
-		writer.openTag( "a:fillRect" );
-		writer.closeTag( "a:fillRect" );
-		writer.closeTag( "a:stretch" );
-
-		// To tile
-		// writer.openTag( "a:tile" );
-		// writer.attribute( "tx", offsetX );
-		// writer.attribute( "ty", offsetY );
-		// writer.closeTag( "a:tile" );
-		writer.closeTag( "a:blipFill" );
+		setBackgroundImg( imageInfo.getPart( ).getRelationshipId( ), offsetX, offsetY );
+		//hardcore the repeat type
 		writer.openTag( "a:ln" );
 		writer.openTag( "a:noFill" );
 		writer.closeTag( "a:noFill" );
 		writer.closeTag( "a:ln" );
 		writer.closeTag( "p:spPr" );
 		writer.closeTag( "p:sp" );
+	}
+
+	public void setBackgroundImg( String relationshipid,  int offsetX, int offsetY )
+	{
+		writer.openTag( "a:blipFill" );
+		writer.attribute( "dpi", "0" );
+		writer.attribute( "rotWithShape", "1" );
+		writer.openTag( "a:blip" );
+		writer.attribute( "r:embed", relationshipid );
+		writer.closeTag( "a:blip" );
+		writer.openTag( "a:tile" );
+		writer.attribute( "tx", offsetX );
+		writer.attribute( "ty", offsetY );
+		writer.closeTag( "a:tile" );			
+		writer.closeTag( "a:blipFill" );
 	}
 
 	private void setTextProperty( String fontName, float fontSize,
@@ -714,5 +727,32 @@ public class PPTXCanvas
 		writer.attribute( "marR", right );
 		writer.attribute( "marT", top );
 		writer.attribute( "marB", bottom );
+	}
+
+	protected String getImageRelationship( BackgroundImageInfo bgimginfo)
+	{
+		String imageURI = bgimginfo.getUrl( );
+		byte[] imageData = bgimginfo.getImageData( );
+		String relationshipid = null;
+		try
+		{
+			if ( !imageManager.hasImage( imageURI ) )
+			{
+				org.eclipse.birt.report.engine.layout.emitter.Image image = EmitterUtil
+						.parseImage( imageData, null, null );
+				imageData = image.getData( );
+			}
+
+			ImagePart imagePartInfo = imageManager.getImagePart( part,
+					imageURI, imageData );
+			relationshipid = imagePartInfo.getPart( ).getRelationshipId( );
+		}
+
+		catch ( IOException e )
+		{
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+		}
+
+		return relationshipid;
 	}
 }

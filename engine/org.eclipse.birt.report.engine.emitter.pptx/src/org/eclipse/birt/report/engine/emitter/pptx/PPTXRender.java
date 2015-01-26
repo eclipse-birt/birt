@@ -38,6 +38,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -179,6 +180,18 @@ public class PPTXRender extends PageDeviceRender
 		page.setLink( null );
 	}
 
+	@Override
+	protected void drawTextAt( ITextArea text, int x, int y, int width,
+			int height, TextStyle textStyle )
+	{
+		pageGraphic.drawText( text.getLogicalOrderText( ),
+				x,
+				y,
+				width,
+				height,
+				textStyle );
+	}
+	
 	@Override
 	public void visitContainer( IContainerArea container )
 	{
