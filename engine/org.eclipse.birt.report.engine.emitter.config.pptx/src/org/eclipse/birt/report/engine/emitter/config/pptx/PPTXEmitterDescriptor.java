@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.emitter.config.IConfigurableOptionObserver
 import org.eclipse.birt.report.engine.emitter.config.IOptionValue;
 import org.eclipse.birt.report.engine.emitter.config.OptionValue;
 import org.eclipse.birt.report.engine.emitter.config.pptx.i18n.Messages;
+import org.eclipse.birt.report.engine.emitter.pptx.PPTXRender;
 
 
 /**
@@ -35,6 +36,7 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String TEXT_WRAPPING = "TextWrapping";
 	private static final String CHART_DPI = "ChartDpi";
 	private static final String REPAGINATE_FOR_PDF = "repaginateForPDF";
+	private static final String EDIT_MODE = PPTXRender.OPTION_EDIT_MODE;
 
 	protected void initOptions( )
 	{
@@ -120,8 +122,17 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 		repaginateForPDF.setToolTip( null );
 		repaginateForPDF.setDescription( getMessage( "OptionDescription.RepaginateForPDF" ) ); //$NON-NLS-1$
 
+		// Initializes the option for layout mode.
+		ConfigurableOption editMode = new ConfigurableOption( EDIT_MODE );
+		editMode.setDisplayName( getMessage( "OptionDisplayValue.EditMode" ) );
+		editMode.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		editMode.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		editMode.setDefaultValue( Boolean.TRUE );
+		editMode.setToolTip( null );
+		editMode.setDescription( getMessage( "OptionDescription.EditMode" ) ); //$NON-NLS-1$
+		
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				fontSubstitution, pageOverFlow, repaginateForPDF, chartDpi};
+				fontSubstitution, pageOverFlow, repaginateForPDF, chartDpi, editMode};
 		
 		applyDefaultValues( );
 	}

@@ -10,6 +10,7 @@
 
 package org.eclipse.birt.report.engine.emitter.pptx;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.logging.Level;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -47,15 +49,28 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 public class PPTXRender extends PageDeviceRender
 {
 
-	private OutputStream out = null;
-
-	private final String tempFileDir;
+	/**
+	 * option to define if export PPTX in edit mode.
+	 * 
+	 * TRUE: mapping BIRT style properties to PPTX properties, so the final
+	 * layout may be difference to PDF.
+	 * 
+	 * FALSE: the content exactly follows layout constrains, so it has same
+	 * layout with PDF.
+	 * 
+	 * the default value is TRUE.
+	 */
+	public static final String OPTION_EDIT_MODE = "org.eclipse.birt.report.emitter.PPTX.editMode";
 
 	/** The default output PPT file name. */
 	public static final String REPORT_FILE = "Report.pptx"; //$NON-NLS-1$
 
-	private RenderOption renderOption = null;
+	private final OutputStream out;
+	private final String tempFileDir;
+
+	private RenderOption renderOption;
 	private TableWriter tableWriter;
+	private boolean editMode;
 
 	public PPTXRender( IEmitterServices services ) throws EngineException
 	{
@@ -140,6 +155,7 @@ public class PPTXRender extends PageDeviceRender
 			reportDesign = (ReportDesignHandle) reportRunnable.getDesignHandle( );
 		}
 		this.context = services.getReportContext( );
+		this.editMode = renderOption.getBooleanOption( OPTION_EDIT_MODE, true );
 	}
 
 	@Override
@@ -174,20 +190,11 @@ public class PPTXRender extends PageDeviceRender
 		}
 		else if ( container instanceof TableArea )
 		{
-			new TableWriter( this ).outputTable( (TableArea) container );
+			outputTable( (TableArea) container );
 		}
 		else if ( container instanceof BlockTextArea )
 		{
-			int x = currentX + getX( container );
-			int y = currentY + getY( container );
-			int width = getWidth( container );
-			int height = getHeight( container );
-			// startContainer(container);
-			new TextWriter( this ).writeBlockText( x, y, width, height,
-					(BlockTextArea) container );
-			// new TextWriter(this).writeBlockText( currentX, currentY, width,
-			// height, (BlockTextArea) container);
-			// endContainer(container);
+			outputText( (BlockTextArea) container );
 		}
 		else
 		{
@@ -197,6 +204,55 @@ public class PPTXRender extends PageDeviceRender
 		}
 	}
 
+	private void outputTable( TableArea table )
+	{
+		if ( !editMode )
+		{
+			visitTable( table );
+			return;
+		}
+		if ( tableWriter == null )
+		{
+			tableWriter = new TableWriter( this );
+			tableWriter.outputTable( table );
+			tableWriter = null;
+		}
+		else
+		{
+			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			OOXmlWriter writer = new OOXmlWriter( );
+			writer.open( out );;
+			PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
+			PPTXRender render = new PPTXRender( this, canvas );
+			table.accept( render );
+			writer.close( );
+			// append the out to current buffer
+			try
+			{
+				this.getCanvas( ).getWriter( ).print( out.toString( "utf-8" ) );
+			}
+			catch ( IOException ex )
+			{
+				logger.log( Level.WARNING, "failed to output table", ex );
+			}
+		}
+	}
+
+	private void outputText( BlockTextArea text )
+	{
+		if ( !editMode )
+		{
+			visitText( text );
+			return;
+		}
+		int x = currentX + getX( text );
+		int y = currentY + getY( text );
+		int width = getWidth( text );
+		int height = getHeight( text );
+		// startContainer(container);
+		new TextWriter( this ).writeBlockText( x, y, width, height, text );
+	}
+	
 	@Override
 	protected void visitPage( PageArea page )
 	{
@@ -252,10 +308,11 @@ public class PPTXRender extends PageDeviceRender
 		return scale;
 	}
 
-	private String getMasterPageName(PageArea area)
+	private String getMasterPageName( PageArea area )
 	{
-		if ( area.getContent( ) instanceof PageContent) {
-			PageContent pageContent = (PageContent)area.getContent( );
+		if ( area.getContent( ) instanceof PageContent )
+		{
+			PageContent pageContent = (PageContent) area.getContent( );
 			return pageContent.getName( );
 		}
 		return "";
@@ -273,22 +330,24 @@ public class PPTXRender extends PageDeviceRender
 		{
 			int width = PPTXUtil.convertToPointer( pageWidth );
 			int height = PPTXUtil.convertToPointer( pageHeight );
-			Presentation presentation = ( (PPTXPageDevice) pageDevice )
-					.getPresentation( );
+			Presentation presentation = ( (PPTXPageDevice) pageDevice ).getPresentation( );
 			String masterPageName = getMasterPageName( pageArea );
 			SlideMaster master = presentation.getSlideMaster( masterPageName );
 			if ( master == null )
 			{
-				master = presentation.createSlideMaster( masterPageName, pageArea );
+				master = presentation.createSlideMaster( masterPageName,
+						pageArea );
 				new SlideWriter( this ).writeSlideMaster( master, pageArea );
 			}
 			this.pageGraphic = new PPTXPage( presentation.createSlide( master,
-					width, height, pageArea ) );
+					width,
+					height,
+					pageArea ) );
 		}
 		catch ( IOException e )
 		{
 			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 		}
-	}	
+	}
 
 }
