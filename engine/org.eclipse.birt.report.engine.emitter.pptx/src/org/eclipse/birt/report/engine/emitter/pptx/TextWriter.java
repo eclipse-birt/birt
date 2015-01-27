@@ -36,6 +36,8 @@ public class TextWriter
 	private boolean needDrawLineBorder = false;
 	private boolean needDrawSquareBorder = false;
 	private BorderInfo[] borders = null;
+	private static String DEFAULT_HALIGNMENT = "l"; 
+	private String hAlign = DEFAULT_HALIGNMENT;
 
 	public TextWriter( PPTXRender render )
 	{
@@ -207,6 +209,12 @@ public class TextWriter
 	private void startTextLineArea()
 	{
 		writer.openTag( "a:p" );
+		writer.openTag( "a:pPr" );
+		if ( hAlign != null )
+		{
+			writer.attribute( "algn", hAlign );
+		}
+		writer.closeTag( "a:pPr" );		
 	}
 	
 	private void endTextLineArea( TextLineArea line)
@@ -443,9 +451,11 @@ public class TextWriter
 		writer.attribute( "rIns", rightPadding );
 		writer.attribute( "bIns", bottomPadding );
 		writer.attribute( "rtlCol", "0" );
-		String vAlign = container.getContent( )
-				.getComputedStyle( )
-				.getVerticalAlign( );
+		
+		IContent content = container.getContent( );
+
+		String vAlign = content.getComputedStyle( ).getVerticalAlign( );
+
 		if ( vAlign.equals( "bottom" ) )
 		{
 			writer.attribute( "anchor", "b" );
@@ -454,6 +464,32 @@ public class TextWriter
 		{
 			writer.attribute( "anchor", "ctr" );
 		}
+		
+		hAlign = content.getComputedStyle( ).getTextAlign( );
+		if ( hAlign != null )
+		{
+			if ( hAlign.equals( "left" ) )
+			{
+				hAlign = "l";
+			}
+			else if ( hAlign.equals( "right" ) )
+			{
+				hAlign = "r";
+			}
+			else if ( hAlign.equals( "center" ) )
+			{
+				hAlign = "ctr";
+			}
+			else if ( hAlign.equals( "justify" ) )
+			{
+				hAlign = "just";
+			}
+			else
+			{
+				hAlign = DEFAULT_HALIGNMENT;
+			}
+		}
+		
 		writer.closeTag( "a:bodyPr" );
 	}
 
