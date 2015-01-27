@@ -453,40 +453,45 @@ public class TextWriter
 		writer.attribute( "rtlCol", "0" );
 		
 		IContent content = container.getContent( );
+		String vAlign = null;
+		if ( content != null )
+		{
+			vAlign = content.getComputedStyle( ).getVerticalAlign( );
+			if ( vAlign != null && needShape )
+			{
+				if ( vAlign.equals( "bottom" ) )
+				{
+					writer.attribute( "anchor", "b" );
+				}
+				else if ( vAlign.equals( "middle" ) )
+				{
+					writer.attribute( "anchor", "ctr" );
+				}
+			}
 
-		String vAlign = content.getComputedStyle( ).getVerticalAlign( );
-
-		if ( vAlign.equals( "bottom" ) )
-		{
-			writer.attribute( "anchor", "b" );
-		}
-		else if ( vAlign.equals( "middle" ) )
-		{
-			writer.attribute( "anchor", "ctr" );
-		}
-		
-		hAlign = content.getComputedStyle( ).getTextAlign( );
-		if ( hAlign != null )
-		{
-			if ( hAlign.equals( "left" ) )
+			hAlign = content.getComputedStyle( ).getTextAlign( );
+			if ( hAlign != null )
 			{
-				hAlign = "l";
-			}
-			else if ( hAlign.equals( "right" ) )
-			{
-				hAlign = "r";
-			}
-			else if ( hAlign.equals( "center" ) )
-			{
-				hAlign = "ctr";
-			}
-			else if ( hAlign.equals( "justify" ) )
-			{
-				hAlign = "just";
-			}
-			else
-			{
-				hAlign = DEFAULT_HALIGNMENT;
+				if ( hAlign.equals( "left" ) )
+				{
+					hAlign = "l";
+				}
+				else if ( hAlign.equals( "right" ) )
+				{
+					hAlign = "r";
+				}
+				else if ( hAlign.equals( "center" ) )
+				{
+					hAlign = "ctr";
+				}
+				else if ( hAlign.equals( "justify" ) )
+				{
+					hAlign = "just";
+				}
+				else
+				{
+					hAlign = DEFAULT_HALIGNMENT;
+				}
 			}
 		}
 		
