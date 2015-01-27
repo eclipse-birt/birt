@@ -11,6 +11,7 @@ import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
@@ -114,6 +115,13 @@ public class TableWriter
 		writer.attribute( "uri",
 				"http://schemas.openxmlformats.org/drawingml/2006/table" );
 		writer.openTag( "a:tbl" );
+		
+		writer.openTag( "a:tblPr" );
+		writer.openTag( "a:tableStyleId" );
+		// use transparent table style:
+		canvas.writeText( "{2D5ABB26-0587-4C30-8999-92F81FD0307C}" );
+		writer.closeTag( "a:tableStyleId" );
+		writer.closeTag( "a:tblPr" );
 		writeColumnsWidth( tablearea );
 	}
 
@@ -158,7 +166,15 @@ public class TableWriter
 	{
 		currentX += getX( row );
 		currentY += getY( row );
-		rowStyleStack.push( row.getParent( ).getBoxStyle( ) );
+
+		BoxStyle style = row.getBoxStyle( );
+		ContainerArea parent = row;
+		while ( !(parent instanceof TableArea) && style.getBackgroundColor( ) == null && style.getBackgroundImage( ) == null )
+		{
+			parent = parent.getParent( );
+			style = parent.getBoxStyle( );
+		}
+		rowStyleStack.push( style );	
 		startRow( row ); // tags
 		Iterator<IArea> iter = row.getChildren( );
 		currentCol = 0;
