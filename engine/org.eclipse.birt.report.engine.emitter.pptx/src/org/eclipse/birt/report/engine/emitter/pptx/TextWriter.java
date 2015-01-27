@@ -4,6 +4,7 @@ package org.eclipse.birt.report.engine.emitter.pptx;
 import java.awt.Color;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
@@ -16,6 +17,8 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.InlineTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextLineArea;
+import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
@@ -226,15 +229,6 @@ public class TextWriter
 	private void writeTextLineBreak( TextStyle style)
 	{
 		setTextProperty( "a:endParaRPr", style );
-	/*	
-		<a:endParaRPr lang="en-US" altLang="zh-CN" sz="1000" dirty="0" smtClean="0">
-		<a:solidFill>
-			<a:srgbClr val="000000"/>
-		</a:solidFill>
-		<a:latin typeface="Arial" pitchFamily="18" charset="0"/>
-		<a:cs typeface="Arial" pitchFamily="18" charset="0"/>
-		</a:endParaRPr>
-	*/
 	}
 	
 	private void setTextProperty( String tag, TextStyle style)
@@ -360,10 +354,18 @@ public class TextWriter
 			writer.attribute( "prst", "rect" );
 			writer.closeTag( "a:prstGeom" );
 
-			Color color = container.getBoxStyle( ).getBackgroundColor( );
+			BoxStyle style = container.getBoxStyle( );
+			Color color = style.getBackgroundColor( );
+			BackgroundImageInfo image = style.getBackgroundImage( );
 			if ( color != null )
 			{
 				setBackgroundColor( color );
+			}
+			if ( image != null )
+			{
+				canvas.setBackgroundImg( canvas.getImageRelationship( image ),
+						0,
+						0 );
 			}
 
 			writeLineStyle( );
@@ -405,15 +407,54 @@ public class TextWriter
 			writer.openTag( "a:txBody" );
 		}
 
+		int leftPadding = 0;
+		int rightPadding = 0;
+		int topPadding = 0;
+		int bottomPadding = 0;
+		
+		if ( container instanceof BlockTextArea )
+		{
+			IArea firstChild = container.getChild( 0 );
+			if ( firstChild != null )
+			{
+				leftPadding = PPTXUtil.convertToEnums( firstChild.getX( ) );
+				rightPadding = width
+						- leftPadding
+						- PPTXUtil.convertToEnums( firstChild.getWidth( ) );
+				topPadding = PPTXUtil.convertToEnums( firstChild.getY( ) );
+			}
+			IArea lastChild = container.getChild( container.getChildrenCount( ) - 1 );
+			if ( lastChild != null )
+			{
+				bottomPadding = height
+						- PPTXUtil.convertToEnums( lastChild.getY( ) )
+						- PPTXUtil.convertToEnums( lastChild.getHeight( ) );
+			}
+
+		}
+		IContent ic = container.getContent( );
+		ic.getComputedStyle( ).getVerticalAlign( );
+		container.getTextAlign( );
 		writer.openTag( "a:bodyPr" );
 		//writer.attribute( "wrap", "none" );
 		writer.attribute( "wrap", "square" );
-		writer.attribute( "lIns", "0" );
-		writer.attribute( "tIns", "0" );
-		writer.attribute( "rIns", "0" );
-		writer.attribute( "bIns", "0" );
+		writer.attribute( "lIns", leftPadding );
+		writer.attribute( "tIns", topPadding );
+		writer.attribute( "rIns", rightPadding );
+		writer.attribute( "bIns", bottomPadding );
 		writer.attribute( "rtlCol", "0" );
-		writer.closeTag( "a:bodyPr" );		
+		String vAlign = container.getContent( )
+				.getComputedStyle( )
+				.getVerticalAlign( );
+		if ( vAlign.equals( "bottom" ) )
+		{
+			writer.attribute( "anchor", "b" );
+		}
+		else if ( vAlign.equals( "middle" ) )
+		{
+			writer.attribute( "anchor", "ctr" );
+		}
+		writer.closeTag( "a:bodyPr" );
 	}
 
 	private void endBlockText( ContainerArea container )
