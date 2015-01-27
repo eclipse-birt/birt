@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.emitter.pptx;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -71,7 +72,8 @@ public class PPTXRender extends PageDeviceRender
 	private final String tempFileDir;
 
 	private RenderOption renderOption;
-	private TableWriter tableWriter;
+	private boolean needBufferOutput;
+	private final ArrayList<ByteArrayOutputStream> bufferedOuptuts = new ArrayList<ByteArrayOutputStream>();
 	private boolean editMode;
 
 	public PPTXRender( IEmitterServices services ) throws EngineException
@@ -225,30 +227,37 @@ public class PPTXRender extends PageDeviceRender
 			visitTable( table );
 			return;
 		}
-		if ( tableWriter == null )
+		if ( !needBufferOutput )
 		{
-			tableWriter = new TableWriter( this );
-			tableWriter.outputTable( table );
-			tableWriter = null;
+			needBufferOutput = true;
+			new TableWriter( this ).outputTable( table );
+			needBufferOutput = false;
+			while ( !bufferedOuptuts.isEmpty( ) )
+			{
+				ByteArrayOutputStream output = bufferedOuptuts
+						.remove( bufferedOuptuts.size( ) - 1 );
+				// append the out to current buffer
+				try
+				{
+					this.getCanvas( ).getWriter( )
+							.print( output.toString( "utf-8" ) );
+				}
+				catch ( IOException ex )
+				{
+					logger.log( Level.WARNING, "failed to output table", ex );
+				}
+			}
 		}
 		else
 		{
 			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			bufferedOuptuts.add( out );
 			OOXmlWriter writer = new OOXmlWriter( );
-			writer.open( out );;
+			writer.open( out );
 			PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
 			PPTXRender render = new PPTXRender( this, canvas );
 			table.accept( render );
 			writer.close( );
-			// append the out to current buffer
-			try
-			{
-				this.getCanvas( ).getWriter( ).print( out.toString( "utf-8" ) );
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.WARNING, "failed to output table", ex );
-			}
 		}
 	}
 

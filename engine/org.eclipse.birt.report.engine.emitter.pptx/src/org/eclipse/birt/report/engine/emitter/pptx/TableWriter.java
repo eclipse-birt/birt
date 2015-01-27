@@ -127,13 +127,26 @@ public class TableWriter
 
 	private void writeColumnsWidth( TableArea tablearea )
 	{
-		int numOfColumns = tablearea.getColumnCount( );
+		numOfColumns = tablearea.getColumnCount( );
 		int columnWidth = 0;
+		int cellwidth = 0;
 		writer.openTag( "a:tblGrid" );
 		for ( int i = 0; i < numOfColumns; i++ )
 		{
-			columnWidth = PPTXUtil.convertToEnums( tablearea.getCellWidth( i,
-					i + 1 ) );
+			cellwidth = tablearea.getCellWidth( i, i+1 );
+			if( cellwidth <= 0 )
+			{
+				//if empty take first row, cell:
+				CellArea ca = ((RowArea) tablearea.getChild( 0 )).getCell( i );
+				if( ca != null )
+				{
+					cellwidth = ca.getWidth( );					
+				}
+			}
+			if( cellwidth > 0 )
+			{
+				columnWidth = PPTXUtil.convertToEnums( cellwidth );
+			}
 			writer.openTag( "a:gridCol" );
 			writer.attribute( "w", columnWidth );
 			writer.closeTag( "a:gridCol" );
@@ -150,8 +163,8 @@ public class TableWriter
 		Iterator<IArea> iter = row.getChildren( );
 		currentCol = 0;
 
-		//verify first cell is merged:
-		fillEmptyMergeCells(0,0,0);		
+		// verify first cell is merged:
+		fillEmptyMergeCells( 0, 0, 0 );
 		while ( iter.hasNext( ) )
 		{
 			IArea child = iter.next( );
