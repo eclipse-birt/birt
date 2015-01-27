@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.emitter.pptx;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -70,7 +72,8 @@ public class PPTXRender extends PageDeviceRender
 	private final String tempFileDir;
 
 	private RenderOption renderOption;
-	private TableWriter tableWriter;
+	private boolean needBufferOutput;
+	private final ArrayList<ByteArrayOutputStream> bufferedOuptuts = new ArrayList<ByteArrayOutputStream>();
 	private boolean editMode;
 
 	public PPTXRender( IEmitterServices services ) throws EngineException
@@ -180,6 +183,18 @@ public class PPTXRender extends PageDeviceRender
 	}
 
 	@Override
+	protected void drawTextAt( ITextArea text, int x, int y, int width,
+			int height, TextStyle textStyle )
+	{
+		pageGraphic.drawText( text.getLogicalOrderText( ),
+				x,
+				y,
+				width,
+				height,
+				textStyle );
+	}
+	
+	@Override
 	public void visitContainer( IContainerArea container )
 	{
 		if ( container instanceof PageArea )
@@ -212,46 +227,56 @@ public class PPTXRender extends PageDeviceRender
 			visitTable( table );
 			return;
 		}
-		if ( tableWriter == null )
+		if ( !needBufferOutput )
 		{
-			tableWriter = new TableWriter( this );
-			tableWriter.outputTable( table );
-			tableWriter = null;
+			needBufferOutput = true;
+			new TableWriter( this ).outputTable( table );
+			needBufferOutput = false;
+			while ( !bufferedOuptuts.isEmpty( ) )
+			{
+				ByteArrayOutputStream output = bufferedOuptuts
+						.remove( bufferedOuptuts.size( ) - 1 );
+				// append the out to current buffer
+				try
+				{
+					this.getCanvas( ).getWriter( )
+							.print( output.toString( "utf-8" ) );
+				}
+				catch ( IOException ex )
+				{
+					logger.log( Level.WARNING, "failed to output table", ex );
+				}
+			}
 		}
 		else
 		{
 			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			bufferedOuptuts.add( out );
 			OOXmlWriter writer = new OOXmlWriter( );
-			writer.open( out );;
+			writer.open( out );
 			PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
 			PPTXRender render = new PPTXRender( this, canvas );
 			table.accept( render );
 			writer.close( );
-			// append the out to current buffer
-			try
-			{
-				this.getCanvas( ).getWriter( ).print( out.toString( "utf-8" ) );
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.WARNING, "failed to output table", ex );
-			}
 		}
 	}
 
 	private void outputText( ContainerArea text )
 	{
-		if ( !editMode )
+		if ( editMode )
 		{
-			visitText( (BlockTextArea) text );
-			return;
+			int x = currentX + getX( text );
+			int y = currentY + getY( text );
+			int width = getWidth( text );
+			int height = getHeight( text );
+			new TextWriter( this ).writeTextBlock( x, y, width, height, text );
 		}
-		int x = currentX + getX( text );
-		int y = currentY + getY( text );
-		int width = getWidth( text );
-		int height = getHeight( text );
-		// startContainer(container);
-		new TextWriter( this ).writeTextBlock( x, y, width, height, text );
+		else
+		{
+			startContainer( text );
+			visitChildren( text );
+			endContainer( text );
+		}
 	}
 	
 	@Override

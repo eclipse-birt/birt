@@ -2,13 +2,16 @@
 package org.eclipse.birt.report.engine.emitter.pptx;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
 
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
@@ -33,6 +36,11 @@ public class TableWriter
 	private final PPTXCanvas canvas;
 	protected OOXmlWriter writer;
 	private static int TableIndex = 1;
+	private int numOfColumns;
+	private HashMap<Integer,MergeCellDimension> rowSpanCounts;
+	private int currentCol;
+	private int colspan;
+	private int rowspan;	
 
 	public TableWriter( PPTXRender render )
 	{
@@ -57,7 +65,6 @@ public class TableWriter
 			render.startClip( table );
 
 		}
-		startTable( table );
 		currentX += getX( table );
 		currentY += getY( table );
 		startTable(table);		
@@ -108,6 +115,13 @@ public class TableWriter
 		writer.attribute( "uri",
 				"http://schemas.openxmlformats.org/drawingml/2006/table" );
 		writer.openTag( "a:tbl" );
+		
+		writer.openTag( "a:tblPr" );
+		writer.openTag( "a:tableStyleId" );
+		// use transparent table style:
+		canvas.writeText( "{2D5ABB26-0587-4C30-8999-92F81FD0307C}" );
+		writer.closeTag( "a:tableStyleId" );
+		writer.closeTag( "a:tblPr" );
 		writeColumnsWidth( tablearea );
 	}
 
@@ -121,13 +135,26 @@ public class TableWriter
 
 	private void writeColumnsWidth( TableArea tablearea )
 	{
-		int numOfColumns = tablearea.getColumnCount( );
+		numOfColumns = tablearea.getColumnCount( );
 		int columnWidth = 0;
+		int cellwidth = 0;
 		writer.openTag( "a:tblGrid" );
 		for ( int i = 0; i < numOfColumns; i++ )
 		{
-			columnWidth = PPTXUtil.convertToEnums( tablearea.getCellWidth( i,
-					i + 1 ) );
+			cellwidth = tablearea.getCellWidth( i, i+1 );
+			if( cellwidth <= 0 )
+			{
+				//if empty take first row, cell:
+				CellArea ca = ((RowArea) tablearea.getChild( 0 )).getCell( i );
+				if( ca != null )
+				{
+					cellwidth = ca.getWidth( );					
+				}
+			}
+			if( cellwidth > 0 )
+			{
+				columnWidth = PPTXUtil.convertToEnums( cellwidth );
+			}
 			writer.openTag( "a:gridCol" );
 			writer.attribute( "w", columnWidth );
 			writer.closeTag( "a:gridCol" );
@@ -139,9 +166,21 @@ public class TableWriter
 	{
 		currentX += getX( row );
 		currentY += getY( row );
-		rowStyleStack.push( row.getParent( ).getBoxStyle( ) );
+
+		BoxStyle style = row.getBoxStyle( );
+		ContainerArea parent = row;
+		while ( !(parent instanceof TableArea) && style.getBackgroundColor( ) == null && style.getBackgroundImage( ) == null )
+		{
+			parent = parent.getParent( );
+			style = parent.getBoxStyle( );
+		}
+		rowStyleStack.push( style );	
 		startRow( row ); // tags
 		Iterator<IArea> iter = row.getChildren( );
+		currentCol = 0;
+
+		// verify first cell is merged:
+		fillEmptyMergeCells( 0, 0, 0 );
 		while ( iter.hasNext( ) )
 		{
 			IArea child = iter.next( );
@@ -196,6 +235,13 @@ public class TableWriter
 		int rowspan = cell.getRowSpan( );
 		if ( rowspan > 1 )
 		{
+			int colid = cell.getColumnID( );
+			if( rowSpanCounts == null )
+			{
+				rowSpanCounts = new HashMap<Integer,MergeCellDimension>();
+			}
+			MergeCellDimension spancells = new MergeCellDimension( rowspan, colspan );
+			rowSpanCounts.put( colid, spancells );
 			writer.attribute( "rowSpan", rowspan );
 		}
 
@@ -206,27 +252,90 @@ public class TableWriter
 		writer.openTag( "a:tcPr" );
 		// CELL_DEFAULT
 		canvas.writeMarginProperties( 0, 0, 0, 0 );
+		ICellContent content= (ICellContent)cell.getContent( );
+		String valign = content.getComputedStyle( ).getVerticalAlign( );
+		if( !(valign.equals( "baseline" )  || valign.equals( "top" )))
+		{
+			if( valign.equals( "middle" ) )
+			{
+				writer.attribute( "anchor", "ctr" );
+			}
+			else if( valign.equals( "bottom" ) )
+			{
+				writer.attribute( "anchor", "b" );
+			}
+		}		
 		drawCellBox( cell );
 		writer.closeTag( "a:tcPr" );
 		writer.closeTag( "a:tc" );
 
-		// draw empty cells for colspan to fill
-		int colspan = cell.getColSpan( );
-		if ( colspan > 1 )
+		int nxtCol = currentCol + 1;
+		fillEmptyMergeCells(nxtCol, colspan, rowspan);
+		currentCol++;
+	}
+
+	private void fillEmptyMergeCells( int nxtCol, int icolspan, int irowspan )
+	{
+		boolean completedFill = false;
+		boolean rectMerge = false;
+		if ( rowSpanCounts != null
+				&& !rowSpanCounts.isEmpty( )
+				&& rowSpanCounts.containsKey( nxtCol ) )
 		{
-			for ( int emtpycell = 1; emtpycell < colspan; emtpycell++ )
+
+			completedFill = true;
+			MergeCellDimension mcd = rowSpanCounts.get( nxtCol );
+			icolspan = mcd.getNumColumns( );
+			writer.openTag( "a:tc" );
+			if ( icolspan > 1 )
+			{
+				writer.attribute( "gridSpan", icolspan );
+				rectMerge = true;
+			}
+			writer.attribute( "vMerge", 1 );
+			writer.openTag( "a:tcPr" );
+			// TODO: add emtpy cell properties:
+			canvas.writeMarginProperties( 0, 0, 0, 0 );
+			writer.closeTag( "a:tcPr" );
+			writer.closeTag( "a:tc" );
+			mcd.removeARow( );
+			if ( mcd.isLastRow( ) )
+			{
+				rowSpanCounts.remove( nxtCol );
+			}
+			currentCol++;
+		}
+
+		if ( icolspan > 1 )
+		{
+			for ( int emtpycell = 1; emtpycell < icolspan; emtpycell++ )
 			{
 				writer.openTag( "a:tc" );
 				writer.attribute( "hMerge", 1 );
+				if ( irowspan > 1 )
+				{
+					writer.attribute( "rowSpan", irowspan );
+				}
+				else if ( rectMerge )
+				{
+					writer.attribute( "vMerge", 1 );
+				}
 				writer.openTag( "a:tcPr" );
 				// TODO: add emtpy cell properties:
 				canvas.writeMarginProperties( 0, 0, 0, 0 );
 				writer.closeTag( "a:tcPr" );
 				writer.closeTag( "a:tc" );
 			}
+			completedFill = true;
+			currentCol = currentCol + icolspan - 1;
+		}
+		if ( completedFill )
+		{
+			nxtCol += icolspan;
+			fillEmptyMergeCells( nxtCol, 0, 0 );
 		}
 	}
-
+	
 	protected void visitChildren( IContainerArea container )
 	{
 		updateRenderXY( );
@@ -241,6 +350,7 @@ public class TableWriter
 
 	/**
 	 * draw the cells properties
+	 * only one fill is allow, background image goes over background color
 	 * @param cell
 	 */
 	protected void drawCellBox( CellArea cell )
@@ -248,7 +358,7 @@ public class TableWriter
 		drawBorders( cell );		
 		drawCellDiagonal( cell );
 
-		BoxStyle style = cell.getBoxStyle( );		
+		BoxStyle style = cell.getBoxStyle( );
 		Color backgroundcolor = style.getBackgroundColor( );
 		BackgroundImageInfo bgimginfo = style.getBackgroundImage( );
 
@@ -268,24 +378,14 @@ public class TableWriter
 			}			
 		}
 
-		// the container's start position (the left top corner of the
-		// container)
-		int startX = currentX;
-		int startY = currentY;
-		// the dimension of the container
-		int width = getWidth( cell );
-		int height = getHeight( cell );
-
-		if ( backgroundcolor != null )
+		if ( bgimginfo != null
+				&& bgimginfo.getRepeatedMode( ) == BackgroundImageInfo.REPEAT )
+		{
+			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ), 0, 0);	
+		}
+		else if ( backgroundcolor != null )
 		{
 			canvas.setColor( backgroundcolor );
-		}
-		if ( bgimginfo != null )
-		{
-			render.drawBackgroundImage( bgimginfo, startX, startY,width, height );
-//			canvas.fillImage( bgimginfo., offsetX, offsetY, ToTile );
-			//call internal function to only get imagefill: 
-			//current implementation produce bug as it is inside shape tag
 		}
 
 	}
@@ -412,18 +512,18 @@ public class TableWriter
 	}
 
 	private void writeSingleBorder( String borderSide, BorderInfo borderinfo )
-	{	
-		if( borderinfo == null)
+	{
+		if ( borderinfo == null )
 		{
 			return;
 		}
 		writer.openTag( borderSide );
-		int width = PPTXUtil.convertToEnums( borderinfo.getWidth( ));
-		writer.attribute( "w", width );  //convert to EMU
+		int width = PPTXUtil.convertToEnums( borderinfo.getWidth( ) );
+		writer.attribute( "w", width ); // convert to EMU
 		canvas.setColor( borderinfo.getColor( ) );
-		writer.openTag( "a:prstDash");
-		//TODO:  get the right style naming
-		writer.attribute( "val", PPTXUtil.parseStyle( borderinfo.getStyle( )) );
+		writer.openTag( "a:prstDash" );
+		// TODO: get the right style naming
+		writer.attribute( "val", PPTXUtil.parseStyle( borderinfo.getStyle( ) ) );
 		writer.closeTag( "a:prstDash" );
 		writer.closeTag( borderSide );
 	}
@@ -459,4 +559,36 @@ public class TableWriter
 		render.setCurrentY( currentY );
 	}
 
+	private class MergeCellDimension
+	{
+
+		private int rows;
+		private final int columns;
+
+		public MergeCellDimension( int rows, int columns )
+		{
+			this.rows = rows;
+			this.columns = columns;
+		}
+
+		public int getNumRows( )
+		{
+			return rows;
+		}
+
+		public int getNumColumns( )
+		{
+			return columns;
+		}
+
+		public void removeARow( )
+		{
+			rows--;
+		}
+
+		public boolean isLastRow( )
+		{
+			return ( rows == 1 );
+		}
+	}
 }
