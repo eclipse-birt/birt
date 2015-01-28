@@ -8,14 +8,18 @@ import java.util.Iterator;
 import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableGroupArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
@@ -29,6 +33,7 @@ public class TableWriter
 	private static final String LEFTBORDERLINE = "a:lnL";
 	private static final String TOPBORDERLINE = "a:lnT";
 	private static final String BOTTOMBORDERLINE = "a:lnB";
+	private static final int DEFAULT_EMPTYCELL_FONTSIZE = 100;	
 	private static final int MINIMUM_ROW_HEIGHT = 4000;
 	private static final int MINIMUM_COLUMN_WIDTH = 2000;
 	
@@ -46,6 +51,7 @@ public class TableWriter
 	private int currentRow;
 	private int colspan;
 	private int rowspan;
+	private boolean isTextWrap = true;
 	private final ArrayList<Integer> zeroColumnList = new ArrayList<Integer>();
 	private TextWriter emptytextboxwriter;
 	private final HashMap<Integer,Integer> mapignorecolumns = new HashMap<Integer,Integer>();
@@ -478,6 +484,15 @@ public class TableWriter
 		currentCol++;
 	}
 
+	private void drawEmptyTextBox( )
+	{
+		if ( emptytextboxwriter == null )
+		{
+			emptytextboxwriter = new TextWriter( render );
+		}
+		emptytextboxwriter.writeBlankTextBlock( DEFAULT_EMPTYCELL_FONTSIZE );
+	}
+	
 	private void fillEmptyMergeCells( int nxtCol, int icolspan, int irowspan )
 	{
 		boolean completedFill = false;
@@ -537,16 +552,109 @@ public class TableWriter
 		}
 	}
 	
-	protected void visitChildren( IContainerArea container )
+	protected void visitChildren( CellArea container )
 	{
-		updateRenderXY( );
 		Iterator<IArea> iter = container.getChildren( );
+		int childrencount = container.getChildrenCount( );
+		if ( childrencount > 1
+				|| childrencount == 0 || !( container.getFirstChild( ) instanceof BlockTextArea ) )
+		{
+			drawEmptyTextBox( );
+		}
 		while ( iter.hasNext( ) )
 		{
 			IArea child = iter.next( );
-			child.accept( render );
+			if ( child instanceof BlockTextArea && childrencount > 1 )
+			{// if the text is clipped
+				render.visitTextBuffer( (BlockTextArea) child );
+			}
+			else if ( needStyleORClip( child ) )
+			{
+				drawEmptyTextBox( );
+				render.visitTextBuffer( (BlockTextArea) child );
+			}
+			else
+			{
+				child.accept( render );
+			}
 		}
-		updateRenderXY( );
+	}
+	
+	private boolean needStyleORClip( IArea blocktext )
+	{
+		if( !(blocktext instanceof BlockTextArea) )
+		{
+			return false;
+		}
+		BlockTextArea textarea = (BlockTextArea) blocktext;
+		if ( textarea.needClip( ) )
+		{
+			return true;
+		}
+		else if ( !isTextWrap && childneedclip( textarea ) )
+		{
+			return true;
+		}
+
+		BoxStyle style = textarea.getBoxStyle( );
+
+		if ( style != null
+				&& ( style.getBackgroundColor( ) != null
+						|| style.getBackgroundImage( ) != null
+						|| style.getBottomBorder( ) != null
+						|| style.getLeftBorder( ) != null
+						|| style.getRightBorder( ) != null || style
+						.getTopBorder( ) != null ) )
+		{
+			return true;
+		}
+		
+		IContent ic = textarea.getContent( );
+		if ( ic != null && ic instanceof AutoTextContent )
+		{
+			return true;
+		}
+
+		return false;
+	}
+	
+	private boolean childneedclip( ContainerArea container )
+
+	{
+		if ( container.needClip( ) )
+		{
+			return true;
+		}
+
+		Iterator<IArea> iter = container.getChildren( );
+		while ( iter.hasNext( ) )
+		{			
+
+			IArea child = iter.next( );
+			if( child instanceof TextArea )
+			{
+				if(( (TextArea) child).needClip( ))
+				{
+					return true;
+				}
+				else{
+					continue;
+				}
+			}
+			ContainerArea childcontainer = ( ContainerArea )child;
+			if ( childcontainer.needClip( ) )
+			{
+				return true;
+			}
+			else if ( !childcontainer.isEmpty( ) && childneedclip( childcontainer ) )
+			{
+				return true;
+			}
+
+		}
+		return false;
+
+
 	}
 
 	/**
