@@ -181,6 +181,24 @@ public class PPTXRender extends PageDeviceRender
 		super.visitText( textArea );
 		page.setLink( null );
 	}
+	
+	public void visitTextBuffer( BlockTextArea text )
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		bufferedOuptuts.add( out );
+		OOXmlWriter writer = new OOXmlWriter( );
+		writer.open( out );
+		PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
+		PPTXRender render = new PPTXRender( this, canvas );
+		int x = currentX + getX( text );
+		int y = currentY + getY( text );
+		int width = getWidth( text );
+		int height = getHeight( text );
+		TextWriter tw = new TextWriter( render );
+		tw.setNotFirstTextInCell();
+		tw.writeTextBlock( x, y, width, height, text );
+		writer.close( );
+	}
 
 	@Override
 	protected void drawTextAt( ITextArea text, int x, int y, int width,
@@ -211,6 +229,17 @@ public class PPTXRender extends PageDeviceRender
 		else if ( TextWriter.isSingleTextControl( container ) )
 		{
 			outputText( (ContainerArea) container );
+		}
+		else if ( needBufferOutput && editMode )
+		{// other cases inside table buffer out
+			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			bufferedOuptuts.add( out );
+			OOXmlWriter writer = new OOXmlWriter( );
+			writer.open( out );
+			PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
+			PPTXRender render = new PPTXRender( this, canvas );
+			render.visitContainer( container );
+			writer.close( );
 		}
 		else
 		{

@@ -34,6 +34,7 @@ public class TextWriter
 	private boolean needGroup = false;
 	private boolean needDrawLineBorder = false;
 	private boolean needDrawSquareBorder = false;
+	private boolean firstTextInCell = true;
 	private BorderInfo[] borders = null;
 	private static String DEFAULT_HALIGNMENT = "l"; 
 	private String hAlign = DEFAULT_HALIGNMENT;
@@ -122,7 +123,7 @@ public class TextWriter
 	
 	private void parseBlockTextArea( ContainerArea container )
 	{
-		if( container.getParent( ) instanceof CellArea)
+		if ( container.getParent( ) instanceof CellArea && firstTextInCell )
 		{
 			needShape = false;
 			return;
@@ -501,5 +502,10 @@ public class TextWriter
 		writer.closeTag( "a:endParaRPr" );
 		writer.closeTag( "a:p" );
 		writer.closeTag( "a:txBody" );
+	}
+
+	public void setNotFirstTextInCell( )
+	{
+		firstTextInCell = false;
 	}
 }
