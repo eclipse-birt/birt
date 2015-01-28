@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
 
-import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -36,6 +36,7 @@ public class TableWriter
 	private static final int DEFAULT_EMPTYCELL_FONTSIZE = 100;	
 	private static final int MINIMUM_ROW_HEIGHT = 4000;
 	private static final int MINIMUM_COLUMN_WIDTH = 2000;
+	private static final int DEFAULT_MARGIN = 12700;  // 1pt
 	
 	private int currentX;
 	private int currentY;
@@ -462,27 +463,81 @@ public class TableWriter
 	private void endCell( CellArea cell )
 	{
 		writer.openTag( "a:tcPr" );
-		// CELL_DEFAULT
-		canvas.writeMarginProperties( 0, 0, 0, 0 );
-		ICellContent content= (ICellContent)cell.getContent( );
-		String valign = content.getComputedStyle( ).getVerticalAlign( );
-		if( !(valign.equals( "baseline" )  || valign.equals( "top" )))
+		IArea cellchild = cell.getFirstChild( );
+		IStyle cellstyle = cell.getContent( ).getComputedStyle( );
+		if ( cellchild instanceof BlockTextArea
+				&& cell.getChildrenCount( ) == 1 )
 		{
-			if( valign.equals( "middle" ) )
+			IStyle textboxstyle = ( (BlockTextArea) cellchild ).getContent( )
+					.getComputedStyle( );
+			if ( textboxstyle != null )
+			{
+				int marL = canvas.getScaledValue( PPTXUtil.convertCssToEnum( textboxstyle.getMarginLeft( ) )
+						+ PPTXUtil.convertCssToEnum( cellstyle.getPaddingLeft( ) ) );			
+				int marT = canvas.getScaledValue( PPTXUtil.convertCssToEnum( textboxstyle.getMarginTop( ) )
+						+ PPTXUtil.convertCssToEnum( cellstyle.getPaddingTop( ) ) );
+				int marR = canvas.getScaledValue( PPTXUtil.convertCssToEnum( textboxstyle.getMarginRight( ) )
+						+ PPTXUtil.convertCssToEnum( cellstyle.getPaddingRight( ) ) );
+				int marB = canvas.getScaledValue( PPTXUtil.convertCssToEnum( textboxstyle.getMarginBottom( ) )
+						+ PPTXUtil.convertCssToEnum( cellstyle.getPaddingBottom( ) ) );
+
+				int textboxheight = canvas.getScaledValue( PPTXUtil
+						.convertToEnums( ( cellchild.getHeight( ) ) ) );
+				if ( isRTL && marR <= 0 )
+				{
+					marR = DEFAULT_MARGIN;
+				}
+				else if ( !isRTL && marL <= 0 )
+				{
+					marL = DEFAULT_MARGIN;
+				}
+				if ( marT <= 0 )
+				{
+					marT = DEFAULT_MARGIN;
+				}
+				if ( marB <= 0 )
+				{
+					marB = DEFAULT_MARGIN;
+				}
+				if ( marT + textboxheight > currentRowHeight )
+				{
+					marT = currentRowHeight - textboxheight;
+					marB = 0;
+				}
+				else if ( marT + marB + textboxheight > currentRowHeight )
+				{
+					marB = currentRowHeight - ( marT + textboxheight );
+				}
+				canvas.writeMarginProperties( marT, marR, marB, marL );
+			}
+
+			String valign = cellstyle.getVerticalAlign( );
+			if ( valign.equals( "baseline" ) && textboxstyle != null )
+			{
+				valign = textboxstyle.getVerticalAlign( );
+			}
+
+			if ( valign.equals( "middle" ) )
+
 			{
 				writer.attribute( "anchor", "ctr" );
 			}
-			else if( valign.equals( "bottom" ) )
+			else if ( valign.equals( "bottom" ) )
 			{
 				writer.attribute( "anchor", "b" );
 			}
-		}		
+		}
+		else
+		{// default behavior for empty cell
+			canvas.writeMarginProperties( 0, 0, 0, 0 );
+		}
+
 		drawCellBox( cell );
 		writer.closeTag( "a:tcPr" );
 		writer.closeTag( "a:tc" );
 
 		int nxtCol = currentCol + 1;
-		fillEmptyMergeCells(nxtCol, colspan, rowspan);
+		fillEmptyMergeCells( nxtCol, colspan, rowspan );
 		currentCol++;
 	}
 
