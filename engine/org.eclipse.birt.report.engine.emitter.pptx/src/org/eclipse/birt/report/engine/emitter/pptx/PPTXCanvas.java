@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.emitter.pptx;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Stack;
@@ -574,7 +576,15 @@ public class PPTXCanvas
 	{
 		if ( link != null )
 		{
-			String hyperlink = link.getLink( );
+			String hyperlink = null;
+			try
+			{
+				hyperlink = URLEncoder.encode( link.getLink( ), "UTF-8" );
+			}
+			catch ( UnsupportedEncodingException ue )
+			{
+				logger.log( Level.SEVERE, ue.getLocalizedMessage( ), ue );
+			}
 			if ( hyperlink != null )
 			{
 				if ( hyperlink.startsWith( "\"" ) && hyperlink.endsWith( "\"" ) )
