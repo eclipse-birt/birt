@@ -308,7 +308,10 @@ public class PPTXRender extends PageDeviceRender
 			int y = currentY + getY( text );
 			int width = getWidth( text );
 			int height = getHeight( text );
-			new TextWriter( this ).writeTextBlock( x, y, width, height, text );
+			TextWriter tw =new TextWriter( this );
+			tw.setLink( PPTUtil.getHyperlink( text, services, reportRunnable,
+					context ) );
+			tw.writeTextBlock( x, y, width, height, text );
 		}
 		else
 		{

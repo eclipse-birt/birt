@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -39,6 +39,7 @@ public class TextWriter
 	private static String DEFAULT_HALIGNMENT = "l"; 
 	private String hAlign = DEFAULT_HALIGNMENT;
 	private boolean hasParagraph = false;
+	private HyperlinkDef link = null;
 
 	public TextWriter( PPTXRender render )
 	{
@@ -317,25 +318,12 @@ public class TextWriter
 		{
 			writer.attribute( "b", 1 );
 		}
-		setBackgroundColor( style.getColor( ) );
+		canvas.setBackgroundColor( style.getColor( ) );
 		setTextFont( info.getFontName( ) );
 		canvas.setHyperlink( render.getGraphic( ).getLink() );
 		writer.closeTag( tag );
 	}
-	
 
-	private void setBackgroundColor( Color color )
-	{
-		if ( color != null )
-		{
-			writer.openTag( "a:solidFill" );
-			writer.openTag( "a:srgbClr" );
-			writer.attribute( "val", EmitterUtil.getColorString( color ) );
-			writer.closeTag( "a:srgbClr" );
-			writer.closeTag( "a:solidFill" );
-		}
-	}
-	
 	private void setTextFont( String fontName )
 	{
 		writer.openTag( "a:latin" );
@@ -390,7 +378,7 @@ public class TextWriter
 			BackgroundImageInfo image = style.getBackgroundImage( );
 			if ( color != null )
 			{
-				setBackgroundColor( color );
+				canvas.setBackgroundColor( color );
 			}
 			if ( image != null )
 			{
@@ -554,5 +542,15 @@ public class TextWriter
 	public void setNotFirstTextInCell( )
 	{
 		firstTextInCell = false;
+	}
+	
+	public void setLink( HyperlinkDef link )
+	{
+		this.link = link;
+	}
+
+	public HyperlinkDef getLink( )
+	{
+		return link;
 	}
 }
