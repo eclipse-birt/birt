@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.engine.emitter.pptx;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
@@ -14,6 +15,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.TableGroupArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
@@ -26,31 +28,37 @@ public class TableWriter
 	private static final String RIGHTBORDERLINE = "a:lnR";
 	private static final String LEFTBORDERLINE = "a:lnL";
 	private static final String TOPBORDERLINE = "a:lnT";
-	private static final String BOTTOMBORDERLINE = "a:lnB";	
+	private static final String BOTTOMBORDERLINE = "a:lnB";
+	private static final int MINIMUM_ROW_HEIGHT = 4000;
+	private static final int MINIMUM_COLUMN_WIDTH = 2000;
+	
 	private int currentX;
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
-	private final float scale;
 	private final PPTXRender render;
-	private final PPTXPage graphics;
 	private final PPTXCanvas canvas;
 	protected OOXmlWriter writer;
 	private static int TableIndex = 1;
 	private int numOfColumns;
 	private HashMap<Integer,MergeCellDimension> rowSpanCounts;
 	private int currentCol;
+	private int currentRowHeight;
+	private int currentRow;
 	private int colspan;
-	private int rowspan;	
+	private int rowspan;
+	private final ArrayList<Integer> zeroColumnList = new ArrayList<Integer>();
+	private TextWriter emptytextboxwriter;
+	private final HashMap<Integer,Integer> mapignorecolumns = new HashMap<Integer,Integer>();
+
 
 	public TableWriter( PPTXRender render )
 	{
 		this.render = render;
-		this.graphics = render.getGraphic( );
 		this.canvas = render.getCanvas( );
 		this.writer = canvas.getWriter( );
-		scale = render.getScale( );
 		currentX = render.getCurrentX( );
 		currentY = render.getCurrentY( );
+
 	}
 
 	public void outputTable( TableArea table )
@@ -67,34 +75,166 @@ public class TableWriter
 		}
 		currentX += getX( table );
 		currentY += getY( table );
-		startTable(table);		
-		Iterator<IArea> iter = table.getChildren( );
-		while ( iter.hasNext( ) )
-		{
-			IArea child = iter.next( );
-			drawRow( (RowArea) child );
-		}
-		if ( table.needClip( ) )
-		{
-			// end clip...
-		}
 		updateRenderXY( );
+		startTable( table );		
+		parseTableExtraSpanRows( table );
+		iterateOnRows( table );
 		if ( table.needClip( ) )
 		{
-			graphics.endClip( );
+			render.endclip( );
 		}
 		currentX -= getX( table );
 		currentY -= getY( table );
+		updateRenderXY( );		
 		endTable( );
 	}
+	
+	private void iterateOnRows( IContainerArea table )
+	{
+		int internalRowCount = currentRow;
+		currentRow = 0;
+		Iterator<IArea> iter = table.getChildren( );
+		while ( iter.hasNext( ) )
+		{
+			IContainerArea child = (IContainerArea) iter.next( );
+			if ( child instanceof RowArea )
+			{
+				drawRow( (RowArea) child );
+				currentRow++;
+			}
+			else
+			{// TableGroupArea:
+				currentX += getX(  child );
+				currentY += getY( child );
+				internalRowCount = currentRow;
+				updateRenderXY( );
+				iterateOnRows( child );
+				currentX -= getX( child );
+				currentY -= getY( child );
+				updateRenderXY( );
+				currentRow = internalRowCount + 1;
+			}
+		}
 
+	}
+
+	/**
+	 * precond: TableGroupArea do not have outside merging in
+	 * @param table
+	 */
+	private void parseTableExtraSpanRows( ContainerArea table )
+	{
+		int additionalrowheight = 0;
+		int additionalrowspan = 0;
+		boolean fistrowrun = true;
+		for ( int rowidx = table.getChildrenCount( ) - 1; rowidx >= 0; rowidx-- )
+		{
+			ContainerArea child = (ContainerArea) table
+					.getChild( rowidx );
+			if ( child instanceof TableGroupArea )
+			{
+				parseTableExtraSpanRows( child );
+			}
+			else
+			{
+				RowArea row = (RowArea) child;
+				int numOfCells = row.getChildrenCount( );
+				if ( numOfCells == 0 )
+				{
+					additionalrowheight += row.getHeight( );
+					additionalrowspan++;
+				}
+				else if ( !zeroColumnList.isEmpty( ) )
+				{
+					if ( numOfColumns != numOfCells )
+					{// there is colspan, go one by one and then reduce grid if
+						// the column fall in range
+						Iterator<Integer> iterzero = zeroColumnList.iterator( );
+						Iterator<IArea> itercell = row.getChildren( );
+						int zerocolumn = iterzero.next( );
+						while ( itercell.hasNext( ) )
+						{
+							CellArea cell = (CellArea) itercell.next( );
+							int thiscolspan = cell.getColSpan( );
+							int thiscolumn = cell.getColumnID( );
+							if ( thiscolspan > 1 )
+							{
+								while ( iterzero.hasNext( )
+										&& zerocolumn < thiscolumn )
+								{
+									zerocolumn = iterzero.next( );
+								}
+								while ( zerocolumn <= ( thiscolumn
+										+ thiscolspan - 1 ) )
+								{
+									cell.setColSpan( --thiscolspan );
+									if ( fistrowrun )
+									{
+										int numOfigncol = 0;
+										Integer numofIng = mapignorecolumns
+												.get( thiscolumn );
+										if ( numofIng == null )
+										{
+											numOfigncol = 1;
+										}
+										else
+										{
+											numOfigncol = numofIng + 1;
+										}
+										mapignorecolumns.put( thiscolumn,
+												numOfigncol );
+									}
+									if ( iterzero.hasNext( ) )
+									{
+										zerocolumn = iterzero.next( );
+									}
+									else
+									{
+										break;
+									}
+								}
+								if ( zerocolumn < ( thiscolumn + thiscolspan ) )
+								{
+									break;
+								}
+							}
+							else if ( thiscolumn >= zerocolumn )
+							{
+								if ( iterzero.hasNext( ) )
+								{
+									zerocolumn = iterzero.next( );
+								}
+								else
+								{
+									break;
+								}
+							}
+						}
+					}
+				}
+				else if ( additionalrowspan > 0 )
+				{
+					row.setHeight( additionalrowheight + row.getHeight( ) );
+					Iterator<IArea> iter = row.getChildren( );
+					while ( iter.hasNext( ) )
+					{
+						CellArea cell = (CellArea) iter.next( );
+						cell.setRowSpan( cell.getRowSpan( ) - additionalrowspan );
+					}
+					additionalrowheight = 0;
+					additionalrowspan = 0;
+				}
+			}
+		}
+	}
+	
 	private void startTable( TableArea tablearea )
 	{
 
 		int X = PPTXUtil.convertToEnums( currentX );
 		int Y = PPTXUtil.convertToEnums( currentY );
-		int width = PPTXUtil.convertToEnums( tablearea.getWidth( ) );
-		int height = PPTXUtil.convertToEnums( tablearea.getHeight( ) );
+		int width = canvas.getScaledValue( PPTXUtil.convertToEnums( tablearea.getWidth( ) ) );
+		int height = canvas.getScaledValue( PPTXUtil.convertToEnums( tablearea.getHeight( ) ) );
 		writer.openTag( "p:graphicFrame" );
 		writer.openTag( "p:nvGraphicFramePr" );
 		writer.openTag( "p:cNvPr" );
@@ -141,46 +281,68 @@ public class TableWriter
 		writer.openTag( "a:tblGrid" );
 		for ( int i = 0; i < numOfColumns; i++ )
 		{
-			cellwidth = tablearea.getCellWidth( i, i+1 );
-			if( cellwidth <= 0 )
+			cellwidth = tablearea.getCellWidth( i, i + 1 );
+			if ( cellwidth > 0 )
 			{
-				//if empty take first row, cell:
-				CellArea ca = ((RowArea) tablearea.getChild( 0 )).getCell( i );
-				if( ca != null )
+				if ( cellwidth < MINIMUM_COLUMN_WIDTH )
 				{
-					cellwidth = ca.getWidth( );					
+					cellwidth = MINIMUM_COLUMN_WIDTH;
 				}
+				columnWidth = canvas.getScaledValue( PPTXUtil.convertToEnums( cellwidth ) );
+				writer.openTag( "a:gridCol" );
+				writer.attribute( "w", columnWidth );
+				writer.closeTag( "a:gridCol" );
 			}
-			if( cellwidth > 0 )
+			else
 			{
-				columnWidth = PPTXUtil.convertToEnums( cellwidth );
+				zeroColumnList.add( i );
 			}
-			writer.openTag( "a:gridCol" );
-			writer.attribute( "w", columnWidth );
-			writer.closeTag( "a:gridCol" );
 		}
 		writer.closeTag( "a:tblGrid" );
 	}
 
 	protected void drawRow( RowArea row )
 	{
+		if ( row.getChildrenCount( ) == 0 )
+		{
+			return;
+		}
+		
+		if ( row.needClip( ) )
+		{
+			render.startClip( row );
+		}
+		
 		currentX += getX( row );
 		currentY += getY( row );
-
+		updateRenderXY();
 		BoxStyle style = row.getBoxStyle( );
 		ContainerArea parent = row;
-		while ( !(parent instanceof TableArea) && style.getBackgroundColor( ) == null && style.getBackgroundImage( ) == null )
+		while ( !( parent instanceof TableArea )
+				&& style.getBackgroundColor( ) == null
+				&& style.getBackgroundImage( ) == null )
 		{
 			parent = parent.getParent( );
 			style = parent.getBoxStyle( );
 		}
-		rowStyleStack.push( style );	
+		rowStyleStack.push( style );
 		startRow( row ); // tags
 		Iterator<IArea> iter = row.getChildren( );
 		currentCol = 0;
 
-		// verify first cell is merged:
-		fillEmptyMergeCells( 0, 0, 0 );
+		int firstcellidx = ( (CellArea) row.getFirstChild( ) ).getColumnID( );
+		while ( currentCol != firstcellidx )
+		{// first columns has rowspan
+			int emptycol = currentCol;
+			// create empty rowspan cell
+
+
+			fillEmptyMergeCells( emptycol, 0, 0 );
+			if ( emptycol == currentCol )
+			{// no spanrow on column move to next one
+				currentCol++;
+			}
+		}
 		while ( iter.hasNext( ) )
 		{
 			IArea child = iter.next( );
@@ -190,25 +352,61 @@ public class TableWriter
 		rowStyleStack.pop( );
 		currentX -= getX( row );
 		currentY -= getY( row );
+		updateRenderXY();
+		
+		if ( row.needClip( ) )
+		{
+			render.endclip( );
+		}			
 	}
 
 	private void startRow( RowArea row )
 	{
 		writer.openTag( "a:tr" );
-		writer.attribute( "h", PPTXUtil.convertToEnums( row.getHeight( ) ) );
+		//Row height is minimum of specific and parent height
+		int height = row.getSpecifiedHeight( );
+		if( height <= 0 )
+		{
+			height = row.getHeight( );
+		}
+		if( row.getParent( ) instanceof TableGroupArea )
+		{
+			height = Math.min( height, row.getParent( ).getHeight( ) );
+		}
+		height = canvas.getScaledValue( height );
+		if ( height < MINIMUM_ROW_HEIGHT )
+		{// if lower than minimum height set to zero:
+			height = 0;
+		}
+		else
+		{
+			height = PPTXUtil.convertToEnums( height );
+		}
+		currentRowHeight = height;
+		writer.attribute( "h", height );
 
 	}
 
 	private void endRow( )
 	{
 		writer.closeTag( "a:tr" );
-
 	}
 
 	protected void drawCell( CellArea cell )
 	{
+		if( cell.getWidth( ) == 0 )
+		{
+			currentCol++;
+			return;
+		}
+		
+		if ( cell.needClip( ) )
+		{
+			render.startClip( cell );
+		}		
 		currentX += getX( cell );
 		currentY += getY( cell );
+		updateRenderXY( );		
 		startCell( cell );
 
 		visitChildren( cell );
@@ -216,6 +414,12 @@ public class TableWriter
 		endCell( cell );
 		currentX -= getX( cell );
 		currentY -= getY( cell );
+		updateRenderXY( );
+		
+		if ( cell.needClip( ) )
+		{
+			render.endclip( );
+		}
 	}
 
 	/**
@@ -282,7 +486,6 @@ public class TableWriter
 				&& !rowSpanCounts.isEmpty( )
 				&& rowSpanCounts.containsKey( nxtCol ) )
 		{
-
 			completedFill = true;
 			MergeCellDimension mcd = rowSpanCounts.get( nxtCol );
 			icolspan = mcd.getNumColumns( );
@@ -294,7 +497,6 @@ public class TableWriter
 			}
 			writer.attribute( "vMerge", 1 );
 			writer.openTag( "a:tcPr" );
-			// TODO: add emtpy cell properties:
 			canvas.writeMarginProperties( 0, 0, 0, 0 );
 			writer.closeTag( "a:tcPr" );
 			writer.closeTag( "a:tc" );
@@ -321,7 +523,6 @@ public class TableWriter
 					writer.attribute( "vMerge", 1 );
 				}
 				writer.openTag( "a:tcPr" );
-				// TODO: add emtpy cell properties:
 				canvas.writeMarginProperties( 0, 0, 0, 0 );
 				writer.closeTag( "a:tcPr" );
 				writer.closeTag( "a:tc" );
@@ -385,7 +586,7 @@ public class TableWriter
 		}
 		else if ( backgroundcolor != null )
 		{
-			canvas.setColor( backgroundcolor );
+			canvas.setBackgroundColor( backgroundcolor );
 		}
 
 	}
@@ -393,79 +594,37 @@ public class TableWriter
 	protected void drawCellDiagonal( CellArea cell )
 	{
 		DiagonalInfo diagonalInfo = cell.getDiagonalInfo( );
-		if ( diagonalInfo != null )
-		{
-			int startX = currentX;
-			int startY = currentY;
+		if ( diagonalInfo != null && diagonalInfo.getDiagonalNumber( ) == 1 )
+		{// only support single line : width should be the same as borders
 
-			// the dimension of the container
-			int width = getWidth( cell );
-			int height = getHeight( cell );
-			int dw = diagonalInfo.getDiagonalWidth( );
-			int ds = diagonalInfo.getDiagonalStyle( );
-			// support double style, use solid style instead.
-			if ( ds == DiagonalInfo.BORDER_STYLE_DOUBLE )
-			{
-				ds = DiagonalInfo.BORDER_STYLE_SOLID;
-			}
-			switch ( diagonalInfo.getDiagonalNumber( ) )
-			{
-				case 2 :
-					graphics.drawLine( startX + width / 2,
-							startY,
-							startX + width,
-							startY + height - dw / 2,
-							getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ),
-							ds );
-					graphics.drawLine( startX,
-							startY + height / 2,
-							startX + width,
-							startY + height - dw / 2,
-							getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ),
-							ds );
-					break;
-				case 1 :
-					graphics.drawLine( startX,
-							startY + dw / 2,
-							startX + width,
-							startY + height - dw / 2,
-							getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ),
-							ds );
-					break;
-
-				default :
-					graphics.drawLine( startX,
-							startY + dw / 2,
-							startX + width,
-							startY + height - dw / 2,
-							getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ),
-							ds );
-					graphics.drawLine( startX + width / 2,
-							startY + dw / 2,
-							startX + width,
-							startY + height - dw / 2,
-							getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ),
-							ds );
-					graphics.drawLine( startX,
-							startY + height / 2,
-							startX + width,
-							startY + height - dw / 2,
-							getScaledValue( dw ),
-							diagonalInfo.getDiagonalColor( ),
-							ds );
-					break;
-			}
-
+			writer.openTag( "a:lnTlToBr" );
+			int width = PPTXUtil.convertToEnums( diagonalInfo.getDiagonalWidth( ) );
+			writer.attribute( "w", width );
+			writer.attribute( "cap", "flat" );
+			writer.attribute( "algn", "ctr" );
+			canvas.setBackgroundColor( diagonalInfo.getDiagonalColor( ) );
+			writer.openTag( "a:prstDash" );
+			writer.attribute( "val",
+					PPTXUtil.parseStyle( diagonalInfo.getDiagonalStyle( ) ) );
+			writer.closeTag( "a:prstDash" );
+			writer.openTag( "a:round" );
+			writer.closeTag( "a:round" );
+			writer.openTag( "a:headEnd" );
+			writer.attribute( "type", "none" );
+			writer.attribute( "w", "med" );
+			writer.attribute( "len", "med" );
+			writer.closeTag( "a:headEnd" );
+			writer.openTag( "a:tailEnd" );
+			writer.attribute( "type", "none" );
+			writer.attribute( "w", "med" );
+			writer.attribute( "len", "med" );
+			writer.closeTag( "a:tailEnd" );
+			writer.closeTag( "a:lnTlToBr" );
 		}
 	}
 
 	/**
-	 * assume leftborder is always draw
+	 * 
 	 * @param container
 	 */
 	protected void drawBorders( IContainerArea container )
@@ -520,7 +679,7 @@ public class TableWriter
 		writer.openTag( borderSide );
 		int width = PPTXUtil.convertToEnums( borderinfo.getWidth( ) );
 		writer.attribute( "w", width ); // convert to EMU
-		canvas.setColor( borderinfo.getColor( ) );
+		canvas.setBackgroundColor( borderinfo.getColor( ) );
 		writer.openTag( "a:prstDash" );
 		// TODO: get the right style naming
 		writer.attribute( "val", PPTXUtil.parseStyle( borderinfo.getStyle( ) ) );
@@ -530,27 +689,12 @@ public class TableWriter
 
 	private int getY( IContainerArea area )
 	{
-		return getScaledValue( area.getY( ) );
+		return canvas.getScaledValue( area.getY( ) );
 	}
 
 	private int getX( IContainerArea area )
 	{
-		return getScaledValue( area.getX( ) );
-	}
-
-	private int getHeight( CellArea area )
-	{
-		return getScaledValue( area.getHeight( ) );
-	}
-
-	private int getWidth( CellArea area )
-	{
-		return getScaledValue( area.getWidth( ) );
-	}
-
-	protected int getScaledValue( int value )
-	{
-		return (int) ( value * scale );
+		return canvas.getScaledValue( area.getX( ) );
 	}
 
 	protected void updateRenderXY( )

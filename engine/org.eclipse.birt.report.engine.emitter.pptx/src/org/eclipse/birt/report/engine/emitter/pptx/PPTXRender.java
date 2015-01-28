@@ -219,6 +219,11 @@ public class PPTXRender extends PageDeviceRender
 			endContainer( container );
 		}
 	}
+	
+	protected void endclip( )
+	{
+		pageGraphic.endClip( );
+	}
 
 	private void outputTable( TableArea table )
 	{
