@@ -93,6 +93,7 @@ public class PPTXRender extends PageDeviceRender
 		this.currentX = render.currentX;
 		this.currentY = render.currentY;
 		this.scale = render.scale;
+		canvas.setScale( scale );
 		this.pageDevice = render.pageDevice;
 		this.isRTL = render.isRTL;
 		this.isTextWrap = render.isTextWrap;		
@@ -411,6 +412,7 @@ public class PPTXRender extends PageDeviceRender
 					width,
 					height,
 					pageArea ) );
+			( (PPTXPage) pageGraphic ).getCanvas( ).setScale( scale );
 		}
 		catch ( IOException e )
 		{
