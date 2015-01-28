@@ -46,4 +46,22 @@ public class PPTXUtil
 		
 		return "solid";
 	}
+	
+	public static int pixelToEmu( int pixels, int dpi )
+	{
+		if ( dpi <= 0 )
+		{// default resolution:
+			dpi = 96;
+		}
+		return pixels * (int) ( (float) 914400 / dpi );
+
+	}
+
+	public static float parsePercentageOffset( int contianermeasure,
+			int contianersubmeasure )
+	{
+		float diffpercentage = (float) ( contianermeasure - contianersubmeasure )
+				/ contianermeasure;
+		return diffpercentage * 100000;
+	}
 }

@@ -51,7 +51,7 @@ public class TableWriter
 	private int currentRow;
 	private int colspan;
 	private int rowspan;
-	private boolean isTextWrap = true;
+	private final boolean isTextWrap = true;
 	private final ArrayList<Integer> zeroColumnList = new ArrayList<Integer>();
 	private TextWriter emptytextboxwriter;
 	private final HashMap<Integer,Integer> mapignorecolumns = new HashMap<Integer,Integer>();
@@ -687,10 +687,29 @@ public class TableWriter
 			}			
 		}
 
-		if ( bgimginfo != null
-				&& bgimginfo.getRepeatedMode( ) == BackgroundImageInfo.REPEAT )
+		if ( bgimginfo != null )
 		{
-			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ), 0, 0);	
+			float offsetY = 0;
+			float offsetX = 0;
+			int repeatmode = bgimginfo.getRepeatedMode( );
+
+			if ( repeatmode == BackgroundImageInfo.NO_REPEAT )
+			{
+				int imgheight = PPTXUtil.pixelToEmu( (int) bgimginfo.getImageInstance( )
+						.getHeight( ),
+						bgimginfo.getImageInstance( ).getDpiY( ) );
+				int imgwidth = PPTXUtil.pixelToEmu( (int) bgimginfo.getImageInstance( )
+						.getWidth( ),
+						bgimginfo.getImageInstance( ).getDpiX( ) );
+				int cellheight = PPTXUtil.convertToEnums( canvas.getScaledValue( cell.getHeight( ) ) );
+				int cellwidth = PPTXUtil.convertToEnums( canvas.getScaledValue( cell.getWidth( ) ) );
+				offsetY = PPTXUtil.parsePercentageOffset( cellheight, imgheight );
+				offsetX = PPTXUtil.parsePercentageOffset( cellwidth, imgwidth );
+			}
+			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ),
+					(int) offsetX,
+					(int) offsetY,
+					repeatmode );
 		}
 		else if ( backgroundcolor != null )
 		{
