@@ -51,7 +51,8 @@ public class TableWriter
 	private int currentRow;
 	private int colspan;
 	private int rowspan;
-	private final boolean isTextWrap = true;
+	private boolean isRTL = false;
+	private boolean isTextWrap = true;
 	private final ArrayList<Integer> zeroColumnList = new ArrayList<Integer>();
 	private TextWriter emptytextboxwriter;
 	private final HashMap<Integer,Integer> mapignorecolumns = new HashMap<Integer,Integer>();
@@ -64,7 +65,8 @@ public class TableWriter
 		this.writer = canvas.getWriter( );
 		currentX = render.getCurrentX( );
 		currentY = render.getCurrentY( );
-
+		isRTL = render.isRTL( );
+		isTextWrap = render.isTextWrap( );
 	}
 
 	public void outputTable( TableArea table )
@@ -754,47 +756,82 @@ public class TableWriter
 	 * 
 	 * @param container
 	 */
-	protected void drawBorders( IContainerArea container )
+	protected void drawBorders( CellArea container )
 	{
 		BoxStyle style = container.getBoxStyle( );
-		if( style == null) return;
-
-		BorderInfo baseborderinfo = style.getLeftBorder( );
-
-		writeSingleBorder( LEFTBORDERLINE, baseborderinfo );		
-
-		BorderInfo currentborderinfo = style.getRightBorder( );
-		if( currentborderinfo != null)
+		if ( style == null )
+			return;
+		BorderInfo currentborderinfo = null;
+		int additionalcol = 0;
+		int drawcurrentcolid = container.getColumnID( );
+		Integer additionalColSpan = mapignorecolumns.get( drawcurrentcolid );
+		if ( additionalColSpan != null )
 		{
-			writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
-			baseborderinfo = currentborderinfo;
+			additionalcol = additionalColSpan;
+		}
+		CellArea nextcell = ( (RowArea) container.getParent( ) )
+				.getCell( drawcurrentcolid + colspan + additionalcol );
+		
+		if ( !isRTL )
+		{//normal flow
+			writeSingleBorder( LEFTBORDERLINE, style.getLeftBorder( ) );
+
+			if ( nextcell != null )
+			{
+				currentborderinfo = nextcell.getBoxStyle( ).getLeftBorder( );
+				writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
+			}
+			if ( currentborderinfo == null )
+			{
+				writeSingleBorder( RIGHTBORDERLINE, style.getRightBorder( ) );
+			}
 		}
 		else
-		{ //draw if border is empty:
-			writeSingleBorder( RIGHTBORDERLINE, baseborderinfo );
+		{//RTL
+			writeSingleBorder( LEFTBORDERLINE, style.getRightBorder( ) );
+			if ( nextcell != null )
+			{
+				currentborderinfo = nextcell.getBoxStyle( ).getRightBorder( );
+				writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
+			}
+			if ( currentborderinfo == null )
+			{
+				writeSingleBorder( RIGHTBORDERLINE, style.getLeftBorder( ) );
+			}
 		}
 
-		currentborderinfo = style.getTopBorder( );
-		if( currentborderinfo != null)
+		writeSingleBorder( TOPBORDERLINE, style.getTopBorder( ) );
+
+		//check below cell first for bottomline style
+		currentborderinfo = null;
+		
+		RowArea rowbelow = getRowBelow( (RowArea)container.getParent( ), container.getRowSpan( ) );
+		
+		if ( rowbelow != null && rowbelow.getChildrenCount( ) > 0 )
 		{
-			writeSingleBorder( TOPBORDERLINE, currentborderinfo);
-			baseborderinfo = currentborderinfo;
+			CellArea belowCell = rowbelow.getCell( drawcurrentcolid );
+			if ( belowCell != null )
+			{
+				currentborderinfo = belowCell.getBoxStyle( ).getTopBorder( );
+			}
+			writeSingleBorder( BOTTOMBORDERLINE, currentborderinfo );
 		}
-		else
-		{ //draw if border is empty:
-			writeSingleBorder( TOPBORDERLINE, baseborderinfo );			
+		if ( currentborderinfo == null )
+		{
+			writeSingleBorder( BOTTOMBORDERLINE, style.getBottomBorder( ) );
 		}
-
-		currentborderinfo = style.getBottomBorder();
-		if( currentborderinfo != null)
-		{	
-			writeSingleBorder( BOTTOMBORDERLINE, style.getBottomBorder());
-		}
-		else
-		{ //draw if border is empty:
-			writeSingleBorder( BOTTOMBORDERLINE, baseborderinfo );			
-		}		
-
+	}
+	
+	/**
+	 * Find the row below the existing table
+	 * 
+	 * @param container
+	 * @param spanRow
+	 * @return
+	 */
+	private RowArea getRowBelow( RowArea container, int spanRow )
+	{
+		return new TableVisitor( ).getNextRow( container, spanRow );
 	}
 
 	private void writeSingleBorder( String borderSide, BorderInfo borderinfo )
