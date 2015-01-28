@@ -38,6 +38,7 @@ public class TextWriter
 	private BorderInfo[] borders = null;
 	private static String DEFAULT_HALIGNMENT = "l"; 
 	private String hAlign = DEFAULT_HALIGNMENT;
+	private boolean hasParagraph = false;
 
 	public TextWriter( PPTXRender render )
 	{
@@ -47,7 +48,7 @@ public class TextWriter
 	}
 
 	public static boolean isSingleTextControl( IContainerArea container )
- 	{
+	{
 		if ( container instanceof BlockTextArea)
 		{
 			Iterator<IArea> iter = container.getChildren( );
@@ -58,19 +59,44 @@ public class TextWriter
 					return false;
 				}
 			}
-			return true;
+			if(hasNonEmptyTextArea(container))return true;
+			else return false;
+
 		}
-		if( container instanceof InlineTextArea )
+		else if( container instanceof InlineTextArea )
 		{
 			Iterator<IArea> iter = container.getChildren( );
 			while ( iter.hasNext( ) )
 			{
 				IArea area = iter.next( );
-				if ( !(area instanceof TextLineArea)) {
+				if ( !(area instanceof TextArea)) {
 					return false;
 				}
 			}
-			return true;
+			if(hasNonEmptyTextArea(container))return true;
+			else return false;
+		}
+		return false;
+	}
+	
+	private static boolean hasNonEmptyTextArea(IArea container)
+	{
+		if ( container instanceof TextArea )
+		{
+			if ( ( (TextArea) container ).getText( ) != null )
+				return true;
+			else
+				return false;
+		}
+
+		if ( !( container instanceof IContainerArea ) )
+			return false;
+		Iterator<IArea> iter = ( (IContainerArea) container ).getChildren( );
+		while ( iter.hasNext( ) )
+		{
+			IArea area = iter.next( );
+			if ( hasNonEmptyTextArea( area ) )
+				return true;
 		}
 		return false;
 	}
@@ -145,12 +171,17 @@ public class TextWriter
 		}
 	}
 
-	private void drawLineBorder(ContainerArea container)
+	private void drawLineBorder( ContainerArea container )
 	{
-		if(!needDrawLineBorder)return;
+		if ( !needDrawLineBorder )
+		{
+			return;
+		}
 		BorderInfo[] borders = render.cacheBorderInfo( container );
-		//set all the startX and startY to 0, since we wrap all the borders in a group
-		for(BorderInfo info: borders){
+		// set all the startX and startY to 0, since we wrap all the borders in
+		// a group
+		for ( BorderInfo info : borders )
+		{
 			info.endX = info.endX - info.startX;
 			info.endY = info.endY - info.startY;
 			info.startX = 0;
@@ -159,8 +190,8 @@ public class TextWriter
 		render.drawBorder( borders );
 	}
 	
-	private void startGroup(int startX, int startY, int width, int height)
-	{	
+	private void startGroup( int startX, int startY, int width, int height )
+	{
 		int shapeId = canvas.getPresentation( ).getNextShapeId( );
 		writer.openTag( "p:grpSp" );
 		writer.openTag( "p:nvGrpSpPr" );
@@ -178,37 +209,46 @@ public class TextWriter
 		writer.closeTag( "p:grpSpPr" );
 	}
 	
-	private void endGroup()
+	private void endGroup( )
 	{
 		writer.closeTag( "p:grpSp" );
 	}
 	
-	private void drawBlockTextChildren( IArea child)
+	private void drawBlockTextChildren( IArea child )
 	{
-		if(child instanceof TextArea)writeTextRun((TextArea)child);
-		else if(child instanceof TextLineArea)
-		{	
-			startTextLineArea();
-			Iterator<IArea> iter = ((TextLineArea)child).getChildren( );
-			while ( iter.hasNext( ) )	
+		if ( child instanceof TextArea )
+		{
+			writeTextRun( (TextArea) child );
+		}
+		else if ( child instanceof TextLineArea
+				|| child instanceof InlineTextArea )
+		{
+
+			Iterator<IArea> iter = ( (ContainerArea) child ).getChildren( );
+
+			hasParagraph = true;
+			while ( iter.hasNext( ) )
 			{
 				IArea area = iter.next( );
 				drawBlockTextChildren( area );
 			}
-			
-			endTextLineArea( (TextLineArea)child );
+
+			IArea lastchild = ( (ContainerArea) child ).getLastChild( );
+			endTextLineArea( (TextArea) lastchild );
+			hasParagraph = false;
 		}
-		else if(child instanceof ContainerArea){
-			Iterator<IArea> iter = (((ContainerArea)child).getChildren( ));
-			while ( iter.hasNext( ) )	
+		else if ( child instanceof ContainerArea )
+		{
+			Iterator<IArea> iter = ( ( (ContainerArea) child ).getChildren( ) );
+			while ( iter.hasNext( ) )
 			{
 				IArea area = iter.next( );
-				drawBlockTextChildren(area);
+				drawBlockTextChildren( area );
 			}
-		}		
+		}
 	}
 	
-	private void startTextLineArea()
+	private void startTextLineArea( )
 	{
 		writer.openTag( "a:p" );
 		writer.openTag( "a:pPr" );
@@ -216,24 +256,31 @@ public class TextWriter
 		{
 			writer.attribute( "algn", hAlign );
 		}
-		writer.closeTag( "a:pPr" );		
+		writer.closeTag( "a:pPr" );
 	}
 	
-	private void endTextLineArea( TextLineArea line)
+	private void endTextLineArea( TextArea area )
 	{
-		writeTextLineBreak( ((TextArea)(line.getChild( line.getChildrenCount( )-1 ))).getStyle());
+		writeTextLineBreak( area.getStyle( ) );
 		writer.closeTag( "a:p" );
- 	}	
+	}
 	
 	private void writeTextRun( TextArea text) 
 	{
-
+		if ( !hasParagraph )
+		{
+			startTextLineArea( );
+		}
 		writer.openTag( "a:r" );
 		setTextProperty( "a:rPr", text.getStyle( ) );
 		writer.openTag( "a:t" );
 		canvas.writeText( text.getText( ) );
 		writer.closeTag( "a:t" );
 		writer.closeTag( "a:r" );
+		if ( !hasParagraph )
+		{
+			endTextLineArea( text );
+		}
 	}
 	
 	private void writeTextLineBreak( TextStyle style)
