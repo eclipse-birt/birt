@@ -75,6 +75,8 @@ public class PPTXRender extends PageDeviceRender
 	private boolean needBufferOutput;
 	private final ArrayList<ByteArrayOutputStream> bufferedOuptuts = new ArrayList<ByteArrayOutputStream>();
 	private boolean editMode;
+	private boolean isRTL = false;
+	private boolean isTextWrap = true;
 
 	public PPTXRender( IEmitterServices services ) throws EngineException
 	{
@@ -92,6 +94,8 @@ public class PPTXRender extends PageDeviceRender
 		this.currentY = render.currentY;
 		this.scale = render.scale;
 		this.pageDevice = render.pageDevice;
+		this.isRTL = render.isRTL;
+		this.isTextWrap = render.isTextWrap;		
 		this.pageGraphic = new PPTXPage( canvas );
 	}
 
@@ -157,6 +161,7 @@ public class PPTXRender extends PageDeviceRender
 		if ( reportRunnable != null )
 		{
 			reportDesign = (ReportDesignHandle) reportRunnable.getDesignHandle( );
+			isRTL = reportDesign.isDirectionRTL( );
 		}
 		this.context = services.getReportContext( );
 		this.editMode = renderOption.getBooleanOption( OPTION_EDIT_MODE, true );
@@ -303,7 +308,10 @@ public class PPTXRender extends PageDeviceRender
 			int y = currentY + getY( text );
 			int width = getWidth( text );
 			int height = getHeight( text );
-			new TextWriter( this ).writeTextBlock( x, y, width, height, text );
+			TextWriter tw =new TextWriter( this );
+			tw.setLink( PPTUtil.getHyperlink( text, services, reportRunnable,
+					context ) );
+			tw.writeTextBlock( x, y, width, height, text );
 		}
 		else
 		{
@@ -410,4 +418,13 @@ public class PPTXRender extends PageDeviceRender
 		}
 	}
 
+	public boolean isRTL( )
+	{
+		return isRTL;
+	}
+
+	public boolean isTextWrap( )
+	{
+		return isTextWrap;
+	}
 }

@@ -51,6 +51,7 @@ public class TableWriter
 	private int currentRow;
 	private int colspan;
 	private int rowspan;
+	private boolean isRTL = false;
 	private boolean isTextWrap = true;
 	private final ArrayList<Integer> zeroColumnList = new ArrayList<Integer>();
 	private TextWriter emptytextboxwriter;
@@ -64,7 +65,8 @@ public class TableWriter
 		this.writer = canvas.getWriter( );
 		currentX = render.getCurrentX( );
 		currentY = render.getCurrentY( );
-
+		isRTL = render.isRTL( );
+		isTextWrap = render.isTextWrap( );
 	}
 
 	public void outputTable( TableArea table )
@@ -687,10 +689,29 @@ public class TableWriter
 			}			
 		}
 
-		if ( bgimginfo != null
-				&& bgimginfo.getRepeatedMode( ) == BackgroundImageInfo.REPEAT )
+		if ( bgimginfo != null )
 		{
-			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ), 0, 0);	
+			float offsetY = 0;
+			float offsetX = 0;
+			int repeatmode = bgimginfo.getRepeatedMode( );
+
+			if ( repeatmode == BackgroundImageInfo.NO_REPEAT )
+			{
+				int imgheight = PPTXUtil.pixelToEmu( (int) bgimginfo.getImageInstance( )
+						.getHeight( ),
+						bgimginfo.getImageInstance( ).getDpiY( ) );
+				int imgwidth = PPTXUtil.pixelToEmu( (int) bgimginfo.getImageInstance( )
+						.getWidth( ),
+						bgimginfo.getImageInstance( ).getDpiX( ) );
+				int cellheight = PPTXUtil.convertToEnums( canvas.getScaledValue( cell.getHeight( ) ) );
+				int cellwidth = PPTXUtil.convertToEnums( canvas.getScaledValue( cell.getWidth( ) ) );
+				offsetY = PPTXUtil.parsePercentageOffset( cellheight, imgheight );
+				offsetX = PPTXUtil.parsePercentageOffset( cellwidth, imgwidth );
+			}
+			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ),
+					(int) offsetX,
+					(int) offsetY,
+					repeatmode );
 		}
 		else if ( backgroundcolor != null )
 		{
@@ -735,47 +756,82 @@ public class TableWriter
 	 * 
 	 * @param container
 	 */
-	protected void drawBorders( IContainerArea container )
+	protected void drawBorders( CellArea container )
 	{
 		BoxStyle style = container.getBoxStyle( );
-		if( style == null) return;
-
-		BorderInfo baseborderinfo = style.getLeftBorder( );
-
-		writeSingleBorder( LEFTBORDERLINE, baseborderinfo );		
-
-		BorderInfo currentborderinfo = style.getRightBorder( );
-		if( currentborderinfo != null)
+		if ( style == null )
+			return;
+		BorderInfo currentborderinfo = null;
+		int additionalcol = 0;
+		int drawcurrentcolid = container.getColumnID( );
+		Integer additionalColSpan = mapignorecolumns.get( drawcurrentcolid );
+		if ( additionalColSpan != null )
 		{
-			writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
-			baseborderinfo = currentborderinfo;
+			additionalcol = additionalColSpan;
+		}
+		CellArea nextcell = ( (RowArea) container.getParent( ) )
+				.getCell( drawcurrentcolid + colspan + additionalcol );
+		
+		if ( !isRTL )
+		{//normal flow
+			writeSingleBorder( LEFTBORDERLINE, style.getLeftBorder( ) );
+
+			if ( nextcell != null )
+			{
+				currentborderinfo = nextcell.getBoxStyle( ).getLeftBorder( );
+				writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
+			}
+			if ( currentborderinfo == null )
+			{
+				writeSingleBorder( RIGHTBORDERLINE, style.getRightBorder( ) );
+			}
 		}
 		else
-		{ //draw if border is empty:
-			writeSingleBorder( RIGHTBORDERLINE, baseborderinfo );
+		{//RTL
+			writeSingleBorder( LEFTBORDERLINE, style.getRightBorder( ) );
+			if ( nextcell != null )
+			{
+				currentborderinfo = nextcell.getBoxStyle( ).getRightBorder( );
+				writeSingleBorder( RIGHTBORDERLINE, currentborderinfo );
+			}
+			if ( currentborderinfo == null )
+			{
+				writeSingleBorder( RIGHTBORDERLINE, style.getLeftBorder( ) );
+			}
 		}
 
-		currentborderinfo = style.getTopBorder( );
-		if( currentborderinfo != null)
+		writeSingleBorder( TOPBORDERLINE, style.getTopBorder( ) );
+
+		//check below cell first for bottomline style
+		currentborderinfo = null;
+		
+		RowArea rowbelow = getRowBelow( (RowArea)container.getParent( ), container.getRowSpan( ) );
+		
+		if ( rowbelow != null && rowbelow.getChildrenCount( ) > 0 )
 		{
-			writeSingleBorder( TOPBORDERLINE, currentborderinfo);
-			baseborderinfo = currentborderinfo;
+			CellArea belowCell = rowbelow.getCell( drawcurrentcolid );
+			if ( belowCell != null )
+			{
+				currentborderinfo = belowCell.getBoxStyle( ).getTopBorder( );
+			}
+			writeSingleBorder( BOTTOMBORDERLINE, currentborderinfo );
 		}
-		else
-		{ //draw if border is empty:
-			writeSingleBorder( TOPBORDERLINE, baseborderinfo );			
+		if ( currentborderinfo == null )
+		{
+			writeSingleBorder( BOTTOMBORDERLINE, style.getBottomBorder( ) );
 		}
-
-		currentborderinfo = style.getBottomBorder();
-		if( currentborderinfo != null)
-		{	
-			writeSingleBorder( BOTTOMBORDERLINE, style.getBottomBorder());
-		}
-		else
-		{ //draw if border is empty:
-			writeSingleBorder( BOTTOMBORDERLINE, baseborderinfo );			
-		}		
-
+	}
+	
+	/**
+	 * Find the row below the existing table
+	 * 
+	 * @param container
+	 * @param spanRow
+	 * @return
+	 */
+	private RowArea getRowBelow( RowArea container, int spanRow )
+	{
+		return new TableVisitor( ).getNextRow( container, spanRow );
 	}
 
 	private void writeSingleBorder( String borderSide, BorderInfo borderinfo )

@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.emitter.pptx;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Stack;
@@ -489,18 +491,50 @@ public class PPTXCanvas
 		writer.closeTag( "p:sp" );
 	}
 
-	public void setBackgroundImg( String relationshipid,  int offsetX, int offsetY )
+	public void setBackgroundImg( String relationshipid, int offsetX,
+			int offsetY )
 	{
+		setBackgroundImg( relationshipid,
+				offsetX,
+				offsetY,
+				BackgroundImageInfo.REPEAT );
+	}
+	
+	public void setBackgroundImg( String relationshipid, int offsetX,
+			int offsetY, int repeatmode )
+	{
+		if ( repeatmode < BackgroundImageInfo.NO_REPEAT
+				|| repeatmode > BackgroundImageInfo.REPEAT
+				|| repeatmode == BackgroundImageInfo.REPEAT_X
+				|| repeatmode == BackgroundImageInfo.REPEAT_Y )
+		{// cases that are not supported: log on exception
+			return;
+		}
 		writer.openTag( "a:blipFill" );
 		writer.attribute( "dpi", "0" );
 		writer.attribute( "rotWithShape", "1" );
 		writer.openTag( "a:blip" );
 		writer.attribute( "r:embed", relationshipid );
 		writer.closeTag( "a:blip" );
-		writer.openTag( "a:tile" );
-		writer.attribute( "tx", offsetX );
-		writer.attribute( "ty", offsetY );
-		writer.closeTag( "a:tile" );			
+
+		switch ( repeatmode )
+		{
+			case BackgroundImageInfo.REPEAT :
+				writer.openTag( "a:tile" );
+				writer.attribute( "tx", offsetX );
+				writer.attribute( "ty", offsetY );
+				writer.closeTag( "a:tile" );
+				break;
+
+			case BackgroundImageInfo.NO_REPEAT :
+				writer.openTag( "a:stretch" );
+				writer.openTag( "a:fillRect" );
+				writer.attribute( "b", offsetY );
+				writer.attribute( "r", offsetX );
+				writer.closeTag( "a:fillRect" );
+				writer.closeTag( "a:stretch" );
+				break;
+		}
 		writer.closeTag( "a:blipFill" );
 	}
 
@@ -542,7 +576,15 @@ public class PPTXCanvas
 	{
 		if ( link != null )
 		{
-			String hyperlink = link.getLink( );
+			String hyperlink = null;
+			try
+			{
+				hyperlink = URLEncoder.encode( link.getLink( ), "UTF-8" );
+			}
+			catch ( UnsupportedEncodingException ue )
+			{
+				logger.log( Level.SEVERE, ue.getLocalizedMessage( ), ue );
+			}
 			if ( hyperlink != null )
 			{
 				if ( hyperlink.startsWith( "\"" ) && hyperlink.endsWith( "\"" ) )
