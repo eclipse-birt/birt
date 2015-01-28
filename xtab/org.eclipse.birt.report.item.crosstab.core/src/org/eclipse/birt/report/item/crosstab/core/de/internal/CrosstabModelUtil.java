@@ -1030,14 +1030,14 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				
 				if( func == null )
 				{
-					if( !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
-					{
+//					if( !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+//					{
 						func = DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
-					}	
-					else
-					{
-						func = DEFAULT_MEASURE_FUNCTION;
-					}	
+//					}	
+//					else
+//					{
+//						func = DEFAULT_MEASURE_FUNCTION;
+//					}	
 					
 				}
 				
