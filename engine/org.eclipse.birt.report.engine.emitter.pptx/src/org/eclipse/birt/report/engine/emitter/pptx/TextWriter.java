@@ -20,7 +20,6 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.TextLineArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
-import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
 import com.lowagie.text.Font;
@@ -35,6 +34,7 @@ public class TextWriter
 	private boolean needGroup = false;
 	private boolean needDrawLineBorder = false;
 	private boolean needDrawSquareBorder = false;
+	private boolean firstTextInCell = true;
 	private BorderInfo[] borders = null;
 	private static String DEFAULT_HALIGNMENT = "l"; 
 	private String hAlign = DEFAULT_HALIGNMENT;
@@ -107,21 +107,23 @@ public class TextWriter
 
 		if ( needGroup )
 		{
-			startGroup( startX, startY, width + 1, height );
+			startGroup( startX, startY, width, height );
 			startX = 0;
 			startY = 0;
 		}
 		drawLineBorder( container );
-		startBlockText( startX, startY, width + 1, height, container );
+		startBlockText( startX, startY, width, height, container );
 		drawBlockTextChildren( container );
 		endBlockText( container );
 		if ( needGroup )
+		{
 			endGroup( );
+		}
 	}
 	
 	private void parseBlockTextArea( ContainerArea container )
 	{
-		if( container.getParent( ) instanceof CellArea)
+		if ( container.getParent( ) instanceof CellArea && firstTextInCell )
 		{
 			needShape = false;
 			return;
@@ -172,7 +174,7 @@ public class TextWriter
 		writer.closeTag( "p:nvPr" );
 		writer.closeTag( "p:nvGrpSpPr" );
 		writer.openTag( "p:grpSpPr" );
-		canvas.setPosition( startX, startY, width + 1, height );
+		canvas.setPosition( startX, startY, width, height );
 		writer.closeTag( "p:grpSpPr" );
 	}
 	
@@ -287,32 +289,6 @@ public class TextWriter
 		}
 	}
 	
-	
-	private void fillRectangleWithImage( ImagePart imageInfo, int x, int y,
-			int width, int height, int offsetX, int offsetY )
-	{
-		writer.openTag( "a:blipFill" );
-		writer.attribute( "dpi", "0" );
-		writer.attribute( "rotWithShape", "1" );
-		writer.openTag( "a:blip" );
-		writer.attribute( "r:embed", imageInfo.getPart( ).getRelationshipId( ) );
-		writer.closeTag( "a:blip" );
-
-		// To stretch
-		//writer.openTag( "a:stretch" );
-		//writer.openTag( "a:fillRect" );
-		//writer.closeTag( "a:fillRect" );
-		//writer.closeTag( "a:stretch" );
-
-		// To tile
-		writer.openTag( "a:tile" );
-		writer.attribute( "tx", offsetX );
-		writer.attribute( "ty", offsetY );
-		writer.closeTag( "a:tile" );
-		writer.closeTag( "a:blipFill" );
-
-	}
-	
 	private void setTextFont( String fontName )
 	{
 		writer.openTag( "a:latin" );
@@ -357,7 +333,7 @@ public class TextWriter
 			writer.closeTag( "p:nvPr" );
 			writer.closeTag( "p:nvSpPr" );
 			writer.openTag( "p:spPr" );
-			canvas.setPosition( startX, startY, width + 1, height );
+			canvas.setPosition( startX, startY, width, height );
 			writer.openTag( "a:prstGeom" );
 			writer.attribute( "prst", "rect" );
 			writer.closeTag( "a:prstGeom" );
@@ -453,40 +429,45 @@ public class TextWriter
 		writer.attribute( "rtlCol", "0" );
 		
 		IContent content = container.getContent( );
+		String vAlign = null;
+		if ( content != null )
+		{
+			vAlign = content.getComputedStyle( ).getVerticalAlign( );
+			if ( vAlign != null && needShape )
+			{
+				if ( vAlign.equals( "bottom" ) )
+				{
+					writer.attribute( "anchor", "b" );
+				}
+				else if ( vAlign.equals( "middle" ) )
+				{
+					writer.attribute( "anchor", "ctr" );
+				}
+			}
 
-		String vAlign = content.getComputedStyle( ).getVerticalAlign( );
-
-		if ( vAlign.equals( "bottom" ) )
-		{
-			writer.attribute( "anchor", "b" );
-		}
-		else if ( vAlign.equals( "middle" ) )
-		{
-			writer.attribute( "anchor", "ctr" );
-		}
-		
-		hAlign = content.getComputedStyle( ).getTextAlign( );
-		if ( hAlign != null )
-		{
-			if ( hAlign.equals( "left" ) )
+			hAlign = content.getComputedStyle( ).getTextAlign( );
+			if ( hAlign != null )
 			{
-				hAlign = "l";
-			}
-			else if ( hAlign.equals( "right" ) )
-			{
-				hAlign = "r";
-			}
-			else if ( hAlign.equals( "center" ) )
-			{
-				hAlign = "ctr";
-			}
-			else if ( hAlign.equals( "justify" ) )
-			{
-				hAlign = "just";
-			}
-			else
-			{
-				hAlign = DEFAULT_HALIGNMENT;
+				if ( hAlign.equals( "left" ) )
+				{
+					hAlign = "l";
+				}
+				else if ( hAlign.equals( "right" ) )
+				{
+					hAlign = "r";
+				}
+				else if ( hAlign.equals( "center" ) )
+				{
+					hAlign = "ctr";
+				}
+				else if ( hAlign.equals( "justify" ) )
+				{
+					hAlign = "just";
+				}
+				else
+				{
+					hAlign = DEFAULT_HALIGNMENT;
+				}
 			}
 		}
 		
@@ -503,5 +484,28 @@ public class TextWriter
 		else{
 			writer.closeTag( "a:txBody" );
 		}
+	}
+	
+	/**
+	 * Create a blank text body on respective font size
+	 * 
+	 * @param fontSize
+	 */
+	public void writeBlankTextBlock( int fontSize )
+	{
+		writer.openTag( "a:txBody" );
+		writer.openTag( "a:bodyPr" );
+		writer.closeTag( "a:bodyPr" );
+		writer.openTag( "a:p" );
+		writer.openTag( "a:endParaRPr" );
+		writer.attribute( "sz", fontSize );
+		writer.closeTag( "a:endParaRPr" );
+		writer.closeTag( "a:p" );
+		writer.closeTag( "a:txBody" );
+	}
+
+	public void setNotFirstTextInCell( )
+	{
+		firstTextInCell = false;
 	}
 }

@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
-import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.emitter.pptx.writer.Presentation;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
@@ -48,10 +47,11 @@ public class PPTXCanvas
 	private static Logger logger = Logger
 			.getLogger( PPTXCanvas.class.getName( ) );
 
-	private Presentation presentation;
-	private IPart part;
-	private ImageManager imageManager;
-	private OOXmlWriter writer;
+	private final Presentation presentation;
+	private final IPart part;
+	private final ImageManager imageManager;
+	private final OOXmlWriter writer;
+	private float scale = 1;
 
 	public PPTXCanvas( Presentation presentation, IPart part, OOXmlWriter writer )
 	{
@@ -372,7 +372,7 @@ public class PPTXCanvas
 			writer.openTag( "a:prstGeom" );
 			writer.attribute( "prst", "rect" );
 			writer.closeTag( "a:prstGeom" );
-			setColor( color );
+			setBackgroundColor( color );
 			writer.closeTag( "p:spPr" );
 			writer.closeTag( "p:sp" );
 		}
@@ -532,7 +532,7 @@ public class PPTXCanvas
 		{
 			writer.attribute( "b", 1 );
 		}
-		setColor( color );
+		setBackgroundColor( color );
 		setTextFont( fontName );
 		setHyperlink( link );
 		writer.closeTag( "a:rPr" );
@@ -575,7 +575,7 @@ public class PPTXCanvas
 		writer.closeTag( "a:cs" );
 	}
 
-	public void setColor( Color color )
+	public void setBackgroundColor( Color color )
 	{
 		if ( color != null )
 		{
@@ -614,7 +614,7 @@ public class PPTXCanvas
 		if(style == org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOUBLE){
 			writer.attribute( "cmpd", "dbl" );
 		}
-		setColor( color );
+		setBackgroundColor( color );
 
 		// the other line styles, e.g. 'ridge', 'outset', 'groove', 'insert'
 		// is NOT supported now and all regarded with default style, i.e, solid.
@@ -671,7 +671,7 @@ public class PPTXCanvas
 				textStyle.isLinethrough( ), link );
 	}
 
-	private Stack<ClipArea> clipStack = new Stack<ClipArea>( );
+	private final Stack<ClipArea> clipStack = new Stack<ClipArea>( );
 
 	private class ClipArea
 	{
@@ -689,11 +689,6 @@ public class PPTXCanvas
 
 	public void startClip( int startX, int startY, int width, int height )
 	{
-		startX = PPTXUtil.convertToEnums( startX );
-		startY = PPTXUtil.convertToEnums( startY );
-		width = PPTXUtil.convertToEnums( width );
-		height = PPTXUtil.convertToEnums( height );
-
 		if ( clipStack.isEmpty( ) )
 		{
 			clipStack.push( new ClipArea( startX, startY, width, height ) );
@@ -754,5 +749,16 @@ public class PPTXCanvas
 		}
 
 		return relationshipid;
+	}
+	
+	protected int getScaledValue( float value )
+	{
+		return (int) ( value * scale );
+	}
+	
+	
+	public void setScale( float newscale )
+	{
+		scale = newscale;
 	}
 }
