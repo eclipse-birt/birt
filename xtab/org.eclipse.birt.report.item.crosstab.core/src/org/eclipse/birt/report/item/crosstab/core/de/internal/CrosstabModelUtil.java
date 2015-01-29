@@ -41,15 +41,18 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFacto
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.ICrosstabUpdateContext;
 import org.eclipse.birt.report.item.crosstab.core.util.ICrosstabUpdateListener;
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -595,19 +598,21 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			String dataType = measureView.getDataType( );
 			column.setDataType( dataType );
 			
+			String measureName = null;
 			if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
 			{
-				String dataField = CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
-				if( dataField == null || dataField.isEmpty() )
+				measureName = CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
+				if( measureName == null || measureName.isEmpty() )
 				{
 					// throw case
 					return;
-				}
-				column.setExpression( ExpressionUtil.createDataSetRowExpression( dataField ) );
+				}				
+				column.setExpression( ExpressionUtil.createDataSetRowExpression( measureName ) );
 			}
 			else
 			{
-				column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+				measureName = measureView.getCubeMeasureName( );
+				column.setExpression( ExpressionUtil.createJSMeasureExpression( measureName ) );
 			}
 			
 			String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
@@ -722,7 +727,8 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 								// TODO we ignore any existing running type
 								// aggregation binding here, logic need be
 								// refined and moved out.
-								if ( aggFunc.getType( ) != IAggrFunction.RUNNING_AGGR )
+								if ( aggFunc.getType( ) != IAggrFunction.RUNNING_AGGR 
+										&& isMeasureDataItem(crosstab, measureName, (DataItemHandle) item, binding) )
 								{
 									( (DataItemHandle) item ).setResultSetColumn( columnHandle.getName( ) );
 
@@ -740,6 +746,118 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		}
 	}
 
+	/**
+	 * Whether is measure data item.
+	 * 
+	 * @param crosstab
+	 * @param measureName
+	 * @param dataItemHandle
+	 * @param crosstabBindingsCache
+	 * @return
+	 */
+	public static boolean isMeasureDataItem( CrosstabReportItemHandle crosstab, String measureName,
+			DataItemHandle dataItemHandle, ComputedColumnHandle binding )
+	{
+		if ( crosstab == null 
+				|| dataItemHandle == null 
+				|| measureName == null 
+				|| binding == null )
+		{
+			return false;
+		}
+
+		String resultSetColumn = dataItemHandle.getResultSetColumn( );
+		if ( resultSetColumn == null )
+		{
+			return false;
+		}
+
+		String measureBREExpr = "[" + escape(measureName) + "]";
+		String measureJsExpr = ExpressionUtil
+				.createJSMeasureExpression( measureName );		
+		if ( CrosstabUtil.isBoundToLinkedDataSet( crosstab ) )
+		{
+			measureJsExpr = ExpressionUtil
+					.createDataSetRowExpression( measureName );
+		}		
+		
+		ExpressionHandle expr = getExpression( binding );		
+		String exprStr = (expr != null) ? expr.getStringExpression( ) : null;
+		if ( exprStr != null )
+		{
+			if( "javascript".equalsIgnoreCase( expr.getType( ) ) )
+			{
+				if( exprStr.contains( measureJsExpr ) )
+				{
+					return true;
+				}
+			}
+			else
+			{
+				if( exprStr.contains( measureBREExpr ) )
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+	
+	private static String escape( String name )
+	{
+		// escape '
+		name = name.replaceAll( "\\'", "''" );
+		// escape [
+		name = name.replaceAll( "\\[", "'['" );
+		// escape ]
+		name = name.replaceAll( "\\]", "']'" );
+		// escape ?
+		name = name.replaceAll( "\\?", "'?'" );
+		return name;
+	}
+
+	private static String unescape( String name )
+	{
+		// unescape [
+		name = name.replaceAll( "'\\['", "[" );
+		// unescape ]
+		name = name.replaceAll( "'\\]'", "]" );
+		// unescape ?
+		name = name.replaceAll( "\\'\\?\\'", "?" );
+		// unescape '
+		name = name.replaceAll( "\\'\\'", "'" );
+		return name;
+	}
+	
+	public static ExpressionHandle getExpression(
+			ComputedColumnHandle columnBindingHandle )
+	{
+		if ( columnBindingHandle == null )
+		{
+			return null;
+		}
+
+		ExpressionHandle exprHandle = columnBindingHandle.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+		if ( exprHandle == null || exprHandle.getValue( ) == null )
+		{
+			Iterator<AggregationArgumentHandle> it = columnBindingHandle
+					.argumentsIterator( );
+			while ( it.hasNext( ) )
+			{
+				AggregationArgumentHandle ah = it.next( );
+				if ( "Expression".equalsIgnoreCase( ah.getName( ) ) )
+				{
+					exprHandle = ah
+							.getExpressionProperty( AggregationArgument.VALUE_MEMBER );
+					break;
+				}
+			}
+		}
+
+		return exprHandle;
+	}
+	
 	public static ComputedColumnHandle generateAggregation(
 			CrosstabReportItemHandle crosstab, AggregationCellHandle cell,
 			MeasureViewHandle measureView, String function,
@@ -912,18 +1030,18 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				
 				if( func == null )
 				{
-					if( !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
-					{
+//					if( !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
+//					{
 						func = DesignChoiceConstants.MEASURE_FUNCTION_COUNT;
-					}	
-					else
-					{
-						func = DEFAULT_MEASURE_FUNCTION;
-					}	
+//					}	
+//					else
+//					{
+//						func = DEFAULT_MEASURE_FUNCTION;
+//					}	
 					
 				}
 				
-				return func;
+				return DataAdapterUtil.getRollUpAggregationName( func );
 			}
 			else
 			{
