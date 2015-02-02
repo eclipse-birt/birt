@@ -21,6 +21,8 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseElementTreeSelec
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FileContentProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FileLabelProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FilePathEntry;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
@@ -31,6 +33,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.core.runtime.IStatus;
@@ -68,7 +71,13 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
  */
 public class ProjectFileDialog extends BaseElementTreeSelectionDialog
 {
+	public static final String HELPER_PROPERTY_SELECTED_TYPE = "HELPER_PROPERTY_SELECTED_TYPE";//$NON-NLS-1$
+	public static final String HELPER_PROPERTY_IS_RELATIVE_TO_PROJECT = "HELPER_PROPERTY_IS_RELATIVE_TO_PROJECT";//$NON-NLS-1$
+	public static final String HELPER_PROPERTY_PREFIX = "HELPER_PROPERTY_PREFIX";//$NON-NLS-1$
 
+	IDialogHelper helper = null;
+	String selectedType;
+	boolean isRelativeToProjectRoot;
 	protected String newFileName = ""; //$NON-NLS-1$
 
 	private Status OKStatus = new Status( IStatus.OK,
@@ -135,8 +144,17 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog
 		String path = entry.getURL( ).getFile( );
 		if ( entry.getURL( ).getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 		{
-			return URIUtil.resolveAbsolutePath( input,
+			path = URIUtil.resolveAbsolutePath( input,
 					URIUtil.getRelativePath( input, path ) );
+		}
+
+		if ( helper != null )
+		{
+			Object prefix = helper.getProperty( HELPER_PROPERTY_PREFIX );
+			if ( prefix != null )
+			{
+				path = prefix + path;
+			}
 		}
 		return path;
 
@@ -152,9 +170,9 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog
 
 	private ToolBar toolBar;
 
-	public ProjectFileDialog( String input )
+	public ProjectFileDialog( String input, String selectedType, boolean isRelativeToProjectRoot )
 	{
-		this( input, null );
+		this( input, null, selectedType, isRelativeToProjectRoot );
 	}
 
 	public void refreshRoot( )
@@ -170,12 +188,14 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog
 		handleTreeViewerRefresh( );
 	}
 
-	public ProjectFileDialog( String input, String[] filePattern )
+	public ProjectFileDialog( String input, String[] filePattern, String selectedType, boolean isRelativeToProjectRoot )
 	{
 		super( UIUtil.getDefaultShell( ),
 				new FileLabelProvider( input ),
 				new FileContentProvider( true ) );
 		this.input = input;
+		this.selectedType = selectedType;
+		this.isRelativeToProjectRoot = isRelativeToProjectRoot;
 
 		if ( filePattern != null && filePattern.length > 0 )
 		{
@@ -310,8 +330,29 @@ public class ProjectFileDialog extends BaseElementTreeSelectionDialog
 		};
 		getTreeViewer( ).getTree( ).addTreeListener( treeListener );
 
+		initDialogHelper(rt);
+		
 		UIUtil.bindHelp( parent, IHelpContextIds.PROJECT_FILES_DIALOG_ID );
 		return rt;
+	}
+
+	private void initDialogHelper(Composite rt)
+	{
+		// *********** try using a helper provider ****************
+		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( this,
+				IDialogHelperProvider.class );
+
+		if ( helperProvider != null )
+		{
+			this.helper = helperProvider.createHelper( this, "");//$NON-NLS-1$
+			this.helper.setProperty( HELPER_PROPERTY_SELECTED_TYPE, selectedType );
+			this.helper.setProperty( HELPER_PROPERTY_IS_RELATIVE_TO_PROJECT, isRelativeToProjectRoot );
+			this.helper.createContent(rt);
+		}
+		else
+		{
+			this.helper = null;
+		}
 	}
 
 	private TreeViewerBackup treeViewerBackup;
