@@ -14,8 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -67,6 +69,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	private static final String NONE = Messages.getString( "DataSetColumnBindingsFormHandleProvider.NONE" );//$NON-NLS-1$
 
 	private String[] columnNames = new String[]{
+			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Position" ),//$NON-NLS-1$
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),//$NON-NLS-1$
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID" ),//$NON-NLS-1$
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayName" ),//$NON-NLS-1$
@@ -77,7 +80,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	private CellEditor[] editors;
 
 	private static int[] columnWidth = new int[]{
-			140, 140, 140, 80, 200
+			80, 140, 140, 140, 80, 200
 	};
 
 	// object to add data binding.
@@ -88,6 +91,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
 			.getAllowedChoices( )
 			.getChoices( );
+
+	Map<String,Integer> columnBindingNameToPositionMap = new HashMap<String,Integer>();
 
 	public boolean isEnable( )
 	{
@@ -139,7 +144,10 @@ public class DataSetColumnBindingsFormHandleProvider extends
 	public void setBindingObject( DesignElementHandle bindingObject )
 	{
 		if ( bindingObject instanceof ReportElementHandle )
-			this.bindingObject = (ReportElementHandle) bindingObject;
+		{
+			this.bindingObject = ( ReportElementHandle )bindingObject;
+			this.columnBindingNameToPositionMap.clear();
+		}
 	}
 
 	public String[] getColumnNames( )
@@ -259,21 +267,62 @@ public class DataSetColumnBindingsFormHandleProvider extends
 		return false;
 	}
 
+	private Integer getColumnPosition( ComputedColumnHandle handle )
+	{
+		String name = handle.getName( );
+		if ( name == null )
+			return 0;
+
+		Map<String, Integer> map = getColumnBindingMap( );
+		if (map.containsKey( name ))
+		{
+			return map.get( name );
+		}
+		else
+		{
+			return map.size() + 1;
+		}
+	}
+
+	private Map<String, Integer> getColumnBindingMap( )
+	{
+		if ( this.columnBindingNameToPositionMap.isEmpty() )
+		{
+			DesignElementHandle eHandle = this.getBindingObject();
+			if ( eHandle instanceof ReportItemHandle )
+			{
+				int position = 1;
+				ReportItemHandle handle = ( ReportItemHandle ) this.getBindingObject();
+				for ( Iterator iter = handle.getColumnBindings( )
+						.iterator( ); iter.hasNext( ); )
+				{
+					ComputedColumnHandle col = (ComputedColumnHandle)iter.next();
+					String name = col.getName();
+					this.columnBindingNameToPositionMap.put( col.getName(), position );
+					position++;
+				}
+			}
+		}
+		return this.columnBindingNameToPositionMap;
+	}
+
 	public String getColumnText( Object element, int columnIndex )
 	{
 		switch ( columnIndex )
 		{
 			case 0 :
-				return ( (ComputedColumnHandle) element ).getName( );
+				return getColumnPosition( (ComputedColumnHandle) element ).toString();
 			case 1 :
-				return ( (ComputedColumnHandle) element ).getDisplayNameID( );
+				return ( (ComputedColumnHandle) element ).getName( );
 			case 2 :
-				return ( (ComputedColumnHandle) element ).getDisplayName( );
+				return ( (ComputedColumnHandle) element ).getDisplayNameID( );
 			case 3 :
-				return getDataTypeDisplayName( ( (ComputedColumnHandle) element ).getDataType( ) );
+				return ( (ComputedColumnHandle) element ).getDisplayName( );
 			case 4 :
-				return DataUtil.getAggregationExpression( (ComputedColumnHandle) element );
+				return getDataTypeDisplayName( ( (ComputedColumnHandle) element ).getDataType( ) );
 			case 5 :
+				return DataUtil.getAggregationExpression( (ComputedColumnHandle) element );
+			case 6 :
 				try
 				{
 					String function = ( (ComputedColumnHandle) element ).getAggregateFunction( );
@@ -293,7 +342,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 					ExceptionHandler.handle( e );
 				}
 				return null;
-			case 6 :
+			case 7 :
 				String ExpValue = ( (ComputedColumnHandle) element ).getFilterExpression( );
 				if ( ExpValue != null && ExpValue.length( ) > 0 )
 				{
@@ -303,7 +352,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				{
 					return null;
 				}
-			case 7 :
+			case 8 :
 				String value = DEUtil.getAggregateOn( (ComputedColumnHandle) element );
 				String text;
 				if ( value == null )
@@ -387,15 +436,26 @@ public class DataSetColumnBindingsFormHandleProvider extends
 
 	private class BindingComparator implements Comparator
 	{
-
 		public int compare( Object o1, Object o2 )
 		{
 			ComputedColumnHandle binding1 = (ComputedColumnHandle) o1;
 			ComputedColumnHandle binding2 = (ComputedColumnHandle) o2;
-			String columnText1 = getColumnText( binding1, sortingColumnIndex );
-			String columnText2 = getColumnText( binding2, sortingColumnIndex );
-			int result = ( columnText1 == null ? "" : columnText1 ).compareTo( ( columnText2 == null ? "" //$NON-NLS-1$ //$NON-NLS-2$
+			
+			int result = 0;
+			
+			if ( sortingColumnIndex == 0 ) // Sort by position
+			{
+				Integer col1 = getColumnPosition( binding1 );
+				Integer col2 = getColumnPosition( binding2 );
+				result = col1.compareTo( col2 );
+			}
+			else
+			{
+				String columnText1 = getColumnText( binding1, sortingColumnIndex );
+				String columnText2 = getColumnText( binding2, sortingColumnIndex );
+				result = ( columnText1 == null ? "" : columnText1 ).compareTo( ( columnText2 == null ? "" //$NON-NLS-1$ //$NON-NLS-2$
 					: columnText2 ) );
+			}
 			if ( sortDirection == SWT.UP )
 				return result;
 			else
@@ -704,6 +764,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 		if ( showAggregation )
 		{
 			columnNames = new String[]{
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Position" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID" ), //$NON-NLS-1$
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayName" ), //$NON-NLS-1$
@@ -714,7 +775,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			};
 			columnWidth = new int[]{
-					110, 110, 110, 80, 110, 110, 110, 90
+					80, 110, 110, 110, 80, 110, 110, 110, 90
 			};
 		}
 	}
