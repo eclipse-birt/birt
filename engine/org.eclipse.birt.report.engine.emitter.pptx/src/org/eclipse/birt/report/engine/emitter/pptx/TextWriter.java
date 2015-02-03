@@ -376,15 +376,20 @@ public class TextWriter
 			BoxStyle style = container.getBoxStyle( );
 			Color color = style.getBackgroundColor( );
 			BackgroundImageInfo image = style.getBackgroundImage( );
-			if ( color != null )
-			{
-				canvas.setBackgroundColor( color );
-			}
 			if ( image != null )
 			{
 				canvas.setBackgroundImg( canvas.getImageRelationship( image ),
 						0,
 						0 );
+			}
+			else if ( color != null )
+			{
+				canvas.setBackgroundColor( color );
+			}
+			else
+			{
+				writer.openTag( "a:noFill" );
+				writer.closeTag( "a:noFill" );
 			}
 
 			writeLineStyle( );
