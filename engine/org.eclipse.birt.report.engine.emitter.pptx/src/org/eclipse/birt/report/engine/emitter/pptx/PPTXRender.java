@@ -97,7 +97,7 @@ public class PPTXRender extends PageDeviceRender
 		this.currentY = render.currentY;
 		this.pageDevice = render.pageDevice;
 		this.isRTL = render.isRTL;
-		this.isTextWrap = render.isTextWrap;		
+		this.isTextWrap = render.isTextWrap;
 		this.pageGraphic = new PPTXPage( canvas );
 	}
 
@@ -200,7 +200,7 @@ public class PPTXRender extends PageDeviceRender
 				height,
 				textStyle );
 	}
-	
+
 	@Override
 	public void visitContainer( IContainerArea container )
 	{
@@ -242,7 +242,7 @@ public class PPTXRender extends PageDeviceRender
 					int currentslide = presentation.getCurrentSlideIdx( );
 					presentation.addBookmark( bmk, currentslide );
 				}
-			}		
+			}
 			startContainer( container );
 			visitChildren( container );
 			endContainer( container );

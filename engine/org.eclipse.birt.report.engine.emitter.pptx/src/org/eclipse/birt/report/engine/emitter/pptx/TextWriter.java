@@ -493,7 +493,7 @@ public class TextWriter
 		ic.getComputedStyle( ).getVerticalAlign( );
 		container.getTextAlign( );
 		writer.openTag( "a:bodyPr" );
-		if ( needClip )
+		if ( needClip || !render.isTextWrap( ) )
 		{
 			writer.attribute( "vertOverflow", "clip" );
 			writer.attribute( "wrap", "square" );

@@ -683,43 +683,40 @@ public class TableWriter
 
 		return false;
 	}
-	
+	//FIXME: use camel naming and put a verb in
 	private boolean childneedclip( ContainerArea container )
-
 	{
 		if ( container.needClip( ) )
 		{
 			return true;
 		}
-
 		Iterator<IArea> iter = container.getChildren( );
 		while ( iter.hasNext( ) )
-		{			
-
+		{
 			IArea child = iter.next( );
-			if( child instanceof TextArea )
+			if ( child instanceof TextArea )
 			{
-				if(( (TextArea) child).needClip( ))
+				if ( ( (TextArea) child ).needClip( ) )
 				{
 					return true;
 				}
-				else{
+				else
+				{
 					continue;
 				}
 			}
-			ContainerArea childcontainer = ( ContainerArea )child;
+			ContainerArea childcontainer = (ContainerArea) child;
 			if ( childcontainer.needClip( ) )
 			{
 				return true;
 			}
-			else if ( !childcontainer.isEmpty( ) && childneedclip( childcontainer ) )
+			else if ( !childcontainer.isEmpty( )
+					&& childneedclip( childcontainer ) )
 			{
 				return true;
 			}
-
 		}
 		return false;
-
 
 	}
 
@@ -750,7 +747,7 @@ public class TableWriter
 				{
 					bgimginfo = rowStyle.getBackgroundImage( );
 				}
-			}			
+			}
 		}
 
 		if ( bgimginfo != null )
@@ -909,7 +906,6 @@ public class TableWriter
 		writer.attribute( "w", width ); // convert to EMU
 		canvas.setBackgroundColor( borderinfo.getColor( ) );
 		writer.openTag( "a:prstDash" );
-		// TODO: get the right style naming
 		writer.attribute( "val", PPTXUtil.parseStyle( borderinfo.getStyle( ) ) );
 		writer.closeTag( "a:prstDash" );
 		writer.closeTag( borderSide );
