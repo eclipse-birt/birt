@@ -5,8 +5,10 @@ import java.awt.Color;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
+import org.eclipse.birt.report.engine.emitter.pptx.writer.Presentation;
 import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -40,6 +42,8 @@ public class TextWriter
 	private String hAlign = DEFAULT_HALIGNMENT;
 	private boolean hasParagraph = false;
 	private HyperlinkDef link = null;
+	private final boolean needClip = false;
+	private String bmk_relationshipid = null;
 
 	public TextWriter( PPTXRender render )
 	{
@@ -62,7 +66,6 @@ public class TextWriter
 			}
 			if(hasNonEmptyTextArea(container))return true;
 			else return false;
-
 		}
 		else if( container instanceof InlineTextArea )
 		{
@@ -108,7 +111,6 @@ public class TextWriter
 		Color color = borders[0].borderColor;
 		if(color == null)return false;
 		int style = borders[0].borderStyle;
-		int type = borders[0].borderType;
 		int width = borders[0].borderWidth;
 		if(width == 0)return false;
 		
@@ -125,8 +127,25 @@ public class TextWriter
 	public void writeTextBlock( int startX, int startY, int width, int height,
 			ContainerArea container )
 	{
+			IHyperlinkAction linkact = container.getAction( );
+		if ( linkact != null )
+		{//add links
+			String bmk = linkact.getBookmark( );
+			if ( bmk != null )
+			{
+				bmk_relationshipid = canvas.getPresentation( ).getCurrentSlide( )
+						.getRelationshipBookmark( bmk );
+			}
+		}
+		String bmk = container.getBookmark( );
+		if ( bmk != null )
+		{//addbookmarks
+			Presentation presentation = canvas.getPresentation( );
+			int currentslide = presentation.getCurrentSlideIdx( );
+			presentation.addBookmark( bmk, currentslide );
+		}
+		
 		parseBlockTextArea( container );
-
 		startX = PPTXUtil.convertToEnums( startX );
 		startY = PPTXUtil.convertToEnums( startY );
 		width = PPTXUtil.convertToEnums( width );
@@ -226,7 +245,7 @@ public class TextWriter
 		{
 
 			Iterator<IArea> iter = ( (ContainerArea) child ).getChildren( );
-
+			startTextLineArea( );
 			hasParagraph = true;
 			while ( iter.hasNext( ) )
 			{
@@ -257,6 +276,10 @@ public class TextWriter
 		{
 			writer.attribute( "algn", hAlign );
 		}
+		if ( render.isRTL( ) )
+		{
+			writer.attribute( "rtl", 1 );
+		}		
 		writer.closeTag( "a:pPr" );
 	}
 	
@@ -307,7 +330,7 @@ public class TextWriter
 		{
 			writer.attribute( "u", "sng" );
 		}
-		writer.attribute( "sz", (int) ( info.getFontSize( ) * 100 ) );
+		writer.attribute( "sz",  canvas.getScaledValue( info.getFontSize( ) * 100 ) );
 		boolean isItalic = ( info.getFontStyle( ) & Font.ITALIC ) != 0;
 		boolean isBold = ( info.getFontStyle( ) & Font.BOLD ) != 0;
 		if ( isItalic )
@@ -320,7 +343,8 @@ public class TextWriter
 		}
 		canvas.setBackgroundColor( style.getColor( ) );
 		setTextFont( info.getFontName( ) );
-		canvas.setHyperlink( render.getGraphic( ).getLink() );
+		canvas.setHyperlink( link );
+		canvas.setBookmark( bmk_relationshipid);
 		writer.closeTag( tag );
 	}
 
@@ -368,7 +392,7 @@ public class TextWriter
 			writer.closeTag( "p:nvPr" );
 			writer.closeTag( "p:nvSpPr" );
 			writer.openTag( "p:spPr" );
-			canvas.setPosition( startX, startY, width, height );
+			canvas.setPosition( startX, startY, width + 1, height );
 			writer.openTag( "a:prstGeom" );
 			writer.attribute( "prst", "rect" );
 			writer.closeTag( "a:prstGeom" );
@@ -438,10 +462,10 @@ public class TextWriter
 		
 		if ( container instanceof BlockTextArea )
 		{
-			IArea firstChild = container.getChild( 0 );
+			IArea firstChild = container.getFirstChild( );
 			if ( firstChild != null )
 			{
-
+				leftPadding = PPTXUtil.convertToEnums( firstChild.getX( ));
 				rightPadding = width
 						- leftPadding
 						- PPTXUtil.convertToEnums( firstChild.getWidth( ) );
@@ -468,8 +492,15 @@ public class TextWriter
 		ic.getComputedStyle( ).getVerticalAlign( );
 		container.getTextAlign( );
 		writer.openTag( "a:bodyPr" );
-		//writer.attribute( "wrap", "none" );
-		writer.attribute( "wrap", "square" );
+		if ( needClip )
+		{
+			writer.attribute( "vertOverflow", "clip" );
+			writer.attribute( "wrap", "square" );
+		}
+		else
+		{
+			writer.attribute( "wrap", "none" );
+		}
 		writer.attribute( "lIns", leftPadding );
 		writer.attribute( "tIns", topPadding );
 		writer.attribute( "rIns", rightPadding );

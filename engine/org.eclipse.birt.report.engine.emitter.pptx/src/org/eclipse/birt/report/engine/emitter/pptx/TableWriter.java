@@ -11,6 +11,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
+import org.eclipse.birt.report.engine.emitter.pptx.writer.Presentation;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
@@ -33,7 +34,7 @@ public class TableWriter
 	private static final String LEFTBORDERLINE = "a:lnL";
 	private static final String TOPBORDERLINE = "a:lnT";
 	private static final String BOTTOMBORDERLINE = "a:lnB";
-	private static final int DEFAULT_EMPTYCELL_FONTSIZE = 100;	
+	private static final int DEFAULT_EMPTYCELL_FONTSIZE = 100;
 	private static final int MINIMUM_ROW_HEIGHT = 4000;
 	private static final int MINIMUM_COLUMN_WIDTH = 2000;
 	private static final int DEFAULT_MARGIN = 12700;  // 1pt
@@ -58,7 +59,6 @@ public class TableWriter
 	private TextWriter emptytextboxwriter;
 	private final HashMap<Integer,Integer> mapignorecolumns = new HashMap<Integer,Integer>();
 
-
 	public TableWriter( PPTXRender render )
 	{
 		this.render = render;
@@ -80,14 +80,22 @@ public class TableWriter
 		if ( table.needClip( ) )
 		{
 			render.startClip( table );
-
 		}
+		String bmk = table.getBookmark( );
+		if ( bmk != null )
+		{
+			Presentation presentation = canvas.getPresentation( );
+			int currentslide = presentation.getCurrentSlideIdx( );
+			presentation.addBookmark( bmk, currentslide );
+		}
+		
 		currentX += getX( table );
 		currentY += getY( table );
 		updateRenderXY( );
 		startTable( table );		
 		parseTableExtraSpanRows( table );
 		iterateOnRows( table );
+
 		if ( table.needClip( ) )
 		{
 			render.endclip( );
@@ -97,7 +105,7 @@ public class TableWriter
 		updateRenderXY( );		
 		endTable( );
 	}
-	
+
 	private void iterateOnRows( IContainerArea table )
 	{
 		int internalRowCount = currentRow;
@@ -266,6 +274,10 @@ public class TableWriter
 		writer.openTag( "a:tbl" );
 		
 		writer.openTag( "a:tblPr" );
+		if ( isRTL )
+		{
+			writer.attribute( "rtl", 1 );
+		}
 		writer.openTag( "a:tableStyleId" );
 		// use transparent table style:
 		canvas.writeText( "{2D5ABB26-0587-4C30-8999-92F81FD0307C}" );
@@ -344,8 +356,6 @@ public class TableWriter
 		{// first columns has rowspan
 			int emptycol = currentCol;
 			// create empty rowspan cell
-
-
 			fillEmptyMergeCells( emptycol, 0, 0 );
 			if ( emptycol == currentCol )
 			{// no spanrow on column move to next one
@@ -366,7 +376,7 @@ public class TableWriter
 		if ( row.needClip( ) )
 		{
 			render.endclip( );
-		}			
+		}
 	}
 
 	private void startRow( RowArea row )
@@ -639,7 +649,7 @@ public class TableWriter
 	
 	private boolean needStyleORClip( IArea blocktext )
 	{
-		if( !(blocktext instanceof BlockTextArea) )
+		if ( !( blocktext instanceof BlockTextArea ) )
 		{
 			return false;
 		}
@@ -660,12 +670,11 @@ public class TableWriter
 						|| style.getBackgroundImage( ) != null
 						|| style.getBottomBorder( ) != null
 						|| style.getLeftBorder( ) != null
-						|| style.getRightBorder( ) != null || style
-						.getTopBorder( ) != null ) )
+						|| style.getRightBorder( ) != null || style.getTopBorder( ) != null ) )
 		{
 			return true;
 		}
-		
+
 		IContent ic = textarea.getContent( );
 		if ( ic != null && ic instanceof AutoTextContent )
 		{
@@ -721,7 +730,7 @@ public class TableWriter
 	 */
 	protected void drawCellBox( CellArea cell )
 	{
-		drawBorders( cell );		
+		drawBorders( cell );
 		drawCellDiagonal( cell );
 
 		BoxStyle style = cell.getBoxStyle( );
