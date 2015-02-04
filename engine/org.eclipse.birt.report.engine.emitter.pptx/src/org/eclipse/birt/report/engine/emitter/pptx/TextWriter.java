@@ -42,7 +42,7 @@ public class TextWriter
 	private String hAlign = DEFAULT_HALIGNMENT;
 	private boolean hasParagraph = false;
 	private HyperlinkDef link = null;
-	private final boolean needClip = false;
+	private boolean needClip = false;
 	private String bmk_relationshipid = null;
 
 	public TextWriter( PPTXRender render )
@@ -127,14 +127,14 @@ public class TextWriter
 	public void writeTextBlock( int startX, int startY, int width, int height,
 			ContainerArea container )
 	{
-			IHyperlinkAction linkact = container.getAction( );
+		IHyperlinkAction linkact = container.getAction( );
 		if ( linkact != null )
 		{//add links
 			String bmk = linkact.getBookmark( );
 			if ( bmk != null )
 			{
-				bmk_relationshipid = canvas.getPresentation( ).getCurrentSlide( )
-						.getRelationshipBookmark( bmk );
+				bmk_relationshipid = canvas.getPresentation( )
+						.getBookmarkRelationshipid( bmk );
 			}
 		}
 		String bmk = container.getBookmark( );
@@ -146,6 +146,7 @@ public class TextWriter
 		}
 		
 		parseBlockTextArea( container );
+		needClip = container.needClip( );		
 		startX = PPTXUtil.convertToEnums( startX );
 		startY = PPTXUtil.convertToEnums( startY );
 		width = PPTXUtil.convertToEnums( width );

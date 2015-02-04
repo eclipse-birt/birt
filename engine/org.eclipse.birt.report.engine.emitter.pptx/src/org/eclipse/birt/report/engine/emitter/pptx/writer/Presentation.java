@@ -15,7 +15,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +22,6 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.ooxml.IPart;
 import org.eclipse.birt.report.engine.ooxml.ImageManager;
 import org.eclipse.birt.report.engine.ooxml.Package;
-import org.eclipse.birt.report.engine.ooxml.PartContainer;
 import org.eclipse.birt.report.engine.ooxml.constants.ContentTypes;
 import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;
 import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
@@ -52,7 +50,7 @@ public class Presentation extends Component
 
 	private static final String TAG_SLIDE_MASTER_ID_LIST = "p:sldMasterIdLst";
 	
-	private HashMap<String,String> bookmarklist; //<bookmark, url>
+	private final PPTXBookmarkManager bmkmanager;
 
 	private int slideMasterId = 1;
 	private int slideLayoutId = 1;
@@ -77,6 +75,7 @@ public class Presentation extends Component
 		String uri = "ppt/presentation.xml";
 		String type = ContentTypes.PRESENTATIONML;
 		String relationshipType = RelationshipTypes.DOCUMENT;
+		bmkmanager = new PPTXBookmarkManager( );
 		this.part = pkg.getPart( uri, type, relationshipType );
 		pkg.setExtensionData( new ImageManager() );
 		try
@@ -158,18 +157,7 @@ public class Presentation extends Component
 		writer.openTag( TAG_SLIDE_ID_LIST );
 		for ( Slide slide : slides )
 		{
-			if ( slide.hasDisconnectBookmark( ) )
-			{// map the relationship correctly of link-then-bmk
-				HashMap<String, String> bmklist = slide.getDisconnectBmkList( );
-				PartContainer slidepart = (PartContainer) slide.getPart( );
-				Iterator<String> bmkiter = bmklist.keySet( ).iterator( );
-				while ( bmkiter.hasNext( ) )
-				{
-					String wrngurl = bmkiter.next( );
-					String realurl = bookmarklist.get( bmklist.get( wrngurl ) );
-					slidepart.updateBmk( wrngurl, realurl );
-				}
-			}
+			bmkmanager.resolveDisconnectedBookmarks( slide );
 			writer.openTag( TAG_SLIDE_ID );
 			writer.attribute( TAG_ID, slide.getSlideId( ) );
 			writer.attribute( TAG_RELATIONSHIP_ID, slide.getPart( )
@@ -289,30 +277,19 @@ public class Presentation extends Component
 		return slides.size( );
 	}
 
-	public Slide getCurrentSlide( )
+	private Slide getCurrentSlide( )
 	{
 		return slides.get( slides.size( ) - 1 );
 	}
 	
-	public void addBookmark( String key, int slideIdx )
+	public String getBookmarkRelationshipid( String bmk )
 	{
-		if ( bookmarklist == null )
-		{
-			bookmarklist = new HashMap<String, String>( );
-		}
-		if ( !bookmarklist.containsKey( key ) )
-		{
-			String slideurl = "slide" + slideIdx + ".xml";
-			bookmarklist.put( key, slideurl );
-		}
+		return bmkmanager.getBookmarkRelationId( bmk, getCurrentSlide( ) );
 	}
 	
-	public String getBookmarkUrl( String bmk )
+	public void addBookmark( String key, int slideIdx )
 	{
-		if ( bookmarklist != null )
-		{
-			return bookmarklist.get( bmk );
-		}
-		return null;
+		bmkmanager.addBookmark( key, slideIdx );
 	}
+
 }
