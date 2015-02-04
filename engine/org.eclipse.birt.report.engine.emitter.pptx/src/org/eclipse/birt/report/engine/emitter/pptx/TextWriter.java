@@ -6,9 +6,11 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
+import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.pptx.util.PPTXUtil;
 import org.eclipse.birt.report.engine.emitter.pptx.writer.Presentation;
+import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.layout.emitter.BorderInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -40,10 +42,15 @@ public class TextWriter
 	private BorderInfo[] borders = null;
 	private static String DEFAULT_HALIGNMENT = "l"; 
 	private String hAlign = DEFAULT_HALIGNMENT;
+	
+	private final String AUTOPAGENUMBER = "page-number";
+	private final String TOTALPAGE = "total-page";
+	
 	private boolean hasParagraph = false;
 	private HyperlinkDef link = null;
 	private boolean needClip = false;
 	private String bmk_relationshipid = null;
+	private String autotexttype = null;	
 
 	public TextWriter( PPTXRender render )
 	{
@@ -237,7 +244,11 @@ public class TextWriter
 	
 	private void drawBlockTextChildren( IArea child )
 	{
-		if ( child instanceof TextArea )
+		if ( autotexttype != null )
+		{
+			writeAutoText( (ContainerArea) child );
+		}
+		else if ( child instanceof TextArea )
 		{
 			writeTextRun( (TextArea) child );
 		}
@@ -266,6 +277,51 @@ public class TextWriter
 				IArea area = iter.next( );
 				drawBlockTextChildren( area );
 			}
+		}
+	}
+	
+	private void writeAutoText( ContainerArea container )
+	{
+		TextArea text = null;
+		IArea child = container.getFirstChild( );
+		while ( child != null && !( child instanceof TextArea ) )
+		{
+			child = ( (ContainerArea) child ).getFirstChild( );
+		}
+		if ( child != null )
+		{
+			text = (TextArea) child;
+		}
+		if ( text == null )
+		{
+			return;
+		}
+		if ( autotexttype.equals( AUTOPAGENUMBER ) )
+		{
+			writer.openTag( "a:p" );
+			writer.openTag( "a:fld" );
+			writer.attribute( "id", "{AE09BA1C-136E-4F28-AF64-63E231249911}" );
+			writer.attribute( "type", "slidenum" );
+			setTextProperty( "a:rPr", text.getStyle( ) );
+			writer.openTag( "a:pPr" );
+			writer.closeTag( "a:pPr" );
+			writer.openTag( "a:t" );
+			canvas.writeText( "‹#›" );
+			writer.closeTag( "a:t" );
+			writer.closeTag( "a:fld" );
+			endTextLineArea( text );
+		}
+		else if ( autotexttype.equals( TOTALPAGE ) )
+		{
+			Integer totalpage = canvas.getPresentation( ).getTotalSlides( );
+			text.setText( totalpage.toString( ) );
+			autotexttype = null;
+			drawBlockTextChildren( container );
+		}
+		else
+		{// back to default: for not implemented autotext
+			autotexttype = null;
+			drawBlockTextChildren( container );
 		}
 	}
 	
@@ -464,6 +520,12 @@ public class TextWriter
 		if ( container instanceof BlockTextArea )
 		{
 			IArea firstChild = container.getFirstChild( );
+			IContent ic = container.getContent( );
+			if ( ic != null && ic instanceof AutoTextContent )
+			{
+				AutoTextItemDesign id = (AutoTextItemDesign) ic.getGenerateBy( );
+				autotexttype = id.getType( );
+			}
 			if ( firstChild != null )
 			{
 				leftPadding = PPTXUtil.convertToEnums( firstChild.getX( ));

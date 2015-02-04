@@ -15,8 +15,9 @@ public class SlideWriter
 		this.render = render;
 	}
 
-	public void writeSlideMaster( SlideMaster slide, PageArea pageArea )
+	public void writeSlideMaster( SlideMaster slide )
 	{
+		PageArea pageArea = slide.getPageArea();
 		PPTXRender masterRender = new PPTXRender( this.render,
 				slide.getCanvas( ) );
 		masterRender.setCurrentX( pageArea.getRoot( ).getX( ) );

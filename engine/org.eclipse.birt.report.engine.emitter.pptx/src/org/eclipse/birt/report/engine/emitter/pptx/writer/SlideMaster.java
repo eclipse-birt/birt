@@ -24,8 +24,9 @@ import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
 public class SlideMaster extends Component
 {
 	
-	private Presentation presentation;
-	private SlideLayout slideLayout;
+	private final Presentation presentation;
+	private final SlideLayout slideLayout;
+	private final PageArea masterarea;
 
 	public SlideMaster( Presentation presentation , PageArea area ) throws IOException
 	{
@@ -34,6 +35,7 @@ public class SlideMaster extends Component
 		String relationshipType = RelationshipTypes.SLIDE_MASTER;
 		String uri = "slideMasters/slideMaster" + presentation.getNextSlideMasterId() + ".xml";
 		initialize( presentation.getPart( ), uri, type, relationshipType );
+		masterarea = area;
 		writePage(area);
 		
 		slideLayout = new SlideLayout(presentation, this);
@@ -180,5 +182,10 @@ public class SlideMaster extends Component
 	public PPTXCanvas getCanvas()
 	{
 		return new PPTXCanvas( presentation, this.part, writer);
+	}
+
+	public PageArea getPageArea( )
+	{
+		return masterarea;
 	}
 }
