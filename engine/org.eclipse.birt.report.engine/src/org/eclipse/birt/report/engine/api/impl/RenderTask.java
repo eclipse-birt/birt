@@ -381,6 +381,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void setReportlet( String bookmark ) throws EngineException
 	{
+		if ( bookmark != null )
+		{
+			bookmark = bookmark.trim( );
+		}
 		long offset = reportDocument.getBookmarkOffset( bookmark );
 		if ( offset == -1 )
 		{
