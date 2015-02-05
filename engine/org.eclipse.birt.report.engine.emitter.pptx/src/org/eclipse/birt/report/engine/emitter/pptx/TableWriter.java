@@ -904,6 +904,10 @@ public class TableWriter
 		writer.openTag( borderSide );
 		int width = PPTXUtil.convertToEnums( borderinfo.getWidth( ) );
 		writer.attribute( "w", width ); // convert to EMU
+		if ( borderinfo.getStyle( ) == BoxStyle.BORDER_STYLE_DOUBLE )
+		{
+			writer.attribute( "cmpd", "dbl" );
+		}	
 		canvas.setBackgroundColor( borderinfo.getColor( ) );
 		writer.openTag( "a:prstDash" );
 		writer.attribute( "val", PPTXUtil.parseStyle( borderinfo.getStyle( ) ) );
