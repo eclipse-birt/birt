@@ -39,7 +39,7 @@ public class MonthDateFormatTest extends TestCase
 		locales.put( ULocale.ENGLISH, "Jun 2013" ); //$NON-NLS-1$
 		locales.put( ULocale.FRANCE, "juin 2013" ); //$NON-NLS-1$
 		locales.put( ULocale.GERMAN, "06.2013" ); //$NON-NLS-1$
-		locales.put( ULocale.ITALY, "giu/2013" ); //$NON-NLS-1$
+		locales.put( ULocale.ITALY, "giu 2013" ); //$NON-NLS-1$
 		locales.put( ULocale.JAPAN, "2013/06" ); //$NON-NLS-1$
 		locales.put( ULocale.KOREA, "2013. 6" ); //$NON-NLS-1$
 		locales.put( ULocale.SIMPLIFIED_CHINESE, "2013年6月" ); //$NON-NLS-1$
