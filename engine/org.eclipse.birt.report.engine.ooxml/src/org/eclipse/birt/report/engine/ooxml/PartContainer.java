@@ -44,6 +44,7 @@ public abstract class PartContainer implements IPartContainer
 		this.uri = uri;
 	}
 
+	@Override
 	public IPart getPart( String uri )
 	{
 		if ( parts == null )
@@ -53,6 +54,7 @@ public abstract class PartContainer implements IPartContainer
 		return parts.get( uri );
 	}
 
+	@Override
 	public IPart getPart( String uri, String type, String relationshipType )
 	{
 		OOXmlType xmlType = new OOXmlType( type );
@@ -61,6 +63,7 @@ public abstract class PartContainer implements IPartContainer
 		return part;
 	}
 
+	@Override
 	public IPart getPart( String uri, ContentType type, String relationshipType )
 	{
 		uri = OOXmlUtil.getRelativeUri( getAbsoluteUri( ), uri);
@@ -147,6 +150,7 @@ public abstract class PartContainer implements IPartContainer
 		parts.put( part.getRelativeUri( ), part );
 	}
 
+	@Override
 	public IPart createPartReference( IPart part )
 	{
 		PartReference partReference = new PartReference( this, part,
@@ -189,15 +193,15 @@ public abstract class PartContainer implements IPartContainer
 					String relationshipId = OOXmlUtil.getRelationShipId( entry
 					        .getValue( ) );
 					String type = hyperlink.type;
-					if ( type.equals( RelationshipTypes.HYPERLINK ) )
+					if ( type.equals( RelationshipTypes.SLIDE) )
 					{
 						writeRelationshipEntry( writer, url, relationshipId,
-								type, "External" );
+								type );
 					}
 					else
 					{
 						writeRelationshipEntry( writer, url, relationshipId,
-								type );
+								type, "External" );
 					}
 				}
 			}
@@ -261,6 +265,7 @@ public abstract class PartContainer implements IPartContainer
 			this.type = type;
 		}
 
+		@Override
 		public boolean equals( Object obj )
 		{
 			if ( obj == this )
@@ -275,6 +280,7 @@ public abstract class PartContainer implements IPartContainer
 			return url == null ? link.url == null : url.equals( link.url );
 		}
 
+		@Override
 		public int hashCode( )
 		{
 			if ( url == null )

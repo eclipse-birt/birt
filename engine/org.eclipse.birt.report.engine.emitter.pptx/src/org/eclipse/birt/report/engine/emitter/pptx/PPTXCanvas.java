@@ -70,6 +70,7 @@ public class PPTXCanvas
 		this.part = canvas.part;
 		this.imageManager = canvas.imageManager;
 		this.writer = writer;
+		this.clipStack = canvas.clipStack;
 	}
 
 	/**
@@ -343,6 +344,8 @@ public class PPTXCanvas
 			int pWidth = Math.min( imageX + width, clip.x + clip.width ) - pX;
 			int pHeight = Math.min( imageY + height, clip.y + clip.height )
 					- pY;
+			pHeight = pHeight < 0 ? 0 : pHeight;
+			pWidth = pWidth < 0 ? 0 : pWidth;
 			setPosition( pX, pY, pWidth, pHeight );
 		}
 		writer.openTag( "a:prstGeom" );
@@ -725,7 +728,7 @@ public class PPTXCanvas
 				textStyle.isLinethrough( ), link );
 	}
 
-	private final Stack<ClipArea> clipStack = new Stack<ClipArea>( );
+	private Stack<ClipArea> clipStack = new Stack<ClipArea>( );
 
 	private class ClipArea
 	{
