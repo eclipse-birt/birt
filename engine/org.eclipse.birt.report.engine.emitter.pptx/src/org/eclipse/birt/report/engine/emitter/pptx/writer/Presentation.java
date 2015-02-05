@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.engine.emitter.pptx.PPTXRender;
+import org.eclipse.birt.report.engine.emitter.pptx.SlideWriter;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.ooxml.IPart;
 import org.eclipse.birt.report.engine.ooxml.ImageManager;
@@ -49,6 +51,8 @@ public class Presentation extends Component
 	private static final String TAG_SLIDE_MASTER_ID = "p:sldMasterId";
 
 	private static final String TAG_SLIDE_MASTER_ID_LIST = "p:sldMasterIdLst";
+	
+	private final PPTXBookmarkManager bmkmanager;
 
 	private int slideMasterId = 1;
 	private int slideLayoutId = 1;
@@ -63,7 +67,7 @@ public class Presentation extends Component
 	private final HashMap<String, SlideMaster> slideMasters = new HashMap<String, SlideMaster>();
 	private final List<Slide> slides = new ArrayList<Slide>( );
 	private String author, title, description, subject;
-	
+	private PPTXRender render;
 	private int shapeId;
 
 	public Presentation( OutputStream out, String tempFileDir,
@@ -73,6 +77,7 @@ public class Presentation extends Component
 		String uri = "ppt/presentation.xml";
 		String type = ContentTypes.PRESENTATIONML;
 		String relationshipType = RelationshipTypes.DOCUMENT;
+		bmkmanager = new PPTXBookmarkManager( );
 		this.part = pkg.getPart( uri, type, relationshipType );
 		pkg.setExtensionData( new ImageManager() );
 		try
@@ -111,6 +116,7 @@ public class Presentation extends Component
 			writer.attribute( TAG_RELATIONSHIP_ID, slideMaster.getPart( )
 					.getRelationshipId( ) );
 			writer.closeTag( TAG_SLIDE_MASTER_ID );
+			new SlideWriter( render ).writeSlideMaster( slideMaster );
 			slideMaster.close( );
 		}
 		writer.closeTag( TAG_SLIDE_MASTER_ID_LIST );
@@ -154,6 +160,7 @@ public class Presentation extends Component
 		writer.openTag( TAG_SLIDE_ID_LIST );
 		for ( Slide slide : slides )
 		{
+			bmkmanager.resolveDisconnectedBookmarks( slide );
 			writer.openTag( TAG_SLIDE_ID );
 			writer.attribute( TAG_ID, slide.getSlideId( ) );
 			writer.attribute( TAG_RELATIONSHIP_ID, slide.getPart( )
@@ -266,5 +273,35 @@ public class Presentation extends Component
 	public long getNextGlobalId( )
 	{
 		return globalId++;
+	}
+	
+	public int getCurrentSlideIdx( )
+	{
+		return slides.size( );
+	}
+
+	private Slide getCurrentSlide( )
+	{
+		return slides.get( slides.size( ) - 1 );
+	}
+	
+	public String getBookmarkRelationshipid( String bmk )
+	{
+		return bmkmanager.getBookmarkRelationId( bmk, getCurrentSlide( ) );
+	}
+	
+	public void addBookmark( String key, int slideIdx )
+	{
+		bmkmanager.addBookmark( key, slideIdx );
+	}
+
+	public void setRender( PPTXRender pptxrender )
+	{
+		render = pptxrender;
+	}
+	
+	public int getTotalSlides( )
+	{
+		return slides.size( );
 	}
 }

@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ImageBlockContainer;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
@@ -90,13 +91,13 @@ public class PPTXRender extends PageDeviceRender
 		initialize( render.services );
 		this.out = render.out;
 		this.tempFileDir = render.tempFileDir;
-		this.currentX = render.currentX;
-		this.currentY = render.currentY;
 		this.scale = render.scale;
 		canvas.setScale( scale );
+		this.currentX = render.currentX;
+		this.currentY = render.currentY;
 		this.pageDevice = render.pageDevice;
 		this.isRTL = render.isRTL;
-		this.isTextWrap = render.isTextWrap;		
+		this.isTextWrap = render.isTextWrap;
 		this.pageGraphic = new PPTXPage( canvas );
 	}
 
@@ -187,24 +188,6 @@ public class PPTXRender extends PageDeviceRender
 		super.visitText( textArea );
 		page.setLink( null );
 	}
-	
-	public void visitTextBuffer( BlockTextArea text )
-	{
-		ByteArrayOutputStream out = new ByteArrayOutputStream( );
-		bufferedOuptuts.add( out );
-		OOXmlWriter writer = new OOXmlWriter( );
-		writer.open( out );
-		PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
-		PPTXRender render = new PPTXRender( this, canvas );
-		int x = currentX + getX( text );
-		int y = currentY + getY( text );
-		int width = getWidth( text );
-		int height = getHeight( text );
-		TextWriter tw = new TextWriter( render );
-		tw.setNotFirstTextInCell();
-		tw.writeTextBlock( x, y, width, height, text );
-		writer.close( );
-	}
 
 	@Override
 	protected void drawTextAt( ITextArea text, int x, int y, int width,
@@ -217,13 +200,12 @@ public class PPTXRender extends PageDeviceRender
 				height,
 				textStyle );
 	}
-	
+
 	@Override
 	public void visitContainer( IContainerArea container )
 	{
 		if ( container instanceof PageArea )
 		{
-			new SlideWriter( this ).writeSlide( (PageArea) container );
 			newPage( container );
 			new SlideWriter( this ).writeSlide( (PageArea) container );
 			this.pageGraphic.dispose( );
@@ -249,6 +231,18 @@ public class PPTXRender extends PageDeviceRender
 		}
 		else
 		{
+			if ( container instanceof ImageBlockContainer )
+			{
+				// String bmk = imageArea.getBookmark( );
+				String bmk = container.getBookmark( );
+				if ( bmk != null )
+				{// addbookmarks
+					Presentation presentation = ( (PPTXPage) pageGraphic )
+							.getCanvas( ).getPresentation( );
+					int currentslide = presentation.getCurrentSlideIdx( );
+					presentation.addBookmark( bmk, currentslide );
+				}
+			}
 			startContainer( container );
 			visitChildren( container );
 			endContainer( container );
@@ -321,7 +315,7 @@ public class PPTXRender extends PageDeviceRender
 			endContainer( text );
 		}
 	}
-	
+
 	@Override
 	protected void visitPage( PageArea page )
 	{
@@ -340,6 +334,24 @@ public class PPTXRender extends PageDeviceRender
 		startContainer( text );
 		visitChildren( text );
 		endContainer( text );
+	}
+	
+	public void visitTextBuffer( BlockTextArea text )
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		bufferedOuptuts.add( out );
+		OOXmlWriter writer = new OOXmlWriter( );
+		writer.open( out );
+		PPTXCanvas canvas = new PPTXCanvas( this.getCanvas( ), writer );
+		PPTXRender render = new PPTXRender( this, canvas );
+		int x = currentX + getX( text );
+		int y = currentY + getY( text );
+		int width = getWidth( text );
+		int height = getHeight( text );
+		TextWriter tw = new TextWriter( render );
+		tw.setNotFirstTextInCell();
+		tw.writeTextBlock( x, y, width, height, text );
+		writer.close( );
 	}
 
 	public PPTXPage getGraphic( )
@@ -400,13 +412,13 @@ public class PPTXRender extends PageDeviceRender
 			int width = PPTXUtil.convertToPointer( pageWidth );
 			int height = PPTXUtil.convertToPointer( pageHeight );
 			Presentation presentation = ( (PPTXPageDevice) pageDevice ).getPresentation( );
+			presentation.setRender( this );
 			String masterPageName = getMasterPageName( pageArea );
 			SlideMaster master = presentation.getSlideMaster( masterPageName );
 			if ( master == null )
 			{
 				master = presentation.createSlideMaster( masterPageName,
 						pageArea );
-				new SlideWriter( this ).writeSlideMaster( master, pageArea );
 			}
 			this.pageGraphic = new PPTXPage( presentation.createSlide( master,
 					width,

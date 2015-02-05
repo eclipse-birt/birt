@@ -100,4 +100,5 @@ public class Slide extends Component
 	{
 		return new PPTXCanvas( presentation, this.part, writer);
 	}
+
 }

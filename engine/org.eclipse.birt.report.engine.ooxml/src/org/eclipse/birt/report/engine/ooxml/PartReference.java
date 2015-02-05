@@ -133,4 +133,12 @@ public class PartReference implements IPart
 	{
 		return true;
 	}
+
+	@Override
+	public String getBookmarkId( String bmkurl )
+	{//req implementation: does not do anything
+		return null;
+	}
+	
+
 }

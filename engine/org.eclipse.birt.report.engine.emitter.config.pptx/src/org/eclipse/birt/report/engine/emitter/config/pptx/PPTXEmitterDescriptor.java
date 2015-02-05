@@ -49,11 +49,12 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 		bidiProcessing.setDataType( IConfigurableOption.DataType.BOOLEAN );
 		bidiProcessing
 				.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
-		bidiProcessing.setDefaultValue( Boolean.TRUE );
+		bidiProcessing.setDefaultValue( Boolean.FALSE );
 		bidiProcessing.setToolTip( null );
 		bidiProcessing
 				.setDescription( getMessage( "OptionDescription.BidiProcessing" ) ); //$NON-NLS-1$
-
+		bidiProcessing.setEnabled( false );
+		
 		// Initializes the option for TextWrapping.
 		ConfigurableOption textWrapping = new ConfigurableOption( TEXT_WRAPPING );
 		textWrapping

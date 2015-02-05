@@ -573,7 +573,7 @@ public class PPTXCanvas
 	}
 
 	void setHyperlink( HyperlinkDef link )
-	{
+	{//TODO: set links for bookmark
 		if ( link != null )
 		{
 			String hyperlink = null;
@@ -601,6 +601,18 @@ public class PPTXCanvas
 				writer.closeTag( "a:hlinkClick" );
 			}
 		}
+	}
+	
+	public void setBookmark( String bmk_relationshipid )
+	{
+		if ( bmk_relationshipid != null )
+		{
+			writer.openTag( "a:hlinkClick" );
+			writer.attribute( "r:id", bmk_relationshipid );
+			writer.attribute( "action", "ppaction://hlinksldjump" );
+			writer.closeTag( "a:hlinkClick" );
+		}
+
 	}
 
 	private void setTextFont( String fontName )
