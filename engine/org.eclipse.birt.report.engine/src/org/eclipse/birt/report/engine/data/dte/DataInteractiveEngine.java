@@ -323,7 +323,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 		
 		String[] resultIdAndRawId = loadResultSetID( parentResult, queryID );
-		String resultSetID = null, originalRawId = null;
+		String resultSetID = null, originalRawId = "-1";
 		if ( resultIdAndRawId != null )
 		{
 			resultSetID = resultIdAndRawId[0];
