@@ -500,10 +500,7 @@ public class ChartCubeUtil extends ChartItemUtil
 		// If no attribute, do not return expression with ["null"] attribute
 		if ( attributeName == null )
 		{
-			return ExpressionUtil.createJSDimensionExpression( level.getContainer( )
-					.getContainer( )
-					.getName( ),
-					level.getName( ) );
+			return createDimensionExpression( level );
 		}
 		return ExpressionUtil.createJSDimensionExpression( level.getContainer( )
 				.getContainer( )
