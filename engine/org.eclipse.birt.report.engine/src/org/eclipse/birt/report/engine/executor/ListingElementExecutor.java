@@ -100,15 +100,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		{
 			pageBreakInterval = maxPageBreakInterval;
 		}
-		if ( pageBreakInterval > maxPageBreakInterval )
-		{
-			getLogger( )
-					.log( Level.WARNING,
-							"Page Break Interval for listing element {0}  is {1}. Reset it to {2} to prevent OOM",
-							new Object[]{getInstanceID( ).toString( ),
-									pageBreakInterval, maxPageBreakInterval} );
-			pageBreakInterval = maxPageBreakInterval;
-		}
 		pageBreakLevel = getPageBreakIntervalGroup();
 		breakOnDetailBand = pageBreakIntervalOnDetail( );
 		if ( pageBreakInterval > 0 )
