@@ -116,6 +116,7 @@ public class PPTXRender extends PageDeviceRender
 					subject,
 					tempFileDir,
 					compressionMode );
+			isTextWrap = renderOption.getBooleanOption( "pdfRenderOption.textWrapping", true );
 			return pageDevice;
 		}
 		catch ( Exception e )
