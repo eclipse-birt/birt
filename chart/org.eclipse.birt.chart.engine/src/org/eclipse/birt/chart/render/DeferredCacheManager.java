@@ -70,8 +70,8 @@ public final class DeferredCacheManager
 	{
 		this.fDeviceRenderer = idr;
 		fChart = chart;
-		fFirstDC = new DeferredCache( fDeviceRenderer, fChart );
-		fLastDC = new DeferredCache( fDeviceRenderer, fChart );
+		fFirstDC = new DeferredCache( fDeviceRenderer, fChart, -1 );
+		fLastDC = new DeferredCache( fDeviceRenderer, fChart, 10000 );
 	}
 
 	private boolean hasStackedSeries( )
@@ -121,7 +121,7 @@ public final class DeferredCacheManager
 	 *            current renderer.
 	 * @return instance of <code>DeferredCache</code>
 	 */
-	public DeferredCache createDeferredCache( BaseRenderer br )
+	public DeferredCache createDeferredCache( BaseRenderer br, int cacheIndex )
 	{
 		if ( needSignleDeferredCache( br ) )
 		{
@@ -129,7 +129,7 @@ public final class DeferredCacheManager
 		}
 		else
 		{
-			return createDeferredCache( );
+			return createDeferredCache( cacheIndex );
 		}
 	}
 
@@ -138,15 +138,15 @@ public final class DeferredCacheManager
 	 * 
 	 * @return <code>DeferredCache</code> instance.
 	 */
-	DeferredCache createDeferredCache( )
+	DeferredCache createDeferredCache( int cacheIndex )
 	{
-		DeferredCache dc = new DeferredCache( fDeviceRenderer, fChart );
+		DeferredCache dc = new DeferredCache( fDeviceRenderer, fChart, cacheIndex );
 		fDeferredCacheList.add( dc );
 		return dc;
 	}
 
 	/**
-	 * Create <code>DeferredCache</code> instance for signle case, the related
+	 * Create <code>DeferredCache</code> instance for single case, the related
 	 * <code>DeferredCache</code> will be only created once.
 	 * 
 	 * @return instance of <code>DeferredCache</code>.
@@ -158,14 +158,14 @@ public final class DeferredCacheManager
 			return fSingleDC;
 		}
 
-		fSingleDC = new DeferredCache( fDeviceRenderer, fChart );
+		fSingleDC = new DeferredCache( fDeviceRenderer, fChart, 0 );
 		fDeferredCacheList.add( fSingleDC );
 
 		return fSingleDC;
 	}
 	
 	/**
-	 * Flush all <code>DeferredCache</code> in the mananger.
+	 * Flush all <code>DeferredCache</code> in the manager.
 	 * 
 	 * @throws ChartException
 	 */

@@ -71,6 +71,8 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	private DeferredCache parentDC = null;
 	
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/factory" ); //$NON-NLS-1$
+	
+	private int cacheIndex = 0;
 
 	/**
 	 * This field controls if all 3D polygons in current deferred cache need
@@ -83,11 +85,12 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	/**
 	 * The constructor.
 	 */
-	public DeferredCache( IDeviceRenderer idr, Chart c )
+	public DeferredCache( IDeviceRenderer idr, Chart c, int cacheIndex )
 	{
 		this.idr = idr;
 		cm = c;
 		bTransposed = ( c instanceof ChartWithAxes && ( (ChartWithAxes) c ).isTransposed( ) );
+		this.cacheIndex = cacheIndex;
 	}
 
 	/**
@@ -671,14 +674,14 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	}
 
 	/**
-	 * Create a new instance of <code>DeverredCache</code> according to currnet
+	 * Create a new instance of <code>DeverredCache</code> according to current
 	 * device render and chart model.
 	 * 
 	 * @return
 	 * @since 2.6.2
 	 */
 	public DeferredCache deriveNewDeferredCache( ) {
-		DeferredCache dc =  new DeferredCache( this.idr, this.cm );
+		DeferredCache dc =  new DeferredCache( this.idr, this.cm, this.cacheIndex );
 		dc.setParentDeferredCache( this );
 		return dc;
 	}
@@ -764,20 +767,25 @@ public final class DeferredCache implements Comparable<DeferredCache>
 
 	public int compareTo( DeferredCache other )
 	{
+		// Compare marker line's z order firstly
 		if ( getMarkerNLineZOrder( ) != other.getMarkerNLineZOrder( ) )
 		{
 			return ( getMarkerNLineZOrder( ) - other.getMarkerNLineZOrder( ) );
 		}
 		else
 		{
+			// Compare marker size secondly. Smaller marker has higher z order
 			if ( other.getMarkerSize( ) - getMarkerSize( ) > 0 )
 			{
 				return 1;
 			}
-			else
+			else if ( other.getMarkerSize( ) - getMarkerSize( ) < 0 )
 			{
 				return -1;
 			}
+			
+			// Finally compare the model sequence. Latter one has higher z order
+			return this.cacheIndex - other.cacheIndex;
 		}
 	}
 }
