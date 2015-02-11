@@ -8,6 +8,7 @@ Bundle-Activator: org.eclipse.birt.core.internal.plugin.CorePlugin
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.core.archive,
+ org.eclipse.birt.core.archive.cache,
  org.eclipse.birt.core.archive.compound,
  org.eclipse.birt.core.btree,
  org.eclipse.birt.core.config,
