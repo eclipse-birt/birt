@@ -233,8 +233,8 @@ public class BufferedPrimitiveDiskArrayTest extends TestCase
 		assertEquals( list.size( ), objectNumber );
 		for ( int i = 0; i < objectNumber; i++ )
 		{
-			assertEquals( list.get( i ),
-					new BigDecimal( "1010101010101010101010" + i ) );
+			assertEquals( new BigDecimal( "1010101010101010101010" + i ),
+					list.get( i ) );
 		}
 		list.close( );
 	}
