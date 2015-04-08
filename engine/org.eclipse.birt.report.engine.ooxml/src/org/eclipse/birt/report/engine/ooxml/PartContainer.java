@@ -44,6 +44,7 @@ public abstract class PartContainer implements IPartContainer
 		this.uri = uri;
 	}
 
+	@Override
 	public IPart getPart( String uri )
 	{
 		if ( parts == null )
@@ -53,6 +54,7 @@ public abstract class PartContainer implements IPartContainer
 		return parts.get( uri );
 	}
 
+	@Override
 	public IPart getPart( String uri, String type, String relationshipType )
 	{
 		OOXmlType xmlType = new OOXmlType( type );
@@ -61,6 +63,7 @@ public abstract class PartContainer implements IPartContainer
 		return part;
 	}
 
+	@Override
 	public IPart getPart( String uri, ContentType type, String relationshipType )
 	{
 		uri = OOXmlUtil.getRelativeUri( getAbsoluteUri( ), uri);
@@ -81,6 +84,10 @@ public abstract class PartContainer implements IPartContainer
 	public String getHyperlinkId( String url )
 	{
 		return getHyperlinkId( url, RelationshipTypes.HYPERLINK );
+	}
+	
+	public String getBookmarkId( String bmk ){
+		return getHyperlinkId( bmk, RelationshipTypes.SLIDE );
 	}
 
 	public String getExternalImageId( String url )
@@ -143,6 +150,7 @@ public abstract class PartContainer implements IPartContainer
 		parts.put( part.getRelativeUri( ), part );
 	}
 
+	@Override
 	public IPart createPartReference( IPart part )
 	{
 		PartReference partReference = new PartReference( this, part,
@@ -185,8 +193,16 @@ public abstract class PartContainer implements IPartContainer
 					String relationshipId = OOXmlUtil.getRelationShipId( entry
 					        .getValue( ) );
 					String type = hyperlink.type;
-					writeRelationshipEntry( writer, url, relationshipId, type,
-							"External" );
+					if ( type.equals( RelationshipTypes.SLIDE) )
+					{
+						writeRelationshipEntry( writer, url, relationshipId,
+								type );
+					}
+					else
+					{
+						writeRelationshipEntry( writer, url, relationshipId,
+								type, "External" );
+					}
 				}
 			}
 			writer.closeTag( "Relationships" );
@@ -249,6 +265,7 @@ public abstract class PartContainer implements IPartContainer
 			this.type = type;
 		}
 
+		@Override
 		public boolean equals( Object obj )
 		{
 			if ( obj == this )
@@ -263,6 +280,7 @@ public abstract class PartContainer implements IPartContainer
 			return url == null ? link.url == null : url.equals( link.url );
 		}
 
+		@Override
 		public int hashCode( )
 		{
 			if ( url == null )
@@ -284,6 +302,18 @@ public abstract class PartContainer implements IPartContainer
 		{
 			hyperlinks.clear( );
 			hyperlinks = null;
+		}
+	}
+	
+	public void updateBmk( String wrngurl, String realurl )
+	{
+		if ( realurl != null )
+		{//set default or leave it dummy link
+			Hyperlink link = new Hyperlink( wrngurl, RelationshipTypes.SLIDE );
+			Integer relationshipid = hyperlinks.get( link );
+			hyperlinks.remove( link );
+			link = new Hyperlink( realurl, RelationshipTypes.SLIDE );
+			hyperlinks.put( link, relationshipid );
 		}
 	}
 }

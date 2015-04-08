@@ -18,6 +18,8 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.util.ChartUtil;
 
+import com.ibm.icu.util.Calendar;
+
 public class ChartUtilTest extends TestCase
 {
 
@@ -127,5 +129,27 @@ public class ChartUtilTest extends TestCase
 		assertEquals( 1, ChartUtil.compareVersion( "3.1.1.5", "3.1" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( 0, ChartUtil.compareVersion( "3.1.1.5", "3.1.1.5.0" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( -1, ChartUtil.compareVersion( "3.1.1.5", "3.1.1.6" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	public void testFormatDouble( )
+	{
+		assertEquals( "0.000000000", ChartUtil.formatDouble( 0d ) );//$NON-NLS-1$ 
+		assertEquals( "1.000000000", ChartUtil.formatDouble( 1d ) );//$NON-NLS-1$ 
+		assertEquals( "0.100000000", ChartUtil.formatDouble( 0.1d ) );//$NON-NLS-1$ 
+		assertEquals( "0.000000010", ChartUtil.formatDouble( 0.00000001d ) );//$NON-NLS-1$ 
+		assertEquals( "0.000000000", ChartUtil.formatDouble( 0.00000000001d ) );//$NON-NLS-1$ 
+	}
+
+	public void testStringValue( )
+	{
+		assertEquals( null, ChartUtil.stringValue( null ) );
+		assertEquals( "1", ChartUtil.stringValue( 1 ) );//$NON-NLS-1$ 
+		assertEquals( "0.00100001", ChartUtil.stringValue( 0.00100001 ) );//$NON-NLS-1$ 
+		// TODO test case only works under pacific time zone
+		Calendar calendar = Calendar.getInstance( );
+		calendar.set( 2015, 0, 22, 11, 56, 10 );
+		calendar.set( Calendar.MILLISECOND, 125 );
+		assertEquals( "2015-01-22 11:56:10.125-0800",//$NON-NLS-1$ 
+				ChartUtil.stringValue( calendar ) );
 	}
 }

@@ -468,7 +468,9 @@
 		<mkdir dir="${repo}" />
 
 		<!-- generate pack200 -->
+		<!-- jarprocessor won't obey pack.excludes => corrupts signatures
 		<antcall target="generatePack200" />
+		-->
 
 		<copy file="${updateJarWorkingDir}/packed/site.xml" todir="${repo}" />
 

@@ -323,8 +323,12 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 		
 		String[] resultIdAndRawId = loadResultSetID( parentResult, queryID );
-		String resultSetID = resultIdAndRawId[0];
-		String originalRawId = resultIdAndRawId[1];
+		String resultSetID = null, originalRawId = "-1";
+		if ( resultIdAndRawId != null )
+		{
+			resultSetID = resultIdAndRawId[0];
+			originalRawId = resultIdAndRawId[1];
+		}
 		// in update mode, resultsetid isn't a must
 		/*
 		if ( resultSetID == null )
@@ -443,8 +447,12 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 
 		String[] resultIdAndRawId = loadResultSetID( parentResult, queryID );
-		String resultSetID = resultIdAndRawId[0];
-		String originalRawId = resultIdAndRawId[1];
+		String resultSetID = null, originalRawId = "-1";
+		if ( resultIdAndRawId != null )
+		{
+			resultSetID = resultIdAndRawId[0];
+			originalRawId = resultIdAndRawId[1];
+		}
 		// in update mode, resultsetid isn't a must
 		/*
 		if ( resultSetID == null )

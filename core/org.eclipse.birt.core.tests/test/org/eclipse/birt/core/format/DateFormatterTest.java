@@ -240,7 +240,7 @@ public class DateFormatterTest extends TestCase
 		Date dateTime = dateCal.getTime( );
 		java.sql.Time sqlTime = new java.sql.Time( dateTime.getTime( ) );
 
-		String utcDate = "13 Sep 1998 12:01";
+		String utcDate = "13 Sep 1998, 12:01";
 		String utcTime = "12:01:44";
 		TimeZone UTCTimeZone = TimeZone.getTimeZone( "UTC" );
 		df = new DateFormatter( ULocale.UK, UTCTimeZone );
