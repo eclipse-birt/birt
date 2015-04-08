@@ -54,6 +54,7 @@
     </repositories>
 
   <modules>
+    <!-- build issue inside -->
     <module>build</module>
     <module>chart</module>
     <module>common</module>
@@ -67,10 +68,8 @@
     <module>model</module>
     <!-- build issue inside -->
     <module>nl</module>
-    <!-- what about releng / tutorial? -->
-    <!-- update all tests to testsuites-->
-    <module>testsuites</module>
     <!-- build issue inside -->
+    <module>testsuites</module>
 	<module>UI</module>
     <module>viewer</module>
     <module>xtab</module>
