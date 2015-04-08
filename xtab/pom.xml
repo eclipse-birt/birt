@@ -16,9 +16,6 @@
     
     <modules>
         <module>org.eclipse.birt.report.item.crosstab.core</module>
-        <!--
-        <module>org.eclipse.birt.report.item.crosstab.core.tests</module>
-        -->
         <module>org.eclipse.birt.report.item.crosstab.ui</module>
     </modules>
 </project>

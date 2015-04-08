@@ -18,9 +18,6 @@
         <module>org.eclipse.birt.report.engine</module>
         <module>org.eclipse.birt.report.engine.dataextraction</module>
         <module>org.eclipse.birt.report.engine.dataextraction.csv</module>
-        <!--
-        <module>org.eclipse.birt.report.engine.dataextraction.csv.tests</module>
-        -->
         <module>org.eclipse.birt.report.engine.emitter.config</module>
         <module>org.eclipse.birt.report.engine.emitter.config.docx</module>
         <module>org.eclipse.birt.report.engine.emitter.config.excel</module>
@@ -35,37 +32,19 @@
         <module>org.eclipse.birt.report.engine.emitter.config.wpml</module>
         <module>org.eclipse.birt.report.engine.emitter.docx</module>
         <module>org.eclipse.birt.report.engine.emitter.html</module>
-        <!--
-        <module>org.eclipse.birt.report.engine.emitter.html.tests</module>
-        -->
         <module>org.eclipse.birt.report.engine.emitter.odp</module>
         <module>org.eclipse.birt.report.engine.emitter.ods</module>
         <module>org.eclipse.birt.report.engine.emitter.odt</module>
         <module>org.eclipse.birt.report.engine.emitter.pdf</module>
-        <!--
-        <module>org.eclipse.birt.report.engine.emitter.pdf.tests</module>
-        -->
         <module>org.eclipse.birt.report.engine.emitter.postscript</module>
-        <!--
-        <module>org.eclipse.birt.report.engine.emitter.postscript.tests</module>
-        -->
         <module>org.eclipse.birt.report.engine.emitter.ppt</module>
         <module>org.eclipse.birt.report.engine.emitter.pptx</module>
         <module>org.eclipse.birt.report.engine.emitter.prototype.excel</module>
-        <!--
-        <module>org.eclipse.birt.report.engine.emitter.prototype.excel.tests</module>
-        -->
         <module>org.eclipse.birt.report.engine.emitter.wpml</module>
         <module>org.eclipse.birt.report.engine.fonts</module>
         <module>org.eclipse.birt.report.engine.odf</module>
         <module>org.eclipse.birt.report.engine.ooxml</module>
         <module>org.eclipse.birt.report.engine.testhelper</module>
-        <!--
-        <module>org.eclipse.birt.report.engine.tests</module>
-        -->
         <module>uk.co.spudsoft.birt.emitters.excel</module>
-        <!--
-        <module>uk.co.spudsoft.birt.emitters.excel.tests</module>
-        -->
     </modules>
 </project>

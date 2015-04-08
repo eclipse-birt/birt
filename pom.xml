@@ -60,7 +60,7 @@
     <module>core</module>
     <module>data</module>
     <!-- build issue inside -->
-    <module>doc</module>
+    <module>docs</module>
     <module>engine</module>
     <!-- build issue inside -->
     <module>features</module>
@@ -70,6 +70,7 @@
     <!-- what about releng / tutorial? -->
     <!-- update all tests to testsuites-->
     <module>testsuites</module>
+    <!-- build issue inside -->
 	<module>UI</module>
     <module>viewer</module>
     <module>xtab</module>

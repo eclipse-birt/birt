@@ -22,8 +22,7 @@
         -->
         <module>org.eclipse.birt.report.designer.core</module>
         <!--
-        <module>org.eclipse.birt.report.designer.samplereports</module>    
-        <module>org.eclipse.birt.report.designer.tests</module>
+        <module>org.eclipse.birt.report.designer.samplereports</module>
         -->
         <module>org.eclipse.birt.report.designer.ui</module>
         <module>org.eclipse.birt.report.designer.ui.cubebuilder</module>
@@ -37,9 +36,6 @@
         <module>org.eclipse.birt.report.designer.ui.lib.explorer</module>
         <module>org.eclipse.birt.report.designer.ui.preview</module>
         <module>org.eclipse.birt.report.designer.ui.preview.static_html</module>
-        <!--
-        <module>org.eclipse.birt.report.designer.ui.preview.test</module>
-        -->
         <module>org.eclipse.birt.report.designer.ui.preview.web</module>
         <module>org.eclipse.birt.report.designer.ui.rcp</module>
         <module>org.eclipse.birt.report.designer.ui.samples.ide</module>

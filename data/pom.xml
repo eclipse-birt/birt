@@ -21,13 +21,7 @@
         <module>org.eclipse.birt.data.oda.mongodb</module>
         <module>org.eclipse.birt.data.oda.mongodb.ui</module>
         <module>org.eclipse.birt.data.oda.pojo</module>
-        <!--
-        <module>org.eclipse.birt.data.oda.pojo.tests</module>
-        -->
         <module>org.eclipse.birt.data.oda.pojo.ui</module>
-        <!--
-        <module>org.eclipse.birt.data.tests</module>
-        -->
         <module>org.eclipse.birt.me.prettyprint.hector</module>
         <module>org.eclipse.birt.report.data.adapter</module>
         <module>org.eclipse.birt.report.data.bidi.utils</module>
@@ -41,9 +35,6 @@
         <module>org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb</module>
         <module>org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui</module>
         <module>org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui</module>
-        <!--
-        <module>org.eclipse.birt.report.data.oda.jdbc.tests</module>
-        -->
         <module>org.eclipse.birt.report.data.oda.jdbc.ui</module>
         <module>org.eclipse.birt.report.data.oda.sampledb</module>
         <module>org.eclipse.birt.report.data.oda.sampledb.ui</module>

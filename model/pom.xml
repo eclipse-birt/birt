@@ -17,11 +17,6 @@
     <modules>
         <module>org.eclipse.birt.report.model</module>
         <module>org.eclipse.birt.report.model.adapter.oda</module>
-        <module>org.eclipse.birt.report.model.testhelper</module>
-        <!--
-        <module>org.eclipse.birt.report.model.adapter.oda.tests</module>    
-        <module>org.eclipse.birt.report.model.tests</module>
-        -->
         <module>org.eclipse.birt.resources</module>
     </modules>
 </project>

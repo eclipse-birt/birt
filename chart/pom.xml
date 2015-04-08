@@ -27,9 +27,6 @@
         <module>org.eclipse.birt.chart.integration.wtp.ui</module>
         <module>org.eclipse.birt.chart.reportitem</module>
         <module>org.eclipse.birt.chart.reportitem.ui</module>
-        <!--
-        <module>org.eclipse.birt.chart.tests</module>
-        -->
         <module>org.eclipse.birt.chart.ui</module>
         <module>org.eclipse.birt.chart.ui.extension</module>
         <module>org.eclipse.birt.chart.viewer</module>
