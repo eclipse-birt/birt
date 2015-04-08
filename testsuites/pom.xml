@@ -1,0 +1,28 @@
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.eclipse.birt</groupId>
+        <artifactId>org.eclipse.birt-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    
+    <groupId>org.eclipse.birt.testsuites</groupId>
+    <artifactId>org.eclipse.birt.testsuites-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    
+    <modules>
+        <!--
+            <module>testsuites/org.eclipse.birt.report.tests.chart</module>
+            <module>testsuites/org.eclipse.birt.report.tests.engine</module>
+            <module>testsuites/org.eclipse.birt.report.tests.engine.emitter.html</module>
+            <module>testsuites/org.eclipse.birt.report.tests.model</module>
+            <module>testsuites/org.eclipse.birt.tests</module>
+            <module>testsuites/org.eclipse.birt.tests.core</module>
+            <module>testsuites/org.eclipse.birt.tests.data</module>
+        -->
+    </modules>
+</project>
