@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor.optimize;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -75,7 +76,8 @@ public class ExecutionOptimize
 		PolicyNode parentNode;
 
 		LinkedList rows = new LinkedList( );
-
+		HashMap<ReportItemDesign, PolicyNode> itemNodeMap = new HashMap<ReportItemDesign, PolicyNode>();	
+		
 		OptimizeVisitor( Report report )
 		{
 			this.report = report;
@@ -252,8 +254,6 @@ public class ExecutionOptimize
 
 		protected PolicyNode findPreviousNode( PolicyNode node )
 		{
-			if ( node.design instanceof GroupDesign )
-				return node;
 			if ( node == null || node.parent == null )
 			{
 				return null;
@@ -271,8 +271,6 @@ public class ExecutionOptimize
 
 		protected PolicyNode findNextNode( PolicyNode node )
 		{
-			if ( node.design instanceof GroupDesign )
-				return node;
 			if ( node == null || node.parent == null )
 			{
 				return null;
@@ -287,7 +285,7 @@ public class ExecutionOptimize
 			}
 			else
 			{
-				return findNextNode( node.parent );
+				return findPreviousNode( node.parent );
 			}
 		}
 
@@ -442,6 +440,11 @@ public class ExecutionOptimize
 			}
 		}
 
+//      Reported Issue 56398
+//      The pre-order traversal runs O(2^n) time to determine the page breaks (before and after). 
+//		Each child is also assigned (creates) are a node to execute. 
+//      While the current traversal logic has room to improve the original traversal creates more than 2^n new node which caused heap overflow. 
+//      The fix of 56398 addresses that issue.
 		protected void processGroup( ListingDesign listing, int groupLevel,
 				boolean breakBefore )
 		{
@@ -470,6 +473,7 @@ public class ExecutionOptimize
 			if ( ++groupLevel < listing.getGroupCount( ) )
 			{
 				processGroup( listing, groupLevel, header != null );
+				processGroup( listing, groupLevel, false );
 			}
 			else
 			{
@@ -625,23 +629,32 @@ public class ExecutionOptimize
 			}
 			return value;
 		}
-
-		public Object visitReportItem( ReportItemDesign item, Object value )
-		{
-			PolicyNode node = new PolicyNode( );
-			node.parent = parentNode;
-			node.design = item;
-			boolean needExecute = value == Boolean.TRUE;
-			// first test if we need execute the previous object
-			if ( needExecute )
-			{
-				node.execute = true;
-			}
-			setupPageBreak( node );
-			parentNode.children.add( node );
-			currentNode = node;
-			return Boolean.valueOf( needExecute );
-		}
+		
+//      Fix of TED 56398 using a map to retrieve the previously visited node. Reduce the number of node objects.
+        public Object visitReportItem( ReportItemDesign item, Object value )
+        {
+            PolicyNode node = null;
+            if ( itemNodeMap.containsKey( item ) )
+            {
+                node = itemNodeMap.get( item );
+            }
+            else
+            {
+                node = new PolicyNode( );
+                node.parent = parentNode;
+                node.design = item;
+                itemNodeMap.put( item, node );
+                parentNode.children.add( node );
+            }
+            boolean needExecute = value == Boolean.TRUE;
+            if ( needExecute )
+            {
+                node.execute = true;
+            }
+            setupPageBreak( node );
+            currentNode = node;
+            return Boolean.valueOf( needExecute );
+        }
 
 		protected void setupPageBreak( PolicyNode node )
 		{
