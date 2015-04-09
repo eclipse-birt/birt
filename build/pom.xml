@@ -15,8 +15,6 @@
     <packaging>pom</packaging>
     
     <modules>
-    <!--
         <module>org.eclipse.birt.p2updatesite</module>
-    -->
     </modules>
 </project>

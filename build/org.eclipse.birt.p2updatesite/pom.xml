@@ -1,27 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.eclipse.birt</groupId>
-		<artifactId>org.eclipse.birt-parent</artifactId>
+		<groupId>org.eclipse.birt.build</groupId>
+		<artifactId>org.eclipse.birt.build-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../</relativePath>
+		<relativePath>..</relativePath>
 	</parent>
+
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.p2updatesite</artifactId>
-	<version>4.4.0-SNAPSHOT</version>
+	<version>4.5.0-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.eclipse.tycho</groupId>
-                    <artifactId>tycho-p2-repository-plugin</artifactId>
-                    <version>${tycho.version}</version>
-                    <configuration>
-                        <includeAllDependencies>true</includeAllDependencies>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </build>
+
+	<properties>
+		<!-- <birt-repository-url>birtdev/actu01/</birt-repository-url> -->
+	</properties>
+
+	<!-- http://www.vogella.com/tutorials/EclipseTycho/article.html#deploy -->
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>1.0-beta-6</version>
+			</extension>
+		</extensions>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-repository-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<includeAllDependencies>true</includeAllDependencies>
+				</configuration>
+			</plugin>
+			<!-- Upload the repo to the server -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0-beta-4</version>
+				<executions>
+					<execution>
+						<id>update-birt</id>
+						<phase>install</phase>
+						<goals>
+							<goal>upload</goal>
+						</goals>
+						<configuration>
+							<fromDir>./target/repository</fromDir>
+							<includes>**</includes>
+							<url>${birt-repository-url}</url>
+							<serverId>birt-repository</serverId>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
