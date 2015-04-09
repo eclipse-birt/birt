@@ -63,12 +63,12 @@
     <!-- build issue inside -->
     <module>docs</module>
     <module>engine</module>
-    <!-- build issue inside -->
+    <!-- sdk/test features build issue, test features installation -->
     <module>features</module>
     <module>model</module>
     <!-- build issue inside -->
     <module>nl</module>
-    <!-- build issue inside -->
+    <!-- report.viewer.tests build issue, and how to run tests.xxx plugins -->
     <module>testsuites</module>
 	<module>UI</module>
     <module>viewer</module>
