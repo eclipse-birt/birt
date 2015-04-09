@@ -54,6 +54,7 @@
     </repositories>
 
   <modules>
+    <!-- build issue inside -->
     <module>build</module>
     <module>chart</module>
     <module>common</module>
@@ -62,15 +63,13 @@
     <!-- build issue inside -->
     <module>docs</module>
     <module>engine</module>
-    <!-- build issue inside -->
+    <!-- sdk/test features build issue, test features installation -->
     <module>features</module>
     <module>model</module>
     <!-- build issue inside -->
     <module>nl</module>
-    <!-- what about releng / tutorial? -->
-    <!-- update all tests to testsuites-->
+    <!-- report.viewer.tests build issue, and how to run tests.xxx plugins -->
     <module>testsuites</module>
-    <!-- build issue inside -->
 	<module>UI</module>
     <module>viewer</module>
     <module>xtab</module>

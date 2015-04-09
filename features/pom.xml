@@ -15,29 +15,29 @@
     <packaging>pom</packaging>
     
     <modules>
-    <!--
-        <module>features/org.eclipse.birt.chart.cshelp.feature</module>
-        <module>features/org.eclipse.birt.chart.doc.isv.feature</module>
-        <module>features/org.eclipse.birt.chart.feature</module>
-        <module>features/org.eclipse.birt.chart.integration.wtp.feature</module>
-        <module>features/org.eclipse.birt.chart.osgi.runtime</module>
-        <module>features/org.eclipse.birt.chart.osgi.runtime.sdk</module>
-        <module>features/org.eclipse.birt.cshelp.feature</module>
-        <module>features/org.eclipse.birt.doc.feature</module>
-        <module>features/org.eclipse.birt.doc.isv.feature</module>
-        <module>features/org.eclipse.birt.example.feature</module>	
-        <module>features/org.eclipse.birt.feature</module>
-        <module>features/org.eclipse.birt.integration.wtp.feature</module>
-        <module>features/org.eclipse.birt.integration.wtp.sdk.feature</module>
-        <module>features/org.eclipse.birt.nl.feature</module>
-        <module>features/org.eclipse.birt.osgi.runtime</module>
-        <module>features/org.eclipse.birt.osgi.runtime.sdk</module>
-        <module>features/org.eclipse.birt.rcp.nl.feature</module>
-        <module>features/org.eclipse.birt.report.designer.editor.xml.wtp.feature</module>
-        <module>features/org.eclipse.birt.sdk.feature</module>
-        <module>features/org.eclipse.birt.testhelper.feature</module>
-        <module>features/org.eclipse.birt.tests.feature</module>
-        <module>features/org.eclipse.birt.wtp.nl.feature</module>
-    -->
+        <!--
+        <module>org.eclipse.birt.chart.cshelp.feature</module>
+        <module>org.eclipse.birt.chart.doc.isv.feature</module>
+        <module>org.eclipse.birt.cshelp.feature</module>
+        <module>org.eclipse.birt.doc.feature</module>
+        <module>org.eclipse.birt.doc.isv.feature</module>
+        <module>org.eclipse.birt.nl.feature</module>
+        <module>org.eclipse.birt.rcp.nl.feature</module>
+        <module>org.eclipse.birt.wtp.nl.feature</module>
+        <module>org.eclipse.birt.sdk.feature</module>
+        <module>org.eclipse.birt.testhelper.feature</module>
+        <module>org.eclipse.birt.tests.feature</module>
+        -->
+        <module>org.eclipse.birt.chart.feature</module>        
+        <module>org.eclipse.birt.chart.integration.wtp.feature</module>
+        <module>org.eclipse.birt.chart.osgi.runtime</module>
+        <module>org.eclipse.birt.chart.osgi.runtime.sdk</module>
+        <module>org.eclipse.birt.example.feature</module>
+        <module>org.eclipse.birt.feature</module>
+        <module>org.eclipse.birt.integration.wtp.feature</module>
+        <module>org.eclipse.birt.integration.wtp.sdk.feature</module>
+        <module>org.eclipse.birt.osgi.runtime</module>
+        <module>org.eclipse.birt.osgi.runtime.sdk</module>
+        <module>org.eclipse.birt.report.designer.editor.xml.wtp.feature</module>
     </modules>
 </project>
