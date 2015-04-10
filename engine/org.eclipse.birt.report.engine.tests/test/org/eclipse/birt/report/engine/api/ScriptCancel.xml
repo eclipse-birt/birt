@@ -2,7 +2,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 3.7.0.v20110824-1114 Build &lt;3.7.1.v20110824-1114></property>
     <property name="units">in</property>
-    <method name="beforeFactory"><![CDATA[reportContext.cancel();]]></method>
+    <method name="beforeFactory"><![CDATA[reportContext.cancel("cancel error message");]]></method>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">120</property>

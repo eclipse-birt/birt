@@ -10,13 +10,17 @@
 
 package org.eclipse.birt.report.engine.emitter.pptx.writer;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.birt.report.engine.emitter.pptx.PPTXRender;
+import org.eclipse.birt.report.engine.emitter.pptx.SlideWriter;
+import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.ooxml.IPart;
 import org.eclipse.birt.report.engine.ooxml.ImageManager;
 import org.eclipse.birt.report.engine.ooxml.Package;
@@ -47,15 +51,25 @@ public class Presentation extends Component
 	private static final String TAG_SLIDE_MASTER_ID = "p:sldMasterId";
 
 	private static final String TAG_SLIDE_MASTER_ID_LIST = "p:sldMasterIdLst";
+	
+	private final PPTXBookmarkManager bmkmanager;
+
+	private int slideMasterId = 1;
+	private int slideLayoutId = 1;
+	private int themeId = 1;
+	
+	private long globalId = 2147483648L;
 
 	private int width = 0, height = 0;
 
-	private Package pkg;
+	private final Package pkg;
 
-	private SlideMaster slideMaster;
-	private List<Slide> slides = new ArrayList<Slide>( );
+	private final HashMap<String, SlideMaster> slideMasters = new HashMap<String, SlideMaster>();
+	private final List<Slide> slides = new ArrayList<Slide>( );
 	private String author, title, description, subject;
-	
+	private PPTXRender render;
+	private int shapeId;
+
 	public Presentation( OutputStream out, String tempFileDir,
 			int compressionMode )
 	{
@@ -63,15 +77,13 @@ public class Presentation extends Component
 		String uri = "ppt/presentation.xml";
 		String type = ContentTypes.PRESENTATIONML;
 		String relationshipType = RelationshipTypes.DOCUMENT;
+		bmkmanager = new PPTXBookmarkManager( );
 		this.part = pkg.getPart( uri, type, relationshipType );
 		pkg.setExtensionData( new ImageManager() );
 		try
 		{
 			writer = part.getCacheWriter( );
 			initialize( );
-			Theme theme = new Theme( part );
-			createSlideMaster( );
-			slideMaster.referTo( theme );
 		}
 		catch ( IOException e )
 		{
@@ -79,17 +91,35 @@ public class Presentation extends Component
 		}
 	}
 
-	private void createSlideMaster( ) throws IOException
+	public SlideMaster getSlideMaster( String name ) throws IOException
 	{
-		slideMaster = new SlideMaster( this );
-		writer.openTag( TAG_SLIDE_MASTER_ID_LIST );
-		writer.openTag( TAG_SLIDE_MASTER_ID );
-		writer.attribute( TAG_ID, "2147483648" );
-		writer.attribute( TAG_RELATIONSHIP_ID, slideMaster.getPart( )
-				.getRelationshipId( ) );
-		writer.closeTag( TAG_SLIDE_MASTER_ID );
-		writer.closeTag( TAG_SLIDE_MASTER_ID_LIST );
+		return slideMasters.get(name);
+	}
 
+	public SlideMaster createSlideMaster(String name, PageArea area) throws IOException
+	{
+		Theme theme = new Theme( part, this );
+		SlideMaster slideMaster = new SlideMaster( this, area );
+		slideMaster.referTo( theme );
+		slideMasters.put( name, slideMaster);
+		return slideMaster;
+	}
+
+	private void outputSlideMasters() throws IOException
+	{
+		writer.openTag( TAG_SLIDE_MASTER_ID_LIST );
+		for (Map.Entry<String, SlideMaster> entry : slideMasters.entrySet())
+		{
+			SlideMaster slideMaster = entry.getValue();
+			writer.openTag( TAG_SLIDE_MASTER_ID );
+			writer.attribute( TAG_ID, String.valueOf( getNextGlobalId() ) );
+			writer.attribute( TAG_RELATIONSHIP_ID, slideMaster.getPart( )
+					.getRelationshipId( ) );
+			writer.closeTag( TAG_SLIDE_MASTER_ID );
+			new SlideWriter( render ).writeSlideMaster( slideMaster );
+			slideMaster.close( );
+		}
+		writer.closeTag( TAG_SLIDE_MASTER_ID_LIST );
 	}
 
 	public void initialize( )
@@ -108,7 +138,7 @@ public class Presentation extends Component
 		this.height = height;
 	}
 
-	public Slide createSlide( int pageWidth, int pageHeight, Color bgColor )
+	public Slide createSlide( SlideMaster master, int pageWidth, int pageHeight, PageArea area  )
 			throws IOException
 	{
 		if ( pageWidth > width )
@@ -119,13 +149,8 @@ public class Presentation extends Component
 		{
 			height = pageHeight;
 		}
-		return createSlide( bgColor );
-	}
-
-	public Slide createSlide( Color bgColor ) throws IOException
-	{
 		int slideIndex = slides.size( ) + 1;
-		Slide slide = new Slide( this, slideIndex, bgColor );
+		Slide slide = new Slide( this, slideIndex, master.getSlideLayout());
 		slides.add( slide );
 		return slide;
 	}
@@ -135,6 +160,7 @@ public class Presentation extends Component
 		writer.openTag( TAG_SLIDE_ID_LIST );
 		for ( Slide slide : slides )
 		{
+			bmkmanager.resolveDisconnectedBookmarks( slide );
 			writer.openTag( TAG_SLIDE_ID );
 			writer.attribute( TAG_ID, slide.getSlideId( ) );
 			writer.attribute( TAG_RELATIONSHIP_ID, slide.getPart( )
@@ -147,7 +173,7 @@ public class Presentation extends Component
 	public void close( ) throws IOException
 	{
 		new Core( this, author, title, description, subject );
-		slideMaster.close( );
+		outputSlideMasters();
 		outputSlides( );
 		writer.openTag( TAG_SLIDE_SZ );
 		// Set default page size to A4.
@@ -180,7 +206,7 @@ public class Presentation extends Component
 	{
 		String url = "ppt/" + propFile + ".xml";
 		String type = "application/vnd.openxmlformats-officedocument.presentationml."
-                  + propFile + "+xml";
+				+ propFile + "+xml";
 		IPart part = pkg.getPart( url, type, null );
 		copyPartContent( propFile + ".xml", part );
 	}
@@ -204,11 +230,6 @@ public class Presentation extends Component
 		return pkg;
 	}
 
-	public SlideMaster getSlideMaster( )
-	{
-		return slideMaster;
-	}
-	
 	public void setAuthor( String author )
 	{
 		this.author = author;
@@ -227,5 +248,60 @@ public class Presentation extends Component
 	public void setSubject( String subject )
 	{
 		this.subject = subject;
+	}
+
+	public int getNextShapeId( )
+	{
+		return shapeId++;
+	}
+
+	public int getNextSlideMasterId( )
+	{
+		return slideMasterId++;
+	}
+
+	public int getNextThemeId( )
+	{
+		return themeId++;
+	}
+
+	public int getNextSlideLayoutId( )
+	{
+		return slideLayoutId++;
+	}
+	
+	public long getNextGlobalId( )
+	{
+		return globalId++;
+	}
+	
+	public int getCurrentSlideIdx( )
+	{
+		return slides.size( );
+	}
+
+	private Slide getCurrentSlide( )
+	{
+		return slides.get( slides.size( ) - 1 );
+	}
+	
+	public String getBookmarkRelationshipid( String bmk )
+	{
+		return bmkmanager.getBookmarkRelationId( bmk, getCurrentSlide( ) );
+	}
+	
+	public void addBookmark( String key, int slideIdx )
+	{
+		bmkmanager.addBookmark( key, slideIdx );
+	}
+
+	public void setRender( PPTXRender pptxrender )
+	{
+		render = pptxrender;
+	}
+	
+	public int getTotalSlides( )
+	{
+		return slides.size( );
 	}
 }

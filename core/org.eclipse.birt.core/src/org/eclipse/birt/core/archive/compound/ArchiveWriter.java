@@ -39,7 +39,17 @@ public class ArchiveWriter implements IDocArchiveWriter
 		shareArchive = true;
 	}
 
+	/**
+	 * @deprecated
+	 * use getArchiveFile instead
+	 * @return
+	 */
 	public IArchiveFile getArchive( )
+	{
+		return archive;
+	}
+	
+	public IArchiveFile getArchiveFile( )
 	{
 		return archive;
 	}
@@ -180,7 +190,7 @@ public class ArchiveWriter implements IDocArchiveWriter
 			if ( name.startsWith( namePattern )
 					&& !name.equalsIgnoreCase( namePattern ) )
 			{
-				String diffString = ArchiveUtil.generateRelativePath(
+				String diffString = ArchiveUtil.getRelativePath(
 						namePattern, name );
 				if ( diffString.lastIndexOf( ArchiveUtil.UNIX_SEPERATOR ) == 0 )
 				{

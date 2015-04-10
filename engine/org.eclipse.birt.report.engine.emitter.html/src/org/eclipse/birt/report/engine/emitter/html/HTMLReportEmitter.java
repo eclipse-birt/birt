@@ -1696,33 +1696,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return;
 		}
 		needOutputBackgroundSize = true;
-		String backgroundPositionX = style.getBackgroundPositionX( );
-		if ( backgroundPositionX == null )
-		{
-			backgroundPositionX = "0px";
-		}
-		String backgroundPositionY = style.getBackgroundPositionY( );
-		if ( backgroundPositionY == null )
-		{
-			backgroundPositionY = "0px";
-		}
-
 		writer.openTag( HTMLTags.TAG_DIV );
-		writer.attribute( HTMLTags.ATTR_STYLE, "width:" + pageWidth
-				+ ";height:" + pageHeight + ";" );
-		writer.openTag( HTMLTags.TAG_IMAGE );
-		writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
-
-		image = handleStyleImage( image, true );
-		if ( image != null && image.length( ) > 0 )
-		{
-			writer.attribute( HTMLTags.ATTR_SRC, image );
-			writer.attribute( HTMLTags.ATTR_STYLE, "width:" + backgroundWidth
-					+ ";height:" + backgroundHeight
-					+ ";position:absolute;left:" + backgroundPositionX
-					+ ";top:" + backgroundPositionY + ";z-index:-1" );
-		}
-		writer.closeTag( HTMLTags.TAG_IMAGE );
+		StringBuffer sb = new StringBuffer();
+		sb.append("width:").append(pageWidth).append(";");
+		sb.append("height:").append(pageHeight).append(";" );
+		AttributeBuilder.buildBackground( sb, style, this);
+		sb.append( "background-size:" ).append( backgroundWidth ).append( " " ).append( backgroundHeight ).append( ";");
+		writer.attribute( HTMLTags.ATTR_STYLE, sb.toString( ) );
 	}
 
 	private String parseBackgroundSize( String backgroundHeight,
@@ -3860,14 +3840,77 @@ class IDGenerator
 
 class TableLayout
 {
-	Stack<int[]> layoutStack = new Stack<int[]>();
-	Stack<Integer> columnCountStack = new Stack<Integer>();
-	int columnCount;
-	int[] cells = null;
-	ICellContent currentCell = null;
-	HTMLReportEmitter emitter = null;
-	ITableContent table = null;
+
+	/**
+	 * status of the current table.
+	 */
+	private class LayoutStatus
+	{
+
+		/**
+		 * current table
+		 */
+		ITableContent table;
+		/**
+		 * row id of the cells, used to calculate the row span.
+		 */
+		int[] cells;
+		/**
+		 * column count of the table.
+		 */
+		int columnCount;
+		/**
+		 * if the column has invisible columns
+		 */
+		boolean hasHiddenColumn;
+		/**
+		 * which column is invisible.
+		 */
+		boolean[] columnHiddens;
+		/**
+		 * previous cell content.
+		 */
+		ICellContent currentCell;
+	}
+
+	/**
+	 * stack used save status of nested table.
+	 */
+	private Stack<LayoutStatus> statuses = new Stack<LayoutStatus>( );
+	/**
+	 * current table content
+	 */
+	private ITableContent table;
+	/**
+	 * row position of current tables.
+	 */
+	private int[] cells;
+	/**
+	 * column count of current table.
+	 */
+	private int columnCount;
+	/**
+	 * if the table has invisible columns.
+	 */
+	private boolean hasHiddenColumn;
+	/**
+	 * boolean value to indicate which column is invisible.
+	 */
+	private boolean[] columnHiddens;
+	/**
+	 * previous cell content.
+	 */
+	private ICellContent currentCell;
 	
+	/**
+	 * HTML emitter to output content.
+	 */
+	private HTMLReportEmitter emitter = null;
+	/**
+	 * the cell inserted as invisible.
+	 */
+	ICellContent insertNoneCell = null;
+
 	TableLayout(HTMLReportEmitter emitter)
 	{
 		this.emitter = emitter;
@@ -3875,25 +3918,44 @@ class TableLayout
 	
 	protected void startTable(ITableContent tableContent)
 	{
-		int columnCount = tableContent.getColumnCount( );
+		LayoutStatus status = new LayoutStatus( );
+		status.table = table;
+		status.cells = cells;
+		status.columnCount = columnCount;
+		status.columnHiddens = columnHiddens;
+		status.hasHiddenColumn = hasHiddenColumn;
+		status.currentCell = currentCell;
+		statuses.push( status );
+
+		// create a new status
+		table = tableContent;
+		columnCount = tableContent.getColumnCount( );
 		cells = new int[columnCount];
-		this.columnCount = columnCount;
-		layoutStack.push( cells );
-		columnCountStack.push( columnCount );
-		this.table = tableContent;
+		columnHiddens = new boolean[columnCount];
+		for ( int i = 0; i < columnCount; i++ )
+		{
+			IColumn column = tableContent.getColumn( i );
+			boolean isHidden = column.getComputedStyle( ).getProperty(
+					IStyle.STYLE_DISPLAY ) == IStyle.NONE_VALUE;
+			columnHiddens[i] = isHidden;
+			if ( isHidden )
+			{
+				hasHiddenColumn = true;
+			}
+		}
 	}
 
 	protected void endTable( ITableContent tableContent )
 	{
-		layoutStack.pop( );
-		columnCountStack.pop( );
-		if ( !layoutStack.isEmpty( ) )
+		if ( !statuses.isEmpty( ) )
 		{
-			cells = layoutStack.peek( );
-		}
-		if ( !columnCountStack.isEmpty( ) )
-		{
-			columnCount = columnCountStack.peek( );
+			LayoutStatus status = statuses.pop( );
+			table = status.table;
+			cells = status.cells;
+			columnCount = status.columnCount;
+			hasHiddenColumn = status.hasHiddenColumn;
+			columnHiddens = status.columnHiddens;
+			currentCell = status.currentCell;
 		}
 	}
 	
@@ -3913,11 +3975,55 @@ class TableLayout
 	
 	protected void startCell(ICellContent cell)
 	{
+		//the cell is output as invisible, so output directly.
+		if ( cell == insertNoneCell )
+		{
+			insertNoneCell = null;
+			return;
+		}
+		// if there are any cell missing before the cell,
+		// fill the gap with empty cell.
 		if ( needAddEmptyCell( cell ) )
 		{
 			addEmptyCell( cell );
 		}
 
+		if ( !hasHiddenColumn)
+		{
+			return;
+		}
+
+		int column = cell.getColumn( );
+		int colSpan = cell.getColSpan( );
+		int hiddenColumnCount = 0;
+		for ( int i = 0; i < colSpan; i++ )
+		{
+			if ( columnHiddens[column + i] )
+			{
+				hiddenColumnCount++;
+			}
+		}
+		if ( hiddenColumnCount != 0 )
+		{
+			if ( colSpan == hiddenColumnCount )
+			{
+				//the whole element are hidden, change the display to none.
+				cell.getStyle( ).setProperty( IStyle.STYLE_DISPLAY,
+						IStyle.NONE_VALUE );
+			}
+			else
+			{
+				//fill hidden cells for invisible columns
+				addNoneCell( column, column + hiddenColumnCount, cell );
+				//change the merge cell.
+				cell.setColumn( column + hiddenColumnCount );
+				cell.setColSpan( colSpan - hiddenColumnCount );
+				// as we don't define tablecell display constant, so use block
+				// here. The value itself won't used by output code.
+				cell.getStyle( ).setProperty( IStyle.STYLE_DISPLAY,
+						IStyle.BLOCK_VALUE );
+			}
+		}
 	}
 	
 	protected void endCell(ICellContent cell)
@@ -4027,5 +4133,28 @@ class TableLayout
 			emitter.endCell(newCell);
 		}
 	}
-	
+
+	/**
+	 * append invisible cells before the current one.
+	 * 
+	 * @param startCol
+	 *            start col
+	 * @param endCol
+	 *            end col
+	 * @param cell
+	 *            next visible cell
+	 */
+	protected void addNoneCell( int startCol, int endCol, ICellContent cell )
+	{
+		if ( startCol < endCol )
+		{
+			ICellContent newCell = newCell( cell, startCol, endCol );
+			IStyle cellStyle = newCell.getStyle( );
+			cellStyle.setProperty( IStyle.STYLE_DISPLAY, IStyle.NONE_VALUE );
+			//set the invisible cell, so it won't be handled by following start cell.
+			insertNoneCell = newCell;
+			emitter.startCell( newCell );
+			emitter.endCell( newCell );
+		}
+	}
 }

@@ -1,3 +1,4 @@
-export
+target
 *.bak
 *.zip
+target

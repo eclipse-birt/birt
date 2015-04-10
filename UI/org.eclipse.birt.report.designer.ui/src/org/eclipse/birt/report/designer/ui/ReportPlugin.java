@@ -94,12 +94,17 @@ import com.ibm.icu.util.StringTokenizer;
 public class ReportPlugin extends AbstractUIPlugin
 {
 
+	// These strings are default values instead of default names shown in combo
 	public static final String DEFAULT_UNIT_AUTO = "Auto"; //$NON-NLS-1$
+	public static final String DEFAULT_LAYOUT_AUTO = "auto layout"; //$NON-NLS-1$
+	public static final String DEFAULT_ORIENTATION_AUTO = "auto"; //$NON-NLS-1$
 
 	protected static final Logger logger = Logger.getLogger( ReportPlugin.class.getName( ) );
 
 	public static final String LTR_BIDI_DIRECTION = "report.designer.ui.preferences.bidiproperties.ltrdirection"; //$NON-NLS-1$
 	public static final String DEFAULT_UNIT_PREFERENCE = "report.designer.ui.preferences.default.unit"; //$NON-NLS-1$
+	public static final String DEFAULT_LAYOUT_PREFERENCE = "report.designer.ui.preferences.default.layout"; //$NON-NLS-1$
+	public static final String DEFAULT_ORIENTATION_PREFERENCE = "report.designer.ui.preferences.default.orientation"; //$NON-NLS-1$
 	public static final String DEFAULT_SCRIPT_TYPE = "report.designer.ui.preferences.default.scripttype"; //$NON-NLS-1$
 
 	// Add the static String list, remeber thr ignore view for the selection
@@ -140,7 +145,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String PREFERENCE_DELIMITER = ";"; //$NON-NLS-1$
 	public static final String SPACE = " "; //$NON-NLS-1$
 	public static final String PREFERENCE_TRUE = "true"; //$NON-NLS-1$
-	
+
 	public static final String ENABLE_GRADIENT_SELECTION_PREFERENCE = "designer.general.preference.selection.enable.gradient.preferencestore"; //$NON-NLS-1$
 	public static final String ENABLE_ANIMATION_SELECTION_PREFERENCE = "designer.general.preference.selection.enable.animation.preferencestore"; //$NON-NLS-1$
 	public static final String DEFAULT_NAME_PREFERENCE = "designer.preview.preference.elementname.defaultname.preferencestore"; //$NON-NLS-1$
@@ -163,7 +168,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String EXPRESSION_STRING_COLOR_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.expression.string.color.preferencestore"; //$NON-NLS-1$
 	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
 	public static final String DATA_MODEL_MEMORY_LIMIT_PREFERENCE = "org.eclipse.birt.designer.ui.preference.datamodel.limit.preferencestore"; //$NON-NLS-1$
-	
+
 	private static final List<String> elementToFilter = Arrays.asList( new String[]{
 			ReportDesignConstants.AUTOTEXT_ITEM,
 			ReportDesignConstants.DATA_SET_ELEMENT,
@@ -288,23 +293,28 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
-					.setDefault( LIBRARY_DEFAULT_THEME_ENABLE,
-						PREFERENCE_TRUE );
-		
+				.setDefault( LIBRARY_DEFAULT_THEME_ENABLE, PREFERENCE_TRUE );
+
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
-				.setDefault( LIBRARY_DEFAULT_THEME_INCLUDE,
-						PREFERENCE_TRUE );
-		
+				.setDefault( LIBRARY_DEFAULT_THEME_INCLUDE, PREFERENCE_TRUE );
+
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
 				.setDefault( DATA_MODEL_MEMORY_LIMIT_PREFERENCE, 0 );
-		
+
 		initCellCursor( );
 
 		setDefaultBiDiSettings( );
 
+		// Set default unit
 		setDefaultUnitSettings( );
+
+		// Set default layout
+		setDefaultLayoutSettings( );
+
+		// Set default orientation
+		setDefaultOrientationSettings( );
 
 		setDefaultScriptType( );
 
@@ -1663,6 +1673,21 @@ public class ReportPlugin extends AbstractUIPlugin
 				.setDefault( DEFAULT_UNIT_PREFERENCE, DEFAULT_UNIT_AUTO );
 	}
 
+	public void setDefaultLayoutSettings( )
+	{
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( DEFAULT_LAYOUT_PREFERENCE, DEFAULT_LAYOUT_AUTO );
+	}
+
+	public void setDefaultOrientationSettings( )
+	{
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( DEFAULT_ORIENTATION_PREFERENCE,
+						DEFAULT_ORIENTATION_AUTO );
+	}
+
 	public void setDefaultScriptType( )
 	{
 		PreferenceFactory.getInstance( )
@@ -1770,4 +1795,26 @@ public class ReportPlugin extends AbstractUIPlugin
 				.getPreferences( this, UIUtil.getCurrentProject( ) )
 				.setValue( DEFAULT_UNIT_PREFERENCE, unit );
 	}
+
+	public String getDefaultLayoutPreference( IProject project )
+	{
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this, project )
+				.getString( DEFAULT_LAYOUT_PREFERENCE );
+	}
+
+	// public String getDefaultLayoutPreference( )
+	// {
+	// return PreferenceFactory.getInstance( )
+	// .getPreferences( this )
+	// .getString( DEFAULT_LAYOUT_PREFERENCE );
+	// }
+
+	public String getDefaultOrientationPreference( IProject project )
+	{
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this, project )
+				.getString( DEFAULT_ORIENTATION_PREFERENCE );
+	}
+
 }

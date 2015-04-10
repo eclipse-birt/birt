@@ -189,6 +189,11 @@ public class ArchiveFileV3 implements IArchiveFile
 		}
 	}
 
+	public long getLength( )
+	{
+		return fs == null ? 0 : fs.length( );
+	}
+
 	synchronized public void unlockEntry( Object locker ) throws IOException
 	{
 		assert ( locker instanceof Ext2Entry );

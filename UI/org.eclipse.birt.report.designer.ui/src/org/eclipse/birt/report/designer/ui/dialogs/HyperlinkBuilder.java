@@ -24,6 +24,9 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.DefaultProjectFileServiceHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IProjectFileServiceHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IProjectFileServiceHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameterProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IReportHyperlinkParameter;
@@ -456,6 +459,8 @@ public class HyperlinkBuilder extends BaseDialog
 	private Button removeParamButton;
 	private Button removeAllParamButton;
 
+	private IProjectFileServiceHelper projectFileServiceHelper;
+
 	public HyperlinkBuilder( Shell parentShell )
 	{
 		this( parentShell, false );
@@ -494,6 +499,19 @@ public class HyperlinkBuilder extends BaseDialog
 		super( parentShell, TITLE );
 		this.isIDE = isIDE;
 		this.isRelativeToProjectRoot = isRelativeToProjectRoot;
+
+		// *********** try using a helper provider ****************
+		IProjectFileServiceHelperProvider helperProvider = (IProjectFileServiceHelperProvider) ElementAdapterManager.getAdapter( this,
+				IProjectFileServiceHelperProvider.class );
+	
+		if ( helperProvider != null )
+		{
+			projectFileServiceHelper = helperProvider.createHelper( );
+		}
+		else
+		{
+			projectFileServiceHelper = new DefaultProjectFileServiceHelper( );
+		}
 	}
 
 	public HyperlinkBuilder( boolean isIDE )
@@ -1341,46 +1359,33 @@ public class HyperlinkBuilder extends BaseDialog
 		button.setLayoutData( gd );
 		button.setImage( IMAGE_OPEN_FILE );
 		button.setToolTipText( TOOLTIP_BROWSE_FILE );
+
+		// Carl: Create a final variable reference to this so it's available in the anonymous class below
+		final HyperlinkBuilder builder = this;
+		
 		button.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				boolean projectMode = false;
-				String filename = null;
+				String userSelection = builder.projectFileServiceHelper.getUserSelection(
+						isIDE, getProjectFolder(), needFilter, projectMode,
+						fileExt, selectedType, isRelativeToProjectRoot);
+				String filename = builder.projectFileServiceHelper.getFilePath( userSelection );
+
 				if ( !isIDE || getProjectFolder( ) == null )
 				{
-					FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ) );
-					if ( needFilter )
-					{
-						dialog.setFilterExtensions( fileExt );
-					}
-					filename = dialog.open( );
 				}
 				else
 				{
 					projectMode = true;
-
-					ProjectFileDialog dialog;
-					if ( needFilter )
-					{
-						dialog = new ProjectFileDialog( getProjectFolder( ),
-								fileExt );
-					}
-					else
-					{
-						dialog = new ProjectFileDialog( getProjectFolder( ) );
-					}
-
-					if ( dialog.open( ) == Window.OK )
-					{
-						filename = dialog.getPath( );
-					}
 				}
 
 				try
 				{
 					if ( filename != null )
 					{
+
 						File file = new File( filename );
 						if ( !( file.isFile( ) && file.exists( ) ) )
 						{
@@ -1388,7 +1393,7 @@ public class HyperlinkBuilder extends BaseDialog
 									Messages.getString( "HyperlinkBuilder.FileNameError.Message" ) ); //$NON-NLS-1$
 							return;
 						}
-
+						
 						filename = file.toURL( ).toString( );
 
 						// should check extensions in Linux enviroment
@@ -1432,7 +1437,9 @@ public class HyperlinkBuilder extends BaseDialog
 								filename = "\"" + filename + "\""; //$NON-NLS-1$ //$NON-NLS-2$
 							}
 						}
-						text.setText( filename );
+
+						String location = builder.projectFileServiceHelper.getTargetReportLocation( filename, userSelection );
+						text.setText( location );
 						text.setFocus( );
 					}
 
@@ -1815,7 +1822,7 @@ public class HyperlinkBuilder extends BaseDialog
 			// edit mode, initail pre-setting
 			if ( inputHandle.getReportName( ) != null )
 			{
-				initTargetReport( inputHandle.getReportName( ) );
+				initTargetReport( inputHandle.getReportName() );
 			}
 
 			if ( reportDocumentButton.getSelection( ) )
@@ -1824,7 +1831,7 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			else if ( reportDesignButton.getSelection( ) )
 			{
-				initTargetReport( locationEditor.getText( ) );
+				initTargetReport( locationEditor.getText() );
 			}
 			initParamterBindings( true );
 
@@ -1911,7 +1918,8 @@ public class HyperlinkBuilder extends BaseDialog
 			String newFilename = null;
 			if ( reportDesignButton.getSelection( ) )
 			{
-				newFilename = locationEditor.getText( );
+				String location = locationEditor.getText( );
+				newFilename = this.projectFileServiceHelper.getFilePath( location );
 			}
 			else if ( reportDocumentButton.getSelection( ) )
 			{
@@ -2329,8 +2337,9 @@ public class HyperlinkBuilder extends BaseDialog
 		targetReportHandle = null;
 	}
 
-	private void initTargetReport( String newFilename )
+	private void initTargetReport( String location )
 	{
+		String newFilename = this.projectFileServiceHelper.getFilePath( location );
 		closeTargetReport( );
 		targetReportHandle = null;
 		// String errorMessage = null;

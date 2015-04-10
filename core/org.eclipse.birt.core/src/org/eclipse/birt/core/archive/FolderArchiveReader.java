@@ -29,7 +29,34 @@ public class FolderArchiveReader implements IDocArchiveReader
 	static Logger logger = Logger.getLogger( FolderArchiveReader.class
 			.getName( ) );
 	private String folderName;
-	private HashSet<RAFolderInputStream> inputStreams = new HashSet<RAFolderInputStream>( );;
+	private HashSet<RAFolderInputStream> inputStreams = new HashSet<RAFolderInputStream>( );
+	//content escape, allow folder and file get the same name
+	boolean contentEscape = false;
+	
+	/**
+	 * 
+	 * @param folderName
+	 * @param contentEscape old document should be false. 
+	 * @throws IOException
+	 */
+	public FolderArchiveReader( String folderName, boolean contentEscape )
+			throws IOException
+	{
+        if ( folderName == null || folderName.length( ) == 0 )
+        {
+            throw new IllegalArgumentException( folderName );
+        }
+
+        File fd = new File( folderName );
+        if ( !fd.exists( ) || !fd.isDirectory( ) )
+        {
+            throw new FileNotFoundException( CoreMessages.getFormattedString(
+                    ResourceConstants.INVALID_ARCHIVE_NAME, folderName ) );
+        }
+        // make sure the folder name is an absolute path
+        this.folderName = fd.getCanonicalPath( );
+		this.contentEscape = contentEscape;
+	}
 
 	/**
 	 * @param folderName -
@@ -37,19 +64,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 	 */
 	public FolderArchiveReader( String folderName ) throws IOException
 	{
-		if ( folderName == null || folderName.length( ) == 0 )
-		{
-			throw new IllegalArgumentException( folderName );
-		}
-
-		File fd = new File( folderName );
-		if ( !fd.exists( ) || !fd.isDirectory( ) )
-		{
-			throw new FileNotFoundException( CoreMessages.getFormattedString(
-					ResourceConstants.INVALID_ARCHIVE_NAME, folderName ) );
-		}
-		// make sure the folder name is an absolute path
-		this.folderName = fd.getCanonicalPath( );
+	    this( folderName, true);
 	}
 
 	/*
@@ -116,7 +131,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 	 */
 	public RAInputStream getStream( String relativePath ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullContentPath( folderName, relativePath );
+		String path = getFilePath( relativePath );
 
 		File file = new File( path );
 		if ( file.exists( ) )
@@ -135,8 +150,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 
 	public boolean exists( String relativePath )
 	{
-		String fullPath = ArchiveUtil.generateFullContentPath( folderName,
-				relativePath );
+		String fullPath = getFilePath( relativePath );
 		File fd = new File( fullPath );
 		return fd.exists( );
 	}
@@ -147,8 +161,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 	public List<String> listStreams( String relativeStoragePath ) throws IOException
 	{
 		ArrayList<String> streamList = new ArrayList<String>( );
-		String storagePath = ArchiveUtil.generateFullPath( folderName,
-				relativeStoragePath );
+        String storagePath = getFolderPath( relativeStoragePath );
 		File dir = new File( storagePath );
 
 		if ( dir.exists( ) && dir.isDirectory( ) )
@@ -161,7 +174,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 					File file = files[i];
 					if ( file.isFile( ) )
 					{
-						String relativePath = ArchiveUtil.generateRelativePath(
+						String relativePath = ArchiveUtil.getEntryName(
 								folderName, file.getPath( ) );
 						if ( !ArchiveUtil.needSkip( relativePath ) )
 						{
@@ -180,18 +193,19 @@ public class FolderArchiveReader implements IDocArchiveReader
 		ArrayList<File> list = new ArrayList<File>( );
 		ArchiveUtil.listAllFiles( new File( folderName ), list );
 
-		ArrayList<String> streams = new ArrayList<String>( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			File file = list.get( i );
-			String relativePath = ArchiveUtil.generateRelativeContentPath( folderName,
-					file.getPath( ) );
-			if ( !ArchiveUtil.needSkip( relativePath ) )
-			{
-				streams.add( relativePath );
-			}
-		}
-		return streams;
+        ArrayList<String> streams = new ArrayList<String>( );
+        for ( int i = 0; i < list.size( ); i++ )
+        {
+            String relativePath = null;
+            File file = list.get( i );
+            relativePath = ArchiveUtil
+                    .getEntryName( folderName, file.getPath( ) );
+            if ( !ArchiveUtil.needSkip( relativePath ) )
+            {
+                streams.add( relativePath );
+            }
+        }
+        return streams;
 	}
 
 	/*
@@ -201,7 +215,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 	 */
 	public Object lock( String stream ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullContentPath( folderName, stream)  + ".lck";
+		String path =  getFilePath( stream ) + ".lck" ;
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
 		return lockManager.lock( path );
 	}
@@ -216,4 +230,14 @@ public class FolderArchiveReader implements IDocArchiveReader
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
 		lockManager.unlock( lock );
 	}
+
+    private String getFilePath( String entryName )
+    {
+        return ArchiveUtil.getFilePath( folderName, entryName );
+    }
+
+    private String getFolderPath( String entryName )
+    {
+        return ArchiveUtil.getFolderPath( folderName, entryName );
+    }
 }

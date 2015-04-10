@@ -674,7 +674,7 @@ public class MetadataEmitter
 			writer.openTag( HTMLTags.TAG_TD );
 			writer.openTag( HTMLTags.TAG_IMAGE );
 			writer.attribute( HTMLTags.ATTR_SRC, imagePath
-					+ "./images/bizRD/sidetab_active.gif" );
+					+ "./bizRD/images/sidetab_active.png" );
 			writer.attribute( HTMLTags.ATTR_STYLE,
 					" width: 20px; height: 60px;" );
 			writer.closeTag( HTMLTags.TAG_IMAGE );

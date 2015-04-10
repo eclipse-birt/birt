@@ -193,8 +193,8 @@ public class ParameterBindingPage extends Composite implements Listener
 		{
 			return;
 		}
-		dataSetName.setText( ( (ReportItemHandle) input.get( 0 ) ).getDataSet( )
-				.getName( ) );
+		DataSetHandle ds = ( (ReportItemHandle) input.get( 0 ) ).getDataSet( );
+		dataSetName.setText( ds == null ? "" : ds.getName( ) ); //$NON-NLS-1$
 		tableViewer.refresh( );
 	}
 

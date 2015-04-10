@@ -1,8 +1,11 @@
 package org.eclipse.birt.core.archive;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,110 +27,126 @@ import org.eclipse.birt.core.util.IOUtil;
 public class FolderArchiveFile implements IArchiveFile
 {
 	
-	public static final String METEDATA = ".metedata";
-	static Logger logger = Logger.getLogger( FolderArchiveFile.class
+	private static final String METEDATA = ".metadata";
+	private static Logger logger = Logger.getLogger( FolderArchiveFile.class
 			.getName( ) );
 	protected String folderName;
 	protected String systemId;
 	protected String dependId;
 	private HashSet<RAFolderInputStream> inputStreams = new HashSet<RAFolderInputStream>( );
 	private HashSet<RAFolderOutputStream> outputStreams = new HashSet<RAFolderOutputStream>( );
-	protected String fileName;
 	
-	protected Map properties = new HashMap();
+	protected Map<String, String> properties = new HashMap<String, String>();
 	
-	public FolderArchiveFile (String name)  throws IOException
-	{
-		if ( name == null || name.length( ) == 0 )
-			throw new IOException(
-					CoreMessages.getString( ResourceConstants.FOLDER_NAME_IS_NULL ) );
+    public FolderArchiveFile( String name ) throws IOException
+    {
+        if ( name == null || name.length( ) == 0 )
+            throw new IOException(
+                    CoreMessages
+                            .getString( ResourceConstants.FOLDER_NAME_IS_NULL ) );
 
-		this.fileName = new File( name ).getCanonicalPath( );
-		this.folderName = fileName;
-	}
-	public String getName( )
-	{
-		return folderName;
-	}
+        File file = new File( name );
+        file.mkdirs( );
+        this.folderName = file.getCanonicalPath( );
+        readMetaData( );
+    }
 
-	public void close( ) throws IOException
-	{
-		RAFolderOutputStream outputStream = null;
-		DataOutputStream data = null;
-		try
-		{
-			// serialize meta data into .metedata file
-			String meta = ArchiveUtil.generateFullContentPath( folderName, METEDATA );
-			File file = new File( meta );
+    public String getName( )
+    {
+        return folderName;
+    }
 
-			outputStream = new RAFolderOutputStream( null, file );
-			data = new DataOutputStream( outputStream );
-			IOUtil.writeMap( data, this.properties );
-		}
-		finally
-		{
-			if ( data != null )
-			{
-				data.close( );
-			}
-			if ( outputStream != null )
-			{
-				outputStream.close( );
-			}
-		}
-		
-		
-		
-		IOException exception = null;
-		synchronized ( outputStreams )
-		{
-			ArrayList<RAFolderOutputStream> outputs = new ArrayList<RAFolderOutputStream>(
-					outputStreams );
-			for ( RAFolderOutputStream output : outputs )
-			{
-				try
-				{
-					output.close( );
-				}
-				catch ( IOException ex )
-				{
-					logger.log(Level.SEVERE, ex.getMessage( ), ex);
-					if ( exception != null )
-					{
-						exception = ex;
-					}
-				}
-			}
-			outputStreams.clear( );
-		}
-		synchronized ( inputStreams )
-		{
-			ArrayList<RAFolderInputStream> inputs = new ArrayList<RAFolderInputStream>(
-					inputStreams );
-			for ( RAFolderInputStream input : inputs )
-			{
-				try
-				{
-					input.close( );
-				}
-				catch ( IOException ex )
-				{
-					logger.log( Level.SEVERE, ex.getMessage( ), ex );
-					if ( exception != null )
-					{
-						exception = ex;
-					}
-				}
-			}
-			inputStreams.clear( );
-		}
-		if ( exception != null )
-		{
-			throw exception;
-		}
-		//ArchiveUtil.archive( folderName, null, fileName );
-		
-	}
+    private void readMetaData( ) throws IOException
+    {
+        // serialize meta data into .metedata file
+        String meta = ArchiveUtil.getFullPath( folderName, METEDATA );
+        File file = new File( meta );
+        if ( file.exists( ) && file.isFile( ) )
+        {
+            DataInputStream data = new DataInputStream( new FileInputStream(
+                    file ) );
+            try
+            {
+                properties = (Map<String, String>) IOUtil.readMap( data );
+            }
+            finally
+            {
+                data.close( );
+            }
+        }
+    }
+
+    private void saveMetaData( ) throws IOException
+    {
+        // serialize meta data into .metedata file
+        String meta = ArchiveUtil.getFullPath( folderName, METEDATA );
+        File file = new File( meta );
+        DataOutputStream data = new DataOutputStream( new FileOutputStream(
+                file ) );
+        try
+        {
+            IOUtil.writeMap( data, this.properties );
+        }
+        finally
+        {
+            data.close( );
+        }
+    }
+
+    public void close( ) throws IOException
+    {
+        saveMetaData( );
+
+        IOException exception = null;
+        synchronized ( outputStreams )
+        {
+            ArrayList<RAFolderOutputStream> outputs = new ArrayList<RAFolderOutputStream>(
+                    outputStreams );
+            for ( RAFolderOutputStream output : outputs )
+            {
+                try
+                {
+                    output.close( );
+                }
+                catch ( IOException ex )
+                {
+                    logger.log( Level.SEVERE, ex.getMessage( ), ex );
+                    if ( exception != null )
+                    {
+                        exception = ex;
+                    }
+                }
+            }
+            outputStreams.clear( );
+        }
+        synchronized ( inputStreams )
+        {
+            ArrayList<RAFolderInputStream> inputs = new ArrayList<RAFolderInputStream>(
+                    inputStreams );
+            for ( RAFolderInputStream input : inputs )
+            {
+                try
+                {
+                    input.close( );
+                }
+                catch ( IOException ex )
+                {
+                    logger.log( Level.SEVERE, ex.getMessage( ), ex );
+                    if ( exception != null )
+                    {
+                        exception = ex;
+                    }
+                }
+            }
+            inputStreams.clear( );
+        }
+        if ( exception != null )
+        {
+            throw exception;
+        }
+        // ArchiveUtil.archive( folderName, null, fileName );
+
+    }
 
 	public void flush( ) throws IOException
 	{
@@ -156,91 +175,74 @@ public class FolderArchiveFile implements IArchiveFile
 		{
 			throw ioex;
 		}
-		
 	}
 
 	public void refresh( ) throws IOException
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	public boolean exists( String name )
 	{
-		String path = ArchiveUtil.generateFullContentPath( folderName, name );
+		String path = getFilePath( name );
 		File fd = new File( path );
 		return fd.exists( );
 	}
 
 	public void setCacheSize( long cacheSize )
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	public long getUsedCache( )
 	{
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	public ArchiveEntry openEntry( String name ) throws IOException
 	{
-		String fullPath = ArchiveUtil.generateFullContentPath( folderName,
-				name );
+        String fullPath = getFilePath( name );
 		File fd = new File( fullPath );
 		if(fd.exists( ))
 		{
-			return new FolderArchiveEntry( fullPath, fd, inputStreams, outputStreams );
+			return new FolderArchiveEntry( name, fd, inputStreams, outputStreams );
 		}
 		throw new FileNotFoundException( fullPath );
 	}
 
-	public List<String> listEntries( String namePattern )
-	{
-		ArrayList<String> streamList = new ArrayList<String>( );
-		String storagePath = ArchiveUtil.generateFullPath( folderName,
-				namePattern );
-		File dir = new File( storagePath );
+    public List<String> listEntries( String namePattern )
+    {
+        ArrayList<String> streamList = new ArrayList<String>( );
+        String storagePath = getFolderPath( namePattern );
 
-		if ( dir.exists( ) && dir.isDirectory( ) )
-		{
-			File[] files = dir.listFiles( );
-			if ( files != null )
-			{
-				for ( int i = 0; i < files.length; i++ )
-				{
-					File file = files[i];
-					if ( file.isFile( ) )
-					{
-						String relativePath = ArchiveUtil.generateRelativeContentPath(
-								folderName, file.getPath( ) );
-						if ( !ArchiveUtil.needSkip( relativePath ) )
-						{
-							streamList.add( relativePath );
-						}
-					}
-				}
-			}
-		}
-
-		return streamList;
-	}
+        ArrayList<File> files = new ArrayList<File>( );
+        ArchiveUtil.listAllFiles( new File( storagePath ), files );
+        for ( File file : files )
+        {
+            String relativePath = ArchiveUtil.getRelativePath( folderName,
+                    file.getPath( ) );
+            if ( !ArchiveUtil.needSkip( relativePath ) )
+            {
+                String entryName = ArchiveUtil.getEntryName( folderName,
+                        file.getPath( ) );
+                streamList.add( entryName );
+            }
+        }
+        return streamList;
+    }
 
 	public ArchiveEntry createEntry( String name ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullContentPath( folderName, name );
+		String path = getFilePath( name );
 		File fd = new File( path );
 
 		ArchiveUtil.createParentFolder( fd );
 
-		FolderArchiveEntry out = new FolderArchiveEntry( path, fd, inputStreams, outputStreams  );
+		FolderArchiveEntry out = new FolderArchiveEntry( name, fd, inputStreams, outputStreams  );
 		return out;
 	}
 
 	public boolean removeEntry( String name ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullContentPath( folderName, name );
+        String path = getFilePath( name );
 		try
 		{
 			File fd = new File( path );
@@ -256,7 +258,7 @@ public class FolderArchiveFile implements IArchiveFile
 				{
 					try
 					{
-						if(path.equals( output.getName( ) ))
+						if(name.equals( output.getName( ) ))
 						{
 							output.close( );
 						}
@@ -274,7 +276,7 @@ public class FolderArchiveFile implements IArchiveFile
 
 	public Object lockEntry( String entry ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullContentPath( folderName, entry)  + ".lck";
+        String path = getFilePath( entry ) + ".lck";
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
 		return lockManager.lock( path );
 	}
@@ -327,4 +329,31 @@ public class FolderArchiveFile implements IArchiveFile
 		flush();
 	}
 
+	public long getLength( )
+	{
+		long result = 0;
+		List<String> entries = listEntries( null );
+		for( String entry : entries )
+		{
+			try
+			{
+				result += openEntry( entry ).getLength( );
+			}
+			catch ( IOException e )
+			{
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+    private String getFilePath( String entryName )
+    {
+        return ArchiveUtil.getFilePath( folderName, entryName );
+    }
+
+    private String getFolderPath( String entryName )
+    {
+        return ArchiveUtil.getFolderPath( folderName, entryName );
+    }
 }

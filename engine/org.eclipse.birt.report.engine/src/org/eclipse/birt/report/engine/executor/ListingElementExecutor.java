@@ -100,15 +100,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		{
 			pageBreakInterval = maxPageBreakInterval;
 		}
-		if ( pageBreakInterval > maxPageBreakInterval )
-		{
-			getLogger( )
-					.log( Level.WARNING,
-							"Page Break Interval for listing element {0}  is {1}. Reset it to {2} to prevent OOM",
-							new Object[]{getInstanceID( ).toString( ),
-									pageBreakInterval, maxPageBreakInterval} );
-			pageBreakInterval = maxPageBreakInterval;
-		}
 		pageBreakLevel = getPageBreakIntervalGroup();
 		breakOnDetailBand = pageBreakIntervalOnDetail( );
 		if ( pageBreakInterval > 0 )
@@ -257,6 +248,19 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 						return true;
 					}
 				}
+				else
+				{
+					ListingDesign listingDesign = (ListingDesign) getDesign( );
+					totalElements = 0;
+					currentElement = 0;
+					if ( listingDesign.getFooter( ) != null )
+					{
+						executableElements[totalElements++] = listingDesign
+								.getFooter( );
+					}
+					endOfListing = true;
+					return currentElement < totalElements;
+				}
 			}
 		}
 		catch ( BirtException ex )
@@ -370,8 +374,9 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 	}
 
-	public void onPageBreak( boolean isHorizontalPageBreak)
+	public void onPageBreak( boolean isHorizontalPageBreak, boolean isFixedlayoutPageBreak )
 	{
+		//FIXME refactor
 		if ( !isHorizontalPageBreak )
 		{
 			pageRowCount = 0;
@@ -382,6 +387,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			}
 			else
 			{
+				if ( isFixedlayoutPageBreak )
+				{
+					next( );
+				}
 				//this onPagebreak is caused by fixed-layout
 				if ( softBreakBefore )
 				{

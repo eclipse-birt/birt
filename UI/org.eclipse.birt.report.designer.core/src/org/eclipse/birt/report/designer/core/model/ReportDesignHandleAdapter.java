@@ -167,7 +167,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	{
 		MasterPageHandle masterPage = (MasterPageHandle) handle;
 
-		Dimension size = null;
+		Dimension size = new Dimension(0, 0);
 
 		if ( masterPage == null
 				|| masterPage.getPageType( )

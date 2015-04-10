@@ -78,7 +78,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 	{
 		super( parent, new LabelProvider( ), new ContentProvider( extensions ) );
 		setHelpAvailable( false );
-
+		
 		assert rootFolder != null;
 
 		this.setValidator( new SelectionValidator( ) );
@@ -146,7 +146,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 					}
 
 					importFile( targetFile, srcFile );
-
+					
 					refreshResource( targetFile );
 
 					getTreeViewer( ).refresh( targetFolder );
@@ -159,7 +159,7 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 	private void refreshResource( File file )
 	{
 		IPath resPath = Path.fromOSString( file.getAbsolutePath( ) );
-
+		
 		IResource[] res = ResourcesPlugin.getWorkspace( )
 				.getRoot( )
 				.findFilesForLocation( resPath );

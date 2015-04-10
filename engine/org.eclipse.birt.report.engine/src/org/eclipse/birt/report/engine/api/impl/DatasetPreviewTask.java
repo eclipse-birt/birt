@@ -15,7 +15,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
-import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -23,9 +22,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -53,6 +50,7 @@ import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 
 public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTask
 {
@@ -339,8 +337,8 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected IExtractionResults extractQuery( DataSetHandle dataset )
 			throws BirtException
 	{
-		QueryDefinition newQuery = constructQuery( dataset );
 		DataRequestSession session = executionContext.getDataEngine( ).getDTESession( );
+		QueryDefinition newQuery = constructQuery( dataset, session );
 		ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter(
 				executionContext );
 		apiAdapter.defineDataSet( dataset, session );
@@ -363,24 +361,29 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		return dataset.getModuleHandle( );
 	}
 	
-	protected QueryDefinition constructQuery( DataSetHandle dataset )
-			throws DataException
+	protected QueryDefinition constructQuery( DataSetHandle dataset, DataRequestSession session )
+			throws BirtException
 	{
 		if ( this.query != null )
 			return this.query;
+		if ( dataset
+				.getCachedMetaDataHandle( ) == null )
+		{
+			session.refreshMetaData( dataset );
+		}
 		QueryDefinition query = new QueryDefinition( );
 		query.setDataSetName( dataset.getQualifiedName( ) );
 		Set<String> existBindings = new HashSet<String>( );
 
+		Map<String, ResultSetColumn> columns = QueryUtil.getResultSetColumns( dataset );
 		if ( this.selectedColumns == null )
 		{
-			List<String> columnNames = QueryUtil.getColumnNames( dataset );
-			for ( String column : columnNames )
+			for ( ResultSetColumn column : columns.values( ) )
 			{
-				if ( !existBindings.contains( column ) )
+				if ( !existBindings.contains( column.getColumnName( ) ) )
 				{
 					QueryUtil.addBinding( query, column );
-					existBindings.add( column );
+					existBindings.add( column.getColumnName( ) );
 				}
 			}
 		}
@@ -390,8 +393,12 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			{
 				if ( !existBindings.contains( column ) )
 				{
-					QueryUtil.addBinding( query, column );
-					existBindings.add( column );
+					ResultSetColumn col = columns.get( column );
+					if ( col != null )
+					{
+						QueryUtil.addBinding( query, col );
+						existBindings.add( column );
+					}
 				}
 			}
 		}

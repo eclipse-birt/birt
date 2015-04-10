@@ -1371,7 +1371,7 @@ public final class Generator implements IGenerator
 		{
 			br = lirha[i].getRenderer( );
 
-			dc = dcm.createDeferredCache( br );
+			dc = dcm.createDeferredCache( br, i );
 
 			br.setDeferredCacheManager( dcm );
 			br.set( dc );

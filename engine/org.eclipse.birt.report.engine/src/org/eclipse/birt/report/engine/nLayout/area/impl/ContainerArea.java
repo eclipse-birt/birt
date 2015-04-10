@@ -123,6 +123,8 @@ public abstract class ContainerArea extends AbstractArea
 		this.localProperties = area.localProperties;
 		this.content = area.content;
 		this.context = area.context;
+		this.specifiedHeight = area.specifiedHeight;
+		this.specifiedWidth = area.specifiedWidth;
 	}
 
 	public boolean autoPageBreak( ) throws BirtException

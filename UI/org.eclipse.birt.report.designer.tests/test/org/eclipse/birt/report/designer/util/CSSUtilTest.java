@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.util;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.testutil.BaseTestCase;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -58,12 +59,27 @@ public class CSSUtilTest extends BaseTestCase
 
 	/**
 	 * Tests get font size.
+	 * 
+	 * This test case is not designed to test the actual numbers (i.e. font sizes)
+	 * Rather, this test case is designed to test the function that gets font sizes
+	 * such as getFontSize, getSmallerFontSize and getLargerFontSize.
+	 * getFontSize should return the size associated with the symbolic size name
+	 * getSmallerFontSize should return the size smaller by one except where you reach bottom
+	 * getLargerFontSize should return the size larger by one execpt where you reach ceiling
 	 *  
 	 */
 	public void testGetFontSize( )
 	{
 		DesignElementHandle handle = getReportDesignHandle( );
-		int baseSize = 10;
+		int baseSize = Integer.parseInt(DesignerConstants.fontSizes[3][1]);
+
+		final int FONT_SIZE_XX_SMALL = Integer.parseInt(DesignerConstants.fontSizes[0][1]);
+		final int FONT_SIZE_X_SMALL = Integer.parseInt(DesignerConstants.fontSizes[1][1]);
+		final int FONT_SIZE_SMALL = Integer.parseInt(DesignerConstants.fontSizes[2][1]);
+		final int FONT_SIZE_MEDIUM = Integer.parseInt(DesignerConstants.fontSizes[3][1]);
+		final int FONT_SIZE_LARGE = Integer.parseInt(DesignerConstants.fontSizes[4][1]);
+		final int FONT_SIZE_X_LARGE = Integer.parseInt(DesignerConstants.fontSizes[5][1]);
+		final int FONT_SIZE_XX_LARGE = Integer.parseInt(DesignerConstants.fontSizes[6][1]);
 
 		String fontSize;
 		int sizeValue;
@@ -78,65 +94,65 @@ public class CSSUtilTest extends BaseTestCase
 		fontSize = DesignChoiceConstants.FONT_SIZE_XX_LARGE;
 		fontSize = CSSUtil.getLargerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 13 );
+		assertEquals( sizeValue, FONT_SIZE_XX_LARGE );
 
 		fontSize = DesignChoiceConstants.FONT_SIZE_MEDIUM;
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 10 );
+		assertEquals( sizeValue, FONT_SIZE_MEDIUM );
 
 		fontSize = CSSUtil.getLargerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 11 );
+		assertEquals( sizeValue, FONT_SIZE_LARGE );
 		assertEquals( fontSize, DesignChoiceConstants.FONT_SIZE_LARGE );
 
 		fontSize = CSSUtil.getLargerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 12 );
+		assertEquals( sizeValue, FONT_SIZE_X_LARGE );
 		assertEquals( fontSize, DesignChoiceConstants.FONT_SIZE_X_LARGE );
 
 		fontSize = CSSUtil.getLargerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 13 );
+		assertEquals( sizeValue, FONT_SIZE_XX_LARGE );
 		assertEquals( fontSize, DesignChoiceConstants.FONT_SIZE_XX_LARGE );
 
 		fontSize = CSSUtil.getLargerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 13 );
+		assertEquals( sizeValue, FONT_SIZE_XX_LARGE );
 		assertEquals( fontSize, DesignChoiceConstants.FONT_SIZE_XX_LARGE );
 
 		fontSize = CSSUtil.getSmallerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 12 );
+		assertEquals( sizeValue, FONT_SIZE_X_LARGE );
 		assertEquals( fontSize, DesignChoiceConstants.FONT_SIZE_X_LARGE );
 
 		fontSize = CSSUtil.getSmallerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 11 );
+		assertEquals( sizeValue, FONT_SIZE_LARGE );
 		assertEquals( fontSize, DesignChoiceConstants.FONT_SIZE_LARGE );
 
 		fontSize = CSSUtil.getSmallerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 10 );
+		assertEquals( sizeValue, FONT_SIZE_MEDIUM );
 		assertEquals( fontSize, DesignChoiceConstants.FONT_SIZE_MEDIUM );
 
 		fontSize = CSSUtil.getSmallerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 9 );
+		assertEquals( sizeValue, FONT_SIZE_SMALL );
 		assertEquals( fontSize, DesignChoiceConstants.FONT_SIZE_SMALL );
 
 		fontSize = CSSUtil.getSmallerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 8 );
+		assertEquals( sizeValue, FONT_SIZE_X_SMALL );
 		assertEquals( fontSize, DesignChoiceConstants.FONT_SIZE_X_SMALL );
 
 		fontSize = CSSUtil.getSmallerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 7 );
+		assertEquals( sizeValue, FONT_SIZE_XX_SMALL );
 		assertEquals( fontSize, DesignChoiceConstants.FONT_SIZE_XX_SMALL );
 
 		fontSize = CSSUtil.getSmallerFontSize( fontSize );
 		sizeValue = CSSUtil.getFontSizeIntValue( fontSize );
-		assertEquals( sizeValue, 7 );
+		assertEquals( sizeValue, FONT_SIZE_XX_SMALL );
 		assertEquals( fontSize, DesignChoiceConstants.FONT_SIZE_XX_SMALL );
 
 	}

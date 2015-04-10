@@ -184,7 +184,7 @@ public class FinanceTest extends TestCase
             ac.onRow(new Object[]{new Double(a[i]), new Double(0.1)});
         }
         ac.finish();
-        assertEquals( 1188.4434123352207, ((Double)ac.getValue()).doubleValue(), Double.MIN_VALUE );
+        assertEquals( 1188.4434123352216, ((Double)ac.getValue()).doubleValue(), Double.MIN_VALUE );
         
         ac.start();
         ac.finish();
@@ -214,7 +214,7 @@ public class FinanceTest extends TestCase
         assertFalse(!ag.getParameterDefn()[1].isOptional( ));
         
         double a[] = new double[]{-10000, 3000, 4200, 6800};
-        double b[] = new double[]{-9090.90909090909, -6611.570247933883, -3456.0480841472577, 1188.4434123352207};
+        double b[] = new double[]{-9090.90909090909, -6611.570247933883, -3456.0480841472577, 1188.4434123352216};
         
         ac.start();
         for(int i=0; i<a.length; i++)
