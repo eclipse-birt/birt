@@ -202,7 +202,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 		options.setWrapTemplateTable( true );
 		String content = getRenderResult( designFile, true, options ).content;
 		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
-		String regex = "<table[^<>]*>[^<>]*<tbody[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"./images/bizRD/sidetab_active.gif\"[^<>]*>";
+		String regex = "<table[^<>]*>[^<>]*<tbody[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"./bizRD/images/sidetab_active.png\"[^<>]*>";
 		Matcher matcher = Pattern.compile( regex ).matcher( content );
 		assertEquals( true, matcher.find( ) );
 	}
