@@ -463,6 +463,11 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		return entries.containsKey( name );
 	}
 
+	public long getLength( )
+	{
+		return ((long)BLOCK_SIZE) * totalBlocks;
+	}
+
 	public synchronized ArchiveEntry openEntry( String name )
 			throws IOException
 	{

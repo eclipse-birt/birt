@@ -298,4 +298,9 @@ public class ArchiveView implements IArchiveFile
 	{
 		return this.view;
 	}
+
+	public long getLength( )
+	{
+		return view == null ? 0 : view.getLength( );
+	}
 }

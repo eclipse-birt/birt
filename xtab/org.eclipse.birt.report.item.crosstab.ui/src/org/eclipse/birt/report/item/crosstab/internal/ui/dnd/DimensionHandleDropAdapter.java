@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
@@ -30,15 +33,18 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabA
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
@@ -273,6 +279,16 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
 			cellHandle.addContent( dataHandle );
+			
+			ActionHandle actionHandle = levelHandle.getActionHandle( );
+			if ( actionHandle != null )
+			{
+				List source = new ArrayList( );
+				source.add( actionHandle.getStructure( ) );
+				List newAction = ModelUtil.cloneStructList( source );
+				dataHandle.setAction( (Action) newAction.get( 0 ) );
+			}
+			
 			stack.commit( );
 		}
 		catch ( SemanticException e )

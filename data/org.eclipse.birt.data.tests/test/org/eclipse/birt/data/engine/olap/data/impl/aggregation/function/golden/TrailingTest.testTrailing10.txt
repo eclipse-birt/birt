@@ -4,3 +4,5 @@ year quarter month
 2008 1 1 
 year quarter month 
 2007 4 12 
+year quarter month 
+2007 4 11 

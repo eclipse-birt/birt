@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
-import org.apache.batik.transcoder.image.JPEGTranscoder;
+import org.apache.batik.transcoder.image.PNGTranscoder;
 
 public class SvgFile
 {
@@ -66,10 +66,7 @@ public class SvgFile
 	public static byte[] transSvgToArray( InputStream inputStream )
 			throws Exception
 	{
-		JPEGTranscoder transcoder = new JPEGTranscoder( );
-		// set the transcoding hints
-		transcoder.addTranscodingHint( JPEGTranscoder.KEY_QUALITY, new Float(
-				.8 ) );
+		PNGTranscoder transcoder = new PNGTranscoder( );
 		// create the transcoder input
 		TranscoderInput input = new TranscoderInput( inputStream );
 		// create the transcoder output

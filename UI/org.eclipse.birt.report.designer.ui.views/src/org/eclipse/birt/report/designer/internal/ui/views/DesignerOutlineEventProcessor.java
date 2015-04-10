@@ -14,8 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.views;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractModelEventProcessor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
+import org.eclipse.birt.report.model.elements.TableColumn;
 
 /**
  * Processor the model event for the DesignerOutline
@@ -94,7 +96,7 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 	 */
 	protected static class OutlineContentModelEventInfo extends ModelEventInfo
 	{
-
+		public static final String CONTENT_EVENTTYPE = "Content event type"; //$NON-NLS-1$
 		/**
 		 * @param focus
 		 * @param ev
@@ -104,9 +106,24 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 		{
 			super( focus, ev );
 			assert ev instanceof ContentEvent;
+			setContentActionType( ( (ContentEvent) ev ).getAction( ) );
 			setContent( ( (ContentEvent) ev ).getContent( ) );
 		}
 
+		
+		public int getContentActionType( )
+		{
+			return ( (Integer) getOtherInfo( ).get( CONTENT_EVENTTYPE ) ).intValue( );
+		}
+
+		/**
+		 * @param contentActionType
+		 */
+		public void setContentActionType( int contentActionType )
+		{
+			getOtherInfo( ).put( CONTENT_EVENTTYPE,
+					Integer.valueOf( contentActionType ) );
+		}
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -115,6 +132,30 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 		 */
 		public boolean canAcceptModelEvent( IModelEventInfo info )
 		{
+			if (!(info instanceof OutlineContentModelEventInfo) || getContentActionType() != ContentEvent.ADD)
+			{
+				return false;
+			}
+			
+			OutlineContentModelEventInfo newInfo = (OutlineContentModelEventInfo)info;
+			if (newInfo.getContentActionType() != ContentEvent.ADD)
+			{
+				return false;
+			}
+			
+			DesignElementHandle element = newInfo.getTarget();
+			while(element != null)
+			{	
+				if (getContent() == element.getElement())
+				{
+					return true;
+				}
+				if (element instanceof ModuleHandle)
+				{
+					break;
+				}
+				element = element.getContainer();
+			}
 			return false;
 		}
 

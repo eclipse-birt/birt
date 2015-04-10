@@ -209,6 +209,18 @@ public class ArchiveFileV1 implements IArchiveFile
 		}
 	}
 
+	public long getLength( )
+	{
+		try
+		{
+			return rf == null ? 0 : rf.length( );
+		}
+		catch ( IOException e )
+		{
+			return 0;
+		}
+	}
+
 	synchronized int read( long pos, byte[] b, int off, int len )
 			throws IOException
 	{

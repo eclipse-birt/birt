@@ -72,14 +72,14 @@
       <import plugin="org.eclipse.datatools.connectivity" version="1.1.1" match="greaterOrEqual"/>
       <import feature="org.eclipse.draw2d" version="3.5.0" match="greaterOrEqual"/>
    </requires>
-
+   
    <plugin
          id="org.eclipse.birt"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
+	
    <plugin
          id="org.eclipse.birt.chart.reportitem"
          download-size="0"

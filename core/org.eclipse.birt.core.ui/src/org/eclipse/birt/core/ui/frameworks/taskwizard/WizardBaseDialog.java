@@ -34,6 +34,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -505,15 +506,17 @@ public class WizardBaseDialog extends TitleAreaDialog implements
 				SWT.DEFAULT );
 		int iWizardWidth = Math.max( wizardSize.x, iWizardWidthMinimum );
 		int iWizardHeight = Math.max( wizardSize.y, iWizardHeightMinimum );
-		Point oldSize = getShell( ).getSize( );
+		Point oldSize = getShell( ).getSize( );		
+		Rectangle screen = getShell().getDisplay( ).getClientArea( );
 		if ( oldSize.x < iWizardWidth )
 		{
-			oldSize.x = iWizardWidth;
+			oldSize.x = Math.min( iWizardWidth, screen.width );
 			changed = true;
 		}
 		if ( oldSize.y < iWizardHeight )
 		{
-			oldSize.y = iWizardHeight;
+			// Do not exceed the screen height minus task bar height 
+			oldSize.y = Math.min( iWizardHeight, screen.height - 40 );
 			changed = true;
 		}
 		if ( changed )

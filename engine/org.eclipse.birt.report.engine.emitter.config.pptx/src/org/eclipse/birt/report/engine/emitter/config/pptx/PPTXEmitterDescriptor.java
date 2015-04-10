@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.emitter.config.IConfigurableOptionObserver
 import org.eclipse.birt.report.engine.emitter.config.IOptionValue;
 import org.eclipse.birt.report.engine.emitter.config.OptionValue;
 import org.eclipse.birt.report.engine.emitter.config.pptx.i18n.Messages;
+import org.eclipse.birt.report.engine.emitter.pptx.PPTXRender;
 
 
 /**
@@ -34,6 +35,8 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String BIDI_PROCESSING = "BIDIProcessing";
 	private static final String TEXT_WRAPPING = "TextWrapping";
 	private static final String CHART_DPI = "ChartDpi";
+	private static final String REPAGINATE_FOR_PDF = "repaginateForPDF";
+	private static final String EDIT_MODE = PPTXRender.OPTION_EDIT_MODE;
 
 	protected void initOptions( )
 	{
@@ -46,11 +49,12 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 		bidiProcessing.setDataType( IConfigurableOption.DataType.BOOLEAN );
 		bidiProcessing
 				.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
-		bidiProcessing.setDefaultValue( Boolean.TRUE );
+		bidiProcessing.setDefaultValue( Boolean.FALSE );
 		bidiProcessing.setToolTip( null );
 		bidiProcessing
 				.setDescription( getMessage( "OptionDescription.BidiProcessing" ) ); //$NON-NLS-1$
-
+		bidiProcessing.setEnabled( false );
+		
 		// Initializes the option for TextWrapping.
 		ConfigurableOption textWrapping = new ConfigurableOption( TEXT_WRAPPING );
 		textWrapping
@@ -96,7 +100,7 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 								IPDFRenderOption.ENLARGE_PAGE_SIZE,
 								getMessage( "OptionDisplayValue.ENLARGE_PAGE_SIZE" ) ) //$NON-NLS-1$
 				} );
-		pageOverFlow.setDefaultValue( IPDFRenderOption.CLIP_CONTENT );
+		pageOverFlow.setDefaultValue( IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES );
 		pageOverFlow.setToolTip( null );
 		pageOverFlow
 				.setDescription( getMessage( "OptionDescription.PageOverFlow" ) ); //$NON-NLS-1$
@@ -109,9 +113,27 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 		chartDpi.setDefaultValue( new Integer( 192 ) );
 		chartDpi.setToolTip( getMessage( "Tooltip.ChartDpi" ) );
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
+		
+		// Initializes the option for repaginate for PDF.
+		ConfigurableOption repaginateForPDF = new ConfigurableOption( REPAGINATE_FOR_PDF );
+		repaginateForPDF.setDisplayName( getMessage( "OptionDisplayValue.RepaginateForPDF" ) );
+		repaginateForPDF.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		repaginateForPDF.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		repaginateForPDF.setDefaultValue( Boolean.FALSE );
+		repaginateForPDF.setToolTip( null );
+		repaginateForPDF.setDescription( getMessage( "OptionDescription.RepaginateForPDF" ) ); //$NON-NLS-1$
 
+		// Initializes the option for layout mode.
+		ConfigurableOption editMode = new ConfigurableOption( EDIT_MODE );
+		editMode.setDisplayName( getMessage( "OptionDisplayValue.EditMode" ) );
+		editMode.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		editMode.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		editMode.setDefaultValue( Boolean.TRUE );
+		editMode.setToolTip( null );
+		editMode.setDescription( getMessage( "OptionDescription.EditMode" ) ); //$NON-NLS-1$
+		
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				fontSubstitution, pageOverFlow, chartDpi};
+				fontSubstitution, pageOverFlow, repaginateForPDF, chartDpi, editMode};
 		
 		applyDefaultValues( );
 	}
@@ -167,6 +189,10 @@ public class PPTXEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( CHART_DPI.equals( name ) )
 		{
 			return IRenderOption.CHART_DPI;
+		}
+		if ( REPAGINATE_FOR_PDF.equals( name ) )
+		{
+			return IPDFRenderOption.REPAGINATE_FOR_PDF;
 		}
 		return name;
 	}

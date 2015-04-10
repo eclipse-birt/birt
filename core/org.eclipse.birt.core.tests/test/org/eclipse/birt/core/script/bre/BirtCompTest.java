@@ -13,6 +13,7 @@ package org.eclipse.birt.core.script.bre;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -43,7 +44,16 @@ public class BirtCompTest extends TestCase
 		 * use in later calls.
 		 */
 		scope = cx.initStandardObjects( );
+		scope.put( IScriptFunctionContext.FUNCTION_BEAN_NAME,
+				scope,
+				new IScriptFunctionContext( ) {
 
+					@Override
+					public Object findProperty( String name )
+					{
+						return null;
+					}
+				} );
 		new CoreJavaScriptInitializer().initialize( cx, scope );
 	}
 

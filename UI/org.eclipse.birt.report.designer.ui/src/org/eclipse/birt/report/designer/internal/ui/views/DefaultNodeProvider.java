@@ -124,7 +124,7 @@ public class DefaultNodeProvider implements INodeProvider
 
 	public static final String WARNING_DIALOG_MESSAGE_EMPTY_LIST = Messages.getString( "DefaultNodeProvider.WarningDialog.EmptyList" ); //$NON-NLS-1$
 
-	private Comparator comparator;
+	private Comparator<Object> comparator;
 
 	/**
 	 * Creates the context menu
@@ -358,7 +358,7 @@ public class DefaultNodeProvider implements INodeProvider
 	{
 		if ( model instanceof DesignElementHandle )
 		{
-			List errors = ( (DesignElementHandle) model ).getSemanticErrors( );
+			List<?> errors = ( (DesignElementHandle) model ).getSemanticErrors( );
 
 			if ( errors != null && errors.size( ) > 0 )
 			{
@@ -397,8 +397,8 @@ public class DefaultNodeProvider implements INodeProvider
 
 	protected Object[] getChildrenBySlotHandle( SlotHandle slotHandle )
 	{
-		ArrayList list = new ArrayList( );
-		Iterator itor = slotHandle.iterator( );
+		ArrayList<Object> list = new ArrayList<Object>( );
+		Iterator<?> itor = slotHandle.iterator( );
 		while ( itor.hasNext( ) )
 		{
 			Object obj = itor.next( );
@@ -414,8 +414,8 @@ public class DefaultNodeProvider implements INodeProvider
 
 	protected Object[] getChildrenByPropertyHandle( PropertyHandle slotHandle )
 	{
-		ArrayList list = new ArrayList( );
-		Iterator itor = slotHandle.iterator( );
+		ArrayList<Object> list = new ArrayList<Object>( );
+		Iterator<?> itor = slotHandle.iterator( );
 		while ( itor.hasNext( ) )
 		{
 			Object obj = itor.next( );
@@ -438,10 +438,10 @@ public class DefaultNodeProvider implements INodeProvider
 	 */
 	public boolean performRequest( Object model, Request request )
 			throws Exception
-			{
+	{
 		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_INSERT ) )
 		{
-			Map extendsData = request.getExtendedData( );
+			Map<?, ?> extendsData = request.getExtendedData( );
 			SlotHandle slotHandle = (SlotHandle) extendsData.get( IRequestConstants.REQUEST_KEY_INSERT_SLOT );
 			if ( slotHandle != null )
 			{
@@ -516,7 +516,7 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 
 		return false;
-			}
+	}
 
 	private boolean performRevertToTemplateItem( DesignElementHandle handle )
 	{
@@ -577,8 +577,8 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( !( handle instanceof DataItemHandle ) )
 			return false;
 		handle.getModuleHandle( )
-		.getCommandStack( )
-		.startTrans( Messages.getString( "DefaultNodeProvider.stackMsg.changeBinding" ) ); //$NON-NLS-1$
+				.getCommandStack( )
+				.startTrans( Messages.getString( "DefaultNodeProvider.stackMsg.changeBinding" ) ); //$NON-NLS-1$
 		ColumnBindingDialog dialog = new ColumnBindingDialog( (DataItemHandle) handle,
 				UIUtil.getDefaultShell( ),
 				true );
@@ -653,9 +653,9 @@ public class DefaultNodeProvider implements INodeProvider
 				.createElement( null );
 	}
 
-	protected DesignElementHandle createElement( ElementDetailHandle slotHandle,
-			String type ) throws Exception
-			{
+	protected DesignElementHandle createElement(
+			ElementDetailHandle slotHandle, String type ) throws Exception
+	{
 		if ( type == null )
 		{
 			List<IElementDefn> supportList = UIUtil.getUIElementSupportList( slotHandle );
@@ -684,17 +684,32 @@ public class DefaultNodeProvider implements INodeProvider
 			}
 		}
 		return createElement( type );
-			}
+	}
+
+	protected DesignElementHandle createElement(
+			ElementDetailHandle slotHandle, String type, Map extendData )
+			throws Exception
+	{
+		// Delegate to the old createElement() method to keep compatibility.
+		// Sub-class who want to access 'extendData' should explicitly overwrite
+		// this method.
+		return createElement( slotHandle, type );
+	}
 
 	protected boolean performInsert( Object model, SlotHandle slotHandle,
 			String type, String position, Map extendData ) throws Exception
 	{
-		return performInsert(model, (ElementDetailHandle) slotHandle, type, position, extendData);
+		return performInsert( model,
+				(ElementDetailHandle) slotHandle,
+				type,
+				position,
+				extendData );
 	}
-	
-	protected boolean performInsert( Object model, ElementDetailHandle slotHandle,
-			String type, String position, Map extendData ) throws Exception
-			{
+
+	protected boolean performInsert( Object model,
+			ElementDetailHandle slotHandle, String type, String position,
+			Map extendData ) throws Exception
+	{
 		if ( type == null )
 		{
 			List<IElementDefn> supportList = UIUtil.getUIElementSupportList( slotHandle );
@@ -734,7 +749,9 @@ public class DefaultNodeProvider implements INodeProvider
 			}
 		}
 
-		DesignElementHandle elementHandle = createElement( slotHandle, type );
+		DesignElementHandle elementHandle = createElement( slotHandle,
+				type,
+				extendData );
 
 		if ( extendData != null )
 		{
@@ -797,7 +814,7 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			if ( ElementProcessorFactory.createProcessor( elementHandle ) != null
 					&& !ElementProcessorFactory.createProcessor( elementHandle )
-					.editElement( elementHandle ) )
+							.editElement( elementHandle ) )
 			{
 				return false;
 			}
@@ -805,19 +822,18 @@ public class DefaultNodeProvider implements INodeProvider
 		// add the code to add the defaultTheme
 		DEUtil.setDefaultTheme( elementHandle );
 		return true;
-			}
-
+	}
 
 	protected DesignElementHandle createElement( PropertyHandle propertyHandle,
 			String type ) throws Exception
-			{
+	{
 		return createElement( type );
-			}
+	}
 
 	protected boolean performInsert( Object model,
 			PropertyHandle propertyHandle, String type, String position,
 			Map extendData ) throws Exception
-			{
+	{
 		DesignElementHandle elementHandle = createElement( propertyHandle, type );
 		if ( extendData != null )
 		{
@@ -854,7 +870,7 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 		DEUtil.setDefaultTheme( elementHandle );
 		return true;
-			}
+	}
 
 	protected boolean performEdit( ReportElementHandle handle )
 	{
@@ -893,7 +909,7 @@ public class DefaultNodeProvider implements INodeProvider
 	 * 
 	 * @param comparator
 	 */
-	public void setSorter( Comparator comparator )
+	public void setSorter( Comparator<Object> comparator )
 	{
 		this.comparator = comparator;
 	}

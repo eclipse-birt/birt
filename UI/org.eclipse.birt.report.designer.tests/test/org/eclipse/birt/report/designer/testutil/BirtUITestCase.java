@@ -29,7 +29,7 @@ import org.eclipse.ui.part.FileEditorInput;
 /**
  * Base class of BIRT GUI Features test
  */
-public class BirtUITestCase extends TestCase implements ITestConstants
+public abstract class BirtUITestCase extends TestCase implements ITestConstants
 {
 
 	protected IWorkbench tWorkbench;

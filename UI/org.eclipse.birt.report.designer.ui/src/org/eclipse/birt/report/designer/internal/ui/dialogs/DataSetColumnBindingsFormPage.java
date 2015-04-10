@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Composite;
  * Data set binding page.
  */
 
-public class DataSetColumnBindingsFormPage extends SortingFormPage
+public class DataSetColumnBindingsFormPage extends FormPage
 {
 
 	private Button btnAddAggr;

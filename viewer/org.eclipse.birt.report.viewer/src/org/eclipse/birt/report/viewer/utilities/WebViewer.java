@@ -763,7 +763,13 @@ public class WebViewer
 		{
 			params.put( ParameterAccessor.PARAM_AS_ATTACHMENT, "true" ); //$NON-NLS-1$
 		}
-		params.put( ParameterAccessor.PARAM_DPI, String.valueOf( dpi ) );
+		
+		// Do not append dpi for HTML viewer since actual dpi will be set in
+		// viewer side
+		if ( !( HTML.equalsIgnoreCase( format ) ) )
+		{
+			params.put( ParameterAccessor.PARAM_DPI, String.valueOf( dpi ) );
+		}
 
 		return params;
 	}

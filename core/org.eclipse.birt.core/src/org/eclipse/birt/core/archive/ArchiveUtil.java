@@ -13,7 +13,6 @@ package org.eclipse.birt.core.archive;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,12 +20,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,62 +36,262 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import org.eclipse.birt.core.archive.compound.ArchiveFileFactory;
 import org.eclipse.birt.core.archive.compound.ArchiveFileV3;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.archive.compound.IArchiveFile;
-import org.eclipse.birt.core.archive.compound.IArchiveFileFactory;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
-import org.eclipse.birt.core.util.IOUtil;
 
 public class ArchiveUtil
 {
 
-	protected static Logger logger = Logger.getLogger( ArchiveUtil.class.getName( ) );
+	private static final Logger logger = Logger.getLogger( ArchiveUtil.class.getName( ) );
 	
-	// We need this because the report document should be platform neutual. Here
-	// we define the neutual is the unix seperator.
-	public static String UNIX_SEPERATOR = "/";
+	// We need this because the report document should be platform neutral. Here
+	// we define the neutral as unix separator.
+	public static final char UNIX_SEPARATOR_CHAR = '/';
+	public static final String UNIX_SEPERATOR = "/";
 	
-	public final static String CONTNET_SUFFIX = ".content";
-
 	/**
-	 * @param rootPath -
-	 *            the absolute path of the root folder. The path is seperated by
-	 *            system's File seperator.
-	 * @param relativePath -
-	 *            the relative path. The path is either seperated by system's
-	 *            File seperator or seperated by Unix seperator "/".
-	 * @return the absolute path which concats rootPath and relativePath. The
-	 *         full path is seperated by system's File seperator. The returned
-	 *         absolute path can be used directly to locate the file.
+	 * To support file/folder with same name, use the FILE_EXTENSION for files.
 	 */
-	public static String generateFullPath( String rootPath, String relativePath )
-	{
-		relativePath = convertToSystemString( relativePath );
+	public final static String FILE_EXTENSION = ".content";
 
-		if ( rootPath != null )
-		{
-			if ( !rootPath.endsWith( File.separator ) )
-				rootPath += File.separator;
+    /**
+     * @param rootPath
+     *            - the absolute path of the root folder.
+     * @param relativePath
+     *            - the relative path.
+     * @return the absolute path which concats rootPath and relativePath. The
+     *         returned absolute path can be used directly to locate the file.
+     */
+    public static String getFolderPath( final String rootPath,
+            final String entryName )
+    {
+        assert ( rootPath != null && entryName != null );
+        String path = getFullPath( rootPath, getFilePath( entryName ) );
+        if ( path.charAt( path.length( ) - 1 ) != '/')
+        {
+            path = path + '/';
+        }
+        return path;
+    }
 
-			if ( relativePath.startsWith( File.separator ) )
-				relativePath = relativePath.substring( 1 );
+    public static String getFilePath( final String rootPath,
+            final String entryName )
+    {
+        assert ( rootPath != null && entryName != null );
+        String path = getFilePath( entryName );
+       return getFullPath( rootPath, path + FILE_EXTENSION );
+    }
 
-			return rootPath + relativePath;
-		}
+    /**
+     * 
+     * @param root use unix path separator
+     * @param relative use unix path separator
+     * @return
+     */
+    public static String getFullPath( String root, String relative )
+    {
+        StringBuilder sb = new StringBuilder( );
+        root = toUnixPath( root );
+        relative = toUnixPath( relative );
 
-		return relativePath;
-	}
-	
-	public static String generateFullContentPath( String rootPath, String relativePath )
-	{
-		return generateFullPath( rootPath, relativePath + CONTNET_SUFFIX );
-	}
+        sb.append( root );
+        if ( root.charAt( root.length( ) - 1 ) != '/')
+        {
+            sb.append( '/');
+        }
+        if ( relative.length( ) > 0 )
+        {
+            int start = relative.charAt( 0 ) == '/' ? 1 : 0;
+           sb.append( relative, start, relative.length( ) );
+        }
+        return sb.toString( );
+    }
+
+    /**
+     * split strings by the character.
+     * 
+     * It implements javascript's behavior as always return count(splitChar)+1
+     * 
+     * for example, split char is '/':
+     * 
+     * <dl>
+     * <li>'/' => ['', '']</li>
+     * <li>'/abc/' => ['', 'abc', '']</li>
+     * <li>'abc' => 'abc'</li>
+     * </dl>
+     * 
+     * @param value
+     * @param splitChar
+     * @return
+     */
+    public static String[] split( String value, char splitChar )
+    {
+        ArrayList<String> result = new ArrayList<String>( );
+        StringBuilder sb = new StringBuilder( );
+        for ( int i = 0; i < value.length( ); i++ )
+        {
+            char ch = value.charAt( i );
+            if ( ch == splitChar )
+            {
+                result.add( sb.toString( ) );
+                sb.setLength( 0 );
+            }
+            else
+            {
+                sb.append( ch );
+            }
+        }
+        result.add( sb.toString( ) );
+        return result.toArray( new String[result.size( )] );
+    }
+
+    /**
+     * escape entry name to a valid file path
+     * 
+     * duplicate '/' will be removed
+     * 
+     * @param name
+     * @return
+     */
+    public static String getFilePath( String entryName )
+    {
+        if ( entryName == null || entryName.length( ) == 0
+                || entryName.equals( "/" ) )
+        {
+            return "/";
+        }
+
+        StringBuilder sb = new StringBuilder( entryName.length( ) );
+        String[] names = split( entryName, '/' );
+        int start = 0;
+        int end = names.length - 1;
+        if ( names[start].length( ) == 0 )
+        {
+            start++;
+        }
+        if ( names[end].length( ) == 0 )
+        {
+            end--;
+        }
+        for ( int i = start; i <= end; i++ )
+        {
+            sb.append( "/" );
+            sb.append( toFileName( names[i] ) );
+        }
+        if ( names[names.length - 1].length( ) == 0 )
+        {
+            sb.append( "/" );
+        }
+        return sb.toString( );
+    }
+
+    /**
+     * encode entry name to a valid file name
+     * 
+     * entry name is not null, not empty, doesn't contain '/'.
+     * 
+     * @param name
+     * @return
+     */
+    private static String toFileName( String name )
+    {
+        if ( name == null || name.length( ) == 0 )
+        {
+            return "%2F";
+        }
+        if ( name.equals( "." ) )
+        {
+            return "%2E";
+        }
+        if ( name.equals( ".." ) )
+        {
+            return "%2E%2E";
+        }
+        try
+        {
+            return URLEncoder.encode( name, "utf-8" );
+        }
+        catch ( UnsupportedEncodingException ex )
+        {
+            return name;
+        }
+    }
+
+    /**
+     * escape entry name to a valid file name
+     * 
+     * @param filePath
+     *            , a relative file path, start with "/"
+     * @return entry name
+     */
+    public static String getEntryName( String filePath )
+    {
+        if ( filePath == null || filePath.length( ) == 0
+                || "/".equals( filePath ) )
+        {
+            return "/";
+        }
+        StringBuilder sb = new StringBuilder( filePath.length( ) );
+        String[] names = split( filePath, '/' );
+        int start = 0;
+        int end = names.length - 1;
+        if ( names[start].length( ) == 0 )
+        {
+            start++;
+        }
+        if ( names[end].length( ) == 0 )
+        {
+            end--;
+        }
+        for ( int i = start; i <= end; i++ )
+        {
+            sb.append( "/" );
+            sb.append( toEntryName( names[i] ) );
+        }
+        if ( names[names.length - 1].length( ) == 0 )
+        {
+            sb.append( "/" );
+        }
+        return sb.toString( );
+    }
+
+    /**
+     * decode file name to entry name.
+     * 
+     * @param path
+     * @return
+     */
+    private static String toEntryName( String path )
+    {
+        if ( path.equals( "%2F" ) )
+        {
+            return "";
+        }
+        if ( path.equals( "%2E" ) )
+        {
+            return ".";
+        }
+        if ( path.equals( "%2E%2E" ) )
+        {
+            return "..";
+        }
+        try
+        {
+            return URLDecoder.decode( path, "utf-8" );
+        }
+        catch ( UnsupportedEncodingException ex )
+        {
+            return path;
+        }
+    }
 
 	/**
+	 * convert a folder to entry name.
+	 * 
 	 * @param rootPath -
 	 *            the absolute path of the root folder. The path is seperated by
 	 *            system's File seperator.
@@ -100,64 +301,54 @@ public class ArchiveUtil
 	 * @return the relative path string. The path is based on Unix syntax and
 	 *         starts with "/".
 	 */
-	public static String generateRelativePath( String rootPath, String fullPath )
-	{
-		String relativePath = null;
+    public static String getEntryName( String rootPath, String fullPath )
+    {
+        String relative = getRelativePath( rootPath, fullPath );
+        if ( relative.endsWith( FILE_EXTENSION ) )
+        {
+            relative = relative.substring( 0, relative.length( )
+                    - FILE_EXTENSION.length( ) );
+        }
+        return getEntryName( relative );
+    }
 
-		if ( ( rootPath != null ) && fullPath.startsWith( rootPath ) )
-		{
-			relativePath = fullPath.substring( rootPath.length( ) );
-		}
-		else
-			relativePath = fullPath;
+    public static String getRelativePath( String rootPath, String fullPath )
+    {
+        //change to ux format
+        String uxRoot = toUnixPath( rootPath );
+        String uxPath = toUnixPath( fullPath );
+        
+        //remove root's last /
+        if ( uxRoot.charAt( uxRoot.length( ) - 1 ) == '/')
+        {
+            uxRoot = uxRoot.substring( 0, uxRoot.length( ) - 1 );
+        }
+        //test if we can get relative path
+        if ( !uxPath.startsWith( uxRoot ) )
+        {
+            throw new IllegalArgumentException( fullPath + " must start with "
+                    + rootPath );
+        }
+        String relative = uxPath.substring( uxRoot.length( ) );
+        if ( relative.length( ) == 0 )
+        {
+            return "/";
+        }
+        return relative;
+    }
 
-		relativePath = convertToUnixString( relativePath );
-
-		if ( !relativePath.startsWith( UNIX_SEPERATOR ) )
-			relativePath = UNIX_SEPERATOR + relativePath;
-
-		return relativePath;
-	}
-	
-	public static String generateRelativeContentPath( String rootPath, String fullPath )
-	{
-		String path = generateRelativePath(rootPath, fullPath);
-		if(path.endsWith( CONTNET_SUFFIX ))
-		{
-			return path.substring( 0, path.length( ) - CONTNET_SUFFIX.length( ) );
-		}
-		return path;
-	}
-
-	/**
-	 * @param path -
-	 *            the path that could be in system format (seperated by
-	 *            File.seperator) or Unix format (seperated by "/").
-	 * @return the path that is in Unix format.
-	 */
-	private static String convertToUnixString( String path )
-	{
-		if ( path == null )
-			return null;
-
-		return path.replace( File.separator.charAt( 0 ), UNIX_SEPERATOR
-				.charAt( 0 ) );
-	}
-
-	/**
-	 * @param path -
-	 *            the path that could be in system format (seperated by
-	 *            File.seperator) or Unix format (seperated by "/").
-	 * @return the path that is in the system format.
-	 */
-	private static String convertToSystemString( String path )
-	{
-		if ( path == null )
-			return null;
-
-		return path.replace( UNIX_SEPERATOR.charAt( 0 ), File.separator
-				.charAt( 0 ) );
-	}
+    /**
+     * @param path
+     *            - the path that could be in system format (seperated by
+     *            File.seperator) or Unix format (seperated by "/").
+     * @return the path that is in Unix format.
+     */
+    private static String toUnixPath( String path )
+    {
+        if ( path == null )
+            return null;
+        return path.replace( '\\', '/' );
+    }
 
 	/**
 	 * Generate a unique file or folder name which is in the same folder as the
@@ -282,8 +473,8 @@ public class ArchiveUtil
 					= new BufferedInputStream( new FileInputStream( file ) );
 				try
 				{
-					String relativePath = generateRelativePath( tempFolderPath,
-							file.getPath( ) );
+                    String relativePath = getEntryName( tempFolderPath,
+                            file.getPath( ) );
 					ZipEntry entry = new ZipEntry( relativePath );
 					try
 					{
@@ -323,7 +514,7 @@ public class ArchiveUtil
 				if ( entry.isDirectory( ) )
 				{ // Assume directories are stored parents first then
 					// children.
-					String dirName = generateFullPath( tempFolderPath, entry
+					String dirName = getFullPath( tempFolderPath, entry
 							.getName( ) );
 					// TODO: handle the error case where the folder can not be
 					// created!
@@ -336,7 +527,7 @@ public class ArchiveUtil
 					try
 					{
 						in = zipFile.getInputStream( entry );
-						File file = new File( generateFullPath( tempFolderPath,
+						File file = new File( getFullPath( tempFolderPath,
 								entry.getName( ) ) );
 
 						File dir = new File( file.getParent( ) );
@@ -439,60 +630,44 @@ public class ArchiveUtil
 		}
 	}
 
-	static public void archive( String folder, String file ) throws IOException
-	{
-		archive( folder, null, file );
-	}
-	
-	static public void convertFolderArchive(String folder, String file)  throws IOException
-	{
-		FolderArchiveReader reader = null;
-		InputStream inputStream = null;
-		DataInputStream dataInput = null;
-		try
-		{
-			archive( folder, null, file );
-			String folderName = new File( folder ).getCanonicalPath( );
-			reader = new FolderArchiveReader( folderName );
-			if ( reader.exists( FolderArchiveFile.METEDATA ) )
-			{
-				inputStream = reader.getInputStream( FolderArchiveFile.METEDATA );
-				dataInput = new DataInputStream( inputStream );
-				Map properties = IOUtil.readMap( dataInput );
-				IArchiveFileFactory factory = new ArchiveFileFactory( );
-				ArchiveFileV3 archive = new ArchiveFileV3( file, "rw+" );
-				if ( properties.containsKey( ArchiveFileV3.PROPERTY_DEPEND_ID ) )
-				{
-					archive.setDependId( properties.get(
-							ArchiveFileV3.PROPERTY_DEPEND_ID ).toString( ) );
-				}
-				if ( properties.containsKey( ArchiveFileV3.PROPERTY_SYSTEM_ID ) )
-				{
-					archive.setDependId( properties.get(
-							ArchiveFileV3.PROPERTY_SYSTEM_ID ).toString( ) );
-				}
-				archive.removeEntry( FolderArchiveFile.METEDATA );
-				archive.close( );
-			}
-		}
-		finally
-		{
-			if(reader!=null)
-			{
-				reader.close( );
-			}
-			if(inputStream!=null)
-			{
-				inputStream.close( );
-			}
-			if(dataInput!=null)
-			{
-				dataInput.close( );
-			}
-		}
-		
-		
-	}
+    static public void archive( String folder, String file ) throws IOException
+    {
+        archive( folder, null, file );
+    }
+
+    static public void convertFolderArchive( String folder, String file )
+            throws IOException
+    {
+        FolderArchiveFile folderArchive = new FolderArchiveFile( folder );
+        try
+        {
+            ArchiveFileV3 fileArchive = new ArchiveFileV3( file, "rw" );
+            try
+            {
+
+                copy( folderArchive, fileArchive );
+
+                String systemId = folderArchive.getSystemId( );
+                if ( systemId != null )
+                {
+                    fileArchive.setSystemId( systemId );
+                }
+                String dependId = folderArchive.getDependId( );
+                if ( dependId != null )
+                {
+                    fileArchive.setDependId( dependId );
+                }
+            }
+            finally
+            {
+                fileArchive.close( );
+            }
+        }
+        finally
+        {
+            folderArchive.close( );
+        }
+    }
 
 	/**
 	 * Compound File Format: <br>
@@ -541,15 +716,69 @@ public class ArchiveUtil
 			reader.close( );
 		}
 	}
+	
+	
+	/**
+	 * Compound File Format: <br>
+	 * 1long(stream section position) + 1long(entry number in lookup map) +
+	 * lookup map section + stream data section <br>
+	 * The Lookup map is a hash map. The key is the relative path of the stram.
+	 * The entry contains two long number. The first long is the start postion.
+	 * The second long is the length of the stream. <br>
+	 * 
+	 * @param tempFolder
+	 * @param fileArchiveName -
+	 *            the file archive name
+	 * @return Whether the compound file was created successfully.
+	 */
+	static public void archive( String folderName, IStreamSorter sorter,
+			String fileName, boolean contentEscape ) throws IOException
+	{
+		// Delete existing file or folder that has the same
+		// name of the file archive.
+		folderName = new File( folderName ).getCanonicalPath( );
+		FolderArchiveReader reader = new FolderArchiveReader( folderName, contentEscape );
+		try
+		{
+			reader.open( );
+			File file = new File( fileName );
+			if ( file.exists( ) )
+			{
+				if ( file.isFile( ) )
+				{
+					file.delete( );
+				}
+			}
+			FileArchiveWriter writer = new FileArchiveWriter( fileName );
+			try
+			{
+				writer.initialize( );
+				copy( reader, writer );
+			}
+			finally
+			{
+				writer.finish( );
+			}
+		}
+		finally
+		{
+			reader.close( );
+		}
+	}
 
-	/**
-	 * files used to record the reader count reference.
-	 */
-	static final String READER_COUNT_FILE_NAME = "/.reader.count";
-	/**
-	 * files which should not be copy into the archives
-	 */
-	static final String[] SKIP_FILES = new String[]{READER_COUNT_FILE_NAME};
+    /**
+     * files used to record the reader count reference.
+     */
+    static final String READER_COUNT_FILE_NAME = "/.reader.count";
+    /**
+     * file to save the metadata info of an archive.
+     */
+    static final String META_DATA_FILE_NAME = "/.metadata";
+    /**
+     * files which should be ignored in list stream
+     */
+    static final String[] SKIP_FILES = new String[]{META_DATA_FILE_NAME,
+            READER_COUNT_FILE_NAME};
 
 	static boolean needSkip( String file )
 	{
@@ -721,6 +950,74 @@ public class ArchiveUtil
 			return file.delete( );
 		}
 		return true;
+	}
+
+	public final static IDocArchiveReader createReader(
+			final IDocArchiveWriter writer )
+	{
+		return new IDocArchiveReader( ) {
+
+			@Override
+			public String getName( )
+			{
+				return writer.getName( );
+			}
+
+			@Override
+			public void open( ) throws IOException
+			{
+			}
+
+			@Override
+			public RAInputStream getStream( String relativePath )
+					throws IOException
+			{
+				return writer.getInputStream( relativePath );
+			}
+
+			@Override
+			public RAInputStream getInputStream( String relativePath )
+					throws IOException
+			{
+				return writer.getInputStream( relativePath );
+			}
+
+			@Override
+			public boolean exists( String relativePath )
+			{
+				return writer.exists( relativePath );
+			}
+
+			@Override
+			public List<String> listStreams( String relativeStoragePath )
+					throws IOException
+			{
+				return writer.listStreams( relativeStoragePath );
+			}
+
+			@Override
+			public List<String> listAllStreams( ) throws IOException
+			{
+				return writer.listAllStreams( );
+			}
+
+			@Override
+			public void close( ) throws IOException
+			{
+			}
+
+			@Override
+			public Object lock( String stream ) throws IOException
+			{
+				return writer.lock( stream );
+			}
+
+			@Override
+			public void unlock( Object locker )
+			{
+				writer.unlock( locker );
+			}
+		};
 	}
 	
 }

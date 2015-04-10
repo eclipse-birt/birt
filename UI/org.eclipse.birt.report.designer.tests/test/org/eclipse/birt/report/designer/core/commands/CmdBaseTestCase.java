@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
  * This is base Class for command test provides method for creation of
  * table/row/column/cell
  */
-public class CmdBaseTestCase extends BaseTestCase
+public abstract class CmdBaseTestCase extends BaseTestCase
 {
 
 	protected TableHandle table;

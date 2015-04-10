@@ -381,6 +381,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public void setReportlet( String bookmark ) throws EngineException
 	{
+		if ( bookmark != null )
+		{
+			bookmark = bookmark.trim( );
+		}
 		long offset = reportDocument.getBookmarkOffset( bookmark );
 		if ( offset == -1 )
 		{
@@ -568,6 +572,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			// start the render
 			setupRenderOption( );
+			startRender( );
 			IContentEmitter emitter = createContentEmitter( );
 			supportHtmlPagination( );
 
@@ -636,7 +641,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 			}
 			initializeContentEmitter( emitter );
 
-			startRender( );
 			IReportContent report = executor.execute( );
 			emitter.start( report );
 			layoutEngine.setTotalPageCount( getTotalPage( ) );
@@ -759,6 +763,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			// start the render
 			setupRenderOption( );
+			startRender( );
 			IContentEmitter emitter = createContentEmitter( );
 			IReportExecutor executor = new ReportletExecutor( executionContext,
 					offset );
@@ -796,7 +801,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 						getDocumentTotalPage( ) );
 			}
 
-			startRender( );
 			IReportContent report = executor.execute( );
 			emitter.start( report );
 			// output the reportlet without pagination

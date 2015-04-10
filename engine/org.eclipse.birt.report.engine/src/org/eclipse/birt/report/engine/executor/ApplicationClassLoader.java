@@ -48,10 +48,10 @@ public class ApplicationClassLoader extends ClassLoader
 			.getLogger( ApplicationClassLoader.class.getName( ) );
 
 	private URLClassLoader designClassLoader = null;
-	private IReportRunnable runnable;
+	private final IReportRunnable runnable;
 	private Map<String, Object> appContext = null;
 
-	private ReportEngine engine;
+	private final ReportEngine engine;
 
 	public ApplicationClassLoader( ReportEngine engine,
 			IReportRunnable reportRunnable, Map<String, Object> appContext )
@@ -69,7 +69,17 @@ public class ApplicationClassLoader extends ClassLoader
 			designClassLoader = null;
 		}
 	}
+	
+	public URLClassLoader getDesignClassLoader()
+	{
+		if ( designClassLoader == null )
+		{
+			createDesignClassLoader( );
+		}
+		return designClassLoader;
+	}
 
+	@Override
 	public Class loadClass( String className ) throws ClassNotFoundException
 	{
 		if ( designClassLoader == null )
@@ -79,6 +89,7 @@ public class ApplicationClassLoader extends ClassLoader
 		return designClassLoader.loadClass( className );
 	}
 
+	@Override
 	protected synchronized Class<?> loadClass( String name, boolean resolve )
 			throws ClassNotFoundException
 	{
@@ -98,6 +109,7 @@ public class ApplicationClassLoader extends ClassLoader
 		return clazz;
 	}
 
+	@Override
 	public URL getResource( String name )
 	{
 		if ( designClassLoader == null )
@@ -128,6 +140,10 @@ public class ApplicationClassLoader extends ClassLoader
 			{
 				ScriptLibHandle lib = (ScriptLibHandle) iter.next( );
 				String libPath = lib.getName( );
+				if ( libPath == null )
+				{
+					continue;
+				}
 				URL url = module.findResource( libPath,
 						IResourceLocator.LIBRARY, appContext );
 				if ( url != null )
@@ -141,11 +157,12 @@ public class ApplicationClassLoader extends ClassLoader
 				}
 			}
 		}
-		final URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
+		final URL[] jarUrls = urls.toArray( new URL[]{} );
 		if ( engine != null )
 		{
 			designClassLoader = AccessController.doPrivileged( new PrivilegedAction<URLClassLoader>( ) {
 
+				@Override
 				public URLClassLoader run( )
 				{
 					return new URLClassLoader( jarUrls,
@@ -157,6 +174,7 @@ public class ApplicationClassLoader extends ClassLoader
 		{
 			designClassLoader = AccessController.doPrivileged( new PrivilegedAction<URLClassLoader>( ) {
 
+				@Override
 				public URLClassLoader run( )
 				{
 					return new URLClassLoader( jarUrls );

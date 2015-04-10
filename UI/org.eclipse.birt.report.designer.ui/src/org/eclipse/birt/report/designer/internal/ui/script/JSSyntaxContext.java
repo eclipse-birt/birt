@@ -146,6 +146,11 @@ public class JSSyntaxContext
 		else
 			objectMetaMap.put( name, new ExtensionClassJSObject( classInfo ) );
 	}
+	
+	public void setVariable( String name, JSObjectMetaData meta )
+	{
+		objectMetaMap.put( name, meta );
+	}
 
 	public void removeVariable( String name )
 	{

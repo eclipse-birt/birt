@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
@@ -217,7 +218,7 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	 */
 	public Object lock( String stream ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullContentPath( folderName, stream)  + ".lck";
+		String path = ArchiveUtil.getFilePath(folderName, stream)  + ".lck";
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
 		return lockManager.lock( path );
 	}
@@ -231,5 +232,10 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	{
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
 		lockManager.unlock( lock );
+	}
+
+	public IArchiveFile getArchiveFile( )
+	{
+		throw new UnsupportedOperationException("getArchiveFile is not supported on this FolderAchiveWriter");
 	}
 }

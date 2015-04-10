@@ -20,13 +20,214 @@ import com.ibm.icu.util.GregorianCalendar;
 public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 {
 
-	private String levelType = "";
+	private String offsetLevel = "";
 	private int offset = 0;
+	private boolean isMoveForward = false;
 
 	public TrailingFunction( String levelType, int offset )
 	{
-		this.levelType = levelType;
+		this.offsetLevel = levelType;
 		this.offset = offset;
+		isMoveForward = offset > 0 ? true : false;
+	}
+	
+	private Calendar adjustStartDate(Calendar curDate, String calculateUnit) {
+		Calendar startDate = ( Calendar ) curDate.clone();
+		
+		if ( calculateUnit.equals( YEAR ) )
+		{
+			if ( isMoveForward )
+				setToYearStart( startDate );
+			else
+				setToYearEnd( startDate);
+		}
+		else if ( calculateUnit.equals( QUARTER ) )
+		{
+			if ( isMoveForward )
+				setToQuarterStart( startDate );
+			else
+				setToQuarterEnd( startDate);
+		}
+		else if ( calculateUnit.equals( MONTH ) )
+		{
+			if ( isMoveForward )
+				setToMonthStart( startDate );
+			else
+				setToMonthEnd( startDate);
+		}
+		
+		return startDate;
+	}
+
+	/**
+	 * Move to get end date.
+	 * Note:
+	 * If the input is 2011 May, and the offset is 3 months.
+	 * The passed-in startDate will be May 1st, 2011,
+	 * and calculateUnit is MONTH, that means start from May,
+	 * move 3 months, to August, the endDate to be returned is
+	 * August 31st, 2011.  
+	 * @param startDate
+	 * @param calculateUnit
+	 * @return
+	 */
+	private Calendar getEndDate(Calendar startDate, String calculateUnit )
+	{
+		Calendar endDate = ( Calendar ) startDate.clone();
+		
+		if ( calculateUnit.equals( YEAR ) )
+		{
+			if ( isMoveForward )
+				setToYearEnd( endDate );
+			else
+				setToYearStart( endDate);
+		}
+		else if ( calculateUnit.equals( QUARTER ) )
+		{
+			if ( isMoveForward )
+				setToQuarterEnd( endDate );
+			else
+				setToQuarterStart( endDate);
+		}
+		else if ( calculateUnit.equals( MONTH ) )
+		{
+			if ( isMoveForward )
+				setToMonthEnd( endDate );
+			else
+				setToMonthStart( endDate);
+		}
+		else if ( calculateUnit.equals( WEEK ) )
+		{
+			if ( isMoveForward )
+				setToWeekEnd( endDate );
+			else
+				setToWeekStart( endDate);
+		}
+
+		if ( offsetLevel.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
+			endDate.add( Calendar.YEAR, offset );
+		else if ( offsetLevel.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
+			endDate.add( Calendar.MONTH, offset *3 );
+		else if ( offsetLevel.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
+			endDate.add( Calendar.MONTH, offset );
+		else if ( offsetLevel.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
+			endDate.add( Calendar.WEEK_OF_YEAR, offset );
+		else if ( offsetLevel.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
+			endDate.add( Calendar.WEEK_OF_YEAR, offset );
+		else if ( offsetLevel.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH ) )
+			endDate.add( Calendar.DATE, offset );
+		else if ( offsetLevel.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )
+			endDate.add( Calendar.DATE, offset );
+		else if ( offsetLevel.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
+			endDate.add( Calendar.DATE, offset );
+		
+		return endDate;
+	}
+	
+	/**
+	 * Get timeMember/s for current date, then make a move 
+	 * @param curDate
+	 * @param startDate
+	 * @param endDate
+	 * @param unit
+	 * @param step
+	 * @return
+	 */
+	private List<Calendar> moveAStep( Calendar curDate, Calendar endDate, String unit, String extraWeekLevel )
+	{
+		List<Calendar> times = new ArrayList<Calendar>( );
+		int step = isMoveForward ? 1 : -1 ;
+		
+		times.add( ( Calendar ) curDate.clone( ) );
+		
+		if ( unit.equals( YEAR ) )
+		{
+			if ( isMoveForward )
+				setToYearStart( curDate );
+			else
+				setToYearEnd( curDate );
+			curDate.add( Calendar.YEAR, step );
+		}
+		else if ( unit.equals( QUARTER ) )
+		{
+			if ( isMoveForward )
+				setToQuarterStart( curDate );
+			else
+				setToQuarterEnd( curDate );
+			curDate.add( Calendar.MONTH, step * 3 );
+		}
+		else if ( unit.equals( MONTH ) )
+		{
+			if ( isMoveForward )
+				setToMonthStart( curDate );
+			else
+				setToMonthEnd( curDate );
+			curDate.add( Calendar.MONTH, step );
+		}
+		else if ( unit.equals( WEEK ) )
+		{
+			Calendar tmpDate = ( Calendar ) curDate.clone();
+			if ( isMoveForward )
+			{
+				if ( extraWeekLevel != null )
+				{
+					tmpDate.set( Calendar.DAY_OF_WEEK, 7 );
+					if ( tmpDate.after( endDate ) )
+						tmpDate = endDate;
+					tmpDate = getExtraWeek( tmpDate, curDate, extraWeekLevel);
+					if ( tmpDate != null )
+						times.add( tmpDate );
+				}
+				setToWeekStart( curDate );
+				curDate.set(Calendar.DAY_OF_WEEK, 1);
+			}
+			else
+			{
+				if ( extraWeekLevel != null )
+				{
+					tmpDate.set( Calendar.DAY_OF_WEEK, 1 );
+					if ( tmpDate.before( endDate ) )
+						tmpDate = endDate;
+					tmpDate = getExtraWeek( tmpDate, curDate, extraWeekLevel);
+					if ( tmpDate != null )
+						times.add( tmpDate );
+				}
+				setToWeekEnd( curDate );
+				curDate.set(Calendar.DAY_OF_WEEK, 7);
+			}
+			curDate.add( Calendar.WEEK_OF_YEAR, step );
+		}
+		else if ( unit.equals( DAY ) )
+		{
+			curDate.add( Calendar.DATE, step );
+		}
+		
+		return times;
+	}
+	
+	/**
+	 * Check if date1 is in the same time period ( month/ year ) with date2.
+	 * If not, return date1, else return null.
+	 * @param date1
+	 * @param date2
+	 * @param extraWeekLevel
+	 * @return
+	 */
+	private Calendar getExtraWeek(Calendar date1, Calendar date2,
+			String extraWeekLevel) {
+		
+		if ( extraWeekLevel.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
+		{
+			if ( date1.get( Calendar.MONTH ) != date2.get( Calendar.MONTH ) )
+				return date1;
+		}
+		if ( extraWeekLevel.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
+		{
+			if ( date1.get( Calendar.YEAR ) != date2.get( Calendar.YEAR ) )
+				return date1;
+		}
+		
+		return null;
 	}
 
 	/*
@@ -37,170 +238,106 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 		List<TimeMember> timeMembers = new ArrayList<TimeMember>( );
 
 		String[] levelTypes = member.getLevelType( );
-		int[] values = member.getMemberValue( );
+		int[] startValues = member.getMemberValue( );
 
-		Calendar cal1 = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
+		Calendar curDate = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
 				TimeMemberUtil.getDefaultLocale( ) );
-		cal1.clear( );
-		String calculateUnit = translateToCal( cal1, levelTypes, values );
-		Calendar cal2 = (Calendar) cal1.clone( );
-        int year = 1;
-        int year_woy = 1;
-		if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
-		{
-			cal1.add( Calendar.YEAR, offset );
-		}
-		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
-		{
-			cal1.add( Calendar.MONTH, offset );
-		}
-		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
-		{
-			// Calendar not support quarter, so add 3 month
-			cal1.add( Calendar.MONTH, offset * 3 );
-		}
-		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
-		{
-			if ( !calculateUnit.equals( DAY ) )
-			{
-				year_woy = cal1.get( Calendar.YEAR_WOY );
-				year = cal1.get( Calendar.YEAR );
-				// year_woy < year, means last week of previous year
-				// for example. 2011/1/1, the year_woy is 2010
-				if ( year_woy < year )
-				{
-					cal1.set( Calendar.DAY_OF_WEEK, 7 );
-				}
-				else if (year_woy > year)
-				{
-					cal1.set( Calendar.DAY_OF_WEEK, 1 );
-				}
-			}
-			cal1.add( Calendar.WEEK_OF_YEAR, offset );
-		}
-		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
-		{
-			if ( !calculateUnit.equals( DAY ) )
-			{
-				year_woy = cal1.get( Calendar.YEAR_WOY );
-				year = cal1.get( Calendar.YEAR );
-				// year_woy < year, means last week of previous year
-				// for example. 2011/1/1, the year_woy is 2010
-				if ( year_woy < year )
-				{
-					cal1.set( Calendar.DAY_OF_WEEK, 7 );
-				}
-				else if (year_woy > year)
-				{
-					cal1.set( Calendar.DAY_OF_WEEK, 1 );
-				}
-			}
-			cal1.add( Calendar.WEEK_OF_YEAR, offset );
-		}
-		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH ) )
-		{
-			cal1.add( Calendar.DATE, offset );
-		}
-		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )
-		{
-			cal1.add( Calendar.DATE, offset );
-		}
-		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
-		{
-			cal1.add( Calendar.DATE, offset );
-		}
+		// Get start date
+		curDate.clear( );
+		String calculateUnit = translateToCal( curDate, levelTypes, startValues );
+		Calendar startDate = adjustStartDate( curDate, calculateUnit );
 		
-		timeMembers.add( member );
+		// Get end date
+		Calendar endDate = getEndDate( startDate, calculateUnit );
 
-		// TimeMember.levelTypes=["year"(2009),"month"(3)],TrailingFunciton.levelType="Quarter",offset=1
-		// the result will be 2009.3,2009.2,2009.1. when we add quarter to the
-		// calendar, the date will be
-		// 2008.12, so we must set it to 2009.1,here we should add the date
-		// based on the calculateUnit.
-		if ( calculateUnit.equals( YEAR ) )
-		{
-			if (levelType.equals( YEAR ))
-			{
-				cal1.add( Calendar.YEAR, -Math.abs( offset ) / offset );
-			}
-		}
-		else if ( calculateUnit.equals( QUARTER ) )
-		{
-			cal1.add( Calendar.MONTH, -Math.abs( offset ) / offset * 3 );
-		}
-		else if ( calculateUnit.equals( WEEK ) )
-		{
-			cal1.add( Calendar.WEEK_OF_YEAR, -Math.abs( offset ) / offset );
-			cal1.set( Calendar.DAY_OF_WEEK, 1 );
-		}
-		else if ( calculateUnit.equals( MONTH ) )
-		{
-			cal1.add( Calendar.MONTH, -Math.abs( offset ) / offset );
-		}
-		else if ( calculateUnit.equals( DAY ) )
-		{
-			cal1.add( Calendar.DATE, -Math.abs( offset ) / offset );
-		}
-
+		curDate = ( Calendar ) startDate.clone();
 		int[] fillDateTmp;
+		List<Calendar> times;
 		TimeMember timeMember;
-		int step = Math.abs( offset ) / offset;
-		int[] cal1Value = getValueFromCal( cal1, levelTypes );
-		int[] cal2Value = getValueFromCal( cal2, levelTypes );
+		boolean end = false;
+		String extraWeekLevel = calculateUnit.equals( WEEK ) ? getExtraWeekLevel ( levelTypes ) : null;
 
-		while ( !compareIntArray( cal1Value, cal2Value ) )
+		while ( !end )
 		{
-			if ( calculateUnit.equals( WEEK ) )
+			times = moveAStep( curDate, endDate, calculateUnit, extraWeekLevel );			
+			for ( int i = 0; i < times.size(); i++ )
 			{
-				this.addExtraWeek( timeMembers, cal2, new TimeMember( cal2Value, levelTypes ), levelTypes );
+				fillDateTmp = getValueFromCal( times.get(i), levelTypes );
+				timeMember = new TimeMember( fillDateTmp, levelTypes );
+				timeMembers.add( timeMember );
 			}
-			
-			if ( calculateUnit.equals( YEAR ) )
+			if ( isMoveForward )
 			{
-				cal2.add( Calendar.YEAR, step );
+				end = !curDate.before( endDate );
 			}
-			if ( calculateUnit.equals( QUARTER ) )
+			else
 			{
-				cal2.add( Calendar.MONTH, step * 3 );
+				end = !curDate.after( endDate );
 			}
-			else if ( calculateUnit.equals( MONTH ) )
-			{
-				cal2.add( Calendar.MONTH, step );
-			}
-			else if ( calculateUnit.equals( WEEK ) )
-			{
-				cal2.add( Calendar.WEEK_OF_YEAR, step );
-				cal2.set( Calendar.DAY_OF_WEEK, 1 );
-			}
-			else if ( calculateUnit.equals( DAY ) )
-			{
-				cal2.add( Calendar.DATE, step );
-			}
-
-			fillDateTmp = getValueFromCal( cal2, levelTypes );
-			timeMember = new TimeMember( fillDateTmp, levelTypes );
-			timeMembers.add( timeMember );
-			
-			cal2Value = getValueFromCal( cal2, levelTypes );
 		}
 
 		return timeMembers;
 	}
 
-	private boolean compareIntArray( int[] tmp1, int[] tmp2 )
+	private String getExtraWeekLevel (String[] levelTypes ) {
+		String result = TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR;
+		
+		for (String level : levelTypes )
+		{
+			if ( level.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) ||
+					level.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) ||
+					level.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
+				result = TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH;
+		}
+		
+		return result;
+	}
+	
+	private void setToYearStart( Calendar cal )
 	{
-		if ( tmp1.length != tmp2.length )
-		{
-			return false;
-		}
-		for ( int i = 0; i < tmp1.length; i++ )
-		{
-			if ( tmp1[i] != tmp2[i] )
-			{
-				return false;
-			}
-		}
-
-		return true;
+		cal.set( Calendar.DAY_OF_YEAR, 1 );
+	}
+	
+	private void setToYearEnd( Calendar cal )
+	{
+		setToYearStart(cal);
+		cal.add( Calendar.YEAR, 1 );
+		cal.add( Calendar.DATE, -1 );
+	}
+	
+	private void setToQuarterStart( Calendar cal )
+	{
+		int quarter = cal.get( Calendar.MONTH ) / 3;
+		cal.set( Calendar.MONTH, quarter * 3 );
+		cal.set( Calendar.DAY_OF_MONTH, 1 );
+	}
+	
+	private void setToQuarterEnd( Calendar cal )
+	{
+		setToQuarterStart( cal );
+		cal.add( Calendar.MONTH, 3 );
+		cal.add( Calendar.DATE, -1 );
+	}
+	
+	private void setToMonthStart( Calendar cal )
+	{
+		cal.set( Calendar.DAY_OF_MONTH, 1 );
+	}
+	
+	private void setToMonthEnd( Calendar cal )
+	{
+		setToMonthStart( cal );
+		cal.add( Calendar.MONTH, 1);
+		cal.add( Calendar.DATE, -1 );
+	}
+	
+	private void setToWeekStart( Calendar cal)
+	{
+		cal.set( Calendar.DAY_OF_WEEK, 1 );
+	}
+	
+	private void setToWeekEnd( Calendar cal)
+	{
+		cal.set( Calendar.DAY_OF_WEEK, 7 );
 	}
 }
