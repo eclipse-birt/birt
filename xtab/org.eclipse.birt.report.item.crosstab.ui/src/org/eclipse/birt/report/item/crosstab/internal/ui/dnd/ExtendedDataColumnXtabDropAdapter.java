@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -36,11 +36,13 @@ import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAda
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
@@ -48,8 +50,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.window.Window;
 
-import com.actuate.birt.report.model.api.CategoryColumnHandle;
-import com.actuate.birt.report.model.elements.interfaces.ICategoryColumnModel;
 
 public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 {
@@ -113,16 +113,16 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 			DimensionHandle tabularDimension = null;
 			DimensionHandle timeDimension = null;
 			
-			CategoryColumnHandle categoryColumnHandle = (CategoryColumnHandle) transfer;
+			
+			
+			ResultSetColumnHandle resultSetColumn = adapter.getResultSetColumn( (ReportElementHandle) transfer );
+			DataSetHandle dataSetHandle = (DataSetHandle) resultSetColumn.getElementHandle( );
+			List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataSetHandle );
 			ColumnHintHandle chh = null;
-			String columnName = categoryColumnHandle.getStringProperty( ICategoryColumnModel.RESULT_SET_COLUMN_NAME_PROP );
-			Iterator it = categoryColumnHandle.getAliasDataSet( )
-					.columnHintsIterator( );
-			while ( it != null && it.hasNext( ) )
+			for( ColumnHintHandle columnHintHandle : columnHints )
 			{
-				ColumnHintHandle columnHintHandle = (ColumnHintHandle) it.next( );
-				if ( columnName.equals( columnHintHandle.getAlias( ) )
-						|| columnName.equals( columnHintHandle.getColumnName( ) ) )
+				if ( resultSetColumn.getColumnName( ).equals( columnHintHandle.getAlias( ) )
+						|| resultSetColumn.getColumnName( ).equals( columnHintHandle.getColumnName( ) ) )
 				{
 					chh = columnHintHandle;
 					break;
