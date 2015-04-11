@@ -74,6 +74,8 @@ public final class CrosstabUtil implements ICrosstabConstants
 {		
 	public static final String BRS_DATASET_ROW_INDICATOR = "DATASET";
 	
+	private static String labelDisplayNameKey;
+	
 	private CrosstabUtil( )
 	{
 	}
@@ -970,7 +972,13 @@ public final class CrosstabUtil implements ICrosstabConstants
 					labelHandle.setText("");
 				}
 				else
+				{
 					labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
+				}
+				if ( labelDisplayNameKey != null )
+				{
+					labelHandle.setTextKey( labelDisplayNameKey );
+				}
 				
 				crosstab.getHeader( count ).addContent( labelHandle );
 			}
@@ -980,6 +988,10 @@ public final class CrosstabUtil implements ICrosstabConstants
 				{
 					LabelHandle labelHandle = (LabelHandle)crosstab.getHeader( count ).getContents( ).get( 0 );
 					labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
+					if ( labelDisplayNameKey != null )
+					{
+						labelHandle.setTextKey( labelDisplayNameKey );
+					}
 				}
 			}
 		}
@@ -1308,5 +1320,15 @@ public final class CrosstabUtil implements ICrosstabConstants
 		}
 		
 		return refColumnName;
+	}
+	
+	public static void setLabelDisplayNameKey( String key )
+	{
+		labelDisplayNameKey = key;
+	}
+
+	public static void clearLabelDisplayNameKey( )
+	{
+		labelDisplayNameKey = null;
 	}
 }
