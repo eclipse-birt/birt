@@ -25,7 +25,8 @@
 					<property name="defaultValue" type="constant">225</property>
 					<property name="position">3</property>
                 </structure>				
-            </list-property>	
+            </list-property>
+			<property name="queryText">select * from CLASSICMODELS.OFFICES</property>
         </oda-data-set>
     </data-sets>
 </report>

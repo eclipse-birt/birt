@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.model.adapter.oda.api;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDesignerStateHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
@@ -104,8 +107,9 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 
 		designHandle.getDataSources( ).add( sourceHandle );
 
-		save( );
-		assertTrue( compareTextFile( GOLDEN_FILE ) );
+		/*save( );
+		assertTrue( compareTextFile( GOLDEN_FILE ) );*/
+		verifyDataSource();
 	}
 
 	/**
@@ -139,13 +143,22 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
 		assertTrue( designHandle.getCommandStack( ).canRedo( ) );
 
-		save( );
-		assertTrue( compareTextFile( GOLDEN_FILE_WITH_EMPTY_PROPS ) );
+		/*save( );
+		assertTrue( compareTextFile( GOLDEN_FILE_WITH_EMPTY_PROPS ) );*/
+		verifyDataSourceWithEmptyProp();
 
 		designHandle.getCommandStack( ).redo( );
 
 		save( );
 		assertTrue( compareTextFile( GOLDEN_FILE1_WITH_EMPTY_PROPS ) );
+	}
+
+	private void verifyDataSourceWithEmptyProp() throws Exception {
+		OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) designHandle.findDataSource( "myDataSource1" );
+		assertNotNull( sourceHandle );
+		assertNotNull( sourceHandle );
+		assertNull( sourceHandle.getProperty("privateDriverProperties") );
+		assertNull( sourceHandle.getProperty("userProperties") );
 	}
 
 	/**
@@ -174,6 +187,22 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 		sourceDesign.setPrivateProperties( props );
 
 		return sourceDesign;
+	}
+	
+	private void verifyDataSource() throws Exception
+	{
+		saveAndOpenDesign();
+		OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) designHandle.findDataSource( "my data source design" );
+		assertNotNull( sourceHandle);
+		assertEquals( "data source display name", sourceHandle.getDisplayName() );
+		assertEquals( DATA_SOURCE_EXTENSIONID, sourceHandle.getExtensionID() );
+		
+		assertEquals( "new drivers", sourceHandle.getProperty( "odaDriverClass" ) );
+		assertEquals( "jdbc:sqlserver://localhost", sourceHandle.getProperty( "odaURL" ) );
+		assertEquals( "new user", sourceHandle.getProperty( "odaUser" ) );
+		
+		assertEquals( "new drivers", sourceHandle.getPrivateDriverProperty( "odaDriverClass" ) );
+		assertEquals( "new password", sourceHandle.getPrivateDriverProperty( "odaPassword" ) );
 	}
 
 	/**
