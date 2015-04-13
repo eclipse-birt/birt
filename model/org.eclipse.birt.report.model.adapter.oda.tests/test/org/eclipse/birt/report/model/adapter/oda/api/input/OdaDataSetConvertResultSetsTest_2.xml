@@ -11,12 +11,14 @@
             <property name="type">extended</property>         	
             <list-property name="resultSet">
                 <structure>
+					<property name="nativeName">columnName</property>
                     <property name="position">1</property>
                     <property name="name">blob</property>
                     <property name="dataType">blob</property>
 					<property name="nativeDataType">2004</property>
                 </structure>
-            </list-property>			
+            </list-property>
+			<property name="queryText">select * from CLASSICMODELS.OFFICES</property>
         </oda-data-set>
         <oda-data-set name="myDataSet2" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
 			<property name="dataSource">myDataSource1</property>

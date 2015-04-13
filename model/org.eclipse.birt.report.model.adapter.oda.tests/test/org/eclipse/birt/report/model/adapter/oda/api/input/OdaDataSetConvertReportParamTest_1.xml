@@ -38,6 +38,7 @@
 					<property name="isInput">true</property>
 					<property name="nativeDataType">2</property>
 					<property name="paramName">Param 1</property>
+					<expression name="defaultValue">not updated default value</expression>
 				</structure>
 				<!-- default value should not be copied.-->
 				<structure>
