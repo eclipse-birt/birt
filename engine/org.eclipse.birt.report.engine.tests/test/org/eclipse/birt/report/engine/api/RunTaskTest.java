@@ -44,9 +44,10 @@ public class RunTaskTest extends EngineCase
 		copyResource( BLANK_REPORT_DOCUMENT_RESOURCE, BLANK_REPORT_DOCUMENT );
 	}
 
-	public void tearDown( )
+	public void tearDown( ) throws Exception
 	{
 		removeFile( TEST_FOLDER );
+		super.tearDown();
 	}
 
 	public void testRun( )

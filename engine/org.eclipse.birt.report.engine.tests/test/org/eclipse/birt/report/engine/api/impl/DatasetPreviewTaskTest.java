@@ -59,9 +59,9 @@ public class DatasetPreviewTaskTest extends EngineCase
 		
 	}
 
-	public void tearDown( )
+	public void tearDown( ) throws Exception
 	{
-		
+		super.tearDown();
 	}
 	
 	protected ModuleHandle getHandle(String fileName) throws Exception

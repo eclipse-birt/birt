@@ -40,9 +40,10 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
 	}
 
-	public void tearDown( )
+	public void tearDown( ) throws Exception
 	{
 		removeFile( REPORT_DESIGN );
+		super.tearDown();
 	}
 
 	public void testParameterWithDataSet( ) throws SemanticException,

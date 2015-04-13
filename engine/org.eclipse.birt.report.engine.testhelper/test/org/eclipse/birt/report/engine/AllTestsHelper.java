@@ -25,6 +25,9 @@ public class AllTestsHelper
 		suite.addTestSuite( org.eclipse.birt.report.engine.internal.executor.doc.TreeFragmentTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.internal.executor.load.PageSequenceIteratorTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.internal.index.v2.IndexReadWriteTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.emitter.TableBorderExTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.emitter.TableBorderPDFTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.emitter.TableBorderPSTest.class );
 	}
 
 }

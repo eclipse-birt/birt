@@ -51,9 +51,10 @@ public class ReportDocumentTest extends EngineCase
 	final String REPORT_DOCUMENT_V2_3_1 = "org/eclipse/birt/report/engine/api/document/v2_3_1.rptdocument";
 	final String REPORT_DOCUMENT_V2_3_2 = "org/eclipse/birt/report/engine/api/document/v2_3_2.rptdocument";
 
-	public void tearDown( )
+	public void tearDown( ) throws Exception
 	{
 		removeFile( REPORT_DOCUMENT );
+		super.tearDown();
 	}
 
 	public void testV2_1_0( ) throws Exception
