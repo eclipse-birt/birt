@@ -24,10 +24,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({org.eclipse.birt.core.archive.ArchiveFlushTest.class,
-        org.eclipse.birt.core.archive.DocArchiveLockManagerTest.class,
         org.eclipse.birt.core.archive.FolderToArchiveTest.class,
-        org.eclipse.birt.core.archive.SpecialCharacterTest.class,
-        org.eclipse.birt.core.archive.compound.ArchivePerformanceTest.class})
+        org.eclipse.birt.core.archive.SpecialCharacterTest.class})
 
 public class AllTests
 {
