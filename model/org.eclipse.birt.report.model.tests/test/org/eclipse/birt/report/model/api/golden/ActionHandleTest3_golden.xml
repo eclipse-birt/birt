@@ -7,7 +7,7 @@
             <property name="columns">1</property>
             <contents>
                 <image name="Image1" id="3">
-                	<expression name="altText" type="constant">Help Test For Image Item</expression>
+                    <expression name="altText" type="constant">Help Test For Image Item</expression>
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <list-property name="action">
@@ -22,7 +22,7 @@
     </page-setup>
     <body>
         <image name="Image" id="4">
-        	<expression name="altText" type="constant">Help Test For Image Item</expression>
+            <expression name="altText" type="constant">Help Test For Image Item</expression>
             <property name="source">url</property>
             <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
 	        <list-property name="action">
