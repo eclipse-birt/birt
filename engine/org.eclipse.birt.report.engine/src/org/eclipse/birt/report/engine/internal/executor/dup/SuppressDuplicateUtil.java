@@ -22,14 +22,14 @@ import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
-import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.RowDesign;
+import org.eclipse.birt.report.engine.ir.TableBandDesign;
+import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
-import org.eclipse.birt.report.model.api.TableHandle;
 
 public class SuppressDuplicateUtil
 {
@@ -137,91 +137,14 @@ public class SuppressDuplicateUtil
 		return content;
 	}
 
-	protected class ClearDuplicateFlagVisitor
+	private class ClearDuplicateFlagVisitor
 			extends
 				DefaultReportItemVisitorImpl
 	{
 
-		Stack<Boolean> isInDetailBand = new Stack<Boolean>( );
+		private Stack<Boolean> isInDetailBand = new Stack<Boolean>( );
 
-		public Object visitFreeFormItem( FreeFormItemDesign container,
-				Object value )
-		{
-			for ( int i = 0; i < container.getItemCount( ); i++ )
-			{
-				container.getItem( i ).accept( this, value );
-			}
-			return value;
-		}
-		
-		public Object visitTableItem( TableItemDesign table, Object value )
-		{
-			int detailBandId = getDetailBand( table );
-			BandDesign header = table.getHeader( );
-			if ( header != null )
-			{
-				value = header.accept( this, value );
-			}
-			for ( int i = 0; i < table.getGroupCount( ); i++ )
-			{
-				GroupDesign group = table.getGroup( i );
-				if ( detailBandId == i )
-				{
-					isInDetailBand.push( Boolean.TRUE );
-					value = group.accept( this, value );
-					isInDetailBand.pop( );
-				}
-				else
-				{
-					value = group.accept( this, value );
-				}
-			}
-
-			BandDesign detail = table.getDetail( );
-			if ( detail != null )
-			{
-				if ( detailBandId == -1 )
-				{
-					isInDetailBand.push( Boolean.TRUE );
-					value = detail.accept( this, value );
-					isInDetailBand.pop( );
-				}
-				else
-				{
-					value = detail.accept( this, value );
-				}
-			}
-
-			BandDesign footer = table.getFooter( );
-			if ( footer != null )
-			{
-				value = footer.accept( this, value );
-			}
-			
-			return value;
-		}
-
-		protected int getDetailBand( TableItemDesign table )
-		{
-			BandDesign detail = table.getDetail( );
-			if ( !isBandEmpty( detail ) )
-			{
-				return -1;
-			}
-			
-			for ( int i = table.getGroupCount( ) - 1; i >= 0; i-- )
-			{
-				GroupDesign group = table.getGroup( i );
-				if ( !isBandEmpty( group.getHeader( ) )
-						|| !isBandEmpty( group.getFooter( ) ) )
-				{
-					return i;
-				}
-			}
-			return -1;
-		}
-		
-		protected boolean isBandEmpty( BandDesign band )
+		private boolean isBandEmpty( TableBandDesign band )
 		{
 			if ( band != null )
 			{
@@ -241,6 +164,7 @@ public class SuppressDuplicateUtil
 			return true;
 		}
 
+		@Override
 		public Object visitListing( ListingDesign list, Object value )
 		{
 			BandDesign header = list.getHeader( );
@@ -268,6 +192,7 @@ public class SuppressDuplicateUtil
 			return value;
 		}
 
+		@Override
 		public Object visitDataItem( DataItemDesign data, Object value )
 		{
 			if(!isInDetailBand.isEmpty( ) && isInDetailBand.peek( ))
@@ -277,6 +202,7 @@ public class SuppressDuplicateUtil
 			return value;
 		}
 
+		@Override
 		public Object visitGridItem( GridItemDesign grid, Object value )
 		{
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
@@ -286,6 +212,7 @@ public class SuppressDuplicateUtil
 			return value;
 		}
 
+		@Override
 		public Object visitRow( RowDesign row, Object value )
 		{
 			for ( int i = 0; i < row.getCellCount( ); i++ )
@@ -295,6 +222,7 @@ public class SuppressDuplicateUtil
 			return value;
 		}
 
+		@Override
 		public Object visitCell( CellDesign cell, Object value )
 		{
 			for ( int i = 0; i < cell.getContentCount( ); i++ )
@@ -304,6 +232,68 @@ public class SuppressDuplicateUtil
 			return value;
 		}
 
+		/**
+		 * test if the band is in last group of summary table
+		 * @param band
+		 * @return
+		 */
+		private boolean isDetailGroupOfSummaryTable(TableBandDesign band) {
+			TableGroupDesign group = (TableGroupDesign) band.getGroup();
+			if (group == null) {
+				return false;
+			}
+			TableItemDesign listingDesign = (TableItemDesign) getListingDesign(group);
+			
+			//table with detail is not a summary table
+			if (!isBandEmpty((TableBandDesign)listingDesign.getDetail())) {
+				return false;
+			}
+
+			//the last none empty group is used as detail
+			for (int i = listingDesign.getGroupCount() - 1; i >= 0; i--) {
+				GroupDesign groupDesign = listingDesign.getGroup(i);
+				if (!isGroupEmpty(groupDesign)) {
+					if (group == groupDesign) {
+						return true;
+					}
+					return false;
+				}
+			}
+			return false;
+		}
+
+		private boolean isDetailBand(TableBandDesign band) {
+			if (isBandEmpty(band)) {
+				// ignore empty band
+				return false;
+			}
+
+			int bandType = band.getBandType();
+			if (bandType == BandDesign.BAND_DETAIL) {
+				return true;
+			}
+
+			// else it is a group band
+			if (isDetailGroupOfSummaryTable(band)) {
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public Object visitTableBand( TableBandDesign band, Object value )
+		{
+			boolean isDetail = isDetailBand( band );
+			isInDetailBand.push( isDetail);
+			for ( int i = 0; i < band.getContentCount( ); i++ )
+			{
+				value = band.getContent( i ).accept( this, value );
+			}
+			isInDetailBand.pop( );
+			return value;
+		}
+
+		@Override
 		public Object visitBand( BandDesign band, Object value )
 		{
 			for ( int i = 0; i < band.getContentCount( ); i++ )
@@ -312,7 +302,8 @@ public class SuppressDuplicateUtil
 			}
 			return value;
 		}
-
+		
+		@Override
 		public Object visitGroup( GroupDesign group, Object value )
 		{
 			BandDesign header = group.getHeader( );
