@@ -43,10 +43,11 @@ public class ParameterPromptTextTest extends EngineCase
 				REPORT_GROUP_PROMPT_TEXT_DESIGN );
 	}
 
-	public void tearDown( )
+	public void tearDown( ) throws Exception
 	{
 		removeFile( REPORT_PROMPT_TEXT_DESIGN );
 		removeFile( REPORT_GROUP_PROMPT_TEXT_DESIGN );
+		super.tearDown();
 	}
 
 	public void testPromptText( ) throws EngineException

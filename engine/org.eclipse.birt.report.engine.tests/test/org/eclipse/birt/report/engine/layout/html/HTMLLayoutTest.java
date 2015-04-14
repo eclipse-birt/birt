@@ -34,9 +34,9 @@ public class HTMLLayoutTest extends EngineCase
 		IReportDocument document = createReportDocument( designFile );
 		assertEquals( 1l, getPageNumber(document,  "Australia" ));
 		assertEquals( 1l, getPageNumber(document,  "France" ));
-		assertEquals( 1l, getPageNumber(document,  "Japan" ));
+		assertEquals( 2l, getPageNumber(document,  "Japan" ));
 		assertEquals( 2l, getPageNumber(document,  "UK" ));
-		assertEquals( 2l, getPageNumber(document,  "USA" ));
+		assertEquals( 3l, getPageNumber(document,  "USA" ));
 		document.close( );
 	}
 

@@ -64,6 +64,11 @@ abstract public class EngineCase extends TestCase
 	{
 		engine = createReportEngine( );
 	}
+	
+	protected void tearDown() throws Exception
+	{
+		engine.destroy();
+	}
 
 	public void copyResource( String src, String tgt )
 	{

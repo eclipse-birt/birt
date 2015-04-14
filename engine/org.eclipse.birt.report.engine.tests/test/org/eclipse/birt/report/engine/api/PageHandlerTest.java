@@ -34,11 +34,12 @@ public class PageHandlerTest extends EngineCase
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
 	}
 
-	public void tearDown( )
+	public void tearDown( ) throws Exception
 	{
 		// shut down the engine.
 		removeFile( REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT );
+		super.tearDown();
 	}
 
 	class TestPageHandler implements IPageHandler

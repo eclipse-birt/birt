@@ -21,6 +21,7 @@ public class ReportDocumentReaderTest extends EngineCase
 	public void tearDown( ) throws Exception
 	{
 		removeFile( REPORT_DOCUMENT );
+		super.tearDown();
 	}
 
 	public void testVersion0( ) throws Exception

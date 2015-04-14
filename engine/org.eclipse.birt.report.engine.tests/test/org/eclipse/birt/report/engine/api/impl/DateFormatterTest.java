@@ -43,12 +43,13 @@ public class DateFormatterTest extends EngineCase
 		dataExTask = engine.createDataExtractionTask( document );
 	}
 
-	public void tearDown( )
+	public void tearDown( ) throws Exception
 	{
 		dataExTask.close( );
 		document.close( );
 		removeFile( REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT );
+		super.tearDown();
 	}
 
 	public void testDateFormatterExtraction( ) throws Exception

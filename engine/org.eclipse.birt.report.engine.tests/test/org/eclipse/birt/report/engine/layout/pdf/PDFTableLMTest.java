@@ -90,8 +90,7 @@ public class PDFTableLMTest extends PDFLayoutTest
 		Iterator children = page.getBody( ).getChildren( );
 		TableArea table1 = (TableArea)children.next( );
 		TableArea table2 = (TableArea)children.next( );
-		assertEquals( 19000, table1.getHeight( ) );
-		assertEquals( 19000, table2.getY( ) );
+		assertTrue( table1.getHeight( ) <= table2.getY( ) );
 	}
 
 	private void validateColumnWidth(TableArea table, int[] cols)

@@ -51,10 +51,11 @@ public class ReportDocumentTest extends EngineCase
 		removeFile( REPORT_DOCUMENT );
 	}
 
-	public void tearDown( )
+	public void tearDown( ) throws Exception
 	{
 		removeFile( REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT );
+		super.tearDown();
 	}
 
 	public void testDocument( )
