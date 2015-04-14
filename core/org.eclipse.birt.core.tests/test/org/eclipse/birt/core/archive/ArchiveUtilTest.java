@@ -179,8 +179,8 @@ public class ArchiveUtilTest extends TestCase
         assertEquals( "/./", ArchiveUtil.getEntryName( "/%2E/" ) );
         assertEquals( "/../", ArchiveUtil.getEntryName( "/%2E%2E/" ) );
         assertEquals( "//", ArchiveUtil.getEntryName( "/%2F/" ) );
-        assertEquals( "/", ArchiveUtil.getEntryName( "/%2F" ) );
-        assertEquals( "///", ArchiveUtil.getEntryName( "/%2F/%2F" ) );
+//      assertEquals( "/", ArchiveUtil.getEntryName( "/%2F" ) );  invalid entry name
+//      assertEquals( "//", ArchiveUtil.getEntryName( "/%2F/%2F" ) ); invalid entry name
         assertEquals( "///", ArchiveUtil.getEntryName( "/%2F/%2F/" ) );
     }
 
