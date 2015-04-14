@@ -129,12 +129,8 @@ public class IndexReader implements IndexConstants
 			{
 				return VERSION_0;
 			}
-			else if ( ReportDocumentConstants.BOOKMARK_STREAM
-					.equals( streamName ) )
-			{
-				return VERSION_1;
-			}
 		}
+		
 		return versionInDocument;
 	}
 
