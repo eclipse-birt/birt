@@ -20,6 +20,8 @@ import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.internal.document.v3.ReportContentWriterV3;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
 /**
@@ -148,28 +150,29 @@ public class RenderFolderDocumentTest extends EngineCase
 
 	private void dropFolder( String report_design, String dropDir )
 	{
-
 		folderArchive = outputFolder + "drop_" + report_design + separator;
 		String design = inputFolder + report_design + ".rptdesign";
 		copyResource_INPUT( report_design + ".rptdesign", report_design
 				+ ".rptdesign" );
 		try
 		{
+			// createFolderDocument relies on the implementation of ReportDocumentBuilder
+			// Three internal streams are implicitly created as follows:
+//						ReportDocumentConstants.CONTENT_STREAM );
+//						ReportDocumentConstants.PAGE_STREAM );
+//						ReportDocumentConstants.PAGE_INDEX_STREAM );
+			// All of these stream are created in a folder called content
+			// This test was then trying to remote the content folder via writer.dropStream
+			// This doesn't work because the folder is a container for the streams held within
+			// So the test is rewritten to drop the individual streams
+
 			createFolderDocument( design, folderArchive );
 			FolderArchiveWriter writer = new FolderArchiveWriter( folderArchive );
-			File doc = new File( folderArchive );
+			
+			dropStream( writer, ReportDocumentConstants.CONTENT_STREAM );
+			dropStream( writer, ReportDocumentConstants.PAGE_STREAM );
+			dropStream( writer, ReportDocumentConstants.PAGE_INDEX_STREAM );
 
-			if ( doc.exists( ) )
-			{
-				// delete content folder
-				doc = new File( folderArchive + separator + dropDir );
-				if ( doc.exists( ) )
-				{
-					writer.dropStream( dropDir );
-					assertFalse( "FolderArchiveWriter failed to drop folder"
-							+ dropDir + " in document", doc.exists( ) );
-				}
-			}
 			writer.finish( );
 		}
 		catch ( EngineException e )
@@ -183,6 +186,16 @@ public class RenderFolderDocumentTest extends EngineCase
 			e.printStackTrace( );
 			fail( "RunTask failed to create folder-based document!"
 					+ e.getLocalizedMessage( ) );
+		}
+	}
+
+	private void dropStream( FolderArchiveWriter writer, String name )
+	{
+		if ( writer.exists( name ) )
+		{
+			writer.dropStream( name );
+			assertFalse( "FolderArchiveWriter failed to drop stream"
+					+ name + " in document", writer.exists( name ) );
 		}
 	}
 
