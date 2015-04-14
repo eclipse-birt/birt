@@ -535,8 +535,7 @@ public class DataExtractionTaskTest extends EngineCase
 		task.close( );
 
 		String content = ostream.toString( "utf-8" );
-		Pattern typePattern = Pattern.compile( "(element_type=\"" + type
-				+ "\".*iid=\".*\")" );
+		Pattern typePattern = buildPattern(type);
 		Matcher matcher = typePattern.matcher( content );
 
 		while ( matcher.find( ) )
@@ -549,6 +548,11 @@ public class DataExtractionTaskTest extends EngineCase
 		}
 
 		return iids;
+	}
+
+	public static Pattern buildPattern(String type) {
+		Pattern typePattern = Pattern.compile( "(iid=\".*\".*element_type=\"" + type + "\")" );
+		return typePattern;
 	}
 
 }
