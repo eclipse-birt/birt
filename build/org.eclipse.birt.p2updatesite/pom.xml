@@ -14,11 +14,7 @@
 	<version>4.5.0-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
 
-	<properties>
-		<!-- <birt-repository-url>birtdev/actu01/</birt-repository-url> -->
-	</properties>
-
-	<!-- http://www.vogella.com/tutorials/EclipseTycho/article.html#deploy -->
+	<!-- http://codeandme.blogspot.com/2012/12/tycho-build-5-building-p2-update-sites.html -->
 	<build>
 		<extensions>
 			<extension>
@@ -36,27 +32,42 @@
 					<includeAllDependencies>true</includeAllDependencies>
 				</configuration>
 			</plugin>
-			<!-- Upload the repo to the server -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<version>1.0-beta-4</version>
-				<executions>
-					<execution>
-						<id>update-birt</id>
-						<phase>install</phase>
-						<goals>
-							<goal>upload</goal>
-						</goals>
-						<configuration>
-							<fromDir>./target/repository</fromDir>
-							<includes>**</includes>
-							<url>${birt-repository-url}</url>
-							<serverId>birt-repository</serverId>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>deploy-update-site</id>
+			<!-- http://www.vogella.com/tutorials/EclipseTycho/article.html#deploy -->
+			<properties>
+				<!-- <birt-repository-url>birtdev/actu01/</birt-repository-url> -->
+			</properties>
+
+			<build>
+				<!-- Upload the repo to the server -->
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>wagon-maven-plugin</artifactId>
+						<version>1.0-beta-4</version>
+						<executions>
+							<execution>
+								<id>update-birt</id>
+								<phase>install</phase>
+								<goals>
+									<goal>upload</goal>
+								</goals>
+								<configuration>
+									<fromDir>./target/repository</fromDir>
+									<includes>**</includes>
+									<url>${birt-repository-url}</url>
+									<serverId>birt-repository</serverId>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
