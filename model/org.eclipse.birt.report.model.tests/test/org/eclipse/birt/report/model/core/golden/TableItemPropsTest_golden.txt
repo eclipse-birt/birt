@@ -2,6 +2,7 @@ caption
 summary
 captionID
 isSummaryTable
+tagType
 role
 onPrepare
 onCreate
