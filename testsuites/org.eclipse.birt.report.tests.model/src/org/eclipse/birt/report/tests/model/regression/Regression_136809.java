@@ -66,6 +66,8 @@ public class Regression_136809 extends BaseTestCase
 		try
 		{
 			masterpage.setProperty( SimpleMasterPage.WIDTH_PROP, "100%" ); //$NON-NLS-1$
+			
+			// FIXME: The bug is not fixed, so % can be set into property in this case.
 			fail( );
 		}
 		catch ( SemanticException e )
@@ -77,6 +79,8 @@ public class Regression_136809 extends BaseTestCase
 		try
 		{
 			masterpage.setProperty( SimpleMasterPage.HEIGHT_PROP, "80%" ); //$NON-NLS-1$
+
+			// FIXME: The bug is not fixed, so % can be set into property in this case.
 			fail( );
 		}
 		catch ( SemanticException e )

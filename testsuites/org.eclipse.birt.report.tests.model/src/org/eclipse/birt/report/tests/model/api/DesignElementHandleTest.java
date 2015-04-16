@@ -177,7 +177,7 @@ public class DesignElementHandleTest extends BaseTestCase
 		nestedTable.getGroups( ).add( tableGroup );
 		
 		// listGroup with the name "Group4"
-
+		listGroup.setName("Group4");
 		assertTrue( nestedList.canContain( ListItem.GROUP_SLOT, listGroup ) );
 
 		tableGroup = factory.newTableGroup( );

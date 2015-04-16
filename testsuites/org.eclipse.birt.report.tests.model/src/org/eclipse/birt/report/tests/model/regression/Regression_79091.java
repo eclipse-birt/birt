@@ -97,7 +97,9 @@ public class Regression_79091 extends BaseTestCase
 		assertEquals(
 				"normal", table.getStringProperty( StyleHandle.FONT_STYLE_PROP ) ); //$NON-NLS-1$
 		assertTrue( listener.ev instanceof StyleEvent );
-		assertEquals( 1, TestListener.count );
+		
+		// The listener will be called twice.
+		assertEquals( 2, TestListener.count );
 	}
 
 	private static class TestListener implements Listener
