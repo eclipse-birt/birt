@@ -188,6 +188,9 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCVersionTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCViewTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.util.FileUtilTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.emitter.TableBorderExTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.emitter.TableBorderPDFTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.emitter.TableBorderPSTest.class );
 		// $JUnit-END$
 		return suite;
 	}
