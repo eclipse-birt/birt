@@ -38,6 +38,8 @@
         <module>../model/org.eclipse.birt.report.model.testhelper</module>
         <module>../model/org.eclipse.birt.report.model.adapter.oda.tests</module>    
         <module>../model/org.eclipse.birt.report.model.tests</module>
+        <module>../model/org.eclipse.birt.report.model.testresources</module>
+        <module>../model/org.eclipse.birt.report.modelextension.tests</module>
         <module>../UI/org.eclipse.birt.report.designer.tests</module>
         <module>../UI/org.eclipse.birt.report.designer.ui.preview.test</module>
         <!--

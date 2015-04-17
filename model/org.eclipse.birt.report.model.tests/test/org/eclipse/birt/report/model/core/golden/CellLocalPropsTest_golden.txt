@@ -11,9 +11,10 @@ bookmark
 bookmarkDisplayName
 headers
 viewAction
-role
+tagType
 language
 altText
+altTextID
 diagonalNumber
 antidiagonalNumber
 diagonalThickness
