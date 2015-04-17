@@ -18,8 +18,8 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.report.engine.layout.emitter.TableBorder.Border;
-import org.eclipse.birt.report.engine.layout.emitter.TableBorder.BorderSegment;
+import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.Border;
+import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.BorderSegment;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -156,7 +156,7 @@ public class TableBorderPDFTest extends TestCase
 
 	public void testBorderDraw( )
 	{
-		TableBorder currentTableBorder = new TableBorder( tableX, tableY );
+		TableBorderEx currentTableBorder = new TableBorderEx( tableX, tableY );
 		for ( int i = 0; i < cells.length; i++ )
 		{
 			CellArea cell = cells[i];
@@ -205,7 +205,7 @@ public class TableBorderPDFTest extends TestCase
 		drawBorder( currentTableBorder );
 	}
 
-	void drawBorder( TableBorder tb )
+	void drawBorder( TableBorderEx tb )
 	{
 		Border border = null;
 		// draw column borders
