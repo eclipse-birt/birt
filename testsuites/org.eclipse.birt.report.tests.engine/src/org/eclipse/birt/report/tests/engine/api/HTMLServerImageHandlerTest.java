@@ -11,8 +11,6 @@ package org.eclipse.birt.report.tests.engine.api;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
 import junit.framework.Test;
@@ -81,7 +79,12 @@ public class HTMLServerImageHandlerTest extends EngineCase
 			String path = this.getFullQualifiedClassName( ) + "/"
 					+ INPUT_FOLDER + "/" + INPUT;
 
-			byte[] imageBytes = readImageFile(path);
+			File imageFile = new File( path );
+			long size = imageFile.length( );
+			InputStream is = new BufferedInputStream( new FileInputStream(
+					imageFile ) );
+			byte[] imageBytes = new byte[(int) size];
+			is.read( imageBytes );
 			assertNotNull( imageBytes );
 
 			// Test onDesignImage()
@@ -157,7 +160,12 @@ public class HTMLServerImageHandlerTest extends EngineCase
 					+ System.getProperty( "file.separator" ) + INPUT_FOLDER
 					+ System.getProperty( "file.separator" ) + "EmbedImage.txt";
 
-			byte[] imageBytes = readImageFile(path);
+			File imageFile = new File( path );
+			long size = imageFile.length( );
+			InputStream is = new BufferedInputStream( new FileInputStream(
+					imageFile ) );
+			byte[] imageBytes = new byte[(int) size];
+			is.read( imageBytes );
 
 			// Test onDesignImage()
 
@@ -189,30 +197,14 @@ public class HTMLServerImageHandlerTest extends EngineCase
 			} while ( true );
 
 			String str = imageHandler.onCustomImage( image, context );
-			byte[] actualBytes = readImageFile(str);
-			// Here, we want to verify actual contents of image from text above
-			int length = imageBytes.length;
-			assertEquals( length, actualBytes.length );
-			for ( int index = 0; index < length; index++)
-			{
-				assertEquals(imageBytes[index], actualBytes[index]);
-			}
+			String strGet = "./custom2";
+			assertEquals( "", str, strGet );
 			removeFile( str );
 		}
 		catch ( Exception e )
 		{
 			e.printStackTrace( );
 		}
-	}
-
-	private byte[] readImageFile(String path) throws FileNotFoundException, IOException {
-		File imageFile = new File( path );
-		long size = imageFile.length( );
-		InputStream is = new BufferedInputStream( new FileInputStream(
-				imageFile ) );
-		byte[] imageBytes = new byte[(int) size];
-		is.read( imageBytes );
-		return imageBytes;
 	}
 
 	/**

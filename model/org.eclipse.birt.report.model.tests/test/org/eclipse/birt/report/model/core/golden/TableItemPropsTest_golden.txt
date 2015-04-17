@@ -2,7 +2,7 @@ caption
 summary
 captionID
 isSummaryTable
-role
+tagType
 onPrepare
 onCreate
 onRender
@@ -99,6 +99,8 @@ allowExport
 pushDown
 theme
 language
+altText
+altTextID
 order
 style
 name

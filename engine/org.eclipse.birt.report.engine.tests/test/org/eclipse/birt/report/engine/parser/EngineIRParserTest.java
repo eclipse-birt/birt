@@ -44,7 +44,7 @@ public class EngineIRParserTest extends TestCase
 		String name = item.getName( );
 		String extend = item.getExtends( );
 		String javaClass = item.getJavaClass( );
-		// String styleName = item.getStyleName( );
+		String styleName = item.getStyleName( );
 
 		DimensionType x = item.getX( );
 		DimensionType y = item.getY( );
@@ -59,8 +59,7 @@ public class EngineIRParserTest extends TestCase
 		assertEquals( "name", name );
 		assertEquals( null, extend );
 		assertEquals( "javaEventHandle", javaClass );
-		// Not applicable, a default style will be used.
-		// assertEquals( null, styleName );
+		assertEquals( null, styleName );
 		assertEquals( "1in", x.toString( ) );
 		assertEquals( "1in", y.toString( ) );
 		assertEquals( "1in", width.toString( ) );

@@ -62,10 +62,9 @@ public class EngineLoggerTest extends TestCase
 		}
 	}
 
-	public void tearDown( ) throws Exception
+	public void tearDown( )
 	{
 		removeFile( new File( "./utest/" ) );
-		super.tearDown();
 	}
 
 	/**

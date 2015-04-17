@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Data Engine API
-Bundle-SymbolicName: org.eclipse.birt.data.api; singleton:=true
-Bundle-Version: 4.5.0.qualifier
-Bundle-ClassPath: .
-Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6

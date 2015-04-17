@@ -149,6 +149,9 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.layout.content.BlockStackingExecutorTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.layout.content.ListContainerExecutorTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayoutTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.emitter.TableBorderExTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.emitter.TableBorderPDFTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.emitter.TableBorderPSTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.layout.html.HTMLLayoutTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.font.CharSegmentTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.font.FontConfigReaderTest.class );

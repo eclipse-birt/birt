@@ -31,7 +31,6 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.NameConfig;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -218,19 +217,6 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 			return getNameContext( id ).resolve( focus, elementName, propDefn,
 					(ElementDefn) elementDefn );
 		}
-		
-		/*
-		 * Try to get referenced element from focus namespace and its parent's. 
-		 */
-        NameSpace ns = getNameSpace( focus, targetDefn );
-        if ( ns != null )
-        {
-            DesignElement found = ns.getElement( elementName );
-            if ( found != null )
-            {
-                return new ElementRefValue( null, found );
-            }
-        }
 
 		// if there is a target property defined, use the module as the name host
 		ElementPropertyDefn  propertyDefn = (ElementPropertyDefn)(targetDefn.getNameConfig( ).getNameProperty( ));
@@ -244,38 +230,6 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		// will have to do the search by the root
 		return resolveName( focus, elementName, propDefn, targetDefn );
 	}
-	
-	/**
-	 * find name space from bottom to top.
-	 * @param container
-	 * @param targetType
-	 * @return
-	 */
-	private NameSpace getNameSpace( DesignElement container,
-            IElementDefn targetType )
-    {
-        if ( container == null )
-        {
-            return null;
-        }
-        NameConfig nameConfig = ( (ElementDefn) targetType ).getNameConfig( );
-        if ( nameConfig == null )
-        {
-            return null;
-        }
-        if ( container.getDefn( ) == nameConfig.getNameContainer( ) )
-        {
-            if ( container instanceof INameContainer )
-            {
-                NameSpace found = ((INameContainer) container).getNameHelper()
-                        .getNameSpace(nameConfig.getNameSpaceID());
-                if (found != null) {
-                    return found;
-                }
-            }
-        }
-        return getNameSpace( container.getContainer( ), targetType );
-    }
 
 	/*
 	 * (non-Javadoc)

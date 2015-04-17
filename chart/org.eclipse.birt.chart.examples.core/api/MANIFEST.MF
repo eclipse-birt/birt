@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Chart Examples Core Plug-in
-Bundle-SymbolicName: org.eclipse.birt.chart.examples.core.api;singleton:=true
-Bundle-Version: 4.5.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-Vendor: Eclipse BIRT Project

@@ -34,7 +34,7 @@ public class EngintTaskLoggerTest extends EngineCase
 		engineLogger.addHandler( engineHandler );
 		engineLogger.setLevel( Level.ALL );
 
-		Logger taskLogger = Logger.getAnonymousLogger();
+		Logger taskLogger = Logger.getAnonymousLogger( );
 		ByteArrayOutputStream taskOut = new ByteArrayOutputStream( );
 		StreamHandler taskHandler = new StreamHandler( taskOut,
 				new SimpleFormatter( ) );

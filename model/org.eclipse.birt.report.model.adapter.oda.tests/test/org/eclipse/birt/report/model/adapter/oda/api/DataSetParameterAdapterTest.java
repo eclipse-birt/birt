@@ -22,9 +22,7 @@ import org.eclipse.birt.report.model.adapter.oda.model.util.SchemaConversionUtil
 import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
-import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
@@ -109,31 +107,6 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 
 	}
 
-	private void verifyDataSetParams( OdaDataSetHandle oldSetHandle ) throws Exception
-	{
-		saveAndOpenDesign();
-		OdaDataSetHandle newSetHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" );
-		List newParams = (List) newSetHandle.getElement().getProperty(null, "parameters");
-		List oldParams = (List) oldSetHandle.getElement().getProperty(null, "parameters");
-		
-		assertEquals( oldParams.size(), newParams.size( ) );
-		for ( int i = 0; i < oldParams.size(); i++ )
-		{
-			OdaDataSetParameter oldParam = (OdaDataSetParameter) oldParams.get(i);
-			OdaDataSetParameter newParam = (OdaDataSetParameter) newParams.get(i);
-			assertEquals( oldParam.getPosition(), newParam.getPosition() );
-			assertEquals( oldParam.getDataType(), newParam.getDataType() );
-			assertEquals( oldParam.isInput(), newParam.isInput() );
-			assertEquals( oldParam.getName(), newParam.getName() );
-			assertEquals( oldParam.getNativeName(), newParam.getNativeName() );
-			assertEquals( oldParam.getNativeDataType(), newParam.getNativeDataType() );
-			assertEquals( oldParam.getDefaultValue(), newParam.getDefaultValue() );
-			assertEquals( oldParam.getParamName(), newParam.getParamName() );
-			assertEquals( oldParam.isOptional(), newParam.isOptional() );
-			assertEquals( oldParam.allowNull(), newParam.allowNull() );
-		}
-	}
-	
 	/**
 	 * Test case:
 	 * 
@@ -170,9 +143,8 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		verifyDataSetParams(setHandle);
-		/*save( );
-		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_2.xml" ) ); //$NON-NLS-1$*/
+		save( );
+		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_2.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -207,11 +179,10 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
-		
-		
-		verifyParameterDefinition1();
-		/*save();
-		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_3.xml" ) );*/
+
+		save( );
+
+		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_3.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -233,18 +204,6 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 				.setDefaultScalarValue( "new default value for report param 1" ); //$NON-NLS-1$
 		elementAttrs.setOptional( true );
 	}
-	
-	private void verifyParameterDefinition1( ) throws Exception
-	{
-		saveAndOpenDesign();
-		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
-				.findDataSet( "myDataSet1" ); //$NON-NLS-1$
-		List<Object> params = ( List<Object> ) setHandle.getElement().getProperty( null, "parameters" );
-		OdaDataSetParameter param = ( OdaDataSetParameter ) params.get(0);
-		assertFalse( param.allowNull() );
-		assertEquals( "new default value for report param 1", param.getDefaultValue() );
-		assertTrue( param.isOptional() );
-	}
 
 	/**
 	 * Tests the algorithm to create unique data set parameter names.
@@ -261,12 +220,10 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 				.createDataSetHandle( setDesign, designHandle );
 
 		designHandle.getDataSets( ).add( setHandle );
-		
-		/*save( );
-		assertTrue( compareTextFile( "DataSetParameterNameTest_golden.xml" ) ); //$NON-NLS-1$*/
-		
-		verifyDataSetDesignForParamNames();
-		
+		save( );
+
+		assertTrue( compareTextFile( "DataSetParameterNameTest_golden.xml" ) ); //$NON-NLS-1$
+
 		setDesign = createDataSetDesignForParamNames1( );
 
 		setHandle = new ModelOdaAdapter( ).createDataSetHandle( setDesign,
@@ -352,43 +309,6 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 
 		setDesign.setDataSourceDesign( createDataSourceDesign( ) );
 		return setDesign;
-	}
-	
-	private void verifyDataSetDesignForParamNames( ) throws Exception
-	{
-		saveAndOpenDesign();
-		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
-				.findDataSet( "myDataSet1" ); //$NON-NLS-1$
-		assertNotNull( setHandle );
-		assertEquals( "data set display name", setHandle.getDisplayName() );		
-		assertEquals( "new query text", setHandle.getQueryText() );
-		
-		OdaDataSet odaDataSet = ( OdaDataSet ) setHandle.getElement();
-		assertEquals( OdaDataSetAdapterTest.DATA_SET_EXTENSIONID, odaDataSet.getProperty( null, "extensionID" ) );
-		assertEquals( "new public query time out", odaDataSet.getProperty( null, "queryTimeOut" ) );
-		assertEquals( "resultset1", odaDataSet.getProperty( null, "resultSetName" ) );
-		
-		List<Object> privateProps = ( List<Object> ) odaDataSet.getProperty(null, "privateDriverProperties");
-		ExtendedProperty prop = ( ExtendedProperty ) privateProps.get(0);
-		assertEquals( "new private query time out", prop.getValue() );
-		
-		List<Object> params = ( List<Object> ) odaDataSet.getProperty( null, "parameters" );
-		OdaDataSetParameter param = ( OdaDataSetParameter ) params.get(0);
-		verifyParam(param, "nativeName1", 1, 1, true, true);
-		param = ( OdaDataSetParameter ) params.get(1);
-		verifyParam(param, "", 2, 1, true, true);
-		param = ( OdaDataSetParameter ) params.get(2);
-		verifyParam(param, "nativeName1", 3, 1, true, true);
-	}
-	
-	private void verifyParam( OdaDataSetParameter param,
-			String name, int position, int dataType, boolean in, boolean out)
-	{
-		assertEquals( name, param.getNativeName() );
-		assertEquals( Integer.valueOf( position ), param.getPosition() );
-		assertEquals( Integer.valueOf( dataType ), param.getNativeDataType() );
-		assertEquals( in, param.isInput() );
-		assertEquals( out, param.isOutput());
 	}
 
 	/**

@@ -179,16 +179,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 						dataHandle.setAction( (Action) newAction.get( 0 ) );
 					}
 					
-					String displayNameKey = dimensionHandle.getDisplayNameKey( );
-					if ( displayNameKey == null
-							&& levelHandles != null
-							&& levelHandles.length != 0 )
-					{
-						displayNameKey = levelHandles[0].getDisplayNameKey( );
-					}
-					CrosstabUtil.setLabelDisplayNameKey( displayNameKey );
 					CrosstabUtil.addLabelToHeader( levelViewHandle );
-					CrosstabUtil.clearLabelDisplayNameKey( );
 				}
 
 			}

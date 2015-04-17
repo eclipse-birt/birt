@@ -77,7 +77,7 @@ public class IDataIteratorTest extends EngineCase
 				assertEquals( 10334, Integer.parseInt( iterator
 						.getValue( 0 )
 						.toString( ) ) );
-				assertEquals( "Mon Nov 19 00:00:00 PST 2012", iterator
+				assertEquals( "Fri Nov 19 00:00:00 CST 2004", iterator
 						.getValue( 1 )
 						.toString( ) );
 				assertEquals( "On Hold", iterator.getValue( 2 ).toString( ) );
@@ -86,7 +86,7 @@ public class IDataIteratorTest extends EngineCase
 						.toString( ) );
 				assertEquals( 10334, Integer.parseInt( iterator.getValue(
 						"ORDERNUMBER" ).toString( ) ) );
-				assertEquals( "Mon Nov 19 00:00:00 PST 2012", iterator
+				assertEquals( "Fri Nov 19 00:00:00 CST 2004", iterator
 						.getValue( "ORDERDATE" )
 						.toString( ) );
 				assertEquals( "0.9385160294251204", iterator

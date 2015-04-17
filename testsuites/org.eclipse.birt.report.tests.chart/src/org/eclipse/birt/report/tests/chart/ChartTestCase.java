@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
@@ -30,19 +31,9 @@ public class ChartTestCase extends TestCase
 	protected static final String TEST_FOLDER = "src"; //$NON-NLS-1$
 	protected static final String OUTPUT_FOLDER = "output"; //$NON-NLS-1$
 	protected static final String INPUT_FOLDER = "input"; //$NON-NLS-1$
-	protected static final String GOLDEN_FOLDER = "golden" + getOSName( ); //$NON-NLS-1$
+	protected static final String GOLDEN_FOLDER = "golden"; //$NON-NLS-1$
 	protected static final String PLUGIN_NAME = "org.eclipse.birt.report.tests.chart"; //$NON-NLS-1$
 
-	private static String getOSName( )
-	{
-		String name = System.getProperty( "os.name" ).toLowerCase( ); //$NON-NLS-1$
-		if ( name.indexOf( "win" ) >= 0 ) //$NON-NLS-1$
-		{
-			return ""; //$NON-NLS-1$
-		}
-		return "_" + name; //$NON-NLS-1$
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * 

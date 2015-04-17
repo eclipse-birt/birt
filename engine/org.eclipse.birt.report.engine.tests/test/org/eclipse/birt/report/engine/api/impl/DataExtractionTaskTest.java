@@ -46,7 +46,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-
 import static org.eclipse.birt.data.engine.api.IConditionalExpression.*;
 
 /**
@@ -75,13 +74,12 @@ public class DataExtractionTaskTest extends EngineCase
 		dataExTask = engine.createDataExtractionTask( document );
 	}
 
-	public void tearDown( ) throws Exception
+	public void tearDown( )
 	{
 		dataExTask.close( );
 		document.close( );
 		removeFile( REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT );
-		super.tearDown();
 	}
 
 	public void testExtractionFromInstanceId( ) throws Exception

@@ -56,11 +56,10 @@ public class DocumentIRTransferTest extends EngineCase
 		copyResource( REPORT_DESIGN_SOURCE, REPORT_DESIGN );		
 	}
 	
-	public void tearDown( ) throws Exception
+	public void tearDown( )
 	{
 		removeFile( REPORT_DOCUMENT );
 		removeFile( REPORT_DESIGN );
-		super.tearDown();
 	}
 
 	public void testV2_1_3( ) throws Exception

@@ -20,13 +20,11 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.LevelViewDialog;
@@ -34,22 +32,15 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabC
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
-import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.window.Window;
-
 
 public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 {
@@ -76,7 +67,6 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 		}
 		return DNDService.LOGIC_UNKNOW;
 	}
-
 
 	public boolean performDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
@@ -113,27 +103,6 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 			DimensionHandle tabularDimension = null;
 			DimensionHandle timeDimension = null;
 			
-			
-			
-			ResultSetColumnHandle resultSetColumn = adapter.getResultSetColumn( (ReportElementHandle) transfer );
-			DataSetHandle dataSetHandle = (DataSetHandle) resultSetColumn.getElementHandle( );
-			List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataSetHandle );
-			ColumnHintHandle chh = null;
-			for( ColumnHintHandle columnHintHandle : columnHints )
-			{
-				if ( resultSetColumn.getColumnName( ).equals( columnHintHandle.getAlias( ) )
-						|| resultSetColumn.getColumnName( ).equals( columnHintHandle.getColumnName( ) ) )
-				{
-					chh = columnHintHandle;
-					break;
-				}
-			}
-			String contentKeyForLabel = null;
-			if ( chh != null )
-			{
-				contentKeyForLabel = chh.getDisplayNameKey( );
-			}
-			
 			for(Object obj : validElements )
 			{
 				if(obj instanceof MeasureHandle)
@@ -143,7 +112,7 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 				else if( obj instanceof DimensionHandle )
 				{
 					DimensionHandle dim = (DimensionHandle) obj;
-					
+
 					if( dim.isTimeType( ) )
 					{
 						timeDimension = dim;
@@ -168,32 +137,6 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 							.getEditDomain( )
 							.getCommandStack( )
 							.execute( command );
-					
-					// Set content key for label
-					MeasureViewHandle measureViewHandle = crosstab.getMeasure( measure.getName( ) );
-					PropertyHandle headHandle = measureViewHandle.getHeaderProperty( );
-					Object object = headHandle.getValue( );
-					if (object instanceof List && !((List) object).isEmpty( )) {
-						Object headerCell = ((List) object).get( 0 );
-						if (headerCell instanceof ExtendedItemHandle) {
-							Object model = CrosstabUtil.getReportItem( (ExtendedItemHandle) headerCell );
-							if (model instanceof CrosstabCellHandle) {
-								CrosstabCellHandle crosstabCellHandle = (CrosstabCellHandle) model;
-								List contentList = crosstabCellHandle.getContents( );
-								if (!contentList.isEmpty( ) && contentList.get(0) instanceof LabelHandle) {
-									LabelHandle labelHandle = (LabelHandle) contentList.get(0);
-									try
-									{
-										labelHandle.setTextKey( contentKeyForLabel );
-									}
-									catch ( Exception e )
-									{
-										e.printStackTrace();
-									}
-								}
-							}
-						}
-					}
 					
 					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
 					providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
@@ -244,29 +187,6 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 					return false;
 				}
 				
-				ReportElementHandle reportElementHandle = null;
-				if ( element instanceof Object[]
-						&& ( (Object[]) element ).length != 0 )
-				{
-					reportElementHandle = (ReportElementHandle) ( (Object[]) element )[0];
-				}
-				else if ( element instanceof DimensionHandle )
-				{
-					reportElementHandle = (ReportElementHandle) element;
-				}
-				try
-				{
-					String displayNameKey = reportElementHandle.getDisplayNameKey( );
-					if ( displayNameKey == null )
-					{
-						reportElementHandle.setDisplayNameKey( contentKeyForLabel );
-					}
-				}
-				catch ( Exception e )
-				{
-					e.printStackTrace( );
-				}
-				
 				CreateRequest request = new CreateRequest( );
 				request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, element );
 				request.setLocation( location.getPoint( ) );
@@ -278,7 +198,7 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 							.getEditDomain( )
 							.getCommandStack( )
 							.execute( command );
-					
+
 					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
 					providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
 					

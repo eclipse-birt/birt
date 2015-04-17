@@ -4,8 +4,6 @@ package org.eclipse.birt.report.engine.api.iv;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveView;
@@ -134,18 +132,6 @@ public class IVViewTest extends EngineCase
 		{
 			String golden = renderPage( src, index );
 			String target = renderPage( tgt, index );
-			/* remove auto-generated bookmark */
-			Pattern p = Pattern.compile("\"AUTOGENBOOKMARK.*\"");
-			Matcher m = p.matcher(golden);
-			while ( m.find() ) {
-				golden = golden.substring(0, m.start()+1) + golden.substring(m.end()-1);
-				m = p.matcher(golden);
-			}
-			m = p.matcher(target);
-			while ( m.find() ) {
-				target = target.substring(0, m.start()+1) + target.substring(m.end()-1);
-				m = p.matcher(target);
-			}
 			assertEquals( golden, target );
 		}
 	}

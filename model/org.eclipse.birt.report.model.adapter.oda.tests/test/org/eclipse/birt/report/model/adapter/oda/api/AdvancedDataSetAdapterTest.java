@@ -506,17 +506,11 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase
 		List setDefinedColumns = setHandle
 				.getListProperty( OdaDataSetHandle.RESULT_SET_PROP );
 		columnList.add( (OdaResultSetColumn) setDefinedColumns.get( 0 ) );
-		
-		int columnNum = setDefinedColumns.size();
 
 		new ModelOdaAdapter( ).updateDataSetHandle( setDesign, setHandle, null,
-				columnList, true );		
-		saveAndOpenDesign();
-		setHandle = (OdaDataSetHandle) designHandle
-				.findDataSet( "myDataSet1" ); //$NON-NLS-1$		
-		setDefinedColumns = setHandle
-				.getListProperty( OdaDataSetHandle.RESULT_SET_PROP );
-		
-		assertEquals(columnNum, setDefinedColumns.size());
+				columnList, true );
+		save( );
+
+		assertTrue( compareTextFile( "AdvancedDataSetAdapterTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 }

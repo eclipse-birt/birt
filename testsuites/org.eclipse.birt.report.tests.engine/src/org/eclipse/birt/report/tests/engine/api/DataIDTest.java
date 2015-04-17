@@ -61,8 +61,8 @@ public class DataIDTest extends EngineCase
 		ArrayList iids = new ArrayList( );
 		String content = ostream.toString( "utf-8" );
 		ostream.close( );
-		Pattern typePattern = DataExtractionTaskTest.buildPattern( "TABLE" );
-
+		Pattern typePattern = Pattern.compile( "(element_type=\"TABLE"
+				+ "\".*iid=\".*\")" );
 		Matcher matcher = typePattern.matcher( content );
 		String strIid = null;
 		while ( matcher.find( ) )
@@ -73,7 +73,8 @@ public class DataIDTest extends EngineCase
 			strIid = strIid.substring( 5, strIid.indexOf( "\"", 6 ) );
 			iids.add( strIid );
 		}
-		typePattern = DataExtractionTaskTest.buildPattern( "LIST" );
+		typePattern = Pattern.compile( "(element_type=\"LIST"
+				+ "\".*iid=\".*\")" );
 		matcher = typePattern.matcher( content );
 		while ( matcher.find( ) )
 		{

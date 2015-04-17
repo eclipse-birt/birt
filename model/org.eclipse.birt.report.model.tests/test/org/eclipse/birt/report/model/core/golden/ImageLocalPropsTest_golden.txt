@@ -1,5 +1,3 @@
-altText
-altTextID
 helpText
 helpTextID
 size
@@ -12,7 +10,7 @@ typeExpr
 action
 fitToContainer
 proportionalScale
-role
+tagType
 onPrepare
 onCreate
 onRender

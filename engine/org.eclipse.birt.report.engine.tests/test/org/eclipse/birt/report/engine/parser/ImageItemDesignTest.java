@@ -45,7 +45,7 @@ public class ImageItemDesignTest extends AbstractDesignTestCase
 				.getActionType( ) );
 		assertEquals( "http://www.msn.com", image.getAction( ).getHyperlink( )
 				.getScriptText( ) );
-		assertEquals( "This is a sample image of gif type!", image.getAltText( ).toString() );
+		assertEquals( "This is a sample image of gif type!", image.getAltText( ) );
 	}
 
 }

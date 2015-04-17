@@ -65,6 +65,8 @@ public class IColumnTest extends BaseEmitter
 		assertEquals( "rgb(128, 128, 128)", cell
 				.getStyle( )
 				.getBackgroundColor( ) );
+		assertEquals( "style_1", cell.getStyleClass( ) );
+
 	}
 
 }

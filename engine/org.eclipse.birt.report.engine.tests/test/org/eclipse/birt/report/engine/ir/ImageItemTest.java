@@ -62,7 +62,7 @@ public class ImageItemTest extends ReportItemTestCase
 		image.setAltTextKey( key );
 
 		//Get
-		assertEquals( image.getAltText( ).toString(), text );
+		assertEquals( image.getAltText( ), text );
 		assertEquals( image.getAltTextKey( ), key );
 
 	}

@@ -2401,7 +2401,7 @@ public abstract class EngineTask implements IEngineTask
 
 	public void setLogger( Logger logger )
 	{
-		if ( logger == null || EngineLogger.isValidLogger( logger ) )
+		if ( logger == null || !EngineLogger.isValidLogger( logger ) )
 		{
 			throw new IllegalArgumentException(
 					"the logger can not be NULL or children or in namespace of org.eclipse.birt" );
