@@ -11,8 +11,8 @@ public class TableBorderEx
 	/**
 	 *  the upper left x
 	 */
-	int tableX;
-	int tableY;
+	int tableX = 0;
+	int tableY = 0;
 	
 	/**
 	 * the lower right x
@@ -25,7 +25,7 @@ public class TableBorderEx
 	int tableLRY = 0;
 	
 
-	class Border
+	static class Border
 	{
 		Border( int position )
 		{
@@ -59,7 +59,7 @@ public class TableBorderEx
 		}
 	}
 
-	class BorderSegment
+	static class BorderSegment
 	{
 		BorderSegment( int start, int end, int style, int width, Color color )
 		{
@@ -90,38 +90,38 @@ public class TableBorderEx
 
 	public void addColumn( int position )
 	{
-		if(!columnBorders.containsKey( new Integer(position) ))
+		if(!columnBorders.containsKey( Integer.valueOf(position) ))
 		{
-			columnBorders.put( new Integer(position), new Border( position ) );
+			columnBorders.put( Integer.valueOf(position), new Border( position ) );
 		}
 		tableLRX = Math.max( position, tableLRX );
 	}
 
 	public void addRow( int position )
 	{
-		if(!rowBorders.containsKey( new Integer(position) ))
+		if(!rowBorders.containsKey( Integer.valueOf(position) ))
 		{
-			rowBorders.put( new Integer(position), new Border( position ) );
+			rowBorders.put( Integer.valueOf(position), new Border( position ) );
 		}
 		tableLRY = Math.max( position, tableLRY );
 	}
 
 	public void setColumnBorder( int position, int start, int end, int style, int width, Color color )
 	{
-		addBorderSegment( (Border) columnBorders.get( new Integer(position) ), start, end, style,
+		addBorderSegment( (Border) columnBorders.get( Integer.valueOf(position) ), start, end, style,
 				width, color );
 	}
 
 	public void setRowBorder( int position, int start, int end, int style, int width, Color color )
 	{
-		addBorderSegment( (Border) rowBorders.get( new Integer(position) ), start, end, style,
+		addBorderSegment( (Border) rowBorders.get( Integer.valueOf(position) ), start, end, style,
 				width, color );
 	}
 
 	protected void addBorderSegment( Border border, int start, int end,
 			int style, int width, Color color )
 	{
-		if (style ==org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_NONE|| color == null || width ==0 )
+		if ( style == org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_NONE || color == null || width == 0 || border == null)
 		{
 			return;
 		}
@@ -130,21 +130,24 @@ public class TableBorderEx
 		if ( !segments.isEmpty( ) )
 		{
 			last = (BorderSegment) segments.get( segments.size( ) - 1 );
-			if ( last.end == start && last.width == width && last.style== style 
-					&& last.color.equals( color ) )
+			if ( last.width == width && last.color.equals( color ) && last.style== style  )
 			{
-				last.end = end;
-				return;
-			}
-			else
-			{
-				border.segEndPoints.add( new Integer(last.end) );	
+				if ( last.end == start )
+				{
+					last.end = end;
+					return;
+				}
+				// bidi_hcg: In RTL X coordinates are progressing from right to left
+				if ( last.start == end )
+				{
+					last.start = start;
+					return;
+				}
 			}
 		}
-		
+
 		segments.add( new BorderSegment( start, end, style, width, color ) );
-		border.segStartPoints.add( new Integer(start) );
-		
+
 		if ( border.width < width )
 		{
 			border.width = width;
@@ -173,24 +176,19 @@ public class TableBorderEx
 			BorderSegment current = (BorderSegment) border.segments.get( j );
 			if ( last == null )
 			{
-				border.breakPoints.add( new Integer( current.start ) );
+				border.breakPoints.add( Integer.valueOf( current.start ) );
 			}
 			else if ( current.start != last.end )
 			{
-				border.breakPoints.add( new Integer( last.end ) );
-				border.breakPoints.add( new Integer( current.start ) );
+				border.breakPoints.add( Integer.valueOf( last.end ) );
+				border.breakPoints.add( Integer.valueOf( current.start ) );
 			}
 			last = current;
 		}
 		if ( null != last )
 		{
-			border.breakPoints.add( new Integer( last.end ) );
+			border.breakPoints.add( Integer.valueOf( last.end ) );
 		}
 	}
 
-//	void drawLine( int sx, int sy, int ex, int ey, CSSValue style, int width,
-//			Color color )
-//	{
-//		
-//	}
 }

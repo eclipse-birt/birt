@@ -10,8 +10,8 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.report.engine.emitter.postscript.PostscriptWriter;
-import org.eclipse.birt.report.engine.layout.emitter.TableBorder.Border;
-import org.eclipse.birt.report.engine.layout.emitter.TableBorder.BorderSegment;
+import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.Border;
+import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.BorderSegment;
 
 //private class CellArea
 //{
@@ -131,7 +131,7 @@ public class TableBorderPSTest extends TestCase
 
 	public void testBorderDraw( )
 	{
-		TableBorder currentTableBorder = new TableBorder( tableX, tableY );
+		TableBorderEx currentTableBorder = new TableBorderEx( tableX, tableY );
 		for ( int i = 0; i < cells.length; i++ )
 		{
 			CellArea cell = cells[i];
@@ -180,7 +180,7 @@ public class TableBorderPSTest extends TestCase
 		drawBorder( currentTableBorder );
 	}
 
-	void drawBorder( TableBorder tb )
+	void drawBorder( TableBorderEx tb )
 	{
 		Border border = null;
 		// draw column borders
