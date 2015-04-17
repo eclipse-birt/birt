@@ -25,7 +25,7 @@ public class TimeZoneTest extends EngineCase
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/timeZoneTest.xml";
 	static final String TEMP_RESULT = "tempResult.html";
 
-	static final String GOLDENSTRING = "Nov 1, 2007 9:38 AM";
+	static final String GOLDENSTRING = "Nov 1, 2007, 9:38 AM";
 
 	public void setUp( )
 	{

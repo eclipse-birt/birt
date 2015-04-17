@@ -71,8 +71,8 @@ public class Regression_152699 extends BaseTestCase
 		byte[] localdata = localimage.getEmbeddedImage( ).getData( );
 		byte[] extenddata = extendimage.getEmbeddedImage( ).getData( );
         
-		assertEquals( 3, localdata.length );
-		assertEquals( 4, extenddata.length );
+		assertEquals( 2, localdata.length );
+		assertEquals( 3, extenddata.length );
 
 	}
 

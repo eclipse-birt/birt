@@ -28,7 +28,8 @@
                     <name>queryTimeOut</name>
                     <value>10000</value>
                 </ex-property>
-            </list-property>					
+            </list-property>
+			<property name="queryText">select * from CLASSICMODELS.OFFICES</property>					
             <property name="type">extended</property>
             <property name="resultSetName">userid</property>	
 <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>

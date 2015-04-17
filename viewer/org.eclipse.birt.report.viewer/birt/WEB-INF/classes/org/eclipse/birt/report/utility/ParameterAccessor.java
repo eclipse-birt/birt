@@ -52,11 +52,13 @@ import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.session.IViewingSession;
 import org.eclipse.birt.report.session.ViewingCache;
 import org.eclipse.birt.report.session.ViewingSessionConfig;
-import org.eclipse.birt.report.session.ViewingSessionUtil;
 import org.eclipse.birt.report.session.ViewingSessionConfig.ViewingSessionPolicy;
+import org.eclipse.birt.report.session.ViewingSessionUtil;
 import org.eclipse.birt.report.utility.filename.DefaultFilenameGenerator;
 import org.eclipse.birt.report.utility.filename.IFilenameGenerator;
 import org.eclipse.birt.report.utility.filename.IFilenameGeneratorFactory;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Utilities class for all types of URl related operations.
@@ -967,68 +969,9 @@ public class ParameterAccessor
 			return null;
 		}
 
-		int len = locale.length( );
-
-		if ( len != 2 && len != 5 && len < 7 )
-		{
-			return null;
-		}
-
-		// we do a strict check here so the locale string must be something like
-		// en_US_xxx.
-
-		char ch0 = locale.charAt( 0 );
-		char ch1 = locale.charAt( 1 );
-		if ( ch0 < 'a' || ch0 > 'z' || ch1 < 'a' || ch1 > 'z' )
-		{
-			// Invalid locale format
-			return null;
-		}
-
-		if ( len == 2 )
-		{
-			return new Locale( locale, "" ); //$NON-NLS-1$
-		}
-		else
-		{
-			if ( locale.charAt( 2 ) != '_' )
-			{
-				// Invalid locale format
-				return null;
-			}
-
-			char ch3 = locale.charAt( 3 );
-			if ( ch3 == '_' )
-			{
-				return new Locale( locale.substring( 0, 2 ), "", //$NON-NLS-1$
-						locale.substring( 4 ) );
-			}
-
-			char ch4 = locale.charAt( 4 );
-			if ( ch3 < 'A' || ch3 > 'Z' || ch4 < 'A' || ch4 > 'Z' )
-			{
-				// Invalid locale format
-				return null;
-			}
-
-			if ( len == 5 )
-			{
-				return new Locale( locale.substring( 0, 2 ),
-						locale.substring( 3, 5 ) );
-			}
-			else
-			{
-				if ( locale.charAt( 5 ) != '_' )
-				{
-					// Invalid locale format
-					return null;
-				}
-
-				return new Locale( locale.substring( 0, 2 ),
-						locale.substring( 3, 5 ),
-						locale.substring( 6 ) );
-			}
-		}
+		// Use icu4j to normalize the locale string
+		ULocale ulocale = new ULocale( locale );
+		return ulocale.toLocale( );
 	}
 
 	/**

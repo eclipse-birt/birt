@@ -185,7 +185,7 @@
       <text id="89" text="HTML TEXT" text-type="html"/>
       <text id="90" text="PLAIN TEXT" text-type="plain"/>
       <label id="91" text="label with key"/>
-      <image id="92" image-source="0" is-fit-to-container="false">
+      <image id="92" image-source="0" is-fit-to-container="false" is-proportional-scale="false">
          <action action-type="3" target-window="_self">
             <drill-through bookmark-type="true" format="pdf">
                <bookmark expr="row[&quot;CUSTOMERNUMBER&quot;]"/>

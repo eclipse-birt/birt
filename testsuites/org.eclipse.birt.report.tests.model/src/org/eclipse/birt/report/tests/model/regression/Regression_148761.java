@@ -54,6 +54,7 @@ public class Regression_148761 extends BaseTestCase
 {
 
 	private final static String TEMPLATE = "regression_148761_template.xml"; //$NON-NLS-1$
+	private final static String filename = "Regression_148761.xml"; //$NON-NLS-1$
 
 	/**
 	 * @throws DesignFileException
@@ -99,6 +100,7 @@ public class Regression_148761 extends BaseTestCase
 
 		// paste the text to a new report, make sure it is correctly
 		// copy/pasted.
+		openDesign( filename );
 
 		ReportDesignHandle newDesignHandle = session.createDesign( );
 		newDesignHandle.getBody( ).paste( text2.copy( ).getHandle( design ) );

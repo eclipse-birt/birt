@@ -43,8 +43,6 @@ public class RunAndRenderTaskTest extends EngineCase
 		removeResource( );
 	}
 
-	private Boolean cancelSignal = new Boolean( false );
-
 	/**
 	 * Test methods in RunAndRenderTask class
 	 */
@@ -207,7 +205,7 @@ public class RunAndRenderTaskTest extends EngineCase
 			try
 			{
 				Thread.currentThread( ).sleep( 100 );
-				runTask.cancel( cancelSignal );
+				runTask.cancel( );
 			}
 			catch ( Exception e )
 			{

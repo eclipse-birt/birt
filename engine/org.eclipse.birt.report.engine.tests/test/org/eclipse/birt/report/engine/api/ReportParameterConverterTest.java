@@ -37,7 +37,7 @@ public class ReportParameterConverterTest extends TestCase
 		String strTime = converter.format( time );
 		String strDate = converter.format( date );
 
-		assertEquals( "9/13/1998 8:01:44 PM", strDateTime );
+		assertEquals( "9/13/1998, 8:01:44 PM", strDateTime );
 		assertEquals( "9/13/1998", strDate );
 		assertEquals( "8:01:44 PM", strTime );
 

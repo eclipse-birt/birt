@@ -392,8 +392,7 @@ public class RenderTaskTest extends EngineCase
 			task.close( );
 
 			String content = ostream.toString( "utf-8" );
-			Pattern typePattern = Pattern.compile( "(element_type=\"" + type
-					+ "\".*iid=\".*\")" );
+			Pattern typePattern = DataExtractionTaskTest.buildPattern( type );
 			Matcher matcher = typePattern.matcher( content );
 
 			if ( matcher.find( ) )

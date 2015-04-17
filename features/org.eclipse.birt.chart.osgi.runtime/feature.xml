@@ -33,7 +33,7 @@
       <import plugin="org.eclipse.emf.ecore" version="2.2.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore.xmi" version="2.2.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.common" version="2.2.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.draw2d" version="3.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.draw2d" version="3.5.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin

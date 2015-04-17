@@ -23,11 +23,12 @@ public class MutipleThreadRenderTest extends EngineCase
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
 	}
 
-	public void tearDown( )
+	public void tearDown( ) throws Exception
 	{
 		removeFile( REPORT_DOCUMENT );
 		removeFile( REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT_FOLDER );
+		super.tearDown();
 	}
 
 	/**

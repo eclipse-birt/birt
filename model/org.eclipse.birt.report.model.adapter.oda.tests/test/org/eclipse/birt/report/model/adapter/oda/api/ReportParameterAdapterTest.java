@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.adapter.oda.api;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
@@ -22,6 +23,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
@@ -92,6 +94,31 @@ public class ReportParameterAdapterTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
+	
+	private void verifyParamDefinition( OdaDataSetHandle oldSetHandle ) throws Exception
+	{
+		saveAndOpenDesign();
+		OdaDataSetHandle newSetHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" );
+		List newParams = (List) newSetHandle.getElement().getProperty(null, "parameters");
+		List oldParams = (List) oldSetHandle.getElement().getProperty(null, "parameters");
+		
+		assertEquals( oldParams.size(), newParams.size( ) );
+		for ( int i = 0; i < oldParams.size(); i++ )
+		{
+			OdaDataSetParameter oldParam = (OdaDataSetParameter) oldParams.get(i);
+			OdaDataSetParameter newParam = (OdaDataSetParameter) newParams.get(i);
+			assertEquals( oldParam.getPosition(), newParam.getPosition() );
+			assertEquals( oldParam.getDataType(), newParam.getDataType() );
+			assertEquals( oldParam.isInput(), newParam.isInput() );
+			assertEquals( oldParam.getName(), newParam.getName() );
+			assertEquals( oldParam.getNativeName(), newParam.getNativeName() );
+			assertEquals( oldParam.getNativeDataType(), newParam.getNativeDataType() );
+			assertEquals( oldParam.getDefaultValue(), newParam.getDefaultValue() );
+			assertEquals( oldParam.getParamName(), newParam.getParamName() );
+			assertEquals( oldParam.isOptional(), newParam.isOptional() );
+			assertEquals( oldParam.allowNull(), newParam.allowNull() );
+		}
+	}
 
 	public void testToROMDataSetParamWithReportParam( ) throws Exception
 	{
@@ -118,8 +145,9 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save( );
-		compareTextFile( "OdaDataSetConvertReportParamTest_golden.xml" ); //$NON-NLS-1$
+		verifyParamDefinition(setHandle);
+		/*save( );
+		compareTextFile( "OdaDataSetConvertReportParamTest_golden.xml" ); //$NON-NLS-1$*/
 
 		openDesign( "OdaDataSetConvertReportParamTest_1.xml" ); //$NON-NLS-1$
 		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" ); //$NON-NLS-1$
@@ -143,9 +171,9 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save( );
+		verifyParameterDefinition1( );
 
-		compareTextFile( "OdaDataSetConvertReportParamTest_1_golden.xml" ); //$NON-NLS-1$
+		//compareTextFile( "OdaDataSetConvertReportParamTest_1_golden.xml" ); //$NON-NLS-1$
 
 		openDesign( "OdaDataSetConvertReportParamTest_1.xml" ); //$NON-NLS-1$
 		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" ); //$NON-NLS-1$
@@ -166,11 +194,13 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save( );
-		compareTextFile( "OdaDataSetConvertReportParamTest_2_golden.xml" ); //$NON-NLS-1$
+		verifyParameterDefinition2( );
+		/* save( );
+		compareTextFile( "OdaDataSetConvertReportParamTest_2_golden.xml" ); //$NON-NLS-1$*/
 
 		// the oda data set design is not changed. ROM values are changed.
 		// Should keep rom values.
+		// Notice : designerValue and set design should have the same initial state.
 
 		openDesign( "OdaDataSetConvertReportParamTest_1.xml" ); //$NON-NLS-1$
 		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" ); //$NON-NLS-1$
@@ -195,8 +225,19 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save( );
-		compareTextFile( "OdaDataSetConvertReportParamTest_3_golden.xml" ); //$NON-NLS-1$
+		saveAndOpenDesign();
+		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" );
+		paramHandles = setHandle.parametersIterator( );
+		paramHandle = (OdaDataSetParameterHandle) paramHandles.next( );
+		assertTrue(paramHandle.isOutput());
+		assertFalse(paramHandle.isInput());
+		assertEquals("not updated default value", paramHandle.getDefaultValue());
+		reportParamName = paramHandle.getParamName( );
+		reportParam = (ScalarParameterHandle) designHandle.findParameter( reportParamName );
+		assertEquals("not updated prompt text", reportParam.getPromptText());
+		assertEquals("not updated default value", reportParam.getDefaultValue());
+		/* save();
+		compareTextFile( "OdaDataSetConvertReportParamTest_3_golden.xml" ); //$NON-NLS-1$*/
 
 		// when convert data set design to data set handle, report parameters's
 		// data set should also be updated.
@@ -314,6 +355,51 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		elementAttrs.setUiHints( elementUIHints );
 
 	}
+	
+	/**
+	 * Verify parameter definition change.
+	 * 
+	 * @param param
+	 * @throws Exception 
+	 */
+
+	private void verifyParameterDefinition1( ) throws Exception
+	{
+		saveAndOpenDesign();
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" );
+		DataSetDesign setDesign = new ModelOdaAdapter( ).createDataSetDesign( setHandle );
+		DataSetParameters params = setDesign.getParameters( );
+		ParameterDefinition param = (ParameterDefinition) params.getParameterDefinitions( ).get( 0 );
+		DataElementAttributes dataAttrs = param.getAttributes( );
+		assertEquals(ElementNullability.get( ElementNullability.NOT_NULLABLE ), dataAttrs.getNullability( ) );
+
+		DataElementUIHints dataUIHints = dataAttrs.getUiHints();
+		
+		assertEquals( "new prompt text for report param 1", dataUIHints.getDisplayName( ) );
+		assertEquals( "newPromptTextKeyParam1", dataUIHints.getDisplayNameKey( ) );
+		assertEquals( "new help text for report param 1", dataUIHints.getDescription( ) );
+		assertEquals( "newHelpTextKeyParam1", dataUIHints.getDescriptionKey( ) );
+
+		InputParameterAttributes paramAttrs = param.getInputAttributes( );
+		InputElementAttributes elementAttrs = paramAttrs.getElementAttributes( );
+		assertEquals("new default value for report param 1", elementAttrs.getDefaultScalarValue( ) );
+		assertTrue(elementAttrs.isOptional());
+		assertFalse(elementAttrs.isMasksValue());
+
+		ScalarValueDefinition choice = elementAttrs.getStaticValueChoices().getScalarValues().get(0);
+		assertEquals("new choice display name 1", choice.getDisplayName( ) );
+		assertEquals("newChoiceDisplayName1", choice.getDisplayNameKey( ) );
+		assertEquals("new choice value 1", choice.getValue( ) );
+		
+		DynamicValuesQuery dynamicValue = elementAttrs.getDynamicValueChoices();
+		assertEquals("new value column 1", dynamicValue.getValueColumn( ) );
+		assertEquals("new lable column 1", dynamicValue.getDisplayNameColumn( ) );
+		assertNotNull( dynamicValue.getDataSetDesign() );
+		
+		InputElementUIHints elementUIHints = elementAttrs.getUiHints();
+		assertEquals(InputPromptControlStyle.get( InputPromptControlStyle.RADIO_BUTTON ), elementUIHints.getPromptStyle());
+		assertEquals(111, elementUIHints.getAutoSuggestThreshold() );
+	}
 
 	/**
 	 * Updates a oda parameter definition. Change the direction from input to
@@ -325,6 +411,16 @@ public class ReportParameterAdapterTest extends BaseTestCase
 	private void updateParameterDefinition2( ParameterDefinition param )
 	{
 		param.setInOutMode( ParameterMode.get( ParameterMode.OUT ) );
+	}
+	
+	private void verifyParameterDefinition2( ) throws Exception
+	{
+		saveAndOpenDesign();
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" );
+		DataSetDesign setDesign = new ModelOdaAdapter( ).createDataSetDesign( setHandle );
+		DataSetParameters params = setDesign.getParameters( );
+		ParameterDefinition param = (ParameterDefinition) params.getParameterDefinitions( ).get( 0 );
+		assertEquals(ParameterMode.get( ParameterMode.OUT ), param.getInOutMode());
 	}
 
 	/**
@@ -352,6 +448,25 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		setDesign.setDisplayName( "new display name" ); //$NON-NLS-1$
 
 		setDesign.setQueryText( "select * from CLASSICMODELS.CUSTOMERS" ); //$NON-NLS-1$
+	}
+	
+	private void verifyParameterDefinition3( ParameterDefinition param )
+	{
+		DynamicValuesQuery dynamicValue = param.getInputAttributes( )
+				.getElementAttributes( ).getDynamicValueChoices( );
+		if ( dynamicValue == null )
+		{
+			dynamicValue = DesignFactory.eINSTANCE.createDynamicValuesQuery( );
+			dynamicValue.setValueColumn( "new value column 1" ); //$NON-NLS-1$
+			dynamicValue.setDisplayNameColumn( "new lable column 1" ); //$NON-NLS-1$
+			dynamicValue.setDataSetDesign( OdaDataSetAdapterTest
+					.createDataSetDesign( ) );
+			param.getInputAttributes( ).getElementAttributes( )
+					.setDynamicValueChoices( dynamicValue );
+		}
+		DataSetDesign setDesign = dynamicValue.getDataSetDesign( );
+		assertEquals("new display name", setDesign.getDisplayName());
+		assertEquals("select * from CLASSMODELS.CUSTOMERS", setDesign.getQueryText());
 	}
 
 	/**

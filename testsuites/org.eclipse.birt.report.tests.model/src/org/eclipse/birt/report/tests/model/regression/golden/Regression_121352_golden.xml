@@ -25,10 +25,10 @@
             <property name="columnSpacing">0.25mm</property>
             <contents>
                 <label name="label1" id="7">
-                    <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>
                     <property name="width">2mm</property>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
             </contents>
@@ -46,10 +46,10 @@
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <label name="headerLabel" id="23">
-                            <property name="x">1mm</property>
-                            <property name="y">2mm</property>
                             <property name="height">3mm</property>
                             <property name="width">4mm</property>
+                            <property name="x">1mm</property>
+                            <property name="y">2mm</property>
                             <text-property name="text">Customer Name</text-property>
                         </label>
                     </cell>
@@ -62,10 +62,10 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label name="detailLabel" id="26">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
                             <text-property name="text">Address</text-property>
                         </label>
                     </cell>
@@ -78,10 +78,10 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <label name="footerLabel" id="29">
-                            <property name="x">1.1mm</property>
-                            <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
                             <property name="width">4.4mm</property>
+                            <property name="x">1.1mm</property>
+                            <property name="y">2.2mm</property>
                             <text-property name="text">Address4</text-property>
                         </label>
                     </cell>
