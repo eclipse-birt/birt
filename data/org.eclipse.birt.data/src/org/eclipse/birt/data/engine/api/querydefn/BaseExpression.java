@@ -30,6 +30,7 @@ public abstract class BaseExpression implements IBaseExpression
     public final static String constantId = "constant";
     
     private String scriptId = javaScriptId;
+    private String scopeId = null;
     /**
      * Constructs an instance with unknown data type
      */
@@ -111,5 +112,15 @@ public abstract class BaseExpression implements IBaseExpression
 	public void setScriptId( String scriptId )
 	{
 		this.scriptId = scriptId;
+	}
+	
+	public String getScopeId()
+	{
+	    return this.scopeId;
+	}
+	
+	public void setScopeId( String scopeId )
+	{
+	    this.scopeId = scopeId;
 	}
 }
