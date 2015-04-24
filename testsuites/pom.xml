@@ -1,36 +1,58 @@
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <modelVersion>4.0.0</modelVersion>
-    
-    <parent>
-        <groupId>org.eclipse.birt</groupId>
-        <artifactId>org.eclipse.birt-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../</relativePath>
-    </parent>
-    
-    <groupId>org.eclipse.birt.testsuites</groupId>
-    <artifactId>org.eclipse.birt.testsuites-parent</artifactId>
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.eclipse.birt</groupId>
+    <artifactId>org.eclipse.birt-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    
-    <modules>
-        <module>org.eclipse.birt.report.tests.chart</module>
-        <module>org.eclipse.birt.report.tests.engine</module>
-        <module>org.eclipse.birt.report.tests.engine.emitter.html</module>
-        <module>org.eclipse.birt.report.tests.model</module>
-        <module>org.eclipse.birt.tests</module>
-        <module>org.eclipse.birt.tests.core</module>
-        <module>org.eclipse.birt.tests.data</module>
-    </modules>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.eclipse.tycho</groupId>
-                <artifactId>tycho-surefire-plugin</artifactId>
-                <version>${tycho.version}</version>
-            </plugin>
-        </plugins>
-    </build>
+    <relativePath>../</relativePath>
+  </parent>
+  <groupId>org.eclipse.birt.testsuites</groupId>
+  <artifactId>org.eclipse.birt.testsuites-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>org.eclipse.birt.report.tests.chart</module>
+    <module>org.eclipse.birt.report.tests.engine</module>
+    <module>org.eclipse.birt.report.tests.engine.emitter.html</module>
+    <module>org.eclipse.birt.report.tests.model</module>
+    <module>org.eclipse.birt.tests</module>
+    <module>org.eclipse.birt.tests.core</module>
+    <module>org.eclipse.birt.tests.data</module>
+  </modules>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <!--
+        <configuration>
+            <includes>**/AllTests.java</includes>
+        </configuration>
+        -->
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <dependency-resolution>
+            <extraRequirements>
+              <requirement>
+                <type>eclipse-plugin</type>
+                <id>org.eclipse.birt.report.engine.testhelper</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+              <requirement>
+                <type>eclipse-feature</type>
+                <id>org.eclipse.birt.osgi.runtime</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+            </extraRequirements>
+          </dependency-resolution>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

@@ -4,3 +4,5 @@ bin
 utest
 target
 /test-engine.jar
+derby.log
+report.html

@@ -2,4 +2,5 @@ bin
 doc
 report
 target
-/DtEtests.jar
+DtEtests.jar
+derby.log
