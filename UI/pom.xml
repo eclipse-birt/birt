@@ -37,5 +37,7 @@
         <module>org.eclipse.birt.report.designer.ui.samples.rcp</module>
         <module>org.eclipse.birt.report.designer.ui.samplesview</module>
         <module>org.eclipse.birt.report.designer.ui.views</module>
+        <module>org.eclipse.birt.report.designer.tests</module>
+        <module>org.eclipse.birt.report.designer.ui.preview.test</module>
     </modules>
 </project>

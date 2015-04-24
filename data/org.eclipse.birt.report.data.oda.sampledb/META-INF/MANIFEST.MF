@@ -16,3 +16,4 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.report.data.oda.sampledb
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-BundleShape: dir

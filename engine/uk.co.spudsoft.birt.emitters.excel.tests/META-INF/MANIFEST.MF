@@ -22,3 +22,4 @@ Bundle-ClassPath: .,
  lib/poi-ooxml-3.9-20121203.jar,
  lib/poi-ooxml-schemas-3.9-20121203.jar
 Import-Package: uk.co.spudsoft.birt.emitters.excel
+Eclipse-BundleShape: dir

@@ -30,5 +30,6 @@
         <module>org.eclipse.birt.chart.ui</module>
         <module>org.eclipse.birt.chart.ui.extension</module>
         <module>org.eclipse.birt.chart.viewer</module>
+        <module>org.eclipse.birt.chart.tests</module>
     </modules>
 </project>

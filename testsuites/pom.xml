@@ -22,29 +22,15 @@
         <module>org.eclipse.birt.tests</module>
         <module>org.eclipse.birt.tests.core</module>
         <module>org.eclipse.birt.tests.data</module>
-        <module>../chart/org.eclipse.birt.chart.tests</module>
-        <module>../core/org.eclipse.birt.core.testhelper</module>
-        <module>../core/org.eclipse.birt.core.tests</module>
-        <module>../data/org.eclipse.birt.data.oda.pojo.tests</module>
-        <module>../data/org.eclipse.birt.data.tests</module>
-        <module>../data/org.eclipse.birt.report.data.oda.jdbc.tests</module>
-        <module>../engine/org.eclipse.birt.report.engine.dataextraction.csv.tests</module>
-        <module>../engine/org.eclipse.birt.report.engine.emitter.html.tests</module>
-        <module>../engine/org.eclipse.birt.report.engine.emitter.pdf.tests</module>
-        <module>../engine/org.eclipse.birt.report.engine.emitter.postscript.tests</module>
-        <module>../engine/org.eclipse.birt.report.engine.emitter.prototype.excel.tests</module>
-        <module>../engine/org.eclipse.birt.report.engine.tests</module>
-        <module>../engine/uk.co.spudsoft.birt.emitters.excel.tests</module>
-        <module>../model/org.eclipse.birt.report.model.testhelper</module>
-        <module>../model/org.eclipse.birt.report.model.adapter.oda.tests</module>    
-        <module>../model/org.eclipse.birt.report.model.tests</module>
-        <module>../model/org.eclipse.birt.report.model.testresources</module>
-        <module>../model/org.eclipse.birt.report.modelextension.tests</module>
-        <module>../UI/org.eclipse.birt.report.designer.tests</module>
-        <module>../UI/org.eclipse.birt.report.designer.ui.preview.test</module>
-        <!--
-        <module>../viewer/org.eclipse.birt.report.viewer.tests</module>
-        -->
-        <module>../xtab/org.eclipse.birt.report.item.crosstab.core.tests</module>
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-surefire-plugin</artifactId>
+                <version>${tycho.version}</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

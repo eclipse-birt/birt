@@ -17,5 +17,7 @@
     <modules>
         <module>org.eclipse.birt.core</module>
         <module>org.eclipse.birt.core.ui</module>
+        <module>org.eclipse.birt.core.testhelper</module>
+        <module>org.eclipse.birt.core.tests</module>
     </modules>
 </project>

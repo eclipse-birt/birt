@@ -9,3 +9,4 @@ Bundle-Localization: plugin
 Eclipse-LazyStart: true
 Export-Package: org.apache.derby.jdbc
 Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Eclipse-BundleShape: dir
