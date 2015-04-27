@@ -6,11 +6,11 @@
 	     <activity
 	         description="%org.eclipse.birt.activity.description"
 	         id="org.eclipse.birt.activity"
-	         name="Report Design"/>
+	         name="%org.eclipse.birt.activity.name"/>
 	     <category
 	         description="%org.eclipse.birt.category.description"
 	         id="org.eclipse.birt.category"
-	         name="BIRT"/>
+	         name="%org.eclipse.birt.category.name"/>
 	     <categoryActivityBinding
 	         activityId="org.eclipse.birt.activity"
 	         categoryId="org.eclipse.birt.category"/>
