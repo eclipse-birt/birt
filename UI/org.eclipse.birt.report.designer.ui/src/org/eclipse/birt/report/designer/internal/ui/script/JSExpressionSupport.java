@@ -34,6 +34,15 @@ public class JSExpressionSupport extends AbstractExpressionSupport
 		return new JSExpressionBuilder( shl, expr );
 	}
 
+	public IExpressionBuilder createBuilder( Shell shl, Object expression,
+			boolean showLeafOnlyInThirdColumn )
+	{
+		String expr = expression == null ? null : expression.toString( );
+		JSExpressionBuilder builder = new JSExpressionBuilder( shl, expr );
+		builder.setShowLeafOnlyInThirdColumn( showLeafOnlyInThirdColumn );
+		return builder;
+	}
+
 	public Image getImage( )
 	{
 		return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_JAVASCRIPT );

@@ -51,6 +51,7 @@ import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButtonProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionButtonProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.IRelatedFileChangeResolve;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
@@ -2171,6 +2172,33 @@ public class UIUtil
 				IExpressionButtonProvider.class );
 		if ( provider != null )
 			button.setExpressionButtonProvider( provider );
+
+		GridData gd = new GridData( );
+		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )
+		{
+			gd.heightHint = 20;
+		}
+
+		button.getControl( ).setLayoutData( gd );
+		return button;
+	}
+
+	public static ExpressionButton createExpressionButton( Composite parent,
+			int style, boolean allowConstant, boolean showLeafOnlyInThirdColumn )
+	{
+		ExpressionButton button = new ExpressionButton( parent,
+				style,
+			allowConstant );
+		IExpressionButtonProvider provider = (IExpressionButtonProvider) ElementAdapterManager.getAdapter( button,
+				IExpressionButtonProvider.class );
+		if ( provider != null )
+		{
+			button.setExpressionButtonProvider( provider );
+		}
+		if ( button.getExpressionButtonProvider( ) instanceof ExpressionButtonProvider )
+		{
+			( (ExpressionButtonProvider) button.getExpressionButtonProvider( ) ).setShowLeafOnlyInThirdColumn( showLeafOnlyInThirdColumn );
+		}
 
 		GridData gd = new GridData( );
 		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )

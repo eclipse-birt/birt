@@ -219,6 +219,11 @@ public class ExpressionButton
 		}
 	}
 
+	public IExpressionButtonProvider getExpressionButtonProvider( )
+	{
+		return provider;
+	}
+
 	public boolean isSupportType( String expressionType )
 	{
 		if ( provider != null )

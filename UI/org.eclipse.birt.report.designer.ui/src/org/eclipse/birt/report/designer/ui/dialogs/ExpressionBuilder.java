@@ -200,6 +200,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 	protected String title;
 
 	private boolean useSorting = false;
+	private boolean showLeafOnlyInFunctionTable = false;
 	private Object[] defaultSelection;
 
 	private Map<ToolItem, Integer> toolItemType = new HashMap<ToolItem, Integer>( );
@@ -257,10 +258,12 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 	{
 
 		private Viewer viewer;
+		private boolean leafOnly;
 
-		public TableContentProvider( Viewer viewer )
+		public TableContentProvider( Viewer viewer, boolean leafOnly )
 		{
 			this.viewer = viewer;
+			this.leafOnly = leafOnly;
 		}
 
 		public Object[] getElements( Object inputElement )
@@ -343,7 +346,24 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 				return ( (ISortableExpressionProvider) provider ).getSortedChildren( inputElement );
 			}
 
-			return provider.getChildren( inputElement );
+			Object[] elements = provider.getChildren( inputElement );
+			if ( leafOnly && !isLeaf( elements ) )
+			{
+				return new Object[0];
+			}
+			return elements;
+		}
+
+		private boolean isLeaf( Object[] elements )
+		{
+			for ( Object element : elements )
+			{
+				if ( provider.hasChildren( element ) )
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		public void dispose( )
@@ -929,9 +949,9 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 
 		} );
 
-		initTable( categoryTable );
+		initTable( categoryTable, false );
 		initTree( subCategoryTable );
-		initTable( functionTable );
+		initTable( functionTable, showLeafOnlyInFunctionTable);
 	}
 
 	private void handleDefaultSelection( )
@@ -1005,7 +1025,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		treeViewer.addDoubleClickListener( doubleClickListener );
 	}
 
-	private void initTable( TableViewer tableViewer )
+	private void initTable( TableViewer tableViewer, boolean leafOnly )
 	{
 		final Table table = tableViewer.getTable( );
 
@@ -1059,7 +1079,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		} );
 
 		tableViewer.setLabelProvider( new ExpressionLabelProvider( ) );
-		tableViewer.setContentProvider( new TableContentProvider( tableViewer ) );
+		tableViewer.setContentProvider( new TableContentProvider( tableViewer, leafOnly ) );
 		tableViewer.addSelectionChangedListener( selectionListener );
 		tableViewer.addDoubleClickListener( doubleClickListener );
 	}
@@ -1556,4 +1576,10 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 	{
 		return ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
 	}
+
+	public void setShowLeafOnlyInThirdColumn( boolean leafOnly )
+	{
+		this.showLeafOnlyInFunctionTable = leafOnly;
+	}
+
 }
