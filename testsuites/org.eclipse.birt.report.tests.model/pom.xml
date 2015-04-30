@@ -34,7 +34,8 @@
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <testSuit>org.eclipse.birt.report.tests.model.AllTests</testSuit>
+          <testSuite>org.eclipse.birt.report.tests.model</testSuite>
+          <testClass>org.eclipse.birt.report.tests.model.AllTests</testClass>
         </configuration>
       </plugin>
     </plugins>
