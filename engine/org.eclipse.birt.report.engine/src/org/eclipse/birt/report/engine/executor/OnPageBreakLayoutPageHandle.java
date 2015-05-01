@@ -13,9 +13,8 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -140,7 +139,7 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 	private void doAddContent(IContent content)
 	{
 		if (contents.size() == CONTENTS_CONVERTION_THRESHOLD) {
-			contents = new TreeSet<IContent>(contents);
+			contents = new HashSet<IContent>(contents);
 		}
 		contents.add( content );
 	}
