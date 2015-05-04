@@ -14,6 +14,8 @@
         <extended-item id="7">
             <property name="height">130pt</property>
             <property name="width">212pt</property>
+            <expression name="altText">chart alt text</expression>
+            <property name="altTextID">chart id 2</property>
             <text-property name="altText" key="chart id 2">chart alt text</text-property>
         </extended-item>
     </body>

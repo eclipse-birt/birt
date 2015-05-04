@@ -47,10 +47,10 @@
             <property name="columnSpacing">0.25mm</property>
             <contents>
                 <label name="label1" id="10">
-                    <property name="x">1mm</property>
-                    <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>
                     <property name="width">2mm</property>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
             </contents>
