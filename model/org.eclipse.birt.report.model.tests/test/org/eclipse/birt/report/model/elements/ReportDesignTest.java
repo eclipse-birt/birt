@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
-import sun.security.action.OpenFileInputStreamAction;
 
 /**
  * Unit test for class ReportDesign.
