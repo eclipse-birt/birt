@@ -374,6 +374,14 @@
 		<Argument name="date">
 			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
 	<Function
+          desc="%FunctionDesc.weekOfMonth"
+          name="weekOfMonth">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.day"
           name="day">
 		<DataType value="%dataType.Integer"></DataType>
@@ -392,6 +400,20 @@
               value="Integer">
          </DataType>
      </Argument></Function>
+	<Function
+          desc="%FunctionDesc.dayOfWeek"
+          name="dayOfWeek">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+    </Function>
+	<Function
+          desc="%FunctionDesc.dayOfYear"
+          name="dayOfYear">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+    </Function>
 	<Function
           desc="%FunctionDesc.today"
           name="today">

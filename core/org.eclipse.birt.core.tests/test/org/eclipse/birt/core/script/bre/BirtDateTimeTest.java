@@ -1137,4 +1137,96 @@ public class BirtDateTimeTest extends TestCase
 					null ), values[i] );
 		}
 	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_dayOfWeek(Date)'
+	 */
+	public void testDayOfWeek( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.dayOfWeek(new Date(2015, 4, 1) )",
+				"BirtDateTime.dayOfWeek(new Date(2015, 4, 2) )",
+				"BirtDateTime.dayOfWeek(new Date(2015, 4, 3) )",
+				"BirtDateTime.dayOfWeek(new Date(2015, 4, 4) )",
+		};
+
+		int[] values = new int[]{
+				6, 7, 1, 2
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( values[i], result );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_dayOfYeark(Date)'
+	 */
+	public void testDayOfYear( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.dayOfYear(new Date(2012, 0, 1) )",
+				"BirtDateTime.dayOfYear(new Date(2012, 1, 29) )",
+				"BirtDateTime.dayOfYear(new Date(2012, 11, 31) )",
+				"BirtDateTime.dayOfYear(new Date(2015, 0, 1) )",
+				"BirtDateTime.dayOfYear(new Date(2015, 1, 28) )",
+				"BirtDateTime.dayOfYear(new Date(2015, 11, 31) )"
+		};
+
+		int[] values = new int[]{
+				1, 60, 366, 1, 59, 365
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( values[i], result );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_weekOfMonth(Date)'
+	 */
+	public void testWeekOfMonth( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 1) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 2) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 3) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 9) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 10) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 16) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 17) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 23) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 24) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 30) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 31) )",
+		};
+
+		int[] values = new int[]{
+				1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6
+		};
+
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( values[i], result );
+		}
+	}
+
 }
