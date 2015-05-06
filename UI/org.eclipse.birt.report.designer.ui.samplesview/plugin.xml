@@ -2,14 +2,4 @@
 <?eclipse version="3.0"?>
 <plugin
 >
-   <extension
-         point="org.eclipse.ui.views">
-      <view
-            allowMultiple="false"
-            category="org.eclipse.birt.core.ui.category"
-            class="org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamplesView"
-            icon="icons/reportExample.gif"
-            id="org.eclipse.birt.report.examples.view.examplesview"
-            name="%ReportSamplesView"/>
-   </extension>
 </plugin>
