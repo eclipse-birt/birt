@@ -193,11 +193,13 @@
 
 	<!-- Generate the JavaDoc.
 	 -->
-	<target name="Javadoc">
-		<echo message="generating javadoc for chart"/>
-    	<antcall target = "chartJavadoc"/>
-    	<antcall target = "chartuiJavadoc"/>
-		<antcall target = "chartscriptJavadoc"/>
+	<target name="Javadoc" depends="chartJavadoc, chartuiJavadoc, chartscriptJavadoc">
+                <echo message="generating javadoc for chart"/>
+                <!--
+    	        <antcall target = "chartJavadoc"/>
+    	        <antcall target = "chartuiJavadoc"/>
+                <antcall target = "chartscriptJavadoc"/>
+                -->
 		<!-- replace onLoad="top.loadFrames()" with onLoad="", this javascript messes things up with viewvc params -->
 		<replace file="chart/api/index.html">
 			<replacetoken><![CDATA[onLoad="top.loadFrames()"]]></replacetoken>

@@ -15,19 +15,15 @@
     <packaging>pom</packaging>
     
     <modules>
-        <!--
         <module>org.eclipse.birt.chart.cshelp.feature</module>
         <module>org.eclipse.birt.chart.doc.isv.feature</module>
         <module>org.eclipse.birt.cshelp.feature</module>
         <module>org.eclipse.birt.doc.feature</module>
         <module>org.eclipse.birt.doc.isv.feature</module>
-        -->
         <module>org.eclipse.birt.nl.feature</module>
         <module>org.eclipse.birt.rcp.nl.feature</module>
         <module>org.eclipse.birt.wtp.nl.feature</module>
-        <!--
         <module>org.eclipse.birt.sdk.feature</module>
-        -->
         <module>org.eclipse.birt.testhelper.feature</module>
         <module>org.eclipse.birt.tests.feature</module>
         <module>org.eclipse.birt.chart.feature</module>        
