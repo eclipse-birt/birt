@@ -30,9 +30,9 @@ import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Node;
-import org.mozilla.javascript.ScriptOrFnNode;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Token;
+import org.mozilla.javascript.ast.AstRoot;
 
 /**
  * This class handles the compilation of ROM JavaScript expressions of the
@@ -189,7 +189,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 						{
 							IScriptExpression expression = (IScriptExpression) binding.getExpression( );
 							currentGroupLevelList.add( expression.getGroupName( ) );
-							ScriptOrFnNode tree = parse( expression.getText( ),
+							AstRoot tree = parse( expression.getText( ),
 									context );
 							if ( tree.getFirstChild( ) != null
 									&& tree.getFirstChild( ).getFirstChild( ) != null
@@ -563,7 +563,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 				continue;
 			}
 
-			ScriptOrFnNode tree = new ScriptOrFnNode( Token.SCRIPT );
+			AstRoot tree = new AstRoot( Token.SCRIPT );
 			Node exprNode = new Node( Token.EXPR_RESULT );
 			exprNode.addChildToFront( arg );
 			tree.addChildrenToFront( exprNode );

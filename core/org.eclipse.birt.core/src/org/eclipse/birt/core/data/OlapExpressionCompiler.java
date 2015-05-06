@@ -21,8 +21,8 @@ import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.ScriptOrFnNode;
 import org.mozilla.javascript.Token;
+import org.mozilla.javascript.ast.AstRoot;
 
 /**
  * 
@@ -46,7 +46,7 @@ class OlapExpressionCompiler
 			Context cx = Context.enter( );
 			CompilerEnvirons ce = new CompilerEnvirons( );
 			Parser p = new Parser( ce, cx.getErrorReporter( ) );
-			ScriptOrFnNode tree = p.parse( expr, null, 0 );
+			AstRoot tree = p.parse( expr, null, 0 );
 
 			getScriptObjectName( tree, "measure", result );
 			
@@ -81,7 +81,7 @@ class OlapExpressionCompiler
 			Context cx = Context.enter( );
 			CompilerEnvirons ce = new CompilerEnvirons( );
 			Parser p = new Parser( ce, cx.getErrorReporter( ) );
-			ScriptOrFnNode tree = p.parse( expr, null, 0 );
+			AstRoot tree = p.parse( expr, null, 0 );
 
 			populateDimLevels( null,
 					tree,

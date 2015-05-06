@@ -10,17 +10,22 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tycho.version>0.21.0</tycho.version>
-        <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.4/</eclipse.repo.url>
+        <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5-I-builds/</eclipse.repo.url>
         <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.10/</emf.repo.url>
         <wtp.repo.url>http://download.eclipse.org/webtools/repository/luna/</wtp.repo.url>
         <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
-        <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</orbit.repo.url>
+        <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/S20150428165605/repository/</orbit.repo.url>
         <!-- use local dtp git -->
         <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
     </properties>
 	
     <repositories>
         <!-- BIRT need Eclipse/EMF/GEF/DTP/ORBIT/WTP-->
+        <repository>
+            <id>eclipse</id>
+            <url>${eclipse.repo.url}</url>
+            <layout>p2</layout>
+        </repository>
         <repository>
             <id>emf</id>
             <url>${emf.repo.url}</url>
@@ -34,11 +39,6 @@
         <repository>
             <id>gef</id>
             <url>${gef.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>eclipse</id>
-            <url>${eclipse.repo.url}</url>
             <layout>p2</layout>
         </repository>
         <repository>

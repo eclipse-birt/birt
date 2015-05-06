@@ -32,8 +32,8 @@ import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.ScriptOrFnNode;
 import org.mozilla.javascript.Token;
+import org.mozilla.javascript.ast.AstRoot;
 
 /**
  * The utility class of expression, if the expression is column, return true,
@@ -77,7 +77,7 @@ public class ExpressionUtility
 		if ( compiledExprCache.containsKey( expression ) )
 			return ( (Boolean) compiledExprCache.get( expression ) ).booleanValue( );
 		Context context = Context.enter( );
-		ScriptOrFnNode tree;
+		AstRoot tree;
 		try
 		{
 			CompilerEnvirons m_compilerEnv = new CompilerEnvirons( );

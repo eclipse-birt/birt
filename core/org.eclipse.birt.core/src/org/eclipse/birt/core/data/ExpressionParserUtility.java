@@ -19,11 +19,11 @@ import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.FunctionNode;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.ScriptOrFnNode;
 import org.mozilla.javascript.Token;
+import org.mozilla.javascript.ast.AstRoot;
+import org.mozilla.javascript.ast.FunctionNode;
 
 /**
  * This utility class is to compile expression to get a list of column
@@ -74,7 +74,7 @@ public class ExpressionParserUtility
 		Context context = Context.enter( );
 		try
 		{
-			ScriptOrFnNode tree = util.parse( expression, context );
+			AstRoot tree = util.parse( expression, context );
 			util.CompiledExprFromTree( expression,
 					context,
 					tree,
@@ -136,7 +136,7 @@ public class ExpressionParserUtility
 	 * @throws BirtException
 	 */
 	private void CompiledExprFromTree( String expression, Context context,
-			ScriptOrFnNode tree, List columnExprList ) throws BirtException
+			AstRoot tree, List columnExprList ) throws BirtException
 	{
 		if ( tree.getFirstChild( ) == tree.getLastChild( ) )
 		{
@@ -177,7 +177,7 @@ public class ExpressionParserUtility
 	 * @param cx
 	 * @return
 	 */
-	private ScriptOrFnNode parse( String expression, Context cx )
+	private AstRoot parse( String expression, Context cx )
 	{
 		CompilerEnvirons compilerEnv = new CompilerEnvirons( );
 		Parser p = new Parser( compilerEnv, cx.getErrorReporter( ) );
@@ -193,7 +193,7 @@ public class ExpressionParserUtility
 	 * @param columnExprList
 	 * @throws BirtException
 	 */
-	private void processChild( Node child, ScriptOrFnNode tree,
+	private void processChild( Node child, AstRoot tree,
 			List columnExprList ) throws BirtException
 	{
 		switch ( child.getType( ) )
@@ -228,7 +228,7 @@ public class ExpressionParserUtility
 	 * @param refNode
 	 * @throws BirtException
 	 */
-	private void compileDirectColRefExpr( Node refNode, ScriptOrFnNode tree,
+	private void compileDirectColRefExpr( Node refNode, AstRoot tree,
 			List columnExprList ) throws BirtException
 	{
 		assert ( refNode.getType( ) == Token.GETPROP
@@ -262,7 +262,7 @@ public class ExpressionParserUtility
 	 * @param columnExprList
 	 * @throws BirtException
 	 */
-	private void compileOuterColRef( Node refNode, ScriptOrFnNode tree,
+	private void compileOuterColRef( Node refNode, AstRoot tree,
 			List columnExprList ) throws BirtException
 	{
 		int level = compileOuterColRefExpr( refNode );
@@ -291,7 +291,7 @@ public class ExpressionParserUtility
 	 * @param columnExprList
 	 * @throws BirtException
 	 */
-	private void compileRowPositionRef( Node refNode, ScriptOrFnNode tree,
+	private void compileRowPositionRef( Node refNode, AstRoot tree,
 			List columnExprList ) throws BirtException
 	{
 		Node rowFirstNode = refNode.getFirstChild( );
@@ -329,7 +329,7 @@ public class ExpressionParserUtility
 	 * @param columnExprList
 	 * @throws BirtException 
 	 */
-	private void compileSimpleColumnRefExpr( Node refNode, ScriptOrFnNode tree,
+	private void compileSimpleColumnRefExpr( Node refNode, AstRoot tree,
 			List columnExprList ) throws BirtException
 	{
 		Node rowName = refNode.getFirstChild( );
@@ -466,7 +466,7 @@ public class ExpressionParserUtility
 	 * @throws BirtException
 	 */
 	private void compileAggregateExpr( Node callNode,
-			ScriptOrFnNode tree, List columnExprList ) throws BirtException
+			AstRoot tree, List columnExprList ) throws BirtException
 	{
 		assert ( callNode.getType( ) == Token.CALL );
 		compileAggregationFunction( callNode, tree, columnExprList );
@@ -481,7 +481,7 @@ public class ExpressionParserUtility
 	 * @throws BirtException
 	 */
 	private void compileAggregationFunction( Node callNode,
-			ScriptOrFnNode tree, List columnExprList ) throws BirtException
+			AstRoot tree, List columnExprList ) throws BirtException
 	{
 		Node firstChild = callNode.getFirstChild( );
 		if ( firstChild.getType( ) != Token.GETPROP )
@@ -502,7 +502,7 @@ public class ExpressionParserUtility
 	 * @param callNode
 	 * @throws BirtException
 	 */
-	private void extractArguments( Node callNode, ScriptOrFnNode tree,
+	private void extractArguments( Node callNode, AstRoot tree,
 			List columnExprList ) throws BirtException
 	{
 		Node arg = callNode.getFirstChild( ).getNext( );
@@ -524,7 +524,7 @@ public class ExpressionParserUtility
 	 * @param complexNode
 	 * @throws BirtException
 	 */
-	private void compileComplexExpr( Node complexNode, ScriptOrFnNode tree,
+	private void compileComplexExpr( Node complexNode, AstRoot tree,
 			List columnExprList ) throws BirtException
 	{
 		Node child = complexNode.getFirstChild( );
@@ -567,7 +567,7 @@ public class ExpressionParserUtility
 	 * @param columnExprList
 	 * @throws BirtException
 	 */
-	private void compileFunctionNode( FunctionNode node, ScriptOrFnNode tree,
+	private void compileFunctionNode( FunctionNode node, AstRoot tree,
 			List columnExprList ) throws BirtException
 	{
 		compileComplexExpr( node, tree, columnExprList );
@@ -580,7 +580,7 @@ public class ExpressionParserUtility
 	 * @param tree
 	 * @return
 	 */
-	private int getFunctionIndex( String functionName, ScriptOrFnNode tree )
+	private int getFunctionIndex( String functionName, AstRoot tree )
 	{
 		int index = -1;
 		for ( int i = 0; i < tree.getFunctionCount( ); i++ )

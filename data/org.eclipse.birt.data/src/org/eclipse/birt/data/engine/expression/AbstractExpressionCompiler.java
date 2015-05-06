@@ -31,8 +31,8 @@ import org.mozilla.javascript.Interpreter;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.Script;
-import org.mozilla.javascript.ScriptOrFnNode;
 import org.mozilla.javascript.Token;
+import org.mozilla.javascript.ast.AstRoot;
 
 /**
  * This class provides default implementations for the compilation of ROM
@@ -97,7 +97,7 @@ abstract class AbstractExpressionCompiler
 				return null;
 			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME );
 			
-			ScriptOrFnNode tree = parse( exp, engine.getJSContext( context ) );
+			AstRoot tree = parse( exp, engine.getJSContext( context ) );
 			return processScriptTree( exp, tree, engine.getJSContext( context ));
 		}
 		catch ( Exception e )
@@ -129,7 +129,7 @@ abstract class AbstractExpressionCompiler
 			
 			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME );
 			
-			ScriptOrFnNode tree = parse( exp, engine.getJSContext( context ) );
+			AstRoot tree = parse( exp, engine.getJSContext( context ) );
 			return processScriptTree( exp, tree, engine.getJSContext( context )  );
 		}
 		catch ( Exception e )
@@ -176,7 +176,7 @@ abstract class AbstractExpressionCompiler
 	 *         DataException
 	 */
 	private CompiledExpression processScriptTree( String expression,
-			ScriptOrFnNode tree, Context context ) throws DataException
+			AstRoot tree, Context context ) throws DataException
 
 	{
 		CompiledExpression expr;
@@ -227,7 +227,7 @@ abstract class AbstractExpressionCompiler
 	 * @return
 	 * @throws DataException
 	 */
-	protected ScriptOrFnNode parse( String expression, Context cx )
+	protected AstRoot parse( String expression, Context cx )
 			throws DataException
 	{
 		if ( expression == null )
@@ -454,7 +454,7 @@ abstract class AbstractExpressionCompiler
 	 * @param tree
 	 * @param expr
 	 */
-	protected void compileForBytecodeExpr( Context context, ScriptOrFnNode tree,
+	protected void compileForBytecodeExpr( Context context, AstRoot tree,
 			CompiledExpression expr )
 	{
 		assert ( expr instanceof BytecodeExpression );
