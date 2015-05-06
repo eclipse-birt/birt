@@ -101,7 +101,7 @@ public class LibraryWithTableTest extends BaseTestCase
 		assertFalse( tableHandle.canShiftColumn( 1, 2 ) );
 		try
 		{
-			tableHandle.shiftColumn( 1, 2 );
+			tableHandle.shiftColumn( 1, 2, false );
 			fail( "forbidden do action on column " ); //$NON-NLS-1$
 		}
 		catch ( SemanticException e )

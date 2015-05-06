@@ -21,7 +21,6 @@
             </column>
             <header>
                 <row id="9">
-                    <property name="height">20pt</property>
                     <property name="style">new_style</property>
                     <property name="color">blue</property>
                     <property name="textAlign">center</property>

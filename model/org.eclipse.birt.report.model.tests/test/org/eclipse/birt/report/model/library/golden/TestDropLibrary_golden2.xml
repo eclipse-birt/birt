@@ -11,10 +11,10 @@
     <body>
         <label name="myLabel" id="5">
             <property name="color">red</property>
-            <property name="x">6mm</property>
-            <property name="y">0.5mm</property>
             <property name="height">25pt</property>
             <property name="width">1mm</property>
+            <property name="x">6mm</property>
+            <property name="y">0.5mm</property>
             <text-property name="text">First Page</text-property>
         </label>
     </body>
