@@ -593,13 +593,13 @@ public class ParserCompatibilityTest extends BaseTestCase
 				.findDataSource( "Data Source" ); //$NON-NLS-1$
 		assertNotNull( dataSource );
 		assertEquals(
-				"org.eclipse.birt.report.data.oda.xml", dataSource.getExtensionID( ) );//$NON-NLS-1$
+				"org.eclipse.datatools.enablement.oda.xml", dataSource.getExtensionID( ) );//$NON-NLS-1$
 
 		OdaDataSetHandle dataSet = (OdaDataSetHandle) designHandle
 				.findDataSet( "Data Set" ); //$NON-NLS-1$
 		assertNotNull( dataSet );
 		assertEquals(
-				"org.eclipse.birt.report.data.oda.xml.dataSet", dataSet.getExtensionID( ) );//$NON-NLS-1$
+				"org.eclipse.datatools.enablement.oda.xml.dataSet", dataSet.getExtensionID( ) );//$NON-NLS-1$
 
 	}
 

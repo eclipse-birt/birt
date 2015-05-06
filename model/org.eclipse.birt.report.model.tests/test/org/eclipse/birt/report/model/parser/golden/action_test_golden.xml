@@ -10,9 +10,9 @@
             <property name="columnSpacing">0.25mm</property>
             <contents>
                 <image name="Image1" id="3">
+                	<expression name="altText" type="constant">Help Test For Image Item</expression>
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
-                    <expression name="altText" type="constant">Help Test For Image Item</expression>
                     <list-property name="action">
 	           			<structure>
 	                        <property name="linkType">hyperlink</property>
@@ -23,9 +23,9 @@
                     </list-property>
                 </image>
                 <image name="Image2" id="4">
+                	<expression name="altText" type="constant">Help Test For Image Item</expression>
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
-                    <expression name="altText" type="constant">Help Test For Image Item</expression>
                     <list-property name="action">
 	           			<structure>
 	                        <property name="linkType">drill-through</property>
@@ -50,9 +50,9 @@
                     </list-property>
                 </image>
                 <image name="Image3" id="5">
+                	<expression name="altText" type="constant">Help Test For Image Item</expression>
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
-                    <expression name="altText" type="constant">Help Test For Image Item</expression>
                     <list-property name="action">
 	           			<structure>
 	                        <property name="linkType">drill-through</property>
@@ -84,9 +84,9 @@
                     </list-property>
                 </image>
                 <image name="Image4" id="6">
+                	<expression name="altText" type="constant">Help Test For Image Item</expression>
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
-                    <expression name="altText" type="constant">Help Test For Image Item</expression>
                     <list-property name="action">
 	           			<structure>
 	                        <property name="linkType">bookmark-link</property>

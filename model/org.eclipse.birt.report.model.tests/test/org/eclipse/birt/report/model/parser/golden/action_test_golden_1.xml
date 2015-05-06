@@ -10,10 +10,10 @@
             <property name="columnSpacing">0.25mm</property>
             <contents>
                 <image name="Image1" id="3">
+                	<expression name="altText" type="constant">Help Test For Image Item
+					</expression>
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg
-					</expression>
-                    <expression name="altText" type="constant">Help Test For Image Item
 					</expression>
                     <list-property name="action">
                         <structure>
