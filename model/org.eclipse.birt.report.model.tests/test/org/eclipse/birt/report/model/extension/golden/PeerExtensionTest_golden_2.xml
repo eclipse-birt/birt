@@ -6,10 +6,10 @@
             <property name="leftMargin">0.8mm</property>
             <contents>
                 <label name="label1" id="13">
+                	<property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
                     <property name="x">1mm</property>
                     <property name="y">0.5mm</property>
-                    <property name="height">0.25mm</property>
-                    <property name="width">2mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
             </contents>

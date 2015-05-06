@@ -35,18 +35,27 @@
                     </column>
                     <row>
                         <cell>
+                        	<property name="column">1</property>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
                             <label>
                             </label>
                         </cell>
                     </row>
                     <row>
                         <cell>
+                            <property name="column">1</property>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
                             <label>
                             </label>
                         </cell>
                     </row>
                     <row>
                         <cell>
+                            <property name="column">1</property>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
                             <label>
                             </label>
                         </cell>
@@ -56,6 +65,8 @@
                     <row>
                         <cell>
                             <property name="column">1</property>
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
                             <label>
                             </label>
                         </cell>
