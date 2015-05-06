@@ -655,9 +655,12 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				ExtendedProperty property = (ExtendedProperty) iter.next( );
 				String encryptionID = null;
 				boolean isEncryptable = false;
-				ODAExtensionElementDefn oda = (ODAExtensionElementDefn) ( property.getElement( ).getDefn( ) );
-				List<IElementPropertyDefn> hidePrivatePropsList = oda.getHidePrivateProps( );
-				IElementPropertyDefn oadPropertyDefn = null;
+                List<IElementPropertyDefn> hidePrivatePropsList = null;
+                IElementDefn tmpElementDefn = property.getElement( ).getDefn( );
+                if ( tmpElementDefn instanceof ODAExtensionElementDefn )
+                    hidePrivatePropsList = ( (ODAExtensionElementDefn) tmpElementDefn )
+                            .getHidePrivateProps( );
+                IElementPropertyDefn oadPropertyDefn = null;
 				if ( hidePrivatePropsList != null
 						&& hidePrivatePropsList.size( ) > 0 )
 				{

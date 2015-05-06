@@ -38,13 +38,13 @@
                 <image name="Image1" id="6">
                     <property name="style">My-Style</property>
                     <property name="paddingTop">2mm</property>
+                    <expression name="altText" type="constant">Help Test For Image Item</expression>
+                    <property name="altTextID">help</property>
                     <property name="size">scale-to-item</property>
                     <property name="scale">0.8</property>
                     <property name="source">url</property>
                     <property name="proportionalScale">false</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
-                    <expression name="altText" type="constant">Help Test For Image Item</expression>
-                    <property name="altTextID">help</property>
                     <list-property name="action">
 		           		<structure>
 	                        <expression name="uri">http://localhost:8080/bluehero</expression>
