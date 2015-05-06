@@ -27,7 +27,7 @@ Export-Package: org.eclipse.birt.core.archive,
  org.eclipse.birt.core.template,
  org.eclipse.birt.core.util
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
- org.mozilla.javascript;bundle-version="[1.7.2,1.7.3)";visibility:=reexport
+ org.mozilla.javascript;bundle-version="[1.7.5,2.0.0)";visibility:=reexport
 Eclipse-LazyStart: true
 Eclipse-ExtensibleAPI: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
