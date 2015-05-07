@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+	<property name="theme">EdgeTheme-styles</property>
     <list-property name="cssStyleSheets">
         <structure>
             <property name="fileName">blue.css</property>
@@ -149,6 +150,9 @@
         <style name="text" id="89"/>
         <style name="grid" id="90"/>
     </styles>
+    <themes>
+		<theme name="EdgeTheme-styles" id="91"/>
+	</themes>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <page-footer>

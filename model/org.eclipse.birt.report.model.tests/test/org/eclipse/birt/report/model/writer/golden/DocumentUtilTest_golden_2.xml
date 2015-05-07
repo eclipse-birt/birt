@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+	<property name="theme">theme1-Lib1</property>
     <parameters>
         <scalar-parameter name="param1" id="10"/>
     </parameters>
@@ -54,6 +55,9 @@
             <property name="color">green</property>
         </style>
     </styles>
+    <themes>
+		<theme name="theme1-Lib1" id="16"/>
+	</themes>
     <body>
         <label name="label" id="8">
             <property name="backgroundColor">red</property>
