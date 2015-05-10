@@ -21,5 +21,6 @@
         -->
         <module>org.eclipse.birt.example</module>
         <module>org.eclipse.birt</module>
+        <module>org.eclipse.birt.runtime.osgi</module>
     </modules>
 </project>
