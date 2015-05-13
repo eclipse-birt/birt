@@ -7,8 +7,8 @@ The customer listing report tutorial helps you build your first report. It provi
   </intro>
   <item
   		title="Start the tutorial" skip="false"><description></description>
-  <action class="org.eclipse.birt.report.designer.ui.actions.cheatsheets.OpenHelpAction"
-     pluginId="org.eclipse.birt.report.designer.ui.editors.schematic"
+  <action class="org.eclipse.birt.report.designer.ui.actions.cheatsheets.OpenDocAction"
+     pluginId="org.eclipse.birt.report.designer.ui"
      param1="/org.eclipse.birt.doc/birt/gs-Tut1BuildingASimpleListingReportIntro.html"/>
      </item>
 </cheatsheet>
