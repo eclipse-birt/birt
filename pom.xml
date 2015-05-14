@@ -205,6 +205,9 @@
 						<jdk>
 							<id>JavaSE-1.6</id>
 						</jdk>
+						<jdk>
+							<id>JavaSE-1.7</id>
+						</jdk>
 					</toolchains>
 				</configuration>
 			</plugin>
@@ -230,6 +233,65 @@
 				<artifactId>tycho-p2-repository-plugin</artifactId>
 				<version>${tycho.version}</version>
 			</plugin>
+			
+			<!-- configure (integration) test -->
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit3</artifactId>
+						<version>2.18.1</version>
+					</dependency>
+				</dependencies>
+<!-- Exclude integration tests that may hang or cause other occasional delays
+	in integration test. Uncomment the following config block to disable these
+	tests temporarely. -->
+<!--
+				<configuration>
+					<testRuntime>default</testRuntime>
+					<excludes>
+						<exclude>**/FolderArchiveTest.*</exclude>
+						<exclude>**/org/eclipse/birt/data/engine/**/*Test.*</exclude>
+					</excludes>
+				</configuration>
+-->
+			</plugin>
+			
+			<!-- generate code coverage report -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.4.201502262128</version>
+				<executions>
+					<execution>
+						<id>prepare-integration-tests</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+						<configuration>
+							<append>true</append>
+							<output>file</output>
+							<destFile>${basedir}/target/coverage/jacoco-integration.exec</destFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>report-integration</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report-integration</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/coverage/reports</outputDirectory>
+							<dataFile>${basedir}/target/coverage/jacoco-integration.exec</dataFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 	</build>
 </project>
