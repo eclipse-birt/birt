@@ -33,6 +33,7 @@ import org.mozilla.javascript.Node;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Token;
 import org.mozilla.javascript.ast.AstRoot;
+import org.mozilla.javascript.ast.ScriptNode;
 
 /**
  * This class handles the compilation of ROM JavaScript expressions of the
@@ -189,7 +190,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 						{
 							IScriptExpression expression = (IScriptExpression) binding.getExpression( );
 							currentGroupLevelList.add( expression.getGroupName( ) );
-							AstRoot tree = parse( expression.getText( ),
+							ScriptNode tree = parse( expression.getText( ),
 									context );
 							if ( tree.getFirstChild( ) != null
 									&& tree.getFirstChild( ).getFirstChild( ) != null

@@ -56,6 +56,7 @@ public class ExpressionCompilerTest extends TestCase
 		
 		// Test cases can share one context because they are executed on the same test thread
 		cx = new ScriptContext();
+		cx.compile("javascript", null, 0, "1 == 1;");
 		scope = Context.getCurrentContext( ).initStandardObjects();
 	}
 
