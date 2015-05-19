@@ -10,7 +10,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tycho.version>0.21.0</tycho.version>
-        <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5-I-builds/</eclipse.repo.url>
+        <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5milestones/</eclipse.repo.url>
         <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.10/</emf.repo.url>
         <wtp.repo.url>http://download.eclipse.org/webtools/repository/luna/</wtp.repo.url>
         <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
