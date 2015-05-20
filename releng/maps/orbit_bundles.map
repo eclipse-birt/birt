@@ -16,9 +16,9 @@ plugin@org.apache.batik.css,1.6.0=GET,http://download.eclipse.org/tools/orbit/do
 
 plugin@org.apache.batik.css.source,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.apache.batik.css.source_1.6.0.v201011041432.jar,usetimestamp=true
 
-plugin@org.apache.batik.dom,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.apache.batik.dom_1.6.0.v201011041432.jar,usetimestamp=true
+plugin@org.apache.batik.dom,1.6.1=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/repository/plugins/org.apache.batik.dom_1.6.1.v201505192100.jar,usetimestamp=true
 
-plugin@org.apache.batik.dom.source,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.apache.batik.dom.source_1.6.0.v201011041432.jar,usetimestamp=true
+plugin@org.apache.batik.dom.source,1.6.1=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/repository/plugins/org.apache.batik.dom.source_1.6.1.v201505192100.jar,usetimestamp=true
 
 plugin@org.apache.batik.dom.svg,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.apache.batik.dom.svg_1.6.0.v201011041432.jar,usetimestamp=true
 
