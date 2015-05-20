@@ -1017,7 +1017,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	public static String getDefaultMeasureAggregationFunction(
 			MeasureViewHandle mv )
 	{		
-		if ( mv != null && mv.getCubeMeasure( ) != null )
+		if ( mv != null )
 		{
 			String func = null;
 			if ( CrosstabUtil.isBoundToLinkedDataSet( mv.getCrosstab( ) ) )
@@ -1028,7 +1028,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					func = columnHandle.getAggregateFunction();
 				}
 				
-				if( func == null )
+				if( func == null && mv.getCubeMeasure( ) != null )
 				{
 					if( !isNumeric( mv.getCubeMeasure( ).getDataType( ) ) )
 					{
@@ -1043,7 +1043,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				
 				return func;
 			}
-			else
+			else if ( mv.getCubeMeasure( ) != null )
 			{
 				func = mv.getCubeMeasure( ).getFunction( );	
 				if ( func != null )
