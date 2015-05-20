@@ -92,6 +92,14 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-packaging-plugin</artifactId>
+					<version>${tycho.version}</version>
+                    <configuration>
+                    	<format>'v'yyyyMMddHHmm</format>
+                    </configuration>
+				</plugin>
+				<plugin>
 					<groupId>org.eclipse.tycho.extras</groupId>
 					<artifactId>tycho-source-feature-plugin</artifactId>
 					<version>${tycho.version}</version>
