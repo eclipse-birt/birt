@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.data.engine.olap.util;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+
 import junit.framework.TestCase;
 
 /**
@@ -20,16 +23,22 @@ import junit.framework.TestCase;
 public class OlapExpressionUtilTest extends TestCase
 {
 	/**
+	 * @throws DataException 
 	 * 
 	 */
-	public void testGetTargetLevel( )
+	public void testGetTargetLevel( ) throws DataException
 	{
-		/*assertEquals( "level1",
-				OlapExpressionUtil.getTargetLevel( "dimension[\"dim1\"][\"level1\"]" )[1] );
+		assertEquals( "level1",
+				OlapExpressionUtil.getTargetDimLevel( "dimension[\"dim1\"][\"level1\"]" ).getLevelName() );
 		
-		assertEquals( null,
-				OlapExpressionUtil.getTargetLevel( "dimension[\"dim1\"]" ) );
-*/	}
+		try {
+			assertEquals(null,
+					OlapExpressionUtil.getTargetDimLevel("dimension[\"dim1\"]"));
+		} catch (DataException ex) {
+			assertEquals(ResourceConstants.LEVEL_NAME_NOT_FOUND,
+					ex.getErrorCode());
+		}
+	}
 	
 	public void testComplexDimensionExpression( ) 
 	{
