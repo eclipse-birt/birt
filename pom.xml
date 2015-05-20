@@ -14,7 +14,7 @@
         <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.10/</emf.repo.url>
         <wtp.repo.url>http://download.eclipse.org/webtools/repository/luna/</wtp.repo.url>
         <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
-        <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/S20150428165605/repository/</orbit.repo.url>
+        <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/repository/</orbit.repo.url>
         <!-- use local dtp git -->
         <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
     </properties>
