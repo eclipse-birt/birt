@@ -62,9 +62,16 @@ public class ResultMetaData implements IResultMetaData
 	public ResultMetaData(
 			org.eclipse.birt.data.engine.api.IResultMetaData dteMeta )
 	{
+		this( dteMeta, null);
+	}
+	
+	public ResultMetaData(
+			org.eclipse.birt.data.engine.api.IResultMetaData dteMeta , String[] selectColumns)
+	{
+		this.selectedColumns = selectColumns;
 		adaptDTE( dteMeta );
 	}
-
+	
 	private void adaptDTE(
 			org.eclipse.birt.data.engine.api.IResultMetaData dteMeta )
 	{
