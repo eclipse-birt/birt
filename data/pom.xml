@@ -1,48 +1,47 @@
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <modelVersion>4.0.0</modelVersion>
-    
-    <parent>
-        <groupId>org.eclipse.birt</groupId>
-        <artifactId>org.eclipse.birt-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../</relativePath>
-    </parent>
-    
-    <groupId>org.eclipse.birt.data</groupId>
-    <artifactId>org.eclipse.birt.data-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    
-    <modules>
-        <module>org.eclipse.birt.core.script.function</module>
-        <module>org.eclipse.birt.data</module>
-        <module>org.eclipse.birt.data.aggregation</module>
-        <module>org.eclipse.birt.data.oda.mongodb</module>
-        <module>org.eclipse.birt.data.oda.mongodb.ui</module>
-        <module>org.eclipse.birt.data.oda.pojo</module>
-        <module>org.eclipse.birt.data.oda.pojo.ui</module>
-        <module>org.eclipse.birt.me.prettyprint.hector</module>
-        <module>org.eclipse.birt.report.data.adapter</module>
-        <module>org.eclipse.birt.report.data.bidi.utils</module>
-        <module>org.eclipse.birt.report.data.bidi.utils.ui</module>
-        <module>org.eclipse.birt.report.data.oda.excel</module>
-        <module>org.eclipse.birt.report.data.oda.excel.ui</module>
-        <module>org.eclipse.birt.report.data.oda.hive</module>
-        <module>org.eclipse.birt.report.data.oda.hive.ui</module>
-        <module>org.eclipse.birt.report.data.oda.jdbc</module>
-        <module>org.eclipse.birt.report.data.oda.jdbc.dbprofile</module>
-        <module>org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb</module>
-        <module>org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui</module>
-        <module>org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui</module>
-        <module>org.eclipse.birt.report.data.oda.jdbc.ui</module>
-        <module>org.eclipse.birt.report.data.oda.sampledb</module>
-        <module>org.eclipse.birt.report.data.oda.sampledb.ui</module>
-        <module>org.eclipse.birt.report.data.oda.xml</module>
-        <module>org.eclipse.birt.report.data.oda.xml.ui</module>
-        <module>org.eclipse.birt.report.engine.script.javascript</module>
-        <module>org.eclipse.birt.data.oda.pojo.tests</module>
-        <module>org.eclipse.birt.data.tests</module>
-        <module>org.eclipse.birt.report.data.oda.jdbc.tests</module>
-    </modules>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.eclipse.birt</groupId>
+		<artifactId>org.eclipse.birt-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+
+	<groupId>org.eclipse.birt.data</groupId>
+	<artifactId>org.eclipse.birt.data-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>org.eclipse.birt.core.script.function</module>
+		<module>org.eclipse.birt.data</module>
+		<module>org.eclipse.birt.data.aggregation</module>
+		<module>org.eclipse.birt.data.oda.mongodb</module>
+		<module>org.eclipse.birt.data.oda.mongodb.ui</module>
+		<module>org.eclipse.birt.data.oda.pojo</module>
+		<module>org.eclipse.birt.data.oda.pojo.ui</module>
+		<module>org.eclipse.birt.me.prettyprint.hector</module>
+		<module>org.eclipse.birt.report.data.adapter</module>
+		<module>org.eclipse.birt.report.data.bidi.utils</module>
+		<module>org.eclipse.birt.report.data.bidi.utils.ui</module>
+		<module>org.eclipse.birt.report.data.oda.excel</module>
+		<module>org.eclipse.birt.report.data.oda.excel.ui</module>
+		<module>org.eclipse.birt.report.data.oda.hive</module>
+		<module>org.eclipse.birt.report.data.oda.hive.ui</module>
+		<module>org.eclipse.birt.report.data.oda.jdbc</module>
+		<module>org.eclipse.birt.report.data.oda.jdbc.dbprofile</module>
+		<module>org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb</module>
+		<module>org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui</module>
+		<module>org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui</module>
+		<module>org.eclipse.birt.report.data.oda.jdbc.ui</module>
+		<module>org.eclipse.birt.report.data.oda.sampledb</module>
+		<module>org.eclipse.birt.report.data.oda.sampledb.ui</module>
+		<module>org.eclipse.birt.report.data.oda.xml</module>
+		<module>org.eclipse.birt.report.data.oda.xml.ui</module>
+		<module>org.eclipse.birt.report.engine.script.javascript</module>
+		<module>org.eclipse.birt.data.oda.pojo.tests</module>
+		<module>org.eclipse.birt.data.tests</module>
+		<module>org.eclipse.birt.report.data.oda.jdbc.tests</module>
+	</modules>
 </project>

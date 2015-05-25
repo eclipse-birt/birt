@@ -1,90 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.eclipse.birt</groupId>
-    <artifactId>org.eclipse.birt-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../../</relativePath>
-  </parent>
-  <groupId>org.eclipse.birt</groupId>
-  <artifactId>org.eclipse.birt.doc.isv</artifactId>
-  <version>4.5.0-SNAPSHOT</version>
-  <packaging>eclipse-plugin</packaging>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>target-platform-configuration</artifactId>
-        <version>${tycho.version}</version>
-        <configuration>
-          <dependency-resolution>
-            <extraRequirements>
-              <requirement>
-                <type>eclipse-plugin</type>
-                <id>org.eclipse.birt.core</id>
-                <versionRange>1.0.0</versionRange>
-              </requirement>
-              <requirement>
-                <type>eclipse-plugin</type>
-                <id>org.eclipse.birt.core.ui</id>
-                <versionRange>1.0.0</versionRange>
-              </requirement>
-              <requirement>
-                <type>eclipse-plugin</type>
-                <id>org.eclipse.birt.report.model</id>
-                <versionRange>1.0.0</versionRange>
-              </requirement>
-              <requirement>
-                <type>eclipse-plugin</type>
-                <id>org.eclipse.birt.report.engine</id>
-                <versionRange>1.0.0</versionRange>
-              </requirement>
-            </extraRequirements>
-          </dependency-resolution>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.8</version>
-        <executions>
-          <execution>
-            <id>javadoc</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <property name="core.src.dir" location="${basedir}/../../core/"/>
-                <property name="engine.src.dir" location="${basedir}/../../engine/"/>
-                <property name="model.src.dir" location="${basedir}/../../model/"/>
-                <ant antfile="${basedir}/BuildISVDoc.xml" target="Javadoc">
-                  <reference refid="maven.compile.classpath" torefid="class.path"/>
-                  <property name="BranchVersion" value="${project.version}"/>
-                  <property name="core.dir" value="${core.src.dir}/org.eclipse.birt.core"/>
-                  <property name="core.ui.dir" value="${core.src.dir}/org.eclipse.birt.core.ui"/>
-                  <property name="engine.dir" value="${engine.src.dir}/org.eclipse.birt.report.engine"/>
-                  <property name="model.dir" value="${model.src.dir}/org.eclipse.birt.report.model"/>
-                </ant>
-              </target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>clean</id>
-            <phase>clean</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <ant antfile="${basedir}/BuildISVDoc.xml" target="cleanBuild"/>
-              </target>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.eclipse.birt</groupId>
+		<artifactId>org.eclipse.birt-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../</relativePath>
+	</parent>
+	<groupId>org.eclipse.birt</groupId>
+	<artifactId>org.eclipse.birt.doc.isv</artifactId>
+	<version>4.5.0-SNAPSHOT</version>
+	<packaging>eclipse-plugin</packaging>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<dependency-resolution>
+						<extraRequirements>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.eclipse.birt.core</id>
+								<versionRange>1.0.0</versionRange>
+							</requirement>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.eclipse.birt.core.ui</id>
+								<versionRange>1.0.0</versionRange>
+							</requirement>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.eclipse.birt.report.model</id>
+								<versionRange>1.0.0</versionRange>
+							</requirement>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.eclipse.birt.report.engine</id>
+								<versionRange>1.0.0</versionRange>
+							</requirement>
+						</extraRequirements>
+					</dependency-resolution>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>javadoc</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<property name="core.src.dir" location="${basedir}/../../core/"/>
+								<property name="engine.src.dir" location="${basedir}/../../engine/"/>
+								<property name="model.src.dir" location="${basedir}/../../model/"/>
+								<ant antfile="${basedir}/BuildISVDoc.xml" target="Javadoc">
+									<reference refid="maven.compile.classpath" torefid="class.path"/>
+									<property name="BranchVersion" value="${project.version}"/>
+									<property name="core.dir" value="${core.src.dir}/org.eclipse.birt.core"/>
+									<property name="core.ui.dir" value="${core.src.dir}/org.eclipse.birt.core.ui"/>
+									<property name="engine.dir" value="${engine.src.dir}/org.eclipse.birt.report.engine"/>
+									<property name="model.dir" value="${model.src.dir}/org.eclipse.birt.report.model"/>
+								</ant>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<ant antfile="${basedir}/BuildISVDoc.xml" target="cleanBuild"/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

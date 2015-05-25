@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
 		<artifactId>org.eclipse.birt-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
+
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.runtime.osgi</artifactId>
 	<version>4.5.0-SNAPSHOT</version>
@@ -26,7 +26,6 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-p2-director-plugin</artifactId>
@@ -62,5 +61,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
