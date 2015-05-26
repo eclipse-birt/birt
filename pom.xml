@@ -10,13 +10,29 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>0.21.0</tycho.version>
 		<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5milestones/</eclipse.repo.url>
-		<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.10/</emf.repo.url>
-		<wtp.repo.url>http://download.eclipse.org/webtools/repository/luna/</wtp.repo.url>
-		<gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
+		<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.11milestones/</emf.repo.url>
+		<wtp.repo.url>http://download.eclipse.org/webtools/repository/mars/</wtp.repo.url>
+		<gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
 		<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/repository/</orbit.repo.url>
-		<!-- use local dtp git -->
 		<dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
 	</properties>
+
+	<!-- make release builds in particular quicker and more reliable -->
+	<profiles>
+		<profile>
+			<id>localdeps</id>
+			<properties>
+				<!-- mavenists would claim that these should be relative to ${basedir}
+				     1. ${basedir} is each plugin dir in turn, 2. causes massive memleaks -->
+				<eclipse.repo.url>file://${pwd}/build/deps/eclipse</eclipse.repo.url>
+				<emf.repo.url>file://${pwd}/build/deps/emf</emf.repo.url>
+				<gef.repo.url>file://${pwd}/build/deps/gef</gef.repo.url>
+				<wtp.repo.url>file://${pwd}/build/deps/wtp</wtp.repo.url>
+				<orbit.repo.url>file://${pwd}/build/deps/orbit</orbit.repo.url>
+				<dtp.repo.url>file://${pwd}/build/deps/dtp</dtp.repo.url>
+			</properties>
+		</profile>
+	</profiles>
 
 	<repositories>
 		<!-- BIRT need Eclipse/EMF/GEF/DTP/ORBIT/WTP-->
