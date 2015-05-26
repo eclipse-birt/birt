@@ -60,18 +60,18 @@
       <category name="wtpIntegration"/>
    </feature>
    -->
-   <!-- 
     <feature url="features/org.eclipse.birt.testhelper_4.5.0.qualifier.jar" id="org.eclipse.birt.testhelper" version="4.5.0.qualifier">
       <category name="birtTest"/>
    </feature>
+   <!-- 
     <feature url="features/org.eclipse.birt.testhelper.source_4.5.0.qualifier.jar" id="org.eclipse.birt.testhelper.source" version="4.5.0.qualifier">
       <category name="birtTest"/>
    </feature>
     -->
-   <!-- 
     <feature url="features/org.eclipse.birt.tests_4.5.0.qualifier.jar" id="org.eclipse.birt.tests" version="4.5.0.qualifier">
       <category name="birtTest"/>
    </feature>
+   <!-- 
     <feature url="features/org.eclipse.birt.tests.source_4.5.0.qualifier.jar" id="org.eclipse.birt.tests.source" version="4.5.0.qualifier">
       <category name="birtTest"/>
    </feature>
