@@ -166,23 +166,29 @@ public class ArchiveUtilTest extends TestCase
         assertEquals( "/%2E", ArchiveUtil.getFilePath( "/." ) );
         assertEquals( "/%2E%2E", ArchiveUtil.getFilePath( ".." ) );
         assertEquals( "/%2E%2E", ArchiveUtil.getFilePath( "/.." ) );
-        assertEquals( "/...", ArchiveUtil.getFilePath( "/..." ) );
+        assertEquals( "/%2E%2E%2E", ArchiveUtil.getFilePath( "/..." ) );
         assertEquals( "/%2F/", ArchiveUtil.getFilePath( "//" ) );
         assertEquals( "/%2F/%2F/", ArchiveUtil.getFilePath( "///" ) );
+        assertEquals( "/abc%2E/", ArchiveUtil.getFilePath( "/abc./" ) );
+        assertEquals( "/abc%2E/abc/", ArchiveUtil.getFilePath( "/abc./abc/" ) );
+        assertEquals( "/abc%2E/a%2Ebc/abc%2E", ArchiveUtil.getFilePath("/abc./a.bc/abc."));
     }
 
     public void testFileToEntry( )
     {
-        assertEquals( "/", ArchiveUtil.getEntryName( "/" ) );
-        assertEquals( "/.", ArchiveUtil.getEntryName( "/%2E" ) );
-        assertEquals( "/..", ArchiveUtil.getEntryName( "/%2E%2E" ) );
-        assertEquals( "/./", ArchiveUtil.getEntryName( "/%2E/" ) );
-        assertEquals( "/../", ArchiveUtil.getEntryName( "/%2E%2E/" ) );
-        assertEquals( "//", ArchiveUtil.getEntryName( "/%2F/" ) );
-        assertEquals( "//", ArchiveUtil.getEntryName( "/%2F" ) );
-        assertEquals( "///", ArchiveUtil.getEntryName( "/%2F/%2F" ) );
-        assertEquals( "///", ArchiveUtil.getEntryName( "/%2F/%2F/" ) );
-    }
+		assertEquals( "/", ArchiveUtil.getEntryName( "/" ) );
+		assertEquals( "/.", ArchiveUtil.getEntryName( "/%2E" ) );
+		assertEquals( "/..", ArchiveUtil.getEntryName( "/%2E%2E" ) );
+		assertEquals( "/./", ArchiveUtil.getEntryName( "/%2E/" ) );
+		assertEquals( "/../", ArchiveUtil.getEntryName( "/%2E%2E/" ) );
+		assertEquals( "//", ArchiveUtil.getEntryName( "/%2F/" ) );
+		assertEquals( "/", ArchiveUtil.getEntryName( "/%2F" ) );
+		assertEquals( "//", ArchiveUtil.getEntryName( "/%2F/%2F" ) );
+		assertEquals( "///", ArchiveUtil.getEntryName( "/%2F/%2F/" ) );
+		assertEquals( "/abc.", ArchiveUtil.getEntryName( "/abc%2E" ) );
+		assertEquals( "/abc./", ArchiveUtil.getEntryName( "/abc%2E/" ) );
+		assertEquals( "/abc./abc.", ArchiveUtil.getEntryName( "/abc%2E/abc%2E" ) );
+	}
 
     private void assertEquals( String[] v1, String[] v2 )
     {

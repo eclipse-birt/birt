@@ -57,7 +57,7 @@ public class ArchiveUtil
 	 * To support file/folder with same name, use the FILE_EXTENSION for files.
 	 */
 	public final static String FILE_EXTENSION = ".content";
-
+	public final static String GENERAL_EXTENSION = ".d";
     /**
      * @param rootPath
      *            - the absolute path of the root folder.
@@ -213,7 +213,13 @@ public class ArchiveUtil
         }
         try
         {
-            return URLEncoder.encode( name, "utf-8" );
+			String path = URLEncoder.encode( name, "utf-8" );
+//        	handle case /abc./ where the File Object will remove "." unexpectedly by encoding . to %2E
+			if ( path.contains( "." ) )
+			{
+				path = path.replaceAll( "\\.", "%2E" );
+			}
+			return path;
         }
         catch ( UnsupportedEncodingException ex )
         {
