@@ -30,10 +30,12 @@ import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.IRFactory;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.Token;
 import org.mozilla.javascript.ast.AstRoot;
+import org.mozilla.javascript.ast.ScriptNode;
 
 /**
  * The utility class of expression, if the expression is column, return true,
@@ -77,13 +79,15 @@ public class ExpressionUtility
 		if ( compiledExprCache.containsKey( expression ) )
 			return ( (Boolean) compiledExprCache.get( expression ) ).booleanValue( );
 		Context context = Context.enter( );
-		AstRoot tree;
+		ScriptNode tree;
 		try
 		{
 			CompilerEnvirons m_compilerEnv = new CompilerEnvirons( );
 			m_compilerEnv.initFromContext( context );
 			Parser p = new Parser( m_compilerEnv, context.getErrorReporter( ) );
-			tree = p.parse( expression, null, 0 );
+			AstRoot root = p.parse( expression, null, 0 );
+			IRFactory ir = new IRFactory( m_compilerEnv );
+			tree = ir.transformTree( root );
 		}
 		catch ( Exception e )
 		{

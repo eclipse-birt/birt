@@ -24,10 +24,12 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.IRFactory;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.Token;
 import org.mozilla.javascript.ast.AstRoot;
+import org.mozilla.javascript.ast.ScriptNode;
 
 /**
  * 
@@ -375,8 +377,9 @@ public class CubeQueryUtil
 			CompilerEnvirons ce = new CompilerEnvirons( );
 			Parser p = new Parser( ce, cx.getErrorReporter( ) );
 			AstRoot tree = p.parse( expr, null, 0 );
-
-			return getScriptObjectName( tree, objectName );
+			IRFactory ir = new IRFactory( ce );
+			ScriptNode script = ir.transformTree( tree );
+			return getScriptObjectName( script, objectName );
 		}
 		finally
 		{
