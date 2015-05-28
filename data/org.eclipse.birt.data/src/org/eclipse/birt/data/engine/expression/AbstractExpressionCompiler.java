@@ -27,12 +27,14 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.IRFactory;
 import org.mozilla.javascript.Interpreter;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.Script;
-import org.mozilla.javascript.ScriptOrFnNode;
 import org.mozilla.javascript.Token;
+import org.mozilla.javascript.ast.AstRoot;
+import org.mozilla.javascript.ast.ScriptNode;
 
 /**
  * This class provides default implementations for the compilation of ROM
@@ -97,7 +99,7 @@ abstract class AbstractExpressionCompiler
 				return null;
 			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME );
 			
-			ScriptOrFnNode tree = parse( exp, engine.getJSContext( context ) );
+			ScriptNode tree = parse( exp, engine.getJSContext( context ) );
 			return processScriptTree( exp, tree, engine.getJSContext( context ));
 		}
 		catch ( Exception e )
@@ -129,7 +131,7 @@ abstract class AbstractExpressionCompiler
 			
 			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME );
 			
-			ScriptOrFnNode tree = parse( exp, engine.getJSContext( context ) );
+			ScriptNode tree = parse( exp, engine.getJSContext( context ) );
 			return processScriptTree( exp, tree, engine.getJSContext( context )  );
 		}
 		catch ( Exception e )
@@ -176,7 +178,7 @@ abstract class AbstractExpressionCompiler
 	 *         DataException
 	 */
 	private CompiledExpression processScriptTree( String expression,
-			ScriptOrFnNode tree, Context context ) throws DataException
+			ScriptNode tree, Context context ) throws DataException
 
 	{
 		CompiledExpression expr;
@@ -227,7 +229,7 @@ abstract class AbstractExpressionCompiler
 	 * @return
 	 * @throws DataException
 	 */
-	protected ScriptOrFnNode parse( String expression, Context cx )
+	protected ScriptNode parse( String expression, Context cx )
 			throws DataException
 	{
 		if ( expression == null )
@@ -235,7 +237,10 @@ abstract class AbstractExpressionCompiler
 
 		CompilerEnvirons compilerEnv = getCompilerEnv( cx );
 		Parser p = new Parser( compilerEnv, cx.getErrorReporter( ) );
-		return p.parse( expression, null, 0 );
+		AstRoot root = p.parse( expression, null, 0 );
+		IRFactory ir = new IRFactory(compilerEnv );
+		ScriptNode script = ir.transformTree(root);
+		return script;
 	}
 
 		/**
@@ -454,7 +459,7 @@ abstract class AbstractExpressionCompiler
 	 * @param tree
 	 * @param expr
 	 */
-	protected void compileForBytecodeExpr( Context context, ScriptOrFnNode tree,
+	protected void compileForBytecodeExpr( Context context, ScriptNode tree,
 			CompiledExpression expr )
 	{
 		assert ( expr instanceof BytecodeExpression );

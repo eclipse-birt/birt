@@ -141,6 +141,7 @@ public class SampledbPlugin extends BIRTPlugin
 			else
 			{
 				// Copy zip entry to local file
+                entryFile.getParentFile().mkdirs();
 				OutputStream os = new FileOutputStream( entryFile );
 		        byte[] buf = new byte[4000];
 		        int len;

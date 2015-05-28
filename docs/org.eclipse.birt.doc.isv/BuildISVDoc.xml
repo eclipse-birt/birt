@@ -184,13 +184,15 @@
 	</target>
 
 	<!-- Generate the JavaDoc.  -->
-	<target name="Javadoc">
-		<echo message="generating javadoc for birt"/>
+	<target name="Javadoc" depends="engineJavadoc, engineScriptJavadoc, modelJavadoc, coreJavadoc, coreuiJavadoc">
+            <echo message="generating javadoc for birt"/>
+                <!--
 		<antcall target = "engineJavadoc"/>
 		<antcall target = "engineScriptJavadoc"/>
 		<antcall target = "modelJavadoc"/>
 		<antcall target = "coreJavadoc"/>
-		<antcall target = "coreuiJavadoc"/>
+                <antcall target = "coreuiJavadoc"/>
+                -->
 		<!-- replace onLoad="top.loadFrames()" with onLoad="", this javascript messes things up with in eclipse help -->
 		<replace file="engine/api/index.html">
 			<replacetoken><![CDATA[onLoad="top.loadFrames()"]]></replacetoken>

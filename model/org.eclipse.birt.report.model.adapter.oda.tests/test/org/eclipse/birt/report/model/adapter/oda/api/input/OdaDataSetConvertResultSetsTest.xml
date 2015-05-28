@@ -44,6 +44,7 @@
                 <structure>
                     <property name="position">2</property>
                     <property name="name">date</property>
+					<property name="nativeName">dateName</property>
                     <property name="dataType">date-time</property>
                 </structure>
             </list-property>
@@ -58,7 +59,8 @@
                     <property name="analysis">attribute</property>
                     <property name="onColumnLayout">true</property>
                 </structure>
-            </list-property>			
+            </list-property>
+			<property name="queryText">select * from CLASSICMODELS.OFFICES</property>		
         </oda-data-set>
         <oda-data-set name="myDataSet2" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
 			<property name="dataSource">myDataSource1</property>

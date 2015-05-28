@@ -7,7 +7,7 @@ Bundle-ClassPath: .
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.datatools.connectivity.oda;bundle-version="[3.0.1,4.0.0)",
- org.junit;bundle-version="[3.8.1,4.0.0)";resolution:=optional,
+ org.junit;bundle-version="3.8.1";resolution:=optional,
  org.eclipse.datatools.enablement.oda.xml;bundle-version="[1.0.0,2.0.0)"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.report.data.oda.xml; x-internal:=false,

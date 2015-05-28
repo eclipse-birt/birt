@@ -535,14 +535,13 @@ public class ExtendsCommandTest extends BaseTestCase
 		assertEquals(
 				"First Page", label1.getLocalProperty( module, Label.TEXT_PROP ) ); //$NON-NLS-1$
 
-		// Copied from style3. "BackGroudColor" and "BorderLeftColor" are not
-		// inheritable.
+		// Copied from style3. "BackGroudColor" and "BorderLeftColor" should also extends from parent.
 
 		assertEquals(
 				"x-small", label1.getLocalProperty( module, Style.FONT_SIZE_PROP ).toString( ) ); //$NON-NLS-1$
-		assertEquals( null, label1.getLocalProperty( module,
+		assertEquals( "black", label1.getLocalProperty( module,
 				Style.BORDER_LEFT_COLOR_PROP ) );
-		assertEquals( null, label1.getLocalProperty( module,
+		assertEquals( "red", label1.getLocalProperty( module,
 				Style.BACKGROUND_COLOR_PROP ) );
 
 		// From selector is not copied.

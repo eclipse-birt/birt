@@ -95,6 +95,7 @@ public class MetaLoggerTest extends AbstractMetaTest
 
 		try
 		{
+		    MetaDataDictionary.reset( );
 			loadMetaData( MetaLoggerTest.class
 					.getResourceAsStream( "input/" + fileName ) ); //$NON-NLS-1$
 		}
@@ -1123,6 +1124,7 @@ public class MetaLoggerTest extends AbstractMetaTest
 
 	public void test_MISSING_STRUCT_DEFN( )
 	{
+	    loadMeta( "rom.def" );
 		PropertyDefn prop = new SystemPropertyDefn( );
 		prop.setName( "prop1" ); //$NON-NLS-1$
 		prop.setType( MetaDataDictionary.getInstance( ).getPropertyType(

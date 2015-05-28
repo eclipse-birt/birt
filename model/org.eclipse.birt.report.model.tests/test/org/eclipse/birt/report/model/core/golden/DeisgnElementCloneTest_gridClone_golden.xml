@@ -34,16 +34,25 @@
                     </column>
                     <row id="13">
                         <cell id="14">
+                        	<property name="column">1</property>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
                             <label id="15"/>
                         </cell>
                     </row>
                     <row id="16">
                         <cell id="17">
+                        	<property name="column">1</property>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
                             <label id="18"/>
                         </cell>
                     </row>
                     <row id="19">
                         <cell id="20">
+                        	<property name="column">1</property>
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
                             <label id="21"/>
                         </cell>
                     </row>
@@ -51,7 +60,9 @@
                 <grid id="22">
                     <row id="23">
                         <cell id="24">
-                            <property name="column">1</property>
+                        	<property name="column">1</property>
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
                             <label id="25"/>
                         </cell>
                     </row>
@@ -67,16 +78,25 @@
             </column>
             <row id="29">
                 <cell id="30">
+                	<property name="column">1</property>
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <label id="31"/>
                 </cell>
             </row>
             <row id="32">
                 <cell id="33">
+                	<property name="column">1</property>
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <label id="34"/>
                 </cell>
             </row>
             <row id="35">
                 <cell id="36">
+                	<property name="column">1</property>
+                    <property name="colSpan">2</property>
+                    <property name="rowSpan">1</property>
                     <label id="37"/>
                 </cell>
             </row>

@@ -19,10 +19,12 @@ import java.util.Set;
 import org.eclipse.birt.core.exception.CoreException;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.IRFactory;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.ScriptOrFnNode;
 import org.mozilla.javascript.Token;
+import org.mozilla.javascript.ast.AstRoot;
+import org.mozilla.javascript.ast.ScriptNode;
 
 /**
  * 
@@ -39,22 +41,23 @@ class OlapExpressionCompiler
 	public static Set<String> getReferencedMeasure( String expr )
 	{
 		if ( expr == null )
-			return Collections.EMPTY_SET;
+			return Collections.emptySet( );
 		try
 		{
 			Set<String> result = new LinkedHashSet<String>( );
 			Context cx = Context.enter( );
 			CompilerEnvirons ce = new CompilerEnvirons( );
 			Parser p = new Parser( ce, cx.getErrorReporter( ) );
-			ScriptOrFnNode tree = p.parse( expr, null, 0 );
-
-			getScriptObjectName( tree, "measure", result );
+			AstRoot tree = p.parse( expr, null, 0 );
+			IRFactory ir = new IRFactory( ce );
+			ScriptNode script = ir.transformTree( tree );
+			getScriptObjectName( script, "measure", result ); //$NON-NLS-1$
 			
 			return result;
 		}
 		catch( Exception e )
 		{
-			return Collections.EMPTY_SET;
+			return Collections.emptySet( );
 		}
 		finally
 		{
@@ -81,16 +84,15 @@ class OlapExpressionCompiler
 			Context cx = Context.enter( );
 			CompilerEnvirons ce = new CompilerEnvirons( );
 			Parser p = new Parser( ce, cx.getErrorReporter( ) );
-			ScriptOrFnNode tree = p.parse( expr, null, 0 );
-
-			populateDimLevels( null,
-					tree,
-					result );
+			AstRoot tree = p.parse( expr, null, 0 );
+			IRFactory ir = new IRFactory( ce );
+			ScriptNode script = ir.transformTree( tree );
+			populateDimLevels( null, script, result );
 			return result;
 		}
 		catch( Exception e )
 		{
-			return Collections.EMPTY_SET;
+			return Collections.emptySet( );
 		}
 		finally
 		{

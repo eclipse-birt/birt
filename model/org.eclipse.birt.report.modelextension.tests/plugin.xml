@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin> 
+  
+   <extension
+         id="testingMatrix"
+         name="Matrix for testing"
+         point="org.eclipse.birt.report.model.reportItemModel">
+         
+         <reportItem class="org.eclipse.birt.report.model.tests.noexistingClass" 
+			extensionName="wrongTestExtension"
+			displayNameID="Element.TestingMatrix"
+			extendsFrom="Table">
+			<property defaultValue="paper" 
+				type="string" 
+				displayNameID="Element.TestingBox.location" 
+				name="usage"/>
+			<property name="action"
+				type="structure"
+				detailType="Action" isList="false"/>
+			
+		 </reportItem>			
+		 
+         <reportItem
+               class="org.eclipse.birt.report.model.tests.box.ReportItemFactoryImpl"
+               defaultStyle="testing-box"
+               extensionName="TestingBox"
+               hasStyle="false"
+               isNameRequired="true">
+			<property defaultValue="paper" 
+				type="string" 
+				displayNameID="Element.TestingBox.location" 
+				name="usage"/>
+			<property type="choice" 
+				displayNameID="Element.TestingBox.shape" 
+				canInherit="false" 
+				name="shape">
+				<choice value="cube" displayNameID="Choices.shape.cube" name="cube"/>
+				<choice value="sphere" displayNameID="Choices.shape.sphere" name="sphere"/>
+				<choice value="cubiod" displayNameID="Choices.shape.cubiod" name="cubiod"/>
+			</property>
+			<property type="list"
+				subType="float"
+				name="points">
+			</property>
+			<property displayNameID="Element.TestingBox.slot.header" defaultDisplayName="defaultHeader" isList="false" name="header" type="element">
+				<elementType name="Label"/>
+				<elementType name="Grid"/>
+				<elementType name="TestingMatrix"/>				
+			</property>
+			<property displayNameID="Element.TestingBox.slot.detail" defaultDisplayName="defaultDetail" isList="true" name="detail" type="element">
+				<elementType name="Label"/>
+				<elementType name="Table"/>
+				<elementType name="List"/>
+				<elementType name="ExtendedItem"/>				
+			</property>
+			<property displayNameID="Element.TestingBox.slot.footer" defaultDisplayName="defaultFooter" isList="false" name="footer" type="element">
+				<elementType name="Label"/>
+				<elementType name="Grid"/>				
+			</property>
+			
+   <method
+         context="onCreate"
+         displayNameID="Element.TestingBox.afterOnCreate"
+         name="afterOnCreate"
+         returnType="org.eclipse.birt.report.model.tests.box.Box">
+      <argument
+            name="object"
+            type="Date">
+      </argument>
+      <javaDoc>
+         <![CDATA[javadoc for <code>afterOnCreate</code>]]>
+      </javaDoc>
+   </method>	
+   <method context="onCreate" displayNameID="Element.TestingBox.beforeOnCreate" name="beforeOnCreate" returnType="string">
+			  <argument name="object" type="org.eclipse.birt.report.model.tests.box.Box"/>
+     <javaDoc>
+        <![CDATA[javadoc for beforeOnCreate<br>]]>
+     </javaDoc>
+			</method>								
+   			<style name="testing-box"></style>
+   			<style name="testing-box-detail"></style>
+   			<style name="testPredefinedStyle"></style>
+      <method
+            context="onCreate"
+            displayNameID="Element.TestingBox.performOnCreate"
+            isStatic="false"
+            name="performOnCreate">
+      </method>
+		</reportItem>
+		
+		<reportItem
+        class="org.eclipse.birt.report.model.tests.matrix.ReportItemFactoryImpl"
+        defaultStyle="testing-matrix"
+        displayNameID="Element.TestingMatrix"
+        extensionName="TestingMatrix"
+        hasStyle="true"
+        isNameRequired="true">
+			<property defaultValue="default test&amp;&quot;&lt;" 
+				type="string" 
+				displayNameID="Element.TestingMatrix.test1" 
+				name="test1"/>
+			<property type="integer" 
+				displayNameID="Element.TestingMatrix.test2" 
+				canInherit="false" 
+				defaultValue="90"
+				name="test2"/>
+			<property
+         		displayNameID="Element.TestingMatrix.test3"
+		        name="test3"
+         		type="xml"/>   		
+			<property type="choice" 
+				displayNameID="Element.TestingMatrix.test5" 
+				canInherit="false" 
+				name="test5">
+				<choice value="one" displayNameID="Choices.test5.choice1" name="choice1"/>
+				<choice value="two" displayNameID="Choices.test5.choice2" name="choice2"/>
+				<choice value="three" displayNameID="Choices.test5.choice3" name="choice3"/>
+			</property>
+			<propertyGroup name="group1" displayNameID="Element.TestingMatrix.group1">
+				<property type="string"
+					displayNameID="Element.TestingMatrix.test6"
+					name="test6"/>
+				<property type="integer"
+					displayNameID="Element.TestingMatrix.test7"
+					name="test7"/>
+			</propertyGroup>
+			<method context="factory" displayNameID="Element.TestingMatrix.afterCloseDoc" name="afterCloseDoc" returnType="string" toolTipID="Element.TestingMatrix.afterCloseDoc.toolTip">
+			  <argument name="reportContext" tagID="Element.TestingMatrix.afterCloseDoc.reportContext" type="IReportContext"/>
+			  <argument name="object" tagID="Element.TestingMatrix.afterCloseDoc.object" type="Object"/>
+			</method>		
+			<method 
+				displayNameID="Element.TestingMatrix.test8" 
+				name="test8"/>	
+   			<propertyVisibility
+         		name="test3"
+         		visibility="hide"/>			
+     		<propertyVisibility
+		        name="bookmark"
+        		visibility="readonly,hide"/>
+		   	<propertyVisibility
+		        name="InvalidProperty"
+        		visibility="hide"/>
+   			<propertyVisibility
+         		name="dataSet"
+         		visibility="readonly"/>
+		    <style displayNameID="Style.TestingMatrix" name="testing-matrix" />
+      <property
+            canInherit="true"
+            detailType="TestingMatrix"
+            isEncryptable="false"
+            isList="false"
+            name="hostMatrix"
+            type="elementRef">
+      </property>						
+		</reportItem>
+		
+        <reportItem
+              class="org.eclipse.birt.report.model.tests.table.ReportItemFactoryImpl"
+              displayNameID="Element.TestingTable"
+              encryptionHelperID="oneEncryptionHelper"
+              extendsFrom="ReportItem"
+              extensionName="TestingTable">
+			<property defaultValue="paper" 
+				type="string" 
+				displayNameID="Element.TestingBox.location" 
+				name="usage"/>
+			<property name="action"
+				type="structure"
+				detailType="Action" isList="false"/>
+		   <property
+           hasOwnModel="false"
+           name="customComments"
+           type="xml">
+		   </property>
+    	   <overrideProperty
+              allowedUnits="in,cm"
+              propertyName="width"/>
+     <property
+           canInherit="true"
+           detailType="Level"
+           isEncryptable="false"
+           name="level"
+           type="elementRef">
+     </property>
+     <property
+           canInherit="true"
+           isList="true"
+           name="filter"
+           type="contentElement">
+        <elementType
+              name="FilterConditionElement">
+        </elementType>
+     </property>
+     <property
+           canInherit="true"
+           isList="true"
+           name="sorts"
+           type="contentElement">
+        <elementType
+              name="SortElement">
+        </elementType>
+     </property>
+     <property type="string" 
+				displayNameID="Element.TestingBox.pswd" 
+				isEncryptable="true"
+				name="pswd"/>
+     <overrideProperty
+           propertyName="highlightRules"
+           useOwnSearch="true">
+     </overrideProperty>
+     <overrideProperty
+           propertyName="color"
+           useOwnSearch="true">
+     </overrideProperty>
+     <property
+           canInherit="true"
+           isList="true"
+           name="detail"
+           type="element">
+        <elementType
+              name="TestingTable">
+        </elementType>
+     </property>
+		</reportItem>
+		<reportItem
+            class="org.eclipse.birt.report.model.tests.action.ReportItemFactoryImpl"
+            displayNameID="Element.TestingAction"
+            extendsFrom="ReportItem"
+            extensionName="TestingAction">
+     <property
+           canInherit="true"
+           isEncryptable="false"
+           isList="true"
+           name="variables"
+           type="contentElement">
+        <elementType
+              name="VariableElement">
+        </elementType>
+     </property>
+     <property
+           canInherit="true"
+           isEncryptable="false"
+           isList="true"
+           name="dataGroups"
+           type="contentElement">
+        <elementType
+              name="DataGroup">
+        </elementType>
+     </property>
+         <property
+               allowExpression="true"
+               canInherit="true"
+               hasOwnModel="false"
+               isEncryptable="false"
+               isList="false"
+               name="test1"
+               type="dimension">
+         </property>
+     <property
+           allowExpression="true"
+           canInherit="true"
+           hasOwnModel="false"
+           isEncryptable="false"
+           isList="false"
+           name="test2"
+           type="integer">
+     </property>
+      </reportItem>
+  <reportItem
+        class="org.eclipse.birt.report.model.tests.table.ReportItemFactoryImpl"
+        displayNameID="Element.TestingTable1"
+        encryptionHelperID="oneEncryptionHelper"
+        extendsFrom="TestingTable"
+        extensionName="TestingTable1">
+     <property
+           canInherit="true"
+           detailType="Table"
+           hasOwnModel="true"
+           isEncryptable="false"
+           isList="false"
+           name="elementRefList"
+           subType="elementRef"
+           type="list">
+     </property>
+  </reportItem>
+   </extension>
+   
+   <extension
+         id="testingEncryptionHelper"
+         name="testingEncryptionHelper"
+         point="org.eclipse.birt.report.model.encryptionHelper">
+         <encryptionHelper extensionName="oneEncryptionHelper" isDefault="true"
+         	class="org.eclipse.birt.report.model.tests.encryptionHelper.EncryptionHelperImpl"/>
+         
+         <encryptionHelper
+            class="org.eclipse.birt.report.model.tests.encryptionHelper.EncryptionHelperImpl_a"
+            extensionName="encryption_a">
+      	</encryptionHelper>
+      	
+      	<encryptionHelper
+            class="org.eclipse.birt.report.model.tests.encryptionHelper.EncryptionHelperImpl_b"
+            extensionName="encryption_b">
+      	</encryptionHelper>  
+      	    	
+   </extension>
+   <extension
+         id="testingScriptableObject"
+         name="testingScriptableObject"
+         point="org.eclipse.birt.report.model.IScriptableObjectClassInfo">
+      <scriptableClassInfo
+            class="org.eclipse.birt.report.model.tests.box.ScriptableFactory"
+            extensionName="TestingBox">
+      </scriptableClassInfo>
+   </extension>
+</plugin>

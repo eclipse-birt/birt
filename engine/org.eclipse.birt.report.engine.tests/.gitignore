@@ -1,3 +1,15 @@
 bin
 target
 reportenginetests.jar
+*.ps
+*.pdf
+*.rptdocument
+design*
+derby.log
+*.html
+utest
+reportdocument
+reportdocument.folder
+script.jar
+test.archive
+

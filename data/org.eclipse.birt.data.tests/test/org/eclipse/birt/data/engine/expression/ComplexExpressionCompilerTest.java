@@ -32,6 +32,7 @@ public class ComplexExpressionCompilerTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		context = new ScriptContext();
+		context.compile("javascript", null, 0, "1==1");
 		m_scope = Context.getCurrentContext( ).initStandardObjects();
 		ScriptableObject.defineClass( m_scope, ComplexExpressionCompilerTest.Row.class );
 		ScriptableObject.defineClass( m_scope, ComplexExpressionCompilerTest.AggrValue.class );

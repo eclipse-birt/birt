@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -176,7 +177,17 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 						dataHandle.setAction( (Action) newAction.get( 0 ) );
 					}
 					
+					// Set content key for label
+					String displayNameKey = dimensionHandle.getDisplayNameKey( );
+					if ( displayNameKey == null
+							&& levelHandles != null
+							&& levelHandles.length != 0 )
+					{
+						displayNameKey = levelHandles[0].getDisplayNameKey( );
+					}
+					CrosstabUtil.setLabelDisplayNameKey( displayNameKey );
 					CrosstabUtil.addLabelToHeader( levelViewHandle );
+					CrosstabUtil.clearLabelDisplayNameKey( );
 				}
 
 			}

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="BIRTSDK" uid="org.eclipse.birt.runtime.osgi" useFeatures="false" includeLaunchers="false">
+
+
+   <configIni use="config.ini">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+   <windowImages/>
+
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
+
+   <plugins>
+		<plugin id="org.apache.derby.core"/>
+		<plugin id="org.eclipse.birt.me.prettyprint.hector"/>
+		<plugin id="org.eclipse.birt.report.data.oda.jdbc"/>
+		<plugin id="org.eclipse.birt.report.data.oda.sampledb"/>
+		<plugin id="org.eclipse.birt.report.engine.fonts"/>
+		<plugin id="org.eclipse.core.runtime.compatibility.registry"/>
+		<plugin id="org.w3c.sac"/>
+		<plugin id="uk.co.spudsoft.birt.emitters.excel"/>
+		<plugin id="com.ibm.icu"/>
+		<plugin id="com.lowagie.text"/>
+		<plugin id="javax.wsdl"/>
+		<plugin id="javax.xml.stream"/>
+		<plugin id="javax.xml"/>
+		<plugin id="org.apache.batik.bridge"/>
+		<plugin id="org.apache.batik.css"/>
+		<plugin id="org.apache.batik.dom.svg"/>
+		<plugin id="org.apache.batik.dom"/>
+		<plugin id="org.apache.batik.ext.awt"/>
+		<plugin id="org.apache.batik.parser"/>
+		<plugin id="org.apache.batik.pdf"/>
+		<plugin id="org.apache.batik.svggen"/>
+		<plugin id="org.apache.batik.transcoder"/>
+		<plugin id="org.apache.batik.util.gui"/>
+		<plugin id="org.apache.batik.util"/>
+		<plugin id="org.apache.batik.xml"/>
+		<plugin id="org.apache.commons.codec"/>
+		<plugin id="org.apache.commons.logging"/>
+		<plugin id="org.apache.commons.logging"/>
+		<plugin id="org.apache.poi"/>
+		<plugin id="org.apache.xerces"/>
+		<plugin id="org.apache.xml.resolver"/>
+		<plugin id="org.apache.xml.serializer"/>
+		<!-- plugin id="org.eclipse.birt.api"/ -->
+		<plugin id="org.eclipse.birt.chart.device.extension"/>
+		<plugin id="org.eclipse.birt.chart.device.svg"/>
+		<plugin id="org.eclipse.birt.chart.engine.extension"/>
+		<plugin id="org.eclipse.birt.chart.engine"/>
+		<plugin id="org.eclipse.birt.chart.examples.core"/>
+		<plugin id="org.eclipse.birt.chart.reportitem"/>
+		<plugin id="org.eclipse.birt.core.script.function"/>
+		<plugin id="org.eclipse.birt.core"/>
+		<plugin id="org.eclipse.birt.data.aggregation"/>
+		<plugin id="org.eclipse.birt.data.oda.mongodb"/>
+		<plugin id="org.eclipse.birt.data.oda.pojo"/>
+		<plugin id="org.eclipse.birt.data"/>
+		<plugin id="org.eclipse.birt.report.data.adapter"/>
+		<plugin id="org.eclipse.birt.report.data.bidi.utils"/>
+		<plugin id="org.eclipse.birt.report.data.oda.excel"/>
+		<plugin id="org.eclipse.birt.report.data.oda.hive"/>
+		<plugin id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb"/>
+		<plugin id="org.eclipse.birt.report.data.oda.jdbc.dbprofile"/>
+		<plugin id="org.eclipse.birt.report.data.oda.xml"/>
+		<plugin id="org.eclipse.birt.report.engine.dataextraction.csv"/>
+		<plugin id="org.eclipse.birt.report.engine.dataextraction"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config.docx"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config.excel"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config.html"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config.odp"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config.ods"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config.odt"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config.pdf"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config.postscript"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config.pptx"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config.ppt"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config.wpml"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.config"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.docx"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.html"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.odp"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.ods"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.odt"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.pdf"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.postscript"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.pptx"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.ppt"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.prototype.excel"/>
+		<plugin id="org.eclipse.birt.report.engine.emitter.wpml"/>
+		<plugin id="org.eclipse.birt.report.engine.odf"/>
+		<plugin id="org.eclipse.birt.report.engine.ooxml"/>
+		<plugin id="org.eclipse.birt.report.engine.script.javascript"/>
+		<plugin id="org.eclipse.birt.report.engine"/>
+		<plugin id="org.eclipse.birt.report.item.crosstab.core"/>
+		<plugin id="org.eclipse.birt.report.model.adapter.oda"/>
+		<plugin id="org.eclipse.birt.report.model"/>
+		<plugin id="org.eclipse.core.contenttype"/>
+		<plugin id="org.eclipse.core.expressions"/>
+		<plugin id="org.eclipse.core.filesystem"/>
+		<plugin id="org.eclipse.core.jobs"/>
+		<plugin id="org.eclipse.core.resources"/>
+		<plugin id="org.eclipse.core.runtime.compatibility"/>
+		<plugin id="org.eclipse.core.runtime"/>
+		<plugin id="org.eclipse.datatools.connectivity.apache.derby.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.connectivity.apache.derby"/>
+		<plugin id="org.eclipse.datatools.connectivity.console.profile"/>
+		<plugin id="org.eclipse.datatools.connectivity.db.generic"/>
+		<plugin id="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC"/>
+		<plugin id="org.eclipse.datatools.connectivity.oda.consumer"/>
+		<plugin id="org.eclipse.datatools.connectivity.oda.design"/>
+		<plugin id="org.eclipse.datatools.connectivity.oda.flatfile"/>
+		<plugin id="org.eclipse.datatools.connectivity.oda.profile"/>
+		<plugin id="org.eclipse.datatools.connectivity.oda"/>
+		<plugin id="org.eclipse.datatools.connectivity.sqm.core"/>
+		<plugin id="org.eclipse.datatools.connectivity"/>
+		<plugin id="org.eclipse.datatools.enablement.hsqldb.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.enablement.hsqldb"/>
+		<plugin id="org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.enablement.ibm.db2.iseries"/>
+		<plugin id="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.enablement.ibm.db2.luw"/>
+		<plugin id="org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.enablement.ibm.db2.zseries"/>
+		<plugin id="org.eclipse.datatools.enablement.ibm.informix.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.enablement.ibm.informix"/>
+		<plugin id="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.enablement.msft.sqlserver"/>
+		<plugin id="org.eclipse.datatools.enablement.mysql.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.enablement.mysql"/>
+		<plugin id="org.eclipse.datatools.enablement.oda.ws"/>
+		<plugin id="org.eclipse.datatools.enablement.oda.xml"/>
+		<plugin id="org.eclipse.datatools.enablement.oracle.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.enablement.oracle"/>
+		<plugin id="org.eclipse.datatools.enablement.postgresql.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.enablement.postgresql"/>
+		<plugin id="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.enablement.sap.maxdb"/>
+		<plugin id="org.eclipse.datatools.modelbase.dbdefinition"/>
+		<plugin id="org.eclipse.datatools.modelbase.derby"/>
+		<plugin id="org.eclipse.datatools.modelbase.sql.query"/>
+		<plugin id="org.eclipse.datatools.modelbase.sql"/>
+		<plugin id="org.eclipse.emf.common"/>
+		<plugin id="org.eclipse.emf.ecore.change"/>
+		<plugin id="org.eclipse.emf.ecore.xmi"/>
+		<plugin id="org.eclipse.emf.ecore"/>
+		<plugin id="org.eclipse.emf"/>
+		<plugin id="org.eclipse.equinox.app"/>
+		<plugin id="org.eclipse.equinox.common"/>
+		<plugin id="org.eclipse.equinox.preferences"/>
+		<plugin id="org.eclipse.equinox.registry"/>
+		<plugin id="org.eclipse.orbit.mongodb"/>
+		<plugin id="org.eclipse.osgi.services"/>
+		<plugin id="org.eclipse.osgi"/>
+		<plugin id="org.eclipse.update.configurator"/>
+		<plugin id="org.mozilla.javascript"/>
+		<plugin id="org.w3c.css.sac"/>
+		<plugin id="org.w3c.dom.smil"/>
+		<plugin id="org.w3c.dom.svg"/>
+   </plugins>
+   
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>

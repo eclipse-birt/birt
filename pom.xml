@@ -1,83 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.eclipse.birt</groupId>
-  <artifactId>org.eclipse.birt-parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.birt</groupId>
+	<artifactId>org.eclipse.birt-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tycho.version>0.21.0</tycho.version>
-        <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.4/</eclipse.repo.url>
-        <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.10/</emf.repo.url>
-        <wtp.repo.url>http://download.eclipse.org/webtools/repository/luna/</wtp.repo.url>
-        <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
-        <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</orbit.repo.url>
-        <!-- use local dtp git -->
-        <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
-    </properties>
-	
-    <repositories>
-        <!-- BIRT need Eclipse/EMF/GEF/DTP/ORBIT/WTP-->
-        <repository>
-            <id>emf</id>
-            <url>${emf.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>wtp</id>
-            <url>${wtp.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>gef</id>
-            <url>${gef.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>eclipse</id>
-            <url>${eclipse.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>orbit</id>
-            <url>${orbit.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-        <repository>
-            <id>dtp</id>
-            <url>${dtp.repo.url}</url>
-            <layout>p2</layout>
-        </repository>
-    </repositories>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<tycho.version>0.21.0</tycho.version>
+		<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5milestones/</eclipse.repo.url>
+		<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.11milestones/</emf.repo.url>
+		<wtp.repo.url>http://download.eclipse.org/webtools/repository/mars/</wtp.repo.url>
+		<gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
+		<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/repository/</orbit.repo.url>
+		<dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
+	</properties>
 
-  <modules>
-    <!-- build issue inside -->
-    <module>build</module>
-    <module>chart</module>
-    <module>common</module>
-    <module>core</module>
-    <module>data</module>
-    <!-- build issue inside -->
-    <module>docs</module>
-    <module>engine</module>
-    <!-- sdk/test features build issue, test features installation -->
-    <module>features</module>
-    <module>model</module>
-    <!-- build issue inside -->
-    <module>nl</module>
-    <!-- report.viewer.tests build issue, and how to run tests.xxx plugins -->
-    <module>testsuites</module>
-	<module>UI</module>
-    <module>viewer</module>
-    <module>xtab</module>
-  </modules>
+	<!-- make release builds in particular quicker and more reliable -->
+	<profiles>
+		<profile>
+			<id>localdeps</id>
+			<properties>
+				<!-- mavenists would claim that these should be relative to ${basedir}
+				     1. ${basedir} is each plugin dir in turn, 2. causes massive memleaks -->
+				<eclipse.repo.url>file://${pwd}/build/deps/eclipse</eclipse.repo.url>
+				<emf.repo.url>file://${pwd}/build/deps/emf</emf.repo.url>
+				<gef.repo.url>file://${pwd}/build/deps/gef</gef.repo.url>
+				<wtp.repo.url>file://${pwd}/build/deps/wtp</wtp.repo.url>
+				<orbit.repo.url>file://${pwd}/build/deps/orbit</orbit.repo.url>
+				<dtp.repo.url>file://${pwd}/build/deps/dtp</dtp.repo.url>
+			</properties>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<!-- BIRT need Eclipse/EMF/GEF/DTP/ORBIT/WTP-->
+		<repository>
+			<id>eclipse</id>
+			<url>${eclipse.repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>emf</id>
+			<url>${emf.repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>wtp</id>
+			<url>${wtp.repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>gef</id>
+			<url>${gef.repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>orbit</id>
+			<url>${orbit.repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>dtp</id>
+			<url>${dtp.repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+	</repositories>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.18.1</version>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<modules>
+		<!-- build issue inside -->
+		<module>build</module>
+		<module>chart</module>
+		<module>common</module>
+		<module>core</module>
+		<module>data</module>
+		<!-- build issue inside -->
+		<module>docs</module>
+		<module>engine</module>
+		<!-- sdk/test features build issue, test features installation -->
+		<module>features</module>
+		<module>model</module>
+		<!-- build issue inside -->
+		<module>nl</module>
+		<!-- report.viewer.tests build issue, and how to run tests.xxx plugins -->
+		<module>testsuites</module>
+		<module>UI</module>
+		<module>viewer</module>
+		<module>xtab</module>
+	</modules>
 
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-packaging-plugin</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<format>'v'yyyyMMddHHmm</format>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.eclipse.tycho.extras</groupId>
 					<artifactId>tycho-source-feature-plugin</artifactId>
@@ -95,7 +131,6 @@
 							<plugin id="javax.xml.rpc"/>
 							<plugin id="javax.xml.soap"/>
 							<plugin id="javax.wsdl"/>
-							
 						</excludes>
 					</configuration>
 					<executions>
@@ -108,6 +143,7 @@
 						</execution>
 					</executions>
 				</plugin>
+
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-p2-plugin</artifactId>
@@ -134,6 +170,7 @@
 				<version>${tycho.version}</version>
 				<configuration>
 					<pomDependencies>consider</pomDependencies>
+					<includePackedArtifacts>false</includePackedArtifacts>
 					<environments>
 						<environment>
 							<os>win32</os>
@@ -165,6 +202,20 @@
 				<extensions>true</extensions>
 			</plugin>
 			<plugin>
+				<groupId>org.eclipse.tycho.extras</groupId>
+				<artifactId>tycho-pack200a-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<executions>
+					<execution>
+						<id>pack200-pack</id>
+						<goals>
+							<goal>normalize</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-versions-plugin</artifactId>
 				<version>${tycho.version}</version>
@@ -192,6 +243,9 @@
 						<jdk>
 							<id>JavaSE-1.6</id>
 						</jdk>
+						<jdk>
+							<id>JavaSE-1.7</id>
+						</jdk>
 					</toolchains>
 				</configuration>
 			</plugin>
@@ -210,12 +264,70 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- build update site -->
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-p2-repository-plugin</artifactId>
 				<version>${tycho.version}</version>
+			</plugin>
+
+			<!-- configure (integration) test -->
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit3</artifactId>
+						<version>2.18.1</version>
+					</dependency>
+				</dependencies>
+<!-- Exclude integration tests that may hang or cause other occasional delays
+	in integration test. Uncomment the following config block to disable these
+	tests temporarely. -->
+<!--
+				<configuration>
+					<testRuntime>default</testRuntime>
+					<excludes>
+						<exclude>**/FolderArchiveTest.*</exclude>
+						<exclude>**/org/eclipse/birt/data/engine/**/*Test.*</exclude>
+					</excludes>
+				</configuration>
+-->
+			</plugin>
+
+			<!-- generate code coverage report -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.4.201502262128</version>
+				<executions>
+					<execution>
+						<id>prepare-integration-tests</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+						<configuration>
+							<append>true</append>
+							<output>file</output>
+							<destFile>${basedir}/target/coverage/jacoco-integration.exec</destFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>report-integration</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report-integration</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/coverage/reports</outputDirectory>
+							<dataFile>${basedir}/target/coverage/jacoco-integration.exec</dataFile>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

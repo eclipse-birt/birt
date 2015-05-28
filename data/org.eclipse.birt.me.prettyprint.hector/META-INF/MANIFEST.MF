@@ -6,3 +6,4 @@ Bundle-Version: 4.5.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Require-Bundle: org.eclipse.birt.core;bundle-version="4.2.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-BundleShape: dir

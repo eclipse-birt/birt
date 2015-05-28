@@ -19,8 +19,8 @@ import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Node;
-import org.mozilla.javascript.ScriptOrFnNode;
 import org.mozilla.javascript.Token;
+import org.mozilla.javascript.ast.AstRoot;
 
 /**
  * 
@@ -116,7 +116,7 @@ public class ExpressionCompiler extends AbstractExpressionCompiler
 				continue;
 			}
 			
-			ScriptOrFnNode tree = new ScriptOrFnNode( Token.SCRIPT );
+			AstRoot tree = new AstRoot( Token.SCRIPT );
 			Node exprNode = new Node( Token.EXPR_RESULT);
 			exprNode.addChildToFront( arg );
 			tree.addChildrenToFront( exprNode );

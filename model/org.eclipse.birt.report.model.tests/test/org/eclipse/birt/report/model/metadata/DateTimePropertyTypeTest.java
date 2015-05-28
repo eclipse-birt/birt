@@ -95,7 +95,9 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 		assertEquals( 25, calendar.get( Calendar.DAY_OF_MONTH ) );
 
 		options.setLocale( ULocale.CHINA );
-		value = (Date) type.validateValue( design, null, propDefn, "2004-08-25" ); //$NON-NLS-1$
+		// The icu version change cause this to fail, change the input string
+        // (previous was "2004-08-25") to accommodate
+		value = (Date) type.validateValue( design, null, propDefn, "2004/08/25" ); //$NON-NLS-1$
 		assertEquals( 2004 - 1900, calendar.get( Calendar.YEAR ) - 1900 );
 		assertEquals( 7, calendar.get( Calendar.MONTH ) );
 		assertEquals( 25, calendar.get( Calendar.DAY_OF_MONTH ) );
@@ -151,8 +153,10 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 		assertEquals( 25, calendar.get( Calendar.DAY_OF_MONTH ) );
 
 		options.setLocale( ULocale.CHINA );
+		// The icu version change cause this to fail, change the input string
+        // (previous was "2004-08-25") to accommodate
 		value = (Date) type
-				.validateInputString( design, null, propDefn, "2004-08-25" ); //$NON-NLS-1$
+				.validateInputString( design, null, propDefn, "2004/08/25" ); //$NON-NLS-1$
 		assertEquals( 2004 - 1900, calendar.get( Calendar.YEAR ) - 1900 );
 		assertEquals( 7, calendar.get( Calendar.MONTH ) );
 		assertEquals( 25, calendar.get( Calendar.DAY_OF_MONTH ) );

@@ -380,7 +380,8 @@ public class ExtendsCommand extends AbstractElementCommand
 						.next( );
 				String propName = propDefn.getName( );
 
-				if ( !propDefn.canInherit( ) )
+				//all style properties should copy from parent (extends)
+                if ( !propDefn.isStyleProperty( ) && !propDefn.canInherit( ) )
 					continue;
 
 				// Style property and extends property will be removed.

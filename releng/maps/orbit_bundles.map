@@ -16,9 +16,9 @@ plugin@org.apache.batik.css,1.6.0=GET,http://download.eclipse.org/tools/orbit/do
 
 plugin@org.apache.batik.css.source,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.apache.batik.css.source_1.6.0.v201011041432.jar,usetimestamp=true
 
-plugin@org.apache.batik.dom,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.apache.batik.dom_1.6.0.v201011041432.jar,usetimestamp=true
+plugin@org.apache.batik.dom,1.6.1=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/repository/plugins/org.apache.batik.dom_1.6.1.v201505192100.jar,usetimestamp=true
 
-plugin@org.apache.batik.dom.source,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.apache.batik.dom.source_1.6.0.v201011041432.jar,usetimestamp=true
+plugin@org.apache.batik.dom.source,1.6.1=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/repository/plugins/org.apache.batik.dom.source_1.6.1.v201505192100.jar,usetimestamp=true
 
 plugin@org.apache.batik.dom.svg,1.6.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.apache.batik.dom.svg_1.6.0.v201011041432.jar,usetimestamp=true
 
@@ -77,7 +77,7 @@ plugin@com.lowagie.text,2.1.7=GET,http://download.eclipse.org/tools/orbit/downlo
 
 plugin@org.w3c.dom.events,3.0.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.w3c.dom.events_3.0.0.draft20060413_v201105210656.jar,usetimestamp=true
 
-plugin@org.mozilla.javascript,1.7.2=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.mozilla.javascript_1.7.2.v201005080400.jar,usetimestamp=true
+plugin@org.mozilla.javascript,1.7.5=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20150428165605/repository/plugins/org.mozilla.javascript_1.7.5.v201504281450.jar,usetimestamp=true
 
 plugin@javax.xml.stream,1.0.1=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/javax.xml.stream_1.0.1.v201004272200.jar,usetimestamp=true
 

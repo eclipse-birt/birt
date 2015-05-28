@@ -6,4 +6,5 @@ Bundle-Version: 4.5.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-BundleShape: dir
 

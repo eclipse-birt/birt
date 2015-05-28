@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -112,8 +113,11 @@ public class ExtendedPropertyState extends StructureState
 		{
 			String name = ( (ExtendedProperty) struct ).getName( );
 			boolean isEncryptable = false;
-			ODAExtensionElementDefn oda = (ODAExtensionElementDefn) ( element.getDefn( ) );
-			List<IElementPropertyDefn> hidePrivatePropsList = oda.getHidePrivateProps( );
+			List<IElementPropertyDefn> hidePrivatePropsList = null;
+            IElementDefn tmpElementDefn = element.getDefn( );
+            if ( tmpElementDefn instanceof ODAExtensionElementDefn )
+                hidePrivatePropsList = ( (ODAExtensionElementDefn) tmpElementDefn )
+                        .getHidePrivateProps( );
 			IElementPropertyDefn oadPropertyDefn = null;
 			if ( hidePrivatePropsList != null
 					&& hidePrivatePropsList.size( ) > 0 )

@@ -167,6 +167,22 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.birt.report.data.oda.xml.ui.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+     
+  <plugin
+         id="org.eclipse.birt.report.debug.core.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.birt.report.debug.ui.nl1"
          download-size="0"
          install-size="0"
@@ -287,13 +303,12 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.designer.ui.samplesview.nl1"
+         id="org.eclipse.birt.report.designer.ui.preview.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-
    <plugin
          id="org.eclipse.birt.report.designer.ui.preview.web.nl1"
          download-size="0"
@@ -383,14 +398,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.designer.ui.samples.ide.nl1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.birt.core.script.function.nl1"
          download-size="0"
          install-size="0"
@@ -424,6 +431,14 @@
 
    <plugin
          id="org.eclipse.birt.report.engine.emitter.config.html.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"

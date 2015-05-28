@@ -36,10 +36,11 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.IRFactory;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.ScriptOrFnNode;
 import org.mozilla.javascript.Token;
+import org.mozilla.javascript.ast.AstRoot;
 
 /**
  * 
@@ -142,9 +143,10 @@ public class OlapExpressionCompiler
 			Context cx = Context.enter( );
 			CompilerEnvirons ce = new CompilerEnvirons( );
 			Parser p = new Parser( ce, cx.getErrorReporter( ) );
-			ScriptOrFnNode tree = p.parse( expr, null, 0 );
+			AstRoot tree = p.parse( expr, null, 0 );
+			Node root = new IRFactory( ce).transformTree(tree);
 
-			return getScriptObjectName( tree, objectName );
+			return getScriptObjectName( root, objectName );
 		}
 		catch( Exception ex )
 		{
@@ -247,10 +249,11 @@ public class OlapExpressionCompiler
 			Context cx = Context.enter( );
 			CompilerEnvirons ce = new CompilerEnvirons( );
 			Parser p = new Parser( ce, cx.getErrorReporter( ) );
-			ScriptOrFnNode tree = p.parse( expr.getText( ), null, 0 );
+			AstRoot tree = p.parse( expr.getText( ), null, 0 );
+			Node root = new IRFactory( ce).transformTree(tree);
 
 			populateDimLevels( null,
-					tree,
+					root,
 					result,
 					bindings,
 					onlyFromDirectReferenceExpr );

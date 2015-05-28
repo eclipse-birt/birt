@@ -1,3 +1,5 @@
 bin
 target
 dataenginetests.jar
+DtETest
+derby.log
