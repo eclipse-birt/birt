@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.birt.chart.cshelp_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.chart.doc.isv_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.doc.isv" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.chart.osgi.runtime.source_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime.source" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.chart.osgi.runtime_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.chart.source_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.source" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.chart_4.5.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.cshelp_4.5.0.qualifier.jar" id="org.eclipse.birt.cshelp" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.doc.isv_4.5.0.qualifier.jar" id="org.eclipse.birt.doc.isv" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.doc_4.5.0.qualifier.jar" id="org.eclipse.birt.doc" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.example.source_4.5.0.qualifier.jar" id="org.eclipse.birt.example.source" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.example_4.5.0.qualifier.jar" id="org.eclipse.birt.example" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.report.designer.editor.xml.wtp.source_4.5.0.qualifier.jar" id="org.eclipse.birt.report.designer.editor.xml.wtp.source" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.report.designer.editor.xml.wtp_4.5.0.qualifier.jar" id="org.eclipse.birt.report.designer.editor.xml.wtp" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt.source_4.5.0.qualifier.jar" id="org.eclipse.birt.source" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <feature url="features/org.eclipse.birt_4.5.0.qualifier.jar" id="org.eclipse.birt" version="4.5.0.qualifier">
+      <category name="BRFSDK"/>
+   </feature>
+   <category-def name="BRFSDK" label="BIRT 4.5 Reporting Framework SDK"/>
+</site>
