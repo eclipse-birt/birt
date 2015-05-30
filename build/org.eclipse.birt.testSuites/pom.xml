@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt.build</groupId>
@@ -12,7 +13,7 @@
 	<artifactId>org.eclipse.birt.testSuites</artifactId>
 	<version>4.5.0-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -24,23 +25,28 @@
 						<phase>package</phase>
 						<configuration>
 							<tasks>
-								<delete file="${basedir}/target/repository/artifacts.jar" />
-								<delete file="${basedir}/target/repository/content.jar" />
+								<delete file="${basedir}/target/repository/artifacts.jar"/>
+								<delete file="${basedir}/target/repository/content.jar"/>
 								<move todir="${basedir}/target/repository/eclipse">
 									<fileset dir="${basedir}/target/repository">
-										<include name="**/*" />
-										<include name="**/*.*" />
+										<include name="**/*"/>
+										<include name="**/*.*"/>
 									</fileset>
 								</move>
 								<copy todir="${basedir}/target/repository">
-									<fileset dir="${basedir}/../org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/birt.tests/test.scripts">
+									<fileset
+										dir="${basedir}/../org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/birt.tests/test.scripts">
 										<exclude name="testRunner.xml"/>
 									</fileset>
 								</copy>
 								<first id="first">
-									<fileset dir="${basedir}/target" includes="*.zip" />
+									<fileset dir="${basedir}/target" includes="*.zip"/>
 								</first>
-								<zip destfile="target/${artifactId}-${birt.version}.zip" basedir="target/repository" />
+								<tstamp>
+									<format property="TODAY_USA" pattern="yyyymmdd" locale="en,US"/>
+								</tstamp>
+								<zip destfile="target/birt-tests-suite-${birt.version}-${TODAY_USA}.zip"
+									basedir="target/repository"/>
 							</tasks>
 						</configuration>
 						<goals>
