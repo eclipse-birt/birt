@@ -22,5 +22,6 @@
 		<module>org.eclipse.birt</module>
 		<module>org.eclipse.birt.runtime.osgi</module>
 		<module>birt-packages</module>
+		<module>org.eclipse.birt.wtp.integration.sdk.build</module>
 	</modules>
 </project>
