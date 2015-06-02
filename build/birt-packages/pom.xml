@@ -20,5 +20,7 @@
 	<modules>
 		<module>birt-report-framework</module>
 		<module>birt-report-framework-sdk</module>
+		<module>birt-tests-suite</module>
+		<module>birt-sample-plugins</module>
 	</modules>
 </project>
