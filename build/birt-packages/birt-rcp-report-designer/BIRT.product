@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product uid="org.eclipse.birt.report.designer.rcp" application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" useFeatures="false" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Xms40m
+-Xmx256m
+-XX:MaxPermSize=128m
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <launcher name="BIRT">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+      <plugin id="com.ibm.icu"/>
+      <plugin id="org.eclipse.birt.report.designer.core"/>
+      <plugin id="org.eclipse.birt.report.designer.ui.rcp"/>
+      <plugin id="org.eclipse.birt.resources"/>
+      <plugin id="org.eclipse.core.runtime"/>
+      <plugin id="org.eclipse.equinox.common"/>
+      <plugin id="org.eclipse.equinox.ds"/>
+      <plugin id="org.eclipse.equinox.event"/>
+      <plugin id="org.eclipse.equinox.p2.reconciler.dropins"/>
+      <plugin id="org.eclipse.equinox.simpleconfigurator"/>
+      <plugin id="org.eclipse.ui"/>
+      <plugin id="com.lowagie.text"/>
+      <plugin id="javax.el"/>
+      <plugin id="javax.servlet.jsp"/>
+      <plugin id="javax.servlet"/>
+      <plugin id="javax.wsdl"/>
+      <plugin id="javax.xml.rpc"/>
+      <plugin id="javax.xml.soap"/>
+      <plugin id="javax.xml.stream"/>
+      <plugin id="org.apache.axis"/>
+      <plugin id="org.apache.batik.pdf"/>
+      <plugin id="org.apache.commons.discovery"/>
+      <plugin id="org.apache.commons.logging"/>
+      <plugin id="org.apache.derby.core"/>
+      <plugin id="org.apache.jasper.glassfish"/>
+      <plugin id="org.apache.lucene.analysis"/>
+      <plugin id="org.apache.lucene.core"/>
+      <plugin id="org.apache.poi"/>
+      <plugin id="org.apache.xerces"/>
+      <plugin id="org.apache.xml.resolver"/>
+      <plugin id="org.apache.xml.serializer"/>
+      <plugin id="org.eclipse.birt.axis.overlay"/>
+      <plugin id="org.eclipse.birt.chart.cshelp"/>
+      <plugin id="org.eclipse.birt.chart.device.extension"/>
+      <plugin id="org.eclipse.birt.chart.device.pdf"/>
+      <plugin id="org.eclipse.birt.chart.device.svg"/>
+      <plugin id="org.eclipse.birt.chart.device.swt"/>
+      <plugin id="org.eclipse.birt.chart.engine.extension"/>
+      <plugin id="org.eclipse.birt.chart.engine"/>
+      <plugin id="org.eclipse.birt.chart.examples.core"/>
+      <plugin id="org.eclipse.birt.chart.examples"/>
+      <plugin id="org.eclipse.birt.chart.reportitem.ui"/>
+      <plugin id="org.eclipse.birt.chart.reportitem"/>
+      <plugin id="org.eclipse.birt.chart.ui.extension"/>
+      <plugin id="org.eclipse.birt.chart.ui"/>
+      <plugin id="org.eclipse.birt.core.script.function"/>
+      <plugin id="org.eclipse.birt.cshelp"/>
+      <plugin id="org.eclipse.birt.data.oda.mongodb.ui"/>
+      <plugin id="org.eclipse.birt.data.oda.mongodb"/>
+      <plugin id="org.eclipse.birt.data.oda.pojo.ui"/>
+      <plugin id="org.eclipse.birt.data.oda.pojo"/>
+      <plugin id="org.eclipse.birt.doc"/>
+      <plugin id="org.eclipse.birt.example"/>
+      <plugin id="org.eclipse.birt.me.prettyprint.hector"/>
+      <plugin id="org.eclipse.birt.report.data.bidi.utils.ui"/>
+      <plugin id="org.eclipse.birt.report.data.bidi.utils"/>
+      <plugin id="org.eclipse.birt.report.data.oda.excel.ui"/>
+      <plugin id="org.eclipse.birt.report.data.oda.excel"/>
+      <plugin id="org.eclipse.birt.report.data.oda.hive.ui"/>
+      <plugin id="org.eclipse.birt.report.data.oda.hive"/>
+      <plugin id="org.eclipse.birt.report.data.oda.jdbc.ui"/>
+      <plugin id="org.eclipse.birt.report.data.oda.jdbc"/>
+      <plugin id="org.eclipse.birt.report.data.oda.sampledb.ui"/>
+      <plugin id="org.eclipse.birt.report.data.oda.sampledb"/>
+      <plugin id="org.eclipse.birt.report.data.oda.xml.ui"/>
+      <plugin id="org.eclipse.birt.report.data.oda.xml"/>
+      <plugin id="org.eclipse.birt.report.designer.samplereports"/>
+      <plugin id="org.eclipse.birt.report.designer.ui.cubebuilder"/>
+      <plugin id="org.eclipse.birt.report.designer.ui.data"/>
+      <plugin id="org.eclipse.birt.report.designer.ui.preview.web"/>
+      <plugin id="org.eclipse.birt.report.designer.ui.samples.rcp"/>
+      <plugin id="org.eclipse.birt.report.designer.ui.samplesview"/>
+      <plugin id="org.eclipse.birt.report.engine.dataextraction.csv"/>
+      <plugin id="org.eclipse.birt.report.engine.dataextraction"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.docx"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.excel"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.html"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.odp"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.ods"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.odt"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.pdf"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.postscript"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.pptx"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.ppt"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.wpml"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.docx"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.html"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.odp"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.ods"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.odt"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.pdf"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.postscript"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.pptx"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.ppt"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.prototype.excel"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.wpml"/>
+      <plugin id="org.eclipse.birt.report.engine.fonts"/>
+      <plugin id="org.eclipse.birt.report.engine.odf"/>
+      <plugin id="org.eclipse.birt.report.engine.ooxml"/>
+      <plugin id="org.eclipse.birt.report.engine.script.javascript"/>
+      <plugin id="org.eclipse.birt.report.item.crosstab.core"/>
+      <plugin id="org.eclipse.birt.report.item.crosstab.ui"/>
+      <plugin id="org.eclipse.birt.report.model.adapter.oda"/>
+      <plugin id="org.eclipse.birt.report.viewer"/>
+      <plugin id="org.eclipse.birt"/>
+      <plugin id="org.eclipse.core.filebuffers"/>
+      <plugin id="org.eclipse.core.filesystem.win32.x86"/>
+      <plugin id="org.eclipse.core.net.win32.x86"/>
+      <plugin id="org.eclipse.core.net"/>
+      <plugin id="org.eclipse.core.resources.win32.x86"/>
+      <plugin id="org.eclipse.core.runtime.compatibility.registry"/>
+      <plugin id="org.eclipse.core.runtime.compatibility"/>
+      <plugin id="org.eclipse.datatools.connectivity.db.generic"/>
+      <plugin id="org.eclipse.datatools.connectivity.oda.design.ui"/>
+      <plugin id="org.eclipse.datatools.connectivity.oda.design"/>
+      <plugin id="org.eclipse.datatools.connectivity.oda.flatfile.ui"/>
+      <plugin id="org.eclipse.datatools.connectivity.oda.flatfile"/>
+      <plugin id="org.eclipse.datatools.connectivity.sqm.core"/>
+      <plugin id="org.eclipse.datatools.connectivity.ui"/>
+      <plugin id="org.eclipse.datatools.enablement.oda.ws.ui"/>
+      <plugin id="org.eclipse.datatools.enablement.oda.ws"/>
+      <plugin id="org.eclipse.datatools.enablement.oda.xml.ui"/>
+      <plugin id="org.eclipse.datatools.enablement.oda.xml"/>
+      <plugin id="org.eclipse.datatools.help"/>
+      <plugin id="org.eclipse.datatools.modelbase.dbdefinition"/>
+      <plugin id="org.eclipse.datatools.modelbase.sql"/>
+      <plugin id="org.eclipse.datatools.oda.cshelp"/>
+      <plugin id="org.eclipse.ecf.filetransfer"/>
+      <plugin id="org.eclipse.ecf.identity"/>
+      <plugin id="org.eclipse.ecf.provider.filetransfer.ssl"/>
+      <plugin id="org.eclipse.ecf.provider.filetransfer"/>
+      <plugin id="org.eclipse.ecf.ssl"/>
+      <plugin id="org.eclipse.ecf"/>
+      <plugin id="org.eclipse.equinox.http.jetty"/>
+      <plugin id="org.eclipse.equinox.http.registry"/>
+      <plugin id="org.eclipse.equinox.http.servlet"/>
+      <plugin id="org.eclipse.equinox.jsp.jasper.registry"/>
+      <plugin id="org.eclipse.equinox.jsp.jasper"/>
+      <plugin id="org.eclipse.equinox.p2.operations"/>
+      <plugin id="org.eclipse.equinox.p2.repository.tools"/>
+      <plugin id="org.eclipse.equinox.p2.touchpoint.natives"/>
+      <plugin id="org.eclipse.equinox.p2.transport.ecf"/>
+      <plugin id="org.eclipse.equinox.p2.ui.sdk.scheduler"/>
+      <plugin id="org.eclipse.equinox.p2.ui.sdk"/>
+      <plugin id="org.eclipse.equinox.p2.ui"/>
+      <plugin id="org.eclipse.equinox.p2.updatechecker"/>
+      <plugin id="org.eclipse.equinox.security.ui"/>
+      <plugin id="org.eclipse.equinox.security.win32.x86"/>
+      <plugin id="org.eclipse.help.base"/>
+      <plugin id="org.eclipse.help.ui"/>
+      <plugin id="org.eclipse.help.webapp"/>
+      <plugin id="org.eclipse.jetty.continuation"/>
+      <plugin id="org.eclipse.jetty.http"/>
+      <plugin id="org.eclipse.jetty.io"/>
+      <plugin id="org.eclipse.jetty.security"/>
+      <plugin id="org.eclipse.jetty.server"/>
+      <plugin id="org.eclipse.jetty.servlet"/>
+      <plugin id="org.eclipse.jetty.util"/>
+      <plugin id="org.eclipse.ltk.core.refactoring"/>
+      <plugin id="org.eclipse.orbit.mongodb"/>
+      <plugin id="org.eclipse.ui.browser"/>
+      <plugin id="org.eclipse.ui.navigator"/>
+      <plugin id="org.eclipse.update.configurator"/>
+      <plugin id="uk.co.spudsoft.birt.emitters.excel"/>
+   </plugins>
+
+   <configurations>
+    <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0"/>
+    <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2"/>
+    <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2"/>
+    <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2"/>
+    <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0"/>
+    <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1"/>
+      <property name="org.eclipse.update.reconcile" value="false" />
+   </configurations>
+
+</product>
