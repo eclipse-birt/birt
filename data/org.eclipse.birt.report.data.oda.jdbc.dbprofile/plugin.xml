@@ -205,7 +205,7 @@
    <extension
          point="org.eclipse.datatools.connectivity.connectionProfile">
       <connectionProfile
-            category="%oda.data.source.id"
+            category="org.eclipse.datatools.connectivity.db.category"
             id="%oda.data.source.id"
             name="%connection.profile.name"
             pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory">
