@@ -10,7 +10,7 @@
 
 
 	<groupId>org.eclipse.birt</groupId>
-	<artifactId>birt.wtp.integration.sdk</artifactId>
+	<artifactId>birt-wtp-integration-sdk</artifactId>
 	<version>4.5.0-SNAPSHOT</version>
         <packaging>eclipse-repository</packaging>
 
@@ -38,7 +38,7 @@
                                     <!-- features/plugins dir -->
                                     <fileset dir="target/repository" includes="*/*" />
                                     <!-- html files -->
-                                    <fileset dir="../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html" />
+                                    <fileset dir="../../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html" />
                                 </copy>
                                 <zip destfile="target/${project.artifactId}-${birt.version}.zip" basedir="target/eclipse" />
                                 <delete dir="target/eclipse" />
