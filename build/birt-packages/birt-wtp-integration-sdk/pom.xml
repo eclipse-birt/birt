@@ -2,29 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.eclipse.birt.build</groupId>
-		<artifactId>org.eclipse.birt.build-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<groupId>org.eclipse.birt.build.package</groupId>
+		<artifactId>org.eclipse.birt.build.package-parent</artifactId>
+		<version>4.5.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
-	<groupId>org.eclipse.birt</groupId>
-	<artifactId>org.eclipse.birt.wtp.integration.sdk.build</artifactId>
-	<version>4.5.0-SNAPSHOT</version>
-	<packaging>eclipse-repository</packaging>
-	<properties>
-		<antrun.version>1.8</antrun.version>
-	</properties>
 
-	<!-- http://codeandme.blogspot.com/2012/12/tycho-build-5-building-p2-update-sites.html -->
+	<groupId>org.eclipse.birt</groupId>
+	<artifactId>birt.wtp.integration.sdk</artifactId>
+	<version>4.5.0-SNAPSHOT</version>
+        <packaging>eclipse-repository</packaging>
+
 	<build>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ssh</artifactId>
-				<version>1.0-beta-6</version>
-			</extension>
-		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>

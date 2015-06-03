@@ -47,7 +47,7 @@
                                     <!-- html files -->
                                     <fileset dir="../../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html" />
                                 </copy>
-                                <zip destfile="target/${artifactId}-${birt.version}.zip" basedir="target/eclipse" />
+                                <zip destfile="target/${project.artifactId}-${birt.version}.zip" basedir="target/eclipse" />
                                 <delete dir="target/eclipse" />
                             </tasks>
                         </configuration>
