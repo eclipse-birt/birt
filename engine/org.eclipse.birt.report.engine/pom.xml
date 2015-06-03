@@ -20,13 +20,16 @@
 				<version>2.6</version>
 				<executions>
 					<execution>
-						<id>api</id>
+						<id>engineapi</id>
 						<phase>package</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>
 						<configuration>
 							<classifier>api</classifier>
+					<archive>
+                                            <manifestFile>api/engineapi/MANIFEST.MF</manifestFile>
+					</archive>
 							<excludes>
 								<exclude>**/*Test.class</exclude>
 								<exclude>**/*Test.class</exclude>
@@ -49,13 +52,27 @@
 							</includes>
 						</configuration>
 					</execution>
-				</executions>
-				<configuration>
+					<execution>
+						<id>scriptapi</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+                                                    <classifier>scriptapi</classifier>
 					<archive>
-						<manifestFile>api/MANIFEST.MF</manifestFile>
+                                            <manifestFile>api/scriptapi/MANIFEST.MF</manifestFile>
 					</archive>
-				</configuration>
-			</plugin>
+                                                    <excludes>
+                                                        <exclude>**/api/script/**/*Test.class</exclude>
+                                                    </excludes>
+                                                        <includes>
+                                                            <include>**/api/script/**/*.class</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+                            </plugin>
 		</plugins>
 	</build>
 </project>
