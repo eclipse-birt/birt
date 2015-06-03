@@ -20,8 +20,8 @@
 		-->
 		<module>org.eclipse.birt.example</module>
 		<module>org.eclipse.birt</module>
-		<module>org.eclipse.birt.runtime.osgi</module>
-		<module>birt-packages</module>
 		<module>org.eclipse.birt.wtp.integration.sdk</module>
+        <module>org.eclipse.birt.api</module>
+		<module>birt-packages</module>
 	</modules>
 </project>
