@@ -18,6 +18,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+        <module>birt-charts</module>
 		<module>birt-report-framework</module>
 		<module>birt-report-framework-sdk</module>
 		<module>birt-tests-suite</module>

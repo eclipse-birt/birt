@@ -24,5 +24,5 @@
    <feature url="features/org.eclipse.birt_4.5.0.qualifier.jar" id="org.eclipse.birt" version="4.5.0.qualifier">
       <category name="BRF"/>
    </feature>
-   <category-def name="BRF" label="BIRT 4.5 Reporting Framework"/>
+   <category-def name="BRF" label="BIRT Reporting Framework"/>
 </site>
