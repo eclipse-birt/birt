@@ -36,6 +36,7 @@
 		<module>org.eclipse.birt.osgi.runtime</module>
 		<module>org.eclipse.birt.osgi.runtime.sdk</module>
 		<module>org.eclipse.birt.report.designer.editor.xml.wtp.feature</module>
-                <module>org.eclipse.birt.engine.runtime</module>
+		<module>org.eclipse.birt.rcp.feature</module>
+		<module>org.eclipse.birt.engine.runtime</module>
 	</modules>
 </project>

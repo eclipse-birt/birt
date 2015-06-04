@@ -18,12 +18,13 @@
 	<packaging>pom</packaging>
 
 	<modules>
-                <module>birt-charts</module>
+        <module>birt-charts</module>
 		<module>birt-report-framework</module>
 		<module>birt-report-framework-sdk</module>
 		<module>birt-tests-suite</module>
 		<module>birt-sample-plugins</module>
-                <module>birt-wtp-integration-sdk</module>
+        <module>birt-wtp-integration-sdk</module>
+		<module>birt-rcp-report-designer</module>
 		<module>birt-runtime-osgi</module>
 		<module>birt-runtime</module>
 	</modules>
