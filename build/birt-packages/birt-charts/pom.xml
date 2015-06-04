@@ -30,20 +30,19 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <copy todir="build/ChartRuntime">
-                                    <fileset dir="ChartRuntime/target" />
+                                <copy todir="build/ChartRuntime/eclipse">
+                                    <fileset dir="ChartRuntime/target/eclipse" />
                                 </copy>
-                                <copy todir="build/ChartSDK">
-                                    <fileset dir="ChartSDK/target" />
+                                <copy todir="build/ChartSDK/eclipse">
+                                    <fileset dir="ChartSDK/target/eclipse" />
                                 </copy>
                                 <copy todir="build/DeploymentRuntime">
-                                    <fileset dir="DeploymentRuntime/target" />
+                                    <fileset dir="DeploymentRuntime/target/DeploymentRuntime" />
                                 </copy>
                                 <copy todir="build">
                                     <fileset dir="../../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html" />
                                 </copy>
                                 <zip destfile="build/${artifactId}-${birt.version}.zip" basedir="build" />
-                                <delete dir="target" />
                                 <move todir="target">
                                     <fileset dir="build" includes="*.zip" />
                                 </move>
