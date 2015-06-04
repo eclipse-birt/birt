@@ -25,5 +25,6 @@
 		<module>birt-sample-plugins</module>
 		<module>birt-runtime-osgi</module>
 		<module>birt-wtp-integration-sdk</module>
+		<module>birt-rcp-report-designer</module>
 	</modules>
 </project>

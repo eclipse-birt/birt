@@ -38,5 +38,6 @@
 		<module>org.eclipse.birt.report.designer.editor.xml.wtp.feature</module>
                 <module>org.eclipse.birt.engine.runtime</module>
                 <module>org.eclipse.birt.engine.framework</module>
+		<module>org.eclipse.birt.rcp.feature</module>
 	</modules>
 </project>
