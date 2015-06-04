@@ -41,14 +41,10 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <copy todir="eclipse">
+                                <copy todir="target/eclipse">
                                     <fileset dir="target/repository" includes="*/*" />
                                     <fileset dir="../../../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html" />
                                 </copy>
-                                <delete dir="target" />
-                                <move todir="target/eclipse">
-                                    <fileset dir="eclipse" />
-                                </move>
                             </tasks>
                         </configuration>
                         <goals>

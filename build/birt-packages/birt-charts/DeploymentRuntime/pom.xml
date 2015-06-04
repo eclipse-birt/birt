@@ -41,29 +41,24 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <copy todir="DeploymentRuntime/ChartEngine">
+                                <copy todir="target/DeploymentRuntime/ChartEngine">
                                     <fileset dir="target/repository/plugins" />
                                     <fileset dir="." includes="*.txt"/>
                                 </copy>
-                                <copy todir="DeploymentRuntime/ChartEngine/docs">
+                                <copy todir="target/DeploymentRuntime/ChartEngine/docs">
                                     <fileset dir="." includes="*.doc" />
                                 </copy>
-                                <copy todir="DeploymentRuntime/chart-viewer-sample">
+                                <copy todir="target/DeploymentRuntime/chart-viewer-sample">
                                     <fileset dir="../../../../chart/org.eclipse.birt.chart.viewer/WebContent" />
                                 </copy>
-                                <copy todir="DeploymentRuntime/chart-viewer-sample/WEB-INF/lib">
+                                <copy todir="target/DeploymentRuntime/chart-viewer-sample/WEB-INF/lib">
                                     <fileset dir="../../../../chart/org.eclipse.birt.chart.viewer" includes="chart-viewer.jar" />
                                 </copy>
-                                <copy todir="DeploymentRuntime/chart-viewer-sample/WEB-INF/lib">
-                                    <fileset dir="DeploymentRuntime/ChartEngine" includes="*.*" />
+                                <copy todir="target/DeploymentRuntime/chart-viewer-sample/WEB-INF/lib">
+                                    <fileset dir="target/DeploymentRuntime/ChartEngine" includes="*.*" />
                                 </copy>
-                                <war destfile="DeploymentRuntime/chart-viewer-sample.war" basedir="DeploymentRuntime/chart-viewer-sample" />
-                                <delete dir="DeploymentRuntime/chart-viewer-sample" />
-                                <delete dir="target" />
-                                <move todir="target">
-                                    <fileset dir="DeploymentRuntime" />
-                                </move>
-                                <delete dir="DeploymentRuntime" />
+                                <war destfile="target/DeploymentRuntime/chart-viewer-sample.war" basedir="target/DeploymentRuntime/chart-viewer-sample" />
+                                <delete dir="target/DeploymentRuntime/chart-viewer-sample" />
                             </tasks>
                         </configuration>
                         <goals>
