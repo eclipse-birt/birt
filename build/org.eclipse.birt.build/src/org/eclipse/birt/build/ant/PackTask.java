@@ -81,6 +81,13 @@ public class PackTask extends Task
 		FrameworkPacker packer = new FrameworkPacker( framework );
 		try
 		{
+			if (bundleItems.isEmpty()) {
+				// try to load all data as bundle
+				bundleItems.addAll(loadBundleItems(baseDir));
+			}
+                        if ( bundleItems.isEmpty()) {
+			    throw new BuildException( "failed to load bundle from directory:" + baseDir );
+                        }
 			for ( BundleItem bundleItem : bundleItems )
 			{
 				String bundleName = bundleItem.getName( );
@@ -139,12 +146,39 @@ public class PackTask extends Task
 		}
 		catch ( Exception ex )
 		{
+                        ex.printStackTrace();
 			throw new BuildException( ex );
 		}
 		finally
 		{
 			framework.close( );
 		}
+	}
+
+	protected List<BundleItem> loadBundleItems(final String baseDir) {
+		ArrayList<BundleItem> bundles = new ArrayList<BundleItem>();
+                System.out.println("load bundles from folder" + baseDir);
+		File parent = new File(baseDir);
+		File[] files = parent.listFiles();
+                if ( files != null) {
+                    for (File file : files) {
+                            String bundleName = file.getName();
+                            if (file.isFile()) {
+                                    if (!bundleName.endsWith(".jar")) {
+                                            continue;
+                                    }
+                                    bundleName = bundleName.substring(0, bundleName.length() - 4);
+                            }
+                            int pos = bundleName.indexOf('_');
+                            if (pos != -1) {
+                                    bundleName = bundleName.substring(0, pos);
+                            }
+                            BundleItem bundle = new BundleItem();
+                            bundle.setName(bundleName);
+                            bundles.add(bundle);
+                    }
+                }
+		return bundles;
 	}
 
 	protected File getFile( final String baseDir, final String name )

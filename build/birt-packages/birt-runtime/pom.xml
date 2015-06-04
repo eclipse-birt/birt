@@ -2,19 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.eclipse.birt.build</groupId>
-    <artifactId>org.eclipse.birt.build-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <groupId>org.eclipse.birt.build.package</groupId>
+    <artifactId>org.eclipse.birt.build.package-parent</artifactId>
+    <version>4.5.0-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
   <groupId>org.eclipse.birt</groupId>
-  <artifactId>org.eclipse.birt.api</artifactId>
+  <artifactId>birt-runtime</artifactId>
   <version>4.5.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <dependencies>
     <dependency>
       <groupId>org.eclipse.birt</groupId>
-      <artifactId>org.eclipse.birt.p2updatesite</artifactId>
+      <artifactId>org.eclipse.birt.build</artifactId>
+      <version>4.5.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.birt</groupId>
+      <artifactId>birt-runtime-osgi</artifactId>
       <version>4.5.0-SNAPSHOT</version>
       <type>eclipse-repository</type>
     </dependency>
@@ -27,7 +32,7 @@
         <version>${tycho.version}</version>
         <executions>
           <execution>
-            <phase>process-resources</phase>
+            <phase>package</phase>
             <goals>
               <goal>build-qualifier</goal>
             </goals>
@@ -40,13 +45,11 @@
         <version>1.8</version>
         <executions>
           <execution>
-            <id>build-api-package</id>
-            <phase>process-resources</phase>
+            <id>clean</id>
+            <phase>clean</phase>
             <configuration>
               <target>
-                <ant antfile="build.xml" target="package" dir="${basedir}">
-                  <property name="BIRT_VERSION" value="${unqualifiedVersion}.${buildQualifier}"/>
-                </ant>
+                <ant antfile="build.xml" target="clean" dir="${basedir}"/>
               </target>
             </configuration>
             <goals>
@@ -54,11 +57,13 @@
             </goals>
           </execution>
           <execution>
-            <id>clean</id>
-            <phase>clean</phase>
+            <id>package</id>
+            <phase>package</phase>
             <configuration>
               <target>
-                <ant antfile="build.xml" target="clean" dir="${basedir}"/>
+                <ant antfile="build.xml" target="package" dir="${basedir}">
+                    <property name="BIRT_VERSION" value="${unqualifiedVersion}"/>
+                </ant>
               </target>
             </configuration>
             <goals>

@@ -1,15 +1,19 @@
 <?xml version="1.0"?>
 <project default="test" basedir=".">
   <target name="test" depends="build-api-package"/>
+  <property name="BIRT_VERSION" value="4.5.0"/>
   <property name="LIB_DIR" location="./target/lib"/>
   <property name="ROOT_DIR" location="../../"/>
   <property name="P2UPDATESITE_DIR" location="../org.eclipse.birt.p2updatesite/"/>
   <property name="PRODUCT_DIR" location="${P2UPDATESITE_DIR}/target/products/org.eclipse.birt.designer/win32/win32/x86_64/designer/"/>
   <target name="clean">
-    <delete dir="./target/lib"/>
-    <copy file="./MANIFEST.MF.template" tofile="./META-INF/MANIFEST.MF" overwrite="true"/>
+    <delete dir="./target"/>
   </target>
-  <target name="build-api-package" depends="copy-api-jars, build-api-manifest"/>
+  <target name="package" depends="build-api-package">
+</target>
+  <target name="build-api-package" depends="copy-api-jars, build-api-manifest">
+    <jar destfile="./target/org.eclipse.birt.api_${BIRT_VERSION}.jar" manifest="./target/manifest.mf"/>
+  </target>
   <target name="copy-api-jars">
     <echo>copy API jars to "${LIB_DIR}</echo>
     <copy file="${ROOT_DIR}/engine/org.eclipse.birt.report.engine/lib/commons-cli-1.0.jar" tofile="${LIB_DIR}/commons-cli-1.0.jar"/>
@@ -91,7 +95,7 @@
   </target>
   <target name="build-api-manifest">
     <property name="MANIFEST_TEMPLATE" location="./MANIFEST.MF.template"/>
-    <property name="MANIFEST_MF" location="./META-INF/MANIFEST.MF"/>
+    <property name="MANIFEST_MF" location="./target/manifest.mf"/>
     <script language="javascript"><![CDATA[
         //for all jars in ./lib folder, get all packages
         //sort the package and append to manifest.mf
@@ -222,5 +226,7 @@
 
         createManifest(template, manifest, packages);
         ]]></script>
+    <!-- update manifest version -->
+    <replaceregexp file="${MANIFEST_MF}" match="Bundle-Version: 4.5.0.qualifier" replace="Bundle-Version: ${BIRT_VERSION}"/>
   </target>
 </project>

@@ -10,7 +10,7 @@
    </plugins>
 
    <features>
-      <feature id="org.eclipse.birt.engine.framework"/>
+      <feature id="org.eclipse.birt.engine.runtime"/>
    </features>
 
   <configurations>

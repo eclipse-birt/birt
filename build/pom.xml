@@ -21,6 +21,7 @@
 		<module>org.eclipse.birt.example</module>
 		<module>org.eclipse.birt</module>
                 <module>org.eclipse.birt.api</module>
+                <module>org.eclipse.birt.build</module>
 		<module>birt-packages</module>
 	</modules>
 </project>

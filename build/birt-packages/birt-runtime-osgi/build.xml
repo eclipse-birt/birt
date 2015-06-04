@@ -17,12 +17,15 @@
     <delete dir="${STAGE_DIR}"/>
   </target>
   <target name="build-report-engine">
-    <property name="API_DIR" location="${ROOT_DIR}/build/org.eclipse.birt.api/"/>
+    <property name="BIRTAPI_DIR" location="${ROOT_DIR}/build/org.eclipse.birt.api/"/>
     <copy todir="${ENGINE_DIR}/plugins">
-      <fileset dir="${PRODUCT_DIR}/plugins"/>
+        <fileset dir="${PRODUCT_DIR}/plugins"/>
+        <fileset dir="${BIRTAPI_DIR}/target/">
+            <include name="org.eclipse.birt.api_*.jar"/>
+        </fileset>
     </copy>
     <copy todir="${ENGINE_DIR}/lib">
-      <fileset dir="${API_DIR}/target/lib"/>
+      <fileset dir="${BIRTAPI_DIR}/target/lib"/>
     </copy>
     <copy file="./config.ini" todir="${ENGINE_DIR}/configuration"/>
     <copy file="${ROOT_DIR}/viewer/org.eclipse.birt.report.viewer/birt/test.rptdesign" tofile="${ENGINE_DIR}/samples/hello_world.rptdesign"/>
@@ -64,7 +67,6 @@
         <include name="org.apache.commons.logging_*.jar"/>
         <include name="org.apache.axis_*/lib/*.jar"/>
         <include name="org.apache.commons.discovery_*/lib/*.jar"/>
-        <include name="org.apache.axis_*/lib/*.jar"/>
         <include name="javax.xml.rpc_*/lib/*.jar"/>
         <include name="javax.xml.soap_*/lib/*.jar"/>
       </fileset>
@@ -72,9 +74,10 @@
     </copy>
     <copy todir="${STAGE_DIR}">
       <fileset dir="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles">
+        <include name="*.html"/>
+      </fileset>
+      <fileset dir="${ROOT_DIR}/engine/org.eclipse.birt.report.engine/">
         <include name="about.html"/>
-        <include name="epl-v10.html"/>
-        <include name="notice.html"/>
       </fileset>
     </copy>
     <copy todir="${STAGE_DIR}/about_files">
