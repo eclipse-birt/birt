@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product uid="org.eclipse.birt.report.designer.all" 
+	application="org.eclipse.ui.ide.workbench" 
+	useFeatures="true" 
+	includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Xms40m
+-Xmx256m
+-XX:MaxPermSize=128m
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <launcher >
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+      <plugin id="org.eclipse.datatools.sdk"/>
+   </plugins>
+
+   <features>
+      <feature id="org.eclipse.birt.chart.cshelp"/>
+      <feature id="org.eclipse.birt.chart.osgi.runtime"/>
+      <feature id="org.eclipse.birt.chart"/>
+      <feature id="org.eclipse.birt.cshelp"/>
+      <feature id="org.eclipse.birt.doc"/>
+      <feature id="org.eclipse.birt.example"/>
+      <feature id="org.eclipse.birt.report.designer.editor.xml.wtp"/>
+      <feature id="org.eclipse.birt"/>
+      <feature id="org.eclipse.cvs"/>
+      <feature id="org.eclipse.datatools.common.doc.user"/>
+      <feature id="org.eclipse.datatools.connectivity.doc.user"/>
+      <feature id="org.eclipse.datatools.connectivity.feature"/>
+      <feature id="org.eclipse.datatools.connectivity.oda.designer.core.feature"/>
+      <feature id="org.eclipse.datatools.connectivity.oda.designer.feature"/>
+      <feature id="org.eclipse.datatools.connectivity.oda.feature"/>
+      <feature id="org.eclipse.datatools.doc.user"/>
+      <feature id="org.eclipse.datatools.enablement.apache.derby.feature"/>
+      <feature id="org.eclipse.datatools.enablement.feature"/>
+      <feature id="org.eclipse.datatools.enablement.hsqldb.feature"/>
+      <feature id="org.eclipse.datatools.enablement.ibm.feature"/>
+      <feature id="org.eclipse.datatools.enablement.ingres.feature"/>
+      <feature id="org.eclipse.datatools.enablement.jdbc.feature"/>
+      <feature id="org.eclipse.datatools.enablement.jdt.feature"/>
+      <feature id="org.eclipse.datatools.enablement.msft.feature"/>
+      <feature id="org.eclipse.datatools.enablement.mysql.feature"/>
+      <feature id="org.eclipse.datatools.enablement.oda.designer.feature"/>
+      <feature id="org.eclipse.datatools.enablement.oda.feature"/>
+      <feature id="org.eclipse.datatools.enablement.oracle.feature"/>
+      <feature id="org.eclipse.datatools.enablement.postgresql.feature"/>
+      <feature id="org.eclipse.datatools.enablement.sap.feature"/>
+      <feature id="org.eclipse.datatools.enablement.sqlite.feature"/>
+      <feature id="org.eclipse.datatools.enablement.sybase.feature"/>
+      <feature id="org.eclipse.datatools.intro"/>
+      <feature id="org.eclipse.datatools.modelbase.feature"/>
+      <feature id="org.eclipse.datatools.sqldevtools.data.feature"/>
+      <feature id="org.eclipse.datatools.sqldevtools.ddl.feature"/>
+      <feature id="org.eclipse.datatools.sqldevtools.ddlgen.feature"/>
+      <feature id="org.eclipse.datatools.sqldevtools.feature"/>
+      <feature id="org.eclipse.datatools.sqldevtools.parsers.feature"/>
+      <feature id="org.eclipse.datatools.sqldevtools.results.feature"/>
+      <feature id="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature"/>
+      <feature id="org.eclipse.datatools.sqldevtools.sqlbuilder.feature"/>
+      <feature id="org.eclipse.datatools.sqltools.doc.user"/>
+      <feature id="org.eclipse.draw2d"/>
+      <feature id="org.eclipse.e4.rcp"/>
+      <feature id="org.eclipse.ecf.core.feature"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
+      <feature id="org.eclipse.emf.codegen.ecore.ui"/>
+      <feature id="org.eclipse.emf.codegen.ecore"/>
+      <feature id="org.eclipse.emf.codegen.ui"/>
+      <feature id="org.eclipse.emf.codegen"/>
+      <feature id="org.eclipse.emf.common.ui"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.emf.converter"/>
+      <feature id="org.eclipse.emf.databinding.edit"/>
+      <feature id="org.eclipse.emf.databinding"/>
+      <feature id="org.eclipse.emf.ecore.editor"/>
+      <feature id="org.eclipse.emf.ecore.edit"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.emf.edit.ui"/>
+      <feature id="org.eclipse.emf.edit"/>
+      <feature id="org.eclipse.emf.mapping.ecore.editor"/>
+      <feature id="org.eclipse.emf.mapping.ecore"/>
+      <feature id="org.eclipse.emf.mapping.ui"/>
+      <feature id="org.eclipse.emf.mapping"/>
+      <feature id="org.eclipse.emf"/>
+      <feature id="org.eclipse.equinox.p2.core.feature"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature"/>
+      <feature id="org.eclipse.equinox.p2.rcp.feature"/>
+      <feature id="org.eclipse.equinox.p2.user.ui"/>
+      <feature id="org.eclipse.gef"/>
+      <feature id="org.eclipse.help"/>
+      <feature id="org.eclipse.jdt"/>
+      <feature id="org.eclipse.mylyn.bugzilla_feature"/>
+      <feature id="org.eclipse.mylyn.commons.identity"/>
+      <feature id="org.eclipse.mylyn.commons.notifications"/>
+      <feature id="org.eclipse.mylyn.commons.repositories"/>
+      <feature id="org.eclipse.mylyn.commons"/>
+      <feature id="org.eclipse.mylyn.context_feature"/>
+      <feature id="org.eclipse.mylyn.discovery"/>
+      <feature id="org.eclipse.mylyn.ide_feature"/>
+      <feature id="org.eclipse.mylyn.java_feature"/>
+      <feature id="org.eclipse.mylyn.monitor"/>
+      <feature id="org.eclipse.mylyn.tasks.ide"/>
+      <feature id="org.eclipse.mylyn.team_feature"/>
+      <feature id="org.eclipse.mylyn.wikitext_feature"/>
+      <feature id="org.eclipse.mylyn_feature"/>
+      <feature id="org.eclipse.pde"/>
+      <feature id="org.eclipse.platform"/>
+      <feature id="org.eclipse.rcp.configuration"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.wst.common_core.feature"/>
+      <feature id="org.eclipse.wst.common_ui.feature"/>
+      <feature id="org.eclipse.wst.xml_core.feature"/>
+      <feature id="org.eclipse.wst.xml_ui.feature"/>
+      <feature id="org.eclipse.wst.xml_userdoc.feature"/>
+      <feature id="org.eclipse.xsd.edit"/>
+      <feature id="org.eclipse.xsd"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <property name="org.eclipse.update.reconcile" value="false" />
+   </configurations>
+
+</product>
