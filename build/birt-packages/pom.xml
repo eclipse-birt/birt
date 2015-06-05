@@ -27,5 +27,6 @@
 		<module>birt-rcp-report-designer</module>
 		<module>birt-runtime-osgi</module>
 		<module>birt-runtime</module>
+		<module>birt-source</module>
 	</modules>
 </project>
