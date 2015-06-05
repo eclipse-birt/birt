@@ -42,7 +42,7 @@
                                 <copy todir="build">
                                     <fileset dir="../../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html" />
                                 </copy>
-                                <zip destfile="build/${artifactId}-${birt.version}.zip" basedir="build" />
+                                <zip destfile="build/${project.artifactId}-${birt.version}.zip" basedir="build" />
                                 <move todir="target">
                                     <fileset dir="build" includes="*.zip" />
                                 </move>
