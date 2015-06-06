@@ -23,5 +23,6 @@
                 <module>org.eclipse.birt.api</module>
                 <module>org.eclipse.birt.build</module>
 		<module>birt-packages</module>
+		<module>NLpack1</module>
 	</modules>
 </project>
