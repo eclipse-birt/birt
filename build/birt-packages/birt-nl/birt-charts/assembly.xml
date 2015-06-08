@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3 http://maven.apache.org/xsd/assembly-1.1.3.xsd">
+  <id>zip</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>ChartRuntime/eclipse/plugins</outputDirectory>
+	  <excludes>
+	    <exclude>org.eclipse.birt.nl:org.eclipse.birt.chart.integration.wtp.ui.nl1</exclude>
+	  </excludes>
+    </dependencySet>
+    <dependencySet>
+      <outputDirectory>ChartSDK/eclipse/plugins</outputDirectory>
+    </dependencySet>
+    <dependencySet>
+      <outputDirectory>DeploymentRuntime/ChartEngine</outputDirectory>
+	  <includes>
+		<include>org.eclipse.birt.nl:org.eclipse.birt.chart.device.extension.nl1</include>
+		<include>org.eclipse.birt.nl:org.eclipse.birt.chart.device.svg.nl1</include>
+		<include>org.eclipse.birt.nl:org.eclipse.birt.chart.device.swt.nl1</include>
+		<include>org.eclipse.birt.nl:org.eclipse.birt.chart.engine.extension.nl1</include>
+		<include>org.eclipse.birt.nl:org.eclipse.birt.chart.engine.nl1</include>
+		<include>org.eclipse.birt.nl:org.eclipse.birt.core.nl1</include>
+	  </includes>
+    </dependencySet>
+  </dependencySets>
+</assembly>
