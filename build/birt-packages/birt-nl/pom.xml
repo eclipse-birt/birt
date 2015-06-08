@@ -6,30 +6,22 @@
 	</properties>
     
 	<parent>
-		<groupId>org.eclipse.birt.build</groupId>
-		<artifactId>org.eclipse.birt.build-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-		<relativePath>../</relativePath>
+		<groupId>org.eclipse.birt.build.package</groupId>
+		<artifactId>org.eclipse.birt.build.package-parent</artifactId>
+		<version>4.5.0-SNAPSHOT</version>
+		<relativePath>..</relativePath>
 	</parent>
 
-	<groupId>org.eclipse.birt.build.package</groupId>
-	<artifactId>org.eclipse.birt.build.package-parent</artifactId>
+	<groupId>org.eclipse.birt.build.package.nl</groupId>
+	<artifactId>org.eclipse.birt.build.package.nl-parent</artifactId>
 	<version>4.5.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
 		<module>birt-charts</module>
-		<module>birt-epp</module>
 		<module>birt-rcp-report-designer</module>
 		<module>birt-report-designer-all-in-one</module>
 		<module>birt-report-framework</module>
-		<module>birt-report-framework-sdk</module>
 		<module>birt-runtime</module>
-		<module>birt-runtime-osgi</module>
-		<module>birt-sample-plugins</module>
-		<module>birt-tests-suite</module>
-		<module>birt-wtp-integration-sdk</module>
-		<module>birt-source</module>
-		<module>birt-nl</module>
 	</modules>
 </project>
