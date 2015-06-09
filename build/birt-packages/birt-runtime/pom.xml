@@ -62,8 +62,9 @@
             <configuration>
               <target>
                 <ant antfile="build.xml" target="package" dir="${basedir}">
-                    <property name="BIRT_VERSION" value="${unqualifiedVersion}"/>
+                  <property name="BIRT_VERSION" value="${unqualifiedVersion}"/>
                 </ant>
+                <attachartifact file="${project.build.directory}/birt-runtime-${unqualifiedVersion}.zip" type="zip"/>
               </target>
             </configuration>
             <goals>
