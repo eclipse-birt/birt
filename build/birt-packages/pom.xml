@@ -20,8 +20,8 @@
 	<modules>
 		<module>birt-charts</module>
 		<module>birt-epp</module>
-		<module>birt-rcp-report-designer</module>
-		<module>birt-report-designer-all-in-one</module>
+		<module>birt-report-rcp</module>
+		<module>birt-report-all-in-one</module>
 		<module>birt-report-framework</module>
 		<module>birt-report-framework-sdk</module>
 		<module>birt-runtime</module>
