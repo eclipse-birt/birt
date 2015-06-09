@@ -10,7 +10,7 @@
 		<relativePath>../</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt</groupId>
-	<artifactId>org.eclipse.birt.report.designer.rcp</artifactId>
+	<artifactId>birt-report-rcp</artifactId>
 	<version>4.5.0-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
 
