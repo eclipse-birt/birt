@@ -13,15 +13,7 @@
 	<version>4.5.0-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
 
-	<!-- http://codeandme.blogspot.com/2012/12/tycho-build-5-building-p2-update-sites.html -->
 	<build>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ssh</artifactId>
-				<version>1.0-beta-6</version>
-			</extension>
-		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
@@ -49,6 +41,7 @@
                                 </copy>
                                 <zip destfile="target/${project.artifactId}-${birt.version}.zip" basedir="target/eclipse" />
                                 <delete dir="target/eclipse" />
+                                <attachartifact file="./target/${project.artifactId}-${birt.version}.zip" type="zip"/>
                             </tasks>
                         </configuration>
                         <goals>

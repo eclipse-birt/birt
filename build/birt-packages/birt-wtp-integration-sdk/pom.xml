@@ -42,6 +42,7 @@
                                 </copy>
                                 <zip destfile="target/${project.artifactId}-${birt.version}.zip" basedir="target/eclipse" />
                                 <delete dir="target/eclipse" />
+                                <attachartifact file="./target/${project.artifactId}-${birt.version}.zip" type="zip"/>
                             </tasks>
                         </configuration>
                         <goals>
