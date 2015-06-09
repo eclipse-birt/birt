@@ -27,7 +27,7 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<unzip src="D:\git\CarlsFork\build\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-4.5.0-SNAPSHOT.zip"
+								<unzip src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-4.5.0-SNAPSHOT.zip"
 									dest="${project.build.directory}/p2updatesite"/>
 								<copy todir="${project.build.directory}/content/birt-runtime-4_5_0\ReportEngine\plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
