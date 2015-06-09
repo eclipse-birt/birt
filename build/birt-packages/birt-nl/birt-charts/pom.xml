@@ -13,103 +13,92 @@
 	<artifactId>NLpack1-birt-charts</artifactId>
 	<version>4.5.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.4.1</version>
-				<configuration>
-					<appendAssemblyId>false</appendAssemblyId>
-					<descriptor>assembly.xml</descriptor>
-				</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>create-archive</id>
+						<id>blah</id>
 						<phase>package</phase>
 						<goals>
-							<goal>single</goal>
+							<goal>run</goal>
 						</goals>
+						<configuration>
+							<tasks>
+								<unzip src="D:\git\CarlsFork\build\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-4.5.0-SNAPSHOT.zip"
+									dest="${project.build.directory}/p2updatesite"/>
+								<copy todir="${project.build.directory}/content/ChartRuntime\eclipse\plugins">
+									<fileset dir="${project.build.directory}/p2updatesite/plugins">
+										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.device.swt.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.engine.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.examples.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.ui.extension.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.ui.nl1_*.jar"/>
+										<include name="org.eclipse.birt.core.nl1_*.jar"/>
+										<include name="org.eclipse.birt.core.ui.nl1_*.jar"/>
+									</fileset>
+								</copy>
+								<copy todir="${project.build.directory}/content/ChartSDK\eclipse\plugins">
+									<fileset dir="${project.build.directory}/p2updatesite/plugins">
+										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.device.swt.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.engine.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.examples.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.integration.wtp.ui.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.ui.extension.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.ui.nl1_*.jar"/>
+										<include name="org.eclipse.birt.core.nl1_*.jar"/>
+										<include name="org.eclipse.birt.core.ui.nl1_*.jar"/>
+									</fileset>
+								</copy>
+								<copy todir="${project.build.directory}/content/DeploymentRuntime\ChartEngine">
+									<fileset dir="${project.build.directory}/p2updatesite/plugins">
+										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.device.swt.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar"/>
+										<include name="org.eclipse.birt.chart.engine.nl1_*.jar"/>
+										<include name="org.eclipse.birt.core.nl1_*.jar"/>
+									</fileset>
+								</copy>
+								<zip destfile="target/NLpack1-birt-charts.zip"
+									basedir="target/content"/>
+							</tasks>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.10</version>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.3</version>
 				<executions>
 					<execution>
-						<id>copy-dependencies</id>
+						<id>add-runtime-sdk</id>
 						<phase>package</phase>
 						<goals>
-							<goal>copy-dependencies</goal>
+							<goal>attach-artifact</goal>
 						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${project.build.directory}/NLpack1-birt-charts.zip</file>
+									<type>zip</type>
+								</artifact>
+							</artifacts>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-
-	<dependencies>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.chart.device.extension.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.chart.device.svg.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.chart.device.swt.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.chart.engine.extension.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.chart.engine.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.chart.examples.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.chart.reportitem.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.chart.ui.extension.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.chart.ui.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.core.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.core.ui.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-                <groupId>org.eclipse.birt.nl</groupId>
-                <artifactId>org.eclipse.birt.chart.integration.wtp.ui.nl1</artifactId>
-                <version>${birt.version}-SNAPSHOT</version>
-        </dependency>
-	</dependencies>
 </project>
