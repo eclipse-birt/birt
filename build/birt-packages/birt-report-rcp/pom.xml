@@ -10,17 +10,9 @@
 		<relativePath>../</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt</groupId>
-	<artifactId>org.eclipse.birt.report.designer.all</artifactId>
+	<artifactId>org.eclipse.birt.report.designer.rcp</artifactId>
 	<version>4.5.0-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
-
-	<repositories>
-		<repository>
-			<id>mylyn</id>
-			<url>http://download.eclipse.org/mylyn/releases/latest</url>
-			<layout>p2</layout>
-		</repository>
-	</repositories>
 
 	<build>
 		<pluginManagement>
@@ -51,7 +43,8 @@
 				<configuration>
 					<products>
 						<product>
-							<id>org.eclipse.birt.report.designer.all</id>
+							<id>org.eclipse.birt.report.designer.rcp</id>
+							<rootFolder>birt</rootFolder>
 						</product>
 					</products>
 				</configuration>
