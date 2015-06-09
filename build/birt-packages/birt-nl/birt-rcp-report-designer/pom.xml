@@ -27,9 +27,9 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<unzip src="D:\git\CarlsFork\build\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-4.5.0-SNAPSHOT.zip"
+								<unzip src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-4.5.0-SNAPSHOT.zip"
 									dest="${project.build.directory}/p2updatesite"/>
-								<copy todir="${project.build.directory}/content/birt-rcp-report-designer-4_5_0\plugins">
+								<copy todir="${project.build.directory}/content/birt\plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
 										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar"/>
 										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar"/>
