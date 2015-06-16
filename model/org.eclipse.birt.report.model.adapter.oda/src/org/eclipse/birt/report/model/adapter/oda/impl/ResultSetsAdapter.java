@@ -153,53 +153,30 @@ class ResultSetsAdapter
 			return null;
 		String columnName = resultSetColumn == null ? null : resultSetColumn
 				.getColumnName( );
-
 		DataElementAttributes dataAttrs = columnDefn.getAttributes( );
-		if ( dataAttrs == null )
-			return null;
-
+		
 		ColumnHint newHint = null;
-
-		ColumnDefinition tmpCachedColumnDefn = cachedColumnDefn;
-
-		if ( oldHint == null )
+		if ( oldHint != null )
 		{
-			newHint = StructureFactory.createColumnHint( );
-			tmpCachedColumnDefn = null;
+		    newHint = (ColumnHint) oldHint.copy( );
 		}
-		else
-			newHint = (ColumnHint) oldHint.copy( );
-
-		DataElementUIHints dataUIHints = dataAttrs.getUiHints( );
-		OutputElementAttributes outputAttrs = columnDefn.getUsageHints( );
-		AxisAttributes axisAttrs = columnDefn.getMultiDimensionAttributes( );
-
-		boolean hasValue = hasColumnHintValue( dataUIHints, outputAttrs,
-				axisAttrs );
-		if ( !hasValue )
-		{
-			if ( oldHint == null )
-				return null;
-
-			return newHint;
+		else if ( dataAttrs != null ) {
+		    newHint = StructureFactory.createColumnHint( );
+    		OutputElementAttributes outputAttrs = columnDefn.getUsageHints( );
+    		
+    		updateColumnHintFromDataAttrs( columnDefn.getAttributes( ),
+    				null, newHint, resultSetColumn );
+    		updateColumnHintFromUsageHints(
+    				outputAttrs,
+    				null, newHint, resultSetColumn );
+    		updateColumnHintFromAxisAttrs(
+    				columnDefn.getMultiDimensionAttributes( ),
+    				null, newHint );
 		}
 
-		DataElementAttributes cachedDataAttrs = tmpCachedColumnDefn == null
-				? null
-				: tmpCachedColumnDefn.getAttributes( );
-
-		updateColumnHintFromDataAttrs( columnDefn.getAttributes( ),
-				cachedDataAttrs, newHint, resultSetColumn );
-		updateColumnHintFromUsageHints(
-				outputAttrs,
-				tmpCachedColumnDefn == null ? null : tmpCachedColumnDefn
-						.getUsageHints( ), newHint, resultSetColumn );
-		updateColumnHintFromAxisAttrs(
-				columnDefn.getMultiDimensionAttributes( ),
-				tmpCachedColumnDefn == null ? null : tmpCachedColumnDefn
-						.getMultiDimensionAttributes( ), newHint );
-
-		newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, columnName );
+		if ( newHint != null ) {
+		    newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, columnName );
+		}
 		return newHint;
 	}
 
