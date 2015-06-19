@@ -16,6 +16,9 @@
 		<gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
 		<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/repository/</orbit.repo.url>
 		<dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
+		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
+		<!--<build>v${maven.build.timestamp}</build>-->
+		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->
@@ -221,7 +224,7 @@
 				<artifactId>tycho-versions-plugin</artifactId>
 				<version>${tycho.version}</version>
 			</plugin>
-
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -329,6 +332,51 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+           <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>process-about.mappings</id>
+						<phase>prepare-package</phase>
+						<configuration>
+							<delimiters>
+								 <delimiter>@</delimiter>
+							</delimiters>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>${basedir}</directory>
+									<includes>
+										<include>about.mappings</include>
+									</includes>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-packaging-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<additionalFileSets>
+						<fileSet>
+							<directory>${project.build.directory}</directory>
+							<includes>
+								<include>about.mappings</include>
+							</includes>
+						</fileSet>
+					</additionalFileSets>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

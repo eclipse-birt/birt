@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product uid="org.eclipse.birt.report.designer.all" 
-	application="org.eclipse.ui.ide.workbench" 
-	useFeatures="true" 
-	includeLaunchers="true">
+<product uid="org.eclipse.birt.report.designer.all" application="org.eclipse.ui.ide.workbench" useFeatures="true" includeLaunchers="true">
+
 
    <configIni use="default">
    </configIni>
@@ -18,15 +16,21 @@
       </vmArgsMac>
    </launcherArgs>
 
-   <launcher >
+   <windowImages/>
+
+   <splash
+      location="org.eclipse.platform" />
+   <launcher>
       <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
 
    <plugins>
       <plugin id="org.eclipse.datatools.sdk"/>
@@ -144,6 +148,8 @@
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <property name="eclipse.application" value="org.eclipse.ui.ide.workbench" />
+      <property name="eclipse.product" value="org.eclipse.platform.ide" />
       <property name="org.eclipse.update.reconcile" value="false" />
    </configurations>
 
