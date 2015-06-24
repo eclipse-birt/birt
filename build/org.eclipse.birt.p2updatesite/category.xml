@@ -32,6 +32,9 @@
    <feature url="features/org.eclipse.birt.chart.source_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.source" version="4.5.0.qualifier">
       <category name="Chart"/>
    </feature>
+   <feature url="features/org.eclipse.birt.engine.runtime_4.5.0.qualifier.jar" id="org.eclipse.birt.engine.runtime" version="4.5.0.qualifier">
+      <category name="OSGi"/>
+   </feature>
    <feature url="features/org.eclipse.birt.osgi.runtime.sdk_4.5.0.qualifier.jar" id="org.eclipse.birt.osgi.runtime.sdk" version="4.5.0.qualifier">
       <category name="OSGi"/>
    </feature>
