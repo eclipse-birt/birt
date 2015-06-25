@@ -423,49 +423,50 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 				}
 
 				rtc = drtc;
+			}
+			
+			// Apply configuration to runtime context
+			if ( cm != null && modelHandle != null )
+			{
+				IReportItem item = modelHandle.getReportItem( );
+				( (ChartReportItemImpl) item ).setSharedScale( rtc.getSharedScale( ) );
+			}
 
-				if ( cm != null && modelHandle != null )
-				{
-					IReportItem item = modelHandle.getReportItem( );
-					( (ChartReportItemImpl) item ).setSharedScale( rtc.getSharedScale( ) );
-				}
-
-				// Get chart max row number from application context
-				Object oMaxRow = context.getAppContext( )
-						.get( EngineConstants.PROPERTY_EXTENDED_ITEM_MAX_ROW );
+			// Get chart max row number from application context
+			Object oMaxRow = context.getAppContext( )
+					.get( EngineConstants.PROPERTY_EXTENDED_ITEM_MAX_ROW );
+			if ( oMaxRow != null )
+			{
+				rtc.putState( ChartUtil.CHART_MAX_ROW, oMaxRow );
+			}
+			else
+			{
+				// Get chart max row number from global variables if app
+				// context doesn't put it
+				oMaxRow = context.getGlobalVariable( EngineConstants.PROPERTY_EXTENDED_ITEM_MAX_ROW );
 				if ( oMaxRow != null )
 				{
 					rtc.putState( ChartUtil.CHART_MAX_ROW, oMaxRow );
 				}
-				else
-				{
-					// Get chart max row number from global variables if app
-					// context doesn't put it
-					oMaxRow = context.getGlobalVariable( EngineConstants.PROPERTY_EXTENDED_ITEM_MAX_ROW );
-					if ( oMaxRow != null )
-					{
-						rtc.putState( ChartUtil.CHART_MAX_ROW, oMaxRow );
-					}
-				}
-				
-				// Get time out setting from app context.
-				Object chartConvertTimeOut = context.getAppContext( )
-						.get( ChartItemUtil.BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT );
+			}
+			
+			// Get time out setting from app context.
+			Object chartConvertTimeOut = context.getAppContext( )
+					.get( ChartItemUtil.BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT );
+			if ( chartConvertTimeOut != null )
+			{
+				rtc.putState( ChartItemUtil.BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT, chartConvertTimeOut );
+			}
+			else
+			{
+				// Get time out setting if app context doesn't put it
+				chartConvertTimeOut = context.getGlobalVariable( ChartItemUtil.BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT );
 				if ( chartConvertTimeOut != null )
 				{
 					rtc.putState( ChartItemUtil.BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT, chartConvertTimeOut );
 				}
-				else
-				{
-					// Get time out setting if app context doesn't put it
-					chartConvertTimeOut = context.getGlobalVariable( ChartItemUtil.BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT );
-					if ( chartConvertTimeOut != null )
-					{
-						rtc.putState( ChartItemUtil.BIRT_CHART_CONVERT_TO_IMAGE_TIME_OUT, chartConvertTimeOut );
-					}
-				}
-				
 			}
+			
 			ois.close( );
 		}
 		catch ( Exception e )
