@@ -1,13 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation - initial API and implementation
- *******************************************************************************/
+* Copyright (c) 2008, 2011 Actuate Corporation.
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+*  Actuate Corporation - initial API and implementation
+*******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb;
 
 import java.lang.reflect.InvocationTargetException;
@@ -18,8 +18,12 @@ import org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nls.Messages;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.connectivity.internal.ConnectionProfile;
+import org.eclipse.datatools.connectivity.internal.ManagedConnection;
 import org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler;
+import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.consumer.helper.OdaConnection;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
@@ -55,32 +59,50 @@ import org.eclipse.swt.widgets.Shell;
 
 public class SQBDataSetWizardPage extends DataSetWizardPage
 {
-    private static final String NEWLINE_CHAR = "\n"; //$NON-NLS-1$
-    private static final String EMPTY_STR = ""; //$NON-NLS-1$
-    private static final String DEFAULT_MESSAGE = Messages.sqbWizPage_defaultMessage;
-    
-    private IConnectionProfile m_dataSourceProfile;
-	private CustomSQLBuilderDialog m_sqbDialog;
-	private boolean m_updatedQueryInput = false;
-	private SortSpecification m_initQuerySortSpec;
-	
-	public SQBDataSetWizardPage( String pageName )
-	{
-		super( pageName );	
-        setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
-	}    
+private static final String NEWLINE_CHAR = "\n"; //$NON-NLS-1$
+private static final String EMPTY_STR = ""; //$NON-NLS-1$
+private static final String DEFAULT_MESSAGE = Messages.sqbWizPage_defaultMessage;
 
-	private IConnectionProfile getConnectionProfile( boolean raiseErrorIfNull, boolean refreshProfileStore )
-	{
-	    if( m_dataSourceProfile == null )
-	    {
-            if( refreshProfileStore )
-                OdaProfileExplorer.getInstance().refresh();
- 
-            java.util.Properties connProps = DesignUtil.convertDataSourceProperties( 
-                                getEditingDesign().getDataSourceDesign() );
-            m_dataSourceProfile = loadConnectionProfile( connProps,
-                                    getEditingDesign().getDataSourceDesign().getHostResourceIdentifiers() );
+private IConnectionProfile m_dataSourceProfile;
+    private CustomSQLBuilderDialog m_sqbDialog;
+    private boolean m_updatedQueryInput = false;
+    private SortSpecification m_initQuerySortSpec;
+    
+    public SQBDataSetWizardPage( String pageName )
+    {
+            super( pageName );	
+    setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
+    }    
+
+    private IConnectionProfile getConnectionProfile( boolean raiseErrorIfNull, boolean refreshProfileStore )
+    {
+        if( m_dataSourceProfile == null )
+        {
+        if( refreshProfileStore )
+            OdaProfileExplorer.getInstance().refresh();
+
+        java.util.Properties connProps = DesignUtil.convertDataSourceProperties( 
+                            getEditingDesign().getDataSourceDesign() );
+        m_dataSourceProfile = loadConnectionProfile( connProps,
+                                getEditingDesign().getDataSourceDesign().getHostResourceIdentifiers() );
+            
+            // If we have ManagedConnection whose key is IConnection, that means it is a ConnectionProfile to
+            // ConnectionProfile repository, rather than the wanted one to a database,
+            // so try to get the wanted profile inside.
+            ManagedConnection mc = (ManagedConnection) m_dataSourceProfile
+                    .getManagedConnection( IConnection.class.getName( ) );
+            if ( mc != null )
+            {
+                try
+                {
+                    m_dataSourceProfile = Connection.loadProfileFromProperties( mc
+                            .getConnectionProfile( ).getBaseProperties( ) );
+                }
+                catch ( OdaException e )
+                {
+                }
+            }
+            
             if( m_dataSourceProfile == null && raiseErrorIfNull )
                 MessageDialog.openError( getShell(), Messages.sqbWizPage_dataSourceDesignError, 
                         Messages.sqbWizPage_noConnProfileMsg );
