@@ -18,8 +18,12 @@ import org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nls.Messages;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.connectivity.internal.ConnectionProfile;
+import org.eclipse.datatools.connectivity.internal.ManagedConnection;
 import org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler;
+import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.consumer.helper.OdaConnection;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
@@ -81,6 +85,23 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
                                 getEditingDesign().getDataSourceDesign() );
             m_dataSourceProfile = loadConnectionProfile( connProps,
                                     getEditingDesign().getDataSourceDesign().getHostResourceIdentifiers() );
+            
+            // If we have ManagedConnection whose key is IConnection, that means it is a ConnectionProfile to
+            // ConnectionProfile repository, rather than the wanted one to a database,
+            // so try to get the wanted profile inside.
+            ManagedConnection mc = (ManagedConnection) m_dataSourceProfile
+                    .getManagedConnection( IConnection.class.getName( ) );
+            if ( mc != null )
+            {
+                try
+                {
+                    m_dataSourceProfile = Connection.loadProfileFromProperties( mc
+                            .getConnectionProfile( ).getBaseProperties( ) );
+                }
+                catch ( OdaException e )
+                {
+                }
+            }
             
             if( m_dataSourceProfile == null && raiseErrorIfNull )
                 MessageDialog.openError( getShell(), Messages.sqbWizPage_dataSourceDesignError, 
