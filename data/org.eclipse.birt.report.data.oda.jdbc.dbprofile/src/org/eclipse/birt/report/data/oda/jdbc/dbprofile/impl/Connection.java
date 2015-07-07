@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.IManagedConnection;
 import org.eclipse.datatools.connectivity.drivers.IDriverMgmtConstants;
+import org.eclipse.datatools.connectivity.internal.ManagedConnection;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -185,8 +186,21 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         // (i.e. a profile instance uses its own jarList property)
         IConnectionProfile dbProfile =  OdaProfileExplorer.getInstance()
                                             .getProfileByName( connProperties, appContext );
-        if( dbProfile != null )
-            return dbProfile;   // found referenced external profile instance
+
+        // If we have ManagedConnection whose key is IConnection, that means
+        // it is a ConnectionProfile to ConnectionProfile repository, rather
+        // than the wanted one to a database, so try to get the wanted 
+        // profile inside.
+        if ( dbProfile != null && dbProfile.getManagedConnection( IConnection.class.getName( ) ) != null )
+        {
+            connProperties = dbProfile.getBaseProperties( );
+            dbProfile = Connection.loadProfileFromProperties( connProperties );
+        }
+
+        if ( dbProfile != null )
+        {
+            return dbProfile; // found referenced external profile instance
+        }
 
         // no external profile instance is specified or available;
         // try create a transient profile if the connection properties contains profile properties
