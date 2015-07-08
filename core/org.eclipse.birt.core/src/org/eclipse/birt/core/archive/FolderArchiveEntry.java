@@ -43,6 +43,7 @@ public class FolderArchiveEntry extends ArchiveEntry
 	{
 		out.seek( pos );
 		out.write( b, off, len );
+		out.flush( );
 	}
 
 	public void close( ) throws IOException
