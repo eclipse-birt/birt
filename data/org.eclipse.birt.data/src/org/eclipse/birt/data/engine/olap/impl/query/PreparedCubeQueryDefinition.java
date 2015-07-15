@@ -562,4 +562,20 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 	{
 		cqd.setID( ID );
 	}
+
+    /**
+     * Clone itself.
+     */
+    public ICubeQueryDefinition clone( )
+    {
+        PreparedCubeQueryDefinition cloned = null;
+        try
+        {
+            cloned = new PreparedCubeQueryDefinition( cqd.clone( ) );
+        }
+        catch ( DataException e )
+        {
+        }
+        return cloned;
+    }
 }

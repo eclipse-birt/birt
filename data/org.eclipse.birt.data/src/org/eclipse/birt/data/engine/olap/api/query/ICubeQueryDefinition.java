@@ -173,7 +173,7 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 
 	/**
 	 * Add the filter. Currently we only support filters which are based on one
-	 * single level. The multiple filters defined in cube will have an �AND�
+	 * single level. The multiple filters defined in cube will have an 锟紸ND锟�
 	 * relationship.
 	 * 
 	 * @param filter
@@ -235,4 +235,9 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 	 * @param the ID of the report Item
 	 */
 	public void setID(String ID);
+
+    /**
+     * Clone itself.
+     */
+    public ICubeQueryDefinition clone( );
 }

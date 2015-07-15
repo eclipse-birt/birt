@@ -403,6 +403,38 @@ public class CubeQueryDefinition extends NamedObject
 	{
 		this.ID = ID;
 	}
-	
-	
+
+    /**
+     * Clone itself
+     */
+    public ICubeQueryDefinition clone( )
+    {
+        CubeQueryDefinition cloned = new CubeQueryDefinition( this.getName( ) );
+        cloneFields( cloned );
+
+        return cloned;
+    }
+
+    /*
+     * Clone fields. Separate this method for extension classes.
+     */
+    protected void cloneFields( CubeQueryDefinition cloned )
+    {
+        cloned.bindingList.addAll( this.bindingList );
+        cloned.breakHierarchyOption = this.breakHierarchyOption;
+        cloned.cacheQueryResults = this.cacheQueryResults;
+        cloned.columnEdge = this.columnEdge.clone( );
+        cloned.computedMeasureList.addAll( this.computedMeasureList );
+        cloned.cubeOperations.addAll( this.cubeOperations );
+        cloned.derivedMeasureList.addAll( this.derivedMeasureList );
+        cloned.filterList.addAll( this.filterList );
+        cloned.ID = this.ID;
+        cloned.measureList.addAll( this.measureList );
+        cloned.needAccessFactTable = this.needAccessFactTable;
+        cloned.pageEdge = this.pageEdge.clone( );
+        cloned.queryResultsID = this.queryResultsID;
+        cloned.rowEdge = this.rowEdge.clone( );
+        cloned.sortList.addAll( this.sortList );
+    }
+
 }

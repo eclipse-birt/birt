@@ -133,4 +133,26 @@ public class EdgeDefinition extends NamedObject implements IEdgeDefinition
 		drillOperation.add( drill );
 		return drill;
 	}
+	
+	/**
+	 * Clone itself.
+	 */
+	public IEdgeDefinition clone()
+	{
+	    EdgeDefinition cloned = new EdgeDefinition( this.getName( ) );
+	    cloneFields( cloned );
+	    return cloned;
+	}
+	
+	/*
+     * Clone fields.
+     * Separate this method for extension classes.
+     */
+	protected void cloneFields( EdgeDefinition cloned )
+    {
+        cloned.dimensions.addAll( this.dimensions );
+        cloned.drillOperation.addAll( this.drillOperation );
+        cloned.mirrorStartingLevel = this.mirrorStartingLevel.clone();
+        cloned.mirror = this.mirror.clone();
+    }
 }

@@ -31,4 +31,9 @@ public interface IDimensionDefinition extends INamedObject
 	 * @return
 	 */
 	public List<IHierarchyDefinition> getHierarchy();
+
+    /**
+     * Clone itself.
+     */
+    public IDimensionDefinition clone( );
 }

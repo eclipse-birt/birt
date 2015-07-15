@@ -43,4 +43,23 @@ public class DimensionDefinition extends NamedObject
 		return this.hierarchies;
 	}
 
+    /**
+     * Clone itself
+     */
+    public IDimensionDefinition clone( )
+    {
+        DimensionDefinition cloned = new DimensionDefinition( this.getName( ) );
+        cloneFields( cloned );
+
+        return cloned;
+    }
+
+    /*
+     * Clone fields. Separate this method for extension classes.
+     */
+    protected void cloneFields( DimensionDefinition cloned )
+    {
+        cloned.hierarchies.addAll( this.hierarchies );
+    }
+
 }

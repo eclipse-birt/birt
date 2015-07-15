@@ -36,4 +36,15 @@ public class LevelDefiniton extends NamedObject implements ILevelDefinition
 	{
 		return this.hierarchy;
 	}
+
+    /**
+     * Clone itself.
+     */
+    public ILevelDefinition clone( )
+    {
+        LevelDefiniton cloned = new LevelDefiniton( this.hierarchy.clone( ),
+                this.getName( ) );
+
+        return cloned;
+    }
 }
