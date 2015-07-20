@@ -767,7 +767,7 @@ public class PPTXCanvas
 		writer.attribute( "marB", bottom );
 	}
 
-	protected String getImageRelationship( BackgroundImageInfo bgimginfo)
+	public String getImageRelationship( BackgroundImageInfo bgimginfo )
 	{
 		String imageURI = bgimginfo.getUrl( );
 		byte[] imageData = bgimginfo.getImageData( );
