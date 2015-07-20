@@ -152,7 +152,9 @@ public class EdgeDefinition extends NamedObject implements IEdgeDefinition
     {
         cloned.dimensions.addAll( this.dimensions );
         cloned.drillOperation.addAll( this.drillOperation );
-        cloned.mirrorStartingLevel = this.mirrorStartingLevel.clone();
-        cloned.mirror = this.mirror.clone();
+        cloned.mirrorStartingLevel = this.mirrorStartingLevel != null
+                ? this.mirrorStartingLevel.clone( )
+                : null;
+        cloned.mirror = this.mirror != null ? this.mirror.clone( ) : null;
     }
 }

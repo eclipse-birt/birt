@@ -423,7 +423,9 @@ public class CubeQueryDefinition extends NamedObject
         cloned.bindingList.addAll( this.bindingList );
         cloned.breakHierarchyOption = this.breakHierarchyOption;
         cloned.cacheQueryResults = this.cacheQueryResults;
-        cloned.columnEdge = this.columnEdge.clone( );
+        cloned.columnEdge = this.columnEdge != null
+                ? this.columnEdge.clone( )
+                : null;
         cloned.computedMeasureList.addAll( this.computedMeasureList );
         cloned.cubeOperations.addAll( this.cubeOperations );
         cloned.derivedMeasureList.addAll( this.derivedMeasureList );
@@ -431,9 +433,9 @@ public class CubeQueryDefinition extends NamedObject
         cloned.ID = this.ID;
         cloned.measureList.addAll( this.measureList );
         cloned.needAccessFactTable = this.needAccessFactTable;
-        cloned.pageEdge = this.pageEdge.clone( );
+        cloned.pageEdge = this.pageEdge != null ? this.pageEdge.clone( ) : null;
         cloned.queryResultsID = this.queryResultsID;
-        cloned.rowEdge = this.rowEdge.clone( );
+        cloned.rowEdge = this.rowEdge != null ? this.rowEdge.clone( ) : null;
         cloned.sortList.addAll( this.sortList );
     }
 
