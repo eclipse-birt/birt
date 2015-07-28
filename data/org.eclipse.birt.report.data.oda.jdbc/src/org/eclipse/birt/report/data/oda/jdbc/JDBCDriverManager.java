@@ -23,6 +23,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1316,5 +1317,12 @@ public class JDBCDriverManager
 		{
 			return driverClass;
 		}
+
+        @Override
+        public Logger getParentLogger( ) throws SQLFeatureNotSupportedException
+        {
+            // TODO Auto-generated method stub
+            throw new SQLFeatureNotSupportedException( );
+        }
 	}
 }
