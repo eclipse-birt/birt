@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -172,6 +173,10 @@ public class ResultSetUtil
 
 			for ( i = 0; i < count; i++ )
 			{
+				Class<?> typeClazz = rsMeta.wasAnyType( i + 1 )
+						? DataType.getClass( DataType.ANY_TYPE )
+						: rsMeta.getFieldValueClass( i + 1 );
+							
 				if( rsMeta.isIndexColumn( i + 1 ) && ( index.containsKey( rsMeta.getFieldName( i + 1 ) ) ) )
 				{
 					obs[i] = IOUtil.readObject( dis,
@@ -195,24 +200,32 @@ public class ResultSetUtil
 					{
 						if ( version > VersionManager.VERSION_3_7_2_1 )
 						{
-							obs[i] = ResultObjectUtil.readObject( dis,rsMeta.getFieldValueClass( i + 1 ),
-									DataEngineSession.getCurrentClassLoader( ), version );
+							obs[i] = ResultObjectUtil.readObject( dis,
+									typeClazz,
+									DataEngineSession.getCurrentClassLoader( ),
+									version );
 						}
 						else
+						{
 							obs[i] = IOUtil.readObject( dis,
 									DataEngineSession.getCurrentClassLoader( ) );
+						}
 					}
 				}
 				else
 				{
 					if ( version > VersionManager.VERSION_3_7_2_1 )
 					{
-						obs[i] = ResultObjectUtil.readObject( dis,rsMeta.getFieldValueClass( i + 1 ),
-								DataEngineSession.getCurrentClassLoader( ), version );
+						obs[i] = ResultObjectUtil.readObject( dis,
+								typeClazz,
+								DataEngineSession.getCurrentClassLoader( ),
+								version );
 					}
 					else
-					obs[i] = IOUtil.readObject( dis,
-							DataEngineSession.getCurrentClassLoader( ) );
+					{
+						obs[i] = IOUtil.readObject( dis,
+								DataEngineSession.getCurrentClassLoader( ) );
+					}
 				}
 			}
 			ResultObject resultObject = new ResultObject( rsMeta, obs );
