@@ -1317,12 +1317,5 @@ public class JDBCDriverManager
 		{
 			return driverClass;
 		}
-
-        @Override
-        public Logger getParentLogger( ) throws SQLFeatureNotSupportedException
-        {
-            // TODO Auto-generated method stub
-            throw new SQLFeatureNotSupportedException( );
-        }
 	}
 }
