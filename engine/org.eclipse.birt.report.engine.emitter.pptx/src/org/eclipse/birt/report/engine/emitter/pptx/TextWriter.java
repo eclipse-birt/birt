@@ -281,37 +281,37 @@ public class TextWriter
 	{
 		TextArea text = null;
 		IArea child = container.getFirstChild( );
-		while( child != null && ! (child instanceof TextArea) )
+		while ( child != null && !( child instanceof TextArea ) )
 		{
-			child = ((ContainerArea) child).getFirstChild( );
-		}	
+			child = ( (ContainerArea) child ).getFirstChild( );
+		}
 		if( child != null ){
 			text = (TextArea) child;
 		}
-		if( text == null )
+		if ( text == null )
 		{
 			return;
 		}
 		if ( autotexttype.equals( AUTOPAGENUMBER ) )
 		{
-			writer.openTag( "a:p" );
+			// textHeight return value in 1/1000 pt, startTextLineArea need
+			// value in 1/100 pt.
+			startTextLineArea( text.getHeight( ) / 10 );
 			writer.openTag( "a:fld" );
 			writer.attribute( "id", "{AE09BA1C-136E-4F28-AF64-63E231249911}" );
 			writer.attribute( "type", "slidenum" );
 			setTextProperty( "a:rPr", text.getStyle( ) );
-			writer.openTag( "a:pPr" );
-			writer.closeTag( "a:pPr" );
 			writer.openTag( "a:t" );
 			canvas.writeText( "‹#›" );
 			writer.closeTag( "a:t" );
 			writer.closeTag( "a:fld" );
 			endTextLineArea( text );
 		}
-		else if( autotexttype.equals( TOTALPAGE )  )
+		else if ( autotexttype.equals( TOTALPAGE ) )
 		{
 			Integer totalpage = canvas.getPresentation( ).getTotalSlides( );
 			text.setText( totalpage.toString( ) );
-			autotexttype = null;			
+			autotexttype = null;
 			drawBlockTextChildren( container );
 		}
 		else
