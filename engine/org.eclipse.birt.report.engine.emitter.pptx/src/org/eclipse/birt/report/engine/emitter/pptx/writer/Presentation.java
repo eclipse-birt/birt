@@ -116,7 +116,10 @@ public class Presentation extends Component
 			writer.attribute( TAG_RELATIONSHIP_ID, slideMaster.getPart( )
 					.getRelationshipId( ) );
 			writer.closeTag( TAG_SLIDE_MASTER_ID );
-			new SlideWriter( render ).writeSlideMaster( slideMaster );
+			if ( render.isEditMode( ) )
+			{
+				new SlideWriter( render ).writeSlideMaster( slideMaster );
+			}
 			slideMaster.close( );
 		}
 		writer.closeTag( TAG_SLIDE_MASTER_ID_LIST );
