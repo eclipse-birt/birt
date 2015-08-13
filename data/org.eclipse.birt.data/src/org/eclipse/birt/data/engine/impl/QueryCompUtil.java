@@ -114,6 +114,10 @@ public class QueryCompUtil
 		{
 			IQueryDefinition queryDefn1 = (IQueryDefinition) qd1;
 			IQueryDefinition queryDefn2 = (IQueryDefinition) qd2;
+			if ( queryDefn1.isSummaryQuery( ) != queryDefn2.isSummaryQuery( ) )
+			{
+				return false;
+			}
 			if ( !onIVMode )
 			{
 
