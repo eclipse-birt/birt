@@ -471,36 +471,53 @@ public class UIUtil
 		return null;
 	}
 
-	public static IProject getCurrentProject( )
-	{
-		IWorkbench iworkbench = PlatformUI.getWorkbench( );
-		if ( iworkbench == null )
-		{
-			return null;
-		}
-		IWorkbenchWindow iworkbenchwindow = iworkbench.getActiveWorkbenchWindow( );
-		if ( iworkbenchwindow == null )
-		{
-			return null;
-		}
-		IWorkbenchPage iworkbenchpage = iworkbenchwindow.getActivePage( );
-		if ( iworkbenchpage == null )
-		{
-			return null;
-		}
-		IEditorPart ieditorpart = iworkbenchpage.getActiveEditor( );
-		if ( ieditorpart == null )
-		{
-			return null;
-		}
-		IEditorInput input = ieditorpart.getEditorInput( );
-		if ( input == null )
-		{
-			return null;
-		}
-		return (IProject) ElementAdapterManager.getAdapter( input,
-				IProject.class );
-	}
+    public static IProject getCurrentProject( )
+    {
+        IWorkbench iworkbench = PlatformUI.getWorkbench( );
+        if ( iworkbench == null )
+        {
+            return null;
+        }
+
+        IWorkbenchWindow iworkbenchwindow = iworkbench
+                .getActiveWorkbenchWindow( );
+        if ( iworkbenchwindow == null )
+        {
+            return null;
+        }
+
+        IWorkbenchPage iworkbenchpage = iworkbenchwindow.getActivePage( );
+        if ( iworkbenchpage != null )
+        {
+            IEditorPart ieditorpart = iworkbenchpage.getActiveEditor( );
+            if ( ieditorpart != null )
+            {
+                IEditorInput input = ieditorpart.getEditorInput( );
+                if ( input != null )
+                {
+                    IProject project = (IProject) ElementAdapterManager
+                            .getAdapter( input, IProject.class );
+                    if ( project != null )
+                    {
+                        return project;
+                    }
+                }
+            }
+        }
+
+        ISelection selection = iworkbenchwindow.getSelectionService( )
+                .getSelection( );
+        if ( selection instanceof IStructuredSelection )
+        {
+            Object element = ( (IStructuredSelection) selection )
+                    .getFirstElement( );
+            if ( element instanceof IResource )
+            {
+                return ( (IResource) element ).getProject( );
+            }
+        }
+        return null;
+    }
 
 	/**
 	 * Returns the default shell used by dialogs
