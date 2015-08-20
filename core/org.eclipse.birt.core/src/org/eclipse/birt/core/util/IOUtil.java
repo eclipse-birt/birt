@@ -1205,7 +1205,7 @@ public class IOUtil
 		{
 			int length = dis.readInt();
 			byte[] ret = new byte[length];
-			dis.read(ret, 0, length);
+			dis.readFully(ret, 0, length);
 			return convertBytes2String(ret);
 		} 
 		catch ( OutOfMemoryError e) 
