@@ -44,9 +44,9 @@ public class OSDataSetDesignComparator
 					|| ComparatorUtil.isEqualProps( dataSet.getPrivateProperties( ),
 							dataSet2.getPrivateProperties( ) ) == false )
 				return false;
-			return true;
 		}
-		else if ( dataSetDesign instanceof IScriptDataSetDesign
+		
+		if ( dataSetDesign instanceof IScriptDataSetDesign
 				&& dataSetDesign2 instanceof IScriptDataSetDesign )
 		{
 			IScriptDataSetDesign dataSet = (IScriptDataSetDesign) dataSetDesign;
@@ -61,9 +61,9 @@ public class OSDataSetDesignComparator
 					|| ComparatorUtil.isEqualString( dataSet.getDescribeScript( ),
 							dataSet2.getDescribeScript( ) ) == false )
 				return false;
-			return true;
 		}
-		else if ( dataSetDesign instanceof IJointDataSetDesign
+		
+		if ( dataSetDesign instanceof IJointDataSetDesign
 				&& dataSetDesign2 instanceof IJointDataSetDesign )
 		{
 			IJointDataSetDesign design1 = (IJointDataSetDesign) dataSetDesign;
@@ -80,12 +80,11 @@ public class OSDataSetDesignComparator
 					|| ComparatorUtil.isEqualJointCondition( design1.getJoinConditions( ),
 							design2.getJoinConditions( ) ) == false )
 				return false;
-			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		// Since no difference is found, just return true for now.
+		// If more checks are needed should be determined by outside caller.
+		return true;
 	}
 	
 	public static boolean isEqualBaseDataSetDesign( IBaseDataSetDesign dataSetDesign,
