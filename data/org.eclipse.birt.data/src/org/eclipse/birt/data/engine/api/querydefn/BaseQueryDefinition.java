@@ -14,12 +14,15 @@
 package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseLinkDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
@@ -49,7 +52,10 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	private 	Map bindingMap = new LinkedHashMap();
 	private IQueryExecutionHints queryExecutionHints = new QueryExecutionHints();
 	private String name;
-	private boolean isTempQuery = false;;
+	private boolean isTempQuery = false;
+	
+    private Set<IBaseLinkDefinition> links = new HashSet<IBaseLinkDefinition>( );
+	
 	/**
 	 * Constructs an instance with parent set to the specified <code>BaseQueryDefinition</code>
 	 */
@@ -287,5 +293,15 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	public boolean isTempQuery()
 	{
 		return this.isTempQuery ;
+	}
+	
+	public Set<IBaseLinkDefinition> getLinks()
+	{
+	    return this.links;
+	}
+	
+	public void addLink(IBaseLinkDefinition link)
+	{
+	    this.links.add( link );
 	}
 }

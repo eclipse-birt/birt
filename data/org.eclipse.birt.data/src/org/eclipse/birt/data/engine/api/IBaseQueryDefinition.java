@@ -15,6 +15,7 @@ package org.eclipse.birt.data.engine.api;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.core.DataException;
 
@@ -118,5 +119,20 @@ public interface IBaseQueryDefinition extends IBaseTransform, IDataQueryDefiniti
 	 * 
 	 * @return
 	 */
-	public boolean getDistinctValue( );
+    public boolean getDistinctValue( );
+    
+    /**
+     * Get all links between datasets.
+     * 
+     * @return
+     */
+    public Set<IBaseLinkDefinition> getLinks( );
+
+    /**
+     * The links open an interface for calculating joins between datasets.
+     * Currently not used.
+     * 
+     * @return
+     */
+    public void addLink( IBaseLinkDefinition link );
 }
