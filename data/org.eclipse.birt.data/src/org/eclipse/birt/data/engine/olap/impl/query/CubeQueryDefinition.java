@@ -13,9 +13,12 @@ package org.eclipse.birt.data.engine.olap.impl.query;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseLinkDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -49,6 +52,8 @@ public class CubeQueryDefinition extends NamedObject
 	private boolean needAccessFactTable;
 	private int breakHierarchyOption = 0;
 	private String ID;
+	
+	private Set<IBaseLinkDefinition> links = new HashSet<IBaseLinkDefinition>( );
 	
 	/**
 	 * Constructor. The name of CubeQueryDefinition must equal to the name
@@ -437,6 +442,18 @@ public class CubeQueryDefinition extends NamedObject
         cloned.queryResultsID = this.queryResultsID;
         cloned.rowEdge = this.rowEdge != null ? this.rowEdge.clone( ) : null;
         cloned.sortList.addAll( this.sortList );
+    }
+    
+    @Override
+    public Set<IBaseLinkDefinition> getLinks( )
+    {
+        return this.links;
+    }
+
+    @Override
+    public void addLink( IBaseLinkDefinition link )
+    {
+        this.links.add( link );
     }
 
 }

@@ -121,18 +121,4 @@ public interface IBaseQueryDefinition extends IBaseTransform, IDataQueryDefiniti
 	 */
     public boolean getDistinctValue( );
     
-    /**
-     * Get all links between datasets.
-     * 
-     * @return
-     */
-    public Set<IBaseLinkDefinition> getLinks( );
-
-    /**
-     * The links open an interface for calculating joins between datasets.
-     * Currently not used.
-     * 
-     * @return
-     */
-    public void addLink( IBaseLinkDefinition link );
 }

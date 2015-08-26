@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.api;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * Defines a data engine query: a set of data transforms that provides data for
@@ -94,5 +95,20 @@ public interface IQueryDefinition extends IBaseQueryDefinition
      * @return
      */
     public boolean isSummaryQuery();
+    
+    /**
+     * Get all links between datasets.
+     * 
+     * @return
+     */
+    public Set<IBaseLinkDefinition> getLinks( );
+
+    /**
+     * The links open an interface for calculating joins between datasets.
+     * Currently not used.
+     * 
+     * @return
+     */
+    public void addLink( IBaseLinkDefinition link );
     
 }

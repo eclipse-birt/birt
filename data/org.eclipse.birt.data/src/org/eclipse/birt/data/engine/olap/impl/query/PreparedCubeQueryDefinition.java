@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseLinkDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -577,5 +578,17 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
         {
         }
         return cloned;
+    }
+    
+    @Override
+    public Set<IBaseLinkDefinition> getLinks( )
+    {
+        return this.cqd.getLinks( );
+    }
+
+    @Override
+    public void addLink( IBaseLinkDefinition link )
+    {
+        this.cqd.getLinks( ).add( link );
     }
 }

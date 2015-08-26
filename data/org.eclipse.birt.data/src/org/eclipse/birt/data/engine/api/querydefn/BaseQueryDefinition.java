@@ -54,8 +54,6 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	private String name;
 	private boolean isTempQuery = false;
 	
-    private Set<IBaseLinkDefinition> links = new HashSet<IBaseLinkDefinition>( );
-	
 	/**
 	 * Constructs an instance with parent set to the specified <code>BaseQueryDefinition</code>
 	 */
@@ -294,14 +292,5 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	{
 		return this.isTempQuery ;
 	}
-	
-	public Set<IBaseLinkDefinition> getLinks()
-	{
-	    return this.links;
-	}
-	
-	public void addLink(IBaseLinkDefinition link)
-	{
-	    this.links.add( link );
-	}
+
 }
