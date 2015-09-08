@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+Eclipse-ExtensibleAPI: true
 Bundle-ManifestVersion: 2
 Bundle-Name: CSV Data Extraction Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.engine.dataextraction.csv;singleton:=true
