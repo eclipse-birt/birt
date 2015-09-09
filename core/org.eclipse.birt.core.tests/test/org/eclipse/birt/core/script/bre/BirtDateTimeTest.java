@@ -461,7 +461,7 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
 				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 2, 7) )",
 				"BirtDateTime.diffDay(new Date(2006, 0, 1),new Date(2006, 2, 8) )",
-				"BirtDateTime.diffDay(new Date(1793, 0, 1),new Date(1794, 2, 8) )"
+				"BirtDateTime.diffDay(new Date(1993, 0, 1),new Date(1994, 2, 8) )"
 		};
 
 		int[] values = new int[]{
@@ -490,7 +490,7 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
 				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 2, 7,11,2,0) )",
 				"BirtDateTime.diffHour(new Date(2006, 0, 1),new Date(2006, 2, 8,22,0,0) )",
-				"BirtDateTime.diffHour(new Date(1793, 0, 1),new Date(1794, 2, 8) )"
+				"BirtDateTime.diffHour(new Date(1993, 0, 1),new Date(1994, 2, 8) )"
 		};
 
 		int[] values = new int[]{
@@ -823,7 +823,7 @@ public class BirtDateTimeTest extends TestCase
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addHour(new Date(2005, 10, 15),7*24 )",
-				"BirtDateTime.addHour(new Date(2006, 9, 15),21*24 )",
+				"BirtDateTime.addHour(new Date(2006, 8, 15),21*24 )",
 				"BirtDateTime.addHour(\"1995-11-15\",10 )",
 				"BirtDateTime.addHour(null,21*24 )"
 		};
@@ -838,7 +838,7 @@ public class BirtDateTimeTest extends TestCase
 
 		c.clear( );
 
-		c.set( 2006, 10, 5 );
+		c.set( 2006, 9, 6 );
 
 		Date d2 = new Date( c.getTimeInMillis( ) );
 
@@ -875,7 +875,7 @@ public class BirtDateTimeTest extends TestCase
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addMinute(new Date(2005, 10, 15),7*24*60 )",
-				"BirtDateTime.addMinute(new Date(2006, 9, 15),21*24*60 )",
+				"BirtDateTime.addMinute(new Date(2006, 9, 15),-21*24*60 )",
 				"BirtDateTime.addMinute(\"1995-11-15\",10*60+10 )"
 		};
 
@@ -889,7 +889,7 @@ public class BirtDateTimeTest extends TestCase
 
 		c.clear( );
 
-		c.set( 2006, 10, 5 );
+		c.set( 2006, 8, 24 );
 
 		Date d2 = new Date( c.getTimeInMillis( ) );
 
@@ -922,7 +922,7 @@ public class BirtDateTimeTest extends TestCase
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addSecond(new Date(2005, 10, 15),7*24*60*60 )",
-				"BirtDateTime.addSecond(new Date(2006, 9, 15),21*24*60*60 )",
+				"BirtDateTime.addSecond(new Date(2006, 8, 15),21*24*60*60 )",
 				"BirtDateTime.addSecond(\"1995-11-15\",(10*60+10)*60+9 )"
 		};
 
@@ -936,7 +936,7 @@ public class BirtDateTimeTest extends TestCase
 
 		c.clear( );
 
-		c.set( 2006, 10, 5 );
+		c.set( 2006, 9, 6 );
 
 		Date d2 = new Date( c.getTimeInMillis( ) );
 
@@ -1107,14 +1107,14 @@ public class BirtDateTimeTest extends TestCase
 
 		c.clear( );
 		c.setMinimalDaysInFirstWeek( 1 );
-		c.set( 2011, 7, 25 );
+		c.set( 2011, 7, 21 );
 		c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek( ) );
 
 		Date d1 = c.getTime( );
 
 		c.clear( );
 		c.setMinimalDaysInFirstWeek( 1 );
-		c.set( 2011, 7, 15 );
+		c.set( 2011, 7, 14 );
 		c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek( ) );
 		Date d2 =  c.getTime( );
 
