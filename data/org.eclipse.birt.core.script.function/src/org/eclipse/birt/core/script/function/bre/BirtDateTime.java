@@ -156,6 +156,25 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			this.executor = new Function_FirstDayOfWeek( );
 		else if( "date".equals( functionName ))
 			this.executor = new Function_Date( );
+		
+		else if( "fiscalYear".equals( functionName ))
+			this.executor = new Function_FiscalYear( );
+		else if( "fiscalQuarter".equals( functionName ))
+			this.executor = new Function_FiscalQuarter( );
+		else if( "fiscalMonth".equals( functionName ))
+			this.executor = new Function_FiscalMonth( );
+		else if( "fiscalWeek".equals( functionName ))
+			this.executor = new Function_FiscalWeek( );
+		else if( "fiscalDay".equals( functionName ))
+			this.executor = new Function_FiscalDay( );
+		else if( "firstDayOfFiscalYear".equals( functionName ))
+			this.executor = new Function_FirstDayOfFiscalYear( );
+		else if( "firstDayOfFiscalQuarter".equals( functionName ))
+			this.executor = new Function_FirstDayOfFiscalQuarter( );
+		else if( "firstDayOfFiscalMonth".equals( functionName ))
+			this.executor = new Function_FirstDayOfFiscalMonth( );
+		else if( "firstDayOfFiscalWeek".equals( functionName ))
+			this.executor = new Function_FirstDayOfFiscalWeek( );
 		else
 			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
 					null,
@@ -1526,6 +1545,337 @@ public class BirtDateTime implements IScriptFunctionExecutor
 						( (Number) args[4] ).intValue( ),
 						( (Number) args[5] ).intValue( ) );
 		}
+	}
+	
+	private static class Function_FiscalYear extends Function_temp
+	{
+
+		private static final long serialVersionUID = 1L;
+
+		Function_FiscalYear( )
+		{
+			minParamCount = 1;
+			maxParamCount = 2;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
+			if ( args.length > 1 )
+			{
+				adjustFiscalYear( current, args[1] );
+			}
+			return current.get( Calendar.YEAR );
+		}
+	}
+	
+	private static class Function_FiscalQuarter extends Function_temp
+	{
+
+		private static final long serialVersionUID = 1L;
+
+		Function_FiscalQuarter( )
+		{
+			minParamCount = 1;
+			maxParamCount = 2;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
+			if ( args.length > 1 )
+			{
+				adjustFiscalYear( current, args[1] );
+			}
+			// Quarter starts with 1
+			return current.get( Calendar.MONTH ) / 3 + 1;
+		}
+	}
+	
+	private static class Function_FiscalMonth extends Function_temp
+	{
+
+		private static final long serialVersionUID = 1L;
+
+		Function_FiscalMonth( )
+		{
+			minParamCount = 1;
+			maxParamCount = 2;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
+			if ( args.length > 1 )
+			{
+				adjustFiscalYear( current, args[1] );
+			}
+			// Month starts with 1
+			return current.get( Calendar.MONTH ) + 1;
+		}
+	}
+	
+	private static class Function_FiscalWeek extends Function_temp
+	{
+
+		private static final long serialVersionUID = 1L;
+
+		Function_FiscalWeek( )
+		{
+			minParamCount = 1;
+			maxParamCount = 2;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
+			if ( args.length > 1 )
+			{
+				adjustFiscalYear( current, args[1] );
+			}
+			return current.get( Calendar.WEEK_OF_YEAR );
+		}
+	}
+	
+	private static class Function_FiscalDay extends Function_temp
+	{
+
+		private static final long serialVersionUID = 1L;
+
+		Function_FiscalDay( )
+		{
+			minParamCount = 1;
+			maxParamCount = 2;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
+			if ( args.length > 1 )
+			{
+				adjustFiscalYear( current, args[1] );
+			}
+			return current.get( Calendar.DAY_OF_YEAR );
+		}
+	}
+	
+	private static class Function_FirstDayOfFiscalMonth extends Function_temp
+	{
+
+		private static final long serialVersionUID = 1L;
+
+		Function_FirstDayOfFiscalMonth( )
+		{
+			minParamCount = 1;
+			maxParamCount = 2;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar current = getCalendar( null );
+			if ( args[0] instanceof Integer )
+			{
+				current = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				// Month starts with 1
+				current.add( Calendar.MONTH, (Integer) args[0] - 1 );
+			}
+			else
+			{
+				current.setTime( DataTypeUtil.toDate( args[0] ) );
+				if ( args.length > 1 )
+				{
+					Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
+					adjustFiscalMonth( current, start );
+					current.set( Calendar.DATE, start.get( Calendar.DATE ) );
+				}
+				else
+				{
+					current.set( Calendar.DATE, 1 );
+				}
+			}
+			return current.getTime( );
+		}
+	}
+
+	private static class Function_FirstDayOfFiscalQuarter extends Function_temp
+	{
+
+		private static final long serialVersionUID = 1L;
+
+		Function_FirstDayOfFiscalQuarter( )
+		{
+			minParamCount = 1;
+			maxParamCount = 2;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar current = getCalendar( null );
+			if ( args[0] instanceof Integer )
+			{
+				current = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				// Quarter starts with 1
+				current.add( Calendar.MONTH, ( (Integer) args[0] - 1 ) * 3 );
+			}
+			else
+			{
+				current.setTime( DataTypeUtil.toDate( args[0] ) );
+				if ( args.length > 1 )
+				{
+					Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
+					adjustFiscalMonth( current, start );
+					int monthRemaindary = ( current.get( Calendar.MONTH )
+							- start.get( Calendar.MONTH ) + 12 ) % 3;
+					current.add( Calendar.MONTH, -monthRemaindary );
+					current.set( Calendar.DATE, start.get( Calendar.DATE ) );
+				}
+				else
+				{
+					current.set( Calendar.MONTH,
+							current.get( Calendar.MONTH ) / 3 * 3 );
+					current.set( Calendar.DATE, 1 );
+				}
+			}
+			return current.getTime( );
+		}
+	}
+	
+	private static class Function_FirstDayOfFiscalWeek extends Function_temp
+	{
+
+		private static final long serialVersionUID = 1L;
+
+		Function_FirstDayOfFiscalWeek( )
+		{
+			minParamCount = 1;
+			maxParamCount = 2;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar current = getCalendar( null );
+			if ( args[0] instanceof Integer )
+			{
+				current = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				// Week starts with 1
+				current.add( Calendar.WEEK_OF_YEAR, (Integer) args[0] - 1 );
+			}
+			else
+			{
+				current.setTime( DataTypeUtil.toDate( args[0] ) );
+			}
+			current.set( Calendar.DAY_OF_WEEK, current.getFirstDayOfWeek( ) );
+			return current.getTime( );
+		}
+	}
+	
+	private static class Function_FirstDayOfFiscalYear extends Function_temp
+	{
+
+		private static final long serialVersionUID = 1L;
+
+		Function_FirstDayOfFiscalYear( )
+		{
+			minParamCount = 1;
+			maxParamCount = 2;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar current = getCalendar( null );
+			if ( args[0] instanceof Integer )
+			{
+				if ( args.length > 1 )
+				{
+					current = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				}
+				current.set( Calendar.YEAR, (Integer) args[0] );
+			}
+			else
+			{
+				current.setTime( DataTypeUtil.toDate( args[0] ) );
+				if ( args.length > 1 )
+				{
+					Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
+					adjustFiscalYear( current, start );
+					current.set( Calendar.MONTH, start.get( Calendar.MONTH ) );
+					current.set( Calendar.DATE, start.get( Calendar.DATE ) );
+				}
+				else
+				{
+					current.set( Calendar.MONTH, 0 );
+					current.set( Calendar.DATE, 1 );
+				}
+			}
+			return current.getTime( );
+		}
+	}
+	
+	private static void adjustFiscalYear( Calendar current, Object fiscalStart )
+			throws BirtException
+	{
+		Calendar start;
+		if ( fiscalStart instanceof Calendar )
+		{
+			start = (Calendar) fiscalStart;
+		}
+		else
+		{
+			start = getCalendar( DataTypeUtil.toDate( fiscalStart ) );
+		}
+		start.set( Calendar.YEAR, current.get( Calendar.YEAR ) );
+		current.add( Calendar.DAY_OF_YEAR, 1 - start.get( Calendar.DAY_OF_YEAR ) );
+	}
+	
+	private static void adjustFiscalMonth( Calendar current, Object fiscalStart )
+			throws BirtException
+	{
+		Calendar start;
+		if ( fiscalStart instanceof Calendar )
+		{
+			start = (Calendar) fiscalStart;
+		}
+		else
+		{
+			start = getCalendar( DataTypeUtil.toDate( fiscalStart ) );
+		}
+		current.add( Calendar.DAY_OF_MONTH, 1 - start.get( Calendar.DAY_OF_MONTH ) );
 	}
 
 	private static Date getDate( int year, int month, int day, int hours,
