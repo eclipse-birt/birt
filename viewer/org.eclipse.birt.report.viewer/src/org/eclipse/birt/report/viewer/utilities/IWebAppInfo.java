@@ -14,12 +14,35 @@ package org.eclipse.birt.report.viewer.utilities;
 /**
  * IWebAppInfo
  */
-public interface IWebAppInfo
-{
+public interface IWebAppInfo {
+	/**
+	 * the plugin ID
+	 * 
+	 * @return
+	 */
 
-	String getName( );
+	String getID();
 
-	String getID( );
+	/**
+	 * the web app name
+	 * 
+	 * @return
+	 */
+	String getName();
 
-	boolean useCustomParamHandling( );
+	/**
+	 * the web app context path
+	 * 
+	 * @return
+	 */
+	String getWebAppContextPath();
+
+	/**
+	 * the web app folder
+	 * 
+	 * @return
+	 */
+	String getWebAppPath();
+
+	boolean useCustomParamHandling();
 }

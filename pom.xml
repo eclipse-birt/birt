@@ -10,12 +10,13 @@
 		<birt.version>4.5.0</birt.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>0.21.0</tycho.version>
-		<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5milestones/</eclipse.repo.url>
+		<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5/</eclipse.repo.url>
 		<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.11milestones/</emf.repo.url>
 		<wtp.repo.url>http://download.eclipse.org/webtools/repository/mars/</wtp.repo.url>
 		<gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
-		<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/repository/</orbit.repo.url>
-		<dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
+		<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit.repo.url>
+        <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
+        <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.9.v20150224</jetty.repo.url>
 		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
 		<!--<build>v${maven.build.timestamp}</build>-->
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
@@ -116,6 +117,11 @@
 		<repository>
 			<id>dtp</id>
 			<url>${dtp.repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>jetty</id>
+			<url>${jetty.repo.url}</url>
 			<layout>p2</layout>
 		</repository>
 	</repositories>

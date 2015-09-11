@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
+import javax.servlet.jsp.JspFactory;
 
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
@@ -49,6 +50,14 @@ public class ViewerPlugin extends Plugin
 	 * Web Application Context
 	 */
 	public final static String WEBAPP_CONTEXT = "viewer"; //$NON-NLS-1$
+	/**
+	 * Web Application Context Path
+	 */
+	public final static String WEBAPP_CONTEXT_PATH = "/viewer"; //$NON-NLS-1$
+	/**
+	 * Web Application folder
+	 */
+	public final static String WEBAPP_PATH = "/birt"; //$NON-NLS-1$
 
 	/**
 	 * Default value of max rows setting displaying in preference page
@@ -191,6 +200,9 @@ public class ViewerPlugin extends Plugin
 
 		// check web app adatper, ensure the adapter plugin has been started.
 		WebViewer.getCurrentWebApp( );
+		
+		//setup JSP factory
+		setupJspFactory();
 	}
 
 	/**
@@ -314,4 +326,27 @@ public class ViewerPlugin extends Plugin
 				: bundleContext.getBundles( );
 	}
 
+	/**
+	 * get the bundle context
+	 * 
+	 * @return bundle context
+	 */
+	public BundleContext getBundleContext() {
+		return this.bundleContext;
+	}
+
+	private void setupJspFactory() {
+
+		try {
+			if (JspFactory.getDefaultFactory() == null) {
+				// enforce setting the jspfactory instance as we know it here
+				Class clz = Class.forName("org.apache.jasper.runtime.JspFactoryImpl"); //$NON-NLS-1$
+				if (clz != null) {
+					JspFactory.setDefaultFactory((JspFactory) clz.newInstance());
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+	}
 }

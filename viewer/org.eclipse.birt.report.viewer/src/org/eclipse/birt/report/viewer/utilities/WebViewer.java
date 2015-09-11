@@ -279,6 +279,14 @@ public class WebViewer
 				return ViewerPlugin.WEBAPP_CONTEXT;
 			}
 
+			public String getWebAppContextPath() {
+				return ViewerPlugin.WEBAPP_CONTEXT_PATH;
+			}
+
+			public String getWebAppPath() {
+				return ViewerPlugin.WEBAPP_PATH;
+			}
+
 			public boolean useCustomParamHandling( )
 			{
 				return false;
