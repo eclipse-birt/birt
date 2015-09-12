@@ -28,6 +28,7 @@
               <webAppSourceDirectory>${project.basedir}/birt/</webAppSourceDirectory>
               <webXml>${project.basedir}/birt/WEB-INF/web-viewer.xml</webXml>
               <generatedClasses>${project.build.directory}/jsp/classes</generatedClasses>
+              <useProvidedScope>true</useProvidedScope>
 			  <keepSources>true</keepSources>
 			  <!--  
               <ignoreJspFragmentErrors>true</ignoreJspFragmentErrors>
