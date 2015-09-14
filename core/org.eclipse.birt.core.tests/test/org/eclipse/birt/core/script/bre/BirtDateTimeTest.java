@@ -1237,16 +1237,16 @@ public class BirtDateTimeTest extends TestCase
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.fiscalYear(new Date(2015, 6, 1), new Date(2012, 6, 1 ))",// leap year
-				"BirtDateTime.fiscalYear(new Date(2015, 6, 1), new Date(2015, 6, 1 ))",
-				"BirtDateTime.fiscalYear(new Date(2015, 6, 12), new Date(2015, 7, 1 ))",
-				"BirtDateTime.fiscalYear(new Date(2015, 6, 12), new Date(2017, 7, 1 ))",
+				"BirtDateTime.fiscalYear(new Date(2015, 6, 1), new Date(2015, 6, 1 ))",// non leap year
+				"BirtDateTime.fiscalYear(new Date(2015, 6, 12), new Date(2015, 9, 1 ))",
+				"BirtDateTime.fiscalYear(new Date(2015, 7, 12), new Date(2015, 7, 1 ))",
+				"BirtDateTime.fiscalYear(new Date(2015, 7, 12), new Date(2015, 0, 1 ))",// calendar year
 				"BirtDateTime.fiscalYear(new Date(2014, 8, 15))",
 				"BirtDateTime.fiscalYear(new Date(2015, 6, 12))",
-				"BirtDateTime.fiscalYear(new Date(2016, 8, 11))",
 		};
 
 		int[] values = new int[]{
-				2015, 2015, 2014, 2014, 2014, 2015, 2016
+				2016, 2016, 2015, 2016, 2015, 2014, 2015
 		};
 
 		for ( int i = 0; i < values.length; i++ )
@@ -1256,7 +1256,7 @@ public class BirtDateTimeTest extends TestCase
 					"inline",
 					1,
 					null );
-			assertEquals( values[i], result );
+			assertEquals( String.valueOf( i ), values[i], result );
 		}
 	}
 

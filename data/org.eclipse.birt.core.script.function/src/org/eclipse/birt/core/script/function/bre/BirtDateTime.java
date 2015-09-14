@@ -1567,7 +1567,14 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
 			if ( args.length > 1 )
 			{
-				adjustFiscalYear( current, args[1] );
+				Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				if ( start.get( Calendar.DAY_OF_YEAR ) > 1 )
+				{
+					adjustFiscalYear( current, start );
+					// Fiscal year should return next year of first day, except
+					// Jan. 1
+					return current.get( Calendar.YEAR ) + 1;
+				}
 			}
 			return current.get( Calendar.YEAR );
 		}
