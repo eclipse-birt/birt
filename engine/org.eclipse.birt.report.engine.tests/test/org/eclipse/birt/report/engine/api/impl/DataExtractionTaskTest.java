@@ -11,7 +11,32 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_BETWEEN;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_BOTTOM_N;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_BOTTOM_PERCENT;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_EQ;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_FALSE;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_GE;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_GT;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_IN;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_LE;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_LIKE;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_LT;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_MATCH;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NE;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NOT_BETWEEN;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NOT_IN;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NOT_LIKE;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NOT_MATCH;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NOT_NULL;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NULL;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_TOP_N;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_TOP_PERCENT;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_TRUE;
+
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +56,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.report.engine.EngineCase;
+import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
@@ -46,7 +72,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * in the report design, we define four listing elements:
@@ -59,6 +86,8 @@ public class DataExtractionTaskTest extends EngineCase
 {
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/TestDataExtractionTask.xml";
+	
+	private final static String JSON = "json.csv";
 	
 	IReportDocument document;
 	IDataExtractionTask dataExTask;
@@ -280,6 +309,51 @@ public class DataExtractionTaskTest extends EngineCase
 		columnName = metaData.getColumnName( 1 );
 		assertEquals( "CITY", columnName );
 	}
+	
+    public void testDataExtractionToJSON( ) throws Exception
+    {
+        dataExTask.selectResultSet( "ELEMENT_219" );
+
+        String[] columnNames = new String[]{"OFFICECODE", "CITY"};
+        dataExTask.selectColumns( columnNames );
+        DataExtractionOption option = new DataExtractionOption( );
+        option.setOutputFormat( "json" );
+        FileOutputStream fos = null;
+        try
+        {
+            fos = new FileOutputStream( JSON );
+            option.setOutputStream( fos );
+            dataExTask.extract( option );
+
+        }
+        finally
+        {
+            dataExTask.close( );
+            if ( fos != null )
+                fos.close( );
+        }
+
+        FileInputStream fis = new FileInputStream( JSON );
+        StringBuffer fileContent = new StringBuffer( "" );
+
+        byte[] buffer = new byte[1024];
+
+        int n = -1;
+        while ( ( n = fis.read( buffer ) ) != -1 )
+        {
+            fileContent.append( new String( buffer, 0, n ) );
+        }
+        try
+        {
+            JSONObject jo = new JSONObject( fileContent.toString( ) );
+            JSONArray data = jo.getJSONArray( "rows" );
+            assertEquals( 7, data.length( ) );
+        }
+        catch ( Exception e )
+        {
+            fail( e.getMessage( ) );
+        }
+    }
 
 	public void testFilters( ) throws BirtException
 	{
