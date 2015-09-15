@@ -1327,15 +1327,18 @@ public class BirtDateTimeTest extends TestCase
 	public void testFiscalWeek( ) throws BirtException
 	{
 		String[] scripts = new String[]{
-				"BirtDateTime.fiscalWeek(new Date(2015, 6, 15), new Date(2015, 6, 1 ))",
-				"BirtDateTime.fiscalWeek(new Date(2015, 6, 12), new Date(2015, 7, 1 ))",
-				"BirtDateTime.fiscalWeek(new Date(2015, 9, 11), new Date(2015, 9, 1 ))",
+				"BirtDateTime.fiscalWeek(new Date(2011, 6, 2), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalWeek(new Date(2011, 6, 3), new Date(2015, 6, 1 ))",// week start with 7/3
+				"BirtDateTime.fiscalWeek(new Date(2011, 5, 30), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalWeek(new Date(2011, 5, 25), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalWeek(new Date(2011, 11, 31), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalWeek(new Date(2012, 0, 1), new Date(2015, 6, 1 ))",
 				"BirtDateTime.fiscalWeek(new Date(2015, 0, 7))",
 				"BirtDateTime.fiscalWeek(new Date(2015, 1, 1))",
 		};
 
 		int[] values = new int[]{
-				3, 50, 3, 2, 6
+				1, 2, 1, 53, 27, 28, 2, 6
 		};
 
 		for ( int i = 0; i < values.length; i++ )

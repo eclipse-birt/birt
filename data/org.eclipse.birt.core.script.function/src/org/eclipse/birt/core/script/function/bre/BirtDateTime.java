@@ -1652,11 +1652,31 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				return null;
 			}
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
+			int currentWeek = current.get( Calendar.WEEK_OF_YEAR );
 			if ( args.length > 1 )
 			{
-				adjustFiscalYear( current, args[1] );
+				Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				start.set( Calendar.YEAR, current.get( Calendar.YEAR ) );
+				int startWeek = start.get( Calendar.WEEK_OF_YEAR );
+				if ( currentWeek >= startWeek )
+				{
+					return currentWeek - startWeek + 1;
+				}
+				
+				// Go to last year to add weeks together
+				start.set( Calendar.YEAR, current.get( Calendar.YEAR ) - 1 );
+				Calendar lastYearLastWeek = getCalendar( new Date( start.get( Calendar.YEAR ) - 1,
+						11,
+						31 ) );
+				// Last week may return 1 as week of year
+				while ( lastYearLastWeek.get( Calendar.WEEK_OF_YEAR ) == 1 )
+				{
+					lastYearLastWeek.add( Calendar.DAY_OF_MONTH, -1 );
+				}
+				return lastYearLastWeek.get( Calendar.WEEK_OF_YEAR )
+						- start.get( Calendar.WEEK_OF_YEAR ) + 1 + currentWeek;
 			}
-			return current.get( Calendar.WEEK_OF_YEAR );
+			return currentWeek;
 		}
 	}
 	
