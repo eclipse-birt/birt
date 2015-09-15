@@ -1338,7 +1338,7 @@ public class BirtDateTimeTest extends TestCase
 		};
 
 		int[] values = new int[]{
-				1, 2, 1, 53, 27, 28, 2, 6
+				1, 2, 1, 52, 27, 28, 2, 6
 		};
 
 		for ( int i = 0; i < values.length; i++ )
@@ -1401,7 +1401,7 @@ public class BirtDateTimeTest extends TestCase
 		Date[] values = new Date[]{
 				date( c, 2015, 0, 1 ),
 				date( c, 2015, 0, 1 ),
-				date( c, 2015, 6, 1 ),
+				date( c, 2014, 6, 1 ),
 				date( c, 2015, 6, 1 ),
 				date( c, 2014, 6, 1 ),
 				date( c, 2014, 6, 1 ),

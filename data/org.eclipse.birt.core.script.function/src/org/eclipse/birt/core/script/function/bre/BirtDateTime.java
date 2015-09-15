@@ -1853,6 +1853,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 					current = getCalendar( DataTypeUtil.toDate( args[1] ) );
 				}
 				current.set( Calendar.YEAR, (Integer) args[0] );
+				if ( current.get( Calendar.DAY_OF_YEAR ) > 1 )
+				{
+					current.add( Calendar.YEAR, -1 );
+				}
 			}
 			else
 			{
