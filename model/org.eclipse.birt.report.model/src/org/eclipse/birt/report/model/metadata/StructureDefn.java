@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 
 public class StructureDefn extends ObjectDefn implements IStructureDefn
 {
+	private String javaClass;
 
 	/**
 	 * Constructs a struct definition given its name.
@@ -93,4 +94,27 @@ public class StructureDefn extends ObjectDefn implements IStructureDefn
 		return super.getDisplayName( );
 
 	}
+	
+	/**
+	 * Gets the java class of this element.
+	 * 
+	 * @return The java class of this element.
+	 */
+
+	public String getJavaClass( )
+	{
+		return javaClass;
+	}
+	
+	/**
+	 * Sets the java class to construct this element
+	 * 
+	 * @param clazz
+	 *            class name
+	 */
+	public void setJavaClass(String clazz) 
+	{
+		this.javaClass = clazz;
+	}
+	
 }
