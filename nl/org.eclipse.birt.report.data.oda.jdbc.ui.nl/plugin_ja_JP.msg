@@ -22,18 +22,26 @@ birt-viewer-driver-path=birt/plugins/org.eclipse.birt.report.data.oda.jdbc/drive
 # NLS String
 ###############################################################################
 dataset.editor.page.query=クエリ
+
 datasource.name=JDBC データソース
+
 dataset.jdbcselect=JDBC を使用した SQL SELECT
+
 datasource.editor.page.connection=データソースの接続
+
 preference.datasetpreview=JDBC データセット
 
-preference.bidi.datasource.title = JDBC データソース
+preference.bidi.datasource.title =JDBC データソース
 
-wizard.data.set.title=新規データセット
+wizard.data.set.title=データセットの新規作成
+
 
 plugin.name=BIRT JDBC UI Plug-in
-newwizard.name=BIRT JDBC データソース
+newwizard.name=BIRT JDBC Data Source
 newwizard.description=BIRT JDBC の接続プロファイルを作成します。
+
 wizard.window.title=JDBC データソースプロファイルの新規作成
+
 wizard.data.source.page.title=新しいデータソースを作成します。
-profile.propertypage.name=BIRT JDBC データソース
+
+profile.propertypage.name=BIRT JDBC Data Source

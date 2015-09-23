@@ -53,7 +53,7 @@
 	<property name="allinone.linux.zip.name"
 		value="birt-report-designer-all-in-one-${package.version}-linux-gtk.tar" />
 	<property name="allinone.mac.zip.name"
-		value="birt-report-designer-all-in-one-${package.version}-macosx-cocoa.tar.gz" />
+		value="birt-report-designer-all-in-one-${package.version}-macosx-cocoa-x86_64.tar.gz" />
 	<property name="runtime.zip.name" value="birt-runtime-${package.version}.zip" />
 	<property name="runtime.osgi.zip.name" value="birt-runtime-osgi-${package.version}.zip" />
 	<property name="wtp.runtime.zip.name" value="birt.zip" />
@@ -740,11 +740,16 @@
 				<include name="org.eclipse.birt.doc.isv_*.jar" />
 			</fileset>
 		</copy>
-		<tar destfile="${OutputDir}/${allinone.mac.zip.name}" compression="gzip">
-			<fileset dir="${OutputDir}/tmp">
-				<include name="eclipse/**" />
-			</fileset>
-		</tar>
+		<exec executable="chmod" dir="${OutputDir}/tmp/eclipse/Eclipse.app/Contents/MacOS">
+			<arg line="+x eclipse" />
+		</exec>
+		<delete file="${OutputDir}/tmp/eclipse/eclipse" />
+		<symlink link="${OutputDir}/tmp/eclipse/eclipse" 
+		         resource="Eclipse.app/Contents/MacOS/eclipse"/>
+		<exec executable="tar" dir="${OutputDir}/tmp">
+			<arg line="-czf ${OutputDir}/${allinone.mac.zip.name} eclipse/" />
+		</exec>
+
 		<delete dir="${OutputDir}/tmp" />
 	</target>
 	

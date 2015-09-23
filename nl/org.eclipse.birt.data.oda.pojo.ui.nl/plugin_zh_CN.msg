@@ -15,12 +15,16 @@ oda.data.source.id=org.eclipse.birt.data.oda.pojo
 ###############################################################################
 # NLS strings
 #
-plugin.name=BIRT POJO 数据源 ODA 设计器
-newwizard.name=BIRT POJO 数据源
+plugin.name=BIRT POJO Data Source ODA Designer
+newwizard.name=BIRT POJO Data Source
 newwizard.description=创建 BIRT POJO 数据源连接配置文件
+
 wizard.window.title=新建 BIRT POJO 数据源配置文件
-wizard.data.source.page.title=BIRT POJO 数据源
-profile.propertypage.name=BIRT POJO 数据源连接属性
+
+wizard.data.source.page.title=BIRT POJO Data Source
+profile.propertypage.name=BIRT POJO Data Source Connection Properties
 wizard.data.set.window.title=新建 BIRT POJO 数据集
+
 wizard.data.set.propertiesPage.title=属性
+
 wizard.data.set.columnMappingPage.title=列映射

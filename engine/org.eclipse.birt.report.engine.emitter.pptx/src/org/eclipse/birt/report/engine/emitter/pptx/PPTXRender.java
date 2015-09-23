@@ -64,8 +64,8 @@ public class PPTXRender extends PageDeviceRender
 	 * 
 	 * the default value is TRUE.
 	 */
-	public static final String OPTION_EDIT_MODE = "org.eclipse.birt.report.emitter.PPTX.editMode";
-
+	public static final String OPTION_EDIT_MODE = "org.eclipse.birt.report.emitter.PPTX.editMode"; //$NON-NLS-1$
+	
 	/** The default output PPT file name. */
 	public static final String REPORT_FILE = "Report.pptx"; //$NON-NLS-1$
 
@@ -207,9 +207,16 @@ public class PPTXRender extends PageDeviceRender
 	{
 		if ( container instanceof PageArea )
 		{
-			newPage( container );
-			new SlideWriter( this ).writeSlide( (PageArea) container );
-			this.pageGraphic.dispose( );
+			if( editMode )
+			{
+				newPage( container );
+				new SlideWriter( this ).writeSlide( (PageArea) container );
+				this.pageGraphic.dispose( );
+			}
+			else
+			{
+				visitPage( (PageArea) container );
+			}
 		}
 		else if ( container instanceof TableArea )
 		{
@@ -441,5 +448,10 @@ public class PPTXRender extends PageDeviceRender
 	public boolean isTextWrap( )
 	{
 		return isTextWrap;
+	}
+
+	public boolean isEditMode( )
+	{
+		return editMode;
 	}
 }

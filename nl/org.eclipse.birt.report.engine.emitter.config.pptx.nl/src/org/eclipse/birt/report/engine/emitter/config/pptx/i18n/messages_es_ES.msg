@@ -36,6 +36,7 @@ OptionDisplayValue.FontSubstitution=Sustitución de fuente
 OptionDisplayValue.ChartDpi=Diagrama DPI
 
 OptionDisplayValue.RepaginateForPDF=Repaginar mientras se procesa el PPTX
+OptionDisplayValue.EditMode=Modo de edición
 
 ###########################################################
 #Option Description
@@ -50,6 +51,7 @@ OptionDescription.FontSubstitution=Selecciona fuentes automáticamente cuando la 
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
 
 OptionDescription.RepaginateForPDF=Repaginar mientras se procesa el PPTX.
+OptionDescription.EditMode=Componentes editables en PPTX
 
 ###########################################################
 #tooltip

@@ -13,8 +13,12 @@ package org.eclipse.birt.report.engine.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,10 +29,13 @@ import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
 
+import com.ibm.icu.text.NumberFormat.SimpleNumberFormatFactory;
+
 public class RenderTaskTest extends EngineCase
 {
 
-	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/render_task_design.xml";
+//	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/render_task_design.xml";
+	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/render_performance.rptdesign";
 
 	public void setUp( )
 	{
@@ -97,6 +104,250 @@ public class RenderTaskTest extends EngineCase
 			ex.printStackTrace( );
 			fail( );
 		};
+	}
+
+	public void testRenderPerformance()
+	{
+		try
+		{
+			test(1000);
+			test( 1000 );
+			test( 10000 );
+			test( 100000 );
+//			test( 10000000 );
+//			test( 1000000000 );
+//			test( 10000000000 );
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		};
+	}
+
+	private void generateDateSource( )
+	{
+		PrintWriter writer;
+		try
+		{
+			writer = new PrintWriter( new FileOutputStream( "d:/test.csv", false ) );
+			writer.println( "string1,string2,string3,date1,date2,date3,int1,int2,int3,float1,float2,float3");
+			StringBuilder builder = new StringBuilder( );
+			for ( int i = 0; i < 100000; i++ )
+//			for ( int i = 0; i < 100; i++ )
+			{
+				builder.setLength( 0 );
+				builder.append( "string1 ");
+			    builder.append(i );
+			    builder.append(",");
+			    builder.append("string2 ");
+			    builder.append(i);
+			    builder.append(",");
+			    builder.append("string3 ");
+			    builder.append(i);
+			    builder.append(",");
+			    builder.append("2013-02-01");
+			    builder.append(",");
+			    builder.append("2013-02-02");
+			    builder.append(",");
+			    builder.append("2013-02-03");
+			    builder.append(",");
+			    builder.append(i);
+			    builder.append(",");
+			    builder.append(i);
+			    builder.append(",");
+			    builder.append(i);
+			    builder.append(",");
+			    builder.append(i);
+			    builder.append(",");
+			    builder.append(i);
+			    builder.append(",");
+			    builder.append(i );
+			    writer.println( builder.toString( ) );
+			    if( i % 1000 == 0 )
+			    {
+			    	System.out.println( i );
+			    }
+			}
+			writer.flush( );
+			writer.close( );
+		}
+		catch ( FileNotFoundException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void test( int data ) throws EngineException, Exception
+	{
+		createReportDocument1( data );
+		long time1 = 0;
+		long time2 = 0;
+		PrintWriter writer = new PrintWriter( new FileOutputStream( "d:/performance.txt", true ) );
+		for( int i = 0; i < 50; i++ )
+		{
+		   time1 += doRenderTest1( false );
+		   time2 += doRenderTest1( true );
+		   double percent = (double)(time2 - time1)/ time1;
+		   String result = data + " : " + time1 + "    " + time2 + "    " + percent;
+		   System.out.println( result );
+		   writer.println( result);
+		   writer.flush( );
+		}
+		writer.close( );
+	}
+	
+	/**
+	 * create the report document.
+	 * 
+	 * @throws Exception
+	 */
+	protected void createReportDocument1( int data ) throws EngineException
+	{
+		// open the report runnable to execute.
+		IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
+		// create an IRunTask
+		IRunTask task = engine.createRunTask( report );
+		task.setParameterValue( "count", data );
+		// execute the report to create the report document.
+		task.run( REPORT_DOCUMENT );
+		// close the task, release the resource.
+		task.close( );
+	}
+
+	protected long doRenderTest1( boolean usingFilterStream ) throws Exception
+	{
+		long start = System.currentTimeMillis( );
+		// open the document in the archive.
+		IReportDocument reportDoc = engine.openReportDocument( REPORT_DOCUMENT );
+		// create an RenderTask using the report document
+		IRenderTask task = engine.createRenderTask( reportDoc );
+		// get the page number
+		IRenderOption option = new HTMLRenderOption( );
+		option.setOutputFormat( "html" ); //$NON-NLS-1$
+		OutputStream out = new FileOutputStream( "d:/test.html" );
+		if( usingFilterStream )
+		{
+			out = new CounterOutputStream( out );
+		}
+		option.setOutputStream( out );
+		// set the render options
+		task.setRenderOption( option );
+		// render report by page
+		task.render( );
+		// close the task.
+		task.close( );
+		out.close( );
+		reportDoc.close( );
+		return System.currentTimeMillis( ) - start;
+	}
+
+	protected class CounterOutputStream extends FilterOutputStream
+	{
+
+		private long size = 0;
+		private OutputStream out;
+		private boolean counted = false;
+
+		public CounterOutputStream( OutputStream out )
+		{
+			super( out );
+			this.out = out;
+		}
+
+		public void write( byte[] b ) throws IOException
+		{
+			boolean count = false;
+			if ( !counted )
+			{
+				counted = true;
+				count = true;
+				
+			}
+			try
+			{
+				out.write( b );
+				if ( count )
+				{
+					size += b.length;
+				}
+			}
+			finally
+			{
+				if ( count )
+				{
+					counted = false;
+				}
+			}
+		}
+
+		public void write( byte[] b, int off, int len ) throws IOException
+		{
+//			System.out.println( "3");
+			boolean count = false;
+			if ( !counted )
+			{
+				counted = true;
+				count = true;
+				
+			}
+			try
+			{
+				out.write( b, off, len );
+				if ( count )
+				{
+					size += len;
+				}
+			}
+			finally
+			{
+				if ( count )
+				{
+					counted = false;
+				}
+			}
+		}
+		
+		public void write( int b ) throws IOException
+		{
+//			System.out.println( "2");
+			boolean count = false;
+			if ( !counted )
+			{
+				counted = true;
+				count = true;
+			}
+			try
+			{
+				out.write( b );
+				if ( count )
+				{
+					size++;
+				}
+			}
+			finally
+			{
+				if ( count )
+				{
+					counted = false;
+				}
+			}
+		}
+
+		public void close( ) throws IOException
+		{
+			if ( out != null )
+			{
+				out.flush( );
+				out.close( );
+			}
+		}
+
+		public long getSize( )
+		{
+			return size;
+		}
 	}
 
 	protected void doRenderTest( ) throws Exception

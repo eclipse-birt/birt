@@ -10,32 +10,59 @@
 ###############################################################################
 #Summary aggregates.
 Sum.displayName=Summe
+
 Average.displayName=Durchschnitt
+
 Count.displayName=Anzahl
+
 DistinctCount.displayName=Distinct-Anzahl
+
 First.displayName=Erste
+
 Last.displayName=Letzte
+
 Min.displayName=Minimum
+
 Max.displayName=Maximum
+
 WeightedAverage.displayName=Gewichteter Durchschnitt
+
 Median.displayName=Median
+
 Mode.displayName=Modus
+
 STDDEV.displayName=STDDEV
-Variance.displayName=Varianz
+
+Variance.displayName=Abweichung
+
 Irr.displayName=Irr
+
 Mirr.displayName=Mirr
+
 NPV.displayName=NPV
+
 Percentile.displayName=Perzentil
+
 Quartile.displayName=Quartil
 #Running aggregates.
 MovingAverage.displayName=Bewegungsdurchschnitt
+
 RunningSum.displayName=Laufende Summe
+
 RunningNPV.displayName=Running-NPV
+
 Rank.displayName=Rank
+
 Top.displayName=Is-Top-N
+
 TopPercent.displayName=Is-Top-N-Percent
+
 Bottom.displayName=Is-Bottom-N
+
 BottomPercent.displayName=Is-Bottom-N-Percent
+
 PercentRank.displayName=Prozent-Rang
+
 PercentSum.displayName=Prozent-Summe
+
 RunningCount.displayName=Laufende Anzahl

@@ -32,4 +32,9 @@ public interface IMirroredDefinition
 	 * @return
 	 */
 	public boolean isBreakHierarchy( );
+
+    /**
+     * Clone itself.
+     */
+    public IMirroredDefinition clone( );
 }

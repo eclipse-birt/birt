@@ -10,40 +10,65 @@ Error.Msg001={1}¿¡ {0}ÀÌ(°¡) ¾ø½À´Ï´Ù.
 ###########################################################
 # Boolean type names
 Property.Boolean.True=Âü
+
 Property.Boolean.False=°ÅÁş
 
 ###########################################################
 # Property type names
-
 Property.boolean=ºÎ¿ï
+
 Property.choice=¼±ÅÃ
-Property.float=½Ç¼ö
-Property.color=»ö»ó
-Property.dateTime=³¯Â¥/½Ã°£
+
+Property.float=°íÁ¤ ÇØÁ¦
+
+Property.color=»ö
+
+Property.dateTime=DateTime
 Property.dimension=Â÷¿ø
+
 Property.expression=½Ä
-Property.html=HTML
+
+Property.html=Html
 Property.integer=Á¤¼ö
+
 Property.messageId=¸Ş½ÃÁö ID
+
 Property.name=ÀÌ¸§
-Property.number=¹øÈ£
+
+Property.number=¼ıÀÚ
+
 Property.points=Æ÷ÀÎÆ®
+
 Property.string=¹®ÀÚ¿­
-Property.uri=uri
-Property.xml=xml
+
+Property.uri=Uri
+Property.xml=Xml
 Property.elementRef=¿ä¼Ò ÂüÁ¶
+
 Property.column=¿­
+
 Property.variant=º¯Çü
+
 Property.structList=±¸Á¶ ¸ñ·Ï
-Property.extends=extends
+
+Property.extends=È®Àå
+
 Property.script=½ºÅ©¸³Æ®
+
 Property.list=¸ñ·Ï
+
 Property.memberKey=±¸¼º¿ø Å°
+
 Property.literalString=¸®ÅÍ·² ¹®ÀÚ¿­
+
 Property.element=¿ä¼Ò
+
 Property.structRef=±¸Á¶ ÂüÁ¶
+
 Property.contentElement=¼Ó¼º °ª ¿ä¼Ò
+
 Property.locale=·ÎÄÉÀÏ
+
 Property.struct=±¸Á¶
 
 ###########################################################
@@ -51,305 +76,484 @@ Property.struct=±¸Á¶
   
 #0.colors
 Choices.colors.maroon=Àû°¥»ö
+
 Choices.colors.red=»¡°­
+
 Choices.colors.orange=ÁÖÈ²
+
 Choices.colors.yellow=³ë¶û
+
 Choices.colors.olive=¿Ã¸®ºê
+
 Choices.colors.purple=ÀÚÁÖ
-Choices.colors.fuchsia=ºÓÀº ÀÚÈ«
+
+Choices.colors.fuchsia=¹àÀº ÀÚÈ«
+
 Choices.colors.white=Èò»ö
+
 Choices.colors.lime=¶óÀÓ
+
 Choices.colors.green=³ì»ö
+
 Choices.colors.navy=Â£Àº ÆÄ¶û
+
 Choices.colors.blue=ÆÄ¶û
+
 Choices.colors.aqua=¹Ù´Ù»ö
+
 Choices.colors.teal=Ã»·Ï
+
 Choices.colors.black=°ËÁ¤
+
 Choices.colors.silver=Àº»ö
+
 Choices.colors.gray=È¸»ö
   
 #1.fontWeight
-Choices.fontWeight.normal=Ç¥ÁØ
+Choices.fontWeight.normal=±âº»
+
 Choices.fontWeight.bold=±½°Ô
+
 Choices.fontWeight.bolder=´õ ±½°Ô
+
 Choices.fontWeight.lighter=´õ ¾ã°Ô
+
 Choices.fontWeight.100=100
+
 Choices.fontWeight.200=200
+
 Choices.fontWeight.300=300
+
 Choices.fontWeight.400=400
+
 Choices.fontWeight.500=500
+
 Choices.fontWeight.600=600
+
 Choices.fontWeight.700=700
+
 Choices.fontWeight.800=800
+
 Choices.fontWeight.900=900
 
 #2.textUnderline
 Choices.textUnderline.none=¹ØÁÙ ¾øÀ½
+
 Choices.textUnderline.underline=¹ØÁÙ
   
 #3.lineStyle
 Choices.lineStyle.none=¼± ½ºÅ¸ÀÏ ¾øÀ½
+
 Choices.lineStyle.solid=½Ç¼±
+
 Choices.lineStyle.dotted=±½Àº Á¡¼±
+
 Choices.lineStyle.dashed=ÆÄ¼±
+
 Choices.lineStyle.double=ÀÌÁß ½Ç¼±
+
 Choices.lineStyle.groove=È¨ À½°¢
+
 Choices.lineStyle.ridge=È¨ ¾ç°¢
+
 Choices.lineStyle.inset=À½°¢
+
 Choices.lineStyle.outset=¾ç°¢
   
 #4.units
 Choices.units.in=ÀÎÄ¡
-Choices.units.cm=¼¾Æ¼¹ÌÅÍ
-Choices.units.mm=¹Ğ¸®¹ÌÅÍ
-Choices.units.pt=Æ÷ÀÎÆ®
-Choices.units.pc=ÆÄÀÌÄ«
-Choices.units.em=ems 
+
+Choices.units.cm=cm
+
+Choices.units.mm=mm
+
+Choices.units.pt=points
+
+Choices.units.pc=picas
+
+Choices.units.em=ems
+
 Choices.units.ex=exs
+
 Choices.units.px=ÇÈ¼¿
+
 Choices.units.%=%
 
 #5.paramDataType
 Choices.paramType.string=¹®ÀÚ¿­
+
 Choices.paramType.float=½Ç¼ö
-Choices.paramType.decimal=¼Ò¼öÁ¡
+
+Choices.paramType.decimal=½ÊÁø¼ö
+
 Choices.paramType.dateTime=³¯Â¥ ½Ã°£
+
 Choices.paramType.boolean=ºÎ¿ï
+
 Choices.paramType.integer=Á¤¼ö
+
 Choices.paramType.any=¸ğµÎ
+
 Choices.paramType.date=³¯Â¥
+
 Choices.paramType.time=½Ã°£
+
 Choices.paramType.javaObject=Java °³Ã¼
 
 #6.paramControl
 Choices.paramControl.text-box=ÅØ½ºÆ® »óÀÚ
+
 Choices.paramControl.list-box=ÄŞº¸/¸ñ·Ï »óÀÚ
+
 Choices.paramControl.radio-button=¶óµğ¿À ´ÜÃß
+
 Choices.paramControl.check-box=È®ÀÎ¶õ
+
 Choices.paramControl.auto-suggest=ÀÔ·Â¶õ - ÀÚµ¿ Á¦¾È
 
 #7.textAlign
 Choices.textAlign.left=¿ŞÂÊ
+
 Choices.textAlign.center=°¡¿îµ¥
+
 Choices.textAlign.right=¿À¸¥ÂÊ
+
 Choices.textAlign.justify=¾çÂÊ ¸ÂÃã
   
 #8.pageSize
 Choices.pageSize.custom=»ç¿ëÀÚ ÁöÁ¤
+
 Choices.pageSize.us-letter=US Letter
+
 Choices.pageSize.us-legal=US Legal
+
 Choices.pageSize.a4=A4
+Choices.pageSize.a3=A3
+Choices.pageSize.a5=A5
+Choices.pageSize.us-ledger=US Ledger
+
+Choices.pageSize.us-super-b=US Super B
   
 #9.pageOrientation
 Choices.pageOrientation.auto=ÀÚµ¿
+
 Choices.pageOrientation.portrait=¼¼·Î
+
 Choices.pageOrientation.landscape=°¡·Î
    
 #12.interval
 Choices.interval.none=°£°İ ¾øÀ½
+
 Choices.interval.prefix=Á¢µÎ»ç
+
 Choices.interval.year=¿¬
+
 Choices.interval.quarter=ºĞ±â
+
 Choices.interval.month=¿ù
+
 Choices.interval.week=ÁÖ
+
 Choices.interval.day=ÀÏ
+
 Choices.interval.hour=½Ã
+
 Choices.interval.minute=ºĞ
+
 Choices.interval.second=ÃÊ
+
 Choices.interval.interval=°£°İ
 
 #interval type
 Choices.intervalType.none=°£°İ ¾øÀ½
+
 Choices.intervalType.prefix=Á¢µÎ»ç
+
 Choices.intervalType.interval=°£°İ
 
 #13.sortDirection
 Choices.sortDirection.asc=¿À¸§Â÷¼ø
+
 Choices.sortDirection.desc=³»¸²Â÷¼ø
   
 #14.mapOperator
 Choices.mapOperator.eq=°°À½
+
 Choices.mapOperator.ne=°°Áö ¾ÊÀ½
+
 Choices.mapOperator.lt=ÀÛÀ½
+
 Choices.mapOperator.le=ÀÛ°Å³ª °°À½
-Choices.mapOperator.ge=Å©°Å³ª °°À½ 
+
+Choices.mapOperator.ge=Å©°Å³ª °°À½
+
 Choices.mapOperator.gt=Å­
+
 Choices.mapOperator.between=»çÀÌ¿¡ ÀÖÀ½
+
 Choices.mapOperator.notBetween=»çÀÌ¿¡ ÀÖÁö ¾ÊÀ½
-Choices.mapOperator.isNull=Is Null
-Choices.mapOperator.isNotNull=Is Not Null
-Choices.mapOperator.isTrue=Is True
-Choices.mapOperator.isFalse=Is False
+
+Choices.mapOperator.isNull=³Î(null)ÀÓ
+
+Choices.mapOperator.isNotNull=³Î(null)ÀÌ ¾Æ´Ô
+
+Choices.mapOperator.isTrue=Âü
+
+Choices.mapOperator.isFalse=°ÅÁş
+
 Choices.mapOperator.like=À¯»ç
+
 Choices.mapOperator.match=ÀÏÄ¡
+
 Choices.mapOperator.any=¸ğµÎ
+
 Choices.mapOperator.top-n=»óÀ§ n
+
 Choices.mapOperator.bottom-n=ÇÏÀ§ n
+
 Choices.mapOperator.top-percent=»óÀ§ ÆÛ¼¾Æ®
+
 Choices.mapOperator.bottom-percent=ÇÏÀ§ ÆÛ¼¾Æ®
+
 Choices.mapOperator.not-like=À¯»çÇÏÁö ¾ÊÀ½
+
 Choices.mapOperator.not-match=ÀÏÄ¡ÇÏÁö ¾ÊÀ½
+
 Choices.mapOperator.not-in=NOT IN
-Choices.mapOperator.in=È®´ë
+
+Choices.mapOperator.in=Æ÷ÇÔ
   
 #15.imageRefType
 Choices.imageRefType.none=ÀÌ¹ÌÁö ¾øÀ½
+
 Choices.imageRefType.url=URL
 Choices.imageRefType.file=ÆÄÀÏ
+
 Choices.imageRefType.expr=½Ä
+
 Choices.imageRefType.embed=³»ÀåµÈ ÀÌ¹ÌÁö
   
 #16.imageSize
 Choices.imageSize.size-to-image=Size to Image
+
 Choices.imageSize.scale-to-item=Scale to Item
+
 Choices.imageSize.clip=ÀÚ¸£±â
   
 #17.lineOrientation
 Choices.lineOrientation.horizontal=°¡·Î
+
 Choices.lineOrientation.vertical=¼¼·Î
   
 #18.rowAlign
 Choices.rowAlign.top=À§ÂÊ
+
 Choices.rowAlign.middle=Áß°£
+
 Choices.rowAlign.bottom=¾Æ·¡ÂÊ
   
 #19.sectionAlign
 Choices.sectionAlign.left=¿ŞÂÊ
+
 Choices.sectionAlign.center=°¡¿îµ¥
+
 Choices.sectionAlign.right=¿À¸¥ÂÊ
   
 #21.dropType
 Choices.dropType.none=¾øÀ½
+
 Choices.dropType.detail=»ó¼¼ Á¤º¸
+
 Choices.dropType.all=¸ğµÎ
     
 #22.imageType
 Choices.imageType.image/bmp=image/bmp
+
 Choices.imageType.image/gif=image/gif
+
 Choices.imageType.image/png=image/png
+
 Choices.imageType.image/x-png=image/x-png
+
 Choices.imageType.image/jpeg=image/jpeg
+
 Choices.imageType.image/ico=ÀÌ¹ÌÁö/ico
+
 Choices.imageType.image/tiff=ÀÌ¹ÌÁö/tiff
+
 Choices.imageType.image/svg+xml=ÀÌ¹ÌÁö/svg+xml
+
 Choices.imageType.image/x-icon=ÀÌ¹ÌÁö/x ¾ÆÀÌÄÜ
   
 #23.lineSpacing
 Choices.lineSpacing.lines=ÁÙ
+
 Choices.lineSpacing.exact=Á¤È®È÷
   
 #24.lineType
 Choices.lineType.none=¼± Çü½Ä ¾øÀ½
+
 Choices.lineType.solid=½Ç¼±
+
 Choices.lineType.dotted=±½Àº Á¡¼±
+
 Choices.lineType.dashed=ÆÄ¼±
+
 Choices.lineType.double=ÀÌÁß ½Ç¼±
   
 #25.pageBreakBefore
 Choices.pageBreakBefore.auto=ÀÚµ¿
+
 Choices.pageBreakBefore.always=Ç×»ó
+
 Choices.pageBreakBefore.avoid=ÇÇÇÏ±â
+
 Choices.pageBreakBefore.alwaysExcludingFirst=Ç×»ó ¸ÕÀú Á¦¿ÜÇÏ±â
 
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=ÀÚµ¿
+
 Choices.pageBreakAfter.always=Ç×»ó
+
 Choices.pageBreakAfter.avoid=ÇÇÇÏ±â
+
 Choices.pageBreakAfter.alwaysExcludingLast=Ç×»ó ¸¶Áö¸·¿¡ Á¦¿ÜÇÏ±â
 
 #27.actionLinkType
 Choices.actionLinkType.none=ÀÛ¾÷ ¸µÅ© Çü½Ä ¾øÀ½
-Choices.actionLinkType.hyperlink=ÇÏÀÌÆÛ¸µÅ©
+
+Choices.actionLinkType.hyperlink=HyperLink
 Choices.actionLinkType.drill-through=È®Àå
+
 Choices.actionLinkType.bookmark-link=Ã¥°¥ÇÇ ¸µÅ©
   
 # actionFormatType
-Choices.actionFormatType.html=HTML
+Choices.actionFormatType.html=html
 Choices.actionFormatType.pdf=pdf
   
 #28.drillThroughLinkType
 Choices.drillThroughType.none=µå¸±½º·ç Çü½Ä ¾øÀ½
+
 Choices.drillThroughType.bookmark-link=Ã¥°¥ÇÇ ¸µÅ©
+
 Choices.drillThroughType.search=°Ë»ö
  
 #29.fontSize
 Choices.fontSize.x-small=¸Å¿ì ÀÛÀ½(X Small)
+
 Choices.fontSize.xx-small=°¡Àå ÀÛÀ½(XX Small)
+
 Choices.fontSize.small=ÀÛÀ½
+
 Choices.fontSize.medium=Áß°£
+
 Choices.fontSize.large=Å­
+
 Choices.fontSize.x-large=¸Å¿ì Å­(X Large)
+
 Choices.fontSize.xx-large=°¡Àå Å­(XX Large)
+
 Choices.fontSize.larger=Å©°Ô
+
 Choices.fontSize.smaller=ÀÛ°Ô
 
 #30.fontFamily
 Choices.fontFamily.serif=Serif
+
 Choices.fontFamily.sans-serif=Sans Serif
+
 Choices.fontFamily.cursive=Cursive
+
 Choices.fontFamily.fantasy=Fantasy
+
 Choices.fontFamily.monospace=Monospace
 
 #31.fontStyle
-Choices.fontStyle.normal=Ç¥ÁØ
+Choices.fontStyle.normal=±âº»
+
 Choices.fontStyle.italic=±â¿ïÀÓ²Ã
+
 Choices.fontStyle.oblique=¿Àºí¸®Å©
 
 #32.fontVariant
-Choices.fontVariant.normal=Ç¥ÁØ
+Choices.fontVariant.normal=±âº»
+
 Choices.fontVariant.small-caps=¼Ò¹®ÀÚ¸¦ ÀÛÀº ´ë¹®ÀÚ·Î
 
 #33.backgroundRepeat
 Choices.backgroundRepeat.repeat=¹İº¹
+
 Choices.backgroundRepeat.repeat-x=X ¹İº¹
+
 Choices.backgroundRepeat.repeat-y=Y ¹İº¹
+
 Choices.backgroundRepeat.no-repeat=¹İº¹ ¾øÀ½
 
 #34.backgroundAttachment
 Choices.backgroundAttachment.scroll=½ºÅ©·Ñ
+
 Choices.backgroundAttachment.fixed=°íÁ¤
 
 #35.backgroundPositionX
 Choices.backgroundPositionX.left=¿ŞÂÊ
+
 Choices.backgroundPositionX.center=°¡¿îµ¥
+
 Choices.backgroundPositionX.right=¿À¸¥ÂÊ
 
 #36.backgroundPositionY
 Choices.backgroundPositionY.top=À§ÂÊ
+
 Choices.backgroundPositionY.center=°¡¿îµ¥
+
 Choices.backgroundPositionY.bottom=¾Æ·¡ÂÊ
 
 #37.transform
 Choices.transform.capitalize=Ã¹ ±ÛÀÚ¸¦ ´ë¹®ÀÚ·Î
+
 Choices.transform.uppercase=´ë¹®ÀÚ
+
 Choices.transform.lowercase=¼Ò¹®ÀÚ
+
 Choices.transform.none=º¯È¯ ¾øÀ½
 
 #38.normal
-Choices.normal.normal=Ç¥ÁØ
+Choices.normal.normal=±âº»
 
 #39.verticalAlign
 Choices.verticalAlign.baseline=±âÁØ¼±
+
 Choices.verticalAlign.sub=¾Æ·¡ Ã·ÀÚ
+
 Choices.verticalAlign.super=À§ Ã·ÀÚ
+
 Choices.verticalAlign.top=À§ÂÊ
+
 Choices.verticalAlign.text-top=ÅØ½ºÆ® À§ÂÊ
+
 Choices.verticalAlign.middle=Áß°£
+
 Choices.verticalAlign.bottom=¾Æ·¡ÂÊ
+
 Choices.verticalAlign.text-bottom=ÅØ½ºÆ® ¾Æ·¡ÂÊ
 
 #40.whiteSpace
-Choices.whiteSpace.normal=Ç¥ÁØ
+Choices.whiteSpace.normal=±âº»
+
 Choices.whiteSpace.pre=¼­½Ä ¼³Á¤µÇ¾î ÀÖÀ½
+
 Choices.whiteSpace.nowrap=¹èÄ¡ ¾ÈÇÔ
 
 #41.display
 Choices.display.block=ºí·Ï
+
 Choices.display.inline=ÀÎ¶óÀÎ
+
 Choices.display.none=Ç¥½Ã ¾øÀ½
 
 #43.pageBreakInside
 Choices.pageBreakInside.avoid=ÇÇÇÏ±â
+
 Choices.pageBreakInside.auto=ÀÚµ¿
 
 #44.margin
@@ -357,15 +561,19 @@ Choices.margine.auto=ÀÚµ¿
 
 #45.textOverline
 Choices.textOverline.none=ÅØ½ºÆ® À§¿¡ ÁÙ ¾øÀ½
+
 Choices.textOverline.overline=À­ÁÙ
 
 #46.textLineThrough
 Choices.textLineThrough.none=ÅØ½ºÆ® °¡¿îµ¥¿¡ ÁÙ ¾øÀ½
+
 Choices.textLineThrough.line-through=°¡¿îµ¥ ÁÙ
 
 #48.lineWidth
 Choices.lineWidth.thin=°¡´Ã°Ô
+
 Choices.lineWidth.medium=Áß°£
+
 Choices.lineWidth.thick=±½°Ô
 
 #49.inherit
@@ -373,177 +581,282 @@ Choices.inherit.inherit=»ó¼Ó
 
 #50. textContentType
 Choices.textContentType.auto=ÀÚµ¿
+
 Choices.textContentType.plain=ÀÏ¹İ
+
 Choices.textContentType.html=HTML
 Choices.textContentType.rtf=RTF
 
 #51. formatType
 Choices.formatType.all=¸ğµÎ
+
 Choices.formatType.viewer=ºä¾î
+
 Choices.formatType.email=ÀüÀÚ ¸ŞÀÏ
+
 Choices.formatType.print=ÀÎ¼â
+
 Choices.formatType.pdf=Pdf
+
 Choices.formatType.rtf=Rtf
+
 Choices.formatType.reportlet=¸®Æ÷Æ²¸´
+
 Choices.formatType.excel=Excel
 Choices.formatType.word=Word
 Choices.formatType.powerpoint=Powerpoint
 
 #52. filterOperator
 Choices.filterOperator.eq=°°À½
+
 Choices.filterOperator.ne=°°Áö ¾ÊÀ½
+
 Choices.filterOperator.lt=ÀÛÀ½
+
 Choices.filterOperator.le=ÀÛ°Å³ª °°À½
+
 Choices.filterOperator.ge=Å©°Å³ª °°À½
+
 Choices.filterOperator.gt=Å­
+
 Choices.filterOperator.between=»çÀÌ¿¡ ÀÖÀ½
+
 Choices.filterOperator.notBetween=»çÀÌ¿¡ ÀÖÁö ¾ÊÀ½
+
 Choices.filterOperator.isNull=Null
+
 Choices.filterOperator.isNotNull=NullÀÌ ¾Æ´Ô
+
 Choices.filterOperator.isTrue=Âü
+
 Choices.filterOperator.isFalse=°ÅÁş
+
 Choices.filterOperator.like=À¯»ç
+
 Choices.filterOperator.not-like=À¯»çÇÏÁö ¾ÊÀ½
+
 Choices.filterOperator.top-n=À§ÂÊ n
+
 Choices.filterOperator.bottom-n=¾Æ·¡ÂÊ n
+
 Choices.filterOperator.top-percent=À§ÂÊ ÆÛ¼¾Æ®
+
 Choices.filterOperator.bottom-percent=¾Æ·¡ÂÊ ÆÛ¼¾Æ®
+
 Choices.filterOperator.any=¸ğµÎ
+
 Choices.filterOperator.match=ÀÏÄ¡
+
 Choices.filterOperator.not-match=ÀÏÄ¡ÇÏÁö ¾ÊÀ½
+
 Choices.filterOperator.in=Æ÷ÇÔ
+
 Choices.filterOperator.not-in=Æ÷ÇÔ ¾È ÇÔ
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=º¯°æ
+
 Choices.propertyMaskType.lock=Àá±İ
+
 Choices.propertyMaskType.hide=¼û±â±â
 
 #53. columnDataType
 Choices.columnDataType.any=¸ğµÎ
+
 Choices.columnDataType.integer=Á¤¼ö
+
 Choices.columnDataType.string=¹®ÀÚ¿­
+
 Choices.columnDataType.date-time=³¯Â¥ ½Ã°£
-Choices.columnDataType.decimal=¼Ò¼öÁ¡
+
+Choices.columnDataType.decimal=½ÊÁø¼ö
+
 Choices.columnDataType.float=½Ç¼ö
+
 Choices.columnDataType.structure=±¸Á¶
+
 Choices.columnDataType.table=Å×ÀÌºí
+
 Choices.columnDataType.boolean=ºÎ¿ï
+
 Choices.columnDataType.time=½Ã°£
+
 Choices.columnDataType.date=³¯Â¥
+
 Choices.columnDataType.blob=Blob
+
 Choices.columnDataType.javaObject=Java °³Ã¼
 
 #54. searchType
 Choices.searchType.any=¸ğµÎ
+
 Choices.searchType.indexed=ÀÎµ¦½ºµÈ
+
 Choices.searchType.none=°Ë»ö Çü½Ä ¾øÀ½
 
 #55. exportType
 Choices.exportType.none=³»º¸³»±â Çü½Ä ¾øÀ½
+
 Choices.exportType.if-realized=ÀÎ½ÄµÈ °æ¿ì
+
 Choices.exportType.always=Ç×»ó
 
 #56. analysisType
 Choices.analysisType.dimension=Â÷¿ø
+
 Choices.analysisType.attribute=Æ¯¼º
+
 Choices.analysisType.measure=ÃøÁ¤
 
 #57. scalarParamAlign
 Choices.scalarParamAlign.auto=ÀÚµ¿
+
 Choices.scalarParamAlign.left=¿ŞÂÊ
+
 Choices.scalarParamAlign.center=°¡¿îµ¥
+
 Choices.scalarParamAlign.right=¿À¸¥ÂÊ
 
 #58. columnAlign
 Choices.columnAlign.left=¿ŞÂÊ
+
 Choices.columnAlign.center=°¡¿îµ¥
+
 Choices.columnAlign.right=¿À¸¥ÂÊ
 
 #59. dateTimeFormat
 Choices.dateTimeFormat.unformatted=Çü½Ä ¾øÀ½
+
 Choices.dateTimeFormat.generalDate=ÀÏ¹İ ³¯Â¥
+
 Choices.dateTimeFormat.longDate=±ä ³¯Â¥
+
 Choices.dateTimeFormat.mediumDate=Áß°£ ³¯Â¥
+
 Choices.dateTimeFormat.shortDate=ÂªÀº ³¯Â¥
+
 Choices.dateTimeFormat.longTime=±ä ½Ã°£
+
 Choices.dateTimeFormat.mediumTime=Áß°£ ½Ã°£
+
 Choices.dateTimeFormat.shortTime=ÂªÀº ½Ã°£
+
 Choices.dateTimeFormat.custom=»ç¿ëÀÚ ÁöÁ¤
 
 #59. dateFormat
 Choices.dateFormat.unformatted=Çü½Ä ¾øÀ½
+
 Choices.dateFormat.generalDate=ÀÏ¹İ ³¯Â¥
+
 Choices.dateFormat.longDate=±ä ³¯Â¥
+
 Choices.dateFormat.mediumDate=Áß°£ ³¯Â¥
+
 Choices.dateFormat.shortDate=ÂªÀº ³¯Â¥
+
 Choices.dateFormat.custom=»ç¿ëÀÚ ÁöÁ¤
 
 #59. timeFormat
 Choices.timeFormat.unformatted=Çü½Ä ¾øÀ½
+
 Choices.timeFormat.longTime=±ä ½Ã°£
+
 Choices.timeFormat.mediumTime=Áß°£ ½Ã°£
+
 Choices.timeFormat.shortTime=ÂªÀº ½Ã°£
+
 Choices.timeFormat.custom=»ç¿ëÀÚ ÁöÁ¤
     
 #60. numberFormat
 Choices.numberFormat.unformatted=Çü½Ä ¾øÀ½
+
 Choices.numberFormat.generalNumber=ÀÏ¹İ ¼ıÀÚ
+
 Choices.numberFormat.currency=ÅëÈ­
+
 Choices.numberFormat.fixed=°íÁ¤
+
 Choices.numberFormat.percent=¹éºĞÀ²
+
 Choices.numberFormat.scientific=°øÇĞ¿ë
+
 Choices.numberFormat.standard=Ç¥ÁØ
+
 Choices.numberFormat.custom=»ç¿ëÀÚ ÁöÁ¤
     
 #59. StringFormat
 Choices.stringFormat.unformatted=Çü½Ä ¾øÀ½
+
 Choices.stringFormat.upper=´ë¹®ÀÚ
+
 Choices.stringFormat.lower=¼Ò¹®ÀÚ
+
 Choices.stringFormat.zipCode=¿ìÆí ¹øÈ£
+
 Choices.stringFormat.zipCode+4=¿ìÆí ¹øÈ£ + 4
+
 Choices.stringFormat.phoneNumber=ÀüÈ­ ¹øÈ£
+
 Choices.stringFormat.socialSecurityNumber=ÁÖ¹Îµî·Ï¹øÈ£
+
 Choices.stringFormat.custom=»ç¿ëÀÚ ÁöÁ¤
 
 #60. targetNames
 Choices.targetNames.blank=ºñ¾î ÀÖÀ½
+
 Choices.targetNames.self=ÀÚÃ¼
+
 Choices.targetNames.parent=»óÀ§
+
 Choices.targetNames.top=À§ÂÊ
 
 #50. textDataContentType
 Choices.textDataContentType.auto=ÀÚµ¿
+
 Choices.textDataContentType.plain=ÀÏ¹İ
+
 Choices.textDataContentType.html=HTML
 Choices.textDataContentType.rtf=RTF
 
 #51. paramaValueType
 Choices.paramValueType.static=Á¤Àû
+
 Choices.paramValueType.dynamic=µ¿Àû
 
 #52. templateElementType
 Choices.templateElementType.table=Å×ÀÌºí
+
 Choices.templateElementType.freeForm=FreeForm
 Choices.templateElementType.data=µ¥ÀÌÅÍ
+
 Choices.templateElementType.grid=´«±İ
+
 Choices.templateElementType.image=ÀÌ¹ÌÁö
+
 Choices.templateElementType.label=·¹ÀÌºí
+
 Choices.templateElementType.list=¸ñ·Ï
+
 Choices.templateElementType.text=ÅØ½ºÆ®
+
 Choices.templateElementType.extendedItem=ExtendedItem
-Choices.templateElementType.textData=ÅØ½ºÆ® µ¥ÀÌÅÍ
-Choices.templateElementType.dataSet=DataSet
+Choices.templateElementType.textData=TextData
+Choices.templateElementType.dataSet=µ¥ÀÌÅÍ ÁıÇÕ
 
 #61. sortType
 Choices.sortType.none=Á¤·Ä Çü½Ä ¾øÀ½
+
 Choices.sortType.sortOnGroupkey=±×·ì Å° Á¤·Ä
+
 Choices.sortType.complexSort=º¹ÇÕ Á¤·Ä
 
 #62. joinType
 Choices.joinType.inner=³»ºÎ Á¶ÀÎ
+
 Choices.joinType.leftOut=¿ŞÂÊ ¿ÜºÎ Á¶ÀÎ
+
 Choices.joinType.rightOut=¿À¸¥ÂÊ ¿ÜºÎ Á¶ÀÎ
+
 Choices.joinType.fullOut=¿ÏÀü ¿ÜºÎ Á¶ÀÎ
 
 #63. joinOperator
@@ -551,188 +864,278 @@ Choices.joinOperator.equals=°°À½
 
 #64. actionTargetFileType
 Choices.actionTargetFileType.report-design=º¸°í¼­ µğÀÚÀÎ
+
 Choices.actionTargetFileType.report-document=º¸°í¼­ ¹®¼­
 
 #65. actionBookmarkType
 Choices.actionBookmarkType.bookmark=Ã¥°¥ÇÇ
+
 Choices.actionBookmarkType.toc=¸ñÂ÷
 
 #66. autoTextType
 Choices.autoTextType.page-number=ÆäÀÌÁö ¹øÈ£
+
 Choices.autoTextType.total-page=ÀüÃ¼ ÆäÀÌÁö
+
 Choices.autoTextType.page-number-unfiltered=ÇÊÅÍ¸µµÇÁö ¾ÊÀº ÆäÀÌÁö ¹øÈ£
+
 Choices.autoTextType.total-page-unfiltered=ÇÊÅÍ¸µµÇÁö ¾ÊÀº ÀüÃ¼ ÆäÀÌÁö
+
 Choices.autoTextType.page-variable=ÆäÀÌÁö º¯¼ö
 
 #67. dataSetMode
 Choices.dataSetMode.single=´ÜÀÏ µ¥ÀÌÅÍ ÁıÇÕ
+
 Choices.dataSetMode.multiple=´ÙÁß µ¥ÀÌÅÍ ÁıÇÕ
 
 #68. filterTarget
 Choices.filterTarget.DataSet=µ¥ÀÌÅÍ ÁıÇÕ
+
 Choices.filterTarget.ResultSet=°á°ú ÁıÇÕ
+
 Choices.filterTarget.OdaDataSet=ODA µ¥ÀÌÅÍ ÁıÇÕ
 
 #69. viewAction
 Choices.viewAction.NoChange=º¯°æ »çÇ× ¾øÀ½
+
 Choices.viewAction.Changed=º¯°æµÊ
+
 Choices.viewAction.Added=Ãß°¡µÊ
+
 Choices.viewAction.Deleted=»èÁ¦µÊ
 
 #70. aggregationFunction
 Choices.aggregationFunction.sum=SUM
+
 Choices.aggregationFunction.count=COUNT
+
 Choices.aggregationFunction.min=MIN
+
 Choices.aggregationFunction.max=MAX
+
 Choices.aggregationFunction.average=AVERAGE
+
 Choices.aggregationFunction.weighted-avg=WEIGHTEDAVG
+
 Choices.aggregationFunction.stddev=STDDEV
+
 Choices.aggregationFunction.first=FIRST
+
 Choices.aggregationFunction.last=LAST
+
 Choices.aggregationFunction.mode=MODE
+
 Choices.aggregationFunction.moving-ave=MOVINGAVE
+
 Choices.aggregationFunction.median=MEDIAN
+
 Choices.aggregationFunction.variance=VARIANCE
+
 Choices.aggregationFunction.running-sum=RUNNINGSUM
+
 Choices.aggregationFunction.irr=IRR
+
 Choices.aggregationFunction.mirr=MIRR
+
 Choices.aggregationFunction.npv=NPV
+
 Choices.aggregationFunction.running-npv=RUNNINGNPV
+
 Choices.aggregationFunction.count-distinct=COUNTDISTINCT
+
 Choices.aggregationFunction.running-count=RUNNINGCOUNT
+
 Choices.aggregationFunction.is-top-n=IS-TOP-N
+
 Choices.aggregationFunction.is-bottom-n=IS-BOTTOM-N
+
 Choices.aggregationFunction.is-top-n-percent=IS-TOP-N-PERCENT
+
 Choices.aggregationFunction.is-bottom-n-percent=IS-BOTTOM-N-PERCENT
+
 Choices.aggregationFunction.percent-rank=PERCENT-RANK
-Choices.aggregationFunction.percentile=PERCENTILE 
-Choices.aggregationFunction.quartile=QUARTILE   
+
+Choices.aggregationFunction.percentile=PERCENTILE
+
+Choices.aggregationFunction.quartile=QUARTILE
+
 Choices.aggregationFunction.percent-sum=PERCENT-SUM
+
 Choices.aggregationFunction.rank=RANK
 
 #71. levelType
 Choices.levelType.dynamic=µ¿Àû
+
 Choices.levelType.mirrored=¹Ì·¯
 
 #72. accessPermission
 Choices.accessPermission.allow=Çã¿ë
+
 Choices.accessPermission.disallow=Çã¿ë ¾È ÇÔ
 
 #73. paramSortValues
 Choices.paramSortValues.value=°ª
+
 Choices.paramSortValues.label=Ç¥½Ã ÅØ½ºÆ®
 
 #74. reportLayoutPreference
 Choices.reportLayoutPreference.fixedLayout=°íÁ¤µÈ ·¹ÀÌ¾Æ¿ô
+
 Choices.reportLayoutPreference.autoLayout=ÀÚµ¿ ·¹ÀÌ¾Æ¿ô
 
 #75. dateTimeLevelType
 Choices.dateTimeLevelType.year=¿¬
+
 Choices.dateTimeLevelType.month=¿ù
+
 Choices.dateTimeLevelType.quarter=ºĞ±â
+
 Choices.dateTimeLevelType.weekOfMonth=ÇÑ ´ŞÀÇ ÁÖ
+
 Choices.dateTimeLevelType.weekOfYear=ÇÑ ÇØÀÇ ÁÖ
+
 Choices.dateTimeLevelType.dayOfWeek=ÇÑ ÁÖÀÇ ³¯
+
 Choices.dateTimeLevelType.dayOfMonth=ÇÑ ´ŞÀÇ ³¯
+
 Choices.dateTimeLevelType.dayOfYear=ÇÑ ÇØÀÇ ³¯
+
 Choices.dateTimeLevelType.hour=½Ã
+
 Choices.dateTimeLevelType.minute=ºĞ
+
 Choices.dateTimeLevelType.second=ÃÊ
 
 #76. scalarParamType
 Choices.scalarParamType.simple=´Ü¼ø
+
 Choices.scalarParamType.multi-value=º¹¼ö °ª
 
 #77. bidiLayoutOrientation   
 Choices.bidiDirection.rtl=¿À¸¥ÂÊ¿¡¼­ ¿ŞÂÊ
+
 Choices.bidiDirection.ltr=¿ŞÂÊ¿¡¼­ ¿À¸¥ÂÊ
 
 #78. backgroundSize
 Choices.backgroundSize.auto=ÀÚµ¿
+
 Choices.backgroundSize.contain=Æ÷ÇÔ
+
 Choices.backgroundSize.cover=µ¤¾î¾²±â
 
 #79 scopeType
 Choices.scopeType.row=Çà
+
 Choices.scopeType.col=¿­
+
 Choices.scopeType.rowgroup=Çà ±×·ì
+
 Choices.scopeType.colgroup=¿­ ±×·ì
 
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=´Ü¼ø
+
 Choices.dynamicFilterChoice.advanced=°í±Ş
 
 #81 variableType
 Choices.variableType.report=º¸°í¼­ º¯¼ö
+
 Choices.variableType.page=ÆäÀÌÁö º¯¼ö
 
 #82 nullValueOrderingType
 Choices.nullValueOrderingType.unknown=¾Ë ¼ö ¾øÀ½
+
 Choices.nullValueOrderingType.nullIsFirst=Nulls First
+
 Choices.nullValueOrderingType.nullIsLast=Nulls Last
 
 #83 dataVersion
 Choices.dataVersion.transient=ÀÓ½Ã
+
 Choices.dataVersion.latest=ÃÖ½Å
 
 #84 selectorType
 Choices.selectorType.list=¸ñ·Ï
-Choices.selectorType.dropdown=Dropdown
-Choices.selectorType.slider=Slider
-Choices.selectorType.checkBox=CheckBox
+
+Choices.selectorType.dropdown=µå·Ó´Ù¿î
+
+Choices.selectorType.slider=½½¶óÀÌ´õ
+
+Choices.selectorType.checkBox=È®ÀÎ¶õ
+
 Choices.selectorType.radioButton=RadioButton
-Choices.selectorType.textBox=TextBox
-Choices.selectorType.calendar=Calendar
+Choices.selectorType.textBox=ÅØ½ºÆ® »óÀÚ
+
+Choices.selectorType.calendar=´Ş·Â
+
 Choices.selectorType.currentSelections=ÇöÀç ¼±ÅÃÇÑ Ç×¸ñ
 
 #85 thumbType
-Choices.thumbType.single=Single
-Choices.thumbType.dual=Dual
+Choices.thumbType.single=´ÜÀÏ
+
+Choices.thumbType.dual=ÀÌÁß
 
 #86
 Choices.accessType.transient=ÀÓ½Ã
+
 Choices.accessType.latest=ÃÖ½Å
-Choices.accessType.specificVersion=Æ¯Á¤ ¹öÀü
+
+Choices.accessType.specificVersion=SpecificVersion
 
 #87 overflow
 Choices.overflow.visible=Ç¥½Ã
+
 Choices.overflow.hidden=¼û±è
+
 Choices.overflow.scroll=½ºÅ©·Ñ
+
 Choices.overflow.auto=ÀÚµ¿
 
 #88 GadgetContentType
 Choices.gadgetContentType.html=HTML
 Choices.gadgetContentType.url=URL
 Choices.gadgetContentType.video=ºñµğ¿À
+
 Choices.gadgetContentType.videourl=ºñµğ¿À URL
+
 Choices.gadgetContentType.text=ÅØ½ºÆ®
-Choices.gadgetContentType.image=ÀÌ¹ÌÁö  
+
+Choices.gadgetContentType.image=ÀÌ¹ÌÁö
 
 #89 WindowStatus
 Choices.windowStatus.normal=±âº»
+
 Choices.windowStatus.maximized=ÃÖ´ëÈ­
 
 #90 reportItemThemeType
 Choices.reportItemThemeType.Table=Å×ÀÌºí Å×¸¶
+
 Choices.reportItemThemeType.List=¸ñ·Ï Å×¸¶
+
 Choices.reportItemThemeType.Grid=´«±İ Å×¸¶
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=³Î(Null) ÃÖÇÏÀ§
+
 Choices.nullsOrdering.nullsHighest=³Î(null) ÃÖ»óÀ§
+
 Choices.nullsOrdering.excludeNulls=³Î(Null) Á¦¿Ü
 
 #92 filterConditionType
 Choices.filterConditionType.slicer=½½¶óÀÌ¼­
-Choices.filterConditionType.simple=±âº»
+
+Choices.filterConditionType.simple=´Ü¼ø
 
 #93 flyoutPosition
 Choices.flyoutPosition.left=¿ŞÂÊ
+
 Choices.flyoutPosition.right=¿À¸¥ÂÊ
 
 #94 referenceDateType
 Choices.referenceDateType.today=¿À´Ã
+
 Choices.referenceDateType.fixedDate=°íÁ¤ÀÏ
+
 Choices.referenceDateType.endingDateInDimension=Â÷¿øÀÇ Á¾·áÀÏ
 
 ###########################################################
@@ -742,393 +1145,675 @@ Class.optionalArgument=...
 
 #0.String
 Class.String=¹®ÀÚ¿­ ÇÔ¼ö
+
 Class.String.toolTip=°´Ã¼ Çü½ÄÀÇ ±¸¼º¿øÀÌ¸ç ±âº» Á¦°ø ¹®ÀÚ¿­ °´Ã¼ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù
-Class.String.String=String
+
+Class.String.String=¹®ÀÚ¿­
+
 Class.String.String.toolTip=ToString(°ª)¿¡¼­ °è»êµÈ ¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
-Class.String.length=length
+
+Class.String.length=±æÀÌ
+
 Class.String.length.toolTip=¹®ÀÚ¿­ÀÇ ±æÀÌ¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.fromCharCode=fromCharCode
 Class.String.fromCharCode.toolTip=À¯´ÏÄÚµå ¹®ÀÚ °ª¿¡¼­ ¹®ÀÚ¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.charAt=charAt
+
 Class.String.charAt.toolTip=¹®ÀÚ¿­ °´Ã¼ÀÇ ÁöÁ¤µÈ ÀÎµ¦½º¿¡ ¹®ÀÚ¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.charCodeAt=charCodeAt
+
 Class.String.charCodeAt.toolTip=¹®ÀÚÀÇ À¯´ÏÄÚµå ÀÎÄÚµùÀ» ³ªÅ¸³»´Â Á¤¼ö¸¦ ¹®ÀÚ¿­ °´Ã¼ ³»ÀÇ ÁöÁ¤µÈ À§Ä¡·Î ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.concat=concat
+
 Class.String.concat.toolTip=Á¦°øµÈ ¹®ÀÚ¿­°ú ÇöÀç ¹®ÀÚ¿­ÀÇ ¿¬°áÀ» Æ÷ÇÔÇÑ ¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.indexOf=indexOf
+
 Class.String.indexOf.toolTip=¹®ÀÚ¿­ °´Ã¼ ³» ºÎºĞ ¹®ÀÚ¿­ÀÇ Ã¹ ¹øÂ° Ç×¸ñÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.lastIndexOf=lastIndexOf
+
 Class.String.lastIndexOf.toolTip=¹®ÀÚ¿­ °´Ã¼ ³» ºÎºĞ ¹®ÀÚ¿­ÀÇ ¸¶Áö¸· Ç×¸ñÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.localeCompare=localeCompare
 Class.String.localeCompare.toolTip=ÇöÀç ·ÎÄÉÀÏ¿¡¼­ µÎ ¹®ÀÚ¿­ÀÌ µ¿ÀÏÇÑÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
-Class.String.match=match
+
+Class.String.match=ÀÏÄ¡
+
 Class.String.match.toolTip=Á¤±Ô½Ä ÆĞÅÏÀ» »ç¿ëÇÏ´Â ¹®ÀÚ¿­ °Ë»öÀ» ½ÇÇàÇÏ¿©, °Ë»ö °á°ú¸¦ Æ÷ÇÔÇÏ´Â ¹è¿­À» ¹İÈ¯ÇÕ´Ï´Ù
-Class.String.replace=replace
+
+Class.String.replace=¹Ù²Ù±â
+
 Class.String.replace.toolTip=Á¤±Ô½Ä ¶Ç´Â °Ë»ö ¹®ÀÚ¿­À» »ç¿ëÇÏ¿© ´ëÃ¼µÈ ÅØ½ºÆ®¸¦ Æ÷ÇÔÇÏ´Â ¹®ÀÚ¿­ÀÇ º¹»çº»À» ¹İÈ¯ÇÕ´Ï´Ù
-Class.String.search=search
+
+Class.String.search=°Ë»ö
+
 Class.String.search.toolTip=Á¤±Ô½Ä °Ë»ö¿¡¼­ ÀÏÄ¡ÇÏ´Â Ã¹ ¹øÂ° ºÎºĞ ¹®ÀÚ¿­ À§Ä¡¸¦ ¹İÈ¯ÇÕ´Ï´Ù
-Class.String.slice=slice
+
+Class.String.slice=Á¶°¢
+
 Class.String.slice.toolTip=ÀÌ °´Ã¼¸¦ ¹®ÀÚ¿­·Î º¯È¯½ÃÅ² °á°úÀÇ ºÎºĞ ¹®ÀÚ¿­À» ¹İÈ¯ÇÕ´Ï´Ù
-Class.String.split=split
+
+Class.String.split=ºĞÇÒ
+
 Class.String.split.toolTip=ÇÏ³ªÀÇ ¹®ÀÚ¿­À» ºÎºĞ ¹®ÀÚ¿­·Î ºĞ¸®ÇÑ °á°úÀÇ ¹®ÀÚ¿­ ¹è¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.substr=substr
+
 Class.String.substr.toolTip=ÁöÁ¤µÈ À§Ä¡¿¡¼­ ½ÃÀÛÇÏ¸ç ÁöÁ¤µÈ ±æÀÌ¸¦ °¡Áö´Â ºÎºĞ ¹®ÀÚ¿­À» ¹İÈ¯ÇÕ´Ï´Ù
-Class.String.substring=substring
+
+Class.String.substring=ºÎºĞ ¹®ÀÚ¿­
+
 Class.String.substring.toolTip=ºÎºĞ ¹®ÀÚ¿­À» ¹®ÀÚ¿­ °´Ã¼ ³» ÁöÁ¤µÈ À§Ä¡·Î ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.toLowerCase=toLowerCase
+
 Class.String.toLowerCase.toolTip=¹®ÀÚ¿­ ³» ¹®ÀÚ¸¦ Â÷·Ê·Î ¼Ò¹®ÀÚ·Î º¯È¯ÇÕ´Ï´Ù.
+
 Class.String.toLocaleLowerCase=toLocaleLowerCase
+
 Class.String.toLocaleLowerCase.toolTip=È£½ºÆ® È¯°æÀÇ ÇöÀç ·ÎÄÉÀÏ¿¡ µû¶ó ¸ğµç ¿µ¹®ÀÚ°¡ ¼Ò¹®ÀÚ·Î º¯È¯µÈ ¹®ÀÚ¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.toUpperCase=toUpperCase
+
 Class.String.toUpperCase.toolTip=¹®ÀÚ¿­ ³» ¹®ÀÚ¸¦ Â÷·Ê·Î ´ë¹®ÀÚ·Î º¯È¯ÇÕ´Ï´Ù.
+
 Class.String.toLocaleUpperCase=toLocaleUpperCase
+
 Class.String.toLocaleUpperCase.toolTip=È£½ºÆ® È¯°æÀÇ ÇöÀç ·ÎÄÉÀÏ¿¡ µû¶ó ¸ğµç ¿µ¹®ÀÚ°¡ ´ë¹®ÀÚ·Î º¯È¯µÈ ¹®ÀÚ¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.toString=toString
 Class.String.toString.toolTip=ÀÌ ¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.String.valueOf=valueOf
 Class.String.valueOf.toolTip=ÀÌ ¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
 
 Class.String.String.object=°´Ã¼
+
 Class.String.fromCharCode.c=c
+
 Class.String.charAt.n=n
 Class.String.charCodeAt.n=n
-Class.String.concat.value=value
-Class.String.indexOf.substring=substring
-Class.String.indexOf.start=start
-Class.String.lastIndexOf.substring=substring
-Class.String.lastIndexOf.start=start
-Class.String.localeCompare.target=target
+Class.String.concat.value=°ª
+
+Class.String.indexOf.substring=ºÎºĞ ¹®ÀÚ¿­
+
+Class.String.indexOf.start=½ÃÀÛ
+
+Class.String.lastIndexOf.substring=ºÎºĞ ¹®ÀÚ¿­
+
+Class.String.lastIndexOf.start=½ÃÀÛ
+
+Class.String.localeCompare.target=´ë»ó
+
 Class.String.match.regexp=regexp
+
 Class.String.replace.regexp=regexp
-Class.String.replace.replacement=replacement
+
+Class.String.replace.replacement=´ëÃ¼
+
 Class.String.search.regexp=regexp
-Class.String.slice.start=start
-Class.String.slice.end=end
-Class.String.split.delimitor=delimitor
-Class.String.split.limit=limit
-Class.String.substr.start=start
-Class.String.substr.length=length
-Class.String.substring.from=from
-Class.String.substring.to=to
+
+Class.String.slice.start=½ÃÀÛ
+
+Class.String.slice.end=³¡
+
+Class.String.split.delimitor=±¸ºĞ ±âÈ£
+
+Class.String.split.limit=Á¦ÇÑ
+
+Class.String.substr.start=½ÃÀÛ
+
+Class.String.substr.length=±æÀÌ
+
+Class.String.substring.from=½ÃÀÛ
+
+Class.String.substring.to=³¡
 
 #1.Global
 Class.Global=Àü¿ª ÇÔ¼ö
+
 Class.Global.toolTip=Àü¿ª ¸Ş¼­µå¸¦ ÇÏ³ªÀÇ °´Ã¼·Î ¼öÁıÇÏ´Â ³»Àå °´Ã¼ÀÔ´Ï´Ù
+
 Class.Global.NaN=NaN
+
 Class.Global.NaN.toolTip=ÃÊ±â °ªÀÌ ¼ıÀÚ°¡ ¾Æ´Õ´Ï´Ù
-Class.Global.Infinity=Infinity
+
+Class.Global.Infinity=¹«ÇÑ´ë
+
 Class.Global.Infinity.toolTip=Number.POSITIVE_INFINITY(JScript¿¡ Ç¥½ÃµÉ ¼ö ÀÖ´Â °¡Àå Å« ¼ıÀÚ(Number.MAX_VALUE)º¸´Ù Å« °ª) °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
-Class.Global.undefined=undefined
+
+Class.Global.undefined=Á¤ÀÇµÇÁö ¾ÊÀ½
+
 Class.Global.undefined.toolTip=ÃÊ±â °ªÀÌ Á¤ÀÇµÇÁö ¾Ê¾Ò½À´Ï´Ù
+
 Class.Global.decodeURI=decodeURI
 Class.Global.decodeURI.toolTip=ÀÎÄÚµùµÈ URI(Uniform Resource Identifier)ÀÇ ÀÎÄÚµùµÇÁö ¾ÊÀº ¹öÀüÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Global.decodeURIComponent=decodeURIComponent
 Class.Global.decodeURIComponent.toolTip=ÀÎÄÚµùµÈ URI(Uniform Resource Identifier) ±¸¼º ¿ä¼ÒÀÇ ÀÎÄÚµùµÇÁö ¾ÊÀº ¹öÀüÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Global.encodeURI=encodeURI
 Class.Global.encodeURI.toolTip=ÀÎÄÚµùµÈ ¹®ÀÚ¿­À» ¿Ã¹Ù¸¥ URI(Uniform Resource Identifier)·Î ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Global.encodeURIComponent=encodeURIComponent
 Class.Global.encodeURIComponent.toolTip=ÀÎÄÚµùµÈ ¹®ÀÚ¿­À» ¿Ã¹Ù¸¥ URI(Uniform Resource Identifier) ±¸¼º ¿ä¼Ò·Î ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Global.escape=escape
+
 Class.Global.escape.toolTip=¸ğµç ÄÄÇ»ÅÍ¿¡¼­ ÀĞÀ» ¼ö ÀÖ´Â ÀÎÄÚµùµÈ ¹®ÀÚ¿­ °´Ã¼¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Global.eval=eval
+
 Class.Global.eval.toolTip=JScript ÄÚµå¸¦ °è»êÇÏ¿© ½ÇÇàÇÕ´Ï´Ù
+
 Class.Global.isNaN=isNaN
+
 Class.Global.isNaN.toolTip=ÀÎ¼ö¿¡ ToNumber¸¦ Àû¿ëÇÏ¿© ±× °á°ú°¡ NanÀÌ¸é Âü °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Global.isFinite=isFinite
 Class.Global.isFinite.toolTip=Á¦°øµÈ ¼ıÀÚ°¡ À¯ÇÑÀÏ °æ¿ì ³ªÅ¸³ª´Â ºÎ¿ï °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Global.parseFloat=parseFloat
 Class.Global.parseFloat.toolTip=¹®ÀÚ¿­¿¡¼­ º¯È¯µÈ ºÎµ¿ ¼Ò¼öÁ¡ ¼ıÀÚ¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Global.parseInt=parseInt
+
 Class.Global.parseInt.toolTip=¹®ÀÚ¿­¿¡¼­ º¯È¯µÈ Á¤¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Global.unescape=unescape
+
 Class.Global.unescape.toolTip=ÀÌ½ºÄÉÀÌÇÁ ¸Ş¼­µå·Î ÀÎÄÚµùµÈ ¹®ÀÚ¿­ °´Ã¼¿¡¼­ µğÄÚµùµÈ ¹®ÀÚ¿­·Î ¹İÈ¯ÇÕ´Ï´Ù
 
+
 Class.Global.decodeURI.uri=uri
-Class.Global.decodeURIComponent.s=s
+Class.Global.decodeURIComponent.s=S
+
 Class.Global.encodeURI.uri=uri
-Class.Global.encodeURIComponent.s=s
-Class.Global.escape.s=s
-Class.Global.eval.code=code
+Class.Global.encodeURIComponent.s=S
+
+Class.Global.escape.s=S
+
+Class.Global.eval.code=ÄÚµå
+
 Class.Global.isNaN.x=x
 Class.Global.isFinite.n=n
-Class.Global.parseFloat.s=s
-Class.Global.parseInt.s=s
+Class.Global.parseFloat.s=S
+
+Class.Global.parseInt.s=S
+
 Class.Global.parseInt.radix=radix
-Class.Global.unescape.s=s
+
+Class.Global.unescape.s=S
 
 #2.Array
-
 Class.Array=¹è¿­ ÇÔ¼ö
+
 Class.Array.toolTip=¸ğµç µ¥ÀÌÅÍ Çü½ÄÀÇ Å©±â Á¶Á¤ °¡´É ¹è¿­À» Áö¿øÇÕ´Ï´Ù.
-Class.Array.Array=Array
+
+Class.Array.Array=¹è¿­
+
 Class.Array.Array.toolTip=½Å±Ô ¹è¿­ °³Ã¼¸¦ »ı¼º ¹× ÃÊ±âÈ­ÇÕ´Ï´Ù.
-Class.Array.length=length
+
+Class.Array.length=±æÀÌ
+
 Class.Array.length.toolTip=¹è¿­¿¡¼­ Á¤ÀÇµÈ ÃÖ»óÀ§ ¿ä¼Òº¸´Ù ÇÑ ´Ü°è ³ôÀº Á¤¼ö°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Array.concat=concat
+
 Class.Array.concat.toolTip=ÇöÀç ¹è¿­°ú Ãß°¡ Ç×¸ñÀÇ Á¶ÇÕÀ¸·Î ±¸¼ºµÈ ½Å±Ô ¹è¿­À» ¹İÈ¯ÇÕ´Ï´Ù
-Class.Array.join=join
+
+Class.Array.join=Á¶ÀÎ
+
 Class.Array.join.toolTip=ÁöÁ¤µÈ ±¸ºĞ ¹®ÀÚ¿¡ ÀÇÇØ ÇÔ²² ¿¬°áµÇ°í ºĞ¸®µÈ ¸ğµç ¹è¿­ ¿ä¼Ò·Î ±¸¼ºµÈ ¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Array.pop=pop
+
 Class.Array.pop.toolTip=¹è¿­¿¡¼­ ¸¶Áö¸· ¹è¿­ ¿ä¼Ò¸¦ Á¦°ÅÇÏ¿© ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Array.push=push
+
 Class.Array.push.toolTip=ÀÎ¼ö°¡ ³ªÅ¸³ª´Â ¼ø¼­´ë·Î ¹è¿­ÀÇ ¸¶Áö¸·¿¡ Ãß°¡µË´Ï´Ù
-Class.Array.reverse=reverse
+
+Class.Array.reverse=¿ª¹æÇâ
+
 Class.Array.reverse.toolTip=¹è¿­ ¿ä¼Ò¸¦ ´Ù½Ã Á¤·ÄÇÏ¿© ¼ø¼­¸¦ ¿ª¼øÀ¸·Î Á¤·ÄÇÕ´Ï´Ù
-Class.Array.shift=shift
+
+Class.Array.shift=ÀÌµ¿
+
 Class.Array.shift.toolTip=¹è¿­ÀÇ Ã³À½ ¿ä¼Ò¸¦ Á¦°ÅÇÏ¿© ¹İÈ¯ÇÕ´Ï´Ù
-Class.Array.slice=slice
+
+Class.Array.slice=Á¶°¢
+
 Class.Array.slice.toolTip=¹è¿­ ¼½¼ÇÀ» Æ÷ÇÔÇÏ´Â ¹è¿­À» ¹İÈ¯ÇÕ´Ï´Ù
-Class.Array.sort=sort
+
+Class.Array.sort=Á¤·Ä
+
 Class.Array.sort.toolTip=ÀÌ ¹è¿­ÀÇ ¿ä¼Ò°¡ Á¤·ÄµË´Ï´Ù
-Class.Array.splice=splice
+
+Class.Array.splice=°ãÃÄ ÀÕ±â
+
 Class.Array.splice.toolTip=¹è¿­¿¡¼­ ¿ä¼Ò¸¦ Á¦°ÅÇÏ°í ÇÊ¿äÇÏ¸é ±× ÀÚ¸®¿¡ ½Å±Ô ¿ä¼Ò¸¦ »ğÀÔÇÏ¿© »èÁ¦µÈ ¿ä¼Ò¸¦ ¹İÈ¯ÇÕ´Ï´Ù. ¹è¿­¿¡¼­ Á¦°ÅµÈ ¿ä¼Ò¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Array.toLocaleString=toLocaleString
 Class.Array.toLocaleString.toolTip=¹è¿­ ¿ä¼Ò¸¦ ¹®ÀÚ¿­·Î º¯È¯ÇÕ´Ï´Ù
+
 Class.Array.toString=toString
 Class.Array.toString.toolTip=ÀÎ¼ö°¡ ¾ø´Â ÀÌ °´Ã¼¿¡ ´ëÇØ ±âº» Á¦°ø Á¶ÀÎ ¸Ş¼­µå¸¦ È£ÃâÇÑ °ÍÃ³·³ µ¿ÀÏÇÏ°Ô ¹İÈ¯ÇÕ´Ï´Ù
-Class.Array.unshift=unshift
+
+Class.Array.unshift=ÀÌµ¿ Ãë¼Ò
+
 Class.Array.unshift.toolTip=ÀÎ¼ö°¡ ¹è¿­ÀÇ ½ÃÀÛ¿¡ Ãß°¡µÇ¾î ¹è¿­ ³» ¼ø¼­°¡ ÀÎ¼ö ¸ñ·Ï¿¡ ³ªÅ¸³­ °Í°ú µ¿ÀÏÇÏµµ·Ï ÇÕ´Ï´Ù
 
-Class.Array.Array.size=size
-Class.Array.Array.element=element
-Class.Array.concat.value=value
+Class.Array.Array.size=Å©±â
+
+Class.Array.Array.element=¿ä¼Ò
+
+Class.Array.concat.value=°ª
+
 Class.Array.join.separator=±¸ºĞ ±âÈ£
-Class.Array.push.value=value
-Class.Array.slice.start=start
-Class.Array.slice.end=end
+
+Class.Array.push.value=°ª
+
+Class.Array.slice.start=½ÃÀÛ
+
+Class.Array.slice.end=³¡
+
 Class.Array.sort.orderfunc=orderfunc
-Class.Array.splice.start=start
+
+Class.Array.splice.start=½ÃÀÛ
+
 Class.Array.splice.deleteCount=deleteCount
-Class.Array.unshift.value=value
+Class.Array.unshift.value=°ª
 
 #3. Boolean
-
 Class.Boolean=ºÎ¿ï ÇÔ¼ö
+
 Class.Boolean.toolTip=°´Ã¼ Çü½ÄÀÇ ±¸¼º¿øÀÌ¸ç ±âº» Á¦°ø ºÎ¿ï °´Ã¼ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù
-Class.Boolean.Boolean=Boolean
+
+Class.Boolean.Boolean=ºÎ¿ï
+
 Class.Boolean.Boolean.toolTip=ToBoolean(°ª)¿¡¼­ °è»êµÈ ºÎ¿ï °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Boolean.toString=toString
 Class.Boolean.toString.toolTip=°´Ã¼ÀÇ ¹®ÀÚ¿­ Ç¥½Ã¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Boolean.valueOf=valueOf
 Class.Boolean.valueOf.toolTip=ÀÌ ºÎ¿ï °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
 
-Class.Boolean.Boolean.value=value
+Class.Boolean.Boolean.value=°ª
 
 #4. Date
-
 Class.Date=³¯Â¥ ÇÔ¼ö
+
 Class.Date.toolTip=³¯Â¥¿Í ½Ã°£ÀÇ ±âº» ÀúÀå ¹× °Ë»öÀ» »ç¿ëÇÒ ¼ö ÀÖµµ·Ï ÇÏ´Â °´Ã¼ÀÔ´Ï´Ù
-Class.Date.Date=Date
+
+Class.Date.Date=³¯Â¥
+
 Class.Date.Date.toolTip=ÇöÀç ½Ã°£À» Ç¥½ÃÇÏ´Â ¹®ÀÚ¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getDate=getDate
 Class.Date.getDate.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ³¯Â¥ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getDay=getDay
 Class.Date.getDay.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¿äÀÏ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getFullYear=getFullYear
 Class.Date.getFullYear.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¿¬µµ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getHours=getHours
 Class.Date.getHours.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ½Ã°£ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getMilliseconds=getMilliseconds
 Class.Date.getMilliseconds.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­  ¹Ğ¸®ÃÊ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getMinutes=getMinutes
 Class.Date.getMinutes.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ºĞ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getMonth=getMonth
 Class.Date.getMonth.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¿ù °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getSeconds=getSeconds
 Class.Date.getSeconds.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ÃÊ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getTime=getTime
 Class.Date.getTime.toolTip=³¯Â¥ °´Ã¼¿¡¼­ ½Ã°£ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getTimezoneOffset=getTimezoneOffset
 Class.Date.getTimezoneOffset.toolTip=ÇöÁö ½Ã°£°ú UTC ½Ã°£ »çÀÌÀÇ Â÷ÀÌ¸¦ ºĞ ´ÜÀ§·Î ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getUTCDate=getUTCDate
 Class.Date.getUTCDate.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ³¯Â¥¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getUTCDay=getUTCDay
 Class.Date.getUTCDay.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¿äÀÏÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getUTCFullYear=getUTCFullYear
 Class.Date.getUTCFullYear.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¿¬µµ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getUTCHours=getUTCHours
 Class.Date.getUTCHours.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ½Ã°£ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getUTCMilliseconds=getUTCMilliseconds
 Class.Date.getUTCMilliseconds.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¹Ğ¸®ÃÊ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getUTCMinutes=getUTCMinutes
 Class.Date.getUTCMinutes.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ºĞ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getUTCMonth=getUTCMonth
 Class.Date.getUTCMonth.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¿ù °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getUTCSeconds=getUTCSeconds
 Class.Date.getUTCSeconds.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ÃÊ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.getYear=getYear
 Class.Date.getYear.toolTip=³¯Â¥ °´Ã¼¿¡¼­ ¿¬µµ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.parse=parse
+
 Class.Date.parse.toolTip=³¯Â¥°¡ µé¾î ÀÖ´Â ¹®ÀÚ¿­À» ±¸¹® ºĞ¼®ÇÏ¿© ¹Ğ¸®ÃÊ ¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.setDate=setDate
 Class.Date.setDate.toolTip=ÇöÁö Ç¥ÁØ ½Ã°£´ë¿¡¼­ ³¯Â¥ °´Ã¼ÀÇ ³¯Â¥¸¦ ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setFullYear=setFullYear
 Class.Date.setFullYear.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¿¬µµ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setHours=setHours
 Class.Date.setHours.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ½Ã°£ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setMilliseconds=setMilliseconds
 Class.Date.setMilliseconds.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¹Ğ¸®ÃÊ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setMinutes=setMinutes
 Class.Date.setMinutes.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ºĞ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setMonth=setMonth
 Class.Date.setMonth.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¿ù °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setSeconds=setSeconds
 Class.Date.setSeconds.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ÃÊ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setTime=setTime
 Class.Date.setTime.toolTip=ÇöÁö ½Ã°£À» »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ½Ã°£ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setUTCDate=setUTCDate
 Class.Date.setUTCDate.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¼ıÀÚ ³¯Â¥¸¦ ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setUTCFullYear=setUTCFullYear
 Class.Date.setUTCFullYear.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¿¬µµ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setUTCHours=setUTCHours
 Class.Date.setUTCHours.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ½Ã°£ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setUTCMilliseconds=setUTCMilliseconds
 Class.Date.setUTCMilliseconds.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¹Ğ¸®ÃÊ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setUTCMinutes=setUTCMinutes
 Class.Date.setUTCMinutes.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ºĞ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setUTCMonth=setUTCMonth
 Class.Date.setUTCMonth.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ¿ù °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setUTCSeconds=setUTCSeconds
 Class.Date.setUTCSeconds.toolTip=UTC(Coordinated Universal Time)¸¦ »ç¿ëÇÏ¿© ³¯Â¥ °´Ã¼¿¡¼­ ÃÊ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.setYear=setYear
 Class.Date.setYear.toolTip=³¯Â¥ °´Ã¼¿¡¼­ ¿¬µµ °ªÀ» ¼³Á¤ÇÕ´Ï´Ù
+
 Class.Date.toDateString=toDateString
 Class.Date.toDateString.toolTip="³¯Â¥"¸¦ Ç¥½ÃÇÏ´Â ¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.toGMTString=toGMTString
 Class.Date.toGMTString.toolTip=GMT ³¯Â¥¸¦ Ç¥½ÃÇÏ´Â ¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.toLocaleDateString=toLocaleDateString
 Class.Date.toLocaleDateString.toolTip=ÇöÀç Ç¥ÁØ ½Ã°£´ë¿¡¼­ "³¯Â¥"¸¦ Ç¥½ÃÇÏ´Â ¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.toLocaleString=toLocaleString
 Class.Date.toLocaleString.toolTip=ÇöÀç Ç¥ÁØ ½Ã°£´ë¿¡¼­ ³¯Â¥¸¦ Ç¥½ÃÇÏ´Â ¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.toLocaleTimeString=toLocaleTimeString
 Class.Date.toLocaleTimeString.toolTip=ÇöÀç Ç¥ÁØ ½Ã°£´ë¿¡¼­ "½Ã°£"À» Ç¥½ÃÇÏ´Â ¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.toString=toString
 Class.Date.toString.toolTip=¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.toTimeString=toTimeString
 Class.Date.toTimeString.toolTip="½Ã°£"À» Ç¥½ÃÇÏ´Â ¹®ÀÚ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.toUTCString=toUTCString
 Class.Date.toUTCString.toolTip=UTC¿¡¼­ ³¯Â¥¸¦ Ç¥½ÃÇÏ´Â ¹®ÀÚ¿­ °ªÀ» Æí¸®ÇÏ°í »ç¶÷ÀÌ ÀÎ½ÄÇÒ ¼ö ÀÖ´Â Çü½ÄÀ¸·Î ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Date.UTC=UTC
 Class.Date.UTC.toolTip=¿¬µµ, ¿ù ¹× ³¯Â¥(¼±ÅÃÀû), ½Ã°£, ºĞ, ÃÊ, ¹Ğ¸®ÃÊ·Î ³¯Â¥¸¦ °è»êÇÕ´Ï´Ù
+
 Class.Date.valueOf=valueOf
 Class.Date.valueOf.toolTip=ÀÌ ½Ã°£ °ªÀÎ ¼ıÀÚ¸¦ ¹İÈ¯ÇÕ´Ï´Ù
 
-Class.Date.Date.milliseconds=milliseconds
-Class.Date.Date.datestring=datestring
-Class.Date.Date.year=year
-Class.Date.Date.month=month
-Class.Date.Date.day=day
-Class.Date.Date.hours=hours
-Class.Date.Date.minutes=minutes
-Class.Date.Date.seconds=seconds
+Class.Date.Date.milliseconds=¹Ğ¸®ÃÊ
+
+Class.Date.Date.datestring=³¯Â¥ ¹®ÀÚ¿­
+
+Class.Date.Date.year=¿¬
+
+Class.Date.Date.month=¿ù
+
+Class.Date.Date.day=ÀÏ
+
+Class.Date.Date.hours=½Ã
+
+Class.Date.Date.minutes=ºĞ
+
+Class.Date.Date.seconds=ÃÊ
+
 Class.Date.Date.ms=ms
-Class.Date.parse.date=date
+
+Class.Date.parse.date=³¯Â¥
+
 Class.Date.setDate.day_of_month=day_of_month
-Class.Date.setFullYear.year=year
-Class.Date.setFullYear.month=month
-Class.Date.setFullYear.minutes=minutes
-Class.Date.setFullYear.day=day
-Class.Date.setHours.hours=hours
-Class.Date.setHours.minutes=minutes
-Class.Date.setHours.seconds=seconds
-Class.Date.setHours.millis=millis
-Class.Date.setMilliseconds.millis=millis
-Class.Date.setMinutes.minutes=minutes
-Class.Date.setMinutes.seconds=seconds
-Class.Date.setMinutes.millis=millis
-Class.Date.setMonth.month=month
-Class.Date.setMonth.day=day
-Class.Date.setSeconds.seconds=seconds
-Class.Date.setSeconds.millis=millis
-Class.Date.setTime.millis=millis
+Class.Date.setFullYear.year=¿¬
+
+Class.Date.setFullYear.month=¿ù
+
+Class.Date.setFullYear.minutes=ºĞ
+
+Class.Date.setFullYear.day=ÀÏ
+
+Class.Date.setHours.hours=½Ã
+
+Class.Date.setHours.minutes=ºĞ
+
+Class.Date.setHours.seconds=ÃÊ
+
+Class.Date.setHours.millis=¹Ğ¸®ÃÊ
+
+Class.Date.setMilliseconds.millis=¹Ğ¸®ÃÊ
+
+Class.Date.setMinutes.minutes=ºĞ
+
+Class.Date.setMinutes.seconds=ÃÊ
+
+Class.Date.setMinutes.millis=¹Ğ¸®ÃÊ
+
+Class.Date.setMonth.month=¿ù
+
+Class.Date.setMonth.day=ÀÏ
+
+Class.Date.setSeconds.seconds=ÃÊ
+
+Class.Date.setSeconds.millis=¹Ğ¸®ÃÊ
+
+Class.Date.setTime.millis=¹Ğ¸®ÃÊ
+
 Class.Date.setUTCDate.day_of_month=day_of_month
-Class.Date.setUTCFullYear.year=year
-Class.Date.setUTCFullYear.month=month
-Class.Date.setUTCFullYear.minutes=minutes
-Class.Date.setUTCFullYear.day=day
-Class.Date.setUTCHours.hours=hours
-Class.Date.setUTCHours.minutes=minutes
-Class.Date.setUTCHours.seconds=seconds
-Class.Date.setUTCHours.millis=millis
-Class.Date.setUTCMilliseconds.millis=millis
-Class.Date.setUTCMinutes.minutes=minutes
-Class.Date.setUTCMinutes.seconds=seconds
-Class.Date.setUTCMinutes.millis=millis
-Class.Date.setUTCMonth.month=month
-Class.Date.setUTCMonth.day=day
-Class.Date.setUTCSeconds.seconds=seconds
-Class.Date.setUTCSeconds.millis=millis
-Class.Date.setYear.year=year
-Class.Date.UTC.year=year
-Class.Date.UTC.month=month
-Class.Date.UTC.day=day
-Class.Date.UTC.hours=hours
-Class.Date.UTC.minutes=minutes
-Class.Date.UTC.seconds=seconds
+Class.Date.setUTCFullYear.year=¿¬
+
+Class.Date.setUTCFullYear.month=¿ù
+
+Class.Date.setUTCFullYear.minutes=ºĞ
+
+Class.Date.setUTCFullYear.day=ÀÏ
+
+Class.Date.setUTCHours.hours=½Ã
+
+Class.Date.setUTCHours.minutes=ºĞ
+
+Class.Date.setUTCHours.seconds=ÃÊ
+
+Class.Date.setUTCHours.millis=¹Ğ¸®ÃÊ
+
+Class.Date.setUTCMilliseconds.millis=¹Ğ¸®ÃÊ
+
+Class.Date.setUTCMinutes.minutes=ºĞ
+
+Class.Date.setUTCMinutes.seconds=ÃÊ
+
+Class.Date.setUTCMinutes.millis=¹Ğ¸®ÃÊ
+
+Class.Date.setUTCMonth.month=¿ù
+
+Class.Date.setUTCMonth.day=ÀÏ
+
+Class.Date.setUTCSeconds.seconds=ÃÊ
+
+Class.Date.setUTCSeconds.millis=¹Ğ¸®ÃÊ
+
+Class.Date.setYear.year=¿¬
+
+Class.Date.UTC.year=¿¬
+
+Class.Date.UTC.month=¿ù
+
+Class.Date.UTC.day=ÀÏ
+
+Class.Date.UTC.hours=½Ã
+
+Class.Date.UTC.minutes=ºĞ
+
+Class.Date.UTC.seconds=ÃÊ
+
 Class.Date.UTC.ms=ms
 
 #5. Math
-
 Class.Math=Math ÇÔ¼ö
+
 Class.Math.toolTip=±âº» ¼öÇĞ ±â´É ¹× »ó¼ö¸¦ Á¦°øÇÏ´Â ³»Àå °´Ã¼ÀÔ´Ï´Ù
+
 Class.Math.E=E
+
 Class.Math.E.toolTip=e¿¡ ´ëÇÑ ¼ıÀÚ °ªÀº ´ë·« 2.7182818284590452354ÀÔ´Ï´Ù
+
 Class.Math.LN10=LN10
+
 Class.Math.LN10.toolTip=10ÀÇ ÀÚ¿¬ ·Î±×¿¡ ´ëÇÑ ¼ıÀÚ °ªÀÌ¸ç ´ë·« 2.302585092994046ÀÔ´Ï´Ù
+
 Class.Math.LN2=LN2
+
 Class.Math.LN2.toolTip=2ÀÇ ÀÚ¿¬ ·Î±×¿¡ ´ëÇÑ ¼ıÀÚ °ªÀÌ¸ç ´ë·« 0.6931471805599453ÀÔ´Ï´Ù
+
 Class.Math.LOG10E=LOG10E
+
 Class.Math.LOG10E.toolTip=¹Ø¼ö°¡ 10ÀÎ eÀÇ ·Î±×ÀÇ ¼ıÀÚ °ªÀº ´ë·« 0.4342944819032518ÀÔ´Ï´Ù
+
 Class.Math.LOG2E=LOG2E
+
 Class.Math.LOG2E.toolTip=¹Ø¼ö°¡ 2ÀÎ eÀÇ ·Î±×ÀÇ ¼ıÀÚ °ªÀº ´ë·« 1.4426950408889634 ÀÔ´Ï´Ù
+
 Class.Math.PI=PI
+
 Class.Math.PI.toolTip=PI, Áï ¿øÁÖÀ²ÀÇ ¼ıÀÚ °ªÀÌ¸ç ´ë·« 3.1415926535897932ÀÔ´Ï´Ù
+
 Class.Math.SQRT1_2=SQRT1_2
 Class.Math.SQRT1_2.toolTip=1/2ÀÇ Á¦°ö±ÙÀÇ ¼ıÀÚ °ªÀÌ¸ç ´ë·« 0.7071067811865476ÀÔ´Ï´Ù
+
 Class.Math.SQRT2=SQRT2
+
 Class.Math.SQRT2.toolTip=2ÀÇ Á¦°ö±ÙÀÇ ¼ıÀÚ °ªÀÌ¸ç ´ë·« 1.4142135623730951ÀÔ´Ï´Ù
+
 Class.Math.abs=abs
+
 Class.Math.abs.toolTip=Àı´ë °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.acos=acos
+
 Class.Math.acos.toolTip=¾ÆÅ©ÄÚ»çÀÎ¿¡ ´ëÇÑ ±¸Çö Á¾¼Ó ±Ù»ç°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.asin=asin
+
 Class.Math.asin.toolTip=¾ÆÅ©»çÀÎ¿¡ ´ëÇÑ ±¸Çö Á¾¼Ó ±Ù»ç°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.atan=atan
+
 Class.Math.atan.toolTip=¾ÆÅ©ÅºÁ¨Æ®¿¡ ´ëÇÑ ±¸Çö Á¾¼Ó ±Ù»ç°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.atan2=atan2
+
 Class.Math.atan2.toolTip=ÀÎ¼ö y¿Í x, Áö¼ö y/xÀÇ ¾ÆÅ©ÅºÁ¨Æ®¿¡ ´ëÇÑ ±¸Çö Á¾¼Ó ±Ù»ç°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù. ÀÌ¶§ y¿Í xÀÇ ±âÈ£¸¦ »ç¿ëÇÏ¿© °á°úÀÇ »çºĞ¸éÀ» °áÁ¤ÇÕ´Ï´Ù
+
 Class.Math.ceil=ceil
+
 Class.Math.ceil.toolTip=xº¸´Ù ÀÛÁö ¾Ê°í ¼öÄ¡ Á¤¼ö¿Í °°Àº ÃÖ¼Ò ¼ıÀÚ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.cos=cos
+
 Class.Math.cos.toolTip=ÄÚ»çÀÎ¿¡ ´ëÇÑ ±¸Çö Á¾¼Ó ±Ù»ç°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.exp=exp
+
 Class.Math.exp.toolTip=Áö¼ö ÇÔ¼ö¿¡ ´ëÇÑ ±¸Çö Á¾¼Ó ±Ù»ç°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.floor=floor
+
 Class.Math.floor.toolTip=xº¸´Ù Å©Áö ¾Ê°í ¼öÄ¡ Á¤¼ö¿Í °°Àº ÃÖ´ë ¼ıÀÚ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.log=log
+
 Class.Math.log.toolTip=ÀÚ¿¬ ·Î±×¿¡ ´ëÇÑ ±¸Çö Á¾¼Ó ±Ù»ç°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.max=max
+
 Class.Math.max.toolTip=°¡Àå Å« °á°ú °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.min=min
+
 Class.Math.min.toolTip=ÃÖ¼Ò °á°ú °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.pow=pow
+
 Class.Math.pow.toolTip=x¸¦ yÁ¦°öÇÑ °á°úÀÇ ±¸Çö Á¾¼Ó ±Ù»ç°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.random=random
+
 Class.Math.random.toolTip=0º¸´Ù Å©°Å³ª °°°í 1º¸´Ù ÀÛÀº ¾ç¼ö ¼ıÀÚ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.round=round
+
 Class.Math.round.toolTip=x¿¡ °¡Àå °¡±õ°í ¼öÄ¡ Á¤¼ö¿Í °°Àº ¼ıÀÚ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.sin=sin
+
 Class.Math.sin.toolTip=»çÀÎ¿¡ ´ëÇÑ ±¸Çö Á¾¼Ó ±Ù»ç°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.sqrt=sqrt
+
 Class.Math.sqrt.toolTip=Á¦°ö±Ù¿¡ ´ëÇÑ ±¸Çö Á¾¼Ó ±Ù»ç°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Math.tan=tan
+
 Class.Math.tan.toolTip=ÅºÁ¨Æ®¿¡ ´ëÇÑ ±¸Çö Á¾¼Ó ±Ù»ç°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 
 Class.Math.abs.x=x
 Class.Math.acos.x=x
 Class.Math.asin.x=x
 Class.Math.atan.x=x
 Class.Math.atan2.y=y
+
 Class.Math.atan2.x=x
 Class.Math.ceil.x=x
 Class.Math.cos.x=x
@@ -1136,9 +1821,12 @@ Class.Math.exp.x=x
 Class.Math.floor.x=x
 Class.Math.log.x=x
 Class.Math.max.args=args
+
 Class.Math.min.args=args
+
 Class.Math.pow.x=x
 Class.Math.pow.y=y
+
 Class.Math.round.x=x
 Class.Math.sin.x=x
 Class.Math.sqrt.x=x
@@ -1146,114 +1834,179 @@ Class.Math.tan.x=x
 
 
 #6. Number
-
 Class.Number=¼ıÀÚ ÇÔ¼ö
+
 Class.Number.toolTip=¼ıÀÚ µ¥ÀÌÅÍ ¹× ¼ıÀÚ »ó¼öÀÇ ÀÚ¸® Ç¥½ÃÀÚ¸¦ ³ªÅ¸³»´Â °´Ã¼ÀÔ´Ï´Ù
-Class.Number.Number=Number
+
+Class.Number.Number=¼ıÀÚ
+
 Class.Number.Number.toolTip=ToNumber(°ª)¿¡¼­ °è»êµÈ ¼ıÀÚ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Number.MAX_VALUE=MAX_VALUE
 Class.Number.MAX_VALUE.toolTip=¼ıÀÚ Çü½Ä¿¡ ´ëÇÑ ÃÖ´ë À¯ÇÑ ¾ç¼ö °ªÀÌ¸ç ´ë·« 1.79E+308ÀÔ´Ï´Ù
+
 Class.Number.MIN_VALUE=MIN_VALUE
 Class.Number.MIN_VALUE.toolTip=¼ıÀÚ Çü½Ä¿¡ ´ëÇÑ ÃÖ¼Ò ¾ç¼ö °ªÀÌ¸ç ´ë·« 5.00E-324ÀÔ´Ï´Ù
+
 Class.Number.NaN=NaN
+
 Class.Number.NaN.toolTip=¼ıÀÚ°¡ ¾Æ´Õ´Ï´Ù
+
 Class.Number.NEGATIVE_INFINITY=NEGATIVE_INFINITY
 Class.Number.NEGATIVE_INFINITY.toolTip=JScript¿¡ Ç¥½ÃµÉ ¼ö ÀÖ´Â °¡Àå Å« ¼ıÀÚÀÇ À½¼ö(-Number.MAX_VALUE)º¸´Ù ´õ Å« ¼ıÀÚÀÇ À½¼ö °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Number.POSITIVE_INFINITY=POSITIVE_INFINITY
 Class.Number.POSITIVE_INFINITY.toolTip=JScript¿¡ Ç¥½ÃµÉ ¼ö ÀÖ´Â °¡Àå Å« ¼ıÀÚ(Number.MAX_VALUE)º¸´Ù ´õ Å« °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Number.toExponential=toExponential
+
 Class.Number.toExponential.toolTip=Áö¼ö Ç¥±â¹ıÀ¸·Î Ç¥½ÃµÈ ¼ıÀÚ¸¦ Æ÷ÇÔÇÏ°í ÀÖ´Â ¹®ÀÚ¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Number.toFixed=toFixed
+
 Class.Number.toFixed.toolTip=°íÁ¤ ¼Ò¼öÁ¡ Ç¥±â¹ıÀ» Ç¥½ÃÇÏ´Â ¹®ÀÚ¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Number.toLocaleString=toLocaleString
 Class.Number.toLocaleString.toolTip=È£½ºÆ® È¯°æÀÇ ÇöÀç ·ÎÄÉÀÏ¿¡ ÀûÀıÇÑ ¹®ÀÚ¿­ °ªÀ¸·Î °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Number.toPrecision=toPrecision
+
 Class.Number.toPrecision.toolTip=Áö¼ö Ç¥±â¹ı ¶Ç´Â ÁöÁ¤ÇÑ ÀÚ¸´¼ö¸¦ °¡Áö´Â °íÁ¤ ¼Ò¼öÁ¡ Ç¥±â¹ıÀ¸·Î Ç¥½ÃµÈ ¼ıÀÚ¸¦ Æ÷ÇÔÇÏ°í ÀÖ´Â ¹®ÀÚ¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Number.toString=toString
 Class.Number.toString.toolTip=°´Ã¼ÀÇ ¹®ÀÚ¿­ Ç¥ÇöÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Number.valueOf=valueOf
 Class.Number.valueOf.toolTip=ÁöÁ¤ÇÑ °´Ã¼ÀÇ ±âº» °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
 
-Class.Number.Number.value=value
-Class.Number.toExpoential.digits=digits
-Class.Number.toFixed.digits=digits
-Class.Number.toPrecision.precision=precision
+Class.Number.Number.value=°ª
+
+Class.Number.toExpoential.digits=¼ıÀÚ
+
+Class.Number.toFixed.digits=¼ıÀÚ
+
+Class.Number.toPrecision.precision=Á¤¹Ğµµ
+
 Class.Number.toString.radix=radix
 
 #7. Object
-
 Class.Object=°´Ã¼ ÇÔ¼ö
+
 Class.Object.toolTip=Çü½Ä °´Ã¼ÀÇ ±¸¼º¿øÀÔ´Ï´Ù
+
 Class.Object.Object=°´Ã¼
+
 Class.Object.Object.toolTip=°´Ã¼¸¦ »ı¼ºÇÕ´Ï´Ù
+
 Class.Object.hasOwnProperty=hasOwnProperty
+
 Class.Object.hasOwnProperty.toolTip=°´Ã¼°¡ ÁöÁ¤ÇÑ ÀÌ¸§ÀÇ ¼Ó¼ºÀ» °¡Áö´ÂÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â ºÎ¿ï °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Object.isPrototypeOf=isPrototypeOf
+
 Class.Object.isPrototypeOf.toolTip=´Ù¸¥ °´Ã¼ÀÇ ÇÁ·ÎÅäÅ¸ÀÔ Ã¼ÀÎ¿¡ °´Ã¼°¡ Á¸ÀçÇÏ´ÂÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â ºÎ¿ï °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Object.propertyIsEnumerable=propertyIsEnumerable
 Class.Object.propertyIsEnumerable.toolTip=ÁöÁ¤ÇÑ ¼Ó¼ºÀÌ °´Ã¼ÀÇ ÀÏºÎºĞÀÎÁö ±×¸®°í ¼¿ ¼ö ÀÖ´ÂÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â ºÎ¿ï °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Object.toLocaleString=toLocaleString
 Class.Object.toLocaleString.toolTip=ÇöÀç ·ÎÄÉÀÏÀ» »ç¿ëÇÏ¿© ¹®ÀÚ¿­·Î º¯È¯ÇÑ ³¯Â¥¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Object.toString=toString
 Class.Object.toString.toolTip=°´Ã¼ÀÇ ¹®ÀÚ¿­ Ç¥ÇöÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Object.valueOf=valueOf
 Class.Object.valueOf.toolTip=ÇöÀç ·ÎÄÉÀÏÀ» »ç¿ëÇÏ¿© ¹®ÀÚ¿­·Î º¯È¯ÇÑ ³¯Â¥¸¦ ¹İÈ¯ÇÕ´Ï´Ù
 
-Class.Object.Object.value=value
+Class.Object.Object.value=°ª
+
 Class.Object.hasOwnProperty.propname=propname
+
 Class.Object.isPrototypeOf.o=o
+
 Class.Object.propertyIsEnumerable.propname=propname
 
 #8. RegExp
-
 Class.RegExp=RegExp ÇÔ¼ö
+
 Class.RegExp.toolTip=°£´ÜÇÑ Á¤±Ô½Ä Áö¿øÀ» Á¦°øÇÕ´Ï´Ù
+
 Class.RegExp.RegExp=RegExp
+
 Class.RegExp.RegExp.toolTip=ÀÔ·Â ÆĞÅÏ ¹®ÀÚ¿­¿¡ ¹®¹ıÀ» Àû¿ëÇÕ´Ï´Ù
-Class.RegExp.global=global
+
+Class.RegExp.global=Àü¿ª
+
 Class.RegExp.global.toolTip=ÆĞÅÏÀÌ ÀüÃ¼ °Ë»ö ¹®ÀÚ¿­ÀÇ ¸ğµç Ç×¸ñ°ú ÀÏÄ¡ÇØ¾ß ÇÏ´ÂÁö ¾Æ´Ï¸é Ã¹¹øÂ° Ç×¸ñ°ú ÀÏÄ¡ÇÏ¸é µÇ´ÂÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â ºÎ¿ï °ªÀ» ¼³Á¤ ¶Ç´Â ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.RegExp.ignoreCase=ignoreCase
 Class.RegExp.ignoreCase.toolTip=ÆĞÅÏ °Ë»öÀÌ ´ë/¼Ò¹®ÀÚ¸¦ ±¸ºĞÇÏ´ÂÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â ºÎ¿ï °ªÀ» ¼³Á¤ ¶Ç´Â ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.RegExp.lastIndex=lastIndex
 Class.RegExp.lastIndex.toolTip=´ÙÀ½ ÀÏÄ¡¸¦ ½ÃÀÛÇÒ ¹®ÀÚ¿­ À§Ä¡¸¦ ÁöÁ¤ÇÏ´Â Á¤¼öÀÔ´Ï´Ù
-Class.RegExp.source=source
+
+Class.RegExp.source=¿øº»
+
 Class.RegExp.source.toolTip=ÇöÀç Á¤±Ô½ÄÀ» ³ªÅ¸³»´Â ÆĞÅÏ Çü½ÄÀÇ ¹®ÀÚ¿­ÀÔ´Ï´Ù
+
 Class.RegExp.exec=exec
+
 Class.RegExp.exec.toolTip=Á¤±Ô½Ä¿¡ ´ëÇØ ¹®ÀÚ¿­ÀÇ Á¤±Ô½Ä ÀÏÄ¡¸¦ ¼öÇàÇÕ´Ï´Ù
-Class.RegExp.test=test
+
+Class.RegExp.test=Å×½ºÆ®
+
 Class.RegExp.test.toolTip=ÁöÁ¤ÇÑ ¹®ÀÚ¿­¿¡ ´ëÇØ Á¤±Ô½Ä °Ë»öÀ» ½ÇÇàÇÏ¿© ÆĞÅÏ ÀÏÄ¡¸¦ Ã£¾Ò´ÂÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â ºÎ¿ï °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.RegExp.toString=toString
 Class.RegExp.toString.toolTip=ÇöÀç Á¤±Ô½ÄÀ» ³ªÅ¸³»´Â ÆĞÅÏ Çü½ÄÀÇ ¹®ÀÚ¿­·Î º¯È¯ÇÕ´Ï´Ù
 
 Class.RegExp.RegExp.pattern=pattern
-Class.RegExp.RegExp.attributes=attributes
-Class.RegExp.exec.string=string
-Class.RegExp.test.string=string
+
+Class.RegExp.RegExp.attributes=Æ¯¼º
+
+Class.RegExp.exec.string=¼Ò¹®ÀÚ ¹®ÀÚ¿­
+
+Class.RegExp.test.string=¼Ò¹®ÀÚ ¹®ÀÚ¿­
 
 #9.  ElementDefn
-
 Class.ElementDefn=ElementDefn Å¬·¡½º
+
 Class.ElementDefn.toolTip=º¸°í¼­ ¿ä¼Ò¿¡ ´ëÇÑ µğÀÚÀÎ Á¤º¸¸¦ Á¦°øÇÕ´Ï´Ù
-Class.ElementDefn.name=name
+
+Class.ElementDefn.name=ÀÌ¸§
+
 Class.ElementDefn.name.toolTip=¿ä¼ÒÀÇ ÀÌ¸§À» Á¦°øÇÕ´Ï´Ù
+
 Class.ElementDefn.extendsElement=extendsElement
 Class.ElementDefn.extendsElement.toolTip=ÀÌ ¿ä¼Ò°¡ È®ÀåÇÑ »óÀ§ ¿ä¼ÒÀÇ ÀÌ¸§À» Á¦°øÇÕ´Ï´Ù
+
 Class.ElementDefn.propertyDefns=propertyDefns
 Class.ElementDefn.propertyDefns.toolTip=¼Ó¼º Á¤ÀÇ ¹è¿­ÀÔ´Ï´Ù
+
 Class.ElementDefn.slotDefns=slotDefns
 Class.ElementDefn.slotDefns.toolTip=½½·Ô Á¤ÀÇ ¹è¿­ÀÔ´Ï´Ù
+
 Class.ElementDefn.property=[anyProperty]
 Class.ElementDefn.property.toolTip=ÀÌ ÀÌ¸§À» °¡Áø µğÀÚÀÎ-½Ã°£ ¼Ó¼º °ªÀ» Á¦°øÇÕ´Ï´Ù
-Class.ElementDefn.properties=properties
+
+Class.ElementDefn.properties=¼Ó¼º
+
 Class.ElementDefn.properties.toolTip=¼Ó¼º ÀÌ¸§À¸·Î ÀÎµ¦½ºµÈ ¼Ó¼º °ªÀÇ ¹è¿­ÀÔ´Ï´Ù
-Class.ElementDefn.slots=slots
+
+Class.ElementDefn.slots=½½·Ô
+
 Class.ElementDefn.slots.toolTip=¸¹Àº ¿ä¼Ò°¡ ÄÁÅ×ÀÌ³ÊÀÌ¸ç ÀÌµéÀº ´Ù¸¥ º¸°í¼­ ¿ä¼Ò¸¦ Æ÷ÇÔÇÏ°í ÀÖ½À´Ï´Ù
+
 Class.ElementDefn.allowsUserProperties=allowsUserProperties
 Class.ElementDefn.allowsUserProperties.toolTip=¿ä¼Ò°¡ »ç¿ëÀÚ ¼Ó¼ºÀ» Çã¿ëÇÏ´Â °æ¿ì Âü °ªÀÌ¸ç, ±×·¸Áö ¾ÊÀº °æ¿ì °ÅÁş °ªÀÔ´Ï´Ù
+
 Class.ElementDefn.hasStyle=hasStyle
 Class.ElementDefn.hasStyle.toolTip=¿ä¼Ò¿¡ ½ºÅ¸ÀÏÀÌ ÀÖ´Â °æ¿ì Âü °ªÀÌ¸ç, ±×·¸Áö ¾ÊÀº °æ¿ì °ÅÁş °ªÀÔ´Ï´Ù
-Class.ElementDefn.container=container
+
+Class.ElementDefn.container=ÄÁÅ×ÀÌ³Ê
+
 Class.ElementDefn.container.toolTip=¸¸¾à ÀÖ´Ù¸é ÀÌ ¿ä¼Ò¸¦ Æ÷ÇÔÇÏ°í ÀÖ´Â ÀÖ´Â ¿ä¼Ò Á¤ÀÇ¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.ElementDefn.containerSlot=containerSlot
 Class.ElementDefn.containerSlot.toolTip=ÀÌ ¿ä¼Ò¸¦ Æ÷ÇÔÇÏ´Â ½½·ÔÀÇ ÀÌ¸§À» °¡Á®¿É´Ï´Ù
 
@@ -1262,91 +2015,143 @@ Class.ElementDefn.containerSlot.toolTip=ÀÌ ¿ä¼Ò¸¦ Æ÷ÇÔÇÏ´Â ½½·ÔÀÇ ÀÌ¸§À» °¡Á®¿É´
 
 Class.ElementState=ElementState
 Class.ElementState.toolTip=º¸°í¼­ ¿ä¼ÒÀÇ ·±Å¸ÀÓ »óÅÂ¸¦ ³ªÅ¸³À´Ï´Ù
-Class.ElementState.design=design
+
+Class.ElementState.design=µğÀÚÀÎ
+
 Class.ElementState.design.toolTip=ÀÌ ÀÎ½ºÅÏ½º¿¡ ´ëÇÑ ¿ä¼Ò Á¤ÀÇ °´Ã¼¸¦ ¹İÈ¯ÇÕ´Ï´Ù
-Class.ElementState.property=property
+
+Class.ElementState.property=¼Ó¼º
+
 Class.ElementState.property.toolTip=ÁÖ¾îÁø ÀÌ¸§À» °¡Áø º¸°í¼­ ¿ä¼Ò ¼Ó¼ºÀÇ ·±Å¸ÀÓ °ªÀ» °¡Á®¿À°Å³ª ¼³Á¤ÇÏ´Â ÀÀ¿ë ÇÁ·Î±×·¥À» Çã¿ëÇÕ´Ï´Ù
-Class.ElementState.container=container
+
+Class.ElementState.container=ÄÁÅ×ÀÌ³Ê
+
 Class.ElementState.container.toolTip=ÀÖ´Â °æ¿ì ÀÌ ¿ä¼Ò¸¦ Æ÷ÇÔÇÏ°í ÀÖ´Â ¿ä¼Ò »óÅÂ °´Ã¼¸¦ ¹İÈ¯ÇÕ´Ï´Ù
-Class.ElementState.slot=slot
+
+Class.ElementState.slot=½½·Ô
+
 Class.ElementState.slot.toolTip=ÀÌ ¿ä¼Ò¸¦ Æ÷ÇÔÇÏ°í ÀÖ´Â ¿ä¼Òµé¿¡ ´ëÇÑ ¾×¼¼½º¸¦ Á¦°øÇÕ´Ï´Ù
 
 #11. Color
-
 Class.Color=»ö»ó Å¬·¡½º
+
 Class.Color.toolTip=ÀÌ¸§ ¶Ç´Â RGB °ªÀ¸·Î »ö °ªÀ» »ç¿ëÇÏ´Â ¸Ş¼­µå¸¦ Á¦°øÇÕ´Ï´Ù.
-Class.Color.transparent=transparent
+
+Class.Color.transparent=Åõ¸í
+
 Class.Color.transparent.toolTip=¼Ó¼ºÀÌ CSS Åõ¸í °ªÀ¸·Î ¼³Á¤µÈ °æ¿ì Âü °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Color.rgb=RGB
+
 Class.Color.rgb.toolTip=»öÀ» RGB °ªÀ¸·Î °¡Á®¿É´Ï´Ù
-Class.Color.value=value
+
+Class.Color.value=°ª
+
 Class.Color.value.toolTip=ÀÌ¸§(ÀÌ¸§À¸·Î ¼³Á¤µÇ¾î ÀÖÀ» °æ¿ì) ¶Ç´Â CSS RGB ¹®ÀÚ¿­(RGB·Î ¼³Á¤µÇ¾î ÀÖÀ» °æ¿ì)·Î »öÀ» °¡Á®¿É´Ï´Ù
+
 Class.Color.cssValue=cssValue
 Class.Color.cssValue.toolTip=CSS »ö ÀÌ¸§ÀÌµç RGB °ªÀÌµç CSS·Î ¼³Á¤ÇÒ ¼ö ÀÖ´Â Çü½ÄÀ¸·Î »öÀ» °¡Á®¿É´Ï´Ù
 
 
 #12. Dimension
-
 Class.Dimension=Â÷¿ø Å¬·¡½º
+
 Class.Dimension.toolTip=Â÷¿ø ¼Ó¼º °´Ã¼´Â CSS Â÷¿ø ¼Ó¼ºÀÇ ±¸¹® ºĞ¼®À» Ã³¸®ÇÕ´Ï´Ù
-Class.Dimension.value=value
+
+Class.Dimension.value=°ª
+
 Class.Dimension.value.toolTip=CSS¿Í È£È¯µÇ´Â Â÷¿ø °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
-Class.Dimension.measure=measure
+
+Class.Dimension.measure=ÃøÁ¤
+
 Class.Dimension.measure.toolTip=Â÷¿øÀÇ ÃøÁ¤ ºÎºĞÀ» °¡Á®¿É´Ï´Ù. Â÷¿øÀÌ »ó¼ö¸¦ »ç¿ëÇÏ¿© Á¤ÀÇµÈ °æ¿ì ³Î(null)ÀÔ´Ï´Ù
-Class.Dimension.units=units
+
+Class.Dimension.units=´ÜÀ§
+
 Class.Dimension.units.toolTip=Â÷¿øÀÇ ´ÜÀ§ ºÎºĞÀ» °¡Á®¿É´Ï´Ù. Â÷¿øÀÌ »ó¼ö¸¦ »ç¿ëÇÏ¿© Á¤ÀÇµÈ °æ¿ì ³Î(null)ÀÔ´Ï´Ù
 
 #13. PropertyDefn
-
 Class.PropertyDefn=PropertyDefn Å¬·¡½º
+
 Class.PropertyDefn.toolTip=¼Ó¼º Á¤ÀÇ °´Ã¼´Â BIRT ¶Ç´Â »ç¿ëÀÚ Á¤ÀÇ ¼Ó¼º¿¡ ´ëÇÑ ¸ŞÅ¸ µ¥ÀÌÅÍ Á¤º¸¸¦ Á¦°øÇÕ´Ï´Ù
+
 Class.PropertyDefn.isUserProperty=isUserProperty
 Class.PropertyDefn.isUserProperty.toolTip=»ç¿ëÀÚ Á¤ÀÇ ¼Ó¼ºÀÎ °æ¿ì Âü °ª, ½Ã½ºÅÛ Á¤ÀÇ ¼Ó¼ºÀÎ °æ¿ì °ÅÁş °ªÀÔ´Ï´Ù
-Class.PropertyDefn.name=name
+
+Class.PropertyDefn.name=ÀÌ¸§
+
 Class.PropertyDefn.name.toolTip=³»ºÎ ¼Ó¼º ÀÌ¸§
-Class.PropertyDefn.group=group
+
+Class.PropertyDefn.group=±×·ì
+
 Class.PropertyDefn.group.toolTip=¼Ó¼ºÀ» Æ÷ÇÔÇÏ´Â ±×·ì ÀÌ¸§
+
 Class.PropertyDefn.canInherit=canInherit
 Class.PropertyDefn.canInherit.toolTip=¼Ó¼ºÀ» »ó¼ÓÇÒ ¼ö ÀÖ´Â °æ¿ì Âü °ª, ±×·¸Áö ¾ÊÀº °æ¿ì °ÅÁş °ªÀÔ´Ï´Ù
+
 Class.PropertyDefn.isStyle=isStyle
 Class.PropertyDefn.isStyle.toolTip=¼Ó¼ºÀÌ ¿ä¼Ò ½ºÅ¸ÀÏÀÇ ÀÏºÎºĞÀÎ °æ¿ì Âü °ª, ±×·¸Áö ¾ÊÀº °æ¿ì °ÅÁş °ªÀÔ´Ï´Ù
-Class.PropertyDefn.type=type
+
+Class.PropertyDefn.type=Çü½Ä
+
 Class.PropertyDefn.type.toolTip=¼Ó¼º Çü½ÄÀÔ´Ï´Ù
-Class.PropertyDefn.choices=choices
+
+Class.PropertyDefn.choices=¼±ÅÃ
+
 Class.PropertyDefn.choices.toolTip=¼Ó¼º¿¡ ´ëÇÑ ¼±ÅÃ ¹è¿­ÀÔ´Ï´Ù
+
 Class.PropertyDefn.defaultValue=defaultValue
 Class.PropertyDefn.defaultValue.toolTip=¼Ó¼º¿¡ ´ëÇÑ ±âº» °ªÀÔ´Ï´Ù
 
 #14. Report
-
 Class.Report=º¸°í¼­ Å¬·¡½º
+
 Class.Report.toolTip=º¸°í¼­°¡ ½ÇÇà ÁßÀÎ º¸°í¼­ ¹× ÄÁÅØ½ºÆ®¿¡ ´ëÇÑ ¸ğµç Á¤º¸¿¡ ´ëÇÑ ¾×¼¼½º¸¦ Á¦°øÇÕ´Ï´Ù
-Class.Report.design=design
+
+Class.Report.design=µğÀÚÀÎ
+
 Class.Report.design.toolTip=º¸°í¼­ ¼³°è¸¦ ¼³¸íÇÏ´Â º¸°í¼­ Á¤ÀÇ °´Ã¼ÀÔ´Ï´Ù
-Class.Report.document=document
+
+Class.Report.document=¹®¼­
+
 Class.Report.document.toolTip=°øÀå¿¡¼­ »ı¼ºµÇ¾ú°Å³ª ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ÀĞ´Â º¸°í¼­ ¹®¼­¿¡ ´ëÇÑ Á¤º¸¸¦ Á¦°øÇÏ´Â º¸°í¼­ ¹®¼­ °´Ã¼¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Report.params=params
+
 Class.Report.params.toolTip=º¸°í¼­¿¡ Àü´ŞµÈ ¸Å°³ º¯¼ö °ªÀÇ °´Ã¼ ¹è¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Report.dataSets=datasets
+
 Class.Report.dataSets.toolTip=º¸°í¼­¿¡ Á¤ÀÇµÈ µ¥ÀÌÅÍ ÁıÇÕÀÇ ¹è¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Report.dataSources=dataSources
 Class.Report.dataSources.toolTip=º¸°í¼­¿¡ Á¤ÀÇµÈ µ¥ÀÌÅÍ ¼Ò½º(¿¬°á)¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Report.config=config
+
 Class.Report.config.toolTip=º¸°í¼­¿¡ »ç¿ë °¡´ÉÇÑ ±¸¼º º¯¼öÀÇ ¹è¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.Report.reportContext=reportContext
 Class.Report.reportContext.toolTip=ÀÌ º¸°í¼­¿Í °ü·ÃµÈ ÄÁÅØ½ºÆ®
 
 #15. ReportDoc
-
 Class.ReportDoc=ReportDoc
+
 Class.ReportDoc.toolTip=»ı¼º ÁßÀÌ°Å³ª º¸°í ÀÖ´Â º¸°í¼­¿¡ ´ëÇÑ Á¤º¸¸¦ Á¦°øÇÕ´Ï´Ù
-Class.ReportDoc.design=design
+
+Class.ReportDoc.design=µğÀÚÀÎ
+
 Class.ReportDoc.design.toolTip=ÀÌ ÀÎ½ºÅÏ½º¿¡ ´ëÇÑ ·çÆ® µğÀÚÀÎ °´Ã¼¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.ReportDoc.fileName=fileName
 Class.ReportDoc.fileName.toolTip=ÀÌ ÆÄÀÏ¿¡ ´ëÇÑ ÆÄÀÏ ÀÌ¸§(ÀÖÀ» °æ¿ì)ÀÌ ÀÛ¼ºµË´Ï´Ù
-Class.ReportDoc.destination=destination
+
+Class.ReportDoc.destination=´ë»ó
+
 Class.ReportDoc.destination.toolTip=ÆÄÀÏ ½Ã½ºÅÛ ¶Ç´Â ÀÓ½Ã¿Í °°Àº ´ë»ó Á¾·ùÀÔ´Ï´Ù
-Class.ReportDoc.body=body
+
+Class.ReportDoc.body=º»¹®
+
 Class.ReportDoc.body.toolTip=º»¹® ³» ¼½¼Ç ¸ñ·ÏÀÔ´Ï´Ù
 
 
@@ -1354,193 +2159,299 @@ Class.ReportDoc.body.toolTip=º»¹® ³» ¼½¼Ç ¸ñ·ÏÀÔ´Ï´Ù
 
 Class.ReportDefn=ReportDefn
 Class.ReportDefn.toolTip=º¸°í¼­¿¡ ´ëÇÑ ÀüÃ¼ µğÀÚÀÎ Á¤º¸¸¦ Á¦°øÇÕ´Ï´Ù
+
 Class.ReportDefn.findStyle=findStyle
 Class.ReportDefn.findStyle.toolTip=½ºÅ¸ÀÏ ÀÌ¸§ÀÌ ÁöÁ¤µÈ ½ºÅ¸ÀÏÀ» Ã£½À´Ï´Ù
+
 Class.ReportDefn.findStyle.styleName=styleName
 Class.ReportDefn.findReportItem=findReportItem
 Class.ReportDefn.findReportItem.toolTip=º¸°í¼­ Ç×¸ñ ÀÌ¸§ÀÌ ÁöÁ¤µÈ º¸°í¼­ Ç×¸ñÀ» Ã£½À´Ï´Ù
+
 Class.ReportDefn.findReportItem.itemName=itemName
 Class.ReportDefn.findDataSource=findDataSource
 Class.ReportDefn.findDataSource.toolTip=µ¥ÀÌÅÍ ¿øº» ÀÌ¸§ÀÌ ÁöÁ¤µÈ µ¥ÀÌÅÍ ¿øº»À» Ã£½À´Ï´Ù
+
 Class.ReportDefn.findDataSource.sourceName=sourceName
 Class.ReportDefn.findDataSet=findDataSet
 Class.ReportDefn.findDataSet.toolTip=µ¥ÀÌÅÍ ÁıÇÕ ÀÌ¸§ÀÌ ÁöÁ¤µÈ µ¥ÀÌÅÍ ÁıÇÕÀ» Ã£½À´Ï´Ù
+
 Class.ReportDefn.findDataSet.dataSetName=dataSetName
 Class.ReportDefn.findParameter=findParameter
 Class.ReportDefn.findParameter.toolTip=¸Å°³ º¯¼ö ÀÌ¸§ÀÌ ÁöÁ¤µÈ ¸Å°³ º¯¼ö¸¦ Ã£½À´Ï´Ù
+
 Class.ReportDefn.findParameter.parameterName=parameterName
 
 
 #17. DataSet
-
 Class.DataSet=DataSet Å¬·¡½º
+
 Class.DataSet.toolTip=µ¥ÀÌÅÍ ÁıÇÕ¿¡ ´ëÇÑ µğÀÚÀÎ ¹× ·±Å¸ÀÓ Á¤º¸¸¦ ¸ğµÎ Á¦°øÇÕ´Ï´Ù
-Class.DataSet.row=row
+
+Class.DataSet.row=Çà
+
 Class.DataSet.row.toolTip=ÇöÀç °¡Àå ¾ÈÂÊ ÇàÀ» ³ªÅ¸³À´Ï´Ù
-Class.DataSet.rows=rows
+
+Class.DataSet.rows=Çà
+
 Class.DataSet.rows.toolTip=ÀÌ °èÃş ³»ÀÇ Çà¿¡ ´ëÇÑ ¾×¼¼½º¸¦ Çã¿ëÇÕ´Ï´Ù
+
 Class.DataSet.queryText=queryText
 Class.DataSet.queryText.toolTip=ODA µ¥ÀÌÅÍ ¿øº»À¸·Î º¸³¾ Äõ¸® ÅØ½ºÆ®¸¦ Á¦°øÇÕ´Ï´Ù
+
 Class.DataSet.columnDefns=columnDefns
 Class.DataSet.columnDefns.toolTip=¿­ Á¤ÀÇ ¹è¿­ÀÔ´Ï´Ù
-Class.DataSet.schema=schema
+
+Class.DataSet.schema=½ºÅ°¸¶
+
 Class.DataSet.schema.toolTip=ODA µ¥ÀÌÅÍ ¿øº»¿¡ ´ëÇÑ ½ºÅ°¸¶ Á¤º¸¸¦ Á¦°øÇÏ´Â DataSetParamMetadata °´Ã¼ÀÔ´Ï´Ù
+
 Class.DataSet.inputParams=inputParams
 Class.DataSet.inputParams.toolTip=¸Å°³ º¯¼ö ¹è¿­ÀÎ ÀÔ·Â ¸Å°³ º¯¼ö °ª¿¡ ¾×¼¼½º¸¦ Á¦°øÇÕ´Ï´Ù
+
 Class.DataSet.outputParams=outputParams
 Class.DataSet.outputParams.toolTip=µ¥ÀÌÅÍ ÁıÇÕ¿¡ ´ëÇÑ Ãâ·Â ¸Å°³ º¯¼ö °ªÀÇ ¹è¿­ÀÔ´Ï´Ù
+
 Class.DataSet.extensionProperties=extensionProperties
 Class.DataSet.extensionProperties.toolTip=ODA µ¥ÀÌÅÍ ÁıÇÕ¿¡ ´ëÇÑ ODA °ø¿ë ¼Ó¼ºÀ» Á¦°øÇÕ´Ï´Ù
+
 Class.DataSet.privateProperties=privateProperties
 Class.DataSet.privateProperties.toolTip=ODA µ¥ÀÌÅÍ ÁıÇÕ¿¡ ´ëÇÑ ODA °³ÀÎ ¼Ó¼ºÀ» Á¦°øÇÕ´Ï´Ù
+
 Class.DataSet.dataSource=DataSource
 Class.DataSet.dataSource.toolTip=ÀÌ µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ »ç¿ëµÈ µ¥ÀÌÅÍ ¿øº» °´Ã¼¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
 
 
 #18. DataRow
-
 Class.DataRow=DataRow Å¬·¡½º
+
 Class.DataRow.toolTip=µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ ¹İÀÔÇÑ ÇÏ³ªÀÇ ÇàÀ» ³ªÅ¸³À´Ï´Ù
+
 Class.DataRow.DataRow=DataRow
+
 Class.DataRow.DataRow.toolTip=ÁöÁ¤µÈ µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ ºó µ¥ÀÌÅÍ ÇàÀ» ¸¸µé°Å³ª ºó µ¥ÀÌÅÍ ÇàÀ» ´Ù¸¥ µ¥ÀÌÅÍ ÇàÀÇ º¹»çº»À¸·Î ¸¸µå½Ê½Ã¿À
+
 Class.DataRow.DataRow.ds=ds
+
 Class.DataRow.DataRow.r=r
-Class.DataRow.column=column
+
+Class.DataRow.column=¿­
+
 Class.DataRow.column.toolTip=ÁöÁ¤ÇÑ ¿­ ÀÌ¸§ÀÇ ¿­ °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.DataRow.rowNo=rowNo
+
 Class.DataRow.rowNo.toolTip=°á°ú ÁıÇÕ ³» ÇàÀÇ À§Ä¡ÀÔ´Ï´Ù
+
 Class.DataRow.dataSet=dataSet
+
 Class.DataRow.dataSet.toolTip=ÇàÀ» »ı¼ºÇÑ µ¥ÀÌÅÍ ÁıÇÕ °´Ã¼¸¦ ¹İÈ¯ÇÕ´Ï´Ù
-Class.DataRow.schema=schema
+
+Class.DataRow.schema=½ºÅ°¸¶
+
 Class.DataRow.schema.toolTip=µ¥ÀÌÅÍ Çà¿¡ ´ëÇÑ ¿­ ¼³¸íÀÇ ¹è¿­À» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.DataRow.columnDefns=columnDefns
 Class.DataRow.columnDefns.toolTip=¿­ ¸ŞÅ¸µ¥ÀÌÅÍ¸¦ Á¤ÀÇÇÏ´Â ColumnDefn ¹è¿­ÀÔ´Ï´Ù. dataSet.columnDefns¿¡ ´ëÇÑ ¹Ù·Î °¡±âÀÔ´Ï´Ù.
 
 #19. ColumnDefn
-
 Class.ColumnDefn=ColumnDefn Å¬·¡½º
+
 Class.ColumnDefn.toolTip=µ¥ÀÌÅÍ Çà ¿­ÀÇ ¸ŞÅ¸ µ¥ÀÌÅÍ¸¦ ¼³¸íÇÕ´Ï´Ù
-Class.ColumnDefn.index=index
+
+Class.ColumnDefn.index=ÀÎµ¦½º
+
 Class.ColumnDefn.index.toolTip=µ¥ÀÌÅÍ ÁıÇÕ¿¡ ´ëÇÑ °á°ú ÁıÇÕ µ¥ÀÌÅÍ Çà ³»ÀÇ ¿­ ÀÎµ¦½º¸¦ ¹İÈ¯ÇÕ´Ï´Ù
-Class.ColumnDefn.name=name
+
+Class.ColumnDefn.name=ÀÌ¸§
+
 Class.ColumnDefn.name.toolTip=µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ Á¤ÀÇµÈ ¿­ ÀÌ¸§À» ¹İÈ¯ÇÕ´Ï´Ù
-Class.ColumnDefn.type=type
+
+Class.ColumnDefn.type=Çü½Ä
+
 Class.ColumnDefn.type.toolTip=¿­ÀÇ µ¥ÀÌÅÍ Çü½ÄÀ» ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.ColumnDefn.expr=expr
+
 Class.ColumnDefn.expr.toolTip=BIRT ½ÄÀ» »ç¿ëÇÏ¿© ¿­À» Á¤ÀÇÇÒ ¼ö ÀÖ½À´Ï´Ù
+
 Class.ColumnDefn.INTEGER=INTEGER
+
 Class.ColumnDefn.INTEGER.toolTip=Á¤¼ö ¿­¿¡ ´ëÇÑ »ó¼öÀÔ´Ï´Ù
+
 Class.ColumnDefn.FLOAT=FLOAT
+
 Class.ColumnDefn.FLOAT.toolTip=ºÎµ¿ ¼Ò¼öÁ¡ ¿­¿¡ ´ëÇÑ »ó¼öÀÔ´Ï´Ù
+
 Class.ColumnDefn.DECIMAL=DECIMAL
+
 Class.ColumnDefn.DECIMAL.toolTip=°íÁ¤ Á¤¹Ğµµ 10Áø¼ö¿¡ ´ëÇÑ »ó¼öÀÔ´Ï´Ù
+
 Class.ColumnDefn.BOOLEAN=BOOLEAN
+
 Class.ColumnDefn.BOOLEAN.toolTip=ºÎ¿ï °ª¿¡ ´ëÇÑ »ó¼öÀÔ´Ï´Ù
+
 Class.ColumnDefn.STRING=STRING
+
 Class.ColumnDefn.STRING.toolTip=¹®ÀÚ¿­ ¿­¿¡ ´ëÇÑ »ó¼öÀÔ´Ï´Ù
+
 Class.ColumnDefn.BLOB=BLOB
+
 Class.ColumnDefn.BLOB.toolTip=BLOB(Binary Large OBject) ¿­¿¡ ´ëÇÑ »ó¼öÀÔ´Ï´Ù
 
 
 #20. DataSetParamMetaData
-
 Class.DataSetParamMetaData=DataSetParamMetaData Å¬·¡½º
+
 Class.DataSetParamMetaData.toolTip=ODA µ¥ÀÌÅÍ ÁıÇÕÀÇ ÀÔ·Â ¹× Ãâ·Â ¸Å°³ º¯¼ö¿¡ ´ëÇÑ Á¤º¸¸¦ Á¦°øÇÕ´Ï´Ù
-Class.DataSetParamMetaData.description=description
+
+Class.DataSetParamMetaData.description=¼³¸í
+
 Class.DataSetParamMetaData.description.toolTip=ODA °ø±ŞÀÚ°¡ °ø±ŞÇÑ µ¥ÀÌÅÍ ÁıÇÕ ¼³¸íÀÔ´Ï´Ù
+
 Class.DataSetParamMetaData.resultSets=resultSets
 Class.DataSetParamMetaData.resultSets.toolTip=ODA µ¥ÀÌÅÍ ÁıÇÕÀÌ ¹İÈ¯ÇÑ °¢°¢ÀÇ °á°ú ÁıÇÕÀ» ¼³¸íÇÏ´Â ResultSetDefn °´Ã¼ ¹è¿­ÀÔ´Ï´Ù
+
 Class.DataSetParamMetaData.inputParams=inputParams
 Class.DataSetParamMetaData.inputParams.toolTip=DataSetInputParam °´Ã¼ Çü½ÄÀÇ ÀÔ·Â ¸Å°³ º¯¼ö Á¤ÀÇ ¹è¿­ÀÔ´Ï´Ù
+
 Class.DataSetParamMetaData.outputParams=outputParams
 Class.DataSetParamMetaData.outputParams.toolTip=DataSetOutputParam °´Ã¼ Çü½ÄÀÇ Ãâ·Â ¸Å°³ º¯¼ö Á¤ÀÇ ¹è¿­ÀÔ´Ï´Ù
 
 #21. ResultSetDefn
-
 Class.ResultSetDefn=ResultSetDefn
+
 Class.ResultSetDefn.toolTip=¿­ Á¤ÀÇ ¹è¿­À» Á¦°øÇÕ´Ï´Ù
-Class.ResultSetDefn.name=name
+
+Class.ResultSetDefn.name=ÀÌ¸§
+
 Class.ResultSetDefn.name.toolTip=°á°ú ÁıÇÕÀÇ ÀÌ¸§ÀÔ´Ï´Ù
-Class.ResultSetDefn.columns=columns
+
+Class.ResultSetDefn.columns=¿­
+
 Class.ResultSetDefn.columns.toolTip=ODA µ¥ÀÌÅÍ ÁıÇÕ¿¡ ±×µéÀÌ ¹İÈ¯ÇÑ °íÁ¤µÈ ¿­ ÁıÇÕÀÌ ÀÖ½À´Ï´Ù
+
 Class.ResultSetDefn.dataSet=dataSet
+
 Class.ResultSetDefn.dataSet.toolTip=ÀÌ °á°ú ÁıÇÕÀ» Á¦°øÇÏ´Â µ¥ÀÌÅÍ ÁıÇÕ¿¡ ´ëÇÑ ÂüÁ¶ÀÔ´Ï´Ù
 
 #22. ResultSetColumn
-
 Class.ResultSetColumn=ResultSetColumn
+
 Class.ResultSetColumn.toolTip=ODA °á°ú ÁıÇÕ ³»ÀÇ ¿­À» ¼³¸íÇÕ´Ï´Ù
-Class.ResultSetColumn.name=name
+
+Class.ResultSetColumn.name=ÀÌ¸§
+
 Class.ResultSetColumn.name.toolTip=µ¥ÀÌÅÍ Çà-¿­¿¡ ´ëÇÑ ¿ÜºÎ °íÀ¯ ÀÌ¸§ÀÔ´Ï´Ù
-Class.ResultSetColumn.position=position
+
+Class.ResultSetColumn.position=À§Ä¡
+
 Class.ResultSetColumn.position.toolTip=°á°ú ÁıÇÕ ³» ¿­¿¡ ´ëÇÑ 1 ±â¹İÀÇ ÀÎµ¦½º À§Ä¡(¿ŞÂÊ¿¡¼­ ¿À¸¥ÂÊ ¼ø¼­)ÀÔ´Ï´Ù
+
 Class.ResultSetColumn.displayName=displayName
 Class.ResultSetColumn.displayName.toolTip=¿­ÀÇ ºñÁî´Ï½º ÀÌ¸§ÀÔ´Ï´Ù
+
 Class.ResultSetColumn.nativeTypeCode=nativeTypeCode
 Class.ResultSetColumn.nativeTypeCode.toolTip=¿­¿¡ ´ëÇÑ °íÀ¯ µ¥ÀÌÅÍ Çü½Ä ÄÚµåÀÔ´Ï´Ù
+
 Class.ResultSetColumn.nativeTypeName=nativeTypeName
 Class.ResultSetColumn.nativeTypeName.toolTip=°íÀ¯ µ¥ÀÌÅÍ Çü½ÄÀÇ ÀÌ¸§À» Ç¥½ÃÇÏ½Ê½Ã¿À
+
 Class.ResultSetColumn.displayLength=displayLength
 Class.ResultSetColumn.displayLength.toolTip=µ¥ÀÌÅÍ °ªÀÇ ±âº» Ç¥½Ã ±æÀÌÀÔ´Ï´Ù
+
 Class.ResultSetColumn.displayFormat=displayFormat
 Class.ResultSetColumn.displayFormat.toolTip=º¸°í¼­ Ãâ·Â¿¡¼­ ÀÌ µ¥ÀÌÅÍ¸¦ Ç¥½ÃÇÒ ±âº» Çü½ÄÀ» ³ªÅ¸³»´Â ¹®ÀÚ¿­ÀÔ´Ï´Ù
+
 Class.ResultSetColumn.horizAlign=horizAlign
 Class.ResultSetColumn.horizAlign.toolTip=¿­ °ªÀ» ±âº»ÀûÀ¸·Î ¿ŞÂÊ, Áß¾Ó, ¿À¸¥ÂÊ ¾Æ´Ï¸é ÀÚµ¿ ¸ÂÃãÀ¸·Î Ç¥½ÃÇÒÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â ¿­°ÅµÈ °ªÀÔ´Ï´Ù
+
 Class.ResultSetColumn.heading=heading
+
 Class.ResultSetColumn.heading.toolTip=¿­ ¸Ó¸®±Û¿¡¼­ ¿­À» ½Äº°ÇÏ´Â ÀÚÀ¯ Çü½Ä ¹®ÀÚ¿­ÀÔ´Ï´Ù
-Class.ResultSetColumn.description=description
+
+Class.ResultSetColumn.description=¼³¸í
+
 Class.ResultSetColumn.description.toolTip=¿­¿¡ ´ëÇØ ÀÚ¼¼ÇÑ ¼³¸íÀ» Á¦°øÇÏ´Â ÀÚÀ¯ Çü½Ä ¹®ÀÚ¿­ÀÔ´Ï´Ù
+
 Class.ResultSetColumn.helpText=helpText
 Class.ResultSetColumn.helpText.toolTip=¿­¿¡ ´ëÇØ ÀÚ¼¼ÇÑ ¼³¸íÀ» Á¦°øÇÏ´Â ÀÚÀ¯ Çü½Ä ¹®ÀÚ¿­ÀÔ´Ï´Ù
+
 Class.ResultSetColumn.lineage=lineage
+
 Class.ResultSetColumn.lineage.toolTip=¿­ °ªÀÇ ¿øº»À» ¸í¸íÇÏ´Â ÀÚÀ¯ Çü½Ä ¹®ÀÚ¿­ÀÔ´Ï´Ù
-Class.ResultSetColumn.axis=axis
+
+Class.ResultSetColumn.axis=Ãà
+
 Class.ResultSetColumn.axis.toolTip=´ÙÁß Â÷¿ø µ¥ÀÌÅÍ ¿øº»¿¡¼­ ¿­À» °¡Á®¿Â °æ¿ì Àû¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù
+
 Class.ResultSetColumn.axisType=axisType
 Class.ResultSetColumn.axisType.toolTip=°ªÀÌ Â÷¿ø ±¸¼º¿ø, Â÷¿ø Æ¯¼º ¶Ç´Â ÃøÁ¤ Áß ÇÏ³ªÀÔ´Ï´Ù
+
 Class.ResultSetColumn.onColumnLayout=onColumnLayout
+
 Class.ResultSetColumn.onColumnLayout.toolTip=º¸°í¼­ Ãâ·Â¿¡¼­ ÀÌ ¿­À» ¾î¶»°Ô ·¹ÀÌ¾Æ¿ôÇÏ´ÂÁö¿¡ ´ëÇÑ ÈùÆ®ÀÔ´Ï´Ù
+
 Class.ResultSetColumn.DIMENSION_MEMBER=DIMENSION_MEMBER
 Class.ResultSetColumn.DIMENSION_MEMBER.toolTip=axisType ¼Ó¼º¿¡ ´ëÇÑ ¼±ÅÃÀÔ´Ï´Ù
+
 Class.ResultSetColumn.DIMENSION_ATTRIBUTE=DIMENSION_ATTRIBUTE
 Class.ResultSetColumn.DIMENSION_ATTRIBUTE.toolTip=axisType ¼Ó¼º¿¡ ´ëÇÑ ¼±ÅÃÀÔ´Ï´Ù
+
 Class.ResultSetColumn.MEASURE=MEASURE
+
 Class.ResultSetColumn.MEASURE.toolTip=axisType ¼Ó¼º¿¡ ´ëÇÑ ¼±ÅÃÀÔ´Ï´Ù
 
 
 #23. DataSetInputParam
-
 Class.DataSetInputParam=DataSetInputParam Å¬·¡½º
+
 Class.DataSetInputParam.toolTip=ODA µ¥ÀÌÅÍ ÁıÇÕ¿¡ ´ëÇØ ÇÏ³ªÀÇ ÀÔ·Â ¸Å°³ º¯¼ö¸¦ ¼³¸íÇÕ´Ï´Ù
-Class.DataSetInputParam.name=name
+
+Class.DataSetInputParam.name=ÀÌ¸§
+
 Class.DataSetInputParam.name.toolTip=ÀÔ·Â ¸Å°³ º¯¼öÀÇ °íÀ¯ ÀÌ¸§ÀÔ´Ï´Ù
+
 Class.DataSetInputParam.displayName=DataSetInputParam
+
 Class.DataSetInputParam.displayName.toolTip=ÀÔ·Â ¸Å°³ º¯¼öÀÇ ºñÁî´Ï½º ÀÌ¸§ÀÔ´Ï´Ù
-Class.DataSetInputParam.description=description
+
+Class.DataSetInputParam.description=¼³¸í
+
 Class.DataSetInputParam.description.toolTip=¸Å°³ º¯¼ö¿¡ ´ëÇØ ÀÚ¼¼ÇÑ ¼³¸íÀ» Á¦°øÇÏ´Â ÀÚÀ¯ Çü½Ä ¹®ÀÚ¿­ÀÔ´Ï´Ù
+
 Class.DataSetInputParam.nativeTypeCode=nativeTypeCode
 Class.DataSetInputParam.nativeTypeCode.toolTip=¸Å°³ º¯¼öÀÇ °íÀ¯ µ¥ÀÌÅÍ Çü½Ä ÄÚµåÀÔ´Ï´Ù
+
 Class.DataSetInputParam.nativeTypeName=nativeTypeName
 Class.DataSetInputParam.nativeTypeName.toolTip=°íÀ¯ µ¥ÀÌÅÍ Çü½ÄÀÇ ÀÌ¸§À» Ç¥½ÃÇÕ´Ï´Ù
+
 Class.DataSetInputParam.recordDefn=recordDefn
 Class.DataSetInputParam.recordDefn.toolTip=º¹ÇÕ ¸Å°³ º¯¼ö ³»ÀÇ °¢ ÇÊµå¿¡ ´ëÇÑ Á¤ÀÇÀÔ´Ï´Ù
 
 
 
 #24. DataSetOutputParam
-
 Class.DataSetOutputParam=DataSetOutputParam Å¬·¡½º
+
 Class.DataSetOutputParam.toolTip=ODA µ¥ÀÌÅÍ ÁıÇÕ¿¡ ´ëÇÑ ÇÏ³ªÀÇ Ãâ·Â ¸Å°³ º¯¼ö¸¦ ¼³¸íÇÕ´Ï´Ù
-Class.DataSetOutputParam.name=name
+
+Class.DataSetOutputParam.name=ÀÌ¸§
+
 Class.DataSetOutputParam.name.toolTip=Ãâ·Â ¸Å°³ º¯¼öÀÇ °íÀ¯ ÀÌ¸§ÀÔ´Ï´Ù
+
 Class.DataSetOutputParam.displayName=displayName
 Class.DataSetOutputParam.displayName.toolTip=Ãâ·Â ¸Å°³ º¯¼öÀÇ ºñÁî´Ï½º ÀÌ¸§ÀÔ´Ï´Ù
-Class.DataSetOutputParam.description=description
+
+Class.DataSetOutputParam.description=¼³¸í
+
 Class.DataSetOutputParam.description.toolTip=¸Å°³ º¯¼ö¿¡ ´ëÇÑ ÀÚ¼¼ÇÑ ¼³¸íÀ» Á¦°øÇÏ´Â ÀÚÀ¯ Çü½Ä ¹®ÀÚ¿­ÀÔ´Ï´Ù
+
 Class.DataSetOutputParam.nativeTypeCode=nativeTypeCode
 Class.DataSetOutputParam.nativeTypeCode.toolTip=¸Å°³ º¯¼öÀÇ °íÀ¯ µ¥ÀÌÅÍ Çü½Ä ÄÚµåÀÔ´Ï´Ù
+
 Class.DataSetOutputParam.nativeTypeName=nativeTypeName
 Class.DataSetOutputParam.nativeTypeName.toolTip=°íÀ¯ µ¥ÀÌÅÍ Çü½ÄÀÇ ÀÌ¸§À» Ç¥½ÃÇÕ´Ï´Ù
+
 Class.DataSetOutputParam.recordDefn=recordDefn
 Class.DataSetOutputParam.recordDefn.toolTip=º¹ÇÕ ¸Å°³ º¯¼ö ³» °¢ ÇÊµåÀÇ Á¤ÀÇÀÔ´Ï´Ù
 
@@ -1549,282 +2460,439 @@ Class.DataSetOutputParam.recordDefn.toolTip=º¹ÇÕ ¸Å°³ º¯¼ö ³» °¢ ÇÊµåÀÇ Á¤ÀÇÀÔ´Ï
 
 Class.ItemState=ItemState
 Class.ItemState.toolTip=º¸°í¼­ ¿ä¼Ò¿¡ ´ëÇÑ ·±Å¸ÀÓ »óÅÂ¸¦ ³ªÅ¸³À´Ï´Ù
-Class.ItemState.row=row
+
+Class.ItemState.row=Çà
+
 Class.ItemState.row.toolTip=ÇöÀç °¡Àå ¾ÈÂÊ ÇàÀ» ³ªÅ¸³À´Ï´Ù
-Class.ItemState.rows=rows
+
+Class.ItemState.rows=Çà
+
 Class.ItemState.rows.toolTip=ÀÌ °èÃş ³»ÀÇ Çà¿¡ ´ëÇØ ¾×¼¼½º¸¦ Çã¿ëÇÕ´Ï´Ù
 
 
 #26. Total
-
 Class.Total=ÇÕ°è(Áı°è) ÇÔ¼ö
+
 Class.Total.toolTip=Áı°è ÇÔ¼öÀÇ Ç¥½ÃÀÚÀÔ´Ï´Ù
+
 Class.Total.OVERALL=OVERALL
+
 Class.Total.OVERALL.toolTip=µ¥ÀÌÅÍ ÁıÇÕ¿¡ ´ëÇÑ ÀüÃ¼ ÇÕ°è¸¦ ¿äÃ»ÇÏ´Â ±×·ì ÀÎ¼ö¿¡¼­ »ç¿ëÇÏ´Â »ó¼öÀÔ´Ï´Ù
+
 Class.Total.NO_FILTER=NO_FILTER
 Class.Total.NO_FILTER.toolTip=ÇÊÅÍ°¡ ¾øÀ½À» Ç¥½ÃÇÏ±â À§ÇØ Áı°è ÇÔ¼öÀÇ ÇÊÅÍ ÀÎ¼ö¿¡ »ç¿ëµÇ´Â »ó¼ö
-Class.Total.sum=sum
+
+Class.Total.sum=ÇÕ
+
 Class.Total.sum.toolTip=¼ıÀÚ ½ÃÄö½ºÀÇ ÇÕ°èÀÔ´Ï´Ù
+
 Class.Total.runningSum=runningSum
+
 Class.Total.runningSum.toolTip=ÇÕ°è¿Í À¯»çÇÏÁö¸¸ º¸°í¼­ÀÇ ÁöÁ¤µÈ ÁöÁ¡¿¡¼­ ´©°è¸¦ Ç¥½ÃÇÕ´Ï´Ù
-Class.Total.count=count
+
+Class.Total.count=¼ö
+
 Class.Total.count.toolTip=ÇàÀÇ ¼öÀÔ´Ï´Ù
+
 Class.Total.runningCount=runningCount
 Class.Total.runningCount.toolTip=ÇöÀç ±×·ì¿¡¼­ ½ÇÇà ÁßÀÎ ÇàÀÇ ¼ö
+
 Class.Total.countDistinct=countDistinct
 Class.Total.countDistinct.toolTip=°íÀ¯ °ªÀÇ ¼öÀÔ´Ï´Ù
+
 Class.Total.max=max
+
 Class.Total.max.toolTip=¼ıÀÚ ½ÃÄö½º, ¹®ÀÚ¿­ ¶Ç´Â ³¯Â¥ÀÇ ÃÖ´ë°ªÀÔ´Ï´Ù
+
 Class.Total.min=min
+
 Class.Total.min.toolTip=¼ıÀÚ ½ÃÄö½º, ¹®ÀÚ¿­ ¶Ç´Â ³¯Â¥ÀÇ ÃÖ¼Ò°ªÀÔ´Ï´Ù
+
 Class.Total.ave=ave
+
 Class.Total.ave.toolTip=¼ıÀÚ ½ÃÄö½º ¶Ç´Â ³¯Â¥ÀÇ Æò±Õ°ªÀÔ´Ï´Ù
+
 Class.Total.weightedAve=weightedAve
+
 Class.Total.weightedAve.toolTip=¼ıÀÚ ½ÃÄö½ºÀÇ °¡ÁßÄ¡ÀÔ´Ï´Ù
+
 Class.Total.weightedAve.weight=weight
+
 Class.Total.movingAve=movingAve
+
 Class.Total.movingAve.toolTip=Æò±ÕÀ» °è»êÇÒ ¶§ »ç¿ëÀÚ°¡ ¼ıÀÚ °ªÀ» ÁöÁ¤ÇÑ ¼ıÀÚ ½ÃÄö½ºÀÇ ´©°èÀÔ´Ï´Ù
+
 Class.Total.movingAve.window=window
-Class.Total.median=median
+
+Class.Total.median=Áß¾Ó°ª
+
 Class.Total.median.toolTip=¼ıÀÚ ½ÃÄö½ºÀÇ ¼öÄ¡ Áß¾Ó°ªÀÔ´Ï´Ù
-Class.Total.mode=mode
+
+Class.Total.mode=¸ğµå
+
 Class.Total.mode.toolTip=°ª ½ÃÄö½ºÀÇ ¼öÄ¡ ¸ğµåÀÔ´Ï´Ù
+
 Class.Total.stdDev=stdDev
+
 Class.Total.stdDev.toolTip=¼ıÀÚ ½ÃÄö½ºÀÇ ¼öÄ¡ Ç¥ÁØ ÆíÂ÷ÀÔ´Ï´Ù
-Class.Total.variance=variance
+
+Class.Total.variance=ºĞ»ê
+
 Class.Total.variance.toolTip=¼ıÀÚ ½ÃÄö½ºÀÇ ¼öÄ¡ ÆíÂ÷ÀÔ´Ï´Ù
-Class.Total.first=first
+
+Class.Total.first=Ã³À½
+
 Class.Total.first.toolTip=½ÃÄö½ºÀÇ Ã¹ ¹øÂ° °ªÀÔ´Ï´Ù
-Class.Total.last=last
+
+Class.Total.last=¸¶Áö¸·
+
 Class.Total.last.toolTip=½ÃÄö½ºÀÇ ¸¶Áö¸· °ªÀÔ´Ï´Ù
+
 Class.Total.rank=µî±Ş
+
 Class.Total.rank.toolTip=°è¿­ÀÇ ¼ıÀÚ, ¹®ÀÚ¿­ ¶Ç´Â ³¯Â¥/½Ã°£ °ªÀÇ µî±Ş(1ºÎÅÍ ½ÃÀÛ)À» ¹İÈ¯ÇÕ´Ï´Ù.
+
 Class.Total.rank.ascending=¿À¸§Â÷¼ø
+
 Class.Total.percentRank=percentRank
 Class.Total.percentRank.toolTip=°ªÀÇ ºñÀ² µî±ŞÀ» ¹İÈ¯ÇÕ´Ï´Ù. ¹İÈ¯°ªÀº [0..1] ¹üÀ§ÀÇ ¼ıÀÚÀÔ´Ï´Ù.
+
 Class.Total.percentile=¹éºĞÀ§¼ö
+
 Class.Total.percentile.toolTip=¹éºĞÀ§¼ö °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù. pctÀÇ ¹üÀ§´Â 0¿¡¼­ 1±îÁöÀÔ´Ï´Ù. pct°¡ 0ÀÎ °æ¿ì Total.min(expr)¿Í °°Àº °ªÀ» ¹İÈ¯ÇÏ°í, pct°¡ 1ÀÎ °æ¿ì Total.max(expr)¿Í °°Àº °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+
 Class.Total.percentile.pct=¹éºĞÀ²
+
 Class.Total.quartile=4ºĞÀ§¼ö
+
 Class.Total.quartile.toolTip=¹éºĞÀ§¼ö °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù. 4ºĞÀ§¼ö´Â 1¿¡¼­ 4±îÁöÀÇ Á¤¼ö ¹üÀ§¿¡ ÀÖ½À´Ï´Ù. 4ºĞÀ§¼ö°¡ 1ÀÌ¸é Total.percentile(expr,0.25)°ú °°Àº °ªÀ» ¹İÈ¯ÇÏ°í, 4ºĞÀ§¼ö°¡  2ÀÌ¸é Total.percentile(expr,0.5)°ú °°Àº °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù
-Class.Total.quartile.quart=4ºĞÀ§¼ö
+
+Class.Total.quartile.quart=quart
+
 Class.Total.percentSum=percentSum
+
 Class.Total.percentSum.toolTip=Total.Equals ´ë expr/Total.sum(expr, [group])ÀÇ ¹éºĞÀ²
+
 Class.Total.isTopN=isTopN
+
 Class.Total.isTopN.toolTip=ÇØ´ç °ªÀÌ ±×·ì¿¡ ÀÖ´Â »óÀ§ n °ª Áß ÇÏ³ªÀÏ °æ¿ì Âü °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+
 Class.Total.isTopN.n=n
 Class.Total.isTopNPercent=isTopNPercent
+
 Class.Total.isTopNPercent.toolTip=ÇØ´ç °ªÀÌ ±×·ì¿¡ ÀÖ´Â »óÀ§(pct * 100) ¹éºĞÀ² °ª Áß ÇÏ³ªÀÏ °æ¿ì Âü °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù. ±×·¸Áö ¾ÊÀº °æ¿ì °ÅÁş °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+
 Class.Total.isTopNPercent.pct=¹éºĞÀ²
+
 Class.Total.isBottomN=isBottomN
+
 Class.Total.isBottomN.toolTip=ÇØ´ç °ªÀÌ ±×·ì¿¡ ÀÖ´Â ÇÏÀ§ n °ª Áß ÇÏ³ªÀÏ °æ¿ì Âü °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù. ±×·¸Áö ¾ÊÀº °æ¿ì °ÅÁş °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+
 Class.Total.isBottomN.n=n
 Class.Total.isBottomNPercent=isBottomNPercent
+
 Class.Total.isBottomNPercent.toolTip=ÇØ´ç °ªÀÌ ±×·ì¿¡ ÀÖ´Â ÇÏÀ§(pct * 100) ¹éºĞÀ² °ª Áß ÇÏ³ªÀÏ °æ¿ì Âü °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù. ±×·¸Áö ¾ÊÀº °æ¿ì °ÅÁş °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+
 Class.Total.isBottomNPercent.pct=¹éºĞÀ²
 
 #27. Finance
-
 Class.Finance=Àç¹« ÇÔ¼ö
+
 Class.Finance.toolTip=Á¤Àû Àç¹« ÇÔ¼öÀÇ ÄÃ·º¼ÇÀÔ´Ï´Ù
 
 Class.Finance.ddb=ddb
+
 Class.Finance.ddb.toolTip=ÁÖ¾îÁø ÇÑ ±â°£ µ¿¾È ÀÌÁß Ã¼°¨¹ıÀ» »ç¿ëÇÑ ÀÚ»êÀÇ °¨°¡ »ó°¢¾×ÀÔ´Ï´Ù
+
 Class.Finance.ddb.initialCost=initialCost
 Class.Finance.ddb.salvageValue=salvageValue
 Class.Finance.ddb.assetLifespan=assetLifespan
 Class.Finance.ddb.singlePeriod=singlePeriod
-
 Class.Finance.sln=sln
+
 Class.Finance.sln.toolTip=ÇÑ ±â°£ µ¿¾È Á¤À²¹ı¿¡ ÀÇÇÑ ÀÚ»êÀÇ °¨°¡ »ó°¢¾×ÀÔ´Ï´Ù
+
 Class.Finance.sln.initialCost=initialCost
 Class.Finance.sln.salvageValue=salvageValue
 Class.Finance.sln.assetLifespan=assetLifespan 
-
 Class.Finance.syd=syd
+
 Class.Finance.syd.toolTip=ÁÖ¾îÁø ±â°£ µ¿¾È ¿¬¼ö ÇÕ°è¹ı¿¡ ÀÇÇÑ ÀÚ»êÀÇ °¨°¡ »ó°¢¾×ÀÔ´Ï´Ù
+
 Class.Finance.syd.initialCost=initialCost
 Class.Finance.syd.salvageValue=salvageValue
 Class.Finance.syd.assetLifespan=assetLifespan
 Class.Finance.syd.singlePeriod=singlePeriod
-
 Class.Finance.fv=fv
+
 Class.Finance.fv.toolTip=ÁÖ±âÀûÀÌ°í °íÁ¤ÀûÀÎ Áö±Ş°ú °íÁ¤ÀûÀÎ ÀÌÀÚÀ²¿¡ ±Ù°ÅÇÑ ¿¬±İÀÇ ¿¹Ãø°ªÀÔ´Ï´Ù
+
 Class.Finance.fv.ratePerPeriod=ratePerPeriod
+
 Class.Finance.fv.numberPayPeriods=numberPayPeriods
+
 Class.Finance.fv.eachPmt=eachPmt
+
 Class.Finance.fv.presentValue=presentValue
 Class.Finance.fv.whenDue=whenDue
 
 Class.Finance.ipmt=ipmt
+
 Class.Finance.ipmt.toolTip=ÁÖ±âÀûÀÌ°í °íÁ¤ÀûÀÎ Áö±Ş°ú °íÁ¤ÀûÀÎ ÀÌÀÚÀ²¿¡ ±Ù°ÅÇÑ ÁÖ¾îÁø ±â°£ µ¿¾ÈÀÇ ¿¬±İ¿¡ ´ëÇÑ ÀÌÀÚ Áö±ŞÀÔ´Ï´Ù
+
 Class.Finance.ipmt.ratePerPeriod=ratePerPeriod
+
 Class.Finance.ipmt.singlePeriod=singlePeriod
 Class.Finance.ipmt.numberPayPeriods=numberPayPeriods
+
 Class.Finance.ipmt.presentValue=presentValue
 Class.Finance.ipmt.futureValue=futureValue
 Class.Finance.ipmt.whenDue=whenDue
 
 Class.Finance.nper=nper
+
 Class.Finance.nper.toolTip=ÁÖ±âÀûÀÌ°í °íÁ¤ÀûÀÎ Áö±Ş°ú °íÁ¤ÀûÀÎ ÀÌÀÚÀ²¿¡ ±Ù°ÅÇÑ ¿¬±İ¿¡ ´ëÇÑ ±â°£ ¼öÀÔ´Ï´Ù
+
 Class.Finance.nper.ratePerPeriod=ratePerPeriod
+
 Class.Finance.nper.eachPmt=eachPmt
+
 Class.Finance.nper.presentValue=presentValue
 Class.Finance.nper.futureValue=futureValue
 Class.Finance.nper.whenDue=whenDue
 
 Class.Finance.pmt=pmt
+
 Class.Finance.pmt.toolTip=ÁÖ±âÀûÀÌ°í °íÁ¤ÀûÀÎ Áö±Ş°ú °íÁ¤ÀûÀÎ ÀÌÀÚÀ²¿¡ ±Ù°ÅÇÑ ¿¬±İ¿¡ ´ëÇÑ Áö±ŞÀÔ´Ï´Ù
+
 Class.Finance.pmt.ratePerPeriod=ratePerPeriod
+
 Class.Finance.pmt.numberPayPeriods=numberPayPeriods
+
 Class.Finance.pmt.presentValue=presentValue
 Class.Finance.pmt.futureValue=futureValue
 Class.Finance.pmt.whenDue=whenDue
 
 Class.Finance.ppmt=ppmt
+
 Class.Finance.ppmt.toolTip=ÁÖ±âÀûÀÌ°í °íÁ¤ÀûÀÎ Áö±Ş°ú °íÁ¤ÀûÀÎ ÀÌÀÚÀ²¿¡ ±Ù°ÅÇÑ ÁÖ¾îÁø ±â°£ µ¿¾ÈÀÇ ¿¬±İ¿¡ ´ëÇÑ ¿ø±İ Áö±ŞÀÔ´Ï´Ù
+
 Class.Finance.ppmt.ratePerPeriod=ratePerPeriod
+
 Class.Finance.ppmt.singlePeriod=singlePeriod
 Class.Finance.ppmt.numberPayPeriods=numberPayPeriods
+
 Class.Finance.ppmt.presentValue=presentValue
 Class.Finance.ppmt.futureValue=futureValue
 Class.Finance.ppmt.whenDue=whenDue
 
 Class.Finance.pv=pv
+
 Class.Finance.pv.toolTip=¹Ì·¡¿¡ ÁöºÒÇÒ ÁÖ±âÀûÀÌ°í °íÁ¤ÀûÀÎ Áö±Ş°ú °íÁ¤ÀûÀÎ ÀÌÀÚÀ²¿¡ ±Ù°ÅÇÑ ¿¬±İ¿¡ ´ëÇÑ ÇöÀç °ªÀÔ´Ï´Ù
+
 Class.Finance.pv.ratePerPeriod=ratePerPeriod
+
 Class.Finance.pv.numberPayPeriods=numberPayPeriods
+
 Class.Finance.pv.eachPmt=eachPmt
+
 Class.Finance.pv.futureValue=futureValue
 Class.Finance.pv.whenDue=whenDue
 
-Class.Finance.rate=rate
+Class.Finance.rate=ºñÀ²
+
 Class.Finance.rate.toolTip=¿¬±İ¿¡ ´ëÇÑ ±â°£º° ÀÌÀÚÀ²ÀÔ´Ï´Ù
+
 Class.Finance.rate.numberPayPeriods=numberPayPeriods
+
 Class.Finance.rate.eachPmt=eachPmt
+
 Class.Finance.rate.presentValue=presentValue
 Class.Finance.rate.futureValue=futureValue
 Class.Finance.rate.whenDue=whenDue
-Class.Finance.rate.startingGuess=startingGuess
 
+Class.Finance.rate.startingGuess=startingGuess
 Class.Finance.irr=irr
+
 Class.Finance.irr.toolTip=±âÁ¸ ¹è¿­¿¡¼­ ÀÏ·ÃÀÇ ÁÖ±âÀû Çö±İ Èå¸§, Áö±Ş ¹× ¼ö±İ¿¡ ´ëÇÑ ³»ºÎ ¼öÀÍ·üÀÔ´Ï´Ù
+
 Class.Finance.irr.cashArray=cashArray
 Class.Finance.irr.startingGuess=startingGuess
-
 Class.Finance.npv=npv
+
 Class.Finance.npv.toolTip=ÁÖ¾îÁø ÀÌÀÚÀ²¿¡¼­ ÀÏ·ÃÀÇ ¿©·¯ ¾ç¼ö °ª ¹× À½¼ö °ªÀÇ ÁÖ±âÀû Çö±İ Èå¸§¿¡ ´ëÇÑ ¼ø ÇöÀç °¡Ä¡ÀÔ´Ï´Ù
-Class.Finance.npv.rate=rate
+
+Class.Finance.npv.rate=ºñÀ²
+
 Class.Finance.npv.cashArray=cashArray 
-
 Class.Finance.runningnpv=npv
-Class.Finance.runningnpv.toolTip=ÁÖ¾îÁø ÀÌÀÚÀ²¿¡¼­ ÀÏ·ÃÀÇ ¿©·¯ ÁÖ±âÀû Çö±İ Èå¸§(Áõ°¡ ¶Ç´Â °¨¼Ò)¿¡ ´ëÇÑ ¼ø ÇöÀç °¡Ä¡ÀÔ´Ï´Ù.
-Class.Finance.runningnpv.rate=rate
-Class.Finance.runningnpv.cashArray=cashArray 
 
+Class.Finance.runningnpv.toolTip=ÁÖ¾îÁø ÀÌÀÚÀ²¿¡¼­ ÀÏ·ÃÀÇ ¿©·¯ ÁÖ±âÀû Çö±İ Èå¸§(Áõ°¡ ¶Ç´Â °¨¼Ò)¿¡ ´ëÇÑ ¼ø ÇöÀç °¡Ä¡ÀÔ´Ï´Ù.
+
+Class.Finance.runningnpv.rate=ºñÀ²
+
+Class.Finance.runningnpv.cashArray=cashArray 
 Class.Finance.mirr=mirr
+
 Class.Finance.mirr.toolTip=±âÁ¸ ¹è¿­¿¡¼­ ÀÏ·ÃÀÇ ÁÖ±âÀû Çö±İ Èå¸§(Áö±Ş ¹× ¼ö±İ)¿¡ ´ëÇÑ ¼öÁ¤µÈ ³»ºÎ ¼öÀÍ·üÀÔ´Ï´Ù
+
 Class.Finance.mirr.cashArray=cashArray
-Class.Finance.mirr.rate=rate
+Class.Finance.mirr.rate=ºñÀ²
 
 Class.Finance.percent=percent
+
 Class.Finance.percent.toolTip=µÎ ¼ıÀÚÀÇ ¹éºĞÀ²À» °è»êÇÕ´Ï´Ù
+
 Class.Finance.percent.denom=denom
+
 Class.Finance.percent.num=num
-Class.Finance.percent.rate=rate
+
+Class.Finance.percent.rate=ºñÀ²
 
 #28. DateTimeSpan
-
 Class.DateTimeSpan=DateTimeSpan ÇÔ¼ö
+
 Class.DateTimeSpan.toolTip=µÎ ³¯Â¥ ¶Ç´Â ½Ã°£ ¹üÀ§¿¡¼­ ÀÛ¾÷ÇÏ´Â ÇÔ¼öÀÇ ÄÃ·º¼ÇÀÔ´Ï´Ù
-Class.DateTimeSpan.years=years
+
+Class.DateTimeSpan.years=¿¬
+
 Class.DateTimeSpan.years.toolTip=µÎ ³¯Â¥ »çÀÌÀÇ ÀüÃ¼ ¿¬µµ ¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.DateTimeSpan.years.startDate=startDate
 Class.DateTimeSpan.years.endDate=endDate
-Class.DateTimeSpan.months=months
+Class.DateTimeSpan.months=¿ù
+
 Class.DateTimeSpan.months.toolTip=µÎ ³¯Â¥ »çÀÌÀÇ ÀüÃ¼ ¿ù ¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.DateTimeSpan.months.startDate=startDate
 Class.DateTimeSpan.months.endDate=endDate
-Class.DateTimeSpan.days=days
+Class.DateTimeSpan.days=ÀÏ
+
 Class.DateTimeSpan.days.toolTip=µÎ ³¯Â¥ »çÀÌÀÇ ³¯Â¥ ¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.DateTimeSpan.days.startDate=startDate
 Class.DateTimeSpan.days.endDate=endDate
-Class.DateTimeSpan.hours=hours
+Class.DateTimeSpan.hours=½Ã
+
 Class.DateTimeSpan.hours.toolTip=µÎ ³¯Â¥/½Ã°£ »çÀÌÀÇ ½Ã°£ ¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.DateTimeSpan.hours.startDate=startDate
 Class.DateTimeSpan.hours.endDate=endDate
-Class.DateTimeSpan.minutes=minutes
+Class.DateTimeSpan.minutes=ºĞ
+
 Class.DateTimeSpan.minutes.toolTip=µÎ ³¯Â¥/½Ã°£ »çÀÌÀÇ ºĞ ¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.DateTimeSpan.minutes.startDate=startDate
 Class.DateTimeSpan.minutes.endDate=endDate
-Class.DateTimeSpan.seconds=seconds
+Class.DateTimeSpan.seconds=ÃÊ
+
 Class.DateTimeSpan.seconds.toolTip=µÎ ³¯Â¥/½Ã°£ »çÀÌÀÇ ÃÊ ¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù
+
 Class.DateTimeSpan.seconds.startDate=startDate
 Class.DateTimeSpan.seconds.endDate=endDate
 
 Class.DateTimeSpan.addDate=addDate
 Class.DateTimeSpan.addDate.toolTip=³¯Â¥¿¡ ¿¬µµ ¼ö, ¿ù ¼ö ¶Ç´Â ³¯Â¥ ¼ö¸¦ Ãß°¡ÇÕ´Ï´Ù
+
 Class.DateTimeSpan.addDate.startDate=startDate
-Class.DateTimeSpan.addDate.years=years
-Class.DateTimeSpan.addDate.months=months
-Class.DateTimeSpan.addDate.days=days
+Class.DateTimeSpan.addDate.years=¿¬
+
+Class.DateTimeSpan.addDate.months=¿ù
+
+Class.DateTimeSpan.addDate.days=ÀÏ
+
 
 
 Class.DateTimeSpan.addTime=addTime
 Class.DateTimeSpan.addTime.toolTip=³¯Â¥/½Ã°£¿¡ ½Ã°£ ¼ö,ºĞ ¼ö ¶Ç´Â ÃÊ ¼ö¸¦ Ãß°¡ÇÕ´Ï´Ù
+
 Class.DateTimeSpan.addTime.startDate=startDate
-Class.DateTimeSpan.addTime.hours=hours
-Class.DateTimeSpan.addTime.minutes=minutes
-Class.DateTimeSpan.addTime.seconds=seconds
+Class.DateTimeSpan.addTime.hours=½Ã
+
+Class.DateTimeSpan.addTime.minutes=ºĞ
+
+Class.DateTimeSpan.addTime.seconds=ÃÊ
+
 
 Class.DateTimeSpan.subDate=subDate
 Class.DateTimeSpan.subDate.toolTip=³¯Â¥¿¡¼­ ¿¬µµ ¼ö, ¿ù ¼ö ¶Ç´Â ³¯Â¥ ¼ö¸¦ »®´Ï´Ù
+
 Class.DateTimeSpan.subDate.startDate=startDate
-Class.DateTimeSpan.subDate.years=years
-Class.DateTimeSpan.subDate.months=months
-Class.DateTimeSpan.subDate.days=days
+Class.DateTimeSpan.subDate.years=¿¬
+
+Class.DateTimeSpan.subDate.months=¿ù
+
+Class.DateTimeSpan.subDate.days=ÀÏ
+
 
 
 Class.DateTimeSpan.subTime=subTime
 Class.DateTimeSpan.subTime.toolTip=³¯Â¥¿¡¼­ ½Ã°£ ¼ö, ºĞ ¼ö ¶Ç´Â ÃÊ ¼ö¸¦ »®´Ï´Ù
+
 Class.DateTimeSpan.subTime.startDate=startDate
-Class.DateTimeSpan.subTime.hours=hours
-Class.DateTimeSpan.subTime.minutes=minutes
-Class.DateTimeSpan.subTime.seconds=seconds
+Class.DateTimeSpan.subTime.hours=½Ã
+
+Class.DateTimeSpan.subTime.minutes=ºĞ
+
+Class.DateTimeSpan.subTime.seconds=ÃÊ
 
 #29.GlobalBirt
-
 Class.GlobalBirt=Àü¿ª º¯¼ö
+
 Class.GlobalBirt.toolTip=½Ä°ú ½ºÅ©¸³Æ®°¡ µ¥ÀÌÅÍ Çà ¹× º¸°í¼­ Á¤º¸¿¡ ´ëÇØ ¾×¼¼½º ÇÏµµ·Ï Çã¿ëÇÏ´Â Àü¿ª º¯¼öÀÇ ¼ö¸¦ Á¦°øÇÕ´Ï´Ù
-Class.GlobalBirt.datasets=Birt Data Sets
+
+Class.GlobalBirt.datasets=Birt µ¥ÀÌÅÍ ÁıÇÕ
+
 Class.GlobalBirt.datasets.toolTip=º¸°í¼­¿¡ Á¤ÀÇµÈ µ¥ÀÌÅÍ ÁıÇÕÀÇ ¹è¿­À» ¹İÈ¯ÇÕ´Ï´Ù
-Class.GlobalBirt.params=Birt Parameters
+
+Class.GlobalBirt.params=Birt ¸Å°³ º¯¼ö
+
 Class.GlobalBirt.params.toolTip=º¸°í¼­¿¡ Àü´ŞµÈ ¸Å°³ º¯¼ö °ªÀÇ °´Ã¼ ¹è¿­À» ¹İÈ¯ÇÕ´Ï´Ù
-Class.GlobalBirt.row=Birt Row
+
+Class.GlobalBirt.row=Birt Çà
+
 Class.GlobalBirt.row.toolTip=µ¥ÀÌÅÍ ÁıÇÕ ¶Ç´Â º¸°í¼­ ¿ä¼Ò¿¡ ´ëÇÑ ÇöÀç µ¥ÀÌÅÍ ÇàÀÔ´Ï´Ù
-Class.GlobalBirt.rows=Birt Rows
+
+Class.GlobalBirt.rows=Birt Çà
+
 Class.GlobalBirt.rows.toolTip=ÇöÀç ÄÁÅØ½ºÆ®¿¡ ´ëÇØ Á¤ÀÇµÈ Çà ½ºÅÃÀÔ´Ï´Ù
-Class.GlobalBirt.config=Birt Config
+
+Class.GlobalBirt.config=Birt ±¸¼º
+
 Class.GlobalBirt.config.toolTip=º¸°í¼­¿¡¼­ »ç¿ë °¡´ÉÇÑ ±¸¼º º¯¼öÀÇ ¹è¿­À» ¹İÈ¯ÇÕ´Ï´Ù. ÀÌ¸§/°ª ½ÖÀ¸·Î Ç¥½ÃÇÕ´Ï´Ù
-Class.GlobalBirt.report=Birt Report
+
+Class.GlobalBirt.report=Birt º¸°í¼­
+
 Class.GlobalBirt.report.toolTip=º¸°í¼­¿¡ ´ëÇÑ ¸ğµç Á¤º¸ ¹× º¸°í¼­°¡ ½ÇÇàÇÏ´Â ÄÁÅØ½ºÆ®¿¡ ´ëÇÑ ¾×¼¼½º¸¦ Á¦°øÇÕ´Ï´Ù
+
 Class.GlobalBirt.CurrentPage=ÇöÀç ÆäÀÌÁö ¹øÈ£
+
 Class.GlobalBirt.CurrentPage.toolTip=ÇöÀç ÆäÀÌÁö ¹øÈ£¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+
 Class.GlobalBirt.TotalPage=ÀüÃ¼ ÆäÀÌÁö ¼ö
+
 Class.GlobalBirt.TotalPage.toolTip=ÀüÃ¼ ÆäÀÌÁö ¼ö¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
-Class.GlobalBirt.this=This Object
+
+Class.GlobalBirt.this=°³Ã¼
+
 Class.GlobalBirt.this.toolTip=°³Ã¼¸¦ Ç¥½ÃÇÕ´Ï´Ù.
+
 Class.GlobalBirt.appContext=AppContext
 Class.GlobalBirt.appContext.toolTip=ÀÌ º¸°í¼­¿Í °ü·ÃµÈ ÄÁÅØ½ºÆ®
 
 #30 DataSource
-
 Class.DataSource=µ¥ÀÌÅÍ ¿øº» Å¬·¡½º
+
 Class.DataSource.toolTip=µ¥ÀÌÅÍ ¿øº» Å¬·¡½º´Â µ¥ÀÌÅÍ ¿øº»ÀÇ °øÀå ½Ã°£ »óÅÂ·ÎÀÇ ¾×¼¼½º¸¦ Á¦°øÇÕ´Ï´Ù. µ¥ÀÌÅÍ ¿øº» °´Ã¼´Â ÀÌ °´Ã¼¸¦ »ç¿ëÇÏ´Â µ¥ÀÌÅÍ ÁıÇÕ °´Ã¼¸¦ ÅëÇØ ¾×¼¼½ºÇÒ ¼ö ÀÖ½À´Ï´Ù.
+
 Class.DataSource.extensionID=extensionID
+
 Class.DataSource.extensionID.toolTip=ODA µå¶óÀÌ¹ö È®Àå¸í¿¡¼­ Á¤ÀÇÇÑ ¹Ù¿Í °°ÀÌ ODA µ¥ÀÌÅÍ ¿øº»ÀÇ extensionID °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù. extensionID´Â BIRT È¯°æÀÇ µ¥ÀÌÅÍ ¿øº» Çü½ÄÀ» °íÀ¯ÇÏ°Ô È®ÀÎÇÏ¸ç, ÀÌ ¼Ó¼ºÀº ¾÷µ¥ÀÌÆ®ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Class.DataSource.isOpen=isOpen
+
 Class.DataSource.isOpen.toolTip=µ¥ÀÌÅÍ ¿øº» ¿¬°á ¿©ºÎ¸¦ ³ªÅ¸³»´Â ºÎ¿ï °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+
 Class.DataSource.extensionProperties=extensionProperties
 Class.DataSource.extensionProperties.toolTip=ODA µ¥ÀÌÅÍ ¿øº»ÀÇ °³º° ¼Ó¼ºÀ» Á¦°øÇÕ´Ï´Ù.
 
@@ -1832,46 +2900,75 @@ Class.DataSource.extensionProperties.toolTip=ODA µ¥ÀÌÅÍ ¿øº»ÀÇ °³º° ¼Ó¼ºÀ» Á¦°øÇ
  
 Class.BirtComp=BirtComp
 Class.BirtComp.toolTip=Birt µ¥ÀÌÅÍ ºñ±³ Áö¿ø Á¦°ø
+
 Class.BirtComp.equalTo=equalsTo
+
 Class.BirtComp.equalTo.toolTip=x´Â y¿Í °°À½
+
 Class.BirtComp.equalTo.x=x
 Class.BirtComp.equalTo.y=y
+
 Class.BirtComp.greaterThan=greaterThan
 Class.BirtComp.greaterThan.toolTip=x´Â yº¸´Ù Å­
+
 Class.BirtComp.greaterThan.x=x
 Class.BirtComp.greaterThan.y=y
+
 Class.BirtComp.lessThan=lessThan
 Class.BirtComp.lessThan.toolTip=x´Â yº¸´Ù ÀÛÀ½
+
 Class.BirtComp.lessThan.x=x
 Class.BirtComp.lessThan.y=y
+
 Class.BirtComp.greaterOrEqual=greaterOrEqual
+
 Class.BirtComp.greaterOrEqual.toolTip=x´Â yº¸´Ù Å©°Å³ª °°À½
+
 Class.BirtComp.greaterOrEqual.x=x
 Class.BirtComp.greaterOrEqual.y=y
+
 Class.BirtComp.lessOrEqual=lessOrEqual
+
 Class.BirtComp.lessOrEqual.toolTip=x´Â yº¸´Ù ÀÛ°Å³ª °°À½
+
 Class.BirtComp.lessOrEqual.x=x
 Class.BirtComp.lessOrEqual.y=y
+
 Class.BirtComp.notEqual=notEqual
 Class.BirtComp.notEqual.toolTip=x´Â y¿Í °°Áö ¾ÊÀ½
+
 Class.BirtComp.notEqual.x=x
 Class.BirtComp.notEqual.y=y
-Class.BirtComp.between=between
+
+Class.BirtComp.between=-
+
 Class.BirtComp.between.toolTip=°ªÀº r1º¸´Ù Å©°Å³ª °°°í r2º¸´Ù ÀÛ°Å³ª °°À½
-Class.BirtComp.between.val=value
+
+Class.BirtComp.between.val=°ª
+
 Class.BirtComp.between.r1=r1
+
 Class.BirtComp.between.r2=r2
-Class.BirtComp.like=like
-Class.BirtComp.like.toolTip=x´Â SQL ÆĞÅÏ y¿Í ÀÏÄ¡ÇÔ 
+
+Class.BirtComp.like=À¯»ç
+
+Class.BirtComp.like.toolTip=x´Â SQL ÆĞÅÏ y¿Í ÀÏÄ¡ÇÔ
+
 Class.BirtComp.like.x=x
 Class.BirtComp.like.y=y
-Class.BirtComp.match=match
+
+Class.BirtComp.match=ÀÏÄ¡
+
 Class.BirtComp.match.toolTip=x´Â Javascript ÆĞÅÏ y¿Í ÀÏÄ¡ÇÔ
+
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
+
 Class.BirtComp.anyOf=anyOf
+
 Class.BirtComp.anyOf.toolTip=°ªÀÌ ´ÙÀ½ ÀÎ¼ö¿¡ ÀÖ´ÂÁö È®ÀÎ
-Class.BirtComp.anyOf.val=value
+
+Class.BirtComp.anyOf.val=°ª
 
 
 ###########################################################
@@ -1880,98 +2977,179 @@ Structure.MapRule=MapRule
 Structure.HighlightRule=HighlightRule
 Structure.CustomColor=CustomColor
 Structure.SearchKey=SearchKey
+
 Structure.Action=ÀÛ¾÷
+
 Structure.UserProperty=UserProperty
 Structure.SortKey=Á¤·Ä Å°
+
 Structure.FilterCondition=ÇÊÅÍ Á¶°Ç
+
 Structure.ConfigVar=±¸¼º º¯¼ö
+
 Structure.HideRule=¼û±â±â
+
 Structure.IncludeScript=½ºÅ©¸³Æ® Æ÷ÇÔ
+
 Structure.EmbeddedImage=³»ÀåµÈ ÀÌ¹ÌÁö
+
 Structure.OdaProperty=ODA ¼Ó¼º
+
 Structure.ParamBinding=¸Å°³ º¯¼ö ¹ÙÀÎµù
+
 Structure.ResultSetColumn=¿­
+
 Structure.ComputedColumn=°è»ê ¿­
+
 Structure.ColumnHint=¿­ ÈùÆ®
+
 Structure.IncludedLibrary=Æ÷ÇÔµÈ ¶óÀÌºê·¯¸®
+
 Structure.DataSetParam=µ¥ÀÌÅÍ ÁıÇÕ ¸Å°³ º¯¼ö
+
 Structure.PropertyMask=¼Ó¼º ¸¶½ºÅ©
+
 Structure.ExtendedProperty=È®Àå ¼Ó¼º
+
 Structure.CachedMetaData=Ä³½ÃµÈ ¸ŞÅ¸µ¥ÀÌÅÍ
+
 Structure.NumberFormatValue=¼ıÀÚ Çü½Ä °ª
+
 Structure.StringFormatValue=¹®ÀÚ¿­ Çü½Ä °ª
+
 Structure.DateTimeFormatValue=³¯Â¥/½Ã°£ Çü½Ä °ª
+
 Structure.DateFormatValue = µ¥ÀÌÅÍ Çü½Ä °ª
+
 Structure.TimeFormatValue = ½Ã°£ Çü½Ä °ª
+
 Structure.UserMethod=»ç¿ëÀÚ ¸Ş¼­µå
+
 Structure.PropertyBinding=¼Ó¼º ¹ÙÀÎµù
+
 Structure.JoinCondition=Á¶ÀÎ Á¶°Ç
+
 Structure.ParameterFormatValue=¸Å°³ º¯¼ö Çü½Ä °ª
-Structure.OdaDesignerState=Oda Designer State
+
+Structure.OdaDesignerState=ODA µğÀÚÀÌ³Ê »óÅÂ
+
 Structure.ScriptLib=½ºÅ©¸³Æ® Lib
+
 Structure.IncludedCssStyleSheet=CSS ½ºÅ¸ÀÏ½ÃÆ® Æ÷ÇÔ
+
 Structure.DimensionJoinCondition=Â÷¿ø Á¶ÀÎ Á¶°Ç
+
 Structure.FormatValue =Çü½Ä °ª
+
 Structure.CalculationArgument=°è»ê ÀÎ¼ö
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
 Structure.MapRule.operator=¿¬»êÀÚ
+
 Structure.MapRule.value1=value1
+
 Structure.MapRule.value2=value2
+
 Structure.MapRule.display=Ç¥½Ã
+
 Structure.MapRule.displayID=displayID
+
 Structure.MapRule.isDesignTime=µğÀÚÀÎ ½Ã°£ ¿©ºÎ
   
 #1.HighlightRule
 Structure.HighlightRule.operator=¿¬»êÀÚ
+
 Structure.HighlightRule.isDesignTime=µğÀÚÀÎ ½Ã°£ ¿©ºÎ
+
 Structure.HighlightRule.value1=°ª 1
+
 Structure.HighlightRule.value2=°ª 2
+
 Structure.HighlightRule.testExpr = TestExpression
 Structure.HighlightRule.strikethrough=Ãë¼Ò¼±
+
 Structure.HighlightRule.border.top.style=½ºÅ¸ÀÏ
+
 Structure.HighlightRule.border.top.width=³Êºñ
-Structure.HighlightRule.border.top.color=»ö»ó
+
+Structure.HighlightRule.border.top.color=»ö
+
 Structure.HighlightRule.border.left.style=½ºÅ¸ÀÏ
+
 Structure.HighlightRule.border.left.width=³Êºñ
-Structure.HighlightRule.border.left.color=»ö»ó
+
+Structure.HighlightRule.border.left.color=»ö
+
 Structure.HighlightRule.border.bottom.style=½ºÅ¸ÀÏ
+
 Structure.HighlightRule.border.bottom.width=³Êºñ
-Structure.HighlightRule.border.bottom.color=»ö»ó
+
+Structure.HighlightRule.border.bottom.color=»ö
+
 Structure.HighlightRule.border.right.style=½ºÅ¸ÀÏ
+
 Structure.HighlightRule.border.right.width=³Êºñ
-Structure.HighlightRule.border.right.color=»ö»ó
+
+Structure.HighlightRule.border.right.color=»ö
+
 Structure.HighlightRule.background.color=¹è°æ»ö
+
 Structure.HighlightRule.background.image=¹è°æ ÀÌ¹ÌÁö
+
 Structure.HighlightRule.backgroundRepeat=¹è°æ ¹İº¹
+
 Structure.HighlightRule.format.dateTime=³¯Â¥ ½Ã°£ Çü½Ä
+
 Structure.HighlightRule.format.number=¼ıÀÚ Çü½Ä
-Structure.HighlightRule.format.number.align=¼ıÀÚ ¸ÂÃã  
+
+Structure.HighlightRule.format.number.align=¼ıÀÚ ¸ÂÃã
+
 Structure.HighlightRule.format.string=¹®ÀÚ¿­ Çü½Ä
+
 Structure.HighlightRule.font.family=±Û²Ã
+
 Structure.HighlightRule.font.size=±Û²Ã Å©±â
+
 Structure.HighlightRule.font.style=±Û²Ã ½ºÅ¸ÀÏ
+
 Structure.HighlightRule.font.weight=±Û²Ã µÎ²²
+
 Structure.HighlightRule.font.variant=±Û²Ã º¯Çü
-Structure.HighlightRule.font.color=»ö»ó
+
+Structure.HighlightRule.font.color=»ö
+
 Structure.HighlightRule.font.textUnderline=¹ØÁÙ
+
 Structure.HighlightRule.font.textOverline=À­ÁÙ
+
 Structure.HighlightRule.font.textLineThrough=°¡¿îµ¥ ÁÙ
+
 Structure.HighlightRule.padding.top=¾ÈÂÊ ¿©¹é À§ÂÊ
+
 Structure.HighlightRule.padding.left=¾ÈÂÊ ¿©¹é ¿ŞÂÊ
+
 Structure.HighlightRule.padding.bottom=¾ÈÂÊ ¿©¹é ¾Æ·¡ÂÊ
+
 Structure.HighlightRule.padding.right=¾ÈÂÊ ¿©¹é ¿À¸¥ÂÊ
+
 Structure.HighlightRule.text.align=ÅØ½ºÆ® ¸ÂÃã
+
 Structure.HighlightRule.text.indent=ÅØ½ºÆ® µé¿©¾²±â
+
 Structure.HighlightRule.text.transform=ÅØ½ºÆ® º¯È¯
+
 Structure.HighlightRule.style=½ºÅ¸ÀÏ
-Structure.HighlightRule.text.direction=ÅØ½ºÆ® ¹æÇâ 
+
+Structure.HighlightRule.text.direction=ÅØ½ºÆ® ¹æÇâ
 
 #2.CustomColor
 Structure.CustomColor.name=ÀÌ¸§
-Structure.CustomColor.color=»ö»ó
+
+Structure.CustomColor.color=»ö
+
 Structure.CustomColor.displayName=Ç¥½Ã ÀÌ¸§
+
 Structure.CustomColor.displayNameID=Ç¥½Ã ÀÌ¸§ Å°
   
 #4.DrillThroughSearchKeys
@@ -1979,23 +3157,32 @@ Structure.SearchKey.expression=½Ä
   
 #5.UserProperty
 Structure.UserProperty.name=ÀÌ¸§
+
 Structure.UserProperty.type=Çü½Ä
+
 Structure.UserProperty.isVisible=Ç¥½Ã ¿©ºÎ
+
 Structure.UserProperty.displayNameID=Ç¥½Ã ÀÌ¸§ Å°
+
 Structure.UserProperty.displayName=Ç¥½Ã ÀÌ¸§
 
 #6.ConfigVar
 Structure.ConfigVar.name=ÀÌ¸§
+
 Structure.ConfigVar.value=°ª
 
 #7. SortKey
 Structure.SortKey.key=Á¤·Ä Å°
+
 Structure.SortKey.direction=Á¤·Ä ¹æÇâ
+
 Structure.SortKey.strength=¼öÁØ Á¤·Ä
+
 Structure.SortKey.locale=·ÎÄÉÀÏ Á¤·Ä
 
 #8. Hide
-Structure.HideRule.format=¼­½Ä
+Structure.HideRule.format=Çü½Ä
+
 Structure.HideRule.valueExpr=½Ä
 
 #9. IncludeScript
@@ -2003,166 +3190,270 @@ Structure.IncludeScript.fileName=ÆÄÀÏ ÀÌ¸§
 
 #10.EmbeddedImage
 Structure.EmbeddedImage.name=ÀÌ¸§
+
 Structure.EmbeddedImage.type=Çü½Ä
+
 Structure.EmbeddedImage.data=µ¥ÀÌÅÍ
+
 Structure.EmbeddedImage.libReference=¶óÀÌºê·¯¸® ÂüÁ¶
 
 #11.FilterCondition
 Structure.FilterCondition.operator=¿¬»êÀÚ
+
 Structure.FilterCondition.expr=½Ä
+
 Structure.FilterCondition.value1=°ª 1
+
 Structure.FilterCondition.value2=°ª 2
+
 Structure.FilterCondition.filterTarget=´ë»ó ÇÊÅÍ
+
 Structure.FilterCondition.isOptional=¿É¼Ç Ç×¸ñÀÔ´Ï´Ù.
+
 Structure.FilterCondition.extensionName=È®Àå ÀÌ¸§
+
 Structure.FilterCondition.extensionExprId=È®Àå ½Ä ID
+
 Structure.FilterCondition.pushDown=¾Æ·¡·Î ¹Ğ¾î³»±â
+
 Structure.FilterCondition.dynamicFilterParameter=µ¿Àû ÇÊÅÍ ¸Å°³ º¯¼ö
+
 Structure.FilterCondition.type=Çü½Ä
+
 Structure.FilterCondition.updateAggregation=Áı°è ¾÷µ¥ÀÌÆ®
 
 #10. PropertyMask
 Structure.PropertyMask.name=ÀÌ¸§
+
 Structure.PropertyMask.mask=¸¶½ºÅ©
 
 #11.OdaProperty
 Structure.OdaProperty.name=ÀÌ¸§
+
 Structure.OdaProperty.value=°ª
 
 #13. ParamBinding
 Structure.ParamBinding.paramName=¸Å°³ º¯¼ö ÀÌ¸§
+
 Structure.ParamBinding.expression=½Ä
 
 #14. ResultSetColumn
 Structure.ResultSetColumn.position=À§Ä¡
+
 Structure.ResultSetColumn.name=ÀÌ¸§
+
 Structure.ResultSetColumn.dataType=µ¥ÀÌÅÍ Çü½Ä
+
 Structure.ResultSetColumn.nativeDataType=°íÀ¯ µ¥ÀÌÅÍ Çü½Ä ÄÚµå
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=¿­ ÀÌ¸§
+
 Structure.ComputedColumn.displayName=¿­ Ç¥½Ã ÀÌ¸§
+
 Structure.ComputedColumn.displayNameID=¿­ Ç¥½Ã ÀÌ¸§ ID
+
 Structure.ComputedColumn.expression=½Ä
+
 Structure.ComputedColumn.dataType=µ¥ÀÌÅÍ Çü½Ä
+
 Structure.ComputedColumn.aggregateOn=AggregateOn ½Ä
+
 Structure.ComputedColumn.aggregateFunction=AggregateOn ÇÔ¼ö
+
 Structure.ComputedColumn.arguments=AggregateOn ÇÔ¼ö ÀÎ¼ö
+
 Structure.ComputedColumn.filterExpr=ÇÊÅÍ ½Ä
+
 Structure.ComputedColumn.allowExport=³»º¸³»±â Çã¿ë
+
 Structure.ComputedColumn.calculationType=°è»ê Çü½Ä
+
 Structure.ComputedColumn.calculationArguments=°è»ê ÀÎ¼ö
+
 Structure.ComputedColumn.refDateType=ÂüÁ¶ ³¯Â¥ Çü½Ä
+
 Structure.ComputedColumn.refDateValue=ÂüÁ¶ ³¯Â¥ °ª
+
 Structure.ComputedColumn.timeDimension=½Ã°£ Â÷¿ø
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=¿­ ÀÌ¸§
+
 Structure.ColumnHint.alias=º°Äª
+
 Structure.ColumnHint.searching=°Ë»ö
+
 Structure.ColumnHint.export=³»º¸³»±â
+
 Structure.ColumnHint.analysis=ºĞ¼®
+
 Structure.ColumnHint.parentLevel=»óÀ§ ¼öÁØ
-Structure.ColumnHint.format=¼­½Ä
+
+Structure.ColumnHint.format=Çü½Ä
+
 Structure.ColumnHint.helpText=µµ¿ò¸» ÅØ½ºÆ®
+
 Structure.ColumnHint.helpTextID=µµ¿ò¸» ÅØ½ºÆ® ¸®¼Ò½º Å°
+
 Structure.ColumnHint.displayName=Ç¥½Ã ÀÌ¸§
+
 Structure.ColumnHint.displayNameID=Ç¥½Ã ÀÌ¸§ ¸®¼Ò½º Å°
+
 Structure.ColumnHint.onColumnLayout=¿­ ·¹ÀÌ¾Æ¿ô ½Ã
+
 Structure.ColumnHint.heading=¸Ó¸®±Û
+
 Structure.ColumnHint.headingID=¸Ó¸®±Û ¸®¼Ò½º Å°
+
 Structure.ColumnHint.displayLength=Ç¥½Ã ±æÀÌ
-Structure.ColumnHint.horizontalAlign=¼öÆò ¸ÂÃã        
+
+Structure.ColumnHint.horizontalAlign=¼öÆò ¸ÂÃã
+
 Structure.ColumnHint.wordWrap=ÀÚµ¿ ÁÙ ¹Ù²Ş
+
 Structure.ColumnHint.textFormat=ÅØ½ºÆ® Çü½Ä
+
 Structure.ColumnHint.description=¼³¸í
+
 Structure.ColumnHint.descriptionID=¼³¸í ¸®¼Ò½º Å°
+
 Structure.ColumnHint.action=ÀÛ¾÷
-Structure.ColumnHint.ACLExpression=ACL ½Ä	
+
+Structure.ColumnHint.ACLExpression=ACL ½Ä
+
 Structure.ColumnHint.analysisColumn=ºĞ¼® ¿­
+
 Structure.ColumnHint.valueFormat=°ª Çü½Ä
+
 Structure.ColumnHint.indexColumn=ÀÎµ¦½º ¿­
+
 Structure.ColumnHint.compressed=¾ĞÃàµÊ
 
 #12. SelectionList Choice
 Structure.SelectionChoice=¼±ÅÃ ¿µ¿ª ¼±ÅÃ
+
 Structure.SelectionChoice.value=°ª
+
 Structure.SelectionChoice.label=·¹ÀÌºí
+
 Structure.SelectionChoice.labelID=·¹ÀÌºí ¸®¼Ò½º Å°
 
 #13. IncludedLibrary
 Structure.IncludedLibrary.fileName=ÆÄÀÏ ÀÌ¸§
+
 Structure.IncludedLibrary.namespace=³×ÀÓ½ºÆäÀÌ½º
 
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=ÆÄÀÏ ÀÌ¸§
+
 Structure.IncludedCssStyleSheet.externalCssURI=¿ÜºÎ CSS URI
+
 Structure.IncludedCssStyleSheet.useExternalCss=¿ÜºÎ CSS »ç¿ë
 
 #15. DataSetParam
 Structure.DataSetParam.name=ÀÌ¸§
+
 Structure.DataSetParam.dataType=µ¥ÀÌÅÍ Çü½Ä
+
 Structure.DataSetParam.position=À§Ä¡
+
 Structure.DataSetParam.defaultValue=±âº»°ª
+
 Structure.DataSetParam.isOptional=¿É¼Ç Ç×¸ñÀÔ´Ï´Ù.
+
 Structure.DataSetParam.allowNull=³Î(null) Çã¿ë
+
 Structure.DataSetParam.isInput=ÀÔ·Â ¸Å°³ º¯¼öÀÔ´Ï´Ù.
+
 Structure.DataSetParam.isOutput=Ãâ·Â ¸Å°³ º¯¼öÀÔ´Ï´Ù.
+
 Structure.DataSetParam.nativeDataType=°íÀ¯ µ¥ÀÌÅÍ Çü½Ä ÄÚµå
+
 Structure.DataSetParam.displayName=Ç¥½Ã ÀÌ¸§
+
 Structure.DataSetParam.displayNameID=Ç¥½Ã ÀÌ¸§ ¸®¼Ò½º Å°
+
 Structure.DataSetParam.heading=¸Ó¸®±Û
+
 Structure.DataSetParam.headingID=¸Ó¸®±Û ¸®¼Ò½º Å°
+
 Structure.DataSetParam.helpText=µµ¿ò¸» ÅØ½ºÆ®
+
 Structure.DataSetParam.helpTextID=µµ¿ò¸» ÅØ½ºÆ® ¸®¼Ò½º Å°
+
 Structure.DataSetParam.description=¼³¸í
+
 Structure.DataSetParam.descriptionID=¼³¸í ¸®¼Ò½º Å°
 
 #16. ExtendedProperty
 Structure.ExtendedProperty.name=ÀÌ¸§
+
 Structure.ExtendedProperty.value=°ª
 
 #17. Action
 Structure.Action.linkType=¸µÅ© Çü½Ä
+
 Structure.Action.toolTip=µµ±¸ ¼³¸í
+
 Structure.Action.targetWindow=´ë»ó
+
 Structure.Action.linkExpr=¸µÅ© ½Ä
+
 Structure.Action.uri=À§Ä¡
+
 Structure.Action.targetBookmark=Ã¥°¥ÇÇ ¸µÅ©
+
 Structure.Action.reportName=º¸°í¼­ ÀÌ¸§
+
 Structure.Action.paramBindings=¸Å°³ º¯¼ö ¹ÙÀÎµù
+
 Structure.Action.search=°Ë»ö Å°
+
 Structure.Action.formatType=¼­½Ä Çü½Ä
+
 Structure.Action.targetFileType=´ë»ó ÆÄÀÏ Çü½Ä
+
 Structure.Action.targetBookmarkType=´ë»ó Ã¥°¥ÇÇ Çü½Ä
 
 #18. CachedMetaData
 Structure.CachedMetaData.parameters=¸Å°³ º¯¼ö
+
 Structure.CachedMetaData.resultSet=°á°ú ÁıÇÕ ¿­
 
 #19. NumberFormatValue
 Structure.NumberFormatValue.category=¹üÁÖ
+
 Structure.NumberFormatValue.pattern=ÆĞÅÏ
+
 Structure.NumberFormatValue.locale=·ÎÄÉÀÏ
 
 #20. StringFormatValue
 Structure.StringFormatValue.category=¹üÁÖ
+
 Structure.StringFormatValue.pattern=ÆĞÅÏ
+
 Structure.StringFormatValue.locale=·ÎÄÉÀÏ
 
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=¹üÁÖ
+
 Structure.DateTimeFormatValue.pattern=ÆĞÅÏ
+
 Structure.DateTimeFormatValue.locale=·ÎÄÉÀÏ
 
 #21. DateFormatValue
 Structure.DateFormatValue.category=¹üÁÖ
+
 Structure.DateFormatValue.pattern=ÆĞÅÏ
+
 Structure.DateFormatValue.locale=·ÎÄÉÀÏ
 
 #21. TimeFormatValue
 Structure.TimeFormatValue.category=¹üÁÖ
+
 Structure.TimeFormatValue.pattern=ÆĞÅÏ
+
 Structure.TimeFormatValue.locale=·ÎÄÉÀÏ
 
 #22. UserMethod
@@ -2170,55 +3461,90 @@ Structure.UserMethod.name=ÀÌ¸§
 
 #23. PropertyBinding
 Structure.PropertyBinding.name=ÀÌ¸§
+
 Structure.PropertyBinding.id=¿ä¼Ò ID
+
 Structure.PropertyBinding.value=°ª
 
 #24. JoinCondition
 Structure.JoinCondition.joinType=Á¶ÀÎ Çü½Ä
+
 Structure.JoinCondition.joinOperator=Á¶ÀÎ ¿¬»êÀÚ
+
 Structure.JoinCondition.leftDataSet=¿ŞÂÊ µ¥ÀÌÅÍ ÁıÇÕ
+
 Structure.JoinCondition.rightDataSet=¿À¸¥ÂÊ µ¥ÀÌÅÍ ÁıÇÕ
+
 Structure.JoinCondition.leftExpression=ÁÂº¯
+
 Structure.JoinCondition.rightExpression=¿ìº¯
 
 #25. ParameterFormatValue
 Structure.ParameterFormatValue.category=¹üÁÖ
+
 Structure.ParameterFormatValue.pattern=ÆĞÅÏ
+
 Structure.ParameterFormatValue.locale=·ÎÄÉÀÏ
 
 #26. OdaDesignerState
 Structure.OdaDesignerState.version=¹öÀü
-Structure.OdaDesignerState.stateContentAsString=State content as string
-Structure.OdaDesignerState.stateContentAsBlob=State content as Blob
+
+Structure.OdaDesignerState.stateContentAsString=»óÅÂ ³»¿ëÀ» ¹®ÀÚ¿­·Î Ç¥½Ã
+
+Structure.OdaDesignerState.stateContentAsBlob=»óÅÂ ³»¿ëÀ» BLOB·Î Ç¥½Ã
 
 #27. OdaResultSetColumn
 Structure.OdaResultSetColumn=OdaResultSetColumn
+
 Structure.OdaResultSetColumn.position=À§Ä¡
+
 Structure.OdaResultSetColumn.name=ÀÌ¸§
+
 Structure.OdaResultSetColumn.nativeName=°íÀ¯ ÀÌ¸§
+
 Structure.OdaResultSetColumn.dataType=µ¥ÀÌÅÍ Çü½Ä
+
 Structure.OdaResultSetColumn.nativeDataType=°íÀ¯ µ¥ÀÌÅÍ Çü½Ä ÄÚµå
 
 #28. OdaDataSetParam
 Structure.OdaDataSetParam=OdaDataSetParam
+
 Structure.OdaDataSetParam.name=ÀÌ¸§
+
 Structure.OdaDataSetParam.paramName=¸Å°³ º¯¼ö ÀÌ¸§
+
 Structure.OdaDataSetParam.nativeName=°íÀ¯ ÀÌ¸§
+
 Structure.OdaDataSetParam.dataType=µ¥ÀÌÅÍ Çü½Ä
+
 Structure.OdaDataSetParam.nativeDataType=°íÀ¯ µ¥ÀÌÅÍ Çü½Ä ÄÚµå
+
 Structure.OdaDataSetParam.position=À§Ä¡
+
 Structure.OdaDataSetParam.defaultValue=±âº»°ª
+
 Structure.OdaDataSetParam.isOptional=¿É¼Ç ¿©ºÎ
+
 Structure.OdaDataSetParam.allowNull=³Î(null) Çã¿ë
+
 Structure.OdaDataSetParam.isInput=ÀÔ·Â ¿©ºÎ
+
 Structure.OdaDataSetParam.isOutput=Ãâ·Â ¿©ºÎ
+
 Structure.OdaDataSetParam.displayName=Ç¥½Ã ÀÌ¸§
+
 Structure.OdaDataSetParam.displayNameID=Ç¥½Ã ÀÌ¸§ ¸®¼Ò½º Å°
+
 Structure.OdaDataSetParam.heading=¸Ó¸®±Û
+
 Structure.OdaDataSetParam.headingID=¸Ó¸®±Û ¸®¼Ò½º Å°
+
 Structure.OdaDataSetParam.helpText=µµ¿ò¸» ÅØ½ºÆ®
+
 Structure.OdaDataSetParam.helpTextID=µµ¿ò¸» ÅØ½ºÆ® ¸®¼Ò½º Å°
+
 Structure.OdaDataSetParam.description=¼³¸í
+
 Structure.OdaDataSetParam.descriptionID=¼³¸í ¸®¼Ò½º Å°
 
 #27. ScriptLib
@@ -2226,202 +3552,354 @@ Structure.ScriptLib.name =½ºÅ©¸³Æ® Lib ÀÌ¸§
 
 #28. TOC
 Structure.TOC=¸ñÂ÷
+
 Structure.TOC.Expression=½Ä
+
 Structure.TOC.TOCStyle=TOC ½ºÅ¸ÀÏ
+
 Structure.TOC.border.top.style=Å×µÎ¸® À§ÂÊ ½ºÅ¸ÀÏ
+
 Structure.TOC.border.top.width=Å×µÎ¸® À§ÂÊ ³Êºñ
+
 Structure.TOC.border.top.color=Å×µÎ¸® À§ÂÊ »ö
+
 Structure.TOC.border.left.style=Å×µÎ¸® ¿ŞÂÊ ½ºÅ¸ÀÏ
+
 Structure.TOC.border.left.width=Å×µÎ¸® ¿ŞÂÊ ³Êºñ
+
 Structure.TOC.border.left.color=Å×µÎ¸® ¿ŞÂÊ »ö
+
 Structure.TOC.border.bottom.style=Å×µÎ¸® ¾Æ·¡ÂÊ ½ºÅ¸ÀÏ
+
 Structure.TOC.border.bottom.width=Å×µÎ¸® ¾Æ·¡ÂÊ ³Êºñ
+
 Structure.TOC.border.bottom.color=Å×µÎ¸® ¾Æ·¡ÂÊ »ö
+
 Structure.TOC.border.right.style=Å×µÎ¸® ¿À¸¥ÂÊ ½ºÅ¸ÀÏ
+
 Structure.TOC.border.right.width=Å×µÎ¸® ¿À¸¥ÂÊ ³Êºñ
+
 Structure.TOC.border.right.color=Å×µÎ¸® ¿À¸¥ÂÊ »ö
+
 Structure.TOC.background.color=¹è°æ»ö
+
 Structure.TOC.format.dateTime=³¯Â¥ ½Ã°£ Çü½Ä
+
 Structure.TOC.format.number=¼ıÀÚ Çü½Ä
+
 Structure.TOC.format.number.align=¼ıÀÚ ¸ÂÃã Çü½Ä
+
 Structure.TOC.format.string=¹®ÀÚ¿­ Çü½Ä
+
 Structure.TOC.font.family=±Û²Ã ÆĞ¹Ğ¸®
+
 Structure.TOC.font.size=±Û²Ã Å©±â
+
 Structure.TOC.font.style=±Û²Ã ½ºÅ¸ÀÏ
+
 Structure.TOC.font.weight=±Û²Ã µÎ²²
+
 Structure.TOC.font.variant=±Û²Ã º¯Çü
+
 Structure.TOC.font.color=±Û²Ã »ö»ó
+
 Structure.TOC.font.textUnderline=±Û²Ã ÅØ½ºÆ® ¹ØÁÙ
+
 Structure.TOC.font.textOverline=±Û²Ã ÅØ½ºÆ® À­ÁÙ
+
 Structure.TOC.font.textLineThrough=±Û²Ã ÅØ½ºÆ® Ãë¼Ò¼±
+
 Structure.TOC.text.align=ÅØ½ºÆ® ¸ÂÃã
+
 Structure.TOC.text.indent=ÅØ½ºÆ® µé¿©¾²±â
+
 Structure.TOC.text.transform=ÅØ½ºÆ® º¯È¯
+
 Structure.TOC.text.direction=ÅØ½ºÆ® ¹æÇâ
 
 #29. DimensionCondition
 Structure.DimensionCondition=Â÷¿ø Á¶°Ç
+
 Structure.DimensionCondition.joinConditions=Á¶ÀÎ Á¶°Ç
+
 Structure.DimensionCondition.hierarchy=°èÃş
 
 #30. Rule
 Structure.Rule=±ÔÄ¢
+
 Structure.Rule.ruleExpre=±ÔÄ¢ ½Ä
+
 Structure.Rule.displayExpre=Ç¥½Ã ½Ä
 
 #31. LevelAttribute
 Structure.LevelAttribute=¼öÁØ Æ¯¼º
+
 Structure.LevelAttribute.name=ÀÌ¸§
+
 Structure.LevelAttribute.dataType=µ¥ÀÌÅÍ Çü½Ä
 
 #32. OdaLevelAttribute
 Structure.OdaLevelAttribute=ODA ¼öÁØ Æ¯¼º
+
 Structure.OdaLevelAttribute.name=ÀÌ¸§
+
 Structure.OdaLevelAttribute.dataType=µ¥ÀÌÅÍ Çü½Ä
+
 Structure.OdaLevelAttribute.nativeName=°íÀ¯ ÀÌ¸§
+
 Structure.OdaLevelAttribute.nativeDataType=°íÀ¯ µ¥ÀÌÅÍ Çü½Ä ÄÚµå
 
 #33. DimensionJoinCondition
 Structure.DimensionJoinCondition.cubeKey=Å¥ºê Å°
+
 Structure.DimensionJoinCondition.hierarchyKey=°èÃş Å°
+
 Structure.DimensionJoinCondition.level=¼öÁØ
 
 #34. AggregationArgument
 Structure.AggregationArgument=Áı°è ÀÎ¼ö
+
 Structure.AggregationArgument.name=ÀÎ¼ö ÀÌ¸§
+
 Structure.AggregationArgument.value=ÀÎ¼ö °ª
 
 #35. Variable
-Structure.Variable=º¯¼ö 
-Structure.Variable.name=ÀÌ¸§ 
-Structure.Variable.value=°ª 
+Structure.Variable=º¯¼ö
+
+Structure.Variable.name=ÀÌ¸§
+
+Structure.Variable.value=°ª
 
 #36. SortHint
 Structure.SortHint=ÈùÆ® Á¤·Ä
+
 Structure.SortHint.columnName=¿­ ÀÌ¸§
+
 Structure.SortHint.position=¿­ À§Ä¡
+
 Structure.SortHint.direction=Á¤·Ä ¹æÇâ
+
 Structure.SortHint.nullValueOrdering=³Î(Null) °ª ¼ø¼­
+
 Structure.SortHint.isOptional=¿É¼Ç
 
 #37. IncludedDataMart
 Structure.IncludedDataMart=µ¥ÀÌÅÍ ¸¶Æ® Æ÷ÇÔ
+
 Structure.IncludedDataMart.fileName=ÆÄÀÏ ÀÌ¸§
+
 Structure.IncludedDataMart.namespace=³×ÀÓ½ºÆäÀÌ½º
 
 #38. TimeInterval
 Structure.TimeInterval=½Ã°£ °£°İ
+
 Structure.TimeInterval.measure=ÃøÁ¤
+
 Structure.TimeInterval.unit=´ÜÀ§
 
 #39. FormatValue
 Structure.FormatValue.category=¹üÁÖ
+
 Structure.FormatValue.pattern=ÆĞÅÏ
+
 Structure.FormatValue.locale=·ÎÄÉÀÏ
 
 #40. CalculationArgument
 Structure.CalculationArgument.name=°è»ê ÀÎ¼ö ÀÌ¸§
+
 Structure.CalculationArgument.value=°è»ê ÀÎ¼ö °ª
 
 ###########################################################
 # Element names
-
 Element.Module=¸ğµâ
+
 Element.LayoutModule=·¹ÀÌ¾Æ¿ô ¸ğµâ
+
 Element.ReportDesign=º¸°í¼­ µğÀÚÀÎ
+
 Element.DesignElement=µğÀÚÀÎ ¿ä¼Ò
+
 Element.ReportElement=º¸°í¼­ ¿ä¼Ò
-Element.DataSource=µ¥ÀÌÅÍ ¿øº» 
+
+Element.DataSource=µ¥ÀÌÅÍ ¿øº»
+
 Element.JdbcDataSource=JDBC µ¥ÀÌÅÍ ¿øº»
+
 Element.DataSet=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.SimpleDataSet=´Ü¼ø µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.JdbcSelectDataSet=JDBC ¼±ÅÃ µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.Parameter=¸Å°³ º¯¼ö
+
 Element.AbstractScalarParameter=Ãß»óÀû ½ºÄ®¶ó ¸Å°³ º¯¼ö
+
 Element.ScalarParameter=ScalarParameter
 Element.DynamicFilterParameter=µ¿Àû ÇÊÅÍ ¸Å°³ º¯¼ö
+
 Element.ParameterGroup=¸Å°³ º¯¼ö ±×·ì
+
 Element.CascadingParameterGroup=°è´Ü½Ä ¸Å°³º¯¼ö ±×·ì
+
 Element.Style=½ºÅ¸ÀÏ
+
 Element.MasterPage=MasterPage
 Element.ReportItem=º¸°í¼­ Ç×¸ñ
+
 Element.Label=·¹ÀÌºí
+
 Element.AutoText=AutoText
 Element.FreeForm=FreeForm
 Element.Data=µ¥ÀÌÅÍ
+
 Element.Text=ÅØ½ºÆ®
+
 Element.Library=¶óÀÌºê·¯¸®
+
 Element.ListingGroup=¿­°Å ±×·ì
+
 Element.List=¸ñ·Ï
+
 Element.ListGroup=¸ñ·Ï ±×·ì
+
 Element.Listint=¿­°Å
+
 Element.Table=Å×ÀÌºí
+
 Element.TableGroup=Å×ÀÌºí ±×·ì
+
 Element.Column=¿­
+
 Element.Row=Çà
+
 Element.Cell=¼¿
+
 Element.Image=ÀÌ¹ÌÁö
+
 Element.Grid=´«±İ
+
 Element.Line=²ªÀº¼±Çü
+
 Element.Tile=¹ÙµÏÆÇÇü
+
 Element.Rectangle=»ç°¢Çü
+
 Element.GraphicMasterPage=±×·¡ÇÈ ¸¶½ºÅÍ ÆäÀÌÁö
+
 Element.SimpleMasterPage=´Ü¼ø ¸¶½ºÅÍ ÆäÀÌÁö
+
 Element.TextData=µ¿Àû ÅØ½ºÆ®
+
 Element.ExtendedItem=È®Àå Ç×¸ñ
+
 Element.ScriptDataSource=½ºÅ©¸³Æ® µ¥ÀÌÅÍ ¿øº»
+
 Element.ScriptDataSet=½ºÅ©¸³Æ® µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.Listing=¿­°Å
+
 Element.OdaDataSet=ODA µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.OdaDataSource=ODA µ¥ÀÌÅÍ ¿øº»
+
 Element.Theme=Å×¸¶
+
 Element.TemplateParameterDefinition=ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Á¤ÀÇ
+
 Element.TemplateElement=ÅÛÇÃ¸´ ¿ä¼Ò
+
 Element.TemplateReportItem=ÅÛÇÃ¸´ º¸°í¼­ Ç×¸ñ
+
 Element.TemplateDataSet=ÅÛÇÃ¸´ µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.JointDataSet=Á¶ÀÎ µ¥ÀÌÅÍ ÁıÇÕ
-Element.Cube=Å¥ºê
+
+Element.Cube=Cube
 Element.Dimension=Â÷¿ø
+
 Element.Hierarchy=°èÃş
+
 Element.Level=¼öÁØ
+
 Element.Measure=ÃøÁ¤
+
 Element.MeasureGroup=ÃøÁ¤°ª ±×·ì
+
 Element.TabularCube=Å×ÀÌºí Å¥ºê
+
 Element.TabularDimension=Å×ÀÌºí Â÷¿ø
+
 Element.TabularHierarchy=Å×ÀÌºí °èÃş
+
 Element.TabularLevel=Å×ÀÌºí ¼öÁØ
+
 Element.TabularMeasure=Å×ÀÌºí ÃøÁ¤
+
 Element.TabularMeasureGroup=Å×ÀÌºí ÃøÁ¤°ª ±×·ì
+
 Element.OdaCube=ODA Å¥ºê
+
 Element.OdaDimension=ODA Â÷¿ø
+
 Element.OdaHierarchy=ODA °èÃş
+
 Element.OdaLevel=ODA ¼öÁØ
+
 Element.OdaMeasure=ODA ÃøÁ¤
+
 Element.OdaMeasureGroup=ODA ÃøÁ¤°ª ±×·ì
+
 Element.MemberValue=±¸¼º¿ø °ª
+
 Element.SortElement=Á¤·Ä ¿ä¼Ò
+
 Element.FilterConditionElement=ÇÊÅÍ Á¶°Ç ¿ä¼Ò
+
 Element.AbstractMultiViews=¿ä¾à ´ÙÁß º¸±â
+
 Element.MultiViews=´ÙÁß º¸±â
+
 Element.VariableElement=º¯¼ö
+
 Element.DataGroup=µ¥ÀÌÅÍ ±×·ì
+
 Element.DerivedDataSet=ÆÄ»ı µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.DataMart=µ¥ÀÌÅÍ °³Ã¼
+
 Element.DataMartDataSource=µ¥ÀÌÅÍ °³Ã¼ µ¥ÀÌÅÍ ¿øº»
+
 Element.DataMartDataSet=µ¥ÀÌÅÍ °³Ã¼ µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.DataMartCube=µ¥ÀÌÅÍ °³Ã¼ Å¥ºê
+
 Element.TimeDimension=½Ã°£ Â÷¿ø
+
 Element.ReportItemTheme=º¸°í¼­ Ç×¸ñ Å×¸¶
+
 Element.AbstractTheme=Ãß»óÀû Å×¸¶
+
 Element.DataMartLinkedDataModel=µ¥ÀÌÅÍ °³Ã¼ µ¥ÀÌÅÍ ¸ğµ¨
+
 Element.AliasDataSet =º°Äª µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.LinkedDataModel =¸µÅ©µÈ µ¥ÀÌÅÍ ¸ğµ¨
+
+Element.CategoryColumn =¹üÁÖ ¿­
+
 Element.LinkedDataModel.pushDown=µ¥ÀÌÅÍ ¸ğµ¨ ¾Æ·¡·Î ¹Ğ¾î³»±â
+
 Element.Category = ¹üÁÖ
+
 Element.ColumnLink = ¿­ ¸µÅ©
+
 Element.ColumnLinkPath = ¿­ ¸µÅ© °æ·Î
+
 Element.DrillPath = µå¸± °æ·Î
+
 Element.LinkedDataModelCube = ¸µÅ©µÈ µ¥ÀÌÅÍ ¸ğµ¨ Å¥ºê
+
 Element.LinkedDataModelDataSet = ¸µÅ©µÈ µ¥ÀÌÅÍ ¸ğµ¨ µ¥ÀÌÅÍ ÁıÇÕ
 
 ###########################################################
@@ -2429,385 +3907,717 @@ Element.LinkedDataModelDataSet = ¸µÅ©µÈ µ¥ÀÌÅÍ ¸ğµ¨ µ¥ÀÌÅÍ ÁıÇÕ
 
 # Module ( Prefix = Element.Module )
 Element.Module.author=¸¸µç ÀÌ
+
 Element.Module.title=Á¦¸ñ
+
 Element.Module.titleID=Á¦¸ñ Å°
+
 Element.Module.description=¼³¸í
+
 Element.Module.descriptionID=¼³¸í Å°
+
 Element.Module.comments=¼³¸í
+
 Element.Module.includeResource=¸®¼Ò½º ÆÄÀÏ: Element.Module.base=±âº»
+
 Element.Module.createdBy=¸¸µç »ç¶÷
+
 Element.Module.includeScripts=½ºÅ©¸³Æ® Æ÷ÇÔ
+
 Element.Module.scriptLibs=½ºÅ©¸³Æ® ¶óÀÌºê·¯¸®
+
 Element.Module.externalMetadata=¿ÜºÎ ¸ŞÅ¸µ¥ÀÌÅÍ
+
 Element.Module.propertyBindings=¼Ó¼º ¹ÙÀÎµù
 
 # LayoutModule ( Prefix = Element.LayoutModule )
-
 Element.LayoutModule.subject=Á¦¸ñ
+
 Element.LayoutModule.helpGuide=µµ¿ò¸» ¼³¸í¼­
+
 Element.LayoutModule.colorPalette=»ö»óÇ¥
+
 Element.LayoutModule.configVars=±¸¼º º¯¼ö
+
 Element.LayoutModule.images=ÀÌ¹ÌÁö
+
 Element.LayoutModule.libraries=¶óÀÌºê·¯¸®
+
 Element.LayoutModule.base=±âº»
+
 Element.LayoutModule.units=´ÜÀ§
+
 Element.LayoutModule.theme=Å×¸¶
 
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=½ºÅ¸ÀÏ
+
 Element.Library.slot.parameters=¸Å°³ º¯¼ö
+
 Element.Library.slot.dataSources=µ¥ÀÌÅÍ ¿øº»
+
 Element.Library.slot.dataSets=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.Library.slot.pageSetup=ÆäÀÌÁö ¼³Á¤
+
 Element.Library.slot.components=±¸¼º ¿ä¼Ò
+
 Element.Library.slot.themes=Å×¸¶
+
 Element.Library.slot.cubes=Å¥ºê
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=»õ·Î °íÄ§ ºóµµ
+
 Element.ReportDesign.eventHandlerClass=ÀÌº¥Æ® Ã³¸®±â Å¬·¡½º
+
 Element.ReportDesign.newHandlerOnEachEvent=°¢ ÀÌº¥Æ® ½Ã »õ Ã³¸®±â
+
 Element.ReportDesign.beforeFactory=°øÀå ÀÌÀü
+
 Element.ReportDesign.beforeFactory.this=º¸°í¼­ µğÀÚÀÎ
+
 Element.ReportDesign.beforeFactory.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.afterFactory=°øÀå ÀÌÈÄ
+
 Element.ReportDesign.afterFactory.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.beforeOpenDoc=¹®¼­¸¦ ¿­±â Àü
+
 Element.ReportDesign.beforeOpenDoc.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.afterOpenDoc=¹®¼­ ¿­±â ÀÌÈÄ
+
 Element.ReportDesign.afterOpenDoc.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.beforeCloseDoc=¹®¼­ ´İ±â ÀÌÀü
+
 Element.ReportDesign.beforeCloseDoc.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.afterCloseDoc=¹®¼­ ´İ±â ÀÌÈÄ
+
 Element.ReportDesign.afterCloseDoc.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.beforeRender=·»´õ¸µ ÀÌÀü
+
 Element.ReportDesign.beforeRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.afterRender=·»´õ¸µ ÀÌÈÄ
+
 Element.ReportDesign.afterRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.onPageStart.this=¸¶½ºÅÍ ÆäÀÌÁö
+
 Element.ReportDesign.onPageStart.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.onPageEnd.this=¸¶½ºÅÍ ÆäÀÌÁö
+
 Element.ReportDesign.onPageEnd.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.displayNameID=Ç¥½Ã ÀÌ¸§ Å°
+
 Element.ReportDesign.displayName=Ç¥½Ã ÀÌ¸§
+
 Element.ReportDesign.iconFile=¾ÆÀÌÄÜ ÆÄÀÏ
+
 Element.ReportDesign.cheatSheet=Ä¡Æ® ½ÃÆ®
+
 Element.ReportDesign.thumbnail=Thumbnail
+
 Element.ReportDesign.layoutPreference=·¹ÀÌ¾Æ¿ô ±âº» ¼³Á¤
+
 Element.ReportDesign.bidiLayoutOrientation=º¸°í¼­ ¹æÇâ
+
 Element.ReportDesign.beforeFactory.toolTip=onPrepare() ¸Ş¼­µå ÀÌÈÄ ¹× º¸°í¼­ ¹®¼­(ÀÖ´Â °æ¿ì) ¿­±â ÀÌÀü °øÀå ½ÃÀÛ ½Ã È£ÃâµË´Ï´Ù.
+
 Element.ReportDesign.afterFactory.toolTip=º¸°í¼­ ¹®¼­(ÀÖ´Â °æ¿ì) ´İ±â ÀÌÈÄ °øÀå Á¾·á ½Ã È£ÃâµË´Ï´Ù. °øÀå¿¡¼­ È£ÃâµÈ ¸¶Áö¸· ¸Ş¼­µåÀÔ´Ï´Ù
+
 Element.ReportDesign.beforeOpenDoc.toolTip=°øÀå¿¡¼­ º¸°í¼­ ¹®¼­¸¦ ¿­±â Á÷Àü È£ÃâµË´Ï´Ù
+
 Element.ReportDesign.afterOpenDoc.toolTip=°øÀå¿¡¼­ º¸°í¼­ ¹®¼­¸¦ ¿­±â Á÷ÈÄ È£ÃâµË´Ï´Ù
+
 Element.ReportDesign.beforeCloseDoc.toolTip=°øÀå¿¡¼­ º¸°í¼­ ¹®¼­¸¦ ´İ±â Á÷Àü È£ÃâµË´Ï´Ù
+
 Element.ReportDesign.afterCloseDoc.toolTip=°øÀå¿¡¼­ º¸°í¼­ ¹®¼­¸¦ ´İ±â Á÷ÈÄ È£ÃâµË´Ï´Ù
+
 Element.ReportDesign.beforeRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ½Ã°£ ÀÛ¾÷ ½ÃÀÛ Àü¿¡ È£ÃâµË´Ï´Ù
+
 Element.ReportDesign.afterRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ½Ã°£ ÀÛ¾÷ ½ÃÀÛ ÈÄ¿¡ È£ÃâµË´Ï´Ù
+
 Element.ReportDesign.onPageStart.toolTip=ÆäÀÌÁö ½ÃÀÛ ½Ã È£ÃâµË´Ï´Ù.
+
 Element.ReportDesign.onPageEnd.toolTip=ÆäÀÌÁö Á¾·á ½Ã È£ÃâµË´Ï´Ù.
+
 Element.ReportDesign.slot.styles=½ºÅ¸ÀÏ
+
 Element.ReportDesign.slot.parameters=¸Å°³ º¯¼ö
+
 Element.ReportDesign.slot.dataSources=µ¥ÀÌÅÍ ¿øº»
+
 Element.ReportDesign.slot.dataSets=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.ReportDesign.slot.pageSetup=ÆäÀÌÁö ¼³Á¤
+
 Element.ReportDesign.slot.components=±¸¼º ¿ä¼Ò
+
 Element.ReportDesign.slot.body=º»¹®
+
 Element.ReportDesign.slot.scratchPad=½ºÅ©·¡Ä¡ ÆĞµå
+
 Element.ReportDesign.slot.templateParameterDefinitions=ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Á¤ÀÇ
+
 Element.ReportDesign.slot.cubes=Å¥ºê ¿ä¼Ò
+
 Element.ReportDesign.slot.themes=Å×¸¶
+
 Element.ReportDesign.initialize=ÃÊ±âÈ­
+
 Element.ReportDesign.initialize.toolTip=º¸°í¼­ ½ÇÇà ½ÃÀÛ ½Ã È£ÃâµË´Ï´Ù.
+
 Element.ReportDesign.initialize.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.cssStyleSheets=CSS ½ºÅ¸ÀÏ½ÃÆ®
+
 Element.ReportDesign.enableACL=µ¥ÀÌÅÍ º¸¾È ¼³Á¤ »ç¿ë
+
 Element.ReportDesign.ACLExpression=ACL ½Ä
+
 Element.ReportDesign.cascadeACL=ACL ÇÏÀ§ Àü´Ş
+
 Element.ReportDesign.imageDPI=ÀÌ¹ÌÁö DPI
+
 Element.ReportDesign.pageVariables=ÆäÀÌÁö º¯¼ö
+
 Element.ReportDesign.dataObjects= µ¥ÀÌÅÍ °³Ã¼
+
 Element.ReportDesign.locale=·ÎÄÉÀÏ
+
 Element.ReportDesign.onPageStart=ÆäÀÌÁö ½ÃÀÛ ½Ã
+
 Element.ReportDesign.onPageEnd=ÆäÀÌÁö Á¾·á ½Ã
-Element.ReportDesign.dataMarts=µ¥ÀÌÅÍ ¸¶Æ®
+
+Element.ReportDesign.dataMarts=DataMarts
 Element.ReportDesign.onPrepare=ÁØºñ ½Ã
+
 Element.ReportDesign.onPrepare.this=º¸°í¼­ µğÀÚÀÎ
+
 Element.ReportDesign.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇàÇÕ´Ï´Ù. ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.ReportDesign.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ReportDesign.onContentUpdate= ³»¿ë ¾÷µ¥ÀÌÆ® ½Ã
+
 Element.ReportDesign.onContentUpdate.toolTip=BIRT Viewer¿¡¼­ º¸°í¼­ ³»¿ëÀÌ ¾÷µ¥ÀÌÆ®µÉ ¶§ Å¬¶óÀÌ¾ğÆ® Ãø¿¡¼­ ½ÇÇàÇÕ´Ï´Ù.
-Element.ReportDesign.onContentUpdate.this=Report design
+
+Element.ReportDesign.onContentUpdate.this=º¸°í¼­ µğÀÚÀÎ
+
+Element.ReportDesign.clientInitialize=Å¬¶óÀÌ¾ğÆ® ÃÊ±âÈ­
+
+Element.ReportDesign.clientInitialize.toolTip=Å¬¶óÀÌ¾ğÆ® Ãø Java ½ºÅ©¸³Æ® ¶óÀÌºê·¯¸®¸¦ ·ÎµåÇÒ ¼ö ¾ø½À´Ï´Ù.
+
+Element.ReportDesign.clientInitialize.this=º¸°í¼­ µğÀÚÀÎ
+
 Element.ReportDesign.language=¾ğ¾î
+
 Element.ReportDesign.PDFAccessible=Accessible PDF
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Ç¥½Ã ÀÌ¸§
+
 Element.ReportElement.displayNameID=Ç¥½Ã ÀÌ¸§ Å°
+
 Element.ReportElement.comments=¼³¸í
+
 Element.ReportElement.propertyMask=¼Ó¼º ¸¶½ºÅ©
+
 Element.ReportElement.name=ÀÌ¸§
+
 Element.ReportElement.extends=È®Àå
+
 Element.ReportElement.style=½ºÅ¸ÀÏ
+
 Element.ReportElement.eventHandlerClass=ÀÌº¥Æ® Ã³¸®±â Å¬·¡½º
+
 Element.ReportElement.newHandlerOnEachEvent=°¢ ÀÌº¥Æ® ½Ã »õ Ã³¸®±â
+
 Element.ReportElement.viewAction=ÀÛ¾÷ º¸±â
 
 #3. JdbcDataSource  ( prefix  Element.JdbcDataSource )
 Element.JdbcDataSource.url=Url
+
 Element.JdbcDataSource.userName=»ç¿ëÀÚ ÀÌ¸§
+
 Element.JdbcDataSource.password=¾ÏÈ£
+
 Element.JdbcDataSource.driver=µå¶óÀÌ¹ö
+
 Element.JdbcDataSource.dataSource=µ¥ÀÌÅÍ ¿øº»
 
 #4. DataSet  ( prefix  Element.DataSet )
 Element.DataSet.resultSetHints=°á°ú ÁıÇÕ ÈùÆ®
+
 Element.DataSet.computedColumns=°è»ê ¿­
+
 Element.DataSet.filter=ÇÊÅÍ
+
 Element.DataSet.columnHints=¿­ ÈùÆ®
+
 Element.DataSet.cachedMetaData=Ä³½ÃµÈ ¸ŞÅ¸µ¥ÀÌÅÍ
+
 Element.DataSet.rowFetchLimit=µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ ÀÎÃâÇÒ ÃÖ´ë Çà ¼ö
+
 Element.DataSet.needsCache=µ¥ÀÌÅÍ ¿£Áø¿ë Ä³½Ã°¡ ÇÊ¿äÇÕ´Ï´Ù.
+
 Element.DataSet.parameters=µ¥ÀÌÅÍ ÁıÇÕ ¸Å°³ º¯¼ö
+
 Element.DataSet.sortHints=ÈùÆ® Á¤·Ä
+
 Element.DataSet.ACLExpression=ACL ½Ä
+
 Element.DataSet.RowACLExpression=Çà ACL ½Ä
+
 Element.DataSet.isVisible=Ç¥½Ã
+
 Element.DataSet.locale=·ÎÄÉÀÏ
+
 Element.DataSet.nullsOrdering=³Î(Null) ¼ø¼­
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=¿­±â ÀÌÀü
+
 Element.SimpleDataSet.beforeOpen.toolTip=BIRT°¡ µ¥ÀÌÅÍ ÁıÇÕÀ» ¿­±â Á÷Àü È£ÃâµË´Ï´Ù
+
 Element.SimpleDataSet.beforeOpen.this=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.SimpleDataSet.beforeOpen.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.SimpleDataSet.beforeClose=´İ±â ÀÌÀü
+
 Element.SimpleDataSet.beforeClose.this=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.SimpleDataSet.beforeClose.toolTip=BIRT°¡ µ¥ÀÌÅÍ ÁıÇÕÀ» ´İ±â Á÷Àü È£ÃâµË´Ï´Ù
+
 Element.SimpleDataSet.beforeClose.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.SimpleDataSet.onFetch=ÀÎÃâ ½Ã
+
 Element.SimpleDataSet.onFetch.toolTip=BIRT°¡ µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ µ¥ÀÌÅÍ ÇàÀ» ÀÎÃâÇÏ±â Á÷Àü È£ÃâµË´Ï´Ù
+
 Element.SimpleDataSet.onFetch.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.SimpleDataSet.onFetch.this=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.SimpleDataSet.onFetch.row=µ¥ÀÌÅÍ ÁıÇÕ Çà
+
 Element.SimpleDataSet.afterOpen=¿­±â ÀÌÈÄ
+
 Element.SimpleDataSet.afterOpen.this=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.SimpleDataSet.afterOpen.toolTip=BIRT°¡ µ¥ÀÌÅÍ ÁıÇÕÀ» ¿¬ Á÷ÈÄ È£ÃâµË´Ï´Ù
+
 Element.SimpleDataSet.afterOpen.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.SimpleDataSet.afterClose=´İ±â ÀÌÈÄ
+
 Element.SimpleDataSet.afterClose.toolTip=BIRT°¡ µ¥ÀÌÅÍ ÁıÇÕÀ» ´İÀº Á÷ÈÄ È£ÃâµË´Ï´Ù
+
 Element.SimpleDataSet.afterClose.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.SimpleDataSet.paramBindings=¸Å°³ º¯¼ö ¹ÙÀÎµù
+
 Element.SimpleDataSet.refTemplateParameter=ÂüÁ¶ ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Á¤ÀÇ
+
 Element.SimpleDataSet.cachedRowCount=Ä³½ÃµÈ Çà ¼ö
+
 Element.SimpleDataSet.dataSetRowLimit=µ¥ÀÌÅÍ ÁıÇÕ Çà Á¦ÇÑ
   
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=¹®
+
 Element.JdbcSelectDataSet.getStatement=¹® °¡Á®¿À±â
+
 Element.JdbcSelectDataSet.getStatement.toolTip=Äõ¸®¿¡ ´ëÇØ »ç¿ëÀÚ ÁöÁ¤µÈ SQL ¹®À» ¹İÈ¯ÇÕ´Ï´Ù
   
 #6. Parameter  ( prefix  Element.Parameter )
 Element.Parameter.helpText=µµ¿ò¸» ÅØ½ºÆ®
+
 Element.Parameter.helpTextID=µµ¿ò¸» ÅØ½ºÆ® Å°
+
 Element.Parameter.hidden=¼û±è
+
 Element.Parameter.validate=À¯È¿¼º °Ë»ç
+
 Element.Parameter.validate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Parameter.validate.toolTip=¸Å°³ º¯¼öÀÇ »ç¿ëÀÚ ÁöÁ¤ À¯È¿¼º °Ë»ç¿¡ ´ëÇØ Âü ¶Ç´Â °ÅÁş °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+
 Element.Parameter.promptText=ÇÁ·ÒÇÁÆ® ÅØ½ºÆ®
+
 Element.Parameter.promptTextID=ÇÁ·ÒÇÁÆ® ÅØ½ºÆ® Å°
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
 Element.ScalarParameter.paramType=½ºÄ®¶ó ¸Å°³ º¯¼ö Çü½Ä
+
 Element.ScalarParameter.displayPrompt=ÇÁ·ÒÇÁÆ® Ç¥½Ã
+
 Element.ScalarParameter.concealValue=°ª ¼û±â±â
-Element.ScalarParameter.format=¼­½Ä
+
+Element.ScalarParameter.format=Çü½Ä
+
 Element.ScalarParameter.controlType=ÄÁÆ®·Ñ Çü½Ä
+
 Element.ScalarParameter.alignment=¸ÂÃã
+
 Element.ScalarParameter.selectionList=¼±ÅÃ ¸ñ·Ï
+
 Element.ScalarParameter.selectionList.mustMatch=ÀÏÄ¡ÇØ¾ß ÇÔ
+
 Element.ScalarParameter.selectionList.fixedOrder=°íÁ¤µÈ ¼ø¼­
+
 Element.ScalarParameter.boundDataColumns=¹ÙÀÎµùµÈ µ¥ÀÌÅÍ ¿­
+
 Element.ScalarParameter.autoSuggestThreshold=ÀÚµ¿ Á¦¾È ÀÓ°è°ª
+
 Element.ScalarParameter.getDefaultValueList=±âº»°ª ¸ñ·Ï °¡Á®¿À±â
+
 Element.ScalarParameter.getDefaultValueList.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ScalarParameter.getDefaultValueList.toolTip=¸Å°³ º¯¼öÀÇ ±âº»°ª ¸ñ·ÏÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+
 Element.ScalarParameter.getSelectionValueList=¼±ÅÃ°ª ¸ñ·Ï °¡Á®¿À±â
+
 Element.ScalarParameter.getSelectionValueList.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ScalarParameter.getSelectionValueList.toolTip=¸Å°³ º¯¼ö ÄÁÆ®·Ñ Çü½ÄÀÌ "¸ñ·Ï" ¶Ç´Â "ÄŞº¸"ÀÎ °æ¿ì ¼±ÅÃ°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+
 Element.ScalarParameter.defaultValue=±âº»°ª
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=½ÃÀÛ È®ÀåµÊ
+
 Element.ParameterGroup.helpText=µµ¿ò¸» ÅØ½ºÆ®
+
 Element.ParameterGroup.helpTextID=µµ¿ò¸» ÅØ½ºÆ® Å°
+
 Element.ParameterGroup.promptText=ÇÁ·ÒÇÁÆ® ÅØ½ºÆ®
+
 Element.ParameterGroup.promptTextID=ÇÁ·ÒÇÁÆ® ÅØ½ºÆ® Å°
+
 Element.ParameterGroup.slot.parameters=¸Å°³ º¯¼ö
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.CascadingParameterGroup.dataSetMode=´ÜÀÏ ¶Ç´Â ´ÙÁß µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.CascadingParameterGroup.slot.parameters=¸Å°³ º¯¼ö
 
 #9. MasterPage ( Prefix = Element.MasterPage )
 Element.MasterPage.type=Çü½Ä
+
 Element.MasterPage.height=³ôÀÌ
+
 Element.MasterPage.width=³Êºñ
+
 Element.MasterPage.orientation=¹æÇâ
+
 Element.MasterPage.columns=¿­
+
 Element.MasterPage.columnSpacing=¿­ °£°İ
+
 Element.MasterPage.margin=¿©¹é
+
 Element.MasterPage.topMargin=À§ÂÊ ¿©¹é
+
 Element.MasterPage.leftMargin=¿ŞÂÊ ¿©¹é
+
 Element.MasterPage.bottomMargin=¾Æ·¡ÂÊ ¿©¹é
+
 Element.MasterPage.rightMargin=¿À¸¥ÂÊ ¿©¹é
+
 Element.MasterPage.slot.contents=³»¿ë
+
 Element.MasterPage.onPageStart=ÆäÀÌÁö ½ÃÀÛ ½Ã
+
 Element.MasterPage.onPageEnd=ÆäÀÌÁö Á¾·á ½Ã
+
 Element.MasterPage.onPageStart.toolTip=ÆäÀÌÁö ½ÃÀÛ ½Ã È£ÃâµË´Ï´Ù.
+
 Element.MasterPage.onPageEnd.toolTip=ÆäÀÌÁö Á¾·á ½Ã È£ÃâµË´Ï´Ù.
+
 Element.MasterPage.onPageStart.this=¸¶½ºÅÍ ÆäÀÌÁö
+
 Element.MasterPage.onPageStart.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.MasterPage.onPageEnd.this=¸¶½ºÅÍ ÆäÀÌÁö
+
 Element.MasterPage.onPageEnd.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
 
 #9. Style ( Prefix = Element.Style)
 Element.Style.background=¹è°æ
+
 Element.Style.background.attachment=¹è°æ Ã·ºÎ
+
 Element.Style.background.color=¹è°æ»ö
+
 Element.Style.background.image=¹è°æ ÀÌ¹ÌÁö
+
 Element.Style.background.imageType=¹è°æ ÀÌ¹ÌÁö Çü½Ä
+
 Element.Style.background.positionX=°¡·Î À§Ä¡
+
 Element.Style.background.positionY=¼¼·Î À§Ä¡
+
 Element.Style.background.repeat=¹è°æ ¹İº¹
+
 Element.Style.background.size.width=¹è°æ Å©±â ³Êºñ
+
 Element.Style.background.size.height=¹è°æ Å©±â ³ôÀÌ
+
 Element.Style.border=Å×µÎ¸®
+
 Element.Style.border.bottom.color=Å×µÎ¸® ¾Æ·¡ÂÊ »ö
+
 Element.Style.border.bottom.style=Å×µÎ¸® ¾Æ·¡ÂÊ ½ºÅ¸ÀÏ
+
 Element.Style.border.bottom.width=Å×µÎ¸® ¾Æ·¡ÂÊ ³Êºñ
+
 Element.Style.border.fillColor=Å×µÎ¸® Ã¤¿ì±â »ö
+
 Element.Style.border.hmiddle.color=Å×µÎ¸® °¡·Î Áß°£ »ö
+
 Element.Style.border.hmiddle.style=Å×µÎ¸® °¡·Î Áß°£ ½ºÅ¸ÀÏ
+
 Element.Style.border.hmiddle.width=Å×µÎ¸® °¡·Î Áß°£ ³Êºñ
+
 Element.Style.border.left.color=Å×µÎ¸® ¿ŞÂÊ »ö
+
 Element.Style.border.left.style=Å×µÎ¸® ¿ŞÂÊ ½ºÅ¸ÀÏ
+
 Element.Style.border.left.width=Å×µÎ¸® ¿ŞÂÊ ³Êºñ
+
 Element.Style.border.right.color=Å×µÎ¸® ¿À¸¥ÂÊ »ö
+
 Element.Style.border.right.style=Å×µÎ¸® ¿À¸¥ÂÊ ½ºÅ¸ÀÏ
+
 Element.Style.border.right.width=Å×µÎ¸® ¿À¸¥ÂÊ ³Êºñ
+
 Element.Style.border.top.color=Å×µÎ¸® À§ÂÊ »ö
+
 Element.Style.border.top.style=Å×µÎ¸® À§ÂÊ ½ºÅ¸ÀÏ
+
 Element.Style.border.top.width=Å×µÎ¸® À§ÂÊ ³Êºñ
+
 Element.Style.border.vmiddle.color=Å×µÎ¸® ¼¼·Î Áß°£ »ö
+
 Element.Style.border.vmiddle.style=Å×µÎ¸® ¼¼·Î Áß°£ ½ºÅ¸ÀÏ
+
 Element.Style.border.vmiddle.width=Å×µÎ¸® ¼¼·Î Áß°£ ³Êºñ
+
 Element.Style.box=»óÀÚ
+
 Element.Style.canShrink=Ãà¼Ò
+
 Element.Style.display=Ç¥½Ã
+
 Element.Style.font=±Û²Ã
+
 Element.Style.color=±Û²Ã »ö
+
 Element.Style.font.family=±Û²Ã ÁıÇÕ
+
 Element.Style.font.size=±Û²Ã Å©±â
+
 Element.Style.font.style=±Û²Ã ½ºÅ¸ÀÏ
+
 Element.Style.font.textLineThrough=°¡¿îµ¥ ÁÙ
+
 Element.Style.font.textUnderline=¹ØÁÙ
+
 Element.Style.font.textOverline=À­ÁÙ
+
 Element.Style.font.variant=±Û²Ã º¯Çü
+
 Element.Style.font.weight=±Û²Ã µÎ²²
-Element.Style.format=¼­½Ä
+
+Element.Style.format=Çü½Ä
+
 Element.Style.format.dateTime=³¯Â¥ ½Ã°£ Çü½Ä
+
 Element.Style.format.date=³¯Â¥ Çü½Ä
+
 Element.Style.format.time=½Ã°£ Çü½Ä
+
 Element.Style.format.number=¼ıÀÚ Çü½Ä
+
 Element.Style.format.number.align=¼ıÀÚ ¸ÂÃã
+
 Element.Style.format.string=¹®ÀÚ¿­ Çü½Ä
+
 Element.Style.highlight.testExpr=Å×½ºÆ® ½Ä °­Á¶
+
 Element.Style.highlight.rules=±ÔÄ¢ °­Á¶
+
 Element.Style.letterSpacing=¹®ÀÚ °£°İ
+
 Element.Style.lineHeight=ÁÙ ³ôÀÌ
+
 Element.Style.map.rules=¸Ê ±ÔÄ¢
+
 Element.Style.margin.top=¿©¹é À§ÂÊ
+
 Element.Style.margin.bottom=¿©¹é ¾Æ·¡ÂÊ
+
 Element.Style.margin.left=¿©¹é ¿ŞÂÊ
+
 Element.Style.margin.right=¿©¹é ¿À¸¥ÂÊ
+
 Element.Style.masterPage=¸¶½ºÅÍ ÆäÀÌÁö
+
 Element.Style.padding=¾ÈÂÊ ¿©¹é
+
 Element.Style.padding.bottom=¾ÈÂÊ ¿©¹é ¾Æ·¡ÂÊ
+
 Element.Style.padding.left=¾ÈÂÊ ¿©¹é ¿ŞÂÊ
+
 Element.Style.padding.right=¾ÈÂÊ ¿©¹é ¿À¸¥ÂÊ
+
 Element.Style.padding.top=¾ÈÂÊ ¿©¹é À§ÂÊ
+
 Element.Style.pageBreakBefore=¾Õ¿¡ ÆäÀÌÁö ³ª´©±â
+
 Element.Style.pageBreakAfter=µÚ¿¡ ÆäÀÌÁö ³ª´©±â
+
 Element.Style.pageBreakInside=»çÀÌ¿¡ ÆäÀÌÁö ³ª´©±â
+
 Element.Style.section=¼½¼Ç
+
 Element.Style.showIfBlank=ºñ¾îÀÖ´Â °æ¿ì Ç¥½Ã
+
 Element.Style.text=ÅØ½ºÆ®
+
 Element.Style.text.align=ÅØ½ºÆ® ¸ÂÃã
+
 Element.Style.text.direction=ÅØ½ºÆ® ¹æÇâ
+
 Element.Style.text.indent=ÅØ½ºÆ® µé¿©¾²±â
+
 Element.Style.text.transform=ÅØ½ºÆ® º¯È¯
+
 Element.Style.verticalAlign=¼¼·Î ¸ÂÃã
+
 Element.Style.whiteSpace=°ø¹é
+
 Element.Style.widows=Ã¢
+
 Element.Style.orphans=°í¾Æ
+
 Element.Style.wordSpacing=´Ü¾î °£°İ
+
 Element.Style.overflow=¿À¹öÇÃ·Î
+
 Element.Style.height=³ôÀÌ
+
 Element.Style.width=³Êºñ
 
 #10.ReportItem  ( prefix  Element.ReportItem )
 Element.ReportItem.bookmark=Ã¥°¥ÇÇ
+
 Element.ReportItem.bookmarkDisplayName=Ã¥°¥ÇÇ Ç¥½Ã ÀÌ¸§
+
 Element.ReportItem.toc=¸ñÂ÷
+
 Element.ReportItem.dataSet=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.ReportItem.cube=µ¥ÀÌÅÍ Å¥ºê
+
 Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=³ôÀÌ
+
 Element.ReportItem.width=³Êºñ
+
 Element.ReportItem.visibility=Ç¥½Ã À¯Çü
-Element.ReportItem.paramBindings=¸Å°³ º¯¼ö ¹ÙÀÎµù  
+
+Element.ReportItem.paramBindings=¸Å°³ º¯¼ö ¹ÙÀÎµù
+
 Element.ReportItem.refTemplateParameter=ÂüÁ¶ ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Á¤ÀÇ
+
 Element.ReportItem.boundDataColumns=¹ÙÀÎµùµÈ µ¥ÀÌÅÍ ¿­
+
 Element.ReportItem.zIndex=Z ÀÎµ¦½º
+
 Element.ReportItem.dataBindingRef=µ¥ÀÌÅÍ ¹ÙÀÎµù ÂüÁ¶
+
 Element.ReportItem.multiViews=´ÙÁß º¸±â
+
 Element.ReportItem.ACLExpression=ACL ½Ä
-Element.ReportItem.cascadeACL=°è´Ü½Ä ACL
+
+Element.ReportItem.cascadeACL=ACL ÇÏÀ§ Àü´Ş
+
 Element.ReportItem.allowExport=³»º¸³»±â Çã¿ë
+
 Element.ReportItem.pushDown=¾Æ·¡·Î ¹Ğ¾î³»±â
+
 Element.ReportItem.theme=Å×¸¶
+
 Element.ReportItem.language=¾ğ¾î
+
 Element.ReportItem.order=¼ø¼­
+
 Element.ReportItem.altText=´ëÃ¼ ÅØ½ºÆ®
+
 Element.ReportItem.altTextID=´ëÃ¼ ÅØ½ºÆ® Å°
+
 Element.ReportItem.linkedDataModel=¸µÅ©µÈ µ¥ÀÌÅÍ ¸ğµ¨
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=³»¿ë
+
 Element.Label.textID=³»¿ë Å°
+
 Element.Label.helpTextID=µµ¿ò¸» ÅØ½ºÆ® Å°
+
 Element.Label.helpText=µµ¿ò¸» ÅØ½ºÆ®
+
 Element.Label.action=ÀÛ¾÷
+
 Element.Label.onPrepare=ÁØºñ Áß
+
 Element.Label.onPrepare.this=·¹ÀÌºí
+
 Element.Label.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.Label.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.Label.onCreate=»ı¼º ½Ã  
+
+Element.Label.onCreate=»ı¼º ½Ã
+
 Element.Label.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Label.onCreate.this=·¹ÀÌºí ÀÎ½ºÅÏ½º
+
 Element.Label.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.Label.onRender=·»´õ¸µ ½Ã  
+
+Element.Label.onRender=·»´õ¸µ ½Ã
+
 Element.Label.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Label.onRender.this=·¹ÀÌºí ÀÎ½ºÅÏ½º
+
 Element.Label.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Label.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.Label.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.Label.onPageBreak.this=·¹ÀÌºí ÀÎ½ºÅÏ½º
+
 Element.Label.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Label.tagType=PDF ÅÂ±× Çü½Ä
+
 Element.Label.altText=´ëÃ¼ ÅØ½ºÆ®
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
@@ -2818,304 +4628,569 @@ Element.Container.slot.reportItems=º¸°í¼­ Ç×¸ñ
   
 #13.Data  ( prefix  Element.Data )
 Element.Data.resultSetColumn=°á°ú ÁıÇÕ ¿­
+
 Element.Data.helpText=µµ¿ò¸» ÅØ½ºÆ®
+
 Element.Data.helpTextID=µµ¿ò¸» ÅØ½ºÆ® Å°
+
 Element.Data.action=ÀÛ¾÷
+
 Element.Data.onPrepare=ÁØºñ Áß
+
 Element.Data.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.Data.onPrepare.this=µ¥ÀÌÅÍ
+
 Element.Data.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.Data.onCreate=»ı¼º ½Ã  
+
+Element.Data.onCreate=»ı¼º ½Ã
+
 Element.Data.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Data.onCreate.this=µ¥ÀÌÅÍ ÀÎ½ºÅÏ½º
+
 Element.Data.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.Data.onRender=·»´õ¸µ ½Ã  
+
+Element.Data.onRender=·»´õ¸µ ½Ã
+
 Element.Data.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Data.onRender.this=µ¥ÀÌÅÍ ÀÎ½ºÅÏ½º
+
 Element.Data.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Data.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.Data.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.Data.onPageBreak.this=µ¥ÀÌÅÍ ÀÎ½ºÅÏ½º
+
 Element.Data.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Data.tagType=PDF ÅÂ±× Çü½Ä
+
 Element.Data.altText=´ëÃ¼ ÅØ½ºÆ®
   
 #14.Text  ( prefix  Element.Text )
 Element.Text.content=³»¿ë
+
 Element.Text.contentType=³»¿ë Çü½Ä
+
 Element.Text.contentID=³»¿ë Å°
+
 Element.Text.onPrepare=ÁØºñ Áß
+
 Element.Text.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.Text.onPrepare.this=ÅØ½ºÆ®
+
 Element.Text.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.Text.onCreate=»ı¼º ½Ã  
+
+Element.Text.onCreate=»ı¼º ½Ã
+
 Element.Text.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Text.onCreate.this=ÅØ½ºÆ® ÀÎ½ºÅÏ½º
+
 Element.Text.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.Text.onRender=·»´õ¸µ ½Ã  
+
+Element.Text.onRender=·»´õ¸µ ½Ã
+
 Element.Text.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
-Element.Text.onRender.this=Text instance
+
+Element.Text.onRender.this=ÅØ½ºÆ® ÀÎ½ºÅÏ½º
+
 Element.Text.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Text.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.Text.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.Text.onPageBreak.this=ÅØ½ºÆ® ÀÎ½ºÅÏ½º
+
 Element.Text.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Text.hasExpression=½Ä °ª
+
 Element.Text.tagType=PDF ÅÂ±× Çü½Ä
+
 Element.Text.altText=´ëÃ¼ ÅØ½ºÆ®
   
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=Å° ½Ä
+
 Element.ListingGroup.sort=Á¤·Ä
+
 Element.ListingGroup.bookmark=Ã¥°¥ÇÇ
+
 Element.ListingGroup.bookmarkDisplayName=Ã¥°¥ÇÇ Ç¥½Ã ÀÌ¸§
+
 Element.ListingGroup.toc=¸ñÂ÷
+
 Element.ListingGroup.hideDetail=»ó¼¼ Á¤º¸ ¼û±â±â
+
 Element.ListingGroup.groupName=ÀÌ¸§
+
 Element.ListingGroup.Interval=°£°İ
+
 Element.ListingGroup.intervalBase=°£°İ ±âÁØ
+
 Element.ListingGroup.interval=°£°İ
+
 Element.ListingGroup.intervalRange=°£°İ ¹üÀ§
+
 Element.ListingGroup.sortDirection=Á¤·Ä ¹æÇâ
+
 Element.ListingGroup.eventHandlerClass=ÀÌº¥Æ® Ã³¸®±â Å¬·¡½º
+
 Element.ListingGroup.newHandlerOnEachEvent=°¢ ÀÌº¥Æ® ½Ã »õ Ã³¸®±â
+
 Element.ListingGroup.pageBreakBefore=¾Õ¿¡ ÆäÀÌÁö ³ª´©±â
+
 Element.ListingGroup.pageBreakAfter=µÚ¿¡ ÆäÀÌÁö ³ª´©±â
+
 Element.ListingGroup.pageBreakInside=»çÀÌ¿¡ ÆäÀÌÁö ³ª´©±â
+
 Element.ListingGroup.filter=ÇÊÅÍ
+
 Element.ListingGroup.repeatHeader=¸Ó¸®±Û ¹İº¹
+
 Element.ListingGroup.onStart=½ÃÀÛ ½Ã
+
 Element.ListingGroup.onStart.toolTip=µ¥ÀÌÅÍ ÁıÇÕÀÌ ¿­·ÈÁö¸¸ ¸Ó¸®±Û ¹êµå°¡ »ı¼ºµÇ±â ÀÌÀüÀÌ¸ç, Ã¹ ¹øÂ° ÇàÀÌ ÀÌ ¿ä¼Ò¿¡ ´ëÇÑ µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ °Ë»öµÇ±â Àü¿¡ È£ÃâµË´Ï´Ù
+
 Element.ListingGroup.onRow=Çà¿¡¼­
+
 Element.ListingGroup.onRow.toolTip=ÀÌ ¿ä¼Ò¿¡ ´ëÇÑ µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ °Ë»öµÈ °¢ Çà¿¡ ´ëÇØ ÇØ´ç Çà¿¡ ´ëÇÑ ³»¿ëÀ» »ı¼ºÇÏ±â Àü¿¡ È£ÃâµË´Ï´Ù
+
 Element.ListingGroup.onFinish=Á¾·á ½Ã
+
 Element.ListingGroup.onFinish.toolTip=ÀÌ ¿ä¼Ò¿¡ ´ëÇÑ µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ ¸¶Áö¸· ÇàÀ» ÀĞÀº ÀÌÈÄÀÌ¸ç, ¹Ù´Ú±Û ¹êµå°¡ »ı¼ºµÇ±â ÀÌÀü¿¡ È£ÃâµË´Ï´Ù
+
 Element.ListingGroup.sortType=Á¤·ÄÈ­ Çü½Ä
+
 Element.ListingGroup.boundDataColumns=¹ÙÀÎµùµÈ µ¥ÀÌÅÍ ¿­
+
 Element.ListingGroup.viewAction=ÀÛ¾÷ º¸±â
+
 Element.ListingGroup.onCreate=»ı¼º Áß
+
 Element.ListingGroup.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.ListingGroup.onCreate.this=¿­°Å ±×·ì
+
 Element.ListingGroup.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ListingGroup.onRender=·»´õ¸µ Áß
+
 Element.ListingGroup.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.ListingGroup.onRender.this=¿­°Å ±×·ì
+
 Element.ListingGroup.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ListingGroup.ACLExpression=ACL ½Ä
-Element.ListingGroup.cascadeACL=°è´Ü½Ä ACL
+
+Element.ListingGroup.cascadeACL=ACL ÇÏÀ§ Àü´Ş
+
 Element.ListingGroup.showDetailFilter=ÇÊÅÍ »ó¼¼ Á¤º¸ Ç¥½Ã
 
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=¸Ó¸®±Û
+
 Element.List.slot.groups=±×·ì
+
 Element.List.slot.detail=»ó¼¼ Á¤º¸
+
 Element.List.slot.footer=¹Ù´Ú±Û
+
 Element.List.onPrepare=ÁØºñ Áß
+
 Element.List.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.List.onPrepare.this=¸ñ·Ï
+
 Element.List.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.List.onCreate=»ı¼º ½Ã  
+
+Element.List.onCreate=»ı¼º ½Ã
+
 Element.List.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.List.onCreate.this=¸ñ·Ï ÀÎ½ºÅÏ½º
+
 Element.List.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.List.onRender=·»´õ¸µ ½Ã  
+
+Element.List.onRender=·»´õ¸µ ½Ã
+
 Element.List.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.List.onRender.this=¸ñ·Ï ÀÎ½ºÅÏ½º
+
 Element.List.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.List.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.List.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.List.onPageBreak.this=¸ñ·Ï ÀÎ½ºÅÏ½º
+
 Element.List.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.List.tagType=PDF ÅÂ±× Çü½Ä
+
 Element.List.altText=´ëÃ¼ ÅØ½ºÆ®
   
 #17.ListGroup  ( prefix  Element.ListGroup )
 Element.ListGroup.slot.header=¸Ó¸®±Û
+
 Element.ListGroup.slot.footer=¹Ù´Ú±Û
+
 Element.ListGroup.onPrepare=ÁØºñ Áß
+
 Element.ListGroup.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.ListGroup.onPrepare.this=¸ñ·Ï ±×·ì
+
 Element.ListGroup.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ListGroup.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.ListGroup.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.ListGroup.onPageBreak.this=¸ñ·Ï ±×·ì
+
 Element.ListGroup.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Ä¸¼Ç
+
 Element.Table.summary=¿ä¾à
+
 Element.Table.isSummaryTable=¿ä¾à Å×ÀÌºí
+
 Element.Table.captionID=Ä¸¼Ç Å°
+
 Element.Table.slot.header=¸Ó¸®±Û
+
 Element.Table.slot.groups=±×·ì
+
 Element.Table.slot.detail=»ó¼¼ Á¤º¸
+
 Element.Table.slot.footer=¹Ù´Ú±Û
+
 Element.Table.slot.columns=¿­
+
 Element.Table.onPrepare=ÁØºñ Áß
+
 Element.Table.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.Table.onPrepare.this=Å×ÀÌºí
+
 Element.Table.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Table.onPrepare.object=°´Ã¼
-Element.Table.onCreate=»ı¼º ½Ã  
+
+Element.Table.onCreate=»ı¼º ½Ã
+
 Element.Table.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Table.onCreate.this=Å×ÀÌºí ÀÎ½ºÅÏ½º
+
 Element.Table.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Table.onCreate.object=°´Ã¼
-Element.Table.onRender=·»´õ¸µ ½Ã  
+
+Element.Table.onRender=·»´õ¸µ ½Ã
+
 Element.Table.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Table.onRender.this=Å×ÀÌºí ÀÎ½ºÅÏ½º
+
 Element.Table.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Table.onRender.object=°´Ã¼
+
 Element.Table.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.Table.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.Table.onPageBreak.this=Å×ÀÌºí ÀÎ½ºÅÏ½º
+
 Element.Table.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Table.tagType=PDF ÅÂ±× Çü½Ä
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=¸Ó¸®±Û
+
 Element.TableGroup.slot.footer=¹Ù´Ú±Û
+
 Element.TableGroup.onPrepare=ÁØºñ Áß
+
 Element.TableGroup.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.TableGroup.onPrepare.this=Å×ÀÌºí ±×·ì
+
 Element.TableGroup.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.TableGroup.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.TableGroup.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.TableGroup.onPageBreak.this=Å×ÀÌºí ±×·ì
+
 Element.TableGroup.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=¹İº¹
+
 Element.Column.width=³Êºñ
+
 Element.Column.alignment=¸ÂÃã
+
 Element.Column.suppressDuplicates=Áßº¹ Ç×¸ñ ¼û±â±â
+
 Element.Column.visibility=Ç¥½Ã À¯Çü
+
 Element.Column.viewAction=ÀÛ¾÷ º¸±â
   
 #21.Row  ( prefix  Element.Row )
 Element.Row.visibility=Ç¥½Ã À¯Çü
+
 Element.Row.height=³ôÀÌ
+
 Element.Row.bookmark=Ã¥°¥ÇÇ
+
 Element.Row.bookmarkDisplayName=Ã¥°¥ÇÇ Ç¥½Ã ÀÌ¸§
+
 Element.Row.eventHandlerClass=ÀÌº¥Æ® Ã³¸®±â Å¬·¡½º
+
 Element.Row.newHandlerOnEachEvent=°¢ ÀÌº¥Æ® ½Ã »õ Ã³¸®±â
+
 Element.Row.slot.cells=¼¿
+
 Element.Row.onPrepare=ÁØºñ Áß
+
 Element.Row.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.Row.onPrepare.this=Çà
+
 Element.Row.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Row.onCreate=»ı¼º Áß
-Element.Row.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù. 
+
+Element.Row.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Row.onCreate.this=Çà ÀÎ½ºÅÏ½º
+
 Element.Row.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Row.onRender=·»´õ¸µ Áß
+
 Element.Row.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Row.onRender.this=Çà ÀÎ½ºÅÏ½º
+
 Element.Row.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Row.suppressDuplicates=Áßº¹ Ç×¸ñ ¼û±â±â
+
 Element.Row.viewAction=ÀÛ¾÷ º¸±â
+
 Element.Row.repeatable=¹İº¹ °¡´É
+
 Element.Row.tagType=PDF ÅÂ±× Çü½Ä
+
 Element.Row.language=¾ğ¾î
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=¿­
+
 Element.Cell.colSpan=¿­ ¹üÀ§
+
 Element.Cell.rowSpan=Çà ¹üÀ§
+
 Element.Cell.verticalAlign=¼¼·Î ¸ÂÃã
+
 Element.Cell.drop=»èÁ¦
+
 Element.Cell.height=³ôÀÌ
+
 Element.Cell.slot.content=³»¿ë
+
 Element.Cell.width=³Êºñ
+
 Element.Cell.eventHandlerClass=ÀÌº¥Æ® Ã³¸®±â Å¬·¡½º
+
 Element.Cell.newHandlerOnEachEvent=°¢ ÀÌº¥Æ® ½Ã »õ Ã³¸®±â
+
 Element.Cell.scope=¹üÀ§
+
 Element.Cell.bookmark=Ã¥°¥ÇÇ
+
 Element.Cell.bookmarkDisplayName=Ã¥°¥ÇÇ Ç¥½Ã ÀÌ¸§
+
 Element.Cell.headers=¸Ó¸®±Û
+
 Element.Cell.onPrepare=ÁØºñ Áß
+
 Element.Cell.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.Cell.onPrepare.this=¼¿
+
 Element.Cell.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Cell.onCreate=»ı¼º Áß
+
 Element.Cell.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Cell.onCreate.this=¼¿ ÀÎ½ºÅÏ½º
+
 Element.Cell.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Cell.onRender=·»´õ¸µ Áß
+
 Element.Cell.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Cell.onRender.this=¼¿ ÀÎ½ºÅÏ½º
+
 Element.Cell.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Cell.viewAction=ÀÛ¾÷ º¸±â
+
 Element.Cell.diagonal=´ë°¢¼±
+
 Element.Cell.diagonalNumber=´ë°¢¼± ¼ö
+
 Element.Cell.antidiagonalNumber=¹İ´ë°¢¼± ¼ö
+
 Element.Cell.diagonalThickness=´ë°¢¼± µÎ²²
+
 Element.Cell.diagonalColor=´ë°¢¼± »ö
+
 Element.Cell.antidiagonalThickness=¹İ´ë°¢¼± µÎ²²
+
 Element.Cell.diagonalStyle=´ë°¢¼± ½ºÅ¸ÀÏ
+
 Element.Cell.antidiagonalStyle=¹İ´ë°¢¼± ½ºÅ¸ÀÏ
+
 Element.Cell.antidiagonalColor=ÁÖ ´ë°¢¼± »ö
+
 Element.Cell.tagType=PDF ÅÂ±× Çü½Ä
+
 Element.Cell.language=¾ğ¾î
+
 Element.Cell.altText=´ëÃ¼ ÅØ½ºÆ®
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=´ëÃ¼ ÅØ½ºÆ®
+
 Element.Image.altTextID=´ëÃ¼ ÅØ½ºÆ® Å°
+
 Element.Image.helpText=µµ¿ò¸» ÅØ½ºÆ®
+
 Element.Image.helpTextID=µµ¿ò¸» ÅØ½ºÆ® Å°
+
 Element.Image.size=Å©±â
+
 Element.Image.scale=¹èÀ²
+
 Element.Image.source=¿øº»
+
 Element.Image.uri=URI
 Element.Image.imageName=ÀÌ¹ÌÁö ÀÌ¸§
+
 Element.Image.valueExpr=°ª ½Ä
+
 Element.Image.typeExpr=½Ä ÀÔ·Â
+
 Element.Image.action=ÀÛ¾÷
+
 Element.Image.onPrepare=ÁØºñ Áß
+
 Element.Image.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.Image.onPrepare.this=ÀÌ¹ÌÁö
+
 Element.Image.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.Image.onCreate=»ı¼º ½Ã  
+
+Element.Image.onCreate=»ı¼º ½Ã
+
 Element.Image.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Image.onCreate.this=ÀÌ¹ÌÁö ÀÎ½ºÅÏ½º
+
 Element.Image.onCreate.dataRow=µ¥ÀÌÅÍ Çà
+
 Element.Image.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.Image.onRender=·»´õ¸µ ½Ã  
+
+Element.Image.onRender=·»´õ¸µ ½Ã
+
 Element.Image.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Image.onRender.this=ÀÌ¹ÌÁö ÀÎ½ºÅÏ½º
+
 Element.Image.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Image.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.Image.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.Image.onPageBreak.this=ÀÌ¹ÌÁö ÀÎ½ºÅÏ½º
+
 Element.Image.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Image.fitToContainer=ÄÁÅ×ÀÌ³Ê¿¡ ¸ÂÃß±â
+
 Element.Image.proportionalScale=ºñ·Ê ¹èÀ²
+
 Element.Image.tagType=PDF ÅÂ±× Çü½Ä
   
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=¿­
+
 Element.Grid.slot.rows=Çà
+
 Element.Grid.onPrepare=ÁØºñ Áß
+
 Element.Grid.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.Grid.onPrepare.this=´«±İ
+
 Element.Grid.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.Grid.onCreate=»ı¼º ½Ã  
+
+Element.Grid.onCreate=»ı¼º ½Ã
+
 Element.Grid.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Grid.onCreate.this=´«±İ ÀÎ½ºÅÏ½º
+
 Element.Grid.onCreate.dataRow=µ¥ÀÌÅÍ Çà
+
 Element.Grid.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.Grid.onRender=·»´õ¸µ ½Ã  
+
+Element.Grid.onRender=·»´õ¸µ ½Ã
+
 Element.Grid.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.Grid.onRender.this=´«±İ ÀÎ½ºÅÏ½º
+
 Element.Grid.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Grid.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.Grid.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.Grid.onPageBreak.this=´«±İ ÀÎ½ºÅÏ½º
+
 Element.Grid.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.Grid.caption=Ä¸¼Ç
+
 Element.Grid.captionID=Ä¸¼Ç Å°
+
 Element.Grid.summary=¿ä¾à
+
 Element.Grid.tagType=PDF ÅÂ±× Çü½Ä
   
 #25.Line  ( prefix  Element.Line )
@@ -3123,108 +5198,196 @@ Element.Line.orientation=¹æÇâ
   
 #26.TextData  ( prefix  Element.TextData )
 Element.TextData.valueExpr=°ª ½Ä
+
 Element.TextData.contentType=³»¿ë Çü½Ä
+
 Element.TextData.onPrepare=ÁØºñ Áß
+
 Element.TextData.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.TextData.onPrepare.this=µ¿Àû ÅØ½ºÆ®
+
 Element.TextData.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.TextData.onPrepare.object=°´Ã¼
-Element.TextData.onCreate=»ı¼º ½Ã  
+
+Element.TextData.onCreate=»ı¼º ½Ã
+
 Element.TextData.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.TextData.onCreate.this=µ¿Àû ÅØ½ºÆ® ÀÎ½ºÅÏ½º
+
 Element.TextData.onCreate.dataRow=µ¥ÀÌÅÍ Çà
+
 Element.TextData.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.TextData.onRender=·»´õ¸µ ½Ã  
+
+Element.TextData.onRender=·»´õ¸µ ½Ã
+
 Element.TextData.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.TextData.onRender.this=µ¿Àû ÅØ½ºÆ® ÀÎ½ºÅÏ½º
+
 Element.TextData.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.TextData.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.TextData.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.TextData.onPageBreak.this=µ¿Àû ÅØ½ºÆ® ÀÎ½ºÅÏ½º
+
 Element.TextData.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.TextData.hasExpression=½Ä °ª
+
 Element.TextData.tagType=PDF ÅÂ±× Çü½Ä
+
 Element.TextData.altText=´ëÃ¼ ÅØ½ºÆ®
 
 #27.ExtendedItem   ( prefix  Element.ExtendedItem )
 Element.ExtendedItem.altText=´ëÃ¼ ÅØ½ºÆ®
+
 Element.ExtendedItem.altTextID=´ëÃ¼ ÅØ½ºÆ® Å°:
+
 Element.ExtendedItem.extensionName=È®Àå ÀÌ¸§
+
 Element.ExtendedItem.filter=ÇÊÅÍ
+
 Element.ExtendedItem.onPrepare=ÁØºñ Áß
+
 Element.ExtendedItem.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.ExtendedItem.onPrepare.this=È®Àå Ç×¸ñ
+
 Element.ExtendedItem.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.ExtendedItem.onCreate=»ı¼º ½Ã    
+
+Element.ExtendedItem.onCreate=»ı¼º ½Ã
+
 Element.ExtendedItem.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò »ı¼º ½Ã ½ÇÇàµË´Ï´Ù
+
 Element.ExtendedItem.onCreate.this=È®Àå Ç×¸ñ ÀÎ½ºÅÏ½º
+
 Element.ExtendedItem.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.ExtendedItem.onRender=·»´õ¸µ ½Ã    
+
+Element.ExtendedItem.onRender=·»´õ¸µ ½Ã
+
 Element.ExtendedItem.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ÇÇàµË´Ï´Ù.
+
 Element.ExtendedItem.onRender.this=È®Àå Ç×¸ñ ÀÎ½ºÅÏ½º
+
 Element.ExtendedItem.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.ExtendedItem.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.ExtendedItem.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.ExtendedItem.onPageBreak.this=È®Àå Ç×¸ñ ÀÎ½ºÅÏ½º
+
 Element.ExtendedItem.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
-Element.ExtendedItem.extensionVersion=Extension version
+
+Element.ExtendedItem.extensionVersion=È®Àå ¹öÀü
 
 #28.DataSource ( prefix Element.DataSource )
 Element.DataSource.beforeOpen=¿­±â ÀÌÀü
+
 Element.DataSource.beforeOpen.toolTip=ÀÌ ¸Ş¼­µå´Â BIRT°¡ µ¥ÀÌÅÍ ¿øº»À» ¿­±â Á÷Àü È£ÃâµË´Ï´Ù
+
 Element.DataSource.beforeOpen.this=µ¥ÀÌÅÍ ¿øº»
+
 Element.DataSource.beforeOpen.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.DataSource.beforeClose=´İ±â ÀÌÀü
+
 Element.DataSource.beforeClose.toolTip=ÀÌ ¸Ş¼­µå´Â BIRT°¡ µ¥ÀÌÅÍ ¿øº»À» ´İ±â Á÷Àü È£ÃâµË´Ï´Ù
+
 Element.DataSource.beforeClose.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.DataSource.beforeClose.this=µ¥ÀÌÅÍ ¿øº»
+
 Element.DataSource.afterOpen=¿­±â ÀÌÈÄ
+
 Element.DataSource.afterOpen.toolTip=ÀÌ ¸Ş¼­µå´Â BIRT°¡ µ¥ÀÌÅÍ ¿øº»À» ¿¬ Á÷ÈÄ È£ÃâµË´Ï´Ù
+
 Element.DataSource.afterOpen.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.DataSource.afterOpen.this=µ¥ÀÌÅÍ ¿øº»
+
 Element.DataSource.afterClose=´İ±â ÀÌÈÄ
+
 Element.DataSource.afterClose.toolTip=ÀÌ ¸Ş¼­µå´Â BIRT°¡ µ¥ÀÌÅÍ ¿øº»À» ´İÀº Á÷ÈÄ È£ÃâµË´Ï´Ù
+
 Element.DataSource.afterClose.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
 
 #29.ScriptDataSource ( prefix Element.ScriptDataSource )
 Element.ScriptDataSource.open=¿­±â
+
 Element.ScriptDataSource.open.toolTip=µ¥ÀÌÅÍ ¿øº»À¸·Î ¿¬°áÇÕ´Ï´Ù
+
 Element.ScriptDataSource.open.this=½ºÅ©¸³Æ® µ¥ÀÌÅÍ ¿øº»
+
 Element.ScriptDataSource.close=´İ±â
+
 Element.ScriptDataSource.close.toolTip=µ¥ÀÌÅÍ ¿øº»¿¡ ´ëÇÑ ¿¬°áÀ» »èÁ¦ÇÕ´Ï´Ù
+
 Element.ScriptDataSource.close.this=½ºÅ©¸³Æ® µ¥ÀÌÅÍ ¿øº»
 
 #31 ScriptDataSet ( prefix Element.ScriptDataSet )
 Element.ScriptDataSet.dataSource=µ¥ÀÌÅÍ ¿øº»
+
 Element.ScriptDataSet.open=¿­±â
+
 Element.ScriptDataSet.open.toolTip=µ¥ÀÌÅÍ ÁıÇÕÀ» ¿±´Ï´Ù
+
 Element.ScriptDataSet.open.this=½ºÅ©¸³Æ® µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.ScriptDataSet.describe=¼³¸í
+
 Element.ScriptDataSet.describe.toolTip=°á°ú ÁıÇÕÀ» ¼³¸íÇÕ´Ï´Ù
-Element.ScriptDataSet.describe.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ® 
-Element.ScriptDataSet.describe.this=½ºÅ©¸³Æ® µ¥ÀÌÅÍ ÁıÇÕ 
+
+Element.ScriptDataSet.describe.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
+Element.ScriptDataSet.describe.this=½ºÅ©¸³Æ® µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.ScriptDataSet.describe.dataSetMetaData=µ¥ÀÌÅÍ ÁıÇÕ ¸ŞÅ¸µ¥ÀÌÅÍ
+
 Element.ScriptDataSet.fetch=ÀÎÃâ
+
 Element.ScriptDataSet.fetch.currentRow=ÇöÀç Çà
+
 Element.ScriptDataSet.fetch.toolTip=Çü½Ä DataRowÀÇ °´Ã¼¸¦ »ı¼º, µî·Ï ¹× ¹İÈ¯ÇÕ´Ï´Ù
-Element.ScriptDataSet.fetch.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ® 
-Element.ScriptDataSet.fetch.this=½ºÅ©¸³Æ® µ¥ÀÌÅÍ ÁıÇÕ 
+
+Element.ScriptDataSet.fetch.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
+Element.ScriptDataSet.fetch.this=½ºÅ©¸³Æ® µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.ScriptDataSet.close=´İ±â
+
 Element.ScriptDataSet.close.toolTip=µ¥ÀÌÅÍ ÁıÇÕÀ» ´İ½À´Ï´Ù
+
 Element.ScriptDataSet.close.this=½ºÅ©¸³Æ® µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.ScriptDataSet.resultSetHints=°á°ú ÁıÇÕ ÈùÆ®
 
 #32 Listing ( prefix Element.Lising )
 Element.Listing.sorting=Á¤·Ä
+
 Element.Listing.filter=ÇÊÅÍ
+
 Element.Listing.repeatHeader=¸Ó¸®±Û ¹İº¹
+
 Element.Listing.pageBreakInterval=ÆäÀÌÁö ³ª´©±â °£°İ
+
 Element.Listing.sortByGroups=±×·ìº° Á¤·Ä
+
 Element.Listing.onStart=½ÃÀÛ ½Ã
+
 Element.Listing.onStart.toolTip=µ¥ÀÌÅÍ ÁıÇÕÀÌ ¿­·ÈÁö¸¸ ¸Ó¸®±Û ¹êµå°¡ »ı¼ºµÇ±â ÀÌÀüÀÌ¸ç, Ã¹ ¹øÂ° ÇàÀÌ ÀÌ ¿ä¼Ò¿¡ ´ëÇÑ µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ °Ë»öµÇ±â Àü¿¡ È£ÃâµË´Ï´Ù
+
 Element.Listing.onRow=Çà¿¡¼­
+
 Element.Listing.onRow.toolTip=ÀÌ ¿ä¼Ò¿¡ ´ëÇÑ µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ °Ë»öµÈ °¢ Çà¿¡ ´ëÇØ ÇØ´ç Çà¿¡ ´ëÇÑ ³»¿ëÀ» »ı¼ºÇÏ±â Àü¿¡ È£ÃâµË´Ï´Ù
+
 Element.Listing.onFinish=Á¾·á ½Ã
+
 Element.Listing.onFinish.toolTip=ÀÌ ¿ä¼Ò¿¡ ´ëÇÑ µ¥ÀÌÅÍ ÁıÇÕ¿¡¼­ ¸¶Áö¸· ÇàÀ» ÀĞÀº ÀÌÈÄÀÌ¸ç ¹Ù´Ú±Û ¹êµå°¡ »ı¼ºµÇ±â ÀÌÀü¿¡ È£ÃâµË´Ï´Ù
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
@@ -3232,36 +5395,58 @@ Element.GraphicMasterPage.slot.contents=³»¿ë
 
 #34 SimpleMasterPage ( Prefix Element.SimpleMasterPage)
 Element.SimpleMasterPage.showHeaderOnFirst=Ã¹ ÆäÀÌÁö¿¡ ¸Ó¸®±Û Ç¥½Ã
+
 Element.SimpleMasterPage.showFooterOnLast=¸¶Áö¸· ÆäÀÌÁö¿¡ ¸Ó¸®±Û Ç¥½Ã
+
 Element.SimpleMasterPage.headerHeight=¸Ó¸®±Û ³ôÀÌ
+
 Element.SimpleMasterPage.footerHeight=¹Ù´Ú±Û ³ôÀÌ
+
 Element.SimpleMasterPage.floatingFooter=ºÎµ¿ ¹Ù´Ú±Û
+
 Element.SimpleMasterPage.slot.pageHeader=ÆäÀÌÁö ¸Ó¸®±Û
+
 Element.SimpleMasterPage.slot.pageFooter=ÆäÀÌÁö ¹Ù´Ú±Û
 
 #35 OdaDataSource ( Prefix Element.OdaDataSource )
 Element.OdaDataSource.driverName=µå¶óÀÌ¹ö ÀÌ¸§
+
 Element.OdaDataSource.extensionID=È®Àå ID
+
 Element.OdaDataSource.publicDriverProperties=°ø¿ë µå¶óÀÌ¹ö ¼Ó¼º
+
 Element.OdaDataSource.privateDriverProperties=°³ÀÎ µå¶óÀÌ¹ö ¼Ó¼º
+
 Element.OdaDataSource.designerState=µğÀÚÀÌ³Ê »óÅÂ
 
 #36 OdaDataSet ( Prefix Element.OdaDataSet )
-Element.OdaDataSet.extensionID=Extension ID
+Element.OdaDataSet.extensionID=È®Àå ID
+
 Element.OdaDataSet.resultSet=°á°ú ÁıÇÕ ¿­
+
 Element.OdaDataSet.queryText=Äõ¸®
+
 Element.OdaDataSet.type=Çü½Ä
+
 Element.OdaDataSet.resultSetName=°á°ú ÁıÇÕ ÀÌ¸§
+
 Element.OdaDataSet.publicDriverProperties=°ø¿ë µå¶óÀÌ¹ö ¼Ó¼º
+
 Element.OdaDataSet.privateDriverProperties=°³ÀÎ µå¶óÀÌ¹ö ¼Ó¼º
-Element.OdaDataSet.designerState=Designer state
+
+Element.OdaDataSet.designerState=µğÀÚÀÌ³Ê »óÅÂ
+
 Element.OdaDataSet.designerValues=µğÀÚÀÌ³Ê °ª
+
 Element.OdaDataSet.resultSetNumber=°á°ú ÁıÇÕ ¼ö
+
 Element.OdaDataSet.dataSource=µ¥ÀÌÅÍ ¿øº»
 
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=»ç¿ëÀÚ ÁöÁ¤ XML
+
 Element.DesignElement.propertyMasks=¼Ó¼º ¸¶½ºÅ©
+
 Element.DesignElement.userProperties=»ç¿ëÀÚ ¼Ó¼º
 
 #38 Theme ( Prefix Element.Theme )
@@ -3269,20 +5454,29 @@ Element.Theme.slot.styles=½ºÅ¸ÀÏ
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=ÀÌ¸§
+
 Element.TemplateParameterDefinition.allowedType=Çã¿ëµÈ Çü½Ä
+
 Element.TemplateParameterDefinition.description=¼³¸í
+
 Element.TemplateParameterDefinition.descriptionID=¼³¸í ID
+
 Element.TemplateParameterDefinition.slot.default=±âº»°ª
 
 #40 TemplateElement ( Prefix Element.TemplateElement )
 Element.TemplateElement.name=ÀÌ¸§
+
 Element.TemplateElement.refTemplateParameter=ÂüÁ¶ ÅÛÇÃ¸´ ¸Å°³ º¯¼ö
+
 Element.TemplateElement.displayName=Ç¥½Ã ÀÌ¸§
+
 Element.TemplateElement.displayNameID=Ç¥½Ã ÀÌ¸§ ID
 
 #41 JointDataset ( Prefix Element.JointDataset )
 Element.JointDataSet.resultSet=°á°ú ÁıÇÕ ¿­
+
 Element.JointDataSet.dataSets=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.JointDataSet.joinConditions=Á¶ÀÎ Á¶°Ç
 
 #42 Rectangle  ( prefix  Element.Rectangle )
@@ -3292,32 +5486,52 @@ Element.TemplateReportItem.visibility=Ç¥½Ã À¯Çü
 
 #44.AutoText ( prefix Element.AutoText )
 Element.AutoText.type = AutoText Çü½Ä
+
 Element.AutoText.onPrepare=ÁØºñ Áß
+
 Element.AutoText.onPrepare.this=AutoText
 Element.AutoText.onPrepare.toolTip=¿ä¼Ò ¼³Á¤ Áß ½ÇÇà ¿©±â¿¡¼­ ¿ä¼Ò µğÀÚÀÎÀ» º¯°æÇÕ´Ï´Ù. ¾ÆÁ÷ µ¥ÀÌÅÍ ¹ÙÀÎµùÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Element.AutoText.onPrepare.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.AutoText.onCreate=»ı¼º Áß
+
 Element.AutoText.onCreate.toolTip=°øÀå¿¡¼­ ¿ä¼Ò°¡ »ı¼ºµÉ ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.AutoText.onCreate.this=AutoText ÀÎ½ºÅÏ½º
+
 Element.AutoText.onCreate.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.AutoText.onRender=·»´õ¸µ Áß
+
 Element.AutoText.onRender.toolTip=ÇÁ¸®Á¨Å×ÀÌ¼Ç ¿£Áø¿¡¼­ ¿ä¼Ò°¡ ·»´õ¸µ ÁØºñµÇ¾úÀ» ¶§ ½ºÅ©¸³Æ®°¡ ½ÇÇàµË´Ï´Ù.
+
 Element.AutoText.onRender.this=AutoText ÀÎ½ºÅÏ½º
+
 Element.AutoText.onRender.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.AutoText.onPageBreak=ÆäÀÌÁö ³ª´©±â
+
 Element.AutoText.onPageBreak.toolTip=ÆäÀÌÁö°¡ ³ª´©¾îÁú ¶§ ÇØ´ç ÆäÀÌÁö¿¡ ÀÖ´Â ¸ğµç º¸°í¼­ Ç×¸ñ¿¡ ´ëÇØ ½ÇÇàÇÕ´Ï´Ù.
+
 Element.AutoText.onPageBreak.this=AutoText ÀÎ½ºÅÏ½º
+
 Element.AutoText.onPageBreak.reportContext=º¸°í¼­ ÄÁÅØ½ºÆ®
+
 Element.AutoText.pageVariable=ÆäÀÌÁö º¯¼ö
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=ÇÊÅÍ Á¶°Ç
+
 Element.Cube.defaultMeasureGroup=±âº» ÃøÁ¤°ª ±×·ì
+
 Element.Cube.ACLExpression=ACL ½Ä
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=½Ã°£ À¯Çü Á¶°Ç
+
 Element.Dimension.defaultHierarchy=±âº» °èÃş ±¸Á¶
+
 Element.Dimension.ACLExpression=ACL ½Ä
 
 #47. Hierarchy ( prefix Element.Hierarchy )
@@ -3325,30 +5539,52 @@ Element.Hierarchy.filter=ÇÊÅÍ Á¶°Ç
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=µ¥ÀÌÅÍ Çü½Ä
+
 Element.Level.dateTimeLevelType=³¯Â¥ ½Ã°£ ¼öÁØ Çü½Ä
+
 Element.Level.dateTimeFormat=³¯Â¥ ½Ã°£ Çü½Ä
+
 Element.Level.Interval=°£°İ
+
 Element.Level.intervalBase=°£°İ ±âÁØ
+
 Element.Level.interval=°£°İ
+
 Element.Level.intervalRange=°£°İ ¹üÀ§
+
 Element.Level.levelType=¼öÁØ Çü½Ä
+
 Element.Level.staticValues=Á¤Àû °ª
+
 Element.Level.defaultValue=±âº»°ª
+
 Element.Level.ACLExpression=ACL ½Ä
+
 Element.Level.MemberACLExpression=±¸¼º¿ø ACL ½Ä
+
 Element.Level.action=ÀÛ¾÷
+
 Element.Level.format=Çü½Ä
+
 Element.Level.alignment=¸ÂÃã
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=ÇÔ¼ö
+
 Element.Measure.isCalculated=°è»ê Á¶°Ç
+
 Element.Measure.measureExpression=ÃøÁ¤°ª ½Ä
+
 Element.Measure.dataType=µ¥ÀÌÅÍ Çü½Ä
+
 Element.Measure.ACLExpression=ACL ½Ä
+
 Element.Measure.action=ÀÛ¾÷
+
 Element.Measure.format=Çü½Ä
+
 Element.Measure.alignment=¸ÂÃã
+
 Element.Measure.isVisible=Ç¥½Ã
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
@@ -3356,36 +5592,49 @@ Element.MeasureGroup.measures=ÃøÁ¤°ª
 
 #51. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=µ¥ÀÌÅÍ ÁıÇÕ
-Element.TabularCube.dimensions=Å©±â
+
+Element.TabularCube.dimensions=Â÷¿ø
+
 Element.TabularCube.measureGroups=ÃøÁ¤°ª ±×·ì
+
 Element.TabularCube.dimensionConditions=Â÷¿ø Á¶°Ç
+
 Element.TabularCube.autoKey=ÀÚµ¿ ±âº» Å°
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=°èÃş
+
 Element.TabularDimension.internalDimensionRef=³»ºÎ Â÷¿ø ÂüÁ¶
 
 #53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.TabularHierarchy.levels=¼öÁØ
+
 Element.TabularHierarchy.primaryKeys=±âº» Å°
 
 #54. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=¿­ ÀÌ¸§
+
 Element.TabularLevel.displayColumnName=¿­ ÀÌ¸§ Ç¥½Ã
+
 Element.TabularLevel.attributes=Æ¯¼º
 
 #55. OdaCube ( prefix Element.OdaCube )
-Element.OdaCube.dimensions=Å©±â
+Element.OdaCube.dimensions=Â÷¿ø
+
 Element.OdaCube.measureGroups=ÃøÁ¤°ª ±×·ì
+
 Element.OdaCube.nativeName=°íÀ¯ ÀÌ¸§
 
 #56. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=°èÃş
+
 Element.OdaDimension.nativeName=°íÀ¯ ÀÌ¸§
 
 #57. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=¼öÁØ
+
 Element.OdaHierarchy.nativeName=°íÀ¯ ÀÌ¸§
 
 #58. OdaLevel ( prefix Element.OdaLevel )
@@ -3393,122 +5642,190 @@ Element.OdaLevel.attributes=Æ¯¼º
 
 #59. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=°ª
+
 Element.MemberValue.level=¼öÁØ
+
 Element.MemberValue.memberValues=±¸¼º¿ø °ª
+
 Element.MemberValue.filter=ÇÊÅÍ
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=Å°
+
 Element.SortElement.direction=¹æÇâ
+
 Element.SortElement.member=±¸¼º¿ø
+
 Element.SortElement.strength=¼öÁØ Á¤·Ä
+
 Element.SortElement.locale=·ÎÄÉÀÏ Á¤·Ä
 
 #61. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=¿¬»êÀÚ
+
 Element.FilterConditionElement.expr=½Ä
+
 Element.FilterConditionElement.value1=Value1
+
 Element.FilterConditionElement.value2=Value2
+
 Element.FilterConditionElement.filterTarget=´ë»ó ÇÊÅÍ
-Element.FilterConditionElement.member=±¸¼º¿ø 
+
+Element.FilterConditionElement.member=±¸¼º¿ø
+
 Element.FilterConditionElement.isOptional=¿É¼Ç ¿©ºÎ
+
 Element.FilterConditionElement.extensionName=È®Àå ÀÌ¸§
+
 Element.FilterConditionElement.extensionExprId=È®Àå ½Ä ID
+
 Element.FilterConditionElement.pushDown=¾Æ·¡·Î ¹Ğ¾î³»±â
-Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
+
+Element.FilterConditionElement.dynamicFilterParameter=µ¿Àû ÇÊÅÍ ¸Å°³ º¯¼ö
+
 Element.FilterConditionElement.type=Çü½Ä
+
 Element.FilterConditionElement.updateAggregation=Áı°è ¾÷µ¥ÀÌÆ®
 
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
-Element.AbstractMultiViews.index=Index
+Element.AbstractMultiViews.index=ÀÎµ¦½º
 
 #63. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=º¸±â
 
 #64. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=ÀÌ¸§
+
 Element.VariableElement.value=°ª
+
 Element.VariableElement.type=Çü½Ä
 
 #65. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=ÀÌ¸§
+
 Element.DataGroup.keyExpr=Å° ½Ä
+
 Element.DataGroup.sort=Á¤·Ä
+
 Element.DataGroup.filter=ÇÊÅÍ
+
 Element.DataGroup.Interval=°£°İ
+
 Element.DataGroup.interval=°£°İ
+
 Element.DataGroup.intervalBase=°£°İ ±âÁØ
+
 Element.DataGroup.intervalRange=°£°İ ¹üÀ§
+
 Element.DataGroup.sortDirection=Á¤·Ä ¹æÇâ
+
 Element.DataGroup.sortType=Á¤·Ä Çü½Ä
 
 #66. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=ÀÔ·Â µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.DerivedDataSet.queryText=Äõ¸® ÅØ½ºÆ®
+
 Element.DerivedDataSet.extensionID=È®Àå ID
 
 #67. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
 Element.AbstractScalarParameter.isRequired=ÇÊ¿ä
+
 Element.AbstractScalarParameter.dynamicList=µ¿Àû ¸ñ·Ï
+
 Element.AbstractScalarParameter.dynamicList.dataSetName=µ¥ÀÌÅÍ ÁıÇÕ ÀÌ¸§
+
 Element.AbstractScalarParameter.dynamicList.linkedDataModelName=¿¬°áµÈ µ¥ÀÌÅÍ ¸ğµ¨ ÀÌ¸§
+
 Element.AbstractScalarParameter.dynamicList.valueExpr=°ª ½Ä
+
 Element.AbstractScalarParameter.dynamicList.labelExpr=·¹ÀÌºí ½Ä
+
 Element.AbstractScalarParameter.listLimit=¸ñ·Ï Á¦ÇÑ
+
 Element.AbstractScalarParameter.sortDirection=Á¤·Ä ¹æÇâ
+
 Element.AbstractScalarParameter.sortBy=Á¤·Ä ±âÁØ
+
 Element.AbstractScalarParameter.valueType=°ª Çü½Ä
+
 Element.AbstractScalarParameter.sortByColumn=¿­À» ±âÁØÀ¸·Î Á¤·Ä
+
 Element.AbstractScalarParameter.selectionList=¼±ÅÃ ¸ñ·Ï
+
 Element.AbstractScalarParameter.dataType=µ¥ÀÌÅÍ Çü½Ä
+
 Element.AbstractScalarParameter.distinct=°íÀ¯
 
 #68. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=Ç¥½Ã Çü½Ä
+
 Element.DynamicFilterParameter.filterOperator=ÇÊÅÍ ¿¬»êÀÚ
+
 Element.DynamicFilterParameter.column=¿­
+
 Element.DynamicFilterParameter.defaultValue=±âº»°ª
+
 Element.DynamicFilterParameter.nativeDataType=°íÀ¯ µ¥ÀÌÅÍ Çü½Ä
+
 Element.DynamicFilterParameter.controlType=ÄÁÆ®·Ñ Çü½Ä
 
 #78 DataMart ( prefix  Element.DataMart )
 Element.DataMart.slot.dataSources=µ¥ÀÌÅÍ ¿øº»
+
 Element.DataMart.slot.dataSets=µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.DataMart.slot.cubes=Å¥ºê
+
 Element.DataMart.slot.parameters=¸Å°³ º¯¼ö
+
 Element.DataMart.slot.dimensions=°øÀ¯ Â÷¿ø
+
 Element.DataMart.enableACL=µ¥ÀÌÅÍ º¸¾È ¼³Á¤ »ç¿ë
+
 Element.DataMart.ACLExpression=ACL ½Ä
+
 Element.DataMart.enableIncrementalUpdate=ÁõºĞ ¾÷µ¥ÀÌÆ® »ç¿ë
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
-Element.DataMartDataSource.datamartURL = Data Mart URL
+Element.DataMartDataSource.datamartURL =Data Mart URL
+
 Element.DataMartDataSource.datamartVersion=Data Mart ¹öÀü
+
 Element.DataMartDataSource.paramBindings=¸Å°³ º¯¼ö ¹ÙÀÎµù
+
 Element.DataMartDataSource.accessType=¾×¼¼½º À¯Çü
 
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=µ¥ÀÌÅÍ ¿øº»
+
 Element.DataMartDataSet.dataObject=µ¥ÀÌÅÍ °³Ã¼
+
 Element.DataMartDataSet.selectedColumns=¼±ÅÃÇÑ ¿­
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=µ¥ÀÌÅÍ ¿øº»
+
 Element.DataMartCube.dataObject=µ¥ÀÌÅÍ °³Ã¼
 
 #82 TimeDimension ( prefix Element.TimeDimension )
 Element.TimeDimension.startTimePoint=½ÃÀÛ ½ÃÁ¡
+
 Element.TimeDimension.endTimePoint=Á¾·á ½ÃÁ¡
+
 Element.TimeDimension.hierarchies=°èÃş
 
 #83 DataMartLinkedDataModel ( prefix Element.DataMartLinkedDataModel )
 Element.DataMartLinkedDataModel.dataSource=µ¥ÀÌÅÍ ¿øº»
+
 Element.DataMartLinkedDataModel.dataObject=µ¥ÀÌÅÍ °³Ã¼
 
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=½ºÅ¸ÀÏ
+
 Element.ReportItemTheme.type=Çü½Ä
+
 Element.ReportItemTheme.customValues=»ç¿ëÀÚ ÁöÁ¤ °ª
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
@@ -3516,19 +5833,42 @@ Element.AbstractTheme.cssStyleSheets=CSS ½ºÅ¸ÀÏ½ÃÆ®
 
 #Category
 Element.Category.helpText = µµ¿ò¸» ÅØ½ºÆ®
+
 Element.Category.helpTextKey = µµ¿ò¸» ÅØ½ºÆ® ¸®¼Ò½º Å°
 
 #Category Column
 Element.CategoryColumn.aggregationFunction = Áı°è ÇÔ¼ö
+
 Element.CategoryColumn.aliasDataSet = º°Äª µ¥ÀÌÅÍ ÁıÇÕ
+
 Element.CategoryColumn.dataType = µ¥ÀÌÅÍ Çü½Ä
-Element.CategoryColumn.expression = ½Ä
+
+Element.CategoryColumn.expression =½Ä
+
 Element.CategoryColumn.resultSetColumnName = °á°ú ÁıÇÕ ¿­ ÀÌ¸§
+
+Element.CategoryColumn.helpText =µµ¿ò¸» ÅØ½ºÆ®
+
+Element.CategoryColumn.ACLExpression =ACL ½Ä
+
+Element.CategoryColumn.heading =¸Ó¸®±Û
+
+Element.CategoryColumn.horizontalAlign =°¡·Î ¸ÂÃã
+
+Element.CategoryColumn.format =Çü½Ä
+
+Element.CategoryColumn.valueFormat =°ª Çü½Ä
+
+Element.CategoryColumn.action =ÀÛ¾÷
+
+Element.CategoryColumn.analysis =ºĞ¼®
 
 ###########################################################
 # Predefined style
 Style.Report=º¸°í¼­
+
 Style.List=(¸ñ·Ï)
+
 
 Style.GroupHeader1=GroupHeader1
 Style.GroupHeader2=GroupHeader1
@@ -3551,477 +5891,781 @@ Style.GroupFooter9=GroupFooter9
 
 Style.ListHeader=ListHeader
 Style.ListFooter=ListFooter
-
 Style.ListGroupHeader1=ListGroupHeader1
+
 Style.ListGroupHeader2=ListGroupHeader2
+
 Style.ListGroupHeader3=ListGroupHeader3
+
 Style.ListGroupHeader4=ListGroupHeader4
+
 Style.ListGroupHeader5=ListGroupHeader5
+
 Style.ListGroupHeader6=ListGroupHeader6
+
 Style.ListGroupHeader7=ListGroupHeader7
+
 Style.ListGroupHeader8=ListGroupHeader8
+
 Style.ListGroupHeader9=ListGroupHeader9
 
 Style.ListGroupFooter1=ListGroupFooter1
+
 Style.ListGroupFooter2=ListGroupFooter2
+
 Style.ListGroupFooter3=ListGroupFooter3
+
 Style.ListGroupFooter4=ListGroupFooter4
+
 Style.ListGroupFooter5=ListGroupFooter5
+
 Style.ListGroupFooter6=ListGroupFooter6
+
 Style.ListGroupFooter7=ListGroupFooter7
+
 Style.ListGroupFooter8=ListGroupFooter8
+
 Style.ListGroupFooter9=ListGroupFooter9
+
 
 Style.ListDetail=ListDetail
 Style.Table=Å×ÀÌºí
+
 Style.TableHeader=TableHeader
 Style.TableHeaderCell=TableHeaderCell
 Style.TableFooter=TableFooter
 Style.TableFooterCell=TableFooterCell
-
 Style.TableGroupHeader1=TableGroupHeader1
+
 Style.TableGroupHeader2=TableGroupHeader2
+
 Style.TableGroupHeader3=TableGroupHeader3
+
 Style.TableGroupHeader4=TableGroupHeader4
+
 Style.TableGroupHeader5=TableGroupHeader5
+
 Style.TableGroupHeader6=TableGroupHeader6
+
 Style.TableGroupHeader7=TableGroupHeader7
+
 Style.TableGroupHeader8=TableGroupHeader8
+
 Style.TableGroupHeader9=TableGroupHeader9
 
 Style.TableGroupHeaderCell=TableGroupHeaderCell
 
 Style.TableGroupFooter1=TableGroupFooter1
+
 Style.TableGroupFooter2=TableGroupFooter2
+
 Style.TableGroupFooter3=TableGroupFooter3
+
 Style.TableGroupFooter4=TableGroupFooter4
+
 Style.TableGroupFooter5=TableGroupFooter5
+
 Style.TableGroupFooter6=TableGroupFooter6
+
 Style.TableGroupFooter7=TableGroupFooter7
+
 Style.TableGroupFooter8=TableGroupFooter8
+
 Style.TableGroupFooter9=TableGroupFooter9
 
 Style.TableGroupFooterCell=TableGroupFooterCell
+
 
 Style.TableColumnHeader=TableColumnHeader
 Style.TableDetail=TableDetail
 Style.TableDetailCell=TableDetailCell
 Style.Page=ÆäÀÌÁö
+
 Style.Matrix=¸ÅÆ®¸¯½º
 
 Style.MatrixRowHeader1=MatrixRowHeader1
+
 Style.MatrixRowHeader2=MatrixRowHeader2
+
 Style.MatrixRowHeader3=MatrixRowHeader3
+
 Style.MatrixRowHeader4=MatrixRowHeader4
+
 Style.MatrixRowHeader5=MatrixRowHeader5
+
 Style.MatrixRowHeader6=MatrixRowHeader6
+
 Style.MatrixRowHeader7=MatrixRowHeader7
+
 Style.MatrixRowHeader8=MatrixRowHeader8
+
 Style.MatrixRowHeader9=MatrixRowHeader9
 
 Style.MatrixRowFooter1=MatrixRowFooter1
+
 Style.MatrixRowFooter2=MatrixRowFooter2
+
 Style.MatrixRowFooter3=MatrixRowFooter3
+
 Style.MatrixRowFooter4=MatrixRowFooter4
+
 Style.MatrixRowFooter5=MatrixRowFooter5
+
 Style.MatrixRowFooter6=MatrixRowFooter6
+
 Style.MatrixRowFooter7=MatrixRowFooter7
+
 Style.MatrixRowFooter8=MatrixRowFooter8
+
 Style.MatrixRowFooter9=MatrixRowFooter9
 
 Style.MatrixColumnHeader1=MatrixColumnHeader1
+
 Style.MatrixColumnHeader2=MatrixColumnHeader2
+
 Style.MatrixColumnHeader3=MatrixColumnHeader3
+
 Style.MatrixColumnHeader4=MatrixColumnHeader4
+
 Style.MatrixColumnHeader5=MatrixColumnHeader5
+
 Style.MatrixColumnHeader6=MatrixColumnHeader6
+
 Style.MatrixColumnHeader7=MatrixColumnHeader7
+
 Style.MatrixColumnHeader8=MatrixColumnHeader8
+
 Style.MatrixColumnHeader9=MatrixColumnHeader9
 
 Style.MatrixColumnFooter1=MatrixColumnFooter1
+
 Style.MatrixColumnFooter2=MatrixColumnFooter2
+
 Style.MatrixColumnFooter3=MatrixColumnFooter3
+
 Style.MatrixColumnFooter4=MatrixColumnFooter4
+
 Style.MatrixColumnFooter5=MatrixColumnFooter5
+
 Style.MatrixColumnFooter6=MatrixColumnFooter6
+
 Style.MatrixColumnFooter7=MatrixColumnFooter7
+
 Style.MatrixColumnFooter8=MatrixColumnFooter8
+
 Style.MatrixColumnFooter9=MatrixColumnFooter9
+
 
 Style.MatrixCell=MatrixCell
 Style.Chart=Â÷Æ®
+
 Style.ChartTitle=ChartTitle
 Style.ChartLegend=ChartLegend
 Style.ChartValue=ChartValue
 Style.ChartAxis=ChartAxis
 Style.Label=·¹ÀÌºí
+
 Style.Data=µ¥ÀÌÅÍ
+
 Style.Number=¹øÈ£
+
 Style.String=¹®ÀÚ¿­
+
 Style.Text=ÅØ½ºÆ®
+
 Style.Grid=´«±İ
 
 Style.Toc=TOC ¼öÁØ0
+
 Style.Toc1=TOC ¼öÁØ1
+
 Style.Toc2=TOC ¼öÁØ2
+
 Style.Toc3=TOC ¼öÁØ3
+
 Style.Toc4=TOC ¼öÁØ4
+
 Style.Toc5=TOC ¼öÁØ5
+
 Style.Toc6=TOC ¼öÁØ6
+
 Style.Toc7=TOC ¼öÁØ7
+
 Style.Toc8=TOC ¼öÁØ8
+
 Style.Toc9=TOC ¼öÁØ9
+
 
 Style.FreeForm=FreeForm
 Style.Line=²©Àº¼±Çü
+
 Style.Rectangle=»ç°¢Çü
-Style.TextData=ÅØ½ºÆ® µ¥ÀÌÅÍ
+
+Style.TextData=TextData
 Style.ExtendedItem=ExtendedItem
 Style.Image=ÀÌ¹ÌÁö
 
 ###########################################################
 # Messages.
 Message.NamePrefixNew=»õ
+
 Message.ChangeProperty=¼Ó¼º º¯°æ:{0}
+
 Message.ChangePropertyDefinition=¼Ó¼º Á¤ÀÇ º¯°æ
+
 Message.MoveItem=Ç×¸ñ ÀÌµ¿
+
 Message.AddTranslation=º¯È¯ Ãß°¡
+
 Message.DropTranslation=º¯È¯ »èÁ¦
+
 Message.ChangeTranslation=º¯È¯ º¯°æ
+
 Message.MoveContent=³»¿ë ÀÌµ¿
+
 Message.AddProperty=¼Ó¼º Ãß°¡
+
 Message.DropProperty=¼Ó¼º »èÁ¦
+
 Message.SetName=ÀÌ¸§ ¼³Á¤
-Message.AddElement=¿ä¼Ò Ãß°¡    
-Message.DropElement=¿ä¼Ò »èÁ¦    
+
+Message.AddElement=¿ä¼Ò Ãß°¡
+
+Message.DropElement=¿ä¼Ò »èÁ¦
+
 Message.SetStyle=½ºÅ¸ÀÏ ¼³Á¤
+
 Message.ReplaceItem=Ç×¸ñ ¹Ù²Ù±â
+
 Message.SetLocale=·ÎÄ¶ ¼³Á¤
+
 Message.SetTranslationText=º¯È¯ ÅØ½ºÆ® ¼³Á¤
+
 Message.MoveElement=¿ä¼Ò ÀÌµ¿
+
 Message.InsertElement=¿ä¼Ò »ğÀÔ
+
 Message.DeleteElement=¿ä¼Ò »èÁ¦
+
 Message.SetExtends=È®Àå ¼³Á¤
+
 Message.ChangeItem=Ç×¸ñ º¯°æ
+
 Message.AddItem=Ç×¸ñ Ãß°¡
+
 Message.InsertItem=Ç×¸ñ »ğÀÔ
+
 Message.RemoveItem=Ç×¸ñ Á¦°Å
+
 Message.ReplaceElement=¿ä¼Ò ¹Ù²Ù±â
+
 Message.SetTheme=Å×¸¶ ¼³Á¤
+
 Message.ChangePropertyEncryption=¼Ó¼º {0}ÀÇ ¾ÏÈ£È­ º¯°æ
+
 Message.RenameCSSFile=CSS ÆÄÀÏ ÀÌ¸§ ¹Ù²Ù±â
-Message.ImportCSSStyles=CSS ½ºÅ¸ÀÏ °¡Á®¿À±â 
 
-Message.InsertAndPasteColumnBand=¿­ »ğÀÔ ¹× ºÙ¿©³Ö±â 
-Message.PasteColumnBand=¿­ ºÙ¿©³Ö±â 
-Message.ShiftColumnBand=¿­ ÀÌµ¿ 
-Message.InsertColumnBand=¿­ »ğÀÔ 
+Message.ImportCSSStyles=CSS ½ºÅ¸ÀÏ °¡Á®¿À±â
 
-Message.InsertRow=Çà »ğÀÔ 
-Message.InsertAndPasteRow=Çà »ğÀÔ ¹× ºÙ¿©³Ö±â 
-Message.PasteRow=Çà ºÙ¿©³Ö±â 
-Message.ShiftRow=Çà ÀÌµ¿ 
+Message.InsertAndPasteColumnBand=¿­ »ğÀÔ ¹× ºÙ¿©³Ö±â
+
+Message.PasteColumnBand=¿­ ºÙ¿©³Ö±â
+
+Message.ShiftColumnBand=¿­ ÀÌµ¿
+
+Message.InsertColumnBand=¿­ »ğÀÔ
+
+Message.InsertRow=Çà »ğÀÔ
+
+Message.InsertAndPasteRow=Çà »ğÀÔ ¹× ºÙ¿©³Ö±â
+
+Message.PasteRow=Çà ºÙ¿©³Ö±â
+
+Message.ShiftRow=Çà ÀÌµ¿
 
 Message.ClearProperties=¼Ó¼º Áö¿ì±â
 
 Message.CreateTemplateElement=ÅÛÇÃ¸´ ¿ä¼Ò »ı¼º
+
 Message.TransformToReportItem=º¸°í¼­ Ç×¸ñÀ¸·Î º¯È¯
+
 Message.TransformToDataSet=µ¥ÀÌÅÍ ÁıÇÕÀ¸·Î º¯È¯
+
 Message.ExportElementToLibrary=¶óÀÌºê·¯¸®·Î ¿ä¼Ò ³»º¸³»±â
+
 Message.ExportElementToDataMart=DataMart·Î ¿ä¼Ò ³»º¸³»±â
 
 ###########################################################
 #Element new names.
 
-New.ReportDesign=»õ º¸°í¼­ µğÀÚÀÎ
-New.Parameter=»õ ¸Å°³ º¯¼ö
+New.ReportDesign=NewReportDesign
+New.Parameter=NewParameter
 New.CascadingParameterGroup=»õ °è´Ü½Ä ¸Å°³ º¯¼ö ±×·ì
-New.ScalarParameter=»õ ¸Å°³ º¯¼ö
+
+New.ScalarParameter=NewParameter
 New.DynamicFilterParameter=»õ µ¿Àû ÇÊÅÍ ¸Å°³ º¯¼ö
-New.ParameterGroup=»õ ¸Å°³ º¯¼ö ±×·ì
-New.Style=»õ ½ºÅ¸ÀÏ
-New.MasterPage=»õ ¸¶½ºÅÍ ÆäÀÌÁö
-New.ReportItem=»õ º¸°í¼­ Ç×¸ñ
-New.Label=»õ ·¹ÀÌºí
-New.FreeForm=»õ ÀÚÀ¯ Çü½Ä
-New.Data=»õ µ¥ÀÌÅÍ
-New.Text=»õ ÅØ½ºÆ®
-New.ListingGroup=»õ ¸ñ·Ï ±×·ì
-New.List=»õ ¸ñ·Ï
-New.ListGroup=»õ ¸ñ·Ï ±×·ì
-New.Listint=»õ ¸ñ·Ï
-New.Table=»õ Å×ÀÌºí
-New.TableGroup=»õ Å×ÀÌºí ±×·ì
-New.Column=»õ ¿­
+
+New.ParameterGroup=NewParameterGroup
+New.Style=NewStyle
+New.MasterPage=NewMasterPage
+New.ReportItem=NewReportItem
+New.Label=NewLabel
+New.FreeForm=NewFreeForm
+New.Data=NewData
+New.Text=NewText
+New.ListingGroup=NewListingGroup
+New.List=NewList
+New.ListGroup=NewListGroup
+New.Listint=NewListing
+New.Table=NewTable
+New.TableGroup=NewTableGroup
+New.Column=NewColumn
 New.Row=»õ Çà
-New.Cell=»õ ¼¿
-New.Image=»õ ÀÌ¹ÌÁö
-New.Grid=»õ ´«±İ
-New.Line=»õ ÁÙ
-New.Tile=»õ ¹ÙµÏÆÇÇü
-New.Rectangle=»õ »ç°¢Çü
+
+New.Cell=NewCell
+New.Image=NewImage
+New.Grid=NewGrid
+New.Line=NewLine
+New.Tile=NewTile
+New.Rectangle=NewRectangle
 New.GraphicMasterPage=»õ ±×·¡ÇÈ ¸¶½ºÅÍ ÆäÀÌÁö
+
 New.SimpleMasterPage=»õ ´Ü¼ø ¸¶½ºÅÍ ÆäÀÌÁö
-New.TextData=»õ ÅØ½ºÆ® µ¥ÀÌÅÍ
-New.ExtendedItem=»õ È®Àå Ç×¸ñ
+
+New.TextData=NewTextData
+New.ExtendedItem=NewExtendedItem
 New.ScriptDataSource=»õ ½ºÅ©¸³Æ® µ¥ÀÌÅÍ ¿øº»
+
 New.ScriptDataSet=»õ ½ºÅ©¸³Æ® µ¥ÀÌÅÍ ÁıÇÕ
+
 New.OdaDataSource=»õ ODA µ¥ÀÌÅÍ ¿øº»
+
 New.OdaDataSet=»õ ODA µ¥ÀÌÅÍ ÁıÇÕ
+
 New.TemplateParameterDefinition=»õ ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Á¤ÀÇ
+
 New.TemplateDataSet=»õ ÅÛÇÃ¸´ µ¥ÀÌÅÍ ÁıÇÕ
+
 New.TemplateReportItem=»õ ÅÛÇÃ¸´ º¸°í¼­ Ç×¸ñ
-New.Theme=»õ Å×¸¶
-New.AutoText=NewAuto Text
+
+New.Theme=NewTheme
+New.AutoText=NewAutoText
 New.TabularCube=µ¥ÀÌÅÍ Å¥ºê
+
 New.TabularDimension=±×·ì
+
 New.TabularHierarchy=NewTabularHierarchy
 New.TabularLevel=NewTabularLevel
 New.TabularMeasure=NewTabularMeasure
 New.TabularMeasureGroup=¿ä¾à ÇÊµå
+
 New.OdaCube=NewOdaCube
+
 New.OdaDimension=NewOdaDimension
 New.OdaHierarchy=NewOdaHierarchy
 New.OdaLevel=NewOdaLevel
 New.OdaMeasure=NewOdaMeasure
 New.OdaMeasureGroup=NewOdaMeasureGroup
-New.DerivedDataSet=»õ ÆÄ»ı µ¥ÀÌÅÍ ÁıÇÕ
+New.DerivedDataSet=NewDerivedDataSet
 New.VariableElement=NewVariableElement
-New.DataMartDataSource=»õ Data Mart µ¥ÀÌÅÍ ¿øº»
-New.DataMartDataSet=»õ Data Mart µ¥ÀÌÅÍ ÁıÇÕ
-New.DataMartCube=»õ Data Mart Å¥ºê
+New.DataMartDataSource=NewDataMartDataSource
+New.DataMartDataSet=NewDataMartDataSet
+New.DataMartCube=NewDataMartCube
 New.TimeDimension=NewTimeDimension
 New.ReportItemTheme=»õ º¸°í¼­ Ç×¸ñ Å×¸¶
 
+New.CategoryColumn=NewCategoryColumn
+
 ###########################################################
 #Default theme name.
-Theme.defaultThemeName=±âº» Å×¸¶
+Theme.defaultThemeName=defaultTheme
 
 ###########################################################
 # Error Messages
 
 #ContentException
 Error.ContentException.SLOT_NOT_FOUND={0}¿¡ ½½·Ô(id:{1})ÀÌ Á¤ÀÇµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.
+
 Error.ContentException.WRONG_TYPE={1}ÀÌ(°¡) {0}ÀÇ ½½·Ô({2})¿¡¼­ Çã¿ëµÇÁö ¾Ê½À´Ï´Ù.
+
 Error.ContentException.CONTENT_NOT_FOUND={0}ÀÌ(°¡) {2}ÀÇ ½½·Ô({1}) ³»¿¡ ³ªÅ¸³ªÁö ¾Ê½À´Ï´Ù.
+
 Error.ContentException.NOT_CONTAINER={0}Àº(´Â) ÄÁÅ×ÀÌ³Ê°¡ ¾Æ´Õ´Ï´Ù.
+
 Error.ContentException.SLOT_IS_FULL={1}ÀÇ ½½·Ô({0})ÀÌ(°¡) °¡µæ Ã¡½À´Ï´Ù.
+
 Error.ContentException.RECURSIVE=ÀÏÁ¤ ¼öÁØ¿¡¼­ {0}¿¡ {1}ÀÌ(°¡) Æ÷ÇÔµÇ¾î ÀÖ¾î {0}À»(¸¦) {1}(À¸)·Î ÀÌµ¿ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.ContentException.HAS_NO_CONTAINER={0}¿¡ ÄÁÅ×ÀÌ³Ê°¡ ¾øÀ¸¹Ç·Î º¸°í¼­¿¡ Ãß°¡ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.ContentException.MOVE_FORBIDDEN={0} ¶Ç´Â ÇØ´ç ³»¿ëÀ» ÂüÁ¶ÇßÀ¸¹Ç·Î {0}À»(¸¦) ÀÌµ¿ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.ContentException.HAS_DESCENDENTS={0}¿¡ ÆÄ»ı¹°ÀÌ ÀÖ¾î {0}À»(¸¦) ÀÌµ¿ ¶Ç´Â Á¦°ÅÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.ContentException.INVALID_CONTEXT_CONTAINMENT={0}ÀÌ(°¡) Á÷Á¢ ¶Ç´Â °£Á¢ÀûÀ¸·Î {1}'ÀÇ ½½·Ô({2}) ¾È¿¡¼­ Çã¿ëµÇÁö ¾Ê½À´Ï´Ù.
+
 Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN=¿ä¼Ò "{0}"Àº(´Â) ÀÚ½Ä ¿ä¼ÒÀÌ°Å³ª °¡»ó ¿ä¼Ò(ÀÚ½Ä ³»ºÎ)ÀÌ¹Ç·Î ±¸Á¶¸¦ º¯°æÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.ContentException.CONTENT_NAME_REQUIRED={0}Àº(´Â) ÀÌ¸§ÀÌ ¾øÀ¸¹Ç·Î {1}ÀÇ {2} ½½·Ô¿¡ Ãß°¡ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.ContentException.INVALID_TEMPLATE_ELEMENT={0}¿¡ ¸í½ÃÀûÀÎ ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Á¤ÀÇ°¡ ¾ø¾î¼­ {1}ÀÇ ½½·Ô({2})¿¡ »ğÀÔÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=¿ä¼Ò¸¦ ÅÛÇÃ¸´À¸·Î ¹Ù²Ü ¼ö ¾ø½À´Ï´Ù.
+
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=¿ä¼Ò "{0}"Àº(´Â) º¸°í¼­ Ç×¸ñÀ» °øÀ¯ÇÏ±â ¶§¹®¿¡ ±×·ìÀ» Ãß°¡, Á¦°Å, ¶Ç´Â ÀÌµ¿ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=º¹»çº»ÀÌ Àß¸øµÇ¾î {0}ÀÇ ½½·Ô {1}¿¡ ºÙ¿© ³ÖÀ» ¼ö ¾ø½À´Ï´Ù.
+
 Error.ContentException.CONTENT_ALREADY_INSERTED="{0}" ¿ä¼Ò°¡ ÀÌ¹Ì µğÀÚÀÎ Æ®¸®¿¡ ÀÖÀ¸¹Ç·Î "{1}"ÀÇ ({2})¿¡ Ãß°¡ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.ContentException.INVALID_POSITION=À§Ä¡°¡ ¹üÀ§¸¦ ¹ş¾î³µÀ¸¸ç Àß¸øµÇ¾ú½À´Ï´Ù.
+
 Error.ContentException.SHARE_DIMENSION_NOT_EXIST=°øÀ¯ Â÷¿ø [{1}]ÀÌ(°¡) ¾øÀ¸¹Ç·Î º¸°í¼­/¶óÀÌºê·¯¸®¿¡ ¿ä¼Ò [{0}]À»(¸¦) »ğÀÔÇÒ ¼ö ¾ø½À´Ï´Ù.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=º¯È¯ ¸®¼Ò½º Å°¸¦ Á¦°øÇØ¾ß ÇÕ´Ï´Ù.
+
 Error.CustomMsgException.DUPLICATE_LOCALE=¸®¼Ò½º "{1}"ÀÇ ·ÎÄ¶ "{0}"¿¡ ´ëÇÑ º¯È¯ÀÌ ÀÌ¹Ì Á¤ÀÇµÇ¾ú½À´Ï´Ù.
+
 Error.CustomMsgException.INVALID_LOCALE=·ÎÄ¶ "{0}"Àº(´Â) Àß¸øµÈ ·ÎÄ¶ ÀÌ¸§ÀÔ´Ï´Ù.
+
 Error.CustomMsgException.TRANSLATION_NOT_FOUND=¸®¼Ò½º "{1}"ÀÇ ·ÎÄ¶ "{0}"¿¡ ´ëÇÑ º¯È¯ÀÌ ¾ø½À´Ï´Ù.
 
     
 #ExtendsException
 
 #InvalidParentException
-Error.InvalidParentException.NO_PARENT=¿ä¼Ò "{0}"¿¡ »óÀ§°¡ ¾øÀ¸¹Ç·Î Áö¿ªÈ­ÇÒ ¼ö ¾ø½À´Ï´Ù. 
+Error.InvalidParentException.NO_PARENT=¿ä¼Ò "{0}"¿¡ »óÀ§°¡ ¾øÀ¸¹Ç·Î Áö¿ªÈ­ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.InvalidParentException.PARENT_NOT_FOUND=»óÀ§ ¿ä¼Ò "{0}"ÀÌ(°¡) ¾ø½À´Ï´Ù.
+
 Error.InvalidParentException.UNNAMED_PARENT=»óÀ§ ¿ä¼Ò¿¡ ÀÌ¸§ÀÌ ¾ø½À´Ï´Ù.
+
 Error.InvalidParentException.PARENT_NOT_INCLUDE=»óÀ§ ¿ä¼Ò "{0}"ÀÇ ¶óÀÌºê·¯¸®°¡ Æ÷ÇÔµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.
 
 #WrongTypeException
 Error.WrongTypeException.WRONG_TYPE=»óÀ§ {0}Àº(´Â) ´ë»ó {1}°ú(¿Í) È®ÀåÀÚ À¯ÇüÀÌ ´Ù¸¨´Ï´Ù.
+
 Error.WrongTypeException.WRONG_EXTENSION_TYPE=»óÀ§ {0}Àº(´Â) ´ë»ó {1}°ú(¿Í) È®ÀåÀÚ À¯ÇüÀÌ ´Ù¸¨´Ï´Ù.
 
 #CircularExtendsException
 Error.CircularExtendsException.SELF_EXTEND={0} ÀÚÃ¼¸¦ È®ÀåÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.CircularExtendsException.CIRCULAR={0}ÀÌ(°¡) {1}¿¡¼­ ÀÌ¹Ì È®ÀåµÇ¾úÀ¸¹Ç·Î ¼øÈ¯ È®ÀåÀÌ ¹ß°ßµÇ¾ú½À´Ï´Ù.
 
 #ExtendsForbiddenException
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=»óÀ§ ¿ä¼Ò "{0}"ÀÌ(°¡) ±¸¼º ¿ä¼Ò¿¡¼­ ÃÖ»óÀ§ º¸°í¼­ Ç×¸ñÀÌ ¾Æ´Õ´Ï´Ù.
+
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=¿ä¼Ò "{0}"Àº(´Â) ÀÚ½Ä ¿ä¼Ò ³»ºÎ¿¡ ÀÖ°Å³ª ÀÌ¹Ì ºÎ¸ğ°¡ ÀÖÀ¸¹Ç·Î È®ÀåÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.ExtendsForbiddenException.CANT_EXTEND=¿ä¼Ò "{0}"À»(¸¦) ÆÄ»ıÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=°øÀ¯ °á°ú ÁıÇÕ º¸°í¼­ Ç×¸ñ "{0}"(Àº)´Â ÆÄ»ıÀÌ Çã¿ëµÇÁö ¾Ê½À´Ï´Ù.
     
 #NameException
 Error.NameException.NAME_REQUIRED={0}ÀÇ ÀÌ¸§ÀÌ ÇÊ¿äÇÕ´Ï´Ù.
+
 Error.NameException.NAME_FORBIDDEN={0}Àº(´Â) ÀÌ¸§À» °¡Áú ¼ö ¾ø½À´Ï´Ù.
+
 Error.NameException.DUPLICATE=ÀÌ¸§ "{0}"ÀÌ(°¡) ±âÁ¸ ÀÌ¸§°ú Áßº¹µË´Ï´Ù. ´Ù¸¥ ÀÌ¸§À» ¼±ÅÃÇÏ½Ê½Ã¿À.
+
 Error.NameException.HAS_REFERENCES={0}¿¡ ÆÄ»ıµÈ ¿ä¼Ò°¡ ÀÖ¾î ÀÌ¸§À» Áö¿ï ¼ö ¾ø½À´Ï´Ù.
+
 Error.NameException.INVALID_NAME=ÀÌ¸§ "{0}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù. ´ÙÀ½°ú °°Àº ¹®ÀÚ¸¦ Æ÷ÇÔÇÏ¸é ¾È µË´Ï´Ù. ".", "/", "\", "!", ";", ","
+
 Error.NameException.INVALID_STYLE_NAME=½ºÅ¸ÀÏ ÀÌ¸§ "{0}"Àº(´Â) CSS2 »ç¾ç¿¡ ¾Ë¸ÂÁö ¾Ê½À´Ï´Ù.
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=¼Ó¼º "{0}"Àº(´Â) ¿ä¼Ò "{1}"¿¡ ¾Ë¸ÂÁö ¾Ê½À´Ï´Ù.
+
 Error.PropertyNameException.MEMBER_NOT_VALID=±¸¼º¿ø "{0}"Àº(´Â) ±¸Á¶ {1}"¿¡ ¾Ë¸ÂÁö ¾Ê½À´Ï´Ù.
 
     
 #PropertyValueException
 Error.PropertyValueException.INVALID_VALUE=°ª "{0}"Àº(´Â) Çü½Ä "{1}"¿¡ ¾Ë¸ÂÁö ¾Ê½À´Ï´Ù.
-Error.PropertyValueException.PROPERTY_CHANGE_FORBIDDEN=¼Ó¼º "{0}" °ªÀº ¿ä¼Ò "{1}"ÀÌ(°¡) ÀÚ½Ä ¿ä¼Ò¿¡ ÀÖÀ¸¹Ç·Î º¯°æÇÒ ¼ö ¾ø½À´Ï´Ù. 
+
+Error.PropertyValueException.PROPERTY_CHANGE_FORBIDDEN=¼Ó¼º "{0}" °ªÀº ¿ä¼Ò "{1}"ÀÌ(°¡) ÀÚ½Ä ¿ä¼Ò¿¡ ÀÖÀ¸¹Ç·Î º¯°æÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.PropertyValueException.CHOICE_NOT_FOUND=¼±ÅÃ °ª "{0}"À»(¸¦) Ã£À» ¼ö ¾ø½À´Ï´Ù.
+
 Error.PropertyValueException.NOT_LIST_TYPE=¼Ó¼º "{0}"Àº(´Â) ¸ñ·Ï Çü½ÄÀÌ ¾Æ´Õ´Ï´Ù.
+
 Error.PropertyValueException.ITEM_NOT_FOUND=ÁöÁ¤ÇÑ ±¸Á¶°¡ ¼Ó¼º "{0}"¿¡ ¾ø½À´Ï´Ù.
+
 Error.PropertyValueException.WRONG_ELEMENT_TYPE="{0}"ÀÌ(°¡) ¿Ã¹Ù¸¥ ¿ä¼Ò ÂüÁ¶ À¯ÇüÀÌ ¾Æ´Õ´Ï´Ù.
+
 Error.PropertyValueException.VALUE_EXISTS=°ª "{0}"ÀÌ(°¡) ÀÌ¹Ì ÀÖ½À´Ï´Ù.
+
 Error.PropertyValueException.VALUE_REQUIRED=¼Ó¼º "{0}" °ªÀÌ ÇÊ¿äÇÕ´Ï´Ù.
+
 Error.PropertyValueException.VALUE_LOCKED=¼Ó¼º °ªÀÌ Àá°Ü ÀÖ¾î ¼Ó¼º "{0}" °ªÀ» ¼³Á¤ÇÒ ¼ö ¾ø½À´Ï´Ù.
-Error.PropertyValueException.UNIT_NOT_ALLOWED=´ÜÀ§ "{0}"ÀÌ(°¡) ¼Ó¼º "{1}"¿¡ Çã¿ëµÇÁö ¾Ê½À´Ï´Ù. 
+
+Error.PropertyValueException.UNIT_NOT_ALLOWED=´ÜÀ§ "{0}"ÀÌ(°¡) ¼Ó¼º "{1}"¿¡ Çã¿ëµÇÁö ¾Ê½À´Ï´Ù.
+
 Error.PropertyValueException.CHOICE_NOT_ALLOWED=¼±ÅÃ °ª "{0}"ÀÌ(°¡) Çã¿ëµÇÁö ¾Ê½À´Ï´Ù.
+
 Error.PropertyValueException.WRONG_ITEM_TYPE=±¸Á¶ Çü½ÄÀº "{1}"ÀÌ(°¡) ¾Æ´Ï¶ó "{0}"ÀÔ´Ï´Ù.
+
 Error.PropertyValueException.NEGATIVE_VALUE=¼Ó¼º "{1}"¿¡ ´ëÇÑ °ª "{0}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù. °ªÀº À½¼öÀÏ ¼ö ¾ø½À´Ï´Ù.
+
 Error.PropertyValueException.NON_POSITIVE_VALUE=¼Ó¼º "{1}"¿¡ ´ëÇÑ °ª "{0}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù. °ªÀº ¾ç¼ö¿©¾ß ÇÕ´Ï´Ù.
+
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=È®Àå Ç×¸ñ "{1}"ÀÇ ¼Ó¼º "{0}"ÀÌ(°¡) ¸í·ÉÀ¸·Î ¼³Á¤ ±İÁöµÇ¾ú½À´Ï´Ù.
+
 Error.PropertyValueException.DOT_FORBIDDEN="." ¹®ÀÚ¸¦ Æ÷ÇÔÇÏ¹Ç·Î "{0}" ÀÌ¸§ÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.
+
 Error.PropertyValueException.NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE=º¸°í¼­ Ç×¸ñ Å×¸¶ Çü½Ä "{0}"ÀÌ(°¡) Áö¿øµÇÁö ¾Ê½À´Ï´Ù.
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=Å×ÀÌºí "{0}"¿¡ ÀÏÄ¡ÇÏÁö ¾Ê´Â ¿­ ¼ö°¡ ÀÖ½À´Ï´Ù.
-Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT_COZ_DROP=±×·ì ¸Ó¸®±ÛÀÇ ÀÏºÎ ¼¿ÀÇ »èÁ¦ ¼Ó¼ºÀ¸·Î ÀÎÇØ Å×ÀÌºí "{0}"¿¡ ÀÏÄ¡ÇÏÁö ¾Ê´Â ¿­ ¼ö°¡ ÀÖ½À´Ï´Ù. 
+
+Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT_COZ_DROP=±×·ì ¸Ó¸®±ÛÀÇ ÀÏºÎ ¼¿ÀÇ »èÁ¦ ¼Ó¼ºÀ¸·Î ÀÎÇØ Å×ÀÌºí "{0}"¿¡ ÀÏÄ¡ÇÏÁö ¾Ê´Â ¿­ ¼ö°¡ ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.INCONSISTENT_GRID_COL_COUNT=´«±İ "{0}"¿¡ ÀÏÄ¡ÇÏÁö ¾Ê´Â ¿­ ¼ö°¡ ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.OVERLAPPING_CELLS={0}ÀÇ Çà¿¡ °ãÄ¡´Â ¼¿ÀÌ ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.INCONSISTENT_TABLE_DROP_HEADINGS=Å×ÀÌºí "{0}"¿¡ Àß¸øµÈ »èÁ¦ ¸Ó¸®±ÛÀÌ Á¤ÀÇµÇ¾î ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.INVALID_PAGE_SIZE=¸¶½ºÅÍ ÆäÀÌÁö "{0}"ÀÇ ÆäÀÌÁö Å©±â°¡ Àß¸øµÇ¾ú½À´Ï´Ù.
+
 Error.SemanticError.MISSING_PAGE_SIZE=ÆäÀÌÁö Çü½ÄÀÌ »ç¿ëÀÚ ÁöÁ¤ÀÌ¹Ç·Î ¸¶½ºÅÍ ÆäÀÌÁö "{0}"ÀÇ Å©±â°¡ ÇÊ¿äÇÕ´Ï´Ù.
-Error.SemanticError.CANNOT_SPECIFY_PAGE_SIZE=¸¶½ºÅÍ ÆäÀÌÁö "{0}"ÀÇ ÆäÀÌÁö Çü½ÄÀÌ »ç¿ëÀÚ ÁöÁ¤ÀÌ ¾Æ´Ï¹Ç·Î Å©±â¸¦ ÁöÁ¤ÇÒ ¼ö ¾ø½À´Ï´Ù. 
+
+Error.SemanticError.CANNOT_SPECIFY_PAGE_SIZE=¸¶½ºÅÍ ÆäÀÌÁö "{0}"ÀÇ ÆäÀÌÁö Çü½ÄÀÌ »ç¿ëÀÚ ÁöÁ¤ÀÌ ¾Æ´Ï¹Ç·Î Å©±â¸¦ ÁöÁ¤ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.INVALID_PAGE_MARGINS=¸¶½ºÅÍ ÆäÀÌÁö "{0}"ÀÇ ¿©¹é °ªÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.
+
 Error.SemanticError.MISSING_MASTER_PAGE=º¸°í¼­¿¡ ÇÏ³ª ÀÌ»óÀÇ ¸¶½ºÅÍ ÆäÀÌÁö°¡ ÀÖ¾î¾ß ÇÕ´Ï´Ù.
+
 Error.SemanticError.INVALID_MULTI_COLUMN=¸¶½ºÅÍ ÆäÀÌÁö "{0}"¿¡ ÆäÀÌÁö ³»¿ë ¹ÛÀ¸·Î °ÉÃÄÁø ¿­ÀÌ ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.INVALID_ELEMENT_REF=¿ä¼Ò "{0}"¿¡ Á¤ÀÇµÇÁö ¾ÊÀº ¿ä¼Ò¸¦ ÂüÁ¶ÇÏ°Å³ª ÀÚ½ÅÀ» ÂüÁ¶ÇÏ´Â ¼Ó¼º "{1}"ÀÌ(°¡) ÀÖ½À´Ï´Ù: "{2}".
+
 Error.SemanticError.INVALID_DATA_BINDING_REF=¿ä¼Ò "{0}"¿¡ ¿ä¼ÒÀÇ ÄÁÅ×ÀÌ³Ê ¶Ç´Â ³»¿ëÀÎ ¿ä¼Ò "{1}"À»(¸¦) ÂüÁ¶ÇÏ´Â ¼Ó¼º dataBindingRef°¡ ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.MISSING_SQL_STMT=JDBC ¼±ÅÃ µ¥ÀÌÅÍ ÁıÇÕ "{0}"¿¡´Â SQL ¹®ÀÌ ÀÖ¾î¾ß ÇÕ´Ï´Ù.
+
 Error.SemanticError.MISSING_DATA_SET={0}Àº(´Â) ÇÏ³ªÀÇ µ¥ÀÌÅÍ ÁıÇÕÀ» ¾×¼¼½ºÇÒ ¼ö ÀÖ¾î¾ß ÇÕ´Ï´Ù.
+
 Error.SemanticError.INVALID_IMAGE_SCALE_VALUE=ÀÌ¹ÌÁö "{0}"ÀÇ ¹èÀ² °ªÀÌ ¾ç¼ö¿©¾ß ÇÕ´Ï´Ù.
+
 Error.SemanticError.IMAGE_FILE_NOT_FOUND=ÀÌ¹ÌÁö "{1}"¿¡ Á¤ÀÇµÈ ÆÄÀÏ "{0}"ÀÌ(°¡) ¾ø½À´Ï´Ù.
+
 Error.SemanticError.NEGATIVE_REPORT_REFRESH_RATE=º¸°í¼­ÀÇ »õ·Î °íÄ§ ºóµµ´Â À½¼ö°ªÀÌ ¾Æ´Ï¾î¾ß ÇÕ´Ï´Ù.
+
 Error.SemanticError.NEGATIVE_CELL_COLUMN=Å×ÀÌºí/´«±İ/Å×ÀÌºí ±×·ì "{0}"¿¡ À½¼ö·Î ½ÃÀÛÇÏ´Â ¿­À» °¡Áø ¼¿ÀÌ ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.NEGATIVE_WIDTH=¿ä¼Ò "{0}" ¶Ç´Â ÇØ´ç ³»¿ëÀÇ ³Êºñ°¡ À½¼öÀÏ ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.NEGATIVE_HEIGHT=¿ä¼Ò "{0}" ¶Ç´Â ÇØ´ç ³»¿ëÀÇ ³ôÀÌ°¡ À½¼öÀÏ ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.INVALID_COLUMN_REPEAT=Å×ÀÌºí "{0}"¿¡ ¹İº¹ÀÌ 1º¸´Ù ÀÛÀº ¿­ÀÌ ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.INVALID_PAGE_COLUMNS=¸¶½ºÅÍ ÆäÀÌÁö "{0}"¿¡ 1º¸´Ù ÀÛÀº ¿­ÀÌ ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.NEGATIVE_FONT_SIZE=½ºÅ¸ÀÏ "{0}"ÀÇ ±Û²Ã Å©±â°¡ À½¼öÀÏ ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.NEGATIVE_BORDER_WIDTH=½ºÅ¸ÀÏ "{0}"ÀÇ Å×µÎ¸® ³Êºñ°¡ À½¼öÀÏ ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.INVALID_PROPERTY_NAME=¿ä¼Ò "{1}"ÀÇ ¼Ó¼º "{0}"ÀÌ(°¡) Á¤ÀÇµÇÁö ¾Ê¾Ò½À´Ï´Ù.
+
 Error.SemanticError.UNSUPPORTED_ELEMENT=¿ä¼Ò {0}ÀÌ(°¡) ¾ÆÁ÷ Áö¿øµÇÁö ¾Ê½À´Ï´Ù.
+
 Error.SemanticError.AT_LEAST_ONE_COLUMN=µ¥ÀÌÅÍ ÁıÇÕ "{0}"ÀÇ °á°ú ÁıÇÕ¿¡ ÇÏ³ª ÀÌ»óÀÇ °á°ú ÁıÇÕ ¿­ÀÌ ÀÖ¾î¾ß ÇÕ´Ï´Ù.
+
 Error.SemanticError.NEGATIVE_LINE_HEIGHT=¿ä¼Ò "{0}"ÀÇ ÁÙ ³ôÀÌ´Â À½¼ö °ªÀÌ ¾Æ´Ï¾î¾ß ÇÕ´Ï´Ù.
+
 Error.SemanticError.DUPLICATE_GROUP_NAME=Å×ÀÌºí/¸ñ·Ï "{0}"¿¡ Áßº¹ ±×·ì ÀÌ¸§ "{1}"ÀÌ(°¡) ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.INVALID_CUSTOM_COLOR_NAME=»ç¿ëÀÚ ÁöÁ¤ »ö»ó ÀÌ¸§ "{0}"ÀÌ(°¡) CSS Ç¥ÁØ »ö»ó ÀÌ¸§ÀÌ¹Ç·Î »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.DUPLICATE_CUSTOM_COLOR_NAME=»ö»ó ÆÈ·¹Æ®¿¡ Áßº¹ »ç¿ëÀÚ ÁöÁ¤ »ö»ó ÀÌ¸§ "{0}"ÀÌ(°¡) ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.EXTENSION_NOT_FOUND=¿ä¼Ò "{1}"ÀÇ È®Àå ÀÌ¸§ "{0}"À»(¸¦) Ã£À» ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.MISSING_EXTENSION=¿ä¼Ò "{0}"ÀÇ È®Àå ÀÌ¸§À» Á¤ÀÇÇØ¾ß ÇÕ´Ï´Ù.
+
 Error.SemanticError.PROPERTY_COPY_FORBIDDEN=¼Ó¼º "{0}"À»(¸¦) º¹»çÇÏ´Â °ÍÀº ±İÁöµÇ¾î ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.COLUMN_COPY_FORBIDDEN=¿ä¼Ò "{1}"ÀÇ "{0}" ¿­À» º¹»çÇÏ´Â °ÍÀº ±İÁöµÇ¾î ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.COLUMN_PASTE_FORBIDDEN=¿ä¼Ò "{1}"À» ºÙ¿©³Ö´Â °ÍÀº ±İÁöµÇ¾î ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.COLUMN_PASTE_DIFFERENT_LAYOUT=ºÙ¿©³Ö±â ¿µ¿ª¿¡ º¹»çÇÑ ¿µ¿ªÀ» Æ÷ÇÔÇÑ ´Ù¸¥ ·¹ÀÌ¾Æ¿ôÀÌ ÀÖ½À´Ï´Ù..
+
 Error.SemanticError.INVALID_STRUCTURE_REF=¿ä¼Ò "{0}"¿¡ Á¤ÀÇµÇÁö ¾ÊÀº ±¸Á¶ "{2}"À»(¸¦) ÂüÁ¶ÇÏ´Â ¼Ó¼º "{1}"ÀÌ(°¡) ÀÖ½À´Ï´Ù.
-Error.SemanticError.INVALID_SCALAR_PARAMETER_TYPE=Çü½Ä ½ºÄ®¶ó ¸Å°³º¯¼ö "{0}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù. °è´Ü½Ä ¸Å°³º¯¼ö ±×·ì ³» ¸Å°³º¯¼ö´Â µ¿Àû Çü½ÄÀÌ¾î¾ß ÇÕ´Ï´Ù.  
-Error.SemanticError.MISSING_TEMPLATE_PARAMETER_TYPE=¿ä¼Ò {0}ÀÌ(°¡) "allowedType"À» ¸í½ÃÀûÀ¸·Î Á¤ÀÇÇØ¾ß ÇÕ´Ï´Ù. 
+
+Error.SemanticError.INVALID_SCALAR_PARAMETER_TYPE=Çü½Ä ½ºÄ®¶ó ¸Å°³º¯¼ö "{0}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù. °è´Ü½Ä ¸Å°³º¯¼ö ±×·ì ³» ¸Å°³º¯¼ö´Â µ¿Àû Çü½ÄÀÌ¾î¾ß ÇÕ´Ï´Ù.
+
+Error.SemanticError.MISSING_TEMPLATE_PARAMETER_TYPE=¿ä¼Ò {0}ÀÌ(°¡) "allowedType"À» ¸í½ÃÀûÀ¸·Î Á¤ÀÇÇØ¾ß ÇÕ´Ï´Ù.
+
 Error.SemanticError.INCONSISTENT_TEMPLATE_PARAMETER_TYPE=¿ä¼Ò {0}ÀÇ ±âº» ¿ä¼Ò {1}Àº(´Â) {2}ÀÇ Á¾·ù°¡ ¾Æ´Õ´Ï´Ù.
-Error.SemanticError.INVALID_LIBRARY_REFERENCE=ÂüÁ¶ ±¸Á¶°¡ ¾øÀ¸¹Ç·Î {0} "{1}"ÀÇ ¶óÀÌºê·¯¸® ÂüÁ¶ "{2}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù. 
+
+Error.SemanticError.INVALID_LIBRARY_REFERENCE=ÂüÁ¶ ±¸Á¶°¡ ¾øÀ¸¹Ç·Î {0} "{1}"ÀÇ ¶óÀÌºê·¯¸® ÂüÁ¶ "{2}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù.
+
 Error.SemanticError.INVALID_PROPERTY_BINDING_ID={0}ÀÇ "{1}" ¼Ó¼º ¹ÙÀÎµùÀÌ Á¸ÀçÇÏÁö ¾Ê´Â ¿ä¼Ò¸¦ ÂüÁ¶ÇÕ´Ï´Ù.
+
 Error.SemanticError.PROPERTY_BINDING_FORBIDDEN=¿ä¼Ò "{0}"ÀÌ(°¡) µğÀÚÀÎ Æ®¸®¿¡ ¾øÀ¸¹Ç·Î ¼Ó¼º ¹ÙÀÎµùÀ» ¼³Á¤ÇÒ ¼ö ¾ø½À´Ï´Ù.
-Error.SemanticError.INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT=Å×ÀÌºí ¶Ç´Â ¸ñ·ÏÀº ¸¶½ºÅÍ ÆäÀÌÁö "{0}" ¾È¿¡ Á÷Á¢ÀûÀ¸·Î³ª °£Á¢ÀûÀ¸·Î³ª »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù. 
+
+Error.SemanticError.INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT=Å×ÀÌºí ¶Ç´Â ¸ñ·ÏÀº ¸¶½ºÅÍ ÆäÀÌÁö "{0}" ¾È¿¡ Á÷Á¢ÀûÀ¸·Î³ª °£Á¢ÀûÀ¸·Î³ª »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET = Á¶ÀÎ µ¥ÀÌÅÍ ÁıÇÕ "{0}"¿¡ µ¥ÀÌÅÍ ÁıÇÕ "{1}"ÀÌ(°¡) ´©¶ôµÇ¾ú½À´Ï´Ù.
+
 Error.SemanticError.MISSING_COLUMN_BINDING = "{1}" ¿­ ÀÌ¸§ÀÇ "{0}" µ¥ÀÌÅÍ¿¡ ´ëÇÑ ¿­ ¹ÙÀÎµùÀÌ Á¤ÀÇµÇÁö ¾Ê¾Ò½À´Ï´Ù.
+
 Error.SemanticError.COLUMN_INSERT_FORBIDDEN=¿ä¼Ò "{0}"¿¡ ´ëÇÑ »ğÀÔ ÀÛ¾÷Àº ±İÁöµÇ¾ú½À´Ï´Ù.
+
 Error.SemanticError.CANNOT_SPECIFY_VALUE=\"{4}\"ÀÇ °ª \"{3}\"(À¸)·Î ÀÎÇØ ¿ä¼Ò "{0}"ÀÌ(°¡) ¼Ó¼º \"{2}\"ÀÇ °ª \"{1}\"À»(¸¦) ÁöÁ¤ÇÒ ¼ö ¾ø½À´Ï´Ù.
 
 Error.SemanticError.ROW_COPY_FORBIDDEN=¿ä¼Ò "{0}"À»(¸¦) º¹»çÇÏ´Â °ÍÀº ±İÁöµÇ¾î ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.ROW_PASTE_FORBIDDEN=¿ä¼Ò "{0}"À»(¸¦) ºÙ¿©³Ö´Â °ÍÀº ±İÁöµÇ¾î ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.ROW_INSERT_FORBIDDEN=¿ä¼Ò "{0}"À»(¸¦) »ğÀÔÇÏ´Â °ÍÀº ±İÁöµÇ¾î ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.ROW_SHIFT_FORBIDDEN=¿ä¼Ò "{0}"À»(¸¦) ÀÌµ¿ÇÏ´Â °ÍÀº ±İÁöµÇ¾î ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=¿ä¼Ò "{0}"À»(¸¦) »ğÀÔ ¹× ºÙ¿© ³Ö´Â °ÍÀº ±İÁöµÇ¾î ÀÖ½À´Ï´Ù.
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE= {0}Àº ÀÌ¹Ì {1}À» ÂüÁ¶ÇÏ¹Ç·Î ¼øÈ¯ ¿ä¼Ò ÂüÁ¶¸¦ Ã£À» ¼ö ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.INCONSISTENT_DATA_GROUP=¿ä¼Ò {0}ÀÇ µ¥ÀÌÅÍ ¹ÙÀÎµù ÂüÁ¶ÀÇ ±×·ì ¼ö¿Í ÂüÁ¶ÇÏ°í ÀÖ´Â ¿ä¼Ò {1}ÀÇ ±×·ì ¼ö°¡ ´Ù¸¨´Ï´Ù.
+
 Error.SemanticError.INVALID_MANIFEST=¿ä¼Ò {0}¿¡ Àß¸øµÈ ¸Å´ÏÆä½ºÆ®°¡ ÀÖ½À´Ï´Ù.
+
 Error.SemanticError.VALUE_FORBIDDEN=¸ñ·Ï ¼Ó¼º "{0}"ÀÌ(°¡) ºñ¾î ÀÖ¾î ¾î¶² Ç×¸ñµµ °¡Áú ¼ö ¾ø½À´Ï´Ù.
 
 Error.SemanticError.TABLE_NO_COLUMN_FOUND = ¿­À» Ã£À» ¼ö ¾øÀ¸¹Ç·Î Å×ÀÌºíÀÇ ³Êºñ¸¦ °è»êÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = ÀÎµ¦½º {0}¿¡ ¿­ÀÇ ³Êºñ°¡ Á¤ÀÇµÇÁö ¾Ê¾ÒÀ¸¹Ç·Î Å×ÀÌºíÀÇ ³Êºñ¸¦ °è»êÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = Å×ÀÌºí¿¡ ¹éºĞÀ²ÀÌ ¾Æ´Ñ Àı´ë ´ÜÀ§ ¹× »ó´ë ´ÜÀ§¸¦ »ç¿ëÇÑ ¿­ÀÌ ´Ù¼ö Æ÷ÇÔµÇ¾î ÀÖÀ¸¹Ç·Î Å×ÀÌºíÀÇ ³Êºñ¸¦ °è»êÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = Å×ÀÌºí¿¡ ¼­·Î ´Ù¸¥ »ó´ë ´ÜÀ§¸¦ »ç¿ëÇÑ ¿­ÀÌ ´Ù¼ö Æ÷ÇÔµÇ¾î ÀÖÀ¸¹Ç·Î Å×ÀÌºíÀÇ ³Êºñ¸¦ °è»êÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = ¹éºĞÀ²À» »ç¿ëÇÑ ¿­ÀÇ ³Êºñ ÇÕÀÌ 100% ÀÌ»óÀÌ¹Ç·Î Å×ÀÌºíÀÇ ³Êºñ¸¦ °è»êÇÒ ¼ö ¾ø½À´Ï´Ù.
-Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=¿ÜºÎ º¸°í¼­ Ç×¸ñ¿¡¼­ ´Ù¸¥ Å¥ºê ¶Ç´Â µ¥ÀÌÅÍ ÁıÇÕ°ú ´ÙÁß º¸±â¸¦ Á¤ÀÇÇßÀ¸¹Ç·Î º¸°í¼­ Ç×¸ñ "{0}"Àº(´Â) Å¥ºê ¶Ç´Â µ¥ÀÌÅÍ ÁıÇÕÀ» ÁöÁ¤ÇÒ ¼ö ¾ø½À´Ï´Ù. 
+
+Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=¿ÜºÎ º¸°í¼­ Ç×¸ñ¿¡¼­ ´Ù¸¥ Å¥ºê ¶Ç´Â µ¥ÀÌÅÍ ÁıÇÕ°ú ´ÙÁß º¸±â¸¦ Á¤ÀÇÇßÀ¸¹Ç·Î º¸°í¼­ Ç×¸ñ "{0}"Àº(´Â) Å¥ºê ¶Ç´Â µ¥ÀÌÅÍ ÁıÇÕÀ» ÁöÁ¤ÇÒ ¼ö ¾ø½À´Ï´Ù.
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=´ë»ó ¶óÀÌºê·¯¸®¿¡ Áßº¹µÈ ¿ä¼Ò ÀÌ¸§ÀÌ ÀÖ½À´Ï´Ù. ¿ä¼Ò {0}À»(¸¦) ³»º¸³¾ ¼ö ¾ø½À´Ï´Ù. ³»º¸³½ ¿ä¼Ò ÀÌ¸§À» º¯°æÇÏ½Ê½Ã¿À.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0}Àº(´Â) ½ºÅ¸ÀÏÀ» °¡Áú ¼ö ¾ø½À´Ï´Ù.
+
 Error.StyleException.NOT_FOUND={1}¿¡¼­ »ç¿ëµÈ ½ºÅ¸ÀÏ "{0}"ÀÌ(°¡) ¾ø½À´Ï´Ù.
     
 #ThemeException
 Error.ThemeException.NOT_FOUND={1}¿¡¼­ »ç¿ëÇÏ´Â Å×¸¶ "{0}"ÀÌ(°¡) ¾ø½À´Ï´Ù.
-Error.ThemeException.WRONG_TYPE={1}¿¡¼­ »ç¿ëÇÏ´Â Å×¸¶ "{0}"ÀÌ(°¡) Àß¸øµÈ Çü½ÄÀÇ º¸°í¼­ Ç×¸ñ Å×¸¶ÀÔ´Ï´Ù.    
+
+Error.ThemeException.WRONG_TYPE={1}¿¡¼­ »ç¿ëÇÏ´Â Å×¸¶ "{0}"ÀÌ(°¡) Àß¸øµÈ Çü½ÄÀÇ º¸°í¼­ Ç×¸ñ Å×¸¶ÀÔ´Ï´Ù.
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=ÆÄÀÏ "{0}"ÀÌ(°¡) ¾ø½À´Ï´Ù.
+
 Error.DesignParserException.FILE_FORMAT_NOT_SUPPORT=ÆÄÀÏ "{0}" Çü½ÄÀÌ Áö¿øµÇÁö ¾Ê½À´Ï´Ù.
+
 Error.DesignParserException.RGB_REQUIRED=»ç¿ëÀÚ ÁöÁ¤ »ö»óÀÌ ¿Ã¹Ù¸¥ RGB°ªÀ» °¡Á®¾ß ÇÕ´Ï´Ù.
+
 Error.DesignParserException.COLOR_NAME_REQUIRED=»ç¿ëÀÚ ÁöÁ¤ »ö»ó¿¡ »ö ÀÌ¸§ÀÌ ÀÖ¾î¾ß ÇÕ´Ï´Ù.
+
 Error.DesignParserException.ILLEGAL_EXTENDS=¿ä¼Ò¸¦ È®ÀåÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.DesignParserException.IMAGE_REF_CONFLICT=ÀÌ¹ÌÁö¿¡ Ãæµ¹ ÂüÁ¶°¡ ÀÖ½À´Ï´Ù.
+
 Error.DesignParserException.INVALID_IMAGEREF_EXPR_VALUE=ÀÌ¹ÌÁö ÂüÁ¶ ½Ä °ªÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.
+
 Error.DesignParserException.INVALID_IMAGE_URL_VALUE=ÀÌ¹ÌÁö URL °ªÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.
+
 Error.DesignParserException.INVALID_IMAGE_NAME_VALUE=ÀÌ¹ÌÁö ÀÌ¸§ °ªÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.
+
 Error.DesignParserException.ACTION_REPORTNAME_REQUIRED=ÀÛ¾÷¿¡ º¸°í¼­ ÀÌ¸§ÀÌ ÇÊ¿äÇÕ´Ï´Ù.
+
 Error.DesignParserException.ACTION_PARAMETER_NAME_REQUIRED=ÀÛ¾÷ ½Ã ¸Å°³ º¯¼ö ÀÌ¸§ÀÌ ÇÊ¿äÇÕ´Ï´Ù.
+
 Error.DesignParserException.CHOICE_RESTRICTION_VIOLATION=¼±ÅÃ Á¦ÇÑÀÌ À§¹İµÇ¾ú½À´Ï´Ù.
+
 Error.DesignParserException.MESSAGE_KEY_REQUIRED=»ç¿ëÀÚ Á¤ÀÇ ¸Ş½ÃÁö¿¡¼­ "Å°" °ªÀ» ÁöÁ¤ÇØ¾ß ÇÕ´Ï´Ù.
+
 Error.DesignParserException.DUPLICATE_TRANSLATION_LOCALE=µ¿ÀÏÇÑ ·ÎÄ¶À» °¡Áø µÎ °³ÀÇ º¯È¯ÀÌ »ç¿ëÀÚ Á¤ÀÇ ¸Ş½ÃÁö¿¡ ³ªÅ¸³³´Ï´Ù.
+
 Error.DesignParserException.NAME_REQUIRED=¿ä¼Ò ¼Ó¼º ÀÌ¸§ ¶Ç´Â ±¸Á¶ ±¸¼º¿ø ÀÌ¸§ÀÌ ÇÊ¿äÇÕ´Ï´Ù.
+
 Error.DesignParserException.WRONG_STRUCTURE_LIST_TYPE=ÀÌ·¯ÇÑ ¿ä¼Ò ¼Ó¼º ¶Ç´Â ±¸Á¶ ±¸¼º¿øÀº ±¸Á¶ ¸ñ·Ï Çü½ÄÀÌ ¾Æ´Õ´Ï´Ù.
+
 Error.DesignParserException.WRONG_EXTENDED_PROPERTY_TYPE=¼Ó¼ºÀÌ È®ÀåµÈ ¼Ó¼ºÀÌ ¾Æ´Õ´Ï´Ù.
+
 Error.DesignParserException.INVALID_STRUCTURE_NAME=ÀÌ¸§ÀÌ ±¸Á¶ ÀÌ¸§ÀÌ ¾Æ´Õ´Ï´Ù.
+
 Error.DesignParserException.INVALID_PROPERTY_SYNTAX=¼Ó¼ºÀÌ ¿ä¼ÒÀÇ Æ¯¼ºÀ¸·Î Á¤ÀÇµÇ¾î¾ß ÇÕ´Ï´Ù.
+
 Error.DesignParserException.UNDEFINED_PROPERTY=¼Ó¼º "{0}"ÀÌ(°¡) Á¤ÀÇµÇÁö ¾Ê¾Ò½À´Ï´Ù.
+
 Error.DesignParserException.UNSUPPORTED_ENCODING=ÀÌ XML ÆÄÀÏÀÇ ÀÎÄÚµù Çü½ÄÀº Áö¿øµÇÁö ¾Ê½À´Ï´Ù.
+
 Error.DesignParserException.PROPERTY_IS_NOT_ENCRYPTABLE=¼Ó¼º "{0}"À»(¸¦) ¾ÏÈ£È­ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.DesignParserException.UNSUPPORTED_VERSION=¹öÀü "{0}"ÀÇ º¸°í¼­ ÆÄÀÏÀÌ Àß¸øµÇ¾ú½À´Ï´Ù. ÃÖ½Å Áö¿ø ÆÄÀÏº¸´Ù Å©¸é ¾È µË´Ï´Ù.
+
 Error.DesignParserException.INVALID_VERSION=º¸°í¼­ ¹öÀü "{0}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù.
+
 Error.DesignParserException.INVALID_ELEMENT_ID={0}ÀÇ ID {1}ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù.
-Error.DesignParserException.VIRTUAL_PARENT_NOT_FOUND=BaseID "{0}"Àº(´Â) °¡»ó ºÎ¸ğ³ª ºÎ¸ğ¿¡ ¾ø´Â ÂüÁ¶ ºÎ¸ğ¸¦ ÂüÁ¶ÇÒ ¼ö ¾ø½À´Ï´Ù.  
-Error.DesignParserException.DUPLICATE_ELEMENT_ID={0}ÀÇ ID°¡ {1}ÀÇ ID¿Í Áßº¹µË´Ï´Ù.  
+
+Error.DesignParserException.VIRTUAL_PARENT_NOT_FOUND=BaseID "{0}"Àº(´Â) °¡»ó ºÎ¸ğ³ª ºÎ¸ğ¿¡ ¾ø´Â ÂüÁ¶ ºÎ¸ğ¸¦ ÂüÁ¶ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
+Error.DesignParserException.DUPLICATE_ELEMENT_ID={0}ÀÇ ID°¡ {1}ÀÇ ID¿Í Áßº¹µË´Ï´Ù.
+
 Error.DesignParserException.INCONSISTENT_TEMPLATE_ELEMENT_TYPE=ÅÛÇÃ¸´ ¿ä¼Ò {0}ÀÌ(°¡) ÂüÁ¶ ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Á¤ÀÇ {1}ÀÇ ±âº» ¿ä¼Ò¿Í ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.
+
 Error.DesignParserException.MISSING_TEMPLATE_PARAMETER_DEFAULT=¿ä¼Ò {0}ÀÌ(°¡) ±âº» ¿ä¼Ò¸¦ ¸í½ÃÀûÀ¸·Î Á¤ÀÇÇØ¾ß ÇÕ´Ï´Ù.
+
 Error.DesignParserException.WRONG_SIMPLE_LIST_TYPE=¿ä¼Ò ¼Ó¼ºÀÌ ´Ü¼ø ¸ñ·Ï Çü½ÄÀÌ ¾Æ´Õ´Ï´Ù.
 
 #DesignFileException
 Error.DesignFileException.SYNTAX_ERROR=±¸¹® ¿À·ù°¡ ÀÖ½À´Ï´Ù. ¿À·ù »ó¼¼ Á¤º¸¸¦ ÂüÁ¶ÇÏ½Ê½Ã¿À.
+
 Error.DesignFileException.SEMANTIC_WARNING=ÀÇ¹Ì °æ°í°¡ ÀÖ½À´Ï´Ù. °æ°í »ó¼¼ Á¤º¸¸¦ ÂüÁ¶ÇÏ½Ê½Ã¿À.
+
 Error.DesignFileException.SEMANTIC_ERROR=ÀÇ¹Ì ¿À·ù°¡ ÀÖ½À´Ï´Ù. ¿À·ù »ó¼¼ Á¤º¸¸¦ ÂüÁ¶ÇÏ½Ê½Ã¿À.
+
 Error.DesignFileException.INVALID_XML=µğÀÚÀÎ ÆÄÀÏÀÌ Àß¸øµÈ xml ÆÄÀÏÀÔ´Ï´Ù.
 
 #XMLParserException
 Error.XMLParserException.UNKNOWN_TAG=XML ÆÄÀÏ¿¡ Áö¿øµÇÁö ¾Ê´Â ¿ä¼Ò°¡ ÀÖ½À´Ï´Ù.
+
 Error.XMLParserException.SAX_ERROR=SAXÀÌ ÆÄÀÏÀÇ ±âº» XML ±¸¹®¿¡¼­ ¿À·ù¸¦ °Ë»öÇß½À´Ï´Ù.
+
 Error.XMLParserException.INVALID_BOOLEAN=ºÎ¿ï Æ¯¼º¿¡ ¾Ë¸ÂÀº °ªÀÌ ¾ø½À´Ï´Ù.
+
 Error.XMLParserException.WARNINGS_FOUND=±¸¹® ºĞ¼®ÀÌ ¿Ï·áµÇ¾úÀ¸³ª º¹±¸ÇÒ ¼ö ÀÖ´Â ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.
+
 Error.XMLParserException.EXCEPTION=ÀÏ¹İ ¿¹¿Ü°¡ ¹ß»ıÇß½À´Ï´Ù.
+
 Error.XMLParserException.INVALID_INTEGER=Á¤¼ö Æ¯¼º¿¡ Àß¸øµÈ °ªÀÌ ÀÖ½À´Ï´Ù.
     
 #UserPropertyException
 Error.UserPropertyException.NAME_REQUIRED=»ç¿ë ¼Ó¼º¿¡ ÀÌ¸§ÀÌ ÀÖ¾î¾ß ÇÕ´Ï´Ù.
+
 Error.UserPropertyException.DUPLICATE_NAME=ÀÌ¸§ÀÌ "{0}"ÀÎ »ç¿ëÀÚ ¼Ó¼ºÀÌ ÀÌ¹Ì ÀÖ½À´Ï´Ù.
-Error.UserPropertyException.INVALID_TYPE=»ç¿ëÀÚ ¼Ó¼º Çü½ÄÀÌ Àß¸øµÇ¾ú½À´Ï´Ù. 
+
+Error.UserPropertyException.INVALID_TYPE=»ç¿ëÀÚ ¼Ó¼º Çü½ÄÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.
+
 Error.UserPropertyException.MISSING_CHOICES=»ç¿ëÀÚ ¼Ó¼º Çü½ÄÀÌ ¼±ÅÃÀÌÁö¸¸ ¼±ÅÃÀÌ Á¤ÀÇµÇÁö ¾Ê¾Ò½À´Ï´Ù.
+
 Error.UserPropertyException.INVALID_DISPLAY_ID=Ç¥½Ã ÀÌ¸§ ID ¹× Ç¥½Ã ÀÌ¸§ÀÌ »ç¿ëÀÚ ¼Ó¼º "{0}"¿¡¼­ µÑ ´Ù Á¤ÀÇµÇÁö ¾Ê¾Ò½À´Ï´Ù.
+
 Error.UserPropertyException.NOT_FOUND=»ç¿ëÀÚ ¼Ó¼º "{0}"À»(¸¦) Ã£À» ¼ö ¾ø½À´Ï´Ù.
+
 Error.UserPropertyException.USER_PROP_DISALLOWED={0}Àº(´Â) »ç¿ëÀÚ ¼Ó¼ºÀ» °¡Áú ¼ö ¾ø½À´Ï´Ù.
+
 Error.UserPropertyException.CHOICE_VALUE_REQUIRED=»ç¿ëÀÚ Á¤ÀÇ ¼±ÅÃ °ªÀÌ »ç¿ëÀÚ ¼Ó¼º "{0}"¿¡ ÇÊ¿äÇÕ´Ï´Ù.
+
 Error.UserPropertyException.CHOICE_NAME_REQUIRED=»ç¿ëÀÚ Á¤ÀÇ ¼±ÅÃ ÀÌ¸§ÀÌ »ç¿ëÀÚ ¼Ó¼º "{0}"¿¡ ÇÊ¿äÇÕ´Ï´Ù.
+
 Error.UserPropertyException.INVALID_CHOICE_VALUE=¼±ÅÃ °ªÀÌ »ç¿ëÀÚ ¼Ó¼º "{0}"ÀÇ Çü½Ä¿¡ ¾Ë¸ÂÁö ¾Ê½À´Ï´Ù.
+
 Error.UserPropertyException.INVALID_DEFINITION=»ç¿ëÀÚ ¼Ó¼º Á¤ÀÇ°¡ Àß¸øµÇ¾ú½À´Ï´Ù.
+
 Error.UserPropertyException.INVALID_DEFAULT_VALUE={0}¿¡ ÀÖ´Â »ç¿ëÀÚ ¼Ó¼º "{1}"ÀÇ ±âº»°ª "{2}"ÀÌ(°¡) Çü½Ä "{3}"¿¡ ¾Ë¸ÂÁö ¾Ê½À´Ï´Ù.
 
 #MetaDataReaderException
@@ -4029,52 +6673,77 @@ Error.MetaDataReaderException.META_DATA_ERROR=¸ŞÅ¸µ¥ÀÌÅÍ°¡ Àß¸øµÇ¾ú½À´Ï´Ù.
 
 #LibraryException
 Error.LibraryException.LIBRARY_NOT_FOUND=³×ÀÓ½ºÆäÀÌ½º°¡ "{0}"ÀÎ ¶óÀÌºê·¯¸®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.
+
 Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=¶óÀÌºê·¯¸® ³×ÀÓ½ºÆäÀÌ½º "{0}"ÀÌ(°¡) ÀÌ¹Ì ÀÖ½À´Ï´Ù.
+
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=³×ÀÓ½ºÆäÀÌ½º°¡ "{0}"ÀÎ ¶óÀÌºê·¯¸®°¡ ¹İº¹ Æ÷ÇÔµË´Ï´Ù.
+
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=ÇöÀç ¸ğµâ¿¡ ÇÏÀ§ Ç×¸ñ "{1}"ÀÌ(°¡) ÀÖÀ¸¹Ç·Î ¶óÀÌºê·¯¸® "{0}"À»(¸¦) »èÁ¦ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=¶óÀÌºê·¯¸® "{0}"ÀÌ(°¡) ÀÌ¹Ì Æ÷ÇÔµÇ¾î ÀÖÀ¸¸ç ¶óÀÌºê·¯¸®´Â µÎ ¹ø Ãß°¡ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.LibraryException.INVALID_LIBRARY_NAMESPACE=¶óÀÌºê·¯¸®ÀÇ ³×ÀÓ½ºÆäÀÌ½º "{0}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù. ºñ¾î ÀÖ°Å³ª Àß¸øµÈ ¹®ÀÚ¸¦ Æ÷ÇÔÇÏ°í ÀÖ½À´Ï´Ù.
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=½ºÅ¸ÀÏ½ÃÆ® ¸®¼Ò½º°¡ ¾ø½À´Ï´Ù.
+
 Error.StyleSheetException.SYNTAX_ERROR=CSS2¿Í ÀÏÄ¡ÇÏÁö ¾Ê´Â ÀÏºÎ ±¸¹® ¿À·ù°¡ ÀÖ½À´Ï´Ù.
 
 #IncludedCssStyleSheetException
 Error.CSSException.CSS_NOT_FOUND=ÀÌ¸§ÀÌ "{0}"ÀÎ ½ºÅ¸ÀÏ½ÃÆ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.
+
 Error.CSSException.DUPLICATE_CSS=ÀÌ¸§ÀÌ "{0}"ÀÎ CSS ½ºÅ¸ÀÏ½ÃÆ®°¡ ÀÌ¹Ì ÀÖ½À´Ï´Ù.
+
 Error.CSSException.BADCSSFILE="{0}" ÆÄÀÏ¿¡ ±¸¹® ¿À·ù°¡ ÀÖ½À´Ï´Ù.
+
 Error.CssException.READONLY="{0}" ÆÄÀÏ¿¡ ÀÖ´Â ½ºÅ¸ÀÏÀÌ ÀĞ±â Àü¿ëÀÔ´Ï´Ù.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=±ÔÄ¢ "{0}"ÀÌ(°¡) Áö¿øµÇÁö ¾Ê½À´Ï´Ù.
+
 Error.StyleSheetParserException.STYLE_NOT_SUPPORTED=½ºÅ¸ÀÏ "{0}"ÀÌ(°¡) Áö¿øµÇÁö ¾Ê½À´Ï´Ù.
+
 Error.StyleSheetParserException.PROPERTY_NOT_SUPPORTED=CSS2 ¼Ó¼º "{0}"¿¡ ´ëÇÑ "{1}" °ªÀÌ Áö¿øµÇÁö ¾Ê½À´Ï´Ù.
+
 Error.StyleSheetParserException.INVALID_SHORT_HAND_CSSPROPERTY_VALUE=CSS2 ¹®¹ı¿¡ ´ëÇÑ ¾à½Ä ¼Ó¼º "{0}"ÀÇ °ª "{1}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù.
-Error.StyleSheetParserException.INVALID_SIMPLE_CSSPROPERTY_VALUE=¼Ó¼º "{0}"¿¡ ´ëÇÑ °ª "{1}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù.		
+
+Error.StyleSheetParserException.INVALID_SIMPLE_CSSPROPERTY_VALUE=¼Ó¼º "{0}"¿¡ ´ëÇÑ °ª "{1}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù.
 	
 #TemplateException
 Error.TemplateException.INVALID_TEMPLATE_ELEMENT_TYPE={0}ÀÌ(°¡) º¸°í¼­ Ç×¸ñÀÌ ¾Æ´Ï°Å³ª µ¥ÀÌÅÍ ÁıÇÕ ¿ä¼Ò°¡ ¾Æ´Ï¹Ç·Î ÅÛÇÃ¸´ ¿ä¼Ò·Î º¯È¯ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.TemplateException.TRANSFORM_TO_REPORT_ITEM_FORBIDDEN={0}¿¡ ¸í½ÃÀû ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Á¤ÀÇ°¡ ¾øÀ¸¹Ç·Î º¸°í¼­ Ç×¸ñÀ¸·Î º¯È¯ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.TemplateException.TRANSFORM_TO_DATA_SET_FORBIDDEN={0}¿¡ ¸í½ÃÀû ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Á¤ÀÇ°¡ ¾øÀ¸¹Ç·Î µ¥ÀÌÅÍ ÁıÇÕÀ¸·Î º¯È¯ÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.TemplateException.REVERT_TO_TEMPLATE_FORBIDDEN={0}¿¡ ¸í½ÃÀû ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Á¤ÀÇ°¡ ¾øÀ¸¹Ç·Î ÅÛÇÃ¸´ ¿ä¼Ò·Î µÇµ¹¸± ¼ö ¾ø½À´Ï´Ù.
+
 Error.TemplateException.CREATE_TEMPLATE_ELEMENT_FORBIDDEN={0}ÀÌ(°¡) º¸°í¼­¿¡ ¾øÀ¸¹Ç·Î º¯È¯À» ¼öÇàÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=ÅÛÇÃ¸´ ¿ä¼Ò°¡ ¶óÀÌºê·¯¸®¿¡¼­ Áö¿øµÇÁö ¾Ê½À´Ï´Ù.
 
 #VersionInfo
 Info.VersionInfo.INVALID_DESIGN_FILE=¿­¸° µğÀÚÀÎ ÆÄÀÏÀÌ ¿Ã¹Ù¸¥ µğÀÚÀÎ ÆÄÀÏÀÌ ¾Æ´Ï°Å³ª ÇØ´ç ÆÄÀÏÀÌ ¾ø½À´Ï´Ù.
-Info.VersionInfo.CONVERT_INFO=ÀÌÀü ¹öÀüÀÇ BIRT¿¡¼­ ¸¸µç µğÀÚÀÎ ÆÄÀÏÀÔ´Ï´Ù. ÇöÀç ¹öÀü¿¡¼­ Áö¿øÇÏ´Â Çü½ÄÀ¸·Î º¯È¯ÇÏ·Á¸é È®ÀÎÀ» ´©¸£½Ê½Ã¿À. 
+
+Info.VersionInfo.CONVERT_INFO=ÀÌÀü ¹öÀüÀÇ BIRT¿¡¼­ ¸¸µç µğÀÚÀÎ ÆÄÀÏÀÔ´Ï´Ù. ÇöÀç ¹öÀü¿¡¼­ Áö¿øÇÏ´Â Çü½ÄÀ¸·Î º¯È¯ÇÏ·Á¸é È®ÀÎÀ» ´©¸£½Ê½Ã¿À.
+
 Info.VersionInfo.INVALID_VERSION=¹öÀü {0}ÀÇ º¸°í¼­ ÆÄÀÏÀÌ Áö¿øµÇÁö ¾Ê½À´Ï´Ù.
+
 Info.VersionInfo.LATER_VERSION=ÃÖ½Å ¹öÀüÀÇ BIRT¿¡¼­ ¸¸µç µğÀÚÀÎ ÆÄÀÏÀÔ´Ï´Ù. ÇöÀç ¹öÀü¿¡¼­ Áö¿øÇÏ´Â Çü½ÄÀ¸·Î º¯È¯ÇÏ·Á¸é È®ÀÎÀ» ´©¸£½Ê½Ã¿À.
+
 Info.VersionInfo.EXTENSION_COMPATIBILITY =¿­¸° µğÀÚÀÎ/¶óÀÌºê·¯¸® ¶Ç´Â Æ÷ÇÔµÈ ¶óÀÌºê·¯¸®´Â ÀÌÀü ¹öÀü°ú È£È¯µÇ¹Ç·Î µğÀÚÀÎ/¶óÀÌºê·¯¸®°¡ º¯°æµÉ ¼ö ÀÖ½À´Ï´Ù.
 
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0}ÀÇ ¼Ó¼º {1}ÀÌ(°¡) ¾ÏÈ£È­ °¡´É »óÅÂ°¡ ¾Æ´Ï¹Ç·Î ¾ÏÈ£È­¸¦ º¯°æÇÒ ¼ö ¾ø½À´Ï´Ù.
+
 Error.EncryptionException.INVALID_ENCRYPTION=¾ÏÈ£È­ ID "{0}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù. Á¸ÀçÇÏÁö ¾Ê´Â ¾ÏÈ£È­ÀÔ´Ï´Ù.
 
 #Dashboard Exporter
 Message.ExportGadgetToSharedGadgetFile=°øÀ¯ °¡Á¬ ÆÄÀÏ·Î °¡Á¬À» ³»º¸³À´Ï´Ù.
+
 Message.ExportTabToSharedTabFile=°øÀ¯ ÅÇ ÆÄÀÏ·Î ÅÇÀ» ³»º¸³À´Ï´Ù.
 
 #Dashboard Exception
-Error.ExternalGadgetFileIncludedRecursively=¿ÜºÎ °¡Á¬ÀÌ Àç±ÍÀûÀ¸·Î Æ÷ÇÔµÇ¾î ÀÖ½À´Ï´Ù. 
+Error.ExternalGadgetFileIncludedRecursively=¿ÜºÎ °¡Á¬ÀÌ Àç±ÍÀûÀ¸·Î Æ÷ÇÔµÇ¾î ÀÖ½À´Ï´Ù.
+
 Error.NotFoundExporter=´ë½Ãº¸µå ³»º¸³»±â¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.

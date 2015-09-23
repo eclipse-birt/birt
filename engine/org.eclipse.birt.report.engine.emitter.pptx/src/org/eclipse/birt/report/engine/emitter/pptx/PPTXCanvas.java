@@ -484,8 +484,9 @@ public class PPTXCanvas
 		writer.attribute( "prst", "rect" );
 		writer.closeTag( "a:prstGeom" );
 
-		setBackgroundImg( imageInfo.getPart( ).getRelationshipId( ), offsetX, offsetY );
-		//hardcore the repeat type
+		setBackgroundImg( imageInfo.getPart( ).getRelationshipId( ), offsetX,
+				offsetY, BackgroundImageInfo.NO_REPEAT );
+		// hardcore the repeat type
 		writer.openTag( "a:ln" );
 		writer.openTag( "a:noFill" );
 		writer.closeTag( "a:noFill" );
@@ -781,7 +782,7 @@ public class PPTXCanvas
 		writer.attribute( "marB", bottom );
 	}
 
-	protected String getImageRelationship( BackgroundImageInfo bgimginfo)
+	public String getImageRelationship( BackgroundImageInfo bgimginfo )
 	{
 		String imageURI = bgimginfo.getUrl( );
 		byte[] imageData = bgimginfo.getImageData( );
@@ -812,7 +813,6 @@ public class PPTXCanvas
 	{
 		return (int) ( value * scale );
 	}
-	
 	
 	public void setScale( float newscale )
 	{

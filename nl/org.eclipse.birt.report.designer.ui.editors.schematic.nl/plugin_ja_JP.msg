@@ -8,19 +8,28 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
-
 design.layout=レイアウト(&O)
+
 design.masterPage=マスターページ(&M)
+
 design.script=スクリプト(&S)
+
 design.xmlsource=XML ソース(&X)
 
 template.layout=レイアウト(&O)
+
 template.masterPage=マスターページ(&M)
+
 template.script=スクリプト(&S)
+
 template.xmlsource=XML ソース(&X)
 
 pageSet.layout=レイアウトページ(&L)
+
 pageSet.master=マスターページ(&M)
+
 pageSet.preview=プレビューページ(&P)
+
 pageSet.script=スクリプトページ(&S)
+
 pageSet.source=XML ソースページ(&X)

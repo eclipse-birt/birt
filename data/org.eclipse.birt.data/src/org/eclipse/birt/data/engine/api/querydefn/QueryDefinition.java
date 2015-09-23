@@ -15,8 +15,11 @@ package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.birt.data.engine.api.IBaseLinkDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 
@@ -35,6 +38,9 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	private   boolean           autoBinding = false;
 	private   boolean           isSummaryQuery = false;
 	private IBaseQueryDefinition 	sourceQuery;
+	
+    private Set<IBaseLinkDefinition> links = new HashSet<IBaseLinkDefinition>( );
+
 	
 	/** Constructs an empty query definition */
 	public QueryDefinition( )
@@ -181,5 +187,17 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	{
 		return this.isSummaryQuery;
 	}
+
+    @Override
+    public Set<IBaseLinkDefinition> getLinks( )
+    {
+        return this.links;
+    }
+
+    @Override
+    public void addLink( IBaseLinkDefinition link )
+    {
+        this.links.add( link );
+    }
 
 }

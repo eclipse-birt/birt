@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.actions.cheatsheets;
 
+import org.eclipse.birt.report.designer.internal.ui.actions.helper.IOpenDocActionHelper;
+import org.eclipse.birt.report.designer.internal.ui.actions.helper.IOpenDocActionHelperProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.cheatsheets.ICheatSheetAction;
@@ -18,8 +22,29 @@ import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 
 /**
  */
-public class OpenHelpAction extends Action implements ICheatSheetAction
+public class OpenDocAction extends Action implements ICheatSheetAction
 {
+	IOpenDocActionHelper helper;
+	private void initHelper()
+	{
+		// *********** try using a helper provider ****************
+		IOpenDocActionHelperProvider helperProvider = (IOpenDocActionHelperProvider) ElementAdapterManager.getAdapter( this,
+				IOpenDocActionHelperProvider.class );
+
+		if ( helperProvider != null )
+		{
+			this.helper = helperProvider.createHelper( );//$NON-NLS-1$
+		}
+		else
+		{
+			this.helper = null;
+		}
+	}
+
+	public OpenDocAction()
+	{
+		this.initHelper();
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -29,6 +54,11 @@ public class OpenHelpAction extends Action implements ICheatSheetAction
 	 */
 	public void run( String[] params, ICheatSheetManager manager )
 	{
+		if ( this.helper != null )
+		{
+			this.helper.run( params, manager );
+			return;
+		}
 		if ( params.length < 1 )
 			throw new IllegalArgumentException( );
 		PlatformUI.getWorkbench( )

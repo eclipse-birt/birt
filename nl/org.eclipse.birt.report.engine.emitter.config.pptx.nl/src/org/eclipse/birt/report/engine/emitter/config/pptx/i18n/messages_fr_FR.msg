@@ -36,6 +36,7 @@ OptionDisplayValue.FontSubstitution=Changement de police
 OptionDisplayValue.ChartDpi=DPI de graphique
 
 OptionDisplayValue.RepaginateForPDF=Nouvelle mise en page lors du rendu PPTX
+OptionDisplayValue.EditMode=Mode Edition
 
 ###########################################################
 #Option Description
@@ -50,6 +51,7 @@ OptionDescription.FontSubstitution=Sélectionne des polices automatiquement lorsq
 OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
 
 OptionDescription.RepaginateForPDF=Nouvelle mise en page lors du rendu PPTX.
+OptionDescription.EditMode=Composants modifiables sur PPTX
 
 ###########################################################
 #tooltip

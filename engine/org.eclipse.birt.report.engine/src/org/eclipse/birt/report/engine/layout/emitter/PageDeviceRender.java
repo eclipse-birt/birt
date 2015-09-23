@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
@@ -153,16 +152,19 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 	}
 
+	@Override
 	public void visitText( ITextArea textArea )
 	{
 		drawText( textArea );
 	}
 
+	@Override
 	public void visitImage( IImageArea imageArea )
 	{
 		drawImage( imageArea );
 	}
 
+	@Override
 	public void visitAutoText( ITemplateArea templateArea )
 	{
 	}
@@ -174,6 +176,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param offsetX
 	 * @param offsetY
 	 */
+	@Override
 	public void visitContainer( IContainerArea container )
 	{
 		if ( container instanceof PageArea )

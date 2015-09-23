@@ -2734,6 +2734,7 @@ public class DEUtil
 		{
 			if ( ( (ReportItemHandle) element ).getCube( ) != null )
 			{
+				// check if this is a binding data model
 				if (( (ReportItemHandle) element ).getDataSet( ) != null && (element instanceof TableHandle)) {
 					return false;
 				}

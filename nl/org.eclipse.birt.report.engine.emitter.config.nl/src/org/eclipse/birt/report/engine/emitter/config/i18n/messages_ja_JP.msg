@@ -8,6 +8,6 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
-
 TOO_SMALL_CHART_DPI=グラフの DPI には、96 以上を指定する必要があります。96 より小さい場合、グラフは実行コンテキストでレンダリング DPI を使用して処理されます。
+
 INVALID_CHART_DPI=グラフ DPI を認識できません。

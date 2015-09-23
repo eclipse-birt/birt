@@ -14,7 +14,9 @@
 # NLS String
 ###############################################################################
 datasource.name=레거시 BIRT 2.1.x XML 데이터 원본
+
 dataset.name=BIRT 2.1.x XML 데이터 집합
 
 datasource.property.xmlFile=XML 데이터 원본 파일
+
 datasource.property.schemaFile=XML 스키마 파일

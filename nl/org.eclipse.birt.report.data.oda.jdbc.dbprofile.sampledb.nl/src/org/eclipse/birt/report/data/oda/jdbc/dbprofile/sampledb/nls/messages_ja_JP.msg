@@ -12,4 +12,5 @@
 #************************************************************************
 #
 sampleDbFactory_invalidDirectory={0} にサンプルデータベースを作成できません。
-sampleDbFactory_noSampleDbJarFile=内部エラー : サンプルデータベースの jar ファイル ({0}) が見つかりません。 
+
+sampleDbFactory_noSampleDbJarFile=内部エラー : サンプルデータベースの jar ファイル ({0}) が見つかりません。

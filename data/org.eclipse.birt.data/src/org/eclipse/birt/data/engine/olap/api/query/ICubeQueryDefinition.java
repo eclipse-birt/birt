@@ -12,8 +12,10 @@
 package org.eclipse.birt.data.engine.olap.api.query;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseLinkDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -235,4 +237,23 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 	 * @param the ID of the report Item
 	 */
 	public void setID(String ID);
+    /**
+     * Clone itself.
+     */
+    public ICubeQueryDefinition clone( );
+    
+    /**
+     * Get all links between datasets.
+     * 
+     * @return
+     */
+    public Set<IBaseLinkDefinition> getLinks( );
+
+    /**
+     * The links open an interface for calculating joins between datasets.
+     * Currently not used.
+     * 
+     * @return
+     */
+    public void addLink( IBaseLinkDefinition link );
 }

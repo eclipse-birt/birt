@@ -46,7 +46,7 @@ public class ResultClass implements IResultClass
 	private int[] fieldDriverPositions;
 	private ResultClassHelper resultClassHelper;
 	private boolean hasAny;
-	private List originalAnyTypeField;
+	private boolean[] originalAnyTypeField;
 	private int version;
 	public ResultClass( List projectedColumns ) throws DataException
 	{	
@@ -91,7 +91,7 @@ public class ResultClass implements IResultClass
 		m_fieldCount = projectedColumns.size( );
 		projectedCols = new ResultFieldMetadata[m_fieldCount];
 		nameToIdMapping = new HashMap( );
-		this.originalAnyTypeField = new ArrayList();
+		this.originalAnyTypeField = new boolean[projectedColumns.size( )];
 		for ( int i = 0, n = projectedColumns.size( ); i < n; i++ )
 		{
 			projectedCols[i] = (ResultFieldMetadata) projectedColumns.get( i );
@@ -99,7 +99,7 @@ public class ResultClass implements IResultClass
 			if( isOfAnyType( column ))
 			{
 				this.hasAny = true;
-				this.originalAnyTypeField.add( Integer.valueOf( i + 1 ) );
+				this.originalAnyTypeField[i] = true;
 			}
 			String upperCaseName = column.getName( );
 			//if ( upperCaseName != null )
@@ -513,14 +513,8 @@ public class ResultClass implements IResultClass
 	 */
 	public boolean wasAnyType( String name ) throws DataException
 	{
-		Iterator it = this.originalAnyTypeField.iterator( );
-		while ( it.hasNext( ) )
-		{
-			int index = ((Integer)it.next( )).intValue( );
-			if ( this.getFieldName( index ).equals( name ) || this.getFieldAlias( index ).equals( name ))
-				return true;
-		}
-		return false;
+		int index = this.getFieldIndex( name );
+		return wasAnyType(index);
 	}
 	
 	/**
@@ -530,13 +524,7 @@ public class ResultClass implements IResultClass
 	 */
 	public boolean wasAnyType( int index )
 	{
-		Iterator it = this.originalAnyTypeField.iterator( );
-		while ( it.hasNext( ) )
-		{
-			if ( index == ((Integer)it.next( )).intValue( ))
-				return true;
-		}	
-		return false;
+		return originalAnyTypeField[index - 1];
 	}
 
 	/**

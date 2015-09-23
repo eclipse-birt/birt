@@ -13,9 +13,12 @@ package org.eclipse.birt.data.engine.olap.impl.query;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseLinkDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -49,6 +52,8 @@ public class CubeQueryDefinition extends NamedObject
 	private boolean needAccessFactTable;
 	private int breakHierarchyOption = 0;
 	private String ID;
+	
+	private Set<IBaseLinkDefinition> links = new HashSet<IBaseLinkDefinition>( );
 	
 	/**
 	 * Constructor. The name of CubeQueryDefinition must equal to the name
@@ -403,6 +408,52 @@ public class CubeQueryDefinition extends NamedObject
 	{
 		this.ID = ID;
 	}
-	
-	
+
+    /**
+     * Clone itself
+     */
+    public ICubeQueryDefinition clone( )
+    {
+        CubeQueryDefinition cloned = new CubeQueryDefinition( this.getName( ) );
+        cloneFields( cloned );
+
+        return cloned;
+    }
+
+    /*
+     * Clone fields. Separate this method for extension classes.
+     */
+    protected void cloneFields( CubeQueryDefinition cloned )
+    {
+        cloned.bindingList.addAll( this.bindingList );
+        cloned.breakHierarchyOption = this.breakHierarchyOption;
+        cloned.cacheQueryResults = this.cacheQueryResults;
+        cloned.columnEdge = this.columnEdge != null
+                ? this.columnEdge.clone( )
+                : null;
+        cloned.computedMeasureList.addAll( this.computedMeasureList );
+        cloned.cubeOperations.addAll( this.cubeOperations );
+        cloned.derivedMeasureList.addAll( this.derivedMeasureList );
+        cloned.filterList.addAll( this.filterList );
+        cloned.ID = this.ID;
+        cloned.measureList.addAll( this.measureList );
+        cloned.needAccessFactTable = this.needAccessFactTable;
+        cloned.pageEdge = this.pageEdge != null ? this.pageEdge.clone( ) : null;
+        cloned.queryResultsID = this.queryResultsID;
+        cloned.rowEdge = this.rowEdge != null ? this.rowEdge.clone( ) : null;
+        cloned.sortList.addAll( this.sortList );
+    }
+    
+    @Override
+    public Set<IBaseLinkDefinition> getLinks( )
+    {
+        return this.links;
+    }
+
+    @Override
+    public void addLink( IBaseLinkDefinition link )
+    {
+        this.links.add( link );
+    }
+
 }

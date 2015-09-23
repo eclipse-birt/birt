@@ -16,9 +16,10 @@ oda.data.source.id=org.eclipse.birt.data.oda.pojo
 # NLS String
 ###############################################################################
 #
-plugin.name=POJO Êı¾İÔ´ ODA ÔËĞĞÊ±Çı¶¯³ÌĞò
-data.source.name=POJO Êı¾İÔ´
-data.set.name=POJO Êı¾İ¼¯
-connection.profile.name=POJO Êı¾İÔ´Á¬½ÓÅäÖÃÎÄ¼ş
-datasource.property.pojoDataSetClassPath=×Ô¶¨Òå POJO Êı¾İ¼¯ÀàµÄ¹²ÏíÎ»ÖÃ(&L)
-datasource.property.pojoClassPath=POJO ÀàµÄ¹²ÏíÎ»ÖÃ
+plugin.name=POJO Data Source ODA Runtime Driver
+data.source.name=POJO Data Source
+data.set.name=POJO Data Set
+connection.profile.name=POJO Data Source Connection Profile
+datasource.property.pojoDataSetClassPath=è‡ªå®šä¹‰ POJO æ•°æ®é›†ç±»çš„å…±äº«ä½ç½®(&L)
+
+datasource.property.pojoClassPath=POJO ç±»çš„å…±äº«ä½ç½®

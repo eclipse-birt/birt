@@ -8,8 +8,9 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
-
 contenttype.design=报表设计
-contenttype.library=报表库
+
+contenttype.library=Report Library
 contenttype.template=报表模板
+
 contenttype.document=报表文档

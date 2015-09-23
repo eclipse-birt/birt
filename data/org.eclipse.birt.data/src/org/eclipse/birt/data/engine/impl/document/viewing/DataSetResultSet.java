@@ -228,7 +228,8 @@ public class DataSetResultSet implements IDataSetResultSet
 					long position = IOUtil.readLong( this.disRowLensStream );
 					this.rowIndex = index;
 					this.inputStream.seek( position + this.initPos );
-					this.dis = new DataInputStream( inputStream );
+					this.bis = new BufferedInputStream( inputStream );
+					this.dis = new DataInputStream( bis );
 					this.currentObject = ResultSetUtil.readResultObject( dis,
 							rsMetaData,
 							colCount,

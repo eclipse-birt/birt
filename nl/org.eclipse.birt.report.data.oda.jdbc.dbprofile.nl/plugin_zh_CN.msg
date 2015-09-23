@@ -17,14 +17,21 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.jdbc.dbprofile
 # NLS String
 ###############################################################################
 #
-plugin.name=JDBC 数据库连接数据源 ODA 运行时驱动程序
-data.source.name=查询生成器的 JDBC 数据库连接
-data.set.name=SQL 选择查询 [查询生成器原型]
-connection.profile.name=BIRT JDBC 数据库连接配置文件
-dataset.property.parameterMetaData=BIRT JDBC 参数元数据
-datasource.property.username=用户名(&N)
-datasource.property.password=密码(&W)
-datasource.property.jdbcURL=JDBC 驱动程序 URL(&R)
-datasource.property.driverClass=JDBC 驱动程序类(&C)
-datasource.property.jarlist=JDBC 驱动程序 JAR 列表(&J)
+plugin.name=JDBC Database Connection Data Source ODA Runtime Driver
+data.source.name=JDBC Database Connection for Query Builder
+
+data.set.name=SQL Select Query [Query Builder]
+
+connection.profile.name=BIRT JDBC Database Connection Profile
+dataset.property.parameterMetaData=BIRT JDBC Parameter MetaData
+datasource.property.username=User &Name
+
+datasource.property.password=Pass&word
+
+datasource.property.jdbcURL=JDBC Driver U&RL
+
+datasource.property.driverClass=JDBC Driver &Class
+
+datasource.property.jarlist=JDBC Driver &JAR List
+
 datasource.property.databasename=数据库(&D)

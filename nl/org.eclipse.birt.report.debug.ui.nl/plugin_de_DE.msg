@@ -9,18 +9,30 @@
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
 
-report.debug=BIRT-Bericht
+report.debug=BIRT Report
 script.debug=Bericht
-LaunchActionSet.label=Bericht d&ebuggen 
+
+LaunchActionSet.label=Bericht d&ebuggen
+
 Script.source.locator=Bericht zu Skript-Source Locator
+
 Debug.jsEditor=Bericht zu JavaScript-Editor-Debug
+
 javaSourceLocatorName=Java Source Locator
 Watch.label=Zu Überwachung hinzufügen
+
 ReportActionSet=Berichtsaktionen
+
 Run=&Ausführen
+
 ScriptLaunchShortcut.label=Bericht
+
 DebugReportLaunchShortcut.description=Bericht debuggen
+
 EnableBreakpoint.label=Haltepunkt aktivieren
+
 ToggleBreakpoint.label=Haltepunkt ein/aus
+
 Action.DebugReport=Bericht debuggen
+
 Menu.Report=Bericht

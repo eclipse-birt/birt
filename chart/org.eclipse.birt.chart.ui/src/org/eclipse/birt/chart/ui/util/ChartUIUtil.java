@@ -98,8 +98,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
 
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.ULocale;

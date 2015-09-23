@@ -36,6 +36,7 @@ OptionDisplayValue.FontSubstitution=Schriftart ersetzen
 OptionDisplayValue.ChartDpi=Diagramm-DPI
 
 OptionDisplayValue.RepaginateForPDF=Während des Renderns der PPTX neu paginieren
+OptionDisplayValue.EditMode=Bearbeitungsmodus
 
 ###########################################################
 #Option Description
@@ -50,6 +51,7 @@ OptionDescription.FontSubstitution=Wählt Schriftarten automatisch aus, wenn die 
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
 
 OptionDescription.RepaginateForPDF=Während des Renderns der PPTX neu paginieren.
+OptionDescription.EditMode=Editierbare Komponenten in PPTX
 
 ###########################################################
 #tooltip

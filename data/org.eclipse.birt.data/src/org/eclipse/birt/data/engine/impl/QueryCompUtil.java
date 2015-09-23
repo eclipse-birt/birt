@@ -114,6 +114,10 @@ public class QueryCompUtil
 		{
 			IQueryDefinition queryDefn1 = (IQueryDefinition) qd1;
 			IQueryDefinition queryDefn2 = (IQueryDefinition) qd2;
+			if ( queryDefn1.isSummaryQuery( ) != queryDefn2.isSummaryQuery( ) )
+			{
+				return false;
+			}
 			if ( !onIVMode )
 			{
 
@@ -270,8 +274,10 @@ public class QueryCompUtil
 				return false;
 			if( ! isEqualFilters( groupDefn1.getFilters( ), groupDefn2.getFilters( )))
 				return false;
-			if( ! isEqualSorts( groupDefn1.getSorts( ), groupDefn2.getSorts( )))
-				return false;
+			if ( groupDefn1.getSortDirection( ) != groupDefn2.getSortDirection( ) )
+                return false;
+            if ( !isEqualSorts( groupDefn1.getSorts( ), groupDefn2.getSorts( ) ) )
+                return false;
 			if( groupDefn1.getInterval( )!= groupDefn2.getInterval( ))
 				return false;
 			if( groupDefn1.getIntervalRange( ) != groupDefn2.getIntervalRange( ))

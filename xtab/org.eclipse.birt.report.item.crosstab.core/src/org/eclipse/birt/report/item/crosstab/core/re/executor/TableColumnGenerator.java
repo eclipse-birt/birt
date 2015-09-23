@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.Style;
 
 /**
  * TableColumnGenerator
@@ -215,140 +217,150 @@ public class TableColumnGenerator implements ICrosstabConstants
 		handlePageBreak( table );
 	}
 
+	private String getDisplay( CrosstabCellHandle cell )
+	{
+		Object value = cell.getProperty( Style.DISPLAY_PROP );
+		if ( value != null )
+		{
+			return value.toString( );
+		}
+		return null;
+	}
+
 	private void addColumn( ColumnEvent event, IReportContent report,
 			ITableContent table )
 	{
 		Column col = new Column( report );
 
-		DimensionHandle handle = null;
+		CrosstabCellHandle cell = null;
+		switch ( event.type )
+		{
+			case ColumnEvent.ROW_EDGE_CHANGE :
+
+				col.setColumnHeaderState( true );
+				col.setRepeated( repeatRowHeader );
+
+				if ( event.dimensionIndex == -1 && event.levelIndex == -1 )
+				{
+					// this is a dummy row edge event, we use header cell
+					cell = crosstabItem.getHeader( );
+				}
+				else
+				{
+					// use row level cell
+					cell = crosstabItem
+							.getDimension( ROW_AXIS_TYPE, event.dimensionIndex )
+							.getLevel( event.levelIndex ).getCell( );
+				}
+				break;
+			case ColumnEvent.MEASURE_HEADER_CHANGE :
+
+				col.setColumnHeaderState( true );
+				col.setRepeated( repeatRowHeader );
+
+				// use first measure header cell
+				int totalMeasureCount = crosstabItem.getMeasureCount( );				
+				for ( int i = 0; i < totalMeasureCount; i++ )
+				{
+					MeasureViewHandle mv = crosstabItem.getMeasure( i );
+					if ( mv.getHeader( ) != null )
+					{
+						cell = mv.getHeader( );
+						break;
+					}
+				}
+				break;
+			case ColumnEvent.COLUMN_EDGE_CHANGE :
+				if ( crosstabItem.getMeasureCount( ) > 0 )
+				{
+					int mx = event.measureIndex >= 0 ? event.measureIndex : 0;
+
+					// use measure cell
+					cell = crosstabItem.getMeasure( mx ).getCell( );
+				}
+				else
+				{
+					// TODO check visibility
+					// use innerest column level cell
+					DimensionViewHandle dv = crosstabItem
+							.getDimension( COLUMN_AXIS_TYPE, crosstabItem
+									.getDimensionCount( COLUMN_AXIS_TYPE ) - 1 );
+					cell = dv.getLevel( dv.getLevelCount( ) - 1 ).getCell( );
+				}
+				break;
+			case ColumnEvent.COLUMN_TOTAL_CHANGE :
+				if ( crosstabItem.getMeasureCount( ) > 0 )
+				{
+					int mx = event.measureIndex >= 0 ? event.measureIndex : 0;
+
+					// use selected aggregation cell
+					DimensionViewHandle dv = crosstabItem.getDimension(
+							COLUMN_AXIS_TYPE, event.dimensionIndex );
+					LevelViewHandle lv = dv.getLevel( event.levelIndex );
+
+					cell = crosstabItem.getMeasure( mx ).getAggregationCell(
+							rowDimension, rowLevel, dv.getCubeDimensionName( ),
+							lv.getCubeLevelName( ) );
+				}
+				else
+				{
+					// use column sub total cell
+					DimensionViewHandle dv = crosstabItem.getDimension(
+							COLUMN_AXIS_TYPE, event.dimensionIndex );
+					cell = dv.getLevel( event.levelIndex )
+							.getAggregationHeader( );
+				}
+				break;
+			case ColumnEvent.GRAND_TOTAL_CHANGE :
+				if ( crosstabItem.getMeasureCount( ) > 0 )
+				{
+					int mx = event.measureIndex >= 0 ? event.measureIndex : 0;
+
+					// use selected aggregation cell
+					cell = crosstabItem.getMeasure( mx ).getAggregationCell(
+							rowDimension, rowLevel, null, null );
+				}
+				else
+				{
+					// use column grand total cell
+					cell = crosstabItem.getGrandTotal( COLUMN_AXIS_TYPE );
+				}
+				break;
+			case ColumnEvent.MEASURE_CHANGE :
+				// use measure cell
+				int mx = event.measureIndex >= 0 ? event.measureIndex : 0;
+				cell = crosstabItem.getMeasure( mx ).getCell( );
+				break;
+		}
 
 		try
 		{
-			switch ( event.type )
+			DimensionHandle handle = crosstabItem.getColumnWidth( cell );
+			if ( handle != null )
 			{
-				case ColumnEvent.ROW_EDGE_CHANGE :
+				DimensionType width = ContentUtil.createDimension( handle );
 
-					col.setColumnHeaderState( true );
-					col.setRepeated( repeatRowHeader );
-
-					if ( event.dimensionIndex == -1 && event.levelIndex == -1 )
-					{
-						// this is a dummy row edge event, we use header cell
-						handle = crosstabItem.getColumnWidth( crosstabItem.getHeader( ) );
-					}
-					else
-					{
-						// use row level cell
-						handle = crosstabItem.getColumnWidth( crosstabItem.getDimension( ROW_AXIS_TYPE,
-								event.dimensionIndex )
-								.getLevel( event.levelIndex )
-								.getCell( ) );
-					}
-					break;
-				case ColumnEvent.MEASURE_HEADER_CHANGE :
-
-					col.setColumnHeaderState( true );
-					col.setRepeated( repeatRowHeader );
-
-					// use first measure header cell
-					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
-					{
-						MeasureViewHandle mv = crosstabItem.getMeasure( i );
-						if ( mv.getHeader( ) != null )
-						{
-							handle = crosstabItem.getColumnWidth( mv.getHeader( ) );
-							break;
-						}
-					}
-					break;
-				case ColumnEvent.COLUMN_EDGE_CHANGE :
-					if ( crosstabItem.getMeasureCount( ) > 0 )
-					{
-						int mx = event.measureIndex >= 0 ? event.measureIndex
-								: 0;
-
-						// use measure cell
-						handle = crosstabItem.getColumnWidth( crosstabItem.getMeasure( mx )
-								.getCell( ) );
-					}
-					else
-					{
-						// TODO check visibility
-						// use innerest column level cell
-						DimensionViewHandle dv = crosstabItem.getDimension( COLUMN_AXIS_TYPE,
-								crosstabItem.getDimensionCount( COLUMN_AXIS_TYPE ) - 1 );
-						handle = crosstabItem.getColumnWidth( dv.getLevel( dv.getLevelCount( ) - 1 )
-								.getCell( ) );
-					}
-					break;
-				case ColumnEvent.COLUMN_TOTAL_CHANGE :
-					if ( crosstabItem.getMeasureCount( ) > 0 )
-					{
-						int mx = event.measureIndex >= 0 ? event.measureIndex
-								: 0;
-
-						// use selected aggregation cell
-						DimensionViewHandle dv = crosstabItem.getDimension( COLUMN_AXIS_TYPE,
-								event.dimensionIndex );
-						LevelViewHandle lv = dv.getLevel( event.levelIndex );
-
-						handle = crosstabItem.getColumnWidth( crosstabItem.getMeasure( mx )
-								.getAggregationCell( rowDimension,
-										rowLevel,
-										dv.getCubeDimensionName( ),
-										lv.getCubeLevelName( ) ) );
-					}
-					else
-					{
-						// use column sub total cell
-						DimensionViewHandle dv = crosstabItem.getDimension( COLUMN_AXIS_TYPE,
-								event.dimensionIndex );
-						handle = crosstabItem.getColumnWidth( dv.getLevel( event.levelIndex )
-								.getAggregationHeader( ) );
-					}
-					break;
-				case ColumnEvent.GRAND_TOTAL_CHANGE :
-					if ( crosstabItem.getMeasureCount( ) > 0 )
-					{
-						int mx = event.measureIndex >= 0 ? event.measureIndex
-								: 0;
-
-						// use selected aggregation cell
-						handle = crosstabItem.getColumnWidth( crosstabItem.getMeasure( mx )
-								.getAggregationCell( rowDimension,
-										rowLevel,
-										null,
-										null ) );
-					}
-					else
-					{
-						// use column grand total cell
-						handle = crosstabItem.getColumnWidth( crosstabItem.getGrandTotal( COLUMN_AXIS_TYPE ) );
-					}
-					break;
-				case ColumnEvent.MEASURE_CHANGE :
-					// use measure cell
-					int mx = event.measureIndex >= 0 ? event.measureIndex : 0;
-					handle = crosstabItem.getColumnWidth( crosstabItem.getMeasure( mx )
-							.getCell( ) );
-					break;
+				if ( width != null )
+				{
+					col.setWidth( width );
+				}
 			}
 		}
 		catch ( CrosstabException e )
 		{
-			logger.log( Level.SEVERE,
+			logger.log(
+					Level.SEVERE,
 					Messages.getString( "TableColumnGenerator.error.process.column.width" ), //$NON-NLS-1$
 					e );
 		}
 
-		if ( handle != null )
-		{
-			DimensionType width = ContentUtil.createDimension( handle );
+		//set display
+		String display = getDisplay( cell );
 
-			if ( width != null )
-			{
-				col.setWidth( width );
-			}
+		if ( "none".equals( display ) )
+		{
+			col.getStyle( ).setDisplay( "none" );
+		}
 
 			// TODO temprarily commented out
 			// process style
@@ -375,9 +387,6 @@ public class TableColumnGenerator implements ICrosstabConstants
 			// "TableColumnGenerator.error.process.visibility" ), //$NON-NLS-1$
 			// e );
 			// }
-
-		}
-
 		table.addColumn( col );
 	}
 

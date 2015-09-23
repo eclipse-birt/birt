@@ -46,4 +46,16 @@ public class MirroredDefinition implements IMirroredDefinition
 		return this.breakHierarchy;
 	}
 
+    /**
+     * Clone itself.
+     */
+    public IMirroredDefinition clone( )
+    {
+        MirroredDefinition cloned = new MirroredDefinition( this.level != null
+                ? this.level.clone( )
+                : null, this.breakHierarchy );
+
+        return cloned;
+    }
+
 }

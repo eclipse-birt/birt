@@ -17,14 +17,21 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.jdbc.dbprofile
 # NLS String
 ###############################################################################
 #
-plugin.name=Pilote d'exécution ODA de source de données de connexion aux bases de données JDBC
-data.source.name=Connexion aux bases de données JDBC pour générateur de requête
-data.set.name=Requête de sélection SQL [Prototype de générateur de requête]
-connection.profile.name=Profil de connexion aux bases de données JDBC BIRT
-dataset.property.parameterMetaData=Métadonnées du paramètre BIRT JDBC
-datasource.property.username=&Nom d'utilisateur
-datasource.property.password=&Mot de passe
-datasource.property.jdbcURL=U&RL de pilote JDBC
-datasource.property.driverClass=&Classe de pilote JDBC
-datasource.property.jarlist=Liste &JAR de pilote JDBC
-datasource.property.databasename=&Base de données
+plugin.name=JDBC Database Connection Data Source ODA Runtime Driver
+data.source.name=JDBC Database Connection for Query Builder
+
+data.set.name=SQL Select Query [Query Builder]
+
+connection.profile.name=BIRT JDBC Database Connection Profile
+dataset.property.parameterMetaData=BIRT JDBC Parameter MetaData
+datasource.property.username=User &Name
+
+datasource.property.password=Pass&word
+
+datasource.property.jdbcURL=JDBC Driver U&RL
+
+datasource.property.driverClass=JDBC Driver &Class
+
+datasource.property.jarlist=JDBC Driver &JAR List
+
+datasource.property.databasename=Base de &données

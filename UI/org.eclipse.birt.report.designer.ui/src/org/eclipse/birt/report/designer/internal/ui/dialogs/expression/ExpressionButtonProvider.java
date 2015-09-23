@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionSupportManager;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionBuilder;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport;
+import org.eclipse.birt.report.designer.internal.ui.script.JSExpressionSupport;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -38,6 +39,7 @@ public class ExpressionButtonProvider implements IExpressionButtonProvider
 
 	private Map<String, IExpressionSupport> supports = new HashMap<String, IExpressionSupport>( );
 	private String[] supportedTypes;
+	private boolean showLeafOnlyInThirdColumn = false;
 
 	public ExpressionButtonProvider( boolean allowConstant )
 	{
@@ -119,9 +121,18 @@ public class ExpressionButtonProvider implements IExpressionButtonProvider
 
 		if ( spt != null )
 		{
-			IExpressionBuilder builder = spt.createBuilder( input.getControl( )
-					.getShell( ), null );
-
+			IExpressionBuilder builder = null;
+			if ( spt instanceof JSExpressionSupport )
+			{
+				builder = ( (JSExpressionSupport) spt ).createBuilder( input.getControl( )
+						.getShell( ),
+						null,
+						showLeafOnlyInThirdColumn );
+			}
+			else
+			{
+				builder = spt.createBuilder( input.getControl( ).getShell( ), null );
+			}
 			if ( builder != null )
 			{
 				if ( Window.OK == input.openExpressionBuilder( builder,
@@ -149,6 +160,11 @@ public class ExpressionButtonProvider implements IExpressionButtonProvider
 	public IExpressionSupport getExpressionSupport( String exprType )
 	{
 		return supports.get( exprType );
+	}
+
+	public void setShowLeafOnlyInThirdColumn( boolean leafOnly )
+	{
+		showLeafOnlyInThirdColumn = leafOnly;
 	}
 
 }

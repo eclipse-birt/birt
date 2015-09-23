@@ -11,21 +11,25 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.excel
 ###############################################################################
 #
 plugin.name=Excel Data Source ODA Runtime Driver
-data.source.name=Excel ƒf[ƒ^ƒ\[ƒX
-data.set.name=Excel ƒf[ƒ^ƒZƒbƒg
-connection.profile.name=Excel ƒf[ƒ^ƒ\[ƒXÚ‘±ƒvƒƒtƒ@ƒCƒ‹
+data.source.name=Excel Data Source
+data.set.name=Excel Data Set
+connection.profile.name=Excel Data Source Connection Profile
 
-datasource.property.uri=URI(&R)
-datasource.property.incltypeline=2 s–Ú‚ğƒf[ƒ^Œ^‚ÌƒCƒ“ƒWƒP[ƒ^‚Æ‚µ‚Äg—p‚·‚é(&D)
-datasource.property.inclcolumnnameline=1 s–Ú‚ğ—ñ–¼‚ÌƒCƒ“ƒWƒP[ƒ^‚Æ‚µ‚Äg—p‚·‚é(&N)
+datasource.property.uri=U&RI
+datasource.property.incltypeline=2 è¡Œç›®ã‚’ãƒ‡ãƒ¼ã‚¿å‹ã®ã‚¤ãƒ³ã‚¸ã‚±ãƒ¼ã‚¿ã¨ã—ã¦ä½¿ç”¨ã™ã‚‹(&D)
 
-datasource.property.no=‚¢‚¢‚¦
-datasource.property.yes=‚Í‚¢
+datasource.property.inclcolumnnameline=1 è¡Œç›®ã‚’åˆ—åã®ã‚¤ãƒ³ã‚¸ã‚±ãƒ¼ã‚¿ã¨ã—ã¦ä½¿ç”¨ã™ã‚‹(&N)
+
+datasource.property.no=ã„ã„ãˆ
+
+datasource.property.yes=ã¯ã„
 
 ###############################################################################
 #	Date Set Properties
-datasource.property.excelFile=Excel ƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
-datasource.property.worksheets=ƒ[ƒNƒV[ƒg(&H)
-dataset.property.worksheets.dateFormat=“ú•tŒ`®
+datasource.property.excelFile=Excel ãƒ•ã‚¡ã‚¤ãƒ«ã®é¸æŠ
+
+datasource.property.worksheets=ãƒ¯ãƒ¼ã‚¯ã‚·ãƒ¼ãƒˆ(&S)
+
+dataset.property.worksheets.dateFormat=æ—¥ä»˜å½¢å¼
 #
 ###############################################################################

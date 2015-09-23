@@ -8,8 +8,10 @@
 # * Contributors:
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
+design.xmlsource=XML ?(&X)
 
-design.xmlsource=XML Դ(&X)
-template.xmlsource=XML Դ(&X)
-library.xmlsource=XML Դ(&X)
-pageSet.source=XML Դҳ(&X)
+template.xmlsource=XML ?(&X)
+
+library.xmlsource=XML ?(&X)
+
+pageSet.source=XML ??(&X)

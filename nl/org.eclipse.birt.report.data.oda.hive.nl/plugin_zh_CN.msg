@@ -4,18 +4,21 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.hive
 oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 #
 ###############################################################################
-# NLS String
+# NLS messages
 
-datasource.name=Hive 数据源
-select.dataset.name=HQL 选择查询
-jdbc.driver.name=Hive 驱动程序
-dataset.property.queryTimeOut=查询超时(秒)(&Q)
-dataset.property.rowFetchSize=行取数大小(&R)
+datasource.name=Hive Data Source
+select.dataset.name=HQL Select Query
+
+jdbc.driver.name=Hive Driver
+dataset.property.queryTimeOut=&Query Time Out (in seconds)
+
+dataset.property.rowFetchSize=&Row Fetch Size
+
 dataset.property.addListFile=添加列表文件(&A)
 #
-oda.data.source.name=Hive
-connection.profile.name=BIRT Hive 数据源连接配置文件
+oda.data.source.name=Hive Data Source
+connection.profile.name=Hive Data Source Connection Profile
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
-oda.connection.factory.name=ODA 连接工厂
+oda.connection.factory.name=ODA Connection Factory

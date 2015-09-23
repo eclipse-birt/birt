@@ -8,5 +8,8 @@
 # Contributors:
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
-
 preference.chart=グラフ
+
+menu.lable.chart=グラフ(&C)
+
+preference.description=グラフ項目の挿入

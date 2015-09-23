@@ -22,4 +22,9 @@ public interface ILevelDefinition extends INamedObject
 	 * @return
 	 */
 	public IHierarchyDefinition getHierarchy();
+
+    /**
+     * Clone itself.
+     */
+    public ILevelDefinition clone( );
 }

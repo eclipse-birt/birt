@@ -187,6 +187,21 @@ public class ExpressionButtonUtil
 
 	public static ExpressionButton createExpressionButton( Composite parent,
 			Control control, IExpressionProvider provider,
+			Object contextObject, boolean showOnlyLeafInThirdColumn )
+	{
+		return createExpressionButton( parent,
+				control,
+				provider,
+				contextObject,
+				null,
+				false,
+				SWT.PUSH,
+				new ExpressionHelper( ),
+				showOnlyLeafInThirdColumn );
+	}
+
+	public static ExpressionButton createExpressionButton( Composite parent,
+			Control control, IExpressionProvider provider,
 			Object contextObject, ExpressionHelper helper )
 	{
 		return createExpressionButton( parent,
@@ -266,6 +281,32 @@ public class ExpressionButtonUtil
 		final ExpressionButton button = UIUtil.createExpressionButton( parent,
 				style,
 				allowConstant );
+		helper.setProvider( provider );
+		helper.setListener( listener );
+		helper.setControl( control );
+		helper.setExpressionButton( button );
+		helper.setContextObject( contextObject );
+		button.setExpressionHelper( helper );
+
+		control.setData( EXPR_BUTTON, button );
+		control.setData( ExpressionButtonUtil.EXPR_TYPE,
+				helper.getExpressionType( ) );
+		button.refresh( );
+
+		return button;
+	}
+
+	public static ExpressionButton createExpressionButton( Composite parent,
+			final Control control, final IExpressionProvider provider,
+			Object contextObject, final Listener listener,
+			boolean allowConstant, int style, ExpressionHelper helper,
+			boolean showOnlyLeafInThirdColumn )
+	{
+
+		final ExpressionButton button = UIUtil.createExpressionButton( parent,
+				style,
+				allowConstant,
+				showOnlyLeafInThirdColumn );
 		helper.setProvider( provider );
 		helper.setListener( listener );
 		helper.setControl( control );

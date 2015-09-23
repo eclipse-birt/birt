@@ -62,4 +62,24 @@ public class HierarchyDefinition extends NamedObject
 		return this.levels;
 	}
 
+    /**
+     * Clone itself
+     */
+    public IHierarchyDefinition clone( )
+    {
+        HierarchyDefinition cloned = new HierarchyDefinition(
+                this.dim.clone( ), this.getName( ) );
+        cloneFields( cloned );
+
+        return cloned;
+    }
+
+    /*
+     * Clone fields. Separate this method for extension classes.
+     */
+    protected void cloneFields( HierarchyDefinition cloned )
+    {
+        cloned.levels.addAll( this.levels );
+    }
+
 }

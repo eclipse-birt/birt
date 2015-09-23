@@ -9,18 +9,30 @@
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
 
-report.debug=Informe BIRT
+report.debug=BIRT Report
 script.debug=Informe
-LaunchActionSet.label=D&epurar informe 
+
+LaunchActionSet.label=D&epurar informe
+
 Script.source.locator=Localizador de fuente de script de informe
+
 Debug.jsEditor=Editor de JavaScript para depuración de informe
-javaSourceLocatorName=Localizador de fuente Java
+
+javaSourceLocatorName=Java Source Locator
 Watch.label=Añadir a Vigilar
+
 ReportActionSet=Conjunto de acciones de informe
+
 Run=Ejecuta&r
+
 ScriptLaunchShortcut.label=Informe
+
 DebugReportLaunchShortcut.description=Depurar un informe
+
 EnableBreakpoint.label=Activar punto de interrupción
+
 ToggleBreakpoint.label=Alternar punto de interrupción
+
 Action.DebugReport=Depurar informe
+
 Menu.Report=Informe

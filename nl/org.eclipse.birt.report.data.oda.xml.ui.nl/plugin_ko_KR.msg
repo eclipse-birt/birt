@@ -13,9 +13,13 @@
 # NLS String
 ###############################################################################
 oda.xml.datasource=XML 데이터 원본
+
 oda.xml.dataset=XML 데이터 집합
+
 oda.xml.tablemapping=테이블 매핑
+
 oda.xml.columnmapping=열 매핑
+
 
 oda.data.source.id=org.eclipse.birt.report.data.oda.xml
 oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
@@ -23,16 +27,23 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 ###############################################################################
 # NLS messages
 #
-plugin.name=BIRT ODA XML 디자이너
+plugin.name=BIRT ODA XML Designer
 oda.data.source.name=레거시 BIRT 2.1.x XML 데이터 원본
+
 connection.profile.name=XML 데이터 원본 연결 프로필
+
 newwizard.name=레거시 BIRT 2.1.x XML 데이터 원본
+
 newwizard.description=BIRT 2.1.x XML 데이터 원본 연결 프로필을 생성합니다.
+
 wizard.window.title=새 XML 데이터 원본 프로필
+
 wizard.data.source.page.title=XML 파일과 스키마 정보의 URL 정의
+
 profile.propertypage.name=XML 데이터 원본 연결 속성
+
 preference.datasetpreview=XML 데이터 집합
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
-oda.connection.factory.name=ODA 연결 팩토리
+oda.connection.factory.name=ODA Connection Factory

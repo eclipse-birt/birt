@@ -47,7 +47,7 @@ public class RAStreamBufferMgr {
 		this.randomFile = randomFile;
 		this.length = randomFile.length( );
 		this.totalBuffer = 0;
-		this.currentBuffer = getBuffer( 0 );
+		this.currentBuffer = null;
 	}
 	
 	/*
@@ -55,7 +55,7 @@ public class RAStreamBufferMgr {
 	 */
 	public long getFilePointer( )
 	{
-		return currentBuffer.getOffset() + currentBuffer.getBufCur();
+		return currentBuffer == null ? 0 : currentBuffer.getOffset() + currentBuffer.getBufCur();
 	}
 	
 	/*
@@ -65,6 +65,9 @@ public class RAStreamBufferMgr {
 	 */
 	public void write (byte b[], int off, int len ) throws IOException
 	{
+		if ( currentBuffer == null ) {
+			currentBuffer = getBuffer( 0 );
+		}
 		while ( len > 0 )
 		{
 			int ret = currentBuffer.write( b, off, len );
@@ -88,7 +91,7 @@ public class RAStreamBufferMgr {
 	{
 		long offset = ( localPos / IOUtil.RA_STREAM_BUFFER_LENGTH ) 
 							* IOUtil.RA_STREAM_BUFFER_LENGTH;
-		if ( currentBuffer.getOffset() != offset )
+		if ( currentBuffer == null || currentBuffer.getOffset() != offset )
 			currentBuffer = getBuffer( offset );
 		currentBuffer.setBufCur( (int)(localPos - offset) );
 		if ( localPos > length )

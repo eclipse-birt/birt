@@ -73,5 +73,17 @@ public interface IBaseExpression
      * "javascript".
      */
     public void setScriptId( String scriptId );
+    
+    /**
+     * Get scopeId of this expression.
+     * @return
+     */
+    public String getScopeId();
+    
+    /**
+     * Set scopeId for this expression.
+     * @param scopeId
+     */
+    public void setScopeId( String scopeId );
 
 }

@@ -12,10 +12,12 @@ package org.eclipse.birt.report.designer.ui.actions;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
+import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowPulldownDelegate2;
@@ -65,7 +67,22 @@ public class PreviewCascadingMenuGroup extends PreviewSupport implements
 	private boolean isEnable( )
 	{
 		IEditorPart editor = UIUtil.getActiveEditor( true );
-		if ( editor != null )
+		if ( editor == null )
+		{
+			return false;
+		}
+		IEditorInput input = editor.getEditorInput();
+		if ( input == null )
+		{
+			return false;
+		}
+		String name = input.getName();
+		if ( name == null )
+		{
+			return false;
+		}
+		IContentTypeManager manager = Platform.getContentTypeManager();
+		if ( manager != null )
 		{
 			IContentType[] contentTypes = Platform.getContentTypeManager( )
 					.findContentTypesFor( editor.getEditorInput( ).getName( ) );

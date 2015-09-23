@@ -84,5 +84,12 @@ public interface IEdgeDefinition extends INamedObject
 	 * @return
 	 */
 	public IMirroredDefinition getMirroredDefinition( );
-	
+
+    /**
+     * Clone itself.
+     * 
+     * @return
+     */
+    public IEdgeDefinition clone( );
+
 }

@@ -1,13 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2011 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation - initial API and implementation
- *******************************************************************************/
+* Copyright (c) 2008, 2011 Actuate Corporation.
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+*  Actuate Corporation - initial API and implementation
+*******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb;
 
 import java.lang.reflect.InvocationTargetException;
@@ -55,32 +55,33 @@ import org.eclipse.swt.widgets.Shell;
 
 public class SQBDataSetWizardPage extends DataSetWizardPage
 {
-    private static final String NEWLINE_CHAR = "\n"; //$NON-NLS-1$
-    private static final String EMPTY_STR = ""; //$NON-NLS-1$
-    private static final String DEFAULT_MESSAGE = Messages.sqbWizPage_defaultMessage;
-    
-    private IConnectionProfile m_dataSourceProfile;
-	private CustomSQLBuilderDialog m_sqbDialog;
-	private boolean m_updatedQueryInput = false;
-	private SortSpecification m_initQuerySortSpec;
-	
-	public SQBDataSetWizardPage( String pageName )
-	{
-		super( pageName );	
-        setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
-	}    
+private static final String NEWLINE_CHAR = "\n"; //$NON-NLS-1$
+private static final String EMPTY_STR = ""; //$NON-NLS-1$
+private static final String DEFAULT_MESSAGE = Messages.sqbWizPage_defaultMessage;
 
-	private IConnectionProfile getConnectionProfile( boolean raiseErrorIfNull, boolean refreshProfileStore )
-	{
-	    if( m_dataSourceProfile == null )
-	    {
-            if( refreshProfileStore )
-                OdaProfileExplorer.getInstance().refresh();
- 
-            java.util.Properties connProps = DesignUtil.convertDataSourceProperties( 
-                                getEditingDesign().getDataSourceDesign() );
-            m_dataSourceProfile = loadConnectionProfile( connProps,
-                                    getEditingDesign().getDataSourceDesign().getHostResourceIdentifiers() );
+private IConnectionProfile m_dataSourceProfile;
+    private CustomSQLBuilderDialog m_sqbDialog;
+    private boolean m_updatedQueryInput = false;
+    private SortSpecification m_initQuerySortSpec;
+    
+    public SQBDataSetWizardPage( String pageName )
+    {
+            super( pageName );	
+    setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
+    }    
+
+    private IConnectionProfile getConnectionProfile( boolean raiseErrorIfNull, boolean refreshProfileStore )
+    {
+        if( m_dataSourceProfile == null )
+        {
+        if( refreshProfileStore )
+            OdaProfileExplorer.getInstance().refresh();
+
+        java.util.Properties connProps = DesignUtil.convertDataSourceProperties( 
+                            getEditingDesign().getDataSourceDesign() );
+        m_dataSourceProfile = loadConnectionProfile( connProps,
+                                getEditingDesign().getDataSourceDesign().getHostResourceIdentifiers() );
+            
             
             if( m_dataSourceProfile == null && raiseErrorIfNull )
                 MessageDialog.openError( getShell(), Messages.sqbWizPage_dataSourceDesignError, 

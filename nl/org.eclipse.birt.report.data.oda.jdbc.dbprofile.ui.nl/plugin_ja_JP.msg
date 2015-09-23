@@ -18,10 +18,16 @@ parent.category.id=org.eclipse.datatools.connectivity.db.category
 # NLS strings
 #
 plugin.name=JDBC Database Connection Data Source ODA Designer
-newwizard.name=JDBC Database Connection for Query Builder [Prototype]
+newwizard.name=クエリビルダ版 JDBC データベース接続
+
 newwizard.description=JDBC データベース接続プロファイルを作成します。
-wizard.window.title=クエリビルダ版 JDBC データベース接続 [プロトタイプ] の新規作成
-wizard.data.source.page.title=クエリビルダ版 JDBC データベース接続 [プロトタイプ]
+
+wizard.window.title=クエリビルダ版 JDBC データベース接続の新規作成
+
+wizard.data.source.page.title=クエリビルダ版 JDBC データベース接続
+
 profile.propertypage.name=JDBC ドライバと接続の詳細
-wizard.data.set.window.title=SQL Select クエリの新規作成 [クエリビルダのプロトタイプ]
+
+wizard.data.set.window.title=SQL Select クエリの新規作成 [クエリビルダ]
+
 wizard.data.set.page.title=SQL Select クエリ

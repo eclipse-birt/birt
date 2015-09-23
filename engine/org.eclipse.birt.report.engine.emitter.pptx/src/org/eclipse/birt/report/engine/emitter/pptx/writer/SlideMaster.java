@@ -13,9 +13,10 @@ package org.eclipse.birt.report.engine.emitter.pptx.writer;
 import java.awt.Color;
 import java.io.IOException;
 
-import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.pptx.PPTXCanvas;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.ooxml.constants.ContentTypes;
 import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;
 import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
@@ -94,53 +95,53 @@ public class SlideMaster extends Component
 		writer.closeTag( "p:sldLayoutIdLst" );
 	}
 
-	private void drawSlideBackgroundColor( Color color )
+	private void drawSlideBackground( PageArea pageArea )
 	{
 		writer.openTag( "p:bg" );
-		writer.openTag( "p:bgPr" );
-		setColor( color );
-		writer.openTag( "a:effectLst" );
-		writer.closeTag( "a:effectLst" );
-		writer.closeTag( "p:bgPr" );
-		writer.closeTag( "p:bg" );
-	}
-
-	private void setColor( Color color )
-	{
-		if ( color != null )
+		BoxStyle style = pageArea.getBoxStyle( );
+		Color bgColor = style.getBackgroundColor( );
+		PPTXCanvas canvas = getCanvas( );
+		BackgroundImageInfo bgImage = style.getBackgroundImage( );
+		if ( bgImage != null || bgColor != null )
 		{
-			writer.openTag( "a:solidFill" );
-			writer.openTag( "a:srgbClr" );
-			writer.attribute( "val", EmitterUtil.getColorString( color ) );
-			writer.closeTag( "a:srgbClr" );
-			writer.closeTag( "a:solidFill" );
-		}
-	}
+			writer.openTag( "p:bgPr" );
 
-	
-	public void writePage( PageArea pageArea )
-	{
-		
-		writer.startWriter( );
-		writer.openTag( "p:sldMaster" );
-		writer.nameSpace( "a", NameSpaces.DRAWINGML );
-		writer.nameSpace( "r", NameSpaces.RELATIONSHIPS );
-		writer.nameSpace( "p", NameSpaces.PRESENTATIONML );
-		writer.openTag( "p:cSld" );
-		Color color = pageArea.getBoxStyle( ).getBackgroundColor( );
-		if(color != null)
-			drawSlideBackgroundColor(color);
-		else {
+			if ( bgImage != null )
+			{
+				canvas.setBackgroundImg( canvas.getImageRelationship( bgImage ),
+						0, 0 );
+			}
+			else
+			{
+				canvas.setBackgroundColor( bgColor );
+			}
+			writer.openTag( "a:effectLst" );
+			writer.closeTag( "a:effectLst" );
+			writer.closeTag( "p:bgPr" );
+
+		}
+		else
+		{
 			// slidemaster need some defalut color
-			writer.openTag( "p:bg" );
 			writer.openTag( "p:bgRef" );
 			writer.attribute( "idx", "1001" );
 			writer.openTag( "a:schemeClr" );
 			writer.attribute( "val", "bg1" );
 			writer.closeTag( "a:schemeClr" );
 			writer.closeTag( "p:bgRef" );
-			writer.closeTag( "p:bg" );
 		}
+		writer.closeTag( "p:bg" );
+	}
+	
+	public void writePage( PageArea pageArea )
+	{
+		writer.startWriter( );
+		writer.openTag( "p:sldMaster" );
+		writer.nameSpace( "a", NameSpaces.DRAWINGML );
+		writer.nameSpace( "r", NameSpaces.RELATIONSHIPS );
+		writer.nameSpace( "p", NameSpaces.PRESENTATIONML );
+		writer.openTag( "p:cSld" );
+		drawSlideBackground( pageArea );
 		writer.openTag( "p:spTree" );
 		writer.openTag( "p:nvGrpSpPr" );
 		writer.openTag( "p:cNvPr" );

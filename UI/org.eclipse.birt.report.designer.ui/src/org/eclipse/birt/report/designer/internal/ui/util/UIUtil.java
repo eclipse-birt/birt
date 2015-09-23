@@ -51,6 +51,7 @@ import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButtonProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionButtonProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.IRelatedFileChangeResolve;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
@@ -470,36 +471,53 @@ public class UIUtil
 		return null;
 	}
 
-	public static IProject getCurrentProject( )
-	{
-		IWorkbench iworkbench = PlatformUI.getWorkbench( );
-		if ( iworkbench == null )
-		{
-			return null;
-		}
-		IWorkbenchWindow iworkbenchwindow = iworkbench.getActiveWorkbenchWindow( );
-		if ( iworkbenchwindow == null )
-		{
-			return null;
-		}
-		IWorkbenchPage iworkbenchpage = iworkbenchwindow.getActivePage( );
-		if ( iworkbenchpage == null )
-		{
-			return null;
-		}
-		IEditorPart ieditorpart = iworkbenchpage.getActiveEditor( );
-		if ( ieditorpart == null )
-		{
-			return null;
-		}
-		IEditorInput input = ieditorpart.getEditorInput( );
-		if ( input == null )
-		{
-			return null;
-		}
-		return (IProject) ElementAdapterManager.getAdapter( input,
-				IProject.class );
-	}
+    public static IProject getCurrentProject( )
+    {
+        IWorkbench iworkbench = PlatformUI.getWorkbench( );
+        if ( iworkbench == null )
+        {
+            return null;
+        }
+
+        IWorkbenchWindow iworkbenchwindow = iworkbench
+                .getActiveWorkbenchWindow( );
+        if ( iworkbenchwindow == null )
+        {
+            return null;
+        }
+
+        IWorkbenchPage iworkbenchpage = iworkbenchwindow.getActivePage( );
+        if ( iworkbenchpage != null )
+        {
+            IEditorPart ieditorpart = iworkbenchpage.getActiveEditor( );
+            if ( ieditorpart != null )
+            {
+                IEditorInput input = ieditorpart.getEditorInput( );
+                if ( input != null )
+                {
+                    IProject project = (IProject) ElementAdapterManager
+                            .getAdapter( input, IProject.class );
+                    if ( project != null )
+                    {
+                        return project;
+                    }
+                }
+            }
+        }
+
+        ISelection selection = iworkbenchwindow.getSelectionService( )
+                .getSelection( );
+        if ( selection instanceof IStructuredSelection )
+        {
+            Object element = ( (IStructuredSelection) selection )
+                    .getFirstElement( );
+            if ( element instanceof IResource )
+            {
+                return ( (IResource) element ).getProject( );
+            }
+        }
+        return null;
+    }
 
 	/**
 	 * Returns the default shell used by dialogs
@@ -1369,7 +1387,7 @@ public class UIUtil
 	{
 		return includeLibrary( moduleHandle, libraryHandle, false );
 	}
-	
+
 	/**
 	 * Includes the library into within the given module.
 	 * 
@@ -1381,13 +1399,15 @@ public class UIUtil
 	 *         failed.
 	 */
 	public static boolean includeLibrary( ModuleHandle moduleHandle,
-			LibraryHandle libraryHandle, boolean isDefault ) throws DesignFileException,
-			SemanticException
+			LibraryHandle libraryHandle, boolean isDefault )
+			throws DesignFileException, SemanticException
 	{
 		if ( moduleHandle != libraryHandle
 				&& !moduleHandle.isInclude( libraryHandle ) )
 		{
-			return includeLibrary( moduleHandle, libraryHandle.getFileName( ), isDefault );
+			return includeLibrary( moduleHandle,
+					libraryHandle.getFileName( ),
+					isDefault );
 		}
 		return true;
 	}
@@ -1813,7 +1833,6 @@ public class UIUtil
 		return null;
 	}
 
-	
 	public static String getHeadColumnDisplayName(List<ColumnHintHandle> list, ResultSetColumnHandle column )
 	{
 		for ( ColumnHintHandle element : list )
@@ -1838,7 +1857,7 @@ public class UIUtil
 		}
 		return column.getColumnName( );
 	}
-	
+
 	public static String getHeadColumnDisplayName( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = getDataSet( column );
@@ -1887,6 +1906,7 @@ public class UIUtil
 		}
 		return column.getColumnName( );
 	}
+
 	/**
 	 * Return the display name of dataset column
 	 * 
@@ -1917,7 +1937,6 @@ public class UIUtil
 		return column.getColumnName( );
 	}
 
-	
 	public static String getColumnDisplayNameKey(  List<ColumnHintHandle> list, ResultSetColumnHandle column )
 	{
 		for ( ColumnHintHandle element : list )
@@ -1930,6 +1949,7 @@ public class UIUtil
 		}
 		return null;
 	}
+
 	/**
 	 * Return the display name of dataset column
 	 * 
@@ -2090,6 +2110,7 @@ public class UIUtil
 		}
 		return null;
 	}
+
 	/**
 	 * Return the action property of dataset column from column hint
 	 * 
@@ -2167,6 +2188,33 @@ public class UIUtil
 				IExpressionButtonProvider.class );
 		if ( provider != null )
 			button.setExpressionButtonProvider( provider );
+
+		GridData gd = new GridData( );
+		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )
+		{
+			gd.heightHint = 20;
+		}
+
+		button.getControl( ).setLayoutData( gd );
+		return button;
+	}
+
+	public static ExpressionButton createExpressionButton( Composite parent,
+			int style, boolean allowConstant, boolean showLeafOnlyInThirdColumn )
+	{
+		ExpressionButton button = new ExpressionButton( parent,
+				style,
+			allowConstant );
+		IExpressionButtonProvider provider = (IExpressionButtonProvider) ElementAdapterManager.getAdapter( button,
+				IExpressionButtonProvider.class );
+		if ( provider != null )
+		{
+			button.setExpressionButtonProvider( provider );
+		}
+		if ( button.getExpressionButtonProvider( ) instanceof ExpressionButtonProvider )
+		{
+			( (ExpressionButtonProvider) button.getExpressionButtonProvider( ) ).setShowLeafOnlyInThirdColumn( showLeafOnlyInThirdColumn );
+		}
 
 		GridData gd = new GridData( );
 		if ( Platform.getOS( ).equals( Platform.OS_WIN32 ) )

@@ -1147,4 +1147,398 @@ public class BirtDateTimeTest extends TestCase
 					null ), values[i] );
 		}
 	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_dayOfWeek(Date)'
+	 */
+	public void testDayOfWeek( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.dayOfWeek(new Date(2015, 4, 1) )",
+				"BirtDateTime.dayOfWeek(new Date(2015, 4, 2) )",
+				"BirtDateTime.dayOfWeek(new Date(2015, 4, 3) )",
+				"BirtDateTime.dayOfWeek(new Date(2015, 4, 4) )",
+		};
+
+		int[] values = new int[]{
+				6, 7, 1, 2
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( values[i], result );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_dayOfYeark(Date)'
+	 */
+	public void testDayOfYear( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.dayOfYear(new Date(2012, 0, 1) )",
+				"BirtDateTime.dayOfYear(new Date(2012, 1, 29) )",
+				"BirtDateTime.dayOfYear(new Date(2012, 11, 31) )",
+				"BirtDateTime.dayOfYear(new Date(2015, 0, 1) )",
+				"BirtDateTime.dayOfYear(new Date(2015, 1, 28) )",
+				"BirtDateTime.dayOfYear(new Date(2015, 11, 31) )"
+		};
+
+		int[] values = new int[]{
+				1, 60, 366, 1, 59, 365
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( values[i], result );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_weekOfMonth(Date)'
+	 */
+	public void testWeekOfMonth( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 1) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 2) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 3) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 9) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 10) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 16) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 17) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 23) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 24) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 30) )",
+				"BirtDateTime.weekOfMonth(new Date(2015, 4, 31) )",
+		};
+
+		int[] values = new int[]{
+				1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6
+		};
+
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( values[i], result );
+		}
+	}
+	
+	/**
+	 * Test method for
+	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalYear</code>
+	 */
+	public void testFiscalYear( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.fiscalYear(new Date(2015, 6, 1), new Date(2012, 6, 1 ))",// leap year
+				"BirtDateTime.fiscalYear(new Date(2015, 6, 1), new Date(2015, 6, 1 ))",// non leap year
+				"BirtDateTime.fiscalYear(new Date(2015, 6, 12), new Date(2015, 9, 1 ))",
+				"BirtDateTime.fiscalYear(new Date(2015, 7, 12), new Date(2015, 7, 1 ))",
+				"BirtDateTime.fiscalYear(new Date(2015, 7, 12), new Date(2015, 0, 1 ))",// calendar year
+				"BirtDateTime.fiscalYear(new Date(2014, 8, 15))",
+				"BirtDateTime.fiscalYear(new Date(2015, 6, 12))",
+		};
+
+		int[] values = new int[]{
+				2016, 2016, 2015, 2016, 2015, 2014, 2015
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( String.valueOf( i ), values[i], result );
+		}
+	}
+
+	/**
+	 * Test method for
+	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalQuarter</code>
+	 */
+	public void testFiscalQuarter( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.fiscalQuarter(new Date(2015, 8, 15), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalQuarter(new Date(2015, 6, 12), new Date(2015, 7, 1 ))",
+				"BirtDateTime.fiscalQuarter(new Date(2015, 0, 11), new Date(2015, 9, 1 ))",
+				"BirtDateTime.fiscalQuarter(new Date(2015, 5, 15))",
+				"BirtDateTime.fiscalQuarter(new Date(2015, 6, 12))",
+				"BirtDateTime.fiscalQuarter(new Date(2015, 0, 11))",
+		};
+
+		int[] values = new int[]{
+				1, 4, 2, 2, 3, 1
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( values[i], result );
+		}
+	}
+	
+	/**
+	 * Test method for
+	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalMonth</code>
+	 */
+	public void testFiscalMonth( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.fiscalMonth(new Date(2015, 8, 15), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalMonth(new Date(2015, 6, 12), new Date(2015, 7, 1 ))",
+				"BirtDateTime.fiscalMonth(new Date(2015, 0, 11), new Date(2015, 9, 1 ))",
+				"BirtDateTime.fiscalMonth(new Date(2015, 5, 15))",
+				"BirtDateTime.fiscalMonth(new Date(2015, 6, 12))",
+				"BirtDateTime.fiscalMonth(new Date(2015, 0, 11))",
+		};
+
+		int[] values = new int[]{
+				3, 12, 4, 6, 7, 1
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( values[i], result );
+		}
+	}
+	
+	/**
+	 * Test method for
+	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalWeek</code>
+	 */
+	public void testFiscalWeek( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.fiscalWeek(new Date(2011, 6, 2), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalWeek(new Date(2011, 6, 3), new Date(2015, 6, 1 ))",// week start with 7/3
+				"BirtDateTime.fiscalWeek(new Date(2011, 5, 30), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalWeek(new Date(2011, 5, 25), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalWeek(new Date(2011, 11, 31), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalWeek(new Date(2012, 0, 1), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalWeek(new Date(2015, 0, 7))",
+				"BirtDateTime.fiscalWeek(new Date(2015, 1, 1))",
+		};
+
+		int[] values = new int[]{
+				1, 2, 1, 52, 27, 28, 2, 6
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( String.valueOf( i ), values[i], result );
+		}
+	}
+	
+	/**
+	 * Test method for
+	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalDay</code>
+	 */
+	public void testFiscalDay( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.fiscalDay(new Date(2015, 6, 15), new Date(2015, 6, 1 ))",
+				"BirtDateTime.fiscalDay(new Date(2015, 6, 12), new Date(2015, 7, 1 ))",
+				"BirtDateTime.fiscalDay(new Date(2015, 9, 11), new Date(2015, 9, 1 ))",
+				"BirtDateTime.fiscalDay(new Date(2015, 0, 7))",
+				"BirtDateTime.fiscalDay(new Date(2015, 1, 1))",
+		};
+
+		int[] values = new int[]{
+				15, 346, 11, 7, 32
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( values[i], result );
+		}
+	}
+	
+	/**
+	 * Test method for
+	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FirstDayOfFiscalYear</code>
+	 */
+	public void testFirstDayOfFiscalYear( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.firstDayOfFiscalYear(2015)",
+				"BirtDateTime.firstDayOfFiscalYear(new Date(2015, 5, 15))",
+				"BirtDateTime.firstDayOfFiscalYear(2015, new Date(2014, 6, 1))",
+				"BirtDateTime.firstDayOfFiscalYear(new Date(2015, 6, 15), new Date(2015, 6, 1 ))",
+				"BirtDateTime.firstDayOfFiscalYear(new Date(2015, 5, 15), new Date(2014, 6, 1 ))",
+				"BirtDateTime.firstDayOfFiscalYear(new Date(2015, 5, 15), new Date(2015, 6, 1 ))",
+		};
+
+		Calendar c = Calendar.getInstance( );
+		c.clear( );
+		Date[] values = new Date[]{
+				date( c, 2015, 0, 1 ),
+				date( c, 2015, 0, 1 ),
+				date( c, 2014, 6, 1 ),
+				date( c, 2015, 6, 1 ),
+				date( c, 2014, 6, 1 ),
+				date( c, 2014, 6, 1 ),
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( String.valueOf( i ), values[i], result );
+		}
+	}
+	
+	/**
+	 * Test method for
+	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FirstDayOfFiscalMonth</code>
+	 */
+	public void testFirstDayOfFiscalMonth( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 5, 15))",
+				"BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 5, 15), new Date(2015, 0, 1))",
+				"BirtDateTime.firstDayOfFiscalMonth(2, new Date(2014, 6, 15))",
+				"BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 6, 15), new Date(2015, 6, 10 ))",
+				"BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 6, 9), new Date(2014, 6, 10 ))",
+				"BirtDateTime.firstDayOfFiscalMonth(new Date(2014, 0, 1), new Date(2015, 0, 10 ))",
+		};
+
+		Calendar c = Calendar.getInstance( );
+		c.clear( );
+		Date[] values = new Date[]{
+				date( c, 2015, 5, 1 ),
+				date( c, 2015, 5, 1 ),
+				date( c, 2014, 7, 15 ),
+				date( c, 2015, 6, 10 ),
+				date( c, 2015, 5, 10 ),
+				date( c, 2013, 11, 10 )
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( String.valueOf( i ), values[i], result );
+		}
+	}
+	
+	/**
+	 * Test method for
+	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FirstDayOfFiscalQuarter</code>
+	 */
+	public void testFirstDayOfFiscalQuarter( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 5, 15))",
+				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 5, 15), new Date(2015, 0, 1))",
+				"BirtDateTime.firstDayOfFiscalQuarter(3, new Date(2014, 6, 15))",
+				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 6, 15), new Date(2015, 6, 10 ))",
+				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 6, 9), new Date(2014, 6, 10 ))",
+				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2014, 0, 1), new Date(2015, 1, 10 ))",
+		};
+
+		Calendar c = Calendar.getInstance( );
+		c.clear( );
+		Date[] values = new Date[]{
+				date( c, 2015, 3, 1 ),
+				date( c, 2015, 3, 1 ),
+				date( c, 2015, 0, 15 ),
+				date( c, 2015, 6, 10 ),
+				date( c, 2015, 3, 10 ),
+				date( c, 2013, 10, 10 )
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( String.valueOf( i ), values[i], result );
+		}
+	}
+	
+	/**
+	 * Test method for
+	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FirstDayOfFiscalWeek</code>
+	 */
+	public void testFirstDayOfFiscalWeek( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.firstDayOfFiscalWeek(new Date(2015, 5, 15))",
+				"BirtDateTime.firstDayOfFiscalWeek(new Date(2015, 5, 15), new Date(2015, 0, 1))",
+				"BirtDateTime.firstDayOfFiscalWeek(5, new Date(2015, 6, 15))",
+				"BirtDateTime.firstDayOfFiscalWeek(new Date(2015, 5, 15), new Date(2015, 6, 10 ))",
+		};
+
+		Calendar c = Calendar.getInstance( );
+		c.clear( );
+		Date[] values = new Date[]{
+				date( c, 2015, 5, 14 ),
+				date( c, 2015, 5, 14 ),
+				date( c, 2015, 7, 9 ),
+				date( c, 2015, 5, 14 ),
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( String.valueOf( i ), values[i], result );
+		}
+	}
+	
+	private Date date( Calendar c, int year, int month, int day )
+	{
+		c.set( year, month, day );
+		return c.getTime( );
+	}
+
 }

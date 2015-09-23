@@ -8,7 +8,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 public class SlideWriter
 {
 
-	private PPTXRender render;
+	private final PPTXRender render;
 
 	public SlideWriter( PPTXRender render )
 	{

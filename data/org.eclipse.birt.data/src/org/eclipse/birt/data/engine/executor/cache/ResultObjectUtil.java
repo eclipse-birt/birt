@@ -332,46 +332,72 @@ public class ResultObjectUtil
 	public static void writeObject( DataOutputStream dos, Object fieldValue,
 			Class fieldType, int version ) throws IOException, DataException
 	{
-		//No Version control needed. Previous we write byte 1 & 0, which is perfectly convert to char 1 & 0.
-		
-		char leadingChar;
-		// process null object
-		if ( fieldValue == null )
-		{
-			leadingChar = 0;
-			dos.write( leadingChar );
-			return;
-		}
-		else
-		{
-			leadingChar = 1;
-		}
+        // No Version control needed. Previous we write byte 1 & 0, which is
+        // perfectly convert to char 1 & 0.
 
-		if ( fieldType.equals( Integer.class ) )
-		{
-			dos.write( leadingChar );
-			dos.writeInt( ( (Integer) convert( fieldValue, DataType.INTEGER_TYPE) ).intValue( ) );
-		}
-		else if ( fieldType.equals( Double.class ) )
-		{
-			dos.write( leadingChar );
-			dos.writeDouble( ( (Double) convert( fieldValue, DataType.DOUBLE_TYPE) ).doubleValue( ) );
-		}
-		else if ( fieldType.equals( BigDecimal.class ) )
-		{
-			dos.write( leadingChar );
-			dos.writeUTF( ( (BigDecimal) convert( fieldValue, DataType.DECIMAL_TYPE) ).toString( ) );
-		}
-		else if ( Date.class.isAssignableFrom( fieldType ) )
-		{
-			dos.write( leadingChar );
-			dos.writeLong( ( (Date) convert( fieldValue, DataType.DATE_TYPE )).getTime( ) );
-		}
-		else if ( fieldType.equals( Boolean.class ) )
-		{
-			dos.write( leadingChar );
-			dos.writeBoolean( ( (Boolean) convert( fieldValue, DataType.BOOLEAN_TYPE) ).booleanValue( ) );
-		}
+        Object convertedObj = null;
+        // process null object
+        if ( fieldValue != null )
+        {
+            if ( fieldType.equals( Integer.class ) )
+            {
+                convertedObj = convert( fieldValue, DataType.INTEGER_TYPE );
+            }
+            else if ( fieldType.equals( Double.class ) )
+            {
+                convertedObj = convert( fieldValue, DataType.DOUBLE_TYPE );
+            }
+            else if ( fieldType.equals( BigDecimal.class ) )
+            {
+                convertedObj = convert( fieldValue, DataType.DECIMAL_TYPE );
+            }
+            else if ( Date.class.isAssignableFrom( fieldType ) )
+            {
+                convertedObj = convert( fieldValue, DataType.DATE_TYPE );
+            }
+            else if ( fieldType.equals( Boolean.class ) )
+            {
+                convertedObj = convert( fieldValue, DataType.BOOLEAN_TYPE );
+            }
+            else
+            {
+                convertedObj = fieldValue;
+            }
+        }
+
+        char leadingChar = 0;
+        if ( convertedObj == null )
+        {
+            dos.write( leadingChar );
+            return;
+        }
+        leadingChar = 1;
+
+        if ( fieldType.equals( Integer.class ) )
+        {
+            dos.write( leadingChar );
+            dos.writeInt( ( (Integer) convertedObj ).intValue( ) );
+        }
+        else if ( fieldType.equals( Double.class ) )
+        {
+            dos.write( leadingChar );
+            dos.writeDouble( ( (Double) convertedObj ).doubleValue( ) );
+        }
+        else if ( fieldType.equals( BigDecimal.class ) )
+        {
+            dos.write( leadingChar );
+            dos.writeUTF( ( (BigDecimal) convertedObj ).toString( ) );
+        }
+        else if ( Date.class.isAssignableFrom( fieldType ) )
+        {
+            dos.write( leadingChar );
+            dos.writeLong( ( (Date) convertedObj ).getTime( ) );
+        }
+        else if ( fieldType.equals( Boolean.class ) )
+        {
+            dos.write( leadingChar );
+            dos.writeBoolean( ( (Boolean) convertedObj ).booleanValue( ) );
+        }
 		else if ( fieldType.equals( String.class ) )
 		{
 			dos.write( leadingChar );

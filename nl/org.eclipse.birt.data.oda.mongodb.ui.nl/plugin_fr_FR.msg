@@ -16,11 +16,14 @@ oda.data.source.id=org.eclipse.birt.data.oda.mongodb
 ###############################################################################
 # NLS strings
 #
-plugin.name=Conception ODA de source de données MongoDB
-newwizard.name=Source de données MongoDB
+plugin.name=MongoDB Data Source ODA Designer
+newwizard.name=MongoDB Data Source
 newwizard.description=Créer un profil de connexion à la source de données MongoDB
+
 wizard.window.title=Nouveau profil de source de données MongoDB
-wizard.data.source.page.title=Source de données MongoDB
-profile.propertypage.name=Propriétés de la connexion à la source de données MongoDB
+
+wizard.data.source.page.title=MongoDB Data Source
+profile.propertypage.name=MongoDB Data Source Connection Properties
 wizard.data.set.window.title=Nouveau jeu de données du MongoDB
+
 wizard.data.set.page.title=Requête

@@ -38,7 +38,6 @@ public class TableWriter
 	private static final int MINIMUM_ROW_HEIGHT = 4000;
 	private static final int MINIMUM_COLUMN_WIDTH = 2000;
 	private static final int DEFAULT_MARGIN = 12700;  // 1pt
-	
 	private int currentX;
 	private int currentY;
 	protected Stack<BoxStyle> rowStyleStack = new Stack<BoxStyle>( );
@@ -47,7 +46,7 @@ public class TableWriter
 	protected OOXmlWriter writer;
 	private static int TableIndex = 1;
 	private int numOfColumns;
-	private HashMap<Integer,MergeCellDimension> rowSpanCounts;
+	private HashMap<Integer, MergeCellDimension> rowSpanCounts;
 	private int currentCol;
 	private int currentRowHeight;
 	private int currentRow;
@@ -88,7 +87,7 @@ public class TableWriter
 			int currentslide = presentation.getCurrentSlideIdx( );
 			presentation.addBookmark( bmk, currentslide );
 		}
-		
+
 		currentX += getX( table );
 		currentY += getY( table );
 		updateRenderXY( );
@@ -272,7 +271,7 @@ public class TableWriter
 		writer.attribute( "uri",
 				"http://schemas.openxmlformats.org/drawingml/2006/table" );
 		writer.openTag( "a:tbl" );
-		
+
 		writer.openTag( "a:tblPr" );
 		if ( isRTL )
 		{
@@ -368,6 +367,7 @@ public class TableWriter
 			drawCell( (CellArea) child );
 		}
 		endRow( );
+
 		rowStyleStack.pop( );
 		currentX -= getX( row );
 		currentY -= getY( row );
@@ -528,7 +528,6 @@ public class TableWriter
 			}
 
 			if ( valign.equals( "middle" ) )
-
 			{
 				writer.attribute( "anchor", "ctr" );
 			}
@@ -559,7 +558,7 @@ public class TableWriter
 		}
 		emptytextboxwriter.writeBlankTextBlock( DEFAULT_EMPTYCELL_FONTSIZE );
 	}
-	
+
 	private void fillEmptyMergeCells( int nxtCol, int icolspan, int irowspan )
 	{
 		boolean completedFill = false;
@@ -618,7 +617,7 @@ public class TableWriter
 			fillEmptyMergeCells( nxtCol, 0, 0 );
 		}
 	}
-	
+
 	protected void visitChildren( CellArea container )
 	{
 		Iterator<IArea> iter = container.getChildren( );
@@ -646,10 +645,10 @@ public class TableWriter
 			}
 		}
 	}
-	
+
 	private boolean needStyleORClip( IArea blocktext )
 	{
-		if ( !( blocktext instanceof BlockTextArea ) )
+		if( !(blocktext instanceof BlockTextArea) )
 		{
 			return false;
 		}
@@ -683,6 +682,7 @@ public class TableWriter
 
 		return false;
 	}
+
 	//FIXME: use camel naming and put a verb in
 	private boolean childneedclip( ContainerArea container )
 	{
@@ -734,16 +734,17 @@ public class TableWriter
 		Color backgroundcolor = style.getBackgroundColor( );
 		BackgroundImageInfo bgimginfo = style.getBackgroundImage( );
 
-		if( !rowStyleStack.isEmpty( ) && (backgroundcolor == null || bgimginfo == null) )
+		if ( !rowStyleStack.isEmpty( )
+				&& ( backgroundcolor == null || bgimginfo == null ) )
 		{
 			BoxStyle rowStyle = rowStyleStack.peek( );
-			if( rowStyle != null ) 
+			if ( rowStyle != null )
 			{
-				if( backgroundcolor == null )
+				if ( backgroundcolor == null )
 				{
 					backgroundcolor = rowStyle.getBackgroundColor( );
 				}
-				if(bgimginfo == null)
+				if ( bgimginfo == null )
 				{
 					bgimginfo = rowStyle.getBackgroundImage( );
 				}
@@ -814,6 +815,10 @@ public class TableWriter
 	}
 
 	/**
+<<<<<<< HEAD
+=======
+	 * assume leftborder is always draw
+>>>>>>> ActuateMaster
 	 * 
 	 * @param container
 	 */

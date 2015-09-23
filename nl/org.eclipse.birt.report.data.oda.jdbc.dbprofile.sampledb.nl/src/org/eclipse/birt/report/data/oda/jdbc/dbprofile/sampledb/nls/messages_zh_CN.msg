@@ -12,4 +12,5 @@
 #************************************************************************
 #
 sampleDbFactory_invalidDirectory=无法在 {0} 中创建示例数据库。
-sampleDbFactory_noSampleDbJarFile=内部错误: 无法找到示例数据库 jar 文件 ({0})。 
+
+sampleDbFactory_noSampleDbJarFile=内部错误: 无法找到示例数据库 jar 文件 ({0})。

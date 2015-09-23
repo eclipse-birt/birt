@@ -4,6 +4,7 @@ Bundle-Name: Tests
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.pptx.tests
 Bundle-Version: 4.5.0.qualifier
 Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.2.3",
+ org.eclipse.birt.report.engine.emitter.pptx;bundle-version="4.5.0",
  org.junit
 Bundle-ClassPath: libs/dom4j-1.6.1.jar,
  libs/poi-ooxml-3.10-FINAL.jar,

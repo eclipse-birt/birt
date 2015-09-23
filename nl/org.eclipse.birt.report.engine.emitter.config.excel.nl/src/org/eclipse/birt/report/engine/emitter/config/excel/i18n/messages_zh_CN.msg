@@ -12,21 +12,27 @@
 ###########################################################
 #Excel Emitter
 ExcelEmitter.Description=配置用于以 XML Spreadsheet 2003 格式呈现报表的选项。
+
 ExcelEmitter.DisplayName=Excel (XLS)
 
 ###########################################################
 #Option Display Value
 OptionDisplayValue.WrappingText=启用自动换行
+
 OptionDisplayValue.OfficeVersion=输出版本:
+
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 OptionDisplayValue.ChartDpi=图表 DPI
+
 OptionDisplayValue.HideGridlines=隐藏网格线
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=表示文本是否可自动换行。
+
 OptionDescription.ChartDpi=DPI 用于生成图表。
+
 OptionDescription.HideGridlines=隐藏网格线。
 
 ###########################################################

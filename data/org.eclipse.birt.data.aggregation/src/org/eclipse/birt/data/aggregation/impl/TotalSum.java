@@ -124,7 +124,7 @@ public class TotalSum extends AggrFunction
 		 */
 		public Object getSummaryValue( )
 		{
-			return sum;
+			return new BigDecimal(sum.toString());
 		}
 
 	}

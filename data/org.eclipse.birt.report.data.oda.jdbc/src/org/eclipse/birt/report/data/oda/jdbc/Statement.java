@@ -323,11 +323,12 @@ public class Statement implements IQuery
 			{
 				getMetaUsingPolicy2();
 			}
-		} catch (SQLException e1) {
+		} catch (Exception e1) {
 		}
 		
-		if( this.cachedResultMetaData == null )
+		if( this.cachedResultMetaData == null ) {
 			getMetaUsingDefaultPolicy( );
+		}
 		
 		return cachedResultMetaData;
 	}

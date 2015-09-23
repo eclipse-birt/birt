@@ -37,4 +37,9 @@ public interface IHierarchyDefinition extends INamedObject
 	 * @return
 	 */
 	public List<ILevelDefinition> getLevels( );
+
+    /**
+     * Clone itself.
+     */
+    public IHierarchyDefinition clone( );
 }

@@ -15,12 +15,16 @@ oda.data.source.id=org.eclipse.birt.data.oda.pojo
 ###############################################################################
 # NLS strings
 #
-plugin.name=Conception ODA de source de données BIRT POJO
-newwizard.name=Source de données POJO BIRT
+plugin.name=BIRT POJO Data Source ODA Designer
+newwizard.name=BIRT POJO Data Source
 newwizard.description=Créer un profil de connexion à la source de données BIRT POJO
+
 wizard.window.title=Nouveau profil de source de données BIRT POJO
-wizard.data.source.page.title=Source de données POJO BIRT
-profile.propertypage.name=Propriétés de connexion à la source de données BIRT POJO
+
+wizard.data.source.page.title=BIRT POJO Data Source
+profile.propertypage.name=BIRT POJO Data Source Connection Properties
 wizard.data.set.window.title=Nouveau jeu de données BIRT POJO
+
 wizard.data.set.propertiesPage.title=Propriétés
+
 wizard.data.set.columnMappingPage.title=Mise en correspondance de colonne

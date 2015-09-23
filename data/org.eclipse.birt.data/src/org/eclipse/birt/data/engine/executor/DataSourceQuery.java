@@ -31,11 +31,13 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.DataSource.CacheConnection;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.CancelManager;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.ICancellable;
@@ -312,7 +314,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
     		design = (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( );
     	
-    	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, session.getStopSign() );
+    	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, dataSource, session.getStopSign(), this );
     	
         if ( design != null )
 		{
@@ -388,7 +390,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
             // Assume metadata not available at prepare time; ignore the exception
         	resultMetadata = null;
         }
-        logger.fine( "Prepare ODA Query uses:" + ( System.currentTimeMillis( ) - start ) + "ms");
+        logger.fine( "Prepare ODA Query uses:" + ( System.currentTimeMillis( ) - start) + " ms " );
         return this;
     }
 
@@ -969,7 +971,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 		}
 		
-    	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, session.getStopSign() );
+    	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, dataSource, session.getStopSign(), this );
     	this.session.getCancelManager( ).register( queryCanceller );
     	
     	if( !session.getStopSign().isStopped())
@@ -985,12 +987,13 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		QueryContextVisitorUtil.populateEffectiveQueryText( qcv,
 				odaStatement.getEffectiveQueryText( ) );
 		
-		logger.fine( "Effective Query Text:" + odaStatement.getEffectiveQueryText() );
+		logger.fine( "Effective Query Text:" + odaStatement.getEffectiveQueryText( ) );
 		if ( queryCanceller.collectException( ) != null )
 		{
 			if ( !( queryCanceller.collectException( ).getCause( ) instanceof UnsupportedOperationException ) )
 				throw queryCanceller.collectException( );
 		}
+		
 		
 		ResultSet rs = null;
 		
@@ -1085,13 +1088,17 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	private static class OdaQueryCanceller implements ICancellable
     {
     	private PreparedStatement statement;
+    	private DataSource dataSource;
     	private StopSign stop;
     	private DataException exception;
+    	private DataSourceQuery dsQuery;
     	
-    	OdaQueryCanceller( PreparedStatement statement, StopSign stop )
+    	OdaQueryCanceller( PreparedStatement statement, DataSource dataSource, StopSign stop, DataSourceQuery dsQuery )
     	{
     		this.statement = statement;
     		this.stop = stop;
+    		this.dataSource = dataSource;
+    		this.dsQuery = dsQuery;
     	}
     	
 		/**
@@ -1112,6 +1119,10 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		{
 			try
 			{
+				CancelManager manager = this.dsQuery.session.getCancelManager( );
+				if( manager != null )
+					manager.deregister( this );
+					
 				this.statement.cancel( );
 			}
 			catch ( Exception e )
@@ -1124,6 +1135,18 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				{
 					this.exception = new DataException( e.getLocalizedMessage( ), e );
 				}
+			}
+			
+			try
+			{
+				CacheConnection conn = this.dataSource.getAvailableConnection();
+				if( conn!= null )
+					conn.close();
+				
+			}
+			catch( Exception e )
+			{
+				//Ignore.
 			}
 		}
 

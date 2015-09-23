@@ -495,7 +495,7 @@ public class DataSetIterator implements IDatasetIterator
 		{
 			this.dataType = type;
 		}
-		
+
 		/**
 		 * 
 		 * @return

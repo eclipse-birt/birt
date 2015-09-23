@@ -221,7 +221,14 @@ class BigDecimalRandomWriter implements IObjectWriter
 	{
 		try
 		{
-			file.writeBigDecimal( ( BigDecimal ) obj );
+			if (obj instanceof BigDecimal) 
+			{
+				file.writeBigDecimal( ( BigDecimal ) obj );
+			}
+			else 
+			{
+				file.writeBigDecimal( BigDecimal.valueOf(((Number) obj ).doubleValue()));
+			}
 		}
 		catch( ClassCastException ce )
 		{

@@ -8,5 +8,8 @@
 # Contributors:
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
-
 preference.chart=图表
+
+menu.lable.chart=图表(&C)
+
+preference.description=插入图表项。
