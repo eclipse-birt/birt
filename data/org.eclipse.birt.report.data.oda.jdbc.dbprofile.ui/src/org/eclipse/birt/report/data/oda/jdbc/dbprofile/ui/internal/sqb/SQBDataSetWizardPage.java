@@ -81,8 +81,6 @@ private IConnectionProfile m_dataSourceProfile;
                             getEditingDesign().getDataSourceDesign() );
         m_dataSourceProfile = loadConnectionProfile( connProps,
                                 getEditingDesign().getDataSourceDesign().getHostResourceIdentifiers() );
-            
-            
             if( m_dataSourceProfile == null && raiseErrorIfNull )
                 MessageDialog.openError( getShell(), Messages.sqbWizPage_dataSourceDesignError, 
                         Messages.sqbWizPage_noConnProfileMsg );

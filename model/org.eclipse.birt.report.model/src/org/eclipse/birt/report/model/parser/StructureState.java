@@ -456,8 +456,18 @@ public class StructureState extends AbstractPropertyState
 			Class c = (Class) structDict.get( structDefn.getName( )
 					.toLowerCase( ) );
 			if ( c == null )
+			{
+				// Try to load java class from ROM definition
+				String clazzName = structDefn.getJavaClass( );
+				if ( clazzName != null )
+				{
+					c = Class.forName( clazzName );
+				}
+			}
+			if ( c == null )
+			{
 				return null;
-
+			}
 			struct = (IStructure) c.newInstance( );
 		}
 		catch ( InstantiationException e )
@@ -465,6 +475,10 @@ public class StructureState extends AbstractPropertyState
 			assert false;
 		}
 		catch ( IllegalAccessException e )
+		{
+			assert false;
+		}
+		catch ( ClassNotFoundException e )
 		{
 			assert false;
 		}
