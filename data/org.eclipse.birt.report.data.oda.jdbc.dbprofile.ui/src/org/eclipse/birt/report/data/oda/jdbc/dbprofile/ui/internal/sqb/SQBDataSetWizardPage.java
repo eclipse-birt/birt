@@ -81,24 +81,6 @@ private IConnectionProfile m_dataSourceProfile;
                             getEditingDesign().getDataSourceDesign() );
         m_dataSourceProfile = loadConnectionProfile( connProps,
                                 getEditingDesign().getDataSourceDesign().getHostResourceIdentifiers() );
-            
-            // If we have ManagedConnection whose key is IConnection, that means it is a ConnectionProfile to
-            // ConnectionProfile repository, rather than the wanted one to a database,
-            // so try to get the wanted profile inside.
-            ManagedConnection mc = (ManagedConnection) m_dataSourceProfile
-                    .getManagedConnection( IConnection.class.getName( ) );
-            if ( mc != null )
-            {
-                try
-                {
-                    m_dataSourceProfile = Connection.loadProfileFromProperties( mc
-                            .getConnectionProfile( ).getBaseProperties( ) );
-                }
-                catch ( OdaException e )
-                {
-                }
-            }
-            
             if( m_dataSourceProfile == null && raiseErrorIfNull )
                 MessageDialog.openError( getShell(), Messages.sqbWizPage_dataSourceDesignError, 
                         Messages.sqbWizPage_noConnProfileMsg );
