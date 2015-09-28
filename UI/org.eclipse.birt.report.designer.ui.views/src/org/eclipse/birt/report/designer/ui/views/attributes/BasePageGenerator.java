@@ -94,6 +94,15 @@ abstract public class BasePageGenerator extends AbstractPageGenerator
 			( (PreviewPage) page ).setPreview( new MapPropertyDescriptor( true ) );
 			( (PreviewPage) page ).setProvider( new MapDescriptorProvider( ) );
 		}
+		else
+		{
+			IPageGeneratorHelper helper = (IPageGeneratorHelper) ElementAdapterManager.getAdapter( this,
+					IPageGeneratorHelper.class );
+			if ( helper != null )
+			{
+				page = helper.buildTabContent( tabKey );
+			}
+		}
 
 		return page;
 	}
@@ -139,6 +148,18 @@ abstract public class BasePageGenerator extends AbstractPageGenerator
 		this.input = input;
 		addSelectionListener( this );
 		createTabItems( );
+		IPageGeneratorHelper helper = (IPageGeneratorHelper) ElementAdapterManager.getAdapter( this,
+				IPageGeneratorHelper.class );
+		if ( helper != null )
+		{
+			String[] tabKeys = helper.createTabItems( );
+			for ( String tabKey : tabKeys )
+			{
+				int index = this.tabFolder.getItemCount( );
+				String precedingItemKey = this.tabFolder.getItem( index - 1 ).getText( );
+				this.createTabItem( tabKey, precedingItemKey );
+			}
+		}
 		if ( tabFolder.getSelection( ) != null )
 		{
 			buildItemContent( tabFolder.getSelection( ) );
