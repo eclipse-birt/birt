@@ -32,7 +32,6 @@ import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.BaseLinkDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryExecutionHints;
@@ -98,8 +97,6 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-
-import com.actuate.birt.report.model.api.JoinDefinitionHandle;
 
 /**
  * visit the report design and prepare all report queries and sub-queries to
@@ -675,7 +672,7 @@ public class ReportQueryBuilder
 				}
 			}
 
-			// TODO: check in plugin registry whether the needQuery property is
+			// TODO: check in plugin registry whetherthe needQuery property is
 			// set to host or item.
 			// Only do the following for "host"
 			IReportItemQuery itemQuery = context.getExtendedItemManager( )
@@ -731,7 +728,6 @@ public class ReportQueryBuilder
 								context.addException( handle, ex );
 							}
 						}
-						addQueryTimeJoins(handle.joinDefinitionsIterator( ),query);
 					}
 					return queries;
 				}
@@ -978,8 +974,8 @@ public class ReportQueryBuilder
 		
 		private void setUsesDetails( BaseQueryDefinition baseQuery )
 		{
-            if ( baseQuery instanceof QueryDefinition
-                    && !baseQuery.cacheQueryResults( ) )
+			if ( baseQuery instanceof QueryDefinition
+					&& !baseQuery.cacheQueryResults( ) )
 			{
 				( (QueryDefinition) baseQuery ).setIsSummaryQuery( true );
 			}
@@ -1430,39 +1426,9 @@ public class ReportQueryBuilder
 			addParamBinding( item, query );
 			addColumnBinding( item, query );
 			addSortAndFilter( item, query );
-			addQueryTimeJoins(designHandle.joinDefinitionsIterator( ),query);
 
 			return query;
 		}
-		
-        private void addQueryTimeJoins( Iterator<JoinDefinitionHandle> joins,
-                IDataQueryDefinition query )
-        {
-            if ( query instanceof IQueryDefinition )
-            {
-                while ( joins.hasNext( ) )
-                {
-                    JoinDefinitionHandle join = joins.next( );
-                    ( (IQueryDefinition) query )
-                            .addLink( new BaseLinkDefinition( join
-                                    .getLeftDataSet( ),
-                                    join.getRightDataSet( ), null, null, join
-                                            .getJoinType( ) ) );
-                }
-            }
-            else if ( query instanceof ICubeQueryDefinition )
-            {
-                while ( joins.hasNext( ) )
-                {
-                    JoinDefinitionHandle join = joins.next( );
-                    ( (ICubeQueryDefinition) query )
-                            .addLink( new BaseLinkDefinition( join
-                                    .getLeftDataSet( ),
-                                    join.getRightDataSet( ), null, null, join
-                                            .getJoinType( ) ) );
-                }
-            }
-        }
 
 		protected BaseQueryDefinition createSubQuery( ReportItemDesign item,
 				IDataQueryDefinition parent )
@@ -2158,7 +2124,5 @@ public class ReportQueryBuilder
 				}
 			}
 		}
-		
-		
 	}
 }
