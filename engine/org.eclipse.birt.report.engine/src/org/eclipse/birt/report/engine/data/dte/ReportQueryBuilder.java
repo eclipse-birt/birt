@@ -978,8 +978,8 @@ public class ReportQueryBuilder
 		
 		private void setUsesDetails( BaseQueryDefinition baseQuery )
 		{
-			if ( baseQuery instanceof QueryDefinition &&  !baseQuery.cacheQueryResults( ) )
-
+            if ( baseQuery instanceof QueryDefinition
+                    && !baseQuery.cacheQueryResults( ) )
 			{
 				( (QueryDefinition) baseQuery ).setIsSummaryQuery( true );
 			}
