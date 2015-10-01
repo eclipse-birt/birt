@@ -152,12 +152,6 @@ public class ReportQueryBuilder
 	 */
 	protected Map<ReportItemHandle, List<ReportItemDesign>> unresolvedQueryReferences = new HashMap<ReportItemHandle, List<ReportItemDesign>>( );
 
-	public ReportQueryBuilder( )
-	{
-		expressionUtil = new ExpressionUtil( );
-		queryBuilder = new QueryBuilderVisitor( );
-	}
-
 	/**
 	 * @param report
 	 *            the entry point to the report design
@@ -168,7 +162,7 @@ public class ReportQueryBuilder
 			DataRequestSession dteSession )
 	{
 		expressionUtil = new ExpressionUtil( );
-		queryBuilder = new QueryBuilderVisitor( );
+		queryBuilder = createQueryBuilderVisitor( );
 		this.dteSession = dteSession;
 		this.report = report;
 		this.context = context;
@@ -439,6 +433,11 @@ public class ReportQueryBuilder
 			logger.log( Level.WARNING, ex.getMessage( ), ex );
 		}
 	}
+	
+	protected QueryBuilderVisitor createQueryBuilderVisitor( )
+    {
+        return new QueryBuilderVisitor( );
+    }
 
 	/**
 	 * The visitor class that actually builds the report query

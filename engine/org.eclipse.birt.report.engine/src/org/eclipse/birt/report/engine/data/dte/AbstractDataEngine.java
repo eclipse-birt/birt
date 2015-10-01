@@ -187,7 +187,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 		}
 		
 		// build report queries
-		new ReportQueryBuilder( report, context, dteSession ).build( );
+        ReportQueryBuilderFactory.getInstance( )
+                .createBuilder( report, context, dteSession ).build( );
 
 		doPrepareQuery( report, appContext );
 	}
