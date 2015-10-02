@@ -31,7 +31,7 @@
 								<exclude>org/eclipse/birt/report/data/adapter/i18n/package.html</exclude>
 							</excludes>
 							<includes>
-								<include>org/eclipse/birt/report/data/adapter/api/**/*.class"</include>
+								<include>org/eclipse/birt/report/data/adapter/api/**/*.class</include>
 								<include>org/eclipse/birt/report/data/adapter/i18n/*.*</include>
 							</includes>
 						</configuration>
