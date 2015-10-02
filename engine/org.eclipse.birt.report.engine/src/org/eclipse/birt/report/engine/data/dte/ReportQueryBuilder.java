@@ -158,7 +158,7 @@ public class ReportQueryBuilder
 	 * @param context
 	 *            the execution context
 	 */
-	public ReportQueryBuilder( Report report, ExecutionContext context,
+	protected ReportQueryBuilder( Report report, ExecutionContext context,
 			DataRequestSession dteSession )
 	{
 		expressionUtil = new ExpressionUtil( );
