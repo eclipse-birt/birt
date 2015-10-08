@@ -8,6 +8,7 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
+import org.eclipse.datatools.connectivity.oda.spec.basequery.AtomicQuery;
 
 
 public interface IQueryOptimizeHints
@@ -39,4 +40,6 @@ public interface IQueryOptimizeHints
 	public Map<String, List<Integer>> getPushedDownDataSetFilters( );
 	
 	public List<IFilterDefinition> getFilterNeededMerge( );
+	
+	public String getDataSetForAtomicQuery( AtomicQuery query );
 }

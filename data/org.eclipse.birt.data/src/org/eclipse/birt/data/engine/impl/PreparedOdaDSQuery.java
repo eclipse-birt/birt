@@ -225,9 +225,9 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	public class OdaDSQueryExecutor extends DSQueryExecutor
 	{
 		// prepared query
-		private IPreparedDSQuery odiPreparedQuery;
+		protected IPreparedDSQuery odiPreparedQuery;
 
-		private QuerySpecification querySpec;
+		protected QuerySpecification querySpec;
 
 		
 		/**

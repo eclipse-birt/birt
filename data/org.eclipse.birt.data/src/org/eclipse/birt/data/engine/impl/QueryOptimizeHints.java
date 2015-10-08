@@ -8,6 +8,7 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
+import org.eclipse.datatools.connectivity.oda.spec.basequery.AtomicQuery;
 
 public class QueryOptimizeHints implements IQueryOptimizeHints
 {
@@ -81,4 +82,10 @@ public class QueryOptimizeHints implements IQueryOptimizeHints
 	{
 		return null;
 	}
+
+    @Override
+    public String getDataSetForAtomicQuery( AtomicQuery query )
+    {
+        return null;
+    }
 }

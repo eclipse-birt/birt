@@ -55,7 +55,7 @@ public interface IDataSetInstanceHandle extends IJavascriptContext
 	 * 
 	 * @return The static query text for execution.
 	 */
-	String getQueryText( ) throws BirtException;
+	String getQueryText( );
 
 	/**
 	 * Sets the query text of the data set.
