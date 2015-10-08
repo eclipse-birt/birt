@@ -43,6 +43,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.ICombinedOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -199,25 +200,31 @@ public class PreparedQueryUtil
 						appContext,
 						contextVisitor );
 		}
-		else if ( dset instanceof IOdaDataSetDesign )
-		{
-			if ( dset instanceof IIncreCacheDataSetDesign )
-			{
-				preparedQuery = new PreparedIncreCacheDSQuery( dataEngine,
-						queryDefn,
-						dset,
-						appContext );
-			}
-			else
-			{
-				( (BaseDataSetDesign) dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) ).setQueryContextVisitor( ( Object )contextVisitor );
-				preparedQuery = new PreparedOdaDSQuery( dataEngine,
-						queryDefn,
-						dset,
-						appContext,
-						contextVisitor );
-			}
-		}
+        else if ( dset instanceof IOdaDataSetDesign )
+        {
+            if ( dset instanceof IIncreCacheDataSetDesign )
+            {
+                preparedQuery = new PreparedIncreCacheDSQuery( dataEngine,
+                        queryDefn, dset, appContext );
+            }
+            else
+            {
+                ( (BaseDataSetDesign) dataEngine.getDataSetDesign( queryDefn
+                        .getDataSetName( ) ) )
+                        .setQueryContextVisitor( (Object) contextVisitor );
+                if ( dset instanceof ICombinedOdaDataSetDesign )
+                {
+
+                    preparedQuery = new PreparedCombinedOdaDSQuery( dataEngine,
+                            queryDefn, dset, appContext, contextVisitor );
+                }
+                else
+                {
+                    preparedQuery = new PreparedOdaDSQuery( dataEngine,
+                            queryDefn, dset, appContext, contextVisitor );
+                }
+            }
+        }
 		else if ( dset instanceof IJointDataSetDesign )
 		{
 			preparedQuery = new PreparedJointDataSourceQuery( dataEngine,
@@ -603,7 +610,7 @@ public class PreparedQueryUtil
 						String queryTemplate = parser.getQueryTextByID( id );
 						String timestampColumn = parser.getTimeStampColumnByID( id );
 						String formatPattern = parser.getTSFormatByID( id );
-						IncreCacheDataSetAdapter pscDataSet = new IncreCacheDataSetAdapter( dataSetDesign );
+						IncreCacheDataSetAdapter pscDataSet = new IncreCacheDataSetAdapter( (IOdaDataSetDesign) dataSetDesign );
 						pscDataSet.setCacheMode( IIncreCacheDataSetDesign.MODE_PERSISTENT );
 						pscDataSet.setConfigFileUrl( configFileUrl );
 						pscDataSet.setQueryTemplate( queryTemplate );
@@ -637,7 +644,13 @@ public class PreparedQueryUtil
 		}
 		if ( adaptedDesign == null )
 		{
-			adaptedDesign = new OdaDataSetAdapter( dataSetDesign );
+		    if ( dataSetDesign instanceof ICombinedOdaDataSetDesign )
+		    {
+		        adaptedDesign = new CombinedOdaDataSetAdapter( (ICombinedOdaDataSetDesign) dataSetDesign );
+		    }
+		    else {
+		        adaptedDesign = new OdaDataSetAdapter( (IOdaDataSetDesign) dataSetDesign );
+		    }
 		}
 		return adaptedDesign;
 	}
@@ -865,9 +878,9 @@ public class PreparedQueryUtil
 
 class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign
 {
-	private IOdaDataSetDesign source;
+	protected IOdaDataSetDesign source;
 	
-	public OdaDataSetAdapter( IBaseDataSetDesign source )
+	public OdaDataSetAdapter( IOdaDataSetDesign source )
 	{
 		super( source );
 		this.source = ( IOdaDataSetDesign )source;
@@ -914,6 +927,29 @@ class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign
 			return null;
 		}
 	}
+}
+
+class CombinedOdaDataSetAdapter extends OdaDataSetAdapter implements ICombinedOdaDataSetDesign
+{
+    protected ICombinedOdaDataSetDesign source;
+    
+    public CombinedOdaDataSetAdapter( ICombinedOdaDataSetDesign source )
+    {
+        super( source );
+        this.source = source;
+    }
+
+    @Override
+    public void addDataSetDesign( IOdaDataSetDesign dataSetDesign )
+    {
+    }
+
+    @Override
+    public Set<IOdaDataSetDesign> getDataSetDesigns( )
+    {
+        return source.getDataSetDesigns( );
+    }
+
 }
 
 class JointDataSetAdapter extends DataSetAdapter implements IJointDataSetDesign
@@ -1012,7 +1048,7 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter
 
 	private String queryForUpdate;
 
-	public IncreCacheDataSetAdapter( IBaseDataSetDesign source )
+	public IncreCacheDataSetAdapter( IOdaDataSetDesign source )
 	{
 		super( source );
 	}

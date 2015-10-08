@@ -30,12 +30,12 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.ICombinedOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
-import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
@@ -47,11 +47,11 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.CombinedOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
-import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
@@ -232,9 +232,31 @@ public class ModelDteApiAdapter
 		{
 			doDefineDataSource( dataSource );
 		}
-		doDefineDataSet( dataSet );
+		IBaseDataSetDesign design = createDataSetDesign( dataSet );
+		dteSession.defineDataSet( design );
 	}
 	
+	public void defineCombinedDataSet( DataSetHandle[] dataSets, DataRequestSession dteSession )
+            throws BirtException
+    {
+        if ( dataSets == null || dataSets.length < 2 || dteSession == null )
+            return;
+        this.dteSession = dteSession;
+        DataSourceHandle dataSource = dataSets[0].getDataSource( );
+        if ( dataSource != null )
+        {
+            doDefineDataSource( dataSource );
+        }
+        IBaseDataSetDesign masterDesign = createDataSetDesign( dataSets[0] );
+        ICombinedOdaDataSetDesign finalDesign = new CombinedOdaDataSetDesign( (IOdaDataSetDesign) masterDesign );
+        for ( int i = 1; i < dataSets.length; i++ )
+        {
+            IBaseDataSetDesign design =  createDataSetDesign( dataSets[i] );
+            finalDesign.addDataSetDesign( (IOdaDataSetDesign) design );
+        }
+        dteSession.defineDataSet( finalDesign );
+    }
+
 	/**
 	 * 
 	 * @param dataSource
@@ -251,47 +273,31 @@ public class ModelDteApiAdapter
 	 * @param dataSet
 	 * @throws BirtException
 	 */
-	private void doDefineDataSet( DataSetHandle dataSet )
+	private IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet )
 			throws BirtException
 	{
-		if ( dataSet instanceof JointDataSetHandle )
-		{
-			JointDataSetHandle jointDataSet = (JointDataSetHandle) dataSet;
-			Iterator iter = ( (JointDataSetHandle) jointDataSet ).dataSetsIterator( );
-			while ( iter.hasNext( ) )
-			{
-				DataSetHandle childDataSet = (DataSetHandle) iter.next( );
-				if ( childDataSet != null )
-				{
-					DataSourceHandle childDataSource = childDataSet.getDataSource( );
-					if ( childDataSource != null )
-					{
-						doDefineDataSource( childDataSource );
-					}
-					doDefineDataSet( childDataSet );
-				}
-			}
-
-		}
-		else if ( dataSet instanceof DerivedDataSetHandle )
-		{
-			DerivedDataSetHandle handle = (DerivedDataSetHandle) dataSet;
-			Iterator iter = handle.getInputDataSets( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				DataSetHandle childDataSet = (DataSetHandle) iter.next( );
-				if ( childDataSet != null )
-				{
-					DataSourceHandle childDataSource = childDataSet.getDataSource( );
-					if ( childDataSource != null )
-					{
-						doDefineDataSource( childDataSource );
-					}
-					doDefineDataSet( childDataSet );
-				}
-			}
-		}
-		dteSession.defineDataSet( this.appendRuntimeInfoToDataSet( dataSet,dteSession.getModelAdaptor( ).adaptDataSet( dataSet ) ));
+	    Iterator iter = null;
+	    if ( dataSet instanceof JointDataSetHandle )
+        {
+            JointDataSetHandle jointDataSet = (JointDataSetHandle) dataSet;
+            iter = ( (JointDataSetHandle) jointDataSet ).dataSetsIterator( );
+        } else if ( dataSet instanceof DerivedDataSetHandle )
+        {
+            DerivedDataSetHandle handle = (DerivedDataSetHandle) dataSet;
+            iter = handle.getInputDataSets( ).iterator( );
+        }
+	    if ( iter != null )
+	    {
+	        while ( iter.hasNext( ) )
+            {
+                DataSetHandle childDataSet = (DataSetHandle) iter.next( );
+                if ( childDataSet != null )
+                {
+                    defineDataSet( childDataSet, dteSession );
+                }
+            }
+	    }
+		return this.appendRuntimeInfoToDataSet( dataSet,dteSession.getModelAdaptor( ).adaptDataSet( dataSet ) );
 	}
 
 	/**
