@@ -673,7 +673,7 @@ public class InstanceTest extends TestCase {
 			return new FakeResultMetadata( );
 		}
 
-		public String getQueryText( ) throws BirtException
+		public String getQueryText( )
 		{
 			return queryText;
 		}
