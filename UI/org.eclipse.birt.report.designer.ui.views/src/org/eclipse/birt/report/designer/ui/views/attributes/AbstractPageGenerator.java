@@ -3,8 +3,10 @@ package org.eclipse.birt.report.designer.ui.views.attributes;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
@@ -141,4 +143,40 @@ public class AbstractPageGenerator extends CategoryPageGenerator
 			}
 		}
 	}
+
+	@Override
+	public void createTabItems( List input )
+	{
+		super.createTabItems( input );
+		AbstractPageGenerator adaptable = new AbstractPageGenerator( );
+		IPageGeneratorHelper helper = (IPageGeneratorHelper) ElementAdapterManager
+				.getAdapter( adaptable, IPageGeneratorHelper.class );
+		if ( helper != null )
+		{
+			String[] tabKeys = helper.createTabItems( input );
+			for ( String tabKey : tabKeys )
+			{
+				if ( !existTabItem( tabKey ) )
+				{
+					int index = this.tabFolder.getItemCount( );
+					String precedingItemKey = this.tabFolder
+							.getItem( index - 1 ).getText( );
+					createTabItem( tabKey, precedingItemKey );
+					TabPage page = helper.buildTabContent( tabKey );
+					CTabItem item = tabFolder.getItem( getItemIndex( tabKey ) );
+					setPageInput( page );
+					refresh( tabFolder, page, true );
+					item.setControl( page.getControl( ) );
+					itemMap.put( item, page );
+				}
+				else
+				{
+					CTabItem item = tabFolder.getItem( getItemIndex( tabKey ) );
+					setPageInput( itemMap.get( item ) );
+					refresh( tabFolder, itemMap.get( item ), false );
+				}
+			}
+		}
+	}
+
 }
