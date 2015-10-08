@@ -41,11 +41,7 @@ public class DataSetInstance implements IDataSetInstance {
 	}
 
 	public String getQueryText() throws ScriptException {
-		try {
-			return dataSet.getQueryText();
-		} catch (BirtException e) {
-			throw new ScriptException(e.getLocalizedMessage());
-		}
+		return dataSet.getQueryText();
 	}
 
 	public void setQueryText(String queryText) throws ScriptException {
