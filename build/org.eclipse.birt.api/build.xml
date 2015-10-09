@@ -34,6 +34,7 @@
         <include name="chart/org.eclipse.birt.chart.engine/target/org.eclipse.birt.chart.engine-*-api.jar"/>
         <include name="chart/org.eclipse.birt.chart.reportitem/target/org.eclipse.birt.chart.reportitem-*-api.jar"/>
         <include name="chart/org.eclipse.birt.chart.examples.core/target/org.eclipse.birt.chart.examples.core-*-api.jar"/>
+        <include name="viewer/org.eclipse.birt.report.viewer/birt/WEB-INF/lib/viewservlets.jar"/>
       </fileset>
       <chainedmapper>
         <flattenmapper/>
@@ -62,6 +63,7 @@
       <globmapper from="org.mozilla.javascript_*.jar" to="js.jar"/>
     </copy>
     <antcall target="build-odadesign-api"/>
+    <antcall target="build-odaconnectivity-api"/>
     <copy todir="${LIB_DIR}">
       <fileset dir="${PRODUCT_DIR}/plugins">
         <include name="org.apache.commons.codec_*.jar"/>
@@ -86,10 +88,30 @@
       </condition>
     </fail>
     <property name="ODA_DESIGN" refid="ODA_DESIGN_PATH"/>
-    <unzip src="${ODA_DESIGN}" dest="./target/unpack/classes"/>
+    <unzip src="${ODA_DESIGN}" dest="./target/unpack/classes/odadesign/"/>
     <jar destfile="${LIB_DIR}/odadesignapi.jar">
-      <fileset dir="./target/unpack/classes">
+        <fileset dir="./target/unpack/classes/odadesign">
         <include name="org/eclipse/datatools/connectivity/oda/design/*.class"/>
+      </fileset>
+    </jar>
+  </target>
+  <target name="build-odaconnectivity-api">
+    <path id="ODA_CONNECTIVITY_PATH">
+      <fileset dir="${PRODUCT_DIR}/plugins/">
+        <include name="org.eclipse.datatools.connectivity.oda_*.jar"/>
+      </fileset>
+    </path>
+    <fail message="failed to find org.eclipse.datatools.connectivity.oda">
+      <condition>
+        <resourcecount refid="ODA_CONNECTIVITY_PATH" when="eq" count="0"/>
+      </condition>
+    </fail>
+    <property name="ODA_CONNECTIVITY" refid="ODA_CONNECTIVITY_PATH"/>
+    <unzip src="${ODA_CONNECTIVITY}" dest="./target/unpack/classes/oda"/>
+    <jar destfile="${LIB_DIR}/odaconnectivity.jar">
+        <fileset dir="./target/unpack/classes/oda">
+          <include name="org/eclipse/datatools/connectivity/oda/util/ResourceIdentifiers*.class"/>
+          <include name="org/eclipse/datatools/connectivity/oda/OdaException.class"/>
       </fileset>
     </jar>
   </target>
