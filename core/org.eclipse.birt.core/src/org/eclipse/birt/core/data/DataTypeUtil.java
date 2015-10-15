@@ -456,6 +456,11 @@ public final class DataTypeUtil
 					});
 		}
 	}
+	
+	public static Date toDate( Object source ) throws BirtException
+	{
+		return toDate(source, DEFAULT_LOCALE);
+	}
 
 	/**
 	 * Number -> Date
@@ -466,7 +471,7 @@ public final class DataTypeUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static Date toDate( Object source ) throws BirtException
+	public static Date toDate( Object source, ULocale uLocale ) throws BirtException
 	{
 		if ( source == null )
 			return null;
@@ -477,7 +482,7 @@ public final class DataTypeUtil
 		}
 		else if ( source instanceof String )
 		{
-			return toDate( (String) source );
+			return toDate( (String) source, uLocale );
 		}
 		else
 		{
@@ -503,6 +508,11 @@ public final class DataTypeUtil
 		return new Timestamp( date.getTime( ));
 	}
 	
+	public static Time toSqlTime( Object source ) throws BirtException
+	{
+		return toSqlTime(source, DEFAULT_LOCALE );
+	}
+	
     /**
      * Date -> Time
      * String -> Time
@@ -510,7 +520,7 @@ public final class DataTypeUtil
      * @return
      * @throws BirtException
      */
-    public static Time toSqlTime( Object source ) throws BirtException
+    public static Time toSqlTime( Object source, ULocale uLocale ) throws BirtException
     {
         if ( source == null )
             return null;
@@ -523,7 +533,7 @@ public final class DataTypeUtil
         {
             try
             {
-                return toSqlTime( toDate((String ) source) );
+                return toSqlTime( toDate((String ) source, uLocale ) );
             }
             catch( Exception e )
             {
@@ -675,6 +685,10 @@ public final class DataTypeUtil
 		return new java.sql.Time( calendar.getTimeInMillis( ) );
     }
     
+    public static java.sql.Date toSqlDate( Object source ) throws BirtException
+    {
+    	return toSqlDate(source, DEFAULT_LOCALE);
+    }
     /**
      * Date -> Time
      * String -> Time
@@ -682,7 +696,7 @@ public final class DataTypeUtil
      * @return
      * @throws BirtException
      */
-    public static java.sql.Date toSqlDate( Object source ) throws BirtException
+    public static java.sql.Date toSqlDate( Object source, ULocale uLocale ) throws BirtException
     {
         if ( source == null )
             return null;
@@ -699,7 +713,7 @@ public final class DataTypeUtil
         {
             try
             {
-                return toSqlDate( toDate((String ) source) );
+                return toSqlDate( toDate( (String ) source, uLocale ) );
             }
             catch( Exception e )
             {

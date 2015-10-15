@@ -576,7 +576,7 @@ public abstract class EngineTask implements IEngineTask
 	{
 		try
 		{
-			return convertParameterType( value, type );
+			return convertParameterType( value, type, ulocale );
 		}
 		catch ( BirtException e )
 		{
@@ -618,7 +618,12 @@ public abstract class EngineTask implements IEngineTask
 		return null;
 	}
 */
-	public static Object convertParameterType( Object value, String type )
+	public static Object convertParameterType( Object value, String type ) throws BirtException
+	{
+		return convertParameterType(value, type, ULocale.getDefault( ) );
+	}
+	
+	public static Object convertParameterType( Object value, String type, ULocale uLocale )
 			throws BirtException
 	{
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
@@ -627,15 +632,15 @@ public abstract class EngineTask implements IEngineTask
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{
-			return DataTypeUtil.toDate( value );
+			return DataTypeUtil.toDate( value, uLocale );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
 		{
-			return DataTypeUtil.toSqlDate( value );
+			return DataTypeUtil.toSqlDate( value, uLocale );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
 		{
-			return DataTypeUtil.toSqlTime( value );
+			return DataTypeUtil.toSqlTime( value, uLocale );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
 		{
