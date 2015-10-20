@@ -171,6 +171,9 @@
 					<version>${tycho.version}</version>
 					<configuration>
 						<format>'v'yyyyMMddHHmm</format>
+						<archive>
+						  <addMavenDescriptor>false</addMavenDescriptor>
+						</archive>
 					</configuration>
 				</plugin>
 				<plugin>
