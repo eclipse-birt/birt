@@ -3,6 +3,8 @@
 
 	<properties>
 		<antrun.version>1.8</antrun.version>
+		<!-- just for filenames beneath this directory -->
+		<maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
 	</properties>
     
 	<parent>
@@ -31,5 +33,6 @@
 		<module>birt-wtp-integration-sdk</module>
 		<module>birt-source</module>
 		<module>birt-nl</module>
+		<module>birt-publish</module>
 	</modules>
 </project>

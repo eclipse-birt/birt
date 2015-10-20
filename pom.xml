@@ -8,6 +8,7 @@
 
 	<properties>
 		<birt.version>4.5.0</birt.version>
+		<eclipse.release.name>mars</eclipse.release.name>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>0.21.0</tycho.version>
 		<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5/</eclipse.repo.url>

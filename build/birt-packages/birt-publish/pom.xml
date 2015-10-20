@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.eclipse.birt.build.package</groupId>
+		<artifactId>org.eclipse.birt.build.package-parent</artifactId>
+		<version>4.5.0-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<groupId>org.eclipse.birt</groupId>
+	<artifactId>birt-publish</artifactId>
+	<version>4.5.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<profiles>
+		<profile>
+			<id>publish</id>
+			<properties>
+				<!-- to be overridden in CBI hudson by
+				     -Drelease.base.dir=/home/data/httpd/download.eclipse.org/birt -->
+				<release.base.dir>${project.basedir}</release.base.dir>
+				<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+				<release.type>I</release.type>
+				<release.package.dir>${release.type}-R1-${birt.version}-${maven.build.timestamp}</release.package.dir>
+				<release.package.path>${release.base.dir}/downloads/drops/${release.package.dir}</release.package.path>
+				<release.repo.path>${release.base.dir}/update-site/${eclipse.release.name}-interim</release.repo.path>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${antrun.version}</version>
+						<executions>
+							<execution>
+								<id>publish</id>
+								<phase>install</phase>
+								<configuration>
+									<tasks>
+										<mkdir dir="${release.package.path}"/>
+										<copy todir="${release.package.path}">
+											<fileset dir="../birt-runtime/target"
+											         includes="birt-runtime-*.zip"
+											         excludes="birt-*-SNAPSHOT.zip" />
+										</copy>
+										<delete dir="${release.repo.path}"/>
+										<mkdir dir="${release.repo.path}"/>
+										<copy todir="${release.repo.path}">
+											<fileset dir="../birt-epp/target/repository"/>
+										</copy>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution> 
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
