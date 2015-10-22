@@ -40,4 +40,25 @@
 			</plugin>
 		</plugins>
 	</build>
+	<!-- unbind jarsigner because this plugin contains nested jars which break it -->
+	<profiles>
+		<profile>
+			<id>build-server</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.cbi.maven.plugins</groupId>
+						<artifactId>eclipse-jarsigner-plugin</artifactId>
+						<version>1.1.2</version>
+						<executions>
+							<execution>
+								<id>sign</id>
+								<phase/>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
