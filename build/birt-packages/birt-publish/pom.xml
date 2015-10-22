@@ -38,6 +38,10 @@
 									<tasks>
 										<mkdir dir="${release.package.path}"/>
 										<copy todir="${release.package.path}">
+											<fileset dir="../birt-report-all-in-one/target/products"
+											         includes="birt-report-designer-all-in-one-*.zip" />
+											<fileset dir="../birt-report-rcp/target/products"
+											         includes="birt-rcp-report-designer-*.zip" />
 											<fileset dir="../birt-runtime/target"
 											         includes="birt-runtime-*.zip"
 											         excludes="birt-*-SNAPSHOT.zip" />
