@@ -44,6 +44,7 @@
 					<products>
 						<product>
 							<id>org.eclipse.birt.report.designer.rcp</id>
+							<archiveFileName>birt-rcp-report-designer-${birt.version}-${maven.build.timestamp}</archiveFileName>
 							<rootFolder>birt</rootFolder>
 						</product>
 					</products>

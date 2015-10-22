@@ -52,6 +52,7 @@
 					<products>
 						<product>
 							<id>org.eclipse.birt.report.designer.all</id>
+							<archiveFileName>birt-report-designer-all-in-one-${birt.version}-${maven.build.timestamp}</archiveFileName>
 							<rootFolder>eclipse</rootFolder>
 						</product>
 					</products>
