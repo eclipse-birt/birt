@@ -1511,7 +1511,7 @@ public class BirtDateTimeTest extends TestCase
 		String[] scripts = new String[]{
 				"BirtDateTime.firstDayOfFiscalWeek(new Date(2015, 5, 15))",
 				"BirtDateTime.firstDayOfFiscalWeek(new Date(2015, 5, 15), new Date(2015, 0, 1))",
-				"BirtDateTime.firstDayOfFiscalWeek(5, new Date(2015, 6, 15))",
+				"BirtDateTime.firstDayOfFiscalWeek(6, new Date(2015, 6, 15))",
 				"BirtDateTime.firstDayOfFiscalWeek(new Date(2015, 5, 15), new Date(2015, 6, 10 ))",
 		};
 
@@ -1520,7 +1520,7 @@ public class BirtDateTimeTest extends TestCase
 		Date[] values = new Date[]{
 				date( c, 2015, 5, 14 ),
 				date( c, 2015, 5, 14 ),
-				date( c, 2015, 7, 9 ),
+				date( c, 2015, 7, 16 ),
 				date( c, 2015, 5, 14 ),
 		};
 
