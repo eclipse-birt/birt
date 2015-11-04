@@ -1441,6 +1441,8 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 6, 15), new Date(2015, 6, 10 ))",
 				"BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 6, 9), new Date(2014, 6, 10 ))",
 				"BirtDateTime.firstDayOfFiscalMonth(new Date(2014, 0, 1), new Date(2015, 0, 10 ))",
+				"BirtDateTime.firstDayOfFiscalMonth(new Date(2014, 1, 1), new Date(2015, 0, 31 ))",
+				"BirtDateTime.firstDayOfFiscalMonth(new Date(2014, 9, 10), new Date(2015, 6, 31 ))",
 		};
 
 		Calendar c = Calendar.getInstance( );
@@ -1451,7 +1453,9 @@ public class BirtDateTimeTest extends TestCase
 				date( c, 2014, 7, 15 ),
 				date( c, 2015, 6, 10 ),
 				date( c, 2015, 5, 10 ),
-				date( c, 2013, 11, 10 )
+				date( c, 2013, 11, 10 ),
+				date( c, 2014, 0, 31 ),
+				date( c, 2014, 8, 30 ),
 		};
 
 		for ( int i = 0; i < values.length; i++ )
@@ -1478,6 +1482,7 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 6, 15), new Date(2015, 6, 10 ))",
 				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 6, 9), new Date(2014, 6, 10 ))",
 				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2014, 0, 1), new Date(2015, 1, 10 ))",
+				"BirtDateTime.firstDayOfFiscalMonth(new Date(2014, 9, 10), new Date(2015, 6, 31 ))",
 		};
 
 		Calendar c = Calendar.getInstance( );
@@ -1488,7 +1493,8 @@ public class BirtDateTimeTest extends TestCase
 				date( c, 2015, 0, 15 ),
 				date( c, 2015, 6, 10 ),
 				date( c, 2015, 3, 10 ),
-				date( c, 2013, 10, 10 )
+				date( c, 2013, 10, 10 ),
+				date( c, 2014, 8, 30 ),
 		};
 
 		for ( int i = 0; i < values.length; i++ )

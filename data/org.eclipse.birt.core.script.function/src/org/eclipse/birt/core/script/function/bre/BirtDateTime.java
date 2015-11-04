@@ -1699,7 +1699,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				{
 					Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
 					adjustFiscalMonth( current, start );
-					current.set( Calendar.DATE, start.get( Calendar.DATE ) );
+					// Do not exceed the max days of current month
+					current.set( Calendar.DATE,
+							Math.min( start.get( Calendar.DATE ),
+									current.getActualMaximum(
+											Calendar.DATE ) ) );
 				}
 				else
 				{
@@ -1744,7 +1748,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 					int monthRemaindary = ( current.get( Calendar.MONTH )
 							- start.get( Calendar.MONTH ) + 12 ) % 3;
 					current.add( Calendar.MONTH, -monthRemaindary );
-					current.set( Calendar.DATE, start.get( Calendar.DATE ) );
+					// Do not exceed the max days of current month
+					current.set( Calendar.DATE,
+							Math.min( start.get( Calendar.DATE ),
+									current.getActualMaximum(
+											Calendar.DATE ) ) );
 				}
 				else
 				{
@@ -1828,7 +1836,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 					Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
 					adjustFiscalYear( current, start );
 					current.set( Calendar.MONTH, start.get( Calendar.MONTH ) );
-					current.set( Calendar.DATE, start.get( Calendar.DATE ) );
+					// Do not exceed the max days of current month
+					current.set( Calendar.DATE,
+							Math.min( start.get( Calendar.DATE ),
+									current.getActualMaximum(
+											Calendar.DATE ) ) );
 				}
 				else
 				{
