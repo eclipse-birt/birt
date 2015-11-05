@@ -133,7 +133,7 @@ public class BirtStrTest extends TestCase
 		String script3 = "a = new Array(\"aaa\",\"bb\",\"23\");BirtStr.toUpper(a);";
 		String script4 = "a = new Array(\"aaa\",\"bb\",23);BirtStr.toUpper(a);";
 
-		String script5 = "BirtStr.toLower(" + "123" + ")";
+		String script5 = "BirtStr.toLower(123)";
 		
 		assertEquals( ( (String) cx.evaluateString( scope,
 				script1,
@@ -155,25 +155,12 @@ public class BirtStrTest extends TestCase
 				"AAA", "BB", "23"
 		} ) );
 
-		try
-		{
-			cx.evaluateString( scope, script4, "inline", 1, null );
-			fail( "Exception should be thrown out since the argument of the script expression is invalid!" );
-		}
-		catch ( Exception e )
-		{
-			assertTrue( e instanceof IllegalArgumentException );
-		}
-		
-		try
-		{
-			cx.evaluateString( scope, script5, "inline", 1, null );
-			fail( "Exception should be thrown out since the argument of the script expression is invalid!" );
-		}
-		catch ( Exception e )
-		{
-			assertTrue( e instanceof IllegalArgumentException );
-		}
+        result1 = cx.evaluateString( scope, script4, "inline", 1, null );
+        assertTrue( eqaulArray( (Object[]) result1,
+                new String[]{"AAA", "BB", "23"} ) );
+
+        result1 = cx.evaluateString( scope, script5, "inline", 1, null );
+        assertEquals( (String) result1, "123" );
 	}
 
 	/*
@@ -187,7 +174,7 @@ public class BirtStrTest extends TestCase
 		String script3 = "a = new Array(\"AAA\",\"BB\",\"23\");BirtStr.toLower(a);";
 		String script4 = "a = new Array(\"AAA\",\"BB\",23);BirtStr.toLower(a);";
 
-		String script5 = "BirtStr.toLower(" + "123" + ")";
+		String script5 = "BirtStr.toLower(123)";
 
 		assertEquals( ( (String) cx.evaluateString( scope,
 				script1,
@@ -209,25 +196,12 @@ public class BirtStrTest extends TestCase
 				"aaa", "bb", "23"
 		} ) );
 
-		try
-		{
-			cx.evaluateString( scope, script4, "inline", 1, null );
-			fail( "Exception should be thrown out since the argument of the script expression is invalid!" );
-		}
-		catch ( Exception e )
-		{
-			assertTrue( e instanceof IllegalArgumentException );
-		}
+        result1 = cx.evaluateString( scope, script4, "inline", 1, null );
+        assertTrue( eqaulArray( (Object[]) result1,
+                new String[]{"aaa", "bb", "23"} ) );
 
-		try
-		{
-			cx.evaluateString( scope, script5, "inline", 1, null );
-			fail( "Exception should be thrown out since the argument of the script expression is invalid!" );
-		}
-		catch ( Exception e )
-		{
-			assertTrue( e instanceof IllegalArgumentException );
-		}
+        result1 = cx.evaluateString( scope, script5, "inline", 1, null );
+        assertEquals( (String) result1, "123" );
 	}
 	
 	private boolean eqaulArray( Object[] arr1, Object[] arr2 )
@@ -447,4 +421,15 @@ public class BirtStrTest extends TestCase
 	{
 
 	}
+	
+    /**
+     * Test if ConString can be convert to String.
+     * 
+     */
+    public void testConString( )
+    {
+        assertEquals( ( cx.evaluateString( scope, "BirtStr.toUpper('a' + new java.lang.String('b'))",
+                "inline", 1, null ) ), "AB" );
+    }
+	
 }
