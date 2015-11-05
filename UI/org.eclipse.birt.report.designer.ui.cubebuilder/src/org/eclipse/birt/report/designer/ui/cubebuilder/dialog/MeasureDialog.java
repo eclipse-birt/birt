@@ -39,6 +39,7 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -657,8 +658,19 @@ public class MeasureDialog extends BaseTitleAreaDialog
 
 		} );
 
-		provider = new CubeMeasureExpressionProvider( input,
-				input.isCalculated( ) );
+		DesignElementHandle container = input.getContainer( );
+		DesignElementHandle superContainer = container.getContainer( );
+		IMeasureDialogHelper helper = (IMeasureDialogHelper) ElementAdapterManager
+				.getAdapter( superContainer, IMeasureDialogHelper.class );
+		if ( helper != null )
+		{
+			provider = helper.newProvider( input );
+		}
+		else
+		{
+			provider = new CubeMeasureExpressionProvider( input,
+					input.isCalculated( ) );
+		}
 		ExpressionButtonUtil.createExpressionButton( group,
 				expressionText,
 				provider,
@@ -674,10 +686,22 @@ public class MeasureDialog extends BaseTitleAreaDialog
 		exprDesc.setForeground( ColorManager.getColor( 128, 128, 128 ) );
 		// new Label( group, SWT.NONE );
 
-		createSecurityPart( group );
-		createHyperLinkPart( group );
-		createFormatPart( group );
-		createAlignmentPart( group );
+		if ( helper == null || !helper.hideSecurityPart( ) )
+		{
+			createSecurityPart( group );
+		}
+		if ( helper == null || !helper.hideHyperLinkPart( ) )
+		{
+			createHyperLinkPart( group );
+		}
+		if ( helper == null || !helper.hideFormatPart( ) )
+		{
+			createFormatPart( group );
+		}
+		if ( helper == null || !helper.hideAlignmentPart( ) )
+		{
+			createAlignmentPart( group );
+		}
 		return group;
 	}
 
