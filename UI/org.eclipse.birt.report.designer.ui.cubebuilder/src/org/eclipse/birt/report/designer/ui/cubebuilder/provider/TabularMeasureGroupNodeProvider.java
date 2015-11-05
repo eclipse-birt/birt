@@ -81,9 +81,9 @@ public class TabularMeasureGroupNodeProvider extends DefaultNodeProvider
 	public Object getParent( Object model )
 	{
 		MeasureGroupHandle measures = (MeasureGroupHandle) model;
-		CubeHandle cube = (CubeHandle) measures.getContainer( );
-		if ( cube != null )
-			return cube.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP );
+		DesignElementHandle container = measures.getContainer( );
+		if ( container != null )
+			return container.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP );
 		return null;
 	}
 
