@@ -44,7 +44,7 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 
 	private static final Image IMG_DERIVED_MEASURE = UIHelper.getImage( BuilderConstants.IMAGE_DERIVED_MEASURE );
 
-	private static final Image IMG_MEASURE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
+	private static final Image IMG_MEASURE = UIHelper.getImage( BuilderConstants.IMAGE_MEASUREGROUP );
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
