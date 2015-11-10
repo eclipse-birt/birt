@@ -1156,6 +1156,14 @@
       <Argument name="s" tagID="Class.Global.unescape.s" type="String"/>
     </Method>
   </Class>  
+  <Class displayNameID="Class.JSON" name="JSON" native="true" toolTipID="Class.JSON.toolTip">
+    <Method displayNameID="Class.JSON.parse" isStatic="true" name="parse" returnType="Object" toolTipID="Class.JSON.parse.toolTip">
+      <Argument name="text" tagID="Class.JSON.parse.text" type="String"/>
+    </Method>
+    <Method displayNameID="Class.JSON.stringify" isStatic="true" name="stringify" returnType="String" toolTipID="Class.JSON.stringify.toolTip">
+      <Argument name="value" tagID="Class.JSON.stringify.value" type="Object"/>
+    </Method>
+  </Class> 
   <Class displayNameID="Class.Total" name="Total" toolTipID="Class.Total.toolTip">	
 	<Member dataType="String" displayNameID="Class.Total.OVERALL" isStatic="true" name="OVERALL" toolTipID="Class.Total.OVERALL.toolTip"/>						
 	<Member dataType="String" displayNameID="Class.Total.NO_FILTER" isStatic="true" name="NO_FILTER" toolTipID="Class.Total.NO_FILTER.toolTip"/>						
