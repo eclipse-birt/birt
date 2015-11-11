@@ -1,14 +1,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DescriptorToolkit;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.TextPropertyDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -20,34 +13,24 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-public class TextAndTwoButtonSection extends Section
+public class TextAndTwoButtonSection extends TextAndButtonSection
 {
-
+    private Button secondButton;
+    private String secondButtonText;
+    private SelectionListener secondButtonListener;
+    private int secondButtonWidth = 60;
+    private String secondButtonTooltipText;
+    
 	public TextAndTwoButtonSection( String labelText, Composite parent,
 			boolean isFormStyle )
 	{
 		super( labelText, parent, isFormStyle );
 	}
 
-	private int width = -1;
-
-	private boolean fillText = false;
-
-	protected TextPropertyDescriptor textField;
-
-	private List secondSelectList = new ArrayList( );
-
 	public void createSection( )
 	{
-		if ( firstSelectList == null )
-			firstSelectList = new ArrayList( );
-		if ( secondSelectList == null )
-			secondSelectList = new ArrayList( );
-		getLabelControl( parent );
-		getTextControl( parent );
-//		getFirstButtonControl( parent );
-		getSecondButtonControl( parent );
-		getGridPlaceholder( parent );
+	    super.createSection();
+        getSecondButtonControl( parent );
 	}
 
 	public void layout( )
@@ -66,6 +49,16 @@ public class TextAndTwoButtonSection extends Section
 		}
 		else
 			gd.grabExcessHorizontalSpace = fillText;
+
+        gd = (GridData) button.getLayoutData( );
+        if ( buttonWidth > -1 )
+        {
+            if ( !isComputeSize )
+                gd.widthHint = Math.max( button.computeSize( -1, -1 ).x,
+                        buttonWidth );
+            else
+                gd.widthHint = button.computeSize( -1, -1 ).x;
+        }
 		
 		gd = (GridData) secondButton.getLayoutData( );
 		if ( secondButtonWidth > -1 )
@@ -77,40 +70,6 @@ public class TextAndTwoButtonSection extends Section
 				gd.widthHint = secondButton.computeSize( -1, -1 ).x;
 		}
 	}
-
-	public TextPropertyDescriptor getTextControl( )
-	{
-		return textField;
-	}
-
-	protected TextPropertyDescriptor getTextControl( Composite parent )
-	{
-		if ( textField == null )
-		{
-			textField = DescriptorToolkit.createTextPropertyDescriptor( true );
-			if ( getProvider( ) != null )
-				textField.setDescriptorProvider( getProvider( ) );
-			textField.createControl( parent );
-			textField.getControl( ).setLayoutData( new GridData( ) );
-			textField.getControl( ).addDisposeListener( new DisposeListener( ) {
-
-				public void widgetDisposed( DisposeEvent event )
-				{
-					textField = null;
-				}
-			} );
-		}
-		else
-		{
-			checkParent( textField.getControl( ), parent );
-		}
-		return textField;
-	}
-
-
-
-
-	protected Button secondButton;
 
 	protected Button getSecondButtonControl( Composite parent )
 	{
@@ -142,20 +101,16 @@ public class TextAndTwoButtonSection extends Section
 				}
 			} );
 
-			if ( !secondSelectList.isEmpty( ) )
-				secondButton.addSelectionListener( (SelectionListener) secondSelectList.get( 0 ) );
-			else
-			{
-				SelectionListener listener = new SelectionAdapter( ) {
+			if ( secondButtonListener == null ) {
+                secondButtonListener = new SelectionAdapter( ) {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						onClickSecondButton( );
-					}
-				};
-				secondSelectList.add( listener );
+                    public void widgetSelected( SelectionEvent e )
+                    {
+                        onClickSecondButton( );
+                    }
+                };
 			}
-
+			secondButton.addSelectionListener( secondButtonListener);
 		}
 		else
 		{
@@ -175,74 +130,33 @@ public class TextAndTwoButtonSection extends Section
 		return secondButtonText;
 	}
 
-//	private String firstButtonText;
-	
-	private String secondButtonText;
-
-	IDescriptorProvider provider;
-
-	public IDescriptorProvider getProvider( )
-	{
-		return provider;
-	}
-
-	public void setProvider( IDescriptorProvider provider )
-	{
-		this.provider = provider;
-		if ( textField != null )
-			textField.setDescriptorProvider( provider );
-	}
-
-	protected List firstSelectList = new ArrayList( );
-
-
 	
 	/**
 	 * if use this method , you couldn't use the onClickButton method.
 	 */
 	public void addSecondSelectionListener( SelectionListener listener )
 	{
-		if ( !secondSelectList.contains( listener ) )
+		if ( secondButton != null )
 		{
-			if ( !secondSelectList.isEmpty( ) )
-				removeSecondSelectionListener( (SelectionListener) secondSelectList.get( 0 ) );
-			secondSelectList.add( listener );
-			if ( secondButton != null )
-				secondButton.addSelectionListener( listener );
+		    secondButton.removeSelectionListener( secondButtonListener );
+            secondButton.addSelectionListener( listener );
 		}
+		secondButtonListener = listener;
 	}
 
 	public void removeSecondSelectionListener( SelectionListener listener )
 	{
-		if ( secondSelectList.contains( listener ) )
-		{
-			secondSelectList.remove( listener );
-			if ( secondButton != null )
-				secondButton.removeSelectionListener( listener );
+		if ( secondButton != null ) {
+			secondButton.removeSelectionListener( listener );
 		}
+	    if ( secondButtonListener == listener) {
+	        secondButtonListener = null;
+	    }
 	}
 
 	protected void onClickSecondButton( )
 	{
 	};
-
-	
-	public void forceFocus( )
-	{
-		textField.getControl( ).forceFocus( );
-	}
-
-	public void setInput( Object input )
-	{
-		textField.setInput( input );
-	}
-
-	public void load( )
-	{
-		if(textField!=null && !textField.getControl( ).isDisposed( ))textField.load( );
-	}
-	
-	private int secondButtonWidth = 60;
 
 	public void setSecondButtonWidth( int buttonWidth )
 	{
@@ -256,70 +170,6 @@ public class TextAndTwoButtonSection extends Section
 			secondButton.setLayoutData( data );
 		}
 	}
-
-	
-	private boolean isComputeSize = false;
-
-	public int getWidth( )
-	{
-		return width;
-	}
-
-	public void setWidth( int width )
-	{
-		this.width = width;
-	}
-
-
-	private String oldValue;
-
-	public void setStringValue( String value )
-	{
-		if ( textField != null )
-		{
-			if ( value == null )
-			{
-				value = "";//$NON-NLS-1$
-			}
-			oldValue = textField.getText( );
-			if ( !oldValue.equals( value ) )
-			{
-				textField.setText( value );
-			}
-		}
-	}
-
-	public boolean isFillText( )
-	{
-		return fillText;
-	}
-
-	public void setFillText( boolean fillText )
-	{
-		this.fillText = fillText;
-	}
-
-	public void setHidden( boolean isHidden )
-	{
-		if ( displayLabel != null )
-			WidgetUtil.setExcludeGridData( displayLabel, isHidden );
-		if ( textField != null )
-		if ( placeholderLabel != null )
-			WidgetUtil.setExcludeGridData( placeholderLabel, isHidden );
-	}
-
-	public void setVisible( boolean isVisible )
-	{
-		if ( displayLabel != null )
-			displayLabel.setVisible( isVisible );
-		if ( textField != null )
-			textField.setVisible( isVisible );
-		if ( placeholderLabel != null )
-			placeholderLabel.setVisible( isVisible );
-	}
-
-	
-	private String secondButtonTooltipText;
 
 	public void setSecondButtonTooltipText( String string )
 	{
@@ -336,17 +186,4 @@ public class TextAndTwoButtonSection extends Section
 		if ( secondButton != null )
 			secondButton.setText( buttonText );
 	}
-
-
-
-	public boolean buttonIsComputeSize( )
-	{
-		return isComputeSize;
-	}
-
-	public void setButtonIsComputeSize( boolean isComputeSize )
-	{
-		this.isComputeSize = isComputeSize;
-	}
-
 }
