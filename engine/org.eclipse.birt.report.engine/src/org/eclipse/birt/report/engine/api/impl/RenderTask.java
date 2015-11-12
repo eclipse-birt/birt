@@ -576,28 +576,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 			IContentEmitter emitter = createContentEmitter( );
 			supportHtmlPagination( );
 
-			// setup the page sequences
-			List<long[]> physicalPageSequences = getPhysicalPageSequence( pageSequences );
-			long filteredTotalPage = getTotalPage( );
-			long totalPage = reportDocument.getPageCount( );
-			if ( filteredTotalPage != totalPage )
-			{
-				executionContext.setFilteredTotalPage( filteredTotalPage );
-			}
-			PageRangeIterator iter = new PageRangeIterator(
-					physicalPageSequences );
-
-			boolean paged = needPagedExecutor( physicalPageSequences );
-
-			//prepare the executor and emitter
-			ReportPageExecutor pagesExecutor = new ReportPageExecutor(
-					executionContext, physicalPageSequences, paged );
-
-			IReportExecutor executor = createRenderExtensionExecutor( pagesExecutor );
-			executor = new SuppressDuplciateReportExecutor( executor );
-			executor = new LocalizedReportExecutor( executionContext, executor );
-			executionContext.setExecutor( executor );
-
 			//prepare the layout engine
 			synchronized ( this )
 			{
@@ -626,7 +604,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
 				LayoutEngine pdfEmitter = new LayoutEngine(
-						executor,
 						( (HTMLReportLayoutEngine) layoutEngine ).getContext( ),
 						emitter,
 						renderOptions, executionContext,
@@ -639,9 +616,33 @@ public class RenderTask extends EngineTask implements IRenderTask
 			{
 				layoutEngine.setPageHandler( layoutPageHandler );
 			}
+			
+			//initialize the emitter,  the emitter may change the render options here.
 			initializeContentEmitter( emitter );
 
-			IReportContent report = executor.execute( );
+            // setup the page sequences
+            List<long[]> physicalPageSequences = getPhysicalPageSequence( pageSequences );
+            long filteredTotalPage = getTotalPage( );
+            long totalPage = reportDocument.getPageCount( );
+            if ( filteredTotalPage != totalPage )
+            {
+                executionContext.setFilteredTotalPage( filteredTotalPage );
+            }
+            PageRangeIterator iter = new PageRangeIterator(
+                    physicalPageSequences );
+
+            boolean paged = needPagedExecutor( physicalPageSequences );
+
+            //prepare the executor
+            ReportPageExecutor pagesExecutor = new ReportPageExecutor(
+                    executionContext, physicalPageSequences, paged );
+
+            IReportExecutor executor = createRenderExtensionExecutor( pagesExecutor );
+            executor = new SuppressDuplciateReportExecutor( executor );
+            executor = new LocalizedReportExecutor( executionContext, executor );
+            executionContext.setExecutor( executor );
+            
+            IReportContent report = executor.execute( );
 			emitter.start( report );
 			layoutEngine.setTotalPageCount( getTotalPage( ) );
 
@@ -765,13 +766,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 			setupRenderOption( );
 			startRender( );
 			IContentEmitter emitter = createContentEmitter( );
-			IReportExecutor executor = new ReportletExecutor( executionContext,
-					offset );
-			executor = createRenderExtensionExecutor( executor );
-			executor = new SuppressDuplciateReportExecutor( executor );
-			executor = new LocalizedReportExecutor( executionContext, executor );
-			executionContext.setExecutor( executor );
-			initializeContentEmitter( emitter );
 
 			synchronized ( this )
 			{
@@ -794,12 +788,20 @@ public class RenderTask extends EngineTask implements IRenderTask
 			// paper size output need re-paginate
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
-				emitter = new LayoutEngine(
-						executor,
-						( (HTMLReportLayoutEngine) layoutEngine ).getContext( ),
-						emitter, renderOptions, executionContext,
-						getDocumentTotalPage( ) );
+                emitter = new LayoutEngine(
+                        ( (HTMLReportLayoutEngine) layoutEngine ).getContext( ),
+                        emitter, renderOptions, executionContext,
+                        getDocumentTotalPage( ) );
 			}
+			
+            initializeContentEmitter( emitter );
+			
+            IReportExecutor executor = new ReportletExecutor( executionContext,
+                    offset );
+            executor = createRenderExtensionExecutor( executor );
+            executor = new SuppressDuplciateReportExecutor( executor );
+            executor = new LocalizedReportExecutor( executionContext, executor );
+            executionContext.setExecutor( executor );
 
 			IReportContent report = executor.execute( );
 			emitter.start( report );
