@@ -23,11 +23,16 @@ import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * Provide a specific expression builder depending on context
@@ -277,12 +282,44 @@ public class ChartExpressionProvider extends ExpressionProvider
 				&& ChartReportItemHelper.instance( )
 						.getBindingDataSetHandle( (ReportItemHandle) elementHandle ) != null )
 		{
-			return ChartExpressionUtil.createBindingExpression( ((ComputedColumnHandle)element).getName( ), false );
+			return ChartExpressionUtil.createBindingExpression(
+					( (ComputedColumnHandle) element ).getName( ),
+					!isFromDataSet( element ) );
 		}
 		else
 		{
 			return super.getInsertText( element );
 		}
 				
+	}
+	
+	private boolean isFromDataSet( Object element )
+	{
+		if ( element instanceof ComputedColumnHandle )
+		{
+			ComputedColumnHandle cch = (ComputedColumnHandle)element;
+			ReportItemHandle itemHandle = (ReportItemHandle)elementHandle;
+			ChartReportItemHelper helper = ChartReportItemHelper.instance( );
+			DataSetHandle dataSetHandle = helper.getBindingDataSetHandle( itemHandle );
+			if ( dataSetHandle != null )
+			{
+				try
+				{
+					List<ResultSetColumnHandle> resultSetColumnList = DataUtil.getColumnList( dataSetHandle );
+					for ( ResultSetColumnHandle cc : resultSetColumnList )
+					{
+						if ( cc.getColumnName( ).equals( cch.getName( ) ) )
+						{
+							return true;
+						}
+					}
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+		}
+		return false;
 	}
 }
