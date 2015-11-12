@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.SortedSet;
-import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -140,7 +140,7 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 	private void doAddContent(IContent content)
 	{
 		if (contents.size() == CONTENTS_CONVERTION_THRESHOLD) {
-			contents = new LinkedHashSet<IContent>(contents);
+			contents = new TreeSet<IContent>(contents);
 		}
 		contents.add( content );
 	}
