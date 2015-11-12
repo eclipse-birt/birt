@@ -616,6 +616,7 @@ public class QueryUtil
 		newQuery.setIsSummaryQuery( query.isSummaryQuery( ) );
 
 		newQuery.setQueryExecutionHints( query.getQueryExecutionHints( ) );
+		newQuery.setLinks( query.getLinks( ) );
 		return newQuery;
 	}
 	
