@@ -442,6 +442,7 @@ public class CubeQueryDefinition extends NamedObject
         cloned.queryResultsID = this.queryResultsID;
         cloned.rowEdge = this.rowEdge != null ? this.rowEdge.clone( ) : null;
         cloned.sortList.addAll( this.sortList );
+        cloned.links.addAll( this.links );
     }
     
     @Override
