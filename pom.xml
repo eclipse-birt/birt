@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<birt.version>4.5.0</birt.version>
+		<birt.version>4.6.0</birt.version>
 		<eclipse.release.name>mars</eclipse.release.name>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>0.21.0</tycho.version>

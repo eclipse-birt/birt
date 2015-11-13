@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.birt.chart.cshelp_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.5.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.cshelp_4.6.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.6.0.qualifier">
       <category name="ChartSDK"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.doc.isv_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.doc.isv" version="4.5.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.doc.isv_4.6.0.qualifier.jar" id="org.eclipse.birt.chart.doc.isv" version="4.6.0.qualifier">
       <category name="ChartSDK"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="4.5.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_4.6.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="4.6.0.qualifier">
       <category name="ChartSDK"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.osgi.runtime.source_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime.source" version="4.5.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.osgi.runtime.source_4.6.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime.source" version="4.6.0.qualifier">
       <category name="ChartSDK"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.osgi.runtime_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime" version="4.5.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.osgi.runtime_4.6.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime" version="4.6.0.qualifier">
       <category name="ChartSDK"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.source_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.source" version="4.5.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.source_4.6.0.qualifier.jar" id="org.eclipse.birt.chart.source" version="4.6.0.qualifier">
       <category name="ChartSDK"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart_4.5.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.5.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart_4.6.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.6.0.qualifier">
       <category name="ChartSDK"/>
    </feature>
    <category-def name="ChartSDK" label="BIRT Chart SDK"/>

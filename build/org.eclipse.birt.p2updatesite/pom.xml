@@ -10,7 +10,7 @@
 
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.p2updatesite</artifactId>
-	<version>4.5.0-SNAPSHOT</version>
+	<version>4.6.0-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
 
 	<!-- http://codeandme.blogspot.com/2012/12/tycho-build-5-building-p2-update-sites.html -->

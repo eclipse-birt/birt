@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CSV Data Extraction Plug-in NLS Support
 Bundle-SymbolicName: org.eclipse.birt.report.engine.dataextraction.csv.nl1
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.6.0.qualifier
 Fragment-Host: org.eclipse.birt.report.engine.dataextraction.csv;bundle-version="[2.1.0,5.0.0)"
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
