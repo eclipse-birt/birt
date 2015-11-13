@@ -188,16 +188,19 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 		return this.isSummaryQuery;
 	}
 
-    @Override
     public Set<IBaseLinkDefinition> getLinks( )
     {
         return this.links;
     }
 
-    @Override
     public void addLink( IBaseLinkDefinition link )
     {
         this.links.add( link );
+    }
+    
+    public void setLinks( Set<IBaseLinkDefinition> links )
+    {
+        this.links = links;
     }
 
 }

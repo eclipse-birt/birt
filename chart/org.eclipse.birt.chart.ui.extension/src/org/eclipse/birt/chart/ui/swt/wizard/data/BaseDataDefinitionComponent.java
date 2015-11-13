@@ -803,6 +803,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		{
 			setQueryExpression( expression );
 		}
+
+		enableAggEditor(expression);
 	}
 
 	/**
@@ -1059,6 +1061,17 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		if ( btnBuilder != null )
 		{
 			btnBuilder.setExpression( expression );
+		}
+		
+		enableAggEditor(expression);
+	}
+
+	private void enableAggEditor( String expression )
+	{
+		if ( expression != null && fAggEditorComposite != null )
+		{
+			boolean isMeasure = expression.startsWith( "data" ); //$NON-NLS-1$
+			fAggEditorComposite.setEnabled( !isMeasure );
 		}
 	}
 	
