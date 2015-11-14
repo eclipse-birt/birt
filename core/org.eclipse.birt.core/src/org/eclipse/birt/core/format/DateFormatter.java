@@ -171,7 +171,8 @@ public class DateFormatter implements IFormatter
 	}
 	
 	/**
-	 *   Convert into predefine pattern, when format is null, the case cover english. It will add if other language is require
+	 *   Convert into predefine pattern, when format is null, the case cover english. 
+	 *   It will add if other language is require
 	 * @param dateformat
 	 * @param locale
 	 * @return 
@@ -181,7 +182,7 @@ public class DateFormatter implements IFormatter
 			ULocale locale )
 	{
 		if ( "en".equals( locale.getLanguage( ) ) )
-		{
+		{	//predefine format for US_en:  MMM d, y h:mm a 
 			String PredefinePattern = dateformat.toPattern( ).replace( "y,",
 					"y" );
 			return new SimpleDateFormat( PredefinePattern, locale );
