@@ -145,6 +145,10 @@ public class DateFormatterTest extends TestCase
 
 		Locale locale = new Locale( "en", "us" );
 		DateFormatter sample = new DateFormatter( ULocale.forLocale(locale) );
+		//default null
+		sample.applyPattern( null );
+		assertEquals( "Sep 13, 1998 8:01 PM", sample.format( date ) );
+		
 		sample.applyPattern( "Long Date" );
 		assertEquals( "September 13, 1998", sample.format( date ) );
 		sample.applyPattern( "D" );

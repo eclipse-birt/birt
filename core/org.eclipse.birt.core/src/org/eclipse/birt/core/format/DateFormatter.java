@@ -169,11 +169,33 @@ public class DateFormatter implements IFormatter
 		
 		applyTimeZone( );
 	}
+	
+	/**
+	 *   Convert into predefine pattern, when format is null, the case cover english. 
+	 *   It will add if other language is require
+	 * @param dateformat
+	 * @param locale
+	 * @return 
+	 */
+	@SuppressWarnings("nls")
+	private SimpleDateFormat toPredefinedPattern( SimpleDateFormat dateformat,
+			ULocale locale )
+	{
+		if ( "en".equals( locale.getLanguage( ) ) )
+		{	//predefine format for US_en:  MMM d, y h:mm a 
+			String PredefinePattern = dateformat.toPattern( ).replace( "y,",
+					"y" );
+			return new SimpleDateFormat( PredefinePattern, locale );
+		}
+		return dateformat;
+	}
+	
 	/**
 	 * define pattern and locale here
 	 * 
 	 * @param formatString
 	 */
+	@SuppressWarnings("nls")
 	private void createPattern( String formatString )
 	{
 		try
@@ -194,6 +216,8 @@ public class DateFormatter implements IFormatter
 						.getDateTimeInstance(
 								com.ibm.icu.text.DateFormat.MEDIUM,
 								com.ibm.icu.text.DateFormat.SHORT, locale );
+				dateTimeFormat = toPredefinedPattern(
+						(SimpleDateFormat) dateTimeFormat, locale );
 				dateFormat = com.ibm.icu.text.DateFormat.getDateInstance(
 						com.ibm.icu.text.DateFormat.MEDIUM, locale );
 				timeFormat = com.ibm.icu.text.DateFormat.getTimeInstance(
