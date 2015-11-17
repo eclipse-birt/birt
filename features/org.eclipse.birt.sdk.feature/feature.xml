@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.sdk"
       label="%featureName"
-      version="4.6.0.qualifier"
+      version="4.5.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -25,51 +25,87 @@
 
    <includes
          id="org.eclipse.birt"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <includes
          id="org.eclipse.birt.example"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <includes
          id="org.eclipse.birt.chart.cshelp"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <includes
          id="org.eclipse.birt.cshelp"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <includes
          id="org.eclipse.birt.doc"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <includes
          id="org.eclipse.birt.doc.isv"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <includes
          id="org.eclipse.birt.chart.doc.isv"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <includes
          id="org.eclipse.birt.chart"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <includes
          id="org.eclipse.birt.source"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <includes
          id="org.eclipse.birt.chart.source"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <includes
          id="org.eclipse.birt.report.designer.editor.xml.wtp.source"
+         download-size="0"
+         install-size="0"
          version="0.0.0"
+         unpack="false" 
          optional="true"/>
 
    <includes
          id="org.eclipse.birt.example.source"
-         version="0.0.0"/>
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>
