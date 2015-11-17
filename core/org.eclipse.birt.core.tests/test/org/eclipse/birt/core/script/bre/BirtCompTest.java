@@ -290,7 +290,11 @@ public class BirtCompTest extends TestCase
 				"BirtComp.like(\"x 99:02_03\",\"\\\\%:02\\\\_03\");",
 				"BirtComp.like(\"x 99%:02_03\",\"%\\\\%:02\\\\_03\");",
 				"BirtComp.like(\"x 99%:02_03\",\"\\\\\\\\%\\\\%:02\\\\_03\");",
-				"BirtComp.like(\"x \\\\99%:02_03\",\"_ \\\\\\\\99\\\\%:02\\\\_03\");"
+				"BirtComp.like(\"x \\\\99%:02_03\",\"_ \\\\\\\\99\\\\%:02\\\\_03\");",
+				"BirtComp.like(\"ABC\",\"%AB%\");",
+				"BirtComp.like(\"ABC\",\"%Ab%\");",
+				"BirtComp.like(\"ABC\",\"%Ab%\",true);",
+				"BirtComp.like(\"AB\\r\\nC\",\"%AB%\");",
 				
 		};
 		
@@ -307,6 +311,10 @@ public class BirtCompTest extends TestCase
 				false,
 				true,
 				false,
+				true,
+				true,
+				false,
+				true,
 				true
 		};
 		

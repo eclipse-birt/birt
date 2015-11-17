@@ -419,13 +419,15 @@ public class BirtComp implements IScriptFunctionExecutor
 		{
 			String newPatternStr = buffer.toString( );
 			Pattern p = null;
-			if( !ignorecase )
+			// Support search in multiple lines
+			if ( !ignorecase )
 			{
-				p = Pattern.compile( newPatternStr );
+				p = Pattern.compile( newPatternStr, Pattern.DOTALL );
 			}
 			else
 			{
-				p = Pattern.compile( newPatternStr, Pattern.CASE_INSENSITIVE );
+				p = Pattern.compile( newPatternStr,
+						Pattern.DOTALL | Pattern.CASE_INSENSITIVE );
 			}
 			Matcher m = p.matcher( sourceStr.toString( ) );
 			return m.matches( );
