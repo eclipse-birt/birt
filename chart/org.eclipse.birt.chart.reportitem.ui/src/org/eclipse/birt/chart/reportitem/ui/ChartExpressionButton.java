@@ -22,10 +22,12 @@ import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.ChartExpressionHelper;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.ExpressionDescriptor;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.IExpressionDescriptor;
+import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.interfaces.IAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil.EAttributeAccessor;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
@@ -287,6 +289,15 @@ public class ChartExpressionButton implements IExpressionButton
 		Set<IExpressionDescriptor> set = new LinkedHashSet<IExpressionDescriptor>( );
 		for ( Object obj : predefinedQuery )
 		{
+			if ( obj instanceof ColumnBindingInfo )
+			{
+				String expr = ( (ColumnBindingInfo) obj ).getExpression( );
+				if ( expr.startsWith( ExpressionUtil.DATA_INDICATOR ) )
+				{
+					set.add( ExpressionDescriptor.getInstance( obj, true ) );
+					continue;
+				}
+			}
 			set.add( ExpressionDescriptor.getInstance( obj, isCube ) );
 		}
 
