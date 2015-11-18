@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Model Tests Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.model.tests; singleton:=true
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.6.0.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: Eclipse BIRT Project
 Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)",

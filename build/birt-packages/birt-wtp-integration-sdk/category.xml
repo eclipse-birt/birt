@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.birt.chart.integration.wtp_4.5.0.qualifier.jar" id="org.eclipse.birt.chart.integration.wtp" version="4.5.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.integration.wtp_4.6.0.qualifier.jar" id="org.eclipse.birt.chart.integration.wtp" version="4.6.0.qualifier">
       <category name="org.eclipse.birt.wtp.integration.sdk"/>
    </feature>
-   <feature url="features/org.eclipse.birt.integration.wtp_4.5.0.qualifier.jar" id="org.eclipse.birt.integration.wtp" version="4.5.0.qualifier">
+   <feature url="features/org.eclipse.birt.integration.wtp_4.6.0.qualifier.jar" id="org.eclipse.birt.integration.wtp" version="4.6.0.qualifier">
       <category name="org.eclipse.birt.wtp.integration.sdk"/>
    </feature>
-   <feature url="features/org.eclipse.birt.integration.wtp.sdk_4.5.0.qualifier.jar" id="org.eclipse.birt.integration.wtp.sdk" version="4.5.0.qualifier">
+   <feature url="features/org.eclipse.birt.integration.wtp.sdk_4.6.0.qualifier.jar" id="org.eclipse.birt.integration.wtp.sdk" version="4.6.0.qualifier">
       <category name="org.eclipse.birt.wtp.integration.sdk"/>
    </feature>   
    <category-def name="org.eclipse.birt.wtp.integration.sdk.build" label="birt-wtp-integration-sdk"/>

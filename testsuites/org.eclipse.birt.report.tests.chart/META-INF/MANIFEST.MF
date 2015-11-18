@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT CORE Tests Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.tests.chart
 Bundle-ClassPath: test-chart.jar
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.6.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.tests.chart.plugin.ChartPlugin
 Eclipse-LazyStart: true
 Require-Bundle: org.junit;resolution:=optional,

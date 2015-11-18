@@ -256,12 +256,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		if ( container instanceof RowArea )
 		{
-			System.out.println("read a row...");
 			rowStyleStack.push( container.getBoxStyle( ) );
 		}
 		else if ( container instanceof CellArea )
 		{
-			System.out.println("read a cell...");
 			drawCell( (CellArea) container );
 		}
 		

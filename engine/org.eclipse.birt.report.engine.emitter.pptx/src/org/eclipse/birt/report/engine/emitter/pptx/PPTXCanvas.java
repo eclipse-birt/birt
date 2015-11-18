@@ -414,7 +414,8 @@ public class PPTXCanvas
 					: imageInfo.getWidth( );
 			float originalImageHeight = imageHeight != 0 ? imageHeight
 					: imageInfo.getHeight( );
-
+			originalImageHeight = Math.min( originalImageHeight, height );
+			originalImageWidth = Math.min( originalImageWidth, width );
 			Position areaPosition = new Position( x, y );
 			Position areaSize = new Position( width, height );
 			Position imagePosition = new Position( x + offsetX, y + offsetY );

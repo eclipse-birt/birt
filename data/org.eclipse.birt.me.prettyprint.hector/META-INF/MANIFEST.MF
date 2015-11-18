@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Hector client library for Cassandra Scripted Data Source
 Bundle-SymbolicName: org.eclipse.birt.me.prettyprint.hector;singleton:=true
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.6.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Require-Bundle: org.eclipse.birt.core;bundle-version="4.2.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

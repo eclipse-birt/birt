@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>org.eclipse.birt.build.package.nl</groupId>
 		<artifactId>org.eclipse.birt.build.package.nl-parent</artifactId>
-		<version>4.5.0-SNAPSHOT</version>
+		<version>4.6.0-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt.nl</groupId>
 	<artifactId>NLpack1-birt-runtime</artifactId>
-	<version>4.5.0-SNAPSHOT</version>
+	<version>4.6.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<build>
 		<plugins>
@@ -27,9 +27,9 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<unzip src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-4.5.0-SNAPSHOT.zip"
+                                                            <unzip src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-${birt.version}-SNAPSHOT.zip"
 									dest="${project.build.directory}/p2updatesite"/>
-								<copy todir="${project.build.directory}/content/birt-runtime-4_5_0\ReportEngine\plugins">
+                                                                    <copy todir="${project.build.directory}/content/birt-runtime-{birt.version}\ReportEngine\plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
 										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar"/>
 										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar"/>
@@ -61,7 +61,7 @@
 										<include name="org.eclipse.datatools.enablement.oda.xml.nl1_1.0.3.v20150420-1235.jar"/>
 									</fileset>
 								</copy>
-								<copy todir="${project.build.directory}/content/birt-runtime-4_5_0\WebViewerExample\WEB-INF\lib">
+                                                                <copy todir="${project.build.directory}/content/birt-runtime-${birt.version}\WebViewerExample\WEB-INF\lib">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
 										<include name="org.eclipse.birt.chart.engine.nl1_*.jar"/>
 										<include name="org.eclipse.birt.chart.examples.core.nl1_*.jar"/>
@@ -77,7 +77,7 @@
 										<include name="org.eclipse.birt.report.viewers.nl1_*.jar"/>
 									</fileset>
 								</copy>
-								<copy todir="${project.build.directory}/content/birt-runtime-4_5_0\WebViewerExample\WEB-INF\platform\plugins">
+                                                                <copy todir="${project.build.directory}/content/birt-runtime-${birt.version}\WebViewerExample\WEB-INF\platform\plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
 										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar"/>
 										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar"/>
