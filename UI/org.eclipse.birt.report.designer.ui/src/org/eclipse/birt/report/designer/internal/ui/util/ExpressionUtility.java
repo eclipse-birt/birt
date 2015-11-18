@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionSupportManager;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
@@ -319,6 +321,28 @@ public class ExpressionUtility
 		setBindingColumnExpression( element, bindingColumn, false );
 	}
 
+	public static void setBindingMeasureExpression( MeasureHandle element,
+			ComputedColumn bindingColumn, boolean isOnlySupportJS )
+	{
+		String defaultScriptType = UIUtil.getDefaultScriptType( );
+		IExpressionConverter converter = ExpressionUtility.getExpressionConverter( defaultScriptType );
+		String expression = null;
+		if ( converter != null && !isOnlySupportJS )
+		{
+			expression = ExpressionUtil.createJSMeasureExpression( element.getName( ) );
+		}
+		else
+		{
+			defaultScriptType = ExpressionType.JAVASCRIPT;
+			expression = DEUtil.getExpression( element );
+		}
+
+		Expression bindingExpression = new Expression( expression,
+				defaultScriptType );
+		bindingColumn.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+				bindingExpression );
+	}
+	
 	public static void setBindingColumnExpression( Object element,
 			ComputedColumn bindingColumn, boolean isOnlySupportJS )
 	{
