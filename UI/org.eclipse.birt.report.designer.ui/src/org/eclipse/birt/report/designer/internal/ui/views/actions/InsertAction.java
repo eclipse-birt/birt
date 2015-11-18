@@ -27,7 +27,9 @@ import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.gef.Request;
 
@@ -46,7 +48,9 @@ public class InsertAction extends AbstractElementAction
 
 	public final static String CURRENT = "current"; //$NON-NLS-1$
 
-	private final static String TEXT = Messages.getString( "InsertAction.text" ); //$NON-NLS-1$
+	private final static String INSERT_TEXT = Messages.getString( "InsertAction.text" ); //$NON-NLS-1$
+
+	private final static String NEW_MASTER_PAGE_TEXT = Messages.getString( "NewMasterPage.text" );
 
 	private SlotHandle slotHandle;
 
@@ -89,7 +93,13 @@ public class InsertAction extends AbstractElementAction
 	 */
 	public InsertAction( Object selectedObject )
 	{
-		this( selectedObject, TEXT );
+		this( selectedObject,
+				selectedObject instanceof SlotHandle
+						&& ( (SlotHandle) selectedObject )
+								.getSlotID( ) == IModuleModel.PAGE_SLOT
+						&& ( (SlotHandle) selectedObject )
+								.getElementHandle( ) instanceof ReportDesignHandle
+										? NEW_MASTER_PAGE_TEXT : INSERT_TEXT );
 	}
 
 	/**
