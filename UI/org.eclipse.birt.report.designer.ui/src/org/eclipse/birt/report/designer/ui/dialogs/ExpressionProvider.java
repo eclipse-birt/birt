@@ -193,6 +193,7 @@ public class ExpressionProvider implements
 	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
 	public static final String COLUMN_BINDINGS = Messages.getString( "ExpressionProvider.Category.ColumnBinding" ); //$NON-NLS-1$
 	public static final String CURRENT_CUBE = Messages.getString( "ExpressionProvider.Category.DataCubes" ); //$NON-NLS-1$
+	public static final String AVAILABLE_MEASURES = Messages.getString( "ExpressionProvider.Category.AvailableMeasures" ); //$NON-NLS-1$
 	public static final String MEASURE = "Measure";
 
 	// public static final String DATASETS = Messages.getString(
