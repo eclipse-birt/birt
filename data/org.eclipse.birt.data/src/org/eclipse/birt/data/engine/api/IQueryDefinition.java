@@ -111,4 +111,9 @@ public interface IQueryDefinition extends IBaseQueryDefinition
      */
     public void addLink( IBaseLinkDefinition link );
     
+    /**
+     * Clone itself.
+     * @return
+     */
+    public IQueryDefinition clone();
 }
