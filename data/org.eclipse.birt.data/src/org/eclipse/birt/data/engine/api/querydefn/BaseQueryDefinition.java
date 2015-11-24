@@ -14,17 +14,16 @@
 package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IBaseLinkDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -292,5 +291,23 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	{
 		return this.isTempQuery ;
 	}
-
+	
+	protected void cloneFields( BaseQueryDefinition clone )
+	{
+	    clone.groups.addAll( groups );
+	    clone.hasDetail = hasDetail;
+	    if ( parentQuery instanceof IQueryDefinition )
+	    {
+	        clone.parentQuery = ( (IQueryDefinition) parentQuery ).clone( );
+	    }
+	    clone.maxRowCount = maxRowCount;
+	    clone.startingRow = startingRow;
+	    clone.distinctValue = distinctValue;
+	    clone.cacheQueryResults = cacheQueryResults;
+	    clone.resultExprsMap.putAll( resultExprsMap );
+	    clone.bindingMap.putAll( bindingMap );
+	    clone.queryExecutionHints = queryExecutionHints;
+	    clone.name = name;
+	    clone.isTempQuery = isTempQuery;
+	}
 }
