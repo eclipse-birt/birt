@@ -12,7 +12,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>0.21.0</tycho.version>
 		<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5/</eclipse.repo.url>
-		<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.11milestones/</emf.repo.url>
+                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/releases/</emf.repo.url>
 		<wtp.repo.url>http://download.eclipse.org/webtools/repository/mars/</wtp.repo.url>
 		<gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
 		<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit.repo.url>
