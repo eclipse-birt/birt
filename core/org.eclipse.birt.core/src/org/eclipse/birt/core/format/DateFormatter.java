@@ -229,6 +229,8 @@ public class DateFormatter implements IFormatter
 				dateTimeFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.MEDIUM,
 						com.ibm.icu.text.DateFormat.SHORT,
 						locale );
+				dateTimeFormat = toPredefinedPattern(
+						(SimpleDateFormat) dateTimeFormat, locale );
 				return;
 
 			}
