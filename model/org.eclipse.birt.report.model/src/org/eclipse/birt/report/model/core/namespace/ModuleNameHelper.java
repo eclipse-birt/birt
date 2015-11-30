@@ -173,6 +173,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 						+ element.getDefn( ).getName( ) );
 				name = name.trim( );
 			}
+            name = NamePropertyType.validateName( name );
 		}
 
 		// Add a numeric suffix that makes the name unique.

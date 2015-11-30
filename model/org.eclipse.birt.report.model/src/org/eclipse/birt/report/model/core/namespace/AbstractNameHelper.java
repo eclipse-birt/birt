@@ -621,6 +621,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		if ( name == null )
 		{
 			name = getDefaultName( element );
+	        name = NamePropertyType.validateName( name );
 		}
 
 		// Add a numeric suffix that makes the name unique.
