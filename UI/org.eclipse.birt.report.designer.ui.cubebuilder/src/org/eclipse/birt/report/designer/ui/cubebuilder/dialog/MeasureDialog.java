@@ -86,7 +86,7 @@ public class MeasureDialog extends BaseTitleAreaDialog
 	private Button derivedMeasureBtn, visibilityBtn;
 	private Label exprDesc;
 
-	private TabularMeasureHandle input;
+	private MeasureHandle input;
 	private Text nameText;
 	private static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
 			.getElement( ReportDesignConstants.MEASURE_ELEMENT )
@@ -203,7 +203,7 @@ public class MeasureDialog extends BaseTitleAreaDialog
 		}
 	}
 
-	public void setInput( TabularMeasureHandle input )
+	public void setInput( MeasureHandle input )
 	{
 		this.input = input;
 	}
@@ -341,7 +341,7 @@ public class MeasureDialog extends BaseTitleAreaDialog
 		{
 			if ( !isEdit )
 			{
-				TabularMeasureHandle measure;
+				MeasureHandle measure;
 				if ( input == null )
 				{
 					measure = DesignElementFactory.getInstance( )

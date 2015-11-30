@@ -5,7 +5,7 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeMeasureExpressionProvider;
-import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
  * 
@@ -14,7 +14,7 @@ import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 public interface IMeasureDialogHelper
 {
 
-	CubeMeasureExpressionProvider newProvider( TabularMeasureHandle handle );
+	CubeMeasureExpressionProvider newProvider( MeasureHandle handle );
 
 	boolean hideSecurityPart( );
 

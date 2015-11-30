@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 public class CubeMeasureExpressionProvider extends CubeExpressionProvider
 {
 
-	private TabularMeasureHandle handle = null;
+	private MeasureHandle handle = null;
 	private DataSetHandle dataSetHandle = null;
 	private ExpressionFilter filter = null;
 
@@ -50,7 +50,7 @@ public class CubeMeasureExpressionProvider extends CubeExpressionProvider
 		this.addFilterToProvider( handle );
 	}
 
-	public CubeMeasureExpressionProvider( TabularMeasureHandle handle,
+	public CubeMeasureExpressionProvider( MeasureHandle handle,
 			boolean isDerivedMeasure )
 	{
 		super( handle );
@@ -64,7 +64,7 @@ public class CubeMeasureExpressionProvider extends CubeExpressionProvider
 		}
 		else
 		{
-			Object parent = ( (TabularMeasureHandle) handle ).getContainer( )
+			Object parent = handle.getContainer( )
 					.getContainer( );
 			if ( parent instanceof TabularCubeHandle )
 			{
