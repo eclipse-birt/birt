@@ -27,6 +27,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.internal.part.NullEditorInput;
 import org.eclipse.ui.part.EditorPart;
 
 /**
@@ -70,13 +71,14 @@ public class ReportEditorProxy extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#getEditorInput()
 	 */
+	@SuppressWarnings("restriction")
 	public IEditorInput getEditorInput( )
 	{
 		if ( instance != null )
 		{
 			return instance.getEditorInput( );
 		}
-		return null;
+		return new NullEditorInput( );
 	}
 
 	/*
