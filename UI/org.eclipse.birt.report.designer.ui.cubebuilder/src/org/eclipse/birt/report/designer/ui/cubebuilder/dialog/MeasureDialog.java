@@ -142,7 +142,8 @@ public class MeasureDialog extends BaseTitleAreaDialog
 		}
 		return displayNames;
 	}
-
+	
+	
 	private String[] getFunctionDisplayNames( )
 	{
 		IAggrFunction[] choices = getFunctions( );
@@ -175,24 +176,25 @@ public class MeasureDialog extends BaseTitleAreaDialog
 
 	private String getFunctionDisplayName( String function )
 	{
-		try
-		{
-			return DataUtil.getAggregationManager( )
-					.getAggregation( function )
-					.getDisplayName( );
-		}
-		catch ( BirtException e )
-		{
-			ExceptionUtil.handle( e );
-			return null;
-		}
+        IAggrFunction[] choices = getFunctions( );
+        if ( choices == null )
+            return null;
+
+        for ( int i = 0; i < choices.length; i++ )
+        {
+            if ( choices[i].getName( ).equals( function ) )
+            {
+                return choices[i].getDisplayName( );
+            }
+        }
+        return null;
 	}
 
-	private IAggrFunction[] getFunctions( )
+	protected IAggrFunction[] getFunctions( )
 	{
 		try
 		{
-			List aggrInfoList = DataUtil.getAggregationManager( )
+			List<IAggrFunction> aggrInfoList = DataUtil.getAggregationManager( )
 					.getAggregations( AggregationManager.AGGR_MEASURE );
 			return (IAggrFunction[]) aggrInfoList.toArray( new IAggrFunction[0] );
 		}
