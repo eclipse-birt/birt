@@ -8,16 +8,8 @@
 
 	<properties>
 		<birt.version>4.6.0</birt.version>
-		<eclipse.release.name>neon</eclipse.release.name>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>0.21.0</tycho.version>
-		<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.6milestones/</eclipse.repo.url>
-		<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.12milestones/</emf.repo.url>
-		<wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.8.0/S-3.8.0M3-20151111010029/repository/</wtp.repo.url>
-		<gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
-		<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit.repo.url>
-		<dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
-		<jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.9.v20150224</jetty.repo.url>
 		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
 		<!--<build>v${maven.build.timestamp}</build>-->
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
@@ -25,6 +17,35 @@
 
 	<!-- make release builds in particular quicker and more reliable -->
 	<profiles>
+		<profile>
+        	<id>master</id>
+            <activation>
+            	<activeByDefault>true</activeByDefault>
+			</activation>
+            <properties>
+		    	<eclipse.release.name>neon</eclipse.release.name>
+                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.6milestones/</eclipse.repo.url>
+                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.12milestones/</emf.repo.url>
+                <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.8.0/S-3.8.0M3-20151111010029/repository/</wtp.repo.url>
+                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
+                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit.repo.url>
+                <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
+                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.9.v20150224</jetty.repo.url>
+			</properties>
+		</profile>
+        <profile>
+        	<id>mars</id>
+            <properties>
+		    	<eclipse.release.name>mars</eclipse.release.name>
+            	<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5/</eclipse.repo.url>
+                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.11/</emf.repo.url>
+                <wtp.repo.url>http://download.eclipse.org/webtools/repository/mars/</wtp.repo.url>
+                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
+                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit.repo.url>
+                <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
+                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.9.v20150224</jetty.repo.url>
+			</properties>
+		</profile>
 		<profile>
 			<id>localdeps</id>
 			<properties>
