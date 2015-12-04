@@ -928,6 +928,7 @@ public class MeasureDialog extends BaseTitleAreaDialog
 		if ( nameText.getText( ) == null
 				|| nameText.getText( ).trim( ).equals( "" ) //$NON-NLS-1$
 				|| functionCombo.getSelectionIndex( ) == -1
+						&& !input.isCalculated( )
 				|| typeCombo.getSelectionIndex( ) == -1 )
 		{
 			if ( getButton( IDialogConstants.OK_ID ) != null )
