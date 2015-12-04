@@ -109,7 +109,7 @@ public class SimpleResultSet implements IResultIterator
 	private List<OnFetchScriptHelper> onFetchEvents;
 	
 	//TODO: refactor me. Add this for emergence -- release.
-	private boolean isFirstNextCall = true;
+	private boolean firstRowSaved = false;
 
 	
 	/**
@@ -374,12 +374,14 @@ public class SimpleResultSet implements IResultIterator
 				{
 					( (RAOutputStream) dataSetStream ).seek( rowCountOffset );
 					//if there is no rows saved in document, save rowCount as 0
-					if ( isFirstNextCall )
+					if ( !firstRowSaved )
 					{
 						IOUtil.writeInt( dataSetStream, 0 );
 					}
 					else
+					{
 						IOUtil.writeInt( dataSetStream, rowCount );
+					}
 				}
 				
 				if ( this.streamsWrapper.getStreamForIndex( this.getResultClass( ), handler.getAppContext( ) )!= null )
@@ -571,7 +573,11 @@ public class SimpleResultSet implements IResultIterator
 				}
 			}
 			//try to save the first row
-			saveDataSetResultSet(this.currResultObj, rowCount - 1);
+			if ( this.currResultObj != null )
+			{
+				saveDataSetResultSet( this.currResultObj, rowCount - 1 );
+				firstRowSaved = true;
+			}
 		}
 		catch ( IOException e )
 		{
@@ -755,11 +761,11 @@ public class SimpleResultSet implements IResultIterator
 		if ( currResultObj == null ) 
 			return false;
 		
-		if( this.isFirstNextCall )
+		if( !this.firstRowSaved )
 		{
-			this.isFirstNextCall = false;
-			//saveDataSetResultSet( currResultObj, 0 );			
-		}		
+			this.firstRowSaved = true;
+			saveDataSetResultSet( currResultObj, 0 );
+		}
 		doNext( );
 		
 		if ( currResultObj != null )
