@@ -1683,7 +1683,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 						dataEngine.getSession( ).getTempDir( ), this.interceptorContext );
 			}
 		}
-		refactorCubeQueryDefinition( query );
+        else
+        {
+            // Null data set indicates that the query uses cube. Measure[]
+            // expression must have aggregateOn/aggregateFunc defined.
+            refactorCubeQueryDefinition( query );
+        }
 		populateMeasureDefinitionForCalculateMeasures( query );
 		setMeasureDataTypeForCubeQuery ( query );
 		QueryAdapter.adaptQuery( query );
@@ -1839,7 +1844,17 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 	}
 
-	private void refactorCubeQueryDefinition( ICubeQueryDefinition query )
+    /**
+     * Add aggFunc/aggOn for all measure[] expression.
+     *
+     * measure without aggFunc/aggOn is meaningless, so adding default
+     * aggFunc/aggOn to fix those kinds of bindings.
+     * 
+     * @param query
+     * @throws DataException
+     * @throws AdapterException
+     */
+    private void refactorCubeQueryDefinition( ICubeQueryDefinition query )
 			throws DataException, AdapterException
 	{
 		List bindings = query.getBindings( );
