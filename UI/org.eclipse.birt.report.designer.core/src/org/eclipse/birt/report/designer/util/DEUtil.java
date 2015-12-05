@@ -95,8 +95,6 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
-import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -2026,13 +2024,13 @@ public class DEUtil
 		{
 			actionHandle = ( (ImageHandle) element ).getActionHandle( );
 		}
-		else if ( element instanceof TabularLevelHandle )
+		else if ( element instanceof LevelHandle )
 		{
-			actionHandle = ( (TabularLevelHandle) element ).getActionHandle( );
+			actionHandle = ( (LevelHandle) element ).getActionHandle( );
 		}
-		else if ( element instanceof TabularMeasureHandle )
+		else if ( element instanceof MeasureHandle )
 		{
-			actionHandle = ( (TabularMeasureHandle) element ).getActionHandle( );
+			actionHandle = ( (MeasureHandle) element ).getActionHandle( );
 		}
 		return actionHandle;
 	}
@@ -2066,13 +2064,13 @@ public class DEUtil
 		{
 			actionHandle = ( (ImageHandle) element ).setAction( action );
 		}
-		else if ( element instanceof TabularLevelHandle )
+		else if ( element instanceof LevelHandle )
 		{
-			actionHandle = ( (TabularLevelHandle) element ).setAction( action );
+			actionHandle = ( (LevelHandle) element ).setAction( action );
 		}
-		else if ( element instanceof TabularMeasureHandle )
+		else if ( element instanceof MeasureHandle )
 		{
-			actionHandle = ( (TabularMeasureHandle) element ).setAction( action );
+			actionHandle = ( (MeasureHandle) element ).setAction( action );
 		}
 		return actionHandle;
 	}
