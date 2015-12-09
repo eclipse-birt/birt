@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.core.exception.BirtException;
 
 /**
  * UI helper used to help chart UI customize composites in it.
@@ -58,4 +59,14 @@ public interface IChartUIHelper
 	 * @since 3.7
 	 */
 	boolean canCombine( IChartType type, ChartWizardContext context );
+
+	/**
+	 * Return true if expression uses binding that contains data set row directly or indirectly
+	 * 
+	 * @param reportItem
+	 * @param expression
+	 * 
+	 * @throws BirtException
+	 */
+	boolean useDataSetRow(Object reportItem, String expression) throws BirtException;
 }

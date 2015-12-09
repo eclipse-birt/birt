@@ -54,6 +54,7 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -1070,11 +1071,25 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		if ( expression != null && fAggEditorComposite != null )
 		{
-			boolean isMeasure = expression.startsWith( "data" ); //$NON-NLS-1$
-			fAggEditorComposite.setEnabled( !isMeasure );
+			try
+			{
+				ExpressionCodec ec = ChartModelHelper.instance( ).createExpressionCodec( );
+				ec.decode( expression );
+				expression = ec.convertJSExpression( false );
+
+				boolean enabled = this.context.getUIFactory( )
+						.createUIHelper( )
+						.useDataSetRow( context.getExtendedItem( ), expression );
+				fAggEditorComposite.setEnabled( enabled );
+			}
+			catch ( BirtException e )
+			{
+				WizardBase.displayException( e );
+			}
+
 		}
 	}
-	
+
 	public void updateLabel( )
 	{
 		lblDesc.setText( description );
