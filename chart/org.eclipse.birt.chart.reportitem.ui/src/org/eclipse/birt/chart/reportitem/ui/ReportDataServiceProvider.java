@@ -630,31 +630,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			for ( int i = 0; i < columnHeaders.length; i++ )
 			{
 				ComputedColumnHandle cch = columnList.get( i );
-				if ( cch.getExpressionProperty(
-						ComputedColumn.EXPRESSION_MEMBER ) != null
-						&& cch.getExpressionProperty(
-								ComputedColumn.EXPRESSION_MEMBER )
-								.getStringValue( ) != null
-						&& cch.getExpressionProperty(
-								ComputedColumn.EXPRESSION_MEMBER )
-								.getStringValue( )
-								.startsWith(
-										ExpressionUtil.MEASURE_INDICATOR ) )
-				{
-					columnHeaders[i] = new ColumnBindingInfo( cch.getName( ),
-							ExpressionUtil.createJSDataExpression( cch.getName( ) ),
-							null,
-							null,
-							cch );
-				}
-				else
-				{
-					columnHeaders[i] = new ColumnBindingInfo( cch.getName( ),
-							ExpressionUtil.createJSRowExpression( cch.getName( ) ),
-							null,
-							null,
-							cch );
-				}
+				columnHeaders[i] = new ColumnBindingInfo( cch.getName( ),
+						ExpressionUtil.createJSRowExpression( cch.getName( ) ),
+						null,
+						null,
+						cch );
 			}
 		}
 

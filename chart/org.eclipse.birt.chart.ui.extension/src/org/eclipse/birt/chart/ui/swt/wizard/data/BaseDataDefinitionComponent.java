@@ -1012,20 +1012,22 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	public boolean isValidExpression( String expression )
 	{
+		if ( cmbDefinition != null && cmbDefinition.getItems( ).length > 0 )
+		{
+			return cmbDefinition.indexOf( expression ) >= 0;
+		}
 		if ( context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.SHARE_QUERY ) || context.getDataServiceProvider( )
-						.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS )
+				.checkState( IDataServiceProvider.SHARE_QUERY )
+				|| context.getDataServiceProvider( ).checkState(
+						IDataServiceProvider.INHERIT_COLUMNS_GROUPS )
 				|| context.getDataServiceProvider( )
 						.checkState( IDataServiceProvider.HAS_CUBE ) )
 		{
 			if ( cmbDefinition == null )
-				return false;
-			int index = cmbDefinition.indexOf( expression );
-			if ( index < 0 )
 			{
 				return false;
 			}
-			return true;
+			return cmbDefinition.indexOf( expression ) >= 0;
 		}
 		return true;
 	}
