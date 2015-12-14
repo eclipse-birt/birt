@@ -25,7 +25,6 @@
 
    <requires>
       <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime.compatibility" version="3.2.0" match="compatible"/>
       <import plugin="com.ibm.icu"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.consumer" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.datatools.enablement.oda.xml" version="1.0.0" match="compatible"/>

@@ -41,7 +41,6 @@
       <import plugin="com.ibm.icu" version="3.4.4" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.expressions" version="3.2.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.resources" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime.compatibility" version="3.1.100" match="compatible"/>
       <import feature="org.eclipse.datatools.doc.user" version="1.5.0" match="compatible"/>
       <import feature="org.eclipse.gef" version="3.2.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.core" version="3.2.0" match="compatible"/>

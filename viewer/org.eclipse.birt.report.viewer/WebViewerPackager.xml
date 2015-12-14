@@ -552,14 +552,10 @@
 
 		<copy todir="${export.dir}/plugins" overwrite="true">
 		<fileset dir="${baseLocation}/plugins">
-			<include name="org.eclipse.core.runtime.compatibility.registry_*/**" />
 			<include name="org.junit_*/**" />
 			<include name="com.ibm.icu_*.jar" />
 			<include name="org.eclipse.core.contenttype_*.jar" />
 			<include name="org.eclipse.core.jobs_*.jar" />
-			<include name="org.eclipse.core.runtime.compatibility_*.jar" />
-			<include name="org.eclipse.core.runtime.compatibility.auth_*.jar"/>
-			<include name="org.eclipse.core.runtime.compatibility.registry_*.jar"/>
 			<include name="org.eclipse.core.runtime_*.jar" />
 			<include name="org.eclipse.core.resources_*.jar"/>
 			<include name="org.eclipse.core.expressions_*.jar"/>
