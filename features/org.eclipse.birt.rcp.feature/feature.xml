@@ -46,8 +46,6 @@
       <import plugin="org.apache.xml.serializer"/>
       <import plugin="org.eclipse.core.filebuffers"/>
       <import plugin="org.eclipse.core.net"/>
-      <import plugin="org.eclipse.core.runtime.compatibility.registry"/>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
       <import plugin="org.eclipse.datatools.connectivity.db.generic"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.design.ui"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.design"/>

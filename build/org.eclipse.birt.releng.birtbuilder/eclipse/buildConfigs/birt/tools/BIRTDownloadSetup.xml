@@ -376,12 +376,7 @@
 		<copy todir="${iportal.tmp}">
 			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp" from="org.eclipse.core.jobs_.*.jar" to="org.eclipse.core.jobs.jar" />
-		</copy>
-		<copy todir="${iportal.tmp}">
-			<fileset dir="${baseLocation}/plugins" />
-			<mapper type="regexp" from="org.eclipse.core.runtime.compatibility_.*.jar"
-				to="org.eclipse.core.runtime.compatibility.jar" />
-		</copy>
+		</copy>	
 		<copy todir="${iportal.tmp}">
 			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp" from="org.eclipse.core.runtime_.*.jar"

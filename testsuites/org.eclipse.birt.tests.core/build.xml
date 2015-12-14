@@ -186,7 +186,6 @@
 					Here need to search following plugin names:
 						- org.eclipse.equinox.common
 						- org.eclipse.core.jobs
-						- org.eclipse.core.runtime.compatibility.registry
 						- org.eclipse.equinox.registry
 						- org.eclipse.equinox.preferences
 						- org.eclipse.core.contenttype
@@ -201,10 +200,6 @@
 				confIniWriter.write("/plugins/");
 				confIniWriter.write(getPluginName(allPluginsInEclipse , "org.eclipse.core.jobs"));
 				confIniWriter.write("/@2\\:start,reference\\:file\\:");
-				confIniWriter.write(eclipseHome);
-				confIniWriter.write("/plugins/");
-				confIniWriter.write(getPluginName(allPluginsInEclipse , "org.eclipse.core.runtime.compatibility.registry"));
-				confIniWriter.write("/,reference\\:file\\:");
 				confIniWriter.write(eclipseHome);
 				confIniWriter.write("/plugins/");
 				confIniWriter.write(getPluginName(allPluginsInEclipse , "org.eclipse.equinox.registry"));
