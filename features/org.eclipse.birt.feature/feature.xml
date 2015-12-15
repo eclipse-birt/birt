@@ -72,14 +72,14 @@
       <import feature="org.eclipse.draw2d" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="javax.xml.stream" version="1.0.1" match="compatible"/>
    </requires>
-   
+
    <plugin
          id="org.eclipse.birt"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-	
+
    <plugin
          id="org.eclipse.birt.chart.reportitem"
          download-size="0"
@@ -282,14 +282,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-<!--
-   <plugin
-         id="javax.xml.stream"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
--->
+
    <plugin
          id="org.eclipse.birt.report.data.oda.jdbc.ui"
          download-size="0"
@@ -586,7 +579,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.data.oda.mongodb.ui"
          download-size="0"
@@ -817,7 +810,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.data.oda.excel.ui"
          download-size="0"
@@ -844,5 +837,11 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
+   <plugin
+         id="uk.co.spudsoft.birt.emitters.excel"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
 </feature>
