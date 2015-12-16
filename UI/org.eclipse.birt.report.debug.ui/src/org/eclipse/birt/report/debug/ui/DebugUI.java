@@ -127,7 +127,11 @@ public class DebugUI extends AbstractUIPlugin
 	 * @return
 	 */
 	public static DebugUI getDefault( )
-	{
+	{	
+		if ( plugin == null )
+		{
+			plugin = new DebugUI( );
+		}
 		return plugin;
 	}
 
