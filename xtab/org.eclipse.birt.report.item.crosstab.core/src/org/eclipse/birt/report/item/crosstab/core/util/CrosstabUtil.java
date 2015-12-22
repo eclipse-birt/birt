@@ -279,9 +279,9 @@ public final class CrosstabUtil implements ICrosstabConstants
 					&& measure.getContainer() != null )
 			{
 				DesignElementHandle deh = measure.getContainer().getContainer();
-				if( deh != null && deh instanceof CubeHandle )
+				if( deh != null )
 				{
-					String cubeName = ((CubeHandle)deh).getName();
+					String cubeName = deh.getName();
 					if( cubeName != null && cubeName.equals(currentCube.getName()) )
 					{
 						for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )

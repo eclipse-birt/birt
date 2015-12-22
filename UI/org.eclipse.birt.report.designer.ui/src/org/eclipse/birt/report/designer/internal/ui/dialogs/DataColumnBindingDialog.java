@@ -182,8 +182,12 @@ public class DataColumnBindingDialog extends BaseDialog
 		
 		if ( isAggregate
 				|| ( bindingColumn != null
-						&& bindingColumn.getAggregateFunction( ) != null && !bindingColumn.getAggregateFunction( )
-						.equals( "" ) ) ) //$NON-NLS-1$
+						&& bindingColumn.getAggregateFunction( ) != null
+						&& !bindingColumn.getAggregateFunction( ).equals( "" ) ) //$NON-NLS-1$
+				|| ( bindingColumn != null
+						&& bindingColumn.getAggregateOn( ) != null
+						&& !bindingColumn.getAggregateOn( )
+								.equals( "" ) ) ) //$NON-NLS-1$
 		{
 			setTitle( AGG_BUILDER_TITLE );
 		}
