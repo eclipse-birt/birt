@@ -593,6 +593,11 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			String name = generateComputedColumnName( measureView,
 					colLevel,
 					rowLevel );
+			Map<String, String> map = CrosstabUtil.getBindingExpressMap( crosstab );
+			if ( map.containsKey( name ) )
+			{
+				return;
+			}
 			ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
 					name );
 			String dataType = measureView.getDataType( );
@@ -606,7 +611,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				{
 					// throw case
 					return;
-				}				
+				}
 				column.setExpression( ExpressionUtil.createDataSetRowExpression( measureName ) );
 			}
 			else
