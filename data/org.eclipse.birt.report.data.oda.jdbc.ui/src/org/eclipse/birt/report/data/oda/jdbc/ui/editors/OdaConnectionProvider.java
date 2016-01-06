@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
@@ -21,6 +23,7 @@ import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
+import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 
 
@@ -44,6 +47,16 @@ public class OdaConnectionProvider
 		try 
 		{
 			connection = jdbcDriver.getConnection( dataSourceDesign.getEffectiveOdaExtensionId( ) );
+			
+			Map appContext = new HashMap( );
+			ResourceIdentifiers resourceIdentifiers = dataSourceDesign.getHostResourceIdentifiers();
+			if ( resourceIdentifiers != null )
+			{
+				appContext.put( org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+						DesignSessionUtil.createRuntimeResourceIdentifiers( resourceIdentifiers ) );
+			}			
+			connection.setAppContext(appContext);
+			
 			Properties prop = DesignSessionUtil.getEffectiveDataSourceProperties( dataSourceDesign );
 			connection.open( prop );
 		}

@@ -196,9 +196,10 @@ public class ExternalUIUtil
 	{
 		try
 		{
+			// expects the absolute path. Remove place to avoid relative path.
 			return new File( location ).toURI( )
-					.toASCIIString( )
-					.replace( new File( "" ).toURI( ).toASCIIString( ), "" ); //$NON-NLS-1$//$NON-NLS-2$
+					.toASCIIString( );
+					//.replace( new File( "" ).toURI( ).toASCIIString( ), "" ); //$NON-NLS-1$//$NON-NLS-2$
 		}
 		catch ( Exception e )
 		{
