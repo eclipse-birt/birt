@@ -81,4 +81,15 @@ public class AggregationArgumentHandle extends StructureHandle
 	{
 		setProperty( AggregationArgument.VALUE_MEMBER, argumentValue );
 	}
+
+	/**
+	 * Returns the argument expression.
+	 * 
+	 * @return the argument expression.
+	 */
+	public Expression getExpression( )
+	{
+		return (Expression) ( getExpressionProperty(
+				AggregationArgument.VALUE_MEMBER ).getValue( ) );
+	}
 }
