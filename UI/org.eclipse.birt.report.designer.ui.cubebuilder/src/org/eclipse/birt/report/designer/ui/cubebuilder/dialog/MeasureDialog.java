@@ -252,7 +252,7 @@ public class MeasureDialog extends BaseTitleAreaDialog
 			updateDerivedMeasureStatus( );
 		}
 
-        if ( measureHelper.hasFilter( input ) )
+        if ( measureHelper != null && measureHelper.hasFilter( input ) )
         {
             Expression filterExpr = measureHelper.getFilter( input );
             if ( filterExpr != null )
