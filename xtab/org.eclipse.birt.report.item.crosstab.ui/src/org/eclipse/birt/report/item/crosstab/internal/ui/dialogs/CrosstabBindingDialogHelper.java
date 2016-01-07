@@ -3189,7 +3189,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	public void setBinding(ComputedColumnHandle binding)
 	{
 		super.setBinding(binding);
-		if ( this.binding.getAggregateOn( ) != null
+		if ( this.binding == null )
+		{
+			this.setCommonBinding( !this.isFullAggregate() );
+		}
+		else if ( this.binding.getAggregateOn( ) != null
 				&& !this.binding.getAggregateOn( ).trim( ).equals( "" ) ) //$NON-NLS-1$	}
 		{
 			this.setCommonBinding( false );
