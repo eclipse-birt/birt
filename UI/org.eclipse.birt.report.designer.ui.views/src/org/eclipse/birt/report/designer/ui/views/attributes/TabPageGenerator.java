@@ -251,4 +251,8 @@ public class TabPageGenerator implements IPageGenerator
 		tabFolder.notifyListeners( SWT.Selection, new Event( ) );
 	}
 
+	public boolean isChange( Object element )
+	{
+		return true;
+	}
 }
