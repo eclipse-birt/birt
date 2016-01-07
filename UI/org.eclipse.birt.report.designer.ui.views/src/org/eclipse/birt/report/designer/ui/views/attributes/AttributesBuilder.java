@@ -122,27 +122,7 @@ public class AttributesBuilder
 				else if ( pageGenerator != null )
 				{
 					Object input = pageGenerator.getInput( );
-					if ( input != null )
-					{
-						input = DEUtil.getInputFirstElement( input );
-					}
-					if ( input == null )
-					{
-						change = true;
-					}
-					else if ( element instanceof ExtendedItemHandle
-							&& input instanceof ExtendedItemHandle )
-					{
-						if ( !( (ExtendedItemHandle) element ).getExtensionName( )
-								.equals( ( (ExtendedItemHandle) input ).getExtensionName( ) ) )
-						{
-							change = true;
-						}
-					}
-					else if ( element.getClass( ) != input.getClass( ) )
-					{
-						change = true;
-					}
+					change = isChange( element, input, change, pageGenerator );
 				}
 
 				if ( change )
@@ -205,6 +185,39 @@ public class AttributesBuilder
 			ExceptionUtil.handle( e );
 		}
 		return pageGenerator;
+	}
+
+	public static boolean isChange( Object element, Object input, boolean change, IPageGenerator generator )
+	{
+		if ( input != null )
+		{
+			input = DEUtil.getInputFirstElement( input );
+		}
+		if ( input == null )
+		{
+			change = true;
+		}
+		else if ( element instanceof ExtendedItemHandle
+				&& input instanceof ExtendedItemHandle )
+		{
+			if ( !( (ExtendedItemHandle) element ).getExtensionName( )
+					.equals( ( (ExtendedItemHandle) input ).getExtensionName( ) ) )
+			{
+				change = true;
+			}
+		}
+		else if ( element.getClass( ) != input.getClass( ) )
+		{
+			if ( generator != null && generator instanceof TabPageGenerator )
+			{
+				change = ( (TabPageGenerator) generator ).isChange( element );
+			}
+			else
+			{
+				change = true;
+			}
+		}
+		return change;
 	}
 
 	/**
