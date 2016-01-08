@@ -416,12 +416,18 @@ public class MeasureDialog extends BaseTitleAreaDialog
                     measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
                             (Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
                 }
-                setFilter( measure, ExpressionButtonUtil.getExpression( txtFilter ) );
+                if ( hasFilter( measure ) )
+                {
+                    setFilter( measure, ExpressionButtonUtil.getExpression( txtFilter ) );
+                }
             }
             else
             {
                 measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP, null );
-                setFilter( measure, null );
+                if ( hasFilter( measure ) )
+                {
+                    setFilter( measure, null );
+                }
             }
 
             if ( alignmentHelper != null )
