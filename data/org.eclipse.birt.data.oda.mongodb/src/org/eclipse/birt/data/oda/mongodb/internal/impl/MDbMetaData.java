@@ -281,14 +281,6 @@ public class MDbMetaData
         if( nameFragments.length == 1 )  // specified field has only 1 level
             return firstLevelMd;
 
-        // Sanity check for multiple-level no-data case:
-        // getFieldMetaData() currently returns empty-field-metadata if metadata
-        // is not found by the field name. So if field has more than two levels,
-        // but the first level MD points to the static empty-field-metadata instance,
-        // then return the first level MD (empty-field-metadata) like in 1-level case.
-        if( firstLevelMd == sm_emptyFieldMetaData )
-        	return firstLevelMd;
-
         // expects the first level to be a parent field
         if( ! firstLevelMd.hasChildDocuments() )
             return null;    // does not match metadata; not able to find a match
