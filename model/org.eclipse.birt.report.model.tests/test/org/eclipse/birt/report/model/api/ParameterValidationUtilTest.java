@@ -451,7 +451,7 @@ public class ParameterValidationUtilTest extends BaseTestCase
 						dateValue, ULocale.FRANCE ) );
 		// no format, then we display in (medium, short) pattern
 		assertEquals(
-				"Sep 13, 1998, 8:01 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+				"Sep 13, 1998 8:01 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
 								DesignChoiceConstants.PARAM_TYPE_DATETIME,
 								null, dateValue ) );
 

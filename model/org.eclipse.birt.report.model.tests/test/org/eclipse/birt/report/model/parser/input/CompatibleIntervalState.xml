@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.13" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
@@ -264,7 +264,6 @@ from CLASSICMODELS.EMPLOYEES</property>
     </data-sets>
     <cubes>
         <tabular-cube name="Customer Cube" id="6">
-            <property name="defaultMeasureGroup">Summary Field</property>
             <property name="dimensions">
                 <tabular-dimension name="Group" id="8">
                     <property name="defaultHierarchy">NewTabularHierarchy</property>

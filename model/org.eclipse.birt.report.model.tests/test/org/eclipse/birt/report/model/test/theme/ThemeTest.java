@@ -32,11 +32,11 @@ public class ThemeTest extends BaseTestCase
 		
 		TableHandle table1 = (TableHandle) designHandle.getElementByID( 9 );
 		themeName = table1.getStringProperty( TableHandle.THEME_PROP );
-		assertEquals( "theme1", themeName );
+		assertEquals( "Table-theme1", themeName );
 		
 		ReportItemThemeHandle tableTheme = table1.getTheme( );
 		assertNotNull( tableTheme );
-		assertEquals( "theme1", tableTheme.getName( ) );
+		assertEquals( "Table-theme1", tableTheme.getName( ) );
 		
 	}
 }

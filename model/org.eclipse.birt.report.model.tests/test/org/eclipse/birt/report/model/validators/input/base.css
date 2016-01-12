@@ -7,8 +7,8 @@
 	margin-right: 0.000000pt;
 	margin-left: 15pt;
 	font-size: 10.000000pt;
-	font-weight: medium;
-	font-style: Regular;
+	font-weight: normal;
+	font-style: normal;
 	color: #4444CC;
 	text-decoration: none;
 	vertical-align: baseline;
@@ -25,7 +25,7 @@
 	margin-right: 0.000000pt;
 	margin-left: 0.000000pt;
 	font-size: 9.000000pt;
-	font-weight: medium;
+	font-weight: normal;
 	font-style: Italic;
 	color: #000000;
 	text-decoration: none;
@@ -43,7 +43,7 @@
 	margin-right: 0.000000pt;
 	margin-left: 30pt;
 	font-size: 11.000000pt;
-	font-weight: medium;
+	font-weight: normal;
 	font-style: Italic;
 	color: #000000;
 	text-decoration: none;
@@ -54,7 +54,7 @@
 
 .UILabel {
 	font-weight: Bold;
-	font-style: Regular;
+	font-style: normal;
 	text-decoration: none;
 	vertical-align: baseline;
 	text-transform: none;
@@ -62,7 +62,7 @@
 
 .CodeName {
 	font-weight: Bold;
-	font-style: Regular;
+	font-style: normal;
 	text-decoration: none;
 	vertical-align: baseline;
 	text-transform: none;

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.validators;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
@@ -34,10 +35,21 @@ public class IncludedCssStyleSheetValidatorTest extends ValidatorTestCase
 		openDesign( "IncludedCssStyleSheetValidatorTest.xml" ); //$NON-NLS-1$
 
 		List<ErrorDetail> list = design.getErrorList( );
+		
+        assertTrue( hasException( list, CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND ) );
+    }
 
-		assertEquals( 1, list.size( ) );
-
-	}
+    private boolean hasException( List<ErrorDetail> errors, String errorCode )
+    {
+        for ( ErrorDetail error : errors )
+        {
+            if ( error.getErrorCode( ).equals( errorCode ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
 	/**
 	 * Validates the input file name of the included Css Style Sheet which
@@ -45,13 +57,13 @@ public class IncludedCssStyleSheetValidatorTest extends ValidatorTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testIncludedCssStyleSheetValidatorInTheme( ) throws Exception
-	{
-		MetaDataDictionary.getInstance( ).setUseValidationTrigger( false );
-		openLibrary( "IncludedCssStyleSheetValidatorInThemeTest.xml" ); //$NON-NLS-1$
+    public void testIncludedCssStyleSheetValidatorInTheme( ) throws Exception
+    {
+        MetaDataDictionary.getInstance( ).setUseValidationTrigger( false );
+        openLibrary( "IncludedCssStyleSheetValidatorInThemeTest.xml" ); //$NON-NLS-1$
 
-		List<ErrorDetail> list = libraryHandle.getModule( ).getErrorList( );
+        List<ErrorDetail> list = libraryHandle.getModule( ).getErrorList( );
 
-		assertEquals( 1, list.size( ) );
-	}
+        assertTrue( hasException( list, CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND ) );
+    }
 }

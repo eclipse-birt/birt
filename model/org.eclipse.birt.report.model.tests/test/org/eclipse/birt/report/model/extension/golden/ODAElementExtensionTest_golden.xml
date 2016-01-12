@@ -5,13 +5,13 @@
             <property name="odaDriverClass">NewDriverClass</property>
             <property name="odaURL">NewURL</property>
             <property name="odaUser">NewUser</property>
-            <encrypted-property name="odaPassword"> TmV3UGFzc3dvcmQ= </encrypted-property>
+            <encrypted-property name="odaPassword" encryptionID="base64">TmV3UGFzc3dvcmQ=</encrypted-property>
         </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dataSet" id="3">
             <property name="dataSource">dataSource</property>
-            <property name="queryText">select * from cities</property>
+            <xml-property name="queryText"><![CDATA[select * from cities]]></xml-property>
             <property name="queryTimeOut">60</property>
         </oda-data-set>
     </data-sets>
