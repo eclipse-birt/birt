@@ -169,7 +169,7 @@ public class OdaElementExtensionTest extends BaseTestCase
 		catch ( ExtendsException e )
 		{
 			assertEquals(
-					ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE, e
+					ExtendsException.DESIGN_EXCEPTION_WRONG_TYPE, e
 							.getErrorCode( ) );
 		}
 
@@ -181,7 +181,7 @@ public class OdaElementExtensionTest extends BaseTestCase
 		catch ( ExtendsException e )
 		{
 			assertEquals(
-					ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE, e
+					ExtendsException.DESIGN_EXCEPTION_WRONG_TYPE, e
 							.getErrorCode( ) );
 		}
 

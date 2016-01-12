@@ -23,11 +23,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-
-import junit.framework.TestCase;
 
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -44,8 +43,11 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.writer.DesignWriter;
 import org.eclipse.birt.report.model.writer.DesignWriterUtil;
+import org.junit.Assert;
 
 import com.ibm.icu.util.ULocale;
+
+import junit.framework.TestCase;
 
 /**
  * This class is abstract class used for tests, which contains the design file
@@ -575,6 +577,7 @@ public abstract class BaseTestCase extends TestCase
 		return same;
 	}
 
+
 	/**
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
@@ -641,6 +644,69 @@ public abstract class BaseTestCase extends TestCase
 		return new DesignFileCompareUtil( ignoredSet ).compare( goldenFileStream,
 				designFileStream );
 	}
+	
+    static private String PATTERN_VERSION = "version=\"[^\"]*\"";
+    static private String PATTERN_ID = "id=\"\\d+\"";
+    static private boolean IGNORE_VERSION_ID = true;
+
+    /**
+     * test two line to see if they are same.
+     * 
+     * the compare ignore id and versions as:
+     * 
+     * version="99.99" id="999"
+     * 
+     * @param line1
+     * @param line2
+     * @return
+     */
+    private boolean compareLine( String line1, String line2 )
+    {
+        if ( line1 == line2 )
+        {
+            return true;
+        }
+        if ( line1 == null || line2 == null )
+        {
+            return false;
+        }
+
+        String l1 = line1.trim();
+        String l2 = line2.trim();
+        if ( IGNORE_VERSION_ID )
+        {
+            l1 = l1.replaceAll( PATTERN_VERSION, "" ).replaceAll( PATTERN_ID, "" );
+            l2 = l2.replaceAll( PATTERN_VERSION, "" ).replaceAll( PATTERN_ID, "" );
+        }
+        if ( l1.equals( l2 ) )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private String[] readLines( Reader r1 ) throws IOException
+    {
+        BufferedReader br = new BufferedReader( r1 );
+        ArrayList<String> lines = new ArrayList<String>( );
+        String line = br.readLine( );
+        while ( line != null )
+        {
+            lines.add( line.trim( ) );
+            line = br.readLine( );
+        }
+        return lines.toArray( new String[lines.size( )] );
+    }
+
+    private boolean compareFile( Reader r1, Reader r2 ) throws Exception
+    {
+
+        String[] lines1 = readLines( r1 );
+        String[] lines2 = readLines( r2 );
+
+        return compareFile( lines1, lines2 );
+    }
+
 	/**
 	 * Compares the two text files.
 	 * 
@@ -652,69 +718,43 @@ public abstract class BaseTestCase extends TestCase
 	 * @throws Exception
 	 *             if any exception
 	 */
-	private boolean compareFile( Reader goldenReader, Reader outputReader )
-			throws Exception
+    private boolean compareFile( String[] goldens, String[] outputs ) throws Exception
+    {
+        int lineCount = Math.min( goldens.length, outputs.length );
+        for ( int lineNo = 0; lineNo < lineCount; lineNo++ )
+        {
+            String line1 = goldens[lineNo];
+            String line2 = outputs[lineNo];
+            if ( !compareLine( line1, line2 ) )
+            {
+                raiseDiffAssert( goldens, outputs, lineNo );
+            }
+        }
+        if ( goldens.length != outputs.length )
+        {
+            raiseDiffAssert( goldens, outputs, lineCount );
+        }
+        return true;
+    }
+
+	private String joinDiffLines(String[] lines, int lineNo)
 	{
-		StringBuffer errorText = new StringBuffer( );
-
-		BufferedReader lineReaderA = null;
-		BufferedReader lineReaderB = null;
-		boolean same = true;
-		int lineNo = 1;
-		try
-		{
-			lineReaderA = new BufferedReader( goldenReader );
-			lineReaderB = new BufferedReader( outputReader );
-
-			String strA = lineReaderA.readLine( ).trim( );
-			String strB = lineReaderB.readLine( ).trim( );
-			while ( strA != null )
-			{
-				same = strA.trim( ).equals( strB.trim( ) );
-				if ( !same )
-				{
-					StringBuffer message = new StringBuffer( );
-
-					message.append( "line=" ); //$NON-NLS-1$
-					message.append( lineNo );
-					message.append( " is different:\n" );//$NON-NLS-1$
-					message.append( " The line from golden file: " );//$NON-NLS-1$
-					message.append( strA );
-					message.append( "\n" );//$NON-NLS-1$
-					message.append( " The line from output file: " );//$NON-NLS-1$
-					message.append( strB );
-					message.append( "\n" );//$NON-NLS-1$
-					throw new Exception( message.toString( ) );
-				}
-
-				strA = lineReaderA.readLine( );
-				strB = lineReaderB.readLine( );
-				lineNo++;
-			}
-			same = strB == null;
-		}
-		finally
-		{
-			try
-			{
-				if ( lineReaderA != null )
-					lineReaderA.close( );
-				if ( lineReaderB != null )
-					lineReaderB.close( );
-			}
-			catch ( Exception e )
-			{
-				lineReaderA = null;
-				lineReaderB = null;
-
-				errorText.append( e.toString( ) );
-
-				throw new Exception( errorText.toString( ) );
-			}
-		}
-
-		return same;
+	    StringBuilder sb = new StringBuilder();
+        int start = Math.max( 0, lineNo - 1);
+        int end = Math.min( lines.length - 1, lineNo + 1);
+        for ( int i = start; i <= end; i++) {
+            sb.append( lines[i]);
+            sb.append("\n");
+        }
+        return sb.toString();
 	}
+
+    private void raiseDiffAssert( String[] golden, String[] outputs, int lineNo )
+    {
+        //need 
+        Assert.assertSame( "lineNo:" + lineNo + " different", joinDiffLines( golden, lineNo ),
+                joinDiffLines( outputs, lineNo ) );
+    }
 
 	/**
 	 * Compare the golden file with the os.
