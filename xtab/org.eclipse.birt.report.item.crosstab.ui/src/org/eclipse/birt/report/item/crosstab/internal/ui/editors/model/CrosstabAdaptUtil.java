@@ -27,10 +27,12 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelU
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -39,6 +41,7 @@ import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -49,6 +52,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
@@ -590,6 +594,27 @@ public class CrosstabAdaptUtil
 				position );
 		measureViewHandle.addHeader( );
 
+		AggregationCellHandle cellHandle = measureViewHandle.getCell( );
+		DataItemHandle dataItem = (DataItemHandle) cellHandle.getContents( )
+				.get( 0 );
+				
+		CrosstabAdaptUtil.formatDataItem( measureHandle, dataItem );
+
+		ActionHandle actionHandle = measureHandle.getActionHandle( );
+
+		if ( actionHandle != null )
+		{
+			try
+			{
+				dataItem.setAction( (Action) actionHandle.getStructure( )
+						.copy( ) );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionUtil.handle( e );
+			}
+		}
+		
 		// LabelHandle labelHandle = DesignElementFactory.getInstance( )
 		// .newLabel( null );
 		// labelHandle.setText( measureHandle.getName( ) );
