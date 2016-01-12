@@ -69,8 +69,8 @@ public class AggregationManager
 			"MODE",
 			"STDDEV",
 			"VARIANCE",
-			"RANK",
-			"RUNNINGSUM"
+	//		"RANK",
+	//		"RUNNINGSUM"
 	};
 
 	public static final int AGGR_TABULAR = 0;
