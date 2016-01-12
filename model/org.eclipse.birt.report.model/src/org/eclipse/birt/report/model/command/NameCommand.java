@@ -254,7 +254,7 @@ public class NameCommand extends AbstractElementCommand
 			// first found the element with the given name. Since the library
 			// has it own namespace -- prefix, the range of name check should be
 			// in the current module.
-			NameExecutor executor = new NameExecutor( module, element );
+			NameExecutor executor = new NameExecutor( module, element.getContainer( ), element );
 			DesignElement existedElement = executor.getElement( name );
 
 			// if the element is null, then the name is OK. Now, the name of the
@@ -322,7 +322,7 @@ public class NameCommand extends AbstractElementCommand
 		// is added to another element through handles but the outermost
 		// compound element is not in the design tree, then do not insert
 		// the element to the name space again.
-		NameExecutor executor = new NameExecutor( module, element );
+		NameExecutor executor = new NameExecutor( module, element.getContainer( ), element );
 		if ( executor.hasNamespace( ) )
 		{
 			DesignElement existedElement = executor.getElement( name );
