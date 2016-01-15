@@ -69,11 +69,13 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.util.CopyUtil;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.birt.report.model.api.util.IPasteStatus;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -1360,6 +1362,24 @@ public final class DNDUtil
 		return CONTAIN_THIS;
 	}
 
+	public static ContainerContext getContainerContext(DesignElementHandle container, DesignElementHandle child)
+	{
+		int slotCount = container.getDefn( ).getSlotCount( );
+		for ( int slotId = 0; slotId < slotCount; slotId++ )
+		{
+			if (container.canContain( slotId, child )) {
+				return new ContainerContext(container.getElement( ), slotId);
+			}
+		}
+		List<IElementPropertyDefn> properties = container.getDefn( ).getProperties( );
+		for (IElementPropertyDefn prop : properties) {
+			if ( container.canContain( prop.getName( ), child) ) {
+				return new ContainerContext( container.getElement( ), prop.getName( ));
+			}
+		}
+		return null;
+	}
+
 	static int handleValidateTargetCanContainElementHandle(
 			DesignElementHandle targetHandle, DesignElementHandle childHandle,
 			boolean validateContainer )
@@ -1393,6 +1413,10 @@ public final class DNDUtil
 		// add for the cross tab
 		else if ( targetHandle.canContain( DEUtil.getDefaultContentName( targetHandle ),
 				childHandle ) )
+		{
+			return CONTAIN_THIS;
+		}
+		else if ( getContainerContext( targetHandle, childHandle ) != null )
 		{
 			return CONTAIN_THIS;
 		}
