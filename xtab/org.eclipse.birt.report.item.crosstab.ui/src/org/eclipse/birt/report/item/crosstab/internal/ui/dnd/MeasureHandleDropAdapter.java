@@ -15,6 +15,8 @@ import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -22,10 +24,14 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
@@ -44,6 +50,7 @@ import org.eclipse.gef.requests.CreateRequest;
  */
 public class MeasureHandleDropAdapter implements IDropAdapter
 {
+	private IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
 
 	public int canDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
@@ -119,6 +126,31 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 				{
 					crosstab.getModuleHandle( ).getCommandStack( ).startTrans( Messages.getString("MeasureHandleDropAdapter_trans_name") ); //$NON-NLS-1$
 				}
+
+				// Carl: Add this part below to set the binding for the crosstab in case it is not already set
+				// Carl: This binding property should be set before execute the drop command
+				// Carl: This behavior is the same as taken from ExtendedDataColumnXtabDropAdapter
+
+				CubeHandle measureCubeHandle = CrosstabAdaptUtil
+						.getCubeHandle( (ReportElementHandle) transfer );
+
+				if ( measureCubeHandle == null )
+				{
+
+					ReportElementHandle extendedData = adapter.getBoundExtendedData( (ReportItemHandle) crosstab.getModelHandle( ) );
+					
+					if(extendedData == null || !extendedData.equals( adapter.resolveExtendedData( (ReportElementHandle) transfer)))
+					{
+						if(! adapter.setExtendedData( (ReportItemHandle)crosstab.getModelHandle( ), 
+								adapter.resolveExtendedData( (ReportElementHandle) transfer)))
+						{
+							crosstab.getModuleHandle( ).getCommandStack( ).rollback( );
+							return false;
+						}
+					}
+
+				}
+
 				editPart.getViewer( )
 						.getEditDomain( )
 						.getCommandStack( )
