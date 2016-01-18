@@ -842,12 +842,6 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 
 				CrosstabModelUtil.updateHeaderCell( this, -1, -1 );
 
-				if ( !( measureHandle.getContainer( ).getContainer( ) instanceof CubeHandle ) )
-				{
-					ComputedColumnHandle cc = CrosstabUtil.getMeasureBindingColumnHandle( mv );
-					cc.setDataType( measureHandle.getDataType( ) );
-					cc.setExpression( ExpressionUtil.createJSMeasureExpression( measureHandle.getName( ) ) );
-				}
 			}
 		}
 		catch ( SemanticException e )

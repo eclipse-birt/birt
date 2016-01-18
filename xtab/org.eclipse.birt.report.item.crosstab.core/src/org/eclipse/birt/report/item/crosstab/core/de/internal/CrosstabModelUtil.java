@@ -24,6 +24,10 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
+import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
+import org.eclipse.birt.report.designer.ui.ICrosstabBindingHelper;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.item.crosstab.core.IAggregationCellConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -48,6 +52,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -595,25 +600,22 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					rowLevel );
 			ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
 					name );
+			String measureName = getMeasureName( crosstab, measureView );
+			if ( measureName == null || measureName.isEmpty( ) )
+			{
+				// throw case
+				return;
+			}
+
 			String dataType = measureView.getDataType( );
+			if ( dataType == null )
+			{
+				dataType = getMeasureDataType( crosstab, measureName );
+			}
 			column.setDataType( dataType );
-			
-			String measureName = null;
-			if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
-			{
-				measureName = CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
-				if( measureName == null || measureName.isEmpty() )
-				{
-					// throw case
-					return;
-				}				
-				column.setExpression( ExpressionUtil.createDataSetRowExpression( measureName ) );
-			}
-			else
-			{
-				measureName = measureView.getCubeMeasureName( );
-				column.setExpression( ExpressionUtil.createJSMeasureExpression( measureName ) );
-			}
+				
+			String expression = getMeasureExpression( crosstab, measureName );
+			column.setExpression( expression );
 			
 			String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
 			// Count function should use integer data type
@@ -746,6 +748,78 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		}
 	}
 
+	public static String getMeasureName( CrosstabReportItemHandle crosstab,
+			MeasureViewHandle measureView )
+	{
+		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+		{
+			return CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
+		}
+		else
+		{
+			return measureView.getCubeMeasureName( );
+		}
+	}
+
+	public static String getMeasureDataType( CrosstabReportItemHandle crosstab,
+			String measureName )
+	{
+		String expression;
+		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+		{
+			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+			ReportElementHandle extendedData = adapter.getBoundExtendedData( (ReportItemHandle) crosstab.getModelHandle( ) );
+			Object provider = ElementAdapterManager.getAdapter( extendedData, ICrosstabBindingHelper.class );
+			if ( provider != null && provider instanceof ICrosstabBindingHelper )
+			{
+				ICrosstabBindingHelper helper = (ICrosstabBindingHelper)provider;
+				expression = helper.getMeasureDataType( extendedData, measureName );
+			}
+			else
+			{
+				expression = ExpressionUtil.createDataSetRowExpression( measureName );
+			}
+		}
+		else
+		{
+			expression = ExpressionUtil.createJSMeasureExpression( measureName );
+		}
+		return expression;
+	}
+
+	public static String getMeasureExpression( CrosstabReportItemHandle crosstab,
+			String measureName )
+	{
+		String expression;
+		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+		{
+			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+			ReportElementHandle extendedData = adapter.getBoundExtendedData( (ReportItemHandle) crosstab.getModelHandle( ) );
+			Object provider = ElementAdapterManager.getAdapter( extendedData, ICrosstabBindingHelper.class );
+			if ( provider != null && provider instanceof ICrosstabBindingHelper )
+			{
+				ICrosstabBindingHelper helper = (ICrosstabBindingHelper)provider;
+				if ( helper.isMeasure( extendedData, measureName ) )
+				{
+					expression = ExpressionUtil.createJSMeasureExpression( measureName );
+				}
+				else
+				{
+					expression = ExpressionUtil.createDataSetRowExpression( measureName );
+				}
+			}
+			else
+			{
+				expression = ExpressionUtil.createDataSetRowExpression( measureName );
+			}
+		}
+		else
+		{
+			expression = ExpressionUtil.createJSMeasureExpression( measureName );
+		}
+		return expression;
+	}
+
 	/**
 	 * Whether is measure data item.
 	 * 
@@ -870,23 +944,22 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				rowLevel );
 		ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
 				name );
+		String dataField = getMeasureName( crosstab, measureView );
+		if( dataField == null || dataField.isEmpty() )
+		{
+			// throw case
+			return null;
+		}
+		
 		String dataType = measureView.getDataType( );
+		if ( dataType == null )
+		{
+			dataType = getMeasureDataType( crosstab, dataField );
+		}
 		column.setDataType( dataType );
-		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
-		{
-			String dataField = CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
-			if( dataField == null || dataField.isEmpty() )
-			{
-				// throw case
-				return null;
-			}
-			
-			column.setExpression( ExpressionUtil.createDataSetRowExpression( dataField ) );
-		}
-		else
-		{
-			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
-		}
+
+		String expression = getMeasureExpression( crosstab, dataField );
+		column.setExpression( expression );
 		
 		String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
 		column.setAggregateFunction( function != null ? function
