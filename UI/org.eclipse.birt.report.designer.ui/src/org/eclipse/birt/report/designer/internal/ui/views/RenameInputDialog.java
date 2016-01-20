@@ -131,13 +131,14 @@ public class RenameInputDialog extends BaseDialog
 
 			public void modifyText( ModifyEvent e )
 			{
-				if ( text.getText( ).trim( ).length( ) == 0 )
+				String textName = text.getText( ).trim( );
+				if ( textName.length() == 0 )
 				{
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
 					setErrorMessage( Messages.getString( "RenameInputDialog.Message.BlankName" ) ); //$NON-NLS-1$
 				}
 				else if ( existedNames != null
-						&& Arrays.asList( existedNames ).contains( text.getText( ).trim( ) ) )
+						&& Arrays.asList( existedNames ).contains( textName ) )
 				{
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
 					setErrorMessage( Messages.getString( "RenameInputDialog.Message.DuplicateName" ) ); //$NON-NLS-1$
@@ -199,14 +200,12 @@ public class RenameInputDialog extends BaseDialog
 		if ( text.getText( ).trim( ).length( ) == 0 )
 		{
 			getButton( IDialogConstants.OK_ID ).setEnabled( false );
-			setErrorMessage( Messages.getString( "RenameInputDialog.Message.BlankName" ) ); //$NON-NLS-1$
 		}
 		else if ( existedNames != null
 				&& Arrays.asList( existedNames ).contains( text.getText( )
 						.trim( ) ) )
 		{
 			getButton( IDialogConstants.OK_ID ).setEnabled( false );
-			setErrorMessage( Messages.getString( "RenameInputDialog.Message.DuplicateName" ) ); //$NON-NLS-1$
 		}
 		return composite;
 	}
