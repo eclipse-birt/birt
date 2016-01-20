@@ -787,6 +787,26 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		return expression;
 	}
 
+	public static boolean isLinkedDataSetMeasure( CrosstabReportItemHandle crosstab,
+			String measureName )
+	{
+		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ) )
+		{
+			IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+			ReportElementHandle extendedData = adapter.getBoundExtendedData( (ReportItemHandle) crosstab.getModelHandle( ) );
+			Object provider = ElementAdapterManager.getAdapter( extendedData, ICrosstabBindingHelper.class );
+			if ( provider != null && provider instanceof ICrosstabBindingHelper )
+			{
+				ICrosstabBindingHelper helper = (ICrosstabBindingHelper)provider;
+				if ( helper.isMeasure( extendedData, measureName ) )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public static String getMeasureExpression( CrosstabReportItemHandle crosstab,
 			String measureName )
 	{

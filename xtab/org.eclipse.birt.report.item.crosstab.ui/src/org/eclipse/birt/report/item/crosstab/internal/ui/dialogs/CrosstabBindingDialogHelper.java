@@ -13,7 +13,6 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -68,6 +67,8 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
@@ -1835,7 +1836,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			// }
 
 			CubeHandle cubeHandle = xtabHandle.getCube( );
-			
+
 			if(CrosstabUtil.isBoundToLinkedDataSet( xtabHandle ))
 			{
 				for (int i = 0; i < xtabHandle.getMeasureCount( ); i++)
@@ -1844,6 +1845,16 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					{
 						continue;
 					}
+					MeasureViewHandle measureViewHandle = xtabHandle
+							.getMeasure( i );
+					String measureName = measureViewHandle
+							.getCubeMeasureName( );
+					if ( CrosstabModelUtil.isLinkedDataSetMeasure( xtabHandle,
+							measureName ) )
+					{
+						continue;
+					}
+					
 					if ( isCommonBinding( ) )
 					{
 						String str = ExpressionUtil.createDataSetRowExpression( xtabHandle.getMeasure( i ).getCubeMeasureName( ) );
