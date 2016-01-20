@@ -1027,6 +1027,7 @@ public class MeasureDialog extends BaseTitleAreaDialog
         if ( txtFilter != null )
         {
             txtFilter.setEnabled( !isDerivedMeasure );
+            ExpressionButtonUtil.getExpressionButton( txtFilter ).setEnabled( !isDerivedMeasure );
         }
         functionUI.setEnabled( !( isDerivedMeasure || isAutoPrimaryKeyChecked ) );
         if ( securityHelper != null )
