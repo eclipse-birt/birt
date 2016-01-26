@@ -1342,4 +1342,28 @@ public final class CrosstabUtil implements ICrosstabConstants
 	{
 		labelDisplayNameKey = null;
 	}
+
+	public static boolean measureHasItsOwnAggregation(
+			CrosstabReportItemHandle crosstabItem, MeasureHandle cubeMeasure )
+	{
+		boolean isMeasureFromLinkedDataSet = false;
+		try
+		{
+			if( crosstabItem != null )
+			{
+				boolean isBoundToLinkedDataSet = LinkedDataSetUtil.bindToLinkedDataSet( (ReportItemHandle) crosstabItem.getCrosstabHandle( ));
+				if ( isBoundToLinkedDataSet )
+				{
+					// Possibly we can simply look to see if there is aggregate function property
+					isMeasureFromLinkedDataSet = LinkedDataSetUtil.measureHasItsOwnAggregation( (ReportItemHandle) crosstabItem.getCrosstabHandle( ),
+							cubeMeasure);
+				}
+			}
+		}
+		catch( Exception e )
+		{
+		}
+		
+		return isMeasureFromLinkedDataSet;
+	}
 }
