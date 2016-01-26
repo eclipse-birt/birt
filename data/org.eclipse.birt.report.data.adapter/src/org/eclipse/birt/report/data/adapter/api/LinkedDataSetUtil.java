@@ -12,11 +12,14 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 
 public class LinkedDataSetUtil
 {
-	private static String GET_LINKED_DATA_MODEL_METHOD = "getLinkedDataModel";
+	private static String GET_LINKED_DATA_MODEL_METHOD = "getLinkedDataModel"; //$NON-NLS-1$
+	private static String GET_MEASURES_METHOD = "getMeasures"; //$NON-NLS-1$
+	private static String GET_NAME_METHOD = "getName";  //$NON-NLS-1$
 	
 	public static boolean bindToLinkedDataSet( ReportItemHandle reportItemHandle )
 	{
@@ -37,6 +40,54 @@ public class LinkedDataSetUtil
 				}
 				if ( result != null )
 					return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean measureHasItsOwnAggregation( ReportItemHandle reportItemHandle,
+			MeasureHandle cubeMeasure ) throws Exception
+	{
+		Method[] methods = reportItemHandle.getClass( ).getMethods( );
+		for ( int i = 0; i < methods.length; i++ )
+		{
+			String name = methods[i].getName( );
+			if ( name.equals( GET_LINKED_DATA_MODEL_METHOD ) )
+			{
+				Object result = methods[i].invoke( reportItemHandle );
+				if ( result != null )
+				{
+					methods = result.getClass( ).getMethods( );
+					for ( Method method : methods )
+					{
+						if ( method.getName( ).equals( GET_MEASURES_METHOD ) )
+						{
+							result = method.invoke( result );
+							if ( result != null && result instanceof List<?> )
+							{
+								List<?> list = (List<?>)result;
+								for ( Object object : list )
+								{
+									Method[] objectMethods = object.getClass( ).getMethods( );
+									for ( Method objectMethod : objectMethods )
+									{
+										if ( objectMethod.getName( ).equals( GET_NAME_METHOD ) )
+										{
+											result = objectMethod.invoke( object );
+											if ( result != null && result instanceof String )
+											{
+												if ( result.toString( ).equals( cubeMeasure.getName( ) ) )
+												{
+													return true;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		return false;

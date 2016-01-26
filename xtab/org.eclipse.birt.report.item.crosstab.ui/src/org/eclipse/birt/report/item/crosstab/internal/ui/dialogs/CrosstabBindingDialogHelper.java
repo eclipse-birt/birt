@@ -1849,8 +1849,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 							.getMeasure( i );
 					String measureName = measureViewHandle
 							.getCubeMeasureName( );
-					if ( CrosstabModelUtil.isLinkedDataSetMeasure( xtabHandle,
-							measureName ) )
+					MeasureHandle measureHandle = cubeHandle.getMeasure( measureName );
+					if ( CrosstabUtil.measureHasItsOwnAggregation( xtabHandle,
+							measureHandle ) )
 					{
 						continue;
 					}
