@@ -46,6 +46,7 @@ import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierHandler;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIHelper;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator;
@@ -61,21 +62,24 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.IResourceContentProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
-import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -787,12 +791,47 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				{
 					Composite parent = (Composite) inData[0];
 					Control control = (Control) inData[1];
-					ExtendedItemHandle eih = (ExtendedItemHandle) inData[2];
+					final ExtendedItemHandle eih = (ExtendedItemHandle) inData[2];
 					int iCode = (Integer) inData[3];
 
-					IExpressionProvider ep = new ChartExpressionProvider( eih,
+					ChartExpressionProvider ep = new ChartExpressionProvider( eih,
 							wizardContext,
 							ChartReportItemUIUtil.getExpressionBuilderStyle( iCode ) );
+					if ( inData.length > 6
+							&& ( inData[6]
+									.equals( ChartUIConstants.QUERY_CATEGORY )
+									|| inData[6].equals(
+											ChartUIConstants.QUERY_OPTIONAL ) ) )
+					{
+						final IChartUIHelper helper = ChartReportItemUIFactory
+								.instance( ).createUIHelper( );
+
+						ep.addFilter( new ExpressionFilter( ) {
+
+							@Override
+							public boolean select( Object parentElement,
+									Object element )
+							{
+								try
+								{
+									if ( element instanceof ComputedColumnHandle )
+									{
+										ComputedColumnHandle cch = (ComputedColumnHandle) element;
+										String exp = cch.getExpression( );
+										if ( !helper.useDataSetRow( eih, exp ) )
+										{
+											return false;
+										}
+									}
+								}
+								catch ( BirtException e )
+								{
+									logger.log( e );
+								}
+								return true;
+							}
+						} );
+					}
 
 					IExpressionButton ceb = ChartExpressionButtonUtil.createExpressionButton( parent,
 							control,
@@ -804,7 +843,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						Listener listener = (Listener) inData[4];
 						ceb.addListener( listener );
 					}
-					if ( inData.length > 5 && ceb instanceof ChartExpressionButton )
+					if ( inData.length > 5 && inData[5] != null && ceb instanceof ChartExpressionButton )
 					{
 						IExpressionValidator ev = (IExpressionValidator)inData[5];
 						( (ChartExpressionButton) ceb ).getExpressionHelper( )

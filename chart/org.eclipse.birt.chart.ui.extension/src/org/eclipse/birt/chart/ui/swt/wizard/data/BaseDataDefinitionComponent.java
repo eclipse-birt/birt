@@ -335,7 +335,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 								{
 									onModifyExpression( );
 								}
-							} );
+							},
+							null,
+							queryType );
 		}
 		catch ( ChartException e )
 		{
