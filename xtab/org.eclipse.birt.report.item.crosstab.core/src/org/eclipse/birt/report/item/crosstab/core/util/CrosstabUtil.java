@@ -1270,9 +1270,12 @@ public final class CrosstabUtil implements ICrosstabConstants
 		if( mv instanceof ComputedMeasureViewHandle )
 		{
 			ComputedColumnHandle ch = getMeasureBindingColumnHandle( mv );
-			if( ch != null 
-					&& ch.getAggregateFunction() != null 
-					&& !ch.getAggregateFunction().isEmpty() )
+			if ( ch != null
+					&& ( ( ch.getAggregateFunction( ) != null
+							&& !ch.getAggregateFunction( ).isEmpty( ) )
+							|| CrosstabUtil.measureHasItsOwnAggregation(
+									mv.getCrosstab( ),
+									mv.getCubeMeasure( ) ) ) )
 			{	
 				if( ignoreRTP && ch.getCalculationType( ) != null )
 				{
@@ -1310,7 +1313,11 @@ public final class CrosstabUtil implements ICrosstabConstants
 					Pattern p = null;
 					if( ExpressionType.JAVASCRIPT.equalsIgnoreCase( expr.getType( ) ) )
 					{
-						p = Pattern.compile( ExpressionUtil.DATASET_ROW_INDICATOR + "\\[\\s*\\\"([^\\]]+)\\\"\\s*\\]" );						
+						p = Pattern.compile( ExpressionUtil.DATASET_ROW_INDICATOR + "\\[\\s*\\\"([^\\]]+)\\\"\\s*\\]" );
+						if ( CrosstabUtil.measureHasItsOwnAggregation( mv.getCrosstab( ), mv.getCubeMeasure( ) ) )
+						{
+							p = Pattern.compile( ExpressionUtil.MEASURE_INDICATOR + "\\[\\s*\\\"([^\\]]+)\\\"\\s*\\]" );
+						}
 					}
 					else
 					{
@@ -1332,7 +1339,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 		
 		return refColumnName;
 	}
-	
+
 	public static void setLabelDisplayNameKey( String key )
 	{
 		labelDisplayNameKey = key;
