@@ -26,7 +26,7 @@
 		    	<eclipse.release.name>neon</eclipse.release.name>
                 <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.6milestones/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.12milestones/</emf.repo.url>
-                <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.8.0/S-3.8.0M4-20151215010029/repository/</wtp.repo.url>
+                <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.8.0/S-3.8.0M5-20160202064558/repository/</wtp.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
                 <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit.repo.url>
                 <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
