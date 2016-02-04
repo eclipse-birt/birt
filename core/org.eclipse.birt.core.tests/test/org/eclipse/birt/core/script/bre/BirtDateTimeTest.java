@@ -14,12 +14,12 @@ package org.eclipse.birt.core.script.bre;
 import java.util.Calendar;
 import java.util.Date;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+
+import junit.framework.TestCase;
 
 /**
  *
@@ -1251,12 +1251,12 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.fiscalYear(new Date(2015, 6, 12), new Date(2015, 9, 1 ))",
 				"BirtDateTime.fiscalYear(new Date(2015, 7, 12), new Date(2015, 7, 1 ))",
 				"BirtDateTime.fiscalYear(new Date(2015, 7, 12), new Date(2015, 0, 1 ))",// calendar year
-				"BirtDateTime.fiscalYear(new Date(2014, 8, 15))",
+				"BirtDateTime.fiscalYear(new Date(2014, 5, 15))",
 				"BirtDateTime.fiscalYear(new Date(2015, 6, 12))",
 		};
 
 		int[] values = new int[]{
-				2016, 2016, 2015, 2016, 2015, 2014, 2015
+				2016, 2016, 2015, 2016, 2015, 2014, 2016
 		};
 
 		for ( int i = 0; i < values.length; i++ )
@@ -1286,7 +1286,7 @@ public class BirtDateTimeTest extends TestCase
 		};
 
 		int[] values = new int[]{
-				1, 4, 2, 2, 3, 1
+				1, 4, 2, 4, 1, 3
 		};
 
 		for ( int i = 0; i < values.length; i++ )
@@ -1316,7 +1316,7 @@ public class BirtDateTimeTest extends TestCase
 		};
 
 		int[] values = new int[]{
-				3, 12, 4, 6, 7, 1
+				3, 12, 4, 12, 1, 7
 		};
 
 		for ( int i = 0; i < values.length; i++ )
@@ -1345,10 +1345,11 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.fiscalWeek(new Date(2012, 0, 1), new Date(2015, 6, 1 ))",
 				"BirtDateTime.fiscalWeek(new Date(2015, 0, 7))",
 				"BirtDateTime.fiscalWeek(new Date(2015, 1, 1))",
+				"BirtDateTime.fiscalWeek(new Date(2015, 6, 1))",
 		};
 
 		int[] values = new int[]{
-				1, 2, 1, 52, 27, 28, 2, 6
+				1, 2, 1, 52, 27, 28, 28, 32, 1
 		};
 
 		for ( int i = 0; i < values.length; i++ )
@@ -1374,10 +1375,11 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.fiscalDay(new Date(2015, 9, 11), new Date(2015, 9, 1 ))",
 				"BirtDateTime.fiscalDay(new Date(2015, 0, 7))",
 				"BirtDateTime.fiscalDay(new Date(2015, 1, 1))",
+				"BirtDateTime.fiscalDay(new Date(2015, 6, 1))",
 		};
 
 		int[] values = new int[]{
-				15, 346, 11, 7, 32
+				15, 346, 11, 191, 216, 1
 		};
 
 		for ( int i = 0; i < values.length; i++ )
@@ -1409,8 +1411,8 @@ public class BirtDateTimeTest extends TestCase
 		Calendar c = Calendar.getInstance( );
 		c.clear( );
 		Date[] values = new Date[]{
-				date( c, 2015, 0, 1 ),
-				date( c, 2015, 0, 1 ),
+				date( c, 2014, 6, 1 ),
+				date( c, 2014, 6, 1 ),
 				date( c, 2014, 6, 1 ),
 				date( c, 2015, 6, 1 ),
 				date( c, 2014, 6, 1 ),
@@ -1545,6 +1547,34 @@ public class BirtDateTimeTest extends TestCase
 	{
 		c.set( year, month, day );
 		return c.getTime( );
+	}
+	
+	public void testFiscalYearStartDate( )
+	{
+		String PROPERTY_FISCAL_YEAR_START_DATE = "FISCAL_YEAR_START_DATE";
+		System.setProperty( PROPERTY_FISCAL_YEAR_START_DATE,
+				"2000-10-01" );
+		String[] scripts = new String[]{
+				"BirtDateTime.fiscalYear(new Date(2015, 6, 15))",
+				"BirtDateTime.fiscalYear(new Date(2015, 8, 12))",
+				"BirtDateTime.fiscalYear(new Date(2015, 9, 1))",
+				"BirtDateTime.fiscalYear(new Date(2015, 10, 12))",
+		};
+
+		int[] values = new int[]{
+				2015, 2015, 2016, 2016
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			Object result = cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null );
+			assertEquals( String.valueOf( i ), values[i], result );
+		}
+		System.clearProperty( PROPERTY_FISCAL_YEAR_START_DATE );
 	}
 
 }

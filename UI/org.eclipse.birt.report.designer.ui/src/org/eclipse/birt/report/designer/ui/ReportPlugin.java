@@ -106,8 +106,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String DEFAULT_LAYOUT_PREFERENCE = "report.designer.ui.preferences.default.layout"; //$NON-NLS-1$
 	public static final String DEFAULT_ORIENTATION_PREFERENCE = "report.designer.ui.preferences.default.orientation"; //$NON-NLS-1$
 	public static final String DEFAULT_SCRIPT_TYPE = "report.designer.ui.preferences.default.scripttype"; //$NON-NLS-1$
+	public static final String FISCAL_YEAR_START = "report.designer.ui.preferences.fiscalyear.startdate"; //$NON-NLS-1$
 
-	// Add the static String list, remeber thr ignore view for the selection
+	// Add the static String list, remember the ignore view for the selection
 	private List<String> ignore = new ArrayList<String>( );
 	/**
 	 * The Report UI plugin ID.
@@ -317,6 +318,8 @@ public class ReportPlugin extends AbstractUIPlugin
 		setDefaultOrientationSettings( );
 
 		setDefaultScriptType( );
+		
+		setDefaultFiscalYearStart( );
 
 		// set default Element names
 		setDefaultElementNamePreference( PreferenceFactory.getInstance( )
@@ -1693,6 +1696,12 @@ public class ReportPlugin extends AbstractUIPlugin
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
 				.setDefault( DEFAULT_SCRIPT_TYPE, ExpressionType.JAVASCRIPT );
+	}
+	
+	public void setDefaultFiscalYearStart( )
+	{
+		PreferenceFactory.getInstance( ).getPreferences( this ).setDefault(
+				FISCAL_YEAR_START, "2016-07-01" ); //$NON-NLS-1$
 	}
 
 	/**
