@@ -1684,11 +1684,12 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				return null;
 			}
 			Calendar current;
-			if ( args[0] instanceof Integer )
+			if ( args[0] instanceof Number )
 			{
-				current = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				current = getFiscalYearStateDate( context, args );
 				// Month starts with 1
-				current.add( Calendar.MONTH, (Integer) args[0] - 1 );
+				current.add( Calendar.MONTH,
+						( (Number) args[0] ).intValue( ) - 1 );
 			}
 			else
 			{
@@ -1722,11 +1723,12 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				return null;
 			}
 			Calendar current;
-			if ( args[0] instanceof Integer )
+			if ( args[0] instanceof Number )
 			{
-				current = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				current = getFiscalYearStateDate( context, args );
 				// Quarter starts with 1
-				current.add( Calendar.MONTH, ( (Integer) args[0] - 1 ) * 3 );
+				current.add( Calendar.MONTH,
+						( ( (Number) args[0] ).intValue( ) - 1 ) * 3 );
 			}
 			else
 			{
@@ -1756,18 +1758,19 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			maxParamCount = 2;
 		}
 
-		protected Object getValue( Object[] args ) throws BirtException
+		protected Object getValue( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( existNullValue( args ) )
 			{
 				return null;
 			}
 			Calendar current;
-			if ( args[0] instanceof Integer )
+			if ( args[0] instanceof Number )
 			{
-				current = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				current = getFiscalYearStateDate( context, args );
 				// Week starts with 1
-				current.add( Calendar.WEEK_OF_YEAR, (Integer) args[0] - 1 );
+				current.add( Calendar.WEEK_OF_YEAR,
+						( (Number) args[0] ).intValue( ) - 1 );
 			}
 			else
 			{
@@ -1796,10 +1799,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				return null;
 			}
 			Calendar current = null;
-			if ( args[0] instanceof Integer )
+			if ( args[0] instanceof Number )
 			{
 				current = getFiscalYearStateDate( context, args );
-				current.set( Calendar.YEAR, (Integer) args[0] );
+				current.set( Calendar.YEAR, ( (Number) args[0] ).intValue( ) );
 				if ( current.get( Calendar.DAY_OF_YEAR ) > 1 )
 				{
 					current.add( Calendar.YEAR, -1 );

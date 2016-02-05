@@ -30,6 +30,7 @@ public class BirtDateTimeTest extends TestCase
 
 	private Context cx;
 	private Scriptable scope;
+	private static final int CURRENT_YEAR = Calendar.getInstance( ).get( Calendar.YEAR );
 
 	/*
 	 * (non-Javadoc)
@@ -1438,6 +1439,7 @@ public class BirtDateTimeTest extends TestCase
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 5, 15))",
+				"BirtDateTime.firstDayOfFiscalMonth(4.0)",
 				"BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 5, 15), new Date(2015, 0, 1))",
 				"BirtDateTime.firstDayOfFiscalMonth(2, new Date(2014, 6, 15))",
 				"BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 6, 15), new Date(2015, 6, 10 ))",
@@ -1451,6 +1453,7 @@ public class BirtDateTimeTest extends TestCase
 		c.clear( );
 		Date[] values = new Date[]{
 				date( c, 2015, 5, 1 ),
+				date( c, CURRENT_YEAR, 9, 1 ),
 				date( c, 2015, 5, 1 ),
 				date( c, 2014, 7, 15 ),
 				date( c, 2015, 6, 10 ),
@@ -1479,6 +1482,7 @@ public class BirtDateTimeTest extends TestCase
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 5, 15))",
+				"BirtDateTime.firstDayOfFiscalQuarter(2)",
 				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 5, 15), new Date(2015, 0, 1))",
 				"BirtDateTime.firstDayOfFiscalQuarter(3, new Date(2014, 6, 15))",
 				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 6, 15), new Date(2015, 6, 10 ))",
@@ -1491,6 +1495,7 @@ public class BirtDateTimeTest extends TestCase
 		c.clear( );
 		Date[] values = new Date[]{
 				date( c, 2015, 3, 1 ),
+				date( c, CURRENT_YEAR, 9, 1 ),
 				date( c, 2015, 3, 1 ),
 				date( c, 2015, 0, 15 ),
 				date( c, 2015, 6, 10 ),
