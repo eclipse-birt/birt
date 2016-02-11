@@ -3119,9 +3119,7 @@ public class UIUtil
 	{
 		String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
 		String designerVersion = MessageFormat.format( VERSION_MESSAGE,
-				new String[]{
-						ReportPlugin.getVersion( ), ReportPlugin.getBuildInfo( )
-				} );
+				ReportPlugin.getVersion( ) );
 		handle.setCreatedBy( designerVersion );
 	}
 
