@@ -24,6 +24,8 @@ import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSetBindingSelector;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -44,6 +46,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -74,6 +77,8 @@ import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.core.runtime.IAdaptable;
@@ -334,7 +339,7 @@ public class InsertInLayoutUtil
 	{
 
 		private Object container;
-		private ResultSetColumnHandle dataSetColumn;
+		private Object dataSetColumn;
 
 		public GroupKeySetRule( Object container,
 				ResultSetColumnHandle dataSetColumn )
@@ -343,6 +348,13 @@ public class InsertInLayoutUtil
 			this.dataSetColumn = dataSetColumn;
 		}
 
+		public GroupKeySetRule( Object container,
+				MeasureHandle dataSetColumn )
+		{
+			this.container = container;
+			this.dataSetColumn = dataSetColumn;
+		}
+		
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -407,7 +419,18 @@ public class InsertInLayoutUtil
 						getDataSet( dataSetColumn ) );
 			}
 
-			getGroupHandle( container ).setKeyExpr( DEUtil.getColumnExpression( dataSetColumn.getColumnName( ) ) );
+			String name;
+			if ( dataSetColumn instanceof ResultSetColumnHandle )
+			{
+				name = ( (ResultSetColumnHandle) dataSetColumn )
+						.getColumnName( );
+			}
+			else
+			{
+				name = ( (MeasureHandle) dataSetColumn ).getName( );
+			}
+			String expr = DEUtil.getColumnExpression( name );
+			getGroupHandle( container ).setKeyExpr( expr );
 
 		}
 
@@ -464,6 +487,21 @@ public class InsertInLayoutUtil
 		else if ( insertObj instanceof ResultSetColumnHandle )
 		{
 			return performInsertDataSetColumn( (ResultSetColumnHandle) insertObj,
+					target,
+					targetParent );
+		}
+		else if ( insertObj instanceof MeasureHandle )
+		{
+			if ( target instanceof CellHandle )
+			{
+				CellHandle cellHandle = (CellHandle)target;
+				DesignElementHandle superContainer = cellHandle.getContainer( ).getContainer( );
+				if ( superContainer instanceof GroupHandle )
+				{
+					GroupHandle group = (GroupHandle)superContainer;
+				}
+			}
+			return performInsertLinkedDataModelMeasure( (MeasureHandle) insertObj,
 					target,
 					targetParent );
 		}
@@ -1279,6 +1317,128 @@ public class InsertInLayoutUtil
 		return dataHandle;
 	}
 
+	private static void createBindingColumn( ResultSetColumnHandle model,
+			TableHandle tableHandle ) throws SemanticException
+	{
+		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( tableHandle,
+				model.getColumnName( ) );
+		bindingColumn.setDataType( model.getDataType( ) );
+		ExpressionUtility.setBindingColumnExpression( model,
+				bindingColumn );
+		bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
+		String displayKey = UIUtil.getColumnDisplayNameKey( model );
+		if ( displayKey != null )
+			bindingColumn.setDisplayNameID( displayKey );
+		tableHandle.addColumnBinding( bindingColumn, false );
+	}
+
+	/**
+	 * Inserts measure into the target. Add label or group key if
+	 * possible
+	 * 
+	 * @param model
+	 *            column item
+	 * @param target
+	 *            insert target like cell or ListBandProxy
+	 * @param targetParent
+	 *            target container like table or list
+	 * @return to be inserted data item
+	 * @throws SemanticException
+	 */
+	protected static DesignElementHandle performInsertLinkedDataModelMeasure(
+			MeasureHandle model, Object target, Object targetParent )
+			throws SemanticException
+	{
+		TableHandle tableHandle = (TableHandle) targetParent;
+		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
+				.newDataItem( null );
+		setDataItemAction( model, dataHandle );
+		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( tableHandle,
+				model.getName( ) );
+		bindingColumn.setDataType( model.getDataType( ) );
+		String defaultScriptType = UIUtil.getDefaultScriptType( );
+		IExpressionConverter converter = ExpressionUtility.getExpressionConverter( defaultScriptType );
+		String expression = null;
+		boolean isOnlySupportJS = false;
+		if ( converter != null && !isOnlySupportJS )
+		{
+			expression = converter.getMeasureExpression( model.getName( ) );
+		}
+		else
+		{
+			defaultScriptType = ExpressionType.JAVASCRIPT;
+//			expression = DEUtil.getExpression( model );
+			expression = ExpressionUtil.createJSMeasureExpression( model.getName( ) );
+		}
+
+		Expression bindingExpression = new Expression( expression,
+				defaultScriptType );
+		bindingColumn.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+				bindingExpression );
+		
+		bindingColumn.setDisplayName( model.getDisplayName( ) );
+		String displayKey = model.getDisplayNameKey( );
+		if ( displayKey != null )
+			bindingColumn.setDisplayNameID( displayKey );
+		if ( target instanceof CellHandle )
+		{
+			CellHandle cellHandle = (CellHandle)target;
+			DesignElementHandle group = cellHandle.getContainer( )
+					.getContainer( );
+			if ( group instanceof GroupHandle )
+			{
+				bindingColumn.setAggregateOn( ( (GroupHandle) group ).getName( ) );
+			}
+			else
+			{
+				bindingColumn.setAggregateOn( null );
+			}
+		}
+		tableHandle.addColumnBinding( bindingColumn, false );
+		dataHandle.setResultSetColumn( model.getName( ) );
+
+		InsertInLayoutRule rule = new LabelAddRule( target );
+		if ( rule.canInsert( ) )
+		{
+			// LabelHandle label =
+			// SessionHandleAdapter.getInstance( )
+			// .getReportDesignHandle( )
+			// .getElementFactory( )
+			// .newLabel( null );
+			LabelHandle label = DesignElementFactory.getInstance( )
+					.newLabel( null );
+			label.setText( model.getDisplayName( ) );
+			rule.insert( label );
+		}
+		rule = new GroupKeySetRule( target, model );
+		if ( rule.canInsert( ) )
+		{
+			rule.insert( model );
+		}
+		
+		return dataHandle;
+	}
+
+	private static void setDataItemAction( MeasureHandle model,
+			DataItemHandle dataHandle )
+	{
+		ActionHandle actionHandle = model.getActionHandle( );
+		if ( actionHandle != null )
+		{
+			List source = new ArrayList( );
+			source.add( actionHandle.getStructure( ) );
+			List newAction = ModelUtil.cloneStructList( source );
+			try
+			{
+				dataHandle.setAction( (Action) newAction.get( 0 ) );
+			}
+			catch ( SemanticException e )
+			{
+				// Do nothing now
+			}
+		}
+	}
+
 	private static void setDataItemAction( ResultSetColumnHandle model,
 			DataItemHandle dataHandle )
 	{
@@ -1507,6 +1667,23 @@ public class InsertInLayoutUtil
 		{
 			return isHandleValid( (ScalarParameterHandle) insertObj )
 					&& handleValidateParameter( targetPart );
+		}
+		else if ( insertObj instanceof MeasureHandle )
+		{
+			if ( targetPart instanceof TableCellEditPart )
+			{
+				Object model = targetPart.getModel( );
+				if ( model != null && model instanceof CellHandle )
+				{
+					CellHandle cellHandle = (CellHandle)model;
+					DesignElementHandle superContainer = cellHandle.getContainer( ).getContainer( );
+					if ( superContainer instanceof GroupHandle )
+					{
+						GroupHandle group = (GroupHandle)superContainer;
+						return true;
+					}
+				}
+			}
 		}
 		return false;
 	}
@@ -2281,6 +2458,15 @@ public class InsertInLayoutUtil
 		return new StructuredSelection( resultList );
 	}
 
+	private static DataSetHandle getDataSet( Object column )
+	{
+		if ( column instanceof ResultSetColumnHandle )
+		{
+			return getDataSet( (ResultSetColumnHandle) column );
+		}
+		return null;
+	}
+
 	private static DataSetHandle getDataSet( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataSet;
@@ -2293,6 +2479,23 @@ public class InsertInLayoutUtil
 		else
 		{
 			dataSet = (DataSetHandle) column.getElementHandle( );
+		}
+
+		return dataSet;
+	}
+
+	private static DataSetHandle getDataSet( MeasureHandle column )
+	{
+		DataSetHandle dataSet;
+
+		if ( getAdapter( ) != null
+				&& getAdapter( ).getDataSet( column ) != null )
+		{
+			dataSet = getAdapter( ).getDataSet( column );
+		}
+		else
+		{
+			dataSet = (DataSetHandle) column.getContainer( ).getContainer( );
 		}
 
 		return dataSet;
