@@ -142,4 +142,6 @@ public interface IBindingDialogHelper
 	
 	void setEditModal( boolean isEditModal );
 
+	boolean canProcessMeasure( );
+
 }

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AggregateOnBindingsFormHandleProvider;
@@ -145,9 +146,12 @@ public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsForm
 	protected void fullLayout( )
 	{
 		super.fullLayout( );
-
+		
+		Button button = btnAdd;
+		
 		if ( btnAddAggregateOn != null )
 		{
+			button = btnAddAggregateOn;
 			FormData data = new FormData( );
 			data.top = new FormAttachment( btnAdd, 0, SWT.BOTTOM );
 			data.left = new FormAttachment( btnAdd, 0, SWT.LEFT );
@@ -157,18 +161,32 @@ public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsForm
 							true ).x );
 			btnAddAggregateOn.setLayoutData( data );
 
-			data = new FormData( );
-			data.top = new FormAttachment( btnAddAggregateOn, 0, SWT.BOTTOM );
-			data.left = new FormAttachment( btnAddAggregateOn, 0, SWT.LEFT );
-			data.width = Math.max( btnWidth,
-					btnAddMeasureOn.computeSize( SWT.DEFAULT,
-							SWT.DEFAULT,
-							true ).x );
-			btnAddMeasureOn.setLayoutData( data );
+			if ( this.provider instanceof AggregateOnBindingsFormHandleProvider )
+			{
+				Object adaptableObject = this.provider.getBindingObject( );
+				if ( adaptableObject != null )
+				{
+					IBindingDialogHelper helper = (IBindingDialogHelper) ElementAdapterManager
+							.getAdapter( adaptableObject, IBindingDialogHelper.class );
+					if ( helper != null && helper.canProcessMeasure( ) )
+					{
+						button = btnAddMeasureOn;
+						data = new FormData( );
+						data.top = new FormAttachment( btnAddAggregateOn, 0, SWT.BOTTOM );
+						data.left = new FormAttachment( btnAddAggregateOn, 0, SWT.LEFT );
+						data.width = Math.max( btnWidth,
+								btnAddMeasureOn.computeSize( SWT.DEFAULT,
+										SWT.DEFAULT,
+										true ).x );
+						btnAddMeasureOn.setLayoutData( data );
 
+					}
+				}
+			}
+			
 			data = new FormData( );
-			data.top = new FormAttachment( btnAddMeasureOn, 0, SWT.BOTTOM );
-			data.left = new FormAttachment( btnAddMeasureOn, 0, SWT.LEFT );
+			data.top = new FormAttachment( button, 0, SWT.BOTTOM );
+			data.left = new FormAttachment( button, 0, SWT.LEFT );
 			data.width = Math.max( btnWidth, btnEdit.computeSize( SWT.DEFAULT,
 					SWT.DEFAULT,
 					true ).x );
@@ -202,6 +220,8 @@ public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsForm
 			btnAddAggregateOn.setEnabled( false );
 			btnAddMeasureOn.setEnabled( false );
 		}
+		
+		this.fullLayout( );
 	}
 
 	private void setBindingObject( ReportElementHandle bindingObject )

@@ -163,4 +163,10 @@ public abstract class AbstractBindingDialogHelper implements
 	{
 
 	}
+
+	@Override
+	public boolean canProcessMeasure( )
+	{
+		return false;
+	}
 }
