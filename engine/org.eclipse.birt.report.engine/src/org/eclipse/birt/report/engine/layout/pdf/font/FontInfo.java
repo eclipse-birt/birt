@@ -198,16 +198,20 @@ public class FontInfo
 		{
 			return word.length( ) * ( fontSize / 2 );
 		}
-		
-		// get width for text with simulated italic font.
-		if ( simulation
-				&& ( Font.ITALIC == fontStyle || Font.BOLDITALIC == fontStyle ) )
-		{
-			return ( bf.getWidthPoint( word, fontSize ) + fontHeight
-					* EmitterUtil.getItalicHorizontalCoefficient( ) );
-		}
 
 		return bf.getWidthPoint( word, fontSize );
+	}
+	
+	public int getItalicAdjust( )
+	{
+		// get width for text with simulated italic font.
+		if ( simulation && ( Font.ITALIC == fontStyle
+				|| Font.BOLDITALIC == fontStyle ) )
+		{
+			return (int) ( fontHeight
+					* EmitterUtil.getItalicHorizontalCoefficient( ) );
+		}
+		return 0;
 	}
 
 	/**

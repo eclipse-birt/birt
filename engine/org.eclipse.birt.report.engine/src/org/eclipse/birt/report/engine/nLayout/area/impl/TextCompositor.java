@@ -304,7 +304,8 @@ public class TextCompositor
 		int wordWidth = getWordWidth( fontInfo, word );
 		// append the letter spacing
 		wordWidth += textStyle.getLetterSpacing( ) * textLength;
-		if ( textArea.hasSpace( wordWidth ) )
+		int adjustWordSize = fontInfo.getItalicAdjust( ) + wordWidth;
+		if ( textArea.hasSpace( adjustWordSize ) )
 		{
 			addWord( textArea, textLength, wordWidth );
 			wordVestige = null;
