@@ -42,6 +42,24 @@ public class AggregateOnBindingsFormHandleProvider extends
 		return false;
 	}
 
+	public boolean doAddMeasureOnItem( int pos )
+	{
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
+		dialog.setAggreate( true );
+		dialog.setMeasure( true );
+		ComputedColumnHandle bindingColumn = null;
+		dialog.setInput( (ReportItemHandle) getBindingObject( ), bindingColumn );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			if ( viewer != null )
+			{
+				viewer.refresh( true );
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean doEditItem( int pos )
 	{
 		if ( pos == -1 )
@@ -100,6 +118,30 @@ public class AggregateOnBindingsFormHandleProvider extends
 		try
 		{
 			sucess = doAddAggregateOnItem( pos );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			throw new Exception( e );
+		}
+		if ( sucess )
+		{
+			stack.commit( );
+		}
+		else
+		{
+			stack.rollback( );
+		}
+	}
+
+	public void addMeasureOn( int pos ) throws Exception
+	{
+		boolean sucess = false;
+		CommandStack stack = getActionStack( );
+		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
+		try
+		{
+			sucess = doAddMeasureOnItem( pos );
 		}
 		catch ( Exception e )
 		{

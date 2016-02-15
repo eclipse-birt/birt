@@ -71,6 +71,7 @@ public class DataColumnBindingDialog extends BaseDialog
 	private ExpressionProvider expressionProvider;
 
 	private boolean isAggregate;
+	private boolean isMeasure;
 	private boolean isTimePeriod;
 	
 	private boolean needPrompt = true;
@@ -153,7 +154,7 @@ public class DataColumnBindingDialog extends BaseDialog
 
 		dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( DEUtil.getBindingHolder( bindingObject ),
 				IBindingDialogHelper.class );
-
+		
 		isTableAddTimeDemision(bindingObject, bindingColumn);
 		if(isLinkModelTimePeriod )
 		{
@@ -178,6 +179,10 @@ public class DataColumnBindingDialog extends BaseDialog
 		if ( isAggregate )
 		{
 			dialogHelper.setAggregate( isAggregate );
+		}
+		if ( isMeasure )
+		{
+			dialogHelper.setMeasure( isMeasure );
 		}
 		
 		if ( isAggregate
@@ -238,6 +243,19 @@ public class DataColumnBindingDialog extends BaseDialog
 		if ( this.dialogHelper != null )
 		{
 			this.dialogHelper.setAggregate( isAggregate );
+		}
+	}
+	
+	public void setMeasure( boolean isMeasure )
+	{
+		this.isMeasure = isMeasure;
+		if ( isMeasure )
+		{
+			setTitle( AGG_BUILDER_TITLE );
+		}
+		if ( this.dialogHelper != null )
+		{
+			this.dialogHelper.setMeasure( isMeasure );
 		}
 	}
 	

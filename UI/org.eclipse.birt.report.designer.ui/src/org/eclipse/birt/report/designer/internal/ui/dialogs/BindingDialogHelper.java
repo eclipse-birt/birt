@@ -133,23 +133,23 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	protected String[] dataTypes = ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET );
 	protected Button btnTable;
 
-	private Text txtName, txtFilter, txtExpression;
-	private Combo cmbType, cmbFunction, cmbGroup;
-	private Button btnGroup, btnDisplayNameID, btnRemoveDisplayNameID;
-	private Composite paramsComposite;
+	protected Text txtName, txtFilter, txtExpression;
+	protected Combo cmbType, cmbFunction, cmbGroup;
+	protected Button btnGroup, btnDisplayNameID, btnRemoveDisplayNameID;
+	protected Composite paramsComposite;
 
-	private Map<String, Control> paramsMap = new LinkedHashMap<String, Control>( );
-	private Map<String, String[]> paramsValueMap = new HashMap<String, String[]>( );
+	protected Map<String, Control> paramsMap = new LinkedHashMap<String, Control>( );
+	protected Map<String, String[]> paramsValueMap = new HashMap<String, String[]>( );
 
-	private Composite composite;
-	private Text txtDisplayName, txtDisplayNameID;
+	protected Composite composite;
+	protected Text txtDisplayName, txtDisplayNameID;
 	private ComputedColumn newBinding;
 	private CLabel messageLine;
 	private Combo cmbName;
 	private Label lbName, lbDisplayNameID;
 
 	private boolean isCreate;
-	private boolean isRef;
+	protected boolean isRef;
 	private Object container;
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
@@ -598,7 +598,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return displayNames;
 	}
 
-	private IAggrFunction getFunctionByDisplayName( String displayName )
+	protected IAggrFunction getFunctionByDisplayName( String displayName )
 	{
 		IAggrFunction[] choices = getFunctions( );
 		if ( choices == null )
@@ -614,7 +614,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return null;
 	}
 
-	private String getFunctionDisplayName( String function )
+	protected String getFunctionDisplayName( String function )
 	{
 		try
 		{
@@ -644,7 +644,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
-	private void initTextField( Text txtParam, IParameterDefn param )
+	protected void initTextField( Text txtParam, IParameterDefn param )
 	{
 		if ( paramsValueMap.containsKey( param.getName( ) ) )
 		{
@@ -677,7 +677,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	 * 
 	 * @param param
 	 */
-	private void initDataFields( Combo cmbDataField, IParameterDefn param )
+	protected void initDataFields( Combo cmbDataField, IParameterDefn param )
 	{
 		cmbDataField.setItems( getColumnBindings( ) );
 		if ( paramsValueMap.containsKey( param.getName( ) ) )
@@ -723,7 +723,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
-	private String[] getColumnBindings( )
+	protected String[] getColumnBindings( )
 	{
 		List elementsList = DEUtil.getVisiableColumnBindingsList( getBindingHolder( ) );
 		String[] bindings = new String[elementsList.size( )];
@@ -734,7 +734,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return bindings;
 	}
 
-	private void initGroups( )
+	protected void initGroups( )
 	{
 		String[] groups = getGroups( );
 		if ( groups.length > 0 )
@@ -1029,7 +1029,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
-	private void createFilterCondition( Composite composite, GridData gd )
+	protected void createFilterCondition( Composite composite, GridData gd )
 	{
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER | SWT.MULTI );
@@ -1243,7 +1243,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	 * Create function parameters area. If parameter is data field type, create
 	 * a combo box filled with binding holder's computed column.
 	 */
-	private void handleFunctionSelectEvent( )
+	protected void handleFunctionSelectEvent( )
 	{
 		if ( isRef )
 			return;
@@ -1400,7 +1400,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		setContentSize( composite );
 	}
 
-	private void createExpressionButton( Composite parent, final Control control )
+	protected void createExpressionButton( Composite parent, final Control control )
 	{
 		Listener listener = new Listener( ) {
 
@@ -1440,7 +1440,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
-	private String getColumnBindingExpressionByName( Combo combo )
+	protected String getColumnBindingExpressionByName( Combo combo )
 	{
 		List elementsList = DEUtil.getVisiableColumnBindingsList( this.bindingHolder );
 		for ( Iterator iterator = elementsList.iterator( ); iterator.hasNext( ); )
@@ -1585,7 +1585,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return false;
 	}
 
-	private String[] getControlValue( Control control )
+	protected String[] getControlValue( Control control )
 	{
 		if ( control instanceof Text )
 		{
@@ -1615,7 +1615,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return left.equals( right );
 	}
 
-	private String getDataTypeDisplayName( String dataType )
+	protected String getDataTypeDisplayName( String dataType )
 	{
 		for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 		{
@@ -1945,7 +1945,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return isEditModal;
 	}
 
-	private void modifyDialogContent( )
+	public void modifyDialogContent( )
 	{
 		if ( hasInitDialog && isEditModal( ) && hasModified == false )
 		{
@@ -1955,5 +1955,5 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	}
 
 	private boolean hasModified = false;
-	private Button btnAllowExport;
+	protected Button btnAllowExport;
 }
