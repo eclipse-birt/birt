@@ -70,16 +70,29 @@
       <import feature="org.eclipse.datatools.modelbase.feature" version="1.7.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.datatools.connectivity" version="1.1.1" match="greaterOrEqual"/>
       <import feature="org.eclipse.draw2d" version="3.5.0" match="greaterOrEqual"/>
-      <import plugin="javax.xml.stream" version="1.0.1" match="compatible"/>
    </requires>
-   
+
+   <!-- those two plugins are not owned by any feature, so included it into BIRT directly,
+        see https://bugs.eclipse.org/bugs/show_bug.cgi?id=483950
+   -->
+   <plugin id="javax.xml.stream"
+        download-size="0"
+        install-size="0"
+        version="0.0.0"
+        unpack="false"/>
+   <plugin id="org.eclipse.jetty.osgi.boot"
+        download-size="0"
+        install-size="0"
+        version="0.0.0"
+        unpack="false"/>
+
    <plugin
          id="org.eclipse.birt"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-	
+
    <plugin
          id="org.eclipse.birt.chart.reportitem"
          download-size="0"
@@ -282,14 +295,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-<!--
-   <plugin
-         id="javax.xml.stream"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
--->
+
    <plugin
          id="org.eclipse.birt.report.data.oda.jdbc.ui"
          download-size="0"
@@ -586,7 +592,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.data.oda.mongodb.ui"
          download-size="0"
@@ -817,7 +823,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.report.data.oda.excel.ui"
          download-size="0"
