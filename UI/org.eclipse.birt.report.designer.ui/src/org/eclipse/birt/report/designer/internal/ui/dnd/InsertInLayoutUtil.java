@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSetBindingSelector;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
@@ -75,10 +74,9 @@ import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.core.runtime.IAdaptable;
@@ -434,35 +432,36 @@ public class InsertInLayoutUtil
 
 		}
 
-		protected GroupHandle getGroupHandle( Object target )
-		{
-			DesignElementHandle handle = null;
-			if ( target instanceof CellHandle )
-			{
-				handle = ( (CellHandle) target ).getContainer( ).getContainer( );
-			}
-			else if ( target instanceof ListBandProxy )
-			{
-				handle = ( (ListBandProxy) target ).getElemtHandle( );
-			}
-
-			if ( handle instanceof GroupHandle )
-			{
-				return (GroupHandle) handle;
-			}
-			return null;
-		}
-
-		protected ReportItemHandle getGroupContainer( Object target )
-		{
-			GroupHandle group = getGroupHandle( target );
-			if ( group != null
-					&& group.getContainer( ) instanceof ReportItemHandle )
-				return (ReportItemHandle) group.getContainer( );
-			return null;
-		}
 	}
 
+	static protected GroupHandle getGroupHandle( Object target )
+	{
+		DesignElementHandle handle = null;
+		if ( target instanceof CellHandle )
+		{
+			handle = ( (CellHandle) target ).getContainer( ).getContainer( );
+		}
+		else if ( target instanceof ListBandProxy )
+		{
+			handle = ( (ListBandProxy) target ).getElemtHandle( );
+		}
+
+		if ( handle instanceof GroupHandle )
+		{
+			return (GroupHandle) handle;
+		}
+		return null;
+	}
+
+	static protected ReportItemHandle getGroupContainer( Object target )
+	{
+		GroupHandle group = getGroupHandle( target );
+		if ( group != null
+				&& group.getContainer( ) instanceof ReportItemHandle )
+			return (ReportItemHandle) group.getContainer( );
+		return null;
+	}
+	
 	/**
 	 * Creates a object to insert.
 	 * 
@@ -492,18 +491,9 @@ public class InsertInLayoutUtil
 		}
 		else if ( insertObj instanceof MeasureHandle )
 		{
-			if ( target instanceof CellHandle )
-			{
-				CellHandle cellHandle = (CellHandle)target;
-				DesignElementHandle superContainer = cellHandle.getContainer( ).getContainer( );
-				if ( superContainer instanceof GroupHandle )
-				{
-					GroupHandle group = (GroupHandle)superContainer;
-				}
-			}
 			return performInsertLinkedDataModelMeasure( (MeasureHandle) insertObj,
 					target,
-					targetParent );
+					(ListingHandle)targetParent );
 		}
 		else if ( insertObj instanceof ScalarParameterHandle )
 		{
@@ -1346,10 +1336,9 @@ public class InsertInLayoutUtil
 	 * @throws SemanticException
 	 */
 	protected static DesignElementHandle performInsertLinkedDataModelMeasure(
-			MeasureHandle model, Object target, Object targetParent )
+			MeasureHandle model, Object target, ListingHandle tableHandle )
 			throws SemanticException
 	{
-		TableHandle tableHandle = (TableHandle) targetParent;
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
 		setDataItemAction( model, dataHandle );
@@ -1380,19 +1369,15 @@ public class InsertInLayoutUtil
 		String displayKey = model.getDisplayNameKey( );
 		if ( displayKey != null )
 			bindingColumn.setDisplayNameID( displayKey );
-		if ( target instanceof CellHandle )
+		GroupHandle group = getGroupHandle( target );
+		
+		if ( group != null )
 		{
-			CellHandle cellHandle = (CellHandle)target;
-			DesignElementHandle group = cellHandle.getContainer( )
-					.getContainer( );
-			if ( group instanceof GroupHandle )
-			{
-				bindingColumn.setAggregateOn( ( (GroupHandle) group ).getName( ) );
-			}
-			else
-			{
-				bindingColumn.setAggregateOn( null );
-			}
+			bindingColumn.setAggregateOn( ( (GroupHandle) group ).getName( ) );
+		}
+		else
+		{
+			bindingColumn.setAggregateOn( "All" );
 		}
 		tableHandle.addColumnBinding( bindingColumn, false );
 		dataHandle.setResultSetColumn( model.getName( ) );
@@ -1670,18 +1655,22 @@ public class InsertInLayoutUtil
 		}
 		else if ( insertObj instanceof MeasureHandle )
 		{
-			if ( targetPart instanceof TableCellEditPart )
+			Object target = targetPart.getModel( );
+			GroupHandle group = getGroupHandle( target );
+			if ( group != null )
 			{
-				Object model = targetPart.getModel( );
-				if ( model != null && model instanceof CellHandle )
+				return true;
+			}
+			if ( target instanceof CellHandle )
+			{
+				Object container = ( (CellHandle) target ).getContainer( );
+				if ( container instanceof RowHandle )
 				{
-					CellHandle cellHandle = (CellHandle)model;
-					DesignElementHandle superContainer = cellHandle.getContainer( ).getContainer( );
-					if ( superContainer instanceof GroupHandle )
-					{
-						GroupHandle group = (GroupHandle)superContainer;
-						return true;
-					}
+					RowHandle row = (RowHandle)container;
+					SlotHandle slotHandle = row.getContainerSlotHandle( );
+					ISlotDefn defn = slotHandle.getDefn( );
+					String xmlName = defn.getXmlName( );
+					return !xmlName.equals( "detail" );
 				}
 			}
 		}
