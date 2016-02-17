@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -493,7 +494,7 @@ public class InsertInLayoutUtil
 		{
 			return performInsertLinkedDataModelMeasure( (MeasureHandle) insertObj,
 					target,
-					(ListingHandle)targetParent );
+					(ReportItemHandle)targetParent );
 		}
 		else if ( insertObj instanceof ScalarParameterHandle )
 		{
@@ -1336,7 +1337,7 @@ public class InsertInLayoutUtil
 	 * @throws SemanticException
 	 */
 	protected static DesignElementHandle performInsertLinkedDataModelMeasure(
-			MeasureHandle model, Object target, ListingHandle tableHandle )
+			MeasureHandle model, Object target, ReportItemHandle tableHandle )
 			throws SemanticException
 	{
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
@@ -1668,10 +1669,14 @@ public class InsertInLayoutUtil
 				{
 					RowHandle row = (RowHandle)container;
 					SlotHandle slotHandle = row.getContainerSlotHandle( );
-					ISlotDefn defn = slotHandle.getDefn( );
-					String xmlName = defn.getXmlName( );
-					return !xmlName.equals( "detail" );
+					int slotId = slotHandle.getSlotID( );
+					return slotId != TableHandle.DETAIL_SLOT;
 				}
+			}
+			else if ( target instanceof ListBandProxy )
+			{
+				int type = ( (ListBandProxy) target ).getType( );
+				return type != ListBandProxy.LIST_DETAIL_TYPE;
 			}
 		}
 		return false;
