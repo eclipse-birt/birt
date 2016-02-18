@@ -13,10 +13,12 @@ public class ArchiveFileTest extends TestCase
 	static final String ARCHIVE_FILE = ARCHIVE_FOLDER + "archive.rptdocument";
 	static final String TRANSIENT_ARCHIVE_FILE = ARCHIVE_FOLDER
 			+ "t_archive.rptdocument";
+	static final String TEMP_ARCHIVE_FOLDER = "./utest_temp/";
 
 	public void setUp( )
 	{
 		new File( ARCHIVE_FOLDER ).mkdirs( );
+		new File( TEMP_ARCHIVE_FOLDER ).mkdirs( );
 	}
 
 	public void tearDown( )
@@ -24,6 +26,13 @@ public class ArchiveFileTest extends TestCase
 		new File( TRANSIENT_ARCHIVE_FILE ).delete( );
 		new File( ARCHIVE_FILE ).delete( );
 		new File( ARCHIVE_FOLDER ).delete( );
+		
+		File tempFolder = new File( TEMP_ARCHIVE_FOLDER );
+		for ( File file : tempFolder.listFiles( ) )
+		{
+			file.delete( );
+		}
+		tempFolder.delete( );
 	}
 
 	public void testArchiveFile( ) throws IOException
@@ -159,5 +168,21 @@ public class ArchiveFileTest extends TestCase
 				entry.close( );
 			}
 		}
+	}
+	
+	public void testSetTempFileFolder( ) throws IOException
+	{
+		ArchiveFile.setTempFileFolder( TEMP_ARCHIVE_FOLDER );
+		ArchiveFile archive = new ArchiveFile( TRANSIENT_ARCHIVE_FILE, "rwz" );
+		createArchive( archive );
+		
+		File folder = new File( TEMP_ARCHIVE_FOLDER );
+		String[] files = folder.list( );
+		assertEquals( 1, files.length );
+		assertTrue( files[0].startsWith( "temp_" ) );
+		assertTrue( files[0].endsWith( ".archive" ) );
+		checkArchive( archive );
+		archive.close( );
+		ArchiveFile.setTempFileFolder( null );
 	}
 }

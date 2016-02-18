@@ -52,6 +52,7 @@ public class ArchiveFile implements IArchiveFile
 
 	protected boolean zipOnClose;
 	protected String tmpFileName;
+	protected static File tmpFileFolder = null;
 
 	protected IArchiveFile af;
 
@@ -527,7 +528,12 @@ public class ArchiveFile implements IArchiveFile
 
 	private String getTmpFileName( ) throws IOException
 	{
-		return File.createTempFile( "temp_", ".archive" ).getCanonicalPath( );
+		if ( tmpFileFolder != null )
+		{
+			return File.createTempFile( "temp_", ".archive", tmpFileFolder ) //$NON-NLS-1$ //$NON-NLS-2$
+					.getCanonicalPath( );
+		}
+		return File.createTempFile( "temp_", ".archive" ).getCanonicalPath( );  //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	private boolean isZipFile( long magic )
@@ -597,5 +603,19 @@ public class ArchiveFile implements IArchiveFile
 		{
 			fi.close( );
 		}
+	}
+	
+	/**
+	 * Sets the temporary file folder to contain temporary files. This folder
+	 * should be maintained by caller to clean up. If not set, default temporary
+	 * file folder will be used as defined by JDK. See javadoc in
+	 * {@link File#createTempFile(String, String, File)}
+	 * 
+	 * @param folderPath
+	 *            folder path
+	 */
+	public static void setTempFileFolder( String folderPath )
+	{
+		tmpFileFolder = folderPath == null ? null : new File( folderPath );
 	}
 }
