@@ -56,6 +56,7 @@ import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -1373,7 +1374,7 @@ public class InsertInLayoutUtil
 		
 		if ( group != null )
 		{
-			bindingColumn.setAggregateOn( ( (GroupHandle) group ).getName( ) );
+			bindingColumn.setAggregateOn( group.getName( ) );
 		}
 		else
 		{
@@ -1392,7 +1393,7 @@ public class InsertInLayoutUtil
 			// .newLabel( null );
 			LabelHandle label = DesignElementFactory.getInstance( )
 					.newLabel( null );
-			label.setText( model.getDisplayName( ) );
+			label.setText( getLabelText( model ) );
 			rule.insert( label );
 		}
 		rule = new GroupKeySetRule( target, model );
@@ -1402,6 +1403,15 @@ public class InsertInLayoutUtil
 		}
 		
 		return dataHandle;
+	}
+	
+	private static String getLabelText( ReportElementHandle handle )
+	{
+		if ( handle.getDisplayName( ) != null )
+		{
+			return handle.getDisplayName( );
+		}
+		return handle.getName( );
 	}
 
 	private static void setDataItemAction( MeasureHandle model,
@@ -1642,11 +1652,6 @@ public class InsertInLayoutUtil
 		else if ( insertObj instanceof LabelHandle )
 		{
 			return handleValidateLabel( (LabelHandle) insertObj, targetPart );
-		}
-		else if ( insertObj instanceof ResultSetColumnHandle )
-		{
-			return handleValidateDataSetColumn( (ResultSetColumnHandle) insertObj,
-					targetPart );
 		}
 		else if ( insertObj instanceof ScalarParameterHandle )
 		{
