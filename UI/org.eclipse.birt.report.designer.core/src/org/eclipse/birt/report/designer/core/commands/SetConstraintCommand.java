@@ -21,8 +21,8 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -89,60 +89,15 @@ public class SetConstraintCommand extends Command
 						.getTableHandleAdapter( model )
 						.ajustSize( newSize );
 			}
-			else if (isFixLayout( ))
-			{
-				double width = MetricUtility.pixelToPixelInch( newSize.width );
-				double height = MetricUtility.pixelToPixelInch( newSize.height );
-				
-				if (width >= 0)
-				{
-					DimensionValue value = DimensionUtil.convertTo( width, DesignChoiceConstants.UNITS_IN, getDefaultUnits( ) );
-					model.getWidth( ).setValue( value );
-				}
-				
-				if (height >= 0)
-				{
-					DimensionValue value = DimensionUtil.convertTo( height, DesignChoiceConstants.UNITS_IN, getDefaultUnits( ) );
-					model.getHeight( ).setValue( value );
-				}
-			}
-			else if ( model instanceof ImageHandle )
-			{
-				int width = newSize.width;
-				int height = newSize.height;
-				DimensionValue dimensionValue;
-
-				if ( width >= 0 )
-				{
-					dimensionValue = new DimensionValue(  width,
-							DesignChoiceConstants.UNITS_PX );
-
-					model.getWidth( ).setValue( dimensionValue );
-				}
-				if ( height >= 0 )
-				{
-					dimensionValue = new DimensionValue( height, DesignChoiceConstants.UNITS_PX );
-
-					model.getHeight( ).setValue( dimensionValue );
-				}
-			}
 			else
 			{
-				double width = MetricUtility.pixelToPixelInch( newSize.width );
-				double height = MetricUtility.pixelToPixelInch( newSize.height );
-				DimensionValue dimensionValue;
-
-				if ( width >= 0 )
+				if ( newSize.width >= 0 )
 				{
-					dimensionValue = new DimensionValue( width, DesignChoiceConstants.UNITS_IN );
-
-					model.getWidth( ).setValue( dimensionValue );
+					updateDimension( newSize.width, model.getWidth( ) );
 				}
-				if ( height >= 0 )
+				if ( newSize.height >= 0 )
 				{
-					dimensionValue = new DimensionValue( height, DesignChoiceConstants.UNITS_IN );
-
-					model.getHeight( ).setValue( dimensionValue );
+					updateDimension( newSize.height, model.getHeight( ) );
 				}
 			}
 			stack.commit( );
@@ -160,6 +115,33 @@ public class SetConstraintCommand extends Command
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 			stack.rollback( );
 		}
+	}
+
+	private void updateDimension( double size, DimensionHandle dim )
+			throws SemanticException
+	{
+		// Do not convert for pixel unit
+		if ( DesignChoiceConstants.UNITS_PX.equals( dim.getUnits( ) ) )
+		{
+			dim.setValue( new DimensionValue( size,
+					DesignChoiceConstants.UNITS_PX ) );
+		}
+		else if ( DimensionUtil.isAbsoluteUnit( dim.getUnits( ) ) )
+		{
+			// Keep the unit if it's absolute unit
+			size = MetricUtility.pixelToPixelInch( (int) size );
+			dim.setValue( DimensionUtil.convertTo( size,
+					DesignChoiceConstants.UNITS_IN,
+					dim.getUnits( ) ) );
+		}
+		else
+		{
+			// otherwise use inch
+			size = MetricUtility.pixelToPixelInch( (int) size );
+			dim.setValue( new DimensionValue( size,
+					DesignChoiceConstants.UNITS_IN ) );
+		}
+
 	}
 
 	private boolean isFixLayout( )
