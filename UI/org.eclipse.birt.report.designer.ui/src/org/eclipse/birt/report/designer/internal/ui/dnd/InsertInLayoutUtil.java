@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -1343,6 +1344,7 @@ public class InsertInLayoutUtil
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
 		setDataItemAction( model, dataHandle );
+		formatDataHandle( dataHandle, model );
 		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( tableHandle,
 				model.getName( ) );
 		bindingColumn.setDataType( model.getDataType( ) );
@@ -2263,6 +2265,33 @@ public class InsertInLayoutUtil
 	{
 		ColumnHintHandle hintHandle = findColumnHintHandle( column );
 		formatDataHandle(dataHandle, column, hintHandle);	
+	}
+	
+	private static void formatDataHandle( DataItemHandle dataHandle,
+			MeasureHandle measure )
+	{
+		try
+		{
+			StyleHandle styleHandle = dataHandle.getPrivateStyle( );
+
+			String aliment = measure.getAlignment( );
+			if ( aliment != null )
+			{
+				styleHandle.setTextAlign( aliment );
+			}
+
+			FormatValueHandle formatValue = measure.getFormat( );
+			if ( formatValue != null )
+			{
+				formatDataHandleDataType( measure.getDataType( ),
+						(FormatValue) formatValue.getStructure( ),
+						styleHandle );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			// do nothing now
+		}
 	}
 
 	private static ColumnHintHandle findColumnHintHandle(List<ColumnHintHandle> columnHints,
