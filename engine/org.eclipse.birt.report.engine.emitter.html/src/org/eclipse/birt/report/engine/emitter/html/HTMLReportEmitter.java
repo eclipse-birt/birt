@@ -2738,12 +2738,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			if ( url != null )
 			{
 				outputAction( foreign.getHyperlinkAction( ), url );
-				outputHtmlText( foreign );
+                outputHtmlText( foreign );
 				writer.closeTag( HTMLTags.TAG_A );
 			}
 			else
 			{
-				outputHtmlText( foreign );
+                outputHtmlText( foreign );
 			}
 			htmlEmitter.handleVerticalAlignEnd( foreign );
 		}
@@ -2759,38 +2759,43 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 	
-	
-	private void outputHtmlText(IForeignContent foreign)
-	{
-		boolean bIndent = writer.isIndent( );
-		writer.setIndent( false );
-		Object rawValue = foreign.getRawValue( );
-		String text = rawValue == null ? null : rawValue.toString( );
-		Document doc = new TextParser( ).parse( text,
-				TextParser.TEXT_TYPE_HTML );
-		ReportDesignHandle design = (ReportDesignHandle) runnable
-				.getDesignHandle( );
-		HTMLProcessor htmlProcessor = new HTMLProcessor( design, reportContext
-				.getAppContext( ) );
 
-		HashMap styleMap = new HashMap( );
+    private void outputHtmlText( IForeignContent foreign )
+    {
+        boolean bIndent = writer.isIndent( );
+        writer.setIndent( false );
+        Object rawValue = foreign.getRawValue( );
+        String text = rawValue == null ? null : rawValue.toString( );
+        ReportDesignHandle design = (ReportDesignHandle) runnable.getDesignHandle( );
 
-		Element body = null;
-		if ( doc != null )
-		{
-			NodeList bodys = doc.getElementsByTagName( "body" );
-			if ( bodys.getLength( ) > 0 )
-			{
-				body = (Element) bodys.item( 0 );
-			}
-		}
-		if ( body != null )
-		{
-			htmlProcessor.execute( body, styleMap );
-			processNodes( body, styleMap );
-		}
-		writer.setIndent( bIndent );
-	}
+        if ( !foreign.isJTidy( ) )
+        {
+            writer.writeCode( text );
+        }
+        else
+        {
+            Document doc = new TextParser( ).parse( text, TextParser.TEXT_TYPE_HTML );
+            HTMLProcessor htmlProcessor = new HTMLProcessor( design, reportContext.getAppContext( ) );
+
+            HashMap styleMap = new HashMap( );
+
+            Element body = null;
+            if ( doc != null )
+            {
+                NodeList bodys = doc.getElementsByTagName( "body" );
+                if ( bodys.getLength( ) > 0 )
+                {
+                    body = (Element) bodys.item( 0 );
+                }
+            }
+            if ( body != null )
+            {
+                htmlProcessor.execute( body, styleMap );
+                processNodes( body, styleMap );
+            }
+        }
+        writer.setIndent( bIndent );
+    }
 
 	/**
 	 * Visits the children nodes of the specific node

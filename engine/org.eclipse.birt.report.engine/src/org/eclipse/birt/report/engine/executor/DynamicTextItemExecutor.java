@@ -108,6 +108,7 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 
 		textContent.setRawType( rawType );
 		textContent.setRawValue( content );
+        textContent.setJTidy( textDesign.isJTidy( ) );
 
 		if ( context.isInFactory( ) )
 		{

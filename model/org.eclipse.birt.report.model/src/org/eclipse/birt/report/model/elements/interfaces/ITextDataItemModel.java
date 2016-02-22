@@ -48,4 +48,9 @@ public interface ITextDataItemModel
 	 */
 	String HAS_EXPRESSION_PROP = "hasExpression"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property that indicates if jTidy is used to validate HTML content.
+	 * By default, the value is TRUE.
+	 */
+	public static String JTIDY_PROP = "jTidy"; //$NON-NLS-1$
 }

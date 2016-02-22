@@ -2899,6 +2899,9 @@
     <Property displayNameID="Element.Text.hasExpression" name="hasExpression" since="2.5" type="boolean">
       <Default>true</Default>
     </Property>
+    <Property displayNameID="Element.TextData.jTidy" name="jTidy" since="4.6" type="boolean">
+    	<Default>true</Default>
+    </Property>
     <Property displayNameID="Element.Text.tagType" name="tagType" since="4.3" type="string">
     	<Default>p</Default>
     </Property>
@@ -3605,6 +3608,9 @@
     <Property displayNameID="Element.TextData.valueExpr" name="valueExpr" returnType="string" since="1.0" type="expression" valueRequired="true"/>
     <Property detailType="textDataContentType" displayNameID="Element.TextData.contentType" name="contentType" since="1.0" type="choice"/>
     <Property displayNameID="Element.TextData.hasExpression" name="hasExpression" since="2.5" type="boolean">
+    	<Default>true</Default>
+    </Property>
+    <Property displayNameID="Element.TextData.jTidy" name="jTidy" since="4.6" type="boolean">
     	<Default>true</Default>
     </Property>
     <Property displayNameID="Element.TextData.tagType" name="tagType" since="4.3" type="string">

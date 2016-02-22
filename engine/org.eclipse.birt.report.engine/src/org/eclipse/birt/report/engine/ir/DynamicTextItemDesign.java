@@ -26,6 +26,7 @@ public class DynamicTextItemDesign extends ReportItemDesign
 	 * content 
 	 */
 	protected Expression content;
+    private boolean jTidy = true;
 	
 	
 	
@@ -64,5 +65,15 @@ public class DynamicTextItemDesign extends ReportItemDesign
 	{
 		return visitor.visitDynamicTextItem(this, value);
 	}
+
+    public boolean isJTidy( )
+    {
+        return jTidy;
+    }
+
+    public void setJTidy( boolean jTidy )
+    {
+        this.jTidy = jTidy;
+    }
 
 }
