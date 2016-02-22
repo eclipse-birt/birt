@@ -11,8 +11,11 @@
 package org.eclipse.birt.data.engine.expression;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,9 +32,9 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.eclipse.birt.data.engine.impl.util.DirectedGraph;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.impl.util.DirectedGraphEdge;
 import org.eclipse.birt.data.engine.impl.util.GraphNode;
-import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 /**
@@ -57,49 +60,100 @@ public class ExpressionCompilerUtil
 	}
 	
 
-	/**
-	 * 
-	 * @param name
-	 * @param exprManager
-	 * @param scope
-	 * @return
-	 * @throws DataException 
-	 */
-	public static boolean hasColumnRow( String expression, ExprManager exprManager, ScriptContext cx ) throws DataException
-	{
-		if( expression == null )
-			return false;
-		
-		return compile( expression, exprManager, cx );
+    /**
+     * 
+     * @param name
+     * @param exprManager
+     * @param scope
+     * @return
+     * @throws DataException
+     */
+    public static boolean hasColumnRow( String expression, ExprManager exprManager, ScriptContext cx )
+            throws DataException
+    {
+        if ( expression == null )
+            return false;
 
-	}
-	
-	/**
-	 * 
-	 * @param expression
-	 * @return
-	 * @throws DataException
-	 */
-	public static List extractColumnExpression( IBaseExpression expression, String indicator )
-			throws DataException
-	{
-		List columnList = new ArrayList();
-		
-		if ( expression instanceof IScriptExpression )
-		{
-			columnList = extractColumnExpression( (IScriptExpression) expression, indicator );
-		}
-		else if ( expression instanceof IConditionalExpression )
-		{
-			columnList = extractColumnExpression( (IConditionalExpression) expression, indicator );
-		}
-		else if ( expression instanceof IExpressionCollection )
-		{
-			columnList = extractColumnExpression( (IExpressionCollection) expression, indicator );
-		}
-		return columnList;
-	}
-	
+        return compile( expression, exprManager, cx );
+
+    }
+
+    /**
+     * find columns used as dataSetRow[name] in the expression.
+     * 
+     * It is same as extractColumnExpression(expression, "DataSetRow")
+     * 
+     * @param expression
+     * @return list of reference name.
+     * @throws DataException
+     */
+    public static List<String> extractDataSetColumnExpression( IBaseExpression expression ) throws DataException
+    {
+        return extractColumnExpression( expression, ExpressionUtil.DATASET_ROW_INDICATOR );
+    }
+
+    /**
+     * find columns used as 'indicator'[name] in the expression.
+     * 
+     * A valid indicator is 'data', 'row', 'dataSetRow' and 'measure'.
+     * 
+     * @param expression
+     * @param indicator
+     * @return list of reference name.
+     * @throws DataException
+     */
+    public static List<String> extractColumnExpression( IBaseExpression expression, String indicator )
+            throws DataException
+    {
+        return extractColumnExpression( expression, new String[]{indicator} );
+    }
+
+    /**
+     * find columns used as 'indicator'[name] in the expression.
+     * 
+     * It can find multiple indicator references.
+     * 
+     * @param expression
+     * @return
+     * @throws DataException
+     */
+    public static List<String> extractColumnExpression( IBaseExpression expression, String[] indicators )
+            throws DataException
+    {
+        if ( expression == null )
+        {
+            return Collections.emptyList( );
+        }
+
+        LinkedHashSet<String> bindings = new LinkedHashSet<String>( );
+        extractColumnExpression( bindings, expression, indicators );
+        return new ArrayList<String>( bindings );
+    }
+
+    private static void extractColumnExpression( Set<String> existingBindings, IBaseExpression expression,
+            String[] indicators ) throws DataException
+    {
+        if ( expression != null )
+        {
+            if ( expression instanceof IScriptExpression )
+            {
+                extractColumnExpression( existingBindings, (IScriptExpression) expression, indicators );
+            }
+            else if ( expression instanceof IConditionalExpression )
+            {
+                extractColumnExpression( existingBindings, (IConditionalExpression) expression, indicators );
+            }
+            else if ( expression instanceof IExpressionCollection )
+            {
+                extractColumnExpression( existingBindings, (IExpressionCollection) expression, indicators );
+            }
+            else
+            {
+                throw new RuntimeException( "unknown expresion type:" + expression );
+            }
+        }
+    }
+
 	/**
 	 * The utility method is to compile expression to get a list of column
 	 * expressions which is depended by given expression.
@@ -108,16 +162,15 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static List extractColumnExpression( IScriptExpression expression, String indicator )
-			throws DataException
-	{
-		List list = new ArrayList( );
-		if ( expression == null )
-			return list;
-		populateColumnList( list, expression, indicator );
-		return list;
-	}
-	
+    private static void extractColumnExpression( Set<String> existingBindings, IScriptExpression expression,
+            String[] indicators ) throws DataException
+    {
+        if ( expression != null )
+        {
+            populateColumnList( existingBindings, expression, indicators );
+        }
+    }
+
 	/**
 	 * 
 	 * This utility method is to compile expression to get a list of column
@@ -127,157 +180,36 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static List extractColumnExpression(
-			IConditionalExpression expression, String indicator ) throws DataException
-	{
-		List list = new ArrayList( );
-		if ( expression == null )
-			return list;
-		list.addAll( extractColumnExpression( expression.getExpression( ), indicator ) );
-		List valueList = extractColumnExpression( expression.getOperand1( ), indicator);
-		for ( int i = 0; i < valueList.size( ); i++ )
-		{
-			if ( !list.contains( valueList.get( i ) ) )
-				list.add( valueList.get( i ) );
-		}
-		valueList = extractColumnExpression( expression.getOperand2( ), indicator );
-		for ( int i = 0; i < valueList.size( ); i++ )
-		{
-			if ( !list.contains( valueList.get( i ) ) )
-				list.add( valueList.get( i ) );
-		}
-		return list;
-	}
-	
-	/**
-	 * 
-	 * @param expression
-	 * @return
-	 * @throws DataException
-	 */
-	private static List extractColumnExpression( IExpressionCollection expression, String indicator )
-			throws DataException
-	{
-		List list = new ArrayList( );
-		if ( expression == null )
-			return list;
-		Object[] ce =  expression.getExpressions( ).toArray( );
-		for ( int i = 0; i < ce.length; i++ )
-		{
-			List valueList = extractColumnExpression( (IBaseExpression)ce[i], indicator );
-			for ( int j = 0; j < valueList.size( ); j++ )
-			{
-				if ( !list.contains( valueList.get( j ) ) )
-					list.add( valueList.get( j ) );
-			}
-		}
-		return list;
-	}
-	
-	/**
-	 * This utility method is to compile expression to get a list of dataset
-	 * column expressions which is depended by given expression.
-	 * 
-	 * @param expression
-	 * @return
-	 * @throws DataException
-	 */
-	public static List extractDataSetColumnExpression(
-			IBaseExpression expression ) throws DataException
-	{
-		List columnList = new ArrayList( );
-
-		if ( expression == null )
-			return columnList;
-		if ( expression instanceof IScriptExpression )
-		{
-			columnList = extractDataSetColumnExpression( (IScriptExpression) expression );
-		}
-		else if ( expression instanceof IConditionalExpression )
-		{
-			columnList = extractDataSetColumnExpression( (IConditionalExpression) expression );
-		}
-		else if ( expression instanceof IExpressionCollection )
-		{
-			columnList = extractDataSetColumnExpression( (IExpressionCollection) expression );
-		}
-		return columnList;
-	}
-	
-	/**
-	 * This utility method is to compile expression to get a list of dataset
-	 * column expressions which is depended by given expression.
-	 * 
-	 * @param expression
-	 * @return
-	 * @throws DataException
-	 */
-	public static List extractDataSetColumnExpression(
-			IConditionalExpression expression ) throws DataException
-	{
-		List list = new ArrayList( );
-		if ( expression == null )
-			return list;
-		list.addAll( extractDataSetColumnExpression( expression.getExpression( ) ) );
-		List valueList = extractDataSetColumnExpression( expression.getOperand1( ) );
-		for ( int i = 0; i < valueList.size( ); i++ )
-		{
-			if ( !list.contains( valueList.get( i ) ) )
-				list.add( valueList.get( i ) );
-		}
-		valueList = extractDataSetColumnExpression( expression.getOperand2( ) );
-		for ( int i = 0; i < valueList.size( ); i++ )
-		{
-			if ( !list.contains( valueList.get( i ) ) )
-				list.add( valueList.get( i ) );
-		}
-		return list;
-	}
+    private static void extractColumnExpression( Set<String> existingBindings, IConditionalExpression expression,
+            String[] indicators ) throws DataException
+    {
+        if ( expression != null )
+        {
+            extractColumnExpression( existingBindings, expression.getExpression( ), indicators );
+            extractColumnExpression( existingBindings, expression.getOperand1( ), indicators );
+            extractColumnExpression( existingBindings, expression.getOperand2( ), indicators );
+        }
+    }
 
 	/**
 	 * 
 	 * @param expression
 	 * @return
-	 * @throws DataException 
-	 */
-	public static List extractDataSetColumnExpression(
-			IExpressionCollection expression ) throws DataException
-	{
-		List list = new ArrayList( );
-		if ( expression == null )
-			return list;
-		Object[] exprs = expression.getExpressions( ).toArray( );
-		for ( int i = 0; i < exprs.length; i++ )
-		{
-			List valueList = extractDataSetColumnExpression( (IBaseExpression)exprs[i] );
-			for ( int j = 0; j < valueList.size( ); j++ )
-			{
-				if ( !list.contains( valueList.get( j ) ) )
-					list.add( valueList.get( j ) );
-			}
-		}
-		return list;
-	}
-	
-	/**
-	 * This utility method is to compile expression to get a list of dataset
-	 * column expressions which is depended by given expression.
-	 * 
-	 * @param expression
-	 * @return
 	 * @throws DataException
 	 */
-	public static List extractDataSetColumnExpression(
-			IScriptExpression expression ) throws DataException
-	{
-		List list = new ArrayList( );
+    private static void extractColumnExpression( Set<String> existingBindings, IExpressionCollection expression,
+            String[] indicators ) throws DataException
+    {
+        if ( expression != null )
+        {
+            Collection<IBaseExpression> exprs = expression.getExpressions( );
+            for ( IBaseExpression expr : exprs )
+            {
+                extractColumnExpression( existingBindings, expr, indicators );
+            }
+        }
+    }
 
-		if ( expression == null )
-			return list;
-		populateColumnList( list, expression, ExpressionUtil.DATASET_ROW_INDICATOR );
-		return list;
-	}
-	
 	/**
 	 * Check whether there is columnReferenceExpression in aggregation. If so,
 	 * return true. else return false;
@@ -481,40 +413,51 @@ public class ExpressionCompilerUtil
 		return true;
 	}
 	
-	
 	/**
 	 * 
 	 * @param list
 	 * @param expression
 	 * @throws DataException
 	 */
-	private static void populateColumnList( List list,
-			IBaseExpression expression, String indicator ) throws DataException
-	{
-		if ( expression != null )
-		{
-			List l = new ArrayList( );
-			try
-			{
-				if ( expression instanceof IScriptExpression &&  !( BaseExpression.constantId.equals( expression.getScriptId( ) ) ) )
-					l = ExpressionUtil.extractColumnExpressions( ( (IScriptExpression) expression ).getText( ),
-							indicator );
-			}
-			catch ( BirtException e )
-			{
-				throw DataException.wrap( e );
-			}
+    private static void populateColumnList( Set<String> existingBindings, IScriptExpression expression,
+            String[] indicators ) throws DataException
+    {
+        if ( expression != null )
+        {
+            if ( BaseExpression.constantId.equals( expression.getScriptId( ) ) )
+            {
+                return;
+            }
+            else if ( BaseExpression.javaScriptId.equals( expression.getScriptId( ) ) )
+            {
+                try
+                {
+                    for ( String indicator : indicators )
+                    {
+                        List<IColumnBinding> l = ExpressionUtil.extractColumnExpressions( expression.getText( ),
+                                indicator );
+                        for ( IColumnBinding cb : l )
+                        {
+                            if ( cb.getOuterLevel( ) == 0 )
+                            {
+                                existingBindings.add( cb.getResultSetColumnName( ) );
+                            }
+                        }
+                    }
+                }
+                catch ( BirtException e )
+                {
+                    throw DataException.wrap( e );
+                }
+                return;
+            }
+            else
+            {
+                throw new RuntimeException( "unsupported script type:" + expression.getScriptId( ) );
+            }
+        }
+    }
 
-			for ( int i = 0; i < l.size( ); i++ )
-			{
-				IColumnBinding cb = (IColumnBinding) l.get( i );
-				if ( !list.contains( cb.getResultSetColumnName( ) )
-						&& cb.getOuterLevel( ) == 0 )
-					list.add( cb.getResultSetColumnName( ) );
-			}
-		}
-	}
-	
 	/**
 	 * @param namedExpressions
 	 * @return the name of the first found NamedExpression which is involved in a cycle.
