@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.script;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
@@ -23,8 +25,11 @@ import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 
 /**
  * Sets JS configuration the editor needs
@@ -153,6 +158,20 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 		if ( scanner != null )
 		{
 			scanner.setDefaultReturnToken( new Token( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE ) ) );
+		}
+	}
+	
+	public static void updateSourceFont( SourceViewer sourceViewer )
+	{
+		if ( Platform.getOS( ).equals( Platform.WS_WIN32 ) )
+		{
+			Font font = sourceViewer.getTextWidget( ).getFont( );
+			FontData data = font.getFontData( )[0];
+			// BIRT-1113 Always use monospaced font
+			Font newFont = FontManager.getFont( "Courier", //$NON-NLS-1$
+					data.getHeight( ),
+					data.getStyle( ) );
+			sourceViewer.getTextWidget( ).setFont( newFont );
 		}
 	}
 }
