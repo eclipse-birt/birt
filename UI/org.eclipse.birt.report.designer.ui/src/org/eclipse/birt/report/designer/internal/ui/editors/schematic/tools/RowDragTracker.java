@@ -180,11 +180,8 @@ public class RowDragTracker extends TableDragGuideTracker
 		
 		try
 		{
-			double height = converPixToDefaultUnit( rowHeight + getTrueValue( value ) );
-			DimensionValue dimensionValue = new DimensionValue( height,
-					getDefaultUnits( ) );
-			
-			((RowHandle)row).getHeight( ).setValue( dimensionValue );
+			MetricUtility.updateDimension( ( (RowHandle) row ).getHeight( ),
+					rowHeight + getTrueValue( value ) );
 		}
 		catch ( SemanticException e )
 		{

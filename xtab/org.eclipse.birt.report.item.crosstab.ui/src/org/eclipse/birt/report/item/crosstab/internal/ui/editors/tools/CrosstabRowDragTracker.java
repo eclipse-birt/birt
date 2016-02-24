@@ -194,8 +194,9 @@ public class CrosstabRowDragTracker extends TableDragGuideTracker
 		value = getTrueValue( value );	
 			
 		CrosstabHandleAdapter adapter = part.getCrosstabHandleAdapter( );
-		int baseHeight = CrosstabTableUtil.caleVisualHeight( part, getStart( ) );
-		adapter.setRowHeight( getStart( ), converPixToDefaultUnit( value + baseHeight), getDefaultUnits( ));
+		int baseHeight = CrosstabTableUtil.caleVisualHeight( part,
+				getStart( ) );
+		adapter.setRowHeight( getStart( ), value + baseHeight );
 	}
 	
 	@Override

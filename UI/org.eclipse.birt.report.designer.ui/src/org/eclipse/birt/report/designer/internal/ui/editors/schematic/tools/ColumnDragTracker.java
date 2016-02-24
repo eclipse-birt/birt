@@ -194,19 +194,15 @@ public class ColumnDragTracker extends TableDragGuideTracker
 		endWidth = TableUtil.caleVisualWidth( part, endColumn );
 		try
 		{
-			
-			double width = converPixToDefaultUnit( startWidth + value );
-			DimensionValue dimensionValue = new DimensionValue( width,
-					getDefaultUnits( ) );
-			
-			((ColumnHandle)startColumn).getWidth( ).setValue( dimensionValue );
-			
-			width = converPixToDefaultUnit( endWidth - value );
-			dimensionValue = new DimensionValue( width,
-					getDefaultUnits( ) );
-			if (!isCtrlDown( ) && start != end)
+			MetricUtility.updateDimension(
+					( (ColumnHandle) startColumn ).getWidth( ),
+					startWidth + value );
+
+			if ( !isCtrlDown( ) && start != end )
 			{
-				((ColumnHandle)endColumn).getWidth( ).setValue( dimensionValue );
+				MetricUtility.updateDimension(
+						( (ColumnHandle) startColumn ).getWidth( ),
+						endWidth - value );
 			}
 		}
 		catch ( SemanticException e )

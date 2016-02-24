@@ -40,8 +40,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.geometry.Dimension;
 
 /**
@@ -530,13 +528,13 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	}
 	public void ajustSize( Dimension size ) throws SemanticException
 	{
-		if (isFixLayout( ))
+		if ( isFixLayout( ) )
 		{
-			ajustFixSize( size );
+			adjustFixSize( size );
 		}
 		else
 		{
-			ajustAutoSize( size );
+			adjustAutoSize( size );
 		}
 	}
 	
@@ -549,12 +547,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		return false;
 	}
 	
-	private String getDefaultUnits()
-	{
-		return getHandle( ).getModuleHandle( ).getDefaultUnits( );
-	}
-	
-	private void ajustFixSize( Dimension size ) throws SemanticException
+	private void adjustFixSize( Dimension size ) throws SemanticException
 	{
 		if ( !( getModelAdaptHelper( ) instanceof ITableAdapterHelper ) )
 		{
@@ -590,7 +583,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			int totalWidth = 0;
 			for ( int i = 0; i < columnCount; i++ )
 			{
-				double columnWidth = (double)tableHelper.caleVisualWidth( i + 1 );
+				double columnWidth = tableHelper.caleVisualWidth( i + 1 );
 				columns[i] = columnWidth/parentSize.width * width;
 				if (Math.round( columns[i] ) < 1)
 				{
@@ -604,7 +597,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			{
 				HandleAdapterFactory.getInstance( )
 					.getColumnHandleAdapter( getColumn( i+1 ) )
-						.setWidth( (int)Math.round( columns[i] ), getDefaultUnits( ) );
+						.setWidth( (int)Math.round( columns[i] ) );
 			}
 		}
 		else if(size.width > 0)
@@ -613,7 +606,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			{
 				HandleAdapterFactory.getInstance( )
 				.getColumnHandleAdapter( getColumn( i+1 ) )
-					.setWidth( (int)Math.round( 1 ), getDefaultUnits( ) );
+					.setWidth( Math.round( 1 ) );
 			}
 		}
 
@@ -622,7 +615,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			int totalHeight = 0;
 			for ( int i = 0; i < rowCount; i++ )
 			{
-				double rowHeight = (double)tableHelper.caleVisualHeight( i + 1 );
+				double rowHeight = tableHelper.caleVisualHeight( i + 1 );
 				rows[i] = rowHeight/parentSize.height * height;
 				if (Math.round( rows[i] ) < 1)
 				{
@@ -635,8 +628,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			for ( int i = 0; i < rowCount; i++ )
 			{
 				HandleAdapterFactory.getInstance( )
-					.getRowHandleAdapter( getRow( i+1 ) )
-						.setHeight( (int)Math.round( rows[i] ), getDefaultUnits( ) );
+						.getRowHandleAdapter( getRow( i + 1 ) )
+						.setHeight( (int) Math.round( rows[i] ) );
 			}
 		}
 		else if(size.height > 0)
@@ -644,8 +637,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			for ( int i = 0; i < rowCount; i++ )
 			{
 				HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( getRow( i+1 ) )
-					.setHeight( (int)Math.round( 1 ), getDefaultUnits( ) );
+						.getRowHandleAdapter( getRow( i + 1 ) )
+						.setHeight( Math.round( 1 ) );
 			}
 		}		
 
@@ -658,7 +651,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 *            is all figure size
 	 * @throws SemanticException
 	 */
-	private void ajustAutoSize( Dimension size ) throws SemanticException
+	private void adjustAutoSize( Dimension size ) throws SemanticException
 	{
 		if ( !( getModelAdaptHelper( ) instanceof ITableAdapterHelper ) )
 		{
@@ -1875,53 +1868,17 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	
 	public void setSize( Dimension size ) throws SemanticException
 	{
-		DimensionValue dimensionValue;
-
-		if (isFixLayout( ))
+		if ( size.width >= 0 )
 		{
-			if ( size.width >= 0 )
-			{
-				double width = MetricUtility.pixelToPixelInch( size.width );
-
-				dimensionValue = DimensionUtil.convertTo( width,
-						DesignChoiceConstants.UNITS_IN, getDefaultUnits( ) );
-
-				getReportItemHandle( ).getWidth( ).setValue( dimensionValue );
-			}
-
-			if ( size.height >= 0 && isSupportHeight( ))
-			{
-				double height = MetricUtility.pixelToPixelInch( size.height );
-
-				dimensionValue = DimensionUtil.convertTo( height,
-						DesignChoiceConstants.UNITS_IN, getDefaultUnits( ) );
-
-				getReportItemHandle( ).getHeight( ).setValue( dimensionValue );
-			}
+			MetricUtility.updateDimension( getReportItemHandle( ).getWidth( ),
+					size.width );
 		}
-		else
+
+		if ( size.height >= 0 && isSupportHeight( ) )
 		{
-			if ( size.width >= 0 )
-			{
-				double width = MetricUtility.pixelToPixelInch( size.width );
-
-				dimensionValue = new DimensionValue( width,
-						DesignChoiceConstants.UNITS_IN );
-
-				getReportItemHandle( ).getWidth( ).setValue( dimensionValue );
-			}
-
-			if ( size.height >= 0 && isSupportHeight( ))
-			{
-				double height = MetricUtility.pixelToPixelInch( size.height );
-
-				dimensionValue = new DimensionValue( height,
-						DesignChoiceConstants.UNITS_IN );
-
-				getReportItemHandle( ).getHeight( ).setValue( dimensionValue );
-			}
+			MetricUtility.updateDimension( getReportItemHandle( ).getHeight( ),
+					size.height );
 		}
-		
 	}
 	
 	public boolean isSupportHeight()

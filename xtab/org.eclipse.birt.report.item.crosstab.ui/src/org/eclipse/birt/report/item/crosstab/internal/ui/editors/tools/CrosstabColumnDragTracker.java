@@ -226,10 +226,10 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 		startWidth = CrosstabTableUtil.caleVisualWidth( part, start );
 		endWidth = CrosstabTableUtil.caleVisualWidth( part, end );
 		
-		crosstabAdapter.setColumnWidth( start, converPixToDefaultUnit( startWidth + value), getDefaultUnits( ) );
-		if (!isCtrlDown( ) && start != end)
+		crosstabAdapter.setColumnWidth( start, startWidth + value );
+		if ( !isCtrlDown( ) && start != end )
 		{
-			crosstabAdapter.setColumnWidth( end, converPixToDefaultUnit( endWidth - value), getDefaultUnits( ) );
+			crosstabAdapter.setColumnWidth( end, endWidth - value );
 		}
 	}
 

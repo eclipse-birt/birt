@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
@@ -27,12 +28,13 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 
 /**
  * The adapter for the crosstab.
@@ -1463,16 +1465,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	 */
 	public void setRowHeight( int number, int value )
 	{
-		setRowHeight( number, value, DesignChoiceConstants.UNITS_PX );
-	}
-	/**
-	 * Gets the row height from the model.
-	 * 
-	 * @param number
-	 * @return
-	 */
-	public void setRowHeight( int number, double value, String units )
-	{
+
 		// because the crosstab has no the row and column so there must pass a
 		// cell
 		CrosstabCellHandle handle = getRowOprationCell( number );
@@ -1482,15 +1475,14 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		}
 		try
 		{
-			DimensionValue dimensionValue = new DimensionValue( value,
-					units);
-			getCrosstabReportItemHandle( ).setRowHeight( handle, dimensionValue );
+			CrosstabCellHandle cell = CrosstabModelUtil.locateRowHeightCell(
+					getCrosstabReportItemHandle( ), handle );
+			MetricUtility.updateDimension( cell.getHeight( ), value );
 		}
-		catch ( CrosstabException e )
+		catch ( SemanticException e )
 		{
 			ExceptionUtil.handle( e );
 		}
-
 	}
 
 	/**
@@ -1571,16 +1563,6 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	 */
 	public void setColumnWidth( int number, int value )
 	{
-		setColumnWidth(number, value, DesignChoiceConstants.UNITS_PX);
-	}
-	/**
-	 * Gets the column width from the model.
-	 * 
-	 * @param number
-	 * @return
-	 */
-	public void setColumnWidth( int number, double value, String units )
-	{
 		// because the crosstab has no the row and column so there must pass a
 		// cell
 		CrosstabCellHandle handle = getColumnOprationCell( number );
@@ -1590,20 +1572,17 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		}
 		try
 		{
-			DimensionValue dimensionValue = new DimensionValue( value,
-					units);
-			getCrosstabReportItemHandle( ).setColumnWidth( handle,
-					dimensionValue );
-
+			CrosstabCellHandle cell = CrosstabModelUtil.locateColumnWidthCell(
+					getCrosstabReportItemHandle( ), handle );
+			MetricUtility.updateDimension( cell.getWidth( ), value );
 			return;
 		}
-		catch ( CrosstabException e )
+		catch ( SemanticException e )
 		{
 			//There are some issues when show as chart.So ignore the exception.
 			//ExceptionUtil.handle( e );
 			//do nothing now
 		}
-
 	}
 
 	public void setWidth( double value, String units )

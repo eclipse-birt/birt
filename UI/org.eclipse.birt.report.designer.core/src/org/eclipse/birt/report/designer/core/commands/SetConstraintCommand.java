@@ -21,14 +21,10 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.api.CommandStack;
-import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
@@ -93,11 +89,13 @@ public class SetConstraintCommand extends Command
 			{
 				if ( newSize.width >= 0 )
 				{
-					updateDimension( newSize.width, model.getWidth( ) );
+					MetricUtility.updateDimension( model.getWidth( ),
+							newSize.width );
 				}
 				if ( newSize.height >= 0 )
 				{
-					updateDimension( newSize.height, model.getHeight( ) );
+					MetricUtility.updateDimension( model.getHeight( ),
+							newSize.height );
 				}
 			}
 			stack.commit( );
@@ -115,47 +113,6 @@ public class SetConstraintCommand extends Command
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 			stack.rollback( );
 		}
-	}
-
-	private void updateDimension( double size, DimensionHandle dim )
-			throws SemanticException
-	{
-		// Do not convert for pixel unit
-		if ( DesignChoiceConstants.UNITS_PX.equals( dim.getUnits( ) ) )
-		{
-			dim.setValue( new DimensionValue( size,
-					DesignChoiceConstants.UNITS_PX ) );
-		}
-		else if ( DimensionUtil.isAbsoluteUnit( dim.getUnits( ) ) )
-		{
-			// Keep the unit if it's absolute unit
-			size = MetricUtility.pixelToPixelInch( (int) size );
-			dim.setValue( DimensionUtil.convertTo( size,
-					DesignChoiceConstants.UNITS_IN,
-					dim.getUnits( ) ) );
-		}
-		else
-		{
-			// otherwise use inch
-			size = MetricUtility.pixelToPixelInch( (int) size );
-			dim.setValue( new DimensionValue( size,
-					DesignChoiceConstants.UNITS_IN ) );
-		}
-
-	}
-
-	private boolean isFixLayout( )
-	{
-		return DEUtil.isFixLayout( model );
-	}
-	
-	private String getDefaultUnits()
-	{
-		if (model != null)	
-		{
-			return model.getModuleHandle( ).getDefaultUnits( );
-		}
-		return DesignChoiceConstants.UNITS_IN;
 	}
 
 	/**

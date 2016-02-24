@@ -402,10 +402,10 @@ public class CrosstabUIHelper
 		{
 			endValue = minValue;
 		}
-		crosstabAdapter.setColumnWidth( start, converPixToDefaultUnit( startValue, part), getDefaultUnits( part ) );
-		if (start != end)
+		crosstabAdapter.setColumnWidth( start, startValue );
+		if ( start != end )
 		{
-			crosstabAdapter.setColumnWidth( end, converPixToDefaultUnit( endValue, part), getDefaultUnits( part ) );
+			crosstabAdapter.setColumnWidth( end, endValue );
 		}
 	}
 	
