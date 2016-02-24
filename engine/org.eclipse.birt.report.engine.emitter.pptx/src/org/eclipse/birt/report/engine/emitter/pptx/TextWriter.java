@@ -473,12 +473,12 @@ public class TextWriter
 
 			BoxStyle style = container.getBoxStyle( );
 			Color color = style.getBackgroundColor( );
-			BackgroundImageInfo image = style.getBackgroundImage( );
-			if ( image != null )
+			String imageRelationship = canvas
+					.getImageRelationship( style.getBackgroundImage( ) );
+
+			if( imageRelationship != null )
 			{
-				canvas.setBackgroundImg( canvas.getImageRelationship( image ),
-						0,
-						0 );
+				canvas.setBackgroundImg( imageRelationship, 0, 0 );
 			}
 			else if ( color != null )
 			{

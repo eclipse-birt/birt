@@ -101,15 +101,14 @@ public class SlideMaster extends Component
 		BoxStyle style = pageArea.getBoxStyle( );
 		Color bgColor = style.getBackgroundColor( );
 		PPTXCanvas canvas = getCanvas( );
-		BackgroundImageInfo bgImage = style.getBackgroundImage( );
-		if ( bgImage != null || bgColor != null )
+		String imageRelationship = canvas
+				.getImageRelationship( style.getBackgroundImage( ) );
+		if ( imageRelationship != null || bgColor != null )
 		{
 			writer.openTag( "p:bgPr" );
-
-			if ( bgImage != null )
+			if ( imageRelationship != null )
 			{
-				canvas.setBackgroundImg( canvas.getImageRelationship( bgImage ),
-						0, 0 );
+				canvas.setBackgroundImg( imageRelationship, 0, 0 );
 			}
 			else
 			{
