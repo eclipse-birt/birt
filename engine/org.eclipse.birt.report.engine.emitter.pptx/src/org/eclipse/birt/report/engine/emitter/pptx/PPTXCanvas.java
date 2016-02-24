@@ -508,7 +508,8 @@ public class PPTXCanvas
 	public void setBackgroundImg( String relationshipid, int offsetX,
 			int offsetY, int repeatmode )
 	{
-		if ( repeatmode < BackgroundImageInfo.NO_REPEAT
+		if ( relationshipid == null
+				|| repeatmode < BackgroundImageInfo.NO_REPEAT
 				|| repeatmode > BackgroundImageInfo.REPEAT
 				|| repeatmode == BackgroundImageInfo.REPEAT_X
 				|| repeatmode == BackgroundImageInfo.REPEAT_Y )
@@ -785,6 +786,9 @@ public class PPTXCanvas
 
 	public String getImageRelationship( BackgroundImageInfo bgimginfo )
 	{
+		if( bgimginfo == null ){
+			return null;
+		}
 		String imageURI = bgimginfo.getUrl( );
 		byte[] imageData = bgimginfo.getImageData( );
 		String relationshipid = null;
@@ -794,6 +798,11 @@ public class PPTXCanvas
 			{
 				org.eclipse.birt.report.engine.layout.emitter.Image image = EmitterUtil
 						.parseImage( imageData, null, null );
+				//image does not exist
+				if( image == null )
+				{
+					return null;
+				}
 				imageData = image.getData( );
 			}
 

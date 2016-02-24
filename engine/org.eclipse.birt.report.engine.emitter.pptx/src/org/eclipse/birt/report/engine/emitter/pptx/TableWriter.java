@@ -51,7 +51,6 @@ public class TableWriter
 	private int currentRowHeight;
 	private int currentRow;
 	private int colspan;
-	private int rowspan;
 	private boolean isRTL = false;
 	private boolean isTextWrap = true;
 	private final ArrayList<Integer> zeroColumnList = new ArrayList<Integer>();
@@ -546,7 +545,7 @@ public class TableWriter
 		writer.closeTag( "a:tc" );
 
 		int nxtCol = currentCol + 1;
-		fillEmptyMergeCells( nxtCol, colspan, rowspan );
+		fillEmptyMergeCells( nxtCol, cell.getColSpan( ) , cell.getRowSpan( ) );
 		currentCol++;
 	}
 
@@ -750,8 +749,9 @@ public class TableWriter
 				}
 			}
 		}
-
-		if ( bgimginfo != null )
+		String imageRelationship = canvas.getImageRelationship( bgimginfo );
+		
+		if ( imageRelationship != null )
 		{
 			float offsetY = 0;
 			float offsetX = 0;
@@ -770,10 +770,8 @@ public class TableWriter
 				offsetY = PPTXUtil.parsePercentageOffset( cellheight, imgheight );
 				offsetX = PPTXUtil.parsePercentageOffset( cellwidth, imgwidth );
 			}
-			canvas.setBackgroundImg( canvas.getImageRelationship( bgimginfo ),
-					(int) offsetX,
-					(int) offsetY,
-					repeatmode );
+			canvas.setBackgroundImg( imageRelationship, (int) offsetX,
+					(int) offsetY, repeatmode );
 		}
 		else if ( backgroundcolor != null )
 		{
@@ -815,10 +813,7 @@ public class TableWriter
 	}
 
 	/**
-<<<<<<< HEAD
-=======
 	 * assume leftborder is always draw
->>>>>>> ActuateMaster
 	 * 
 	 * @param container
 	 */
