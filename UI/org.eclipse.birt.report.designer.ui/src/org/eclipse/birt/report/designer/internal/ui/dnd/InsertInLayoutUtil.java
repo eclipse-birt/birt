@@ -1324,34 +1324,37 @@ public class InsertInLayoutUtil
 		tableHandle.addColumnBinding( bindingColumn, false );
 	}
 
-	/**
-	 * Inserts measure into the target. Add label or group key if
-	 * possible
-	 * 
-	 * @param model
-	 *            column item
-	 * @param target
-	 *            insert target like cell or ListBandProxy
-	 * @param targetParent
-	 *            target container like table or list
-	 * @return to be inserted data item
-	 * @throws SemanticException
-	 */
-	protected static DesignElementHandle performInsertLinkedDataModelMeasure(
-			MeasureHandle model, Object target, ReportItemHandle tableHandle )
-			throws SemanticException
-	{
-		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-				.newDataItem( null );
-		setDataItemAction( model, dataHandle );
-		formatDataHandle( dataHandle, model );
-		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( tableHandle,
-				model.getName( ) );
-		bindingColumn.setDataType( model.getDataType( ) );
-		String defaultScriptType = UIUtil.getDefaultScriptType( );
-		IExpressionConverter converter = ExpressionUtility.getExpressionConverter( defaultScriptType );
-		String expression = null;
-		boolean isOnlySupportJS = false;
+    private static String getComputedColumnName( ReportItemHandle tableHandle, MeasureHandle model, GroupHandle group )
+    {
+        return model.getName( ) + ( group == null ? "_All" : "_" + group.getName( ) );
+    }
+
+    /**
+     * Inserts measure into the target. Add label or group key if possible
+     * 
+     * @param model
+     *            column item
+     * @param target
+     *            insert target like cell or ListBandProxy
+     * @param targetParent
+     *            target container like table or list
+     * @return to be inserted data item
+     * @throws SemanticException
+     */
+    protected static DesignElementHandle performInsertLinkedDataModelMeasure( MeasureHandle model, Object target,
+            ReportItemHandle tableHandle ) throws SemanticException
+    {
+        DataItemHandle dataHandle = DesignElementFactory.getInstance( ).newDataItem( null );
+        setDataItemAction( model, dataHandle );
+        formatDataHandle( dataHandle, model );
+        GroupHandle group = getGroupHandle( target );
+        String bindingName = getComputedColumnName( tableHandle, model, group );
+        ComputedColumn bindingColumn = StructureFactory.newComputedColumn( tableHandle, bindingName );
+        bindingColumn.setDataType( model.getDataType( ) );
+        String defaultScriptType = UIUtil.getDefaultScriptType( );
+        IExpressionConverter converter = ExpressionUtility.getExpressionConverter( defaultScriptType );
+        String expression = null;
+        boolean isOnlySupportJS = false;
 		if ( converter != null && !isOnlySupportJS )
 		{
 			expression = converter.getMeasureExpression( model.getName( ) );
@@ -1372,18 +1375,11 @@ public class InsertInLayoutUtil
 		String displayKey = model.getDisplayNameKey( );
 		if ( displayKey != null )
 			bindingColumn.setDisplayNameID( displayKey );
-		GroupHandle group = getGroupHandle( target );
 		
-		if ( group != null )
-		{
-			bindingColumn.setAggregateOn( group.getName( ) );
-		}
-		else
-		{
-			bindingColumn.setAggregateOn( "All" );
-		}
+		bindingColumn.setAggregateOn( group == null ? "All" : group.getName( ) );
+		
 		tableHandle.addColumnBinding( bindingColumn, false );
-		dataHandle.setResultSetColumn( model.getName( ) );
+		dataHandle.setResultSetColumn( bindingName );
 
 		InsertInLayoutRule rule = new LabelAddRule( target );
 		if ( rule.canInsert( ) )
