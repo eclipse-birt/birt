@@ -16,6 +16,8 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -24,6 +26,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
@@ -34,7 +37,8 @@ import org.eclipse.swt.widgets.Composite;
 public class DataSetColumnBindingsFormPage extends FormPage
 {
 
-	private Button btnAddAggr;
+	private Button btnAddAggregateOn;
+	private Button btnAddMeasureOn;
 	private Button btnRefresh;
 
 	// private Button generateAllBindingsButton;
@@ -62,13 +66,22 @@ public class DataSetColumnBindingsFormPage extends FormPage
 
 		if ( ( (DataSetColumnBindingsFormHandleProvider) provider ).canAggregation( ) )
 		{
-			btnAddAggr = new Button( this, SWT.PUSH );
-			btnAddAggr.setText( Messages.getString( "FormPage.Button.Add.AggregateOn" ) ); //$NON-NLS-1$
-			btnAddAggr.addSelectionListener( new SelectionAdapter( ) {
+			btnAddAggregateOn = new Button( this, SWT.PUSH );
+			btnAddAggregateOn.setText( Messages.getString( "FormPage.Button.Add.AggregateOn" ) ); //$NON-NLS-1$
+			btnAddAggregateOn.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
 				{
 					handleAddAggregateOnSelectEvent( );
+				}
+			} );
+			btnAddMeasureOn = new Button( this, SWT.PUSH );
+			btnAddMeasureOn.setText( Messages.getString( "FormPage.Button.Add.MeasureOn" ) ); //$NON-NLS-1$
+			btnAddMeasureOn.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					handleAddMeasureOnSelectEvent( );
 				}
 			} );
 		}
@@ -94,7 +107,24 @@ public class DataSetColumnBindingsFormPage extends FormPage
 		}
 		catch ( Exception e )
 		{
-			WidgetUtil.processError( btnAddAggr.getShell( ), e );
+			WidgetUtil.processError( btnAddAggregateOn.getShell( ), e );
+			return;
+		}
+
+		refresh( );
+		table.setSelection( table.getItemCount( ) - 1 );
+	}
+
+	protected void handleAddMeasureOnSelectEvent( )
+	{
+		int pos = table.getSelectionIndex( );
+		try
+		{
+			( (DataSetColumnBindingsFormHandleProvider) provider ).addMeasureOn( pos );
+		}
+		catch ( Exception e )
+		{
+			WidgetUtil.processError( btnAddMeasureOn.getShell( ), e );
 			return;
 		}
 
@@ -147,24 +177,68 @@ public class DataSetColumnBindingsFormPage extends FormPage
 
 		// btnEdit.setVisible( false );
 
-		if ( btnAddAggr != null )
+		Button button = btnAdd;
+		int btnWidth = 60;
+		
+		if ( btnAddAggregateOn != null )
 		{
+			button = btnAddAggregateOn;
 			FormData data = new FormData( );
 			data.top = new FormAttachment( btnAdd, 0, SWT.BOTTOM );
 			data.left = new FormAttachment( btnAdd, 0, SWT.LEFT );
-			data.width = Math.max( 60, btnAddAggr.computeSize( SWT.DEFAULT,
-					SWT.DEFAULT,
-					true ).x );
-			btnAddAggr.setLayoutData( data );
+			data.width = Math.max( btnWidth,
+					btnAddAggregateOn.computeSize( SWT.DEFAULT,
+							SWT.DEFAULT,
+							true ).x );
+			btnAddAggregateOn.setLayoutData( data );
 
+			if ( this.provider instanceof DataSetColumnBindingsFormHandleProvider )
+			{
+				Object adaptableObject = ( (DataSetColumnBindingsFormHandleProvider) this.provider ).getBindingObject( );
+				if ( adaptableObject != null )
+				{
+					IBindingDialogHelper helper = (IBindingDialogHelper) ElementAdapterManager
+							.getAdapter( adaptableObject, IBindingDialogHelper.class );
+					if ( helper != null )
+					{
+						IBindingDialogHelper helperHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( helper, IBindingDialogHelper.class );
+						if ( helperHelper != null )
+						{
+							helper = helperHelper;
+						}
+						if ( helper.canProcessMeasure( ) )
+						{
+							button = btnAddMeasureOn;
+							data = new FormData( );
+							data.top = new FormAttachment( btnAddAggregateOn, 0, SWT.BOTTOM );
+							data.left = new FormAttachment( btnAddAggregateOn, 0, SWT.LEFT );
+							data.width = Math.max( btnWidth,
+									btnAddMeasureOn.computeSize( SWT.DEFAULT,
+											SWT.DEFAULT,
+											true ).x );
+							btnAddMeasureOn.setLayoutData( data );
+	
+						}
+						else
+						{
+							data = new FormData( );
+							data.height = 0;
+							data.width = 0;
+							btnAddMeasureOn.setLayoutData( data );
+						}
+					}
+				}
+			}
+			
 			data = new FormData( );
-			data.top = new FormAttachment( btnAddAggr, 0, SWT.BOTTOM );
-			data.left = new FormAttachment( btnAddAggr, 0, SWT.LEFT );
-			data.width = Math.max( 60, btnEdit.computeSize( SWT.DEFAULT,
+			data.top = new FormAttachment( button, 0, SWT.BOTTOM );
+			data.left = new FormAttachment( button, 0, SWT.LEFT );
+			data.width = Math.max( btnWidth, btnEdit.computeSize( SWT.DEFAULT,
 					SWT.DEFAULT,
 					true ).x );
 			btnEdit.setLayoutData( data );
 		}
+
 		FormData data = new FormData( );
 		data.top = new FormAttachment( btnEdit, 0, SWT.BOTTOM );
 		data.left = new FormAttachment( btnEdit, 0, SWT.LEFT );
@@ -198,6 +272,7 @@ public class DataSetColumnBindingsFormPage extends FormPage
 		{
 			Object element = elements.get( 0 );
 			setBindingObject( (ReportElementHandle) element );
+			fullLayout( );
 			checkButtonsEnabled( );
 		}
 
@@ -207,8 +282,10 @@ public class DataSetColumnBindingsFormPage extends FormPage
 	{
 		if ( ( (DataSetColumnBindingsFormHandleProvider) provider ).canAggregation( ) )
 		{
-			if ( !btnAddAggr.isDisposed( ) )
-				btnAddAggr.setEnabled( provider.isEditable( ) );
+			if ( !btnAddAggregateOn.isDisposed( ) )
+				btnAddAggregateOn.setEnabled( provider.isEditable( ) );
+			if ( !btnAddMeasureOn.isDisposed( ) )
+				btnAddMeasureOn.setEnabled( provider.isEditable( ) );
 		}
 		if ( !btnRefresh.isDisposed( ) )
 			btnRefresh.setEnabled( provider.isEditable( ) );

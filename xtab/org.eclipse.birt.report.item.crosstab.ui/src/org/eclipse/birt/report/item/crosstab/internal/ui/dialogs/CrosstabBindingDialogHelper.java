@@ -310,7 +310,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
-		if ( isAggregate( ) )
+		if ( isAggregateWithFunction( ) )
 		{
 			createAggregateSection( composite );
 		}
@@ -450,7 +450,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		if ( expressionProvider == null )
 		{
-			if ( isAggregate( ) )
+			if ( isAggregateWithFunction( ) )
 				expressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder,
 						this.binding );
 			else
@@ -1135,7 +1135,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		cmbType.setItems( dataTypes );
 		txtDisplayName.setFocus( );
 
-		if ( isAggregate( ) )
+		if ( isAggregateWithFunction( ) )
 		{
 			initFunction( );
 			initFilter( );
@@ -1621,7 +1621,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void initFunction( )
 	{
-		if ( !isAggregate( ) )
+		if ( !isAggregateWithFunction( ) )
 		{
 			// In this case there is no function field
 			// And the binding has no arguments
@@ -2008,7 +2008,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( binding.getExpression( ) != null )
 		{
-			if ( isAggregate( ) )
+			if ( isAggregateWithFunction( ) )
 			{
 				IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
 				if ( function != null )
@@ -2317,7 +2317,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 
 		String displayName;
-		if ( isAggregate( ) )
+		if ( isAggregateWithFunction( ) )
 		{
 			displayName = cmbFunction.getText( );
 		}
@@ -2454,7 +2454,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( expressionProvider == null )
 		{
-			if ( isAggregate( ) )
+			if ( isAggregateWithFunction( ) )
 				expressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder,
 						this.binding );
 			else if(ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null
@@ -2515,7 +2515,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			// bugzilla 273368
 			// if expression is "measure['...']", aggregation do not support
 			// IAggrFunction.RUNNING_AGGR function
-			if ( isAggregate( ) )
+			if ( isAggregateWithFunction( ) )
 			{
 				IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
 				IParameterDefn[] params = function.getParameterDefn( );
@@ -2577,7 +2577,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				dialog.setCanFinish( false );
 				return;
 			}
-			if ( isAggregate( ) )
+			if ( isAggregateWithFunction( ) )
 			{
 				try
 				{
@@ -2670,7 +2670,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	public boolean differs( ComputedColumnHandle binding )
 	{
-		if ( isAggregate( ) )
+		if ( isAggregateWithFunction( ) )
 		{
 			if ( !strEquals( binding.getName( ), txtName.getText( ) ) )
 				return true;
@@ -2862,7 +2862,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	public ComputedColumnHandle editBinding( ComputedColumnHandle binding )
 			throws SemanticException
 	{
-		if ( isAggregate( ) )
+		if ( isAggregateWithFunction( ) )
 		{
 			binding.setDisplayName( txtDisplayName.getText( ) );
 			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
@@ -3214,5 +3214,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			this.setCommonBinding( !this.isFullAggregate() );
 		}
+	}
+
+	private boolean isAggregateWithFunction( )
+	{
+		return isAggregate( ) && !isMeasure( );
 	}
 }
