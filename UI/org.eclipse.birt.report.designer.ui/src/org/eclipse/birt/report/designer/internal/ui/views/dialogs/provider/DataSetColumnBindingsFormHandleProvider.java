@@ -694,6 +694,23 @@ public class DataSetColumnBindingsFormHandleProvider implements
 		return false;
 	}
 
+	public boolean doAddMeasureOnItem( int pos )
+	{
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
+		dialog.setAggreate( true );
+		dialog.setMeasure( true );
+		dialog.setInput( (ReportItemHandle) getBindingObject( ) );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			if ( viewer != null )
+			{
+				viewer.refresh( true );
+				return true;
+			}
+		}
+		return false;
+	}
+
 	protected CommandStack getActionStack( )
 	{
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );
@@ -780,6 +797,30 @@ public class DataSetColumnBindingsFormHandleProvider implements
 	public boolean modify(Object data, String property, Object value)
 			throws Exception {
 		return false;
+	}
+
+	public void addMeasureOn( int pos ) throws Exception
+	{
+		boolean sucess = false;
+		CommandStack stack = getActionStack( );
+		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
+		try
+		{
+			sucess = doAddMeasureOnItem( pos );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			throw new Exception( e );
+		}
+		if ( sucess )
+		{
+			stack.commit( );
+		}
+		else
+		{
+			stack.rollback( );
+		}
 	}
 
 }

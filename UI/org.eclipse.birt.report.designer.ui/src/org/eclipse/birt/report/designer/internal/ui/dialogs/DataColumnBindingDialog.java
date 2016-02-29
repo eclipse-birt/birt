@@ -167,6 +167,13 @@ public class DataColumnBindingDialog extends BaseDialog
 			dialogHelper = new BindingDialogHelper( );
 		}
 		
+		IBindingDialogHelper helperHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( dialogHelper,
+				IBindingDialogHelper.class );
+		if ( helperHelper != null )
+		{
+			dialogHelper = helperHelper;
+		}
+
 		dialogHelper.setEditModal( isEditModal( ) );
 
 		if ( !bindSelf )
