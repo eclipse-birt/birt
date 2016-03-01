@@ -36,6 +36,8 @@ public abstract class AbstractBindingDialogHelper implements
 	protected ExpressionProvider expressionProvider;
 	private Object itemContainer;
 
+	private String[] groups = new String[0];
+	
 	public boolean isAggregate( )
 	{
 		return isAggregate;
@@ -168,5 +170,17 @@ public abstract class AbstractBindingDialogHelper implements
 	public boolean canProcessMeasure( )
 	{
 		return false;
+	}
+
+	@Override
+	public void setGroups( String[] groups )
+	{
+		this.groups = groups;
+	}
+
+	@Override
+	public String[] getGroups( )
+	{
+		return this.groups;
 	}
 }

@@ -804,7 +804,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
-	protected String[] getGroups( )
+	public String[] getGroups( )
 	{
 		if ( getBindingHolder( ) instanceof ListingHandle )
 		{
@@ -819,7 +819,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			return (String[]) groupNames.toArray( new String[0] );
 		}
-		return new String[0];
+		else
+		{
+			return super.getGroups( );
+		}
 	}
 
 	private void setDataFieldExpression( ComputedColumnHandle binding )

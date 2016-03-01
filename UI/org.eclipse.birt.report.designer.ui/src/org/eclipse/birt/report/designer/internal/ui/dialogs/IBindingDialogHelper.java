@@ -144,4 +144,7 @@ public interface IBindingDialogHelper
 
 	boolean canProcessMeasure( );
 
+	String[] getGroups( );
+
+	void setGroups( String[] groups );
 }
