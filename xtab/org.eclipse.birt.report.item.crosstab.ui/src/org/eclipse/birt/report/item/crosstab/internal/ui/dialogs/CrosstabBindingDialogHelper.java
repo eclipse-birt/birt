@@ -3220,4 +3220,31 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		return isAggregate( ) && !isMeasure( );
 	}
+
+	@Override
+	public String[] getGroups( )
+	{
+		CrosstabReportItemHandle xtabHandle;
+		try
+		{
+			xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) getBindingHolder( ) ).getReportItem( );
+			String[] groups = getAggOns( xtabHandle );
+			List<String> list = new ArrayList<String>( );
+			for ( String group : groups )
+			{
+				if ( !group.equals( "All" ) ) //$NON-NLS-1$
+				{
+					list.add( group );
+				}
+			}
+			groups = new String[list.size( )];
+			groups = list.toArray( groups );
+			return groups;
+		}
+		catch ( ExtendedElementException e )
+		{
+			ExceptionUtil.handle( e );
+		}
+		return new String[0];
+	}
 }
