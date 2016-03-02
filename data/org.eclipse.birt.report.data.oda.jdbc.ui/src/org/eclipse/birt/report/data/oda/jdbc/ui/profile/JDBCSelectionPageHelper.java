@@ -38,6 +38,10 @@ import org.eclipse.birt.report.data.oda.jdbc.utils.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.utils.PropertyElement;
 import org.eclipse.birt.report.data.oda.jdbc.utils.PropertyGroup;
 import org.eclipse.birt.report.data.oda.jdbc.utils.ResourceLocator;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
@@ -70,6 +74,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
@@ -80,9 +85,156 @@ import org.eclipse.swt.widgets.Text;
  * Helper class for jdbc selection page and property page
  * 
  */
+abstract class GetSyncResultRunnable<T> implements Runnable
+{
+	T result;
+}
+
 public class JDBCSelectionPageHelper
 {
 
+	private class TestInProcessDialog extends MessageDialog
+	{
+		private TestConnectionJob testJob; 		
+		private boolean testCancelled;
+		
+		public TestInProcessDialog( Shell parentShell )
+		{
+			super( parentShell,
+					"", //$NON-NLS-1$
+					null,
+					JdbcPlugin.getResourceString( "testInProcessDialog.text" ), //$NON-NLS-1$
+					MessageDialog.INFORMATION,
+					new String[]{},
+					0 );
+			testCancelled = false;
+			// Test connection might be a long task, use a separate thread
+			testJob = new TestConnectionJob( );				
+			// Start the Job
+			testJob.schedule( );
+		}
+
+		@Override
+		protected Control createDialogArea( Composite parent )
+		{
+			Composite container = (Composite) super.createDialogArea( parent );
+			Button cancelTestButton = new Button( container, SWT.PUSH );
+			cancelTestButton.setLayoutData(
+					new GridData( SWT.RIGHT, SWT.RIGHT, true, true, 1, 1 ) );
+			cancelTestButton.setText( JdbcPlugin.getResourceString(
+					"testInProcessDialog.cancelButton.label" ) ); //$NON-NLS-1$
+			cancelTestButton.addSelectionListener( new SelectionAdapter( ) {
+
+				@Override
+				public void widgetSelected( SelectionEvent e )
+				{
+					testCancelled = true;
+					if ( testJob != null) 
+					{
+						testJob.cancel( );
+					}
+					testButton.setEnabled( true );
+					TestInProcessDialog.this.close( );
+				}
+			} );
+			return container;
+		}
+
+		protected boolean isResizable() {
+		    return true;
+		}
+		// overriding this methods allows you to set the
+		// title of the custom dialog
+		@Override
+		protected void configureShell( Shell newShell )
+		{
+			super.configureShell( newShell );
+			newShell.setText( JdbcPlugin
+					.getResourceString( "testInProcessDialog.title" ) ); //$NON-NLS-1$
+		}
+
+		public boolean isTestCancelled()
+		{
+			return testCancelled;
+		}
+		
+		private class TestConnectionJob extends Job
+		{
+			private boolean isConnected;
+			public TestConnectionJob()
+			{
+				super("Test connection"); //$NON-NLS-1$
+			}
+	
+			@Override
+			protected IStatus run( IProgressMonitor monitor )
+			{
+				
+				try
+				{
+					isConnected = testConnection( );
+				}
+				catch ( OdaException e1 )
+				{
+					isConnected = false;
+				}														
+				
+				// Eclipse UI can only be changed by UI thread
+				Display.getDefault( ).asyncExec( new Runnable( ) 
+				{
+					public void run( )
+					{						
+						// do something in the user interface
+						// e.g. set a text field
+						if ( !isTestCancelled( ) )
+						{
+							testButton.setEnabled( true );
+							if ( isConnected )
+							{		
+								// Test connection is usually really quick
+								// To avoid rapid dialog toggling in UI, sleep for 0.3s
+								try
+								{
+									Thread.sleep( 300 );
+								}
+								catch ( InterruptedException e )
+								{
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								TestInProcessDialog.this.close( );		
+
+								MessageDialog.openInformation(
+										JDBCSelectionPageHelper.this.getShell( ),
+										JdbcPlugin.getResourceString(
+												"connection.test" ), //$NON-NLS-1$
+										JdbcPlugin.getResourceString(
+												"connection.success" ) );//$NON-NLS-1$		
+							}
+							else
+							{
+								TestInProcessDialog.this.close( );						
+
+								OdaException ex = new OdaException(
+										JdbcPlugin.getResourceString(
+												"connection.failed" ) ); //$NON-NLS-1$
+								ExceptionHandler.showException(
+										JDBCSelectionPageHelper.this.getShell( ),
+										JdbcPlugin.getResourceString(
+												"connection.test" ), //$NON-NLS-1$
+										JdbcPlugin.getResourceString(
+												"connection.failed" ),//$NON-NLS-1$
+										ex );
+							}
+						}
+					}
+				} );
+				
+				return Status.OK_STATUS;
+			}
+		}
+	}	
+	
 	private WizardPage m_wizardPage;
 	private PreferencePage m_propertyPage;
 	// bidi_hcg: Bidi Object containing Bidi formats definitions
@@ -128,7 +280,7 @@ public class JDBCSelectionPageHelper
 		if ( page instanceof JDBCPropertyPage ) // bidi_hcg
 			bidiSupportObj = ( (JDBCPropertyPage) page ).getBidiSupport( );
 	}
-
+	
 	Composite createCustomControl( Composite parent )
 	{
 		ScrolledComposite scrollContent = new ScrolledComposite( parent,
@@ -860,6 +1012,7 @@ public class JDBCSelectionPageHelper
 				updateTestButton( );
 			}
 		} );
+		
 		jndiName.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -873,36 +1026,14 @@ public class JDBCSelectionPageHelper
 				updateTestButton( );
 			}
 		} );
+		
 		testButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				testButton.setEnabled( false );
-				try
-				{
-					if ( testConnection( ) )
-					{
-						MessageDialog.openInformation( getShell( ),
-								JdbcPlugin.getResourceString( "connection.test" ),//$NON-NLS-1$
-								JdbcPlugin.getResourceString( "connection.success" ) );//$NON-NLS-1$
-					}
-					else
-					{
-						OdaException ex = new OdaException( JdbcPlugin.getResourceString( "connection.failed" ) );
-						ExceptionHandler.showException( getShell( ),
-								JdbcPlugin.getResourceString( "connection.test" ),//$NON-NLS-1$
-								JdbcPlugin.getResourceString( "connection.failed" ),
-								ex );
-					}
-				}
-				catch ( OdaException e1 )
-				{
-					ExceptionHandler.showException( getShell( ),
-							JdbcPlugin.getResourceString( "connection.test" ),//$NON-NLS-1$
-							e1.getLocalizedMessage( ),
-							e1 );
-				}
-				testButton.setEnabled( true );
+				TestInProcessDialog testDialog = new TestInProcessDialog( getShell() );				
+				testDialog.open( );
 			}
 
 		} );
@@ -958,18 +1089,18 @@ public class JDBCSelectionPageHelper
 	 * @throws OdaException
 	 */
 	private boolean testConnection( ) throws OdaException
-	{
+	{		
 		if ( !isValidDataSource( ) )
 		{
 			return false;
 		}
 
-		String url = jdbcUrl.getText( ).trim( );
-		String userid = userName.getText( ).trim( );
-		String passwd = password.getText( );
-		String driverName = getSelectedDriverClassName( );
+		String url = getJDBCUrl( ).trim( );
+		String userid = getUserID( ).trim( );
+		String passwd = getPassWD( );
+		String driverName = getDriverName( ); 
+		String jndiNameValue = getJNDIName( );
 
-		String jndiNameValue = getODAJndiName( );
 		if ( jndiNameValue.length( ) == 0 )
 			jndiNameValue = null;
 
@@ -1061,6 +1192,64 @@ public class JDBCSelectionPageHelper
 		return driverName;
 	}
 
+	// Used inside TestConnection, which is executed by a separate thread
+	// To avoid invalid thread access, get value with UI thread
+	private String getJDBCUrl()
+	{
+		GetSyncResultRunnable<String> getJDBCUrl = new GetSyncResultRunnable<String>( ) {
+			public void run(){
+				result = jdbcUrl == null ? null : jdbcUrl.getText( );
+			}
+		};
+		Display.getDefault( ).syncExec( getJDBCUrl );
+		return getJDBCUrl.result;
+	}
+
+	private String getUserID()
+	{
+		GetSyncResultRunnable<String> getUserName = new GetSyncResultRunnable<String>( ) {
+			public void run(){
+				result = userName == null ? null : userName.getText( );
+			}
+		};
+		Display.getDefault( ).syncExec( getUserName );
+		return getUserName.result;
+	}
+	
+	private String getPassWD()
+	{
+		GetSyncResultRunnable<String> getPassWD = new GetSyncResultRunnable<String>( ) {
+			public void run(){
+				result = password == null ? null : password.getText( );
+			}
+		};
+		Display.getDefault( ).syncExec( getPassWD );
+		return getPassWD.result;		
+	}
+	
+	private String getDriverName()
+	{
+		GetSyncResultRunnable<String> getDriverName = new GetSyncResultRunnable<String>( ) {
+			public void run(){
+				result =  getSelectedDriverClassName( );
+			}
+		};
+		Display.getDefault( ).syncExec( getDriverName );
+		return getDriverName.result;		
+	}
+
+	private String getJNDIName()
+	{
+		GetSyncResultRunnable<String> getJNDINameValue = new GetSyncResultRunnable<String>( ) {
+			public void run(){
+				result =  getODAJndiName( );
+			}
+		};
+		Display.getDefault( ).syncExec( getJNDINameValue );
+		return getJNDINameValue.result;		
+	}
+
+	
 	/**
 	 * Validates the data source and updates the window message accordingly
 	 * 
@@ -1071,14 +1260,15 @@ public class JDBCSelectionPageHelper
 		return !isURLBlank( ) || !isJNDIBlank( );
 	}
 
+
 	/**
 	 * Test if the input URL is blank
 	 * 
 	 * @return true url is blank
 	 */
 	private boolean isURLBlank( )
-	{
-		return jdbcUrl == null || jdbcUrl.getText( ).trim( ).length( ) == 0;
+	{		
+		return jdbcUrl == null || getJDBCUrl().trim( ).length( ) == 0;
 	}
 
 	/**
@@ -1088,7 +1278,7 @@ public class JDBCSelectionPageHelper
 	 */
 	private boolean isJNDIBlank( )
 	{
-		return jndiName == null || jndiName.getText( ).trim( ).length( ) == 0;
+		return jndiName == null || getJNDIName( ).trim( ).length( ) == 0;
 	}
 
 	/**
