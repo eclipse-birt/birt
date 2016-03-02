@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.script;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
@@ -27,8 +27,6 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 
 /**
  * Sets JS configuration the editor needs
@@ -162,12 +160,7 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 	
 	public static void updateSourceFont( SourceViewer sourceViewer )
 	{
-		Font font = sourceViewer.getTextWidget( ).getFont( );
-		FontData data = font.getFontData( )[0];
-		// BIRT-1113 Always use monospaced font
-		Font newFont = FontManager.getFont( "Courier", //$NON-NLS-1$
-				data.getHeight( ),
-				data.getStyle( ) );
-		sourceViewer.getTextWidget( ).setFont( newFont );
+		// Always set default text font to source viewer
+		sourceViewer.getTextWidget( ).setFont( JFaceResources.getTextFont( ) );
 	}
 }
