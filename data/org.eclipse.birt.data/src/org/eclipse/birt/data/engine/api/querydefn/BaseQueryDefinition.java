@@ -19,14 +19,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 
 
 /**
@@ -39,6 +40,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 {
 	protected List 		        groups = new ArrayList();
 	protected boolean 			hasDetail = true;
+	private IDataQueryDefinition parentDataQuery; // parent query for nest inside xtab
 	protected IBaseQueryDefinition 	parentQuery;
 	protected int				maxRowCount = 0;
 	protected int				startingRow = 0;
@@ -56,9 +58,19 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	/**
 	 * Constructs an instance with parent set to the specified <code>BaseQueryDefinition</code>
 	 */
-	BaseQueryDefinition( IBaseQueryDefinition parent )
+	BaseQueryDefinition( IDataQueryDefinition parent )
 	{
-		parentQuery = parent;
+		/*
+		 * original implemenetation doesn't support nest query in Xtab. Add a new
+		 * API to return parent XTAB but keep current API unchanged. 
+		 * 
+		 * TODO: need merge those two API as a single one.
+		 */
+		this.parentDataQuery = parent;
+		if ( parent instanceof IBaseQueryDefinition) {
+			this.parentQuery = (IBaseQueryDefinition)parent;
+		}
+
 	}
 	
 	/**
@@ -113,6 +125,17 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 		return parentQuery;
 	}
 	
+	/**
+	 * Returns the parent query. The parent query is the outer query which encloses
+	 * this query.
+	 * 
+	 * if the parent is XTAB query, it will return null. Call getParentDataQuery instead for this case. 
+	 */
+	public IDataQueryDefinition getParentDataQuery() 
+	{
+		return parentDataQuery;
+	}
+		
 	/**
 	 * Gets the maximum number of detail rows that can be retrieved by this report query
 	 * @return Maximum number of rows. If 0, there is no limit on how many rows this query can retrieve.

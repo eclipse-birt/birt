@@ -1404,12 +1404,8 @@ public class ReportQueryBuilder
 			}
 			// The report item has a data set definition, must create a query
 			// for it.
-			BaseQueryDefinition parentQuery = null;
-			if ( parent instanceof BaseQueryDefinition )
-			{
-				parentQuery = (BaseQueryDefinition) parent;
-			}
-			QueryDefinition query = new QueryDefinition( parentQuery );
+
+			QueryDefinition query = new QueryDefinition( parent );
 			query.setDataSetName( dsHandle.getQualifiedName( ) );
 
 			// set max rows

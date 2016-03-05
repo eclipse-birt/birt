@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseLinkDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 
 
@@ -64,7 +65,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	 * can be another query, or a sub query.
 	 * @param parent The outer query or subquery
 	 */
-	public QueryDefinition( IBaseQueryDefinition parent)
+	public QueryDefinition( IDataQueryDefinition parent)
 	{
 		super(parent);
 	}
@@ -74,7 +75,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	 * @param parent
 	 * @param autoBinding
 	 */
-	public QueryDefinition( IBaseQueryDefinition parent, boolean autoBinding )
+	public QueryDefinition( IDataQueryDefinition parent, boolean autoBinding )
 	{
 		super( parent );
 		this.autoBinding = autoBinding;
