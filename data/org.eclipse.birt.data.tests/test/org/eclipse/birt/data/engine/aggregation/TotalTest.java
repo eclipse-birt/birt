@@ -487,7 +487,7 @@ public class TotalTest extends TestCase
         
         ac.start();
         ac.finish();
-        assertEquals(new Double(0.0), ac.getValue());
+        assertEquals(new BigDecimal("0"), ac.getValue());
         
         ac.start();
         try
@@ -528,7 +528,7 @@ public class TotalTest extends TestCase
 			} );
 		}
 		ac.finish( );
-		assertEquals( new BigDecimal( "82.0" ), ac.getValue( ) );
+		assertEquals( new BigDecimal( "82" ), ac.getValue( ) );
     }
 
     public void testTotalRunningSum() throws Exception
