@@ -90,12 +90,12 @@ public class TotalSum extends AggrFunction
 	private static class MyAccumulator extends SummaryAccumulator
 	{
 
-		private Number sum = 0.0D;
+		private Number sum = BigDecimal.ZERO;
 
 		public void start( )
 		{
 			super.start( );
-			sum = 0D;
+			sum = BigDecimal.ZERO;
 		}
 
 		/*
@@ -124,7 +124,7 @@ public class TotalSum extends AggrFunction
 		 */
 		public Object getSummaryValue( )
 		{
-			return new BigDecimal(sum.toString());
+			return sum;
 		}
 
 	}
