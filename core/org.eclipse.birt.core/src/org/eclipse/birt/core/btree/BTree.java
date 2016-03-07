@@ -528,20 +528,20 @@ public class BTree<K, V> implements BTreeConstants
 						if ( !value.isLocked( ) )
 						{
 							// remove this node
-							if ( node.isDirty( ) )
+							if ( value.isDirty( ) )
 							{
 								try
 								{
-									writeNode( node );
+									writeNode( value );
 								}
 								catch ( IOException ex )
 								{
 									logger.log(
 											Level.WARNING,
 											"failed to write node "
-													+ node.getNodeId( )
+													+ value.getNodeId( )
 													+ " type "
-													+ node.getNodeType( ), ex );
+													+ value.getNodeType( ), ex );
 									return false;
 								}
 							}
