@@ -925,6 +925,11 @@ public class ReportDocumentReader
 		return null;
 	}
 
+	public synchronized IReportRunnable getDocumentRunnable( )
+	{
+		return getOnPreparedRunnable( );
+	}
+
 	public ReportRunnable getOnPreparedRunnable( )
 	{
 		if ( preparedRunnable == null )
